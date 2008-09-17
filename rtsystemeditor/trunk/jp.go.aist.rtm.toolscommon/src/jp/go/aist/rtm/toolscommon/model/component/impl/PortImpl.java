@@ -36,7 +36,7 @@ import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import RTC.ConnectorProfile;
-import RTC.PortHelper;
+import RTC.PortServiceHelper;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Port</b></em>'.
@@ -278,8 +278,8 @@ public class PortImpl extends ConnectorSourceImpl implements Port {
 	}
 
 	@Override
-	public RTC.Port getCorbaObjectInterface() {
-		return PortHelper.narrow(super.getCorbaObject());
+	public RTC.PortService getCorbaObjectInterface() {
+		return PortServiceHelper.narrow(super.getCorbaObject());
 	}
 
 	public static final MappingRule MAPPING_RULE = new MappingRule(null, null,
@@ -290,7 +290,7 @@ public class PortImpl extends ConnectorSourceImpl implements Port {
 						Object[] remoteObjects) {
 					Object result = null;
 					try {
-						result = PortHelper.narrow(
+						result = PortServiceHelper.narrow(
 								(org.omg.CORBA.Object) remoteObjects[0])
 								.get_port_profile();
 					} catch (Exception e) {
@@ -321,7 +321,7 @@ public class PortImpl extends ConnectorSourceImpl implements Port {
 						public List getNewRemoteLinkList(Object[] remoteObjects) {
 							RTC.ConnectorProfile[] connectorProfiles = null;
 							try {
-								connectorProfiles = PortHelper
+								connectorProfiles = PortServiceHelper
 										.narrow(
 												(org.omg.CORBA.Object) remoteObjects[0])
 										.get_connector_profiles();
@@ -412,7 +412,7 @@ public class PortImpl extends ConnectorSourceImpl implements Port {
 						public List getNewRemoteLinkList(Object[] remoteObjects) {
 							RTC.ConnectorProfile[] connectorProfiles = null;
 							try {
-								connectorProfiles = PortHelper
+								connectorProfiles = PortServiceHelper
 										.narrow(
 												(org.omg.CORBA.Object) remoteObjects[0])
 										.get_connector_profiles();

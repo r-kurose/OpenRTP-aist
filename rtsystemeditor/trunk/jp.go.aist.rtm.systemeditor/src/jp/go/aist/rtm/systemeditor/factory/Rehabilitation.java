@@ -84,8 +84,8 @@ public class Rehabilitation {
 					if (SynchronizationSupport.ping(oldRemote) == false) {
 						EObject container = port.eContainer();
 						if (container instanceof Component) {
-							RTC.Port find = null;
-							for (RTC.Port remotePort : ((Component) container)
+							RTC.PortService find = null;
+							for (RTC.PortService remotePort : ((Component) container)
 									.getCorbaObjectInterface().get_ports()) {
 								if (port.getPortProfile().getNameL().equals(
 										remotePort.get_port_profile().name)) {

@@ -30,42 +30,37 @@
 
 #pragma prefix "openrtm.aist.go.jp"
 
-module RTC
+module OpenRTM
 {
 
-  interface DataFlowComponent
-    : RTObject, DataFlowParticipant
-  {
-  };
-
   interface FiniteStateMachineComponent
-    : RTObject, FsmParticipant
+    : RTC::RTObject, RTC::FsmParticipant
   {
   };
 
   interface DataFlowFiniteStateMachineComponent
-    : RTObject, DataFlowParticipant, FsmParticipant
+    : RTC::RTObject, RTC::DataFlowComponent, RTC::FsmParticipant
   {
   };
 
   interface DataFlowMultiModeComponent
-    : RTObject, DataFlowParticipant, MultiModeObject
+    : RTC::RTObject, RTC::DataFlowComponent, RTC::MultiModeObject
   {
   };
 
   interface FiniteStateMachineMultiModeComponent
-    : RTObject, FsmParticipant, MultiModeObject
+    : RTC::RTObject, RTC::FsmParticipant, RTC::MultiModeObject
   {
   };
 
   interface DataFlowFiniteStateMachineMultiModeComponent
-    : RTObject, DataFlowParticipant, FsmParticipant, MultiModeObject
+    : RTC::RTObject, RTC::DataFlowComponent, RTC::FsmParticipant, RTC::MultiModeObject
   {
   };
 
 
   interface ExtTrigExecutionContextService
-    : ExecutionContextService
+    : RTC::ExecutionContextService
   {
     oneway void tick();
   };

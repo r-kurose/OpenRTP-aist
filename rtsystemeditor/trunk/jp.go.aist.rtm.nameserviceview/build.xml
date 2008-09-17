@@ -1,5 +1,5 @@
-<project name="jp.go.aist.rtm.nameserviceview_0.4.2" default="jar">
-	<property name="target.name" value="jp.go.aist.rtm.nameserviceview_0.4.2"/>
+<project name="jp.go.aist.rtm.nameserviceview_1.0.0" default="jar">
+	<property name="target.name" value="jp.go.aist.rtm.nameserviceview_1.0.0"/>
 
 	<property name="source" value="src"/>
 

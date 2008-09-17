@@ -83,7 +83,7 @@ public class PortConnectorImpl extends AbstractPortConnectorImpl implements Port
 			}
 
 			profile.name = connectorProfile.getName();
-			profile.ports = new RTC.Port[] { first.getCorbaObjectInterface(),
+			profile.ports = new RTC.PortService[] { first.getCorbaObjectInterface(),
 					second.getCorbaObjectInterface() };
 
 			for( int intidx=0;intidx<connectorProfile.getProperties().size();intidx++ ) {
@@ -113,7 +113,7 @@ public class PortConnectorImpl extends AbstractPortConnectorImpl implements Port
 	public boolean deleteConnectorR() {
 		boolean result = false;
 		try {
-			RTC.Port inport = this.getTarget().getCorbaObjectInterface();
+			RTC.PortService inport = this.getTarget().getCorbaObjectInterface();
 
 			ReturnCode_t code = inport.disconnect(this.getConnectorProfile()
 					.getConnectorId());

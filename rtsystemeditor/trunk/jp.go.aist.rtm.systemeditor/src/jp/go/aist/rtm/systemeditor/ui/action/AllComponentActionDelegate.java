@@ -196,7 +196,7 @@ public class AllComponentActionDelegate implements IEditorActionDelegate {
 			Object obj = iter.next();
 			if (obj instanceof Component) {
 				ExecutionContext[] get_contexts = ((Component) obj)
-						.getCorbaObjectInterface().get_contexts();
+						.getCorbaObjectInterface().get_owned_contexts();
 				if (get_contexts != null) {
 					for (ExecutionContext context : get_contexts) {
 						executionContextStringList.add(context.toString());

@@ -1,7 +1,9 @@
-<project name="jp.go.aist.rtm.systemeditor_0.4.2" default="jar">
-	<property name="target.name" value="jp.go.aist.rtm.systemeditor_0.4.2"/>
+<project name="jp.go.aist.rtm.systemeditor_1.0.0" default="jar">
+	<property name="target.name" value="jp.go.aist.rtm.systemeditor_1.0.0"/>
 
 	<property name="source" value="src"/>
+	<property name="source.sdo" value="src/_SDOPackage"/>
+	<property name="source.rtc" value="src/RTC"/>
 
 	<property name="dist.dir" value="jar" />
 	<property name="build.dir" value="bin"/>
@@ -26,7 +28,7 @@
 	<property name="project.name" value="jp.go.aist.rtm.systemeditor" />
 
 	<target name="buildAll">
-		<antcall target="idlCompile" />
+<!--		<antcall target="idlCompile" /> -->
 		<antcall target="clean" />
 		<antcall target="compile" />
 		<antcall target="jar" />

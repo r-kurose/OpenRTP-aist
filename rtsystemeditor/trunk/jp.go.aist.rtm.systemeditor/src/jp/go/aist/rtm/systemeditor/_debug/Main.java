@@ -163,7 +163,7 @@ public class Main {
 			}
 
 			System.out.print("[Ports:");
-			for (Port port : base.get_ports()) {
+			for (RTC.PortService port : base.get_ports()) {
 				System.out.print("[");
 				System.out.print(port.get_port_profile().name);
 				System.out.print(":");

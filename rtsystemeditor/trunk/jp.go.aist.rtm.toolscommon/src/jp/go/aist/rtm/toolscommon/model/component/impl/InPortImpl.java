@@ -24,7 +24,7 @@ import jp.go.aist.rtm.toolscommon.util.SDOUtil;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.ui.views.properties.IPropertySource;
 
-import RTC.PortHelper;
+import RTC.PortServiceHelper;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>In Port</b></em>'.
@@ -104,8 +104,8 @@ public class InPortImpl extends PortImpl implements InPort {
 					boolean result = false;
 					if (remoteObjects[0] instanceof org.omg.CORBA.Object) {
 						if (((org.omg.CORBA.Object) remoteObjects[0])
-								._is_a(PortHelper.id())) {
-							RTC.Port port = (RTC.Port) PortHelper
+								._is_a(PortServiceHelper.id())) {
+							RTC.PortService port = (RTC.PortService) PortServiceHelper
 									.narrow(((org.omg.CORBA.Object) remoteObjects[0]));
 							if (jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile.NAME_VALUE_KEY_PORT_PORT_TYPE_DATA_INPORT_VALUE
 									.equals(SDOUtil
@@ -122,7 +122,7 @@ public class InPortImpl extends PortImpl implements InPort {
 
 				@Override
 				public Object[] narrow(Object[] remoteObjects) {
-					return new Object[] { PortHelper
+					return new Object[] { PortServiceHelper
 							.narrow(((org.omg.CORBA.Object) remoteObjects[0])) };
 				}
 			}, new AttributeMapping[] {}, new ReferenceMapping[] {});
