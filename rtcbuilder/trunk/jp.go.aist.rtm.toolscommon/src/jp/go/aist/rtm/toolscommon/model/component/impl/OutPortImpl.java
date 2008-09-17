@@ -26,7 +26,7 @@ import jp.go.aist.rtm.toolscommon.util.SDOUtil;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.ui.views.properties.IPropertySource;
 
-import RTC.PortHelper;
+import RTC.PortServiceHelper;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Out Port</b></em>'.
@@ -131,8 +131,8 @@ public class OutPortImpl extends PortImpl implements OutPort {
 						Object[] remoteObjects, java.lang.Object link) {
 					boolean result = false;
 					if (((org.omg.CORBA.Object) remoteObjects[0])
-							._is_a(PortHelper.id())) {
-						RTC.Port port = (RTC.Port) PortHelper
+							._is_a(PortServiceHelper.id())) {
+						RTC.PortService port = (RTC.PortService) PortServiceHelper
 								.narrow((org.omg.CORBA.Object) remoteObjects[0]);
 						if (jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile.NAME_VALUE_KEY_PORT_PORT_TYPE_DATA_OUTPORT_VALUE
 								.equals(SDOUtil
@@ -148,7 +148,7 @@ public class OutPortImpl extends PortImpl implements OutPort {
 
 				@Override
 				public Object[] narrow(Object[] remoteObjects) {
-					return new Object[] { PortHelper
+					return new Object[] { PortServiceHelper
 							.narrow((org.omg.CORBA.Object) remoteObjects[0]) };
 				}
 

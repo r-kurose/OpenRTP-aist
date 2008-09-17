@@ -1,7 +1,9 @@
-<project name="jp.go.aist.rtm.toolscommon_0.4.2" default="jar">
-	<property name="target.name" value="jp.go.aist.rtm.toolscommon_0.4.2"/>
+<project name="jp.go.aist.rtm.toolscommon_1.0.0" default="jar">
+	<property name="target.name" value="jp.go.aist.rtm.toolscommon_1.0.0"/>
 
 	<property name="source" value="src"/>
+	<property name="source.sdo" value="src/_SDOPackage"/>
+	<property name="source.rtc" value="src/RTC"/>
 
 	<property name="dist.dir" value="jar" />
 	<property name="build.dir" value="bin"/>
@@ -36,19 +38,19 @@
 		<delete dir="${source.sdo}" />
 		<delete dir="${source.rtc}" />
 		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-fall -td ${source} -i ${idl.path} -emitAll ${idl.SDOPackage}"/>
+			<arg line="-v -fall -td ${source} -i ${idl.path} -emitAll ${idl.SDOPackage}"/>
 		</exec>
 		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-fall -td ${source} -i ${idl.path} -emitAll ${idl.RTC}"/>
+			<arg line="-v -fall -td ${source} -i ${idl.path} -emitAll ${idl.RTC}"/>
 		</exec>
 		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-fall -td ${source} -i ${idl.path} -emitAll ${idl.OpenRTM}"/>
+			<arg line="-v -fall -td ${source} -i ${idl.path} -emitAll ${idl.OpenRTM}"/>
 		</exec>
 		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-fall -td ${source} -i ${idl.path} -emitAll ${idl.BasicDataType}"/>
+			<arg line="-v -fall -td ${source} -i ${idl.path} -emitAll ${idl.BasicDataType}"/>
 		</exec>
 		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-fall -td ${source} -i ${idl.path} -emitAll ${idl.DataPort}"/>
+			<arg line="-v -fall -td ${source} -i ${idl.path} -emitAll ${idl.DataPort}"/>
 		</exec>
 	</target>
 

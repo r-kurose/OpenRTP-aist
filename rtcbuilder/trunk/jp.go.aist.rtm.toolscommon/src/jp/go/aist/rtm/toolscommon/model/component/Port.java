@@ -14,5 +14,5 @@ public interface Port extends ConnectorSource, ConnectorTarget, CorbaWrapperObje
 
 	void setPortProfile(PortProfile value);
 
-	public RTC.Port getCorbaObjectInterface();
+	public RTC.PortService getCorbaObjectInterface();
 }

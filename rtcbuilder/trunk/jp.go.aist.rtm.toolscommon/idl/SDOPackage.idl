@@ -23,23 +23,20 @@
 //error. 
 //SDOPackage.idl
 
-/*
- * $Log: SDOPackage.idl,v $
- * Revision 1.1  2006/04/04 06:09:31  n-ando
- * - SDO package based on SDO PSM.
- * - Original SDO PSM (CORBA IDL) was modified for some syntax errors
- *   and some idl compiler's limitation.
- * - TCKind was changed to TypeCode. Because TCKind is internal enum
- *   of CORBA implementation (omniidl does not understand TCKind.)
- * - Since OpenRTM-aist does not use "SDO Monitoring interface" that
- *   inherits CosNotify service, new Monitoring interface was defined.
- *
- */
-
 #ifndef    _SDO_PACKAGE_IDL_
 #define    _SDO_PACKAGE_IDL_
 
-
+#ifdef TAO_IDL
+#include <orb.idl>
+#endif
+#ifdef USE_MONITORING
+#include <CosNotifyComm.idl>
+#endif
+#ifdef ORBIT2_IDL
+//#ifndef ORBIT2_IDL
+//#define TypeCode CORBA::TypeCode
+#define CORBA::TypeCode TypeCode 
+#endif
 /** CORBA specific model for SDOs */
 
 #pragma prefix "org.omg"
@@ -121,7 +118,8 @@ module SDOPackage
   struct Parameter
   {
 	string         name;
-	CORBA::TypeCode  type;
+//	TypeCode  type;
+	CORBA::TypeCode type;
 	AllowedValues allowed_values;
   };
 

@@ -910,7 +910,7 @@ public class ComponentImpl extends AbstractComponentImpl implements Component {
 							RTC.ExecutionContext[] executionContexts = RTObjectHelper
 									.narrow(
 											(org.omg.CORBA.Object) remoteObjects[0])
-									.get_contexts();
+									.get_owned_contexts();
 							if (executionContexts != null
 									&& executionContexts.length > 0) {
 								if (executionContexts[0].is_running()) {
@@ -934,13 +934,15 @@ public class ComponentImpl extends AbstractComponentImpl implements Component {
 							LocalObject localObject, Object[] remoteObjects) {
 						Object result = LifeCycleState.RTC_UNKNOWN;
 						try {
+
+
+							RTC.ExecutionContext[] executionContexts = RTObjectHelper
+									.narrow(
+											(org.omg.CORBA.Object) remoteObjects[0])
+									.get_owned_contexts();	
 							if (RTObjectHelper.narrow(
 									(org.omg.CORBA.Object) remoteObjects[0])
-									.is_alive()) {
-								RTC.ExecutionContext[] executionContexts = RTObjectHelper
-										.narrow(
-												(org.omg.CORBA.Object) remoteObjects[0])
-										.get_contexts();
+									.is_alive(executionContexts[0])) {
 								if (executionContexts != null
 										&& executionContexts.length > 0) {
 									RTC.LifeCycleState lifeCycleState = executionContexts[0]
@@ -955,7 +957,7 @@ public class ComponentImpl extends AbstractComponentImpl implements Component {
 									} else if (RTC.LifeCycleState.INACTIVE_STATE
 											.value() == lifeCycleState.value()) {
 										result = LifeCycleState.RTC_INACTIVE;
-									} else if (RTC.LifeCycleState.UNKNOWN_STATE
+									} else if (RTC.LifeCycleState.CREATED_STATE
 											.value() == lifeCycleState.value()) {
 										result = LifeCycleState.RTC_UNKNOWN;
 									}
@@ -977,9 +979,13 @@ public class ComponentImpl extends AbstractComponentImpl implements Component {
 							LocalObject localObject, Object[] remoteObjects) {
 						Object result = Component.STATE_UNKNOWN;
 						try {
+							RTC.ExecutionContext[] executionContexts = RTObjectHelper
+									.narrow(
+											(org.omg.CORBA.Object) remoteObjects[0])
+									.get_owned_contexts();
 							boolean is_alive = RTObjectHelper.narrow(
 									(org.omg.CORBA.Object) remoteObjects[0])
-									.is_alive();
+									.is_alive(executionContexts[0]);
 
 							if (is_alive) {
 								result = Component.STATE_ALIVE;
@@ -1067,7 +1073,7 @@ public class ComponentImpl extends AbstractComponentImpl implements Component {
 						.getAbstractComponent_Ports()) {
 					@Override
 					public List getNewRemoteLinkList(Object[] remoteObjects) {
-						RTC.Port[] ports = null;
+						RTC.PortService[] ports = null;
 						try {
 							ports = RTObjectHelper.narrow(
 									(org.omg.CORBA.Object) remoteObjects[0])
@@ -1092,7 +1098,7 @@ public class ComponentImpl extends AbstractComponentImpl implements Component {
 						try {
 							executionContexts = RTObjectHelper.narrow(
 									(org.omg.CORBA.Object) remoteObjects[0])
-									.get_contexts();
+									.get_owned_contexts();
 						} catch (Exception e) {
 							// void
 						}

@@ -11,7 +11,7 @@ import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
  */
 public interface LifeCycleState extends WrapperObject {
 
-	public static final int RTC_UNKNOWN = RTC.LifeCycleState.UNKNOWN_STATE
+	public static final int RTC_UNKNOWN = RTC.LifeCycleState.CREATED_STATE
 			.value();
 
 	public static final int RTC_CREATED = 777;
