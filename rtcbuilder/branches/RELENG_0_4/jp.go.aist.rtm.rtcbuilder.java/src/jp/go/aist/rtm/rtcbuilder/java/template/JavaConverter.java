@@ -235,7 +235,13 @@ public class JavaConverter {
 				result = strType;
 				if( !strDirection.equals(dirIn) ) result = result + "Holder";
 			}
-			if( blnSequence ) result = result + "[]";
+                        if( blnSequence ) {
+                          if( !strDirection.equals(dirIn) ) {
+                            result = strCorba + "Holder";
+                          } else {
+                            result = result + "[]";
+                          }
+                        }
 		}
 		return result;
 	}
