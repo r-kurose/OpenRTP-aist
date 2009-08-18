@@ -6,13 +6,11 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeToken -> "raises"
  * nodeToken1 -> "("
  * scoped_name -> scoped_name()
  * nodeListOptional -> ( "," scoped_name() )*
  * nodeToken2 -> ")"
- * </PRE>
  */
 public class raises_expr implements Node {
    private Node parent;

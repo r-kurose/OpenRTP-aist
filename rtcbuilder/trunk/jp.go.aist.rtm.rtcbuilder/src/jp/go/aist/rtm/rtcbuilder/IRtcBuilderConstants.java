@@ -10,6 +10,7 @@ public interface IRtcBuilderConstants {
 
 	public static final String DEFAULT_RTM_VERSION = "0.4.1";
 	public static final String RTM_VERSION_042 = "0.4.2";
+	public static final String RTM_VERSION_100 = "1.0.0";
 
 	/**
 	 * サービス実装のデフォルトサフィックス
@@ -37,9 +38,12 @@ public interface IRtcBuilderConstants {
 	public static final String YAML_EXTENSION = "yaml";
 	public static final String XML_EXTENSION = "xml";
 	//
-	public static final String SCHEMA_VERSION = "0.1";
+	public static final String SCHEMA_VERSION = "0.2";
 
 	public static final String NEWLINE_CODE = "<br/>";
+
+	public static final String[] DIRECTION_ITEMS = new String[] {
+		"LEFT", "RIGHT" ,"TOP", "BOTTOM" };
 
 	public static final String[] COMPONENT_TYPE_ITEMS = new String[] {
 		"STATIC", "UNIQUE", "COMMUTATIVE" };
@@ -60,8 +64,9 @@ public interface IRtcBuilderConstants {
 
 	public static final String[] ACTION_TYPE_ITEMS = new String[] {
 		"on_initialize", "on_finalize", "on_startup", "on_shutdown", "on_activated",
-		"on_deactivated", "on_execute", "on_aborting", "on_error", "on_reset",
-		"on_state_update", "on_rate_changed" };
+		"on_deactivated", "on_aborting", "on_error", "on_reset",
+		"on_execute", "on_state_update", "on_rate_changed",
+		"on_action", "on_mode_changed"};
 	
 	public static final String TAG_BACKEND = "backend";
 	public static final String TAG_SVC_IDL = "svc-idl";
@@ -80,24 +85,39 @@ public interface IRtcBuilderConstants {
 
 	public static final String LANG_CPP_ARG = "cxx";
 	public static final String LANG_CPPWIN_ARG = "cxxwin";
-	public static final String DOC_DEFAULT_PREFIX = " * "; 
-	public static final String DOC_DESC_PREFIX = "   * ";
-	public static final String DOC_UNIT_PREFIX = "   *         "; 
-	public static final String DOC_RANGE_PREFIX = "   *          ";
-	public static final String DOC_CONSTRAINT_PREFIX = "   *               "; 
-	public static final String DOC_NUMBER_PREFIX = "   *           ";
-	public static final String DOC_SEMANTICS_PREFIX = "   *              ";
-	public static final String DOC_CYCLE_PREFIX = "   *                    "; 
-	public static final String DOC_INTERFACE_PREFIX = "   *            ";
-	public static final String DOC_INTERFACE_DETAIL_PREFIX = "   *                  "; 
 	//
-	public static final String DOC_README_PREFIX = "   "; 
-	public static final String DOC_README_COPYRIGHT_PREFIX = "  "; 
-	public static final String DOC_README_MODULE_PREFIX = "             "; 
-	public static final String DOC_README_ACTIVITY_PREFIX = "\t               "; 
-	public static final String DOC_README_PORT_PREFIX = "\t             "; 
-	public static final String DOC_README_PORT_DETAIL_PREFIX = "\t\t                 "; 
-	public static final String DOC_README_INTERFACE_PREFIX = "\t\t               "; 
+	public static final String SPACE1 = " "; 
+	public static final String SPACE2 = "  "; 
+	public static final String SPACE3 = "   ";
+	public static final String SPACE9 = "         ";
+	public static final String SPACE10 = "          ";
+	public static final String SPACE11 = "           ";
+	public static final String SPACE12 = "            ";
+	public static final String SPACE13 = "             ";
+	public static final String SPACE14 = "              ";
+	public static final String SPACE15 = "               ";
+	public static final String SPACE17 = "                 ";
+	public static final String SPACE18 = "                  ";
+	public static final String SPACE20 = "                    ";
+	//
+	public static final String DOC_DEFAULT_PREFIX = SPACE1 + "*" + SPACE1; 
+	public static final String DOC_DESC_PREFIX = SPACE3 + "*" + SPACE1;
+	public static final String DOC_UNIT_PREFIX = SPACE3 + "*" + SPACE9; 
+	public static final String DOC_RANGE_PREFIX = SPACE3 + "*" + SPACE10;
+	public static final String DOC_CONSTRAINT_PREFIX = SPACE3 + "*" + SPACE15; 
+	public static final String DOC_NUMBER_PREFIX = SPACE3 + "*" + SPACE11;
+	public static final String DOC_SEMANTICS_PREFIX = SPACE3 + "*" + SPACE14;
+	public static final String DOC_CYCLE_PREFIX = SPACE3 + "*" + SPACE20; 
+	public static final String DOC_INTERFACE_PREFIX = SPACE3 + "*" + SPACE12;
+	public static final String DOC_INTERFACE_DETAIL_PREFIX = SPACE3 + "*" + SPACE18; 
+	//
+	public static final String DOC_README_PREFIX = SPACE3; 
+	public static final String DOC_README_COPYRIGHT_PREFIX = SPACE2; 
+	public static final String DOC_README_MODULE_PREFIX = SPACE13; 
+	public static final String DOC_README_ACTIVITY_PREFIX = "\t" + SPACE15; 
+	public static final String DOC_README_PORT_PREFIX = "\t" + SPACE13; 
+	public static final String DOC_README_PORT_DETAIL_PREFIX = "\t\t" + SPACE17; 
+	public static final String DOC_README_INTERFACE_PREFIX = "\t\t" + SPACE15; 
 	//
 	public static final int DOC_DEFAULT_WIDTH = 80; 
 	public static final int DOC_AUTHOR_OFFSET = 11; 
@@ -126,12 +146,15 @@ public interface IRtcBuilderConstants {
 	public static final int ACTIVITY_SHUTDOWN = 3; 
 	public static final int ACTIVITY_ACTIVATED = 4;
 	public static final int ACTIVITY_DEACTIVATED = 5; 
-	public static final int ACTIVITY_EXECUTE = 6; 
-	public static final int ACTIVITY_ABORTING = 7; 
-	public static final int ACTIVITY_ERROR = 8;
-	public static final int ACTIVITY_RESET = 9; 
-	public static final int ACTIVITY_STATE_UPDATE = 10; 
-	public static final int ACTIVITY_RATE_CHANGED = 11; 
+	public static final int ACTIVITY_ABORTING = 6;
+	public static final int ACTIVITY_ERROR = 7;
+	public static final int ACTIVITY_RESET = 8;
+	public static final int ACTIVITY_EXECUTE = 9;
+	public static final int ACTIVITY_STATE_UPDATE = 10;
+	public static final int ACTIVITY_RATE_CHANGED = 11;
+	public static final int ACTIVITY_ACTION = 12;
+	public static final int ACTIVITY_MODE_CHANGED = 13;
+	public static final int ACTIVITY_DUMMY = 14;
 	//
 	public static final int PORT_SPACE_HEIGHT = 60;
 	public static final int PORT_SPACE_WIDTH = 150;

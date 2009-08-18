@@ -83,8 +83,8 @@ public class RtcExportWizardPage extends	WizardExportResourcesPage {
 	 */
 	public RtcExportWizardPage(IStructuredSelection selection) {
 	    this("RtcExportPage1", selection); //$NON-NLS-1$
-	    setTitle("RTコンポーネント エクスポート");
-	    setDescription("RTコンポーネントをエクスポートします。");
+	    setTitle(IWizardMessageConstants.EXPORT_PAGE_TITLE);
+	    setDescription(IWizardMessageConstants.EXPORT_PAGE_DESCRIPTION);
 	    //
 	    sourceExt = ExportPreferenceManager.getInstance().getExportSourceExt();
 	    sourceFile = ExportPreferenceManager.getInstance().getExportSourceFile();
@@ -125,7 +125,7 @@ public class RtcExportWizardPage extends	WizardExportResourcesPage {
         optionsGroup.setLayout(layout);
         optionsGroup.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL
                 | GridData.GRAB_HORIZONTAL));
-        optionsGroup.setText("オプション");
+        optionsGroup.setText(IWizardMessageConstants.EXPORT_PAGE_GRP_OPTION);
         optionsGroup.setFont(parent.getFont());
     	
     	Font font = optionsGroup.getFont();
@@ -140,7 +140,7 @@ public class RtcExportWizardPage extends	WizardExportResourcesPage {
         // compress... checkbox
         compressContentsCheckbox = new Button(left, SWT.CHECK
                 | SWT.LEFT);
-        compressContentsCheckbox.setText("ファイルの内容を圧縮");
+        compressContentsCheckbox.setText(IWizardMessageConstants.EXPORT_PAGE_CHK_COMPRESS);
         compressContentsCheckbox.setFont(font);
 
         Composite right = new Composite(optionsGroup, SWT.NONE);
@@ -158,20 +158,20 @@ public class RtcExportWizardPage extends	WizardExportResourcesPage {
     protected void createDirectoryStructureOptions(Composite optionsGroup, Font font) {
         createDirectoryStructureButton = new Button(optionsGroup, SWT.RADIO
                 | SWT.LEFT);
-        createDirectoryStructureButton.setText("ファイルのディレクトリ構造を作成");
+        createDirectoryStructureButton.setText(IWizardMessageConstants.EXPORT_PAGE_BTN_CREATE_DIR);
         createDirectoryStructureButton.setSelection(false);
         createDirectoryStructureButton.setFont(font);
 
         createSelectionOnlyButton = new Button(optionsGroup, SWT.RADIO
                 | SWT.LEFT);
-        createSelectionOnlyButton.setText("選択したディレクトリのみ作成");
+        createSelectionOnlyButton.setText(IWizardMessageConstants.EXPORT_PAGE_BTN_CREATE_DIR_ONLY);
         createSelectionOnlyButton.setSelection(true);
         createSelectionOnlyButton.setFont(font);
     }
 
     protected void createFileFormatOptions(Composite optionsGroup, Font font) {
         zipFormatButton = new Button(optionsGroup, SWT.RADIO | SWT.LEFT);
-        zipFormatButton.setText("ZIPフォーマットで保管");
+        zipFormatButton.setText(IWizardMessageConstants.EXPORT_PAGE_BTN_ZIP);
         zipFormatButton.setSelection(true);
         zipFormatButton.setFont(font);
 
@@ -181,7 +181,7 @@ public class RtcExportWizardPage extends	WizardExportResourcesPage {
 //        bzipFormatButton.setFont(font);
 
         targzFormatButton = new Button(optionsGroup, SWT.RADIO | SWT.LEFT);
-        targzFormatButton.setText("tarフォーマットで保管");
+        targzFormatButton.setText(IWizardMessageConstants.EXPORT_PAGE_BTN_TAR);
         targzFormatButton.setSelection(false);
         targzFormatButton.setFont(font);
     }    
@@ -192,24 +192,24 @@ public class RtcExportWizardPage extends	WizardExportResourcesPage {
         kindGroup.setLayout(layout);
         kindGroup.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL
                 | GridData.GRAB_HORIZONTAL));
-        kindGroup.setText("アーカイブ方式");
+        kindGroup.setText(IWizardMessageConstants.EXPORT_PAGE_GRP_ARC);
         kindGroup.setFont(parent.getFont());
     	
     	Font font = kindGroup.getFont();
     	kindGroup.setLayout(new GridLayout(3, true));
     	
         sourceArchiveButton = new Button(kindGroup, SWT.RADIO | SWT.LEFT);
-        sourceArchiveButton.setText("ソース");
+        sourceArchiveButton.setText(IWizardMessageConstants.EXPORT_PAGE_BTN_SRC);
         sourceArchiveButton.setSelection(true);
         sourceArchiveButton.setFont(font);
 
         binaryArchiveButton = new Button(kindGroup, SWT.RADIO | SWT.LEFT);
-        binaryArchiveButton.setText("バイナリ");
+        binaryArchiveButton.setText(IWizardMessageConstants.EXPORT_PAGE_BTN_BIN);
         binaryArchiveButton.setSelection(false);
         binaryArchiveButton.setFont(font);
 
         sourcebinaryArchiveButton = new Button(kindGroup, SWT.RADIO | SWT.LEFT);
-        sourcebinaryArchiveButton.setText("ソース+バイナリ");
+        sourcebinaryArchiveButton.setText(IWizardMessageConstants.EXPORT_PAGE_BTN_SRC_BIN);
         sourcebinaryArchiveButton.setSelection(false);
         sourcebinaryArchiveButton.setFont(font);
     }
@@ -227,7 +227,7 @@ public class RtcExportWizardPage extends	WizardExportResourcesPage {
         destinationSelectionGroup.setFont(font);
 
         Label destinationLabel = new Label(destinationSelectionGroup, SWT.NONE);
-        destinationLabel.setText("宛先ディレクトリ");
+        destinationLabel.setText(IWizardMessageConstants.EXPORT_PAGE_LBL_DEST);
         destinationLabel.setFont(font);
 
         // destination name entry field
@@ -252,7 +252,7 @@ public class RtcExportWizardPage extends	WizardExportResourcesPage {
         // destination browse button
         destinationBrowseButton = new Button(destinationSelectionGroup,
                 SWT.PUSH);
-        destinationBrowseButton.setText("参照");
+        destinationBrowseButton.setText(IWizardMessageConstants.EXPORT_PAGE_BTN_DEST);
         destinationBrowseButton.addListener(SWT.Selection, this);
         destinationBrowseButton.setFont(font);
         setButtonLayoutData(destinationBrowseButton);
@@ -273,7 +273,7 @@ public class RtcExportWizardPage extends	WizardExportResourcesPage {
         targetProjectSelectionGroup.setFont(font);
 
         Label targetProjectLabel = new Label(targetProjectSelectionGroup, SWT.NONE);
-        targetProjectLabel.setText("対象プロジェクト");
+        targetProjectLabel.setText(IWizardMessageConstants.EXPORT_PAGE_LBL_PJ);
         targetProjectLabel.setFont(font);
 
         targetProjectList = new org.eclipse.swt.widgets.List(targetProjectSelectionGroup, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
@@ -320,7 +320,7 @@ public class RtcExportWizardPage extends	WizardExportResourcesPage {
     protected void handleDestinationBrowseButtonPressed() {
         DirectoryDialog dialog = new DirectoryDialog(getContainer().getShell(),
                 SWT.SAVE);
-        dialog.setText("RTCエクスポート");
+        dialog.setText(IWizardMessageConstants.EXPORT_PAGE_DIR_DLG_TITLE);
         String selectedDirectoryName = dialog.open();
 
         if (selectedDirectoryName != null) {
@@ -364,12 +364,12 @@ public class RtcExportWizardPage extends	WizardExportResourcesPage {
         IStatus status = op.getStatus();
         if (!status.isOK()) {
             ErrorDialog.openError(getContainer().getShell(),
-                    "エクスポートの問題",
+            		IWizardMessageConstants.EXPORT_PAGE_MSG_EXPORT_PROBLEM,
                     null, // no special message
                     status);
             return false;
         }
-        MessageDialog.openInformation(getContainer().getShell(), "エクスポート", "エクスポート処理が完了しました");
+        MessageDialog.openInformation(getContainer().getShell(), IWizardMessageConstants.EXPORT_PAGE_DLG_TITLE, IWizardMessageConstants.EXPORT_PAGE_MSG_FINISH);
 
         return true;
     }
@@ -478,18 +478,18 @@ public class RtcExportWizardPage extends	WizardExportResourcesPage {
     
     private boolean ensureTargetFileIsValid(File targetFile) {
         if (targetFile.exists() && targetFile.isDirectory()) {
-            displayErrorDialog("エクスポート先はディレクトリーではなくファイルでなければなりません。");
+            displayErrorDialog(IWizardMessageConstants.EXPORT_PAGE_MSG_FILE_ERR);
             destinationNameField.setFocus();
             return false;
         }
 
         if (targetFile.exists()) {
             if (targetFile.canWrite()) {
-                if (!queryYesNoQuestion("ターゲット・ファイルはすでに存在しています。  上書きしますか?")) {
+                if (!queryYesNoQuestion(IWizardMessageConstants.EXPORT_PAGE_MSG_WRITE_YN)) {
 					return false;
 				}
             } else {
-                displayErrorDialog("エクスポート先はすでに存在していて上書きできません。");
+                displayErrorDialog(IWizardMessageConstants.EXPORT_PAGE_MSG_CANNOT_WRITE_ERR);
                 destinationNameField.setFocus();
                 return false;
             }
@@ -511,7 +511,7 @@ public class RtcExportWizardPage extends	WizardExportResourcesPage {
 
     private boolean ensureTargetIsValid(File targetDirectory) {
         if (targetDirectory.exists() && !targetDirectory.isDirectory()) {
-            displayErrorDialog("ターゲット・ディレクトリーはファイルとしてすでに存在しています。");
+            displayErrorDialog(IWizardMessageConstants.EXPORT_PAGE_MSG_EXISTS_ERR);
             destinationNameField.setFocus();
             return false;
         }
@@ -521,12 +521,12 @@ public class RtcExportWizardPage extends	WizardExportResourcesPage {
 
     private boolean ensureDirectoryExists(File directory) {
         if (!directory.exists()) {
-            if (!queryYesNoQuestion("ターゲット・ディレクトリーが存在しません。  作成しますか?")) {
+            if (!queryYesNoQuestion(IWizardMessageConstants.EXPORT_PAGE_MSG_CREATE_YN)) {
 				return false;
 			}
 
             if (!directory.mkdirs()) {
-                displayErrorDialog("ターゲット・ディレクトリーを作成できませんでした。");
+                displayErrorDialog(IWizardMessageConstants.EXPORT_PAGE_MSG_CANNOT_CREATE_ERR);
                 destinationNameField.setFocus();
                 return false;
             }

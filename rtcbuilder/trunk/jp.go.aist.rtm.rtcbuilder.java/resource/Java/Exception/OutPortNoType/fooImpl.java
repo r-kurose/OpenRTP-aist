@@ -8,7 +8,6 @@
  */
 
 import RTC.TimedShort;
-import RTC.;
 import jp.go.aist.rtm.RTC.DataFlowComponentBase;
 import jp.go.aist.rtm.RTC.Manager;
 import jp.go.aist.rtm.RTC.port.InPort;

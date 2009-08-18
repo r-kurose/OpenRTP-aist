@@ -5,26 +5,27 @@ import java.util.List;
 
 public class DataportExtHandler extends CommonExtHandler {
 
-	public DataportExtHandler(Class type) {
+	public DataportExtHandler(Class<?> type) {
 		super(type);
 	}
 
-	public Collection keys() {
-    	Collection result = null;
-    	result = super.keys();
+	@SuppressWarnings("unchecked")
+	public Collection<?> keys() {
+    	Collection<?> result = super.keys();
+    	if( result==null ) return null;
     	
     	for( int intIdx=0; intIdx<result.size(); intIdx++) {
-    		Object target = ((List)result).get(intIdx);
-    		if( ((String)target).equals("varname") ) {
-    			((List)result).set(intIdx, "rtcExt::varname");
+    		String target = ((List<String>)result).get(intIdx);
+    		if( target.equals("variableName") ) {
+    			((List<String>)result).set(intIdx, "rtcExt::variableName");
     		}
     	}
     	return result;
     }
 	
     public Object getProperty(Object obj, String name) {
-    	if(name.equals("rtcExt::varname")) {
-    		name = "varname";
+    	if(name.equals("rtcExt::variableName")) {
+    		name = "variableName";
     	}
     	return super.getProperty(obj, name);
     }

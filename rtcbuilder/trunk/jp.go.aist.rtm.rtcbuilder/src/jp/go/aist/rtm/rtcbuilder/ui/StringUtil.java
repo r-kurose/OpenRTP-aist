@@ -138,4 +138,29 @@ public class StringUtil {
 //		return result.toString();
 //	}
 //
+	
+	public static String connectMessageWithSepalator(String[] ss){
+		if( ss==null ) return "";
+		
+		String result = "";
+		for( int i=0; i<ss.length; i++ ){
+			result += ss[i];
+			if( !"".equals(ss[i]) )
+				result += System.getProperty("line.separator");
+		}
+		
+		return result;
+	}
+	
+	public static String connectMessageFlat(String[] ss){
+//		if( ss==null ) return "";
+//		
+//		String result = "";
+//		for( int i=0; i<ss.length; i++ ){
+//			result += ss[i];
+//		}
+//		
+//		return result;
+		return connectMessageWithSepalator(ss);
+	}
 }

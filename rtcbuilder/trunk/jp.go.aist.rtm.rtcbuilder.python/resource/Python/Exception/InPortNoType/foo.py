@@ -55,7 +55,7 @@ class foo(OpenRTM.DataFlowComponentBase):
 		"""
 		OpenRTM.DataFlowComponentBase.__init__(self, manager)
 
-		self._d_in1 = RTC.(RTC.Time(0,0),0)
+		self._d_in1 = (),0)
 		"""
 		"""
 		self._in1In = OpenRTM.InPort("in1", self._d_in1, OpenRTM.RingBuffer(8))

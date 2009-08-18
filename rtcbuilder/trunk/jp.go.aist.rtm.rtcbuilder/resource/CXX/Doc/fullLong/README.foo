@@ -17,7 +17,7 @@
 #   --module-category=Manip --module-comp-type=STATIC2 
 #   --module-act-type=PERIODIC2 --module-max-inst=5 
 #   --config=int_param0:int:0 --config=int_param1:int:1 --config=double_param0:double:0.11 --config=str_param0:std::string:hoge --config=str_param1:std::string:dara 
-#   --inport=InP1:TimedShort --inport=InP2:TimedLong --outport=OutP1:TimedLong --outport=OutP2:TimedFloat 
+#   --inport=InP1:RTC::TimedShort --inport=InP2:RTC::TimedLong --outport=OutP1:RTC::TimedLong --outport=OutP2:RTC::TimedFloat 
 #   --service-idl=C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\\resource\MyService.idl 
 #   --consumer-idl=C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\\resource\DAQService.idl 
 #   --service=svPort:acc:MyService 
@@ -158,7 +158,7 @@ Reference:   参考文献の情報12345678901234567890123456789012345678901234567890123
 	Description: InPort1の概要1234567890123456789012345678901234567890123456789012
 	             345678901234567890
 	PortType: 
-	DataType:    TimedShort
+	DataType:    RTC::TimedShort
 	MaxOut: 
 	[Data Elements]
 		Name:
@@ -183,7 +183,7 @@ Reference:   参考文献の情報12345678901234567890123456789012345678901234567890123
 	Description: InPort2の概要1234567890123456789012345678901234567890123456789012
 	             345678901234567890
 	PortType: 
-	DataType:    TimedLong
+	DataType:    RTC::TimedLong
 	MaxOut: 
 	[Data Elements]
 		Name:
@@ -216,7 +216,7 @@ Reference:   参考文献の情報12345678901234567890123456789012345678901234567890123
 	Description: OutPort1の概要123456789012345678901234567890123456789012345678901
 	             2345678901234567890
 	PortType: 
-	DataType:    TimedLong
+	DataType:    RTC::TimedLong
 	MaxOut: 
 	[Data Elements]
 		Name:
@@ -241,7 +241,7 @@ Reference:   参考文献の情報12345678901234567890123456789012345678901234567890123
 	Description: OutPort2の概要123456789012345678901234567890123456789012345678901
 	             2345678901234567890
 	PortType: 
-	DataType:    TimedFloat
+	DataType:    RTC::TimedFloat
 	MaxOut: 
 	[Data Elements]
 		Name:

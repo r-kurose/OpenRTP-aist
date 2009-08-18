@@ -6,11 +6,9 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeChoice -> "in"
  *       | "out"
  *       | "inout"
- * </PRE>
  */
 public class param_attribute implements Node {
    private Node parent;

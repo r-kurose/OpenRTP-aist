@@ -16,6 +16,9 @@ ${sharp}include <rtm/CorbaPort.h>
 ${sharp}include <rtm/DataInPort.h>
 ${sharp}include <rtm/DataOutPort.h>
 ${sharp}include <rtm/idl/BasicDataTypeSkel.h>
+#foreach($type in ${cXXConv.getPortModules(${rtcParam})})  
+${cXXConv.getDataportIncludeName(${type})}
+#end
 
 // Service implementation headers
 // <rtc-template block="service_impl_h">
@@ -34,6 +37,9 @@ ${sharp}include "${tmpltHelper.getFilenameNoExt(${consumerIdlFile.idlFile})}${tm
 // </rtc-template>
 
 using namespace RTC;
+#foreach($type in ${cXXConv.getPortModules(${rtcParam})})  
+${cXXConv.getDataportUsingNamespace(${type})}
+#end
 
 /*!
  * @class ${rtcParam.name}
@@ -197,68 +203,11 @@ class ${rtcParam.name}
   #if(${rtcParam.IsNotImplemented(5)})//#end virtual RTC::ReturnCode_t onDeactivated(RTC::UniqueId ec_id);
 
   /***
-#if(${rtcParam.getDocActionOverView(6).length()}>0)   * ${tmpltHelper.convertDescDoc(${rtcParam.getDocActionOverView(6)})}
+#if(${rtcParam.getDocActionOverView(9).length()}>0)   * ${tmpltHelper.convertDescDoc(${rtcParam.getDocActionOverView(9)})}
 #end
    *
    * The execution action that is invoked periodically
    * former rtc_active_do()
-   *
-   * @param ec_id target ExecutionContext Id
-   *
-   * @return RTC::ReturnCode_t
-   * 
-#if(${rtcParam.getDocActionPreCondition(6).length()}>0)   * @pre ${tmpltHelper.convertPreDoc(${rtcParam.getDocActionPreCondition(6)})}
-#end
-#if(${rtcParam.getDocActionPostCondition(6).length()}>0)   * @post ${tmpltHelper.convertPostDoc(${rtcParam.getDocActionPostCondition(6)})}
-#end
-   * 
-   */
-  #if(${rtcParam.IsNotImplemented(6)})//#end virtual RTC::ReturnCode_t onExecute(RTC::UniqueId ec_id);
-
-  /***
-#if(${rtcParam.getDocActionOverView(7).length()}>0)   * ${tmpltHelper.convertDescDoc(${rtcParam.getDocActionOverView(7)})}
-#end
-   *
-   * The aborting action when main logic error occurred.
-   * former rtc_aborting_entry()
-   *
-   * @param ec_id target ExecutionContext Id
-   *
-   * @return RTC::ReturnCode_t
-   * 
-#if(${rtcParam.getDocActionPreCondition(7).length()}>0)   * @pre ${tmpltHelper.convertPreDoc(${rtcParam.getDocActionPreCondition(7)})}
-#end
-#if(${rtcParam.getDocActionPostCondition(7).length()}>0)   * @post ${tmpltHelper.convertPostDoc(${rtcParam.getDocActionPostCondition(7)})}
-#end
-   * 
-   */
-  #if(${rtcParam.IsNotImplemented(7)})//#end virtual RTC::ReturnCode_t onAborting(RTC::UniqueId ec_id);
-
-  /***
-#if(${rtcParam.getDocActionOverView(8).length()}>0)   * ${tmpltHelper.convertDescDoc(${rtcParam.getDocActionOverView(8)})}
-#end
-   *
-   * The error action in ERROR state
-   * former rtc_error_do()
-   *
-   * @param ec_id target ExecutionContext Id
-   *
-   * @return RTC::ReturnCode_t
-   * 
-#if(${rtcParam.getDocActionPreCondition(8).length()}>0)   * @pre ${tmpltHelper.convertPreDoc(${rtcParam.getDocActionPreCondition(8)})}
-#end
-#if(${rtcParam.getDocActionPostCondition(8).length()}>0)   * @post ${tmpltHelper.convertPostDoc(${rtcParam.getDocActionPostCondition(8)})}
-#end
-   * 
-   */
-  #if(${rtcParam.IsNotImplemented(8)})//#end virtual RTC::ReturnCode_t onError(RTC::UniqueId ec_id);
-
-  /***
-#if(${rtcParam.getDocActionOverView(9).length()}>0)   * ${tmpltHelper.convertDescDoc(${rtcParam.getDocActionOverView(9)})}
-#end
-   *
-   * The reset action that is invoked resetting
-   * This is same but different the former rtc_init_entry()
    *
    * @param ec_id target ExecutionContext Id
    *
@@ -270,7 +219,64 @@ class ${rtcParam.name}
 #end
    * 
    */
-  #if(${rtcParam.IsNotImplemented(9)})//#end virtual RTC::ReturnCode_t onReset(RTC::UniqueId ec_id);
+  #if(${rtcParam.IsNotImplemented(9)})//#end virtual RTC::ReturnCode_t onExecute(RTC::UniqueId ec_id);
+
+  /***
+#if(${rtcParam.getDocActionOverView(6).length()}>0)   * ${tmpltHelper.convertDescDoc(${rtcParam.getDocActionOverView(6)})}
+#end
+   *
+   * The aborting action when main logic error occurred.
+   * former rtc_aborting_entry()
+   *
+   * @param ec_id target ExecutionContext Id
+   *
+   * @return RTC::ReturnCode_t
+   * 
+#if(${rtcParam.getDocActionPreCondition(6).length()}>0)   * @pre ${tmpltHelper.convertPreDoc(${rtcParam.getDocActionPreCondition(6)})}
+#end
+#if(${rtcParam.getDocActionPostCondition(6).length()}>0)   * @post ${tmpltHelper.convertPostDoc(${rtcParam.getDocActionPostCondition(6)})}
+#end
+   * 
+   */
+  #if(${rtcParam.IsNotImplemented(6)})//#end virtual RTC::ReturnCode_t onAborting(RTC::UniqueId ec_id);
+
+  /***
+#if(${rtcParam.getDocActionOverView(7).length()}>0)   * ${tmpltHelper.convertDescDoc(${rtcParam.getDocActionOverView(7)})}
+#end
+   *
+   * The error action in ERROR state
+   * former rtc_error_do()
+   *
+   * @param ec_id target ExecutionContext Id
+   *
+   * @return RTC::ReturnCode_t
+   * 
+#if(${rtcParam.getDocActionPreCondition(7).length()}>0)   * @pre ${tmpltHelper.convertPreDoc(${rtcParam.getDocActionPreCondition(7)})}
+#end
+#if(${rtcParam.getDocActionPostCondition(7).length()}>0)   * @post ${tmpltHelper.convertPostDoc(${rtcParam.getDocActionPostCondition(7)})}
+#end
+   * 
+   */
+  #if(${rtcParam.IsNotImplemented(7)})//#end virtual RTC::ReturnCode_t onError(RTC::UniqueId ec_id);
+
+  /***
+#if(${rtcParam.getDocActionOverView(8).length()}>0)   * ${tmpltHelper.convertDescDoc(${rtcParam.getDocActionOverView(8)})}
+#end
+   *
+   * The reset action that is invoked resetting
+   * This is same but different the former rtc_init_entry()
+   *
+   * @param ec_id target ExecutionContext Id
+   *
+   * @return RTC::ReturnCode_t
+   * 
+#if(${rtcParam.getDocActionPreCondition(8).length()}>0)   * @pre ${tmpltHelper.convertPreDoc(${rtcParam.getDocActionPreCondition(8)})}
+#end
+#if(${rtcParam.getDocActionPostCondition(8).length()}>0)   * @post ${tmpltHelper.convertPostDoc(${rtcParam.getDocActionPostCondition(8)})}
+#end
+   * 
+   */
+  #if(${rtcParam.IsNotImplemented(8)})//#end virtual RTC::ReturnCode_t onReset(RTC::UniqueId ec_id);
   
   /***
 #if(${rtcParam.getDocActionOverView(10).length()}>0)   * ${tmpltHelper.convertDescDoc(${rtcParam.getDocActionOverView(10)})}
@@ -349,7 +355,7 @@ class ${rtcParam.name}
   // DataInPort declaration
   // <rtc-template block="inport_declare">
 #foreach($port in ${rtcParam.inports})  
-  ${port.type} m_${port.tmplVarName};
+  ${cXXConv.getDataTypeName(${port.type})} m_${port.tmplVarName};
   /*!
 #if(${port.docDescription.length()}>0)   * ${tmpltHelper.convertDescDoc(${port.docDescription})}
 #end
@@ -366,7 +372,7 @@ class ${rtcParam.name}
 #if(${port.docOperation.length()}>0)   * - Operation Cycle: ${tmpltHelper.convertCycleDoc(${port.docOperation})}
 #end
    */
-  InPort<${port.type}> m_${port.tmplVarName}In;
+  InPort<${cXXConv.getDataTypeName(${port.type})}> m_${port.tmplVarName}In;
 #end
   
   // </rtc-template>
@@ -375,7 +381,7 @@ class ${rtcParam.name}
   // DataOutPort declaration
   // <rtc-template block="outport_declare">
 #foreach($port in ${rtcParam.outports})  
-  ${port.type} m_${port.tmplVarName};
+  ${cXXConv.getDataTypeName(${port.type})} m_${port.tmplVarName};
   /*!
 #if(${port.docDescription.length()}>0)   * ${tmpltHelper.convertDescDoc(${port.docDescription})}
 #end
@@ -392,7 +398,7 @@ class ${rtcParam.name}
 #if(${port.docOperation.length()}>0)   * - Operation Cycle: ${tmpltHelper.convertCycleDoc(${port.docOperation})}
 #end
    */
-  OutPort<${port.type}> m_${port.tmplVarName}Out;
+  OutPort<${cXXConv.getDataTypeName(${port.type})}> m_${port.tmplVarName}Out;
 #end
   
   // </rtc-template>

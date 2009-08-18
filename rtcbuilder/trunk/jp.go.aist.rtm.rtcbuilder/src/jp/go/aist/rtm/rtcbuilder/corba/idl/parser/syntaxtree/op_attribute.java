@@ -6,9 +6,7 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeToken -> "oneway"
- * </PRE>
  */
 public class op_attribute implements Node {
    private Node parent;

@@ -92,7 +92,7 @@ public class CXXDocLongTest extends TestBase {
 		genParam.getRtcParams().add(rtcParam);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 
-		DataPortParam datap1 = new DataPortParam("InP1", "TimedShort", "InName1", 0);
+		DataPortParam datap1 = new DataPortParam("InP1", "RTC::TimedShort", "InName1", 0);
 		datap1.setDocDescription("InPort1の概要1234567890123456789012345678901234567890123456789012345678901234567890");
 		datap1.setDocType("InPort1のデータの型1234567890123456789012345678901234567890123456789012345678901234567890");
 		datap1.setDocNum("InPort1のデータの数1234567890123456789012345678901234567890123456789012345678901234567890");
@@ -102,7 +102,7 @@ public class CXXDocLongTest extends TestBase {
 		datap1.setDocOperation("InPort1のデータの処理周期1234567890123456789012345678901234567890123456789012345678901234567890");
 		dataport.add(datap1);
 
-		DataPortParam datap2 = new DataPortParam("InP2", "TimedLong", "InNm2", 0);
+		DataPortParam datap2 = new DataPortParam("InP2", "RTC::TimedLong", "InNm2", 0);
 		datap2.setDocDescription("InPort2の概要1234567890123456789012345678901234567890123456789012345678901234567890");
 		datap2.setDocType("InPort2のデータの型1234567890123456789012345678901234567890123456789012345678901234567890");
 		datap2.setDocNum("InPort2のデータの数1234567890123456789012345678901234567890123456789012345678901234567890");
@@ -116,7 +116,7 @@ public class CXXDocLongTest extends TestBase {
 		//
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
 
-		DataPortParam datap3 = new DataPortParam("OutP1", "TimedLong", "OutName1", 0);
+		DataPortParam datap3 = new DataPortParam("OutP1", "RTC::TimedLong", "OutName1", 0);
 		datap3.setDocDescription("OutPort1の概要1234567890123456789012345678901234567890123456789012345678901234567890");
 		datap3.setDocType("OutPort1のデータの型1234567890123456789012345678901234567890123456789012345678901234567890");
 		datap3.setDocNum("OutPort1のデータの数1234567890123456789012345678901234567890123456789012345678901234567890");
@@ -126,7 +126,7 @@ public class CXXDocLongTest extends TestBase {
 		datap3.setDocOperation("OutPort1のデータの処理周期1234567890123456789012345678901234567890123456789012345678901234567890");
 		outport.add(datap3);
 
-		DataPortParam datap4 = new DataPortParam("OutP2", "TimedFloat", "OutNme2", 0);
+		DataPortParam datap4 = new DataPortParam("OutP2", "RTC::TimedFloat", "OutNme2", 0);
 		datap4.setDocDescription("OutPort2の概要1234567890123456789012345678901234567890123456789012345678901234567890");
 		datap4.setDocType("OutPort2のデータの型1234567890123456789012345678901234567890123456789012345678901234567890");
 		datap4.setDocNum("OutPort2のデータの数1234567890123456789012345678901234567890123456789012345678901234567890");

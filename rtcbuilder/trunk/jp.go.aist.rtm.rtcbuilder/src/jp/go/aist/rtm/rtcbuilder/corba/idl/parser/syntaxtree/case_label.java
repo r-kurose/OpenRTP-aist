@@ -6,10 +6,8 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeChoice -> "case" const_exp() ":"
  *       | "default" ":"
- * </PRE>
  */
 public class case_label implements Node {
    private Node parent;

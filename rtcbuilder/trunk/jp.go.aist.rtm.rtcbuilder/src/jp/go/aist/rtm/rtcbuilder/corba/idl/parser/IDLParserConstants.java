@@ -3,14 +3,14 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser;
 public interface IDLParserConstants {
 
   int EOF = 0;
-  int ID = 65;
-  int OCTALINT = 66;
-  int DECIMALINT = 67;
-  int HEXADECIMALINT = 68;
-  int FLOATONE = 69;
-  int FLOATTWO = 70;
-  int CHARACTER = 71;
-  int STRING = 72;
+  int ID = 69;
+  int OCTALINT = 70;
+  int DECIMALINT = 71;
+  int HEXADECIMALINT = 72;
+  int FLOATONE = 73;
+  int FLOATTWO = 74;
+  int CHARACTER = 75;
+  int STRING = 76;
 
   int DEFAULT = 0;
 
@@ -23,6 +23,9 @@ public interface IDLParserConstants {
     "<token of kind 5>",
     "<token of kind 6>",
     "<token of kind 7>",
+    "<token of kind 8>",
+    "<token of kind 9>",
+    "<token of kind 10>",
     "\";\"",
     "\"module\"",
     "\"{\"",
@@ -73,6 +76,7 @@ public interface IDLParserConstants {
     "\"readonly\"",
     "\"attribute\"",
     "\"exception\"",
+    "\"exception_body\"",
     "\"oneway\"",
     "\"void\"",
     "\"in\"",

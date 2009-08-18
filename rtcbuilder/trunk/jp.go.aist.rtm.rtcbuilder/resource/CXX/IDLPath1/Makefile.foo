@@ -10,7 +10,7 @@
 #   --module-desc='MDesc' --module-version=1.0.1 --module-vendor=TA 
 #   --module-category=Manip --module-comp-type=STATIC2 
 #   --module-act-type=PERIODIC2 --module-max-inst=5 
-#   --inport=InP1:TimedShort --inport=InP2:TimedLong --outport=OutP1:TimedLong --outport=OutP2:TimedFloat 
+#   --inport=InP1:RTC::TimedShort --inport=InP2:RTC::TimedLong --outport=OutP1:RTC::TimedLong --outport=OutP2:RTC::TimedFloat 
 #   --service-idl=C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\\resource\MyService.idl 
 #   --consumer-idl=C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\\resource\DAQService.idl 
 #   --service=svPort:acc:MyService 

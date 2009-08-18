@@ -6,11 +6,9 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeToken -> "("
  * nodeOptional -> [ param_dcl() ( "," param_dcl() )* ]
  * nodeToken1 -> ")"
- * </PRE>
  */
 public class parameter_dcls implements Node {
    private Node parent;

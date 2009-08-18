@@ -1,6 +1,6 @@
 package jp.go.aist.rtm.repositoryView.ui.action;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import jp.go.aist.rtm.repositoryView.model.RepositoryViewItem;
 import jp.go.aist.rtm.repositoryView.ui.views.RepositoryView;
@@ -13,6 +13,10 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.internal.handlers.CommandLegacyActionWrapper;
 
+/**
+ * レポジトリビューからノードを削除するアクション
+ *
+ */
 public class ViewActionDelete implements IObjectActionDelegate {
 
 	private RepositoryView view;
@@ -29,6 +33,7 @@ public class ViewActionDelete implements IObjectActionDelegate {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void removeElement(RepositoryViewItem targetItem) {
 		Object parentItem = targetItem.getParent();		
 		if(parentItem instanceof RepositoryViewItem) {
@@ -38,7 +43,7 @@ public class ViewActionDelete implements IObjectActionDelegate {
 			}
 		} else {
 	    	TreeViewer viewer = this.view.getViewer();
-			ArrayList<RepositoryViewItem> list = (ArrayList)viewer.getInput();
+	    	List<RepositoryViewItem> list = (List<RepositoryViewItem>)viewer.getInput();
 			list.remove(targetItem);
 		}
 	}

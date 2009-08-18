@@ -12,16 +12,13 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
-import jp.go.aist.rtm.rtcbuilder.template.TemplateHelper;
-import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
-import jp.go.aist.rtm.rtcbuilder.ui.Perspective.LanguageProperty;
-import jp.go.aist.rtm.rtcbuilder.ui.editors.LanguageEditorSection;
-
 import jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython;
 import jp.go.aist.rtm.rtcbuilder.python.template.PythonConverter;
 import jp.go.aist.rtm.rtcbuilder.python.template.TemplateHelperPy;
 import jp.go.aist.rtm.rtcbuilder.python.ui.Perspective.PythonProperty;
-import jp.go.aist.rtm.rtcbuilder.python.ui.editors.PythonEditorSection;
+import jp.go.aist.rtm.rtcbuilder.template.TemplateHelper;
+import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
+import jp.go.aist.rtm.rtcbuilder.ui.Perspective.LanguageProperty;
 
 /**
  * Pythonファイルの出力を制御するマネージャ
@@ -29,8 +26,13 @@ import jp.go.aist.rtm.rtcbuilder.python.ui.editors.PythonEditorSection;
 public class PythonGenerateManager extends GenerateManager {
 
 	@Override
-	public LanguageEditorSection getLanguageEditorSection() {
-		return new PythonEditorSection();
+	public String getManagerKey() {
+		return IRtcBuilderConstantsPython.LANG_PYTHON;
+	}
+
+	@Override
+	public String getLangArgList() {
+		return IRtcBuilderConstantsPython.LANG_PYTHON_ARG;
 	}
 
 	@Override
@@ -40,10 +42,6 @@ public class PythonGenerateManager extends GenerateManager {
 			langProp = new PythonProperty();
 		}
 		return langProp;
-	}
-
-	public String getManagerKey() {
-		return IRtcBuilderConstantsPython.LANG_PYTHON;
 	}
 	
 	/**

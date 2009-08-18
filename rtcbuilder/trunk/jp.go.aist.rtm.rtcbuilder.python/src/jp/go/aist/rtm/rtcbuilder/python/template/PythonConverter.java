@@ -274,4 +274,30 @@ public class PythonConverter {
 			return defVal;
 		}
 	}
+	
+	/**
+	 * データポート初期化用メソッド名を返す
+	 * 
+	 * @param rtcType ポートの型
+	 * @return 初期化メソッド名
+	 */
+	public String getDataportInitMethodName(String rtcType) {
+		
+		//module名が付いていないデータ型（::が付いていない）は、
+		//文字列に()を付けてデフォルトコンストラクタ扱いにする
+		if(!rtcType.matches(".*::.*")) return rtcType + "()";
+		String methodName = rtcType.replace("::", ".");
+		
+		//module名が「RTC」のときは親データ型である「Time」のコンストラクタを引数に入れた
+		//コンストラクタを引数に入れコンストラクタ文字列にして返す
+		//それ以外のmodule名の場合、()を付けただけのデフォルトコンストラクタを返す
+		if(rtcType.startsWith("RTC::")) {
+			methodName = methodName + "(RTC.Time(0,0)";
+		}
+		else {
+			methodName = methodName + "()";
+		}
+		
+		return methodName;
+	}
 }

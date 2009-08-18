@@ -6,9 +6,7 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeToken -> "any"
- * </PRE>
  */
 public class any_type implements Node {
    private Node parent;

@@ -6,13 +6,11 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeToken -> "sequence"
- * nodeToken1 -> "&lt;"
+ * nodeToken1 -> "<"
  * simple_type_spec -> simple_type_spec()
  * nodeOptional -> [ "," positive_int_const() ]
- * nodeToken2 -> "&gt;"
- * </PRE>
+ * nodeToken2 -> ">"
  */
 public class sequence_type implements Node {
    private Node parent;

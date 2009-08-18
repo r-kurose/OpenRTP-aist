@@ -1,5 +1,9 @@
 package jp.go.aist.rtm.rtcbuilder._test;
 
+import jp.go.aist.rtm.rtcbuilder._test._100.cxx.CXXBaseClass;
+import jp.go.aist.rtm.rtcbuilder._test._100.cxx.CXXConstraint;
+import jp.go.aist.rtm.rtcbuilder._test.com.CORBAParseTypeTest;
+import jp.go.aist.rtm.rtcbuilder._test.com.StringUtilTest;
 import jp.go.aist.rtm.rtcbuilder._test.cxx.CXXConfigSetTest;
 import jp.go.aist.rtm.rtcbuilder._test.cxx.CXXDiffTest;
 import jp.go.aist.rtm.rtcbuilder._test.cxx.CXXDocLongTest;
@@ -30,6 +34,9 @@ public class AllTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Test for All Languages");
 		//$JUnit-BEGIN$
+		//Common
+		suite.addTestSuite(CORBAParseTypeTest.class);
+		suite.addTestSuite(StringUtilTest.class);
 		//CXX
 		suite.addTestSuite(CXXConfigSetTest.class);
 		suite.addTestSuite(CXXDiffTest.class);
@@ -99,6 +106,9 @@ public class AllTests {
 		suite.addTestSuite(jp.go.aist.rtm.rtcbuilder._test._042.cxx.CXXDiffTest.class);
 		suite.addTestSuite(jp.go.aist.rtm.rtcbuilder._test._042.cxx.CXXMultiTest.class);
 		suite.addTestSuite(jp.go.aist.rtm.rtcbuilder._test._042.cxx.CXXLuckTest.class);
+		//C++1.0.0
+		suite.addTestSuite(CXXBaseClass.class);
+		suite.addTestSuite(CXXConstraint.class);
 		//$JUnit-END$
 		return suite;
 	}

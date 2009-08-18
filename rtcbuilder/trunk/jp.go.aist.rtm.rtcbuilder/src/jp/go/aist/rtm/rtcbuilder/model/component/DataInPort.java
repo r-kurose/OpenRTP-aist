@@ -6,7 +6,6 @@
  */
 package jp.go.aist.rtm.rtcbuilder.model.component;
 
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->

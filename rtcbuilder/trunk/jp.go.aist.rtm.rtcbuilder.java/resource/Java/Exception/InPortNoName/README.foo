@@ -10,7 +10,7 @@
 #   --module-desc='test module' --module-version=1.0.1 --module-vendor=TA 
 #   --module-category=sample --module-comp-type=STATIC 
 #   --module-act-type=PERIODIC --module-max-inst=2 
-#   --inport=:TimedShort 
+#   --inport=:RTC::TimedShort 
 
 
 ======================================================================
@@ -66,7 +66,7 @@ Lang Type:
 	PortNumber:  0
 	Description: 
 	PortType: 
-	DataType:    TimedShort
+	DataType:    RTC::TimedShort
 	MaxOut: 
 	[Data Elements]
 		Name:

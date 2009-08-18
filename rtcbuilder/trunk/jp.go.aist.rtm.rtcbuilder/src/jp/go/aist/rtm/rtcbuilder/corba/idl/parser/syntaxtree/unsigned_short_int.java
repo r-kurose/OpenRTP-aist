@@ -6,10 +6,8 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeToken -> "unsigned"
  * nodeToken1 -> "short"
- * </PRE>
  */
 public class unsigned_short_int implements Node {
    private Node parent;

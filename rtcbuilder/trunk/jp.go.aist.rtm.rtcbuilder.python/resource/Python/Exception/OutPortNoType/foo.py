@@ -59,7 +59,7 @@ class foo(OpenRTM.DataFlowComponentBase):
 		"""
 		"""
 		self._in1In = OpenRTM.InPort("in1", self._d_in1, OpenRTM.RingBuffer(8))
-		self._d_out1 = RTC.(RTC.Time(0,0),0)
+		self._d_out1 = (),0)
 		"""
 		"""
 		self._out1Out = OpenRTM.OutPort("out1", self._d_out1, OpenRTM.RingBuffer(8))

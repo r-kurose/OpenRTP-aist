@@ -35,12 +35,12 @@ public class PyVariableTest extends TestBase {
 		rtcParam.setMaxInstance(5);
 		genParam.getRtcParams().add(rtcParam);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
-		dataport.add(new DataPortParam("InP1", "TimedShort", "", 0));
-		dataport.add(new DataPortParam("InP2", "TimedLong", "", 0));
+		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
+		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
 		rtcParam.setInports(dataport);
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
-		outport.add(new DataPortParam("OutP1", "TimedLong", "", 0));
-		outport.add(new DataPortParam("OutP2", "TimedFloat", "", 0));
+		outport.add(new DataPortParam("OutP1", "RTC::TimedLong", "", 0));
+		outport.add(new DataPortParam("OutP2", "RTC::TimedFloat", "", 0));
 		rtcParam.setOutports(outport);
 
 		ServicePortParam service1 = new ServicePortParam("svPort",0);
@@ -94,12 +94,12 @@ public class PyVariableTest extends TestBase {
 		rtcParam.setMaxInstance(5);
 		genParam.getRtcParams().add(rtcParam);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
-		dataport.add(new DataPortParam("InP1", "TimedShort", "", 0));
-		dataport.add(new DataPortParam("InP2", "TimedLong", "", 0));
+		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
+		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
 		rtcParam.setInports(dataport);
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
-		outport.add(new DataPortParam("OutP1", "TimedLong", "", 0));
-		outport.add(new DataPortParam("OutP2", "TimedFloat", "", 0));
+		outport.add(new DataPortParam("OutP1", "RTC::TimedLong", "", 0));
+		outport.add(new DataPortParam("OutP2", "RTC::TimedFloat", "", 0));
 		rtcParam.setOutports(outport);
 
 		ServicePortParam service1 = new ServicePortParam("svPort",0);
@@ -153,12 +153,12 @@ public class PyVariableTest extends TestBase {
 		rtcParam.setMaxInstance(5);
 		genParam.getRtcParams().add(rtcParam);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
-		dataport.add(new DataPortParam("InP1", "TimedShort", "VarInP1", 0));
-		dataport.add(new DataPortParam("InP2", "TimedLong", "", 0));
+		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "VarInP1", 0));
+		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
 		rtcParam.setInports(dataport);
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
-		outport.add(new DataPortParam("OutP1", "TimedLong", "", 0));
-		outport.add(new DataPortParam("OutP2", "TimedFloat", "VarOutP2", 0));
+		outport.add(new DataPortParam("OutP1", "RTC::TimedLong", "", 0));
+		outport.add(new DataPortParam("OutP2", "RTC::TimedFloat", "VarOutP2", 0));
 		rtcParam.setOutports(outport);
 		
 		Generator generator = new Generator();

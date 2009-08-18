@@ -70,7 +70,7 @@ public class ExportPreferencePage extends PreferencePage implements
 		composite.setLayoutData(gd);
 
 		//Source Export
-		Group ExportSourceGroup = createGroup(composite, "Source Export");
+		Group ExportSourceGroup = createGroup(composite, IPreferenceMessageConstants.EXPORT_TITLE_SOURCE_EXPORT);
 		sourceExtList = new List(ExportSourceGroup, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.heightHint = 80;
@@ -82,7 +82,7 @@ public class ExportPreferencePage extends PreferencePage implements
 		sourceFileViewer.getTable().setLayoutData(gd);
 
 		Button selectTypesButtonSource = new Button(ExportSourceGroup, SWT.PUSH);
-		selectTypesButtonSource.setText("タイプの選択");
+		selectTypesButtonSource.setText(IPreferenceMessageConstants.EXPORT_BTN_SELECT_TYPE);
 		SelectionListener listener = new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				selectedSourceExt = handleTypesEditButtonPressed(sourceExtList, selectedSourceExt);
@@ -92,7 +92,7 @@ public class ExportPreferencePage extends PreferencePage implements
         sourceFileViewer = createTableViewer(ExportSourceGroup, sourceFileViewer);
 
 		//Binary Export
-		Group ExportBinaryGroup = createGroup(composite, "Binary Export");
+		Group ExportBinaryGroup = createGroup(composite, IPreferenceMessageConstants.EXPORT_TITLE_BINARY_EXPORT);
 		binaryExtList = new List(ExportBinaryGroup, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.heightHint = 80;
@@ -104,7 +104,7 @@ public class ExportPreferencePage extends PreferencePage implements
 		binaryFileViewer.getTable().setLayoutData(gd);
 
 		Button selectTypesButtonBinary = new Button(ExportBinaryGroup, SWT.PUSH);
-		selectTypesButtonBinary.setText("タイプの選択");
+		selectTypesButtonBinary.setText(IPreferenceMessageConstants.EXPORT_BTN_SELECT_TYPE);
 		listener = new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				selectedBinaryExt = handleTypesEditButtonPressed(binaryExtList, selectedBinaryExt);
@@ -114,7 +114,7 @@ public class ExportPreferencePage extends PreferencePage implements
 		binaryFileViewer = createTableViewer(ExportBinaryGroup, binaryFileViewer);
 
 		//Source+Binary Export
-		Group ExportSourceBinaryGroup = createGroup(composite, "Source+Binary Export");
+		Group ExportSourceBinaryGroup = createGroup(composite, IPreferenceMessageConstants.EXPORT_TITLE_BOTH_EXPORT);
 		sourcebinaryExtList = new List(ExportSourceBinaryGroup, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.heightHint = 80;
@@ -126,7 +126,7 @@ public class ExportPreferencePage extends PreferencePage implements
 		sourcebinaryFileViewer.getTable().setLayoutData(gd);
 
 		Button selectTypesButtonSourceBinary = new Button(ExportSourceBinaryGroup, SWT.PUSH);
-		selectTypesButtonSourceBinary.setText("タイプの選択");
+		selectTypesButtonSourceBinary.setText(IPreferenceMessageConstants.EXPORT_BTN_SELECT_TYPE);
 		listener = new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				selectedSourceBinaryExt = handleTypesEditButtonPressed(sourcebinaryExtList, selectedSourceBinaryExt);
@@ -187,7 +187,7 @@ public class ExportPreferencePage extends PreferencePage implements
 
 		return super.performOk();
 	}
-	
+
 	private void setDefault() {
 		selectedSourceExt = ExportPreferenceManager.getDefaultExportSourceExt();
 		updateList(sourceExtList, selectedSourceExt);
@@ -216,7 +216,6 @@ public class ExportPreferencePage extends PreferencePage implements
 	}
 
 	private TableViewer createTableViewer(Composite parent, final TableViewer targetViewer) {
-
 		Table table = targetViewer.getTable();
         table.setLinesVisible(false);
         table.setHeaderVisible(false);
@@ -280,10 +279,10 @@ public class ExportPreferencePage extends PreferencePage implements
 		targetGroup.setText(title);
 		
 		Label sourceExtLabel = new Label(targetGroup, SWT.NONE);
-		sourceExtLabel.setText("拡張子");
+		sourceExtLabel.setText(IPreferenceMessageConstants.EXPORT_LBL_EXTENSION);
 
 		Label sourceFileLabel = new Label(targetGroup, SWT.NONE);
-		sourceFileLabel.setText("ファイル名");
+		sourceFileLabel.setText(IPreferenceMessageConstants.EXPORT_LBL_FILE_NAME);
 		gd = new GridData();
 		gd.horizontalSpan = 2;
 		sourceFileLabel.setLayoutData(gd);

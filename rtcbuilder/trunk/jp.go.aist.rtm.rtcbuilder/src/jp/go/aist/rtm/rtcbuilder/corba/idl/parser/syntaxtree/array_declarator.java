@@ -6,10 +6,8 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * identifier -> identifier()
  * nodeList -> ( fixed_array_size() )+
- * </PRE>
  */
 public class array_declarator implements Node {
    private Node parent;

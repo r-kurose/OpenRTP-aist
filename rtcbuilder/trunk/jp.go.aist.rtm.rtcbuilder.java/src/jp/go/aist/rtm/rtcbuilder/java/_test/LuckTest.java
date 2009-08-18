@@ -36,11 +36,11 @@ public class LuckTest extends TestBase {
 		genParam.getRtcParams().add(rtcParam);
 		
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
-		dataInport.add(new DataPortParam("in1", "TimedShort", "", 0));
+		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.setInports(dataInport);
 
 		List<DataPortParam> dataOutport = new ArrayList<DataPortParam>(); 
-		dataOutport.add(new DataPortParam("out1", "TimedLong", "", 0));
+		dataOutport.add(new DataPortParam("out1", "RTC::TimedLong", "", 0));
 		rtcParam.setOutports(dataOutport);
 
 		ServicePortParam service1 = new ServicePortParam("MySVPro",0);
@@ -90,11 +90,11 @@ public class LuckTest extends TestBase {
 		rtcParam.setMaxInstance(2);
 		
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
-		dataInport.add(new DataPortParam("in1", "TimedShort", "", 0));
+		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.setInports(dataInport);
 
 		List<DataPortParam> dataOutport = new ArrayList<DataPortParam>(); 
-		dataOutport.add(new DataPortParam("out1", "TimedLong", "", 0));
+		dataOutport.add(new DataPortParam("out1", "RTC::TimedLong", "", 0));
 		rtcParam.setOutports(dataOutport);
 
 		ServicePortParam service1 = new ServicePortParam("MySVPro",0);
@@ -148,11 +148,11 @@ public class LuckTest extends TestBase {
 		rtcParam.setMaxInstance(2);
 		
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
-		dataInport.add(new DataPortParam("in1", "TimedShort", "", 0));
+		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.setInports(dataInport);
 
 		List<DataPortParam> dataOutport = new ArrayList<DataPortParam>(); 
-		dataOutport.add(new DataPortParam("out1", "TimedLong", "", 0));
+		dataOutport.add(new DataPortParam("out1", "RTC::TimedLong", "", 0));
 		rtcParam.setOutports(dataOutport);
 
 		ServicePortParam service1 = new ServicePortParam("MySVPro",0);
@@ -206,11 +206,11 @@ public class LuckTest extends TestBase {
 		rtcParam.setMaxInstance(2);
 		
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
-		dataInport.add(new DataPortParam("in1", "TimedShort", "", 0));
+		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.setInports(dataInport);
 
 		List<DataPortParam> dataOutport = new ArrayList<DataPortParam>(); 
-		dataOutport.add(new DataPortParam("out1", "TimedLong", "", 0));
+		dataOutport.add(new DataPortParam("out1", "RTC::TimedLong", "", 0));
 		rtcParam.setOutports(dataOutport);
 
 		ServicePortParam service1 = new ServicePortParam("MySVPro",0);
@@ -252,11 +252,11 @@ public class LuckTest extends TestBase {
 		rtcParam.setMaxInstance(2);
 		
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
-		dataInport.add(new DataPortParam("in1", "TimedShort", "", 0));
+		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.setInports(dataInport);
 
 		List<DataPortParam> dataOutport = new ArrayList<DataPortParam>(); 
-		dataOutport.add(new DataPortParam("out1", "TimedLong", "", 0));
+		dataOutport.add(new DataPortParam("out1", "RTC::TimedLong", "", 0));
 		rtcParam.setOutports(dataOutport);
 
 		ServicePortParam service1 = new ServicePortParam("MySVPro",0);
@@ -301,11 +301,11 @@ public class LuckTest extends TestBase {
 		rtcParam.setMaxInstance(2);
 		
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
-		dataInport.add(new DataPortParam("in1", "TimedShort", "", 0));
+		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.setInports(dataInport);
 
 		List<DataPortParam> dataOutport = new ArrayList<DataPortParam>(); 
-		dataOutport.add(new DataPortParam("out1", "TimedLong", "", 0));
+		dataOutport.add(new DataPortParam("out1", "RTC::TimedLong", "", 0));
 		rtcParam.setOutports(dataOutport);
 
 		ServicePortParam service1 = new ServicePortParam("",0);
@@ -351,7 +351,7 @@ public class LuckTest extends TestBase {
 		genParam.getRtcParams().add(rtcParam);
 		
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
-		dataInport.add(new DataPortParam("in1", "TimedShort", "", 0));
+		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.setInports(dataInport);
 
 		List<DataPortParam> dataOutport = new ArrayList<DataPortParam>(); 
@@ -389,11 +389,11 @@ public class LuckTest extends TestBase {
 		genParam.getRtcParams().add(rtcParam);
 		
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
-		dataInport.add(new DataPortParam("in1", "TimedShort", "", 0));
+		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.setInports(dataInport);
 
 		List<DataPortParam> dataOutport = new ArrayList<DataPortParam>(); 
-		dataOutport.add(new DataPortParam("", "TimedLong", "", 0));
+		dataOutport.add(new DataPortParam("", "RTC::TimedLong", "", 0));
 		rtcParam.setOutports(dataOutport);
 		
 		Generator generator = new Generator();
@@ -461,7 +461,7 @@ public class LuckTest extends TestBase {
 		genParam.getRtcParams().add(rtcParam);
 		
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
-		dataport.add(new DataPortParam("", "TimedShort", "", 0));
+		dataport.add(new DataPortParam("", "RTC::TimedShort", "", 0));
 		rtcParam.setInports(dataport);
 		
 		Generator generator = new Generator();

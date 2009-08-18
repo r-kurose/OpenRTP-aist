@@ -39,9 +39,11 @@ public class RtcParam implements Serializable {
 	private String componentKind;
 	private int maxInstance;
 	private String updateDate;
-	private List<String> versionUpLog;
+	private List<String> versionUpLog = new ArrayList<String>();
 	private String executionType;
 	private double executionRate;
+	private String rtcType;
+	private String currentVULog;
 	//データポート
 	private List<DataPortParam> inports = new ArrayList<DataPortParam>();
 	private List<DataPortParam> outports = new ArrayList<DataPortParam>();
@@ -50,16 +52,16 @@ public class RtcParam implements Serializable {
 //	private List<String> idlSearchPathes = new ArrayList<String>();
 	private String includeIDLPath = null;
 	//
-	List<ServiceClassParam> serviceClassParams = new ArrayList<ServiceClassParam>();
+	private List<ServiceClassParam> serviceClassParams = new ArrayList<ServiceClassParam>();
 	//コンフィギュレーション
 	private List<ConfigSetParam> configParams = new ArrayList<ConfigSetParam>();
 	private List<ConfigParameterParam> configParameterParams = new ArrayList<ConfigParameterParam>();
 	//言語・環境
 	private List<String> langList = new ArrayList<String>();
 	private List<String> langArgList = new ArrayList<String>();
-	private List<String> cxxLibraryPath = new ArrayList<String>();
+	private List<String> libraryPath = new ArrayList<String>();
 	private String architecture = new String();
-	private List<String> javaClassPath = new ArrayList<String>();
+	private List<TargetEnvParam> targetEnvs = new ArrayList<TargetEnvParam>();
 	//RTC.xml
 	private String rtcxml;
 	//ドキュメント
@@ -72,6 +74,8 @@ public class RtcParam implements Serializable {
 	private String doc_creator;
 	private String doc_license;
 	private String doc_reference;
+	//Properties
+	private List<PropertyParam> properties = new ArrayList<PropertyParam>();
 	//
 	private String outputProject = null;
 
@@ -89,6 +93,18 @@ public class RtcParam implements Serializable {
 	private List<String> privateOperations = new ArrayList<String>();
 	private List<String> protectedOperations = new ArrayList<String>();
 	private List<String> publicOperations = new ArrayList<String>();
+	//
+	//Prefix,Suffix
+	private String commonPrefix;
+	private String commonSuffix;
+	private String dataPortPrefix;
+	private String dataPortSuffix;
+	private String servicePortPrefix;
+	private String servicePortSuffix;
+	private String serviceIFPrefix;
+	private String serviceIFSuffix;
+	private String configurationPrefix;
+	private String configurationSuffix;
 	
 	//
 	private String rtm_version = IRtcBuilderConstants.DEFAULT_RTM_VERSION;
@@ -110,7 +126,7 @@ public class RtcParam implements Serializable {
 		}
 		//
 		actions = new ArrayList<ActionsParam>();
-		for( int intidx=IRtcBuilderConstants.ACTIVITY_INITIALIZE; intidx<IRtcBuilderConstants.ACTIVITY_RATE_CHANGED+1; intidx++) {
+		for( int intidx=IRtcBuilderConstants.ACTIVITY_INITIALIZE; intidx<IRtcBuilderConstants.ACTIVITY_MODE_CHANGED+1; intidx++) {
 			actions.add(new ActionsParam());
 		}
 	}
@@ -209,6 +225,12 @@ public class RtcParam implements Serializable {
 	public boolean IsExecutionRateSet() {
 		return executionRate>0.0;
 	}
+	public String getRtcType() {
+		return rtcType;
+	}
+	public String getCurrentVersionUpLog() {
+		return currentVULog;
+	}
 	//
 	public void setAbstract(String abst) {
 		this.abstractDesc = abst;
@@ -254,6 +276,12 @@ public class RtcParam implements Serializable {
 	}
 	public void setExecutionRate(double exec_rate) {
 		this.executionRate = exec_rate;
+	}
+	public void setRtcType(String rtc_type) {
+		this.rtcType = rtc_type;
+	}
+	public void setCurrentVersionUpLog(String cvulog) {
+		this.currentVULog = cvulog;
 	}
 	//データポート
 	public List<DataPortParam> getInports() {
@@ -322,14 +350,14 @@ public class RtcParam implements Serializable {
 	public List<String> getLangArgList() {
 		return langArgList;
 	}
-	public List<String> getCxxLibraryPathes() {
-		return cxxLibraryPath;
+	public List<String> getLibraryPathes() {
+		return libraryPath;
 	}
 	public String getArchitecture() {
 		return this.architecture;
 	}
-	public List<String> getJavaClassPathes() {
-		return javaClassPath;
+	public List<TargetEnvParam> getTargetEnvs() {
+		return this.targetEnvs;
 	}
 	//
 	public void setLanguage(String lang) {
@@ -342,14 +370,14 @@ public class RtcParam implements Serializable {
 			this.langArgList = Arrays.asList(lang.split(","));
 		}
 	}
-	public void setCxxLibraryPathes(List<String> libraryPathes) {
-		this.cxxLibraryPath = libraryPathes;
+	public void setLibraryPathes(List<String> libraryPathes) {
+		this.libraryPath = libraryPathes;
 	}
 	public void setArchitecture(String arch) {
 		this.architecture = arch;
 	}
-	public void setJavaClassPathes(List<String> classPathes) {
-		this.javaClassPath = classPathes;
+	public void setTargetEnvs(List<TargetEnvParam> envs) {
+		this.targetEnvs = envs;
 	}
 	//
 	public boolean isLanguageExist(String language) {
@@ -415,11 +443,12 @@ public class RtcParam implements Serializable {
 	public boolean IsNotImplemented(int actionId) {
 		return !actions.get(actionId).getImplemented();
 	}
-	public String getActionImplemented(int actionId) {
-		if( actions.get(actionId).getImplemented() )
-			return "true";
-		return "false";
-//		return actions.get(actionId).getImplemented();
+	public boolean getActionImplemented(int actionId) {
+//	public String getActionImplemented(int actionId) {
+//		if( actions.get(actionId).getImplemented() )
+//			return "true";
+//		return "false";
+		return actions.get(actionId).getImplemented();
 	}
 	public String getDocActionOverView(int actionId) {
 		return actions.get(actionId).getOverView();
@@ -512,6 +541,10 @@ public class RtcParam implements Serializable {
 		return extentionData;
 	}
 
+	public List<PropertyParam> getProperties() {
+		return properties;
+	}
+
 	public GeneratorParam getParent() {
 		return parent;
 	}
@@ -546,6 +579,87 @@ public class RtcParam implements Serializable {
 	public void setOriginalConsumerIdls(List<String> idlFiles) {
 		this.originalConsumerIdls = idlFiles;
 	}
+	//
+	public String getCommonPrefix() {
+		if(commonPrefix==null) commonPrefix = "m_"; 
+		return commonPrefix;
+	}
+	public void setCommonPrefix(String commonPrefix) {
+		this.commonPrefix = commonPrefix;
+	}
+
+	public String getCommonSuffix() {
+		if(commonSuffix==null) commonSuffix = ""; 
+		return commonSuffix;
+	}
+	public void setCommonSuffix(String commonSuffix) {
+		this.commonSuffix = commonSuffix;
+	}
+
+	public String getDataPortPrefix() {
+		if(dataPortPrefix==null) dataPortPrefix = ""; 
+		return dataPortPrefix;
+	}
+	public void setDataPortPrefix(String dataPortPrefix) {
+		this.dataPortPrefix = dataPortPrefix;
+	}
+
+	public String getDataPortSuffix() {
+		if(dataPortSuffix==null) dataPortSuffix = ""; 
+		return dataPortSuffix;
+	}
+	public void setDataPortSuffix(String dataPortSuffix) {
+		this.dataPortSuffix = dataPortSuffix;
+	}
+
+	public String getServicePortPrefix() {
+		if(servicePortPrefix==null) servicePortPrefix = ""; 
+		return servicePortPrefix;
+	}
+	public void setServicePortPrefix(String servicePortPrefix) {
+		this.servicePortPrefix = servicePortPrefix;
+	}
+
+	public String getServicePortSuffix() {
+		if(servicePortSuffix==null) servicePortSuffix = ""; 
+		return servicePortSuffix;
+	}
+	public void setServicePortSuffix(String servicePortSuffix) {
+		this.servicePortSuffix = servicePortSuffix;
+	}
+
+	public String getServiceIFPrefix() {
+		if(serviceIFPrefix==null) serviceIFPrefix = ""; 
+		return serviceIFPrefix;
+	}
+	public void setServiceIFPrefix(String serviceIFPrefix) {
+		this.serviceIFPrefix = serviceIFPrefix;
+	}
+
+	public String getServiceIFSuffix() {
+		if(serviceIFSuffix==null) serviceIFSuffix = ""; 
+		return serviceIFSuffix;
+	}
+	public void setServiceIFSuffix(String serviceIFSuffix) {
+		this.serviceIFSuffix = serviceIFSuffix;
+	}
+
+	public String getConfigurationPrefix() {
+		if(configurationPrefix==null) configurationPrefix = ""; 
+		return configurationPrefix;
+	}
+	public void setConfigurationPrefix(String configurationPrefix) {
+		this.configurationPrefix = configurationPrefix;
+	}
+
+	public String getConfigurationSuffix() {
+		if(configurationSuffix==null) configurationSuffix = ""; 
+		return configurationSuffix;
+	}
+	public void setConfigurationSuffix(String configurationSuffix) {
+		this.configurationSuffix = configurationSuffix;
+	}
+
 	//
 	public void checkAndSetParameter() {
 
@@ -604,13 +718,13 @@ public class RtcParam implements Serializable {
 		//
 		
 		//クラスパスの重複削除
-		ArrayList<String> javaClassPathes = new ArrayList<String>();
-		for( String classPath : this.getJavaClassPathes() ) {
-			if( !javaClassPathes.contains(classPath)) {
-				javaClassPathes.add(classPath);
+		ArrayList<String> libraries = new ArrayList<String>();
+		for( String library : this.getLibraryPathes() ) {
+			if( !libraries.contains(library)) {
+				libraries.add(library);
 			}
 		}
-		this.setJavaClassPathes(javaClassPathes);
+		this.setLibraryPathes(libraries);
 	}
 	//
 	public String getRtmVersion() {
@@ -625,5 +739,13 @@ public class RtcParam implements Serializable {
 	}
 	public void setIsTest(boolean isTest) {
 		this.test_version = isTest;
+	}
+	public boolean checkConstraint() {
+		for( ConfigSetParam config : configParams ) {
+			if( config.getConstraint()!=null && config.getConstraint().length()>0) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

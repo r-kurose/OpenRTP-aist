@@ -6,9 +6,7 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeList -> ( casex() )+
- * </PRE>
  */
 public class switch_body implements Node {
    private Node parent;

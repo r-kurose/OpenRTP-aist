@@ -6,9 +6,7 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeList -> ( definition() )+
- * </PRE>
  */
 public class specification implements Node {
    private Node parent;

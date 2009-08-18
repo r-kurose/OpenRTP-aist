@@ -6,11 +6,9 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeChoice -> unsigned_long_long_int()
  *       | unsigned_long_int()
  *       | unsigned_short_int()
- * </PRE>
  */
 public class unsigned_int implements Node {
    private Node parent;

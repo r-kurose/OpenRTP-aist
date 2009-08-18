@@ -15,11 +15,11 @@ public class PreProcessorTest extends TestBase {
 		String result;
 
 		result = PreProcessor.getIncludeFileContent("#include <test.txt>", new File(rootPath + "\\resource"));
-		assertEquals("testTextContents\n", result);
+		assertEquals("testTextContents\r\n", result);
 
 		result = PreProcessor.getIncludeFileContent("#include  \"test.txt\"",
 				new File(rootPath + "\\resource"));
-		assertEquals("testTextContents\n", result);
+		assertEquals("testTextContents\r\n", result);
 
 	}
 

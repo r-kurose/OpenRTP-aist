@@ -6,46 +6,44 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeToken -> "exception"
  * identifier -> identifier()
- * nodeToken1 -> "{"
- * nodeListOptional -> ( member() )*
- * nodeToken2 -> "}"
- * </PRE>
+ * nodeOptional -> ( "{" )?
+ * nodeListOptional -> ( member() | "exception_body" )*
+ * nodeOptional1 -> ( "}" )?
  */
 public class except_dcl implements Node {
    private Node parent;
    public NodeToken nodeToken;
    public identifier identifier;
-   public NodeToken nodeToken1;
+   public NodeOptional nodeOptional;
    public NodeListOptional nodeListOptional;
-   public NodeToken nodeToken2;
+   public NodeOptional nodeOptional1;
 
-   public except_dcl(NodeToken n0, identifier n1, NodeToken n2, NodeListOptional n3, NodeToken n4) {
+   public except_dcl(NodeToken n0, identifier n1, NodeOptional n2, NodeListOptional n3, NodeOptional n4) {
       nodeToken = n0;
       if ( nodeToken != null ) nodeToken.setParent(this);
       identifier = n1;
       if ( identifier != null ) identifier.setParent(this);
-      nodeToken1 = n2;
-      if ( nodeToken1 != null ) nodeToken1.setParent(this);
+      nodeOptional = n2;
+      if ( nodeOptional != null ) nodeOptional.setParent(this);
       nodeListOptional = n3;
       if ( nodeListOptional != null ) nodeListOptional.setParent(this);
-      nodeToken2 = n4;
-      if ( nodeToken2 != null ) nodeToken2.setParent(this);
+      nodeOptional1 = n4;
+      if ( nodeOptional1 != null ) nodeOptional1.setParent(this);
    }
 
-   public except_dcl(identifier n0, NodeListOptional n1) {
+   public except_dcl(identifier n0, NodeOptional n1, NodeListOptional n2, NodeOptional n3) {
       nodeToken = new NodeToken("exception");
       if ( nodeToken != null ) nodeToken.setParent(this);
       identifier = n0;
       if ( identifier != null ) identifier.setParent(this);
-      nodeToken1 = new NodeToken("{");
-      if ( nodeToken1 != null ) nodeToken1.setParent(this);
-      nodeListOptional = n1;
+      nodeOptional = n1;
+      if ( nodeOptional != null ) nodeOptional.setParent(this);
+      nodeListOptional = n2;
       if ( nodeListOptional != null ) nodeListOptional.setParent(this);
-      nodeToken2 = new NodeToken("}");
-      if ( nodeToken2 != null ) nodeToken2.setParent(this);
+      nodeOptional1 = n3;
+      if ( nodeOptional1 != null ) nodeOptional1.setParent(this);
    }
 
    public void accept(jp.go.aist.rtm.rtcbuilder.corba.idl.parser.visitor.Visitor v) {

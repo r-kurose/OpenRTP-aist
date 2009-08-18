@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: RepositoryView Plug-in
+Bundle-Name: %pluginName
 Bundle-SymbolicName: jp.go.aist.rtm.repositoryView;singleton:=true
-Bundle-Version: 0.4.2
+Bundle-Version: 1.0.0
 Bundle-Activator: jp.go.aist.rtm.repositoryView.RepositoryViewPlugin
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
@@ -22,3 +22,4 @@ Bundle-ClassPath: lib/rtrepository_local-1.0.jar,
  .,
  lib/jaxb-impl.jar
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: %providerName

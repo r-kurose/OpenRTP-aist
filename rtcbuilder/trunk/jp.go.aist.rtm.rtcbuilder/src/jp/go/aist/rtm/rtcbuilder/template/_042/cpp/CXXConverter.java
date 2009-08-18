@@ -16,43 +16,43 @@ public class CXXConverter extends jp.go.aist.rtm.rtcbuilder.template.cpp.CXXConv
 
 	public static String getProjectGID(boolean isTest) {
 		if( isTest ) return "8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942";
-		if( projectGUID==null ) projectGUID = UUID.randomUUID().toString();
+		if( projectGUID==null ) projectGUID = UUID.randomUUID().toString().toUpperCase();
 		return projectGUID;
 	}
 
 	public static String getProjectUUID(boolean isTest) {
 		if( isTest ) return "D1CD3730-28E2-11DD-88AA-005056C00008";
-		if( projectID==null ) projectID = UUID.randomUUID().toString();
+		if( projectID==null ) projectID = UUID.randomUUID().toString().toUpperCase();
 		return projectID;
 	}
 
 	public static String getCompProjectUUID(boolean isTest) {
 		if( isTest ) return "D1322FAE-28E2-11DD-B62B-005056C00008";
-		if( projectID==null ) compProjectID = UUID.randomUUID().toString();
+		if( projectID==null ) compProjectID = UUID.randomUUID().toString().toUpperCase();
 		return compProjectID;
 	}
 
 	public static String getSourceUUID(boolean isTest) {
 		if( isTest ) return "D1CD3730-28E2-11DD-B7E1-005056C00008";
-		if( sourceID==null ) sourceID = UUID.randomUUID().toString();
+		if( sourceID==null ) sourceID = UUID.randomUUID().toString().toUpperCase();
 		return sourceID;
 	}
 
 	public static String getHeaderUUID(boolean isTest) {
 		if( isTest ) return "D1CD3730-28E2-11DD-A46E-005056C00008";
-		if( headerID==null ) headerID = UUID.randomUUID().toString();
+		if( headerID==null ) headerID = UUID.randomUUID().toString().toUpperCase();
 		return headerID;
 	}
 
 	public static String getCompSourceUUID(boolean isTest) {
 		if( isTest ) return "D19D74A1-28E2-11DD-81A5-005056C00008";
-		if( compSourceID==null ) compSourceID = UUID.randomUUID().toString();
+		if( compSourceID==null ) compSourceID = UUID.randomUUID().toString().toUpperCase();
 		return compSourceID;
 	}
 
 	public static String getCompHeaderUUID(boolean isTest) {
 		if( isTest ) return "D19D74A1-28E2-11DD-9671-005056C00008";
-		if( compHeaderID==null ) compHeaderID = UUID.randomUUID().toString();
+		if( compHeaderID==null ) compHeaderID = UUID.randomUUID().toString().toUpperCase();
 		return compHeaderID;
 	}
 

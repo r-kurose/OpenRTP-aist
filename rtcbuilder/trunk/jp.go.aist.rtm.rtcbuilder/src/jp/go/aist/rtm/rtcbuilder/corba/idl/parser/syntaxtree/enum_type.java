@@ -6,14 +6,12 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeToken -> "enum"
  * identifier -> identifier()
  * nodeToken1 -> "{"
  * enumerator -> enumerator()
  * nodeListOptional -> ( "," enumerator() )*
  * nodeToken2 -> "}"
- * </PRE>
  */
 public class enum_type implements Node {
    private Node parent;

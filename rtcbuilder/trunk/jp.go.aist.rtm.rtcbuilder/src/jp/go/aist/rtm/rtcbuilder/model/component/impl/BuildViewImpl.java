@@ -8,7 +8,6 @@ package jp.go.aist.rtm.rtcbuilder.model.component.impl;
 
 import java.util.Collection;
 
-import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.model.component.BuildView;
 import jp.go.aist.rtm.rtcbuilder.model.component.Component;
 import jp.go.aist.rtm.rtcbuilder.model.component.ComponentFactory;

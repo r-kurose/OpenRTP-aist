@@ -6,10 +6,8 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeToken -> "string"
- * nodeOptional -> [ "&lt;" positive_int_const() "&gt;" ]
- * </PRE>
+ * nodeOptional -> [ "<" positive_int_const() ">" ]
  */
 public class string_type implements Node {
    private Node parent;

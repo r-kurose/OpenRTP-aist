@@ -24,8 +24,13 @@ import jp.go.aist.rtm.rtcbuilder.template.cppwin.CXXWinConverter;
  */
 public class CXXWinGenerateManager extends CXXGenerateManager {
 
+	@Override
 	public String getManagerKey() {
 		return IRtcBuilderConstants.LANG_CPPWIN;
+	}
+	@Override
+	public String getLangArgList() {
+		return IRtcBuilderConstants.LANG_CPPWIN_ARG;
 	}
 
 	/**

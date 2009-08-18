@@ -2,13 +2,14 @@ package jp.go.aist.rtm.rtcbuilder.generator.param;
 
 import java.io.Serializable;
 
+import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
+
 /**
  * ポート情報のベースクラス
  */
 public class PortBaseParam implements Serializable {
 	
-	public static final String[] COMBO_ITEM = 
-		new String[] {"left", "right" ,"top", "bottom"};
+	public static final String[] COMBO_ITEM = IRtcBuilderConstants.DIRECTION_ITEMS;
 	protected String position;
 	protected int selection = 0;
 

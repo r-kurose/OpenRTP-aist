@@ -2,7 +2,8 @@
   RTComponent: ${rtcParam.name} specificatioin
 
   OpenRTM-aist-${rtcParam.rtmVersion}
-  Date: $Date$
+#set( $Date$ = "dummy" )
+  Date: \$Date$
 #if( ${rtcParam.docCreator.length()} > 0 )
 
   @author ${tmpltHelper.convertReadMeAuthorDoc(${rtcParam.docCreator})}
@@ -99,7 +100,16 @@ Lang Type:
 #if(${rtcParam.getDocActionPostCondition(5).length()}>0)	PostCondition: ${tmpltHelper.convertReadMeActivityDoc(${rtcParam.getDocActionPostCondition(5)})}
 #end
 
-[on_execute]#if(!${rtcParam.IsNotImplemented(6)})       implemented#end
+[on_execute]#if(!${rtcParam.IsNotImplemented(9)})       implemented#end
+
+#if(${rtcParam.getDocActionOverView(9).length()}>0)	Description:   ${tmpltHelper.convertReadMeActivityDoc(${rtcParam.getDocActionOverView(9)})}
+#end
+#if(${rtcParam.getDocActionPreCondition(9).length()}>0)	PreCondition:  ${tmpltHelper.convertReadMeActivityDoc(${rtcParam.getDocActionPreCondition(9)})}
+#end
+#if(${rtcParam.getDocActionPostCondition(9).length()}>0)	PostCondition: ${tmpltHelper.convertReadMeActivityDoc(${rtcParam.getDocActionPostCondition(9)})}
+#end
+
+[on_aborting]#if(!${rtcParam.IsNotImplemented(6)})      implemented#end
 
 #if(${rtcParam.getDocActionOverView(6).length()}>0)	Description:   ${tmpltHelper.convertReadMeActivityDoc(${rtcParam.getDocActionOverView(6)})}
 #end
@@ -108,7 +118,7 @@ Lang Type:
 #if(${rtcParam.getDocActionPostCondition(6).length()}>0)	PostCondition: ${tmpltHelper.convertReadMeActivityDoc(${rtcParam.getDocActionPostCondition(6)})}
 #end
 
-[on_aborting]#if(!${rtcParam.IsNotImplemented(7)})      implemented#end
+[on_error]#if(!${rtcParam.IsNotImplemented(7)})         implemented#end
 
 #if(${rtcParam.getDocActionOverView(7).length()}>0)	Description:   ${tmpltHelper.convertReadMeActivityDoc(${rtcParam.getDocActionOverView(7)})}
 #end
@@ -117,22 +127,13 @@ Lang Type:
 #if(${rtcParam.getDocActionPostCondition(7).length()}>0)	PostCondition: ${tmpltHelper.convertReadMeActivityDoc(${rtcParam.getDocActionPostCondition(7)})}
 #end
 
-[on_error]#if(!${rtcParam.IsNotImplemented(8)})         implemented#end
+[on_reset]#if(!${rtcParam.IsNotImplemented(8)})         implemented#end
 
 #if(${rtcParam.getDocActionOverView(8).length()}>0)	Description:   ${tmpltHelper.convertReadMeActivityDoc(${rtcParam.getDocActionOverView(8)})}
 #end
 #if(${rtcParam.getDocActionPreCondition(8).length()}>0)	PreCondition:  ${tmpltHelper.convertReadMeActivityDoc(${rtcParam.getDocActionPreCondition(8)})}
 #end
 #if(${rtcParam.getDocActionPostCondition(8).length()}>0)	PostCondition: ${tmpltHelper.convertReadMeActivityDoc(${rtcParam.getDocActionPostCondition(8)})}
-#end
-
-[on_reset]#if(!${rtcParam.IsNotImplemented(9)})         implemented#end
-
-#if(${rtcParam.getDocActionOverView(9).length()}>0)	Description:   ${tmpltHelper.convertReadMeActivityDoc(${rtcParam.getDocActionOverView(9)})}
-#end
-#if(${rtcParam.getDocActionPreCondition(9).length()}>0)	PreCondition:  ${tmpltHelper.convertReadMeActivityDoc(${rtcParam.getDocActionPreCondition(9)})}
-#end
-#if(${rtcParam.getDocActionPostCondition(9).length()}>0)	PostCondition: ${tmpltHelper.convertReadMeActivityDoc(${rtcParam.getDocActionPostCondition(9)})}
 #end
 
 [on_state_update]#if(!${rtcParam.IsNotImplemented(10)})  implemented#end

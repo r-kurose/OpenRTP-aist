@@ -6,11 +6,9 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeOptional -> [ "::" ]
  * identifier -> identifier()
  * nodeListOptional -> ( "::" identifier() )*
- * </PRE>
  */
 public class scoped_name implements Node {
    private Node parent;

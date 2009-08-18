@@ -6,12 +6,10 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeChoice -> "typedef" type_declarator()
  *       | struct_type()
  *       | union_type()
  *       | enum_type()
- * </PRE>
  */
 public class type_dcl implements Node {
    private Node parent;

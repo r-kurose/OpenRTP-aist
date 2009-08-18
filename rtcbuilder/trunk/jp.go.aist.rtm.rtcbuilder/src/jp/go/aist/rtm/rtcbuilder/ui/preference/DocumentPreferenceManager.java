@@ -98,8 +98,12 @@ public class DocumentPreferenceManager {
 		String[] resultTemp = source.split(Separator);
 		
 		ArrayList<String> result = new ArrayList<String>();
-		for(int intIdx=0; intIdx < resultTemp.length; intIdx++) {
-			result.add(resultTemp[intIdx]);
+		for(int intIdx=0; intIdx < IRtcBuilderConstants.ACTION_TYPE_ITEMS.length; intIdx++) {
+			if(intIdx < resultTemp.length) {
+				result.add(resultTemp[intIdx]);
+			} else {
+				result.add("false");
+			}
 		}
 		return result;
 	}

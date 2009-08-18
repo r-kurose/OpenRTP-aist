@@ -72,7 +72,7 @@ public class CXXImplTest extends TestBase {
 		rtcParam.setActionImplemented(1, true);
 		rtcParam.setActionImplemented(3, true);
 		rtcParam.setActionImplemented(5, true);
-		rtcParam.setActionImplemented(6, true);
+		rtcParam.setActionImplemented(9, true);
 		genParam.getRtcParams().add(rtcParam);
 		
 		Generator generator = new Generator();

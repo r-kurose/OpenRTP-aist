@@ -14,6 +14,8 @@ public class ServicePortParam extends PortBaseParam implements Serializable {
 	//
 	private String doc_description;
 	private String doc_if_description;
+	//Properties
+	private List<PropertyParam> properties = new ArrayList<PropertyParam>();
 
 	public ServicePortParam() {
 		this.name = "";
@@ -69,5 +71,9 @@ public class ServicePortParam extends PortBaseParam implements Serializable {
 	}
 	public void setDocIfDescription(String ifdescription) {
 		this.doc_if_description = ifdescription;
+	}
+	//
+	public List<PropertyParam> getProperties() {
+		return properties;
 	}
 }

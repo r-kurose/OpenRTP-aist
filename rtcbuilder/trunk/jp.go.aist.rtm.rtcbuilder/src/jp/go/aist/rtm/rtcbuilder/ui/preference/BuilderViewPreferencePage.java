@@ -49,15 +49,15 @@ public class BuilderViewPreferencePage extends PreferencePage implements
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		colorGroup.setLayoutData(gd);
 
-		componentColorSelector = createColorSetting("Component:", colorGroup,
+		componentColorSelector = createColorSetting(IPreferenceMessageConstants.BUILDER_VIEW_LBL_COMPONENT, colorGroup,
 				BuilderViewPreferenceManager.COLOR_COMPONENT);
-		dataInPortColorSelector = createColorSetting("DataInPort:",
+		dataInPortColorSelector = createColorSetting(IPreferenceMessageConstants.BUILDER_VIEW_LBL_DATAINPORT,
 				colorGroup, BuilderViewPreferenceManager.COLOR_DATAINPORT);
-		dataOutPortColorSelector = createColorSetting("DataOutPort:", colorGroup,
+		dataOutPortColorSelector = createColorSetting(IPreferenceMessageConstants.BUILDER_VIEW_LBL_DATAOUTPORT, colorGroup,
 				BuilderViewPreferenceManager.COLOR_DATAOUTPORT);
-		servicePortColorSelector = createColorSetting("Service Port:", colorGroup,
+		servicePortColorSelector = createColorSetting(IPreferenceMessageConstants.BUILDER_VIEW_LBL_SERVICEPORT, colorGroup,
 				BuilderViewPreferenceManager.COLOR_SERVICEPORT);
-		servicePortIFSelector = createColorSetting("Service I/F:", colorGroup,
+		servicePortIFSelector = createColorSetting(IPreferenceMessageConstants.BUILDER_VIEW_LBL_SERVICEIF, colorGroup,
 				BuilderViewPreferenceManager.COLOR_SERVICEIF);
 
 		return composite;

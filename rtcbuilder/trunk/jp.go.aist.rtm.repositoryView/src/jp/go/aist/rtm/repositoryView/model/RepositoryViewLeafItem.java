@@ -2,6 +2,11 @@ package jp.go.aist.rtm.repositoryView.model;
 
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 
+/**
+ * リーフとなるRepositoryViewItem
+ * componentとisRepositoryが追加される
+ *
+ */
 public class RepositoryViewLeafItem extends RepositoryViewItem {
 
 	public static final String RTC_LEAF = "RTC";
@@ -30,6 +35,10 @@ public class RepositoryViewLeafItem extends RepositoryViewItem {
 		this.isRepository = repository;
 	}
 	//
+	/**
+	 * @return	ルートノードのname
+	 * parentをObjectではなくRepositoryViewItemで宣言した方が良いかもしれない
+	 */
 	public String getServerAddress() {
 		RepositoryViewItem target = this;
 		while(!(target instanceof ServerRVRootItem)) {

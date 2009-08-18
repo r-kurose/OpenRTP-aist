@@ -7,18 +7,18 @@ import org.ho.yaml.wrapper.DefaultBeanWrapper;
 
 public class CommonDocHandler extends DefaultBeanWrapper {
 
-	public CommonDocHandler(Class type) {
+	public CommonDocHandler(Class<?> type) {
 		super(type);
 	}
 
-	public Collection keys() {
-    	Collection result = null;
-    	result = super.keys();
+	@SuppressWarnings("unchecked")
+	public Collection<?> keys() {
+    	Collection<?> result = super.keys();
     	
     	for( int intIdx=0; intIdx<result.size(); intIdx++) {
-    		Object target = ((List)result).get(intIdx);
+    		String target = ((List<String>)result).get(intIdx);
     		if( ((String)target).equals("doc") ) {
-    			((List)result).set(intIdx, "rtcDoc::doc");
+    			((List<String>)result).set(intIdx, "rtcDoc::doc");
     		}
     	}
     	return result;

@@ -6,14 +6,12 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeOptional -> [ op_attribute() ]
  * op_type_spec -> op_type_spec()
  * identifier -> identifier()
  * parameter_dcls -> parameter_dcls()
  * nodeOptional1 -> [ raises_expr() ]
  * nodeOptional2 -> [ context_expr() ]
- * </PRE>
  */
 public class op_dcl implements Node {
    private Node parent;

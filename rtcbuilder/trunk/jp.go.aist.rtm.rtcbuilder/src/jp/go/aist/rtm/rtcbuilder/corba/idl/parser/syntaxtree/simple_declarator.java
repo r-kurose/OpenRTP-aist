@@ -6,9 +6,7 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * identifier -> identifier()
- * </PRE>
  */
 public class simple_declarator implements Node {
    private Node parent;

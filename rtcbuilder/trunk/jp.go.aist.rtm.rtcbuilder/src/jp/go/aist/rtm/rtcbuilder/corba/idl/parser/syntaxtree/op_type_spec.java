@@ -6,10 +6,8 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeChoice -> param_type_spec()
  *       | "void"
- * </PRE>
  */
 public class op_type_spec implements Node {
    private Node parent;

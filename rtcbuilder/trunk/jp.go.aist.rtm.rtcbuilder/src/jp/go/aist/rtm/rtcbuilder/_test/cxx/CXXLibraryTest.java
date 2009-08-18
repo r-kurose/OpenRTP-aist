@@ -7,11 +7,8 @@ import jp.go.aist.rtm.rtcbuilder.Generator;
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder._test.TestBase;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
-import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
 
 public class CXXLibraryTest extends TestBase {
 
@@ -35,7 +32,7 @@ public class CXXLibraryTest extends TestBase {
 		List<String> libraries = new ArrayList<String>();
 		libraries.add("RTC");
 		libraries.add("RTC2");
-		rtcParam.setCxxLibraryPathes(libraries);
+		rtcParam.setLibraryPathes(libraries);
 		genParam.getRtcParams().add(rtcParam);
 		
 		Generator generator = new Generator();
@@ -66,7 +63,7 @@ public class CXXLibraryTest extends TestBase {
 		rtcParam.setMaxInstance(5);
 		List<String> libraries = new ArrayList<String>();
 		libraries.add("RTC");
-		rtcParam.setCxxLibraryPathes(libraries);
+		rtcParam.setLibraryPathes(libraries);
 		genParam.getRtcParams().add(rtcParam);
 		
 		Generator generator = new Generator();

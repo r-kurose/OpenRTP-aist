@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
@@ -18,21 +19,27 @@ import jp.go.aist.rtm.rtcbuilder.java.IRtcBuilderConstantsJava;
 import jp.go.aist.rtm.rtcbuilder.java.template.JavaConverter;
 import jp.go.aist.rtm.rtcbuilder.java.template.TemplateHelperJava;
 import jp.go.aist.rtm.rtcbuilder.java.ui.Perspective.JavaProperty;
-import jp.go.aist.rtm.rtcbuilder.java.ui.editors.JavaEditorSection;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateHelper;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
 import jp.go.aist.rtm.rtcbuilder.ui.Perspective.LanguageProperty;
-import jp.go.aist.rtm.rtcbuilder.ui.editors.LanguageEditorSection;
 
 /**
- * CXXファイルの出力を制御するマネージャ
+ * Javaファイルの出力を制御するマネージャ
  */
 public class JavaGenerateManager extends GenerateManager {
 
 	@Override
-	public LanguageEditorSection getLanguageEditorSection() {
-		return new JavaEditorSection();
+	public String getTargetVersion() {
+		return IRtcBuilderConstants.RTM_VERSION_100;
+	}
+	@Override
+	public String getManagerKey() {
+		return IRtcBuilderConstantsJava.LANG_JAVA;
+	}
+	@Override
+	public String getLangArgList() {
+		return IRtcBuilderConstantsJava.LANG_JAVA_ARG;
 	}
 
 	@Override
@@ -42,10 +49,6 @@ public class JavaGenerateManager extends GenerateManager {
 			langProp = new JavaProperty();
 		}
 		return langProp;
-	}
-
-	public String getManagerKey() {
-		return IRtcBuilderConstantsJava.LANG_JAVA;
 	}
 
 	/**
@@ -180,8 +183,13 @@ public class JavaGenerateManager extends GenerateManager {
 	protected List<GeneratedResult> generateRTCSource(Map<String, Object> contextMap, List<GeneratedResult> result) {
 		InputStream ins = null;
 
-		ins = JavaGenerateManager.class.getClassLoader()	
-			.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/java/template/Java_RTC_Source_src.template");
+		if( ((RtcParam)contextMap.get("rtcParam")).getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100) ) {
+			ins = JavaGenerateManager.class.getClassLoader()	
+				.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/java/template/_100/Java_RTC_Source_src.template");
+		} else {
+			ins = JavaGenerateManager.class.getClassLoader()	
+				.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/java/template/Java_RTC_Source_src.template");
+		}
 		result.add(TemplateUtil.createGeneratedResult(ins, contextMap, 
 				((RtcParam)contextMap.get("rtcParam")).getName() + ".java"));
 
@@ -195,17 +203,17 @@ public class JavaGenerateManager extends GenerateManager {
 	}
 	
 	protected List<GeneratedResult> generateRTCExtend(Map<String, Object> contextMap, List<GeneratedResult> result) {
-		InputStream ins = null;
-
-		ins = JavaGenerateManager.class.getClassLoader()	
-			.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/java/template/Java_ClassPath_src.template");
-		result.add(TemplateUtil.createGeneratedResult(ins, contextMap, ".classpath"));
-
-		try {
-			if( ins != null) ins.close();
-		} catch (Exception e) {
-			throw new RuntimeException(e); // system error
-		}
+//		InputStream ins = null;
+//
+//		ins = JavaGenerateManager.class.getClassLoader()	
+//			.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/java/template/Java_ClassPath_src.template");
+//		result.add(TemplateUtil.createGeneratedResult(ins, contextMap, ".classpath"));
+//
+//		try {
+//			if( ins != null) ins.close();
+//		} catch (Exception e) {
+//			throw new RuntimeException(e); // system error
+//		}
 
 		return result;
 	}

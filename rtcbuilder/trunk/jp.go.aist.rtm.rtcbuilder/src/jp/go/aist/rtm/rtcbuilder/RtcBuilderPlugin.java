@@ -16,6 +16,10 @@ public class RtcBuilderPlugin extends AbstractUIPlugin {
 	
 	//ägí£ÉçÅ[É_
 	private ExtensionLoader loader;
+	private EditorExtensionLoader editorExtensionLoader;
+	private AddFormPageExtensionLoader addFormPageExtensionLoader;
+	private ImportExtensionLoader importExtensionLoader;
+	private ExportExtensionLoader exportExtensionLoader;
 	
 	/**
 	 * The constructor
@@ -32,6 +36,18 @@ public class RtcBuilderPlugin extends AbstractUIPlugin {
 		super.start(context);
 		loader = new ExtensionLoader();
 		loader.loadExtensions();
+		
+		editorExtensionLoader = new EditorExtensionLoader();
+		editorExtensionLoader.loadExtensions();
+
+		addFormPageExtensionLoader = new AddFormPageExtensionLoader();
+		addFormPageExtensionLoader.loadExtensions();
+		
+		importExtensionLoader = new ImportExtensionLoader();
+		importExtensionLoader.loadExtensions();
+		
+		exportExtensionLoader = new ExportExtensionLoader();
+		exportExtensionLoader.loadExtensions();
 	}
 
 	/*
@@ -55,5 +71,20 @@ public class RtcBuilderPlugin extends AbstractUIPlugin {
 	public ExtensionLoader getLoader() {
 		return loader;
 	}
+	
+	public EditorExtensionLoader getEditorExtensionLoader() {
+		return this.editorExtensionLoader;
+	}
 
+	public AddFormPageExtensionLoader getAddFormPageExtensionLoader() {
+		return this.addFormPageExtensionLoader;
+	}
+	
+	public ImportExtensionLoader getImportExtensionLoader() {
+		return this.importExtensionLoader;
+	}
+
+	public ExportExtensionLoader getExportExtensionLoader() {
+		return this.exportExtensionLoader;
+	}
 }

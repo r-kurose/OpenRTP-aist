@@ -2,7 +2,8 @@
 /*!
  * @file ${rtcParam.name}Comp.java
  * @brief Standalone component
- * @date $Date$
+#set( $Date$ = "dummy" )
+ * @date \$Date$
 #if( ${rtcParam.docCreator.length()} > 0 )
  *
  * @author ${tmpltHelper.convertAuthorDoc(${rtcParam.docCreator})}
@@ -12,7 +13,8 @@
  * ${tmpltHelper.convertDoc(${rtcParam.docLicense})}
 #end
  *
- * $Id$
+#set( $Id$ = "dummy" )
+ * \$Id$
  */
 
 import jp.go.aist.rtm.RTC.Manager;

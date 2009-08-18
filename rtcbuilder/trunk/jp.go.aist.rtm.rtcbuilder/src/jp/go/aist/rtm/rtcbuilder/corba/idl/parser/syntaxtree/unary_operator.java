@@ -6,11 +6,9 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeChoice -> "-"
  *       | "+"
  *       | "~"
- * </PRE>
  */
 public class unary_operator implements Node {
    private Node parent;

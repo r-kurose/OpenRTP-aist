@@ -6,17 +6,23 @@
  */
 package jp.go.aist.rtm.rtcbuilder.model.component.impl;
 
-import java.util.List;
-
-import jp.go.aist.rtm.rtcbuilder.model.component.*;
+import jp.go.aist.rtm.rtcbuilder.model.component.BuildView;
+import jp.go.aist.rtm.rtcbuilder.model.component.Component;
+import jp.go.aist.rtm.rtcbuilder.model.component.ComponentFactory;
+import jp.go.aist.rtm.rtcbuilder.model.component.ComponentPackage;
+import jp.go.aist.rtm.rtcbuilder.model.component.DataInPort;
+import jp.go.aist.rtm.rtcbuilder.model.component.DataOutPort;
+import jp.go.aist.rtm.rtcbuilder.model.component.InterfaceDirection;
+import jp.go.aist.rtm.rtcbuilder.model.component.PortBase;
+import jp.go.aist.rtm.rtcbuilder.model.component.PortDirection;
+import jp.go.aist.rtm.rtcbuilder.model.component.ServiceInterface;
+import jp.go.aist.rtm.rtcbuilder.model.component.ServicePort;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**

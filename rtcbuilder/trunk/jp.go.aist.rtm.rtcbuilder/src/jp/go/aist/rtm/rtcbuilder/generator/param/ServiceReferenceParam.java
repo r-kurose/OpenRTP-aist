@@ -3,6 +3,7 @@ package jp.go.aist.rtm.rtcbuilder.generator.param;
 import java.io.Serializable;
 import java.util.Iterator;
 
+import jp.go.aist.rtm.rtcbuilder.IRTCBMessageConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 
 /**
@@ -68,7 +69,7 @@ public class ServiceReferenceParam implements Serializable {
 		}
 
 		if (result == null) {
-			throw new RuntimeException("" + type + " : is undefined in idl");
+			throw new RuntimeException("" + type + IRTCBMessageConstants.ERROR_IDLPARSE);
 		}
 
 		return result;

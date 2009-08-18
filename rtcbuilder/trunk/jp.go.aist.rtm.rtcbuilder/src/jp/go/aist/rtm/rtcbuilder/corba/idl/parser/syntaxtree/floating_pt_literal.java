@@ -6,10 +6,8 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
- * nodeChoice -> &lt;FLOATONE&gt;
- *       | &lt;FLOATTWO&gt;
- * </PRE>
+ * nodeChoice -> <FLOATONE>
+ *       | <FLOATTWO>
  */
 public class floating_pt_literal implements Node {
    private Node parent;

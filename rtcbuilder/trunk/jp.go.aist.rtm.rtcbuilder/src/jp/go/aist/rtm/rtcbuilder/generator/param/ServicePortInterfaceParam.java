@@ -2,16 +2,18 @@ package jp.go.aist.rtm.rtcbuilder.generator.param;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * サービスポートを表すクラス
  */
 public class ServicePortInterfaceParam implements Serializable {
 	
-	public static final String[] COMBO_ITEM = 
-		new String[] {"Provided", "Required"};
 	public static final String INTERFACE_DIRECTION_PROVIDED = "Provided";
 	public static final String INTERFACE_DIRECTION_REQUIRED = "Required";
+	public static final String[] COMBO_ITEM = 
+		new String[] {INTERFACE_DIRECTION_PROVIDED, INTERFACE_DIRECTION_REQUIRED};
 	private int selection = 0;
 
 	private ServicePortParam parent;
@@ -29,6 +31,8 @@ public class ServicePortInterfaceParam implements Serializable {
 	private String doc_exception;
 	private String doc_pre_condition;
 	private String doc_post_condition;
+	//Properties
+	private List<PropertyParam> properties = new ArrayList<PropertyParam>();
 
 	public ServicePortInterfaceParam(ServicePortParam parent) {
 		this.parent = parent;
@@ -200,5 +204,9 @@ public class ServicePortInterfaceParam implements Serializable {
 	}
 	public void setDocPostCondition(String postcondition) {
 		this.doc_post_condition = postcondition;
+	}
+	//
+	public List<PropertyParam> getProperties() {
+		return properties;
 	}
 }

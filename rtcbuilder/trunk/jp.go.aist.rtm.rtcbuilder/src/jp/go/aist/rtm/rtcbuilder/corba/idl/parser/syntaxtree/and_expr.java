@@ -6,10 +6,8 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * shift_expr -> shift_expr()
  * nodeListOptional -> ( "&" shift_expr() )*
- * </PRE>
  */
 public class and_expr implements Node {
    private Node parent;

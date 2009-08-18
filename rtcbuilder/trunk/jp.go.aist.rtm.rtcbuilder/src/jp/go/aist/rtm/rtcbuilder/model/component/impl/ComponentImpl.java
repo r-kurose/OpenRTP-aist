@@ -14,7 +14,6 @@ import jp.go.aist.rtm.rtcbuilder.model.component.DataInPort;
 import jp.go.aist.rtm.rtcbuilder.model.component.DataOutPort;
 import jp.go.aist.rtm.rtcbuilder.model.component.PortBase;
 import jp.go.aist.rtm.rtcbuilder.model.component.PortDirection;
-import jp.go.aist.rtm.rtcbuilder.model.component.ServiceInterface;
 import jp.go.aist.rtm.rtcbuilder.model.component.ServicePort;
 
 import org.eclipse.emf.common.notify.Notification;

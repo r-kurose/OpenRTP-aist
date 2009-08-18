@@ -6,7 +6,6 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeToken -> "union"
  * identifier -> identifier()
  * nodeToken1 -> "switch"
@@ -16,7 +15,6 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
  * nodeToken4 -> "{"
  * switch_body -> switch_body()
  * nodeToken5 -> "}"
- * </PRE>
  */
 public class union_type implements Node {
    private Node parent;

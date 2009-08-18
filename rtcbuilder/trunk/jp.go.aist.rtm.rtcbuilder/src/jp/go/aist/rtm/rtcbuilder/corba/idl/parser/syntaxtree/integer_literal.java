@@ -6,11 +6,9 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
- * nodeChoice -> &lt;OCTALINT&gt;
- *       | &lt;DECIMALINT&gt;
- *       | &lt;HEXADECIMALINT&gt;
- * </PRE>
+ * nodeChoice -> <OCTALINT>
+ *       | <DECIMALINT>
+ *       | <HEXADECIMALINT>
  */
 public class integer_literal implements Node {
    private Node parent;

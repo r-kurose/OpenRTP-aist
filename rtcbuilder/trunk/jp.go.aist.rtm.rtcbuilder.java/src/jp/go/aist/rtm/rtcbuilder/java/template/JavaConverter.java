@@ -235,13 +235,13 @@ public class JavaConverter {
 				result = strType;
 				if( !strDirection.equals(dirIn) ) result = result + "Holder";
 			}
-                        if( blnSequence ) {
-                          if( !strDirection.equals(dirIn) ) {
-                            result = strCorba + "Holder";
-                          } else {
-                            result = result + "[]";
-                          }
-                        }
+			if( blnSequence ) {
+				if( !strDirection.equals(dirIn) ) {
+					result = strCorba + "Holder";
+				} else {
+					result = result + "[]";
+				}
+			}
 		}
 		return result;
 	}
@@ -285,5 +285,36 @@ public class JavaConverter {
 		if(conv.equals(javaString) || conv.equals(javaWstring) || conv.equals(javaAny) || conv.endsWith("[]") )
 			return true;
 		return false;
+	}
+	
+	/**
+	 * データポート用のデータ型import文を返す
+	 * 
+	 * @param rtcType ポートの型
+	 * @return import文字列
+	 */
+	public String getDataportPackageName(String rtcType) {
+		//module名が付いていないデータ型（::が付いていない）はimport文を生成しない
+		if(!rtcType.matches(".*::.*")) return "";
+		
+		//module名=パッケージ名
+		//struct名=クラス名
+		String importDef = "import " + rtcType.replace("::", ".") + ";";
+		return importDef;
+	}
+	
+	/**
+	 * データポート初期化用にmodule名をカットしたデータ型クラス名を返す
+	 * 
+	 * @param rtcType ポートの型
+	 * @return クラス名
+	 */
+	public String getDataTypeName(String rtcType) {
+		
+		//module名が付いていないデータ型（::が付いていない）はそのまま返す
+		if(!rtcType.matches(".*::.*")) return rtcType;
+
+		String dataTypeNames[] = rtcType.split("::", 0);
+		return dataTypeNames[1];
 	}
 }

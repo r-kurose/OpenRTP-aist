@@ -6,13 +6,11 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeToken -> "const"
  * const_type -> const_type()
  * identifier -> identifier()
  * nodeToken1 -> "="
  * const_exp -> const_exp()
- * </PRE>
  */
 public class const_dcl implements Node {
    private Node parent;

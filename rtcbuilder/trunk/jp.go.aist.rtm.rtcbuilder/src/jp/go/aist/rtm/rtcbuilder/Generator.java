@@ -2,6 +2,7 @@ package jp.go.aist.rtm.rtcbuilder;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
@@ -21,6 +22,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceArgumentParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceMethodParam;
@@ -30,16 +32,16 @@ import jp.go.aist.rtm.rtcbuilder.manager.CXXGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.CXXWinGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.CommonGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
-import jp.go.aist.rtm.rtcbuilder.ui.Perspective.LanguageProperty;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.IDialogConstants;
 
 /**
@@ -141,21 +143,21 @@ public class Generator {
 	private void validate(RtcParam rtcParam) {
 
 		if( rtcParam.getOutputProject() == null ) {
-			throw new RuntimeException("OutputProjectが指定されていません。");
+			throw new RuntimeException(IRTCBMessageConstants.VALIDATE_ERROR_OUTPUTPROJECT);
 		}
 		if( rtcParam.getName() == null ) {
-			throw new RuntimeException("Component Nameが指定されていません。");
+			throw new RuntimeException(IRTCBMessageConstants.VALIDATE_ERROR_COMPONENTNAME);
 		}
 
 		List<String> portNames = new ArrayList<String>();
 		for( DataPortParam inport : rtcParam.getInports() ) {
 			if (portNames.contains(inport.getName()))
-				throw new RuntimeException("Portに同じ名前が存在します。 :" + rtcParam.getName());
+				throw new RuntimeException(IRTCBMessageConstants.VALIDATE_ERROR_PORTSAMENAME + rtcParam.getName());
 			portNames.add(inport.getName());
 		}
 		for (DataPortParam outport : rtcParam.getOutports()) {
 			if( portNames.contains(outport.getName()) )
-				throw new RuntimeException("Portに同じ名前が存在します。 :" + rtcParam.getName());
+				throw new RuntimeException(IRTCBMessageConstants.VALIDATE_ERROR_PORTSAMENAME + rtcParam.getName());
 			portNames.add(outport.getName());
 		}
 
@@ -163,7 +165,7 @@ public class Generator {
 		for( ServicePortParam servicePort : rtcParam.getServicePorts() ) {
 			if( servicePortNames.contains(servicePort.getName()) )
 				throw new RuntimeException(
-						"ProviderもしくはConsumerに同じ名前が存在します。 :" + rtcParam.getName());
+						IRTCBMessageConstants.VALIDATE_ERROR_INTERFACESAMENAME + rtcParam.getName());
 			servicePortNames.add(servicePort.getName());
 		}
 
@@ -172,7 +174,7 @@ public class Generator {
 			for( ServicePortInterfaceParam serviceInterface : servicePort.getServicePortInterfaces() ) {
 				if (serviceInterfaceNames.contains(serviceInterface.getName()))
 					throw new RuntimeException(
-							"ProviderもしくはConsumerに同じPortNameが存在します。 :" + rtcParam.getName());
+							IRTCBMessageConstants.VALIDATE_ERROR_INTERFACESAMENAME + rtcParam.getName());
 				serviceInterfaceNames.add(serviceInterface.getName());
 			}
 		}
@@ -279,7 +281,7 @@ public class Generator {
 			if (file.exists()) {
 				result = file;
 			} else {
-				throw new RuntimeException("Include IDL のディレクトリが見つかりません。");
+				throw new RuntimeException(IRTCBMessageConstants.ERROR_IDL_DIRECTORY_NOT_FOUND);
 			}
 		}
 		return result;
@@ -289,35 +291,46 @@ public class Generator {
 			"yyyyMMddHHmmss");
 
 	private void writeFile(List<GeneratedResult> generatedResultList,
-			RtcParam rtcParam, MergeHandler handler) throws IOException {
+			RtcParam rtcParam, MergeHandler handler) throws IOException, CoreException {
 
 		IWorkspaceRoot workspaceHandle = ResourcesPlugin.getWorkspace().getRoot();
 		IProject project = workspaceHandle.getProject(rtcParam.getOutputProject());
 		if(!project.exists()) {
-			try {
-				project.create(null);
-				project.open(null);
-				LanguageProperty langProp = LanguageProperty.checkPlugin(rtcParam);
-				if(langProp != null) {
-					IProjectDescription description = project.getDescription();
-					String[] ids = description.getNatureIds();
-					String[] newIds = new String[ids.length + langProp.getNatures().size()];
-					System.arraycopy(ids, 0, newIds, 0, ids.length);
-					for( int intIdx=0; intIdx<langProp.getNatures().size(); intIdx++ ) {
-						newIds[ids.length+intIdx] = langProp.getNatures().get(intIdx);
-					}
-					description.setNatureIds(newIds);
-					project.setDescription(description, null);
-				}
-			} catch (CoreException e) {
-				throw new RuntimeException("プロジェクトの生成に失敗しました");
-			}
+			return;
+//			try {
+//				project.create(null);
+//				project.open(null);
+//				LanguageProperty langProp = LanguageProperty.checkPlugin(rtcParam);
+//				if(langProp != null) {
+//					IProjectDescription description = project.getDescription();
+//					String[] ids = description.getNatureIds();
+//					String[] newIds = new String[ids.length + langProp.getNatures().size()];
+//					System.arraycopy(ids, 0, newIds, 0, ids.length);
+//					for( int intIdx=0; intIdx<langProp.getNatures().size(); intIdx++ ) {
+//						newIds[ids.length+intIdx] = langProp.getNatures().get(intIdx);
+//					}
+//					description.setNatureIds(newIds);
+//					project.setDescription(description, null);
+//				}
+//			} catch (CoreException e) {
+//				throw new RuntimeException(IRTCBMessageConstants.ERROR_GENERATE_FAILED);
+//			}
 		}
 		
 		for (GeneratedResult generatedResult : generatedResultList) {
 			if (generatedResult.getName().equals("") == false) {
 				writeFile(generatedResult, project, handler);
 			}
+		}
+		for( IdlFileParam idlFile : rtcParam.getProviderIdlPathes() ) {
+			IFile idlTarget = project.getFile(idlFile.getIdlFile());
+			idlTarget.delete(true, null);
+			idlTarget.create(new FileInputStream(idlFile.getIdlPath()), true, null);
+		}
+		for( IdlFileParam idlFile : rtcParam.getConsumerIdlPathes() ) {
+			IFile idlTarget = project.getFile(idlFile.getIdlFile());
+			idlTarget.delete(true, null);
+			idlTarget.create(new FileInputStream(idlFile.getIdlPath()), true, null);
 		}
 	}
 
@@ -356,6 +369,18 @@ public class Generator {
 
 		if (isOutput) {
 			IFile outputFile = outputProject.getFile(generatedResult.getName());
+			IPath relPath = outputFile.getProjectRelativePath();
+			if( relPath.segmentCount() > 1 ) {
+				IPath outPath = relPath.removeLastSegments(1);
+				IFolder folder = outputProject.getFolder(outPath);
+				if(!folder.exists()) {
+					try {
+						folder.create(false, true, null);
+					} catch (CoreException e) {
+						e.printStackTrace();
+					}
+				}
+			}
 			try {
 				outputFile.create(new ByteArrayInputStream(generatedResult.getCode().getBytes("UTF-8")), false, null);
 			} catch (CoreException e) {

@@ -6,9 +6,7 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeToken -> "boolean"
- * </PRE>
  */
 public class boolean_type implements Node {
    private Node parent;

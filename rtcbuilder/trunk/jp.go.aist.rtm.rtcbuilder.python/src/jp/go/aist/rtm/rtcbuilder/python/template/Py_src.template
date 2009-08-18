@@ -4,7 +4,8 @@
 """
  \file ${rtcParam.name}.py
  \brief ${rtcParam.description}
- \date $Date$
+#set( $Date$ = "dummy" )
+ \date \$Date$
 
 #if( ${rtcParam.docCreator.length()} > 0 )
  \author ${tmpltHelperPy.convertAuthorDocPy(${rtcParam.docCreator})}
@@ -96,7 +97,7 @@ class ${rtcParam.name}(OpenRTM.DataFlowComponentBase):
 		OpenRTM.DataFlowComponentBase.__init__(self, manager)
 
 #foreach($port in ${rtcParam.inports})
-		self._d_${port.tmplVarName} = RTC.${port.type}(RTC.Time(0,0),${pyConv.convPortInit(${port.type})})
+		self._d_${port.tmplVarName} = ${pyConv.getDataportInitMethodName(${port.type})},${pyConv.convPortInit(${port.type})})
 		"""
 #if(${port.docDescription.length()}>0)		${tmpltHelperPy.convertDescDocPy(${port.docDescription})}
 #end
@@ -116,7 +117,7 @@ class ${rtcParam.name}(OpenRTM.DataFlowComponentBase):
 		self._${port.name}In = OpenRTM.InPort("${port.name}", self._d_${port.tmplVarName}, OpenRTM.RingBuffer(8))
 #end
 #foreach($port in ${rtcParam.outports})
-		self._d_${port.tmplVarName} = RTC.${port.type}(RTC.Time(0,0),${pyConv.convPortInit(${port.type})})
+		self._d_${port.tmplVarName} = ${pyConv.getDataportInitMethodName(${port.type})},${pyConv.convPortInit(${port.type})})
 		"""
 #if(${port.docDescription.length()}>0)		${tmpltHelperPy.convertDescDocPy(${port.docDescription})}
 #end
@@ -399,14 +400,39 @@ class ${rtcParam.name}(OpenRTM.DataFlowComponentBase):
 
 	#if(${rtcParam.IsNotImplemented(5)})${sharp}#end	return RTC.RTC_OK
 	
-	#if(${rtcParam.IsNotImplemented(6)})${sharp}#end${def} onExecute(self, ec_id):
+	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end${def} onExecute(self, ec_id):
+	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end	"""
+#if(${rtcParam.getDocActionOverView(9).length()}>0)	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end	${tmpltHelperPy.convertActivityDocPy(${rtcParam.getDocActionOverView(9)})}
+#end
+	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end
+
+	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end	The execution action that is invoked periodically
+	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end	former rtc_active_do()
+	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end
+
+	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end	\param ec_id target ExecutionContext Id
+	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end
+
+	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end	\return RTC::ReturnCode_t
+	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end
+
+#if(${rtcParam.getDocActionPreCondition(9).length()}>0)	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end	\pre ${tmpltHelperPy.convertPreShDocPy(${rtcParam.getDocActionPreCondition(9)})}
+#end
+#if(${rtcParam.getDocActionPostCondition(9).length()}>0)	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end	\post ${tmpltHelperPy.convertPostShDocPy(${rtcParam.getDocActionPostCondition(9)})}
+#end
+	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end	"""
+	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end
+
+	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end	return RTC.RTC_OK
+	
+	#if(${rtcParam.IsNotImplemented(6)})${sharp}#end${def} onAborting(self, ec_id):
 	#if(${rtcParam.IsNotImplemented(6)})${sharp}#end	"""
 #if(${rtcParam.getDocActionOverView(6).length()}>0)	#if(${rtcParam.IsNotImplemented(6)})${sharp}#end	${tmpltHelperPy.convertActivityDocPy(${rtcParam.getDocActionOverView(6)})}
 #end
 	#if(${rtcParam.IsNotImplemented(6)})${sharp}#end
 
-	#if(${rtcParam.IsNotImplemented(6)})${sharp}#end	The execution action that is invoked periodically
-	#if(${rtcParam.IsNotImplemented(6)})${sharp}#end	former rtc_active_do()
+	#if(${rtcParam.IsNotImplemented(6)})${sharp}#end	The aborting action when main logic error occurred.
+	#if(${rtcParam.IsNotImplemented(6)})${sharp}#end	former rtc_aborting_entry()
 	#if(${rtcParam.IsNotImplemented(6)})${sharp}#end
 
 	#if(${rtcParam.IsNotImplemented(6)})${sharp}#end	\param ec_id target ExecutionContext Id
@@ -424,14 +450,14 @@ class ${rtcParam.name}(OpenRTM.DataFlowComponentBase):
 
 	#if(${rtcParam.IsNotImplemented(6)})${sharp}#end	return RTC.RTC_OK
 	
-	#if(${rtcParam.IsNotImplemented(7)})${sharp}#end${def} onAborting(self, ec_id):
+	#if(${rtcParam.IsNotImplemented(7)})${sharp}#end${def} onError(self, ec_id):
 	#if(${rtcParam.IsNotImplemented(7)})${sharp}#end	"""
 #if(${rtcParam.getDocActionOverView(7).length()}>0)	#if(${rtcParam.IsNotImplemented(7)})${sharp}#end	${tmpltHelperPy.convertActivityDocPy(${rtcParam.getDocActionOverView(7)})}
 #end
 	#if(${rtcParam.IsNotImplemented(7)})${sharp}#end
 
-	#if(${rtcParam.IsNotImplemented(7)})${sharp}#end	The aborting action when main logic error occurred.
-	#if(${rtcParam.IsNotImplemented(7)})${sharp}#end	former rtc_aborting_entry()
+	#if(${rtcParam.IsNotImplemented(7)})${sharp}#end	The error action in ERROR state
+	#if(${rtcParam.IsNotImplemented(7)})${sharp}#end	former rtc_error_do()
 	#if(${rtcParam.IsNotImplemented(7)})${sharp}#end
 
 	#if(${rtcParam.IsNotImplemented(7)})${sharp}#end	\param ec_id target ExecutionContext Id
@@ -449,14 +475,14 @@ class ${rtcParam.name}(OpenRTM.DataFlowComponentBase):
 
 	#if(${rtcParam.IsNotImplemented(7)})${sharp}#end	return RTC.RTC_OK
 	
-	#if(${rtcParam.IsNotImplemented(8)})${sharp}#end${def} onError(self, ec_id):
+	#if(${rtcParam.IsNotImplemented(8)})${sharp}#end${def} onReset(self, ec_id):
 	#if(${rtcParam.IsNotImplemented(8)})${sharp}#end	"""
 #if(${rtcParam.getDocActionOverView(8).length()}>0)	#if(${rtcParam.IsNotImplemented(8)})${sharp}#end	${tmpltHelperPy.convertActivityDocPy(${rtcParam.getDocActionOverView(8)})}
 #end
 	#if(${rtcParam.IsNotImplemented(8)})${sharp}#end
 
-	#if(${rtcParam.IsNotImplemented(8)})${sharp}#end	The error action in ERROR state
-	#if(${rtcParam.IsNotImplemented(8)})${sharp}#end	former rtc_error_do()
+	#if(${rtcParam.IsNotImplemented(8)})${sharp}#end	The reset action that is invoked resetting
+	#if(${rtcParam.IsNotImplemented(8)})${sharp}#end	This is same but different the former rtc_init_entry()
 	#if(${rtcParam.IsNotImplemented(8)})${sharp}#end
 
 	#if(${rtcParam.IsNotImplemented(8)})${sharp}#end	\param ec_id target ExecutionContext Id
@@ -473,31 +499,6 @@ class ${rtcParam.name}(OpenRTM.DataFlowComponentBase):
 	#if(${rtcParam.IsNotImplemented(8)})${sharp}#end
 
 	#if(${rtcParam.IsNotImplemented(8)})${sharp}#end	return RTC.RTC_OK
-	
-	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end${def} onReset(self, ec_id):
-	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end	"""
-#if(${rtcParam.getDocActionOverView(9).length()}>0)	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end	${tmpltHelperPy.convertActivityDocPy(${rtcParam.getDocActionOverView(9)})}
-#end
-	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end
-
-	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end	The reset action that is invoked resetting
-	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end	This is same but different the former rtc_init_entry()
-	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end
-
-	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end	\param ec_id target ExecutionContext Id
-	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end
-
-	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end	\return RTC::ReturnCode_t
-	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end
-
-#if(${rtcParam.getDocActionPreCondition(9).length()}>0)	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end	\pre ${tmpltHelperPy.convertPreShDocPy(${rtcParam.getDocActionPreCondition(9)})}
-#end
-#if(${rtcParam.getDocActionPostCondition(9).length()}>0)	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end	\post ${tmpltHelperPy.convertPostShDocPy(${rtcParam.getDocActionPostCondition(9)})}
-#end
-	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end	"""
-	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end
-
-	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end	return RTC.RTC_OK
 	
 	#if(${rtcParam.IsNotImplemented(10)})${sharp}#end${def} onStateUpdate(self, ec_id):
 	#if(${rtcParam.IsNotImplemented(10)})${sharp}#end	"""

@@ -10,7 +10,7 @@
 #   --module-desc='test component' --module-version=1.0.1 --module-vendor=TA 
 #   --module-category=sample --module-comp-type=STATIC 
 #   --module-act-type=PERIODIC --module-max-inst=2 
-#   --inport=in1:TimedShort --outport=out1:TimedLong 
+#   --inport=in1:RTC::TimedShort --outport=out1:RTC::TimedLong 
 #   --service-idl=C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder.python\\resource\Python\Exception\ProNoName\MyService.idl 
 #   --service=MySVPro::MyService 
 
@@ -68,7 +68,7 @@ Lang Type:
 	PortNumber:  0
 	Description: 
 	PortType: 
-	DataType:    TimedShort
+	DataType:    RTC::TimedShort
 	MaxOut: 
 	[Data Elements]
 		Name:
@@ -94,7 +94,7 @@ Lang Type:
 	PortNumber:  0
 	Description: 
 	PortType: 
-	DataType:    TimedLong
+	DataType:    RTC::TimedLong
 	MaxOut: 
 	[Data Elements]
 		Name:

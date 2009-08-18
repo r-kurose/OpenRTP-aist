@@ -6,13 +6,13 @@
          point="org.eclipse.ui.views">
       <category
             id="OpenRTP"
-            name="OpenRTP Tools"/>
+            name="%OpenRTP_Tools"/>
       <view
             category="OpenRTP"
             class="jp.go.aist.rtm.repositoryView.ui.views.RepositoryView"
             icon="icon/repositories.gif"
             id="jp.go.aist.rtm.repositoryView.view"
-            name="RepositoryView"/>
+            name="%RepositoryView"/>
    </extension>
    <extension
          point="org.eclipse.ui.popupMenus">
@@ -25,7 +25,7 @@
                definitionId="jp.go.aist.rtm.repositoryView.UpLoadCommand"
                icon="icon/export.gif"
                id="jp.go.aist.rtm.repositoryView.UploadAction"
-               label="Upload"
+               label="%Upload"
                menubarPath="servers"
                style="push"/>
       </objectContribution>
@@ -38,7 +38,7 @@
                definitionId="jp.go.aist.rtm.repositoryView.DeleteCommand"
                icon="icon/delete.gif"
                id="jp.go.aist.rtm.repositoryView.DeleteAction"
-               label="Delete"
+               label="%Delete"
                menubarPath="additions"
                style="push"/>
       </objectContribution>
@@ -49,19 +49,19 @@
                class="jp.go.aist.rtm.repositoryView.ui.action.ViewActionLoadDirecroty"
                icon="icon/importdir_wiz.gif"
                id="jp.go.aist.rtm.repositoryView.LoadDirAction"
-               label="Load Dir"
+               label="%Load_Dir"
                menubarPath="locals"/>
          <action
                class="jp.go.aist.rtm.repositoryView.ui.action.ViewActionLoadFile"
                icon="icon/file_with_arrow.gif"
                id="jp.go.aist.rtm.repositoryView.LoadFileAction"
-               label="Load File"
+               label="%Load_File"
                menubarPath="locals"/>
          <action
                class="jp.go.aist.rtm.repositoryView.ui.action.ConnectRTRepositoryAction"
                icon="icon/Connect.gif"
                id="jp.go.aist.rtm.repositoryView.ConnectRTRepositoryAction"
-               label="Connect RT Repository"
+               label="%Connect_RT_Repository"
                menubarPath="servers"/>
       </viewerContribution>
       <objectContribution
@@ -73,7 +73,7 @@
                definitionId="jp.go.aist.rtm.repositoryView.RepositoryDeleteCommand"
                icon="icon/delete_repository2.gif"
                id="jp.go.aist.rtm.repositoryView.RepositoryDeleteAction"
-               label="Delete from Repository"
+               label="%Delete_from_Repository"
                menubarPath="additions"
                style="push"/>
       </objectContribution>
@@ -87,29 +87,29 @@
                class="jp.go.aist.rtm.repositoryView.ui.action.ConnectRTRepositoryAction"
                icon="icon/Connect.gif"
                id="jp.go.aist.rtm.repositoryView.ui.action.ConnectRTRepositoryAction"
-               label="Connect RT Repository"
+               label="%Connect_RT_Repository"
                menubarPath="additions"
                style="push"
                toolbarPath="additions"
-               tooltip="Connect RT Repository"/>
+               tooltip="%Connect_RT_Repository"/>
          <action
                class="jp.go.aist.rtm.repositoryView.ui.action.ViewActionLoadFile"
                icon="icon/file_with_arrow.gif"
                id="jp.go.aist.rtm.repositoryView.LoadFileAction"
-               label="Load File"
+               label="%Load_File"
                menubarPath="additions"
                style="push"
                toolbarPath="additions"
-               tooltip="Load RTC Profile from File"/>
+               tooltip="%Load_RTC_Profile_from_File"/>
          <action
                class="jp.go.aist.rtm.repositoryView.ui.action.ViewActionLoadDirecroty"
                icon="icon/importdir_wiz.gif"
                id="jp.go.aist.rtm.repositoryView.LoadDirectoryAction"
-               label="Load Dir"
+               label="%Load_Dir"
                menubarPath="additions"
                style="push"
                toolbarPath="additions"
-               tooltip="Load RTC Profile from Directory"/>
+               tooltip="%Load_RTC_Profile_from_Directory"/>
       </viewContribution>
    </extension>
    <extension
@@ -131,18 +131,18 @@
          point="org.eclipse.ui.commands">
       <category
             id="jp.go.aist.rtm.repositoryView.category"
-            name="RepositoryView"/>
+            name="%RepositoryView"/>
       <command
             categoryId="jp.go.aist.rtm.repositoryView.category"
             id="jp.go.aist.rtm.repositoryView.DeleteCommand"
-            name="ItemDelete"/>
+            name="%ItemDelete"/>
    </extension>
    <extension
          point="org.eclipse.core.runtime.adapters">
       <factory
             adaptableType="jp.go.aist.rtm.repositoryView.model.RepositoryViewItem"
             class="jp.go.aist.rtm.repositoryView.adapterfactory.AdapterFactory">
-         <adapter type="jp.go.aist.rtm.toolscommon.model.component.AbstractComponent"/>
+         <adapter type="jp.go.aist.rtm.toolscommon.model.component.Component"/>
       </factory>
    </extension>
    <extension
@@ -150,7 +150,7 @@
       <page
             class="jp.go.aist.rtm.repositoryView.ui.preference.RepositoryViewPreferencePage"
             id="jp.go.aist.rtm.repositoryView.ui.preferencePage"
-            name="Repository View"/>
+            name="%RT_Repository_View"/>
    </extension>
 
 </plugin>

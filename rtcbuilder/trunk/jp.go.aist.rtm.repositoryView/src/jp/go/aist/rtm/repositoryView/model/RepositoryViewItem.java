@@ -1,10 +1,14 @@
 package jp.go.aist.rtm.repositoryView.model;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 
+/**
+ * レポジトリビューのノードを表現するオブジェクト
+ * nameでユニーク
+ *
+ */
 public class RepositoryViewItem {
 	
 	public static final int ROOT_ITEM = 1;
@@ -14,19 +18,25 @@ public class RepositoryViewItem {
 	private String name = null;
 	private int type = 0;
 	private Object parent;
-	private List children;
+	private List<RepositoryViewItem> children;
 
-	public RepositoryViewItem(String name,int type, Object parent, ArrayList children){
+	/**
+	 * @param name		ノード名
+	 * @param type		ノードの型（enumの方がよいかも）
+	 * @param parent	親ノード
+	 * @param children	子ノード
+	 */
+	public RepositoryViewItem(String name,int type, Object parent, List<RepositoryViewItem>  children){
 		this.name = name;
 		this.type = type;
 		this.parent = parent;
 		this.children = children;
 	}
 	public RepositoryViewItem(String name,int type){
-		this(name,type,null,new ArrayList());
+		this(name,type,null,new ArrayList<RepositoryViewItem>());
 	}
 	public RepositoryViewItem(String name,int type, Object parent){
-		this(name,type,parent,new ArrayList());
+		this(name,type,parent,new ArrayList<RepositoryViewItem> ());
 	}
 	//
 	public String getName(){
@@ -47,10 +57,10 @@ public class RepositoryViewItem {
 	public void setParent(RepositoryViewItem parent) {
 		this.parent = parent;
 	}
-	public List getChildren() {
+	public List<RepositoryViewItem> getChildren() {
 		return children;
 	}
-	public void setChildren(List children) {
+	public void setChildren(List<RepositoryViewItem>  children) {
 		this.children = children;
 	}
 	//
@@ -58,10 +68,12 @@ public class RepositoryViewItem {
 		this.children.add(child);
 	}
 	
+	/**
+	 * @param target	対象となるノードの名前
+	 * @return			みつかったノード
+	 */
 	public RepositoryViewItem getChild(String target) {
-		Iterator it = children.iterator();
-		while (it.hasNext()) {
-			RepositoryViewItem item = (RepositoryViewItem) it.next();
+		for (RepositoryViewItem item : children) {
 			if( item.getName().equals(target) ) {
 				return item;
 			}

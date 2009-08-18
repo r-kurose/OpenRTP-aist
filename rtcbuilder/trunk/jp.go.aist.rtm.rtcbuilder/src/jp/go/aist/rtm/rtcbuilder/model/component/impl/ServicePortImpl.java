@@ -6,30 +6,20 @@
  */
 package jp.go.aist.rtm.rtcbuilder.model.component.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
-import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
-import jp.go.aist.rtm.rtcbuilder.model.component.ComponentFactory;
 import jp.go.aist.rtm.rtcbuilder.model.component.ComponentPackage;
-import jp.go.aist.rtm.rtcbuilder.model.component.InterfaceDirection;
 import jp.go.aist.rtm.rtcbuilder.model.component.ServiceInterface;
 import jp.go.aist.rtm.rtcbuilder.model.component.ServicePort;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
  * <!-- begin-user-doc -->

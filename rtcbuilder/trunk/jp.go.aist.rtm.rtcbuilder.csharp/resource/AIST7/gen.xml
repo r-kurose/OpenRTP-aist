@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<ComponentInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <OutputFolder>C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder.csharp\\resource\work</OutputFolder>
+  <Platform>.NET Framework 2.0</Platform>
+  <Language>C#</Language>
+  <Profile>
+    <ComponentName>foo</ComponentName>
+    <ComponentDescription>MDesc</ComponentDescription>
+    <Maker>TA</Maker>
+    <Version>1.0.0</Version>
+    <Category>example</Category>
+    <ComponentType>STATIC</ComponentType>
+    <ActivityType>PERIODIC</ActivityType>
+    <MaxInstance>10</MaxInstance>
+  </Profile>
+  <IdlFileCollection>
+    <string>C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder.csharp\\resource\work\service1\idl\Service1.idl.idl</string>
+  </IdlFileCollection>
+  <DataPortInfoCollection>
+    <DataPortInfo>
+      <portType>DataInPort</portType>
+      <portName>InP1</portName>
+      <dataType>TimedShort</dataType>
+    </DataPortInfo>
+    <DataPortInfo>
+      <portType>DataInPort</portType>
+      <portName>InP2</portName>
+      <dataType>TimedLong</dataType>
+    </DataPortInfo>
+    <DataPortInfo>
+      <portType>DataOutPort</portType>
+      <portName>OutP1</portName>
+      <dataType>TimedFloat</dataType>
+    </DataPortInfo>
+    <DataPortInfo>
+      <portType>DataOutPort</portType>
+      <portName>OutP2</portName>
+      <dataType>TimedDouble</dataType>
+    </DataPortInfo>
+  </DataPortInfoCollection>
+  <ServicePortInfoCollection>
+    <ServicePortInfo>
+      <portType>PROVIDED</portType>
+      <serviceName>acc</serviceName>
+      <serviceType>test</serviceType>
+    </ServicePortInfo>
+  </ServicePortInfoCollection>
+  <ConfigurationInfoCollection />
+</ComponentInfo>

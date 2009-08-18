@@ -95,10 +95,10 @@ public class ConfigPreferencePage extends AbstractPreferencePage implements
 		table.setLinesVisible(true);
 		
 		TableColumn nameColumn = new TableColumn(table, SWT.NONE);
-		nameColumn.setText("Configuration");
+		nameColumn.setText(IPreferenceMessageConstants.CONFIG_CLMN_CONFIGURATION);
 		nameColumn.setWidth(200);
 		TableColumn defaultColumn = new TableColumn(table, SWT.NONE);
-		defaultColumn.setText("Defaut Value");
+		defaultColumn.setText(IPreferenceMessageConstants.CONFIG_CLMN_DEFAUT_VALUE);
 		defaultColumn.setWidth(200);
 		
 		targetViewer.setContentProvider(new ArrayContentProvider());
@@ -118,7 +118,7 @@ public class ConfigPreferencePage extends AbstractPreferencePage implements
 		// É{É^Éìê∂ê¨
 		gd = new GridData();
 		Button addButton = new Button(group, SWT.PUSH);
-		addButton.setText("Add");
+		addButton.setText(IPreferenceMessageConstants.CONFIG_BTN_ADD);
 		gd.widthHint = 70;
 		addButton.setLayoutData(gd);
 		
@@ -133,7 +133,7 @@ public class ConfigPreferencePage extends AbstractPreferencePage implements
 		});
 		gd = new GridData();
 		Button delButton = new Button(group, SWT.PUSH);
-		delButton.setText("Delete");
+		delButton.setText(IPreferenceMessageConstants.CONFIG_BTN_DELETE);
 		gd.widthHint = 70;
 		delButton.setLayoutData(gd);
 		delButton.addSelectionListener(new SelectionAdapter() {
@@ -245,7 +245,6 @@ public class ConfigPreferencePage extends AbstractPreferencePage implements
 		return false;
 	}
 	
-	
 	public boolean validate() {
 		
 		int intRow = configSetTable.getTable().getItemCount();
@@ -271,6 +270,5 @@ public class ConfigPreferencePage extends AbstractPreferencePage implements
 		}
 		return true;
 	}
-
 }
 

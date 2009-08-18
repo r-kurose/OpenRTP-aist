@@ -26,11 +26,11 @@ public class DocumentPreferencePage extends AbstractPreferencePage implements
 	private final String ON = "ON";
 	private final String OFF = "OFF";
 	
-	private Group group[] = new Group[12];
-	private GridLayout layout[] = new GridLayout[12];
-	private Label label[] = new Label[12];
-	private Button btnOn[] = new Button[12];
-	private Button btnOff[] = new Button[12];
+	private Group group[] = new Group[IRtcBuilderConstants.ACTIVITY_DUMMY];
+	private GridLayout layout[] = new GridLayout[IRtcBuilderConstants.ACTIVITY_DUMMY];
+	private Label label[] = new Label[IRtcBuilderConstants.ACTIVITY_DUMMY];
+	private Button btnOn[] = new Button[IRtcBuilderConstants.ACTIVITY_DUMMY];
+	private Button btnOff[] = new Button[IRtcBuilderConstants.ACTIVITY_DUMMY];
 	
 	private Label labelText[] = new Label[2];
 	
@@ -39,7 +39,7 @@ public class DocumentPreferencePage extends AbstractPreferencePage implements
 
 	
 	private final String[] TEXT_TYPE_ITEMS = new String[] {
-			"作成者,連絡先", "ライセンス,使用条件"
+			IPreferenceMessageConstants.DOCUMENT_LBL_AUTHOR, IPreferenceMessageConstants.DOCUMENT_LBL_LICENSE
 	};
 	
 	public DocumentPreferencePage() {
@@ -69,9 +69,9 @@ public class DocumentPreferencePage extends AbstractPreferencePage implements
 		GridLayout layout = new GridLayout(2,false);
 		group.setLayout(layout);
 		
-		for (int intIdx = 0; intIdx < 6; intIdx++) {
+		for (int intIdx = 0; intIdx < 7; intIdx++) {
 			createRadioArea(group, intIdx);
-			createRadioArea(group,intIdx+6);
+			createRadioArea(group,intIdx+7);
 		}
 		documentArray = new ArrayList<String>();
 		documentArray = DocumentPreferenceManager.getDocumentValue();
@@ -157,9 +157,10 @@ public class DocumentPreferencePage extends AbstractPreferencePage implements
 		DocumentPreferenceManager.getInstance().setDocumentValue(documentArray);
 		DocumentPreferenceManager.getInstance().setCreatorValue(textCreator.getText());
 		DocumentPreferenceManager.getInstance().setLicenseValue(textLicense.getText());
+
 		return super.performOk();
 	}
-	
+
 	@Override
 	protected void performDefaults() {
 		ArrayList<String> documentArray = new ArrayList<String>();
@@ -181,15 +182,19 @@ public class DocumentPreferencePage extends AbstractPreferencePage implements
 	
 	private void setButton(ArrayList<String> param) {
 		for (int intIdx=0; intIdx < IRtcBuilderConstants.ACTION_TYPE_ITEMS.length; intIdx++) {
-			if (param.get(intIdx).toUpperCase().equals("TRUE") ) {
-				btnOn[intIdx].setSelection(true);
-				btnOff[intIdx].setSelection(false);
-			} else {
+			if(param.size()-1<intIdx) {
 				btnOff[intIdx].setSelection(true);
 				btnOn[intIdx].setSelection(false);
+			} else {
+				if (param.get(intIdx).toUpperCase().equals("TRUE") ) {
+					btnOn[intIdx].setSelection(true);
+					btnOff[intIdx].setSelection(false);
+				} else {
+					btnOff[intIdx].setSelection(true);
+					btnOn[intIdx].setSelection(false);
+				}
 			}
 		}
 		
 	}
-
 }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import jp.go.aist.rtm.rtcbuilder.IRTCBMessageConstants;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 
 /**
@@ -20,6 +21,25 @@ public class PreProcessor {
 			.compile("^#include\\s*(<|\")(.*)(>|\").*$");
 
 	private static final int INCLUDE_FILE_INDEX = 2;
+
+	/**
+	 * 対象文字列に対してプリプロセッサを実行する。
+	 * 全プリプロセッサを削除する
+	 * 
+	 * @param target
+	 *            対象文字列
+	 * @return 実行後文字列
+	 */
+	public static String parseAlltoSpace(String target) {
+		StringBuffer result = new StringBuffer();
+		Matcher matcher = PREPROSESSOR_PATTERN.matcher(target);
+		while (matcher.find()) {
+			matcher.appendReplacement(result, Matcher.quoteReplacement(""));
+		}
+		matcher.appendTail(result);
+
+		return result.toString();
+	}
 
 	/**
 	 * 対象文字列に対してプリプロセッサを実行する。
@@ -72,7 +92,7 @@ public class PreProcessor {
 		if (matcher.find()) {
 			String filePath = matcher.group(INCLUDE_FILE_INDEX);
 			if (includeBaseDir == null) {
-				throw new RuntimeException("#includeするIDLのディレクトリを指定してください。\r\npathを解決できません　:" + filePath);
+				throw new RuntimeException(IRTCBMessageConstants.ERROR_PREPROCESSOR + filePath);
 			}
 			result = FileUtil.readFile(new File(includeBaseDir, filePath)
 					.getAbsolutePath());

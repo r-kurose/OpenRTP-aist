@@ -6,13 +6,11 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeToken -> "context"
  * nodeToken1 -> "("
  * string_literal -> string_literal()
  * nodeListOptional -> ( "," string_literal() )*
  * nodeToken2 -> ")"
- * </PRE>
  */
 public class context_expr implements Node {
    private Node parent;

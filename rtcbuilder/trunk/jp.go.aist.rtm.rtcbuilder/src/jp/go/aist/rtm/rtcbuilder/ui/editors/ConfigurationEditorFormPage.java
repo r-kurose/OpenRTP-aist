@@ -24,13 +24,19 @@ import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
@@ -45,7 +51,6 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 
 	private static final String CONFIGSET_PROPERTY_NAME = "CONFIGRATIONSET_PROPERTY_NAME";
 	private static final String CONFIGSET_PROPERTY_TYPE = "CONFIGRATIONSET_PROPERTY_TYPE";
-	private static final String CONFIGSET_PROPERTY_VARNAME = "CONFIGRATIONSET_PROPERTY_VARNAME";
 	private static final String CONFIGSET_PROPERTY_DEFAULT = "CONFIGRATIONSET_PROPERTY_DEFAULT";
 	//
 	private static final String CONFIGPROFILE_PROPERTY_CONFIGURATION = "CONFIGRATION_PROFILE_CONFIGURATION";
@@ -54,6 +59,14 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 	private TableViewer configurationSetTableViewer;
 	private TableViewer configurationProfileTableViewer;
 	//
+	private Text parametertNameDetailText;
+	private Text variableNameText;
+	private Text unitConfigText;
+	private Text constraintConfigText;
+	private Combo widgetCombo;
+	private Text sliderStepText;
+	//
+	private Text parametertNameText;
 	private Text datanameText;
 	private Text defaultValText;
 	private Text descriptionText;
@@ -62,11 +75,17 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 	private Text constraintText;
 	//
 	private ConfigSetParam preSelection;
+	private ConfigSetParam selectParam;
 	//
 	private String defaultConfigName;
 	private String defaultConfigType;
 	private String defaultConfigVarName;
 	private String defaultConfigDefault;
+	private String defaultConfigConstraint;
+	private String defaultConfigUnit;
+	private String[] defaultTypeList;
+	
+	private Composite configurationParameterSectionComposite;
 	
 	/**
 	 * コンストラクタ
@@ -75,7 +94,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 	 *            親のエディタ
 	 */
 	public ConfigurationEditorFormPage(RtcBuilderEditor editor) {
-		super(editor, "id", "コンフィギュレーション");
+		super(editor, "id", IMessageConstants.CONFIGURATION_SECTION);
 		//
 		preSelection = null;
 		updateDefaultValue();
@@ -86,66 +105,108 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		defaultConfigType = ComponentPreferenceManager.getInstance().getConfiguration_Type();
 		defaultConfigVarName = ComponentPreferenceManager.getInstance().getConfiguration_VarName();
 		defaultConfigDefault = ComponentPreferenceManager.getInstance().getConfiguration_Default();
+		defaultConfigConstraint = ComponentPreferenceManager.getInstance().getConfiguration_Constraint();
+		defaultConfigUnit = ComponentPreferenceManager.getInstance().getConfiguration_Unit();
+		//
+		defaultTypeList = super.extractDataTypes();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	protected void createFormContent(IManagedForm managedForm) {
-		GridLayout gl;
-		gl = new GridLayout();
-		gl.numColumns = 1;
+		ScrolledForm form = super.createBase(managedForm);
+		FormToolkit toolkit = managedForm.getToolkit();
+		//
+		Label label = toolkit.createLabel(form.getBody(), IMessageConstants.CONFIGURATION_SECTION_TITLE);
+		if( titleFont==null ) {
+			titleFont = new Font(form.getDisplay(), IMessageConstants.TITLE_FONT, 16, SWT.BOLD);
+		}
+		label.setFont(titleFont);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
+		label.setLayoutData(gd);
+		//
+		configurationSetTableViewer = createConfigurationSetSection(toolkit, form);
+		createHintSection(toolkit, form);
+		createDetailSection(toolkit, form);
+		createDocumentSection(toolkit, form);
+		configurationProfileTableViewer = createConfigurationParameterSection(toolkit, form);
+		
+		// 言語・環境ページより先にこのページが表示された場合、ここで言語を判断する
+		editor.setEnabledInfoByLangFromRtcParam();
 
-		managedForm.getForm().getBody().setLayout(gl);
-
-		ScrolledForm form = managedForm.getToolkit().createScrolledForm(
-				managedForm.getForm().getBody());
-		gl = new GridLayout(1, false);
-		form.setLayout(gl);
-
-		form.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
-		managedForm.getToolkit().paintBordersFor(form.getBody());
-
-		form.getBody().setLayout(gl);
-
-		configurationSetTableViewer = createConfigurationSetSection(managedForm, form);
-		configurationProfileTableViewer = createConfigurationParameterSection(managedForm, form );
-
-		createDocumentSection(managedForm, form);
 		load();
 	}
 
-	private void createDocumentSection(IManagedForm managedForm,
-			ScrolledForm form) {
+	private void createDetailSection(FormToolkit toolkit, ScrolledForm form) {
+		Composite composite = createSectionBaseWithLabel(toolkit, form, 
+				"Detail", IMessageConstants.CONFIGURATION_DETAIL_EXPL, 2);
+		
+		parametertNameDetailText = createLabelAndText(toolkit, composite,
+				IMessageConstants.CONFIGURATION_LBL_PARAMNAME, SWT.BORDER);
+		parametertNameDetailText.setEditable(false);
+		parametertNameDetailText.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		
+		variableNameText = createLabelAndText(toolkit, composite,
+				IMessageConstants.CONFIGURATION_LBL_VARNAME);
+		unitConfigText = createLabelAndText(toolkit, composite,
+				IMessageConstants.CONFIGURATION_LBL_UNIT);
+		constraintConfigText = createLabelAndText(toolkit, composite,
+				IMessageConstants.CONFIGURATION_LBL_CONSTRAINT);
+		String[] widgetItems = {"text", "slider", "spin", "radio" };
+		widgetCombo = createLabelAndCombo(toolkit, composite, IMessageConstants.CONFIGURATION_LBL_WIDGET,
+				widgetItems);
+		sliderStepText = createLabelAndText(toolkit, composite,
+				IMessageConstants.CONFIGURATION_LBL_STEP);
+		
+		widgetCombo.addSelectionListener(new SelectionListener() {
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
 
-		Composite composite = createSectionBase(managedForm, form, "Documentation", 2);
+			public void widgetSelected(SelectionEvent e) {
+				if( ((Combo)e.widget).getText().trim().equals("slider") ) {
+					sliderStepText.setEnabled(true);
+				} else {
+					sliderStepText.setEnabled(false);
+				}
+			}
+		});
 
-		datanameText = createLabelAndText(managedForm.getToolkit(), composite,
-				"データ名 :");
-		defaultValText = createLabelAndText(managedForm.getToolkit(), composite,
-				"デフォルト値 :");
-		descriptionText = createLabelAndText(managedForm.getToolkit(), composite,
-				"概要説明 :", SWT.MULTI | SWT.V_SCROLL);
+	}
+
+	private void createDocumentSection(FormToolkit toolkit, ScrolledForm form) {
+		Composite composite = createSectionBaseWithLabel(toolkit, form, 
+				"Documentation", IMessageConstants.CONFIGURATION_DOCUMENT_EXPL, 2);
+		
+		parametertNameText = createLabelAndText(toolkit, composite,
+				IMessageConstants.CONFIGURATION_LBL_PARAMNAME, SWT.BORDER);
+		parametertNameText.setEditable(false);
+		parametertNameText.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		datanameText = createLabelAndText(toolkit, composite,
+				IMessageConstants.CONFIGURATION_LBL_DATANAME);
+		defaultValText = createLabelAndText(toolkit, composite,
+				IMessageConstants.CONFIGURATION_LBL_DEFAULT);
+		descriptionText = createLabelAndText(toolkit, composite,
+				IMessageConstants.CONFIGURATION_LBL_DESCRIPTION, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.heightHint = 50;
 		descriptionText.setLayoutData(gridData);
-		unitText = createLabelAndText(managedForm.getToolkit(), composite,
-				"単位 :");
-		rangeText = createLabelAndText(managedForm.getToolkit(), composite,
-				"データレンジ:");
-		constraintText = createLabelAndText(managedForm.getToolkit(), composite,
-				"制約条件:", SWT.MULTI | SWT.V_SCROLL);
+		unitText = createLabelAndText(toolkit, composite,
+				IMessageConstants.CONFIGURATION_LBL_UNIT);
+		rangeText = createLabelAndText(toolkit, composite,
+				IMessageConstants.CONFIGURATION_LBL_RANGE);
+		constraintText = createLabelAndText(toolkit, composite,
+				IMessageConstants.CONFIGURATION_LBL_CONSTRAINT, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 		constraintText.setLayoutData(gridData);
 	}
 
-	private TableViewer createConfigurationSetSection(IManagedForm managedForm,
-			ScrolledForm form) {
-
-		Composite composite = createSectionBase(managedForm, form, 
-				"RT-Component Configuration Parameter Definitions", 3);
-
-		final TableViewer configSetTableViewer = new TableViewer(managedForm
-				.getToolkit().createTable(composite,
+	private TableViewer createConfigurationSetSection(FormToolkit toolkit, ScrolledForm form) {
+		Composite composite = createSectionBaseWithLabel(toolkit, form, 
+				IMessageConstants.CONFIGURATION_SET_TITLE, IMessageConstants.CONFIGURATION_SET_EXPL, 3);
+		//
+		final TableViewer configSetTableViewer = new TableViewer(toolkit
+				.createTable(composite,
 						SWT.SINGLE | SWT.FULL_SELECTION));
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.heightHint = 120;
@@ -161,55 +222,46 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 
 		TableColumn nameColumn = new TableColumn(configSetTableViewer
 				.getTable(), SWT.NONE);
-		nameColumn.setText("Name");
-		nameColumn.setWidth(150);
+		nameColumn.setText(IMessageConstants.CONFIGURATION_TBLLBL_NAME);
+		nameColumn.setWidth(120);
 		TableColumn typeColumn = new TableColumn(configSetTableViewer
 				.getTable(), SWT.NONE);
-		typeColumn.setText("Type");
-		typeColumn.setWidth(150);
-		TableColumn varnameColumn = new TableColumn(configSetTableViewer
-				.getTable(), SWT.NONE);
-		varnameColumn.setText("Var Name");
-		varnameColumn.setWidth(150);
+		typeColumn.setText(IMessageConstants.CONFIGURATION_TBLLBL_TYPE);
+		typeColumn.setWidth(120);
 		TableColumn defaultColumn = new TableColumn(configSetTableViewer
 				.getTable(), SWT.NONE);
-		defaultColumn.setText("Defaut Value");
-		defaultColumn.setWidth(150);
+		defaultColumn.setText(IMessageConstants.CONFIGURATION_TBLLBL_DEFAULTVAL);
+		defaultColumn.setWidth(120);
 
 		configSetTableViewer.setColumnProperties(new String[] {
 				CONFIGSET_PROPERTY_NAME, CONFIGSET_PROPERTY_TYPE, 
-				CONFIGSET_PROPERTY_VARNAME, CONFIGSET_PROPERTY_DEFAULT });
+				CONFIGSET_PROPERTY_DEFAULT,
+				});
 
 		CellEditor[] editors = new CellEditor[] {
 				new TextCellEditor(configSetTableViewer.getTable()),
-				new TextCellEditor(configSetTableViewer.getTable()),
-				new TextCellEditor(configSetTableViewer.getTable()),
+				new LocalComboBoxCellEditor(configSetTableViewer.getTable(), defaultTypeList, SWT.DROP_DOWN),
 				new TextCellEditor(configSetTableViewer.getTable()) };
 
 		configSetTableViewer.setCellEditors(editors);
 		configSetTableViewer.setCellModifier(new ConfigSetCellModifier(
 				configSetTableViewer));
 
-		Composite buttonComposite = managedForm.getToolkit().createComposite(
-				composite, SWT.NONE);
+		Composite buttonComposite = toolkit.createComposite(composite, SWT.NONE);
 		GridLayout gl = new GridLayout();
-		gl.marginRight = 0;
 		buttonComposite.setLayout(gl);
-		gd = new GridData(GridData.FILL_BOTH);
+		gl.marginWidth = 1;
+		gd = new GridData();
 		gd.verticalAlignment = SWT.BEGINNING;
-		gd.horizontalAlignment = SWT.END;
+		gd.widthHint = 50;
 		buttonComposite.setLayoutData(gd);
 
-		Button addButton = managedForm.getToolkit().createButton(
-				buttonComposite, "Add", SWT.PUSH);
-		gd = new GridData(GridData.HORIZONTAL_ALIGN_END);
-		gl.marginRight = 0;
-		addButton.setLayoutData(gd);
+		Button addButton = toolkit.createButton(buttonComposite, "Add", SWT.PUSH);
 		addButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateDefaultValue();
-				ConfigSetParam selectParam = new ConfigSetParam(defaultConfigName, defaultConfigType, defaultConfigVarName, defaultConfigDefault);
+				ConfigSetParam selectParam = new ConfigSetParam(defaultConfigName, defaultConfigType, defaultConfigVarName, defaultConfigDefault, defaultConfigConstraint, defaultConfigUnit);
 				((List) configSetTableViewer.getInput()).add(selectParam);
 				configSetTableViewer.refresh();
 				update();
@@ -217,8 +269,8 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		});
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		addButton.setLayoutData(gd);
-		Button deleteButton = managedForm.getToolkit().createButton(
-				buttonComposite, "Delete", SWT.PUSH);
+		//
+		Button deleteButton = toolkit.createButton(buttonComposite, "Delete", SWT.PUSH);
 		deleteButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -242,8 +294,16 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 			public void selectionChanged(SelectionChangedEvent event) {
 				setDocumentContents();
 				StructuredSelection selection = (StructuredSelection)event.getSelection();
-				ConfigSetParam selectParam = (ConfigSetParam)selection.getFirstElement();
+				selectParam = (ConfigSetParam)selection.getFirstElement();
 				if( selectParam != null ) {
+					parametertNameDetailText.setText(selectParam.getName());
+					variableNameText.setText(getDisplayDocText(selectParam.getVarName()));
+					unitConfigText.setText(getDisplayDocText(selectParam.getUnit()));
+					constraintConfigText.setText(getDisplayDocText(selectParam.getConstraint()));
+					widgetCombo.setText(getDisplayDocText(selectParam.getWidget()));
+					sliderStepText.setText(getDisplayDocText(selectParam.getSliderStep()));
+					//
+					parametertNameText.setText(selectParam.getName());
 					datanameText.setText(getDisplayDocText(selectParam.getDocDataName()));
 					defaultValText.setText(getDisplayDocText(selectParam.getDocDefaultVal()));
 					descriptionText.setText(getDisplayDocText(selectParam.getDocDescription()));
@@ -258,14 +318,26 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		return configSetTableViewer;
 	}
 
-	private TableViewer createConfigurationParameterSection(IManagedForm managedForm,
-			ScrolledForm form) {
-
-		Composite composite = createSectionBase(managedForm, form, 
-				"RT-Component Configuration Parameter", 3);
-
-		final TableViewer configParameterTableViewer = new TableViewer(managedForm
-				.getToolkit().createTable(composite,
+	private void createHintSection(FormToolkit toolkit, ScrolledForm form) {
+		Composite composite = createHintSectionBase(toolkit, form, 4);
+		//
+		createHintLabel(IMessageConstants.CONFIGURATION_HINT_COFIGPARAM_TITLE, IMessageConstants.CONFIGURATION_HINT_COFIGPARAM_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.CONFIGURATION_HINT_PARAMNAME_TITLE, IMessageConstants.CONFIGURATION_HINT_PARAMNAME_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.CONFIGURATION_HINT_PARAMTYPE_TITLE, IMessageConstants.CONFIGURATION_HINT_PARAMTYPE_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.CONFIGURATION_HINT_VARNAME_TITLE, IMessageConstants.CONFIGURATION_HINT_VARNAME_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.CONFIGURATION_HINT_DEFAULT_TITLE, IMessageConstants.CONFIGURATION_HINT_DEFAULT_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.CONFIGURATION_HINT_CONSTRAINT_TITLE, IMessageConstants.CONFIGURATION_HINT_CONSTRAINT_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.CONFIGURATION_HINT_UNIT_TITLE, IMessageConstants.CONFIGURATION_HINT_UNIT_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.CONFIGURATION_HINT_WIDGET_TITLE, IMessageConstants.CONFIGURATION_HINT_WIDGET_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.CONFIGURATION_HINT_STEP_TITLE, IMessageConstants.CONFIGURATION_HINT_STEP_DESC, toolkit, composite);
+	}
+	
+	private TableViewer createConfigurationParameterSection(FormToolkit toolkit, ScrolledForm form) {
+		configurationParameterSectionComposite = createSectionBaseWithLabel(toolkit, form, 
+				IMessageConstants.CONFIGURATION_PARAMETER_TITLE, IMessageConstants.CONFIGURATION_PARAMETER_EXPL, 3);
+		//
+		final TableViewer configParameterTableViewer = new TableViewer(toolkit.
+					createTable(configurationParameterSectionComposite,
 						SWT.SINGLE | SWT.FULL_SELECTION));
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.heightHint = 120;
@@ -281,36 +353,35 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 
 		TableColumn nameColumn = new TableColumn(configParameterTableViewer
 				.getTable(), SWT.NONE);
-		nameColumn.setText("Configuration");
-		nameColumn.setWidth(300);
+		nameColumn.setText(IMessageConstants.CONFIGURATION_TBLLBL_CONFIGURATION);
+		nameColumn.setWidth(200);
 		TableColumn defaultColumn = new TableColumn(configParameterTableViewer
 				.getTable(), SWT.NONE);
-		defaultColumn.setText("Defaut Value");
-		defaultColumn.setWidth(300);
+		defaultColumn.setText(IMessageConstants.CONFIGURATION_TBLLBL_DEFAULTVAL);
+		defaultColumn.setWidth(200);
 
 		configParameterTableViewer.setColumnProperties(new String[] {
 				CONFIGPROFILE_PROPERTY_CONFIGURATION, CONFIGPROFILE_PROPERTY_DEFAULT });
 
 		String[] Config_Items = ConfigPreferenceManager.getInstance().getConfigName();
 		CellEditor[] editors = new CellEditor[] {
-				new ComboBoxCellEditor(configParameterTableViewer.getTable(), Config_Items, SWT.DROP_DOWN | SWT.READ_ONLY),
+				new ComboBoxCellEditor(configParameterTableViewer.getTable(), Config_Items, SWT.DROP_DOWN ),
 				new TextCellEditor(configParameterTableViewer.getTable()) };
 
 		configParameterTableViewer.setCellEditors(editors);
 		configParameterTableViewer.setCellModifier(new ConfigProfileCellModifier(
 				configParameterTableViewer));
 
-		Composite buttonComposite = managedForm.getToolkit().createComposite(
-				composite, SWT.NONE);
+		Composite buttonComposite = toolkit.createComposite(configurationParameterSectionComposite, SWT.NONE);
 		GridLayout gl = new GridLayout();
-		gl.marginRight = 0;
+		gl.marginWidth = 1;
 		buttonComposite.setLayout(gl);
-		gd = new GridData(GridData.FILL_BOTH);
+		gd = new GridData();
 		gd.verticalAlignment = SWT.BEGINNING;
-		gd.horizontalAlignment = SWT.END;
+		gd.widthHint = 50;
 		buttonComposite.setLayoutData(gd);
 
-		Button addButton = managedForm.getToolkit().createButton(
+		Button addButton = toolkit.createButton(
 				buttonComposite, "Add", SWT.PUSH);
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_END);
 		gl.marginRight = 0;
@@ -336,7 +407,8 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		});
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		addButton.setLayoutData(gd);
-		Button deleteButton = managedForm.getToolkit().createButton(
+		//
+		Button deleteButton = toolkit.createButton(
 				buttonComposite, "Delete", SWT.PUSH);
 		deleteButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -357,6 +429,13 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		deleteButton.setLayoutData(gd);
 
+		configParameterTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(SelectionChangedEvent event) {
+				clearText();
+				// modifier.getValue()が呼ばれないことがあるため
+			}
+		});
+		
 		return configParameterTableViewer;
 	}
 
@@ -366,6 +445,12 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 
 	private void setDocumentContents() {
 		if( preSelection != null ) {
+			preSelection.setVarName(getDocText(variableNameText.getText()));
+			preSelection.setUnit(getDocText(unitConfigText.getText()));
+			preSelection.setConstraint(getDocText(constraintConfigText.getText()));
+			preSelection.setWidget(getDocText(widgetCombo.getText()));
+			preSelection.setSliderStep(getDocText(sliderStepText.getText()));
+			//
 			preSelection.setDocDataName(getDocText(datanameText.getText()));
 			preSelection.setDocDefaultVal(getDocText(defaultValText.getText()));
 			preSelection.setDocDescription(getDocText(descriptionText.getText()));
@@ -376,10 +461,33 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 	}
 	
 	public void update() {
+		if( selectParam != null ) {
+			selectParam.setVarName(getDocText(variableNameText.getText()));
+			selectParam.setUnit(getDocText(unitConfigText.getText()));
+			selectParam.setConstraint(getDocText(constraintConfigText.getText()));
+			selectParam.setWidget(getDocText(widgetCombo.getText()));
+			selectParam.setSliderStep(getDocText(sliderStepText.getText()));
+			//
+			selectParam.setDocDataName(getDocText(datanameText.getText()));
+			selectParam.setDocDefaultVal(getDocText(defaultValText.getText()));
+			selectParam.setDocDescription(getDocText(descriptionText.getText()));
+			selectParam.setDocUnit(getDocText(unitText.getText()));
+			selectParam.setDocRange(getDocText(rangeText.getText()));
+			selectParam.setDocConstraint(getDocText(constraintText.getText()));
+		}
 		editor.updateDirty();
 	}
 
 	private void clearText() {
+		//
+		parametertNameDetailText.setText("");
+		variableNameText.setText("");
+		unitConfigText.setText("");
+		constraintConfigText.setText("");
+		widgetCombo.select(0);
+		sliderStepText.setText("");
+		//
+		parametertNameText.setText("");
 		datanameText.setText("");
 		defaultValText.setText("");
 		descriptionText.setText("");
@@ -405,33 +513,57 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		Set<String> checkSet = new HashSet<String>(); 
 		
 		for(ConfigSetParam config : rtcParam.getConfigParams()) {
-			//Configuration Set name
+			//Configuration name
 			if( config.getName()==null || config.getName().length()==0 ) {
-				result = "Configuration Set Parameter name を入力してください。";
+				result = IMessageConstants.CONFIGURATION_VALIDATE_NAME1;
 				return result;
 			}
 			if( !StringUtil.checkDigitAlphabet(config.getName()) ) {
-				result = "Configuration Set Parameter name は半角英数字を入力してください。";
+				result = IMessageConstants.CONFIGURATION_VALIDATE_NAME2;
 				return result;
 			}
-			//Configuration Set type
+			//Configuration type
 			if( config.getType()==null || config.getType().length()==0 ) {
-				result = "Configuration Set Parameter の型を入力してください。";
+				result = IMessageConstants.CONFIGURATION_VALIDATE_TYPE;
+				return result;
+			}
+			//Configuration default value
+			if( config.getDefaultVal()==null || config.getDefaultVal().length()==0 ) {
+				result = IMessageConstants.CONFIGURATION_VALIDATE_DEFVALUE;
 				return result;
 			}
 			//
 			if( config.getVarName() != null && config.getVarName().length() > 0) {
 				if( !StringUtil.checkDigitAlphabet(config.getVarName()) ) {
-					result = "Configuration Set Parameter Variable name は半角英数字を入力してください。";
+					result = IMessageConstants.CONFIGURATION_VALIDATE_VARIABLE;
 					return result;
 				}
 			}
 			//重複
 			if( checkSet.contains(config.getName()) ) {
-				result = "Configuration Set Parameter の名称が重複しています。";
+				result = IMessageConstants.CONFIGURATION_VALIDATE_DUPLICATE;
 				return result;
 			}
 			checkSet.add(config.getName());
+			//制約
+			//radioは列挙型のみ
+			if( config.getWidget().equals("radio") ) {
+				if(!(config.getConstraint().trim().startsWith("(") 
+						&& config.getConstraint().trim().endsWith(")")) ) {
+					result = IMessageConstants.CONFIGURATION_VALIDATE_RADIO;
+					return result;
+				}
+			}
+			//spinはint型のみ
+//			if( config.getWidget().equals("spin") ) {
+//				if(!( config.getType().trim().equals("int") || config.getType().trim().equals("Integer") ) ) {
+//					result = IMessageConstants.CONFIGURATION_VALIDATE_SPIN;
+//					return result;
+//				}
+//			}
+//			//spin,sliderには最大値，最小値が必要
+//			if( config.getWidget().equals("spin") || config.getWidget().equals("slider")) {
+//			}
 		}
 		return null;
 	}
@@ -459,8 +591,6 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 			} else if (columnIndex == 1) {
 				result = configSetParam.getType();
 			} else if (columnIndex == 2) {
-				result = configSetParam.getVarName();
-			} else if (columnIndex == 3) {
 				result = configSetParam.getDefaultVal();
 			}
 		
@@ -497,9 +627,10 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 			if (CONFIGSET_PROPERTY_NAME.equals(property)) {
 				result = configSetParam.getName();
 			} else if (CONFIGSET_PROPERTY_TYPE.equals(property)) {
-				result = configSetParam.getType();
-			} else if (CONFIGSET_PROPERTY_VARNAME.equals(property)) {
-				result = configSetParam.getVarName();
+				// 表示すべき値が選択肢に含まれていない可能性があるため、
+				// 選択肢に含まれていない場合は選択肢に追加した上でインデックスを返す。
+				int index = updateDefaultTypeList(configSetParam.getType());
+				return new Integer(index);
 			} else if (CONFIGSET_PROPERTY_DEFAULT.equals(property)) {
 				result = configSetParam.getDefaultVal();
 			}
@@ -520,10 +651,16 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		
 			if (CONFIGSET_PROPERTY_NAME.equals(property)) {
 				configSetParam.setName((String) value);
+				parametertNameText.setText(configSetParam.getName());
+				parametertNameDetailText.setText(configSetParam.getName());
 			} else if (CONFIGSET_PROPERTY_TYPE.equals(property)) {
-				configSetParam.setType((String) value);
-			} else if (CONFIGSET_PROPERTY_VARNAME.equals(property)) {
-				configSetParam.setVarName((String) value);
+				if( value instanceof Integer ) {
+					configSetParam.setType( defaultTypeList[((Integer)value).intValue()] );
+				}else{
+					// 手入力された場合
+					updateDefaultTypeList((String)value);
+					configSetParam.setType((String)value);
+				}
 			} else if (CONFIGSET_PROPERTY_DEFAULT.equals(property)) {
 				configSetParam.setDefaultVal((String) value);
 			}
@@ -531,7 +668,36 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 			viewer.refresh();
 			update();
 		}
+		
+		private int updateDefaultTypeList(String newValue){
+			int index = searchIndex(defaultTypeList, newValue);
+			if( index == defaultTypeList.length ){
+				// その値がプルダウン選択肢にない場合、選択肢にそれを追加する
+				String[] newDefaultTypeList = new String[defaultTypeList.length+1];
+				for( int i=0; i<defaultTypeList.length; i++ ){
+					newDefaultTypeList[i] = defaultTypeList[i];
+				}
+				newDefaultTypeList[defaultTypeList.length] = newValue;
+				
+				defaultTypeList = newDefaultTypeList;
+				
+				CellEditor[] editors = ((TableViewer)viewer).getCellEditors();
+				((LocalComboBoxCellEditor)editors[1]).setItems(defaultTypeList);
+			}
+			return index;
+		}
+		
 	}
+	
+	@Override
+	protected int searchIndex(String[] sources, String target) {
+		for(int intIdx=0;intIdx<sources.length;intIdx++) {
+			if( target.equals(sources[intIdx]) )
+				return intIdx;
+		}
+		return sources.length;
+	}
+
 	
 	private class ConfigParamLabelProvider extends LabelProvider implements
 			ITableLabelProvider {
@@ -588,7 +754,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 			}
 		
 			preSelection = null;
-			clearText();
+//			clearText();
 
 			ConfigParameterParam configProfileParam = (ConfigParameterParam) element;
 		
@@ -629,7 +795,47 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 			}
 		
 			viewer.refresh();
-			update();
+//			update();
 		}
 	}
+	
+	/**
+	 * Parameterセクションの活性状態を変更する
+	 * @param value
+	 */
+	public void setConfigurationParameterSectionCompositeEnabled(boolean value){
+		if( configurationParameterSectionComposite!=null ){
+			configurationParameterSectionComposite.setEnabled(value);
+			if( value ){
+				configurationProfileTableViewer.getTable().setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
+			}else{
+				configurationProfileTableViewer.getTable().setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
+			}
+		}
+	}
+	
+	// 選択肢以外の値が入力されている場合に対応するためのComboBoxCellEditor
+	private class LocalComboBoxCellEditor extends ComboBoxCellEditor {
+		private CCombo comboBox;
+
+		public LocalComboBoxCellEditor(Composite parent, String[] items, int style) {
+			super(parent, items, style);
+		}
+
+		@Override
+		protected Control createControl(Composite parent) {
+			comboBox = (CCombo) super.createControl(parent);
+			return comboBox;
+		}
+
+		@Override
+		protected Object doGetValue() {
+			Object value = super.doGetValue();
+			if (value.equals(-1)) { // 選択肢以外が入力された場合
+				return comboBox.getText();
+			}
+			return value;
+		}
+	}
+	
 }

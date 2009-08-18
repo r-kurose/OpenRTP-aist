@@ -10,7 +10,7 @@
 #   --module-desc='test component' --module-version=1.0.0 --module-vendor=S.Kurihara 
 #   --module-category=example --module-comp-type=STATIC 
 #   --module-act-type=PERIODIC --module-max-inst=1 
-#   --inport=in:TimedFloatSeq --outport=out:TimedFloatSeq 
+#   --inport=in:RTC::TimedFloatSeq --outport=out:RTC::TimedFloatSeq 
 #   --service-idl=C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\resource\Java\AIST3\MyService.idl 
 #   --consumer-idl=C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\resource\Java\AIST3\MyService.idl 
 #   --service=MySVPro:myservice0:MyService 
@@ -70,7 +70,7 @@ Lang Type:
 	PortNumber:  0
 	Description: 
 	PortType: 
-	DataType:    TimedFloatSeq
+	DataType:    RTC::TimedFloatSeq
 	MaxOut: 
 	[Data Elements]
 		Name:
@@ -96,7 +96,7 @@ Lang Type:
 	PortNumber:  0
 	Description: 
 	PortType: 
-	DataType:    TimedFloatSeq
+	DataType:    RTC::TimedFloatSeq
 	MaxOut: 
 	[Data Elements]
 		Name:

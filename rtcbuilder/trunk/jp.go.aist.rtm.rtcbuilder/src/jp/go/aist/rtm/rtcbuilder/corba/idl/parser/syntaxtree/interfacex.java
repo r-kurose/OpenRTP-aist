@@ -6,10 +6,8 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeChoice -> interface_dcl()
  *       | forward_dcl()
- * </PRE>
  */
 public class interfacex implements Node {
    private Node parent;

@@ -1,10 +1,11 @@
+#set( $dollarStr = "$" )
 <!--
 # -*- Buildfile -*-
 # @file  build_${rtcParam.name}.xml
 # @brief RTComponent makefile for "${rtcParam.name} component"
-# @date  $Date$
+# @date  ${dollarStr}Date${dollarStr}
 #
-# $Id$
+# ${dollarStr}Id${dollarStr}
  -->
 <project name="${rtcParam.name}" default="compile">
 	<property name="source" value="." />
@@ -12,18 +13,18 @@
 	<property environment="env" />
 
 	<target name="mkdir">
-		<mkdir dir="${dest}" />
+		<mkdir dir="${dollarStr}{dest}" />
 	</target>
 
 #if( ${rtcParam.providerIdlPathes.size()} > 0 || ${rtcParam.consumerIdlPathes.size()} > 0 )
 	<target name="idlcompile"  depends="mkdir">
 #foreach($idlPath in ${rtcParam.providerIdlPathes})
-		<exec executable="${java.home}\..\bin\idlj">
+		<exec executable="${dollarStr}{java.home}\..\bin\idlj">
 			<arg line="#foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i ${idlSearchPath} #end-fall ${tmpltHelper.getFileName(${idlPath.idlFile})}"/>
 		</exec>
 #end
 #foreach($idlPath in ${rtcParam.consumerIdlPathes})
-		<exec executable="${java.home}\..\bin\idlj">
+		<exec executable="${dollarStr}{java.home}\..\bin\idlj">
 			<arg line="#foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i ${idlSearchPath} #end-fall ${tmpltHelper.getFileName(${idlPath.idlFile})}"/>
 		</exec>
 #end
@@ -35,13 +36,13 @@
 #else
 	<target name="compile" depends="mkdir">
 #end
-		<javac srcdir="${source}" destdir="${dest}">
+		<javac srcdir="${dollarStr}{source}" destdir="${dollarStr}{dest}">
 			<classpath>
-				<fileset dir="${env.RTM_JAVA_ROOT}\jar">
+				<fileset dir="${dollarStr}{env.RTM_JAVA_ROOT}\jar">
 					<include name="*.jar"/>
 				</fileset>
-#if( ${rtcParam.javaClassPathes.size()} > 0 )
-#foreach($javaRef in ${rtcParam.javaClassPathes})
+#if( ${rtcParam.libraryPathes.size()} > 0 )
+#foreach($javaRef in ${rtcParam.libraryPathes})
 				<pathelement location="${javaRef}"/>
 #end
 #end

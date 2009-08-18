@@ -6,11 +6,9 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeToken -> "interface"
  * identifier -> identifier()
  * nodeOptional -> [ inheritance_spec() ]
- * </PRE>
  */
 public class interface_header implements Node {
    private Node parent;

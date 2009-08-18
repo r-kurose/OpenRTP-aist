@@ -6,9 +6,7 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * or_expr -> or_expr()
- * </PRE>
  */
 public class const_exp implements Node {
    private Node parent;

@@ -6,10 +6,8 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeToken -> "long"
  * nodeToken1 -> "double"
- * </PRE>
  */
 public class signed_long_double_int implements Node {
    private Node parent;

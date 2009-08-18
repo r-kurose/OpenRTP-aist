@@ -6,13 +6,11 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeChoice -> integer_literal()
  *       | string_literal()
  *       | character_literal()
  *       | floating_pt_literal()
  *       | boolean_literal()
- * </PRE>
  */
 public class literal implements Node {
    private Node parent;

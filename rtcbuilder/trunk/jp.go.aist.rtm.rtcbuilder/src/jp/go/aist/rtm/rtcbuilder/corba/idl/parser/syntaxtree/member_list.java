@@ -6,9 +6,7 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeList -> ( member() )+
- * </PRE>
  */
 public class member_list implements Node {
    private Node parent;

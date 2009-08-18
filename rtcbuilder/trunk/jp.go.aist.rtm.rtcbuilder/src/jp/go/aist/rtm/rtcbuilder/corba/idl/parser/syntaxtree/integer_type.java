@@ -6,10 +6,8 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeChoice -> signed_int()
  *       | unsigned_int()
- * </PRE>
  */
 public class integer_type implements Node {
    private Node parent;

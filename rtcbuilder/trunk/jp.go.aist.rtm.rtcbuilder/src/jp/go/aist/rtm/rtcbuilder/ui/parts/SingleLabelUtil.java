@@ -8,7 +8,7 @@ public class SingleLabelUtil {
 	public static void convertSingleItems2Strings(ArrayList<SingleLabelItem> sources, List<String> targets) {
 		targets.clear();
 		for( SingleLabelItem target : sources) {
-			targets.add(new String(target.getLabeltext()));
+			targets.add(target.getLabeltext());
 		}
 	}
 

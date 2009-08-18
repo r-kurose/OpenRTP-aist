@@ -224,4 +224,4 @@ rtcProfile:
         ifdescription: ServicePort2 I/F description
       name: SrvPort2
       "rtcExt::position": RIGHT
-  version: "1.0"
+  version: "0.1"

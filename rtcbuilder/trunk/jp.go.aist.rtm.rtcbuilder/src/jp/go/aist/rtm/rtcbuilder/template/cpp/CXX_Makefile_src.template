@@ -9,10 +9,11 @@
 #parse("jp/go/aist/rtm/rtcbuilder/template/common/commandline.template")
 #
 #
-# $Id$
+#set( $Id$ = "dummy" )
+# \$Id$
 #
 CXXFLAGS = `rtm-config --cflags`
-LDFLAGS  = `rtm-config --libs`#foreach($libraryPath in ${rtcParam.cxxLibraryPathes}) -l${libraryPath}#end
+LDFLAGS  = `rtm-config --libs`#foreach($libraryPath in ${rtcParam.libraryPathes}) -l${libraryPath}#end
 
 SHFLAGS  = -shared
 

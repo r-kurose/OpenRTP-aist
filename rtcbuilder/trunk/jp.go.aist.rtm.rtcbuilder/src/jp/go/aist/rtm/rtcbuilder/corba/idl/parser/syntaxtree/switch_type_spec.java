@@ -6,13 +6,11 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeChoice -> integer_type()
  *       | char_type()
  *       | boolean_type()
  *       | enum_type()
  *       | scoped_name()
- * </PRE>
  */
 public class switch_type_spec implements Node {
    private Node parent;

@@ -6,11 +6,9 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeToken -> "["
  * positive_int_const -> positive_int_const()
  * nodeToken1 -> "]"
- * </PRE>
  */
 public class fixed_array_size implements Node {
    private Node parent;

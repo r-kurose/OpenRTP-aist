@@ -6,14 +6,12 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeChoice -> floating_pt_type()
  *       | integer_type()
  *       | char_type()
  *       | boolean_type()
  *       | octet_type()
  *       | any_type()
- * </PRE>
  */
 public class base_type_spec implements Node {
    private Node parent;

@@ -28,6 +28,8 @@ public class ConfigPreferenceManager {
 	 */
 	private static final String Default_Value = ConfigPreferenceManager.class.getName()
 									+ "DEFAULT_VALUE";
+	private static final String REASON_OF_NO_ITEM = ConfigPreferenceManager.class.getName() + "REASON_OF_NO_ITEM";
+	private static final String IS_DELETED = "IS_DELETED";
 
 	public static ArrayList<ConfigParameterParam> defaultConfigValue = new ArrayList<ConfigParameterParam>();
 
@@ -35,78 +37,78 @@ public class ConfigPreferenceManager {
 
 	
 	private static final String[] CONFIG_ITEM = new String[] { 
-//	    "config.version",
-		"corba.args",
-		"corba.endpoint",
-//  "corba.id",               corba_name,
-//		"corba.name_servers",
-		"corba.nameservers",
+////	    "config.version",
+//		"corba.args",
+//		"corba.endpoint",
+////  "corba.id",               corba_name,
+////		"corba.name_servers",
+//		"corba.nameservers",
 		//
 		"exec_cxt.evdriven.type",
 		"exec_cxt.periodic.rate",
-		"exec_cxt.periodic.type",
+		"exec_cxt.periodic.type"
 		//
-		"logger.date_format",
-		"logger.enable",
-		"logger.file_name",
-		"logger.log_level",
-		"logger.master_logger",
-		"logger.stream_lock",
-		//
-		"manager.modules.load_path",
-		"manager.name", 
-//  	"manager.pid",
-		"module.conf_path",
-//		"module.load_path",
-		"naming.enable",
-		"naming.formats",
-		"naming.type",
-		"naming.update.enable",
-		"naming.update.interval",
-//	    "openrtm.version",
-		"os.arch",
-		"os.hostname",
-		"os.name",
-		"os.release",
-		"os.version",
-		"timer.enable",
-		"timer.tick"
+//		"logger.date_format",
+//		"logger.enable",
+//		"logger.file_name",
+//		"logger.log_level",
+//		"logger.master_logger",
+//		"logger.stream_lock",
+//		//
+//		"manager.modules.load_path",
+//		"manager.name", 
+////  	"manager.pid",
+//		"module.conf_path",
+////		"module.load_path",
+//		"naming.enable",
+//		"naming.formats",
+//		"naming.type",
+//		"naming.update.enable",
+//		"naming.update.interval",
+////	    "openrtm.version",
+//		"os.arch",
+//		"os.hostname",
+//		"os.name",
+//		"os.release",
+//		"os.version",
+//		"timer.enable",
+//		"timer.tick"
 	};
 	private static final String[] DEFAULT_ITEM = new String[] { 
-//    	openrtm_version,		"config.version",
-		"",								//"corba.args",
-		"",								//"corba.endpoint",   // hostname:port_number
-//    	corba_name,			"corba.id",
-		"",								//"corba.name_servers",
+////    	openrtm_version,		"config.version",
+//		"",								//"corba.args",
+//		"",								//"corba.endpoint",   // hostname:port_number
+////    	corba_name,			"corba.id",
+//		"",								//"corba.name_servers",
 		//
 		"EventDrivenExecutionContext",	//"exec_cxt.evdriven.type",
 		"1000",							//"exec_cxt.periodic.rate",
-		"PeriodicExecutionContext",		//"exec_cxt.periodic.type",
+		"PeriodicExecutionContext"		//"exec_cxt.periodic.type",
 		//
-		"%b %d %H:%M:%S",				//"logger.date_format",
-		"YES",							//"logger.enable",
-		"./rtc%p.log",					//"logger.file_name",       
-		"NORMAL",						//"logger.log_level",       
-		"",								//"logger.master_logger",
-		"NO",							//"logger.stream_lock",
-		//
-		"",								//"manager.modules.load_path",
-		"manager",						//"manager.name",
-//    	"",						"manager.pid",
-		"",								//"module.conf_path",       
-		"YES",							//"naming.enable",
-		"%h.host/%n.rtc",				//"naming.formats",
-		"corba",						//"naming.type",
-		"YES",							//"naming.update.enable",
-		"10.0",							//"naming.update.interval",
-//    	openrtm_name,			"openrtm.version"        
-		"",								//"os.arch",
-		"",								//"os.hostname",
-		"",								//"os.name",
-		"",								//"os.release",
-		"",								//"os.version",
-		"YES",							//"timer.enable",
-		"0.1"							//"timer.tick",
+//		"%b %d %H:%M:%S",				//"logger.date_format",
+//		"YES",							//"logger.enable",
+//		"./rtc%p.log",					//"logger.file_name",       
+//		"NORMAL",						//"logger.log_level",       
+//		"",								//"logger.master_logger",
+//		"NO",							//"logger.stream_lock",
+//		//
+//		"",								//"manager.modules.load_path",
+//		"manager",						//"manager.name",
+////    	"",						"manager.pid",
+//		"",								//"module.conf_path",       
+//		"YES",							//"naming.enable",
+//		"%h.host/%n.rtc",				//"naming.formats",
+//		"corba",						//"naming.type",
+//		"YES",							//"naming.update.enable",
+//		"10.0",							//"naming.update.interval",
+////    	openrtm_name,			"openrtm.version"        
+//		"",								//"os.arch",
+//		"",								//"os.hostname",
+//		"",								//"os.name",
+//		"",								//"os.release",
+//		"",								//"os.version",
+//		"YES",							//"timer.enable",
+//		"0.1"							//"timer.tick",
 	};
 
 	public static ArrayList<ConfigParameterParam> getDefaultConfigValue() {
@@ -127,10 +129,12 @@ public class ConfigPreferenceManager {
 	
 	public static String[] getConfigName() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Config_Name, "");
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(REASON_OF_NO_ITEM, "");
 
 		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Config_Name);
+		String reasonOfNoItem = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(REASON_OF_NO_ITEM);
 		String[] result;
-		if (resultTemp.equals("")) { // defaultvalue
+		if (resultTemp.equals("") && !IS_DELETED.equals(reasonOfNoItem)) { // defaultvalue
 			result = CONFIG_ITEM;
 		} else {
 			result = resultTemp.split(Separator);
@@ -143,10 +147,12 @@ public class ConfigPreferenceManager {
 
 	public static String[] getDefaultValue() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Default_Value, "");
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(REASON_OF_NO_ITEM, "");
 
 		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Default_Value);
+		String reasonOfNoItem = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(REASON_OF_NO_ITEM);
 		String[] result;
-		if (resultTemp.equals("")) { // defaultvalue
+		if (resultTemp.equals("") && !IS_DELETED.equals(reasonOfNoItem)) { // defaultvalue
 			result = DEFAULT_ITEM;
 		} else {
 			result = resultTemp.split(Separator);
@@ -161,6 +167,8 @@ public class ConfigPreferenceManager {
 		String[] defaultValue = getDefaultValue();
 
 		ArrayList<ConfigParameterParam> result = new ArrayList<ConfigParameterParam>();
+		if( configName.length==1 && "".equals(configName[0]) )
+			return result;	// —v‘f‚ª‚È‚¢‚Æ‚«‚Í‹ó‚ÌList‚ð•Ô‚·
 		
 		for(int intIdx=0; intIdx < configName.length; intIdx++) {
 			ConfigParameterParam configParam;
@@ -174,15 +182,30 @@ public class ConfigPreferenceManager {
 		return result;
 	}
 
+	public static String getReasonOfNoItemValue(){
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(REASON_OF_NO_ITEM, "");
+		String reasonOfNoItem = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(REASON_OF_NO_ITEM);
+		return reasonOfNoItem;
+	}
+	
 	public void setConfigValue(List<ConfigParameterParam> arrayConfig) {
 		String oldConfigName = convArray2String(getConfigName());
 		String oldDefaultValue = convArray2String(getDefaultValue());
+		String oldReasonOfNoItemValue = getReasonOfNoItemValue();
 		String newConfigName = convConfName2String(arrayConfig);
 		String newDefaultValue = convDefVal2String(arrayConfig);
+		String newReasonOfNoItemValue;
+		if( newConfigName.length()==0 && newDefaultValue.length()==0 ){
+			newReasonOfNoItemValue = IS_DELETED;
+		}else{
+			newReasonOfNoItemValue = "";
+		}
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Config_Name, newConfigName);
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Default_Value, newDefaultValue);
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(REASON_OF_NO_ITEM, newReasonOfNoItemValue);
 		propertyChangeSupport.firePropertyChange(Config_Name,oldConfigName,arrayConfig);
 		propertyChangeSupport.firePropertyChange(Default_Value,oldDefaultValue,arrayConfig);
+		propertyChangeSupport.firePropertyChange(REASON_OF_NO_ITEM,oldReasonOfNoItemValue,newReasonOfNoItemValue);
 	}
 
 	public static String convConfName2String(List<ConfigParameterParam> source) {
@@ -197,7 +220,7 @@ public class ConfigPreferenceManager {
 
 		String result = resultTemp.toString();
 		if(result.length() ==0) return "";
-		return result.substring(0, result.length()-1);
+		return result.substring(0, result.length()-Separator.length());
 	}
 	public static String convDefVal2String(List<ConfigParameterParam> source) {
 		StringBuffer resultTemp = new StringBuffer();
@@ -211,7 +234,7 @@ public class ConfigPreferenceManager {
 
 		String result = resultTemp.toString();
 		if(result.length() ==0) return "";
-		return result.substring(0, result.length()-1);
+		return result.substring(0, result.length()-Separator.length());
 	}
 	public static String convArray2String(String[] source) {
 		StringBuffer resultTemp = new StringBuffer();
@@ -223,6 +246,6 @@ public class ConfigPreferenceManager {
 
 		String result = resultTemp.toString();
 		if(result.length() ==0) return "";
-		return result.substring(0, result.length()-1);
+		return result.substring(0, result.length()-Separator.length());
 	}
 }

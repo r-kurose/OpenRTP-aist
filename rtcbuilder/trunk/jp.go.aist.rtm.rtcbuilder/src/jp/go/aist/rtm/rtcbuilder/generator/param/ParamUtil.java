@@ -2,35 +2,41 @@ package jp.go.aist.rtm.rtcbuilder.generator.param;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.datatype.DatatypeFactory;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
+import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ConfigPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.DocumentPreferenceManager;
+import jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler;
 
-import org.openrtp.namespaces.rtc.ActionStatusDoc;
-import org.openrtp.namespaces.rtc.Actions;
-import org.openrtp.namespaces.rtc.BasicInfoExt;
-import org.openrtp.namespaces.rtc.ConfigurationDoc;
-import org.openrtp.namespaces.rtc.Cxxlang;
-import org.openrtp.namespaces.rtc.DataportExt;
-import org.openrtp.namespaces.rtc.DocAction;
-import org.openrtp.namespaces.rtc.DocBasic;
-import org.openrtp.namespaces.rtc.DocConfiguration;
-import org.openrtp.namespaces.rtc.DocDataport;
-import org.openrtp.namespaces.rtc.DocServiceinterface;
-import org.openrtp.namespaces.rtc.DocServiceport;
-import org.openrtp.namespaces.rtc.Javalang;
-import org.openrtp.namespaces.rtc.Language;
-import org.openrtp.namespaces.rtc.ObjectFactory;
-import org.openrtp.namespaces.rtc.Parameter;
-import org.openrtp.namespaces.rtc.Position;
-import org.openrtp.namespaces.rtc.RtcProfile;
-import org.openrtp.namespaces.rtc.ServiceinterfaceDoc;
-import org.openrtp.namespaces.rtc.ServiceportExt;
+import org.openrtp.namespaces.rtc.version02.ActionStatusDoc;
+import org.openrtp.namespaces.rtc.version02.Actions;
+import org.openrtp.namespaces.rtc.version02.BasicInfoExt;
+import org.openrtp.namespaces.rtc.version02.ConfigurationExt;
+import org.openrtp.namespaces.rtc.version02.DataportExt;
+import org.openrtp.namespaces.rtc.version02.DocAction;
+import org.openrtp.namespaces.rtc.version02.DocBasic;
+import org.openrtp.namespaces.rtc.version02.DocConfiguration;
+import org.openrtp.namespaces.rtc.version02.DocDataport;
+import org.openrtp.namespaces.rtc.version02.DocServiceinterface;
+import org.openrtp.namespaces.rtc.version02.DocServiceport;
+import org.openrtp.namespaces.rtc.version02.Language;
+import org.openrtp.namespaces.rtc.version02.LanguageExt;
+import org.openrtp.namespaces.rtc.version02.Library;
+import org.openrtp.namespaces.rtc.version02.ObjectFactory;
+import org.openrtp.namespaces.rtc.version02.Parameter;
+import org.openrtp.namespaces.rtc.version02.Position;
+import org.openrtp.namespaces.rtc.version02.Property;
+import org.openrtp.namespaces.rtc.version02.RtcProfile;
+import org.openrtp.namespaces.rtc.version02.ServiceinterfaceDoc;
+import org.openrtp.namespaces.rtc.version02.ServiceinterfaceExt;
+import org.openrtp.namespaces.rtc.version02.ServiceportExt;
+import org.openrtp.namespaces.rtc.version02.TargetEnvironment;
 
 import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
 import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
@@ -41,8 +47,8 @@ public class ParamUtil {
 		ObjectFactory factory = new ObjectFactory();
 		RtcProfile profileType = factory.createRtcProfile();
 		String moduleId = IRtcBuilderConstants.SPEC_SUFFIX + IRtcBuilderConstants.SPEC_MAJOR_SEPARATOR +
-							ComponentPreferenceManager.getInstance().getBasic_VendorName() + IRtcBuilderConstants.SPEC_MINOR_SEPARATOR +
-							ComponentPreferenceManager.getInstance().getBasic_Category() + IRtcBuilderConstants.SPEC_MINOR_SEPARATOR +
+							ComponentPreferenceManager.getInstance().getBasic_VendorName() + IRtcBuilderConstants.SPEC_MAJOR_SEPARATOR +
+							ComponentPreferenceManager.getInstance().getBasic_Category() + IRtcBuilderConstants.SPEC_MAJOR_SEPARATOR +
 							ComponentPreferenceManager.getInstance().getBasic_ComponentName() + IRtcBuilderConstants.SPEC_MAJOR_SEPARATOR +
 							ComponentPreferenceManager.getInstance().getBasic_Version();
 		profileType.setId(moduleId);
@@ -75,59 +81,103 @@ public class ParamUtil {
 		ArrayList<String> docs = DocumentPreferenceManager.getInstance().getDocumentValue();
 		Actions actionType = factory.createActions();
 		//
-		ActionStatusDoc actionStatus = factory.createActionStatusDoc();
-		actionStatus.setImplemented(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_INITIALIZE)).booleanValue());
-		actionType.setOnInitialize(actionStatus);
+		ActionStatusDoc actionStatus = null;
+		if( Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_INITIALIZE)).booleanValue() ) {
+			actionStatus = factory.createActionStatusDoc();
+			actionStatus.setImplementedbln(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_INITIALIZE)).booleanValue());
+			actionType.setOnInitialize(actionStatus);
+		}
 
-		actionStatus = factory.createActionStatusDoc();
-		actionStatus.setImplemented(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_FINALIZE)).booleanValue());
-		actionType.setOnFinalize(actionStatus);
+		if( Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_FINALIZE)).booleanValue() ) {
+			actionStatus = factory.createActionStatusDoc();
+			actionStatus.setImplementedbln(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_FINALIZE)).booleanValue());
+			actionType.setOnFinalize(actionStatus);
+		}
 
-		actionStatus = factory.createActionStatusDoc();
-		actionStatus.setImplemented(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_STARTUP)).booleanValue());
-		actionType.setOnStartup(actionStatus);
+		if( Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_STARTUP)).booleanValue() ) {
+			actionStatus = factory.createActionStatusDoc();
+			actionStatus.setImplementedbln(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_STARTUP)).booleanValue());
+			actionType.setOnStartup(actionStatus);
+		}
 
-		actionStatus = factory.createActionStatusDoc();
-		actionStatus.setImplemented(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_SHUTDOWN)).booleanValue());
-		actionType.setOnShutdown(actionStatus);
+		if( Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_SHUTDOWN)).booleanValue() ) {
+			actionStatus = factory.createActionStatusDoc();
+			actionStatus.setImplementedbln(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_SHUTDOWN)).booleanValue());
+			actionType.setOnShutdown(actionStatus);
+		}
 
-		actionStatus = factory.createActionStatusDoc();
-		actionStatus.setImplemented(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_ACTIVATED)).booleanValue());
-		actionType.setOnActivated(actionStatus);
+		if( Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_ACTIVATED)).booleanValue() ) {
+			actionStatus = factory.createActionStatusDoc();
+			actionStatus.setImplementedbln(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_ACTIVATED)).booleanValue());
+			actionType.setOnActivated(actionStatus);
+		}
 
-		actionStatus = factory.createActionStatusDoc();
-		actionStatus.setImplemented(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_DEACTIVATED)).booleanValue());
-		actionType.setOnDeactivated(actionStatus);
+		if( Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_DEACTIVATED)).booleanValue() ) {
+			actionStatus = factory.createActionStatusDoc();
+			actionStatus.setImplementedbln(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_DEACTIVATED)).booleanValue());
+			actionType.setOnDeactivated(actionStatus);
+		}
 
-		actionStatus = factory.createActionStatusDoc();
-		actionStatus.setImplemented(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_EXECUTE)).booleanValue());
-		actionType.setOnExecute(actionStatus);
+		if( Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_EXECUTE)).booleanValue() ) {
+			actionStatus = factory.createActionStatusDoc();
+			actionStatus.setImplementedbln(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_EXECUTE)).booleanValue());
+			actionType.setOnExecute(actionStatus);
+		}
 
-		actionStatus = factory.createActionStatusDoc();
-		actionStatus.setImplemented(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_ABORTING)).booleanValue());
-		actionType.setOnAborting(actionStatus);
+		if( Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_ABORTING)).booleanValue() ) {
+			actionStatus = factory.createActionStatusDoc();
+			actionStatus.setImplementedbln(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_ABORTING)).booleanValue());
+			actionType.setOnAborting(actionStatus);
+		}
 
-		actionStatus = factory.createActionStatusDoc();
-		actionStatus.setImplemented(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_ERROR)).booleanValue());
-		actionType.setOnError(actionStatus);
+		if( Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_ERROR)).booleanValue() ) {
+			actionStatus = factory.createActionStatusDoc();
+			actionStatus.setImplementedbln(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_ERROR)).booleanValue());
+			actionType.setOnError(actionStatus);
+		}
 
-		actionStatus = factory.createActionStatusDoc();
-		actionStatus.setImplemented(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_RESET)).booleanValue());
-		actionType.setOnReset(actionStatus);
+		if( Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_RESET)).booleanValue() ) {
+			actionStatus = factory.createActionStatusDoc();
+			actionStatus.setImplementedbln(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_RESET)).booleanValue());
+			actionType.setOnReset(actionStatus);
+		}
 
-		actionStatus = factory.createActionStatusDoc();
-		actionStatus.setImplemented(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_STATE_UPDATE)).booleanValue());
-		actionType.setOnStateUpdate(actionStatus);
+		if( Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_STATE_UPDATE)).booleanValue() ) {
+			actionStatus = factory.createActionStatusDoc();
+			actionStatus.setImplementedbln(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_STATE_UPDATE)).booleanValue());
+			actionType.setOnStateUpdate(actionStatus);
+		}
 
-		actionStatus = factory.createActionStatusDoc();
-		actionStatus.setImplemented(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_RATE_CHANGED)).booleanValue());
-		actionType.setOnRateChanged(actionStatus);
+		if( Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_RATE_CHANGED)).booleanValue() ) {
+			actionStatus = factory.createActionStatusDoc();
+			actionStatus.setImplementedbln(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_RATE_CHANGED)).booleanValue());
+			actionType.setOnRateChanged(actionStatus);
+		}
+
+		if( Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_ACTION)).booleanValue() ) {
+			actionStatus = factory.createActionStatusDoc();
+			actionStatus.setImplementedbln(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_ACTION)).booleanValue());
+			actionType.setOnAction(actionStatus);
+		}
+
+		if( Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_MODE_CHANGED)).booleanValue() ) {
+			actionStatus = factory.createActionStatusDoc();
+			actionStatus.setImplementedbln(Boolean.valueOf(docs.get(IRtcBuilderConstants.ACTIVITY_MODE_CHANGED)).booleanValue());
+			actionType.setOnModeChanged(actionStatus);
+		}
 
 		profileType.setActions(actionType);
 		return profileType;
 	}
 
-	public static RtcParam convertFromModule(RtcProfile profile, GeneratorParam generatorParam) {
+	protected  static boolean checkNotNull(String target) {
+		if( target==null) return false;
+		if( target.equals("") ) return false;
+		return true;
+	}
+
+	public RtcParam convertFromModule(RtcProfile profile, GeneratorParam generatorParam,
+										List<GenerateManager> managerList) throws Exception {
 		RtcParam rtcParam = new RtcParam(generatorParam);
 		
 		rtcParam.setSchemaVersion(profile.getVersion());
@@ -135,21 +185,23 @@ public class ParamUtil {
 		BasicInfoExt basic = (BasicInfoExt)profile.getBasicInfo();
 		//Šî–{
 		rtcParam.setName(basic.getName());
+		rtcParam.setComponentType(basic.getComponentType());
+		rtcParam.setActivityType(basic.getActivityType());
+		rtcParam.setComponentKind(basic.getComponentKind());
+
 		rtcParam.setDescription(basic.getDescription());
 		rtcParam.setVersion(basic.getVersion());
 		rtcParam.setVender(basic.getVendor());
 		rtcParam.setCategory(basic.getCategory());
-		rtcParam.setComponentType(basic.getComponentType());
-		rtcParam.setActivityType(basic.getActivityType());
-		rtcParam.setComponentKind(basic.getComponentKind());
 		if( basic.getMaxInstances() != null )
 			rtcParam.setMaxInstance(basic.getMaxInstances().intValue());
 		rtcParam.setExecutionType(basic.getExecutionType());
 		rtcParam.setExecutionRate(basic.getExecutionRate().doubleValue());
 		rtcParam.setAbstract(basic.getAbstract());
+		rtcParam.setRtcType(basic.getRtcType());
 		rtcParam.setCreationDate(basic.getCreationDate().toString());
 		rtcParam.setUpdateDate(basic.getUpdateDate().toString());
-		rtcParam.setVersionUpLog(basic.getVersionUpLog());
+		rtcParam.setVersionUpLog(basic.getVersionUpLogs());
 		//Doc Basic
 		DocBasic docbasic = basic.getDoc();
 		if( docbasic != null ) {
@@ -159,6 +211,15 @@ public class ParamUtil {
 			rtcParam.setDocCreator(docbasic.getCreator());
 			rtcParam.setDocLicense(docbasic.getLicense());
 			rtcParam.setDocReference(docbasic.getReference());
+		}
+		//Ext Basic
+		rtcParam.setOutputProject(basic.getSaveProject());
+		//Basic Properties
+		for( Property prop : basic.getProperties() ) {
+			PropertyParam propParam = new PropertyParam();
+			propParam.setName(prop.getName());
+			propParam.setValue(prop.getValue());
+			rtcParam.getProperties().add(propParam);
 		}
 		//Data Ports
 		if( profile.getDataPorts() != null ) {
@@ -191,26 +252,47 @@ public class ParamUtil {
 		//Language
 		Language language = profile.getLanguage();
 		if( language != null ) {
-			Cxxlang cxx = language.getCxx();
-			Javalang java = language.getJava();
-			if( cxx != null ) {
-				if( cxx.getOs().equals("Windows") ) {
-					rtcParam.getLangList().add(IRtcBuilderConstants.LANG_CPPWIN);
-				} else {
-					rtcParam.getLangList().add(IRtcBuilderConstants.LANG_CPP);
+			String langKind = language.getKind();
+			if( isCxx(langKind) ) {
+				rtcParam.getLangList().add(IRtcBuilderConstants.LANG_CPP);
+				rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
+			} else {
+				if( managerList != null ) {
+					for( Iterator<GenerateManager> iter = managerList.iterator(); iter.hasNext(); ) {
+						GenerateManager manager = iter.next();
+						if( langKind.trim().equals(manager.getManagerKey())) {
+							rtcParam.getLangList().add(manager.getManagerKey());
+							break;
+						}
+					}
 				}
-				rtcParam.setArchitecture(cxx.getArch());
-				rtcParam.setCxxLibraryPathes(cxx.getLibrary());
-				rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_042);
-			} else 	if( java != null ) {
-				rtcParam.getLangList().add(IRtcBuilderConstants.LANG_JAVA);
-				rtcParam.setJavaClassPathes(java.getLibrary());
-			} else if( language.getPython() != null ) {
-				rtcParam.getLangList().add(IRtcBuilderConstants.LANG_PYTHON);
-			} else if( language.getCsharp() != null ) {
-				rtcParam.getLangList().add(IRtcBuilderConstants.LANG_CSHARP);
-			} else if( language.getRuby() != null ) {
-				rtcParam.getLangList().add(IRtcBuilderConstants.LANG_RUBY);
+			}
+			if( language instanceof LanguageExt ) {
+				LanguageExt langExt = (LanguageExt)language;
+				for( TargetEnvironment target : langExt.getTargets()) {
+					TargetEnvParam env = new TargetEnvParam();
+					env.setLangVersion(target.getLangVersion());
+					env.setOs(target.getOs());
+					env.setOther(target.getOther());
+					env.setCpuOther(target.getCpuOther());
+					//
+					for( String osVersion : target.getOsVersions()) {
+						env.getOsVersions().add(osVersion);
+					}
+					//
+					for( String cpus : target.getCpus()) {
+						env.getCpus().add(cpus);
+					}
+					//
+					for( Library lib : target.getLibraries()) {
+						LibraryParam libParam = new LibraryParam();
+						libParam.setName(lib.getName());
+						libParam.setVersion(lib.getVersion());
+						libParam.setOther(lib.getOther());
+						env.getLibraries().add(libParam);
+					}
+					rtcParam.getTargetEnvs().add(env);
+				}
 			}
 		}
 		//Actions
@@ -240,16 +322,30 @@ public class ParamUtil {
 				setActions( rtcParam, IRtcBuilderConstants.ACTIVITY_STATE_UPDATE, (ActionStatusDoc)actions.getOnStateUpdate());
 			if( actions.getOnRateChanged() != null )
 				setActions( rtcParam, IRtcBuilderConstants.ACTIVITY_RATE_CHANGED, (ActionStatusDoc)actions.getOnRateChanged());
+			if( actions.getOnAction() != null )
+				setActions( rtcParam, IRtcBuilderConstants.ACTIVITY_ACTION, (ActionStatusDoc)actions.getOnAction());
+			if( actions.getOnModeChanged() != null )
+				setActions( rtcParam, IRtcBuilderConstants.ACTIVITY_MODE_CHANGED, (ActionStatusDoc)actions.getOnModeChanged());
 		}
 		//
 		return rtcParam;
 	}
+	
+	private boolean isCxx(String target) {
+		if( target.equals(IRtcBuilderConstants.LANG_CPPWIN) ||
+				target.equals(IRtcBuilderConstants.LANG_CPP) )
+			return true;
+		return false;
+	}
 
-	private static void createConfigParam(List configs, RtcParam rtcParam) {
+	private void createConfigParam(List configs, RtcParam rtcParam)  throws Exception{
 		for( Object config : configs ) {
-			ConfigurationDoc configDoc = (ConfigurationDoc)config;
+			ConfigurationExt configDoc = (ConfigurationExt)config;
 			ConfigSetParam configp = new ConfigSetParam(
-					configDoc.getName(), configDoc.getType(), configDoc.getVarname(), configDoc.getDefaultValue());
+					configDoc.getName(), configDoc.getType(), configDoc.getDefaultValue());
+			configp.setUnit(configDoc.getUnit());
+			if( configDoc.getConstraint()!=null )
+				configp.setConstraint(XmlHandler.restoreConstraint(configDoc.getConstraint()));
 			DocConfiguration docConfig = configDoc.getDoc();
 			if( docConfig!=null ) {
 				configp.setDocDataName(docConfig.getDataname());
@@ -259,12 +355,23 @@ public class ParamUtil {
 				configp.setDocRange(docConfig.getRange());
 				configp.setDocConstraint(docConfig.getConstraint());
 			}
+			//Properties
+			if( config instanceof ConfigurationExt ) {
+				ConfigurationExt configExt = (ConfigurationExt)config;
+				configp.setVarName(configExt.getVariableName());
+				for( Property prop : configExt.getProperties() ) {
+					PropertyParam propParam = new PropertyParam();
+					propParam.setName(prop.getName());
+					propParam.setValue(prop.getValue());
+					configp.getProperties().add(propParam);
+				}
+			}
 			rtcParam.getConfigParams().add(configp);
 		}
 	}
 	
-	private static void setActions(RtcParam rtcParam, int actionId, ActionStatusDoc actionStatus) {
-		rtcParam.setActionImplemented( actionId, actionStatus.isImplemented());
+	private void setActions(RtcParam rtcParam, int actionId, ActionStatusDoc actionStatus) {
+		rtcParam.setActionImplemented( actionId, actionStatus.getImplemented());
 		if( actionStatus.getDoc() != null ) {
 			rtcParam.setDocActionOverView( actionId, actionStatus.getDoc().getDescription()); 
 			rtcParam.setDocActionPreCondition( actionId, actionStatus.getDoc().getPreCondition()); 
@@ -272,17 +379,25 @@ public class ParamUtil {
 		}
 	}
 
-	private static void createServicePortParam(List servicePorts, List<ServicePortParam> targetPort) {
+	private void createServicePortParam(List servicePorts, List<ServicePortParam> targetPort) {
 		for( Object serviceport : servicePorts ) {
 			ServiceportExt servicePortExt = (ServiceportExt)serviceport;
 			ServicePortParam serviceportp = new ServicePortParam();
 			serviceportp.setName(servicePortExt.getName());
-			serviceportp.setPosition(servicePortExt.getPosition().toString().toLowerCase());
+			serviceportp.setPosition(servicePortExt.getPosition().toString());
 			DocServiceport doc = servicePortExt.getDoc();
 			if( doc != null ) {
 				serviceportp.setDocDescription(doc.getDescription());
 				serviceportp.setDocIfDescription(doc.getIfdescription());
 			}
+			//Properties
+			for( Property prop : servicePortExt.getProperties() ) {
+				PropertyParam propParam = new PropertyParam();
+				propParam.setName(prop.getName());
+				propParam.setValue(prop.getValue());
+				serviceportp.getProperties().add(propParam);
+			}
+
 			//Service Interface
 			for( Object serviceinterface : servicePortExt.getServiceInterface() ) {
 				ServiceinterfaceDoc serviceIfDoc = (ServiceinterfaceDoc)serviceinterface;
@@ -291,7 +406,6 @@ public class ParamUtil {
 				serviceIF.setName(serviceIfDoc.getName());
 				serviceIF.setDirection(serviceIfDoc.getDirection());
 				serviceIF.setInstanceName(serviceIfDoc.getInstanceName());
-				serviceIF.setVarName(serviceIfDoc.getVarname());
 				serviceIF.setIdlFile(serviceIfDoc.getIdlFile());
 				serviceIF.setInterfaceType(serviceIfDoc.getType());
 				serviceIF.setIdlSearchPath(serviceIfDoc.getPath());
@@ -303,13 +417,25 @@ public class ParamUtil {
 					serviceIF.setDocPreCondition(docSrv.getDocPreCondition());
 					serviceIF.setDocPostCondition(docSrv.getDocPostCondition());
 				}
+				//Properties
+				if( serviceinterface instanceof ServiceinterfaceExt ) {
+					ServiceinterfaceExt serviceIfExt = (ServiceinterfaceExt)serviceinterface;
+					serviceIF.setVarName(serviceIfExt.getVariableName());
+					for( Property prop : serviceIfExt.getProperties() ) {
+						PropertyParam propParam = new PropertyParam();
+						propParam.setName(prop.getName());
+						propParam.setValue(prop.getValue());
+						serviceIF.getProperties().add(propParam);
+					}
+				}
+
 				serviceportp.getServicePortInterfaces().add(serviceIF);
 			}
 			targetPort.add(serviceportp);
 		}
 	}
 
-	private static void createDataPortParam(List dataPorts, RtcParam rtcParam) {
+	private void createDataPortParam(List dataPorts, RtcParam rtcParam) throws Exception {
 		List<DataPortParam> InPortList = new ArrayList<DataPortParam>();
 		List<DataPortParam> OutPortList = new ArrayList<DataPortParam>();
 		for( Object dataport : dataPorts ) {
@@ -317,12 +443,15 @@ public class ParamUtil {
 			DataPortParam dataportp = new DataPortParam();
 			dataportp.setName(dataPortExt.getName());
 			dataportp.setType(dataPortExt.getType());
-			dataportp.setVarName(dataPortExt.getVarname());
-			dataportp.setPosition(dataPortExt.getPosition().toString().toLowerCase());
+			dataportp.setVarName(dataPortExt.getVariableName());
+			dataportp.setPosition(dataPortExt.getPosition().toString());
 			dataportp.setDataFlowType(dataPortExt.getDataflowType());
 			dataportp.setInterfaceType(dataPortExt.getInterfaceType());
-			dataportp.setSubscriptionType(dataPortExt.getSubscriprionType());
+			dataportp.setSubscriptionType(dataPortExt.getSubscriptionType());
 			dataportp.setIdlFile(dataPortExt.getIdlFile());
+			dataportp.setUnit(dataPortExt.getUnit());
+			if( dataPortExt.getConstraint()!=null )
+				dataportp.setConstraint(XmlHandler.restoreConstraint(dataPortExt.getConstraint()));
 			
 			DocDataport docPort = dataPortExt.getDoc();
 			if( docPort!=null ) {
@@ -334,6 +463,14 @@ public class ParamUtil {
 				dataportp.setDocOccurrence(docPort.getOccerrence());
 				dataportp.setDocOperation(docPort.getOperation());
 			}
+			//Properties
+			for( Property prop : dataPortExt.getProperties() ) {
+				PropertyParam propParam = new PropertyParam();
+				propParam.setName(prop.getName());
+				propParam.setValue(prop.getValue());
+				dataportp.getProperties().add(propParam);
+			}
+			//
 			if(dataPortExt.getPortType().equals(IRtcBuilderConstants.SPEC_DATA_INPORT_KIND) )
 				InPortList.add(dataportp);
 			else
@@ -343,14 +480,15 @@ public class ParamUtil {
 		rtcParam.setOutports(OutPortList);
 	}
 
-	public static RtcProfile convertToModule(GeneratorParam generatorParam) {
+	public RtcProfile convertToModule(GeneratorParam generatorParam,
+										List<GenerateManager> managerList) throws Exception {
 		RtcParam rtcParam = generatorParam.getRtcParams().get(0);
 		
 		ObjectFactory factory = new ObjectFactory();
 		RtcProfile profile = factory.createRtcProfile();
 		String moduleId = IRtcBuilderConstants.SPEC_SUFFIX + IRtcBuilderConstants.SPEC_MAJOR_SEPARATOR +
-							rtcParam.getVender() + IRtcBuilderConstants.SPEC_MINOR_SEPARATOR +
-							rtcParam.getCategory() + IRtcBuilderConstants.SPEC_MINOR_SEPARATOR +
+							rtcParam.getVender() + IRtcBuilderConstants.SPEC_MAJOR_SEPARATOR +
+							rtcParam.getCategory() + IRtcBuilderConstants.SPEC_MAJOR_SEPARATOR +
 							rtcParam.getName() + IRtcBuilderConstants.SPEC_MAJOR_SEPARATOR +
 							rtcParam.getVersion();
 		profile.setId(moduleId);
@@ -370,9 +508,11 @@ public class ParamUtil {
 		basic.setExecutionRate(Double.valueOf(rtcParam.getExecutionRate()));
 		//
 		basic.setAbstract(rtcParam.getAbstract());
+		basic.setRtcType(rtcParam.getRtcType());
 		if(rtcParam.getCreationDate()!=null) basic.setCreationDate(XMLGregorianCalendarImpl.parse(rtcParam.getCreationDate()));
 		if(rtcParam.getUpdateDate()!=null) basic.setUpdateDate(XMLGregorianCalendarImpl.parse(rtcParam.getUpdateDate()));
-		if(rtcParam.getVersionUpLog()!=null)basic.getVersionUpLog().addAll(rtcParam.getVersionUpLog());
+		if(rtcParam.getVersionUpLog()!=null)basic.getVersionUpLogs().addAll(rtcParam.getVersionUpLog());
+		if(rtcParam.getCurrentVersionUpLog()!=null)basic.getVersionUpLogs().add(rtcParam.getCurrentVersionUpLog());
 		//Doc Basic
 		DocBasic docbasic = factory.createDocBasic();
 		if( rtcParam.isDocExist() ) {
@@ -384,6 +524,16 @@ public class ParamUtil {
 			docbasic.setReference(rtcParam.getDocReference());
 			basic.setDoc(docbasic);
 		}
+		//Ext Basic
+		basic.setSaveProject(rtcParam.getOutputProject());
+		//Properties
+		for( PropertyParam prop : rtcParam.getProperties() ) {
+			Property basicProp = factory.createProperty();
+			basicProp.setName(prop.getName());
+			basicProp.setValue(prop.getValue());
+			basic.getProperties().add(basicProp);
+		}
+		
 		profile.setBasicInfo(basic);
 		//Actions
 		Actions actions = factory.createActions();
@@ -399,6 +549,8 @@ public class ParamUtil {
 		actions.setOnReset(createActions(IRtcBuilderConstants.ACTIVITY_RESET, rtcParam));
 		actions.setOnStateUpdate(createActions(IRtcBuilderConstants.ACTIVITY_STATE_UPDATE, rtcParam));
 		actions.setOnRateChanged(createActions(IRtcBuilderConstants.ACTIVITY_RATE_CHANGED, rtcParam));
+		actions.setOnAction(createActions(IRtcBuilderConstants.ACTIVITY_ACTION, rtcParam));
+		actions.setOnModeChanged(createActions(IRtcBuilderConstants.ACTIVITY_MODE_CHANGED, rtcParam));
 		profile.setActions(actions);
 		
 		//Data Ports
@@ -415,12 +567,23 @@ public class ParamUtil {
 		}
 		//Configuration
 		for( ConfigSetParam configp : rtcParam.getConfigParams() ) {
-			ConfigurationDoc config = factory.createConfigurationDoc();
+			ConfigurationExt config = factory.createConfigurationExt();
 			config.setName(configp.getName());
 			config.setType(configp.getType());
-			config.setVarname(configp.getVarName());
+			config.setVariableName(configp.getVarName());
 			config.setDefaultValue(configp.getDefaultVal());
+			config.setUnit(configp.getUnit());
+			config.setConstraint(XmlHandler.convertToXmlConstraint(configp.getConstraint()));
 			profile.getConfigurationSet().getConfiguration().add(config);
+			//
+			for(PropertyParam propp : configp.getProperties() ) {
+				if( propp.getValue()!=null && propp.getValue().length()>0 ) {
+					Property prop = factory.createProperty();
+					prop.setName(propp.getName());
+					prop.setValue(propp.getValue());
+					config.getProperties().add(prop);
+				}
+			}
 			//
 			DocConfiguration docconfig = factory.createDocConfiguration();
 			docconfig.setDataname(configp.getDocDataName());
@@ -429,12 +592,6 @@ public class ParamUtil {
 			docconfig.setUnit(configp.getDocUnit());
 			docconfig.setRange(configp.getDocRange());
 			docconfig.setConstraint(configp.getDocConstraint());
-//			if( !configp.getDocDataName().equals("") ||
-//				 !configp.getDocDefaultVal().equals("") ||
-//				 !configp.getDocDescription().equals("") ||
-//				 !configp.getDocUnit().equals("") ||
-//				 !configp.getDocRange().equals("") ||
-//				 !configp.getDocConstraint().equals("") ) {
 			if( checkNotNull(configp.getDocDataName()) ||
 				 checkNotNull(configp.getDocDefaultVal()) ||
 				 checkNotNull(configp.getDocDescription()) ||
@@ -454,51 +611,69 @@ public class ParamUtil {
 		}
 		//Language
 		for( String languagep : rtcParam.getLangList() ) {
-			Language language = factory.createLanguage();
+			LanguageExt language = factory.createLanguageExt();
 			if(languagep.equals(IRtcBuilderConstants.LANG_CPP)) {
-				Cxxlang cxx = factory.createCxxlang();
-				cxx.setOs("etc");
-				cxx.setArch(rtcParam.getArchitecture());
-				cxx.getLibrary().clear();
-				cxx.getLibrary().addAll(rtcParam.getCxxLibraryPathes());
-				language.setCxx(cxx);
-			} else 	if(languagep.equals(IRtcBuilderConstants.LANG_CPPWIN)) {
-				Cxxlang cxx = factory.createCxxlang();
-				cxx.setOs("Windows");
-				cxx.setArch(rtcParam.getArchitecture());
-				cxx.getLibrary().clear();
-				cxx.getLibrary().addAll(rtcParam.getCxxLibraryPathes());
-				language.setCxx(cxx);
-			}  else if(languagep.equals(IRtcBuilderConstants.LANG_JAVA)) {
-				Javalang javaLang = factory.createJavalang();
-				javaLang.getLibrary().clear();
-				javaLang.getLibrary().addAll(rtcParam.getJavaClassPathes());
-				language.setJava(javaLang);
-			}  else if(languagep.equals(IRtcBuilderConstants.LANG_PYTHON)) {
-				language.setPython("Python");
-			}  else if(languagep.equals(IRtcBuilderConstants.LANG_CSHARP)) {
-				language.setCsharp("Csharp");
-			}  else if(languagep.equals(IRtcBuilderConstants.LANG_RUBY)) {
-				language.setRuby("Ruby");
+				language.setKind(IRtcBuilderConstants.LANG_CPP);
+			} else {
+				if( managerList != null ) {
+					for( Iterator<GenerateManager> iter = managerList.iterator(); iter.hasNext(); ) {
+						GenerateManager manager = iter.next();
+						if( languagep.trim().equals(manager.getManagerKey())) {
+							language.setKind(manager.getManagerKey());
+							break;
+						}
+					}
+				}
+			}
+			//
+			for(TargetEnvParam target : rtcParam.getTargetEnvs() ) {
+				TargetEnvironment env = factory.createTargetEnvironment();
+				env.setLangVersion(target.getLangVersion());
+				env.setOs(target.getOs());
+				env.setOther(target.getOther());
+				env.setCpuOther(target.getCpuOther());
+				//
+				for( String osVersion : target.getOsVersions() ) {
+					env.getOsVersions().add(osVersion);
+				}
+				//
+				for( String cpus : target.getCpus() ) {
+					env.getCpus().add(cpus);
+				}
+				//
+				for( LibraryParam library : target.getLibraries() ) {
+					Library lib = factory.createLibrary();
+					lib.setName(library.getName());
+					lib.setVersion(library.getVersion());
+					lib.setOther(library.getOther());
+					env.getLibraries().add(lib);
+				}
+				language.getTargets().add(env);
 			}
 			profile.setLanguage(language);
 		}
 		//
+		
+		deleteInapplicableItem(profile, managerList);
+		
 		return profile;
 	}
 
-	private static DataportExt createDataPort(DataPortParam dataportp, String portType) {
+	private DataportExt createDataPort(DataPortParam dataportp, String portType) throws Exception {
 		ObjectFactory factory = new ObjectFactory();
 		DataportExt dataport = factory.createDataportExt();
 		dataport.setPortType(portType);
 		dataport.setName(dataportp.getName());
 		dataport.setType(dataportp.getType());
-		dataport.setVarname(dataportp.getVarName());
-		dataport.setPosition(Position.fromValue(dataportp.getPosition().toLowerCase()));
+		dataport.setVariableName(dataportp.getVarName());
+		dataport.setPosition(Position.fromValue(dataportp.getPosition().toUpperCase()));
 		dataport.setIdlFile(dataportp.getIdlFile());
 		dataport.setDataflowType(dataportp.getDataFlowType());
 		dataport.setInterfaceType(dataportp.getInterfaceType());
-		dataport.setSubscriprionType(dataportp.getSubscriptionType());
+		dataport.setSubscriptionType(dataportp.getSubscriptionType());
+		dataport.setUnit(dataportp.getUnit());
+		if( dataportp.getConstraint()!=null && !"".equals(dataportp.getConstraint()) )
+			dataport.setConstraint(XmlHandler.convertToXmlConstraint(dataportp.getConstraint()));
 		//
 		DocDataport docdataport = factory.createDocDataport();
 		docdataport.setDescription(dataportp.getDocDescription());
@@ -508,13 +683,6 @@ public class ParamUtil {
 		docdataport.setUnit(dataportp.getDocUnit());
 		docdataport.setOccerrence(dataportp.getDocOccurrence());
 		docdataport.setOperation(dataportp.getDocOperation());
-//		if( !dataportp.getDocDescription().equals("") ||
-//				 !dataportp.getDocType().equals("") ||
-//				 !dataportp.getDocNum().equals("") ||
-//				 !dataportp.getDocSemantics().equals("") ||
-//				 !dataportp.getDocUnit().equals("") ||
-//				 !dataportp.getDocOccurrence().equals("") ||
-//				 !dataportp.getDocOperation().equals("") ) {
 		if( checkNotNull(dataportp.getDocDescription()) ||
 			 checkNotNull(dataportp.getDocType()) ||
 			 checkNotNull(dataportp.getDocNum()) ||
@@ -525,31 +693,44 @@ public class ParamUtil {
 				dataport.setDoc(docdataport);
 		}
 		//
+		//Properties
+		for( PropertyParam prop : dataportp.getProperties() ) {
+			Property dpProp = factory.createProperty();
+			dpProp.setName(prop.getName());
+			dpProp.setValue(prop.getValue());
+			dataport.getProperties().add(dpProp);
+		}
+		//
 		return dataport;
 	}
 
-	private static ServiceportExt createServicePort(ServicePortParam serviceportp) {
+	private ServiceportExt createServicePort(ServicePortParam serviceportp) {
 		ObjectFactory factory = new ObjectFactory();
 		ServiceportExt serviceport = factory.createServiceportExt();
 		serviceport.setName(serviceportp.getName());
-		serviceport.setPosition(Position.fromValue(serviceportp.getPosition().toLowerCase()));
+		serviceport.setPosition(Position.fromValue(serviceportp.getPosition().toUpperCase()));
 		//
 		DocServiceport docserviceport = factory.createDocServiceport();
 		docserviceport.setDescription(serviceportp.getDocDescription());
 		docserviceport.setIfdescription(serviceportp.getDocIfDescription());
-//		if( !(serviceportp.getDocDescription()!=null && serviceportp.getDocDescription().equals("")) ||
-//				 !(serviceportp.getDocIfDescription()!=null && serviceportp.getDocIfDescription().equals("")) ) {
 		if( checkNotNull(serviceportp.getDocDescription()) ||
 			 checkNotNull(serviceportp.getDocIfDescription()) ) {
 				 serviceport.setDoc(docserviceport);
 		}
+		//Properties
+		for( PropertyParam prop : serviceportp.getProperties() ) {
+			Property srvProp = factory.createProperty();
+			srvProp.setName(prop.getName());
+			srvProp.setValue(prop.getValue());
+			serviceport.getProperties().add(srvProp);
+		}
 		//Service Interface
 		for( ServicePortInterfaceParam serviceinterfacep : serviceportp.getServicePortInterfaces() ) {
-			ServiceinterfaceDoc serviceIF = factory.createServiceinterfaceDoc();
+			ServiceinterfaceExt serviceIF = factory.createServiceinterfaceExt();
 			serviceIF.setName(serviceinterfacep.getName());
 			serviceIF.setDirection(serviceinterfacep.getDirection());
 			serviceIF.setInstanceName(serviceinterfacep.getInstanceName());
-			serviceIF.setVarname(serviceinterfacep.getVarName());
+			serviceIF.setVariableName(serviceinterfacep.getVarName());
 			serviceIF.setIdlFile(serviceinterfacep.getIdlFile());
 			serviceIF.setType(serviceinterfacep.getInterfaceType());
 			serviceIF.setPath(serviceinterfacep.getIdlSearchPath());
@@ -561,12 +742,6 @@ public class ParamUtil {
 			docserviceIF.setDocException(serviceinterfacep.getDocException());
 			docserviceIF.setDocPreCondition(serviceinterfacep.getDocPreCondition());
 			docserviceIF.setDocPostCondition(serviceinterfacep.getDocPostCondition());
-//			if( !serviceinterfacep.getDocDescription().equals("") ||
-//					 !serviceinterfacep.getDocArgument().equals("") ||
-//					 !serviceinterfacep.getDocReturn().equals("") ||
-//					 !serviceinterfacep.getDocException().equals("") ||
-//					 !serviceinterfacep.getDocPreCondition().equals("") ||
-//					 !serviceinterfacep.getDocPostCondition().equals("") ) {
 			if( checkNotNull(serviceinterfacep.getDocDescription()) ||
 				 checkNotNull(serviceinterfacep.getDocArgument()) ||
 				 checkNotNull(serviceinterfacep.getDocReturn()) ||
@@ -575,13 +750,20 @@ public class ParamUtil {
 				 checkNotNull(serviceinterfacep.getDocPostCondition()) ) {
 					serviceIF.setDoc(docserviceIF);
 			}
+			//Properties
+			for( PropertyParam prop : serviceinterfacep.getProperties() ) {
+				Property ifProp = factory.createProperty();
+				ifProp.setName(prop.getName());
+				ifProp.setValue(prop.getValue());
+				serviceIF.getProperties().add(ifProp);
+			}
 			
 			serviceport.getServiceInterface().add(serviceIF);
 		}
 		return serviceport;
 	}
 
-	private static ActionStatusDoc createActions(int actionId, RtcParam rtcParam) {
+	private ActionStatusDoc createActions(int actionId, RtcParam rtcParam) {
 		ObjectFactory factory = new ObjectFactory();
 		ActionStatusDoc status = factory.createActionStatusDoc();
 		DocAction docAction = factory.createDocAction();
@@ -589,22 +771,31 @@ public class ParamUtil {
 		docAction.setDescription(rtcParam.getDocActionOverView(actionId));
 		docAction.setPreCondition(rtcParam.getDocActionPreCondition(actionId));
 		docAction.setPostCondition(rtcParam.getDocActionPostCondition(actionId));
-//		if( (docAction.getDescription()!=null && !docAction.getDescription().equals("")) || 
-//				 (docAction.getPreCondition()!=null && !docAction.getPreCondition().equals("")) ||
-//				 (docAction.getPostCondition()!=null && !docAction.getPostCondition().equals("")) ) {
 		if( checkNotNull(docAction.getDescription()) || 
 			 checkNotNull(docAction.getPreCondition()) ||
 			 checkNotNull(docAction.getPostCondition()) ) {
 				status.setDoc(docAction);
 		}
 		//
-		status.setImplemented(Boolean.valueOf(rtcParam.getActionImplemented(actionId)).booleanValue());
+		status.setImplementedbln(rtcParam.getActionImplemented(actionId));
 		//
 		return status;
 	}
-	private static boolean checkNotNull(String target) {
-		if( target==null) return false;
-		if( target.equals("") ) return false;
-		return true;
+	
+	private void deleteInapplicableItem(RtcProfile profile, List<GenerateManager> managerList){
+		if( profile.getLanguage()==null ) return;
+		String langName = profile.getLanguage().getKind();
+		for( GenerateManager manager : managerList ){
+			if( manager.getManagerKey().endsWith(langName) ){
+				List<String> infos = manager.getInapplicables();
+				if( infos!=null ){
+					if( infos.contains(GenerateManager.RTC_PROFILE_PARAMETERS_INAPPLICABLE) )
+						profile.getParameters().clear();
+					if( infos.contains(GenerateManager.RTC_PROFILE_SERVICE_PORTS_INAPPLICABLE) )
+						profile.getServicePorts().clear();
+				}
+				break;
+			}
+		}
 	}
 }

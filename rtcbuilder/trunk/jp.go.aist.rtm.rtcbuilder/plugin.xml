@@ -9,7 +9,11 @@
 -->
 
 <plugin>
-   <extension-point id="generateManager" name="Language Manager" schema="schema/generateManager.exsd"/>
+  <extension-point id="generateManager" name="Language Manager" schema="schema/generateManager.exsd"/>
+  <extension-point id="editorExtension" name="EditorExtension" schema="schema/editorExtension.exsd"/>
+  <extension-point id="addFormPageExtension" name="AddFormPageExtension" schema="schema/addFormPageExtension.exsd"/>
+  <extension-point id="exportExtension" name="Export Extension" schema="schema/exportExtension.exsd"/>
+  <extension-point id="importExtension" name="Import Extension" schema="schema/importExtension.exsd"/>
 
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package 
@@ -24,7 +28,7 @@
            extensions="rtcbuilder"
            icon="icons/RTCBuilder.png"
            id="jp.go.aist.rtm.rtcbuilder.ui.editors.RtcBuilderEditor"
-           name="RTC Builder Editor"/>
+           name="%RtcBuilderEditorName"/>
   </extension>
   <extension
         point="org.eclipse.ui.popupMenus">
@@ -32,7 +36,7 @@
            id="jp.go.aist.rtm.rtcbuilder.ui.viewerContribution.saveas"
            targetID="jp.go.aist.rtm.rtcbuilder.ui.editors.RtcBuilderEditor" >
 		<action id="jp.go.aist.rtm.rtcbuilder.ui.action.SaveAsAction" 
-			label="Save As..." 
+			label="%SaveAsActionLabel" 
 			menubarPath="file"
 			class="jp.go.aist.rtm.rtcbuilder.ui.action.SaveAsAction" > 
 		</action>
@@ -44,7 +48,7 @@
 			<objectState name="dirty" value="true"/>
 		</visibility>
 		<action id="jp.go.aist.rtm.rtcbuilder.ui.action.SaveAction" 
-			label="Save" 
+			label="%SaveActionLabel" 
 			menubarPath="file"
 			class="jp.go.aist.rtm.rtcbuilder.ui.action.SaveAction" > 
 		</action>
@@ -53,7 +57,7 @@
            id="jp.go.aist.rtm.rtcbuilder.ui.viewerContribution.open"
            targetID="jp.go.aist.rtm.rtcbuilder.ui.editors.RtcBuilderEditor">
 		<action id="jp.go.aist.rtm.rtcbuilder.ui.action.OpenAction" 
-			label="Open..." 
+			label="%OpenActionLabel" 
 			menubarPath="file"
 			class="jp.go.aist.rtm.rtcbuilder.ui.action.OpenAction" > 
 		</action>
@@ -66,11 +70,11 @@
            label="RTC Builder Actions">
 			<action
 				id="jp.go.aist.rtm.rtcbuilder.ui.action.NewRtcBuilderEditorAction" 
-				label="&amp;Open New Builder Editor"
+				label="%NewRtcBuilderEditorActionLabel"
 				menubarPath="file/RtcBuilderGroup" 
 				toolbarPath="RtcBuilder"
 				icon="icons/RtcBuilderL.png" 
-				tooltip="Open New RtcBuilder Editor" 
+				tooltip="%NewRtcBuilderEditorActionToolTip" 
 				class="jp.go.aist.rtm.rtcbuilder.ui.action.NewRtcBuilderEditorAction"> 
 			</action>
 		</actionSet>
@@ -85,26 +89,26 @@
         point="org.eclipse.ui.views">
      <category
            id="OpenRTP"
-           name="OpenRTP Tools"/>
+           name="%viewCategoryName"/>
      <view
            allowMultiple="false"
            category="OpenRTP"
            class="jp.go.aist.rtm.rtcbuilder.ui.views.ComponentBuildView"
            icon="icons/buildView.png"
            id="jp.go.aist.rtm.rtcbuilder.buildeview"
-           name="BuildView"/>
+           name="%buildeviewName"/>
   </extension>
   <extension
         point="org.eclipse.ui.newWizards">
      <category
            id="jp.go.aist.rtm.rtcbuilder.ui.wizard"
-           name="RTC Builder Wizard"/>
+           name="%wizardCategoryName"/>
      <wizard
            class="jp.go.aist.rtm.rtcbuilder.ui.wizard.NewWizard"
            finalPerspective="jp.go.aist.rtm.rtcbuilder.ui.perspective"
            icon="icons/RTCBuilder.png"
            id="jp.go.aist.rtm.rtcbuilder.ui.wizard"
-           name="RTCビルダ"
+           name="%wizardName"
            project="true"/>
   </extension>
   <extension
@@ -113,44 +117,49 @@
            class="jp.go.aist.rtm.rtcbuilder.ui.Perspective.RtcBuilderPerspectiveFactory"
            icon="icons/RtcBuilderL.png"
            id="jp.go.aist.rtm.rtcbuilder.ui.perspective"
-           name="RTC Builder"/>
+           name="%perspectiveName"/>
   </extension>
   <extension
         point="org.eclipse.ui.preferencePages">
      <page
            class="jp.go.aist.rtm.rtcbuilder.ui.preference.RtcBuilderPreferencePage"
            id="jp.go.aist.rtm.rtcbuilder.ui.preferencePage"
-           name="RtcBuilder"/>
+           name="%preferecePagesName"/>
      <page
            category="jp.go.aist.rtm.rtcbuilder.ui.preferencePage"
            class="jp.go.aist.rtm.rtcbuilder.ui.preference.BuilderViewPreferencePage"
            id="jp.go.aist.rtm.rtcbuilder.ui.preferencePage.buildView"
-           name="Builder View"/>
+           name="%preferecePagesBuildViewName"/>
      <page
            category="jp.go.aist.rtm.rtcbuilder.ui.preferencePage"
            class="jp.go.aist.rtm.rtcbuilder.ui.preference.ExportPreferencePage"
            id="jp.go.aist.rtm.rtcbuilder.ui.preferencePage.export"
-           name="Export"/>
+           name="%preferecePagesExportName"/>
      <page
            category="jp.go.aist.rtm.rtcbuilder.ui.preferencePage"
            class="jp.go.aist.rtm.rtcbuilder.ui.preference.CodeGeneratePreferencePage"
            id="jp.go.aist.rtm.rtcbuilder.ui.preferencePage.codeGenerate"
-           name="コード生成"/>
+           name="%preferecePagesCodeGenerateName"/>
      <page
            category="jp.go.aist.rtm.rtcbuilder.ui.preferencePage.codeGenerate"
            class="jp.go.aist.rtm.rtcbuilder.ui.preference.ConfigPreferencePage"
            id="jp.go.aist.rtm.rtcbuilder.ui.preferencePage.codeGenerate.Configuration"
-           name="Configuration"/>
+           name="%preferecePagesConfigurationName"/>
      <page
            category="jp.go.aist.rtm.rtcbuilder.ui.preferencePage.codeGenerate"
            class="jp.go.aist.rtm.rtcbuilder.ui.preference.CodeGeneratePortPreferencePage"
            id="jp.go.aist.rtm.rtcbuilder.ui.preferencePage.codeGenerate.Ports"
-           name="Port"/>
+           name="%preferecePagesPortsName"/>
      <page
            category="jp.go.aist.rtm.rtcbuilder.ui.preferencePage.codeGenerate"
            class="jp.go.aist.rtm.rtcbuilder.ui.preference.DocumentPreferencePage"
            id="jp.go.aist.rtm.rtcbuilder.ui.preferencePage.codeGenerate.Document"
-           name="Document"/>
+           name="%preferecePagesDocumentName"/>
+     <page
+           category="jp.go.aist.rtm.rtcbuilder.ui.preferencePage"
+           class="jp.go.aist.rtm.rtcbuilder.ui.preference.DataTypePreferencePage"
+           id="jp.go.aist.rtm.rtcbuilder.ui.preferencePage.dataType"
+           name="%preferecePagesDataTypeName"/>
   </extension>
 
 </plugin>

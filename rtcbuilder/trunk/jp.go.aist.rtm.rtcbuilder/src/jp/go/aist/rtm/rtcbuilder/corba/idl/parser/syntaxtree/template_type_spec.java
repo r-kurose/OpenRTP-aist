@@ -6,10 +6,8 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeChoice -> sequence_type()
  *       | string_type()
- * </PRE>
  */
 public class template_type_spec implements Node {
    private Node parent;

@@ -2,7 +2,8 @@
 /*!
  * @file  ${rtcParam.name}Impl.java
  * @brief ${rtcParam.description}
- * @date  $Date$
+#set( $Date$ = "dummy" )
+ * @date  \$Date$
 #if( ${rtcParam.docCreator.length()} > 0 )
  *
  * @author ${tmpltHelper.convertAuthorDoc(${rtcParam.docCreator})}
@@ -12,11 +13,12 @@
  * ${tmpltHelper.convertDoc(${rtcParam.docLicense})}
 #end
  *
- * $Id$
+#set( $Id$ = "dummy" )
+ * \$Id$
  */
 
 #foreach($type in ${javaConv.getPortTypes(${rtcParam})})  
-import RTC.${type};
+${javaConv.getDataportPackageName(${type})}
 #end
 import jp.go.aist.rtm.RTC.DataFlowComponentBase;
 import jp.go.aist.rtm.RTC.Manager;
@@ -78,14 +80,14 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
         super(manager);
         // <rtc-template block="initializer">
 #foreach($port in ${rtcParam.inports})  
-        m_${port.tmplVarName}_val = new ${port.type}();
-        m_${port.tmplVarName} = new DataRef<${port.type}>(m_${port.tmplVarName}_val);
-        m_${port.name}In = new InPort<${port.type}>("${port.name}", m_${port.tmplVarName});
+        m_${port.tmplVarName}_val = new ${javaConv.getDataTypeName(${port.type})}();
+        m_${port.tmplVarName} = new DataRef<${javaConv.getDataTypeName(${port.type})}>(m_${port.tmplVarName}_val);
+        m_${port.name}In = new InPort<${javaConv.getDataTypeName(${port.type})}>("${port.name}", m_${port.tmplVarName});
 #end
 #foreach($port in ${rtcParam.outports})  
-        m_${port.tmplVarName}_val = new ${port.type}();
-        m_${port.tmplVarName} = new DataRef<${port.type}>(m_${port.tmplVarName}_val);
-        m_${port.name}Out = new OutPort<${port.type}>("${port.name}", m_${port.tmplVarName});
+        m_${port.tmplVarName}_val = new ${javaConv.getDataTypeName(${port.type})}();
+        m_${port.tmplVarName} = new DataRef<${javaConv.getDataTypeName(${port.type})}>(m_${port.tmplVarName}_val);
+        m_${port.name}Out = new OutPort<${javaConv.getDataTypeName(${port.type})}>("${port.name}", m_${port.tmplVarName});
 #end
 #if(${rtcParam.servicePorts.size()}>0)
 #foreach($servicePort in ${rtcParam.servicePorts})
@@ -100,7 +102,7 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #if( ${rtcParam.inports.size()} > 0 )
         try {
 #foreach($port in ${rtcParam.inports})  
-			registerInPort(${port.type}.class, "${port.name}", m_${port.name}In);
+			registerInPort(${javaConv.getDataTypeName(${port.type})}.class, "${port.name}", m_${port.name}In);
 #end
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -111,7 +113,7 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #if( ${rtcParam.outports.size()} > 0 )
         try {
 #foreach($port in ${rtcParam.outports})  
-			registerOutPort(${port.type}.class, "${port.name}", m_${port.name}Out);
+			registerOutPort(${javaConv.getDataTypeName(${port.type})}.class, "${port.name}", m_${port.name}Out);
 #end
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -296,77 +298,11 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #if(${rtcParam.IsNotImplemented(5)})//#end    }
 
     /***
-#if(${rtcParam.getDocActionOverView(6).length()}>0)     * ${tmpltHelperJava.convertDescDocJava(${rtcParam.getDocActionOverView(6)})}
+#if(${rtcParam.getDocActionOverView(9).length()}>0)     * ${tmpltHelperJava.convertDescDocJava(${rtcParam.getDocActionOverView(9)})}
 #end
      *
      * The execution action that is invoked periodically
      * former rtc_active_do()
-     *
-     * @param ec_id target ExecutionContext Id
-     *
-     * @return RTC::ReturnCode_t
-     * 
-#if(${rtcParam.getDocActionPreCondition(6).length()}>0)     * @pre ${tmpltHelperJava.convertPreDocJava(${rtcParam.getDocActionPreCondition(6)})}
-#end
-#if(${rtcParam.getDocActionPostCondition(6).length()}>0)     * @post ${tmpltHelperJava.convertPostDocJava(${rtcParam.getDocActionPostCondition(6)})}
-#end
-     * 
-     */
-#if(${rtcParam.IsNotImplemented(6)})//#end    @Override
-#if(${rtcParam.IsNotImplemented(6)})//#end    protected ReturnCode_t onExecute(int ec_id) {
-#if(${rtcParam.IsNotImplemented(6)})//#end        return super.onExecute(ec_id);
-#if(${rtcParam.IsNotImplemented(6)})//#end    }
-
-    /***
-#if(${rtcParam.getDocActionOverView(7).length()}>0)     * ${tmpltHelperJava.convertDescDocJava(${rtcParam.getDocActionOverView(7)})}
-#end
-     *
-     * The aborting action when main logic error occurred.
-     * former rtc_aborting_entry()
-     *
-     * @param ec_id target ExecutionContext Id
-     *
-     * @return RTC::ReturnCode_t
-     * 
-#if(${rtcParam.getDocActionPreCondition(7).length()}>0)     * @pre ${tmpltHelperJava.convertPreDocJava(${rtcParam.getDocActionPreCondition(7)})}
-#end
-#if(${rtcParam.getDocActionPostCondition(7).length()}>0)     * @post ${tmpltHelperJava.convertPostDocJava(${rtcParam.getDocActionPostCondition(7)})}
-#end
-     * 
-     */
-#if(${rtcParam.IsNotImplemented(7)})//#end  @Override
-#if(${rtcParam.IsNotImplemented(7)})//#end  public ReturnCode_t onAborting(int ec_id) {
-#if(${rtcParam.IsNotImplemented(7)})//#end      return super.onAborting(ec_id);
-#if(${rtcParam.IsNotImplemented(7)})//#end  }
-
-    /***
-#if(${rtcParam.getDocActionOverView(8).length()}>0)     * ${tmpltHelperJava.convertDescDocJava(${rtcParam.getDocActionOverView(8)})}
-#end
-     *
-     * The error action in ERROR state
-     * former rtc_error_do()
-     *
-     * @param ec_id target ExecutionContext Id
-     *
-     * @return RTC::ReturnCode_t
-     * 
-#if(${rtcParam.getDocActionPreCondition(8).length()}>0)     * @pre ${tmpltHelperJava.convertPreDocJava(${rtcParam.getDocActionPreCondition(8)})}
-#end
-#if(${rtcParam.getDocActionPostCondition(8).length()}>0)     * @post ${tmpltHelperJava.convertPostDocJava(${rtcParam.getDocActionPostCondition(8)})}
-#end
-     * 
-     */
-#if(${rtcParam.IsNotImplemented(8)})//#end    @Override
-#if(${rtcParam.IsNotImplemented(8)})//#end    public ReturnCode_t onError(int ec_id) {
-#if(${rtcParam.IsNotImplemented(8)})//#end        return super.onError(ec_id);
-#if(${rtcParam.IsNotImplemented(8)})//#end    }
-
-    /***
-#if(${rtcParam.getDocActionOverView(9).length()}>0)     * ${tmpltHelperJava.convertDescDocJava(${rtcParam.getDocActionOverView(9)})}
-#end
-     *
-     * The reset action that is invoked resetting
-     * This is same but different the former rtc_init_entry()
      *
      * @param ec_id target ExecutionContext Id
      *
@@ -379,9 +315,75 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
      * 
      */
 #if(${rtcParam.IsNotImplemented(9)})//#end    @Override
-#if(${rtcParam.IsNotImplemented(9)})//#end    protected ReturnCode_t onReset(int ec_id) {
-#if(${rtcParam.IsNotImplemented(9)})//#end        return super.onReset(ec_id);
+#if(${rtcParam.IsNotImplemented(9)})//#end    protected ReturnCode_t onExecute(int ec_id) {
+#if(${rtcParam.IsNotImplemented(9)})//#end        return super.onExecute(ec_id);
 #if(${rtcParam.IsNotImplemented(9)})//#end    }
+
+    /***
+#if(${rtcParam.getDocActionOverView(6).length()}>0)     * ${tmpltHelperJava.convertDescDocJava(${rtcParam.getDocActionOverView(6)})}
+#end
+     *
+     * The aborting action when main logic error occurred.
+     * former rtc_aborting_entry()
+     *
+     * @param ec_id target ExecutionContext Id
+     *
+     * @return RTC::ReturnCode_t
+     * 
+#if(${rtcParam.getDocActionPreCondition(6).length()}>0)     * @pre ${tmpltHelperJava.convertPreDocJava(${rtcParam.getDocActionPreCondition(6)})}
+#end
+#if(${rtcParam.getDocActionPostCondition(6).length()}>0)     * @post ${tmpltHelperJava.convertPostDocJava(${rtcParam.getDocActionPostCondition(6)})}
+#end
+     * 
+     */
+#if(${rtcParam.IsNotImplemented(6)})//#end  @Override
+#if(${rtcParam.IsNotImplemented(6)})//#end  public ReturnCode_t onAborting(int ec_id) {
+#if(${rtcParam.IsNotImplemented(6)})//#end      return super.onAborting(ec_id);
+#if(${rtcParam.IsNotImplemented(6)})//#end  }
+
+    /***
+#if(${rtcParam.getDocActionOverView(7).length()}>0)     * ${tmpltHelperJava.convertDescDocJava(${rtcParam.getDocActionOverView(7)})}
+#end
+     *
+     * The error action in ERROR state
+     * former rtc_error_do()
+     *
+     * @param ec_id target ExecutionContext Id
+     *
+     * @return RTC::ReturnCode_t
+     * 
+#if(${rtcParam.getDocActionPreCondition(7).length()}>0)     * @pre ${tmpltHelperJava.convertPreDocJava(${rtcParam.getDocActionPreCondition(7)})}
+#end
+#if(${rtcParam.getDocActionPostCondition(7).length()}>0)     * @post ${tmpltHelperJava.convertPostDocJava(${rtcParam.getDocActionPostCondition(7)})}
+#end
+     * 
+     */
+#if(${rtcParam.IsNotImplemented(7)})//#end    @Override
+#if(${rtcParam.IsNotImplemented(7)})//#end    public ReturnCode_t onError(int ec_id) {
+#if(${rtcParam.IsNotImplemented(7)})//#end        return super.onError(ec_id);
+#if(${rtcParam.IsNotImplemented(7)})//#end    }
+
+    /***
+#if(${rtcParam.getDocActionOverView(8).length()}>0)     * ${tmpltHelperJava.convertDescDocJava(${rtcParam.getDocActionOverView(8)})}
+#end
+     *
+     * The reset action that is invoked resetting
+     * This is same but different the former rtc_init_entry()
+     *
+     * @param ec_id target ExecutionContext Id
+     *
+     * @return RTC::ReturnCode_t
+     * 
+#if(${rtcParam.getDocActionPreCondition(8).length()}>0)     * @pre ${tmpltHelperJava.convertPreDocJava(${rtcParam.getDocActionPreCondition(8)})}
+#end
+#if(${rtcParam.getDocActionPostCondition(8).length()}>0)     * @post ${tmpltHelperJava.convertPostDocJava(${rtcParam.getDocActionPostCondition(8)})}
+#end
+     * 
+     */
+#if(${rtcParam.IsNotImplemented(8)})//#end    @Override
+#if(${rtcParam.IsNotImplemented(8)})//#end    protected ReturnCode_t onReset(int ec_id) {
+#if(${rtcParam.IsNotImplemented(8)})//#end        return super.onReset(ec_id);
+#if(${rtcParam.IsNotImplemented(8)})//#end    }
 
     /***
 #if(${rtcParam.getDocActionOverView(10).length()}>0)     * ${tmpltHelperJava.convertDescDocJava(${rtcParam.getDocActionOverView(10)})}
@@ -450,8 +452,8 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
     // DataInPort declaration
     // <rtc-template block="inport_declare">
 #foreach($port in ${rtcParam.inports})  
-    protected ${port.type} m_${port.tmplVarName}_val;
-    protected DataRef<${port.type}> m_${port.tmplVarName};
+    protected ${javaConv.getDataTypeName(${port.type})} m_${port.tmplVarName}_val;
+    protected DataRef<${javaConv.getDataTypeName(${port.type})}> m_${port.tmplVarName};
     /*!
 #if(${port.docDescription.length()}>0)     * ${tmpltHelperJava.convertDescDocJava(${port.docDescription})}
 #end
@@ -468,7 +470,7 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #if(${port.docOperation.length()}>0)     * - Operation Cycle: ${tmpltHelperJava.convertCycleDocJava(${port.docOperation})}
 #end
      */
-    protected InPort<${port.type}> m_${port.name}In;
+    protected InPort<${javaConv.getDataTypeName(${port.type})}> m_${port.name}In;
 
 #end
     
@@ -477,8 +479,8 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
     // DataOutPort declaration
     // <rtc-template block="outport_declare">
 #foreach($port in ${rtcParam.outports})  
-    protected ${port.type} m_${port.tmplVarName}_val;
-    protected DataRef<${port.type}> m_${port.tmplVarName};
+    protected ${javaConv.getDataTypeName(${port.type})} m_${port.tmplVarName}_val;
+    protected DataRef<${javaConv.getDataTypeName(${port.type})}> m_${port.tmplVarName};
     /*!
 #if(${port.docDescription.length()}>0)     * ${tmpltHelperJava.convertDescDocJava(${port.docDescription})}
 #end
@@ -495,7 +497,7 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #if(${port.docOperation.length()}>0)     * - Operation Cycle: ${tmpltHelperJava.convertCycleDocJava(${port.docOperation})}
 #end
      */
-    protected OutPort<${port.type}> m_${port.name}Out;
+    protected OutPort<${javaConv.getDataTypeName(${port.type})}> m_${port.name}Out;
 
 #end
     

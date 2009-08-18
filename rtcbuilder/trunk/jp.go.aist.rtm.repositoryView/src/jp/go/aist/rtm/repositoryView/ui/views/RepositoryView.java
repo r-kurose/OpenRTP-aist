@@ -3,22 +3,19 @@ package jp.go.aist.rtm.repositoryView.ui.views;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import jp.go.aist.rtm.repositoryView.RepositoryViewPlugin;
 import jp.go.aist.rtm.repositoryView.model.RTCRVLeafItem;
+import jp.go.aist.rtm.repositoryView.model.RepositoryViewItem;
 import jp.go.aist.rtm.repositoryView.repository.RTRepositoryAccesser;
 import jp.go.aist.rtm.repositoryView.ui.ArrayContentProvider;
 import jp.go.aist.rtm.repositoryView.ui.RepositoryViewLabelProvider;
 import jp.go.aist.rtm.repositoryView.ui.preference.RepositoryViewPreferenceManager;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.ui.views.propertysheetview.RtcPropertySheetPage;
+import jp.go.aist.rtm.repositoryView.nl.Messages;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
@@ -42,21 +39,25 @@ import org.eclipse.ui.views.navigator.LocalSelectionTransfer;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 
 
+/**
+ * レポジトリビューのUIを構築するクラス
+ *
+ */
 public class RepositoryView extends org.eclipse.ui.part.ViewPart {
 
 	private TreeViewer viewer;
 	
 	private DrillDownAdapter drillDownAdapter;
 
-	private static Log Logger = LogFactory.getLog("Sample");
+//	private static Log Logger = LogFactory.getLog(Messages.getString("RepositoryView.0")); //$NON-NLS-1$
 	
 	public RepositoryView() {
 		Properties props = System.getProperties();
 		try {
 			String propPath = RepositoryViewPreferenceManager.getInstance().getPropertyFile_Location();
-			if( !(propPath==null || propPath.equals("")) ) {
+			if( !(propPath==null || propPath.equals("")) ) { //$NON-NLS-1$
 				props.load(new FileInputStream(propPath));
-				props.setProperty("repository.properties", propPath);
+				props.setProperty("repository.properties", propPath); //$NON-NLS-1$
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -65,6 +66,7 @@ public class RepositoryView extends org.eclipse.ui.part.ViewPart {
 		//
 	}
 
+	@SuppressWarnings("unchecked")
 	public void createPartControl(Composite parent) {
 		viewer = new TreeViewer(parent,SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		drillDownAdapter = new DrillDownAdapter(viewer);
@@ -81,11 +83,6 @@ public class RepositoryView extends org.eclipse.ui.part.ViewPart {
 					@Override
 					public void dragStart(DragSourceEvent event) {
 						super.dragStart(event);
-//						if (AdapterUtil.getAdapter(
-//								((IStructuredSelection) viewer.getSelection())
-//										.getFirstElement(), Component.class) == null) {
-//							event.doit = false;
-//						}
 
 						dragSetData(event);
 					}
@@ -113,8 +110,8 @@ public class RepositoryView extends org.eclipse.ui.part.ViewPart {
 						try {
 							new_component = RTRepositoryAccesser.getInstance().getComponentProfile(component);
 						} catch (Exception e) {
-							MessageDialog.openError(getSite().getShell(), "エラー",	
-							"Profile の取得に失敗しました");
+							MessageDialog.openError(getSite().getShell(), Messages.getString("RepositoryView.3"),	 //$NON-NLS-1$
+							Messages.getString("RepositoryView.4")); //$NON-NLS-1$
 							return;
 						}
 						new_component.setSpecUnLoad(false);
@@ -124,14 +121,11 @@ public class RepositoryView extends org.eclipse.ui.part.ViewPart {
 				}
 			}
 		});
-		viewer.setInput(new ArrayList());
-		
-//		IContextService contextService = (IContextService) getSite().getService(IContextService.class);
-//		IContextActivation contextActivation = contextService.activateContext("jp.go.aist.rtm.repositoryView.context");
+		viewer.setInput(new ArrayList<RepositoryViewItem>());
 	}
 
 	private void hookContextMenu() {
-		MenuManager menuMgr = new MenuManager("#PopupMenu");
+		MenuManager menuMgr = new MenuManager(Messages.getString("RepositoryView.5")); //$NON-NLS-1$
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
 			public void menuAboutToShow(IMenuManager manager) {
@@ -149,8 +143,8 @@ public class RepositoryView extends org.eclipse.ui.part.ViewPart {
 		manager.add(new Separator());
 		drillDownAdapter.addNavigationActions(manager);
 		// Other plug-ins can contribute there actions here
-		manager.add(new Separator("servers"));
-		manager.add(new Separator("locals"));
+		manager.add(new Separator(Messages.getString("RepositoryView.6"))); //$NON-NLS-1$
+		manager.add(new Separator(Messages.getString("RepositoryView.7"))); //$NON-NLS-1$
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
@@ -162,6 +156,7 @@ public class RepositoryView extends org.eclipse.ui.part.ViewPart {
 		return viewer;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	/**
 	 * {@inheritDoc}

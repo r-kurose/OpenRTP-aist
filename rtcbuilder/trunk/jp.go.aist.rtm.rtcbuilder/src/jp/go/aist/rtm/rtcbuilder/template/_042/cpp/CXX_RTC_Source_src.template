@@ -201,13 +201,26 @@ RTC::ReturnCode_t ${rtcParam.name}::onDeactivated(RTC::UniqueId ec_id)
 #if(${rtcParam.IsNotImplemented(5)})*/
 #end
 
+#if(${rtcParam.getDocActionOverView(9).length()}>0)/*!
+ * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(9)})}
+ */
+#end
+#if(${rtcParam.IsNotImplemented(9)})/*#end
+
+RTC::ReturnCode_t ${rtcParam.name}::onExecute(RTC::UniqueId ec_id)
+{
+  return RTC::RTC_OK;
+}
+#if(${rtcParam.IsNotImplemented(9)})*/
+#end
+
 #if(${rtcParam.getDocActionOverView(6).length()}>0)/*!
  * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(6)})}
  */
 #end
 #if(${rtcParam.IsNotImplemented(6)})/*#end
 
-RTC::ReturnCode_t ${rtcParam.name}::onExecute(RTC::UniqueId ec_id)
+RTC::ReturnCode_t ${rtcParam.name}::onAborting(RTC::UniqueId ec_id)
 {
   return RTC::RTC_OK;
 }
@@ -220,7 +233,7 @@ RTC::ReturnCode_t ${rtcParam.name}::onExecute(RTC::UniqueId ec_id)
 #end
 #if(${rtcParam.IsNotImplemented(7)})/*#end
 
-RTC::ReturnCode_t ${rtcParam.name}::onAborting(RTC::UniqueId ec_id)
+RTC::ReturnCode_t ${rtcParam.name}::onError(RTC::UniqueId ec_id)
 {
   return RTC::RTC_OK;
 }
@@ -233,24 +246,11 @@ RTC::ReturnCode_t ${rtcParam.name}::onAborting(RTC::UniqueId ec_id)
 #end
 #if(${rtcParam.IsNotImplemented(8)})/*#end
 
-RTC::ReturnCode_t ${rtcParam.name}::onError(RTC::UniqueId ec_id)
-{
-  return RTC::RTC_OK;
-}
-#if(${rtcParam.IsNotImplemented(8)})*/
-#end
-
-#if(${rtcParam.getDocActionOverView(9).length()}>0)/*!
- * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(9)})}
- */
-#end
-#if(${rtcParam.IsNotImplemented(9)})/*#end
-
 RTC::ReturnCode_t ${rtcParam.name}::onReset(RTC::UniqueId ec_id)
 {
   return RTC::RTC_OK;
 }
-#if(${rtcParam.IsNotImplemented(9)})*/
+#if(${rtcParam.IsNotImplemented(8)})*/
 #end
 
 #if(${rtcParam.getDocActionOverView(10).length()}>0)/*!

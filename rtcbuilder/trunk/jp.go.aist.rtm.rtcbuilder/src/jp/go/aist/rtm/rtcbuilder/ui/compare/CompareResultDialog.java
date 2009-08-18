@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
 import jp.go.aist.rtm.rtcbuilder.Generator.MergeHandler;
+import jp.go.aist.rtm.rtcbuilder.ui.editors.IMessageConstants;
 
 import org.eclipse.compare.CompareConfiguration;
 import org.eclipse.compare.CompareViewerPane;
@@ -72,29 +73,23 @@ public class CompareResultDialog extends Dialog {
 	protected Rectangle fNewBounds;
 
 	private String mOriginal;
-
 	private String mGenerate;
-
 	private String mcompareName;
 
 	private boolean canMerge;
+	private boolean isOkCancel;
+	private String rightLabel;
 
 	private TextMergeViewer fViewer;
-
 	private static CompareResultDialog fgThis;
 
 	private int fPrefix;
-
 	private int fSuffix;
 
 	private final static String DIALOG_BOUNDS_KEY = "CompareResultDialogBounds"; //$NON-NLS-1$
-
 	private static final String X = "x"; //$NON-NLS-1$
-
 	private static final String Y = "y"; //$NON-NLS-1$
-
 	private static final String WIDTH = "width"; //$NON-NLS-1$
-
 	private static final String HEIGHT = "height"; //$NON-NLS-1$
 
 	/**
@@ -105,15 +100,22 @@ public class CompareResultDialog extends Dialog {
 	 * @param target
 	 *            î‰ärëŒè€ÇÃèÓïÒ
 	 */
-	public CompareResultDialog(Shell parentShell, CompareTarget target) {
+	public CompareResultDialog(Shell parentShell, CompareTarget target,
+									boolean isOkCancel, String rightLbl) {
 		super(parentShell);
 		fgThis = this;
 		setShellStyle(getShellStyle() | SWT.RESIZE | SWT.MAX);
-		mcompareName = target.getTargetName();
-		mOriginal = target.getOriginalSrc();
-		mGenerate = target.getGenerateSrc();
-		canMerge = target.canMerge();
+		this.mcompareName = target.getTargetName();
+		this.mOriginal = target.getOriginalSrc();
+		this.mGenerate = target.getGenerateSrc();
+		this.canMerge = target.canMerge();
+		this.isOkCancel = isOkCancel; 
+		this.rightLabel = rightLbl;
 		computePrefixSuffix();
+	}
+	public CompareResultDialog(Shell parentShell, CompareTarget target) {
+		this(parentShell, target, false, "Generate");
+		
 	}
 
 	/**
@@ -121,25 +123,31 @@ public class CompareResultDialog extends Dialog {
 	 */
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
-		newShell.setText("åãâ î‰är");
+		newShell.setText(IMessageConstants.COMPARE_TITLE);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	protected void createButtonsForButtonBar(Composite parent) {
-		createButton(parent, MergeHandler.PROCESS_ORIGINAL_ID, ORIGINAL_LABEL, false);
-		if (canMerge) {
-			createButton(parent, MergeHandler.PROCESS_MERGE_ID, MERGE_LAGEL, false);
+		if( isOkCancel ) {
+			createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, false);
+			createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
+			
+		} else {
+			createButton(parent, MergeHandler.PROCESS_ORIGINAL_ID, ORIGINAL_LABEL, false);
+			if (canMerge) {
+				createButton(parent, MergeHandler.PROCESS_MERGE_ID, MERGE_LAGEL, false);
+			}
+			createButton(parent, MergeHandler.PROCESS_GENERATE_ID, GENERATE_LABEL, true);
+			createButton(parent, IDialogConstants.CANCEL_ID, "Cancel", false);
+			GridLayout layout = (GridLayout) parent.getLayout();
+			layout.horizontalSpacing = 100;
+			parent.setLayout(layout);
+			GridData data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER
+					| GridData.VERTICAL_ALIGN_CENTER);
+			parent.setLayoutData(data);
 		}
-		createButton(parent, MergeHandler.PROCESS_GENERATE_ID, GENERATE_LABEL, true);
-		createButton(parent, IDialogConstants.CANCEL_ID, "Cancel", false);
-		GridLayout layout = (GridLayout) parent.getLayout();
-		layout.horizontalSpacing = 100;
-		parent.setLayout(layout);
-		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER
-				| GridData.VERTICAL_ALIGN_CENTER);
-		parent.setLayoutData(data);
 	}
 
 	/**
@@ -179,7 +187,7 @@ public class CompareResultDialog extends Dialog {
 		final CompareConfiguration compareConfiguration = new CompareConfiguration();
 		compareConfiguration.setLeftLabel("Original");
 		compareConfiguration.setLeftEditable(false);
-		compareConfiguration.setRightLabel("Generate");
+		compareConfiguration.setRightLabel(this.rightLabel);
 		compareConfiguration.setRightEditable(false);
 		compareConfiguration.setProperty(
 				CompareConfiguration.IGNORE_WHITESPACE, Boolean.FALSE);
@@ -448,11 +456,9 @@ public class CompareResultDialog extends Dialog {
 			saveBounds(fNewBounds);
 		close();
 	}
-	// public boolean close() {
-	// boolean closed= super.close();
-	// if (closed && fNewBounds != null)
-	// saveBounds(fNewBounds);
-	// return closed;
-	// }
+
+	public void setOkCancel(boolean isOkCancel) {
+		this.isOkCancel = isOkCancel;
+	}
 
 }

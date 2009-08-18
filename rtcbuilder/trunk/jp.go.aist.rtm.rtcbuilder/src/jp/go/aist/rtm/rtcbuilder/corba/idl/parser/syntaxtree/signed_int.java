@@ -6,12 +6,10 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeChoice -> signed_long_long_int()
  *       | signed_long_double_int()
  *       | signed_long_int()
  *       | signed_short_int()
- * </PRE>
  */
 public class signed_int implements Node {
    private Node parent;

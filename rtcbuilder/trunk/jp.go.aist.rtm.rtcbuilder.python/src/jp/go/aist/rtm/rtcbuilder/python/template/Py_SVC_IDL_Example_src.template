@@ -3,7 +3,8 @@
 """
  \file ${idlFileParam.idlFileNoExt}_idl_examplefile.py
  \brief Python example implementations generated from ${idlFileParam.idlFile}
- \date $Date$
+#set( $Date$ = "dummy" )
+ \date \$Date$
 
 #if( ${rtcParam.docCreator.length()} > 0 )
  \author ${tmpltHelperPy.convertAuthorDocPy(${rtcParam.docCreator})}

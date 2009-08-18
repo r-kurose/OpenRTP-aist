@@ -1,51 +1,46 @@
 package jp.go.aist.rtm.rtcbuilder.generator;
 
-import java.io.BufferedReader;
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import org.openrtp.namespaces.rtc.RtcProfile;
+import java.util.List;
 
+import jp.go.aist.rtm.rtcbuilder.IRTCBMessageConstants;
+import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ParamUtil;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
+import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler;
 import jp.go.aist.rtm.toolscommon.profiles.util.YamlHandler;
 
+import org.openrtp.namespaces.rtc.version02.RtcProfile;
+
 public class ProfileHandler {
-//	
-//	public static final String RTCXmlModel = "jp.go.aist.rtm.rtcbuilder.model.jaxb"; 
-//	private static final String RTCXmlSchema = "RtcProfile_ext.xsd"; 
-//
+	private List<GenerateManager> managerList = null;
+	
+	public ProfileHandler() {
+		super();
+		managerList = RtcBuilderPlugin.getDefault().getLoader().getManagerList();
+	}
+
 	public boolean validateXml(String targetString) throws Exception {
 		XmlHandler handler = new XmlHandler();
-		handler.restoreFromXmlRtc(targetString);
+		handler.validateXmlRtcBySchema(targetString);
 		return true;
 	}
 
 	public RtcProfile restorefromXML(String targetXML) throws Exception {
 		XmlHandler handler = new XmlHandler();
-		RtcProfile profile = handler.restoreFromXmlRtc(targetXML);
-		return profile;
+		return handler.restoreFromXmlRtc(targetXML);
 	}
-//	public static RtcProfileImpl unmarshalXML(String targetXML) {
-//		RtcProfileImpl profile = null;
-//		try {
-//			JAXBContext jc = JAXBContext.newInstance(RTCXmlModel);
-//			Unmarshaller unmarshaller = jc.createUnmarshaller();
-//			profile = ((JAXBElement<RtcProfileImpl>)unmarshaller.unmarshal(new StreamSource(new StringReader(targetXML)))).getValue();
-//		} catch (JAXBException e) {
-//			e.printStackTrace();
-//		}
-//		return profile;
-//		
-//	}
-//
+
 	public GeneratorParam restorefromXMLFile(String filePath) throws Exception {
 		GeneratorParam generatorParam = null;
 		try {
@@ -61,30 +56,24 @@ public class ProfileHandler {
 		    RtcProfile profile = handler.restoreFromXmlRtc(tmp_sb.toString());
 
 			generatorParam = new GeneratorParam();
-			RtcParam rtcParam = ParamUtil.convertFromModule(profile, generatorParam);
+			ParamUtil putil = new ParamUtil();
+			RtcParam rtcParam = putil.convertFromModule(profile, generatorParam, managerList);
 		    rtcParam.setRtcXml(tmp_sb.toString());
 			generatorParam.getRtcParams().add(rtcParam);
 		} catch (FileNotFoundException e) {
-			throw new Exception(
-					"ファイルの読み込みに失敗しました。\r\nRTCBuilder以外のファイルが読み込まれていないか確認してください",
-					e);
+			throw new Exception(IRTCBMessageConstants.ERROR_PROFILE_RESTORE, e);
 		} catch (IOException e) {
-			throw new Exception(
-					"ファイルの読み込みに失敗しました。\r\nRTCBuilder以外のファイルが読み込まれていないか確認してください",
-					e);
+			throw new Exception(IRTCBMessageConstants.ERROR_PROFILE_RESTORE, e);
 		}
 		return generatorParam;
 	}
 	
-	public String convert2XML(GeneratorParam generatorParam) {
+	public String convert2XML(GeneratorParam generatorParam) throws Exception {
 	    String xmlFile = "";
-		try {
-			RtcProfile profile = ParamUtil.convertToModule(generatorParam);
-			XmlHandler handler = new XmlHandler();
-			xmlFile = handler.convertToXmlRtc(profile);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	    ParamUtil putil = new ParamUtil();
+		RtcProfile profile = putil.convertToModule(generatorParam, managerList);
+		XmlHandler handler = new XmlHandler();
+		xmlFile = handler.convertToXmlRtc(profile);
 		return xmlFile;
 	}
 
@@ -102,7 +91,8 @@ public class ProfileHandler {
 
 	public void storeToXML(String filePath, GeneratorParam generatorParam) throws Exception {
 
-		RtcProfile profile = ParamUtil.convertToModule(generatorParam);
+	    ParamUtil putil = new ParamUtil();
+		RtcProfile profile = putil.convertToModule(generatorParam, managerList);
 		XmlHandler handler = new XmlHandler();
 		
 		String xmlString = handler.convertToXmlRtc(profile);
@@ -120,7 +110,8 @@ public class ProfileHandler {
 	
 	//YAML
 	public void createYaml(String targetFile, GeneratorParam targetRtc) throws Exception {
-		RtcProfile profile = ParamUtil.convertToModule(targetRtc);
+	    ParamUtil putil = new ParamUtil();
+		RtcProfile profile = putil.convertToModule(targetRtc, managerList);
 		YamlHandler handler = new YamlHandler();
 		String yamlText = handler.convertToYamlRtc(profile);
 		String lineSeparator = System.getProperty( "line.separator" );
@@ -136,13 +127,14 @@ public class ProfileHandler {
 			outputFile.close();
 		}
 	}
-	public GeneratorParam readYaml(String targetFile) throws FileNotFoundException {
+	public GeneratorParam readYaml(String targetFile) throws Exception {
 		BufferedInputStream inputFile = null;
 		inputFile = new BufferedInputStream(new FileInputStream(targetFile));
 		YamlHandler handler = new YamlHandler();
 		RtcProfile profile = handler.restoreFromYamlRtc(inputFile);
 		GeneratorParam generatorParam = new GeneratorParam();
-		RtcParam rtcParam = ParamUtil.convertFromModule(profile, generatorParam);
+		ParamUtil util = new ParamUtil();
+		RtcParam rtcParam = util.convertFromModule(profile, generatorParam, managerList);
 		generatorParam.getRtcParams().add(rtcParam);
 		return generatorParam;
 		

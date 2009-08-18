@@ -2,7 +2,7 @@ package jp.go.aist.rtm.repositoryView.adapterfactory;
 
 import jp.go.aist.rtm.repositoryView.model.RTCRVLeafItem;
 import jp.go.aist.rtm.repositoryView.model.RepositoryViewLeafItem;
-import jp.go.aist.rtm.toolscommon.model.component.AbstractComponent;
+import jp.go.aist.rtm.toolscommon.model.component.Component;
 
 import org.eclipse.core.runtime.IAdapterFactory;
 
@@ -14,20 +14,21 @@ public class AdapterFactory implements IAdapterFactory {
 	 * {@inheritDoc}
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	public Object getAdapter(Object adaptable, Class adapterType) {
-		java.lang.Object result = null;
 		if( adaptable instanceof RTCRVLeafItem ) {
-			if( adapterType == AbstractComponent.class ) {
-				result = ((RepositoryViewLeafItem)adaptable).getComponent();
+			if( adapterType == Component.class ) {
+				return ((RepositoryViewLeafItem)adaptable).getComponent();
 			}
 		}
-		return result;
+		return null;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@SuppressWarnings("unchecked")
 	public Class[] getAdapterList() {
-		return new Class[] { AbstractComponent.class };
+		return new Class[] { Component.class };
 	}
 }

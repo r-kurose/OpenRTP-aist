@@ -1,8 +1,13 @@
 package jp.go.aist.rtm.rtcbuilder.generator;
 
+import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import jp.go.aist.rtm.rtcbuilder.IRTCBMessageConstants;
+import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.IDLParser;
+import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.ParseException;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.Node;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.NodeToken;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.base_type_spec;
@@ -15,6 +20,7 @@ import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.param_dcl;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.scoped_name;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.simple_type_spec;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.specification;
+import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.struct_type;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.type_declarator;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.visitor.DepthFirstVisitor;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.visitor.GJNoArguDepthFirst;
@@ -103,13 +109,8 @@ public class IDLParamConverter {
 	 * @param spec
 	 * @return HashMap
 	 */
-//	public static Map<String,String> convert_typedef(specification spec,
-//			final String idlPath) {
 	public static List<TypeDefParam> convert_typedef(specification spec,
 			final String idlPath) {
-//		final HashMap<String, String> result = new HashMap<String, String>();
-//		final Vector<String> typeKeys = new Vector<String>();
-//		final Vector<String> typeValues = new Vector<String>();
 		final List<TypeDefParam> result = new ArrayList<TypeDefParam>();
 
 		spec.accept(new GJVoidDepthFirst<String>() {
@@ -123,7 +124,6 @@ public class IDLParamConverter {
 						n.declarators.accept(new DepthFirstVisitor(){
 							@Override
 							public void visit(identifier n) {
-//								typeKeys.add(ifname + "::" + node2String(n));
 								tdparam.setScopedName(ifname);
 								tdparam.setTargetDef(node2String(n));
 							}
@@ -134,17 +134,14 @@ public class IDLParamConverter {
 								n.nodeChoice.accept(new DepthFirstVisitor(){
 									@Override
 									public void visit(simple_type_spec n) {
-//										typeValues.add(node2String(n) + "[]");
 										tdparam.setOriginalDef(node2String(n) + "[]");
 									}
 									@Override
 									public void visit(base_type_spec n) {
-//										typeValues.add(node2String(n));
 										tdparam.setOriginalDef(node2String(n));
 									}
 									@Override
 									public void visit(scoped_name n) {
-//										typeValues.add(node2String(n));
 										tdparam.setOriginalDef(node2String(n));
 									}
 								});
@@ -161,7 +158,6 @@ public class IDLParamConverter {
 				n.declarators.accept(new DepthFirstVisitor(){
 					@Override
 					public void visit(identifier n) {
-//						typeKeys.add(node2String(n));
 						tdparam.setTargetDef(node2String(n));
 					}
 				});
@@ -171,17 +167,14 @@ public class IDLParamConverter {
 						n.nodeChoice.accept(new DepthFirstVisitor(){
 							@Override
 							public void visit(simple_type_spec n) {
-//								typeValues.add(node2String(n) + "[]");
 								tdparam.setOriginalDef(node2String(n) + "[]");
 							}
 							@Override
 							public void visit(base_type_spec n) {
-//								typeValues.add(node2String(n));
 								tdparam.setOriginalDef(node2String(n));
 							}
 							@Override
 							public void visit(scoped_name n) {
-//								typeValues.add(node2String(n));
 								tdparam.setOriginalDef(node2String(n));
 							}
 						});
@@ -191,10 +184,57 @@ public class IDLParamConverter {
 				result.add(tdparam);
 			}
 		}, null);
-//		for(int intIdx=0;intIdx<typeKeys.size();intIdx++) {
-//			result.put(typeKeys.elementAt(intIdx),typeValues.elementAt(intIdx));
-//		}
 		return result;
+	}
+	
+	public static List<String> extractTypeDef(List<String> sources) throws ParseException {
+		List<String> result = new ArrayList<String>();
+		
+		for( Iterator<String> iter = sources.iterator(); iter.hasNext(); ) {
+			String targetContent = iter.next();
+			targetContent = PreProcessor.parseAlltoSpace(targetContent);
+			IDLParser parser = new IDLParser(new StringReader(targetContent));
+			specification spec = parser.specification();
+			List<String> types = parseForTypeDef(spec);
+			for( Iterator<String> iterRes = types.iterator(); iterRes.hasNext(); ) {
+				String resultType = iterRes.next();
+				if( result.contains(resultType) ) {
+					throw new ParseException("[" + resultType + "]" + IRTCBMessageConstants.ERROR_IDLTYPEDUPLICAT);
+				}
+				result.add(resultType);
+			}
+		}
+		return result;
+	}
+	
+	private static List<String> parseForTypeDef(specification spec) {
+		final List<String> results = new ArrayList<String>();
+		
+		spec.accept(new GJVoidDepthFirst<String>() {
+			@Override
+			public void visit(module n, String argu) {
+				final String moduleName = node2String(n.identifier);
+				n.accept(new GJVoidDepthFirst() {
+					@Override
+					public void visit(struct_type n, Object argu) {
+						String typeName = node2String(n.identifier);
+						if( moduleName!=null && moduleName.length()>0 ) {
+							typeName = moduleName + "::" + typeName;
+						}
+						results.add(typeName);
+					}
+					
+				},null);
+			}
+			//
+			@Override
+			public void visit(struct_type n, String argu) {
+				String typeName = node2String(n.identifier);
+				results.add(typeName);
+			}
+		}, null);
+
+		return results;
 	}
 	/**
 	 * インタフェースのモジュール名を取得する

@@ -7,7 +7,7 @@ import java.util.Set;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
-import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
+import jp.go.aist.rtm.rtcbuilder.ui.preference.PortPreferenceManager;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
@@ -24,11 +24,14 @@ import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
@@ -37,7 +40,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 /**
- * Configページ
+ * DataPortページ
  */
 public class DataPortEditorFormPage extends AbstractEditorFormPage {
 
@@ -45,10 +48,13 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 	private static final String DATAPORTPARAM_PROPERTY_TYPE = "DATAPORTPARAM_PROPERTY_TYPE";
 	private static final String DATAPORTPARAM_PROPERTY_VAR_NAME = "DATAPORTPARAM_PROPERTY_VAR_NAME";
 	private static final String DATAPORTPARAM_PROPERTY_POSITION = "DATAPORTPARAM_PROPERTY_POSITION";
+	private static final String DATAPORTPARAM_PROPERTY_CONSTRAINT = "DATAPORTPARAM_PROPERTY_CONSTRAINT";
+	private static final String DATAPORTPARAM_PROPERTY_UNIT = "DATAPORTPARAM_PROPERTY_UNIT";
 
 	private TableViewer inportTableViewer;
 	private TableViewer outportTableViewer;
 	//
+	private Text portNameText;
 	private Text descriptionText;
 	private Text typeText;
 	private Text numberText;
@@ -58,10 +64,14 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 	private Text operationText;
 	//
 	private DataPortParam preSelection;
+	private DataPortParam selectParam;
 	//
 	private String defaultPortName;
 	private String defaultPortType;
 	private String defaultPortVarName;
+	private String defaultPortConstraint;
+	private String defaultPortUnit;
+	private String[] defaultTypeList;
 	
 	/**
 	 * コンストラクタ
@@ -70,83 +80,106 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 	 *            親のエディタ
 	 */
 	public DataPortEditorFormPage(RtcBuilderEditor editor) {
-		super(editor, "id", "データポート");
+		super(editor, "id", IMessageConstants.DATAPORT_SECTION);
 		//
 		preSelection = null;
 		updateDefaultValue();
 	}
 
 	private void updateDefaultValue() {
-		defaultPortName = ComponentPreferenceManager.getInstance().getDataPort_Name();
-		defaultPortType = ComponentPreferenceManager.getInstance().getDataPort_Type();
-		defaultPortVarName = ComponentPreferenceManager.getInstance().getDataPort_VarName();
+		defaultPortName = PortPreferenceManager.getInstance().getDataPort_Name();
+		defaultPortType = PortPreferenceManager.getInstance().getDataPort_Type();
+		defaultPortVarName = PortPreferenceManager.getInstance().getDataPort_VarName();
+		defaultPortConstraint = PortPreferenceManager.getInstance().getDataPort_Constraint();
+		defaultPortUnit = PortPreferenceManager.getInstance().getDataPort_Unit();
+		//
+		defaultTypeList = super.extractDataTypes();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	protected void createFormContent(IManagedForm managedForm) {
-		GridLayout gl;
-		gl = new GridLayout();
-		gl.numColumns = 1;
+		ScrolledForm form = super.createBase(managedForm);
+		FormToolkit toolkit = managedForm.getToolkit();
 
-		managedForm.getForm().getBody().setLayout(gl);
-
-		ScrolledForm form = managedForm.getToolkit().createScrolledForm(
-				managedForm.getForm().getBody());
-		gl = new GridLayout(1, false);
-		form.setLayout(gl);
-
-		form.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
-		managedForm.getToolkit().paintBordersFor(form.getBody());
-
-		form.getBody().setLayout(gl);
-
-		inportTableViewer = createPortSection(managedForm, form,
-				"RT-Component Data InPort Profile", 0);
-
-		outportTableViewer = createPortSection(managedForm, form,
-				"RT-Component Data OutPort Profile", 1);
-
-		createDocumentSection(managedForm, form);
+		Label label = toolkit.createLabel(form.getBody(), IMessageConstants.DATAPORT_SECTION);
+		if( titleFont==null ) {
+			titleFont = new Font(form.getDisplay(), IMessageConstants.TITLE_FONT, 16, SWT.BOLD);
+		}
+		label.setFont(titleFont);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
+		label.setLayoutData(gd);
 		//
+		inportTableViewer = createPortSection(toolkit, form,
+				IMessageConstants.DATAPORT_INPORT_TITLE, IMessageConstants.DATAPORT_INPORT_EXPL, 0);
+		createHintSection(toolkit, form);
+		outportTableViewer = createPortSection(toolkit, form,
+				IMessageConstants.DATAPORT_OUTPORT_TITLE, IMessageConstants.DATAPORT_OUTPORT_EXPL, 1);
+
+		createDocumentSection(toolkit, form);
+		//
+		// 言語・環境ページより先にこのページが表示された場合、ここで言語を判断する
+		editor.setEnabledInfoByLangFromRtcParam();
+
 		load();
 	}
 
-	private void createDocumentSection(IManagedForm managedForm,
-			ScrolledForm form) {
+	private void createHintSection(FormToolkit toolkit, ScrolledForm form) {
+		Composite composite = createHintSectionBase(toolkit, form, 3);
+		//
+		createHintLabel(IMessageConstants.DATAPORT_HINT_DATAPORT_TITLE, IMessageConstants.DATAPORT_HINT_DATAPORT_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.DATAPORT_HINT_INPORT_TITLE, IMessageConstants.DATAPORT_HINT_INPORT_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.DATAPORT_HINT_OUTPORT_TITLE, IMessageConstants.DATAPORT_HINT_OUTPORT_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.DATAPORT_HINT_PORTNAME_TITLE, IMessageConstants.DATAPORT_HINT_PORTNAME_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.DATAPORT_HINT_DATATYPE_TITLE, IMessageConstants.DATAPORT_HINT_DATATYPE_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.DATAPORT_HINT_VARNAME_TITLE, IMessageConstants.DATAPORT_HINT_VARNAME_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.DATAPORT_HINT_POSITION_TITLE, IMessageConstants.DATAPORT_HINT_POSITION_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.DATAPORT_HINT_CONSTRAINT_TITLE, IMessageConstants.DATAPORT_HINT_CONSTRAINT_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.DATAPORT_HINT_UNIT_TITLE, IMessageConstants.DATAPORT_HINT_UNIT_DESC, toolkit, composite);
+		//
+		createHintLabel(IMessageConstants.DATAPORT_HINT_DOCUMENT_TITLE, IMessageConstants.DATAPORT_HINT_DOCUMENT_DESC, toolkit, composite);
+	}
+	
+	private void createDocumentSection(FormToolkit toolkit, ScrolledForm form) {
 
-		Composite composite = createSectionBase(managedForm, form, "Documentation", 2);
-
-		descriptionText = createLabelAndText(managedForm.getToolkit(), composite,
-				"概要説明 :", SWT.MULTI | SWT.V_SCROLL);
+		Composite composite = createSectionBaseWithLabel(toolkit, form, 
+				"Documentation", IMessageConstants.DATAPORT_DOCUMENT_EXPL, 2);
+		//
+		portNameText = createLabelAndText(toolkit, composite,
+				IMessageConstants.DATAPORT_LBL_PORTNAME, SWT.BORDER);
+		portNameText.setEditable(false);
+		portNameText.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		descriptionText = createLabelAndText(toolkit, composite,
+				IMessageConstants.DATAPORT_LBL_DESCRIPTION, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.heightHint = 50;
 		descriptionText.setLayoutData(gridData);
-		typeText = createLabelAndText(managedForm.getToolkit(), composite,
-				"データ型 :");
-		numberText = createLabelAndText(managedForm.getToolkit(), composite,
-				"データ数 :");
-		semanticsText = createLabelAndText(managedForm.getToolkit(), composite,
-				"意味 :", SWT.MULTI | SWT.V_SCROLL);
+		typeText = createLabelAndText(toolkit, composite,
+				IMessageConstants.DATAPORT_LBL_PORTTYPE);
+		numberText = createLabelAndText(toolkit, composite,	
+				IMessageConstants.DATAPORT_LBL_DATANUM);
+		semanticsText = createLabelAndText(toolkit, composite,
+				IMessageConstants.DATAPORT_LBL_SEMANTICS, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 		semanticsText.setLayoutData(gridData);
-		unitText = createLabelAndText(managedForm.getToolkit(), composite,
-				"単位 :");
-		occurrenceText = createLabelAndText(managedForm.getToolkit(), composite,
-				"発生頻度，周期 :", SWT.MULTI | SWT.V_SCROLL);
+		unitText = createLabelAndText(toolkit, composite,
+				IMessageConstants.DATAPORT_LBL_UNIT);
+		occurrenceText = createLabelAndText(toolkit, composite,
+				IMessageConstants.DATAPORT_LBL_OCCUR, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 		occurrenceText.setLayoutData(gridData);
-		operationText = createLabelAndText(managedForm.getToolkit(), composite,
-				"処理頻度，周期 :", SWT.MULTI | SWT.V_SCROLL);
+		operationText = createLabelAndText(toolkit, composite,
+				IMessageConstants.DATAPORT_LBL_OPERAT, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 		operationText.setLayoutData(gridData);
 	}
 
-	private TableViewer createPortSection(IManagedForm managedForm,
-			ScrolledForm form, String selectionLabel, final int initSel) {
+	private TableViewer createPortSection(FormToolkit toolkit, ScrolledForm form,
+			String sectionLabel, String sectionExpl, final int initSel) {
 
-		Composite composite = createSectionBase(managedForm, form, selectionLabel, 2);
-
-		final TableViewer portParamTableViewer = new TableViewer(managedForm
-				.getToolkit().createTable(composite,
+		Composite composite = createSectionBaseWithLabel(toolkit, form, 
+				sectionLabel, sectionExpl, 2);
+		//
+		final TableViewer portParamTableViewer = new TableViewer(toolkit.createTable(composite,
 						SWT.SINGLE | SWT.FULL_SELECTION));
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.heightHint = 120;
@@ -160,54 +193,57 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 
 		portParamTableViewer.setLabelProvider(new DataPortParamLabelProvider());
 
-		TableColumn nameColumn = new TableColumn(portParamTableViewer
-				.getTable(), SWT.NONE);
-		nameColumn.setText("Port Name");
-		nameColumn.setWidth(150);
-		TableColumn typeColumn = new TableColumn(portParamTableViewer
-				.getTable(), SWT.NONE);
-		typeColumn.setText("Data Type");
-		typeColumn.setWidth(150);
-		TableColumn varnameColumn = new TableColumn(portParamTableViewer
-				.getTable(), SWT.NONE);
-		varnameColumn.setText("Var Name");
-		varnameColumn.setWidth(150);
-		TableColumn posColumn = new TableColumn(portParamTableViewer
-				.getTable(), SWT.NONE);
-		posColumn.setText("Disp. Position");
-		posColumn.setWidth(150);
+		TableColumn nameColumn = new TableColumn(portParamTableViewer.getTable(), SWT.NONE);
+		nameColumn.setText(IMessageConstants.DATAPORT_TBLLBL_PORTNAME);
+		nameColumn.setWidth(65);
+		TableColumn typeColumn = new TableColumn(portParamTableViewer.getTable(), SWT.NONE);
+		typeColumn.setText(IMessageConstants.DATAPORT_TBLLBL_DATATYPE);
+		typeColumn.setWidth(65);
+		TableColumn varnameColumn = new TableColumn(portParamTableViewer.getTable(), SWT.NONE);
+		varnameColumn.setText(IMessageConstants.DATAPORT_TBLLBL_VARNAME);
+		varnameColumn.setWidth(65);
+		TableColumn posColumn = new TableColumn(portParamTableViewer.getTable(), SWT.NONE);
+		posColumn.setText(IMessageConstants.DATAPORT_TBLLBL_POSITION);
+		posColumn.setWidth(65);
+		TableColumn constColumn = new TableColumn(portParamTableViewer.getTable(), SWT.NONE);
+		constColumn.setText(IMessageConstants.DATAPORT_TBLLBL_CONSTRAINT);
+		constColumn.setWidth(65);
+		TableColumn unitColumn = new TableColumn(portParamTableViewer.getTable(), SWT.NONE);
+		unitColumn.setText(IMessageConstants.DATAPORT_TBLLBL_UNIT);
+		unitColumn.setWidth(65);
 
 		portParamTableViewer.setColumnProperties(new String[] {
 				DATAPORTPARAM_PROPERTY_NAME, DATAPORTPARAM_PROPERTY_TYPE, 
-				DATAPORTPARAM_PROPERTY_VAR_NAME, DATAPORTPARAM_PROPERTY_POSITION });
+				DATAPORTPARAM_PROPERTY_VAR_NAME, DATAPORTPARAM_PROPERTY_POSITION,
+				DATAPORTPARAM_PROPERTY_CONSTRAINT, DATAPORTPARAM_PROPERTY_UNIT});
 
 		CellEditor[] editors = new CellEditor[] {
 				new TextCellEditor(portParamTableViewer.getTable()),
+				new ComboBoxCellEditor(portParamTableViewer.getTable(), defaultTypeList, SWT.DROP_DOWN | SWT.READ_ONLY),
 				new TextCellEditor(portParamTableViewer.getTable()),
+				new ComboBoxCellEditor(portParamTableViewer.getTable(), DataPortParam.COMBO_ITEM, SWT.DROP_DOWN | SWT.READ_ONLY),
 				new TextCellEditor(portParamTableViewer.getTable()),
-				new ComboBoxCellEditor(portParamTableViewer.getTable(), DataPortParam.COMBO_ITEM, SWT.DROP_DOWN | SWT.READ_ONLY)	};
+				new TextCellEditor(portParamTableViewer.getTable())
+			};
 
 		portParamTableViewer.setCellEditors(editors);
-		portParamTableViewer.setCellModifier(new DataPortParamCellModifier(
-				portParamTableViewer));
+		portParamTableViewer.setCellModifier(new DataPortParamCellModifier(	portParamTableViewer));
 
-		Composite buttonComposite = managedForm.getToolkit().createComposite(
-				composite, SWT.NONE);
+		Composite buttonComposite = toolkit.createComposite(composite, SWT.NONE);
 		GridLayout gl = new GridLayout();
-		gl.marginRight = 0;
+		gl.marginWidth = 1;
 		buttonComposite.setLayout(gl);
-		gd = new GridData(GridData.FILL_BOTH);
+		gd = new GridData();
 		gd.verticalAlignment = SWT.BEGINNING;
-		gd.horizontalAlignment = SWT.END;
+		gd.widthHint = 70;
 		buttonComposite.setLayoutData(gd);
 
-		Button addButton = managedForm.getToolkit().createButton(
-				buttonComposite, "Add", SWT.PUSH);
+		Button addButton = toolkit.createButton(buttonComposite, "Add", SWT.PUSH);
 		addButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateDefaultValue();
-				DataPortParam selectParam = new DataPortParam(defaultPortName, defaultPortType, defaultPortVarName, initSel);
+				DataPortParam selectParam = new DataPortParam(defaultPortName, defaultPortType, defaultPortVarName, defaultPortConstraint, defaultPortUnit, initSel);
 				((List) portParamTableViewer.getInput()).add(selectParam);
 				portParamTableViewer.refresh();
 				update();
@@ -215,8 +251,8 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		});
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		addButton.setLayoutData(gd);
-		Button deleteButton = managedForm.getToolkit().createButton(
-				buttonComposite, "Delete", SWT.PUSH);
+		//
+		Button deleteButton = toolkit.createButton(buttonComposite, "Delete", SWT.PUSH);
 		deleteButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -240,8 +276,15 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 			public void selectionChanged(SelectionChangedEvent event) {
 				setDocumentContents();
 				StructuredSelection selection = (StructuredSelection)event.getSelection();
-				DataPortParam selectParam = (DataPortParam)selection.getFirstElement();
+				selectParam = (DataPortParam)selection.getFirstElement();
 				if( selectParam != null ) {
+					StringBuffer portName = new StringBuffer(selectParam.getName());
+					if(event.getSource().equals(inportTableViewer)) {
+						portName.append(" (InPort)");
+					} else {
+						portName.append(" (OutPort)");
+					}
+					portNameText.setText(portName.toString());
 					descriptionText.setText(getDisplayDocText(selectParam.getDocDescription()));
 					typeText.setText(getDisplayDocText(selectParam.getDocType()));
 					numberText.setText(getDisplayDocText(selectParam.getDocNum()));
@@ -258,6 +301,16 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	public void update() {
+		if( selectParam != null ) {
+			selectParam.setDocDescription(getDocText(descriptionText.getText()));
+			selectParam.setDocType(getDocText(typeText.getText()));
+			selectParam.setDocNum(getDocText(numberText.getText()));
+			selectParam.setDocSemantics(getDocText(semanticsText.getText()));
+			selectParam.setDocUnit(getDocText(unitText.getText()));
+			selectParam.setDocOccurrence(getDocText(occurrenceText.getText()));
+			selectParam.setDocOperation(getDocText(operationText.getText()));
+		}
+		//
 		editor.updateEMFDataInPorts(editor.getRtcParam().getInports());
 		editor.updateEMFDataOutPorts(editor.getRtcParam().getOutports());
 		editor.updateDirty();
@@ -281,6 +334,7 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 	}
 	
 	private void clearText() {
+		portNameText.setText("");
 		descriptionText.setText("");
 		typeText.setText("");
 		numberText.setText("");
@@ -324,21 +378,21 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		String result = null;
 		//DataPort Name
 		if( dataport.getName()==null || dataport.getName().length()==0 ) {
-			result = "DataPort name を入力してください。";
+			result = IMessageConstants.DATAPORT_VALIDATE_PORTNAME1;
 			return result;
 		}
 		if( !StringUtil.checkDigitAlphabet(dataport.getName()) ) {
-			result = "DataPort name は半角英数字を入力してください。";
+			result = IMessageConstants.DATAPORT_VALIDATE_PORTNAME2;
 			return result;
 		}
 		//DataPort type
 		if( dataport.getType()==null || dataport.getType().length()==0 ) {
-			result = "DataPort の型を入力してください。";
+			result = IMessageConstants.DATAPORT_VALIDATE_PORTTYPE;
 			return result;
 		}
 		//重複
 		if( checkSet.contains(dataport.getName()) ) {
-			result = "DataPort の名称が重複しています。";
+			result = IMessageConstants.DATAPORT_VALIDATE_DUPLICATE;
 			return result;
 		}
 
@@ -372,6 +426,10 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 				result = dataPortParam.getVarName();
 			} else if (columnIndex == 3) {
 				result = DataPortParam.COMBO_ITEM[dataPortParam.getPositionByIndex()];
+			} else if (columnIndex == 4) {
+				result = dataPortParam.getConstraint();
+			} else if (columnIndex == 5) {
+				result = dataPortParam.getUnit();
 			}
 
 			return result;
@@ -407,11 +465,15 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 			if (DATAPORTPARAM_PROPERTY_NAME.equals(property)) {
 				result = dataPortParam.getName();
 			} else if (DATAPORTPARAM_PROPERTY_TYPE.equals(property)) {
-				result = dataPortParam.getType();
+				return new Integer(searchIndex(defaultTypeList, dataPortParam.getType()));
 			} else if (DATAPORTPARAM_PROPERTY_VAR_NAME.equals(property)) {
 				result = dataPortParam.getVarName();
 			} else if (DATAPORTPARAM_PROPERTY_POSITION.equals(property)) {
 				return new Integer(dataPortParam.getPositionByIndex());
+			} else if (DATAPORTPARAM_PROPERTY_CONSTRAINT.equals(property)) {
+				result = dataPortParam.getConstraint();
+			} else if (DATAPORTPARAM_PROPERTY_UNIT.equals(property)) {
+				result = dataPortParam.getUnit();
 			}
 
 			return result;
@@ -430,16 +492,45 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 
 			if (DATAPORTPARAM_PROPERTY_NAME.equals(property)) {
 				dataPortParam.setName((String) value);
+				StringBuffer portName = new StringBuffer(dataPortParam.getName());
+				if( ((TableItem)element).getParent().equals(inportTableViewer.getTable())) {
+					portName.append(" (InPort)");
+				} else {
+					portName.append(" (OutPort)");
+				}
+				portNameText.setText(portName.toString());
+				
 			} else if (DATAPORTPARAM_PROPERTY_TYPE.equals(property)) {
-				dataPortParam.setType((String) value);
+				if( ((Integer)value).intValue()>=0 ) {
+					dataPortParam.setType( defaultTypeList[((Integer)value).intValue()] );
+				}
 			} else if (DATAPORTPARAM_PROPERTY_VAR_NAME.equals(property)) {
 				dataPortParam.setVarName((String) value);
 			} else if (DATAPORTPARAM_PROPERTY_POSITION.equals(property)) {
 				dataPortParam.setPositionByIndex(((Integer) value).intValue());
+			} else if (DATAPORTPARAM_PROPERTY_CONSTRAINT.equals(property)) {
+				dataPortParam.setConstraint((String) value);
+			} else if (DATAPORTPARAM_PROPERTY_UNIT.equals(property)) {
+				dataPortParam.setUnit((String) value);
 			}
 
 			viewer.refresh();
 			update();
+		}
+	}
+
+	public void setDataPortFormPageEnabled(boolean value) {
+		
+		setTableViewerEnabled(inportTableViewer, value);
+		setTableViewerEnabled(outportTableViewer, value);
+	}
+
+	private void setTableViewerEnabled(TableViewer viewer,boolean value) {
+		if (viewer != null) {
+			Control ctrl = viewer.getControl();
+			ctrl.getParent().setEnabled(value);			
+			int color = value ? SWT.COLOR_LIST_BACKGROUND : SWT.COLOR_WIDGET_LIGHT_SHADOW;
+			ctrl.setBackground(getSite().getShell().getDisplay().getSystemColor(color));
 		}
 	}
 }

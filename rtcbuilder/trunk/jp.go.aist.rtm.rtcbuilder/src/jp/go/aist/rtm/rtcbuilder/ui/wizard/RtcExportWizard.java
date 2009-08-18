@@ -49,7 +49,7 @@ public class RtcExportWizard extends Wizard implements IExportWizard {
 	        if (!selectedResources.isEmpty()) {
 	            this.selection = new StructuredSelection(selectedResources);
 	        }
-	        setWindowTitle("エクスポート");
+	        setWindowTitle(IWizardMessageConstants.EXPORT_TITLE);
 	        setNeedsProgressMonitor(true);
 	    }
 

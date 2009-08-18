@@ -6,10 +6,8 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * type_spec -> type_spec()
  * declarator -> declarator()
- * </PRE>
  */
 public class element_spec implements Node {
    private Node parent;

@@ -6,11 +6,9 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeList -> ( case_label() )+
  * element_spec -> element_spec()
  * nodeToken -> ";"
- * </PRE>
  */
 public class casex implements Node {
    private Node parent;

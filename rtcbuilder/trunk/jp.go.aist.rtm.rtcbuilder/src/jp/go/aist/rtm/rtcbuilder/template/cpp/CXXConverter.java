@@ -1,9 +1,13 @@
 package jp.go.aist.rtm.rtcbuilder.template.cpp;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
+import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateHelper;
 
@@ -201,4 +205,67 @@ public class CXXConverter {
 	public static String convertDelimiter(String fullName) {
 		return fullName.replaceAll("\\.", "::");
 	}
+	
+	/**
+	 * Portに設定されたModuleの一覧を取得する
+	 * 
+	 * @param param  RtcParam
+	 * @return Module一覧リスト
+	 */
+	public static List<String> getPortModules(RtcParam param) {
+		List<String> modules = new ArrayList<String>();
+		String dataTypeString[];
+		for( DataPortParam dataPort : param.getInports() ) {
+			dataTypeString = dataPort.getType().split("::", 0);
+			if( !dataPort.getType().contains("::")) dataTypeString[0] = "RTC";
+			if( !modules.contains(dataTypeString[0]) && !dataTypeString[0].equals("RTC") ) {
+				modules.add(dataTypeString[0]);
+			}
+		}
+		for( DataPortParam dataPort : param.getOutports() ) {
+			dataTypeString = dataPort.getType().split("::", 0);
+			if( !dataPort.getType().contains("::")) dataTypeString[0] = "RTC";
+			if( !modules.contains(dataTypeString[0]) && !dataTypeString[0].equals("RTC") ) {
+				modules.add(dataTypeString[0]);
+			}
+		}
+		return modules;
+	}
+	
+	/**
+	 * データポート用のデータ型include文を返す
+	 * 
+	 * @param rtcType ポートの型
+	 * @return using文字列
+	 */
+	public String getDataportIncludeName(String rtcType) {
+		if(rtcType.matches("RTC.*")) return "";
+		return "#include <rtm/idl/" + rtcType + ".h>";
+	}
+
+	/**
+	 * データポート用のデータ型using namespace 文を返す
+	 * 
+	 * @param rtcType ポートの型
+	 * @return using文字列
+	 */
+	public String getDataportUsingNamespace(String rtcType) {
+		if(rtcType.matches("RTC.*")) return "";
+		return "using namespace " + rtcType + ";";
+	}
+	
+	/**
+	 * データポート初期化用にmodule名をカットしたデータ型クラス名を返す
+	 * 
+	 * @param rtcType ポートの型
+	 * @return クラス名
+	 */
+	public String getDataTypeName(String rtcType) {		
+		//module名が付いていないデータ型（::が付いていない）はそのまま返す
+		if(!rtcType.matches(".*::.*")) return rtcType;
+
+		String dataTypeNames[] = rtcType.split("::", 0);
+		return dataTypeNames[1];
+	}
+
 }

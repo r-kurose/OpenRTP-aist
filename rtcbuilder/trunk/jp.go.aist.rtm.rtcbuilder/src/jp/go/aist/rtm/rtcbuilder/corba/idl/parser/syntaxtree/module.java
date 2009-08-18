@@ -6,13 +6,11 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeToken -> "module"
  * identifier -> identifier()
  * nodeToken1 -> "{"
  * nodeList -> ( definition() )+
  * nodeToken2 -> "}"
- * </PRE>
  */
 public class module implements Node {
    private Node parent;

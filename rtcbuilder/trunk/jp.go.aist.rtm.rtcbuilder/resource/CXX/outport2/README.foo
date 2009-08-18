@@ -10,7 +10,7 @@
 #   --module-desc='MDesc' --module-version=1.0.1 --module-vendor=TA 
 #   --module-category=Manip --module-comp-type=STATIC2 
 #   --module-act-type=PERIODIC2 --module-max-inst=5 
-#   --inport=InP1:TimedShort --inport=InP2:TimedLong --outport=OutP1:TimedInt --outport=OutP2:TimedFloat 
+#   --inport=InP1:RTC::TimedShort --inport=InP2:RTC::TimedLong --outport=OutP1:RTC::TimedInt --outport=OutP2:RTC::TimedFloat 
 
 
 ======================================================================
@@ -66,7 +66,7 @@ Lang Type:
 	PortNumber:  0
 	Description: 
 	PortType: 
-	DataType:    TimedShort
+	DataType:    RTC::TimedShort
 	MaxOut: 
 	[Data Elements]
 		Name:
@@ -84,7 +84,7 @@ Lang Type:
 	PortNumber:  1
 	Description: 
 	PortType: 
-	DataType:    TimedLong
+	DataType:    RTC::TimedLong
 	MaxOut: 
 	[Data Elements]
 		Name:
@@ -110,7 +110,7 @@ Lang Type:
 	PortNumber:  0
 	Description: 
 	PortType: 
-	DataType:    TimedInt
+	DataType:    RTC::TimedInt
 	MaxOut: 
 	[Data Elements]
 		Name:
@@ -128,7 +128,7 @@ Lang Type:
 	PortNumber:  1
 	Description: 
 	PortType: 
-	DataType:    TimedFloat
+	DataType:    RTC::TimedFloat
 	MaxOut: 
 	[Data Elements]
 		Name:

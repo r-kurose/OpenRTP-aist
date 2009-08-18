@@ -6,10 +6,8 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * nodeOptional -> [ unary_operator() ]
  * primary_expr -> primary_expr()
- * </PRE>
  */
 public class unary_expr implements Node {
    private Node parent;

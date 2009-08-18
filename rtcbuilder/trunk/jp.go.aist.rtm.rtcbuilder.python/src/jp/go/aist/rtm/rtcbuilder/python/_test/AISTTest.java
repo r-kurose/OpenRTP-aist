@@ -148,11 +148,11 @@ public class AISTTest extends TestBase {
 		rtcParam.setMaxInstance(1);
 
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
-		dataport.add(new DataPortParam("in", "TimedFloatSeq", "", 0));
+		dataport.add(new DataPortParam("in", "RTC::TimedFloatSeq", "", 0));
 		rtcParam.setInports(dataport);
 
 		List<DataPortParam> dataoutport = new ArrayList<DataPortParam>(); 
-		dataoutport.add(new DataPortParam("out", "TimedFloatSeq", "", 0));
+		dataoutport.add(new DataPortParam("out", "RTC::TimedFloatSeq", "", 0));
 		rtcParam.setOutports(dataoutport);
 
 		ServicePortParam service1 = new ServicePortParam("MySVPro",0);
@@ -205,11 +205,11 @@ public class AISTTest extends TestBase {
 		rtcParam.setMaxInstance(1);
 
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
-		dataport.add(new DataPortParam("in", "TimedFloatSeq", "", 0));
+		dataport.add(new DataPortParam("in", "RTC::TimedFloatSeq", "", 0));
 		rtcParam.setInports(dataport);
 
 		List<DataPortParam> dataoutport = new ArrayList<DataPortParam>(); 
-		dataoutport.add(new DataPortParam("out", "TimedFloatSeq", "", 0));
+		dataoutport.add(new DataPortParam("out", "RTC::TimedFloatSeq", "", 0));
 		rtcParam.setOutports(dataoutport);
 
 		ServicePortParam service1 = new ServicePortParam("MySVCon",0);

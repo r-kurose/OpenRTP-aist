@@ -1,22 +1,19 @@
 package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.ui.forms.widgets.Section;
 
 /**
  * ドキュメントページ
@@ -27,14 +24,12 @@ public class DocumentEditorFormPage extends AbstractEditorFormPage {
 	private Text inoutText;
 	private Text algorithmText;
 	//
-	private List<Button> implChk;
-	private List<Text> activityText;
-	private List<Text> preConditionText;
-	private List<Text> postConditionText;
-	//
 	private Text creatorText;
 	private Text licenseText;
 	private Text referenceText;
+	//
+	private Text versionUpLogText;
+	private List versionUpLogList;
 
 	/**
 	 * コンストラクタ
@@ -43,113 +38,130 @@ public class DocumentEditorFormPage extends AbstractEditorFormPage {
 	 *            親のエディタ
 	 */
 	public DocumentEditorFormPage(RtcBuilderEditor editor) {
-		super(editor, "id", "ドキュメント生成");
-		//
-		implChk = new ArrayList<Button>();
-		activityText = new ArrayList<Text>();
-		preConditionText = new ArrayList<Text>();
-		postConditionText = new ArrayList<Text>();
+		super(editor, "id", IMessageConstants.DOCUMENT_SECTION);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	protected void createFormContent(IManagedForm managedForm) {
-		GridLayout gl;
-		gl = new GridLayout();
-		gl.numColumns = 1;
+		ScrolledForm form = super.createBase(managedForm);
+		FormToolkit toolkit = managedForm.getToolkit();
 
-		managedForm.getForm().getBody().setLayout(gl);
-
-		ScrolledForm form = managedForm.getToolkit().createScrolledForm(
-				managedForm.getForm().getBody());
-		gl = new GridLayout(1, false);
-		form.setLayout(gl);
-
-		form.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
-		managedForm.getToolkit().paintBordersFor(form.getBody());
-
-		form.getBody().setLayout(gl);
-
-		createOverViewSection(managedForm, form);
-		//
-		for( int intidx=IRtcBuilderConstants.ACTIVITY_INITIALIZE; intidx<IRtcBuilderConstants.ACTIVITY_RATE_CHANGED+1; intidx++) {
-			createActivitySection(managedForm, form, IRtcBuilderConstants.ACTION_TYPE_ITEMS[intidx], intidx);
+		Label label = toolkit.createLabel(form.getBody(), IMessageConstants.DOCUMENT_SECTION);
+		if( titleFont==null ) {
+			titleFont = new Font(form.getDisplay(), IMessageConstants.TITLE_FONT, 16, SWT.BOLD);
 		}
+		label.setFont(titleFont);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
+		label.setLayoutData(gd);
 		//
-		createEtcSection(managedForm, form);
+		createOverViewSection(toolkit, form);
+		createHintSection(toolkit, form);
+		createEtcSection(toolkit, form);
+		createVersionUpLogsSection(toolkit, form);
 
 		load();
 	}
 
-	private void createOverViewSection(IManagedForm managedForm,
-			ScrolledForm form) {
-
-		Composite composite = createSectionBase(managedForm, form, 
-				"コンポーネント概要", 2);
-
-		descriptionText = createLabelAndText(managedForm.getToolkit(), composite,
-				"概要説明 :", SWT.MULTI | SWT.V_SCROLL);
+	private void createHintSection(FormToolkit toolkit, ScrolledForm form) {
+		Composite composite = createHintSectionBase(toolkit, form, 3);
+		createHintLabel(IMessageConstants.DOCUMENT_HINT_COMPONENT_TITLE, IMessageConstants.DOCUMENT_HINT_COMPONENT_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.DOCUMENT_HINT_ETC_TITLE, IMessageConstants.DOCUMENT_HINT_ETC_DESC, toolkit, composite);
+	}
+	
+	private void createOverViewSection(FormToolkit toolkit, ScrolledForm form) {
+		Section sctOverView = toolkit.createSection(form.getBody(),
+				Section.TITLE_BAR | Section.EXPANDED | Section.TWISTIE);
+		sctOverView.setText(IMessageConstants.DOCUMENT_OVERVIEW_TITLE);
 		GridData gridData = new GridData();
-		gridData.widthHint = 500;
+		gridData.horizontalAlignment = GridData.FILL;
+		gridData.verticalAlignment = GridData.BEGINNING;
+		sctOverView.setLayoutData(gridData);
+		//
+		Composite composite = toolkit.createComposite(sctOverView, SWT.NULL);
+		composite.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
+		toolkit.paintBordersFor(composite);
+		GridLayout gl = new GridLayout(2, false);
+		composite.setLayout(gl);
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		composite.setLayoutData(gd);
+		sctOverView.setClient(composite);
+
+		descriptionText = createLabelAndText(toolkit, composite,
+				IMessageConstants.DOCUMENT_LBL_DESCRIPTION, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+		gridData = new GridData();
+		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.heightHint = 50;
+		gridData.widthHint = 100;
 		descriptionText.setLayoutData(gridData);
-		inoutText = createLabelAndText(managedForm.getToolkit(), composite,
-				"入出力 :", SWT.MULTI | SWT.V_SCROLL);
+		inoutText = createLabelAndText(toolkit, composite,
+				IMessageConstants.DOCUMENT_LBL_INOUT, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 		inoutText.setLayoutData(gridData);
-		algorithmText = createLabelAndText(managedForm.getToolkit(), composite,
-				"アルゴリズムなど :", SWT.MULTI | SWT.V_SCROLL);
+		algorithmText = createLabelAndText(toolkit, composite,
+				IMessageConstants.DOCUMENT_LBL_ALGORITHM, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 		algorithmText.setLayoutData(gridData);
 	}
 
-	private void createActivitySection(IManagedForm managedForm,
-			ScrolledForm form, String sectionTitle, int num) {
+	private void createEtcSection(FormToolkit toolkit, ScrolledForm form) {
+		Section sctEtc = toolkit.createSection(form.getBody(),
+				Section.TITLE_BAR | Section.EXPANDED | Section.TWISTIE);
+		sctEtc.setText(IMessageConstants.DOCUMENT_ETC_TITLE);
+		GridData gridData = new GridData();
+		gridData.horizontalAlignment = GridData.FILL;
+		gridData.verticalAlignment = GridData.BEGINNING;
+		sctEtc.setLayoutData(gridData);
+		//
+		Composite composite = toolkit.createComposite(sctEtc, SWT.NULL);
+		composite.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
+		toolkit.paintBordersFor(composite);
+		GridLayout gl = new GridLayout(2, false);
+		composite.setLayout(gl);
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		composite.setLayoutData(gd);
+		sctEtc.setClient(composite);
 
-		Composite composite = createSectionBase(managedForm, form, sectionTitle, 2);
-		//
-		Button impl = new Button(composite, SWT.CHECK);
-		impl.setText("Implemented");
-		impl.addSelectionListener(new SelectionListener() {
-			  public void widgetDefaultSelected(SelectionEvent e){
-			  }
-			  public void widgetSelected(SelectionEvent e){
-					update();
-			  }
-			});
-		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
-		gridData.horizontalSpan = 2;
-		impl.setLayoutData(gridData);
-		implChk.add(impl);
-		//
+		creatorText = createLabelAndText(toolkit, composite,
+				IMessageConstants.DOCUMENT_LBL_CREATOR, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.heightHint = 50;
-		activityText.add(createLabelAndText(managedForm.getToolkit(), composite,
-				"動作概要:　　　　", SWT.MULTI | SWT.V_SCROLL));
-		activityText.get(num).setLayoutData(gridData);
-		preConditionText.add(createLabelAndText(managedForm.getToolkit(), composite,
-				"事前条件:", SWT.MULTI | SWT.V_SCROLL));
-		preConditionText.get(num).setLayoutData(gridData);
-		postConditionText.add(createLabelAndText(managedForm.getToolkit(), composite,
-				"事後条件:", SWT.MULTI | SWT.V_SCROLL));
-		postConditionText.get(num).setLayoutData(gridData);
+		gridData.widthHint = 100;
+		creatorText.setLayoutData(gridData);
+		licenseText = createLabelAndText(toolkit, composite,
+				IMessageConstants.DOCUMENT_LBL_LICENSE, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+		licenseText.setLayoutData(gridData);
+		referenceText = createLabelAndText(toolkit, composite,
+				IMessageConstants.DOCUMENT_LBL_REFERENCE, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+		referenceText.setLayoutData(gridData);
 	}
 
-	private void createEtcSection(IManagedForm managedForm,
-			ScrolledForm form) {
-
-		Composite composite = createSectionBase(managedForm, form, "その他　　", 2);
-
-		creatorText = createLabelAndText(managedForm.getToolkit(), composite,
-				"作成者・連絡先 :", SWT.MULTI | SWT.V_SCROLL);
-		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
-		gridData.heightHint = 50;
-		creatorText.setLayoutData(gridData);
-		licenseText = createLabelAndText(managedForm.getToolkit(), composite,
-				"ライセンス，使用条件 :", SWT.MULTI | SWT.V_SCROLL);
-		licenseText.setLayoutData(gridData);
-		referenceText = createLabelAndText(managedForm.getToolkit(), composite,
-				"参考文献 :", SWT.MULTI | SWT.V_SCROLL);
-		referenceText.setLayoutData(gridData);
+	private void createVersionUpLogsSection(FormToolkit toolkit, ScrolledForm form) {
+		Section sctEtc = toolkit.createSection(form.getBody(),
+				Section.TITLE_BAR | Section.EXPANDED | Section.TWISTIE);
+		sctEtc.setText(IMessageConstants.DOCUMENT_VERSIONUP_LOGS);
+		GridData gridData = new GridData();
+		gridData.horizontalAlignment = GridData.FILL;
+		gridData.verticalAlignment = GridData.BEGINNING;
+		sctEtc.setLayoutData(gridData);
+		//
+		Composite composite = toolkit.createComposite(sctEtc, SWT.NULL);
+		composite.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
+		toolkit.paintBordersFor(composite);
+		GridLayout gl = new GridLayout(2, false);
+		composite.setLayout(gl);
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		composite.setLayoutData(gd);
+		sctEtc.setClient(composite);
+		//
+		versionUpLogText = createLabelAndText(toolkit, composite,
+				IMessageConstants.DOCUMENT_LBL_VERSIONUPLOG);
+		toolkit.createLabel(composite, IMessageConstants.DOCUMENT_LBL_VUHISTORY);
+		versionUpLogList = new List(composite, SWT.BORDER | SWT.V_SCROLL | SWT.READ_ONLY);
+		gridData = new GridData(GridData.FILL_BOTH);
+		gridData.heightHint = 60;
+		gridData.widthHint = 100;
+		versionUpLogList.setLayoutData(gridData);
 	}
 
 	public void update() {
@@ -160,16 +172,11 @@ public class DocumentEditorFormPage extends AbstractEditorFormPage {
 			rtcParam.setDocInOut(getDocText(inoutText.getText()));
 			rtcParam.setDocAlgorithm(getDocText(algorithmText.getText()));
 			//
-			for( int intidx=IRtcBuilderConstants.ACTIVITY_INITIALIZE; intidx<IRtcBuilderConstants.ACTIVITY_RATE_CHANGED+1; intidx++) {
-				rtcParam.setActionImplemented(intidx, implChk.get(intidx).getSelection());
-				rtcParam.setDocActionOverView(intidx, getDocText(activityText.get(intidx).getText()));
-				rtcParam.setDocActionPreCondition(intidx, getDocText(preConditionText.get(intidx).getText()));
-				rtcParam.setDocActionPostCondition(intidx, getDocText(postConditionText.get(intidx).getText()));
-			}
-			//
 			rtcParam.setDocCreator(getDocText(creatorText.getText()));
 			rtcParam.setDocLicense(getDocText(licenseText.getText()));
 			rtcParam.setDocReference(getDocText(referenceText.getText()));
+			//
+			rtcParam.setCurrentVersionUpLog(getDocText(versionUpLogText.getText()));
 		}
 
 		editor.updateDirty();
@@ -186,16 +193,13 @@ public class DocumentEditorFormPage extends AbstractEditorFormPage {
 			inoutText.setText(getDisplayDocText(getValue(rtcParam.getDocInOut())));
 			algorithmText.setText(getDisplayDocText(getValue(rtcParam.getDocAlgorithm())));
 			//
-			for( int intidx=IRtcBuilderConstants.ACTIVITY_INITIALIZE; intidx<IRtcBuilderConstants.ACTIVITY_RATE_CHANGED+1; intidx++) {
-				implChk.get(intidx).setSelection(rtcParam.getActionImplemented(intidx).toUpperCase().equals("TRUE"));
-				activityText.get(intidx).setText(getDisplayDocText(rtcParam.getDocActionOverView(intidx)));
-				preConditionText.get(intidx).setText(getDisplayDocText(rtcParam.getDocActionPreCondition(intidx)));
-				postConditionText.get(intidx).setText(getDisplayDocText(rtcParam.getDocActionPostCondition(intidx)));
-			}
-			//
 			creatorText.setText(getDisplayDocText(getValue(rtcParam.getDocCreator())));
 			licenseText.setText(getDisplayDocText(getValue(rtcParam.getDocLicense())));
 			referenceText.setText(getDisplayDocText(getValue(rtcParam.getDocReference())));
+			//
+			for(String vuLog : rtcParam.getVersionUpLog() ) {
+				versionUpLogList.add(vuLog);
+			}
 		}
 	}
 

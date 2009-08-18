@@ -2,12 +2,13 @@ package jp.go.aist.rtm.repositoryView.ui.action;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.util.ArrayList;
+import java.util.List;
 
 import jp.go.aist.rtm.repositoryView.model.LocalRVRootItem;
 import jp.go.aist.rtm.repositoryView.model.RepositoryViewFactory;
 import jp.go.aist.rtm.repositoryView.model.RepositoryViewItem;
 import jp.go.aist.rtm.repositoryView.model.RepositoryViewLeafItem;
+import jp.go.aist.rtm.repositoryView.nl.Messages;
 import jp.go.aist.rtm.repositoryView.ui.views.RepositoryView;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.util.ProfileHandler;
@@ -21,6 +22,10 @@ import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.ui.IViewActionDelegate;
 import org.eclipse.ui.IViewPart;
 
+/**
+ * ディレクトリからRTCをロードするアクションデリゲート
+ *
+ */
 public class ViewActionLoadDirecroty implements IViewActionDelegate  {
 
 	private RepositoryView view;
@@ -29,11 +34,12 @@ public class ViewActionLoadDirecroty implements IViewActionDelegate  {
 		this.view = (RepositoryView) view;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void run(IAction action) {
 
 		DirectoryDialog directoryDialog = new DirectoryDialog(view.getSite().getShell(),SWT.NULL);
-		directoryDialog.setText("ディレクトリの選択");
-		directoryDialog.setMessage("ディレクトリを選択してください");
+		directoryDialog.setText(Messages.getString("ViewActionLoadDirecroty.0")); //$NON-NLS-1$
+		directoryDialog.setMessage(Messages.getString("ViewActionLoadDirecroty.1")); //$NON-NLS-1$
 		String filePath = directoryDialog.open();
 
 		if (filePath == null) return;
@@ -42,13 +48,13 @@ public class ViewActionLoadDirecroty implements IViewActionDelegate  {
     	File[] files = dir.listFiles(new Filter());
 		
     	TreeViewer viewer = this.view.getViewer();
-    	RepositoryViewItem rootItem = new RepositoryViewItem("root", 0);
-    	rootItem.setChildren((ArrayList)viewer.getInput());
+    	RepositoryViewItem rootItem = new RepositoryViewItem("root", 0); //$NON-NLS-1$
+    	rootItem.setChildren((List<RepositoryViewItem>)viewer.getInput());
     	
     	RepositoryViewItem itemFirst = rootItem.getChild(filePath);
     	if( itemFirst == null ) {
     		itemFirst = new LocalRVRootItem(filePath);
-    		((ArrayList)viewer.getInput()).add(itemFirst);
+    		((List)viewer.getInput()).add(itemFirst);
     	}
     	ComponentSpecification module = null;
     	ProfileHandler handler = new ProfileHandler();
@@ -56,12 +62,12 @@ public class ViewActionLoadDirecroty implements IViewActionDelegate  {
     		try {
 				module = handler.createComponent(files[intIdx].toString());
 			} catch (Exception e) {
-				MessageDialog.openError(view.getSite().getShell(), "エラー",	
-				"Profile の読み込みに失敗しました");
+				MessageDialog.openError(view.getSite().getShell(), Messages.getString("ViewActionLoadDirecroty.3"),	 //$NON-NLS-1$
+				Messages.getString("ViewActionLoadDirecroty.4")); //$NON-NLS-1$
 				return;
 			}
-			module.setAliasName(module.getInstanceNameL() + "(" + files[intIdx].getName() + ")");
-			module.setPathURI("file://localhost/" + files[intIdx].getName());
+			module.setAliasName(module.getInstanceNameL() + "(" + files[intIdx].getName() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+			module.setPathId("file://localhost/" + files[intIdx].getPath() + ":1"); //$NON-NLS-1$
 			RepositoryViewFactory.buildTree(itemFirst, module, RepositoryViewLeafItem.RTC_LEAF);
 		}
     	viewer.refresh();
@@ -81,7 +87,7 @@ public class ViewActionLoadDirecroty implements IViewActionDelegate  {
 				return false;
 			}
 			String extention = s.substring(x+1).toLowerCase();
-			if (extention.endsWith("xml")) {
+			if (extention.endsWith("xml")) { //$NON-NLS-1$
 				return true;
 			}
 			return false;

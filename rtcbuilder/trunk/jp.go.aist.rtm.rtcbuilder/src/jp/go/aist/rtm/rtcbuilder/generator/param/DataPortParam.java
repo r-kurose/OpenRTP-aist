@@ -1,6 +1,8 @@
 package jp.go.aist.rtm.rtcbuilder.generator.param;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * データポートを表すクラス
@@ -14,6 +16,8 @@ public class DataPortParam extends PortBaseParam implements Serializable {
 	private String dataFlowType;
 	private String interfaceType;
 	private String subscriptionType;
+	private String unit;
+	private String constraint;
 	//
 	private String doc_description;
 	private String doc_type;
@@ -22,33 +26,32 @@ public class DataPortParam extends PortBaseParam implements Serializable {
 	private String doc_unit;
 	private String doc_occurrence;
 	private String doc_operation;
+	//Properties
+	private List<PropertyParam> properties = new ArrayList<PropertyParam>();
 
 	public DataPortParam() {
-		this.name = "";
-		this.type = "";
-		this.varname = "";
-		this.position = "";
-		this.selection = 0;
-		this.doc_description = "";
-		this.doc_type = "";
-		this.doc_num = "";
-		this.doc_semantics = "";
-		this.doc_unit = "";
-		this.doc_occurrence = "";
-		this.doc_operation = "";
-		//
-		this.idlFile = "";
-		this.dataFlowType = "";
-		this.interfaceType = "";
-		this.subscriptionType ="";
+		this("", "", "", "", "", 0);
 	}
 
 	public DataPortParam(String name, String type, String varname, int selection) {
+		this(name, type, varname, "", "", selection);
+		
+	}
+	public DataPortParam(String name, String type, String varname, String constraint, int selection) {
+		this(name, type, varname, constraint, "", selection);
+		
+	}
+
+	public DataPortParam(String name, String type, String varname, String constraint, 
+			String unit, int selection) {
 		this.name = name;
 		this.type = type;
 		this.varname = varname;
 		this.position = DataPortParam.COMBO_ITEM[selection];
+		this.constraint = constraint;
+		this.unit = unit;
 		this.selection = selection;
+		//
 		this.doc_description = "";
 		this.doc_type = "";
 		this.doc_num = "";
@@ -84,6 +87,7 @@ public class DataPortParam extends PortBaseParam implements Serializable {
 		this.dataFlowType = "";
 		this.interfaceType = "";
 		this.subscriptionType ="";
+		this.constraint ="";
 	}
 
 	public String getName() {
@@ -106,6 +110,12 @@ public class DataPortParam extends PortBaseParam implements Serializable {
 	}
 	public String getSubscriptionType() {
 		return subscriptionType;
+	}
+	public String getConstraint() {
+		return constraint;
+	}
+	public String getUnit() {
+		return unit;
 	}
 	//
 	public String getTmplVarName() {
@@ -134,6 +144,12 @@ public class DataPortParam extends PortBaseParam implements Serializable {
 	}
 	public void setSubscriptionType(String type) {
 		this.subscriptionType = type;
+	}
+	public void setConstraint(String constraint) {
+		this.constraint = constraint;
+	}
+	public void setUnit(String unit) {
+		this.unit = unit;
 	}
 	//
 	public String getDocDescription() {
@@ -178,5 +194,9 @@ public class DataPortParam extends PortBaseParam implements Serializable {
 	}
 	public void setDocOperation(String operation) {
 		this.doc_operation = operation;
+	}
+	//
+	public List<PropertyParam> getProperties() {
+		return properties;
 	}
 }

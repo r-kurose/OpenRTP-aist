@@ -1,6 +1,8 @@
 package jp.go.aist.rtm.rtcbuilder.generator.param;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * コンフィギュレーションパラメータ定義を表すクラス
@@ -10,6 +12,8 @@ public class ConfigSetParam implements Serializable {
 	private String type;
 	private String varname;
 	private String defaultValue;
+	private String constraint;
+	private String unit;
 	//
 	private String doc_dataname;
 	private String doc_default;
@@ -17,26 +21,32 @@ public class ConfigSetParam implements Serializable {
 	private String doc_unit;
 	private String doc_range;
 	private String doc_constraint;
+	//Properties
+	private List<PropertyParam> properties = new ArrayList<PropertyParam>();
 
 	public ConfigSetParam() {
-		this.name = "";
-		this.type = "";
-		this.varname = "";
-		this.defaultValue = "";
-		//
-		this.doc_dataname = "";
-		this.doc_default = "";
-		this.doc_description = "";
-		this.doc_unit = "";
-		this.doc_range = "";
-		this.doc_constraint = "";
+		this("", "", "", "", "");
 	}
 
-	public ConfigSetParam(String name, String type, String varname,  String defaultVal) {
+	public ConfigSetParam(String name, String type, String defaultVal) {
+		this(name, type, "", defaultVal, "");
+	}
+	
+	public ConfigSetParam(String name, String type, String varname, String defaultVal) {
+		this(name, type, varname, defaultVal, "");
+	}
+	
+	public ConfigSetParam(String name, String type, String varname, String defaultVal, String constraint) {
+		this(name, type, varname, defaultVal, constraint, "");
+	}
+	
+	public ConfigSetParam(String name, String type, String varname, String defaultVal, String constraint, String unit) {
 		this.name = name;
 		this.type = type;
 		this.varname = varname;
 		this.defaultValue = defaultVal;
+		this.constraint = constraint;
+		this.unit = unit;
 		//
 		this.doc_dataname = "";
 		this.doc_default = "";
@@ -74,6 +84,28 @@ public class ConfigSetParam implements Serializable {
 	public String getDefaultVal() {
 		return defaultValue;
 	}
+	public String getConstraint() {
+		return constraint;
+	}
+	public String getUnit() {
+		return unit;
+	}
+	//
+	public String getWidget() {
+		for( PropertyParam param : properties ) {
+			if( param.getName().equals("_widget_") )
+				return param.getValue();
+		}
+		return "";
+	}
+	public String getSliderStep() {
+		for( PropertyParam param : properties ) {
+			if( param.getName().equals("_slider_step_") )
+				return param.getValue();
+		}
+		return "";
+	}
+	//
 	//
 	public String getTmplVarName() {
 		if( varname==null || varname.equals(""))
@@ -93,6 +125,32 @@ public class ConfigSetParam implements Serializable {
 	public void setDefaultVal(String defaultVal) {
 		this.defaultValue = defaultVal;
 	}
+	public void setConstraint(String constraint) {
+		this.constraint = constraint;
+	}
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+	//
+	public void setWidget(String widget) {
+		for( PropertyParam param : properties ) {
+			if( param.getName().equals("_widget_") ) {
+				param.setValue(widget);
+				return;
+			}
+		}
+		properties.add(new PropertyParam("_widget_", widget));
+	}
+	public void setSliderStep(String sliderStep) {
+		for( PropertyParam param : properties ) {
+			if( param.getName().equals("_slider_step_") ) {
+				param.setValue(sliderStep);
+				return;
+			}
+		}
+		properties.add(new PropertyParam("_slider_step_", sliderStep));
+	}
+	//
 	//
 	public String getDocDataName() {
 		return doc_dataname;
@@ -130,5 +188,9 @@ public class ConfigSetParam implements Serializable {
 	}
 	public void setDocConstraint(String constraint) {
 		this.doc_constraint = constraint;
+	}
+	//
+	public List<PropertyParam> getProperties() {
+		return properties;
 	}
 }

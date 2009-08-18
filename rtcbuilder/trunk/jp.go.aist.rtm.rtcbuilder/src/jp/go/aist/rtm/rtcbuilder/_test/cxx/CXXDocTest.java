@@ -92,7 +92,7 @@ public class CXXDocTest extends TestBase {
 		genParam.getRtcParams().add(rtcParam);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 
-		DataPortParam datap1 = new DataPortParam("InP1", "TimedShort", "InName1", 0);
+		DataPortParam datap1 = new DataPortParam("InP1", "RTC::TimedShort", "InName1", 0);
 		datap1.setDocDescription("InPort1の概要");
 		datap1.setDocType("InPort1のデータの型");
 		datap1.setDocNum("InPort1のデータの数");
@@ -102,7 +102,7 @@ public class CXXDocTest extends TestBase {
 		datap1.setDocOperation("InPort1のデータの処理周期");
 		dataport.add(datap1);
 
-		DataPortParam datap2 = new DataPortParam("InP2", "TimedLong", "InNm2", 0);
+		DataPortParam datap2 = new DataPortParam("InP2", "RTC::TimedLong", "InNm2", 0);
 		datap2.setDocDescription("InPort2の概要");
 		datap2.setDocType("InPort2のデータの型");
 		datap2.setDocNum("InPort2のデータの数");
@@ -116,7 +116,7 @@ public class CXXDocTest extends TestBase {
 		//
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
 
-		DataPortParam datap3 = new DataPortParam("OutP1", "TimedLong", "OutName1", 0);
+		DataPortParam datap3 = new DataPortParam("OutP1", "RTC::TimedLong", "OutName1", 0);
 		datap3.setDocDescription("OutPort1の概要");
 		datap3.setDocType("OutPort1のデータの型");
 		datap3.setDocNum("OutPort1のデータの数");
@@ -126,7 +126,7 @@ public class CXXDocTest extends TestBase {
 		datap3.setDocOperation("OutPort1のデータの処理周期");
 		outport.add(datap3);
 
-		DataPortParam datap4 = new DataPortParam("OutP2", "TimedFloat", "OutNme2", 0);
+		DataPortParam datap4 = new DataPortParam("OutP2", "RTC::TimedFloat", "OutNme2", 0);
 		datap4.setDocDescription("OutPort2の概要");
 		datap4.setDocType("OutPort2のデータの型");
 		datap4.setDocNum("OutPort2のデータの数");
@@ -254,12 +254,12 @@ public class CXXDocTest extends TestBase {
 		//
 		genParam.getRtcParams().add(rtcParam);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
-		dataport.add(new DataPortParam("InP1", "TimedShort", "", 0));
-		dataport.add(new DataPortParam("InP2", "TimedLong", "", 0));
+		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
+		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
 		rtcParam.setInports(dataport);
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
-		outport.add(new DataPortParam("OutP1", "TimedInt", "", 0));
-		outport.add(new DataPortParam("OutP2", "TimedFloat", "", 0));
+		outport.add(new DataPortParam("OutP1", "RTC::TimedInt", "", 0));
+		outport.add(new DataPortParam("OutP2", "RTC::TimedFloat", "", 0));
 		rtcParam.setOutports(outport);
 
 		ServicePortParam service1 = new ServicePortParam("svPort",0);
@@ -318,12 +318,12 @@ public class CXXDocTest extends TestBase {
 		//
 		genParam.getRtcParams().add(rtcParam);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
-		dataport.add(new DataPortParam("InP1", "TimedShort", "", 0));
-		dataport.add(new DataPortParam("InP2", "TimedLong", "", 0));
+		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
+		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
 		rtcParam.setInports(dataport);
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
-		outport.add(new DataPortParam("OutP1", "TimedInt", "", 0));
-		outport.add(new DataPortParam("OutP2", "TimedFloat", "", 0));
+		outport.add(new DataPortParam("OutP1", "RTC::TimedInt", "", 0));
+		outport.add(new DataPortParam("OutP2", "RTC::TimedFloat", "", 0));
 		rtcParam.setOutports(outport);
 
 		ServicePortParam service1 = new ServicePortParam("svPort",0);
@@ -381,12 +381,12 @@ public class CXXDocTest extends TestBase {
 		//
 		genParam.getRtcParams().add(rtcParam);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
-		dataport.add(new DataPortParam("InP1", "TimedShort", "", 0));
-		dataport.add(new DataPortParam("InP2", "TimedLong", "", 0));
+		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
+		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
 		rtcParam.setInports(dataport);
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
-		outport.add(new DataPortParam("OutP1", "TimedInt", "", 0));
-		outport.add(new DataPortParam("OutP2", "TimedFloat", "", 0));
+		outport.add(new DataPortParam("OutP1", "RTC::TimedInt", "", 0));
+		outport.add(new DataPortParam("OutP2", "RTC::TimedFloat", "", 0));
 		rtcParam.setOutports(outport);
 
 		ServicePortParam service1 = new ServicePortParam("svPort",0);
@@ -443,12 +443,12 @@ public class CXXDocTest extends TestBase {
 		//
 		genParam.getRtcParams().add(rtcParam);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
-		dataport.add(new DataPortParam("InP1", "TimedShort", "", 0));
-		dataport.add(new DataPortParam("InP2", "TimedLong", "", 0));
+		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
+		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
 		rtcParam.setInports(dataport);
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
-		outport.add(new DataPortParam("OutP1", "TimedInt", "", 0));
-		outport.add(new DataPortParam("OutP2", "TimedFloat", "", 0));
+		outport.add(new DataPortParam("OutP1", "RTC::TimedInt", "", 0));
+		outport.add(new DataPortParam("OutP2", "RTC::TimedFloat", "", 0));
 		rtcParam.setOutports(outport);
 
 		ServicePortParam service1 = new ServicePortParam("svPort",0);
@@ -504,12 +504,12 @@ public class CXXDocTest extends TestBase {
 		//
 		genParam.getRtcParams().add(rtcParam);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
-		dataport.add(new DataPortParam("InP1", "TimedShort", "", 0));
-		dataport.add(new DataPortParam("InP2", "TimedLong", "", 0));
+		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
+		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
 		rtcParam.setInports(dataport);
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
-		outport.add(new DataPortParam("OutP1", "TimedInt", "", 0));
-		outport.add(new DataPortParam("OutP2", "TimedFloat", "", 0));
+		outport.add(new DataPortParam("OutP1", "RTC::TimedInt", "", 0));
+		outport.add(new DataPortParam("OutP2", "RTC::TimedFloat", "", 0));
 		rtcParam.setOutports(outport);
 
 		ServicePortParam service1 = new ServicePortParam("svPort",0);
@@ -564,12 +564,12 @@ public class CXXDocTest extends TestBase {
 		//
 		genParam.getRtcParams().add(rtcParam);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
-		dataport.add(new DataPortParam("InP1", "TimedShort", "", 0));
-		dataport.add(new DataPortParam("InP2", "TimedLong", "", 0));
+		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
+		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
 		rtcParam.setInports(dataport);
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
-		outport.add(new DataPortParam("OutP1", "TimedInt", "", 0));
-		outport.add(new DataPortParam("OutP2", "TimedFloat", "", 0));
+		outport.add(new DataPortParam("OutP1", "RTC::TimedInt", "", 0));
+		outport.add(new DataPortParam("OutP2", "RTC::TimedFloat", "", 0));
 		rtcParam.setOutports(outport);
 
 		ServicePortParam service1 = new ServicePortParam("svPort",0);
@@ -624,12 +624,12 @@ public class CXXDocTest extends TestBase {
 		//
 		genParam.getRtcParams().add(rtcParam);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
-		dataport.add(new DataPortParam("InP1", "TimedShort", "", 0));
-		dataport.add(new DataPortParam("InP2", "TimedLong", "", 0));
+		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
+		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
 		rtcParam.setInports(dataport);
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
-		outport.add(new DataPortParam("OutP1", "TimedInt", "", 0));
-		outport.add(new DataPortParam("OutP2", "TimedFloat", "", 0));
+		outport.add(new DataPortParam("OutP1", "RTC::TimedInt", "", 0));
+		outport.add(new DataPortParam("OutP2", "RTC::TimedFloat", "", 0));
 		rtcParam.setOutports(outport);
 
 		ServicePortParam service1 = new ServicePortParam("svPort",0);
@@ -681,12 +681,12 @@ public class CXXDocTest extends TestBase {
 		rtcParam.setMaxInstance(5);
 		genParam.getRtcParams().add(rtcParam);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
-		dataport.add(new DataPortParam("InP1", "TimedShort", "", 0));
-		dataport.add(new DataPortParam("InP2", "TimedLong", "", 0));
+		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
+		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
 		rtcParam.setInports(dataport);
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
-		outport.add(new DataPortParam("OutP1", "TimedInt", "", 0));
-		outport.add(new DataPortParam("OutP2", "TimedFloat", "", 0));
+		outport.add(new DataPortParam("OutP1", "RTC::TimedInt", "", 0));
+		outport.add(new DataPortParam("OutP2", "RTC::TimedFloat", "", 0));
 		rtcParam.setOutports(outport);
 
 		ServicePortParam service1 = new ServicePortParam("svPort",0);

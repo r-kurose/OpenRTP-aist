@@ -76,43 +76,16 @@ public class ComponentPreferenceManager {
 	 */
 	private static final String Generate_Basic_Execution_Rate = ComponentPreferenceManager.class.getName()
 			+ "GENERATE_BASIC_EXECUTION_RATE";
-	////
 	/**
-	 * DataPort Nameのキー
+	 * 共通接頭語のキー
 	 */
-	private static final String Generate_DataPort_Name = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_DATAPORT_NAME";
+	private static final String Generate_Basic_Prefix = ComponentPreferenceManager.class.getName()
+			+ "GENERATE_BASIC_PREFIX";
 	/**
-	 * DataPort Typeのキー
+	 * 共通接尾語のキー
 	 */
-	private static final String Generate_DataPort_Type = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_DATAPORT_TYPE";
-	/**
-	 * DataPort VarNameのキー
-	 */
-	private static final String Generate_DataPort_VarName = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_DATAPORT_VARNAME";
-	////
-	/**
-	 * ServicePort Nameのキー
-	 */
-	private static final String Generate_ServicePort_Name = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_SERVICEPORT_NAME";
-	/**
-	 * ServiceInterfacet Nameのキー
-	 */
-	private static final String Generate_ServiceIF_Name = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_SERVICEIF_NAME";
-	/**
-	 * ServiceInterfacet Instance Nameのキー
-	 */
-	private static final String Generate_ServiceIF_InstanceName = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_SERVICEIF_INSTANCENAME";
-	/**
-	 * ServiceInterfacet Varriable Nameのキー
-	 */
-	private static final String Generate_ServiceIF_VarName = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_SERVICEIF_VARNAME";
+	private static final String Generate_Basic_Suffix = ComponentPreferenceManager.class.getName()
+			+ "GENERATE_BASIC_SUFFIX";
 	////
 	/**
 	 * Configuration Nameのキー
@@ -134,6 +107,36 @@ public class ComponentPreferenceManager {
 	 */
 	private static final String Generate_Configuration_Default = ComponentPreferenceManager.class.getName()
 			+ "GENERATE_CONFIGURATION_DEFAULT";
+	/**
+	 * Configuration Constraintのキー
+	 */
+	private static final String Generate_Configuration_Constraint = ComponentPreferenceManager.class.getName()
+			+ "GENERATE_CONFIGURATION_CONSTRAINT";
+	/**
+	 * Configuration Unitのキー
+	 */
+	private static final String Generate_Configuration_Unit = ComponentPreferenceManager.class.getName()
+			+ "GENERATE_CONFIGURATION_UNIT";
+	/**
+	 * Configuration 接頭語のキー
+	 */
+	private static final String Generate_Configuration_Prefix = ComponentPreferenceManager.class.getName()
+			+ "GENERATE_CONFIGURATION_PREFIX";
+	/**
+	 * Configuration 接頭尾のキー
+	 */
+	private static final String Generate_Configuration_Suffix = ComponentPreferenceManager.class.getName()
+			+ "GENERATE_CONFIGURATION_SUFFIX";
+	///
+	/**
+	 * 設定画面で一度でもOKが押されたか否かを示すフィールドのキー
+	 */
+	private static final String Basic_Preference_Status = ComponentPreferenceManager.class.getName()
+			+ "BASIC_PREFERENCE_STATUS";
+	/**
+	 * 設定画面で一度でもOKが押された場合上記フィールドに格納する定数値
+	 */
+	private static final String Basic_Preference_Status_Dirty = "DIRTY";
 
 	public static final String DEFAULT_COMPONENT_NAME = "ModuleName";
 	public static final String DEFAULT_DESCRIPTION = "ModuleDescription";
@@ -146,20 +149,19 @@ public class ComponentPreferenceManager {
 	public static final int DEFAULT_MAXINST = 1;
 	public static final String DEFAULT_EXECUTION_TYPE = IRtcBuilderConstants.EXECUTIONCONTEXT_TYPE_ITEMS[0];
 	public static final double DEFAULT_EXECUTION_RATE = 1.0;
-	//
-	public static final String DEFAULT_DATAPORT_NAME = "dp_name";
-	public static final String DEFAULT_DATAPORT_TYPE = "dp_type";
-	public static final String DEFAULT_DATAPORT_VARNAME = "dp_vname";
-	//
-	public static final String DEFAULT_SERVICEPORT_NAME = "sv_name";
-	public static final String DEFAULT_SERVICEIF_NAME = "if_name";
-	public static final String DEFAULT_SERVICEIF_INSTANCENAME = "if_instance";
-	public static final String DEFAULT_SERVICEIF_VARNAME = "if_varname";
+	public static final String DEFAULT_PREFIX = "m_";
+	public static final String DEFAULT_SUFFIX = "";
 	//
 	public static final String DEFAULT_CONFIGURATION_NAME = "conf_name";
 	public static final String DEFAULT_CONFIGURATION_TYPE = "conf_type";
 	public static final String DEFAULT_CONFIGURATION_VARNAME = "conf_varname";
 	public static final String DEFAULT_CONFIGURATION_DEFAULT = "conf_default";
+	public static final String DEFAULT_CONFIGURATION_CONSTRAINT = "conf_constraint";
+	public static final String DEFAULT_CONFIGURATION_UNIT = "";
+	public static final String DEFAULT_CONFIGURATION_PREFIX = "";
+	public static final String DEFAULT_CONFIGURATION_SUFFIX = "";
+	//
+	
 
 	/**
 	 * コード生成時の ModuleName デフォルト値を取得する
@@ -512,231 +514,71 @@ public class ComponentPreferenceManager {
 
 		propertyChangeSupport.firePropertyChange(Generate_Basic_Execution_Rate, Double.valueOf(oldExecutionRate), Double.valueOf(defaultExecutionRate));
 	}
-//
+	
 	/**
-	 * コード生成時の DataPort Name デフォルト値を取得する
+	 * コード生成時の 接頭語 デフォルト値を取得する
 	 * 
 	 * @param key キー
-	 * @return DataPort Name デフォルト値
+	 * @return 接頭語 デフォルト値
 	 */
-	public String getDataPort_Name() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_DataPort_Name, "");
+	public String getBasic_Prefix() {
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Basic_Prefix, "");
 
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_DataPort_Name);
+		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Basic_Prefix);
 		String result;
-		if (resultTemp.equals("")) { // defaultvalue
-			result = DEFAULT_DATAPORT_NAME;
+		if (resultTemp.equals("") && !Basic_Preference_Status_Dirty.equals(getPreferenceStatus())) { // defaultvalue
+			result = DEFAULT_PREFIX;
 		} else {
 			result = resultTemp;
 		}
 		return result;
 	}
 	/**
-	 * コード生成時の DataPort Name デフォルト値を設定する
+	 * コード生成時の 接頭語 デフォルト値を設定する
 	 * 
 	 * @param key キー
-	 * @param defaultDataPortName	 DataPort Name デフォルト値
+	 * @param defaultPrefix	 接頭語 デフォルト値
 	 */
-	public void setDataPort_Name(String defaultDataPortName) {
-		String oldDataPortName = getDataPort_Name();
+	public void setBasic_Prefix(String defaultPrefix) {
+		String oldPrefix = getBasic_Prefix();
 
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_DataPort_Name, defaultDataPortName);
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Basic_Prefix, defaultPrefix);
 
-		propertyChangeSupport.firePropertyChange(Generate_DataPort_Name, oldDataPortName, defaultDataPortName);
+		propertyChangeSupport.firePropertyChange(Generate_Basic_Prefix, oldPrefix, defaultPrefix);
 	}
-
+	
 	/**
-	 * コード生成時の DataPort Type デフォルト値を取得する
+	 * コード生成時の 接尾語 デフォルト値を取得する
 	 * 
 	 * @param key キー
-	 * @return DataPort Type デフォルト値
+	 * @return 接尾語 デフォルト値
 	 */
-	public String getDataPort_Type() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_DataPort_Type, "");
+	public String getBasic_Suffix() {
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Basic_Suffix, "");
 
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_DataPort_Type);
+		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Basic_Suffix);
 		String result;
-		if (resultTemp.equals("")) { // defaultvalue
-			result = DEFAULT_DATAPORT_TYPE;
+		if (resultTemp.equals("") && !Basic_Preference_Status_Dirty.equals(getPreferenceStatus())) { // defaultvalue
+			result = DEFAULT_SUFFIX;
 		} else {
 			result = resultTemp;
 		}
 		return result;
 	}
 	/**
-	 * コード生成時の DataPort Type デフォルト値を設定する
+	 * コード生成時の 接尾語 デフォルト値を設定する
 	 * 
 	 * @param key キー
-	 * @param defaultDataPortType	 DataPort Type デフォルト値
+	 * @param defaultSuffix	 接尾語 デフォルト値
 	 */
-	public void setDataPort_Type(String defaultDataPortType) {
-		String oldDataPortType = getDataPort_Type();
+	public void setBasic_Suffix(String defaultSuffix) {
+		String oldSuffix = getBasic_Suffix();
 
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_DataPort_Type, defaultDataPortType);
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Basic_Suffix, defaultSuffix);
 
-		propertyChangeSupport.firePropertyChange(Generate_DataPort_Type, oldDataPortType, defaultDataPortType);
+		propertyChangeSupport.firePropertyChange(Generate_Basic_Suffix, oldSuffix, defaultSuffix);
 	}
-
-	/**
-	 * コード生成時の DataPort 変数名 デフォルト値を取得する
-	 * 
-	 * @param key キー
-	 * @return DataPort 変数名 デフォルト値
-	 */
-	public String getDataPort_VarName() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_DataPort_VarName, "");
-
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_DataPort_VarName);
-		String result;
-		if (resultTemp.equals("")) { // defaultvalue
-			result = DEFAULT_DATAPORT_VARNAME;
-		} else {
-			result = resultTemp;
-		}
-		return result;
-	}
-	/**
-	 * コード生成時の DataPort 変数名 デフォルト値を設定する
-	 * 
-	 * @param key キー
-	 * @param defaultDataPortVarName	 DataPort 変数名 デフォルト値
-	 */
-	public void setDataPort_VarName(String defaultDataPortVarName) {
-		String oldDataPortVarName = getDataPort_VarName();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_DataPort_VarName, defaultDataPortVarName);
-
-		propertyChangeSupport.firePropertyChange(Generate_DataPort_VarName, oldDataPortVarName, defaultDataPortVarName);
-	}
-
-	/**
-	 * コード生成時の ServicePort 名 デフォルト値を取得する
-	 * 
-	 * @param key キー
-	 * @return ServicePort 変数名 デフォルト値
-	 */
-	public String getServicePort_Name() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_ServicePort_Name, "");
-
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_ServicePort_Name);
-		String result;
-		if (resultTemp.equals("")) { // defaultvalue
-			result = DEFAULT_SERVICEPORT_NAME;
-		} else {
-			result = resultTemp;
-		}
-		return result;
-	}
-	/**
-	 * コード生成時の ServicePort 名 デフォルト値を設定する
-	 * 
-	 * @param key キー
-	 * @param defaultServicePortName	 ServicePort 名 デフォルト値
-	 */
-	public void setServicePort_Name(String defaultServicePortName) {
-		String oldServicePortName = getServicePort_Name();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_ServicePort_Name, defaultServicePortName);
-
-		propertyChangeSupport.firePropertyChange(Generate_ServicePort_Name, oldServicePortName, defaultServicePortName);
-	}
-
-	/**
-	 * コード生成時の ServiceIF 名 デフォルト値を取得する
-	 * 
-	 * @param key キー
-	 * @return ServiceIF名 デフォルト値
-	 */
-	public String getServiceIF_Name() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_ServiceIF_Name, "");
-
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_ServiceIF_Name);
-		String result;
-		if (resultTemp.equals("")) { // defaultvalue
-			result = DEFAULT_SERVICEIF_NAME;
-		} else {
-			result = resultTemp;
-		}
-		return result;
-	}
-	/**
-	 * コード生成時の ServiceIF 名 デフォルト値を設定する
-	 * 
-	 * @param key キー
-	 * @param defaultServiceIFName	 ServiceIF 名 デフォルト値
-	 */
-	public void setServiceIF_Name(String defaultServiceIFName) {
-		String oldServiceIFName = getServiceIF_Name();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_ServiceIF_Name, defaultServiceIFName);
-
-		propertyChangeSupport.firePropertyChange(Generate_ServiceIF_Name, oldServiceIFName, defaultServiceIFName);
-	}
-
-	/**
-	 * コード生成時の ServiceIF インスタンス名 デフォルト値を取得する
-	 * 
-	 * @param key キー
-	 * @return ServiceIF インスタンス名 デフォルト値
-	 */
-	public String getServiceIF_InstanceName() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_ServiceIF_InstanceName, "");
-
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_ServiceIF_InstanceName);
-		String result;
-		if (resultTemp.equals("")) { // defaultvalue
-			result = DEFAULT_SERVICEIF_INSTANCENAME;
-		} else {
-			result = resultTemp;
-		}
-		return result;
-	}
-	/**
-	 * コード生成時の ServiceIF インスタンス名 デフォルト値を設定する
-	 * 
-	 * @param key キー
-	 * @param defaultServiceIFInstanceName	 ServiceIF インスタンス名 デフォルト値
-	 */
-	public void setServiceIF_InstanceName(String defaultServiceIFInstanceName) {
-		String oldServiceIFInstanceName = getServiceIF_InstanceName();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_ServiceIF_InstanceName, defaultServiceIFInstanceName);
-
-		propertyChangeSupport.firePropertyChange(Generate_ServiceIF_InstanceName, oldServiceIFInstanceName, defaultServiceIFInstanceName);
-	}
-
-	/**
-	 * コード生成時の ServiceIF 変数名 デフォルト値を取得する
-	 * 
-	 * @param key キー
-	 * @return ServiceIF 変数名 デフォルト値
-	 */
-	public String getServiceIF_VarName() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_ServiceIF_VarName, "");
-
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_ServiceIF_VarName);
-		String result;
-		if (resultTemp.equals("")) { // defaultvalue
-			result = DEFAULT_SERVICEIF_VARNAME;
-		} else {
-			result = resultTemp;
-		}
-		return result;
-	}
-	/**
-	 * コード生成時の ServiceIF 変数名 デフォルト値を設定する
-	 * 
-	 * @param key キー
-	 * @param defaultServiceIFVarName	 ServiceIF 変数名 デフォルト値
-	 */
-	public void setServiceIF_VarName(String defaultServiceIFVarName) {
-		String oldServiceIFVarName = getServiceIF_VarName();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_ServiceIF_VarName, defaultServiceIFVarName);
-
-		propertyChangeSupport.firePropertyChange(Generate_ServiceIF_VarName, oldServiceIFVarName, defaultServiceIFVarName);
-	}
-
+	////
 	/**
 	 * コード生成時の Configuration Name デフォルト値を取得する
 	 * 
@@ -865,6 +707,152 @@ public class ComponentPreferenceManager {
 		propertyChangeSupport.firePropertyChange(Generate_Configuration_Default, oldConfigDefault, defaultConfigurationDefault);
 	}
 
+	/**
+	 * コード生成時の Configuration 制約を取得する
+	 * 
+	 * @param key キー
+	 * @return Configuration 制約
+	 */
+	public String getConfiguration_Constraint() {
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Configuration_Constraint, "");
+
+		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Configuration_Constraint);
+		String result;
+		if (resultTemp.equals("")) { // defaultvalue
+			result = DEFAULT_CONFIGURATION_CONSTRAINT;
+		} else {
+			result = resultTemp;
+		}
+		return result;
+	}
+	/**
+	 * コード生成時の Configuration 制約を設定する
+	 * 
+	 * @param key キー
+	 * @param defaultConfigurationConstraint	 Configuration 制約
+	 */
+	public void setConfiguration_Constraint(String defaultConfigurationConstraint) {
+		String oldConfigConstraint = getConfiguration_Constraint();
+
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Configuration_Constraint, defaultConfigurationConstraint);
+
+		propertyChangeSupport.firePropertyChange(Generate_Configuration_Constraint, oldConfigConstraint, defaultConfigurationConstraint);
+	}
+
+	/**
+	 * コード生成時の Configuration Unitを取得する
+	 * 
+	 * @param key キー
+	 * @return Configuration 制約
+	 */
+	public String getConfiguration_Unit() {
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Configuration_Unit, "");
+
+		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Configuration_Unit);
+		String result;
+		if (resultTemp.equals("")) { // defaultvalue
+			result = DEFAULT_CONFIGURATION_UNIT;
+		} else {
+			result = resultTemp;
+		}
+		return result;
+	}
+	/**
+	 * コード生成時の Configuration Unitを設定する
+	 * 
+	 * @param key キー
+	 * @param defaultConfigurationUnit	 Configuration Unit
+	 */
+	public void setConfiguration_Unit(String defaultConfigurationUnit) {
+		String oldConfigUnit = getConfiguration_Unit();
+
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Configuration_Unit, defaultConfigurationUnit);
+
+		propertyChangeSupport.firePropertyChange(Generate_Configuration_Unit, oldConfigUnit, defaultConfigurationUnit);
+	}
+	
+	/**
+	 * コード生成時の Configuration 接頭語 デフォルト値を取得する
+	 * 
+	 * @param key キー
+	 * @return 接頭語 デフォルト値
+	 */
+	public String getConfiguration_Prefix() {
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Configuration_Prefix, "");
+
+		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Configuration_Prefix);
+		String result;
+		if (resultTemp.equals("") && !Basic_Preference_Status_Dirty.equals(getPreferenceStatus())) { // defaultvalue
+			result = DEFAULT_CONFIGURATION_PREFIX;
+		} else {
+			result = resultTemp;
+		}
+		return result;
+	}
+	/**
+	 * コード生成時の Configuration 接頭語 デフォルト値を設定する
+	 * 
+	 * @param key キー
+	 * @param defaultConfigPrefix	 接頭語 デフォルト値
+	 */
+	public void setConfiguration_Prefix(String defaultConfigPrefix) {
+		String oldConfigPrefix = getConfiguration_Prefix();
+
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Configuration_Prefix, defaultConfigPrefix);
+
+		propertyChangeSupport.firePropertyChange(Generate_Configuration_Prefix, oldConfigPrefix, defaultConfigPrefix);
+	}
+	
+	/**
+	 * コード生成時の Configuration 接尾語 デフォルト値を取得する
+	 * 
+	 * @param key キー
+	 * @return Configuration 接尾語 デフォルト値
+	 */
+	public String getConfiguration_Suffix() {
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Configuration_Suffix, "");
+
+		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Configuration_Suffix);
+		String result;
+		if (resultTemp.equals("") && !Basic_Preference_Status_Dirty.equals(getPreferenceStatus())) { // defaultvalue
+			result = DEFAULT_CONFIGURATION_SUFFIX;
+		} else {
+			result = resultTemp;
+		}
+		return result;
+	}
+	/**
+	 * コード生成時の Configuration 接尾語 デフォルト値を設定する
+	 * 
+	 * @param key キー
+	 * @param defaultSuffix	 Configuration 接尾語 デフォルト値
+	 */
+	public void setConfiguration_Suffix(String defaultConfigSuffix) {
+		String oldConfigSuffix = getConfiguration_Suffix();
+
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Configuration_Suffix, defaultConfigSuffix);
+
+		propertyChangeSupport.firePropertyChange(Generate_Configuration_Suffix, oldConfigSuffix, defaultConfigSuffix);
+	}
+
+	/**
+	 * 設定画面が設定済みか否かを示す項目の値を取得する
+	 * 
+	 * @return
+	 */
+	public String getPreferenceStatus() {
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Basic_Preference_Status, "");
+		return RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Basic_Preference_Status);
+	}
+	/**
+	 * 設定画面が設定済みか否かを示す項目の値を設定する
+	 */
+	public void setDirtyToPreferenceStatus() {
+		String oldStatus = getPreferenceStatus();
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Basic_Preference_Status, Basic_Preference_Status_Dirty);
+		propertyChangeSupport.firePropertyChange(Basic_Preference_Status, oldStatus, Basic_Preference_Status_Dirty);
+	}
+	
 	/**
 	 * @see PropertyChangeSupport#addPropertyChangeListener(java.beans.PropertyChangeListener)
 	 */

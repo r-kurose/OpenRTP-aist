@@ -20,6 +20,7 @@ import jp.go.aist.rtm.repositoryView.model.RepositoryViewItem;
 import jp.go.aist.rtm.repositoryView.model.RepositoryViewLeafItem;
 import jp.go.aist.rtm.repositoryView.model.RepositoryViewRootItem;
 import jp.go.aist.rtm.repositoryView.model.ServerRVRootItem;
+import jp.go.aist.rtm.repositoryView.nl.Messages;
 import jp.go.aist.rtm.repositoryView.ui.preference.RepositoryViewPreferenceManager;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
@@ -36,19 +37,17 @@ import org.openrtp.repository.RTRepositoryAccessException;
 import org.openrtp.repository.RTRepositoryClient;
 import org.openrtp.repository.RTRepositoryClientFactory;
 
-import RTC.ComponentProfile;
-
 
 /**
  * RTリポジトリにアクセスするユーティリティ
  */
 public class RTRepositoryAccesser {
 
-	private static final String ZIP_EXT = "ZIP";
-	private static final String TAR_EXT = "TAR";
-	private static final String GZ_EXT = "GZ";
+	private static final String ZIP_EXT = "ZIP"; //$NON-NLS-1$
+	private static final String TAR_EXT = "TAR"; //$NON-NLS-1$
+	private static final String GZ_EXT = "GZ"; //$NON-NLS-1$
 	//
-	private static final String RTC_XML = "RTC.XML";
+	private static final String RTC_XML = "RTC.XML"; //$NON-NLS-1$
 	//
 	private static Log Logger;
 
@@ -67,24 +66,14 @@ public class RTRepositoryAccesser {
 	}
 
 	/**
-	 * RTリポジトリとして対象アドレスにアクセス可能であるかどうか確認する
+	 * RTリポジトリとして対象アドレスにアクセス可能であるかどうか確認する（未実装）
 	 * 
 	 * @param address
 	 *            調査対象のアドレス
 	 * @return RTリポジトリとしてアクセス可能かどうか
 	 */
 	public boolean validateNameServerAddress(String address) {
-		boolean result = true;
-
-//		try {
-//		if (getNameServerRootContext(address) != null) {
-//			result = true;
-//		}
-//	} catch (Exception e) {
-//		// void
-//		e.printStackTrace();
-//	}
-		return result;
+		return true;
 	}
 
 	/**
@@ -95,7 +84,7 @@ public class RTRepositoryAccesser {
 	 * @return リポジトリサーバ内情報のリスト
 	 */
 	public RepositoryViewItem getRepositoryServerRoot(String address) {
-		if( "".equals(address) ) {
+		if( "".equals(address) ) { //$NON-NLS-1$
 			return null;
 		}
 
@@ -114,7 +103,7 @@ public class RTRepositoryAccesser {
 		}
 		if( cautionNumber<=numberOfItems ) {
 			if( !MessageDialog.openQuestion(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-					"Caution","データ数が[" + cautionNumber + "]件を超えていますが表示しますか？") ) {
+					Messages.getString("RTRepositoryAccesser.5"),Messages.getString("RTRepositoryAccesser.6") + cautionNumber + Messages.getString("RTRepositoryAccesser.7")) ) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				return null;
 			}
 		}
@@ -140,19 +129,16 @@ public class RTRepositoryAccesser {
 		RepositoryViewRootItem result = new ServerRVRootItem(repositoryAddress);
 
 		for(int intIdx=0;intIdx<source.length;intIdx++) {
-			String[] element = source[intIdx].split(":");
+			String[] element = source[intIdx].split(":"); //$NON-NLS-1$
 			if( element.length >= 2) {
-				String[] items = element[1].split("\\.");
+				String[] items = element[1].split("\\."); //$NON-NLS-1$
 				ComponentSpecification specification  = ComponentFactory.eINSTANCE.createComponentSpecification();
-				specification.setSpecUnLoad();
-				ComponentProfile cmpProfile = new ComponentProfile();
-				cmpProfile.category = items[items.length-2];
-				cmpProfile.type_name = items[items.length-1];
-				specification.setRTCComponentProfile(cmpProfile);
+				specification.setCategoryL(items[items.length-2]);
+				specification.setTypeNameL(items[items.length-1]);
 				specification.setAliasName(items[items.length-1]);
 				specification.setComponentId(source[intIdx]);
-				specification.setPathId(repositoryAddress);
-				specification.setPathURI(repositoryAddress + "/" + source[intIdx]);
+//				specification.setPathId(repositoryAddress);
+				specification.setPathId(repositoryAddress + "/" + source[intIdx]); //$NON-NLS-1$
 				
 				RepositoryViewFactory.buildTree(result, specification, element[0], true);
 			}
@@ -160,6 +146,11 @@ public class RTRepositoryAccesser {
 		return result;
 	}
 	
+	/**
+	 * @param component		コンポーネント仕様のIDその他
+	 * @return				ダウンロードしたコンポーネント仕様
+	 * @throws Exception
+	 */
 	public ComponentSpecification getComponentProfile(ComponentSpecification component) throws Exception {
 
 		RTRepositoryClientFactory factory = RTRepositoryClientFactory.getInstance();
@@ -168,9 +159,6 @@ public class RTRepositoryAccesser {
 		String targetXML = client.downloadProfile(component.getComponentId(), itemCategory);
 		ProfileHandler handler = new ProfileHandler();
     	ComponentSpecification specification  = handler.createComponentFromXML(targetXML);
-//		ComponentProfile cmpProfile = new ComponentProfile();
-//		cmpProfile.category = component.getCategoryL();
-//		specification.setRTCComponentProfile(cmpProfile);
 		specification.setAliasName(component.getAliasName());
 		specification.setComponentId(component.getComponentId());
 		specification.setPathId(component.getPathId());
@@ -178,6 +166,12 @@ public class RTRepositoryAccesser {
 		return specification;
 	}
 
+	/**
+	 * targetServerからtargetItemを削除する
+	 * @param targetItem
+	 * @param targetServer
+	 * @throws Exception
+	 */
 	public void deleteProfile(String targetItem, String targetServer) throws Exception {
 		ItemCategory itemCategory = getItemCategory(targetItem);
 		RTRepositoryClientFactory factory = RTRepositoryClientFactory.getInstance();
@@ -185,14 +179,21 @@ public class RTRepositoryAccesser {
 		client.deleteItem(targetItem, itemCategory);
 	}
 
+	/**
+	 * targetServerにtargetItemをアップロードする
+	 * @param targetItem
+	 * @param targetServer
+	 * @return
+	 * @throws Exception
+	 */
 	public ComponentSpecification uploadProfile(String targetItem, String targetServer) throws Exception {
 		String rtcXml = getTargetProfile(targetItem);
 		if( rtcXml==null ) {
-			throw new IOException("Profile情報が存在しません");
+			throw new IOException(Messages.getString("RTRepositoryAccesser.11")); //$NON-NLS-1$
 		}
 		//XMLバリデーション
 		ProfileHandler handler = new ProfileHandler();
-		handler.validateXml(rtcXml);
+		ProfileHandler.validateXml(rtcXml);
 		//Profileの登録
 		ComponentSpecification module = handler.createComponentFromXML(rtcXml);
 		String itemId = module.getComponentId();
@@ -207,9 +208,9 @@ public class RTRepositoryAccesser {
 		return module;
 	}
 
-	public String getTargetProfile(String target) throws Exception {
+	private String getTargetProfile(String target) throws Exception {
 		
-		String[] targetFile = target.split("\\.");
+		String[] targetFile = target.split("\\."); //$NON-NLS-1$
 		if(targetFile[targetFile.length-1].toUpperCase().equals(TAR_EXT)) {
 			return getTarProfile(target);
 		} else	if(targetFile[targetFile.length-1].toUpperCase().equals(GZ_EXT)) {
@@ -221,17 +222,17 @@ public class RTRepositoryAccesser {
 		}
 	}
 	
-	public String getGzProfile(String target) throws IOException, TarException {
+	private String getGzProfile(String target) throws IOException, TarException {
 		TarInputStream tarinput = new TarInputStream(new GZIPInputStream(new BufferedInputStream(new FileInputStream(target))));
 		return readTar(tarinput);
 	}
 
-	public String getTarProfile(String target) throws IOException, TarException {
+	private String getTarProfile(String target) throws IOException, TarException {
 		TarInputStream tarinput = new TarInputStream(new BufferedInputStream(new FileInputStream(target)));
 		return readTar(tarinput);
 	}
 
-	public String readTar(TarInputStream input) throws IOException, TarException {
+	private String readTar(TarInputStream input) throws IOException, TarException {
 			
 		TarEntry tarEntry = input.getNextEntry();
 		while( tarEntry!=null ){
@@ -244,7 +245,7 @@ public class RTRepositoryAccesser {
 				String str = new String();
 				StringBuffer stbRet = new StringBuffer();
 				while( (str = reader.readLine()) != null ) {
-					stbRet.append(str + "\r\n");
+					stbRet.append(str + "\r\n"); //$NON-NLS-1$
 				}
 				reader.close();
 				String rtcXml = stbRet.toString();
@@ -258,7 +259,7 @@ public class RTRepositoryAccesser {
         return null;
 	}
 
-	public void copyEntryContents(TarInputStream tarinput, OutputStream out) throws IOException {
+	private void copyEntryContents(TarInputStream tarinput, OutputStream out) throws IOException {
         byte[] buf = new byte[32 * 1024];
 
         while (true) {
@@ -272,7 +273,7 @@ public class RTRepositoryAccesser {
         }
     }
 	
-	public String getZipProfile(String target) throws IOException {
+	private String getZipProfile(String target) throws IOException {
 		
 		ZipInputStream zipinput = new ZipInputStream(new BufferedInputStream(new FileInputStream(target)));
 	    ZipEntry entry = null;
@@ -291,10 +292,10 @@ public class RTRepositoryAccesser {
 		        output.close();
 
 		        if (entry.getSize() != totalSize) {
-		        	throw new IOException("格納サイズが違います");
+		        	throw new IOException(Messages.getString("RTRepositoryAccesser.14")); //$NON-NLS-1$
 		        }
 		        if (entry.getCrc() != output.getChecksum().getValue()) {
-		        	throw new IOException("チェックサムが違います");
+		        	throw new IOException(Messages.getString("RTRepositoryAccesser.15")); //$NON-NLS-1$
 		        }
 		        if(entry.getName().toUpperCase().contains(RTC_XML)) {
 		        	String rtcXml = buffer.toString();
@@ -311,7 +312,7 @@ public class RTRepositoryAccesser {
 	}
 	
 	private ItemCategory getItemCategory(String target) {
-		String[] element = target.split(":");
+		String[] element = target.split(":"); //$NON-NLS-1$
 		ItemCategory result = null;
 		if( element.length >= 2) {
 			if(element[0].equals(RepositoryViewLeafItem.RTSystem_LEAF) ) {

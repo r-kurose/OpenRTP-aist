@@ -6,10 +6,8 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
  * add_expr -> add_expr()
- * nodeListOptional -> ( ( "&gt;&gt;" | "&lt;&lt;" ) add_expr() )*
- * </PRE>
+ * nodeListOptional -> ( ( ">>" | "<<" ) add_expr() )*
  */
 public class shift_expr implements Node {
    private Node parent;

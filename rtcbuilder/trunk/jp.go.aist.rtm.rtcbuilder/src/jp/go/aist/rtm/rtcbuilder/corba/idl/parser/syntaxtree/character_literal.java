@@ -6,9 +6,7 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * <PRE>
- * nodeToken -> &lt;CHARACTER&gt;
- * </PRE>
+ * nodeToken -> <CHARACTER>
  */
 public class character_literal implements Node {
    private Node parent;
