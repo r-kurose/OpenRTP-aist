@@ -8,7 +8,6 @@ package jp.go.aist.rtm.toolscommon.model.core.impl;
 
 import jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject;
 import jp.go.aist.rtm.toolscommon.model.core.CorePackage;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSupport;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
@@ -83,14 +82,6 @@ public abstract class CorbaWrapperObjectImpl extends WrapperObjectImpl implement
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 */
-	public boolean ping() {
-		return SynchronizationSupport.ping(getSynchronizationSupport()
-				.getRemoteObjects());
-	}
-
-	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -161,14 +152,6 @@ public abstract class CorbaWrapperObjectImpl extends WrapperObjectImpl implement
 		result.append(corbaObject);
 		result.append(')');
 		return result.toString();
-	}
-
-	public org.omg.CORBA.Object getCorbaBaseObject() {
-		return corbaObject;
-	}
-
-	public Object getCorbaObjectInterface() {
-		throw new UnsupportedOperationException();
 	}
 
 } // CorbaWrapperObjectImpl

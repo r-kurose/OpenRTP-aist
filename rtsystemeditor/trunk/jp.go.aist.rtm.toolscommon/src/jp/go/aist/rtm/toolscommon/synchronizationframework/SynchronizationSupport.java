@@ -1,17 +1,20 @@
 package jp.go.aist.rtm.toolscommon.synchronizationframework;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
 import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
-import jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl;
+import jp.go.aist.rtm.toolscommon.model.component.impl.CorbaPortSynchronizerImpl;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.AttributeMapping;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ConstructorParamMapping;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ReferenceMapping;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -65,41 +68,45 @@ public class SynchronizationSupport {
 			// void
 		}
 
-		if (remoteObjects == null || ping(remoteObjects) == false) {
-			if (mappingRule.getClassMapping().allowZombie() == false) {
-				if (localObject instanceof Component) {
-					if (localObject instanceof Component) {
-						Component component = (Component) localObject;
-						if (component.isCompositeComponent()) {
-							for (Object object : component.getAllComponents()) {
-								EcoreUtil.remove((EObject) object);
-							}
-						}
-						component.setCompositeComponent(null);
-						if (component.getOpenCompositeComponentAction() != null) {
-							component.getOpenCompositeComponentAction()
-									.runWithEvent(null);
-						}
-					}
-				}
-				EcoreUtil.remove(localObject);
-				return;
-			}
+		if (!mappingRule.getClassMapping().allowZombie()
+				&& (remoteObjects == null || !ping(remoteObjects))) {
+			remove();
+			return;
 		}
 		synchronizeLocalAttribute();
 		synchronizeLocalReference();
-		for (Object content : new ArrayList(localObject.eContents())) {
+		if (localObject.eContainer() instanceof SystemDiagram) {
+			if (localObject instanceof Component) {
+				((Component) localObject).synchronizeChildComponents();
+			}
+			return;
+		}
+		for (Object content : localObject.eContents()) {
 			if (content instanceof LocalObject) {
-				((LocalObject) content).getSynchronizationSupport()
-						.synchronizeLocal();
+				LocalObject lo = (LocalObject) content;
+				if (lo.getSynchronizationSupport() != null) {
+					lo.getSynchronizationSupport().synchronizeLocal();
+				}
 			}
 		}
 	}
 
+	private void remove() {
+		EObject container = localObject.eContainer();
+		if (container == null) {
+			EcoreUtil.remove(localObject);
+			return;
+		}
+		synchronized (container) {
+			EcoreUtil.remove(localObject);
+		}
+	}
+
 	private void synchronizeLocalAttribute() {
-		if (localObject instanceof Component
-				&& localObject.eContainer() instanceof SystemDiagram) {
-			ComponentImpl.synchronizeLocalAttribute((Component) localObject, null);
+		if (localObject.eContainer() instanceof SystemDiagram) {
+			if (localObject instanceof Component) {
+				((Component) localObject).synchronizeLocalAttribute(null);
+			} 
 		}
 		for (AttributeMapping attibuteMapping : mappingRule
 				.getAllAttributeMappings()) {
@@ -112,9 +119,11 @@ public class SynchronizationSupport {
 	}
 
 	private void synchronizeLocalReference() {
-		if (localObject instanceof Component
-				&& localObject.eContainer() instanceof SystemDiagram) {
-			ComponentImpl.synchronizeLocalReference((Component) localObject);
+		if (localObject.eContainer() instanceof SystemDiagram) {
+			if (localObject instanceof Component) {
+				((Component) localObject)
+						.synchronizeLocalReference();
+			} 
 		}
 		for (ReferenceMapping referenceMapping : mappingRule
 				.getAllReferenceMappings()) {
@@ -133,18 +142,14 @@ public class SynchronizationSupport {
 	 * @return ê⁄ë±Ç≈Ç´ÇÈÇ©Ç«Ç§Ç©
 	 */
 	public static boolean ping(Object[] remoteObject) {
-		boolean result = true;
-
 		if (remoteObject != null) {
 			for (Object object : remoteObject) {
 				if (ping(object) == false) {
-					result = false;
-					break;
+					return false;
 				}
 			}
 		}
-
-		return result;
+		return true;
 	}
 
 	/**
@@ -154,18 +159,15 @@ public class SynchronizationSupport {
 	 * @return ê⁄ë±Ç≈Ç´ÇÈÇ©Ç«Ç§Ç©
 	 */
 	public static boolean ping(Object remoteObject) {
-		boolean result = false;
 		try {
 			if (remoteObject instanceof org.omg.CORBA.Object) {
-				result = ((org.omg.CORBA.Object) remoteObject)._non_existent() == false;
+				return((org.omg.CORBA.Object) remoteObject)._non_existent() == false;
 			} else {
-				result = true;
+				return true;
 			}
 		} catch (Exception e) {
-			// void
+			return false;
 		}
-
-		return result;
 	}
 
 	/**
@@ -175,36 +177,60 @@ public class SynchronizationSupport {
 	 * @param graphPart
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public static LocalObject findLocalObjectByRemoteObject(
 			Object[] remoteObjects, EObject graphPart) {
 		EObject graphRoot = EcoreUtil.getRootContainer(graphPart);
 
-		LocalObject result = null;
 		for (Iterator iter = graphRoot.eAllContents(); iter.hasNext();) {
 			Object obj = iter.next();
-			if (obj instanceof LocalObject
-					&& ((LocalObject) obj).getSynchronizationSupport() != null) {
-				Object[] tmp = ((LocalObject) obj).getSynchronizationSupport()
-						.getRemoteObjects();
-
-				if (remoteObjects.length == tmp.length) {
-					boolean eq = true;
-					for (int i = 0; i < remoteObjects.length; ++i) {
-						if (remoteObjects[i].equals(tmp[i]) == false) {
-							eq = false;
-							break;
-						}
-					}
-
-					if (eq) {
-						result = (LocalObject) obj;
-						break;
-					}
-				}
-			}
+			LocalObject result = findLocalObject(obj, remoteObjects);
+			if (result != null) return result;
 		}
 
+		return null;
+	}
+	
+	private static LocalObject findLocalObject(Object obj, Object[] remoteObjects){
+		if (!(obj instanceof LocalObject)) return null;
+		LocalObject result = (LocalObject) obj;
+		Object[] tmp;
+		if (obj instanceof Port) {
+			tmp = new Object[]{CorbaPortSynchronizerImpl.getRemoteObjectsForSync(result)};
+		} else {
+			if (result.getSynchronizationSupport() == null) return null;
+			tmp = result.getSynchronizationSupport().getRemoteObjects();
+		}
+		if (remoteObjects.length != tmp.length) return null;
+		for (int i = 0; i < remoteObjects.length; ++i) {
+			if (!remoteObjects[i].equals(tmp[i])) return null;
+		}
 		return result;
+	}
+	@SuppressWarnings("unchecked")
+	public static Collection<LocalObject> findLocalObjectByRemoteObjects(
+			Object[] remoteObjects, LocalObject graphPart) {
+		Collection<LocalObject> result = new ArrayList<LocalObject>();
+		EObject graphRoot = EcoreUtil.getRootContainer(graphPart);
+
+		for (Iterator iter = graphRoot.eAllContents(); iter.hasNext();) {
+			Object obj = iter.next();
+			LocalObject temp = findLocalObject(obj, remoteObjects);
+			if (temp != null) result.add(temp);
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static void poulateLocalObjectByRemoteObjects(EList list,
+			Object[] remoteObjects, LocalObject graphPart) {
+		EObject graphRoot = EcoreUtil.getRootContainer(graphPart);
+
+		for (Iterator iter = graphRoot.eAllContents(); iter.hasNext();) {
+			Object obj = iter.next();
+			LocalObject temp = findLocalObject(obj, remoteObjects);
+			if (temp != null) list.add(temp);
+		}
 	}
 
 	/**
@@ -221,4 +247,5 @@ public class SynchronizationSupport {
 
 		return result.toArray();
 	}
+
 }

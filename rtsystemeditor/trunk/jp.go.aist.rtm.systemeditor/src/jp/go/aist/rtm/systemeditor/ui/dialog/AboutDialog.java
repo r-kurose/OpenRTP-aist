@@ -1,5 +1,7 @@
 package jp.go.aist.rtm.systemeditor.ui.dialog;
 
+import jp.go.aist.rtm.systemeditor.nl.Messages;
+
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
@@ -17,25 +19,25 @@ import org.eclipse.swt.widgets.Shell;
  * HTMLにより作成する
  */
 public class AboutDialog extends Dialog {
-	private static final String html = "<html>"
-			+ "<body bgcolor=\"#eeeeee\">"
-			+ "<center>"
-			+ "<table bgcolor=\"#ffffff\" width=\"100%\" cellspacing=\"0\"cellpadding=\"0\" border=\"1\">"
-			+ "<tr>"
-			+ "<td align=\"center\">"
-			+ "<h1>RT System Editor v1.0.0</h1>"
-			+ "</td>"
-			+ "</tr>"
-			+ "</table>"
-			+ "<p><b>RT System Editor</b> is a RTComponent based system design tool that component connection, assembly, etc on GUI.</p>"
-			+ "<p><b>RT System Editor</b> is brought to you by <br>"
-			+ "<b>Task-Intelligence Research Group,</b><br>"
-			+ "<b>Intelligent System Research Institute,</b><br>"
-			+ "<b>National Institute of Advanced Industrial Science and Techonology (AIST) Japan,</b><br>"
-			+ "Copyright (c) 2008.</p>"
-			+ "<p>"
-			+ "<!--font size=\"-1\">Please see <i>license.txt</i> for licensing information.</font-->"
-			+ "</p>" + "</center>" + "</body>" + "</html>";
+	private static final String html = "<html>" //$NON-NLS-1$
+			+ "<body bgcolor=\"#eeeeee\">" //$NON-NLS-1$
+			+ "<center>" //$NON-NLS-1$
+			+ "<table bgcolor=\"#ffffff\" width=\"100%\" cellspacing=\"0\"cellpadding=\"0\" border=\"1\">" //$NON-NLS-1$
+			+ "<tr>" //$NON-NLS-1$
+			+ "<td align=\"center\">" //$NON-NLS-1$
+			+ "<h1>RT System Editor v1.0.0</h1>" //$NON-NLS-1$
+			+ "</td>" //$NON-NLS-1$
+			+ "</tr>" //$NON-NLS-1$
+			+ "</table>" //$NON-NLS-1$
+			+ Messages.getString("AboutDialog.10") //$NON-NLS-1$
+			+ Messages.getString("AboutDialog.11") //$NON-NLS-1$
+			+ Messages.getString("AboutDialog.12") //$NON-NLS-1$
+			+ Messages.getString("AboutDialog.13") //$NON-NLS-1$
+			+ Messages.getString("AboutDialog.14") //$NON-NLS-1$
+			+ Messages.getString("AboutDialog.15") //$NON-NLS-1$
+			+ "<p>" //$NON-NLS-1$
+			+ Messages.getString("AboutDialog.17") //$NON-NLS-1$
+			+ "</p>" + "</center>" + "</body>" + "</html>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
 	/**
 	 * コンストラクタ
@@ -72,7 +74,7 @@ public class AboutDialog extends Dialog {
 	 */
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
-		shell.setText("About RT System Editor");
+		shell.setText(Messages.getString("AboutDialog.22")); //$NON-NLS-1$
 	}
 
 	@Override

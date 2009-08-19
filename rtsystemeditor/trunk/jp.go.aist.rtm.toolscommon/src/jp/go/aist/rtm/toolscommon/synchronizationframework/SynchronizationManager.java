@@ -2,6 +2,8 @@ package jp.go.aist.rtm.toolscommon.synchronizationframework;
 
 import java.util.Iterator;
 
+import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
 
 import org.eclipse.emf.ecore.EObject;
@@ -33,7 +35,7 @@ public class SynchronizationManager {
 	 * @return 作成したローカルオブジェクト
 	 */
 	public LocalObject createLocalObject(Object[] remoteObjects) {
-		return createLocalObject(null, remoteObjects, null);
+		return createLocalObject(null, remoteObjects, null, true);
 	}
 
 	/**
@@ -45,27 +47,13 @@ public class SynchronizationManager {
 	 *            リモートオブジェクトルート
 	 * @param link
 	 *            リモートオブジェクトのリンク
+	 * @param needSynchronize 同期が必要か          
 	 * @return 作成したローカルオブジェクト
 	 */
 	public LocalObject createLocalObject(LocalObject parent,
-			Object[] remoteObjects, java.lang.Object link) {
-		boolean ping = SynchronizationSupport.ping(remoteObjects);
+			Object[] remoteObjects, java.lang.Object link, boolean needSynchronize) {
 
-		MappingRule rule = null;
-		for (MappingRule temp : mappingRules) {
-			try {
-				if ((ping || temp.getClassMapping().allowZombie())
-						&& (temp.getClassMapping()
-								.getConstructorParamMappings().length == remoteObjects.length && temp
-								.getClassMapping().isTarget(parent,
-										remoteObjects, link))) {
-					rule = temp;
-					break;
-				}
-			} catch (Exception e) {
-				// void
-			}
-		}
+		MappingRule rule = getMappingRule(parent, remoteObjects, link);
 
 		LocalObject result = null;
 		if (rule != null) {
@@ -80,19 +68,37 @@ public class SynchronizationManager {
 			}
 		}
 		//
-		if (result != null) {
-			// for (Iterator iter = result.eAllContents(); iter.hasNext();) {
-			// EObject element = (EObject) iter.next();
-			// if (element instanceof LocalObject) {
-			// ((LocalObject) element).getSynchronizationSupport()
-			// .synchronizeLocal();
-			// }
-			// }
-
+		if (needSynchronize && result != null) {
 			result.getSynchronizationSupport().synchronizeLocal();
 		}
 
 		return result;
+	}
+
+	// 使用すべきマッピングルールを返す
+	private MappingRule getMappingRule(LocalObject parent,
+			Object[] remoteObjects, java.lang.Object link) {
+		boolean ping = true;
+		for (MappingRule temp : mappingRules) {
+			try {
+				if (temp.getClassMapping().getConstructorParamMappings().length == remoteObjects.length 
+						&& canTarget(ping, temp.getClassMapping().needsPing())
+						&& temp.getClassMapping().isTarget(parent,remoteObjects, link)) {
+					if (temp.getClassMapping().allowZombie()) return temp;
+					if (ping) ping = SynchronizationSupport.ping(remoteObjects);
+					if (ping) return temp;
+				}
+			} catch (Exception e) {
+//				System.out.println("Exception Catched" + e);
+				ping = false;
+			}
+		}
+		return null;
+	}
+
+	private boolean canTarget(boolean ping, boolean needsPing) {
+		if (!needsPing) return true;
+		return ping;
 	}
 
 	/**
@@ -117,17 +123,11 @@ public class SynchronizationManager {
 	 * @param eobj
 	 *            EObject
 	 */
+	@SuppressWarnings("unchecked")
 	public void assignSynchonizationSupport(EObject eobj) {
 		if (eobj instanceof LocalObject) {
 			LocalObject localObject = (LocalObject) eobj;
-			MappingRule rule = null;
-			for (MappingRule temp : mappingRules) {
-				if (temp.getClassMapping().getLocalClass().equals(
-						localObject.getClass())) {
-					rule = temp;
-					break;
-				}
-			}
+			MappingRule rule = getMappingRule(localObject);
 
 			if (rule != null) {
 				localObject.setSynchronizationSupport(createSynchronizeSupport(
@@ -139,6 +139,26 @@ public class SynchronizationManager {
 			EObject obj = (EObject) iter.next();
 			assignSynchonizationSupport((obj));
 		}
+	}
+
+	/**
+	 * システムダイアグラムに含まれるコンポーネントに対し、同期サポートを復元する
+	 * @param diagram
+	 */
+	public void assignSynchonizationSupportToDiagram(SystemDiagram diagram) {
+		for (Component c : diagram.getRegisteredComponents()) {
+			assignSynchonizationSupport(c);
+		}
+	}
+
+	private MappingRule getMappingRule(LocalObject localObject) {
+		for (MappingRule temp : mappingRules) {
+			if (temp.getClassMapping().getLocalClass().isAssignableFrom(localObject.getClass())
+					&& temp.isTarget(localObject)) {
+				return temp;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -156,4 +176,5 @@ public class SynchronizationManager {
 	public void setMappingRules(MappingRule[] mappingRules) {
 		this.mappingRules = mappingRules;
 	}
+
 }

@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import jp.go.aist.rtm.systemeditor.nl.Messages;
+import jp.go.aist.rtm.toolscommon.factory.CorbaWrapperFactory;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.LifeCycleState;
-import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
-import jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl;
-import jp.go.aist.rtm.toolscommon.model.component.impl.ConfigurationSetImpl;
+import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSupport;
 import _SDOPackage.Configuration;
 
 /**
@@ -31,27 +32,27 @@ public class Restoration {
 
 		processAllRestoreConfigurationSet(result, systemDiagram);
 
-		processAllConnect(result, systemDiagram);
+//		processAllConnect(result, systemDiagram);
 
 		//processAllStart(result, systemDiagram);
 	}
 
 	/**
 	 * RtcLinkのXMLに含まれるすべてのコンフィグレーションを復元する。
+	 * 現状はCorbaコンポーネントのみに対応
 	 * 
 	 * @param result
 	 * @param systemDiagram
 	 */
-	private static void processAllRestoreConfigurationSet(Result result,
+	@SuppressWarnings("unchecked")
+	public static void processAllRestoreConfigurationSet(Result result,
 			SystemDiagram systemDiagram) {
 		
-		List remoteConfigurationSets = new ArrayList();
+		List<CorbaConfigurationSet> remoteConfigurationSets = new ArrayList<CorbaConfigurationSet>();
 		
-		for (Iterator iter = systemDiagram.eAllContents(); iter.hasNext();) {
-			Object obj = iter.next();
-			if (obj instanceof Component) {
-//				Component component = ((Component) obj);
-				ComponentImpl component = ((ComponentImpl) obj);
+		for (Component c: systemDiagram.getRegisteredComponents()) {
+			if (c instanceof CorbaComponent) {
+				CorbaComponent component = (CorbaComponent) c;
 
 				boolean isOk = false;
 				try {
@@ -60,10 +61,8 @@ public class Restoration {
 					_SDOPackage.ConfigurationSet[] remoteConfigurationSet = configuration
 							.get_configuration_sets();	
 					for (_SDOPackage.ConfigurationSet remote : remoteConfigurationSet) {
-						ConfigurationSetImpl configSet = new ConfigurationSetImpl();
-						configSet.setId(remote.id);
-						configSet.setSDOConfigurationSetForRestore(remote);
-
+						CorbaConfigurationSet configSet = (CorbaConfigurationSet) CorbaWrapperFactory.getInstance()
+																.createWrapperObject(remote);
 						remoteConfigurationSets.add(configSet);
 					}
 					
@@ -77,89 +76,10 @@ public class Restoration {
 					// void
 				}
 				if (isOk == false) {
-					result.putResult("RTCのコンフィグレーションの復元に失敗しました:["
-							+ ((Component) obj).getInstanceNameL() + " : "
-							+ ((Component) obj).getPathId() + "]");
+					result.putResult(Messages.getString("Restoration.0") //$NON-NLS-1$
+							+ c.getInstanceNameL() + " : " //$NON-NLS-1$
+							+ c.getPathId() + "]"); //$NON-NLS-1$
 					result.setSuccess(false);
-				}
-			}
-		}
-	}
-
-	/**
-	 * RtcLinkのXMLに含まれるすべてのコネクションを接続する。
-	 * <p>
-	 * 既におなじIDが存在している場合には、接続を行わない
-	 * 
-	 * @param result
-	 * @param systemDiagram
-	 */
-	private static void processAllConnect(Result result,
-			SystemDiagram systemDiagram) {
-		for (Iterator iter = systemDiagram.eAllContents(); iter.hasNext();) {
-			Object obj = iter.next();
-			if (obj instanceof PortConnector) {
-				PortConnector connector = ((PortConnector) obj);
-				boolean isOk = false;
-				try {
-					if (connector.getTarget().getCorbaObjectInterface()
-							.get_connector_profile(
-									connector.getConnectorProfile()
-											.getConnectorId()).connector_id
-							.equals(connector.getConnectorProfile()
-									.getConnectorId()) == false
-							|| connector.getSource().getCorbaObjectInterface()
-									.get_connector_profile(
-											connector.getConnectorProfile()
-													.getConnectorId()).connector_id
-									.equals(connector.getConnectorProfile()
-											.getConnectorId()) == false) {
-						isOk = connector.createConnectorR();
-					} else {
-						isOk = true;
-					}
-				} catch (Exception e) {
-					result.setSuccess(false);
-				}
-				if (isOk == false) {
-					result.putResult("接続に失敗しました。:["
-							+ ((Component) connector.getSource().eContainer())
-									.getPathId()
-							+ ":"
-							+ connector.getSource().getPortProfile().getNameL()
-							+ "ポート ～ "
-							+ ((Component) connector.getTarget().eContainer())
-									.getPathId() + ":"
-							+ connector.getTarget().getPortProfile().getNameL()
-							+ "ポート]");
-					result.setSuccess(false);
-				}
-			}
-		}
-	}
-
-	/**
-	 * RtcLinkのXMLに含まれるすべてのRTCに対して、Start要求を送信します。
-	 * 
-	 * @param result
-	 * @param systemDiagram
-	 */
-	private static void processAllStart(Result result,
-			SystemDiagram systemDiagram) {
-		for (Iterator iter = systemDiagram.eAllContents(); iter.hasNext();) {
-			Object obj = iter.next();
-			if (obj instanceof Component) {
-				for (Iterator iterator = ((Component) obj).getLifeCycleStates()
-						.iterator(); iterator.hasNext();) {
-					try {
-						LifeCycleState state = (LifeCycleState) iterator.next();
-						state.activateR();
-					} catch (Exception e) {
-						result.putResult("RTCのActivateに失敗しました。["
-								+ ((Component) obj).getInstanceNameL() + " : "
-								+ ((Component) obj).getPathId() + "]");
-						result.setSuccess(false);
-					}
 				}
 			}
 		}
@@ -171,23 +91,19 @@ public class Restoration {
 	 * @param result
 	 * @param systemDiagram
 	 */
+	@SuppressWarnings("unchecked")
 	private static void processAllPing(Result result,
 			SystemDiagram systemDiagram) {
 		for (Iterator iter = systemDiagram.eAllContents(); iter.hasNext();) {
 			Object obj = iter.next();
-			if (obj instanceof Component) {
-				boolean isOk = false;
-				try {
-					if (((Component) obj).ping()) {
-						isOk = true;
-					}
-				} catch (Exception e) {
-					// void
-				}
+			if (obj instanceof CorbaComponent) {
+				CorbaComponent c = (CorbaComponent) obj;
+				boolean isOk = SynchronizationSupport.ping(c.getSynchronizationSupport()
+						.getRemoteObjects());;
 				if (isOk == false) {
-					result.putResult("RTCにアクセスできませんでした:["
-							+ ((Component) obj).getInstanceNameL() + " : "
-							+ ((Component) obj).getPathId() + "]");
+					result.putResult(Messages.getString("Restoration.7") //$NON-NLS-1$
+							+ ((Component) obj).getInstanceNameL() + " : " //$NON-NLS-1$
+							+ ((Component) obj).getPathId() + "]"); //$NON-NLS-1$
 					result.setSuccess(false);
 				}
 			}

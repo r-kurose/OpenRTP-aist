@@ -15,7 +15,7 @@ import org.eclipse.emf.common.util.EList;
 public interface ConfigurationSet extends WrapperObject{
 	/**
 	 * @model
-	 * @return
+	 * @return コンフィグセットのID
 	 */
 	public String getId();
 
@@ -29,24 +29,9 @@ public interface ConfigurationSet extends WrapperObject{
 	void setId(String value);
 
 	/**
-	 * @model transient="true"
-	 * @return
-	 */
-	public _SDOPackage.ConfigurationSet getSDOConfigurationSet();
-
-	/**
-	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet#getSDOConfigurationSet <em>SDO Configuration Set</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @param value the new value of the '<em>SDO Configuration Set</em>' attribute.
-	 * @see #getSDOConfigurationSet()
-	 * @generated
-	 */
-	void setSDOConfigurationSet(_SDOPackage.ConfigurationSet value);
-
-	/**
 	 * @model containment="true"
 	 *        type="jp.go.aist.rtm.toolscommon.model.component.NameValue"
-	 * @return
+	 * @return　コンフィグデータを格納するNameValueのリスト
 	 */
 	public EList getConfigurationData();
 

@@ -2,13 +2,14 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: jp.go.aist.rtm.toolscommon; singleton:=true
-Bundle-Version: 0.4.2
+Bundle-Version: 1.0.0
 Bundle-ClassPath: .,
  lib/commons-lang-2.2.jar
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: RTC,
+ RTM,
  _SDOPackage,
  jp.go.aist.rtm.toolscommon,
  jp.go.aist.rtm.toolscommon.adapterfactory,
@@ -32,9 +33,9 @@ Export-Package: RTC,
  jp.go.aist.rtm.toolscommon.ui.views.propertysheetview,
  jp.go.aist.rtm.toolscommon.ui.workbenchadapter,
  jp.go.aist.rtm.toolscommon.util,
+ jp.go.aist.rtm.toolscommon.validation,
  org.apache.commons.lang,
  org.apache.commons.lang.builder,
- org.apache.commons.lang.enum,
  org.apache.commons.lang.enums,
  org.apache.commons.lang.exception,
  org.apache.commons.lang.math,
@@ -55,4 +56,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.workbench.texteditor;visibility:=reexport,
  jp.go.aist.rtm.toolscommon.profiles
 Eclipse-LazyStart: true
+Eclipse-BuddyPolicy: registered
 Bundle-Activator: jp.go.aist.rtm.toolscommon.ToolsCommonPlugin

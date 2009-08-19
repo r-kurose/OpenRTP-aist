@@ -13,6 +13,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 /**
  * すべてのコンポーネントに対してアクションを行う際に使用するユーティリティクラス。
+ * 現在は未使用
  */
 public class AllComponentActionDelegateWrapper extends Action implements
 		ISelectionListener {

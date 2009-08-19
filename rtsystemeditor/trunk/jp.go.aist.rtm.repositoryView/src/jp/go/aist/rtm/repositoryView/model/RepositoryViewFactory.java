@@ -2,20 +2,24 @@ package jp.go.aist.rtm.repositoryView.model;
 
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 
+/**
+ * RepositoryViewItemのツリーを構築するファクトリ
+ *
+ */
 public class RepositoryViewFactory {
 
-	public static RepositoryViewItem makeChild(RepositoryViewItem itemParent, String name, int type) {
+	private static RepositoryViewItem makeChild(RepositoryViewItem itemParent, String name, int type) {
 		RepositoryViewItem itemChild = new RepositoryViewItem(name,type);
 		itemParent.addChild(itemChild);
 		itemChild.setParent(itemParent);
 		return itemChild;
 	}
 
-	public static RepositoryViewItem makeLeaf(RepositoryViewItem itemParent, String name, ComponentSpecification component, String leafType) {
-		return makeLeaf(itemParent, name, component, leafType, false);
-	}
+//	public static RepositoryViewItem makeLeaf(RepositoryViewItem itemParent, String name, ComponentSpecification component, String leafType) {
+//		return makeLeaf(itemParent, name, component, leafType, false);
+//	}
 	
-	public static RepositoryViewItem makeLeaf(RepositoryViewItem itemParent, String name, 
+	private static RepositoryViewItem makeLeaf(RepositoryViewItem itemParent, String name, 
 			ComponentSpecification component, String leafType, boolean isRepository) {
 		RepositoryViewLeafItem itemChild = null;
 		if(leafType.equals(RepositoryViewLeafItem.RTModel_LEAF)) {
@@ -35,10 +39,23 @@ public class RepositoryViewFactory {
 		return itemChild;
 	}
 
+	/**
+	 * RepositoryViewItemのツリーを構築する
+	 * @param itemFirst  　ルートのRepositoryViewItem
+	 * @param module　　　　　ロードするコンポーネント仕様
+	 * @param leafType	　リーフの型（現状はRTCのみ）
+	 */
 	public static void buildTree(RepositoryViewItem itemFirst, ComponentSpecification module, String leafType) {
 		buildTree(itemFirst, module, leafType, false);
 	}
 	
+	/**
+	 * RepositoryViewItemのツリーを構築する
+	 * @param itemFirst		ルートのRepositoryViewItem
+	 * @param module		ロードするコンポーネント仕様
+	 * @param leafType		リーフの型
+	 * @param isRepository	レポジトリであるかを示すフラグ
+	 */
 	public static void buildTree(RepositoryViewItem itemFirst, ComponentSpecification module, String leafType, boolean isRepository) {
 		RepositoryViewItem itemSecond = itemFirst.getChild(module.getCategoryL());
 		if( itemSecond == null ) {

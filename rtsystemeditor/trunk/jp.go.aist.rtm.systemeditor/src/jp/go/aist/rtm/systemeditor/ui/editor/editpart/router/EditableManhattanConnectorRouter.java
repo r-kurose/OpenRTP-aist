@@ -24,20 +24,26 @@ import org.eclipse.draw2d.geometry.Transform;
 public class EditableManhattanConnectorRouter extends AbstractRouter {
 	private static final int BUF = 20;
 
+	@SuppressWarnings("unchecked")
 	private Map rowsUsed = new HashMap();
 
+	@SuppressWarnings("unchecked")
 	private Map colsUsed = new HashMap();
 
+	@SuppressWarnings("unchecked")
 	private Map reservedInfo = new HashMap();
 
 	private Map<Connection, Object> constraints = new HashMap<Connection, Object>(
 			11);
 
+	@SuppressWarnings("unused")
 	private static final PrecisionPoint A_POINT = new PrecisionPoint();
 
 	private class ReservedInfo {
+		@SuppressWarnings("unchecked")
 		public List reservedRows = new ArrayList(2);
 
+		@SuppressWarnings("unchecked")
 		public List reservedCols = new ArrayList(2);
 	}
 
@@ -105,7 +111,7 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 			return dafaultDirection;
 		}
 
-		int direction = ((PortAnchor) anchor).getDirection();
+		String direction = ((PortAnchor) anchor).getDirection();
 		return directionToRay(direction);
 	}
 
@@ -124,7 +130,7 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 			return dafaultDirection;
 		}
 
-		int direction = ((PortAnchor) anchor).getDirection();
+		String direction = ((PortAnchor) anchor).getDirection();
 		return directionToRay(direction);
 	}
 
@@ -135,18 +141,17 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 	 *            •ûŒü
 	 * @return Ray
 	 */
-	private Ray directionToRay(int direction) {
-		Ray result = RIGHT;
-		if (direction == Component.RIGHT_DIRECTION) {
-			result = RIGHT;
-		} else if (direction == Component.LEFT_DIRECTION) {
-			result = LEFT;
-		} else if (direction == Component.UP_DIRECTION) {
-			result = UP;
-		} else if (direction == Component.DOWN_DIRECTION) {
-			result = DOWN;
+	private Ray directionToRay(String direction) {
+		if (direction.equals(Component.OUTPORT_DIRECTION_RIGHT_LITERAL)) {
+			return RIGHT;
+		} else if (direction.equals(Component.OUTPORT_DIRECTION_LEFT_LITERAL)) {
+			return LEFT;
+		} else if (direction.equals(Component.OUTPORT_DIRECTION_UP_LITERAL)) {
+			return UP;
+		} else if (direction.equals(Component.OUTPORT_DIRECTION_DOWN_LITERAL)) {
+			return DOWN;
 		}
-		return result;
+		return RIGHT;
 	}
 
 	/**
@@ -175,8 +180,8 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 	 * {@inheritDoc}
 	 */
 	public void route(Connection conn) {
-		if ((conn.getSourceAnchor() == null)
-				|| (conn.getTargetAnchor() == null))
+		if ((conn.getSourceAnchor().getOwner() == null)
+				|| (conn.getTargetAnchor().getOwner() == null))
 			return;
 
 		Point startPoint = getStartPoint(conn);
@@ -201,16 +206,28 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 		points.addPoint(startPointNormal.point);
 		points.addAll(getManhattanPointList(startPointNormal, endPointNormal));
 		points.addPoint(endPointNormal.point);
-
+		
 		if (conn.getSourceAnchor().getOwner() != null
 				&& conn.getTargetAnchor().getOwner() != null) {
 			convertPointListByConstraint(conn, points);
 		}
 
+//		dumpPoints(points);
+		
 		conn.setPoints(points);
 
 	}
 
+//	private void dumpPoints(PointList points) {
+//		int[] ps = points.toIntArray();
+//		for (int p :ps){
+//			System.out.print(p);
+//			System.out.print(" ");
+//		}
+//		System.out.println();
+//	}
+
+	@SuppressWarnings("unchecked")
 	private void convertPointListByConstraint(Connection conn, PointList points) {
 		Map<Integer, Point> routingConstraint = (Map<Integer, Point>) conn
 				.getRoutingConstraint();
@@ -219,18 +236,29 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 			return;
 		}
 
+		int size = points.size();
+
 		for (Integer index : routingConstraint.keySet()) {
 			Point constPoint = routingConstraint.get(index);
-
+//			System.out.print(index);
+//			System.out.print(" ");
+//			System.out.print(constPoint.x);
+//			System.out.print(" ");
+//			System.out.print(constPoint.y);
+//			System.out.println();
+			
+			if (index < 0 || index > size - 2) continue;
+			
 			Point startPoint = points.getPoint(index);
 			Point endPoint = points.getPoint(index + 1);
 
+//			System.out.println(startPoint);
+//			System.out.println(endPoint);
+			
 			if (startPoint.x == endPoint.x) {
 				points.setPoint(new Point(constPoint.x, startPoint.y), index);
 				points.setPoint(new Point(constPoint.x, endPoint.y), index + 1);
-			}
-
-			if (startPoint.y == endPoint.y) {
+			} else if (startPoint.y == endPoint.y) {
 				points.setPoint(new Point(startPoint.x, constPoint.y), index);
 				points.setPoint(new Point(endPoint.x, constPoint.y), index + 1);
 			}
@@ -286,8 +314,8 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 
 		PointList points = new PointList();
 
-		Ray direction = new Ray(new Ray(from.point), new Ray(to.point));
-		Ray orthogonalDirection = getOrthogonalDirection(direction);
+//		Ray direction = new Ray(new Ray(from.point), new Ray(to.point));
+//		Ray orthogonalDirection = getOrthogonalDirection(direction);
 
 		Ray verticalRay = DOWN;
 		if (from.point.y > to.point.y) {

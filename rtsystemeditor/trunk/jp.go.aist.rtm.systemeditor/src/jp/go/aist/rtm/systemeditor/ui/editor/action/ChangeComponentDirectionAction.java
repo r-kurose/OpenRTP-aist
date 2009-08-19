@@ -3,6 +3,7 @@ package jp.go.aist.rtm.systemeditor.ui.editor.action;
 import java.util.HashMap;
 import java.util.List;
 
+import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.EditPolicyConstraint;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 
@@ -23,14 +24,14 @@ public class ChangeComponentDirectionAction extends SelectionAction {
 	 */
 	public static final String HORIZON_DIRECTION_ACTION_ID = ChangeComponentDirectionAction.class
 			.getName()
-			+ "_HORIZON";
+			+ "_HORIZON"; //$NON-NLS-1$
 
 	/**
 	 * 垂直方向への向きを指示する際に使用されるID。この値が、Plugin.xmlに指定されなければならない。
 	 */
 	public static final String VERTICAL_DIRECTION_ACTION_ID = ChangeComponentDirectionAction.class
 			.getName()
-			+ "_VERTICAL";
+			+ "_VERTICAL"; //$NON-NLS-1$
 
 	/**
 	 * コンストラクタ
@@ -40,7 +41,7 @@ public class ChangeComponentDirectionAction extends SelectionAction {
 	public ChangeComponentDirectionAction(IWorkbenchPart part, String id) {
 		super(part);
 		setId(id);
-		setText("Change Direction");
+		setText(Messages.getString("ChangeComponentDirectionAction.2")); //$NON-NLS-1$
 	}
 
 	protected boolean calculateEnabled() {
@@ -50,6 +51,7 @@ public class ChangeComponentDirectionAction extends SelectionAction {
 		return cmd.canExecute();
 	}
 
+	@SuppressWarnings("unchecked")
 	protected Command createCommand(List selectedEditParts) {
 		if (selectedEditParts.isEmpty())
 			return null;
@@ -59,7 +61,7 @@ public class ChangeComponentDirectionAction extends SelectionAction {
 		ChangeBoundsRequest request = new ChangeBoundsRequest();
 		request.setType(EditPolicyConstraint.REQ_CHANGE_DIRECTION);
 
-		int direction = Component.RIGHT_DIRECTION;
+		int direction = Component.CHANGE_HORIZON_DIRECTION;
 		if (HORIZON_DIRECTION_ACTION_ID.equals(getId())) {
 			direction = Component.CHANGE_HORIZON_DIRECTION;
 		} else if (VERTICAL_DIRECTION_ACTION_ID.equals(getId())) {

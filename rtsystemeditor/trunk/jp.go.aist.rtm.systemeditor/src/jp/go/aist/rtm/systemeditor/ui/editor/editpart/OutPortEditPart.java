@@ -1,15 +1,15 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.editpart;
 
 import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
+import jp.go.aist.rtm.systemeditor.ui.editor.figure.ExportedOutPortFigure;
 import jp.go.aist.rtm.systemeditor.ui.editor.figure.OutPortFigure;
 import jp.go.aist.rtm.toolscommon.model.component.OutPort;
-import jp.go.aist.rtm.toolscommon.model.component.impl.AbstractPortConnectorImpl;
+import jp.go.aist.rtm.toolscommon.model.component.impl.PortConnectorImpl;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.MouseEvent;
+import org.eclipse.draw2d.MouseListener;
 import org.eclipse.draw2d.MouseMotionListener;
-import org.eclipse.draw2d.PolygonDecoration;
-import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.EditDomain;
@@ -26,7 +26,7 @@ import org.eclipse.ui.PlatformUI;
  */
 public class OutPortEditPart extends PortEditPart {
 
-	private Notification notification;
+//	private Notification notification;
 
 	/**
 	 * コンストラクタ
@@ -50,16 +50,13 @@ public class OutPortEditPart extends PortEditPart {
 	 * {@inheritDoc}
 	 */
 	public void notifyChanged(Notification notification) {
-		this.notification = notification;
+//		this.notification = notification;
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 			public void run() {
 				if (isActive()) {
-					// if (ConnectorSource.SOURCE_CONNECTION.equals(evt
-					// .getPropertyName())) {
 					refresh();
-					refreshVisuals();
-					refreshSourceConnections();
-					// }
+//					refreshVisuals();
+//					refreshSourceConnections();
 				}
 			}
 		});
@@ -70,13 +67,11 @@ public class OutPortEditPart extends PortEditPart {
 	 * {@inheritDoc}
 	 */
 	protected IFigure createFigure() {
-		Shape result = new OutPortFigure(getModel());
+		IFigure result = isExported() ? new ExportedOutPortFigure(getModel())
+				: new OutPortFigure(getModel());
 		result.setLocation(new Point(0, 0));
 
 		supportAutoCreateConnectorToolMode(getViewer(), result);
-
-		PolygonDecoration deco = new PolygonDecoration();
-		deco.add(result);
 
 		return result;
 	}
@@ -85,7 +80,7 @@ public class OutPortEditPart extends PortEditPart {
 	 * ポート上で、自動的にコネクタを作成するモードに変更する機能を付加するメソッド
 	 */
 	public static void supportAutoCreateConnectorToolMode(
-			EditPartViewer viewer, IFigure figure) {
+			final EditPartViewer viewer, IFigure figure) {
 		final EditDomain domain = viewer.getEditDomain();
 		final AutoConnectorCreationTool connectionCreationTool = new AutoConnectorCreationTool();
 
@@ -95,7 +90,7 @@ public class OutPortEditPart extends PortEditPart {
 
 			public void mouseEntered(MouseEvent me) {
 				connectionCreationTool.setFactory(new SimpleFactory(
-						AbstractPortConnectorImpl.class));
+						PortConnectorImpl.class));
 				domain.setActiveTool(connectionCreationTool);
 			}
 
@@ -111,6 +106,17 @@ public class OutPortEditPart extends PortEditPart {
 
 			public void mouseMoved(MouseEvent me) {
 			}
+		});
+		figure.addMouseListener(new MouseListener.Stub(){
+
+			@Override
+			public void mousePressed(MouseEvent me) {
+				// right click
+				if (me.button == 3) {
+					domain.setActiveTool(domain.getDefaultTool());
+				}
+			}
+			
 		});
 	}
 
@@ -137,60 +143,16 @@ public class OutPortEditPart extends PortEditPart {
 	protected void refreshVisuals() {
 		Color color = SystemEditorPreferenceManager.getInstance().getColor(
 				SystemEditorPreferenceManager.COLOR_DATAPORT_NO_CONNECT);
-//		if (getModel().getPortProfile() != null
-//				&& getModel().getPortProfile().getConnectorProfiles() != null
-//				&& getModel().getPortProfile().getConnectorProfiles().size() >= 1) {
-//
-//			AbstractComponent c = (AbstractComponent) getModel().eContainer();
-//			if (c.getCompositeComponent() == null) {
-//
-//				color = SystemEditorPreferenceManager.getInstance().getColor(
-//						SystemEditorPreferenceManager.COLOR_DATAPORT_CONNECTED);
-//
-//			} else {
-//
-//				AbstractComponent root = c;
-//				for (; root.getCompositeComponent() != null;) {
-//					root = root.getCompositeComponent();
-//				}
-//
-//				for (Object e : getModel().getPortProfile()
-//						.getConnectorProfiles()) {
-//					ConnectorProfile cp = (ConnectorProfile) e;
-//					Connector con = (Connector) cp.eContainer();
-//					Port p = null;
-//					if (con.getTarget() != getModel()) {
-//						p = (Port) con.getTarget();
-//					} else if (con.getSource() != getModel()) {
-//						p = (Port) con.getSource();
-//					}
-//					AbstractComponent dest = (AbstractComponent) p.eContainer();
-//					boolean contents = false;
-//					for (Object ee : root.getAllComponents()) {
-//						if (ee == dest) {
-//							contents = true;
-//						}
-//					}
-//					if (contents == false) {
-//						color = SystemEditorPreferenceManager
-//								.getInstance()
-//								.getColor(
-//										SystemEditorPreferenceManager.COLOR_DATAPORT_CONNECTED);
-//						break;
-//					}
-//				}
-//			}
-//		}
 
 		if (isConnected()) {
 			color = SystemEditorPreferenceManager.getInstance().getColor(
 					SystemEditorPreferenceManager.COLOR_DATAPORT_CONNECTED);
 		}
 
-		figure.setBackgroundColor(color);
+		getFigure().setBackgroundColor(color);
 
-		figure.setToolTip(InPortEditPart.getDataPortToolTip(getModel()
-				.getPortProfile()));
+		getFigure().setToolTip(
+				InPortEditPart.getDataPortToolTip(getModel()));
 
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this,
 				getFigure(), getFigure().getBounds());

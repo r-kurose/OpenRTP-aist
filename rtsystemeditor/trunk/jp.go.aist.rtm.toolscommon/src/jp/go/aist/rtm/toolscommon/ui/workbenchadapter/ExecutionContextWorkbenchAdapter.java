@@ -1,6 +1,7 @@
 package jp.go.aist.rtm.toolscommon.ui.workbenchadapter;
 
 import jp.go.aist.rtm.toolscommon.ToolsCommonPlugin;
+import jp.go.aist.rtm.toolscommon.nl.Messages;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 
@@ -16,7 +17,7 @@ public class ExecutionContextWorkbenchAdapter extends ModelElementWorkbenchAdapt
 
 	@Override
 	public String getLabel(Object o) {
-		return "ExecutionContext";
+		return Messages.getString("ExecutionContextWorkbenchAdapter.label");
 	}
 	
 	@Override

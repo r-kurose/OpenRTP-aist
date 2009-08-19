@@ -1,7 +1,7 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.editpolicy;
 
 import jp.go.aist.rtm.systemeditor.ui.editor.command.DeleteConnectorCommand;
-import jp.go.aist.rtm.toolscommon.model.component.Connector;
+import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ConnectionEditPolicy;
@@ -17,7 +17,7 @@ public class PortConnectorEditPolicy extends ConnectionEditPolicy {
 	 */
 	protected Command getDeleteCommand(GroupRequest request) {
 		DeleteConnectorCommand result = new DeleteConnectorCommand();
-		result.setConnector((Connector) getHost().getModel());
+		result.setConnector((PortConnector) getHost().getModel());
 
 		return result;
 	}

@@ -5,7 +5,7 @@ import org.omg.CosNaming.Binding;
 import org.omg.CosNaming.NamingContextExt;
 
 /**
- * コンテクストノードのネームサービスルートからの参照を表すオブジェクト
+ * コンテクストノードのネームサービスルートからの参照を表すオブジェクト（CORBA専用）
  * @model
  */
 public interface NameServiceReference extends EObject{
@@ -52,6 +52,7 @@ public interface NameServiceReference extends EObject{
 	void setRootNamingContext(NamingContextExt value);
 
 	/**
+	 * BindingをマージしたNameServiceReferenceを返す
 	 * @model
 	 * @param childBinding
 	 * @return

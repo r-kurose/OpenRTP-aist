@@ -3,12 +3,13 @@ package jp.go.aist.rtm.systemeditor.ui.dialog;
 import java.util.List;
 
 import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
+import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
 import jp.go.aist.rtm.toolscommon.model.component.InPort;
 import jp.go.aist.rtm.toolscommon.model.component.OutPort;
-import jp.go.aist.rtm.toolscommon.model.component.impl.ConnectorProfileImpl;
+import jp.go.aist.rtm.toolscommon.util.ConnectorUtil;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
@@ -74,19 +75,12 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 		this.outport = outport;
 		this.inport = inport;
 
-		// if (ConnectorProfile.createOnlyOneCandidateConnectorProfile(outport,
-		// inport) != null) {
-		// return ConnectorProfile.createOnlyOneCandidateConnectorProfile(
-		// first, second);
-		// }
-		//
-
-		this.connectorProfile = ComponentFactory.eINSTANCE
+		connectorProfile = ComponentFactory.eINSTANCE
 				.createConnectorProfile();
-		this.connectorProfile.setName(outport.getPortProfile().getNameL() + "_"
-				+ inport.getPortProfile().getNameL());
+		connectorProfile.setName(outport.getNameL() + "_" //$NON-NLS-1$
+				+ inport.getNameL());
 
-		this.setShellStyle(this.getShellStyle() | SWT.RESIZE  );
+		setShellStyle(this.getShellStyle() | SWT.RESIZE  );
 		open();
 
 		return dialogResult;
@@ -98,16 +92,14 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 	 */
 	protected Control createDialogArea(Composite parent) {
 		GridLayout gl;
-		GridData gd;
 		gl = new GridLayout();
-		gd = new GridData();
 
 		Composite mainComposite = (Composite) super.createDialogArea(parent);
 		mainComposite.setLayout(gl);
 		mainComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		Label label = new Label(mainComposite, SWT.NONE);
-		label.setText("ConnectorProfileを入力してください。");
+		label.setText(Messages.getString("DataConnectorCreaterDialog.1")); //$NON-NLS-1$
 		GridData labelLayloutData = new GridData(
 				GridData.HORIZONTAL_ALIGN_BEGINNING);
 		label.setLayoutData(labelLayloutData);
@@ -140,7 +132,7 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 		int style;
 
 		Label name = new Label(portProfileEditComposite, SWT.NONE);
-		name.setText("Name : ");
+		name.setText(Messages.getString("DataConnectorCreaterDialog.2")); //$NON-NLS-1$
 		nameText = new Text(portProfileEditComposite, SWT.SINGLE | SWT.BORDER);
 		gd = new GridData(GridData.GRAB_HORIZONTAL);
 		gd.minimumWidth = 140;
@@ -155,8 +147,8 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 		});
 
 		Label dataTypeLabel = new Label(portProfileEditComposite, SWT.NONE);
-		dataTypeLabel.setText("Data Type : ");
-		style = ConnectorProfileImpl.isAllowAnyDataType(outport, inport) ? SWT.DROP_DOWN
+		dataTypeLabel.setText(Messages.getString("DataConnectorCreaterDialog.3")); //$NON-NLS-1$
+		style = ConnectorUtil.isAllowAnyDataType(outport, inport) ? SWT.DROP_DOWN
 				: SWT.DROP_DOWN | SWT.READ_ONLY;
 		dataTypeCombo = new Combo(portProfileEditComposite, style);
 		gd = new GridData();
@@ -170,12 +162,12 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 		});
 		Label dataTypeFooterLabel = new Label(portProfileEditComposite,
 				SWT.NONE);
-		dataTypeFooterLabel.setText(ConnectorProfileImpl.isAllowAnyDataType(
-				outport, inport) ? "*任意入力可" : "");
+		dataTypeFooterLabel.setText(ConnectorUtil.isAllowAnyDataType(
+				outport, inport) ? Messages.getString("DataConnectorCreaterDialog.4") : ""); //$NON-NLS-1$ //$NON-NLS-2$
 
 		Label interfaceTypeLabel = new Label(portProfileEditComposite, SWT.NONE);
-		interfaceTypeLabel.setText("Interface Type : ");
-		style = ConnectorProfileImpl.isAllowAnyInterfaceType(outport, inport) ? SWT.DROP_DOWN
+		interfaceTypeLabel.setText(Messages.getString("DataConnectorCreaterDialog.6")); //$NON-NLS-1$
+		style = ConnectorUtil.isAllowAnyInterfaceType(outport, inport) ? SWT.DROP_DOWN
 				: SWT.DROP_DOWN | SWT.READ_ONLY;
 		interfaceTypeCombo = new Combo(portProfileEditComposite, style);
 		gd = new GridData();
@@ -189,12 +181,12 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 		});
 		Label interfaceTypeFooterLabel = new Label(portProfileEditComposite,
 				SWT.NONE);
-		interfaceTypeFooterLabel.setText(ConnectorProfileImpl
-				.isAllowAnyInterfaceType(outport, inport) ? "*任意入力可" : "");
+		interfaceTypeFooterLabel.setText(ConnectorUtil
+				.isAllowAnyInterfaceType(outport, inport) ? Messages.getString("DataConnectorCreaterDialog.7") : ""); //$NON-NLS-1$ //$NON-NLS-2$
 
 		Label dataflowTypeLabel = new Label(portProfileEditComposite, SWT.NONE);
-		dataflowTypeLabel.setText("Dataflow Type : ");
-		style = ConnectorProfileImpl.isAllowAnyDataflowType(outport, inport) ? SWT.DROP_DOWN
+		dataflowTypeLabel.setText(Messages.getString("DataConnectorCreaterDialog.9")); //$NON-NLS-1$
+		style = ConnectorUtil.isAllowAnyDataflowType(outport, inport) ? SWT.DROP_DOWN
 				: SWT.DROP_DOWN | SWT.READ_ONLY;
 		dataflowTypeCombo = new Combo(portProfileEditComposite, style);
 		gd = new GridData();
@@ -208,13 +200,13 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 		});
 		Label dataflowTypeFooterLabel = new Label(portProfileEditComposite,
 				SWT.NONE);
-		dataflowTypeFooterLabel.setText(ConnectorProfileImpl
-				.isAllowAnyDataflowType(outport, inport) ? "*任意入力可" : "");
+		dataflowTypeFooterLabel.setText(ConnectorUtil
+				.isAllowAnyDataflowType(outport, inport) ? Messages.getString("DataConnectorCreaterDialog.10") : ""); //$NON-NLS-1$ //$NON-NLS-2$
 
 		Label subscriptionTypeLabel = new Label(portProfileEditComposite,
 				SWT.NONE);
-		subscriptionTypeLabel.setText("Subscription Type : ");
-		style = ConnectorProfileImpl.isAllowAnySubscriptionType(outport, inport) ? SWT.DROP_DOWN
+		subscriptionTypeLabel.setText(Messages.getString("DataConnectorCreaterDialog.12")); //$NON-NLS-1$
+		style = ConnectorUtil.isAllowAnySubscriptionType(outport, inport) ? SWT.DROP_DOWN
 				: SWT.DROP_DOWN | SWT.READ_ONLY;
 		subscriptionTypeCombo = new Combo(portProfileEditComposite, style);
 		gd = new GridData();
@@ -229,12 +221,12 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 		});
 		Label subscriptionTypeFooterLabel = new Label(portProfileEditComposite,
 				SWT.NONE);
-		subscriptionTypeFooterLabel.setText(ConnectorProfileImpl
-				.isAllowAnySubscriptionType(outport, inport) ? "*任意入力可" : "");
+		subscriptionTypeFooterLabel.setText(ConnectorUtil
+				.isAllowAnySubscriptionType(outport, inport) ? Messages.getString("DataConnectorCreaterDialog.13") : ""); //$NON-NLS-1$ //$NON-NLS-2$
 		subscriptionTypeCombo.setEnabled(false);
 
 		Label pushRate = new Label(portProfileEditComposite, SWT.NONE);
-		pushRate.setText("Push Rate(Hz) : ");
+		pushRate.setText(Messages.getString("DataConnectorCreaterDialog.15")); //$NON-NLS-1$
 		pushRateText = new Text(portProfileEditComposite, SWT.SINGLE
 				| SWT.BORDER);
 		pushRateText.setEnabled(false);
@@ -268,17 +260,17 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 	/**
 	 * モデル情報にアクセスし、表示に設定する
 	 */
+	@SuppressWarnings("unchecked")
 	private void loadData() {
 
 		nameText.setText(connectorProfile.getName());
-		dataTypeCombo.setItems((String[]) ConnectorProfileImpl.getAllowDataTypes(
+		dataTypeCombo.setItems((String[]) ConnectorUtil.getAllowDataTypes(
 				outport, inport).toArray(
-				new String[ConnectorProfileImpl.getAllowDataTypes(outport, inport)
-						.size()]));
-		connectorProfile.setDataType(getDefaultValue(ConnectorProfileImpl
-				.getAllowDataTypes(outport, inport), ConnectorProfileImpl
+				new String[0]));
+		connectorProfile.setDataType(getDefaultValue(ConnectorUtil
+				.getAllowDataTypes(outport, inport), ConnectorUtil
 				.isAllowAnyDataType(outport, inport)));
-		dataTypeCombo.select(ConnectorProfileImpl
+		dataTypeCombo.select(ConnectorUtil
 				.getAllowDataTypes(outport, inport).indexOf(
 						connectorProfile.getDataType()));
 
@@ -292,34 +284,31 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 			subscriptionTypeCombo.setItems(SystemEditorPreferenceManager.getInstance().getSubscriptionTypes());
 			subscriptionTypeCombo.select(0);
 		} else {
-			interfaceTypeCombo.setItems((String[]) ConnectorProfileImpl
+			interfaceTypeCombo.setItems((String[]) ConnectorUtil
 					.getAllowInterfaceTypes(outport, inport).toArray(
-							new String[ConnectorProfileImpl.getAllowInterfaceTypes(
-									outport, inport).size()]));
-			connectorProfile.setInterfaceType(getDefaultValue(ConnectorProfileImpl
-					.getAllowInterfaceTypes(outport, inport), ConnectorProfileImpl
+							new String[0]));
+			connectorProfile.setInterfaceType(getDefaultValue(ConnectorUtil
+					.getAllowInterfaceTypes(outport, inport), ConnectorUtil
 					.isAllowAnyInterfaceType(outport, inport)));
-			interfaceTypeCombo.select(ConnectorProfileImpl.getAllowInterfaceTypes(
+			interfaceTypeCombo.select(ConnectorUtil.getAllowInterfaceTypes(
 					outport, inport).indexOf(connectorProfile.getInterfaceType()));
 
-			dataflowTypeCombo.setItems((String[]) ConnectorProfileImpl
+			dataflowTypeCombo.setItems((String[]) ConnectorUtil
 					.getAllowDataflowTypes(outport, inport).toArray(
-							new String[ConnectorProfileImpl.getAllowDataflowTypes(
-									outport, inport).size()]));
-			connectorProfile.setDataflowType(getDefaultValue(ConnectorProfileImpl
-					.getAllowDataflowTypes(outport, inport), ConnectorProfileImpl
+							new String[0]));
+			connectorProfile.setDataflowType(getDefaultValue(ConnectorUtil
+					.getAllowDataflowTypes(outport, inport), ConnectorUtil
 					.isAllowAnyDataflowType(outport, inport)));
-			dataflowTypeCombo.select(ConnectorProfileImpl.getAllowDataflowTypes(
+			dataflowTypeCombo.select(ConnectorUtil.getAllowDataflowTypes(
 					outport, inport).indexOf(connectorProfile.getDataflowType()));
 	
-			subscriptionTypeCombo.setItems((String[]) ConnectorProfileImpl
+			subscriptionTypeCombo.setItems((String[]) ConnectorUtil
 					.getAllowSubscriptionTypes(outport, inport).toArray(
-							new String[ConnectorProfileImpl.getAllowSubscriptionTypes(
-									outport, inport).size()]));
-			connectorProfile.setSubscriptionType(getDefaultValue(ConnectorProfileImpl
-					.getAllowSubscriptionTypes(outport, inport), ConnectorProfileImpl
+							new String[0]));
+			connectorProfile.setSubscriptionType(getDefaultValue(ConnectorUtil
+					.getAllowSubscriptionTypes(outport, inport), ConnectorUtil
 					.isAllowAnySubscriptionType(outport, inport)));
-			subscriptionTypeCombo.select(ConnectorProfileImpl
+			subscriptionTypeCombo.select(ConnectorUtil
 					.getAllowSubscriptionTypes(outport, inport).indexOf(
 							connectorProfile.getSubscriptionType()));
 		}
@@ -334,6 +323,7 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 	 *            どのような文字列でも設定可能であるかどうか
 	 * @return 初期表示の文字列
 	 */
+	@SuppressWarnings("unchecked")
 	private String getDefaultValue(List candidateList, boolean isAllowAny) {
 		String result = null;
 
@@ -356,7 +346,7 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 	 */
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
-		shell.setText("Connector Profile");
+		shell.setText(Messages.getString("DataConnectorCreaterDialog.16")); //$NON-NLS-1$
 	}
 
 	@Override
@@ -396,7 +386,7 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 	 */
 	public void notifyModified() {
 		if (getButton(IDialogConstants.OK_ID) != null) {
-			setMessage("", IMessageProvider.NONE);
+			setMessage("", IMessageProvider.NONE); //$NON-NLS-1$
 		}
 
 		if (connectorProfile.isPushIntervalAvailable()) {
@@ -410,9 +400,9 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 				// void
 			}
 
-			String message = "";
+			String message = ""; //$NON-NLS-1$
 			if (isDouble == false) {
-				message = "Push Rateは数値でなければなりません。";
+				message = Messages.getString("DataConnectorCreaterDialog.19"); //$NON-NLS-1$
 			}
 
 			if (message.length() != 0) {

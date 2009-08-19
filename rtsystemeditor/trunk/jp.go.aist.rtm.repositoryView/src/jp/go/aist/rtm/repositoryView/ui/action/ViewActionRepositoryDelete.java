@@ -1,9 +1,10 @@
 package jp.go.aist.rtm.repositoryView.ui.action;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import jp.go.aist.rtm.repositoryView.model.RepositoryViewItem;
 import jp.go.aist.rtm.repositoryView.model.RepositoryViewLeafItem;
+import jp.go.aist.rtm.repositoryView.nl.Messages;
 import jp.go.aist.rtm.repositoryView.repository.RTRepositoryAccesser;
 import jp.go.aist.rtm.repositoryView.ui.views.RepositoryView;
 
@@ -17,6 +18,10 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
+/**
+ * レポジトリビューからRepositoryViewLeafItemを削除するアクションデリゲート
+ *
+ */
 public class ViewActionRepositoryDelete implements IObjectActionDelegate {
 
 	private RepositoryView view;
@@ -32,9 +37,9 @@ public class ViewActionRepositoryDelete implements IObjectActionDelegate {
 	public void run(IAction action) {
 		
         MessageDialog dialog = new MessageDialog(
-        		view.getSite().getShell(), "警告",
+        		view.getSite().getShell(), Messages.getString("ViewActionRepositoryDelete.0"), //$NON-NLS-1$
         		null, 
-        		"サーバ上から削除しますが本当によろしいですか？",
+        		Messages.getString("ViewActionRepositoryDelete.1"), //$NON-NLS-1$
         		MessageDialog.QUESTION,
         		new String[] { IDialogConstants.YES_LABEL,
         						IDialogConstants.NO_LABEL },
@@ -49,8 +54,8 @@ public class ViewActionRepositoryDelete implements IObjectActionDelegate {
 		try {
 			RTRepositoryAccesser.getInstance().deleteProfile(target.getComponent().getComponentId(), serverAddrress);
 		} catch (Exception e) {
-			MessageDialog.openError(view.getSite().getShell(), "エラー",	
-				"Profile の削除に失敗しました");
+			MessageDialog.openError(view.getSite().getShell(), Messages.getString("ViewActionRepositoryDelete.2"),	 //$NON-NLS-1$
+				Messages.getString("ViewActionRepositoryDelete.3")); //$NON-NLS-1$
 			return;
 		}
 		TreeViewer viewer = this.view.getViewer();
@@ -58,6 +63,7 @@ public class ViewActionRepositoryDelete implements IObjectActionDelegate {
 		viewer.refresh();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void removeElement(RepositoryViewItem targetItem) {
 		Object parentItem = targetItem.getParent();		
 		if(parentItem instanceof RepositoryViewItem) {
@@ -67,7 +73,7 @@ public class ViewActionRepositoryDelete implements IObjectActionDelegate {
 			}
 		} else {
 	    	TreeViewer viewer = this.view.getViewer();
-			ArrayList<RepositoryViewItem> list = (ArrayList)viewer.getInput();
+			List<RepositoryViewItem> list = (List<RepositoryViewItem>)viewer.getInput();
 			list.remove(targetItem);
 		}
 	}

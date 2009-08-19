@@ -1,7 +1,7 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.command;
 
 import jp.go.aist.rtm.systemeditor.ui.util.Draw2dUtil;
-import jp.go.aist.rtm.toolscommon.model.component.Connector;
+import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.util.EMap;
@@ -11,7 +11,7 @@ import org.eclipse.gef.commands.Command;
  * コネクタのラインを移動するコマンド
  */
 public class MoveLineCommand extends Command {
-	private Connector model;
+	private PortConnector model;
 
 	private int index;
 
@@ -28,6 +28,7 @@ public class MoveLineCommand extends Command {
 		setPoint(point);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void setPoint(Point p) {
 		EMap routingConstraint = model.getRoutingConstraint();
 		if (p == null) {
@@ -44,6 +45,7 @@ public class MoveLineCommand extends Command {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private Point getPoint() {
 		Point result = null;
 		if (model.getRoutingConstraint() instanceof EMap) {
@@ -61,7 +63,7 @@ public class MoveLineCommand extends Command {
 	 * @param model
 	 *            変更対象のモデル
 	 */
-	public void setModel(Connector model) {
+	public void setModel(PortConnector model) {
 		this.model = model;
 	}
 

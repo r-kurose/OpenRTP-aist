@@ -7,6 +7,8 @@ import java.io.Serializable;
  * 制限（矩形）を表すクラス
  */
 public class Rectangle implements Serializable {
+	private static final long serialVersionUID = -6075985022948365976L;
+
 	private int x;
 
 	private int y;

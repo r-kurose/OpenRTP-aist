@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 
@@ -24,10 +23,7 @@ import javax.xml.validation.SchemaFactory;
 import jp.go.aist.rtm.toolscommon.profiles._test.SampleProfileGenerator;
 import jp.go.aist.rtm.toolscommon.profiles.util.NamespacePrefixMapperImpl;
 
-import org.ho.yaml.Yaml;
-import org.openrtp.namespaces.RtcProfileHolder;
-import org.openrtp.namespaces.rtc.ObjectFactory;
-import org.openrtp.namespaces.rtc.RtcProfile;
+import org.openrtp.namespaces.rts.version02.RtsProfileExt;
 
 public class XMLTest {
 
@@ -36,100 +32,101 @@ public class XMLTest {
 	 * createExtendedMetaDataAnnotationsÇÃñºèÃïœçX
 	 */
 	public static void main(String[] args) {
-//		XMLoutputSample();
 //		YAMLoutputSample();
 //		XMLinputSample();
 //		YAMLinputSample();
 		try {
-			validateXml("resource/RTC/SampleXMLNull.xml");
+//			validateXml("resource/RTC/SampleXMLNull.xml");
+			XMLoutputSample();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private static void YAMLinputSample() {
-//		BufferedInputStream inputFile = null;
-//		try {
-//			inputFile = new BufferedInputStream(new FileInputStream("testY1.yaml"));
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
+//	private static void YAMLinputSample() {
+////		BufferedInputStream inputFile = null;
+////		try {
+////			inputFile = new BufferedInputStream(new FileInputStream("testY1.yaml"));
+////		} catch (FileNotFoundException e) {
+////			e.printStackTrace();
+////		}
+//////		Map yamlMap  = (Map)Yaml.load(inputFile);
+////		YamlHandler handler = new YamlHandler();
+////		RtcProfile profile = handler.restoreFromYamlRtc(inputFile);
+////		System.out.println("aaa");
+//	}
+//	private static void YAMLoutputSample() throws Exception {
+//		SampleProfileGenerator handle = new SampleProfileGenerator();
+//		RtcProfile profile = handle.generateProfile();
+//		RtcProfileHolder holder = new RtcProfileHolder();
+////		holder.setRtcProfile(profile);
+//
+//		String yamlText = null;
+//		yamlText = Yaml.dump(holder,true);
+////		YamlConfig config = YamlConfig.getDefaultConfig();
+////		BiDirectionalMap<String, String> test = new BiDirectionalMap<String, String>();
+////		test.put("org.openrtp.namespaces.rtc.impl.ActionsImpl", "aaa");
+////		config.setTransfers(test);
+////		config.dump(holder);
+//		
+//		System.out.println(yamlText);
+//		String[] yamlSplt = removeClassInfo(yamlText);
+//		if( yamlSplt.length > 0 ) {
+//			BufferedWriter outputFile;
+//			try {
+//				outputFile = new BufferedWriter(
+//						new OutputStreamWriter(new FileOutputStream("testY1.yaml"), "UTF-8"));
+//				for(int intIdx=0;intIdx<yamlSplt.length;intIdx++) {
+//					outputFile.write(yamlSplt[intIdx]);
+//					outputFile.newLine();
+//				}
+//				outputFile.close();
+//			} catch (UnsupportedEncodingException e) {
+//				e.printStackTrace();
+//			} catch (FileNotFoundException e) {
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
 //		}
-////		Map yamlMap  = (Map)Yaml.load(inputFile);
-//		YamlHandler handler = new YamlHandler();
-//		RtcProfile profile = handler.restoreFromYamlRtc(inputFile);
-//		System.out.println("aaa");
-	}
-	private static void YAMLoutputSample() {
-		SampleProfileGenerator handle = new SampleProfileGenerator();
-		RtcProfile profile = handle.generateProfile();
-		RtcProfileHolder holder = new RtcProfileHolder();
-		holder.setRtcProfile(profile);
+//	}
+//	final static private String prefixClass = ": !";
+//	final static private String prefixClass2 = "- !";
+//	private static String[] removeClassInfo(String strInput) {
+//		String lineSeparator = System.getProperty( "line.separator" );
+//		if( lineSeparator==null || lineSeparator.equals("") ) lineSeparator = "\n";
+//		String splitStr[] = strInput.split(lineSeparator);
+//
+//		String strWork = "";
+//		for( int intidx=0;intidx<splitStr.length;intidx++ ) {
+//			strWork = splitStr[intidx];
+//			if(strWork.trim().contains(prefixClass)) {
+//				int end = strWork.indexOf(prefixClass); 
+//				splitStr[intidx] = strWork.substring(0,end+1);
+//			}
+//			if(strWork.trim().startsWith(prefixClass2)) {
+//				int end = strWork.indexOf(prefixClass2); 
+//				splitStr[intidx] = strWork.substring(0,end+1);
+//			}
+//		}
+//		return splitStr;
+//	}
 
-		String yamlText = null;
-		yamlText = Yaml.dump(holder,true);
-//		YamlConfig config = YamlConfig.getDefaultConfig();
-//		BiDirectionalMap<String, String> test = new BiDirectionalMap<String, String>();
-//		test.put("org.openrtp.namespaces.rtc.impl.ActionsImpl", "aaa");
-//		config.setTransfers(test);
-//		config.dump(holder);
-		
-		System.out.println(yamlText);
-		String[] yamlSplt = removeClassInfo(yamlText);
-		if( yamlSplt.length > 0 ) {
-			BufferedWriter outputFile;
-			try {
-				outputFile = new BufferedWriter(
-						new OutputStreamWriter(new FileOutputStream("testY1.yaml"), "UTF-8"));
-				for(int intIdx=0;intIdx<yamlSplt.length;intIdx++) {
-					outputFile.write(yamlSplt[intIdx]);
-					outputFile.newLine();
-				}
-				outputFile.close();
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	final static private String prefixClass = ": !";
-	final static private String prefixClass2 = "- !";
-	private static String[] removeClassInfo(String strInput) {
-		String lineSeparator = System.getProperty( "line.separator" );
-		if( lineSeparator==null || lineSeparator.equals("") ) lineSeparator = "\n";
-		String splitStr[] = strInput.split(lineSeparator);
-
-		String strWork = "";
-		for( int intidx=0;intidx<splitStr.length;intidx++ ) {
-			strWork = splitStr[intidx];
-			if(strWork.trim().contains(prefixClass)) {
-				int end = strWork.indexOf(prefixClass); 
-				splitStr[intidx] = strWork.substring(0,end+1);
-			}
-			if(strWork.trim().startsWith(prefixClass2)) {
-				int end = strWork.indexOf(prefixClass2); 
-				splitStr[intidx] = strWork.substring(0,end+1);
-			}
-		}
-		return splitStr;
-	}
-
-	private static void XMLoutputSample() {
+	private static void XMLoutputSample() throws Exception {
 		SampleProfileGenerator handle = new SampleProfileGenerator();
 		//èoóÕ
-		RtcProfile profile = handle.generateProfile();
+//		RtcProfile profile = handle.generateProfile();
+		RtsProfileExt profile = handle.generateRtsProfile();
 		//
 	    String xmlString = "";
 		try {
-			ObjectFactory objFactory = new ObjectFactory();
+//			ObjectFactory objFactory = new ObjectFactory();
 //			JAXBContext jaxbContext = JAXBContext.newInstance("org.openrtp.namespaces.rtc");
-			JAXBContext jaxbContext = JAXBContext.newInstance(RtcProfile.class);
+			JAXBContext jaxbContext = JAXBContext.newInstance("org.openrtp.namespaces.rts.version02");
 			Marshaller marshaller = jaxbContext.createMarshaller();
 		    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT , new Boolean(true));
 		    marshaller.setProperty("com.sun.xml.internal.bind.namespacePrefixMapper",
-	                new NamespacePrefixMapperImpl("http://www.openrtp.org/namespaces/rtc"));
+	                new NamespacePrefixMapperImpl("http://www.openrtp.org/namespaces/rts_ext"));
 		    StringWriter xmlFileWriter = new StringWriter();
 		    marshaller.marshal(profile, xmlFileWriter);
 		    xmlString = xmlFileWriter.toString();
@@ -167,7 +164,7 @@ public class XMLTest {
 			Schema schema = sf.newSchema(new File("schema/RtcProfile_ext.xsd")); 
 			unmarshaller.setSchema(schema);
 
-			RtcProfile profile = (RtcProfile)((JAXBElement)unmarshaller.unmarshal(new StreamSource(new FileReader(targetString)))).getValue();
+			((JAXBElement<?>)unmarshaller.unmarshal(new StreamSource(new FileReader(targetString)))).getValue();
 			System.out.println("aaa");
 		} catch (JAXBException e) {
 			throw new Exception("XML Validation Error", e);
@@ -177,18 +174,18 @@ public class XMLTest {
 		return true;
 	}
 
-	private static void XMLinputSample() {
-		try {
-			JAXBContext jc = JAXBContext.newInstance("org.openrtp.namespaces.rtc");
-			Unmarshaller unmarshaller = jc.createUnmarshaller();
-			unmarshaller.setEventHandler(new javax.xml.bind.helpers.DefaultValidationEventHandler());
-		    StringReader xmlReader = new StringReader(readFile("test.xml"));
-			RtcProfile profile = (RtcProfile)((JAXBElement)unmarshaller.unmarshal(xmlReader)).getValue();
-		} catch(Exception ex) {
-			ex.printStackTrace();
-		}
-		System.out.println("aaa");
-	}
+//	private static void XMLinputSample() {
+//		try {
+//			JAXBContext jc = JAXBContext.newInstance("org.openrtp.namespaces.rtc");
+//			Unmarshaller unmarshaller = jc.createUnmarshaller();
+//			unmarshaller.setEventHandler(new javax.xml.bind.helpers.DefaultValidationEventHandler());
+//		    StringReader xmlReader = new StringReader(readFile("test.xml"));
+//			((JAXBElement<?>)unmarshaller.unmarshal(xmlReader)).getValue();
+//		} catch(Exception ex) {
+//			ex.printStackTrace();
+//		}
+//		System.out.println("aaa");
+//	}
 	
 	protected static String readFile(String fileName) {
 		StringBuffer stbRet = new StringBuffer();

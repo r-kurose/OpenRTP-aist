@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import jp.go.aist.rtm.nameserviceview.corba.NameServerAccesser;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameservicePackage;
 
@@ -184,6 +183,9 @@ public class NameServiceReferenceImpl extends EObjectImpl implements
 		return result.toString();
 	}
 
+	/* (non-Javadoc)
+	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference#createMergedNameServiceReference(org.omg.CosNaming.Binding)
+	 */
 	public NameServiceReference createMergedNameServiceReference(
 			Binding childBinding) {
 		NameServiceReference result = new NameServiceReferenceImpl();
@@ -281,6 +283,9 @@ public class NameServiceReferenceImpl extends EObjectImpl implements
 		return super.eIsSet(featureID);
 	}
 
+	/* (non-Javadoc)
+	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference#getPathId()
+	 */
 	public String getPathId() {
 		StringBuffer result = new StringBuffer(getNameServerName());
 		for (NameComponent name : getBinding().binding_name) {
@@ -289,58 +294,4 @@ public class NameServiceReferenceImpl extends EObjectImpl implements
 
 		return result.toString();
 	}
-
-	/**
-	 * PathIdからNameServerNameを取得する
-	 * 
-	 * @param pathId
-	 * @return
-	 */
-	public static String getNameServerNameFromPathId(String pathId) {
-		return pathId.split("/")[0];
-	}
-
-	/**
-	 * PathIdからObjectを取得する
-	 * 
-	 * @param pathId
-	 * @return
-	 */
-	public static org.omg.CORBA.Object getObjectFromPathId(String pathId) {
-		org.omg.CORBA.Object result = null;
-
-		NamingContextExt namingContext = NameServerAccesser.getInstance()
-				.getNameServerRootContext(getNameServerNameFromPathId(pathId));
-
-		try {
-			result = namingContext.resolve(getNameComponentsFromPathId(pathId));
-		} catch (Exception e) {
-			// void
-		}
-
-		return result;
-	}
-
-	/**
-	 * PathIdからNameComponentを取得する
-	 * <p>
-	 * ネームサーバ名は除く
-	 * 
-	 * @param pathId
-	 * @return
-	 */
-	public static NameComponent[] getNameComponentsFromPathId(String pathId) {
-		List<NameComponent> result = new ArrayList<NameComponent>();
-		String[] split = pathId.split("/");
-		for (int i = 0; i < split.length; ++i) {
-			if (i > 0) {
-				int index = split[i].lastIndexOf(".");
-				result.add(new NameComponent(split[i].substring(0, index),
-						split[i].substring(index + ".".length())));
-			}
-		}
-
-		return result.toArray(new NameComponent[result.size()]);
-	}
-
 } // NameServiceReferenceImpl

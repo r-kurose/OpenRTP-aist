@@ -76,6 +76,7 @@ public abstract class AbstractEditPart extends AbstractGraphicalEditPart
 		((ModelElement) getModel()).eAdapters().remove(this);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	/**
 	 * {@inheritDoc}

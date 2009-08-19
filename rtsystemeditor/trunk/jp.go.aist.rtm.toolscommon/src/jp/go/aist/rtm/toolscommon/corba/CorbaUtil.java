@@ -1,7 +1,11 @@
 package jp.go.aist.rtm.toolscommon.corba;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -11,7 +15,7 @@ import org.omg.CORBA.ORB;
 import org.omg.CosNaming.Binding;
 import org.omg.CosNaming.BindingIteratorHolder;
 import org.omg.CosNaming.BindingListHolder;
-import org.omg.CosNaming.NamingContextExt;
+import org.omg.CosNaming.NamingContext;
 
 /**
  * CORBAに関するユーティリティ
@@ -25,7 +29,7 @@ public class CorbaUtil {
 	 *            対象のNamingContextExt
 	 * @return 子供のBindingのList
 	 */
-	public static List<Binding> getBindingList(NamingContextExt target) {
+	public static List<Binding> getBindingList(NamingContext target) {
 		BindingListHolder bindingListHolder = new BindingListHolder();
 		BindingIteratorHolder bindingIteratorHolder = new BindingIteratorHolder();
 
@@ -49,18 +53,19 @@ public class CorbaUtil {
 	 * ORBオブジェクト
 	 */
 //	private static ORB orb = ORB.init(new String[] {
-//			"-ORBclientCallTimeOutPeriod", "3000" }, null);
-	private static ORB orb = ORB.init(new String[] {
-			"-ORBclientCallTimeOutPeriod", 
-				String.valueOf(ToolsCommonPreferenceManager.getInstance().getDefaultTimeout(
-					ToolsCommonPreferenceManager.DEFAULT_TIMEOUT_PERIOD)) }, null);
+//			"-ORBTCPReadTimeouts",	"1:60000:300:1" }
+//		, null);
+	
+	// omniORBのオプションだろう. JDKのCORBA実装にはない
+//	"-ORBclientCallTimeOutPeriod", 
+//	String.valueOf(ToolsCommonPreferenceManager.getInstance().getDefaultTimeout(
+//		ToolsCommonPreferenceManager.DEFAULT_TIMEOUT_PERIOD)
+	private static ORB orb = ORB.init(new String[] {}, createProps());
 	static {
 		try {
-			if (orb instanceof com.sun.corba.se.spi.orb.ORB) {
-				Logger logger = ((com.sun.corba.se.spi.orb.ORB) orb)
-						.getLogger("");
-				logger.setLevel(Level.SEVERE); // log 
-			}
+			Method declaredMethod = orb.getClass().getMethod("getLogger", String.class);
+			Logger logger = (Logger) declaredMethod.invoke(orb, "");
+			logger.setLevel(Level.SEVERE);
 		} catch (Exception e) {
 			e.printStackTrace(); // system error
 		}
@@ -73,6 +78,31 @@ public class CorbaUtil {
 	 */
 	public static ORB getOrb() {
 		return orb;
+	}
+
+	private static Properties createProps() {
+		setConnectionTimeout();
+		
+		ToolsCommonPreferenceManager.getInstance().addPropertyChangeListener(createListner());
+		
+		Properties props = new Properties();
+		props.put("com.sun.CORBA.transport.ORBSocketFactoryClass"
+				, "jp.go.aist.rtm.toolscommon.corba.TimeoutCorbaORBSocketFactory");
+		return props;
+	}
+
+	private static void setConnectionTimeout() {
+		int defaultTimeout = ToolsCommonPreferenceManager.getInstance().getDefaultTimeout(
+				ToolsCommonPreferenceManager.DEFAULT_TIMEOUT_PERIOD);
+		TimeoutCorbaORBSocketFactory.setConnectionTimeout(defaultTimeout);
+	}
+
+	private static PropertyChangeListener createListner() {
+		return new PropertyChangeListener(){
+//			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				setConnectionTimeout();
+			}};
 	}
 
 	/**

@@ -1,10 +1,9 @@
 package jp.go.aist.rtm.nameserviceview.factory;
 
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServerNamingContext;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameServiceReferenceImpl;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.NameserviceFactory;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
 import jp.go.aist.rtm.toolscommon.factory.MappingRuleFactory;
-import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationManager;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
 
@@ -16,6 +15,7 @@ import org.omg.CosNaming.NamingContextExt;
  * RtcLinkの内部で使用されるドメインオブジェクトを作成するファクトリ
  * <p>
  * 内部では、同期フレームワークを使用している。
+ * NameServerNamingContext(CORBA専用）を作成する用途にしか、今のところ用いられていない
  */
 public class NameServiceViewWrapperFactory {
 
@@ -25,12 +25,10 @@ public class NameServiceViewWrapperFactory {
 
     /**
      * コンストラクタ
-     * <p>
-     * 他のマッピングルールを使用したファクトリを作成することができるようにコンストラクタを公開するが、基本的にはgetInstance()を利用してシングルトンを作成すること
      * 
      * @param mappingRules
      */
-    public NameServiceViewWrapperFactory(MappingRule[] mappingRules) {
+    private NameServiceViewWrapperFactory(MappingRule[] mappingRules) {
     	 synchronizationManager = new SynchronizationManager(mappingRules);
     }
 
@@ -58,39 +56,17 @@ public class NameServiceViewWrapperFactory {
      *            ネームサーバ名
      * @return ネームサーバのドメインオブジェクト
      */
-    public NameServerNamingContext getNameServiceContextCorbaWrapper(
+    public NamingContextNode getNameServiceContextCorbaWrapper(
             NamingContextExt namingContext, String nameServerName) {
 
-        NameServiceReference nameServiceReference = new NameServiceReferenceImpl();
+        NameServiceReference nameServiceReference = NameserviceFactory.eINSTANCE.createNameServiceReference();
         nameServiceReference.setNameServerName(nameServerName);
         Binding binding = new Binding();
         binding.binding_name = new NameComponent[] {};
         nameServiceReference.setBinding(binding);
         nameServiceReference.setRootNamingContext(namingContext);
-        NameServerNamingContext result = (NameServerNamingContext) createWrapperObject(
-                namingContext, nameServiceReference);
-
-        return result;
-    }
-    
-    /**
-     * リモートオブジェクトを渡し、ドメインオブジェクトを作成する
-     * 
-     * @param remoteObject
-     *            リモートオブジェクト
-     * @return 作成されたドメインオブジェクト
-     */
-    public WrapperObject createWrapperObject(Object... remoteObjects) {
-        return (WrapperObject) synchronizationManager
-                .createLocalObject(remoteObjects);
-    }
-
-   
-
-    /**
-     * SynchronizationManagerを取得する
-     */
-    public SynchronizationManager getSynchronizationManager() {
-        return synchronizationManager;
+        
+        return (NamingContextNode) synchronizationManager.createLocalObject(null,
+                new Object[]{namingContext, nameServiceReference}, null, false);
     }
 }

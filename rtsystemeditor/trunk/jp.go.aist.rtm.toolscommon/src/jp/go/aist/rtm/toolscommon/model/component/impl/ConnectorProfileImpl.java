@@ -6,34 +6,14 @@
  */
 package jp.go.aist.rtm.toolscommon.model.component.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
-import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
-import jp.go.aist.rtm.toolscommon.model.component.InPort;
-import jp.go.aist.rtm.toolscommon.model.component.NameValue;
-import jp.go.aist.rtm.toolscommon.model.component.OutPort;
 import jp.go.aist.rtm.toolscommon.model.core.impl.WrapperObjectImpl;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.AttributeMapping;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ClassMapping;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ConstructorParamMapping;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ReferenceMapping;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Connector Profile</b></em>'.
@@ -46,12 +26,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ConnectorProfileImpl#isSubscriptionTypeAvailable <em>Subscription Type Available</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ConnectorProfileImpl#isPushIntervalAvailable <em>Push Interval Available</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ConnectorProfileImpl#getName <em>Name</em>}</li>
- *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ConnectorProfileImpl#getProperties <em>Properties</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ConnectorProfileImpl#getConnectorId <em>Connector Id</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ConnectorProfileImpl#getDataType <em>Data Type</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ConnectorProfileImpl#getInterfaceType <em>Interface Type</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ConnectorProfileImpl#getPushRate <em>Push Rate</em>}</li>
- *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ConnectorProfileImpl#getRtcConnectorProfile <em>Rtc Connector Profile</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ConnectorProfileImpl#getSourceString <em>Source String</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ConnectorProfileImpl#getTargetString <em>Target String</em>}</li>
  * </ul>
  * </p>
  *
@@ -69,6 +49,16 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 	protected static final String DATAFLOW_TYPE_EDEFAULT = null;
 
 	/**
+	 * The cached value of the '{@link #getDataflowType() <em>Dataflow Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDataflowType()
+	 * @generated
+	 * @ordered
+	 */
+	protected String dataflowType = DATAFLOW_TYPE_EDEFAULT;
+
+	/**
 	 * The default value of the '{@link #getSubscriptionType() <em>Subscription Type</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSubscriptionType()
@@ -76,6 +66,16 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 	 * @ordered
 	 */
 	protected static final String SUBSCRIPTION_TYPE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getSubscriptionType() <em>Subscription Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSubscriptionType()
+	 * @generated
+	 * @ordered
+	 */
+	protected String subscriptionType = SUBSCRIPTION_TYPE_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #isSubscriptionTypeAvailable() <em>Subscription Type Available</em>}' attribute.
@@ -114,15 +114,6 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 	protected String name = NAME_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getProperties() <em>Properties</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getProperties()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList properties= null;
-
-	/**
 	 * The default value of the '{@link #getConnectorId() <em>Connector Id</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getConnectorId()
@@ -150,6 +141,16 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 	protected static final String DATA_TYPE_EDEFAULT = null;
 
 	/**
+	 * The cached value of the '{@link #getDataType() <em>Data Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDataType()
+	 * @generated
+	 * @ordered
+	 */
+	protected String dataType = DATA_TYPE_EDEFAULT;
+
+	/**
 	 * The default value of the '{@link #getInterfaceType() <em>Interface Type</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getInterfaceType()
@@ -157,6 +158,16 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 	 * @ordered
 	 */
 	protected static final String INTERFACE_TYPE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getInterfaceType() <em>Interface Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInterfaceType()
+	 * @generated
+	 * @ordered
+	 */
+	protected String interfaceType = INTERFACE_TYPE_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getPushRate() <em>Push Rate</em>}' attribute.
@@ -168,22 +179,54 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 	protected static final Double PUSH_RATE_EDEFAULT = null;
 
 	/**
-	 * The default value of the '{@link #getRtcConnectorProfile() <em>Rtc Connector Profile</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getRtcConnectorProfile()
+	 * The cached value of the '{@link #getPushRate() <em>Push Rate</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPushRate()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final RTC.ConnectorProfile RTC_CONNECTOR_PROFILE_EDEFAULT = null;
+	protected Double pushRate = PUSH_RATE_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getRtcConnectorProfile() <em>Rtc Connector Profile</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getRtcConnectorProfile()
+	 * The default value of the '{@link #getSourceString() <em>Source String</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSourceString()
 	 * @generated
 	 * @ordered
 	 */
-	protected RTC.ConnectorProfile rtcConnectorProfile = RTC_CONNECTOR_PROFILE_EDEFAULT;
+	protected static final String SOURCE_STRING_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getSourceString() <em>Source String</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSourceString()
+	 * @generated
+	 * @ordered
+	 */
+	protected String sourceString = SOURCE_STRING_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getTargetString() <em>Target String</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTargetString()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String TARGET_STRING_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getTargetString() <em>Target String</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTargetString()
+	 * @generated
+	 * @ordered
+	 */
+	protected String targetString = TARGET_STRING_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -204,45 +247,45 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
 	 */
 	public String getDataflowType() {
-		return getPropertyValueAsStringValue(getProperties(),
-				ConnectorProfile.NAME_VALUE_KEY_DATAPORT_DATAFLOW_TYPE);
+		return dataflowType;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
 	 */
 	public void setDataflowType(String newDataflowType) {
-		setPropertyValueAsStringValue(getProperties(),
-				ConnectorProfile.NAME_VALUE_KEY_DATAPORT_DATAFLOW_TYPE,
-				newDataflowType);
+		String oldDataflowType = dataflowType;
+		dataflowType = newDataflowType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.CONNECTOR_PROFILE__DATAFLOW_TYPE, oldDataflowType, dataflowType));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
 	 */
 	public String getSubscriptionType() {
-		return getPropertyValueAsStringValue(getProperties(),
-				ConnectorProfile.NAME_VALUE_KEY_DATAPORT_SUBSCRIPTION_TYPE);
+		return subscriptionType;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
 	 */
 	public void setSubscriptionType(String newSubscriptionType) {
-		setPropertyValueAsStringValue(getProperties(),
-				ConnectorProfile.NAME_VALUE_KEY_DATAPORT_SUBSCRIPTION_TYPE,
-				newSubscriptionType);
+		String oldSubscriptionType = subscriptionType;
+		subscriptionType = newSubscriptionType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.CONNECTOR_PROFILE__SUBSCRIPTION_TYPE, oldSubscriptionType, subscriptionType));
 	}
 
 	/**
@@ -260,9 +303,8 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 	 * @generated NOT
 	 */
 	public boolean isPushIntervalAvailable() {
-		return ConnectorProfile.PERIODIC
-				.equalsIgnoreCase(getSubscriptionType())
-				&& ConnectorProfile.PUSH.equalsIgnoreCase(getDataflowType());
+		return isSubscriptionTypeAvailable() && ConnectorProfile.PERIODIC
+				.equalsIgnoreCase(getSubscriptionType());
 	}
 
 	/**
@@ -288,17 +330,6 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getProperties() {
-		if (properties == null) {
-			properties = new EObjectContainmentEList(NameValue.class, this, ComponentPackage.CONNECTOR_PROFILE__PROPERTIES);
-		}
-		return properties;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
 	public String getConnectorId() {
 		return connectorId;
 	}
@@ -315,93 +346,12 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
 	 */
 	public String getDataType() {
-		return getPropertyValueAsStringValue(getProperties(),
-				ConnectorProfile.NAME_VALUE_KEY_DATAPORT_DATA_TYPE);
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public void setDataType(String newDataType) {
-		setPropertyValueAsStringValue(getProperties(),
-				ConnectorProfile.NAME_VALUE_KEY_DATAPORT_DATA_TYPE, newDataType);
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public String getInterfaceType() {
-		return getPropertyValueAsStringValue(getProperties(),
-				ConnectorProfile.NAME_VALUE_KEY_DATAPORT_INTERFACE_TYPE);
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public void setInterfaceType(String newInterfaceType) {
-		setPropertyValueAsStringValue(getProperties(),
-				ConnectorProfile.NAME_VALUE_KEY_DATAPORT_INTERFACE_TYPE,
-				newInterfaceType);
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public Double getPushRate() {
-		String valueAsString = getPropertyValueAsStringValue(getProperties(),
-				ConnectorProfile.NAME_VALUE_KEY_PORT_PUSH_RATE);
-
-		Double value = null;
-		try {
-			value = Double.parseDouble(valueAsString);
-		} catch (RuntimeException e) {
-			// void
-		}
-
-		return value;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public void setPushRate(Double newPushRate) {
-		setPropertyValueAsStringValue(getProperties(),
-				ConnectorProfile.NAME_VALUE_KEY_PORT_PUSH_RATE, newPushRate
-						.toString());
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public RTC.ConnectorProfile getRtcConnectorProfile() {
-		return rtcConnectorProfile;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setRtcConnectorProfile(RTC.ConnectorProfile newRtcConnectorProfile) {
-		RTC.ConnectorProfile oldRtcConnectorProfile = rtcConnectorProfile;
-		rtcConnectorProfile = newRtcConnectorProfile;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.CONNECTOR_PROFILE__RTC_CONNECTOR_PROFILE, oldRtcConnectorProfile, rtcConnectorProfile));
+		return dataType;
 	}
 
 	/**
@@ -409,13 +359,95 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case ComponentPackage.CONNECTOR_PROFILE__PROPERTIES:
-				return ((InternalEList)getProperties()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
+	public void setDataType(String newDataType) {
+		String oldDataType = dataType;
+		dataType = newDataType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.CONNECTOR_PROFILE__DATA_TYPE, oldDataType, dataType));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getInterfaceType() {
+		return interfaceType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setInterfaceType(String newInterfaceType) {
+		String oldInterfaceType = interfaceType;
+		interfaceType = newInterfaceType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.CONNECTOR_PROFILE__INTERFACE_TYPE, oldInterfaceType, interfaceType));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Double getPushRate() {
+		return pushRate;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPushRate(Double newPushRate) {
+		Double oldPushRate = pushRate;
+		pushRate = newPushRate;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.CONNECTOR_PROFILE__PUSH_RATE, oldPushRate, pushRate));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getSourceString() {
+		return sourceString;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSourceString(String newSourceString) {
+		String oldSourceString = sourceString;
+		sourceString = newSourceString;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.CONNECTOR_PROFILE__SOURCE_STRING, oldSourceString, sourceString));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getTargetString() {
+		return targetString;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTargetString(String newTargetString) {
+		String oldTargetString = targetString;
+		targetString = newTargetString;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.CONNECTOR_PROFILE__TARGET_STRING, oldTargetString, targetString));
 	}
 
 	/**
@@ -436,8 +468,6 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 				return isPushIntervalAvailable() ? Boolean.TRUE : Boolean.FALSE;
 			case ComponentPackage.CONNECTOR_PROFILE__NAME:
 				return getName();
-			case ComponentPackage.CONNECTOR_PROFILE__PROPERTIES:
-				return getProperties();
 			case ComponentPackage.CONNECTOR_PROFILE__CONNECTOR_ID:
 				return getConnectorId();
 			case ComponentPackage.CONNECTOR_PROFILE__DATA_TYPE:
@@ -446,8 +476,10 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 				return getInterfaceType();
 			case ComponentPackage.CONNECTOR_PROFILE__PUSH_RATE:
 				return getPushRate();
-			case ComponentPackage.CONNECTOR_PROFILE__RTC_CONNECTOR_PROFILE:
-				return getRtcConnectorProfile();
+			case ComponentPackage.CONNECTOR_PROFILE__SOURCE_STRING:
+				return getSourceString();
+			case ComponentPackage.CONNECTOR_PROFILE__TARGET_STRING:
+				return getTargetString();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -470,10 +502,6 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 			case ComponentPackage.CONNECTOR_PROFILE__NAME:
 				setName((String)newValue);
 				return;
-			case ComponentPackage.CONNECTOR_PROFILE__PROPERTIES:
-				getProperties().clear();
-				getProperties().addAll((Collection)newValue);
-				return;
 			case ComponentPackage.CONNECTOR_PROFILE__CONNECTOR_ID:
 				setConnectorId((String)newValue);
 				return;
@@ -486,8 +514,11 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 			case ComponentPackage.CONNECTOR_PROFILE__PUSH_RATE:
 				setPushRate((Double)newValue);
 				return;
-			case ComponentPackage.CONNECTOR_PROFILE__RTC_CONNECTOR_PROFILE:
-				setRtcConnectorProfile((RTC.ConnectorProfile)newValue);
+			case ComponentPackage.CONNECTOR_PROFILE__SOURCE_STRING:
+				setSourceString((String)newValue);
+				return;
+			case ComponentPackage.CONNECTOR_PROFILE__TARGET_STRING:
+				setTargetString((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -510,9 +541,6 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 			case ComponentPackage.CONNECTOR_PROFILE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
-			case ComponentPackage.CONNECTOR_PROFILE__PROPERTIES:
-				getProperties().clear();
-				return;
 			case ComponentPackage.CONNECTOR_PROFILE__CONNECTOR_ID:
 				setConnectorId(CONNECTOR_ID_EDEFAULT);
 				return;
@@ -525,8 +553,11 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 			case ComponentPackage.CONNECTOR_PROFILE__PUSH_RATE:
 				setPushRate(PUSH_RATE_EDEFAULT);
 				return;
-			case ComponentPackage.CONNECTOR_PROFILE__RTC_CONNECTOR_PROFILE:
-				setRtcConnectorProfile(RTC_CONNECTOR_PROFILE_EDEFAULT);
+			case ComponentPackage.CONNECTOR_PROFILE__SOURCE_STRING:
+				setSourceString(SOURCE_STRING_EDEFAULT);
+				return;
+			case ComponentPackage.CONNECTOR_PROFILE__TARGET_STRING:
+				setTargetString(TARGET_STRING_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -541,134 +572,29 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case ComponentPackage.CONNECTOR_PROFILE__DATAFLOW_TYPE:
-				return DATAFLOW_TYPE_EDEFAULT == null ? getDataflowType() != null : !DATAFLOW_TYPE_EDEFAULT.equals(getDataflowType());
+				return DATAFLOW_TYPE_EDEFAULT == null ? dataflowType != null : !DATAFLOW_TYPE_EDEFAULT.equals(dataflowType);
 			case ComponentPackage.CONNECTOR_PROFILE__SUBSCRIPTION_TYPE:
-				return SUBSCRIPTION_TYPE_EDEFAULT == null ? getSubscriptionType() != null : !SUBSCRIPTION_TYPE_EDEFAULT.equals(getSubscriptionType());
+				return SUBSCRIPTION_TYPE_EDEFAULT == null ? subscriptionType != null : !SUBSCRIPTION_TYPE_EDEFAULT.equals(subscriptionType);
 			case ComponentPackage.CONNECTOR_PROFILE__SUBSCRIPTION_TYPE_AVAILABLE:
 				return isSubscriptionTypeAvailable() != SUBSCRIPTION_TYPE_AVAILABLE_EDEFAULT;
 			case ComponentPackage.CONNECTOR_PROFILE__PUSH_INTERVAL_AVAILABLE:
 				return isPushIntervalAvailable() != PUSH_INTERVAL_AVAILABLE_EDEFAULT;
 			case ComponentPackage.CONNECTOR_PROFILE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case ComponentPackage.CONNECTOR_PROFILE__PROPERTIES:
-				return properties != null && !properties.isEmpty();
 			case ComponentPackage.CONNECTOR_PROFILE__CONNECTOR_ID:
 				return CONNECTOR_ID_EDEFAULT == null ? connectorId != null : !CONNECTOR_ID_EDEFAULT.equals(connectorId);
 			case ComponentPackage.CONNECTOR_PROFILE__DATA_TYPE:
-				return DATA_TYPE_EDEFAULT == null ? getDataType() != null : !DATA_TYPE_EDEFAULT.equals(getDataType());
+				return DATA_TYPE_EDEFAULT == null ? dataType != null : !DATA_TYPE_EDEFAULT.equals(dataType);
 			case ComponentPackage.CONNECTOR_PROFILE__INTERFACE_TYPE:
-				return INTERFACE_TYPE_EDEFAULT == null ? getInterfaceType() != null : !INTERFACE_TYPE_EDEFAULT.equals(getInterfaceType());
+				return INTERFACE_TYPE_EDEFAULT == null ? interfaceType != null : !INTERFACE_TYPE_EDEFAULT.equals(interfaceType);
 			case ComponentPackage.CONNECTOR_PROFILE__PUSH_RATE:
-				return PUSH_RATE_EDEFAULT == null ? getPushRate() != null : !PUSH_RATE_EDEFAULT.equals(getPushRate());
-			case ComponentPackage.CONNECTOR_PROFILE__RTC_CONNECTOR_PROFILE:
-				return RTC_CONNECTOR_PROFILE_EDEFAULT == null ? rtcConnectorProfile != null : !RTC_CONNECTOR_PROFILE_EDEFAULT.equals(rtcConnectorProfile);
+				return PUSH_RATE_EDEFAULT == null ? pushRate != null : !PUSH_RATE_EDEFAULT.equals(pushRate);
+			case ComponentPackage.CONNECTOR_PROFILE__SOURCE_STRING:
+				return SOURCE_STRING_EDEFAULT == null ? sourceString != null : !SOURCE_STRING_EDEFAULT.equals(sourceString);
+			case ComponentPackage.CONNECTOR_PROFILE__TARGET_STRING:
+				return TARGET_STRING_EDEFAULT == null ? targetString != null : !TARGET_STRING_EDEFAULT.equals(targetString);
 		}
 		return super.eIsSet(featureID);
-	}
-
-	public static List getAllowDataTypes(OutPort source, InPort target) {
-		return getAllowList(source.getPortProfile().getDataTypes(), target
-				.getPortProfile().getDataTypes());
-	}
-
-	public static List getAllowInterfaceTypes(OutPort source, InPort target) {
-		return getAllowList(source.getPortProfile().getInterfaceTypes(), target
-				.getPortProfile().getInterfaceTypes());
-	}
-
-	public static List getAllowDataflowTypes(OutPort source, InPort target) {
-		return getAllowList(source.getPortProfile().getDataflowTypes(), target
-				.getPortProfile().getDataflowTypes());
-	}
-
-	public static List getAllowSubscriptionTypes(OutPort source, InPort target) {
-		return getAllowList(source.getPortProfile().getSubsciptionTypes(),
-				target.getPortProfile().getSubsciptionTypes());
-	}
-
-	public static boolean isAllowAnyDataType(OutPort source, InPort target) {
-		return source.getPortProfile().isAllowAnyDataType()
-				&& target.getPortProfile().isAllowAnyDataType();
-	}
-
-	public static boolean isAllowAnyInterfaceType(OutPort source, InPort target) {
-		return source.getPortProfile().isAllowAnyInterfaceType()
-				&& target.getPortProfile().isAllowAnyInterfaceType();
-	}
-
-	public static boolean isAllowAnyDataflowType(OutPort source, InPort target) {
-		return source.getPortProfile().isAllowAnyDataflowType()
-				&& target.getPortProfile().isAllowAnyDataflowType();
-	}
-
-	public static boolean isAllowAnySubscriptionType(OutPort source,
-			InPort target) {
-		return source.getPortProfile().isAllowAnySubscriptionType()
-				&& target.getPortProfile().isAllowAnySubscriptionType();
-	}
-
-	/**
-	 * 2つの文字列のリストを受け取り、両方に存在する文字列だけのリストを作成する。 「Any」が含まれる場合には、相手先すべての文字列を許す。
-	 * 返り値のリストに「Any」自体は含まれないことに注意すること。
-	 * <p>
-	 * 文字列はCaseを無視して比較が行われる。<br>
-	 * Caseが違う文字列の場合、結果のリストに含まれるのは1番目の引数の文字列とおなじCaseとなる。<br>
-	 * 順番は、oneの出現順の後に、twoの出現順（oneがanyの場合のみ）で表示される。
-	 * 
-	 * @param one
-	 * @param two
-	 * @return
-	 */
-	public static List getAllowList(List<String> one, List<String> two) {
-		boolean isAllowAny_One = PortProfileImpl.isExistAny(one);
-		boolean isAllowAny_Two = PortProfileImpl.isExistAny(two);
-
-		List result = new ArrayList();
-		for (Iterator iter = one.iterator(); iter.hasNext();) {
-			String elem1 = (String) iter.next();
-			if (PortProfileImpl.isAnyString(elem1) == false) {
-				boolean isEqualsIgnoreCase = false;
-				for (Iterator iterator = two.iterator(); iterator.hasNext();) {
-					String elem2 = (String) iterator.next();
-					if (isAllowAny_Two || elem1.equalsIgnoreCase(elem2)) {
-						isEqualsIgnoreCase = true;
-						break;
-					}
-				}
-
-				if (isEqualsIgnoreCase) {
-					result.add(elem1);
-				}
-			}
-		}
-		if (isAllowAny_One) {
-			for (Iterator iter = two.iterator(); iter.hasNext();) {
-				String elem1 = (String) iter.next();
-				if (PortProfileImpl.isAnyString(elem1) == false) {
-					boolean isEqualsIgnoreCase = false;
-					for (Iterator iterator = result.iterator(); iterator
-							.hasNext();) {
-						String elem2 = (String) iterator.next();
-						if (elem1.equalsIgnoreCase(elem2)) {
-							isEqualsIgnoreCase = true;
-							break;
-						}
-					}
-
-					if (isEqualsIgnoreCase == false) {
-						result.add(elem1);
-					}
-				}
-			}
-		}
-		for (Iterator iter = new ArrayList(result).iterator(); iter.hasNext();) {
-			String elem = (String) iter.next();
-			if (PortProfileImpl.isAnyString(elem)) {
-				result.remove(elem);
-			}
-		}
-
-		return result;
 	}
 
 	/**
@@ -680,39 +606,26 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
+		result.append(" (dataflowType: ");
+		result.append(dataflowType);
+		result.append(", subscriptionType: ");
+		result.append(subscriptionType);
+		result.append(", name: ");
 		result.append(name);
 		result.append(", connectorId: ");
 		result.append(connectorId);
-		result.append(", rtcConnectorProfile: ");
-		result.append(rtcConnectorProfile);
+		result.append(", dataType: ");
+		result.append(dataType);
+		result.append(", interfaceType: ");
+		result.append(interfaceType);
+		result.append(", pushRate: ");
+		result.append(pushRate);
+		result.append(", sourceString: ");
+		result.append(sourceString);
+		result.append(", targetString: ");
+		result.append(targetString);
 		result.append(')');
 		return result.toString();
-	}
-
-	private static String getPropertyValueAsStringValue(EList properties,
-			String name) {
-		String result = null;
-		NameValue nameValue = NameValueImpl.findByName(properties, name);
-		if (nameValue != null) {
-			result = nameValue.getValueAsString();
-		}
-
-		return result;
-	}
-
-	private static void setPropertyValueAsStringValue(EList properties,
-			String name, String value) {
-		String result = null;
-		NameValue nameValue = NameValueImpl.findByName(properties, name);
-		if (nameValue != null) {
-			nameValue.setValueAsString(value);
-		} else {
-			nameValue = ComponentFactory.eINSTANCE.createNameValue();
-			nameValue.setName(name);
-			nameValue.setValueAsString(value);
-			properties.add(nameValue);
-		}
 	}
 
 	@Override
@@ -723,65 +636,7 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 
 		ConnectorProfile p = (ConnectorProfile) obj;
 
-		return new EqualsBuilder().append(getConnectorId(), p.getConnectorId())
-				.append(getName(), p.getName()).isEquals();
+		return new EqualsBuilder().append(getConnectorId(), p.getConnectorId()).isEquals();
 	}
 
-	public static final MappingRule MAPPING_RULE = new MappingRule(
-			null,
-			new ClassMapping(
-					ConnectorProfileImpl.class,
-					new ConstructorParamMapping[] { new ConstructorParamMapping(
-							ComponentPackage.eINSTANCE
-									.getConnectorProfile_RtcConnectorProfile()) }) {
-			}, new AttributeMapping[] {
-					new AttributeMapping(ComponentPackage.eINSTANCE
-							.getConnectorProfile_Name(), true) {
-						@Override
-						public Object getRemoteAttributeValue(
-								LocalObject localObject, Object[] remoteObjects) {
-							Object result = null;
-							try {
-								result = ((ConnectorProfile) localObject)
-										.getRtcConnectorProfile().name;
-							} catch (Exception e) {
-								// void
-							}
-
-							return result;
-						}
-					},
-					new AttributeMapping(ComponentPackage.eINSTANCE
-							.getConnectorProfile_ConnectorId(), true) {
-						@Override
-						public Object getRemoteAttributeValue(
-								LocalObject localObject, Object[] remoteObjects) {
-							Object result = null;
-							try {
-								result = ((ConnectorProfile) localObject)
-										.getRtcConnectorProfile().connector_id;
-							} catch (Exception e) {
-								// void
-							}
-
-							return result;
-						}
-					},
-					new AttributeMapping(ComponentPackage.eINSTANCE
-							.getConnectorProfile_Properties(), true) {
-						@Override
-						public Object getRemoteAttributeValue(
-								LocalObject localObject, Object[] remoteObjects) {
-							Object result = null;
-							try {
-								result = NameValueImpl
-										.createNameValueList(((ConnectorProfile) localObject)
-												.getRtcConnectorProfile().properties);
-							} catch (Exception e) {
-								// void
-							}
-
-							return result;
-						}
-					}, }, new ReferenceMapping[] {});
 } // ConnectorProfileImpl

@@ -8,6 +8,7 @@ import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
  * ConstructorParamMappingsにマップ可能なリモートオブジェクトと対応する
  */
 public class ClassMapping {
+	@SuppressWarnings("unchecked")
 	private Class localClass;
 
 	private ConstructorParamMapping[] constructorParamMappings;
@@ -24,6 +25,7 @@ public class ClassMapping {
 	 * @param allowZombie ゾンビ（リモートオブジェクトが死んだ状態）でも存在させるか
 	 * 			
 	 */
+	@SuppressWarnings("unchecked")
 	public ClassMapping(Class localClass,
 			ConstructorParamMapping[] constructorParamMappings,boolean allowZombie) {
 		this.localClass = localClass;
@@ -39,6 +41,7 @@ public class ClassMapping {
 	 * @param remoteClass
 	 *            リモートオブジェクトのクラス
 	 */
+	@SuppressWarnings("unchecked")
 	public ClassMapping(Class localClass,
 			ConstructorParamMapping[] constructorParamMappings) {
 		this(localClass,constructorParamMappings,false);
@@ -57,17 +60,16 @@ public class ClassMapping {
 	 *            関連をあらわすリンク(リモートオブジェクト自体であることが多い)
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public boolean isTarget(LocalObject parent, Object[] remoteObjects,
 			java.lang.Object link) {
-		boolean result = true;
 		for (int i = 0; i < remoteObjects.length; i++) {
 			if (constructorParamMappings[i].getTargetClass().isAssignableFrom(
 					remoteObjects[i].getClass()) == false) {
-				result = false;
+				return false;
 			}
 		}
-
-		return result;
+		return true;
 	}
 
 	/**
@@ -103,7 +105,7 @@ public class ClassMapping {
 	 * 
 	 * @return ローカルオブジェクトのクラス
 	 */
-	public Class getLocalClass() {
+	public Class<?> getLocalClass() {
 		return localClass;
 	}
 
@@ -132,6 +134,11 @@ public class ClassMapping {
 	 */
 	public boolean allowZombie() {
 		return allowZombie;
+	}
+
+	// isTargetの中でリモート接続を行う場合は、オーバライドすること
+	public boolean needsPing() {
+		return false;
 	}
 
 }

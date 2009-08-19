@@ -13,6 +13,8 @@ import java.util.List;
 
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameservicePackage;
 import jp.go.aist.rtm.systemeditor.factory.SystemEditorWrapperFactory;
+import jp.go.aist.rtm.systemeditor.nl.Messages;
+import jp.go.aist.rtm.systemeditor.ui.editor.action.RestoreOption;
 import jp.go.aist.rtm.toolscommon.factory.CorbaWrapperFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
@@ -60,7 +62,7 @@ public class Main {
 		};
 
 		if (args.length < 1) {
-			System.out.println("XMLファイルのファイルパス、またはURIを指定してください。");
+			System.out.println(Messages.getString("Main.0")); //$NON-NLS-1$
 			result.setSuccess(false);
 		}
 
@@ -76,7 +78,7 @@ public class Main {
 			}
 
 			if (xmlUri == null) {
-				result.putResult("XMLファイルが見つかりません。");
+				result.putResult(Messages.getString("Main.1")); //$NON-NLS-1$
 				result.setSuccess(false);
 				return;
 			}
@@ -87,9 +89,9 @@ public class Main {
 		}
 
 		if (result.isSuccess()) {
-			result.putResult("[結果] 成功しました。\r\n");
+			result.putResult(Messages.getString("Main.2")); //$NON-NLS-1$
 		} else {
-			result.putResult("[結果] 失敗しました。\r\n");
+			result.putResult(Messages.getString("Main.3")); //$NON-NLS-1$
 		}
 
 	}
@@ -117,17 +119,17 @@ public class Main {
 		try {
 			resource.load(Collections.EMPTY_MAP);
 		} catch (MalformedURLException e) {
-			result.putResult("解決できないURIです[ " + xmlUri.toString() + " ]");
+			result.putResult(Messages.getString("Main.4") + xmlUri.toString() + " ]"); //$NON-NLS-1$ //$NON-NLS-2$
 			result.setSuccess(false);
 			return null;
 		} catch (FileNotFoundException e) {
-			result.putResult("XMLファイルが見つかりませんでした[ " + xmlUri.toString()
-					+ " ]");
+			result.putResult(Messages.getString("Main.6") + xmlUri.toString() //$NON-NLS-1$
+					+ " ]"); //$NON-NLS-1$
 			result.setSuccess(false);
 			return null;
 		} catch (IOException e) {
-			result.putResult("XMLファイルの読み込みに失敗しました。\r\n"
-					+ "System Diagram以外のファイルが読み込まれていないか確認してください。");
+			result.putResult(Messages.getString("Main.8") //$NON-NLS-1$
+					+ Messages.getString("Main.9")); //$NON-NLS-1$
 			result.setSuccess(false);
 			return null;
 		}
@@ -142,8 +144,8 @@ public class Main {
 		SystemDiagram systemDiagram = null;
 		try {
 			systemDiagram = (SystemDiagram) systemEditorWrapperFactory
-					.loadContentFromResource(resource);
-		} catch (IOException e) {
+					.loadContentFromResource(resource.getURI().devicePath(), RestoreOption.NONE);
+		} catch (Exception e) {
 			throw new RuntimeException(); // system error
 		}
 
@@ -164,12 +166,12 @@ public class Main {
 
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					new FileInputStream("./MAPPING_RULES")));
+					new FileInputStream("./MAPPING_RULES"))); //$NON-NLS-1$
 
 			while (reader.ready()) {
 				String value = reader.readLine();
 
-				int lastIndexOf = value.lastIndexOf(".");
+				int lastIndexOf = value.lastIndexOf("."); //$NON-NLS-1$
 
 				ClassLoader classLoader = Main.class.getClassLoader();
 				if (classLoader == null) {
@@ -178,10 +180,10 @@ public class Main {
 
 				}
 
-				Class clazz = classLoader.loadClass(value.substring(0,
+				Class<?> clazz = classLoader.loadClass(value.substring(0,
 						lastIndexOf));
 				Field field = clazz.getDeclaredField(value
-						.substring(lastIndexOf + ".".length()));
+						.substring(lastIndexOf + ".".length())); //$NON-NLS-1$
 
 				mappingRule.add((MappingRule) field.get(clazz.newInstance()));
 			}

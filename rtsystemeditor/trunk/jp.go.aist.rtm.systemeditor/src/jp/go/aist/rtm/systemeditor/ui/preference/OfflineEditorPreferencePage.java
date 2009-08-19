@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
+import jp.go.aist.rtm.systemeditor.nl.Messages;
 
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -31,6 +32,10 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+/**
+ * オフラインエディタの設定ページ
+ *
+ */
 public class OfflineEditorPreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage {
 
@@ -38,9 +43,9 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 	private TableViewer dataFlowTypeViewer;
 	private TableViewer subscriptionTypeViewer;
 	//
-    private ArrayList<SingleLabelItem> selectedInterfaceType = new ArrayList<SingleLabelItem>();
-    private ArrayList<SingleLabelItem> selectedDataFlowType = new ArrayList<SingleLabelItem>();
-    private ArrayList<SingleLabelItem> selectedSubscriptionType = new ArrayList<SingleLabelItem>();
+    private List<SingleLabelItem> selectedInterfaceType = new ArrayList<SingleLabelItem>();
+    private List<SingleLabelItem> selectedDataFlowType = new ArrayList<SingleLabelItem>();
+    private List<SingleLabelItem> selectedSubscriptionType = new ArrayList<SingleLabelItem>();
 
 	public OfflineEditorPreferencePage() {
 	}
@@ -64,7 +69,7 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 		composite.setLayoutData(gd);
 
 		//Interface Type
-		Group interfaceTypeGroup = createGroup(composite, "Interface Type");
+		Group interfaceTypeGroup = createGroup(composite, Messages.getString("OfflineEditorPreferencePage.8")); //$NON-NLS-1$
 		interfaceTypeViewer = new TableViewer(interfaceTypeGroup, SWT.BORDER | SWT.FULL_SELECTION);
 		gd = new GridData(GridData.FILL_BOTH);
 		gd.horizontalSpan = 2;
@@ -73,7 +78,7 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 		interfaceTypeViewer = createTableViewer(interfaceTypeGroup, interfaceTypeViewer);
 
 		//DataFlow Type
-		Group dataFlowTypeGroup = createGroup(composite, "Data Flow Type");
+		Group dataFlowTypeGroup = createGroup(composite, Messages.getString("OfflineEditorPreferencePage.9")); //$NON-NLS-1$
 		dataFlowTypeViewer = new TableViewer(dataFlowTypeGroup, SWT.BORDER | SWT.FULL_SELECTION);
 		gd = new GridData(GridData.FILL_BOTH);
 		gd.horizontalSpan = 2;
@@ -82,7 +87,7 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 		dataFlowTypeViewer = createTableViewer(dataFlowTypeGroup, dataFlowTypeViewer);
 
 		//Subscription Type
-		Group subscriptionTypeGroup = createGroup(composite, "Subscription Type");
+		Group subscriptionTypeGroup = createGroup(composite, Messages.getString("OfflineEditorPreferencePage.10")); //$NON-NLS-1$
 		subscriptionTypeViewer = new TableViewer(subscriptionTypeGroup, SWT.BORDER | SWT.FULL_SELECTION);
 		gd = new GridData(GridData.FILL_BOTH);
 		gd.horizontalSpan = 2;
@@ -115,7 +120,7 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 
 	@Override
 	public boolean performOk() {
-		ArrayList<String> strArray = new ArrayList<String>();
+		List<String> strArray = new ArrayList<String>();
 		convertSingleItems2Strings(selectedInterfaceType, strArray);
 		SystemEditorPreferenceManager.getInstance().setInterfaceTypes(strArray);
 
@@ -150,9 +155,9 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
         targetViewer.setContentProvider(new ArrayContentProvider());
         targetViewer.setLabelProvider(new SingleLabelProvider());
 		TableColumn nameColumn = new TableColumn(targetViewer.getTable(), SWT.NONE);
-		nameColumn.setText("");
+		nameColumn.setText(""); //$NON-NLS-1$
 		nameColumn.setWidth(200);
-		targetViewer.setColumnProperties(new String[] { "newItem" });
+		targetViewer.setColumnProperties(new String[] { "newItem" }); //$NON-NLS-1$
 		CellEditor[] editors = new CellEditor[] {
 				new TextCellEditor(targetViewer.getTable()),
 		};
@@ -160,11 +165,12 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 		targetViewer.setCellModifier(new SingleLabelCellModifier(targetViewer));
 
 		Button addButton = new Button(parent, SWT.PUSH);
-		addButton.setText("Add");
+		addButton.setText(Messages.getString("OfflineEditorPreferencePage.5")); //$NON-NLS-1$
 		addButton.addSelectionListener(new SelectionAdapter() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				((java.util.List) targetViewer.getInput()).add(new SingleLabelItem("newItem"));
+				((java.util.List) targetViewer.getInput()).add(new SingleLabelItem("newItem")); //$NON-NLS-1$
 				targetViewer.refresh();
 			}
 		});
@@ -174,8 +180,9 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 		addButton.setLayoutData(gd);
 		Button deleteButton = new Button(parent, SWT.PUSH);
 		//
-		deleteButton.setText("Delete");
+		deleteButton.setText(Messages.getString("OfflineEditorPreferencePage.7")); //$NON-NLS-1$
 		deleteButton.addSelectionListener(new SelectionAdapter() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int selectionIndex = targetViewer.getTable()
@@ -209,14 +216,14 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 		return targetGroup;
 	}
 		
-	private void convertSingleItems2Strings(ArrayList<SingleLabelItem> sources, List<String> targets) {
+	private void convertSingleItems2Strings(List<SingleLabelItem> sources, List<String> targets) {
 		targets.clear();
 		for( SingleLabelItem target : sources) {
 			targets.add(new String(target.getLabeltext()));
 		}
 	}
 
-	private void convertStrings2SingleItems(String[] sources, ArrayList<SingleLabelItem> targets) {
+	private void convertStrings2SingleItems(String[] sources, List<SingleLabelItem> targets) {
 		targets.clear();
 		for( String source : sources) {
 			targets.add(new SingleLabelItem(source));
@@ -224,7 +231,7 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 	}
 
 	private class SingleLabelItem {
-		private String labeltext = "";
+		private String labeltext = ""; //$NON-NLS-1$
 	
 		public SingleLabelItem(String name) {
 			this.labeltext = name;

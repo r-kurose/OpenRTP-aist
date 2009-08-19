@@ -6,23 +6,27 @@ import java.util.List;
 
 import jp.go.aist.rtm.systemeditor.factory.SystemEditorWrapperFactory;
 import jp.go.aist.rtm.systemeditor.ui.dialog.NewCompositeComponentDialog;
+import jp.go.aist.rtm.systemeditor.ui.dialog.NewCompositeComponentDialogData;
 import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
-import jp.go.aist.rtm.systemeditor.ui.editor.OfflineSystemDiagramEditor;
 import jp.go.aist.rtm.systemeditor.ui.editor.command.CombineCommand;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart;
-import jp.go.aist.rtm.toolscommon.model.component.AbstractComponent;
+import jp.go.aist.rtm.systemeditor.ui.util.TimeoutWrappedJob;
+import jp.go.aist.rtm.systemeditor.ui.util.TimeoutWrapper;
+import jp.go.aist.rtm.toolscommon.manager.ToolsCommonPreferenceManager;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
+import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.core.Rectangle;
 
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
+import org.omg.CORBA.TIMEOUT;
 
 /**
  * 複合コンポーネントを作成するアクション
@@ -33,52 +37,64 @@ public class CombineActionDelegate implements IEditorActionDelegate {
 
 	private AbstractSystemDiagramEditor targetEditor;
 
-	private List<AbstractComponent> selectedComponents;
+	private List<Component> selectedComponents;
 
 	/**
 	 * アクションのメインの実行メソッド
 	 * 
 	 */
+	@SuppressWarnings("unchecked") //$NON-NLS-1$
 	public void run(final IAction action) {
-		if (selectedComponents.size() > 0) {
-			AbstractComponent compositeComponent = null;
-			if (OfflineSystemDiagramEditor.OFFLINE_SYSTEM_DIAGRAM_EDITOR_ID.equals(targetEditor.getEditorId())) {
-				compositeComponent = ComponentFactory.eINSTANCE.createComponentSpecification();
-			} else {
-				compositeComponent = ComponentFactory.eINSTANCE.createComponent();
-			}
-
-			NewCompositeComponentDialog dialog = new NewCompositeComponentDialog(targetEditor.getSite().getShell(), 
-					compositeComponent, selectedComponents, this.targetEditor.getSystemDiagram().getComponents());
-			if (dialog.open() == IDialogConstants.OK_ID) {
-				if (compositeComponent.getConstraint() == null) {
-					Rectangle rectangle = new Rectangle();
-					rectangle.setX(selectedComponents.get(0).getConstraint().getX());
-					rectangle.setY(selectedComponents.get(0).getConstraint().getY());
-					rectangle.setHeight(selectedComponents.get(0).getConstraint().getHeight());
-					rectangle.setWidth(selectedComponents.get(0).getConstraint().getWidth());
-					compositeComponent.setConstraint(rectangle);
-				}
-				if (compositeComponent.getPathId() == null) {
-					String pathId = selectedComponents.get(0).getPathId();
-					compositeComponent.setPathId(pathId.substring(0, pathId.indexOf("/") + 1) + compositeComponent.getInstanceNameL() + ".rtc");
-				}
-				SystemEditorWrapperFactory.getInstance().getSynchronizationManager().assignSynchonizationSupport(compositeComponent);
-				compositeComponent.getComponents().addAll(selectedComponents);
-				compositeComponent.setCompsiteType(Component.COMPOSITE_COMPONENT);
-				CombineCommand command = new CombineCommand();
-				command.setParent(this.targetEditor.getSystemDiagram());
-				command.setTarget(compositeComponent);
-				targetEditor.deselectAll();
-				if (targetEditor.getAdapter(CommandStack.class) != null) {
-
-					((CommandStack) targetEditor.getAdapter(CommandStack.class)).execute(command);
-
-				} else {
-					throw new RuntimeException();
-				}
-			}
+		if (selectedComponents.size() == 0) {
+			return;
 		}
+		Shell shell = targetEditor.getSite().getShell();
+		NewCompositeComponentDialog dialog = new NewCompositeComponentDialog(
+				shell, targetEditor.isOnline(), selectedComponents,
+				targetEditor.getSystemDiagram().getComponents());
+		int open = dialog.open();
+		if (open != IDialogConstants.OK_ID) {
+			return;
+		}
+
+		int defaultTimeout = ToolsCommonPreferenceManager.getInstance().getDefaultTimeout(
+				ToolsCommonPreferenceManager.DEFAULT_TIMEOUT_PERIOD);
+		TimeoutWrapper wrapper = new TimeoutWrapper(defaultTimeout);
+
+		CreateCompositeComponentJob1 job1 = new CreateCompositeComponentJob1();
+		job1.setDialog(dialog);
+		job1.setTargetEditor(targetEditor);
+		wrapper.setJob(job1);
+		Component compositeComponent = (Component) wrapper.start();
+		if (compositeComponent == null) return;
+
+		CreateCompositeComponentJob2 job2 = new CreateCompositeComponentJob2();
+		job2.setCompositeComponent(compositeComponent);
+		job2.setSelectedComponents(selectedComponents);
+		wrapper.setJob(job2);
+		if (wrapper.start() == null && compositeComponent instanceof CorbaComponent) {
+			final CorbaComponent comp = (CorbaComponent) compositeComponent;
+			wrapper.setJob(new TimeoutWrappedJob(){
+				@Override
+				protected Object executeCommand() {
+					return comp.exitR();
+				}});
+			wrapper.start();
+			return;
+		}
+
+		// ダイアグラムへの登録はCombineCommandで行う
+		CombineCommand command = new CombineCommand();
+		command.setParent(this.targetEditor.getSystemDiagram());
+		command.setTarget(compositeComponent);
+		targetEditor.deselectAll();
+		if (targetEditor.getAdapter(CommandStack.class) != null) {
+			((CommandStack) targetEditor.getAdapter(CommandStack.class))
+					.execute(command);
+		} else {
+			throw new RuntimeException();
+		}
+		targetEditor.refresh();
 	}
 
 	public void setActiveEditor(IAction action, IEditorPart targetEditor) {
@@ -90,8 +106,9 @@ public class CombineActionDelegate implements IEditorActionDelegate {
 		action.setEnabled(isEnable());
 	}
 
+	@SuppressWarnings("unchecked")
 	private boolean isEnable() {
-		selectedComponents = new ArrayList<AbstractComponent>();
+		selectedComponents = new ArrayList<Component>();
 		if (selection instanceof IStructuredSelection) {
 			for (Iterator iterator = ((IStructuredSelection) selection)
 					.iterator(); iterator.hasNext();) {
@@ -103,20 +120,5 @@ public class CombineActionDelegate implements IEditorActionDelegate {
 			}
 		}
 		return (selectedComponents.size() > 0);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean combineR() {
-		// boolean result = PortConnectorImpl.createConnectorR(getFirst(),
-		// getSecond(), connectorProfile);
-		boolean result = true;
-		if (result == false) {
-			MessageDialog.openError(targetEditor.getSite().getShell(), "エラー",
-					"接続に失敗しました。");
-		}
-
-		return result;
 	}
 }

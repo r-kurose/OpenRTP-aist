@@ -10,8 +10,6 @@ import org.eclipse.draw2d.geometry.PointList;
  */
 public class InPortFigure extends PortFigure {
 
-	private InPort inport;
-
 	/**
 	 * コンストラクタ
 	 * 
@@ -19,8 +17,6 @@ public class InPortFigure extends PortFigure {
 	 *            モデル
 	 */
 	public InPortFigure(InPort inport) {
-		this.inport = inport;
-
 		setScale(1.0, 1.0);
 		setFill(true);
 

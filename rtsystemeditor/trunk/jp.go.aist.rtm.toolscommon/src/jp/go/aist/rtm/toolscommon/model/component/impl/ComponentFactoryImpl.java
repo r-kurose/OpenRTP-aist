@@ -6,29 +6,29 @@
  */
 package jp.go.aist.rtm.toolscommon.model.component.impl;
 
+import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.Map;
 
 import jp.go.aist.rtm.toolscommon.model.component.*;
 
 import jp.go.aist.rtm.toolscommon.corba.CorbaUtil;
-import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
-import jp.go.aist.rtm.toolscommon.model.component.ConnectorSource;
-import jp.go.aist.rtm.toolscommon.model.component.ConnectorTarget;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaConfigurationSet;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaConnectorProfile;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaPortSynchronizer;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.InPort;
-import jp.go.aist.rtm.toolscommon.model.component.LifeCycleState;
 import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 import jp.go.aist.rtm.toolscommon.model.component.OutPort;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
-import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
-import jp.go.aist.rtm.toolscommon.model.component.PortConnectorSpecification;
-import jp.go.aist.rtm.toolscommon.model.component.PortProfile;
+import jp.go.aist.rtm.toolscommon.model.component.PortInterfaceProfile;
+import jp.go.aist.rtm.toolscommon.model.component.PortSynchronizer;
 import jp.go.aist.rtm.toolscommon.model.component.ServicePort;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
@@ -40,18 +40,16 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.eclipse.jface.action.Action;
-
 import org.omg.CORBA.Any;
 import org.omg.CORBA.TCKind;
 
 import RTC.ComponentProfile;
+import RTC.ExecutionContextProfile;
+import RTC.PortProfile;
 import RTC.RTObject;
 import _SDOPackage.Configuration;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
 import _SDOPackage.ConfigurationHelper;
+import _SDOPackage.Organization;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!--
@@ -97,23 +95,22 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case ComponentPackage.SYSTEM_DIAGRAM: return createSystemDiagram();
-			case ComponentPackage.COMPONENT: return createComponent();
+			case ComponentPackage.CORBA_COMPONENT: return createCorbaComponent();
 			case ComponentPackage.COMPONENT_SPECIFICATION: return createComponentSpecification();
-			case ComponentPackage.PORT_CONNECTOR: return createPortConnector();
-			case ComponentPackage.PORT_CONNECTOR_SPECIFICATION: return createPortConnectorSpecification();
-			case ComponentPackage.CONNECTOR_SOURCE: return createConnectorSource();
-			case ComponentPackage.CONNECTOR_TARGET: return createConnectorTarget();
 			case ComponentPackage.EXECUTION_CONTEXT: return createExecutionContext();
 			case ComponentPackage.IN_PORT: return createInPort();
-			case ComponentPackage.LIFE_CYCLE_STATE: return createLifeCycleState();
 			case ComponentPackage.NAME_VALUE: return createNameValue();
 			case ComponentPackage.OUT_PORT: return createOutPort();
 			case ComponentPackage.PORT: return createPort();
-			case ComponentPackage.PORT_PROFILE: return createPortProfile();
 			case ComponentPackage.SERVICE_PORT: return createServicePort();
 			case ComponentPackage.CONNECTOR_PROFILE: return createConnectorProfile();
 			case ComponentPackage.CONFIGURATION_SET: return createConfigurationSet();
 			case ComponentPackage.EINTEGER_OBJECT_TO_POINT_MAP_ENTRY: return (EObject)createEIntegerObjectToPointMapEntry();
+			case ComponentPackage.PORT_SYNCHRONIZER: return createPortSynchronizer();
+			case ComponentPackage.CORBA_PORT_SYNCHRONIZER: return createCorbaPortSynchronizer();
+			case ComponentPackage.CORBA_CONNECTOR_PROFILE: return createCorbaConnectorProfile();
+			case ComponentPackage.CORBA_CONFIGURATION_SET: return createCorbaConfigurationSet();
+			case ComponentPackage.CORBA_EXECUTION_CONTEXT: return createCorbaExecutionContext();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -132,8 +129,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 				return createRTCComponentProfileFromString(eDataType, initialValue);
 			case ComponentPackage.RTCRT_OBJECT:
 				return createRTCRTObjectFromString(eDataType, initialValue);
-			case ComponentPackage.ANY:
-				return createAnyFromString(eDataType, initialValue);
 			case ComponentPackage.LIST:
 				return createListFromString(eDataType, initialValue);
 			case ComponentPackage.SDO_CONFIGURATION:
@@ -144,12 +139,16 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 				return createRTCConnectorProfileFromString(eDataType, initialValue);
 			case ComponentPackage.RTC_PORT_PROFILE:
 				return createRTCPortProfileFromString(eDataType, initialValue);
-			case ComponentPackage.ACTION:
-				return createActionFromString(eDataType, initialValue);
 			case ComponentPackage.PROPERTY_CHANGE_LISTENER:
 				return createPropertyChangeListenerFromString(eDataType, initialValue);
-			case ComponentPackage.PROPERTY_CHANGE_SUPPORT:
-				return createPropertyChangeSupportFromString(eDataType, initialValue);
+			case ComponentPackage.SDO_ORGANIZATION:
+				return createSDOOrganizationFromString(eDataType, initialValue);
+			case ComponentPackage.PORT_INTERFACE_PROFILE:
+				return createPortInterfaceProfileFromString(eDataType, initialValue);
+			case ComponentPackage.RTC_EXECUTION_CONTEXT_PROFILE:
+				return createRTCExecutionContextProfileFromString(eDataType, initialValue);
+			case ComponentPackage.RTC_EXECUTION_CONTEXT:
+				return createRTCExecutionContextFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -168,8 +167,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 				return convertRTCComponentProfileToString(eDataType, instanceValue);
 			case ComponentPackage.RTCRT_OBJECT:
 				return convertRTCRTObjectToString(eDataType, instanceValue);
-			case ComponentPackage.ANY:
-				return convertAnyToString(eDataType, instanceValue);
 			case ComponentPackage.LIST:
 				return convertListToString(eDataType, instanceValue);
 			case ComponentPackage.SDO_CONFIGURATION:
@@ -180,12 +177,16 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 				return convertRTCConnectorProfileToString(eDataType, instanceValue);
 			case ComponentPackage.RTC_PORT_PROFILE:
 				return convertRTCPortProfileToString(eDataType, instanceValue);
-			case ComponentPackage.ACTION:
-				return convertActionToString(eDataType, instanceValue);
 			case ComponentPackage.PROPERTY_CHANGE_LISTENER:
 				return convertPropertyChangeListenerToString(eDataType, instanceValue);
-			case ComponentPackage.PROPERTY_CHANGE_SUPPORT:
-				return convertPropertyChangeSupportToString(eDataType, instanceValue);
+			case ComponentPackage.SDO_ORGANIZATION:
+				return convertSDOOrganizationToString(eDataType, instanceValue);
+			case ComponentPackage.PORT_INTERFACE_PROFILE:
+				return convertPortInterfaceProfileToString(eDataType, instanceValue);
+			case ComponentPackage.RTC_EXECUTION_CONTEXT_PROFILE:
+				return convertRTCExecutionContextProfileToString(eDataType, instanceValue);
+			case ComponentPackage.RTC_EXECUTION_CONTEXT:
+				return convertRTCExecutionContextToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -198,6 +199,16 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	public SystemDiagram createSystemDiagram() {
 		SystemDiagramImpl systemDiagram = new SystemDiagramImpl();
 		return systemDiagram;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CorbaComponent createCorbaComponent() {
+		CorbaComponentImpl corbaComponent = new CorbaComponentImpl();
+		return corbaComponent;
 	}
 
 	/**
@@ -216,15 +227,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	public OutPort createOutPort() {
 		OutPortImpl outPort = new OutPortImpl();
 		return outPort;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Component createComponent() {
-		ComponentImpl component = new ComponentImpl();
-		return component;
 	}
 
 	/**
@@ -260,9 +262,9 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ComponentSpecification createComponentSpecification() {
-		ComponentSpecificationImpl componentSpecification = new ComponentSpecificationImpl();
-		return componentSpecification;
+	public PortSynchronizer createPortSynchronizer() {
+		PortSynchronizerImpl portSynchronizer = new PortSynchronizerImpl();
+		return portSynchronizer;
 	}
 
 	/**
@@ -270,9 +272,49 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public PortConnectorSpecification createPortConnectorSpecification() {
-		PortConnectorSpecificationImpl portConnectorSpecification = new PortConnectorSpecificationImpl();
-		return portConnectorSpecification;
+	public CorbaPortSynchronizer createCorbaPortSynchronizer() {
+		CorbaPortSynchronizerImpl corbaPortSynchronizer = new CorbaPortSynchronizerImpl();
+		return corbaPortSynchronizer;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CorbaConnectorProfile createCorbaConnectorProfile() {
+		CorbaConnectorProfileImpl corbaConnectorProfile = new CorbaConnectorProfileImpl();
+		return corbaConnectorProfile;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CorbaConfigurationSet createCorbaConfigurationSet() {
+		CorbaConfigurationSetImpl corbaConfigurationSet = new CorbaConfigurationSetImpl();
+		return corbaConfigurationSet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CorbaExecutionContext createCorbaExecutionContext() {
+		CorbaExecutionContextImpl corbaExecutionContext = new CorbaExecutionContextImpl();
+		return corbaExecutionContext;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ComponentSpecification createComponentSpecification() {
+		ComponentSpecificationImpl componentSpecification = new ComponentSpecificationImpl();
+		return componentSpecification;
 	}
 
 	/**
@@ -308,15 +350,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public PortConnector createPortConnector() {
-		PortConnectorImpl portConnector = new PortConnectorImpl();
-		return portConnector;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
 	public ServicePort createServicePort() {
 		ServicePortImpl servicePort = new ServicePortImpl();
 		return servicePort;
@@ -335,45 +368,9 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public LifeCycleState createLifeCycleState() {
-		LifeCycleStateImpl lifeCycleState = new LifeCycleStateImpl();
-		return lifeCycleState;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public PortProfile createPortProfile() {
-		PortProfileImpl portProfile = new PortProfileImpl();
-		return portProfile;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
 	public NameValue createNameValue() {
 		NameValueImpl nameValue = new NameValueImpl();
 		return nameValue;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ConnectorSource createConnectorSource() {
-		ConnectorSourceImpl connectorSource = new ConnectorSourceImpl();
-		return connectorSource;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ConnectorTarget createConnectorTarget() {
-		ConnectorTargetImpl connectorTarget = new ConnectorTargetImpl();
-		return connectorTarget;
 	}
 
 	/**
@@ -488,8 +485,8 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RTC.PortProfile createRTCPortProfileFromString(EDataType eDataType, String initialValue) {
-		return (RTC.PortProfile)super.createFromString(eDataType, initialValue);
+	public PortProfile createRTCPortProfileFromString(EDataType eDataType, String initialValue) {
+		return (PortProfile)super.createFromString(eDataType, initialValue);
 	}
 
 	/**
@@ -498,24 +495,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	 * @generated
 	 */
 	public String convertRTCPortProfileToString(EDataType eDataType, Object instanceValue) {
-		return super.convertToString(eDataType, instanceValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Action createActionFromString(EDataType eDataType, String initialValue) {
-		return (Action)super.createFromString(eDataType, initialValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String convertActionToString(EDataType eDataType, Object instanceValue) {
 		return super.convertToString(eDataType, instanceValue);
 	}
 
@@ -542,8 +521,8 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public PropertyChangeSupport createPropertyChangeSupportFromString(EDataType eDataType, String initialValue) {
-		return (PropertyChangeSupport)super.createFromString(eDataType, initialValue);
+	public Organization createSDOOrganizationFromString(EDataType eDataType, String initialValue) {
+		return (Organization)super.createFromString(eDataType, initialValue);
 	}
 
 	/**
@@ -551,7 +530,61 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String convertPropertyChangeSupportToString(EDataType eDataType, Object instanceValue) {
+	public String convertSDOOrganizationToString(EDataType eDataType, Object instanceValue) {
+		return super.convertToString(eDataType, instanceValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PortInterfaceProfile createPortInterfaceProfileFromString(EDataType eDataType, String initialValue) {
+		return (PortInterfaceProfile)super.createFromString(eDataType, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertPortInterfaceProfileToString(EDataType eDataType, Object instanceValue) {
+		return super.convertToString(eDataType, instanceValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RTC.ExecutionContext createRTCExecutionContextFromString(EDataType eDataType, String initialValue) {
+		return (RTC.ExecutionContext)super.createFromString(eDataType, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertRTCExecutionContextToString(EDataType eDataType, Object instanceValue) {
+		return super.convertToString(eDataType, instanceValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ExecutionContextProfile createRTCExecutionContextProfileFromString(EDataType eDataType, String initialValue) {
+		return (ExecutionContextProfile)super.createFromString(eDataType, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertRTCExecutionContextProfileToString(EDataType eDataType, Object instanceValue) {
 		return super.convertToString(eDataType, instanceValue);
 	}
 

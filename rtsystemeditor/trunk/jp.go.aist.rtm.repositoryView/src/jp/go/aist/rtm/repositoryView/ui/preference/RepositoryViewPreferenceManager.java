@@ -5,6 +5,10 @@ import java.beans.PropertyChangeSupport;
 
 import jp.go.aist.rtm.repositoryView.RepositoryViewPlugin;
 
+/**
+ * レポジトリビューの各種設定を管理するクラス
+ *
+ */
 public class RepositoryViewPreferenceManager {
 	private static RepositoryViewPreferenceManager __instance = new RepositoryViewPreferenceManager();
 

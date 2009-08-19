@@ -7,6 +7,10 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.geometry.PointList;
 
+/**
+ * åªç›ÇÕñ¢égóp
+ *
+ */
 public class AbstractPolygon extends Shape {
 	PointList points = new PointList();
 
@@ -18,6 +22,7 @@ public class AbstractPolygon extends Shape {
 		this.points = points;
 	}
 
+	@SuppressWarnings("unchecked")
 	public boolean containsPoint(int x, int y) {
 		if (!getBounds().contains(x, y))
 			return false;

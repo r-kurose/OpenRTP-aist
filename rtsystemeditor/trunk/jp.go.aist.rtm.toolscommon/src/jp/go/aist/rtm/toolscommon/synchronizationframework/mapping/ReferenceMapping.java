@@ -60,7 +60,7 @@ public abstract class ReferenceMapping {
 	 * このメソッドをオーバーライドした場合には、getLocalObjectByRemoteLinkもオーバーライドする可能性が高いことに注意すること
 	 * 
 	 * @param localObject
-	 *            TODO
+	 *            
 	 * @param remoteObjects
 	 *            親のリモートオブジェクト
 	 * @param link
@@ -88,15 +88,9 @@ public abstract class ReferenceMapping {
 	public LocalObject loadLocalObjectByRemoteObject(LocalObject localObject,
 			SynchronizationManager synchronizationManager,
 			java.lang.Object link, Object[] remoteObject) {
-		LocalObject result;
-
-		// result = SynchronizationSupport
-		// .findLocalObjectByRemoteObject(remoteObject, localObject);
-		// if (result == null) {
-		result = synchronizationManager.createLocalObject(localObject,
-				remoteObject, link);
-		// }
-		return result;
+		// 作成したオブジェクトをの同期をすぐに行いたくない場合はオーバライドする
+		return synchronizationManager.createLocalObject(localObject,
+				remoteObject, link, true);
 	}
 
 	/**

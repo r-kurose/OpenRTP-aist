@@ -14,8 +14,6 @@ import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
 import jp.go.aist.rtm.toolscommon.model.manager.*;
 
 import jp.go.aist.rtm.toolscommon.model.manager.ManagerPackage;
-import jp.go.aist.rtm.toolscommon.model.manager.RTManager;
-import jp.go.aist.rtm.toolscommon.model.manager.RTModule;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 
 import org.eclipse.core.runtime.IAdaptable;
@@ -96,24 +94,14 @@ public class ManagerSwitch {
 	 */
 	protected Object doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case ManagerPackage.RT_MANAGER: {
-				RTManager rtManager = (RTManager)theEObject;
-				Object result = caseRTManager(rtManager);
-				if (result == null) result = caseCorbaWrapperObject(rtManager);
-				if (result == null) result = caseWrapperObject(rtManager);
-				if (result == null) result = caseModelElement(rtManager);
-				if (result == null) result = caseLocalObject(rtManager);
-				if (result == null) result = caseIAdaptable(rtManager);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ManagerPackage.RT_MODULE: {
-				RTModule rtModule = (RTModule)theEObject;
-				Object result = caseRTModule(rtModule);
-				if (result == null) result = caseWrapperObject(rtModule);
-				if (result == null) result = caseModelElement(rtModule);
-				if (result == null) result = caseLocalObject(rtModule);
-				if (result == null) result = caseIAdaptable(rtModule);
+			case ManagerPackage.RTC_MANAGER: {
+				RTCManager rtcManager = (RTCManager)theEObject;
+				Object result = caseRTCManager(rtcManager);
+				if (result == null) result = caseCorbaWrapperObject(rtcManager);
+				if (result == null) result = caseWrapperObject(rtcManager);
+				if (result == null) result = caseModelElement(rtcManager);
+				if (result == null) result = caseLocalObject(rtcManager);
+				if (result == null) result = caseIAdaptable(rtcManager);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -122,32 +110,17 @@ public class ManagerSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>RT Manager</em>'.
+	 * Returns the result of interpretting the object as an instance of '<em>RTC Manager</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>RT Manager</em>'.
+	 * @return the result of interpretting the object as an instance of '<em>RTC Manager</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseRTManager(RTManager object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpretting the object as an instance of '<em>RT Module</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>RT Module</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseRTModule(RTModule object) {
+	public Object caseRTCManager(RTCManager object) {
 		return null;
 	}
 

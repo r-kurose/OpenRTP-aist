@@ -1,155 +1,67 @@
+/**
+ * <copyright>
+ * </copyright>
+ *
+ * $Id$
+ */
 package jp.go.aist.rtm.nameserviceview.manager;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import jp.go.aist.rtm.nameserviceview.corba.NameServerAccesser;
-import jp.go.aist.rtm.nameserviceview.factory.NameServiceViewWrapperFactory;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServerNamingContext;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NamingContextNodeImpl;
-
-import org.omg.CosNaming.NamingContextExt;
+import jp.go.aist.rtm.nameserviceview.manager.impl.NameServerManagerImpl;
 
 /**
- * ネームサーバのリストを管理するマネージャ
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Name Server Manager</b></em>'.
+ * <!-- end-user-doc -->
+ *
+ *
+ * @see jp.go.aist.rtm.nameserviceview.manager.ManagerPackage#getNameServerManager()
+ * @model
+ * @generated
  */
-public class NameServerManager extends NamingContextNodeImpl {
+public interface NameServerManager extends Node {
+	NameServerManager eInstance = NameServerManagerImpl.getInstance();
 
 	/**
-	 * ネームサーバのシングルトンインスタンス
+	 * <!-- begin-user-doc -->
+	 * 含んでいるすべてのノードをいったん切断し、再度接続する。
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
 	 */
-	private static NameServerManager __instance = new NameServerManager();
+	void refreshAll();
 
 	/**
-	 * ネームサーバのシングルトンインスタンスを取得する
+	 * <!-- begin-user-doc -->
+	 * 指定した接続文字列のノードを含んでいるかを返す。
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
 	 */
-	public static NameServerManager getInstance() {
-		return __instance;
-	}
+	boolean isExist(String nameServer);
 
 	/**
-	 * リフレッシュのタイマ
+	 * <!-- begin-user-doc -->
+	 * 指定した接続文字列のノードを追加する。追加したNameServerContextを返す。
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
 	 */
-	private Timer refreshTimer;
+	NameServerContext addNameServer(String nameServer);
 
 	/**
-	 * ネームサーバを追加する。
-	 * 
-	 * @param nameServer
-	 * @return 追加したネームサーバ
-	 */
-	public NameServerNamingContext addNameServer(String nameServer) {
-		if (isExist(nameServer)) {
-			return null;
-		}
-
-		NamingContextExt namingContext = NameServerAccesser.getInstance()
-				.getNameServerRootContext(nameServer);
-
-		NameServerNamingContext result = NameServiceViewWrapperFactory.getInstance()
-				.getNameServiceContextCorbaWrapper(namingContext, nameServer);
-
-		if (result != null) {
-			this.getNodes().add(result);
-		}
-
-		return result;
-	}
-
-	/**
-	 * すべてのネームサーバを破棄し、再構築する。
-	 */
-	public void refreshAll() {
-		List<NameServerNamingContext> unModifyList = new ArrayList<NameServerNamingContext>(
-				getNameServerNamingContextList()); // コピー
-		for (NameServerNamingContext nameServerNamingContext : unModifyList) {
-			refresh(nameServerNamingContext);
-		}
-	}
-
-	/**
-	 * 指定されたネームサーバを破棄し、再構築する。
-	 * 
+	 * 指定されたネームサーバを破棄する
 	 * @param nameServerNamingContext
 	 */
-	public void refresh(NameServerNamingContext nameServerNamingContext) {
-		String nameServerName = nameServerNamingContext
-				.getNameServiceReference().getNameServerName();
-		getNameServerNamingContextList().remove(nameServerNamingContext);
-		addNameServer(nameServerName);
-	}
-
+	void removeNode(NameServerContext nameServerNamingContext);
+	
 	/**
-	 * すべてのネームサーバについて、リモート側を正として同期する。
+	 * <!-- begin-user-doc -->
+	 * 何ミリ秒おきに含んでいるノードを更新するかを設定する。
+	 * システムエディタの起動時、停止時、ネームサービスビューの設定画面で接続周期を変更したときに呼び出される。
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
 	 */
-	public void synchronizeAll() {
-		List<NameServerNamingContext> unModifyList = new ArrayList<NameServerNamingContext>(
-				getNameServerNamingContextList());
-		for (NameServerNamingContext nameServerNamingContext : unModifyList) {
-			nameServerNamingContext.getSynchronizationSupport()
-					.synchronizeLocal();
-		}
-	}
+	void setSynchronizeInterval(long milliSecond);
 
-	/**
-	 * 対象のネームサービス名が、存在するかどうか。
-	 * 
-	 * @param nameService
-	 *            確認するネームサービス名
-	 * @return ネームサービス名が存在するかどうか
-	 */
-	public boolean isExist(String nameServer) {
-		boolean result = false;
-		for (NamingContextNode namingContext : getNameServerNamingContextList()) {
-			if (namingContext.getNameServiceReference().getNameServerName()
-					.equals(nameServer)) {
-				result = true;
-			}
-		}
-
-		return result;
-	}
-
-	/**
-	 * すべてのネームサーバのルートコンテクストを取得する
-	 * 
-	 * @return
-	 */
-	public List<NameServerNamingContext> getNameServerNamingContextList() {
-		return getNodes();
-	}
-
-	/**
-	 * 一定時間ごとに同期を行うようにする。
-	 * <p>
-	 * 「0」を設定した場合には、同期しない。
-	 * 
-	 * @param milliSecond
-	 *            同期周期
-	 */
-	public synchronized void setSynchronizeInterval(final long milliSecond) {
-
-		if (refreshTimer != null) {
-			refreshTimer.cancel();
-		}
-		refreshTimer = null;
-
-		if (milliSecond > 0) {
-			refreshTimer = new Timer(true);
-
-			refreshTimer.schedule(new TimerTask() {
-				@Override
-				public void run() {
-					try {
-						synchronizeAll();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}, 0, milliSecond);
-		}
-	}
-}
+} // NameServerManager

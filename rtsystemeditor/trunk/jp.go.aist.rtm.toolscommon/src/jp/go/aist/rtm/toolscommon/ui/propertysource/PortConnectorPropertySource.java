@@ -3,7 +3,7 @@ package jp.go.aist.rtm.toolscommon.ui.propertysource;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.go.aist.rtm.toolscommon.model.component.AbstractPortConnector;
+import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
 import jp.go.aist.rtm.toolscommon.model.component.ServicePort;
 
@@ -16,7 +16,7 @@ import org.eclipse.ui.views.properties.TextPropertyDescriptor;
  */
 public class PortConnectorPropertySource implements IPropertySource {
 
-	private AbstractPortConnector portConnector;
+	private PortConnector portConnector;
 	private final static String ID_NAME = "NAME";
 	private final static String ID_DATA_TYPE = "DATA_TYPE";
 	private final static String ID_INTERFACE_TYPE = "INTERFACE_TYPE";
@@ -29,7 +29,7 @@ public class PortConnectorPropertySource implements IPropertySource {
 	 * @param PortConnector
 	 *            ƒ‚ƒfƒ‹
 	 */
-	public PortConnectorPropertySource(AbstractPortConnector portConnector) {
+	public PortConnectorPropertySource(PortConnector portConnector) {
 		this.portConnector = portConnector;
 	}
 

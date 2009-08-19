@@ -2,6 +2,8 @@ package jp.go.aist.rtm.systemeditor.ui.editor.action;
 
 import java.util.List;
 
+import jp.go.aist.rtm.systemeditor.nl.Messages;
+
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.RequestConstants;
@@ -12,7 +14,8 @@ import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * RTCを移動するアクション
+ * RTCを矢印キーで移動するアクション
+ * Shiftキーを押していると大きく移動する
  */
 public class MoveComponentAction extends SelectionAction {
 
@@ -26,56 +29,56 @@ public class MoveComponentAction extends SelectionAction {
 	 */
 	public static final String MOVE_UP_ACTION_ID = MoveComponentAction.class
 			.getName()
-			+ "_UP";
+			+ "_UP"; //$NON-NLS-1$
 
 	/**
 	 * 小さく下に移動するアクションのID：このIDがplugin.xmlに指定されなければならない。
 	 */
 	public static final String MOVE_DOWN_ACTION_ID = MoveComponentAction.class
 			.getName()
-			+ "_DOWN";
+			+ "_DOWN"; //$NON-NLS-1$
 
 	/**
 	 * 小さく右に移動するアクションのID：このIDがplugin.xmlに指定されなければならない。
 	 */
 	public static final String MOVE_RIGHT_ACTION_ID = MoveComponentAction.class
 			.getName()
-			+ "_RIGHT";
+			+ "_RIGHT"; //$NON-NLS-1$
 
 	/**
 	 * 小さく左に移動するアクションのID：このIDがplugin.xmlに指定されなければならない。
 	 */
 	public static final String MOVE_LEFT_ACTION_ID = MoveComponentAction.class
 			.getName()
-			+ "_LEFT";
+			+ "_LEFT"; //$NON-NLS-1$
 
 	/**
 	 * 大きく上に移動するアクションのID：このIDがplugin.xmlに指定されなければならない。
 	 */
 	public static final String MOVE_UP_L_ACTION_ID = MoveComponentAction.class
 			.getName()
-			+ "_UP_L";
+			+ "_UP_L"; //$NON-NLS-1$
 
 	/**
 	 * 大きく下に移動するアクションのID：このIDがplugin.xmlに指定されなければならない。
 	 */
 	public static final String MOVE_DOWN_L_ACTION_ID = MoveComponentAction.class
 			.getName()
-			+ "_DOWN_L";
+			+ "_DOWN_L"; //$NON-NLS-1$
 
 	/**
 	 * 大きく右に移動するアクションのID：このIDがplugin.xmlに指定されなければならない。
 	 */
 	public static final String MOVE_RIGHT_L_ACTION_ID = MoveComponentAction.class
 			.getName()
-			+ "_RIGHT_L";
+			+ "_RIGHT_L"; //$NON-NLS-1$
 
 	/**
 	 * 大きく左に移動するアクションのID：このIDがplugin.xmlに指定されなければならない。
 	 */
 	public static final String MOVE_LEFT_L_ACTION_ID = MoveComponentAction.class
 			.getName()
-			+ "_LEFT_L";
+			+ "_LEFT_L"; //$NON-NLS-1$
 
 	/**
 	 * コンストラクタ
@@ -85,7 +88,7 @@ public class MoveComponentAction extends SelectionAction {
 	public MoveComponentAction(IWorkbenchPart part, String id) {
 		super(part);
 		setId(id);
-		setText("Move");
+		setText(Messages.getString("MoveComponentAction.8")); //$NON-NLS-1$
 	}
 
 	/**
@@ -103,6 +106,7 @@ public class MoveComponentAction extends SelectionAction {
 	 * @param selectedEditParts 対象のEditPart
 	 * @return 作成したコマンド
 	 */
+	@SuppressWarnings("unchecked")
 	protected Command createMoveCommand(List selectedEditParts) {
 		if (selectedEditParts.isEmpty())
 			return null;

@@ -12,13 +12,13 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 public class ConstructorParamMapping {
 	private EStructuralFeature feature;
 
-	private Class targetClass;
+	private Class<?> targetClass;
 
 	public ConstructorParamMapping(EStructuralFeature feature) {
 		this.feature = feature;
 	}
 
-	public ConstructorParamMapping(Class targetClass, EStructuralFeature feature) {
+	public ConstructorParamMapping(Class<?> targetClass, EStructuralFeature feature) {
 		this.feature = feature;
 		this.targetClass = targetClass;
 	}
@@ -31,12 +31,8 @@ public class ConstructorParamMapping {
 		this.feature = feature;
 	}
 
-	public Class getTargetClass() {
-		Class result = targetClass;
-		if (result == null) {
-			result = feature.getEType().getInstanceClass();
-		}
-		
-		return result;
+	public Class<?> getTargetClass() {
+		if (targetClass != null) return targetClass;
+		return feature.getEType().getInstanceClass();
 	}
 }

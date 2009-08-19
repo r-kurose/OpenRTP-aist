@@ -1,7 +1,7 @@
 package jp.go.aist.rtm.systemeditor.ui.action;
 
 import jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart;
-import jp.go.aist.rtm.toolscommon.model.component.AbstractComponent;
+import jp.go.aist.rtm.toolscommon.model.component.Component;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -10,6 +10,10 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
+/**
+ * 複合コンポーネントを開くアクションのデリゲート
+ *
+ */
 public class OpenCompositeComponentFormPopupMenuActionDelegate implements IObjectActionDelegate {
 
 	private ISelection selection;
@@ -18,7 +22,7 @@ public class OpenCompositeComponentFormPopupMenuActionDelegate implements IObjec
 	
 	private IWorkbenchPart parentSystemDiagramEditor;
 	
-	private AbstractComponent compositeComponent;
+	private Component compositeComponent;
 	
 	/**
 	 * {@inheritDoc}
@@ -30,17 +34,8 @@ public class OpenCompositeComponentFormPopupMenuActionDelegate implements IObjec
 						.getFirstElement();
 				if (componentPart.getModel().isCompositeComponent()) {
 					compositeComponent = componentPart.getModel();
-					OpenCompositeComponentAction openAction = (OpenCompositeComponentAction) compositeComponent
-							.getOpenCompositeComponentAction();
-					if (openAction == null) {
-						openAction = (OpenCompositeComponentAction) compositeComponent
-								.getOpenCompositeComponentAction();
-						if (openAction == null) {
-							openAction = new OpenCompositeComponentAction(
-									this.parentSystemDiagramEditor);
-						}
-					}
-					compositeComponent.setOpenCompositeComponentAction(openAction);
+					OpenCompositeComponentAction openAction = new OpenCompositeComponentAction(
+							this.parentSystemDiagramEditor);
 					openAction.setCompositeComponent(compositeComponent);
 					openAction.run();
 				}
@@ -58,13 +53,12 @@ public class OpenCompositeComponentFormPopupMenuActionDelegate implements IObjec
 		
 	}
 	private boolean isEnable(){
-		boolean result = false;
 		if (selection instanceof IStructuredSelection) {
 			Object part = ((IStructuredSelection) selection).getFirstElement();
 			if (part instanceof ComponentEditPart) {
-				result = ((ComponentEditPart) part).getModel().isCompositeComponent();
+				return ((ComponentEditPart) part).getModel().isCompositeComponent();
 			}
 		}
-		return result;
+		return false;
 	}
 }

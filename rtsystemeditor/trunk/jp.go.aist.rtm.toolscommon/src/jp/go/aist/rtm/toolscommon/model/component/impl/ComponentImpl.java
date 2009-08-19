@@ -2,1190 +2,1352 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ComponentImpl.java,v 1.19 2008/03/27 07:02:53 yamashita Exp $
+ * $Id$
  */
 package jp.go.aist.rtm.toolscommon.model.component.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.ConcurrentModificationException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import jp.go.aist.rtm.toolscommon.factory.CorbaWrapperFactory;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.InPort;
-import jp.go.aist.rtm.toolscommon.model.component.LifeCycleState;
 import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 import jp.go.aist.rtm.toolscommon.model.component.OutPort;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.ServicePort;
-import jp.go.aist.rtm.toolscommon.model.core.CorePackage;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
+import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
+import jp.go.aist.rtm.toolscommon.model.core.Visiter;
+import jp.go.aist.rtm.toolscommon.model.core.impl.WrapperObjectImpl;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.AttributeMapping;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ClassMapping;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ConstructorParamMapping;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ManyReferenceMapping;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ReferenceMapping;
-import jp.go.aist.rtm.toolscommon.ui.propertysource.ComponentPropertySource;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.ui.views.properties.IPropertySource;
-import org.omg.CORBA.BAD_OPERATION;
-import org.omg.CORBA.TCKind;
-import org.omg.CORBA.TypeCodePackage.BadKind;
-
-import RTC.RTObject;
-import RTC.RTObjectHelper;
-import _SDOPackage.Configuration;
-
-import com.sun.corba.se.impl.corba.AnyImpl;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Component</b></em>'.
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Component</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getExecutionContextState <em>Execution Context State</em>}</li>
- *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getState <em>State</em>}</li>
- *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getLifeCycleStates <em>Life Cycle States</em>}</li>
- *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getComponentState <em>Component State</em>}</li>
- *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getAllExecutionContextState <em>All Execution Context State</em>}</li>
- *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getAllLifeCycleStates <em>All Life Cycle States</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getConfigurationSets <em>Configuration Sets</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getActiveConfigurationSet <em>Active Configuration Set</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getPorts <em>Ports</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getInports <em>Inports</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getOutports <em>Outports</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getServiceports <em>Serviceports</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getComponents <em>Components</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getExecutionContexts <em>Execution Contexts</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getChildSystemDiagram <em>Child System Diagram</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getInstanceNameL <em>Instance Name L</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getVenderL <em>Vender L</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getDescriptionL <em>Description L</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getCategoryL <em>Category L</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getTypeNameL <em>Type Name L</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getVersionL <em>Version L</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getPathId <em>Path Id</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getOutportDirection <em>Outport Direction</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getCompositeTypeL <em>Composite Type L</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getComponentId <em>Component Id</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#isRequired <em>Required</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ComponentImpl extends AbstractComponentImpl implements Component {
-
+public abstract class ComponentImpl extends WrapperObjectImpl implements Component {
 	/**
-	 * The default value of the '{@link #getExecutionContextState() <em>Execution Context State</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getExecutionContextState()
+	 * The cached value of the '{@link #getConfigurationSets() <em>Configuration Sets</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getConfigurationSets()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int EXECUTION_CONTEXT_STATE_EDEFAULT = 0;
+	protected EList configurationSets= null;
 
 	/**
-	 * The cached value of the '{@link #getExecutionContextState() <em>Execution Context State</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getExecutionContextState()
+	 * The cached value of the '{@link #getActiveConfigurationSet() <em>Active Configuration Set</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getActiveConfigurationSet()
 	 * @generated
 	 * @ordered
 	 */
-	protected int executionContextState = EXECUTION_CONTEXT_STATE_EDEFAULT;
+	protected ConfigurationSet activeConfigurationSet= null;
 
 	/**
-	 * The default value of the '{@link #getState() <em>State</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getState()
+	 * The cached value of the '{@link #getPorts() <em>Ports</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPorts()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int STATE_EDEFAULT = 0;
+	protected EList ports= null;
 
 	/**
-	 * The cached value of the '{@link #getState() <em>State</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getState()
+	 * The cached value of the '{@link #getComponents() <em>Components</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getComponents()
 	 * @generated
 	 * @ordered
 	 */
-	protected int state = STATE_EDEFAULT;
+	protected EList components= null;
 
 	/**
-	 * The cached value of the '{@link #getLifeCycleStates() <em>Life Cycle States</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getLifeCycleStates()
+	 * The cached value of the '{@link #getExecutionContexts() <em>Execution Contexts</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getExecutionContexts()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList lifeCycleStates = null;
+	protected EList executionContexts = null;
 
 	/**
-	 * The default value of the '{@link #getComponentState() <em>Component State</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getComponentState()
+	 * The cached value of the '{@link #getChildSystemDiagram() <em>Child System Diagram</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getChildSystemDiagram()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int COMPONENT_STATE_EDEFAULT = 1;
+	protected SystemDiagram childSystemDiagram= null;
 
 	/**
-	 * The cached value of the '{@link #getComponentState() <em>Component State</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getComponentState()
+	 * The default value of the '{@link #getInstanceNameL() <em>Instance Name L</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInstanceNameL()
 	 * @generated
 	 * @ordered
 	 */
-	protected int componentState = COMPONENT_STATE_EDEFAULT;
+	protected static final String INSTANCE_NAME_L_EDEFAULT = "";
 
 	/**
-	 * The default value of the '{@link #getAllExecutionContextState() <em>All Execution Context State</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getAllExecutionContextState()
+	 * The cached value of the '{@link #getInstanceNameL() <em>Instance Name L</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInstanceNameL()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int ALL_EXECUTION_CONTEXT_STATE_EDEFAULT = 0;
+	protected String instanceNameL = INSTANCE_NAME_L_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
+	 * The default value of the '{@link #getVenderL() <em>Vender L</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getVenderL()
+	 * @generated
+	 * @ordered
 	 */
-	public ComponentImpl() {
+	protected static final String VENDER_L_EDEFAULT = "";
+
+	/**
+	 * The cached value of the '{@link #getVenderL() <em>Vender L</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getVenderL()
+	 * @generated
+	 * @ordered
+	 */
+	protected String venderL = VENDER_L_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getDescriptionL() <em>Description L</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDescriptionL()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String DESCRIPTION_L_EDEFAULT = "";
+
+	/**
+	 * The cached value of the '{@link #getDescriptionL() <em>Description L</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDescriptionL()
+	 * @generated
+	 * @ordered
+	 */
+	protected String descriptionL = DESCRIPTION_L_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getCategoryL() <em>Category L</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCategoryL()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String CATEGORY_L_EDEFAULT = "";
+
+	/**
+	 * The cached value of the '{@link #getCategoryL() <em>Category L</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCategoryL()
+	 * @generated
+	 * @ordered
+	 */
+	protected String categoryL = CATEGORY_L_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getTypeNameL() <em>Type Name L</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTypeNameL()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String TYPE_NAME_L_EDEFAULT = "";
+
+	/**
+	 * The cached value of the '{@link #getTypeNameL() <em>Type Name L</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTypeNameL()
+	 * @generated
+	 * @ordered
+	 */
+	protected String typeNameL = TYPE_NAME_L_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getVersionL() <em>Version L</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getVersionL()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String VERSION_L_EDEFAULT = "";
+
+	/**
+	 * The cached value of the '{@link #getVersionL() <em>Version L</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getVersionL()
+	 * @generated
+	 * @ordered
+	 */
+	protected String versionL = VERSION_L_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getPathId() <em>Path Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPathId()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String PATH_ID_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getPathId() <em>Path Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPathId()
+	 * @generated
+	 * @ordered
+	 */
+	protected String pathId = PATH_ID_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getOutportDirection() <em>Outport Direction</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOutportDirection()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String OUTPORT_DIRECTION_EDEFAULT = "RIGHT";
+
+	/**
+	 * The cached value of the '{@link #getOutportDirection() <em>Outport Direction</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOutportDirection()
+	 * @generated
+	 * @ordered
+	 */
+	protected String outportDirection = OUTPORT_DIRECTION_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getCompositeTypeL() <em>Composite Type L</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCompositeTypeL()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String COMPOSITE_TYPE_L_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getCompositeTypeL() <em>Composite Type L</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCompositeTypeL()
+	 * @generated
+	 * @ordered
+	 */
+	protected String compositeTypeL = COMPOSITE_TYPE_L_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getComponentId() <em>Component Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getComponentId()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String COMPONENT_ID_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getComponentId() <em>Component Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getComponentId()
+	 * @generated
+	 * @ordered
+	 */
+	protected String componentId = COMPONENT_ID_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isRequired() <em>Required</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isRequired()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean REQUIRED_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isRequired() <em>Required</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isRequired()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean required = REQUIRED_EDEFAULT;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ComponentImpl() {
 		super();
-
-		// ConfigurationSet configurationSet = new ConfigurationSetImpl();
-		// configurationSet.setName("configSet1");
-		// configurationSet.getKeyAndValue().put("key1", "conf1:value1");
-		// configurationSet.getKeyAndValue().put("key2", "conf1:value2");
-		// configurationSet.getKeyAndValue().put("key3", "conf1:value3");
-		// configurationSet.getKeyAndValue().put("key4", "conf1:value4");
-		// configurationSet.getKeyAndValue().put("key5", "conf1:value5");
-		// getConfigurationSets().add(configurationSet);
-		//
-		// configurationSet = new ConfigurationSetImpl();
-		// configurationSet.setName("configSet2");
-		// configurationSet.getKeyAndValue().put("key1", "conf2:value1");
-		// configurationSet.getKeyAndValue().put("key2", "conf2:value2");
-		// configurationSet.getKeyAndValue().put("key3", "conf2:value3");
-		// configurationSet.getKeyAndValue().put("key4", "conf2:value4");
-		// configurationSet.getKeyAndValue().put("key5", "conf2:value5");
-		// getConfigurationSets().add(configurationSet);
-		//
-		// configurationSet = new ConfigurationSetImpl();
-		// configurationSet.setName("configSet3");
-		// configurationSet.getKeyAndValue().put("key1", "conf3:value1");
-		// configurationSet.getKeyAndValue().put("key2", "conf3:value2");
-		// configurationSet.getKeyAndValue().put("key3", "conf3:value3");
-		// configurationSet.getKeyAndValue().put("key4", "conf3:value4");
-		// configurationSet.getKeyAndValue().put("key5", "conf3:value5");
-		// getConfigurationSets().add(configurationSet);
-		//
-		// setActiveConfigurationSet(configurationSet);
-
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	protected EClass eStaticClass() {
 		return ComponentPackage.Literals.COMPONENT;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getExecutionContextState() {
-		return executionContextState;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setExecutionContextState(int newExecutionContextState) {
-		int oldExecutionContextState = executionContextState;
-		executionContextState = newExecutionContextState;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__EXECUTION_CONTEXT_STATE, oldExecutionContextState, executionContextState));
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public int getState() {
-		return state;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setState(int newState) {
-		int oldState = state;
-		state = newState;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__STATE, oldState, state));
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList getLifeCycleStates() {
-		if (lifeCycleStates == null) {
-			lifeCycleStates = new EObjectContainmentEList(LifeCycleState.class, this, ComponentPackage.COMPONENT__LIFE_CYCLE_STATES);
+	public EList getConfigurationSets() {
+		if (configurationSets == null) {
+			configurationSets = new EObjectContainmentEList(ConfigurationSet.class, this, ComponentPackage.COMPONENT__CONFIGURATION_SETS);
 		}
-		return lifeCycleStates;
+		return configurationSets;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getComponentState() {
-		return componentState;
+	public ConfigurationSet getActiveConfigurationSet() {
+		if (activeConfigurationSet != null && activeConfigurationSet.eIsProxy()) {
+			InternalEObject oldActiveConfigurationSet = (InternalEObject)activeConfigurationSet;
+			activeConfigurationSet = (ConfigurationSet)eResolveProxy(oldActiveConfigurationSet);
+			if (activeConfigurationSet != oldActiveConfigurationSet) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ComponentPackage.COMPONENT__ACTIVE_CONFIGURATION_SET, oldActiveConfigurationSet, activeConfigurationSet));
+			}
+		}
+		return activeConfigurationSet;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setComponentState(int newComponentState) {
-		int oldComponentState = componentState;
-		componentState = newComponentState;
+	public ConfigurationSet basicGetActiveConfigurationSet() {
+		return activeConfigurationSet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setActiveConfigurationSet(ConfigurationSet newActiveConfigurationSet) {
+		ConfigurationSet oldActiveConfigurationSet = activeConfigurationSet;
+		activeConfigurationSet = newActiveConfigurationSet;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__COMPONENT_STATE, oldComponentState, componentState));
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__ACTIVE_CONFIGURATION_SET, oldActiveConfigurationSet, activeConfigurationSet));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getAllExecutionContextState() {
-		throw new UnsupportedOperationException();
+	public EList getPorts() {
+		if (ports == null) {
+			ports = new EObjectContainmentEList(Port.class, this, ComponentPackage.COMPONENT__PORTS);
+		}
+		return ports;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList getAllLifeCycleStates() {
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
+	 */
+	@SuppressWarnings("unchecked")
+	public EList getInports() {
+		return selectPorts(InPort.class);
+	}
+
+	@SuppressWarnings("unchecked")
+	private EList selectPorts(Class<?> cls) {
+		try {
+			EList result = new BasicEList();
+			for (Object element: getPorts()) {
+				if (cls.isAssignableFrom(element.getClass())) {
+					result.add(element);
+				}
+			}
+			return result;
+		} catch (ConcurrentModificationException ex) {
+			ex.printStackTrace();
+			// 別スレッドで更新がかかった時は、とりあえず空のリストを返しておく
+			return ECollections.EMPTY_ELIST;
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@SuppressWarnings("unchecked")
+	public EList getOutports() {
+		return selectPorts(OutPort.class);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@SuppressWarnings("unchecked")
+	public EList getServiceports() {
+		return selectPorts(ServicePort.class);
+	}
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList getExecutionContexts() {
+		if (executionContexts == null) {
+			executionContexts = new EObjectContainmentEList(ExecutionContext.class, this, ComponentPackage.COMPONENT__EXECUTION_CONTEXTS);
+		}
+		return executionContexts;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getInstanceNameL() {
+		return instanceNameL;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setInstanceNameL(String newInstanceNameL) {
+		String oldInstanceNameL = instanceNameL;
+		instanceNameL = newInstanceNameL;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__INSTANCE_NAME_L, oldInstanceNameL, instanceNameL));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
 	 */
 	public String getVenderL() {
-		return getRTCComponentProfile() == null ? null
-				: getRTCComponentProfile().vendor;
+		return venderL;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setVenderL(String newVenderL) {
+		String oldVenderL = venderL;
+		venderL = newVenderL;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__VENDER_L, oldVenderL, venderL));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getDescriptionL() {
+		return descriptionL;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDescriptionL(String newDescriptionL) {
+		String oldDescriptionL = descriptionL;
+		descriptionL = newDescriptionL;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__DESCRIPTION_L, oldDescriptionL, descriptionL));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getCategoryL() {
+		return categoryL;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCategoryL(String newCategoryL) {
+		String oldCategoryL = categoryL;
+		categoryL = newCategoryL;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__CATEGORY_L, oldCategoryL, categoryL));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
 	 */
 	public String getTypeNameL() {
-		return getRTCComponentProfile() == null ? null
-				: getRTCComponentProfile().type_name;
+		return typeNameL;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTypeNameL(String newTypeNameL) {
+		String oldTypeNameL = typeNameL;
+		typeNameL = newTypeNameL;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__TYPE_NAME_L, oldTypeNameL, typeNameL));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
 	 */
 	public String getVersionL() {
-		return getRTCComponentProfile() == null ? null
-				: getRTCComponentProfile().version;
+		return versionL;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setVersionL(String newVersionL) {
+		String oldVersionL = versionL;
+		versionL = newVersionL;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__VERSION_L, oldVersionL, versionL));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getPathId() {
+		return pathId;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPathId(String newPathId) {
+		String oldPathId = pathId;
+		pathId = newPathId;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__PATH_ID, oldPathId, pathId));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getOutportDirection() {
+		return outportDirection;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setOutportDirection(String newOutportDirection) {
+		String oldOutportDirection = outportDirection;
+		outportDirection = newOutportDirection;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__OUTPORT_DIRECTION, oldOutportDirection, outportDirection));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public boolean updateConfigurationSetListR(List localConfigurationSets,
-			ConfigurationSet localActiveConfigurationSet,
-			List originalConfigurationSets) {
-		boolean result = false;
-
-		try {
-			Configuration configuration = getCorbaObjectInterface()
-					.get_configuration();
-
-			for (Iterator iter = localConfigurationSets.iterator(); iter
-					.hasNext();) {
-				ConfigurationSet local = (ConfigurationSet) iter.next();
-
-				boolean isFind = false;
-				boolean isModified = false;
-				for (Object original : originalConfigurationSets) {
-					ConfigurationSet originalConfig = (ConfigurationSet) original;
-					if (local.getId().equals(originalConfig.getId())) {
-						isFind = true;
-						isModified = checkConfigurationSet(local,
-								originalConfig);
-						break;
-					}
-				}
-				if (isFind) {
-					if (isModified) {
-						configuration.set_configuration_set_values(
-								local.getId(),
-								ConfigurationSetImpl.createSdoConfigurationSet(local));
-					}
-				} else {
-					configuration.add_configuration_set(ConfigurationSetImpl
-							.createSdoConfigurationSet(local));
-				}
-			}
-
-			if (localActiveConfigurationSet != null) {
-				configuration
-						.activate_configuration_set(localActiveConfigurationSet
-								.getId());
-			}
-
-			for (Object original : originalConfigurationSets) {
-				ConfigurationSet configurationSet = (ConfigurationSet) original;
-				boolean isFind = false;
-				for (Iterator iter = localConfigurationSets.iterator(); iter
-						.hasNext();) {
-					ConfigurationSet element = (ConfigurationSet) iter.next();
-					if (element.getId().equals(configurationSet.getId())) {
-						isFind = true;
-						break;
-					}
-				}
-
-				if (isFind == false) {
-					// configuration.remove_configuration_set(configurationSet.id);
-					configuration.remove_configuration_set(configurationSet
-							.getId());
-				}
-			}
-
-			result = true;
-		} catch (Exception e) {
-			// void
+	public String getCompositeTypeL() {
+		if (this.compositeTypeL != null) {
+			return this.compositeTypeL;
 		}
+		String category = this.getCategoryL();
+		if (this.isCompositeComponent()) {
+			this.compositeTypeL = category.substring("composite.".length());
+		} else {
+			this.compositeTypeL = "None";
+		}
+		return this.compositeTypeL;
+	}
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList getComponents() {
+		if (components == null) {
+			components = new EObjectResolvingEList(Component.class, this, ComponentPackage.COMPONENT__COMPONENTS);
+		}
+		return components;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getComponentId() {
+		return componentId;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setComponentId(String newComponentId) {
+		String oldComponentId = componentId;
+		componentId = newComponentId;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__COMPONENT_ID, oldComponentId, componentId));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isRequired() {
+		return required;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRequired(boolean newRequired) {
+		boolean oldRequired = required;
+		required = newRequired;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__REQUIRED, oldRequired, required));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SystemDiagram getChildSystemDiagram() {
+		if (childSystemDiagram != null && childSystemDiagram.eIsProxy()) {
+			InternalEObject oldChildSystemDiagram = (InternalEObject)childSystemDiagram;
+			childSystemDiagram = (SystemDiagram)eResolveProxy(oldChildSystemDiagram);
+			if (childSystemDiagram != oldChildSystemDiagram) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ComponentPackage.COMPONENT__CHILD_SYSTEM_DIAGRAM, oldChildSystemDiagram, childSystemDiagram));
+			}
+		}
+		return childSystemDiagram;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SystemDiagram basicGetChildSystemDiagram() {
+		return childSystemDiagram;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setChildSystemDiagram(SystemDiagram newChildSystemDiagram) {
+		SystemDiagram oldChildSystemDiagram = childSystemDiagram;
+		childSystemDiagram = newChildSystemDiagram;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__CHILD_SYSTEM_DIAGRAM, oldChildSystemDiagram, childSystemDiagram));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean updateConfigurationSetListR(List list, ConfigurationSet activeConfigurationSet, List originallist) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@SuppressWarnings("unchecked")
+	public List getAllComponents() {
+		EList result = new BasicEList();
+		result.addAll(getComponents());
+		for (Iterator iterator = getComponents().iterator(); iterator.hasNext(); ) {
+			Component component = (Component) iterator.next();
+			if (!component.equals(this)) {
+				result.addAll(component.getAllComponents());
+			}
+		}
 		return result;
 	}
 
-	private boolean checkConfigurationSet(ConfigurationSet local,
-			ConfigurationSet original) {
-
-		if (local.getConfigurationData().size() != original
-				.getConfigurationData().size())
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean isCompositeComponent() {
+		String category = this.getCategoryL();
+		if (category != null && category.startsWith("composite.")) {
 			return true;
-
-		for (int index = 0; index < local.getConfigurationData().size(); index++) {
-			NameValue localNV = (NameValue) local.getConfigurationData().get(
-					index);
-			NameValue originalNV = (NameValue) original.getConfigurationData()
-					.get(index);
-			if (!localNV.getName().equals(originalNV.getName()))
-				return true;
-			AnyImpl localVal = (AnyImpl) localNV.getValue();
-			AnyImpl originalVal = (AnyImpl) originalNV.getValue();
-			if (!getValueAsString(localVal).equals(
-					getValueAsString(originalVal)))
-				return true;
 		}
-
 		return false;
 	}
 
-	public String getValueAsString(AnyImpl anyVal) {
-		String result = null;
-		try {
-			if (anyVal != null) {
-				if (anyVal.type().kind() == TCKind.tk_wstring) {
-					result = anyVal.extract_wstring();
-				} else {
-					result = anyVal.extract_string();
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean isGroupingCompositeComponent() {
+		return false;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean inOnlineSystemDiagram() {
+		if (eContainer() == null) {
+			return false;
+		}
+		if (eContainer() instanceof SystemDiagram) {
+			SystemDiagram diagram = (SystemDiagram) eContainer();
+			return SystemDiagramKind.ONLINE_LITERAL.equals(diagram.getKind());
+		}
+		return false;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean addComponentsR(List<Component> componentList) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean removeComponentR(Component component) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * 公開されているポートの名称をリストにして返す
+	 */
+	public List<String> getExportedPorts() {
+		List<String> result = new ArrayList<String>();
+		ConfigurationSet cs = this.getActiveConfigurationSet();
+		if (cs != null && cs.getConfigurationData() != null) {
+			for (Object o : cs.getConfigurationData()) {
+				NameValue nv = (NameValue) o;
+				if (!nv.getName().equals("exported_ports")) {
+					continue;
+				}
+				String value = nv.getValueAsString();
+				String[] values = value.split(",");
+				for (int i = 0; i < values.length; i++) {
+					result.add(values[i].trim());
 				}
 			}
-		} catch (BAD_OPERATION e) {
-			try {
-				result = anyVal.type().id();
-			} catch (BadKind e1) {
-				// void
+		}
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@SuppressWarnings("unchecked")
+	public boolean setExportedPorts(EList values) {
+		StringBuffer value = new StringBuffer();
+		for (Object o : values) {
+			if (o instanceof String) {
+				String s = (String) o;
+				if (value.length() > 0) {
+					value.append(",");
+				}
+				value.append(s);
 			}
 		}
-
-		return result;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public String getDescriptionL() {
-		return getRTCComponentProfile() == null ? null
-				: getRTCComponentProfile().description;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public String getCategoryL() {
-		return getRTCComponentProfile() == null ? null
-				: getRTCComponentProfile().category;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public EList getAllInPorts() {
-		EList result = new BasicEList();
-		result.addAll(getInports());
-		for (Iterator iter = getAllComponents().iterator(); iter.hasNext();) {
-			Component component = (Component) iter.next();
-			if (!component.isCompositeComponent()) {
-				result.addAll(component.getAllInPorts());
-			} else {
-				result.addAll(component.getInports());
+		ConfigurationSet cs = this.getActiveConfigurationSet();
+		if (cs != null && cs.getConfigurationData() != null) {
+			for (Object o : cs.getConfigurationData()) {
+				NameValue nv = (NameValue) o;
+				if (!nv.getName().equals("exported_ports")) {
+					continue;
+				}
+				nv.setValue(value.toString());
 			}
 		}
-		return result;
+		return true;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean updateConfigurationSetR(ConfigurationSet configSet, boolean isActive) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public EList getAllOutPorts() {
-		EList result = new BasicEList();
-		result.addAll(getOutports());
-		for (Iterator iter = getAllComponents().iterator(); iter.hasNext();) {
-			Component component = (Component) iter.next();
-			if (!component.isCompositeComponent()) {
-				result.addAll(component.getAllOutPorts());
-			} else {
-				result.addAll(component.getOutports());
+	public boolean setComponentsR(List<Component> componentList) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getPath() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/** IDとExecutionContextを対応付けて格納 */
+	protected Map<String, ExecutionContext> executionContextMap = new HashMap<String, ExecutionContext>();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@SuppressWarnings("unchecked")
+	public ExecutionContext setExecutionContext(String id, ExecutionContext ec) {
+		if (!getExecutionContexts().contains(ec)) {
+			getExecutionContexts().add(ec);
+		}
+		executionContextMap.put(id, ec);
+		return ec;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public ExecutionContext getExecutionContext(String id) {
+		return executionContextMap.get(id);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public String getExecutionContextId(ExecutionContext ec) {
+		for (String id : executionContextMap.keySet()) {
+			ExecutionContext e = executionContextMap.get(id);
+			if (e != null && e.equals(ec)) {
+				return id;
 			}
 		}
-
-		return result;
+		return null;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public EList getAllServiceports() {
-		EList result = new BasicEList();
-		result.addAll(getServiceports());
-		for (Iterator iter = getAllComponents().iterator(); iter.hasNext();) {
-			Component component = (Component) iter.next();
-			if (!component.isCompositeComponent()) {
-				result.addAll(component.getAllServiceports());
-			} else {
-				result.addAll(component.getServiceports());
-			}
-		}
-		return result;
-	}
-
-	//
-	// public short rtc_start() throws IllegalTransition {
-	// return getRemoteObject().rtc_start();
-	// }
-	//
-	// public short rtc_stop() throws IllegalTransition {
-	// return getRemoteObject().rtc_stop();
-	// }
-	//
-	// public short rtc_reset() throws IllegalTransition {
-	// short result = getRemoteObject().rtc_reset();
-	// return result;
-	// }
-	//
-	// public short rtc_exit() throws IllegalTransition {
-	// return getRemoteObject().rtc_exit();
-	// }
-	//
-	// public short rtc_kill() {
-	// return getRemoteObject().rtc_kill();
-	// }
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public int activateR() {
-		int result = RETURNCODE_ERROR;
-		if (getLifeCycleStates().size() > 0) {
-			result = ((LifeCycleState) getLifeCycleStates().get(0)).activateR();
-		}
-
-		return result;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public int deactivateR() {
-		int result = RETURNCODE_ERROR;
-		if (getLifeCycleStates().size() > 0) {
-			result = ((LifeCycleState) getLifeCycleStates().get(0))
-					.deactivateR();
-		}
-
-		return result;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public int startR() {
-		int result = RETURNCODE_ERROR;
-		if (getLifeCycleStates().size() > 0) {
-			result = ((LifeCycleState) getLifeCycleStates().get(0))
-					.getExecutionContext().getCorbaObjectInterface().start()
-					.value();
-		}
-
-		return result;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public int stopR() {
-		int result = RETURNCODE_ERROR;
-		if (getLifeCycleStates().size() > 0) {
-			result = ((LifeCycleState) getLifeCycleStates().get(0))
-					.getExecutionContext().getCorbaObjectInterface().stop()
-					.value();
-		}
-
-		return result;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public int resetR() {
-		int result = RETURNCODE_ERROR;
-		if (getLifeCycleStates().size() > 0) {
-			result = ((LifeCycleState) getLifeCycleStates().get(0)).resetR();
-		}
-
-		return result;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public int finalizeR() {
-		return getCorbaObjectInterface()._finalize().value();
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public int exitR() {
-		return getCorbaObjectInterface().exit().value();
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ComponentPackage.COMPONENT__LIFE_CYCLE_STATES:
-				return ((InternalEList)getLifeCycleStates()).basicRemove(otherEnd, msgs);
+			case ComponentPackage.COMPONENT__CONFIGURATION_SETS:
+				return ((InternalEList)getConfigurationSets()).basicRemove(otherEnd, msgs);
+			case ComponentPackage.COMPONENT__PORTS:
+				return ((InternalEList)getPorts()).basicRemove(otherEnd, msgs);
+			case ComponentPackage.COMPONENT__EXECUTION_CONTEXTS:
+				return ((InternalEList)getExecutionContexts()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ComponentPackage.COMPONENT__EXECUTION_CONTEXT_STATE:
-				return new Integer(getExecutionContextState());
-			case ComponentPackage.COMPONENT__STATE:
-				return new Integer(getState());
-			case ComponentPackage.COMPONENT__LIFE_CYCLE_STATES:
-				return getLifeCycleStates();
-			case ComponentPackage.COMPONENT__COMPONENT_STATE:
-				return new Integer(getComponentState());
-			case ComponentPackage.COMPONENT__ALL_EXECUTION_CONTEXT_STATE:
-				return new Integer(getAllExecutionContextState());
-			case ComponentPackage.COMPONENT__ALL_LIFE_CYCLE_STATES:
-				return getAllLifeCycleStates();
+			case ComponentPackage.COMPONENT__CONFIGURATION_SETS:
+				return getConfigurationSets();
+			case ComponentPackage.COMPONENT__ACTIVE_CONFIGURATION_SET:
+				if (resolve) return getActiveConfigurationSet();
+				return basicGetActiveConfigurationSet();
+			case ComponentPackage.COMPONENT__PORTS:
+				return getPorts();
+			case ComponentPackage.COMPONENT__INPORTS:
+				return getInports();
+			case ComponentPackage.COMPONENT__OUTPORTS:
+				return getOutports();
+			case ComponentPackage.COMPONENT__SERVICEPORTS:
+				return getServiceports();
+			case ComponentPackage.COMPONENT__COMPONENTS:
+				return getComponents();
+			case ComponentPackage.COMPONENT__EXECUTION_CONTEXTS:
+				return getExecutionContexts();
+			case ComponentPackage.COMPONENT__CHILD_SYSTEM_DIAGRAM:
+				if (resolve) return getChildSystemDiagram();
+				return basicGetChildSystemDiagram();
+			case ComponentPackage.COMPONENT__INSTANCE_NAME_L:
+				return getInstanceNameL();
+			case ComponentPackage.COMPONENT__VENDER_L:
+				return getVenderL();
+			case ComponentPackage.COMPONENT__DESCRIPTION_L:
+				return getDescriptionL();
+			case ComponentPackage.COMPONENT__CATEGORY_L:
+				return getCategoryL();
+			case ComponentPackage.COMPONENT__TYPE_NAME_L:
+				return getTypeNameL();
+			case ComponentPackage.COMPONENT__VERSION_L:
+				return getVersionL();
+			case ComponentPackage.COMPONENT__PATH_ID:
+				return getPathId();
+			case ComponentPackage.COMPONENT__OUTPORT_DIRECTION:
+				return getOutportDirection();
+			case ComponentPackage.COMPONENT__COMPOSITE_TYPE_L:
+				return getCompositeTypeL();
+			case ComponentPackage.COMPONENT__COMPONENT_ID:
+				return getComponentId();
+			case ComponentPackage.COMPONENT__REQUIRED:
+				return isRequired() ? Boolean.TRUE : Boolean.FALSE;
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ComponentPackage.COMPONENT__EXECUTION_CONTEXT_STATE:
-				setExecutionContextState(((Integer)newValue).intValue());
+			case ComponentPackage.COMPONENT__CONFIGURATION_SETS:
+				getConfigurationSets().clear();
+				getConfigurationSets().addAll((Collection)newValue);
 				return;
-			case ComponentPackage.COMPONENT__STATE:
-				setState(((Integer)newValue).intValue());
+			case ComponentPackage.COMPONENT__ACTIVE_CONFIGURATION_SET:
+				setActiveConfigurationSet((ConfigurationSet)newValue);
 				return;
-			case ComponentPackage.COMPONENT__LIFE_CYCLE_STATES:
-				getLifeCycleStates().clear();
-				getLifeCycleStates().addAll((Collection)newValue);
+			case ComponentPackage.COMPONENT__PORTS:
+				getPorts().clear();
+				getPorts().addAll((Collection)newValue);
 				return;
-			case ComponentPackage.COMPONENT__COMPONENT_STATE:
-				setComponentState(((Integer)newValue).intValue());
+			case ComponentPackage.COMPONENT__COMPONENTS:
+				getComponents().clear();
+				getComponents().addAll((Collection)newValue);
+				return;
+			case ComponentPackage.COMPONENT__EXECUTION_CONTEXTS:
+				getExecutionContexts().clear();
+				getExecutionContexts().addAll((Collection)newValue);
+				return;
+			case ComponentPackage.COMPONENT__CHILD_SYSTEM_DIAGRAM:
+				setChildSystemDiagram((SystemDiagram)newValue);
+				return;
+			case ComponentPackage.COMPONENT__INSTANCE_NAME_L:
+				setInstanceNameL((String)newValue);
+				return;
+			case ComponentPackage.COMPONENT__VENDER_L:
+				setVenderL((String)newValue);
+				return;
+			case ComponentPackage.COMPONENT__DESCRIPTION_L:
+				setDescriptionL((String)newValue);
+				return;
+			case ComponentPackage.COMPONENT__CATEGORY_L:
+				setCategoryL((String)newValue);
+				return;
+			case ComponentPackage.COMPONENT__TYPE_NAME_L:
+				setTypeNameL((String)newValue);
+				return;
+			case ComponentPackage.COMPONENT__VERSION_L:
+				setVersionL((String)newValue);
+				return;
+			case ComponentPackage.COMPONENT__PATH_ID:
+				setPathId((String)newValue);
+				return;
+			case ComponentPackage.COMPONENT__OUTPORT_DIRECTION:
+				setOutportDirection((String)newValue);
+				return;
+			case ComponentPackage.COMPONENT__COMPONENT_ID:
+				setComponentId((String)newValue);
+				return;
+			case ComponentPackage.COMPONENT__REQUIRED:
+				setRequired(((Boolean)newValue).booleanValue());
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ComponentPackage.COMPONENT__EXECUTION_CONTEXT_STATE:
-				setExecutionContextState(EXECUTION_CONTEXT_STATE_EDEFAULT);
+			case ComponentPackage.COMPONENT__CONFIGURATION_SETS:
+				getConfigurationSets().clear();
 				return;
-			case ComponentPackage.COMPONENT__STATE:
-				setState(STATE_EDEFAULT);
+			case ComponentPackage.COMPONENT__ACTIVE_CONFIGURATION_SET:
+				setActiveConfigurationSet((ConfigurationSet)null);
 				return;
-			case ComponentPackage.COMPONENT__LIFE_CYCLE_STATES:
-				getLifeCycleStates().clear();
+			case ComponentPackage.COMPONENT__PORTS:
+				getPorts().clear();
 				return;
-			case ComponentPackage.COMPONENT__COMPONENT_STATE:
-				setComponentState(COMPONENT_STATE_EDEFAULT);
+			case ComponentPackage.COMPONENT__COMPONENTS:
+				getComponents().clear();
+				return;
+			case ComponentPackage.COMPONENT__EXECUTION_CONTEXTS:
+				getExecutionContexts().clear();
+				return;
+			case ComponentPackage.COMPONENT__CHILD_SYSTEM_DIAGRAM:
+				setChildSystemDiagram((SystemDiagram)null);
+				return;
+			case ComponentPackage.COMPONENT__INSTANCE_NAME_L:
+				setInstanceNameL(INSTANCE_NAME_L_EDEFAULT);
+				return;
+			case ComponentPackage.COMPONENT__VENDER_L:
+				setVenderL(VENDER_L_EDEFAULT);
+				return;
+			case ComponentPackage.COMPONENT__DESCRIPTION_L:
+				setDescriptionL(DESCRIPTION_L_EDEFAULT);
+				return;
+			case ComponentPackage.COMPONENT__CATEGORY_L:
+				setCategoryL(CATEGORY_L_EDEFAULT);
+				return;
+			case ComponentPackage.COMPONENT__TYPE_NAME_L:
+				setTypeNameL(TYPE_NAME_L_EDEFAULT);
+				return;
+			case ComponentPackage.COMPONENT__VERSION_L:
+				setVersionL(VERSION_L_EDEFAULT);
+				return;
+			case ComponentPackage.COMPONENT__PATH_ID:
+				setPathId(PATH_ID_EDEFAULT);
+				return;
+			case ComponentPackage.COMPONENT__OUTPORT_DIRECTION:
+				setOutportDirection(OUTPORT_DIRECTION_EDEFAULT);
+				return;
+			case ComponentPackage.COMPONENT__COMPONENT_ID:
+				setComponentId(COMPONENT_ID_EDEFAULT);
+				return;
+			case ComponentPackage.COMPONENT__REQUIRED:
+				setRequired(REQUIRED_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ComponentPackage.COMPONENT__EXECUTION_CONTEXT_STATE:
-				return executionContextState != EXECUTION_CONTEXT_STATE_EDEFAULT;
-			case ComponentPackage.COMPONENT__STATE:
-				return state != STATE_EDEFAULT;
-			case ComponentPackage.COMPONENT__LIFE_CYCLE_STATES:
-				return lifeCycleStates != null && !lifeCycleStates.isEmpty();
-			case ComponentPackage.COMPONENT__COMPONENT_STATE:
-				return componentState != COMPONENT_STATE_EDEFAULT;
-			case ComponentPackage.COMPONENT__ALL_EXECUTION_CONTEXT_STATE:
-				return getAllExecutionContextState() != ALL_EXECUTION_CONTEXT_STATE_EDEFAULT;
-			case ComponentPackage.COMPONENT__ALL_LIFE_CYCLE_STATES:
-				return !getAllLifeCycleStates().isEmpty();
+			case ComponentPackage.COMPONENT__CONFIGURATION_SETS:
+				return configurationSets != null && !configurationSets.isEmpty();
+			case ComponentPackage.COMPONENT__ACTIVE_CONFIGURATION_SET:
+				return activeConfigurationSet != null;
+			case ComponentPackage.COMPONENT__PORTS:
+				return ports != null && !ports.isEmpty();
+			case ComponentPackage.COMPONENT__INPORTS:
+				return !getInports().isEmpty();
+			case ComponentPackage.COMPONENT__OUTPORTS:
+				return !getOutports().isEmpty();
+			case ComponentPackage.COMPONENT__SERVICEPORTS:
+				return !getServiceports().isEmpty();
+			case ComponentPackage.COMPONENT__COMPONENTS:
+				return components != null && !components.isEmpty();
+			case ComponentPackage.COMPONENT__EXECUTION_CONTEXTS:
+				return executionContexts != null && !executionContexts.isEmpty();
+			case ComponentPackage.COMPONENT__CHILD_SYSTEM_DIAGRAM:
+				return childSystemDiagram != null;
+			case ComponentPackage.COMPONENT__INSTANCE_NAME_L:
+				return INSTANCE_NAME_L_EDEFAULT == null ? instanceNameL != null : !INSTANCE_NAME_L_EDEFAULT.equals(instanceNameL);
+			case ComponentPackage.COMPONENT__VENDER_L:
+				return VENDER_L_EDEFAULT == null ? venderL != null : !VENDER_L_EDEFAULT.equals(venderL);
+			case ComponentPackage.COMPONENT__DESCRIPTION_L:
+				return DESCRIPTION_L_EDEFAULT == null ? descriptionL != null : !DESCRIPTION_L_EDEFAULT.equals(descriptionL);
+			case ComponentPackage.COMPONENT__CATEGORY_L:
+				return CATEGORY_L_EDEFAULT == null ? categoryL != null : !CATEGORY_L_EDEFAULT.equals(categoryL);
+			case ComponentPackage.COMPONENT__TYPE_NAME_L:
+				return TYPE_NAME_L_EDEFAULT == null ? typeNameL != null : !TYPE_NAME_L_EDEFAULT.equals(typeNameL);
+			case ComponentPackage.COMPONENT__VERSION_L:
+				return VERSION_L_EDEFAULT == null ? versionL != null : !VERSION_L_EDEFAULT.equals(versionL);
+			case ComponentPackage.COMPONENT__PATH_ID:
+				return PATH_ID_EDEFAULT == null ? pathId != null : !PATH_ID_EDEFAULT.equals(pathId);
+			case ComponentPackage.COMPONENT__OUTPORT_DIRECTION:
+				return OUTPORT_DIRECTION_EDEFAULT == null ? outportDirection != null : !OUTPORT_DIRECTION_EDEFAULT.equals(outportDirection);
+			case ComponentPackage.COMPONENT__COMPOSITE_TYPE_L:
+				return COMPOSITE_TYPE_L_EDEFAULT == null ? compositeTypeL != null : !COMPOSITE_TYPE_L_EDEFAULT.equals(compositeTypeL);
+			case ComponentPackage.COMPONENT__COMPONENT_ID:
+				return COMPONENT_ID_EDEFAULT == null ? componentId != null : !COMPONENT_ID_EDEFAULT.equals(componentId);
+			case ComponentPackage.COMPONENT__REQUIRED:
+				return required != REQUIRED_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (executionContextState: ");
-		result.append(executionContextState);
-		result.append(", state: ");
-		result.append(state);
-		result.append(", componentState: ");
-		result.append(componentState);
+		result.append(" (instanceNameL: ");
+		result.append(instanceNameL);
+		result.append(", venderL: ");
+		result.append(venderL);
+		result.append(", descriptionL: ");
+		result.append(descriptionL);
+		result.append(", categoryL: ");
+		result.append(categoryL);
+		result.append(", typeNameL: ");
+		result.append(typeNameL);
+		result.append(", versionL: ");
+		result.append(versionL);
+		result.append(", pathId: ");
+		result.append(pathId);
+		result.append(", outportDirection: ");
+		result.append(outportDirection);
+		result.append(", compositeTypeL: ");
+		result.append(compositeTypeL);
+		result.append(", componentId: ");
+		result.append(componentId);
+		result.append(", required: ");
+		result.append(required);
 		result.append(')');
 		return result.toString();
 	}
 
-	public java.lang.Object getAdapter(Class adapter) {
-		java.lang.Object result = null;
-		if (IPropertySource.class.equals(adapter)) {
-			result = new ComponentPropertySource(this);
-		}
-
-		if (result == null) {
-			result = super.getAdapter(adapter);
-		}
-
-		return result;
+	// 同一コンポーネントであるかのチェックをcomponentId + pathIdを用いて行う。
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Component))
+			return false;
+		if (getComponentId() == null || getPathId() == null)
+			return super.equals(obj);
+		Component other = (Component) obj;
+		return getComponentId().equals(other.getComponentId())
+				&& getPathId().equals(other.getPathId());
 	}
 
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public EList getInports() {
-		EList result = new BasicEList();
-		for (Iterator iter = getPorts().iterator(); iter.hasNext();) {
-			Port port = (Port) iter.next();
-			if (port instanceof InPort) {
-				result.add(port);
-			}
-		}
-
-		return result;
+	@Override
+	public int hashCode() {
+		if (getComponentId() == null || getPathId() == null)
+			return super.hashCode();
+		return getComponentId().hashCode() * 3 + getPathId().hashCode() + 5;
 	}
 
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public EList getOutports() {
-		EList result = new BasicEList();
-		for (Iterator iter = getPorts().iterator(); iter.hasNext();) {
-			Port port = (Port) iter.next();
-			if (port instanceof OutPort) {
-				result.add(port);
-			}
-		}
-
-		return result;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public EList getServiceports() {
-		EList result = new BasicEList();
-		for (Iterator iter = getPorts().iterator(); iter.hasNext();) {
-			Port port = (Port) iter.next();
-			if (port instanceof ServicePort) {
-				result.add(port);
-			}
-		}
-
-		return result;
-	}
-
-	public String getInstanceNameR() {
-		String result = "<unknown>";
-		try {
-			result = getCorbaObjectInterface().get_component_profile().instance_name;
-		} catch (Exception e) {
-			// void
-		}
-
-		return result;
-	}
-
-	public RTObject getCorbaObjectInterface() {
-		return RTObjectHelper.narrow(super.getCorbaObject());
-	}
-
-	public static final MappingRule MAPPING_RULE = new MappingRule(
-			null,
-			new ClassMapping(
-					ComponentImpl.class,
-					new ConstructorParamMapping[] { new ConstructorParamMapping(
-							CorePackage.eINSTANCE
-									.getCorbaWrapperObject_CorbaObject()) }) {
-				@Override
-				public boolean isTarget(LocalObject parent,
-						Object[] remoteObjects, java.lang.Object link) {
-					boolean result = false;
-					if (remoteObjects[0] instanceof org.omg.CORBA.Object) {
-						result = ((org.omg.CORBA.Object) remoteObjects[0])
-								._is_a(RTObjectHelper.id());
-					}
-
-					return result;
+	public void synchronizeChildComponents() {
+		for (Object content : eContents()) {
+			if (content instanceof LocalObject) {
+				LocalObject lo = (LocalObject) content;
+				if (lo.getSynchronizationSupport() != null) {
+					lo.getSynchronizationSupport().synchronizeLocal();
 				}
-
-				@Override
-				public Object[] narrow(Object[] remoteObjects) {
-					return new Object[] { RTObjectHelper
-							.narrow(((org.omg.CORBA.Object) remoteObjects[0])) };
-				}
-			}, new AttributeMapping[] {}, new ReferenceMapping[] {}	);
-
-	private static AttributeMapping[] getAttributeMappings() {
-
-		return new AttributeMapping[] {
-				new AttributeMapping(ComponentPackage.eINSTANCE
-						.getAbstractComponent_RTCComponentProfile(), true) {
-					@Override
-					public Object getRemoteAttributeValue(
-							LocalObject localObject, Object[] remoteObjects) {
-						Object result = null;
-						try {
-							result = ((Component) localObject)
-									.getCorbaObjectInterface()
-									.get_component_profile();
-						} catch (Exception e) {
-							// void
-						}
-
-						return result;
-					}
-				},
-				new AttributeMapping(ComponentPackage.eINSTANCE
-						.getAbstractComponent_InstanceNameL(), true) {
-					@Override
-					public Object getRemoteAttributeValue(
-							LocalObject localObject, Object[] remoteObjects) {
-						Object result = null;
-						try {
-							result = ((Component) localObject)
-									.getRTCComponentProfile().instance_name;
-						} catch (Exception e) {
-							// void
-						}
-
-						return result;
-					}
-				},
-
-				new AttributeMapping(ComponentPackage.eINSTANCE
-						.getAbstractComponent_SDOConfiguration(), true) {
-					@Override
-					public Object getRemoteAttributeValue(
-							LocalObject localObject, Object[] remoteObjects) {
-						Object result = null;
-						try {
-							result = RTObjectHelper.narrow(
-									(org.omg.CORBA.Object) remoteObjects[0])
-									.get_configuration();
-						} catch (Exception e) {
-							// void
-						}
-
-						return result;
-					}
-				},
-
-				new AttributeMapping(ComponentPackage.eINSTANCE
-						.getComponent_ExecutionContextState()) {
-
-					@Override
-					public Object getRemoteAttributeValue(
-							LocalObject localObject, Object[] remoteObjects) {
-						Object result = ExecutionContext.STATE_UNKNOWN;
-						try {
-							RTC.ExecutionContext[] executionContexts = RTObjectHelper
-									.narrow(
-											(org.omg.CORBA.Object) remoteObjects[0])
-									.get_owned_contexts();
-							if (executionContexts != null
-									&& executionContexts.length > 0) {
-								if (executionContexts[0].is_running()) {
-									result = ExecutionContext.STATE_RUNNING;
-								} else {
-									result = ExecutionContext.STATE_STOPPED;
-								}
-							}
-						} catch (Exception e) {
-							// void
-						}
-
-						return result;
-					}
-				},
-				new AttributeMapping(ComponentPackage.eINSTANCE
-						.getComponent_ComponentState()) {
-
-					@Override
-					public Object getRemoteAttributeValue(
-							LocalObject localObject, Object[] remoteObjects) {
-						Object result = LifeCycleState.RTC_UNKNOWN;
-						try {
-
-
-							RTC.ExecutionContext[] executionContexts = RTObjectHelper
-									.narrow(
-											(org.omg.CORBA.Object) remoteObjects[0])
-									.get_owned_contexts();	
-							if (RTObjectHelper.narrow(
-									(org.omg.CORBA.Object) remoteObjects[0])
-									.is_alive(executionContexts[0])) {
-								if (executionContexts != null
-										&& executionContexts.length > 0) {
-									RTC.LifeCycleState lifeCycleState = executionContexts[0]
-											.get_component_state(RTObjectHelper
-													.narrow((org.omg.CORBA.Object) remoteObjects[0]));
-									if (RTC.LifeCycleState.ACTIVE_STATE.value() == lifeCycleState
-											.value()) {
-										result = LifeCycleState.RTC_ACTIVE;
-									} else if (RTC.LifeCycleState.ERROR_STATE
-											.value() == lifeCycleState.value()) {
-										result = LifeCycleState.RTC_ERROR;
-									} else if (RTC.LifeCycleState.INACTIVE_STATE
-											.value() == lifeCycleState.value()) {
-										result = LifeCycleState.RTC_INACTIVE;
-									} else if (RTC.LifeCycleState.CREATED_STATE
-											.value() == lifeCycleState.value()) {
-										result = LifeCycleState.RTC_UNKNOWN;
-									}
-								}
-							} else {
-								result = LifeCycleState.RTC_CREATED;
-							}
-						} catch (Exception e) {
-							// void
-						}
-						return result;
-					}
-				},
-				new AttributeMapping(ComponentPackage.eINSTANCE
-						.getComponent_State()) {
-
-					@Override
-					public Object getRemoteAttributeValue(
-							LocalObject localObject, Object[] remoteObjects) {
-						Object result = Component.STATE_UNKNOWN;
-						try {
-							RTC.ExecutionContext[] executionContexts = RTObjectHelper
-									.narrow(
-											(org.omg.CORBA.Object) remoteObjects[0])
-									.get_owned_contexts();
-							boolean is_alive = RTObjectHelper.narrow(
-									(org.omg.CORBA.Object) remoteObjects[0])
-									.is_alive(executionContexts[0]);
-
-							if (is_alive) {
-								result = Component.STATE_ALIVE;
-							} else {
-								result = Component.STATE_CREATED;
-							}
-						} catch (Exception e) {
-							// void
-						}
-
-						return result;
-					}
-				},
-				new AttributeMapping(ComponentPackage.eINSTANCE
-						.getAbstractComponent_ConfigurationSets()) {
-					@Override
-					public Object getRemoteAttributeValue(
-							LocalObject localObject, Object[] remoteObjects) {
-						List result = new ArrayList();
-						try {
-							_SDOPackage.ConfigurationSet[] configs = ((Component) localObject)
-									.getSDOConfiguration()
-									.get_configuration_sets();
-							for (_SDOPackage.ConfigurationSet config : configs) {
-								result.add(CorbaWrapperFactory.getInstance()
-										.createWrapperObject(config));
-							}
-						} catch (Exception e) {
-							// void
-						}
-
-						return result;
-					}
-				},
-				new AttributeMapping(ComponentPackage.eINSTANCE
-						.getAbstractComponent_ActiveConfigurationSet()) {
-					@Override
-					public Object getRemoteAttributeValue(
-							LocalObject localObject, Object[] remoteObjects) {
-						String result = null;
-						try {
-							result = ((Component) localObject)
-									.getSDOConfiguration()
-									.get_active_configuration_set().id;
-						} catch (Exception e) {
-							// void
-						}
-
-						return result;
-					}
-
-					@Override
-					public Object convert2LocalValue(LocalObject localObject,
-							Object remoteAttributeValue) {
-						ConfigurationSet result = null;
-						for (Iterator iter = ((Component) localObject)
-								.getConfigurationSets().iterator(); iter
-								.hasNext();) {
-							ConfigurationSet element = (ConfigurationSet) iter
-									.next();
-							if (remoteAttributeValue != null) {
-								if (remoteAttributeValue
-										.equals(element.getId())) {
-									result = element;
-									break;
-								}
-							}
-						}
-
-						return result;
-					}
-
-					@Override
-					public boolean isEquals(Object value1, Object value2) {
-						return value1 == value2;
-					}
-				},
-
-		};
-	}
-
-	private static ReferenceMapping[] getReferenceMappings() {
-		return new ReferenceMapping[] {
-				new ManyReferenceMapping(ComponentPackage.eINSTANCE
-						.getAbstractComponent_Ports()) {
-					@Override
-					public List getNewRemoteLinkList(Object[] remoteObjects) {
-						RTC.PortService[] ports = null;
-						try {
-							ports = RTObjectHelper.narrow(
-									(org.omg.CORBA.Object) remoteObjects[0])
-									.get_ports();
-						} catch (Exception e) {
-							// void
-						}
-
-						List result = Collections.EMPTY_LIST;
-						if (ports != null) {
-							result = Arrays.asList(ports);
-						}
-
-						return result;
-					}
-				},
-				new ManyReferenceMapping(ComponentPackage.eINSTANCE
-						.getComponent_LifeCycleStates()) {
-					@Override
-					public List getNewRemoteLinkList(Object[] remoteObjects) {
-						RTC.ExecutionContext[] executionContexts = null;
-						try {
-							executionContexts = RTObjectHelper.narrow(
-									(org.omg.CORBA.Object) remoteObjects[0])
-									.get_owned_contexts();
-						} catch (Exception e) {
-							// void
-						}
-
-						List result = Collections.EMPTY_LIST;
-						if (executionContexts != null) {
-							result = Arrays.asList(executionContexts);
-						}
-
-						return result;
-					}
-
-					@Override
-					public List getOldRemoteLinkList(LocalObject localObject) {
-						List result = new ArrayList();
-						for (Iterator iter = ((Component) localObject)
-								.getLifeCycleStates().iterator(); iter
-								.hasNext();) {
-							LifeCycleState lifeCycleState = (LifeCycleState) iter
-									.next();
-
-							ExecutionContext executionContext = lifeCycleState
-									.getExecutionContext();
-							if (executionContext != null) {
-								result.add(executionContext
-										.getCorbaBaseObject());
-							}
-						}
-
-						return result;
-					}
-
-					@Override
-					public Object[] getRemoteObjectByRemoteLink(
-							LocalObject localObject,
-							Object[] parentRemoteObjects, Object link) {
-						RTC.ExecutionContext executionContext = (RTC.ExecutionContext) link;
-
-						return new Object[] {
-								localObject,
-								CorbaWrapperFactory.getInstance()
-										.createWrapperObject(executionContext) };
-					}
-				} };
-	}
-	
-	public static void synchronizeLocalAttribute(Component component, EReference reference) {
+			}
+		}
 		
-		for (AttributeMapping attibuteMapping : getAttributeMappings()) {
-			if (reference != null) {
-				if (reference.equals(attibuteMapping.getLocalFeature())) {
-					try {
-						attibuteMapping.syncronizeLocal(component);
-						break;
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}else{
-				try {
-					attibuteMapping.syncronizeLocal(component);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+		if (getComponents() == null) {
+			return;
+		}
+		for (Object obj : getComponents()) {
+			if (obj instanceof CorbaComponent) {
+				CorbaComponent c = (CorbaComponent) obj;
+				c.synchronizeLocalAttribute(null);
+				c.synchronizeLocalReference();
+				c.synchronizeChildComponents();
 			}
-		}
-		for (Iterator iterator = component.getAllComponents()
-				.iterator(); iterator.hasNext();) {
-			Object object = (Component) iterator.next();
-			ComponentImpl.synchronizeLocalAttribute((Component) object, reference);
-		}
-	}
-	
-	public static void synchronizeLocalReference(Component component) {
-		for (ReferenceMapping referenceMapping : ComponentImpl
-				.getReferenceMappings()) {
-			try {
-				referenceMapping.syncronizeLocal(component);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		for (Iterator iterator = component.getAllComponents()
-				.iterator(); iterator.hasNext();) {
-			Object object = (Component) iterator.next();
-			ComponentImpl.synchronizeLocalReference((Component) object);
 		}
 	}
 
-} // ComponentImpl
+	@SuppressWarnings("unchecked")
+	public synchronized void addComponent(Component component) {
+		getComponents().add(component);
+	}
+
+	protected void adjustPathId(List<Component> components) {
+		String basePathId = getPathId();
+		for (Component c: components) {
+			if (c.getPathId() == null) {
+				c.setPathId(basePathId.substring(0, basePathId.lastIndexOf("/") + 1)
+								+  c.getInstanceNameL() + ".rtc");
+			}
+		}
+	}
+	
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 */
+	@SuppressWarnings("unchecked")
+	public void accept(Visiter visiter) {
+		super.accept(visiter);
+		for (Object obj : getComponents()) {
+			ModelElement element = (ModelElement) obj;
+			element.accept(visiter);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+//	@Override
+	public void removeDeadChild() {
+		for (Iterator iterate = getComponents().iterator();iterate.hasNext();){
+			Component c = (Component)iterate.next();
+			if (c.isDead()) {
+				iterate.remove();
+			} else {
+				c.removeDeadChild();
+			}
+		}
+		
+	}
+	
+	
+
+} //ComponentImpl

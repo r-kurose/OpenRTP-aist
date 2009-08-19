@@ -1,10 +1,6 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.dnd;
 
-import java.util.Iterator;
-
-import jp.go.aist.rtm.systemeditor.factory.SystemEditorWrapperFactory;
-import jp.go.aist.rtm.systemeditor.ui.util.ComponentUtil;
-import jp.go.aist.rtm.toolscommon.model.component.AbstractComponent;
+import jp.go.aist.rtm.toolscommon.model.component.Component;
 
 import org.eclipse.gef.requests.CreationFactory;
 
@@ -12,7 +8,7 @@ import org.eclipse.gef.requests.CreationFactory;
  * ドラッグ＆ドロップ時、コンポーネントを作成するファクトリ
  */
 public class ComponentFactory implements CreationFactory {
-	private AbstractComponent component;
+	private Component component;
 
 	/**
 	 * {@inheritDoc}
@@ -27,7 +23,7 @@ public class ComponentFactory implements CreationFactory {
 	 * @param remoteObject
 	 *            コンポーネントのリモートオブジェクト
 	 */
-	public void setComponent(AbstractComponent component) {
+	public void setComponent(Component component) {
 		this.component = component;
 	}
 	
@@ -37,29 +33,16 @@ public class ComponentFactory implements CreationFactory {
 	 * @param remoteObject
 	 *            コンポーネントのリモートオブジェクト
 	 */
-	protected AbstractComponent getComponent() {
+	protected Component getComponent() {
 		return this.component;
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
+	@SuppressWarnings("unchecked")
 	public Object getNewObject() {
-		AbstractComponent result = null;
-		if (getComponent() != null) {
-			result = (AbstractComponent) SystemEditorWrapperFactory
-					.getInstance().copy(getComponent());
-			for (Iterator iterator = getComponent().getComponents().iterator(); iterator
-					.hasNext();) {
-				AbstractComponent tempComponent = (AbstractComponent) iterator.next();
-				result.getComponents().add(
-						SystemEditorWrapperFactory.getInstance().copy(
-								tempComponent));
-				ComponentUtil.copieAndSetCompositeComponents(result,
-						tempComponent);
-			}
-		}
-
-		return result;
+		if (getComponent() != null) return getComponent().copy();
+		return null;
 	}
 }

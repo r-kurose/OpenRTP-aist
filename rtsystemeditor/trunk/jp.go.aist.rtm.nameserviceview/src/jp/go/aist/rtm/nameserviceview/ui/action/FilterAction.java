@@ -3,20 +3,12 @@ package jp.go.aist.rtm.nameserviceview.ui.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.go.aist.rtm.nameserviceview.model.nameservice.CategoryNamingContext;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.HostNamingContext;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.ManagerNamingContext;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.ModuleNamingContext;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.impl.CategoryNamingContextImpl;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.impl.HostNamingContextImpl;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.impl.ManagerNamingContextImpl;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.impl.ModuleNamingContextImpl;
 import jp.go.aist.rtm.nameserviceview.ui.dialog.FiltersDialog;
 import jp.go.aist.rtm.nameserviceview.ui.views.nameserviceview.NameServiceView;
-import jp.go.aist.rtm.toolscommon.model.component.AbstractComponent;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 
 import org.eclipse.jface.action.IAction;
@@ -30,6 +22,10 @@ import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.model.IWorkbenchAdapter;
 import org.omg.CosNaming.Binding;
 
+/**
+ *　ネームサービスビューに対して、フィルタを設定するアクション
+ *
+ */
 public class FilterAction implements IViewActionDelegate {
 	private NameServiceView view;
 	/**
@@ -94,8 +90,20 @@ public class FilterAction implements IViewActionDelegate {
 		}
 		if (FiltersDialog.isStartsWith()){
 			return !matchName.startsWith(pattern);
+		}else{
+			return !matchName.contains(pattern);
 		}
-		return !matchName.contains(pattern);
+	}
+	private boolean filterComponent(Object e, boolean isCompositeComponent) {
+		if (!(e instanceof NamingObjectNode)) return true;
+		Object obj = AdapterUtil.getAdapter(e, Component.class);
+		if (!(obj instanceof Component)) return true;
+		Component component = (Component) obj;
+		if (component.getCategoryL() == null) {
+			component.synchronizeLocalAttribute(ComponentPackage.eINSTANCE
+				.getCorbaComponent_RTCComponentProfile());
+		}
+		return component.isCompositeComponent() != isCompositeComponent;
 	}
 	private List<ViewerFilter> getFilters(){
 		List<String> filterTarget = FiltersDialog.loadDefaultFilters();
@@ -105,29 +113,15 @@ public class FilterAction implements IViewActionDelegate {
 				filters.add(new ViewerFilter() {
 					@Override
 					public boolean select(Viewer viewer, Object parent, Object e) {
-						if (e instanceof NamingObjectNode) {
-							Object component = AdapterUtil.getAdapter(e,
-									AbstractComponent.class);
-							if (component instanceof Component
-									&& !((Component)component).isCompositeComponent()) {
-								return false;
-							}
-						}
-						return true;
+						return filterComponent(e, false);
 					}
+
 				});
 			} else if (FiltersDialog.COMPOSITE_COMPONENT.equals(target)) {
 				filters.add(new ViewerFilter() {
 					@Override
 					public boolean select(Viewer viewer, Object parent, Object e) {
-						if (e instanceof NamingObjectNode) {
-							Object component = AdapterUtil.getAdapter(e, AbstractComponent.class);
-							if ((component instanceof Component && ((Component) component)
-									.isCompositeComponent())) {
-								return false;
-							}
-						}
-						return true;
+						return filterComponent(e, true);
 					}
 				});
 			} else if (FiltersDialog.OBJECT.equals(target)) {
@@ -135,7 +129,8 @@ public class FilterAction implements IViewActionDelegate {
 					@Override
 					public boolean select(Viewer viewer, Object parent, Object e) {
 						if (e instanceof NamingObjectNode) {
-							Object component = AdapterUtil.getAdapter(e, AbstractComponent.class);
+							Object component = (Component) AdapterUtil
+									.getAdapter(e, Component.class);
 							if (!(component instanceof Component)) {
 								return false;
 							}
@@ -147,40 +142,40 @@ public class FilterAction implements IViewActionDelegate {
 				filters.add(new ViewerFilter() {
 					@Override
 					public boolean select(Viewer viewer, Object parent, Object e) {
-						if (e instanceof HostNamingContext) {
-							return false;
+						if (!(e instanceof NamingContextNode)) {
+							return true;
 						}
-						return true;
+						return !NamingContextNode.KIND_HOST.equals(((NamingContextNode)e).getKind());
 					}
 				});
 			} else if (FiltersDialog.MANAGER_NAMING_CONTEXT.equals(target)) {
 				filters.add(new ViewerFilter() {
 					@Override
 					public boolean select(Viewer viewer, Object parent, Object e) {
-						if (e instanceof ManagerNamingContext) {
-							return false;
+						if (!(e instanceof NamingContextNode)) {
+							return true;
 						}
-						return true;
+						return !NamingContextNode.KIND_MANAGER.equals(((NamingContextNode)e).getKind());
 					}
 				});
 			} else if (FiltersDialog.CATEGORY_NAMING_CONTEXT.equals(target)) {
 				filters.add(new ViewerFilter() {
 					@Override
 					public boolean select(Viewer viewer, Object parent, Object e) {
-						if (e instanceof CategoryNamingContext) {
-							return false;
+						if (!(e instanceof NamingContextNode)) {
+							return true;
 						}
-						return true;
+						return !NamingContextNode.KIND_CATEGORY.equals(((NamingContextNode)e).getKind());
 					}
 				});
 			} else if (FiltersDialog.MODULE_NAMING_CONTEXT.equals(target)) {
 				filters.add(new ViewerFilter() {
 					@Override
 					public boolean select(Viewer viewer, Object parent, Object e) {
-						if (e instanceof ModuleNamingContext) {
-							return false;
+						if (!(e instanceof NamingContextNode)) {
+							return true;
 						}
-						return true;
+						return !NamingContextNode.KIND_MODULE.equals(((NamingContextNode)e).getKind());
 					}
 				});
 			} else if (FiltersDialog.FOLDER.equals(target)) {
@@ -188,10 +183,10 @@ public class FilterAction implements IViewActionDelegate {
 					@Override
 					public boolean select(Viewer viewer, Object parent, Object e) {
 						List<String> kinds = new ArrayList<String>();
-						kinds.add(HostNamingContextImpl.KIND);
-						kinds.add(ManagerNamingContextImpl.KIND);
-						kinds.add(CategoryNamingContextImpl.KIND);
-						kinds.add(ModuleNamingContextImpl.KIND);
+						kinds.add(NamingContextNode.KIND_HOST);
+						kinds.add(NamingContextNode.KIND_MANAGER);
+						kinds.add(NamingContextNode.KIND_CATEGORY);
+						kinds.add(NamingContextNode.KIND_MODULE);
 						if (e instanceof NamingContextNode) {
 							if (((NamingContextNode) e)
 									.getNameServiceReference() != null) {

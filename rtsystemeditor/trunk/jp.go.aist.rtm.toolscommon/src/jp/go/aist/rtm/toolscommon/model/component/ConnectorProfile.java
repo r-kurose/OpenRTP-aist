@@ -2,8 +2,6 @@ package jp.go.aist.rtm.toolscommon.model.component;
 
 import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
 
-import org.eclipse.emf.common.util.EList;
-
 /**
  * ConnectorProfileを表現するクラス
  * <p>
@@ -16,24 +14,6 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface ConnectorProfile extends WrapperObject{
 
-	public static final String NAME_VALUE_KEY_PORT_PORT_TYPE_DATA_OUTPORT_VALUE = "DataOutPort";
-
-	public static final String NAME_VALUE_KEY_PORT_PORT_TYPE_DATA_INPORT_VALUE = "DataInPort";
-
-	public static final String NAME_VALUE_KEY_PORT_PORT_TYPE_SERVICE_PORT_VALUE = "CorbaPort";
-
-	public static final String NAME_VALUE_KEY_PORT_PORT_TYPE = "port.port_type";
-
-	public static final String NAME_VALUE_KEY_DATAPORT_DATA_TYPE = "dataport.data_type";
-
-	public static final String NAME_VALUE_KEY_DATAPORT_INTERFACE_TYPE = "dataport.interface_type";
-
-	public static final String NAME_VALUE_KEY_DATAPORT_DATAFLOW_TYPE = "dataport.dataflow_type";
-
-	public static final String NAME_VALUE_KEY_DATAPORT_SUBSCRIPTION_TYPE = "dataport.subscription_type";
-
-	public static final String NAME_VALUE_KEY_PORT_PUSH_RATE = "dataport.push_rate";
-
 	public static final String ANY = "Any";
 
 	public static final String PERIODIC = "Periodic";
@@ -41,6 +21,7 @@ public interface ConnectorProfile extends WrapperObject{
 	public static final String PUSH = "Push";
 
 	/**
+	 * 当該コネクタで使用されるデータフロー型を返す。
 	 * @model changeable="true" transient="true" volatile="true"
 	 * @return
 	 */
@@ -48,7 +29,9 @@ public interface ConnectorProfile extends WrapperObject{
 
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getDataflowType <em>Dataflow Type</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * 当該コネクタで使用されるデータフロー型を設定する。
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Dataflow Type</em>' attribute.
 	 * @see #getDataflowType()
 	 * @generated
@@ -56,6 +39,7 @@ public interface ConnectorProfile extends WrapperObject{
 	void setDataflowType(String value);
 
 	/**
+	 * 当該コネクタで使用されるサブスクリプション型を返す
 	 * @model changeable="true" transient="true" volatile="true"
 	 * @return
 	 */
@@ -63,7 +47,9 @@ public interface ConnectorProfile extends WrapperObject{
 
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getSubscriptionType <em>Subscription Type</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * 当該コネクタで使用されるサブスクリプション型を設定する
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Subscription Type</em>' attribute.
 	 * @see #getSubscriptionType()
 	 * @generated
@@ -71,18 +57,21 @@ public interface ConnectorProfile extends WrapperObject{
 	void setSubscriptionType(String value);
 
 	/**
+	 * サブスクリプション型が使用可能か（データフロー型がPUSHであるか）を返す
 	 * @model changeable="false" transient="true" volatile="true"
 	 * @return
 	 */
 	public boolean isSubscriptionTypeAvailable();
 
 	/**
+	 * PUSH間隔が使用可能か（サブスクリプション型が使用可能でサブスクリプション型がPERIODIC）を返す
 	 * @model changeable="false" transient="true" volatile="true"
 	 * @return
 	 */
 	public boolean isPushIntervalAvailable();
 
 	/**
+	 * OutportからInportに流れるデータの型を返す
 	 * @model changeable="true" transient="true" volatile="true"
 	 * @return
 	 */
@@ -90,7 +79,9 @@ public interface ConnectorProfile extends WrapperObject{
 
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getDataType <em>Data Type</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * OutportからInportに流れるデータの型を設定する
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Data Type</em>' attribute.
 	 * @see #getDataType()
 	 * @generated
@@ -98,6 +89,7 @@ public interface ConnectorProfile extends WrapperObject{
 	void setDataType(String value);
 
 	/**
+	 *  当該コネクタで使用されるインターフェース型を返す
 	 * @model changeable="true" transient="true" volatile="true"
 	 * @return
 	 */
@@ -105,7 +97,9 @@ public interface ConnectorProfile extends WrapperObject{
 
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getInterfaceType <em>Interface Type</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * 当該コネクタで使用されるインターフェース型を設定する
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Interface Type</em>' attribute.
 	 * @see #getInterfaceType()
 	 * @generated
@@ -113,6 +107,7 @@ public interface ConnectorProfile extends WrapperObject{
 	void setInterfaceType(String value);
 
 	/**
+	 * 当該コネクタで使用されるデータ送信周期を返す
 	 * @model changeable="true" transient="true" volatile="true"
 	 * @return
 	 */
@@ -120,7 +115,9 @@ public interface ConnectorProfile extends WrapperObject{
 
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getPushRate <em>Push Rate</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * 当該コネクタで使用されるデータ送信周期を設定する
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Push Rate</em>' attribute.
 	 * @see #getPushRate()
 	 * @generated
@@ -128,14 +125,68 @@ public interface ConnectorProfile extends WrapperObject{
 	void setPushRate(Double value);
 
 	/**
+	 * Returns the value of the '<em><b>Source String</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * コネクタの接続元であるポートの識別文字列を返す
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Source String</em>' attribute.
+	 * @see #setSourceString(String)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getConnectorProfile_SourceString()
 	 * @model
-	 * @return
+	 * @generated
+	 */
+	String getSourceString();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getSourceString <em>Source String</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * コネクタの接続元であるポートの識別文字列を設定する
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Source String</em>' attribute.
+	 * @see #getSourceString()
+	 * @generated
+	 */
+	void setSourceString(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Target String</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * コネクタの接続先であるポートの識別文字列を返す
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Target String</em>' attribute.
+	 * @see #setTargetString(String)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getConnectorProfile_TargetString()
+	 * @model
+	 * @generated
+	 */
+	String getTargetString();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getTargetString <em>Target String</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * コネクタの接続先であるポートの識別文字列を設定する
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Target String</em>' attribute.
+	 * @see #getTargetString()
+	 * @generated
+	 */
+	void setTargetString(String value);
+
+	/**
+	 * @model
+	 * @return	接続情報の名称
 	 */
 	public String getName();
 
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getName <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * 接続情報の名称を設定する
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Name</em>' attribute.
 	 * @see #getName()
 	 * @generated
@@ -143,40 +194,20 @@ public interface ConnectorProfile extends WrapperObject{
 	void setName(String value);
 
 	/**
-	 * @model containment="true"
-	 *        type="jp.go.aist.rtm.toolscommon.model.component.NameValue"
-	 * @return
-	 */
-	public EList getProperties();
-
-	/**
 	 * @model
-	 * @return
+	 * @return　接続情報の一意識別子
 	 */
 	public String getConnectorId();
 
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getConnectorId <em>Connector Id</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * 接続情報の一意識別子を設定する
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Connector Id</em>' attribute.
 	 * @see #getConnectorId()
 	 * @generated
 	 */
 	void setConnectorId(String value);
-
-	/**
-	 * @model transient="true"
-	 * @return
-	 */
-	public RTC.ConnectorProfile getRtcConnectorProfile();
-
-	/**
-	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getRtcConnectorProfile <em>Rtc Connector Profile</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Rtc Connector Profile</em>' attribute.
-	 * @see #getRtcConnectorProfile()
-	 * @generated
-	 */
-	void setRtcConnectorProfile(RTC.ConnectorProfile value);
 
 }

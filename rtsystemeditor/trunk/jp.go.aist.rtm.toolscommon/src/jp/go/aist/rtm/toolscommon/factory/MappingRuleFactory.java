@@ -38,8 +38,8 @@ public class MappingRuleFactory {
 					try {
 						int lastIndexOf = mappingRuleValue.lastIndexOf(".");
 
-						Class clazz = Platform.getBundle(
-								extension.getNamespace()).loadClass(
+						Class<?> clazz = Platform.getBundle(
+								extension.getNamespaceIdentifier()).loadClass(
 								mappingRuleValue.substring(0, lastIndexOf));
 						Field field = clazz.getDeclaredField(mappingRuleValue
 								.substring(lastIndexOf + ".".length()));
@@ -68,5 +68,9 @@ public class MappingRuleFactory {
 		}
 
 		return mappingRules;
+	}
+
+	public static void setMappingRule(MappingRule[] rules) {
+		mappingRules = rules;
 	}
 }

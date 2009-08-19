@@ -1,7 +1,7 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.figure;
 
 import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.PortProfile;
+import jp.go.aist.rtm.toolscommon.model.component.Port;
 
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.Panel;
@@ -14,7 +14,7 @@ import org.eclipse.draw2d.geometry.Point;
  */
 public class PortFigure extends PolygonDecoration {
 
-	private int direction;
+	private String direction;
 
 	/**
 	 * 方向を設定する
@@ -22,21 +22,22 @@ public class PortFigure extends PolygonDecoration {
 	 * @param direction
 	 *            方向
 	 */
-	public void setDirection(int direction) {
-
-		double rotation = 0;
-		if (direction == Component.RIGHT_DIRECTION) {
-			rotation = 0;
-		} else if (direction == Component.LEFT_DIRECTION) {
-			rotation = Math.PI;
-		} else if (direction == Component.UP_DIRECTION) {
-			rotation = Math.PI * 3 / 2;
-		} else if (direction == Component.DOWN_DIRECTION) {
-			rotation = Math.PI / 2;
-		}
-
+	public void setDirection(String direction) {
 		this.direction = direction;
-		this.setRotation(rotation);
+		setRotation(getRotation(direction));
+	}
+
+	private double getRotation(String direction) {
+		if (direction.equals(Component.OUTPORT_DIRECTION_RIGHT_LITERAL)) {
+			return 0;
+		} else if (direction.equals(Component.OUTPORT_DIRECTION_LEFT_LITERAL)) {
+			return Math.PI;
+		} else if (direction.equals(Component.OUTPORT_DIRECTION_UP_LITERAL)) {
+			return Math.PI * 3 / 2;
+		} else if (direction.equals(Component.OUTPORT_DIRECTION_DOWN_LITERAL)) {
+			return Math.PI / 2;
+		}
+		return 0;
 	}
 
 	/**
@@ -44,7 +45,7 @@ public class PortFigure extends PolygonDecoration {
 	 * 
 	 * @return 方向
 	 */
-	public int getDirection() {
+	public String getDirection() {
 		return direction;
 	}
 
@@ -55,18 +56,15 @@ public class PortFigure extends PolygonDecoration {
 	 *            モデル
 	 * @return ツールチップ
 	 */
-	public static Panel getServicePortToolTip(PortProfile profile) {
-
+	public static Panel getServicePortToolTip(Port port) {
 		Panel tooltip = new Panel();
 		tooltip.setLayoutManager(new StackLayout());
 
 		String labelString = "";
 		try {
-			if (profile != null) {
-				labelString = labelString
-						+ (profile.getNameL() == null ? "<unknown>" : profile
-								.getNameL()) + ""; // \r\nは最後はいらない
-			}
+			labelString = labelString
+					+ (port.getNameL() == null ? "<unknown>" : port
+							.getNameL()) + ""; // \r\nは最後はいらない
 		} catch (RuntimeException e) {
 			// void
 		}

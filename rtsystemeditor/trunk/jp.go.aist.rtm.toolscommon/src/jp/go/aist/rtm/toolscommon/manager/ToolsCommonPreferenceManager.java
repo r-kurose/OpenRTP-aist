@@ -33,7 +33,7 @@ public class ToolsCommonPreferenceManager {
 	/**
 	 * デフォルトタイムアウト判定時間
 	 */
-	public static final int defaultTimeoutPeriod = 3000;
+	public static final int defaultTimeoutPeriod = 1000;
 	
 	/**
 	 * デフォルトタイムアウト判定時間を取得する

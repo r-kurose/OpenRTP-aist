@@ -2,29 +2,21 @@ package jp.go.aist.rtm.systemeditor.ui.editor;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Iterator;
 
 import jp.go.aist.rtm.systemeditor.factory.SystemEditorWrapperFactory;
 import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
+import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.restoration.Restoration;
 import jp.go.aist.rtm.systemeditor.restoration.Result;
+import jp.go.aist.rtm.systemeditor.ui.editor.action.OpenAndQuickRestoreAction;
 import jp.go.aist.rtm.systemeditor.ui.editor.action.OpenAndRestoreAction;
-import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
+import jp.go.aist.rtm.systemeditor.ui.editor.action.RestoreOption;
+import jp.go.aist.rtm.systemeditor.ui.util.RtsProfileHandler;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
-import jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.gef.ContextMenuProvider;
-import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.Dialog;
@@ -32,9 +24,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.FileEditorInput;
 
@@ -42,32 +32,23 @@ import org.eclipse.ui.part.FileEditorInput;
  * SystemDiagramEditorクラス
  */
 public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
-
 	/**
 	 * システムダイアグラムエディタのID
 	 */
-	public static final String SYSTEM_DIAGRAM_EDITOR_ID = "jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor";
+	public static final String SYSTEM_DIAGRAM_EDITOR_ID = "jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor"; //$NON-NLS-1$
 
-	private String diagramName = "System Diagram";
-
-	/**
-	 * コンストラクタ
-	 */
-	public SystemDiagramEditor() {
-		setEditDomain(new DefaultEditDomain(this));
-	}
-
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked") //$NON-NLS-1$
 	@Override
 	/**
 	 * {@inheritDoc}
 	 */
 	protected void createActions() {
 		super.createActions();
-
-		IAction action;
-
-		action = new OpenAndRestoreAction(this);
+		addAction(new OpenAndRestoreAction(this));
+		addAction(new OpenAndQuickRestoreAction(this));
+	}
+	@SuppressWarnings("unchecked")
+	private void addAction(IAction action) {
 		getActionRegistry().registerAction(action);
 		getPropertyActions().add(action.getId());
 	}
@@ -91,7 +72,6 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 	 * {@inheritDoc}
 	 */
 	protected void initializeGraphicalViewer() {
-
 		super.initializeGraphicalViewer();
 
 		GraphicalViewer viewer = getGraphicalViewer();
@@ -103,80 +83,20 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 
 		SystemEditorPreferenceManager.getInstance().addPropertyChangeListener(
 				preferenceListener);
-
-		getSystemDiagram().setEditorId(getEditorId());
-		viewer.setContents(getSystemDiagram());
 	}
 
 	protected IEditorInput load(IEditorInput input, final IEditorSite site,
-			final boolean doReplace) throws PartInitException {
-		boolean newOpenEditor = input instanceof NullEditorInput;// 新規エディタ
+			final RestoreOption restore) throws PartInitException {
+		
+		IEditorInput targetInput = getTargetInput(input
+				, Messages.getString("SystemDiagramEditor.10"));
 
-		IEditorInput result = input;
-		if (newOpenEditor) {
-			// void
-		} else if (!(input instanceof FileEditorInput)) {
-			IPath path = ((IPathEditorInput) input).getPath();
-			IFile file = getOutsideIFileLink(path);
-			result = new FileEditorInput(file);
+		if (targetInput instanceof FileEditorInput) {	
+			// RTSプロファイルをファイルからロードする
+			doLoad(site, restore, (FileEditorInput)targetInput);
 		}
 
-		if (newOpenEditor) {
-			setSystemDiagram(ComponentFactory.eINSTANCE.createSystemDiagram());
-		} else if (result instanceof FileEditorInput) {
-			try {
-				ResourceSet resourceSet = new ResourceSetImpl();
-
-				final Resource resource = resourceSet.createResource(URI
-						.createFileURI(((FileEditorInput) result).getPath()
-								.toOSString()));
-				if (getSystemDiagram() != null) {
-					getSystemDiagram().setSynchronizeInterval(0);
-				}
-
-				ProgressMonitorDialog dialog = new ProgressMonitorDialog(site
-						.getShell());
-				IRunnableWithProgress runable = new IRunnableWithProgress() {
-					public void run(IProgressMonitor monitor)
-							throws InvocationTargetException,
-							InterruptedException {
-
-						monitor.beginTask("ファイルのオープンを行っています", 100);
-
-						monitor
-								.subTask("ファイルをオープンし、必要に応じてツリーから最新情報の取得を行っています...");
-						monitor.internalWorked(20);
-
-						try {
-							SystemDiagram diagram = (SystemDiagram) SystemEditorWrapperFactory
-														.getInstance().loadContentFromResource(resource);
-							for (Object object : diagram.getComponents()) {
-								if (!(object instanceof Component)) {
-									throw new InvocationTargetException(new Exception(),
-									"ファイルの読み込みに失敗しました。\r\nSystem Diagram以外のファイルが読み込まれていないか確認してください。");
-								}
-							}
-							setSystemDiagram(diagram);
-						} catch (IOException e) {
-							throw new InvocationTargetException(e,
-									"ファイルの読み込みに失敗しました。\r\nSystem Diagram以外のファイルが読み込まれていないか確認してください。");
-						}
-						monitor.internalWorked(35);
-
-						if (doReplace) {
-							monitor.subTask("システムの復元を行っています...");
-							doReplace(getSystemDiagram(), site);
-						}
-						monitor.done();
-					}
-				};
-
-				dialog.run(false, false, runable);
-			} catch (Exception e) {
-				throw new PartInitException("オープンに失敗しました。", e);
-			}
-		}
-
+		// システムダイアグラムの同期スレッド開始
 		getSystemDiagram()
 				.setSynchronizeInterval(
 						SystemEditorPreferenceManager
@@ -184,26 +104,64 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 								.getInterval(
 										SystemEditorPreferenceManager.SYNC_SYSTEMEDITOR_INTERVAL));
 
-		if (newOpenEditor) {
-			diagramName = "System Diagram";
-		} else if (result instanceof FileEditorInput) {
-			diagramName = ((FileEditorInput) result).getPath().lastSegment();
+		postLoad();
+		
+		return targetInput;
+	}
+
+	private void doLoad(final IEditorSite site, final RestoreOption restore,
+			FileEditorInput editorInput) throws PartInitException {
+		try {
+			final String strPath =editorInput.getPath().toOSString();
+			
+			if (getSystemDiagram() != null) {
+				getSystemDiagram().setSynchronizeInterval(0);
+			}
+
+			ProgressMonitorDialog dialog = new ProgressMonitorDialog(site
+					.getShell());
+			IRunnableWithProgress runable = new IRunnableWithProgress() {
+				public void run(IProgressMonitor monitor)
+						throws InvocationTargetException,
+						InterruptedException {
+
+					monitor.beginTask(Messages.getString("SystemDiagramEditor.3"), 100); //$NON-NLS-1$
+
+					monitor
+							.subTask(Messages.getString("SystemDiagramEditor.4")); //$NON-NLS-1$
+					monitor.internalWorked(20);
+
+					try {
+						SystemDiagram diagram = (SystemDiagram) SystemEditorWrapperFactory
+								.getInstance().loadContentFromResource(strPath, restore);
+						setSystemDiagram(diagram);
+					} catch (Exception e) {	 
+						monitor.done();
+						throw new InvocationTargetException(e,
+								Messages.getString("SystemDiagramEditor.6")  + "\r\n" + e.getMessage()); //$NON-NLS-1$
+					}
+					monitor.internalWorked(35);
+
+					if (restore.doReplace()) {
+						monitor.subTask(Messages.getString("SystemDiagramEditor.7")); //$NON-NLS-1$
+						try{
+							RtsProfileHandler handler = new RtsProfileHandler();
+							handler.restoreConnection(getSystemDiagram());
+							handler.restoreConfigSet(getSystemDiagram());
+							doReplace(getSystemDiagram(), site);
+						} catch (Exception e) {
+							throw new InvocationTargetException(e, Messages.getString("SystemDiagramEditor.8")); //$NON-NLS-1$
+						}
+					}
+					//
+					monitor.done();
+				}
+			};
+
+			dialog.run(false, false, runable);
+		} catch (Exception e) {
+			throw new PartInitException(Messages.getString("SystemDiagramEditor.9"), e); //$NON-NLS-1$
 		}
-
-		getCommandStack().markSaveLocation(); // loadだがＯＫ
-		firePropertyChange(IEditorPart.PROP_TITLE);
-
-		this.setInput(result);
-
-		GraphicalViewer graphicalViewer2 = getGraphicalViewer();
-		if (graphicalViewer2 != null) { // 初期ロードの場合には存在しない。別途後でロードする
-			graphicalViewer2.setContents(getSystemDiagram());
-		}
-
-		getCommandStack().markSaveLocation();
-		firePropertyChange(IEditorPart.PROP_TITLE);
-		getSystemDiagram().setEditorId(SYSTEM_DIAGRAM_EDITOR_ID);
-		return result;
 	}
 
 	/**
@@ -223,13 +181,14 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 			}
 
 			public void putResult(String resultPart) {
-				buffer.append(resultPart + "\r\n");
+				buffer.append(resultPart + "\r\n"); //$NON-NLS-1$
 			}
 		};
-		Restoration.execute(systemDiagram, resultHolder);
+		resultHolder.setSuccess(true);
+		Restoration.processAllRestoreConfigurationSet(resultHolder, systemDiagram );
 		if (resultHolder.isSuccess() == false) {
 			Dialog dialog = new jp.go.aist.rtm.toolscommon.ui.dialog.ErrorDialog(
-					site.getShell(), "エラー", null, "復元に失敗しました。\r\n", buffer
+					site.getShell(), Messages.getString("SystemDiagramEditor.12"), null, Messages.getString("SystemDiagramEditor.13"), buffer //$NON-NLS-1$ //$NON-NLS-2$
 							.toString(), MessageDialog.ERROR);
 			dialog.open();
 		}
@@ -249,13 +208,12 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 	}
 
 	@Override
-	public String getEditorId() {
-		return SYSTEM_DIAGRAM_EDITOR_ID;
+	public boolean isOnline() {
+		return true;
 	}
 
 	@Override
-	protected String getDiagramName() {
-
-		return diagramName;
+	public String getEditorId() {
+		return SYSTEM_DIAGRAM_EDITOR_ID;
 	}
 }

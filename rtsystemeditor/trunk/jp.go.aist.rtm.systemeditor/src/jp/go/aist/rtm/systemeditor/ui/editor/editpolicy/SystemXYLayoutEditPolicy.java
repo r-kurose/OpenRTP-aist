@@ -2,20 +2,17 @@ package jp.go.aist.rtm.systemeditor.ui.editor.editpolicy;
 
 import java.util.Iterator;
 
-import jp.go.aist.rtm.systemeditor.ui.action.OpenCompositeComponentAction;
-import jp.go.aist.rtm.systemeditor.ui.editor.OfflineSystemDiagramEditor;
-import jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor;
+import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.editor.command.ChangeConstraintCommand;
 import jp.go.aist.rtm.systemeditor.ui.editor.command.CreateCommand;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpart.SystemDiagramEditPart;
 import jp.go.aist.rtm.systemeditor.ui.util.ComponentUtil;
 import jp.go.aist.rtm.systemeditor.ui.util.Draw2dUtil;
-import jp.go.aist.rtm.toolscommon.model.component.AbstractComponent;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSupport;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
@@ -62,164 +59,100 @@ public class SystemXYLayoutEditPolicy extends XYLayoutEditPolicy {
 	 */
 	protected Command getCreateCommand(CreateRequest request) {
 		this.request = request;
-		Command command = null;
-		if (SystemDiagramEditor.SYSTEM_DIAGRAM_EDITOR_ID.equals(getHost()
-				.getModel().getEditorId())
-				&& request.getNewObject() instanceof Component) {
-			if (!ComponentUtil
-					.isSystemDiagramSynchronized(getHost().getModel())) {
-				MessageDialog.openInformation(PlatformUI.getWorkbench()
-						.getActiveWorkbenchWindow().getShell(), "Information",
-						"複合コンポーネント【"
-								+ ((OpenCompositeComponentAction) (getHost()
-										.getModel())
-										.getOpenCompositeComponentAction())
-										.getCompositeComponent()
-										.getInstanceNameL()
-								+ "】が同期されていない為、登録できません。");
-				return null;
-			}
-			command = createCommand();
-		} else if (OfflineSystemDiagramEditor.OFFLINE_SYSTEM_DIAGRAM_EDITOR_ID
-				.equals(getHost().getModel().getEditorId())
-				&& request.getNewObject() instanceof ComponentSpecification) {
-			command = createCommand();
+		Component newObject2 = (Component)request.getNewObject();
+		if (newObject2 == null) return null;
+		
+		boolean isExist = isExist(newObject2);
+
+		if (isExist) return null;
+		
+		CreateCommand command = new CreateCommand();
+		command.setParent(getHost().getModel());
+		command.setTarget(newObject2);
+		if (request.getLocation() != null) {
+			newObject2.setConstraint(Draw2dUtil
+					.toRtcLinkRectangle((Rectangle) getConstraintFor(request)));
 		}
+
 		return command;
 	}
 
-	private Command createCommand() {
-		Object newObject = request.getNewObject();
-		boolean isExist = true;
-		if (request.getLocation() != null) {
-			((AbstractComponent) newObject).setConstraint(Draw2dUtil
-					.toRtcLinkRectangle((Rectangle) getConstraintFor(request)));
+	@SuppressWarnings("unchecked")
+	private boolean isExist(Component newObject2) {
+		if (newObject2 == null) return false;
+		SystemDiagram rootSystemDiagram = getHost().getModel().getRootDiagram();
+		if(newObject2 instanceof ComponentSpecification) {
+			ensureSpec((ComponentSpecification) newObject2, rootSystemDiagram);
+			return false;
 		}
-		SystemDiagram rootSystemDiagram = ComponentUtil
-				.getRootSystemDiagram(getHost().getModel());
-		AbstractComponent localComponent = null;
-		if (((AbstractComponent) newObject).getCorbaBaseObject() != null) {
-			localComponent = (AbstractComponent) SynchronizationSupport
-					.findLocalObjectByRemoteObject(
-							new Object[] { ((AbstractComponent) newObject)
-									.getCorbaBaseObject() }, rootSystemDiagram);
-		} else {
-			localComponent = ComponentUtil.findComponentByPathId(
-					(AbstractComponent) newObject, rootSystemDiagram);
-		}
-
+		Component localComponent =  findComponentInDiagram(newObject2, rootSystemDiagram);
 		// CompositeComponentダブルクリックで開いたエディタ(SystemDiagram)の場合、
 		// combineされたComponentは登録しない。
 		if (localComponent != null) {
-			if (getHost().getModel().getOpenCompositeComponentAction() != null) {
-				if (localComponent.getCompositeComponent() != null) {
-					AbstractComponent lo = null;
-					if ( ((AbstractComponent) newObject).getCorbaBaseObject() != null) {
-						lo = (AbstractComponent) SynchronizationSupport.findLocalObjectByRemoteObject(
-								new Object[] { ((AbstractComponent) newObject)
-										.getCorbaBaseObject() }, getHost()
-										.getModel());
-					}else{
-						lo = ComponentUtil.findComponentByPathId((AbstractComponent) newObject, getHost()
-										.getModel());
-					}
-					if (lo == null) {
-						MessageDialog
-								.openInformation(
-										((OpenCompositeComponentAction) ((SystemDiagram) getHost()
-												.getModel())
-												.getOpenCompositeComponentAction())
-												.getParentSystemDiagramEditor()
-												.getSite().getShell(),
-										"Information",
-										"既に複合コンポーネント【"
-												+ localComponent
-														.getCompositeComponent()
-														.getInstanceNameL()
-												+ "】に登録されているので、登録できません。");
-					} else {
-						//
-					}
-
-				} else {
-					OpenCompositeComponentAction action = (OpenCompositeComponentAction) getHost()
-							.getModel().getOpenCompositeComponentAction();
-					AbstractComponent parentLocalObject = null;
-					isExist = false;
-					while (action != null) {
-						if (action.getCompositeComponent().getCorbaBaseObject() != null) {
-							parentLocalObject = (AbstractComponent) SynchronizationSupport
-									.findLocalObjectByRemoteObject(
-											new Object[] { action
-													.getCompositeComponent()
-													.getCorbaBaseObject() },
-											rootSystemDiagram);
-						} else {
-							parentLocalObject = ComponentUtil
-									.findComponentByPathId(action
-											.getCompositeComponent(),
-											rootSystemDiagram);
-						}
-
-						if (localComponent == parentLocalObject) {
-							isExist = true;
-							break;
-						}
-						action = (OpenCompositeComponentAction) action
-								.getParentSystemDiagramEditor()
-								.getSystemDiagram()
-								.getOpenCompositeComponentAction();
-					}
+			MessageDialog.openInformation(PlatformUI.getWorkbench()
+					.getActiveWorkbenchWindow().getShell(),
+					Messages.getString("SystemXYLayoutEditPolicy.6"), Messages.getString("SystemXYLayoutEditPolicy.7") //$NON-NLS-1$ //$NON-NLS-2$
+							+ localComponent.getInstanceNameL()
+							+ Messages.getString("SystemXYLayoutEditPolicy.8")); //$NON-NLS-1$
+			return true;
+		} else if (newObject2.isCompositeComponent()
+					&& !newObject2.getAllComponents().isEmpty()) {
+			for (Iterator iterator = newObject2.getAllComponents().iterator(); iterator.hasNext();) {
+				Component component = (Component) iterator.next();
+				localComponent = findComponentInDiagram(component, rootSystemDiagram);
+				if (localComponent != null) {
+					MessageDialog.openInformation(PlatformUI.getWorkbench()
+							.getActiveWorkbenchWindow().getShell(),
+							Messages.getString("SystemXYLayoutEditPolicy.6"), Messages.getString("SystemXYLayoutEditPolicy.7") //$NON-NLS-1$ //$NON-NLS-2$
+									+ localComponent.getInstanceNameL()
+									+ Messages.getString("SystemXYLayoutEditPolicy.8")); //$NON-NLS-1$
+					return true;
 				}
 			}
-		} else {
-			if (((AbstractComponent) newObject).isCompositeComponent()
-					&& !((AbstractComponent) newObject).getAllComponents().isEmpty()) {
-				for (Iterator iterator = ((AbstractComponent) newObject)
-						.getAllComponents().iterator(); iterator.hasNext();) {
-					AbstractComponent component = (AbstractComponent) iterator
-							.next();
-					if (component.getCorbaBaseObject() != null) {
-						localComponent = (AbstractComponent) SynchronizationSupport
-								.findLocalObjectByRemoteObject(
-										new Object[] { component
-												.getCorbaBaseObject() },
-										ComponentUtil
-												.getRootSystemDiagram(getHost()
-														.getModel()));
-					}
-					if (localComponent != null) {
-						MessageDialog.openInformation(PlatformUI.getWorkbench()
-								.getActiveWorkbenchWindow().getShell(),
-								"Information", "当該複合コンポーネントに登録されているコンポーネント【"
-										+ localComponent.getInstanceNameL()
-										+ "】は既にエディタに存在しています。");
-					} else {
-						isExist = false;
-					}
-				}
-			} else {
-				isExist = false;
+		}
+		return false;
+	}
+	
+	/**
+	 * オンラインエディタのダイアグラムからコンポーネントを検索します。
+	 */
+	private Component findComponentInDiagram(
+			Component component, SystemDiagram diagram) {
+		if (component instanceof CorbaComponent) {
+			org.omg.CORBA.Object obj = ((CorbaComponent)component).getCorbaObject();
+			if (obj != null) {
+				return findByCorbaObject(obj, diagram);
 			}
 		}
-		if( localComponent instanceof ComponentSpecification || newObject instanceof ComponentSpecification) {
-			isExist = false;
-			int compCount =	ComponentUtil.getComponentNumberByPathId(
-					(ComponentSpecification) newObject, rootSystemDiagram);
-			((AbstractComponent)newObject).setInstanceNameL(
-					((AbstractComponent)newObject).getInstanceNameL() + "_" + Integer.valueOf(compCount+1).toString() );
-			((AbstractComponent)newObject).setPathId(
-					((ComponentSpecification)newObject).getPathURI() + ":" + Integer.valueOf(compCount+1).toString() );
-		}
+		return null;
+	}
 
-		CreateCommand command = null;
-		if (isExist == false) {
-			command = new CreateCommand();
-			command.setParent(getHost().getModel());
-			command.setTarget(((AbstractComponent) newObject));
+	private Component findByCorbaObject(org.omg.CORBA.Object obj, SystemDiagram diagram) {
+		if (obj == null || diagram == null) {
+			return null;
 		}
+		for (Component tempComponent : diagram.getRegisteredComponents()) {
+			if (!(tempComponent instanceof CorbaComponent)) continue;
+			CorbaComponent c = (CorbaComponent)tempComponent;
+			if (obj.equals(c.getCorbaObject())) return c;
+		}
+		return null;
+	}
 
-		return command;
+	private void ensureSpec(ComponentSpecification newObject2,
+			SystemDiagram rootSystemDiagram) {
+		int compCount =	ComponentUtil.getComponentNumberByPathId(
+				newObject2, rootSystemDiagram);
+		//単一仕様から複数インスタンスを生成するため
+		//Port間接続時にコンポーネントの区別をPathIDを用いて行っているため
+		//PathIDの設定も必要
+		newObject2.setInstanceNameL(
+				newObject2.getInstanceNameL() + "_" + Integer.valueOf(compCount+1).toString());
+		String basePathId = newObject2.getPathId();
+		int index = basePathId.lastIndexOf(":");
+		if (index >=0) basePathId = basePathId.substring(0, index);
+		newObject2.setPathId(
+				basePathId + ":" + Integer.valueOf(compCount+1).toString() ); //$NON-NLS-1$
 	}
 
 	@Override

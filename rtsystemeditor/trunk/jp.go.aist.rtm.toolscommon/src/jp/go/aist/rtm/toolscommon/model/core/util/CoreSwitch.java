@@ -13,7 +13,6 @@ import jp.go.aist.rtm.toolscommon.model.core.*;
 import jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject;
 import jp.go.aist.rtm.toolscommon.model.core.CorePackage;
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
-import jp.go.aist.rtm.toolscommon.model.core.UnknownObject;
 import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 
@@ -117,16 +116,6 @@ public class CoreSwitch {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case CorePackage.UNKNOWN_OBJECT: {
-				UnknownObject unknownObject = (UnknownObject)theEObject;
-				Object result = caseUnknownObject(unknownObject);
-				if (result == null) result = caseWrapperObject(unknownObject);
-				if (result == null) result = caseModelElement(unknownObject);
-				if (result == null) result = caseLocalObject(unknownObject);
-				if (result == null) result = caseIAdaptable(unknownObject);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -193,19 +182,6 @@ public class CoreSwitch {
 	 * @generated
 	 */
 	public Object caseWrapperObject(WrapperObject object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Unknown Object</em>'.
-	 * <!-- begin-user-doc --> This implementation returns null; returning a
-	 * non-null result will terminate the switch. <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Unknown Object</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseUnknownObject(UnknownObject object) {
 		return null;
 	}
 

@@ -8,6 +8,7 @@ import jp.go.aist.rtm.repositoryView.model.ServerRVRootItem;
 import jp.go.aist.rtm.repositoryView.repository.RTRepositoryAccesser;
 import jp.go.aist.rtm.repositoryView.ui.views.RepositoryView;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
+import jp.go.aist.rtm.repositoryView.nl.Messages;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -19,18 +20,20 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
+/**
+ * RTレポジトリに選択したノードをアップロードするアクションデリゲート
+ *
+ */
 public class ViewActionUpLoad implements IObjectActionDelegate {
 
 	private RepositoryView view;
 	private ISelection selection;
 
 	public void run(IAction action) {
-		//TODO ログイン画面の表示
-		
 		//対象ファイル選択画面の表示
 		FileDialog fileDialog = new FileDialog(view.getSite().getShell(), SWT.OPEN);
-		fileDialog.setFilterNames(new String[]{"ZIPファイル(.zip)","tarファイル(.tar)","gzファイル(.gz)","全てのファイル"});
-		fileDialog.setFilterExtensions(new String[]{"*.zip","*.tar","*.gz","*.*"});
+		fileDialog.setFilterNames(new String[]{Messages.getString("ViewActionUpLoad.0"),Messages.getString("ViewActionUpLoad.1"),Messages.getString("ViewActionUpLoad.2"),Messages.getString("ViewActionUpLoad.3")}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		fileDialog.setFilterExtensions(new String[]{"*.zip","*.tar","*.gz","*.*"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		String targetFileName = fileDialog.open();
 		if( targetFileName==null ) return;
 		
@@ -40,12 +43,12 @@ public class ViewActionUpLoad implements IObjectActionDelegate {
 		try {
 			module = RTRepositoryAccesser.getInstance().uploadProfile(targetFileName, targetServer.getName());
 		} catch (IOException e) {
-			MessageDialog.openError(view.getSite().getShell(), "エラー",	
-			"Profile の読み込みに失敗しました");
+			MessageDialog.openError(view.getSite().getShell(), Messages.getString("ViewActionUpLoad.8"),	 //$NON-NLS-1$
+			Messages.getString("ViewActionUpLoad.9")); //$NON-NLS-1$
 			return;
 		} catch (Exception e) {
-			MessageDialog.openError(view.getSite().getShell(), "エラー",	
-			"UpLoad に失敗しました");
+			MessageDialog.openError(view.getSite().getShell(), Messages.getString("ViewActionUpLoad.10"),	 //$NON-NLS-1$
+			Messages.getString("ViewActionUpLoad.11")); //$NON-NLS-1$
 			return;
 		}
 		//情報追加

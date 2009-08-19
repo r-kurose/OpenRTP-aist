@@ -14,7 +14,6 @@ import jp.go.aist.rtm.toolscommon.model.core.CorePackage;
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
 import jp.go.aist.rtm.toolscommon.model.core.Point;
 import jp.go.aist.rtm.toolscommon.model.core.Rectangle;
-import jp.go.aist.rtm.toolscommon.model.core.UnknownObject;
 import jp.go.aist.rtm.toolscommon.model.core.Visiter;
 import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
 import jp.go.aist.rtm.toolscommon.model.manager.ManagerPackage;
@@ -70,13 +69,6 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * @generated
 	 */
 	private EClass wrapperObjectEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass unknownObjectEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -250,24 +242,6 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getUnknownObject() {
-		return unknownObjectEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getUnknownObject_TargetObject() {
-		return (EAttribute)unknownObjectEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EDataType getRectangle() {
 		return rectangleEDataType;
 	}
@@ -339,9 +313,6 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 
 		wrapperObjectEClass = createEClass(WRAPPER_OBJECT);
 
-		unknownObjectEClass = createEClass(UNKNOWN_OBJECT);
-		createEAttribute(unknownObjectEClass, UNKNOWN_OBJECT__TARGET_OBJECT);
-
 		// Create data types
 		rectangleEDataType = createEDataType(RECTANGLE);
 		visiterEDataType = createEDataType(VISITER);
@@ -377,13 +348,10 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		modelElementEClass.getESuperTypes().add(this.getIAdaptable());
 		wrapperObjectEClass.getESuperTypes().add(this.getModelElement());
 		wrapperObjectEClass.getESuperTypes().add(this.getLocalObject());
-		unknownObjectEClass.getESuperTypes().add(this.getWrapperObject());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(corbaWrapperObjectEClass, CorbaWrapperObject.class, "CorbaWrapperObject", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCorbaWrapperObject_CorbaObject(), this.getObject(), "corbaObject", null, 0, 1, CorbaWrapperObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		addEOperation(corbaWrapperObjectEClass, ecorePackage.getEBoolean(), "ping", 0, 1);
 
 		initEClass(modelElementEClass, ModelElement.class, "ModelElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getModelElement_Constraint(), this.getRectangle(), "constraint", null, 0, 1, ModelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -391,16 +359,11 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		EOperation op = addEOperation(modelElementEClass, null, "accept");
 		addEParameter(op, this.getVisiter(), "visiter", 0, 1);
 
-		addEOperation(modelElementEClass, null, "dispose");
-
 		initEClass(iAdaptableEClass, IAdaptable.class, "IAdaptable", IS_ABSTRACT, IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(localObjectEClass, LocalObject.class, "LocalObject", IS_ABSTRACT, IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(wrapperObjectEClass, WrapperObject.class, "WrapperObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(unknownObjectEClass, UnknownObject.class, "UnknownObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getUnknownObject_TargetObject(), this.getObject(), "targetObject", null, 0, 1, UnknownObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(rectangleEDataType, Rectangle.class, "Rectangle", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

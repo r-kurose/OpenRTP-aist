@@ -1,6 +1,7 @@
 package jp.go.aist.rtm.nameserviceview.ui.dialog;
 
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
+import jp.go.aist.rtm.nameserviceview.nl.Messages;
 import jp.go.aist.rtm.toolscommon.corba.CorbaUtil;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -23,7 +24,7 @@ import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContextPackage.AlreadyBound;
 
 /**
- * ダイアログ
+ * CORBAオブジェクトを追加するダイアログ
  * <P>
  * 入力したIORをObjectに変換し、選択されたコンテキストに登録する。
  * 
@@ -75,7 +76,7 @@ public class AddObjectDialog extends TitleAreaDialog {
 		portProfileEditComposite
 				.setLayoutData(new GridData(GridData.FILL_BOTH));
 		Label name = new Label(portProfileEditComposite, SWT.NONE);
-		name.setText("Name : ");
+		name.setText(Messages.getString("AddObjectDialog.15")); //$NON-NLS-1$
 		nameText = new Text(portProfileEditComposite, SWT.SINGLE | SWT.BORDER);
 		gd = new GridData(GridData.GRAB_HORIZONTAL);
 		gd.minimumWidth = 180;
@@ -83,7 +84,7 @@ public class AddObjectDialog extends TitleAreaDialog {
 		gd.horizontalAlignment = GridData.FILL;
 		gd.grabExcessHorizontalSpace = true;
 		nameText.setLayoutData(gd);
-		objectName = "";
+		objectName = ""; //$NON-NLS-1$
 		nameText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				objectName = nameText.getText();
@@ -91,7 +92,7 @@ public class AddObjectDialog extends TitleAreaDialog {
 			}
 		});
 		Label kind = new Label(portProfileEditComposite, SWT.NONE);
-		kind.setText("Kind : ");
+		kind.setText(Messages.getString("AddObjectDialog.16")); //$NON-NLS-1$
 		kindText = new Text(portProfileEditComposite, SWT.SINGLE | SWT.BORDER);
 		gd = new GridData(GridData.GRAB_HORIZONTAL);
 		gd.minimumWidth = 180;
@@ -99,7 +100,7 @@ public class AddObjectDialog extends TitleAreaDialog {
 		gd.horizontalAlignment = GridData.FILL;
 		gd.grabExcessHorizontalSpace = true;
 		kindText.setLayoutData(gd);
-		objectKind = "";
+		objectKind = ""; //$NON-NLS-1$
 		kindText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				objectKind = kindText.getText();
@@ -110,7 +111,7 @@ public class AddObjectDialog extends TitleAreaDialog {
 		gd = new GridData(GridData.GRAB_HORIZONTAL);
 		gd.horizontalSpan = 3;
 		iorLabel.setLayoutData(gd);
-		iorLabel.setText("IOR : ");
+		iorLabel.setText("IOR : "); //$NON-NLS-1$
 		iorText = new Text(portProfileEditComposite, SWT.MULTI | SWT.WRAP
 				| SWT.V_SCROLL | SWT.BORDER);
 		gd = new GridData(GridData.GRAB_HORIZONTAL);
@@ -135,7 +136,7 @@ public class AddObjectDialog extends TitleAreaDialog {
 	 */
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
-		shell.setText("Add Object");
+		shell.setText(Messages.getString("AddObjectDialog.17")); //$NON-NLS-1$
 	}
 
 	@Override
@@ -165,7 +166,7 @@ public class AddObjectDialog extends TitleAreaDialog {
 		try {
 			object = CorbaUtil.stringToObject(ior);
 		} catch (Exception e) {
-			MessageDialog.openWarning(getShell(), "Warning", "指定した「IOR」からオブジェクトに変換できません。");
+			MessageDialog.openWarning(getShell(), Messages.getString("AddObjectDialog.18"), Messages.getString("AddObjectDialog.7")); //$NON-NLS-1$ //$NON-NLS-2$
 			iorText.setFocus();
 			return false;
 		}
@@ -173,13 +174,13 @@ public class AddObjectDialog extends TitleAreaDialog {
 		try {
 			parentContext.createNamingObjectR(path, object);
 		} catch (AlreadyBound e) {
-			MessageDialog.openWarning(getShell(), "Warning",
-					"指定された「Name」と「Kind」が既に存在しています。");
+			MessageDialog.openWarning(getShell(), Messages.getString("AddObjectDialog.19"), //$NON-NLS-1$
+					Messages.getString("AddObjectDialog.9")); //$NON-NLS-1$
 			nameText.setFocus();
 			return false;
 		} catch (Exception e) {
-			MessageDialog.openError(getShell(), "登録エラー",
-			"登録失敗しました。");
+			MessageDialog.openError(getShell(), Messages.getString("AddObjectDialog.10"), //$NON-NLS-1$
+			Messages.getString("AddObjectDialog.11")); //$NON-NLS-1$
 		} finally {
 			
 		}
@@ -202,15 +203,15 @@ public class AddObjectDialog extends TitleAreaDialog {
 	 * 項目数が増えるようならば、モデルの変更通知機能を使用して実装する方が良い。
 	 */
 	public void notifyModified() {
-		errorMessage = "";
+		errorMessage = ""; //$NON-NLS-1$
 		if (!isHankaku(nameText.getText())) {
-			errorMessage = "「Name」に半角文字を入力してください。\r\n";
+			errorMessage = Messages.getString("AddObjectDialog.13"); //$NON-NLS-1$
 		}
 		if (!isHankaku(kindText.getText())) {
-			errorMessage = errorMessage + "「Kind」に半角文字を入力してください。\r\n";
+			errorMessage = errorMessage + Messages.getString("AddObjectDialog.14"); //$NON-NLS-1$
 		}
 		
-		if ("".equals(errorMessage)) {
+		if ("".equals(errorMessage)) { //$NON-NLS-1$
 			setMessage(null);
 			getButton(IDialogConstants.OK_ID).setEnabled(true);
 		} else {

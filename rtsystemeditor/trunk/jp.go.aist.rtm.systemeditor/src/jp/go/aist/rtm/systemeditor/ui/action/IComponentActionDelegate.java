@@ -3,7 +3,11 @@ package jp.go.aist.rtm.systemeditor.ui.action;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 
-import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.systemeditor.nl.Messages;
+import jp.go.aist.rtm.systemeditor.ui.util.TimeoutWrappedJob;
+import jp.go.aist.rtm.systemeditor.ui.util.TimeoutWrapper;
+import jp.go.aist.rtm.toolscommon.manager.ToolsCommonPreferenceManager;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.IAction;
@@ -24,49 +28,49 @@ public class IComponentActionDelegate implements IObjectActionDelegate {
 	 */
 	public static final String START_ACTION_ID = IComponentActionDelegate.class
 			.getName()
-			+ ".executioncontext.Start";
+			+ ".executioncontext.Start"; //$NON-NLS-1$
 
 	/**
 	 * Stopに使用されるID。この値が、Plugin.xmlに指定されなければならない。
 	 */
 	public static final String STOP_ACTION_ID = IComponentActionDelegate.class
 			.getName()
-			+ ".executioncontext.Stop";
+			+ ".executioncontext.Stop"; //$NON-NLS-1$
 
 	/**
 	 * Activateに使用されるID。この値が、Plugin.xmlに指定されなければならない。
 	 */
 	public static final String ACTIVATE_ACTION_ID = IComponentActionDelegate.class
 			.getName()
-			+ ".Activate";
+			+ ".Activate"; //$NON-NLS-1$
 
 	/**
 	 * Deactivateに使用されるID。この値が、Plugin.xmlに指定されなければならない。
 	 */
 	public static final String DEACTIVATE_ACTION_ID = IComponentActionDelegate.class
 			.getName()
-			+ ".Deactivate";
+			+ ".Deactivate"; //$NON-NLS-1$
 
 	/**
 	 * Resetに使用されるID。この値が、Plugin.xmlに指定されなければならない。
 	 */
 	public static final String RESET_ACTION_ID = IComponentActionDelegate.class
 			.getName()
-			+ ".Reset";
+			+ ".Reset"; //$NON-NLS-1$
 
 	/**
 	 * Finalizeに使用されるID。この値が、Plugin.xmlに指定されなければならない。
 	 */
 	public static final String FINALIZE_ACTION_ID = IComponentActionDelegate.class
 			.getName()
-			+ ".Finalize";
+			+ ".Finalize"; //$NON-NLS-1$
 
 	/**
 	 * Exitに使用されるID。この値が、Plugin.xmlに指定されなければならない。
 	 */
 	public static final String EXIT_ACTION_ID = IComponentActionDelegate.class
 			.getName()
-			+ ".Exit";
+			+ ".Exit"; //$NON-NLS-1$
 
 	private ISelection selection;
 
@@ -91,18 +95,19 @@ public class IComponentActionDelegate implements IObjectActionDelegate {
 	/**
 	 * {@inheritDoc}
 	 */
+	@SuppressWarnings("unchecked")
 	public void run(final IAction action) {
 
 		for (Iterator iter = ((IStructuredSelection) selection).iterator(); iter
 				.hasNext();) {
 
-			final Component component = (Component) iter.next();
+			final CorbaComponent component = (CorbaComponent) iter.next();
 
 			MessageAndCommand command = null;
 			if ((START_ACTION_ID).equals(action.getId())) {
 				command = new MessageAndCommand() {
 					public String getConfirmMessage() {
-						return "Startしても良いですか？";
+						return Messages.getString("IComponentActionDelegate.7"); //$NON-NLS-1$
 					}
 
 					public int run() {
@@ -112,7 +117,7 @@ public class IComponentActionDelegate implements IObjectActionDelegate {
 			} else if (STOP_ACTION_ID.equals(action.getId())) {
 				command = new MessageAndCommand() {
 					public String getConfirmMessage() {
-						return "Stopしても良いですか？";
+						return Messages.getString("IComponentActionDelegate.8"); //$NON-NLS-1$
 					}
 
 					public int run() {
@@ -122,7 +127,7 @@ public class IComponentActionDelegate implements IObjectActionDelegate {
 			} else if (ACTIVATE_ACTION_ID.equals(action.getId())) {
 				command = new MessageAndCommand() {
 					public String getConfirmMessage() {
-						return "Activateしても良いですか？";
+						return Messages.getString("IComponentActionDelegate.9"); //$NON-NLS-1$
 					}
 
 					public int run() {
@@ -132,7 +137,7 @@ public class IComponentActionDelegate implements IObjectActionDelegate {
 			} else if (DEACTIVATE_ACTION_ID.equals(action.getId())) {
 				command = new MessageAndCommand() {
 					public String getConfirmMessage() {
-						return "Deactivateしても良いですか？";
+						return Messages.getString("IComponentActionDelegate.10"); //$NON-NLS-1$
 					}
 
 					public int run() {
@@ -142,7 +147,7 @@ public class IComponentActionDelegate implements IObjectActionDelegate {
 			} else if (RESET_ACTION_ID.equals(action.getId())) {
 				command = new MessageAndCommand() {
 					public String getConfirmMessage() {
-						return "Resetしても良いですか？";
+						return Messages.getString("IComponentActionDelegate.11"); //$NON-NLS-1$
 					}
 
 					public int run() {
@@ -152,7 +157,7 @@ public class IComponentActionDelegate implements IObjectActionDelegate {
 			} else if (EXIT_ACTION_ID.equals(action.getId())) {
 				command = new MessageAndCommand() {
 					public String getConfirmMessage() {
-						return "Exitしても良いですか？";
+						return Messages.getString("IComponentActionDelegate.12"); //$NON-NLS-1$
 					}
 
 					public int run() {
@@ -162,7 +167,7 @@ public class IComponentActionDelegate implements IObjectActionDelegate {
 			} else if (FINALIZE_ACTION_ID.equals(action.getId())) {
 				command = new MessageAndCommand() {
 					public String getConfirmMessage() {
-						return "Finalizeしても良いですか？";
+						return Messages.getString("IComponentActionDelegate.13"); //$NON-NLS-1$
 					}
 
 					public int run() {
@@ -170,32 +175,41 @@ public class IComponentActionDelegate implements IObjectActionDelegate {
 					}
 				};
 			} else {
-				throw new RuntimeException("システムエラー");
+				throw new RuntimeException(Messages.getString("IComponentActionDelegate.14")); //$NON-NLS-1$
 			}
 
 			boolean isOK = MessageDialog.openConfirm(targetPart.getSite()
-					.getShell(), "確認", command.getConfirmMessage());
+					.getShell(), Messages.getString("IComponentActionDelegate.15"), command.getConfirmMessage()); //$NON-NLS-1$
 			if (isOK == false) {
 				return;
 			}
 
 			final MessageAndCommand finalCommand = command;
 
-			final int[] returnCode = new int[1]; // final配列化することで、クロージャ内で返り値を設定することができるようにする。
+			final Integer[] returnCode = new Integer[1]; // final配列化することで、クロージャ内で返り値を設定することができるようにする。
 			ProgressMonitorDialog dialog = new ProgressMonitorDialog(targetPart
 					.getSite().getShell());
 			IRunnableWithProgress runable = new IRunnableWithProgress() {
 				public void run(IProgressMonitor monitor)
 						throws InvocationTargetException, InterruptedException {
 
-					monitor.beginTask("コンポーネントの状態を変更します", 100);
+					monitor.beginTask(Messages.getString("IComponentActionDelegate.16"), 100); //$NON-NLS-1$
 
 					monitor.worked(20);
-					monitor.subTask("コンポーネントへリクエストを送っています...");
+					monitor.subTask(Messages.getString("IComponentActionDelegate.17")); //$NON-NLS-1$
 
-					returnCode[0] = finalCommand.run();
-
-					monitor.subTask("コンポーネントへリクエストを送りました。");
+//					returnCode[0] = finalCommand.run();
+					int defaultTimeout = ToolsCommonPreferenceManager.getInstance().getDefaultTimeout(
+							ToolsCommonPreferenceManager.DEFAULT_TIMEOUT_PERIOD);
+					TimeoutWrapper wrapper = new TimeoutWrapper(defaultTimeout);
+					wrapper.setJob(new TimeoutWrappedJob(){
+						@Override
+						protected Object executeCommand() {
+							return finalCommand.run();
+						}});
+					returnCode[0] = (Integer) wrapper.start();
+					
+					monitor.subTask(Messages.getString("IComponentActionDelegate.18")); //$NON-NLS-1$
 					monitor.done();
 				}
 			};
@@ -206,23 +220,25 @@ public class IComponentActionDelegate implements IObjectActionDelegate {
 				e.printStackTrace(); // system error
 			}
 
-			if (Component.RETURNCODE_OK == returnCode[0]) {
-				// void
-			} else if (Component.RETURNCODE_ERROR == returnCode[0]) {
-				MessageDialog.openError(targetPart.getSite().getShell(), "エラー",
-						"エラーが発生しました。");
-			} else if (Component.RETURNCODE_BAD_PARAMETER == returnCode[0]) {
-				MessageDialog.openError(targetPart.getSite().getShell(), "エラー",
-						"不正なパラメータです。");
-			} else if (Component.RETURNCODE_UNSUPPORTED == returnCode[0]) {
-				MessageDialog.openError(targetPart.getSite().getShell(), "エラー",
-						"サポートされていません。");
-			} else if (Component.RETURNCODE_OUT_OF_RESOURCES == returnCode[0]) {
-				MessageDialog.openError(targetPart.getSite().getShell(), "エラー",
-						"リソース不足のエラーが発生しました。");
-			} else if (Component.RETURNCODE_PRECONDITION_NOT_MET == returnCode[0]) {
-				MessageDialog.openError(targetPart.getSite().getShell(), "エラー",
-						"事前条件が不正です。");
+			if (returnCode[0] == null) return;
+			
+			if (CorbaComponent.RETURNCODE_OK == returnCode[0]) {
+				component.synchronizeManually();
+			} else if (CorbaComponent.RETURNCODE_ERROR == returnCode[0]) {
+				MessageDialog.openError(targetPart.getSite().getShell(), Messages.getString("IComponentActionDelegate.19"), //$NON-NLS-1$
+						Messages.getString("IComponentActionDelegate.20")); //$NON-NLS-1$
+			} else if (CorbaComponent.RETURNCODE_BAD_PARAMETER == returnCode[0]) {
+				MessageDialog.openError(targetPart.getSite().getShell(), Messages.getString("IComponentActionDelegate.21"), //$NON-NLS-1$
+						Messages.getString("IComponentActionDelegate.22")); //$NON-NLS-1$
+			} else if (CorbaComponent.RETURNCODE_UNSUPPORTED == returnCode[0]) {
+				MessageDialog.openError(targetPart.getSite().getShell(), Messages.getString("IComponentActionDelegate.23"), //$NON-NLS-1$
+						Messages.getString("IComponentActionDelegate.24")); //$NON-NLS-1$
+			} else if (CorbaComponent.RETURNCODE_OUT_OF_RESOURCES == returnCode[0]) {
+				MessageDialog.openError(targetPart.getSite().getShell(), Messages.getString("IComponentActionDelegate.25"), //$NON-NLS-1$
+						Messages.getString("IComponentActionDelegate.26")); //$NON-NLS-1$
+			} else if (CorbaComponent.RETURNCODE_PRECONDITION_NOT_MET == returnCode[0]) {
+				MessageDialog.openError(targetPart.getSite().getShell(), Messages.getString("IComponentActionDelegate.27"), //$NON-NLS-1$
+						Messages.getString("IComponentActionDelegate.28")); //$NON-NLS-1$
 			}
 
 		}

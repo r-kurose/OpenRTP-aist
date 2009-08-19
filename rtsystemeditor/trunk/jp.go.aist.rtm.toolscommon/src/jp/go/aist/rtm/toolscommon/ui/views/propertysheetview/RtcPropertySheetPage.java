@@ -1,17 +1,14 @@
 package jp.go.aist.rtm.toolscommon.ui.views.propertysheetview;
 
-import java.util.Iterator;
-
 import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
-import jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl;
+import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
+import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
@@ -25,14 +22,16 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.views.properties.PropertiesMessages;
 import org.eclipse.ui.part.IPageBookViewPage;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.views.properties.IPropertySheetEntry;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.IPropertySourceProvider;
-import org.eclipse.ui.views.properties.PropertySheetPage;
 
 /**
  * Rtc専用のプロパティシートページクラス
@@ -42,7 +41,6 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
  */
 public class RtcPropertySheetPage implements IPropertySheetPage,
 		IPageBookViewPage {
-	private PropertySheetPage defaultDelegate = new PropertySheetPage();
 
 	private StackLayout stackLayout;
 
@@ -63,14 +61,12 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 		stackLayout = new StackLayout();
 		composite.setLayout(stackLayout);
 
-		// defaultDelegate.createControl(composite);
-		//
 		componentViewer = new TreeViewer(composite, SWT.FULL_SELECTION
 				| SWT.SINGLE | SWT.HIDE_SELECTION);
 
 		componentViewer.setContentProvider(new PropertySheetContentProvider());
 		componentViewer.setLabelProvider(new PropertySheetLabelProvider());
-		componentViewer.setAutoExpandLevel(AbstractTreeViewer.ALL_LEVELS);
+		componentViewer.setAutoExpandLevel(4);
 
 		componentView = componentViewer.getTree();
 		componentView.setLinesVisible(true);
@@ -107,30 +103,6 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 		TreeColumn valueColumn = new TreeColumn(componentView, SWT.NONE);
 		valueColumn.setText(PropertiesMessages.PropertyViewer_value);
 		valueColumn.setWidth(150);
-
-		// stackLayout.topControl = defaultDelegate.getControl();
-		//
-		// getSite().setSelectionProvider(new ISelectionProvider() {
-		// public void addSelectionChangedListener(
-		// ISelectionChangedListener listener) {
-		// }
-		//
-		// public ISelection getSelection() {
-		// StructuredSelection result = null;
-		// if (componentViewer.getInput() != null) {
-		// result = new StructuredSelection(componentViewer.getInput());
-		// }
-		//				
-		// return result;
-		// }
-		//
-		// public void removeSelectionChangedListener(
-		// ISelectionChangedListener listener) {
-		// }
-		//
-		// public void setSelection(ISelection selection) {
-		// }
-		// });
 	}
 
 	/**
@@ -193,7 +165,9 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 	public void refresh() {
 		// defaultDelegate.refresh();
 	}
-
+	
+	private LocalObject prevComponent;
+	
 	/**
 	 * {@inheritDoc}
 	 * <p>
@@ -201,47 +175,72 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 	 * Rtcの場合だけ、特殊なページを表示するようにする
 	 * また、このページでは、RTC以外オブジェクトを触っても、それがIPropertySouceを持っていない場合には（Propertyiesページを表示できない場合には）RTCを表示し続ける。（これは、selectionChangedを無視することで実現している）
 	 */
+	@SuppressWarnings("unchecked")
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		if (selection instanceof IStructuredSelection) {
 			IStructuredSelection sSelection = (IStructuredSelection) selection;
 
-			LocalObject component = null;
-			for (Class displayClass : PropertysheetpageExtentionpoint
-					.getDisplayclassList()) {
-				LocalObject obj = null;
-				for (Iterator iterator = sSelection.iterator();iterator.hasNext();) {
-					obj = (LocalObject) AdapterUtil.getAdapter(iterator.next(), displayClass);
-					if (obj != null) {
-						component = obj;
-						break;
-					}
-				}
-				if (component != null) {
-					break;
-				}
-			}
+			LocalObject component = getDisplayObject(sSelection.getFirstElement());		
+			if (component == prevComponent) return;
+			prevComponent = component;
 
-			if (component instanceof Component
-					&& !(component.eContainer() instanceof SystemDiagram)) {
-				ComponentImpl.synchronizeLocalAttribute((Component) component, null);
-				ComponentImpl.synchronizeLocalReference((Component) component);
-			}
-			if (component != null) {
+			String kind = null;
+			if (component instanceof Component) {
+				Component c = (Component) component;
+				c.synchronizeManually();
+				if (c.isCompositeComponent()) {
+					kind = "composite";
+				}
+
 				componentViewer.setInput(new ComponentWrapper(component));
 				componentViewer.reveal(component);// 表示後、上にスクロールする
-
 				stackLayout.topControl = componentView;
+			} else if (component instanceof PortConnector) {
+				componentViewer.setInput(new PortConnectorWrapper(component));
+				componentViewer.reveal(component);// 表示後、上にスクロールする
+				stackLayout.topControl = componentView;
+
+			} else if (component instanceof RTCManager) {
+				RTCManager m = (RTCManager) component;
+				m.synchronizeManually();
+
+				componentViewer.setInput(new RTCManagerWrapper(component));
+				componentViewer.reveal(component);// 表示後、上にスクロールする
+				stackLayout.topControl = componentView;
+
 			} else {
 				componentViewer.setInput(null);
-				// if (AdapterUtil.getAdapter(sSelection.getFirstElement(),
-				// IPropertySource.class) != null) {
-				// defaultDelegate.selectionChanged(part, selection);
-				// stackLayout.topControl = defaultDelegate.getControl();
-				// }
 			}
-
 			composite.layout();
+
+			switchView(component, kind);
 		}
+	}
+
+	private void switchView(LocalObject component, String kind) {
+		String viewId = OpenView.getViewId(component, kind);
+		if (viewId != null) {
+			try {
+				IWorkbenchWindow window = PlatformUI.getWorkbench()
+						.getActiveWorkbenchWindow();
+				IWorkbenchPage page = window.getActivePage();
+				page.showView(viewId, null, IWorkbenchPage.VIEW_VISIBLE);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private LocalObject getDisplayObject(Object firstElement) {
+		for (Class displayClass : PropertysheetpageExtentionpoint
+				.getDisplayclassList()) {
+			Object obj = AdapterUtil.getAdapter(firstElement,	displayClass);
+			if (obj != null) {
+				return (LocalObject) obj;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -250,7 +249,6 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 	 * @param actionBars
 	 */
 	public void setActionBars(IActionBars actionBars) {
-		// defaultDelegate.setActionBars(actionBars);
 	}
 
 	/**
@@ -266,7 +264,6 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 	 * @param newProvider
 	 */
 	public void setPropertySourceProvider(IPropertySourceProvider newProvider) {
-		// defaultDelegate.setPropertySourceProvider(newProvider);
 	}
 
 	/**
@@ -275,7 +272,6 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 	 * @param entry
 	 */
 	public void setRootEntry(IPropertySheetEntry entry) {
-		// defaultDelegate.setRootEntry(entry);
 	}
 
 	public IPageSite getSite() {

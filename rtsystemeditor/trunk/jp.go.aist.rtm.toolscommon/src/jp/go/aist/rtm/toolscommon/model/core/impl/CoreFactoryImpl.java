@@ -16,7 +16,6 @@ import jp.go.aist.rtm.toolscommon.model.core.CorePackage;
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
 import jp.go.aist.rtm.toolscommon.model.core.Point;
 import jp.go.aist.rtm.toolscommon.model.core.Rectangle;
-import jp.go.aist.rtm.toolscommon.model.core.UnknownObject;
 import jp.go.aist.rtm.toolscommon.model.core.Visiter;
 import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
 
@@ -71,7 +70,6 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 		switch (eClass.getClassifierID()) {
 			case CorePackage.MODEL_ELEMENT: return createModelElement();
 			case CorePackage.WRAPPER_OBJECT: return createWrapperObject();
-			case CorePackage.UNKNOWN_OBJECT: return createUnknownObject();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -134,16 +132,6 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	public WrapperObject createWrapperObject() {
 		WrapperObjectImpl wrapperObject = new WrapperObjectImpl();
 		return wrapperObject;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public UnknownObject createUnknownObject() {
-		UnknownObjectImpl unknownObject = new UnknownObjectImpl();
-		return unknownObject;
 	}
 
 	/**

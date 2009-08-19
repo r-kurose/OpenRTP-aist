@@ -12,6 +12,6 @@ public class HostNamingContextWorkbenchAdapter extends
 
 	@Override
 	public ImageDescriptor getImageDescriptor(Object o) {
-		return NameServiceViewPlugin.getDefault().getImageDescriptor("icons/Server.png");
+		return NameServiceViewPlugin.getImageDescriptor("icons/Server.png");
 	}
 }

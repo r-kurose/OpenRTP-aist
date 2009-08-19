@@ -37,7 +37,8 @@ public abstract class OneReferenceMapping extends ReferenceMapping {
 	 * {@inheritDoc}
 	 */
 	public void syncronizeLocal(LocalObject localObject) {
-
+//		long start = System.currentTimeMillis();
+		
 		Object remoteLink = getNewRemoteLink(localObject, localObject
 				.getSynchronizationSupport().getRemoteObjects());
 		Object localLink = getOldRemoteLink(localObject);
@@ -63,20 +64,13 @@ public abstract class OneReferenceMapping extends ReferenceMapping {
 				}
 			}
 
-			if ((localObject.eGet(getLocalFeature()) == null && loadLocalObjectByRemoteObject == null) == false) { //çÇë¨âª
+			if ((localObject.eGet(getLocalFeature()) == null && loadLocalObjectByRemoteObject != null)
+					|| (localObject.eGet(getLocalFeature()) != null && loadLocalObjectByRemoteObject == null)) { //çÇë¨âª
 				localObject.eSet(getLocalFeature(),
 						loadLocalObjectByRemoteObject);
 			}
 		}
-
-		// if (getLocalFeature().isContainment()) {
-		// if (localObject.eGet(getLocalFeature()) != null) {
-		// if (localObject.eGet(getLocalFeature()) instanceof LocalObject) {
-		// ((LocalObject) localObject.eGet(getLocalFeature()))
-		// .getSynchronizationSupport().synchronizeLocal();
-		// }
-		// }
-		// }
+//		System.out.println(System.currentTimeMillis() -start);
 	}
 
 	/**

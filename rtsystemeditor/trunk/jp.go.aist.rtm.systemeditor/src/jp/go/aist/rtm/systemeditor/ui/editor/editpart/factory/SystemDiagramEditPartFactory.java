@@ -33,7 +33,7 @@ public class SystemDiagramEditPartFactory implements EditPartFactory {
         this.actionRegistry = actionRegistry;
     }
 
-    private static List<Map.Entry<Class, Class>> editPartMapping = null;
+    private static List<Map.Entry<Class<?>, Class<?>>> editPartMapping = null;
 
     /**
      * モデルクラスに対応するEditPartのクラスを取得する
@@ -43,9 +43,9 @@ public class SystemDiagramEditPartFactory implements EditPartFactory {
      * @param clazz
      * @return
      */
-    public static Class getMappingEditPartClass(Class clazz) {
+ 	public static Class<?> getMappingEditPartClass(Class<?> clazz) {
         if (editPartMapping == null) {
-            Map<Integer, Map.Entry<Class, Class>> tempMappingRules = new HashMap<Integer, Map.Entry<Class, Class>>();
+            Map<Integer, Map.Entry<Class<?>, Class<?>>> tempMappingRules = new HashMap<Integer, Map.Entry<Class<?>, Class<?>>>();
             IExtension[] extensions = Platform.getExtensionRegistry()
                     .getExtensionPoint(
                     		RTSystemEditorPlugin.class.getPackage().getName(),
@@ -60,25 +60,25 @@ public class SystemDiagramEditPartFactory implements EditPartFactory {
                             .getAttribute("editpartclass");
 
                     try {
-                        final Class targetclass = Platform.getBundle(
-                                extension.getNamespace()).loadClass(
+                        final Class<?> targetclass = Platform.getBundle(
+                                extension.getNamespaceIdentifier()).loadClass(
                                 targetclassValue);
 
-                        final Class editpartclass = Platform.getBundle(
-                                extension.getNamespace()).loadClass(
+                        final Class<?> editpartclass = Platform.getBundle(
+                                extension.getNamespaceIdentifier()).loadClass(
                                 editpartclassValue);
 
                         tempMappingRules.put(Integer.parseInt(seq),
-                                new Map.Entry<Class, Class>() {
-                                    public Class getKey() {
+                                new Map.Entry<Class<?>, Class<?>>() {
+                                    public Class<?> getKey() {
                                         return targetclass;
                                     }
 
-                                    public Class getValue() {
+                                    public Class<?> getValue() {
                                         return editpartclass;
                                     }
 
-                                    public Class setValue(Class value) {
+                                    public Class<?> setValue(Class<?> value) {
                                         return null;
                                     }
                                 });
@@ -92,21 +92,19 @@ public class SystemDiagramEditPartFactory implements EditPartFactory {
                     .keySet());
             Collections.sort(keys);
 
-            editPartMapping = new ArrayList<Map.Entry<Class, Class>>();
+            editPartMapping = new ArrayList<Map.Entry<Class<?>, Class<?>>>();
             for (Integer key : keys) {
                 editPartMapping.add(tempMappingRules.get(key));
             }
         }
 
-        Class result = null;
-        for (Map.Entry<Class, Class> entry : editPartMapping) {
+        for (Map.Entry<Class<?>, Class<?>> entry : editPartMapping) {
             if (entry.getKey().isAssignableFrom(clazz)) {
-                result = entry.getValue();
-                break;
+                return entry.getValue();
             }
         }
 
-        return result;
+        return null;
     }
 
     /**
@@ -122,7 +120,8 @@ public class SystemDiagramEditPartFactory implements EditPartFactory {
         return result;
     }
 
-    private EditPart newEditPart(Object object) {
+    @SuppressWarnings("unchecked")
+	private EditPart newEditPart(Object object) {
         Class clazz = getMappingEditPartClass(object.getClass());
 
         EditPart result = null;

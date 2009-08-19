@@ -17,6 +17,8 @@ public class ErrorDialog extends InternalErrorDialog {
 			int dialogImageType) {
 		super(parentShell, dialogTitle, dialogTitleImage, dialogMessage,
 				new Throwable() {
+					private static final long serialVersionUID = 1L;
+
 					@Override
 					public void printStackTrace(PrintStream s) {
 						s.append(detail);

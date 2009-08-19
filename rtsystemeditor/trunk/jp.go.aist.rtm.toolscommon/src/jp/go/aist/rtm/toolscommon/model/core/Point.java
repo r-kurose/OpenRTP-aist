@@ -6,6 +6,8 @@ import java.io.Serializable;
  * RtcLink‚ÌPoint‚ð•\Œ»‚·‚éƒNƒ‰ƒX
  */
 public class Point implements Serializable {
+	private static final long serialVersionUID = -6040171233600016868L;
+
 	private int x;
 
 	private int y;

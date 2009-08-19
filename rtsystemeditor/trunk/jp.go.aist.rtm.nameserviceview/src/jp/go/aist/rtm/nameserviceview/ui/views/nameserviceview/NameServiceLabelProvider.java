@@ -33,30 +33,31 @@ public class NameServiceLabelProvider extends LabelProvider {
 
 	/**
 	 * {@inheritDoc}
+	 * 現状、エントリごとにアイコンを変化させる処理は、NamingObjectNode（CORBA専用）だけに対応している
 	 */
 	public Image getImage(Object obj) {
-		Image result = null;
+		Object targetObject = getTargetObject(obj);
+		IWorkbenchAdapter workbenchAdapter = ((IWorkbenchAdapter) AdapterUtil
+				.getAdapter(targetObject, IWorkbenchAdapter.class));
+
+		if (workbenchAdapter != null) {
+			ImageDescriptor descriptor = workbenchAdapter
+					.getImageDescriptor(targetObject);
+			Image result = NameServiceViewPlugin.getCachedImage(descriptor);
+			if (result != null) return result;
+		}
+
+		return NameServiceViewPlugin.getCachedImage("icons/Question.gif");
+	}
+
+	private Object getTargetObject(Object obj) {
 		if (obj instanceof NamingObjectNode) {
 			NamingObjectNode namingObjectNode = ((NamingObjectNode) obj);
 
 			if (namingObjectNode.isZombie() == false) {
-				obj = namingObjectNode.getEntry();
+				return namingObjectNode.getEntry();
 			}
 		}
-
-		IWorkbenchAdapter workbenchAdapter = ((IWorkbenchAdapter) AdapterUtil
-				.getAdapter(obj, IWorkbenchAdapter.class));
-
-		if (workbenchAdapter != null) {
-			ImageDescriptor descriptor = workbenchAdapter
-					.getImageDescriptor(obj);
-			result = NameServiceViewPlugin.getCachedImage(descriptor);
-		}
-
-		if (result == null) {
-			result = NameServiceViewPlugin.getCachedImage("icons/Question.gif");
-		}
-
-		return result;
+		return obj;
 	}
 }

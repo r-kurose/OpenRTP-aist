@@ -2,21 +2,22 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ManagerFactoryImpl.java,v 1.2 2008/03/06 04:01:49 yamashita Exp $
+ * $Id$
  */
 package jp.go.aist.rtm.toolscommon.model.manager.impl;
 
+import RTM.ManagerProfile;
+import RTM.ModuleProfile;
+
 import jp.go.aist.rtm.toolscommon.model.manager.*;
 
-import jp.go.aist.rtm.toolscommon.model.manager.ManagerFactory;
-import jp.go.aist.rtm.toolscommon.model.manager.ManagerPackage;
-import jp.go.aist.rtm.toolscommon.model.manager.RTManager;
-import jp.go.aist.rtm.toolscommon.model.manager.RTModule;
-
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
@@ -62,8 +63,7 @@ public class ManagerFactoryImpl extends EFactoryImpl implements ManagerFactory {
 	 */
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case ManagerPackage.RT_MANAGER: return createRTManager();
-			case ManagerPackage.RT_MODULE: return createRTModule();
+			case ManagerPackage.RTC_MANAGER: return createRTCManager();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -74,9 +74,15 @@ public class ManagerFactoryImpl extends EFactoryImpl implements ManagerFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RTManager createRTManager() {
-		RTManagerImpl rtManager = new RTManagerImpl();
-		return rtManager;
+	public Object createFromString(EDataType eDataType, String initialValue) {
+		switch (eDataType.getClassifierID()) {
+			case ManagerPackage.RTM_MANAGER_PROFILE:
+				return createRTMManagerProfileFromString(eDataType, initialValue);
+			case ManagerPackage.RTM_MODULE_PROFILE:
+				return createRTMModuleProfileFromString(eDataType, initialValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
 	}
 
 	/**
@@ -84,9 +90,61 @@ public class ManagerFactoryImpl extends EFactoryImpl implements ManagerFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RTModule createRTModule() {
-		RTModuleImpl rtModule = new RTModuleImpl();
-		return rtModule;
+	public String convertToString(EDataType eDataType, Object instanceValue) {
+		switch (eDataType.getClassifierID()) {
+			case ManagerPackage.RTM_MANAGER_PROFILE:
+				return convertRTMManagerProfileToString(eDataType, instanceValue);
+			case ManagerPackage.RTM_MODULE_PROFILE:
+				return convertRTMModuleProfileToString(eDataType, instanceValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RTCManager createRTCManager() {
+		RTCManagerImpl rtcManager = new RTCManagerImpl();
+		return rtcManager;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ManagerProfile createRTMManagerProfileFromString(EDataType eDataType, String initialValue) {
+		return (ManagerProfile)super.createFromString(eDataType, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertRTMManagerProfileToString(EDataType eDataType, Object instanceValue) {
+		return super.convertToString(eDataType, instanceValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ModuleProfile createRTMModuleProfileFromString(EDataType eDataType, String initialValue) {
+		return (ModuleProfile)super.createFromString(eDataType, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertRTMModuleProfileToString(EDataType eDataType, Object instanceValue) {
+		return super.convertToString(eDataType, instanceValue);
 	}
 
 	/**

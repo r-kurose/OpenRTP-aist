@@ -3,8 +3,8 @@ package jp.go.aist.rtm.systemeditor.ui.editor;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart;
-import jp.go.aist.rtm.systemeditor.ui.editor.editpart.PortConnectorEditPart;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -30,39 +30,7 @@ public class SystemDiagramEditorContributor extends ActionBarContributor {
 	 * {@inheritDoc}
 	 */
 	protected void buildActions() {
-		// addRetargetAction(new UndoRetargetAction());
-		// addRetargetAction(new RedoRetargetAction());
 		 addRetargetAction(new DeleteRetargetAction());
-//		allStartAction = new AllComponentActionDelegateWrapper(
-//				AllComponentActionDelegate.ALL_START_ACTION_ID, "All Start");
-//		addAction(allStartAction);
-//		allStartAction.setImageDescriptor(RtcLinkPlugin
-//				.getImageDescriptor("icons/AllStart.gif"));
-//		getPage().addSelectionListener(allStartAction);
-//
-//		allStopAction = new AllComponentActionDelegateWrapper(
-//				AllComponentActionDelegate.ALL_STOP_ACTION_ID, "All Stop");
-//		allStopAction.setImageDescriptor(RtcLinkPlugin
-//				.getImageDescriptor("icons/AllStop.gif"));
-//		addAction(allStopAction);
-//		getPage().addSelectionListener(allStopAction);
-//
-//		allActivateAction = new AllComponentActionDelegateWrapper(
-//				AllComponentActionDelegate.ALL_ACTIVATE_ACTION_ID,
-//				"All Activate");
-//		allActivateAction.setImageDescriptor(RtcLinkPlugin
-//				.getImageDescriptor("icons/AllActivate.gif"));
-//		addAction(allActivateAction);
-//		getPage().addSelectionListener(allActivateAction);
-//
-//		allDeactivateAction = new AllComponentActionDelegateWrapper(
-//				AllComponentActionDelegate.ALL_DEACTIVATE_ACTION_ID,
-//				"All Deactivate");
-//		allDeactivateAction.setImageDescriptor(RtcLinkPlugin
-//				.getImageDescriptor("icons/AllDeactivate.gif"));
-//		addAction(allDeactivateAction);
-//		getPage().addSelectionListener(allDeactivateAction);
-
 	}
 
 	@Override
@@ -77,11 +45,6 @@ public class SystemDiagramEditorContributor extends ActionBarContributor {
 	 * {@inheritDoc}
 	 */
 	public void contributeToToolBar(IToolBarManager toolBarManager) {
-		// toolBarManager.add(getActionRegistry().getAction(
-		// ActionFactory.UNDO.getId()));
-		// toolBarManager.add(getActionRegistry().getAction(
-		// ActionFactory.REDO.getId()));
-		// toolBarManager.add(getAction(ActionFactory.DELETE.getId()));
 	}
 
 	@Override
@@ -117,7 +80,6 @@ public class SystemDiagramEditorContributor extends ActionBarContributor {
 		private final IStatusLineManager manager;
 
 		private ComponentEditPart componentEditPart;
-		private PortConnectorEditPart portConnectorEditPart;
 		
 		private IWorkbenchPage page;
 
@@ -134,7 +96,6 @@ public class SystemDiagramEditorContributor extends ActionBarContributor {
 		 */
 		public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 			ComponentEditPart tempComponenEditPart = null;
-			PortConnectorEditPart tempPortConnectorEditPart = null;
 			if (selection instanceof IStructuredSelection) {
 				IStructuredSelection structuredSelection = (IStructuredSelection) selection;
 
@@ -142,9 +103,6 @@ public class SystemDiagramEditorContributor extends ActionBarContributor {
 				if (firstElement != null
 						&& firstElement instanceof ComponentEditPart) {
 					tempComponenEditPart = (ComponentEditPart) firstElement;
-				}else if (firstElement != null
-						&& firstElement instanceof PortConnectorEditPart) {
-					tempPortConnectorEditPart = (PortConnectorEditPart) firstElement;
 				}
 			}
 
@@ -158,16 +116,6 @@ public class SystemDiagramEditorContributor extends ActionBarContributor {
 				componentEditPart.addPropertyChangeListener(this);
 			}
 			
-			if (portConnectorEditPart != null) {
-				portConnectorEditPart.removePropertyChangeListener(this);
-			}
-
-			portConnectorEditPart = tempPortConnectorEditPart;
-
-			if (portConnectorEditPart != null) {
-				portConnectorEditPart.addPropertyChangeListener(this);
-			}
-
 			drawMessage();
 		}
 
@@ -175,14 +123,14 @@ public class SystemDiagramEditorContributor extends ActionBarContributor {
 			page.getWorkbenchWindow().getShell().getDisplay().asyncExec(
 					new Runnable() {
 						public void run() {
-							String message = "";
+							String message = ""; //$NON-NLS-1$
 							if (componentEditPart != null) {
 								IFigure figure = componentEditPart.getFigure();
 
 								Rectangle bounds = figure.getBounds();
-								message = "Pos: (" + bounds.x + "," + bounds.y
-										+ ") Size: (" + bounds.width + ","
-										+ bounds.height + ")";
+								message = Messages.getString("SystemDiagramEditorContributor.1") + bounds.x + "," + bounds.y //$NON-NLS-1$ //$NON-NLS-2$
+										+ Messages.getString("SystemDiagramEditorContributor.3") + bounds.width + "," //$NON-NLS-1$ //$NON-NLS-2$
+										+ bounds.height + ")"; //$NON-NLS-1$
 							}
 
 							manager.setMessage(message);

@@ -1,33 +1,32 @@
 package jp.go.aist.rtm.repositoryView.ui;
 
 
-import java.util.ArrayList;
+import java.util.List;
 
 import jp.go.aist.rtm.repositoryView.model.RepositoryViewItem;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
+/**
+ * レポジトリビューのコンテンツプロバイダ
+ *
+ */
 public class ArrayContentProvider implements ITreeContentProvider {
 
+	@SuppressWarnings("unchecked")
 	public Object[] getChildren(Object parentElement) {
-		if (parentElement instanceof ArrayList) {
-			Object[] obj = new Object[((ArrayList)parentElement).size()];
-			
-			for (int intIdx=0; intIdx < ((ArrayList)parentElement).size(); intIdx++) {
-				obj[intIdx] = ((ArrayList)parentElement).get(intIdx);
-			}
-		    return obj;
+		if (parentElement instanceof List) {
+			List list = (List)parentElement;
+			return list.toArray();
 		}
 		return ((RepositoryViewItem)parentElement).getChildren().toArray();
 	}
 
 	public Object getParent(Object element) {
-		if (element instanceof ArrayList) return null;
+		if (element instanceof List) return null;
 
-		Object obj = new Object();
-		obj = ((RepositoryViewItem)element).getParent();
-		return obj;
+		return ((RepositoryViewItem)element).getParent();
 	}
 	
 	public boolean hasChildren(Object element) {

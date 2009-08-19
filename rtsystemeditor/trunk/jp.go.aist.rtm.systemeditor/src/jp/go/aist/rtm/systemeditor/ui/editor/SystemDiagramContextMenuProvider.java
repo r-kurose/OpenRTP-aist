@@ -1,5 +1,6 @@
 package jp.go.aist.rtm.systemeditor.ui.editor;
 
+import jp.go.aist.rtm.systemeditor.ui.editor.action.OpenAndQuickRestoreAction;
 import jp.go.aist.rtm.systemeditor.ui.editor.action.OpenAndRestoreAction;
 
 import org.eclipse.gef.EditPartViewer;
@@ -23,6 +24,7 @@ public class SystemDiagramContextMenuProvider extends
 		super.buildContextMenu(menuManager);
 
 		appendAction(menuManager, OpenAndRestoreAction.ID, "save");
+		appendAction(menuManager, OpenAndQuickRestoreAction.ID, "save");
 	}
 
 }

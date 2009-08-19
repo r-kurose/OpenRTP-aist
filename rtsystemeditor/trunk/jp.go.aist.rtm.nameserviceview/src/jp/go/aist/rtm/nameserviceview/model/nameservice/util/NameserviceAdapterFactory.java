@@ -2,20 +2,17 @@
  * <copyright>
  * </copyright>
  *
- * $Id: NameserviceAdapterFactory.java,v 1.6 2008/03/27 06:58:52 yamashita Exp $
+ * $Id$
  */
 package jp.go.aist.rtm.nameserviceview.model.nameservice.util;
 
-import jp.go.aist.rtm.nameserviceview.model.nameservice.CategoryNamingContext;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.HostNamingContext;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.ManagerNamingContext;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.ModuleNamingContext;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServerNamingContext;
+import jp.go.aist.rtm.nameserviceview.manager.NameServerContext;
+import jp.go.aist.rtm.nameserviceview.manager.Node;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameservicePackage;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.Node;
 import jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject;
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
 import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
@@ -27,7 +24,6 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.omg.CosNaming.NamingContext;
-
 
 /**
  * <!-- begin-user-doc -->
@@ -66,7 +62,6 @@ public class NameserviceAdapterFactory extends AdapterFactoryImpl {
 	 * @return whether this factory is applicable for the type of the object.
 	 * @generated
 	 */
-	@Override
 	public boolean isFactoryForType(Object object) {
 		if (object == modelPackage) {
 			return true;
@@ -85,29 +80,14 @@ public class NameserviceAdapterFactory extends AdapterFactoryImpl {
 	 */
 	protected NameserviceSwitch modelSwitch =
 		new NameserviceSwitch() {
-			public Object caseCategoryNamingContext(CategoryNamingContext object) {
-				return createCategoryNamingContextAdapter();
-			}
-			public Object caseHostNamingContext(HostNamingContext object) {
-				return createHostNamingContextAdapter();
-			}
-			public Object caseManagerNamingContext(ManagerNamingContext object) {
-				return createManagerNamingContextAdapter();
-			}
-			public Object caseModuleNamingContext(ModuleNamingContext object) {
-				return createModuleNamingContextAdapter();
-			}
-			public Object caseNameServerNamingContext(NameServerNamingContext object) {
-				return createNameServerNamingContextAdapter();
-			}
 			public Object caseNamingContextNode(NamingContextNode object) {
 				return createNamingContextNodeAdapter();
 			}
 			public Object caseNamingObjectNode(NamingObjectNode object) {
 				return createNamingObjectNodeAdapter();
 			}
-			public Object caseNode(Node object) {
-				return createNodeAdapter();
+			public Object caseCorbaNode(CorbaNode object) {
+				return createCorbaNodeAdapter();
 			}
 			public Object caseNamingContext(NamingContext object) {
 				return createNamingContextAdapter();
@@ -130,6 +110,12 @@ public class NameserviceAdapterFactory extends AdapterFactoryImpl {
 			public Object caseCorbaWrapperObject(CorbaWrapperObject object) {
 				return createCorbaWrapperObjectAdapter();
 			}
+			public Object caseNode(Node object) {
+				return createNodeAdapter();
+			}
+			public Object caseNameServerContext(NameServerContext object) {
+				return createNameServerContextAdapter();
+			}
 			public Object defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -143,81 +129,10 @@ public class NameserviceAdapterFactory extends AdapterFactoryImpl {
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
 	 */
-	@Override
 	public Adapter createAdapter(Notifier target) {
 		return (Adapter)modelSwitch.doSwitch((EObject)target);
 	}
 
-
-	/**
-	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.CategoryNamingContext <em>Category Naming Context</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.CategoryNamingContext
-	 * @generated
-	 */
-	public Adapter createCategoryNamingContextAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.HostNamingContext <em>Host Naming Context</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.HostNamingContext
-	 * @generated
-	 */
-	public Adapter createHostNamingContextAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.ManagerNamingContext <em>Manager Naming Context</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.ManagerNamingContext
-	 * @generated
-	 */
-	public Adapter createManagerNamingContextAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.ModuleNamingContext <em>Module Naming Context</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.ModuleNamingContext
-	 * @generated
-	 */
-	public Adapter createModuleNamingContextAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.NameServerNamingContext <em>Name Server Naming Context</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.NameServerNamingContext
-	 * @generated
-	 */
-	public Adapter createNameServerNamingContextAdapter() {
-		return null;
-	}
 
 	/**
 	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode <em>Naming Context Node</em>}'.
@@ -248,13 +163,27 @@ public class NameserviceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.Node <em>Node</em>}'.
+	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode <em>Corba Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.Node
+	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode
+	 * @generated
+	 */
+	public Adapter createCorbaNodeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.nameserviceview.manager.Node <em>Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see jp.go.aist.rtm.nameserviceview.manager.Node
 	 * @generated
 	 */
 	public Adapter createNodeAdapter() {
@@ -356,6 +285,20 @@ public class NameserviceAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCorbaWrapperObjectAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.nameserviceview.manager.NameServerContext <em>Name Server Context</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see jp.go.aist.rtm.nameserviceview.manager.NameServerContext
+	 * @generated
+	 */
+	public Adapter createNameServerContextAdapter() {
 		return null;
 	}
 

@@ -6,11 +6,9 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.PointList;
 
 /**
- * InPortのFigure
+ * ServicePortのFigure
  */
 public class ServicePortFigure extends PortFigure {
-
-	private ServicePort servicePort;
 
 	/**
 	 * コンストラクタ
@@ -19,8 +17,6 @@ public class ServicePortFigure extends PortFigure {
 	 *            モデル
 	 */
 	public ServicePortFigure(ServicePort servicePort) {
-		this.servicePort = servicePort;
-
 		setScale(1.0, 1.0);
 		setFill(true);
 
@@ -36,7 +32,7 @@ public class ServicePortFigure extends PortFigure {
 		setBackgroundColor(ColorConstants.lightBlue);
 		setForegroundColor(ColorConstants.red);
 
-		setToolTip(getServicePortToolTip(servicePort.getPortProfile()));
+		setToolTip(getServicePortToolTip(servicePort));
 
 	}
 

@@ -18,16 +18,21 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
+/**
+ * レポジトリビューのラベルプロバイダ
+ *
+ */
 public class RepositoryViewLabelProvider extends LabelProvider {
 	private Image image = null;
 	
 	public String getText(Object obj) {
 		if (obj instanceof RepositoryViewItem) {
-			return ((RepositoryViewItem)obj).toString();
+			return obj.toString();
 		}
 		return ""; 
 	}
 	
+	// アダプタを使わないとしても、imageNameの取得は別メソッドにしたい
 	public Image getImage(Object obj) {
 		String imageKey = ISharedImages.IMG_OBJ_ELEMENT;
 

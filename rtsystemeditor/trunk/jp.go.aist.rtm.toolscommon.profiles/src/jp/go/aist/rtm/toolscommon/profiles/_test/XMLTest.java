@@ -1,21 +1,20 @@
 package jp.go.aist.rtm.toolscommon.profiles._test;
 
-import jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler;
+import org.openrtp.namespaces.rtc.version02.RtcProfile;
 
-import org.openrtp.namespaces.rtc.RtcProfile;
+import jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler;
 
 public class XMLTest extends TestBase {
 
 	public void testRtcXmlExport() {
-
-		String resourceDir = rootPath +  "\\resource\\RTC\\SampleXML.xml";
+		String resourceDir = rootPath +  "\\resource\\RTC\\RtcSampleVer02.xml";
 		String expected = readFile(resourceDir,"\n");
 		
 		SampleProfileGenerator handle = new SampleProfileGenerator();
-		RtcProfile profile = handle.generateProfile();
-		XmlHandler handler = new XmlHandler();
 		String result = null;
 		try {
+			RtcProfile profile = handle.generateProfile();
+			XmlHandler handler = new XmlHandler();
 			result = handler.convertToXmlRtc(profile);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -34,6 +33,19 @@ public class XMLTest extends TestBase {
 		} catch(Exception ex) {
 			fail(ex.getCause().getMessage());
 		}
-		checkDetail(profile);
+		checkDetailXml(profile);
+	}
+	
+	public void testRtcXmlImportVer02() throws Exception{
+		String resourceDir = rootPath +  "\\resource\\RTC\\RtcSampleVer02.xml";
+		String expected = readFile(resourceDir,"\n");
+		XmlHandler handler = new XmlHandler();
+		RtcProfile profile = null;
+		try {
+			profile = handler.restoreFromXmlRtc(expected);
+		} catch(Exception ex) {
+			fail(ex.getCause().getMessage());
+		}
+		checkDetailVer02(profile);
 	}
 }

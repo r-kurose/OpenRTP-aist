@@ -1,5 +1,6 @@
 package jp.go.aist.rtm.toolscommon.model.component;
 
+import jp.go.aist.rtm.toolscommon.nl.Messages;
 import jp.go.aist.rtm.toolscommon.ui.propertysource.PortInterfaceProfilePropertySource;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -7,35 +8,17 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.views.properties.IPropertySource;
 
-import RTC.PortInterfacePolarity;
-
 /**
- * PortInterfaceProfileを表現するクラス このオブジェクトは、バリューオブジェクトであることに注意すること。<br>
- * このオブジェクト自体は同期が行われないため、このオブジェクトの参照を保持し続けることは、危険である。<br>
- * 事情が許す限り、参照元のオブジェクトを参照して、必要になるたびにそこから手に入れること。
- * 
- * また、このクラスはEqualsメソッドをオーバーライドしているので、RTC.PortInterfaceProfileへのフィールドの追加の際には、保守を怠らないこと。
- * PortInterfacePolarityのequalsはここで定義しているので気をつけること。
+ * PortInterfaceProfileを表現するクラス 
  */
 public class PortInterfaceProfile implements IAdaptable {
+	protected static final String POLARITY_PROVIDED = Messages.getString("PortInterfaceProfilePropertySource.polarity.provided");
+	protected static final String POLARITY_REQUIRED = Messages.getString("PortInterfaceProfilePropertySource.polarity.required");
+	protected static final String POLARITY_UNKNOWN = Messages.getString("PortInterfaceProfilePropertySource.unknown");
 
-	private RTC.PortInterfaceProfile delegate;
-
-	public PortInterfaceProfile(RTC.PortInterfaceProfile delegate) {
-		this.delegate = delegate;
-	}
-
-	public String getInstanceName() {
-		return delegate.instance_name;
-	}
-
-	public String getTypeName() {
-		return delegate.type_name;
-	}
-
-	public PortInterfacePolarity getPortInterfacePolarity() {
-		return delegate.polarity;
-	}
+	private String instanceName;
+	private String typeName;
+	private String polarity;
 
 	@Override
 	public boolean equals(Object obj) {
@@ -45,22 +28,54 @@ public class PortInterfaceProfile implements IAdaptable {
 
 		PortInterfaceProfile p = (PortInterfaceProfile) obj;
 
-		return new EqualsBuilder().append(delegate.instance_name,
-				p.delegate.instance_name).append(delegate.type_name,
-				p.delegate.type_name).append(delegate.polarity.value(),
-				p.delegate.polarity.value()).isEquals();
+		return new EqualsBuilder().append(getInstanceName(),
+				p.getInstanceName()).append(getTypeName(),
+				p.getTypeName()).append(getPolarity(),
+				p.getPolarity()).isEquals();
 	}
 
+	@SuppressWarnings("unchecked")
 	public Object getAdapter(Class adapter) {
-		java.lang.Object result = null;
 		if (IPropertySource.class.equals(adapter)) {
-			result = new PortInterfaceProfilePropertySource(this);
+			return new PortInterfaceProfilePropertySource(this);
 		}
+		
+		return Platform.getAdapterManager().getAdapter(this, adapter);
+	}
 
-		if (result == null) {
-			result = Platform.getAdapterManager().getAdapter(this, adapter);
-		}
+	public String getInstanceName() {
+		return instanceName;
+	}
 
-		return result;
+	public void setInstanceName(String instanceName) {
+		this.instanceName = instanceName;
+	}
+
+	public String getTypeName() {
+		return typeName;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
+
+	public String getPolarity() {
+		return polarity;
+	}
+
+	public void setProvidedPolarity() {
+		polarity = POLARITY_PROVIDED;
+	}
+
+	public void setRequiredPolarity() {
+		polarity = POLARITY_REQUIRED;
+	}
+
+	public boolean isProvidedPolarity() {
+		return getPolarity().equals(POLARITY_PROVIDED);
+	}
+
+	public boolean isRequiredPolarity() {
+		return getPolarity().equals(POLARITY_REQUIRED);
 	}
 }

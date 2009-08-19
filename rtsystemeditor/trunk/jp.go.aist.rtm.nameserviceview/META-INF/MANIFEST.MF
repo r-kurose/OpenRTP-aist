@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: jp.go.aist.rtm.nameserviceview; singleton:=true
-Bundle-Version: 0.4.2
+Bundle-Version: 1.0.0
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
@@ -12,6 +12,7 @@ Export-Package: jp.go.aist.rtm.nameserviceview,
  jp.go.aist.rtm.nameserviceview.corba,
  jp.go.aist.rtm.nameserviceview.factory,
  jp.go.aist.rtm.nameserviceview.manager,
+ jp.go.aist.rtm.nameserviceview.manager.impl,
  jp.go.aist.rtm.nameserviceview.model.nameservice,
  jp.go.aist.rtm.nameserviceview.model.nameservice.impl,
  jp.go.aist.rtm.nameserviceview.model.nameservice.util,

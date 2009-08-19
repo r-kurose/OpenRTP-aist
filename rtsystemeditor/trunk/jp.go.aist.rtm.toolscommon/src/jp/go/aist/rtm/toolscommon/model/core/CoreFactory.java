@@ -45,15 +45,6 @@ public interface CoreFactory extends EFactory {
 	WrapperObject createWrapperObject();
 
 	/**
-	 * Returns a new object of class '<em>Unknown Object</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Unknown Object</em>'.
-	 * @generated
-	 */
-	UnknownObject createUnknownObject();
-
-	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

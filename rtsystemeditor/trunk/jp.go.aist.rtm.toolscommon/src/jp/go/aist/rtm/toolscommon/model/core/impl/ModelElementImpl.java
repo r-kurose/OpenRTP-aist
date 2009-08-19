@@ -6,8 +6,6 @@
  */
 package jp.go.aist.rtm.toolscommon.model.core.impl;
 
-import java.util.Iterator;
-
 import jp.go.aist.rtm.toolscommon.model.core.CorePackage;
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
 import jp.go.aist.rtm.toolscommon.model.core.Rectangle;
@@ -89,28 +87,28 @@ public class ModelElementImpl extends EObjectImpl implements ModelElement {
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 */
+	@SuppressWarnings("unchecked")
 	public void accept(Visiter visiter) {
 		visiter.visit(this);
-		for (Iterator iter = eContents().iterator(); iter.hasNext();) {
-			Object next = iter.next();
-			if (next instanceof ModelElement) {
-				ModelElement element = (ModelElement) next;
-				element.accept(visiter);
-			}
+		for (Object obj : eContents()) {
+			if (!(obj instanceof ModelElement)) continue;
+			ModelElement element = (ModelElement) obj;
+			element.accept(visiter);
 		}
 	}
 
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 */
-	public void dispose() {
-		for (Iterator iter = eContents().iterator(); iter.hasNext();) {
-			ModelElement element = (ModelElement) iter.next();
-			element.dispose();
-		}
-	}
+//	/**
+//	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+//	 */
+//	@SuppressWarnings("unchecked")
+//	public void dispose() {
+//		for (Iterator iter = eContents().iterator(); iter.hasNext();) {
+//			ModelElement element = (ModelElement) iter.next();
+//			element.dispose();
+//		}
+//	}
 
-	/**
+			/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

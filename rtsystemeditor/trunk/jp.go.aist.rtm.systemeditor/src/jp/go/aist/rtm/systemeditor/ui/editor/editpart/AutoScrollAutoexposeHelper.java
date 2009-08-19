@@ -13,7 +13,7 @@ import org.eclipse.gef.editparts.ViewportAutoexposeHelper;
  */
 public class AutoScrollAutoexposeHelper extends ViewportAutoexposeHelper {
 	/** defines the range where autoscroll is active inside a viewer */
-	private static final Insets DEFAULT_EXPOSE_THRESHOLD = new Insets(18);
+//	private static final Insets DEFAULT_EXPOSE_THRESHOLD = new Insets(18);
 
 	/** the last time an auto expose was performed */
 	private long lastStepTime = 0;

@@ -18,6 +18,15 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
+	<xsd:complexType name="doc_basic">
+		<xsd:attribute name="description" type="xsd:string" use="optional"/>
+		<xsd:attribute name="inout" type="xsd:string" use="optional"/>
+		<xsd:attribute name="algorithm" type="xsd:string" use="optional"/>
+		<xsd:attribute name="creator" type="xsd:string" use="optional"/>
+		<xsd:attribute name="license" type="xsd:string" use="optional"/>
+		<xsd:attribute name="reference" type="xsd:string" use="optional"/>
+	</xsd:complexType>
+
 	<xsd:complexType name="action_status_doc">
 		<xsd:complexContent>
 			<xsd:extension base ="rtc:action_status">
@@ -26,6 +35,12 @@
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="doc_action">
+		<xsd:attribute name="description" type="xsd:string" use="optional"/>
+		<xsd:attribute name="preCondition" type="xsd:string" use="optional"/>
+		<xsd:attribute name="postCondition" type="xsd:string" use="optional"/>
 	</xsd:complexType>
 
 	<xsd:complexType name="configuration_doc">
@@ -38,6 +53,15 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
+	<xsd:complexType name="doc_configuration">
+		<xsd:attribute name="dataname" type="xsd:string" use="optional"/>
+		<xsd:attribute name="defaultValue" type="xsd:string" use="optional"/>
+		<xsd:attribute name="description" type="xsd:string" use="optional"/>
+		<xsd:attribute name="unit" type="xsd:string" use="optional"/>
+		<xsd:attribute name="range" type="xsd:string" use="optional"/>
+		<xsd:attribute name="constraint" type="xsd:string" use="optional"/>
+	</xsd:complexType>
+
 	<xsd:complexType name="dataport_doc">
 		<xsd:complexContent>
 			<xsd:extension base ="rtc:dataport">
@@ -46,50 +70,6 @@
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
-	</xsd:complexType>
-
-	<xsd:complexType name="serviceport_doc">
-		<xsd:complexContent>
-			<xsd:extension base ="rtc:serviceport">
-				<xsd:sequence>
-					<xsd:element name="Doc" type="rtcDoc:doc_serviceport" minOccurs="0" maxOccurs="1"/>
-				</xsd:sequence>
-			</xsd:extension>
-		</xsd:complexContent>
-	</xsd:complexType>
-
-	<xsd:complexType name="serviceinterface_doc">
-		<xsd:complexContent>
-			<xsd:extension base ="rtc:serviceinterface">
-				<xsd:sequence>
-					<xsd:element name="Doc" type="rtcDoc:doc_serviceinterface" minOccurs="0" maxOccurs="1"/>
-				</xsd:sequence>
-			</xsd:extension>
-		</xsd:complexContent>
-	</xsd:complexType>
-
-	<xsd:complexType name="doc_basic">
-		<xsd:attribute name="description" type="xsd:string" use="optional"/>
-		<xsd:attribute name="inout" type="xsd:string" use="optional"/>
-		<xsd:attribute name="algorithm" type="xsd:string" use="optional"/>
-		<xsd:attribute name="creator" type="xsd:string" use="optional"/>
-		<xsd:attribute name="license" type="xsd:string" use="optional"/>
-		<xsd:attribute name="reference" type="xsd:string" use="optional"/>
-	</xsd:complexType>
-
-	<xsd:complexType name="doc_action">
-		<xsd:attribute name="description" type="xsd:string" use="optional"/>
-		<xsd:attribute name="postCondition" type="xsd:string" use="optional"/>
-		<xsd:attribute name="preCondition" type="xsd:string" use="optional"/>
-	</xsd:complexType>
-
-	<xsd:complexType name="doc_configuration">
-		<xsd:attribute name="dataname" type="xsd:string" use="optional"/>
-		<xsd:attribute name="defaultValue" type="xsd:string" use="optional"/>
-		<xsd:attribute name="description" type="xsd:string" use="optional"/>
-		<xsd:attribute name="unit" type="xsd:string" use="optional"/>
-		<xsd:attribute name="range" type="xsd:string" use="optional"/>
-		<xsd:attribute name="constraint" type="xsd:string" use="optional"/>
 	</xsd:complexType>
 
 	<xsd:complexType name="doc_dataport">
@@ -102,18 +82,38 @@
 		<xsd:attribute name="operation" type="xsd:string" use="optional"/>
 	</xsd:complexType>
 
+	<xsd:complexType name="serviceport_doc">
+		<xsd:complexContent>
+			<xsd:extension base ="rtc:serviceport">
+				<xsd:sequence>
+					<xsd:element name="Doc" type="rtcDoc:doc_serviceport" minOccurs="0" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
 	<xsd:complexType name="doc_serviceport">
 		<xsd:attribute name="description" type="xsd:string" use="optional"/>
 		<xsd:attribute name="ifdescription" type="xsd:string" use="optional"/>
 	</xsd:complexType>
 
+	<xsd:complexType name="serviceinterface_doc">
+		<xsd:complexContent>
+			<xsd:extension base ="rtc:serviceinterface">
+				<xsd:sequence>
+					<xsd:element name="Doc" type="rtcDoc:doc_serviceinterface" minOccurs="0" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
 	<xsd:complexType name="doc_serviceinterface">
-		<xsd:attribute name="description" type="xsd:string"/>
-		<xsd:attribute name="docArgument" type="xsd:string"/>
-		<xsd:attribute name="docReturn" type="xsd:string"/>
-		<xsd:attribute name="docException" type="xsd:string"/>
-		<xsd:attribute name="docPreCondition" type="xsd:string"/>
-		<xsd:attribute name="docPostCondition" type="xsd:string"/>
+		<xsd:attribute name="description" type="xsd:string" use="optional"/>
+		<xsd:attribute name="docArgument" type="xsd:string" use="optional"/>
+		<xsd:attribute name="docReturn" type="xsd:string" use="optional"/>
+		<xsd:attribute name="docException" type="xsd:string" use="optional"/>
+		<xsd:attribute name="docPreCondition" type="xsd:string" use="optional"/>
+		<xsd:attribute name="docPostCondition" type="xsd:string" use="optional"/>
 	</xsd:complexType>
 
 </xsd:schema>

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import jp.go.aist.rtm.nameserviceview.NameServiceViewPlugin;
+import jp.go.aist.rtm.nameserviceview.nl.Messages;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -32,12 +33,16 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * ネームサービスビューに適用するフィルタを設定するダイアログ
+ *
+ */
 public class FiltersDialog extends Dialog {
 
 	private CheckboxTableViewer tableViewer = null;
 	private Composite composite = null;
 	
-	private static final String SEPARATOR= ",";
+	private static final String SEPARATOR= ","; //$NON-NLS-1$
 	
 	private boolean patternEnable = false;
 	
@@ -46,27 +51,27 @@ public class FiltersDialog extends Dialog {
 	
 	private Text patternText;
 
-	public static final String COMPONENT = "RTコンポーネント";
-	public static final String COMPOSITE_COMPONENT = "RT複合コンポーネント";
-	public static final String OBJECT = "オブジェクト";
-	public static final String HOST_NAMING_CONTEXT = "ホストコンテキスト";
-	public static final String MANAGER_NAMING_CONTEXT = "マネージャコンテキスト";
-	public static final String CATEGORY_NAMING_CONTEXT = "カテゴリコンテキスト";
-	public static final String MODULE_NAMING_CONTEXT = "モジュールコンテキスト";
-	public static final String FOLDER = "フォルダ";
-	public static final String ZOMBIE_OBJECT = "ゾンビ・オブジェクト";
+	public static final String COMPONENT = Messages.getString("FiltersDialog.1"); //$NON-NLS-1$
+	public static final String COMPOSITE_COMPONENT = Messages.getString("FiltersDialog.2"); //$NON-NLS-1$
+	public static final String OBJECT = Messages.getString("FiltersDialog.3"); //$NON-NLS-1$
+	public static final String HOST_NAMING_CONTEXT = Messages.getString("FiltersDialog.4"); //$NON-NLS-1$
+	public static final String MANAGER_NAMING_CONTEXT = Messages.getString("FiltersDialog.5"); //$NON-NLS-1$
+	public static final String CATEGORY_NAMING_CONTEXT = Messages.getString("FiltersDialog.6"); //$NON-NLS-1$
+	public static final String MODULE_NAMING_CONTEXT = Messages.getString("FiltersDialog.7"); //$NON-NLS-1$
+	public static final String FOLDER = Messages.getString("FiltersDialog.8"); //$NON-NLS-1$
+	public static final String ZOMBIE_OBJECT = Messages.getString("FiltersDialog.9"); //$NON-NLS-1$
 
 	private static final String TABLEVIEWER_ITEMS_KEY = FiltersDialog.class.getName()
-			+ "TABLEVIEWER";
+			+ "TABLEVIEWER"; //$NON-NLS-1$
 
 	private static final String PATTERNTEXT_ITEMS_KEY = FiltersDialog.class.getName()
-			+ "PATTERNTEXT";
+			+ "PATTERNTEXT"; //$NON-NLS-1$
 	
 	private static final String RADIOBUTTON_KEY = FiltersDialog.class.getName()
-			+ "RADIOBUTTON";
+			+ "RADIOBUTTON"; //$NON-NLS-1$
 	
 	private static final String PATTERNENABLE_KEY = FiltersDialog.class.getName()
-			+ "PATTERNENABLE";
+			+ "PATTERNENABLE"; //$NON-NLS-1$
 
 	public FiltersDialog(Shell parentShell) {
 		super(parentShell);
@@ -75,7 +80,7 @@ public class FiltersDialog extends Dialog {
 
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
-		shell.setText("Name Service Filters");
+		shell.setText(Messages.getString("FiltersDialog.34")); //$NON-NLS-1$
 	}
 
 	protected void createButtonForButtonBar(Composite parent) {
@@ -114,7 +119,7 @@ public class FiltersDialog extends Dialog {
 		gd.minimumWidth = 300;
 		Label lblSelection = new Label(parent, SWT.NONE);
 		lblSelection.setLayoutData(gd);
-		lblSelection.setText("ビューから除外するエレメントを選択(&E):");
+		lblSelection.setText(Messages.getString("FiltersDialog.15")); //$NON-NLS-1$
 		tableViewer = CheckboxTableViewer.newCheckList(parent, SWT.BORDER
 				| SWT.CHECK);
 		tableViewer.setContentProvider(new ArrayContentProvider());
@@ -149,7 +154,7 @@ public class FiltersDialog extends Dialog {
 		tableViewer.setCheckedElements(loadDefaultFilters().toArray());
 
 		Label lblDesc = new Label(parent, SWT.NONE);
-		lblDesc.setText("フィルターの説明:");
+		lblDesc.setText(Messages.getString("FiltersDialog.16")); //$NON-NLS-1$
 		gd = new GridData();
 		gd.horizontalAlignment = GridData.FILL;
 		lblDesc.setLayoutData(gd);
@@ -187,7 +192,7 @@ public class FiltersDialog extends Dialog {
 		buttonCompsite.setLayoutData(gd);
 
 		Button selectAllButton = new Button(buttonCompsite, SWT.NONE);
-		selectAllButton.setText("&Select All");
+		selectAllButton.setText(Messages.getString("FiltersDialog.35")); //$NON-NLS-1$
 		gd = new GridData();
 		gd.widthHint = 100;
 		gd.horizontalAlignment = SWT.LEFT;
@@ -199,7 +204,7 @@ public class FiltersDialog extends Dialog {
 		});
 
 		Button deselectAllButton = new Button(buttonCompsite, SWT.NONE);
-		deselectAllButton.setText("&Deselect All");
+		deselectAllButton.setText(Messages.getString("FiltersDialog.36")); //$NON-NLS-1$
 		gd = new GridData();
 		gd.horizontalAlignment = SWT.LEFT;
 		gd.widthHint = 100;
@@ -216,7 +221,7 @@ public class FiltersDialog extends Dialog {
 		GridData gd = new GridData();
 		gd.horizontalSpan = 2;
 		chkObjectName.setLayoutData(gd);
-		chkObjectName.setText("ネーミングオブジェクト名（条件に一致すると表示されません）(&N):"); 
+		chkObjectName.setText(Messages.getString("FiltersDialog.19"));  //$NON-NLS-1$
 
 		patternText = new Text(group, SWT.SINGLE | SWT.BORDER);
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
@@ -225,10 +230,10 @@ public class FiltersDialog extends Dialog {
 		patternText.setText(loadDefaultPattern());
 
 		radioForward = new Button(group, SWT.RADIO);
-		radioForward.setText("前方一致");
+		radioForward.setText(Messages.getString("FiltersDialog.20")); //$NON-NLS-1$
 
 		radioContain = new Button(group, SWT.RADIO);
-		radioContain.setText("部分一致");
+		radioContain.setText(Messages.getString("FiltersDialog.21")); //$NON-NLS-1$
 		this.patternEnable = loadPatternEnable();
 		chkObjectName.setSelection(patternEnable);
 		patternText.setEnabled(patternEnable);
@@ -261,33 +266,33 @@ public class FiltersDialog extends Dialog {
 	}
 
 	private String getFilterDescription(Object object) {
-		String result = "";
+		String result = ""; //$NON-NLS-1$
 		if (COMPONENT.equals(object)) {
-			result = "RTコンポーネントを非表示にします。";
+			result = Messages.getString("FiltersDialog.23"); //$NON-NLS-1$
 		} else if (COMPOSITE_COMPONENT.equals(object)) {
-			result = "RT複合コンポーネントを非表示にします。";
+			result = Messages.getString("FiltersDialog.24"); //$NON-NLS-1$
 		} else if (OBJECT.equals(object)) {
-			result = "RTコンポーネント、RT複合コンポーネント以外のオブジェクトを非表示にします。";
+			result = Messages.getString("FiltersDialog.25"); //$NON-NLS-1$
 		} else if (HOST_NAMING_CONTEXT.equals(object)) {
-			result = "ホストコンテキストを非表示にします。";
+			result = Messages.getString("FiltersDialog.26"); //$NON-NLS-1$
 		} else if (MANAGER_NAMING_CONTEXT.equals(object)) {
-			result = "マネージャコンテキストを非表示にします。";
+			result = Messages.getString("FiltersDialog.27"); //$NON-NLS-1$
 		} else if (CATEGORY_NAMING_CONTEXT.equals(object)) {
-			result = "カテゴリコンテキストを非表示にします。";
+			result = Messages.getString("FiltersDialog.28"); //$NON-NLS-1$
 		} else if (MODULE_NAMING_CONTEXT.equals(object)) {
-			result = "モジュールコンテキストを非表示にします。";
+			result = Messages.getString("FiltersDialog.29"); //$NON-NLS-1$
 		} else if (FOLDER.equals(object)) {
-			result = "ホストコンテキスト、マネージャコンテキスト、カテゴリコンテキスト、モジュールコンテキスト以外のコンテキストを非表示にします。";
+			result = Messages.getString("FiltersDialog.30"); //$NON-NLS-1$
 		} else if (ZOMBIE_OBJECT.equals(object)) {
-			result = "ゾンビ・オブジェクトを非表示にします。";
+			result = Messages.getString("FiltersDialog.31"); //$NON-NLS-1$
 		}
 		return result;
 	}
 
-	private void saveDefaultFilters(List values) {
+	private void saveDefaultFilters(List<?> values) {
 		StringBuffer newString = new StringBuffer();
 		for (Object value : values) {
-			if (!newString.toString().equals("")) {
+			if (!newString.toString().equals("")) { //$NON-NLS-1$
 				newString.append(SEPARATOR);
 			}
 			newString.append(value);
@@ -362,6 +367,6 @@ public class FiltersDialog extends Dialog {
 	public static boolean isStartsWith() {
 		String name = loadRadioSelection();
 		
-		return "前方一致".equals(name);
+		return Messages.getString("FiltersDialog.33").equals(name); //$NON-NLS-1$
 	}
 }

@@ -3,92 +3,73 @@ package jp.go.aist.rtm.systemeditor.ui.editor.command;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.go.aist.rtm.systemeditor.factory.SystemEditorWrapperFactory;
-import jp.go.aist.rtm.systemeditor.ui.action.OpenCompositeComponentAction;
-import jp.go.aist.rtm.systemeditor.ui.util.ComponentUtil;
-import jp.go.aist.rtm.toolscommon.model.component.AbstractComponent;
+import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
+import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSupport;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.gef.commands.Command;
 
 /**
- * システムダイアグラムにRtcを追加するコマンド
+ * システムダイアグラムに複合Rtcを追加するコマンド
  */
 public class CombineCommand extends Command {
 	private SystemDiagram parent;
 
-	private AbstractComponent target;
+	// 複合RTC
+	private Component target;
 
-	private AbstractComponent targetcopy;
-
+	@SuppressWarnings("unchecked")
 	@Override
 	/**
 	 * {@inheritDoc}
 	 */
 	public void execute() {
-		List<AbstractComponent> selectedComponents = new ArrayList<AbstractComponent>();
-		selectedComponents.addAll(target.getComponents());
-		AbstractComponent copyCompositeComponent = null;
-		OpenCompositeComponentAction openAction = null;
-		openAction = (OpenCompositeComponentAction) parent
-				.getOpenCompositeComponentAction();
-		if (openAction != null) {
-			OpenCompositeComponentAction parentAction = openAction;
-			AbstractComponent parentCompositeComponent = parentAction
-					.getCompositeComponent();
-			// 親エディタ分の複合コンポーネントをコピーし、
-			// その親エディタに存在する結合対象(selectedComponent)を探して、
-			// 複合コンポーネントに設定する。
-			while (parentAction != null) {
-				copyCompositeComponent = (AbstractComponent) SystemEditorWrapperFactory
-						.getInstance().copy(target);
-				for (AbstractComponent selectedComponent : selectedComponents) {
-					AbstractComponent tmp = null;
-					if (selectedComponent.getCorbaBaseObject() != null) {
-						tmp = (AbstractComponent) SynchronizationSupport
-								.findLocalObjectByRemoteObject(
-										new Object[] { selectedComponent
-												.getCorbaBaseObject() },
-										parentAction
-												.getParentSystemDiagramEditor()
-												.getSystemDiagram());
-					} else {
-						tmp = ComponentUtil.findComponentByPathId(
-								selectedComponent, parentAction
-										.getParentSystemDiagramEditor()
-										.getSystemDiagram());
-					}
-					if (tmp != null) {
-						copyCompositeComponent.getComponents().add(tmp);
-					} else {
-						throw new RuntimeException();
-					}
+		// 複合コンポーネントの子ウィンドウにて複合コンポーネントを作成したときの処理
+		adjustParentDiagram(target.getComponents());
+		
+		// 子RTCをダイアグラムから消す
+		parent.removeComponents(target.getComponents());
+		
+		// 子RTCのポートにつながっていた接続を消す
+		removeConnections(target.getComponents());
+		
+		// 複合コンポーネントをダイアグラムに追加する
+		parent.addComponent(target);
+	}
 
+	@SuppressWarnings("unchecked")
+	private void removeConnections(EList components) {
+		for (Object o : components) {
+			Component c = (Component)o;
+			for (Object o2 :c.getPorts()) {
+				Port p = (Port)o2;
+				for (Object o3 :p.getConnectorProfiles()) {
+					ConnectorProfile cp = (ConnectorProfile)o3;
+					parent.getConnectorMap().remove(cp.getConnectorId());
 				}
-				if (parentCompositeComponent.getCorbaObject() != null) {
-					copyCompositeComponent
-							.setCompositeComponent((AbstractComponent) SynchronizationSupport
-									.findLocalObjectByRemoteObject(
-											new Object[] { parentCompositeComponent
-													.getCorbaBaseObject() },
-											parentAction
-													.getParentSystemDiagramEditor()
-													.getSystemDiagram()));
-				} else {
-					copyCompositeComponent.setCompositeComponent(ComponentUtil
-							.findComponentByPathId(parentCompositeComponent,
-									parentAction.getParentSystemDiagramEditor()
-											.getSystemDiagram()));
-				}
-				parentAction.getParentSystemDiagramEditor().getSystemDiagram()
-						.getComponents().add(copyCompositeComponent);
-				parentAction = (OpenCompositeComponentAction) parentAction
-						.getParentSystemDiagramEditor().getSystemDiagram()
-						.getOpenCompositeComponentAction();
 			}
 		}
-		parent.getComponents().add(target);
+	}
+
+	@SuppressWarnings("unchecked")
+	private void adjustParentDiagram(List<Component> selectedComponents) {
+		Component parentCompositeComponent = parent.getCompositeComponent();
+		if (parentCompositeComponent == null) return;
+		
+		// サーバに対して、set_membersを呼び出す
+		parentCompositeComponent.setComponentsR(getTargets());
+	}
+
+	private List<Component> getTargets() {
+		List<Component> targets = new ArrayList<Component>();
+		for (Object o : parent.getComponents()) {
+			if (target.getComponents().contains(o)) continue;
+			targets.add((Component)o);
+		}
+		targets.add(target);
+		return targets;
 	}
 
 	/**
@@ -107,7 +88,7 @@ public class CombineCommand extends Command {
 	 * @param target
 	 *            複合コンポーネント
 	 */
-	public void setTarget(AbstractComponent target) {
+	public void setTarget(Component target) {
 		this.target = target;
 	}
 
@@ -116,31 +97,5 @@ public class CombineCommand extends Command {
 	 * {@inheritDoc}
 	 */
 	public void undo() {
-		SystemDiagram systemDiagram = parent;
-		OpenCompositeComponentAction parentAction = (OpenCompositeComponentAction) parent
-				.getOpenCompositeComponentAction();
-		do {
-			AbstractComponent tmp = null;
-			if (target.getCorbaBaseObject() != null) {
-				tmp = (AbstractComponent) SynchronizationSupport
-						.findLocalObjectByRemoteObject(new Object[] { target
-								.getCorbaBaseObject() }, systemDiagram);
-			} else {
-				tmp = ComponentUtil.findComponentByPathId(target,
-						systemDiagram);
-			}
-			if (tmp != null) {
-				systemDiagram.getComponents().remove(tmp);
-				tmp.getComponents().clear();
-				tmp.setOpenCompositeComponentAction(null);
-			} else {
-				throw new RuntimeException();
-			}
-			systemDiagram = parentAction.getParentSystemDiagramEditor()
-					.getSystemDiagram();
-			parentAction = (OpenCompositeComponentAction) parentAction
-					.getParentSystemDiagramEditor().getSystemDiagram()
-					.getOpenCompositeComponentAction();
-		} while (parentAction != null);
 	}
 }

@@ -1,6 +1,6 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.command;
 
-import jp.go.aist.rtm.toolscommon.model.component.AbstractComponent;
+import jp.go.aist.rtm.toolscommon.model.component.Component;
 
 import org.eclipse.gef.commands.Command;
 
@@ -9,11 +9,11 @@ import org.eclipse.gef.commands.Command;
  */
 public class ChangeDirectionCommand extends Command {
 
-	private AbstractComponent model;
+	private Component model;
 
-	private int direction;
+	private String direction;
 
-	private int oldDirection;
+	private String oldDirection;
 
 	private ClearLineConstraintCommand clearLineConstraintCommand = new ClearLineConstraintCommand();
 
@@ -34,7 +34,7 @@ public class ChangeDirectionCommand extends Command {
 	 * @param direction
 	 *            ï˚å¸
 	 */
-	public void setDirection(int direction) {
+	public void setDirection(String direction) {
 		this.direction = direction;
 	}
 
@@ -44,7 +44,7 @@ public class ChangeDirectionCommand extends Command {
 	 * @param model
 	 *            ïœçXëŒè€ÇÃÉÇÉfÉã
 	 */
-	public void setModel(AbstractComponent model) {
+	public void setModel(Component model) {
 		this.model = model;
 		this.oldDirection = model.getOutportDirection();
 	}

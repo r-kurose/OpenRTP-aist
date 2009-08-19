@@ -4,18 +4,13 @@ import java.util.Iterator;
 
 import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
 import jp.go.aist.rtm.systemeditor.ui.editor.NullEditorInput;
-import jp.go.aist.rtm.systemeditor.ui.editor.OfflineSystemDiagramEditor;
 import jp.go.aist.rtm.systemeditor.ui.util.ComponentUtil;
-import jp.go.aist.rtm.toolscommon.model.component.AbstractComponent;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSupport;
 
 import org.eclipse.jface.action.Action;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IPartListener;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -27,17 +22,13 @@ public class OpenCompositeComponentAction extends Action {
 
 	private IWorkbenchPart parentSystemDiagramEditor;
 
-	private AbstractComponent compositeComponent;
-
-	private IEditorPart compositeComponentEditor;
-
-	private boolean compositeComponentEditorOpened;
-	
-	private static IPartListener listener;
+	private Component compositeComponent;
 
 	public static final String ACTION_ID = OpenCompositeComponentAction.class
 			.getName()
 			+ "_ACTION_ID";
+
+	private AbstractSystemDiagramEditor compositeComponentEditor;
 
 	public OpenCompositeComponentAction(IWorkbenchPart parentPart) {
 		setId(ACTION_ID);
@@ -50,143 +41,81 @@ public class OpenCompositeComponentAction extends Action {
 	 * 
 	 */
 	public void run() {
-		IEditorPart oldIEditorPart = null;
-		compositeComponentEditorOpened = true;
-		boolean notExist = true;
 		try {
-			if (compositeComponentEditor == null) {
-				compositeComponentEditor = PlatformUI.getWorkbench()
-						.getActiveWorkbenchWindow().getActivePage().openEditor(
-								new NullEditorInput(),
-								getParentSystemDiagramEditor().getEditorId());
-			} else {
-				oldIEditorPart = PlatformUI.getWorkbench()
-						.getActiveWorkbenchWindow().getActivePage().findEditor(
-								compositeComponentEditor.getEditorInput());
-				if (oldIEditorPart == null) {
-					oldIEditorPart = compositeComponentEditor;
-					compositeComponentEditor = PlatformUI
-							.getWorkbench()
-							.getActiveWorkbenchWindow()
-							.getActivePage()
-							.openEditor(
-									compositeComponentEditor.getEditorInput(),
-									getParentSystemDiagramEditor().getEditorId());
-				} else {
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-							.getActivePage().activate(compositeComponentEditor);
-					notExist = false;
-				}
-			}
-			if (compositeComponentEditor instanceof OfflineSystemDiagramEditor) {
-				setListener();
-				((OfflineSystemDiagramEditor)compositeComponentEditor).getSystemDiagram().setSystemId(
-						((OfflineSystemDiagramEditor)parentSystemDiagramEditor).getSystemDiagram().getSystemId());
-				((OfflineSystemDiagramEditor)compositeComponentEditor).getSystemDiagram().setCreationDate(
-						((OfflineSystemDiagramEditor)parentSystemDiagramEditor).getSystemDiagram().getCreationDate());
-				((OfflineSystemDiagramEditor)compositeComponentEditor).getSystemDiagram().setUpdateDate(
-						((OfflineSystemDiagramEditor)parentSystemDiagramEditor).getSystemDiagram().getUpdateDate());
-			}
-			if (notExist) {
-				compositeComponent2Editor();
-				getCompositeSystemDiagram().setOpenCompositeComponentAction(
-						this);
-				OpenCompositeComponentAction action = this;
-				while (action != null) {
-					
-					AbstractComponent compositecomponent = null;
-					if (this.compositeComponent.getCorbaObject() != null) {
-						compositecomponent = (AbstractComponent) SynchronizationSupport
-							.findLocalObjectByRemoteObject(
-								new Object[] { this.compositeComponent
-										.getCorbaBaseObject() }, action
-										.getParentSystemDiagramEditor()
-										.getSystemDiagram());
-					} else {
-						compositecomponent = ComponentUtil
-						.findComponentByPathId(this.compositeComponent, action
-								.getParentSystemDiagramEditor()
-								.getSystemDiagram());	
-					}
-					if (compositecomponent != null) {
-						compositecomponent
-								.setOpenCompositeComponentAction(this);
-					}
-					action = (OpenCompositeComponentAction) action
-							.getParentSystemDiagramEditor().getSystemDiagram()
-							.getOpenCompositeComponentAction();
-				}
-				for (Iterator iterator = getCompositeComponent()
-						.getComponents().iterator(); iterator.hasNext();) {
-					AbstractComponent compnent = (AbstractComponent) iterator.next();
-					if (compnent.isCompositeComponent()
-							&& compnent.getOpenCompositeComponentAction() != null) {
-						if (((OpenCompositeComponentAction) compnent
-								.getOpenCompositeComponentAction())
-								.getParentSystemDiagramEditor() == oldIEditorPart) {
-							((OpenCompositeComponentAction) compnent
-									.getOpenCompositeComponentAction())
-									.setParentSystemDiagramEditor(getCompositeComponentEditor());
-						}
-					}
-				}
-				getCompositeComponentEditor().changeFile(null);
-			}
+			// 子ウィンドウが開かれていないければ開く（notExist = true）
+			// 子ウィンドウが開かれていればアクティブにする（notExist = false）
+			boolean notExist = activateCompositeComponentEditor();
+			if (!notExist) return;
+
+			// 子ウィンドウにコンポーネントをセットする
+			SystemDiagram childDiagram = compositeComponentEditor.getSystemDiagram();
+			compositeComponent2Editor(childDiagram);
+			childDiagram.setParentSystemDiagram(getParentSystemDiagram());
+			childDiagram.setCompositeComponent(compositeComponent);
+			compositeComponent.setChildSystemDiagram(childDiagram);
+			compositeComponentEditor.changeFile(null);
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
 	}
 
-	/**
-	 * 複合コンポーネントのリモートオブジェクトが死んでしまった時に呼ばれ、 複合コンポーネントから開いたエディタ(及び子エディタ)を閉じる。
-	 */
-	public void runWithEvent(Event event) {
-		if (event == null && compositeComponentEditorOpened) {
-			Component localObject = null;
-			SystemDiagram systemDiagram = ComponentUtil
-					.getRootSystemDiagram(getParentSystemDiagramEditor()
-							.getSystemDiagram());
-			if (compositeComponent.getCorbaBaseObject() != null) {
-				localObject = (Component) SynchronizationSupport
-						.findLocalObjectByRemoteObject(
-								new Object[] { compositeComponent
-										.getCorbaBaseObject() }, systemDiagram);
+	// 子ウィンドウが開かれていないければ開く（notExist = true）
+	// 子ウィンドウが開かれていればアクティブにする（notExist = false）
+	private boolean activateCompositeComponentEditor() throws PartInitException {
+		IWorkbenchPage activePage = PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getActivePage();
+		compositeComponentEditor = ComponentUtil.findEditor(compositeComponent.getChildSystemDiagram());
+		if (compositeComponentEditor == null) {
+			compositeComponentEditor = (AbstractSystemDiagramEditor) activePage.openEditor(
+							new NullEditorInput(),
+							getParentSystemDiagramEditor().getEditorId());
+			return true;
+		} else {
+			IEditorPart oldIEditorPart = activePage.findEditor(
+							compositeComponentEditor.getEditorInput());
+			if (oldIEditorPart == null) {
+				compositeComponentEditor = (AbstractSystemDiagramEditor) activePage
+						.openEditor(
+								compositeComponentEditor.getEditorInput(),
+								getParentSystemDiagramEditor()
+										.getEditorId());
+				return true;
 			} else {
-				localObject = (Component) ComponentUtil.findComponentByPathId(
-						compositeComponent, systemDiagram);
-			}
-			if (localObject == null) {
-				getCompositeSystemDiagram().getPropertyChangeSupport()
-						.firePropertyChange("SYSTEM_DIAGRAM_COMPONENTS",
-								compositeComponent, null);
+				activePage.activate(compositeComponentEditor);
+				return false;
 			}
 		}
 	}
 
-	public void setCompositeComponent(AbstractComponent component) {
+	public void setCompositeComponent(Component component) {
 		this.compositeComponent = component;
 	}
 
-	public AbstractComponent getCompositeComponent() {
-		return this.compositeComponent;
-	}
-
-	public void compositeComponent2Editor() {
-		getCompositeSystemDiagram().getComponents().clear();
+	@SuppressWarnings("unchecked")
+	private void compositeComponent2Editor(SystemDiagram childDiagram) {
+		// システムダイアグラム属性をセットする
+		SystemDiagram psd = getParentSystemDiagram();
+		childDiagram.setSystemId(psd.getSystemId());
+		childDiagram.setCreationDate(psd.getCreationDate());
+		childDiagram.setUpdateDate(psd.getUpdateDate());
+		
+		// 子コンポーネントのConstraintを設定する
 		int count = 0;
-		for (Iterator iterator = this.compositeComponent.getAllComponents()
+		for (Iterator iterator = compositeComponent.getAllComponents()
 				.iterator(); iterator.hasNext();) {
-			AbstractComponent component = (AbstractComponent) iterator.next();
+			Component component = (Component) iterator.next();
 			if (component.getConstraint() == null) {
-				component.setConstraint(ComponentUtil.getNewComponentConstraint(
-						this.compositeComponent.getConstraint(), count));
+				component.setConstraint(ComponentUtil
+						.getNewComponentConstraint(compositeComponent
+								.getConstraint(), count));
 				count++;
 			}
 		}
-		ComponentUtil.copieAndSetCompositeComponents(getCompositeSystemDiagram(),
-				this.compositeComponent);
-		if (compositeComponent instanceof ComponentSpecification) {
-			ComponentUtil.createSpecificationConnector(getCompositeSystemDiagram(), true);
+		// 子ダイアグラムにコンポーネントをセットする
+		childDiagram.clearComponents();
+		for (Object  o : compositeComponent.getComponents()) {
+			Component component = (Component) o;
+			childDiagram.addComponent(component);	// ルートダイアグラムのコンポーネントの子供をそのまま使いまわす
 		}
 	}
 
@@ -194,53 +123,7 @@ public class OpenCompositeComponentAction extends Action {
 		return (AbstractSystemDiagramEditor) this.parentSystemDiagramEditor;
 	}
 
-	public void setParentSystemDiagramEditor(AbstractSystemDiagramEditor parent) {
-		this.parentSystemDiagramEditor = parent;
-	}
-
-	public AbstractSystemDiagramEditor getCompositeComponentEditor() {
-		return (AbstractSystemDiagramEditor) this.compositeComponentEditor;
-	}
-
-	private SystemDiagram getCompositeSystemDiagram() {
-		return getCompositeComponentEditor().getSystemDiagram();
-	}
-
-	public void setCompositeComponentEditorOpened(
-			boolean compositeComponentEditorOpened) {
-		this.compositeComponentEditorOpened = compositeComponentEditorOpened;
-	}
-	
-	private void setListener() {
-		if (listener == null) {
-			listener = new IPartListener() {
-				public void partActivated(IWorkbenchPart part) {
-					if (part instanceof OfflineSystemDiagramEditor) {
-						ComponentUtil.createSpecificationConnector(
-								((OfflineSystemDiagramEditor) part)
-										.getSystemDiagram(), true);
-					}
-					
-				}
-
-				public void partBroughtToTop(IWorkbenchPart part) {
-					
-				}
-
-				public void partClosed(IWorkbenchPart part) {
-					
-				}
-
-				public void partDeactivated(IWorkbenchPart part) {
-					
-				}
-
-				public void partOpened(IWorkbenchPart part) {
-					
-				}
-			};
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-					.getActivePage().addPartListener(listener);
-		}
+	private SystemDiagram getParentSystemDiagram() {
+		return getParentSystemDiagramEditor().getSystemDiagram();
 	}
 }

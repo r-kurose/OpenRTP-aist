@@ -1,140 +1,113 @@
 package jp.go.aist.rtm.systemeditor.factory;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameServiceReferenceImpl;
+import jp.go.aist.rtm.nameserviceview.corba.NameServerAccesser;
+import jp.go.aist.rtm.systemeditor.ui.dialog.NewCompositeComponentDialogData;
+import jp.go.aist.rtm.systemeditor.ui.util.RtsProfileHandler;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
-import jp.go.aist.rtm.toolscommon.model.component.LifeCycleState;
-import jp.go.aist.rtm.toolscommon.model.component.NameValue;
-import jp.go.aist.rtm.toolscommon.model.component.Port;
-import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
-import jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSupport;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ReferenceMapping;
 
-import org.eclipse.emf.ecore.EObject;
-import org.omg.CORBA.TCKind;
+import org.openrtp.namespaces.rts.version02.ConfigurationData;
+import org.openrtp.namespaces.rts.version02.ConfigurationSet;
 
 import RTC.RTObject;
 import RTC.RTObjectHelper;
+import _SDOPackage.SDO;
 
 /**
  * アクセスできないオブジェクトに対して、PathIdや名前から修復を行うクラス
  * <p>
  * セーブ後のロード中の修復を想定している。セーブ内容がここでは確実に手に入ると考えてよい。
- * 修復をかけるのは、Component、Port、ConnectorProfileの情報。
+ * 修復をかけるのは、Componentの情報。
+ * 現在はCORBA専用
  */
 public class Rehabilitation {
-	public static void rehabilitation(EObject eObject) {
-		for (Iterator iter = eObject.eAllContents(); iter.hasNext();) {
-			try {
-				Object obj = iter.next();
+	@SuppressWarnings("unchecked")
+	public static void rehabilitation(SystemDiagram diagram) {
+		for (Component c : diagram.getRegisteredComponents()) {
+			if (!(c instanceof CorbaComponent)) continue;
+			
+			CorbaComponent component = (CorbaComponent)c;
+			
+			rehabilitation(component, diagram);
+		}
+	}
 
-				if (obj instanceof Component) {
-					Component component = ((Component) obj);
-					if (SynchronizationSupport.ping(component
-							.getCorbaBaseObject()) == false) {
-						org.omg.CORBA.Object remote = NameServiceReferenceImpl
-								.getObjectFromPathId(component.getPathId());
-						RTObject narrow = RTObjectHelper.narrow(remote);
-						if (narrow != null) {
-							component.setCorbaObject(narrow);
-							component.setSDOConfiguration(narrow
-									.get_configuration());
+	private static RTObject rehabilitation(CorbaComponent component,
+			SystemDiagram diagram) {
+		if( component.getCorbaObject() != null &&
+				SynchronizationSupport.ping(component.getCorbaObject()) ) 
+			return (RTObject) component.getCorbaObject();
 
-							ReferenceMapping lifeCycleStateReference = null;
-							for (ReferenceMapping m : ComponentImpl.MAPPING_RULE
-									.getReferenceMappings()) {
-								if (ComponentPackage.eINSTANCE
-										.getComponent_LifeCycleStates().equals(
-												m.getLocalFeature())) {
-									lifeCycleStateReference = m;
-									break;
-								}
-							}
+		RTObject narrow = null;
+		try {
+			org.omg.CORBA.Object remote = NameServerAccesser.getInstance()
+						.getObjectFromPathId(component.getPathId());
+			narrow = RTObjectHelper.narrow(remote);
+		} catch (Exception e) {
+			if (!component.isCompositeComponent())
+				throw new RuntimeException("cannot access:" + component.getPathId() + "\n" + e.getMessage());
+		}
+		if (narrow == null && component.isCompositeComponent()) 
+			narrow = createCompositeComponent(component, diagram);
+		if (narrow == null) 
+			throw new RuntimeException("cannot access:" + component.getPathId());
+		component.setCorbaObject(narrow);
+		return narrow;
+	}
 
-							if (lifeCycleStateReference != null) {
-								try {
-									lifeCycleStateReference
-											.syncronizeLocal(component);
-									for (Iterator iterator = component
-											.getLifeCycleStates().iterator(); iterator
-											.hasNext();) {
-										LifeCycleState lifeCycleState = (LifeCycleState) iterator
-												.next();
-										lifeCycleState
-												.getSynchronizationSupport()
-												.synchronizeLocal();
-									}
-								} catch (RuntimeException e) {
-									// void
-								}
-							}
-						}
-					}
-				}
+	private static RTObject createCompositeComponent(CorbaComponent component,
+			SystemDiagram diagram) {
+		RTM.Manager manager = getManager(component.getPathId());
+		if (manager == null) return null;
+		
+		String param = NewCompositeComponentDialogData.getParam(
+				component.getCompositeTypeL()
+				, component.getInstanceNameL()
+				, getExportedPortString(component, diagram));
+		
+		RTC.RTObject remote = manager.create_component(param);
+		
+		try {
+			remote.get_owned_organizations()[0].set_members(getSdos(component,diagram));
+		} catch (Exception e) {
+			remote.exit();
+			return null;
+		}
+		return remote;
+	}
 
-				if (obj instanceof Port) {
-					Port port = ((Port) obj);
-					org.omg.CORBA.Object oldRemote = port.getCorbaBaseObject();
+	private static SDO[] getSdos(CorbaComponent component, SystemDiagram diagram) {
+		List<SDO> result = new ArrayList<SDO>();
+		for (Object o : component.getComponents()) {
+			CorbaComponent c = (CorbaComponent) o;
+			rehabilitation(c, diagram);
+			result.add(c.getCorbaObjectInterface());
+		}
+		return result.toArray(new SDO[0]);
+	}
 
-					if (SynchronizationSupport.ping(oldRemote) == false) {
-						EObject container = port.eContainer();
-						if (container instanceof Component) {
-							RTC.PortService find = null;
-							for (RTC.PortService remotePort : ((Component) container)
-									.getCorbaObjectInterface().get_ports()) {
-								if (port.getPortProfile().getNameL().equals(
-										remotePort.get_port_profile().name)) {
-									find = remotePort;
-									break;
-								}
-							}
-
-							port.setCorbaObject(find);
-
-							List connectors = new ArrayList();
-							connectors.addAll(port.getSourceConnectors());
-							connectors.addAll(port.getTargetConnectors());
-							
-							for (Iterator ite1 = connectors.iterator(); ite1
-									.hasNext();) {
-								PortConnector portConenctor = (PortConnector) ite1
-										.next();
-
-//								portConenctor.getConnectorProfile()
-//										.setConnectorId(""); // 変更したポートのConnectorIDは無効にする。Restorationで、既に同じコネクションがあると判断され、コネクションが作成されない問題を回避する。
-
-								for (Iterator ite2 = portConenctor
-										.getConnectorProfile().getProperties()
-										.iterator(); ite2.hasNext();) {
-									NameValue nameValue = (NameValue) ite2
-											.next();
-
-									try {
-										if( nameValue.getValue().type().kind() == TCKind.tk_objref ) {
-											org.omg.CORBA.Object remote = nameValue
-													.getValue().extract_Object();
-											if (remote.equals(oldRemote)) {
-												nameValue.getValue().insert_Object(
-														find);
-											}
-										}
-									} catch (Exception e) {
-										// void
-									}
-								}
-							}
-
-						}
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace(); // void
+	private static String getExportedPortString(CorbaComponent component,
+			SystemDiagram diagram) {
+		org.openrtp.namespaces.rts.version02.Component originalComponent 
+			= RtsProfileHandler.findComponent(component, diagram.getProfile().getComponents());
+		String activeId = originalComponent.getActiveConfigurationSet();
+		for (ConfigurationSet configSet : originalComponent.getConfigurationSets()) {
+			if (!configSet.getId().equals(activeId)) continue;
+			for (ConfigurationData configData : configSet.getConfigurationData()) {
+				if (configData.getName().equals("exported_ports")) return configData.getData();
 			}
 		}
+		return "";
+	}
+
+	private static RTM.Manager getManager(String pathId) {
+		int index = pathId.lastIndexOf("/");
+		String contextId = pathId.substring(0, index);
+		return NameServerAccesser.getInstance().getManagerFromContextId(contextId);
 	}
 }

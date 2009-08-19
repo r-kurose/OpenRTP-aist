@@ -1,9 +1,10 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.editpart;
 
 import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
+import jp.go.aist.rtm.systemeditor.ui.editor.figure.ExportedInPortFigure;
 import jp.go.aist.rtm.systemeditor.ui.editor.figure.InPortFigure;
 import jp.go.aist.rtm.toolscommon.model.component.InPort;
-import jp.go.aist.rtm.toolscommon.model.component.PortProfile;
+import jp.go.aist.rtm.toolscommon.model.component.Port;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
@@ -46,12 +47,9 @@ public class InPortEditPart extends PortEditPart {
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 			public void run() {
 				if (isActive()) {
-					// if (ConnectorTarget.TARGET_CONNECTION.equals(evt
-					// .getPropertyName())) {
 					refresh();
 					refreshVisuals();
 					refreshTargetConnections();
-					// }
 				}
 			}
 		});
@@ -62,7 +60,8 @@ public class InPortEditPart extends PortEditPart {
 	 * {@inheritDoc}
 	 */
 	protected IFigure createFigure() {
-		IFigure result = new InPortFigure(getModel());
+		IFigure result =  isExported() ? new ExportedInPortFigure(getModel())
+				: new InPortFigure(getModel());
 		result.setLocation(new Point(0, 0));
 
 		OutPortEditPart.supportAutoCreateConnectorToolMode(getViewer(), result);
@@ -77,61 +76,18 @@ public class InPortEditPart extends PortEditPart {
 	protected void refreshVisuals() {
 		Color color = SystemEditorPreferenceManager.getInstance().getColor(
 				SystemEditorPreferenceManager.COLOR_DATAPORT_NO_CONNECT);
-//		if (getModel().getPortProfile() != null
-//				&& getModel().getPortProfile().getConnectorProfiles() != null
-//				&& getModel().getPortProfile().getConnectorProfiles().size() >= 1) {
-//
-//			AbstractComponent c = (AbstractComponent) getModel().eContainer();
-//			if (c.getCompositeComponent() == null) {
-//
-//				color = SystemEditorPreferenceManager.getInstance().getColor(
-//						SystemEditorPreferenceManager.COLOR_DATAPORT_CONNECTED);
-//
-//			} else {
-//
-//				AbstractComponent root = c;
-//				for (; root.getCompositeComponent() != null;) {
-//					root = root.getCompositeComponent();
-//				}
-//
-//				for (Object e : getModel().getPortProfile()
-//						.getConnectorProfiles()) {
-//					ConnectorProfile cp = (ConnectorProfile) e;
-//					Connector con = (Connector) cp.eContainer();
-//					Port p = null;
-//					if (con.getTarget() != getModel()) {
-//						p = (Port) con.getTarget();
-//					} else if (con.getSource() != getModel()) {
-//						p = (Port) con.getSource();
-//					}
-//					AbstractComponent dest = (AbstractComponent) p.eContainer();
-//					boolean contents = false;
-//					for (Object ee : root.getAllComponents()) {
-//						if (ee == dest) {
-//							contents = true;
-//						}
-//					}
-//					if (contents == false) {
-//						color = SystemEditorPreferenceManager
-//								.getInstance()
-//								.getColor(
-//										SystemEditorPreferenceManager.COLOR_DATAPORT_CONNECTED);
-//						break;
-//					}
-//				}
-//			}
-//		}
 		if (isConnected()) {
 			color = SystemEditorPreferenceManager.getInstance().getColor(
 					SystemEditorPreferenceManager.COLOR_DATAPORT_CONNECTED);
 		}
 
-		figure.setBackgroundColor(color);
+		getFigure().setBackgroundColor(color);
 
-		figure.setToolTip(getDataPortToolTip(getModel().getPortProfile()));
+		getFigure().setToolTip(getDataPortToolTip(getModel()));
 
-		((GraphicalEditPart) getParent()).setLayoutConstraint(this,
-				getFigure(), getFigure().getBounds());
+		if (getFigure().getParent() != null)
+			((GraphicalEditPart) getParent()).setLayoutConstraint(this,
+					getFigure(), getFigure().getBounds());
 	}
 
 	/**
@@ -141,30 +97,26 @@ public class InPortEditPart extends PortEditPart {
 	 *            モデル
 	 * @return ツールチップ
 	 */
-	public static Panel getDataPortToolTip(PortProfile profile) {
-
+	public static Panel getDataPortToolTip(Port port) {
 		Panel tooltip = new Panel();
 		tooltip.setLayoutManager(new StackLayout());
 
 		String labelString = "";
 		try {
-			if (profile != null) {
-				labelString = labelString
-						+ (profile.getNameL() == null ? "<unknown>" : profile
-								.getNameL()) + "\r\n";
-				labelString = labelString
-						+ (profile.getDataTypes() == null ? "<unknown>"
-								: profile.getDataTypes().toString()) + "\r\n";
-				labelString = labelString
-						+ (profile.getInterfaceTypes().size() == 0 ? "<unknown>"
-								: profile.getInterfaceTypes()) + "\r\n";
-				labelString = labelString
-						+ (profile.getDataflowTypes().size() == 0 ? "<unknown>"
-								: profile.getDataflowTypes()) + "\r\n";
-				labelString = labelString
-						+ (profile.getSubsciptionTypes().size() == 0 ? "<unknown>"
-								: profile.getSubsciptionTypes()) + ""; // \r\nは最後はいらない
-			}
+			labelString = labelString
+					+ (port.getNameL() == null ? "<unknown>" : port.getNameL()) + "\r\n";
+			labelString = labelString
+					+ (port.getDataTypes() == null ? "<unknown>"
+							: port.getDataTypes().toString()) + "\r\n";
+			labelString = labelString
+					+ (port.getInterfaceTypes().size() == 0 ? "<unknown>"
+							: port.getInterfaceTypes()) + "\r\n";
+			labelString = labelString
+					+ (port.getDataflowTypes().size() == 0 ? "<unknown>"
+							: port.getDataflowTypes()) + "\r\n";
+			labelString = labelString
+					+ (port.getSubscriptionTypes().size() == 0 ? "<unknown>"
+							: port.getSubscriptionTypes()) + ""; // \r\nは最後はいらない
 		} catch (RuntimeException e) {
 			// void
 		}

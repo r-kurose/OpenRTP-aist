@@ -1,9 +1,6 @@
 package jp.go.aist.rtm.systemeditor._debug;
 
 import jp.go.aist.rtm.nameserviceview.corba.NameServerAccesser;
-import jp.go.aist.rtm.nameserviceview.factory.NameServiceViewWrapperFactory;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameServiceReferenceImpl;
-import jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject;
 
 import org.omg.CORBA.BAD_OPERATION;
 import org.omg.CORBA.Object;
@@ -18,9 +15,9 @@ import org.omg.CosNaming.NamingContextPackage.InvalidName;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import RTC.ConnectorProfile;
-import RTC.Port;
 import RTC.PortInterfacePolarity;
 import RTC.PortInterfaceProfile;
+import RTC.PortService;
 import RTC.RTObject;
 import RTC.RTObjectHelper;
 import _SDOPackage.ConfigurationSet;
@@ -37,10 +34,10 @@ public class Main {
 				.getNameServerRootContext(serverName);
 		printTree("", null, ext);
 
-		CorbaWrapperObject wrapperObject = NameServiceViewWrapperFactory.getInstance()
-				.getNameServiceContextCorbaWrapper(ext, serverName);
+//		CorbaWrapperObject wrapperObject = NameServiceViewWrapperFactory.getInstance()
+//				.getNameServiceContextCorbaWrapper(ext, serverName);
 		
-		Object a = NameServiceReferenceImpl.getObjectFromPathId("192.168.1.152/hoge./group13398./Test0.rtc");
+		Object a = NameServerAccesser.getInstance().getObjectFromPathId("192.168.1.152/hoge./group13398./Test0.rtc");
 		System.out.println(RTObjectHelper.narrow(a));
 	}
 
@@ -163,7 +160,7 @@ public class Main {
 			}
 
 			System.out.print("[Ports:");
-			for (RTC.PortService port : base.get_ports()) {
+			for (PortService port : base.get_ports()) {
 				System.out.print("[");
 				System.out.print(port.get_port_profile().name);
 				System.out.print(":");

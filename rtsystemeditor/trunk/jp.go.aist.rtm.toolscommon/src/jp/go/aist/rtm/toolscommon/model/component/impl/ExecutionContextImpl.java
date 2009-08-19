@@ -8,22 +8,15 @@ package jp.go.aist.rtm.toolscommon.model.component.impl;
 
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
-import jp.go.aist.rtm.toolscommon.model.core.CorePackage;
-import jp.go.aist.rtm.toolscommon.model.core.impl.CorbaWrapperObjectImpl;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.AttributeMapping;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ClassMapping;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ConstructorParamMapping;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ReferenceMapping;
+
+import jp.go.aist.rtm.toolscommon.model.core.impl.WrapperObjectImpl;
+
 import jp.go.aist.rtm.toolscommon.ui.propertysource.ExecutionContextPropertySource;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.ui.views.properties.IPropertySource;
-
-import RTC.ExecutionContextHelper;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Execution Context</b></em>'.
@@ -39,7 +32,7 @@ import RTC.ExecutionContextHelper;
  *
  * @generated
  */
-public class ExecutionContextImpl extends CorbaWrapperObjectImpl implements
+public class ExecutionContextImpl extends WrapperObjectImpl implements
 		ExecutionContext {
 	/**
 	 * The default value of the '{@link #getKindL() <em>Kind L</em>}' attribute.
@@ -48,7 +41,7 @@ public class ExecutionContextImpl extends CorbaWrapperObjectImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int KIND_L_EDEFAULT = 0;
+	protected static final int KIND_L_EDEFAULT = -1;
 
 	/**
 	 * The cached value of the '{@link #getKindL() <em>Kind L</em>}' attribute.
@@ -66,7 +59,7 @@ public class ExecutionContextImpl extends CorbaWrapperObjectImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected static final double RATE_L_EDEFAULT = 0.0;
+	protected static final Double RATE_L_EDEFAULT = null;
 
 	/**
 	 * The cached value of the '{@link #getRateL() <em>Rate L</em>}' attribute.
@@ -75,7 +68,7 @@ public class ExecutionContextImpl extends CorbaWrapperObjectImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected double rateL = RATE_L_EDEFAULT;
+	protected Double rateL = RATE_L_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getStateL() <em>State L</em>}' attribute.
@@ -136,16 +129,17 @@ public class ExecutionContextImpl extends CorbaWrapperObjectImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public double getRateL() {
+	public Double getRateL() {
 		return rateL;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setRateL(double newRateL) {
-		double oldRateL = rateL;
+	public void setRateL(Double newRateL) {
+		Double oldRateL = rateL;
 		rateL = newRateL;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.EXECUTION_CONTEXT__RATE_L, oldRateL, rateL));
@@ -173,6 +167,38 @@ public class ExecutionContextImpl extends CorbaWrapperObjectImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public String getKindName() {
+		if (kindL == KIND_PERIODIC) {
+			return "PERIODIC";
+		} else if (kindL == KIND_EVENT_DRIVEN) {
+			return "EVENT_DRIVEN";
+		} else if (kindL == KIND_OTHER) {
+			return "OTHER";
+		} else {
+			return "UNKNOWN";
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public String getStateName() {
+		if (stateL == STATE_STOPPED) {
+			return "STOPPED";
+		} else if (stateL == STATE_RUNNING) {
+			return "RUNNING";
+		} else {
+			return "UNKNOWN";
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -181,7 +207,7 @@ public class ExecutionContextImpl extends CorbaWrapperObjectImpl implements
 			case ComponentPackage.EXECUTION_CONTEXT__KIND_L:
 				return new Integer(getKindL());
 			case ComponentPackage.EXECUTION_CONTEXT__RATE_L:
-				return new Double(getRateL());
+				return getRateL();
 			case ComponentPackage.EXECUTION_CONTEXT__STATE_L:
 				return new Integer(getStateL());
 		}
@@ -200,7 +226,7 @@ public class ExecutionContextImpl extends CorbaWrapperObjectImpl implements
 				setKindL(((Integer)newValue).intValue());
 				return;
 			case ComponentPackage.EXECUTION_CONTEXT__RATE_L:
-				setRateL(((Double)newValue).doubleValue());
+				setRateL((Double)newValue);
 				return;
 			case ComponentPackage.EXECUTION_CONTEXT__STATE_L:
 				setStateL(((Integer)newValue).intValue());
@@ -241,7 +267,7 @@ public class ExecutionContextImpl extends CorbaWrapperObjectImpl implements
 			case ComponentPackage.EXECUTION_CONTEXT__KIND_L:
 				return kindL != KIND_L_EDEFAULT;
 			case ComponentPackage.EXECUTION_CONTEXT__RATE_L:
-				return rateL != RATE_L_EDEFAULT;
+				return RATE_L_EDEFAULT == null ? rateL != null : !RATE_L_EDEFAULT.equals(rateL);
 			case ComponentPackage.EXECUTION_CONTEXT__STATE_L:
 				return stateL != STATE_L_EDEFAULT;
 		}
@@ -268,118 +294,15 @@ public class ExecutionContextImpl extends CorbaWrapperObjectImpl implements
 	}
 
 	@Override
-	public RTC.ExecutionContext getCorbaObjectInterface() {
-		return ExecutionContextHelper.narrow(super.getCorbaObject());
-	}
-
-	@Override
 	public java.lang.Object getAdapter(Class adapter) {
 		java.lang.Object result = null;
 		if (IPropertySource.class.equals(adapter)) {
 			result = new ExecutionContextPropertySource(this);
 		}
-
 		if (result == null) {
 			result = super.getAdapter(adapter);
 		}
-
 		return result;
 	}
-
-	// @Override
-	// public boolean equals(Object obj) {
-	// if (obj instanceof ExecutionContext == false) {
-	// return false;
-	// }
-	// ExecutionContext c = (ExecutionContext) obj;
-	//
-	// return new EqualsBuilder().append(getCorbaObject(),
-	// c.getCorbaObject()).isEquals();
-	// }
-
-	public static final MappingRule MAPPING_RULE = new MappingRule(
-			null,
-			new ClassMapping(
-					ExecutionContextImpl.class,
-					new ConstructorParamMapping[] { new ConstructorParamMapping(
-							CorePackage.eINSTANCE
-									.getCorbaWrapperObject_CorbaObject()) }) {
-				@Override
-				public boolean isTarget(LocalObject parent,
-						Object[] remoteObjects, java.lang.Object link) {
-					boolean result = false;
-					if (((org.omg.CORBA.Object) remoteObjects[0])
-							._is_a(ExecutionContextHelper.id())) {
-						result = true;
-					}
-
-					return result;
-				}
-
-				@Override
-				public Object[] narrow(Object[] remoteObjects) {
-					return new Object[] { ExecutionContextHelper
-							.narrow((org.omg.CORBA.Object) remoteObjects[0]) };
-				}
-			}, new AttributeMapping[] {
-					new AttributeMapping(ComponentPackage.eINSTANCE
-							.getExecutionContext_RateL(), true) {
-						@Override
-						public Object getRemoteAttributeValue(
-								LocalObject localObject, Object[] remoteObjects) {
-							Object result = null;
-							try {
-								result = ExecutionContextHelper
-										.narrow(
-												(org.omg.CORBA.Object) remoteObjects[0])
-										.get_rate();
-							} catch (Exception e) {
-								// void
-							}
-
-							return result;
-						}
-					},
-					new AttributeMapping(ComponentPackage.eINSTANCE
-							.getExecutionContext_StateL()) {
-						@Override
-						public Object getRemoteAttributeValue(
-								LocalObject localObject, Object[] remoteObjects) {
-							Object result = STATE_UNKNOWN;
-							try {
-								boolean is_running = ExecutionContextHelper
-										.narrow(
-												(org.omg.CORBA.Object) remoteObjects[0])
-										.is_running();
-								if (is_running) {
-									result = STATE_RUNNING;
-								} else {
-									result = STATE_STOPPED;
-								}
-							} catch (Exception e) {
-								// void
-							}
-
-							return result;
-						}
-					},
-					new AttributeMapping(ComponentPackage.eINSTANCE
-							.getExecutionContext_KindL(), true) {
-						@Override
-						public Object getRemoteAttributeValue(
-								LocalObject localObject, Object[] remoteObjects) {
-							Object result = null;
-							try {
-								result = ExecutionContextHelper
-										.narrow(
-												(org.omg.CORBA.Object) remoteObjects[0])
-										.get_kind().value();
-							} catch (Exception e) {
-								// void
-							}
-
-							return result;
-						}
-					}, }, new ReferenceMapping[] {});
 
 } // ExecutionContextImpl

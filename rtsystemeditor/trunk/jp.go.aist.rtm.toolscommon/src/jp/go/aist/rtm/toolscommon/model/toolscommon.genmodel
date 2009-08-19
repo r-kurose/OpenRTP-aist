@@ -13,11 +13,37 @@
   <foreignModel>manager.ecore</foreignModel>
   <genPackages prefix="Manager" basePackage="jp.go.aist.rtm.toolscommon.model" disposableProviderFactory="true"
       ecorePackage="manager.ecore#/">
-    <genClasses ecoreClass="manager.ecore#//RTManager">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference manager.ecore#//RTManager/ownedModules"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference manager.ecore#//RTManager/ownedComponents"/>
+    <genDataTypes ecoreDataType="manager.ecore#//RTMManagerProfile"/>
+    <genDataTypes ecoreDataType="manager.ecore#//RTMModuleProfile"/>
+    <genClasses ecoreClass="manager.ecore#//RTCManager">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute manager.ecore#//RTCManager/managerProfile"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute manager.ecore#//RTCManager/instanceNameL"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute manager.ecore#//RTCManager/pathId"/>
+      <genOperations ecoreOperation="manager.ecore#//RTCManager/getProfileR"/>
+      <genOperations ecoreOperation="manager.ecore#//RTCManager/createComponentR">
+        <genParameters ecoreParameter="manager.ecore#//RTCManager/createComponentR/compName"/>
+      </genOperations>
+      <genOperations ecoreOperation="manager.ecore#//RTCManager/deleteComponentR">
+        <genParameters ecoreParameter="manager.ecore#//RTCManager/deleteComponentR/instanceName"/>
+      </genOperations>
+      <genOperations ecoreOperation="manager.ecore#//RTCManager/getComponentsR"/>
+      <genOperations ecoreOperation="manager.ecore#//RTCManager/getComponentProfilesR"/>
+      <genOperations ecoreOperation="manager.ecore#//RTCManager/loadModuleR">
+        <genParameters ecoreParameter="manager.ecore#//RTCManager/loadModuleR/pathname"/>
+        <genParameters ecoreParameter="manager.ecore#//RTCManager/loadModuleR/initfunc"/>
+      </genOperations>
+      <genOperations ecoreOperation="manager.ecore#//RTCManager/unloadModuleR">
+        <genParameters ecoreParameter="manager.ecore#//RTCManager/unloadModuleR/pathname"/>
+      </genOperations>
+      <genOperations ecoreOperation="manager.ecore#//RTCManager/getLoadableModuleProfilesR"/>
+      <genOperations ecoreOperation="manager.ecore#//RTCManager/getLoadedModuleProfilesR"/>
+      <genOperations ecoreOperation="manager.ecore#//RTCManager/forkR"/>
+      <genOperations ecoreOperation="manager.ecore#//RTCManager/shutdownR"/>
+      <genOperations ecoreOperation="manager.ecore#//RTCManager/getComponentInstanceNamesR"/>
+      <genOperations ecoreOperation="manager.ecore#//RTCManager/getLoadableModuleFileNameR"/>
+      <genOperations ecoreOperation="manager.ecore#//RTCManager/getLoadedModuleFileNamesR"/>
+      <genOperations ecoreOperation="manager.ecore#//RTCManager/getFactoryProfileTypeNamesR"/>
     </genClasses>
-    <genClasses ecoreClass="manager.ecore#//RTModule"/>
   </genPackages>
   <genPackages prefix="Core" basePackage="jp.go.aist.rtm.toolscommon.model" disposableProviderFactory="true"
       ecorePackage="core.ecore#/">
@@ -30,21 +56,16 @@
     <genDataTypes ecoreDataType="core.ecore#//Point"/>
     <genClasses image="false" ecoreClass="core.ecore#//CorbaWrapperObject">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute core.ecore#//CorbaWrapperObject/corbaObject"/>
-      <genOperations ecoreOperation="core.ecore#//CorbaWrapperObject/ping"/>
     </genClasses>
     <genClasses ecoreClass="core.ecore#//ModelElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute core.ecore#//ModelElement/constraint"/>
       <genOperations ecoreOperation="core.ecore#//ModelElement/accept">
         <genParameters ecoreParameter="core.ecore#//ModelElement/accept/visiter"/>
       </genOperations>
-      <genOperations ecoreOperation="core.ecore#//ModelElement/dispose"/>
     </genClasses>
     <genClasses image="false" ecoreClass="core.ecore#//IAdaptable"/>
     <genClasses image="false" ecoreClass="core.ecore#//LocalObject"/>
     <genClasses ecoreClass="core.ecore#//WrapperObject"/>
-    <genClasses ecoreClass="core.ecore#//UnknownObject">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute core.ecore#//UnknownObject/targetObject"/>
-    </genClasses>
   </genPackages>
   <genPackages prefix="Component" basePackage="jp.go.aist.rtm.toolscommon.model" disposableProviderFactory="true"
       ecorePackage="component.ecore#/">
@@ -57,108 +78,110 @@
     </genEnums>
     <genDataTypes ecoreDataType="component.ecore#//RTCComponentProfile"/>
     <genDataTypes ecoreDataType="component.ecore#//RTCRTObject"/>
-    <genDataTypes ecoreDataType="component.ecore#//Any"/>
     <genDataTypes ecoreDataType="component.ecore#//List"/>
     <genDataTypes ecoreDataType="component.ecore#//SDOConfiguration"/>
     <genDataTypes ecoreDataType="component.ecore#//SDOConfigurationSet"/>
     <genDataTypes ecoreDataType="component.ecore#//RTCConnectorProfile"/>
     <genDataTypes ecoreDataType="component.ecore#//RTCPortProfile"/>
+    <genDataTypes ecoreDataType="component.ecore#//PropertyChangeListener"/>
+    <genDataTypes ecoreDataType="component.ecore#//SDOOrganization"/>
+    <genDataTypes ecoreDataType="component.ecore#//PortInterfaceProfile"/>
+    <genDataTypes ecoreDataType="component.ecore#//RTCExecutionContextProfile"/>
     <genClasses ecoreClass="component.ecore#//SystemDiagram">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference component.ecore#//SystemDiagram/components"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//SystemDiagram/kind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//SystemDiagram/ConnectorProcessing"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//SystemDiagram/systemId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//SystemDiagram/creationDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//SystemDiagram/updateDate"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference component.ecore#//SystemDiagram/parentSystemDiagram"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference component.ecore#//SystemDiagram/compositeComponent"/>
       <genOperations ecoreOperation="component.ecore#//SystemDiagram/setSynchronizeInterval">
         <genParameters ecoreParameter="component.ecore#//SystemDiagram/setSynchronizeInterval/milliSecond"/>
       </genOperations>
-    </genClasses>
-    <genClasses image="false" ecoreClass="component.ecore#//AbstractComponent">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//AbstractComponent/sDOConfiguration"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference component.ecore#//AbstractComponent/configurationSets"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference component.ecore#//AbstractComponent/activeConfigurationSet"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference component.ecore#//AbstractComponent/ports"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference component.ecore#//AbstractComponent/inports"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference component.ecore#//AbstractComponent/outports"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference component.ecore#//AbstractComponent/serviceports"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//AbstractComponent/rTCComponentProfile"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//AbstractComponent/instanceNameL"/>
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//AbstractComponent/venderL"/>
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//AbstractComponent/descriptionL"/>
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//AbstractComponent/categoryL"/>
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//AbstractComponent/typeNameL"/>
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//AbstractComponent/versionL"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//AbstractComponent/pathId"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//AbstractComponent/outportDirection"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference component.ecore#//AbstractComponent/components"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference component.ecore#//AbstractComponent/compositeComponent"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference component.ecore#//AbstractComponent/allInPorts"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference component.ecore#//AbstractComponent/allOutPorts"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference component.ecore#//AbstractComponent/allServiceports"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//AbstractComponent/compsiteType"/>
-      <genOperations ecoreOperation="component.ecore#//AbstractComponent/updateConfigurationSetListR">
-        <genParameters ecoreParameter="component.ecore#//AbstractComponent/updateConfigurationSetListR/list"/>
-        <genParameters ecoreParameter="component.ecore#//AbstractComponent/updateConfigurationSetListR/activeConfigurationSet"/>
-        <genParameters ecoreParameter="component.ecore#//AbstractComponent/updateConfigurationSetListR/originallist"/>
+      <genOperations ecoreOperation="component.ecore#//SystemDiagram/addPropertyChangeListener">
+        <genParameters ecoreParameter="component.ecore#//SystemDiagram/addPropertyChangeListener/listener"/>
+      </genOperations>
+      <genOperations ecoreOperation="component.ecore#//SystemDiagram/removePropertyChangeListener">
+        <genParameters ecoreParameter="component.ecore#//SystemDiagram/removePropertyChangeListener/listener"/>
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="component.ecore#//Component">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Component/executionContextState"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Component/state"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference component.ecore#//Component/lifeCycleStates"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Component/componentState"/>
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Component/allExecutionContextState"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference component.ecore#//Component/allLifeCycleStates"/>
-      <genOperations ecoreOperation="component.ecore#//Component/startR"/>
-      <genOperations ecoreOperation="component.ecore#//Component/stopR"/>
-      <genOperations ecoreOperation="component.ecore#//Component/activateR"/>
-      <genOperations ecoreOperation="component.ecore#//Component/deactivateR"/>
-      <genOperations ecoreOperation="component.ecore#//Component/resetR"/>
-      <genOperations ecoreOperation="component.ecore#//Component/finalizeR"/>
-      <genOperations ecoreOperation="component.ecore#//Component/exitR"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference component.ecore#//Component/configurationSets"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference component.ecore#//Component/activeConfigurationSet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference component.ecore#//Component/ports"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference component.ecore#//Component/inports"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference component.ecore#//Component/outports"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference component.ecore#//Component/serviceports"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Component/instanceNameL"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Component/venderL"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Component/descriptionL"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Component/categoryL"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Component/typeNameL"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Component/versionL"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Component/pathId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Component/outportDirection"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Component/compositeTypeL"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference component.ecore#//Component/components"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Component/componentId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Component/required"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference component.ecore#//Component/executionContexts"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference component.ecore#//Component/childSystemDiagram"/>
       <genOperations ecoreOperation="component.ecore#//Component/updateConfigurationSetListR">
         <genParameters ecoreParameter="component.ecore#//Component/updateConfigurationSetListR/list"/>
         <genParameters ecoreParameter="component.ecore#//Component/updateConfigurationSetListR/activeConfigurationSet"/>
         <genParameters ecoreParameter="component.ecore#//Component/updateConfigurationSetListR/originallist"/>
       </genOperations>
+      <genOperations ecoreOperation="component.ecore#//Component/getAllComponents"/>
+      <genOperations ecoreOperation="component.ecore#//Component/isCompositeComponent"/>
+      <genOperations ecoreOperation="component.ecore#//Component/isGroupingCompositeComponent"/>
+      <genOperations ecoreOperation="component.ecore#//Component/inOnlineSystemDiagram"/>
+      <genOperations ecoreOperation="component.ecore#//Component/addComponentsR">
+        <genParameters ecoreParameter="component.ecore#//Component/addComponentsR/componentList"/>
+      </genOperations>
+      <genOperations ecoreOperation="component.ecore#//Component/removeComponentR">
+        <genParameters ecoreParameter="component.ecore#//Component/removeComponentR/component"/>
+      </genOperations>
+      <genOperations ecoreOperation="component.ecore#//Component/setExportedPorts">
+        <genParameters ecoreParameter="component.ecore#//Component/setExportedPorts/values"/>
+      </genOperations>
+      <genOperations ecoreOperation="component.ecore#//Component/updateConfigurationSetR">
+        <genParameters ecoreParameter="component.ecore#//Component/updateConfigurationSetR/configSet"/>
+        <genParameters ecoreParameter="component.ecore#//Component/updateConfigurationSetR/isActive"/>
+      </genOperations>
+      <genOperations ecoreOperation="component.ecore#//Component/setComponentsR">
+        <genParameters ecoreParameter="component.ecore#//Component/setComponentsR/componentList"/>
+      </genOperations>
+      <genOperations ecoreOperation="component.ecore#//Component/getPath"/>
+    </genClasses>
+    <genClasses ecoreClass="component.ecore#//CorbaComponent">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//CorbaComponent/executionContextState"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//CorbaComponent/componentState"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//CorbaComponent/sDOConfiguration"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//CorbaComponent/rTCComponentProfile"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//CorbaComponent/rTCExecutionContext"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//CorbaComponent/sDOOrganization"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//CorbaComponent/ior"/>
+      <genOperations ecoreOperation="component.ecore#//CorbaComponent/startR"/>
+      <genOperations ecoreOperation="component.ecore#//CorbaComponent/stopR"/>
+      <genOperations ecoreOperation="component.ecore#//CorbaComponent/activateR"/>
+      <genOperations ecoreOperation="component.ecore#//CorbaComponent/deactivateR"/>
+      <genOperations ecoreOperation="component.ecore#//CorbaComponent/resetR"/>
+      <genOperations ecoreOperation="component.ecore#//CorbaComponent/finalizeR"/>
+      <genOperations ecoreOperation="component.ecore#//CorbaComponent/exitR"/>
+      <genOperations ecoreOperation="component.ecore#//CorbaComponent/getCorbaObjectInterface"/>
     </genClasses>
     <genClasses ecoreClass="component.ecore#//ComponentSpecification">
-      <genOperations ecoreOperation="component.ecore#//ComponentSpecification/updateConfigurationSetListR">
-        <genParameters ecoreParameter="component.ecore#//ComponentSpecification/updateConfigurationSetListR/list"/>
-        <genParameters ecoreParameter="component.ecore#//ComponentSpecification/updateConfigurationSetListR/activeConfigurationSet"/>
-        <genParameters ecoreParameter="component.ecore#//ComponentSpecification/updateConfigurationSetListR/originallist"/>
-      </genOperations>
-    </genClasses>
-    <genClasses image="false" ecoreClass="component.ecore#//Connector">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference component.ecore#//Connector/routingConstraint"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference component.ecore#//Connector/source"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference component.ecore#//Connector/target"/>
-      <genOperations ecoreOperation="component.ecore#//Connector/attachSource"/>
-      <genOperations ecoreOperation="component.ecore#//Connector/dettachSource"/>
-      <genOperations ecoreOperation="component.ecore#//Connector/attachTarget"/>
-      <genOperations ecoreOperation="component.ecore#//Connector/dettachTarget"/>
-    </genClasses>
-    <genClasses image="false" ecoreClass="component.ecore#//AbstractPortConnector">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference component.ecore#//AbstractPortConnector/connectorProfile"/>
-      <genOperations ecoreOperation="component.ecore#//AbstractPortConnector/createConnectorR"/>
-      <genOperations ecoreOperation="component.ecore#//AbstractPortConnector/deleteConnectorR"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//ComponentSpecification/aliasName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//ComponentSpecification/specUnLoad"/>
     </genClasses>
     <genClasses ecoreClass="component.ecore#//PortConnector">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference component.ecore#//PortConnector/connectorProfile"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference component.ecore#//PortConnector/routingConstraint"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference component.ecore#//PortConnector/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference component.ecore#//PortConnector/target"/>
       <genOperations ecoreOperation="component.ecore#//PortConnector/createConnectorR"/>
       <genOperations ecoreOperation="component.ecore#//PortConnector/deleteConnectorR"/>
-    </genClasses>
-    <genClasses ecoreClass="component.ecore#//PortConnectorSpecification">
-      <genOperations ecoreOperation="component.ecore#//PortConnectorSpecification/createConnectorR"/>
-      <genOperations ecoreOperation="component.ecore#//PortConnectorSpecification/deleteConnectorR"/>
-    </genClasses>
-    <genClasses ecoreClass="component.ecore#//ConnectorSource">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference component.ecore#//ConnectorSource/sourceConnectors"/>
-      <genOperations ecoreOperation="component.ecore#//ConnectorSource/validateConnector">
-        <genParameters ecoreParameter="component.ecore#//ConnectorSource/validateConnector/target"/>
-      </genOperations>
-    </genClasses>
-    <genClasses ecoreClass="component.ecore#//ConnectorTarget">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference component.ecore#//ConnectorTarget/targetConnectors"/>
-      <genOperations ecoreOperation="component.ecore#//ConnectorTarget/validateConnector">
-        <genParameters ecoreParameter="component.ecore#//ConnectorTarget/validateConnector/source"/>
-      </genOperations>
     </genClasses>
     <genClasses ecoreClass="component.ecore#//ExecutionContext">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//ExecutionContext/kindL"/>
@@ -166,31 +189,37 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//ExecutionContext/stateL"/>
     </genClasses>
     <genClasses ecoreClass="component.ecore#//InPort"/>
-    <genClasses ecoreClass="component.ecore#//LifeCycleState">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference component.ecore#//LifeCycleState/executionContext"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference component.ecore#//LifeCycleState/component"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//LifeCycleState/lifeCycleState"/>
-      <genOperations ecoreOperation="component.ecore#//LifeCycleState/activateR"/>
-      <genOperations ecoreOperation="component.ecore#//LifeCycleState/deactivateR"/>
-      <genOperations ecoreOperation="component.ecore#//LifeCycleState/resetR"/>
-    </genClasses>
     <genClasses ecoreClass="component.ecore#//NameValue">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//NameValue/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//NameValue/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//NameValue/typeName"/>
     </genClasses>
     <genClasses ecoreClass="component.ecore#//OutPort"/>
     <genClasses ecoreClass="component.ecore#//Port">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference component.ecore#//Port/portProfile"/>
-    </genClasses>
-    <genClasses ecoreClass="component.ecore#//PortProfile">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//PortProfile/rtcPortProfile"/>
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//PortProfile/allowAnyDataType"/>
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//PortProfile/allowAnyInterfaceType"/>
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//PortProfile/allowAnyDataflowType"/>
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//PortProfile/allowAnySubscriptionType"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference component.ecore#//PortProfile/properties"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference component.ecore#//PortProfile/connectorProfiles"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//PortProfile/nameL"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Port/originalPortString"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference component.ecore#//Port/synchronizer"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Port/nameL"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Port/allowAnyDataType"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Port/allowAnyInterfaceType"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Port/allowAnyDataflowType"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Port/allowAnySubscriptionType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference component.ecore#//Port/connectorProfiles"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Port/interfaces"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Port/dataflowType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Port/subscriptionType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Port/dataType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//Port/interfaceType"/>
+      <genOperations ecoreOperation="component.ecore#//Port/disconnectAll"/>
+      <genOperations ecoreOperation="component.ecore#//Port/findPort">
+        <genParameters ecoreParameter="component.ecore#//Port/findPort/diagram"/>
+        <genParameters ecoreParameter="component.ecore#//Port/findPort/originalPortString"/>
+      </genOperations>
+      <genOperations ecoreOperation="component.ecore#//Port/validateTargetConnector">
+        <genParameters ecoreParameter="component.ecore#//Port/validateTargetConnector/target"/>
+      </genOperations>
+      <genOperations ecoreOperation="component.ecore#//Port/validateSourceConnector">
+        <genParameters ecoreParameter="component.ecore#//Port/validateSourceConnector/source"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="component.ecore#//ServicePort"/>
     <genClasses ecoreClass="component.ecore#//ConnectorProfile">
@@ -199,21 +228,36 @@
       <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//ConnectorProfile/subscriptionTypeAvailable"/>
       <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//ConnectorProfile/pushIntervalAvailable"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//ConnectorProfile/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference component.ecore#//ConnectorProfile/properties"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//ConnectorProfile/connectorId"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//ConnectorProfile/dataType"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//ConnectorProfile/interfaceType"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//ConnectorProfile/pushRate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//ConnectorProfile/rtcConnectorProfile"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//ConnectorProfile/sourceString"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//ConnectorProfile/targetString"/>
     </genClasses>
     <genClasses ecoreClass="component.ecore#//ConfigurationSet">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//ConfigurationSet/id"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//ConfigurationSet/sDOConfigurationSet"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference component.ecore#//ConfigurationSet/configurationData"/>
     </genClasses>
     <genClasses ecoreClass="component.ecore#//EIntegerObjectToPointMapEntry">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//EIntegerObjectToPointMapEntry/key"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//EIntegerObjectToPointMapEntry/value"/>
+    </genClasses>
+    <genClasses ecoreClass="component.ecore#//PortSynchronizer">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//PortSynchronizer/originalPortString"/>
+      <genOperations ecoreOperation="component.ecore#//PortSynchronizer/disconnectAll"/>
+    </genClasses>
+    <genClasses ecoreClass="component.ecore#//CorbaPortSynchronizer">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//CorbaPortSynchronizer/rTCPortProfile"/>
+    </genClasses>
+    <genClasses ecoreClass="component.ecore#//CorbaConnectorProfile">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//CorbaConnectorProfile/rtcConnectorProfile"/>
+    </genClasses>
+    <genClasses ecoreClass="component.ecore#//CorbaConfigurationSet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//CorbaConfigurationSet/sDOConfigurationSet"/>
+    </genClasses>
+    <genClasses ecoreClass="component.ecore#//CorbaExecutionContext">
+      <genFeatures createChild="false" propertyDescription="" ecoreFeature="ecore:EAttribute component.ecore#//CorbaExecutionContext/rtcExecutionContextProfile"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

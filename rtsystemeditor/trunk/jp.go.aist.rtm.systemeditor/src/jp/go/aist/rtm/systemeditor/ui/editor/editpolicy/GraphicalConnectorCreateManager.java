@@ -1,25 +1,25 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.editpolicy;
 
+import jp.go.aist.rtm.systemeditor.nl.Messages;
+import jp.go.aist.rtm.systemeditor.ui.action.CompositeComponentHelper;
 import jp.go.aist.rtm.systemeditor.ui.dialog.DataConnectorCreaterDialog;
 import jp.go.aist.rtm.systemeditor.ui.dialog.ServiceConnectorCreaterDialog;
-import jp.go.aist.rtm.systemeditor.ui.editor.command.ConnectorCreateManager;
-import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
-import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
-import jp.go.aist.rtm.toolscommon.model.component.ConnectorSource;
-import jp.go.aist.rtm.toolscommon.model.component.ConnectorTarget;
 import jp.go.aist.rtm.toolscommon.model.component.InPort;
 import jp.go.aist.rtm.toolscommon.model.component.OutPort;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
-import jp.go.aist.rtm.toolscommon.model.component.PortConnectorSpecification;
+import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 import jp.go.aist.rtm.toolscommon.model.component.ServicePort;
-import jp.go.aist.rtm.toolscommon.model.component.impl.PortConnectorImpl;
+import jp.go.aist.rtm.toolscommon.model.component.util.PortConnectorFactory;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
-public class GraphicalConnectorCreateManager implements ConnectorCreateManager {
+/**
+ * コネクタプロファイルを作成する責務を持ったマネージャ
+ *
+ */
+public class GraphicalConnectorCreateManager {
 
 	private Shell shell;
 
@@ -32,19 +32,18 @@ public class GraphicalConnectorCreateManager implements ConnectorCreateManager {
 	}
 
 	public ConnectorProfile getConnectorProfile() {
-		ConnectorProfile connectorProfile = null;
 		if (getSource() instanceof OutPort && getTarget() instanceof InPort) {
-			connectorProfile = new DataConnectorCreaterDialog(shell)
+			return new DataConnectorCreaterDialog(shell)
 					.getConnectorProfile((OutPort) getSource(),
 							(InPort) getTarget());
 		} else if (getSource() instanceof ServicePort
 				&& getTarget() instanceof ServicePort) {
-			connectorProfile = new ServiceConnectorCreaterDialog(shell)
+			return new ServiceConnectorCreaterDialog(shell)
 					.getConnectorProfile((ServicePort) getSource(),
 							(ServicePort) getTarget());
+		} else {
+			return null;
 		}
-
-		return connectorProfile;
 	}
 
 	/**
@@ -79,44 +78,38 @@ public class GraphicalConnectorCreateManager implements ConnectorCreateManager {
 	 * {@inheritDoc}
 	 */
 	public boolean validate() {
-		return getSource().validateConnector((ConnectorTarget) getTarget())
-				&& getTarget().validateConnector((ConnectorSource) getSource());
+		return getSource().validateTargetConnector(getTarget())
+				&& getTarget().validateSourceConnector(getSource());
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void createProfileAndConnector() {
+	public boolean createProfileAndConnector() {
 		ConnectorProfile connectorProfile = getConnectorProfile();
 		if (connectorProfile == null) {
-			return;
+			return false;
 		}
 
-		boolean result = connectR(connectorProfile);
-		if (result == false) {
-			return;
-		}
+		return connectR(connectorProfile);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public boolean connectR(ConnectorProfile connectorProfile) {
-		boolean result = false;
-		if (getSource().eContainer() instanceof Component) {
-			result = PortConnectorImpl.createConnectorR(getFirst(),
-					getSecond(), connectorProfile);	
-		}else if (getSource().eContainer() instanceof ComponentSpecification) {
-			PortConnectorSpecification connector = ComponentFactory.eINSTANCE
-			.createPortConnectorSpecification();
-			connector.setSource(getFirst());
-			connector.setTarget(getSecond());
-			connector.setConnectorProfile(connectorProfile);
-			result = connector.createConnectorR();
-		}
+		PortConnector connector = PortConnectorFactory.createPortConnector(getFirst());
+		connector.setSource(getFirst());
+		connector.setTarget(getSecond());
+		connector.setConnectorProfile(connectorProfile);
+
+		boolean result = connector.createConnectorR();
 		if (result == false) {
-			MessageDialog.openError(shell, "エラー", "接続に失敗しました。");
+			MessageDialog.openError(shell, Messages.getString("GraphicalConnectorCreateManager.0"), Messages.getString("GraphicalConnectorCreateManager.1")); //$NON-NLS-1$ //$NON-NLS-2$
+			return false;
 		}
+
+		CompositeComponentHelper.synchronizeManually(connector.getSource());
 
 		return result;
 	}

@@ -15,11 +15,11 @@ import org.eclipse.core.runtime.Platform;
 public class PropertysheetpageExtentionpoint {
 	private static final String EXTENTION_POINT_NAME = "propertysheetpageextentionpoint";
 
-	private static List<Class> displayclassList = null;
+	private static List<Class<?>> displayclassList = null;
 
-	public static List<Class> getDisplayclassList() {
+	public static List<Class<?>> getDisplayclassList() {
 		if (displayclassList == null) {
-			displayclassList = new ArrayList<Class>();
+			displayclassList = new ArrayList<Class<?>>();
 			IExtension[] extensions = Platform.getExtensionRegistry()
 					.getExtensionPoint(ToolsCommonPlugin.class.getPackage().getName(),
 							EXTENTION_POINT_NAME).getExtensions();
@@ -30,8 +30,8 @@ public class PropertysheetpageExtentionpoint {
 							.getAttribute("displayclass");
 
 					try {
-						final Class targetclass = Platform.getBundle(
-								extension.getNamespace()).loadClass(
+						final Class<?> targetclass = Platform.getBundle(
+								extension.getNamespaceIdentifier()).loadClass(
 								displayclass);
 
 						displayclassList.add(targetclass);

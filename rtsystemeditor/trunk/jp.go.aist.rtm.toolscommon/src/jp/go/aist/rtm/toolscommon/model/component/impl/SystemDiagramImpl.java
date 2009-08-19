@@ -10,34 +10,28 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.Map;
 
-import jp.go.aist.rtm.toolscommon.model.component.AbstractComponent;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
-import jp.go.aist.rtm.toolscommon.model.component.Connector;
+import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
-import jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject;
-import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
 import jp.go.aist.rtm.toolscommon.model.core.impl.ModelElementImpl;
+import jp.go.aist.rtm.toolscommon.synchronizationframework.RefreshThread;
+import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSupport;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.jface.action.Action;
+import org.openrtp.namespaces.rts.version02.RtsProfileExt;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>System Diagram</b></em>'.
@@ -47,12 +41,12 @@ import org.eclipse.jface.action.Action;
  * <ul>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.SystemDiagramImpl#getComponents <em>Components</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.SystemDiagramImpl#getKind <em>Kind</em>}</li>
- *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.SystemDiagramImpl#getOpenCompositeComponentAction <em>Open Composite Component Action</em>}</li>
- *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.SystemDiagramImpl#getEditorId <em>Editor Id</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.SystemDiagramImpl#isConnectorProcessing <em>Connector Processing</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.SystemDiagramImpl#getSystemId <em>System Id</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.SystemDiagramImpl#getCreationDate <em>Creation Date</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.SystemDiagramImpl#getUpdateDate <em>Update Date</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.SystemDiagramImpl#getParentSystemDiagram <em>Parent System Diagram</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.SystemDiagramImpl#getCompositeComponent <em>Composite Component</em>}</li>
  * </ul>
  * </p>
  *
@@ -68,7 +62,7 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected EList components = null;
+	protected EList components= null;
 
 	/**
 	 * The default value of the '{@link #getKind() <em>Kind</em>}' attribute.
@@ -91,106 +85,12 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 	protected SystemDiagramKind kind = KIND_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getOpenCompositeComponentAction() <em>Open Composite Component Action</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getOpenCompositeComponentAction()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final Action OPEN_COMPOSITE_COMPONENT_ACTION_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getOpenCompositeComponentAction() <em>Open Composite Component Action</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getOpenCompositeComponentAction()
-	 * @generated
-	 * @ordered
-	 */
-	protected Action openCompositeComponentAction = OPEN_COMPOSITE_COMPONENT_ACTION_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getEditorId() <em>Editor Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEditorId()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String EDITOR_ID_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getEditorId() <em>Editor Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEditorId()
-	 * @generated
-	 * @ordered
-	 */
-	protected String editorId = EDITOR_ID_EDEFAULT;
-
-	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
+	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	protected SystemDiagramImpl() {
 		super();
-
-		final EObject self = this;
-
-		// コンポーネント削除時に、親がいなくなったconnectorを削除するようにする。
-		this.eAdapters().add(new Adapter() {
-			public void notifyChanged(Notification notification) {
-				if (notification.getFeatureID(SystemDiagram.class) == ComponentPackage.eINSTANCE
-						.getSystemDiagram_Components().getFeatureID()
-						&& notification.getEventType() == Notification.REMOVE) {
-					List<Connector> connectors = new ArrayList<Connector>();
-					List<EObject> components = new ArrayList<EObject>();
-					if (notification.getOldValue() instanceof Component) {
-						components.add((Component) notification.getOldValue());
-						components.addAll(((Component) notification
-								.getOldValue()).getComponents());
-					}
-					for (EObject component : components) {
-						for (Iterator iter = component.eAllContents(); iter
-								.hasNext();) {
-							Object element = iter.next();
-							if (element instanceof Connector) {
-								connectors.add((Connector) element);
-							}
-						}
-					}
-
-					for (Iterator iter = self.eAllContents(); iter.hasNext();) {
-						Object element = iter.next();
-						if (element instanceof Connector) {
-							connectors.add((Connector) element);
-						}
-					}
-
-					for (Connector connector : connectors) {
-						if ((EcoreUtil.isAncestor(self, connector.getSource()) && EcoreUtil
-								.isAncestor(self, connector.getTarget())) == false) {
-							EcoreUtil.remove(connector);
-						}
-					}
-				}
-			}
-
-			public Notifier getTarget() {
-				return null;
-			}
-
-			public void setTarget(Notifier newTarget) {
-			}
-
-			public boolean isAdapterForType(Object type) {
-				return false;
-			}
-
-		});
 	}
 
 	/**
@@ -208,7 +108,7 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 	 */
 	public EList getComponents() {
 		if (components == null) {
-			components = new EObjectContainmentEList(AbstractComponent.class, this, ComponentPackage.SYSTEM_DIAGRAM__COMPONENTS);
+			components = new EObjectContainmentEList(Component.class, this, ComponentPackage.SYSTEM_DIAGRAM__COMPONENTS);
 		}
 		return components;
 	}
@@ -232,48 +132,6 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 		kind = newKind == null ? KIND_EDEFAULT : newKind;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SYSTEM_DIAGRAM__KIND, oldKind, kind));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Action getOpenCompositeComponentAction() {
-		return openCompositeComponentAction;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setOpenCompositeComponentAction(Action newOpenCompositeComponentAction) {
-		Action oldOpenCompositeComponentAction = openCompositeComponentAction;
-		openCompositeComponentAction = newOpenCompositeComponentAction;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SYSTEM_DIAGRAM__OPEN_COMPOSITE_COMPONENT_ACTION, oldOpenCompositeComponentAction, openCompositeComponentAction));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getEditorId() {
-		return editorId;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setEditorId(String newEditorId) {
-		String oldEditorId = editorId;
-		editorId = newEditorId;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SYSTEM_DIAGRAM__EDITOR_ID, oldEditorId, editorId));
 	}
 
 	/**
@@ -360,7 +218,83 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SYSTEM_DIAGRAM__UPDATE_DATE, oldUpdateDate, updateDate));
 	}
 
-	private Timer timer;
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SystemDiagram getParentSystemDiagram() {
+		if (parentSystemDiagram != null && parentSystemDiagram.eIsProxy()) {
+			InternalEObject oldParentSystemDiagram = (InternalEObject)parentSystemDiagram;
+			parentSystemDiagram = (SystemDiagram)eResolveProxy(oldParentSystemDiagram);
+			if (parentSystemDiagram != oldParentSystemDiagram) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ComponentPackage.SYSTEM_DIAGRAM__PARENT_SYSTEM_DIAGRAM, oldParentSystemDiagram, parentSystemDiagram));
+			}
+		}
+		return parentSystemDiagram;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SystemDiagram basicGetParentSystemDiagram() {
+		return parentSystemDiagram;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setParentSystemDiagram(SystemDiagram newParentSystemDiagram) {
+		SystemDiagram oldParentSystemDiagram = parentSystemDiagram;
+		parentSystemDiagram = newParentSystemDiagram;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SYSTEM_DIAGRAM__PARENT_SYSTEM_DIAGRAM, oldParentSystemDiagram, parentSystemDiagram));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Component getCompositeComponent() {
+		if (compositeComponent != null && compositeComponent.eIsProxy()) {
+			InternalEObject oldCompositeComponent = (InternalEObject)compositeComponent;
+			compositeComponent = (Component)eResolveProxy(oldCompositeComponent);
+			if (compositeComponent != oldCompositeComponent) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ComponentPackage.SYSTEM_DIAGRAM__COMPOSITE_COMPONENT, oldCompositeComponent, compositeComponent));
+			}
+		}
+		return compositeComponent;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Component basicGetCompositeComponent() {
+		return compositeComponent;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCompositeComponent(Component newCompositeComponent) {
+		Component oldCompositeComponent = compositeComponent;
+		compositeComponent = newCompositeComponent;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SYSTEM_DIAGRAM__COMPOSITE_COMPONENT, oldCompositeComponent, compositeComponent));
+	}
+
+	private RefreshThread refreshThread;
 	/**
 	 * The default value of the '{@link #isConnectorProcessing() <em>Connector Processing</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -442,46 +376,98 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 	protected String updateDate = UPDATE_DATE_EDEFAULT;
 
 	/**
+	 * The cached value of the '{@link #getParentSystemDiagram() <em>Parent System Diagram</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getParentSystemDiagram()
+	 * @generated
+	 * @ordered
+	 */
+	protected SystemDiagram parentSystemDiagram= null;
+
+	/**
+	 * The cached value of the '{@link #getCompositeComponent() <em>Composite Component</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCompositeComponent()
+	 * @generated
+	 * @ordered
+	 */
+	protected Component compositeComponent= null;
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 */
-	public void setSynchronizeInterval(long milliSecond) {
-		if (timer != null) {
-			timer.cancel();
-		}
-		timer = null;
-
-		if (milliSecond > 0) {
-			timer = new Timer(true);
-
-			timer.schedule(new TimerTask() {
+	public synchronized void setSynchronizeInterval(long milliSecond) {
+		if (!SystemDiagramKind.ONLINE_LITERAL.equals(getKind())) return;
+		if (refreshThread == null) {
+			refreshThread = new RefreshThread(milliSecond){
+				@SuppressWarnings("unchecked")
 				@Override
-				public void run() {
-					try {
-						List contents = new ArrayList(eContents());
-						for (Iterator iter = contents.iterator(); iter.hasNext();) {
-							ModelElement element = (ModelElement) iter.next();
-							if (element instanceof CorbaWrapperObject) {
-								((CorbaWrapperObject) element)
-										.getSynchronizationSupport()
-										.synchronizeLocal();
-							}
-							try {
-								if (getOpenCompositeComponentAction() != null) {
-									getOpenCompositeComponentAction().runWithEvent(null);
-								}
-							} catch (Exception e) {
-								//void
-							}
-						}
-					} catch (Exception e) {
-					}
+				protected void executeCommand() {
+					synchronizeLocal();
 				}
-			}, 0, milliSecond);
+			};
+			refreshThread.setDaemon(true);
+			refreshThread.start();
+		} else {
+			refreshThread.setSynchronizeInterval(milliSecond);
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected synchronized List<Component> getUnmodifiedComponents() {
+		return new ArrayList<Component>(getComponents());
+	}
+
+	/**
+	 * @param component	削除するコンポーネント
+	 */
+	public synchronized void removeComponent(Component component) {
+		getComponents().remove(component);
+	}
+	
+
+//	@Override
+	public synchronized void removeComponents(List<Component> components) {
+		for (Component c : components) {
+			removeComponent(c);
+		}
+	}
+
+
+	@SuppressWarnings("unchecked")
+//	@Override
+	public synchronized void addComponent(Component component) {
+		getComponents().add(component);
+	}
+	
+//	@Override
+	@SuppressWarnings("unchecked")
+	public synchronized void addComponent(int pos, Component component) {
+		getComponents().add(pos, component);
+	}
+
+	@SuppressWarnings("unchecked")
+//	@Override
+	public synchronized void addComponents(List<Component> components) {
+		getComponents().addAll(components);
+	}
+
+//	@Override
+	public synchronized void clearComponents() {
+		getComponents().clear();
+	}
+
+	public SystemDiagram getRootDiagram() {
+		if (getParentSystemDiagram() == null) return this;
+		return getParentSystemDiagram().getRootDiagram();
 	}
 
 	private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
 			this);
+
+	private RtsProfileExt profile;
 	/**
 	 * <!-- begin-user-doc -->
 	 * コンポーネンツ変更の通知を行うリスナを登録する
@@ -502,7 +488,7 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public PropertyChangeSupport getPropertyChangeSupport() {
+	private PropertyChangeSupport getPropertyChangeSupport() {
 		return propertyChangeSupport;
 	}
 
@@ -542,10 +528,6 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 				return getComponents();
 			case ComponentPackage.SYSTEM_DIAGRAM__KIND:
 				return getKind();
-			case ComponentPackage.SYSTEM_DIAGRAM__OPEN_COMPOSITE_COMPONENT_ACTION:
-				return getOpenCompositeComponentAction();
-			case ComponentPackage.SYSTEM_DIAGRAM__EDITOR_ID:
-				return getEditorId();
 			case ComponentPackage.SYSTEM_DIAGRAM__CONNECTOR_PROCESSING:
 				return isConnectorProcessing() ? Boolean.TRUE : Boolean.FALSE;
 			case ComponentPackage.SYSTEM_DIAGRAM__SYSTEM_ID:
@@ -554,6 +536,12 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 				return getCreationDate();
 			case ComponentPackage.SYSTEM_DIAGRAM__UPDATE_DATE:
 				return getUpdateDate();
+			case ComponentPackage.SYSTEM_DIAGRAM__PARENT_SYSTEM_DIAGRAM:
+				if (resolve) return getParentSystemDiagram();
+				return basicGetParentSystemDiagram();
+			case ComponentPackage.SYSTEM_DIAGRAM__COMPOSITE_COMPONENT:
+				if (resolve) return getCompositeComponent();
+				return basicGetCompositeComponent();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -573,12 +561,6 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 			case ComponentPackage.SYSTEM_DIAGRAM__KIND:
 				setKind((SystemDiagramKind)newValue);
 				return;
-			case ComponentPackage.SYSTEM_DIAGRAM__OPEN_COMPOSITE_COMPONENT_ACTION:
-				setOpenCompositeComponentAction((Action)newValue);
-				return;
-			case ComponentPackage.SYSTEM_DIAGRAM__EDITOR_ID:
-				setEditorId((String)newValue);
-				return;
 			case ComponentPackage.SYSTEM_DIAGRAM__CONNECTOR_PROCESSING:
 				setConnectorProcessing(((Boolean)newValue).booleanValue());
 				return;
@@ -590,6 +572,12 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 				return;
 			case ComponentPackage.SYSTEM_DIAGRAM__UPDATE_DATE:
 				setUpdateDate((String)newValue);
+				return;
+			case ComponentPackage.SYSTEM_DIAGRAM__PARENT_SYSTEM_DIAGRAM:
+				setParentSystemDiagram((SystemDiagram)newValue);
+				return;
+			case ComponentPackage.SYSTEM_DIAGRAM__COMPOSITE_COMPONENT:
+				setCompositeComponent((Component)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -608,12 +596,6 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 			case ComponentPackage.SYSTEM_DIAGRAM__KIND:
 				setKind(KIND_EDEFAULT);
 				return;
-			case ComponentPackage.SYSTEM_DIAGRAM__OPEN_COMPOSITE_COMPONENT_ACTION:
-				setOpenCompositeComponentAction(OPEN_COMPOSITE_COMPONENT_ACTION_EDEFAULT);
-				return;
-			case ComponentPackage.SYSTEM_DIAGRAM__EDITOR_ID:
-				setEditorId(EDITOR_ID_EDEFAULT);
-				return;
 			case ComponentPackage.SYSTEM_DIAGRAM__CONNECTOR_PROCESSING:
 				setConnectorProcessing(CONNECTOR_PROCESSING_EDEFAULT);
 				return;
@@ -625,6 +607,12 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 				return;
 			case ComponentPackage.SYSTEM_DIAGRAM__UPDATE_DATE:
 				setUpdateDate(UPDATE_DATE_EDEFAULT);
+				return;
+			case ComponentPackage.SYSTEM_DIAGRAM__PARENT_SYSTEM_DIAGRAM:
+				setParentSystemDiagram((SystemDiagram)null);
+				return;
+			case ComponentPackage.SYSTEM_DIAGRAM__COMPOSITE_COMPONENT:
+				setCompositeComponent((Component)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -641,10 +629,6 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 				return components != null && !components.isEmpty();
 			case ComponentPackage.SYSTEM_DIAGRAM__KIND:
 				return kind != KIND_EDEFAULT;
-			case ComponentPackage.SYSTEM_DIAGRAM__OPEN_COMPOSITE_COMPONENT_ACTION:
-				return OPEN_COMPOSITE_COMPONENT_ACTION_EDEFAULT == null ? openCompositeComponentAction != null : !OPEN_COMPOSITE_COMPONENT_ACTION_EDEFAULT.equals(openCompositeComponentAction);
-			case ComponentPackage.SYSTEM_DIAGRAM__EDITOR_ID:
-				return EDITOR_ID_EDEFAULT == null ? editorId != null : !EDITOR_ID_EDEFAULT.equals(editorId);
 			case ComponentPackage.SYSTEM_DIAGRAM__CONNECTOR_PROCESSING:
 				return connectorProcessing != CONNECTOR_PROCESSING_EDEFAULT;
 			case ComponentPackage.SYSTEM_DIAGRAM__SYSTEM_ID:
@@ -653,6 +637,10 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 				return CREATION_DATE_EDEFAULT == null ? creationDate != null : !CREATION_DATE_EDEFAULT.equals(creationDate);
 			case ComponentPackage.SYSTEM_DIAGRAM__UPDATE_DATE:
 				return UPDATE_DATE_EDEFAULT == null ? updateDate != null : !UPDATE_DATE_EDEFAULT.equals(updateDate);
+			case ComponentPackage.SYSTEM_DIAGRAM__PARENT_SYSTEM_DIAGRAM:
+				return parentSystemDiagram != null;
+			case ComponentPackage.SYSTEM_DIAGRAM__COMPOSITE_COMPONENT:
+				return compositeComponent != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -668,10 +656,6 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (kind: ");
 		result.append(kind);
-		result.append(", openCompositeComponentAction: ");
-		result.append(openCompositeComponentAction);
-		result.append(", editorId: ");
-		result.append(editorId);
 		result.append(", ConnectorProcessing: ");
 		result.append(connectorProcessing);
 		result.append(", systemId: ");
@@ -683,5 +667,101 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 		result.append(')');
 		return result.toString();
 	}
+
+//	@Override
+	public RtsProfileExt getProfile() {
+		return profile;
+	}
+
+//	@Override
+	public void setProfile(RtsProfileExt profile) {
+		this.profile = profile;
+	}
+
+	private Map<String, PortConnector> connectorMap = new HashMap<String, PortConnector>();
+//	@Override
+	public Map<String, PortConnector> getConnectorMap() {
+		return connectorMap;
+	}
+
+	private void synchronizeLocal() {
+		// リモートと同期を取る
+		synchronizeFromRemote();
+		// 親の複合コンポーネントが削除されたときは子ウィンドウを閉じる
+		// 子ウィンドウ内のコンポーネントが削除されたときも子ウィンドウを閉じる
+		try {
+			closeIfExit();
+		} catch (Exception e) {
+			//void
+		}
+	}
+
+	private void closeIfExit() {
+		if (getParentSystemDiagram() == null) return;
+		SystemDiagram rootDiagram = getRootDiagram();
+			
+		synchronized (rootDiagram) {
+			List<Component> registeredComponents = rootDiagram.getRegisteredComponents();
+			if (!isExist(registeredComponents, getCompositeComponent())
+					|| !isExist(registeredComponents, getComponents())) {
+				getPropertyChangeSupport()
+						.firePropertyChange(
+								"SYSTEM_DIAGRAM_COMPONENTS",
+								getCompositeComponent(),
+								null);
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private boolean isExist(List<Component> registeredComponents,
+			EList components) {
+		for (Object obj: components) {
+			if (!isExist(registeredComponents, (Component)obj)) return false;
+		}
+		return true;
+	}
+
+	private boolean isExist(List<Component> registeredComponents,
+			Component component) {
+		for (Component element : registeredComponents) {
+			if (element == component) return true;
+		}
+		return false;
+	}
+
+	private void synchronizeFromRemote() {
+		if (getParentSystemDiagram() != null) {
+			return;
+		}
+		
+		List<Component> components = getUnmodifiedComponents();
+		for (Component component : components) {
+			SynchronizationSupport support = component.getSynchronizationSupport();
+			if (support == null) continue;
+			support.synchronizeLocal();
+		}
+	}
+
+//	@Override
+	public synchronized boolean synchronizeManually() {
+		if (!SystemDiagramKind.ONLINE_LITERAL.equals(getKind())) return false;
+		if (refreshThread != null && refreshThread.isRunning()) return false;
+		
+		synchronizeLocal();
+		return true;
+	}
+
+	@SuppressWarnings("unchecked")
+//	@Override
+	public List<Component> getRegisteredComponents() {
+		List<Component> unmodifiedComponents = getUnmodifiedComponents();
+		List<Component> result = new ArrayList<Component>(unmodifiedComponents);
+		for (Component c: unmodifiedComponents) {
+			result.addAll(c.getAllComponents());
+		}
+		return result;
+	}
+
 
 } // SystemDiagramImpl

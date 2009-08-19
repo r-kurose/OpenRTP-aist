@@ -1,7 +1,7 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.editpolicy;
 
 import jp.go.aist.rtm.systemeditor.ui.editor.command.DeleteCommand;
-import jp.go.aist.rtm.toolscommon.model.component.AbstractComponent;
+import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 
 import org.eclipse.gef.commands.Command;
@@ -20,7 +20,7 @@ public class ComponentComponentEditPolicy extends ComponentEditPolicy {
 
 		DeleteCommand command = new DeleteCommand();
 		command.setParent((SystemDiagram) getHost().getParent().getModel());
-		command.setTarget((AbstractComponent) getHost().getModel());
+		command.setTarget((Component) getHost().getModel());
 		
 		return command;
 	}

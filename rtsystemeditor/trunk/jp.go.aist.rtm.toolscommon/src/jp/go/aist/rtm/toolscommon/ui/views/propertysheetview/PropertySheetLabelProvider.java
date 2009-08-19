@@ -41,11 +41,9 @@ public class PropertySheetLabelProvider extends LabelProvider implements
 	 * {@inheritDoc}
 	 */
 	public String getColumnText(Object element, int columnIndex) {
-		String result = "";
-
 		if (element instanceof PropertyDescriptorWithSource) {
 			if (columnIndex == 0) {
-				result = ((PropertyDescriptorWithSource) element)
+				return ((PropertyDescriptorWithSource) element)
 						.getPropertyDescriptor().getDisplayName();
 			} else if (columnIndex == 1) {
 				Object propertyValue = ((PropertyDescriptorWithSource) element)
@@ -56,16 +54,16 @@ public class PropertySheetLabelProvider extends LabelProvider implements
 					propertyValue = "";
 				}
 
-				result = propertyValue.toString();
+				return propertyValue.toString();
 			}
 		} else {
 			if (columnIndex == 0) {
-				result = ((IWorkbenchAdapter) AdapterUtil.getAdapter(element,
+				return((IWorkbenchAdapter) AdapterUtil.getAdapter(element,
 						IWorkbenchAdapter.class)).getLabel(element);
 			}
 		}
 
-		return result;
+		return "";
 	}
 
 	/**

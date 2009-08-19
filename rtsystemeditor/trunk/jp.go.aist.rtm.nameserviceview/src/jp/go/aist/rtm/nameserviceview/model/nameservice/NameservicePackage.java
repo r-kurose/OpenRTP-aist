@@ -62,14 +62,14 @@ public interface NameservicePackage extends EPackage {
 	NameservicePackage eINSTANCE = jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NodeImpl <em>Node</em>}' class.
+	 * The meta object id for the '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.CorbaNodeImpl <em>Corba Node</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NodeImpl
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getNode()
+	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.CorbaNodeImpl
+	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getCorbaNode()
 	 * @generated
 	 */
-	int NODE = 7;
+	int CORBA_NODE = 2;
 
 	/**
 	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
@@ -78,7 +78,7 @@ public interface NameservicePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__CONSTRAINT = CorePackage.CORBA_WRAPPER_OBJECT__CONSTRAINT;
+	int CORBA_NODE__CONSTRAINT = CorePackage.CORBA_WRAPPER_OBJECT__CONSTRAINT;
 
 	/**
 	 * The feature id for the '<em><b>Corba Object</b></em>' attribute.
@@ -87,7 +87,16 @@ public interface NameservicePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__CORBA_OBJECT = CorePackage.CORBA_WRAPPER_OBJECT__CORBA_OBJECT;
+	int CORBA_NODE__CORBA_OBJECT = CorePackage.CORBA_WRAPPER_OBJECT__CORBA_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_NODE__NODES = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Name Service Reference</b></em>' reference.
@@ -96,16 +105,16 @@ public interface NameservicePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__NAME_SERVICE_REFERENCE = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 0;
+	int CORBA_NODE__NAME_SERVICE_REFERENCE = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Node</em>' class.
+	 * The number of structural features of the '<em>Corba Node</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NODE_FEATURE_COUNT = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 1;
+	int CORBA_NODE_FEATURE_COUNT = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NamingContextNodeImpl <em>Naming Context Node</em>}' class.
@@ -115,7 +124,7 @@ public interface NameservicePackage extends EPackage {
 	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getNamingContextNode()
 	 * @generated
 	 */
-	int NAMING_CONTEXT_NODE = 5;
+	int NAMING_CONTEXT_NODE = 0;
 
 	/**
 	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
@@ -124,7 +133,7 @@ public interface NameservicePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NAMING_CONTEXT_NODE__CONSTRAINT = NODE__CONSTRAINT;
+	int NAMING_CONTEXT_NODE__CONSTRAINT = CORBA_NODE__CONSTRAINT;
 
 	/**
 	 * The feature id for the '<em><b>Corba Object</b></em>' attribute.
@@ -133,16 +142,7 @@ public interface NameservicePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NAMING_CONTEXT_NODE__CORBA_OBJECT = NODE__CORBA_OBJECT;
-
-	/**
-	 * The feature id for the '<em><b>Name Service Reference</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NAMING_CONTEXT_NODE__NAME_SERVICE_REFERENCE = NODE__NAME_SERVICE_REFERENCE;
+	int NAMING_CONTEXT_NODE__CORBA_OBJECT = CORBA_NODE__CORBA_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
@@ -151,7 +151,25 @@ public interface NameservicePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NAMING_CONTEXT_NODE__NODES = NODE_FEATURE_COUNT + 0;
+	int NAMING_CONTEXT_NODE__NODES = CORBA_NODE__NODES;
+
+	/**
+	 * The feature id for the '<em><b>Name Service Reference</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAMING_CONTEXT_NODE__NAME_SERVICE_REFERENCE = CORBA_NODE__NAME_SERVICE_REFERENCE;
+
+	/**
+	 * The feature id for the '<em><b>Name Server Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAMING_CONTEXT_NODE__NAME_SERVER_NAME = CORBA_NODE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Zombie</b></em>' attribute.
@@ -160,7 +178,16 @@ public interface NameservicePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NAMING_CONTEXT_NODE__ZOMBIE = NODE_FEATURE_COUNT + 1;
+	int NAMING_CONTEXT_NODE__ZOMBIE = CORBA_NODE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Kind</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAMING_CONTEXT_NODE__KIND = CORBA_NODE_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Naming Context Node</em>' class.
@@ -169,327 +196,7 @@ public interface NameservicePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NAMING_CONTEXT_NODE_FEATURE_COUNT = NODE_FEATURE_COUNT + 2;
-
-	/**
-	 * The meta object id for the '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.CategoryNamingContextImpl <em>Category Naming Context</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.CategoryNamingContextImpl
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getCategoryNamingContext()
-	 * @generated
-	 */
-	int CATEGORY_NAMING_CONTEXT = 0;
-
-	/**
-	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CATEGORY_NAMING_CONTEXT__CONSTRAINT = NAMING_CONTEXT_NODE__CONSTRAINT;
-
-	/**
-	 * The feature id for the '<em><b>Corba Object</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CATEGORY_NAMING_CONTEXT__CORBA_OBJECT = NAMING_CONTEXT_NODE__CORBA_OBJECT;
-
-	/**
-	 * The feature id for the '<em><b>Name Service Reference</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CATEGORY_NAMING_CONTEXT__NAME_SERVICE_REFERENCE = NAMING_CONTEXT_NODE__NAME_SERVICE_REFERENCE;
-
-	/**
-	 * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CATEGORY_NAMING_CONTEXT__NODES = NAMING_CONTEXT_NODE__NODES;
-
-	/**
-	 * The feature id for the '<em><b>Zombie</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CATEGORY_NAMING_CONTEXT__ZOMBIE = NAMING_CONTEXT_NODE__ZOMBIE;
-
-	/**
-	 * The number of structural features of the '<em>Category Naming Context</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CATEGORY_NAMING_CONTEXT_FEATURE_COUNT = NAMING_CONTEXT_NODE_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.HostNamingContextImpl <em>Host Naming Context</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.HostNamingContextImpl
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getHostNamingContext()
-	 * @generated
-	 */
-	int HOST_NAMING_CONTEXT = 1;
-
-	/**
-	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int HOST_NAMING_CONTEXT__CONSTRAINT = NAMING_CONTEXT_NODE__CONSTRAINT;
-
-	/**
-	 * The feature id for the '<em><b>Corba Object</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int HOST_NAMING_CONTEXT__CORBA_OBJECT = NAMING_CONTEXT_NODE__CORBA_OBJECT;
-
-	/**
-	 * The feature id for the '<em><b>Name Service Reference</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int HOST_NAMING_CONTEXT__NAME_SERVICE_REFERENCE = NAMING_CONTEXT_NODE__NAME_SERVICE_REFERENCE;
-
-	/**
-	 * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int HOST_NAMING_CONTEXT__NODES = NAMING_CONTEXT_NODE__NODES;
-
-	/**
-	 * The feature id for the '<em><b>Zombie</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int HOST_NAMING_CONTEXT__ZOMBIE = NAMING_CONTEXT_NODE__ZOMBIE;
-
-	/**
-	 * The number of structural features of the '<em>Host Naming Context</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int HOST_NAMING_CONTEXT_FEATURE_COUNT = NAMING_CONTEXT_NODE_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.ManagerNamingContextImpl <em>Manager Naming Context</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.ManagerNamingContextImpl
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getManagerNamingContext()
-	 * @generated
-	 */
-	int MANAGER_NAMING_CONTEXT = 2;
-
-	/**
-	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MANAGER_NAMING_CONTEXT__CONSTRAINT = NAMING_CONTEXT_NODE__CONSTRAINT;
-
-	/**
-	 * The feature id for the '<em><b>Corba Object</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MANAGER_NAMING_CONTEXT__CORBA_OBJECT = NAMING_CONTEXT_NODE__CORBA_OBJECT;
-
-	/**
-	 * The feature id for the '<em><b>Name Service Reference</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MANAGER_NAMING_CONTEXT__NAME_SERVICE_REFERENCE = NAMING_CONTEXT_NODE__NAME_SERVICE_REFERENCE;
-
-	/**
-	 * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MANAGER_NAMING_CONTEXT__NODES = NAMING_CONTEXT_NODE__NODES;
-
-	/**
-	 * The feature id for the '<em><b>Zombie</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MANAGER_NAMING_CONTEXT__ZOMBIE = NAMING_CONTEXT_NODE__ZOMBIE;
-
-	/**
-	 * The number of structural features of the '<em>Manager Naming Context</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MANAGER_NAMING_CONTEXT_FEATURE_COUNT = NAMING_CONTEXT_NODE_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.ModuleNamingContextImpl <em>Module Naming Context</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.ModuleNamingContextImpl
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getModuleNamingContext()
-	 * @generated
-	 */
-	int MODULE_NAMING_CONTEXT = 3;
-
-	/**
-	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MODULE_NAMING_CONTEXT__CONSTRAINT = NAMING_CONTEXT_NODE__CONSTRAINT;
-
-	/**
-	 * The feature id for the '<em><b>Corba Object</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MODULE_NAMING_CONTEXT__CORBA_OBJECT = NAMING_CONTEXT_NODE__CORBA_OBJECT;
-
-	/**
-	 * The feature id for the '<em><b>Name Service Reference</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MODULE_NAMING_CONTEXT__NAME_SERVICE_REFERENCE = NAMING_CONTEXT_NODE__NAME_SERVICE_REFERENCE;
-
-	/**
-	 * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MODULE_NAMING_CONTEXT__NODES = NAMING_CONTEXT_NODE__NODES;
-
-	/**
-	 * The feature id for the '<em><b>Zombie</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MODULE_NAMING_CONTEXT__ZOMBIE = NAMING_CONTEXT_NODE__ZOMBIE;
-
-	/**
-	 * The number of structural features of the '<em>Module Naming Context</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MODULE_NAMING_CONTEXT_FEATURE_COUNT = NAMING_CONTEXT_NODE_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameServerNamingContextImpl <em>Name Server Naming Context</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameServerNamingContextImpl
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getNameServerNamingContext()
-	 * @generated
-	 */
-	int NAME_SERVER_NAMING_CONTEXT = 4;
-
-	/**
-	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NAME_SERVER_NAMING_CONTEXT__CONSTRAINT = NAMING_CONTEXT_NODE__CONSTRAINT;
-
-	/**
-	 * The feature id for the '<em><b>Corba Object</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NAME_SERVER_NAMING_CONTEXT__CORBA_OBJECT = NAMING_CONTEXT_NODE__CORBA_OBJECT;
-
-	/**
-	 * The feature id for the '<em><b>Name Service Reference</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NAME_SERVER_NAMING_CONTEXT__NAME_SERVICE_REFERENCE = NAMING_CONTEXT_NODE__NAME_SERVICE_REFERENCE;
-
-	/**
-	 * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NAME_SERVER_NAMING_CONTEXT__NODES = NAMING_CONTEXT_NODE__NODES;
-
-	/**
-	 * The feature id for the '<em><b>Zombie</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NAME_SERVER_NAMING_CONTEXT__ZOMBIE = NAMING_CONTEXT_NODE__ZOMBIE;
-
-	/**
-	 * The number of structural features of the '<em>Name Server Naming Context</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NAME_SERVER_NAMING_CONTEXT_FEATURE_COUNT = NAMING_CONTEXT_NODE_FEATURE_COUNT + 0;
+	int NAMING_CONTEXT_NODE_FEATURE_COUNT = CORBA_NODE_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NamingObjectNodeImpl <em>Naming Object Node</em>}' class.
@@ -499,7 +206,7 @@ public interface NameservicePackage extends EPackage {
 	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getNamingObjectNode()
 	 * @generated
 	 */
-	int NAMING_OBJECT_NODE = 6;
+	int NAMING_OBJECT_NODE = 1;
 
 	/**
 	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
@@ -508,7 +215,7 @@ public interface NameservicePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NAMING_OBJECT_NODE__CONSTRAINT = NODE__CONSTRAINT;
+	int NAMING_OBJECT_NODE__CONSTRAINT = CORBA_NODE__CONSTRAINT;
 
 	/**
 	 * The feature id for the '<em><b>Corba Object</b></em>' attribute.
@@ -517,7 +224,16 @@ public interface NameservicePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NAMING_OBJECT_NODE__CORBA_OBJECT = NODE__CORBA_OBJECT;
+	int NAMING_OBJECT_NODE__CORBA_OBJECT = CORBA_NODE__CORBA_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAMING_OBJECT_NODE__NODES = CORBA_NODE__NODES;
 
 	/**
 	 * The feature id for the '<em><b>Name Service Reference</b></em>' reference.
@@ -526,16 +242,7 @@ public interface NameservicePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NAMING_OBJECT_NODE__NAME_SERVICE_REFERENCE = NODE__NAME_SERVICE_REFERENCE;
-
-	/**
-	 * The feature id for the '<em><b>Zombie</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NAMING_OBJECT_NODE__ZOMBIE = NODE_FEATURE_COUNT + 0;
+	int NAMING_OBJECT_NODE__NAME_SERVICE_REFERENCE = CORBA_NODE__NAME_SERVICE_REFERENCE;
 
 	/**
 	 * The feature id for the '<em><b>Entry</b></em>' reference.
@@ -544,7 +251,7 @@ public interface NameservicePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NAMING_OBJECT_NODE__ENTRY = NODE_FEATURE_COUNT + 1;
+	int NAMING_OBJECT_NODE__ENTRY = CORBA_NODE_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Naming Object Node</em>' class.
@@ -553,7 +260,7 @@ public interface NameservicePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NAMING_OBJECT_NODE_FEATURE_COUNT = NODE_FEATURE_COUNT + 2;
+	int NAMING_OBJECT_NODE_FEATURE_COUNT = CORBA_NODE_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.omg.CosNaming.NamingContext <em>Naming Context</em>}' class.
@@ -563,7 +270,7 @@ public interface NameservicePackage extends EPackage {
 	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getNamingContext()
 	 * @generated
 	 */
-	int NAMING_CONTEXT = 8;
+	int NAMING_CONTEXT = 3;
 
 	/**
 	 * The number of structural features of the '<em>Naming Context</em>' class.
@@ -582,7 +289,7 @@ public interface NameservicePackage extends EPackage {
 	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getNameServiceReference()
 	 * @generated
 	 */
-	int NAME_SERVICE_REFERENCE = 9;
+	int NAME_SERVICE_REFERENCE = 4;
 
 	/**
 	 * The feature id for the '<em><b>Binding</b></em>' attribute.
@@ -628,7 +335,7 @@ public interface NameservicePackage extends EPackage {
 	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getNamingContextExt()
 	 * @generated
 	 */
-	int NAMING_CONTEXT_EXT = 10;
+	int NAMING_CONTEXT_EXT = 5;
 
 	/**
 	 * The meta object id for the '<em>Binding</em>' data type.
@@ -638,7 +345,7 @@ public interface NameservicePackage extends EPackage {
 	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getBinding()
 	 * @generated
 	 */
-	int BINDING = 11;
+	int BINDING = 6;
 
 
 	/**
@@ -649,7 +356,7 @@ public interface NameservicePackage extends EPackage {
 	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getNotFound()
 	 * @generated
 	 */
-	int NOT_FOUND = 12;
+	int NOT_FOUND = 7;
 
 	/**
 	 * The meta object id for the '<em>Cannot Proceed</em>' data type.
@@ -659,7 +366,7 @@ public interface NameservicePackage extends EPackage {
 	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getCannotProceed()
 	 * @generated
 	 */
-	int CANNOT_PROCEED = 13;
+	int CANNOT_PROCEED = 8;
 
 	/**
 	 * The meta object id for the '<em>Invalid Name</em>' data type.
@@ -669,58 +376,8 @@ public interface NameservicePackage extends EPackage {
 	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getInvalidName()
 	 * @generated
 	 */
-	int INVALID_NAME = 14;
+	int INVALID_NAME = 9;
 
-
-	/**
-	 * Returns the meta object for class '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.CategoryNamingContext <em>Category Naming Context</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Category Naming Context</em>'.
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.CategoryNamingContext
-	 * @generated
-	 */
-	EClass getCategoryNamingContext();
-
-	/**
-	 * Returns the meta object for class '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.HostNamingContext <em>Host Naming Context</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Host Naming Context</em>'.
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.HostNamingContext
-	 * @generated
-	 */
-	EClass getHostNamingContext();
-
-	/**
-	 * Returns the meta object for class '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.ManagerNamingContext <em>Manager Naming Context</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Manager Naming Context</em>'.
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.ManagerNamingContext
-	 * @generated
-	 */
-	EClass getManagerNamingContext();
-
-	/**
-	 * Returns the meta object for class '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.ModuleNamingContext <em>Module Naming Context</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Module Naming Context</em>'.
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.ModuleNamingContext
-	 * @generated
-	 */
-	EClass getModuleNamingContext();
-
-	/**
-	 * Returns the meta object for class '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.NameServerNamingContext <em>Name Server Naming Context</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Name Server Naming Context</em>'.
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.NameServerNamingContext
-	 * @generated
-	 */
-	EClass getNameServerNamingContext();
 
 	/**
 	 * Returns the meta object for class '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode <em>Naming Context Node</em>}'.
@@ -731,17 +388,6 @@ public interface NameservicePackage extends EPackage {
 	 * @generated
 	 */
 	EClass getNamingContextNode();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode#getNodes <em>Nodes</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Nodes</em>'.
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode#getNodes()
-	 * @see #getNamingContextNode()
-	 * @generated
-	 */
-	EReference getNamingContextNode_Nodes();
 
 	/**
 	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode#isZombie <em>Zombie</em>}'.
@@ -755,6 +401,17 @@ public interface NameservicePackage extends EPackage {
 	EAttribute getNamingContextNode_Zombie();
 
 	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode#getKind <em>Kind</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Kind</em>'.
+	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode#getKind()
+	 * @see #getNamingContextNode()
+	 * @generated
+	 */
+	EAttribute getNamingContextNode_Kind();
+
+	/**
 	 * Returns the meta object for class '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode <em>Naming Object Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -763,17 +420,6 @@ public interface NameservicePackage extends EPackage {
 	 * @generated
 	 */
 	EClass getNamingObjectNode();
-
-	/**
-	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode#isZombie <em>Zombie</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Zombie</em>'.
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode#isZombie()
-	 * @see #getNamingObjectNode()
-	 * @generated
-	 */
-	EAttribute getNamingObjectNode_Zombie();
 
 	/**
 	 * Returns the meta object for the reference '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode#getEntry <em>Entry</em>}'.
@@ -787,25 +433,25 @@ public interface NameservicePackage extends EPackage {
 	EReference getNamingObjectNode_Entry();
 
 	/**
-	 * Returns the meta object for class '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.Node <em>Node</em>}'.
+	 * Returns the meta object for class '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode <em>Corba Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Node</em>'.
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.Node
+	 * @return the meta object for class '<em>Corba Node</em>'.
+	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode
 	 * @generated
 	 */
-	EClass getNode();
+	EClass getCorbaNode();
 
 	/**
-	 * Returns the meta object for the reference '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.Node#getNameServiceReference <em>Name Service Reference</em>}'.
+	 * Returns the meta object for the reference '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode#getNameServiceReference <em>Name Service Reference</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Name Service Reference</em>'.
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.Node#getNameServiceReference()
-	 * @see #getNode()
+	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode#getNameServiceReference()
+	 * @see #getCorbaNode()
 	 * @generated
 	 */
-	EReference getNode_NameServiceReference();
+	EReference getCorbaNode_NameServiceReference();
 
 	/**
 	 * Returns the meta object for class '{@link org.omg.CosNaming.NamingContext <em>Naming Context</em>}'.
@@ -939,56 +585,6 @@ public interface NameservicePackage extends EPackage {
 	 */
 	interface Literals  {
 		/**
-		 * The meta object literal for the '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.CategoryNamingContextImpl <em>Category Naming Context</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.CategoryNamingContextImpl
-		 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getCategoryNamingContext()
-		 * @generated
-		 */
-		EClass CATEGORY_NAMING_CONTEXT = eINSTANCE.getCategoryNamingContext();
-
-		/**
-		 * The meta object literal for the '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.HostNamingContextImpl <em>Host Naming Context</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.HostNamingContextImpl
-		 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getHostNamingContext()
-		 * @generated
-		 */
-		EClass HOST_NAMING_CONTEXT = eINSTANCE.getHostNamingContext();
-
-		/**
-		 * The meta object literal for the '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.ManagerNamingContextImpl <em>Manager Naming Context</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.ManagerNamingContextImpl
-		 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getManagerNamingContext()
-		 * @generated
-		 */
-		EClass MANAGER_NAMING_CONTEXT = eINSTANCE.getManagerNamingContext();
-
-		/**
-		 * The meta object literal for the '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.ModuleNamingContextImpl <em>Module Naming Context</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.ModuleNamingContextImpl
-		 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getModuleNamingContext()
-		 * @generated
-		 */
-		EClass MODULE_NAMING_CONTEXT = eINSTANCE.getModuleNamingContext();
-
-		/**
-		 * The meta object literal for the '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameServerNamingContextImpl <em>Name Server Naming Context</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameServerNamingContextImpl
-		 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getNameServerNamingContext()
-		 * @generated
-		 */
-		EClass NAME_SERVER_NAMING_CONTEXT = eINSTANCE.getNameServerNamingContext();
-
-		/**
 		 * The meta object literal for the '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NamingContextNodeImpl <em>Naming Context Node</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -999,20 +595,20 @@ public interface NameservicePackage extends EPackage {
 		EClass NAMING_CONTEXT_NODE = eINSTANCE.getNamingContextNode();
 
 		/**
-		 * The meta object literal for the '<em><b>Nodes</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference NAMING_CONTEXT_NODE__NODES = eINSTANCE.getNamingContextNode_Nodes();
-
-		/**
 		 * The meta object literal for the '<em><b>Zombie</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute NAMING_CONTEXT_NODE__ZOMBIE = eINSTANCE.getNamingContextNode_Zombie();
+
+		/**
+		 * The meta object literal for the '<em><b>Kind</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute NAMING_CONTEXT_NODE__KIND = eINSTANCE.getNamingContextNode_Kind();
 
 		/**
 		 * The meta object literal for the '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NamingObjectNodeImpl <em>Naming Object Node</em>}' class.
@@ -1025,14 +621,6 @@ public interface NameservicePackage extends EPackage {
 		EClass NAMING_OBJECT_NODE = eINSTANCE.getNamingObjectNode();
 
 		/**
-		 * The meta object literal for the '<em><b>Zombie</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute NAMING_OBJECT_NODE__ZOMBIE = eINSTANCE.getNamingObjectNode_Zombie();
-
-		/**
 		 * The meta object literal for the '<em><b>Entry</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1041,14 +629,14 @@ public interface NameservicePackage extends EPackage {
 		EReference NAMING_OBJECT_NODE__ENTRY = eINSTANCE.getNamingObjectNode_Entry();
 
 		/**
-		 * The meta object literal for the '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NodeImpl <em>Node</em>}' class.
+		 * The meta object literal for the '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.CorbaNodeImpl <em>Corba Node</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NodeImpl
-		 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getNode()
+		 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.CorbaNodeImpl
+		 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getCorbaNode()
 		 * @generated
 		 */
-		EClass NODE = eINSTANCE.getNode();
+		EClass CORBA_NODE = eINSTANCE.getCorbaNode();
 
 		/**
 		 * The meta object literal for the '<em><b>Name Service Reference</b></em>' reference feature.
@@ -1056,7 +644,7 @@ public interface NameservicePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference NODE__NAME_SERVICE_REFERENCE = eINSTANCE.getNode_NameServiceReference();
+		EReference CORBA_NODE__NAME_SERVICE_REFERENCE = eINSTANCE.getCorbaNode_NameServiceReference();
 
 		/**
 		 * The meta object literal for the '{@link org.omg.CosNaming.NamingContext <em>Naming Context</em>}' class.

@@ -8,17 +8,14 @@ package jp.go.aist.rtm.toolscommon.model.core;
 public interface CorbaWrapperObject extends WrapperObject{
 	/**
 	 * @model
-	 * @return
+	 * @return ラッピングするCorbaオブジェクト
 	 */
 	public org.omg.CORBA.Object getCorbaObject();
 	
-	public java.lang.Object getCorbaObjectInterface();
-	
 	/**
-	 * getCorbaObject()のcorbaオブジェクトをnarrowなどすることなくそのまま返す
-	 * @return
+	 * @return　getCorbaObject()のcorbaオブジェクトをnarrowして返す
 	 */
-	public org.omg.CORBA.Object getCorbaBaseObject();
+	public org.omg.CORBA.Object getCorbaObjectInterface();
 
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject#getCorbaObject <em>Corba Object</em>}' attribute.
@@ -29,12 +26,5 @@ public interface CorbaWrapperObject extends WrapperObject{
 	 * @generated
 	 */
 	void setCorbaObject(org.omg.CORBA.Object value);
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	boolean ping();
 
 }

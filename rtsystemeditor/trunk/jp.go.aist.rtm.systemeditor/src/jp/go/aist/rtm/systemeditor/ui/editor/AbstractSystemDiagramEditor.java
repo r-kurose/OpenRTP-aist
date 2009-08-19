@@ -18,22 +18,27 @@ import javax.xml.datatype.DatatypeFactory;
 
 import jp.go.aist.rtm.systemeditor.RTSystemEditorPlugin;
 import jp.go.aist.rtm.systemeditor.factory.SystemEditorWrapperFactory;
+import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.action.OpenCompositeComponentAction;
 import jp.go.aist.rtm.systemeditor.ui.dialog.ProfileInformationDialog;
 import jp.go.aist.rtm.systemeditor.ui.editor.action.ChangeComponentDirectionAction;
 import jp.go.aist.rtm.systemeditor.ui.editor.action.MoveComponentAction;
 import jp.go.aist.rtm.systemeditor.ui.editor.action.OpenAction;
+import jp.go.aist.rtm.systemeditor.ui.editor.action.RestoreOption;
 import jp.go.aist.rtm.systemeditor.ui.editor.dnd.SystemDiagramDropTargetListener;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpart.AutoScrollAutoexposeHelper;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpart.factory.SystemDiagramEditPartFactory;
 import jp.go.aist.rtm.systemeditor.ui.util.ComponentUtil;
-import jp.go.aist.rtm.toolscommon.model.component.AbstractComponent;
+import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
+import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
-import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSupport;
 import jp.go.aist.rtm.toolscommon.ui.views.propertysheetview.RtcPropertySheetPage;
+import jp.go.aist.rtm.toolscommon.validation.ValidateException;
+import jp.go.aist.rtm.toolscommon.validation.Validator;
 
-import org.eclipse.core.internal.resources.File;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -53,11 +58,15 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.gef.AutoexposeHelper;
 import org.eclipse.gef.ContextMenuProvider;
+import org.eclipse.gef.DefaultEditDomain;
+import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.KeyHandler;
 import org.eclipse.gef.KeyStroke;
+import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.ScalableRootEditPart;
+import org.eclipse.gef.tools.MarqueeDragTracker;
 import org.eclipse.gef.ui.actions.SaveAction;
 import org.eclipse.gef.ui.parts.GraphicalEditor;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
@@ -75,6 +84,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -86,15 +96,17 @@ import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
 
 public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 
+	public static final String MSG_TITLE_VALIDATION_ERROR = Messages.getString("AbstractSystemDiagramEditor.33");
+
 	/**
 	 * システムダイアグラムの拡張子
 	 */
-	public static final String FILE_EXTENTION = "xml";
+	public static final String FILE_EXTENTION = "xml"; //$NON-NLS-1$
 
 	/**
 	 * RTCLinkのプロジェクト名
 	 */
-	public static String RTCLINK_PROJECT_NAME = "RTSE_Files";
+	public static String RTCLINK_PROJECT_NAME = "RTSE_Files"; //$NON-NLS-1$
 
 	private String title = null;
 
@@ -102,7 +114,18 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 
 	private SystemDiagramPropertyChangeListener systemDiagramPropertyChangeListener;
 
-	@SuppressWarnings("unchecked")
+	protected String diagramName;
+	
+	public AbstractSystemDiagramEditor() {
+		setEditDomain(new DefaultEditDomain(this));
+	}
+	
+	/**
+	 * @return openEditorの引数として渡される（オンラインまたはオフラインの）エディタID
+	 */
+	abstract public String getEditorId();
+
+	@SuppressWarnings("unchecked") //$NON-NLS-1$
 	@Override
 	/**
 	 * {@inheritDoc}
@@ -175,8 +198,8 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 			@Override
 			protected void init() {
 				setId(ActionFactory.SAVE_AS.getId());
-				setText("Save As...");
-				setToolTipText("Save As...");
+				setText(Messages.getString("AbstractSystemDiagramEditor.3")); //$NON-NLS-1$
+				setToolTipText(Messages.getString("AbstractSystemDiagramEditor.4")); //$NON-NLS-1$
 			}
 
 			public void run() {
@@ -196,6 +219,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	protected void createGraphicalViewer(Composite parent) {
 		GraphicalViewer viewer = new ScrollingGraphicalViewer() {
 
+			@SuppressWarnings("unchecked")
 			@Override
 			public EditPart findObjectAtExcluding(Point pt, Collection exclude,
 					Conditional condition) {
@@ -206,7 +230,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					((AutoexposeHelper.Search) condition).result = (AutoexposeHelper) getRootEditPart()
 							.getAdapter(AutoexposeHelper.class);
 				}
-
 				return result;
 			}
 		};
@@ -226,6 +249,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 
 		GraphicalViewer viewer = getGraphicalViewer();
 		viewer.setRootEditPart(new ScalableRootEditPart() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public Object getAdapter(Class adapter) {
 				if (adapter == AutoexposeHelper.class) {
@@ -233,6 +257,21 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 				}
 
 				return super.getAdapter(adapter);
+			}
+			@Override
+			public DragTracker getDragTracker(Request req) {
+				return new MarqueeDragTracker(){
+
+					@Override
+					protected boolean handleButtonDown(int button) {
+						boolean handleButtonDown = super.handleButtonDown(button);
+						if (button == 3) { // right click
+							deselectAll();
+						}
+						return handleButtonDown;
+					}
+					
+				};
 			}
 		});
 		viewer.setEditPartFactory(new SystemDiagramEditPartFactory(
@@ -296,141 +335,130 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		viewer.setKeyHandler(keyHandler);
 	}
 
+	@SuppressWarnings("unchecked") //$NON-NLS-1$
 	@Override
 	/**
 	 * {@inheritDoc}
 	 */
 	public void doSave(IProgressMonitor monitor) {
-		IEditorInput input = getEditorInput();
-		IFile file = null;
-		OpenCompositeComponentAction action = null;
-		if (this.systemDiagram.getOpenCompositeComponentAction() != null) {
-			action = (OpenCompositeComponentAction) this.systemDiagram
-					.getOpenCompositeComponentAction();
-		}
-		while (action != null) {
-			input = action.getParentSystemDiagramEditor().getEditorInput();
-			action = (OpenCompositeComponentAction) action
-					.getParentSystemDiagramEditor().getSystemDiagram()
-					.getOpenCompositeComponentAction();
-		}
-		boolean newOpenEditor = input instanceof NullEditorInput; // 新規エディタ
-		if (newOpenEditor) {
+		IEditorInput input = getInput();
+		
+		if (input instanceof NullEditorInput) { // 新規エディタ
 			doSaveAs();
 			return;
 		}
-		if (!ComponentUtil.isSystemDiagramSynchronized(systemDiagram)) {
-			MessageDialog.openInformation(getSite().getShell(), "Information",
-					"複合コンポーネント【"
-							+ ((OpenCompositeComponentAction) systemDiagram
-									.getOpenCompositeComponentAction())
-									.getCompositeComponent().getInstanceNameL()
-							+ "】が同期されていない為、保存できません。");
+		
+		// オンラインでも毎回ダイアログを出すようにしておく 2008.12.11
+		ProfileInformationDialog dialog = new ProfileInformationDialog(getSite().getShell());
+		dialog.setSystemId(getSystemDiagram().getSystemId());
+		dialog.setOverWrite(true);
+		dialog.setComponets(getSystemDiagram().getComponents());
+		if( dialog.open() != IDialogConstants.OK_ID ) return;
+		
+		String systemId = Messages.getString("AbstractSystemDiagramEditor.9") + dialog.getInputVendor() + "."  //$NON-NLS-1$ //$NON-NLS-2$
+							+ dialog.getInputSystemName() + ":" //$NON-NLS-1$
+							+ dialog.getInputVersion();
+		getSystemDiagram().setSystemId(systemId);
+		DatatypeFactory dateFactory = new DatatypeFactoryImpl();
+		getSystemDiagram().setUpdateDate(dateFactory.newXMLGregorianCalendar(new GregorianCalendar()).toString());
+
+		// ダイアグラムのバリデーション
+		if (!validateDiagram()) {
 			return;
 		}
-		if( getSystemDiagram().getKind() == SystemDiagramKind.OFFLINE_LITERAL ) {
-			ProfileInformationDialog dialog = new ProfileInformationDialog(getSite().getShell());
-//			dialog.setInputPath(oldFile.getFullPath().toOSString());
-			dialog.setSystemId(getSystemDiagram().getSystemId());
-			dialog.setOverWrite(true);
-			if( dialog.open() == IDialogConstants.OK_ID ) {
-				 String systemId = "RTSystem:" + dialog.getInputVendor() + "." 
-				 					+ dialog.getInputSystemName() + ":"
-				 					+ dialog.getInputVersion();
-				 getSystemDiagram().setSystemId(systemId);
-				 DatatypeFactory dateFactory = new DatatypeFactoryImpl();
-				 getSystemDiagram().setUpdateDate(dateFactory.newXMLGregorianCalendar(new GregorianCalendar()).toString());
-			} else {
-				return;
-			}
-		}
-		file = ((IFileEditorInput) input).getFile();
+
 		try {
+			IFile file = ((IFileEditorInput) input).getFile();
 			save(file, monitor);
 		} catch (CoreException e) {
-			ErrorDialog.openError(getSite().getShell(), "Error During Save",
-					"The current model could not be saved.", e.getStatus());
+			e.printStackTrace();
+			ErrorDialog.openError(getSite().getShell(), Messages.getString("AbstractSystemDiagramEditor.12"), //$NON-NLS-1$
+					Messages.getString("AbstractSystemDiagramEditor.13"), e.getStatus()); //$NON-NLS-1$
 		}
 	}
 
+	private IEditorInput getInput() {
+		IEditorInput input = getEditorInput();
+		SystemDiagram diagram = systemDiagram.getParentSystemDiagram();
+		while (diagram != null) {
+			AbstractSystemDiagramEditor editor = ComponentUtil.findEditor(diagram);
+			input = editor.getEditorInput();
+			diagram = diagram.getParentSystemDiagram();
+		}
+		return input;
+	}
+
+	@SuppressWarnings("unchecked") //$NON-NLS-1$
 	@Override
 	/**
 	 * {@inheritDoc}
 	 */
 	public void doSaveAs() {
-		IEditorInput input = getEditorInput();
-		IFile oldFile = null;
-		OpenCompositeComponentAction action = null;
-		if (this.systemDiagram.getOpenCompositeComponentAction() != null) {
-			action = (OpenCompositeComponentAction) this.systemDiagram
-					.getOpenCompositeComponentAction();
+		ProfileInformationDialog dialog = new ProfileInformationDialog(getSite().getShell());
+		if( getSystemDiagram().getSystemId() != null ) {
+			dialog.setSystemId(getSystemDiagram().getSystemId());
 		}
-		while (action != null) {
-			input = action.getParentSystemDiagramEditor().getEditorInput();
-			action = (OpenCompositeComponentAction) action
-					.getParentSystemDiagramEditor().getSystemDiagram()
-					.getOpenCompositeComponentAction();
-		}
-		if (!ComponentUtil.isSystemDiagramSynchronized(systemDiagram)) {
-			MessageDialog.openInformation(getSite().getShell(), "Information",
-					"複合コンポーネント【"
-							+ ((OpenCompositeComponentAction) systemDiagram
-									.getOpenCompositeComponentAction())
-									.getCompositeComponent().getInstanceNameL()
-							+ "】が同期されていない為、保存できません。");
+		dialog.setComponets(getSystemDiagram().getComponents());
+		
+		if( dialog.open() != IDialogConstants.OK_ID ) return;
+		
+		String systemId = Messages.getString("AbstractSystemDiagramEditor.18") + dialog.getInputVendor() + "."  //$NON-NLS-1$ //$NON-NLS-2$
+							+ dialog.getInputSystemName() + ":" //$NON-NLS-1$
+							+ dialog.getInputVersion();
+		getSystemDiagram().setSystemId(systemId);
+		DatatypeFactory dateFactory = new DatatypeFactoryImpl();
+		getSystemDiagram().setCreationDate(dateFactory.newXMLGregorianCalendar(new GregorianCalendar()).toString());
+		getSystemDiagram().setUpdateDate(dateFactory.newXMLGregorianCalendar(new GregorianCalendar()).toString());
+
+		// ダイアグラムのバリデーション
+		if (!validateDiagram()) {
 			return;
 		}
-		boolean newOpenEditor = input instanceof NullEditorInput; // 新規エディタ
-		if (newOpenEditor) {
-			// void
-		} else {
-			oldFile = ((FileEditorInput) input).getFile();
-		}
 
-		IFile newFile = null;
-		if( getSystemDiagram().getKind() == SystemDiagramKind.OFFLINE_LITERAL ) {
-			ProfileInformationDialog dialog = new ProfileInformationDialog(getSite().getShell());
-//			dialog.setInputPath(oldFile.getFullPath().toOSString());
-//			dialog.setSystemId(getSystemDiagram().getSystemId());
-			if( dialog.open() == IDialogConstants.OK_ID ) {
-				 IPath result = new Path(dialog.getInputPath());
-				 newFile = createNewFile(result);
-				 String systemId = "RTSystem:" + dialog.getInputVendor() + "." 
-				 					+ dialog.getInputSystemName() + ":"
-				 					+ dialog.getInputVersion();
-				 getSystemDiagram().setSystemId(systemId);
-				 DatatypeFactory dateFactory = new DatatypeFactoryImpl();
-				 getSystemDiagram().setCreationDate(dateFactory.newXMLGregorianCalendar(new GregorianCalendar()).toString());
-				 getSystemDiagram().setUpdateDate(dateFactory.newXMLGregorianCalendar(new GregorianCalendar()).toString());
-			} else {
-				return;
-			}
-		} else {
-			newFile = createNewFilebySelection(oldFile, SWT.SAVE);
-		}
+		IPath result = new Path(dialog.getInputPath());
+		final IFile newFile = createNewFile(result);
+		if (newFile == null)
+			return;
 
-		if (newFile != null) {
-			final IFile target = newFile; // final
-			ProgressMonitorDialog progressMonitorDialog = new ProgressMonitorDialog(
-					getSite().getShell());
-			try {
-				progressMonitorDialog.run(false, false,
-						new IRunnableWithProgress() {
-							public void run(IProgressMonitor monitor)
-									throws InvocationTargetException,
-									InterruptedException {
-								try {
-									save(target, monitor);
-								} catch (CoreException e) {
-									MessageDialog.openError(getSite().getShell(), "エラー",
-											"ファイルの保存に失敗しました。" + target.getName());
-								}
-							}
-						});
-			} catch (Exception e) {
-				throw new RuntimeException(e); // SystemError
-			}
+		ProgressMonitorDialog progressMonitorDialog = new ProgressMonitorDialog(
+				getSite().getShell());
+		try {
+			progressMonitorDialog.run(false, false,
+				new IRunnableWithProgress() {
+					public void run(IProgressMonitor monitor)
+							throws InvocationTargetException,
+							InterruptedException {
+						try {
+							save(newFile, monitor);
+						} catch (CoreException e) {
+							e.printStackTrace();
+							MessageDialog.openError(getSite().getShell(), Messages.getString("AbstractSystemDiagramEditor.21"), //$NON-NLS-1$
+									Messages.getString("AbstractSystemDiagramEditor.22") + newFile.getName()); //$NON-NLS-1$
+						}
+					}
+				});
+		} catch (Exception e) {
+			throw new RuntimeException(e); // SystemError
 		}
+	}
+
+	/**
+	 * ダイアグラムの整合性をチェックします。
+	 * 
+	 * 拡張ポイント: jp.go.aist.rtm.toolscommon.validations
+	 * 
+	 * @return 不整合の場合はfalse
+	 */
+	public boolean validateDiagram() {
+		try {
+			Validator.validate(systemDiagram.getRootDiagram());
+		} catch (ValidateException e) {
+			MessageDialog.openError(getSite().getShell(),
+					MSG_TITLE_VALIDATION_ERROR, e.getMessage() + "\n"
+							+ e.getDetail());
+			return false;
+		}
+		return true;
 	}
 
 	private IFile createNewFilebySelection(IFile oldFile, int style) {
@@ -439,22 +467,21 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	}
 
 	private IFile createNewFile(IPath newPath) {
-		IFile newFile = null;
-		if (newPath != null) {
-			if (newPath.toFile().exists() == false) {
-				try {
-					newPath.toFile().createNewFile();
-				} catch (IOException e) {
-					MessageDialog.openError(getSite().getShell(), "エラー",
-							"ファイルの作成に失敗しました。" + newPath.toOSString());
-				}
-			}
+		if (newPath == null) return null;
 
-			if (newPath.toFile().exists()) {
-				newFile = getOutsideIFileLink(newPath);
+		if (newPath.toFile().exists() == false) {
+			try {
+				newPath.toFile().createNewFile();
+			} catch (IOException e) {
+				MessageDialog.openError(getSite().getShell(), Messages.getString("AbstractSystemDiagramEditor.23"), //$NON-NLS-1$
+						Messages.getString("AbstractSystemDiagramEditor.24") + newPath.toOSString()); //$NON-NLS-1$
 			}
 		}
-		return newFile;
+
+		if (newPath.toFile().exists()) {
+			return getOutsideIFileLink(newPath);
+		}
+		return null;
 	}
 
 	private IPath getFilePathByDialog(IFile defaultFile, int style) {
@@ -463,7 +490,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		if (defaultFile != null) {
 			dialog.setFileName(defaultFile.toString());
 		}
-		dialog.setFilterExtensions(new String[] { "*." + FILE_EXTENTION });
+		dialog.setFilterExtensions(new String[] { "*." + FILE_EXTENTION }); //$NON-NLS-1$
 
 		String pathString = dialog.open();
 
@@ -479,74 +506,60 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void save(IFile file, IProgressMonitor progressMonitor)
 			throws CoreException {
-		SystemDiagram systemDiagram = null;
+		
 		List<AbstractSystemDiagramEditor> editors = new ArrayList<AbstractSystemDiagramEditor>();
-		OpenCompositeComponentAction action = null;
 		editors.add(this);
+		
 		// 子エディタを取得
-		for (Iterator iterator = this.systemDiagram.getComponents().iterator(); iterator
+		for (Iterator iterator = systemDiagram.getComponents().iterator(); iterator
 				.hasNext();) {
-			AbstractComponent compnent = (AbstractComponent) iterator.next();
+			Component compnent = (Component) iterator.next();
 			if (compnent.isCompositeComponent()
-					&& compnent.getOpenCompositeComponentAction() != null) {
-				editors.add(((OpenCompositeComponentAction) compnent
-						.getOpenCompositeComponentAction())
-						.getCompositeComponentEditor());
+					&& compnent.getChildSystemDiagram() != null) {
+				AbstractSystemDiagramEditor editor = ComponentUtil.findEditor(compnent.getChildSystemDiagram());
+				if (editor != null)
+					editors.add(editor);
 			}
 		}
 		// 親エディタを取得
-		if (this.systemDiagram.getOpenCompositeComponentAction() != null) {
-			action = (OpenCompositeComponentAction) this.systemDiagram
-					.getOpenCompositeComponentAction();
-			while (action != null) {
-				editors.add(action.getParentSystemDiagramEditor());
+		SystemDiagram parentSystemDiagram = systemDiagram.getParentSystemDiagram();
+		while (parentSystemDiagram != null) {
+			AbstractSystemDiagramEditor editor = ComponentUtil.findEditor(parentSystemDiagram);
+			if (editor != null)
+				editors.add(editor);
 
-				systemDiagram = action.getParentSystemDiagramEditor()
-						.getSystemDiagram();
-				systemDiagram.setSystemId(this.systemDiagram.getSystemId());
-				systemDiagram.setCreationDate(this.systemDiagram.getCreationDate());
-				systemDiagram.setUpdateDate(this.systemDiagram.getUpdateDate());
-				for (Iterator iterator = this.systemDiagram.getComponents()
-						.iterator(); iterator.hasNext();) {
-					AbstractComponent component = (AbstractComponent) iterator
-							.next();
-					AbstractComponent localObject = null;
-					if (component.getCorbaBaseObject() != null) {
-						localObject = (AbstractComponent) SynchronizationSupport
-								.findLocalObjectByRemoteObject(
-										new Object[] { component
-												.getCorbaBaseObject() },
-										systemDiagram);
-					} else {
-						localObject = ComponentUtil.findComponentByPathId(
-								component, systemDiagram);
-					}
+			parentSystemDiagram.setSystemId(systemDiagram.getSystemId());
+			parentSystemDiagram.setCreationDate(systemDiagram.getCreationDate());
+			parentSystemDiagram.setUpdateDate(systemDiagram.getUpdateDate());
+			for (Iterator iterator = systemDiagram.getComponents()
+					.iterator(); iterator.hasNext();) {
+				Component component = (Component) iterator
+						.next();
+				Component localObject = getLocalObject(parentSystemDiagram,
+						component);
 
-					if (localObject != null) {
-						localObject.getConstraint().setX(
-								component.getConstraint().getX());
-						localObject.getConstraint().setY(
-								component.getConstraint().getY());
-						localObject.getConstraint().setHeight(
-								component.getConstraint().getHeight());
-						localObject.getConstraint().setWidth(
-								component.getConstraint().getWidth());
-					}
+				// Constraintを変更
+				if (localObject != null) {
+					localObject.getConstraint().setX(
+							component.getConstraint().getX());
+					localObject.getConstraint().setY(
+							component.getConstraint().getY());
+					localObject.getConstraint().setHeight(
+							component.getConstraint().getHeight());
+					localObject.getConstraint().setWidth(
+							component.getConstraint().getWidth());
 				}
-
-				action = (OpenCompositeComponentAction) action
-						.getParentSystemDiagramEditor().getSystemDiagram()
-						.getOpenCompositeComponentAction();
 			}
-		} else {
-			systemDiagram = this.systemDiagram;
+
+			parentSystemDiagram = parentSystemDiagram.getParentSystemDiagram();
 		}
 		if (null == progressMonitor)
 			progressMonitor = new NullProgressMonitor();
 
-		progressMonitor.beginTask("Saving " + file.getLocation().toOSString(),
+		progressMonitor.beginTask(Messages.getString("AbstractSystemDiagramEditor.26") + file.getLocation().toOSString(), //$NON-NLS-1$
 				2);
 
 		try {
@@ -558,7 +571,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					.createFileURI(file.getLocation().toOSString()));
 
 			SystemEditorWrapperFactory.getInstance().saveContentsToResource(
-					resource, systemDiagram);
+					resource, systemDiagram.getRootDiagram());
 
 			file.refreshLocal(IResource.DEPTH_ZERO, null);
 			for (AbstractSystemDiagramEditor editor : editors) {
@@ -569,21 +582,55 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		} catch (FileNotFoundException e) {
 			progressMonitor.done();
 			IStatus status = new Status(IStatus.ERROR, RTSystemEditorPlugin.getDefault()
-					.getClass().getName(), 0, "Error writing file.", e);
+					.getClass().getName(), 0, Messages.getString("AbstractSystemDiagramEditor.27"), e); //$NON-NLS-1$
 			throw new CoreException(status);
+
 		} catch (Exception e) {
 			progressMonitor.done();
 			IStatus status = new Status(IStatus.ERROR, RTSystemEditorPlugin.getDefault()
-					.getClass().getName(), 0, "Error writing file.", e);
+					.getClass().getName(), 0, Messages.getString("AbstractSystemDiagramEditor.28"), e); //$NON-NLS-1$
 			throw new CoreException(status);
 		}
 	}
 
+	private Component getLocalObject(SystemDiagram systemDiagram,
+			Component component) {
+		if (component instanceof CorbaComponent) {
+			org.omg.CORBA.Object obj = ((CorbaComponent)component).getCorbaObject();
+			if (obj != null) {
+				return (Component) SynchronizationSupport
+				.findLocalObjectByRemoteObject(
+						new Object[] { obj },
+						systemDiagram);				
+			}
+		}
+		return findComponentByPathId(
+				component, systemDiagram);
+	}
+
+	/**
+	 * componentをdiagramから探す（PathIdで探す)
+	 * @param component
+	 * @param diagram
+	 * @return
+	 */
+	private Component findComponentByPathId(
+			Component component, SystemDiagram diagram) {
+		if (component == null || diagram == null) {
+			return null;
+		}
+		for (Component tempComponent : diagram.getRegisteredComponents()) {
+			if (tempComponent.getPathId() != null
+					&& tempComponent.getPathId().equals(component.getPathId())) {
+				return tempComponent;
+			}
+		}
+		return null;
+	}
+
 	public void changeFile(IFile file) {
-		if (this.systemDiagram.getOpenCompositeComponentAction() != null) {
-			title = ((OpenCompositeComponentAction) this.systemDiagram
-					.getOpenCompositeComponentAction()).getCompositeComponent()
-					.getInstanceNameL();
+		if (this.systemDiagram.getParentSystemDiagram() != null) {
+			title = systemDiagram.getCompositeComponent().getInstanceNameL();
 		} else {
 			setInput(new FileEditorInput(file));
 			title = file.getLocation().lastSegment();
@@ -623,21 +670,90 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	 */
 	public void init(IEditorSite site, IEditorInput input)
 			throws PartInitException {
-		if( this instanceof OfflineSystemDiagramEditor ) {
-			input = new NullEditorInput();
-		}
-		IEditorInput newInput = load(input, site, false);
+		IEditorInput newInput = load(input, site, RestoreOption.NONE);
 		super.init(site, newInput);
 	}
 
 	protected abstract IEditorInput load(IEditorInput input,
-			final IEditorSite site, final boolean doReplace)
+			final IEditorSite site, final RestoreOption doReplace)
 			throws PartInitException;
 
 	private SimpleDateFormat formater = new SimpleDateFormat(
-			"yyyy_MM_dd_hh_mm_ss_SSS");
+			Messages.getString("AbstractSystemDiagramEditor.29")); //$NON-NLS-1$
+
+	protected IEditorInput getTargetInput(IEditorInput input, String windowName) {
+		if (input instanceof NullEditorInput) {
+			setSystemDiagram(ComponentFactory.eINSTANCE.createSystemDiagram());
+			diagramName = windowName;
+			setInput(input);
+			return input;
+		} else  {
+			FileEditorInput editorInput = createEditorInput(input);
+			diagramName = editorInput.getPath().lastSegment();
+			setInput(editorInput);
+			return editorInput;
+		}
+	}
+
+	protected FileEditorInput createEditorInput(IEditorInput input) {
+		if (input instanceof FileEditorInput) return (FileEditorInput) input;
+		
+		IPath path = ((IPathEditorInput) input).getPath();
+		IFile file = getOutsideIFileLink(path);
+		return new FileEditorInput(file);
+	}
+
+	protected void postLoad() {
+		GraphicalViewer graphicalViewer2 = getGraphicalViewer();
+		if (graphicalViewer2 != null) { // 初期ロードの場合には存在しない。別途後でロードする
+			graphicalViewer2.setContents(getSystemDiagram());
+		}
+
+		getCommandStack().markSaveLocation();
+		firePropertyChange(IEditorPart.PROP_TITLE);
+	}
 
 	protected IFile getOutsideIFileLink(IPath path) {
+		IProject project = ensureProjectOpen();
+
+		IFile fileLink = getFileLinkByRawLocation(path, project);
+		
+		if (fileLink != null) return fileLink;
+		
+
+		fileLink = project.getFile(formater.format(new Date()) + "__" //$NON-NLS-1$
+				+ path.lastSegment());
+		try {
+			project.refreshLocal(IResource.DEPTH_INFINITE, null);
+		} catch (CoreException e1) {
+			throw new RuntimeException(e1); // systemError
+		}
+		if (fileLink.exists() == false) {
+			try {
+				fileLink.createLink(path, IResource.NONE, null);
+			} catch (CoreException e) {
+				throw new RuntimeException(e); // systemError
+			}
+		}
+
+		return fileLink;
+	}
+
+	private IFile getFileLinkByRawLocation(IPath path, IProject project) {
+		try {
+			for (IResource r : project.members()) {
+				if (r.getType() == IResource.FILE && r.isLinked()
+						&& path.equals(r.getRawLocation())) {
+					return (IFile) r;
+				}
+			}
+		} catch (CoreException e2) {
+			// void
+		}
+		return null;
+	}
+
+	private IProject ensureProjectOpen() {
 		IWorkspace ws = ResourcesPlugin.getWorkspace();
 		IProject project = ws.getRoot().getProject(RTCLINK_PROJECT_NAME);
 		if (!project.exists())
@@ -652,42 +768,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 			} catch (CoreException e) {
 				throw new RuntimeException(e); // systemError
 			}
-
-		IFile fileLink = null;
-		try {
-			for (IResource r : project.members()) {
-				if (r.getType() == IResource.FILE) {
-					File file = (File) r;
-					if (file.isLinked()
-							&& (path.equals(file.getRawLocation()) || path
-									.equals(file.getRawLocation()))) {
-						fileLink = file;
-						break;
-					}
-				}
-			}
-		} catch (CoreException e2) {
-			// void
-		}
-
-		if (fileLink == null) {
-			fileLink = project.getFile(formater.format(new Date()) + "__"
-					+ path.lastSegment());
-			try {
-				project.refreshLocal(IResource.DEPTH_INFINITE, null);
-			} catch (CoreException e1) {
-				throw new RuntimeException(e1); // systemError
-			}
-			if (fileLink.exists() == false) {
-				try {
-					fileLink.createLink(path, IResource.NONE, null);
-				} catch (CoreException e) {
-					throw new RuntimeException(e); // systemError
-				}
-			}
-		}
-
-		return fileLink;
+		return project;
 	}
 
 	@Override
@@ -695,14 +776,26 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	 * {@inheritDoc}
 	 */
 	public void dispose() {
-		super.dispose();
+		try {
+			super.dispose();
+		} catch (NullPointerException e) {
+			// do nothing
+		}
 
 		if (getSystemDiagramPropertyChangeListener() != null) {
 			getSystemDiagramPropertyChangeListener().dispose();
 		}
 
+		// 複合RTCエディタが開かれていたら閉じる
+		if (getSystemDiagram() == null) return;
+		if (getSystemDiagram().getComponents() == null) return;
+		for (Object o : getSystemDiagram().getComponents()) {
+			Component ac = (Component) o;
+			ComponentUtil.closeCompositeComponent(ac);
+		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	/**
 	 * {@inheritDoc}
@@ -720,22 +813,22 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	 * {@inheritDoc}
 	 */
 	public String getTitle() {
-		return (title == null) ? getDiagramName() : title;
+		return (title == null) ? diagramName : title;
 	}
 
-	protected abstract String getDiagramName();
-
-	public void open(boolean restore) {
+	public void open(RestoreOption restore) {
 		boolean save = false;
 		if (isDirty()) {
-			save = MessageDialog.openQuestion(getSite().getShell(), "",
-					"ファイルが保存されていません。保存しますか？");
+			save = MessageDialog.openQuestion(getSite().getShell(), "", //$NON-NLS-1$
+					Messages.getString("AbstractSystemDiagramEditor.32")); //$NON-NLS-1$
 		}
 
 		if (save) {
 			doSave(null);
 		}
 
+		title = null;
+		
 		IFile createNewFile = createNewFilebySelection(null, SWT.OPEN);
 		if (createNewFile != null) {
 			try {
@@ -744,7 +837,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 			} catch (PartInitException e) {
 				e.printStackTrace(); // system error
 				if (e.getStatus().getException() != null)
-					MessageDialog.openError(getSite().getShell(), "", e
+					MessageDialog.openError(getSite().getShell(), "", e //$NON-NLS-1$
 							.getStatus().getException().getMessage());
 			}
 		}
@@ -775,34 +868,30 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		 * {@inheritDoc}
 		 */
 		public void propertyChange(PropertyChangeEvent evt) {
-			if (evt.getPropertyName().equals("SYSTEM_DIAGRAM_COMPONENTS")) {
+			if (evt.getPropertyName().equals("SYSTEM_DIAGRAM_COMPONENTS")) { //$NON-NLS-1$
 				final PropertyChangeEvent changeEvent = evt;
-				if (evt.getOldValue() instanceof AbstractComponent
-						&& ((AbstractComponent) evt.getOldValue())
+				if (evt.getOldValue() instanceof Component
+						&& ((Component) evt.getOldValue())
 								.isCompositeComponent()) {
 					try {
 						page.getWorkbenchWindow().getShell().getDisplay()
 								.asyncExec(new Runnable() {
+									@SuppressWarnings("unchecked")
 									public void run() {
-										List<AbstractComponent> components = new ArrayList<AbstractComponent>();
+										List<Component> components = new ArrayList<Component>();
 										components
-												.add((AbstractComponent) changeEvent
+												.add((Component) changeEvent
 														.getOldValue());
 										components
-												.addAll(((AbstractComponent) changeEvent
+												.addAll(((Component) changeEvent
 														.getOldValue())
 														.getAllComponents());
-										for (AbstractComponent tmpComponent : components) {
-											OpenCompositeComponentAction action = (OpenCompositeComponentAction) tmpComponent
-													.getOpenCompositeComponentAction();
-											if (action != null) {
-												page
-														.closeEditor(
-																action
-																		.getCompositeComponentEditor(),
-																false);
-												action
-														.setCompositeComponentEditorOpened(false);
+										for (Component tmpComponent : components) {
+											SystemDiagram childDiagram = tmpComponent.getChildSystemDiagram();
+											if (childDiagram != null) {
+												AbstractSystemDiagramEditor editor = ComponentUtil.findEditor(childDiagram);
+												if (editor != null)	page.closeEditor(editor, false);
+												tmpComponent.setChildSystemDiagram(null);
 											}
 										}
 									}
@@ -821,7 +910,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		}
 	}
 
-	abstract public String getEditorId();
+	abstract public boolean isOnline();
 
 	public SystemDiagramPropertyChangeListener getSystemDiagramPropertyChangeListener() {
 		return systemDiagramPropertyChangeListener;
@@ -833,4 +922,66 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	public void deselectAll() {
 		getGraphicalViewer().deselectAll();
 	}
+
+	@Override
+	public boolean isSaveOnCloseNeeded() {
+		if (getSystemDiagram().getParentSystemDiagram() != null) {
+			// 複合RTCのエディタの場合は保存しない
+			return false;
+		}
+		return super.isSaveOnCloseNeeded();
+	}
+
+	public EditPart findEditPart(Object model) {
+		if (model == null)
+			return null;
+		EditPart part = getGraphicalViewer().getContents();
+		for (Object o : part.getChildren()) {
+			EditPart child = (EditPart) o;
+			if (model.equals(child.getModel())) {
+				return child;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * エディタ内のコンポーネントを再描画する
+	 */
+	public void refresh() {
+		for (Object model : getSystemDiagram().getComponents()) {
+			EditPart ep = findEditPart(model);
+			if (ep != null) {
+//				debugPrint(ep, ep.getChildren().size());
+				for (Object obj :ep.getChildren()) {
+//					debugPrint((EditPart)obj, 0);
+					((EditPart)obj).refresh();
+				}
+			}
+		}
+		AbstractSystemDiagramEditor parent = ComponentUtil.findEditor(getSystemDiagram().getParentSystemDiagram());
+		if (parent != null) parent.refresh();
+		
+	}
+
+//	private void debugPrint(EditPart part, int size) {
+//		Object model = part.getModel();
+//		if (model instanceof Port) debugPrint((Port)model);
+//		if (model instanceof Component) debugPrint((Component)model, size, part);
+//	}
+//	private void debugPrint(Component component, int size, EditPart part) {
+//		if (component.getInstanceNameL().equals("test3"))  {
+//			System.out.println(component.getPorts().size() + ":" + size);
+//			for (Object obj :part.getChildren()) {
+//				System.out.println(obj);
+//			}
+//		}
+//	}
+//
+//	private static void debugPrint(Port port) {
+//		Component comp = (Component) port.eContainer();
+//		if (comp.getInstanceNameL().equals("test3"))
+//			System.out.println(port.getNameL() + ":" + comp.getPorts().size());
+//	}
+
 }

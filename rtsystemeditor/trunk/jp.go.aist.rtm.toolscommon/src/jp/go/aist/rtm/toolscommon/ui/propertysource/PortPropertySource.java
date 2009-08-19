@@ -1,31 +1,29 @@
 package jp.go.aist.rtm.toolscommon.ui.propertysource;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
-import jp.go.aist.rtm.toolscommon.model.component.PortProfile;
-import jp.go.aist.rtm.toolscommon.model.component.impl.NameValueImpl;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
-import org.omg.CORBA.Any;
-import org.omg.CORBA.TCKind;
 
 /**
- * InportのPropertySourceクラス
+ * ポートのPropertySourceクラス
  */
 public class PortPropertySource implements IPropertySource {
-	private static final String PROPERTIES_DYNAMICID_CATEGORY = "PROPERTIES";
-
 	private Port port;
 
-	public static final String PORT_NAME = "PORT_NAME";
+	private static final String PROPERTIES_DYNAMICID_CATEGORY = "PROPERTIES";
 
-	public static final String PORT_TYPE = "VALUE";
+	private static final String PORT_NAME = "PORT_NAME";
+	private static final String PORT_DATAFLOW_TYPE = "PORT_DATAFLOW_TYPE";
+	private static final String PORT_DATA_TYPE = "PORT_DATA_TYPE";
+	private static final String PORT_INTERFACE_TYPE = "PORT_INTERFACE_TYPE";
+	private static final String PORT_SUBSCRIPTION_TYPE = "PORT_SUBSCRIPTION_TYPE";
 
 	/**
 	 * コンストラクタ
@@ -41,34 +39,28 @@ public class PortPropertySource implements IPropertySource {
 	 * {@inheritDoc}
 	 */
 	public java.lang.Object getPropertyValue(java.lang.Object id) {
-		String result = "<unknown>";
 		try {
-			PortProfile profile = port.getPortProfile();
-
-			if (PortPropertySource.PORT_NAME.equals(id)) {
-				result = profile.getNameL();
+			if (PORT_NAME.equals(id)) {
+				return port.getNameL();
+			} else if (PORT_DATAFLOW_TYPE.equals(id)) {
+				return port.getDataflowType();
+			} else if (PORT_DATA_TYPE.equals(id)) {
+				return port.getDataType();
+			} else if (PORT_INTERFACE_TYPE.equals(id)) {
+				return port.getInterfaceType();
+			} else if (PORT_SUBSCRIPTION_TYPE.equals(id)) {
+				return port.getSubscriptionType();
 			} else if (id instanceof DynamicID) {
 				DynamicID dynamicId = (DynamicID) id;
 				if (PROPERTIES_DYNAMICID_CATEGORY.equals(dynamicId.categoryId)) {
-					Any value = NameValueImpl.findByName(
-							port.getPortProfile().getProperties(),
-							dynamicId.subId).getValue();
-					try {
-						if( value.type().kind() == TCKind.tk_wstring ) {
-							result = value.extract_wstring();
-						} else {
-							result = value.extract_string();
-						}
-					} catch (RuntimeException e) {
-						result = value.type().id();
-					}
+					return port.getProperty(dynamicId.subId);
 				}
 			}
 		} catch (Exception e) {
-			// void
+			return "<unknown>";
 		}
 
-		return result;
+		return "<unknown>";
 	}
 
 	/**
@@ -98,20 +90,30 @@ public class PortPropertySource implements IPropertySource {
 	}
 
 	public IPropertyDescriptor[] getPropertyDescriptors() {
-		List result = new ArrayList();
-		result.add(new TextPropertyDescriptor(PortPropertySource.PORT_NAME,
-				"Name"));
-		if (port.getPortProfile() != null) {
-			for (Iterator iter = port.getPortProfile().getProperties()
-					.iterator(); iter.hasNext();) {
-				NameValue entry = (NameValue) iter.next();
-				result.add(new TextPropertyDescriptor(new DynamicID(
-						PROPERTIES_DYNAMICID_CATEGORY, entry.getName()), entry
-						.getName()));
-			}
+		List<IPropertyDescriptor> result = new ArrayList<IPropertyDescriptor>();
+		result.add(new TextPropertyDescriptor(PORT_NAME, "Name"));
+		
+		addPropertyDescriptor(result, port.getDataType()
+				, new TextPropertyDescriptor(PORT_DATA_TYPE, "Data Type"));
+		addPropertyDescriptor(result, port.getInterfaceType()
+				, new TextPropertyDescriptor(PORT_INTERFACE_TYPE, "Interface Type"));
+		addPropertyDescriptor(result, port.getDataflowType()
+				, new TextPropertyDescriptor(PORT_DATAFLOW_TYPE, "Dataflow Type"));
+		addPropertyDescriptor(result, port.getSubscriptionType()
+				, new TextPropertyDescriptor(PORT_SUBSCRIPTION_TYPE, "Subscription Type"));
+		for (NameValue entry : port.getProperties()) {
+			result.add(new TextPropertyDescriptor(new DynamicID(
+					PROPERTIES_DYNAMICID_CATEGORY, entry.getName()), entry
+					.getName()));
 		}
 
 		return (IPropertyDescriptor[]) result
 				.toArray(new IPropertyDescriptor[result.size()]);
+	}
+
+	private void addPropertyDescriptor(List<IPropertyDescriptor> result, String value,
+			TextPropertyDescriptor textPropertyDescriptor) {
+		if (StringUtils.isBlank(value)) return;
+		result.add(textPropertyDescriptor);
 	}
 }

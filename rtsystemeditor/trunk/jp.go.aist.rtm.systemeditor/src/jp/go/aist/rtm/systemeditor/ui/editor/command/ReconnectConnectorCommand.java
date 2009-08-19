@@ -1,10 +1,9 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.command;
 
-import jp.go.aist.rtm.toolscommon.model.component.Connector;
+import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.GraphicalConnectorCreateManager;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
-import jp.go.aist.rtm.toolscommon.model.component.ConnectorSource;
-import jp.go.aist.rtm.toolscommon.model.component.ConnectorTarget;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
+import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 
 import org.eclipse.gef.commands.Command;
 
@@ -14,15 +13,15 @@ import org.eclipse.gef.commands.Command;
  * 内部では、昔の接続を破棄して新しく接続を行う。
  */
 public class ReconnectConnectorCommand extends Command {
-	private ConnectorSource newSource;
+	private Port newSource;
 
-	private ConnectorTarget newTarget;
+	private Port newTarget;
 
 	private ClearLineConstraintCommand clearLineConstraintCommand = new ClearLineConstraintCommand();
 
-	private Connector connector;
+	private PortConnector connector;
 
-	private ConnectorCreateManager manager;
+	private GraphicalConnectorCreateManager manager;
 
 	/**
 	 * コンストラクタ
@@ -32,8 +31,8 @@ public class ReconnectConnectorCommand extends Command {
 	 * @param manager
 	 *            ConnectorCreateManager
 	 */
-	public ReconnectConnectorCommand(Connector connector,
-			ConnectorCreateManager profileCreater) {
+	public ReconnectConnectorCommand(PortConnector connector,
+			GraphicalConnectorCreateManager profileCreater) {
 		this.connector = connector;
 		this.manager = profileCreater;
 	}
@@ -44,8 +43,8 @@ public class ReconnectConnectorCommand extends Command {
 	 */
 	public boolean canExecute() {
 		if (newSource != null) {
-			manager.setFirst((Port) newSource);
-			manager.setSecond((Port) connector.getTarget());
+			manager.setFirst(newSource);
+			manager.setSecond(connector.getTarget());
 			if (manager.validate() == false) {
 				return false;
 			}
@@ -93,40 +92,6 @@ public class ReconnectConnectorCommand extends Command {
 		clearLineConstraintCommand.execute();
 	}
 
-	private void reconnectSource(ConnectorSource source) {
-		boolean result = connector.deleteConnectorR();
-		if (result == false) {
-			return;
-		}
-
-		connector.dettachSource();
-		connector.setSource(source);
-
-		result = connector.createConnectorR();
-		if (result == false) {
-			return;
-		}
-
-		connector.attachSource();
-	}
-
-	private void reconnectTarget(ConnectorTarget target) {
-		boolean result = connector.deleteConnectorR();
-		if (result == false) {
-			return;
-		}
-
-		connector.dettachTarget();
-		connector.setTarget(target);
-
-		result = connector.createConnectorR();
-		if (result == false) {
-			return;
-		}
-
-		connector.attachTarget();
-	}
-
 	@Override
 	/**
 	 * {@inheritDoc}
@@ -140,7 +105,7 @@ public class ReconnectConnectorCommand extends Command {
 	 * @param source
 	 *            新しい接続元
 	 */
-	public void setNewSource(ConnectorSource source) {
+	public void setNewSource(Port source) {
 		this.newSource = source;
 	}
 
@@ -150,7 +115,7 @@ public class ReconnectConnectorCommand extends Command {
 	 * @param source
 	 *            新しい接続先
 	 */
-	public void setNewTarget(ConnectorTarget target) {
+	public void setNewTarget(Port target) {
 		this.newTarget = target;
 	}
 

@@ -1,16 +1,10 @@
 package jp.go.aist.rtm.systemeditor.ui.action;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 
+import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor;
-import jp.go.aist.rtm.toolscommon.corba.CorbaUtil;
-import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.LifeCycleState;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
 import jp.go.aist.rtm.toolscommon.model.core.Visiter;
@@ -24,9 +18,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
 
-import RTC.ExecutionContext;
-import RTC.ExecutionContextHelper;
-
 /**
  * AllStart,AllStopを実行するアクション
  */
@@ -37,28 +28,28 @@ public class AllComponentActionDelegate implements IEditorActionDelegate {
 	 */
 	public static final String ALL_START_ACTION_ID = AllComponentActionDelegate.class
 			.getName()
-			+ ".AllStart";
+			+ ".AllStart"; //$NON-NLS-1$
 
 	/**
 	 * AllStopに使用されるID。この値が、Plugin.XMLに指定されなければならない。
 	 */
 	public static final String ALL_STOP_ACTION_ID = AllComponentActionDelegate.class
 			.getName()
-			+ ".AllStop";
+			+ ".AllStop"; //$NON-NLS-1$
 
 	/**
 	 * AllActivateに使用されるID。この値が、Plugin.XMLに指定されなければならない。
 	 */
 	public static final String ALL_ACTIVATE_ACTION_ID = AllComponentActionDelegate.class
 			.getName()
-			+ ".AllActivate";
+			+ ".AllActivate"; //$NON-NLS-1$
 
 	/**
 	 * AllDeactivateに使用されるID。この値が、Plugin.XMLに指定されなければならない。
 	 */
 	public static final String ALL_DEACTIVATE_ACTION_ID = AllComponentActionDelegate.class
 			.getName()
-			+ ".AllDeactivate";
+			+ ".AllDeactivate"; //$NON-NLS-1$
 
 	private SystemDiagramEditor targetEditor;
 
@@ -70,19 +61,19 @@ public class AllComponentActionDelegate implements IEditorActionDelegate {
 	public void run(final IAction action) {
 		final SystemDiagram systemDiagram = targetEditor.getSystemDiagram();
 
-		String comfirmMessage = "良いですか？";
+		String comfirmMessage = Messages.getString("AllComponentActionDelegate.4"); //$NON-NLS-1$
 		if (ALL_START_ACTION_ID.equals(action.getId())) {
-			comfirmMessage = "すべてのコンポーネントをStartしても良いですか？";
+			comfirmMessage = Messages.getString("AllComponentActionDelegate.5"); //$NON-NLS-1$
 		} else if (ALL_STOP_ACTION_ID.equals(action.getId())) {
-			comfirmMessage = "すべてのコンポーネントをStopしても良いですか？";
+			comfirmMessage = Messages.getString("AllComponentActionDelegate.6"); //$NON-NLS-1$
 		} else if (ALL_ACTIVATE_ACTION_ID.equals(action.getId())) {
-			comfirmMessage = "すべてのコンポーネントをActivateしても良いですか？";
+			comfirmMessage = Messages.getString("AllComponentActionDelegate.7"); //$NON-NLS-1$
 		} else if (ALL_DEACTIVATE_ACTION_ID.equals(action.getId())) {
-			comfirmMessage = "すべてのコンポーネントをDeactivateしても良いですか？";
+			comfirmMessage = Messages.getString("AllComponentActionDelegate.8"); //$NON-NLS-1$
 		}
 
 		boolean isOk = MessageDialog.openConfirm(targetEditor.getSite()
-				.getShell(), "確認", comfirmMessage);
+				.getShell(), Messages.getString("AllComponentActionDelegate.9"), comfirmMessage); //$NON-NLS-1$
 		if (isOk) {
 
 			ProgressMonitorDialog dialog = new ProgressMonitorDialog(
@@ -91,9 +82,9 @@ public class AllComponentActionDelegate implements IEditorActionDelegate {
 				public void run(IProgressMonitor monitor)
 						throws InvocationTargetException, InterruptedException {
 
-					monitor.beginTask("コンポーネントの状態を変更します", 100);
+					monitor.beginTask(Messages.getString("AllComponentActionDelegate.10"), 100); //$NON-NLS-1$
 
-					monitor.subTask("コンポーネントへリクエストを送っています...");
+					monitor.subTask(Messages.getString("AllComponentActionDelegate.11")); //$NON-NLS-1$
 
 					try {
 						if (ALL_START_ACTION_ID.equals(action.getId())) {
@@ -111,7 +102,7 @@ public class AllComponentActionDelegate implements IEditorActionDelegate {
 						throw new InvocationTargetException(e);
 					}
 
-					monitor.subTask("コンポーネントへリクエストを送りました。");
+					monitor.subTask(Messages.getString("AllComponentActionDelegate.12")); //$NON-NLS-1$
 					monitor.done();
 				}
 
@@ -121,7 +112,7 @@ public class AllComponentActionDelegate implements IEditorActionDelegate {
 				dialog.run(false, false, runable);
 			} catch (InvocationTargetException e) {
 				MessageDialog.openError(targetEditor.getSite().getShell(),
-						"エラー", "リクエストの送信中にエラーが発生しました:\r\n" + e.getMessage());
+						Messages.getString("AllComponentActionDelegate.13"), Messages.getString("AllComponentActionDelegate.14") + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -130,39 +121,33 @@ public class AllComponentActionDelegate implements IEditorActionDelegate {
 	}
 
 	private void doAllStop(SystemDiagram systemDiagram) {
-		List<ExecutionContext> executionContextList = getExecutionContextList(systemDiagram);
-
-		for (ExecutionContext executionContext : executionContextList) {
-			try {
-				executionContext.stop();
-			} catch (Exception e) {
-				e.printStackTrace(); // system error
+		systemDiagram.accept(new Visiter() {
+			@SuppressWarnings("unchecked")
+			public void visit(ModelElement element) {
+				if (element instanceof CorbaComponent) {
+					((CorbaComponent) element).stopAll();
+				}
 			}
-		}
+		});
 	}
 
 	private void doAllStart(SystemDiagram systemDiagram) {
-		List<ExecutionContext> executionContextList = getExecutionContextList(systemDiagram);
-
-		for (ExecutionContext executionContext : executionContextList) {
-			try {
-				executionContext.start();
-			} catch (Exception e) {
-				e.printStackTrace(); // system error
+		systemDiagram.accept(new Visiter() {
+			@SuppressWarnings("unchecked")
+			public void visit(ModelElement element) {
+				if (element instanceof CorbaComponent) {
+					((CorbaComponent) element).startAll();
+				}
 			}
-		}
+		});
 	}
 
 	private void doAllActivate(SystemDiagram systemDiagram) {
 		systemDiagram.accept(new Visiter() {
+			@SuppressWarnings("unchecked")
 			public void visit(ModelElement element) {
-				if (element instanceof Component) {
-					for (Iterator iter = ((Component) element)
-							.getLifeCycleStates().iterator(); iter.hasNext();) {
-						LifeCycleState lifeCycleState = (LifeCycleState) iter
-								.next();
-						lifeCycleState.activateR();
-					}
+				if (element instanceof CorbaComponent) {
+					((CorbaComponent) element).activateAll();
 				}
 			}
 		});
@@ -170,48 +155,13 @@ public class AllComponentActionDelegate implements IEditorActionDelegate {
 
 	private void doAllDectivate(SystemDiagram systemDiagram) {
 		systemDiagram.accept(new Visiter() {
+			@SuppressWarnings("unchecked")
 			public void visit(ModelElement element) {
-				if (element instanceof Component) {
-					for (Iterator iter = ((Component) element)
-							.getLifeCycleStates().iterator(); iter.hasNext();) {
-						LifeCycleState lifeCycleState = (LifeCycleState) iter
-								.next();
-						lifeCycleState.deactivateR();
-					}
+				if (element instanceof CorbaComponent) {
+					((CorbaComponent) element).deactivateAll();
 				}
 			}
 		});
-	}
-
-	/**
-	 * ExcutionContextを重複しないように取得する
-	 * 
-	 * @param systemDiagram
-	 * @return
-	 */
-	private List<ExecutionContext> getExecutionContextList(
-			SystemDiagram systemDiagram) {
-		Set<String> executionContextStringList = new HashSet<String>();
-		for (Iterator iter = systemDiagram.eAllContents(); iter.hasNext();) {
-			Object obj = iter.next();
-			if (obj instanceof Component) {
-				ExecutionContext[] get_contexts = ((Component) obj)
-						.getCorbaObjectInterface().get_owned_contexts();
-				if (get_contexts != null) {
-					for (ExecutionContext context : get_contexts) {
-						executionContextStringList.add(context.toString());
-					}
-				}
-			}
-		}
-
-		List<ExecutionContext> result = new ArrayList<ExecutionContext>();
-		for (String executionContextString : executionContextStringList) {
-			result.add(ExecutionContextHelper.narrow(CorbaUtil
-					.stringToObject(executionContextString)));
-		}
-
-		return result;
 	}
 
 	public void setActiveEditor(IAction action, IEditorPart targetEditor) {

@@ -1,18 +1,15 @@
 package jp.go.aist.rtm.repositoryView.ui.dialog;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 import java.util.StringTokenizer;
 
 import jp.go.aist.rtm.repositoryView.RepositoryViewPlugin;
 import jp.go.aist.rtm.repositoryView.manager.RTRepositoryManager;
 import jp.go.aist.rtm.repositoryView.model.RepositoryViewItem;
+import jp.go.aist.rtm.repositoryView.nl.Messages;
 import jp.go.aist.rtm.repositoryView.repository.RTRepositoryAccesser;
-import jp.go.aist.rtm.repositoryView.ui.preference.RepositoryViewPreferenceManager;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.Dialog;
@@ -27,37 +24,41 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
+/**
+ * RTレポジトリへの接続ダイアログ
+ *
+ */
 public class RTRepositoryConnectDialog extends Dialog {
 
 	/**
 	 * 接続要求結果 接続に失敗したことを示す定数
 	 */
-	public static final int CANT_CONNECT = 1;
+	private static final int CANT_CONNECT = 1;
 
 	/**
 	 * 接続要求結果 接続に成功し、RTリポジトリの一覧ツリー作成に失敗したことを示す定数
 	 */
-	public static final int CANT_CREATE_RTC_TREE = 2;
+	private static final int CANT_CREATE_RTC_TREE = 2;
 
 	/**
 	 * 接続要求結果 成功
 	 */
-	public static final int SUCCESS = 0;
+	private static final int SUCCESS = 0;
 
 	/**
 	 * 接続が成功したことのあるアドレスの一覧を保存する、ワークスペース永続文字列へのキー
 	 */
-	public static final String COMBO_ITEMS_KEY = RTRepositoryConnectDialog.class
-			.getName() + ".combo.items";
+	private static final String COMBO_ITEMS_KEY = RTRepositoryConnectDialog.class
+			.getName() + ".combo.items"; //$NON-NLS-1$
 
 	/**
 	 * 最後に接続が成功したアドレスのインデックスを保存する、ワークスペース永続文字列へのキー
 	 */
-	public static final String COMBO_SELECTION_INDEX_KEY = RTRepositoryConnectDialog.class
-			.getName() + ".combo.selectIndex";
+	private static final String COMBO_SELECTION_INDEX_KEY = RTRepositoryConnectDialog.class
+			.getName() + ".combo.selectIndex"; //$NON-NLS-1$
 
 	private Combo combo;
-	private String value = "";
+	private String value = ""; //$NON-NLS-1$
 	private Label message;
 	//
 	private RepositoryViewItem resultItem;
@@ -83,7 +84,7 @@ public class RTRepositoryConnectDialog extends Dialog {
 		mainComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		Label label = new Label(mainComposite, SWT.NONE);
-		label.setText("RT リポジトリ サーバのURIを入力してください。");
+		label.setText(Messages.getString("RTRepositoryConnectDialog.3")); //$NON-NLS-1$
 		GridData labelLayloutData = new GridData(
 				GridData.HORIZONTAL_ALIGN_BEGINNING);
 		label.setLayoutData(labelLayloutData);
@@ -93,7 +94,6 @@ public class RTRepositoryConnectDialog extends Dialog {
 		Composite comboComposite = new Composite(mainComposite, SWT.NONE);
 		comboComposite.setLayout(comboLayout);
 		comboComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
-//		comboComposite.setBackground(new Color(getShell().getDisplay(), 0,0,0));
 		combo = new Combo(comboComposite, SWT.NONE);
 		GridData comboGridData = new GridData(GridData.FILL_HORIZONTAL);
 		comboGridData.grabExcessHorizontalSpace = true;
@@ -119,7 +119,7 @@ public class RTRepositoryConnectDialog extends Dialog {
 	private void loadDefaultComboValue(Combo combo) {
 		String defaultString = RepositoryViewPlugin.getDefault().getPreferenceStore()
 				.getString(COMBO_ITEMS_KEY);
-		StringTokenizer tokenize = new StringTokenizer(defaultString, ",");
+		StringTokenizer tokenize = new StringTokenizer(defaultString, ","); //$NON-NLS-1$
 		while (tokenize.hasMoreTokens()) {
 			combo.add(tokenize.nextToken());
 		}
@@ -141,11 +141,11 @@ public class RTRepositoryConnectDialog extends Dialog {
 			String defaultString = RepositoryViewPlugin.getDefault()
 					.getPreferenceStore().getString(COMBO_ITEMS_KEY);
 
-			String newString = "";
-			if ("".equals(defaultString)) {
+			String newString = ""; //$NON-NLS-1$
+			if ("".equals(defaultString)) { //$NON-NLS-1$
 				newString = value;
 			} else {
-				newString = value + "," + defaultString;
+				newString = value + "," + defaultString; //$NON-NLS-1$
 			}
 
 			RepositoryViewPlugin.getDefault().getPreferenceStore().setValue(
@@ -166,9 +166,9 @@ public class RTRepositoryConnectDialog extends Dialog {
 	 */
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
-		shell.setText("Connect RT Repository");
-		int x = 300;
-		int y = 175;
+		shell.setText(Messages.getString("RTRepositoryConnectDialog.8")); //$NON-NLS-1$
+		int x = 500;
+		int y = 200;
 
 		shell.setBounds(shell.getDisplay().getBounds().width / 2 - x / 2, shell
 				.getDisplay().getBounds().height
@@ -210,14 +210,14 @@ public class RTRepositoryConnectDialog extends Dialog {
 	 * @return
 	 */
 	private boolean execute(final String address) {
-		if ("".equals(address)) {
-			message.setText("URIを設定してください。");
+		if ("".equals(address)) { //$NON-NLS-1$
+			message.setText(Messages.getString("RTRepositoryConnectDialog.10")); //$NON-NLS-1$
 			return false;
 		}
 
 		boolean isExist = RTRepositoryManager.getInstance().isExist(address);
 		if (isExist) {
-			message.setText("既に接続済みのURIです。");
+			message.setText(Messages.getString("RTRepositoryConnectDialog.11")); //$NON-NLS-1$
 			return false;
 		}
 		//
@@ -232,10 +232,10 @@ public class RTRepositoryConnectDialog extends Dialog {
 		}
 
 		if (runable.getResult() == CANT_CONNECT) {
-			message.setText("RTリポジトリへの接続に失敗しました。");
+			message.setText(Messages.getString("RTRepositoryConnectDialog.12")); //$NON-NLS-1$
 			return false;
 		} else if (runable.getResult() == CANT_CREATE_RTC_TREE) {
-			message.setText("RTCツリーの作成に失敗しました。");
+			message.setText(Messages.getString("RTRepositoryConnectDialog.13")); //$NON-NLS-1$
 			return false;
 		}
 
@@ -280,7 +280,7 @@ public class RTRepositoryConnectDialog extends Dialog {
 				throws InvocationTargetException, InterruptedException {
 			result = CANT_CONNECT;
 			try {
-				monitor.beginTask("RTリポジトリへの接続を行っています...", 100);
+				monitor.beginTask(Messages.getString("RTRepositoryConnectDialog.14"), 100); //$NON-NLS-1$
 				monitor.worked(20);
 				boolean validateNameService = RTRepositoryAccesser.getInstance()
 						.validateNameServerAddress(value);
@@ -288,7 +288,7 @@ public class RTRepositoryConnectDialog extends Dialog {
 				if (validateNameService) {
 					result = CANT_CREATE_RTC_TREE;
 					monitor.worked(50);
-					monitor.setTaskName("RTリポジトリからRTC情報を取得しています...");
+					monitor.setTaskName(Messages.getString("RTRepositoryConnectDialog.15")); //$NON-NLS-1$
 
 					resultItem = RTRepositoryManager.getInstance().addRepository(value);
 

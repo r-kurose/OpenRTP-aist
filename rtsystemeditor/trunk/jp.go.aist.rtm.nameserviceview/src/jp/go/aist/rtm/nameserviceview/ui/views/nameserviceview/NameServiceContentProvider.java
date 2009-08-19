@@ -1,7 +1,6 @@
 package jp.go.aist.rtm.nameserviceview.ui.views.nameserviceview;
 
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.Node;
+import jp.go.aist.rtm.nameserviceview.manager.Node;
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
 import jp.go.aist.rtm.toolscommon.model.core.Visiter;
 
@@ -32,20 +31,18 @@ public class NameServiceContentProvider extends AdapterImpl implements
 	private void addListener(Object oldInput, Object newInput) {
 		final NameServiceContentProvider provider = this;
 
-		if (oldInput != null && oldInput instanceof ModelElement) {
+		if (oldInput instanceof ModelElement) {
 			((ModelElement) oldInput).accept(new Visiter() {
 				public void visit(ModelElement element) {
-					if (element instanceof Node) {
-						element.eAdapters().remove(provider);
-					}
+					element.eAdapters().remove(provider);
 				}
 			});
 		}
 
-		if (newInput != null && newInput instanceof ModelElement) {
+		if (newInput instanceof ModelElement) {
 			((ModelElement) newInput).accept(new Visiter() {
 				public void visit(ModelElement element) {
-					if (element instanceof Node && element.eAdapters().contains(provider) == false) {
+					if (element.eAdapters().contains(provider) == false) {
 						element.eAdapters().add(provider);
 					}
 				}
@@ -63,8 +60,8 @@ public class NameServiceContentProvider extends AdapterImpl implements
 	 * {@inheritDoc}
 	 */
 	public Object[] getElements(Object parent) {
-		if (parent instanceof NamingContextNode) {
-			return ((NamingContextNode) parent).getNodes().toArray();
+		if (parent instanceof Node) {
+			return ((Node) parent).getNodes().toArray();
 		}
 
 		return new Object[] {};
@@ -98,7 +95,7 @@ public class NameServiceContentProvider extends AdapterImpl implements
 		if (msg.getNotifier() != null) {
 			addListener(null, msg.getNotifier());
 		}
-
+		if (viewer.getControl().isDisposed()) return;
 		viewer.getControl().getDisplay().asyncExec(new Runnable() {
 			public void run() {
 				if (viewer.getControl().isDisposed() == false) {

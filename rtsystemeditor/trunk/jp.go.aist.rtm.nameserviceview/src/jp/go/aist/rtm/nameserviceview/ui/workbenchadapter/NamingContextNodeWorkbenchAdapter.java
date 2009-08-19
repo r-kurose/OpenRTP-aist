@@ -1,8 +1,8 @@
 package jp.go.aist.rtm.nameserviceview.ui.workbenchadapter;
 
 import jp.go.aist.rtm.nameserviceview.NameServiceViewPlugin;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.Node;
 import jp.go.aist.rtm.toolscommon.ui.workbenchadapter.ModelElementWorkbenchAdapter;
 
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -22,7 +22,7 @@ public class NamingContextNodeWorkbenchAdapter extends
 
 	@Override
 	public String getLabel(Object o) {
-		NameServiceReference nameServiceReference = ((Node) o)
+		NameServiceReference nameServiceReference = ((CorbaNode) o)
 				.getNameServiceReference();
 		Binding binding = nameServiceReference.getBinding();
 		NameComponent[] nameComponents = binding.binding_name;

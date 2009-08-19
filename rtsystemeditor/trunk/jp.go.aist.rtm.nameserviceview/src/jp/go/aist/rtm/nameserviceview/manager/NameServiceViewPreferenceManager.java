@@ -32,6 +32,7 @@ public class NameServiceViewPreferenceManager {
 
 	/**
 	 * タイムアウト判定時間
+	 * 現状は、どこからも参照されていない
 	 */
 	public static final String DEFAULT_TIMEOUT_PERIOD = NameServiceViewPreferenceManager.class
 			.getName()
@@ -42,7 +43,7 @@ public class NameServiceViewPreferenceManager {
 	 */
 	public static final Map<String, Integer> defaultInvervalMap = new HashMap<String, Integer>();
 	static {
-		defaultInvervalMap.put(SYNC_NAMESERVER_INTERVAL, Integer.valueOf(1000));
+		defaultInvervalMap.put(SYNC_NAMESERVER_INTERVAL, 1000);
 	}
 
 	/**
@@ -60,7 +61,7 @@ public class NameServiceViewPreferenceManager {
 		return __instance;
 	}
 
-	protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
 			this);
 
 	/**
@@ -74,8 +75,8 @@ public class NameServiceViewPreferenceManager {
 		NameServiceViewPlugin.getDefault().getPreferenceStore().setDefault(key, -1);
 
 		int result = NameServiceViewPlugin.getDefault().getPreferenceStore().getInt(key);
-		if (result == -1) { // defaultvalue
-			result = defaultInvervalMap.get(key).intValue();
+		if (result == -1) { // default value
+			result = defaultInvervalMap.get(key);
 		}
 
 		return result;
@@ -112,7 +113,7 @@ public class NameServiceViewPreferenceManager {
 
 		String result = NameServiceViewPlugin.getDefault().getPreferenceStore().getString(
 				key);
-		if (result.equals("")) { // defaultvalue
+		if (result.equals("")) { // default value
 			result = defaultConnectionPort;
 		}
 

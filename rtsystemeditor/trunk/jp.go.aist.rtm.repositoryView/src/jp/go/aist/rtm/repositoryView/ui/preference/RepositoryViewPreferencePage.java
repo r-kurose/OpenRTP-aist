@@ -1,5 +1,7 @@
 package jp.go.aist.rtm.repositoryView.ui.preference;
 
+import jp.go.aist.rtm.repositoryView.nl.Messages;
+
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
@@ -19,6 +21,10 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+/**
+ * レポジトリビューの設定画面
+ *
+ */
 public class RepositoryViewPreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage {
 
@@ -55,7 +61,7 @@ public class RepositoryViewPreferencePage extends PreferencePage implements
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		propertyFileLocationGroup.setLayoutData(gd);
 
-		propertyFileLocationGroup.setText("Property File Location");
+		propertyFileLocationGroup.setText(Messages.getString("RepositoryViewPreferencePage.0")); //$NON-NLS-1$
 
 		propertyFileLocationText = new Text(propertyFileLocationGroup, SWT.SINGLE | SWT.BORDER
 				| SWT.LEFT);
@@ -72,7 +78,7 @@ public class RepositoryViewPreferencePage extends PreferencePage implements
 				.getPropertyFile_Location()));
 		//
 		Button selectPropertyFileLocationButton = new Button(propertyFileLocationGroup, SWT.PUSH);
-		selectPropertyFileLocationButton.setText("Browse...");
+		selectPropertyFileLocationButton.setText(Messages.getString("RepositoryViewPreferencePage.1")); //$NON-NLS-1$
 		selectPropertyFileLocationButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog dialog = new FileDialog(getShell());
@@ -92,10 +98,10 @@ public class RepositoryViewPreferencePage extends PreferencePage implements
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		cautionCountGroup.setLayoutData(gd);
 
-		cautionCountGroup.setText("Repository Server");
+		cautionCountGroup.setText(Messages.getString("RepositoryViewPreferencePage.2")); //$NON-NLS-1$
 		
 		Label label = new Label(cautionCountGroup, SWT.NULL);
-		label.setText("警告表示件数");
+		label.setText(Messages.getString("RepositoryViewPreferencePage.3")); //$NON-NLS-1$
 		cautionCountText = new Text(cautionCountGroup, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
 		cautionCountText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {

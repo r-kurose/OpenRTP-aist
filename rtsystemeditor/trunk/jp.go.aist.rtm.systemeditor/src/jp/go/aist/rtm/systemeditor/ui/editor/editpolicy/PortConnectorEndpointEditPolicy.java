@@ -14,9 +14,9 @@ import org.eclipse.gef.requests.ReconnectRequest;
 public class PortConnectorEndpointEditPolicy extends
 		ConnectionEndpointEditPolicy {
 
-	private static final Map NULL_CONSTRAINT = Collections.EMPTY_MAP;
+	private static final Map<Integer,Point> NULL_CONSTRAINT = Collections.emptyMap();
 
-	private Map originalConstraint;
+	private Map<Integer,Point> originalConstraint;
 
 	@Override
 	/**
@@ -27,7 +27,7 @@ public class PortConnectorEndpointEditPolicy extends
 			saveOriginalConstraint();
 		}
 
-		TreeMap newConstraint = new TreeMap();
+		TreeMap<Integer,Point> newConstraint = new TreeMap<Integer,Point>();
 		getConnection().setRoutingConstraint(newConstraint);
 
 		super.showConnectionMoveFeedback(request);
@@ -52,8 +52,9 @@ public class PortConnectorEndpointEditPolicy extends
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void saveOriginalConstraint() {
-		originalConstraint = (Map) getConnection().getRoutingConstraint();
+		originalConstraint = (Map<Integer, Point>) getConnection().getRoutingConstraint();
 		if (originalConstraint == null)
 			originalConstraint = NULL_CONSTRAINT;
 		getConnection().setRoutingConstraint(

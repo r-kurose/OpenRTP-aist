@@ -1,6 +1,7 @@
 package jp.go.aist.rtm.systemeditor.ui.preference;
 
 import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
+import jp.go.aist.rtm.systemeditor.nl.Messages;
 
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
@@ -42,10 +43,10 @@ public class SystemEditorPreferencePage extends PreferencePage implements
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		systemeditorGroup.setLayoutData(gd);
 
-		systemeditorGroup.setText("Ú‘±");
+		systemeditorGroup.setText(Messages.getString("SystemEditorPreferencePage.0")); //$NON-NLS-1$
 
 		Label systemDiagramLabel = new Label(systemeditorGroup, SWT.NULL);
-		systemDiagramLabel.setText("Ú‘±üŠú: ");
+		systemDiagramLabel.setText(Messages.getString("SystemEditorPreferencePage.1")); //$NON-NLS-1$
 
 		systemEditorText = new Text(systemeditorGroup, SWT.SINGLE
 				| SWT.BORDER | SWT.RIGHT);
@@ -63,7 +64,7 @@ public class SystemEditorPreferencePage extends PreferencePage implements
 						SystemEditorPreferenceManager.SYNC_SYSTEMEDITOR_INTERVAL)));
 
 		Label systemDiagramLabelMs = new Label(systemeditorGroup, SWT.NULL);
-		systemDiagramLabelMs.setText("ms   (0…Ú‘±üŠú…1000000  “¯Šú‚µ‚È‚¢ê‡‚Í0)");
+		systemDiagramLabelMs.setText(Messages.getString("SystemEditorPreferencePage.2")); //$NON-NLS-1$
 		return composite;
 	}
 
@@ -77,32 +78,18 @@ public class SystemEditorPreferencePage extends PreferencePage implements
 	 * ó‘Ô‚ğ•ÏX‚µ‚½Û‚ÉŒÄ‚Ño‚·‚±‚Æ
 	 */
 	private void updateStatus() {
-		setValid(validate());
-	}
-
-	private boolean validate() {
-		boolean result = false;
-		if (textValidate(systemEditorText)) {
-			result = true;
-		}
-
-		return result;
+		setValid(textValidate(systemEditorText));
 	}
 
 	private boolean textValidate(Text text) {
-		boolean result = false;
 		try {
 			int parse = Integer.parseInt(text.getText());
-			if (0 <= parse && parse <= 1000000) {
-				result = true;
-			}
+			setErrorMessage(null);
+			return (0 <= parse && parse <= 1000000);
 		} catch (Exception e) {
-			setErrorMessage("'" + text.getText() + "'" + " is not a valid input.");
-			return result;
+			setErrorMessage("'" + text.getText() + "'" + Messages.getString("SystemEditorPreferencePage.5")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			return false;
 		}
-		setErrorMessage(null);
-
-		return result;
 	}
 
 	@Override

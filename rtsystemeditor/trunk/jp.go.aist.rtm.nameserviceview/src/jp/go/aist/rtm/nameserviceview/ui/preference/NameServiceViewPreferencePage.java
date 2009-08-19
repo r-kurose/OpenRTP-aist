@@ -1,6 +1,7 @@
 package jp.go.aist.rtm.nameserviceview.ui.preference;
 
 import jp.go.aist.rtm.nameserviceview.manager.NameServiceViewPreferenceManager;
+import jp.go.aist.rtm.nameserviceview.nl.Messages;
 
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
@@ -43,10 +44,10 @@ public class NameServiceViewPreferencePage extends PreferencePage implements
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		nameServiceViewGroup.setLayoutData(gd);
 
-		nameServiceViewGroup.setText("接続");
+		nameServiceViewGroup.setText(Messages.getString("NameServiceViewPreferencePage.0")); //$NON-NLS-1$
 
 		Label treeViewLabel = new Label(nameServiceViewGroup, SWT.NULL);
-		treeViewLabel.setText("接続周期: ");
+		treeViewLabel.setText(Messages.getString("NameServiceViewPreferencePage.1")); //$NON-NLS-1$
 
 		treeViewText = new Text(nameServiceViewGroup, SWT.SINGLE | SWT.BORDER
 				| SWT.RIGHT);
@@ -64,12 +65,12 @@ public class NameServiceViewPreferencePage extends PreferencePage implements
 		treeViewText.setLayoutData(gd);
 
 		Label treeViewLabelMs = new Label(nameServiceViewGroup, SWT.NULL);
-		treeViewLabelMs.setText("ms   (0≦接続周期≦1000000  同期しない場合は0)");
+		treeViewLabelMs.setText(Messages.getString("NameServiceViewPreferencePage.2")); //$NON-NLS-1$
 
 		/* デフォルトポート番号 */
 		
 		Label defaultPortLabel = new Label(nameServiceViewGroup, SWT.NULL);
-		defaultPortLabel.setText("デフォルトポート番号: ");
+		defaultPortLabel.setText(Messages.getString("NameServiceViewPreferencePage.3")); //$NON-NLS-1$
 
 		defaultPortText = new Text(nameServiceViewGroup, SWT.SINGLE
 				| SWT.BORDER | SWT.RIGHT);
@@ -86,7 +87,7 @@ public class NameServiceViewPreferencePage extends PreferencePage implements
 		defaultPortText.setLayoutData(gd);
 
 		Label defaultPortLabelPort = new Label(nameServiceViewGroup, SWT.NULL);
-		defaultPortLabelPort.setText("       (0≦ポート番号≦65535)");
+		defaultPortLabelPort.setText(Messages.getString("NameServiceViewPreferencePage.4")); //$NON-NLS-1$
 		
 		treeViewText.setText(String.valueOf(NameServiceViewPreferenceManager.getInstance()
 				.getInterval(NameServiceViewPreferenceManager.SYNC_NAMESERVER_INTERVAL)));
@@ -130,7 +131,7 @@ public class NameServiceViewPreferencePage extends PreferencePage implements
 				result = true;
 			}
 		} catch (Exception e) {
-			setErrorMessage("'" + text.getText() + "'" + " is not a valid input.");
+			setErrorMessage("'" + text.getText() + "' " + Messages.getString("NameServiceViewPreferencePage.5")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			return result;
 		}
 		return result;
@@ -144,7 +145,7 @@ public class NameServiceViewPreferencePage extends PreferencePage implements
 				result = true;
 			}
 		} catch (Exception e) {
-			setErrorMessage("'" + text.getText() + "'" + " is not a valid input.");			
+			setErrorMessage("'" + text.getText() + "' " + Messages.getString("NameServiceViewPreferencePage.6"));			 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			return result;
 		}
 

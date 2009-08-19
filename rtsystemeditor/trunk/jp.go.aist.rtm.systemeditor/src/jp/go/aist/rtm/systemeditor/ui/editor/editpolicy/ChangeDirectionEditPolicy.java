@@ -1,7 +1,6 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.editpolicy;
 
 import jp.go.aist.rtm.systemeditor.ui.editor.command.ChangeDirectionCommand;
-import jp.go.aist.rtm.toolscommon.model.component.AbstractComponent;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 
 import org.eclipse.gef.EditPart;
@@ -34,7 +33,7 @@ public class ChangeDirectionEditPolicy extends LayoutEditPolicy {
 
 	private Command getChangeDirectionCommand(EditPart editPart,
 			ChangeBoundsRequest request) {
-		AbstractComponent model = (AbstractComponent) editPart.getModel();
+		Component model = (Component) editPart.getModel();
 
 		ChangeDirectionCommand command = new ChangeDirectionCommand();
 
@@ -43,32 +42,26 @@ public class ChangeDirectionEditPolicy extends LayoutEditPolicy {
 		int req = (Integer) request.getExtendedData().get(
 				EditPolicyConstraint.DIRECTION_KEY);
 
-		int direction = Component.RIGHT_DIRECTION;
-		if (Component.CHANGE_HORIZON_DIRECTION == req) {
-			if (Component.RIGHT_DIRECTION == model.getOutportDirection()) {
-				direction = Component.LEFT_DIRECTION;
-			} else if (Component.LEFT_DIRECTION == model.getOutportDirection()) {
-				direction = Component.RIGHT_DIRECTION;
-			} else if (Component.UP_DIRECTION == model.getOutportDirection()) {
-				direction = Component.RIGHT_DIRECTION;
-			} else if (Component.DOWN_DIRECTION == model.getOutportDirection()) {
-				direction = Component.RIGHT_DIRECTION;
-			}
-		} else if (Component.CHANGE_VERTICAL_DIRECTION == req) {
-			if (Component.RIGHT_DIRECTION == model.getOutportDirection()) {
-				direction = Component.UP_DIRECTION;
-			} else if (Component.LEFT_DIRECTION == model.getOutportDirection()) {
-				direction = Component.UP_DIRECTION;
-			} else if (Component.UP_DIRECTION == model.getOutportDirection()) {
-				direction = Component.DOWN_DIRECTION;
-			} else if (Component.DOWN_DIRECTION == model.getOutportDirection()) {
-				direction = Component.UP_DIRECTION;
-			}
-		}
-
-		command.setDirection(direction);
+		command.setDirection(getDirection(req, model.getOutportDirection()));
 
 		return command;
+	}
+
+	private String getDirection(int req, String outportDirection) {
+		if (Component.CHANGE_HORIZON_DIRECTION == req) {
+			if (Component.OUTPORT_DIRECTION_RIGHT_LITERAL.equals(outportDirection)) {
+				return Component.OUTPORT_DIRECTION_LEFT_LITERAL;
+			} else  {
+				return Component.OUTPORT_DIRECTION_RIGHT_LITERAL;
+			}
+		} else if (Component.CHANGE_VERTICAL_DIRECTION == req) {
+			if (Component.OUTPORT_DIRECTION_UP_LITERAL.equals(outportDirection)) {
+				return Component.OUTPORT_DIRECTION_DOWN_LITERAL;
+			} else  {
+				return Component.OUTPORT_DIRECTION_UP_LITERAL;
+			}
+		}
+		return Component.OUTPORT_DIRECTION_RIGHT_LITERAL;
 	}
 
 	@Override

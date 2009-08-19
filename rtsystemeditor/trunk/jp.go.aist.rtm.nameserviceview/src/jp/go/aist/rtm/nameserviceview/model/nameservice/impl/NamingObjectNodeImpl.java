@@ -6,13 +6,19 @@
  */
 package jp.go.aist.rtm.nameserviceview.model.nameservice.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameservicePackage;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.Node;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.core.CorePackage;
 import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
+import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationManager;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.AttributeMapping;
@@ -38,23 +44,13 @@ import org.omg.CosNaming.NamingContextPackage.NotFound;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NamingObjectNodeImpl#isZombie <em>Zombie</em>}</li>
  *   <li>{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NamingObjectNodeImpl#getEntry <em>Entry</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class NamingObjectNodeImpl extends NodeImpl implements NamingObjectNode {
-	/**
-	 * The default value of the '{@link #isZombie() <em>Zombie</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #isZombie()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean ZOMBIE_EDEFAULT = false;
-
+public class NamingObjectNodeImpl extends CorbaNodeImpl implements NamingObjectNode {
 	/**
 	 * The cached value of the '{@link #getEntry() <em>Entry</em>}' reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -62,7 +58,7 @@ public class NamingObjectNodeImpl extends NodeImpl implements NamingObjectNode {
 	 * @generated
 	 * @ordered
 	 */
-	protected WrapperObject entry = null;
+	protected WrapperObject entry;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -117,8 +113,6 @@ public class NamingObjectNodeImpl extends NodeImpl implements NamingObjectNode {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case NameservicePackage.NAMING_OBJECT_NODE__ZOMBIE:
-				return isZombie() ? Boolean.TRUE : Boolean.FALSE;
 			case NameservicePackage.NAMING_OBJECT_NODE__ENTRY:
 				return getEntry();
 		}
@@ -160,40 +154,42 @@ public class NamingObjectNodeImpl extends NodeImpl implements NamingObjectNode {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case NameservicePackage.NAMING_OBJECT_NODE__ZOMBIE:
-				return isZombie() != ZOMBIE_EDEFAULT;
 			case NameservicePackage.NAMING_OBJECT_NODE__ENTRY:
 				return entry != null;
 		}
 		return super.eIsSet(featureID);
 	}
 
+	/**
+	 * ネームサービスに登録されているRTCManagerのリストを返します。
+	 */
+	public List<RTCManager> getRTCManagerList() {
+		if (!(getEntry() instanceof RTCManager))
+			return Collections.emptyList();
+		
+		RTCManager mgr = (RTCManager) getEntry();
+		mgr.setPathId(getBindPath());
+		List<RTCManager> list = new ArrayList<RTCManager>();
+		list.add(mgr);
+		return list;
+	}
+
+	private String getBindPath() {
+		NameComponent[] cs = getNameServiceReference().getBinding().binding_name;
+		String path = "";
+		for (NameComponent c : cs) {
+			if (path.length() > 0) {
+				path += "/";
+			}
+			path += c.id;
+		}
+		return path;
+	}
+
 	public static final ThreadLocal<NamingObjectNode> PROXY_THREAD_LOCAL = new ThreadLocal<NamingObjectNode>();
 
-	// /**
-	// * エントリのオブジェクトを作成する
-	// * <p>
-	// * エントリのオブジェクトがComponentである場合、pathIDを設定する
-	// *
-	// * @param remoteObjects
-	// * @param nameServiceReference
-	// * @return
-	// */
-	// private static WrapperObject createEntryObject(Object[] remoteObjects,
-	// NameServiceReference nameServiceReference) {
-	// WrapperObject createWrapperObject = CorbaWrapperFactory.getInstance()
-	// .createWrapperObject(remoteObjects[0]);
-	//
-	// if (createWrapperObject instanceof Component) {
-	// ((Component) createWrapperObject).setPathId(nameServiceReference
-	// .getPathId());
-	// }
-	//
-	// return createWrapperObject;
-	// }
-
 	public static final MappingRule MAPPING_RULE = new MappingRule(
-			NodeImpl.MAPPING_RULE,
+			null,
 			new ClassMapping(
 					NamingObjectNodeImpl.class,
 					new ConstructorParamMapping[] { new ConstructorParamMapping(
@@ -203,14 +199,8 @@ public class NamingObjectNodeImpl extends NodeImpl implements NamingObjectNode {
 				@Override
 				public boolean isTarget(LocalObject parent,
 						Object[] remoteObjects, java.lang.Object link) {
-					boolean result = false;
-					if (link != null && link instanceof Binding) {
-						if (((Binding) link).binding_type == BindingType.nobject) {
-							result = true;
-						}
-					}
-
-					return result;
+					return link instanceof Binding 
+							&& ((Binding) link).binding_type == BindingType.nobject;
 				}
 
 				@Override
@@ -219,15 +209,11 @@ public class NamingObjectNodeImpl extends NodeImpl implements NamingObjectNode {
 					NamingObjectNode result = (NamingObjectNode) super
 							.createLocalObject(parent, remoteObjects, link);
 
-					NameServiceReference createMergedNameServiceReference = ((Node) parent)
+					NameServiceReference createMergedNameServiceReference = ((CorbaNode) parent)
 							.getNameServiceReference()
 							.createMergedNameServiceReference((Binding) link);
 
-					// WrapperObject createWrapperObject = createEntryObject(
-					// remoteObjects, createMergedNameServiceReference);
-					//
-					// result.setEntry(createWrapperObject);
-					((Node) result)
+					((CorbaNode) result)
 							.setNameServiceReference(createMergedNameServiceReference);
 					return result;
 				}
@@ -250,8 +236,8 @@ public class NamingObjectNodeImpl extends NodeImpl implements NamingObjectNode {
 						Binding binding = namingObjectNode
 								.getNameServiceReference().getBinding();
 						try {
-							result = namingObjectNode
-									.eContainer()
+							result = ((NamingContextNode)namingObjectNode
+									.eContainer())
 									.getCorbaObjectInterface()
 									.resolve(
 											new NameComponent[] { binding.binding_name[binding.binding_name.length - 1] });
@@ -275,8 +261,13 @@ public class NamingObjectNodeImpl extends NodeImpl implements NamingObjectNode {
 						public Object getNewRemoteLink(LocalObject localObject,
 								Object[] remoteObjects) {
 							return ((NamingObjectNode) localObject)
-									.getCorbaBaseObject();
+									.getCorbaObject();
 							// return null;
+						}
+
+						@Override
+						public boolean isLinkEquals(Object link1, Object link2) {
+							return false;
 						}
 
 						@Override
@@ -289,49 +280,13 @@ public class NamingObjectNodeImpl extends NodeImpl implements NamingObjectNode {
 									remoteObject);
 
 							if (result instanceof Component) {
+								String pathId = ((NamingObjectNode) localObject)
+										.getNameServiceReference().getPathId();
 								((Component) result)
-										.setPathId(((NamingObjectNode) localObject)
-												.getNameServiceReference().getPathId());
+										.setPathId(pathId);
 							}
 							return result;
 						}
 					}
 			});
-	
-	private static final ReferenceMapping getReferenceMapping() {
-		OneReferenceMapping mapping = new OneReferenceMapping(NameservicePackage.eINSTANCE
-				.getNamingObjectNode_Entry()) {
-			@Override
-			public Object getNewRemoteLink(LocalObject localObject,
-					Object[] remoteObjects) {
-				return ((NamingObjectNode) localObject)
-						.getCorbaBaseObject();
-				// return null;
-			}
-
-			@Override
-			public LocalObject loadLocalObjectByRemoteObject(
-					LocalObject localObject,
-					SynchronizationManager synchronizationManager,
-					java.lang.Object link, Object[] remoteObject) {
-				LocalObject result = super.loadLocalObjectByRemoteObject(
-						localObject, synchronizationManager, link,
-						remoteObject);
-
-				if (result instanceof Component) {
-					((Component) result)
-							.setPathId(((NamingObjectNode) localObject)
-									.getNameServiceReference().getPathId());
-				}
-				return result;
-			}
-		};
-		return mapping;
-	}
-	public static void synchronizeLocalReference(NamingObjectNode node) {
-		if (node.isZombie()) {
-			//getReferenceMapping().syncronizeLocal(node);
-		}
-	}
-	
 } // NamingObjectNodeImpl

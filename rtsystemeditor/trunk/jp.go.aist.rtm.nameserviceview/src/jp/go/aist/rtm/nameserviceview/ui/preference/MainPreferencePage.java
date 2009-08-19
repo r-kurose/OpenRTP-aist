@@ -19,8 +19,7 @@ public class MainPreferencePage extends PreferencePage implements
 	 * {@inheritDoc}
 	 */
 	protected Control createContents(Composite parent) {
-		Composite composite = new Composite(parent, SWT.NONE);
-		return composite;
+		return new Composite(parent, SWT.NONE);
 	}
 
 	/**

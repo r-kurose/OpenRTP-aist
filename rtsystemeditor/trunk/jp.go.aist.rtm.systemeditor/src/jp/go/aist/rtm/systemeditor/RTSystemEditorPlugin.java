@@ -11,7 +11,7 @@ import org.osgi.framework.BundleContext;
 public class RTSystemEditorPlugin extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "jp.go.aist.rtm.systemeditor";
+	private static final String PLUGIN_ID = "jp.go.aist.rtm.systemeditor";
 
 	// The shared instance
 	private static RTSystemEditorPlugin plugin;
@@ -61,27 +61,28 @@ public class RTSystemEditorPlugin extends AbstractUIPlugin {
 		return AbstractUIPlugin.imageDescriptorFromPlugin(PLUGIN_ID, path);
 	}
 	
+	/**
+	 * ImageRegistryにキャッシュしたイメージを返す
+	 * @param path プラグインの相対パス
+	 * @return　イメージ
+	 */
 	public static Image getCachedImage(String path) {
-		Image result = getDefault().getImageRegistry().get(path);
-		if (result == null) {
-			result = getImageDescriptor(path).createImage();
-			getDefault().getImageRegistry().put(path, result);
-		}
-
-		return result;
+		return getCachedImage(getImageDescriptor(path));
 	}
 
+	/**
+	 * ImageRegistryにキャッシュしたイメージを返す
+	 * @param descriptor イメージディスクリプタ
+	 * @return　イメージ
+	 */
 	public static Image getCachedImage(ImageDescriptor descriptor) {
-		Image result = null;
-		if (descriptor != null) {
-			result = getDefault().getImageRegistry().get(descriptor.toString());
-			if (result == null) {
-				result = descriptor.createImage();
-				getDefault().getImageRegistry().put(
-						descriptor.toString(), result);
-			}
+		if (descriptor == null) return null;
+		Image result = getDefault().getImageRegistry().get(descriptor.toString());
+		if (result == null) {
+			result = descriptor.createImage();
+			getDefault().getImageRegistry().put(
+					descriptor.toString(), result);
 		}
-
 		return result;
 	}
 }

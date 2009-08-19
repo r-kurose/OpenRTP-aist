@@ -10,7 +10,7 @@ import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.PortConnectorBendpointEd
 import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.PortConnectorEditPolicy;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.PortConnectorEndpointEditPolicy;
 import jp.go.aist.rtm.systemeditor.ui.util.Draw2dUtil;
-import jp.go.aist.rtm.toolscommon.model.component.Connector;
+import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
 import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 
@@ -46,6 +46,10 @@ public class PortConnectorEditPart extends AbstractConnectionEditPart {
 	protected Adapter modelListener = new AdapterImpl() {
 		@Override
 		public void notifyChanged(Notification msg) {
+			if (getParent() == null) return;
+			if (getViewer() == null) return;
+			if (getViewer().getControl() == null) return;
+			
 			getViewer().getControl().getDisplay().asyncExec(new Runnable() {
 				public void run() {
 					if (isActive()) {
@@ -78,11 +82,6 @@ public class PortConnectorEditPart extends AbstractConnectionEditPart {
 		result.setLineWidth(1);
 		result.setConnectionRouter(new EditableManhattanConnectorRouter());
 
-		// 方向の表示
-		// PolylineDecoration decoration = new PolylineDecoration();
-		// decoration.setFill(true);
-		// result.setTargetDecoration(decoration);
-
 		return result;
 	}
 
@@ -107,6 +106,7 @@ public class PortConnectorEditPart extends AbstractConnectionEditPart {
 	/**
 	 * ベンドポイントを再設定する
 	 */
+	@SuppressWarnings("unchecked")
 	protected void refreshBendPoint() {
 		Map routingConstraint = Draw2dUtil.toDraw2dPointMap(((EMap) getModel()
 				.getRoutingConstraint()).map());
@@ -121,8 +121,8 @@ public class PortConnectorEditPart extends AbstractConnectionEditPart {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Connector getModel() {
-		return (Connector) super.getModel();
+	public PortConnector getModel() {
+		return (PortConnector) super.getModel();
 	}
 
 	@Override
@@ -133,6 +133,7 @@ public class PortConnectorEditPart extends AbstractConnectionEditPart {
 		super.refreshVisuals();
 		refreshBendPoint();
 	}
+	@SuppressWarnings("unchecked")
 	@Override
 	/**
 	 * {@inheritDoc}
@@ -163,5 +164,5 @@ public class PortConnectorEditPart extends AbstractConnectionEditPart {
 	 */
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		propertyChangeSupport.removePropertyChangeListener(listener);
-	}
+	}	
 }

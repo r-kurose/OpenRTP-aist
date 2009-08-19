@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import jp.go.aist.rtm.toolscommon.model.core.CorePackage;
+import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
 import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -36,26 +37,37 @@ public class PropertySheetContentProvider extends AdapterImpl implements
 		addListener(oldInput, newInput);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void addListener(Object oldInput, Object newInput) {
 		final PropertySheetContentProvider provider = this;
 
-		if (oldInput != null && oldInput instanceof ComponentWrapper) {
-			((ComponentWrapper) oldInput).getComponent().eAdapters().remove(
-					provider);
-			for (Iterator iter = ((ComponentWrapper) oldInput).getComponent()
-					.eAllContents(); iter.hasNext();) {
-				EObject element = (EObject) iter.next();
-				element.eAdapters().remove(provider);
+		if (oldInput != null) {
+			if (oldInput instanceof ComponentWrapper) {
+				ComponentWrapper w = (ComponentWrapper) oldInput;
+				w.getComponent().eAdapters().remove(provider);
+				for (Iterator iter = w.getComponent().eAllContents(); iter
+						.hasNext();) {
+					EObject element = (EObject) iter.next();
+					element.eAdapters().remove(provider);
+				}
+			} else if (oldInput instanceof RTCManagerWrapper) {
+				RTCManagerWrapper w = (RTCManagerWrapper) oldInput;
+				w.getManager().eAdapters().remove(provider);
 			}
 		}
 
-		if (newInput != null && newInput instanceof ComponentWrapper) {
-			((ComponentWrapper) newInput).getComponent().eAdapters().add(
-					provider);
-			for (Iterator iter = ((ComponentWrapper) newInput).getComponent()
-					.eAllContents(); iter.hasNext();) {
-				EObject element = (EObject) iter.next();
-				element.eAdapters().add(provider);
+		if (newInput != null) {
+			if (newInput instanceof ComponentWrapper) {
+				ComponentWrapper w = (ComponentWrapper) newInput;
+				w.getComponent().eAdapters().add(provider);
+				for (Iterator iter = w.getComponent().eAllContents(); iter
+						.hasNext();) {
+					EObject element = (EObject) iter.next();
+					element.eAdapters().add(provider);
+				}
+			} else if (newInput instanceof RTCManagerWrapper) {
+				RTCManagerWrapper w = (RTCManagerWrapper) newInput;
+				w.getManager().eAdapters().add(provider);
 			}
 		}
 	}
@@ -89,19 +101,35 @@ public class PropertySheetContentProvider extends AdapterImpl implements
 			return new Object[0];
 		} else if (parent instanceof ComponentWrapper) {
 			return new Object[] { ((ComponentWrapper) parent).getComponent() };
-		} else {
-			IPropertySource propertySource = (IPropertySource) AdapterUtil
-					.getAdapter(parent, IPropertySource.class);
-
+		} else if (parent instanceof PortConnectorWrapper) {
+			return new Object[] { ((PortConnectorWrapper) parent).getConnector() };
+		} else if (parent instanceof RTCManagerWrapper) {
+			return new Object[] { ((RTCManagerWrapper) parent).getManager() };
+		} else if (parent instanceof RTCManager) {
 			List<Object> result = new ArrayList<Object>();
 
-			if (propertySource != null) {
-				for (IPropertyDescriptor descriptor : (propertySource)
-						.getPropertyDescriptors()) {
-					result.add(new PropertyDescriptorWithSource(descriptor,
-							propertySource));
-				}
-			}
+			RTCManagerWrapper w = new RTCManagerWrapper((RTCManager) parent);
+			result.add(w.getComponentsChild());
+			result.add(w.getLoadableModulesChild());
+			result.add(w.getLoadedModulesChild());
+
+			return result.toArray();
+
+		} else if (parent instanceof RTCManagerWrapper.Child) {
+			List<Object> result = new ArrayList<Object>();
+
+			RTCManagerWrapper.Child c = (RTCManagerWrapper.Child) parent;
+			IPropertySource source = c.getPropertySource();
+			result.addAll(this.createProperDescriptorWithSourceList(source));
+
+			return result.toArray();
+
+		} else {
+			List<Object> result = new ArrayList<Object>();
+
+			IPropertySource source = (IPropertySource) AdapterUtil.getAdapter(
+					parent, IPropertySource.class);
+			result.addAll(this.createProperDescriptorWithSourceList(source));
 
 			IWorkbenchAdapter workbenchAdapter = (IWorkbenchAdapter) AdapterUtil
 					.getAdapter(parent, IWorkbenchAdapter.class);
@@ -116,6 +144,18 @@ public class PropertySheetContentProvider extends AdapterImpl implements
 		}
 	}
 
+	List<PropertyDescriptorWithSource> createProperDescriptorWithSourceList(
+			IPropertySource source) {
+		List<PropertyDescriptorWithSource> result = new ArrayList<PropertyDescriptorWithSource>();
+		if (source == null) {
+			return result;
+		}
+		for (IPropertyDescriptor descriptor : source.getPropertyDescriptors()) {
+			result.add(new PropertyDescriptorWithSource(descriptor, source));
+		}
+		return result;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -123,25 +163,35 @@ public class PropertySheetContentProvider extends AdapterImpl implements
 		return getChildren(parent).length > 0;
 	}
 
+	private Notification notifyMessage = null;
+
 	/**
 	 * {@inheritDoc}
 	 */
-	public void notifyChanged(
-			final org.eclipse.emf.common.notify.Notification msg) {
+	public void notifyChanged(final Notification msg) {
 		if (msg.getOldValue() != this && msg.getNewValue() != this) { // 自分をリスナに追加することによる、変更通知を無視するため
 			if (!CorePackage.eINSTANCE.getModelElement_Constraint().equals(
-					msg.getFeature())){
+					msg.getFeature())) {
+				if (notifyMessage == null
+						|| !notifyMessage.getNotifier().equals(
+								msg.getNotifier())) {
+					notifyMessage = msg;
+				}
 				viewer.getControl().getDisplay().asyncExec(new Runnable() {
 					public void run() {
-						if (viewer.getControl().isDisposed() == false) {
-							if (Arrays.asList(Notification.SET, Notification.ADD,
-									Notification.REMOVE).contains(
-									msg.getEventType())) {
-
-								viewer.refresh();
-								((TreeViewer)viewer).expandAll();
-							}
+						if (viewer.getControl().isDisposed()) {
+							return;
 						}
+						if (notifyMessage == null) {
+							return;
+						}
+						if (Arrays.asList(Notification.SET, Notification.ADD,
+								Notification.REMOVE).contains(
+								notifyMessage.getEventType())) {
+							viewer.refresh();
+							((TreeViewer) viewer).expandAll();
+						}
+						notifyMessage = null;
 					}
 				});
 			}

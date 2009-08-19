@@ -1,17 +1,22 @@
 package jp.go.aist.rtm.toolscommon.ui.propertysource;
 
 import jp.go.aist.rtm.toolscommon.model.component.PortInterfaceProfile;
+import jp.go.aist.rtm.toolscommon.nl.Messages;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
-import RTC.PortInterfacePolarity;
-
 /**
  * PortInterfaceProfile‚ÌPropertySourceƒNƒ‰ƒX
  */
 public class PortInterfaceProfilePropertySource implements IPropertySource {
+
+	private static final String DISP_INSTANCE_NAME = Messages.getString("PortInterfaceProfilePropertySource.disp.instance_name");
+
+	private static final String DISP_TYPE_NAME = Messages.getString("PortInterfaceProfilePropertySource.disp.type_name");
+
+	private static final String DISP_PORT_INTERFACE_POLARITY = Messages.getString("PortInterfaceProfilePropertySource.disp.port_interface_polarity");
 
 	private static final String INSTANCE_NAME = "INSTANCE_NAME";
 
@@ -19,11 +24,13 @@ public class PortInterfaceProfilePropertySource implements IPropertySource {
 
 	private static final String PORT_INTERFACE_POLARITY = "PORT_INTERFACE_POLARITY";
 
+	private static final String UNKNOWN = Messages.getString("PortInterfaceProfilePropertySource.unknown");
+
+
 	private static final IPropertyDescriptor[] PROPERTY_DESCRIPTORS = new IPropertyDescriptor[] {
-			new TextPropertyDescriptor(INSTANCE_NAME, "Interface Name"),
-			new TextPropertyDescriptor(TYPE_NAME, "Type Name"),
-			new TextPropertyDescriptor(PORT_INTERFACE_POLARITY,
-					"Port Interface Polarity") };
+			new TextPropertyDescriptor(INSTANCE_NAME, DISP_INSTANCE_NAME),
+			new TextPropertyDescriptor(TYPE_NAME, DISP_TYPE_NAME),
+			new TextPropertyDescriptor(PORT_INTERFACE_POLARITY, DISP_PORT_INTERFACE_POLARITY) };
 
 	private PortInterfaceProfile portInterfaceProfile;
 
@@ -42,26 +49,19 @@ public class PortInterfaceProfilePropertySource implements IPropertySource {
 	 * {@inheritDoc}
 	 */
 	public java.lang.Object getPropertyValue(java.lang.Object id) {
-		String result = "<unknown>";
 		try {
 			if (INSTANCE_NAME.equals(id)) {
-				result = portInterfaceProfile.getInstanceName();
+				return portInterfaceProfile.getInstanceName();
 			} else if (TYPE_NAME.equals(id)) {
-				result = portInterfaceProfile.getTypeName();
+				return portInterfaceProfile.getTypeName();
 			} else if (PORT_INTERFACE_POLARITY.equals(id)) {
-				int value = portInterfaceProfile.getPortInterfacePolarity()
-						.value();
-				if (value == PortInterfacePolarity.PROVIDED.value()) {
-					result = "PROVIDED";
-				} else if (value == PortInterfacePolarity.REQUIRED.value()) {
-					result = "REQUIRED";
-				}
+				return portInterfaceProfile.getPolarity();
 			}
 		} catch (Exception e) {
 			// void
 		}
 
-		return result;
+		return UNKNOWN;
 	}
 
 	/**

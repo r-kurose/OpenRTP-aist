@@ -4,11 +4,13 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import jp.go.aist.rtm.nameserviceview.NameServiceViewPlugin;
+import jp.go.aist.rtm.nameserviceview.manager.NameServerContext;
 import jp.go.aist.rtm.nameserviceview.manager.NameServerManager;
 import jp.go.aist.rtm.nameserviceview.manager.NameServiceViewPreferenceManager;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServerNamingContext;
+import jp.go.aist.rtm.nameserviceview.manager.impl.NameServerManagerImpl;
 import jp.go.aist.rtm.toolscommon.ui.views.propertysheetview.RtcPropertySheetPage;
 
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.jface.action.IMenuListener;
@@ -43,7 +45,7 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
  * 最後にアクセスしたネームサービスが存在しない場合には、ローカル(127.0.0.1)にアクセスする
  */
 public class NameServiceView extends ViewPart {
-	public static final String LAST_NAMESERVICE_ADDRESS = "ui.views.NameServiceView.lastNameServiceAddress";
+	private static final String LAST_NAMESERVICE_ADDRESS = "ui.views.NameServiceView.lastNameServiceAddress";
 
 	private TreeViewer viewer;
 
@@ -61,7 +63,8 @@ public class NameServiceView extends ViewPart {
 		viewer.setContentProvider(new NameServiceContentProvider());
 		viewer.setLabelProvider(new NameServiceLabelProvider());
 		viewer.setSorter(new NameSorter());
-		viewer.setInput(NameServerManager.getInstance());
+		viewer.setInput(NameServerManager.eInstance);
+
 		getViewSite().setSelectionProvider(viewer);
 
 		viewer.addDragSupport(DND.DROP_COPY | DND.DROP_MOVE,
@@ -70,11 +73,6 @@ public class NameServiceView extends ViewPart {
 					@Override
 					public void dragStart(DragSourceEvent event) {
 						super.dragStart(event);
-//						if (AdapterUtil.getAdapter(
-//								((IStructuredSelection) viewer.getSelection())
-//										.getFirstElement(), Component.class) == null) {
-//							event.doit = false;
-//						}
 
 						dragSetData(event);
 					}
@@ -152,6 +150,7 @@ public class NameServiceView extends ViewPart {
 				LAST_NAMESERVICE_ADDRESS, address);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	/**
 	 * {@inheritDoc}
@@ -169,7 +168,7 @@ public class NameServiceView extends ViewPart {
 	 */
 	PropertyChangeListener preferenceListener = new PropertyChangeListener() {
 		public void propertyChange(PropertyChangeEvent evt) {
-			NameServerManager.getInstance().setSynchronizeInterval(
+			NameServerManager.eInstance.setSynchronizeInterval(
 					NameServiceViewPreferenceManager.getInstance().getInterval(
 							NameServiceViewPreferenceManager.SYNC_NAMESERVER_INTERVAL));
 		}
@@ -178,16 +177,15 @@ public class NameServiceView extends ViewPart {
 	/**
 	 * ネームサーバマネージャを監視するリスナ
 	 */
-	AdapterImpl nameServerManagerListener = new AdapterImpl() {
+	Adapter nameServerManagerListener = new AdapterImpl() {
 		@Override
 		public void notifyChanged(final Notification msg) {
 			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 				public void run() {
 					if (msg.getOldValue() == null
-							&& msg.getNewValue() instanceof NameServerNamingContext) {
-						setLastNameServiceAddress(((NameServerNamingContext) msg
-								.getNewValue()).getNameServiceReference()
-								.getNameServerName());
+							&& msg.getNewValue() instanceof NameServerContext) {
+						setLastNameServiceAddress(((NameServerContext) msg
+								.getNewValue()).getNameServerName());
 						viewer.refresh();
 					}
 				}
@@ -202,29 +200,38 @@ public class NameServiceView extends ViewPart {
 	public void init(IViewSite site) throws PartInitException {
 		super.init(site);
 
+		NameServiceViewPreferenceManager.getInstance().addPropertyChangeListener(
+				preferenceListener);
+
+		NameServerManagerImpl.getInstance().eAdapters().add(
+				nameServerManagerListener);
+				
+		NameServerManagerImpl.getInstance().setSynchronizeInterval(
+				NameServiceViewPreferenceManager.getInstance().getInterval(
+						NameServiceViewPreferenceManager.SYNC_NAMESERVER_INTERVAL));
+
+		addDefaultNameServer();
+	}
+
+	private void addDefaultNameServer() {
 		// 初期表示時に、最後にアクセスしたネームサービスをツリーに表示する
 		String lastNameServiceAddress = NameServiceViewPlugin.getDefault()
 				.getPreferenceStore().getString(LAST_NAMESERVICE_ADDRESS);
 		if ("".equals(lastNameServiceAddress)) {
 			lastNameServiceAddress = "127.0.0.1";
 		}
+		
+		final String nameServerAddress = lastNameServiceAddress;
 
 		try {
-			NameServerManager.getInstance().addNameServer(
-					lastNameServiceAddress);
+			new Thread(new Runnable() {
+				public void run() {
+			NameServerManagerImpl.getInstance().addNameServer(
+					nameServerAddress);
+			}}).start();
 		} catch (Exception e) {
 			// void エラーは無視する
 		}
-		NameServerManager.getInstance().setSynchronizeInterval(
-				
-				NameServiceViewPreferenceManager.getInstance().getInterval(
-						NameServiceViewPreferenceManager.SYNC_NAMESERVER_INTERVAL));
-
-		NameServiceViewPreferenceManager.getInstance().addPropertyChangeListener(
-				preferenceListener);
-
-		NameServerManager.getInstance().eAdapters().add(
-				nameServerManagerListener);
 	}
 
 	@Override
@@ -232,13 +239,13 @@ public class NameServiceView extends ViewPart {
 	 * {@inheritDoc}
 	 */
 	public void dispose() {
-		NameServerManager.getInstance().eAdapters().remove(
+		NameServerManagerImpl.getInstance().eAdapters().remove(
 				nameServerManagerListener);
 
 		NameServiceViewPreferenceManager.getInstance().removePropertyChangeListener(
 				preferenceListener);
 
-		NameServerManager.getInstance().setSynchronizeInterval(-1);
+		NameServerManagerImpl.getInstance().setSynchronizeInterval(-1);
 
 		super.dispose();
 	}

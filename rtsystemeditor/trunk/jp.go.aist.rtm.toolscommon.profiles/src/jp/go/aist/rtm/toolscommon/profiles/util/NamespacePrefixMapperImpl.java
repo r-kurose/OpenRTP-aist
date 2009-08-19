@@ -3,11 +3,11 @@ package jp.go.aist.rtm.toolscommon.profiles.util;
 import com.sun.xml.internal.bind.marshaller.NamespacePrefixMapper;
 
 public class NamespacePrefixMapperImpl extends NamespacePrefixMapper {
-    private String rootNamespace;
+//    private String rootNamespace;
 
     public NamespacePrefixMapperImpl(String rootNamespace) {
         super();
-        this.rootNamespace = rootNamespace;
+//        this.rootNamespace = rootNamespace;
     }
 
     public String getPreferredPrefix(String namespaceUri, String suggestion, boolean requirePrefix) {

@@ -24,9 +24,4 @@ public interface ModelElement extends EObject, IAdaptable {
 
 	public void setConstraint(Rectangle rectangle);
 
-	/**
-	 * @model
-	 */
-	public void dispose();
-
 }

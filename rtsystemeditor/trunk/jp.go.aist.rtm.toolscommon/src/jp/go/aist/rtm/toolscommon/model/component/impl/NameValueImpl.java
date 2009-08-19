@@ -7,29 +7,17 @@
 package jp.go.aist.rtm.toolscommon.model.component.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import jp.go.aist.rtm.toolscommon.corba.CorbaUtil;
-import jp.go.aist.rtm.toolscommon.factory.CorbaWrapperFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 import jp.go.aist.rtm.toolscommon.model.core.impl.WrapperObjectImpl;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.AttributeMapping;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ClassMapping;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ConstructorParamMapping;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ReferenceMapping;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.omg.CORBA.Any;
-import org.omg.CORBA.BAD_OPERATION;
-import org.omg.CORBA.TCKind;
-import org.omg.CORBA.TypeCodePackage.BadKind;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Name Value</b></em>'.
@@ -39,6 +27,7 @@ import org.omg.CORBA.TypeCodePackage.BadKind;
  * <ul>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.NameValueImpl#getName <em>Name</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.NameValueImpl#getValue <em>Value</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.NameValueImpl#getTypeName <em>Type Name</em>}</li>
  * </ul>
  * </p>
  *
@@ -70,7 +59,7 @@ public class NameValueImpl extends WrapperObjectImpl implements NameValue {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Any VALUE_EDEFAULT = null;
+	protected static final String VALUE_EDEFAULT = "";
 
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
@@ -79,14 +68,33 @@ public class NameValueImpl extends WrapperObjectImpl implements NameValue {
 	 * @generated
 	 * @ordered
 	 */
-	protected Any value = VALUE_EDEFAULT;
+	protected String value = VALUE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getTypeName() <em>Type Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTypeName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String TYPE_NAME_EDEFAULT = "";
+
+	/**
+	 * The cached value of the '{@link #getTypeName() <em>Type Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTypeName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String typeName = TYPE_NAME_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
+	 * @generated
 	 */
-	public NameValueImpl() {
+	protected NameValueImpl() {
 		super();
 	}
 
@@ -122,19 +130,42 @@ public class NameValueImpl extends WrapperObjectImpl implements NameValue {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Any getValue() {
+	public String getValue() {
 		return value;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
 	 */
-	public void setValue(Any newValue) {
-		Any oldValue = value;
+	public void setValue(String newValue) {
+		setTypeName(null);
+		String oldValue = value;
 		value = newValue;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.NAME_VALUE__VALUE, oldValue, value));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getTypeName() {
+		return typeName;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTypeName(String newTypeName) {
+		String oldTypeName = typeName;
+		typeName = newTypeName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.NAME_VALUE__TYPE_NAME, oldTypeName, typeName));
 	}
 
 	/**
@@ -149,6 +180,8 @@ public class NameValueImpl extends WrapperObjectImpl implements NameValue {
 				return getName();
 			case ComponentPackage.NAME_VALUE__VALUE:
 				return getValue();
+			case ComponentPackage.NAME_VALUE__TYPE_NAME:
+				return getTypeName();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -165,7 +198,10 @@ public class NameValueImpl extends WrapperObjectImpl implements NameValue {
 				setName((String)newValue);
 				return;
 			case ComponentPackage.NAME_VALUE__VALUE:
-				setValue((Any)newValue);
+				setValue((String)newValue);
+				return;
+			case ComponentPackage.NAME_VALUE__TYPE_NAME:
+				setTypeName((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -185,6 +221,9 @@ public class NameValueImpl extends WrapperObjectImpl implements NameValue {
 			case ComponentPackage.NAME_VALUE__VALUE:
 				setValue(VALUE_EDEFAULT);
 				return;
+			case ComponentPackage.NAME_VALUE__TYPE_NAME:
+				setTypeName(TYPE_NAME_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -201,6 +240,8 @@ public class NameValueImpl extends WrapperObjectImpl implements NameValue {
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case ComponentPackage.NAME_VALUE__VALUE:
 				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
+			case ComponentPackage.NAME_VALUE__TYPE_NAME:
+				return TYPE_NAME_EDEFAULT == null ? typeName != null : !TYPE_NAME_EDEFAULT.equals(typeName);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -218,6 +259,8 @@ public class NameValueImpl extends WrapperObjectImpl implements NameValue {
 		result.append(name);
 		result.append(", value: ");
 		result.append(value);
+		result.append(", typeName: ");
+		result.append(typeName);
 		result.append(')');
 		return result.toString();
 	}
@@ -251,67 +294,17 @@ public class NameValueImpl extends WrapperObjectImpl implements NameValue {
 		NameValue n = (NameValue) obj;
 
 		return new EqualsBuilder().append(getName(), n.getName()).isEquals()
-				&& getValue().equal(n.getValue()); // equalsではないことに注意すること
+				&& getValue().equals(n.getValue()); 
 
 	}
-
-	public static final MappingRule MAPPING_RULE = new MappingRule(null,
-			new ClassMapping(NameValueImpl.class,
-					new ConstructorParamMapping[] {
-							new ConstructorParamMapping(
-									ComponentPackage.eINSTANCE
-											.getNameValue_Name()),
-							new ConstructorParamMapping(
-									ComponentPackage.eINSTANCE
-											.getNameValue_Value()) }) {
-			}, new AttributeMapping[] {}, new ReferenceMapping[] {});
 
 	public String getValueAsString() {
-		String result = null;
-		try {
-			if (getValue() != null) {
-				if( getValue().type().kind() == TCKind.tk_wstring ) {
-					result = getValue().extract_wstring();
-				} else {
-					result = getValue().extract_string();
-				}
-			}
-		} catch (BAD_OPERATION e) {
-			try {
-				result = getValue().type().id();
-			} catch (BadKind e1) {
-				// void
-			}
-		}
-
-		return result;
-	}
-
-	public void setValueAsString(String value) {
-		Any any = CorbaUtil.getOrb().create_any();
-		any.insert_string(value);
-		setValue(any);
+		if (getValue() == null) return getTypeName();
+		return getValue();
 	}
 
 	public List<String> getValueAsStringList() {
 		return csv2List(getValueAsString());
-	}
-
-	/**
-	 * SDOのNamevalue配列からListを作成する
-	 * 
-	 * @param values
-	 * @return
-	 */
-	public static List createNameValueList(_SDOPackage.NameValue[] values) {
-		List result = new ArrayList();
-		for (_SDOPackage.NameValue value : values) {
-			NameValue nameValue = (NameValue) CorbaWrapperFactory.getInstance()
-					.createWrapperObject(value.name, value.value);
-			result.add(nameValue);
-		}
-
-		return result;
 	}
 
 	/**
@@ -321,34 +314,14 @@ public class NameValueImpl extends WrapperObjectImpl implements NameValue {
 	 * @param name　検索キー
 	 * @return　検索結果
 	 */
-	public static NameValue findByName(List nameValues, String name) {
-		NameValue result = null;
-		for (Iterator iter = nameValues.iterator(); iter.hasNext();) {
-			NameValue nameValue = (NameValue) iter.next();
+	public static NameValue findByName(List<NameValue> nameValues, String name) {
+		for (NameValue nameValue : nameValues) {
 			if (name.equals(nameValue.getName())) {
-				result = nameValue;
-				break;
+				return nameValue;
 			}
 		}
 
-		return result;
-	}
-
-	/**
-	 * ListからSDOのNamevalue配列を作成する
-	 * 
-	 * @param values
-	 * @return
-	 */
-	public static _SDOPackage.NameValue[] createNameValueArray(List values) {
-		List<_SDOPackage.NameValue> result = new ArrayList<_SDOPackage.NameValue>();
-		for (Iterator iter = values.iterator(); iter.hasNext();) {
-			NameValue nameValue = (NameValue) iter.next();
-			result.add(new _SDOPackage.NameValue(nameValue.getName(), nameValue
-					.getValue()));
-		}
-
-		return result.toArray(new _SDOPackage.NameValue[result.size()]);
+		return null;
 	}
 
 } // NameValueImpl

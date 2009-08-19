@@ -1,7 +1,6 @@
 package jp.go.aist.rtm.systemeditor.ui.util;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -12,6 +11,13 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * ユーティリティクラス
  */
 public class Draw2dUtil {
+	/**
+	 * RtcLinkモデルのRectangleを、Draw2DのRectangleに変換する
+	 * 
+	 * @param constraint
+	 *            RtcLinkモデルのRectangle
+	 * @return Draw2DのRectangle
+	 */
 	public static Rectangle toDraw2dRectangle(
 			jp.go.aist.rtm.toolscommon.model.core.Rectangle constraint) {
 		return new Rectangle(constraint.getX(), constraint.getY(), constraint
@@ -37,19 +43,14 @@ public class Draw2dUtil {
 	}
 
 	/**
-	 * RtcLinkモデルのRectangleを、Draw2DのRectangleに変換する
-	 * 
-	 * @param constraint
-	 *            RtcLinkモデルのRectangle
-	 * @return Draw2DのRectangle
+	 * Draw2DのPointマップを、RtcLinkモデルのPointマップに変換する
 	 */
-	public static Map toRtcLinkPointMap(Map draw2dPointMap) {
-		Map result = new HashMap();
-		for (Iterator iter = draw2dPointMap.entrySet().iterator(); iter
-				.hasNext();) {
-			Map.Entry entry = (Map.Entry) iter.next();
-			result.put(entry.getKey(), Draw2dUtil.toRtcLinkPoint(((Point) entry
-					.getValue())));
+	public static Map<Integer,jp.go.aist.rtm.toolscommon.model.core.Point> 
+			toRtcLinkPointMap(Map<Integer,Point> draw2dPointMap) {
+		Map<Integer,jp.go.aist.rtm.toolscommon.model.core.Point> result 
+			= new HashMap<Integer,jp.go.aist.rtm.toolscommon.model.core.Point>();
+		for (Map.Entry<Integer,Point> entry : draw2dPointMap.entrySet()) {
+			result.put(entry.getKey(), Draw2dUtil.toRtcLinkPoint(entry.getValue()));
 		}
 
 		return result;
@@ -62,17 +63,12 @@ public class Draw2dUtil {
 	 *            RtcLinkモデルのRectangle
 	 * @return Draw2DのRectangle
 	 */
-	public static Map toDraw2dPointMap(Map rtcLinkPointMap) {
-		Map result = new TreeMap();
-		for (Iterator iter = rtcLinkPointMap.entrySet().iterator(); iter
-				.hasNext();) {
-			Map.Entry entry = (Map.Entry) iter.next();
-			result
-					.put(
-							entry.getKey(),
-							Draw2dUtil
-									.toDraw2dPoint(((jp.go.aist.rtm.toolscommon.model.core.Point) entry
-											.getValue())));
+	public static Map<Integer,Point> toDraw2dPointMap(
+			Map<Integer,jp.go.aist.rtm.toolscommon.model.core.Point> rtcLinkPointMap) {
+		Map<Integer,Point> result = new TreeMap<Integer,Point>();
+		for (Map.Entry<Integer,jp.go.aist.rtm.toolscommon.model.core.Point> entry : rtcLinkPointMap.entrySet()) {
+			result.put(entry.getKey(),
+							Draw2dUtil.toDraw2dPoint((entry.getValue())));
 		}
 
 		return result;

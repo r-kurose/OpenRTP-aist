@@ -1,6 +1,7 @@
 package jp.go.aist.rtm.toolscommon.ui.workbenchadapter;
 
 import jp.go.aist.rtm.toolscommon.ToolsCommonPlugin;
+import jp.go.aist.rtm.toolscommon.nl.Messages;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.model.IWorkbenchAdapter;
@@ -16,7 +17,7 @@ public class PortInterfaceProfileWorkbenchAdapter implements IWorkbenchAdapter {
 	}
 
 	public String getLabel(Object o) {
-		return "PortInterfaceProfile";
+		return Messages.getString("PortInterfaceProfileWorkbenchAdapter.label");
 	}
 
 	public Object getParent(Object o) {

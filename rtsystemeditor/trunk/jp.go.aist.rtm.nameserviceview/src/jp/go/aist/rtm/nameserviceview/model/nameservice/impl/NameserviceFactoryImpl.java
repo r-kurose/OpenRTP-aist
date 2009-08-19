@@ -6,17 +6,12 @@
  */
 package jp.go.aist.rtm.nameserviceview.model.nameservice.impl;
 
-import jp.go.aist.rtm.nameserviceview.model.nameservice.CategoryNamingContext;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.HostNamingContext;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.ManagerNamingContext;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.ModuleNamingContext;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServerNamingContext;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameserviceFactory;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameservicePackage;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.Node;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -69,22 +64,16 @@ public class NameserviceFactoryImpl extends EFactoryImpl implements NameserviceF
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case NameservicePackage.CATEGORY_NAMING_CONTEXT: return createCategoryNamingContext();
-			case NameservicePackage.HOST_NAMING_CONTEXT: return createHostNamingContext();
-			case NameservicePackage.MANAGER_NAMING_CONTEXT: return createManagerNamingContext();
-			case NameservicePackage.MODULE_NAMING_CONTEXT: return createModuleNamingContext();
-			case NameservicePackage.NAME_SERVER_NAMING_CONTEXT: return createNameServerNamingContext();
 			case NameservicePackage.NAMING_CONTEXT_NODE: return createNamingContextNode();
 			case NameservicePackage.NAMING_OBJECT_NODE: return createNamingObjectNode();
-			case NameservicePackage.NODE: return createNode();
+			case NameservicePackage.CORBA_NODE: return createCorbaNode();
 			case NameservicePackage.NAME_SERVICE_REFERENCE: return createNameServiceReference();
 			default:
-				return createNode();
-//				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
 	}
 
@@ -139,56 +128,6 @@ public class NameserviceFactoryImpl extends EFactoryImpl implements NameserviceF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public CategoryNamingContext createCategoryNamingContext() {
-		CategoryNamingContextImpl categoryNamingContext = new CategoryNamingContextImpl();
-		return categoryNamingContext;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public HostNamingContext createHostNamingContext() {
-		HostNamingContextImpl hostNamingContext = new HostNamingContextImpl();
-		return hostNamingContext;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ManagerNamingContext createManagerNamingContext() {
-		ManagerNamingContextImpl managerNamingContext = new ManagerNamingContextImpl();
-		return managerNamingContext;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ModuleNamingContext createModuleNamingContext() {
-		ModuleNamingContextImpl moduleNamingContext = new ModuleNamingContextImpl();
-		return moduleNamingContext;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NameServerNamingContext createNameServerNamingContext() {
-		NameServerNamingContextImpl nameServerNamingContext = new NameServerNamingContextImpl();
-		return nameServerNamingContext;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public NamingContextNode createNamingContextNode() {
 		NamingContextNodeImpl namingContextNode = new NamingContextNodeImpl();
 		return namingContextNode;
@@ -209,9 +148,9 @@ public class NameserviceFactoryImpl extends EFactoryImpl implements NameserviceF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Node createNode() {
-		NodeImpl node = new NodeImpl();
-		return node;
+	public CorbaNode createCorbaNode() {
+		CorbaNodeImpl corbaNode = new CorbaNodeImpl();
+		return corbaNode;
 	}
 
 	/**

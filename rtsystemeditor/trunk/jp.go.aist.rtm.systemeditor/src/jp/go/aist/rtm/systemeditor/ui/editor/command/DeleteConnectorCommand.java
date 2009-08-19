@@ -1,6 +1,7 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.command;
 
-import jp.go.aist.rtm.toolscommon.model.component.Connector;
+import jp.go.aist.rtm.systemeditor.ui.action.CompositeComponentHelper;
+import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 
 import org.eclipse.gef.commands.Command;
 
@@ -8,7 +9,7 @@ import org.eclipse.gef.commands.Command;
  * コネクタを削除するコマンド
  */
 public class DeleteConnectorCommand extends Command {
-	private Connector connector;
+	private PortConnector connector;
 
 	public DeleteConnectorCommand() {
 	}
@@ -23,8 +24,7 @@ public class DeleteConnectorCommand extends Command {
 			return;
 		}
 
-		connector.dettachSource();
-		connector.dettachTarget();
+		CompositeComponentHelper.synchronizeManually(connector.getSource());
 	}
 
 	/**
@@ -33,7 +33,7 @@ public class DeleteConnectorCommand extends Command {
 	 * @param connector
 	 *            コネクタ
 	 */
-	public void setConnector(Connector connector) {
+	public void setConnector(PortConnector connector) {
 		this.connector = connector;
 	}
 
@@ -42,9 +42,6 @@ public class DeleteConnectorCommand extends Command {
 	 * {@inheritDoc}
 	 */
 	public void undo() {
-		connector.attachSource();
-		connector.attachTarget();
-
 		boolean result = connector.createConnectorR();
 		if (result == false) {
 			return;

@@ -1,12 +1,11 @@
 package jp.go.aist.rtm.systemeditor.ui.dialog;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
-import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
+import jp.go.aist.rtm.toolscommon.model.component.PortInterfaceProfile;
 import jp.go.aist.rtm.toolscommon.model.component.ServicePort;
 
 import org.eclipse.jface.dialogs.IMessageProvider;
@@ -22,9 +21,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-
-import RTC.PortInterfacePolarity;
-import RTC.PortInterfaceProfile;
 
 /**
  * サービスポート間の接続のコネクタプロファイルの選択ダイアログ
@@ -57,38 +53,34 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 	 */
 	public ConnectorProfile getConnectorProfile(ServicePort first,
 			ServicePort second) {
-		if (first.getPortProfile() == null) {
-			return null;
-		}
 		this.first = first;
 		this.second = second;
 
 		this.connectorProfile = ComponentFactory.eINSTANCE
 				.createConnectorProfile();
-		this.connectorProfile.setName(first.getPortProfile().getNameL() + "_"
-				+ second.getPortProfile().getNameL());
+		this.connectorProfile.setName(first.getNameL() + "_" //$NON-NLS-1$
+				+ second.getNameL());
 
 		open();
 
 		return connectorProfile;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	/**
 	 * {@inheritDoc}
 	 */
 	protected Control createDialogArea(Composite parent) {
 		GridLayout gl;
-		GridData gd;
 		gl = new GridLayout();
-		gd = new GridData();
 
 		Composite mainComposite = (Composite) super.createDialogArea(parent);
 		mainComposite.setLayout(gl);
 		mainComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		Label label = new Label(mainComposite, SWT.NONE);
-		label.setText("ポートプロファイルを入力してください。");
+		label.setText(Messages.getString("ServiceConnectorCreaterDialog.1")); //$NON-NLS-1$
 		GridData labelLayloutData = new GridData(
 				GridData.HORIZONTAL_ALIGN_BEGINNING);
 		label.setLayoutData(labelLayloutData);
@@ -96,30 +88,23 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 
 		createConnectorProfileComposite(mainComposite);
 
-		String message = "Error";
+		String message = Messages.getString("ServiceConnectorCreaterDialog.2"); //$NON-NLS-1$
 		try {
-			RTC.PortInterfaceProfile[] interfaces1 = first
-					.getCorbaObjectInterface().get_port_profile().interfaces;
-			RTC.PortInterfaceProfile[] interfaces2 = second
-					.getCorbaObjectInterface().get_port_profile().interfaces;
+			List<PortInterfaceProfile> interfaces1 = first.getInterfaces();
+			List<PortInterfaceProfile> interfaces2 = second.getInterfaces();
 
 			int countMatch = countMatch(interfaces1, interfaces2);
-			if (countMatch == Math.max(interfaces1.length, interfaces2.length)) {
+			if (countMatch == Math.max(interfaces1.size(), interfaces2.size())) {
 				message = null;
 			} else {
 				if (countMatch == 0) {
-					message = "No corresponding port interface.";
+					message = Messages.getString("ServiceConnectorCreaterDialog.3"); //$NON-NLS-1$
 				} else {
-					message = "Port interfaces do not match completely.";
+					message = Messages.getString("ServiceConnectorCreaterDialog.4"); //$NON-NLS-1$
 				}
 			}
 
 		} catch (Exception e) {
-		}
-
-		if (first.eContainer() instanceof ComponentSpecification){
-			message = null;
-			
 		}
 		if (message != null) {
 			setMessage(message, IMessageProvider.WARNING);
@@ -147,10 +132,9 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 		portProfileEditComposite
 				.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		int style;
 
 		Label name = new Label(portProfileEditComposite, SWT.NONE);
-		name.setText("Name : ");
+		name.setText(Messages.getString("ServiceConnectorCreaterDialog.5")); //$NON-NLS-1$
 		nameText = new Text(portProfileEditComposite, SWT.SINGLE | SWT.BORDER);
 		gd = new GridData(GridData.GRAB_HORIZONTAL);
 		gd.minimumWidth = 140;
@@ -174,38 +158,13 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 		nameText.setText(connectorProfile.getName());
 	}
 
-	/**
-	 * コンボにおいて、「表示候補のリスト」と、「どのような文字列でも設定可能であるかどうか」を引数に取り、初期表示の文字列を決定する
-	 * 
-	 * @param candidateList
-	 *            表示候補リスト
-	 * @param isAllowAny
-	 *            どのような文字列でも設定可能であるかどうか
-	 * @return 初期表示の文字列
-	 */
-	private String getDefaultValue(List candidateList, boolean isAllowAny) {
-		String result = null;
-
-		if (candidateList.size() > 0) {
-			result = (String) candidateList.get(0);
-		}
-
-		if (result == null) {
-			if (isAllowAny) {
-				result = ConnectorProfile.ANY;
-			}
-		}
-
-		return result;
-	}
-
 	@Override
 	/**
 	 * {@inheritDoc}
 	 */
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
-		shell.setText("Port Profile");
+		shell.setText(Messages.getString("ServiceConnectorCreaterDialog.6")); //$NON-NLS-1$
 	}
 
 	@Override
@@ -253,24 +212,25 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 	 * @param profile2
 	 * @return
 	 */
-	public static int countMatch(PortInterfaceProfile[] profiles1,
-			PortInterfaceProfile[] profiles2) {
-		List<PortInterfaceProfile> list1 = Arrays.asList(profiles1);
-		List<PortInterfaceProfile> list2 = new ArrayList<PortInterfaceProfile>(
-				Arrays.asList(profiles2));
+	private int countMatch(List<PortInterfaceProfile> profiles1,
+			List<PortInterfaceProfile> profiles2) {
 
 		int result = 0;
-		for (PortInterfaceProfile profile1 : list1) {
-			for (PortInterfaceProfile profile2 : list2) {
-				if (isMatch(profile1, profile2)) {
-					++result;
-					list2.remove(profile2);
-					break;
-				}
-			}
+		for (PortInterfaceProfile profile : profiles1) {
+			result += hasMatch(profile, profiles2);
 		}
 
 		return result;
+	}
+
+	private int hasMatch(PortInterfaceProfile profile,
+			List<PortInterfaceProfile> profiles2) {
+		for (PortInterfaceProfile profile2 : profiles2) {
+			if (isMatch(profile, profile2)) {
+				return 1;
+			}
+		}
+		return 0;
 	}
 
 	/**
@@ -280,18 +240,14 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 	 * @param profile2
 	 * @return マッチするかどうか
 	 */
-	private static boolean isMatch(PortInterfaceProfile profile1,
+	private boolean isMatch(PortInterfaceProfile profile1,
 			PortInterfaceProfile profile2) {
-		boolean result = false;
-		if (profile1.type_name.equals(profile2.type_name)
-				&& ((profile1.polarity.value() == PortInterfacePolarity.PROVIDED
-						.value() && profile2.polarity.value() == PortInterfacePolarity.REQUIRED
-						.value()) || (profile1.polarity.value() == PortInterfacePolarity.REQUIRED
-						.value() && profile2.polarity.value() == PortInterfacePolarity.PROVIDED
-						.value()))) {
-			result = true;
-		}
-		return result;
+		
+		if (!profile1.getTypeName().equals(profile2.getTypeName())) return false;
+		if (profile1.isProvidedPolarity()) return profile2.isRequiredPolarity();
+		if (profile1.isRequiredPolarity()) return profile2.isProvidedPolarity();
+		
+		return false;
 	}
 
 	@Override

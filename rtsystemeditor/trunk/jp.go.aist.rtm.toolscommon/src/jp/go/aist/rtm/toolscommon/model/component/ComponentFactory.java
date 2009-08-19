@@ -36,6 +36,15 @@ public interface ComponentFactory extends EFactory {
 	SystemDiagram createSystemDiagram();
 
 	/**
+	 * Returns a new object of class '<em>Corba Component</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Corba Component</em>'.
+	 * @generated
+	 */
+	CorbaComponent createCorbaComponent();
+
+	/**
 	 * Returns a new object of class '<em>Connector Profile</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -54,6 +63,51 @@ public interface ComponentFactory extends EFactory {
 	ConfigurationSet createConfigurationSet();
 
 	/**
+	 * Returns a new object of class '<em>Port Synchronizer</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Port Synchronizer</em>'.
+	 * @generated
+	 */
+	PortSynchronizer createPortSynchronizer();
+
+	/**
+	 * Returns a new object of class '<em>Corba Port Synchronizer</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Corba Port Synchronizer</em>'.
+	 * @generated
+	 */
+	CorbaPortSynchronizer createCorbaPortSynchronizer();
+
+	/**
+	 * Returns a new object of class '<em>Corba Connector Profile</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Corba Connector Profile</em>'.
+	 * @generated
+	 */
+	CorbaConnectorProfile createCorbaConnectorProfile();
+
+	/**
+	 * Returns a new object of class '<em>Corba Configuration Set</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Corba Configuration Set</em>'.
+	 * @generated
+	 */
+	CorbaConfigurationSet createCorbaConfigurationSet();
+
+	/**
+	 * Returns a new object of class '<em>Corba Execution Context</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Corba Execution Context</em>'.
+	 * @generated
+	 */
+	CorbaExecutionContext createCorbaExecutionContext();
+
+	/**
 	 * Returns a new object of class '<em>Specification</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -61,15 +115,6 @@ public interface ComponentFactory extends EFactory {
 	 * @generated
 	 */
 	ComponentSpecification createComponentSpecification();
-
-	/**
-	 * Returns a new object of class '<em>Port Connector Specification</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Port Connector Specification</em>'.
-	 * @generated
-	 */
-	PortConnectorSpecification createPortConnectorSpecification();
 
 	/**
 	 * Returns a new object of class '<em>In Port</em>'.
@@ -90,15 +135,6 @@ public interface ComponentFactory extends EFactory {
 	OutPort createOutPort();
 
 	/**
-	 * Returns a new object of class '<em>Component</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Component</em>'.
-	 * @generated
-	 */
-	Component createComponent();
-
-	/**
 	 * Returns a new object of class '<em>Port</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -106,33 +142,6 @@ public interface ComponentFactory extends EFactory {
 	 * @generated
 	 */
 	Port createPort();
-
-	/**
-	 * Returns a new object of class '<em>Connector Source</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Connector Source</em>'.
-	 * @generated
-	 */
-	ConnectorSource createConnectorSource();
-
-	/**
-	 * Returns a new object of class '<em>Connector Target</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Connector Target</em>'.
-	 * @generated
-	 */
-	ConnectorTarget createConnectorTarget();
-
-	/**
-	 * Returns a new object of class '<em>Port Connector</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Port Connector</em>'.
-	 * @generated
-	 */
-	PortConnector createPortConnector();
 
 	/**
 	 * Returns a new object of class '<em>Service Port</em>'.
@@ -151,24 +160,6 @@ public interface ComponentFactory extends EFactory {
 	 * @generated
 	 */
 	ExecutionContext createExecutionContext();
-
-	/**
-	 * Returns a new object of class '<em>Life Cycle State</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Life Cycle State</em>'.
-	 * @generated
-	 */
-	LifeCycleState createLifeCycleState();
-
-	/**
-	 * Returns a new object of class '<em>Port Profile</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Port Profile</em>'.
-	 * @generated
-	 */
-	PortProfile createPortProfile();
 
 	/**
 	 * Returns a new object of class '<em>Name Value</em>'.

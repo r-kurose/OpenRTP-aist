@@ -1,6 +1,7 @@
 package jp.go.aist.rtm.repositoryView.manager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import jp.go.aist.rtm.repositoryView.model.RepositoryViewItem;
 import jp.go.aist.rtm.repositoryView.repository.RTRepositoryAccesser;
@@ -19,7 +20,7 @@ public class RTRepositoryManager {
 	/**
 	 * 追加済みリポジトリ・サーバのリスト
 	 */
-	private ArrayList<String> repositoryList = new ArrayList<String>();
+	private List<String> repositoryList = new ArrayList<String>();
 
 	/**
 	 * RTリポジトリのシングルトンインスタンスを取得する
@@ -50,8 +51,6 @@ public class RTRepositoryManager {
 	 * @return RTリポジトリ名が存在するかどうか
 	 */
 	public boolean isExist(String RTRepository) {
-		//TODO
-//		return repositoryList.contains(RTRepository);
 		return false;
 	}
 }

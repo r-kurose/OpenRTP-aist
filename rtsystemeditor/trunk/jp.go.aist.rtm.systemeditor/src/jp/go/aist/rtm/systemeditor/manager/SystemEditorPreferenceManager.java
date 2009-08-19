@@ -2,8 +2,8 @@ package jp.go.aist.rtm.systemeditor.manager;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import jp.go.aist.rtm.systemeditor.RTSystemEditorPlugin;
@@ -56,6 +56,13 @@ public class SystemEditorPreferenceManager {
 	public static final String COLOR_RTC_STATE_UNKNOWN = SystemEditorPreferenceManager.class
 			.getName()
 			+ "COLOR_RTC_STATE_UNKNOWN";
+
+	/**
+	 * RTC状態色のキー： UnKnown
+	 */
+	public static final String COLOR_RTC_STATE_UNCERTAIN = SystemEditorPreferenceManager.class
+			.getName()
+			+ "COLOR_RTC_STATE_UNCERTAIN";
 
 	/**
 	 * RTCExecutionContext色のキー： Running
@@ -135,6 +142,7 @@ public class SystemEditorPreferenceManager {
 		defaultRGBMap.put(COLOR_RTC_STATE_ACTIVE, new RGB(0, 255, 0));
 		defaultRGBMap.put(COLOR_RTC_STATE_ERROR, new RGB(255, 0, 0));
 		defaultRGBMap.put(COLOR_RTC_STATE_UNKNOWN, new RGB(0, 0, 0));
+		defaultRGBMap.put(COLOR_RTC_STATE_UNCERTAIN, new RGB(127, 127, 127));
 		defaultRGBMap.put(COLOR_RTC_EXECUTION_CONTEXT_RUNNING, new RGB(128,
 				128, 128));
 		defaultRGBMap
@@ -180,6 +188,13 @@ public class SystemEditorPreferenceManager {
 	 */
 	public static SystemEditorPreferenceManager getInstance() {
 		return __instance;
+	}
+	/**
+	 * シングルトンをセットする。（基本的に使用してはならない。ユニットテストからの実行のために追加）
+	 * 
+	 */
+	public static void setInstance(SystemEditorPreferenceManager instance) {
+		__instance = instance;
 	}
 
 	protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
@@ -331,7 +346,7 @@ public class SystemEditorPreferenceManager {
 	 * @param interfaceType
 	 *            Interface Typeリスト
 	 */
-	public void setInterfaceTypes(ArrayList<String> interfaceType) {
+	public void setInterfaceTypes(List<String> interfaceType) {
 		String[] oldInterfaceType = getInterfaceTypes();
 		RTSystemEditorPlugin.getDefault().getPreferenceStore().setValue(CONNECT_INTERFACE_TYPE, convertList2String(interfaceType));
 		propertyChangeSupport.firePropertyChange(CONNECT_INTERFACE_TYPE, oldInterfaceType, interfaceType);
@@ -360,7 +375,7 @@ public class SystemEditorPreferenceManager {
 	 * @param dataFlowType
 	 *            Data Flow Typeリスト
 	 */
-	public void setDataFlowTypes(ArrayList<String> dataflowType) {
+	public void setDataFlowTypes(List<String> dataflowType) {
 		String[] oldDataFlowType = getDataFlowTypes();
 		RTSystemEditorPlugin.getDefault().getPreferenceStore().setValue(CONNECT_DATAFLOW_TYPE, convertList2String(dataflowType));
 		propertyChangeSupport.firePropertyChange(CONNECT_DATAFLOW_TYPE, oldDataFlowType, dataflowType);
@@ -389,13 +404,13 @@ public class SystemEditorPreferenceManager {
 	 * @param subscriptionType
 	 *            subscription Typeリスト
 	 */
-	public void setSubscriptionTypes(ArrayList<String> subscriptionType) {
+	public void setSubscriptionTypes(List<String> subscriptionType) {
 		String[] oldSubscriptionType = getSubscriptionTypes();
 		RTSystemEditorPlugin.getDefault().getPreferenceStore().setValue(CONNECT_SUBSCRIPTION_TYPE, convertList2String(subscriptionType));
 		propertyChangeSupport.firePropertyChange(CONNECT_SUBSCRIPTION_TYPE, oldSubscriptionType, subscriptionType);
 	}
 
-	private static String convertList2String(ArrayList<String> source) {
+	private static String convertList2String(List<String> source) {
 		StringBuffer resultTemp = new StringBuffer();
 		
 		for(String target : source) {

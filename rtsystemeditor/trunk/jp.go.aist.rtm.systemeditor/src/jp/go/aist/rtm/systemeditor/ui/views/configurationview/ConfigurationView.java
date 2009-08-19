@@ -2,28 +2,25 @@ package jp.go.aist.rtm.systemeditor.ui.views.configurationview;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import jp.go.aist.rtm.systemeditor.RTSystemEditorPlugin;
-import jp.go.aist.rtm.systemeditor.factory.SystemEditorWrapperFactory;
+import jp.go.aist.rtm.systemeditor.nl.Messages;
+import jp.go.aist.rtm.systemeditor.ui.dialog.ConfigurationDialog;
 import jp.go.aist.rtm.systemeditor.ui.views.configurationview.configurationwrapper.ComponentConfigurationWrapper;
 import jp.go.aist.rtm.systemeditor.ui.views.configurationview.configurationwrapper.ConfigurationSetConfigurationWrapper;
 import jp.go.aist.rtm.systemeditor.ui.views.configurationview.configurationwrapper.NamedValueConfigurationWrapper;
-import jp.go.aist.rtm.toolscommon.corba.CorbaUtil;
-import jp.go.aist.rtm.toolscommon.model.component.AbstractComponent;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
-import jp.go.aist.rtm.toolscommon.model.component.LifeCycleState;
-import jp.go.aist.rtm.toolscommon.model.component.NameValue;
-import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
-import jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl;
-import jp.go.aist.rtm.toolscommon.model.component.impl.ConfigurationSetImpl;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
+import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 import jp.go.aist.rtm.toolscommon.ui.views.propertysheetview.RtcPropertySheetPage;
 import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
+import jp.go.aist.rtm.toolscommon.util.SDOUtil;
 
-import org.apache.commons.lang.StringUtils;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ColorRegistry;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -66,9 +63,6 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
-import org.omg.CORBA.Any;
-import org.omg.CORBA.TCKind;
-import org.omg.CORBA.TypeCodePackage.BadKind;
 
 /**
  * ConfigurationViewを定義するクラス
@@ -77,33 +71,27 @@ import org.omg.CORBA.TypeCodePackage.BadKind;
  * NameValueの値の編集ができるのはStirngクラスのみであり、それ以外のオブジェクトが含まれていた場合には、編集することはできない（削除は可能）
  */
 public class ConfigurationView extends ViewPart {
-	private static final String PROPERTY_ACTIVE_CONFIGSET = "PROPERTY_ACTIVE_CONFIGSET";
+	private static final String PROPERTY_ACTIVE_CONFIGSET = "PROPERTY_ACTIVE_CONFIGSET"; //$NON-NLS-1$
 
-	private static final String PROPERTY_CONFIG_SET = "PROPERTY_CONFIG_SET";
+	private static final String PROPERTY_CONFIG_SET = "PROPERTY_CONFIG_SET"; //$NON-NLS-1$
 
-	private static final String PROPERTY_KEY = "PROPERTY_KEY";
+	private static final String PROPERTY_KEY = "PROPERTY_KEY"; //$NON-NLS-1$
 
-	private static final String PROPERTY_VALUE = "PROPERTY_VALUE";
+	private static final String PROPERTY_VALUE = "PROPERTY_VALUE"; //$NON-NLS-1$
 
-	private static final String LAST_NAMESERVICE_ADDRESS = ConfigurationView.class
-			.getCanonicalName()
-			+ "lastNameServiceAddress";
+	private static final String MODIFY_COLOR = "MODIFY_COLOR"; //$NON-NLS-1$
 
-	private static final String MODIFY_COLOR = "MODIFY_COLOR";
+	private static final String CANT_MODIFY_COLOR = "CANT_MODIFY_COLOR"; //$NON-NLS-1$
 
-	private static final String CANT_MODIFY_COLOR = "CANT_MODIFY_COLOR";
+	private static final String WHITE_COLOR = "WHITE_COLOR"; //$NON-NLS-1$
 
 	private static final int BUTTON_WIDTH = 70;
 
-	private Composite composite;
-
-	private AbstractComponent targetComponent;
+	private Component targetComponent;
 
 	private ComponentConfigurationWrapper copiedComponent;
 
 	private ComponentConfigurationWrapper originalComponent;
-
-	private Object cachedConfiguSetList;
 
 	private Table leftTable;
 
@@ -119,26 +107,34 @@ public class ConfigurationView extends ViewPart {
 
 	private Button addConfigurationSetButton;
 
+	// ConfigSetのコピーボタン 2008.12.17
+	private Button copyConfigurationSetButton;
+
 	private Button deleteConfigurationSetButton;
 
 	private Button deleteNamedValueButton;
 
 	private Button addNamedValueButton;
 
+	private Button editButton;
+
 	private Button applyButton;
 
 	private Button cancelButton;
 
-	private static ColorRegistry colorRegistry = new ColorRegistry();
-	static {
-		colorRegistry.put(MODIFY_COLOR, new RGB(255, 192, 192));
-		colorRegistry.put(CANT_MODIFY_COLOR, new RGB(198, 198, 198));
-	}
+	private static ColorRegistry colorRegistry = null;
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public void createPartControl(Composite parent) {
+		if (colorRegistry == null) {
+			colorRegistry = new ColorRegistry();
+			colorRegistry.put(MODIFY_COLOR, new RGB(255, 192, 192));
+			colorRegistry.put(CANT_MODIFY_COLOR, new RGB(198, 198, 198));
+			colorRegistry.put(WHITE_COLOR, new RGB(255, 255, 255));
+		}
+
 		GridLayout gl;
 		GridData gd;
 
@@ -169,88 +165,41 @@ public class ConfigurationView extends ViewPart {
 		gd.verticalAlignment = SWT.FILL;
 		executionButtonComposite.setLayoutData(gd);
 
-		getSite().getWorkbenchWindow().getSelectionService()
-				.addSelectionListener(selectionListener);
-		getSite().setSelectionProvider(new ISelectionProvider() {
-			public void addSelectionChangedListener(
-					ISelectionChangedListener listener) {
-			}
-
-			public ISelection getSelection() {
-				StructuredSelection result = null;
-				if (targetComponent != null) {
-					result = new StructuredSelection(targetComponent);
+		editButton = new Button(executionButtonComposite, SWT.NONE);
+		editButton.setText(Messages.getString("ConfigurationView.7")); //$NON-NLS-1$
+		gd = new GridData();
+		gd.horizontalAlignment = SWT.END;
+		gd.widthHint = BUTTON_WIDTH;
+		editButton.setLayoutData(gd);
+		editButton.setEnabled(false);
+		editButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ConfigurationDialog dialog = new ConfigurationDialog(
+						getSite().getShell(), copiedComponent);
+				if (dialog.open() == IDialogConstants.OK_ID) {
+					if (dialog.isApply()) {
+						applyConfiguration();
+					}
+					refreshData();
 				}
-
-				return result;
-			}
-
-			public void removeSelectionChangedListener(
-					ISelectionChangedListener listener) {
-			}
-
-			public void setSelection(ISelection selection) {
 			}
 		});
 
 		applyButton = new Button(executionButtonComposite, SWT.TOP);
-		applyButton.setText("Apply");
+		applyButton.setText(Messages.getString("ConfigurationView.8")); //$NON-NLS-1$
 		gd = new GridData();
 		gd.widthHint = BUTTON_WIDTH;
 		applyButton.setLayoutData(gd);
 		applyButton.setEnabled(false);
 		applyButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if (targetComponent instanceof Component) {
-					if (((Component)targetComponent).getComponentState() == LifeCycleState.RTC_ACTIVE
-							&& isActiveConfigurationSetModified()) {
-						boolean isOk = MessageDialog.openConfirm(getViewSite()
-								.getShell(), "確認",
-								"アクティブなコンフィグレーションセットが変更されています。\r\n変更を適用しても良いですか？");
-						if (isOk == false) {
-							return;
-						}
-					}
-				}
-				int selectionIndex = leftTable.getSelectionIndex();
-
-				List<ConfigurationSet> newConfigurationSetList = createNewConfigurationSetList(copiedComponent);
-				List<ConfigurationSet> originalConfigurationSetList = createNewConfigurationSetList(originalComponent);
-
-				int activeConfigurationIndex = copiedComponent
-						.getConfigurationSetList().indexOf(
-								copiedComponent.getActiveConfigSet());
-
-				ConfigurationSet newActiveConfigurationSet = null;
-				if (activeConfigurationIndex != -1) {
-					newActiveConfigurationSet = newConfigurationSetList
-							.get(activeConfigurationIndex);
-				}
-
-				boolean result = targetComponent.updateConfigurationSetListR(
-						newConfigurationSetList, newActiveConfigurationSet,
-						originalConfigurationSetList);
-				if (result == false) {
-					MessageDialog.openError(getSite().getShell(), "エラー",
-							"更新に失敗しました。");
-				}
-				if (targetComponent instanceof Component) {
-					ComponentImpl.synchronizeLocalAttribute((Component) targetComponent,
-							ComponentPackage.eINSTANCE
-							.getAbstractComponent_ConfigurationSets());	
-					ComponentImpl.synchronizeLocalAttribute((Component) targetComponent,
-							ComponentPackage.eINSTANCE
-							.getAbstractComponent_ActiveConfigurationSet());	
-				}
-				buildData();
-
-				leftTable.setSelection(selectionIndex);
+				applyConfiguration();
 			}
-
 		});
 
 		cancelButton = new Button(executionButtonComposite, SWT.TOP);
-		cancelButton.setText("Cancel");
+		cancelButton.setText(Messages.getString("ConfigurationView.9")); //$NON-NLS-1$
 		gd = new GridData();
 		gd.widthHint = BUTTON_WIDTH;
 		cancelButton.setLayoutData(gd);
@@ -260,6 +209,58 @@ public class ConfigurationView extends ViewPart {
 				buildData();
 			}
 		});
+
+		setSiteSelection();
+	}
+
+	/**
+	 * Configurationの変更を反映します。
+	 */
+	public void applyConfiguration() {
+		if (targetComponent instanceof CorbaComponent) {
+			if (((CorbaComponent) targetComponent).getComponentState() == ExecutionContext.RTC_ACTIVE
+					&& isActiveConfigurationSetModified()) {
+				boolean isOk = MessageDialog.openConfirm(getViewSite()
+						.getShell(), Messages.getString("ConfigurationView.10"), //$NON-NLS-1$
+						Messages.getString("ConfigurationView.11")); //$NON-NLS-1$
+				if (isOk == false) {
+					return;
+				}
+			}
+		}
+		int selectionIndex = leftTable.getSelectionIndex();
+
+		List<ConfigurationSet> newConfigurationSetList = createNewConfigurationSetList(copiedComponent);
+		List<ConfigurationSet> originalConfigurationSetList = createNewConfigurationSetList(originalComponent);
+
+		int activeConfigurationIndex = copiedComponent
+				.getConfigurationSetList().indexOf(
+						copiedComponent.getActiveConfigSet());
+
+		ConfigurationSet newActiveConfigurationSet = null;
+		if (activeConfigurationIndex != -1) {
+			newActiveConfigurationSet = newConfigurationSetList
+					.get(activeConfigurationIndex);
+		}
+
+		boolean result = targetComponent.updateConfigurationSetListR(
+				newConfigurationSetList, newActiveConfigurationSet,
+				originalConfigurationSetList);
+		if (result == false) {
+			MessageDialog.openError(getSite().getShell(), Messages.getString("ConfigurationView.12"), Messages.getString("ConfigurationView.13")); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		if (targetComponent instanceof CorbaComponent) {
+			CorbaComponent c = (CorbaComponent) targetComponent;
+			c.synchronizeLocalAttribute(
+					ComponentPackage.eINSTANCE
+							.getComponent_ConfigurationSets());
+			c.synchronizeLocalAttribute(
+					ComponentPackage.eINSTANCE
+							.getComponent_ActiveConfigurationSet());
+		}
+		buildData();
+
+		leftTable.setSelection(selectionIndex);
 	}
 
 	/**
@@ -268,57 +269,31 @@ public class ConfigurationView extends ViewPart {
 	 * @return
 	 */
 	private boolean isActiveConfigurationSetModified() {
-		boolean result = false;
-		if ((copiedComponent.getActiveConfigSet() != null) == (targetComponent
-				.getActiveConfigurationSet() != null) == false) {
-			result = true;
-		}
-		if (result == false) {
-			if (copiedComponent.getActiveConfigSet() != null) {
-				if (targetComponent.getActiveConfigurationSet() != null) {
-					if (copiedComponent.getActiveConfigSet()
-							.getConfigurationSet() != null) {
-						if (copiedComponent.getActiveConfigSet()
-								.getConfigurationSet().getId().equals(
-										targetComponent
-												.getActiveConfigurationSet()
-												.getId()) == false) {
-							result = true;
-						}
-					} else {
-						result = true;
-					}
-				} else {
-					result = true;
-				}
-			} else {
-				if (targetComponent.getActiveConfigurationSet() != null) {
-					result = true;
+		if (copiedComponent.getActiveConfigSet() != null) {
+			if (targetComponent.getActiveConfigurationSet() == null)
+				return true;
+			if (copiedComponent.getActiveConfigSet()
+						.getConfigurationSet().getId().equals(
+								targetComponent
+										.getActiveConfigurationSet()
+										.getId()) == false) 
+				return true;
+			if (copiedComponent.getActiveConfigSet().getNamedValueList()
+					.size() != targetComponent.getActiveConfigurationSet()
+					.getConfigurationData().size()) {
+				return true;
+			}
+			for (NamedValueConfigurationWrapper namedValue : copiedComponent
+					.getActiveConfigSet().getNamedValueList()) {
+				if (namedValue.isKeyModified()
+						|| namedValue.isValueModified()) {
+					return true;
 				}
 			}
+		} else if (targetComponent.getActiveConfigurationSet() != null) {
+			return true;
 		}
-		if (result == false) {
-			if (copiedComponent.getActiveConfigSet() != null) {
-				if (copiedComponent.getActiveConfigSet().getNamedValueList()
-						.size() != targetComponent.getActiveConfigurationSet()
-						.getConfigurationData().size()) {
-					result = true;
-				}
-			}
-		}
-		if (result == false) {
-			if (copiedComponent.getActiveConfigSet() != null) {
-				for (NamedValueConfigurationWrapper namedValue : copiedComponent
-						.getActiveConfigSet().getNamedValueList()) {
-					if (namedValue.isKeyModified()
-							|| namedValue.isValueModified()) {
-						result = true;
-						break;
-					}
-				}
-			}
-		}
-		return result;
+		return false;
 	}
 
 	/**
@@ -328,17 +303,17 @@ public class ConfigurationView extends ViewPart {
 	 * @param copiedComponent
 	 * @return
 	 */
+	@SuppressWarnings("unchecked") //$NON-NLS-1$
 	private List<ConfigurationSet> createNewConfigurationSetList(
 			ComponentConfigurationWrapper copiedComponent) {
 		ArrayList<ConfigurationSet> result = new ArrayList<ConfigurationSet>();
 		for (ConfigurationSetConfigurationWrapper configset : copiedComponent
 				.getConfigurationSetList()) {
-			ConfigurationSet configurationSet = new ConfigurationSetImpl();
+			ConfigurationSet configurationSet = ComponentFactory.eINSTANCE.createConfigurationSet();
 			for (NamedValueConfigurationWrapper namedValue : configset
 					.getNamedValueList()) {
 				configurationSet.getConfigurationData().add(
-						(NameValue) SystemEditorWrapperFactory.getInstance()
-								.createWrapperObject(namedValue.getKey(),
+						SDOUtil.createNameValue(namedValue.getKey(),
 										namedValue.getValue()));
 			}
 
@@ -364,7 +339,7 @@ public class ConfigurationView extends ViewPart {
 		Composite componentNameComposite = new Composite(composite, SWT.NONE);
 		gl = new GridLayout();
 		gl.numColumns = 2;
-		gl.marginHeight = 0;
+		gl.marginHeight = 2;
 		componentNameComposite.setLayout(gl);
 		gd = new GridData();
 		gd.horizontalAlignment = SWT.FILL;
@@ -379,7 +354,7 @@ public class ConfigurationView extends ViewPart {
 		gd.horizontalSpan = 0;
 		gd.verticalSpan = 0;
 		componentNameLabelConst.setLayoutData(gd);
-		componentNameLabelConst.setText("ComponentName:");
+		componentNameLabelConst.setText(Messages.getString("ConfigurationView.15")); //$NON-NLS-1$
 
 		componentNameLabel = new Label(componentNameComposite, SWT.BORDER);
 		gd = new GridData();
@@ -388,6 +363,7 @@ public class ConfigurationView extends ViewPart {
 		gd.horizontalSpan = 0;
 		gd.verticalSpan = 0;
 		componentNameLabel.setLayoutData(gd);
+		componentNameLabel.setBackground(colorRegistry.get(WHITE_COLOR));
 
 		leftTableViewer = new TableViewer(composite, SWT.FULL_SELECTION
 				| SWT.SINGLE | SWT.BORDER);
@@ -419,11 +395,11 @@ public class ConfigurationView extends ViewPart {
 		leftTable.setLayout(gl);
 
 		final TableColumn activeCol = new TableColumn(leftTable, SWT.RIGHT);
-		activeCol.setText("active");
+		activeCol.setText(Messages.getString("ConfigurationView.16")); //$NON-NLS-1$
 		activeCol.setWidth(50);
 
 		final TableColumn configCol = new TableColumn(leftTable, SWT.LEFT);
-		configCol.setText("config");
+		configCol.setText(Messages.getString("ConfigurationView.17")); //$NON-NLS-1$
 		activeCol.setWidth(50);
 
 		ControlAdapter controlAdapter = new ControlAdapter() {
@@ -440,14 +416,17 @@ public class ConfigurationView extends ViewPart {
 
 		Composite buttonCompsite = new Composite(composite, SWT.BOTTOM);
 		gl = new GridLayout();
-		gl.numColumns = 2;
+		gl.numColumns = 3;
 		buttonCompsite.setLayout(gl);
 		gd = new GridData();
 		gd.horizontalAlignment = SWT.FILL;
 		buttonCompsite.setLayoutData(gd);
 
+		// Copyボタンの追加 2008.12.17
+		createCopyConfigurationSetButton(buttonCompsite);
+		
 		addConfigurationSetButton = new Button(buttonCompsite, SWT.NONE);
-		addConfigurationSetButton.setText("Add");
+		addConfigurationSetButton.setText(Messages.getString("ConfigurationView.18")); //$NON-NLS-1$
 		addConfigurationSetButton.setEnabled(false);
 		gd = new GridData();
 		gd.grabExcessHorizontalSpace = true;
@@ -455,19 +434,29 @@ public class ConfigurationView extends ViewPart {
 		gd.widthHint = BUTTON_WIDTH;
 		addConfigurationSetButton.setLayoutData(gd);
 		addConfigurationSetButton.addSelectionListener(new SelectionAdapter() {
+			@SuppressWarnings("unchecked") //$NON-NLS-1$
+			@Override
 			public void widgetSelected(SelectionEvent e) {
-				ConfigurationSetConfigurationWrapper configurationSetConfigurationWrapper = new ConfigurationSetConfigurationWrapper(
+				ConfigurationSetConfigurationWrapper csw = new ConfigurationSetConfigurationWrapper(
 						null, null);
-				configurationSetConfigurationWrapper
-						.setId(createDefaultConfigurationSetName("configSet")); // modified_name
+				csw.setId(createDefaultConfigurationSetName("configSet")); // modified_name //$NON-NLS-1$
 
-				copiedComponent
-						.addConfigurationSet(configurationSetConfigurationWrapper);
+				copiedComponent.addConfigurationSet(csw);
 
 				if (copiedComponent.getConfigurationSetList().size() == 1) { // コンフィグレーションセットが追加した１つしかない場合には、それをアクティブにする。
-					copiedComponent
-							.setActiveConfigSet(configurationSetConfigurationWrapper);
+					copiedComponent.setActiveConfigSet(csw);
 				}
+
+				// デフォルトのwidgetと制約条件からNVList作成
+				List<NamedValueConfigurationWrapper> nvlist = csw.getNamedValueList();
+				for (String key : copiedComponent.getDefaultNameSet()) {
+					NamedValueConfigurationWrapper nvw = new NamedValueConfigurationWrapper(key, Messages.getString("ConfigurationView.21"));
+					String type = copiedComponent.getWidgetSetting().get(key);
+					String cond = copiedComponent.getDefaultConditionSetting().get(key);
+					nvw.setWidgetAndCondition(type, cond);
+					nvlist.add(nvw);
+				}
+				Collections.sort(nvlist);
 
 				refreshLeftData();
 				leftTable.forceFocus();
@@ -478,7 +467,7 @@ public class ConfigurationView extends ViewPart {
 		});
 
 		deleteConfigurationSetButton = new Button(buttonCompsite, SWT.NONE);
-		deleteConfigurationSetButton.setText("Delete");
+		deleteConfigurationSetButton.setText(Messages.getString("ConfigurationView.22")); //$NON-NLS-1$
 		gd = new GridData();
 		gd.horizontalAlignment = SWT.END;
 		gd.widthHint = BUTTON_WIDTH;
@@ -539,6 +528,47 @@ public class ConfigurationView extends ViewPart {
 				});
 	}
 
+	//	 Copyボタンの追加 2008.12.17
+	private void createCopyConfigurationSetButton(Composite buttonCompsite) {
+		copyConfigurationSetButton = new Button(buttonCompsite, SWT.NONE);
+		copyConfigurationSetButton.setText(Messages.getString("ConfigurationView.23")); //$NON-NLS-1$
+		copyConfigurationSetButton.setEnabled(false);
+		GridData gd = new GridData();
+		gd.grabExcessHorizontalSpace = true;
+		gd.horizontalAlignment = SWT.END;
+		gd.widthHint = BUTTON_WIDTH;
+		copyConfigurationSetButton.setLayoutData(gd);
+		copyConfigurationSetButton.addSelectionListener(new SelectionAdapter() {
+			@SuppressWarnings("unchecked") //$NON-NLS-1$
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (leftTable.getSelectionIndex() < 0) return;
+				
+				ConfigurationSetConfigurationWrapper csw = new ConfigurationSetConfigurationWrapper(
+						null, null);
+				csw.setId(createDefaultConfigurationSetName("configSet")); // modified_name //$NON-NLS-1$
+
+				copiedComponent.addConfigurationSet(csw);
+
+				// 選択されているコンフィグセットの設定値をそのままコピー
+				List<NamedValueConfigurationWrapper> nvlist = csw.getNamedValueList();
+				ConfigurationSetConfigurationWrapper currentConfugurationSet = copiedComponent.getConfigurationSetList().get(
+						leftTable.getSelectionIndex());
+				for (NamedValueConfigurationWrapper oldNavedValue : currentConfugurationSet.getNamedValueList()) {
+					nvlist.add(oldNavedValue.clone());
+				}
+				Collections.sort(nvlist);
+
+				refreshLeftData();
+				leftTable.forceFocus();
+				leftTable.setSelection(leftTable.getItemCount() - 1);
+				updateDeleteConfigurationSetButtonEnable();
+				refreshRightData();
+			}
+		});
+		
+	}
+
 	private void createRightControl(SashForm sashForm) {
 		GridLayout gl;
 		GridData gd;
@@ -553,7 +583,7 @@ public class ConfigurationView extends ViewPart {
 				SWT.NONE);
 		gl = new GridLayout();
 		gl.numColumns = 2;
-		gl.marginHeight = 0;
+		gl.marginHeight = 2;
 		configurationNameComposite.setLayout(gl);
 		gd = new GridData();
 		gd.horizontalAlignment = SWT.FILL;
@@ -568,7 +598,7 @@ public class ConfigurationView extends ViewPart {
 		gd.horizontalSpan = 0;
 		gd.verticalSpan = 0;
 		configurationNameLabelConst.setLayoutData(gd);
-		configurationNameLabelConst.setText("ConfigurationSet:");
+		configurationNameLabelConst.setText(Messages.getString("ConfigurationView.26")); //$NON-NLS-1$
 
 		configrationSetNameLabel = new Label(configurationNameComposite,
 				SWT.BORDER);
@@ -578,6 +608,7 @@ public class ConfigurationView extends ViewPart {
 		gd.horizontalSpan = 0;
 		gd.verticalSpan = 0;
 		configrationSetNameLabel.setLayoutData(gd);
+		configrationSetNameLabel.setBackground(colorRegistry.get(WHITE_COLOR));
 
 		rightTableViewer = new TableViewer(composite, SWT.FULL_SELECTION
 				| SWT.SINGLE | SWT.BORDER);
@@ -588,23 +619,7 @@ public class ConfigurationView extends ViewPart {
 		rightTableViewer.setCellModifier(new RightTableCellModifier(
 				rightTableViewer));
 		rightTableViewer.setCellEditors(new CellEditor[] {
-				new TextCellEditor(rightTableViewer.getTable()),
-				new TextCellEditor(rightTableViewer.getTable()) });
-		// rightTableViewer.setSorter(new ViewerSorter() {
-		// @Override
-		// public int compare(Viewer viewer, Object e1, Object e2) {
-		// ConfigurationSetConfigurationWrapper currentConfugurationSet =
-		// copiedComponent
-		// .getConfigurationSetList().get(
-		// leftTable.getSelectionIndex());
-		//
-		// List<NamedValueConfigurationWrapper> namedValueList =
-		// currentConfugurationSet
-		// .getNamedValueList();
-		//
-		// return namedValueList.indexOf(e1) - namedValueList.indexOf(e2);
-		// }
-		// });
+				new TextCellEditor(rightTableViewer.getTable()), null });
 
 		rightTable = rightTableViewer.getTable();
 		rightTable.setLinesVisible(true);
@@ -631,14 +646,12 @@ public class ConfigurationView extends ViewPart {
 		rightTable.setHeaderVisible(true);
 
 		final TableColumn keyCol = new TableColumn(rightTable, SWT.LEFT);
-		keyCol.setText("name");
+		keyCol.setText(Messages.getString("ConfigurationView.27")); //$NON-NLS-1$
 		keyCol.setWidth(150);
 
 		final TableColumn valueCol = new TableColumn(rightTable, SWT.LEFT);
-		valueCol.setText("Value");
+		valueCol.setText(Messages.getString("ConfigurationView.28")); //$NON-NLS-1$
 		valueCol.setWidth(300);
-
-		// createTableEditor(rightTable, null);
 
 		ControlAdapter controlAdapter = new ControlAdapter() {
 			public void controlResized(ControlEvent e) {
@@ -654,14 +667,14 @@ public class ConfigurationView extends ViewPart {
 
 		Composite buttonCompsite = new Composite(composite, SWT.BOTTOM);
 		gl = new GridLayout();
-		gl.numColumns = 2;
+		gl.numColumns = 3;
 		buttonCompsite.setLayout(gl);
 		gd = new GridData();
 		gd.horizontalAlignment = SWT.FILL;
 		buttonCompsite.setLayoutData(gd);
 
 		addNamedValueButton = new Button(buttonCompsite, SWT.NONE);
-		addNamedValueButton.setText("Add");
+		addNamedValueButton.setText(Messages.getString("ConfigurationView.29")); //$NON-NLS-1$
 		addNamedValueButton.setEnabled(false);
 		gd = new GridData();
 		gd.grabExcessHorizontalSpace = true;
@@ -678,10 +691,8 @@ public class ConfigurationView extends ViewPart {
 				NamedValueConfigurationWrapper namedValueConfigurationWrapper = new NamedValueConfigurationWrapper(
 						null, null);
 				namedValueConfigurationWrapper
-						.setKey(createDefaultNamedValueKey("name")); // modified_key
-				Any valueAny = CorbaUtil.getOrb().create_any();
-				valueAny.insert_string("value");
-				namedValueConfigurationWrapper.setValue(valueAny);// modified_value
+						.setKey(createDefaultNamedValueKey("name")); // modified_key //$NON-NLS-1$
+				namedValueConfigurationWrapper.setValue(Messages.getString("ConfigurationView.31"));// modified_value
 
 				currentConfugurationSet
 						.addNamedValue(namedValueConfigurationWrapper);
@@ -696,7 +707,7 @@ public class ConfigurationView extends ViewPart {
 		});
 
 		deleteNamedValueButton = new Button(buttonCompsite, SWT.NONE);
-		deleteNamedValueButton.setText("Delete");
+		deleteNamedValueButton.setText(Messages.getString("ConfigurationView.32")); //$NON-NLS-1$
 		gd = new GridData();
 		gd.horizontalAlignment = SWT.END;
 		gd.widthHint = BUTTON_WIDTH;
@@ -705,6 +716,8 @@ public class ConfigurationView extends ViewPart {
 		deleteNamedValueButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				if (leftTable.getSelectionIndex() < 0) return;
+				
 				if (rightTable.getSelectionIndex() != -1) {
 					ConfigurationSetConfigurationWrapper currentConfugurationSet = copiedComponent
 							.getConfigurationSetList().get(
@@ -739,25 +752,25 @@ public class ConfigurationView extends ViewPart {
 		ConfigurationSetConfigurationWrapper currentConfugurationSet = copiedComponent
 				.getConfigurationSetList().get(leftTable.getSelectionIndex());
 
-		int number = 1;
-		for (;;) {
+		int number = getNumber(preString, currentConfugurationSet);
+
+		return (preString + "_" + number); //$NON-NLS-1$
+	}
+
+	private int getNumber(String preString,
+			ConfigurationSetConfigurationWrapper currentConfugurationSet) {
+		for (int number = 1;;number++) {
 			boolean isExist = false;
 			for (NamedValueConfigurationWrapper current : currentConfugurationSet
 					.getNamedValueList()) {
-				if ((preString + "_" + number).equals(current.getKey())) {
+				if ((preString + "_" + number).equals(current.getKey())) { //$NON-NLS-1$
 					isExist = true;
 					break;
 				}
 			}
 
-			if (isExist == false) {
-				break;
-			}
-
-			++number;
+			if (!isExist) return number;
 		}
-
-		return (preString + "_" + number);
 	}
 
 	private String createDefaultConfigurationSetName(String preString) {
@@ -766,7 +779,7 @@ public class ConfigurationView extends ViewPart {
 			boolean isExist = false;
 			for (ConfigurationSetConfigurationWrapper current : copiedComponent
 					.getConfigurationSetList()) {
-				if ((preString + "_" + number).equals(current.getId())) {
+				if ((preString + "_" + number).equals(current.getId())) { //$NON-NLS-1$
 					isExist = true;
 					break;
 				}
@@ -779,14 +792,10 @@ public class ConfigurationView extends ViewPart {
 			++number;
 		}
 
-		return preString + "_" + number;
+		return preString + "_" + number; //$NON-NLS-1$
 	}
 
-	private void setLastNameServiceAddress(String address) {
-		RTSystemEditorPlugin.getDefault().getPreferenceStore().setValue(
-				LAST_NAMESERVICE_ADDRESS, address);
-	}
-
+	@SuppressWarnings("unchecked")
 	@Override
 	/**
 	 * {@inheritDoc}
@@ -807,15 +816,11 @@ public class ConfigurationView extends ViewPart {
 			targetComponent = null;
 			if (selection instanceof IStructuredSelection) {
 				IStructuredSelection sSelection = (IStructuredSelection) selection;
-				if (AdapterUtil.getAdapter(sSelection.getFirstElement(),
-						AbstractComponent.class) != null) {
-					targetComponent = (AbstractComponent) AdapterUtil.getAdapter(
-							sSelection.getFirstElement(), AbstractComponent.class);
-					if (targetComponent instanceof Component
-							&& !(targetComponent.eContainer() instanceof SystemDiagram)) {
-						ComponentImpl.synchronizeLocalAttribute((Component) targetComponent,
-								null);
-					}
+				Object selectedComponent = AdapterUtil.getAdapter(sSelection.getFirstElement(),
+										Component.class);
+				if (selectedComponent != null) {
+					targetComponent = (Component) selectedComponent;
+					targetComponent.synchronizeManually();
 				}
 			}
 			buildData();
@@ -841,6 +846,7 @@ public class ConfigurationView extends ViewPart {
 	}
 
 	private void refreshData() {
+		editButton.setEnabled(false);
 		applyButton.setEnabled(false);
 		cancelButton.setEnabled(false);
 
@@ -853,6 +859,7 @@ public class ConfigurationView extends ViewPart {
 
 		refreshRightData();
 		if (copiedComponent != null) {
+			editButton.setEnabled(true);
 			applyButton.setEnabled(true);
 			cancelButton.setEnabled(true);
 		}
@@ -860,7 +867,7 @@ public class ConfigurationView extends ViewPart {
 
 	private void refreshLeftData() {
 		leftTableViewer.setInput(Collections.EMPTY_LIST);
-		componentNameLabel.setText("");
+		componentNameLabel.setText(""); //$NON-NLS-1$
 		addConfigurationSetButton.setEnabled(false);
 
 		if (copiedComponent != null) {
@@ -876,18 +883,17 @@ public class ConfigurationView extends ViewPart {
 		updateDeleteConfigurationSetButtonEnable();
 	}
 
+	// ConfigSetのDeleteボタンとCopyボタンのenable属性は同じ 2008.12.17
 	private void updateDeleteConfigurationSetButtonEnable() {
-		boolean deleteConfigurationSetEnabled = false;
-		if (leftTable.getSelectionIndex() != -1) {
-			deleteConfigurationSetEnabled = true;
-		}
+		boolean deleteConfigurationSetEnabled = (leftTable.getSelectionIndex() != -1) ;
 
 		deleteConfigurationSetButton.setEnabled(deleteConfigurationSetEnabled);
+		copyConfigurationSetButton.setEnabled(deleteConfigurationSetEnabled);
 	}
 
 	private void refreshRightData() {
 		rightTableViewer.setInput(Collections.EMPTY_LIST);
-		configrationSetNameLabel.setText("");
+		configrationSetNameLabel.setText(""); //$NON-NLS-1$
 		addNamedValueButton.setEnabled(false);
 
 		if (copiedComponent != null) {
@@ -909,12 +915,11 @@ public class ConfigurationView extends ViewPart {
 	}
 
 	private void updateDeleteNamedValueButtonEnable() {
-		boolean deleteNamedValueEnabled = false;
 		if (rightTable.getSelectionIndex() != -1) {
-			deleteNamedValueEnabled = true;
+			deleteNamedValueButton.setEnabled(true);
+		} else {
+			deleteNamedValueButton.setEnabled(false);
 		}
-
-		deleteNamedValueButton.setEnabled(deleteNamedValueEnabled);
 	}
 
 	@Override
@@ -938,44 +943,43 @@ public class ConfigurationView extends ViewPart {
 	 * ConfigurationViewの内部モデルであるComponentConfigurationWrapperを作成する
 	 */
 	public ComponentConfigurationWrapper createConfigurationWrapper(
-			AbstractComponent target) {
-		ComponentConfigurationWrapper result = new ComponentConfigurationWrapper();
-		List<ConfigurationSetConfigurationWrapper> configurationSetList = result
-				.getConfigurationSetList();
+			Component target) {
+		return ComponentConfigurationWrapper.create(target);
+	}
 
-		for (Iterator iter = target.getConfigurationSets().iterator(); iter
-				.hasNext();) {
-			ConfigurationSet configurationSet = (ConfigurationSet) iter.next();
-
-			ConfigurationSetConfigurationWrapper configurationSetConfigurationWrapper = new ConfigurationSetConfigurationWrapper(
-					configurationSet, configurationSet.getId());
-
-			List<NamedValueConfigurationWrapper> namedValueList = configurationSetConfigurationWrapper
-					.getNamedValueList();
-
-			for (Iterator iterator = configurationSet.getConfigurationData()
-					.iterator(); iterator.hasNext();) {
-
-				NameValue nameValue = (NameValue) iterator.next();
-				NamedValueConfigurationWrapper namedValueConfigurationWrapper = new NamedValueConfigurationWrapper(
-						nameValue.getName(), nameValue.getValue());
-
-				namedValueList.add(namedValueConfigurationWrapper);
-				Collections.sort(namedValueList);
-			}
-
-			if (target.getActiveConfigurationSet() != null
-					&& target.getActiveConfigurationSet().getId().equals(
-							configurationSet.getId())) {
-				result.setActiveConfigSet(configurationSetConfigurationWrapper);
-			}
-
-			configurationSetList.add(configurationSetConfigurationWrapper);
-			Collections.sort(configurationSetList);
+	private void setSiteSelection() {
+		if (getSite() == null) {
+			return;
 		}
 
-		return result;
+		getSite().getWorkbenchWindow().getSelectionService()
+				.addSelectionListener(selectionListener);
+
+		getSite().setSelectionProvider(new ISelectionProvider() {
+			public void addSelectionChangedListener(
+					ISelectionChangedListener listener) {
+			}
+
+			public ISelection getSelection() {
+				StructuredSelection result = null;
+				if (targetComponent != null) {
+					result = new StructuredSelection(targetComponent);
+				}
+
+				return result;
+			}
+
+			public void removeSelectionChangedListener(
+					ISelectionChangedListener listener) {
+			}
+
+			public void setSelection(ISelection selection) {
+			}
+		});
+		
+		selectionListener.selectionChanged(null, getSite().getWorkbenchWindow().getSelectionService().getSelection());
 	}
+
 
 	/**
 	 * 左テーブルのCellModifierクラス
@@ -1028,7 +1032,7 @@ public class ConfigurationView extends ViewPart {
 				String newConfigurationSetName = (String) value;
 				if (isDuplicate) {
 					MessageDialog.openWarning(viewer.getControl().getShell(),
-							"警告", "既にその名前は使用されています。");
+							Messages.getString("ConfigurationView.39"), Messages.getString("ConfigurationView.40")); //$NON-NLS-1$ //$NON-NLS-2$
 					newConfigurationSetName = createDefaultConfigurationSetName((String) value);
 				}
 
@@ -1051,53 +1055,31 @@ public class ConfigurationView extends ViewPart {
 		}
 
 		public boolean canModify(Object element, String property) {
-			NamedValueConfigurationWrapper item = (NamedValueConfigurationWrapper) element;
 
-			boolean result = false;
 			if (PROPERTY_KEY.equals(property)) {
-				result = true;
+				return true;
 			} else if (PROPERTY_VALUE.equals(property)) {
-				try {
-					if (item.getValue().type().kind() == TCKind.tk_wstring) {
-						item.getValue().extract_wstring();
-					} else {
-						item.getValue().extract_string();
-					}
-					result = true;
-				} catch (Exception e) {
-					// void
-				}
+				NamedValueConfigurationWrapper item = (NamedValueConfigurationWrapper) element;
+				return item.canModify();
 			}
 
-			return result;
+			return false;
 		}
 
 		public Object getValue(Object element, String property) {
 			NamedValueConfigurationWrapper item = (NamedValueConfigurationWrapper) element;
 
-			String result = null;
 			if (PROPERTY_KEY.equals(property)) {
-				result = item.getKey();
+				return item.getKey();
 			} else if (PROPERTY_VALUE.equals(property)) {
-				try {
-					if (item.getValue().type().kind() == TCKind.tk_wstring) {
-						result = item.getValue().extract_wstring();
-					} else {
-						result = item.getValue().extract_string();
-					}
-				} catch (Exception e) {
-					try {
-						result = item.getValue().type().name();
-					} catch (BadKind e1) {
-						result = "<Unknown>";
-					}
-				}
+				return item.getValueAsString();
 			}
 
-			return result;
+			return null;
 		}
 
 		public void modify(Object element, String property, Object value) {
+			if (leftTable.getSelectionIndex() < 0) return;
 			if (element instanceof TableItem == false) {
 				return;
 			}
@@ -1122,20 +1104,13 @@ public class ConfigurationView extends ViewPart {
 				String newKey = (String) value;
 				if (isDuplicate) {
 					MessageDialog.openWarning(viewer.getControl().getShell(),
-							"警告", "既にそのキーは使用されています。");
+							Messages.getString("ConfigurationView.42"), Messages.getString("ConfigurationView.43")); //$NON-NLS-1$ //$NON-NLS-2$
 					newKey = createDefaultNamedValueKey((String) value);
 				}
 
 				item.setKey(newKey);
 			} else if (PROPERTY_VALUE.equals(property)) {
-				Any valueAny = CorbaUtil.getOrb().create_any();
-				if (StringUtils.isAsciiPrintable((String) value)) {
-					valueAny.insert_string((String) value);
-				} else {
-					valueAny.insert_wstring((String) value);
-				}
-
-				item.setValue(valueAny);
+				item.setValue((String) value);
 			}
 
 			viewer.update(item, null);
@@ -1154,10 +1129,10 @@ public class ConfigurationView extends ViewPart {
 				ConfigurationSetConfigurationWrapper item = (ConfigurationSetConfigurationWrapper) element;
 				if (item == copiedComponent.getActiveConfigSet()) {
 					result = RTSystemEditorPlugin
-							.getCachedImage("icons/Radiobutton_Checked.png");
+							.getCachedImage("icons/Radiobutton_Checked.png"); //$NON-NLS-1$
 				} else {
 					result = RTSystemEditorPlugin
-							.getCachedImage("icons/Radiobutton_Unchecked.png");
+							.getCachedImage("icons/Radiobutton_Unchecked.png"); //$NON-NLS-1$
 				}
 			}
 
@@ -1219,29 +1194,14 @@ public class ConfigurationView extends ViewPart {
 		public String getColumnText(Object element, int columnIndex) {
 			NamedValueConfigurationWrapper item = (NamedValueConfigurationWrapper) element;
 
-			String result = null;
 			if (columnIndex == 0) {
-				result = getModiedLabelString(item.isKeyModified())
+				return getModiedLabelString(item.isKeyModified())
 						+ item.getKey();
 			} else if (columnIndex == 1) {
-				try {
-					if (item.getValue().type().kind() == TCKind.tk_wstring) {
-						result = getModiedLabelString(item.isValueModified())
-								+ item.getValue().extract_wstring();
-					} else {
-						result = getModiedLabelString(item.isValueModified())
-								+ item.getValue().extract_string();
-					}
-				} catch (Exception e) {
-					try {
-						result = item.getValue().type().id();
-					} catch (BadKind e1) {
-						result = "<Unknown>";
-					}
-				}
+				return item.getValueAsString();
 			}
 
-			return result;
+			return null;
 		}
 
 		public Color getForeground(Object element, int columnIndex) {
@@ -1249,36 +1209,26 @@ public class ConfigurationView extends ViewPart {
 		}
 
 		public Color getBackground(Object element, int columnIndex) {
-			Color color = null;
 			NamedValueConfigurationWrapper namedValueConfigurationWrapper = (NamedValueConfigurationWrapper) element;
 			if (columnIndex == 0
 					&& namedValueConfigurationWrapper.isKeyModified()
 					|| columnIndex == 1
 					&& namedValueConfigurationWrapper.isValueModified()) {
-				color = colorRegistry.get(MODIFY_COLOR);
+				return colorRegistry.get(MODIFY_COLOR);
 			}
 
-			if (columnIndex == 1) {
-				try {
-					NamedValueConfigurationWrapper item = (NamedValueConfigurationWrapper) element;
-					if (item.getValue().type().kind() == TCKind.tk_wstring) {
-						item.getValue().extract_wstring();
-					} else {
-						item.getValue().extract_string();
-					}
-				} catch (Exception e) { // Stringに変換できない値
-					color = colorRegistry.get(CANT_MODIFY_COLOR);
-				}
+			if (columnIndex == 1 && !namedValueConfigurationWrapper.canModify()) {
+				return colorRegistry.get(CANT_MODIFY_COLOR);
 			}
 
-			return color;
+			return null;
 		}
 	}
 
 	private String getModiedLabelString(boolean bool) {
-		String result = "";
+		String result = ""; //$NON-NLS-1$
 		if (bool) {
-			result = "*";
+			result = "*"; //$NON-NLS-1$
 		}
 
 		return result;

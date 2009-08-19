@@ -7,7 +7,11 @@ import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
 
-public class ConfigurationSetConfigurationWrapper implements Comparable {
+/**
+ * 変更前と変更後のConfigurationSetを保持するラッパー
+ *
+ */
+public class ConfigurationSetConfigurationWrapper implements Comparable<ConfigurationSetConfigurationWrapper> {
 
 	private List<NamedValueConfigurationWrapper> namedValueList = new ArrayList<NamedValueConfigurationWrapper>();
 
@@ -60,13 +64,20 @@ public class ConfigurationSetConfigurationWrapper implements Comparable {
 		return false;
 	}
 
+	@Override
+	public ConfigurationSetConfigurationWrapper clone() {
+		ConfigurationSetConfigurationWrapper result = new ConfigurationSetConfigurationWrapper(this.configurationSet, this.id);
+		for (NamedValueConfigurationWrapper nv : this.namedValueList) {
+			result.namedValueList.add(nv.clone());
+		}
+		return result;
+	}
+
 	/**
 	 * @see java.lang.Comparable#compareTo(Object)
 	 */
-	public int compareTo(Object object) {
-		ConfigurationSetConfigurationWrapper myClass = (ConfigurationSetConfigurationWrapper) object;
-		return new CompareToBuilder().append(this.id, myClass.id)
+	public int compareTo(ConfigurationSetConfigurationWrapper object) {
+		return new CompareToBuilder().append(this.id, object.id)
 				.toComparison();
 	}
-
 }

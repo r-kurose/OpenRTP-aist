@@ -2,10 +2,8 @@ package jp.go.aist.rtm.systemeditor.ui.editor.editpolicy;
 
 import jp.go.aist.rtm.systemeditor.ui.editor.command.CreateConnectorCommand;
 import jp.go.aist.rtm.systemeditor.ui.editor.command.ReconnectConnectorCommand;
-import jp.go.aist.rtm.toolscommon.model.component.Connector;
-import jp.go.aist.rtm.toolscommon.model.component.ConnectorSource;
-import jp.go.aist.rtm.toolscommon.model.component.ConnectorTarget;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
+import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
@@ -64,16 +62,16 @@ public class PortGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 	 */
 	protected Command getReconnectTargetCommand(ReconnectRequest request) {
 		if (getHost().getModel() instanceof Port == false
-				|| ((Connector) request.getConnectionEditPart().getModel())
+				|| ((PortConnector) request.getConnectionEditPart().getModel())
 						.getSource() == getHost().getModel()) {
 			return null;
 		}
 
 		ReconnectConnectorCommand command = new ReconnectConnectorCommand(
-				(Connector) request.getConnectionEditPart().getModel(),
+				(PortConnector) request.getConnectionEditPart().getModel(),
 				new GraphicalConnectorCreateManager(getHost().getViewer()
 						.getControl().getShell()));
-		command.setNewTarget((ConnectorTarget) getHost().getModel());
+		command.setNewTarget((Port) getHost().getModel());
 		return command;
 	}
 
@@ -83,7 +81,7 @@ public class PortGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 	 */
 	protected Command getReconnectSourceCommand(ReconnectRequest request) {
 		if (getHost().getModel() instanceof Port == false
-				|| ((Connector) request.getConnectionEditPart().getModel())
+				|| ((PortConnector) request.getConnectionEditPart().getModel())
 						.getTarget() == getHost().getModel()) {
 			return null;
 		}
@@ -91,10 +89,10 @@ public class PortGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 		GraphicalConnectorCreateManager graphicalConnectorCreateManager = new GraphicalConnectorCreateManager(
 				getHost().getViewer().getControl().getShell());
 		ReconnectConnectorCommand command = new ReconnectConnectorCommand(
-				(Connector) request.getConnectionEditPart().getModel(),
+				(PortConnector) request.getConnectionEditPart().getModel(),
 				graphicalConnectorCreateManager);
 
-		command.setNewSource((ConnectorSource) getHost().getModel());
+		command.setNewSource((Port) getHost().getModel());
 		return command;
 	}
 

@@ -1,5 +1,7 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.command;
 
+import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.GraphicalConnectorCreateManager;
+
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.commands.Command;
 
@@ -7,8 +9,9 @@ import org.eclipse.gef.commands.Command;
  * コネクタを作成するコマンド
  */
 public class CreateConnectorCommand extends Command {
-	private ConnectorCreateManager manager;
+	private GraphicalConnectorCreateManager manager;
 	private EditPartViewer viewer;
+	private boolean result;
 
 	/**
 	 * コンストラクタ
@@ -18,7 +21,7 @@ public class CreateConnectorCommand extends Command {
 	 * @param manager
 	 *            manager
 	 */
-	public CreateConnectorCommand(ConnectorCreateManager profileCreater) {
+	public CreateConnectorCommand(GraphicalConnectorCreateManager profileCreater) {
 		this.manager = profileCreater;
 	}
 
@@ -27,12 +30,9 @@ public class CreateConnectorCommand extends Command {
 	 * {@inheritDoc}
 	 */
 	public boolean canExecute() {
-		if (manager.getFirst() == null || manager.getSecond() == null
-				|| manager.validate() == false) {
-			return false;
-		}
-
-		return true;
+		if (manager.getFirst() == null) return false;
+		if (manager.getSecond() == null) return false;
+		return manager.validate();
 	}
 
 	@Override
@@ -41,9 +41,13 @@ public class CreateConnectorCommand extends Command {
 	 */
 	public void execute() {
 		viewer.deselectAll();
-		manager.createProfileAndConnector(); //成功か失敗かは返さないが、将来必要なら返すように修正すること
+		result = manager.createProfileAndConnector(); //成功か失敗かは返さないが、将来必要なら返すように修正すること
 	}
 
+	public boolean getResult() {
+		return result;
+	}
+	
 	@Override
 	/**
 	 * {@inheritDoc}
@@ -59,7 +63,7 @@ public class CreateConnectorCommand extends Command {
 		}
 	}
 
-	public ConnectorCreateManager getManager() {
+	public GraphicalConnectorCreateManager getManager() {
 		return manager;
 	}
 	public void setViewer(EditPartViewer viewer) {

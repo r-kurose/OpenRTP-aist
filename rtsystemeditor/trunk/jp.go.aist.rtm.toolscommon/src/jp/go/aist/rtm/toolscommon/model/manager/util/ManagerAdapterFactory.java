@@ -12,8 +12,6 @@ import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
 import jp.go.aist.rtm.toolscommon.model.manager.*;
 
 import jp.go.aist.rtm.toolscommon.model.manager.ManagerPackage;
-import jp.go.aist.rtm.toolscommon.model.manager.RTManager;
-import jp.go.aist.rtm.toolscommon.model.manager.RTModule;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 
 import org.eclipse.core.runtime.IAdaptable;
@@ -77,11 +75,8 @@ public class ManagerAdapterFactory extends AdapterFactoryImpl {
 	 */
 	protected ManagerSwitch modelSwitch =
 		new ManagerSwitch() {
-			public Object caseRTManager(RTManager object) {
-				return createRTManagerAdapter();
-			}
-			public Object caseRTModule(RTModule object) {
-				return createRTModuleAdapter();
+			public Object caseRTCManager(RTCManager object) {
+				return createRTCManagerAdapter();
 			}
 			public Object caseIAdaptable(IAdaptable object) {
 				return createIAdaptableAdapter();
@@ -117,30 +112,16 @@ public class ManagerAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.manager.RTManager <em>RT Manager</em>}'.
+	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager <em>RTC Manager</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see jp.go.aist.rtm.toolscommon.model.manager.RTManager
+	 * @see jp.go.aist.rtm.toolscommon.model.manager.RTCManager
 	 * @generated
 	 */
-	public Adapter createRTManagerAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.manager.RTModule <em>RT Module</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see jp.go.aist.rtm.toolscommon.model.manager.RTModule
-	 * @generated
-	 */
-	public Adapter createRTModuleAdapter() {
+	public Adapter createRTCManagerAdapter() {
 		return null;
 	}
 

@@ -1,8 +1,9 @@
 package jp.go.aist.rtm.toolscommon.ui.propertysource;
 
-import jp.go.aist.rtm.toolscommon.model.component.AbstractComponent;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.LifeCycleState;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
+import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
+import jp.go.aist.rtm.toolscommon.nl.Messages;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
@@ -10,33 +11,47 @@ import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
 /**
- * コンポーネントのIPropertySourceクラス
+ * コンポーネントのIPropertySourceクラス（オンライン）
  */
 public class ComponentPropertySource implements IPropertySource {
-	private static final String RTC_UNKNOWN_VIEWSTRING = "<UNKNOWN>";
+	private static final String DISP_INSTANCE_NAME = Messages.getString("ComponentPropertySource.disp.instance_name");
 
-	private static final String STATE_UNKNOWN_VIEWSTRING = "UNKNOWN";
+	private static final String DISP_TYPE_NAME = Messages.getString("ComponentPropertySource.disp.type_name");
 
-	private static final String STATE_CREATED_VIEWSTRING = "CREATED";
+	private static final String DISP_DESCRIPTION = Messages.getString("ComponentPropertySource.disp.description");
 
-	private static final String STATE_INACTIVE_VIEWSTRING = "INACTIVE";
+	private static final String DISP_VERSION = Messages.getString("ComponentPropertySource.disp.version");
 
-	private static final String STATE_ACTIVE_VIEWSTRING = "ACTIVE";
+	private static final String DISP_VENDOR = Messages.getString("ComponentPropertySource.disp.vendor");
 
-	private static final String STATE_ALIVE_VIEWSTRING = "ALIVE";
+	private static final String DISP_CATEGORY = Messages.getString("ComponentPropertySource.disp.category");
 
-	private static final String STATE_ERROR_VIEWSTRING = "ERROR";
+	private static final String DISP_STATE = Messages	.getString("ComponentPropertySource.disp.state");
+
+//	private static final String RTC_UNKNOWN_VIEWSTRING = Messages	.getString("ComponentPropertySource.unknown");
+
+	private static final String STATE_UNKNOWN_VIEWSTRING = Messages.getString("ComponentPropertySource.state.unknown");
+
+	private static final String STATE_CREATED_VIEWSTRING = Messages.getString("ComponentPropertySource.state.created");
+
+	private static final String STATE_INACTIVE_VIEWSTRING = Messages.getString("ComponentPropertySource.state.inactive");
+
+	private static final String STATE_ACTIVE_VIEWSTRING = Messages.getString("ComponentPropertySource.state.active");
+
+//	private static final String STATE_ALIVE_VIEWSTRING = Messages.getString("ComponentPropertySource.state.alive");
+
+	private static final String STATE_ERROR_VIEWSTRING = Messages.getString("ComponentPropertySource.state.error");
 
 	private static final PropertyDescriptor[] componentPropertyDescriptor = new PropertyDescriptor[] {
-			new TextPropertyDescriptor(Component.INSTANCE_NAME, "Instance Name"),
-			new TextPropertyDescriptor(Component.TYPE_NAME, "Type Name"),
-			new TextPropertyDescriptor(Component.DESCRIPTION, "Description"),
-			new TextPropertyDescriptor(Component.VERSION, "Version"),
-			new TextPropertyDescriptor(Component.VENDER, "Vender"),
-			new TextPropertyDescriptor(Component.CATEGORY, "Category"),
-			new TextPropertyDescriptor(Component.STATE, "State"), };
+			new TextPropertyDescriptor(Component.INSTANCE_NAME, DISP_INSTANCE_NAME),
+			new TextPropertyDescriptor(Component.TYPE_NAME, DISP_TYPE_NAME),
+			new TextPropertyDescriptor(Component.DESCRIPTION, DISP_DESCRIPTION),
+			new TextPropertyDescriptor(Component.VERSION, DISP_VERSION),
+			new TextPropertyDescriptor(Component.VENDER, DISP_VENDOR),
+			new TextPropertyDescriptor(Component.CATEGORY, DISP_CATEGORY),
+			new TextPropertyDescriptor(Component.STATE, DISP_STATE), };
 
-	private AbstractComponent component;
+	private Component component;
 
 	/**
 	 * {@inheritDoc}
@@ -44,7 +59,7 @@ public class ComponentPropertySource implements IPropertySource {
 	 * @param component
 	 *            モデル
 	 */
-	public ComponentPropertySource(AbstractComponent component) {
+	public ComponentPropertySource(Component component) {
 		this.component = component;
 	}
 
@@ -59,46 +74,41 @@ public class ComponentPropertySource implements IPropertySource {
 	 * {@inheritDoc}
 	 */
 	public java.lang.Object getPropertyValue(java.lang.Object id) {
-		String result = null;
-
 		try {
 			if (Component.INSTANCE_NAME.equals(id)) {
-				result = component.getInstanceNameL();
+				return component.getInstanceNameL();
 			} else if (Component.VENDER.equals(id)) {
-				result = component.getVenderL();
+				return component.getVenderL();
 			} else if (Component.DESCRIPTION.equals(id)) {
-				result = component.getDescriptionL();
+				return component.getDescriptionL();
 			} else if (Component.CATEGORY.equals(id)) {
-				result = component.getCategoryL();
+				return component.getCategoryL();
 			} else if (Component.TYPE_NAME.equals(id)) {
-				result = component.getTypeNameL();
+				return component.getTypeNameL();
 			} else if (Component.VERSION.equals(id)) {
-				result = component.getVersionL();
+				return component.getVersionL();
 			} else if (Component.STATE.equals(id)) {
-				if (component instanceof Component) {
-					if (((Component)component).getComponentState() == LifeCycleState.RTC_UNKNOWN) {
-						result = STATE_UNKNOWN_VIEWSTRING;
-					} else if (((Component)component).getComponentState() == LifeCycleState.RTC_CREATED) {
-						result = STATE_CREATED_VIEWSTRING;
-					} else if (((Component)component).getComponentState() == LifeCycleState.RTC_INACTIVE) {
-						result = STATE_INACTIVE_VIEWSTRING;
-					} else if (((Component)component).getComponentState() == LifeCycleState.RTC_ACTIVE) {
-						result = STATE_ACTIVE_VIEWSTRING;
-					} else if (((Component)component).getComponentState() == LifeCycleState.RTC_ERROR) {
-						result = STATE_ERROR_VIEWSTRING;
+				if (component instanceof CorbaComponent) {
+					CorbaComponent c = (CorbaComponent) component;
+					if (c.getComponentState() == ExecutionContext.RTC_UNKNOWN) {
+						return STATE_UNKNOWN_VIEWSTRING;
+					} else if (c.getComponentState() == ExecutionContext.RTC_CREATED) {
+						return STATE_CREATED_VIEWSTRING;
+					} else if (c.getComponentState() == ExecutionContext.RTC_INACTIVE) {
+						return STATE_INACTIVE_VIEWSTRING;
+					} else if (c.getComponentState() == ExecutionContext.RTC_ACTIVE) {
+						return STATE_ACTIVE_VIEWSTRING;
+					} else if (c.getComponentState() == ExecutionContext.RTC_ERROR) {
+						return STATE_ERROR_VIEWSTRING;
 					}
 				}
 				
 			}
 		} catch (Exception e) {
-			// void
+			return "<unknown>";
 		}
 
-		if (result == null) {
-			result = "<unknown>";
-		}
-
-		return result;
+		return "<unknown>";
 	}
 
 	/**

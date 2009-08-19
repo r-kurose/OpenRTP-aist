@@ -1,9 +1,6 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.dnd;
 
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode;
-import jp.go.aist.rtm.toolscommon.model.component.AbstractComponent;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl;
 import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 
 import org.eclipse.gef.EditPartViewer;
@@ -42,34 +39,29 @@ public class SystemDiagramDropTargetListener extends
 	 * {@inheritDoc}
 	 */
 	protected Request createTargetRequest() {
-		AbstractComponent component = null;
+		ComponentFactory factory = new ComponentFactory();
+		Component component = getComponent();
+		setComponent(factory, component);
+
+		CreateRequest result = new CreateRequest(); // nullObjectÇ∆ÇµÇƒï‘Ç∑ÅB
+		result.setFactory(factory);
+		return result;
+	}
+
+	private void setComponent(ComponentFactory factory, Component component) {
+		if (component == null) return;
+		factory.setComponent(component);
+	}
+
+	private Component getComponent() {
 		if (getCurrentEvent().data instanceof IStructuredSelection) {
 			IStructuredSelection selection = (IStructuredSelection) getCurrentEvent().data;
 			Object firstElement = selection.getFirstElement();
 
-			if (AdapterUtil.getAdapter(firstElement, AbstractComponent.class) != null) {
-				component = (AbstractComponent) AdapterUtil.getAdapter(firstElement,
-						AbstractComponent.class);
-			}
+			return (Component) AdapterUtil.getAdapter(firstElement,
+					Component.class);
 		}
-
-		CreateRequest result = new CreateRequest(); // nullObjectÇ∆ÇµÇƒï‘Ç∑ÅB
-		ComponentFactory factory = new ComponentFactory();
-		if (component != null) {
-			if( component instanceof Component) {
-				ComponentImpl.synchronizeLocalAttribute((Component) component, null);
-				ComponentImpl.synchronizeLocalReference((Component) component);
-				
-			}
-			if (component.getPathId() == null
-					&& component.eContainer() instanceof NamingObjectNode) {
-				component.setPathId(((NamingObjectNode) component.eContainer())
-							.getNameServiceReference().getPathId());
-			}
-			factory.setComponent(component);
-		}
-		result.setFactory(factory);
-		return result;
+		return null;
 	}
 
 	@Override

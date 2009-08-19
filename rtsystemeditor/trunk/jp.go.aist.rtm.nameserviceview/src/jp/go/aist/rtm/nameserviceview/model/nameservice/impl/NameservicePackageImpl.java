@@ -6,18 +6,16 @@
  */
 package jp.go.aist.rtm.nameserviceview.model.nameservice.impl;
 
-import jp.go.aist.rtm.nameserviceview.model.nameservice.CategoryNamingContext;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.HostNamingContext;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.ManagerNamingContext;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.ModuleNamingContext;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServerNamingContext;
+import jp.go.aist.rtm.nameserviceview.manager.ManagerPackage;
+import jp.go.aist.rtm.nameserviceview.manager.impl.ManagerPackageImpl;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameserviceFactory;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameservicePackage;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.Node;
 import jp.go.aist.rtm.toolscommon.model.core.CorePackage;
+import jp.go.aist.rtm.toolscommon.model.core.impl.CorePackageImpl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -45,41 +43,6 @@ public class NameservicePackageImpl extends EPackageImpl implements NameserviceP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass categoryNamingContextEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass hostNamingContextEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass managerNamingContextEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass moduleNamingContextEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass nameServerNamingContextEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	private EClass namingContextNodeEClass = null;
 
 	/**
@@ -94,7 +57,7 @@ public class NameservicePackageImpl extends EPackageImpl implements NameserviceP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass nodeEClass = null;
+	private EClass corbaNodeEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -201,64 +164,24 @@ public class NameservicePackageImpl extends EPackageImpl implements NameserviceP
 
 		isInited = true;
 
-		// Initialize simple dependencies
-		CorePackage.eINSTANCE.eClass();
+		// Obtain or create and register interdependencies
+		CorePackageImpl theCorePackage = (CorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI) instanceof CorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI) : CorePackage.eINSTANCE);
+		ManagerPackageImpl theManagerPackage = (ManagerPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ManagerPackage.eNS_URI) instanceof ManagerPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ManagerPackage.eNS_URI) : ManagerPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theNameservicePackage.createPackageContents();
+		theCorePackage.createPackageContents();
+		theManagerPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theNameservicePackage.initializePackageContents();
+		theCorePackage.initializePackageContents();
+		theManagerPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theNameservicePackage.freeze();
 
 		return theNameservicePackage;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getCategoryNamingContext() {
-		return categoryNamingContextEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getHostNamingContext() {
-		return hostNamingContextEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getManagerNamingContext() {
-		return managerNamingContextEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getModuleNamingContext() {
-		return moduleNamingContextEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getNameServerNamingContext() {
-		return nameServerNamingContextEClass;
 	}
 
 	/**
@@ -275,8 +198,8 @@ public class NameservicePackageImpl extends EPackageImpl implements NameserviceP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNamingContextNode_Nodes() {
-		return (EReference)namingContextNodeEClass.getEStructuralFeatures().get(0);
+	public EAttribute getNamingContextNode_Zombie() {
+		return (EAttribute)namingContextNodeEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -284,7 +207,7 @@ public class NameservicePackageImpl extends EPackageImpl implements NameserviceP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getNamingContextNode_Zombie() {
+	public EAttribute getNamingContextNode_Kind() {
 		return (EAttribute)namingContextNodeEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -302,17 +225,8 @@ public class NameservicePackageImpl extends EPackageImpl implements NameserviceP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getNamingObjectNode_Zombie() {
-		return (EAttribute)namingObjectNodeEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getNamingObjectNode_Entry() {
-		return (EReference)namingObjectNodeEClass.getEStructuralFeatures().get(1);
+		return (EReference)namingObjectNodeEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -320,8 +234,8 @@ public class NameservicePackageImpl extends EPackageImpl implements NameserviceP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getNode() {
-		return nodeEClass;
+	public EClass getCorbaNode() {
+		return corbaNodeEClass;
 	}
 
 	/**
@@ -329,8 +243,8 @@ public class NameservicePackageImpl extends EPackageImpl implements NameserviceP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNode_NameServiceReference() {
-		return (EReference)nodeEClass.getEStructuralFeatures().get(0);
+	public EReference getCorbaNode_NameServiceReference() {
+		return (EReference)corbaNodeEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -451,26 +365,15 @@ public class NameservicePackageImpl extends EPackageImpl implements NameserviceP
 		isCreated = true;
 
 		// Create classes and their features
-		categoryNamingContextEClass = createEClass(CATEGORY_NAMING_CONTEXT);
-
-		hostNamingContextEClass = createEClass(HOST_NAMING_CONTEXT);
-
-		managerNamingContextEClass = createEClass(MANAGER_NAMING_CONTEXT);
-
-		moduleNamingContextEClass = createEClass(MODULE_NAMING_CONTEXT);
-
-		nameServerNamingContextEClass = createEClass(NAME_SERVER_NAMING_CONTEXT);
-
 		namingContextNodeEClass = createEClass(NAMING_CONTEXT_NODE);
-		createEReference(namingContextNodeEClass, NAMING_CONTEXT_NODE__NODES);
 		createEAttribute(namingContextNodeEClass, NAMING_CONTEXT_NODE__ZOMBIE);
+		createEAttribute(namingContextNodeEClass, NAMING_CONTEXT_NODE__KIND);
 
 		namingObjectNodeEClass = createEClass(NAMING_OBJECT_NODE);
-		createEAttribute(namingObjectNodeEClass, NAMING_OBJECT_NODE__ZOMBIE);
 		createEReference(namingObjectNodeEClass, NAMING_OBJECT_NODE__ENTRY);
 
-		nodeEClass = createEClass(NODE);
-		createEReference(nodeEClass, NODE__NAME_SERVICE_REFERENCE);
+		corbaNodeEClass = createEClass(CORBA_NODE);
+		createEReference(corbaNodeEClass, CORBA_NODE__NAME_SERVICE_REFERENCE);
 
 		namingContextEClass = createEClass(NAMING_CONTEXT);
 
@@ -511,41 +414,28 @@ public class NameservicePackageImpl extends EPackageImpl implements NameserviceP
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
+		ManagerPackage theManagerPackage = (ManagerPackage)EPackage.Registry.INSTANCE.getEPackage(ManagerPackage.eNS_URI);
 		CorePackage theCorePackage = (CorePackage)EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI);
 
 		// Add supertypes to classes
-		categoryNamingContextEClass.getESuperTypes().add(this.getNamingContextNode());
-		hostNamingContextEClass.getESuperTypes().add(this.getNamingContextNode());
-		managerNamingContextEClass.getESuperTypes().add(this.getNamingContextNode());
-		moduleNamingContextEClass.getESuperTypes().add(this.getNamingContextNode());
-		nameServerNamingContextEClass.getESuperTypes().add(this.getNamingContextNode());
-		namingContextNodeEClass.getESuperTypes().add(this.getNode());
-		namingObjectNodeEClass.getESuperTypes().add(this.getNode());
-		nodeEClass.getESuperTypes().add(theCorePackage.getCorbaWrapperObject());
+		namingContextNodeEClass.getESuperTypes().add(this.getCorbaNode());
+		namingContextNodeEClass.getESuperTypes().add(theManagerPackage.getNameServerContext());
+		namingObjectNodeEClass.getESuperTypes().add(this.getCorbaNode());
+		corbaNodeEClass.getESuperTypes().add(theCorePackage.getCorbaWrapperObject());
+		corbaNodeEClass.getESuperTypes().add(theManagerPackage.getNode());
 
 		// Initialize classes and features; add operations and parameters
-		initEClass(categoryNamingContextEClass, CategoryNamingContext.class, "CategoryNamingContext", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(hostNamingContextEClass, HostNamingContext.class, "HostNamingContext", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(managerNamingContextEClass, ManagerNamingContext.class, "ManagerNamingContext", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(moduleNamingContextEClass, ModuleNamingContext.class, "ModuleNamingContext", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(nameServerNamingContextEClass, NameServerNamingContext.class, "NameServerNamingContext", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
 		initEClass(namingContextNodeEClass, NamingContextNode.class, "NamingContextNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getNamingContextNode_Nodes(), this.getNode(), null, "nodes", null, 0, -1, NamingContextNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getNamingContextNode_Zombie(), ecorePackage.getEBoolean(), "zombie", null, 0, 1, NamingContextNode.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNamingContextNode_Kind(), ecorePackage.getEString(), "kind", null, 0, 1, NamingContextNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(namingObjectNodeEClass, NamingObjectNode.class, "NamingObjectNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getNamingObjectNode_Zombie(), ecorePackage.getEBoolean(), "zombie", null, 0, 1, NamingObjectNode.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNamingObjectNode_Entry(), theCorePackage.getWrapperObject(), null, "entry", null, 0, 1, NamingObjectNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(nodeEClass, Node.class, "Node", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getNode_NameServiceReference(), this.getNameServiceReference(), null, "nameServiceReference", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(corbaNodeEClass, CorbaNode.class, "CorbaNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getCorbaNode_NameServiceReference(), this.getNameServiceReference(), null, "nameServiceReference", null, 0, 1, CorbaNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		EOperation op = addEOperation(nodeEClass, null, "deleteR");
+		EOperation op = addEOperation(corbaNodeEClass, null, "deleteR");
 		addEException(op, this.getNotFound());
 		addEException(op, this.getCannotProceed());
 		addEException(op, this.getInvalidName());

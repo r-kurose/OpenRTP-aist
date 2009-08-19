@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ManagerFactory.java,v 1.1 2008/03/05 12:01:47 terui Exp $
+ * $Id$
  */
 package jp.go.aist.rtm.toolscommon.model.manager;
 
@@ -26,22 +26,13 @@ public interface ManagerFactory extends EFactory {
 	ManagerFactory eINSTANCE = jp.go.aist.rtm.toolscommon.model.manager.impl.ManagerFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>RT Manager</em>'.
+	 * Returns a new object of class '<em>RTC Manager</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>RT Manager</em>'.
+	 * @return a new object of class '<em>RTC Manager</em>'.
 	 * @generated
 	 */
-	RTManager createRTManager();
-
-	/**
-	 * Returns a new object of class '<em>RT Module</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>RT Module</em>'.
-	 * @generated
-	 */
-	RTModule createRTModule();
+	RTCManager createRTCManager();
 
 	/**
 	 * Returns the package supported by this factory.

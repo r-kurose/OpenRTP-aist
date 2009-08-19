@@ -40,7 +40,7 @@ public class PortAnchor extends ChopboxAnchor {
 	 * 
 	 * @return •ûŒü
 	 */
-	public int getDirection() {
+	public String getDirection() {
 		return getOwner().getDirection();
 	}
 

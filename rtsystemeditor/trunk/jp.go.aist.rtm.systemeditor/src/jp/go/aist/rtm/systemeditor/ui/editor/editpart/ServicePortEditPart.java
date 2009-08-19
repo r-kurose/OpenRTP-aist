@@ -1,6 +1,7 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.editpart;
 
 import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
+import jp.go.aist.rtm.systemeditor.ui.editor.figure.ExportedServicePortFigure;
 import jp.go.aist.rtm.systemeditor.ui.editor.figure.ServicePortFigure;
 import jp.go.aist.rtm.toolscommon.model.component.ServicePort;
 
@@ -13,7 +14,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * InPortのEditPartクラス
+ * ServicePortのEditPartクラス
  */
 public class ServicePortEditPart extends PortEditPart {
 
@@ -42,11 +43,8 @@ public class ServicePortEditPart extends PortEditPart {
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 			public void run() {
 				if (isActive()) {
-					// if (ConnectorTarget.TARGET_CONNECTION.equals(evt
-					// .getPropertyName())) {
 					refresh();
 					refreshTargetConnections();
-					// }
 				}
 			}
 		});
@@ -57,7 +55,8 @@ public class ServicePortEditPart extends PortEditPart {
 	 * {@inheritDoc}
 	 */
 	protected IFigure createFigure() {
-		IFigure result = new ServicePortFigure(getModel());
+		IFigure result = isExported() ? new ExportedServicePortFigure(
+				getModel()) : new ServicePortFigure(getModel());
 		result.setLocation(new Point(0, 0));
 
 		OutPortEditPart.supportAutoCreateConnectorToolMode(getViewer(), result);
@@ -72,56 +71,12 @@ public class ServicePortEditPart extends PortEditPart {
 	protected void refreshVisuals() {
 		Color color = SystemEditorPreferenceManager.getInstance().getColor(
 				SystemEditorPreferenceManager.COLOR_SERVICEPORT_NO_CONNECT);
-//		if (getModel().getPortProfile() != null
-//				&& getModel().getPortProfile().getConnectorProfiles() != null
-//				&& getModel().getPortProfile().getConnectorProfiles().size() >= 1) {
-//
-//			AbstractComponent c = (AbstractComponent) getModel().eContainer();
-//			if (c.getCompositeComponent() == null) {
-//
-//				color = SystemEditorPreferenceManager.getInstance().getColor(
-//						SystemEditorPreferenceManager.COLOR_DATAPORT_CONNECTED);
-//
-//			} else {
-//
-//				AbstractComponent root = c;
-//				for (; root.getCompositeComponent() != null;) {
-//					root = root.getCompositeComponent();
-//				}
-//
-//				for (Object e : getModel().getPortProfile()
-//						.getConnectorProfiles()) {
-//					ConnectorProfile cp = (ConnectorProfile) e;
-//					Connector con = (Connector) cp.eContainer();
-//					Port p = null;
-//					if (con.getTarget() != getModel()) {
-//						p = (Port) con.getTarget();
-//					} else if (con.getSource() != getModel()) {
-//						p = (Port) con.getSource();
-//					}
-//					AbstractComponent dest = (AbstractComponent) p.eContainer();
-//					boolean contents = false;
-//					for (Object ee : root.getAllComponents()) {
-//						if (ee == dest) {
-//							contents = true;
-//						}
-//					}
-//					if (contents == false) {
-//						color = SystemEditorPreferenceManager
-//								.getInstance()
-//								.getColor(
-//										SystemEditorPreferenceManager.COLOR_DATAPORT_CONNECTED);
-//						break;
-//					}
-//				}
-//			}
-//		}
 		if (isConnected()) {
 			color = SystemEditorPreferenceManager.getInstance().getColor(
-					SystemEditorPreferenceManager.COLOR_DATAPORT_CONNECTED);
+					SystemEditorPreferenceManager.COLOR_SERVICEPORT_CONNECTED);
 		}
 
-		figure.setBackgroundColor(color);
+		getFigure().setBackgroundColor(color);
 
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this,
 				getFigure(), getFigure().getBounds());

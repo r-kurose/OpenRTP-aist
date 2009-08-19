@@ -8,25 +8,14 @@ package jp.go.aist.rtm.toolscommon.model.component.impl;
 
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
-import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
-import jp.go.aist.rtm.toolscommon.model.component.ConnectorTarget;
 import jp.go.aist.rtm.toolscommon.model.component.InPort;
 import jp.go.aist.rtm.toolscommon.model.component.OutPort;
-import jp.go.aist.rtm.toolscommon.model.component.PortProfile;
-import jp.go.aist.rtm.toolscommon.model.core.CorePackage;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.AttributeMapping;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ClassMapping;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ConstructorParamMapping;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ReferenceMapping;
-import jp.go.aist.rtm.toolscommon.ui.propertysource.OutportPropertySource;
-import jp.go.aist.rtm.toolscommon.util.SDOUtil;
+import jp.go.aist.rtm.toolscommon.model.component.Port;
+import jp.go.aist.rtm.toolscommon.ui.propertysource.PortPropertySource;
+import jp.go.aist.rtm.toolscommon.util.ConnectorUtil;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.ui.views.properties.IPropertySource;
-
-import RTC.PortServiceHelper;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Out Port</b></em>'.
@@ -40,10 +29,9 @@ public class OutPortImpl extends PortImpl implements OutPort {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
+	 * @generated
 	 */
-	public OutPortImpl() {
+	protected OutPortImpl() {
 		super();
 	}
 
@@ -56,60 +44,48 @@ public class OutPortImpl extends PortImpl implements OutPort {
 		return ComponentPackage.Literals.OUT_PORT;
 	}
 
-	public boolean validateConnector(ConnectorTarget target) {
+	@Override
+	public boolean validateSourceConnector(Port source) {
+		return false;
+	}
+
+	public boolean validateTargetConnector(Port target) {
 		if (target instanceof InPort == false) {
 			return false;
 		}
-
-		boolean result = false;
-		PortProfile inportProfile = ((InPort) target).getPortProfile();
-		if (inportProfile != null
-				&& ConnectorProfile.NAME_VALUE_KEY_PORT_PORT_TYPE_DATA_INPORT_VALUE
-						.equals(inportProfile.getPortType())) {
-			
-			if (ConnectorProfileImpl.getAllowDataTypes(this, (InPort) target)
-					.size() >= 1
-					|| ConnectorProfileImpl.isAllowAnyDataType(this,
-							(InPort) target)) {
-				if (ConnectorProfileImpl.getAllowDataflowTypes(this,
-						(InPort) target).size() >= 1
-						|| ConnectorProfileImpl.isAllowAnyDataflowType(this,
-								(InPort) target)) {
-					if (ConnectorProfileImpl.getAllowInterfaceTypes(this,
-							(InPort) target).size() >= 1
-							|| ConnectorProfileImpl.isAllowAnyInterfaceType(
-									this, (InPort) target)) {
-						if (ConnectorProfileImpl.getAllowSubscriptionTypes(
-								this, (InPort) target).size() >= 1
-								|| ConnectorProfileImpl
-										.isAllowAnySubscriptionType(this,
-												(InPort) target)) {
-							result = true;
-						}
-					}
-				}
-			}
-		}
+		if (isAllowDataType((InPort) target)) return true;
 		if (this.eContainer instanceof ComponentSpecification){
-			if (inportProfile != null
-					&& (ConnectorProfile.NAME_VALUE_KEY_PORT_PORT_TYPE_DATA_INPORT_VALUE
-					.equals(inportProfile.getPortType()))
-				|| inportProfile.eContainer() instanceof InPort) {
-				if (ConnectorProfileImpl.getAllowDataTypes(this, (InPort) target)
-						.size() >= 1
-						|| ConnectorProfileImpl.isAllowAnyDataType(this,
-								(InPort) target)) {
-					result = true;
-				}
+			if (ConnectorUtil.getAllowDataTypes(this, (InPort) target)
+					.size() >= 1
+					|| ConnectorUtil.isAllowAnyDataType(this,
+							(InPort) target)) {
+				return true;
 			}
 		}
-		return result;
+		return false;
 	}
 
+	private boolean isAllowDataType(InPort target) {
+		if (ConnectorUtil.getAllowDataTypes(this, target).size() < 1
+				&& !ConnectorUtil.isAllowAnyDataType(this,target)) 
+			return false;
+		if (ConnectorUtil.getAllowDataflowTypes(this, target).size() < 1
+				&& !ConnectorUtil.isAllowAnyDataflowType(this,target)) 
+			return false;
+		if (ConnectorUtil.getAllowInterfaceTypes(this, target).size() < 1
+				&& !ConnectorUtil.isAllowAnyInterfaceType(this, target)) 
+			return false;
+		if (ConnectorUtil.getAllowSubscriptionTypes(this, target).size() < 1
+				&& !ConnectorUtil.isAllowAnySubscriptionType(this, target)) 
+			return false;
+		return true;
+	}
+
+	@SuppressWarnings("unchecked")
 	public java.lang.Object getAdapter(Class adapter) {
 		java.lang.Object result = null;
 		if (IPropertySource.class.equals(adapter)) {
-			result = new OutportPropertySource(this);
+			result = new PortPropertySource(this);
 		}
 
 		if (result == null) {
@@ -119,39 +95,5 @@ public class OutPortImpl extends PortImpl implements OutPort {
 		return result;
 	}
 
-	public static final MappingRule MAPPING_RULE = new MappingRule(
-			PortImpl.MAPPING_RULE,
-			new ClassMapping(
-					OutPortImpl.class,
-					new ConstructorParamMapping[] { new ConstructorParamMapping(
-							CorePackage.eINSTANCE
-									.getCorbaWrapperObject_CorbaObject()) }) {
-				@Override
-				public boolean isTarget(LocalObject parent,
-						Object[] remoteObjects, java.lang.Object link) {
-					boolean result = false;
-					if (((org.omg.CORBA.Object) remoteObjects[0])
-							._is_a(PortServiceHelper.id())) {
-						RTC.PortService port = (RTC.PortService) PortServiceHelper
-								.narrow((org.omg.CORBA.Object) remoteObjects[0]);
-						if (jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile.NAME_VALUE_KEY_PORT_PORT_TYPE_DATA_OUTPORT_VALUE
-								.equals(SDOUtil
-										.getStringValue(
-												port.get_port_profile().properties,
-												jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile.NAME_VALUE_KEY_PORT_PORT_TYPE))) {
-							result = true;
-						}
-					}
-
-					return result;
-				}
-
-				@Override
-				public Object[] narrow(Object[] remoteObjects) {
-					return new Object[] { PortServiceHelper
-							.narrow((org.omg.CORBA.Object) remoteObjects[0]) };
-				}
-
-			}, new AttributeMapping[] {}, new ReferenceMapping[] {});
 
 } // OutPortImpl

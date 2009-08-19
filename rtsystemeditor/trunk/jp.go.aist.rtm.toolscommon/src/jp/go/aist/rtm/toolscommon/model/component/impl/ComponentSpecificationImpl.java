@@ -2,20 +2,37 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ComponentSpecificationImpl.java,v 1.2 2008/03/14 05:35:51 yamashita Exp $
+ * $Id$
  */
 package jp.go.aist.rtm.toolscommon.model.component.impl;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
+import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
+import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.Port;
+import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
+import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.AttributeMapping;
+import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ClassMapping;
+import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ConstructorParamMapping;
+import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ManyReferenceMapping;
+import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
+import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ReferenceMapping;
 import jp.go.aist.rtm.toolscommon.ui.propertysource.ComponentSpecificationPropertySource;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 /**
@@ -27,14 +44,12 @@ import org.eclipse.ui.views.properties.IPropertySource;
  * <ul>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentSpecificationImpl#getAliasName <em>Alias Name</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentSpecificationImpl#isSpecUnLoad <em>Spec Un Load</em>}</li>
- *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentSpecificationImpl#getComponentId <em>Component Id</em>}</li>
- *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentSpecificationImpl#getPathURI <em>Path URI</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ComponentSpecificationImpl extends AbstractComponentImpl implements ComponentSpecification {
+public class ComponentSpecificationImpl extends ComponentImpl implements ComponentSpecification {
 	/**
 	 * The default value of the '{@link #getAliasName() <em>Alias Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -74,46 +89,6 @@ public class ComponentSpecificationImpl extends AbstractComponentImpl implements
 	 * @ordered
 	 */
 	protected boolean specUnLoad = SPEC_UN_LOAD_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getComponentId() <em>Component Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getComponentId()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String COMPONENT_ID_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getComponentId() <em>Component Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getComponentId()
-	 * @generated
-	 * @ordered
-	 */
-	protected String componentId = COMPONENT_ID_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getPathURI() <em>Path URI</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getPathURI()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String PATH_URI_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getPathURI() <em>Path URI</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getPathURI()
-	 * @generated
-	 * @ordered
-	 */
-	protected String pathURI = PATH_URI_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -180,67 +155,12 @@ public class ComponentSpecificationImpl extends AbstractComponentImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getComponentId() {
-		return componentId;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setComponentId(String newComponentId) {
-		String oldComponentId = componentId;
-		componentId = newComponentId;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT_SPECIFICATION__COMPONENT_ID, oldComponentId, componentId));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getPathURI() {
-		return pathURI;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setPathURI(String newPathURI) {
-		String oldPathURI = pathURI;
-		pathURI = newPathURI;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT_SPECIFICATION__PATH_URI, oldPathURI, pathURI));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public void setSpecUnLoad() {
-		specUnLoad = true;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ComponentPackage.COMPONENT_SPECIFICATION__ALIAS_NAME:
 				return getAliasName();
 			case ComponentPackage.COMPONENT_SPECIFICATION__SPEC_UN_LOAD:
 				return isSpecUnLoad() ? Boolean.TRUE : Boolean.FALSE;
-			case ComponentPackage.COMPONENT_SPECIFICATION__COMPONENT_ID:
-				return getComponentId();
-			case ComponentPackage.COMPONENT_SPECIFICATION__PATH_URI:
-				return getPathURI();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -257,12 +177,6 @@ public class ComponentSpecificationImpl extends AbstractComponentImpl implements
 				return;
 			case ComponentPackage.COMPONENT_SPECIFICATION__SPEC_UN_LOAD:
 				setSpecUnLoad(((Boolean)newValue).booleanValue());
-				return;
-			case ComponentPackage.COMPONENT_SPECIFICATION__COMPONENT_ID:
-				setComponentId((String)newValue);
-				return;
-			case ComponentPackage.COMPONENT_SPECIFICATION__PATH_URI:
-				setPathURI((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -281,12 +195,6 @@ public class ComponentSpecificationImpl extends AbstractComponentImpl implements
 			case ComponentPackage.COMPONENT_SPECIFICATION__SPEC_UN_LOAD:
 				setSpecUnLoad(SPEC_UN_LOAD_EDEFAULT);
 				return;
-			case ComponentPackage.COMPONENT_SPECIFICATION__COMPONENT_ID:
-				setComponentId(COMPONENT_ID_EDEFAULT);
-				return;
-			case ComponentPackage.COMPONENT_SPECIFICATION__PATH_URI:
-				setPathURI(PATH_URI_EDEFAULT);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -302,10 +210,6 @@ public class ComponentSpecificationImpl extends AbstractComponentImpl implements
 				return ALIAS_NAME_EDEFAULT == null ? aliasName != null : !ALIAS_NAME_EDEFAULT.equals(aliasName);
 			case ComponentPackage.COMPONENT_SPECIFICATION__SPEC_UN_LOAD:
 				return specUnLoad != SPEC_UN_LOAD_EDEFAULT;
-			case ComponentPackage.COMPONENT_SPECIFICATION__COMPONENT_ID:
-				return COMPONENT_ID_EDEFAULT == null ? componentId != null : !COMPONENT_ID_EDEFAULT.equals(componentId);
-			case ComponentPackage.COMPONENT_SPECIFICATION__PATH_URI:
-				return PATH_URI_EDEFAULT == null ? pathURI != null : !PATH_URI_EDEFAULT.equals(pathURI);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -323,14 +227,12 @@ public class ComponentSpecificationImpl extends AbstractComponentImpl implements
 		result.append(aliasName);
 		result.append(", specUnLoad: ");
 		result.append(specUnLoad);
-		result.append(", componentId: ");
-		result.append(componentId);
-		result.append(", pathURI: ");
-		result.append(pathURI);
 		result.append(')');
 		return result.toString();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
 	public boolean updateConfigurationSetListR(List list,
 			ConfigurationSet activeConfigurationSet, List originallist) {
 		
@@ -340,7 +242,120 @@ public class ComponentSpecificationImpl extends AbstractComponentImpl implements
 
 		return true;
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean updateConfigurationSetR(ConfigurationSet configSet, boolean isActive) {
+		EList list = this.getConfigurationSets();
+		int index = -1;
+		for (int i = 0; i < list.size(); i++) {
+			ConfigurationSet cs = (ConfigurationSet) list.get(i);
+			if (cs.getId().equals(configSet.getId())) {
+				index = i;
+				break;
+			}
+		}
+		if (index == -1) {
+			list.add(configSet);
+		} else {
+			ConfigurationSet acs = (ConfigurationSet) this
+					.getActiveConfigurationSet();
+			ConfigurationSet cs = (ConfigurationSet) list.get(index);
+			if (acs != null && acs.getId().equals(cs.getId())) {
+				this.setActiveConfigurationSet(configSet);
+			}
+			Object o = list.get(index);
+			list.set(index, configSet);
+			if (!o.equals(configSet)) {
+				list.remove(o);
+			}
+		}
+		return true;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean addComponentsR(List componentList) {
+		return doAddComponents(componentList);			
+	}
+
+	@SuppressWarnings("unchecked")
+	private boolean doAddComponents(Collection componentList) {
+		getComponents().addAll(componentList);
+		for (Object o : componentList) {
+			if (((Component) o).inOnlineSystemDiagram()) {
+				// オンラインの場合は同期処理でポート設定
+				return true;
+			}
+		}
+		// オフラインの場合はここでポート設定
+		_setWrappingPorts(_getWrappedPorts());
+		return true;
+	}
+
+	@Override
+	public boolean setComponentsR(List<Component> componentList) {
+		getComponents().clear();
+		return doAddComponents(componentList);			
+	}
+
+	@Override
+	public boolean removeComponentR(Component component) {
+		removeByEqual(getComponents(), component);
+		if (component.inOnlineSystemDiagram()) {
+			// オンラインの場合は同期処理でポート設定
+			return true;
+		}
+		// オフラインの場合は手動で設定
+		List<Port> ports = this._getWrappedPorts();
+		this._setWrappingPorts(ports);
+		return true;
+	}
+
+	@SuppressWarnings("unchecked")
+	private void removeByEqual(EList components, Component component) {
+		for (Iterator iterate = components.iterator(); iterate.hasNext();) {
+			if (iterate.next().equals(component)) iterate.remove();
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	void _setWrappingPorts(List<Port> ports) {
+		// 子RTCのポートのコピーでポートリストを更新
+		getPorts().clear();
+		for (Port port : ports) {
+			getPorts().add(port.proxy());
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	List<Port> _getWrappedPorts() {
+		// プロパティから表示するポート名一覧を作成
+		List<String> names = new ArrayList<String>(getExportedPorts());
+
+		// プロキシ対象の子コンポーネントのポート一覧を生成
+		List<Port> ports = new ArrayList<Port>();
+		for (Object obj : getAllComponents()) {
+			Component cp = (Component) obj;
+			for (Object o : cp.getPorts()) {
+				Port port = (Port) o;
+				String name = cp.getInstanceNameL() + "."
+						+ port.getNameL();
+				if (names.contains(name)) {
+					ports.add(port);
+				}
+			}
+		}
+		return ports;
+	}
+
+//	@Override
+	public boolean isGroupingCompositeComponent() {
+		return (getCompositeTypeL().equals(
+				Component.COMPOSITETYPE_GROUPING)) ;
+	}
+
+	@SuppressWarnings("unchecked")
 	public java.lang.Object getAdapter(Class adapter) {
 		java.lang.Object result = null;
 		if (IPropertySource.class.equals(adapter)) {
@@ -350,7 +365,125 @@ public class ComponentSpecificationImpl extends AbstractComponentImpl implements
 		if (result == null) {
 			result = super.getAdapter(adapter);
 		}
-
 		return result;
 	}
-} //ComponentSpecificationImpl
+
+	/** Grouping複合RTC用のマッピングルール */
+	public static final MappingRule MAPPING_RULE = new MappingRule(null,
+			new ClassMapping(ComponentSpecificationImpl.class,
+					new ConstructorParamMapping[] {}, true) {
+				@Override
+				public boolean isTarget(LocalObject parent,
+						Object[] remoteObjects, java.lang.Object link) {
+					return false;
+				}
+			}, new AttributeMapping[] {}, new ReferenceMapping[] {});
+
+
+	private static ReferenceMapping[] getReferenceMappings() {
+		return new ReferenceMapping[] { new ManyReferenceMapping(
+				ComponentPackage.eINSTANCE.getComponent_Ports()) {
+			@SuppressWarnings("unchecked")
+			@Override
+			public void syncronizeLocal(LocalObject localObject) {
+				if (!(localObject instanceof ComponentSpecificationImpl)) {
+					return;
+				}
+				ComponentSpecificationImpl comp = (ComponentSpecificationImpl) localObject;
+				if (!comp.inOnlineSystemDiagram() || !comp.isGroupingCompositeComponent()) {
+					return;
+				}
+				
+				// 子コンポーネントの生存確認を行う
+				comp.removeDeadChild();
+				
+				// ポートの更新を行う
+				// 新しいポートのリンクリスト
+				List<Port> newPorts = comp._getWrappedPorts();
+				// 現在のポートを更新する
+				for (Iterator iterate = comp.getPorts().iterator();iterate.hasNext();){
+					Port port = (Port) iterate.next();
+					if (!isExist(port, newPorts)) {
+						iterate.remove();
+					}
+				}
+				// 追加対象のポートを追加
+				for (Port port : newPorts) {
+					comp.getPorts().add(port.proxy());
+				}
+			}
+
+			private boolean isExist(Port port, List<Port> newPorts) {
+				String target = port.getOriginalPortString();
+				for (Iterator<Port> iterate = newPorts.iterator();iterate.hasNext();){
+					Port temp = iterate.next();
+					if (temp.getOriginalPortString().equals(target)) {
+						iterate.remove();
+						return true;
+					}
+				}
+				return false;
+			}
+		}
+		};
+	}
+
+	public void synchronizeLocalAttribute(EStructuralFeature reference) {
+		// Nothing to do
+	}
+
+	public void synchronizeLocalReference() {
+		if (!inOnlineSystemDiagram()) return;
+		if (!isGroupingCompositeComponent()) return;
+		
+		for (ReferenceMapping refMap : getReferenceMappings()) {
+			try {
+				refMap.syncronizeLocal(this);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+//	@Override
+	public String getPath() {
+		if (getPathId() == null) return null;
+		int index = getPathId().lastIndexOf(File.separator);
+		if (index < 0) return getPathId();
+		return getPathId().substring(0, index);
+	}
+
+//	@Override
+	public void synchronizeManually() {
+		//Nothing to do
+	}
+	
+	@SuppressWarnings("unchecked")
+//	@Override
+	public Component copy() {
+		Component copy = (Component) EcoreUtil.copy(this);
+		// ExecutionContextとIDの関連付けを複製
+		for (int i = 0; i < this.getExecutionContexts().size(); i++) {
+			ExecutionContext orgEc = (ExecutionContext) this
+					.getExecutionContexts().get(i);
+			ExecutionContext newEc = (ExecutionContext) copy
+					.getExecutionContexts().get(i);
+			if (newEc == null) {
+				continue;
+			}
+			String ecid = this.getExecutionContextId(orgEc);
+			if (ecid != null) {
+				copy.setExecutionContext(ecid, newEc);
+			}
+		}
+		adjustPathId(copy.getAllComponents());
+		return copy;
+	}
+
+//	@Override
+	public boolean isDead() {
+		return true;
+	}
+
+
+} // ComponentSpecificationImpl

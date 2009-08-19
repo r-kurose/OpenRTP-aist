@@ -1,29 +1,37 @@
 package jp.go.aist.rtm.toolscommon.model.component;
 
-import jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject;
+import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
+
 import RTC.ExecutionKind;
 
 /**
  * ExecutionContextを表現するクラス
  * @model
  */
-public interface ExecutionContext extends CorbaWrapperObject{
+public interface ExecutionContext extends WrapperObject {
 	public static final int STATE_UNKNOWN = (0);
-
 	public static final int STATE_STOPPED = (1);
-
 	public static final int STATE_RUNNING = (2);
 
+	public static final int KIND_UNKNOWN = -1;
 	public static final int KIND_PERIODIC = ExecutionKind.PERIODIC.value();
-
 	public static final int KIND_EVENT_DRIVEN = ExecutionKind.EVENT_DRIVEN
 			.value();
+	public static final int KIND_OTHER = ExecutionKind.OTHER.value();
+	
+	public static final int RTC_UNCERTAIN = -2;
+	public static final int RTC_UNKNOWN = -1;
+	public static final int RTC_CREATED = RTC.LifeCycleState.CREATED_STATE.value();
+	public static final int RTC_INACTIVE = RTC.LifeCycleState.INACTIVE_STATE
+			.value();
+	public static final int RTC_ACTIVE = RTC.LifeCycleState.ACTIVE_STATE
+			.value();
+	public static final int RTC_ERROR = RTC.LifeCycleState.ERROR_STATE.value();
 
-	public static final int KIND_OTHOR = ExecutionKind.OTHER.value();
 
 	/**
 	 * @model
-	 * @return
+	 * @return ExecutionContextの種類（UNKNOWN/PERIODIC/EVENT_DRIVEN/OTHER)
 	 */
 	public int getKindL();
 
@@ -37,23 +45,24 @@ public interface ExecutionContext extends CorbaWrapperObject{
 	void setKindL(int value);
 
 	/**
-	 * @model
+	 * @model ExcetuionContextの実行間隔
 	 * @return
 	 */
-	public double getRateL();
+	public Double getRateL();
 
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ExecutionContext#getRateL <em>Rate L</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Rate L</em>' attribute.
 	 * @see #getRateL()
 	 * @generated
 	 */
-	void setRateL(double value);
+	void setRateL(Double value);
 
 	/**
 	 * @model
-	 * @return
+	 * @return　ExecutionContextの状態(UNKNOWN/STOPPED/RUNNING)
 	 */
 	public int getStateL();
 
@@ -66,6 +75,22 @@ public interface ExecutionContext extends CorbaWrapperObject{
 	 */
 	void setStateL(int value);
 
-	public RTC.ExecutionContext getCorbaObjectInterface();
+	/**
+	 * <!-- begin-user-doc -->
+	 * ExecutionContextの種類を表す文字列を返します。(UNKNOWN/PERIODIC/EVENT_DRIVEN/OTHER)
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	String getKindName();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * ExecutionContextの状態を表す文字列を返します。(UNKNOWN/STOPPED/RUNNING)
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	String getStateName();
 
 }

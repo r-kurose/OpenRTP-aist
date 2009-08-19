@@ -55,6 +55,7 @@ public abstract class AttributeMapping {
 			Object newValue = convert2LocalValue(localObject,
 					getRemoteAttributeValue(localObject));
 
+			if (newValue == null) return; // EMFでNullPointerExceptionが起きないようにしておく 2008.12.11
 			if (isEquals(newValue, oldValue) == false) {
 				localObject.eSet(getLocalFeature(), newValue);
 			}
@@ -65,7 +66,7 @@ public abstract class AttributeMapping {
 	 * リモートオブジェクトの属性の値を返すように、オーバーライドされることを意図される。
 	 * <p>
 	 * このメソッドかオーバーロードされた、LocalObjectのメソッドを必ずオーバーライドすること
-	 * @param localObject TODO
+	 * @param localObject 
 	 * @param remoteObjects
 	 *            リモートオブジェクト
 	 * 

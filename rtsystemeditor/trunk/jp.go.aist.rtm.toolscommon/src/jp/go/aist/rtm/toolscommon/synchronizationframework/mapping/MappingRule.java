@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
+
 /**
  * マッピングルールを定義するクラス
  */
@@ -72,7 +74,7 @@ public class MappingRule {
 	 * @return 属性マッピング
 	 */
 	public AttributeMapping[] getAllAttributeMappings() {
-		List result = new ArrayList();
+		List<AttributeMapping> result = new ArrayList<AttributeMapping>();
 
 		MappingRule temp = this;
 		while (temp != null) {
@@ -89,7 +91,7 @@ public class MappingRule {
 	 * @return 参照マッピング
 	 */
 	public ReferenceMapping[] getAllReferenceMappings() {
-		List result = new ArrayList();
+		List<ReferenceMapping> result = new ArrayList<ReferenceMapping>();
 
 		MappingRule temp = this;
 		while (temp != null) {
@@ -114,7 +116,7 @@ public class MappingRule {
 	 * @return 属性マッピング
 	 */
 	public ReferenceMapping[] getAllContainerReferenceMappings() {
-		List result = new ArrayList();
+		List<ReferenceMapping> result = new ArrayList<ReferenceMapping>();
 		for (ReferenceMapping referrenceMapping : getAllReferenceMappings()) {
 			if (referrenceMapping.getLocalFeature().isContainment()) {
 				result.add(referrenceMapping);
@@ -123,6 +125,16 @@ public class MappingRule {
 
 		return (ReferenceMapping[]) result.toArray(new ReferenceMapping[result
 				.size()]);
+	}
+
+	/**
+	 * localObjectのクラスがClassMappingのローカルクラスと一致すること以外にマッピングの条件が
+	 * 存在する場合にオーバライドする
+	 * @param localObject
+	 * @return
+	 */
+	public boolean isTarget(LocalObject localObject) {
+		return true;
 	}
 
 }

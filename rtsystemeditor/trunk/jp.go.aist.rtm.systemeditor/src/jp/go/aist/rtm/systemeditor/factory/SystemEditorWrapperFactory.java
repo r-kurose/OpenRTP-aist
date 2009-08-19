@@ -1,17 +1,17 @@
 package jp.go.aist.rtm.systemeditor.factory;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import jp.go.aist.rtm.systemeditor.ui.util.ProfileHandler;
+import jp.go.aist.rtm.systemeditor.ui.editor.action.RestoreOption;
+import jp.go.aist.rtm.systemeditor.ui.util.RtsProfileHandler;
 import jp.go.aist.rtm.toolscommon.factory.MappingRuleFactory;
+import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
-import jp.go.aist.rtm.toolscommon.model.component.Connector;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
@@ -24,9 +24,13 @@ import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.openrtp.namespaces.rts.RtsProfile;
+import org.openrtp.namespaces.rts.version02.RtsProfileExt;
 
+/**
+ * システムエディタで必要となるWrapperObjectのファクトリ
+ * 現状はCORBA用のマッピングルールのみに対応
+ *
+ */
 public class SystemEditorWrapperFactory {
 
 	private static SystemEditorWrapperFactory __instance = null;
@@ -71,21 +75,30 @@ public class SystemEditorWrapperFactory {
 	 * <p>
 	 * 内部では、EMFのオブジェクトをロードし、同期フレームワークのオブジェクトの復元を行う
 	 * 
-	 * @param resource
-	 *            リソース
+	 * @param strPath
+	 *            ファイルのパス
+	 * @param restore	IORからの復元を行うかを判断する
 	 * @return ドメインオブジェクトルート
 	 * @throws IOException
 	 *             ファイルが読み込めない場合など
 	 */
-	public EObject loadContentFromResource(Resource resource)
-			throws IOException {
-		resource.load(Collections.EMPTY_MAP);
-		EObject object = (EObject) resource.getContents().get(0);
-		getSynchronizationManager().assignSynchonizationSupport(object);
+	@SuppressWarnings("unchecked")
+	public EObject loadContentFromResource(String strPath, RestoreOption restore)
+			throws Exception {
+		RtsProfileHandler handler = new RtsProfileHandler();
+		SystemDiagram diagram = handler.load(strPath, SystemDiagramKind.ONLINE_LITERAL);
+		if (restore.doQuick()) handler.populateCorbaBaseObject(diagram);
 
-		Rehabilitation.rehabilitation(object);
+		getSynchronizationManager().assignSynchonizationSupportToDiagram(diagram);
+		Rehabilitation.rehabilitation(diagram);
+		
+		// 読み込み時に明示的に状態の同期を実行
+		for (Object obj : diagram.getComponents()) {
+			((Component)obj).getSynchronizationSupport().synchronizeLocal();
+		}
 
-		return object;
+		handler.restoreCompositeComponentPort(diagram);
+		return diagram;
 	}
 
 	/**
@@ -102,76 +115,14 @@ public class SystemEditorWrapperFactory {
 	 */
 	public void saveContentsToResource(Resource resource, EObject content)
 			throws Exception {
-		if( ((SystemDiagram)content).getKind() == SystemDiagramKind.OFFLINE_LITERAL ) {
-			ProfileHandler handler = new ProfileHandler();
-			RtsProfile profile = handler.convertToProfile(content);
-			XmlHandler xmlHandler = new XmlHandler();
-			String targetFileName =	resource.getURI().devicePath();
-			xmlHandler.saveXmlRts(profile, targetFileName);
-		} else {
-			resource.getContents().add(content);
-			HashMap options = new HashMap();
-			// options.put(XMLResource.OPTION_ENCODING, "ISO-8859-1");
-			options.put(XMLResource.OPTION_ENCODING, "UTF-8");
-			resource.save(options);
-		}
-	}
-
-	/**
-	 * 対象のオブジェクトをコピーします
-	 * 
-	 * @param component
-	 * @return
-	 */
-	public WrapperObject copy(EObject obj) {
-		WrapperObject copy = (WrapperObject) EcoreUtil.copy(obj);
-		//
-		List<ConnectorProfile> list = new ArrayList<ConnectorProfile>();
-		if (obj instanceof ComponentSpecification) {
-			for (Object object : ((ComponentSpecification)obj).getPorts()) {
-				list.addAll(((Port)object).getPortProfile().getConnectorProfiles());
-			}
-			for (Object object : ((ComponentSpecification)copy).getPorts()) {
-				Map<ConnectorProfile, ConnectorProfile> map = new HashMap<ConnectorProfile,ConnectorProfile>();
-				for (Object copyProfile : ((Port)object).getPortProfile().getConnectorProfiles()){
-					for (ConnectorProfile profile : list) {
-						if (copyProfile == profile) {
-							map.put(profile, (ConnectorProfile) EcoreUtil.copy(profile));
-						}
-					}
-				}
-				if (!map.isEmpty()) {
-					((Port)object).getPortProfile().getConnectorProfiles().removeAll(map.keySet());
-					((Port)object).getPortProfile().getConnectorProfiles().addAll(map.values());
-				}
-			}
-		}
-		//
-		List<Connector> connectors = new ArrayList<Connector>();
-		for (Iterator iter = copy.eAllContents(); iter.hasNext();) {
-			Object e = iter.next();
-			if (e instanceof Connector) {
-				connectors.add((Connector) e);
-			}
-		}
-		for (Connector connector : connectors) {
-			EcoreUtil.remove(connector);
-		}
-		getSynchronizationManager().assignSynchonizationSupport(copy);
-
-		return copy;
-	}
-
-	/**
-	 * リモートオブジェクトを渡し、ドメインオブジェクトを作成する
-	 * 
-	 * @param remoteObject
-	 *            リモートオブジェクト
-	 * @return 作成されたドメインオブジェクト
-	 */
-	public WrapperObject createWrapperObject(Object... remoteObjects) {
-		return (WrapperObject) synchronizationManager
-				.createLocalObject(remoteObjects);
+		RtsProfileHandler handler = new RtsProfileHandler();
+		SystemDiagram diagram = (SystemDiagram) content;
+		RtsProfileExt profile = handler.save(diagram);
+		diagram.setProfile(profile);
+		
+		String targetFileName =	resource.getURI().devicePath();
+		XmlHandler xmlHandler = new XmlHandler();
+		xmlHandler.saveXmlRts(profile, URLDecoder.decode(targetFileName, "UTF-8"));
 	}
 
 	/**

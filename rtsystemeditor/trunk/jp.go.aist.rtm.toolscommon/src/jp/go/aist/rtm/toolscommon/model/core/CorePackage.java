@@ -180,43 +180,6 @@ public interface CorePackage extends EPackage {
 	int LOCAL_OBJECT_FEATURE_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.core.impl.UnknownObjectImpl <em>Unknown Object</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see jp.go.aist.rtm.toolscommon.model.core.impl.UnknownObjectImpl
-	 * @see jp.go.aist.rtm.toolscommon.model.core.impl.CorePackageImpl#getUnknownObject()
-	 * @generated
-	 */
-	int UNKNOWN_OBJECT = 5;
-
-	/**
-	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UNKNOWN_OBJECT__CONSTRAINT = WRAPPER_OBJECT__CONSTRAINT;
-
-	/**
-	 * The feature id for the '<em><b>Target Object</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UNKNOWN_OBJECT__TARGET_OBJECT = WRAPPER_OBJECT_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Unknown Object</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UNKNOWN_OBJECT_FEATURE_COUNT = WRAPPER_OBJECT_FEATURE_COUNT + 1;
-
-	/**
 	 * The meta object id for the '<em>Rectangle</em>' data type. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -224,7 +187,7 @@ public interface CorePackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.core.impl.CorePackageImpl#getRectangle()
 	 * @generated
 	 */
-	int RECTANGLE = 6;
+	int RECTANGLE = 5;
 
 	/**
 	 * The meta object id for the '<em>Visiter</em>' data type. <!--
@@ -234,7 +197,7 @@ public interface CorePackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.core.impl.CorePackageImpl#getVisiter()
 	 * @generated
 	 */
-	int VISITER = 7;
+	int VISITER = 6;
 
 	/**
 	 * The meta object id for the '<em>Object</em>' data type. <!--
@@ -244,7 +207,7 @@ public interface CorePackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.core.impl.CorePackageImpl#getObject()
 	 * @generated
 	 */
-	int OBJECT = 8;
+	int OBJECT = 7;
 
 	/**
 	 * The meta object id for the '<em>Point</em>' data type.
@@ -254,7 +217,7 @@ public interface CorePackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.core.impl.CorePackageImpl#getPoint()
 	 * @generated
 	 */
-	int POINT = 9;
+	int POINT = 8;
 
 
 	/**
@@ -326,27 +289,6 @@ public interface CorePackage extends EPackage {
 	 * @generated
 	 */
 	EClass getWrapperObject();
-
-	/**
-	 * Returns the meta object for class '{@link jp.go.aist.rtm.toolscommon.model.core.UnknownObject <em>Unknown Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Unknown Object</em>'.
-	 * @see jp.go.aist.rtm.toolscommon.model.core.UnknownObject
-	 * @generated
-	 */
-	EClass getUnknownObject();
-
-	/**
-	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.core.UnknownObject#getTargetObject <em>Target Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Target Object</em>'.
-	 * @see jp.go.aist.rtm.toolscommon.model.core.UnknownObject#getTargetObject()
-	 * @see #getUnknownObject()
-	 * @generated
-	 */
-	EAttribute getUnknownObject_TargetObject();
 
 	/**
 	 * Returns the meta object for data type '{@link jp.go.aist.rtm.toolscommon.model.core.Rectangle <em>Rectangle</em>}'.
@@ -471,24 +413,6 @@ public interface CorePackage extends EPackage {
 		 * @generated
 		 */
 		EClass WRAPPER_OBJECT = eINSTANCE.getWrapperObject();
-
-		/**
-		 * The meta object literal for the '{@link jp.go.aist.rtm.toolscommon.model.core.impl.UnknownObjectImpl <em>Unknown Object</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see jp.go.aist.rtm.toolscommon.model.core.impl.UnknownObjectImpl
-		 * @see jp.go.aist.rtm.toolscommon.model.core.impl.CorePackageImpl#getUnknownObject()
-		 * @generated
-		 */
-		EClass UNKNOWN_OBJECT = eINSTANCE.getUnknownObject();
-
-		/**
-		 * The meta object literal for the '<em><b>Target Object</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute UNKNOWN_OBJECT__TARGET_OBJECT = eINSTANCE.getUnknownObject_TargetObject();
 
 		/**
 		 * The meta object literal for the '<em>Rectangle</em>' data type.

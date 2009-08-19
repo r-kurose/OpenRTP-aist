@@ -2,15 +2,16 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ManagerPackage.java,v 1.1 2008/03/05 12:01:47 terui Exp $
+ * $Id$
  */
 package jp.go.aist.rtm.toolscommon.model.manager;
 
 import jp.go.aist.rtm.toolscommon.model.core.CorePackage;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -61,14 +62,14 @@ public interface ManagerPackage extends EPackage {
 	ManagerPackage eINSTANCE = jp.go.aist.rtm.toolscommon.model.manager.impl.ManagerPackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.manager.impl.RTManagerImpl <em>RT Manager</em>}' class.
+	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.manager.impl.RTCManagerImpl <em>RTC Manager</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see jp.go.aist.rtm.toolscommon.model.manager.impl.RTManagerImpl
-	 * @see jp.go.aist.rtm.toolscommon.model.manager.impl.ManagerPackageImpl#getRTManager()
+	 * @see jp.go.aist.rtm.toolscommon.model.manager.impl.RTCManagerImpl
+	 * @see jp.go.aist.rtm.toolscommon.model.manager.impl.ManagerPackageImpl#getRTCManager()
 	 * @generated
 	 */
-	int RT_MANAGER = 0;
+	int RTC_MANAGER = 0;
 
 	/**
 	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
@@ -77,7 +78,7 @@ public interface ManagerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RT_MANAGER__CONSTRAINT = CorePackage.CORBA_WRAPPER_OBJECT__CONSTRAINT;
+	int RTC_MANAGER__CONSTRAINT = CorePackage.CORBA_WRAPPER_OBJECT__CONSTRAINT;
 
 	/**
 	 * The feature id for the '<em><b>Corba Object</b></em>' attribute.
@@ -86,105 +87,129 @@ public interface ManagerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RT_MANAGER__CORBA_OBJECT = CorePackage.CORBA_WRAPPER_OBJECT__CORBA_OBJECT;
+	int RTC_MANAGER__CORBA_OBJECT = CorePackage.CORBA_WRAPPER_OBJECT__CORBA_OBJECT;
 
 	/**
-	 * The feature id for the '<em><b>Owned Modules</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Manager Profile</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RT_MANAGER__OWNED_MODULES = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 0;
+	int RTC_MANAGER__MANAGER_PROFILE = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Owned Components</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Instance Name L</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RT_MANAGER__OWNED_COMPONENTS = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 1;
+	int RTC_MANAGER__INSTANCE_NAME_L = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>RT Manager</em>' class.
+	 * The feature id for the '<em><b>Path Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RT_MANAGER_FEATURE_COUNT = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 2;
+	int RTC_MANAGER__PATH_ID = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.manager.impl.RTModuleImpl <em>RT Module</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see jp.go.aist.rtm.toolscommon.model.manager.impl.RTModuleImpl
-	 * @see jp.go.aist.rtm.toolscommon.model.manager.impl.ManagerPackageImpl#getRTModule()
-	 * @generated
-	 */
-	int RT_MODULE = 1;
-
-	/**
-	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
+	 * The number of structural features of the '<em>RTC Manager</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RT_MODULE__CONSTRAINT = CorePackage.WRAPPER_OBJECT__CONSTRAINT;
+	int RTC_MANAGER_FEATURE_COUNT = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 3;
 
 	/**
-	 * The number of structural features of the '<em>RT Module</em>' class.
+	 * The meta object id for the '<em>RTM Manager Profile</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @see RTM.ManagerProfile
+	 * @see jp.go.aist.rtm.toolscommon.model.manager.impl.ManagerPackageImpl#getRTMManagerProfile()
 	 * @generated
-	 * @ordered
 	 */
-	int RT_MODULE_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 0;
+	int RTM_MANAGER_PROFILE = 1;
+
+	/**
+	 * The meta object id for the '<em>RTM Module Profile</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see RTM.ModuleProfile
+	 * @see jp.go.aist.rtm.toolscommon.model.manager.impl.ManagerPackageImpl#getRTMModuleProfile()
+	 * @generated
+	 */
+	int RTM_MODULE_PROFILE = 2;
 
 
 	/**
-	 * Returns the meta object for class '{@link jp.go.aist.rtm.toolscommon.model.manager.RTManager <em>RT Manager</em>}'.
+	 * Returns the meta object for class '{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager <em>RTC Manager</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>RT Manager</em>'.
-	 * @see jp.go.aist.rtm.toolscommon.model.manager.RTManager
+	 * @return the meta object for class '<em>RTC Manager</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.manager.RTCManager
 	 * @generated
 	 */
-	EClass getRTManager();
+	EClass getRTCManager();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link jp.go.aist.rtm.toolscommon.model.manager.RTManager#getOwnedModules <em>Owned Modules</em>}'.
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getManagerProfile <em>Manager Profile</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Owned Modules</em>'.
-	 * @see jp.go.aist.rtm.toolscommon.model.manager.RTManager#getOwnedModules()
-	 * @see #getRTManager()
+	 * @return the meta object for the attribute '<em>Manager Profile</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getManagerProfile()
+	 * @see #getRTCManager()
 	 * @generated
 	 */
-	EReference getRTManager_OwnedModules();
+	EAttribute getRTCManager_ManagerProfile();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link jp.go.aist.rtm.toolscommon.model.manager.RTManager#getOwnedComponents <em>Owned Components</em>}'.
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getInstanceNameL <em>Instance Name L</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Owned Components</em>'.
-	 * @see jp.go.aist.rtm.toolscommon.model.manager.RTManager#getOwnedComponents()
-	 * @see #getRTManager()
+	 * @return the meta object for the attribute '<em>Instance Name L</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getInstanceNameL()
+	 * @see #getRTCManager()
 	 * @generated
 	 */
-	EReference getRTManager_OwnedComponents();
+	EAttribute getRTCManager_InstanceNameL();
 
 	/**
-	 * Returns the meta object for class '{@link jp.go.aist.rtm.toolscommon.model.manager.RTModule <em>RT Module</em>}'.
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getPathId <em>Path Id</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>RT Module</em>'.
-	 * @see jp.go.aist.rtm.toolscommon.model.manager.RTModule
+	 * @return the meta object for the attribute '<em>Path Id</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getPathId()
+	 * @see #getRTCManager()
 	 * @generated
 	 */
-	EClass getRTModule();
+	EAttribute getRTCManager_PathId();
+
+	/**
+	 * Returns the meta object for data type '{@link RTM.ManagerProfile <em>RTM Manager Profile</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>RTM Manager Profile</em>'.
+	 * @see RTM.ManagerProfile
+	 * @model instanceClass="RTM.ManagerProfile"
+	 * @generated
+	 */
+	EDataType getRTMManagerProfile();
+
+	/**
+	 * Returns the meta object for data type '{@link RTM.ModuleProfile <em>RTM Module Profile</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>RTM Module Profile</em>'.
+	 * @see RTM.ModuleProfile
+	 * @model instanceClass="RTM.ModuleProfile"
+	 * @generated
+	 */
+	EDataType getRTMModuleProfile();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -209,40 +234,58 @@ public interface ManagerPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link jp.go.aist.rtm.toolscommon.model.manager.impl.RTManagerImpl <em>RT Manager</em>}' class.
+		 * The meta object literal for the '{@link jp.go.aist.rtm.toolscommon.model.manager.impl.RTCManagerImpl <em>RTC Manager</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see jp.go.aist.rtm.toolscommon.model.manager.impl.RTManagerImpl
-		 * @see jp.go.aist.rtm.toolscommon.model.manager.impl.ManagerPackageImpl#getRTManager()
+		 * @see jp.go.aist.rtm.toolscommon.model.manager.impl.RTCManagerImpl
+		 * @see jp.go.aist.rtm.toolscommon.model.manager.impl.ManagerPackageImpl#getRTCManager()
 		 * @generated
 		 */
-		EClass RT_MANAGER = eINSTANCE.getRTManager();
+		EClass RTC_MANAGER = eINSTANCE.getRTCManager();
 
 		/**
-		 * The meta object literal for the '<em><b>Owned Modules</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Manager Profile</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference RT_MANAGER__OWNED_MODULES = eINSTANCE.getRTManager_OwnedModules();
+		EAttribute RTC_MANAGER__MANAGER_PROFILE = eINSTANCE.getRTCManager_ManagerProfile();
 
 		/**
-		 * The meta object literal for the '<em><b>Owned Components</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Instance Name L</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference RT_MANAGER__OWNED_COMPONENTS = eINSTANCE.getRTManager_OwnedComponents();
+		EAttribute RTC_MANAGER__INSTANCE_NAME_L = eINSTANCE.getRTCManager_InstanceNameL();
 
 		/**
-		 * The meta object literal for the '{@link jp.go.aist.rtm.toolscommon.model.manager.impl.RTModuleImpl <em>RT Module</em>}' class.
+		 * The meta object literal for the '<em><b>Path Id</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see jp.go.aist.rtm.toolscommon.model.manager.impl.RTModuleImpl
-		 * @see jp.go.aist.rtm.toolscommon.model.manager.impl.ManagerPackageImpl#getRTModule()
 		 * @generated
 		 */
-		EClass RT_MODULE = eINSTANCE.getRTModule();
+		EAttribute RTC_MANAGER__PATH_ID = eINSTANCE.getRTCManager_PathId();
+
+		/**
+		 * The meta object literal for the '<em>RTM Manager Profile</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see RTM.ManagerProfile
+		 * @see jp.go.aist.rtm.toolscommon.model.manager.impl.ManagerPackageImpl#getRTMManagerProfile()
+		 * @generated
+		 */
+		EDataType RTM_MANAGER_PROFILE = eINSTANCE.getRTMManagerProfile();
+
+		/**
+		 * The meta object literal for the '<em>RTM Module Profile</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see RTM.ModuleProfile
+		 * @see jp.go.aist.rtm.toolscommon.model.manager.impl.ManagerPackageImpl#getRTMModuleProfile()
+		 * @generated
+		 */
+		EDataType RTM_MODULE_PROFILE = eINSTANCE.getRTMModuleProfile();
 
 	}
 

@@ -9,7 +9,7 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * ネームサービスを追加するダイアログを表示するアクション
+ * ネームサービスにコンテキストを追加するダイアログを表示するアクション(CORBA専用）
  */
 public class AddContextAction implements IObjectActionDelegate {
 	private IWorkbenchPart targetPart;

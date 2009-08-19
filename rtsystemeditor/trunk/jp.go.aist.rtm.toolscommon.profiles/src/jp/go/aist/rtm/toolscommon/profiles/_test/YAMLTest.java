@@ -2,17 +2,16 @@ package jp.go.aist.rtm.toolscommon.profiles._test;
 
 import jp.go.aist.rtm.toolscommon.profiles.util.YamlHandler;
 
-import org.openrtp.namespaces.rtc.RtcProfile;
+import org.openrtp.namespaces.rtc.version02.RtcProfile;
 
 public class YAMLTest extends TestBase {
 
 	public void testRtcYamlExport() throws Exception{
-//		String resourceDir = rootPath +  "\\resource\\RTC\\SampleYaml.yaml";
-		String resourceDir = rootPath +  "\\resource\\RTC\\SampleYamlValid_NS.yaml";
+		String resourceDir = rootPath +  "\\resource\\RTC\\YAMLSample_RTC_Ver02Ex.yaml";
 		String expected = readFile(resourceDir, "\r\n");
 		//
 		SampleProfileGenerator handle = new SampleProfileGenerator();
-		RtcProfile profile = handle.generateProfile();
+		RtcProfile profile = handle.generateProfileFull();
 		YamlHandler handler = new YamlHandler();
 		String result = null;
 		try {
@@ -24,7 +23,6 @@ public class YAMLTest extends TestBase {
 		assertEquals(expected, result);
 	}
 	public void testRtcYamlImport() throws Exception{
-//		String resourceDir = rootPath +  "\\resource\\RTC\\SampleYaml.yaml";
 		String resourceDir = rootPath +  "\\resource\\RTC\\SampleYamlValid_NS.yaml";
 		String expected = readFile(resourceDir, "\r\n");
 		YamlHandler handler = new YamlHandler();
@@ -34,15 +32,26 @@ public class YAMLTest extends TestBase {
 		} catch(Exception ex) {
 			fail(ex.getCause().getMessage());
 		}
-		checkDetail(profile);
+		checkDetailYaml01(profile);
 	}
-	public void testRtcYamlNullImport() throws Exception{
-		String resourceDir = rootPath +  "\\resource\\RTC\\SampleYamlNull.yaml";
+	public void testRtcYamlImportVer02() throws Exception{
+		String resourceDir = rootPath +  "\\resource\\RTC\\YAMLSample_RTC_Ver02.yaml";
 		String expected = readFile(resourceDir, "\r\n");
 		YamlHandler handler = new YamlHandler();
 		RtcProfile profile = null;
 		try {
 			profile = handler.restoreFromYamlRtc(expected);
+		} catch(Exception ex) {
+			fail(ex.getCause().getMessage());
+		}
+		checkDetailVer02(profile);
+	}
+	public void testRtcYamlNullImport() throws Exception{
+		String resourceDir = rootPath +  "\\resource\\RTC\\SampleYamlNull.yaml";
+		String expected = readFile(resourceDir, "\r\n");
+		YamlHandler handler = new YamlHandler();
+		try {
+			handler.restoreFromYamlRtc(expected);
 		} catch(Exception ex) {
 			fail(ex.getCause().getMessage());
 		}

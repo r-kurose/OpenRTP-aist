@@ -11,26 +11,23 @@ import java.util.List;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
-import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
-import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
-import jp.go.aist.rtm.toolscommon.model.component.PortProfile;
-import jp.go.aist.rtm.toolscommon.model.component.impl.ConfigurationSetImpl;
+import jp.go.aist.rtm.toolscommon.model.component.PortInterfaceProfile;
 import jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler;
 
-import org.openrtp.namespaces.rtc.Configuration;
-import org.openrtp.namespaces.rtc.DataportExt;
-import org.openrtp.namespaces.rtc.RtcProfile;
-import org.openrtp.namespaces.rtc.ServiceinterfaceDoc;
-import org.openrtp.namespaces.rtc.ServiceportExt;
+import org.openrtp.namespaces.rtc.version02.BasicInfo;
+import org.openrtp.namespaces.rtc.version02.DataportExt;
+import org.openrtp.namespaces.rtc.version02.RtcProfile;
+import org.openrtp.namespaces.rtc.version02.ServiceinterfaceDoc;
+import org.openrtp.namespaces.rtc.version02.ServiceportExt;
 
-import RTC.ComponentProfile;
-import RTC.PortInterfacePolarity;
-import RTC.PortInterfaceProfile;
 //
+/**
+ * RTCプロファイルを読み込むクラス
+ *
+ */
 public class ProfileHandler {
-	private static String PORTTYPE_IN = "DataInPort";
-	private static String PORTTYPE_OUT = "DataOutPort";
+	private static final String PORTTYPE_IN = "DataInPort";
 	private static final String SPEC_SUFFIX = "RTC";
 	private static final String SPEC_MAJOR_SEPARATOR = ":";
 	private static final String SPEC_MINOR_SEPARATOR = ".";
@@ -41,7 +38,7 @@ public class ProfileHandler {
 	public static boolean validateXml(String targetString) throws Exception {
 		XmlHandler handler = new XmlHandler();
 		try {
-			RtcProfile profile = handler.restoreFromXmlRtc(targetString);
+			handler.restoreFromXmlRtc(targetString);
 		} catch (IOException e) {
 			throw new Exception("XML Validation Error", e);
 		}
@@ -71,35 +68,58 @@ public class ProfileHandler {
 		return component;
 	}
 
+	@SuppressWarnings({ "unchecked", "static-access" })
 	private ComponentSpecification profile2ComponentEMF(RtcProfile module,
 			ComponentSpecification specification) {
 		if (specification == null) {
-			specification  = ComponentFactory.eINSTANCE.createComponentSpecification();
+			specification = ComponentFactory.eINSTANCE
+					.createComponentSpecification();
 		}
-		specification.setCompsiteType(0);	
-		specification.setInstanceNameL(module.getBasicInfo().getName());
-		ComponentProfile cmpProfile = new ComponentProfile();
-		cmpProfile.type_name = module.getBasicInfo().getName();
-		cmpProfile.category = module.getBasicInfo().getCategory();
-		cmpProfile.vendor = module.getBasicInfo().getVendor();
-		cmpProfile.version = module.getBasicInfo().getVersion();
-		cmpProfile.description = module.getBasicInfo().getDescription();
-		specification.setRTCComponentProfile(cmpProfile);
+		BasicInfo bi = module.getBasicInfo();
+		specification.setInstanceNameL(bi.getName());
+		specification.setTypeNameL(bi.getName());
+		specification.setCategoryL(bi.getCategory());
+		specification.setVenderL(bi.getVendor());
+		specification.setVersionL(bi.getVersion());
+		specification.setDescriptionL(bi.getDescription());
 		specification.getPorts().addAll(profile2PortEMF(module));
-		ConfigurationSet configSet = profile2ConfigurationEMF(module);
-		specification.getConfigurationSets().add(configSet);
-		specification.setActiveConfigurationSet(configSet);
-		
-		String moduleId = SPEC_SUFFIX + SPEC_MAJOR_SEPARATOR +
-							cmpProfile.vendor + SPEC_MINOR_SEPARATOR +
-							cmpProfile.category + SPEC_MINOR_SEPARATOR +
-							cmpProfile.type_name + SPEC_MAJOR_SEPARATOR +
-							cmpProfile.version;
+
+		// BasicInfoからデフォルトのExecutionContextを作成
+		jp.go.aist.rtm.toolscommon.model.component.ExecutionContext ec = ComponentFactory.eINSTANCE
+				.createExecutionContext();
+		String type = bi.getActivityType();
+		if ("PERIODIC".equals(type)) {
+			ec.setKindL(ec.KIND_PERIODIC);
+		} else if ("SPORADIC".equals(type)) {
+			ec.setKindL(ec.KIND_OTHER);
+		} else if ("EVENTDRIVEN".equals(type)) {
+			ec.setKindL(ec.KIND_EVENT_DRIVEN);
+		} else {
+			ec.setKindL(ec.KIND_UNKNOWN);
+		}
+		ec.setRateL(bi.getExecutionRate());
+		specification.setExecutionContext("default", ec);
+
+		// Constraint設定とWidget設定に対応 2008.12.25
+		RTCConfigurationParser parser = new RTCConfigurationParser();
+		List<ConfigurationSet> configurationSets = parser.parse(module);
+		if (configurationSets != null) {
+			specification.getConfigurationSets().addAll(configurationSets);
+			specification.setActiveConfigurationSet(parser
+					.getActiveConfigurationSet());
+		}
+
+		String moduleId = SPEC_SUFFIX + SPEC_MAJOR_SEPARATOR
+				+ specification.getVenderL() + SPEC_MINOR_SEPARATOR
+				+ specification.getCategoryL() + SPEC_MINOR_SEPARATOR
+				+ specification.getTypeNameL() + SPEC_MAJOR_SEPARATOR
+				+ specification.getVersionL();
 		specification.setComponentId(moduleId);
-		
+
 		return specification;
 	}
 
+	@SuppressWarnings("unchecked")
 	private List<Port> profile2PortEMF(RtcProfile module) {
 		List<Port> list = new ArrayList<Port>();
 		Port port = null;
@@ -110,18 +130,9 @@ public class ProfileHandler {
 			} else {
 				port = ComponentFactory.eINSTANCE.createOutPort();
 			}
-			PortProfile profile = ComponentFactory.eINSTANCE.createPortProfile();
-			port.setPortProfile(profile);
-			port.getPortProfile().setNameL(dataPort.getName());
-			NameValue nv = ComponentFactory.eINSTANCE.createNameValue();
-			nv.setName(ConnectorProfile.NAME_VALUE_KEY_PORT_PORT_TYPE);
-			nv.setValueAsString(dataPort.getPortType());
-			port.getPortProfile().getProperties().add(nv);
-
-			nv = ComponentFactory.eINSTANCE.createNameValue();
-			nv.setName(ConnectorProfile.NAME_VALUE_KEY_DATAPORT_DATA_TYPE);
-			nv.setValueAsString(dataPort.getType());
-			port.getPortProfile().getProperties().add(nv);
+			port.setSynchronizer(ComponentFactory.eINSTANCE.createPortSynchronizer());
+			port.setNameL(dataPort.getName());
+			port.setDataType(dataPort.getType());
 			
 			list.add(port);
 		}
@@ -129,54 +140,24 @@ public class ProfileHandler {
 			ServiceportExt servicePortExt = (ServiceportExt) iterator.next();
 	
 			port = ComponentFactory.eINSTANCE.createServicePort();
-			PortProfile profile = ComponentFactory.eINSTANCE.createPortProfile();
-			port.setPortProfile(profile);
-			port.getPortProfile().setNameL(servicePortExt.getName());
-
-			NameValue nv = ComponentFactory.eINSTANCE.createNameValue();
-			nv.setName(ConnectorProfile.NAME_VALUE_KEY_PORT_PORT_TYPE);
-			nv.setValueAsString(ConnectorProfile.NAME_VALUE_KEY_PORT_PORT_TYPE_SERVICE_PORT_VALUE);
-			port.getPortProfile().getProperties().add(nv);
+			port.setSynchronizer(ComponentFactory.eINSTANCE.createPortSynchronizer());
+			port.setNameL(servicePortExt.getName());
 			
-			RTC.PortInterfaceProfile[] serviceIFs = new RTC.PortInterfaceProfile[servicePortExt.getServiceInterface().size()];
 			for( int intIdx=0; intIdx<servicePortExt.getServiceInterface().size(); intIdx++) {
 				ServiceinterfaceDoc serviceIF = (ServiceinterfaceDoc)servicePortExt.getServiceInterface().get(intIdx);
 				PortInterfaceProfile portIF = new PortInterfaceProfile();
-				portIF.instance_name = serviceIF.getName();
-				portIF.type_name = serviceIF.getType();
+				portIF.setInstanceName(serviceIF.getName());
+				portIF.setTypeName(serviceIF.getType());
 				if( serviceIF.getDirection().equals(INTERFACE_DIRECTION_PROVIDED) ) {
-					portIF.polarity = PortInterfacePolarity.PROVIDED;
+					portIF.setProvidedPolarity();
 				} else if( serviceIF.getDirection().equals(INTERFACE_DIRECTION_REQUIRED) ) {
-					portIF.polarity = PortInterfacePolarity.REQUIRED;
+					portIF.setRequiredPolarity();
 				}
-				serviceIFs[intIdx] = portIF;
+				port.getInterfaces().add(portIF);
 			}
-			RTC.PortProfile rtcPort = new RTC.PortProfile();
-			rtcPort.name = servicePortExt.getName();
-			rtcPort.interfaces = serviceIFs;
-			port.getPortProfile().setRtcPortProfile(rtcPort);
+
 			list.add(port);
 		}
 		return list;
-	}
-	
-	private ConfigurationSet profile2ConfigurationEMF(RtcProfile module) {
-		ConfigurationSet configurationSet = new ConfigurationSetImpl();
-
-		if( module.getConfigurationSet().getConfiguration().size()>0 ) {
-			configurationSet = new ConfigurationSetImpl();
-			configurationSet.setId("default");
-		}
-		
-		for( Iterator iterator = module.getConfigurationSet().getConfiguration().iterator(); iterator.hasNext(); ) {
-			Configuration config = (Configuration)iterator.next();
-			
-			NameValue nv = ComponentFactory.eINSTANCE.createNameValue();
-			nv.setName(config.getName());
-			nv.setValueAsString(config.getDefaultValue());
-			
-			configurationSet.getConfigurationData().add(nv);
-		}
-		return configurationSet;
 	}
 }

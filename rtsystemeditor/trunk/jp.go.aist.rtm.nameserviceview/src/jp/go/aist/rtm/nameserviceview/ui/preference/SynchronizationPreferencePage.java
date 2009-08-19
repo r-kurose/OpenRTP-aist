@@ -1,5 +1,6 @@
 package jp.go.aist.rtm.nameserviceview.ui.preference;
 
+import jp.go.aist.rtm.nameserviceview.nl.Messages;
 import jp.go.aist.rtm.toolscommon.manager.ToolsCommonPreferenceManager;
 
 import org.eclipse.jface.preference.PreferencePage;
@@ -42,10 +43,10 @@ public class SynchronizationPreferencePage extends PreferencePage implements
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		SynchronizationGroup.setLayoutData(gd);
 
-		SynchronizationGroup.setText("同期");
+		SynchronizationGroup.setText(Messages.getString("SynchronizationPreferencePage.0")); //$NON-NLS-1$
 		/* タイムアウト判定時間 */
 		Label timeoutPeriodLabel = new Label(SynchronizationGroup, SWT.NULL);
-		timeoutPeriodLabel.setText("タイムアウト待ち時間: ");
+		timeoutPeriodLabel.setText(Messages.getString("SynchronizationPreferencePage.1")); //$NON-NLS-1$
 
 		timeoutPeriodText = new Text(SynchronizationGroup, SWT.SINGLE
 				| SWT.BORDER | SWT.RIGHT);
@@ -63,7 +64,7 @@ public class SynchronizationPreferencePage extends PreferencePage implements
 						ToolsCommonPreferenceManager.DEFAULT_TIMEOUT_PERIOD)));
 
 		Label timeoutPeriodLabelUnit = new Label(SynchronizationGroup, SWT.NULL);
-		timeoutPeriodLabelUnit.setText("ms    (0≦タイムアウト≦9999)");
+		timeoutPeriodLabelUnit.setText(Messages.getString("SynchronizationPreferencePage.2")); //$NON-NLS-1$
 
 		return composite;
 	}
@@ -98,7 +99,7 @@ public class SynchronizationPreferencePage extends PreferencePage implements
 				result = true;
 			}
 		} catch (Exception e) {
-			setErrorMessage("'" + text.getText() + "'" + " is not a valid input.");
+			setErrorMessage("'" + text.getText() + "' " + Messages.getString("SynchronizationPreferencePage.3")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			return result;
 		}
 		setErrorMessage(null);

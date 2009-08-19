@@ -1,10 +1,7 @@
 package jp.go.aist.rtm.nameserviceview.ui.dialog;
 
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.impl.CategoryNamingContextImpl;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.impl.HostNamingContextImpl;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.impl.ManagerNamingContextImpl;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.impl.ModuleNamingContextImpl;
+import jp.go.aist.rtm.nameserviceview.nl.Messages;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
@@ -27,7 +24,7 @@ import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContextPackage.AlreadyBound;
 
 /**
- * ダイアログ
+ * ネームサーバにコンテキストを追加するダイアログ（CORBA専用）
  * <P>
  * 選択されたコンテキストに入力した名前、kindで新たなコンテキストを作成する。
  * 
@@ -76,7 +73,7 @@ public class AddContextDialog extends TitleAreaDialog {
 				.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
 		Label name = new Label(portProfileEditComposite, SWT.NONE);
-		name.setText("Name : ");
+		name.setText(Messages.getString("AddContextDialog.12")); //$NON-NLS-1$
 		nameText = new Text(portProfileEditComposite, SWT.SINGLE | SWT.BORDER);
 		gd = new GridData(GridData.GRAB_HORIZONTAL);
 		gd.minimumWidth = 180;
@@ -84,7 +81,7 @@ public class AddContextDialog extends TitleAreaDialog {
 		gd.horizontalAlignment = GridData.FILL;
 		gd.grabExcessHorizontalSpace = true;
 		nameText.setLayoutData(gd);
-		contextName = "";
+		contextName = ""; //$NON-NLS-1$
 		nameText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				contextName = nameText.getText();
@@ -92,7 +89,7 @@ public class AddContextDialog extends TitleAreaDialog {
 			}
 		});
 		Label kind = new Label(portProfileEditComposite, SWT.NONE);
-		kind.setText("Kind : ");
+		kind.setText(Messages.getString("AddContextDialog.13")); //$NON-NLS-1$
 		kindCombo = new Combo(portProfileEditComposite, SWT.NONE);
 		gd = new GridData(GridData.GRAB_HORIZONTAL);
 		gd.minimumWidth = 180;
@@ -100,11 +97,11 @@ public class AddContextDialog extends TitleAreaDialog {
 		gd.horizontalAlignment = GridData.FILL;
 		gd.grabExcessHorizontalSpace = true;
 		kindCombo.setLayoutData(gd);
-		kindCombo.add(HostNamingContextImpl.KIND);
-		kindCombo.add(ManagerNamingContextImpl.KIND);
-		kindCombo.add(CategoryNamingContextImpl.KIND);
-		kindCombo.add(ModuleNamingContextImpl.KIND);
-		contextKind = "";
+		kindCombo.add(NamingContextNode.KIND_HOST);
+		kindCombo.add(NamingContextNode.KIND_MANAGER);
+		kindCombo.add(NamingContextNode.KIND_CATEGORY);
+		kindCombo.add(NamingContextNode.KIND_MODULE);
+		contextKind = ""; //$NON-NLS-1$
 		kindCombo.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				contextKind = kindCombo.getText();
@@ -119,7 +116,7 @@ public class AddContextDialog extends TitleAreaDialog {
 	 */
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
-		shell.setText("Add Context");
+		shell.setText(Messages.getString("AddContextDialog.14")); //$NON-NLS-1$
 	}
 
 	@Override
@@ -146,12 +143,12 @@ public class AddContextDialog extends TitleAreaDialog {
 		try {
 			parentContext.createContextR(path);
 		} catch (AlreadyBound e) {
-			MessageDialog.openWarning(getShell(), "Warning",
-					"指定された「Name」と「Kind」が既に存在しています。");
+			MessageDialog.openWarning(getShell(), Messages.getString("AddContextDialog.15"), //$NON-NLS-1$
+					Messages.getString("AddContextDialog.6")); //$NON-NLS-1$
 			return false;
 		} catch (Exception e) {
-			MessageDialog.openWarning(getShell(), "Warning",
-			"登録失敗しました。");
+			MessageDialog.openWarning(getShell(), Messages.getString("AddContextDialog.16"), //$NON-NLS-1$
+			Messages.getString("AddContextDialog.8")); //$NON-NLS-1$
 		} finally {
 			
 		}
@@ -184,14 +181,14 @@ public class AddContextDialog extends TitleAreaDialog {
 	 * 項目数が増えるようならば、モデルの変更通知機能を使用して実装する方が良い。
 	 */
 	public void notifyModified() {
-		errorMessage = "";
+		errorMessage = ""; //$NON-NLS-1$
 		if (!isHankaku(nameText.getText())) {
-			errorMessage = "「Name」に半角文字を入力してください。\r\n";
+			errorMessage = Messages.getString("AddContextDialog.10"); //$NON-NLS-1$
 		}
 		if (!isHankaku(kindCombo.getText())) {
-			errorMessage = errorMessage + "「Kind」に半角文字を入力してください。";
+			errorMessage = errorMessage + Messages.getString("AddContextDialog.11"); //$NON-NLS-1$
 		}
-		if ("".equals(errorMessage)) {
+		if ("".equals(errorMessage)) { //$NON-NLS-1$
 			setMessage(null);
 			getButton(IDialogConstants.OK_ID).setEnabled(true);
 		} else {

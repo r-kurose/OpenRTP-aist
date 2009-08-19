@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import jp.go.aist.rtm.nameserviceview.NameServiceViewPlugin;
-import jp.go.aist.rtm.nameserviceview.corba.NameServerAccesser;
+import jp.go.aist.rtm.nameserviceview.manager.AlreadyExistException;
+import jp.go.aist.rtm.nameserviceview.manager.NameServerContext;
 import jp.go.aist.rtm.nameserviceview.manager.NameServerManager;
+import jp.go.aist.rtm.nameserviceview.nl.Messages;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.Dialog;
@@ -29,39 +31,25 @@ import org.eclipse.swt.widgets.Shell;
  * コンボボックスには、接続が成功したことのあるアドレスの一覧が表示され、最後に接続したアドレスが選択される。
  */
 public class NameServerSectionsDialog extends Dialog {
-
-	/**
-	 * 接続要求結果 接続に失敗したことを示す定数
-	 */
-	public static final int CANT_CONNECT = 1;
-
-	/**
-	 * 接続要求結果 接続に成功し、ネームサーバのオブジェクト作成に失敗したことを示す定数
-	 */
-	public static final int CANT_CREATE_OBJECT_TREE = 2;
-
-	/**
-	 * 接続要求結果 成功
-	 */
-	public static final int SUCCESS = 0;
+	private enum AddStatus{SUCCESS, CANT_CONNECT, CANT_CREATE_OBJECT_TREE, ALREADY_CONNECT}
 
 	/**
 	 * 接続が成功したことのあるアドレスの一覧を保存する、ワークスペース永続文字列へのキー
 	 */
 	public static final String COMBO_ITEMS_KEY = NameServerSectionsDialog.class
 			.getName()
-			+ ".combo.items";
+			+ ".combo.items"; //$NON-NLS-1$
 
 	/**
 	 * 最後に接続が成功したアドレスのインデックスを保存する、ワークスペース永続文字列へのキー
 	 */
 	public static final String COMBO_SELECTION_INDEX_KEY = NameServerSectionsDialog.class
 			.getName()
-			+ ".combo.selectIndex";
+			+ ".combo.selectIndex"; //$NON-NLS-1$
 
 	private Combo combo;
 
-	private String value = "";
+	private String value = ""; //$NON-NLS-1$
 
 	private Label message;
 
@@ -87,7 +75,7 @@ public class NameServerSectionsDialog extends Dialog {
 		mainComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		Label label = new Label(mainComposite, SWT.NONE);
-		label.setText("ネームサーバのアドレスを入力してください。");
+		label.setText(Messages.getString("NameServerSectionsDialog.3")); //$NON-NLS-1$
 		GridData labelLayloutData = new GridData(
 				GridData.HORIZONTAL_ALIGN_BEGINNING);
 		label.setLayoutData(labelLayloutData);
@@ -104,7 +92,7 @@ public class NameServerSectionsDialog extends Dialog {
 		comboGridData.grabExcessHorizontalSpace = true;
 		combo.setLayoutData(comboGridData);
 		Label comboLabel = new Label(comboComposite, SWT.NONE);
-		comboLabel.setText("（Address:Port)");
+		comboLabel.setText(Messages.getString("NameServerSectionsDialog.17")); //$NON-NLS-1$
 		comboLabel
 				.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
 
@@ -128,7 +116,7 @@ public class NameServerSectionsDialog extends Dialog {
 	private void loadDefaultComboValue(Combo combo) {
 		String defaultString = NameServiceViewPlugin.getDefault().getPreferenceStore()
 				.getString(COMBO_ITEMS_KEY);
-		StringTokenizer tokenize = new StringTokenizer(defaultString, ",");
+		StringTokenizer tokenize = new StringTokenizer(defaultString, ","); //$NON-NLS-1$
 		while (tokenize.hasMoreTokens()) {
 			combo.add(tokenize.nextToken());
 		}
@@ -150,11 +138,11 @@ public class NameServerSectionsDialog extends Dialog {
 			String defaultString = NameServiceViewPlugin.getDefault().getPreferenceStore()
 					.getString(COMBO_ITEMS_KEY);
 
-			String newString = "";
-			if ("".equals(defaultString)) {
+			String newString = ""; //$NON-NLS-1$
+			if ("".equals(defaultString)) { //$NON-NLS-1$
 				newString = value;
 			} else {
-				newString = value + "," + defaultString;
+				newString = value + "," + defaultString; //$NON-NLS-1$
 			}
 
 			NameServiceViewPlugin.getDefault().getPreferenceStore().setValue(
@@ -175,7 +163,7 @@ public class NameServerSectionsDialog extends Dialog {
 	 */
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
-		shell.setText("Connect Name Server");
+		shell.setText(Messages.getString("NameServerSectionsDialog.18")); //$NON-NLS-1$
 	}
 
 	@Override
@@ -202,21 +190,20 @@ public class NameServerSectionsDialog extends Dialog {
 	 * <li>必須チェック</li>
 	 * <li>接続済みアドレスであるかどうか</li>
 	 * <li>接続できるか</li>
-	 * <li>オブジェクトツリーが作成できるか</li>
 	 * </ol>
 	 * 
 	 * @param address
 	 * @return
 	 */
 	private boolean execute(final String address) {
-		if ("".equals(address)) {
-			message.setText("アドレスを設定してください。");
+		if ("".equals(address)) { //$NON-NLS-1$
+			message.setText(Messages.getString("NameServerSectionsDialog.11")); //$NON-NLS-1$
 			return false;
 		}
 
-		boolean isExist = NameServerManager.getInstance().isExist(address);
+		boolean isExist = NameServerManager.eInstance.isExist(address);
 		if (isExist) {
-			message.setText("既に接続済みのアドレスです。");
+			message.setText(Messages.getString("NameServerSectionsDialog.12")); //$NON-NLS-1$
 			return false;
 		}
 
@@ -230,11 +217,14 @@ public class NameServerSectionsDialog extends Dialog {
 			e.printStackTrace();
 		}
 
-		if (runable.getResult() == CANT_CONNECT) {
-			message.setText("ネームサービスへの接続に失敗しました。");
+		if (runable.getResult() == AddStatus.CANT_CONNECT) {
+			message.setText(Messages.getString("NameServerSectionsDialog.13")); //$NON-NLS-1$
 			return false;
-		} else if (runable.getResult() == CANT_CREATE_OBJECT_TREE) {
-			message.setText("オブジェクトツリーの作成に失敗しました。");
+		} else if (runable.getResult() == AddStatus.CANT_CREATE_OBJECT_TREE) {
+			message.setText(Messages.getString("NameServerSectionsDialog.14")); //$NON-NLS-1$
+			return false;
+		} else if (runable.getResult() == AddStatus.ALREADY_CONNECT) {
+			message.setText(Messages.getString("NameServerSectionsDialog.12")); //$NON-NLS-1$
 			return false;
 		}
 
@@ -249,14 +239,14 @@ public class NameServerSectionsDialog extends Dialog {
 	private final class ConnectToNameServer implements IRunnableWithProgress {
 		private final String value;
 
-		private int result;
+		private AddStatus result;
 
 		/**
 		 * 結果を返す。（CANT_CONNECT,CANT_CREATE_OBJECT_TREE,SUCCESS）
 		 * 
 		 * @return 結果
 		 */
-		public int getResult() {
+		public AddStatus getResult() {
 			return result;
 		}
 
@@ -270,26 +260,17 @@ public class NameServerSectionsDialog extends Dialog {
 		 */
 		public void run(IProgressMonitor monitor)
 				throws InvocationTargetException, InterruptedException {
-			result = CANT_CONNECT;
+			result = AddStatus.CANT_CONNECT;
 			try {
-				monitor.beginTask("ネームサーバへの接続を行っています...", 100);
+				monitor.beginTask(Messages.getString("NameServerSectionsDialog.15"), 100); //$NON-NLS-1$
 				monitor.worked(20);
-				boolean validateNameService = NameServerAccesser.getInstance()
-						.validateNameServerAddress(value);
-
-				if (validateNameService) {
-					result = CANT_CREATE_OBJECT_TREE;
-					monitor.worked(50);
-					monitor.setTaskName("ネームサーバからオブジェクトを取得しています...");
-
-					NameServerManager.getInstance().addNameServer(value);
-
-					result = SUCCESS;
-				}
+				NameServerContext server = NameServerManager.eInstance.addNameServer(value);
+				if (server != null)	result = AddStatus.SUCCESS;
+			} catch (AlreadyExistException e) {
+				result = AddStatus.ALREADY_CONNECT;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
 			monitor.done();
 		}
 	}

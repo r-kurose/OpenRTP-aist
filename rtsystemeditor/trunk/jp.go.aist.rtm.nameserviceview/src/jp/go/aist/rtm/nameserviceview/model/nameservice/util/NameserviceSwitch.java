@@ -8,16 +8,13 @@ package jp.go.aist.rtm.nameserviceview.model.nameservice.util;
 
 import java.util.List;
 
-import jp.go.aist.rtm.nameserviceview.model.nameservice.CategoryNamingContext;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.HostNamingContext;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.ManagerNamingContext;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.ModuleNamingContext;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServerNamingContext;
+import jp.go.aist.rtm.nameserviceview.manager.NameServerContext;
+import jp.go.aist.rtm.nameserviceview.manager.Node;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameservicePackage;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.Node;
 import jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject;
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
 import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
@@ -102,76 +99,13 @@ public class NameserviceSwitch {
 	 */
 	protected Object doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case NameservicePackage.CATEGORY_NAMING_CONTEXT: {
-				CategoryNamingContext categoryNamingContext = (CategoryNamingContext)theEObject;
-				Object result = caseCategoryNamingContext(categoryNamingContext);
-				if (result == null) result = caseNamingContextNode(categoryNamingContext);
-				if (result == null) result = caseNode(categoryNamingContext);
-				if (result == null) result = caseCorbaWrapperObject(categoryNamingContext);
-				if (result == null) result = caseWrapperObject(categoryNamingContext);
-				if (result == null) result = caseModelElement(categoryNamingContext);
-				if (result == null) result = caseLocalObject(categoryNamingContext);
-				if (result == null) result = caseIAdaptable(categoryNamingContext);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case NameservicePackage.HOST_NAMING_CONTEXT: {
-				HostNamingContext hostNamingContext = (HostNamingContext)theEObject;
-				Object result = caseHostNamingContext(hostNamingContext);
-				if (result == null) result = caseNamingContextNode(hostNamingContext);
-				if (result == null) result = caseNode(hostNamingContext);
-				if (result == null) result = caseCorbaWrapperObject(hostNamingContext);
-				if (result == null) result = caseWrapperObject(hostNamingContext);
-				if (result == null) result = caseModelElement(hostNamingContext);
-				if (result == null) result = caseLocalObject(hostNamingContext);
-				if (result == null) result = caseIAdaptable(hostNamingContext);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case NameservicePackage.MANAGER_NAMING_CONTEXT: {
-				ManagerNamingContext managerNamingContext = (ManagerNamingContext)theEObject;
-				Object result = caseManagerNamingContext(managerNamingContext);
-				if (result == null) result = caseNamingContextNode(managerNamingContext);
-				if (result == null) result = caseNode(managerNamingContext);
-				if (result == null) result = caseCorbaWrapperObject(managerNamingContext);
-				if (result == null) result = caseWrapperObject(managerNamingContext);
-				if (result == null) result = caseModelElement(managerNamingContext);
-				if (result == null) result = caseLocalObject(managerNamingContext);
-				if (result == null) result = caseIAdaptable(managerNamingContext);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case NameservicePackage.MODULE_NAMING_CONTEXT: {
-				ModuleNamingContext moduleNamingContext = (ModuleNamingContext)theEObject;
-				Object result = caseModuleNamingContext(moduleNamingContext);
-				if (result == null) result = caseNamingContextNode(moduleNamingContext);
-				if (result == null) result = caseNode(moduleNamingContext);
-				if (result == null) result = caseCorbaWrapperObject(moduleNamingContext);
-				if (result == null) result = caseWrapperObject(moduleNamingContext);
-				if (result == null) result = caseModelElement(moduleNamingContext);
-				if (result == null) result = caseLocalObject(moduleNamingContext);
-				if (result == null) result = caseIAdaptable(moduleNamingContext);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case NameservicePackage.NAME_SERVER_NAMING_CONTEXT: {
-				NameServerNamingContext nameServerNamingContext = (NameServerNamingContext)theEObject;
-				Object result = caseNameServerNamingContext(nameServerNamingContext);
-				if (result == null) result = caseNamingContextNode(nameServerNamingContext);
-				if (result == null) result = caseNode(nameServerNamingContext);
-				if (result == null) result = caseCorbaWrapperObject(nameServerNamingContext);
-				if (result == null) result = caseWrapperObject(nameServerNamingContext);
-				if (result == null) result = caseModelElement(nameServerNamingContext);
-				if (result == null) result = caseLocalObject(nameServerNamingContext);
-				if (result == null) result = caseIAdaptable(nameServerNamingContext);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case NameservicePackage.NAMING_CONTEXT_NODE: {
 				NamingContextNode namingContextNode = (NamingContextNode)theEObject;
 				Object result = caseNamingContextNode(namingContextNode);
-				if (result == null) result = caseNode(namingContextNode);
+				if (result == null) result = caseCorbaNode(namingContextNode);
+				if (result == null) result = caseNameServerContext(namingContextNode);
 				if (result == null) result = caseCorbaWrapperObject(namingContextNode);
+				if (result == null) result = caseNode(namingContextNode);
 				if (result == null) result = caseWrapperObject(namingContextNode);
 				if (result == null) result = caseModelElement(namingContextNode);
 				if (result == null) result = caseLocalObject(namingContextNode);
@@ -182,8 +116,9 @@ public class NameserviceSwitch {
 			case NameservicePackage.NAMING_OBJECT_NODE: {
 				NamingObjectNode namingObjectNode = (NamingObjectNode)theEObject;
 				Object result = caseNamingObjectNode(namingObjectNode);
-				if (result == null) result = caseNode(namingObjectNode);
+				if (result == null) result = caseCorbaNode(namingObjectNode);
 				if (result == null) result = caseCorbaWrapperObject(namingObjectNode);
+				if (result == null) result = caseNode(namingObjectNode);
 				if (result == null) result = caseWrapperObject(namingObjectNode);
 				if (result == null) result = caseModelElement(namingObjectNode);
 				if (result == null) result = caseLocalObject(namingObjectNode);
@@ -191,14 +126,15 @@ public class NameserviceSwitch {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case NameservicePackage.NODE: {
-				Node node = (Node)theEObject;
-				Object result = caseNode(node);
-				if (result == null) result = caseCorbaWrapperObject(node);
-				if (result == null) result = caseWrapperObject(node);
-				if (result == null) result = caseModelElement(node);
-				if (result == null) result = caseLocalObject(node);
-				if (result == null) result = caseIAdaptable(node);
+			case NameservicePackage.CORBA_NODE: {
+				CorbaNode corbaNode = (CorbaNode)theEObject;
+				Object result = caseCorbaNode(corbaNode);
+				if (result == null) result = caseCorbaWrapperObject(corbaNode);
+				if (result == null) result = caseNode(corbaNode);
+				if (result == null) result = caseWrapperObject(corbaNode);
+				if (result == null) result = caseModelElement(corbaNode);
+				if (result == null) result = caseLocalObject(corbaNode);
+				if (result == null) result = caseIAdaptable(corbaNode);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -213,88 +149,13 @@ public class NameserviceSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Category Naming Context</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Naming Context Node</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Category Naming Context</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseCategoryNamingContext(CategoryNamingContext object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Host Naming Context</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Host Naming Context</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseHostNamingContext(HostNamingContext object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Manager Naming Context</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Manager Naming Context</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseManagerNamingContext(ManagerNamingContext object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Module Naming Context</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Module Naming Context</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseModuleNamingContext(ModuleNamingContext object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Name Server Naming Context</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Name Server Naming Context</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseNameServerNamingContext(NameServerNamingContext object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Naming Context Node</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Naming Context Node</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Naming Context Node</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -303,13 +164,13 @@ public class NameserviceSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Naming Object Node</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Naming Object Node</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Naming Object Node</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Naming Object Node</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -318,13 +179,28 @@ public class NameserviceSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Node</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Corba Node</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Node</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Corba Node</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseCorbaNode(CorbaNode object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Node</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Node</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -333,13 +209,13 @@ public class NameserviceSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Naming Context</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Naming Context</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Naming Context</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Naming Context</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -348,13 +224,13 @@ public class NameserviceSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Name Service Reference</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Name Service Reference</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Name Service Reference</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Name Service Reference</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -363,13 +239,13 @@ public class NameserviceSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>IAdaptable</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>IAdaptable</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>IAdaptable</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>IAdaptable</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -378,13 +254,13 @@ public class NameserviceSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Model Element</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Model Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Model Element</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Model Element</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -393,13 +269,13 @@ public class NameserviceSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Local Object</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Local Object</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Local Object</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Local Object</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -408,13 +284,13 @@ public class NameserviceSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Wrapper Object</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Wrapper Object</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Wrapper Object</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Wrapper Object</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -423,13 +299,13 @@ public class NameserviceSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Corba Wrapper Object</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Corba Wrapper Object</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Corba Wrapper Object</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Corba Wrapper Object</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -438,13 +314,28 @@ public class NameserviceSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Name Server Context</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Name Server Context</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseNameServerContext(NameServerContext object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last case anyway.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */

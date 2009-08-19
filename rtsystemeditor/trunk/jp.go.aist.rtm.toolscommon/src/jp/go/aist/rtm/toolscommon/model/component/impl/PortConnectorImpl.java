@@ -8,34 +8,76 @@ package jp.go.aist.rtm.toolscommon.model.component.impl;
 
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
+import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.AttributeMapping;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ClassMapping;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ConstructorParamMapping;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ReferenceMapping;
+
+import jp.go.aist.rtm.toolscommon.model.core.impl.WrapperObjectImpl;
 import jp.go.aist.rtm.toolscommon.ui.propertysource.PortConnectorPropertySource;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EcoreEMap;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.ui.views.properties.IPropertySource;
-
-import RTC.ConnectorProfileHolder;
-import RTC.ReturnCode_t;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Port Connector</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * The following features are implemented:
+ * <ul>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.PortConnectorImpl#getConnectorProfile <em>Connector Profile</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.PortConnectorImpl#getRoutingConstraint <em>Routing Constraint</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.PortConnectorImpl#getSource <em>Source</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.PortConnectorImpl#getTarget <em>Target</em>}</li>
+ * </ul>
  * </p>
  *
  * @generated
  */
-public class PortConnectorImpl extends AbstractPortConnectorImpl implements PortConnector {
-	private static final String NAME_VALUE_KEY_INPORT_REF = "dataport.corba_any.inport_ref";
-	private static final String NAME_VALUE_KEY_SERVICEPORT_REF = "port.";
+public abstract class PortConnectorImpl extends WrapperObjectImpl implements PortConnector {
+	/**
+	 * The cached value of the '{@link #getConnectorProfile() <em>Connector Profile</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getConnectorProfile()
+	 * @generated
+	 * @ordered
+	 */
+	protected ConnectorProfile connectorProfile= null;
+
+	/**
+	 * The cached value of the '{@link #getRoutingConstraint() <em>Routing Constraint</em>}' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRoutingConstraint()
+	 * @generated
+	 * @ordered
+	 */
+	protected EMap routingConstraint= null;
+	/**
+	 * The cached value of the '{@link #getSource() <em>Source</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSource()
+	 * @generated
+	 * @ordered
+	 */
+	protected Port source= null;
+	/**
+	 * The cached value of the '{@link #getTarget() <em>Target</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTarget()
+	 * @generated
+	 * @ordered
+	 */
+	protected Port target= null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -54,10 +96,83 @@ public class PortConnectorImpl extends AbstractPortConnectorImpl implements Port
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ConnectorProfile getConnectorProfile() {
+		return connectorProfile;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetConnectorProfile(ConnectorProfile newConnectorProfile, NotificationChain msgs) {
+		ConnectorProfile oldConnectorProfile = connectorProfile;
+		connectorProfile = newConnectorProfile;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.PORT_CONNECTOR__CONNECTOR_PROFILE, oldConnectorProfile, newConnectorProfile);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setConnectorProfile(ConnectorProfile newConnectorProfile) {
+		if (newConnectorProfile != connectorProfile) {
+			NotificationChain msgs = null;
+			if (connectorProfile != null)
+				msgs = ((InternalEObject)connectorProfile).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.PORT_CONNECTOR__CONNECTOR_PROFILE, null, msgs);
+			if (newConnectorProfile != null)
+				msgs = ((InternalEObject)newConnectorProfile).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.PORT_CONNECTOR__CONNECTOR_PROFILE, null, msgs);
+			msgs = basicSetConnectorProfile(newConnectorProfile, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.PORT_CONNECTOR__CONNECTOR_PROFILE, newConnectorProfile, newConnectorProfile));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EMap getRoutingConstraint() {
+		if (routingConstraint == null) {
+			routingConstraint = new EcoreEMap(ComponentPackage.Literals.EINTEGER_OBJECT_TO_POINT_MAP_ENTRY, EIntegerObjectToPointMapEntryImpl.class, this, ComponentPackage.PORT_CONNECTOR__ROUTING_CONSTRAINT);
+		}
+		return routingConstraint;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Port getSource() {
+		if (source != null && source.eIsProxy()) {
+			InternalEObject oldSource = (InternalEObject)source;
+			source = (Port)eResolveProxy(oldSource);
+			if (source != oldSource) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ComponentPackage.PORT_CONNECTOR__SOURCE, oldSource, source));
+			}
+		}
+		return source;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
 	 * @generated NOT
 	 */
+	@SuppressWarnings("unchecked")
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, Class baseClass, NotificationChain msgs) {
 		switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
@@ -70,197 +185,190 @@ public class PortConnectorImpl extends AbstractPortConnectorImpl implements Port
 		return super.eInverseRemove(otherEnd, featureID, baseClass, msgs);
 	}
 
-	public static boolean createConnectorR(
-			jp.go.aist.rtm.toolscommon.model.component.Port first,
-			jp.go.aist.rtm.toolscommon.model.component.Port second,
-			ConnectorProfile connectorProfile) {
-		boolean result = false;
-		try {
-			RTC.ConnectorProfile profile = new RTC.ConnectorProfile();
-			profile.connector_id = connectorProfile.getConnectorId();
-			if (profile.connector_id == null) {
-				profile.connector_id = "";
-			}
-
-			profile.name = connectorProfile.getName();
-			profile.ports = new RTC.PortService[] { first.getCorbaObjectInterface(),
-					second.getCorbaObjectInterface() };
-
-			for( int intidx=0;intidx<connectorProfile.getProperties().size();intidx++ ) {
-				NameValueImpl nv = (NameValueImpl)connectorProfile.getProperties().get(intidx);
-				if( nv.name.equals(NAME_VALUE_KEY_INPORT_REF) )
-					connectorProfile.getProperties().remove(nv);
-				if( nv.name.startsWith(NAME_VALUE_KEY_SERVICEPORT_REF) ) {
-					connectorProfile.getProperties().remove(nv);
-					profile.connector_id = "";
-				}
-			}
-			profile.properties = NameValueImpl
-					.createNameValueArray(connectorProfile.getProperties());
-
-			ConnectorProfileHolder connectorProfileHolder = new ConnectorProfileHolder(
-					profile);
-			first.getCorbaObjectInterface().connect(connectorProfileHolder);
-
-			result = true;
-		} catch (RuntimeException e) {
-			// void
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ComponentPackage.PORT_CONNECTOR__CONNECTOR_PROFILE:
+				return basicSetConnectorProfile(null, msgs);
+			case ComponentPackage.PORT_CONNECTOR__ROUTING_CONSTRAINT:
+				return ((InternalEList)getRoutingConstraint()).basicRemove(otherEnd, msgs);
 		}
-
-		return result;
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
-	public boolean deleteConnectorR() {
-		boolean result = false;
-		try {
-			RTC.PortService inport = this.getTarget().getCorbaObjectInterface();
-
-			ReturnCode_t code = inport.disconnect(this.getConnectorProfile()
-					.getConnectorId());
-
-			if (code == ReturnCode_t.RTC_OK) {
-				result = true;
-			}
-		} catch (RuntimeException e) {
-			// void
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+			case ComponentPackage.PORT_CONNECTOR__CONNECTOR_PROFILE:
+				return getConnectorProfile();
+			case ComponentPackage.PORT_CONNECTOR__ROUTING_CONSTRAINT:
+				if (coreType) return getRoutingConstraint();
+				else return getRoutingConstraint().map();
+			case ComponentPackage.PORT_CONNECTOR__SOURCE:
+				if (resolve) return getSource();
+				return basicGetSource();
+			case ComponentPackage.PORT_CONNECTOR__TARGET:
+				if (resolve) return getTarget();
+				return basicGetTarget();
 		}
-
-		return result;
+		return super.eGet(featureID, resolve, coreType);
 	}
 
-	@Override
-	public jp.go.aist.rtm.toolscommon.model.component.Port getSource() {
-		return (jp.go.aist.rtm.toolscommon.model.component.Port) super.getSource();
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+			case ComponentPackage.PORT_CONNECTOR__CONNECTOR_PROFILE:
+				setConnectorProfile((ConnectorProfile)newValue);
+				return;
+			case ComponentPackage.PORT_CONNECTOR__ROUTING_CONSTRAINT:
+				((EStructuralFeature.Setting)getRoutingConstraint()).set(newValue);
+				return;
+			case ComponentPackage.PORT_CONNECTOR__SOURCE:
+				setSource((Port)newValue);
+				return;
+			case ComponentPackage.PORT_CONNECTOR__TARGET:
+				setTarget((Port)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
 	}
 
-	@Override
-	public jp.go.aist.rtm.toolscommon.model.component.Port getTarget() {
-		return (jp.go.aist.rtm.toolscommon.model.component.Port) super.getTarget();
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void eUnset(int featureID) {
+		switch (featureID) {
+			case ComponentPackage.PORT_CONNECTOR__CONNECTOR_PROFILE:
+				setConnectorProfile((ConnectorProfile)null);
+				return;
+			case ComponentPackage.PORT_CONNECTOR__ROUTING_CONSTRAINT:
+				getRoutingConstraint().clear();
+				return;
+			case ComponentPackage.PORT_CONNECTOR__SOURCE:
+				setSource((Port)null);
+				return;
+			case ComponentPackage.PORT_CONNECTOR__TARGET:
+				setTarget((Port)null);
+				return;
+		}
+		super.eUnset(featureID);
 	}
 
-	@Override
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+			case ComponentPackage.PORT_CONNECTOR__CONNECTOR_PROFILE:
+				return connectorProfile != null;
+			case ComponentPackage.PORT_CONNECTOR__ROUTING_CONSTRAINT:
+				return routingConstraint != null && !routingConstraint.isEmpty();
+			case ComponentPackage.PORT_CONNECTOR__SOURCE:
+				return source != null;
+			case ComponentPackage.PORT_CONNECTOR__TARGET:
+				return target != null;
+		}
+		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Port basicGetSource() {
+		return source;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSource(Port newSource) {
+		Port oldSource = source;
+		source = newSource;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.PORT_CONNECTOR__SOURCE, oldSource, source));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Port getTarget() {
+		if (target != null && target.eIsProxy()) {
+			InternalEObject oldTarget = (InternalEObject)target;
+			target = (Port)eResolveProxy(oldTarget);
+			if (target != oldTarget) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ComponentPackage.PORT_CONNECTOR__TARGET, oldTarget, target));
+			}
+		}
+		return target;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Port basicGetTarget() {
+		return target;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTarget(Port newTarget) {
+		Port oldTarget = target;
+		target = newTarget;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.PORT_CONNECTOR__TARGET, oldTarget, target));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public boolean createConnectorR() {
-		return createConnectorR(getSource(), getTarget(), getConnectorProfile());
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
 	}
 
-	private static final int TARGET_INDEX = 0;
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean deleteConnectorR() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
 
-	private static final int SOURCE_INDEX = 1;
-
-	private static final int PROFILE_INDEX = 2;
-
-	public static final MappingRule MAPPING_RULE = new MappingRule(
-			null,
-			new ClassMapping(
-					PortConnectorImpl.class,
-					new ConstructorParamMapping[] {
-							new ConstructorParamMapping(
-									ComponentPackage.eINSTANCE
-											.getConnector_Source()),
-							new ConstructorParamMapping(
-									ComponentPackage.eINSTANCE
-											.getConnector_Target()),
-							new ConstructorParamMapping(
-									ComponentPackage.eINSTANCE
-											.getAbstractPortConnector_ConnectorProfile()) }) {
-				@Override
-				public LocalObject createLocalObject(LocalObject parent,
-						Object[] remoteObjects, java.lang.Object link) {
-					PortConnector newObj = (PortConnector) super
-							.createLocalObject(parent, remoteObjects, link);
-					//
-					LocalObject result = null;
-					// try {
-					// LocalObject first = SynchronizationSupport
-					// .findLocalObjectByRemoteObject(
-					// new Object[] { remoteObjects[TARGET_INDEX] },
-					// parent);
-					// LocalObject second = SynchronizationSupport
-					// .findLocalObjectByRemoteObject(
-					// new Object[] { remoteObjects[SOURCE_INDEX] },
-					// parent);
-					// if (first != null && second != null) {
-
-					System.out.println("");
-					// ConnectorSource connectorSource = (ConnectorSource)
-					// remoteObjects[1];
-					// ConnectorTarget connectorTarget = (ConnectorTarget)
-					// remoteObjects[0];
-					// connectorSource.getSourceConnectors().add(newObj);
-					// connectorTarget.getTargetConnectors().add(newObj);
-					// newObj.setSource(connectorSource);
-					// newObj.setTarget(connectorTarget);
-
-					// newObj.attachTarget();
-					// newObj.attachSource();
-
-					// if (newObj.getTarget().getTargetConnectors().size() !=
-					// newObj
-					// .getSource().getSourceConnectors().size()) {
-					// System.out.println();
-					// }
-					// System.out.println(newObj.getTarget());
-					// System.out.println(newObj.getTarget().getTargetConnectors()
-					// .get(0));
-					// System.out.println(newObj.getSource());
-					result = newObj;
-					// }
-					// } catch (Exception e) {
-					// e.printStackTrace(); // system error
-					// }
-					//
-					return result;
-				}
-
-			}, new AttributeMapping[] {
-			// new AttributeMapping(
-			// ComponentPackage.eINSTANCE
-			// .getPortConnector_ConnectorProfile()) {
-			// @Override
-			// public Object getRemoteAttributeValue(LocalObject localObject) {
-			// Object result = null;
-			// try {
-			// String id = ((PortConnector) localObject)
-			// .getRtcConnectorProfile().connector_id;
-			//
-			// RTC.Port source = ((PortConnector) localObject)
-			// .getSource().getCorbaObjectInterface();
-			//
-			// RTC.ConnectorProfile profile = null;
-			// for (RTC.ConnectorProfile temp : source
-			// .get_connector_profiles()) {
-			// if (id.equals(temp.connector_id)) {
-			// profile = temp;
-			// break;
-			// }
-			// }
-			//
-			// result = profile;
-			//
-			// } catch (Exception e) {
-			// // void
-			// }
-			//
-			// return result;
-			// }
-			//
-			// @Override
-			// public Object convert2LocalValue(LocalObject localObject,
-			// Object remoteAttributeValue) {
-			// Object result = null;
-			// if (remoteAttributeValue != null) {
-			// result = new ConnectorProfile(
-			// (RTC.ConnectorProfile) remoteAttributeValue);
-			// }
-			//
-			// return result;
-			// }
-			//
-			// },
-
-			}, new ReferenceMapping[] {});
-
-
+	@SuppressWarnings("unchecked")
 	public java.lang.Object getAdapter(Class adapter) {
 		java.lang.Object result = null;
 		if (IPropertySource.class.equals(adapter)) {
@@ -273,4 +381,5 @@ public class PortConnectorImpl extends AbstractPortConnectorImpl implements Port
 
 		return result;
 	}	
+
 } // PortConnectorImpl

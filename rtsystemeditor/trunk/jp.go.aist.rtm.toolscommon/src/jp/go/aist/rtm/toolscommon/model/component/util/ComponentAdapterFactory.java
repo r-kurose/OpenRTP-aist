@@ -10,25 +10,22 @@ import java.util.Map;
 
 import jp.go.aist.rtm.toolscommon.model.component.*;
 
-import jp.go.aist.rtm.toolscommon.model.component.AbstractComponent;
-import jp.go.aist.rtm.toolscommon.model.component.AbstractPortConnector;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
-import jp.go.aist.rtm.toolscommon.model.component.Connector;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
-import jp.go.aist.rtm.toolscommon.model.component.ConnectorSource;
-import jp.go.aist.rtm.toolscommon.model.component.ConnectorTarget;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaConfigurationSet;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaConnectorProfile;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaPortSynchronizer;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.InPort;
-import jp.go.aist.rtm.toolscommon.model.component.LifeCycleState;
 import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 import jp.go.aist.rtm.toolscommon.model.component.OutPort;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
-import jp.go.aist.rtm.toolscommon.model.component.PortConnectorSpecification;
-import jp.go.aist.rtm.toolscommon.model.component.PortProfile;
+import jp.go.aist.rtm.toolscommon.model.component.PortSynchronizer;
 import jp.go.aist.rtm.toolscommon.model.component.ServicePort;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject;
@@ -101,41 +98,23 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 			public Object caseSystemDiagram(SystemDiagram object) {
 				return createSystemDiagramAdapter();
 			}
-			public Object caseAbstractComponent(AbstractComponent object) {
-				return createAbstractComponentAdapter();
-			}
 			public Object caseComponent(Component object) {
 				return createComponentAdapter();
+			}
+			public Object caseCorbaComponent(CorbaComponent object) {
+				return createCorbaComponentAdapter();
 			}
 			public Object caseComponentSpecification(ComponentSpecification object) {
 				return createComponentSpecificationAdapter();
 			}
-			public Object caseConnector(Connector object) {
-				return createConnectorAdapter();
-			}
-			public Object caseAbstractPortConnector(AbstractPortConnector object) {
-				return createAbstractPortConnectorAdapter();
-			}
 			public Object casePortConnector(PortConnector object) {
 				return createPortConnectorAdapter();
-			}
-			public Object casePortConnectorSpecification(PortConnectorSpecification object) {
-				return createPortConnectorSpecificationAdapter();
-			}
-			public Object caseConnectorSource(ConnectorSource object) {
-				return createConnectorSourceAdapter();
-			}
-			public Object caseConnectorTarget(ConnectorTarget object) {
-				return createConnectorTargetAdapter();
 			}
 			public Object caseExecutionContext(ExecutionContext object) {
 				return createExecutionContextAdapter();
 			}
 			public Object caseInPort(InPort object) {
 				return createInPortAdapter();
-			}
-			public Object caseLifeCycleState(LifeCycleState object) {
-				return createLifeCycleStateAdapter();
 			}
 			public Object caseNameValue(NameValue object) {
 				return createNameValueAdapter();
@@ -145,9 +124,6 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object casePort(Port object) {
 				return createPortAdapter();
-			}
-			public Object casePortProfile(PortProfile object) {
-				return createPortProfileAdapter();
 			}
 			public Object caseServicePort(ServicePort object) {
 				return createServicePortAdapter();
@@ -160,6 +136,21 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseEIntegerObjectToPointMapEntry(Map.Entry object) {
 				return createEIntegerObjectToPointMapEntryAdapter();
+			}
+			public Object casePortSynchronizer(PortSynchronizer object) {
+				return createPortSynchronizerAdapter();
+			}
+			public Object caseCorbaPortSynchronizer(CorbaPortSynchronizer object) {
+				return createCorbaPortSynchronizerAdapter();
+			}
+			public Object caseCorbaConnectorProfile(CorbaConnectorProfile object) {
+				return createCorbaConnectorProfileAdapter();
+			}
+			public Object caseCorbaConfigurationSet(CorbaConfigurationSet object) {
+				return createCorbaConfigurationSetAdapter();
+			}
+			public Object caseCorbaExecutionContext(CorbaExecutionContext object) {
+				return createCorbaExecutionContextAdapter();
 			}
 			public Object caseIAdaptable(IAdaptable object) {
 				return createIAdaptableAdapter();
@@ -252,6 +243,20 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent <em>Corba Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.CorbaComponent
+	 * @generated
+	 */
+	public Adapter createCorbaComponentAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile <em>Connector Profile</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -294,16 +299,72 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.AbstractComponent <em>Abstract Component</em>}'.
+	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.PortSynchronizer <em>Port Synchronizer</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see jp.go.aist.rtm.toolscommon.model.component.AbstractComponent
+	 * @see jp.go.aist.rtm.toolscommon.model.component.PortSynchronizer
 	 * @generated
 	 */
-	public Adapter createAbstractComponentAdapter() {
+	public Adapter createPortSynchronizerAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaPortSynchronizer <em>Corba Port Synchronizer</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.CorbaPortSynchronizer
+	 * @generated
+	 */
+	public Adapter createCorbaPortSynchronizerAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaConnectorProfile <em>Corba Connector Profile</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.CorbaConnectorProfile
+	 * @generated
+	 */
+	public Adapter createCorbaConnectorProfileAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaConfigurationSet <em>Corba Configuration Set</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.CorbaConfigurationSet
+	 * @generated
+	 */
+	public Adapter createCorbaConfigurationSetAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext <em>Corba Execution Context</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext
+	 * @generated
+	 */
+	public Adapter createCorbaExecutionContextAdapter() {
 		return null;
 	}
 
@@ -322,34 +383,6 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.AbstractPortConnector <em>Abstract Port Connector</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see jp.go.aist.rtm.toolscommon.model.component.AbstractPortConnector
-	 * @generated
-	 */
-	public Adapter createAbstractPortConnectorAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.PortConnectorSpecification <em>Port Connector Specification</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see jp.go.aist.rtm.toolscommon.model.component.PortConnectorSpecification
-	 * @generated
-	 */
-	public Adapter createPortConnectorSpecificationAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.Port <em>Port</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -360,20 +393,6 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createPortAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.Connector <em>Connector</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see jp.go.aist.rtm.toolscommon.model.component.Connector
-	 * @generated
-	 */
-	public Adapter createConnectorAdapter() {
 		return null;
 	}
 
@@ -420,34 +439,6 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.LifeCycleState <em>Life Cycle State</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see jp.go.aist.rtm.toolscommon.model.component.LifeCycleState
-	 * @generated
-	 */
-	public Adapter createLifeCycleStateAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.PortProfile <em>Port Profile</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see jp.go.aist.rtm.toolscommon.model.component.PortProfile
-	 * @generated
-	 */
-	public Adapter createPortProfileAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.NameValue <em>Name Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -458,34 +449,6 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createNameValueAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorSource <em>Connector Source</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see jp.go.aist.rtm.toolscommon.model.component.ConnectorSource
-	 * @generated
-	 */
-	public Adapter createConnectorSourceAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorTarget <em>Connector Target</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see jp.go.aist.rtm.toolscommon.model.component.ConnectorTarget
-	 * @generated
-	 */
-	public Adapter createConnectorTargetAdapter() {
 		return null;
 	}
 

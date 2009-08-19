@@ -11,7 +11,6 @@ import jp.go.aist.rtm.toolscommon.model.core.*;
 import jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject;
 import jp.go.aist.rtm.toolscommon.model.core.CorePackage;
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
-import jp.go.aist.rtm.toolscommon.model.core.UnknownObject;
 import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 
@@ -91,9 +90,6 @@ public class CoreAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseWrapperObject(WrapperObject object) {
 				return createWrapperObjectAdapter();
-			}
-			public Object caseUnknownObject(UnknownObject object) {
-				return createUnknownObjectAdapter();
 			}
 			public Object defaultCase(EObject object) {
 				return createEObjectAdapter();
@@ -181,20 +177,6 @@ public class CoreAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createWrapperObjectAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.core.UnknownObject <em>Unknown Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see jp.go.aist.rtm.toolscommon.model.core.UnknownObject
-	 * @generated
-	 */
-	public Adapter createUnknownObjectAdapter() {
 		return null;
 	}
 

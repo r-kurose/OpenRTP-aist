@@ -1,6 +1,7 @@
 package jp.go.aist.rtm.systemeditor.ui.preference;
 
 import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
+import jp.go.aist.rtm.systemeditor.nl.Messages;
 
 import org.eclipse.jface.preference.ColorSelector;
 import org.eclipse.jface.preference.PreferencePage;
@@ -60,17 +61,17 @@ public class ColorPreferencePage extends PreferencePage implements
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		stateGroup.setLayoutData(gd);
 
-		stateGroup.setText("RTC状態 [RTCボディ ]");
+		stateGroup.setText(Messages.getString("ColorPreferencePage.0")); //$NON-NLS-1$
 
-		stateCreatedColorSelector = createColorSetting("Created:", stateGroup,
+		stateCreatedColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.1"), stateGroup, //$NON-NLS-1$
 				SystemEditorPreferenceManager.COLOR_RTC_STATE_CREATED);
-		stateInactiveColorSelector = createColorSetting("Inactive:",
+		stateInactiveColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.2"), //$NON-NLS-1$
 				stateGroup, SystemEditorPreferenceManager.COLOR_RTC_STATE_INACTIVE);
-		stateActiveColorSelector = createColorSetting("Active:", stateGroup,
+		stateActiveColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.3"), stateGroup, //$NON-NLS-1$
 				SystemEditorPreferenceManager.COLOR_RTC_STATE_ACTIVE);
-		stateErrorColorSelector = createColorSetting("Error:", stateGroup,
+		stateErrorColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.4"), stateGroup, //$NON-NLS-1$
 				SystemEditorPreferenceManager.COLOR_RTC_STATE_ERROR);
-		stateUnknownColorSelector = createColorSetting("Unknown:", stateGroup,
+		stateUnknownColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.5"), stateGroup, //$NON-NLS-1$
 				SystemEditorPreferenceManager.COLOR_RTC_STATE_UNKNOWN);
 
 		Group executionContextGroup = new Group(composite, SWT.NONE);
@@ -80,12 +81,12 @@ public class ColorPreferencePage extends PreferencePage implements
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		executionContextGroup.setLayoutData(gd);
 
-		executionContextGroup.setText("ExecutionContext状態 [RTCボーダー]");
+		executionContextGroup.setText(Messages.getString("ColorPreferencePage.6")); //$NON-NLS-1$
 
-		executionRunningColorSelector = createColorSetting("Running:",
+		executionRunningColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.7"), //$NON-NLS-1$
 				executionContextGroup,
 				SystemEditorPreferenceManager.COLOR_RTC_EXECUTION_CONTEXT_RUNNING);
-		executionStoppedColorSelector = createColorSetting("Stopped:",
+		executionStoppedColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.8"), //$NON-NLS-1$
 				executionContextGroup,
 				SystemEditorPreferenceManager.COLOR_RTC_EXECUTION_CONTEXT_STOPPED);
 
@@ -96,10 +97,10 @@ public class ColorPreferencePage extends PreferencePage implements
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		dataportGroup.setLayoutData(gd);
 
-		dataportGroup.setText("Data Port状態");
-		dataportNoConnectColorSelector = createColorSetting("未接続:",
+		dataportGroup.setText(Messages.getString("ColorPreferencePage.9")); //$NON-NLS-1$
+		dataportNoConnectColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.10"), //$NON-NLS-1$
 				dataportGroup, SystemEditorPreferenceManager.COLOR_DATAPORT_NO_CONNECT);
-		dataportConnectedColorSelector = createColorSetting("接続済:",
+		dataportConnectedColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.11"), //$NON-NLS-1$
 				dataportGroup, SystemEditorPreferenceManager.COLOR_DATAPORT_CONNECTED);
 
 		Group serviceportGroup = new Group(composite, SWT.NONE);
@@ -109,11 +110,11 @@ public class ColorPreferencePage extends PreferencePage implements
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		serviceportGroup.setLayoutData(gd);
 
-		serviceportGroup.setText("Service Port状態");
-		serviceportNoConnectColorSelector = createColorSetting("未接続:",
+		serviceportGroup.setText(Messages.getString("ColorPreferencePage.12")); //$NON-NLS-1$
+		serviceportNoConnectColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.13"), //$NON-NLS-1$
 				serviceportGroup,
 				SystemEditorPreferenceManager.COLOR_SERVICEPORT_NO_CONNECT);
-		serviceportConnectedColorSelector = createColorSetting("接続済:",
+		serviceportConnectedColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.14"), //$NON-NLS-1$
 				serviceportGroup, SystemEditorPreferenceManager.COLOR_SERVICEPORT_CONNECTED);
 
 		return composite;

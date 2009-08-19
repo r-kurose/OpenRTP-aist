@@ -2,22 +2,31 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ManagerPackageImpl.java,v 1.2 2008/03/06 04:01:49 yamashita Exp $
+ * $Id$
  */
 package jp.go.aist.rtm.toolscommon.model.manager.impl;
 
+import RTM.ManagerProfile;
+import RTM.ModuleProfile;
+
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
+
 import jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl;
+
 import jp.go.aist.rtm.toolscommon.model.core.CorePackage;
+
 import jp.go.aist.rtm.toolscommon.model.core.impl.CorePackageImpl;
+
 import jp.go.aist.rtm.toolscommon.model.manager.ManagerFactory;
 import jp.go.aist.rtm.toolscommon.model.manager.ManagerPackage;
-import jp.go.aist.rtm.toolscommon.model.manager.RTManager;
-import jp.go.aist.rtm.toolscommon.model.manager.RTModule;
+import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
@@ -32,14 +41,21 @@ public class ManagerPackageImpl extends EPackageImpl implements ManagerPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass rtManagerEClass = null;
+	private EClass rtcManagerEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass rtModuleEClass = null;
+	private EDataType rtmManagerProfileEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType rtmModuleProfileEDataType = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -122,8 +138,8 @@ public class ManagerPackageImpl extends EPackageImpl implements ManagerPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getRTManager() {
-		return rtManagerEClass;
+	public EClass getRTCManager() {
+		return rtcManagerEClass;
 	}
 
 	/**
@@ -131,8 +147,8 @@ public class ManagerPackageImpl extends EPackageImpl implements ManagerPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRTManager_OwnedModules() {
-		return (EReference)rtManagerEClass.getEStructuralFeatures().get(0);
+	public EAttribute getRTCManager_ManagerProfile() {
+		return (EAttribute)rtcManagerEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -140,8 +156,8 @@ public class ManagerPackageImpl extends EPackageImpl implements ManagerPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRTManager_OwnedComponents() {
-		return (EReference)rtManagerEClass.getEStructuralFeatures().get(1);
+	public EAttribute getRTCManager_InstanceNameL() {
+		return (EAttribute)rtcManagerEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -149,8 +165,26 @@ public class ManagerPackageImpl extends EPackageImpl implements ManagerPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getRTModule() {
-		return rtModuleEClass;
+	public EAttribute getRTCManager_PathId() {
+		return (EAttribute)rtcManagerEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getRTMManagerProfile() {
+		return rtmManagerProfileEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getRTMModuleProfile() {
+		return rtmModuleProfileEDataType;
 	}
 
 	/**
@@ -181,11 +215,14 @@ public class ManagerPackageImpl extends EPackageImpl implements ManagerPackage {
 		isCreated = true;
 
 		// Create classes and their features
-		rtManagerEClass = createEClass(RT_MANAGER);
-		createEReference(rtManagerEClass, RT_MANAGER__OWNED_MODULES);
-		createEReference(rtManagerEClass, RT_MANAGER__OWNED_COMPONENTS);
+		rtcManagerEClass = createEClass(RTC_MANAGER);
+		createEAttribute(rtcManagerEClass, RTC_MANAGER__MANAGER_PROFILE);
+		createEAttribute(rtcManagerEClass, RTC_MANAGER__INSTANCE_NAME_L);
+		createEAttribute(rtcManagerEClass, RTC_MANAGER__PATH_ID);
 
-		rtModuleEClass = createEClass(RT_MODULE);
+		// Create data types
+		rtmManagerProfileEDataType = createEDataType(RTM_MANAGER_PROFILE);
+		rtmModuleProfileEDataType = createEDataType(RTM_MODULE_PROFILE);
 	}
 
 	/**
@@ -216,15 +253,52 @@ public class ManagerPackageImpl extends EPackageImpl implements ManagerPackage {
 		ComponentPackage theComponentPackage = (ComponentPackage)EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI);
 
 		// Add supertypes to classes
-		rtManagerEClass.getESuperTypes().add(theCorePackage.getCorbaWrapperObject());
-		rtModuleEClass.getESuperTypes().add(theCorePackage.getWrapperObject());
+		rtcManagerEClass.getESuperTypes().add(theCorePackage.getCorbaWrapperObject());
 
 		// Initialize classes and features; add operations and parameters
-		initEClass(rtManagerEClass, RTManager.class, "RTManager", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getRTManager_OwnedModules(), this.getRTModule(), null, "ownedModules", null, 0, -1, RTManager.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getRTManager_OwnedComponents(), theComponentPackage.getComponent(), null, "ownedComponents", null, 0, -1, RTManager.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(rtcManagerEClass, RTCManager.class, "RTCManager", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getRTCManager_ManagerProfile(), this.getRTMManagerProfile(), "managerProfile", null, 0, 1, RTCManager.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRTCManager_InstanceNameL(), ecorePackage.getEString(), "instanceNameL", null, 0, 1, RTCManager.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRTCManager_PathId(), ecorePackage.getEString(), "pathId", null, 0, 1, RTCManager.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(rtModuleEClass, RTModule.class, "RTModule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		addEOperation(rtcManagerEClass, this.getRTMManagerProfile(), "getProfileR", 0, 1);
+
+		EOperation op = addEOperation(rtcManagerEClass, theComponentPackage.getComponent(), "createComponentR", 0, 1);
+		addEParameter(op, ecorePackage.getEString(), "compName", 0, 1);
+
+		op = addEOperation(rtcManagerEClass, ecorePackage.getEInt(), "deleteComponentR", 0, 1);
+		addEParameter(op, ecorePackage.getEString(), "instanceName", 0, 1);
+
+		addEOperation(rtcManagerEClass, ecorePackage.getEEList(), "getComponentsR", 0, 1);
+
+		addEOperation(rtcManagerEClass, ecorePackage.getEEList(), "getComponentProfilesR", 0, 1);
+
+		op = addEOperation(rtcManagerEClass, ecorePackage.getEInt(), "loadModuleR", 0, 1);
+		addEParameter(op, ecorePackage.getEString(), "pathname", 0, 1);
+		addEParameter(op, ecorePackage.getEString(), "initfunc", 0, 1);
+
+		op = addEOperation(rtcManagerEClass, ecorePackage.getEInt(), "unloadModuleR", 0, 1);
+		addEParameter(op, ecorePackage.getEString(), "pathname", 0, 1);
+
+		addEOperation(rtcManagerEClass, ecorePackage.getEEList(), "getLoadableModuleProfilesR", 0, 1);
+
+		addEOperation(rtcManagerEClass, ecorePackage.getEEList(), "getLoadedModuleProfilesR", 0, 1);
+
+		addEOperation(rtcManagerEClass, ecorePackage.getEInt(), "forkR", 0, 1);
+
+		addEOperation(rtcManagerEClass, ecorePackage.getEInt(), "shutdownR", 0, 1);
+
+		addEOperation(rtcManagerEClass, ecorePackage.getEEList(), "getComponentInstanceNamesR", 0, 1);
+
+		addEOperation(rtcManagerEClass, ecorePackage.getEEList(), "getLoadableModuleFileNameR", 0, 1);
+
+		addEOperation(rtcManagerEClass, ecorePackage.getEEList(), "getLoadedModuleFileNamesR", 0, 1);
+
+		addEOperation(rtcManagerEClass, ecorePackage.getEEList(), "getFactoryProfileTypeNamesR", 0, 1);
+
+		// Initialize data types
+		initEDataType(rtmManagerProfileEDataType, ManagerProfile.class, "RTMManagerProfile", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(rtmModuleProfileEDataType, ModuleProfile.class, "RTMModuleProfile", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

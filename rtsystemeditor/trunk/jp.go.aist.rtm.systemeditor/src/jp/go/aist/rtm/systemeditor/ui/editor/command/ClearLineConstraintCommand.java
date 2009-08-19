@@ -6,9 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import jp.go.aist.rtm.toolscommon.model.component.Connector;
-import jp.go.aist.rtm.toolscommon.model.component.ConnectorSource;
-import jp.go.aist.rtm.toolscommon.model.component.ConnectorTarget;
+import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
 import jp.go.aist.rtm.toolscommon.model.core.Visiter;
 
@@ -21,7 +19,8 @@ import org.eclipse.gef.commands.Command;
 public class ClearLineConstraintCommand extends Command {
 	private ModelElement model;
 
-	private Map<Connector, Map> oldRoutingConstraint = new IdentityHashMap<Connector, Map>();
+	@SuppressWarnings("unchecked")
+	private Map<PortConnector, Map> oldRoutingConstraint = new IdentityHashMap<PortConnector, Map>();
 
 	/**
 	 * ïœçXëŒè€ÇÃÉÇÉfÉãÇê›íËÇ∑ÇÈ
@@ -39,23 +38,14 @@ public class ClearLineConstraintCommand extends Command {
 	 */
 	public void execute() {
 		model.accept(new Visiter() {
+			@SuppressWarnings("unchecked")
 			public void visit(ModelElement element) {
-				List<Connector> connnectionList = new ArrayList<Connector>();
-				if (element instanceof Connector) {
-					connnectionList.add((Connector) element);
+				List<PortConnector> connnectionList = new ArrayList<PortConnector>();
+				if (element instanceof PortConnector) {
+					connnectionList.add((PortConnector) element);
 				}
 
-				if (element instanceof ConnectorSource) {
-					connnectionList.addAll(((ConnectorSource) element)
-							.getSourceConnectors());
-				}
-
-				if (element instanceof ConnectorTarget) {
-					connnectionList.addAll(((ConnectorTarget) element)
-							.getTargetConnectors());
-				}
-
-				for (Connector connection : connnectionList) {
+				for (PortConnector connection : connnectionList) {
 					Object routingConstraint = connection
 							.getRoutingConstraint();
 					if (routingConstraint instanceof EMap) {
@@ -69,12 +59,13 @@ public class ClearLineConstraintCommand extends Command {
 		});
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	/**
 	 * {@inheritDoc}
 	 */
 	public void undo() {
-		for (Connector connection : oldRoutingConstraint.keySet()) {
+		for (PortConnector connection : oldRoutingConstraint.keySet()) {
 			Map constraint = oldRoutingConstraint.get(connection);
 			connection.getRoutingConstraint().clear();
 			connection.getRoutingConstraint().putAll(constraint);

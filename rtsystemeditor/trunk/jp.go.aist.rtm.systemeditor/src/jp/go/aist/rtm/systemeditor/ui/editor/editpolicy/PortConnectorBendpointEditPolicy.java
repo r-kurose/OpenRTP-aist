@@ -10,9 +10,8 @@ import java.util.TreeMap;
 
 import jp.go.aist.rtm.systemeditor.ui.editor.command.MoveLineCommand;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpart.router.LineMoveHandle;
+import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 
-import org.eclipse.draw2d.AbsoluteBendpoint;
-import org.eclipse.draw2d.Bendpoint;
 import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
@@ -29,7 +28,7 @@ import org.eclipse.gef.requests.BendpointRequest;
 public class PortConnectorBendpointEditPolicy extends
 		SelectionHandlesEditPolicy implements PropertyChangeListener {
 
-	private static final Map NULL_CONSTRAINT = Collections.EMPTY_MAP;
+	private static final Map<Integer, Point> NULL_CONSTRAINT = Collections.emptyMap();
 
 	private Map<Integer, Point> originalConstraint;
 
@@ -111,8 +110,9 @@ public class PortConnectorBendpointEditPolicy extends
 	/**
 	 * {@inheritDoc}
 	 */
+	@SuppressWarnings("unchecked")
 	protected void saveOriginalConstraint() {
-		originalConstraint = (Map) getConnection().getRoutingConstraint();
+		originalConstraint = (Map<Integer, Point>) getConnection().getRoutingConstraint();
 		if (originalConstraint == null)
 			originalConstraint = NULL_CONSTRAINT;
 		getConnection().setRoutingConstraint(
@@ -122,37 +122,19 @@ public class PortConnectorBendpointEditPolicy extends
 	/**
 	 * {@inheritDoc}
 	 */
-	protected void showCreateBendpointFeedback(BendpointRequest request) {
+	@SuppressWarnings("unchecked")
+	private void showCreateBendpointFeedback(BendpointRequest request) {
 		Point p = new Point(request.getLocation());
-		List constraint;
 		getConnection().translateToRelative(p);
-		Bendpoint bp = new AbsoluteBendpoint(p);
-		if (originalConstraint == null) {
-			saveOriginalConstraint();
-			constraint = (List) getConnection().getRoutingConstraint();
-			constraint.add(request.getIndex(), bp);
-		} else {
-			constraint = (List) getConnection().getRoutingConstraint();
-		}
-		constraint.set(request.getIndex(), bp);
-		getConnection().setRoutingConstraint(constraint);
+		if (originalConstraint == null)	saveOriginalConstraint();
+		((Map<Integer, Point>) getConnection().getRoutingConstraint())
+			.put(request.getIndex(), p);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	protected void showDeleteBendpointFeedback(BendpointRequest request) {
-		if (originalConstraint == null) {
-			saveOriginalConstraint();
-			List constraint = (List) getConnection().getRoutingConstraint();
-			constraint.remove(request.getIndex());
-			getConnection().setRoutingConstraint(constraint);
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
+	@SuppressWarnings("unchecked")
 	protected void showMoveBendpointFeedback(BendpointRequest request) {
 		Point p = new Point(request.getLocation());
 		if (isDeleting) {
@@ -161,7 +143,7 @@ public class PortConnectorBendpointEditPolicy extends
 		}
 		if (originalConstraint == null)
 			saveOriginalConstraint();
-		Map constraint = (Map) getConnection().getRoutingConstraint();
+		Map<Integer, Point> constraint = (Map<Integer, Point>) getConnection().getRoutingConstraint();
 		getConnection().translateToRelative(p);
 
 		constraint.put(request.getIndex(), p);
@@ -189,7 +171,7 @@ public class PortConnectorBendpointEditPolicy extends
 	protected Command getMoveBendpointCommand(BendpointRequest request) {
 		MoveLineCommand result = new MoveLineCommand();
 		result
-				.setModel((jp.go.aist.rtm.toolscommon.model.component.Connector) getHost()
+				.setModel((PortConnector) getHost()
 						.getModel());
 		Point location = request.getLocation();
 		getConnection().translateToRelative(location);
@@ -200,7 +182,7 @@ public class PortConnectorBendpointEditPolicy extends
 		return result;
 	}
 
-	protected List createSelectionHandles() {
+	protected List<LineMoveHandle> createSelectionHandles() {
 		List<LineMoveHandle> result = new ArrayList<LineMoveHandle>();
 		ConnectionEditPart connEP = (ConnectionEditPart) getHost();
 		PointList points = getConnection().getPoints();
