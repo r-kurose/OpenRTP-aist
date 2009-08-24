@@ -1,0 +1,11 @@
+--- 
+rtcProfile: 
+  configurationSet: 
+    configuration: 
+      -
+        constraint: 
+          constraintUnitType: 
+            propertyIsBetween: 
+              lowerBoundary: "100"
+              upperBoundary: "150"
+  version: "0.2"

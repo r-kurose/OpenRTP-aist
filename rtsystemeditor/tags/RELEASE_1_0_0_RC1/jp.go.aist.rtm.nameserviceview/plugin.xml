@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<plugin>
+	<extension point="org.eclipse.emf.ecore.generated_package">
+    	<package uri="http://rtm.aist.go.jp/nameserviceview/model/nameserviceview" class="jp.go.aist.rtm.nameserviceview.model.nameservice.NameservicePackage"/>
+	</extension>
+
+	<extension point="jp.go.aist.rtm.toolscommon.wrapperfactory">
+		<mappingrule seq="500" mappingrule="jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NamingObjectNodeImpl.MAPPING_RULE"/>
+		<mappingrule seq="1200" mappingrule="jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NamingContextNodeImpl.MAPPING_RULE_NAMESERVER"/>
+		<mappingrule seq="1900" mappingrule="jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NamingContextNodeImpl.MAPPING_RULE"/>
+	</extension>
+
+	<extension
+		point="org.eclipse.ui.views">
+		<category
+			name="%OpenRTP_Tools"
+			id="OpenRTP">
+		</category>
+		<view
+			name="%Name_Service_View"
+			icon="icons/Connect.png"
+			category="%OpenRTP"
+			class="jp.go.aist.rtm.nameserviceview.ui.views.nameserviceview.NameServiceView"
+			id="jp.go.aist.rtm.nameserviceview.ui.views.nameserviceview.NameServiceView">
+		</view>
+	</extension>
+	<extension
+		point = "org.eclipse.ui.viewActions">
+		<viewContribution 
+			id="jp.go.aist.rtm.nameserviceview.ui.views.nameserviceview.NameServiceView.contribution" 
+			targetID="jp.go.aist.rtm.nameserviceview.ui.views.nameserviceview.NameServiceView">        
+			<action id="jp.go.aist.rtm.nameserviceview.ui.action.AddNameServiceAction" 
+				label="%Add_Name_Server" 
+				menubarPath="additions"
+				toolbarPath="additions" 
+				icon="icons/Connect.png" 
+				tooltip="%Add_Name_Server" 
+				helpContextId=""
+				class="jp.go.aist.rtm.nameserviceview.ui.action.AddNameServiceAction" > 
+			</action>
+			<action id="jp.go.aist.rtm.nameserviceview.ui.action.RefreshNameServerAction" 
+				label="%Refresh" 
+				menubarPath="additions"
+				toolbarPath="additions" 
+				icon="icons/Refresh.png" 
+				tooltip="%Refresh_Name_Service" 
+				helpContextId=""
+				class="jp.go.aist.rtm.nameserviceview.ui.action.RefreshNameServerAction" > 
+			</action>
+			<action id="jp.go.aist.rtm.nameserviceview.ui.action.FilterAction" 
+				label="%Filter" 
+				menubarPath="additions"
+				toolbarPath="additions" 
+				icon="icons/filter_ps.gif" 
+				tooltip="%Name_Serviceview_Filter" 
+				helpContextId=""
+				class="jp.go.aist.rtm.nameserviceview.ui.action.FilterAction" > 
+			</action>
+			<action
+				class="jp.go.aist.rtm.nameserviceview.ui.action.KillZombiesAction"
+				icon="icons/KillZombie.gif"
+				id="jp.go.aist.rtm.nameserviceview.ui.action.KillZombies"
+				label="%Kill_Zombies"
+				menubarPath="additions"
+				toolbarPath="additions"
+				tooltip="%Kill_All_Zombies">
+			</action>
+		</viewContribution>
+	</extension>
+	
+	<extension  point="org.eclipse.core.runtime.adapters">
+		<factory class="jp.go.aist.rtm.nameserviceview.adapterfactory.AdapterFactory"
+            adaptableType="jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode">
+                <adapter type="jp.go.aist.rtm.toolscommon.model.component.Component"/>
+        </factory>
+		<factory class="jp.go.aist.rtm.nameserviceview.adapterfactory.AdapterFactory"
+            adaptableType="jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode">
+                <adapter type="jp.go.aist.rtm.toolscommon.model.manager.RTCManager"/>
+        </factory>
+        <factory
+            class="jp.go.aist.rtm.nameserviceview.adapterfactory.WorkbenchAdapterFactory"
+            adaptableType="jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode">
+                <adapter type="org.eclipse.ui.model.IWorkbenchAdapter"/>
+     	</factory>
+    </extension>
+    
+    <extension
+		point="org.eclipse.ui.popupMenus">
+		<viewerContribution
+			id="jp.go.aist.rtm.nameserviceview.ui.viewerContribution"
+			targetID="jp.go.aist.rtm.nameserviceview.ui.views.nameserviceview.NameServiceView" >
+			<action id="jp.go.aist.rtm.nameserviceview.ui.action.AddNameServiceAction" 
+				label="%Add_Name_Server" 
+				icon="icons/Connect.png" 
+				menubarPath="additions"
+				helpContextId=""
+				class="jp.go.aist.rtm.nameserviceview.ui.action.AddNameServiceAction" > 
+			</action>
+			<action id="jp.go.aist.rtm.nameserviceview.ui.action.RefreshNameServerAction"
+				label="%Refresh"
+				icon="icons/Refresh.png"
+				menubarPath="additions"
+				helpContextId=""
+				class="jp.go.aist.rtm.nameserviceview.ui.action.RefreshNameServerAction">	
+			</action>
+		</viewerContribution>
+		<objectContribution
+			id="jp.go.aist.rtm.nameserviceview.ui.action.AddObjectAction"
+        	objectClass="jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode">
+			<action id="jp.go.aist.rtm.nameserviceview.ui.action.AddObjectAction" 
+				label="%Add_Object" 
+				enablesFor="1"
+				menubarPath="namingContextObjectContribution"
+				helpContextId=""
+				class="jp.go.aist.rtm.nameserviceview.ui.action.AddObjectAction" > 
+			</action>
+		</objectContribution>
+		<objectContribution
+			id="jp.go.aist.rtm.nameserviceview.ui.action.AddContextAction"
+        	objectClass="jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode">
+			<action id="jp.go.aist.rtm.nameserviceview.ui.action.AddContextAction" 
+				label="%Add_Context" 
+				enablesFor="1"
+				menubarPath="namingContextObjectContribution"
+				helpContextId=""
+				class="jp.go.aist.rtm.nameserviceview.ui.action.AddContextAction" > 
+			</action>
+		</objectContribution>
+			
+		<objectContribution
+			id="jp.go.aist.rtm.nameserviceview.ui.action.DeleteINamingContextActionDelegate"
+        	objectClass="jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode">
+			<action id="jp.go.aist.rtm.nameserviceview.ui.action.DeleteINamingContextActionDelegate"
+				label="%Delete_from_Name_Service"
+				menubarPath="namingContextObjectContribution"
+				class="jp.go.aist.rtm.nameserviceview.ui.action.DeleteNodeActionDelegate">
+			</action>
+		</objectContribution>
+
+		<objectContribution
+			id="jp.go.aist.rtm.nameserviceview.ui.action.DeleteNameServiceAction"
+        	objectClass="jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode">
+			<action id="jp.go.aist.rtm.nameserviceview.ui.action.DeleteNameServiceAction"
+				label="%Delete_from_View"
+				menubarPath="namingContextObjectContribution"
+				class="jp.go.aist.rtm.nameserviceview.ui.action.DeleteNodeActionDelegate">
+			</action>
+		</objectContribution>
+		
+	</extension>
+
+	<extension point = "org.eclipse.ui.actionSets"> 
+		<actionSet
+			id="jp.go.aist.rtm.nameserviceview.ui.actionSet"
+			label="%RT_Name_Service_View_Actions">
+			<action
+				id="jp.go.aist.rtm.nameserviceview.ui.action.AboutAction"
+				label="%About_RT_Name_Service_View"
+				menubarPath="help/"
+				icon="icons/RT.png"
+				tooltip="%About_RT_Name_Service_View_Label"
+				class="jp.go.aist.rtm.nameserviceview.ui.action.AboutAction"> 
+			</action>
+		</actionSet>
+	</extension>
+
+	<!--	
+	<extension point="org.eclipse.ui.perspectiveExtensions">
+	    <perspectiveExtension 
+	        targetID="org.eclipse.ui.resourcePerspective" >
+	        <view
+				relative="org.eclipse.ui.views.ResourceNavigator"
+				visible="false"
+				relationship="stack"
+				id="jp.go.aist.rtm.nameserviceview.ui.views.nameserviceview.NameServiceView">
+			</view>
+			<view
+				ratio="0.7"
+				relative="org.eclipse.ui.editorss"
+				visible="false"
+				relationship="right"
+				id="org.eclipse.ui.views.PropertySheet">
+			</view>
+	        <viewShortcut id="jp.go.aist.rtm.nameserviceview.ui.views.nameserviceview.NameServiceView"/>
+	    </perspectiveExtension>
+	</extension>
+	-->
+
+	<extension
+		point = "org.eclipse.ui.preferencePages">
+		<page
+			id="jp.go.aist.rtm.nameserviceview.ui.preference.MainPreferencePage"
+			class="jp.go.aist.rtm.nameserviceview.ui.preference.MainPreferencePage"
+			name="%RT_Name_Service_View">
+		</page>
+		<page
+			id="jp.go.aist.rtm.nameserviceview.ui.preference.NameServiceViewPreferencePage"
+			class="jp.go.aist.rtm.nameserviceview.ui.preference.NameServiceViewPreferencePage"
+			name="%Connection"
+			category="jp.go.aist.rtm.nameserviceview.ui.preference.MainPreferencePage">
+		</page>
+		
+		<page
+			id="jp.go.aist.rtm.nameserviceview.ui.preference.SynchronizationPreferencePage"
+			class="jp.go.aist.rtm.nameserviceview.ui.preference.SynchronizationPreferencePage"
+			name="%Synchronize"
+			category="jp.go.aist.rtm.nameserviceview.ui.preference.MainPreferencePage">
+		</page>
+	</extension>
+</plugin>
