@@ -2,28 +2,19 @@ package jp.go.aist.rtm.systemeditor.factory;
 
 import java.io.IOException;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import jp.go.aist.rtm.systemeditor.ui.editor.action.RestoreOption;
 import jp.go.aist.rtm.systemeditor.ui.util.RtsProfileHandler;
 import jp.go.aist.rtm.toolscommon.factory.MappingRuleFactory;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
-import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
-import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
-import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
 import jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationManager;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.openrtp.namespaces.rts.version02.RtsProfileExt;
 
 /**
@@ -89,6 +80,10 @@ public class SystemEditorWrapperFactory {
 		SystemDiagram diagram = handler.load(strPath, SystemDiagramKind.ONLINE_LITERAL);
 		if (restore.doQuick()) handler.populateCorbaBaseObject(diagram);
 
+		return postLoad(handler, diagram);
+	}
+
+	public EObject postLoad(RtsProfileHandler handler, SystemDiagram diagram) {
 		getSynchronizationManager().assignSynchonizationSupportToDiagram(diagram);
 		Rehabilitation.rehabilitation(diagram);
 		

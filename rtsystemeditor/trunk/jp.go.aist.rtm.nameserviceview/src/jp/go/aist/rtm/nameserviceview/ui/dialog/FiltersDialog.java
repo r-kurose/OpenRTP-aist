@@ -53,6 +53,7 @@ public class FiltersDialog extends Dialog {
 
 	public static final String COMPONENT = Messages.getString("FiltersDialog.1"); //$NON-NLS-1$
 	public static final String COMPOSITE_COMPONENT = Messages.getString("FiltersDialog.2"); //$NON-NLS-1$
+	public static final String MANAGER = Messages.getString("FiltersDialog.10"); //$NON-NLS-1$
 	public static final String OBJECT = Messages.getString("FiltersDialog.3"); //$NON-NLS-1$
 	public static final String HOST_NAMING_CONTEXT = Messages.getString("FiltersDialog.4"); //$NON-NLS-1$
 	public static final String MANAGER_NAMING_CONTEXT = Messages.getString("FiltersDialog.5"); //$NON-NLS-1$
@@ -271,6 +272,8 @@ public class FiltersDialog extends Dialog {
 			result = Messages.getString("FiltersDialog.23"); //$NON-NLS-1$
 		} else if (COMPOSITE_COMPONENT.equals(object)) {
 			result = Messages.getString("FiltersDialog.24"); //$NON-NLS-1$
+		} else if (MANAGER.equals(object)) {
+			result = Messages.getString("FiltersDialog.32"); //$NON-NLS-1$
 		} else if (OBJECT.equals(object)) {
 			result = Messages.getString("FiltersDialog.25"); //$NON-NLS-1$
 		} else if (HOST_NAMING_CONTEXT.equals(object)) {
@@ -348,6 +351,7 @@ public class FiltersDialog extends Dialog {
 		List<String>list = new ArrayList<String>();
 		list.add(COMPONENT);
 		list.add(COMPOSITE_COMPONENT);
+		list.add(MANAGER);
 		list.add(OBJECT);
 		list.add(HOST_NAMING_CONTEXT);
 		list.add(MANAGER_NAMING_CONTEXT);

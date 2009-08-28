@@ -51,6 +51,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 public interface Component extends WrapperObject {
 	public static final String CATEGORY = "CATEGORY";
 	public static final String DESCRIPTION = "DESCRIPTION";
+	public static final String PATH_URI = "PATH_URI";
 	public static final String INSTANCE_NAME = "INSTANCE_NAME";
 	public static final String STATE = "STATE";
 	public static final String TYPE_NAME = "TYPE_NAME";

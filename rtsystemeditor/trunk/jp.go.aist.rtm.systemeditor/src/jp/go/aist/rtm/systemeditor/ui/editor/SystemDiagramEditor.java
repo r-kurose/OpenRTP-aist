@@ -150,6 +150,7 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 							handler.restoreConfigSet(getSystemDiagram());
 							doReplace(getSystemDiagram(), site);
 						} catch (Exception e) {
+							e.printStackTrace();
 							throw new InvocationTargetException(e, Messages.getString("SystemDiagramEditor.8")); //$NON-NLS-1$
 						}
 					}
@@ -167,7 +168,7 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 	/**
 	 * ロード時の復元を行います。
 	 */
-	private void doReplace(SystemDiagram systemDiagram, IEditorSite site) {
+	public void doReplace(SystemDiagram systemDiagram, IEditorSite site) {
 		final StringBuffer buffer = new StringBuffer();
 		Result resultHolder = new Result() {
 			private boolean success;

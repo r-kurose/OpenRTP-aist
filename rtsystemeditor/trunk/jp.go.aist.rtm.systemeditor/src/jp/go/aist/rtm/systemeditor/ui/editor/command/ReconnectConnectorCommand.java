@@ -22,6 +22,8 @@ public class ReconnectConnectorCommand extends Command {
 	private PortConnector connector;
 
 	private GraphicalConnectorCreateManager manager;
+	
+	private boolean result;
 
 	/**
 	 * コンストラクタ
@@ -74,6 +76,7 @@ public class ReconnectConnectorCommand extends Command {
 			if (profile != null) {
 				connector.deleteConnectorR();
 				manager.connectR(profile);
+				result = true;
 			}
 		}
 
@@ -85,6 +88,7 @@ public class ReconnectConnectorCommand extends Command {
 			if (profile != null) {
 				connector.deleteConnectorR();
 				manager.connectR(profile);
+				result = true;
 			}
 		}
 
@@ -92,6 +96,9 @@ public class ReconnectConnectorCommand extends Command {
 		clearLineConstraintCommand.execute();
 	}
 
+	public boolean getResult() {
+		return result;
+	}
 	@Override
 	/**
 	 * {@inheritDoc}

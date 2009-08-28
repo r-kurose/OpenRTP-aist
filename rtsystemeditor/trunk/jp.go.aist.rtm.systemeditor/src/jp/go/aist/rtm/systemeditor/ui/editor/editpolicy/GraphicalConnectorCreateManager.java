@@ -1,5 +1,9 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.editpolicy;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jp.go.aist.rtm.systemeditor.RTSystemEditorPlugin;
 import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.action.CompositeComponentHelper;
 import jp.go.aist.rtm.systemeditor.ui.dialog.DataConnectorCreaterDialog;
@@ -12,6 +16,9 @@ import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 import jp.go.aist.rtm.toolscommon.model.component.ServicePort;
 import jp.go.aist.rtm.toolscommon.model.component.util.PortConnectorFactory;
 
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
@@ -21,17 +28,43 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class GraphicalConnectorCreateManager {
 
+	static final String EXTENTION_POINT_NAME = "createconnectorprofile";
+	private static List<ConnectorProfileCreater> connectorProfileCreators;
+
 	private Shell shell;
 
 	private Port first;
 
 	private Port second;
-
+	
 	public GraphicalConnectorCreateManager(Shell shell) {
 		this.shell = shell;
 	}
 
 	public ConnectorProfile getConnectorProfile() {
+		if(connectorProfileCreators == null) {
+			buildConnectorProfileCreator();
+		}
+		
+		for(ConnectorProfileCreater creator : connectorProfileCreators) {
+			try {
+				ConnectorProfileCreater.ResultCode result = creator.getConnectorProfile(getSource(), getTarget(), shell);
+				
+				if(result == ConnectorProfileCreater.ResultCode.SUCCESS) {
+					return creator.getConnectorProfile();
+				} else if (result == ConnectorProfileCreater.ResultCode.FAILURE) {
+					creator.showErrorMessage(shell);
+					return null;
+				} else {
+					continue;
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}			
+		}
+		
 		if (getSource() instanceof OutPort && getTarget() instanceof InPort) {
 			return new DataConnectorCreaterDialog(shell)
 					.getConnectorProfile((OutPort) getSource(),
@@ -43,6 +76,26 @@ public class GraphicalConnectorCreateManager {
 							(ServicePort) getTarget());
 		} else {
 			return null;
+		}
+	}
+
+	private static void buildConnectorProfileCreator() {
+		connectorProfileCreators = new ArrayList<ConnectorProfileCreater>();
+		String ns = RTSystemEditorPlugin.class.getPackage().getName();
+		IExtension[] extensions = Platform.getExtensionRegistry()
+			.getExtensionPoint(ns, EXTENTION_POINT_NAME).getExtensions();
+		for (IExtension ex : extensions) {
+			for (IConfigurationElement ce : ex.getConfigurationElements()) {
+				Object obj;
+				try {
+					obj = ce.createExecutableExtension("extensionclass");
+					if (obj instanceof ConnectorProfileCreater) {
+						connectorProfileCreators.add((ConnectorProfileCreater)obj);
+					}
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+			}
 		}
 	}
 

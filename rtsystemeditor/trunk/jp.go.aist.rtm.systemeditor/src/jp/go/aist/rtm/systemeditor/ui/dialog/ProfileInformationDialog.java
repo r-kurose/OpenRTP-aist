@@ -211,6 +211,10 @@ public class ProfileInformationDialog extends Dialog {
 			int index = strId.lastIndexOf("."); //$NON-NLS-1$
 			this.inputSystemName = strId.substring(index+1);
 			this.inputVendor = strId.substring(0,index);
+		} else if(strSplit.length==4) {
+			this.inputVersion = strSplit[strSplit.length-1];
+			this.inputSystemName = strSplit[2];
+			this.inputVendor = strSplit[1];
 		}
 	}
 

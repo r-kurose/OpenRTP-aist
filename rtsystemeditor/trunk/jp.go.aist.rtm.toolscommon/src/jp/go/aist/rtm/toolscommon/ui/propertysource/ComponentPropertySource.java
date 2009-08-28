@@ -14,6 +14,7 @@ import org.eclipse.ui.views.properties.TextPropertyDescriptor;
  * コンポーネントのIPropertySourceクラス（オンライン）
  */
 public class ComponentPropertySource implements IPropertySource {
+	private static final String DISP_PATH_URI = Messages.getString("ComponentPropertySource.disp.path_uri");
 	private static final String DISP_INSTANCE_NAME = Messages.getString("ComponentPropertySource.disp.instance_name");
 
 	private static final String DISP_TYPE_NAME = Messages.getString("ComponentPropertySource.disp.type_name");
@@ -42,8 +43,10 @@ public class ComponentPropertySource implements IPropertySource {
 
 	private static final String STATE_ERROR_VIEWSTRING = Messages.getString("ComponentPropertySource.state.error");
 
+
 	private static final PropertyDescriptor[] componentPropertyDescriptor = new PropertyDescriptor[] {
-			new TextPropertyDescriptor(Component.INSTANCE_NAME, DISP_INSTANCE_NAME),
+		    new TextPropertyDescriptor(Component.PATH_URI, DISP_PATH_URI),
+		    new TextPropertyDescriptor(Component.INSTANCE_NAME, DISP_INSTANCE_NAME),
 			new TextPropertyDescriptor(Component.TYPE_NAME, DISP_TYPE_NAME),
 			new TextPropertyDescriptor(Component.DESCRIPTION, DISP_DESCRIPTION),
 			new TextPropertyDescriptor(Component.VERSION, DISP_VERSION),
@@ -75,7 +78,9 @@ public class ComponentPropertySource implements IPropertySource {
 	 */
 	public java.lang.Object getPropertyValue(java.lang.Object id) {
 		try {
-			if (Component.INSTANCE_NAME.equals(id)) {
+			if (Component.PATH_URI.equals(id)) {
+				return component.getPathId();
+			} else if (Component.INSTANCE_NAME.equals(id)) {
 				return component.getInstanceNameL();
 			} else if (Component.VENDER.equals(id)) {
 				return component.getVenderL();

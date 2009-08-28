@@ -10,8 +10,8 @@ import org.osgi.framework.BundleContext;
  */
 public class NameServiceViewPlugin extends AbstractUIPlugin {
 
-	// The plug-in  ID
-	public static final String PLUGIN_ID = "jp.go.aist.rtm.nameserviceview";
+	// The plug-in ID
+	private static final String PLUGIN_ID = "jp.go.aist.rtm.nameserviceview";
 
 	// The shared instance
 	private static NameServiceViewPlugin plugin;

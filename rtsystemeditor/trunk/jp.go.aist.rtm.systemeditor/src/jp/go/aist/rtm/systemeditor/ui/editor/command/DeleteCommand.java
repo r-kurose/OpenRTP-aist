@@ -17,6 +17,7 @@ public class DeleteCommand extends Command {
 
 	private Component target;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	/**
 	 * {@inheritDoc}
@@ -26,17 +27,27 @@ public class DeleteCommand extends Command {
 			return;
 		
 		disconnectAll();
+
+		// 開いたエディタを閉じる
+		ComponentUtil.closeCompositeComponent(target);
 		
 		// 削除実行
 		if (parent.getCompositeComponent()!= null) {
 			// 自身が複合コンポーネントの子の場合は複合コンポーネントから外す
 			parent.getCompositeComponent().removeComponentR(target);
-		} 
-		// 開いたエディタを閉じる
-		ComponentUtil.closeCompositeComponent(target);
-		
-		// ダイアグラムからコンポーネントを削除する
-		parent.removeComponent(target);
+			// 親エディタに自身を追加する
+			SystemDiagram parentSystemDiagram = parent.getParentSystemDiagram();
+			parentSystemDiagram.addComponent(target);
+			// ネストしている場合はメンバーの再設定が必要
+			if (parentSystemDiagram.getCompositeComponent() != null) {
+				parentSystemDiagram.getCompositeComponent().setComponentsR(parentSystemDiagram.getComponents());
+			}
+			// 画面更新
+			ComponentUtil.findEditor(parentSystemDiagram).refresh();
+		} else {		
+			// ダイアグラムからコンポーネントを削除する
+			parent.removeComponent(target);
+		}
 		
 		// 画面更新
 		ComponentUtil.findEditor(parent).refresh();

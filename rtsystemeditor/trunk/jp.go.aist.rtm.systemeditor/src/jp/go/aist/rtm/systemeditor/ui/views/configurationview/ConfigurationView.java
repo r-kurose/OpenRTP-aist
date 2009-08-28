@@ -7,6 +7,8 @@ import java.util.List;
 import jp.go.aist.rtm.systemeditor.RTSystemEditorPlugin;
 import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.dialog.ConfigurationDialog;
+import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
+import jp.go.aist.rtm.systemeditor.ui.util.ComponentUtil;
 import jp.go.aist.rtm.systemeditor.ui.views.configurationview.configurationwrapper.ComponentConfigurationWrapper;
 import jp.go.aist.rtm.systemeditor.ui.views.configurationview.configurationwrapper.ConfigurationSetConfigurationWrapper;
 import jp.go.aist.rtm.systemeditor.ui.views.configurationview.configurationwrapper.NamedValueConfigurationWrapper;
@@ -16,10 +18,12 @@ import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.ui.views.propertysheetview.RtcPropertySheetPage;
 import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 import jp.go.aist.rtm.toolscommon.util.SDOUtil;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ColorRegistry;
@@ -248,6 +252,8 @@ public class ConfigurationView extends ViewPart {
 				originalConfigurationSetList);
 		if (result == false) {
 			MessageDialog.openError(getSite().getShell(), Messages.getString("ConfigurationView.12"), Messages.getString("ConfigurationView.13")); //$NON-NLS-1$ //$NON-NLS-2$
+		} else {
+			setDirty();
 		}
 		if (targetComponent instanceof CorbaComponent) {
 			CorbaComponent c = (CorbaComponent) targetComponent;
@@ -263,35 +269,42 @@ public class ConfigurationView extends ViewPart {
 		leftTable.setSelection(selectionIndex);
 	}
 
+	private void setDirty() {
+		final EObject container = targetComponent.eContainer();
+		if (!(container instanceof SystemDiagram)) return;
+		SystemDiagram diagram = (SystemDiagram) container;
+		AbstractSystemDiagramEditor editor = ComponentUtil.findEditor(diagram.getRootDiagram());
+		if (editor == null) return;
+		editor.setDirty();
+	}
+
 	/**
 	 * アクティブなコンフィグレーションを修正したかどうか
 	 * 
 	 * @return
 	 */
 	private boolean isActiveConfigurationSetModified() {
-		if (copiedComponent.getActiveConfigSet() != null) {
-			if (targetComponent.getActiveConfigurationSet() == null)
-				return true;
-			if (copiedComponent.getActiveConfigSet()
-						.getConfigurationSet().getId().equals(
-								targetComponent
-										.getActiveConfigurationSet()
-										.getId()) == false) 
-				return true;
-			if (copiedComponent.getActiveConfigSet().getNamedValueList()
+		if (copiedComponent.getActiveConfigSet() == null ||
+				copiedComponent.getActiveConfigSet().getConfigurationSet() == null) {
+			return targetComponent.getActiveConfigurationSet() != null;
+		}
+
+		if (targetComponent.getActiveConfigurationSet() == null)
+			return true;
+		if (copiedComponent.getActiveConfigSet().getConfigurationSet().getId().equals(
+				targetComponent.getActiveConfigurationSet().getId()) == false) 
+			return true;
+		if (copiedComponent.getActiveConfigSet().getNamedValueList()
 					.size() != targetComponent.getActiveConfigurationSet()
 					.getConfigurationData().size()) {
-				return true;
-			}
-			for (NamedValueConfigurationWrapper namedValue : copiedComponent
+			return true;
+		}
+		for (NamedValueConfigurationWrapper namedValue : copiedComponent
 					.getActiveConfigSet().getNamedValueList()) {
-				if (namedValue.isKeyModified()
+			if (namedValue.isKeyModified()
 						|| namedValue.isValueModified()) {
 					return true;
-				}
 			}
-		} else if (targetComponent.getActiveConfigurationSet() != null) {
-			return true;
 		}
 		return false;
 	}

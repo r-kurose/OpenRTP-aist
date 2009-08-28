@@ -72,6 +72,7 @@ public class RtsProfileHandler {
 	private List<String> savedConnectors;
 	private ObjectFactory factory;
 	private SystemDiagram diagram;
+	private static final String COMPONENT_PATH_ID = "COMPONENT_PATH_ID";
 
 	/**
 	 * RTSプロファイルをロードする
@@ -83,6 +84,10 @@ public class RtsProfileHandler {
 	public SystemDiagram load(String targetFile, SystemDiagramKind kind) throws Exception {
 		XmlHandler handler = new XmlHandler();
 		RtsProfileExt profile = handler.loadXmlRts(targetFile);
+		return load(profile, kind);
+	}
+
+	public SystemDiagram load(RtsProfileExt profile, SystemDiagramKind kind) throws Exception {
 		diagram = ComponentFactory.eINSTANCE.createSystemDiagram();
 		diagram.setProfile(profile);
 		diagram.setKind(kind);
@@ -143,6 +148,14 @@ public class RtsProfileHandler {
 		for (jp.go.aist.rtm.toolscommon.model.component.Component targetComponent: 
 				diagram.getRegisteredComponents()) {
 			Component component = findComponent(targetComponent,
+					diagram.getProfile().getComponents());
+			populateConfigSets(targetComponent, component);
+		}
+	}
+	public void restoreConfigSetbyIOR(SystemDiagram diagram) {
+		for (jp.go.aist.rtm.toolscommon.model.component.Component targetComponent: 
+				diagram.getRegisteredComponents()) {
+			Component component = findComponentbyIOR(targetComponent,
 					diagram.getProfile().getComponents());
 			populateConfigSets(targetComponent, component);
 		}
@@ -315,7 +328,7 @@ public class RtsProfileHandler {
 		if (original instanceof DataportConnectorExt) {
 			DataportConnectorExt originalExt = (DataportConnectorExt) original;
 			connector.setComment(originalExt.getComment());
-			connector.setVisible(originalExt.isVisible());
+			connector.setVisible(Boolean.valueOf(originalExt.isVisible()));
 			for (Property property : originalExt.getProperties()) {
 				if (property.getName().equals("BEND_POINT")) continue;
 				connector.getProperties().add(property);
@@ -351,7 +364,7 @@ public class RtsProfileHandler {
 			}
 			ServiceportConnectorExt originalExt = (ServiceportConnectorExt) original;
 			connector.setComment(originalExt.getComment());
-			connector.setVisible(originalExt.isVisible());
+			connector.setVisible(Boolean.valueOf(originalExt.isVisible()));
 			for (Property property : originalExt.getProperties()) {
 				if (property.getName().equals("BEND_POINT")) continue;
 				connector.getProperties().add(property);
@@ -415,12 +428,23 @@ public class RtsProfileHandler {
 	private TargetPort createTargetPort(Port target
 			, TargetPort original) {
 		TargetPortExt port = factory.createTargetPortExt();
-		port.setComponentId(((jp.go.aist.rtm.toolscommon.model.component.Component)target.eContainer()).getComponentId());
-		port.setInstanceName(((jp.go.aist.rtm.toolscommon.model.component.Component)target.eContainer()).getInstanceNameL());
-		port.setPortName(((Port)target).getNameL());
+		final jp.go.aist.rtm.toolscommon.model.component.Component container = (jp.go.aist.rtm.toolscommon.model.component.Component)target.eContainer();
+		port.setComponentId(container.getComponentId());
+		port.setInstanceName(container.getInstanceNameL());
+		port.setPortName(target.getNameL());
+		
+		// pathIdをプロパティにセットする
+		Property propt = factory.createProperty();
+		propt.setName(COMPONENT_PATH_ID);
+		propt.setValue(container.getPathId());
+		port.getProperties().add(propt);
+
 		if (original instanceof TargetPortExt) {
 			TargetPortExt originalPort = (TargetPortExt) original;
-			port.getProperties().addAll(originalPort.getProperties());
+			for (Property property : originalPort.getProperties()) {
+				if (property.getName().equals(COMPONENT_PATH_ID)) continue;
+				port.getProperties().add(property);
+			}
 		}
 		return port;
 	}
@@ -460,6 +484,13 @@ public class RtsProfileHandler {
 			TargetComponentExt child = factory.createTargetComponentExt();
 			child.setComponentId(childComponentBase.getComponentId());
 			child.setInstanceName(childComponentBase.getInstanceNameL());
+			
+			// pathIdをプロパティにセットする
+			Property propt = factory.createProperty();
+			propt.setName(COMPONENT_PATH_ID);
+			propt.setValue(childComponentBase.getPathId());
+			child.getProperties().add(propt);
+
 			participants = factory.createParticipants();
 			participants.setParticipant(child);
 			target.getParticipants().add(participants);
@@ -474,7 +505,8 @@ public class RtsProfileHandler {
 			TargetComponent source = participants.getParticipant();
 			if (source.getComponentId().equals(childComponentBase.getComponentId())
 					&& source.getInstanceName().equals(childComponentBase.getInstanceNameL()))
-				return participants;
+				// pathIdもチェックする
+				if (isSamePathId(childComponentBase, source)) return participants;
 		}
 		return null;
 	}
@@ -489,7 +521,7 @@ public class RtsProfileHandler {
 			if (originalPort instanceof DataportExt) {
 				DataportExt source = (DataportExt) originalPort;
 				port.setComment(source.getComment());
-				port.setVisible(source.isVisible());
+				port.setVisible(Boolean.valueOf(source.isVisible()));
 				port.getProperties().addAll(source.getProperties());
 			}
 		}
@@ -506,7 +538,7 @@ public class RtsProfileHandler {
 			if (originalPort instanceof ServiceportExt) {
 				ServiceportExt source = (ServiceportExt) originalPort;
 				port.setComment(source.getComment());
-				port.setVisible(source.isVisible());
+				port.setVisible(Boolean.valueOf(source.isVisible()));
 				port.getProperties().addAll(source.getProperties());
 			}
 		}
@@ -541,8 +573,29 @@ public class RtsProfileHandler {
 			, List<Component> components) {
 		for (Component component : components) {
 			if (component.getId().equals(source.getComponentId()) 
-					&& component.getInstanceName().equals(source.getInstanceNameL()))
+					&& component.getInstanceName().equals(source.getInstanceNameL())
+					&& component.getPathUri().equals(source.getPathId()))
 				return component;
+		}
+		return null;
+	}
+	public static Component findComponentbyIOR(
+			jp.go.aist.rtm.toolscommon.model.component.Component source
+			, List<Component> components) {
+		for (Component component : components) {
+			List<Property> props = ((ComponentExt)component).getProperties();
+			if( props==null ) continue;
+			String compIor = null;
+			for( Property prop : props ) {
+				if( prop.getName().equals("IOR") ) {
+					compIor = prop.getValue();
+					break;
+				}
+			}
+			if( compIor==null ) continue;
+			if( compIor.equals(((CorbaComponent)source).getIor()) ) {
+				return component;
+			}
 		}
 		return null;
 	}
@@ -597,7 +650,7 @@ public class RtsProfileHandler {
 		if (!(original instanceof ComponentExt)) return;
 		ComponentExt source = (ComponentExt) original;
 		target.setComment(source.getComment());
-		target.setVisible(source.isVisible());
+		target.setVisible(Boolean.valueOf(source.isVisible()));
 	}
 
 	// Save時にExecutionContextの情報をRTSプロファイルにセットする
@@ -717,11 +770,15 @@ public class RtsProfileHandler {
 				TargetComponent participant = participants.getParticipant();
 				if (targetComponent.getComponentId().equals(participant.getComponentId())
 						&& targetComponent.getInstanceNameL().equals(participant.getInstanceName())) {
-					parentComponent.getComponents().add(targetComponent);
-					return false;
+					// pathIdもチェックする
+					if (isSamePathId(targetComponent, participant)) {
+						parentComponent.getComponents().add(targetComponent);
+						return false;
+					}	
 				}
 			}
 		}
+//		System.out.println("show" + targetComponent.getPathId());
 		return true;
 	}
 
@@ -828,10 +885,41 @@ public class RtsProfileHandler {
 		for (Object object : target) {
 			jp.go.aist.rtm.toolscommon.model.component.Component component = (jp.go.aist.rtm.toolscommon.model.component.Component)object;
 			if (component.getComponentId().equals(participant.getComponentId())
-					&& component.getInstanceNameL().equals(participant.getInstanceName()))
-				return component;
+					&& component.getInstanceNameL().equals(participant.getInstanceName())){
+				// pathIdもチェックする
+//				System.out.println(component.getPathId());
+				if (isSamePathId(component, participant)) return component;
+			}
 		}
-		throw new IllegalStateException(Messages.getString("RtsProfileHandler.7") + participant.getComponentId() + Messages.getString("RtsProfileHandler.8") + participant.getInstanceName());
+		throw new IllegalStateException(Messages.getString("RtsProfileHandler.7") + participant.getComponentId() 
+				+ Messages.getString("RtsProfileHandler.8") + participant.getInstanceName()
+				+ ",pathId=" + getPathId(participant));
+	}
+
+	// pathIdも等しいかをチェックする
+	private boolean isSamePathId(
+			jp.go.aist.rtm.toolscommon.model.component.Component component,
+			TargetComponent participant) {
+		String pathId = getPathId(participant);
+		if (pathId == null) return true;
+		return pathId.equals(component.getPathId());
+	}
+
+	// 保存されている接続コンポーネントのPathIdを取り出す
+	private String getPathId(TargetComponent participant) {
+		if (participant instanceof TargetPortExt) {
+			TargetPortExt saved = (TargetPortExt) participant;
+			for (Property property : saved.getProperties()) {
+				if(property.getName().equals(COMPONENT_PATH_ID)) return property.getValue();
+			}
+		}
+		if (participant instanceof TargetComponentExt) {
+			TargetComponentExt saved = (TargetComponentExt) participant;
+			for (Property property : saved.getProperties()) {
+				if(property.getName().equals(COMPONENT_PATH_ID)) return property.getValue();
+			}
+		}
+		return null;
 	}
 
 	// 接続端のポートを探し出す
@@ -855,10 +943,11 @@ public class RtsProfileHandler {
 			}
 			return ComponentFactory.eINSTANCE.createCorbaComponent();
 		} else if(component.getCompositeType().equals(COMPOSITETYPE_NONE)) {
-			String id = component.getId();
-			jp.go.aist.rtm.toolscommon.model.component.Component spec = findRTC(id, repositoryModel);
+			String componentid = component.getId();
+			String pathId = component.getPathUri();
+			jp.go.aist.rtm.toolscommon.model.component.Component spec = findRTC(componentid, pathId, repositoryModel);
 			if( spec==null ) {
-				throw new IllegalStateException("Target Component["+ id +"] does not exist in RepositoryView.");
+				throw new IllegalStateException("Target Component["+ componentid +"]("+ pathId + ") does not exist in RepositoryView.");
 			}
 			return spec.copy();
 		} else {
@@ -868,15 +957,16 @@ public class RtsProfileHandler {
 
 	// レポジトリからRTCを探し出す（オフライン）
 	@SuppressWarnings("unchecked")
-	private jp.go.aist.rtm.toolscommon.model.component.Component findRTC(String id, List<RepositoryViewItem> models) {
+	private jp.go.aist.rtm.toolscommon.model.component.Component findRTC(String id, String pathId
+			, List<RepositoryViewItem> models) {
 		if (models == null) return null;
 		for(RepositoryViewItem item : models) {
 			if( item instanceof RepositoryViewLeafItem ) {
 				ComponentSpecification target = ((RepositoryViewLeafItem)item).getComponent();
 				if( target == null) return null;
-				if(target.getComponentId().equals(id)) return target;
+				if(target.getComponentId().equals(id) && target.getPathId().equals(pathId)) return target;
 			} else {
-				jp.go.aist.rtm.toolscommon.model.component.Component result = findRTC(id, item.getChildren());
+				jp.go.aist.rtm.toolscommon.model.component.Component result = findRTC(id, pathId, item.getChildren());
 				if( result!=null ) return result;
 			}
 		}

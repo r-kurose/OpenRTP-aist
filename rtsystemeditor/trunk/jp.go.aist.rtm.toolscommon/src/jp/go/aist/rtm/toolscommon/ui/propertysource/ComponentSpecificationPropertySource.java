@@ -15,6 +15,7 @@ import org.eclipse.ui.views.properties.TextPropertyDescriptor;
  */
 public class ComponentSpecificationPropertySource implements IPropertySource {
 
+	private static final String DISP_PATH_URI = Messages.getString("ComponentPropertySource.disp.path_uri");
 	private static final String DISP_INSTANCE_NAME = Messages.getString("ComponentSpecificationPropertySource.disp.instance_name");
 
 	private static final String DISP_TYPE_NAME = Messages.getString("ComponentSpecificationPropertySource.disp.type_name");
@@ -28,6 +29,7 @@ public class ComponentSpecificationPropertySource implements IPropertySource {
 	private static final String DISP_CATEGORY = Messages.getString("ComponentSpecificationPropertySource.disp.category");
 
 	private static final PropertyDescriptor[] componentPropertyDescriptor = new PropertyDescriptor[] {
+	    	new TextPropertyDescriptor(Component.PATH_URI, DISP_PATH_URI),
 			new TextPropertyDescriptor(Component.INSTANCE_NAME, DISP_INSTANCE_NAME),
 			new TextPropertyDescriptor(Component.TYPE_NAME, DISP_TYPE_NAME),
 			new TextPropertyDescriptor(Component.DESCRIPTION, DISP_DESCRIPTION),
@@ -62,7 +64,9 @@ public class ComponentSpecificationPropertySource implements IPropertySource {
 		String result = null;
 
 		try {
-			if (Component.VENDER.equals(id)) {
+			if (Component.PATH_URI.equals(id)) {
+				return component.getPathId();
+			} else if (Component.VENDER.equals(id)) {
 				result = component.getVenderL();
 			} else if (Component.INSTANCE_NAME.equals(id)) {
 				result = component.getInstanceNameL();

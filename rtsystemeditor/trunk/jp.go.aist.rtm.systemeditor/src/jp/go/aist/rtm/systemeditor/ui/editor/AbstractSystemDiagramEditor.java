@@ -32,7 +32,6 @@ import jp.go.aist.rtm.systemeditor.ui.util.ComponentUtil;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
-import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSupport;
 import jp.go.aist.rtm.toolscommon.ui.views.propertysheetview.RtcPropertySheetPage;
@@ -45,11 +44,14 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.util.URI;
@@ -65,6 +67,7 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.KeyHandler;
 import org.eclipse.gef.KeyStroke;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.ScalableRootEditPart;
 import org.eclipse.gef.tools.MarqueeDragTracker;
 import org.eclipse.gef.ui.actions.SaveAction;
@@ -96,6 +99,30 @@ import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
 
 public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 
+	static final String EXTENTION_POINT_NAME = "postsaveextension";
+	private static List<PostSaveExtension> postSaveList;
+	
+	private static void buildExtensionDataSave() {
+		postSaveList = new ArrayList<PostSaveExtension>();
+		String ns = RTSystemEditorPlugin.class.getPackage().getName();
+		IExtension[] extensions = Platform.getExtensionRegistry()
+			.getExtensionPoint(ns, EXTENTION_POINT_NAME).getExtensions();
+		for (IExtension ex : extensions) {
+			for (IConfigurationElement ce : ex.getConfigurationElements()) {
+				Object obj;
+				try {
+					obj = ce.createExecutableExtension("extensionclass");
+					if (obj instanceof PostSaveExtension) {
+						postSaveList.add((PostSaveExtension)obj);
+					}
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+			}
+		}
+	}
+	
+	
 	public static final String MSG_TITLE_VALIDATION_ERROR = Messages.getString("AbstractSystemDiagramEditor.33");
 
 	/**
@@ -118,6 +145,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	
 	public AbstractSystemDiagramEditor() {
 		setEditDomain(new DefaultEditDomain(this));
+		getEditDomain().setCommandStack(new ConnectCancelCommandStack());
 	}
 	
 	/**
@@ -355,7 +383,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		dialog.setComponets(getSystemDiagram().getComponents());
 		if( dialog.open() != IDialogConstants.OK_ID ) return;
 		
-		String systemId = Messages.getString("AbstractSystemDiagramEditor.9") + dialog.getInputVendor() + "."  //$NON-NLS-1$ //$NON-NLS-2$
+		String systemId = Messages.getString("AbstractSystemDiagramEditor.9") + dialog.getInputVendor() + ":"  //$NON-NLS-1$ //$NON-NLS-2$
 							+ dialog.getInputSystemName() + ":" //$NON-NLS-1$
 							+ dialog.getInputVersion();
 		getSystemDiagram().setSystemId(systemId);
@@ -370,6 +398,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		try {
 			IFile file = ((IFileEditorInput) input).getFile();
 			save(file, monitor);
+			saveExtensionData(file, monitor);
 		} catch (CoreException e) {
 			e.printStackTrace();
 			ErrorDialog.openError(getSite().getShell(), Messages.getString("AbstractSystemDiagramEditor.12"), //$NON-NLS-1$
@@ -402,7 +431,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		
 		if( dialog.open() != IDialogConstants.OK_ID ) return;
 		
-		String systemId = Messages.getString("AbstractSystemDiagramEditor.18") + dialog.getInputVendor() + "."  //$NON-NLS-1$ //$NON-NLS-2$
+		String systemId = Messages.getString("AbstractSystemDiagramEditor.18") + dialog.getInputVendor() + ":"  //$NON-NLS-1$ //$NON-NLS-2$
 							+ dialog.getInputSystemName() + ":" //$NON-NLS-1$
 							+ dialog.getInputVersion();
 		getSystemDiagram().setSystemId(systemId);
@@ -430,6 +459,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 							InterruptedException {
 						try {
 							save(newFile, monitor);
+							saveExtensionData(newFile, monitor);
 						} catch (CoreException e) {
 							e.printStackTrace();
 							MessageDialog.openError(getSite().getShell(), Messages.getString("AbstractSystemDiagramEditor.21"), //$NON-NLS-1$
@@ -441,7 +471,19 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 			throw new RuntimeException(e); // SystemError
 		}
 	}
-
+	
+	private void saveExtensionData(IFile file,IProgressMonitor progressMonitor) {
+		if(postSaveList == null) {
+			buildExtensionDataSave();
+		}
+		for(PostSaveExtension extension : postSaveList) {
+			PostSaveExtension.ResultCode result =
+				extension.execute(this, file, progressMonitor);
+			if(result == PostSaveExtension.ResultCode.FAILURE) {
+				extension.showErrorMessage(getSite().getShell());
+			}
+		}
+	}
 	/**
 	 * ダイアグラムの整合性をチェックします。
 	 * 
@@ -664,6 +706,16 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		return getCommandStack().isDirty();
 	}
 
+	// ConfigSetが変更されたので、強制的にdirtyとする
+	public void setDirty() {
+		Command cannnotUndoCommand = new Command(){
+			@Override
+			public boolean canUndo() {
+				return false;
+			}};
+		getCommandStack().execute(cannnotUndoCommand);
+	}
+
 	@Override
 	/**
 	 * {@inheritDoc}
@@ -703,7 +755,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		return new FileEditorInput(file);
 	}
 
-	protected void postLoad() {
+	public void postLoad() {
 		GraphicalViewer graphicalViewer2 = getGraphicalViewer();
 		if (graphicalViewer2 != null) { // 初期ロードの場合には存在しない。別途後でロードする
 			graphicalViewer2.setContents(getSystemDiagram());
@@ -916,7 +968,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		return systemDiagramPropertyChangeListener;
 	}
 
-	protected void setSystemDiagram(SystemDiagram systemDiagram) {
+	public void setSystemDiagram(SystemDiagram systemDiagram) {
 		this.systemDiagram = systemDiagram;
 	}
 	public void deselectAll() {
@@ -963,6 +1015,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		if (parent != null) parent.refresh();
 		
 	}
+	
 
 //	private void debugPrint(EditPart part, int size) {
 //		Object model = part.getModel();

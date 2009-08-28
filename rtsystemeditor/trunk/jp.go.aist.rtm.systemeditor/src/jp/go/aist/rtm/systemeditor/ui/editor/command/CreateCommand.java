@@ -79,6 +79,11 @@ public class CreateCommand extends Command {
 		this.target = target;
 	}
 
+	
+	public Component getTarget() {
+		return target;
+	}
+	
 	@Override
 	/**
 	 * {@inheritDoc}

@@ -40,14 +40,11 @@ import jp.go.aist.rtm.toolscommon.ui.propertysource.ComponentPropertySource;
 import jp.go.aist.rtm.toolscommon.util.SDOUtil;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
-
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.ui.views.properties.IPropertySource;
 
@@ -726,6 +723,32 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		try {
 			Configuration configuration = getCorbaObjectInterface()
 					.get_configuration();
+			
+			List<_SDOPackage.ConfigurationSet> delectedConfigs = new ArrayList<_SDOPackage.ConfigurationSet>();
+			_SDOPackage.ConfigurationSet activeConfig = configuration.get_active_configuration_set();
+			for (Object original : originalConfigurationSets) {
+				ConfigurationSet configurationSet = (ConfigurationSet) original;
+				boolean isFind = false;
+				final String id = configurationSet.getId();
+				for (Iterator iter = localConfigurationSets.iterator(); iter
+						.hasNext();) {
+					ConfigurationSet element = (ConfigurationSet) iter.next();
+					if (element.getId().equals(id)) {
+						isFind = true;
+						break;
+					}
+				}
+
+				if (isFind == false) {
+					_SDOPackage.ConfigurationSet deletedConfig = configuration.get_configuration_set(id);
+					boolean result = configuration.remove_configuration_set(id);
+					if (!result) {
+						rollbackDelete(configuration, delectedConfigs, activeConfig);
+						return false;
+					}
+					delectedConfigs.add(deletedConfig);
+				}
+			}
 
 			for (Iterator iter = localConfigurationSets.iterator(); iter
 					.hasNext();) {
@@ -763,30 +786,28 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 				if (!result) return false;
 			}
 
-			for (Object original : originalConfigurationSets) {
-				ConfigurationSet configurationSet = (ConfigurationSet) original;
-				boolean isFind = false;
-				for (Iterator iter = localConfigurationSets.iterator(); iter
-						.hasNext();) {
-					ConfigurationSet element = (ConfigurationSet) iter.next();
-					if (element.getId().equals(configurationSet.getId())) {
-						isFind = true;
-						break;
-					}
-				}
-
-				if (isFind == false) {
-					boolean result = configuration.remove_configuration_set(configurationSet
-							.getId());
-					if (!result) return false;
-				}
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
 
 		return true;
+	}
+
+	private void rollbackDelete(Configuration configuration,
+			List<_SDOPackage.ConfigurationSet> delectedConfigs,
+			_SDOPackage.ConfigurationSet activeConfig) {
+		try {
+			for (_SDOPackage.ConfigurationSet configurationSet : delectedConfigs) {
+					configuration.add_configuration_set(configurationSet);				
+			}
+			if (activeConfig != null){
+				configuration.activate_configuration_set(activeConfig.id);
+			}
+		} catch (Exception e) {
+			// ignore
+		}
+		
 	}
 
 	private boolean checkConfigurationSet(ConfigurationSet local,
@@ -970,8 +991,8 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	@Override
 	public String getComponentId() {
 		if (componentId != null) return componentId;
-		return "RTC:" + getVenderL() + "." 
-		+ getCategoryL() + "."
+		return "RTC:" + getVenderL() + ":" 
+		+ getCategoryL() + ":"
 		+ getTypeNameL() + ":"
 		+ getVersionL();
 	}

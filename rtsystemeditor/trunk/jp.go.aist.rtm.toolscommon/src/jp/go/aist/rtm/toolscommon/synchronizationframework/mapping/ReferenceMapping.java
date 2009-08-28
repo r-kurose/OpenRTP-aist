@@ -60,7 +60,7 @@ public abstract class ReferenceMapping {
 	 * このメソッドをオーバーライドした場合には、getLocalObjectByRemoteLinkもオーバーライドする可能性が高いことに注意すること
 	 * 
 	 * @param localObject
-	 *            
+	 *            TODO
 	 * @param remoteObjects
 	 *            親のリモートオブジェクト
 	 * @param link

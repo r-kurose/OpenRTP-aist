@@ -1195,7 +1195,7 @@ public class XmlHandler {
 		org.openrtp.namespaces.rtc.version01.Cxxlang langCxx = lang01.getCxx();
 		if( langCxx!=null) {
 			LanguageExt lang = factory.createLanguageExt();
-			lang.setKind("cxx");
+			lang.setKind("C++");
 			TargetEnvironment env = factory.createTargetEnvironment();
 			env.setOs(langCxx.getOs());
 			env.setCpuOther(langCxx.getArch());
@@ -1210,7 +1210,7 @@ public class XmlHandler {
 		org.openrtp.namespaces.rtc.version01.Javalang langJava = lang01.getJava();
 		if( langJava!=null) {
 			LanguageExt lang = factory.createLanguageExt();
-			lang.setKind("java");
+			lang.setKind("Java");
 			TargetEnvironment env = factory.createTargetEnvironment();
 			for( String library : langJava.getLibrary() ) {
 				Library lib = factory.createLibrary();
@@ -1223,13 +1223,13 @@ public class XmlHandler {
 		String langPython = lang01.getPython();
 		if( langPython!=null) {
 			LanguageExt lang = factory.createLanguageExt();
-			lang.setKind("python");
+			lang.setKind("Python");
 			result02.setLanguage(lang);
 		}
 		String langCsharp = lang01.getCsharp();
 		if( langCsharp!=null) {
 			LanguageExt lang = factory.createLanguageExt();
-			lang.setKind("csharp");
+			lang.setKind("C#");
 			result02.setLanguage(lang);
 		}
 		String langRuby = lang01.getRuby();

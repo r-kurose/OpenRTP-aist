@@ -344,8 +344,6 @@ public class ManagerControlView extends ViewPart {
 
 	@Override
 	public void setFocus() {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	private void buildData() {

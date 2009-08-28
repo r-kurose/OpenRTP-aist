@@ -66,7 +66,7 @@ public abstract class AttributeMapping {
 	 * リモートオブジェクトの属性の値を返すように、オーバーライドされることを意図される。
 	 * <p>
 	 * このメソッドかオーバーロードされた、LocalObjectのメソッドを必ずオーバーライドすること
-	 * @param localObject 
+	 * @param localObject TODO
 	 * @param remoteObjects
 	 *            リモートオブジェクト
 	 * 

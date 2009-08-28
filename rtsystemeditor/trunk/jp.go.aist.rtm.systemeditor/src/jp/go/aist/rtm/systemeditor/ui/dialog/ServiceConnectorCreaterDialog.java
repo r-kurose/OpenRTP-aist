@@ -94,7 +94,7 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 			List<PortInterfaceProfile> interfaces2 = second.getInterfaces();
 
 			int countMatch = countMatch(interfaces1, interfaces2);
-			if (countMatch == Math.max(interfaces1.size(), interfaces2.size())) {
+			if (countMatch > 0 && countMatch == countTotal(interfaces1, interfaces2)) {
 				message = null;
 			} else {
 				if (countMatch == 0) {
@@ -207,19 +207,36 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 
 	/**
 	 * PortInterfaceProfileのマッチ数を数える
+	 *    requiredだけが対象
 	 * 
-	 * @param profile1
-	 * @param profile2
+	 * @param interfaces1
+	 * @param interfaces2
 	 * @return
 	 */
-	private int countMatch(List<PortInterfaceProfile> profiles1,
-			List<PortInterfaceProfile> profiles2) {
+	private int countMatch(List<PortInterfaceProfile> interfaces1,
+			List<PortInterfaceProfile> interfaces2) {
 
 		int result = 0;
-		for (PortInterfaceProfile profile : profiles1) {
-			result += hasMatch(profile, profiles2);
+		for (PortInterfaceProfile profile : interfaces1) {
+			if (profile.isRequiredPolarity()) result += hasMatch(profile, interfaces2);
+		}
+		for (PortInterfaceProfile profile : interfaces2) {
+			if (profile.isRequiredPolarity()) result += hasMatch(profile, interfaces1);
 		}
 
+		return result;
+	}
+
+	//　requiring interface の数を返す
+	private int countTotal(List<PortInterfaceProfile> interfaces1,
+			List<PortInterfaceProfile> interfaces2) {
+		int result = 0;
+		for (PortInterfaceProfile profile : interfaces1) {
+			if (profile.isRequiredPolarity()) result++;
+		}
+		for (PortInterfaceProfile profile : interfaces2) {
+			if (profile.isRequiredPolarity()) result++;
+		}
 		return result;
 	}
 

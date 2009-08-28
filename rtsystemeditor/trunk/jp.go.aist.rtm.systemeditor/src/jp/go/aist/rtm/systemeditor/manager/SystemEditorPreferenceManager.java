@@ -158,7 +158,7 @@ public class SystemEditorPreferenceManager {
 	 */
 	public static final Map<String, Integer> defaultInvervalMap = new HashMap<String, Integer>();
 	static {
-		defaultInvervalMap.put(SYNC_SYSTEMEDITOR_INTERVAL, 1000);
+		defaultInvervalMap.put(SYNC_SYSTEMEDITOR_INTERVAL, Integer.valueOf(1000));
 	}
 
 	/**
@@ -269,7 +269,7 @@ public class SystemEditorPreferenceManager {
 
 		int result = RTSystemEditorPlugin.getDefault().getPreferenceStore().getInt(key);
 		if (result == -1) { // defaultvalue
-			result = defaultInvervalMap.get(key);
+			result = defaultInvervalMap.get(key).intValue();
 		}
 
 		return result;

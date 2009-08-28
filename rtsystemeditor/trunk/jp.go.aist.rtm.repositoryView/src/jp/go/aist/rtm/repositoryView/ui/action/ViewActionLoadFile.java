@@ -50,7 +50,7 @@ public class ViewActionLoadFile implements IViewActionDelegate {
 			module = handler.createComponent(targetFileName);
 		} catch (Exception e) {
 			MessageDialog.openError(view.getSite().getShell(), Messages.getString("ViewActionLoadFile.2"),	 //$NON-NLS-1$
-					Messages.getString("ViewActionLoadFile.3")); //$NON-NLS-1$
+					Messages.getString("ViewActionLoadFile.3") + "\r\n\r\n[ " + e.getMessage() + " ]"); //$NON-NLS-1$
 			return;
 		}
 //		module.setPathId(targetFileName.substring(0, targetFileName.lastIndexOf(File.separator)));

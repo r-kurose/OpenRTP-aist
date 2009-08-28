@@ -59,7 +59,7 @@ public class NewCompositeComponentDialogData {
 		compositeComponent.setInstanceNameL(dialog.getInstanceName());
 		compositeComponent.setVenderL("");
 		compositeComponent.setCategoryL("composite." + dialog.getCompositeType());
-		compositeComponent.setTypeNameL("");
+		compositeComponent.setTypeNameL(dialog.getCompositeType() + "Composite");
 		compositeComponent.setVersionL("");
 		String compId = "RTC:" + compositeComponent.getVenderL() + "." 
 			+ compositeComponent.getCategoryL() + "."

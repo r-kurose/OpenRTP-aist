@@ -35,6 +35,8 @@ public class ProfileHandler {
 	private static final String INTERFACE_DIRECTION_PROVIDED = "Provided";
 	private static final String INTERFACE_DIRECTION_REQUIRED = "Required";
 
+	private final String CATEGORY_COMPOSITE =  "composite.";
+
 	public static boolean validateXml(String targetString) throws Exception {
 		XmlHandler handler = new XmlHandler();
 		try {
@@ -70,10 +72,10 @@ public class ProfileHandler {
 
 	@SuppressWarnings({ "unchecked", "static-access" })
 	private ComponentSpecification profile2ComponentEMF(RtcProfile module,
-			ComponentSpecification specification) {
+			ComponentSpecification specification) throws Exception {
+		if( !checkProfile(module) ) throw new Exception("Incorrect Profile.");
 		if (specification == null) {
-			specification = ComponentFactory.eINSTANCE
-					.createComponentSpecification();
+			specification = ComponentFactory.eINSTANCE.createComponentSpecification();
 		}
 		BasicInfo bi = module.getBasicInfo();
 		specification.setInstanceNameL(bi.getName());
@@ -110,13 +112,21 @@ public class ProfileHandler {
 		}
 
 		String moduleId = SPEC_SUFFIX + SPEC_MAJOR_SEPARATOR
-				+ specification.getVenderL() + SPEC_MINOR_SEPARATOR
-				+ specification.getCategoryL() + SPEC_MINOR_SEPARATOR
+				+ specification.getVenderL() + SPEC_MAJOR_SEPARATOR
+				+ specification.getCategoryL() + SPEC_MAJOR_SEPARATOR
 				+ specification.getTypeNameL() + SPEC_MAJOR_SEPARATOR
 				+ specification.getVersionL();
 		specification.setComponentId(moduleId);
 
 		return specification;
+	}
+	
+	private boolean checkProfile(RtcProfile module) {
+		if( !module.getBasicInfo().getCategory().startsWith(CATEGORY_COMPOSITE) ) return true;
+		if( module.getDataPorts().size()>0 ) return false;
+		if( module.getServicePorts().size()>0 ) return false;
+			
+		return true;
 	}
 
 	@SuppressWarnings("unchecked")

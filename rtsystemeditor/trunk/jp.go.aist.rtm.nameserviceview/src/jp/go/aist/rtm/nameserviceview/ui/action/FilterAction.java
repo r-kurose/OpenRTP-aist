@@ -9,6 +9,7 @@ import jp.go.aist.rtm.nameserviceview.ui.dialog.FiltersDialog;
 import jp.go.aist.rtm.nameserviceview.ui.views.nameserviceview.NameServiceView;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
+import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
 import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 
 import org.eclipse.jface.action.IAction;
@@ -124,16 +125,34 @@ public class FilterAction implements IViewActionDelegate {
 						return filterComponent(e, true);
 					}
 				});
+			} else if (FiltersDialog.MANAGER.equals(target)) {
+				filters.add(new ViewerFilter() {
+					@Override
+					public boolean select(Viewer viewer, Object parent, Object e) {
+						if (e instanceof NamingObjectNode) {
+							Object manager = AdapterUtil.getAdapter(e, RTCManager.class);
+							if (manager instanceof RTCManager) {
+								return false;
+							}
+							return true;
+						}
+						return true;
+					}
+				});
 			} else if (FiltersDialog.OBJECT.equals(target)) {
 				filters.add(new ViewerFilter() {
 					@Override
 					public boolean select(Viewer viewer, Object parent, Object e) {
 						if (e instanceof NamingObjectNode) {
-							Object component = (Component) AdapterUtil
-									.getAdapter(e, Component.class);
-							if (!(component instanceof Component)) {
-								return false;
+							Object component = AdapterUtil.getAdapter(e, Component.class);
+							if (component instanceof Component) {
+								return true;
 							}
+							Object manager = AdapterUtil.getAdapter(e, RTCManager.class);
+							if (manager instanceof RTCManager) {
+								return true;
+							}
+							return false;
 						}
 						return true;
 					}
@@ -195,7 +214,7 @@ public class FilterAction implements IViewActionDelegate {
 								if (binding != null) {
 									if (binding.binding_name.length > 0) {
 										return kinds
-												.contains(binding.binding_name[binding.binding_name.length - 1]);
+												.contains(binding.binding_name[binding.binding_name.length - 1].kind);
 									}
 								}
 							}

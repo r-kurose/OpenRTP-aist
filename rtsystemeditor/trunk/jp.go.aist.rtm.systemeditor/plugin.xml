@@ -2,6 +2,8 @@
 <?eclipse version="3.0"?>
 <plugin>
    <extension-point id="editpartfactory" name="%EditPartFactory" schema="schema/editpartfactory.exsd"/>
+   <extension-point id="createconnectorprofile" name="%CreateConnectorProfile" schema="schema/createconnectorprofile.exsd"/>
+   <extension-point id="postsaveextension" name="PostSaveExtension" schema="schema/postsaveextension.exsd"/>
    
    <!--extension point="org.eclipse.emf.ecore.generated_package">
       <package uri="http://rtm.aist.go.jp/systemeditor/model/systemeditor" class="jp.go.aist.rtm.toolscommon.model.component.ComponentPackage"/>

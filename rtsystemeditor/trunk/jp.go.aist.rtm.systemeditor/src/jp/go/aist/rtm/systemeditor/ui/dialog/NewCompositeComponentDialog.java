@@ -1,6 +1,5 @@
 package jp.go.aist.rtm.systemeditor.ui.dialog;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -455,13 +454,8 @@ public class NewCompositeComponentDialog extends TitleAreaDialog {
 	}
 
 	private void setPath() {
-		if (this.isOnline) {
-			this.pathId = pathCombo.getText() + "/" + nameText.getText() //$NON-NLS-1$
-					+ rtcExtension;
-		} else {
-			this.pathId = pathCombo.getText() + File.separator
-					+ nameText.getText() + xmlExtension;
-		}
+		this.pathId = pathCombo.getText() + "/" + nameText.getText() //$NON-NLS-1$
+				+ rtcExtension;
 	}
 
 	String getExportedPortString() {

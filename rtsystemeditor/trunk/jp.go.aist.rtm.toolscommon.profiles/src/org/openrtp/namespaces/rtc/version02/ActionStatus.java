@@ -39,6 +39,14 @@ public class ActionStatus {
     protected boolean implemented;
     protected String implementeds;
 
+//    /**
+//     * Gets the value of the implemented property.
+//     * 
+//     */
+//    public boolean isImplementeda() {
+//        return implemented;
+//    }
+
     /**
      * Sets the value of the implemented property.
      * 
