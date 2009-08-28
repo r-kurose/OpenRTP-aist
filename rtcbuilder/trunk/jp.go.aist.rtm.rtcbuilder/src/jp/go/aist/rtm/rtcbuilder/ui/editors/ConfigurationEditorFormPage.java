@@ -402,7 +402,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 				preSelection = null;
 				clearText();
 				configParameterTableViewer.refresh();
-				update();
+//				update();
 			}
 		});
 		gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -422,7 +422,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 					preSelection = null;
 					clearText();
 					configParameterTableViewer.refresh();
-					update();
+//					update();
 				}
 			}
 		});

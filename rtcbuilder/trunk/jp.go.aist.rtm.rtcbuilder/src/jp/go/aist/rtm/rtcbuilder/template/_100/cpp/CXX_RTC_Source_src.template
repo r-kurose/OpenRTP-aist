@@ -60,6 +60,23 @@ ${rtcParam.name}::${rtcParam.name}(RTC::Manager* manager)
 
     // </rtc-template>
 {
+}
+
+/*!
+ * @brief destructor
+ */
+${rtcParam.name}::~${rtcParam.name}()
+{
+}
+
+
+#if(${rtcParam.getDocActionOverView(0).length()}>0)/*!
+ * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(0)})}
+ */#end
+#if(${rtcParam.configParams.size()}==0 && ${rtcParam.IsNotImplemented(0)} && ${rtcParam.inports.size()}==0 && ${rtcParam.outports.size()}==0 && ${rtcParam.servicePorts.size()}==0)/*#end
+
+RTC::ReturnCode_t ${rtcParam.name}::onInitialize()
+{
   // Registration: InPort/OutPort/Service
   // <rtc-template block="registration">
   // Set InPort buffers
@@ -101,23 +118,6 @@ ${rtcParam.name}::${rtcParam.name}(RTC::Manager* manager)
   
   // </rtc-template>
 
-}
-
-/*!
- * @brief destructor
- */
-${rtcParam.name}::~${rtcParam.name}()
-{
-}
-
-
-#if(${rtcParam.getDocActionOverView(0).length()}>0)/*!
- * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(0)})}
- */#end
-#if(${rtcParam.configParams.size()}==0 && ${rtcParam.IsNotImplemented(0)})/*#end
-
-RTC::ReturnCode_t ${rtcParam.name}::onInitialize()
-{
 #if(${rtcParam.configParams.size()}>0)
   // <rtc-template block="bind_config">
   // Bind variables and configuration variable
@@ -129,7 +129,7 @@ RTC::ReturnCode_t ${rtcParam.name}::onInitialize()
 #end
   return RTC::RTC_OK;
 }
-#if(${rtcParam.configParams.size()}==0 && ${rtcParam.IsNotImplemented(0)})*/
+#if(${rtcParam.configParams.size()}==0 && ${rtcParam.IsNotImplemented(0)} && ${rtcParam.inports.size()}==0 && ${rtcParam.outports.size()}==0 && ${rtcParam.servicePorts.size()}==0)*/
 #end
 
 #if(${rtcParam.getDocActionOverView(1).length()}>0)/*!

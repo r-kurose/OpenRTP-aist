@@ -16,7 +16,7 @@ public class StringUtil {
 	        if( (target < '0' || target > '9') &&    //数字チェック
 	            (target < 'a' || target > 'z') &&    //小文字アルファベットチェック
 	            (target < 'A' || target > 'Z') &&    //大文字アルファベットチェック
-	            (target != '_') && (target != '-')) {
+	            (target != '_') && (target != '-') && (target != ':')) {
 	             return false;
 	        }
 	    }

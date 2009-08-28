@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
@@ -24,6 +25,11 @@ import jp.go.aist.rtm.rtcbuilder.ui.Perspective.LanguageProperty;
  * Pythonファイルの出力を制御するマネージャ
  */
 public class PythonGenerateManager extends GenerateManager {
+
+	@Override
+	public String getTargetVersion() {
+		return IRtcBuilderConstants.RTM_VERSION_100;
+	}
 
 	@Override
 	public String getManagerKey() {
@@ -125,11 +131,17 @@ public class PythonGenerateManager extends GenerateManager {
 	 */
 	protected List<GeneratedResult> generatePythonSource(Map<String, Object> contextMap, List<GeneratedResult> result) {
 		InputStream ins = null;
+		String tmpltPath = null;
+		
+		RtcParam param = (RtcParam)contextMap.get("rtcParam");
+		if( param.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100) ) {
+			tmpltPath = "jp/go/aist/rtm/rtcbuilder/python/template/_100/Py_src.template";
+		} else {
+			tmpltPath = "jp/go/aist/rtm/rtcbuilder/python/template//Py_src.template";
+		}
 
-		ins = PythonGenerateManager.class.getClassLoader()
-			.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/python/template/Py_src.template");
-		result.add(TemplateUtil.createGeneratedResult(ins, contextMap, 
-				((RtcParam)contextMap.get("rtcParam")).getName() + ".py"));
+		ins = PythonGenerateManager.class.getClassLoader().getResourceAsStream(tmpltPath);
+		result.add(TemplateUtil.createGeneratedResult(ins, contextMap, param.getName() + ".py"));
 
 		try {
 			if( ins != null) ins.close();

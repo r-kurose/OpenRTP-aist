@@ -239,26 +239,10 @@ public class CXXGenerateManager extends GenerateManager {
 			ins = CXXGenerateManager.class.getClassLoader().getResourceAsStream(tmpltPath);
 			result.add(TemplateUtil.createGeneratedResult(ins, contextMap, ((RtcParam)contextMap.get("rtcParam")).getName() + "_vc8.sln"));
 			//
-			tmpltPath = "jp/go/aist/rtm/rtcbuilder/template/_042/cpp/CXX_VcProj_vc8.template";
-			ins = CXXGenerateManager.class.getClassLoader().getResourceAsStream(tmpltPath);
-			result.add(TemplateUtil.createGeneratedResult(ins, contextMap, ((RtcParam)contextMap.get("rtcParam")).getName() + "_vc8.vcproj"));
-			//
-			tmpltPath = "jp/go/aist/rtm/rtcbuilder/template/_042/cpp/CXX_Comp_VcProj_vc8.template";
-			ins = CXXGenerateManager.class.getClassLoader().getResourceAsStream(tmpltPath);
-			result.add(TemplateUtil.createGeneratedResult(ins, contextMap, ((RtcParam)contextMap.get("rtcParam")).getName() + "Comp_vc8.vcproj"));
-			//
 			//
 			tmpltPath = "jp/go/aist/rtm/rtcbuilder/template/_042/cpp/CXX_Sln_vc9.template";
 			ins = CXXGenerateManager.class.getClassLoader().getResourceAsStream(tmpltPath);
 			result.add(TemplateUtil.createGeneratedResult(ins, contextMap, ((RtcParam)contextMap.get("rtcParam")).getName() + "_vc9.sln"));
-			//
-			tmpltPath = "jp/go/aist/rtm/rtcbuilder/template/_042/cpp/CXX_VcProj_vc9.template";
-			ins = CXXGenerateManager.class.getClassLoader().getResourceAsStream(tmpltPath);
-			result.add(TemplateUtil.createGeneratedResult(ins, contextMap, ((RtcParam)contextMap.get("rtcParam")).getName() + "_vc9.vcproj"));
-			//
-			tmpltPath = "jp/go/aist/rtm/rtcbuilder/template/_042/cpp/CXX_Comp_VcProj_vc9.template";
-			ins = CXXGenerateManager.class.getClassLoader().getResourceAsStream(tmpltPath);
-			result.add(TemplateUtil.createGeneratedResult(ins, contextMap, ((RtcParam)contextMap.get("rtcParam")).getName() + "Comp_vc9.vcproj"));
 			//
 			//
 			tmpltPath = "jp/go/aist/rtm/rtcbuilder/template/_042/cpp/CXX_Copyprops_Bat.template";
@@ -268,6 +252,38 @@ public class CXXGenerateManager extends GenerateManager {
 			tmpltPath = "jp/go/aist/rtm/rtcbuilder/template/_042/cpp/CXX_User_Config_Vsprops.template";
 			ins = CXXGenerateManager.class.getClassLoader().getResourceAsStream(tmpltPath);
 			result.add(TemplateUtil.createGeneratedResult(ins, contextMap, "user_config.vsprops"));
+
+			if( ((RtcParam)contextMap.get("rtcParam")).getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_042) ) {
+				tmpltPath = "jp/go/aist/rtm/rtcbuilder/template/_042/cpp/CXX_VcProj_vc8.template";
+			} else {
+				tmpltPath = "jp/go/aist/rtm/rtcbuilder/template/_100/cpp/CXX_VcProj_vc8.template";
+			}
+			ins = CXXGenerateManager.class.getClassLoader().getResourceAsStream(tmpltPath);
+			result.add(TemplateUtil.createGeneratedResult(ins, contextMap, ((RtcParam)contextMap.get("rtcParam")).getName() + "_vc8.vcproj"));
+			//
+			if( ((RtcParam)contextMap.get("rtcParam")).getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_042) ) {
+				tmpltPath = "jp/go/aist/rtm/rtcbuilder/template/_042/cpp/CXX_VcProj_vc9.template";
+			} else {
+				tmpltPath = "jp/go/aist/rtm/rtcbuilder/template/_100/cpp/CXX_VcProj_vc9.template";
+			}
+			ins = CXXGenerateManager.class.getClassLoader().getResourceAsStream(tmpltPath);
+			result.add(TemplateUtil.createGeneratedResult(ins, contextMap, ((RtcParam)contextMap.get("rtcParam")).getName() + "_vc9.vcproj"));
+			//
+			if( ((RtcParam)contextMap.get("rtcParam")).getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_042) ) {
+				tmpltPath = "jp/go/aist/rtm/rtcbuilder/template/_042/cpp/CXX_Comp_VcProj_vc8.template";
+			} else {
+				tmpltPath = "jp/go/aist/rtm/rtcbuilder/template/_100/cpp/CXX_Comp_VcProj_vc8.template";
+			}
+			ins = CXXGenerateManager.class.getClassLoader().getResourceAsStream(tmpltPath);
+			result.add(TemplateUtil.createGeneratedResult(ins, contextMap, ((RtcParam)contextMap.get("rtcParam")).getName() + "Comp_vc8.vcproj"));
+			//
+			if( ((RtcParam)contextMap.get("rtcParam")).getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_042) ) {
+				tmpltPath = "jp/go/aist/rtm/rtcbuilder/template/_042/cpp/CXX_Comp_VcProj_vc9.template";
+			} else {
+				tmpltPath = "jp/go/aist/rtm/rtcbuilder/template/_100/cpp/CXX_Comp_VcProj_vc9.template";
+			}
+			ins = CXXGenerateManager.class.getClassLoader().getResourceAsStream(tmpltPath);
+			result.add(TemplateUtil.createGeneratedResult(ins, contextMap, ((RtcParam)contextMap.get("rtcParam")).getName() + "Comp_vc9.vcproj"));
 
 			try {
 				if( ins != null) ins.close();

@@ -36,7 +36,7 @@ class ${tmpltHelper.getBasename(${serviceClassParam.name})}${tmpltHelper.service
 
    // attributes and operations
 #foreach($serviceMethodParam in ${serviceClassParam.methods})
-   ${cXXConv.convCpp2CORBA(${serviceMethodParam.type})} ${serviceMethodParam.name}(#foreach($serviceArgumentParam in ${serviceMethodParam.arguments})#if($velocityCount > 1), #end${cXXConv.convCpp2CORBAforArg(${serviceArgumentParam.type},${serviceArgumentParam.direction})} ${serviceArgumentParam.name}#end);
+   ${cXXConv.convCpp2CORBA(${serviceMethodParam})} ${serviceMethodParam.name}(#foreach($serviceArgumentParam in ${serviceMethodParam.arguments})#if($velocityCount > 1), #end${cXXConv.convCpp2CORBAforArg(${serviceArgumentParam})} ${serviceArgumentParam.name}#end);
 #end
 
 };

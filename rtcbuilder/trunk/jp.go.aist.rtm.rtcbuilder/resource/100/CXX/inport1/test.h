@@ -57,7 +57,7 @@ class test
   
   // </rtc-template>
 
-  /**
+  /***
    *
    * The initialize action (on CREATED->ALIVE transition)
    * formaer rtc_init_entry() 
@@ -66,7 +66,7 @@ class test
    * 
    * 
    */
-  // virtual RTC::ReturnCode_t onInitialize();
+   virtual RTC::ReturnCode_t onInitialize();
 
   /***
    *
@@ -263,7 +263,7 @@ class test
 
 extern "C"
 {
-  void testInit(RTC::Manager* manager);
+  DLL_EXPORT void testInit(RTC::Manager* manager);
 };
 
 #endif // TEST_H

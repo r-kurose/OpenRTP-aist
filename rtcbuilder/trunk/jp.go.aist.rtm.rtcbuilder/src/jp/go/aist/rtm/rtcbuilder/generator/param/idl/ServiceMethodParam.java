@@ -9,8 +9,8 @@ import java.util.List;
  */
 public class ServiceMethodParam implements Serializable {
 	private String type;
-
 	private String name;
+	private boolean isSequence;
 
 	private List<ServiceArgumentParam> arguments = new ArrayList<ServiceArgumentParam>();
 
@@ -39,5 +39,11 @@ public class ServiceMethodParam implements Serializable {
 
 	public List<ServiceArgumentParam> getArguments() {
 		return arguments;
+	}
+	public boolean isSequence() {
+		return isSequence;
+	}
+	public void setSequence(boolean isSequence) {
+		this.isSequence = isSequence;
 	}
 }

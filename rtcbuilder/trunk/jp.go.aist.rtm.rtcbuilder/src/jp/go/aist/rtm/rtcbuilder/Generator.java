@@ -256,6 +256,7 @@ public class Generator {
 		for( ServiceClassParam target : source) {
 			for( ServiceMethodParam method : target.getMethods() ) {
 				method.setType(checkType(method.getType(), types));
+				method.setSequence(checkSeqType(method.getType(), types));
 				for( ServiceArgumentParam param : method.getArguments() ) {
 					param.setType(checkType(param.getType(), types));
 				}
@@ -272,6 +273,14 @@ public class Generator {
 			}
 		}
 		return target;
+	}
+	private boolean checkSeqType(String target, List<TypeDefParam> types) {
+		for(TypeDefParam tdparam : types) {
+			if(target.equals(tdparam.getTargetDef())) {
+				return tdparam.isSequence();
+			}
+		}
+		return false;
 	}
 
 	private File getIncludeIDLDic(String targetDir) {
@@ -324,13 +333,17 @@ public class Generator {
 		}
 		for( IdlFileParam idlFile : rtcParam.getProviderIdlPathes() ) {
 			IFile idlTarget = project.getFile(idlFile.getIdlFile());
-			idlTarget.delete(true, null);
-			idlTarget.create(new FileInputStream(idlFile.getIdlPath()), true, null);
+			if( !idlTarget.getLocation().toOSString().equals(idlFile.getIdlPath()) )  {
+				idlTarget.delete(true, null);
+				idlTarget.create(new FileInputStream(idlFile.getIdlPath()), true, null);
+			}
 		}
 		for( IdlFileParam idlFile : rtcParam.getConsumerIdlPathes() ) {
 			IFile idlTarget = project.getFile(idlFile.getIdlFile());
-			idlTarget.delete(true, null);
-			idlTarget.create(new FileInputStream(idlFile.getIdlPath()), true, null);
+			if( !idlTarget.getLocation().toOSString().equals(idlFile.getIdlPath()) )  {
+				idlTarget.delete(true, null);
+				idlTarget.create(new FileInputStream(idlFile.getIdlPath()), true, null);
+			}
 		}
 	}
 

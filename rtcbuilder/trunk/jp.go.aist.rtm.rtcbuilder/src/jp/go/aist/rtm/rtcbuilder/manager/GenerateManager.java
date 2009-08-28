@@ -31,4 +31,7 @@ public abstract class GenerateManager {
 		// 定義されている定数をListとして返す
 		return null;
 	}
+	//Profileデータ変換用
+	public void convertProfile(Object profile) {
+	}
 }

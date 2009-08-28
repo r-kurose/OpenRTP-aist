@@ -196,7 +196,8 @@ public class ParamUtil {
 		if( basic.getMaxInstances() != null )
 			rtcParam.setMaxInstance(basic.getMaxInstances().intValue());
 		rtcParam.setExecutionType(basic.getExecutionType());
-		rtcParam.setExecutionRate(basic.getExecutionRate().doubleValue());
+		if( basic.getExecutionRate()!=null )
+			rtcParam.setExecutionRate(basic.getExecutionRate().doubleValue());
 		rtcParam.setAbstract(basic.getAbstract());
 		rtcParam.setRtcType(basic.getRtcType());
 		rtcParam.setCreationDate(basic.getCreationDate().toString());
@@ -260,6 +261,9 @@ public class ParamUtil {
 				if( managerList != null ) {
 					for( Iterator<GenerateManager> iter = managerList.iterator(); iter.hasNext(); ) {
 						GenerateManager manager = iter.next();
+						manager.convertProfile(profile);
+						language = profile.getLanguage();
+						langKind = language.getKind();
 						if( langKind.trim().equals(manager.getManagerKey())) {
 							rtcParam.getLangList().add(manager.getManagerKey());
 							break;
@@ -332,7 +336,7 @@ public class ParamUtil {
 	}
 	
 	private boolean isCxx(String target) {
-		if( target.equals(IRtcBuilderConstants.LANG_CPPWIN) ||
+		if( target.toUpperCase().equals(IRtcBuilderConstants.LANG_CPPWIN) ||
 				target.equals(IRtcBuilderConstants.LANG_CPP) )
 			return true;
 		return false;
@@ -573,7 +577,8 @@ public class ParamUtil {
 			config.setVariableName(configp.getVarName());
 			config.setDefaultValue(configp.getDefaultVal());
 			config.setUnit(configp.getUnit());
-			config.setConstraint(XmlHandler.convertToXmlConstraint(configp.getConstraint()));
+			if( configp.getConstraint()!=null && !"".equals(configp.getConstraint()) )
+				config.setConstraint(XmlHandler.convertToXmlConstraint(configp.getConstraint()));
 			profile.getConfigurationSet().getConfiguration().add(config);
 			//
 			for(PropertyParam propp : configp.getProperties() ) {

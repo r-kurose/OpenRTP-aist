@@ -22,6 +22,8 @@ public class AllTestsPy {
 		suite.addTestSuite(PySystemConfigTest.class);
 		suite.addTestSuite(PyImplTest.class);
 		suite.addTestSuite(PyVariableTest.class);
+		////
+		suite.addTestSuite(jp.go.aist.rtm.rtcbuilder.python._test._100.BaseTest.class);
 		//$JUnit-END$
 		return suite;
 	}

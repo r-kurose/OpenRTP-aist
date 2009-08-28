@@ -264,19 +264,21 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 				} else if( selection.getData() instanceof ServicePortInterfaceParam ) {
 					if( !((ServicePortInterfaceParam)selection.getData()).getIdlFile().equals(
 							idlFileText.getText()) ) {
-						IDLParser parser = new IDLParser(new StringReader(FileUtil.readFile(idlFileText.getText())));
-						try {
-							List<ServiceClassParam> serviceClassParams = IDLParamConverter.convert(parser.specification(), "");
-							if( serviceClassParams!=null && serviceClassParams.size()>0 ) {
-								interfaceTypeCombo.removeAll();
-								for(ServiceClassParam target : serviceClassParams) {
-									interfaceTypeCombo.add(target.getName());
+						if(idlFileText.getText()!=null && idlFileText.getText().length()>0) {
+							IDLParser parser = new IDLParser(new StringReader(FileUtil.readFile(idlFileText.getText())));
+							try {
+								List<ServiceClassParam> serviceClassParams = IDLParamConverter.convert(parser.specification(), "");
+								if( serviceClassParams!=null && serviceClassParams.size()>0 ) {
+									interfaceTypeCombo.removeAll();
+									for(ServiceClassParam target : serviceClassParams) {
+										interfaceTypeCombo.add(target.getName());
+									}
 								}
+							} catch (ParseException e) {
+								String selected = interfaceTypeCombo.getText();
+								interfaceTypeCombo.removeAll();
+								interfaceTypeCombo.setText(selected);
 							}
-						} catch (ParseException e) {
-							String selected = interfaceTypeCombo.getText();
-							interfaceTypeCombo.removeAll();
-							interfaceTypeCombo.setText(selected);
 						}
 					}
 					((ServicePortInterfaceParam)selection.getData()).setName(interfaceNameText.getText());

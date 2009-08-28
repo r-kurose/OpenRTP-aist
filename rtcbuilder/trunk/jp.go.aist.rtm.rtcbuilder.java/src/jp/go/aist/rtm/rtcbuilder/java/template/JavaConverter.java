@@ -142,16 +142,16 @@ public class JavaConverter {
 	 * @param param  RtcParam
 	 * @return Œ^ˆê——ƒŠƒXƒg
 	 */
-	public static List<String> getPortTypes(RtcParam param) {
+	public List<String> getPortTypes(RtcParam param) {
 		List<String> portTypes = new ArrayList<String>();
 		for( DataPortParam dataPort : param.getInports() ) {
 			if( !portTypes.contains(dataPort.getType()) ) {
-				portTypes.add(dataPort.getType());
+				portTypes.add(getDataportPackageName(dataPort.getType()) );
 			}
 		}
 		for( DataPortParam dataPort : param.getOutports() ) {
 			if( !portTypes.contains(dataPort.getType()) ) {
-				portTypes.add(dataPort.getType());
+				portTypes.add(getDataportPackageName(dataPort.getType()) );
 			}
 		}
 		return portTypes;

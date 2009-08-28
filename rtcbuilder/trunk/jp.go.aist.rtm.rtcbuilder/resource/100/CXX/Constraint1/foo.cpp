@@ -40,6 +40,19 @@ foo::foo(RTC::Manager* manager)
 
     // </rtc-template>
 {
+}
+
+/*!
+ * @brief destructor
+ */
+foo::~foo()
+{
+}
+
+
+
+RTC::ReturnCode_t foo::onInitialize()
+{
   // Registration: InPort/OutPort/Service
   // <rtc-template block="registration">
   // Set InPort buffers
@@ -54,19 +67,6 @@ foo::foo(RTC::Manager* manager)
   
   // </rtc-template>
 
-}
-
-/*!
- * @brief destructor
- */
-foo::~foo()
-{
-}
-
-
-
-RTC::ReturnCode_t foo::onInitialize()
-{
   // <rtc-template block="bind_config">
   // Bind variables and configuration variable
   bindParameter("int_param0", m_int_param0, "0");

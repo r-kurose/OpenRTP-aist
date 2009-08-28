@@ -94,14 +94,31 @@ public class ConfigSetParam implements Serializable {
 	public String getWidget() {
 		for( PropertyParam param : properties ) {
 			if( param.getName().equals("_widget_") )
+				//
+				if(param.getValue().contains(".")) {
+					String[] widget = param.getValue().split("\\.");
+					return widget[0];
+				}
+				//
 				return param.getValue();
 		}
 		return "";
 	}
 	public String getSliderStep() {
 		for( PropertyParam param : properties ) {
-			if( param.getName().equals("_slider_step_") )
-				return param.getValue();
+			if( param.getName().equals("_widget_") )
+//			if( param.getName().equals("_slider_step_") )
+				//
+				if(param.getValue().contains(".")) {
+					String[] widget = param.getValue().split("\\.");
+					if(widget.length>1) {
+						return widget[1];
+					} else {
+						return null;
+					}
+				}
+				//
+//				return param.getValue();
 		}
 		return "";
 	}
@@ -143,12 +160,15 @@ public class ConfigSetParam implements Serializable {
 	}
 	public void setSliderStep(String sliderStep) {
 		for( PropertyParam param : properties ) {
-			if( param.getName().equals("_slider_step_") ) {
-				param.setValue(sliderStep);
+			if( param.getName().equals("_widget_") ) {
+//			if( param.getName().equals("_slider_step_") ) {
+				if( param.getValue().equals("slider") ) {
+					param.setValue(param.getValue() + "." + sliderStep);
+				}
 				return;
 			}
 		}
-		properties.add(new PropertyParam("_slider_step_", sliderStep));
+//		properties.add(new PropertyParam("_slider_step_", sliderStep));
 	}
 	//
 	//

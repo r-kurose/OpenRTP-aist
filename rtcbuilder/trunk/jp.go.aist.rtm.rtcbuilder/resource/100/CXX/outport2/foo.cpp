@@ -42,6 +42,19 @@ foo::foo(RTC::Manager* manager)
 
     // </rtc-template>
 {
+}
+
+/*!
+ * @brief destructor
+ */
+foo::~foo()
+{
+}
+
+
+
+RTC::ReturnCode_t foo::onInitialize()
+{
   // Registration: InPort/OutPort/Service
   // <rtc-template block="registration">
   // Set InPort buffers
@@ -60,22 +73,8 @@ foo::foo(RTC::Manager* manager)
   
   // </rtc-template>
 
-}
-
-/*!
- * @brief destructor
- */
-foo::~foo()
-{
-}
-
-
-/*
-RTC::ReturnCode_t foo::onInitialize()
-{
   return RTC::RTC_OK;
 }
-*/
 
 /*
 RTC::ReturnCode_t foo::onFinalize()

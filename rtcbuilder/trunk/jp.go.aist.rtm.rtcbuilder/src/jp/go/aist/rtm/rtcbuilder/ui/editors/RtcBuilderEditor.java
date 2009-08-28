@@ -48,6 +48,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -180,7 +181,12 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		if (newOpenEditor) {
 			title = "RtcBuilder";
 		} else if (result instanceof FileEditorInput) {
-			title = ((FileEditorInput) result).getPath().lastSegment();
+			String[] target = ((FileEditorInput) result).getPath().segments();
+			if( target.length>1 ) {
+				title = target[target.length-2];
+			} else {
+				title = ((FileEditorInput) result).getPath().lastSegment();
+			}
 		}
 
 		isDirty = false;
@@ -487,11 +493,13 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 			}
 		}
 		
-		IFile oldFile = null;
+		IPath oldFile = null;
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		if (newOpenEditor) {
+			oldFile = new Path(root.getLocation().toOSString());
 			// void
 		} else {
-			oldFile = ((FileEditorInput) getEditorInput()).getFile();
+			oldFile = ((FileEditorInput) getEditorInput()).getFile().getProject().getLocation();
 		}
 
 //		final IPath newPath = getFilePathByDialog(oldFile, SWT.SAVE);
@@ -510,7 +518,6 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 			}
 		}
 
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		final IFile newFile = root.getFileForLocation(newPath);
 
 		ProgressMonitorDialog progressMonitorDialog = new ProgressMonitorDialog(
@@ -570,8 +577,8 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		progressMonitor.worked(15);
 		//
 		
+		IProject projectHandle = file.getProject();
 		try {
-			IProject projectHandle = file.getProject();
 			IFile rtcxml = projectHandle.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML);
 			if( rtcxml.exists()) rtcxml.delete(true, null);
 			rtcxml.create(new ByteArrayInputStream(xmlFile.getBytes("UTF-8")), true, null);
@@ -600,6 +607,8 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		//
 		if( rtcXmlFormPage != null ) rtcXmlFormPage.load();
 		addDefaultComboValue();
+		title = projectHandle.getName();
+		firePropertyChange(IEditorPart.PROP_TITLE);
 		progressMonitor.done();
 	}
 
@@ -699,6 +708,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		}
 
 		final IPath newPath = FileUtil.getFilePathByDialog(null, SWT.OPEN);
+		if( newPath==null ) return;
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		final IFile newFile = root.getFileForLocation(newPath);
 		if (newFile != null) {

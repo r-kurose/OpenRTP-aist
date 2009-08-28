@@ -63,7 +63,7 @@ public class ViewActionLoadDirecroty implements IViewActionDelegate  {
 				module = handler.createComponent(files[intIdx].toString());
 			} catch (Exception e) {
 				MessageDialog.openError(view.getSite().getShell(), Messages.getString("ViewActionLoadDirecroty.3"),	 //$NON-NLS-1$
-				Messages.getString("ViewActionLoadDirecroty.4")); //$NON-NLS-1$
+				Messages.getString("ViewActionLoadDirecroty.4") + "\r\n\r\n[ " + e.getMessage() + " ]"); //$NON-NLS-1$
 				return;
 			}
 			module.setAliasName(module.getInstanceNameL() + "(" + files[intIdx].getName() + ")"); //$NON-NLS-1$ //$NON-NLS-2$

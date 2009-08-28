@@ -39,6 +39,19 @@ test::test(RTC::Manager* manager)
 
     // </rtc-template>
 {
+}
+
+/*!
+ * @brief destructor
+ */
+test::~test()
+{
+}
+
+
+
+RTC::ReturnCode_t test::onInitialize()
+{
   // Registration: InPort/OutPort/Service
   // <rtc-template block="registration">
   // Set InPort buffers
@@ -54,22 +67,8 @@ test::test(RTC::Manager* manager)
   
   // </rtc-template>
 
-}
-
-/*!
- * @brief destructor
- */
-test::~test()
-{
-}
-
-
-/*
-RTC::ReturnCode_t test::onInitialize()
-{
   return RTC::RTC_OK;
 }
-*/
 
 /*
 RTC::ReturnCode_t test::onFinalize()

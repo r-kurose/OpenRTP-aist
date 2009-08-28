@@ -11,3 +11,4 @@ Require-Bundle: jp.go.aist.rtm.rtcbuilder,
  org.eclipse.ui.forms
 Eclipse-LazyStart: true
 Bundle-Vendor: %providerName
+Export-Package: jp.go.aist.rtm.rtcbuilder.java.manager

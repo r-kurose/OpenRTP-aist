@@ -135,6 +135,7 @@ public class IDLParamConverter {
 									@Override
 									public void visit(simple_type_spec n) {
 										tdparam.setOriginalDef(node2String(n) + "[]");
+										tdparam.setSequence(true);
 									}
 									@Override
 									public void visit(base_type_spec n) {
@@ -168,6 +169,7 @@ public class IDLParamConverter {
 							@Override
 							public void visit(simple_type_spec n) {
 								tdparam.setOriginalDef(node2String(n) + "[]");
+								tdparam.setSequence(true);
 							}
 							@Override
 							public void visit(base_type_spec n) {

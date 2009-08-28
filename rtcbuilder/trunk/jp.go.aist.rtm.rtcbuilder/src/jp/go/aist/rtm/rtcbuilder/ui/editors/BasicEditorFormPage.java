@@ -1,5 +1,8 @@
 package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
+import java.io.ByteArrayInputStream;
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,6 +25,7 @@ import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.PortPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.ui.wizard.RtcExportWizard;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
@@ -44,7 +48,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -67,6 +70,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	 * 生成を行ったCategoryの情報を保存するワークスペース永続文字列へのキー
 	 */
 	private static final String CATEGORY_INDEX_KEY = BasicEditorFormPage.class.getName() + ".category.name";
+	private final String CATEGORY_COMPOSITE =  "composite.";
 
 	private Text nameText;
 	private Combo categoryCombo;
@@ -87,6 +91,10 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	private Text outputProjectText;
 	
 	private Composite generateSection;
+	private Composite outputProjectSection;
+	
+	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
+	
 	/**
 	 * コンストラクタ
 	 * 
@@ -221,6 +229,12 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 				!multiModeBtn.getSelection() ) {
 			result = "Please Select Component Kind.";
 		}
+		//Composite Component
+		if( categoryCombo.getText().startsWith(CATEGORY_COMPOSITE) && 
+				(editor.getRtcParam().getInports().size()>0 || editor.getRtcParam().getOutports().size()>0 ||
+				 editor.getRtcParam().getServicePorts().size()>0) ) {
+			result = "Cannot add any Ports to Composite Component.";
+		}
 
 		return result;
 	}
@@ -296,11 +310,11 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	private void createOutputProjectSection(FormToolkit toolkit, ScrolledForm form) {
-		Composite composite = createSectionBaseWithLabel(toolkit, form, 
+		outputProjectSection = createSectionBaseWithLabel(toolkit, form, 
 				IMessageConstants.BASIC_PROJECT_TITLE, IMessageConstants.BASIC_PROJECT_EXPL, 2);
 
-		outputProjectText = createLabelAndText(toolkit,	composite, "");
-		Button refButton = toolkit.createButton(composite, IMessageConstants.BASIC_BTN_REF, SWT.NONE);
+		outputProjectText = createLabelAndText(toolkit,	outputProjectSection, "");
+		Button refButton = toolkit.createButton(outputProjectSection, IMessageConstants.BASIC_BTN_REF, SWT.NONE);
 		refButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -394,6 +408,23 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 				generatorParam.getRtcParams().get(0).getServiceClassParams().clear();
 				setPrefixSuffix(generatorParam.getRtcParams().get(0));
 				if( rtcBuilder.doGenerateWrite(generatorParam) ) {
+					// xmlを保存
+					ProfileHandler handler = new ProfileHandler();
+					try {
+						String strXml = handler.convert2XML(editor.getGeneratorParam());
+						
+						IFile orgRtcxml = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML);
+						if( orgRtcxml.exists() ){
+							IFile renameFile = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML + DATE_FORMAT.format(new GregorianCalendar().getTime()) );
+							orgRtcxml.move(renameFile.getFullPath(), true, null);
+						}
+						IFile saveRtcxml = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML);
+						saveRtcxml.create(new ByteArrayInputStream(strXml.getBytes("UTF-8")), true, null);
+					} catch (Exception e1) {
+						// スキーマエラーは起きないと想定
+						e1.printStackTrace();
+					}
+					//
 					switchPerspective();
 				}
 			}
@@ -515,6 +546,11 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				editor.allUpdates();
+				String validateRtcParam = editor.validateParam();
+				if (validateRtcParam != null) {
+					MessageDialog.openError(getSite().getShell(), "Error", validateRtcParam);
+					return;
+				}
 				
 				ExportExtension extension = getTargetExportExtension();
 				FileDialog dialog = new FileDialog(getSite().getShell(),SWT.SAVE);
@@ -684,12 +720,15 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	public void setEnableGenerateSection(boolean b) {		
-		if (generateSection == null) return;
+		if (generateSection == null || outputProjectSection == null) return;
 		generateSection.setEnabled(b);
+		outputProjectSection.setEnabled(b);
 		if (b) {
 			setEnableBackground(generateSection, getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
+			setEnableBackground(outputProjectSection, getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
 		} else {
 			setEnableBackground(generateSection, getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
+			setEnableBackground(outputProjectSection, getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
 		}
 	}
 }

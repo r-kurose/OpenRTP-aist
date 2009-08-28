@@ -8,7 +8,9 @@ import java.util.Map;
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceArgumentParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceMethodParam;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateHelper;
 
 /**
@@ -140,11 +142,11 @@ public class CXXConverter {
 	 *            CPPå^
 	 * @return CORBAå^
 	 */
-	public String convCpp2CORBA(String strcpp) {
-		String result = mapType.get(strcpp);
+	public String convCpp2CORBA(ServiceMethodParam typeDef) {
+		String result = mapType.get(typeDef.getType());
 		if( result == null ) {
-			result = strcpp;
-			if( !strcpp.contains("::")) {
+			result = typeDef.getType();
+			if( !typeDef.getType().contains("::") && typeDef.isSequence()) {
 				result = result + "*";
 			}
 		}
@@ -160,34 +162,40 @@ public class CXXConverter {
 	 *            ì¸èoóÕ
 	 * @return CORBAå^
 	 */
-	public String convCpp2CORBAforArg(String strType, String strDir) {
+	public String convCpp2CORBAforArg(ServiceArgumentParam typeDef) {
 		String result = null;
 		
-		result = convCpp2CORBA(strType);
+		result = mapType.get(typeDef.getType());
+		if( result == null ) {
+			result = typeDef.getType();
+//			if( !typeDef.getType().contains("::") && typeDef.isSequence()) {
+//				result = result + "*";
+//			}
+		}
 		
-		if(strType.equals("string")) {
-			if(strDir.equals("in"))
+		if(typeDef.getType().equals("string")) {
+			if(typeDef.getDirection().equals("in"))
 				result = "const char*";
-			else if(strDir.equals("out"))
+			else if(typeDef.getDirection().equals("out"))
 				result = "CORBA::String_out";
-			else if(strDir.equals("inout"))
+			else if(typeDef.getDirection().equals("inout"))
 				result = "char*&";
-		} else if(strType.equals("wstring")) {
-			if(strDir.equals("in"))
+		} else if(typeDef.getType().equals("wstring")) {
+			if(typeDef.getDirection().equals("in"))
 				result = "const CORBA::WChar*";
-			else if(strDir.equals("out"))
+			else if(typeDef.getDirection().equals("out"))
 				result = "CORBA::WString_out";
-			else if(strDir.equals("inout"))
+			else if(typeDef.getDirection().equals("inout"))
 				result = "CORBA::WChar*&";
-		} else if(strType.equals("any")) {
-			if(strDir.equals("in"))
+		} else if(typeDef.getType().equals("any")) {
+			if(typeDef.getDirection().equals("in"))
 				result = "const CORBA::Any&";
-			else if(strDir.equals("out"))
+			else if(typeDef.getDirection().equals("out"))
 				result = "CORBA::Any_OUT_arg";
-			else if(strDir.equals("inout"))
+			else if(typeDef.getDirection().equals("inout"))
 				result = "CORBA::Any&";
 		} else {
-			if(strDir.equals("out") || strDir.equals("inout"))
+			if(typeDef.getDirection().equals("out") || typeDef.getDirection().equals("inout"))
 				result = result + "&";
 			if( !result.contains("CORBA::") ) {
 				if(result.contains("::")) result = "const " + result + "&";

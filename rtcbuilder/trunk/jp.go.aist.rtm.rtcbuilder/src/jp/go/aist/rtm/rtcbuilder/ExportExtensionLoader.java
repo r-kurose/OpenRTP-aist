@@ -1,7 +1,6 @@
 package jp.go.aist.rtm.rtcbuilder;
 
 import jp.go.aist.rtm.rtcbuilder.extension.ExportExtension;
-import jp.go.aist.rtm.rtcbuilder.extension.ImportExtension;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;

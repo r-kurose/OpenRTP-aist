@@ -31,14 +31,14 @@ public class FileUtil {
 	 *            デフォルト値
 	 * @return ディレクトリのパス
 	 */
-	public static IPath getDirectoryPathByDialog(IFile defaultFile) {
+	public static IPath getDirectoryPathByDialog(IPath defaultPath) {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 		Shell shell = window.getShell();
 		DirectoryDialog dialog = new DirectoryDialog(shell, SWT.OPEN);
 		
-		if (defaultFile != null) {
-			dialog.setFilterPath(defaultFile.getFullPath().toOSString());
+		if (defaultPath != null) {
+			dialog.setFilterPath(defaultPath.toOSString());
 		}
 		String pathString = dialog.open();
 		if (pathString == null) return null;

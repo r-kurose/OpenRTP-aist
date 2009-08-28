@@ -59,7 +59,7 @@ class foo
   
   // </rtc-template>
 
-  /**
+  /***
    *
    * The initialize action (on CREATED->ALIVE transition)
    * formaer rtc_init_entry() 
@@ -68,7 +68,7 @@ class foo
    * 
    * 
    */
-  // virtual RTC::ReturnCode_t onInitialize();
+   virtual RTC::ReturnCode_t onInitialize();
 
   /***
    *
@@ -281,7 +281,7 @@ class foo
 
 extern "C"
 {
-  void fooInit(RTC::Manager* manager);
+  DLL_EXPORT void fooInit(RTC::Manager* manager);
 };
 
 #endif // FOO_H
