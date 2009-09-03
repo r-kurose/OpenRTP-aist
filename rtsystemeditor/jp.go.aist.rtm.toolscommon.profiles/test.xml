@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<rts:RtsProfile rtsExt:comment="Sample Comment" rts:updateDate="2008-04-18T14:00:00" rts:creationDate="2008-04-18T14:00:00" rts:version="0.2" rts:id="RTSystem:jp.go.aist:SampleRTS:1.0.0" xmlns:rtsExt="http://www.openrtp.org/namespaces/rts_ext" xmlns:rts="http://www.openrtp.org/namespaces/rts" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <rts:Components rts:isRequired="false" rts:compositeType="None" rts:instanceName="SampleComponent_1" rts:pathUri="file://localhost/C:\RTM\XMLSample\XML\SampleXML.xml" rts:id="RTC:SampleVendor:SampleCategory:SampleComponent:1.0.0"/>
-    <rtsExt:VersionUpLogs>Version0.1</rtsExt:VersionUpLogs>
-    <rtsExt:VersionUpLogs>Version0.2</rtsExt:VersionUpLogs>
-</rts:RtsProfile>
-
