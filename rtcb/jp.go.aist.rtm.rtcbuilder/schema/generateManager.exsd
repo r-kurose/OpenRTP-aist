@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="jp.go.aist.rtm.rtcbuilder">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="jp.go.aist.rtm.rtcbuilder" id="generateManager" name="Language Manager"/>
+      </appInfo>
+      <documentation>
+         言語生成用マネージャの登録
+      </documentation>
+   </annotation>
+
+   <element name="manager">
+      <annotation>
+         <appInfo>
+            <meta.element translatable="true"/>
+         </appInfo>
+      </annotation>
+      <complexType>
+         <attribute name="seq" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="managerclass" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn="jp.go.aist.rtm.rtcbuilder.manager.GenerateManager"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         [この拡張ポイントが現れる最初のリリースを入力してください。]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         [拡張ポイント使用のサンプルをここに入力してください。]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiInfo"/>
+      </appInfo>
+      <documentation>
+         [API 情報をここに入力してください。]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         [システムに提供されたこの拡張ポイントの実装情報を入力してください。]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         
+      </documentation>
+   </annotation>
+
+</schema>

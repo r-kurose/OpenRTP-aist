@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/jp.go.aist.rtm.nameserviceview/src"
+    modelPluginID="jp.go.aist.rtm.nameserviceview" modelName="Nameservice" importerID="org.eclipse.emf.importer.ecore">
+  <foreignModel>nameservice.ecore</foreignModel>
+  <genPackages prefix="Nameservice" basePackage="jp.go.aist.rtm.nameserviceview.model"
+      disposableProviderFactory="true" ecorePackage="nameservice.ecore#/">
+    <genDataTypes ecoreDataType="nameservice.ecore#//NamingContextExt"/>
+    <genDataTypes ecoreDataType="nameservice.ecore#//Binding"/>
+    <genDataTypes ecoreDataType="nameservice.ecore#//NotFound"/>
+    <genDataTypes ecoreDataType="nameservice.ecore#//CannotProceed"/>
+    <genDataTypes ecoreDataType="nameservice.ecore#//InvalidName"/>
+    <genClasses ecoreClass="nameservice.ecore#//CategoryNamingContext"/>
+    <genClasses ecoreClass="nameservice.ecore#//HostNamingContext"/>
+    <genClasses ecoreClass="nameservice.ecore#//ManagerNamingContext"/>
+    <genClasses ecoreClass="nameservice.ecore#//ModuleNamingContext"/>
+    <genClasses ecoreClass="nameservice.ecore#//NameServerNamingContext"/>
+    <genClasses ecoreClass="nameservice.ecore#//NamingContextNode">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference nameservice.ecore#//NamingContextNode/nodes"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute nameservice.ecore#//NamingContextNode/zombie"/>
+    </genClasses>
+    <genClasses ecoreClass="nameservice.ecore#//NamingObjectNode">
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute nameservice.ecore#//NamingObjectNode/zombie"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference nameservice.ecore#//NamingObjectNode/entry"/>
+    </genClasses>
+    <genClasses ecoreClass="nameservice.ecore#//Node">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference nameservice.ecore#//Node/nameServiceReference"/>
+      <genOperations ecoreOperation="nameservice.ecore#//Node/deleteR"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="nameservice.ecore#//NamingContext"/>
+    <genClasses ecoreClass="nameservice.ecore#//NameServiceReference">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nameservice.ecore#//NameServiceReference/binding"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nameservice.ecore#//NameServiceReference/nameServerName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nameservice.ecore#//NameServiceReference/rootNamingContext"/>
+      <genOperations ecoreOperation="nameservice.ecore#//NameServiceReference/createMergedNameServiceReference">
+        <genParameters ecoreParameter="nameservice.ecore#//NameServiceReference/createMergedNameServiceReference/childBinding"/>
+      </genOperations>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Core" basePackage="jp.go.aist.rtm.toolscommon.model" disposableProviderFactory="true"
+      ecorePackage="core.ecore#/">
+    <genDataTypes ecoreDataType="core.ecore#//Rectangle"/>
+    <genDataTypes ecoreDataType="core.ecore#//Visiter"/>
+    <genDataTypes ecoreDataType="core.ecore#//Object"/>
+    <genDataTypes ecoreDataType="core.ecore#//Point"/>
+    <genClasses image="false" ecoreClass="core.ecore#//CorbaWrapperObject">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute core.ecore#//CorbaWrapperObject/corbaObject"/>
+      <genOperations ecoreOperation="core.ecore#//CorbaWrapperObject/ping"/>
+    </genClasses>
+    <genClasses ecoreClass="core.ecore#//ModelElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute core.ecore#//ModelElement/constraint"/>
+      <genOperations ecoreOperation="core.ecore#//ModelElement/accept">
+        <genParameters ecoreParameter="core.ecore#//ModelElement/accept/visiter"/>
+      </genOperations>
+      <genOperations ecoreOperation="core.ecore#//ModelElement/dispose"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="core.ecore#//IAdaptable"/>
+    <genClasses image="false" ecoreClass="core.ecore#//LocalObject"/>
+    <genClasses ecoreClass="core.ecore#//WrapperObject"/>
+    <genClasses ecoreClass="core.ecore#//UnknownObject">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute core.ecore#//UnknownObject/targetObject"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Manager" basePackage="jp.go.aist.rtm.nameserviceview" disposableProviderFactory="true"
+      ecorePackage="manager.ecore#/">
+    <genClasses ecoreClass="manager.ecore#//NameServerManager">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference manager.ecore#//NameServerManager/nodes"/>
+      <genOperations ecoreOperation="manager.ecore#//NameServerManager/refreshAll"/>
+      <genOperations ecoreOperation="manager.ecore#//NameServerManager/isExist">
+        <genParameters ecoreParameter="manager.ecore#//NameServerManager/isExist/nameServer"/>
+      </genOperations>
+      <genOperations ecoreOperation="manager.ecore#//NameServerManager/addNameServer">
+        <genParameters ecoreParameter="manager.ecore#//NameServerManager/addNameServer/nameServer"/>
+      </genOperations>
+      <genOperations ecoreOperation="manager.ecore#//NameServerManager/setSynchronizeInterval">
+        <genParameters ecoreParameter="manager.ecore#//NameServerManager/setSynchronizeInterval/milliSecond"/>
+      </genOperations>
+      <genOperations ecoreOperation="manager.ecore#//NameServerManager/synchronizeAll"/>
+    </genClasses>
+    <genClasses ecoreClass="manager.ecore#//NameServerContext">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute manager.ecore#//NameServerContext/nameServerName"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
