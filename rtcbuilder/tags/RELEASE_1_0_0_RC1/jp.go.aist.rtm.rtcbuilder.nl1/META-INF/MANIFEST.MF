@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: RTC Builder Nl1 Fragment
-Bundle-SymbolicName: jp.go.aist.rtm.rtcbuilder.nl1
-Bundle-Version: 1.0.0
-Fragment-Host: jp.go.aist.rtm.rtcbuilder;bundle-version="1.0.0"
-Bundle-Localization: plugin
-Bundle-Vendor: AIST

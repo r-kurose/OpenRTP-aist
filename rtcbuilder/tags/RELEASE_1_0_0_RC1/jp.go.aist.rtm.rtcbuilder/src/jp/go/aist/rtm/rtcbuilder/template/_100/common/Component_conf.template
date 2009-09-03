@@ -1,5 +1,0 @@
-#if( ${rtcParam.configParams.size()} > 0 )
-#foreach($configParam in ${rtcParam.configParams})
-${sharp} conf.constraint.${configParam.name}: ${configParam.constraint}
-#end
-#end
