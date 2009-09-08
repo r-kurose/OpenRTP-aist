@@ -36,6 +36,12 @@
 	</target>
 
 	<target name="jar" description="jarファイルを作成します">
+		<copy todir="${build.dir}/jp/go/aist/rtm/rtcbuilder/java/template">
+			<fileset dir="${source}/jp/go/aist/rtm/rtcbuilder/java/template">
+				<include name="_100/**/**.template" />
+				<include name="**.template" />
+			</fileset>
+		</copy>
 		<mkdir dir="${dist.dir}" />
 		<delete file="${dist.dir}/${target.name}.jar" />
 
@@ -45,6 +51,7 @@
 				<include name="icons/**.**" />
 				<include name="lib/**.**" />
 				<include name="plugin.xml" />
+				<include name="plugin.properties" />
 			</fileset>
 		</jar>
 	</target>

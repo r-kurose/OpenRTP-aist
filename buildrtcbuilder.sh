@@ -26,206 +26,65 @@
 #---------------------------------------------------------------------------
 set DUMMY=$ANT_HOME
 export ANT_HOME=$ECLIPSE_HOME/plugins/org.apache.ant_1.6.5/
-
 #---------------------------------------------------------------------------
 #
-#
-#
 #---------------------------------------------------------------------------
-if [ -d jp.go.aist.rtm.RTC ]
-then
-    echo "-jp.go.aist.rtm.RTC"
-    cd jp.go.aist.rtm.RTC
-    ant buildAllLinux -lib $ECLIPSE_HOME/plugins/net.sf.ant4eclipse.plugin_0.5.0.rc1/lib/
-    if [ $? -ne 0 ];
-    then 
-        set ANT_HOME=$DUMMY
-        exit 1
-    fi
-    cd ..
-else
-    echo "jp.go.aist.rtm.RTC doesn't exist."
-fi
-
-#---------------------------------------------------------------------------
-#
-#
-#
-#---------------------------------------------------------------------------
-if [ -d jp.go.aist.rtm.fsmcbuilder ]
-then
-    echo "-jp.go.aist.rtm.fsmcbuilder "
-    cd jp.go.aist.rtm.fsmcbuilder 
-    ant buildAll -lib $ECLIPSE_HOME/plugins/net.sf.ant4eclipse.plugin_0.5.0.rc1/lib/ -lib $ECLIPSE_HOME/plugins/org.apache.ant_1.6.5/lib/ -lib $ECLIPSE_HOME/plugins/org.junit_3.8.1/ -lib $ECLIPSE_HOME/plugins
-    if [ $? -ne 0 ];
-    then 
-        set ANT_HOME=$DUMMY
-        exit 1
-    fi
-    cd ..
-else
-    echo "jp.go.aist.rtm.fsmcbuilder doesn't exist."
-fi
+declare -a build_tbl=(	\
+	"jp.go.aist.rtm.toolscommon"	\
+	"jp.go.aist.rtm.toolscommon.nl1"	\
+	"jp.go.aist.rtm.toolscommon.profiles"	\
+	"jp.go.aist.rtm.toolscommon.profiles.nl1"	\
+	"jp.go.aist.rtm.rtcbuilder"	\
+	"jp.go.aist.rtm.rtcbuilder.nl1"	\
+	"jp.go.aist.rtm.rtcbuilder.csharp"	\
+	"jp.go.aist.rtm.rtcbuilder.java"	\
+	"jp.go.aist.rtm.rtcbuilder.python"	\
+	"jp.go.aist.rtm.rtcbuilder.vbdotnet"	\
+)
 
 
+declare	-i num
+declare -i ic
+num=${#build_tbl[@]}
 
-#---------------------------------------------------------------------------
-#
-#
-#
-#---------------------------------------------------------------------------
-if [ -d jp.go.aist.rtm.toolscommon.profiles ]
-then
-    echo "-jp.go.aist.rtm.toolscommon.profiles"
-    cd jp.go.aist.rtm.toolscommon.profiles
-    ant buildAll -lib $ECLIPSE_HOME/plugins/net.sf.ant4eclipse.plugin_0.5.0.rc1/lib/ -lib $ECLIPSE_HOME/plugins/org.apache.ant_1.6.5/lib/ -lib $ECLIPSE_HOME/plugins/org.junit_3.8.1/ -lib $ECLIPSE_HOME/plugins
-    if [ $? -ne 0 ];
-    then 
-        set ANT_HOME=$DUMMY
-         exit 1
-    fi
-    cd ..
-else
-    echo "jp.go.aist.rtm.toolscommon.profiles doesn't exist."
-fi
+ic=0
+while [ $ic -lt $num ]
+do
+	if [ -d ${build_tbl[ic]} ]
+	then
+		echo "-" ${build_tbl[ic]}
+		cd ${build_tbl[ic]}
+		ant buildAll -lib $ECLIPSE_HOME/plugins/net.sf.ant4eclipse.plugin_0.5.0.rc1/lib/ -lib $ECLIPSE_HOME/plugins/org.apache.ant_1.6.5/lib/ -lib $ECLIPSE_HOME/plugins/org.junit_3.8.1/ -lib $ECLIPSE_HOME/plugins
+		if [ $? -ne 0 ];
+		then 
+			set ANT_HOME=$DUMMY
+			exit 1
+		fi
+		cd ..
+	else
+		echo ${build_tbl[ic]} "doesn't exist."
+	fi
+	ic=ic+1
+done
 
-
-#---------------------------------------------------------------------------
-#
-#
-#
-#---------------------------------------------------------------------------
-if [ -d jp.go.aist.rtm.toolscommon ]
-then
-    echo "-jp.go.aist.rtm.toolscommon"
-    cd jp.go.aist.rtm.toolscommon
-    ant buildAll -lib $ECLIPSE_HOME/plugins/net.sf.ant4eclipse.plugin_0.5.0.rc1/lib/ -lib $ECLIPSE_HOME/plugins/org.apache.ant_1.6.5/lib/ -lib $ECLIPSE_HOME/plugins/org.junit_3.8.1/ -lib $ECLIPSE_HOME/plugins
-    if [ $? -ne 0 ];
-    then 
-        set ANT_HOME=$DUMMY
-         exit 1
-    fi
-    cd ..
-else
-    echo "jp.go.aist.rtm.toolscommon doesn't exist."
-fi
-
-
-#---------------------------------------------------------------------------
-#
-#
-#
-#---------------------------------------------------------------------------
-if [ -d jp.go.aist.rtm.repositoryView ]
-then
-    echo "-jp.go.aist.rtm.repositoryView"
-    cd jp.go.aist.rtm.repositoryView
-    ant buildAll -lib $ECLIPSE_HOME/plugins/net.sf.ant4eclipse.plugin_0.5.0.rc1/lib/ -lib $ECLIPSE_HOME/plugins/org.apache.ant_1.6.5/lib/ -lib $ECLIPSE_HOME/plugins/org.junit_3.8.1/ -lib $ECLIPSE_HOME/plugins
-    if [ $? -ne 0 ];
-    then 
-        set ANT_HOME=$DUMMY
-         exit 1
-    fi
-    cd ..
-else
-    echo "jp.go.aist.rtm.repositoryView doesn't exist."
-fi
-
-
-
-#---------------------------------------------------------------------------
-#
-#
-#
-#---------------------------------------------------------------------------
-if [ -d jp.go.aist.rtm.logview ]
-then
-    echo "-jp.go.aist.rtm.logview"
-    cd jp.go.aist.rtm.logview
-    ant buildAll -lib $ECLIPSE_HOME/plugins/net.sf.ant4eclipse.plugin_0.5.0.rc1/lib/ -lib $ECLIPSE_HOME/plugins/org.apache.ant_1.6.5/lib/ -lib $ECLIPSE_HOME/plugins/org.junit_3.8.1/ -lib $ECLIPSE_HOME/plugins
-    if [ $? -ne 0 ];
-    then 
-        set ANT_HOME=$DUMMY
-         exit 1
-    fi
-    cd ..
-else
-    echo "jp.go.aist.rtm.logview doesn't exist."
-fi
-
-
-
-#---------------------------------------------------------------------------
-#
-#
-#
-#---------------------------------------------------------------------------
-if [ -d jp.go.aist.rtm.rtcbuilder ]
-then
-    echo "-jp.go.aist.rtm.rtcbuilder"
-    cd jp.go.aist.rtm.rtcbuilder
-    ant buildAll -lib $ECLIPSE_HOME/plugins/net.sf.ant4eclipse.plugin_0.5.0.rc1/lib/ -lib $ECLIPSE_HOME/plugins/org.apache.ant_1.6.5/lib/ -lib $ECLIPSE_HOME/plugins/org.junit_3.8.1/ -lib $ECLIPSE_HOME/plugins
-    if [ $? -ne 0 ];
-    then 
-        set ANT_HOME=$DUMMY
-         exit 1
-    fi
-    echo "--"
-    cd ..
-else
-    echo "jp.go.aist.rtm.rtcbuilder doesn't exist."
-fi
-
-#---------------------------------------------------------------------------
-#
-#
-#
-#---------------------------------------------------------------------------
-if [ -d jp.go.aist.rtm.rtcbuilder.java ]
-then
-    echo "-jp.go.aist.rtm.rtcbuilder.java"
-    cd jp.go.aist.rtm.rtcbuilder.java
-    ant buildAll -lib $ECLIPSE_HOME/plugins/net.sf.ant4eclipse.plugin_0.5.0.rc1/lib/ -lib $ECLIPSE_HOME/plugins/org.apache.ant_1.6.5/lib/ -lib $ECLIPSE_HOME/plugins/org.junit_3.8.1/ -lib $ECLIPSE_HOME/plugins
-    if [ $? -ne 0 ];
-    then 
-        set ANT_HOME=$DUMMY
-         exit 1
-    fi
-    echo "--"
-    cd ..
-else
-    echo "jp.go.aist.rtm.rtcbuilder.java doesn't exist."
-fi
-
-#---------------------------------------------------------------------------
-#
-#
-#
-#---------------------------------------------------------------------------
-if [ -d jp.go.aist.rtm.rtcbuilder.python ]
-then
-    echo "-jp.go.aist.rtm.rtcbuilder.python"
-    cd jp.go.aist.rtm.rtcbuilder.python
-    ant buildAll -lib $ECLIPSE_HOME/plugins/net.sf.ant4eclipse.plugin_0.5.0.rc1/lib/ -lib $ECLIPSE_HOME/plugins/org.apache.ant_1.6.5/lib/ -lib $ECLIPSE_HOME/plugins/org.junit_3.8.1/ -lib $ECLIPSE_HOME/plugins
-    if [ $? -ne 0 ];
-    then 
-        set ANT_HOME=$DUMMY
-         exit 1
-    fi
-    echo "--"
-    cd ..
-else
-    echo "jp.go.aist.rtm.rtcbuilder.python doesn't exist."
-fi
 #---------------------------------------------------------------------------
 # 必要なファイルをzip
 #
 #
 #---------------------------------------------------------------------------
-find ./ -name '*aist*.jar' -exec cp -p {} . \;
-rm RTCBuilder.zip
-zip RTCBuilder.zip *aist*.jar 
-rm *aist*.jar
+mkdir ./rtcbuilder_1.0.0
+ic=0
+declare name
+while [ $ic -lt $num ]
+do
+	name=${build_tbl[ic]}"_1.0.0.jar"
+	cp -p ${build_tbl[ic]}/jar/$name ./rtcbuilder_1.0.0 
+	ic=ic+1
+done
+rm rtcbuilder_1.0.0.zip
+zip rtcbuilder_1.0.0.zip -r ./rtcbuilder_1.0.0/
+
+rm -rf ./rtcbuilder_1.0.0
 
 
 #---------------------------------------------------------------------------

@@ -2,6 +2,8 @@
 	<property name="target.name" value="jp.go.aist.rtm.toolscommon_1.0.0"/>
 
 	<property name="source" value="src"/>
+	<property name="source.sdo" value="src/_SDOPackage"/>
+	<property name="source.rtc" value="src/RTC"/>
 
 	<property name="dist.dir" value="jar" />
 	<property name="build.dir" value="bin"/>
@@ -12,11 +14,12 @@
 	<property name="eclipse.home" value="${env.ECLIPSE_HOME}"/>
 
 	<property name="idl.path" value="idl" />
-	<property name="idl.SDOPackage" value="${idl.path}/SDOPackage.idl" />
-	<property name="idl.RTC" value="${idl.path}/RTC.idl" />
+	<property name="idl.SDOPackage" value="${idl.path}/SDOPackage11.idl" />
+	<property name="idl.RTC" value="${idl.path}/RTC10.idl" />
 	<property name="idl.OpenRTM" value="${idl.path}/OpenRTM.idl" />
 	<property name="idl.BasicDataType" value="${idl.path}/BasicDataType.idl" />
 	<property name="idl.DataPort" value="${idl.path}/DataPort.idl" />
+	<property name="idl.Manager" value="${idl.path}/Manager.idl" />
 
 	
 	
@@ -42,13 +45,7 @@
 			<arg line="-fall -td ${source} -i ${idl.path} -emitAll ${idl.RTC}"/>
 		</exec>
 		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-fall -td ${source} -i ${idl.path} -emitAll ${idl.OpenRTM}"/>
-		</exec>
-		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-fall -td ${source} -i ${idl.path} -emitAll ${idl.BasicDataType}"/>
-		</exec>
-		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-fall -td ${source} -i ${idl.path} -emitAll ${idl.DataPort}"/>
+			<arg line="-fall -td ${source} -i ${idl.path} -emitAll ${idl.Manager}"/>
 		</exec>
 	</target>
 
@@ -66,6 +63,14 @@
 	</target>
 
 	<target name="jar" description="jarファイルを作成します">
+		<copy file="${source}/jp/go/aist/rtm/toolscommon/nl/messages.properties" todir="${build.dir}/jp/go/aist/rtm/toolscommon/nl" />
+		<copy todir="${build.dir}/jp/go/aist/rtm/toolscommon/model">
+			<fileset dir="${source}/jp/go/aist/rtm/toolscommon/model">
+				<include name="**.ecore" />
+				<include name="**.xsd" />
+				<include name="**.genmodel" />
+			</fileset>
+		</copy>
 		<mkdir dir="${dist.dir}" />
 		<delete file="${dist.dir}/${target.name}.jar" />
 
@@ -76,6 +81,7 @@
 				<include name="lib/**.**" />
 				<include name="schema/**.**" />
 				<include name="plugin.xml" />
+				<include name="plugin.properties" />
 			</fileset>
 		</jar>
 	</target>

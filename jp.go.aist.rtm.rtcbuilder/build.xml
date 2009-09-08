@@ -36,6 +36,27 @@
 	</target>
 
 	<target name="jar" description="jarファイルを作成します">
+		<copy file="${source}/jp/go/aist/rtm/rtcbuilder/nl/messages.properties" todir="${build.dir}/jp/go/aist/rtm/rtcbuilder/nl" />
+		<copy todir="${build.dir}/jp/go/aist/rtm/rtcbuilder">
+			<fileset dir="${source}/jp/go/aist/rtm/rtcbuilder">
+				<include name="*Help.txt" />
+			</fileset>
+		</copy>
+		<copy todir="${build.dir}/jp/go/aist/rtm/rtcbuilder/model">
+			<fileset dir="${source}/jp/go/aist/rtm/rtcbuilder/model">
+				<include name="component.ecore" />
+				<include name="RTC.genmodel" />
+			</fileset>
+		</copy>
+		<copy todir="${build.dir}/jp/go/aist/rtm/rtcbuilder/template">
+			<fileset dir="${source}/jp/go/aist/rtm/rtcbuilder/template">
+				<include name="_042/**/**.template" />
+				<include name="_100/**/**.template" />
+				<include name="common/**.template" />
+				<include name="cpp/**.template" />
+				<include name="cppwin/**.template" />
+			</fileset>
+		</copy>
 		<mkdir dir="${dist.dir}" />
 		<delete file="${dist.dir}/${target.name}.jar" />
 
@@ -45,6 +66,7 @@
 				<include name="icons/**.**" />
 				<include name="lib/**.**" />
 				<include name="plugin.xml" />
+				<include name="plugin.properties" />
 			</fileset>
 		</jar>
 	</target>

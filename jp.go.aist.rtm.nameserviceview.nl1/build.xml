@@ -1,11 +1,10 @@
-<project name="jp.go.aist.rtm.nameserviceview_1.0.0" default="jar">
-	<property name="target.name" value="jp.go.aist.rtm.nameserviceview_1.0.0"/>
+<project name="jp.go.aist.rtm.nameserviceview.nl1_1.0.0" default="jar">
+	<property name="target.name" value="jp.go.aist.rtm.nameserviceview.nl1_1.0.0"/>
 
 	<property name="source" value="src"/>
 
 	<property name="dist.dir" value="jar" />
 	<property name="build.dir" value="bin"/>
-	<property name="icons.dir" value="icons"/>
 	<property name="lib.dir" value="lib"/>
 
 	<property environment="env"/>
@@ -14,13 +13,16 @@
 	<taskdef resource="net/sf/ant4eclipse/antlib.xml" />
 	<property name="targetPlatformLocation" value="${eclipse.home}" />
 	<property name="workspace" value="${basedir}/.." />
-	<property name="project.name" value="jp.go.aist.rtm.nameserviceview" />
+	<property name="project.name" value="jp.go.aist.rtm.toolscommon" />
 
 	<target name="buildAll">
+		<!--
 		<antcall target="clean" />
 		<antcall target="compile" />
+		-->
 		<antcall target="jar" />
 	</target>
+
 
 	<target name="clean" description="ビルドで生成されたファイルを削除します">
 		<delete includeEmptyDirs="true">
@@ -32,27 +34,17 @@
 		<getEclipseClasspath pathid="build.classpath" targetplatformlocation="${targetPlatformLocation}"
 					workspace="${workspace}" projectname="${project.name}"/>
 		<javac srcdir="${source}" destdir="${build.dir}"
-			classpathref="build.classpath"  encoding="Shift_JIS" />
+			classpathref="build.classpath" classpath="lib/commons-lang-2.2.jar" encoding="Shift_JIS" />
 	</target>
 
 	<target name="jar" description="jarファイルを作成します">
-		<copy file="${source}/jp/go/aist/rtm/nameserviceview/nl/messages.properties" todir="${build.dir}/jp/go/aist/rtm/nameserviceview/nl" />
-		<copy todir="${build.dir}/jp/go/aist/rtm/nameserviceview">
-			<fileset dir="${source}/jp/go/aist/rtm/nameserviceview">
-				<include name="**.ecore" />
-				<include name="**.genmodel" />
-			</fileset>
-		</copy>
 		<mkdir dir="${dist.dir}" />
 		<delete file="${dist.dir}/${target.name}.jar" />
 
 		<jar destfile="${dist.dir}/${target.name}.jar" manifest="META-INF/MANIFEST.MF">
-			<fileset dir="${build.dir}" />
+			<fileset dir="${source}" />
 			<fileset dir=".">
-				<include name="icons/**.**" />
-				<include name="lib/**.**" />
-				<include name="plugin.xml" />
-				<include name="plugin.properties" />
+				<include name="plugin_ja.properties" />
 			</fileset>
 		</jar>
 	</target>

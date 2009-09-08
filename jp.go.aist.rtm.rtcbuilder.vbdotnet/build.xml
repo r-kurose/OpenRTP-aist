@@ -1,5 +1,5 @@
-<project name="jp.go.aist.rtm.nameserviceview_1.0.0" default="jar">
-	<property name="target.name" value="jp.go.aist.rtm.nameserviceview_1.0.0"/>
+<project name="jp.go.aist.rtm.rtcbuilder.vbdotnet_1.0.0" default="jar">
+	<property name="target.name" value="jp.go.aist.rtm.rtcbuilder.vbdotnet_1.0.0"/>
 
 	<property name="source" value="src"/>
 
@@ -14,7 +14,7 @@
 	<taskdef resource="net/sf/ant4eclipse/antlib.xml" />
 	<property name="targetPlatformLocation" value="${eclipse.home}" />
 	<property name="workspace" value="${basedir}/.." />
-	<property name="project.name" value="jp.go.aist.rtm.nameserviceview" />
+	<property name="project.name" value="jp.go.aist.rtm.rtcbuilder.java" />
 
 	<target name="buildAll">
 		<antcall target="clean" />
@@ -36,11 +36,10 @@
 	</target>
 
 	<target name="jar" description="jarファイルを作成します">
-		<copy file="${source}/jp/go/aist/rtm/nameserviceview/nl/messages.properties" todir="${build.dir}/jp/go/aist/rtm/nameserviceview/nl" />
-		<copy todir="${build.dir}/jp/go/aist/rtm/nameserviceview">
-			<fileset dir="${source}/jp/go/aist/rtm/nameserviceview">
-				<include name="**.ecore" />
-				<include name="**.genmodel" />
+		<copy todir="${build.dir}/jp/go/aist/rtm/rtcbuilder/vbdotnet/template">
+			<fileset dir="${source}/jp/go/aist/rtm/rtcbuilder/vbdotnet/template">
+				<include name="_100/**/**.template" />
+				<include name="**.template" />
 			</fileset>
 		</copy>
 		<mkdir dir="${dist.dir}" />
@@ -52,7 +51,6 @@
 				<include name="icons/**.**" />
 				<include name="lib/**.**" />
 				<include name="plugin.xml" />
-				<include name="plugin.properties" />
 			</fileset>
 		</jar>
 	</target>

@@ -36,15 +36,23 @@
 	</target>
 
 	<target name="jar" description="jarファイルを作成します">
+		<copy file="${source}/log4j.properties" todir="${build.dir}" />
+		<copy file="${source}/jp/go/aist/rtm/repositoryView/nl/messages.properties" todir="${build.dir}/jp/go/aist/rtm/repositoryView/nl" />
 		<mkdir dir="${dist.dir}" />
 		<delete file="${dist.dir}/${target.name}.jar" />
 
 		<jar destfile="${dist.dir}/${target.name}.jar" manifest="META-INF/MANIFEST.MF">
 			<fileset dir="${build.dir}" />
 			<fileset dir=".">
+				<include name="bin/log4j.properties" />
 				<include name="icon/**.**" />
 				<include name="lib/**.**" />
 				<include name="plugin.xml" />
+				<include name="plugin.properties" />
+				<include name="repository.properties" />
+			</fileset>
+			<fileset dir="${source}">
+				<include name="log4j.properties" />
 			</fileset>
 		</jar>
 	</target>

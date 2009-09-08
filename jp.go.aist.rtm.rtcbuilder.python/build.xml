@@ -36,15 +36,24 @@
 	</target>
 
 	<target name="jar" description="jarファイルを作成します">
+		<copy todir="${build.dir}/jp/go/aist/rtm/rtcbuilder/python/template">
+			<fileset dir="${source}/jp/go/aist/rtm/rtcbuilder/python/template">
+				<include name="_100/**/**.template" />
+				<include name="**.template" />
+			</fileset>
+		</copy>
 		<mkdir dir="${dist.dir}" />
 		<delete file="${dist.dir}/${target.name}.jar" />
 
 		<jar destfile="${dist.dir}/${target.name}.jar" manifest="META-INF/MANIFEST.MF">
-			<fileset dir="${build.dir}" />
+			<fileset dir="${build.dir}">
+				<exclude name="jp/go/aist/rtm/rtcbuilder/python/_test/_100/**" />
+			</fileset>
 			<fileset dir=".">
 				<include name="icons/**.**" />
 				<include name="lib/**.**" />
 				<include name="plugin.xml" />
+				<include name="plugin.properties" />
 			</fileset>
 		</jar>
 	</target>
