@@ -42,7 +42,7 @@ public class CXXVarTest extends TestBase {
 		configset.add(new ConfigSetParam("double_param0","double","varname2", "0.11"));
 		configset.add(new ConfigSetParam("str_param0","std::string","", "hoge"));
 		configset.add(new ConfigSetParam("str_param1","std::string","varname3", "data"));
-		rtcParam.setConfigParams(configset);
+		rtcParam.getConfigParams().addAll(configset);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
@@ -78,7 +78,7 @@ public class CXXVarTest extends TestBase {
 		configset.add(new ConfigSetParam("double_param0","double","","0.11"));
 		configset.add(new ConfigSetParam("str_param0","std::string","","hoge"));
 		configset.add(new ConfigSetParam("str_param1","std::string","","data"));
-		rtcParam.setConfigParams(configset);
+		rtcParam.getConfigParams().addAll(configset);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
@@ -112,18 +112,18 @@ public class CXXVarTest extends TestBase {
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("InP1", "TimedShort", "InName1", 0));
 		dataport.add(new DataPortParam("InP2", "TimedLong", "InNm2", 0));
-		rtcParam.setInports(dataport);
+		rtcParam.getInports().addAll(dataport);
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
 		outport.add(new DataPortParam("OutP1", "TimedLong", "OutName1", 0));
 		outport.add(new DataPortParam("OutP2", "TimedFloat", "OutNme2", 0));
-		rtcParam.setOutports(outport);
+		rtcParam.getOutports().addAll(outport);
 
 		ServicePortParam service1 = new ServicePortParam("svPort",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
 				rootPath + "\\resource\\MyService.idl", "MyService", "", 0);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 		
@@ -132,10 +132,10 @@ public class CXXVarTest extends TestBase {
 		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service2, "rate", "", "", 
 				rootPath + "\\resource\\DAQService.idl", "DAQService", "", 1);
 		srvinterts2.add(int2);
-		service2.setServicePortInterfaces(srvinterts2);
+		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
 		
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
@@ -172,18 +172,18 @@ public class CXXVarTest extends TestBase {
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("InP1", "TimedShort", "", 0));
 		dataport.add(new DataPortParam("InP2", "TimedLong", "", 0));
-		rtcParam.setInports(dataport);
+		rtcParam.getInports().addAll(dataport);
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
 		outport.add(new DataPortParam("OutP1", "TimedInt", "", 0));
 		outport.add(new DataPortParam("OutP2", "TimedFloat", "", 0));
-		rtcParam.setOutports(outport);
+		rtcParam.getOutports().addAll(outport);
 
 		ServicePortParam service1 = new ServicePortParam("svPort",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
 				rootPath + "\\resource\\MyService.idl", "MyService", "", 0);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 		
@@ -192,10 +192,10 @@ public class CXXVarTest extends TestBase {
 		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service2, "rate", "", "", 
 				rootPath + "\\resource\\DAQService.idl", "DAQService", "", 1);
 		srvinterts2.add(int2);
-		service2.setServicePortInterfaces(srvinterts2);
+		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
 		
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);

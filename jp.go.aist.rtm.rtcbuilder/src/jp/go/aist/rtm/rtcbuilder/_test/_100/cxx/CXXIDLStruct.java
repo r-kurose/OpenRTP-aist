@@ -41,11 +41,11 @@ public class CXXIDLStruct extends TestBase {
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "sIF1", "", "sIFv", 
 				rootPath + "resource\\100\\CXX\\Struct\\TestService.idl", "TestService", "", 0);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 		
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 		genParam.getRtcParams().add(rtcParam);
 		
 		Generator generator = new Generator();

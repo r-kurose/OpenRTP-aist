@@ -1,6 +1,7 @@
 package jp.go.aist.rtm.rtcbuilder;
 
 import jp.go.aist.rtm.rtcbuilder.extension.AddFormPageExtension;
+import jp.go.aist.rtm.rtcbuilder.extension.EditorExtension;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;

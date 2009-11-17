@@ -37,7 +37,7 @@ public class CXXConfigSetTest extends TestBase {
 		genParam.getRtcParams().add(rtcParam);
 		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
 		configset.add(new ConfigSetParam("int_param0","int","", "0"));
-		rtcParam.setConfigParams(configset);
+		rtcParam.getConfigParams().addAll(configset);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
@@ -83,7 +83,7 @@ public class CXXConfigSetTest extends TestBase {
 		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
 		configset.add(new ConfigSetParam("int_param0","int","", "0"));
 		configset.add(new ConfigSetParam("int_param1","int","", "1"));
-		rtcParam.setConfigParams(configset);
+		rtcParam.getConfigParams().addAll(configset);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
@@ -132,7 +132,7 @@ public class CXXConfigSetTest extends TestBase {
 		configset.add(new ConfigSetParam("double_param0","double","", "0.11"));
 		configset.add(new ConfigSetParam("str_param0","std::string","", "hoge"));
 		configset.add(new ConfigSetParam("str_param1","std::string","", "dara"));
-		rtcParam.setConfigParams(configset);
+		rtcParam.getConfigParams().addAll(configset);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);

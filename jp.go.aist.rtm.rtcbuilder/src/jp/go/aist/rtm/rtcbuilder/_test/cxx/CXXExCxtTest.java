@@ -39,7 +39,7 @@ public class CXXExCxtTest extends TestBase {
 		configset.add(new ConfigSetParam("double_param0","double","varname2", "0.11"));
 		configset.add(new ConfigSetParam("str_param0","std::string","", "hoge"));
 		configset.add(new ConfigSetParam("str_param1","std::string","varname3", "dara"));
-		rtcParam.setConfigParams(configset);
+		rtcParam.getConfigParams().addAll(configset);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);

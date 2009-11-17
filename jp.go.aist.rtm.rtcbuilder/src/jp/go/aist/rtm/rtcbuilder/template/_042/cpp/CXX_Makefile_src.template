@@ -58,20 +58,20 @@ clean_skelstub:
 
 #foreach($providerIdlFile in ${rtcParam.providerIdlPathes})
 ${tmpltHelper.getFilenameNoExt(${providerIdlFile.idlFile})}${tmpltHelper.serviceSkelSuffix}.cpp : ${tmpltHelper.getFileName(${providerIdlFile.idlFile})}
-	$(IDLC) $(IDLFLAGS) ${tmpltHelper.getFileName(${providerIdlFile.idlFile})}
+	$(IDLC) $(IDLFLAGS) #foreach($idlSearchPath in ${providerIdlFile.idlSearchPathes})-I${idlSearchPath} #end${tmpltHelper.getFileName(${providerIdlFile.idlFile})}
 	$(WRAPPER) $(WRAPPER_FLAGS) --idl-file=${tmpltHelper.getFileName(${providerIdlFile.idlFile})}
 ${tmpltHelper.getFilenameNoExt(${providerIdlFile.idlFile})}${tmpltHelper.serviceSkelSuffix}.h : ${tmpltHelper.getFileName(${providerIdlFile.idlFile})}
-	$(IDLC) $(IDLFLAGS) ${tmpltHelper.getFileName(${providerIdlFile.idlFile})}
+	$(IDLC) $(IDLFLAGS) #foreach($idlSearchPath in ${providerIdlFile.idlSearchPathes})-I${idlSearchPath} #end${tmpltHelper.getFileName(${providerIdlFile.idlFile})}
 	$(WRAPPER) $(WRAPPER_FLAGS) --idl-file=${tmpltHelper.getFileName(${providerIdlFile.idlFile})}
 
 #end
 
 #foreach($consumerIdlFile in ${rtcParam.consumerIdlPathes})
 ${tmpltHelper.getFilenameNoExt(${consumerIdlFile.idlFile})}${tmpltHelper.serviceStubSuffix}.cpp : ${tmpltHelper.getFileName(${consumerIdlFile.idlFile})}
-	$(IDLC) $(IDLFLAGS) ${tmpltHelper.getFileName(${consumerIdlFile.idlFile})}
+	$(IDLC) $(IDLFLAGS) #foreach($idlSearchPath in ${providerIdlFile.idlSearchPathes})-I${idlSearchPath} #end${tmpltHelper.getFileName(${consumerIdlFile.idlFile})}
 	$(WRAPPER) $(WRAPPER_FLAGS) --idl-file=${tmpltHelper.getFileName(${consumerIdlFile.idlFile})}
 ${tmpltHelper.getFilenameNoExt(${consumerIdlFile.idlFile})}${tmpltHelper.serviceStubSuffix}.h : ${tmpltHelper.getFileName(${consumerIdlFile.idlFile})}
-	$(IDLC) $(IDLFLAGS) ${tmpltHelper.getFileName(${consumerIdlFile.idlFile})}
+	$(IDLC) $(IDLFLAGS) #foreach($idlSearchPath in ${providerIdlFile.idlSearchPathes})-I${idlSearchPath} #end${tmpltHelper.getFileName(${consumerIdlFile.idlFile})}
 	$(WRAPPER) $(WRAPPER_FLAGS) --idl-file=${tmpltHelper.getFileName(${consumerIdlFile.idlFile})}
 
 #end

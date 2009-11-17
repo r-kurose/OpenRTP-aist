@@ -32,7 +32,7 @@ public class CXXLibraryTest extends TestBase {
 		List<String> libraries = new ArrayList<String>();
 		libraries.add("RTC");
 		libraries.add("RTC2");
-		rtcParam.setLibraryPathes(libraries);
+		rtcParam.getLibraryPathes().addAll(libraries);
 		genParam.getRtcParams().add(rtcParam);
 		
 		Generator generator = new Generator();
@@ -63,7 +63,7 @@ public class CXXLibraryTest extends TestBase {
 		rtcParam.setMaxInstance(5);
 		List<String> libraries = new ArrayList<String>();
 		libraries.add("RTC");
-		rtcParam.setLibraryPathes(libraries);
+		rtcParam.getLibraryPathes().addAll(libraries);
 		genParam.getRtcParams().add(rtcParam);
 		
 		Generator generator = new Generator();

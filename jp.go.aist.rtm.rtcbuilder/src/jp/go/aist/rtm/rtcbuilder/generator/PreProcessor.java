@@ -1,6 +1,7 @@
 package jp.go.aist.rtm.rtcbuilder.generator;
 
 import java.io.File;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,6 +21,9 @@ public class PreProcessor {
 	private static final Pattern INCLUDE_PATTERN = Pattern
 			.compile("^#include\\s*(<|\")(.*)(>|\").*$");
 
+	private static final Pattern COMMENT_PATTERN = Pattern
+			.compile("/\\*(.*?)(\\*/)", Pattern.DOTALL);
+
 	private static final int INCLUDE_FILE_INDEX = 2;
 
 	/**
@@ -31,8 +35,21 @@ public class PreProcessor {
 	 * @return é¿çså„ï∂éöóÒ
 	 */
 	public static String parseAlltoSpace(String target) {
+		String targetNoCmt = eraseComments(target);
+		//
 		StringBuffer result = new StringBuffer();
-		Matcher matcher = PREPROSESSOR_PATTERN.matcher(target);
+		Matcher matcher = PREPROSESSOR_PATTERN.matcher(targetNoCmt);
+		while (matcher.find()) {
+			matcher.appendReplacement(result, Matcher.quoteReplacement(""));
+		}
+		matcher.appendTail(result);
+
+		return result.toString();
+	}
+	
+	private static String eraseComments(String target) {
+		StringBuffer result = new StringBuffer();
+		Matcher matcher = COMMENT_PATTERN.matcher(target);
 		while (matcher.find()) {
 			matcher.appendReplacement(result, Matcher.quoteReplacement(""));
 		}
@@ -48,13 +65,15 @@ public class PreProcessor {
 	 *            ëŒè€ï∂éöóÒ
 	 * @return é¿çså„ï∂éöóÒ
 	 */
-	public static String parse(String target, File includeBaseDir) {
+	public static String parse(String target, File includeBaseDir, List<String> includeFiles) {
+		String targetNoCmt = eraseComments(target);
+		/////
 		StringBuffer result = new StringBuffer();
-		Matcher matcher = PREPROSESSOR_PATTERN.matcher(target);
+		Matcher matcher = PREPROSESSOR_PATTERN.matcher(targetNoCmt);
 		while (matcher.find()) {
 			String replateString = "";
 			String includeFileContent = getIncludeFileContentThoroughgoing(
-					matcher.group(), includeBaseDir);
+					matcher.group(), includeBaseDir, includeFiles);
 			if (includeFileContent != null) {
 				replateString = includeFileContent;
 			}
@@ -68,10 +87,10 @@ public class PreProcessor {
 	}
 
 	public static String getIncludeFileContentThoroughgoing(String directive,
-			File includeBaseDir) {
-		String result = getIncludeFileContent(directive, includeBaseDir);
+			File includeBaseDir, List<String> includeFiles) {
+		String result = getIncludeFileContent(directive, includeBaseDir, includeFiles);
 		if (result != null) {
-			result = parse(result, includeBaseDir);
+			result = parse(result, includeBaseDir, includeFiles);
 		}
 
 		return result;
@@ -85,7 +104,7 @@ public class PreProcessor {
 	 * @return
 	 */
 	public static String getIncludeFileContent(String directive,
-			File includeBaseDir) {
+			File includeBaseDir, List<String> includeFiles) {
 		String result = null;
 		
 		Matcher matcher = INCLUDE_PATTERN.matcher(directive);
@@ -94,8 +113,13 @@ public class PreProcessor {
 			if (includeBaseDir == null) {
 				throw new RuntimeException(IRTCBMessageConstants.ERROR_PREPROCESSOR + filePath);
 			}
-			result = FileUtil.readFile(new File(includeBaseDir, filePath)
-					.getAbsolutePath());
+			String includeFilePath = new File(includeBaseDir, filePath).getAbsolutePath();
+			result = FileUtil.readFile(includeFilePath);
+			if(includeFiles!=null) {
+				if( !includeFiles.contains(includeFilePath) ) {
+					includeFiles.add(includeFilePath);
+				}
+			}
 		}
 
 		return result;

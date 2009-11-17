@@ -28,6 +28,7 @@ public class TemplateHelper {
 	 * @return
 	 */
 	public static String getFileName(String fullPath) {
+		if(fullPath==null) return "";
 		File file = new File(fullPath);
 		return file.getName();
 	}

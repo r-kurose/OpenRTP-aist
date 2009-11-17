@@ -13,6 +13,7 @@ import jp.go.aist.rtm.rtcbuilder.model.component.BuildView;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.DataTypePreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -31,6 +32,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormPage;
@@ -76,27 +78,6 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		return form;
 	}
 	
-//	protected Composite createSectionBase(FormToolkit toolkit,
-//			ScrolledForm form, String sectionName, int colNum) {
-//		GridLayout gl;
-//
-//		Section section = toolkit.createSection(
-//				form.getBody(),
-//				Section.TITLE_BAR | Section.EXPANDED | Section.TWISTIE);
-//		section.setText(sectionName);
-//		GridData gridData = new GridData();
-//		gridData.grabExcessHorizontalSpace = true;
-//		gridData.horizontalAlignment = GridData.FILL;
-//		section.setLayoutData(gridData);
-//		Composite composite = toolkit.createComposite(section, SWT.NULL);
-//		composite.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
-//		toolkit.paintBordersFor(composite);
-//		gl = new GridLayout(colNum, false);
-//		composite.setLayout(gl);
-//		section.setClient(composite);
-//		return composite;
-//	}
-//	
 	protected Composite createSectionBaseWithLabel(FormToolkit toolkit, ScrolledForm form,
 			String title, String explain, int colnum) {
 		Section sctBasic = toolkit.createSection(form.getBody(),
@@ -199,22 +180,13 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		Combo combo = new Combo(composite, SWT.DROP_DOWN | SWT.READ_ONLY);
 		combo.setItems(items);
 		combo.select(0);
-		// combo.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
-		// toolkit.paintBordersFor(combo);
 		combo.addKeyListener(new KeyListener() {
-			public void keyReleased(KeyEvent e) {
-			}
-
-			public void keyPressed(KeyEvent e) {
-				update();
-			}
+			public void keyReleased(KeyEvent e) {}
+			public void keyPressed(KeyEvent e) { update();	}
 		});
 		combo.addSelectionListener(new SelectionListener() {
-			  public void widgetDefaultSelected(SelectionEvent e){
-			  }
-			  public void widgetSelected(SelectionEvent e){
-					update();
-			  }
+			  public void widgetDefaultSelected(SelectionEvent e){}
+			  public void widgetSelected(SelectionEvent e){ update();}
 			});
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		combo.setLayoutData(gridData);
@@ -231,12 +203,8 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		}
 		final Text text = toolkit.createText(composite, "");
 		text.addKeyListener(new KeyListener() {
-			public void keyReleased(KeyEvent e) {
-				update();
-			}
-
-			public void keyPressed(KeyEvent e) {
-			}
+			public void keyReleased(KeyEvent e) { update(); }
+			public void keyPressed(KeyEvent e) {}
 		});
 
 		gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -247,8 +215,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 				SWT.PUSH);
 		checkButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				DirectoryDialog dialog = new DirectoryDialog(getEditorSite()
-						.getShell());
+				DirectoryDialog dialog = new DirectoryDialog(getEditorSite().getShell());
 				if (text.getText().length() > 0)
 					dialog.setFilterPath(text.getText());
 				String newPath = dialog.open();
@@ -320,19 +287,12 @@ public abstract class AbstractEditorFormPage extends FormPage {
 
 		combo.select(0);
 		combo.addKeyListener(new KeyListener() {
-			public void keyReleased(KeyEvent e) {
-			}
-
-			public void keyPressed(KeyEvent e) {
-				update();
-			}
+			public void keyReleased(KeyEvent e) {}
+			public void keyPressed(KeyEvent e) { update(); }
 		});
 		combo.addSelectionListener(new SelectionListener() {
-			  public void widgetDefaultSelected(SelectionEvent e){
-			  }
-			  public void widgetSelected(SelectionEvent e){
-					update();
-			  }
+			  public void widgetDefaultSelected(SelectionEvent e){}
+			  public void widgetSelected(SelectionEvent e){ update(); }
 			});
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		combo.setLayoutData(gridData);
@@ -344,13 +304,18 @@ public abstract class AbstractEditorFormPage extends FormPage {
 			Composite composite, String labelString, int style) {
 		Button radio = toolkit.createButton(composite, "", style);
 		radio.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				update();
-			}
+			public void widgetSelected(SelectionEvent e) { update(); }
 		});
 		radio.setText(labelString);
 		return radio;
 	}
+	
+	protected void createColumnToTableViewer(TableViewer tv, String title, int width){
+		TableColumn col = new TableColumn(tv.getTable(),SWT.NONE);
+		col.setText(title);
+		col.setWidth(width);
+	}
+
 
 	/**
 	 * ワークスペースの永続情報から、コンボのリストと選択インデックスをロードする

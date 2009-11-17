@@ -39,11 +39,11 @@ public class MLTest extends TestBase {
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "name", "", "", 
 				rootPath + "\\resource\\Java\\ML\\ML3\\MyServiceType1.idl", "MyService", "", 0);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 		
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 
 		Generator generator = new Generator();
 		GenerateManager manager = new JavaGenerateManager();
@@ -81,11 +81,11 @@ public class MLTest extends TestBase {
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "name", "", "", 
 				rootPath + "\\resource\\Java\\ML\\ML2\\MyServiceType1.idl", "MyService", "", 0);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 		
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 
 		Generator generator = new Generator();
 		GenerateManager manager = new JavaGenerateManager();
@@ -123,11 +123,11 @@ public class MLTest extends TestBase {
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "name", "", "", 
 				rootPath + "\\resource\\Java\\ML\\ML1\\MyServiceAIST2.idl", "MyService", "", 0);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 		
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 
 		Generator generator = new Generator();
 		GenerateManager manager = new JavaGenerateManager();

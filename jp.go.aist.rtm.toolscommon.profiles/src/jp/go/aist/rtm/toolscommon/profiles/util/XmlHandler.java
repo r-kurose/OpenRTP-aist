@@ -850,6 +850,11 @@ public class XmlHandler {
 		return result02;
 	}
 
+	private String covertActivityType01to02(String activityType) {
+		if (activityType.equals("EVENT_DRIVEN")) return "EVENTDRIVEN";
+		return activityType;
+	}
+
 	private String covertCompositeType01to02(String compositeType) {
 		if (compositeType == null) return "None";
 		if (compositeType.equals("AllShared")) return "PeriodicStateShared";
@@ -927,7 +932,7 @@ public class XmlHandler {
 			//Basic Profile
 			basic02.setName(basic01.getName());
 			basic02.setComponentType(basic01.getComponentType());
-			basic02.setActivityType(basic01.getActivityType());
+			basic02.setActivityType(covertActivityType01to02(basic01.getActivityType()));
 			basic02.setComponentKind(basic01.getComponentKind());
 			basic02.setCategory(basic01.getCategory());
 			basic02.setDescription(basic01.getDescription());
@@ -1192,51 +1197,53 @@ public class XmlHandler {
 		}
 		//Language
 		org.openrtp.namespaces.rtc.version01.Language lang01 = profile01.getLanguage();
-		org.openrtp.namespaces.rtc.version01.Cxxlang langCxx = lang01.getCxx();
-		if( langCxx!=null) {
-			LanguageExt lang = factory.createLanguageExt();
-			lang.setKind("C++");
-			TargetEnvironment env = factory.createTargetEnvironment();
-			env.setOs(langCxx.getOs());
-			env.setCpuOther(langCxx.getArch());
-			for( String library : langCxx.getLibrary() ) {
-				Library lib = factory.createLibrary();
-				lib.setName(library);
-				env.getLibraries().add(lib);
+		if( lang01!=null ) {
+			org.openrtp.namespaces.rtc.version01.Cxxlang langCxx = lang01.getCxx();
+			if( langCxx!=null) {
+				LanguageExt lang = factory.createLanguageExt();
+				lang.setKind("C++");
+				TargetEnvironment env = factory.createTargetEnvironment();
+				env.setOs(langCxx.getOs());
+				env.setCpuOther(langCxx.getArch());
+				for( String library : langCxx.getLibrary() ) {
+					Library lib = factory.createLibrary();
+					lib.setName(library);
+					env.getLibraries().add(lib);
+				}
+				lang.getTargets().add(env);
+				result02.setLanguage(lang);
 			}
-			lang.getTargets().add(env);
-			result02.setLanguage(lang);
-		}
-		org.openrtp.namespaces.rtc.version01.Javalang langJava = lang01.getJava();
-		if( langJava!=null) {
-			LanguageExt lang = factory.createLanguageExt();
-			lang.setKind("Java");
-			TargetEnvironment env = factory.createTargetEnvironment();
-			for( String library : langJava.getLibrary() ) {
-				Library lib = factory.createLibrary();
-				lib.setName(library);
-				env.getLibraries().add(lib);
+			org.openrtp.namespaces.rtc.version01.Javalang langJava = lang01.getJava();
+			if( langJava!=null) {
+				LanguageExt lang = factory.createLanguageExt();
+				lang.setKind("Java");
+				TargetEnvironment env = factory.createTargetEnvironment();
+				for( String library : langJava.getLibrary() ) {
+					Library lib = factory.createLibrary();
+					lib.setName(library);
+					env.getLibraries().add(lib);
+				}
+				lang.getTargets().add(env);
+				result02.setLanguage(lang);
 			}
-			lang.getTargets().add(env);
-			result02.setLanguage(lang);
-		}
-		String langPython = lang01.getPython();
-		if( langPython!=null) {
-			LanguageExt lang = factory.createLanguageExt();
-			lang.setKind("Python");
-			result02.setLanguage(lang);
-		}
-		String langCsharp = lang01.getCsharp();
-		if( langCsharp!=null) {
-			LanguageExt lang = factory.createLanguageExt();
-			lang.setKind("C#");
-			result02.setLanguage(lang);
-		}
-		String langRuby = lang01.getRuby();
-		if( langRuby!=null) {
-			LanguageExt lang = factory.createLanguageExt();
-			lang.setKind("ruby");
-			result02.setLanguage(lang);
+			String langPython = lang01.getPython();
+			if( langPython!=null) {
+				LanguageExt lang = factory.createLanguageExt();
+				lang.setKind("Python");
+				result02.setLanguage(lang);
+			}
+			String langCsharp = lang01.getCsharp();
+			if( langCsharp!=null) {
+				LanguageExt lang = factory.createLanguageExt();
+				lang.setKind("C#");
+				result02.setLanguage(lang);
+			}
+			String langRuby = lang01.getRuby();
+			if( langRuby!=null) {
+				LanguageExt lang = factory.createLanguageExt();
+				lang.setKind("ruby");
+				result02.setLanguage(lang);
+			}
 		}
 		
 		return result02;

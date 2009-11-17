@@ -3,15 +3,17 @@ package jp.go.aist.rtm.rtcbuilder.ui.editors;
 import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.IDLParser;
-import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.ParseException;
 import jp.go.aist.rtm.rtcbuilder.generator.IDLParamConverter;
+import jp.go.aist.rtm.rtcbuilder.generator.PreProcessor;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
@@ -22,6 +24,11 @@ import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.PortPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -59,7 +66,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 /**
- * Configページ
+ * ServicePortページ
  */
 public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 
@@ -162,44 +169,6 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		}
 	}
 	
-//	private void hookContextMenu() {
-//		MenuManager menuMgr = new MenuManager();
-//		menuMgr.setRemoveAllWhenShown(true);
-//		menuMgr.addMenuListener(new IMenuListener() {
-//			public void menuAboutToShow(IMenuManager manager) {
-//				ServicePortEditorFormPage.this.fillContextMenu(manager);
-//			}
-//		});
-//		Menu menu = menuMgr.createContextMenu(this.getEditor().get .getContainer());
-//		getContainer().setMenu(menu);
-//		((IEditorSite) getSite()).registerContextMenu(menuMgr,
-//				new ISelectionProvider() {
-//
-//					public void addSelectionChangedListener(
-//							ISelectionChangedListener listener) {
-//					}
-//
-//					public ISelection getSelection() {
-//						return new StructuredSelection(ServicePortEditorFormPage.this);
-//					}
-//
-//					public void removeSelectionChangedListener(
-//							ISelectionChangedListener listener) {
-//					}
-//
-//					public void setSelection(ISelection selection) {
-//					}
-//
-//				}, false);
-//	}
-//
-//	private void fillContextMenu(IMenuManager manager) {
-//		manager.add(new Separator());
-//		// drillDownAdapter.addNavigationActions(manager);
-//		// Other plug-ins can contribute there actions here
-//		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
-//	}
-
 	private Text createLabelAndFile(FormToolkit toolkit, Composite composite,
 			final String extention, String labelString) {
 		GridData gd;
@@ -248,6 +217,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 
 	public void update() {
 		if(servicePortViewer != null ) {
+			servicePortViewer.getTree().setRedraw(false);
 			TreeItem[] selections = servicePortViewer.getTree().getSelection();
 			if( selections.length > 0 ) {
 				TreeItem selection = selections[0];
@@ -265,7 +235,8 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 					if( !((ServicePortInterfaceParam)selection.getData()).getIdlFile().equals(
 							idlFileText.getText()) ) {
 						if(idlFileText.getText()!=null && idlFileText.getText().length()>0) {
-							IDLParser parser = new IDLParser(new StringReader(FileUtil.readFile(idlFileText.getText())));
+							String targetContent = PreProcessor.parseAlltoSpace(FileUtil.readFile(idlFileText.getText()));
+							IDLParser parser = new IDLParser(new StringReader(targetContent));
 							try {
 								List<ServiceClassParam> serviceClassParams = IDLParamConverter.convert(parser.specification(), "");
 								if( serviceClassParams!=null && serviceClassParams.size()>0 ) {
@@ -274,10 +245,14 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 										interfaceTypeCombo.add(target.getName());
 									}
 								}
-							} catch (ParseException e) {
+							} catch (Throwable e) {
+								MessageDialog.openError(getSite().getShell(), "Error", 
+										IMessageConstants.PREF_IDLPARSE_ERROR + System.getProperty( "line.separator" ) + System.getProperty( "line.separator" ) + 
+										e.getMessage() );
 								String selected = interfaceTypeCombo.getText();
 								interfaceTypeCombo.removeAll();
 								interfaceTypeCombo.setText(selected);
+								servicePortViewer.getTree().setRedraw(true);
 							}
 						}
 					}
@@ -299,12 +274,14 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 					//
 				}
 			}
+			Object[] expanded = servicePortViewer.getExpandedElements();
 			servicePortViewer.setInput(editor.getRtcParam().getServicePorts());
+			servicePortViewer.getTree().setRedraw(true);
+			servicePortViewer.setExpandedElements(expanded);
 			//
 			editor.updateEMFServiceOutPorts(editor.getRtcParam().getServicePorts());
+			editor.updateDirty();
 		}
-
-		editor.updateDirty();
 	}
 
 	/**
@@ -316,6 +293,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			RtcParam rtcParam = generator.getRtcParams().get(0);
 			if( servicePortViewer != null )
 				servicePortViewer.setInput(rtcParam.getServicePorts());
+			editor.updateEMFServiceOutPorts(editor.getRtcParam().getServicePorts());
 		}
 	}
 
@@ -374,6 +352,30 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		return null;
 	}
 
+	private MenuManager createContextMenu() {
+		MenuManager menuMgr = new MenuManager("#PopupMenu");
+		menuMgr.setRemoveAllWhenShown(true);
+		menuMgr.addMenuListener(new IMenuListener() {
+			public void menuAboutToShow(IMenuManager manager) {
+				manager.add(new Action("Open...") {
+					@Override
+					public void run() { editor.open(); }
+				});
+				manager.add(new Action("Save ...") {
+					@Override
+					public void run() { editor.doSave(null); }
+					@Override
+					public boolean isEnabled() { return editor.isDirty(); }
+				});
+				manager.add(new Action("Save As...") {
+					@Override
+					public void run() { editor.doSaveAs(); }
+				});
+			}
+		});
+		return menuMgr;
+	}
+
 	//Master Block クラス
 	private class ServicePortMasterBlock extends MasterDetailsBlock {
 
@@ -386,6 +388,9 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			client.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
 			client.setLayout(new GridLayout(2, false));
 			//
+			MenuManager menuMgr = createContextMenu();
+			client.setMenu(menuMgr.createContextMenu(client));
+			//////
 			Tree tree = toolkit.createTree(client, SWT.BORDER);
 			servicePortViewer = new TreeViewer(tree);
 			servicePortViewer.setContentProvider(new ServiceParamContentProvider());
@@ -395,6 +400,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			gridData.grabExcessHorizontalSpace = true;
 			gridData.verticalSpan  = 4;
 			tree.setLayoutData(gridData);
+			servicePortViewer.getControl().setMenu(menuMgr.createContextMenu(servicePortViewer.getControl()));
 			//
 			Button addButton = managedForm.getToolkit().createButton(client, IMessageConstants.SERVICEPORT_BTN_ADDPORT, SWT.PUSH);
 			addButton.addSelectionListener(new SelectionAdapter() {
@@ -404,8 +410,6 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 					ServicePortParam selectParam = new ServicePortParam(defaultPortName, 0);
 					((List) servicePortViewer.getInput()).add(selectParam);
 					update();
-					servicePortViewer.refresh();
-					servicePortViewer.expandAll();
 				}
 			});
 			gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
@@ -422,13 +426,20 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 						return;// 何も選択されていないときは何もしない
 					TreeItem selection = selections[0];
 					if( selection.getData() instanceof ServicePortParam ) {
+						servicePortViewer.getTree().setRedraw(false);
 						ServicePortInterfaceParam selectParam = new ServicePortInterfaceParam((ServicePortParam)selection.getData() ,
 								defaultIFName, defaultIFInstanceName, defaultIFVarName, "", "", "", 0);
 						((ServicePortParam)selection.getData()).getServicePortInterfaces().add(selectParam);
+						Object[] expanded = servicePortViewer.getExpandedElements();
+						List<Object> expanding = new ArrayList<Object>();
+						Collections.addAll(expanding, expanded);
+						if( !expanding.contains(selection.getData()) ) {
+							expanding.add(selection.getData());
+							servicePortViewer.setExpandedElements(expanding.toArray());
+						}
 						update();
+						servicePortViewer.getTree().setRedraw(true);
 					}
-					servicePortViewer.refresh();
-					servicePortViewer.expandAll();
 				}
 			});
 			gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
@@ -451,8 +462,6 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 							.remove(selection.getData());
 						update();
 					}
-					servicePortViewer.refresh();
-					servicePortViewer.expandAll();
 				}
 			});
 			gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
@@ -462,6 +471,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 			gridData.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
 			label.setLayoutData(gridData);
+			label.setMenu(menuMgr.createContextMenu(label));
 			//
 			final SectionPart sectionPart = new SectionPart(servicePortMasterBlockSection);
 			managedForm.addPart(sectionPart);
@@ -473,30 +483,9 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			});
 			servicePortMasterBlockSection.setClient(client);
 		}
-
+		
 		@Override
 		protected void createToolBarActions(IManagedForm managedForm) {
-//			final ScrolledForm form = managedForm.getForm();
-//			Action haction = new Action("horizontal", Action.AS_RADIO_BUTTON) {
-//				public void run() {
-//					sashForm.setOrientation(SWT.HORIZONTAL);
-//					form.reflow(true);
-//				}
-//			};
-//			haction.setChecked(true);
-//			haction.setImageDescriptor(RtcBuilderPlugin.
-//					imageDescriptorFromPlugin(RtcBuilderPlugin.PLUGIN_ID, "icons/RTCBuilder.png"));
-//			Action vaction = new Action("vertical", Action.AS_RADIO_BUTTON) {
-//				public void run() {
-//					sashForm.setOrientation(SWT.VERTICAL);
-//					form.reflow(true);
-//				}
-//			};
-//			vaction.setChecked(false);
-//			vaction.setImageDescriptor(RtcBuilderPlugin.
-//					imageDescriptorFromPlugin(RtcBuilderPlugin.PLUGIN_ID, "icons/RTCBuilder.png"));
-//			form.getToolBarManager().add(haction);
-//			form.getToolBarManager().add(vaction);
 		}
 
 		@Override
@@ -523,6 +512,8 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			GridData gd = new GridData();
 			gd.horizontalSpan = 2;
 			exp.setLayoutData(gd);
+			MenuManager menuMgr = createContextMenu();
+			client.setMenu(menuMgr.createContextMenu(client));
 			//
 			nameText = createLabelAndText(toolkit, client, IMessageConstants.SERVICEPORT_LBL_PORTNAME);
 			positionCombo = createLabelAndCombo(toolkit, client,
@@ -615,6 +606,8 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			client.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
 			form.getToolkit().paintBordersFor(client);
 			client.setLayout(new GridLayout(3, false));
+			MenuManager menuMgr = createContextMenu();
+			client.setMenu(menuMgr.createContextMenu(client));
 			//
 			Label exp = toolkit.createLabel(client, IMessageConstants.SERVICEPORT_IF_EXPL);
 			GridData gd = new GridData();

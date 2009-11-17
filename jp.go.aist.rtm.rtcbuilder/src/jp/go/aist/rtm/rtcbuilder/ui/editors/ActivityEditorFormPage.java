@@ -74,91 +74,17 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 		Composite composite = createSectionBaseWithLabel(toolkit, form, 
 				IMessageConstants.ACTIVITY_ACTIVITY_TITLE, IMessageConstants.ACTIVITY_ACTIVITY_EXPL, 1);
 		//
-		//
-		Composite cmpInitFinal = toolkit.createComposite(composite, SWT.NULL);
-		GridLayout gl = new GridLayout(1, false);
-		cmpInitFinal.setLayout(gl);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		cmpInitFinal.setLayoutData(gd);
-		cmpInitFinal.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
-		//
-		Label initFinal = toolkit.createLabel(cmpInitFinal, IMessageConstants.ACTIVITY_LBL_INIT_FINAL);
-		gd = new GridData(GridData.FILL_BOTH);
-		gd.horizontalAlignment = GridData.CENTER;
-		initFinal.setLayoutData(gd);
-		initFinal.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
-		createActionSelection(composite, "on_initialize");
-		createActionSelection(composite, "on_finalize");
-		//
-		//
-		Composite cmpStartEnd = toolkit.createComposite(composite, SWT.NULL);
-		gl = new GridLayout(1, false);
-		cmpStartEnd.setLayout(gl);
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		cmpStartEnd.setLayoutData(gd);
-		cmpStartEnd.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
-		//
-		Label startEnd = toolkit.createLabel(cmpStartEnd, IMessageConstants.ACTIVITY_LBL_START_END);
-		gd = new GridData(GridData.FILL_BOTH);
-		gd.horizontalAlignment = GridData.CENTER;
-		startEnd.setLayoutData(gd);
-		startEnd.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
-		createActionSelection(composite, "on_startup");
-		createActionSelection(composite, "on_shutdown");
-		//
-		//
-		Composite cmpAlive = toolkit.createComposite(composite, SWT.NULL);
-		gl = new GridLayout(1, false);
-		cmpAlive.setLayout(gl);
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		cmpAlive.setLayoutData(gd);
-		cmpAlive.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
-		//
-		Label alive = toolkit.createLabel(cmpAlive, IMessageConstants.ACTIVITY_LBL_ALIVE);
-		gd = new GridData(GridData.FILL_BOTH);
-		gd.horizontalAlignment = GridData.CENTER;
-		alive.setLayoutData(gd);
-		alive.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
-		createActionSelection(composite, "on_activated");
-		createActionSelection(composite, "on_deactivated");
-		createActionSelection(composite, "on_aborting");
-		createActionSelection(composite, "on_error");
-		createActionSelection(composite, "on_reset");
-		//
-		//
-		Composite cmpDataFlow = toolkit.createComposite(composite, SWT.NULL);
-		gl = new GridLayout(1, false);
-		cmpDataFlow.setLayout(gl);
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		cmpDataFlow.setLayoutData(gd);
-		cmpDataFlow.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
-		//
-		Label dataflow = toolkit.createLabel(cmpDataFlow, IMessageConstants.ACTIVITY_LBL_DATAFLOW);
-		gd = new GridData(GridData.FILL_BOTH);
-		gd.horizontalAlignment = GridData.CENTER;
-		dataflow.setLayoutData(gd);
-		dataflow.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
-		createActionSelection(composite, "on_execute");
-		createActionSelection(composite, "on_state_update");
-		createActionSelection(composite, "on_rate_changed");
-		//
-		//
-		Composite cmpFsm = toolkit.createComposite(composite, SWT.NULL);
-		gl = new GridLayout(1, false);
-		cmpFsm.setLayout(gl);
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		cmpFsm.setLayoutData(gd);
-		cmpFsm.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
-		//
-		Label fsm = toolkit.createLabel(cmpFsm, IMessageConstants.ACTIVITY_LBL_FSM);
-		gd = new GridData(GridData.FILL_BOTH);
-		gd.horizontalAlignment = GridData.CENTER;
-		fsm.setLayoutData(gd);
-		fsm.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
-		createActionSelection(composite, "on_action");
-		//
-		//
-		Composite cmpMode = toolkit.createComposite(composite, SWT.NULL);
+		createInitFinalSection(toolkit, composite);
+		createStartShutSection(toolkit, composite);
+		createAliveSection(toolkit, composite);
+		createDataFlowSection(toolkit, composite);
+		createModeSection(toolkit, composite);
+	}
+
+	private void createModeSection(FormToolkit toolkit, Composite parent) {
+		GridLayout gl;
+		GridData gd;
+		Composite cmpMode = toolkit.createComposite(parent, SWT.NULL);
 		gl = new GridLayout(1, false);
 		cmpMode.setLayout(gl);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -170,31 +96,130 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 		gd.horizontalAlignment = GridData.CENTER;
 		mode.setLayoutData(gd);
 		mode.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
-		createActionSelection(composite, "on_mode_changed");
+		createActionSelection(parent, "on_mode_changed");
+	}
+
+	private void createDataFlowSection(FormToolkit toolkit, Composite parent) {
+		GridLayout gl;
+		GridData gd;
+		Composite cmpDataFlow = toolkit.createComposite(parent, SWT.NULL);
+		gl = new GridLayout(1, false);
+		cmpDataFlow.setLayout(gl);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		cmpDataFlow.setLayoutData(gd);
+		cmpDataFlow.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
 		//
+		Label dataflow = toolkit.createLabel(cmpDataFlow, IMessageConstants.ACTIVITY_LBL_DATAFLOW);
+		gd = new GridData(GridData.FILL_BOTH);
+		gd.horizontalAlignment = GridData.CENTER;
+		dataflow.setLayoutData(gd);
+		dataflow.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		createActionSelection(parent, "on_execute");
+		createActionSelection(parent, "on_state_update");
+		createActionSelection(parent, "on_rate_changed");
+		createFsmSection(toolkit, parent);
+	}
+
+	private void createFsmSection(FormToolkit toolkit, Composite parent) {
+		GridLayout gl;
+		GridData gd;
+		Composite cmpFsm = toolkit.createComposite(parent, SWT.NULL);
+		gl = new GridLayout(1, false);
+		cmpFsm.setLayout(gl);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		cmpFsm.setLayoutData(gd);
+		cmpFsm.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		//
+		Label fsm = toolkit.createLabel(cmpFsm, IMessageConstants.ACTIVITY_LBL_FSM);
+		gd = new GridData(GridData.FILL_BOTH);
+		gd.horizontalAlignment = GridData.CENTER;
+		fsm.setLayoutData(gd);
+		fsm.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		createActionSelection(parent, "on_action");
+	}
+
+	private void createAliveSection(FormToolkit toolkit, Composite parent) {
+		GridLayout gl;
+		GridData gd;
+		Composite cmpAlive = toolkit.createComposite(parent, SWT.NULL);
+		gl = new GridLayout(1, false);
+		cmpAlive.setLayout(gl);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		cmpAlive.setLayoutData(gd);
+		cmpAlive.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		//
+		Label alive = toolkit.createLabel(cmpAlive, IMessageConstants.ACTIVITY_LBL_ALIVE);
+		gd = new GridData(GridData.FILL_BOTH);
+		gd.horizontalAlignment = GridData.CENTER;
+		alive.setLayoutData(gd);
+		alive.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		createActionSelection(parent, "on_activated");
+		createActionSelection(parent, "on_deactivated");
+		createActionSelection(parent, "on_aborting");
+		createActionSelection(parent, "on_error");
+		createActionSelection(parent, "on_reset");
+	}
+
+	private void createStartShutSection(FormToolkit toolkit, Composite parent) {
+		GridLayout gl;
+		GridData gd;
+		Composite cmpStartEnd = toolkit.createComposite(parent, SWT.NULL);
+		gl = new GridLayout(1, false);
+		cmpStartEnd.setLayout(gl);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		cmpStartEnd.setLayoutData(gd);
+		cmpStartEnd.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		//
+		Label startEnd = toolkit.createLabel(cmpStartEnd, IMessageConstants.ACTIVITY_LBL_START_END);
+		gd = new GridData(GridData.FILL_BOTH);
+		gd.horizontalAlignment = GridData.CENTER;
+		startEnd.setLayoutData(gd);
+		startEnd.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		createActionSelection(parent, "on_startup");
+		createActionSelection(parent, "on_shutdown");
+	}
+
+	private void createInitFinalSection(FormToolkit toolkit, Composite parent) {
+		Composite cmpInitFinal = toolkit.createComposite(parent, SWT.NULL);
+		GridLayout gl = new GridLayout(1, false);
+		cmpInitFinal.setLayout(gl);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		cmpInitFinal.setLayoutData(gd);
+		cmpInitFinal.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		//
+		Label initFinal = toolkit.createLabel(cmpInitFinal, IMessageConstants.ACTIVITY_LBL_INIT_FINAL);
+		gd = new GridData(GridData.FILL_BOTH);
+		gd.horizontalAlignment = GridData.CENTER;
+		initFinal.setLayoutData(gd);
+		initFinal.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		createActionSelection(parent, "on_initialize");
+		createActionSelection(parent, "on_finalize");
 	}
 
 	private void createActionSelection(Composite composite, String actionName) {
 		Button impl = new Button(composite, SWT.CHECK);
 		impl.setText(actionName);
 		impl.addSelectionListener(new SelectionListener() {
-			  public void widgetDefaultSelected(SelectionEvent e){
-			  }
-			  public void widgetSelected(SelectionEvent e){
-				  if( preSelection >= 0 ) {
-					  editor.getRtcParam().setDocActionOverView(preSelection, getDocText(activityText.getText()));
-					  editor.getRtcParam().setDocActionPreCondition(preSelection, getDocText(preConditionText.getText()));
-					  editor.getRtcParam().setDocActionPostCondition(preSelection, getDocText(postConditionText.getText()));
-				  }
-				  int index = implChk.indexOf(e.getSource());
-				  editor.getRtcParam().setActionImplemented(index, implChk.get(index).getSelection());
-				  actionNameText.setText(IRtcBuilderConstants.ACTION_TYPE_ITEMS[index]);
-				  activityText.setText(getDisplayDocText(editor.getRtcParam().getDocActionOverView(index)));
-				  preConditionText.setText(getDisplayDocText(editor.getRtcParam().getDocActionPreCondition(index)));
-				  postConditionText.setText(getDisplayDocText(editor.getRtcParam().getDocActionPostCondition(index)));
-				  preSelection = index;
-			  }
-			});
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+
+			public void widgetSelected(SelectionEvent e) {
+				RtcParam rtcParam = editor.getRtcParam();
+				if (preSelection >= 0) {
+					rtcParam.setDocActionOverView(preSelection, getDocText(activityText.getText()));
+					rtcParam.setDocActionPreCondition(preSelection, getDocText(preConditionText.getText()));
+					rtcParam.setDocActionPostCondition(preSelection, getDocText(postConditionText.getText()));
+				}
+				int index = implChk.indexOf(e.getSource());
+				rtcParam.setActionImplemented(index, implChk.get(index).getSelection());
+				actionNameText.setText(IRtcBuilderConstants.ACTION_TYPE_ITEMS[index]);
+				activityText.setText(getDisplayDocText(rtcParam.getDocActionOverView(index)));
+				preConditionText.setText(getDisplayDocText(rtcParam.getDocActionPreCondition(index)));
+				postConditionText.setText(getDisplayDocText(rtcParam.getDocActionPostCondition(index)));
+				preSelection = index;
+				update();
+			}
+		});
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		impl.setLayoutData(gridData);
 		implChk.add(impl);
@@ -249,7 +274,7 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 	public void update() {
 		RtcParam rtcParam = editor.getRtcParam();
 
-		if( preSelection >= 0 ) {
+		if (preSelection >= 0) {
 			rtcParam.setDocActionOverView(preSelection, getDocText(activityText.getText()));
 			rtcParam.setDocActionPreCondition(preSelection, getDocText(preConditionText.getText()));
 			rtcParam.setDocActionPostCondition(preSelection, getDocText(postConditionText.getText()));

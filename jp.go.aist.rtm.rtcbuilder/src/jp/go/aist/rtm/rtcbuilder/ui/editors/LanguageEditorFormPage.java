@@ -29,6 +29,7 @@ import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
@@ -211,15 +212,9 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 
 		targetTableViewer.setLabelProvider(new LibraryLabelProvider());
 
-		TableColumn nameColumn = new TableColumn(targetTableViewer.getTable(), SWT.NONE);
-		nameColumn.setText("Name");
-		nameColumn.setWidth(130);
-		TableColumn versionColumn = new TableColumn(targetTableViewer.getTable(), SWT.NONE);
-		versionColumn.setText("Version");
-		versionColumn.setWidth(130);
-		TableColumn otherColumn = new TableColumn(targetTableViewer.getTable(), SWT.NONE);
-		otherColumn.setText("Info.");
-		otherColumn.setWidth(130);
+		createColumnToTableViewer(targetTableViewer,"Name", 130);
+		createColumnToTableViewer(targetTableViewer,"Version", 130);
+		createColumnToTableViewer(targetTableViewer,"Info.", 130);
 
 
 		targetTableViewer.setColumnProperties(new String[] {
@@ -368,12 +363,8 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 
 		targetTableViewer.setLabelProvider(new VersionLabelProvider());
 
-		TableColumn versionColumn = new TableColumn(targetTableViewer.getTable(), SWT.NONE);
-		versionColumn.setText("Version");
-		versionColumn.setWidth(200);
-		TableColumn osColumn = new TableColumn(targetTableViewer.getTable(), SWT.NONE);
-		osColumn.setText("OS");
-		osColumn.setWidth(200);
+		createColumnToTableViewer(targetTableViewer,"Version", 200);
+		createColumnToTableViewer(targetTableViewer,"OS", 200);
 
 		targetTableViewer.setColumnProperties(new String[] {
 				LANGUAGE_PROPERTY_VERSION, LANGUAGE_PROPERTY_OS});
@@ -427,7 +418,9 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 					osOther.setText("");
 					cpuOther.setText("");
 					libraryViewer.setInput(null);
-					
+					//
+					setEnvSectionEnabled(true);
+					//
 					update();
 				}
 			}
@@ -452,6 +445,8 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 					cpuOther.setText(getValue(selectParam.getCpuOther()));
 					//
 					libraryViewer.setInput(selectParam.getLibraries());
+					//
+					setEnvSectionEnabled(true);
 				}
 			}
 		});
@@ -459,50 +454,63 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	public void update() {
-		if(cppRadio != null ) {
+		if (cppRadio != null) {
 			// 以下、cppRadioが有効な場合のみ実行する
 			// →この画面が表示される前にこの処理が呼ばれた場合は、なにもしない
 			// ∵rtcParamが画面に反映される前にクリアしてしまうとまずいため
 			RtcParam rtcParam = editor.getRtcParam();
-			if( rtcParam.getLangList() != null ) {
-				rtcParam.getLangList().clear();
-				rtcParam.getLangArgList().clear();
+
+			List<String> langList = new ArrayList<String>();
+			List<String> langArgList = new ArrayList<String>();
+			String rtmVersion = null;
+
+			if (cppRadio.getSelection()) {
+				langList.add(IRtcBuilderConstants.LANG_CPP);
+				langArgList.add(IRtcBuilderConstants.LANG_CPP_ARG);
+				rtmVersion = IRtcBuilderConstants.RTM_VERSION_100;
 			}
-			if( cppRadio.getSelection() ) {
-				rtcParam.getLangList().add(IRtcBuilderConstants.LANG_CPP);
-				rtcParam.getLangArgList().add(IRtcBuilderConstants.LANG_CPP_ARG);
-				rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
-//				rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_042);
-			}
-			if( buttonList != null ) {
-				for( Iterator<Button> iter = buttonList.iterator(); iter.hasNext(); ) {
-					Button extButton = iter.next();
-					if( extButton.getSelection() ) {
-						for( Iterator<GenerateManager> iterMng = managerList.iterator(); iterMng.hasNext(); ) {
-							GenerateManager manager = iterMng.next();
-							if(extButton.getText().trim().equals(manager.getManagerKey())) {
-								rtcParam.getLangList().add(manager.getManagerKey());
-								rtcParam.getLangArgList().add(manager.getManagerKey());
-								rtcParam.setRtmVersion(manager.getTargetVersion());
-								break;
-							}
+			if (buttonList != null) {
+				for (Button extButton : buttonList) {
+					if (!extButton.getSelection()) {
+						continue;
+					}
+					for (GenerateManager manager : managerList) {
+						if (!extButton.getText().trim().equals(
+								manager.getManagerKey())) {
+							continue;
 						}
+						langList.add(manager.getManagerKey());
+						langArgList.add(manager.getManagerKey());
+						rtmVersion = manager.getTargetVersion();
 						break;
 					}
+					break;
 				}
 			}
-			StructuredSelection selection = (StructuredSelection)langVersionViewer.getSelection();
-			TargetEnvParam selectParam = (TargetEnvParam)selection.getFirstElement();
-			if( selectParam != null ) {
+			if (!rtcParam.getLangList().equals(langList)) {
+				rtcParam.getLangList().clear();
+				rtcParam.getLangList().addAll(langList);
+				rtcParam.getLangArgList().clear();
+				rtcParam.getLangArgList().addAll(langArgList);
+				rtcParam.setRtmVersion(rtmVersion);
+			}
+			//
+			StructuredSelection selection = (StructuredSelection) langVersionViewer.getSelection();
+			TargetEnvParam selectParam = (TargetEnvParam) selection.getFirstElement();
+			if (selectParam != null) {
 				ArrayList<String> targets = new ArrayList<String>();
-				SingleLabelUtil.convertSingleItems2Strings((ArrayList<SingleLabelItem>)osVersionViewer.getInput(), targets);
-				selectParam.getOsVersions().clear();
-				selectParam.getOsVersions().addAll(targets);
+				SingleLabelUtil.convertSingleItems2Strings((ArrayList<SingleLabelItem>) osVersionViewer.getInput(), targets);
+				if (!selectParam.getOsVersions().equals(targets)) {
+					selectParam.getOsVersions().clear();
+					selectParam.getOsVersions().addAll(targets);
+				}
 				//
 				targets = new ArrayList<String>();
-				SingleLabelUtil.convertSingleItems2Strings((ArrayList<SingleLabelItem>)cpuTypesViewer.getInput(), targets);
-				selectParam.getCpus().clear();
-				selectParam.getCpus().addAll(targets);
+				SingleLabelUtil.convertSingleItems2Strings((ArrayList<SingleLabelItem>) cpuTypesViewer.getInput(), targets);
+				if (!selectParam.getCpus().equals(targets)) {
+					selectParam.getCpus().clear();
+					selectParam.getCpus().addAll(targets);
+				}
 				//
 				selectParam.setOther(getText(osOther.getText()));
 				selectParam.setCpuOther(getText(cpuOther.getText()));
@@ -516,36 +524,45 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 	 * データをロードする
 	 */
 	public void load() {
+		if (cppRadio == null) {
+			return;
+		}
+		//
 		RtcParam rtcParam = editor.getRtcParam();
-		
-		if( langVersionViewer != null ) {
-			langVersionViewer.setInput(rtcParam.getTargetEnvs());
-		}
-
-		if( rtcParam.getLangList().contains(IRtcBuilderConstants.LANG_CPP) ||
-				rtcParam.getLangList().contains(IRtcBuilderConstants.LANG_CPPWIN)) {
-			if( cppRadio != null ) {
-				cppRadio.setSelection(true);
-			}
-		}else{
+		if (rtcParam.getLangList().contains(IRtcBuilderConstants.LANG_CPP)
+				|| rtcParam.getLangList().contains(
+						IRtcBuilderConstants.LANG_CPPWIN)) {
+			cppRadio.setSelection(true);
+		} else {
 			// rtcParam.getLangList()に含まれない場合は選択解除
-			if( cppRadio != null ) {
-				cppRadio.setSelection(false);
-			}
+			cppRadio.setSelection(false);
 		}
-		if( buttonList!=null ) {
-			for( Iterator<Button> iter = buttonList.iterator(); iter.hasNext(); ) {
-				Button chkButton = iter.next();
-				if(rtcParam.getLangList().contains(chkButton.getText().trim())) {
+		if (buttonList != null) {
+			for (Button chkButton : buttonList) {
+				if (rtcParam.getLangList().contains(chkButton.getText().trim())) {
 					chkButton.setSelection(true);
-				}else{
+				} else {
 					// rtcParam.getLangList()に含まれない場合は選択解除
 					chkButton.setSelection(false);
 				}
 			}
 		}
+		//
+		langVersionViewer.setInput(rtcParam.getTargetEnvs());
+		//
+		StructuredSelection selection = (StructuredSelection) langVersionViewer
+				.getSelection();
+		TargetEnvParam selectParam = (TargetEnvParam) selection
+				.getFirstElement();
+		if (selectParam == null) {
+			osVersionViewer.setInput(null);
+			cpuTypesViewer.setInput(null);
+			osOther.setText("");
+			cpuOther.setText("");
+			libraryViewer.setInput(null);
+		}
 	}
-	
+
 	public String validateParam() {
 		String result = null;
 
@@ -570,23 +587,40 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		}
 		setEnvSectionEnabled(selected);
 	}
-	
-	private void setEnvSectionEnabled(boolean value){
+
+	private void setEnvSectionEnabled(boolean value) {
+		Color enableColor = getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND);
+		Color disnableColor = getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW);
+		//
+		StructuredSelection selection = (StructuredSelection) langVersionViewer
+				.getSelection();
+		TargetEnvParam selectParam = (TargetEnvParam) selection
+				.getFirstElement();
+		//
 		envSection.setEnabled(value);
-		if( value ){
-			langVersionViewer.getControl().setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
-			osVersionViewer.getControl().setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
-			cpuTypesViewer.getControl().setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
-			osOther.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
-			cpuOther.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
-			libraryViewer.getControl().setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
-		}else{
-			langVersionViewer.getControl().setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
-			osVersionViewer.getControl().setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
-			cpuTypesViewer.getControl().setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
-			osOther.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
-			cpuOther.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
-			libraryViewer.getControl().setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
+		//
+		if (value) {
+			langVersionViewer.getControl().setBackground(enableColor);
+		} else {
+			langVersionViewer.getControl().setBackground(disnableColor);
+		}
+		//
+		if (value && selectParam != null) {
+			osVersionViewer.getControl().setBackground(enableColor);
+			cpuTypesViewer.getControl().setBackground(enableColor);
+			osOther.setEnabled(true);
+			cpuOther.setEnabled(true);
+			osOther.setBackground(enableColor);
+			cpuOther.setBackground(enableColor);
+			libraryViewer.getControl().setBackground(enableColor);
+		} else {
+			osVersionViewer.getControl().setBackground(disnableColor);
+			cpuTypesViewer.getControl().setBackground(disnableColor);
+			osOther.setEnabled(false);
+			cpuOther.setEnabled(false);
+			osOther.setBackground(disnableColor);
+			cpuOther.setBackground(disnableColor);
+			libraryViewer.getControl().setBackground(disnableColor);
 		}
 	}
 

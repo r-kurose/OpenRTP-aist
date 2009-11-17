@@ -21,7 +21,9 @@ import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
 /**
  * RTCを表すクラス
  */
-public class RtcParam implements Serializable {
+public class RtcParam extends AbstractRecordedParam implements Serializable {
+
+	private static final long serialVersionUID = -1249129059979166069L;
 
 	private GeneratorParam parent;
 
@@ -39,29 +41,29 @@ public class RtcParam implements Serializable {
 	private String componentKind;
 	private int maxInstance;
 	private String updateDate;
-	private List<String> versionUpLog = new ArrayList<String>();
+	private RecordedList<String> versionUpLog = new RecordedList<String>();
 	private String executionType;
 	private double executionRate;
 	private String rtcType;
 	private String currentVULog;
 	//データポート
-	private List<DataPortParam> inports = new ArrayList<DataPortParam>();
-	private List<DataPortParam> outports = new ArrayList<DataPortParam>();
+	private RecordedList<DataPortParam> inports = new RecordedList<DataPortParam>();
+	private RecordedList<DataPortParam> outports = new RecordedList<DataPortParam>();
 	//サービスポート
-	private List<ServicePortParam> serviceports = new ArrayList<ServicePortParam>();
-//	private List<String> idlSearchPathes = new ArrayList<String>();
-	private String includeIDLPath = null;
+	private RecordedList<ServicePortParam> serviceports = new RecordedList<ServicePortParam>();
+//	private List<String> idlSearchPathes = new RecordedList<String>();
+//	private String includeIDLPath = null;
 	//
-	private List<ServiceClassParam> serviceClassParams = new ArrayList<ServiceClassParam>();
+	private RecordedList<ServiceClassParam> serviceClassParams = new RecordedList<ServiceClassParam>();
 	//コンフィギュレーション
-	private List<ConfigSetParam> configParams = new ArrayList<ConfigSetParam>();
-	private List<ConfigParameterParam> configParameterParams = new ArrayList<ConfigParameterParam>();
+	private RecordedList<ConfigSetParam> configParams = new RecordedList<ConfigSetParam>();
+	private RecordedList<ConfigParameterParam> configParameterParams = new RecordedList<ConfigParameterParam>();
 	//言語・環境
-	private List<String> langList = new ArrayList<String>();
-	private List<String> langArgList = new ArrayList<String>();
-	private List<String> libraryPath = new ArrayList<String>();
+	private RecordedList<String> langList = new RecordedList<String>();
+	private RecordedList<String> langArgList = new RecordedList<String>();
+	private RecordedList<String> libraryPath = new RecordedList<String>();
 	private String architecture = new String();
-	private List<TargetEnvParam> targetEnvs = new ArrayList<TargetEnvParam>();
+	private RecordedList<TargetEnvParam> targetEnvs = new RecordedList<TargetEnvParam>();
 	//RTC.xml
 	private String rtcxml;
 	//ドキュメント
@@ -69,13 +71,13 @@ public class RtcParam implements Serializable {
 	private String doc_in_out;
 	private String doc_algorithm;
 	//
-	private List<ActionsParam> actions;
+	private RecordedList<ActionsParam> actions;
 	//
 	private String doc_creator;
 	private String doc_license;
 	private String doc_reference;
 	//Properties
-	private List<PropertyParam> properties = new ArrayList<PropertyParam>();
+	private RecordedList<PropertyParam> properties = new RecordedList<PropertyParam>();
 	//
 	private String outputProject = null;
 
@@ -83,16 +85,17 @@ public class RtcParam implements Serializable {
 
 	private List<IdlFileParam> providerIdlPathes = new ArrayList<IdlFileParam>();
 	private List<IdlFileParam> consumerIdlPathes = new ArrayList<IdlFileParam>();
-
 	private List<String> originalProviderIdls = new ArrayList<String>();
 	private List<String> originalConsumerIdls = new ArrayList<String>();
+	
+	private List<String> includedIdls = new ArrayList<String>();
 
-	private List<String> privateAttributes = new ArrayList<String>();
-	private List<String> protectedAttributes = new ArrayList<String>();
-	private List<String> publicAttributes = new ArrayList<String>();
-	private List<String> privateOperations = new ArrayList<String>();
-	private List<String> protectedOperations = new ArrayList<String>();
-	private List<String> publicOperations = new ArrayList<String>();
+	private RecordedList<String> privateAttributes = new RecordedList<String>();
+	private RecordedList<String> protectedAttributes = new RecordedList<String>();
+	private RecordedList<String> publicAttributes = new RecordedList<String>();
+	private RecordedList<String> privateOperations = new RecordedList<String>();
+	private RecordedList<String> protectedOperations = new RecordedList<String>();
+	private RecordedList<String> publicOperations = new RecordedList<String>();
 	//
 	//Prefix,Suffix
 	private String commonPrefix;
@@ -113,60 +116,46 @@ public class RtcParam implements Serializable {
 	public RtcParam(GeneratorParam parent) {
 		this(parent, false);
 	}
+
 	public RtcParam(GeneratorParam parent, boolean isTest) {
 		this.parent = parent;
 		//
-		if( !isTest ) {
+		if (!isTest) {
 			DatatypeFactory dateFactory = new DatatypeFactoryImpl();
-			String dateTime = dateFactory.newXMLGregorianCalendar(new GregorianCalendar()).toString();
+			String dateTime = dateFactory.newXMLGregorianCalendar(
+					new GregorianCalendar()).toString();
 			ProfileHandler handler = new ProfileHandler();
 			rtcxml = handler.createInitialRtcXml(dateTime);
 			this.creationDate = dateTime;
 			this.updateDate = dateTime;
 		}
 		//
-		actions = new ArrayList<ActionsParam>();
-		for( int intidx=IRtcBuilderConstants.ACTIVITY_INITIALIZE; intidx<IRtcBuilderConstants.ACTIVITY_MODE_CHANGED+1; intidx++) {
+		actions = new RecordedList<ActionsParam>();
+		for (int intidx = IRtcBuilderConstants.ACTIVITY_INITIALIZE; intidx < IRtcBuilderConstants.ACTIVITY_MODE_CHANGED + 1; intidx++) {
 			actions.add(new ActionsParam());
 		}
+		//
+		setUpdated(false);
 	}
 
 	public List<String> getPrivateOperations() {
 		return privateOperations;
 	}
-	public void setPrivateOperations(List<String> private_Operations) {
-		this.privateOperations = private_Operations;
-	}
 	public List<String> getProtectedOperations() {
 		return protectedOperations;
 	}
-	public void setProtectedOperations(List<String> protected_Operations) {
-		this.protectedOperations = protected_Operations;
-	}
 	public List<String> getPublicOperations() {
 		return publicOperations;
-	}
-	public void setPublicOperations(List<String> public_Operations) {
-		this.publicOperations = public_Operations;
 	}
 
 	public List<String> getPrivateAttributes() {
 		return privateAttributes;
 	}
-	public void setPrivateAttributes(List<String> private_Attribute) {
-		this.privateAttributes = private_Attribute;
-	}
 	public List<String> getProtectedAttributes() {
 		return protectedAttributes;
 	}
-	public void setProtectedAttributes(List<String> protected_Attribute) {
-		this.protectedAttributes = protected_Attribute;
-	}
 	public List<String> getPublicAttributes() {
 		return publicAttributes;
-	}
-	public void setPublicAttributes(List<String> public_Attribute) {
-		this.publicAttributes = public_Attribute;
 	}
 
 	public String getSchemaVersion() {
@@ -174,6 +163,7 @@ public class RtcParam implements Serializable {
 	}
 	//
 	public void setSchemaVersion(String version) {
+		checkUpdated(this.schemaVersion, version);
 		this.schemaVersion = version;
 	}
 	//基本
@@ -233,54 +223,70 @@ public class RtcParam implements Serializable {
 	}
 	//
 	public void setAbstract(String abst) {
+		checkUpdated(this.abstractDesc, abst);
 		this.abstractDesc = abst;
 	}
 	public void setCreationDate(String date) {
+		checkUpdated(this.creationDate, date);
 		this.creationDate = date;
 	}
 	public void setUpdateDate(String date) {
+		checkUpdated(this.updateDate, date);
 		this.updateDate = date;
 	}
-	public void setVersionUpLog(List<String> log) {
-		this.versionUpLog = log;
-	}
 	public void setName(String name) {
+		checkUpdated(this.name, name);
 		this.name = name;
 	}
 	public void setCategory(String category) {
+		checkUpdated(this.category, category);
 		this.category = category;
 	}
 	public void setDescription(String desc) {
+		checkUpdated(this.description, desc);
 		this.description = desc;
 	}
 	public void setVersion(String version) {
+		checkUpdated(this.version, version);
 		this.version = version;
 	}
 	public void setVender(String vender) {
+		checkUpdated(this.vender, vender);
 		this.vender = vender;
 	}
 	public void setComponentType(String comp_type) {
+		checkUpdated(this.componentType, comp_type);
 		this.componentType = comp_type;
 	}
 	public void setActivityType(String act_type) {
+		checkUpdated(this.activityType, act_type);
 		this.activityType = act_type;
 	}
 	public void setComponentKind(String comp_kind) {
+		checkUpdated(this.componentKind, comp_kind);
 		this.componentKind = comp_kind;
 	}
 	public void setMaxInstance(int maxInst) {
+		checkUpdated(new Integer(this.maxInstance), new Integer(maxInst));
 		this.maxInstance = maxInst;
 	}
 	public void setExecutionType(String exec_type) {
+		checkUpdated(this.executionType, exec_type);
 		this.executionType = exec_type;
 	}
 	public void setExecutionRate(double exec_rate) {
+		checkUpdated(new Double(this.executionRate), new Double(exec_rate));
 		this.executionRate = exec_rate;
 	}
 	public void setRtcType(String rtc_type) {
+		checkUpdated(this.rtcType, rtc_type);
 		this.rtcType = rtc_type;
 	}
 	public void setCurrentVersionUpLog(String cvulog) {
+		if (cvulog != null && this.currentVULog == null) {
+			this.currentVULog = "";
+		}
+		checkUpdated(this.currentVULog, cvulog);
 		this.currentVULog = cvulog;
 	}
 	//データポート
@@ -290,26 +296,9 @@ public class RtcParam implements Serializable {
 	public List<DataPortParam> getOutports() {
 		return outports;
 	}
-	//
-	public void setInports(List<DataPortParam> inports) {
-		this.inports = inports;
-	}
-	public void setOutports(List<DataPortParam> outport) {
-		this.outports = outport;
-	}
 	//サービスポート
 	public List<ServicePortParam> getServicePorts() {
 		return serviceports;
-	}
-	public void setServicePorts(List<ServicePortParam> serviceport) {
-		this.serviceports = serviceport;
-	}
-	//
-	public String getIncludeIDLPath() {
-		return includeIDLPath;
-	}
-	public void setIncludeIDLPath(String includeIdlPath) {
-		this.includeIDLPath = includeIdlPath;
 	}
 
 	public List<ServiceClassParam> getServiceClassParams() {
@@ -323,18 +312,12 @@ public class RtcParam implements Serializable {
 	public List<ConfigParameterParam> getConfigParameterParams() {
 		return configParameterParams;
 	}
-	//
-	public void setConfigParams(List<ConfigSetParam> configParam) {
-		this.configParams = configParam;
-	}
-	public void setConfigParameterParams(List<ConfigParameterParam> configParameterParam) {
-		this.configParameterParams = configParameterParam;
-	}
 	//RTC.xml
 	public String getRtcXml() {
 		return rtcxml;
 	}
 	public void setRtcXml(String rtcXml) {
+		checkUpdated(this.rtcxml, rtcXml);
 		this.rtcxml = rtcXml;
 	}
 	//言語・環境
@@ -362,22 +345,22 @@ public class RtcParam implements Serializable {
 	//
 	public void setLanguage(String lang) {
 		if (lang != null) {
-			this.langList = Arrays.asList(lang.split(","));
+			// this.langList = Arrays.asList(lang.split(","));
+			getLangList().clear();
+			getLangList().addAll(Arrays.asList(lang.split(",")));
 		}
 	}
 	public void setLanguageArg(String lang) {
 		if (lang != null) {
-			this.langArgList = Arrays.asList(lang.split(","));
+			// this.langArgList = Arrays.asList(lang.split(","));
+			getLangArgList().clear();
+			getLangArgList().addAll(Arrays.asList(lang.split(",")));
 		}
 	}
-	public void setLibraryPathes(List<String> libraryPathes) {
-		this.libraryPath = libraryPathes;
-	}
+
 	public void setArchitecture(String arch) {
+		checkUpdated(this.architecture, arch);
 		this.architecture = arch;
-	}
-	public void setTargetEnvs(List<TargetEnvParam> envs) {
-		this.targetEnvs = envs;
 	}
 	//
 	public boolean isLanguageExist(String language) {
@@ -390,7 +373,7 @@ public class RtcParam implements Serializable {
 		}
 		return result;
 	}
-	
+
 	//ドキュメント-Component
 	public boolean isDocExist() {
 		if( (doc_description==null || doc_description.equals("")) &&
@@ -416,12 +399,15 @@ public class RtcParam implements Serializable {
 	}
 	//
 	public void setDocDescription(String description) {
+		checkUpdated(this.doc_description, description);
 		this.doc_description = description;
 	}
 	public void setDocInOut(String inout) {
+		checkUpdated(this.doc_in_out, inout);
 		this.doc_in_out = inout;
 	}
 	public void setDocAlgorithm(String algorithm) {
+		checkUpdated(this.doc_algorithm, algorithm);
 		this.doc_algorithm = algorithm;
 	}
 	//Actions
@@ -444,10 +430,6 @@ public class RtcParam implements Serializable {
 		return !actions.get(actionId).getImplemented();
 	}
 	public boolean getActionImplemented(int actionId) {
-//	public String getActionImplemented(int actionId) {
-//		if( actions.get(actionId).getImplemented() )
-//			return "true";
-//		return "false";
 		return actions.get(actionId).getImplemented();
 	}
 	public String getDocActionOverView(int actionId) {
@@ -496,12 +478,15 @@ public class RtcParam implements Serializable {
 	}
 	//
 	public void setDocCreator(String creator) {
+		checkUpdated(this.doc_creator, creator);
 		this.doc_creator = creator;
 	}
 	public void setDocLicense(String license) {
+		checkUpdated(this.doc_license, license);
 		this.doc_license = license;
 	}
 	public void setDocReference(String reference) {
+		checkUpdated(this.doc_reference, reference);
 		this.doc_reference = reference;
 	}
 
@@ -534,6 +519,7 @@ public class RtcParam implements Serializable {
 	}
 
 	public void setOutputProject(String outputDirectory) {
+		checkUpdated(this.outputProject, outputDirectory);
 		this.outputProject = outputDirectory;
 	}
 
@@ -553,31 +539,19 @@ public class RtcParam implements Serializable {
 		return providerIdlPathes;
 	}
 
-	public void setProviderIdlPathes(List<IdlFileParam> idlFiles) {
-		this.providerIdlPathes = idlFiles;
-	}
-
 	public List<IdlFileParam> getConsumerIdlPathes() {
 		return consumerIdlPathes;
-	}
-
-	public void setConsumerIdlPathes(List<IdlFileParam> idlFiles) {
-		this.consumerIdlPathes = idlFiles;
 	}
 
 	public List<String> getOriginalProviderIdls() {
 		return originalProviderIdls;
 	}
-	public void setOriginalProviderIdls(List<String> idlFiles) {
-		this.originalProviderIdls = idlFiles;
-	}
-
 	public List<String> getOriginalConsumerIdls() {
 		return originalConsumerIdls;
 	}
 
-	public void setOriginalConsumerIdls(List<String> idlFiles) {
-		this.originalConsumerIdls = idlFiles;
+	public List<String> getIncludedIdls() {
+		return includedIdls;
 	}
 	//
 	public String getCommonPrefix() {
@@ -711,20 +685,25 @@ public class RtcParam implements Serializable {
 			}
 		}
 		//
-		this.setProviderIdlPathes(providerIdlParams);
-		this.setConsumerIdlPathes(consumerIdlParams);
-		this.setOriginalProviderIdls(providerIdlStrings);
-		this.setOriginalConsumerIdls(originalConsumerIdlPathList);
-		//
-		
+		getProviderIdlPathes().clear();
+		getProviderIdlPathes().addAll(providerIdlParams);
+		getConsumerIdlPathes().clear();
+		getConsumerIdlPathes().addAll(consumerIdlParams);
+		getOriginalProviderIdls().clear();
+		getOriginalProviderIdls().addAll(providerIdlStrings);
+		getOriginalConsumerIdls().clear();
+		getOriginalConsumerIdls().addAll(originalConsumerIdlPathList);
+
 		//クラスパスの重複削除
 		ArrayList<String> libraries = new ArrayList<String>();
-		for( String library : this.getLibraryPathes() ) {
-			if( !libraries.contains(library)) {
+		for (String library : this.getLibraryPathes()) {
+			if (!libraries.contains(library)) {
 				libraries.add(library);
 			}
 		}
-		this.setLibraryPathes(libraries);
+		getLibraryPathes().clear();
+		getLibraryPathes().addAll(libraries);
+		// this.setLibraryPathes(libraries);
 	}
 	//
 	public String getRtmVersion() {
@@ -748,4 +727,52 @@ public class RtcParam implements Serializable {
 		}
 		return false;
 	}
+
+	@Override
+	public boolean isUpdated() {
+		if (super.isUpdated()) {
+			return true;
+		}
+		if (this.langList.isUpdated() || this.langArgList.isUpdated()) {
+			return true;
+		}
+		if (this.inports.isUpdated() || this.outports.isUpdated()) {
+			return true;
+		}
+		if (this.serviceports.isUpdated()) {
+			return true;
+		}
+		if (this.configParams.isUpdated()
+				|| this.configParameterParams.isUpdated()) {
+			return true;
+		}
+		if (this.actions.isUpdated()) {
+			return true;
+		}
+		if (this.targetEnvs.isUpdated()) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public void resetUpdated() {
+		super.resetUpdated();
+		//
+		this.langList.resetUpdated();
+		this.langArgList.resetUpdated();
+		//
+		this.inports.resetUpdated();
+		this.outports.resetUpdated();
+		//
+		this.serviceports.resetUpdated();
+		//
+		this.configParams.resetUpdated();
+		this.configParameterParams.resetUpdated();
+		//
+		this.actions.resetUpdated();
+		//
+		this.targetEnvs.resetUpdated();
+	}
+
 }

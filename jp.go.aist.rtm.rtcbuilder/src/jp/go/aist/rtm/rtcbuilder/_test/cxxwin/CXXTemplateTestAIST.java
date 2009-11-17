@@ -39,7 +39,7 @@ public class CXXTemplateTestAIST extends TestBase {
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "myservice0", "", "", 
 				rootPath + "resource\\CXX\\AIST5\\MyService.idl", "MyServiceT", "", 0);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 
@@ -48,9 +48,9 @@ public class CXXTemplateTestAIST extends TestBase {
 		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service1, "myservice", "", "", 
 				rootPath + "resource\\CXX\\AIST5\\MyService.idl", "MyServiceOpen", "", 0);
 		srvinterts2.add(int2);
-		service2.setServicePortInterfaces(srvinterts2);
+		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 		genParam.getRtcParams().add(rtcParam);
 
 		Generator generator = new Generator();
@@ -90,7 +90,7 @@ public class CXXTemplateTestAIST extends TestBase {
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "myservice0", "", "", 
 				rootPath + "resource\\CXX\\AIST4\\MyService.idl", "MyService", "", 0);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 
@@ -99,9 +99,9 @@ public class CXXTemplateTestAIST extends TestBase {
 		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service1, "myservice", "", "", 
 				rootPath + "resource\\CXX\\AIST4\\MyService.idl", "MyService", "", 0);
 		srvinterts2.add(int2);
-		service2.setServicePortInterfaces(srvinterts2);
+		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 		genParam.getRtcParams().add(rtcParam);
 
 		Generator generator = new Generator();
@@ -138,18 +138,18 @@ public class CXXTemplateTestAIST extends TestBase {
 
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("in", "TimedFloatSeq", "", 0));
-		rtcParam.setInports(dataport);
+		rtcParam.getInports().addAll(dataport);
 
 		List<DataPortParam> dataoutport = new ArrayList<DataPortParam>(); 
 		dataoutport.add(new DataPortParam("out", "TimedFloatSeq", "", 0));
-		rtcParam.setOutports(dataoutport);
+		rtcParam.getOutports().addAll(dataoutport);
 
 		ServicePortParam service1 = new ServicePortParam("MySVPro",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "myservice0", "", "", 
 				rootPath + "resource\\CXX\\AIST3\\MyService.idl", "MyService", "", 0);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 
@@ -158,9 +158,9 @@ public class CXXTemplateTestAIST extends TestBase {
 		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service1, "myservice1", "", "", 
 				rootPath + "resource\\CXX\\AIST3\\MyService.idl", "MyService", "", 1);
 		srvinterts2.add(int2);
-		service2.setServicePortInterfaces(srvinterts2);
+		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 		genParam.getRtcParams().add(rtcParam);
 
 		Generator generator = new Generator();
@@ -197,21 +197,21 @@ public class CXXTemplateTestAIST extends TestBase {
 
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("in", "TimedFloatSeq", "", 0));
-		rtcParam.setInports(dataport);
+		rtcParam.getInports().addAll(dataport);
 
 		List<DataPortParam> dataoutport = new ArrayList<DataPortParam>(); 
 		dataoutport.add(new DataPortParam("out", "TimedFloatSeq", "", 0));
-		rtcParam.setOutports(dataoutport);
+		rtcParam.getOutports().addAll(dataoutport);
 
 		ServicePortParam service1 = new ServicePortParam("MySVCon",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "myservice", "", "", 
 				rootPath + "resource\\CXX\\AIST2\\MyService.idl", "MyService", "", 1);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 		genParam.getRtcParams().add(rtcParam);
 
 		Generator generator = new Generator();
@@ -249,10 +249,10 @@ public class CXXTemplateTestAIST extends TestBase {
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "myservice", "", "", 
 				rootPath + "resource\\CXX\\type\\MyService.idl", "MyService", "", 0);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 		genParam.getRtcParams().add(rtcParam);
 
 		Generator generator = new Generator();
@@ -292,10 +292,10 @@ public class CXXTemplateTestAIST extends TestBase {
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "myservice", "", "", 
 				rootPath + "resource\\CXX\\AIST1\\MyService.idl", "MyService", "", 0);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 		genParam.getRtcParams().add(rtcParam);
 
 		Generator generator = new Generator();

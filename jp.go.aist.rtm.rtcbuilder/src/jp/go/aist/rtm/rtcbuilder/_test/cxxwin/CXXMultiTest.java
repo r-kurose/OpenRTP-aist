@@ -36,18 +36,18 @@ public class CXXMultiTest extends TestBase {
 		
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
 		dataInport.add(new DataPortParam("in1", "TimedShort", "", 0));
-		rtcParam.setInports(dataInport);
+		rtcParam.getInports().addAll(dataInport);
 
 		List<DataPortParam> dataOutport = new ArrayList<DataPortParam>(); 
 		dataOutport.add(new DataPortParam("out1", "TimedLong", "", 0));
-		rtcParam.setOutports(dataOutport);
+		rtcParam.getOutports().addAll(dataOutport);
 
 		ServicePortParam service1 = new ServicePortParam("MyConPro",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "myservice0", "", "", 
 				rootPath + "resource\\CXX\\Multi\\MyService.idl", "MyService", "", 1);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 
@@ -56,9 +56,9 @@ public class CXXMultiTest extends TestBase {
 		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service1, "myservice2", "", "", 
 				rootPath + "resource\\CXX\\Multi\\DAQService.idl", "DAQService", "", 1);
 		srvinterts2.add(int2);
-		service2.setServicePortInterfaces(srvinterts2);
+		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 		genParam.getRtcParams().add(rtcParam);
 		
 		Generator generator = new Generator();
@@ -93,18 +93,18 @@ public class CXXMultiTest extends TestBase {
 		
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
 		dataInport.add(new DataPortParam("in1", "TimedShort", "", 0));
-		rtcParam.setInports(dataInport);
+		rtcParam.getInports().addAll(dataInport);
 
 		List<DataPortParam> dataOutport = new ArrayList<DataPortParam>(); 
 		dataOutport.add(new DataPortParam("out1", "TimedLong", "", 0));
-		rtcParam.setOutports(dataOutport);
+		rtcParam.getOutports().addAll(dataOutport);
 
 		ServicePortParam service1 = new ServicePortParam("MySVPro",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "myservice0", "", "", 
 				rootPath + "resource\\CXX\\Multi\\MyService.idl", "MyService", "", 0);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 
@@ -113,9 +113,9 @@ public class CXXMultiTest extends TestBase {
 		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service1, "myservice2", "", "", 
 				rootPath + "resource\\CXX\\Multi\\DAQService.idl", "DAQService", "", 0);
 		srvinterts2.add(int2);
-		service2.setServicePortInterfaces(srvinterts2);
+		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 		genParam.getRtcParams().add(rtcParam);
 		
 		Generator generator = new Generator();

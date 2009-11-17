@@ -37,30 +37,34 @@ public class CXXWinIDLPathTest extends TestBase {
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("InP1", "TimedShort", "", 0));
 		dataport.add(new DataPortParam("InP2", "TimedLong", "", 0));
-		rtcParam.setInports(dataport);
+		rtcParam.getInports().addAll(dataport);
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
 		outport.add(new DataPortParam("OutP1", "TimedLong", "", 0));
 		outport.add(new DataPortParam("OutP2", "TimedFloat", "", 0));
-		rtcParam.setOutports(outport);
+		rtcParam.getOutports().addAll(outport);
 
 		ServicePortParam service1 = new ServicePortParam("svPort",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
+//		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
+//				"MyService.idl", "MyService", rootPath + "\\resource", 0);
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
-				"MyService.idl", "MyService", rootPath + "\\resource", 0);
+				rootPath + "\\resource\\MyService.idl", "MyService", rootPath + "\\resource", 0);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 		
 		ServicePortParam service2 = new ServicePortParam("cmPort",0);
 		List<ServicePortInterfaceParam> srvinterts2 = new ArrayList<ServicePortInterfaceParam>(); 
+//		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service2, "rate", "", "", 
+//				"resource\\DAQService.idl", "DAQService", rootPath, 1);
 		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service2, "rate", "", "", 
-				"resource\\DAQService.idl", "DAQService", rootPath, 1);
+				rootPath + "\\resource\\DAQService.idl", "DAQService", rootPath, 1);
 		srvinterts2.add(int2);
-		service2.setServicePortInterfaces(srvinterts2);
+		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
 		
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
@@ -97,30 +101,34 @@ public class CXXWinIDLPathTest extends TestBase {
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("InP1", "TimedShort", "", 0));
 		dataport.add(new DataPortParam("InP2", "TimedLong", "", 0));
-		rtcParam.setInports(dataport);
+		rtcParam.getInports().addAll(dataport);
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
 		outport.add(new DataPortParam("OutP1", "TimedLong", "", 0));
 		outport.add(new DataPortParam("OutP2", "TimedFloat", "", 0));
-		rtcParam.setOutports(outport);
+		rtcParam.getOutports().addAll(outport);
 
 		ServicePortParam service1 = new ServicePortParam("svPort",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
+//		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
+//				"MyService.idl", "MyService", rootPath + "\\resource", 0);
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
-				"MyService.idl", "MyService", rootPath + "\\resource", 0);
+				rootPath + "\\resource\\MyService.idl", "MyService", rootPath + "\\resource", 0);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 		
 		ServicePortParam service2 = new ServicePortParam("cmPort",0);
 		List<ServicePortInterfaceParam> srvinterts2 = new ArrayList<ServicePortInterfaceParam>(); 
+//		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service2, "rate", "", "", 
+//				"DAQService.idl", "DAQService", rootPath + "\\resource", 1);
 		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service2, "rate", "", "", 
-				"DAQService.idl", "DAQService", rootPath + "\\resource", 1);
+				rootPath + "\\resource\\DAQService.idl", "DAQService", rootPath + "\\resource", 1);
 		srvinterts2.add(int2);
-		service2.setServicePortInterfaces(srvinterts2);
+		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
 		
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
@@ -157,18 +165,20 @@ public class CXXWinIDLPathTest extends TestBase {
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("InP1", "TimedShort", "", 0));
 		dataport.add(new DataPortParam("InP2", "TimedLong", "", 0));
-		rtcParam.setInports(dataport);
+		rtcParam.getInports().addAll(dataport);
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
 		outport.add(new DataPortParam("OutP1", "TimedLong", "", 0));
 		outport.add(new DataPortParam("OutP2", "TimedFloat", "", 0));
-		rtcParam.setOutports(outport);
+		rtcParam.getOutports().addAll(outport);
 
 		ServicePortParam service1 = new ServicePortParam("svPort",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
+//		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
+//				"MyService.idl", "MyService", rootPath + "\\resource", 0);
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
-				"MyService.idl", "MyService", rootPath + "\\resource", 0);
+				rootPath + "\\resource\\MyService.idl", "MyService", rootPath + "\\resource", 0);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 		
@@ -177,10 +187,10 @@ public class CXXWinIDLPathTest extends TestBase {
 		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service2, "rate", "", "", 
 				rootPath + "\\resource\\DAQService.idl", "DAQService", "", 1);
 		srvinterts2.add(int2);
-		service2.setServicePortInterfaces(srvinterts2);
+		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
 		
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
@@ -217,18 +227,18 @@ public class CXXWinIDLPathTest extends TestBase {
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("InP1", "TimedShort", "", 0));
 		dataport.add(new DataPortParam("InP2", "TimedLong", "", 0));
-		rtcParam.setInports(dataport);
+		rtcParam.getInports().addAll(dataport);
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
 		outport.add(new DataPortParam("OutP1", "TimedInt", "", 0));
 		outport.add(new DataPortParam("OutP2", "TimedFloat", "", 0));
-		rtcParam.setOutports(outport);
+		rtcParam.getOutports().addAll(outport);
 
 		ServicePortParam service1 = new ServicePortParam("svPort",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
 				rootPath + "\\resource\\MyService.idl", "MyService", "", 0);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 		
@@ -237,10 +247,10 @@ public class CXXWinIDLPathTest extends TestBase {
 		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service2, "rate", "", "", 
 				rootPath + "\\resource\\DAQService.idl", "DAQService", "", 1);
 		srvinterts2.add(int2);
-		service2.setServicePortInterfaces(srvinterts2);
+		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
 		
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);

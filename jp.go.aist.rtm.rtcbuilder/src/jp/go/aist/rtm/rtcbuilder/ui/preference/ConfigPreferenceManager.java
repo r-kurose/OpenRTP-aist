@@ -37,78 +37,14 @@ public class ConfigPreferenceManager {
 
 	
 	private static final String[] CONFIG_ITEM = new String[] { 
-////	    "config.version",
-//		"corba.args",
-//		"corba.endpoint",
-////  "corba.id",               corba_name,
-////		"corba.name_servers",
-//		"corba.nameservers",
-		//
 		"exec_cxt.evdriven.type",
 		"exec_cxt.periodic.rate",
 		"exec_cxt.periodic.type"
-		//
-//		"logger.date_format",
-//		"logger.enable",
-//		"logger.file_name",
-//		"logger.log_level",
-//		"logger.master_logger",
-//		"logger.stream_lock",
-//		//
-//		"manager.modules.load_path",
-//		"manager.name", 
-////  	"manager.pid",
-//		"module.conf_path",
-////		"module.load_path",
-//		"naming.enable",
-//		"naming.formats",
-//		"naming.type",
-//		"naming.update.enable",
-//		"naming.update.interval",
-////	    "openrtm.version",
-//		"os.arch",
-//		"os.hostname",
-//		"os.name",
-//		"os.release",
-//		"os.version",
-//		"timer.enable",
-//		"timer.tick"
 	};
 	private static final String[] DEFAULT_ITEM = new String[] { 
-////    	openrtm_version,		"config.version",
-//		"",								//"corba.args",
-//		"",								//"corba.endpoint",   // hostname:port_number
-////    	corba_name,			"corba.id",
-//		"",								//"corba.name_servers",
-		//
 		"EventDrivenExecutionContext",	//"exec_cxt.evdriven.type",
 		"1000",							//"exec_cxt.periodic.rate",
 		"PeriodicExecutionContext"		//"exec_cxt.periodic.type",
-		//
-//		"%b %d %H:%M:%S",				//"logger.date_format",
-//		"YES",							//"logger.enable",
-//		"./rtc%p.log",					//"logger.file_name",       
-//		"NORMAL",						//"logger.log_level",       
-//		"",								//"logger.master_logger",
-//		"NO",							//"logger.stream_lock",
-//		//
-//		"",								//"manager.modules.load_path",
-//		"manager",						//"manager.name",
-////    	"",						"manager.pid",
-//		"",								//"module.conf_path",       
-//		"YES",							//"naming.enable",
-//		"%h.host/%n.rtc",				//"naming.formats",
-//		"corba",						//"naming.type",
-//		"YES",							//"naming.update.enable",
-//		"10.0",							//"naming.update.interval",
-////    	openrtm_name,			"openrtm.version"        
-//		"",								//"os.arch",
-//		"",								//"os.hostname",
-//		"",								//"os.name",
-//		"",								//"os.release",
-//		"",								//"os.version",
-//		"YES",							//"timer.enable",
-//		"0.1"							//"timer.tick",
 	};
 
 	public static ArrayList<ConfigParameterParam> getDefaultConfigValue() {

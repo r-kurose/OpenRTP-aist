@@ -49,7 +49,7 @@ public interface IRtcBuilderConstants {
 		"STATIC", "UNIQUE", "COMMUTATIVE" };
 
 	public static final String[] ACTIVITY_TYPE_ITEMS = new String[] {
-			"PERIODIC", "SPORADIC", "EVENT_DRIVEN" };
+			"PERIODIC", "SPORADIC", "EVENTDRIVEN" };
 
 	public static final String[] COMPONENT_KIND_ITEMS = new String[] {
 		"DataFlowComponent", 

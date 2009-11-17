@@ -5,24 +5,27 @@ import java.io.Serializable;
 /**
  * ActionsèÓïÒÇï\Ç∑ÉNÉâÉX
  */
-public class ActionsParam implements Serializable {
-	
+public class ActionsParam extends AbstractRecordedParam implements Serializable {
+
+	private static final long serialVersionUID = -750739376634870859L;
+
 	private boolean implemented;
 	private String pre_condition;
 	private String overview;
 	private String post_condition;
 
 	public ActionsParam() {
-		this.implemented = false;
-		this.pre_condition = "";
-		this.overview = "";
-		this.post_condition = "";
+		this(false, "", "", "");
 	}
-	public ActionsParam(boolean implemented, String overview, String pre_con, String post_con) {
+
+	public ActionsParam(boolean implemented, String overview, String pre_con,
+			String post_con) {
 		this.implemented = implemented;
 		this.pre_condition = pre_con;
 		this.overview = overview;
 		this.post_condition = post_con;
+		//
+		setUpdated(false);
 	}
 
 	public boolean getImplemented() {
@@ -42,21 +45,26 @@ public class ActionsParam implements Serializable {
 	}
 
 	public void setImplemaented(String implemented) {
-		if( implemented.toUpperCase().equals("TRUE") )
-			this.implemented = true;
-		else
-			this.implemented = false;
+		boolean impl = implemented.toUpperCase().equals("TRUE") ? true : false;
+		setImplemaented(impl);
 	}
 	public void setImplemaented(boolean implemented) {
+		if (this.implemented != implemented) {
+			setUpdated(true);
+		}
 		this.implemented = implemented;
 	}
 	public void setOverview(String overview) {
+		checkUpdated(this.overview, overview);
 		this.overview = overview;
 	}
 	public void setPreCondition(String precondition) {
+		checkUpdated(this.pre_condition, precondition);
 		this.pre_condition = precondition;
 	}
 	public void setPostCondition(String postcondition) {
+		checkUpdated(this.post_condition, postcondition);
 		this.post_condition = postcondition;
 	}
+
 }

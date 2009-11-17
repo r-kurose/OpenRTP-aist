@@ -88,17 +88,6 @@ public class FileUtil {
 	public static String readFile(String path) {
 		StringBuffer result = null;
 		try {
-//			FileReader fr = new FileReader(path);
-//			BufferedReader br = new BufferedReader(fr);
-//
-//			result = new StringBuffer();
-//			int count;
-//			char[] buff = new char[1024];
-//			while ((count = br.read(buff)) != -1) {
-//				result.append(buff, 0, count);
-//			}
-//			br.close();
-//			fr.close();
 			FileInputStream fis = new FileInputStream(path);
             InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
             BufferedReader br = new BufferedReader(isr); 

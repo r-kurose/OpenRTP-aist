@@ -39,43 +39,27 @@ public class CXXTemplateTestAIST3 extends TestBase {
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("InP1", "TimedShort", "", 0));
 		dataport.add(new DataPortParam("InP2", "TimedLong", "", 0));
-		rtcParam.setInports(dataport);
+		rtcParam.getInports().addAll(dataport);
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
 		outport.add(new DataPortParam("OutP1", "TimedDouble", "", 0));
 		outport.add(new DataPortParam("OutP2", "TimedFloat", "", 0));
-		rtcParam.setOutports(outport);
+		rtcParam.getOutports().addAll(outport);
 
 		ServicePortParam service1 = new ServicePortParam("svPort",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
 				rootPath + "resource\\042\\CXX\\AIST7\\Service1.idl", "test", "", 0);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 		genParam.getRtcParams().add(rtcParam);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
 		String targetDir = rootPath + "resource\\042\\CXX\\AIST7\\";
-//		checkCode(result, targetDir, "fooComp.cpp");
-//		checkCode(result, targetDir, "Makefile.foo");
-//		checkCode(result, targetDir, "foo.h");
-//		checkCode(result, targetDir, "foo.cpp");
-//		checkCode(result, targetDir, "README.foo");
-//		//
-//		checkCode(result, targetDir, "foo_vc8.sln");
-//		checkCode(result, targetDir, "foo_vc8.vcproj");
-//		checkCode(result, targetDir, "fooComp_vc8.vcproj");
-//		checkCode(result, targetDir, "foo_vc9.sln");
-//		checkCode(result, targetDir, "foo_vc9.vcproj");
-//		checkCode(result, targetDir, "fooComp_vc9.vcproj");
-//		//
-//		checkCode(result, targetDir, "copyprops.bat");
-//		checkCode(result, targetDir, "user_config.vsprops");
-		//
 		checkCode(result, targetDir, "Service1SVC_impl.h");
 		checkCode(result, targetDir, "Service1SVC_impl.cpp");
 	}
@@ -101,21 +85,21 @@ public class CXXTemplateTestAIST3 extends TestBase {
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("InP1", "TimedShort", "", 0));
 		dataport.add(new DataPortParam("InP2", "TimedLong", "", 0));
-		rtcParam.setInports(dataport);
+		rtcParam.getInports().addAll(dataport);
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
 		outport.add(new DataPortParam("OutP1", "TimedDouble", "", 0));
 		outport.add(new DataPortParam("OutP2", "TimedFloat", "", 0));
-		rtcParam.setOutports(outport);
+		rtcParam.getOutports().addAll(outport);
 
 		ServicePortParam service1 = new ServicePortParam("svPort",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
 				rootPath + "resource\\042\\CXX\\AIST6\\Service1.idl", "test", "", 0);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 		genParam.getRtcParams().add(rtcParam);
 
 		Generator generator = new Generator();

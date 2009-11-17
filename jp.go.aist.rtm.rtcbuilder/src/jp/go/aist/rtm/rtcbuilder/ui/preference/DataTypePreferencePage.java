@@ -200,23 +200,4 @@ public class DataTypePreferencePage extends AbstractPreferencePage implements
 		}
 		
 	}
-	
-//	private List<String> SLIList2String(List<SingleLabelItem> source) {
-//		List<String> result = new ArrayList<String>();
-//		for( Iterator<SingleLabelItem> iter = source.iterator(); iter.hasNext(); ) {
-//			SingleLabelItem idlFile = iter.next();
-//			result.add(idlFile.getLabeltext());
-//			
-//		}
-//		return result;
-//	}
-//	private List<SingleLabelItem> String2SLIList(List<String> source) {
-//		List<SingleLabelItem> result = new ArrayList<SingleLabelItem>();
-//		for( Iterator<String> iter = source.iterator(); iter.hasNext(); ) {
-//			String idlFile = iter.next();
-//			result.add(new SingleLabelItem(idlFile));
-//			
-//		}
-//		return result;
-//	}
 }

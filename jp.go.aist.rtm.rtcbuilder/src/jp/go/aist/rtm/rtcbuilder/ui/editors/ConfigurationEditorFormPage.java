@@ -37,7 +37,6 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
@@ -84,6 +83,8 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 	private String defaultConfigConstraint;
 	private String defaultConfigUnit;
 	private String[] defaultTypeList;
+	private String[] defaultParamNameList;
+	private String[] defaultParamDefaultList;
 	
 	private Composite configurationParameterSectionComposite;
 	
@@ -109,6 +110,9 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		defaultConfigUnit = ComponentPreferenceManager.getInstance().getConfiguration_Unit();
 		//
 		defaultTypeList = super.extractDataTypes();
+		//
+		defaultParamNameList = ConfigPreferenceManager.getInstance().getConfigName();
+		defaultParamDefaultList = ConfigPreferenceManager.getInstance().getDefaultValue();
 	}
 
 	/**
@@ -220,18 +224,9 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 
 		configSetTableViewer.setLabelProvider(new ConfigSetLabelProvider());
 
-		TableColumn nameColumn = new TableColumn(configSetTableViewer
-				.getTable(), SWT.NONE);
-		nameColumn.setText(IMessageConstants.CONFIGURATION_TBLLBL_NAME);
-		nameColumn.setWidth(120);
-		TableColumn typeColumn = new TableColumn(configSetTableViewer
-				.getTable(), SWT.NONE);
-		typeColumn.setText(IMessageConstants.CONFIGURATION_TBLLBL_TYPE);
-		typeColumn.setWidth(120);
-		TableColumn defaultColumn = new TableColumn(configSetTableViewer
-				.getTable(), SWT.NONE);
-		defaultColumn.setText(IMessageConstants.CONFIGURATION_TBLLBL_DEFAULTVAL);
-		defaultColumn.setWidth(120);
+		createColumnToTableViewer(configSetTableViewer, IMessageConstants.CONFIGURATION_TBLLBL_NAME, 120);
+		createColumnToTableViewer(configSetTableViewer, IMessageConstants.CONFIGURATION_TBLLBL_TYPE, 120);
+		createColumnToTableViewer(configSetTableViewer, IMessageConstants.CONFIGURATION_TBLLBL_DEFAULTVAL, 120);
 
 		configSetTableViewer.setColumnProperties(new String[] {
 				CONFIGSET_PROPERTY_NAME, CONFIGSET_PROPERTY_TYPE, 
@@ -256,39 +251,8 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		gd.widthHint = 50;
 		buttonComposite.setLayoutData(gd);
 
-		Button addButton = toolkit.createButton(buttonComposite, "Add", SWT.PUSH);
-		addButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				updateDefaultValue();
-				ConfigSetParam selectParam = new ConfigSetParam(defaultConfigName, defaultConfigType, defaultConfigVarName, defaultConfigDefault, defaultConfigConstraint, defaultConfigUnit);
-				((List) configSetTableViewer.getInput()).add(selectParam);
-				configSetTableViewer.refresh();
-				update();
-			}
-		});
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		addButton.setLayoutData(gd);
-		//
-		Button deleteButton = toolkit.createButton(buttonComposite, "Delete", SWT.PUSH);
-		deleteButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				int selectionIndex = configSetTableViewer.getTable()
-						.getSelectionIndex();
-				if (selectionIndex >= 0
-						&& ((List) configSetTableViewer.getInput()).size() >= selectionIndex + 1) {
-					((List) configSetTableViewer.getInput())
-							.remove(selectionIndex);
-					configSetTableViewer.refresh();
-					preSelection = null;
-					clearText();
-					update();
-				}
-			}
-		});
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		deleteButton.setLayoutData(gd);
+		createConfigAddButton(toolkit, configSetTableViewer, buttonComposite);
+		createConfigDeleteButton(toolkit, configSetTableViewer, buttonComposite);
 		//
 		configSetTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
@@ -316,6 +280,45 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		});
 
 		return configSetTableViewer;
+	}
+
+	private void createConfigDeleteButton(FormToolkit toolkit, final TableViewer configSetTableViewer, Composite buttonComposite) {
+		Button deleteButton = toolkit.createButton(buttonComposite, "Delete", SWT.PUSH);
+		deleteButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				int selectionIndex = configSetTableViewer.getTable()
+						.getSelectionIndex();
+				if (selectionIndex >= 0
+						&& ((List) configSetTableViewer.getInput()).size() >= selectionIndex + 1) {
+					((List) configSetTableViewer.getInput())
+							.remove(selectionIndex);
+					configSetTableViewer.refresh();
+					preSelection = null;
+					clearText();
+					update();
+				}
+			}
+		});
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		deleteButton.setLayoutData(gd);
+	}
+
+	private void createConfigAddButton(FormToolkit toolkit, final TableViewer configSetTableViewer, Composite buttonComposite) {
+		Button addButton = toolkit.createButton(buttonComposite, "Add", SWT.PUSH);
+		addButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				updateDefaultValue();
+				String confNum = Integer.valueOf(((List) configSetTableViewer.getInput()).size()).toString();
+				ConfigSetParam selectParam = new ConfigSetParam(defaultConfigName + confNum, defaultConfigType, defaultConfigVarName, defaultConfigDefault, defaultConfigConstraint, defaultConfigUnit);
+				((List) configSetTableViewer.getInput()).add(selectParam);
+				configSetTableViewer.refresh();
+				update();
+			}
+		});
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		addButton.setLayoutData(gd);
 	}
 
 	private void createHintSection(FormToolkit toolkit, ScrolledForm form) {
@@ -351,21 +354,14 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 
 		configParameterTableViewer.setLabelProvider(new ConfigParamLabelProvider());
 
-		TableColumn nameColumn = new TableColumn(configParameterTableViewer
-				.getTable(), SWT.NONE);
-		nameColumn.setText(IMessageConstants.CONFIGURATION_TBLLBL_CONFIGURATION);
-		nameColumn.setWidth(200);
-		TableColumn defaultColumn = new TableColumn(configParameterTableViewer
-				.getTable(), SWT.NONE);
-		defaultColumn.setText(IMessageConstants.CONFIGURATION_TBLLBL_DEFAULTVAL);
-		defaultColumn.setWidth(200);
+		createColumnToTableViewer(configParameterTableViewer, IMessageConstants.CONFIGURATION_TBLLBL_CONFIGURATION, 200);
+		createColumnToTableViewer(configParameterTableViewer, IMessageConstants.CONFIGURATION_TBLLBL_DEFAULTVAL, 200);
 
 		configParameterTableViewer.setColumnProperties(new String[] {
 				CONFIGPROFILE_PROPERTY_CONFIGURATION, CONFIGPROFILE_PROPERTY_DEFAULT });
 
-		String[] Config_Items = ConfigPreferenceManager.getInstance().getConfigName();
 		CellEditor[] editors = new CellEditor[] {
-				new ComboBoxCellEditor(configParameterTableViewer.getTable(), Config_Items, SWT.DROP_DOWN ),
+				new LocalComboBoxCellEditor(configParameterTableViewer.getTable(), defaultParamNameList, SWT.DROP_DOWN),
 				new TextCellEditor(configParameterTableViewer.getTable()) };
 
 		configParameterTableViewer.setCellEditors(editors);
@@ -381,33 +377,20 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		gd.widthHint = 50;
 		buttonComposite.setLayoutData(gd);
 
-		Button addButton = toolkit.createButton(
-				buttonComposite, "Add", SWT.PUSH);
-		gd = new GridData(GridData.HORIZONTAL_ALIGN_END);
-		gl.marginRight = 0;
-		addButton.setLayoutData(gd);
-		addButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				String[] Config_Items = ConfigPreferenceManager.getInstance().getConfigName();
-				String[] Default_Items = ConfigPreferenceManager.getInstance().getDefaultValue();
-				ConfigParameterParam param = null;
-				if( Config_Items.length > 0 && Default_Items.length > 0 ) {
-					param = new ConfigParameterParam(Config_Items[0], Default_Items[0]);
-				} else {
-					param = new ConfigParameterParam("configuration", "");
-				}
-				((List) configParameterTableViewer.getInput()).add(param);
-				setDocumentContents();
-				preSelection = null;
+		createParamAddButton(toolkit, configParameterTableViewer, buttonComposite, gl);
+		createParamDelButton(toolkit, configParameterTableViewer, buttonComposite);
+
+		configParameterTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(SelectionChangedEvent event) {
 				clearText();
-				configParameterTableViewer.refresh();
-//				update();
+				// modifier.getValue()が呼ばれないことがあるため
 			}
 		});
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		addButton.setLayoutData(gd);
-		//
+		
+		return configParameterTableViewer;
+	}
+
+	private void createParamDelButton(FormToolkit toolkit, final TableViewer configParameterTableViewer, Composite buttonComposite) {
 		Button deleteButton = toolkit.createButton(
 				buttonComposite, "Delete", SWT.PUSH);
 		deleteButton.addSelectionListener(new SelectionAdapter() {
@@ -422,21 +405,41 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 					preSelection = null;
 					clearText();
 					configParameterTableViewer.refresh();
+					editor.updateDirty();
 //					update();
 				}
 			}
 		});
-		gd = new GridData(GridData.FILL_HORIZONTAL);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		deleteButton.setLayoutData(gd);
+	}
 
-		configParameterTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			public void selectionChanged(SelectionChangedEvent event) {
+	private void createParamAddButton(FormToolkit toolkit, final TableViewer configParameterTableViewer, Composite buttonComposite, GridLayout gl) {
+		Button addButton = toolkit.createButton(
+				buttonComposite, "Add", SWT.PUSH);
+		GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_END);
+		gl.marginRight = 0;
+		addButton.setLayoutData(gd);
+		addButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ConfigParameterParam param = null;
+				if( defaultParamNameList.length > 0 && defaultParamDefaultList.length > 0 ) {
+					param = new ConfigParameterParam(defaultParamNameList[0], defaultParamDefaultList[0]);
+				} else {
+					param = new ConfigParameterParam("configuration", "");
+				}
+				((List) configParameterTableViewer.getInput()).add(param);
+				setDocumentContents();
+				preSelection = null;
 				clearText();
-				// modifier.getValue()が呼ばれないことがあるため
+				configParameterTableViewer.refresh();
+				editor.updateDirty();
+//				update();
 			}
 		});
-		
-		return configParameterTableViewer;
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		addButton.setLayoutData(gd);
 	}
 
 	public void updateForOutput() {
@@ -461,7 +464,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 	}
 	
 	public void update() {
-		if( selectParam != null ) {
+		if (selectParam != null) {
 			selectParam.setVarName(getDocText(variableNameText.getText()));
 			selectParam.setUnit(getDocText(unitConfigText.getText()));
 			selectParam.setConstraint(getDocText(constraintConfigText.getText()));
@@ -500,10 +503,21 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 	 * データをロードする
 	 */
 	public void load() {
-		if( configurationSetTableViewer != null )
-			configurationSetTableViewer.setInput(editor.getRtcParam().getConfigParams());
-		if( configurationProfileTableViewer != null )
-			configurationProfileTableViewer.setInput(editor.getRtcParam().getConfigParameterParams());
+		if (configurationSetTableViewer == null) {
+			return;
+		}
+		//
+		RtcParam rtcParam = editor.getRtcParam();
+		configurationSetTableViewer.setInput(rtcParam.getConfigParams());
+		configurationProfileTableViewer.setInput(rtcParam
+				.getConfigParameterParams());
+		//
+		StructuredSelection selection = (StructuredSelection) configurationSetTableViewer
+				.getSelection();
+		ConfigSetParam param = (ConfigSetParam) selection.getFirstElement();
+		if (param == null) {
+			clearText();
+		}
 	}
 
 	public String validateParam() {
@@ -710,7 +724,6 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		 * {@inheritDoc}
 		 */
 		public String getColumnText(Object element, int columnIndex) {
-			String[] Config_Items = ConfigPreferenceManager.getInstance().getConfigName();
 			if (element instanceof ConfigParameterParam == false) {
 				return null;
 			}
@@ -721,7 +734,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		
 			String result = null;
 			if (columnIndex == 0) {
-				result = Config_Items[configProfileParam.getIndex()];
+				result = configProfileParam.getConfigName();
 			} else if (columnIndex == 1) {
 				result = configProfileParam.getDefaultVal();
 			}
@@ -754,13 +767,13 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 			}
 		
 			preSelection = null;
-//			clearText();
 
 			ConfigParameterParam configProfileParam = (ConfigParameterParam) element;
 		
 			String result = null;
 			if (CONFIGPROFILE_PROPERTY_CONFIGURATION.equals(property)) {
-				return new Integer(configProfileParam.getIndex());
+				int index = updateDefaultConfigNameList(configProfileParam.getConfigName());
+				return new Integer(index);
 			} else if (CONFIGPROFILE_PROPERTY_DEFAULT.equals(property)) {
 				result = configProfileParam.getDefaultVal();
 			}
@@ -778,24 +791,43 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		
 			ConfigParameterParam configProfileParam = (ConfigParameterParam) ((TableItem) element)
 					.getData();
-			String[] config_Items = ConfigPreferenceManager.getInstance().getConfigName();
-			configProfileParam.setConfigItems(config_Items);
 		
 			if (CONFIGPROFILE_PROPERTY_CONFIGURATION.equals(property)) {
-				configProfileParam.setIndex(((Integer) value).intValue());
-				if( configProfileParam.getDefaultVal().equals("")) {
-					String[] Default_Items = ConfigPreferenceManager.getInstance().getDefaultValue();
-					if(Default_Items.length > configProfileParam.getIndex()) {
+				if( value instanceof Integer ) {
+					configProfileParam.setConfigName(defaultParamNameList[((Integer) value).intValue()]);
+					if(defaultParamDefaultList.length > ((Integer) value).intValue()) {
 						configProfileParam.setDefaultVal(
-								Default_Items[configProfileParam.getIndex()]);
+								defaultParamDefaultList[((Integer) value).intValue()]);
 					}
+				}else{
+					// 手入力された場合
+					updateDefaultConfigNameList((String)value);
+					configProfileParam.setConfigName((String)value);
 				}
 			} else if (CONFIGPROFILE_PROPERTY_DEFAULT.equals(property)) {
 				configProfileParam.setDefaultVal((String) value);
 			}
 		
 			viewer.refresh();
-//			update();
+			editor.updateDirty();
+		}
+		
+		private int updateDefaultConfigNameList(String newValue){
+			int index = searchIndex(defaultParamNameList, newValue);
+			if( index == defaultParamNameList.length ){
+				// その値がプルダウン選択肢にない場合、選択肢にそれを追加する
+				String[] newDefaultTypeList = new String[defaultParamNameList.length+1];
+				for( int i=0; i<defaultParamNameList.length; i++ ){
+					newDefaultTypeList[i] = defaultParamNameList[i];
+				}
+				newDefaultTypeList[defaultParamNameList.length] = newValue;
+				
+				defaultParamNameList = newDefaultTypeList;
+				
+				CellEditor[] editors = ((TableViewer)viewer).getCellEditors();
+				((LocalComboBoxCellEditor)editors[0]).setItems(defaultParamNameList);
+			}
+			return index;
 		}
 	}
 	
@@ -831,7 +863,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		@Override
 		protected Object doGetValue() {
 			Object value = super.doGetValue();
-			if (value.equals(-1)) { // 選択肢以外が入力された場合
+			if (value.equals(Integer.valueOf(-1))) { // 選択肢以外が入力された場合
 				return comboBox.getText();
 			}
 			return value;

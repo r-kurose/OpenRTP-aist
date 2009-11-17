@@ -67,10 +67,10 @@ public class TemplateTest {
 		rtcParam.setActivityType("!ActivityTypeA!");
 		rtcParam.setMaxInstance(777);
 		rtcParam.setLanguage("c++");
-		rtcParam.setInports(Arrays.asList(new DataPortParam("!inPortA!",
+		rtcParam.getInports().addAll(Arrays.asList(new DataPortParam("!inPortA!",
 				"!portTypeA!", "", 0), new DataPortParam("!inPortB!", "!portTypeB!", "", 0)));
 		rtcParam
-				.setOutports(Arrays.asList(new DataPortParam("!outPortA!",
+				.getOutports().addAll(Arrays.asList(new DataPortParam("!outPortA!",
 						"!portTypeA!", "", 0), new DataPortParam("!outPortB!",
 						"!portTypeB!", "", 0)));
 

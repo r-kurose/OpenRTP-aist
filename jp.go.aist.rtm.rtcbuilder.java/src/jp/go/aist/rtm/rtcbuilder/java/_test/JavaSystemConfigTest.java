@@ -41,12 +41,12 @@ public class JavaSystemConfigTest extends TestBase {
 		configset.add(new ConfigSetParam("double_param0","double","","0.11"));
 		configset.add(new ConfigSetParam("str_param0","String","","hoge"));
 		configset.add(new ConfigSetParam("str_param1","String","","dara"));
-		rtcParam.setConfigParams(configset);
+		rtcParam.getConfigParams().addAll(configset);
 
 		List<ConfigParameterParam> configparam = new ArrayList<ConfigParameterParam>(); 
 		configparam.add(new ConfigParameterParam("timer.tick","0.1"));
 		configparam.add(new ConfigParameterParam("naming.update.interval","10.0"));
-		rtcParam.setConfigParameterParams(configparam);
+		rtcParam.getConfigParameterParams().addAll(configparam);
 
 		Generator generator = new Generator();
 		GenerateManager manager = new JavaGenerateManager();

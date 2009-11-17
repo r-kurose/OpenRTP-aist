@@ -1,6 +1,5 @@
 package jp.go.aist.rtm.rtcbuilder.generator.param;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +7,11 @@ import java.util.List;
 /**
  * サービスポートを表すクラス
  */
-public class ServicePortInterfaceParam implements Serializable {
-	
+public class ServicePortInterfaceParam extends AbstractRecordedParam implements
+		Serializable {
+
+	private static final long serialVersionUID = -6299754191292510189L;
+
 	public static final String INTERFACE_DIRECTION_PROVIDED = "Provided";
 	public static final String INTERFACE_DIRECTION_REQUIRED = "Required";
 	public static final String[] COMBO_ITEM = 
@@ -51,10 +53,13 @@ public class ServicePortInterfaceParam implements Serializable {
 		this.doc_exception = "";
 		this.doc_pre_condition = "";
 		this.doc_post_condition = "";
+		//
+		setUpdated(false);
 	}
 
-	public ServicePortInterfaceParam(ServicePortParam parent, String name, String instancename, String varname, 
-					String idlfile, String interfacetype, String idlpath, int selection) {
+	public ServicePortInterfaceParam(ServicePortParam parent, String name,
+			String instancename, String varname, String idlfile,
+			String interfacetype, String idlpath, int selection) {
 		this.parent = parent;
 		this.name = name;
 		this.instancename = instancename;
@@ -71,13 +76,16 @@ public class ServicePortInterfaceParam implements Serializable {
 		this.doc_exception = "";
 		this.doc_pre_condition = "";
 		this.doc_post_condition = "";
+		//
+		setUpdated(false);
 	}
 
-	public ServicePortInterfaceParam(ServicePortParam parent, String name, String selection, 
-			String instancename, String varname, 
-			String idlfile, String interfacetype, String idlpath, 
-			String doc_description, String doc_argument, String doc_return, String doc_exception,
-			String doc_pre_condition, String doc_post_condition) {
+	public ServicePortInterfaceParam(ServicePortParam parent, String name,
+			String selection, String instancename, String varname,
+			String idlfile, String interfacetype, String idlpath,
+			String doc_description, String doc_argument, String doc_return,
+			String doc_exception, String doc_pre_condition,
+			String doc_post_condition) {
 		this.parent = parent;
 		this.name = name;
 		this.instancename = instancename;
@@ -93,6 +101,8 @@ public class ServicePortInterfaceParam implements Serializable {
 		this.doc_exception = doc_exception;
 		this.doc_pre_condition = doc_pre_condition;
 		this.doc_post_condition = doc_post_condition;
+		//
+		setUpdated(false);
 	}
 
 	public ServicePortParam getParent() {
@@ -123,8 +133,8 @@ public class ServicePortInterfaceParam implements Serializable {
 		return selection;
 	}
 	public String getIdlFullPath() {
-		if( idlSearchPath != null && idlSearchPath.length()>0 )
-			return idlSearchPath + File.separator + idlfile;
+//		if( idlSearchPath != null && idlSearchPath.length()>0 )
+//			return idlSearchPath + File.separator + idlfile;
 		return idlfile;
 	}
 	//
@@ -136,36 +146,45 @@ public class ServicePortInterfaceParam implements Serializable {
 		return this.name;
 	}
 	//
-	
 	public void setName(String name) {
+		checkUpdated(this.name, name);
 		this.name = name;
 	}
 	public void setInstanceName(String instancename) {
+		checkUpdated(this.instancename, instancename);
 		this.instancename = instancename;
 	}
 	public void setVarName(String varname) {
+		checkUpdated(this.varname, varname);
 		this.varname = varname;
 	}
 	public void setIdlFile(String idlfile) {
+		checkUpdated(this.idlfile, idlfile);
 		this.idlfile = idlfile;
 	}
 	public void setInterfaceType(String interfacetype) {
+		checkUpdated(this.interfacetype, interfacetype);
 		this.interfacetype = interfacetype;
 	}
 	public void setIdlSearchPath(String idlpath) {
+		checkUpdated(this.idlSearchPath, idlpath);
 		this.idlSearchPath = idlpath;
 	}
 	public void setIndex(int index) {
+		if (this.selection != index) {
+			setUpdated(true);
+		}
 		this.selection = index;
-		this.direction = ServicePortInterfaceParam.COMBO_ITEM[index];
+		this.direction = COMBO_ITEM[index];
 	}
 	public void setDirection(String direction) {
-		this.direction = direction;
-		if(direction.equals(COMBO_ITEM[1])) {
-			this.selection = 1;
+		int index = -1;
+		if (direction.equals(COMBO_ITEM[1])) {
+			index = 1;
 		} else {
-			this.selection = 0;
+			index = 0;
 		}
+		setIndex(index);
 	}
 	//
 	public String getDocDescription() {
@@ -186,27 +205,34 @@ public class ServicePortInterfaceParam implements Serializable {
 	public String getDocPostCondition() {
 		return doc_post_condition;
 	}
-	
+
 	public void setDocDescription(String description) {
+		checkUpdated(this.doc_description, description);
 		this.doc_description = description;
 	}
 	public void setDocArgument(String argument) {
+		checkUpdated(this.doc_argument, argument);
 		this.doc_argument = argument;
 	}
 	public void setDocReturn(String returnDesc) {
+		checkUpdated(this.doc_return, returnDesc);
 		this.doc_return = returnDesc;
 	}
 	public void setDocException(String exception) {
+		checkUpdated(this.doc_exception, exception);
 		this.doc_exception = exception;
 	}
 	public void setDocPreCondition(String precondition) {
+		checkUpdated(this.doc_pre_condition, precondition);
 		this.doc_pre_condition = precondition;
 	}
 	public void setDocPostCondition(String postcondition) {
+		checkUpdated(this.doc_post_condition, postcondition);
 		this.doc_post_condition = postcondition;
 	}
 	//
 	public List<PropertyParam> getProperties() {
 		return properties;
 	}
+
 }

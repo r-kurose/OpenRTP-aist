@@ -40,7 +40,7 @@ public class PyExCxtTest extends TestBase {
 		configset.add(new ConfigSetParam("double_param0","double","","0.11"));
 		configset.add(new ConfigSetParam("str_param0","String","","hoge"));
 		configset.add(new ConfigSetParam("str_param1","String","","dara"));
-		rtcParam.setConfigParams(configset);
+		rtcParam.getConfigParams().addAll(configset);
 
 		Generator generator = new Generator();
 		GenerateManager manager = new PythonGenerateManager();

@@ -32,7 +32,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
@@ -193,24 +192,12 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 
 		portParamTableViewer.setLabelProvider(new DataPortParamLabelProvider());
 
-		TableColumn nameColumn = new TableColumn(portParamTableViewer.getTable(), SWT.NONE);
-		nameColumn.setText(IMessageConstants.DATAPORT_TBLLBL_PORTNAME);
-		nameColumn.setWidth(65);
-		TableColumn typeColumn = new TableColumn(portParamTableViewer.getTable(), SWT.NONE);
-		typeColumn.setText(IMessageConstants.DATAPORT_TBLLBL_DATATYPE);
-		typeColumn.setWidth(65);
-		TableColumn varnameColumn = new TableColumn(portParamTableViewer.getTable(), SWT.NONE);
-		varnameColumn.setText(IMessageConstants.DATAPORT_TBLLBL_VARNAME);
-		varnameColumn.setWidth(65);
-		TableColumn posColumn = new TableColumn(portParamTableViewer.getTable(), SWT.NONE);
-		posColumn.setText(IMessageConstants.DATAPORT_TBLLBL_POSITION);
-		posColumn.setWidth(65);
-		TableColumn constColumn = new TableColumn(portParamTableViewer.getTable(), SWT.NONE);
-		constColumn.setText(IMessageConstants.DATAPORT_TBLLBL_CONSTRAINT);
-		constColumn.setWidth(65);
-		TableColumn unitColumn = new TableColumn(portParamTableViewer.getTable(), SWT.NONE);
-		unitColumn.setText(IMessageConstants.DATAPORT_TBLLBL_UNIT);
-		unitColumn.setWidth(65);
+		createColumnToTableViewer(portParamTableViewer, IMessageConstants.DATAPORT_TBLLBL_PORTNAME, 65);
+		createColumnToTableViewer(portParamTableViewer, IMessageConstants.DATAPORT_TBLLBL_DATATYPE, 65);
+		createColumnToTableViewer(portParamTableViewer, IMessageConstants.DATAPORT_TBLLBL_VARNAME, 65);
+		createColumnToTableViewer(portParamTableViewer, IMessageConstants.DATAPORT_TBLLBL_POSITION, 65);
+		createColumnToTableViewer(portParamTableViewer, IMessageConstants.DATAPORT_TBLLBL_CONSTRAINT, 65);
+		createColumnToTableViewer(portParamTableViewer, IMessageConstants.DATAPORT_TBLLBL_UNIT, 65);
 
 		portParamTableViewer.setColumnProperties(new String[] {
 				DATAPORTPARAM_PROPERTY_NAME, DATAPORTPARAM_PROPERTY_TYPE, 
@@ -301,7 +288,7 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	public void update() {
-		if( selectParam != null ) {
+		if (selectParam != null) {
 			selectParam.setDocDescription(getDocText(descriptionText.getText()));
 			selectParam.setDocType(getDocText(typeText.getText()));
 			selectParam.setDocNum(getDocText(numberText.getText()));
@@ -348,11 +335,24 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 	 * データをロードする
 	 */
 	public void load() {
+		if (inportTableViewer == null) {
+			return;
+		}
 		RtcParam rtcParam = editor.getRtcParam();
-		if( outportTableViewer != null)
-			outportTableViewer.setInput(rtcParam.getOutports());
-		if( inportTableViewer != null)
-			inportTableViewer.setInput(rtcParam.getInports());
+		outportTableViewer.setInput(rtcParam.getOutports());
+		inportTableViewer.setInput(rtcParam.getInports());
+		//
+		StructuredSelection selection = (StructuredSelection) outportTableViewer
+				.getSelection();
+		DataPortParam outParam = (DataPortParam) selection.getFirstElement();
+		selection = (StructuredSelection) inportTableViewer.getSelection();
+		DataPortParam inParam = (DataPortParam) selection.getFirstElement();
+		if (outParam == null && inParam == null) {
+			clearText();
+		}
+		//
+		editor.updateEMFDataInPorts(editor.getRtcParam().getInports());
+		editor.updateEMFDataOutPorts(editor.getRtcParam().getOutports());
 	}
 
 	public String validateParam() {

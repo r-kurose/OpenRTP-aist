@@ -7,7 +7,11 @@ import java.util.List;
 /**
  * コンフィギュレーションパラメータ定義を表すクラス
  */
-public class ConfigSetParam implements Serializable {
+public class ConfigSetParam extends AbstractRecordedParam implements
+		Serializable {
+
+	private static final long serialVersionUID = -7557513141707055621L;
+
 	private String name;
 	private String type;
 	private String varname;
@@ -31,34 +35,30 @@ public class ConfigSetParam implements Serializable {
 	public ConfigSetParam(String name, String type, String defaultVal) {
 		this(name, type, "", defaultVal, "");
 	}
-	
-	public ConfigSetParam(String name, String type, String varname, String defaultVal) {
+
+	public ConfigSetParam(String name, String type, String varname,
+			String defaultVal) {
 		this(name, type, varname, defaultVal, "");
 	}
-	
-	public ConfigSetParam(String name, String type, String varname, String defaultVal, String constraint) {
+
+	public ConfigSetParam(String name, String type, String varname,
+			String defaultVal, String constraint) {
 		this(name, type, varname, defaultVal, constraint, "");
 	}
 	
-	public ConfigSetParam(String name, String type, String varname, String defaultVal, String constraint, String unit) {
-		this.name = name;
-		this.type = type;
-		this.varname = varname;
-		this.defaultValue = defaultVal;
+	public ConfigSetParam(String name, String type, String varname,
+			String defaultVal, String constraint, String unit) {
+		this(name, type, varname, defaultVal, "", "", "", "", "", "");
+		//
 		this.constraint = constraint;
 		this.unit = unit;
-		//
-		this.doc_dataname = "";
-		this.doc_default = "";
-		this.doc_description = "";
-		this.doc_unit = "";
-		this.doc_range = "";
-		this.doc_constraint = "";
+		setUpdated(false);
 	}
 
-	public ConfigSetParam(String name, String type, String varname, String defaultVal,
-							String doc_dataname, String doc_default, String doc_description,
-							String doc_unit, String doc_range, String doc_constraint) {
+	public ConfigSetParam(String name, String type, String varname,
+			String defaultVal, String doc_dataname, String doc_default,
+			String doc_description, String doc_unit, String doc_range,
+			String doc_constraint) {
 		this.name = name;
 		this.type = type;
 		this.varname = varname;
@@ -70,6 +70,8 @@ public class ConfigSetParam implements Serializable {
 		this.doc_unit = doc_unit;
 		this.doc_range = doc_range;
 		this.doc_constraint = doc_constraint;
+		//
+		setUpdated(false);
 	}
 
 	public String getName() {
@@ -111,11 +113,8 @@ public class ConfigSetParam implements Serializable {
 				//
 				if(param.getValue().contains(".")) {
 					String[] widget = param.getValue().split("\\.");
-					if(widget.length>1) {
-						return widget[1];
-					} else {
-						return null;
-					}
+					if(widget.length>1) return widget[1];
+					return null;
 				}
 				//
 //				return param.getValue();
@@ -131,44 +130,56 @@ public class ConfigSetParam implements Serializable {
 	}
 
 	public void setName(String name) {
+		checkUpdated(this.name, name);
 		this.name = name;
 	}
 	public void setType(String type) {
+		checkUpdated(this.type, type);
 		this.type = type;
 	}
 	public void setVarName(String varname) {
+		checkUpdated(this.varname, varname);
 		this.varname = varname;
 	}
 	public void setDefaultVal(String defaultVal) {
+		checkUpdated(this.defaultValue, defaultVal);
 		this.defaultValue = defaultVal;
 	}
 	public void setConstraint(String constraint) {
+		checkUpdated(this.constraint, constraint);
 		this.constraint = constraint;
 	}
 	public void setUnit(String unit) {
+		checkUpdated(this.unit, unit);
 		this.unit = unit;
 	}
 	//
 	public void setWidget(String widget) {
-		for( PropertyParam param : properties ) {
-			if( param.getName().equals("_widget_") ) {
+		for (PropertyParam param : properties) {
+			if (param.getName().equals("_widget_")) {
+				checkUpdated(param.getValue(), widget);
 				param.setValue(widget);
 				return;
 			}
 		}
 		properties.add(new PropertyParam("_widget_", widget));
+		setUpdated(true);
 	}
 	public void setSliderStep(String sliderStep) {
-		for( PropertyParam param : properties ) {
-			if( param.getName().equals("_widget_") ) {
-//			if( param.getName().equals("_slider_step_") ) {
-				if( param.getValue().equals("slider") ) {
-					param.setValue(param.getValue() + "." + sliderStep);
+		for (PropertyParam param : properties) {
+			if (param.getName().equals("_widget_")) {
+				String value = param.getValue();
+				if (value.equals("slider")) {
+					param.setValue("slider." + sliderStep);
+					setUpdated(true);
+				} else if (value.startsWith("slider.")) {
+					String oldStep = value.substring("slider.".length());
+					checkUpdated(oldStep, sliderStep);
+					param.setValue("slider." + sliderStep);
 				}
 				return;
 			}
 		}
-//		properties.add(new PropertyParam("_slider_step_", sliderStep));
 	}
 	//
 	//
@@ -192,25 +203,32 @@ public class ConfigSetParam implements Serializable {
 	}
 	//
 	public void setDocDataName(String dataName) {
+		checkUpdated(this.doc_dataname, dataName);
 		this.doc_dataname = dataName;
 	}
 	public void setDocDefaultVal(String defval) {
+		checkUpdated(this.doc_default, defval);
 		this.doc_default = defval;
 	}
 	public void setDocDescription(String description) {
+		checkUpdated(this.doc_description, description);
 		this.doc_description = description;
 	}
 	public void setDocUnit(String unit) {
+		checkUpdated(this.doc_unit, unit);
 		this.doc_unit = unit;
 	}
 	public void setDocRange(String range) {
+		checkUpdated(this.doc_range, range);
 		this.doc_range = range;
 	}
 	public void setDocConstraint(String constraint) {
+		checkUpdated(this.doc_constraint, constraint);
 		this.doc_constraint = constraint;
 	}
 	//
 	public List<PropertyParam> getProperties() {
 		return properties;
 	}
+
 }

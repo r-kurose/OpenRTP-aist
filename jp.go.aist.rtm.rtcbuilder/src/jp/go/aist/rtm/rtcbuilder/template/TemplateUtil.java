@@ -154,7 +154,7 @@ public class TemplateUtil {
 			throw new RuntimeException(e); // system error
 		}
 
-		return result.toString();
+		return result.toString().replace("\r\n", System.getProperty( "line.separator" ));
 	}
 
 }

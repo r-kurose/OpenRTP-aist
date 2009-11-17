@@ -41,12 +41,12 @@ public class CXXPrefixSuffixTest extends TestBase {
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
 		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
-		rtcParam.setInports(dataport);
+		rtcParam.getInports().addAll(dataport);
 		
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
 		outport.add(new DataPortParam("OutP1", "RTC::TimedOctet", "", 0));
 		outport.add(new DataPortParam("OutP2", "RTC::TimedFloat", "", 0));
-		rtcParam.setOutports(outport);
+		rtcParam.getOutports().addAll(outport);
 		
 		////
 		ServicePortParam service1 = new ServicePortParam("svPort",0);
@@ -54,7 +54,7 @@ public class CXXPrefixSuffixTest extends TestBase {
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
 				rootPath + "\\resource\\MyService.idl", "MyService", "", 0);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 		
@@ -63,14 +63,14 @@ public class CXXPrefixSuffixTest extends TestBase {
 		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service2, "rate", "", "", 
 				rootPath + "\\resource\\DAQService.idl", "DAQService", "", 1);
 		srvinterts2.add(int2);
-		service2.setServicePortInterfaces(srvinterts2);
+		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
 		
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 		//
 		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
 		configset.add(new ConfigSetParam("int_param0","int","", "0"));
-		rtcParam.setConfigParams(configset);
+		rtcParam.getConfigParams().addAll(configset);
 	}
 
 	public void testSuffixConf() throws Exception{

@@ -41,7 +41,8 @@ public class RtcXmlEditorFormPage extends AbstractEditorFormPage {
 
 	private SourceViewer RTCXmlViewer;
 	private Document rtcDocument;
-	private boolean canDirty = true;
+	SourceTextListener sourceTextListener;
+	private boolean isUpdatedOriginal = true;
 	private String originalContent;
 	//
 	private ColorManager colorManager;
@@ -95,9 +96,66 @@ public class RtcXmlEditorFormPage extends AbstractEditorFormPage {
 		caution.setFont(cautionFont);
 		caution.setForeground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_RED));
 		//
-		Button addButton = managedForm.getToolkit().createButton(form.getBody(), 
+		createUpdateButton(managedForm, form);
+		//
+		Composite composite = managedForm.getToolkit().createComposite(form.getBody(), SWT.NULL);
+		composite.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
+		gd = new GridData(GridData.FILL_BOTH);
+		gd.horizontalSpan = 2;
+		composite.setLayoutData(gd);
+		composite.setLayout(new FillLayout(SWT.VERTICAL));
+		//
+		CompositeRuler ruler = new CompositeRuler();
+		LineNumberRulerColumn lineCol = new LineNumberRulerColumn();
+		lineCol.setBackground(form.getDisplay().getSystemColor(SWT.COLOR_WHITE));
+		lineCol.setForeground(form.getDisplay().getSystemColor(SWT.COLOR_BLACK));
+		ruler.addDecorator(0, lineCol);
+		
+		RTCXmlViewer = new SourceViewer(composite, ruler , SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		// RTCXmlViewer.addTextListener(new SourceTextListener());
+		RTCXmlViewer.getTextWidget().addKeyListener(new KeyListener() {
+			public void keyPressed(KeyEvent e) {
+				if( (e.stateMask & SWT.CTRL)!=0 && e.keyCode == KEYCODE_A ) {
+					RTCXmlViewer.doOperation(ITextOperationTarget.SELECT_ALL);
+				} else if( (e.stateMask & SWT.CTRL)!=0 && e.keyCode == KEYCODE_Y ) {
+					RTCXmlViewer.doOperation(ITextOperationTarget.REDO);
+				} else if( (e.stateMask & SWT.CTRL)!=0 && e.keyCode == KEYCODE_Z ) {
+					RTCXmlViewer.doOperation(ITextOperationTarget.UNDO);
+				}
+			}
+
+			public void keyReleased(KeyEvent e) {
+			}
+		});
+		final TextViewerUndoManager undoMgr = new TextViewerUndoManager(99);
+		RTCXmlViewer.setUndoManager(undoMgr);
+		undoMgr.connect(RTCXmlViewer);
+		RTCXmlViewer.getTextWidget().addVerifyListener(new VerifyListener() {
+			public void verifyText(VerifyEvent e) {
+				undoMgr.endCompoundChange();
+			}
+		});
+		
+		IDocumentPartitioner partitioner = new FastPartitioner(
+						new XMLPartitionScanner(),
+		    	        new String[] { 
+							XMLPartitionScanner.XML_TAG,
+							XMLPartitionScanner.XML_COMMENT,
+							XMLPartitionScanner.XML_DOCTAG
+							});
+	    rtcDocument.setDocumentPartitioner(partitioner);
+	    partitioner.connect(rtcDocument);
+		colorManager = new ColorManager();
+	    RTCXmlViewer.configure(new XMLConfiguration(colorManager));
+		RTCXmlViewer.setDocument(rtcDocument);
+		//
+		load();
+	}
+
+	private void createUpdateButton(IManagedForm managedForm, ScrolledForm form) {
+		Button updateButton = managedForm.getToolkit().createButton(form.getBody(), 
 										IMessageConstants.COMMON_LABEL_UPDATE, SWT.PUSH);
-		addButton.addSelectionListener(new SelectionAdapter() {
+		updateButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
@@ -145,85 +203,52 @@ public class RtcXmlEditorFormPage extends AbstractEditorFormPage {
 				}
 			}
 		});
-		gd = new GridData();
+		GridData gd = new GridData();
 		gd.horizontalAlignment = GridData.END;
 		gd.widthHint = 100;
-		addButton.setLayoutData(gd);
-		//
-		Composite composite = managedForm.getToolkit().createComposite(form.getBody(), SWT.NULL);
-		composite.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
-		gd = new GridData(GridData.FILL_BOTH);
-		gd.horizontalSpan = 2;
-		composite.setLayoutData(gd);
-		composite.setLayout(new FillLayout(SWT.VERTICAL));
-		//
-		CompositeRuler ruler = new CompositeRuler();
-		LineNumberRulerColumn lineCol = new LineNumberRulerColumn();
-		lineCol.setBackground(form.getDisplay().getSystemColor(SWT.COLOR_WHITE));
-		lineCol.setForeground(form.getDisplay().getSystemColor(SWT.COLOR_BLACK));
-		ruler.addDecorator(0, lineCol);
-		
-		RTCXmlViewer = new SourceViewer(composite, ruler , SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		RTCXmlViewer.addTextListener(new SourceTextListener());
-		RTCXmlViewer.getTextWidget().addKeyListener(new KeyListener() {
-			public void keyPressed(KeyEvent e) {
-				if( (e.stateMask & SWT.CTRL)!=0 && e.keyCode == KEYCODE_A ) {
-					RTCXmlViewer.doOperation(ITextOperationTarget.SELECT_ALL);
-				} else if( (e.stateMask & SWT.CTRL)!=0 && e.keyCode == KEYCODE_Y ) {
-					RTCXmlViewer.doOperation(ITextOperationTarget.REDO);
-				} else if( (e.stateMask & SWT.CTRL)!=0 && e.keyCode == KEYCODE_Z ) {
-					RTCXmlViewer.doOperation(ITextOperationTarget.UNDO);
-				}
-			}
-
-			public void keyReleased(KeyEvent e) {
-			}
-		});
-		final TextViewerUndoManager undoMgr = new TextViewerUndoManager(99);
-		RTCXmlViewer.setUndoManager(undoMgr);
-		undoMgr.connect(RTCXmlViewer);
-		RTCXmlViewer.getTextWidget().addVerifyListener(new VerifyListener() {
-			public void verifyText(VerifyEvent e) {
-				undoMgr.endCompoundChange();
-			}
-		});
-		
-		IDocumentPartitioner partitioner = new FastPartitioner(
-						new XMLPartitionScanner(),
-		    	        new String[] { 
-							XMLPartitionScanner.XML_TAG,
-							XMLPartitionScanner.XML_COMMENT,
-							XMLPartitionScanner.XML_DOCTAG
-							});
-	    rtcDocument.setDocumentPartitioner(partitioner);
-	    partitioner.connect(rtcDocument);
-		colorManager = new ColorManager();
-	    RTCXmlViewer.configure(new XMLConfiguration(colorManager));
-
-		load();
-		RTCXmlViewer.setDocument(rtcDocument);
-		//
+		updateButton.setLayoutData(gd);
 	}
 
 	public void update() {
-		editor.getRtcParam().setRtcXml(RTCXmlViewer.getDocument().get());
-		if( canDirty ) {
-			editor.updateDirty();
-		} else {
-			canDirty = true;
-		}
+		String newDoc = RTCXmlViewer.getDocument().get();
+		//
+		editor.getRtcParam().setRtcXml(newDoc);
+		editor.updateDirty();
 	}
 
 	/**
 	 * データをロードする
 	 */
 	public void load() {
-		if( RTCXmlViewer != null ) {
-			rtcDocument.set(editor.getRtcParam().getRtcXml());
-			canDirty = false;
+		if (RTCXmlViewer == null) {
+			return;
 		}
+		//
+		ProfileHandler handler = new ProfileHandler();
+		String xml = "";
+		try {
+			xml = handler.convert2XML(editor.getGeneratorParam());
+		} catch (Exception e) {
+			String message = e.getMessage();
+			if (message != null && !"".equals(message)) {
+				MessageDialog.openError(getSite().getShell(), "Error", message);
+			} else {
+				e.printStackTrace();// 今のところこちらにはこないはず
+			}
+		}
+		//
+		if (sourceTextListener == null) {
+			sourceTextListener = new SourceTextListener();
+		}
+		// XML編集開始前の初期ドキュメント設定時に updateしないようリスナを解除
+		RTCXmlViewer.removeTextListener(sourceTextListener);
+		//
+		originalContent = editor.getRtcParam().getRtcXml();
+		rtcDocument.set(xml);
+		//
+		RTCXmlViewer.addTextListener(sourceTextListener);
 	}
-	
+
 	public String validateParam() {
 		return null;
 	}
@@ -237,21 +262,16 @@ public class RtcXmlEditorFormPage extends AbstractEditorFormPage {
 	@Override
 	public void setActive(boolean active) {
 		super.setActive(active);
-		if( active ) {
-			ProfileHandler handler = new ProfileHandler();
-			String xml = "";
-			try {
-				xml = handler.convert2XML(editor.getGeneratorParam());
-			}catch(Exception e){
-				String message = e.getMessage();
-				if( message!=null && !"".equals(message) ){
-					MessageDialog.openError(getSite().getShell(), "Error", message);
-				}else{
-					e.printStackTrace();// 今のところこちらにはこないはず
-				}
+		if (active) {
+			// XML編集開始前の dirty設定を保存しておく
+			isUpdatedOriginal = editor.getRtcParam().isUpdated();
+			load();
+		} else {
+			// XML編集開始前の dirty設定に戻す
+			if (!isUpdatedOriginal) {
+				editor.getRtcParam().resetUpdated();
+				editor.updateDirty();
 			}
-			rtcDocument.set(xml);
-			originalContent = editor.getRtcParam().getRtcXml();
 		}
 	}
 

@@ -113,7 +113,7 @@ public class CXXWinDocLongTest extends TestBase {
 		datap2.setDocOperation("InPort2のデータの処理周期1234567890123456789012345678901234567890123456789012345678901234567890");
 		dataport.add(datap2);
 		
-		rtcParam.setInports(dataport);
+		rtcParam.getInports().addAll(dataport);
 		//
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
 
@@ -137,7 +137,7 @@ public class CXXWinDocLongTest extends TestBase {
 		datap4.setDocOperation("OutPort2のデータの処理周期1234567890123456789012345678901234567890123456789012345678901234567890");
 		outport.add(datap4);
 
-		rtcParam.setOutports(outport);
+		rtcParam.getOutports().addAll(outport);
 
 		ServicePortParam service1 = new ServicePortParam("svPort",0);
 		service1.setDocDescription("ServicePort1の概要1234567890123456789012345678901234567890123456789012345678901234567890");
@@ -152,7 +152,7 @@ public class CXXWinDocLongTest extends TestBase {
 		int1.setDocPreCondition("ServiceIF1の事前条件1234567890123456789012345678901234567890123456789012345678901234567890");
 		int1.setDocPostCondition("ServiceIF1の事後条件1234567890123456789012345678901234567890123456789012345678901234567890");
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 		
@@ -169,7 +169,7 @@ public class CXXWinDocLongTest extends TestBase {
 		int2.setDocPreCondition("ServiceIF2の事前条件1234567890123456789012345678901234567890123456789012345678901234567890");
 		int2.setDocPostCondition("ServiceIF2の事後条件1234567890123456789012345678901234567890123456789012345678901234567890");
 		srvinterts2.add(int2);
-		service2.setServicePortInterfaces(srvinterts2);
+		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
 		
 		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
@@ -213,9 +213,9 @@ public class CXXWinDocLongTest extends TestBase {
 		config5.setDocRange("Config5の範囲1234567890123456789012345678901234567890123456789012345678901234567890");
 		config5.setDocConstraint("Config5の制約条件1234567890123456789012345678901234567890123456789012345678901234567890");
 		configset.add(config5);
-		rtcParam.setConfigParams(configset);
+		rtcParam.getConfigParams().addAll(configset);
 
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);

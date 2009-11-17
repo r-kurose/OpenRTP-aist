@@ -40,12 +40,12 @@ public class CXXSystemConfigTest extends TestBase {
 		configset.add(new ConfigSetParam("double_param0","double","varname2", "0.11"));
 		configset.add(new ConfigSetParam("str_param0","std::string","", "hoge"));
 		configset.add(new ConfigSetParam("str_param1","std::string","varname3", "dara"));
-		rtcParam.setConfigParams(configset);
+		rtcParam.getConfigParams().addAll(configset);
 
 		List<ConfigParameterParam> configparam = new ArrayList<ConfigParameterParam>(); 
 		configparam.add(new ConfigParameterParam("timer.tick","0.1"));
 		configparam.add(new ConfigParameterParam("naming.update.interval","10.0"));
-		rtcParam.setConfigParameterParams(configparam);
+		rtcParam.getConfigParameterParams().addAll(configparam);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);

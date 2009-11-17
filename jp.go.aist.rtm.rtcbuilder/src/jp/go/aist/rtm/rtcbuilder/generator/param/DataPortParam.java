@@ -8,7 +8,9 @@ import java.util.List;
  * データポートを表すクラス
  */
 public class DataPortParam extends PortBaseParam implements Serializable {
-	
+
+	private static final long serialVersionUID = 533482869407934298L;
+
 	private String name;
 	private String type;
 	private String varname;
@@ -35,15 +37,15 @@ public class DataPortParam extends PortBaseParam implements Serializable {
 
 	public DataPortParam(String name, String type, String varname, int selection) {
 		this(name, type, varname, "", "", selection);
-		
-	}
-	public DataPortParam(String name, String type, String varname, String constraint, int selection) {
-		this(name, type, varname, constraint, "", selection);
-		
 	}
 
-	public DataPortParam(String name, String type, String varname, String constraint, 
-			String unit, int selection) {
+	public DataPortParam(String name, String type, String varname,
+			String constraint, int selection) {
+		this(name, type, varname, constraint, "", selection);
+	}
+
+	public DataPortParam(String name, String type, String varname,
+			String constraint, String unit, int selection) {
 		this.name = name;
 		this.type = type;
 		this.varname = varname;
@@ -63,13 +65,15 @@ public class DataPortParam extends PortBaseParam implements Serializable {
 		this.idlFile = "";
 		this.dataFlowType = "";
 		this.interfaceType = "";
-		this.subscriptionType ="";
+		this.subscriptionType = "";
+		//
+		setUpdated(false);
 	}
 
-	public DataPortParam(String name, String type, String varname, String selection,
-							String doc_description, String doc_type, String doc_num,
-							String doc_semantics, String doc_unit, String doc_occurrence,
-							String doc_operation) {
+	public DataPortParam(String name, String type, String varname,
+			String selection, String doc_description, String doc_type,
+			String doc_num, String doc_semantics, String doc_unit,
+			String doc_occurrence, String doc_operation) {
 		this.name = name;
 		this.type = type;
 		this.varname = varname;
@@ -86,8 +90,10 @@ public class DataPortParam extends PortBaseParam implements Serializable {
 		this.idlFile = "";
 		this.dataFlowType = "";
 		this.interfaceType = "";
-		this.subscriptionType ="";
-		this.constraint ="";
+		this.subscriptionType = "";
+		this.constraint = "";
+		//
+		setUpdated(false);
 	}
 
 	public String getName() {
@@ -125,30 +131,39 @@ public class DataPortParam extends PortBaseParam implements Serializable {
 	}
 	//
 	public void setName(String name) {
+		checkUpdated(this.name, name);
 		this.name = name;
 	}
 	public void setType(String type) {
+		checkUpdated(this.type, type);
 		this.type = type;
 	}
 	public void setVarName(String varname) {
+		checkUpdated(this.varname, varname);
 		this.varname = varname;
 	}
 	public void setIdlFile(String file) {
+		checkUpdated(this.idlFile, file);
 		this.idlFile = file;
 	}
 	public void setDataFlowType(String dataflow) {
+		checkUpdated(this.dataFlowType, dataflow);
 		this.dataFlowType = dataflow;
 	}
 	public void setInterfaceType(String type) {
+		checkUpdated(this.interfaceType, type);
 		this.interfaceType = type;
 	}
 	public void setSubscriptionType(String type) {
+		checkUpdated(this.subscriptionType, type);
 		this.subscriptionType = type;
 	}
 	public void setConstraint(String constraint) {
+		checkUpdated(this.constraint, constraint);
 		this.constraint = constraint;
 	}
 	public void setUnit(String unit) {
+		checkUpdated(this.unit, unit);
 		this.unit = unit;
 	}
 	//
@@ -173,30 +188,38 @@ public class DataPortParam extends PortBaseParam implements Serializable {
 	public String getDocOperation() {
 		return doc_operation;
 	}
-
+	//
 	public void setDocDescription(String description) {
+		checkUpdated(this.doc_description, description);
 		this.doc_description = description;
 	}
 	public void setDocType(String type) {
+		checkUpdated(this.doc_type, type);
 		this.doc_type = type;
 	}
 	public void setDocNum(String num) {
+		checkUpdated(this.doc_num, num);
 		this.doc_num = num;
 	}
 	public void setDocSemantics(String semantics) {
+		checkUpdated(this.doc_semantics, semantics);
 		this.doc_semantics = semantics;
 	}
 	public void setDocUnit(String unit) {
+		checkUpdated(this.doc_unit, unit);
 		this.doc_unit = unit;
 	}
 	public void setDocOccurrence(String occurrence) {
+		checkUpdated(this.doc_occurrence, occurrence);
 		this.doc_occurrence = occurrence;
 	}
 	public void setDocOperation(String operation) {
+		checkUpdated(this.doc_operation, operation);
 		this.doc_operation = operation;
 	}
 	//
 	public List<PropertyParam> getProperties() {
 		return properties;
 	}
+
 }

@@ -40,10 +40,10 @@ public class CXXTemplateTestAIST2 extends TestBase {
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "name", "", "", 
 				rootPath + "resource\\042\\CXX\\module\\MyService.idl", "Test::MyService", "", 0);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 		genParam.getRtcParams().add(rtcParam);
 
 		Generator generator = new Generator();

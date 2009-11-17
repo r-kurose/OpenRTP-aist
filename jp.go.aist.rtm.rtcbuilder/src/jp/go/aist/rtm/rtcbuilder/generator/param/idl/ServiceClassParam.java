@@ -19,6 +19,7 @@ public class ServiceClassParam implements Serializable {
 	private List<ServiceMethodParam> methods = new ArrayList<ServiceMethodParam>();
 	private RtcParam parent;
 	private Map<String,String> typeDef = new HashMap<String,String>();
+	private List<String> superInterfaceList = new ArrayList<String>();
 
 	public ServiceClassParam() {
 	}
@@ -84,4 +85,9 @@ public class ServiceClassParam implements Serializable {
 		}
 		return typeDefList;
 	}
+	
+	public List<String> getSuperInterfaceList() {
+		return superInterfaceList;
+	}
+
 }

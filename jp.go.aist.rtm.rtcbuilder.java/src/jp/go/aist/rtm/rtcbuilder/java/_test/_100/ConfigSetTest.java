@@ -38,7 +38,7 @@ public class ConfigSetTest extends TestBase {
 		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
 		configset.add(new ConfigSetParam("int_param0","int","","0"));
 		configset.add(new ConfigSetParam("vector_param","Vector","", "1.0,2.0,3.0"));
-		rtcParam.setConfigParams(configset);
+		rtcParam.getConfigParams().addAll(configset);
 
 		Generator generator = new Generator();
 		GenerateManager manager = new JavaGenerateManager();
@@ -73,7 +73,7 @@ public class ConfigSetTest extends TestBase {
 		genParam.getRtcParams().add(rtcParam);
 		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
 		configset.add(new ConfigSetParam("int_param0","int","","0"));
-		rtcParam.setConfigParams(configset);
+		rtcParam.getConfigParams().addAll(configset);
 
 		Generator generator = new Generator();
 		GenerateManager manager = new JavaGenerateManager();
@@ -110,7 +110,7 @@ public class ConfigSetTest extends TestBase {
 		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
 		configset.add(new ConfigSetParam("int_param0","int","","0"));
 		configset.add(new ConfigSetParam("int_param1","int","","1"));
-		rtcParam.setConfigParams(configset);
+		rtcParam.getConfigParams().addAll(configset);
 
 		Generator generator = new Generator();
 		GenerateManager manager = new JavaGenerateManager();
@@ -150,7 +150,7 @@ public class ConfigSetTest extends TestBase {
 		configset.add(new ConfigSetParam("double_param0","double","","0.11"));
 		configset.add(new ConfigSetParam("str_param0","String","","hoge"));
 		configset.add(new ConfigSetParam("str_param1","String","","dara"));
-		rtcParam.setConfigParams(configset);
+		rtcParam.getConfigParams().addAll(configset);
 
 		Generator generator = new Generator();
 		GenerateManager manager = new JavaGenerateManager();

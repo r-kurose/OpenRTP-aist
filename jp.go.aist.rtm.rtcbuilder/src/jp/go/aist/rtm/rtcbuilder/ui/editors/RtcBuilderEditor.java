@@ -232,7 +232,8 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		//
 		rtcParam.setDocLicense(DocumentPreferenceManager.getInstance().getLicenseValue());
 		rtcParam.setDocCreator(DocumentPreferenceManager.getInstance().getCreatorValue());
-		
+		//
+		rtcParam.resetUpdated();
 		generatorParam.getRtcParams().add(rtcParam);
 		buildview = ComponentFactory.eINSTANCE.createBuildView();
 	}
@@ -582,12 +583,14 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 			IFile rtcxml = projectHandle.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML);
 			if( rtcxml.exists()) rtcxml.delete(true, null);
 			rtcxml.create(new ByteArrayInputStream(xmlFile.getBytes("UTF-8")), true, null);
-			//		
+			//
 			setInput(new FileEditorInput(rtcxml));
 			this.getRtcParam().setRtcXml(xmlFile);
-	        //
-			isDirty = false;
-			firePropertyChange(IEditorPart.PROP_DIRTY);
+			//
+			// isDirty = false;
+			// firePropertyChange(IEditorPart.PROP_DIRTY);
+			getRtcParam().resetUpdated();
+			updateDirty();
 		} catch (UnsupportedEncodingException e) {
 			IStatus status = new Status(IStatus.ERROR, RtcBuilderPlugin
 						.getDefault().getClass().getName(), 0,
@@ -613,21 +616,26 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	}
 
 	protected void updateProfiles(String xmlFile) throws Exception {
-		//RTC.xmlの内容を他のページに反映
+		// RTC.xmlの内容を他のページに反映
 		ProfileHandler handler = new ProfileHandler();
 		RtcProfile module = handler.restorefromXML(xmlFile);
 		ParamUtil putil = new ParamUtil();
-		this.getGeneratorParam().getRtcParams().set(0, putil.convertFromModule(module, generatorParam, managerList));
-		this.getRtcParam().setRtcXml(xmlFile);
-		if( basicFormPage != null )	 basicFormPage.load();
-		if( dataPortFormPage != null ) dataPortFormPage.load();
-		if( servicePortFormPage != null ) servicePortFormPage.load();
-		if( configurationFormPage != null ) configurationFormPage.load();
-		if( languageFormPage != null ) languageFormPage.load();
-		if( documentFormPage != null ) documentFormPage.load();
-		if( activityFormPage != null ) activityFormPage.load();
+		getGeneratorParam().getRtcParams().set(0,
+				putil.convertFromModule(module, generatorParam, managerList));
+		getRtcParam().setRtcXml(xmlFile);
+		//
+		if (basicFormPage != null) basicFormPage.load();
+		if (dataPortFormPage != null) dataPortFormPage.load();
+		if (servicePortFormPage != null) servicePortFormPage.load();
+		if (configurationFormPage != null) configurationFormPage.load();
+		if (languageFormPage != null) languageFormPage.load();
+		if (documentFormPage != null) documentFormPage.load();
+		if (activityFormPage != null) activityFormPage.load();
 		//
 		customPagesOperation("load");
+		//
+		getRtcParam().resetUpdated();
+		updateDirty();
 	}
 
 	/**
@@ -660,7 +668,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	 * エディタをダーティにする。
 	 */
 	public void updateDirty() {
-		setDirty(true);
+		setDirty(getRtcParam().isUpdated());
 		firePropertyChange(IEditorPart.PROP_DIRTY);
 	}
 
@@ -801,24 +809,6 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		}
 	}
 		
-//	public void setCustomEditorsByLang(String langName) {
-//		customPagesOperation("remove");
-//		this.customFormPages = null;
-//		if("C++".equals(langName)) return;
-//		List list = RtcBuilderPlugin.getDefault().getAddFormPageExtensionLoader().getList();
-//		if (list != null) {
-//			for(Iterator it = list.iterator() ; it.hasNext();) {
-//				AddFormPageExtension extension = (AddFormPageExtension) it.next();
-//				if (extension.getManagerKey().equals(langName)) {
-//					this.customFormPages = extension.getCustomPages(this);
-//					break;
-//				}
-//			}
-//		}
-//		
-//		if(this.customFormPages != null) customPagesOperation("add");
-//	}
-
 	public void setEnabledInfoByLang(String langName){
 		if( "C++".equals(langName) ){
 			setEnabledInfo(null);

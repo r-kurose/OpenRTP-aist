@@ -67,6 +67,7 @@ public class IDLParamConverter {
 				final ServiceClassParam service = new ServiceClassParam();
 				service.setIdlPath(idlPath);
 				service.setName(getModuleName(n) + interfaceInfomation.name);
+				service.getSuperInterfaceList().addAll(interfaceInfomation.superInterfaceList);
 
 				n.interface_body.accept(new GJVoidDepthFirst() {
 					@Override
@@ -99,8 +100,25 @@ public class IDLParamConverter {
 			}
 
 		}, null);
+		checkSuperInterface(result);
 
 		return result;
+	}
+	
+	public static void checkSuperInterface(List<ServiceClassParam> targetList) {
+		for(ServiceClassParam target : targetList) {
+			if( target.getSuperInterfaceList().size()==0 ) continue;
+			for(String targetIF : target.getSuperInterfaceList()) {
+				for(ServiceClassParam source : targetList) {
+					if(targetIF.equals(source.getName())) {
+						target.getMethods().addAll(source.getMethods());
+						target.setTypeDef(source.getTypeDefList());
+						break;
+					}
+				}
+			}
+		}
+		
 	}
 
 	/**

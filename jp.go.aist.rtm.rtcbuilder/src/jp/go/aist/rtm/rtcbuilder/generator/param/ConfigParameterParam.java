@@ -5,54 +5,46 @@ import java.io.Serializable;
 /**
  * コンフィギュレーションプロファイルを表すクラス
  */
-public class ConfigParameterParam implements Serializable {
-	
-	private String[] Config_Items;
-	private String[] Default_Items;
+public class ConfigParameterParam extends AbstractRecordedParam implements
+		Serializable {
 
-    private String configName;
+	private static final long serialVersionUID = -6870474016201077762L;
+
+	private String configName;
 	private String defaultValue;
 	protected int selection = 0;
 
 	public ConfigParameterParam() {
-		this.configName = "";
-		this.defaultValue = "";
-	}
-
-	public ConfigParameterParam(String[] config_items) {
-		this();
-		this.Config_Items = config_items;
+		this("", "");
 	}
 
 	public ConfigParameterParam(String configName, String defaultVal) {
 		this.configName = configName;
 		this.defaultValue = defaultVal;
+		//
+		setUpdated(false);
 	}
 
 	public String getConfigName() {
 		return configName;
 	}
+
 	public String getDefaultVal() {
 		return defaultValue;
 	}
+
 	public int getIndex() {
 		return selection;
 	}
 
 	public void setConfigName(String configName) {
+		checkUpdated(this.configName, configName);
 		this.configName = configName;
 	}
+
 	public void setDefaultVal(String defaultVal) {
+		checkUpdated(this.defaultValue, defaultVal);
 		this.defaultValue = defaultVal;
 	}
-	public void setIndex(int index) {
-		this.selection = index;
-		this.configName = this.Config_Items[this.selection];
-	}
-	public void setConfigItems(String[] config_items) {
-		this.Config_Items = config_items;
-	}
-	public void setDefaultItems(String[] default_items) {
-		this.Default_Items = default_items;
-	}
+
 }

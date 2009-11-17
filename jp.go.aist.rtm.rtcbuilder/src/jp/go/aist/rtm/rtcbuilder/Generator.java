@@ -221,21 +221,19 @@ public class Generator {
 	private List<ServiceClassParam> getRtcServiceClass(
 			RtcParam rtcParam, List<ServiceClassParam> IDLPathes) throws ParseException {
 		List<ServiceClassParam> result = new ArrayList<ServiceClassParam>();
+		List<String> includeFiles = new ArrayList<String>();
 
 		for(int intIdx=0; intIdx<IDLPathes.size(); intIdx++ ) {
 			if(IDLPathes.get(intIdx) != null ) {
 				String idlContent = FileUtil.readFile(IDLPathes.get(intIdx).getName());
 				if (idlContent != null) {
-//					String idl = PreProcessor.parse(idlContent, rtcParam.getIncludeIDLDic());
-					String idl = PreProcessor.parse(idlContent, getIncludeIDLDic(IDLPathes.get(intIdx).getIdlPath()));
+					String idl = PreProcessor.parse(idlContent, getIncludeIDLDic(IDLPathes.get(intIdx).getIdlPath()), includeFiles);
 					IDLParser parser = new IDLParser(new StringReader(idl));
 	
 					specification spec = parser.specification();
 	
 					List<ServiceClassParam> serviceClassParams = IDLParamConverter
 							.convert(spec, IDLPathes.get(intIdx).getName());
-//					Map<String,String> typedefParams = IDLParamConverter
-//						.convert_typedef(spec, IDLPathes.get(intIdx).getName());
 					List<TypeDefParam> typedefParams = IDLParamConverter
 							.convert_typedef(spec, IDLPathes.get(intIdx).getName());
 					if( typedefParams.size() > 0 ) {
@@ -246,6 +244,12 @@ public class Generator {
 					}
 					result.addAll(serviceClassParams);
 				}
+			}
+		}
+		//
+		for(String target : includeFiles) {
+			if( !rtcParam.getIncludedIdls().contains(target) ) {
+				rtcParam.getIncludedIdls().add(target);
 			}
 		}
 
@@ -306,24 +310,6 @@ public class Generator {
 		IProject project = workspaceHandle.getProject(rtcParam.getOutputProject());
 		if(!project.exists()) {
 			return;
-//			try {
-//				project.create(null);
-//				project.open(null);
-//				LanguageProperty langProp = LanguageProperty.checkPlugin(rtcParam);
-//				if(langProp != null) {
-//					IProjectDescription description = project.getDescription();
-//					String[] ids = description.getNatureIds();
-//					String[] newIds = new String[ids.length + langProp.getNatures().size()];
-//					System.arraycopy(ids, 0, newIds, 0, ids.length);
-//					for( int intIdx=0; intIdx<langProp.getNatures().size(); intIdx++ ) {
-//						newIds[ids.length+intIdx] = langProp.getNatures().get(intIdx);
-//					}
-//					description.setNatureIds(newIds);
-//					project.setDescription(description, null);
-//				}
-//			} catch (CoreException e) {
-//				throw new RuntimeException(IRTCBMessageConstants.ERROR_GENERATE_FAILED);
-//			}
 		}
 		
 		for (GeneratedResult generatedResult : generatedResultList) {
@@ -343,6 +329,15 @@ public class Generator {
 			if( !idlTarget.getLocation().toOSString().equals(idlFile.getIdlPath()) )  {
 				idlTarget.delete(true, null);
 				idlTarget.create(new FileInputStream(idlFile.getIdlPath()), true, null);
+			}
+		}
+		//
+		for( String includedIdlFile : rtcParam.getIncludedIdls() ) {
+			File target = new File(includedIdlFile);
+			IFile idlTarget = project.getFile(target.getName());
+			if( !idlTarget.getLocation().toOSString().equals(includedIdlFile) )  {
+				idlTarget.delete(true, null);
+				idlTarget.create(new FileInputStream(includedIdlFile), true, null);
 			}
 		}
 	}

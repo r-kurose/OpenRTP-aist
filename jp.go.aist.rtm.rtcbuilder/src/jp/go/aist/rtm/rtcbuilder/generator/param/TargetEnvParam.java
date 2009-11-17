@@ -1,32 +1,27 @@
 package jp.go.aist.rtm.rtcbuilder.generator.param;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 実行環境を表すクラス
  */
-public class TargetEnvParam implements Serializable {
-	
+public class TargetEnvParam extends AbstractRecordedParam implements
+		Serializable {
+
+	private static final long serialVersionUID = 3332439570605262920L;
+
 	private String langVersion;
 	private String os;
 	private String other;
 	private String cpuOther;
-	private List<String> osVersions = new ArrayList<String>();
-	private List<String> cpus = new ArrayList<String>();
-	private List<LibraryParam> libraries = new ArrayList<LibraryParam>();
+	private RecordedList<String> osVersions = new RecordedList<String>();
+	private RecordedList<String> cpus = new RecordedList<String>();
+	private RecordedList<LibraryParam> libraries = new RecordedList<LibraryParam>();
 	//
 
 	public TargetEnvParam() {
-		this.langVersion = "";
-		this.os = "";
-		this.other = "";
-		this.cpuOther = "";
-		//
-		this.osVersions.clear();
-		this.cpus.clear();
-		this.libraries.clear();
+		this("", "", "", "");
 	}
 	
 	public TargetEnvParam(String langVersion, String os, String other, String cpuOther) {
@@ -63,24 +58,43 @@ public class TargetEnvParam implements Serializable {
 	}
 	//
 	public void setLangVersion(String langVersion) {
+		checkUpdated(this.langVersion, langVersion);
 		this.langVersion = langVersion;
 	}
 	public void setOs(String os) {
+		checkUpdated(this.os, os);
 		this.os = os;
 	}
 	public void setOther(String other) {
+		checkUpdated(this.other, other);
 		this.other = other;
 	}
 	public void setCpuOther(String cpuOther) {
+		checkUpdated(this.cpuOther, cpuOther);
 		this.cpuOther = cpuOther;
 	}
-	public void setOsVersions(List<String> osVersions) {
-		this.osVersions = osVersions;
+
+	@Override
+	public boolean isUpdated() {
+		if (super.isUpdated()) {
+			return true;
+		}
+		if (this.osVersions.isUpdated() || this.cpus.isUpdated()) {
+			return true;
+		}
+		if (this.libraries.isUpdated()) {
+			return true;
+		}
+		return false;
 	}
-	public void setCpus(List<String> cpus) {
-		this.cpus = cpus;
+
+	@Override
+	public void resetUpdated() {
+		super.resetUpdated();
+		//
+		this.osVersions.resetUpdated();
+		this.cpus.resetUpdated();
+		this.libraries.resetUpdated();
 	}
-	public void setLibraries(List<LibraryParam> libraries) {
-		this.libraries = libraries;
-	}
+
 }

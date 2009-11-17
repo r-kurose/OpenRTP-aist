@@ -248,7 +248,8 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		descriptionText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_DESCRIPTION);
 		versionText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_VERSION);
 		venderText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_VENDOR);
-		String[] defaultCategory = {"composite.PeriodicECShared", "composite.PeriodicStateShared", "composite.FsmECShared", "composite.FsmStateShared"};
+//		String[] defaultCategory = {"composite.PeriodicECShared", "composite.PeriodicStateShared", "composite.FsmECShared", "composite.FsmStateShared"};
+		String[] defaultCategory = {};
 		categoryCombo = createEditableCombo(toolkit, composite,	IMessageConstants.BASIC_LBL_CATEGORY,
 				CATEGORY_INDEX_KEY, defaultCategory);
 		typeCombo = createLabelAndCombo(toolkit, composite, IMessageConstants.BASIC_LBL_COMPONENT_TYPE,
@@ -354,9 +355,57 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					return;
 				}
 				//対象プロジェクトの確認
+				IProject project = checkTargetProject();
+				if( project==null) return;
+				// 裏からファイルを削除されている可能性があるため、
+				// プロジェクトとファイルシステムの同期を取る
+				try {
+					project.refreshLocal(IResource.DEPTH_INFINITE, null);
+				} catch (CoreException e1) {
+					throw new RuntimeException(IRTCBMessageConstants.ERROR_GENERATE_FAILED);
+				}
+				//
+				editor.addDefaultComboValue();
+				GuiRtcBuilder rtcBuilder = new GuiRtcBuilder();
+				List<GenerateManager> managerList = RtcBuilderPlugin.getDefault().getLoader().getManagerList();
+				if( managerList != null ) {
+					for( Iterator<GenerateManager> iter = managerList.iterator(); iter.hasNext(); ) {
+						GenerateManager manager = iter.next();
+						rtcBuilder.addGenerateManager(manager);
+					}
+				}
+				GeneratorParam generatorParam = editor.getGeneratorParam();
+				//TODO 複数コンポーネント対応版とする場合には複数設定
+				generatorParam.getRtcParams().get(0).getServiceClassParams().clear();
+				setPrefixSuffix(generatorParam.getRtcParams().get(0));
+				if (rtcBuilder.doGenerateWrite(generatorParam)) {
+					// xmlを保存
+					ProfileHandler handler = new ProfileHandler();
+					try {
+						String strXml = handler.convert2XML(editor.getGeneratorParam());
+
+						IFile orgRtcxml = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML);
+						if (orgRtcxml.exists()) {
+							IFile renameFile = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML + DATE_FORMAT.format(new GregorianCalendar().getTime()) );
+							orgRtcxml.move(renameFile.getFullPath(), true, null);
+						}
+						IFile saveRtcxml = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML);
+						saveRtcxml.create(new ByteArrayInputStream(strXml.getBytes("UTF-8")), true, null);
+						//
+						editor.getRtcParam().resetUpdated();
+						editor.updateDirty();
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+					//
+					switchPerspective();
+				}
+			}
+
+			private IProject checkTargetProject() {
 				if( editor.getRtcParam().getOutputProject()==null || "".equals(editor.getRtcParam().getOutputProject()) ){
 					MessageDialog.openError(getSite().getShell(), "Error", IRTCBMessageConstants.VALIDATE_ERROR_OUTPUTPROJECT);
-					return;
+					return null;
 				}
 				IWorkspaceRoot workspaceHandle = ResourcesPlugin.getWorkspace().getRoot();
 				IProject project = workspaceHandle.getProject(editor.getRtcParam().getOutputProject());
@@ -367,7 +416,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					MessageBox message = new MessageBox(shell, SWT.ICON_QUESTION | SWT.YES | SWT.NO);
 					message.setText(IRTCBMessageConstants.CONFIRM_PROJECT_GENERATE_TITLE);
 					message.setMessage(IRTCBMessageConstants.CONFIRM_PROJECT_GENERATE);
-					if( message.open() != SWT.YES) return;
+					if( message.open() != SWT.YES) return null;
 					try {
 						project.create(null);
 						project.open(null);
@@ -387,46 +436,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 						throw new RuntimeException(IRTCBMessageConstants.ERROR_GENERATE_FAILED);
 					}
 				}
-				// 裏からファイルを削除されている可能性があるため、
-				// プロジェクトとファイルシステムの同期を取る
-				try {
-					project.refreshLocal(IResource.DEPTH_INFINITE, null);
-				} catch (CoreException e1) {
-					throw new RuntimeException(IRTCBMessageConstants.ERROR_GENERATE_FAILED);
-				}
-				//
-				editor.addDefaultComboValue();
-				GuiRtcBuilder rtcBuilder = new GuiRtcBuilder();
-				List<GenerateManager> managerList = RtcBuilderPlugin.getDefault().getLoader().getManagerList();
-				if( managerList != null ) {
-					for( Iterator<GenerateManager> iter = managerList.iterator(); iter.hasNext(); ) {
-						GenerateManager manager = iter.next();
-						rtcBuilder.addGenerateManager(manager);
-					}
-				}
-				GeneratorParam generatorParam = editor.getGeneratorParam();
-				generatorParam.getRtcParams().get(0).getServiceClassParams().clear();
-				setPrefixSuffix(generatorParam.getRtcParams().get(0));
-				if( rtcBuilder.doGenerateWrite(generatorParam) ) {
-					// xmlを保存
-					ProfileHandler handler = new ProfileHandler();
-					try {
-						String strXml = handler.convert2XML(editor.getGeneratorParam());
-						
-						IFile orgRtcxml = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML);
-						if( orgRtcxml.exists() ){
-							IFile renameFile = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML + DATE_FORMAT.format(new GregorianCalendar().getTime()) );
-							orgRtcxml.move(renameFile.getFullPath(), true, null);
-						}
-						IFile saveRtcxml = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML);
-						saveRtcxml.create(new ByteArrayInputStream(strXml.getBytes("UTF-8")), true, null);
-					} catch (Exception e1) {
-						// スキーマエラーは起きないと想定
-						e1.printStackTrace();
-					}
-					//
-					switchPerspective();
-				}
+				return project;
 			}
 		});
 		//
@@ -530,6 +540,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 						}
 		        	}
 					MessageDialog.openInformation(getSite().getShell(), "Finish",	IMessageConstants.BASIC_IMPORT_DONE);
+					//
 					editor.allPagesReLoad();
 					editor.updateEMFModuleName(editor.getRtcParam().getName());
 					editor.updateEMFDataInPorts(editor.getRtcParam().getInports());
@@ -537,6 +548,9 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					editor.updateEMFServiceOutPorts(editor.getRtcParam().getServicePorts());
 					editor.setEnabledInfoByLangFromRtcParam();
 					load();
+					//
+					editor.getRtcParam().resetUpdated();
+					editor.updateDirty();
 		        }
 			}
 		});
@@ -565,29 +579,32 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 				String selectedFileName = dialog.open();
 		        if (selectedFileName != null) {
 		        	if (extension == null) {
-	
 			        	try {
-				        	if( getFileExtension(selectedFileName).equals(IRtcBuilderConstants.YAML_EXTENSION) ) {
+				        	if (getFileExtension(selectedFileName).equals(IRtcBuilderConstants.YAML_EXTENSION)) {
 				        		ProfileHandler handler = new ProfileHandler();
 				        		handler.createYaml(selectedFileName, editor.getGeneratorParam());
 				        	} else {
 				        		ProfileHandler handler = new ProfileHandler();
-				        		try{
-					        		handler.validateXml(handler.convert2XML(editor.getGeneratorParam()));
-				        		}catch(JAXBException ex){
-				        			if( !MessageDialog.openQuestion(getSite().getShell(),ex.getMessage(),
+				        		try {
+									handler.validateXml(handler.convert2XML(editor.getGeneratorParam()));
+								} catch (JAXBException ex) {
+				        			if (!MessageDialog.openQuestion(getSite().getShell(),ex.getMessage(),
 				        					IMessageConstants.PROFILE_VALIDATE_ERROR_MESSAGE + System.getProperty("line.separator") + ex.getCause().toString()) )
 				        				return;// 「いいえ」のときは保存しない
 				        		}// 通常のExceptionは外側でcatchする
-				        		handler.storeToXML(selectedFileName, editor.getGeneratorParam());
+								handler.storeToXML(selectedFileName, editor.getGeneratorParam());
 				        	}
+							editor.getRtcParam().resetUpdated();
+							editor.updateDirty();
 						} catch (Exception e1) {
 							MessageDialog.openError(getSite().getShell(), "Error", IMessageConstants.BASIC_EXPORT_ERROR);
 							return;
 						}
-		        	}else {
-	        			try {
-							extension.export(selectedFileName,editor);
+		        	} else {
+						try {
+							extension.export(selectedFileName, editor);
+							editor.getRtcParam().resetUpdated();
+							editor.updateDirty();
 						} catch (Exception e1) {
 							String msg = e1.getMessage();
 							if (msg == null || msg.equals("")) {
@@ -596,7 +613,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 							MessageDialog.openError(getSite().getShell(), "Error", msg);
 							return;
 						}
-		        	}
+					}
 					MessageDialog.openInformation(getSite().getShell(), "Finish", IMessageConstants.BASIC_EXPORT_DONE);
 		        }
 			}
