@@ -89,7 +89,6 @@ public class SynchronizationManager {
 					if (ping) return temp;
 				}
 			} catch (Exception e) {
-//				System.out.println("Exception Catched" + e);
 				ping = false;
 			}
 		}

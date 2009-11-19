@@ -722,7 +722,13 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	 */
 	public void init(IEditorSite site, IEditorInput input)
 			throws PartInitException {
-		IEditorInput newInput = load(input, site, RestoreOption.NONE);
+		IEditorInput newInput;
+		try {
+			newInput = load(input, site, RestoreOption.NONE);
+		} catch (Throwable t) {
+			// 起動時にファイルオープンエラーが発生した時はエディタの中身を空にする 2009.11.06
+			newInput = load(new NullEditorInput(), site, RestoreOption.NONE);
+		}
 		super.init(site, newInput);
 	}
 
@@ -1004,9 +1010,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		for (Object model : getSystemDiagram().getComponents()) {
 			EditPart ep = findEditPart(model);
 			if (ep != null) {
-//				debugPrint(ep, ep.getChildren().size());
 				for (Object obj :ep.getChildren()) {
-//					debugPrint((EditPart)obj, 0);
 					((EditPart)obj).refresh();
 				}
 			}
@@ -1015,26 +1019,4 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		if (parent != null) parent.refresh();
 		
 	}
-	
-
-//	private void debugPrint(EditPart part, int size) {
-//		Object model = part.getModel();
-//		if (model instanceof Port) debugPrint((Port)model);
-//		if (model instanceof Component) debugPrint((Component)model, size, part);
-//	}
-//	private void debugPrint(Component component, int size, EditPart part) {
-//		if (component.getInstanceNameL().equals("test3"))  {
-//			System.out.println(component.getPorts().size() + ":" + size);
-//			for (Object obj :part.getChildren()) {
-//				System.out.println(obj);
-//			}
-//		}
-//	}
-//
-//	private static void debugPrint(Port port) {
-//		Component comp = (Component) port.eContainer();
-//		if (comp.getInstanceNameL().equals("test3"))
-//			System.out.println(port.getNameL() + ":" + comp.getPorts().size());
-//	}
-
 }

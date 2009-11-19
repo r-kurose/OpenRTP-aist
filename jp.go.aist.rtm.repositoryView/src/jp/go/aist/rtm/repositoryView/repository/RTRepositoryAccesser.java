@@ -122,9 +122,6 @@ public class RTRepositoryAccesser {
 	}
 	
 	private RepositoryViewItem createRoot(String repositoryAddress, String[] source) {
-//		if( source.length==0 ) {
-//			return null;
-//		}
 
 		RepositoryViewRootItem result = new ServerRVRootItem(repositoryAddress);
 
@@ -137,7 +134,6 @@ public class RTRepositoryAccesser {
 				specification.setTypeNameL(items[items.length-1]);
 				specification.setAliasName(items[items.length-1]);
 				specification.setComponentId(source[intIdx]);
-//				specification.setPathId(repositoryAddress);
 				specification.setPathId(repositoryAddress + "/" + source[intIdx]); //$NON-NLS-1$
 				
 				RepositoryViewFactory.buildTree(result, specification, element[0], true);

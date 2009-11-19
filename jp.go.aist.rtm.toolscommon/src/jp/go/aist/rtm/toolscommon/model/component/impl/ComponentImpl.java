@@ -1270,11 +1270,12 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Component))
 			return false;
-		if (getComponentId() == null || getPathId() == null)
+		if (getComponentId() == null || getPathId() == null || getInstanceNameL() == null)
 			return super.equals(obj);
 		Component other = (Component) obj;
 		return getComponentId().equals(other.getComponentId())
-				&& getPathId().equals(other.getPathId());
+				&& getPathId().equals(other.getPathId())
+				&& getInstanceNameL().equals(other.getInstanceNameL());
 	}
 
 	@Override

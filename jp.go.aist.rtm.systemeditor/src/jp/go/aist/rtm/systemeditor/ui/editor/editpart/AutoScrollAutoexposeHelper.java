@@ -42,9 +42,6 @@ public class AutoScrollAutoexposeHelper extends ViewportAutoexposeHelper {
 		port.translateToParent(rect);
 		port.translateToAbsolute(rect);
 
-		// if (!rect.contains(where) || rect.crop(threshold).contains(where))
-		// return false;
-
 		// set scroll offset (speed factor)
 		int scrollOffset = 0;
 

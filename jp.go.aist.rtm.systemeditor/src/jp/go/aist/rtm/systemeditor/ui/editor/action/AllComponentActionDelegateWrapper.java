@@ -38,8 +38,6 @@ public class AllComponentActionDelegateWrapper extends Action implements
 
 	@Override
 	public void run() {
-//		delegate.setActivePart(this, PlatformUI.getWorkbench()
-//				.getActiveWorkbenchWindow().getActivePage().getActivePart());
 		delegate.selectionChanged(this, convertSelection(selection));
 		delegate.run(this);
 	}

@@ -148,11 +148,6 @@ public class SystemXYLayoutEditPolicy extends XYLayoutEditPolicy {
 		//PathID‚ÌÝ’è‚à•K—v
 		newObject2.setInstanceNameL(
 				newObject2.getInstanceNameL() + "_" + Integer.valueOf(compCount+1).toString());
-		String basePathId = newObject2.getPathId();
-		int index = basePathId.lastIndexOf(":");
-		if (index >=0) basePathId = basePathId.substring(0, index);
-		newObject2.setPathId(
-				basePathId + ":" + Integer.valueOf(compCount+1).toString() ); //$NON-NLS-1$
 	}
 
 	@Override

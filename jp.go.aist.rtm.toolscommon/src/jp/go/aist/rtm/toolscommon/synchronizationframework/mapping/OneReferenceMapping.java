@@ -70,7 +70,6 @@ public abstract class OneReferenceMapping extends ReferenceMapping {
 						loadLocalObjectByRemoteObject);
 			}
 		}
-//		System.out.println(System.currentTimeMillis() -start);
 	}
 
 	/**

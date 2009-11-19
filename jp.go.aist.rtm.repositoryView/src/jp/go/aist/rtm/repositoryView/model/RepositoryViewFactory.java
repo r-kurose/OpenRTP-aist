@@ -15,10 +15,6 @@ public class RepositoryViewFactory {
 		return itemChild;
 	}
 
-//	public static RepositoryViewItem makeLeaf(RepositoryViewItem itemParent, String name, ComponentSpecification component, String leafType) {
-//		return makeLeaf(itemParent, name, component, leafType, false);
-//	}
-	
 	private static RepositoryViewItem makeLeaf(RepositoryViewItem itemParent, String name, 
 			ComponentSpecification component, String leafType, boolean isRepository) {
 		RepositoryViewLeafItem itemChild = null;

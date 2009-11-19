@@ -29,8 +29,6 @@ public class ComponentPropertySource implements IPropertySource {
 
 	private static final String DISP_STATE = Messages	.getString("ComponentPropertySource.disp.state");
 
-//	private static final String RTC_UNKNOWN_VIEWSTRING = Messages	.getString("ComponentPropertySource.unknown");
-
 	private static final String STATE_UNKNOWN_VIEWSTRING = Messages.getString("ComponentPropertySource.state.unknown");
 
 	private static final String STATE_CREATED_VIEWSTRING = Messages.getString("ComponentPropertySource.state.created");
@@ -38,8 +36,6 @@ public class ComponentPropertySource implements IPropertySource {
 	private static final String STATE_INACTIVE_VIEWSTRING = Messages.getString("ComponentPropertySource.state.inactive");
 
 	private static final String STATE_ACTIVE_VIEWSTRING = Messages.getString("ComponentPropertySource.state.active");
-
-//	private static final String STATE_ALIVE_VIEWSTRING = Messages.getString("ComponentPropertySource.state.alive");
 
 	private static final String STATE_ERROR_VIEWSTRING = Messages.getString("ComponentPropertySource.state.error");
 

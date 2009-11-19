@@ -1,6 +1,8 @@
 package jp.go.aist.rtm.repositoryView.ui.action;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import jp.go.aist.rtm.repositoryView.model.LocalRVRootItem;
@@ -53,11 +55,19 @@ public class ViewActionLoadFile implements IViewActionDelegate {
 					Messages.getString("ViewActionLoadFile.3") + "\r\n\r\n[ " + e.getMessage() + " ]"); //$NON-NLS-1$
 			return;
 		}
-//		module.setPathId(targetFileName.substring(0, targetFileName.lastIndexOf(File.separator)));
 		String fileName = targetFileName.substring(targetFileName.lastIndexOf(File.separator) + 1);
 		module.setAliasName(module.getInstanceNameL() + "(" + fileName + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-		module.setPathId("file://localhost/" + targetFileName + ":1"); //$NON-NLS-1$
-		
+		//
+		File convFile = new File(targetFileName);
+		try {
+			URI pathUri = new URI("file", "localhost",convFile.toURI().getPath() , null );
+			module.setPathId(pathUri.toString()); //$NON-NLS-1$
+		} catch (URISyntaxException e) {
+			MessageDialog.openError(view.getSite().getShell(), Messages.getString("ViewActionLoadDirecroty.3"),	 //$NON-NLS-1$
+			Messages.getString("ViewActionLoadDirecroty.4") + "\r\n\r\n[ " + e.getMessage() + " ]"); //$NON-NLS-1$
+			return;
+		}
+		//
     	TreeViewer viewer = this.view.getViewer();
     	RepositoryViewItem rootItem = new RepositoryViewItem("root", 0); //$NON-NLS-1$
     	rootItem.setChildren((List<RepositoryViewItem>)viewer.getInput());

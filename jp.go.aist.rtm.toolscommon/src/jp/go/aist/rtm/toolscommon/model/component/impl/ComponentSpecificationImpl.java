@@ -236,11 +236,19 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 	public boolean updateConfigurationSetListR(List list,
 			ConfigurationSet activeConfigurationSet, List originallist) {
 		
-		getConfigurationSets().clear();
+		clearConfigurationSet();
 		getConfigurationSets().addAll(list);
 		setActiveConfigurationSet(activeConfigurationSet);
 
 		return true;
+	}
+
+	private void clearConfigurationSet() {
+		for (Iterator<?> iterate = getConfigurationSets().iterator(); iterate.hasNext();) {
+			ConfigurationSet configSet = (ConfigurationSet) iterate.next();
+			if (configSet.getId().startsWith("_")) continue;
+			iterate.remove();
+		}
 	}
 
 	@SuppressWarnings("unchecked")

@@ -30,7 +30,6 @@ public class ArrayContentProvider implements ITreeContentProvider {
 	}
 	
 	public boolean hasChildren(Object element) {
-	    //(自分内にディレクトリがあるかどうか)
 	    return getChildren(element).length > 0;
 	}
 

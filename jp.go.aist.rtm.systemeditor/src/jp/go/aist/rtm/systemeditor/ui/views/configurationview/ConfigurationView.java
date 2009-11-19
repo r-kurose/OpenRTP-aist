@@ -75,6 +75,31 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
  * NameValueの値の編集ができるのはStirngクラスのみであり、それ以外のオブジェクトが含まれていた場合には、編集することはできない（削除は可能）
  */
 public class ConfigurationView extends ViewPart {
+	
+	/** 編集ボタン押下時に呼び出されるリスナー */
+	public static class EditSelectionAdapter implements SelectionListener {
+
+		private ConfigurationView configurationView;
+
+		public EditSelectionAdapter(ConfigurationView configurationView) {
+			this.configurationView = configurationView;
+		}
+
+		@Override
+		public void widgetDefaultSelected(SelectionEvent e) {
+		}
+
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			ConfigurationDialog dialog = new ConfigurationDialog(
+					configurationView);
+			if (dialog.open() == IDialogConstants.OK_ID) {
+				configurationView.refreshData();
+			}
+		}
+
+	}
+
 	private static final String PROPERTY_ACTIVE_CONFIGSET = "PROPERTY_ACTIVE_CONFIGSET"; //$NON-NLS-1$
 
 	private static final String PROPERTY_CONFIG_SET = "PROPERTY_CONFIG_SET"; //$NON-NLS-1$
@@ -111,7 +136,6 @@ public class ConfigurationView extends ViewPart {
 
 	private Button addConfigurationSetButton;
 
-	// ConfigSetのコピーボタン 2008.12.17
 	private Button copyConfigurationSetButton;
 
 	private Button deleteConfigurationSetButton;
@@ -176,19 +200,7 @@ public class ConfigurationView extends ViewPart {
 		gd.widthHint = BUTTON_WIDTH;
 		editButton.setLayoutData(gd);
 		editButton.setEnabled(false);
-		editButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				ConfigurationDialog dialog = new ConfigurationDialog(
-						getSite().getShell(), copiedComponent);
-				if (dialog.open() == IDialogConstants.OK_ID) {
-					if (dialog.isApply()) {
-						applyConfiguration();
-					}
-					refreshData();
-				}
-			}
-		});
+		editButton.addSelectionListener(new EditSelectionAdapter(this));
 
 		applyButton = new Button(executionButtonComposite, SWT.TOP);
 		applyButton.setText(Messages.getString("ConfigurationView.8")); //$NON-NLS-1$
@@ -198,7 +210,7 @@ public class ConfigurationView extends ViewPart {
 		applyButton.setEnabled(false);
 		applyButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				applyConfiguration();
+				applyConfiguration(true);
 			}
 		});
 
@@ -220,18 +232,8 @@ public class ConfigurationView extends ViewPart {
 	/**
 	 * Configurationの変更を反映します。
 	 */
-	public void applyConfiguration() {
-		if (targetComponent instanceof CorbaComponent) {
-			if (((CorbaComponent) targetComponent).getComponentState() == ExecutionContext.RTC_ACTIVE
-					&& isActiveConfigurationSetModified()) {
-				boolean isOk = MessageDialog.openConfirm(getViewSite()
-						.getShell(), Messages.getString("ConfigurationView.10"), //$NON-NLS-1$
-						Messages.getString("ConfigurationView.11")); //$NON-NLS-1$
-				if (isOk == false) {
-					return;
-				}
-			}
-		}
+	public void applyConfiguration(boolean first) {
+		if (first && !confirmActiveApply()) return;
 		int selectionIndex = leftTable.getSelectionIndex();
 
 		List<ConfigurationSet> newConfigurationSetList = createNewConfigurationSetList(copiedComponent);
@@ -267,6 +269,19 @@ public class ConfigurationView extends ViewPart {
 		buildData();
 
 		leftTable.setSelection(selectionIndex);
+	}
+
+	/** ActiveなRTCのコンフィグを変更するかを確認する */
+	public boolean confirmActiveApply() {
+		if (targetComponent instanceof CorbaComponent) {
+			if (((CorbaComponent) targetComponent).getComponentState() == ExecutionContext.RTC_ACTIVE
+					&& isActiveConfigurationSetModified()) {
+				return MessageDialog.openConfirm(getViewSite()
+						.getShell(), Messages.getString("ConfigurationView.10"), //$NON-NLS-1$
+						Messages.getString("ConfigurationView.11")); //$NON-NLS-1$
+			}
+		}
+		return true;
 	}
 
 	private void setDirty() {
@@ -435,7 +450,6 @@ public class ConfigurationView extends ViewPart {
 		gd.horizontalAlignment = SWT.FILL;
 		buttonCompsite.setLayoutData(gd);
 
-		// Copyボタンの追加 2008.12.17
 		createCopyConfigurationSetButton(buttonCompsite);
 		
 		addConfigurationSetButton = new Button(buttonCompsite, SWT.NONE);
@@ -541,7 +555,6 @@ public class ConfigurationView extends ViewPart {
 				});
 	}
 
-	//	 Copyボタンの追加 2008.12.17
 	private void createCopyConfigurationSetButton(Composite buttonCompsite) {
 		copyConfigurationSetButton = new Button(buttonCompsite, SWT.NONE);
 		copyConfigurationSetButton.setText(Messages.getString("ConfigurationView.23")); //$NON-NLS-1$
@@ -632,7 +645,8 @@ public class ConfigurationView extends ViewPart {
 		rightTableViewer.setCellModifier(new RightTableCellModifier(
 				rightTableViewer));
 		rightTableViewer.setCellEditors(new CellEditor[] {
-				new TextCellEditor(rightTableViewer.getTable()), null });
+				new TextCellEditor(rightTableViewer.getTable())
+				, new TextCellEditor(rightTableViewer.getTable()) });
 
 		rightTable = rightTableViewer.getTable();
 		rightTable.setLinesVisible(true);
@@ -896,7 +910,6 @@ public class ConfigurationView extends ViewPart {
 		updateDeleteConfigurationSetButtonEnable();
 	}
 
-	// ConfigSetのDeleteボタンとCopyボタンのenable属性は同じ 2008.12.17
 	private void updateDeleteConfigurationSetButtonEnable() {
 		boolean deleteConfigurationSetEnabled = (leftTable.getSelectionIndex() != -1) ;
 
@@ -1245,5 +1258,10 @@ public class ConfigurationView extends ViewPart {
 		}
 
 		return result;
+	}
+
+	/**　編集用のコンフィグを返す */
+	public ComponentConfigurationWrapper getComponentConfig() {
+		return  copiedComponent;
 	}
 }

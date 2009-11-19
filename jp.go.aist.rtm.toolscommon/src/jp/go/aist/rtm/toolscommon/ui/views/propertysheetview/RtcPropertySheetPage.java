@@ -119,22 +119,12 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 		return composite;
 	}
 
-	// /**
-	// * IPageSite‚ğæ“¾‚·‚é
-	// *
-	// * @return IPageSite
-	// */
-	// public IPageSite getSite() {
-	// return getSite();
-	// }
-
 	/**
 	 * ˆÏ÷
 	 * 
 	 * @param selection
 	 */
 	public void handleEntrySelection(ISelection selection) {
-		// defaultDelegate.handleEntrySelection(selection);
 	}
 
 	/**
@@ -155,15 +145,12 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 	 */
 	public void makeContributions(IMenuManager menuManager,
 			IToolBarManager toolBarManager, IStatusLineManager statusLineManager) {
-		// defaultDelegate.makeContributions(menuManager, toolBarManager,
-		// statusLineManager);
 	}
 
 	/**
 	 * ˆÏ÷
 	 */
 	public void refresh() {
-		// defaultDelegate.refresh();
 	}
 	
 	private LocalObject prevComponent;

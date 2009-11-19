@@ -543,59 +543,6 @@ public class RTCManagerImpl extends CorbaWrapperObjectImpl implements
 			}
 		}
 		};
-
-		// new AttributeMapping(ManagerPackage.eINSTANCE
-		// .getRTCManager_LoadableModuleList(), true) {
-		// @Override
-		// public Object getRemoteAttributeValue(
-		// LocalObject localObject, Object[] remoteObjects) {
-		// List result = new ArrayList();
-		// try {
-		// String[] modules = RTCManagerHelper.narrow(
-		// (org.omg.CORBA.Object) remoteObjects[0])
-		// .get_loadable_modules();
-		// result = java.util.Arrays.asList(modules);
-		// // for (int i = 0; i < modules.length; i++) {
-		// // result.add(modules[i]);
-		// // }
-		// } catch (Exception e) {
-		// // void
-		// }
-		// return (Collection) result;
-		// }
-		// },
-		// new AttributeMapping(ManagerPackage.eINSTANCE
-		// .getRTCManager_LoadedModuleList(), true) {
-		// @Override
-		// public Object getRemoteAttributeValue(
-		// LocalObject localObject, Object[] remoteObjects) {
-		// List result = new ArrayList();
-		// // try {
-		// // result = ((Component) localObject)
-		// // .getCorbaObjectInterface().get_component_profile();
-		// // } catch (Exception e) {
-		// // // void
-		// // }
-		// //
-		// return (Collection) result;
-		// }
-		// },
-		// new AttributeMapping(ManagerPackage.eINSTANCE
-		// .getRTCManager_ComponentProfileList(), true) {
-		// @Override
-		// public Object getRemoteAttributeValue(
-		// LocalObject localObject, Object[] remoteObjects) {
-		// List result = new ArrayList();
-		// // try {
-		// // result = ((Component) localObject)
-		// // .getCorbaObjectInterface().get_component_profile();
-		// // } catch (Exception e) {
-		// // // void
-		// // }
-		// //
-		// return result;
-		// }
-		// } };
 	}
 
 	private static ReferenceMapping[] getReferenceMappings() {
@@ -641,7 +588,6 @@ public class RTCManagerImpl extends CorbaWrapperObjectImpl implements
 //	@Override
 	public void synchronizeManually() {
 		if (System.currentTimeMillis() - lastExecutedTime < SYNC_MANUAL_INTERVAL) {
-//			System.out.println("already sync");
 			return;
 		}
 

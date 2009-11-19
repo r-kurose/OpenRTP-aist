@@ -2,6 +2,8 @@ package jp.go.aist.rtm.repositoryView.ui.action;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import jp.go.aist.rtm.repositoryView.model.LocalRVRootItem;
@@ -67,7 +69,18 @@ public class ViewActionLoadDirecroty implements IViewActionDelegate  {
 				return;
 			}
 			module.setAliasName(module.getInstanceNameL() + "(" + files[intIdx].getName() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-			module.setPathId("file://localhost/" + files[intIdx].getPath() + ":1"); //$NON-NLS-1$
+
+			/////
+			File convFile = new File(files[intIdx].getPath());
+			try {
+				URI pathUri = new URI("file", "localhost",convFile.toURI().getPath() , null );
+				module.setPathId(pathUri.toString()); //$NON-NLS-1$
+			} catch (URISyntaxException e) {
+				MessageDialog.openError(view.getSite().getShell(), Messages.getString("ViewActionLoadDirecroty.3"),	 //$NON-NLS-1$
+				Messages.getString("ViewActionLoadDirecroty.4") + "\r\n\r\n[ " + e.getMessage() + " ]"); //$NON-NLS-1$
+				return;
+			}
+			/////
 			RepositoryViewFactory.buildTree(itemFirst, module, RepositoryViewLeafItem.RTC_LEAF);
 		}
     	viewer.refresh();

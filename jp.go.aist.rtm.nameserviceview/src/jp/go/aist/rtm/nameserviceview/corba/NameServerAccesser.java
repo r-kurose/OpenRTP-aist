@@ -48,7 +48,6 @@ public class NameServerAccesser {
 		}
 
 		if (address.indexOf(":") == -1) {
-			// address = address + ":2809";
 			address = address
 					+ ":"
 					+ NameServiceViewPreferenceManager.getInstance().getDefaultPort(

@@ -1533,7 +1533,6 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		if(eContainer() instanceof SystemDiagram) return;
 		
 		if (System.currentTimeMillis() - lastExecutedTime < SYNC_MANUAL_INTERVAL) {
-//			System.out.println("already sync");
 			return;
 		}
 		synchronizeLocalAttribute(null);

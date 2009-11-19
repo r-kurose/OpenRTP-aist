@@ -18,7 +18,6 @@ public class OpenView {
 	private static final String EXTENTION_POINT_NAME = "openViews";
 
 	@SuppressWarnings("unchecked")
-//	private static Map<Class, String> viewMap;
 	private static Map<Class, Map<String, String>> viewMap;
 
 	@SuppressWarnings("unchecked")
@@ -36,12 +35,6 @@ public class OpenView {
 		if (viewMap == null) {
 			buildViewMap();
 		}
-//		for (Class cl : viewMap.keySet()) {
-//			Object adp = AdapterUtil.getAdapter(obj, cl);
-//			if (adp != null) {
-//				return viewMap.get(cl);
-//			}
-//		}
 		for (Class cl : viewMap.keySet()) {
 			Object adp = AdapterUtil.getAdapter(obj, cl);
 			if (adp == null) {
@@ -64,10 +57,7 @@ public class OpenView {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static void buildViewMap() {		
-//		// 拡張ポイントがNULLとなったときは、「-clean」オプションで起動，
-//		もしくはworkspaceを切り替えて起動を行うことで対処する　2009.01.24
-
+	private static void buildViewMap() {
 		viewMap = new HashMap<Class, Map<String, String>>();
 		String ns = ToolsCommonPlugin.class.getPackage().getName();
 		IExtension[] extensions = Platform.getExtensionRegistry()

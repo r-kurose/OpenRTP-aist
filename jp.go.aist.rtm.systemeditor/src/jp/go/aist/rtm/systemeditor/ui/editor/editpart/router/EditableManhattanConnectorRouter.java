@@ -212,20 +212,9 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 			convertPointListByConstraint(conn, points);
 		}
 
-//		dumpPoints(points);
-		
 		conn.setPoints(points);
 
 	}
-
-//	private void dumpPoints(PointList points) {
-//		int[] ps = points.toIntArray();
-//		for (int p :ps){
-//			System.out.print(p);
-//			System.out.print(" ");
-//		}
-//		System.out.println();
-//	}
 
 	@SuppressWarnings("unchecked")
 	private void convertPointListByConstraint(Connection conn, PointList points) {
@@ -240,21 +229,12 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 
 		for (Integer index : routingConstraint.keySet()) {
 			Point constPoint = routingConstraint.get(index);
-//			System.out.print(index);
-//			System.out.print(" ");
-//			System.out.print(constPoint.x);
-//			System.out.print(" ");
-//			System.out.print(constPoint.y);
-//			System.out.println();
 			
 			if (index < 0 || index > size - 2) continue;
 			
 			Point startPoint = points.getPoint(index);
 			Point endPoint = points.getPoint(index + 1);
 
-//			System.out.println(startPoint);
-//			System.out.println(endPoint);
-			
 			if (startPoint.x == endPoint.x) {
 				points.setPoint(new Point(constPoint.x, startPoint.y), index);
 				points.setPoint(new Point(constPoint.x, endPoint.y), index + 1);
@@ -310,12 +290,9 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 	}
 
 	private PointList getManhattanPointListProcessOnlyRight(PointNormal from,
-			PointNormal to) { // from‚ª‰EŒü‚«‚ÌŽž‚É‚¾‚¯ˆ—‚·‚é‚±‚Æ‚ª‰Â”\
+			PointNormal to) {
 
 		PointList points = new PointList();
-
-//		Ray direction = new Ray(new Ray(from.point), new Ray(to.point));
-//		Ray orthogonalDirection = getOrthogonalDirection(direction);
 
 		Ray verticalRay = DOWN;
 		if (from.point.y > to.point.y) {

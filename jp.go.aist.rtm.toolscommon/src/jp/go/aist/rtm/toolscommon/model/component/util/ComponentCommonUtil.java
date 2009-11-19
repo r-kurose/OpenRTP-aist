@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.CorbaConnectorProfile;
-import jp.go.aist.rtm.toolscommon.model.component.CorbaPortSynchronizer;
+import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
 
 public class ComponentCommonUtil {
@@ -19,38 +18,24 @@ public class ComponentCommonUtil {
 		for (Port port : ports) {
 			origs.add(port.getOriginalPortString());
 		}
-		if (ports.get(0).getSynchronizer() instanceof CorbaPortSynchronizer) {
-			// オンライン			
-			for (Port port : ports) {
-				for (Object o : port.getConnectorProfiles()) {
-					if (!(o instanceof CorbaConnectorProfile)) {
-						continue;
-					}
-					CorbaConnectorProfile prof = (CorbaConnectorProfile) o;
-					if (prof.getRtcConnectorProfile().ports.length < 2) {
-						continue;
-					}
-					String s = port.getSynchronizer().getOriginalPortString();
-					RTC.PortService sps = prof.getRtcConnectorProfile().ports[0];
-					RTC.PortService tps = prof.getRtcConnectorProfile().ports[1];
-					if (s.equals(sps.toString())) {
-						if (!origs.contains(tps.toString())) {
-							result.add(port);
-							break;
-						}
-					}
-					if (s.equals(tps.toString())) {
-						if (!origs.contains(sps.toString())) {
-							result.add(port);
-							break;
-						}
-					}
+		for (Port port : ports) {
+			for (Object o : port.getConnectorProfiles()) {
+				if (!(o instanceof ConnectorProfile)) {
+					continue;
+				}
+				if (isConnectedOuterPort(origs, (ConnectorProfile)o)){
+					result.add(port);
+					break;
 				}
 			}
-		} else {
-			// オフライン
 		}
 		return result;
+	}
+
+	private static boolean isConnectedOuterPort(List<String> origs, ConnectorProfile prof) {
+		if (!origs.contains(prof.getSourceString())) return true;
+		if (!origs.contains(prof.getTargetString())) return true;
+		return false;
 	}
 
 	/** RTC一覧から、複合RTCの公開必須のポート設定を取得 */

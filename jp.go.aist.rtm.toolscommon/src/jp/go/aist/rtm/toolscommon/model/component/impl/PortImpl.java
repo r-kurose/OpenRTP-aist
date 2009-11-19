@@ -274,8 +274,10 @@ public class PortImpl extends WrapperObjectImpl implements Port {
 			if (result != null) return result;
 		}
 		Component component = (Component) eContainer();
-		if (component == null) return getOriginalPortString(null, null, getNameL());
-		return  getOriginalPortString(component.getComponentId(), component.getPathId(), getNameL());
+		if (component == null) return getOriginalPortString(null, null, null, getNameL());
+		return  getOriginalPortString(
+				component.getComponentId(), component.getPathId(),
+				component.getInstanceNameL(), getNameL());
 	}
 
 	/**
@@ -822,9 +824,11 @@ public class PortImpl extends WrapperObjectImpl implements Port {
 	}
 
 	private String getOriginalPortString(String componentId,
-			String pathId, String portName) {
+			String pathId, String instanceName, String portName) {
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("{componentId:").append(componentId).append(",pathId:").append(pathId);
+		buffer.append("{componentId:").append(componentId);
+		buffer.append(",pathId:").append(pathId);
+		buffer.append(",instanceName:").append(instanceName);
 		buffer.append(",portName:").append(portName).append("}");
 		return buffer.toString();
 	}

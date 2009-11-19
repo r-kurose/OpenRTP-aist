@@ -39,9 +39,7 @@ public abstract class RefreshThread extends Thread {
 	private void execute() {
 		waitIfNotSync();
 		lastExceutedTime = System.currentTimeMillis();
-//		System.out.println(lastExceutedTime);
 		executeCommand();
-//		System.out.println(System.currentTimeMillis() - lastExceutedTime);
 	}
 
 	private void sleepInterval() {

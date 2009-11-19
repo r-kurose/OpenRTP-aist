@@ -200,9 +200,6 @@ public abstract class PortEditPart extends AbstractEditPart implements
 				public void run() {
 					if (isActive()) {
 						refresh();
-//						refreshVisuals();
-//						refreshTargetConnections();
-//						refreshSourceConnections();
 					}
 				}
 			});
@@ -241,7 +238,6 @@ public abstract class PortEditPart extends AbstractEditPart implements
 		fireSourceConnectionAdded(connection, index);
 		
 		connection.activate();
-//		System.out.println("addSourceConnection from " + connection.getSource() + " to " + connection.getTarget());
 	}
 
 	protected void addTargetConnection(ConnectionEditPart connection, int index) {
@@ -270,7 +266,6 @@ public abstract class PortEditPart extends AbstractEditPart implements
 		fireTargetConnectionAdded(connection, index);
 		
 		connection.activate();
-//		System.out.println("addTargetConnection from " + connection.getSource() + " to " + connection.getTarget());
 	}
 
 	@SuppressWarnings("unchecked")

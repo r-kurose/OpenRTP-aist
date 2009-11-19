@@ -778,7 +778,6 @@ public class RtsProfileHandler {
 				}
 			}
 		}
-//		System.out.println("show" + targetComponent.getPathId());
 		return true;
 	}
 
@@ -887,7 +886,6 @@ public class RtsProfileHandler {
 			if (component.getComponentId().equals(participant.getComponentId())
 					&& component.getInstanceNameL().equals(participant.getInstanceName())){
 				// pathIdもチェックする
-//				System.out.println(component.getPathId());
 				if (isSamePathId(component, participant)) return component;
 			}
 		}

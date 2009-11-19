@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.TreeSet;
 
 import jp.go.aist.rtm.systemeditor.nl.Messages;
+import jp.go.aist.rtm.systemeditor.ui.views.configurationview.ConfigurationView;
 import jp.go.aist.rtm.systemeditor.ui.views.configurationview.configurationwrapper.ComponentConfigurationWrapper;
 import jp.go.aist.rtm.systemeditor.ui.views.configurationview.configurationwrapper.ConfigurationCondition;
 import jp.go.aist.rtm.systemeditor.ui.views.configurationview.configurationwrapper.ConfigurationSetConfigurationWrapper;
@@ -16,6 +17,8 @@ import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.resource.ColorRegistry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -45,6 +48,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 
 	private static final int NAME_WIDTH = 100;
 
+	private static final String NORMAL_COLOR = "NORMAL_COLOR"; // @jve:decl-index=0: //$NON-NLS-1$
 	private static final String MODIFY_COLOR = "MODIFY_COLOR"; // @jve:decl-index=0: //$NON-NLS-1$
 
 	private static final String CANT_MODIFY_COLOR = "CANT_MODIFY_COLOR"; // @jve:decl-index=0: //$NON-NLS-1$
@@ -52,9 +56,6 @@ public class ConfigurationDialog extends TitleAreaDialog {
 	private static final String ERROR_COLOR = "ERROR_COLOR"; //$NON-NLS-1$
 
 	private static ColorRegistry colorRegistry = null;
-
-	/** オリジナルのComponentConfiguration */
-	ComponentConfigurationWrapper componentConfig;
 
 	/** 編集用にコピーしたComponentConfiguration */
 	ComponentConfigurationWrapper copiedConfig;
@@ -68,25 +69,27 @@ public class ConfigurationDialog extends TitleAreaDialog {
 
 	private boolean isApply;
 
-	public ConfigurationDialog(Shell parentShell,
-			ComponentConfigurationWrapper componentConfig) {
-		super(parentShell);
+	private ConfigurationView view;
+	
+	private boolean firstApply;
+
+	private TabItem currentTabItem;
+
+	public ConfigurationDialog(ConfigurationView view) {
+		super(view.getSite().getShell());
 		setShellStyle(getShellStyle() | SWT.RESIZE);
 		if (colorRegistry == null) {
 			colorRegistry = new ColorRegistry();
+			colorRegistry.put(NORMAL_COLOR, new RGB(255, 255, 255));
 			colorRegistry.put(MODIFY_COLOR, new RGB(255, 192, 192));
 			colorRegistry.put(CANT_MODIFY_COLOR, new RGB(198, 198, 198));
 			colorRegistry.put(ERROR_COLOR, new RGB(255, 0, 0));
 		}
 		this.isValueModified = false;
 		this.isApply = false;
-		this.componentConfig = componentConfig;
-		this.copiedConfig = this.componentConfig.clone();
-	}
-
-	/** 即時保存が指定されていたらtrue */
-	public boolean isApply() {
-		return this.isApply;
+		this.copiedConfig = view.getComponentConfig().clone();
+		this.view = view;
+		this.firstApply = true;
 	}
 
 	@Override
@@ -113,11 +116,29 @@ public class ConfigurationDialog extends TitleAreaDialog {
 			}
 
 			public void widgetSelected(SelectionEvent e) {
-				isApply = true;
+				Button source = (Button) e.getSource();
+				isApply = source.getSelection();
+				if (!isApply) return;
+				if (firstApply) firstApply = !view.confirmActiveApply();
+				if (firstApply) {
+					isApply = false;
+					source.setSelection(false);
+					return;
+				}
+				if (saveData()) {
+					view.applyConfiguration(false);
+					refreshTabItem();
+				}
 			}
 		});
 
 		return mainComposite;
+	}
+	
+	protected void refreshTabItem() {
+		if (currentTabItem == null) return;
+		if (selectedConfigSet == null) return;
+		currentTabItem.setControl(createConfigSetComposite(selectedConfigSet));
 	}
 
 	private void createTabFolder(Composite mainComposite) {
@@ -147,8 +168,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		tabFolder.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
-				int index = tabFolder.getSelectionIndex();
-				selectConfigSet((index == -1) ? 0 : index);
+				selectConfigSet();
 			}
 		});
 	}
@@ -224,13 +244,9 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		gl.marginHeight = 0;
 		gl.marginWidth = 0;
 
-		gd = new GridData();
-		gd.horizontalAlignment = GridData.FILL;
-		gd.grabExcessHorizontalSpace = true;
-
 		Composite valueComposite = new Composite(namedValueComposite, SWT.NONE);
 		valueComposite.setLayout(gl);
-		valueComposite.setLayoutData(gd);
+		valueComposite.setLayoutData(createGridData());
 
 		namedValue.loadWidgetValue();
 		if (namedValue.widgetKeySet().size() > 0) {
@@ -248,44 +264,91 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		}
 	}
 
-	/** NamedValue単位のCompositeを作成 */
-	private void createValueComposite(Composite parent, final String key,
-			final ConfigurationWidget widget) {
+	private GridData createGridData() {
+		GridData gd = new GridData();
+		gd.horizontalAlignment = GridData.FILL;
+		gd.grabExcessHorizontalSpace = true;
+		return gd;
+	}
+	
+	private Composite createComposite(final Composite parent) {
+		Composite composite = new Composite(parent, SWT.NONE);
+		
+		GridLayout gl = new GridLayout(1, false);
+		gl.marginHeight = 0;
+		gl.marginWidth = 0;
+		composite.setLayout(gl);
+		
+		composite.setLayoutData(createGridData());
+		
+		return composite;
+	}
+	
+	private Label createLabel(final Composite parent) {
+		Label label = new Label(parent, SWT.NONE);
+		
+		label.setLayoutData(createGridData());
+		
+		return label;
+	}
+	
+	private Text createText(final Composite parent) {
+		Text text = new Text(parent, SWT.SINGLE
+				| SWT.BORDER);
+		
+		text.setLayoutData(createGridData());
+		
+		return text;
+	}
 
-		GridLayout gl;
-		GridData gd;
+	private Slider createSlider(final Composite parent) {
+		Slider slider = new Slider(parent, SWT.BORDER);
+		
+		slider.setLayoutData(createGridData());
+		
+		return slider;
+	}
+
+	private Spinner createSpinner(final Composite parent) {
+		Spinner spinner = new Spinner(parent, SWT.BORDER);
+		
+		spinner.setLayoutData(createGridData());
+		
+		return spinner;
+	}
+
+	private Group createGroup(final Composite parent) {
+		Group group = new Group(parent, SWT.NONE);
+		
+		GridLayout gl = new GridLayout(3, false);
+		gl.marginHeight = 1;
+		group.setLayout(gl);
+		
+		group.setLayoutData(createGridData());
+		
+		return group;
+	}
+
+	private Button createButton(final Composite parent) {
+		Button button = new Button(parent, SWT.RADIO);
+		
+		button.setLayoutData(createGridData());
+		
+		return button;
+	}
+
+	/** NamedValue単位のCompositeを作成 */
+	private void createValueComposite(final Composite parent, final String key,
+			final ConfigurationWidget widget) {
 
 		if (widget != null && widget.isSlider()) {
 			// widget種別がsliderの場合
-			gl = new GridLayout(1, false);
-			gl.marginHeight = 0;
-			gl.marginWidth = 0;
-			gd = new GridData();
-			gd.horizontalAlignment = GridData.FILL;
-			gd.grabExcessHorizontalSpace = true;
+			Composite valueComposite = createComposite(parent);
 
-			Composite valueComposite = new Composite(parent, SWT.NONE);
-			valueComposite.setLayout(gl);
-			valueComposite.setLayoutData(gd);
+			createKeyLabel(key, valueComposite);
 
-			if (key != null) {
-				// ハッシュキーのある場合
-				gd = new GridData();
-				gd.horizontalAlignment = GridData.FILL;
-				gd.grabExcessHorizontalSpace = true;
-				final Label valueSliderLabel = new Label(valueComposite,
-						SWT.NONE);
-				valueSliderLabel.setLayoutData(gd);
-				valueSliderLabel.setText(key + ":"); //$NON-NLS-1$
-			}
-
-			gd = new GridData();
-			gd.horizontalAlignment = GridData.FILL;
-			gd.grabExcessHorizontalSpace = true;
-
-			final Text valueSliderText = new Text(valueComposite, SWT.SINGLE
-					| SWT.BORDER);
-			final Slider valueSlider = new Slider(valueComposite, SWT.BORDER);
+			final Text valueSliderText = createText(valueComposite);
+			final Slider valueSlider = createSlider(valueComposite);
 
 			// slider、textに初期値設定(リスナ登録前)
 			try {
@@ -301,87 +364,21 @@ public class ConfigurationDialog extends TitleAreaDialog {
 				valueSliderText.setBackground(colorRegistry.get(MODIFY_COLOR));
 			}
 
-			valueSliderText.setLayoutData(gd);
-			valueSliderText.addModifyListener(new ModifyListener() {
-				ConfigurationWidget wd = widget;
+			valueSliderText.addModifyListener(createSliderModifyListner(widget, valueSliderText, valueSlider));
 
-				public void modifyText(ModifyEvent e) {
-					String value = valueSliderText.getText();
-					ConfigurationCondition condition = wd.getCondition();
-					if (!condition.validate(value)) {
-						valueSliderText.setToolTipText(Messages.getString("ConfigurationDialog.6") + condition + Messages.getString("ConfigurationDialog.7")); //$NON-NLS-1$ //$NON-NLS-2$
-						valueSliderText.setBackground(colorRegistry
-								.get(ERROR_COLOR));
-					} else {
-						valueSliderText.setToolTipText(null);
-						wd.setValue(value);
-						try {
-							// 値を制約範囲内のステップに換算
-							int step = condition.getStepByValue(value,
-									widget.getSliderMaxStep());
-							valueSlider.setSelection(step);
-						} catch (NumberFormatException ne) {
-							valueSlider.setSelection(0);
-						}
-						if (wd.isValueModified()) {
-							valueSliderText.setBackground(colorRegistry
-									.get(MODIFY_COLOR));
-							isValueModified = true;
-						}
-					}
-				}
-			});
-
-			valueSlider.setLayoutData(gd);
 			valueSlider.setMinimum(0);
 			valueSlider.setMaximum(widget.getSliderMaxStep() + 10);
 			valueSlider.setIncrement(1);
-			valueSlider.addSelectionListener(new SelectionAdapter() {
-				ConfigurationWidget wd = widget;
-
-				public void widgetSelected(SelectionEvent e) {
-					// ステップから制約範囲内の値に換算
-					int step = valueSlider.getSelection();
-					String value = wd.getCondition().getValueByStep(step,
-							wd.getSliderMaxStep());
-					if (wd.getCondition().validate(value)) {
-						wd.setValue(value);
-					}
-					valueSliderText.setText(value);
-				}
-			});
+			valueSlider.addSelectionListener(createSliderSelectionListner(widget, valueSliderText, valueSlider));
 
 		} else if (widget != null && widget.isSpinner()) {
 			// widget種別がspinnerの場合
-			gl = new GridLayout(1, false);
-			gl.marginHeight = 0;
-			gl.marginWidth = 0;
-			gd = new GridData();
-			gd.horizontalAlignment = GridData.FILL;
-			gd.grabExcessHorizontalSpace = true;
+			Composite valueComposite = createComposite(parent);
 
-			Composite valueComposite = new Composite(parent, SWT.NONE);
-			valueComposite.setLayout(gl);
-			valueComposite.setLayoutData(gd);
+			createKeyLabel(key, valueComposite);
 
-			if (key != null) {
-				// ハッシュキーのある場合
-				gd = new GridData();
-				gd.horizontalAlignment = GridData.FILL;
-				gd.grabExcessHorizontalSpace = true;
-				final Label valueSpinnerLabel = new Label(valueComposite,
-						SWT.NONE);
-				valueSpinnerLabel.setLayoutData(gd);
-				valueSpinnerLabel.setText(key + ":"); //$NON-NLS-1$
-			}
+			final Spinner valueSpinner = createSpinner(valueComposite);
 
-			gd = new GridData();
-			gd.horizontalAlignment = GridData.FILL;
-			gd.grabExcessHorizontalSpace = true;
-
-			final Spinner valueSpinner = new Spinner(valueComposite, SWT.BORDER);
-
-			valueSpinner.setLayoutData(gd);
 			if (widget.getCondition().getDigits() > 0) {
 				// 小数の場合は桁数を設定
 				valueSpinner.setDigits(widget.getCondition().getDigits());
@@ -404,72 +401,22 @@ public class ConfigurationDialog extends TitleAreaDialog {
 				valueSpinner.setBackground(colorRegistry.get(MODIFY_COLOR));
 			}
 
-			valueSpinner.addSelectionListener(new SelectionAdapter() {
-				ConfigurationWidget wd = widget;
-
-				public void widgetSelected(SelectionEvent e) {
-					int i = valueSpinner.getSelection();
-					ConfigurationCondition condition = wd.getCondition();
-					String value = String.valueOf(condition.getDecimalByDigits(i));
-					valueSpinner.setSelection(i);
-					if (!condition.validate(value)) {
-						valueSpinner.setToolTipText(Messages.getString("ConfigurationDialog.9") + condition + Messages.getString("ConfigurationDialog.10")); //$NON-NLS-1$ //$NON-NLS-2$
-						valueSpinner.setBackground(colorRegistry
-								.get(ERROR_COLOR));
-					} else {
-						valueSpinner.setToolTipText(null);
-						wd.setValue(value);
-						if (wd.isValueModified()) {
-							valueSpinner.setBackground(colorRegistry
-									.get(MODIFY_COLOR));
-							isValueModified = true;
-						}
-					}
-				}
-			});
+			valueSpinner.addSelectionListener(createSpinnerSelectionListner(widget, valueSpinner));
 
 		} else if (widget != null && widget.isRadio()) {
 			// widget種別がradioの場合
-			gl = new GridLayout(3, false);
-			gl.marginHeight = 1;
-			gd = new GridData();
-			gd.horizontalAlignment = GridData.FILL;
-			gd.grabExcessHorizontalSpace = true;
-
-			Group valueRadioGroup = new Group(parent, SWT.NONE);
-			valueRadioGroup.setLayout(gl);
-			valueRadioGroup.setLayoutData(gd);
-
+			Group valueRadioGroup = createGroup(parent);
 			if (key != null) {
 				// ハッシュキーのある場合
 				valueRadioGroup.setText(key);
 			}
 
-			gd = new GridData();
-			gd.horizontalAlignment = GridData.FILL;
-			gd.grabExcessHorizontalSpace = true;
-
-			SelectionListener sl = new SelectionListener() {
-				ConfigurationWidget wd = widget;
-
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
-
-				public void widgetSelected(SelectionEvent e) {
-					Button b = (Button) e.widget;
-					if (b.getSelection()) {
-						String value = b.getText();
-						wd.setValue(value);
-						isValueModified = true;
-					}
-				}
-			};
+			SelectionListener sl = createButtonSelectionListner(widget);
 
 			// 列挙型制約条件から選択リスト作成
 			for (String s : widget.getCondition().getEnumList()) {
-				Button vb = new Button(valueRadioGroup, SWT.RADIO);
+				Button vb = createButton(valueRadioGroup);
 				vb.setText(s);
-				vb.setLayoutData(gd);
 				vb.addSelectionListener(sl);
 				// 初期値設定
 				if (vb.getText().equals(widget.getValue())) {
@@ -478,23 +425,9 @@ public class ConfigurationDialog extends TitleAreaDialog {
 			}
 
 		} else {
-			// デフォルトはテキストボックス
-			if (key != null) {
-				// ハッシュキーのある場合
-				gd = new GridData();
-				gd.horizontalAlignment = GridData.FILL;
-				gd.grabExcessHorizontalSpace = true;
-				final Label valueSpinnerLabel = new Label(parent, SWT.NONE);
-				valueSpinnerLabel.setLayoutData(gd);
-				valueSpinnerLabel.setText(key + ":"); //$NON-NLS-1$
-			}
+			createKeyLabel(key, parent);
 
-			gd = new GridData();
-			gd.horizontalAlignment = GridData.FILL;
-			gd.grabExcessHorizontalSpace = true;
-
-			final Text valueText = new Text(parent, SWT.SINGLE | SWT.BORDER);
-			valueText.setLayoutData(gd);
+			final Text valueText = createText(parent);
 			valueText.setTextLimit(255);
 			valueText.setEnabled(true);
 
@@ -504,26 +437,157 @@ public class ConfigurationDialog extends TitleAreaDialog {
 				valueText.setBackground(colorRegistry.get(MODIFY_COLOR));
 			}
 
-			valueText.addModifyListener(new ModifyListener() {
-				ConfigurationWidget wd = widget;
+			valueText.addModifyListener(createTextModifyListner(widget, valueText));
+			valueText.addFocusListener(createFocusListner());
+		}
+	}
 
-				public void modifyText(ModifyEvent e) {
-					String value = valueText.getText();
-					ConfigurationCondition condition = wd.getCondition();
-					if (!condition.validate(value)) {
-						valueText.setToolTipText(Messages.getString("ConfigurationDialog.12") + condition + Messages.getString("ConfigurationDialog.13")); //$NON-NLS-1$ //$NON-NLS-2$
-						valueText.setBackground(colorRegistry.get(ERROR_COLOR));
-					} else {
-						valueText.setToolTipText(null);
-						wd.setValue(value);
-						if (wd.isValueModified()) {
-							valueText.setBackground(colorRegistry
-									.get(MODIFY_COLOR));
-							isValueModified = true;
-						}
+	private FocusListener createFocusListner() {
+		return new FocusListener(){
+			public void focusGained(FocusEvent e) {
+			}
+
+			public void focusLost(FocusEvent e) {
+				doModify(null);
+			}};
+	}
+
+	private ModifyListener createTextModifyListner(
+			final ConfigurationWidget widget, final Text valueText) {
+		return new ModifyListener() {
+			ConfigurationWidget wd = widget;
+
+			public void modifyText(ModifyEvent e) {
+				String value = valueText.getText();
+				ConfigurationCondition condition = wd.getCondition();
+				if (!condition.validate(value)) {
+					valueText.setToolTipText(Messages.getString("ConfigurationDialog.12") + condition + Messages.getString("ConfigurationDialog.13")); //$NON-NLS-1$ //$NON-NLS-2$
+					valueText.setBackground(colorRegistry.get(ERROR_COLOR));
+				} else {
+					valueText.setToolTipText(null);
+					wd.setValue(value);
+					if (wd.isValueModified()) {
+						valueText.setBackground(colorRegistry.get(MODIFY_COLOR));
+						isValueModified = true;
 					}
 				}
-			});
+			}
+		};
+	}
+
+	/** Applyが押されていたら即時更新する */
+	private void doModify(Control control) {
+		if (control != null)
+			control.setBackground(colorRegistry.get(MODIFY_COLOR));
+		isValueModified = true;
+		
+		if (!isApply) return;
+		if (!saveData()) return;
+		
+		view.applyConfiguration(false);
+		refreshTabItem();
+	}
+	
+	private SelectionListener createButtonSelectionListner(
+			final ConfigurationWidget widget) {
+		return new SelectionListener() {
+			ConfigurationWidget wd = widget;
+
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+
+			public void widgetSelected(SelectionEvent e) {
+				Button b = (Button) e.widget;
+				if (b.getSelection()) {
+					String value = b.getText();
+					wd.setValue(value);
+					doModify(null);
+				}
+			}
+		};
+	}
+
+	private SelectionAdapter createSpinnerSelectionListner(
+			final ConfigurationWidget widget, final Spinner valueSpinner) {
+		return new SelectionAdapter() {
+			ConfigurationWidget wd = widget;
+
+			public void widgetSelected(SelectionEvent e) {
+				int i = valueSpinner.getSelection();
+				ConfigurationCondition condition = wd.getCondition();
+				String value = String.valueOf(condition.getDecimalByDigits(i));
+				valueSpinner.setSelection(i);
+				if (!condition.validate(value)) {
+					valueSpinner.setToolTipText(Messages.getString("ConfigurationDialog.9") + condition + Messages.getString("ConfigurationDialog.10")); //$NON-NLS-1$ //$NON-NLS-2$
+					valueSpinner.setBackground(colorRegistry
+							.get(ERROR_COLOR));
+				} else {
+					valueSpinner.setToolTipText(null);
+					wd.setValue(value);
+					if (wd.isValueModified()) {
+						doModify(valueSpinner);
+					}
+				}
+			}
+		};
+	}
+
+	private SelectionAdapter createSliderSelectionListner(
+			final ConfigurationWidget widget, final Text valueSliderText,
+			final Slider valueSlider) {
+		return new SelectionAdapter() {
+			ConfigurationWidget wd = widget;
+
+			public void widgetSelected(SelectionEvent e) {
+				// ステップから制約範囲内の値に換算
+				int step = valueSlider.getSelection();
+				String value = wd.getCondition().getValueByStep(step,
+						wd.getSliderMaxStep());
+				if (wd.getCondition().validate(value)) {
+					wd.setValue(value);
+				}
+				valueSliderText.setText(value);
+			}
+		};
+	}
+
+	private ModifyListener createSliderModifyListner(
+			final ConfigurationWidget widget, final Text valueSliderText,
+			final Slider valueSlider) {
+		return new ModifyListener() {
+			ConfigurationWidget wd = widget;
+
+			public void modifyText(ModifyEvent e) {
+				String value = valueSliderText.getText();
+				ConfigurationCondition condition = wd.getCondition();
+				if (!condition.validate(value)) {
+					valueSliderText.setToolTipText(Messages.getString("ConfigurationDialog.6") + condition + Messages.getString("ConfigurationDialog.7")); //$NON-NLS-1$ //$NON-NLS-2$
+					valueSliderText.setBackground(colorRegistry
+							.get(ERROR_COLOR));
+				} else {
+					valueSliderText.setToolTipText(null);
+					wd.setValue(value);
+					try {
+						// 値を制約範囲内のステップに換算
+						int step = condition.getStepByValue(value,
+								widget.getSliderMaxStep());
+						valueSlider.setSelection(step);
+					} catch (NumberFormatException ne) {
+						valueSlider.setSelection(0);
+					}
+					if (wd.isValueModified()) {
+						doModify(valueSliderText);
+					}
+				}
+			}
+		};
+	}
+
+	private void createKeyLabel(final String key, Composite parent) {
+		if (key != null) {
+			// ハッシュキーのある場合
+			final Label valueSliderLabel = createLabel(parent);
+			valueSliderLabel.setText(key + ":"); //$NON-NLS-1$
 		}
 	}
 
@@ -531,19 +595,19 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		if (index < 0 || index >= tabFolder.getItemCount()) {
 			return;
 		}
-		TabItem item = tabFolder.getItem(index);
+		currentTabItem = tabFolder.getItem(index);
 		// 選択タブに対応するConfigurationSetを検索
 		selectedConfigSet = null;
 		for (ConfigurationSetConfigurationWrapper cs : copiedConfig
 				.getConfigurationSetList()) {
-			if (cs.getId().equals(item.getText())) {
+			if (cs.getId().equals(currentTabItem.getText())) {
 				selectedConfigSet = cs;
 				break;
 			}
 		}
 		if (selectedConfigSet != null) {
-			if (item.getControl() == null) {
-				item.setControl(createConfigSetComposite(selectedConfigSet));
+			if (currentTabItem.getControl() == null) {
+				currentTabItem.setControl(createConfigSetComposite(selectedConfigSet));
 			}
 		}
 	}
@@ -559,44 +623,24 @@ public class ConfigurationDialog extends TitleAreaDialog {
 			return true;
 		}
 		// 制約条件チェック
-		List<String> validateErrors = new ArrayList<String>();
-		for (ConfigurationSetConfigurationWrapper cs : this.copiedConfig
-				.getConfigurationSetList()) {
-			for (NamedValueConfigurationWrapper nv : cs.getNamedValueList()) {
-				if (!nv.isLoadedWidgetValue()) {
-					// 編集中でなければスキップ
-					continue;
-				}
-				if (nv.widgetKeySet().size() > 0) {
-					// ハッシュの場合
-					for (String key : nv.widgetKeySet()) {
-						ConfigurationWidget wd = nv.widget(key);
-						String paramName = cs.getId() + "." + nv.getKey() + "["	+ key + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-						validateParam(validateErrors, wd, paramName);
-					}
-				} else {
-					// 配列、単体の場合
-					for (int i = 0; i < nv.widgetSize(); i++) {
-						ConfigurationWidget wd = nv.widget(i);
-						String paramName = cs.getId() + "." + nv.getKey(); //$NON-NLS-1$
-						if (nv.widgetSize() > 1) {
-							paramName += "[" + i + "]"; //$NON-NLS-1$ //$NON-NLS-2$
-						}
-						validateParam(validateErrors, wd, paramName);
-					}
-				}
-			}
-		}
+		List<String> validateErrors = checkConstraints();
 		if (validateErrors.size() > 0) {
 			MessageDialog.openWarning(getShell(), Messages.getString("ConfigurationDialog.20"), Messages.getString("ConfigurationDialog.21") //$NON-NLS-1$ //$NON-NLS-2$
 					+ validateErrors.toString());
 			return false;
 		}
 		// 設定値保存
-		List<ConfigurationSetConfigurationWrapper> origSetList = this.componentConfig
+		List<ConfigurationSetConfigurationWrapper> origSetList = view.getComponentConfig()
 				.getConfigurationSetList();
 		List<ConfigurationSetConfigurationWrapper> copySetList = this.copiedConfig
 				.getConfigurationSetList();
+		doSave(origSetList, copySetList);
+		isValueModified = false;
+		return true;
+	}
+
+	private void doSave(List<ConfigurationSetConfigurationWrapper> origSetList,
+			List<ConfigurationSetConfigurationWrapper> copySetList) {
 		for (int i = 0; i < copySetList.size(); i++) {
 			ConfigurationSetConfigurationWrapper origSet = origSetList.get(i);
 			ConfigurationSetConfigurationWrapper copySet = copySetList.get(i);
@@ -636,7 +680,38 @@ public class ConfigurationDialog extends TitleAreaDialog {
 				}
 			}
 		}
-		return true;
+	}
+
+	private List<String> checkConstraints() {
+		List<String> validateErrors = new ArrayList<String>();
+		for (ConfigurationSetConfigurationWrapper cs : this.copiedConfig
+				.getConfigurationSetList()) {
+			for (NamedValueConfigurationWrapper nv : cs.getNamedValueList()) {
+				if (!nv.isLoadedWidgetValue()) {
+					// 編集中でなければスキップ
+					continue;
+				}
+				if (nv.widgetKeySet().size() > 0) {
+					// ハッシュの場合
+					for (String key : nv.widgetKeySet()) {
+						ConfigurationWidget wd = nv.widget(key);
+						String paramName = cs.getId() + "." + nv.getKey() + "["	+ key + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						validateParam(validateErrors, wd, paramName);
+					}
+				} else {
+					// 配列、単体の場合
+					for (int i = 0; i < nv.widgetSize(); i++) {
+						ConfigurationWidget wd = nv.widget(i);
+						String paramName = cs.getId() + "." + nv.getKey(); //$NON-NLS-1$
+						if (nv.widgetSize() > 1) {
+							paramName += "[" + i + "]"; //$NON-NLS-1$ //$NON-NLS-2$
+						}
+						validateParam(validateErrors, wd, paramName);
+					}
+				}
+			}
+		}
+		return validateErrors;
 	}
 
 	// Configurationダイアログで保存時の制約条件チェックによるエラーメッセージで、  パラメータ名、制約条件、エラーになった値を表示したい　2008.12.18
@@ -659,6 +734,12 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		if (saveData()) {
 			super.okPressed();
 		}
+	}
+
+	/** コンフィグ値を再描画する */
+	private void selectConfigSet() {
+		int index = tabFolder.getSelectionIndex();
+		selectConfigSet((index == -1) ? 0 : index);
 	}
 
 }

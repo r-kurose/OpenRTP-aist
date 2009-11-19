@@ -81,13 +81,9 @@ public class ComponentUtil {
 			return result;
 		}
 		String basePathId = component.getPathId();
-		int compIndex  = basePathId.lastIndexOf(":");
-		if (compIndex >= 0) basePathId = basePathId.substring(0, compIndex);
 		for (Component tempComponent : rootSystemDiagram.getRegisteredComponents()) {
 			if (tempComponent.getPathId() != null ) {
 				String pathID = tempComponent.getPathId();
-				int index = pathID.lastIndexOf(":");
-				pathID = pathID.substring(0, index);
 				if( pathID.equals(basePathId)) {
 					result++;
 				}

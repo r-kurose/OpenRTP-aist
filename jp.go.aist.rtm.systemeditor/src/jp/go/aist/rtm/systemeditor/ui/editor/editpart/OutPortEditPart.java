@@ -26,8 +26,6 @@ import org.eclipse.ui.PlatformUI;
  */
 public class OutPortEditPart extends PortEditPart {
 
-//	private Notification notification;
-
 	/**
 	 * コンストラクタ
 	 * 
@@ -50,13 +48,10 @@ public class OutPortEditPart extends PortEditPart {
 	 * {@inheritDoc}
 	 */
 	public void notifyChanged(Notification notification) {
-//		this.notification = notification;
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 			public void run() {
 				if (isActive()) {
 					refresh();
-//					refreshVisuals();
-//					refreshSourceConnections();
 				}
 			}
 		});

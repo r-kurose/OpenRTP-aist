@@ -20,8 +20,6 @@ public class TimeoutCorbaORBSocketFactory extends DefaultSocketFactoryImpl imple
 			throws IOException {
 		Socket socket = new Socket();
 		socket.connect(inetSocketAddress, connectionTimeout);
-//		socket.setSoTimeout(connectionTimeout);	// ‚±‚¢‚Â‚Ì‚¹‚¢‚Å•sˆÀ’è‚È‚Ì‚©‚à
-		// Disable Nagle's algorithm (i.e., always send immediately).
 		socket.setTcpNoDelay(true);
 
 		return socket;

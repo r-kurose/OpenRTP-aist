@@ -34,7 +34,6 @@ public class AdapterFactory implements IAdapterFactory {
 	private boolean ping(NamingObjectNode namingObjectNode) {
 		if (SynchronizationSupport.ping(namingObjectNode.getCorbaObject())) return true;
 		namingObjectNode.setEntry(null);
-//		System.out.println("zombi deteced");
 		return false;
 	}
 

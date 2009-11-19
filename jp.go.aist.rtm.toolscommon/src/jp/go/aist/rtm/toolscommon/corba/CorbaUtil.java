@@ -52,14 +52,6 @@ public class CorbaUtil {
 	/**
 	 * ORBオブジェクト
 	 */
-//	private static ORB orb = ORB.init(new String[] {
-//			"-ORBTCPReadTimeouts",	"1:60000:300:1" }
-//		, null);
-	
-	// omniORBのオプションだろう. JDKのCORBA実装にはない
-//	"-ORBclientCallTimeOutPeriod", 
-//	String.valueOf(ToolsCommonPreferenceManager.getInstance().getDefaultTimeout(
-//		ToolsCommonPreferenceManager.DEFAULT_TIMEOUT_PERIOD)
 	private static ORB orb = ORB.init(new String[] {}, createProps());
 	static {
 		try {
@@ -99,7 +91,6 @@ public class CorbaUtil {
 
 	private static PropertyChangeListener createListner() {
 		return new PropertyChangeListener(){
-//			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				setConnectionTimeout();
 			}};
