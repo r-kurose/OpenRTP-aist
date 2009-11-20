@@ -1,6 +1,8 @@
 package jp.go.aist.rtm.toolscommon.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,23 +12,24 @@ import jp.go.aist.rtm.toolscommon.model.component.impl.PortImpl;
 
 /**
  * ポート間で接続可能なプロパティを管理するユーティリティ
- *
+ * 
  */
 public class ConnectorUtil {
 
 	/**
 	 * 両端のポートがともにAnyのデータ型を許すかを返す
+	 * 
 	 * @param source
 	 * @param target
 	 * @return
 	 */
 	public static boolean isAllowAnyDataType(OutPort source, InPort target) {
-		return source.isAllowAnyDataType()
-				&& target.isAllowAnyDataType();
+		return source.isAllowAnyDataType() && target.isAllowAnyDataType();
 	}
 
 	/**
 	 * 両端のポートがともにAnyのインターフェース型を許すかを返す
+	 * 
 	 * @param source
 	 * @param target
 	 * @return
@@ -38,6 +41,7 @@ public class ConnectorUtil {
 
 	/**
 	 * 両端のポートがともにAnyのデータフロー型を許すかを返す
+	 * 
 	 * @param source
 	 * @param target
 	 * @return
@@ -49,6 +53,7 @@ public class ConnectorUtil {
 
 	/**
 	 * 両端のポートがともにAnyのサブスクリプション型を許すかを返す
+	 * 
 	 * @param source
 	 * @param target
 	 * @return
@@ -61,46 +66,52 @@ public class ConnectorUtil {
 
 	/**
 	 * 使用可能なデータ型のリストを返す
+	 * 
 	 * @param source
 	 * @param target
 	 * @return
 	 */
 	public static List<String> getAllowDataTypes(OutPort source, InPort target) {
-		return getAllowList(source.getDataTypes(), target
-				.getDataTypes());
+		return getAllowList(source.getDataTypes(), target.getDataTypes());
 	}
 
 	/**
 	 * 使用可能なインターフェース型のリストを返す
+	 * 
 	 * @param source
 	 * @param target
 	 * @return
 	 */
-	public static List<String> getAllowInterfaceTypes(OutPort source, InPort target) {
+	public static List<String> getAllowInterfaceTypes(OutPort source,
+			InPort target) {
 		return getAllowList(source.getInterfaceTypes(), target
 				.getInterfaceTypes());
 	}
 
 	/**
 	 * 使用可能なデータフロー型のリストを返す
+	 * 
 	 * @param source
 	 * @param target
 	 * @return
 	 */
-	public static List<String> getAllowDataflowTypes(OutPort source, InPort target) {
+	public static List<String> getAllowDataflowTypes(OutPort source,
+			InPort target) {
 		return getAllowList(source.getDataflowTypes(), target
 				.getDataflowTypes());
 	}
 
 	/**
 	 * 使用可能なサブスクリプション型のリストを返す
+	 * 
 	 * @param source
 	 * @param target
 	 * @return
 	 */
-	public static List<String> getAllowSubscriptionTypes(OutPort source, InPort target) {
-		return getAllowList(source.getSubscriptionTypes(),
-				target.getSubscriptionTypes());
+	public static List<String> getAllowSubscriptionTypes(OutPort source,
+			InPort target) {
+		return getAllowList(source.getSubscriptionTypes(), target
+				.getSubscriptionTypes());
 	}
 
 	/**
@@ -159,6 +170,31 @@ public class ConnectorUtil {
 			}
 		}
 
+		// リストを文字列順でソート
+		result = sortTypes(result);
+
+		return result;
+	}
+
+	public static List<String> sortTypes(List<String> list) {
+		return sortTypes(list, false);
+	}
+
+	public static List<String> sortTypes(List<String> list,
+			final boolean reverse) {
+		Collections.sort(list, new Comparator<String>() {
+			public int compare(String a, String b) {
+				return a.compareTo(b) * (reverse ? -1 : 1);
+			}
+		});
+		return list;
+	}
+
+	public static String join(List<String> list, String d) {
+		String result = "";
+		for (String s : list) {
+			result += (result.isEmpty() ? "" : d) + s;
+		}
 		return result;
 	}
 

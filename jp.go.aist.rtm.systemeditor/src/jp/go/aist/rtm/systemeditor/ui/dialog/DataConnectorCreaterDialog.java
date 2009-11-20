@@ -216,6 +216,10 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 			public void modifyText(ModifyEvent e) {
 				connectorProfile.setSubscriptionType(subscriptionTypeCombo
 						.getText());
+				if (connectorProfile.isPushIntervalAvailable()
+						&& pushRateText.getText().isEmpty()) {
+					pushRateText.setText("1000.0");
+				}
 				notifyModified();
 			}
 		});
