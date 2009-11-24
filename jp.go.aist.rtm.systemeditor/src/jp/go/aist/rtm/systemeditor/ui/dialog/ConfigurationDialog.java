@@ -229,7 +229,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		gd.horizontalSpan = 2;
 		gd.grabExcessHorizontalSpace = true;
 
-		Composite namedValueComposite = new Composite(parent, SWT.BORDER);
+		Composite namedValueComposite = new Composite(parent, SWT.NONE);
 		namedValueComposite.setLayout(gl);
 		namedValueComposite.setLayoutData(gd);
 
