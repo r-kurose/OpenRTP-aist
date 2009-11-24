@@ -86,7 +86,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 			colorRegistry.put(ERROR_COLOR, new RGB(255, 0, 0));
 		}
 		this.isValueModified = false;
-		this.isApply = false;
+		this.isApply = true;
 		this.copiedConfig = view.getComponentConfig().clone();
 		this.view = view;
 		this.firstApply = true;
@@ -131,6 +131,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 				}
 			}
 		});
+		applyCheckBox.setSelection(isApply);
 
 		return mainComposite;
 	}
@@ -438,17 +439,17 @@ public class ConfigurationDialog extends TitleAreaDialog {
 			}
 
 			valueText.addModifyListener(createTextModifyListner(widget, valueText));
-			valueText.addFocusListener(createFocusListner());
+			valueText.addFocusListener(createFocusListner(valueText));
 		}
 	}
 
-	private FocusListener createFocusListner() {
+	private FocusListener createFocusListner(final Text valueText) {
 		return new FocusListener(){
 			public void focusGained(FocusEvent e) {
 			}
 
 			public void focusLost(FocusEvent e) {
-				doModify(null);
+				doModify(valueText);
 			}};
 	}
 
@@ -485,7 +486,9 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		if (!saveData()) return;
 		
 		view.applyConfiguration(false);
-		refreshTabItem();
+		if (control != null) {
+			control.setBackground(colorRegistry.get(NORMAL_COLOR));
+		}
 	}
 	
 	private SelectionListener createButtonSelectionListner(
