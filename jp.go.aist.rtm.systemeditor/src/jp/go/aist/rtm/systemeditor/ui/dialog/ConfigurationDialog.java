@@ -139,7 +139,29 @@ public class ConfigurationDialog extends TitleAreaDialog {
 	protected void refreshTabItem() {
 		if (currentTabItem == null) return;
 		if (selectedConfigSet == null) return;
-		currentTabItem.setControl(createConfigSetComposite(selectedConfigSet));
+		
+		// コントロールを全部作りかえない	2009.12.04
+//		currentTabItem.setControl(createConfigSetComposite(selectedConfigSet));
+		
+		// ウィジェットを編集中の状態に戻す 2009.12.04
+		for (NamedValueConfigurationWrapper nv : selectedConfigSet.getNamedValueList()) {
+			nv.loadWidgetValue();
+		}
+		
+		// 修正済の背景色のコントロールを元に戻す 2009.12.04
+		resetBackground(currentTabItem.getControl());
+	}
+
+	// 再帰的にControlの背景色を修正済から元に戻す 2009.12.04
+	private void resetBackground(Control content) {
+		if (content instanceof Composite){
+			for (Control child : ((Composite)content).getChildren()) {
+				resetBackground(child);
+			}
+		}
+		if (content.getBackground().equals(colorRegistry.get(MODIFY_COLOR))){
+			content.setBackground(colorRegistry.get(NORMAL_COLOR));
+		}
 	}
 
 	private void createTabFolder(Composite mainComposite) {
@@ -486,9 +508,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		if (!saveData()) return;
 		
 		view.applyConfiguration(false);
-		if (control != null) {
-			control.setBackground(colorRegistry.get(NORMAL_COLOR));
-		}
+		refreshTabItem();
 	}
 	
 	private SelectionListener createButtonSelectionListner(
