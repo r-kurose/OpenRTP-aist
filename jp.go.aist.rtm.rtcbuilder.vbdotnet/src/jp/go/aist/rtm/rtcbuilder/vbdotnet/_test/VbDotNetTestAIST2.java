@@ -38,23 +38,23 @@ public class VbDotNetTestAIST2 extends TestBase {
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("InP1", "TimedShort", "", 0));
 		dataport.add(new DataPortParam("InP2", "TimedLong", "", 0));
-		rtcParam.setInports(dataport);
+		rtcParam.getInports().addAll(dataport);
 
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
 		outport.add(new DataPortParam("OutP1", "TimedFloat", "", 0));
 		outport.add(new DataPortParam("OutP2", "TimedDouble", "", 0));
-		rtcParam.setOutports(outport);
+		rtcParam.getOutports().addAll(outport);
 
 		ServicePortParam service1 = new ServicePortParam("MySVPro0",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
 				rootPath + "resource\\AIST7\\Service1.idl", "test", "", 0);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 		genParam.getRtcParams().add(rtcParam);
 
 		Generator generator = new Generator();
@@ -96,23 +96,23 @@ public class VbDotNetTestAIST2 extends TestBase {
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("InP1", "TimedShort", "", 0));
 		dataport.add(new DataPortParam("InP2", "TimedLong", "", 0));
-		rtcParam.setInports(dataport);
+		rtcParam.getInports().addAll(dataport);
 
 		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
 		outport.add(new DataPortParam("OutP1", "TimedDouble", "", 0));
 		outport.add(new DataPortParam("OutP2", "TimedFloat", "", 0));
-		rtcParam.setOutports(outport);
+		rtcParam.getOutports().addAll(outport);
 
 		ServicePortParam service1 = new ServicePortParam("MySVPro0",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
 				rootPath + "resource\\AIST6\\Service1.idl", "test", "", 0);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 		genParam.getRtcParams().add(rtcParam);
 
 		Generator generator = new Generator();

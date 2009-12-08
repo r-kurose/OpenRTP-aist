@@ -39,7 +39,7 @@ public class CSConfigSetTest extends TestBase {
 		genParam.getRtcParams().add(rtcParam);
 		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
 		configset.add(new ConfigSetParam("int_param0","int","", "0"));
-		rtcParam.setConfigParams(configset);
+		rtcParam.getConfigParams().addAll(configset);
 
 		Generator generator = new Generator();
 		GenerateManager manager = new CSharpGenerateManager();
@@ -77,23 +77,23 @@ public class CSConfigSetTest extends TestBase {
 		rtcParam.setIsTest(true);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("InP1", "TimedShort", "", 0));
-		rtcParam.setInports(dataport);
+		rtcParam.getInports().addAll(dataport);
 
 		genParam.getRtcParams().add(rtcParam);
 		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
 		configset.add(new ConfigSetParam("int_param0","int","", "0"));
 		configset.add(new ConfigSetParam("int_param1","int","", "1"));
-		rtcParam.setConfigParams(configset);
+		rtcParam.getConfigParams().addAll(configset);
 
 		ServicePortParam service1 = new ServicePortParam("svPort",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
 				rootPath + "\\resource\\MyService.idl", "MyService", "", 0);
 		srvinterts.add(int1);
-		service1.setServicePortInterfaces(srvinterts);
+		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
-		rtcParam.setServicePorts(srvports);
+		rtcParam.getServicePorts().addAll(srvports);
 
 		Generator generator = new Generator();
 		GenerateManager manager = new CSharpGenerateManager();
@@ -138,7 +138,7 @@ public class CSConfigSetTest extends TestBase {
 		configset.add(new ConfigSetParam("double_param0","double","", "0.11"));
 		configset.add(new ConfigSetParam("str_param0","string","", "hoge"));
 		configset.add(new ConfigSetParam("str_param1","string","", "dara"));
-		rtcParam.setConfigParams(configset);
+		rtcParam.getConfigParams().addAll(configset);
 
 		Generator generator = new Generator();
 		GenerateManager manager = new CSharpGenerateManager();
@@ -178,7 +178,7 @@ public class CSConfigSetTest extends TestBase {
 		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
 		configset.add(new ConfigSetParam("int_param0","int","", "0"));
 		configset.add(new ConfigSetParam("float_param0","List<float>","", "1.0,2.0,3.0"));
-		rtcParam.setConfigParams(configset);
+		rtcParam.getConfigParams().addAll(configset);
 
 		Generator generator = new Generator();
 		GenerateManager manager = new CSharpGenerateManager();
@@ -218,7 +218,7 @@ public class CSConfigSetTest extends TestBase {
 		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
 		configset.add(new ConfigSetParam("int_param0","int","", "1"));
 		configset.add(new ConfigSetParam("str_param0","List<string>","", "\"aaa\",\"bbb\",\"ccc\""));
-		rtcParam.setConfigParams(configset);
+		rtcParam.getConfigParams().addAll(configset);
 
 		Generator generator = new Generator();
 		GenerateManager manager = new CSharpGenerateManager();
