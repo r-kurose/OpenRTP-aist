@@ -74,6 +74,8 @@ public class ConfigurationDialog extends TitleAreaDialog {
 	private boolean firstApply;
 
 	private TabItem currentTabItem;
+	
+	private Label errorLabel;
 
 	public ConfigurationDialog(ConfigurationView view) {
 		super(view.getSite().getShell());
@@ -103,8 +105,16 @@ public class ConfigurationDialog extends TitleAreaDialog {
 
 		createTabFolder(mainComposite);
 
-		GridData gd;
-		gd = new GridData();
+		// 制約エラー表示領域を追加 2009.12.09
+		errorLabel = new Label(mainComposite, SWT.SINGLE);
+		GridData errorLabelGd = new GridData();
+		errorLabelGd.horizontalAlignment = GridData.BEGINNING;
+		errorLabelGd.grabExcessHorizontalSpace = true;
+		errorLabelGd.widthHint = 200;
+		errorLabelGd.heightHint = 50;
+		errorLabel.setLayoutData(errorLabelGd);
+		
+		GridData gd = new GridData();
 		gd.horizontalAlignment = GridData.END;
 		gd.grabExcessHorizontalSpace = true;
 
@@ -492,6 +502,8 @@ public class ConfigurationDialog extends TitleAreaDialog {
 					if (wd.isValueModified()) {
 						valueText.setBackground(colorRegistry.get(MODIFY_COLOR));
 						isValueModified = true;
+					} else {
+						valueText.setBackground(colorRegistry.get(NORMAL_COLOR));
 					}
 				}
 			}
@@ -542,13 +554,14 @@ public class ConfigurationDialog extends TitleAreaDialog {
 				valueSpinner.setSelection(i);
 				if (!condition.validate(value)) {
 					valueSpinner.setToolTipText(Messages.getString("ConfigurationDialog.9") + condition + Messages.getString("ConfigurationDialog.10")); //$NON-NLS-1$ //$NON-NLS-2$
-					valueSpinner.setBackground(colorRegistry
-							.get(ERROR_COLOR));
+					valueSpinner.setBackground(colorRegistry.get(ERROR_COLOR));
 				} else {
 					valueSpinner.setToolTipText(null);
 					wd.setValue(value);
 					if (wd.isValueModified()) {
 						doModify(valueSpinner);
+					} else {
+						valueSpinner.setBackground(colorRegistry.get(NORMAL_COLOR));
 					}
 				}
 			}
@@ -585,8 +598,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 				ConfigurationCondition condition = wd.getCondition();
 				if (!condition.validate(value)) {
 					valueSliderText.setToolTipText(Messages.getString("ConfigurationDialog.6") + condition + Messages.getString("ConfigurationDialog.7")); //$NON-NLS-1$ //$NON-NLS-2$
-					valueSliderText.setBackground(colorRegistry
-							.get(ERROR_COLOR));
+					valueSliderText.setBackground(colorRegistry.get(ERROR_COLOR));
 				} else {
 					valueSliderText.setToolTipText(null);
 					wd.setValue(value);
@@ -600,6 +612,8 @@ public class ConfigurationDialog extends TitleAreaDialog {
 					}
 					if (wd.isValueModified()) {
 						doModify(valueSliderText);
+					} else {
+						valueSliderText.setBackground(colorRegistry.get(NORMAL_COLOR));
 					}
 				}
 			}
@@ -648,10 +662,17 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		// 制約条件チェック
 		List<String> validateErrors = checkConstraints();
 		if (validateErrors.size() > 0) {
-			MessageDialog.openWarning(getShell(), Messages.getString("ConfigurationDialog.20"), Messages.getString("ConfigurationDialog.21") //$NON-NLS-1$ //$NON-NLS-2$
+			// 即時適用時にはエラーダイアログを出さない 2009.
+			if (isApply){
+				errorLabel.setText(Messages.getString("ConfigurationDialog.21") //$NON-NLS-1$ //$NON-NLS-2$
+						+ validateErrors.toString());
+			} else {
+				MessageDialog.openWarning(getShell(), Messages.getString("ConfigurationDialog.20"), Messages.getString("ConfigurationDialog.21") //$NON-NLS-1$ //$NON-NLS-2$
 					+ validateErrors.toString());
+			}
 			return false;
 		}
+		errorLabel.setText("");
 		// 設定値保存
 		List<ConfigurationSetConfigurationWrapper> origSetList = view.getComponentConfig()
 				.getConfigurationSetList();
