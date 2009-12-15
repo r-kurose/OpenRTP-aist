@@ -210,6 +210,7 @@ public class CorbaConnectorProfileImpl extends ConnectorProfileImpl implements C
 		if (getRtcConnectorProfile() == null) return null;
 		if (getRtcConnectorProfile().ports == null) return null;
 		if (getRtcConnectorProfile().ports.length < 1) return null;
+		if (getRtcConnectorProfile().ports[0] == null) return null;
 		return getRtcConnectorProfile().ports[0].toString();
 	}
 
@@ -218,6 +219,7 @@ public class CorbaConnectorProfileImpl extends ConnectorProfileImpl implements C
 		if (getRtcConnectorProfile() == null) return null;
 		if (getRtcConnectorProfile().ports == null) return null;
 		if (getRtcConnectorProfile().ports.length < 2) return null;
+		if (getRtcConnectorProfile().ports[1] == null) return null;
 		return getRtcConnectorProfile().ports[1].toString();
 	}
 

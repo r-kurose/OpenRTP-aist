@@ -72,6 +72,7 @@ public class CompositeFilter {
 		for(Object obj : port.getConnectorProfiles()) {
 			ConnectorProfile profile = (ConnectorProfile) obj;
 			String tmpString = (first != null ? profile.getSourceString() : profile.getTargetString());
+			if (tmpString == null) continue;
 			if (!(tmpString.equals(originalPortString))) continue;
 			
 			String anotherString = (first != null ? profile.getTargetString() : profile.getSourceString());
