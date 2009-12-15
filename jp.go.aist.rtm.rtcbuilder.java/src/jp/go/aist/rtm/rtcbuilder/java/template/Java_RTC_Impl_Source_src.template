@@ -46,6 +46,8 @@ import org.omg.PortableServer.POAPackage.WrongPolicy;
 #foreach($type in ${javaConv.getParamTypes(${rtcParam})})  
 import jp.go.aist.rtm.RTC.util.${type};
 #end
+#end
+#if( ${javaConv.useReturnCode(${rtcParam})} )
 import RTC.ReturnCode_t;
 #end
 

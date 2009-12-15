@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
@@ -144,18 +145,19 @@ public class JavaConverter {
 	 */
 	public List<String> getPortTypes(RtcParam param) {
 		List<String> portTypes = new ArrayList<String>();
-		for( DataPortParam dataPort : param.getInports() ) {
-			if( !portTypes.contains(dataPort.getType()) ) {
-				portTypes.add(getDataportPackageName(dataPort.getType()) );
+		for (DataPortParam dataPort : param.getInports()) {
+			if (!portTypes.contains(dataPort.getType())) {
+				portTypes.add(dataPort.getType());
 			}
 		}
-		for( DataPortParam dataPort : param.getOutports() ) {
-			if( !portTypes.contains(dataPort.getType()) ) {
-				portTypes.add(getDataportPackageName(dataPort.getType()) );
+		for (DataPortParam dataPort : param.getOutports()) {
+			if (!portTypes.contains(dataPort.getType())) {
+				portTypes.add(dataPort.getType());
 			}
 		}
 		return portTypes;
 	}
+
 	/**
 	 * パラメータの型一覧を取得する
 	 * 
@@ -317,4 +319,24 @@ public class JavaConverter {
 		String dataTypeNames[] = rtcType.split("::", 0);
 		return dataTypeNames[1];
 	}
+
+	/**
+	 * RTC.ReturnCode_tのインポートが必要な場合を判定します。
+	 * 
+	 * @param rtcParam
+	 *            RtcParam
+	 * @return RTC.ReturnCode_tのインポートが必要な場合は true
+	 */
+	public boolean useReturnCode(RtcParam rtcParam) {
+		if (!rtcParam.getConfigParams().isEmpty()) {
+			return true;
+		}
+		for (int i = IRtcBuilderConstants.ACTIVITY_INITIALIZE; i < IRtcBuilderConstants.ACTIVITY_DUMMY; i++) {
+			if (!rtcParam.IsNotImplemented(i)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

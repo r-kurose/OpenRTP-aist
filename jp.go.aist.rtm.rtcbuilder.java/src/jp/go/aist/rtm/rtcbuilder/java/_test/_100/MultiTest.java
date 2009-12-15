@@ -11,6 +11,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
 import jp.go.aist.rtm.rtcbuilder.java.IRtcBuilderConstantsJava;
+import jp.go.aist.rtm.rtcbuilder.java._test.TestBase;
 import jp.go.aist.rtm.rtcbuilder.java.manager.JavaGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 
@@ -60,7 +61,6 @@ public class MultiTest extends TestBase {
 		srvinterts2.add(int2);
 		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
-		rtcParam.getServicePorts().addAll(srvports);
 
 		ServicePortParam service3 = new ServicePortParam("MyConPro",0);
 		List<ServicePortInterfaceParam> srvintert3 = new ArrayList<ServicePortInterfaceParam>(); 

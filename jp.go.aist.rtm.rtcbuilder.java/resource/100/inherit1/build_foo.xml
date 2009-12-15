@@ -14,16 +14,17 @@
 	<target name="mkdir">
 		<mkdir dir="${dest}" />
 	</target>
-
 	<target name="idlcompile"  depends="mkdir">
 		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-i C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder.java\\resource -fall MyService.idl"/>
+			<arg line="-i C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder.java\resource\100\inherit1 -i C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder.java\resource\100\inherit1 -fall MyServiceChildMulti.idl"/>
 		</exec>
 		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-i C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder.java\\resource -fall DAQService.idl"/>
+			<arg line="-i C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder.java\resource\100\inherit1 -i C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder.java\resource\100\inherit1 -fall MyServiceParent1.idl"/>
+		</exec>
+		<exec executable="${java.home}\..\bin\idlj">
+			<arg line="-i C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder.java\resource\100\inherit1 -i C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder.java\resource\100\inherit1 -fall MyServiceParent2.idl"/>
 		</exec>
 	</target>
-
 	<target name="compile" depends="idlcompile">
 		<javac srcdir="${source}" destdir="${dest}">
 			<classpath>

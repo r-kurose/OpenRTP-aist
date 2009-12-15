@@ -9,6 +9,7 @@
 
 import jp.go.aist.rtm.RTC.DataFlowComponentBase;
 import jp.go.aist.rtm.RTC.Manager;
+import RTC.ReturnCode_t;
 
 /*!
  * @class fooImpl
