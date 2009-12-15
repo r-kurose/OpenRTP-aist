@@ -58,7 +58,6 @@ public class MultiTest extends TestBase {
 		srvinterts2.add(int2);
 		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
-		rtcParam.getServicePorts().addAll(srvports);
 
 		ServicePortParam service3 = new ServicePortParam("MyConPro",0);
 		List<ServicePortInterfaceParam> srvintert3 = new ArrayList<ServicePortInterfaceParam>(); 
