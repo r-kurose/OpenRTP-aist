@@ -49,10 +49,21 @@ public class TestBase extends TestCase {
 		fail();
 		return resultindex;
 	}
-	protected void checkCode(List<GeneratedResult> result, String resourceDir, String fileName) {
+
+	protected String replaceRootPath(String content) {
+		String result = content.replace("__ROOT_PATH__", rootPath);
+		String origPath = "C:\\Tech-Arts\\EclipseRTM\\jp.go.aist.rtm.rtcbuilder\\";
+		result = result.replace(origPath, rootPath);
+		return result;
+	}
+
+	protected void checkCode(List<GeneratedResult> result, String resourceDir,
+			String fileName) {
 		index = getFileIndex(fileName, result);
 		expPath = resourceDir + fileName;
 		expContent = readFile(expPath);
+		expContent = replaceRootPath(expContent);
 		assertEquals(expContent, result.get(index).getCode());
 	}
+
 }

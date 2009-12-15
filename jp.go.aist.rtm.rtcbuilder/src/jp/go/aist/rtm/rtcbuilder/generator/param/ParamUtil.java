@@ -246,20 +246,26 @@ public class ParamUtil {
 
 	private void convertFromModuleLanguage(RtcProfile profile, List<GenerateManager> managerList, RtcParam rtcParam) {
 		Language language = profile.getLanguage();
-		if( language != null ) {
+		if (language != null) {
 			String langKind = language.getKind();
-			if( isCxx(langKind) ) {
+			if (isCxx(langKind)) {
+				rtcParam.getLangList().clear();
 				rtcParam.getLangList().add(IRtcBuilderConstants.LANG_CPP);
+				rtcParam.getLangArgList().clear();
+				rtcParam.getLangArgList().add(IRtcBuilderConstants.LANG_CPP_ARG);
 				rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
 			} else {
-				if( managerList != null ) {
-					for( Iterator<GenerateManager> iter = managerList.iterator(); iter.hasNext(); ) {
-						GenerateManager manager = iter.next();
+				if (managerList != null) {
+					for (GenerateManager manager : managerList) {
 						manager.convertProfile(profile);
 						language = profile.getLanguage();
 						langKind = language.getKind();
-						if( langKind.trim().equals(manager.getManagerKey())) {
+						if (langKind.trim().equals(manager.getManagerKey())) {
+							rtcParam.getLangList().clear();
 							rtcParam.getLangList().add(manager.getManagerKey());
+							rtcParam.getLangArgList().clear();
+							rtcParam.getLangArgList().add(manager.getLangArgList());
+							rtcParam.setRtmVersion(manager.getTargetVersion());
 							break;
 						}
 					}

@@ -16,6 +16,7 @@ public class IdlFileParam implements Serializable {
 	private List<ServiceClassParam> serviceClass = new ArrayList<ServiceClassParam>();
 	private RtcParam parent;
 	private List<String> idlSearchPathes = new ArrayList<String>();
+	private List<String> includeIdlPathes = new ArrayList<String>();
 
 	public IdlFileParam() {
 	}
@@ -77,4 +78,17 @@ public class IdlFileParam implements Serializable {
 	public void setIdlSearchPathes(List<String> idlFiles) {
 		this.idlSearchPathes = idlFiles;
 	}
+
+	public List<String> getIncludeIdlPathes() {
+		return includeIdlPathes;
+	}
+
+	public List<IdlFileParam> getIncludeIdlParams() {
+		List<IdlFileParam> result = new ArrayList<IdlFileParam>();
+		for (String s : includeIdlPathes) {
+			result.add(new IdlFileParam(s, this.parent));
+		}
+		return result;
+	}
+
 }

@@ -218,31 +218,60 @@ public class Generator {
 	 * @return
 	 * @throws ParseException
 	 */
-	private List<ServiceClassParam> getRtcServiceClass(
-			RtcParam rtcParam, List<ServiceClassParam> IDLPathes) throws ParseException {
+	private List<ServiceClassParam> getRtcServiceClass(RtcParam rtcParam,
+			List<ServiceClassParam> IDLPathes) throws ParseException {
 		List<ServiceClassParam> result = new ArrayList<ServiceClassParam>();
 		List<String> includeFiles = new ArrayList<String>();
 
-		for(int intIdx=0; intIdx<IDLPathes.size(); intIdx++ ) {
-			if(IDLPathes.get(intIdx) != null ) {
-				String idlContent = FileUtil.readFile(IDLPathes.get(intIdx).getName());
-				if (idlContent != null) {
-					String idl = PreProcessor.parse(idlContent, getIncludeIDLDic(IDLPathes.get(intIdx).getIdlPath()), includeFiles);
-					IDLParser parser = new IDLParser(new StringReader(idl));
-	
-					specification spec = parser.specification();
-	
-					List<ServiceClassParam> serviceClassParams = IDLParamConverter
-							.convert(spec, IDLPathes.get(intIdx).getName());
-					List<TypeDefParam> typedefParams = IDLParamConverter
-							.convert_typedef(spec, IDLPathes.get(intIdx).getName());
-					if( typedefParams.size() > 0 ) {
-						serviceClassParams = convertType(serviceClassParams, typedefParams);
+		for (int intIdx = 0; intIdx < IDLPathes.size(); intIdx++) {
+			ServiceClassParam sv = IDLPathes.get(intIdx);
+			if (sv == null) {
+				continue;
+			}
+			String idlContent = FileUtil.readFile(sv.getName());
+			if (idlContent == null) {
+				continue;
+			}
+			List<String> incs = new ArrayList<String>();
+			String idl = PreProcessor.parse(idlContent, getIncludeIDLDic(sv.getIdlPath()), incs);
+			IDLParser parser = new IDLParser(new StringReader(idl));
+
+			specification spec = parser.specification();
+
+			List<ServiceClassParam> serviceClassParams = IDLParamConverter
+					.convert(spec, sv.getName());
+			List<TypeDefParam> typedefParams = IDLParamConverter
+					.convert_typedef(spec, sv.getName());
+			if (typedefParams.size() > 0) {
+				serviceClassParams = convertType(serviceClassParams, typedefParams);
+			}
+			for (ServiceClassParam scp : serviceClassParams) {
+				scp.setTypeDef(typedefParams);
+			}
+			result.addAll(serviceClassParams);
+			//
+			for (IdlFileParam p : rtcParam.getProviderIdlPathes()) {
+				if (sv.getName().trim().equals(p.getIdlPath().trim())) {
+					for (String s : incs) {
+						if (!p.getIncludeIdlPathes().contains(s)) {
+							p.getIncludeIdlPathes().add(s);
+						}
 					}
-					for(ServiceClassParam scp : serviceClassParams) {
-						scp.setTypeDef(typedefParams);
+				}
+			}
+			for (IdlFileParam p : rtcParam.getConsumerIdlPathes()) {
+				if (sv.getName().trim().equals(p.getIdlPath().trim())) {
+					for (String s : incs) {
+						if (!p.getIncludeIdlPathes().contains(s)) {
+							p.getIncludeIdlPathes().add(s);
+						}
 					}
-					result.addAll(serviceClassParams);
+				}
+			}
+			//
+			for (String s : incs) {
+				if (!includeFiles.contains(s)) {
+					includeFiles.add(s);
 				}
 			}
 		}

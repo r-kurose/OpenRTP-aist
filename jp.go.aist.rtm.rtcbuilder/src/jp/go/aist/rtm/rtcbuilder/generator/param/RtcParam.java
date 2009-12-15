@@ -553,6 +553,13 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	public List<String> getIncludedIdls() {
 		return includedIdls;
 	}
+	public List<IdlFileParam> getIncludedIdlPathes() {
+		List<IdlFileParam> result = new ArrayList<IdlFileParam>();
+		for (String s : includedIdls) {
+			result.add(new IdlFileParam(s, this));
+		}
+		return result;
+	}
 	//
 	public String getCommonPrefix() {
 		if(commonPrefix==null) commonPrefix = "m_"; 

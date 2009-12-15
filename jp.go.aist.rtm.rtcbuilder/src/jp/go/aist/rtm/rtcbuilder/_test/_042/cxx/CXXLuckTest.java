@@ -67,8 +67,10 @@ public class CXXLuckTest extends TestBase {
 		try {
 			generator.generateTemplateCode(genParam);
 			fail();
-		} catch ( Exception ex ) {
-			assertEquals("ファイルが見つかりません path:C:\\Tech-Arts\\EclipseRTM\\jp.go.aist.rtm.rtcbuilder\\\\resource\\042\\CXX\\Exception\\MyService.idl", ex.getMessage());
+		} catch (Exception ex) {
+			String exp = "ファイルが見つかりません path:C:\\Tech-Arts\\EclipseRTM\\jp.go.aist.rtm.rtcbuilder\\\\resource\\042\\CXX\\Exception\\MyService.idl";
+			exp = replaceRootPath(exp);
+			assertEquals(exp, ex.getMessage());
 		}
 	}
 

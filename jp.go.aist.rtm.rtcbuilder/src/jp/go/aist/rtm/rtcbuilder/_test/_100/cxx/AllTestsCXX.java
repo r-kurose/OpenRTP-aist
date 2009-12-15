@@ -17,6 +17,7 @@ public class AllTestsCXX {
 		suite.addTestSuite(CXXMultiTest.class);
 		suite.addTestSuite(CXXPrefixSuffixTest.class);
 		suite.addTestSuite(CXXIDLStruct.class);
+		suite.addTestSuite(CXXIDLInheritTest.class);
 		
 		//$JUnit-END$
 		return suite;

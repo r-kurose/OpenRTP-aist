@@ -42,6 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="USE_stub_in_nt_dll;WIN32;_DEBUG;_CONSOLE;__WIN32__;__x86__;_WIN32_WINNT=0x0500;__NT__;__OSVERSION__=4;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -120,6 +121,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="USE_stub_in_nt_dll;WIN32;NDEBUG;_CONSOLE;__WIN32__;__x86__;_WIN32_WINNT=0x0500;__NT__;__OSVERSION__=4;_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -206,6 +208,12 @@
 				>
 			</File>
 #end
+#foreach($idlFile in ${rtcParam.includedIdlPathes})
+			<File
+				RelativePath="${tmpltHelper.getFilenameNoExt(${idlFile.idlFile})}${tmpltHelper.serviceSkelSuffix}.cpp"
+				>
+			</File>
+#end
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -228,6 +236,12 @@
 #end#foreach($consumerIdlFile in ${rtcParam.consumerIdlPathes})			
 			<File
 				RelativePath="${tmpltHelper.getFilenameNoExt(${consumerIdlFile.idlFile})}${tmpltHelper.serviceStubSuffix}.h"
+				>
+			</File>
+#end
+#foreach($idlFile in ${rtcParam.includedIdlPathes})
+			<File
+				RelativePath="${tmpltHelper.getFilenameNoExt(${idlFile.idlFile})}${tmpltHelper.serviceSkelSuffix}.h"
 				>
 			</File>
 #end
