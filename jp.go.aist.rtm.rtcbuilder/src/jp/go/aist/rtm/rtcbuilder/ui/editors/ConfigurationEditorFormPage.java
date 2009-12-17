@@ -56,7 +56,12 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 	private static final String CONFIGPROFILE_PROPERTY_DEFAULT = "CONFIGRATION_PROFILE_DEFAULT";
 
 	private TableViewer configurationSetTableViewer;
+	private Button configurationSetAddButton;
+	private Button configurationSetDeleteButton;
+	//
 	private TableViewer configurationProfileTableViewer;
+	private Button configurationProfileAddButton;
+	private Button configurationProfileDeleteButton;
 	//
 	private Text parametertNameDetailText;
 	private Text variableNameText;
@@ -138,7 +143,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		configurationProfileTableViewer = createConfigurationParameterSection(toolkit, form);
 		
 		// 言語・環境ページより先にこのページが表示された場合、ここで言語を判断する
-		editor.setEnabledInfoByLangFromRtcParam();
+		editor.setEnabledInfoByLang();
 
 		load();
 	}
@@ -251,8 +256,10 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		gd.widthHint = 50;
 		buttonComposite.setLayoutData(gd);
 
-		createConfigAddButton(toolkit, configSetTableViewer, buttonComposite);
-		createConfigDeleteButton(toolkit, configSetTableViewer, buttonComposite);
+		configurationSetAddButton = createConfigAddButton(toolkit,
+				configSetTableViewer, buttonComposite);
+		configurationSetDeleteButton = createConfigDeleteButton(toolkit,
+				configSetTableViewer, buttonComposite);
 		//
 		configSetTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
@@ -278,11 +285,10 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 				}
 			}
 		});
-
 		return configSetTableViewer;
 	}
 
-	private void createConfigDeleteButton(FormToolkit toolkit, final TableViewer configSetTableViewer, Composite buttonComposite) {
+	private Button createConfigDeleteButton(FormToolkit toolkit, final TableViewer configSetTableViewer, Composite buttonComposite) {
 		Button deleteButton = toolkit.createButton(buttonComposite, "Delete", SWT.PUSH);
 		deleteButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -302,9 +308,10 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		});
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		deleteButton.setLayoutData(gd);
+		return deleteButton;
 	}
 
-	private void createConfigAddButton(FormToolkit toolkit, final TableViewer configSetTableViewer, Composite buttonComposite) {
+	private Button createConfigAddButton(FormToolkit toolkit, final TableViewer configSetTableViewer, Composite buttonComposite) {
 		Button addButton = toolkit.createButton(buttonComposite, "Add", SWT.PUSH);
 		addButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -319,6 +326,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		});
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		addButton.setLayoutData(gd);
+		return addButton;
 	}
 
 	private void createHintSection(FormToolkit toolkit, ScrolledForm form) {
@@ -377,8 +385,10 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		gd.widthHint = 50;
 		buttonComposite.setLayoutData(gd);
 
-		createParamAddButton(toolkit, configParameterTableViewer, buttonComposite, gl);
-		createParamDelButton(toolkit, configParameterTableViewer, buttonComposite);
+		configurationProfileAddButton = createParamAddButton(toolkit,
+				configParameterTableViewer, buttonComposite, gl);
+		configurationProfileDeleteButton = createParamDelButton(toolkit,
+				configParameterTableViewer, buttonComposite);
 
 		configParameterTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
@@ -386,11 +396,10 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 				// modifier.getValue()が呼ばれないことがあるため
 			}
 		});
-		
 		return configParameterTableViewer;
 	}
 
-	private void createParamDelButton(FormToolkit toolkit, final TableViewer configParameterTableViewer, Composite buttonComposite) {
+	private Button createParamDelButton(FormToolkit toolkit, final TableViewer configParameterTableViewer, Composite buttonComposite) {
 		Button deleteButton = toolkit.createButton(
 				buttonComposite, "Delete", SWT.PUSH);
 		deleteButton.addSelectionListener(new SelectionAdapter() {
@@ -412,9 +421,10 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		});
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		deleteButton.setLayoutData(gd);
+		return deleteButton;
 	}
 
-	private void createParamAddButton(FormToolkit toolkit, final TableViewer configParameterTableViewer, Composite buttonComposite, GridLayout gl) {
+	private Button createParamAddButton(FormToolkit toolkit, final TableViewer configParameterTableViewer, Composite buttonComposite, GridLayout gl) {
 		Button addButton = toolkit.createButton(
 				buttonComposite, "Add", SWT.PUSH);
 		GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_END);
@@ -440,6 +450,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		});
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		addButton.setLayoutData(gd);
+		return addButton;
 	}
 
 	public void updateForOutput() {
@@ -830,22 +841,48 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 			return index;
 		}
 	}
-	
+
 	/**
-	 * Parameterセクションの活性状態を変更する
-	 * @param value
+	 * Configurationフォーム内の要素の有効/無効を設定します。
+	 * <ul>
+	 * <li>config.configSet.table : ConfigurationSetセクションのテーブル</li>
+	 * <li>config.configSet.addButton : ConfigurationSetセクションの Addボタン</li>
+	 * <li>config.configSet.deleteButton : ConfigurationSetセクションの Deleteボタン</li>
+	 * <li>config.configParam.table : ConfigurationParameterセクションのテーブル</li>
+	 * <li>config.configParam.addButton : ConfigurationParameterセクションの Addボタン</li>
+	 * <li>config.configParam.deleteButton : ConfigurationParameterセクションの
+	 * Deleteボタン</li>
+	 * </ul>
 	 */
-	public void setConfigurationParameterSectionCompositeEnabled(boolean value){
-		if( configurationParameterSectionComposite!=null ){
-			configurationParameterSectionComposite.setEnabled(value);
-			if( value ){
-				configurationProfileTableViewer.getTable().setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
-			}else{
-				configurationProfileTableViewer.getTable().setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
+	public void setEnabledInfo(WidgetInfo widgetInfo, boolean enabled) {
+		if (widgetInfo.matchSection("configSet")) {
+			if (configurationSetTableViewer != null) {
+				if (widgetInfo.matchWidget("table")) {
+					setViewerEnabled(configurationSetTableViewer, enabled);
+				}
+				if (widgetInfo.matchWidget("addButton")) {
+					setButtonEnabled(configurationSetAddButton, enabled);
+				}
+				if (widgetInfo.matchWidget("deleteButton")) {
+					setButtonEnabled(configurationSetDeleteButton, enabled);
+				}
+			}
+		}
+		if (widgetInfo.matchSection("configParam")) {
+			if (configurationProfileTableViewer != null) {
+				if (widgetInfo.matchWidget("table")) {
+					setViewerEnabled(configurationProfileTableViewer, enabled);
+				}
+				if (widgetInfo.matchWidget("addButton")) {
+					setButtonEnabled(configurationProfileAddButton, enabled);
+				}
+				if (widgetInfo.matchWidget("deleteButton")) {
+					setButtonEnabled(configurationProfileDeleteButton, enabled);
+				}
 			}
 		}
 	}
-	
+
 	// 選択肢以外の値が入力されている場合に対応するためのComboBoxCellEditor
 	private class LocalComboBoxCellEditor extends ComboBoxCellEditor {
 		private CCombo comboBox;

@@ -126,11 +126,16 @@ public class Generator {
 				rtcParam.getServiceClassParams().add(param);
 			}
 			List<GeneratedResult> resultEach = new ArrayList<GeneratedResult>();
-			for( GenerateManager manager : generateManagerList.values() ) {
+			for (String key : generateManagerList.keySet()) {
+				if (!"Common".equals(key)
+						&& !rtcParam.getLangList().contains(key)) {
+					continue;
+				}
+				GenerateManager manager = generateManagerList.get(key);
 				resultEach.addAll(manager.generateTemplateCode(rtcParam));
 			}
 			result.addAll(resultEach);
-		}	
+		}
 
 		return result;
 	}

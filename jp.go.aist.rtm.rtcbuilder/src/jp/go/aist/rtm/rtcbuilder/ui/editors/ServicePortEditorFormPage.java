@@ -74,6 +74,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 
 	private Section servicePortMasterBlockSection;
 	private TreeViewer servicePortViewer;
+	private Button addButton;
 	private Button addinterfaceButton;
 	private Button deleteButton;
 	
@@ -150,7 +151,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		block.createContent(managedForm);
 		
 		// 言語・環境ページより先にこのページが表示された場合、ここで言語を判断する
-		editor.setEnabledInfoByLangFromRtcParam();
+		editor.setEnabledInfoByLang();
 
 		load();
 		
@@ -402,7 +403,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			tree.setLayoutData(gridData);
 			servicePortViewer.getControl().setMenu(menuMgr.createContextMenu(servicePortViewer.getControl()));
 			//
-			Button addButton = managedForm.getToolkit().createButton(client, IMessageConstants.SERVICEPORT_BTN_ADDPORT, SWT.PUSH);
+			addButton = managedForm.getToolkit().createButton(client, IMessageConstants.SERVICEPORT_BTN_ADDPORT, SWT.PUSH);
 			addButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -812,18 +813,23 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			super.dispose();
 		}
 	}
-	
+
 	/**
-	 * セクションの活性状態を変更する
-	 * @param value
+	 * ServicePortフォーム内の要素の有効/無効を設定します。
+	 * <ul>
+	 * <li>serviceport.servicePort.table : ServicePortセクションのテーブル</li>
+	 * <li>serviceport.servicePort.addButton : ServicePortセクションの Addボタン</li>
+	 * </ul>
 	 */
-	public void setServicePortFormPageEnabled(boolean value){
-		if( servicePortMasterBlockSection!=null ){
-			servicePortMasterBlockSection.setEnabled(value);
-			if( value ){
-				servicePortViewer.getControl().setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
-			}else{
-				servicePortViewer.getControl().setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
+	public void setEnabledInfo(WidgetInfo widgetInfo, boolean enabled) {
+		if (widgetInfo.matchSection("servicePort")) {
+			if (servicePortViewer != null) {
+				if (widgetInfo.matchWidget("table")) {
+					setViewerEnabled(servicePortViewer, enabled);
+				}
+				if (widgetInfo.matchWidget("addButton")) {
+					setButtonEnabled(addButton, enabled);
+				}
 			}
 		}
 	}

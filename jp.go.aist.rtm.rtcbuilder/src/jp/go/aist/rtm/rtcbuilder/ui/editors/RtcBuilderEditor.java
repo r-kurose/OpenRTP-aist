@@ -7,7 +7,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -92,32 +91,6 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	//
 	public static String ECLPSE_VERSION_33 = "3.3";
 	//
-	private int BASIC_FORM_INDEX = 0;
-	private int ACTIVITY_FORM_INDEX = 1;
-	private int DATAPORT_FORM_INDEX = 2;
-	private int SERVICEPORT_FORM_INDEX = 3;
-	private int CONFIGURATION_FORM_INDEX = 4;
-	private int DOCUMENTATION_FORM_INDEX = 5;
-	private int LANGUAGE_FORM_INDEX = 6;
-	private int RTCXML_FORM_INDEX = 7;
-
-	private void addPageIndex(int target) {
-		if (target <= BASIC_FORM_INDEX)BASIC_FORM_INDEX = BASIC_FORM_INDEX + 1;
-		if (target <= ACTIVITY_FORM_INDEX)ACTIVITY_FORM_INDEX = ACTIVITY_FORM_INDEX + 1;
-		if (target <= DATAPORT_FORM_INDEX)DATAPORT_FORM_INDEX = DATAPORT_FORM_INDEX + 1;
-		if (target <= SERVICEPORT_FORM_INDEX)SERVICEPORT_FORM_INDEX = SERVICEPORT_FORM_INDEX + 1;
-		if (target <= CONFIGURATION_FORM_INDEX)CONFIGURATION_FORM_INDEX = CONFIGURATION_FORM_INDEX + 1;
-		if (target <= DOCUMENTATION_FORM_INDEX)DOCUMENTATION_FORM_INDEX = DOCUMENTATION_FORM_INDEX + 1;
-		if (target <= LANGUAGE_FORM_INDEX)LANGUAGE_FORM_INDEX = LANGUAGE_FORM_INDEX + 1;
-		if (target <= RTCXML_FORM_INDEX)RTCXML_FORM_INDEX = RTCXML_FORM_INDEX + 1;
-	}
-	private void shiftPageIndex() {
-		for (Integer i : customFormPages.keySet()) {
-			addPageIndex(i.intValue());
-		}
-	}
-
-
 	private boolean isDirty;
 	private String title;
 
@@ -302,55 +275,104 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		return new FormToolkit(getSite().getShell().getDisplay());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	protected void addPages() {
 		try {
-			basicFormPage = new BasicEditorFormPage(this);
-			addPage(BASIC_FORM_INDEX, basicFormPage);
-			activityFormPage = new ActivityEditorFormPage(this);
-			addPage(ACTIVITY_FORM_INDEX, activityFormPage);
-			dataPortFormPage = new DataPortEditorFormPage(this);
-			addPage(DATAPORT_FORM_INDEX, dataPortFormPage);
-			servicePortFormPage = new ServicePortEditorFormPage(this);
-			addPage(SERVICEPORT_FORM_INDEX, servicePortFormPage);
-			configurationFormPage = new ConfigurationEditorFormPage(this);
-			addPage(CONFIGURATION_FORM_INDEX, configurationFormPage);
-			documentFormPage = new DocumentEditorFormPage(this);
-			addPage(DOCUMENTATION_FORM_INDEX, documentFormPage);
-			languageFormPage = new LanguageEditorFormPage(this);
-			addPage(LANGUAGE_FORM_INDEX, languageFormPage);
-			rtcXmlFormPage = new RtcXmlEditorFormPage(this);
-			addPage(RTCXML_FORM_INDEX, rtcXmlFormPage);
+			AbstractEditorFormPage[] defaultPages = new AbstractEditorFormPage[8];
 			//
-			setCustomEditors();
-			customPagesOperation("add");
-			shiftPageIndex();
-
+			basicFormPage = new BasicEditorFormPage(this);
+			defaultPages[0] = basicFormPage;
+			activityFormPage = new ActivityEditorFormPage(this);
+			defaultPages[1] = activityFormPage;
+			dataPortFormPage = new DataPortEditorFormPage(this);
+			defaultPages[2] = dataPortFormPage;
+			servicePortFormPage = new ServicePortEditorFormPage(this);
+			defaultPages[3] = servicePortFormPage;
+			configurationFormPage = new ConfigurationEditorFormPage(this);
+			defaultPages[4] = configurationFormPage;
+			documentFormPage = new DocumentEditorFormPage(this);
+			defaultPages[5] = documentFormPage;
+			languageFormPage = new LanguageEditorFormPage(this);
+			defaultPages[6] = languageFormPage;
+			rtcXmlFormPage = new RtcXmlEditorFormPage(this);
+			defaultPages[7] = rtcXmlFormPage;
+			//
+			List<List<AbstractEditorFormPage>> forms = new ArrayList<List<AbstractEditorFormPage>>();
+			forms.add(new ArrayList<AbstractEditorFormPage>());
+			for (AbstractEditorFormPage p : defaultPages) {
+				List<AbstractEditorFormPage> list = new ArrayList<AbstractEditorFormPage>();
+				list.add(p);
+				forms.add(list);
+			}
+			List<AbstractEditorFormPage> last = forms.get(forms.size() - 1);
+			//
+			List extList = RtcBuilderPlugin.getDefault()
+					.getAddFormPageExtensionLoader().getList();
+			if (extList != null) {
+				for (Object o : extList) {
+					AddFormPageExtension ext = (AddFormPageExtension) o;
+					Map<Integer, AbstractCustomFormPage> map = ext
+							.getCustomPages(this);
+					for (Integer i : map.keySet()) {
+						if (i < 0 || i >= defaultPages.length) {
+							last.add(map.get(i));
+						} else {
+							forms.get(i).add(map.get(i));
+						}
+					}
+				}
+			}
+			//
+			this.customFormPages = new HashMap<Integer, AbstractCustomFormPage>();
+			for (List<AbstractEditorFormPage> list : forms) {
+				for (AbstractEditorFormPage p : list) {
+					int index = addPage(p);
+					if (p instanceof AbstractCustomFormPage) {
+						this.customFormPages.put(index,
+								(AbstractCustomFormPage) p);
+					}
+				}
+			}
+			// nullページが挿入されるので削除しておく (Eclipseのバグ？)
+			if (this.pages.contains(null)) {
+				int nullIndex = -1;
+				for (int i = 0; i < this.pages.size(); i++) {
+					if (this.pages.get(i) == null) {
+						nullIndex = i;
+						break;
+					}
+				}
+				if (nullIndex >= 0) {
+					this.pages.remove(nullIndex);
+				}
+			}
+			//
+			for (AbstractCustomFormPage p : customFormPages.values()) {
+				p.setDefaultEnableInfo();
+			}
 		} catch (PartInitException e) {
 			throw new RuntimeException(e); // system error
 		}
 	}
 
 	private void customPagesOperation(String command) {
-		if(customFormPages == null) return;
-		
-		for(Integer i : customFormPages.keySet()) {
+		if (customFormPages == null)
+			return;
+
+		for (Integer i : customFormPages.keySet()) {
 			AbstractCustomFormPage customPage = customFormPages.get(i);
-			if (customPage != null) {
-				if(command.equals("add")) {
-					try {
-						addPage (i.intValue(),customPage);
-						addPageIndex(i.intValue());
-					} catch (PartInitException e) {
-						e.printStackTrace();
-					}
-				} else if (command.equals("load")) {
-					customPage.load();
-				} else if (command.equals("update")) {
-					customPage.update();
+			if (customPage == null) {
+				continue;
+			}
+			String key = customPage.getManagerKey();
+			if (command.equals("load")) {
+				customPage.load();
+			} else if (command.equals("update")) {
+				// 言語選択に一致しないページは画面→RtcParamへ反映しない
+				if (!getRtcParam().getLangList().contains(key)) {
+					continue;
 				}
+				customPage.update();
 			}
 		}
 	}
@@ -385,11 +407,20 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 
 	public String validateParam() {
 		String result = null;
-		
-		for( int intIdx=0; intIdx<this.pages.size(); intIdx++ ) {
-			AbstractEditorFormPage page = (AbstractEditorFormPage)this.pages.get(intIdx);
+		for (int intIdx = 0; intIdx < this.pages.size(); intIdx++) {
+			AbstractEditorFormPage page = (AbstractEditorFormPage) this.pages
+					.get(intIdx);
+			if (page == null) {
+				continue;
+			}
+			if (page instanceof AbstractCustomFormPage) {
+				String key = ((AbstractCustomFormPage) page).getManagerKey();
+				if (!getRtcParam().getLangList().contains(key)) {
+					continue;
+				}
+			}
 			result = page.validateParam();
-			if( result != null ){
+			if (result != null) {
 				this.setActivePage(intIdx);
 				return result;
 			}
@@ -401,16 +432,16 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	 * {@inheritDoc}
 	 */
 	public void doSave(IProgressMonitor monitor) {
-		boolean isRtcXml = this.getCurrentPage() == RTCXML_FORM_INDEX;
+		boolean isRtcXml = getCurrentPage() == rtcXmlFormPage.getIndex();
 		boolean newOpenEditor = getEditorInput() instanceof NullEditorInput;// 新規エディタ
 		this.allUpdates();
-		
+
 		if (newOpenEditor) {
 			doSaveAs();
 			return;
 		}
 
-		if( this.getCurrentPage() == RTCXML_FORM_INDEX ) {
+		if (isRtcXml) {
 			try {
 				ProfileHandler handler = new ProfileHandler();
 				if( !handler.validateXml(this.getRtcParam().getRtcXml()) ) return;
@@ -459,10 +490,10 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	 * {@inheritDoc}
 	 */
 	public void doSaveAs() {
-		final boolean isRtcXml = this.getCurrentPage() == RTCXML_FORM_INDEX;
+		final boolean isRtcXml = getCurrentPage() == rtcXmlFormPage.getIndex();
 		boolean newOpenEditor = getEditorInput() instanceof NullEditorInput;// 新規エディタ
 
-		if( this.getCurrentPage() == RTCXML_FORM_INDEX ) {
+		if (isRtcXml) {
 			try {
 				ProfileHandler handler = new ProfileHandler();
 				if( !handler.validateXml(this.getRtcParam().getRtcXml()) ) return;
@@ -792,83 +823,134 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	}
 
 	private String getEclipseVersion() {
-		 return System.getProperty("osgi.framework.version");
-	 }
-	
-	public void setCustomEditors() {
-		this.customFormPages = new HashMap<Integer, AbstractCustomFormPage>();
-		List list = RtcBuilderPlugin.getDefault().getAddFormPageExtensionLoader().getList();
-		if (list != null) {
-			for(Iterator it = list.iterator() ; it.hasNext();) {
-				AddFormPageExtension extension = (AddFormPageExtension) it.next();
-					this.customFormPages.putAll(extension.getCustomPages(this));
-			}
-		}
-		for(AbstractCustomFormPage customPage : customFormPages.values()) {
-			customPage.setDefaultEnableInfo();
-		}
+		return System.getProperty("osgi.framework.version");
 	}
-		
-	public void setEnabledInfoByLang(String langName){
-		if( "C++".equals(langName) ){
-			setEnabledInfo(null);
-		}else{
-			List extensionList = RtcBuilderPlugin.getDefault().getEditorExtensionLoader().getList();
-			boolean existManager = false;
-			if( extensionList != null ) {
-				for( Iterator iter = extensionList.iterator(); iter.hasNext(); ) {
-					EditorExtension manager = (EditorExtension) iter.next();
-					if( manager.getManagerKey().equals(langName) ){
-						// managerからUIの活性状態情報を取得し、
-						// 各UIに活性情報を反映
-						setEnabledInfo(manager.getInapplicables());
-						existManager = true;
-						break;
-					}
-				}
-			}
-			if(extensionList == null || !existManager) {
-				//すべて表示する
-				setEnabledInfo(new ArrayList<String>());
+
+	public void setEnabledInfoByLang() {
+		setEnabledInfoByLang(getRtcParam().getLanguage());
+	}
+
+	public void setEnabledInfoByLang(String langName) {
+		EditorExtension ext = RtcBuilderPlugin.getDefault()
+				.getEditorExtensionLoader().findByLang(langName);
+		if (ext == null) {
+			// 全表示(C++含む)
+			setEnabledInfo(new ArrayList<String>());
+		} else {
+			if (!ext.getDisableFormWidgets().isEmpty()) {
+				setEnabledInfo(ext.getDisableFormWidgets());
+			} else {
+				// 廃止予定
+				setEnabledInfoObsolete(ext.getInapplicables());
 			}
 		}
-		
-		//拡張しているFormPage
-		for(AbstractCustomFormPage customPage : customFormPages.values()) {
+		// 拡張しているFormPage
+		for (AbstractCustomFormPage customPage : customFormPages.values()) {
 			customPage.setEnableInfo(langName);
 		}
 	}
-	
-	private void setEnabledInfo(List<String> infos){
-		if( infos!=null && infos.contains(EditorExtension.RTC_PROFILE_PARAMETERS_INAPPLICABLE) ){
-			configurationFormPage.setConfigurationParameterSectionCompositeEnabled(false);
-		}else{
-			configurationFormPage.setConfigurationParameterSectionCompositeEnabled(true);
-		}
-		if( infos!=null && infos.contains(EditorExtension.RTC_PROFILE_SERVICE_PORTS_INAPPLICABLE) ){
-			servicePortFormPage.setServicePortFormPageEnabled(false);
-		}else{
-			servicePortFormPage.setServicePortFormPageEnabled(true);
-		}
 
-		if( infos!=null && infos.contains(EditorExtension.RTC_PROFILE_DATA_PORTS_INAPPLICABLE) ){
-			dataPortFormPage.setDataPortFormPageEnabled(false);
-		}else{
-			dataPortFormPage.setDataPortFormPageEnabled(true);
-		}
-		if( infos!=null && infos.contains(EditorExtension.GENERATE_BUTTON_SECTION_INAPPLICABLE) ){
-			basicFormPage.setEnableGenerateSection(false);
-		}else{
-			basicFormPage.setEnableGenerateSection(true);
+	void setEnabledInfo(List<String> infos) {
+		AbstractEditorFormPage.WidgetInfo widgetInfo;
+		widgetInfo = createWidgetInfo("basic.*.*");
+		basicFormPage.setEnabledInfo(widgetInfo, true);
+		widgetInfo = createWidgetInfo("activity.*.*");
+		activityFormPage.setEnabledInfo(widgetInfo, true);
+		widgetInfo = createWidgetInfo("dataport.*.*");
+		dataPortFormPage.setEnabledInfo(widgetInfo, true);
+		widgetInfo = createWidgetInfo("serviceport.*.*");
+		servicePortFormPage.setEnabledInfo(widgetInfo, true);
+		widgetInfo = createWidgetInfo("config.*.*");
+		configurationFormPage.setEnabledInfo(widgetInfo, true);
+		for (String info : infos) {
+			widgetInfo = createWidgetInfo(info);
+			if (widgetInfo == null) {
+				continue;
+			}
+			if (widgetInfo.matchForm("basic")) {
+				basicFormPage.setEnabledInfo(widgetInfo, false);
+			} else if (widgetInfo.matchForm("activity")) {
+				activityFormPage.setEnabledInfo(widgetInfo, false);
+			} else if (widgetInfo.matchForm("dataport")) {
+				dataPortFormPage.setEnabledInfo(widgetInfo, false);
+			} else if (widgetInfo.matchForm("serviceport")) {
+				servicePortFormPage.setEnabledInfo(widgetInfo, false);
+			} else if (widgetInfo.matchForm("config")) {
+				configurationFormPage.setEnabledInfo(widgetInfo, false);
+			}
 		}
 	}
-	
-	public void setEnabledInfoByLangFromRtcParam(){
+
+	/** 古い方式によるフォームの活性化設定 */
+	@Deprecated
+	void setEnabledInfoObsolete(List<String> infos) {
+		AbstractEditorFormPage.WidgetInfo widgetInfo;
+		//
+		if (infos.contains(EditorExtension.RTC_PROFILE_PARAMETERS_INAPPLICABLE)) {
+			widgetInfo = createWidgetInfo("config.configParam.*");
+			configurationFormPage.setEnabledInfo(widgetInfo, false);
+			// configurationFormPage.setConfigurationParameterSectionCompositeEnabled(false);
+		} else {
+			widgetInfo = createWidgetInfo("config.*.*");
+			configurationFormPage.setEnabledInfo(widgetInfo, true);
+			// configurationFormPage.setConfigurationParameterSectionCompositeEnabled(true);
+		}
+		//
+		if (infos
+				.contains(EditorExtension.RTC_PROFILE_SERVICE_PORTS_INAPPLICABLE)) {
+			widgetInfo = createWidgetInfo("serviceport.servicePort.*");
+			servicePortFormPage.setEnabledInfo(widgetInfo, false);
+			// servicePortFormPage.setServicePortFormPageEnabled(false);
+		} else {
+			widgetInfo = createWidgetInfo("serviceport.*.*");
+			servicePortFormPage.setEnabledInfo(widgetInfo, true);
+			// servicePortFormPage.setServicePortFormPageEnabled(true);
+		}
+		//
+		if (infos.contains(EditorExtension.RTC_PROFILE_DATA_PORTS_INAPPLICABLE)) {
+			widgetInfo = createWidgetInfo("dataport.inPort.*");
+			dataPortFormPage.setEnabledInfo(widgetInfo, false);
+			widgetInfo = createWidgetInfo("dataport.outPort.*");
+			dataPortFormPage.setEnabledInfo(widgetInfo, false);
+			// dataPortFormPage.setDataPortFormPageEnabled(false);
+		} else {
+			widgetInfo = createWidgetInfo("dataport.*.*");
+			dataPortFormPage.setEnabledInfo(widgetInfo, true);
+			// dataPortFormPage.setDataPortFormPageEnabled(true);
+		}
+		//
+		if (infos
+				.contains(EditorExtension.GENERATE_BUTTON_SECTION_INAPPLICABLE)) {
+			widgetInfo = createWidgetInfo("basic.outputProject.*");
+			basicFormPage.setEnabledInfo(widgetInfo, false);
+			widgetInfo = createWidgetInfo("basic.generate.*");
+			basicFormPage.setEnabledInfo(widgetInfo, false);
+			// basicFormPage.setEnableGenerateSection(false);
+		} else {
+			widgetInfo = createWidgetInfo("basic.*.*");
+			basicFormPage.setEnabledInfo(widgetInfo, true);
+			// basicFormPage.setEnableGenerateSection(true);
+		}
+	}
+
+	@Deprecated
+	public void setEnabledInfoByLangFromRtcParam() {
 		setEnabledInfoByLang(getRtcParam().getLanguage());
-		
-		//拡張しているFormPage
-		for(AbstractCustomFormPage customPage : customFormPages.values()) {
+		// FormPage
+		for (AbstractCustomFormPage customPage : customFormPages.values()) {
 			customPage.setEnableInfo(getRtcParam().getLanguage());
 		}
 	}
+
+	AbstractEditorFormPage.WidgetInfo createWidgetInfo(String widgetName) {
+		if (widgetName == null) {
+			return null;
+		}
+		String[] ss = widgetName.split("\\.");
+		if (ss.length != 3) {
+			return null;
+		}
+		return new AbstractEditorFormPage.WidgetInfo(ss[0], ss[1], ss[2]);
+	}
+
 }

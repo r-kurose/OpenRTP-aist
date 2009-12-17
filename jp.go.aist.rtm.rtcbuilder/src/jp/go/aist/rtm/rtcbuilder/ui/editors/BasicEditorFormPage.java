@@ -89,10 +89,17 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	private Text rtcTypeText;
 
 	private Text outputProjectText;
-	
+
+	private Button generateButton;
+	private Button packageButton;
+
+	private Button profileLoadButton;
+	private Button profileSaveButton;
+
 	private Composite generateSection;
 	private Composite outputProjectSection;
-	
+	private Composite profileSection;
+
 	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
 	
 	/**
@@ -143,7 +150,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		createExportImportSection(toolkit, form);
 		//
 		// 言語・環境ページより先にこのページが表示された場合、ここで言語を判断する
-		editor.setEnabledInfoByLangFromRtcParam();
+		editor.setEnabledInfoByLang();
 		
 		load();
 	}
@@ -344,7 +351,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		generateSection = createSectionBaseWithLabel(toolkit, form, 
 				IMessageConstants.BASIC_GENERATE_TITLE, IMessageConstants.BASIC_GENERATE_EXPL, 2);
 		//
-		Button generateButton = toolkit.createButton(generateSection, IMessageConstants.BASIC_BTN_GENERATE, SWT.NONE);
+		generateButton = toolkit.createButton(generateSection, IMessageConstants.BASIC_BTN_GENERATE, SWT.NONE);
 		generateButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -440,8 +447,8 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 			}
 		});
 		//
-		Button exportButton = toolkit.createButton(generateSection, IMessageConstants.BASIC_BTN_PACKAGING, SWT.NONE);
-		exportButton.addSelectionListener(new SelectionAdapter() {
+		packageButton = toolkit.createButton(generateSection, IMessageConstants.BASIC_BTN_PACKAGING, SWT.NONE);
+		packageButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				WizardDialog dialog = new WizardDialog(getSite().getShell(), new RtcExportWizard());
@@ -492,10 +499,10 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	}
 	
 	private void createExportImportSection(FormToolkit toolkit, ScrolledForm form) {
-		Composite composite = createSectionBaseWithLabel(toolkit, form, 
+		profileSection = createSectionBaseWithLabel(toolkit, form, 
 				IMessageConstants.BASIC_EXPORT_IMPORT_TITLE, IMessageConstants.BASIC_EXPORT_IMPORT_EXPL, 2);
 		//
-		Button profileLoadButton = toolkit.createButton(composite, IMessageConstants.BASIC_BTN_IMPORT, SWT.NONE);
+		profileLoadButton = toolkit.createButton(profileSection, IMessageConstants.BASIC_BTN_IMPORT, SWT.NONE);
 		profileLoadButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -546,7 +553,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					editor.updateEMFDataInPorts(editor.getRtcParam().getInports());
 					editor.updateEMFDataOutPorts(editor.getRtcParam().getOutports());
 					editor.updateEMFServiceOutPorts(editor.getRtcParam().getServicePorts());
-					editor.setEnabledInfoByLangFromRtcParam();
+					editor.setEnabledInfoByLang();
 					load();
 					//
 					editor.getRtcParam().resetUpdated();
@@ -555,7 +562,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 			}
 		});
 		//
-		Button profileSaveButton = toolkit.createButton(composite, IMessageConstants.BASIC_BTN_EXPORT, SWT.NONE);
+		profileSaveButton = toolkit.createButton(profileSection, IMessageConstants.BASIC_BTN_EXPORT, SWT.NONE);
 		profileSaveButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -736,16 +743,123 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		return combo;
 	}
 
-	public void setEnableGenerateSection(boolean b) {		
-		if (generateSection == null || outputProjectSection == null) return;
-		generateSection.setEnabled(b);
-		outputProjectSection.setEnabled(b);
-		if (b) {
-			setEnableBackground(generateSection, getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
-			setEnableBackground(outputProjectSection, getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
-		} else {
-			setEnableBackground(generateSection, getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
-			setEnableBackground(outputProjectSection, getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
+	/**
+	 * BasicInfoフォーム内の要素の有効/無効を設定します。
+	 * <ul>
+	 * <li>basic.info.moduleName : BasicInfoセクションの Module name</li>
+	 * <li>basic.info.moduleDescription : BasicInfoセクションの Module description</li>
+	 * <li>basic.info.moduleVersion : BasicInfoセクションの Module version</li>
+	 * <li>basic.info.moduleVendor : BasicInfoセクションの Module vendor</li>
+	 * <li>basic.info.moduleCategory : BasicInfoセクションの Module category</li>
+	 * <li>basic.info.componentType : BasicInfoセクションの Component type</li>
+	 * <li>basic.info.activityType : BasicInfoセクションの Component's activity type</li>
+	 * <li>basic.info.dataFlow : BasicInfoセクションの Component kind の DataFlow</li>
+	 * <li>basic.info.fsm : BasicInfoセクションの Component kind の FSM</li>
+	 * <li>basic.info.multiMode : BasicInfoセクションの Component kind の MultiMode</li>
+	 * <li>basic.info.maxInstances : BasicInfoセクションの maximum instances</li>
+	 * <li>basic.info.executionType : BasicInfoセクションの Execution type</li>
+	 * <li>basic.info.executionRate : BasicInfoセクションの Execution rate</li>
+	 * <li>basic.info.abstract : BasicInfoセクションの Abstract</li>
+	 * <li>basic.info.rtcType : BasicInfoセクションの RTC type</li>
+	 * <li>basic.outputProject.* : OutputProjectセクション全体</li>
+	 * <li>basic.generate.code : Generateセクションのコード生成ボタン</li>
+	 * <li>basic.generate.package : Generateセクションのパッケージ化ボタン</li>
+	 * <li>basic.profile.import : Profileセクションのインポートボタン</li>
+	 * <li>basic.profile.export : Profileセクションのエクスポートボタン</li>
+	 * </ul>
+	 */
+	public void setEnabledInfo(WidgetInfo widgetInfo, boolean enabled) {
+		if (widgetInfo.matchSection("info")) {
+			if (nameText != null) {
+				if (widgetInfo.matchWidget("moduleName")) {
+					setControlEnabled(nameText, enabled);
+				}
+				if (widgetInfo.matchWidget("moduleDescription")) {
+					setControlEnabled(descriptionText, enabled);
+				}
+				if (widgetInfo.matchWidget("moduleVersion")) {
+					setControlEnabled(versionText, enabled);
+				}
+				if (widgetInfo.matchWidget("moduleVendor")) {
+					setControlEnabled(venderText, enabled);
+				}
+				if (widgetInfo.matchWidget("moduleCategory")) {
+					setControlEnabled(categoryCombo, enabled);
+				}
+				if (widgetInfo.matchWidget("componentType")) {
+					setControlEnabled(typeCombo, enabled);
+				}
+				if (widgetInfo.matchWidget("activityType")) {
+					setControlEnabled(activityTypeCombo, enabled);
+				}
+				if (widgetInfo.matchWidget("dataFlow")) {
+					setControlEnabled(dataFlowBtn, enabled);
+				}
+				if (widgetInfo.matchWidget("fsm")) {
+					setControlEnabled(fsmBtn, enabled);
+				}
+				if (widgetInfo.matchWidget("multiMode")) {
+					setControlEnabled(multiModeBtn, enabled);
+				}
+				if (widgetInfo.matchWidget("maxInstances")) {
+					setControlEnabled(maxInstanceText, enabled);
+				}
+				if (widgetInfo.matchWidget("executionType")) {
+					setControlEnabled(executionTypeCombo, enabled);
+				}
+				if (widgetInfo.matchWidget("executionRate")) {
+					setControlEnabled(executionRateText, enabled);
+				}
+				if (widgetInfo.matchWidget("abstract")) {
+					setControlEnabled(abstractText, enabled);
+				}
+				if (widgetInfo.matchWidget("rtcType")) {
+					setControlEnabled(rtcTypeText, enabled);
+				}
+			}
+		}
+		if (widgetInfo.matchSection("outputProject")) {
+			if (outputProjectSection != null) {
+				outputProjectSection.setEnabled(enabled);
+				setEnableBackground(outputProjectSection,
+						getBackgroundByEnabled(enabled));
+			}
+		}
+		if (widgetInfo.matchSection("generate")) {
+			if (generateSection != null) {
+				if (widgetInfo.matchWidget("code")) {
+					setButtonEnabled(generateButton, enabled);
+				}
+				if (widgetInfo.matchWidget("package")) {
+					setButtonEnabled(packageButton, enabled);
+				}
+				boolean genEnable = false;
+				if (generateButton.getEnabled() || packageButton.getEnabled()) {
+					genEnable = true;
+				}
+				generateSection.setEnabled(genEnable);
+				setEnableBackground(generateSection,
+						getBackgroundByEnabled(genEnable));
+			}
+		}
+		if (widgetInfo.matchSection("profile")) {
+			if (profileSection != null) {
+				if (widgetInfo.matchWidget("import")) {
+					setButtonEnabled(profileLoadButton, enabled);
+				}
+				if (widgetInfo.matchWidget("export")) {
+					setButtonEnabled(profileSaveButton, enabled);
+				}
+				boolean profEnable = false;
+				if (profileLoadButton.getEnabled()
+						|| profileSaveButton.getEnabled()) {
+					profEnable = true;
+				}
+				profileSection.setEnabled(profEnable);
+				setEnableBackground(profileSection,
+						getBackgroundByEnabled(profEnable));
+			}
 		}
 	}
+
 }

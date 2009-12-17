@@ -30,7 +30,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
@@ -49,9 +48,14 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 	private static final String DATAPORTPARAM_PROPERTY_POSITION = "DATAPORTPARAM_PROPERTY_POSITION";
 	private static final String DATAPORTPARAM_PROPERTY_CONSTRAINT = "DATAPORTPARAM_PROPERTY_CONSTRAINT";
 	private static final String DATAPORTPARAM_PROPERTY_UNIT = "DATAPORTPARAM_PROPERTY_UNIT";
-
+	//
 	private TableViewer inportTableViewer;
+	private Button inportAddButton;
+	private Button inportDeleteButton;
+	//
 	private TableViewer outportTableViewer;
+	private Button outportAddButton;
+	private Button outportDeleteButton;
 	//
 	private Text portNameText;
 	private Text descriptionText;
@@ -120,7 +124,7 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		createDocumentSection(toolkit, form);
 		//
 		// 言語・環境ページより先にこのページが表示された場合、ここで言語を判断する
-		editor.setEnabledInfoByLangFromRtcParam();
+		editor.setEnabledInfoByLang();
 
 		load();
 	}
@@ -283,6 +287,15 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 				}
 			}
 		});
+
+		if (sectionLabel.equals(IMessageConstants.DATAPORT_INPORT_TITLE)) {
+			inportAddButton = addButton;
+			inportDeleteButton = deleteButton;
+		} else if (sectionLabel
+				.equals(IMessageConstants.DATAPORT_OUTPORT_TITLE)) {
+			outportAddButton = addButton;
+			outportDeleteButton = deleteButton;
+		}
 
 		return portParamTableViewer;
 	}
@@ -519,18 +532,44 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		}
 	}
 
-	public void setDataPortFormPageEnabled(boolean value) {
-		
-		setTableViewerEnabled(inportTableViewer, value);
-		setTableViewerEnabled(outportTableViewer, value);
-	}
-
-	private void setTableViewerEnabled(TableViewer viewer,boolean value) {
-		if (viewer != null) {
-			Control ctrl = viewer.getControl();
-			ctrl.getParent().setEnabled(value);			
-			int color = value ? SWT.COLOR_LIST_BACKGROUND : SWT.COLOR_WIDGET_LIGHT_SHADOW;
-			ctrl.setBackground(getSite().getShell().getDisplay().getSystemColor(color));
+	/**
+	 * DataPortフォーム内の要素の有効/無効を設定します。
+	 * <ul>
+	 * <li>dataport.inPort.table : InPortセクションのテーブル</li>
+	 * <li>dataport.inPort.addButton : InPortセクションの Addボタン</li>
+	 * <li>dataport.inPort.deleteButton : InPortセクションの Deleteボタン</li>
+	 * <li>dataport.outPort.table : OutPortセクションのテーブル</li>
+	 * <li>dataport.outPort.addButton : OutPortセクションの Addボタン</li>
+	 * <li>dataport.outPort.deleteButton : OutPortセクションの Deleteボタン</li>
+	 * </ul>
+	 */
+	public void setEnabledInfo(WidgetInfo widgetInfo, boolean enabled) {
+		if (widgetInfo.matchSection("inPort")) {
+			if (inportTableViewer != null) {
+				if (widgetInfo.matchWidget("table")) {
+					setViewerEnabled(inportTableViewer, enabled);
+				}
+				if (widgetInfo.matchWidget("addButton")) {
+					setButtonEnabled(inportAddButton, enabled);
+				}
+				if (widgetInfo.matchWidget("deleteButton")) {
+					setButtonEnabled(inportDeleteButton, enabled);
+				}
+			}
+		}
+		if (widgetInfo.matchSection("outPort")) {
+			if (outportTableViewer != null) {
+				if (widgetInfo.matchWidget("table")) {
+					setViewerEnabled(outportTableViewer, enabled);
+				}
+				if (widgetInfo.matchWidget("addButton")) {
+					setButtonEnabled(outportAddButton, enabled);
+				}
+				if (widgetInfo.matchWidget("deleteButton")) {
+					setButtonEnabled(outportDeleteButton, enabled);
+				}
+			}
 		}
 	}
+
 }

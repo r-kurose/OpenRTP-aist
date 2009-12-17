@@ -66,6 +66,9 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 		createHintSection(toolkit, form);
 		createDocumentSection(managedForm.getToolkit(), form);
 
+		// 言語・環境ページより先にこのページが表示された場合、ここで言語を判断する
+		editor.setEnabledInfoByLang();
+
 		load();
 	}
 
@@ -299,6 +302,89 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 	public String validateParam() {
 		//入力パラメータチェックなし
 		return null;
+	}
+
+	/**
+	 * Activityフォーム内の要素の有効/無効を設定します。
+	 * <ul>
+	 * <li>activity.action.onInitialize : Activityセクションの on_initialize</li>
+	 * <li>activity.action.onFinalize : Activityセクションの on_finalize</li>
+	 * <li>activity.action.onStartup : Activityセクションの on_startup</li>
+	 * <li>activity.action.onShutdown : Activityセクションの on_shutdown</li>
+	 * <li>activity.action.onActivated : Activityセクションの on_activated</li>
+	 * <li>activity.action.onDeactivated : Activityセクションの on_deactivated</li>
+	 * <li>activity.action.onAborting : Activityセクションの on_aborting</li>
+	 * <li>activity.action.onError : Activityセクションの on_error</li>
+	 * <li>activity.action.onReset : Activityセクションの on_reset</li>
+	 * <li>activity.action.onExecute : Activityセクションの on_execute</li>
+	 * <li>activity.action.onStateUpdate : Activityセクションの on_state_update</li>
+	 * <li>activity.action.onRateChanged : Activityセクションの on_rate_changed</li>
+	 * <li>activity.action.onAction : Activityセクションの on_action</li>
+	 * <li>activity.action.onModeChanged : Activityセクションの on_mode_changed</li>
+	 * </ul>
+	 */
+	public void setEnabledInfo(WidgetInfo widgetInfo, boolean enabled) {
+		if (widgetInfo.matchSection("action")) {
+			if (implChk != null && !implChk.isEmpty()) {
+				int index = -1;
+				if (widgetInfo.matchWidget("onInitialize")) {
+					index = IRtcBuilderConstants.ACTIVITY_INITIALIZE;
+					setControlEnabled(implChk.get(index), enabled);
+				}
+				if (widgetInfo.matchWidget("onFinalize")) {
+					index = IRtcBuilderConstants.ACTIVITY_FINALIZE;
+					setControlEnabled(implChk.get(index), enabled);
+				}
+				if (widgetInfo.matchWidget("onStartup")) {
+					index = IRtcBuilderConstants.ACTIVITY_STARTUP;
+					setControlEnabled(implChk.get(index), enabled);
+				}
+				if (widgetInfo.matchWidget("onShutdown")) {
+					index = IRtcBuilderConstants.ACTIVITY_SHUTDOWN;
+					setControlEnabled(implChk.get(index), enabled);
+				}
+				if (widgetInfo.matchWidget("onActivated")) {
+					index = IRtcBuilderConstants.ACTIVITY_ACTIVATED;
+					setControlEnabled(implChk.get(index), enabled);
+				}
+				if (widgetInfo.matchWidget("onDeactivated")) {
+					index = IRtcBuilderConstants.ACTIVITY_DEACTIVATED;
+					setControlEnabled(implChk.get(index), enabled);
+				}
+				if (widgetInfo.matchWidget("onAborting")) {
+					index = IRtcBuilderConstants.ACTIVITY_ABORTING;
+					setControlEnabled(implChk.get(index), enabled);
+				}
+				if (widgetInfo.matchWidget("onError")) {
+					index = IRtcBuilderConstants.ACTIVITY_ERROR;
+					setControlEnabled(implChk.get(index), enabled);
+				}
+				if (widgetInfo.matchWidget("onReset")) {
+					index = IRtcBuilderConstants.ACTIVITY_RESET;
+					setControlEnabled(implChk.get(index), enabled);
+				}
+				if (widgetInfo.matchWidget("onExecute")) {
+					index = IRtcBuilderConstants.ACTIVITY_EXECUTE;
+					setControlEnabled(implChk.get(index), enabled);
+				}
+				if (widgetInfo.matchWidget("onStateUpdate")) {
+					index = IRtcBuilderConstants.ACTIVITY_STATE_UPDATE;
+					setControlEnabled(implChk.get(index), enabled);
+				}
+				if (widgetInfo.matchWidget("onRateChanged")) {
+					index = IRtcBuilderConstants.ACTIVITY_RATE_CHANGED;
+					setControlEnabled(implChk.get(index), enabled);
+				}
+				if (widgetInfo.matchWidget("onAction")) {
+					index = IRtcBuilderConstants.ACTIVITY_ACTION;
+					setControlEnabled(implChk.get(index), enabled);
+				}
+				if (widgetInfo.matchWidget("onModeChanged")) {
+					index = IRtcBuilderConstants.ACTIVITY_MODE_CHANGED;
+					setControlEnabled(implChk.get(index), enabled);
+				}
+			}
+		}
 	}
 
 }

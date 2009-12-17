@@ -14,6 +14,7 @@ import jp.go.aist.rtm.rtcbuilder.ui.preference.DataTypePreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -397,7 +398,18 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 
 	abstract protected void update();
+
+	abstract public void load();
+
 	abstract protected String validateParam();
+
+	@Override
+	public void setActive(boolean active) {
+		super.setActive(active);
+		if (active) {
+			load();
+		}
+	}
 
 	@Override
 	public void dispose() {
@@ -429,6 +441,118 @@ public abstract class AbstractEditorFormPage extends FormPage {
 				child.setBackground(color);
 			}
 		}
+	}
+
+	/**
+	 * フォーム内の要素を指し示すオブジェクト。
+	 */
+	public static class WidgetInfo {
+		String formName;
+
+		String sectionName;
+
+		String widgetName;
+
+		public WidgetInfo(String formName, String sectionName, String widgetName) {
+			this.formName = (formName != null) ? formName : "";
+			this.sectionName = (sectionName != null) ? sectionName : "";
+			this.widgetName = (widgetName != null) ? widgetName : "";
+		}
+
+		public boolean matchForm(String s) {
+			if (formName.equals("*") || formName.equals(s)) {
+				return true;
+			}
+			return false;
+		}
+
+		public boolean matchSection(String s) {
+			if (sectionName.equals("*") || sectionName.equals(s)) {
+				return true;
+			}
+			return false;
+		}
+
+		public boolean matchWidget(String s) {
+			if (widgetName.equals("*") || widgetName.equals(s)) {
+				return true;
+			}
+			return false;
+		}
+	}
+
+	/**
+	 * フォーム内の要素の有効/無効を設定します。
+	 * 
+	 * @param widgetInfo
+	 *            フォーム内の要素のアドレス情報
+	 * @param enabled
+	 *            有効の場合は true
+	 */
+	public void setEnabledInfo(WidgetInfo widgetInfo, boolean enabled) {
+	}
+
+	/**
+	 * 有効/無効時の背景色を取得します。
+	 * 
+	 * @param enabled
+	 *            有効の場合は true
+	 * @return 有効の場合は SWT.COLOR_LIST_BACKGROUND、無効の場合は
+	 *         SWT.COLOR_WIDGET_LIGHT_SHADOW
+	 */
+	public Color getBackgroundByEnabled(boolean enabled) {
+		int c = (enabled) ? SWT.COLOR_LIST_BACKGROUND
+				: SWT.COLOR_WIDGET_LIGHT_SHADOW;
+		return getSite().getShell().getDisplay().getSystemColor(c);
+	}
+
+	/**
+	 * Viewerの有効/無効を設定します。
+	 * 
+	 * @param viewer
+	 *            Viewerオブジェクト
+	 * @param enabled
+	 *            有効の場合は true
+	 */
+	public void setViewerEnabled(Viewer viewer, boolean enabled) {
+		if (viewer == null) {
+			return;
+		}
+		Color color = getBackgroundByEnabled(enabled);
+		viewer.getControl().getParent().setEnabled(enabled);
+		viewer.getControl().setBackground(color);
+	}
+
+	/**
+	 * Controlの有効/無効を設定します。
+	 * 
+	 * @param control
+	 *            Controlオブジェクト
+	 * @param enabled
+	 *            有効の場合は true
+	 */
+	public void setControlEnabled(Control control, boolean enabled) {
+		if (control == null) {
+			return;
+		}
+		Color color = getBackgroundByEnabled(enabled);
+		control.setEnabled(enabled);
+		control.setBackground(color);
+	}
+
+	/**
+	 * Buttonの有効/無効を設定します。
+	 * 
+	 * @param button
+	 *            Buttonオブジェクト
+	 * @param enabled
+	 *            有効の場合は true
+	 */
+	public void setButtonEnabled(Button button, boolean enabled) {
+		if (button == null) {
+			return;
+		}
+		button.setEnabled(enabled);
 	}
 
 }
