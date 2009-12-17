@@ -80,7 +80,9 @@ for project in $projects; do
     fi
 done
 
-rm $JARDIR.zip
+if test -f $JARDIR.zip ; then
+    rm $JARDIR.zip
+fi
 zip $JARDIR.zip -r ./$JARDIR
 
 export ANT_HOME=$DUMMY
