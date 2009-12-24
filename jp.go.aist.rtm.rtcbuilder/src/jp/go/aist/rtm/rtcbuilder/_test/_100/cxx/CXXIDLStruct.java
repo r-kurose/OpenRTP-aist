@@ -71,4 +71,58 @@ public class CXXIDLStruct extends TestBase {
 		checkCode(result, resourceDir, "copyprops.bat");
 		checkCode(result, resourceDir, "user_config.vsprops");
 	}
+	
+	public void testIDLSeqStrring() throws Exception{
+		GeneratorParam genParam = new GeneratorParam();
+		RtcParam rtcParam = new RtcParam(genParam, true);
+		rtcParam.setOutputProject(rootPath + "\\resource\\work");
+		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
+		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
+		rtcParam.setName("foo");
+		rtcParam.setDescription("MDesc");
+		rtcParam.setVersion("1.0.1");
+		rtcParam.setVender("TA");
+		rtcParam.setCategory("Manip");
+		rtcParam.setComponentType("STATIC");
+		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setActivityType("PERIODIC");
+		rtcParam.setMaxInstance(5);
+		rtcParam.setRtmVersion("1.0.0");
+		rtcParam.setIsTest(true);
+
+		ServicePortParam service1 = new ServicePortParam("svPort",0);
+		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
+		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "acc", 
+				rootPath + "resource\\100\\CXX\\SeqString\\MyService.idl", "MyService", "", 0);
+		srvinterts.add(int1);
+		service1.getServicePortInterfaces().addAll(srvinterts);
+		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
+		srvports.add(service1);
+		
+		rtcParam.getServicePorts().addAll(srvports);
+		genParam.getRtcParams().add(rtcParam);
+		
+		Generator generator = new Generator();
+		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
+
+		String resourceDir = rootPath +  "\\resource\\100\\CXX\\SeqString\\";
+
+		checkCode(result, resourceDir, "fooComp.cpp");
+		checkCode(result, resourceDir, "Makefile.foo");
+		checkCode(result, resourceDir, "foo.h");
+		checkCode(result, resourceDir, "foo.cpp");
+		checkCode(result, resourceDir, "README.foo");
+		checkCode(result, resourceDir, "MyServiceSVC_impl.h");
+		checkCode(result, resourceDir, "MyServiceSVC_impl.cpp");
+		//
+		checkCode(result, resourceDir, "foo_vc8.sln");
+		checkCode(result, resourceDir, "foo_vc8.vcproj");
+		checkCode(result, resourceDir, "fooComp_vc8.vcproj");
+		checkCode(result, resourceDir, "foo_vc9.sln");
+		checkCode(result, resourceDir, "foo_vc9.vcproj");
+		checkCode(result, resourceDir, "fooComp_vc9.vcproj");
+		//
+		checkCode(result, resourceDir, "copyprops.bat");
+		checkCode(result, resourceDir, "user_config.vsprops");
+	}
 }

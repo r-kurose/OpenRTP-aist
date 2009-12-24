@@ -806,13 +806,12 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
    }
 
    /**
-    * nodeToken -> "string"
-    * nodeOptional -> [ "<" positive_int_const() ">" ]
+    * nodeChoice -> "string" [ "<" positive_int_const() ">" ]
+    *       | "wstring" [ "<" positive_int_const() ">" ]
     */
    public R visit(string_type n, A argu) {
       R _ret=null;
-      n.nodeToken.accept(this, argu);
-      n.nodeOptional.accept(this, argu);
+      n.nodeChoice.accept(this, argu);
       return _ret;
    }
 

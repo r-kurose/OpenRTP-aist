@@ -9,6 +9,7 @@ import jp.go.aist.rtm.rtcbuilder.IRTCBMessageConstants;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.IDLParser;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.ParseException;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.Node;
+import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.NodeSequence;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.NodeToken;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.base_type_spec;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.identifier;
@@ -20,6 +21,7 @@ import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.param_dcl;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.scoped_name;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.simple_type_spec;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.specification;
+import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.string_type;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.struct_type;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.type_declarator;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.visitor.DepthFirstVisitor;
@@ -196,6 +198,21 @@ public class IDLParamConverter {
 							@Override
 							public void visit(scoped_name n) {
 								tdparam.setOriginalDef(node2String(n));
+							}
+							@Override
+							public void visit(string_type n) {
+								n.nodeChoice.accept(new DepthFirstVisitor(){
+									@Override
+									public void visit(NodeToken n) {
+										if(node2String(n).toLowerCase().equals("string") ) {
+											tdparam.setOriginalDef("string");
+											tdparam.setString(true);
+										} else if(node2String(n).toLowerCase().equals("wstring") ) {
+											tdparam.setOriginalDef("wstring");
+											tdparam.setString(true);
+										}
+									}
+								});
 							}
 						});
 						

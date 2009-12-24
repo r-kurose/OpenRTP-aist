@@ -668,12 +668,11 @@ public class GJVoidDepthFirst<A> implements GJVoidVisitor<A> {
    }
 
    /**
-    * nodeToken -> "string"
-    * nodeOptional -> [ "<" positive_int_const() ">" ]
+    * nodeChoice -> "string" [ "<" positive_int_const() ">" ]
+    *       | "wstring" [ "<" positive_int_const() ">" ]
     */
    public void visit(string_type n, A argu) {
-      n.nodeToken.accept(this, argu);
-      n.nodeOptional.accept(this, argu);
+      n.nodeChoice.accept(this, argu);
    }
 
    /**

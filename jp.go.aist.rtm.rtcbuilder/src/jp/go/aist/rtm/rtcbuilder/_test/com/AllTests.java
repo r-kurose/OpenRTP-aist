@@ -14,6 +14,8 @@ public class AllTests {
 		suite.addTestSuite(CORBAParseServiceTest.class);
 		suite.addTestSuite(CORBAParseMethodTypeTest.class);
 		suite.addTestSuite(CORBAParseCommentTest.class);
+		suite.addTestSuite(CORBAParseTypeDefTest.class);
+		suite.addTestSuite(CORBAParseInheritTest.class);
 		//$JUnit-END$
 		return suite;
 	}

@@ -658,12 +658,11 @@ public class DepthFirstVisitor implements Visitor {
    }
 
    /**
-    * nodeToken -> "string"
-    * nodeOptional -> [ "<" positive_int_const() ">" ]
+    * nodeChoice -> "string" [ "<" positive_int_const() ">" ]
+    *       | "wstring" [ "<" positive_int_const() ">" ]
     */
    public void visit(string_type n) {
-      n.nodeToken.accept(this);
-      n.nodeOptional.accept(this);
+      n.nodeChoice.accept(this);
    }
 
    /**

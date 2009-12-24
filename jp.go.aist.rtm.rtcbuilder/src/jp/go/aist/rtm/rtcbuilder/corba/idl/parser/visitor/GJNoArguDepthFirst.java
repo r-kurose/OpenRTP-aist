@@ -806,13 +806,12 @@ public class GJNoArguDepthFirst<R> implements GJNoArguVisitor<R> {
    }
 
    /**
-    * nodeToken -> "string"
-    * nodeOptional -> [ "<" positive_int_const() ">" ]
+    * nodeChoice -> "string" [ "<" positive_int_const() ">" ]
+    *       | "wstring" [ "<" positive_int_const() ">" ]
     */
    public R visit(string_type n) {
       R _ret=null;
-      n.nodeToken.accept(this);
-      n.nodeOptional.accept(this);
+      n.nodeChoice.accept(this);
       return _ret;
    }
 

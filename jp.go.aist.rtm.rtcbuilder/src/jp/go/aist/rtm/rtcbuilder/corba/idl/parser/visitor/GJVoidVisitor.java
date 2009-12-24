@@ -456,8 +456,8 @@ public interface GJVoidVisitor<A> {
    public void visit(sequence_type n, A argu);
 
    /**
-    * nodeToken -> "string"
-    * nodeOptional -> [ "<" positive_int_const() ">" ]
+    * nodeChoice -> "string" [ "<" positive_int_const() ">" ]
+    *       | "wstring" [ "<" positive_int_const() ">" ]
     */
    public void visit(string_type n, A argu);
 

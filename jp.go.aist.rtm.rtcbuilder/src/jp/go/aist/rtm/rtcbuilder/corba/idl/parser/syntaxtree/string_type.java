@@ -6,26 +6,16 @@ package jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree;
 
 /**
  * Grammar production:
- * nodeToken -> "string"
- * nodeOptional -> [ "<" positive_int_const() ">" ]
+ * nodeChoice -> "string" [ "<" positive_int_const() ">" ]
+ *       | "wstring" [ "<" positive_int_const() ">" ]
  */
 public class string_type implements Node {
    private Node parent;
-   public NodeToken nodeToken;
-   public NodeOptional nodeOptional;
+   public NodeChoice nodeChoice;
 
-   public string_type(NodeToken n0, NodeOptional n1) {
-      nodeToken = n0;
-      if ( nodeToken != null ) nodeToken.setParent(this);
-      nodeOptional = n1;
-      if ( nodeOptional != null ) nodeOptional.setParent(this);
-   }
-
-   public string_type(NodeOptional n0) {
-      nodeToken = new NodeToken("string");
-      if ( nodeToken != null ) nodeToken.setParent(this);
-      nodeOptional = n0;
-      if ( nodeOptional != null ) nodeOptional.setParent(this);
+   public string_type(NodeChoice n0) {
+      nodeChoice = n0;
+      if ( nodeChoice != null ) nodeChoice.setParent(this);
    }
 
    public void accept(jp.go.aist.rtm.rtcbuilder.corba.idl.parser.visitor.Visitor v) {

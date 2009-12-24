@@ -456,8 +456,8 @@ public interface GJNoArguVisitor<R> {
    public R visit(sequence_type n);
 
    /**
-    * nodeToken -> "string"
-    * nodeOptional -> [ "<" positive_int_const() ">" ]
+    * nodeChoice -> "string" [ "<" positive_int_const() ">" ]
+    *       | "wstring" [ "<" positive_int_const() ">" ]
     */
    public R visit(string_type n);
 

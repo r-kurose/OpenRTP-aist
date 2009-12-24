@@ -10,12 +10,14 @@ public class TypeDefParam implements Serializable {
 	private String targetDef;
 	private String scopedName;
 	private boolean isSequence;
+	private boolean isString;
 
 	public TypeDefParam() {
 		originalDef = "";
 		targetDef = "";
 		scopedName = "";
 		isSequence = false;
+		isString = false;
 	}
 
 	public String getOriginalDef() {
@@ -42,8 +44,14 @@ public class TypeDefParam implements Serializable {
 	public boolean isSequence() {
 		return isSequence;
 	}
-
 	public void setSequence(boolean isSequence) {
 		this.isSequence = isSequence;
+	}
+
+	public boolean isString() {
+		return isString;
+	}
+	public void setString(boolean isString) {
+		this.isString = isString;
 	}
 }

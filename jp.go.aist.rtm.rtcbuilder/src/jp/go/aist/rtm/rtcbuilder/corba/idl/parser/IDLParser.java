@@ -61,7 +61,7 @@ public class IDLParser implements IDLParserConstants {
       case 46:
       case 47:
       case 51:
-      case 60:
+      case 61:
         ;
         break;
       default:
@@ -118,7 +118,7 @@ public class IDLParser implements IDLParserConstants {
         n5.addNode(n7);
         n0 = new NodeChoice(n5, 1);
       break;
-    case 60:
+    case 61:
         n9 = new NodeSequence(2);
       n10 = except_dcl();
         n9.addNode(n10);
@@ -181,7 +181,7 @@ public class IDLParser implements IDLParserConstants {
       case 46:
       case 47:
       case 51:
-      case 60:
+      case 61:
         ;
         break;
       default:
@@ -291,11 +291,12 @@ public class IDLParser implements IDLParserConstants {
       case 47:
       case 51:
       case 55:
-      case 58:
+      case 56:
       case 59:
       case 60:
-      case 62:
+      case 61:
       case 63:
+      case 64:
       case ID:
         ;
         break;
@@ -355,7 +356,7 @@ public class IDLParser implements IDLParserConstants {
         n5.addNode(n7);
         n0 = new NodeChoice(n5, 1);
       break;
-    case 60:
+    case 61:
         n9 = new NodeSequence(2);
       n10 = except_dcl();
         n9.addNode(n10);
@@ -364,8 +365,8 @@ public class IDLParser implements IDLParserConstants {
         n9.addNode(n11);
         n0 = new NodeChoice(n9, 2);
       break;
-    case 58:
     case 59:
+    case 60:
         n13 = new NodeSequence(2);
       n14 = attr_dcl();
         n13.addNode(n14);
@@ -385,8 +386,9 @@ public class IDLParser implements IDLParserConstants {
     case 44:
     case 45:
     case 55:
-    case 62:
+    case 56:
     case 63:
+    case 64:
     case ID:
         n17 = new NodeSequence(2);
       n18 = op_dcl();
@@ -532,6 +534,7 @@ public class IDLParser implements IDLParserConstants {
         n0 = new NodeChoice(n4, 3);
       break;
     case 55:
+    case 56:
       n5 = string_type();
         n0 = new NodeChoice(n5, 4);
       break;
@@ -1046,6 +1049,7 @@ public class IDLParser implements IDLParserConstants {
     case 45:
     case 52:
     case 55:
+    case 56:
     case ID:
       n1 = simple_type_spec();
         n0 = new NodeChoice(n1, 0);
@@ -1085,6 +1089,7 @@ public class IDLParser implements IDLParserConstants {
       break;
     case 52:
     case 55:
+    case 56:
       n2 = template_type_spec();
         n0 = new NodeChoice(n2, 1);
       break;
@@ -1157,6 +1162,7 @@ public class IDLParser implements IDLParserConstants {
         n0 = new NodeChoice(n1, 0);
       break;
     case 55:
+    case 56:
       n2 = string_type();
         n0 = new NodeChoice(n2, 1);
       break;
@@ -1533,6 +1539,7 @@ public class IDLParser implements IDLParserConstants {
       case 51:
       case 52:
       case 55:
+      case 56:
       case ID:
         ;
         break;
@@ -1829,35 +1836,84 @@ public class IDLParser implements IDLParserConstants {
   }
 
   final public string_type string_type() throws ParseException {
-   NodeToken n0;
-   Token n1;
-   NodeOptional n2 = new NodeOptional();
-   NodeSequence n3;
-   NodeToken n4;
-   Token n5;
-   positive_int_const n6;
-   NodeToken n7;
-   Token n8;
-    n1 = jj_consume_token(55);
-                 n0 = JTBToolkit.makeNodeToken(n1);
+   NodeChoice n0;
+   NodeSequence n1;
+   NodeToken n2;
+   Token n3;
+   NodeOptional n4 = new NodeOptional();
+   NodeSequence n5;
+   NodeToken n6;
+   Token n7;
+   positive_int_const n8;
+   NodeToken n9;
+   Token n10;
+   NodeSequence n11;
+   NodeToken n12;
+   Token n13;
+   NodeOptional n14 = new NodeOptional();
+   NodeSequence n15;
+   NodeToken n16;
+   Token n17;
+   positive_int_const n18;
+   NodeToken n19;
+   Token n20;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case 53:
-        n3 = new NodeSequence(3);
-      n5 = jj_consume_token(53);
-               n4 = JTBToolkit.makeNodeToken(n5);
-        n3.addNode(n4);
-      n6 = positive_int_const();
-        n3.addNode(n6);
-      n8 = jj_consume_token(54);
-               n7 = JTBToolkit.makeNodeToken(n8);
-        n3.addNode(n7);
-        n2.addNode(n3);
+    case 55:
+        n1 = new NodeSequence(2);
+      n3 = jj_consume_token(55);
+                    n2 = JTBToolkit.makeNodeToken(n3);
+        n1.addNode(n2);
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case 53:
+           n5 = new NodeSequence(3);
+        n7 = jj_consume_token(53);
+                  n6 = JTBToolkit.makeNodeToken(n7);
+           n5.addNode(n6);
+        n8 = positive_int_const();
+           n5.addNode(n8);
+        n10 = jj_consume_token(54);
+                   n9 = JTBToolkit.makeNodeToken(n10);
+           n5.addNode(n9);
+           n4.addNode(n5);
+        break;
+      default:
+        jj_la1[43] = jj_gen;
+        ;
+      }
+        n1.addNode(n4);
+        n0 = new NodeChoice(n1, 0);
+      break;
+    case 56:
+        n11 = new NodeSequence(2);
+      n13 = jj_consume_token(56);
+                      n12 = JTBToolkit.makeNodeToken(n13);
+        n11.addNode(n12);
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case 53:
+           n15 = new NodeSequence(3);
+        n17 = jj_consume_token(53);
+                   n16 = JTBToolkit.makeNodeToken(n17);
+           n15.addNode(n16);
+        n18 = positive_int_const();
+           n15.addNode(n18);
+        n20 = jj_consume_token(54);
+                   n19 = JTBToolkit.makeNodeToken(n20);
+           n15.addNode(n19);
+           n14.addNode(n15);
+        break;
+      default:
+        jj_la1[44] = jj_gen;
+        ;
+      }
+        n11.addNode(n14);
+        n0 = new NodeChoice(n11, 1);
       break;
     default:
-      jj_la1[43] = jj_gen;
-      ;
+      jj_la1[45] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
     }
-     {if (true) return new string_type(n0,n2);}
+     {if (true) return new string_type(n0);}
     throw new Error("Missing return statement in function");
   }
 
@@ -1871,11 +1927,11 @@ public class IDLParser implements IDLParserConstants {
       n2 = fixed_array_size();
         n1.addNode(n2);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case 56:
+      case 57:
         ;
         break;
       default:
-        jj_la1[44] = jj_gen;
+        jj_la1[46] = jj_gen;
         break label_17;
       }
     }
@@ -1890,10 +1946,10 @@ public class IDLParser implements IDLParserConstants {
    positive_int_const n2;
    NodeToken n3;
    Token n4;
-    n1 = jj_consume_token(56);
+    n1 = jj_consume_token(57);
             n0 = JTBToolkit.makeNodeToken(n1);
     n2 = positive_int_const();
-    n4 = jj_consume_token(57);
+    n4 = jj_consume_token(58);
             n3 = JTBToolkit.makeNodeToken(n4);
      {if (true) return new fixed_array_size(n0,n2,n3);}
     throw new Error("Missing return statement in function");
@@ -1913,16 +1969,16 @@ public class IDLParser implements IDLParserConstants {
    Token n10;
    simple_declarator n11;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case 58:
-      n2 = jj_consume_token(58);
+    case 59:
+      n2 = jj_consume_token(59);
                       n1 = JTBToolkit.makeNodeToken(n2);
         n0.addNode(n1);
       break;
     default:
-      jj_la1[45] = jj_gen;
+      jj_la1[47] = jj_gen;
       ;
     }
-    n4 = jj_consume_token(59);
+    n4 = jj_consume_token(60);
                     n3 = JTBToolkit.makeNodeToken(n4);
     n5 = param_type_spec();
     n6 = simple_declarator();
@@ -1933,7 +1989,7 @@ public class IDLParser implements IDLParserConstants {
         ;
         break;
       default:
-        jj_la1[46] = jj_gen;
+        jj_la1[48] = jj_gen;
         break label_18;
       }
         n8 = new NodeSequence(2);
@@ -1964,7 +2020,7 @@ public class IDLParser implements IDLParserConstants {
    NodeOptional n11 = new NodeOptional();
    NodeToken n12;
    Token n13;
-    n1 = jj_consume_token(60);
+    n1 = jj_consume_token(61);
                     n0 = JTBToolkit.makeNodeToken(n1);
     n2 = identifier();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1974,7 +2030,7 @@ public class IDLParser implements IDLParserConstants {
         n3.addNode(n4);
       break;
     default:
-      jj_la1[47] = jj_gen;
+      jj_la1[49] = jj_gen;
       ;
     }
     label_19:
@@ -1995,12 +2051,13 @@ public class IDLParser implements IDLParserConstants {
       case 51:
       case 52:
       case 55:
-      case 61:
+      case 56:
+      case 62:
       case ID:
         ;
         break;
       default:
-        jj_la1[48] = jj_gen;
+        jj_la1[50] = jj_gen;
         break label_19;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -2019,17 +2076,18 @@ public class IDLParser implements IDLParserConstants {
       case 51:
       case 52:
       case 55:
+      case 56:
       case ID:
         n8 = member();
            n7 = new NodeChoice(n8, 0);
         break;
-      case 61:
-        n10 = jj_consume_token(61);
+      case 62:
+        n10 = jj_consume_token(62);
                                 n9 = JTBToolkit.makeNodeToken(n10);
            n7 = new NodeChoice(n9, 1);
         break;
       default:
-        jj_la1[49] = jj_gen;
+        jj_la1[51] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -2043,7 +2101,7 @@ public class IDLParser implements IDLParserConstants {
         n11.addNode(n12);
       break;
     default:
-      jj_la1[50] = jj_gen;
+      jj_la1[52] = jj_gen;
       ;
     }
      {if (true) return new except_dcl(n0,n2,n3,n6,n11);}
@@ -2061,33 +2119,33 @@ public class IDLParser implements IDLParserConstants {
    NodeOptional n7 = new NodeOptional();
    context_expr n8;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case 62:
+    case 63:
       n1 = op_attribute();
         n0.addNode(n1);
       break;
     default:
-      jj_la1[51] = jj_gen;
+      jj_la1[53] = jj_gen;
       ;
     }
     n2 = op_type_spec();
     n3 = identifier();
     n4 = parameter_dcls();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case 67:
+    case 68:
       n6 = raises_expr();
         n5.addNode(n6);
       break;
     default:
-      jj_la1[52] = jj_gen;
+      jj_la1[54] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case 68:
+    case 69:
       n8 = context_expr();
         n7.addNode(n8);
       break;
     default:
-      jj_la1[53] = jj_gen;
+      jj_la1[55] = jj_gen;
       ;
     }
      {if (true) return new op_dcl(n0,n2,n3,n4,n5,n7);}
@@ -2097,7 +2155,7 @@ public class IDLParser implements IDLParserConstants {
   final public op_attribute op_attribute() throws ParseException {
    NodeToken n0;
    Token n1;
-    n1 = jj_consume_token(62);
+    n1 = jj_consume_token(63);
                  n0 = JTBToolkit.makeNodeToken(n1);
      {if (true) return new op_attribute(n0);}
     throw new Error("Missing return statement in function");
@@ -2120,17 +2178,18 @@ public class IDLParser implements IDLParserConstants {
     case 44:
     case 45:
     case 55:
+    case 56:
     case ID:
       n1 = param_type_spec();
         n0 = new NodeChoice(n1, 0);
       break;
-    case 63:
-      n3 = jj_consume_token(63);
+    case 64:
+      n3 = jj_consume_token(64);
                   n2 = JTBToolkit.makeNodeToken(n3);
         n0 = new NodeChoice(n2, 1);
       break;
     default:
-      jj_la1[54] = jj_gen;
+      jj_la1[56] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -2154,9 +2213,9 @@ public class IDLParser implements IDLParserConstants {
     n1 = jj_consume_token(32);
             n0 = JTBToolkit.makeNodeToken(n1);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case 64:
     case 65:
     case 66:
+    case 67:
         n5 = new NodeListOptional();
         n3 = new NodeSequence(2);
       n4 = param_dcl();
@@ -2168,7 +2227,7 @@ public class IDLParser implements IDLParserConstants {
           ;
           break;
         default:
-          jj_la1[55] = jj_gen;
+          jj_la1[57] = jj_gen;
           break label_20;
         }
            n6 = new NodeSequence(2);
@@ -2184,7 +2243,7 @@ public class IDLParser implements IDLParserConstants {
         n2.addNode(n3);
       break;
     default:
-      jj_la1[56] = jj_gen;
+      jj_la1[58] = jj_gen;
       ;
     }
     n11 = jj_consume_token(33);
@@ -2213,23 +2272,23 @@ public class IDLParser implements IDLParserConstants {
    NodeToken n5;
    Token n6;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case 64:
-      n2 = jj_consume_token(64);
+    case 65:
+      n2 = jj_consume_token(65);
                 n1 = JTBToolkit.makeNodeToken(n2);
         n0 = new NodeChoice(n1, 0);
       break;
-    case 65:
-      n4 = jj_consume_token(65);
+    case 66:
+      n4 = jj_consume_token(66);
                  n3 = JTBToolkit.makeNodeToken(n4);
         n0 = new NodeChoice(n3, 1);
       break;
-    case 66:
-      n6 = jj_consume_token(66);
+    case 67:
+      n6 = jj_consume_token(67);
                    n5 = JTBToolkit.makeNodeToken(n6);
         n0 = new NodeChoice(n5, 2);
       break;
     default:
-      jj_la1[57] = jj_gen;
+      jj_la1[59] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -2250,7 +2309,7 @@ public class IDLParser implements IDLParserConstants {
    scoped_name n9;
    NodeToken n10;
    Token n11;
-    n1 = jj_consume_token(67);
+    n1 = jj_consume_token(68);
                  n0 = JTBToolkit.makeNodeToken(n1);
     n3 = jj_consume_token(32);
             n2 = JTBToolkit.makeNodeToken(n3);
@@ -2262,7 +2321,7 @@ public class IDLParser implements IDLParserConstants {
         ;
         break;
       default:
-        jj_la1[58] = jj_gen;
+        jj_la1[60] = jj_gen;
         break label_21;
       }
         n6 = new NodeSequence(2);
@@ -2293,7 +2352,7 @@ public class IDLParser implements IDLParserConstants {
    string_literal n9;
    NodeToken n10;
    Token n11;
-    n1 = jj_consume_token(68);
+    n1 = jj_consume_token(69);
                   n0 = JTBToolkit.makeNodeToken(n1);
     n3 = jj_consume_token(32);
             n2 = JTBToolkit.makeNodeToken(n3);
@@ -2305,7 +2364,7 @@ public class IDLParser implements IDLParserConstants {
         ;
         break;
       default:
-        jj_la1[59] = jj_gen;
+        jj_la1[61] = jj_gen;
         break label_22;
       }
         n6 = new NodeSequence(2);
@@ -2342,6 +2401,7 @@ public class IDLParser implements IDLParserConstants {
         n0 = new NodeChoice(n1, 0);
       break;
     case 55:
+    case 56:
       n2 = string_type();
         n0 = new NodeChoice(n2, 1);
       break;
@@ -2351,7 +2411,7 @@ public class IDLParser implements IDLParserConstants {
         n0 = new NodeChoice(n3, 2);
       break;
     default:
-      jj_la1[60] = jj_gen;
+      jj_la1[62] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -2393,7 +2453,7 @@ public class IDLParser implements IDLParserConstants {
         n0 = new NodeChoice(n5, 2);
       break;
     default:
-      jj_la1[61] = jj_gen;
+      jj_la1[63] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -2437,7 +2497,7 @@ public class IDLParser implements IDLParserConstants {
         n0 = new NodeChoice(n3, 1);
       break;
     default:
-      jj_la1[62] = jj_gen;
+      jj_la1[64] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -2513,13 +2573,24 @@ public class IDLParser implements IDLParserConstants {
     return false;
   }
 
+  final private boolean jj_3R_35() {
+    if (jj_3R_37()) return true;
+    return false;
+  }
+
   final private boolean jj_3_1() {
     if (jj_3R_23()) return true;
     return false;
   }
 
-  final private boolean jj_3R_33() {
-    if (jj_scan_token(ID)) return true;
+  final private boolean jj_3R_32() {
+    if (jj_3R_33()) return true;
+    Token xsp;
+    if (jj_3R_35()) return true;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_35()) { jj_scanpos = xsp; break; }
+    }
     return false;
   }
 
@@ -2556,13 +2627,13 @@ public class IDLParser implements IDLParserConstants {
     return false;
   }
 
-  final private boolean jj_3_3() {
-    if (jj_3R_25()) return true;
+  final private boolean jj_3R_33() {
+    if (jj_scan_token(ID)) return true;
     return false;
   }
 
-  final private boolean jj_3R_37() {
-    if (jj_scan_token(56)) return true;
+  final private boolean jj_3_3() {
+    if (jj_3R_25()) return true;
     return false;
   }
 
@@ -2593,29 +2664,18 @@ public class IDLParser implements IDLParserConstants {
     return false;
   }
 
+  final private boolean jj_3R_37() {
+    if (jj_scan_token(57)) return true;
+    return false;
+  }
+
   final private boolean jj_3R_24() {
     if (jj_3R_32()) return true;
     return false;
   }
 
-  final private boolean jj_3R_35() {
-    if (jj_3R_37()) return true;
-    return false;
-  }
-
   final private boolean jj_3R_34() {
     if (jj_3R_36()) return true;
-    return false;
-  }
-
-  final private boolean jj_3R_32() {
-    if (jj_3R_33()) return true;
-    Token xsp;
-    if (jj_3R_35()) return true;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_35()) { jj_scanpos = xsp; break; }
-    }
     return false;
   }
 
@@ -2642,7 +2702,7 @@ public class IDLParser implements IDLParserConstants {
   public boolean lookingAhead = false;
   private boolean jj_semLA;
   private int jj_gen;
-  final private int[] jj_la1 = new int[63];
+  final private int[] jj_la1 = new int[65];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static private int[] jj_la1_2;
@@ -2652,13 +2712,13 @@ public class IDLParser implements IDLParserConstants {
       jj_la1_2();
    }
    private static void jj_la1_0() {
-      jj_la1_0 = new int[] {0x89000,0x89000,0x89000,0x8000,0x10000,0xc0000,0xc0000,0x20000,0x40000,0x40000,0x40000,0x200000,0x400000,0x800000,0x3000000,0x3000000,0xc000000,0xc000000,0x70000000,0x70000000,0x8c000000,0x8c000000,0x40000,0x0,0x0,0x0,0x40000,0x40000,0x0,0x0,0x0,0x20000,0x0,0x0,0x0,0x0,0x40000,0x40000,0x0,0x0,0x0,0x20000,0x20000,0x0,0x0,0x0,0x20000,0x2000,0x40000,0x40000,0x4000,0x0,0x0,0x0,0x40000,0x20000,0x0,0x0,0x20000,0x20000,0x40000,0x0,0x0,};
+      jj_la1_0 = new int[] {0x89000,0x89000,0x89000,0x8000,0x10000,0xc0000,0xc0000,0x20000,0x40000,0x40000,0x40000,0x200000,0x400000,0x800000,0x3000000,0x3000000,0xc000000,0xc000000,0x70000000,0x70000000,0x8c000000,0x8c000000,0x40000,0x0,0x0,0x0,0x40000,0x40000,0x0,0x0,0x0,0x20000,0x0,0x0,0x0,0x0,0x40000,0x40000,0x0,0x0,0x0,0x20000,0x20000,0x0,0x0,0x0,0x0,0x0,0x20000,0x2000,0x40000,0x40000,0x4000,0x0,0x0,0x0,0x40000,0x20000,0x0,0x0,0x20000,0x20000,0x40000,0x0,0x0,};
    }
    private static void jj_la1_1() {
-      jj_la1_1 = new int[] {0x1008c010,0x1008c010,0x1008c010,0x0,0x0,0xdc88fff0,0xdc88fff0,0x0,0x0,0x0,0x800fe0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0xd,0xc,0xc,0x8c010,0x98ffe0,0x903fe0,0x3fe0,0x900000,0x8c000,0x0,0x0,0x60,0x380,0x100,0x98ffe0,0x80f80,0x60000,0x60000,0x60000,0x0,0x0,0x200000,0x1000000,0x4000000,0x0,0x0,0x2098ffe0,0x2098ffe0,0x0,0x40000000,0x0,0x0,0x80803fe0,0x0,0x0,0x0,0x0,0x0,0x803fe0,0x0,0x0,};
+      jj_la1_1 = new int[] {0x2008c010,0x2008c010,0x2008c010,0x0,0x0,0xb988fff0,0xb988fff0,0x0,0x0,0x0,0x1800fe0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0xd,0xc,0xc,0x8c010,0x198ffe0,0x1903fe0,0x3fe0,0x1900000,0x8c000,0x0,0x0,0x60,0x380,0x100,0x198ffe0,0x80f80,0x60000,0x60000,0x60000,0x0,0x0,0x200000,0x200000,0x1800000,0x2000000,0x8000000,0x0,0x0,0x4198ffe0,0x4198ffe0,0x0,0x80000000,0x0,0x0,0x1803fe0,0x0,0x0,0x0,0x0,0x0,0x1803fe0,0x0,0x0,};
    }
    private static void jj_la1_2() {
-      jj_la1_2 = new int[] {0x0,0x0,0x0,0x0,0x0,0x20,0x20,0x0,0x0,0x0,0x20,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x1fe0,0x1fc0,0x0,0x0,0x20,0x20,0x0,0x0,0x0,0x0,0x20,0x0,0x0,0x0,0x20,0x20,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x20,0x20,0x0,0x0,0x8,0x10,0x20,0x0,0x7,0x7,0x0,0x0,0x20,0x1c0,0x600,};
+      jj_la1_2 = new int[] {0x0,0x0,0x0,0x0,0x0,0x41,0x41,0x0,0x0,0x0,0x40,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x3fc0,0x3f80,0x0,0x0,0x40,0x40,0x0,0x0,0x0,0x0,0x40,0x0,0x0,0x0,0x40,0x40,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x40,0x40,0x0,0x0,0x10,0x20,0x41,0x0,0xe,0xe,0x0,0x0,0x40,0x380,0xc00,};
    }
   final private JJCalls[] jj_2_rtns = new JJCalls[8];
   private boolean jj_rescan = false;
@@ -2673,7 +2733,7 @@ public class IDLParser implements IDLParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 63; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 65; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -2686,7 +2746,7 @@ public class IDLParser implements IDLParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 63; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 65; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -2696,7 +2756,7 @@ public class IDLParser implements IDLParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 63; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 65; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -2706,7 +2766,7 @@ public class IDLParser implements IDLParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 63; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 65; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -2715,7 +2775,7 @@ public class IDLParser implements IDLParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 63; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 65; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -2724,7 +2784,7 @@ public class IDLParser implements IDLParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 63; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 65; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -2835,15 +2895,15 @@ public class IDLParser implements IDLParserConstants {
 
   public ParseException generateParseException() {
     jj_expentries.removeAllElements();
-    boolean[] la1tokens = new boolean[77];
-    for (int i = 0; i < 77; i++) {
+    boolean[] la1tokens = new boolean[78];
+    for (int i = 0; i < 78; i++) {
       la1tokens[i] = false;
     }
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 63; i++) {
+    for (int i = 0; i < 65; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -2858,7 +2918,7 @@ public class IDLParser implements IDLParserConstants {
         }
       }
     }
-    for (int i = 0; i < 77; i++) {
+    for (int i = 0; i < 78; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

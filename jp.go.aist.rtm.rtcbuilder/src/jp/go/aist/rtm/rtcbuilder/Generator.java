@@ -306,8 +306,10 @@ public class Generator {
 		for(TypeDefParam tdparam : types) {
 			if(target.equals(tdparam.getTargetDef())) {
 				if(!tdparam.getScopedName().equals("")) {
+					if(tdparam.isString()) return tdparam.getScopedName() + "::" + tdparam.getOriginalDef();
 					return tdparam.getScopedName() + "::" + target;
 				}
+				if(tdparam.isString()) return tdparam.getOriginalDef();
 			}
 		}
 		return target;
