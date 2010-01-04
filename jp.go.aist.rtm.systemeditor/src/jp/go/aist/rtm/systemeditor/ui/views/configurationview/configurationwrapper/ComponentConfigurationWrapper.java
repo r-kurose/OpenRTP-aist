@@ -32,7 +32,7 @@ public class ComponentConfigurationWrapper {
 
 		for (Object o : target.getConfigurationSets()) {
 			ConfigurationSet cs = (ConfigurationSet) o;
-			if (cs.getId().equals("_widget_")) {
+			if (cs.getId().equals("__widget__")) {
 				for (Object o2 : cs.getConfigurationData()) {
 					NameValue nv = (NameValue) o2;
 					widgets.put(nv.getName(), nv.getValueAsString());

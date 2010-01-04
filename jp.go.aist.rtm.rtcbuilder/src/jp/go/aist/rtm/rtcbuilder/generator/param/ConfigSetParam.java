@@ -95,7 +95,7 @@ public class ConfigSetParam extends AbstractRecordedParam implements
 	//
 	public String getWidget() {
 		for( PropertyParam param : properties ) {
-			if( param.getName().equals("_widget_") )
+			if( param.getName().equals("__widget__") )
 				//
 				if(param.getValue().contains(".")) {
 					String[] widget = param.getValue().split("\\.");
@@ -108,7 +108,7 @@ public class ConfigSetParam extends AbstractRecordedParam implements
 	}
 	public String getSliderStep() {
 		for( PropertyParam param : properties ) {
-			if( param.getName().equals("_widget_") )
+			if( param.getName().equals("__widget__") )
 //			if( param.getName().equals("_slider_step_") )
 				//
 				if(param.getValue().contains(".")) {
@@ -156,18 +156,18 @@ public class ConfigSetParam extends AbstractRecordedParam implements
 	//
 	public void setWidget(String widget) {
 		for (PropertyParam param : properties) {
-			if (param.getName().equals("_widget_")) {
+			if (param.getName().equals("__widget__")) {
 				checkUpdated(param.getValue(), widget);
 				param.setValue(widget);
 				return;
 			}
 		}
-		properties.add(new PropertyParam("_widget_", widget));
+		properties.add(new PropertyParam("__widget__", widget));
 		setUpdated(true);
 	}
 	public void setSliderStep(String sliderStep) {
 		for (PropertyParam param : properties) {
-			if (param.getName().equals("_widget_")) {
+			if (param.getName().equals("__widget__")) {
 				String value = param.getValue();
 				if (value.equals("slider")) {
 					param.setValue("slider." + sliderStep);

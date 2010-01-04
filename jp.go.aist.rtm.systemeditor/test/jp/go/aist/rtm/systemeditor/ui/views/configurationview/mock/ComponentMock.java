@@ -87,9 +87,9 @@ public class ComponentMock implements Component {
 		nv = createNameValue("vector_param1", "0.05, 0.15, 0.25");
 		cs.configurationData.add(nv);
 		mock1.configurationSets.add(cs);
-		// mock1._widget_
+		// mock1.__widget__
 		cs = new ConfigurationSetMock();
-		cs.setId("_widget_");
+		cs.setId("__widget__");
 		nv = createNameValue("int_param1", "slider");
 		cs.configurationData.add(nv);
 		nv = createNameValue("double_param1", "slider");
@@ -101,9 +101,9 @@ public class ComponentMock implements Component {
 		nv = createNameValue("vector_param1", "spin");
 		cs.configurationData.add(nv);
 		mock1.configurationSets.add(cs);
-		// mock1._default
+		// mock1.__constraints__
 		cs = new ConfigurationSetMock();
-		cs.setId("_default");
+		cs.setId("__constraints__");
 		nv = createNameValue("int_param1", "0<x<10");
 		cs.configurationData.add(nv);
 		nv = createNameValue("double_param1", "0<x<1");
