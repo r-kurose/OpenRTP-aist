@@ -67,7 +67,7 @@ public class ComponentConfigurationWrapper {
 			// configurationSet‚É‘Î‰‚·‚é§–ñğŒ(‚È‚¯‚ê‚Îdefault‚ğg—p)
 			Map<String, String> conds = conditions.get(configurationSet.getId());
 			if (conds == null) 
-				conds = conditions.get("default");
+				conds = conditions.get("_constraints__");
 
 			for (Iterator iterator = configurationSet.getConfigurationData()
 					.iterator(); iterator.hasNext();) {
