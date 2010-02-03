@@ -15,7 +15,6 @@ Eclipse-AutoStart: true
 Bundle-ClassPath: .
 Export-Package: jp.go.aist.rtm.systemeditor,
  jp.go.aist.rtm.systemeditor._debug,
- jp.go.aist.rtm.systemeditor._test,
  jp.go.aist.rtm.systemeditor.adapterfactory,
  jp.go.aist.rtm.systemeditor.factory,
  jp.go.aist.rtm.systemeditor.manager,
