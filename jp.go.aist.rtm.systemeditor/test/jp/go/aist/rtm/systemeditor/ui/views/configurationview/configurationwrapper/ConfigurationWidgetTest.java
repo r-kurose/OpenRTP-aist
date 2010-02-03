@@ -8,15 +8,18 @@ import junit.framework.TestCase;
 public class ConfigurationWidgetTest extends TestCase {
 	public void testParseArrayWidget() throws Exception {
 		ConfigurationCondition cc = ConfigurationCondition.parse("0.0<x<10.0, 0.0<x<10.0, 0.0<x<10.0, 0.0<x<10.0, 0.0<x<10.0");
-		List<ConfigurationWidget> result = ConfigurationWidget.parseArrayWidget("slider.10, spin, slider, spin", cc);
+		List<ConfigurationWidget> result = ConfigurationWidget.parseArrayWidget("slider.1, spin.10, slider, spin", cc);
 		assertEquals(5, result.size());
 		verifyWidget(result.get(0), ConfigurationWidget.SLIDER, "0.0<x<10.0");
 		assertEquals(10, result.get(0).getSliderMaxStep());
 		assertEquals(10, result.get(0).clone().getSliderMaxStep());
 		verifyWidget(result.get(1), ConfigurationWidget.SPIN, "0.0<x<10.0");
+		assertEquals(100, result.get(1).getSpinIncrement());
+		assertEquals(100, result.get(1).clone().getSpinIncrement());
 		verifyWidget(result.get(2), ConfigurationWidget.SLIDER, "0.0<x<10.0");
-		assertEquals(100, result.get(2).getSliderMaxStep());
+		assertEquals(10, result.get(2).getSliderMaxStep());
 		verifyWidget(result.get(3), ConfigurationWidget.SPIN, "0.0<x<10.0");
+		assertEquals(1, result.get(3).getSpinIncrement());
 		verifyWidget(result.get(4), ConfigurationWidget.SPIN, "0.0<x<10.0");
 	}
 	
@@ -55,4 +58,42 @@ public class ConfigurationWidgetTest extends TestCase {
 		assertEquals(type, widget.getType());
 		assertEquals(condition, widget.getCondition().toString());
 	}
+
+	public void testParseSliderMaxStep() throws Exception {
+		ConfigurationCondition cc = ConfigurationCondition
+				.parse("0.0<x<10.0, 0.0<x<10.0, 0.0<x<10.0, 0.0<x<10.0, 0.0<x<10.0");
+		List<ConfigurationWidget> result = ConfigurationWidget
+				.parseArrayWidget(
+						"slider, slider.10, slider.0.2, slider.0, slider.a", cc);
+		assertEquals(5, result.size());
+		verifyWidget(result.get(0), ConfigurationWidget.SLIDER, "0.0<x<10.0");
+		assertEquals(10, result.get(0).getSliderMaxStep());
+		verifyWidget(result.get(1), ConfigurationWidget.SLIDER, "0.0<x<10.0");
+		assertEquals(1, result.get(1).getSliderMaxStep());
+		verifyWidget(result.get(2), ConfigurationWidget.SLIDER, "0.0<x<10.0");
+		assertEquals(50, result.get(2).getSliderMaxStep());
+		verifyWidget(result.get(3), ConfigurationWidget.SLIDER, "0.0<x<10.0");
+		assertEquals(10, result.get(3).getSliderMaxStep());
+		verifyWidget(result.get(4), ConfigurationWidget.SLIDER, "0.0<x<10.0");
+		assertEquals(10, result.get(4).getSliderMaxStep());
+	}
+
+	public void testParseSpinIncrement() throws Exception {
+		ConfigurationCondition cc = ConfigurationCondition
+				.parse("0.0<x<10.0, 0.0<x<10.0, 0.0<x<10.00, 0.0<x<10.0, 0.0<x<10.0");
+		List<ConfigurationWidget> result = ConfigurationWidget
+				.parseArrayWidget("spin, spin.10, spin.0.2, spin.0, spin.a", cc);
+		assertEquals(5, result.size());
+		verifyWidget(result.get(0), ConfigurationWidget.SPIN, "0.0<x<10.0");
+		assertEquals(1, result.get(0).getSpinIncrement());
+		verifyWidget(result.get(1), ConfigurationWidget.SPIN, "0.0<x<10.0");
+		assertEquals(100, result.get(1).getSpinIncrement());
+		verifyWidget(result.get(2), ConfigurationWidget.SPIN, "0.0<x<10.00");
+		assertEquals(20, result.get(2).getSpinIncrement());
+		verifyWidget(result.get(3), ConfigurationWidget.SPIN, "0.0<x<10.0");
+		assertEquals(1, result.get(3).getSpinIncrement());
+		verifyWidget(result.get(4), ConfigurationWidget.SPIN, "0.0<x<10.0");
+		assertEquals(1, result.get(4).getSpinIncrement());
+	}
+
 }

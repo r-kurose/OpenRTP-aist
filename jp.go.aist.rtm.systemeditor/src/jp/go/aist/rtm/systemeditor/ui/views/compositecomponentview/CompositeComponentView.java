@@ -425,7 +425,7 @@ public class CompositeComponentView extends ViewPart {
 		}
 
 		public String toConfigString() {
-			return this.componentName + "." + this.portName;
+			return this.portName;
 		}
 	}
 

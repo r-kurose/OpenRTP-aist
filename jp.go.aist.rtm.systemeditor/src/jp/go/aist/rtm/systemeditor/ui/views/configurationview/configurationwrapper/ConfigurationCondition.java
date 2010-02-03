@@ -245,8 +245,10 @@ public class ConfigurationCondition {
 		s = s.substring(1, s.length() - 1).trim();
 		result.enumList = new ArrayList<String>();
 		for (String ss : s.split(",")) { //$NON-NLS-1$
-			result.enumList.add(ss.trim());
-		};
+			if (!result.enumList.contains(ss.trim())) {
+				result.enumList.add(ss.trim());
+			}
+		}
 		return result;
 	}
 
@@ -407,12 +409,20 @@ public class ConfigurationCondition {
 		return this.max;
 	}
 
+	public Double getMaxValue() {
+		return Double.valueOf(this.max);
+	}
+
 	public boolean isMaxEquals() {
 		return this.maxEquals;
 	}
 
 	public String getMin() {
 		return this.min;
+	}
+
+	public Double getMinValue() {
+		return Double.valueOf(this.min);
 	}
 
 	public boolean isMinEquals() {
@@ -432,8 +442,7 @@ public class ConfigurationCondition {
 	 * @return 最大値(整数)
 	 */
 	public Integer getMaxByInteger() {
-		Double d = Double.valueOf(this.max);
-		return this.getIntegerByDigits(d.doubleValue());
+		return this.getIntegerByDigits(this.getMaxValue().doubleValue());
 	}
 
 	/**
@@ -441,8 +450,7 @@ public class ConfigurationCondition {
 	 * @return 最小値(整数)
 	 */
 	public Integer getMinByInteger() {
-		Double d = Double.valueOf(this.min);
-		return this.getIntegerByDigits(d.doubleValue());
+		return this.getIntegerByDigits(this.getMinValue().doubleValue());
 	}
 
 	/**
@@ -451,9 +459,7 @@ public class ConfigurationCondition {
 	 * @return 整数値
 	 */
 	public Integer getIntegerByDigits(double dvalue) {
-		for (int i = 0; i < this.getDigits(); i++) {
-			dvalue *= 10.0;
-		}
+		dvalue *= Math.pow(10.0, this.getDigits());
 		return new Integer((int) dvalue);
 	}
 
@@ -464,9 +470,7 @@ public class ConfigurationCondition {
 	 */
 	public Double getDecimalByDigits(int ivalue) {
 		Double d = Double.valueOf((double) ivalue);
-		for (int i = 0; i < this.getDigits(); i++) {
-			d /= 10.0;
-		}
+		d /= Math.pow(10.0, this.getDigits());
 		return d;
 	}
 
@@ -501,10 +505,10 @@ public class ConfigurationCondition {
 	/**
 	 * valueをmin～max内でmaxStep段階でステップ位置に変換します
 	 * @param value 値
-	 * @param maxStep ステップ最大値
+	 * @param widget Widgetオブジェクト
 	 * @return 換算したステップ位置
 	 */
-	public int getStepByValue(String value, int maxStep) {
+	public int getStepByValue(String value, ConfigurationWidget widget) {
 		if (this.min == null || this.max == null)
 			return 0;
 		Double dvalue;
@@ -515,9 +519,11 @@ public class ConfigurationCondition {
 		}
 		Double dmin = Double.valueOf(this.min);
 		Double dmax = Double.valueOf(this.max);
-		if (dvalue < dmin || dvalue > dmax)
+		if (dvalue < dmin)
 			return 0;
-		Double step = (dmax - dmin) / (double) maxStep;
+		if (dvalue > dmax)
+			return widget.getSliderMaxStep();
+		Double step = (dmax - dmin) / (double) widget.getSliderMaxStep();
 //		int result = (int) ((dvalue - dmin) / step );
 		int result = (int) ((dvalue - dmin) / step + 0.5);
 		return result;
@@ -526,24 +532,79 @@ public class ConfigurationCondition {
 	/**
 	 * maxStep内のstepをmin～max内の値に変換します
 	 * @param step ステップ位置
-	 * @param maxStep ステップ最大値
+	 * @param widget Widgetオブジェクト
+	 * @param previousValue 
 	 * @return 換算した値
 	 */
-	public String getValueByStep(int step, int maxStep) {
+	public String getValueByStep(int step, ConfigurationWidget widget,
+			String previousValue) {
 		if (this.min == null || this.max == null)
 			return "0"; //$NON-NLS-1$
-		if (step < 0 || step > maxStep)
-			return "0"; //$NON-NLS-1$
-		boolean isInt = true;
+		if (step < 0) {
+			step = 0;
+		}
+		if (step > widget.getSliderMaxStep()) {
+			step = widget.getSliderMaxStep();
+		}
+		double dmin = Double.valueOf(this.min);
+		double dmax = Double.valueOf(this.max);
+		double dprev = Double.valueOf(previousValue);
+		double dvalue = dmin + (widget.getSliderStep() * (double) step);
+		dvalue = (dvalue > dmax) ? dmax : dvalue;
+		if (isInt()) {
+			if (dvalue > dprev && dvalue < dprev + 1) {
+				dvalue = dprev + 1;
+			} else if (dvalue < dprev && dvalue > dprev - 1) {
+				dvalue = dprev - 1;
+			}
+			return Integer.toString((int) dvalue);
+		} else {
+			return Double.toString(new BigDecimal(dvalue).setScale(getDigits(),
+					BigDecimal.ROUND_HALF_EVEN).doubleValue());
+		}
+	}
+
+	private boolean isInt() {
 		if (this.min.indexOf(".") != -1 || this.max.indexOf(".") != -1) { //$NON-NLS-1$ //$NON-NLS-2$
 			// 最大値、最小値のいずれかが小数の場合は小数扱い
-			isInt = false;
+			return false;
 		}
-		Double dmin = Double.valueOf(this.min);
-		Double dmax = Double.valueOf(this.max);
-		Double dvalue = dmin + ((dmax - dmin) * ((double) step / (double) maxStep));
-		if (isInt) return Integer.toString((int) dvalue.doubleValue());
-		return Double.toString(new BigDecimal(dvalue).setScale(getDigits(), BigDecimal.ROUND_HALF_EVEN).doubleValue());
+		return true;
+	}
+
+	/**
+	 * 最小/最大値を超える値を有効範囲内に丸める
+	 * @param value 入力値
+	 * @return 最小/最大の範囲内の有効な値
+	 */
+	public String adjustMinMaxValue(String value) {
+		if (validate(value)) {
+			return value;
+		}
+		double dmin = Double.valueOf(this.min);
+		double dmax = Double.valueOf(this.max);
+		double dvalue = Double.valueOf(value);
+		double d = 1.0 / Math.pow(10.0, this.getDigits());
+		if (dvalue >= dmax) {
+			dvalue = dmax;
+			if (this.maxEquals) {
+				return this.max;
+			}
+			if (isInt()) {
+				return Integer.toString((int) (dvalue - 1.0));
+			}
+			return Double.toString(dvalue - d);
+		} else if (dvalue <= dmin) {
+			dvalue = dmin;
+			if (this.minEquals) {
+				return this.min;
+			}
+			if (isInt()) {
+				return Integer.toString((int) (dvalue + 1.0));
+			}
+			return Double.toString(dvalue + d);
+		}
+		return value;
 	}
 
 	/**

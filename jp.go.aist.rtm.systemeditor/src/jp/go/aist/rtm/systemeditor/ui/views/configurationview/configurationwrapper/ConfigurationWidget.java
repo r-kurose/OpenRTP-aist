@@ -19,7 +19,8 @@ public class ConfigurationWidget {
 	private String value = null;
 	private boolean valueModified = false;
 
-	private int sliderMaxStep = 100;
+	double sliderStep = 1.0;
+	double spinStep = 0.0;
 
 	/**
 	 * @param widgets	ウィジェット文字列（配列用）
@@ -108,20 +109,39 @@ public class ConfigurationWidget {
 	}
 
 	private String parseType(String type) {
-		if (type == null) return TEXT;
+		if (type == null)
+			return TEXT;
 		if (type.startsWith(SLIDER)) {
-			setSliderMaxStep(type);
+			setSliderStep(type);
 			return SLIDER;
 		}
-		if (type.equals(SPIN)) return SPIN; 
-		if (type.equals(RADIO)) return RADIO;
+		if (type.startsWith(SPIN)) {
+			setSpinStep(type);
+			return SPIN;
+		}
+		if (type.equals(RADIO))
+			return RADIO;
 		return TEXT;
 	}
 
-	private void setSliderMaxStep(String type) {
+	void setSliderStep(String type) {
 		try {
-			String step = type.substring(SLIDER.length()+1);
-			sliderMaxStep = Integer.parseInt(step);
+			String step = type.substring(SLIDER.length() + 1);
+			sliderStep = Double.parseDouble(step);
+			if (sliderStep <= 0.0) {
+				sliderStep = 1.0;
+			}
+		} catch (Throwable t) {
+		}
+	}
+
+	void setSpinStep(String type) {
+		try {
+			String step = type.substring(SPIN.length() + 1);
+			spinStep = Double.parseDouble(step);
+			if (spinStep < 0.0) {
+				spinStep = 0.0;
+			}
 		} catch (Throwable t) {
 		}
 	}
@@ -177,14 +197,33 @@ public class ConfigurationWidget {
 	}
 
 	public int getSliderMaxStep() {
-		return this.sliderMaxStep;
+		if (hasCondition() && condition.getMax() != null
+				&& condition.getMin() != null) {
+			double d = condition.getMaxValue() - condition.getMinValue();
+			return (int) (Math.ceil(d / sliderStep));
+		}
+		return 100;
+	}
+
+	public double getSliderStep() {
+		return this.sliderStep;
+	}
+
+	public int getSpinIncrement() {
+		double step = 1.0;
+		if (hasCondition() && condition.getDigits() > 0) {
+			step = 1.0 / Math.pow(10.0, (double) condition.getDigits());
+		}
+		int inc = (int) (spinStep / step);
+		return (inc == 0) ? 1 : inc;
 	}
 
 	@Override
 	public ConfigurationWidget clone() {
 		ConfigurationWidget result = new ConfigurationWidget(this.type,
 				(this.condition != null) ? this.condition.clone() : null);
-		result.sliderMaxStep = sliderMaxStep;
+		result.sliderStep = sliderStep;
+		result.spinStep = spinStep;
 		return result;
 	}
 

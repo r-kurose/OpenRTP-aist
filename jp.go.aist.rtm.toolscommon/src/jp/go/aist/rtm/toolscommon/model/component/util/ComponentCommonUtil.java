@@ -53,8 +53,7 @@ public class ComponentCommonUtil {
 			for (Object o : c.getPorts()) {
 				Port port = (Port) o;
 				if (ports.contains(port)) {
-					String s = c.getInstanceNameL() + "."
-							+ port.getNameL();
+					String s = port.getNameL();
 					result.add(s);
 				}
 			}

@@ -190,6 +190,7 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 			} else if (component instanceof RTCManager) {
 				RTCManager m = (RTCManager) component;
 				m.synchronizeManually();
+				prevComponent = null;
 
 				componentViewer.setInput(new RTCManagerWrapper(component));
 				componentViewer.reveal(component);// 表示後、上にスクロールする

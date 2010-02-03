@@ -189,9 +189,12 @@ public class RTCManagerWrapper {
 		/** 子オブジェクトのキー(COMPONENTS/LOADABLE_MODULES/LOADED_MODULES) */
 		private String key;
 
+		PropertySource source;
+
 		public Child(RTCManager manager, String key) {
 			this.manager = manager;
 			this.key = key;
+			this.source = null;
 		}
 
 		/**
@@ -217,7 +220,10 @@ public class RTCManagerWrapper {
 		 */
 		@SuppressWarnings("unchecked")
 		public IPropertySource getPropertySource() {
-			PropertySource source = new PropertySource();
+			if (this.source != null) {
+				return this.source;
+			}
+			this.source = new PropertySource();
 			EList list = null;
 			if (this.key.equals(COMPONENTS)) {
 				list = this.manager.getComponentInstanceNamesR();
@@ -227,15 +233,15 @@ public class RTCManagerWrapper {
 				list = this.manager.getLoadedModuleFileNamesR();
 			}
 			if (list == null) {
-				return source;
+				return this.source;
 			}
 			for (Object o : list) {
 				if (o instanceof String) {
 					String s = (String) o;
-					source.addProperty(this.key + "." + s, "", s);
+					this.source.addProperty(this.key + "." + s, "", s);
 				}
 			}
-			return source;
+			return this.source;
 		}
 
 		@SuppressWarnings("unchecked")

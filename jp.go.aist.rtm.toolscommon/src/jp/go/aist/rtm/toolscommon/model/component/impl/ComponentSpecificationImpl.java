@@ -343,12 +343,11 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 
 		// プロキシ対象の子コンポーネントのポート一覧を生成
 		List<Port> ports = new ArrayList<Port>();
-		for (Object obj : getAllComponents()) {
+		for (Object obj : getComponents()) {
 			Component cp = (Component) obj;
 			for (Object o : cp.getPorts()) {
 				Port port = (Port) o;
-				String name = cp.getInstanceNameL() + "."
-						+ port.getNameL();
+				String name = port.getNameL();
 				if (names.contains(name)) {
 					ports.add(port);
 				}

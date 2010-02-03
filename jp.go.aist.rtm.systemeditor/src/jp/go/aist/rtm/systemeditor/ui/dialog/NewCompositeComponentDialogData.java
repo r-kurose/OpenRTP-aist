@@ -28,9 +28,10 @@ public class NewCompositeComponentDialogData {
 	static List<String> getPorts(List<Component> selectedComponents) {
 		List<String> ports = new ArrayList<String>();
 		for (Component obj : selectedComponents) {
-			for (Object element: obj.getPorts()) {
+			for (Object element : obj.getPorts()) {
 				Port port = (Port) element;
-				ports.add(obj.getInstanceNameL()+ "." + port.getNameL());
+				ports.add(port.getNameL());
+				// ports.add(obj.getInstanceNameL()+ "." + port.getNameL());
 			}
 		}
 		return ports;

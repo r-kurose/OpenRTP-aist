@@ -102,9 +102,11 @@ public class ExportPortAction extends Action {
 	}
 
 	private String createNewValue(String value) {
-		String instanceNameL = ((Component)target.eContainer()).getInstanceNameL();
+		// String instanceNameL = ((Component)target.eContainer()).getInstanceNameL();
+		// String nameL = target.getNameL();
+		// String portName = instanceNameL + "." + nameL;
 		String nameL = target.getNameL();
-		String portName = instanceNameL + "." + nameL;
+		String portName = nameL;
 
 		String original = value;
 		String[] portNames = original.split(",");

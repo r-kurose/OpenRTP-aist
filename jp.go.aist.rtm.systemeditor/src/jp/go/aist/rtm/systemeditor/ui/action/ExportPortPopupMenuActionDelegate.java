@@ -75,11 +75,12 @@ public class ExportPortPopupMenuActionDelegate implements IObjectActionDelegate 
 			action.setEnabled(false);
 			return;
 		}
-		String name = "";
-		if (port.eContainer() != null) {
-			name = ((Component) port.eContainer()).getInstanceNameL();
-		}
-		name += "." + port.getNameL();
+		String name = port.getNameL();
+		// String name = "";
+		// if (port.eContainer() != null) {
+		// 		name = ((Component) port.eContainer()).getInstanceNameL();
+		// }
+		// name += "." + port.getNameL();
 		if (this.requiredExportedPorts.contains(name)) {
 			action.setEnabled(false);
 			return;

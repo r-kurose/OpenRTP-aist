@@ -37,8 +37,8 @@ public class ComponentConfigurationWrapper {
 					NameValue nv = (NameValue) o2;
 					widgets.put(nv.getName(), nv.getValueAsString());
 				}
-			} else if (cs.getId().startsWith("_")) {
-				String key = cs.getId().substring(1);
+			} else if (cs.getId().startsWith("__")) {
+				String key = cs.getId().substring(2);
 				Map<String, String> kc = new HashMap<String, String>();
 				for (Object o2 : cs.getConfigurationData()) {
 					NameValue nv = (NameValue) o2;
@@ -55,7 +55,7 @@ public class ComponentConfigurationWrapper {
 				.hasNext();) {
 			ConfigurationSet configurationSet = (ConfigurationSet) iter.next();
 
-			if (configurationSet.getId().startsWith("_"))
+			if (configurationSet.getId().startsWith("__"))
 				continue;
 
 			ConfigurationSetConfigurationWrapper configurationSetConfigurationWrapper = new ConfigurationSetConfigurationWrapper(
@@ -67,7 +67,7 @@ public class ComponentConfigurationWrapper {
 			// configurationSet‚É‘Î‰‚·‚é§–ñğŒ(‚È‚¯‚ê‚Îdefault‚ğg—p)
 			Map<String, String> conds = conditions.get(configurationSet.getId());
 			if (conds == null) 
-				conds = conditions.get("_constraints__");
+				conds = conditions.get("constraints__");
 
 			for (Iterator iterator = configurationSet.getConfigurationData()
 					.iterator(); iterator.hasNext();) {

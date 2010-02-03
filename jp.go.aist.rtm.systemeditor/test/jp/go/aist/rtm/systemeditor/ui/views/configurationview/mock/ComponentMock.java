@@ -113,9 +113,9 @@ public class ComponentMock implements Component {
 		nv = createNameValue("vector_param1", "0.0<x<1.0, 1.0<x<2.0, 2.0<x<3.0");
 		cs.configurationData.add(nv);
 		mock1.configurationSets.add(cs);
-		// mock1._config1
+		// mock1.__config1
 		cs = new ConfigurationSetMock();
-		cs.setId("_config1");
+		cs.setId("__config1");
 		nv = createNameValue("int_param1", "0<x<5");
 		cs.configurationData.add(nv);
 		nv = createNameValue("double_param1", "0<x<2");
@@ -125,7 +125,7 @@ public class ComponentMock implements Component {
 		nv = createNameValue("vector_param1", "5.0<x<10.0, 10.0<x<15.0, 15.0<x<20.0");
 		cs.configurationData.add(nv);
 		mock1.configurationSets.add(cs);
-		// mock1._config2 ‚È‚µ
+		// mock1.__config2 ‚È‚µ
 	}
 
 	static void createCompMock1() {

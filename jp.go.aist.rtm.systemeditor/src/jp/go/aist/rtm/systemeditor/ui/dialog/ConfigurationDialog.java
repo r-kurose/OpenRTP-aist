@@ -383,11 +383,15 @@ public class ConfigurationDialog extends TitleAreaDialog {
 			final Text valueSliderText = createText(valueComposite);
 			final Slider valueSlider = createSlider(valueComposite);
 
+			valueSlider.setMinimum(0);
+			valueSlider.setMaximum(widget.getSliderMaxStep() + 10);
+			valueSlider.setIncrement(1);
+
 			// slider、textに初期値設定(リスナ登録前)
 			try {
 				// 値を制約範囲内のステップに換算
 				int step = widget.getCondition().getStepByValue(
-						widget.getValue(), widget.getSliderMaxStep());
+						widget.getValue(), widget);
 				valueSlider.setSelection(step);
 			} catch (NumberFormatException e) {
 				valueSlider.setSelection(0);
@@ -398,10 +402,6 @@ public class ConfigurationDialog extends TitleAreaDialog {
 			}
 
 			valueSliderText.addModifyListener(createSliderModifyListner(widget, valueSliderText, valueSlider));
-
-			valueSlider.setMinimum(0);
-			valueSlider.setMaximum(widget.getSliderMaxStep() + 10);
-			valueSlider.setIncrement(1);
 			valueSlider.addSelectionListener(createSliderSelectionListner(widget, valueSliderText, valueSlider));
 
 		} else if (widget != null && widget.isSpinner()) {
@@ -420,6 +420,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 					.intValue());
 			valueSpinner.setMinimum(widget.getCondition().getMinByInteger()
 					.intValue());
+			valueSpinner.setIncrement(widget.getSpinIncrement());
 
 			// spinnerに初期値設定
 			try {
@@ -434,7 +435,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 				valueSpinner.setBackground(colorRegistry.get(MODIFY_COLOR));
 			}
 
-			valueSpinner.addSelectionListener(createSpinnerSelectionListner(widget, valueSpinner));
+			valueSpinner.addModifyListener(createSpinnerModifyListner(widget, valueSpinner));
 
 		} else if (widget != null && widget.isRadio()) {
 			// widget種別がradioの場合
@@ -542,16 +543,41 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		};
 	}
 
-	private SelectionAdapter createSpinnerSelectionListner(
+//	private SelectionAdapter createSpinnerSelectionListner(
+//			final ConfigurationWidget widget, final Spinner valueSpinner) {
+//		return new SelectionAdapter() {
+//			ConfigurationWidget wd = widget;
+//
+//			public void widgetSelected(SelectionEvent e) {
+//				int i = valueSpinner.getSelection();
+//				ConfigurationCondition condition = wd.getCondition();
+//				String value = String.valueOf(condition.getDecimalByDigits(i));
+//				valueSpinner.setSelection(i);
+//				if (!condition.validate(value)) {
+//					valueSpinner.setToolTipText(Messages.getString("ConfigurationDialog.9") + condition + Messages.getString("ConfigurationDialog.10")); //$NON-NLS-1$ //$NON-NLS-2$
+//					valueSpinner.setBackground(colorRegistry.get(ERROR_COLOR));
+//				} else {
+//					valueSpinner.setToolTipText(null);
+//					wd.setValue(value);
+//					if (wd.isValueModified()) {
+//						doModify(valueSpinner);
+//					} else {
+//						valueSpinner.setBackground(colorRegistry.get(NORMAL_COLOR));
+//					}
+//				}
+//			}
+//		};
+//	}
+
+	private ModifyListener createSpinnerModifyListner(
 			final ConfigurationWidget widget, final Spinner valueSpinner) {
-		return new SelectionAdapter() {
+		return new ModifyListener() {
 			ConfigurationWidget wd = widget;
 
-			public void widgetSelected(SelectionEvent e) {
+			public void modifyText(ModifyEvent e) {
 				int i = valueSpinner.getSelection();
 				ConfigurationCondition condition = wd.getCondition();
 				String value = String.valueOf(condition.getDecimalByDigits(i));
-				valueSpinner.setSelection(i);
 				if (!condition.validate(value)) {
 					valueSpinner.setToolTipText(Messages.getString("ConfigurationDialog.9") + condition + Messages.getString("ConfigurationDialog.10")); //$NON-NLS-1$ //$NON-NLS-2$
 					valueSpinner.setBackground(colorRegistry.get(ERROR_COLOR));
@@ -577,8 +603,8 @@ public class ConfigurationDialog extends TitleAreaDialog {
 			public void widgetSelected(SelectionEvent e) {
 				// ステップから制約範囲内の値に換算
 				int step = valueSlider.getSelection();
-				String value = wd.getCondition().getValueByStep(step,
-						wd.getSliderMaxStep());
+				String value = wd.getCondition().getValueByStep(step, wd,
+						valueSliderText.getText());
 				if (wd.getCondition().validate(value)) {
 					wd.setValue(value);
 				}
@@ -596,20 +622,24 @@ public class ConfigurationDialog extends TitleAreaDialog {
 			public void modifyText(ModifyEvent e) {
 				String value = valueSliderText.getText();
 				ConfigurationCondition condition = wd.getCondition();
+				try {
+					// 値を制約範囲内のステップに換算
+					int step = condition.getStepByValue(value, widget);
+					valueSlider.setSelection(step);
+				} catch (NumberFormatException ne) {
+					valueSlider.setSelection(0);
+				}
 				if (!condition.validate(value)) {
 					valueSliderText.setToolTipText(Messages.getString("ConfigurationDialog.6") + condition + Messages.getString("ConfigurationDialog.7")); //$NON-NLS-1$ //$NON-NLS-2$
+					// 最小/最大値を超える値を丸める
+					wd.setValue(condition.adjustMinMaxValue(value));
+					if (wd.isValueModified()) {
+						doModify(valueSliderText);
+					}
 					valueSliderText.setBackground(colorRegistry.get(ERROR_COLOR));
 				} else {
 					valueSliderText.setToolTipText(null);
 					wd.setValue(value);
-					try {
-						// 値を制約範囲内のステップに換算
-						int step = condition.getStepByValue(value,
-								widget.getSliderMaxStep());
-						valueSlider.setSelection(step);
-					} catch (NumberFormatException ne) {
-						valueSlider.setSelection(0);
-					}
 					if (wd.isValueModified()) {
 						doModify(valueSliderText);
 					} else {

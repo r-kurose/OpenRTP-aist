@@ -120,6 +120,7 @@ public class ManagerControlView extends ViewPart {
 				if (targetManager != null) {
 					moduleColumn.setText(Messages.getString("ManagerControlView.1")); //$NON-NLS-1$
 					isSelectedLoadableModules = true;
+					targetManager.getLoadableModuleProfilesR();
 				}
 				refreshModuleListData();
 			}

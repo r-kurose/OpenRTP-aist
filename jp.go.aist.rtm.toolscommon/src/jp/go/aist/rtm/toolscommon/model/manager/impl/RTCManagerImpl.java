@@ -276,19 +276,26 @@ public class RTCManagerImpl extends CorbaWrapperObjectImpl implements
 		return rc.value();
 	}
 
+	// 簡易キャッシュ(loadable module)
+	BasicEList loadableModules = null;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public EList getLoadableModuleProfilesR() {
-		BasicEList result = new BasicEList();
+		// 簡易キャッシュ
+		if (loadableModules == null) {
+			loadableModules = new BasicEList();
+		}
 		ModuleProfile[] profs = this.getCorbaObjectInterface()
 				.get_loadable_modules();
+		loadableModules.clear();
 		for (int i = 0; i < profs.length; i++) {
-			result.add(profs[i]);
+			loadableModules.add(profs[i]);
 		}
-		return result;
+		return loadableModules;
 	}
 
 	/**
@@ -347,17 +354,30 @@ public class RTCManagerImpl extends CorbaWrapperObjectImpl implements
 	 * @generated NOT
 	 */
 	public EList getLoadableModuleFileNameR() {
+		if (loadableModules == null) {
+			getLoadableModuleProfilesR();
+		}
 		BasicEList result = new BasicEList();
-		ModuleProfile[] profs = this.getCorbaObjectInterface()
-				.get_loadable_modules();
-		for (int i = 0; i < profs.length; i++) {
-			String file = SDOUtil.getStringValue(profs[i].properties,
-					"file_path");
+		for (Object o : loadableModules) {
+			ModuleProfile prof = (ModuleProfile) o;
+			String file = SDOUtil.getStringValue(prof.properties,
+					"module_file_path");
 			if (file != null) {
 				result.add(file);
 			}
 		}
 		return result;
+//		BasicEList result = new BasicEList();
+//		ModuleProfile[] profs = this.getCorbaObjectInterface()
+//				.get_loadable_modules();
+//		for (int i = 0; i < profs.length; i++) {
+//			String file = SDOUtil.getStringValue(profs[i].properties,
+//					"module_file_path");
+//			if (file != null) {
+//				result.add(file);
+//			}
+//		}
+//		return result;
 	}
 
 	/**
@@ -386,15 +406,22 @@ public class RTCManagerImpl extends CorbaWrapperObjectImpl implements
 	 */
 	public EList getFactoryProfileTypeNamesR() {
 		BasicEList result = new BasicEList();
-		ModuleProfile[] profs = this.getCorbaObjectInterface()
-				.get_factory_profiles();
-		for (int i = 0; i < profs.length; i++) {
-			String type = SDOUtil.getStringValue(profs[i].properties,
-					"type_name");
-			if (type != null) {
-				result.add(type);
+		for (Object o : loadableModules) {
+			ModuleProfile prof = (ModuleProfile) o;
+			String file = SDOUtil.getStringValue(prof.properties, "type_name");
+			if (file != null) {
+				result.add(file);
 			}
 		}
+//		ModuleProfile[] profs = this.getCorbaObjectInterface()
+//				.get_factory_profiles();
+//		for (int i = 0; i < profs.length; i++) {
+//			String type = SDOUtil.getStringValue(profs[i].properties,
+//					"type_name");
+//			if (type != null) {
+//				result.add(type);
+//			}
+//		}
 		return result;
 	}
 
