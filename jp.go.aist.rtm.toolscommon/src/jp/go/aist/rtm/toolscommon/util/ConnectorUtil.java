@@ -98,7 +98,7 @@ public class ConnectorUtil {
 	public static List<String> getAllowDataflowTypes(OutPort source,
 			InPort target) {
 		return getAllowList(source.getDataflowTypes(), target
-				.getDataflowTypes());
+				.getDataflowTypes(), false);
 	}
 
 	/**
@@ -114,6 +114,9 @@ public class ConnectorUtil {
 				.getSubscriptionTypes());
 	}
 
+	private static List<String> getAllowList(List<String> one, List<String> two) {
+		return getAllowList(one, two, true);
+	}
 	/**
 	 * 2つの文字列のリストを受け取り、両方に存在する文字列だけのリストを作成する。 「Any」が含まれる場合には、相手先すべての文字列を許す。
 	 * 返り値のリストに「Any」自体は含まれないことに注意すること。
@@ -126,7 +129,7 @@ public class ConnectorUtil {
 	 * @param two
 	 * @return
 	 */
-	private static List<String> getAllowList(List<String> one, List<String> two) {
+	private static List<String> getAllowList(List<String> one, List<String> two, boolean sorting) {
 		boolean isAllowAny_One = PortImpl.isExistAny(one);
 		boolean isAllowAny_Two = PortImpl.isExistAny(two);
 
@@ -170,8 +173,10 @@ public class ConnectorUtil {
 			}
 		}
 
-		// リストを文字列順でソート
-		result = sortTypes(result);
+		if(sorting) {
+			// リストを文字列順でソート
+			result = sortTypes(result);
+		}
 
 		return result;
 	}
