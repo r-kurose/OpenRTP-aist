@@ -169,17 +169,17 @@ public class SystemEditorPreferenceManager {
 	/**
 	 * Interface Typeのデフォルト値
 	 */
-	public static String[] defaultConnectInterfaceType = {"CORBA_Any", "TCP_Any"};
+	public static String[] defaultConnectInterfaceType = {"corba_cdr"};
 
 	/**
 	 * DataFlow Typeのデフォルト値
 	 */
-	public static String[] defaultConnectDataFlowType = {"PUSH", "PULL"};
+	public static String[] defaultConnectDataFlowType = {"push", "pull"};
 	
 	/**
 	 * subscription Typeのデフォルト値
 	 */
-	public static String[] defaultConnectSubscriptionType = {"Flush", "New", "Periodic"};
+	public static String[] defaultConnectSubscriptionType = {"flush", "new", "periodic"};
 
 	/**
 	 * コンストラクタ
