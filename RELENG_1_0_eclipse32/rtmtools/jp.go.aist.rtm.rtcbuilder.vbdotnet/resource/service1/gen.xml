@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<ComponentInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <OutputFolder>C:\Tech-Arts\Robot\work\dotNet\VB\service1</OutputFolder>
+  <Platform>.NET Framework 2.0</Platform>
+  <Language>Visual Basic</Language>
+  <Profile>
+    <ComponentName>foo</ComponentName>
+    <ComponentDescription>MDesc</ComponentDescription>
+    <Maker>TA</Maker>
+    <Version>1.0.1</Version>
+    <Category>Manip</Category>
+    <ComponentType>STATIC</ComponentType>
+    <ActivityType>DataFlowComponent</ActivityType>
+    <MaxInstance>5</MaxInstance>
+  </Profile>
+  <IdlFileCollection>
+    <string>C:\Tech-Arts\Robot\work\dotNet\VB\service1\idl\MyService.idl</string>
+  </IdlFileCollection>
+  <DataPortInfoCollection>
+    <DataPortInfo>
+      <portType>DataInPort</portType>
+      <portName>InP1</portName>
+      <dataType>TimedShort</dataType>
+    </DataPortInfo>
+    <DataPortInfo>
+      <portType>DataInPort</portType>
+      <portName>InP2</portName>
+      <dataType>TimedLong</dataType>
+    </DataPortInfo>
+    <DataPortInfo>
+      <portType>DataOutPort</portType>
+      <portName>OutP1</portName>
+      <dataType>TimedFloat</dataType>
+    </DataPortInfo>
+    <DataPortInfo>
+      <portType>DataOutPort</portType>
+      <portName>OutP2</portName>
+      <dataType>TimedDouble</dataType>
+    </DataPortInfo>
+  </DataPortInfoCollection>
+  <ServicePortInfoCollection>
+    <ServicePortInfo>
+      <portType>PROVIDED</portType>
+      <serviceName>acc</serviceName>
+      <serviceType>MyService</serviceType>
+    </ServicePortInfo>
+  </ServicePortInfoCollection>
+  <ConfigurationInfoCollection />
+</ComponentInfo>

@@ -1,0 +1,9 @@
+typedef  sequence <string>  TestData3;
+
+interface test
+{
+  typedef  sequence <short>  TestData;
+  typedef  long  TestData2;
+  void Set(in TestData Data);
+  TestData2 Set2(in TestData Data);
+};

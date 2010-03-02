@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<ComponentInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <OutputFolder>C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder.csharp\\resource\work</OutputFolder>
+  <Platform>.NET Framework 2.0</Platform>
+  <Language>C#</Language>
+  <Profile>
+    <ComponentName>foo</ComponentName>
+    <ComponentDescription>MDesc</ComponentDescription>
+    <Maker>TA2</Maker>
+    <Version>1.0.3</Version>
+    <Category>manip2</Category>
+    <ComponentType>STATIC</ComponentType>
+    <ActivityType>PERIODIC</ActivityType>
+    <MaxInstance>3</MaxInstance>
+  </Profile>
+  <IdlFileCollection />
+  <DataPortInfoCollection />
+  <ServicePortInfoCollection />
+  <ConfigurationInfoCollection>
+    <ConfigurationInfo>
+      <dataType>int</dataType>
+      <configName>int_param0</configName>
+      <defaultValue>1</defaultValue>
+    </ConfigurationInfo>
+    <ConfigurationInfo>
+      <dataType>List&lt;string&gt;</dataType>
+      <configName>str_param0</configName>
+      <defaultValue>"aaa","bbb","ccc"</defaultValue>
+    </ConfigurationInfo>
+  </ConfigurationInfoCollection>
+</ComponentInfo>

@@ -1,0 +1,60 @@
+// RTM.idl
+
+/** UML Model
+
+<<interface>>
+Manager
++ load(string, string) : ReturnCode_t
++ unload(string) : void
++ create_component(string*, string) : void
++ delete_component(string) : ReturnCode_t
++ get_components() : StringList
++ get_loadable_modules() : StringList
++ fork() : void
++ shutdown() : void
++ get_profile() : ManagerProfile
++ get_component_profile() : ComponentProfileList
++ get_module_profile() : ModuleProfileList
+
+*/
+
+#include "RTC_061222.idl"
+
+module RTM
+{
+  // RTC‚©‚çˆø—p
+  typedef RTC::ReturnCode_t ReturnCode_t;
+  typedef RTC::ComponentProfileList ComponentProfileList;
+
+  // TODO –¢’è‹`
+  struct ManagerProfile
+  {
+    string instance_name;
+  };
+
+  // TODO –¢’è‹`
+  struct ModuleProfile
+  {
+    string instance_name;
+  };
+  typedef sequence<ModuleProfile> ModuleProfileList;
+
+  typedef sequence<string> StringList;
+
+  interface RTCManager
+  {
+    ReturnCode_t load(in string pathname, in string initfunc);
+    void unload(in string pathname);
+    void create_component(in string comp_name, out string instance_name);
+    ReturnCode_t delete_component(in string instance_name);
+    StringList get_components();
+    StringList get_loadable_modules();
+    StringList get_loaded_modules();
+    void fork();
+    void shutdown();
+    ManagerProfile get_profile();
+    ComponentProfileList get_component_profile();
+    ModuleProfileList get_module_profile();
+  };
+
+};
