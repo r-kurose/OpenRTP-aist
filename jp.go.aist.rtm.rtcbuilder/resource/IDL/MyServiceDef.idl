@@ -1,0 +1,7 @@
+typedef string<1> Str1;
+typedef wstring<1> WStr1;
+
+interface MyService
+{
+  WStr1 echo(in Str1 msg);
+};

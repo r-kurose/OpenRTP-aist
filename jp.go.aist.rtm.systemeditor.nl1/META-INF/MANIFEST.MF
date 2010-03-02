@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Graphical Editor for RT system Nl1 Fragment
+Bundle-SymbolicName: jp.go.aist.rtm.systemeditor.nl1
+Bundle-Version: 1.0.0
+Fragment-Host: jp.go.aist.rtm.systemeditor;bundle-version="0.0.0"
+Bundle-Vendor: AIST

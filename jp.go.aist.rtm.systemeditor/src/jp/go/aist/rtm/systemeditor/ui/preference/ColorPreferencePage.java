@@ -1,0 +1,266 @@
+package jp.go.aist.rtm.systemeditor.ui.preference;
+
+import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
+import jp.go.aist.rtm.systemeditor.nl.Messages;
+
+import org.eclipse.jface.preference.ColorSelector;
+import org.eclipse.jface.preference.PreferencePage;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPreferencePage;
+
+/**
+ * RTCの色の設定ページ
+ */
+public class ColorPreferencePage extends PreferencePage implements
+		IWorkbenchPreferencePage {
+	private ColorSelector stateCreatedColorSelector;
+
+	private ColorSelector stateInactiveColorSelector;
+
+	private ColorSelector stateActiveColorSelector;
+
+	private ColorSelector stateErrorColorSelector;
+
+	private ColorSelector stateUnknownColorSelector;
+
+	private ColorSelector executionRunningColorSelector;
+
+	private ColorSelector executionStoppedColorSelector;
+
+	private ColorSelector dataportNoConnectColorSelector;
+
+	private ColorSelector dataportConnectedColorSelector;
+
+	private ColorSelector serviceportNoConnectColorSelector;
+
+	private ColorSelector serviceportConnectedColorSelector;
+
+	@Override
+	/**
+	 * {@inheritDoc}
+	 */
+	protected Control createContents(Composite parent) {
+		GridLayout gridLayout;
+		GridData gd;
+
+		Composite composite = new Composite(parent, SWT.NULL);
+		composite.setLayout(new GridLayout());
+
+		Group stateGroup = new Group(composite, SWT.NONE);
+		gridLayout = new GridLayout();
+		gridLayout.numColumns = 4;
+		stateGroup.setLayout(gridLayout);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		stateGroup.setLayoutData(gd);
+
+		stateGroup.setText(Messages.getString("ColorPreferencePage.0")); //$NON-NLS-1$
+
+		stateCreatedColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.1"), stateGroup, //$NON-NLS-1$
+				SystemEditorPreferenceManager.COLOR_RTC_STATE_CREATED);
+		stateInactiveColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.2"), //$NON-NLS-1$
+				stateGroup, SystemEditorPreferenceManager.COLOR_RTC_STATE_INACTIVE);
+		stateActiveColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.3"), stateGroup, //$NON-NLS-1$
+				SystemEditorPreferenceManager.COLOR_RTC_STATE_ACTIVE);
+		stateErrorColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.4"), stateGroup, //$NON-NLS-1$
+				SystemEditorPreferenceManager.COLOR_RTC_STATE_ERROR);
+		stateUnknownColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.5"), stateGroup, //$NON-NLS-1$
+				SystemEditorPreferenceManager.COLOR_RTC_STATE_UNKNOWN);
+
+		Group executionContextGroup = new Group(composite, SWT.NONE);
+		gridLayout = new GridLayout();
+		gridLayout.numColumns = 4;
+		executionContextGroup.setLayout(gridLayout);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		executionContextGroup.setLayoutData(gd);
+
+		executionContextGroup.setText(Messages.getString("ColorPreferencePage.6")); //$NON-NLS-1$
+
+		executionRunningColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.7"), //$NON-NLS-1$
+				executionContextGroup,
+				SystemEditorPreferenceManager.COLOR_RTC_EXECUTION_CONTEXT_RUNNING);
+		executionStoppedColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.8"), //$NON-NLS-1$
+				executionContextGroup,
+				SystemEditorPreferenceManager.COLOR_RTC_EXECUTION_CONTEXT_STOPPED);
+
+		Group dataportGroup = new Group(composite, SWT.NONE);
+		gridLayout = new GridLayout();
+		gridLayout.numColumns = 4;
+		dataportGroup.setLayout(gridLayout);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		dataportGroup.setLayoutData(gd);
+
+		dataportGroup.setText(Messages.getString("ColorPreferencePage.9")); //$NON-NLS-1$
+		dataportNoConnectColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.10"), //$NON-NLS-1$
+				dataportGroup, SystemEditorPreferenceManager.COLOR_DATAPORT_NO_CONNECT);
+		dataportConnectedColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.11"), //$NON-NLS-1$
+				dataportGroup, SystemEditorPreferenceManager.COLOR_DATAPORT_CONNECTED);
+
+		Group serviceportGroup = new Group(composite, SWT.NONE);
+		gridLayout = new GridLayout();
+		gridLayout.numColumns = 4;
+		serviceportGroup.setLayout(gridLayout);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		serviceportGroup.setLayoutData(gd);
+
+		serviceportGroup.setText(Messages.getString("ColorPreferencePage.12")); //$NON-NLS-1$
+		serviceportNoConnectColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.13"), //$NON-NLS-1$
+				serviceportGroup,
+				SystemEditorPreferenceManager.COLOR_SERVICEPORT_NO_CONNECT);
+		serviceportConnectedColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.14"), //$NON-NLS-1$
+				serviceportGroup, SystemEditorPreferenceManager.COLOR_SERVICEPORT_CONNECTED);
+
+		return composite;
+	}
+
+	/**
+	 * 色の設定明細（Label、ColorSelector）行を作成する
+	 * 
+	 * @param labelText
+	 *            ラベル
+	 * @param group
+	 *            グループ
+	 * @param key
+	 *            PreferenceManagerの設定値へアクセスする際のキー
+	 * @return ColorSelector
+	 */
+	private ColorSelector createColorSetting(String labelText, Group group,
+			final String key) {
+		GridData gd;
+		Label label = new Label(group, SWT.NULL);
+		label.setText(labelText);
+		gd = new GridData();
+		gd.widthHint = 65;
+		label.setLayoutData(gd);
+		final ColorSelector result = new ColorSelector(group);
+		result.setColorValue(SystemEditorPreferenceManager.getInstance().getRGB(key));
+
+		Button changeColorButton = result.getButton();
+
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalAlignment = GridData.BEGINNING;
+
+		changeColorButton.setLayoutData(gd);
+
+		return result;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void init(IWorkbench workbench) {
+	}
+
+	@Override
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean performOk() {
+
+		SystemEditorPreferenceManager.getInstance().setRGB(
+				SystemEditorPreferenceManager.COLOR_RTC_STATE_ACTIVE,
+				stateActiveColorSelector.getColorValue());
+
+		SystemEditorPreferenceManager.getInstance().setRGB(
+				SystemEditorPreferenceManager.COLOR_RTC_STATE_CREATED,
+				stateCreatedColorSelector.getColorValue());
+
+		SystemEditorPreferenceManager.getInstance().setRGB(
+				SystemEditorPreferenceManager.COLOR_RTC_STATE_ERROR,
+				stateErrorColorSelector.getColorValue());
+
+		SystemEditorPreferenceManager.getInstance().setRGB(
+				SystemEditorPreferenceManager.COLOR_RTC_STATE_INACTIVE,
+				stateInactiveColorSelector.getColorValue());
+
+		SystemEditorPreferenceManager.getInstance().setRGB(
+				SystemEditorPreferenceManager.COLOR_RTC_STATE_UNKNOWN,
+				stateUnknownColorSelector.getColorValue());
+
+		SystemEditorPreferenceManager.getInstance().setRGB(
+				SystemEditorPreferenceManager.COLOR_RTC_EXECUTION_CONTEXT_RUNNING,
+				executionRunningColorSelector.getColorValue());
+
+		SystemEditorPreferenceManager.getInstance().setRGB(
+				SystemEditorPreferenceManager.COLOR_RTC_EXECUTION_CONTEXT_STOPPED,
+				executionStoppedColorSelector.getColorValue());
+
+		SystemEditorPreferenceManager.getInstance().setRGB(
+				SystemEditorPreferenceManager.COLOR_DATAPORT_NO_CONNECT,
+				dataportNoConnectColorSelector.getColorValue());
+
+		SystemEditorPreferenceManager.getInstance().setRGB(
+				SystemEditorPreferenceManager.COLOR_DATAPORT_CONNECTED,
+				dataportConnectedColorSelector.getColorValue());
+
+		SystemEditorPreferenceManager.getInstance().setRGB(
+				SystemEditorPreferenceManager.COLOR_SERVICEPORT_NO_CONNECT,
+				serviceportNoConnectColorSelector.getColorValue());
+
+		SystemEditorPreferenceManager.getInstance().setRGB(
+				SystemEditorPreferenceManager.COLOR_SERVICEPORT_CONNECTED,
+				serviceportConnectedColorSelector.getColorValue());
+
+		return super.performOk();
+	}
+
+	@Override
+	/**
+	 * {@inheritDoc}
+	 */
+	protected void performDefaults() {
+		stateCreatedColorSelector.setColorValue(SystemEditorPreferenceManager.getInstance()
+				.getDefaultRGBMap().get(
+						SystemEditorPreferenceManager.COLOR_RTC_STATE_CREATED));
+
+		stateInactiveColorSelector.setColorValue(SystemEditorPreferenceManager
+				.getInstance().getDefaultRGBMap().get(
+						SystemEditorPreferenceManager.COLOR_RTC_STATE_INACTIVE));
+
+		stateActiveColorSelector.setColorValue(SystemEditorPreferenceManager.getInstance()
+				.getDefaultRGBMap().get(
+						SystemEditorPreferenceManager.COLOR_RTC_STATE_ACTIVE));
+
+		stateErrorColorSelector.setColorValue(SystemEditorPreferenceManager.getInstance()
+				.getDefaultRGBMap()
+				.get(SystemEditorPreferenceManager.COLOR_RTC_STATE_ERROR));
+
+		stateUnknownColorSelector.setColorValue(SystemEditorPreferenceManager.getInstance()
+				.getDefaultRGBMap().get(
+						SystemEditorPreferenceManager.COLOR_RTC_STATE_UNKNOWN));
+
+		executionRunningColorSelector.setColorValue(SystemEditorPreferenceManager
+				.getInstance().getDefaultRGBMap().get(
+						SystemEditorPreferenceManager.COLOR_RTC_EXECUTION_CONTEXT_RUNNING));
+
+		executionStoppedColorSelector.setColorValue(SystemEditorPreferenceManager
+				.getInstance().getDefaultRGBMap().get(
+						SystemEditorPreferenceManager.COLOR_RTC_EXECUTION_CONTEXT_STOPPED));
+
+		dataportNoConnectColorSelector.setColorValue(SystemEditorPreferenceManager
+				.getInstance().getDefaultRGBMap().get(
+						SystemEditorPreferenceManager.COLOR_DATAPORT_NO_CONNECT));
+
+		dataportConnectedColorSelector.setColorValue(SystemEditorPreferenceManager
+				.getInstance().getDefaultRGBMap().get(
+						SystemEditorPreferenceManager.COLOR_DATAPORT_CONNECTED));
+
+		serviceportNoConnectColorSelector.setColorValue(SystemEditorPreferenceManager
+				.getInstance().getDefaultRGBMap().get(
+						SystemEditorPreferenceManager.COLOR_SERVICEPORT_NO_CONNECT));
+
+		serviceportConnectedColorSelector.setColorValue(SystemEditorPreferenceManager
+				.getInstance().getDefaultRGBMap().get(
+						SystemEditorPreferenceManager.COLOR_SERVICEPORT_CONNECTED));
+
+		super.performDefaults();
+	}
+
+}
