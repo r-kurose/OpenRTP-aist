@@ -1,0 +1,12 @@
+#if( ${rtcParam.configParams.size()} > 0 )
+#foreach($configParam in ${rtcParam.configParams})
+#if( ${configParam.widget.length()} > 0 )
+conf._widget_.${configParam.name}: ${configParam.widget}#if( ${configParam.sliderStep.length()} > 0 ).${configParam.sliderStep}#end
+
+#end
+#end
+
+#foreach($configParam in ${rtcParam.configParams})
+conf._default.${configParam.name}: ${configParam.constraint}
+#end
+#end
