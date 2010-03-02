@@ -1,0 +1,7 @@
+module RTC {
+  struct Time
+  {
+        unsigned long sec;    // sec
+        unsigned long nsec;   // nano sec
+  };
+};
