@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import jp.go.aist.rtm.systemeditor.factory.SystemEditorWrapperFactory;
 import jp.go.aist.rtm.systemeditor.ui.dialog.NewCompositeComponentDialog;
+import jp.go.aist.rtm.systemeditor.ui.dialog.NewCompositeComponentDialogData;
 import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
 import jp.go.aist.rtm.systemeditor.ui.editor.command.CombineCommand;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart;
@@ -12,7 +14,9 @@ import jp.go.aist.rtm.systemeditor.ui.util.TimeoutWrappedJob;
 import jp.go.aist.rtm.systemeditor.ui.util.TimeoutWrapper;
 import jp.go.aist.rtm.toolscommon.manager.ToolsCommonPreferenceManager;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
+import jp.go.aist.rtm.toolscommon.model.core.Rectangle;
 
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.action.IAction;
@@ -22,6 +26,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
+import org.omg.CORBA.TIMEOUT;
 
 /**
  * 複合コンポーネントを作成するアクション

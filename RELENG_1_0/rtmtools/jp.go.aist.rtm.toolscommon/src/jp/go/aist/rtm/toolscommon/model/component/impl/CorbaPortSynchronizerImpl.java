@@ -16,6 +16,7 @@ import jp.go.aist.rtm.toolscommon.model.component.CorbaPortInterfaceProfile;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaPortSynchronizer;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.PortSynchronizer;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.core.impl.CorbaWrapperObjectImpl;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.AttributeMapping;
@@ -96,6 +97,8 @@ public class CorbaPortSynchronizerImpl extends CorbaWrapperObjectImpl implements
 	 */
 	protected PortProfile rTCPortProfile = RTC_PORT_PROFILE_EDEFAULT;
 
+	private SystemDiagram currentDiagram;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -110,6 +113,7 @@ public class CorbaPortSynchronizerImpl extends CorbaWrapperObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return ComponentPackage.Literals.CORBA_PORT_SYNCHRONIZER;
 	}
@@ -162,6 +166,7 @@ public class CorbaPortSynchronizerImpl extends CorbaWrapperObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ComponentPackage.CORBA_PORT_SYNCHRONIZER__ORIGINAL_PORT_STRING:
@@ -177,6 +182,7 @@ public class CorbaPortSynchronizerImpl extends CorbaWrapperObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ComponentPackage.CORBA_PORT_SYNCHRONIZER__ORIGINAL_PORT_STRING:
@@ -194,6 +200,7 @@ public class CorbaPortSynchronizerImpl extends CorbaWrapperObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case ComponentPackage.CORBA_PORT_SYNCHRONIZER__ORIGINAL_PORT_STRING:
@@ -211,6 +218,7 @@ public class CorbaPortSynchronizerImpl extends CorbaWrapperObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case ComponentPackage.CORBA_PORT_SYNCHRONIZER__ORIGINAL_PORT_STRING:
@@ -226,7 +234,8 @@ public class CorbaPortSynchronizerImpl extends CorbaWrapperObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int eBaseStructuralFeatureID(int derivedFeatureID, Class baseClass) {
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == PortSynchronizer.class) {
 			switch (derivedFeatureID) {
 				case ComponentPackage.CORBA_PORT_SYNCHRONIZER__ORIGINAL_PORT_STRING: return ComponentPackage.PORT_SYNCHRONIZER__ORIGINAL_PORT_STRING;
@@ -241,7 +250,8 @@ public class CorbaPortSynchronizerImpl extends CorbaWrapperObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int eDerivedStructuralFeatureID(int baseFeatureID, Class baseClass) {
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == PortSynchronizer.class) {
 			switch (baseFeatureID) {
 				case ComponentPackage.PORT_SYNCHRONIZER__ORIGINAL_PORT_STRING: return ComponentPackage.CORBA_PORT_SYNCHRONIZER__ORIGINAL_PORT_STRING;
@@ -256,6 +266,7 @@ public class CorbaPortSynchronizerImpl extends CorbaWrapperObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
@@ -424,6 +435,9 @@ public class CorbaPortSynchronizerImpl extends CorbaWrapperObjectImpl implements
 
 	public String getProperty(String name) {
 		return CorbaConnectorProfileImpl.getPropertyValueAsStringValue(getRtcProperties(), name);
+	}
+	public void setCurrentDiagram(SystemDiagram currentDiagram) {
+		this.currentDiagram = currentDiagram;
 	}
 
 } //CorbaPortSynchronizerImpl

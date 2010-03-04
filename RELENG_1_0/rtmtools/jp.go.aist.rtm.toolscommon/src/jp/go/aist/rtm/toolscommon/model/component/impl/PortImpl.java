@@ -84,7 +84,7 @@ public class PortImpl extends WrapperObjectImpl implements Port {
 	 * @generated
 	 * @ordered
 	 */
-	protected PortSynchronizer synchronizer= null;
+	protected PortSynchronizer synchronizer;
 
 	/**
 	 * The default value of the '{@link #getNameL() <em>Name L</em>}' attribute.
@@ -154,7 +154,7 @@ public class PortImpl extends WrapperObjectImpl implements Port {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList connectorProfiles= null;
+	protected EList<ConnectorProfile> connectorProfiles;
 
 	/**
 	 * The cached value of the '{@link #getInterfaces() <em>Interfaces</em>}' attribute list.
@@ -164,7 +164,7 @@ public class PortImpl extends WrapperObjectImpl implements Port {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList interfaces= null;
+	protected EList<PortInterfaceProfile> interfaces;
 
 	/**
 	 * The default value of the '{@link #getDataflowType() <em>Dataflow Type</em>}' attribute.
@@ -275,6 +275,7 @@ public class PortImpl extends WrapperObjectImpl implements Port {
 		}
 		Component component = (Component) eContainer();
 		if (component == null) return getOriginalPortString(null, null, null, getNameL());
+		//TODO 09.09.30 instanceName ’Ç‰Á(pathURI‘Î‰ž)
 		return  getOriginalPortString(
 				component.getComponentId(), component.getPathId(),
 				component.getInstanceNameL(), getNameL());
@@ -430,9 +431,9 @@ public class PortImpl extends WrapperObjectImpl implements Port {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getConnectorProfiles() {
+	public EList<ConnectorProfile> getConnectorProfiles() {
 		if (connectorProfiles == null) {
-			connectorProfiles = new EObjectResolvingEList(ConnectorProfile.class, this, ComponentPackage.PORT__CONNECTOR_PROFILES);
+			connectorProfiles = new EObjectResolvingEList<ConnectorProfile>(ConnectorProfile.class, this, ComponentPackage.PORT__CONNECTOR_PROFILES);
 		}
 		return connectorProfiles;
 	}
@@ -442,9 +443,9 @@ public class PortImpl extends WrapperObjectImpl implements Port {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getInterfaces() {
+	public EList<PortInterfaceProfile> getInterfaces() {
 		if (interfaces == null) {
-			interfaces = new EDataTypeUniqueEList(PortInterfaceProfile.class, this, ComponentPackage.PORT__INTERFACES);
+			interfaces = new EDataTypeUniqueEList<PortInterfaceProfile>(PortInterfaceProfile.class, this, ComponentPackage.PORT__INTERFACES);
 		}
 		return interfaces;
 	}
@@ -697,11 +698,11 @@ public class PortImpl extends WrapperObjectImpl implements Port {
 				return;
 			case ComponentPackage.PORT__CONNECTOR_PROFILES:
 				getConnectorProfiles().clear();
-				getConnectorProfiles().addAll((Collection)newValue);
+				getConnectorProfiles().addAll((Collection<? extends ConnectorProfile>)newValue);
 				return;
 			case ComponentPackage.PORT__INTERFACES:
 				getInterfaces().clear();
-				getInterfaces().addAll((Collection)newValue);
+				getInterfaces().addAll((Collection<? extends PortInterfaceProfile>)newValue);
 				return;
 			case ComponentPackage.PORT__DATAFLOW_TYPE:
 				setDataflowType((String)newValue);
@@ -801,6 +802,7 @@ public class PortImpl extends WrapperObjectImpl implements Port {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
@@ -823,6 +825,7 @@ public class PortImpl extends WrapperObjectImpl implements Port {
 		return result.toString();
 	}
 
+	//TODO 09.09.30 instanceName ’Ç‰Á(pathURI‘Î‰ž)
 	private String getOriginalPortString(String componentId,
 			String pathId, String instanceName, String portName) {
 		StringBuffer buffer = new StringBuffer();

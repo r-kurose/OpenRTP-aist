@@ -33,6 +33,6 @@ public interface ConfigurationSet extends WrapperObject{
 	 *        type="jp.go.aist.rtm.toolscommon.model.component.NameValue"
 	 * @return　コンフィグデータを格納するNameValueのリスト
 	 */
-	public EList getConfigurationData();
+	public EList<NameValue> getConfigurationData();
 
 }

@@ -16,9 +16,9 @@ public class DocumentPreferenceManager {
 		return __instance;
 	}
 	
-	private static final String Document_Value_Key = DocumentPreferenceManager.class.getName() + "DOCUMENT_VALUE_KEY";
-	private static final String Document_Creator_Key = DocumentPreferenceManager.class.getName() + "DOCUMENT_CREATOR_KEY";
-	private static final String Document_Licence_Key = DocumentPreferenceManager.class.getName() + "DOCUMENT_LICENSE_KEY";
+	static final String Document_Value_Key = DocumentPreferenceManager.class.getName() + "DOCUMENT_VALUE_KEY";
+	static final String Document_Creator = DocumentPreferenceManager.class.getName() + "DOCUMENT_CREATOR_KEY";
+	static final String Document_Licence = DocumentPreferenceManager.class.getName() + "DOCUMENT_LICENSE_KEY";
 	
 	public static ArrayList<String> defaultDocumentValue = new ArrayList<String>();
 	
@@ -50,8 +50,8 @@ public class DocumentPreferenceManager {
 	}
 
 	public static String getCreatorValue() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Document_Creator_Key, "");
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Document_Creator_Key);
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Document_Creator, "");
+		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Document_Creator);
 		String result;
 		if (resultTemp.equals("")) { // defaultvalue
 			result = "";
@@ -62,13 +62,13 @@ public class DocumentPreferenceManager {
 	}
 	public void setCreatorValue(String defaultCreatorValue) {
 		String oldCreatorValue = getCreatorValue();
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Document_Creator_Key, defaultCreatorValue);
-		propertyChangeSupport.firePropertyChange(Document_Creator_Key, oldCreatorValue, defaultCreatorValue);
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Document_Creator, defaultCreatorValue);
+		propertyChangeSupport.firePropertyChange(Document_Creator, oldCreatorValue, defaultCreatorValue);
 	}
 
 	public static String getLicenseValue() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Document_Licence_Key, "");
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Document_Licence_Key);
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Document_Licence, "");
+		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Document_Licence);
 		String result;
 		if (resultTemp.equals("")) { // defaultvalue
 			result = "";
@@ -79,8 +79,8 @@ public class DocumentPreferenceManager {
 	}
 	public void setLicenseValue(String defaultLicenseValue) {
 		String oldCreatorValue = getCreatorValue();
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Document_Licence_Key, defaultLicenseValue);
-		propertyChangeSupport.firePropertyChange(Document_Licence_Key, oldCreatorValue, defaultLicenseValue);
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Document_Licence, defaultLicenseValue);
+		propertyChangeSupport.firePropertyChange(Document_Licence, oldCreatorValue, defaultLicenseValue);
 	}
 	
 	public static String convertArrayList2String(ArrayList<String> source) {

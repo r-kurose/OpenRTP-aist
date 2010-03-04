@@ -34,6 +34,8 @@ public class foo implements RtcNewFunc, RtcDeleteFunc, RegisterModuleFunc {
     	    "lang_type",         "compile",
             // Configuration variables
             "conf.default.int_param0", "0",
+            // Widget
+            // Constraints
     	    ""
             };
 //  </rtc-template>

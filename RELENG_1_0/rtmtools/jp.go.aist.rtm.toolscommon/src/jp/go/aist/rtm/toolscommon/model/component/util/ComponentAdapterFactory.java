@@ -30,6 +30,7 @@ import jp.go.aist.rtm.toolscommon.model.component.ServicePort;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject;
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
+import jp.go.aist.rtm.toolscommon.model.core.Point;
 import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 
@@ -88,86 +89,111 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * The switch the delegates to the <code>createXXX</code> methods.
+	 * The switch that delegates to the <code>createXXX</code> methods.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ComponentSwitch modelSwitch =
-		new ComponentSwitch() {
-			public Object caseSystemDiagram(SystemDiagram object) {
+	protected ComponentSwitch<Adapter> modelSwitch =
+		new ComponentSwitch<Adapter>() {
+			@Override
+			public Adapter caseSystemDiagram(SystemDiagram object) {
 				return createSystemDiagramAdapter();
 			}
-			public Object caseComponent(Component object) {
+			@Override
+			public Adapter caseComponent(Component object) {
 				return createComponentAdapter();
 			}
-			public Object caseCorbaComponent(CorbaComponent object) {
-				return createCorbaComponentAdapter();
-			}
-			public Object caseComponentSpecification(ComponentSpecification object) {
+			@Override
+			public Adapter caseComponentSpecification(ComponentSpecification object) {
 				return createComponentSpecificationAdapter();
 			}
-			public Object casePortConnector(PortConnector object) {
-				return createPortConnectorAdapter();
-			}
-			public Object caseExecutionContext(ExecutionContext object) {
+			@Override
+			public Adapter caseExecutionContext(ExecutionContext object) {
 				return createExecutionContextAdapter();
 			}
-			public Object caseInPort(InPort object) {
-				return createInPortAdapter();
-			}
-			public Object caseNameValue(NameValue object) {
-				return createNameValueAdapter();
-			}
-			public Object caseOutPort(OutPort object) {
-				return createOutPortAdapter();
-			}
-			public Object casePort(Port object) {
-				return createPortAdapter();
-			}
-			public Object caseServicePort(ServicePort object) {
-				return createServicePortAdapter();
-			}
-			public Object caseConnectorProfile(ConnectorProfile object) {
-				return createConnectorProfileAdapter();
-			}
-			public Object caseConfigurationSet(ConfigurationSet object) {
+			@Override
+			public Adapter caseConfigurationSet(ConfigurationSet object) {
 				return createConfigurationSetAdapter();
 			}
-			public Object caseEIntegerObjectToPointMapEntry(Map.Entry object) {
-				return createEIntegerObjectToPointMapEntryAdapter();
+			@Override
+			public Adapter caseNameValue(NameValue object) {
+				return createNameValueAdapter();
 			}
-			public Object casePortSynchronizer(PortSynchronizer object) {
+			@Override
+			public Adapter casePort(Port object) {
+				return createPortAdapter();
+			}
+			@Override
+			public Adapter caseInPort(InPort object) {
+				return createInPortAdapter();
+			}
+			@Override
+			public Adapter caseOutPort(OutPort object) {
+				return createOutPortAdapter();
+			}
+			@Override
+			public Adapter caseServicePort(ServicePort object) {
+				return createServicePortAdapter();
+			}
+			@Override
+			public Adapter casePortSynchronizer(PortSynchronizer object) {
 				return createPortSynchronizerAdapter();
 			}
-			public Object caseCorbaPortSynchronizer(CorbaPortSynchronizer object) {
+			@Override
+			public Adapter casePortConnector(PortConnector object) {
+				return createPortConnectorAdapter();
+			}
+			@Override
+			public Adapter caseConnectorProfile(ConnectorProfile object) {
+				return createConnectorProfileAdapter();
+			}
+			@Override
+			public Adapter caseEIntegerObjectToPointMapEntry(Map.Entry<Integer, Point> object) {
+				return createEIntegerObjectToPointMapEntryAdapter();
+			}
+			@Override
+			public Adapter caseCorbaComponent(CorbaComponent object) {
+				return createCorbaComponentAdapter();
+			}
+			@Override
+			public Adapter caseCorbaPortSynchronizer(CorbaPortSynchronizer object) {
 				return createCorbaPortSynchronizerAdapter();
 			}
-			public Object caseCorbaConnectorProfile(CorbaConnectorProfile object) {
+			@Override
+			public Adapter caseCorbaConnectorProfile(CorbaConnectorProfile object) {
 				return createCorbaConnectorProfileAdapter();
 			}
-			public Object caseCorbaConfigurationSet(CorbaConfigurationSet object) {
+			@Override
+			public Adapter caseCorbaConfigurationSet(CorbaConfigurationSet object) {
 				return createCorbaConfigurationSetAdapter();
 			}
-			public Object caseCorbaExecutionContext(CorbaExecutionContext object) {
+			@Override
+			public Adapter caseCorbaExecutionContext(CorbaExecutionContext object) {
 				return createCorbaExecutionContextAdapter();
 			}
-			public Object caseIAdaptable(IAdaptable object) {
+			@Override
+			public Adapter caseIAdaptable(IAdaptable object) {
 				return createIAdaptableAdapter();
 			}
-			public Object caseModelElement(ModelElement object) {
+			@Override
+			public Adapter caseModelElement(ModelElement object) {
 				return createModelElementAdapter();
 			}
-			public Object caseLocalObject(LocalObject object) {
+			@Override
+			public Adapter caseLocalObject(LocalObject object) {
 				return createLocalObjectAdapter();
 			}
-			public Object caseWrapperObject(WrapperObject object) {
+			@Override
+			public Adapter caseWrapperObject(WrapperObject object) {
 				return createWrapperObjectAdapter();
 			}
-			public Object caseCorbaWrapperObject(CorbaWrapperObject object) {
+			@Override
+			public Adapter caseCorbaWrapperObject(CorbaWrapperObject object) {
 				return createCorbaWrapperObjectAdapter();
 			}
-			public Object defaultCase(EObject object) {
+			@Override
+			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
 		};
@@ -182,7 +208,7 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 	 */
 	@Override
 	public Adapter createAdapter(Notifier target) {
-		return (Adapter)modelSwitch.doSwitch((EObject)target);
+		return modelSwitch.doSwitch((EObject)target);
 	}
 
 

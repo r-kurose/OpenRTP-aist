@@ -226,11 +226,11 @@ public class RTCManagerWrapper {
 			this.source = new PropertySource();
 			EList list = null;
 			if (this.key.equals(COMPONENTS)) {
-				list = this.manager.getComponentInstanceNamesR();
+				list = this.manager.getComponentInstanceNames();
 			} else if (this.key.equals(LOADABLE_MODULES)) {
-				list = this.manager.getLoadableModuleFileNameR();
+				list = this.manager.getLoadableModuleFileNames();
 			} else if (this.key.equals(LOADED_MODULES)) {
-				list = this.manager.getLoadedModuleFileNamesR();
+				list = this.manager.getLoadedModuleFileNames();
 			}
 			if (list == null) {
 				return this.source;

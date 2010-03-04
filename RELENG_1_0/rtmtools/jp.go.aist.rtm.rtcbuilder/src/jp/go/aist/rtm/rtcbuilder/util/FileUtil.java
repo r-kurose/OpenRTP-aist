@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
+import jp.go.aist.rtm.rtcbuilder.nl.Messages;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
@@ -84,8 +85,9 @@ public class FileUtil {
 	 * @param path
 	 *            パス
 	 * @return ファイル内容
+	 * @throws IOException 
 	 */
-	public static String readFile(String path) {
+	public static String readFile(String path) throws IOException {
 		StringBuffer result = null;
 		try {
 			FileInputStream fis = new FileInputStream(path);
@@ -102,7 +104,7 @@ public class FileUtil {
             isr.close();
             fis.close();
 		} catch (IOException e) {
-			throw new RuntimeException("ファイルが見つかりません path:" + path);
+			throw new IOException(Messages.getString("IRTCBMessageConstants.ERROR_PROFILE_RESTORE_P1") + " path:" + path);  //$NON-NLS-1$
 		}
 
 		return result == null ? null : result.toString();

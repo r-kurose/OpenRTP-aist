@@ -65,8 +65,7 @@ public class CreateComponentDialog extends TitleAreaDialog {
 
 		Label type = new Label(mainComposite, SWT.NONE);
 		type.setText(Messages.getString("CreateComponentDialog.2")); //$NON-NLS-1$
-		typeCombo = new Combo(mainComposite, SWT.NONE
-						| SWT.READ_ONLY);
+		typeCombo = new Combo(mainComposite, SWT.NONE);
 		GridData gd = new GridData(GridData.GRAB_HORIZONTAL);
 		gd.minimumWidth = 180;
 		gd.horizontalAlignment = GridData.FILL;
@@ -129,7 +128,7 @@ public class CreateComponentDialog extends TitleAreaDialog {
 		}
 		String errmsg = Messages.getString("CreateComponentDialog.6"); //$NON-NLS-1$
 		String p[] = this.parameter.split("\\?"); //$NON-NLS-1$
-		if (p[0].indexOf("&") != -1) { //$NON-NLS-1$
+		if (p.length > 0 && p[0].indexOf("&") != -1) { //$NON-NLS-1$
 			// component_name‚É&‚ª“ü‚Á‚Ä‚¢‚é
 			this.setMessage(errmsg, IMessageProvider.WARNING);
 			return false;

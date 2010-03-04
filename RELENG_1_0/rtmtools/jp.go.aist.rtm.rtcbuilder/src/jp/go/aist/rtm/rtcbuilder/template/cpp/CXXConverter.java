@@ -11,7 +11,6 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceArgumentParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceMethodParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.idl.TypeDefParam;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateHelper;
 
 /**

@@ -69,29 +69,35 @@ public class CoreAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * The switch the delegates to the <code>createXXX</code> methods.
+	 * The switch that delegates to the <code>createXXX</code> methods.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected CoreSwitch modelSwitch =
-		new CoreSwitch() {
-			public Object caseCorbaWrapperObject(CorbaWrapperObject object) {
+	protected CoreSwitch<Adapter> modelSwitch =
+		new CoreSwitch<Adapter>() {
+			@Override
+			public Adapter caseCorbaWrapperObject(CorbaWrapperObject object) {
 				return createCorbaWrapperObjectAdapter();
 			}
-			public Object caseModelElement(ModelElement object) {
+			@Override
+			public Adapter caseModelElement(ModelElement object) {
 				return createModelElementAdapter();
 			}
-			public Object caseIAdaptable(IAdaptable object) {
+			@Override
+			public Adapter caseIAdaptable(IAdaptable object) {
 				return createIAdaptableAdapter();
 			}
-			public Object caseLocalObject(LocalObject object) {
+			@Override
+			public Adapter caseLocalObject(LocalObject object) {
 				return createLocalObjectAdapter();
 			}
-			public Object caseWrapperObject(WrapperObject object) {
+			@Override
+			public Adapter caseWrapperObject(WrapperObject object) {
 				return createWrapperObjectAdapter();
 			}
-			public Object defaultCase(EObject object) {
+			@Override
+			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
 		};
@@ -106,7 +112,7 @@ public class CoreAdapterFactory extends AdapterFactoryImpl {
 	 */
 	@Override
 	public Adapter createAdapter(Notifier target) {
-		return (Adapter)modelSwitch.doSwitch((EObject)target);
+		return modelSwitch.doSwitch((EObject)target);
 	}
 
 

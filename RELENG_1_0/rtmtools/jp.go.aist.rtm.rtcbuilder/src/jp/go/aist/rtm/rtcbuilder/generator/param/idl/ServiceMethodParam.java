@@ -8,6 +8,8 @@ import java.util.List;
  * サービスのメソッドを表すクラス
  */
 public class ServiceMethodParam implements Serializable {
+	private static final long serialVersionUID = -880298040480678410L;
+	
 	private String type;
 	private String name;
 	private boolean isSequence;

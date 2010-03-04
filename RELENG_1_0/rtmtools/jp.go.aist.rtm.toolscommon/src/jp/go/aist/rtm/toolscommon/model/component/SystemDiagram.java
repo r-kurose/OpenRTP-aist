@@ -31,7 +31,7 @@ public interface SystemDiagram extends ModelElement {
 	 *        containment="true" resolveProxies="false"
 	 * @generated
 	 */
-	EList getComponents();
+	EList<Component> getComponents();
 
 	/**
 	 * Returns the value of the '<em><b>Kind</b></em>' attribute.

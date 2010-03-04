@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
+
 /**
  * コンフィギュレーションパラメータ定義を表すクラス
  */
@@ -95,7 +97,7 @@ public class ConfigSetParam extends AbstractRecordedParam implements
 	//
 	public String getWidget() {
 		for( PropertyParam param : properties ) {
-			if( param.getName().equals("__widget__") )
+			if( param.getName().equals(IRtcBuilderConstants.CONFIG_WIDGET) )
 				//
 				if(param.getValue().contains(".")) {
 					String[] widget = param.getValue().split("\\.");
@@ -106,18 +108,14 @@ public class ConfigSetParam extends AbstractRecordedParam implements
 		}
 		return "";
 	}
-	public String getSliderStep() {
+	public String getStep() {
 		for( PropertyParam param : properties ) {
-			if( param.getName().equals("__widget__") )
-//			if( param.getName().equals("_slider_step_") )
-				//
+			if( param.getName().equals(IRtcBuilderConstants.CONFIG_WIDGET) ) {
 				if(param.getValue().contains(".")) {
-					String[] widget = param.getValue().split("\\.");
-					if(widget.length>1) return widget[1];
-					return null;
+					int index = param.getValue().indexOf(".");
+					return param.getValue().substring(index+1);
 				}
-				//
-//				return param.getValue();
+			}
 		}
 		return "";
 	}
@@ -156,26 +154,33 @@ public class ConfigSetParam extends AbstractRecordedParam implements
 	//
 	public void setWidget(String widget) {
 		for (PropertyParam param : properties) {
-			if (param.getName().equals("__widget__")) {
+			if (param.getName().equals(IRtcBuilderConstants.CONFIG_WIDGET)) {
 				checkUpdated(param.getValue(), widget);
 				param.setValue(widget);
 				return;
 			}
 		}
-		properties.add(new PropertyParam("__widget__", widget));
+		properties.add(new PropertyParam(IRtcBuilderConstants.CONFIG_WIDGET, widget));
 		setUpdated(true);
 	}
-	public void setSliderStep(String sliderStep) {
+	public void setStep(String step) {
 		for (PropertyParam param : properties) {
-			if (param.getName().equals("__widget__")) {
+			if (param.getName().equals(IRtcBuilderConstants.CONFIG_WIDGET)) {
 				String value = param.getValue();
-				if (value.equals("slider")) {
-					param.setValue("slider." + sliderStep);
+				if (value.equals(IRtcBuilderConstants.CONFIG_WIDGET_SLIDER)) {
+					param.setValue(IRtcBuilderConstants.CONFIG_WIDGET_SLIDER + "." + step);
 					setUpdated(true);
-				} else if (value.startsWith("slider.")) {
-					String oldStep = value.substring("slider.".length());
-					checkUpdated(oldStep, sliderStep);
-					param.setValue("slider." + sliderStep);
+				} else if (value.startsWith(IRtcBuilderConstants.CONFIG_WIDGET_SLIDER + ".")) {
+					String oldStep = value.substring((IRtcBuilderConstants.CONFIG_WIDGET_SLIDER + ".").length());
+					checkUpdated(oldStep, step);
+					param.setValue(IRtcBuilderConstants.CONFIG_WIDGET_SLIDER + "." + step);
+				} else if (value.startsWith(IRtcBuilderConstants.CONFIG_WIDGET_SPIN)) {
+					param.setValue(IRtcBuilderConstants.CONFIG_WIDGET_SPIN + "." + step);
+					setUpdated(true);
+				} else if (value.startsWith(IRtcBuilderConstants.CONFIG_WIDGET_SPIN + ".")) {
+					String oldStep = value.substring((IRtcBuilderConstants.CONFIG_WIDGET_SPIN + ".").length());
+					checkUpdated(oldStep, step);
+					param.setValue(IRtcBuilderConstants.CONFIG_WIDGET_SPIN + "." + step);
 				}
 				return;
 			}

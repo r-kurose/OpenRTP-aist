@@ -84,7 +84,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * @generated
 	 * @ordered
 	 */
-	protected EList configurationSets= null;
+	protected EList<ConfigurationSet> configurationSets;
 
 	/**
 	 * The cached value of the '{@link #getActiveConfigurationSet() <em>Active Configuration Set</em>}' reference.
@@ -94,7 +94,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * @generated
 	 * @ordered
 	 */
-	protected ConfigurationSet activeConfigurationSet= null;
+	protected ConfigurationSet activeConfigurationSet;
 
 	/**
 	 * The cached value of the '{@link #getPorts() <em>Ports</em>}' containment reference list.
@@ -104,7 +104,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * @generated
 	 * @ordered
 	 */
-	protected EList ports= null;
+	protected EList<Port> ports;
 
 	/**
 	 * The cached value of the '{@link #getComponents() <em>Components</em>}' reference list.
@@ -114,7 +114,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * @generated
 	 * @ordered
 	 */
-	protected EList components= null;
+	protected EList<Component> components;
 
 	/**
 	 * The cached value of the '{@link #getExecutionContexts() <em>Execution Contexts</em>}' containment reference list.
@@ -124,7 +124,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * @generated
 	 * @ordered
 	 */
-	protected EList executionContexts = null;
+	protected EList<ExecutionContext> executionContexts;
 
 	/**
 	 * The cached value of the '{@link #getChildSystemDiagram() <em>Child System Diagram</em>}' reference.
@@ -134,7 +134,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * @generated
 	 * @ordered
 	 */
-	protected SystemDiagram childSystemDiagram= null;
+	protected SystemDiagram childSystemDiagram;
 
 	/**
 	 * The default value of the '{@link #getInstanceNameL() <em>Instance Name L</em>}' attribute.
@@ -370,6 +370,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return ComponentPackage.Literals.COMPONENT;
 	}
@@ -379,9 +380,9 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getConfigurationSets() {
+	public EList<ConfigurationSet> getConfigurationSets() {
 		if (configurationSets == null) {
-			configurationSets = new EObjectContainmentEList(ConfigurationSet.class, this, ComponentPackage.COMPONENT__CONFIGURATION_SETS);
+			configurationSets = new EObjectContainmentEList<ConfigurationSet>(ConfigurationSet.class, this, ComponentPackage.COMPONENT__CONFIGURATION_SETS);
 		}
 		return configurationSets;
 	}
@@ -429,9 +430,9 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getPorts() {
+	public EList<Port> getPorts() {
 		if (ports == null) {
-			ports = new EObjectContainmentEList(Port.class, this, ComponentPackage.COMPONENT__PORTS);
+			ports = new EObjectContainmentEList<Port>(Port.class, this, ComponentPackage.COMPONENT__PORTS);
 		}
 		return ports;
 	}
@@ -487,9 +488,9 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getExecutionContexts() {
+	public EList<ExecutionContext> getExecutionContexts() {
 		if (executionContexts == null) {
-			executionContexts = new EObjectContainmentEList(ExecutionContext.class, this, ComponentPackage.COMPONENT__EXECUTION_CONTEXTS);
+			executionContexts = new EObjectContainmentEList<ExecutionContext>(ExecutionContext.class, this, ComponentPackage.COMPONENT__EXECUTION_CONTEXTS);
 		}
 		return executionContexts;
 	}
@@ -685,9 +686,9 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getComponents() {
+	public EList<Component> getComponents() {
 		if (components == null) {
-			components = new EObjectResolvingEList(Component.class, this, ComponentPackage.COMPONENT__COMPONENTS);
+			components = new EObjectResolvingEList<Component>(Component.class, this, ComponentPackage.COMPONENT__COMPONENTS);
 		}
 		return components;
 	}
@@ -992,14 +993,15 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case ComponentPackage.COMPONENT__CONFIGURATION_SETS:
-				return ((InternalEList)getConfigurationSets()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getConfigurationSets()).basicRemove(otherEnd, msgs);
 			case ComponentPackage.COMPONENT__PORTS:
-				return ((InternalEList)getPorts()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getPorts()).basicRemove(otherEnd, msgs);
 			case ComponentPackage.COMPONENT__EXECUTION_CONTEXTS:
-				return ((InternalEList)getExecutionContexts()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getExecutionContexts()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -1009,6 +1011,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ComponentPackage.COMPONENT__CONFIGURATION_SETS:
@@ -1062,26 +1065,28 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+		@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ComponentPackage.COMPONENT__CONFIGURATION_SETS:
 				getConfigurationSets().clear();
-				getConfigurationSets().addAll((Collection)newValue);
+				getConfigurationSets().addAll((Collection<? extends ConfigurationSet>)newValue);
 				return;
 			case ComponentPackage.COMPONENT__ACTIVE_CONFIGURATION_SET:
 				setActiveConfigurationSet((ConfigurationSet)newValue);
 				return;
 			case ComponentPackage.COMPONENT__PORTS:
 				getPorts().clear();
-				getPorts().addAll((Collection)newValue);
+				getPorts().addAll((Collection<? extends Port>)newValue);
 				return;
 			case ComponentPackage.COMPONENT__COMPONENTS:
 				getComponents().clear();
-				getComponents().addAll((Collection)newValue);
+				getComponents().addAll((Collection<? extends Component>)newValue);
 				return;
 			case ComponentPackage.COMPONENT__EXECUTION_CONTEXTS:
 				getExecutionContexts().clear();
-				getExecutionContexts().addAll((Collection)newValue);
+				getExecutionContexts().addAll((Collection<? extends ExecutionContext>)newValue);
 				return;
 			case ComponentPackage.COMPONENT__CHILD_SYSTEM_DIAGRAM:
 				setChildSystemDiagram((SystemDiagram)newValue);
@@ -1125,6 +1130,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case ComponentPackage.COMPONENT__CONFIGURATION_SETS:
@@ -1184,6 +1190,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case ComponentPackage.COMPONENT__CONFIGURATION_SETS:
@@ -1235,6 +1242,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
@@ -1270,6 +1278,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Component))
 			return false;
+		//TODO 09.09.30 instanceName ’Ç‰Á(pathURI‘Î‰ž)
 		if (getComponentId() == null || getPathId() == null || getInstanceNameL() == null)
 			return super.equals(obj);
 		Component other = (Component) obj;

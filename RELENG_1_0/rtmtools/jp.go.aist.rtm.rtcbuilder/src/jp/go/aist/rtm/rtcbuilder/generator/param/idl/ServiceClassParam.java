@@ -14,6 +14,8 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
  * サービスクラスをあらわすクラス
  */
 public class ServiceClassParam implements Serializable {
+	private static final long serialVersionUID = 6794300037580191558L;
+	
 	private String name;
 	private String idlPath;
 	private List<ServiceMethodParam> methods = new ArrayList<ServiceMethodParam>();

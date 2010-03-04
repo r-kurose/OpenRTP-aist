@@ -35,6 +35,8 @@ public class ModuleName implements RtcNewFunc, RtcDeleteFunc, RegisterModuleFunc
             // Configuration variables
             "conf.default.int_param0", "0",
             "conf.default.vector_param", "1.0,2.0,3.0",
+            // Widget
+            // Constraints
     	    ""
             };
 //  </rtc-template>

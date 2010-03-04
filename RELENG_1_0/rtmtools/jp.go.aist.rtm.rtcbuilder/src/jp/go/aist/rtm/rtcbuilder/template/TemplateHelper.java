@@ -3,7 +3,7 @@ package jp.go.aist.rtm.rtcbuilder.template;
 import java.io.File;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
-import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
+import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 
 /**
  * テンプレートを出力する際に使用されるヘルパー

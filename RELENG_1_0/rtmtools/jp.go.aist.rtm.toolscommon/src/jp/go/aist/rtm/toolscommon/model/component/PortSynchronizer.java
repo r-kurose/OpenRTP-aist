@@ -35,6 +35,7 @@ public interface PortSynchronizer extends EObject {
 	 * ポートを識別するための文字列を返す。
 	 * Corbaコンポーネントの場合は、ポートのCorbaインターフェースが使用される。
 	 * オフラインコンポーネントの場合は、複合RTCでないコンポーネントのID、インスタンス名、ポート名の組み合わせが使用される。
+	 * TODO:ComponentSpecificationのPortに対してはPortProxyが使用される。
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Original Port String</em>' attribute.
@@ -49,6 +50,7 @@ public interface PortSynchronizer extends EObject {
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.PortSynchronizer#getOriginalPortString <em>Original Port String</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * ポートを識別するための文字列を設定する。現在はオフラインのときのみ使用。
+	 * TODO:ComponentSpecificationのPortに対してはPortProxyが使用される。
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Original Port String</em>' attribute.
 	 * @see #getOriginalPortString()
@@ -76,6 +78,8 @@ public interface PortSynchronizer extends EObject {
 	List<NameValue> getProperties();
 
 	String getProperty(String name);
+
+	void setCurrentDiagram(SystemDiagram currentDiagram);
 
 
 } // PortSynchronizer

@@ -94,6 +94,12 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		this.firstApply = true;
 	}
 
+	// 編集ダイアログ内でapplyを実行する 2009.11.16
+//	/** 即時保存が指定されていたらtrue */
+//	public boolean isApply() {
+//		return this.isApply;
+//	}
+
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite mainComposite = (Composite) super.createDialogArea(parent);
@@ -270,8 +276,10 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		gd.widthHint = NAME_WIDTH;
 
 		Label keyLabel = new Label(namedValueComposite, SWT.NONE);
-		keyLabel.setLayoutData(gd);
 		keyLabel.setText(namedValue.getKey());
+		if (namedValue.getKey().length() * 7 <= NAME_WIDTH) {
+			keyLabel.setLayoutData(gd);
+		}
 
 		gl = new GridLayout(1, false);
 		gl.marginHeight = 0;
@@ -543,43 +551,29 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		};
 	}
 
-//	private SelectionAdapter createSpinnerSelectionListner(
-//			final ConfigurationWidget widget, final Spinner valueSpinner) {
-//		return new SelectionAdapter() {
-//			ConfigurationWidget wd = widget;
-//
-//			public void widgetSelected(SelectionEvent e) {
-//				int i = valueSpinner.getSelection();
-//				ConfigurationCondition condition = wd.getCondition();
-//				String value = String.valueOf(condition.getDecimalByDigits(i));
-//				valueSpinner.setSelection(i);
-//				if (!condition.validate(value)) {
-//					valueSpinner.setToolTipText(Messages.getString("ConfigurationDialog.9") + condition + Messages.getString("ConfigurationDialog.10")); //$NON-NLS-1$ //$NON-NLS-2$
-//					valueSpinner.setBackground(colorRegistry.get(ERROR_COLOR));
-//				} else {
-//					valueSpinner.setToolTipText(null);
-//					wd.setValue(value);
-//					if (wd.isValueModified()) {
-//						doModify(valueSpinner);
-//					} else {
-//						valueSpinner.setBackground(colorRegistry.get(NORMAL_COLOR));
-//					}
-//				}
-//			}
-//		};
-//	}
-
 	private ModifyListener createSpinnerModifyListner(
 			final ConfigurationWidget widget, final Spinner valueSpinner) {
 		return new ModifyListener() {
 			ConfigurationWidget wd = widget;
 
 			public void modifyText(ModifyEvent e) {
-				int i = valueSpinner.getSelection();
+				String value = valueSpinner.getText();
 				ConfigurationCondition condition = wd.getCondition();
-				String value = String.valueOf(condition.getDecimalByDigits(i));
 				if (!condition.validate(value)) {
 					valueSpinner.setToolTipText(Messages.getString("ConfigurationDialog.9") + condition + Messages.getString("ConfigurationDialog.10")); //$NON-NLS-1$ //$NON-NLS-2$
+					// 最小/最大値を超える値を丸める
+					wd.setValue(condition.adjustMinMaxValue(value));
+					if (wd.isValueModified()) {
+						doModify(valueSpinner);
+					}
+					Integer intMax = condition.getMaxByInteger();
+					Integer intMin = condition.getMinByInteger();
+					Integer intValue = condition.getIntegerByDigits(Double.valueOf(value));
+					if (intValue < intMin) {
+						valueSpinner.setSelection(intMin);
+					} else if (intValue > intMax) {
+						valueSpinner.setSelection(intMax);
+					}
 					valueSpinner.setBackground(colorRegistry.get(ERROR_COLOR));
 				} else {
 					valueSpinner.setToolTipText(null);
@@ -587,7 +581,8 @@ public class ConfigurationDialog extends TitleAreaDialog {
 					if (wd.isValueModified()) {
 						doModify(valueSpinner);
 					} else {
-						valueSpinner.setBackground(colorRegistry.get(NORMAL_COLOR));
+						valueSpinner.setBackground(colorRegistry
+								.get(NORMAL_COLOR));
 					}
 				}
 			}

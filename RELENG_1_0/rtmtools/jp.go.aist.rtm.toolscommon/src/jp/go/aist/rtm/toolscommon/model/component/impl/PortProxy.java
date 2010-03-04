@@ -64,6 +64,7 @@ public abstract class PortProxy extends EObjectImpl implements Port {
 	}
 //	@Override
 	public void disconnectAll() {
+		substance.getSynchronizer().setCurrentDiagram((SystemDiagram) eContainer().eContainer());
 		substance.disconnectAll();
 	}
 

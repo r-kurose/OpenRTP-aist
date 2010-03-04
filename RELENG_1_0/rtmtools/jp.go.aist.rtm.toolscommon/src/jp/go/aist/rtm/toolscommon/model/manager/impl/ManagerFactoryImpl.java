@@ -61,6 +61,7 @@ public class ManagerFactoryImpl extends EFactoryImpl implements ManagerFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case ManagerPackage.RTC_MANAGER: return createRTCManager();
@@ -74,6 +75,7 @@ public class ManagerFactoryImpl extends EFactoryImpl implements ManagerFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
 			case ManagerPackage.RTM_MANAGER_PROFILE:
@@ -90,6 +92,7 @@ public class ManagerFactoryImpl extends EFactoryImpl implements ManagerFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
 			case ManagerPackage.RTM_MANAGER_PROFILE:
@@ -162,6 +165,7 @@ public class ManagerFactoryImpl extends EFactoryImpl implements ManagerFactory {
 	 * @deprecated
 	 * @generated
 	 */
+	@Deprecated
 	public static ManagerPackage getPackage() {
 		return ManagerPackage.eINSTANCE;
 	}

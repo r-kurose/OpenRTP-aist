@@ -73,6 +73,7 @@ public class TemplateUtil {
 	 * 
 	 * @return GeneratedResult
 	 */
+	@SuppressWarnings("unchecked")
 	public static GeneratedResult createGeneratedResult(InputStream in,
 			Map contextMap, String fileName) {
 		return new GeneratedResult(fileName, generate(in, contextMap));
@@ -137,6 +138,7 @@ public class TemplateUtil {
 	 * @param contextRootName
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public static String generate(InputStream in, Map contextMap) {
 		VelocityEngine ve = TemplateUtil.getEngine();
 		ve.setProperty(VelocityEngine.RUNTIME_LOG_LOGSYSTEM_CLASS, "org.apache.velocity.runtime.log.NullLogSystem");

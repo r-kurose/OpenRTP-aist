@@ -56,6 +56,7 @@ public class RecordedList<E> extends ArrayList<E> implements UpdateRecordable {
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean removeAll(Collection c) {
 		boolean result = super.removeAll(c);

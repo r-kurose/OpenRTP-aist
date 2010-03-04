@@ -5,6 +5,7 @@ import java.util.List;
 
 import jp.go.aist.rtm.rtcbuilder.Generator;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
+import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
@@ -15,16 +16,47 @@ import jp.go.aist.rtm.rtcbuilder.java.manager.JavaGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 
 public class AISTTest extends TestBase {
+	private GeneratorParam genParam;
+	private RtcParam rtcParam;
 
 	protected void setUp() throws Exception {
-	}
-
-	public void testAIST5() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
+		genParam = new GeneratorParam();
+		rtcParam = new RtcParam(genParam, true);
 		rtcParam.setOutputProject(rootPath + "\\resource\\work");
 		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
 		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
+	}
+
+	public void testAIST6() throws Exception{
+		rtcParam.setName("ModuleName");
+		rtcParam.setDescription("ModuleDescription");
+		rtcParam.setVersion("1.0.0");
+		rtcParam.setVender("VenderName");
+		rtcParam.setCategory("Category");
+		rtcParam.setComponentType("DataFlowComponent");
+		rtcParam.setActivityType("PERIODIC");
+		rtcParam.setMaxInstance(1);
+
+		genParam.getRtcParams().add(rtcParam);
+		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
+		configset.add(new ConfigSetParam("int_param0","int","","0"));
+		configset.add(new ConfigSetParam("vector_param","Vector","", "1.0,2.0,3.0"));
+		rtcParam.getConfigParams().addAll(configset);
+
+		Generator generator = new Generator();
+		GenerateManager manager = new JavaGenerateManager();
+		generator.addGenerateManager(manager);
+		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
+
+		String targetDir = rootPath + "\\resource\\Java\\ConfigSet\\AIST6\\";
+		checkCode(result, targetDir, "ModuleNameComp.java");
+		checkCode(result, targetDir, "build_ModuleName.xml");
+		checkCode(result, targetDir, "ModuleName.java");
+		checkCode(result, targetDir, "ModuleNameImpl.java");
+		checkCode(result, targetDir, "README.ModuleName");
+	}
+
+	public void testAIST5() throws Exception{
 		rtcParam.setName("test");
 		rtcParam.setDescription("test component");
 		rtcParam.setVersion("1.0.0");
@@ -70,11 +102,6 @@ public class AISTTest extends TestBase {
 	}
 
 	public void testAIST4() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
 		rtcParam.setName("test");
 		rtcParam.setDescription("test component");
 		rtcParam.setVersion("1.0.0");
@@ -119,11 +146,6 @@ public class AISTTest extends TestBase {
 	}
 
 	public void testAIST3() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
 		rtcParam.setName("test");
 		rtcParam.setDescription("test component");
 		rtcParam.setVersion("1.0.0");
@@ -176,11 +198,6 @@ public class AISTTest extends TestBase {
 	}
 	
 	public void testAIST2() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
 		rtcParam.setName("test");
 		rtcParam.setDescription("test component");
 		rtcParam.setVersion("1.0.0");
@@ -224,11 +241,6 @@ public class AISTTest extends TestBase {
 	}
 
 	public void testType() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
 		rtcParam.setName("test");
 		rtcParam.setDescription("test component");
 		rtcParam.setVersion("1.0.0");
@@ -265,11 +277,6 @@ public class AISTTest extends TestBase {
 	}
 
 	public void testServicePort() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
 		rtcParam.setName("test");
 		rtcParam.setDescription("test component");
 		rtcParam.setVersion("1.0.0");

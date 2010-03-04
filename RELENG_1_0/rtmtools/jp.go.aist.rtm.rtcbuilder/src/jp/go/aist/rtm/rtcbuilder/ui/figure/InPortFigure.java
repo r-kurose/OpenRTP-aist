@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.Color;
  */
 public class InPortFigure extends PortFigureBase {
 
+	@SuppressWarnings("unused")
 	private DataInPort inport;
 
 	public InPortFigure(DataInPort inport, int direction, Color backColor) {

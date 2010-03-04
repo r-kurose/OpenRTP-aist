@@ -17,6 +17,7 @@ import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.specification;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.IDLParamConverter;
 import jp.go.aist.rtm.rtcbuilder.generator.PreProcessor;
+import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
@@ -32,7 +33,10 @@ import jp.go.aist.rtm.rtcbuilder.manager.CXXGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.CXXWinGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.CommonGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
+import jp.go.aist.rtm.rtcbuilder.ui.editors.IMessageConstants;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
+import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
+import jp.go.aist.rtm.rtcbuilder.util.ValidationUtil;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -118,7 +122,6 @@ public class Generator {
 					serviceClassParamList.add(serviceClassParam);
 				}
 			}
-	
 			rtcParam.getServiceClassParams().clear();
 	
 			for( ServiceClassParam param : serviceClassParamList ) {
@@ -150,38 +153,62 @@ public class Generator {
 		if( rtcParam.getOutputProject() == null ) {
 			throw new RuntimeException(IRTCBMessageConstants.VALIDATE_ERROR_OUTPUTPROJECT);
 		}
-		if( rtcParam.getName() == null ) {
+		/////Module
+		//Name
+		if( rtcParam.getName() == null || rtcParam.getName().length()==0 ) {
 			throw new RuntimeException(IRTCBMessageConstants.VALIDATE_ERROR_COMPONENTNAME);
 		}
-
+		if( !StringUtil.checkDigitAlphabet(rtcParam.getName()) ) {
+			throw new RuntimeException(IMessageConstants.BASIC_VALIDATE_NAME2);
+		}
+		//Category
+		if( rtcParam.getCategory()==null || rtcParam.getCategory().length() == 0) {
+			throw new RuntimeException(IMessageConstants.BASIC_VALIDATE_CATEGORY);
+		}
+		/////DataPort
 		List<String> portNames = new ArrayList<String>();
 		for( DataPortParam inport : rtcParam.getInports() ) {
+			String result = ValidationUtil.validateDataPort(inport);
+			if( result!=null ) 	throw new RuntimeException(result + " : " + rtcParam.getName());
 			if (portNames.contains(inport.getName()))
 				throw new RuntimeException(IRTCBMessageConstants.VALIDATE_ERROR_PORTSAMENAME + rtcParam.getName());
 			portNames.add(inport.getName());
 		}
 		for (DataPortParam outport : rtcParam.getOutports()) {
+			String result = ValidationUtil.validateDataPort(outport);
+			if( result!=null ) 	throw new RuntimeException(result + " : " + rtcParam.getName());
 			if( portNames.contains(outport.getName()) )
 				throw new RuntimeException(IRTCBMessageConstants.VALIDATE_ERROR_PORTSAMENAME + rtcParam.getName());
 			portNames.add(outport.getName());
 		}
-
+		/////Service Port
 		List<String> servicePortNames = new ArrayList<String>();
 		for( ServicePortParam servicePort : rtcParam.getServicePorts() ) {
+			String result = ValidationUtil.validateServicePort(servicePort);
+			if( result!=null ) 	throw new RuntimeException(result + " : " + rtcParam.getName());
 			if( servicePortNames.contains(servicePort.getName()) )
-				throw new RuntimeException(
-						IRTCBMessageConstants.VALIDATE_ERROR_INTERFACESAMENAME + rtcParam.getName());
+				throw new RuntimeException(IRTCBMessageConstants.VALIDATE_ERROR_INTERFACESAMENAME + rtcParam.getName());
 			servicePortNames.add(servicePort.getName());
 		}
-
+		/////Service Interface
 		List<String> serviceInterfaceNames = new ArrayList<String>();
 		for( ServicePortParam servicePort : rtcParam.getServicePorts() ) {
 			for( ServicePortInterfaceParam serviceInterface : servicePort.getServicePortInterfaces() ) {
+				String result = ValidationUtil.validateServiceInterface(serviceInterface);
+				if( result!=null ) 	throw new RuntimeException(result + " : " + rtcParam.getName());
 				if (serviceInterfaceNames.contains(serviceInterface.getName()))
-					throw new RuntimeException(
-							IRTCBMessageConstants.VALIDATE_ERROR_INTERFACESAMENAME + rtcParam.getName());
+					throw new RuntimeException(IRTCBMessageConstants.VALIDATE_ERROR_INTERFACESAMENAME + rtcParam.getName());
 				serviceInterfaceNames.add(serviceInterface.getName());
 			}
+		}
+		/////ConfigurationSet
+		List<String> configNames = new ArrayList<String>();
+		for( ConfigSetParam config : rtcParam.getConfigParams() ) {
+			String result = ValidationUtil.validateConfigurationSet(config);
+			if( result!=null ) 	throw new RuntimeException(result + " : " + rtcParam.getName());
+			if (configNames.contains(config.getName()))
+				throw new RuntimeException(IMessageConstants.CONFIGURATION_VALIDATE_DUPLICATE + rtcParam.getName());
+			configNames.add(config.getName());
 		}
 	}
 
@@ -230,15 +257,16 @@ public class Generator {
 
 		for (int intIdx = 0; intIdx < IDLPathes.size(); intIdx++) {
 			ServiceClassParam sv = IDLPathes.get(intIdx);
-			if (sv == null) {
-				continue;
-			}
-			String idlContent = FileUtil.readFile(sv.getName());
-			if (idlContent == null) {
-				continue;
-			}
+			if (sv == null) continue;
 			List<String> incs = new ArrayList<String>();
-			String idl = PreProcessor.parse(idlContent, getIncludeIDLDic(sv.getIdlPath()), incs);
+			String idl = null;
+			try {
+				String idlContent = FileUtil.readFile(sv.getName());
+				if (idlContent == null) continue;
+				idl = PreProcessor.parse(idlContent, getIncludeIDLDic(sv.getIdlPath()), incs);
+			} catch (IOException e) {
+				continue;
+			}
 			IDLParser parser = new IDLParser(new StringReader(idl));
 
 			specification spec = parser.specification();
@@ -413,6 +441,7 @@ public class Generator {
 
 		if (isOutput) {
 			IFile outputFile = outputProject.getFile(generatedResult.getName());
+			//TODO ŠK‘w‚ª[‚¢ƒpƒX‚Ö‚Ì‘Î‰ž‚Í–¢
 			IPath relPath = outputFile.getProjectRelativePath();
 			if( relPath.segmentCount() > 1 ) {
 				IPath outPath = relPath.removeLastSegments(1);
@@ -425,6 +454,7 @@ public class Generator {
 					}
 				}
 			}
+			//TODO
 			try {
 				outputFile.create(new ByteArrayInputStream(generatedResult.getCode().getBytes("UTF-8")), false, null);
 			} catch (CoreException e) {

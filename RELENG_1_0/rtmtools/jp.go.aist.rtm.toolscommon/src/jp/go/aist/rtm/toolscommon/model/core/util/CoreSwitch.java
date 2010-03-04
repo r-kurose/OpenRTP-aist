@@ -30,7 +30,7 @@ import org.eclipse.emf.ecore.EObject;
  * @see jp.go.aist.rtm.toolscommon.model.core.CorePackage
  * @generated
  */
-public class CoreSwitch {
+public class CoreSwitch<T> {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -57,7 +57,7 @@ public class CoreSwitch {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	public Object doSwitch(EObject theEObject) {
+	public T doSwitch(EObject theEObject) {
 		return doSwitch(theEObject.eClass(), theEObject);
 	}
 
@@ -68,16 +68,16 @@ public class CoreSwitch {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected Object doSwitch(EClass theEClass, EObject theEObject) {
+	protected T doSwitch(EClass theEClass, EObject theEObject) {
 		if (theEClass.eContainer() == modelPackage) {
 			return doSwitch(theEClass.getClassifierID(), theEObject);
 		}
 		else {
-			List eSuperTypes = theEClass.getESuperTypes();
+			List<EClass> eSuperTypes = theEClass.getESuperTypes();
 			return
 				eSuperTypes.isEmpty() ?
 					defaultCase(theEObject) :
-					doSwitch((EClass)eSuperTypes.get(0), theEObject);
+					doSwitch(eSuperTypes.get(0), theEObject);
 		}
 	}
 
@@ -88,11 +88,11 @@ public class CoreSwitch {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected Object doSwitch(int classifierID, EObject theEObject) {
+	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
 			case CorePackage.CORBA_WRAPPER_OBJECT: {
 				CorbaWrapperObject corbaWrapperObject = (CorbaWrapperObject)theEObject;
-				Object result = caseCorbaWrapperObject(corbaWrapperObject);
+				T result = caseCorbaWrapperObject(corbaWrapperObject);
 				if (result == null) result = caseWrapperObject(corbaWrapperObject);
 				if (result == null) result = caseModelElement(corbaWrapperObject);
 				if (result == null) result = caseLocalObject(corbaWrapperObject);
@@ -102,14 +102,14 @@ public class CoreSwitch {
 			}
 			case CorePackage.MODEL_ELEMENT: {
 				ModelElement modelElement = (ModelElement)theEObject;
-				Object result = caseModelElement(modelElement);
+				T result = caseModelElement(modelElement);
 				if (result == null) result = caseIAdaptable(modelElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case CorePackage.WRAPPER_OBJECT: {
 				WrapperObject wrapperObject = (WrapperObject)theEObject;
-				Object result = caseWrapperObject(wrapperObject);
+				T result = caseWrapperObject(wrapperObject);
 				if (result == null) result = caseModelElement(wrapperObject);
 				if (result == null) result = caseLocalObject(wrapperObject);
 				if (result == null) result = caseIAdaptable(wrapperObject);
@@ -121,81 +121,81 @@ public class CoreSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Corba Wrapper Object</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Corba Wrapper Object</em>'.
 	 * <!-- begin-user-doc --> This implementation returns null; returning a
 	 * non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Corba Wrapper Object</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Corba Wrapper Object</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCorbaWrapperObject(CorbaWrapperObject object) {
+	public T caseCorbaWrapperObject(CorbaWrapperObject object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Model Element</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Model Element</em>'.
 	 * <!-- begin-user-doc --> This implementation returns null; returning a
 	 * non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Model Element</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Model Element</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseModelElement(ModelElement object) {
+	public T caseModelElement(ModelElement object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>IAdaptable</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>IAdaptable</em>'.
 	 * <!-- begin-user-doc --> This implementation returns null; returning a
 	 * non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>IAdaptable</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>IAdaptable</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseIAdaptable(IAdaptable object) {
+	public T caseIAdaptable(IAdaptable object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Local Object</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Local Object</em>'.
 	 * <!-- begin-user-doc --> This implementation returns null; returning a
 	 * non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Local Object</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Local Object</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseLocalObject(LocalObject object) {
+	public T caseLocalObject(LocalObject object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Wrapper Object</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Wrapper Object</em>'.
 	 * <!-- begin-user-doc --> This implementation returns null; returning a
 	 * non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Wrapper Object</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Wrapper Object</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseWrapperObject(WrapperObject object) {
+	public T caseWrapperObject(WrapperObject object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc --> This implementation returns null; returning a
 	 * non-null result will terminate the switch, but this is the last case
 	 * anyway. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
-	public Object defaultCase(EObject object) {
+	public T defaultCase(EObject object) {
 		return null;
 	}
 

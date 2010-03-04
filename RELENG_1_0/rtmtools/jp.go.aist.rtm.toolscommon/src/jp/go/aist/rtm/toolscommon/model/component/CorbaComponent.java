@@ -11,6 +11,7 @@ import jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject;
 import org.eclipse.emf.common.util.EList;
 
 import RTC.ComponentProfile;
+import RTC.ExecutionContext;
 import RTC.RTObject;
 import RTC.ReturnCode_t;
 import _SDOPackage.Configuration;
@@ -167,10 +168,10 @@ public interface CorbaComponent extends Component, CorbaWrapperObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>RTC Execution Context</em>' attribute list.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getCorbaComponent_RTCExecutionContext()
-	 * @model type="RTC.ExecutionContext" default="" dataType="jp.go.aist.rtm.toolscommon.model.component.RTCExecutionContext" transient="true"
+	 * @model default="" dataType="jp.go.aist.rtm.toolscommon.model.component.RTCExecutionContext" transient="true"
 	 * @generated
 	 */
-	EList getRTCExecutionContext();
+	EList<ExecutionContext> getRTCExecutionContext();
 
 	/**
 	 * Returns the value of the '<em><b>SDO Organization</b></em>' attribute.

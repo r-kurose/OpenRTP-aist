@@ -40,9 +40,6 @@
 			class="jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor"
 			id="jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor">
 		</editor>
-	</extension>
-	<extension
-		point="org.eclipse.ui.editors">
 		<editor
 			name="%Offline_System_Editor"
 			contributorClass="jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditorContributor"
@@ -347,6 +344,52 @@
 	</extension>
 
 	<extension
+		point="org.eclipse.ui.commands">
+		<category
+			id="jp.go.aist.rtm.systemeditor.command.category"
+			name="%RT_System_Editor">
+		</category>
+		<command
+			categoryId="jp.go.aist.rtm.systemeditor.command.category"
+			id="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Activate"
+			name="%Activate">
+		</command>
+		<command
+			categoryId="jp.go.aist.rtm.systemeditor.command.category"
+			id="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Deactivate"
+			name="%Deactivate">
+		</command>
+	</extension>
+
+	<extension
+		point="org.eclipse.ui.bindings">
+		<key
+			commandId="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Activate"
+			contextId="org.eclipse.ui.contexts.window"
+			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+			sequence="M1+M3+A">
+		</key>
+		<key
+			commandId="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Deactivate"
+			contextId="org.eclipse.ui.contexts.window"
+			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+			sequence="M1+M3+D">
+		</key>
+	</extension>
+
+	<extension
+		point="org.eclipse.ui.handlers">
+		<handler
+			class="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionHandler"
+			commandId="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Activate">
+		</handler>
+		<handler
+			class="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionHandler"
+			commandId="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Deactivate">
+		</handler>
+	</extension>
+
+	<extension
 		point="org.eclipse.ui.perspectiveExtensions">
 		<perspectiveExtension
 			targetID="jp.go.aist.rtm.systemeditor.ui.perspective.RtcLinkPerspective">
@@ -417,11 +460,18 @@
 			name="%DisplayColor"
 			category="jp.go.aist.rtm.systemeditor.ui.preference.MainPreferencePage">
 		</page>
-  <page
-        category="jp.go.aist.rtm.systemeditor.ui.preference.MainPreferencePage"
-        class="jp.go.aist.rtm.systemeditor.ui.preference.OfflineEditorPreferencePage"
-        id="jp.go.aist.rtm.systemeditor.ui.preference.OfflineEditorPreferencePage"
-        name="%OfflineEditor"/>
+		<page
+			id="jp.go.aist.rtm.systemeditor.ui.preference.OfflineEditorPreferencePage"
+			class="jp.go.aist.rtm.systemeditor.ui.preference.OfflineEditorPreferencePage"
+			name="%OfflineEditor"
+			category="jp.go.aist.rtm.systemeditor.ui.preference.MainPreferencePage">
+		</page>
+		<page
+			id="jp.go.aist.rtm.systemeditor.ui.preference.OnlineEditorPreferencePage"
+			class="jp.go.aist.rtm.systemeditor.ui.preference.OnlineEditorPreferencePage"
+			name="%OnlineEditor"
+			category="jp.go.aist.rtm.systemeditor.ui.preference.MainPreferencePage">
+		</page>
 	</extension>
 	
    <extension 
@@ -435,6 +485,6 @@
 		<view class="jp.go.aist.rtm.toolscommon.model.component.Component" view_id="jp.go.aist.rtm.systemeditor.ui.views.compositecomponentview.CompositeComponentView" kind="composite"/>
 		<view class="jp.go.aist.rtm.toolscommon.model.manager.RTCManager" view_id="jp.go.aist.rtm.systemeditor.ui.views.managercontrolview.ManagerControlView"/>
 	</extension>
-   
+
 </plugin>
 

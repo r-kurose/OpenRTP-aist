@@ -3,6 +3,7 @@ package jp.go.aist.rtm.systemeditor.ui.action;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 
+import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
 import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.util.TimeoutWrappedJob;
 import jp.go.aist.rtm.systemeditor.ui.util.TimeoutWrapper;
@@ -71,6 +72,9 @@ public class IComponentActionDelegate implements IObjectActionDelegate {
 	public static final String EXIT_ACTION_ID = IComponentActionDelegate.class
 			.getName()
 			+ ".Exit"; //$NON-NLS-1$
+
+	static final String TITLE_CONFIRM_DIALOG = Messages
+			.getString("IComponentActionDelegate.15");
 
 	private ISelection selection;
 
@@ -178,10 +182,15 @@ public class IComponentActionDelegate implements IObjectActionDelegate {
 				throw new RuntimeException(Messages.getString("IComponentActionDelegate.14")); //$NON-NLS-1$
 			}
 
-			boolean isOK = MessageDialog.openConfirm(targetPart.getSite()
-					.getShell(), Messages.getString("IComponentActionDelegate.15"), command.getConfirmMessage()); //$NON-NLS-1$
-			if (isOK == false) {
-				return;
+			if (SystemEditorPreferenceManager.getInstance()
+					.isConfirmComponentAction()) {
+				// アクションの実行確認が有効な場合
+				boolean isOK = MessageDialog.openConfirm(targetPart.getSite()
+						.getShell(), TITLE_CONFIRM_DIALOG, command
+						.getConfirmMessage());
+				if (!isOK) {
+					return;
+				}
 			}
 
 			final MessageAndCommand finalCommand = command;

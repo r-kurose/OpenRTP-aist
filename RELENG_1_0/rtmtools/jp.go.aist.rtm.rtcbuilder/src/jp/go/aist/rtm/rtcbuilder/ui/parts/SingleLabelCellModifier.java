@@ -1,52 +1,44 @@
 package jp.go.aist.rtm.rtcbuilder.ui.parts;
 
-import org.eclipse.jface.viewers.ICellModifier;
-import org.eclipse.jface.viewers.StructuredViewer;
-import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.ColumnViewer;
+import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TextCellEditor;
 
-public class SingleLabelCellModifier  implements ICellModifier {
+public class SingleLabelCellModifier extends EditingSupport {
 
-	private StructuredViewer viewer;
+	private CellEditor editor;
 
-	public SingleLabelCellModifier(StructuredViewer viewer) {
-		this.viewer = viewer;
+	public SingleLabelCellModifier(ColumnViewer viewer) {
+		super(viewer);
+		editor = new TextCellEditor(((TableViewer) viewer).getTable());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean canModify(Object element, String property) {
+	@Override
+	protected boolean canEdit(Object element) {
 		return true;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Object getValue(Object element, String property) {
-		if (element instanceof SingleLabelItem == false) {
-			return null;
-		}
-
+	@Override
+	protected CellEditor getCellEditor(Object element) {
+		return editor;
+	}
+	
+	@Override
+	public Object getValue(Object element) {
+		if (element instanceof SingleLabelItem == false) return null;
 		SingleLabelItem selectedItem = (SingleLabelItem) element;
-
 		String result = selectedItem.getLabeltext();
-
 		return result;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void modify(Object element, String property, Object value) {
-		if (element instanceof TableItem == false) {
-			return;
-		}
-
-		SingleLabelItem selectedItem = (SingleLabelItem) ((TableItem) element)
-				.getData();
-		
+	@Override
+	protected void setValue(Object element, Object value) {
+		if (element instanceof SingleLabelItem == false) return;
+		SingleLabelItem selectedItem = (SingleLabelItem) element;		
 		selectedItem.setLabeltext((String) value);
 
-		viewer.refresh();
+		getViewer().update(element, null);
 	}
 }

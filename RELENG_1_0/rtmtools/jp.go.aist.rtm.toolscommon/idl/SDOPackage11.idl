@@ -27,7 +27,6 @@
 //
 //SDOPackage.idl
 
-
 #ifndef    _SDO_PACKAGE_IDL_
 #define    _SDO_PACKAGE_IDL_
 
@@ -59,7 +58,7 @@ module SDOPackage
   typedef sequence<SDO>          SDOList;
   typedef sequence<Organization> OrganizationList;
   typedef string                 UniqueIdentifier;
-  
+
   struct NameValue
   {
     string name;
@@ -113,20 +112,20 @@ module SDOPackage
 
   union AllowedValues switch (ComplexDataType)
   {
-  case ENUMERATION: EnumerationType allowed_enum;
-  case INTERVAL:    IntervalType    allowed_interval;
-  case RANGE:       RangeType       allowed_range;
+  case ENUMERATION:    EnumerationType allowed_enum;
+  case INTERVAL:       IntervalType allowed_interval;
+  case RANGE:          RangeType   allowed_range;
   };
 
   struct Parameter
   {
-    string        name;
+    string         name;
 #ifndef ORBIT2_IDL
-    CORBA::TypeCode      type;
+    CORBA::TypeCode       type;
 #else
-    TypeCode      type;
+    TypeCode       type;
 #endif
-    AllowedValues allowed_values;
+    AllowedValues  allowed_values;
   };
 
   typedef sequence<Parameter> ParameterList;
@@ -134,7 +133,6 @@ module SDOPackage
   {
     NVList properties;
   };
-
   enum DependencyType
   {
     OWN,
@@ -169,20 +167,19 @@ module SDOPackage
 
   typedef sequence<ConfigurationSet> ConfigurationSetList;
 
+
   /** ------- Exceptions -------*/
-  exception NotAvailable            exception_body;
-  exception InterfaceNotImplemented exception_body;
-  exception InvalidParameter        exception_body;
-  exception InternalError           exception_body;
-
-
+  exception NotAvailable             exception_body;
+  exception InterfaceNotImplemented  exception_body;
+  exception InvalidParameter         exception_body;
+  exception InternalError            exception_body;
+  
   /** ------- Interfaces -------*/
   interface SDOSystemElement
   {
     OrganizationList get_owned_organizations()
       raises (NotAvailable, InternalError);
   };
-
   interface SDO : SDOSystemElement
   {
     UniqueIdentifier get_sdo_id()
@@ -208,7 +205,8 @@ module SDOPackage
     any get_status (in string name)
       raises (InvalidParameter, NotAvailable, InternalError);
   };
-  
+
+
   interface Configuration
   {
     boolean set_device_profile (in DeviceProfile dProfile)
@@ -245,7 +243,8 @@ module SDOPackage
     boolean activate_configuration_set (in UniqueIdentifier config_id)
       raises (InvalidParameter, NotAvailable, InternalError);
   };
-  
+
+
 #ifdef USE_MONITORING
   interface Monitoring : CosNotifyComm::StructuredPushConsumer,
     CosNotifyComm::StructuredPushSupplier
@@ -260,7 +259,7 @@ module SDOPackage
 #else
   interface Monitoring {};
 #endif
-  
+
   interface SDOService {};
   
   interface Organization

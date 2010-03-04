@@ -96,6 +96,7 @@ public class CorbaExecutionContextImpl extends ExecutionContextImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return ComponentPackage.Literals.CORBA_EXECUTION_CONTEXT;
 	}
@@ -149,6 +150,7 @@ public class CorbaExecutionContextImpl extends ExecutionContextImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ComponentPackage.CORBA_EXECUTION_CONTEXT__CORBA_OBJECT:
@@ -164,6 +166,7 @@ public class CorbaExecutionContextImpl extends ExecutionContextImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ComponentPackage.CORBA_EXECUTION_CONTEXT__CORBA_OBJECT:
@@ -181,6 +184,7 @@ public class CorbaExecutionContextImpl extends ExecutionContextImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case ComponentPackage.CORBA_EXECUTION_CONTEXT__CORBA_OBJECT:
@@ -198,6 +202,7 @@ public class CorbaExecutionContextImpl extends ExecutionContextImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case ComponentPackage.CORBA_EXECUTION_CONTEXT__CORBA_OBJECT:
@@ -213,7 +218,8 @@ public class CorbaExecutionContextImpl extends ExecutionContextImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int eBaseStructuralFeatureID(int derivedFeatureID, Class baseClass) {
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == CorbaWrapperObject.class) {
 			switch (derivedFeatureID) {
 				case ComponentPackage.CORBA_EXECUTION_CONTEXT__CORBA_OBJECT: return CorePackage.CORBA_WRAPPER_OBJECT__CORBA_OBJECT;
@@ -228,7 +234,8 @@ public class CorbaExecutionContextImpl extends ExecutionContextImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int eDerivedStructuralFeatureID(int baseFeatureID, Class baseClass) {
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == CorbaWrapperObject.class) {
 			switch (baseFeatureID) {
 				case CorePackage.CORBA_WRAPPER_OBJECT__CORBA_OBJECT: return ComponentPackage.CORBA_EXECUTION_CONTEXT__CORBA_OBJECT;
@@ -243,6 +250,7 @@ public class CorbaExecutionContextImpl extends ExecutionContextImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 

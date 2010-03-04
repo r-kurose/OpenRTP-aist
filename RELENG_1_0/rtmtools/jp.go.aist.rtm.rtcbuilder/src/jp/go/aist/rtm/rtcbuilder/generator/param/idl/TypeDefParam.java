@@ -6,6 +6,8 @@ import java.io.Serializable;
  * •Ï”’è‹`‚ğ‚ ‚ç‚í‚·ƒNƒ‰ƒX
  */
 public class TypeDefParam implements Serializable {
+	private static final long serialVersionUID = -5166319784409856148L;
+	
 	private String originalDef;
 	private String targetDef;
 	private String scopedName;

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: jp.go.aist.rtm.toolscommon.profiles;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.v20100224
 Bundle-ClassPath: .,
  schema/,
  lib/jyaml-1.3.jar
@@ -14,4 +14,4 @@ Export-Package: jp.go.aist.rtm.toolscommon.profiles.util,
  org.openrtp.namespaces.rts.version01,
  org.openrtp.namespaces.rts.version02
 Require-Bundle: org.eclipse.pde.junit.runtime
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy

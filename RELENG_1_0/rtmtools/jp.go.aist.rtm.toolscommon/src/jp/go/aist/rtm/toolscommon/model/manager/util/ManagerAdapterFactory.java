@@ -57,6 +57,7 @@ public class ManagerAdapterFactory extends AdapterFactoryImpl {
 	 * @return whether this factory is applicable for the type of the object.
 	 * @generated
 	 */
+	@Override
 	public boolean isFactoryForType(Object object) {
 		if (object == modelPackage) {
 			return true;
@@ -68,32 +69,39 @@ public class ManagerAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * The switch the delegates to the <code>createXXX</code> methods.
+	 * The switch that delegates to the <code>createXXX</code> methods.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ManagerSwitch modelSwitch =
-		new ManagerSwitch() {
-			public Object caseRTCManager(RTCManager object) {
+	protected ManagerSwitch<Adapter> modelSwitch =
+		new ManagerSwitch<Adapter>() {
+			@Override
+			public Adapter caseRTCManager(RTCManager object) {
 				return createRTCManagerAdapter();
 			}
-			public Object caseIAdaptable(IAdaptable object) {
+			@Override
+			public Adapter caseIAdaptable(IAdaptable object) {
 				return createIAdaptableAdapter();
 			}
-			public Object caseModelElement(ModelElement object) {
+			@Override
+			public Adapter caseModelElement(ModelElement object) {
 				return createModelElementAdapter();
 			}
-			public Object caseLocalObject(LocalObject object) {
+			@Override
+			public Adapter caseLocalObject(LocalObject object) {
 				return createLocalObjectAdapter();
 			}
-			public Object caseWrapperObject(WrapperObject object) {
+			@Override
+			public Adapter caseWrapperObject(WrapperObject object) {
 				return createWrapperObjectAdapter();
 			}
-			public Object caseCorbaWrapperObject(CorbaWrapperObject object) {
+			@Override
+			public Adapter caseCorbaWrapperObject(CorbaWrapperObject object) {
 				return createCorbaWrapperObjectAdapter();
 			}
-			public Object defaultCase(EObject object) {
+			@Override
+			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
 		};
@@ -106,8 +114,9 @@ public class ManagerAdapterFactory extends AdapterFactoryImpl {
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
 	 */
+	@Override
 	public Adapter createAdapter(Notifier target) {
-		return (Adapter)modelSwitch.doSwitch((EObject)target);
+		return modelSwitch.doSwitch((EObject)target);
 	}
 
 

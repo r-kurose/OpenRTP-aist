@@ -121,7 +121,7 @@ public class CorbaTest {
 		m.synchronizeManually();
 		String result = m.getInstanceNameL() + "\n" + "  components="
 				+ m.getComponentInstanceNamesR() + "\n" + "  loadable_modules="
-				+ m.getLoadableModuleFileNameR() + "\n" + "  loaded_modules="
+				+ m.getLoadableModuleFileNamesR() + "\n" + "  loaded_modules="
 				+ m.getLoadedModuleFileNamesR() + "\n";
 		System.out.println(result);
 		while (true) {
@@ -134,7 +134,7 @@ public class CorbaTest {
 			if (in.equals("1")) {
 				System.out.println(m.getComponentInstanceNamesR());
 			} else if (in.equals("2")) {
-				System.out.println(m.getLoadableModuleFileNameR());
+				System.out.println(m.getLoadableModuleFileNamesR());
 			} else if (in.equals("3")) {
 				System.out.println(m.getLoadedModuleFileNamesR());
 			} else if (in.equals("4")) {

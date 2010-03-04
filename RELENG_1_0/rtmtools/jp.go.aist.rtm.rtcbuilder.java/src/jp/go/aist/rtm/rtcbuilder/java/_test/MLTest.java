@@ -14,13 +14,12 @@ import jp.go.aist.rtm.rtcbuilder.java.manager.JavaGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 
 public class MLTest extends TestBase {
+	private RtcParam rtcParam;
+	private GeneratorParam genParam;
 
 	protected void setUp() throws Exception {
-	}
-
-	public void testML3() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
+		genParam = new GeneratorParam();
+		rtcParam = new RtcParam(genParam, true);
 		rtcParam.setOutputProject(rootPath + "\\resource\\work");
 		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
 		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
@@ -33,7 +32,9 @@ public class MLTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(1);
 		genParam.getRtcParams().add(rtcParam);
+	}
 
+	public void testML3() throws Exception{
 		ServicePortParam service1 = new ServicePortParam("portName",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "name", "", "", 
@@ -51,31 +52,10 @@ public class MLTest extends TestBase {
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
 		String resourceDir = rootPath +  "\\resource\\Java\\ML\\ML3\\";
-
-		checkCode(result, resourceDir, "ModuleNameComp.java");
-		checkCode(result, resourceDir, "build_ModuleName.xml");
-		checkCode(result, resourceDir, "ModuleName.java");
-		checkCode(result, resourceDir, "ModuleNameImpl.java");
-		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
-		checkCode(result, resourceDir, "README.ModuleName");
+		checkResults(result, resourceDir);
 	}
 
 	public void testML2() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
-		rtcParam.setName("ModuleName");
-		rtcParam.setDescription("ModuleDescription");
-		rtcParam.setVersion("1.0.0");
-		rtcParam.setVender("VenderName");
-		rtcParam.setCategory("Category");
-		rtcParam.setComponentType("DataFlowComponent");
-		rtcParam.setActivityType("PERIODIC");
-		rtcParam.setMaxInstance(1);
-		genParam.getRtcParams().add(rtcParam);
-
 		ServicePortParam service1 = new ServicePortParam("portName",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "name", "", "", 
@@ -93,31 +73,10 @@ public class MLTest extends TestBase {
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
 		String resourceDir = rootPath +  "\\resource\\Java\\ML\\ML2\\";
-
-		checkCode(result, resourceDir, "ModuleNameComp.java");
-		checkCode(result, resourceDir, "build_ModuleName.xml");
-		checkCode(result, resourceDir, "ModuleName.java");
-		checkCode(result, resourceDir, "ModuleNameImpl.java");
-		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
-		checkCode(result, resourceDir, "README.ModuleName");
+		checkResults(result, resourceDir);
 	}
 
 	public void testML1() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
-		rtcParam.setName("ModuleName");
-		rtcParam.setDescription("ModuleDescription");
-		rtcParam.setVersion("1.0.0");
-		rtcParam.setVender("VenderName");
-		rtcParam.setCategory("Category");
-		rtcParam.setComponentType("DataFlowComponent");
-		rtcParam.setActivityType("PERIODIC");
-		rtcParam.setMaxInstance(1);
-		genParam.getRtcParams().add(rtcParam);
-
 		ServicePortParam service1 = new ServicePortParam("portName",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "name", "", "", 
@@ -135,7 +94,10 @@ public class MLTest extends TestBase {
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
 		String resourceDir = rootPath +  "\\resource\\Java\\ML\\ML1\\";
+		checkResults(result, resourceDir);
+	}
 
+	private void checkResults(List<GeneratedResult> result, String resourceDir) {
 		checkCode(result, resourceDir, "ModuleNameComp.java");
 		checkCode(result, resourceDir, "build_ModuleName.xml");
 		checkCode(result, resourceDir, "ModuleName.java");

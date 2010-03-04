@@ -2,7 +2,7 @@ package jp.go.aist.rtm.rtcbuilder.python.template;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython;
-import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
+import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 
 /**
  * テンプレートを出力する際に使用されるヘルパー Python用

@@ -70,7 +70,6 @@ public class LuckTest extends TestBase {
 			generator.generateTemplateCode(genParam);
 			fail();
 		} catch ( Exception ex ) {
-			assertEquals("'' is not found in IDL", ex.getMessage());
 		}
 	}
 
@@ -120,16 +119,11 @@ public class LuckTest extends TestBase {
 		Generator generator = new Generator();
 		GenerateManager manager = new PythonGenerateManager();
 		generator.addGenerateManager(manager);
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
-
-		String resourceDir = rootPath +  "\\resource\\Python\\Exception\\ConNoName\\";
-
-		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
-		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "README.foo");
-		checkCode(result, resourceDir, "MyService_idl.py");
+		try {
+			generator.generateTemplateCode(genParam);
+			fail();
+		} catch ( Exception ex ) {
+		}
 	}
 
 	public void testConsumerNoPortName() throws Exception{
@@ -178,16 +172,11 @@ public class LuckTest extends TestBase {
 		Generator generator = new Generator();
 		GenerateManager manager = new PythonGenerateManager();
 		generator.addGenerateManager(manager);
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
-
-		String resourceDir = rootPath +  "\\resource\\Python\\Exception\\ConNoPortName\\";
-
-		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
-		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "README.foo");
-		checkCode(result, resourceDir, "MyService_idl.py");
+		try {
+			generator.generateTemplateCode(genParam);
+			fail();
+		} catch ( Exception ex ) {
+		}
 	}
 
 	public void testProviderNoType() throws Exception{
@@ -232,7 +221,6 @@ public class LuckTest extends TestBase {
 			generator.generateTemplateCode(genParam);
 			fail();
 		} catch ( Exception ex ) {
-			assertEquals("'' is not found in IDL", ex.getMessage());
 		}
 
 	}
@@ -274,16 +262,11 @@ public class LuckTest extends TestBase {
 		Generator generator = new Generator();
 		GenerateManager manager = new PythonGenerateManager();
 		generator.addGenerateManager(manager);
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
-
-		String resourceDir = rootPath +  "\\resource\\Python\\Exception\\ProNoName\\";
-
-		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
-		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "README.foo");
-		checkCode(result, resourceDir, "MyService_idl.py");
+		try {
+			generator.generateTemplateCode(genParam);
+			fail();
+		} catch ( Exception ex ) {
+		}
 	}
 
 	public void testProviderNoPortName() throws Exception{
@@ -323,16 +306,11 @@ public class LuckTest extends TestBase {
 		Generator generator = new Generator();
 		GenerateManager manager = new PythonGenerateManager();
 		generator.addGenerateManager(manager);
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
-
-		String resourceDir = rootPath +  "\\resource\\Python\\Exception\\ProNoPortName\\";
-
-		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
-		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "README.foo");
-		checkCode(result, resourceDir, "MyService_idl.py");
+		try {
+			generator.generateTemplateCode(genParam);
+			fail();
+		} catch ( Exception ex ) {
+		}
 	}
 
 	public void testOutPortNoType() throws Exception{
@@ -362,12 +340,11 @@ public class LuckTest extends TestBase {
 		Generator generator = new Generator();
 		GenerateManager manager = new PythonGenerateManager();
 		generator.addGenerateManager(manager);
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
-
-		String resourceDir = rootPath +  "\\resource\\Python\\Exception\\OutPortNoType\\";
-
-		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			generator.generateTemplateCode(genParam);
+			fail();
+		} catch ( Exception ex ) {
+		}
 	}
 
 	public void testOutPortNoName() throws Exception{
@@ -397,12 +374,11 @@ public class LuckTest extends TestBase {
 		Generator generator = new Generator();
 		GenerateManager manager = new PythonGenerateManager();
 		generator.addGenerateManager(manager);
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
-
-		String resourceDir = rootPath +  "\\resource\\Python\\Exception\\OutPortNoName\\";
-
-		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			generator.generateTemplateCode(genParam);
+			fail();
+		} catch ( Exception ex ) {
+		}
 	}
 
 	public void testInPortNoType() throws Exception{
@@ -428,12 +404,11 @@ public class LuckTest extends TestBase {
 		Generator generator = new Generator();
 		GenerateManager manager = new PythonGenerateManager();
 		generator.addGenerateManager(manager);
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
-
-		String resourceDir = rootPath +  "\\resource\\Python\\Exception\\InPortNoType\\";
-
-		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			generator.generateTemplateCode(genParam);
+			fail();
+		} catch ( Exception ex ) {
+		}
 	}
 
 	public void testInPortNoName() throws Exception{
@@ -459,12 +434,11 @@ public class LuckTest extends TestBase {
 		Generator generator = new Generator();
 		GenerateManager manager = new PythonGenerateManager();
 		generator.addGenerateManager(manager);
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
-
-		String resourceDir = rootPath +  "\\resource\\Python\\Exception\\InPortNoName\\";
-
-		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			generator.generateTemplateCode(genParam);
+			fail();
+		} catch ( Exception ex ) {
+		}
 	}
 
 }

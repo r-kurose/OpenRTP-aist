@@ -11,7 +11,8 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
  * IDLファイルをあらわすクラス
  */
 public class IdlFileParam implements Serializable {
-
+	private static final long serialVersionUID = 5842336537244727703L;
+	
 	private String idlPath;
 	private List<ServiceClassParam> serviceClass = new ArrayList<ServiceClassParam>();
 	private RtcParam parent;

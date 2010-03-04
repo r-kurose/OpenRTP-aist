@@ -81,6 +81,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	//
 	private String outputProject = null;
 
+	@SuppressWarnings("unchecked")
 	private Map extentionData = new HashMap();
 
 	private List<IdlFileParam> providerIdlPathes = new ArrayList<IdlFileParam>();
@@ -490,6 +491,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		this.doc_reference = reference;
 	}
 
+	@SuppressWarnings("unchecked")
 	public String getLangageListArgString() {
 		StringBuffer result = new StringBuffer();
 		for (Iterator iter = langArgList.iterator(); iter.hasNext();) {
@@ -502,6 +504,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		return result.toString();
 	}
 
+	@SuppressWarnings("unchecked")
 	public static String getLangageListString(List langList) {
 		StringBuffer result = new StringBuffer();
 		for (Iterator iter = langList.iterator(); iter.hasNext();) {
@@ -523,6 +526,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		this.outputProject = outputDirectory;
 	}
 
+	@SuppressWarnings("unchecked")
 	public Map getExtentionData() {
 		return extentionData;
 	}
@@ -646,47 +650,56 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 
 		List<String> providerIdlStrings = new ArrayList<String>();
 		List<String> consumerIdlStrings = new ArrayList<String>();
+		List<String> idlPathes = new ArrayList<String>();
 		List<IdlFileParam> providerIdlParams = new ArrayList<IdlFileParam>();
 		List<IdlFileParam> consumerIdlParams = new ArrayList<IdlFileParam>();
 		List<String> originalConsumerIdlPathList = new ArrayList<String>();
+		
+		List<ServicePortInterfaceParam> serviceIFs = getServiceInterfaceList();
 
 		//IDLパス，IDLサーチパスの確認
-		for( ServicePortParam servicePort : this.getServicePorts() ) {
-			for( ServicePortInterfaceParam serviceInterface : servicePort.getServicePortInterfaces() ) {
-				if( serviceInterface.getDirection().equals(ServicePortInterfaceParam.INTERFACE_DIRECTION_PROVIDED)) {
-					if( !providerIdlStrings.contains(serviceInterface.getIdlFullPath()) ) {
-						providerIdlStrings.add(serviceInterface.getIdlFullPath());
-						providerIdlParams.add(new IdlFileParam(serviceInterface.getIdlFullPath(),this));
-					}
+		for( ServicePortInterfaceParam serviceInterface : serviceIFs ) {
+			if( serviceInterface.getDirection().equals(ServicePortInterfaceParam.INTERFACE_DIRECTION_PROVIDED)) {
+				if( !providerIdlStrings.contains(serviceInterface.getIdlFullPath()) ) {
+					idlPathes.add(serviceInterface.getIdlFullPath().trim());
+					providerIdlStrings.add(serviceInterface.getIdlFullPath());
+					providerIdlParams.add(new IdlFileParam(serviceInterface.getIdlFullPath(),this));
 				}
 			}
 		}
-		for( ServicePortParam servicePort : this.getServicePorts() ) {
-			for( ServicePortInterfaceParam serviceInterface : servicePort.getServicePortInterfaces() ) {
-				if( serviceInterface.getDirection().equals(ServicePortInterfaceParam.INTERFACE_DIRECTION_REQUIRED)) {
-					originalConsumerIdlPathList.add(serviceInterface.getIdlFullPath());
-					if( !providerIdlStrings.contains(serviceInterface.getIdlFullPath()) && 
-							!consumerIdlStrings.contains(serviceInterface.getIdlFullPath()) ) {
-						consumerIdlStrings.add(serviceInterface.getIdlFullPath());
-						consumerIdlParams.add(new IdlFileParam(serviceInterface.getIdlFullPath(),this));
-					}
+		for( ServicePortInterfaceParam serviceInterface : serviceIFs ) {
+			if( serviceInterface.getDirection().equals(ServicePortInterfaceParam.INTERFACE_DIRECTION_REQUIRED)) {
+				originalConsumerIdlPathList.add(serviceInterface.getIdlFullPath());
+				if( !idlPathes.contains(serviceInterface.getIdlFullPath().trim()) ) {
+					idlPathes.add(serviceInterface.getIdlFullPath().trim());
+					consumerIdlStrings.add(serviceInterface.getIdlFullPath());
+					consumerIdlParams.add(new IdlFileParam(serviceInterface.getIdlFullPath(),this));
 				}
 			}
 		}
-		for( ServicePortParam servicePort : this.getServicePorts() ) {
-			for( ServicePortInterfaceParam serviceInterface : servicePort.getServicePortInterfaces() ) {
-				if( serviceInterface.getIdlSearchPath()!=null && !serviceInterface.getIdlSearchPath().equals("") ){
-					for( IdlFileParam idlParam : providerIdlParams ) {
-						if( serviceInterface.getIdlFullPath().trim().equals(idlParam.getIdlPath().trim()) ) {
-							idlParam.getIdlSearchPathes().add(serviceInterface.getIdlSearchPath());
-							break;
-						}
+		/////
+		for( DataPortParam target : inports ) {
+			checkAndAddIDLPath(target.getType(), idlPathes, consumerIdlStrings, consumerIdlParams);
+		}
+		for( DataPortParam target : outports ) {
+			checkAndAddIDLPath(target.getType(), idlPathes, consumerIdlStrings, consumerIdlParams);
+		}
+		for( ConfigSetParam target : configParams ) {
+			checkAndAddIDLPath(target.getType(), idlPathes, consumerIdlStrings, consumerIdlParams);
+		}
+		/////
+		for( ServicePortInterfaceParam serviceInterface : serviceIFs ) {
+			if( serviceInterface.getIdlSearchPath()!=null && !serviceInterface.getIdlSearchPath().equals("") ){
+				for( IdlFileParam idlParam : providerIdlParams ) {
+					if( serviceInterface.getIdlFullPath().trim().equals(idlParam.getIdlPath().trim()) ) {
+						idlParam.getIdlSearchPathes().add(serviceInterface.getIdlSearchPath());
+						break;
 					}
-					for( IdlFileParam idlParam : consumerIdlParams ) {
-						if( serviceInterface.getIdlFullPath().trim().equals(idlParam.getIdlPath().trim()) ) {
-							idlParam.getIdlSearchPathes().add(serviceInterface.getIdlSearchPath());
-							break;
-						}
+				}
+				for( IdlFileParam idlParam : consumerIdlParams ) {
+					if( serviceInterface.getIdlFullPath().trim().equals(idlParam.getIdlPath().trim()) ) {
+						idlParam.getIdlSearchPathes().add(serviceInterface.getIdlSearchPath());
+						break;
 					}
 				}
 			}
@@ -711,6 +724,32 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		getLibraryPathes().clear();
 		getLibraryPathes().addAll(libraries);
 		// this.setLibraryPathes(libraries);
+	}
+
+	private void checkAndAddIDLPath(String targetType, List<String> idlPathes,
+			List<String> consumerIdlStrings, List<IdlFileParam> consumerIdlParams) {
+		for(DataTypeParam dataTypes : this.parent.getDataTypeParams()) {
+			if( !dataTypes.isAddition() ) continue;
+			if( dataTypes.getDefinedTypes().contains(targetType) ) {
+				String targetIDL = dataTypes.getFullPath();
+				if( !idlPathes.contains(targetIDL.trim()) ) {
+					if( targetIDL!=null) {
+						idlPathes.add(targetIDL.trim());
+						consumerIdlStrings.add(targetIDL);
+						consumerIdlParams.add(new IdlFileParam(targetIDL,this));
+					}
+				}
+				break;
+			}
+		}
+	}
+	
+	private List<ServicePortInterfaceParam> getServiceInterfaceList() {
+		List<ServicePortInterfaceParam> result = new ArrayList<ServicePortInterfaceParam>();
+		for( ServicePortParam servicePort : this.getServicePorts() ) {
+			result.addAll(servicePort.getServicePortInterfaces());
+		}
+		return result;
 	}
 	//
 	public String getRtmVersion() {

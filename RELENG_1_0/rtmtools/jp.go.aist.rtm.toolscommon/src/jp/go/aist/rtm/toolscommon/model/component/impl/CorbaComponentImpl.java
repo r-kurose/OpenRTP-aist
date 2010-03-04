@@ -9,6 +9,7 @@ package jp.go.aist.rtm.toolscommon.model.component.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -189,7 +190,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	 * @generated
 	 * @ordered
 	 */
-	protected EList rTCExecutionContext= null;
+	protected EList<ExecutionContext> rTCExecutionContext;
 
 	/**
 	 * The default value of the '{@link #getSDOOrganization() <em>SDO Organization</em>}' attribute.
@@ -245,6 +246,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return ComponentPackage.Literals.CORBA_COMPONENT;
 	}
@@ -531,6 +533,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ComponentPackage.CORBA_COMPONENT__CORBA_OBJECT:
@@ -558,6 +561,8 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+		@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ComponentPackage.CORBA_COMPONENT__CORBA_OBJECT:
@@ -577,7 +582,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 				return;
 			case ComponentPackage.CORBA_COMPONENT__RTC_EXECUTION_CONTEXT:
 				getRTCExecutionContext().clear();
-				getRTCExecutionContext().addAll((Collection)newValue);
+				getRTCExecutionContext().addAll((Collection<? extends ExecutionContext>)newValue);
 				return;
 			case ComponentPackage.CORBA_COMPONENT__SDO_ORGANIZATION:
 				setSDOOrganization((Organization)newValue);
@@ -594,6 +599,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case ComponentPackage.CORBA_COMPONENT__CORBA_OBJECT:
@@ -629,6 +635,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case ComponentPackage.CORBA_COMPONENT__CORBA_OBJECT:
@@ -656,7 +663,8 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int eBaseStructuralFeatureID(int derivedFeatureID, Class baseClass) {
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == CorbaWrapperObject.class) {
 			switch (derivedFeatureID) {
 				case ComponentPackage.CORBA_COMPONENT__CORBA_OBJECT: return CorePackage.CORBA_WRAPPER_OBJECT__CORBA_OBJECT;
@@ -671,7 +679,8 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int eDerivedStructuralFeatureID(int baseFeatureID, Class baseClass) {
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == CorbaWrapperObject.class) {
 			switch (baseFeatureID) {
 				case CorePackage.CORBA_WRAPPER_OBJECT__CORBA_OBJECT: return ComponentPackage.CORBA_COMPONENT__CORBA_OBJECT;
@@ -686,6 +695,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
@@ -832,7 +842,6 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		return false;
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean setComponentsR(List<Component> componentList) {
 		try {
@@ -1098,7 +1107,6 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 				}
 			}, new AttributeMapping[] {}, new ReferenceMapping[] {}	);
 
-	@SuppressWarnings("unchecked")
 	public void synchronizeLocalAttribute(EStructuralFeature reference) {
 		
 		for (AttributeMapping attibuteMapping : getAttributeMappings()) {
@@ -1358,7 +1366,6 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		};
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void synchronizeLocalReference() {
 		for (ReferenceMapping referenceMapping : getReferenceMappings()) {
 			try {
@@ -1533,6 +1540,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		if(eContainer() instanceof SystemDiagram) return;
 		
 		if (System.currentTimeMillis() - lastExecutedTime < SYNC_MANUAL_INTERVAL) {
+//			System.out.println("already sync");
 			return;
 		}
 		synchronizeLocalAttribute(null);

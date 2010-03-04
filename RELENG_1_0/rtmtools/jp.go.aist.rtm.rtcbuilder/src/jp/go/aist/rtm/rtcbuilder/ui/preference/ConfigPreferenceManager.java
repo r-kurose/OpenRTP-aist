@@ -11,7 +11,6 @@ public class ConfigPreferenceManager {
 	private static ConfigPreferenceManager __instance = new ConfigPreferenceManager();
 	private static final String Separator = "::";
 	private static final String EscSeparator = "&colon;";
-	private static final String EofMark = "&EOF";
 	
 	public static ConfigPreferenceManager getInstance() {
 		getDefaultConfigValue();
@@ -38,12 +37,10 @@ public class ConfigPreferenceManager {
 	
 	private static final String[] CONFIG_ITEM = new String[] { 
 		"exec_cxt.evdriven.type",
-		"exec_cxt.periodic.rate",
 		"exec_cxt.periodic.type"
 	};
 	private static final String[] DEFAULT_ITEM = new String[] { 
 		"EventDrivenExecutionContext",	//"exec_cxt.evdriven.type",
-		"1000",							//"exec_cxt.periodic.rate",
 		"PeriodicExecutionContext"		//"exec_cxt.periodic.type",
 	};
 

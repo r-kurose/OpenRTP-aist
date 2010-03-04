@@ -113,32 +113,6 @@ public class BuilderViewPreferenceManager {
 	}
 
 	/**
-	 * キーに、RGBを関連付ける
-	 * 
-	 * @param key
-	 *            キー
-	 * @param newRGB
-	 *            関連付けるRGB
-	 */
-	public void setRGB(String key, RGB newRGB) {
-		RGB oldRgb = getRGB(key);
-
-		PreferenceConverter.setValue(RtcBuilderPlugin.getDefault()
-				.getPreferenceStore(), key, newRGB);
-
-		propertyChangeSupport.firePropertyChange(key, oldRgb, newRGB);
-	}
-
-	/**
-	 * デフォルト色のマップを取得する
-	 * 
-	 * @return デフォルト色のマップ
-	 */
-	public Map<String, RGB> getDefaultRGBMap() {
-		return defaultRGBMap;
-	}
-
-	/**
 	 * @see PropertyChangeSupport#addPropertyChangeListener(java.beans.PropertyChangeListener)
 	 */
 	public void addPropertyChangeListener(PropertyChangeListener listener) {

@@ -6,6 +6,8 @@ import java.io.Serializable;
  * サービスのメソッド引数をあらわすクラス
  */
 public class ServiceArgumentParam implements Serializable {
+	private static final long serialVersionUID = 5610882091160166120L;
+
 	private String type;
 	private String name;
 	private String direction;

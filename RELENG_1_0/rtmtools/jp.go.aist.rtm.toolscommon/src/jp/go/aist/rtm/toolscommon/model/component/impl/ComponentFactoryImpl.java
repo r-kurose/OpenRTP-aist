@@ -12,6 +12,7 @@ import java.util.Map;
 
 import jp.go.aist.rtm.toolscommon.model.component.*;
 
+import jp.go.aist.rtm.toolscommon.model.core.Point;
 import jp.go.aist.rtm.toolscommon.corba.CorbaUtil;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
@@ -95,18 +96,18 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case ComponentPackage.SYSTEM_DIAGRAM: return createSystemDiagram();
-			case ComponentPackage.CORBA_COMPONENT: return createCorbaComponent();
 			case ComponentPackage.COMPONENT_SPECIFICATION: return createComponentSpecification();
 			case ComponentPackage.EXECUTION_CONTEXT: return createExecutionContext();
-			case ComponentPackage.IN_PORT: return createInPort();
-			case ComponentPackage.NAME_VALUE: return createNameValue();
-			case ComponentPackage.OUT_PORT: return createOutPort();
-			case ComponentPackage.PORT: return createPort();
-			case ComponentPackage.SERVICE_PORT: return createServicePort();
-			case ComponentPackage.CONNECTOR_PROFILE: return createConnectorProfile();
 			case ComponentPackage.CONFIGURATION_SET: return createConfigurationSet();
-			case ComponentPackage.EINTEGER_OBJECT_TO_POINT_MAP_ENTRY: return (EObject)createEIntegerObjectToPointMapEntry();
+			case ComponentPackage.NAME_VALUE: return createNameValue();
+			case ComponentPackage.PORT: return createPort();
+			case ComponentPackage.IN_PORT: return createInPort();
+			case ComponentPackage.OUT_PORT: return createOutPort();
+			case ComponentPackage.SERVICE_PORT: return createServicePort();
 			case ComponentPackage.PORT_SYNCHRONIZER: return createPortSynchronizer();
+			case ComponentPackage.CONNECTOR_PROFILE: return createConnectorProfile();
+			case ComponentPackage.EINTEGER_OBJECT_TO_POINT_MAP_ENTRY: return (EObject)createEIntegerObjectToPointMapEntry();
+			case ComponentPackage.CORBA_COMPONENT: return createCorbaComponent();
 			case ComponentPackage.CORBA_PORT_SYNCHRONIZER: return createCorbaPortSynchronizer();
 			case ComponentPackage.CORBA_CONNECTOR_PROFILE: return createCorbaConnectorProfile();
 			case ComponentPackage.CORBA_CONFIGURATION_SET: return createCorbaConfigurationSet();
@@ -121,34 +122,35 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
 			case ComponentPackage.SYSTEM_DIAGRAM_KIND:
 				return createSystemDiagramKindFromString(eDataType, initialValue);
-			case ComponentPackage.RTC_COMPONENT_PROFILE:
-				return createRTCComponentProfileFromString(eDataType, initialValue);
-			case ComponentPackage.RTCRT_OBJECT:
-				return createRTCRTObjectFromString(eDataType, initialValue);
-			case ComponentPackage.LIST:
-				return createListFromString(eDataType, initialValue);
 			case ComponentPackage.SDO_CONFIGURATION:
 				return createSDOConfigurationFromString(eDataType, initialValue);
 			case ComponentPackage.SDO_CONFIGURATION_SET:
 				return createSDOConfigurationSetFromString(eDataType, initialValue);
+			case ComponentPackage.SDO_ORGANIZATION:
+				return createSDOOrganizationFromString(eDataType, initialValue);
+			case ComponentPackage.RTCRT_OBJECT:
+				return createRTCRTObjectFromString(eDataType, initialValue);
+			case ComponentPackage.RTC_COMPONENT_PROFILE:
+				return createRTCComponentProfileFromString(eDataType, initialValue);
 			case ComponentPackage.RTC_CONNECTOR_PROFILE:
 				return createRTCConnectorProfileFromString(eDataType, initialValue);
 			case ComponentPackage.RTC_PORT_PROFILE:
 				return createRTCPortProfileFromString(eDataType, initialValue);
-			case ComponentPackage.PROPERTY_CHANGE_LISTENER:
-				return createPropertyChangeListenerFromString(eDataType, initialValue);
-			case ComponentPackage.SDO_ORGANIZATION:
-				return createSDOOrganizationFromString(eDataType, initialValue);
-			case ComponentPackage.PORT_INTERFACE_PROFILE:
-				return createPortInterfaceProfileFromString(eDataType, initialValue);
-			case ComponentPackage.RTC_EXECUTION_CONTEXT_PROFILE:
-				return createRTCExecutionContextProfileFromString(eDataType, initialValue);
 			case ComponentPackage.RTC_EXECUTION_CONTEXT:
 				return createRTCExecutionContextFromString(eDataType, initialValue);
+			case ComponentPackage.RTC_EXECUTION_CONTEXT_PROFILE:
+				return createRTCExecutionContextProfileFromString(eDataType, initialValue);
+			case ComponentPackage.PROPERTY_CHANGE_LISTENER:
+				return createPropertyChangeListenerFromString(eDataType, initialValue);
+			case ComponentPackage.PORT_INTERFACE_PROFILE:
+				return createPortInterfaceProfileFromString(eDataType, initialValue);
+			case ComponentPackage.LIST:
+				return createListFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -159,34 +161,35 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
 			case ComponentPackage.SYSTEM_DIAGRAM_KIND:
 				return convertSystemDiagramKindToString(eDataType, instanceValue);
-			case ComponentPackage.RTC_COMPONENT_PROFILE:
-				return convertRTCComponentProfileToString(eDataType, instanceValue);
-			case ComponentPackage.RTCRT_OBJECT:
-				return convertRTCRTObjectToString(eDataType, instanceValue);
-			case ComponentPackage.LIST:
-				return convertListToString(eDataType, instanceValue);
 			case ComponentPackage.SDO_CONFIGURATION:
 				return convertSDOConfigurationToString(eDataType, instanceValue);
 			case ComponentPackage.SDO_CONFIGURATION_SET:
 				return convertSDOConfigurationSetToString(eDataType, instanceValue);
+			case ComponentPackage.SDO_ORGANIZATION:
+				return convertSDOOrganizationToString(eDataType, instanceValue);
+			case ComponentPackage.RTCRT_OBJECT:
+				return convertRTCRTObjectToString(eDataType, instanceValue);
+			case ComponentPackage.RTC_COMPONENT_PROFILE:
+				return convertRTCComponentProfileToString(eDataType, instanceValue);
 			case ComponentPackage.RTC_CONNECTOR_PROFILE:
 				return convertRTCConnectorProfileToString(eDataType, instanceValue);
 			case ComponentPackage.RTC_PORT_PROFILE:
 				return convertRTCPortProfileToString(eDataType, instanceValue);
-			case ComponentPackage.PROPERTY_CHANGE_LISTENER:
-				return convertPropertyChangeListenerToString(eDataType, instanceValue);
-			case ComponentPackage.SDO_ORGANIZATION:
-				return convertSDOOrganizationToString(eDataType, instanceValue);
-			case ComponentPackage.PORT_INTERFACE_PROFILE:
-				return convertPortInterfaceProfileToString(eDataType, instanceValue);
-			case ComponentPackage.RTC_EXECUTION_CONTEXT_PROFILE:
-				return convertRTCExecutionContextProfileToString(eDataType, instanceValue);
 			case ComponentPackage.RTC_EXECUTION_CONTEXT:
 				return convertRTCExecutionContextToString(eDataType, instanceValue);
+			case ComponentPackage.RTC_EXECUTION_CONTEXT_PROFILE:
+				return convertRTCExecutionContextProfileToString(eDataType, instanceValue);
+			case ComponentPackage.PROPERTY_CHANGE_LISTENER:
+				return convertPropertyChangeListenerToString(eDataType, instanceValue);
+			case ComponentPackage.PORT_INTERFACE_PROFILE:
+				return convertPortInterfaceProfileToString(eDataType, instanceValue);
+			case ComponentPackage.LIST:
+				return convertListToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -252,7 +255,7 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Map.Entry createEIntegerObjectToPointMapEntry() {
+	public Map.Entry<Integer, Point> createEIntegerObjectToPointMapEntry() {
 		EIntegerObjectToPointMapEntryImpl eIntegerObjectToPointMapEntry = new EIntegerObjectToPointMapEntryImpl();
 		return eIntegerObjectToPointMapEntry;
 	}

@@ -195,6 +195,5 @@ public class DocumentPreferencePage extends AbstractPreferencePage implements
 				}
 			}
 		}
-		
 	}
 }

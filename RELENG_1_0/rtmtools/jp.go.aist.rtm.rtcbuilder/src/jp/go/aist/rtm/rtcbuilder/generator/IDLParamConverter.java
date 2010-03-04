@@ -5,11 +5,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import jp.go.aist.rtm.rtcbuilder.IRTCBMessageConstants;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.IDLParser;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.ParseException;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.Node;
-import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.NodeSequence;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.NodeToken;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.base_type_spec;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.identifier;
@@ -27,6 +25,7 @@ import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.type_declarator;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.visitor.DepthFirstVisitor;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.visitor.GJNoArguDepthFirst;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.visitor.GJVoidDepthFirst;
+import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceArgumentParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceMethodParam;
@@ -48,6 +47,7 @@ public class IDLParamConverter {
 			final String idlPath) {
 		final List<ServiceClassParam> result = new ArrayList<ServiceClassParam>();
 		spec.accept(new GJVoidDepthFirst<String>() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void visit(interface_dcl n, String argu) {
 				final InterfaceInfomation interfaceInfomation = new InterfaceInfomation();
@@ -224,21 +224,29 @@ public class IDLParamConverter {
 		return result;
 	}
 	
-	public static List<String> extractTypeDef(List<String> sources) throws ParseException {
+	public static List<String> extractTypeDef(List<DataTypeParam> sources) {
 		List<String> result = new ArrayList<String>();
 		
-		for( Iterator<String> iter = sources.iterator(); iter.hasNext(); ) {
-			String targetContent = iter.next();
+		for( Iterator<DataTypeParam> iter = sources.iterator(); iter.hasNext(); ) {
+			DataTypeParam targetParam = iter.next();
+			String targetContent = targetParam.getContent();
 			targetContent = PreProcessor.parseAlltoSpace(targetContent);
 			IDLParser parser = new IDLParser(new StringReader(targetContent));
-			specification spec = parser.specification();
+			specification spec=null;
+			try {
+				spec = parser.specification();
+			} catch (ParseException e) {
+				continue;
+			}
 			List<String> types = parseForTypeDef(spec);
 			for( Iterator<String> iterRes = types.iterator(); iterRes.hasNext(); ) {
 				String resultType = iterRes.next();
 				if( result.contains(resultType) ) {
-					throw new ParseException("[" + resultType + "]" + IRTCBMessageConstants.ERROR_IDLTYPEDUPLICAT);
+					continue;
+//					throw new ParseException("[" + resultType + "]" + IRTCBMessageConstants.ERROR_IDLTYPEDUPLICAT);
 				}
 				result.add(resultType);
+				targetParam.getDefinedTypes().add(resultType);
 			}
 		}
 		return result;
@@ -248,6 +256,7 @@ public class IDLParamConverter {
 		final List<String> results = new ArrayList<String>();
 		
 		spec.accept(new GJVoidDepthFirst<String>() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void visit(module n, String argu) {
 				final String moduleName = node2String(n.identifier);
@@ -300,6 +309,7 @@ public class IDLParamConverter {
 	 *            ÉmÅ[Éh
 	 * @return ïœä∑åãâ ÇÃï∂éöóÒ
 	 */
+	@SuppressWarnings("unchecked")
 	public static String node2String(Node n) {
 		final StringBuffer result = new StringBuffer();
 		n.accept(new GJNoArguDepthFirst() {

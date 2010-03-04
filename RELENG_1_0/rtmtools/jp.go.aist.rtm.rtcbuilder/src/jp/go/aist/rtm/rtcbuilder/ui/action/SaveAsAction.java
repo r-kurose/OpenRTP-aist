@@ -8,6 +8,7 @@ import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
 
 public class SaveAsAction implements IEditorActionDelegate {
+	@SuppressWarnings("unused")
 	private IAction action;
 
 	private IEditorPart targetEditor;

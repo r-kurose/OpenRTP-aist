@@ -81,10 +81,10 @@ public interface Component extends WrapperObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Configuration Sets</em>' containment reference list.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_ConfigurationSets()
-	 * @model type="jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet" containment="true"
+	 * @model containment="true"
 	 * @generated
 	 */
-	EList getConfigurationSets();
+	EList<ConfigurationSet> getConfigurationSets();
 
 	/**
 	 * Returns the value of the '<em><b>Active Configuration Set</b></em>' reference.
@@ -122,10 +122,10 @@ public interface Component extends WrapperObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ports</em>' containment reference list.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_Ports()
-	 * @model type="jp.go.aist.rtm.toolscommon.model.component.Port" containment="true"
+	 * @model containment="true"
 	 * @generated
 	 */
-	EList getPorts();
+	EList<Port> getPorts();
 
 	/**
 	 * Returns the value of the '<em><b>Inports</b></em>' reference list.
@@ -137,10 +137,10 @@ public interface Component extends WrapperObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Inports</em>' reference list.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_Inports()
-	 * @model type="jp.go.aist.rtm.toolscommon.model.component.InPort" transient="true" changeable="false" volatile="true"
+	 * @model transient="true" changeable="false" volatile="true"
 	 * @generated
 	 */
-	EList getInports();
+	EList<InPort> getInports();
 
 	/**
 	 * Returns the value of the '<em><b>Outports</b></em>' reference list.
@@ -152,10 +152,10 @@ public interface Component extends WrapperObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Outports</em>' reference list.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_Outports()
-	 * @model type="jp.go.aist.rtm.toolscommon.model.component.OutPort" transient="true" changeable="false" volatile="true"
+	 * @model transient="true" changeable="false" volatile="true"
 	 * @generated
 	 */
-	EList getOutports();
+	EList<OutPort> getOutports();
 
 	/**
 	 * Returns the value of the '<em><b>Serviceports</b></em>' reference list.
@@ -167,10 +167,10 @@ public interface Component extends WrapperObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Serviceports</em>' reference list.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_Serviceports()
-	 * @model type="jp.go.aist.rtm.toolscommon.model.component.ServicePort" transient="true" changeable="false" volatile="true"
+	 * @model transient="true" changeable="false" volatile="true"
 	 * @generated
 	 */
-	EList getServiceports();
+	EList<ServicePort> getServiceports();
 
 	/**
 	 * Returns the value of the '<em><b>Execution Contexts</b></em>' containment reference list.
@@ -183,10 +183,10 @@ public interface Component extends WrapperObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Execution Contexts</em>' containment reference list.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_ExecutionContexts()
-	 * @model type="jp.go.aist.rtm.toolscommon.model.component.ExecutionContext" containment="true"
+	 * @model containment="true"
 	 * @generated
 	 */
-	EList getExecutionContexts();
+	EList<ExecutionContext> getExecutionContexts();
 
 	/**
 	 * Returns the value of the '<em><b>Instance Name L</b></em>' attribute.
@@ -427,10 +427,10 @@ public interface Component extends WrapperObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Components</em>' reference list.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_Components()
-	 * @model type="jp.go.aist.rtm.toolscommon.model.component.Component"
+	 * @model
 	 * @generated
 	 */
-	EList getComponents();
+	EList<Component> getComponents();
 
 	/**
 	 * Returns the value of the '<em><b>Component Id</b></em>' attribute.
@@ -588,10 +588,10 @@ public interface Component extends WrapperObject {
 	 * <!-- begin-user-doc -->
 	 * 複合RTCが公開しているポートの名称（子RTCのインスタンス名　+　"." + ポート名）のリストを設定する。
 	 * <!-- end-user-doc -->
-	 * @model valuesType="java.lang.String" valuesMany="true"
+	 * @model valuesMany="true"
 	 * @generated
 	 */
-	boolean setExportedPorts(EList values);
+	boolean setExportedPorts(EList<String> values);
 
 	/**
 	 * <!-- begin-user-doc -->

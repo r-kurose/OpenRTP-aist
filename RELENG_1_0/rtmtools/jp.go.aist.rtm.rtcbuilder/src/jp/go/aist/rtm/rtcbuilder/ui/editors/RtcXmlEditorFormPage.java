@@ -68,8 +68,7 @@ public class RtcXmlEditorFormPage extends AbstractEditorFormPage {
 	 * {@inheritDoc}
 	 */
 	protected void createFormContent(IManagedForm managedForm) {
-		GridLayout gl;
-		gl = new GridLayout();
+		GridLayout gl = new GridLayout();
 		gl.numColumns = 1;
 
 		managedForm.getForm().getBody().setLayout(gl);
@@ -220,9 +219,7 @@ public class RtcXmlEditorFormPage extends AbstractEditorFormPage {
 	 * データをロードする
 	 */
 	public void load() {
-		if (RTCXmlViewer == null) {
-			return;
-		}
+		if (RTCXmlViewer == null) return;
 		//
 		ProfileHandler handler = new ProfileHandler();
 		String xml = "";

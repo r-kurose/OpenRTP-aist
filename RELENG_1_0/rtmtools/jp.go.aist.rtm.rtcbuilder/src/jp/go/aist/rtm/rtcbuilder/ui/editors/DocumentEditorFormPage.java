@@ -3,11 +3,9 @@ package jp.go.aist.rtm.rtcbuilder.ui.editors;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
@@ -45,17 +43,8 @@ public class DocumentEditorFormPage extends AbstractEditorFormPage {
 	 * {@inheritDoc}
 	 */
 	protected void createFormContent(IManagedForm managedForm) {
-		ScrolledForm form = super.createBase(managedForm);
+		ScrolledForm form = super.createBase(managedForm, IMessageConstants.DOCUMENT_SECTION);
 		FormToolkit toolkit = managedForm.getToolkit();
-
-		Label label = toolkit.createLabel(form.getBody(), IMessageConstants.DOCUMENT_SECTION);
-		if( titleFont==null ) {
-			titleFont = new Font(form.getDisplay(), IMessageConstants.TITLE_FONT, 16, SWT.BOLD);
-		}
-		label.setFont(titleFont);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.horizontalSpan = 2;
-		label.setLayoutData(gd);
 		//
 		createOverViewSection(toolkit, form);
 		createHintSection(toolkit, form);
@@ -207,5 +196,4 @@ public class DocumentEditorFormPage extends AbstractEditorFormPage {
 		//入力パラメータチェックなし
 		return null;
 	}
-
 }
