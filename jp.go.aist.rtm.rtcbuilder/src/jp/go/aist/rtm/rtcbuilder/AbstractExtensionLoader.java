@@ -13,6 +13,7 @@ import org.eclipse.core.runtime.Platform;
 
 public abstract class AbstractExtensionLoader {
 	// Manager
+	@SuppressWarnings("unchecked")
 	private List list = new ArrayList();
 	
 	abstract String getPointId();
@@ -60,6 +61,7 @@ public abstract class AbstractExtensionLoader {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List getList() {
 		return list;
 	}

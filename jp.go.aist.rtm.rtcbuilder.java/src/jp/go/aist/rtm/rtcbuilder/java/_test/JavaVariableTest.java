@@ -15,13 +15,12 @@ import jp.go.aist.rtm.rtcbuilder.java.manager.JavaGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 
 public class JavaVariableTest extends TestBase {
+	private RtcParam rtcParam;
+	private GeneratorParam genParam;
 
 	protected void setUp() throws Exception {
-	}
-
-	public void testServicePort2() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
+		genParam = new GeneratorParam();
+		rtcParam = new RtcParam(genParam, true);
 		rtcParam.setOutputProject(rootPath + "\\resource\\work");
 		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
 		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
@@ -34,6 +33,9 @@ public class JavaVariableTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
 		genParam.getRtcParams().add(rtcParam);
+	}
+
+	public void testServicePort2() throws Exception{
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
 		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
@@ -68,30 +70,11 @@ public class JavaVariableTest extends TestBase {
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
 		String resourceDir = rootPath +  "\\resource\\Java\\Variable\\ServicePort2\\";
-
-		checkCode(result, resourceDir, "fooComp.java");
-		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
+		checkResults(result, resourceDir);
 		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
-		checkCode(result, resourceDir, "README.foo");
 	}
 
 	public void testServicePort1() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
-		rtcParam.setName("foo");
-		rtcParam.setDescription("MDesc");
-		rtcParam.setVersion("1.0.1");
-		rtcParam.setVender("TA");
-		rtcParam.setCategory("Manip");
-		rtcParam.setComponentType("STATIC2");
-		rtcParam.setActivityType("PERIODIC2");
-		rtcParam.setMaxInstance(5);
-		genParam.getRtcParams().add(rtcParam);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
 		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
@@ -126,30 +109,11 @@ public class JavaVariableTest extends TestBase {
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
 		String resourceDir = rootPath +  "\\resource\\Java\\Variable\\ServicePort1\\";
-
-		checkCode(result, resourceDir, "fooComp.java");
-		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
+		checkResults(result, resourceDir);
 		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
-		checkCode(result, resourceDir, "README.foo");
 	}
 
 	public void testDataPort() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
-		rtcParam.setName("foo");
-		rtcParam.setDescription("MDesc");
-		rtcParam.setVersion("1.0.1");
-		rtcParam.setVender("TA");
-		rtcParam.setCategory("Manip");
-		rtcParam.setComponentType("STATIC2");
-		rtcParam.setActivityType("PERIODIC2");
-		rtcParam.setMaxInstance(5);
-		genParam.getRtcParams().add(rtcParam);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "VarInP1", 0));
 		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
@@ -165,7 +129,10 @@ public class JavaVariableTest extends TestBase {
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
 		String resourceDir = rootPath +  "\\resource\\Java\\Variable\\DataPort\\";
+		checkResults(result, resourceDir);
+	}
 
+	private void checkResults(List<GeneratedResult> result, String resourceDir) {
 		checkCode(result, resourceDir, "fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
 		checkCode(result, resourceDir, "foo.java");

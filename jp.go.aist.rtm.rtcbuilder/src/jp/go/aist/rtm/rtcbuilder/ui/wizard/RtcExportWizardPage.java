@@ -37,6 +37,7 @@ import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.dialogs.WizardExportResourcesPage;
 import org.eclipse.ui.internal.wizards.datatransfer.ArchiveFileExportOperation;
 
+@SuppressWarnings("restriction")
 public class RtcExportWizardPage extends	WizardExportResourcesPage {
 
     private final static String STORE_DESTINATION_NAMES_ID = "RtcExportWizardPage.STORE_DESTINATION_NAMES_ID"; //$NON-NLS-1$
@@ -330,7 +331,8 @@ public class RtcExportWizardPage extends	WizardExportResourcesPage {
         }
     }
 
-    public boolean finish() {
+    @SuppressWarnings({ "unchecked" })
+	public boolean finish() {
     	List resourcesToExport = getTargetResources();
     	
         if (!ensureTargetIsValid()) {
@@ -346,7 +348,7 @@ public class RtcExportWizardPage extends	WizardExportResourcesPage {
                 resourcesToExport, getDestinationValue()));
     }
     
-    protected boolean executeExportOperation(ArchiveFileExportOperation op) {
+	protected boolean executeExportOperation(ArchiveFileExportOperation op) {
         op.setCreateLeadupStructure(createDirectoryStructureButton
                 .getSelection());
         op.setUseCompression(compressContentsCheckbox.getSelection());
@@ -374,7 +376,8 @@ public class RtcExportWizardPage extends	WizardExportResourcesPage {
         return true;
     }
     
-    private List getTargetResources() {
+    @SuppressWarnings("unchecked")
+	private List getTargetResources() {
     	List resourceList = new ArrayList();
     	ArrayList<String> targetExt = new ArrayList<String>();
     	ArrayList<String> targetFile = new ArrayList<String>();
@@ -400,7 +403,8 @@ public class RtcExportWizardPage extends	WizardExportResourcesPage {
     	return resourceList;
     }
     
-    private void searchTarget(List resourceList, ArrayList<String> targetExt, ArrayList<String> targetFile,
+    @SuppressWarnings("unchecked")
+	private void searchTarget(List resourceList, ArrayList<String> targetExt, ArrayList<String> targetFile,
     							IResource[] sourceRes) {
 
     	for(int intIdx=0;intIdx<sourceRes.length;intIdx++) {

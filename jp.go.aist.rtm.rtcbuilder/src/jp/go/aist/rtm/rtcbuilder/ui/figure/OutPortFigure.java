@@ -9,6 +9,7 @@ import org.eclipse.swt.graphics.Color;
 
 public class OutPortFigure extends PortFigureBase {
 
+	@SuppressWarnings("unused")
 	private DataOutPort outport;
 
 	public OutPortFigure(DataOutPort outport, int direction, Color backColor) {

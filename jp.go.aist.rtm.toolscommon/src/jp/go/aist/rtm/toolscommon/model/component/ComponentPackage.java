@@ -379,7 +379,1225 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getCorbaComponent()
 	 * @generated
 	 */
-	int CORBA_COMPONENT = 2;
+	int CORBA_COMPONENT = 14;
+
+	/**
+	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentSpecificationImpl <em>Specification</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentSpecificationImpl
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getComponentSpecification()
+	 * @generated
+	 */
+	int COMPONENT_SPECIFICATION = 2;
+
+	/**
+	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__CONSTRAINT = COMPONENT__CONSTRAINT;
+
+	/**
+	 * The feature id for the '<em><b>Configuration Sets</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__CONFIGURATION_SETS = COMPONENT__CONFIGURATION_SETS;
+
+	/**
+	 * The feature id for the '<em><b>Active Configuration Set</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__ACTIVE_CONFIGURATION_SET = COMPONENT__ACTIVE_CONFIGURATION_SET;
+
+	/**
+	 * The feature id for the '<em><b>Ports</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__PORTS = COMPONENT__PORTS;
+
+	/**
+	 * The feature id for the '<em><b>Inports</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__INPORTS = COMPONENT__INPORTS;
+
+	/**
+	 * The feature id for the '<em><b>Outports</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__OUTPORTS = COMPONENT__OUTPORTS;
+
+	/**
+	 * The feature id for the '<em><b>Serviceports</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__SERVICEPORTS = COMPONENT__SERVICEPORTS;
+
+	/**
+	 * The feature id for the '<em><b>Components</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__COMPONENTS = COMPONENT__COMPONENTS;
+
+	/**
+	 * The feature id for the '<em><b>Execution Contexts</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__EXECUTION_CONTEXTS = COMPONENT__EXECUTION_CONTEXTS;
+
+	/**
+	 * The feature id for the '<em><b>Child System Diagram</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__CHILD_SYSTEM_DIAGRAM = COMPONENT__CHILD_SYSTEM_DIAGRAM;
+
+	/**
+	 * The feature id for the '<em><b>Instance Name L</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__INSTANCE_NAME_L = COMPONENT__INSTANCE_NAME_L;
+
+	/**
+	 * The feature id for the '<em><b>Vender L</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__VENDER_L = COMPONENT__VENDER_L;
+
+	/**
+	 * The feature id for the '<em><b>Description L</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__DESCRIPTION_L = COMPONENT__DESCRIPTION_L;
+
+	/**
+	 * The feature id for the '<em><b>Category L</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__CATEGORY_L = COMPONENT__CATEGORY_L;
+
+	/**
+	 * The feature id for the '<em><b>Type Name L</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__TYPE_NAME_L = COMPONENT__TYPE_NAME_L;
+
+	/**
+	 * The feature id for the '<em><b>Version L</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__VERSION_L = COMPONENT__VERSION_L;
+
+	/**
+	 * The feature id for the '<em><b>Path Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__PATH_ID = COMPONENT__PATH_ID;
+
+	/**
+	 * The feature id for the '<em><b>Outport Direction</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__OUTPORT_DIRECTION = COMPONENT__OUTPORT_DIRECTION;
+
+	/**
+	 * The feature id for the '<em><b>Composite Type L</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__COMPOSITE_TYPE_L = COMPONENT__COMPOSITE_TYPE_L;
+
+	/**
+	 * The feature id for the '<em><b>Component Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__COMPONENT_ID = COMPONENT__COMPONENT_ID;
+
+	/**
+	 * The feature id for the '<em><b>Required</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__REQUIRED = COMPONENT__REQUIRED;
+
+	/**
+	 * The feature id for the '<em><b>Alias Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__ALIAS_NAME = COMPONENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Spec Un Load</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__SPEC_UN_LOAD = COMPONENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Specification</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION_FEATURE_COUNT = COMPONENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.PortConnectorImpl <em>Port Connector</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.PortConnectorImpl
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getPortConnector()
+	 * @generated
+	 */
+	int PORT_CONNECTOR = 11;
+
+	/**
+	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.ExecutionContextImpl <em>Execution Context</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ExecutionContextImpl
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getExecutionContext()
+	 * @generated
+	 */
+	int EXECUTION_CONTEXT = 3;
+
+	/**
+	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXECUTION_CONTEXT__CONSTRAINT = CorePackage.WRAPPER_OBJECT__CONSTRAINT;
+
+	/**
+	 * The feature id for the '<em><b>Kind L</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXECUTION_CONTEXT__KIND_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Rate L</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXECUTION_CONTEXT__RATE_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>State L</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXECUTION_CONTEXT__STATE_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Execution Context</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXECUTION_CONTEXT_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 3;
+
+	/**
+	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.PortImpl <em>Port</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.PortImpl
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getPort()
+	 * @generated
+	 */
+	int PORT = 6;
+
+	/**
+	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.InPortImpl <em>In Port</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.InPortImpl
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getInPort()
+	 * @generated
+	 */
+	int IN_PORT = 7;
+
+	/**
+	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.NameValueImpl <em>Name Value</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.NameValueImpl
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getNameValue()
+	 * @generated
+	 */
+	int NAME_VALUE = 5;
+
+	/**
+	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.OutPortImpl <em>Out Port</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.OutPortImpl
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getOutPort()
+	 * @generated
+	 */
+	int OUT_PORT = 8;
+
+	/**
+	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.ServicePortImpl <em>Service Port</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ServicePortImpl
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getServicePort()
+	 * @generated
+	 */
+	int SERVICE_PORT = 9;
+
+	/**
+	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.ConnectorProfileImpl <em>Connector Profile</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ConnectorProfileImpl
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getConnectorProfile()
+	 * @generated
+	 */
+	int CONNECTOR_PROFILE = 12;
+
+	/**
+	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.ConfigurationSetImpl <em>Configuration Set</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ConfigurationSetImpl
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getConfigurationSet()
+	 * @generated
+	 */
+	int CONFIGURATION_SET = 4;
+
+	/**
+	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONFIGURATION_SET__CONSTRAINT = CorePackage.WRAPPER_OBJECT__CONSTRAINT;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONFIGURATION_SET__ID = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Configuration Data</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONFIGURATION_SET__CONFIGURATION_DATA = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Configuration Set</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONFIGURATION_SET_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAME_VALUE__CONSTRAINT = CorePackage.WRAPPER_OBJECT__CONSTRAINT;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAME_VALUE__NAME = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAME_VALUE__VALUE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Type Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAME_VALUE__TYPE_NAME = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Name Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAME_VALUE_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT__CONSTRAINT = CorePackage.WRAPPER_OBJECT__CONSTRAINT;
+
+	/**
+	 * The feature id for the '<em><b>Original Port String</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT__ORIGINAL_PORT_STRING = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Synchronizer</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT__SYNCHRONIZER = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Name L</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT__NAME_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Allow Any Data Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT__ALLOW_ANY_DATA_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Allow Any Interface Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT__ALLOW_ANY_INTERFACE_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Allow Any Dataflow Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT__ALLOW_ANY_DATAFLOW_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Allow Any Subscription Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT__ALLOW_ANY_SUBSCRIPTION_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>Connector Profiles</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT__CONNECTOR_PROFILES = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 7;
+
+	/**
+	 * The feature id for the '<em><b>Interfaces</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT__INTERFACES = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 8;
+
+	/**
+	 * The feature id for the '<em><b>Dataflow Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT__DATAFLOW_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 9;
+
+	/**
+	 * The feature id for the '<em><b>Subscription Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT__SUBSCRIPTION_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 10;
+
+	/**
+	 * The feature id for the '<em><b>Data Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT__DATA_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 11;
+
+	/**
+	 * The feature id for the '<em><b>Interface Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT__INTERFACE_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 12;
+
+	/**
+	 * The number of structural features of the '<em>Port</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 13;
+
+	/**
+	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IN_PORT__CONSTRAINT = PORT__CONSTRAINT;
+
+	/**
+	 * The feature id for the '<em><b>Original Port String</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IN_PORT__ORIGINAL_PORT_STRING = PORT__ORIGINAL_PORT_STRING;
+
+	/**
+	 * The feature id for the '<em><b>Synchronizer</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IN_PORT__SYNCHRONIZER = PORT__SYNCHRONIZER;
+
+	/**
+	 * The feature id for the '<em><b>Name L</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IN_PORT__NAME_L = PORT__NAME_L;
+
+	/**
+	 * The feature id for the '<em><b>Allow Any Data Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IN_PORT__ALLOW_ANY_DATA_TYPE = PORT__ALLOW_ANY_DATA_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Allow Any Interface Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IN_PORT__ALLOW_ANY_INTERFACE_TYPE = PORT__ALLOW_ANY_INTERFACE_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Allow Any Dataflow Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IN_PORT__ALLOW_ANY_DATAFLOW_TYPE = PORT__ALLOW_ANY_DATAFLOW_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Allow Any Subscription Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IN_PORT__ALLOW_ANY_SUBSCRIPTION_TYPE = PORT__ALLOW_ANY_SUBSCRIPTION_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Connector Profiles</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IN_PORT__CONNECTOR_PROFILES = PORT__CONNECTOR_PROFILES;
+
+	/**
+	 * The feature id for the '<em><b>Interfaces</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IN_PORT__INTERFACES = PORT__INTERFACES;
+
+	/**
+	 * The feature id for the '<em><b>Dataflow Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IN_PORT__DATAFLOW_TYPE = PORT__DATAFLOW_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Subscription Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IN_PORT__SUBSCRIPTION_TYPE = PORT__SUBSCRIPTION_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Data Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IN_PORT__DATA_TYPE = PORT__DATA_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Interface Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IN_PORT__INTERFACE_TYPE = PORT__INTERFACE_TYPE;
+
+	/**
+	 * The number of structural features of the '<em>In Port</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IN_PORT_FEATURE_COUNT = PORT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUT_PORT__CONSTRAINT = PORT__CONSTRAINT;
+
+	/**
+	 * The feature id for the '<em><b>Original Port String</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUT_PORT__ORIGINAL_PORT_STRING = PORT__ORIGINAL_PORT_STRING;
+
+	/**
+	 * The feature id for the '<em><b>Synchronizer</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUT_PORT__SYNCHRONIZER = PORT__SYNCHRONIZER;
+
+	/**
+	 * The feature id for the '<em><b>Name L</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUT_PORT__NAME_L = PORT__NAME_L;
+
+	/**
+	 * The feature id for the '<em><b>Allow Any Data Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUT_PORT__ALLOW_ANY_DATA_TYPE = PORT__ALLOW_ANY_DATA_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Allow Any Interface Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUT_PORT__ALLOW_ANY_INTERFACE_TYPE = PORT__ALLOW_ANY_INTERFACE_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Allow Any Dataflow Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUT_PORT__ALLOW_ANY_DATAFLOW_TYPE = PORT__ALLOW_ANY_DATAFLOW_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Allow Any Subscription Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUT_PORT__ALLOW_ANY_SUBSCRIPTION_TYPE = PORT__ALLOW_ANY_SUBSCRIPTION_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Connector Profiles</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUT_PORT__CONNECTOR_PROFILES = PORT__CONNECTOR_PROFILES;
+
+	/**
+	 * The feature id for the '<em><b>Interfaces</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUT_PORT__INTERFACES = PORT__INTERFACES;
+
+	/**
+	 * The feature id for the '<em><b>Dataflow Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUT_PORT__DATAFLOW_TYPE = PORT__DATAFLOW_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Subscription Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUT_PORT__SUBSCRIPTION_TYPE = PORT__SUBSCRIPTION_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Data Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUT_PORT__DATA_TYPE = PORT__DATA_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Interface Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUT_PORT__INTERFACE_TYPE = PORT__INTERFACE_TYPE;
+
+	/**
+	 * The number of structural features of the '<em>Out Port</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUT_PORT_FEATURE_COUNT = PORT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PORT__CONSTRAINT = PORT__CONSTRAINT;
+
+	/**
+	 * The feature id for the '<em><b>Original Port String</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PORT__ORIGINAL_PORT_STRING = PORT__ORIGINAL_PORT_STRING;
+
+	/**
+	 * The feature id for the '<em><b>Synchronizer</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PORT__SYNCHRONIZER = PORT__SYNCHRONIZER;
+
+	/**
+	 * The feature id for the '<em><b>Name L</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PORT__NAME_L = PORT__NAME_L;
+
+	/**
+	 * The feature id for the '<em><b>Allow Any Data Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PORT__ALLOW_ANY_DATA_TYPE = PORT__ALLOW_ANY_DATA_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Allow Any Interface Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PORT__ALLOW_ANY_INTERFACE_TYPE = PORT__ALLOW_ANY_INTERFACE_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Allow Any Dataflow Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PORT__ALLOW_ANY_DATAFLOW_TYPE = PORT__ALLOW_ANY_DATAFLOW_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Allow Any Subscription Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PORT__ALLOW_ANY_SUBSCRIPTION_TYPE = PORT__ALLOW_ANY_SUBSCRIPTION_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Connector Profiles</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PORT__CONNECTOR_PROFILES = PORT__CONNECTOR_PROFILES;
+
+	/**
+	 * The feature id for the '<em><b>Interfaces</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PORT__INTERFACES = PORT__INTERFACES;
+
+	/**
+	 * The feature id for the '<em><b>Dataflow Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PORT__DATAFLOW_TYPE = PORT__DATAFLOW_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Subscription Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PORT__SUBSCRIPTION_TYPE = PORT__SUBSCRIPTION_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Data Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PORT__DATA_TYPE = PORT__DATA_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Interface Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PORT__INTERFACE_TYPE = PORT__INTERFACE_TYPE;
+
+	/**
+	 * The number of structural features of the '<em>Service Port</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PORT_FEATURE_COUNT = PORT_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.EIntegerObjectToPointMapEntryImpl <em>EInteger Object To Point Map Entry</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.EIntegerObjectToPointMapEntryImpl
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getEIntegerObjectToPointMapEntry()
+	 * @generated
+	 */
+	int EINTEGER_OBJECT_TO_POINT_MAP_ENTRY = 13;
+
+	/**
+	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.PortSynchronizerImpl <em>Port Synchronizer</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.PortSynchronizerImpl
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getPortSynchronizer()
+	 * @generated
+	 */
+	int PORT_SYNCHRONIZER = 10;
+
+	/**
+	 * The feature id for the '<em><b>Original Port String</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT_SYNCHRONIZER__ORIGINAL_PORT_STRING = 0;
+
+	/**
+	 * The number of structural features of the '<em>Port Synchronizer</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT_SYNCHRONIZER_FEATURE_COUNT = 1;
+
+	/**
+	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT_CONNECTOR__CONSTRAINT = CorePackage.WRAPPER_OBJECT__CONSTRAINT;
+
+	/**
+	 * The feature id for the '<em><b>Connector Profile</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT_CONNECTOR__CONNECTOR_PROFILE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Routing Constraint</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT_CONNECTOR__ROUTING_CONSTRAINT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Source</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT_CONNECTOR__SOURCE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Target</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT_CONNECTOR__TARGET = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>Port Connector</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT_CONNECTOR_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__CONSTRAINT = CorePackage.WRAPPER_OBJECT__CONSTRAINT;
+
+	/**
+	 * The feature id for the '<em><b>Dataflow Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__DATAFLOW_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Subscription Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__SUBSCRIPTION_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Subscription Type Available</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__SUBSCRIPTION_TYPE_AVAILABLE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Push Interval Available</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__PUSH_INTERVAL_AVAILABLE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__NAME = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Connector Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__CONNECTOR_ID = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Data Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__DATA_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>Interface Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__INTERFACE_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 7;
+
+	/**
+	 * The feature id for the '<em><b>Push Rate</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__PUSH_RATE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 8;
+
+	/**
+	 * The feature id for the '<em><b>Source String</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__SOURCE_STRING = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 9;
+
+	/**
+	 * The feature id for the '<em><b>Target String</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__TARGET_STRING = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 10;
+
+	/**
+	 * The number of structural features of the '<em>Connector Profile</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 11;
+
+	/**
+	 * The feature id for the '<em><b>Key</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EINTEGER_OBJECT_TO_POINT_MAP_ENTRY__KEY = 0;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EINTEGER_OBJECT_TO_POINT_MAP_ENTRY__VALUE = 1;
+
+	/**
+	 * The number of structural features of the '<em>EInteger Object To Point Map Entry</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EINTEGER_OBJECT_TO_POINT_MAP_ENTRY_FEATURE_COUNT = 2;
 
 	/**
 	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
@@ -650,1224 +1868,6 @@ public interface ComponentPackage extends EPackage {
 	 * @ordered
 	 */
 	int CORBA_COMPONENT_FEATURE_COUNT = COMPONENT_FEATURE_COUNT + 8;
-
-	/**
-	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentSpecificationImpl <em>Specification</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentSpecificationImpl
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getComponentSpecification()
-	 * @generated
-	 */
-	int COMPONENT_SPECIFICATION = 3;
-
-	/**
-	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_SPECIFICATION__CONSTRAINT = COMPONENT__CONSTRAINT;
-
-	/**
-	 * The feature id for the '<em><b>Configuration Sets</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_SPECIFICATION__CONFIGURATION_SETS = COMPONENT__CONFIGURATION_SETS;
-
-	/**
-	 * The feature id for the '<em><b>Active Configuration Set</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_SPECIFICATION__ACTIVE_CONFIGURATION_SET = COMPONENT__ACTIVE_CONFIGURATION_SET;
-
-	/**
-	 * The feature id for the '<em><b>Ports</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_SPECIFICATION__PORTS = COMPONENT__PORTS;
-
-	/**
-	 * The feature id for the '<em><b>Inports</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_SPECIFICATION__INPORTS = COMPONENT__INPORTS;
-
-	/**
-	 * The feature id for the '<em><b>Outports</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_SPECIFICATION__OUTPORTS = COMPONENT__OUTPORTS;
-
-	/**
-	 * The feature id for the '<em><b>Serviceports</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_SPECIFICATION__SERVICEPORTS = COMPONENT__SERVICEPORTS;
-
-	/**
-	 * The feature id for the '<em><b>Components</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_SPECIFICATION__COMPONENTS = COMPONENT__COMPONENTS;
-
-	/**
-	 * The feature id for the '<em><b>Execution Contexts</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_SPECIFICATION__EXECUTION_CONTEXTS = COMPONENT__EXECUTION_CONTEXTS;
-
-	/**
-	 * The feature id for the '<em><b>Child System Diagram</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_SPECIFICATION__CHILD_SYSTEM_DIAGRAM = COMPONENT__CHILD_SYSTEM_DIAGRAM;
-
-	/**
-	 * The feature id for the '<em><b>Instance Name L</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_SPECIFICATION__INSTANCE_NAME_L = COMPONENT__INSTANCE_NAME_L;
-
-	/**
-	 * The feature id for the '<em><b>Vender L</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_SPECIFICATION__VENDER_L = COMPONENT__VENDER_L;
-
-	/**
-	 * The feature id for the '<em><b>Description L</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_SPECIFICATION__DESCRIPTION_L = COMPONENT__DESCRIPTION_L;
-
-	/**
-	 * The feature id for the '<em><b>Category L</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_SPECIFICATION__CATEGORY_L = COMPONENT__CATEGORY_L;
-
-	/**
-	 * The feature id for the '<em><b>Type Name L</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_SPECIFICATION__TYPE_NAME_L = COMPONENT__TYPE_NAME_L;
-
-	/**
-	 * The feature id for the '<em><b>Version L</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_SPECIFICATION__VERSION_L = COMPONENT__VERSION_L;
-
-	/**
-	 * The feature id for the '<em><b>Path Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_SPECIFICATION__PATH_ID = COMPONENT__PATH_ID;
-
-	/**
-	 * The feature id for the '<em><b>Outport Direction</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_SPECIFICATION__OUTPORT_DIRECTION = COMPONENT__OUTPORT_DIRECTION;
-
-	/**
-	 * The feature id for the '<em><b>Composite Type L</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_SPECIFICATION__COMPOSITE_TYPE_L = COMPONENT__COMPOSITE_TYPE_L;
-
-	/**
-	 * The feature id for the '<em><b>Component Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_SPECIFICATION__COMPONENT_ID = COMPONENT__COMPONENT_ID;
-
-	/**
-	 * The feature id for the '<em><b>Required</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_SPECIFICATION__REQUIRED = COMPONENT__REQUIRED;
-
-	/**
-	 * The feature id for the '<em><b>Alias Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_SPECIFICATION__ALIAS_NAME = COMPONENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Spec Un Load</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_SPECIFICATION__SPEC_UN_LOAD = COMPONENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>Specification</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_SPECIFICATION_FEATURE_COUNT = COMPONENT_FEATURE_COUNT + 2;
-
-	/**
-	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.PortConnectorImpl <em>Port Connector</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.PortConnectorImpl
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getPortConnector()
-	 * @generated
-	 */
-	int PORT_CONNECTOR = 4;
-
-	/**
-	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT_CONNECTOR__CONSTRAINT = CorePackage.WRAPPER_OBJECT__CONSTRAINT;
-
-	/**
-	 * The feature id for the '<em><b>Connector Profile</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT_CONNECTOR__CONNECTOR_PROFILE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Routing Constraint</b></em>' map.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT_CONNECTOR__ROUTING_CONSTRAINT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Source</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT_CONNECTOR__SOURCE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Target</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT_CONNECTOR__TARGET = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 3;
-
-	/**
-	 * The number of structural features of the '<em>Port Connector</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT_CONNECTOR_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 4;
-
-	/**
-	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.ExecutionContextImpl <em>Execution Context</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ExecutionContextImpl
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getExecutionContext()
-	 * @generated
-	 */
-	int EXECUTION_CONTEXT = 5;
-
-	/**
-	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXECUTION_CONTEXT__CONSTRAINT = CorePackage.WRAPPER_OBJECT__CONSTRAINT;
-
-	/**
-	 * The feature id for the '<em><b>Kind L</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXECUTION_CONTEXT__KIND_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Rate L</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXECUTION_CONTEXT__RATE_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>State L</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXECUTION_CONTEXT__STATE_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 2;
-
-	/**
-	 * The number of structural features of the '<em>Execution Context</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXECUTION_CONTEXT_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 3;
-
-	/**
-	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.PortImpl <em>Port</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.PortImpl
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getPort()
-	 * @generated
-	 */
-	int PORT = 9;
-
-	/**
-	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT__CONSTRAINT = CorePackage.WRAPPER_OBJECT__CONSTRAINT;
-
-	/**
-	 * The feature id for the '<em><b>Original Port String</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT__ORIGINAL_PORT_STRING = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Synchronizer</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT__SYNCHRONIZER = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Name L</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT__NAME_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Allow Any Data Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT__ALLOW_ANY_DATA_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>Allow Any Interface Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT__ALLOW_ANY_INTERFACE_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 4;
-
-	/**
-	 * The feature id for the '<em><b>Allow Any Dataflow Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT__ALLOW_ANY_DATAFLOW_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 5;
-
-	/**
-	 * The feature id for the '<em><b>Allow Any Subscription Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT__ALLOW_ANY_SUBSCRIPTION_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 6;
-
-	/**
-	 * The feature id for the '<em><b>Connector Profiles</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT__CONNECTOR_PROFILES = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 7;
-
-	/**
-	 * The feature id for the '<em><b>Interfaces</b></em>' attribute list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT__INTERFACES = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 8;
-
-	/**
-	 * The feature id for the '<em><b>Dataflow Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT__DATAFLOW_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 9;
-
-	/**
-	 * The feature id for the '<em><b>Subscription Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT__SUBSCRIPTION_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 10;
-
-	/**
-	 * The feature id for the '<em><b>Data Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT__DATA_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 11;
-
-	/**
-	 * The feature id for the '<em><b>Interface Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT__INTERFACE_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 12;
-
-	/**
-	 * The number of structural features of the '<em>Port</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 13;
-
-	/**
-	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.InPortImpl <em>In Port</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.InPortImpl
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getInPort()
-	 * @generated
-	 */
-	int IN_PORT = 6;
-
-	/**
-	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IN_PORT__CONSTRAINT = PORT__CONSTRAINT;
-
-	/**
-	 * The feature id for the '<em><b>Original Port String</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IN_PORT__ORIGINAL_PORT_STRING = PORT__ORIGINAL_PORT_STRING;
-
-	/**
-	 * The feature id for the '<em><b>Synchronizer</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IN_PORT__SYNCHRONIZER = PORT__SYNCHRONIZER;
-
-	/**
-	 * The feature id for the '<em><b>Name L</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IN_PORT__NAME_L = PORT__NAME_L;
-
-	/**
-	 * The feature id for the '<em><b>Allow Any Data Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IN_PORT__ALLOW_ANY_DATA_TYPE = PORT__ALLOW_ANY_DATA_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Allow Any Interface Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IN_PORT__ALLOW_ANY_INTERFACE_TYPE = PORT__ALLOW_ANY_INTERFACE_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Allow Any Dataflow Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IN_PORT__ALLOW_ANY_DATAFLOW_TYPE = PORT__ALLOW_ANY_DATAFLOW_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Allow Any Subscription Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IN_PORT__ALLOW_ANY_SUBSCRIPTION_TYPE = PORT__ALLOW_ANY_SUBSCRIPTION_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Connector Profiles</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IN_PORT__CONNECTOR_PROFILES = PORT__CONNECTOR_PROFILES;
-
-	/**
-	 * The feature id for the '<em><b>Interfaces</b></em>' attribute list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IN_PORT__INTERFACES = PORT__INTERFACES;
-
-	/**
-	 * The feature id for the '<em><b>Dataflow Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IN_PORT__DATAFLOW_TYPE = PORT__DATAFLOW_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Subscription Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IN_PORT__SUBSCRIPTION_TYPE = PORT__SUBSCRIPTION_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Data Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IN_PORT__DATA_TYPE = PORT__DATA_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Interface Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IN_PORT__INTERFACE_TYPE = PORT__INTERFACE_TYPE;
-
-	/**
-	 * The number of structural features of the '<em>In Port</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IN_PORT_FEATURE_COUNT = PORT_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.NameValueImpl <em>Name Value</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.NameValueImpl
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getNameValue()
-	 * @generated
-	 */
-	int NAME_VALUE = 7;
-
-	/**
-	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NAME_VALUE__CONSTRAINT = CorePackage.WRAPPER_OBJECT__CONSTRAINT;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NAME_VALUE__NAME = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NAME_VALUE__VALUE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Type Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NAME_VALUE__TYPE_NAME = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 2;
-
-	/**
-	 * The number of structural features of the '<em>Name Value</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NAME_VALUE_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 3;
-
-	/**
-	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.OutPortImpl <em>Out Port</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.OutPortImpl
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getOutPort()
-	 * @generated
-	 */
-	int OUT_PORT = 8;
-
-	/**
-	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OUT_PORT__CONSTRAINT = PORT__CONSTRAINT;
-
-	/**
-	 * The feature id for the '<em><b>Original Port String</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OUT_PORT__ORIGINAL_PORT_STRING = PORT__ORIGINAL_PORT_STRING;
-
-	/**
-	 * The feature id for the '<em><b>Synchronizer</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OUT_PORT__SYNCHRONIZER = PORT__SYNCHRONIZER;
-
-	/**
-	 * The feature id for the '<em><b>Name L</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OUT_PORT__NAME_L = PORT__NAME_L;
-
-	/**
-	 * The feature id for the '<em><b>Allow Any Data Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OUT_PORT__ALLOW_ANY_DATA_TYPE = PORT__ALLOW_ANY_DATA_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Allow Any Interface Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OUT_PORT__ALLOW_ANY_INTERFACE_TYPE = PORT__ALLOW_ANY_INTERFACE_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Allow Any Dataflow Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OUT_PORT__ALLOW_ANY_DATAFLOW_TYPE = PORT__ALLOW_ANY_DATAFLOW_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Allow Any Subscription Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OUT_PORT__ALLOW_ANY_SUBSCRIPTION_TYPE = PORT__ALLOW_ANY_SUBSCRIPTION_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Connector Profiles</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OUT_PORT__CONNECTOR_PROFILES = PORT__CONNECTOR_PROFILES;
-
-	/**
-	 * The feature id for the '<em><b>Interfaces</b></em>' attribute list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OUT_PORT__INTERFACES = PORT__INTERFACES;
-
-	/**
-	 * The feature id for the '<em><b>Dataflow Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OUT_PORT__DATAFLOW_TYPE = PORT__DATAFLOW_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Subscription Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OUT_PORT__SUBSCRIPTION_TYPE = PORT__SUBSCRIPTION_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Data Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OUT_PORT__DATA_TYPE = PORT__DATA_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Interface Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OUT_PORT__INTERFACE_TYPE = PORT__INTERFACE_TYPE;
-
-	/**
-	 * The number of structural features of the '<em>Out Port</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OUT_PORT_FEATURE_COUNT = PORT_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.ServicePortImpl <em>Service Port</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ServicePortImpl
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getServicePort()
-	 * @generated
-	 */
-	int SERVICE_PORT = 10;
-
-	/**
-	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SERVICE_PORT__CONSTRAINT = PORT__CONSTRAINT;
-
-	/**
-	 * The feature id for the '<em><b>Original Port String</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SERVICE_PORT__ORIGINAL_PORT_STRING = PORT__ORIGINAL_PORT_STRING;
-
-	/**
-	 * The feature id for the '<em><b>Synchronizer</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SERVICE_PORT__SYNCHRONIZER = PORT__SYNCHRONIZER;
-
-	/**
-	 * The feature id for the '<em><b>Name L</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SERVICE_PORT__NAME_L = PORT__NAME_L;
-
-	/**
-	 * The feature id for the '<em><b>Allow Any Data Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SERVICE_PORT__ALLOW_ANY_DATA_TYPE = PORT__ALLOW_ANY_DATA_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Allow Any Interface Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SERVICE_PORT__ALLOW_ANY_INTERFACE_TYPE = PORT__ALLOW_ANY_INTERFACE_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Allow Any Dataflow Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SERVICE_PORT__ALLOW_ANY_DATAFLOW_TYPE = PORT__ALLOW_ANY_DATAFLOW_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Allow Any Subscription Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SERVICE_PORT__ALLOW_ANY_SUBSCRIPTION_TYPE = PORT__ALLOW_ANY_SUBSCRIPTION_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Connector Profiles</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SERVICE_PORT__CONNECTOR_PROFILES = PORT__CONNECTOR_PROFILES;
-
-	/**
-	 * The feature id for the '<em><b>Interfaces</b></em>' attribute list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SERVICE_PORT__INTERFACES = PORT__INTERFACES;
-
-	/**
-	 * The feature id for the '<em><b>Dataflow Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SERVICE_PORT__DATAFLOW_TYPE = PORT__DATAFLOW_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Subscription Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SERVICE_PORT__SUBSCRIPTION_TYPE = PORT__SUBSCRIPTION_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Data Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SERVICE_PORT__DATA_TYPE = PORT__DATA_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Interface Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SERVICE_PORT__INTERFACE_TYPE = PORT__INTERFACE_TYPE;
-
-	/**
-	 * The number of structural features of the '<em>Service Port</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SERVICE_PORT_FEATURE_COUNT = PORT_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.ConnectorProfileImpl <em>Connector Profile</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ConnectorProfileImpl
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getConnectorProfile()
-	 * @generated
-	 */
-	int CONNECTOR_PROFILE = 11;
-
-	/**
-	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONNECTOR_PROFILE__CONSTRAINT = CorePackage.WRAPPER_OBJECT__CONSTRAINT;
-
-	/**
-	 * The feature id for the '<em><b>Dataflow Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONNECTOR_PROFILE__DATAFLOW_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Subscription Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONNECTOR_PROFILE__SUBSCRIPTION_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Subscription Type Available</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONNECTOR_PROFILE__SUBSCRIPTION_TYPE_AVAILABLE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Push Interval Available</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONNECTOR_PROFILE__PUSH_INTERVAL_AVAILABLE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONNECTOR_PROFILE__NAME = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 4;
-
-	/**
-	 * The feature id for the '<em><b>Connector Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONNECTOR_PROFILE__CONNECTOR_ID = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 5;
-
-	/**
-	 * The feature id for the '<em><b>Data Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONNECTOR_PROFILE__DATA_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 6;
-
-	/**
-	 * The feature id for the '<em><b>Interface Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONNECTOR_PROFILE__INTERFACE_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 7;
-
-	/**
-	 * The feature id for the '<em><b>Push Rate</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONNECTOR_PROFILE__PUSH_RATE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 8;
-
-	/**
-	 * The feature id for the '<em><b>Source String</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONNECTOR_PROFILE__SOURCE_STRING = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 9;
-
-	/**
-	 * The feature id for the '<em><b>Target String</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONNECTOR_PROFILE__TARGET_STRING = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 10;
-
-	/**
-	 * The number of structural features of the '<em>Connector Profile</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONNECTOR_PROFILE_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 11;
-
-	/**
-	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.ConfigurationSetImpl <em>Configuration Set</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ConfigurationSetImpl
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getConfigurationSet()
-	 * @generated
-	 */
-	int CONFIGURATION_SET = 12;
-
-	/**
-	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONFIGURATION_SET__CONSTRAINT = CorePackage.WRAPPER_OBJECT__CONSTRAINT;
-
-	/**
-	 * The feature id for the '<em><b>Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONFIGURATION_SET__ID = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Configuration Data</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONFIGURATION_SET__CONFIGURATION_DATA = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>Configuration Set</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONFIGURATION_SET_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 2;
-
-	/**
-	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.EIntegerObjectToPointMapEntryImpl <em>EInteger Object To Point Map Entry</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.EIntegerObjectToPointMapEntryImpl
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getEIntegerObjectToPointMapEntry()
-	 * @generated
-	 */
-	int EINTEGER_OBJECT_TO_POINT_MAP_ENTRY = 13;
-
-	/**
-	 * The feature id for the '<em><b>Key</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EINTEGER_OBJECT_TO_POINT_MAP_ENTRY__KEY = 0;
-
-	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EINTEGER_OBJECT_TO_POINT_MAP_ENTRY__VALUE = 1;
-
-	/**
-	 * The number of structural features of the '<em>EInteger Object To Point Map Entry</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EINTEGER_OBJECT_TO_POINT_MAP_ENTRY_FEATURE_COUNT = 2;
-
-	/**
-	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.PortSynchronizerImpl <em>Port Synchronizer</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.PortSynchronizerImpl
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getPortSynchronizer()
-	 * @generated
-	 */
-	int PORT_SYNCHRONIZER = 14;
-
-	/**
-	 * The feature id for the '<em><b>Original Port String</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT_SYNCHRONIZER__ORIGINAL_PORT_STRING = 0;
-
-	/**
-	 * The number of structural features of the '<em>Port Synchronizer</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT_SYNCHRONIZER_FEATURE_COUNT = 1;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaPortSynchronizerImpl <em>Corba Port Synchronizer</em>}' class.
@@ -2206,7 +2206,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getRTCComponentProfile()
 	 * @generated
 	 */
-	int RTC_COMPONENT_PROFILE = 20;
+	int RTC_COMPONENT_PROFILE = 24;
 
 	/**
 	 * The meta object id for the '<em>RTCRT Object</em>' data type.
@@ -2216,7 +2216,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getRTCRTObject()
 	 * @generated
 	 */
-	int RTCRT_OBJECT = 21;
+	int RTCRT_OBJECT = 23;
 
 	/**
 	 * The meta object id for the '<em>List</em>' data type.
@@ -2226,7 +2226,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getList()
 	 * @generated
 	 */
-	int LIST = 22;
+	int LIST = 31;
 
 	/**
 	 * The meta object id for the '<em>SDO Configuration</em>' data type.
@@ -2236,7 +2236,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getSDOConfiguration()
 	 * @generated
 	 */
-	int SDO_CONFIGURATION = 23;
+	int SDO_CONFIGURATION = 20;
 
 	/**
 	 * The meta object id for the '<em>SDO Configuration Set</em>' data type.
@@ -2246,7 +2246,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getSDOConfigurationSet()
 	 * @generated
 	 */
-	int SDO_CONFIGURATION_SET = 24;
+	int SDO_CONFIGURATION_SET = 21;
 
 	/**
 	 * The meta object id for the '<em>RTC Connector Profile</em>' data type.
@@ -2276,7 +2276,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getPropertyChangeListener()
 	 * @generated
 	 */
-	int PROPERTY_CHANGE_LISTENER = 27;
+	int PROPERTY_CHANGE_LISTENER = 29;
 
 	/**
 	 * The meta object id for the '<em>SDO Organization</em>' data type.
@@ -2286,7 +2286,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getSDOOrganization()
 	 * @generated
 	 */
-	int SDO_ORGANIZATION = 28;
+	int SDO_ORGANIZATION = 22;
 
 
 	/**
@@ -2297,7 +2297,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getPortInterfaceProfile()
 	 * @generated
 	 */
-	int PORT_INTERFACE_PROFILE = 29;
+	int PORT_INTERFACE_PROFILE = 30;
 
 
 	/**
@@ -2308,7 +2308,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getRTCExecutionContext()
 	 * @generated
 	 */
-	int RTC_EXECUTION_CONTEXT = 31;
+	int RTC_EXECUTION_CONTEXT = 27;
 
 
 	/**
@@ -2319,7 +2319,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getRTCExecutionContextProfile()
 	 * @generated
 	 */
-	int RTC_EXECUTION_CONTEXT_PROFILE = 30;
+	int RTC_EXECUTION_CONTEXT_PROFILE = 28;
 
 
 	/**
@@ -3261,8 +3261,8 @@ public interface ComponentPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>EInteger Object To Point Map Entry</em>'.
 	 * @see java.util.Map.Entry
-	 * @model keyType="java.lang.Integer"
-	 *        valueType="jp.go.aist.rtm.toolscommon.model.core.Point" valueDataType="jp.go.aist.rtm.toolscommon.model.core.Point"
+	 * @model keyDataType="org.eclipse.emf.ecore.EIntegerObject"
+	 *        valueDataType="jp.go.aist.rtm.toolscommon.model.core.Point"
 	 * @generated
 	 */
 	EClass getEIntegerObjectToPointMapEntry();

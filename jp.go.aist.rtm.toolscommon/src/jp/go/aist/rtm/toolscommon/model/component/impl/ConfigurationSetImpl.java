@@ -66,7 +66,7 @@ public class ConfigurationSetImpl extends WrapperObjectImpl implements
 	 * @generated
 	 * @ordered
 	 */
-    protected EList configurationData= null;
+    protected EList<NameValue> configurationData;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -109,9 +109,9 @@ public class ConfigurationSetImpl extends WrapperObjectImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-    public EList getConfigurationData() {
+    public EList<NameValue> getConfigurationData() {
 		if (configurationData == null) {
-			configurationData = new EObjectContainmentEList(NameValue.class, this, ComponentPackage.CONFIGURATION_SET__CONFIGURATION_DATA);
+			configurationData = new EObjectContainmentEList<NameValue>(NameValue.class, this, ComponentPackage.CONFIGURATION_SET__CONFIGURATION_DATA);
 		}
 		return configurationData;
 	}
@@ -125,7 +125,7 @@ public class ConfigurationSetImpl extends WrapperObjectImpl implements
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case ComponentPackage.CONFIGURATION_SET__CONFIGURATION_DATA:
-				return ((InternalEList)getConfigurationData()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getConfigurationData()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -160,7 +160,7 @@ public class ConfigurationSetImpl extends WrapperObjectImpl implements
 				return;
 			case ComponentPackage.CONFIGURATION_SET__CONFIGURATION_DATA:
 				getConfigurationData().clear();
-				getConfigurationData().addAll((Collection)newValue);
+				getConfigurationData().addAll((Collection<? extends NameValue>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);

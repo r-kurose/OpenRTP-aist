@@ -60,6 +60,7 @@ public class ComponentEditPart extends AbstractEditPart {
 		return (Component) super.getModel();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	/**
 	 * {@inheritDoc}

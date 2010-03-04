@@ -14,7 +14,7 @@ ${sharp}include "${idl.idlFileNoExt}${tmpltHelper.serviceSkelSuffix}.h"
 ${sharp}include "${idlFileParam.idlFileNoExt}${tmpltHelper.serviceSkelSuffix}.h"
 
 #ifndef ${idlFileParam.idlFileNoExt.toUpperCase()}${tmpltHelper.serviceImplSuffix.toUpperCase()}_H
-#define ${idlFileParam.idlFileNoExt.toUpperCase()}${tmpltHelper.serviceImplSuffix.toUpperCase()}_H
+${sharp}define ${idlFileParam.idlFileNoExt.toUpperCase()}${tmpltHelper.serviceImplSuffix.toUpperCase()}_H
  
 #foreach($serviceClassParam in ${idlFileParam.serviceClassParams})
 /*!

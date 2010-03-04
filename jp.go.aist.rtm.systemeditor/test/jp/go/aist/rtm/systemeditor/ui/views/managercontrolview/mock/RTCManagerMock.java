@@ -7,6 +7,7 @@ import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSupport;
 
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -22,6 +23,7 @@ import org.omg.CORBA.Object;
 import org.omg.CORBA.TCKind;
 
 import RTC.ComponentProfile;
+import RTC.RTObject;
 import RTM.ManagerProfile;
 import RTM.ModuleProfile;
 import _SDOPackage.NameValue;
@@ -73,11 +75,11 @@ public class RTCManagerMock implements RTCManager {
 
 	public ManagerProfile managerProfile;
 
-	public BasicEList loadableModuleList = new BasicEList();
+	public BasicEList<ModuleProfile> loadableModuleList = new BasicEList<ModuleProfile>();
 
-	public BasicEList loadedModuleList = new BasicEList();
+	public BasicEList<ModuleProfile> loadedModuleList = new BasicEList<ModuleProfile>();
 
-	public BasicEList componentProfileList = new BasicEList();
+	public BasicEList<ComponentProfile> componentProfileList = new BasicEList<ComponentProfile>();
 
 	public static NameValue newNV(String name, String value) {
 		NameValue nv = new NameValue();
@@ -142,7 +144,7 @@ public class RTCManagerMock implements RTCManager {
 		return 0;
 	}
 
-	public EList getComponentsR() {
+	public EList<RTObject> getComponentsR() {
 		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
@@ -223,12 +225,12 @@ public class RTCManagerMock implements RTCManager {
 		return null;
 	}
 
-	public EList eContents() {
+	public EList<EObject> eContents() {
 		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
-	public EList eCrossReferences() {
+	public EList<EObject> eCrossReferences() {
 		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
@@ -268,7 +270,7 @@ public class RTCManagerMock implements RTCManager {
 
 	}
 
-	public EList eAdapters() {
+	public EList<Adapter> eAdapters() {
 		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
@@ -305,19 +307,18 @@ public class RTCManagerMock implements RTCManager {
 
 	}
 
-	@SuppressWarnings("unchecked")
-	public EList getComponentInstanceNamesR() {
+	public EList<String> getComponentInstanceNamesR() {
 		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
-	public EList getComponentProfilesR() {
+	public EList<ComponentProfile> getComponentProfilesR() {
 		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
-	public EList getLoadableModuleFileNameR() {
-		BasicEList result = new BasicEList();
+	public EList<String> getLoadableModuleFileNamesR() {
+		BasicEList<String> result = new BasicEList<String>();
 		for (java.lang.Object o : this.loadableModuleList) {
 			if (o instanceof ModuleProfile) {
 				ModuleProfile mp = (ModuleProfile) o;
@@ -330,8 +331,8 @@ public class RTCManagerMock implements RTCManager {
 		return result;
 	}
 
-	public EList getLoadableModuleProfilesR() {
-		BasicEList result = new BasicEList();
+	public EList<ModuleProfile> getLoadableModuleProfilesR() {
+		BasicEList<ModuleProfile> result = new BasicEList<ModuleProfile>();
 		for (java.lang.Object o : this.loadableModuleList) {
 			if (o instanceof ModuleProfile) {
 				ModuleProfile mp = (ModuleProfile) o;
@@ -341,8 +342,8 @@ public class RTCManagerMock implements RTCManager {
 		return result;
 	}
 
-	public EList getLoadedModuleFileNamesR() {
-		BasicEList result = new BasicEList();
+	public EList<String> getLoadedModuleFileNamesR() {
+		BasicEList<String> result = new BasicEList<String>();
 		for (java.lang.Object o : this.loadedModuleList) {
 			if (o instanceof ModuleProfile) {
 				ModuleProfile mp = (ModuleProfile) o;
@@ -355,8 +356,8 @@ public class RTCManagerMock implements RTCManager {
 		return result;
 	}
 
-	public EList getLoadedModuleProfilesR() {
-		BasicEList result = new BasicEList();
+	public EList<ModuleProfile> getLoadedModuleProfilesR() {
+		BasicEList<ModuleProfile> result = new BasicEList<ModuleProfile>();
 		for (java.lang.Object o : this.loadedModuleList) {
 			if (o instanceof ModuleProfile) {
 				ModuleProfile mp = (ModuleProfile) o;
@@ -411,38 +412,90 @@ public class RTCManagerMock implements RTCManager {
 		
 	}
 
-	public EList getFactoryProfileTypeNamesR() {
+	public EList<String> getFactoryProfileTypeNamesR() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-//	@Override
 	public String getPathId() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-//	@Override
+	@Override
 	public void setPathId(String value) {
 		// TODO Auto-generated method stub
 		
 	}
 
-//	@Override
 	public void synchronizeLocalAttribute(EReference reference) {
 		// TODO Auto-generated method stub
 		
 	}
 
-//	@Override
 	public void synchronizeLocalReference() {
 		// TODO Auto-generated method stub
 		
 	}
 
-//	@Override
+	@Override
 	public void synchronizeManually() {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public EList<String> getComponentInstanceNames() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EList<ComponentProfile> getComponentProfiles() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EList<ModuleProfile> getFactoryModuleProfiles() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EList<ModuleProfile> getFactoryModuleProfilesR() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EList<String> getFactoryTypeNames() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EList<String> getLoadableModuleFileNames() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EList<ModuleProfile> getLoadableModuleProfiles() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EList<String> getLoadedModuleFileNames() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EList<ModuleProfile> getLoadedModuleProfiles() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

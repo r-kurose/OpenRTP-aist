@@ -155,11 +155,6 @@
            class="jp.go.aist.rtm.rtcbuilder.ui.preference.DocumentPreferencePage"
            id="jp.go.aist.rtm.rtcbuilder.ui.preferencePage.codeGenerate.Document"
            name="%preferecePagesDocumentName"/>
-     <page
-           category="jp.go.aist.rtm.rtcbuilder.ui.preferencePage"
-           class="jp.go.aist.rtm.rtcbuilder.ui.preference.DataTypePreferencePage"
-           id="jp.go.aist.rtm.rtcbuilder.ui.preferencePage.dataType"
-           name="%preferecePagesDataTypeName"/>
   </extension>
 
 </plugin>

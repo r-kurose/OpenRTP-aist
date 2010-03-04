@@ -8,6 +8,7 @@ import java.util.Map;
 
 import jp.go.aist.rtm.systemeditor.RTSystemEditorPlugin;
 
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
@@ -20,7 +21,11 @@ import org.eclipse.ui.PlatformUI;
  */
 public class SystemEditorPreferenceManager {
 	private static final String Separator = ":";
-	private static SystemEditorPreferenceManager __instance = new SystemEditorPreferenceManager();
+
+	private static SystemEditorPreferenceManager __instance;
+	static {
+		__instance = new SystemEditorPreferenceManager();
+	}
 
 	/**
 	 * RTC状態色のキー： Start
@@ -132,6 +137,12 @@ public class SystemEditorPreferenceManager {
 	private static final String CONNECT_SUBSCRIPTION_TYPE = SystemEditorPreferenceManager.class.getName()
 			+ "CONNECT_SUBSCRIPTION_TYPE";
 
+	// オンラインエディタ
+	/** コンポーネントアクションの実行確認 */
+	public static final String CONFIRM_COMPONENT_ACTION = SystemEditorPreferenceManager.class
+			.getName()
+			+ ".CONFIRM_COMPONENT_ACTION";
+
 	/**
 	 * デフォルトの色を管理するマップ
 	 */
@@ -180,6 +191,12 @@ public class SystemEditorPreferenceManager {
 	 * subscription Typeのデフォルト値
 	 */
 	public static String[] defaultConnectSubscriptionType = {"flush", "new", "periodic"};
+
+	IPreferenceStore store;
+
+	public SystemEditorPreferenceManager() {
+		this.store = RTSystemEditorPlugin.getDefault().getPreferenceStore();
+	}
 
 	/**
 	 * コンストラクタ
@@ -420,6 +437,33 @@ public class SystemEditorPreferenceManager {
 		String result = resultTemp.toString();
 		if(result.length() ==0) return "";
 		return result.substring(0, result.length()-1);
+	}
+
+	/**
+	 * コンポーネントアクションの実行確認判定
+	 * 
+	 * @return 実行確認をする場合は true
+	 */
+	public boolean isConfirmComponentAction() {
+		store.setDefault(CONFIRM_COMPONENT_ACTION, false);
+		return store.getBoolean(CONFIRM_COMPONENT_ACTION);
+	}
+
+	/**
+	 * コンポーネントアクションの実行確認設定
+	 * 
+	 * @param b
+	 *            実行確認をする場合は true
+	 */
+	public void setConfirmComponentAction(boolean b) {
+		store.setValue(CONFIRM_COMPONENT_ACTION, b);
+	}
+
+	/**
+	 * コンポーネントアクションの実行確認初期化
+	 */
+	public void resetConfirmComponentAction() {
+		setConfirmComponentAction(false);
 	}
 
 }

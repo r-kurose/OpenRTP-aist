@@ -11,7 +11,6 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
 import jp.go.aist.rtm.rtcbuilder.java.IRtcBuilderConstantsJava;
-import jp.go.aist.rtm.rtcbuilder.java._test.TestBase;
 import jp.go.aist.rtm.rtcbuilder.java.manager.JavaGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 

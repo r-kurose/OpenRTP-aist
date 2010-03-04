@@ -42,10 +42,12 @@ public abstract class LanguageProperty {
 		if( langProp != null ) {
 			String[] plugins = Platform.getExtensionRegistry().getNamespaces();
 			List<String> pluginMap = Arrays.asList(plugins);
-			if( !pluginMap.contains(langProp.getPluginId())) {
-				langProp = null;
+			for(String target : pluginMap) {
+				if(target.startsWith(langProp.getPluginId())) {
+					return langProp;
+				}
 			}
 		}
-		return langProp;
+		return null;
 	}
 }

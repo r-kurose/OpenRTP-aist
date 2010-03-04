@@ -269,6 +269,7 @@ public class JavaGenerateManager extends GenerateManager {
 
 		return result;
 	}
+	@SuppressWarnings("unchecked")
 	protected List<GeneratedResult> generateSVCExtend(Map contextMap, List<GeneratedResult> result) {
 		return result;		
 	}

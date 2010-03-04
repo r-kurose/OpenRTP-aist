@@ -58,6 +58,18 @@ ${rtcParam.name}_spec = ["implementation_id", "${rtcParam.name}",
 #foreach($configParam in ${rtcParam.configParams})
 		 "conf.default.${configParam.name}", "${configParam.defaultVal}",
 #end
+#if( ${rtcParam.configParams.size()} > 0 )
+#foreach($configParam in ${rtcParam.configParams})
+#if( ${configParam.widget.length()} > 0 )
+		 "conf.__widget__.${configParam.name}", "${configParam.widget}#if( ${configParam.step.length()} > 0 ).${configParam.step}#end",
+#end
+#end
+#foreach($configParam in ${rtcParam.configParams})
+#if( ${configParam.constraint.length()} > 0 )
+		 "conf.__constraints__.${configParam.name}", "${configParam.constraint}",
+#end
+#end
+#end
 #if( ${rtcParam.configParameterParams.size()} > 0 )
 #foreach($parameterParam in ${rtcParam.configParameterParams})  
 		 "${parameterParam.configName}", "${parameterParam.defaultVal}",

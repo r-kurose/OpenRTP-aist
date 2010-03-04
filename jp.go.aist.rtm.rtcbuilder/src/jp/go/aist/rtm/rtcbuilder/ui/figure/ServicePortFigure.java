@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.Color;
  */
 public class ServicePortFigure extends PortFigureBase {
 
+	@SuppressWarnings("unused")
 	private ServicePort servicePort;
 
 	/**

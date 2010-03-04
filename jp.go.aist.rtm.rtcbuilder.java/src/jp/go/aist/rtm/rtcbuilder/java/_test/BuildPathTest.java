@@ -15,12 +15,12 @@ import jp.go.aist.rtm.rtcbuilder.java.manager.JavaGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 
 public class BuildPathTest extends TestBase {
+	private GeneratorParam genParam;
+	private RtcParam rtcParam;
 
 	protected void setUp() throws Exception {
-	}
-	public void testPath4() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
+		genParam = new GeneratorParam();
+		rtcParam = new RtcParam(genParam, true);
 		rtcParam.setOutputProject(rootPath + "\\resource\\work");
 		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
 		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
@@ -33,6 +33,9 @@ public class BuildPathTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
 		genParam.getRtcParams().add(rtcParam);
+	}
+	
+	public void testPath4() throws Exception{
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
 		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
@@ -63,35 +66,16 @@ public class BuildPathTest extends TestBase {
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
 		String resourceDir = rootPath +  "\\resource\\Java\\buildpath\\path4\\";
-
-		checkCode(result, resourceDir, "fooComp.java");
-		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
+		checkResults(result, resourceDir);
 		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
-		checkCode(result, resourceDir, "README.foo");
 	}
 
 	public void testPath3() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
-		rtcParam.setName("foo");
-		rtcParam.setDescription("MDesc");
-		rtcParam.setVersion("1.0.1");
-		rtcParam.setVender("TA");
-		rtcParam.setCategory("Manip");
-		rtcParam.setComponentType("STATIC2");
-		rtcParam.setActivityType("PERIODIC2");
-		rtcParam.setMaxInstance(5);
 		ArrayList<String> pathList = new ArrayList<String>();
 		pathList.add(new String("C:\\xxx\\yyy\\zzz.jar"));
 		pathList.add(new String("C:\\aaa\\bbb\\ccc.jar"));
 		pathList.add(new String("C:\\xxx\\yyy\\zzz.jar"));
 		rtcParam.getLibraryPathes().addAll(pathList);
-		genParam.getRtcParams().add(rtcParam);
 		
 		Generator generator = new Generator();
 		GenerateManager manager = new JavaGenerateManager();
@@ -99,33 +83,14 @@ public class BuildPathTest extends TestBase {
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
 		String resourceDir = rootPath +  "\\resource\\Java\\buildpath\\path2\\";
-
-		checkCode(result, resourceDir, "fooComp.java");
-		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		checkCode(result, resourceDir, "README.foo");
+		checkResults(result, resourceDir);
 	}
 
 	public void testPath2() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
-		rtcParam.setName("foo");
-		rtcParam.setDescription("MDesc");
-		rtcParam.setVersion("1.0.1");
-		rtcParam.setVender("TA");
-		rtcParam.setCategory("Manip");
-		rtcParam.setComponentType("STATIC2");
-		rtcParam.setActivityType("PERIODIC2");
-		rtcParam.setMaxInstance(5);
 		ArrayList<String> pathList = new ArrayList<String>();
 		pathList.add(new String("C:\\xxx\\yyy\\zzz.jar"));
 		pathList.add(new String("C:\\aaa\\bbb\\ccc.jar"));
 		rtcParam.getLibraryPathes().addAll(pathList);
-		genParam.getRtcParams().add(rtcParam);
 		
 		Generator generator = new Generator();
 		GenerateManager manager = new JavaGenerateManager();
@@ -133,32 +98,13 @@ public class BuildPathTest extends TestBase {
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
 		String resourceDir = rootPath +  "\\resource\\Java\\buildpath\\path2\\";
-
-		checkCode(result, resourceDir, "fooComp.java");
-		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		checkCode(result, resourceDir, "README.foo");
+		checkResults(result, resourceDir);
 	}
 
 	public void testPath1() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
-		rtcParam.setName("foo");
-		rtcParam.setDescription("MDesc");
-		rtcParam.setVersion("1.0.1");
-		rtcParam.setVender("TA");
-		rtcParam.setCategory("Manip");
-		rtcParam.setComponentType("STATIC2");
-		rtcParam.setActivityType("PERIODIC2");
-		rtcParam.setMaxInstance(5);
 		ArrayList<String> pathList = new ArrayList<String>();
 		pathList.add(new String("C:\\xxx\\yyy\\zzz.jar"));
 		rtcParam.getLibraryPathes().addAll(pathList);
-		genParam.getRtcParams().add(rtcParam);
 		
 		Generator generator = new Generator();
 		GenerateManager manager = new JavaGenerateManager();
@@ -166,7 +112,10 @@ public class BuildPathTest extends TestBase {
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
 		String resourceDir = rootPath +  "\\resource\\Java\\buildpath\\path1\\";
-
+		checkResults(result, resourceDir);
+	}
+	
+	private void checkResults(List<GeneratedResult> result, String resourceDir) {
 		checkCode(result, resourceDir, "fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
 		checkCode(result, resourceDir, "foo.java");

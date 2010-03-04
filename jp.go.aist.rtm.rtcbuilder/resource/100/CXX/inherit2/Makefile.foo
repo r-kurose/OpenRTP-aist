@@ -11,7 +11,7 @@
 #   --module-category=sample --module-comp-type=STATIC 
 #   --module-act-type=PERIODIC --module-max-inst=2 
 #   --service-idl=C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\resource\100\CXX\inherit2\MyServiceChildMulti.idl --service-idl=C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\resource\100\CXX\inherit2\MyServiceChildWithType.idl 
-#   --consumer-idl=C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\resource\100\CXX\inherit2\MyServiceChildMulti.idl --consumer-idl=C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\resource\100\CXX\inherit2\MyServiceChildWithType.idl 
+#   --consumer-idl=C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\resource\100\CXX\inherit2\MyServiceChildMulti.idl --consumer-idl=C:\Tech-Arts\EclipseRTM34\jp.go.aist.rtm.rtcbuilder\resource\100\CXX\inherit2\MyServiceChildWithType.idl 
 #   --service=MyServiceProvider:MyServiceProvider:MyServiceChild 
 #   --service=MyServiceProvider:MyServiceProvider2:MyServiceWithTypeChild 
 #   --consumer=MyServiceRequire:MyServiceRequire:MyServiceChild 

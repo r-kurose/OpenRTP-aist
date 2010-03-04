@@ -38,6 +38,8 @@ public class foo implements RtcNewFunc, RtcDeleteFunc, RegisterModuleFunc {
             "conf.default.double_param0", "0.11",
             "conf.default.str_param0", "hoge",
             "conf.default.str_param1", "dara",
+            // Widget
+            // Constraints
     	    ""
             };
 //  </rtc-template>

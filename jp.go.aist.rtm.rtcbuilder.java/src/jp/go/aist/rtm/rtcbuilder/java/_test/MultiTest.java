@@ -15,13 +15,12 @@ import jp.go.aist.rtm.rtcbuilder.java.manager.JavaGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 
 public class MultiTest extends TestBase {
+	private RtcParam rtcParam;
+	private GeneratorParam genParam;
 
 	protected void setUp() throws Exception {
-	}
-
-	public void testProConMulti() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
+		genParam = new GeneratorParam();
+		rtcParam = new RtcParam(genParam, true);
 		rtcParam.setOutputProject(rootPath + "\\resource\\work");
 		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
 		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
@@ -33,7 +32,10 @@ public class MultiTest extends TestBase {
 		rtcParam.setComponentType("STATIC");
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(2);
-		
+		genParam.getRtcParams().add(rtcParam);
+	}
+
+	public void testProConMulti() throws Exception{
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
 		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.getInports().addAll(dataInport);
@@ -75,7 +77,6 @@ public class MultiTest extends TestBase {
 		service4.getServicePortInterfaces().addAll(srvinterts4);
 		srvports.add(service4);
 		rtcParam.getServicePorts().addAll(srvports);
-		genParam.getRtcParams().add(rtcParam);
 
 		Generator generator = new Generator();
 		GenerateManager manager = new JavaGenerateManager();
@@ -83,31 +84,12 @@ public class MultiTest extends TestBase {
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
 		String resourceDir = rootPath +  "\\resource\\Java\\Multi\\ProConMulti\\";
-
-		checkCode(result, resourceDir, "fooComp.java");
-		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
+		checkResults(result, resourceDir);
 		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
 		checkCode(result, resourceDir, "MyService2SVC_impl.java");
-		checkCode(result, resourceDir, "README.foo");
 	}
 
 	public void testConsumerMulti() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
-		rtcParam.setName("foo");
-		rtcParam.setDescription("test module");
-		rtcParam.setVersion("1.0.1");
-		rtcParam.setVender("TA");
-		rtcParam.setCategory("sample");
-		rtcParam.setComponentType("STATIC");
-		rtcParam.setActivityType("PERIODIC");
-		rtcParam.setMaxInstance(2);
-		
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
 		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.getInports().addAll(dataInport);
@@ -133,7 +115,6 @@ public class MultiTest extends TestBase {
 		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
 		rtcParam.getServicePorts().addAll(srvports);
-		genParam.getRtcParams().add(rtcParam);
 		
 		Generator generator = new Generator();
 		GenerateManager manager = new JavaGenerateManager();
@@ -141,29 +122,10 @@ public class MultiTest extends TestBase {
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
 		String resourceDir = rootPath +  "\\resource\\Java\\Multi\\ConMulti\\";
-
-		checkCode(result, resourceDir, "fooComp.java");
-		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		checkCode(result, resourceDir, "README.foo");
+		checkResults(result, resourceDir);
 	}
 
 	public void testProviderMulti() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
-		rtcParam.setName("foo");
-		rtcParam.setDescription("test module");
-		rtcParam.setVersion("1.0.1");
-		rtcParam.setVender("TA");
-		rtcParam.setCategory("sample");
-		rtcParam.setComponentType("STATIC");
-		rtcParam.setActivityType("PERIODIC");
-		rtcParam.setMaxInstance(2);
-		
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
 		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.getInports().addAll(dataInport);
@@ -189,7 +151,6 @@ public class MultiTest extends TestBase {
 		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
 		rtcParam.getServicePorts().addAll(srvports);
-		genParam.getRtcParams().add(rtcParam);
 		
 		Generator generator = new Generator();
 		GenerateManager manager = new JavaGenerateManager();
@@ -197,13 +158,15 @@ public class MultiTest extends TestBase {
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
 		String resourceDir = rootPath +  "\\resource\\Java\\Multi\\ProMulti\\";
-
+		checkResults(result, resourceDir);
+		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
+		checkCode(result, resourceDir, "DAQServiceSVC_impl.java");
+	}
+	private void checkResults(List<GeneratedResult> result, String resourceDir) {
 		checkCode(result, resourceDir, "fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
 		checkCode(result, resourceDir, "foo.java");
 		checkCode(result, resourceDir, "fooImpl.java");
-		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
-		checkCode(result, resourceDir, "DAQServiceSVC_impl.java");
 		checkCode(result, resourceDir, "README.foo");
 	}
 }

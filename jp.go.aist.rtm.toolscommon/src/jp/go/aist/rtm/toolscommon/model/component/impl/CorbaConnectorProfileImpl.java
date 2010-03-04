@@ -87,6 +87,7 @@ public class CorbaConnectorProfileImpl extends ConnectorProfileImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return ComponentPackage.Literals.CORBA_CONNECTOR_PROFILE;
 	}
@@ -117,6 +118,7 @@ public class CorbaConnectorProfileImpl extends ConnectorProfileImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ComponentPackage.CORBA_CONNECTOR_PROFILE__RTC_CONNECTOR_PROFILE:
@@ -130,6 +132,7 @@ public class CorbaConnectorProfileImpl extends ConnectorProfileImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ComponentPackage.CORBA_CONNECTOR_PROFILE__RTC_CONNECTOR_PROFILE:
@@ -144,6 +147,7 @@ public class CorbaConnectorProfileImpl extends ConnectorProfileImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case ComponentPackage.CORBA_CONNECTOR_PROFILE__RTC_CONNECTOR_PROFILE:
@@ -158,6 +162,7 @@ public class CorbaConnectorProfileImpl extends ConnectorProfileImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case ComponentPackage.CORBA_CONNECTOR_PROFILE__RTC_CONNECTOR_PROFILE:
@@ -171,6 +176,7 @@ public class CorbaConnectorProfileImpl extends ConnectorProfileImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 

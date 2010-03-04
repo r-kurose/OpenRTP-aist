@@ -104,6 +104,7 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return ComponentPackage.Literals.COMPONENT_SPECIFICATION;
 	}
@@ -155,6 +156,7 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ComponentPackage.COMPONENT_SPECIFICATION__ALIAS_NAME:
@@ -170,6 +172,7 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ComponentPackage.COMPONENT_SPECIFICATION__ALIAS_NAME:
@@ -187,6 +190,7 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case ComponentPackage.COMPONENT_SPECIFICATION__ALIAS_NAME:
@@ -204,6 +208,7 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case ComponentPackage.COMPONENT_SPECIFICATION__ALIAS_NAME:
@@ -219,6 +224,7 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
@@ -249,6 +255,7 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 			if (configSet.getId().startsWith("_")) continue;
 			iterate.remove();
 		}
+//		getConfigurationSets().clear();
 	}
 
 	@SuppressWarnings("unchecked")

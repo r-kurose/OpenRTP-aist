@@ -57,7 +57,6 @@ public class CompositeFilterTest extends TestCase {
 		assertEquals(0, result.size());
 	}
 
-	@SuppressWarnings("unchecked")
 	private SystemDiagram setupDiagram() {
 		SystemDiagram diagram = new ComponentFactoryImpl().createSystemDiagram();
 		diagram.getComponents().add(setupComponent1());
@@ -68,8 +67,7 @@ public class CompositeFilterTest extends TestCase {
 		return diagram;
 	}
 
-	@SuppressWarnings("unchecked")
-	private Object setupComponent1() {
+	private Component setupComponent1() {
 		Component component = createComponent("1");
 		component.getComponents().add(setupComponent2());
 		component.getComponents().add(setupComponent3());
@@ -78,20 +76,18 @@ public class CompositeFilterTest extends TestCase {
 		return component;
 	}
 
-	@SuppressWarnings("unchecked")
-	private Object setupComponent2() {
+	private Component setupComponent2() {
 		Component component = createComponent("2");
 		component.getPorts().add(setupPort2());
 		return component;
 	}
 
-	private Object setupComponent3() {
+	private Component setupComponent3() {
 		Component component = createComponent("3");
 		return component;
 	}
 
-	@SuppressWarnings("unchecked")
-	private Object setupComponent4() {
+	private Component setupComponent4() {
 		Component component = createComponent("4");
 		component.getPorts().add(setupPort3());
 		return component;
@@ -139,7 +135,6 @@ public class CompositeFilterTest extends TestCase {
 		connector.setConnectorProfile(profile);
 		connector.createConnectorR();
 	}
-
 
 	private String getOriginalPortString(String componentId,
 			String instanceName, String portName) {

@@ -73,6 +73,7 @@ public class ComponentBuildView extends ViewPart {
 	 * ƒ‚ƒfƒ‹‚Ö‚ÌƒŠƒXƒi
 	 */
 	protected Adapter modelListener = new AdapterImpl() {
+		@SuppressWarnings("unchecked")
 		@Override
 		public void notifyChanged(final Notification msg) {
 			if( msg.getNewValue() != null ) {
@@ -106,6 +107,7 @@ public class ComponentBuildView extends ViewPart {
 		}
 	};
 
+	@SuppressWarnings("unchecked")
 	private void attachListener(EObject targetOld, EObject targetNew) {
 		if( targetOld != null ) {
 			for( Iterator iter = targetOld.eAllContents(); iter.hasNext();) {

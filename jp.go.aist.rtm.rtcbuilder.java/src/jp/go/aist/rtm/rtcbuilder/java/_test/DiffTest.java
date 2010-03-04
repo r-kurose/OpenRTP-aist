@@ -14,13 +14,12 @@ import jp.go.aist.rtm.rtcbuilder.java.manager.JavaGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 
 public class DiffTest extends TestBase {
+	private GeneratorParam genParam;
+	private RtcParam rtcParam;
 
 	protected void setUp() throws Exception {
-	}
-
-	public void testDiffName2() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
+		genParam = new GeneratorParam();
+		rtcParam = new RtcParam(genParam, true);
 		rtcParam.setOutputProject(rootPath + "\\resource\\work");
 		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
 		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
@@ -32,7 +31,10 @@ public class DiffTest extends TestBase {
 		rtcParam.setComponentType("STATIC");
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(1);
+		genParam.getRtcParams().add(rtcParam);
+	}
 
+	public void testDiffName2() throws Exception{
 		ServicePortParam service1 = new ServicePortParam("MySVPro0",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "myservice0", "", "", 
@@ -42,7 +44,6 @@ public class DiffTest extends TestBase {
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 		rtcParam.getServicePorts().addAll(srvports);
-		genParam.getRtcParams().add(rtcParam);
 
 		Generator generator = new Generator();
 		GenerateManager manager = new JavaGenerateManager();
@@ -50,31 +51,10 @@ public class DiffTest extends TestBase {
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
 		String resourceDir = rootPath +  "\\resource\\Java\\diffname2\\";
-
-		checkCode(result, resourceDir, "testComp.java");
-		checkCode(result, resourceDir, "build_test.xml");
-		checkCode(result, resourceDir, "test.java");
-		checkCode(result, resourceDir, "testImpl.java");
-		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
-//		checkCode(result, resourceDir, "DAQServiceSVC_impl.java");
-		checkCode(result, resourceDir, "README.test");
+		checkResults(result, resourceDir);
 	}
 
 	public void testDiffName() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
-		rtcParam.setName("test");
-		rtcParam.setDescription("test component");
-		rtcParam.setVersion("1.0.0");
-		rtcParam.setVender("S.Kurihara");
-		rtcParam.setCategory("sample");
-		rtcParam.setComponentType("STATIC");
-		rtcParam.setActivityType("PERIODIC");
-		rtcParam.setMaxInstance(1);
-
 		ServicePortParam service1 = new ServicePortParam("MySVPro0",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "myservice0", "", "", 
@@ -84,7 +64,6 @@ public class DiffTest extends TestBase {
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 		rtcParam.getServicePorts().addAll(srvports);
-		genParam.getRtcParams().add(rtcParam);
 
 		Generator generator = new Generator();
 		GenerateManager manager = new JavaGenerateManager();
@@ -92,7 +71,10 @@ public class DiffTest extends TestBase {
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
 		String resourceDir = rootPath +  "\\resource\\Java\\diffname\\";
+		checkResults(result, resourceDir);
+	}
 
+	private void checkResults(List<GeneratedResult> result, String resourceDir) {
 		checkCode(result, resourceDir, "testComp.java");
 		checkCode(result, resourceDir, "build_test.xml");
 		checkCode(result, resourceDir, "test.java");

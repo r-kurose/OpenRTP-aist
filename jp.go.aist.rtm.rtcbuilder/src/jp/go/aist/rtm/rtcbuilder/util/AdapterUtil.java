@@ -21,6 +21,7 @@ public class AdapterUtil {
 	 *            対象のクラス
 	 * @return アダプタ
 	 */
+	@SuppressWarnings("unchecked")
 	public static Object getAdapter(Object obj, Class clazz) {
 		if (obj == null) {
 			return null;

@@ -117,13 +117,49 @@ public interface ManagerPackage extends EPackage {
 	int RTC_MANAGER__PATH_ID = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Component Profiles</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RTC_MANAGER__COMPONENT_PROFILES = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Loadable Module Profiles</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RTC_MANAGER__LOADABLE_MODULE_PROFILES = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Loaded Module Profiles</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RTC_MANAGER__LOADED_MODULE_PROFILES = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Factory Module Profiles</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RTC_MANAGER__FACTORY_MODULE_PROFILES = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 6;
+
+	/**
 	 * The number of structural features of the '<em>RTC Manager</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RTC_MANAGER_FEATURE_COUNT = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 3;
+	int RTC_MANAGER_FEATURE_COUNT = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 7;
 
 	/**
 	 * The meta object id for the '<em>RTM Manager Profile</em>' data type.
@@ -188,6 +224,50 @@ public interface ManagerPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getRTCManager_PathId();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getComponentProfiles <em>Component Profiles</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Component Profiles</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getComponentProfiles()
+	 * @see #getRTCManager()
+	 * @generated
+	 */
+	EAttribute getRTCManager_ComponentProfiles();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getLoadableModuleProfiles <em>Loadable Module Profiles</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Loadable Module Profiles</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getLoadableModuleProfiles()
+	 * @see #getRTCManager()
+	 * @generated
+	 */
+	EAttribute getRTCManager_LoadableModuleProfiles();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getLoadedModuleProfiles <em>Loaded Module Profiles</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Loaded Module Profiles</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getLoadedModuleProfiles()
+	 * @see #getRTCManager()
+	 * @generated
+	 */
+	EAttribute getRTCManager_LoadedModuleProfiles();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getFactoryModuleProfiles <em>Factory Module Profiles</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Factory Module Profiles</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getFactoryModuleProfiles()
+	 * @see #getRTCManager()
+	 * @generated
+	 */
+	EAttribute getRTCManager_FactoryModuleProfiles();
 
 	/**
 	 * Returns the meta object for data type '{@link RTM.ManagerProfile <em>RTM Manager Profile</em>}'.
@@ -266,6 +346,38 @@ public interface ManagerPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute RTC_MANAGER__PATH_ID = eINSTANCE.getRTCManager_PathId();
+
+		/**
+		 * The meta object literal for the '<em><b>Component Profiles</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RTC_MANAGER__COMPONENT_PROFILES = eINSTANCE.getRTCManager_ComponentProfiles();
+
+		/**
+		 * The meta object literal for the '<em><b>Loadable Module Profiles</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RTC_MANAGER__LOADABLE_MODULE_PROFILES = eINSTANCE.getRTCManager_LoadableModuleProfiles();
+
+		/**
+		 * The meta object literal for the '<em><b>Loaded Module Profiles</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RTC_MANAGER__LOADED_MODULE_PROFILES = eINSTANCE.getRTCManager_LoadedModuleProfiles();
+
+		/**
+		 * The meta object literal for the '<em><b>Factory Module Profiles</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RTC_MANAGER__FACTORY_MODULE_PROFILES = eINSTANCE.getRTCManager_FactoryModuleProfiles();
 
 		/**
 		 * The meta object literal for the '<em>RTM Manager Profile</em>' data type.

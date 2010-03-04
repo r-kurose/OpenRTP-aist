@@ -63,7 +63,7 @@ public class CompareResultDialog extends Dialog {
 	/**
 	 * ジェネレートボタンのラベル
 	 */
-	public static final String GENERATE_LABEL = "Generate";
+	public static final String GENERATE_LABEL = "Generated";
 
 	/**
 	 * マージボタンのラベル
@@ -132,7 +132,6 @@ public class CompareResultDialog extends Dialog {
 	protected void createButtonsForButtonBar(Composite parent) {
 		if( isOkCancel ) {
 			createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, false);
-			createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
 			
 		} else {
 			createButton(parent, MergeHandler.PROCESS_ORIGINAL_ID, ORIGINAL_LABEL, false);
@@ -140,7 +139,6 @@ public class CompareResultDialog extends Dialog {
 				createButton(parent, MergeHandler.PROCESS_MERGE_ID, MERGE_LAGEL, false);
 			}
 			createButton(parent, MergeHandler.PROCESS_GENERATE_ID, GENERATE_LABEL, true);
-			createButton(parent, IDialogConstants.CANCEL_ID, "Cancel", false);
 			GridLayout layout = (GridLayout) parent.getLayout();
 			layout.horizontalSpacing = 100;
 			parent.setLayout(layout);

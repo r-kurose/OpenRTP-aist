@@ -1,5 +1,6 @@
 package jp.go.aist.rtm.toolscommon.model.component;
 
+import jp.go.aist.rtm.toolscommon.model.core.Point;
 import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
 import org.eclipse.emf.common.util.EMap;
 
@@ -37,10 +38,10 @@ public interface PortConnector extends WrapperObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Routing Constraint</em>' map.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getPortConnector_RoutingConstraint()
-	 * @model mapType="jp.go.aist.rtm.toolscommon.model.component.EIntegerObjectToPointMapEntry" keyType="java.lang.Integer" valueType="jp.go.aist.rtm.toolscommon.model.core.Point"
+	 * @model mapType="jp.go.aist.rtm.toolscommon.model.component.EIntegerObjectToPointMapEntry<org.eclipse.emf.ecore.EIntegerObject, jp.go.aist.rtm.toolscommon.model.core.Point>"
 	 * @generated
 	 */
-	EMap getRoutingConstraint();
+	EMap<Integer, Point> getRoutingConstraint();
 
 	/**
 	 * Returns the value of the '<em><b>Source</b></em>' reference.

@@ -32,6 +32,20 @@ static const char* ${rtcParam.name.toLowerCase()}_spec[] =
     "conf.default.${configParam.name}", "${configParam.defaultVal}",
 #end
 #end
+#if( ${rtcParam.configParams.size()} > 0 )
+    // Widget
+#foreach($configParam in ${rtcParam.configParams})
+#if( ${configParam.widget.length()} > 0 )
+    "conf.__widget__.${configParam.name}", "${configParam.widget}#if( ${configParam.step.length()} > 0 ).${configParam.step}#end",
+#end
+#end
+    // Constraints
+#foreach($configParam in ${rtcParam.configParams})
+#if( ${configParam.constraint.length()} > 0 )
+    "conf.__constraints__.${configParam.name}", "${configParam.constraint}",
+#end
+#end
+#end
 #if( ${rtcParam.configParameterParams.size()} > 0 )
     // System Configuration
 #foreach($parameterParam in ${rtcParam.configParameterParams})  

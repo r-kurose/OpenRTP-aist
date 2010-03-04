@@ -26,6 +26,9 @@ static const char* foo_spec[] =
     "lang_type",         "compile",
     // Configuration variables
     "conf.default.int_param0", "0",
+    // Widget
+    // Constraints
+    "conf.__constraints__.int_param0", "0<x<1",
     ""
   };
 // </rtc-template>

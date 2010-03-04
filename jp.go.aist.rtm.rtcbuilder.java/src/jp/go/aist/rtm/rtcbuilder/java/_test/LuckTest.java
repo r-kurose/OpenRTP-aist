@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.go.aist.rtm.rtcbuilder.Generator;
-import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
@@ -15,13 +14,12 @@ import jp.go.aist.rtm.rtcbuilder.java.manager.JavaGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 
 public class LuckTest extends TestBase {
+	private RtcParam rtcParam;
+	private GeneratorParam genParam;
 
 	protected void setUp() throws Exception {
-	}
-
-	public void testConsumerNoType() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
+		genParam = new GeneratorParam();
+		rtcParam = new RtcParam(genParam, true);
 		rtcParam.setOutputProject(rootPath + "\\resource\\work");
 		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
 		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
@@ -35,6 +33,9 @@ public class LuckTest extends TestBase {
 		rtcParam.setMaxInstance(2);
 		genParam.getRtcParams().add(rtcParam);
 		
+	}
+
+	public void testConsumerNoType() throws Exception{
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
 		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.getInports().addAll(dataInport);
@@ -70,25 +71,11 @@ public class LuckTest extends TestBase {
 			generator.generateTemplateCode(genParam);
 			fail();
 		} catch ( Exception ex ) {
-			assertEquals("'' is not found in IDL", ex.getMessage());
+			assertEquals("Please enter Service Interface type. : foo", ex.getMessage());
 		}
 	}
 
 	public void testConsumerNoName() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
-		rtcParam.setName("foo");
-		rtcParam.setDescription("test module");
-		rtcParam.setVersion("1.0.1");
-		rtcParam.setVender("TA");
-		rtcParam.setCategory("sample");
-		rtcParam.setComponentType("STATIC");
-		rtcParam.setActivityType("PERIODIC");
-		rtcParam.setMaxInstance(2);
-		
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
 		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.getInports().addAll(dataInport);
@@ -120,33 +107,14 @@ public class LuckTest extends TestBase {
 		Generator generator = new Generator();
 		GenerateManager manager = new JavaGenerateManager();
 		generator.addGenerateManager(manager);
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
-
-		String resourceDir = rootPath +  "\\resource\\Java\\Exception\\ConNoName\\";
-
-		checkCode(result, resourceDir, "fooComp.java");
-		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			generator.generateTemplateCode(genParam);
+			fail();
+		} catch(Exception e) {
+		}
 	}
 
 	public void testConsumerNoPortName() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
-		rtcParam.setName("foo");
-		rtcParam.setDescription("test module");
-		rtcParam.setVersion("1.0.1");
-		rtcParam.setVender("TA");
-		rtcParam.setCategory("sample");
-		rtcParam.setComponentType("STATIC");
-		rtcParam.setActivityType("PERIODIC");
-		rtcParam.setMaxInstance(2);
-		
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
 		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.getInports().addAll(dataInport);
@@ -178,33 +146,14 @@ public class LuckTest extends TestBase {
 		Generator generator = new Generator();
 		GenerateManager manager = new JavaGenerateManager();
 		generator.addGenerateManager(manager);
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
-
-		String resourceDir = rootPath +  "\\resource\\Java\\Exception\\ConNoPortName\\";
-
-		checkCode(result, resourceDir, "fooComp.java");
-		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			generator.generateTemplateCode(genParam);
+			fail();
+		} catch(Exception e) {
+		}
 	}
 
 	public void testProviderNoType() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
-		rtcParam.setName("foo");
-		rtcParam.setDescription("test module");
-		rtcParam.setVersion("1.0.1");
-		rtcParam.setVender("TA");
-		rtcParam.setCategory("sample");
-		rtcParam.setComponentType("STATIC");
-		rtcParam.setActivityType("PERIODIC");
-		rtcParam.setMaxInstance(2);
-		
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
 		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.getInports().addAll(dataInport);
@@ -231,26 +180,12 @@ public class LuckTest extends TestBase {
 			generator.generateTemplateCode(genParam);
 			fail();
 		} catch ( Exception ex ) {
-			assertEquals("'' is not found in IDL", ex.getMessage());
+			assertEquals("Please enter Service Interface type. : foo", ex.getMessage());
 		}
 
 	}
 
 	public void testProviderNoName() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
-		rtcParam.setName("foo");
-		rtcParam.setDescription("test module");
-		rtcParam.setVersion("1.0.1");
-		rtcParam.setVender("TA");
-		rtcParam.setCategory("sample");
-		rtcParam.setComponentType("STATIC");
-		rtcParam.setActivityType("PERIODIC");
-		rtcParam.setMaxInstance(2);
-		
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
 		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.getInports().addAll(dataInport);
@@ -273,33 +208,14 @@ public class LuckTest extends TestBase {
 		Generator generator = new Generator();
 		GenerateManager manager = new JavaGenerateManager();
 		generator.addGenerateManager(manager);
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
-
-		String resourceDir = rootPath +  "\\resource\\Java\\Exception\\ProNoName\\";
-
-		checkCode(result, resourceDir, "fooComp.java");
-		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			generator.generateTemplateCode(genParam);
+			fail();
+		} catch(Exception e) {
+		}
 	}
 
 	public void testProviderNoPortName() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
-		rtcParam.setName("foo");
-		rtcParam.setDescription("test module");
-		rtcParam.setVersion("1.0.1");
-		rtcParam.setVender("TA");
-		rtcParam.setCategory("sample");
-		rtcParam.setComponentType("STATIC");
-		rtcParam.setActivityType("PERIODIC");
-		rtcParam.setMaxInstance(2);
-		
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
 		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.getInports().addAll(dataInport);
@@ -322,34 +238,14 @@ public class LuckTest extends TestBase {
 		Generator generator = new Generator();
 		GenerateManager manager = new JavaGenerateManager();
 		generator.addGenerateManager(manager);
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
-
-		String resourceDir = rootPath +  "\\resource\\Java\\Exception\\ProNoPortName\\";
-
-		checkCode(result, resourceDir, "fooComp.java");
-		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			generator.generateTemplateCode(genParam);
+			fail();
+		} catch(Exception e) {
+		}
 	}
 
 	public void testOutPortNoType() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
-		rtcParam.setName("foo");
-		rtcParam.setDescription("test module");
-		rtcParam.setVersion("1.0.1");
-		rtcParam.setVender("TA");
-		rtcParam.setCategory("sample");
-		rtcParam.setComponentType("STATIC");
-		rtcParam.setActivityType("PERIODIC");
-		rtcParam.setMaxInstance(2);
-		genParam.getRtcParams().add(rtcParam);
-		
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
 		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.getInports().addAll(dataInport);
@@ -361,33 +257,14 @@ public class LuckTest extends TestBase {
 		Generator generator = new Generator();
 		GenerateManager manager = new JavaGenerateManager();
 		generator.addGenerateManager(manager);
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
-
-		String resourceDir = rootPath +  "\\resource\\Java\\Exception\\OutPortNoType\\";
-
-		checkCode(result, resourceDir, "fooComp.java");
-		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			generator.generateTemplateCode(genParam);
+			fail();
+		} catch(Exception e) {
+		}
 	}
 
 	public void testOutPortNoName() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
-		rtcParam.setName("foo");
-		rtcParam.setDescription("test module");
-		rtcParam.setVersion("1.0.1");
-		rtcParam.setVender("TA");
-		rtcParam.setCategory("sample");
-		rtcParam.setComponentType("STATIC");
-		rtcParam.setActivityType("PERIODIC");
-		rtcParam.setMaxInstance(2);
-		genParam.getRtcParams().add(rtcParam);
-		
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
 		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.getInports().addAll(dataInport);
@@ -399,33 +276,14 @@ public class LuckTest extends TestBase {
 		Generator generator = new Generator();
 		GenerateManager manager = new JavaGenerateManager();
 		generator.addGenerateManager(manager);
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
-
-		String resourceDir = rootPath +  "\\resource\\Java\\Exception\\OutPortNoName\\";
-
-		checkCode(result, resourceDir, "fooComp.java");
-		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			generator.generateTemplateCode(genParam);
+			fail();
+		} catch(Exception e) {
+		}
 	}
 
 	public void testInPortNoType() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
-		rtcParam.setName("foo");
-		rtcParam.setDescription("test module");
-		rtcParam.setVersion("1.0.1");
-		rtcParam.setVender("TA");
-		rtcParam.setCategory("sample");
-		rtcParam.setComponentType("STATIC");
-		rtcParam.setActivityType("PERIODIC");
-		rtcParam.setMaxInstance(2);
-		genParam.getRtcParams().add(rtcParam);
-		
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("in1", "", "", 0));
 		rtcParam.getInports().addAll(dataport);
@@ -433,33 +291,14 @@ public class LuckTest extends TestBase {
 		Generator generator = new Generator();
 		GenerateManager manager = new JavaGenerateManager();
 		generator.addGenerateManager(manager);
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
-
-		String resourceDir = rootPath +  "\\resource\\Java\\Exception\\InPortNoType\\";
-
-		checkCode(result, resourceDir, "fooComp.java");
-		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			generator.generateTemplateCode(genParam);
+			fail();
+		} catch(Exception e) {
+		}
 	}
 
 	public void testInPortNoName() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
-		rtcParam.setName("foo");
-		rtcParam.setDescription("test module");
-		rtcParam.setVersion("1.0.1");
-		rtcParam.setVender("TA");
-		rtcParam.setCategory("sample");
-		rtcParam.setComponentType("STATIC");
-		rtcParam.setActivityType("PERIODIC");
-		rtcParam.setMaxInstance(2);
-		genParam.getRtcParams().add(rtcParam);
-		
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("", "RTC::TimedShort", "", 0));
 		rtcParam.getInports().addAll(dataport);
@@ -467,14 +306,10 @@ public class LuckTest extends TestBase {
 		Generator generator = new Generator();
 		GenerateManager manager = new JavaGenerateManager();
 		generator.addGenerateManager(manager);
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
-
-		String resourceDir = rootPath +  "\\resource\\Java\\Exception\\InPortNoName\\";
-
-		checkCode(result, resourceDir, "fooComp.java");
-		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			generator.generateTemplateCode(genParam);
+			fail();
+		} catch(Exception e) {
+		}
 	}
 }

@@ -6,6 +6,7 @@
  */
 package jp.go.aist.rtm.rtcbuilder.model.component;
 
+import org.eclipse.emf.common.util.EList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;

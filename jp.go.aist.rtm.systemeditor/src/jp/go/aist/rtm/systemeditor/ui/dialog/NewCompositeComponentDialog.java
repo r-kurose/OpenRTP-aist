@@ -1,5 +1,6 @@
 package jp.go.aist.rtm.systemeditor.ui.dialog;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 

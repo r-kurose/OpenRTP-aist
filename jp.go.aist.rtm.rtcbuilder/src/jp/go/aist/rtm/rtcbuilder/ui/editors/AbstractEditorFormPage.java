@@ -1,30 +1,35 @@
 package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
-import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.ParseException;
 import jp.go.aist.rtm.rtcbuilder.generator.IDLParamConverter;
+import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
 import jp.go.aist.rtm.rtcbuilder.model.component.BuildView;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.DataTypePreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 
+import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -57,11 +62,12 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		this.buildview = editor.getEMFmodel();
 	}
 
-	protected ScrolledForm createBase(IManagedForm managedForm) {
+	protected ScrolledForm createBase(final IManagedForm managedForm, String title) {
 		GridLayout gl = new GridLayout();
 		gl.numColumns = 1;
 
 		managedForm.getForm().getBody().setLayout(gl);
+		managedForm.getForm().setShowFocusedControl(true);
 		FormToolkit toolkit = managedForm.getToolkit();
 
 		ScrolledForm form = toolkit.createScrolledForm(managedForm.getForm().getBody());
@@ -75,14 +81,43 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		toolkit.paintBordersFor(form.getBody());
 
 		form.getBody().setLayout(gl);
-		
+		form.addMouseWheelListener(new MouseWheelListener(){
+			@Override
+			public void mouseScrolled(MouseEvent e) {
+				int delta = e.count * 5;
+				Point point =managedForm.getForm().getContent().getLocation();
+				int margin = managedForm.getForm().getClientArea().height - managedForm.getForm().getContent().getSize().y;
+				int newLocation = point.y + delta;
+				if( 0<newLocation ) {
+					newLocation = 0;
+				} else if( newLocation < margin ) {
+					newLocation = margin;
+				}
+				
+				int selection = managedForm.getForm().getVerticalBar().getSelection();
+				int newBarVal = selection - delta;
+				point.y = newLocation;
+				managedForm.getForm().getContent().setLocation(point);
+				managedForm.getForm().getVerticalBar().setSelection(newBarVal);
+			}
+		});
+		//
+		Label label = toolkit.createLabel(form.getBody(), title);
+		if( titleFont==null ) {
+			titleFont = new Font(form.getDisplay(), IMessageConstants.TITLE_FONT, 16, SWT.BOLD);
+		}
+		label.setFont(titleFont);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
+		label.setLayoutData(gd);
+
 		return form;
 	}
 	
 	protected Composite createSectionBaseWithLabel(FormToolkit toolkit, ScrolledForm form,
 			String title, String explain, int colnum) {
 		Section sctBasic = toolkit.createSection(form.getBody(),
-		Section.TITLE_BAR | Section.EXPANDED | Section.TWISTIE);
+							Section.TITLE_BAR | Section.EXPANDED | Section.TWISTIE);
 		sctBasic.setText(title);
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
@@ -141,13 +176,40 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		sep.setLayoutData(gd);
 	}
 
+	protected TableViewer createTableViewer(FormToolkit toolkit, Composite composite) {
+		return createTableViewer(toolkit, composite, 120);
+	}
+	protected TableViewer createTableViewer(FormToolkit toolkit, Composite composite, int height) {
+		final TableViewer portParamTableViewer = new TableViewer(toolkit.createTable(composite,
+						SWT.SINGLE | SWT.FULL_SELECTION | SWT.BORDER));
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		gd.heightHint = height;
+		gd.widthHint = 120;
+		gd.grabExcessHorizontalSpace = true;
+		portParamTableViewer.getTable().setLayoutData(gd);
+
+		portParamTableViewer.getTable().setHeaderVisible(true);
+		portParamTableViewer.getTable().setLinesVisible(true);
+		portParamTableViewer.setContentProvider(new ArrayContentProvider());
+
+		return portParamTableViewer;
+	}
+
 	protected Text createLabelAndText(FormToolkit toolkit, Composite composite,
 			String labelString) {
-		return createLabelAndText(toolkit, composite, labelString, SWT.NONE);
+		return createLabelAndText(toolkit, composite, labelString, SWT.NONE, 0);
 	}
 	protected Text createLabelAndText(FormToolkit toolkit, Composite composite,
 			String labelString, int style) {
-		if( labelString!=null && labelString.length()>0 ) toolkit.createLabel(composite, labelString);
+		return createLabelAndText(toolkit, composite, labelString, style, 0);
+	}
+	protected Text createLabelAndText(FormToolkit toolkit, Composite composite,
+			String labelString, int style, int color) {
+		if( labelString!=null && labelString.length()>0 ) {
+			Label label = toolkit.createLabel(composite, labelString);
+			if(color>0 ) label.setForeground(getSite().getShell().getDisplay().getSystemColor(color));
+		}
+		
 		final Text text = toolkit.createText(composite, "", style);
 		text.addKeyListener(new KeyListener() {
 			public void keyReleased(KeyEvent e) {
@@ -177,7 +239,13 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	
 	protected Combo createLabelAndCombo(FormToolkit toolkit, Composite composite,
 			String labelString, String[] items) {
-		toolkit.createLabel(composite, labelString);
+		return createLabelAndCombo(toolkit, composite, labelString, items, 0);
+	}
+	
+	protected Combo createLabelAndCombo(FormToolkit toolkit, Composite composite,
+			String labelString, String[] items, int color) {
+		Label label = toolkit.createLabel(composite, labelString);
+		if(color>0 ) label.setForeground(getSite().getShell().getDisplay().getSystemColor(color));
 		Combo combo = new Combo(composite, SWT.DROP_DOWN | SWT.READ_ONLY);
 		combo.setItems(items);
 		combo.select(0);
@@ -279,7 +347,12 @@ public abstract class AbstractEditorFormPage extends FormPage {
 
 	protected Combo createEditableCombo(FormToolkit toolkit, Composite composite,
 			String labelString, String key, String[] defaultValue) {
-		toolkit.createLabel(composite, labelString);
+		return createEditableCombo(toolkit, composite, labelString, key, defaultValue, 0);
+	}
+	protected Combo createEditableCombo(FormToolkit toolkit, Composite composite,
+			String labelString, String key, String[] defaultValue, int color) {
+		Label label = toolkit.createLabel(composite, labelString);
+		if(color>0) label.setForeground(getSite().getShell().getDisplay().getSystemColor(color));
 		Combo combo = new Combo(composite, SWT.DROP_DOWN);
 		for(int index=0;index<defaultValue.length;index++) {
 			combo.add(defaultValue[index]);
@@ -316,7 +389,14 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		col.setText(title);
 		col.setWidth(width);
 	}
-
+	protected TableViewerColumn createColumn(TableViewer tv, String title, int width){
+		TableViewerColumn col = new TableViewerColumn(tv, SWT.NONE);
+		col.getColumn().setText(title);
+		col.getColumn().setWidth(width);
+		col.getColumn().setResizable(true);
+		col.getColumn().setMoveable(false);
+		return col;
+	}
 
 	/**
 	 * ワークスペースの永続情報から、コンボのリストと選択インデックスをロードする
@@ -371,29 +451,43 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 	
 	protected String[] extractDataTypes() {
-		List<String> sources = DataTypePreferenceManager.getInstance().getIdlFileDirectories();
-		List<String> sourceContents = new ArrayList<String>();
+		List<String> sources = new ArrayList<String>(DataTypePreferenceManager.getInstance().getIdlFileDirectories());
+		String defaultPath = System.getenv("RTM_ROOT");
+		if( defaultPath!=null ) { 
+			sources.add(0, defaultPath + "rtm"+System.getProperty( "file.separator" )+"idl");
+		}
+		List<DataTypeParam> sourceContents = new ArrayList<DataTypeParam>();
 		for(int intidx=0;intidx<sources.size();intidx++) {
 			try {
 				File idlDir = new File(sources.get(intidx));
 				String[] idlNames = idlDir.list();
+				if (idlNames == null) continue;
 				for( int intidxFile=0; intidxFile<idlNames.length; intidxFile++ ) {
 					if(idlNames[intidxFile].toLowerCase().endsWith(".idl") ) {
 						String idlContent = FileUtil.readFile(
 								sources.get(intidx) + System.getProperty( "file.separator" ) + idlNames[intidxFile]);
-						sourceContents.add(idlContent);
+						DataTypeParam param = new DataTypeParam();
+						param.setContent(idlContent);
+						param.setFullPath(sources.get(intidx) + System.getProperty( "file.separator" ) + idlNames[intidxFile]);
+						sourceContents.add(param);
+						if( intidx>0 ) param.setAddition(true);
 					}
 				}
-			} catch(RuntimeException ex) {
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (java.lang.SecurityException e) {
+				e.printStackTrace();
 			}
 		}
 		String[] defaultTypeList = new String[0];
-		try {
-			List<String> dataTypes = IDLParamConverter.extractTypeDef(sourceContents);
-			defaultTypeList = new String[dataTypes.size()];
-			defaultTypeList = dataTypes.toArray(defaultTypeList);
-		} catch (ParseException ex) {
-		}
+		List<String> dataTypes = IDLParamConverter.extractTypeDef(sourceContents);
+		defaultTypeList = new String[dataTypes.size()];
+		defaultTypeList = dataTypes.toArray(defaultTypeList);
+		//
+		editor.getGeneratorParam().getDataTypeParams().clear();
+		editor.getGeneratorParam().getDataTypeParams().addAll(sourceContents);
+		//
+		
 		return defaultTypeList;
 	}
 

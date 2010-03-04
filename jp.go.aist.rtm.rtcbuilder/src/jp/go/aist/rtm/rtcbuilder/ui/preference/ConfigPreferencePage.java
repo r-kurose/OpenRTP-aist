@@ -9,11 +9,12 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.ICellModifier;
+import org.eclipse.jface.viewers.ColumnViewer;
+import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -26,8 +27,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -36,8 +35,8 @@ public class ConfigPreferencePage extends AbstractPreferencePage implements
 		IWorkbenchPreferencePage {
 	private TableViewer configSetTable;
 	
-	private static final String CONFIGPROFILE_PROPERTY_CONFIGURATION = "CONFIGRATION_PROFILE_CONFIGURATION";
-	private static final String CONFIGPROFILE_PROPERTY_DEFAULT = "CONFIGRATION_PROFILE_DEFAULT";
+	private static final int CONFIGPROFILE_PROPERTY_CONFIGURATION = 0;
+	private static final int CONFIGPROFILE_PROPERTY_DEFAULT = 1;
 	private List<ConfigParameterParam> paramArray = new ArrayList<ConfigParameterParam>();
 
 
@@ -90,30 +89,14 @@ public class ConfigPreferencePage extends AbstractPreferencePage implements
 		gd.grabExcessHorizontalSpace = true;
 		gd.grabExcessVerticalSpace = true;
 		table.setLayoutData(gd);
-		
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		
-		TableColumn nameColumn = new TableColumn(table, SWT.NONE);
-		nameColumn.setText(IPreferenceMessageConstants.CONFIG_CLMN_CONFIGURATION);
-		nameColumn.setWidth(200);
-		TableColumn defaultColumn = new TableColumn(table, SWT.NONE);
-		defaultColumn.setText(IPreferenceMessageConstants.CONFIG_CLMN_DEFAUT_VALUE);
-		defaultColumn.setWidth(200);
-		
+		createConfigProfileColumn(targetViewer, IPreferenceMessageConstants.CONFIG_CLMN_CONFIGURATION, 200, CONFIGPROFILE_PROPERTY_CONFIGURATION);
+		createConfigProfileColumn(targetViewer, IPreferenceMessageConstants.CONFIG_CLMN_DEFAUT_VALUE, 200, CONFIGPROFILE_PROPERTY_DEFAULT);
+			
 		targetViewer.setContentProvider(new ArrayContentProvider());
         targetViewer.setLabelProvider(new ConfigParamLabelProvider());
-		
-        targetViewer.setColumnProperties(new String[] {
-        		CONFIGPROFILE_PROPERTY_CONFIGURATION, CONFIGPROFILE_PROPERTY_DEFAULT});
-
-		CellEditor[] editors = new CellEditor[] {
-				new TextCellEditor(targetViewer.getTable()),
-				new TextCellEditor(targetViewer.getTable()) };
-
-		targetViewer.setCellEditors(editors);
-		
-		targetViewer.setCellModifier(new ConfigProfileCellModifier(targetViewer));
 		
 		// É{É^Éìê∂ê¨
 		gd = new GridData();
@@ -123,6 +106,7 @@ public class ConfigPreferencePage extends AbstractPreferencePage implements
 		addButton.setLayoutData(gd);
 		
 		addButton.addSelectionListener(new SelectionAdapter() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				((java.util.List) targetViewer.getInput()).add(new ConfigParameterParam("configuration",""));
@@ -137,6 +121,7 @@ public class ConfigPreferencePage extends AbstractPreferencePage implements
 		gd.widthHint = 70;
 		delButton.setLayoutData(gd);
 		delButton.addSelectionListener(new SelectionAdapter() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int selectionIndex = targetViewer.getTable().getSelectionIndex();
@@ -157,6 +142,12 @@ public class ConfigPreferencePage extends AbstractPreferencePage implements
 		return targetViewer;
 	}
 
+
+	private void createConfigProfileColumn(TableViewer tv, String title, int width, int no){
+		TableViewerColumn col = super.createColumn(tv, title, width);
+		col.setEditingSupport(new ConfigProfileCellModifier(tv, no));
+	}
+	
 	public void init(IWorkbench workbench) {
 	}
 
@@ -193,46 +184,61 @@ public class ConfigPreferencePage extends AbstractPreferencePage implements
 		}
 	}
 
-	private class ConfigProfileCellModifier implements ICellModifier {
+	private class ConfigProfileCellModifier extends EditingSupport {
 		
-		private StructuredViewer viewer;
+		private CellEditor editor;  
+		private int column;
 
-		public ConfigProfileCellModifier(StructuredViewer viewer) {
-			this.viewer = viewer;
+		public ConfigProfileCellModifier(ColumnViewer viewer, int column) { 
+			super(viewer);
+			editor = new TextCellEditor(((TableViewer) viewer).getTable());  
+			this.column = column;
 		}
 
-		public boolean canModify(Object element, String property) {
+		@Override
+		protected boolean canEdit(Object element) {
 			return true;
 		}
-
-		public Object getValue(Object element, String property) {
-			if (element instanceof ConfigParameterParam == false) {
-				return null;
-			}
-			ConfigParameterParam configProfileParam = (ConfigParameterParam) element;
 		
-			String result = null;
-			if (CONFIGPROFILE_PROPERTY_CONFIGURATION.equals(property)) {
-				result = configProfileParam.getConfigName();
-			} else if (CONFIGPROFILE_PROPERTY_DEFAULT.equals(property)) {
-				result = configProfileParam.getDefaultVal();
-			}
-			return result;
+		@Override
+		protected CellEditor getCellEditor(Object element) {
+			return editor;
 		}
 
-		public void modify(Object element, String property, Object value) {
-			if (element instanceof TableItem == false) {
-				return;
+		@Override  
+		protected Object getValue(Object element) {
+			if (element instanceof ConfigParameterParam == false) return null;
+			
+			ConfigParameterParam configProfileParam = (ConfigParameterParam) element;
+
+			switch (this.column) {  
+			case CONFIGPROFILE_PROPERTY_CONFIGURATION:
+				return configProfileParam.getConfigName();  
+			case CONFIGPROFILE_PROPERTY_DEFAULT:  
+				return configProfileParam.getDefaultVal();  
+			default:
+				break;
 			}
+			return null;
+		}
+
+		@Override
+		protected void setValue(Object element, Object value) {
+			if (element instanceof ConfigParameterParam == false) return;
+			ConfigParameterParam configProfileParam = (ConfigParameterParam)element;
 		
-			ConfigParameterParam configProfileParam = (ConfigParameterParam) ((TableItem) element).getData();
-		
-			if (CONFIGPROFILE_PROPERTY_CONFIGURATION.equals(property)) {
+			switch (this.column) {
+			case CONFIGPROFILE_PROPERTY_CONFIGURATION:
 				configProfileParam.setConfigName((String) value);
-			} else if (CONFIGPROFILE_PROPERTY_DEFAULT.equals(property)) {
+				break;
+			case CONFIGPROFILE_PROPERTY_DEFAULT:  
 				configProfileParam.setDefaultVal((String) value);
+				break;
+			default:
+				break;
 			}
-			viewer.refresh();
+
+			getViewer().update(element, null);
 		}
 	}
 

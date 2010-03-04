@@ -15,6 +15,7 @@ public class ServiceInterfaceFigure extends PortFigureBase {
 	public static int OFFSET_BOTTOM = 20; 
 	public static int SPACE_X = 70; 
 	public static int SPACE_Y = 20; 
+	@SuppressWarnings("unused")
 	private ServiceInterface serviceIF;
 
 	/**

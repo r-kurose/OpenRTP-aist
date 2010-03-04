@@ -1,6 +1,7 @@
 package jp.go.aist.rtm.rtcbuilder.generator;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -64,8 +65,9 @@ public class PreProcessor {
 	 * @param target
 	 *            ëŒè€ï∂éöóÒ
 	 * @return é¿çså„ï∂éöóÒ
+	 * @throws IOException 
 	 */
-	public static String parse(String target, File includeBaseDir, List<String> includeFiles) {
+	public static String parse(String target, File includeBaseDir, List<String> includeFiles) throws IOException {
 		String targetNoCmt = eraseComments(target);
 		/////
 		StringBuffer result = new StringBuffer();
@@ -87,7 +89,7 @@ public class PreProcessor {
 	}
 
 	public static String getIncludeFileContentThoroughgoing(String directive,
-			File includeBaseDir, List<String> includeFiles) {
+			File includeBaseDir, List<String> includeFiles) throws IOException {
 		String result = getIncludeFileContent(directive, includeBaseDir, includeFiles);
 		if (result != null) {
 			result = parse(result, includeBaseDir, includeFiles);
@@ -102,9 +104,10 @@ public class PreProcessor {
 	 * @param directive
 	 * @param includeBaseDir
 	 * @return
+	 * @throws IOException 
 	 */
 	public static String getIncludeFileContent(String directive,
-			File includeBaseDir, List<String> includeFiles) {
+			File includeBaseDir, List<String> includeFiles) throws IOException {
 		String result = null;
 		
 		Matcher matcher = INCLUDE_PATTERN.matcher(directive);

@@ -17,6 +17,7 @@ import org.eclipse.ui.PlatformUI;
 
 public abstract class PortEditPartBase extends AbstractEditPart {
 	
+	@SuppressWarnings("unchecked")
 	protected List originalChildren = null;
 
 	protected IFigure modifyPosition(ComponentFigure parentFigure, int direction, int index, PortFigureBase result) {
@@ -64,6 +65,7 @@ public abstract class PortEditPartBase extends AbstractEditPart {
 		});
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	/**
 	 * {@inheritDoc}

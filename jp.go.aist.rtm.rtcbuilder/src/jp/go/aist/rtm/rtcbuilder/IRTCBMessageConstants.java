@@ -1,7 +1,7 @@
 package jp.go.aist.rtm.rtcbuilder;
 
 import jp.go.aist.rtm.rtcbuilder.nl.Messages;
-import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
+import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 
 public interface IRTCBMessageConstants {
 	public static final String VALIDATE_ERROR_OUTPUTPROJECT = Messages.getString("IRTCBMessageConstants.VALIDATE_ERROR_OUTPUTPROJECT"); //$NON-NLS-1$
@@ -26,6 +26,6 @@ public interface IRTCBMessageConstants {
 	public static final String CONFIRM_PROJECT_GENERATE_TITLE = Messages.getString("IRTCBMessageConstants.CONFIRM_PROJECT_GENERATE_TITLE"); //$NON-NLS-1$
 	public static final String CONFIRM_PROJECT_GENERATE_P1 = Messages.getString("IRTCBMessageConstants.CONFIRM_PROJECT_GENERATE_P1"); //$NON-NLS-1$
 	public static final String CONFIRM_PROJECT_GENERATE_P2 = Messages.getString("IRTCBMessageConstants.CONFIRM_PROJECT_GENERATE_P2"); //$NON-NLS-1$
-	public static final String CONFIRM_PROJECT_GENERATE = StringUtil.connectMessageFlat( new String[]{CONFIRM_PROJECT_GENERATE_P1, CONFIRM_PROJECT_GENERATE_P2});
+	public static final String CONFIRM_PROJECT_GENERATE = StringUtil.connectMessageWithSepalator( new String[]{CONFIRM_PROJECT_GENERATE_P1, CONFIRM_PROJECT_GENERATE_P2});
 
 }

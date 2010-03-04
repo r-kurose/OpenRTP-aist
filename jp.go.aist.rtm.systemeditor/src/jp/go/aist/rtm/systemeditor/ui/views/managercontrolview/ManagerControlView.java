@@ -120,6 +120,7 @@ public class ManagerControlView extends ViewPart {
 				if (targetManager != null) {
 					moduleColumn.setText(Messages.getString("ManagerControlView.1")); //$NON-NLS-1$
 					isSelectedLoadableModules = true;
+					// キャッシュ更新
 					targetManager.getLoadableModuleProfilesR();
 				}
 				refreshModuleListData();
@@ -141,6 +142,8 @@ public class ManagerControlView extends ViewPart {
 				if (targetManager != null) {
 					moduleColumn.setText(Messages.getString("ManagerControlView.3")); //$NON-NLS-1$
 					isSelectedLoadedModules = true;
+					// キャッシュ更新
+					targetManager.getLoadedModuleProfilesR();
 				}
 				refreshModuleListData();
 			}
@@ -161,6 +164,8 @@ public class ManagerControlView extends ViewPart {
 				if (targetManager != null) {
 					moduleColumn.setText(Messages.getString("ManagerControlView.5")); //$NON-NLS-1$
 					isSelectedActiveComponents = true;
+					// キャッシュ更新
+					targetManager.getComponentProfilesR();
 				}
 				refreshModuleListData();
 			}
@@ -311,6 +316,7 @@ public class ManagerControlView extends ViewPart {
 						module = urlText.getText();
 					}
 					if (module != null) {
+						// TODO initfuncはどこで指定？
 						targetManager.loadModuleR(module, ""); //$NON-NLS-1$
 					}
 				}
@@ -345,6 +351,8 @@ public class ManagerControlView extends ViewPart {
 
 	@Override
 	public void setFocus() {
+		// TODO 自動生成されたメソッド・スタブ
+
 	}
 
 	private void buildData() {
@@ -388,18 +396,18 @@ public class ManagerControlView extends ViewPart {
 		unloadButton.setEnabled(false);
 		if (targetManager != null) {
 			if (isSelectedLoadableModules) {
-				for (Object o : targetManager.getLoadableModuleFileNameR()) {
+				for (Object o : targetManager.getLoadableModuleFileNames()) {
 					moduleList.add((String) o);
 				}
 				modulesTableViewer.setInput(moduleList);
 				urlText.setEnabled(true);
 			} else if (isSelectedLoadedModules) {
-				for (Object o : targetManager.getLoadedModuleFileNamesR()) {
+				for (Object o : targetManager.getLoadedModuleFileNames()) {
 					moduleList.add((String) o);
 				}
 				modulesTableViewer.setInput(moduleList);
 			} else if (isSelectedActiveComponents) {
-				for (Object o : targetManager.getComponentInstanceNamesR()) {
+				for (Object o : targetManager.getComponentInstanceNames()) {
 					moduleList.add((String) o);
 				}
 				modulesTableViewer.setInput(moduleList);

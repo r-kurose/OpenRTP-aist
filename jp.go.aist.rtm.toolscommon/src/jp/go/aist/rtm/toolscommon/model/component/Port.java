@@ -158,10 +158,10 @@ public interface Port extends WrapperObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Connector Profiles</em>' reference list.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getPort_ConnectorProfiles()
-	 * @model type="jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile" transient="true"
+	 * @model transient="true"
 	 * @generated
 	 */
-	EList getConnectorProfiles();
+	EList<ConnectorProfile> getConnectorProfiles();
 
 	/**
 	 * Returns the value of the '<em><b>Interfaces</b></em>' attribute list.
@@ -173,10 +173,10 @@ public interface Port extends WrapperObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Interfaces</em>' attribute list.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getPort_Interfaces()
-	 * @model type="jp.go.aist.rtm.toolscommon.model.component.PortInterfaceProfile" dataType="jp.go.aist.rtm.toolscommon.model.component.PortInterfaceProfile"
+	 * @model dataType="jp.go.aist.rtm.toolscommon.model.component.PortInterfaceProfile"
 	 * @generated
 	 */
-	EList getInterfaces();
+	EList<PortInterfaceProfile> getInterfaces();
 
 	/**
 	 * カンマ区切りで指定されるポートのデータフロー型をデータフロー型のリストにして返す

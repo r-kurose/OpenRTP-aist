@@ -56,6 +56,7 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 	 * @ordered
 	 */
 	protected String originalPortString = ORIGINAL_PORT_STRING_EDEFAULT;
+	private SystemDiagram currentDiagram;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -71,6 +72,7 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return ComponentPackage.Literals.PORT_SYNCHRONIZER;
 	}
@@ -106,7 +108,7 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 		// ここではオフラインのポート全切断を行う
 		Port port = (Port) eContainer();
 		SystemDiagram diagram = (SystemDiagram) port.eContainer().eContainer();
-		diagram = diagram.getRootDiagram();
+		diagram = diagram != null ? diagram.getRootDiagram() : currentDiagram.getRootDiagram();
 		
 		List<ConnectorProfile> profiles = new ArrayList<ConnectorProfile>(port.getConnectorProfiles());
 		for (ConnectorProfile profile : profiles) {
@@ -123,6 +125,7 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ComponentPackage.PORT_SYNCHRONIZER__ORIGINAL_PORT_STRING:
@@ -136,6 +139,7 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ComponentPackage.PORT_SYNCHRONIZER__ORIGINAL_PORT_STRING:
@@ -150,6 +154,7 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case ComponentPackage.PORT_SYNCHRONIZER__ORIGINAL_PORT_STRING:
@@ -164,6 +169,7 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case ComponentPackage.PORT_SYNCHRONIZER__ORIGINAL_PORT_STRING:
@@ -177,6 +183,7 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
@@ -215,6 +222,11 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 //	@Override
 	public String getProperty(String name) {
 		return null;
+	}
+
+//	@Override
+	public void setCurrentDiagram(SystemDiagram currentDiagram) {
+		this.currentDiagram = currentDiagram;
 	}
 
 

@@ -25,7 +25,6 @@ import RTC.PortProfile;
 public class ExportPortActionTest extends TestCase {
 	private Port port1;
 	private Port port2;
-	private Port port3;
 	private StringBuffer buffer;
 
 	private ExportPortAction action;
@@ -35,12 +34,10 @@ public class ExportPortActionTest extends TestCase {
 	private CorbaComponent component1;
 	private CorbaComponent component2;
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void setUp() throws Exception {
-		port1 = createPort("1", "port1");
-		port2 = createPort("2", "port2");
-		port3 = createPort("2", "child.port2");
+		port1 = createPort(1, "1", "child.port1");
+		port2 = createPort(2, "2", "child.port2");
 		buffer = new StringBuffer();
 		diagram1 = ComponentFactory.eINSTANCE.createSystemDiagram();
 		diagram2 = ComponentFactory.eINSTANCE.createSystemDiagram();
@@ -56,14 +53,13 @@ public class ExportPortActionTest extends TestCase {
 		component1.getPorts().add(port2);
 		component1.setInstanceNameL("child");
 		component2.getComponents().add(component1);
-		component2.getPorts().add(port3);
+		component2.getPorts().add(port2.proxy());
 		component2.setActiveConfigurationSet(setupConfigurationSet());
 		
 		action = new ExportPortAction();
 		action.setParent(component2);
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	static ConfigurationSet setupConfigurationSet() {
 		ConfigurationSet result = ComponentFactory.eINSTANCE.createConfigurationSet();
 		result.setId("default");
@@ -71,7 +67,7 @@ public class ExportPortActionTest extends TestCase {
 		return result;
 	}
 
-	static Object createNameValue(String name, String value) {
+	static NameValue createNameValue(String name, String value) {
 		Any any = CorbaUtil.getOrb().create_any();
 		any.insert_string(value);
 
@@ -81,8 +77,13 @@ public class ExportPortActionTest extends TestCase {
 		return nv;
 	}
 
-	private Port createPort(String originalPortString, String portName) {
-		Port result = ComponentFactory.eINSTANCE.createPort();
+	private Port createPort(int type, String originalPortString, String portName) {
+		Port result;
+		if (type == 1) {
+			result = ComponentFactory.eINSTANCE.createInPort();
+		} else {
+			result = ComponentFactory.eINSTANCE.createOutPort();
+		}
 		result.setNameL(portName);
 		result.setSynchronizer(ComponentFactory.eINSTANCE.createCorbaPortSynchronizer());
 		result.setOriginalPortString(originalPortString);
@@ -100,8 +101,6 @@ public class ExportPortActionTest extends TestCase {
 		component2.setCorbaObject(new CorbaObjectMock(buffer));
 		component2.setSDOConfiguration(new ConfigurationMock(buffer));
 		component2.setSynchronizationSupport(new SynchronizationSupport(component2,CorbaComponentImpl.MAPPING_RULE,null));
-		port3.setSynchronizationSupport(new SynchronizationSupport(port3,CorbaPortSynchronizerImpl.MAPPING_RULE,null));
-		setCorbaObject(port3, new CorbaObjectMock(new StringBuffer(), "2"));
 		port2.setSynchronizationSupport(new SynchronizationSupport(port2,CorbaPortSynchronizerImpl.MAPPING_RULE,null));
 		setCorbaObject(port2, new CorbaObjectMock(new StringBuffer(), "2"));
 		setCorbaObject(port1, new CorbaObjectMock(new StringBuffer(), "1"));
@@ -120,7 +119,7 @@ public class ExportPortActionTest extends TestCase {
 		setupOnline();
 		action.setTarget(port1);
 		action.run();
-		assertEquals("add_configuration_set id:default exported_ports:child.port2,child.port1 get_active_configuration_set "
+		assertEquals("add_configuration_set id:default exported_ports:child.port2,child.port1 get_active_configuration_set get_active_configuration_set "
 				, buffer.toString());
 	}
 
@@ -128,7 +127,7 @@ public class ExportPortActionTest extends TestCase {
 		setupOnline();
 		action.setTarget(port2);
 		action.run();
-		assertEquals("add_configuration_set id:default exported_ports: get_active_configuration_set "
+		assertEquals("add_configuration_set id:default exported_ports: get_active_configuration_set get_active_configuration_set "
 				, buffer.toString());
 	}
 

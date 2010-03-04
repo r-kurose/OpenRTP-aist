@@ -5,6 +5,7 @@ import java.util.List;
 
 import jp.go.aist.rtm.nameserviceview.manager.NameServiceViewPreferenceManager;
 import jp.go.aist.rtm.toolscommon.corba.CorbaUtil;
+import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
 
 import org.omg.CosNaming.Binding;
 import org.omg.CosNaming.NameComponent;
@@ -12,6 +13,7 @@ import org.omg.CosNaming.NamingContext;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
 
+import RTM.Manager;
 import RTM.ManagerHelper;
 
 /**
@@ -48,6 +50,7 @@ public class NameServerAccesser {
 		}
 
 		if (address.indexOf(":") == -1) {
+			// address = address + ":2809";
 			address = address
 					+ ":"
 					+ NameServiceViewPreferenceManager.getInstance().getDefaultPort(

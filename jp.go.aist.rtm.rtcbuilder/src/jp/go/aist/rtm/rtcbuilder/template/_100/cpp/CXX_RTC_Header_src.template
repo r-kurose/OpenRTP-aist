@@ -16,6 +16,8 @@ ${sharp}include <rtm/CorbaPort.h>
 ${sharp}include <rtm/DataInPort.h>
 ${sharp}include <rtm/DataOutPort.h>
 ${sharp}include <rtm/idl/BasicDataTypeSkel.h>
+${sharp}include <rtm/idl/ExtendedDataTypesSkel.h>
+${sharp}include <rtm/idl/InterfaceDataTypesSkel.h>
 #foreach($type in ${cXXConv.getPortModules(${rtcParam})})  
 ${cXXConv.getDataportIncludeName(${type})}
 #end

@@ -174,6 +174,42 @@ public class ManagerPackageImpl extends EPackageImpl implements ManagerPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getRTCManager_ComponentProfiles() {
+		return (EAttribute)rtcManagerEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRTCManager_LoadableModuleProfiles() {
+		return (EAttribute)rtcManagerEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRTCManager_LoadedModuleProfiles() {
+		return (EAttribute)rtcManagerEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRTCManager_FactoryModuleProfiles() {
+		return (EAttribute)rtcManagerEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EDataType getRTMManagerProfile() {
 		return rtmManagerProfileEDataType;
 	}
@@ -219,6 +255,10 @@ public class ManagerPackageImpl extends EPackageImpl implements ManagerPackage {
 		createEAttribute(rtcManagerEClass, RTC_MANAGER__MANAGER_PROFILE);
 		createEAttribute(rtcManagerEClass, RTC_MANAGER__INSTANCE_NAME_L);
 		createEAttribute(rtcManagerEClass, RTC_MANAGER__PATH_ID);
+		createEAttribute(rtcManagerEClass, RTC_MANAGER__COMPONENT_PROFILES);
+		createEAttribute(rtcManagerEClass, RTC_MANAGER__LOADABLE_MODULE_PROFILES);
+		createEAttribute(rtcManagerEClass, RTC_MANAGER__LOADED_MODULE_PROFILES);
+		createEAttribute(rtcManagerEClass, RTC_MANAGER__FACTORY_MODULE_PROFILES);
 
 		// Create data types
 		rtmManagerProfileEDataType = createEDataType(RTM_MANAGER_PROFILE);
@@ -252,6 +292,10 @@ public class ManagerPackageImpl extends EPackageImpl implements ManagerPackage {
 		CorePackage theCorePackage = (CorePackage)EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI);
 		ComponentPackage theComponentPackage = (ComponentPackage)EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI);
 
+		// Create type parameters
+
+		// Set bounds for type parameters
+
 		// Add supertypes to classes
 		rtcManagerEClass.getESuperTypes().add(theCorePackage.getCorbaWrapperObject());
 
@@ -260,41 +304,55 @@ public class ManagerPackageImpl extends EPackageImpl implements ManagerPackage {
 		initEAttribute(getRTCManager_ManagerProfile(), this.getRTMManagerProfile(), "managerProfile", null, 0, 1, RTCManager.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRTCManager_InstanceNameL(), ecorePackage.getEString(), "instanceNameL", null, 0, 1, RTCManager.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRTCManager_PathId(), ecorePackage.getEString(), "pathId", null, 0, 1, RTCManager.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRTCManager_ComponentProfiles(), theComponentPackage.getRTCComponentProfile(), "componentProfiles", null, 0, -1, RTCManager.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRTCManager_LoadableModuleProfiles(), this.getRTMModuleProfile(), "loadableModuleProfiles", null, 0, -1, RTCManager.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRTCManager_LoadedModuleProfiles(), this.getRTMModuleProfile(), "loadedModuleProfiles", null, 0, -1, RTCManager.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRTCManager_FactoryModuleProfiles(), this.getRTMModuleProfile(), "factoryModuleProfiles", null, 0, -1, RTCManager.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		addEOperation(rtcManagerEClass, this.getRTMManagerProfile(), "getProfileR", 0, 1);
+		addEOperation(rtcManagerEClass, this.getRTMManagerProfile(), "getProfileR", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		EOperation op = addEOperation(rtcManagerEClass, theComponentPackage.getComponent(), "createComponentR", 0, 1);
-		addEParameter(op, ecorePackage.getEString(), "compName", 0, 1);
+		EOperation op = addEOperation(rtcManagerEClass, theComponentPackage.getComponent(), "createComponentR", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "compName", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		op = addEOperation(rtcManagerEClass, ecorePackage.getEInt(), "deleteComponentR", 0, 1);
-		addEParameter(op, ecorePackage.getEString(), "instanceName", 0, 1);
+		op = addEOperation(rtcManagerEClass, ecorePackage.getEInt(), "deleteComponentR", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "instanceName", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		addEOperation(rtcManagerEClass, ecorePackage.getEEList(), "getComponentsR", 0, 1);
+		addEOperation(rtcManagerEClass, theComponentPackage.getRTCRTObject(), "getComponentsR", 0, -1, IS_UNIQUE, IS_ORDERED);
 
-		addEOperation(rtcManagerEClass, ecorePackage.getEEList(), "getComponentProfilesR", 0, 1);
+		addEOperation(rtcManagerEClass, theComponentPackage.getRTCComponentProfile(), "getComponentProfilesR", 0, -1, IS_UNIQUE, IS_ORDERED);
 
-		op = addEOperation(rtcManagerEClass, ecorePackage.getEInt(), "loadModuleR", 0, 1);
-		addEParameter(op, ecorePackage.getEString(), "pathname", 0, 1);
-		addEParameter(op, ecorePackage.getEString(), "initfunc", 0, 1);
+		op = addEOperation(rtcManagerEClass, ecorePackage.getEInt(), "loadModuleR", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "pathname", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "initfunc", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		op = addEOperation(rtcManagerEClass, ecorePackage.getEInt(), "unloadModuleR", 0, 1);
-		addEParameter(op, ecorePackage.getEString(), "pathname", 0, 1);
+		op = addEOperation(rtcManagerEClass, ecorePackage.getEInt(), "unloadModuleR", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "pathname", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		addEOperation(rtcManagerEClass, ecorePackage.getEEList(), "getLoadableModuleProfilesR", 0, 1);
+		addEOperation(rtcManagerEClass, this.getRTMModuleProfile(), "getLoadableModuleProfilesR", 0, -1, IS_UNIQUE, IS_ORDERED);
 
-		addEOperation(rtcManagerEClass, ecorePackage.getEEList(), "getLoadedModuleProfilesR", 0, 1);
+		addEOperation(rtcManagerEClass, this.getRTMModuleProfile(), "getLoadedModuleProfilesR", 0, -1, IS_UNIQUE, IS_ORDERED);
 
-		addEOperation(rtcManagerEClass, ecorePackage.getEInt(), "forkR", 0, 1);
+		addEOperation(rtcManagerEClass, this.getRTMModuleProfile(), "getFactoryModuleProfilesR", 0, -1, IS_UNIQUE, IS_ORDERED);
 
-		addEOperation(rtcManagerEClass, ecorePackage.getEInt(), "shutdownR", 0, 1);
+		addEOperation(rtcManagerEClass, ecorePackage.getEInt(), "forkR", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		addEOperation(rtcManagerEClass, ecorePackage.getEEList(), "getComponentInstanceNamesR", 0, 1);
+		addEOperation(rtcManagerEClass, ecorePackage.getEInt(), "shutdownR", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		addEOperation(rtcManagerEClass, ecorePackage.getEEList(), "getLoadableModuleFileNameR", 0, 1);
+		addEOperation(rtcManagerEClass, ecorePackage.getEString(), "getComponentInstanceNamesR", 0, -1, IS_UNIQUE, IS_ORDERED);
 
-		addEOperation(rtcManagerEClass, ecorePackage.getEEList(), "getLoadedModuleFileNamesR", 0, 1);
+		addEOperation(rtcManagerEClass, ecorePackage.getEString(), "getLoadableModuleFileNamesR", 0, -1, IS_UNIQUE, IS_ORDERED);
 
-		addEOperation(rtcManagerEClass, ecorePackage.getEEList(), "getFactoryProfileTypeNamesR", 0, 1);
+		addEOperation(rtcManagerEClass, ecorePackage.getEString(), "getLoadedModuleFileNamesR", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(rtcManagerEClass, ecorePackage.getEString(), "getFactoryProfileTypeNamesR", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(rtcManagerEClass, ecorePackage.getEString(), "getComponentInstanceNames", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(rtcManagerEClass, ecorePackage.getEString(), "getLoadableModuleFileNames", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(rtcManagerEClass, ecorePackage.getEString(), "getLoadedModuleFileNames", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(rtcManagerEClass, ecorePackage.getEString(), "getFactoryTypeNames", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(rtmManagerProfileEDataType, ManagerProfile.class, "RTMManagerProfile", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

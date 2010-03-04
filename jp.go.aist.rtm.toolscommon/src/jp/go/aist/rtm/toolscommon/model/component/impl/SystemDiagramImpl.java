@@ -62,7 +62,7 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected EList components= null;
+	protected EList<Component> components;
 
 	/**
 	 * The default value of the '{@link #getKind() <em>Kind</em>}' attribute.
@@ -106,9 +106,9 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getComponents() {
+	public EList<Component> getComponents() {
 		if (components == null) {
-			components = new EObjectContainmentEList(Component.class, this, ComponentPackage.SYSTEM_DIAGRAM__COMPONENTS);
+			components = new EObjectContainmentEList<Component>(Component.class, this, ComponentPackage.SYSTEM_DIAGRAM__COMPONENTS);
 		}
 		return components;
 	}
@@ -383,7 +383,7 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected SystemDiagram parentSystemDiagram= null;
+	protected SystemDiagram parentSystemDiagram;
 
 	/**
 	 * The cached value of the '{@link #getCompositeComponent() <em>Composite Component</em>}' reference.
@@ -393,7 +393,7 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected Component compositeComponent= null;
+	protected Component compositeComponent;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -512,7 +512,7 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case ComponentPackage.SYSTEM_DIAGRAM__COMPONENTS:
-				return ((InternalEList)getComponents()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getComponents()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -556,7 +556,7 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 		switch (featureID) {
 			case ComponentPackage.SYSTEM_DIAGRAM__COMPONENTS:
 				getComponents().clear();
-				getComponents().addAll((Collection)newValue);
+				getComponents().addAll((Collection<? extends Component>)newValue);
 				return;
 			case ComponentPackage.SYSTEM_DIAGRAM__KIND:
 				setKind((SystemDiagramKind)newValue);
@@ -650,6 +650,7 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
