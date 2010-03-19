@@ -243,7 +243,7 @@ public class ComponentPreferenceManager {
 	 * @return Module Component Type デフォルト値
 	 */
 	public String getBasic_ComponentType() {
-		return getStringStoreValue(Generate_Basic_ComponentType, Generate_Basic_ComponentType);
+		return getStringStoreValue(Generate_Basic_ComponentType, DEFAULT_COMPONENT_TYPE);
 	}
 
 	/**

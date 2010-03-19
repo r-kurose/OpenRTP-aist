@@ -142,9 +142,9 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 				
 				if( buildview==null ) buildview = ComponentFactory.eINSTANCE.createBuildView();
 				updateEMFModuleName(this.getRtcParam().getName());
-				updateEMFDataInPorts(this.getRtcParam().getInports());
-				updateEMFDataOutPorts(this.getRtcParam().getOutports());
-				updateEMFServiceOutPorts(this.getRtcParam().getServicePorts());
+				updateEMFDataPorts(
+						this.getRtcParam().getInports(), this.getRtcParam().getOutports(),
+						this.getRtcParam().getServicePorts());
 			} catch (Exception e) {
 				createGeneratorParam();
 			}
@@ -172,13 +172,13 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		title = "RtcBuilder";
 		if( buildview==null ) buildview = ComponentFactory.eINSTANCE.createBuildView();
 		updateEMFModuleName(this.getRtcParam().getName());
-		updateEMFDataInPorts(this.getRtcParam().getInports());
-		updateEMFDataOutPorts(this.getRtcParam().getOutports());
-		updateEMFServiceOutPorts(this.getRtcParam().getServicePorts());
+		updateEMFDataPorts(this.getRtcParam().getInports(), this.getRtcParam().getOutports(),
+				this.getRtcParam().getServicePorts());
 		//
 
 		if( basicFormPage != null )	 basicFormPage.load();
 		allPagesReLoad();
+//		dataPortFormPage.reDraw();
 		
 		updateDirty();
 	}
@@ -757,7 +757,15 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		((Component)buildview.getComponents().get(0)).setComponent_Name(name);
 	}
 
-	public void updateEMFDataInPorts(List<DataPortParam> dataInPorts) {
+	public void updateEMFDataPorts(
+			List<DataPortParam> dataInPorts, List<DataPortParam> dataOutPorts,
+			List<ServicePortParam> servicePorts) {
+		updateEMFDataInPorts(dataInPorts);
+		updateEMFDataOutPorts(dataOutPorts);
+		updateEMFServiceOutPorts(servicePorts);
+	}
+	
+	private void updateEMFDataInPorts(List<DataPortParam> dataInPorts) {
 		((Component)buildview.getComponents().get(0)).clearDataInports();
 		for(int intIdx=0; intIdx<dataInPorts.size();intIdx++ ) {
 			DataInPort dataInport= ComponentFactory.eINSTANCE.createDataInPort();
@@ -768,7 +776,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		}
 	}
 
-	public void updateEMFDataOutPorts(List<DataPortParam> dataOutPorts) {
+	private void updateEMFDataOutPorts(List<DataPortParam> dataOutPorts) {
 		((Component)buildview.getComponents().get(0)).clearDataOutports();
 		for(int intIdx=0; intIdx<dataOutPorts.size();intIdx++ ) {
 			DataOutPort dataOutport= ComponentFactory.eINSTANCE.createDataOutPort();
@@ -779,7 +787,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		}
 	}
 
-	public void updateEMFServiceOutPorts(List<ServicePortParam> servicePorts) {
+	private void updateEMFServiceOutPorts(List<ServicePortParam> servicePorts) {
 		((Component)buildview.getComponents().get(0)).clearServiceports();
 		for(int intIdx=0; intIdx<servicePorts.size();intIdx++ ) {
 			ServicePortParam srvParam = servicePorts.get(intIdx);

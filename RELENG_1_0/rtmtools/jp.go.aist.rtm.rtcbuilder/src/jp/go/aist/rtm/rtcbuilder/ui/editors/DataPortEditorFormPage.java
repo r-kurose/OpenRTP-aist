@@ -284,8 +284,9 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 			selectParam.setDocOperation(getDocText(operationText.getText()));
 		}
 		//
-		editor.updateEMFDataInPorts(editor.getRtcParam().getInports());
-		editor.updateEMFDataOutPorts(editor.getRtcParam().getOutports());
+		editor.updateEMFDataPorts(
+				editor.getRtcParam().getInports(), editor.getRtcParam().getOutports(),
+				editor.getRtcParam().getServicePorts());
 		editor.updateDirty();
 	}
 
@@ -340,8 +341,9 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		DataPortParam inParam = (DataPortParam) selection.getFirstElement();
 		if (outParam == null && inParam == null) clearText();
 		//
-		editor.updateEMFDataInPorts(editor.getRtcParam().getInports());
-		editor.updateEMFDataOutPorts(editor.getRtcParam().getOutports());
+		editor.updateEMFDataPorts(
+				editor.getRtcParam().getInports(), editor.getRtcParam().getOutports(),
+				editor.getRtcParam().getServicePorts());
 	}
 
 	public String validateParam() {
