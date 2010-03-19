@@ -34,6 +34,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
@@ -110,7 +111,7 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		outportTableViewer = createPortSection(toolkit, composite,
 				IMessageConstants.REQUIRED + IMessageConstants.DATAPORT_TBLLBL_OUTPORTNAME, 1, false);
 
-		createDocumentSection(toolkit, form);
+		createDetailSection(toolkit, form);
 		//
 		// 言語・環境ページより先にこのページが表示された場合、ここで言語を判断する
 		editor.setEnabledInfoByLang();
@@ -132,38 +133,53 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		createHintLabel(IMessageConstants.DATAPORT_HINT_DOCUMENT_TITLE, IMessageConstants.DATAPORT_HINT_DOCUMENT_DESC, toolkit, composite);
 	}
 	
-	private void createDocumentSection(FormToolkit toolkit, ScrolledForm form) {
+	private void createDetailSection(FormToolkit toolkit, ScrolledForm form) {
 
 		Composite composite = createSectionBaseWithLabel(toolkit, form, 
-				"Documentation", IMessageConstants.DATAPORT_DOCUMENT_EXPL, 2);
+				"Detail", IMessageConstants.DATAPORT_DOCUMENT_EXPL, 2);
 		//
 		portNameText = createLabelAndText(toolkit, composite,
 				IMessageConstants.DATAPORT_LBL_PORTNAME, SWT.BORDER);
 		portNameText.setEditable(false);
 		portNameText.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
-		typeCombo = createLabelAndCombo(toolkit, composite,
+		//
+		Group detailGroup = new Group(composite, SWT.SHADOW_ETCHED_IN);
+		detailGroup.setLayout(new GridLayout(2, false));
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
+		detailGroup.setLayoutData(gd);
+		//
+		typeCombo = createLabelAndCombo(toolkit, detailGroup,
 				IMessageConstants.REQUIRED + IMessageConstants.DATAPORT_TBLLBL_DATATYPE, defaultTypeList, SWT.COLOR_RED);
-		varNameText = createLabelAndText(toolkit, composite, IMessageConstants.DATAPORT_TBLLBL_VARNAME);
-		positionCombo = createLabelAndCombo(toolkit, composite, IMessageConstants.DATAPORT_TBLLBL_POSITION, DataPortParam.COMBO_ITEM);
-		descriptionText = createLabelAndText(toolkit, composite,
-				IMessageConstants.DATAPORT_LBL_DESCRIPTION, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+		varNameText = createLabelAndText(toolkit, detailGroup, IMessageConstants.DATAPORT_TBLLBL_VARNAME, SWT.BORDER);
+		positionCombo = createLabelAndCombo(toolkit, detailGroup, IMessageConstants.DATAPORT_TBLLBL_POSITION, DataPortParam.COMBO_ITEM);
+		/////
+		Group documentGroup = new Group(composite, SWT.SHADOW_ETCHED_IN);
+		documentGroup.setLayout(new GridLayout(2, false));
+		documentGroup.setText("Documentation");
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
+		documentGroup.setLayoutData(gd);
+		//
+		descriptionText = createLabelAndText(toolkit, documentGroup,
+				IMessageConstants.DATAPORT_LBL_DESCRIPTION, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.heightHint = 50;
 		descriptionText.setLayoutData(gridData);
-		typeText = createLabelAndText(toolkit, composite,
-				IMessageConstants.DATAPORT_LBL_PORTTYPE);
-		numberText = createLabelAndText(toolkit, composite,	
-				IMessageConstants.DATAPORT_LBL_DATANUM);
-		semanticsText = createLabelAndText(toolkit, composite,
-				IMessageConstants.DATAPORT_LBL_SEMANTICS, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+		typeText = createLabelAndText(toolkit, documentGroup,
+				IMessageConstants.DATAPORT_LBL_PORTTYPE, SWT.BORDER);
+		numberText = createLabelAndText(toolkit, documentGroup,	
+				IMessageConstants.DATAPORT_LBL_DATANUM, SWT.BORDER);
+		semanticsText = createLabelAndText(toolkit, documentGroup,
+				IMessageConstants.DATAPORT_LBL_SEMANTICS, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
 		semanticsText.setLayoutData(gridData);
-		unitText = createLabelAndText(toolkit, composite,
-				IMessageConstants.DATAPORT_LBL_UNIT);
-		occurrenceText = createLabelAndText(toolkit, composite,
-				IMessageConstants.DATAPORT_LBL_OCCUR, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+		unitText = createLabelAndText(toolkit, documentGroup,
+				IMessageConstants.DATAPORT_LBL_UNIT, SWT.BORDER);
+		occurrenceText = createLabelAndText(toolkit, documentGroup,
+				IMessageConstants.DATAPORT_LBL_OCCUR, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
 		occurrenceText.setLayoutData(gridData);
-		operationText = createLabelAndText(toolkit, composite,
-				IMessageConstants.DATAPORT_LBL_OPERAT, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+		operationText = createLabelAndText(toolkit, documentGroup,
+				IMessageConstants.DATAPORT_LBL_OPERAT, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
 		operationText.setLayoutData(gridData);
 	}
 
