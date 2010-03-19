@@ -628,9 +628,9 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					//
 					editor.allPagesReLoad();
 					editor.updateEMFModuleName(editor.getRtcParam().getName());
-					editor.updateEMFDataInPorts(editor.getRtcParam().getInports());
-					editor.updateEMFDataOutPorts(editor.getRtcParam().getOutports());
-					editor.updateEMFServiceOutPorts(editor.getRtcParam().getServicePorts());
+					editor.updateEMFDataPorts(
+							editor.getRtcParam().getInports(), editor.getRtcParam().getOutports(),
+							editor.getRtcParam().getServicePorts());
 					editor.setEnabledInfoByLang();
 					load();
 					//

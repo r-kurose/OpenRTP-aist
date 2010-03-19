@@ -125,7 +125,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		
 		defaultIFName = ComponentPreferenceManager.getInstance().getServiceIF_Name();
 		defaultIFInstanceName = store.getString(ComponentPreferenceManager.Generate_ServiceIF_InstanceName);
-		defaultIFVarName = store.getString(ComponentPreferenceManager.Generate_ServiceIF_InstanceName);
+		defaultIFVarName = store.getString(ComponentPreferenceManager.Generate_ServiceIF_VarName);
 	}
 
 	/**
@@ -272,7 +272,9 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			servicePortViewer.getTree().setRedraw(true);
 			servicePortViewer.setExpandedElements(expanded);
 			//
-			editor.updateEMFServiceOutPorts(editor.getRtcParam().getServicePorts());
+			editor.updateEMFDataPorts(
+					editor.getRtcParam().getInports(), editor.getRtcParam().getOutports(),
+					editor.getRtcParam().getServicePorts());
 			editor.updateDirty();
 		}
 	}
@@ -286,7 +288,9 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			RtcParam rtcParam = generator.getRtcParams().get(0);
 			if( servicePortViewer != null )
 				servicePortViewer.setInput(rtcParam.getServicePorts());
-			editor.updateEMFServiceOutPorts(editor.getRtcParam().getServicePorts());
+			editor.updateEMFDataPorts(
+					editor.getRtcParam().getInports(), editor.getRtcParam().getOutports(),
+					editor.getRtcParam().getServicePorts());
 		}
 	}
 
