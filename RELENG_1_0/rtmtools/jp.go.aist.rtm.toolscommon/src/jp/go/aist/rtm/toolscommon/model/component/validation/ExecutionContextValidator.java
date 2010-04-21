@@ -1,5 +1,9 @@
 package jp.go.aist.rtm.toolscommon.model.component.validation;
 
+import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.toolscommon.model.component.NameValue;
+import org.eclipse.emf.common.util.EList;
+
 
 /**
  * A sample validator interface for {@link jp.go.aist.rtm.toolscommon.model.component.ExecutionContext}.
@@ -13,4 +17,10 @@ public interface ExecutionContextValidator {
 	boolean validateKindL(int value);
 	boolean validateRateL(Double value);
 	boolean validateStateL(int value);
+
+	boolean validateOwner(Component value);
+
+	boolean validateParticipants(EList<Component> value);
+
+	boolean validateProperties(EList<NameValue> value);
 }

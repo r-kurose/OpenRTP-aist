@@ -718,7 +718,6 @@ public class ConfigurationDialog extends TitleAreaDialog {
 			List<NamedValueConfigurationWrapper> copyNvList = copySet
 					.getNamedValueList();
 			for (int j = 0; j < copyNvList.size(); j++) {
-				NamedValueConfigurationWrapper origNv = origNvList.get(j);
 				NamedValueConfigurationWrapper copyNv = copyNvList.get(j);
 				if (!copyNv.isLoadedWidgetValue()) {
 					// 編集中でなければスキップ
@@ -743,9 +742,19 @@ public class ConfigurationDialog extends TitleAreaDialog {
 						}
 					}
 				}
-				if (modified) {
-					copyNv.saveWidgetValue();
-					origNv.setValue(copyNv.getValue());
+				if (!modified) {
+					continue;
+				}
+				copyNv.saveWidgetValue();
+
+				for (NamedValueConfigurationWrapper origNv : origNvList) {
+					// ダイアログのオープン中にビューの ConfigurationDataリストに
+					// ずれが生じると、異なる NameValueに変更を反映してしまうため、
+					// キーで変更対象の NameValueの検索を行う。
+					if (copyNv.getKey().equals(origNv.getKey())) {
+						origNv.setValue(copyNv.getValue());
+						break;
+					}
 				}
 			}
 		}

@@ -6,23 +6,24 @@ import java.util.List;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
+import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
 
 /**
  * 新規複合コンポーネント作成ダイアログに表示するデータを用意するユーティティクラス
- *
+ * 
  */
 public class NewCompositeComponentDialogData {
 	static String[] getPathComboItems(List<Component> selectedComponents) {
 		List<String> paths = new ArrayList<String>();
 		for (Component obj : selectedComponents) {
 			String path = obj.getPath();
-			if (path != null && !paths.contains(path)){
+			if (path != null && !paths.contains(path)) {
 				paths.add(path);
 			}
 		}
-		return paths.toArray(new String[]{});
+		return paths.toArray(new String[] {});
 	}
 
 	static List<String> getPorts(List<Component> selectedComponents) {
@@ -38,7 +39,8 @@ public class NewCompositeComponentDialogData {
 	}
 
 	// 複合コンポーネント生成時にマネージャに渡すパラメータを返す
-	public static String getParam(String compositeType, String instanceName, String exportedPortString) {
+	public static String getParam(String compositeType, String instanceName,
+			String exportedPortString) {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(compositeType).append("Composite?instance_name=");
 		buffer.append(instanceName);
@@ -48,10 +50,10 @@ public class NewCompositeComponentDialogData {
 	}
 
 	/**
-	 * @param dialog	新規複合コンポーネント作成ダイアログ
-	 * @return			オフラインエディタで作成された複合コンポーネント
+	 * @param dialog
+	 *            新規複合コンポーネント作成ダイアログ
+	 * @return オフラインエディタで作成された複合コンポーネント
 	 */
-	@SuppressWarnings("unchecked")
 	public static Component createCompositeComponentSpecification(
 			NewCompositeComponentDialog dialog) {
 		Component compositeComponent = ComponentFactory.eINSTANCE
@@ -59,16 +61,30 @@ public class NewCompositeComponentDialogData {
 		// プロファイル設定(categoryのみ)
 		compositeComponent.setInstanceNameL(dialog.getInstanceName());
 		compositeComponent.setVenderL("");
-		compositeComponent.setCategoryL("composite." + dialog.getCompositeType());
-		compositeComponent.setTypeNameL(dialog.getCompositeType() + "Composite");
+		compositeComponent.setCategoryL("composite."
+				+ dialog.getCompositeType());
+		compositeComponent
+				.setTypeNameL(dialog.getCompositeType() + "Composite");
 		compositeComponent.setVersionL("");
-		String compId = "RTC:" + compositeComponent.getVenderL() + "." 
-			+ compositeComponent.getCategoryL() + "."
-				+ compositeComponent.getTypeNameL() + ":" + compositeComponent.getVersionL();
+		String compId = "RTC:" + compositeComponent.getVenderL() + "."
+				+ compositeComponent.getCategoryL() + "."
+				+ compositeComponent.getTypeNameL() + ":"
+				+ compositeComponent.getVersionL();
 		compositeComponent.setComponentId(compId);
 		compositeComponent.setPathId(dialog.getPathId());
+		// オフラインでGrouping複合RTC以外の場合はECを追加
+		if (!Component.COMPOSITETYPE_GROUPING.equals(dialog.getCompositeType())) {
+			ExecutionContext ec = ComponentFactory.eINSTANCE
+					.createExecutionContext();
+			ec.setKindL(ExecutionContext.KIND_PERIODIC);
+			ec.setRateL(1000.0);
+			ec.setOwner(compositeComponent);
+			compositeComponent.getExecutionContexts().add(ec);
+			compositeComponent.getExecutionContextHandler().sync();
+		}
 		// 空のConfigurationSet設定
-		ConfigurationSet configSet = ComponentFactory.eINSTANCE.createConfigurationSet();
+		ConfigurationSet configSet = ComponentFactory.eINSTANCE
+				.createConfigurationSet();
 		compositeComponent.getConfigurationSets().add(configSet);
 		compositeComponent.setActiveConfigurationSet(configSet);
 		configSet.setId("default");
@@ -77,13 +93,12 @@ public class NewCompositeComponentDialogData {
 		return compositeComponent;
 	}
 
-	@SuppressWarnings("unchecked")
 	private static void populateExportPorts(ConfigurationSet configSet,
 			String exportedPortString) {
 		NameValue nv = ComponentFactory.eINSTANCE.createNameValue();
 		nv.setName("exported_ports");
 		nv.setValue(exportedPortString);
 		configSet.getConfigurationData().add(nv);
-		
 	}
+
 }

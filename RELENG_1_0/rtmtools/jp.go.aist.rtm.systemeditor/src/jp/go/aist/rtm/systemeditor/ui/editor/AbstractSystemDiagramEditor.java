@@ -142,7 +142,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	private SystemDiagramPropertyChangeListener systemDiagramPropertyChangeListener;
 
 	protected String diagramName;
-	
+
 	public AbstractSystemDiagramEditor() {
 		setEditDomain(new DefaultEditDomain(this));
 		getEditDomain().setCommandStack(new ConnectCancelCommandStack());
@@ -851,6 +851,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 			Component ac = (Component) o;
 			ComponentUtil.closeCompositeComponent(ac);
 		}
+		systemDiagram = null;
 	}
 
 	@SuppressWarnings("unchecked")

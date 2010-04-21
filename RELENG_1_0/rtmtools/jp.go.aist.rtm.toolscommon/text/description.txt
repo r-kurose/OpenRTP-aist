@@ -92,6 +92,9 @@ Package component <http:///jp/go/aist/rtm/toolscommon/model/component.ecore>
     Reference serviceports : ServicePort<<0..*>>
     Reference components : Component<<0..*>>
     Reference executionContexts : ExecutionContext<<0..*>>
+    Reference participationContexts : ExecutionContext<<0..*>>
+    Reference executionContextHandler : ContextHandler
+    Reference participationContextHandler : ContextHandler
     Reference childSystemDiagram : SystemDiagram
     Attribute instanceNameL : EString
     Attribute venderL : EString
@@ -104,20 +107,18 @@ Package component <http:///jp/go/aist/rtm/toolscommon/model/component.ecore>
     Attribute compositeTypeL : EString
     Attribute componentId : EString
     Attribute required : EBoolean
-    Operation getAllComponents() : List
+    Operation getAllComponents() : Component<<0..*>>
     Operation isCompositeComponent() : EBoolean
     Operation isGroupingCompositeComponent() : EBoolean
+    Operation hasComponentAction() : EBoolean
     Operation inOnlineSystemDiagram() : EBoolean
     Operation setComponentsR(List) : EBoolean
+    Operation addComponentsR(List) : EBoolean
     Operation removeComponentR(Component) : EBoolean
     Operation setExportedPorts(EString<<0..*>>) : EBoolean
     Operation updateConfigurationSetR(ConfigurationSet, EBoolean) : EBoolean
     Operation updateConfigurationSetListR(List, ConfigurationSet, List) : EBoolean
-    Operation addComponentsR(List) : EBoolean
     Operation getPath() : EString
-    Operation setExecutionContext(EString, ExecutionContext) : ExecutionContext
-    Operation getExecutionContext(EString) : ExecutionContext
-    Operation getExecutionContextId(ExecutionContext) : EString
 
   Class ComponentSpecification -> Component
     Attribute aliasName : EString
@@ -127,8 +128,25 @@ Package component <http:///jp/go/aist/rtm/toolscommon/model/component.ecore>
     Attribute kindL : EInt
     Attribute rateL : EDoubleObject
     Attribute stateL : EInt
+    Reference owner : Component
+    Reference participants : Component<<0..*>>
+    Reference properties : NameValue<<0..*>>
     Operation getKindName() : EString
     Operation getStateName() : EString
+    Operation setRateR(EDoubleObject) : EBoolean
+    Operation addComponentR(Component) : EBoolean
+    Operation removeComponentR(Component) : EBoolean
+
+  Class ContextHandler
+    Operation setContext(EString, ExecutionContext) : ExecutionContext
+    Operation getContext(EString) : ExecutionContext
+    Operation getId(ExecutionContext) : EString
+    Operation removeContext(EString) : ExecutionContext
+    Operation removeId(ExecutionContext) : EString
+    Operation sync() : void
+    Operation values() : List
+    Operation keys() : List
+    Operation clear() : void
 
   Class ConfigurationSet -> WrapperObject
     Attribute id : EString
@@ -186,8 +204,26 @@ Package component <http:///jp/go/aist/rtm/toolscommon/model/component.ecore>
     Attribute dataType : EString
     Attribute interfaceType : EString
     Attribute pushRate : EDoubleObject
+    Attribute pushPolicy : EString
+    Attribute skipCount : EIntegerObject
+    Attribute pushPolicyAvailable : EBoolean
+    Attribute skipCountAvailable : EBoolean
     Attribute sourceString : EString
     Attribute targetString : EString
+    Attribute outportBufferLength : EIntegerObject
+    Attribute outportBufferFullPolicy : EString
+    Attribute outportBufferWriteTimeout : EDoubleObject
+    Attribute outportBufferEmptyPolicy : EString
+    Attribute outportBufferReadTimeout : EDoubleObject
+    Attribute inportBufferLength : EIntegerObject
+    Attribute inportBufferFullPolicy : EString
+    Attribute inportBufferWriteTimeout : EDoubleObject
+    Attribute inportBufferEmptyPolicy : EString
+    Attribute inportBufferReadTimeout : EDoubleObject
+    Operation getProperty(EString) : EString
+    Operation setProperty(EString, EString) : void
+    Operation removeProperty(EString) : EString
+    Operation getPropertyKeys() : EString<<0..*>>
 
   Class EIntegerObjectToPointMapEntry
     Attribute key : EIntegerObject
@@ -198,7 +234,8 @@ Package component <http:///jp/go/aist/rtm/toolscommon/model/component.ecore>
     Attribute componentState : EInt
     Attribute sDOConfiguration : SDOConfiguration
     Attribute rTCComponentProfile : RTCComponentProfile
-    Attribute rTCExecutionContext : RTCExecutionContext<<0..*>>
+    Attribute rTCExecutionContexts : RTCExecutionContext<<0..*>>
+    Attribute rTCParticipationContexts : RTCExecutionContext<<0..*>>
     Attribute sDOOrganization : SDOOrganization
     Attribute ior : EString
     Operation startR() : EInt
@@ -221,6 +258,15 @@ Package component <http:///jp/go/aist/rtm/toolscommon/model/component.ecore>
 
   Class CorbaExecutionContext -> ExecutionContext, CorbaWrapperObject
     Attribute rtcExecutionContextProfile : RTCExecutionContextProfile
+    Operation startR() : EInt
+    Operation stopR() : EInt
+    Operation activateR(Component) : EInt
+    Operation deactivateR(Component) : EInt
+    Operation resetR(Component) : EInt
+    Operation getComponentStateR(Component) : EInt
+    Operation getComponentStateName(Component) : EString
+
+  Class CorbaContextHandler -> ContextHandler
 
   Enum SystemDiagramKind
     Literal ONLINE = 1

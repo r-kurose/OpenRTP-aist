@@ -29,7 +29,8 @@ import _SDOPackage.Organization;
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getComponentState <em>Component State</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getSDOConfiguration <em>SDO Configuration</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getRTCComponentProfile <em>RTC Component Profile</em>}</li>
- *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getRTCExecutionContext <em>RTC Execution Context</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getRTCExecutionContexts <em>RTC Execution Contexts</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getRTCParticipationContexts <em>RTC Participation Contexts</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getSDOOrganization <em>SDO Organization</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getIor <em>Ior</em>}</li>
  * </ul>
@@ -158,20 +159,36 @@ public interface CorbaComponent extends Component, CorbaWrapperObject {
 	void setRTCComponentProfile(ComponentProfile value);
 
 	/**
-	 * Returns the value of the '<em><b>RTC Execution Context</b></em>' attribute list.
+	 * Returns the value of the '<em><b>RTC Execution Contexts</b></em>' attribute list.
 	 * The list contents are of type {@link RTC.ExecutionContext}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>RTC Execution Context</em>' attribute isn't clear,
+	 * If the meaning of the '<em>RTC Execution Contexts</em>' attribute list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>RTC Execution Context</em>' attribute list.
-	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getCorbaComponent_RTCExecutionContext()
+	 * @return the value of the '<em>RTC Execution Contexts</em>' attribute list.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getCorbaComponent_RTCExecutionContexts()
 	 * @model default="" dataType="jp.go.aist.rtm.toolscommon.model.component.RTCExecutionContext" transient="true"
 	 * @generated
 	 */
-	EList<ExecutionContext> getRTCExecutionContext();
+	EList<ExecutionContext> getRTCExecutionContexts();
+
+	/**
+	 * Returns the value of the '<em><b>RTC Participation Contexts</b></em>' attribute list.
+	 * The list contents are of type {@link RTC.ExecutionContext}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>RTC Participation Contexts</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>RTC Participation Contexts</em>' attribute list.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getCorbaComponent_RTCParticipationContexts()
+	 * @model default="" unique="false" dataType="jp.go.aist.rtm.toolscommon.model.component.RTCExecutionContext" transient="true"
+	 * @generated
+	 */
+	EList<ExecutionContext> getRTCParticipationContexts();
 
 	/**
 	 * Returns the value of the '<em><b>SDO Organization</b></em>' attribute.

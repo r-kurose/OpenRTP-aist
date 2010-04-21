@@ -2,6 +2,7 @@ package jp.go.aist.rtm.toolscommon.model.component;
 
 import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
 
+import org.eclipse.emf.common.util.EList;
 import RTC.ExecutionKind;
 
 /**
@@ -76,6 +77,64 @@ public interface ExecutionContext extends WrapperObject {
 	void setStateL(int value);
 
 	/**
+	 * Returns the value of the '<em><b>Owner</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Owner</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Owner</em>' reference.
+	 * @see #setOwner(Component)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getExecutionContext_Owner()
+	 * @model
+	 * @generated
+	 */
+	Component getOwner();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ExecutionContext#getOwner <em>Owner</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Owner</em>' reference.
+	 * @see #getOwner()
+	 * @generated
+	 */
+	void setOwner(Component value);
+
+	/**
+	 * Returns the value of the '<em><b>Participants</b></em>' reference list.
+	 * The list contents are of type {@link jp.go.aist.rtm.toolscommon.model.component.Component}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Participants</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Participants</em>' reference list.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getExecutionContext_Participants()
+	 * @model resolveProxies="false"
+	 * @generated
+	 */
+	EList<Component> getParticipants();
+
+	/**
+	 * Returns the value of the '<em><b>Properties</b></em>' containment reference list.
+	 * The list contents are of type {@link jp.go.aist.rtm.toolscommon.model.component.NameValue}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Properties</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Properties</em>' containment reference list.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getExecutionContext_Properties()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<NameValue> getProperties();
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * ExecutionContextÇÃéÌóﬁÇï\Ç∑ï∂éöóÒÇï‘ÇµÇ‹Ç∑ÅB(UNKNOWN/PERIODIC/EVENT_DRIVEN/OTHER)
 	 * <!-- end-user-doc -->
@@ -92,5 +151,29 @@ public interface ExecutionContext extends WrapperObject {
 	 * @generated
 	 */
 	String getStateName();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean setRateR(Double rate);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean addComponentR(Component comp);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean removeComponentR(Component comp);
 
 }

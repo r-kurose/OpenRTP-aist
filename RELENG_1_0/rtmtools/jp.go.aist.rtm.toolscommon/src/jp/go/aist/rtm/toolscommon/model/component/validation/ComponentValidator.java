@@ -3,6 +3,7 @@ package jp.go.aist.rtm.toolscommon.model.component.validation;
 
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
+import jp.go.aist.rtm.toolscommon.model.component.ContextHandler;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.InPort;
 import jp.go.aist.rtm.toolscommon.model.component.OutPort;
@@ -28,6 +29,14 @@ public interface ComponentValidator {
 	boolean validateServiceports(EList<ServicePort> value);
 	boolean validateComponents(EList<Component> value);
 	boolean validateExecutionContexts(EList<ExecutionContext> value);
+	boolean validateParticipationContexts(EList<ExecutionContext> value);
+
+	boolean validateExecutionContextHandler(ContextHandler value);
+
+	boolean validateParticipationContextHandler(ContextHandler value);
+
+	boolean validateParticipatingContexts(EList<ExecutionContext> value);
+
 	boolean validateChildSystemDiagram(SystemDiagram value);
 	boolean validateInstanceNameL(String value);
 	boolean validateVenderL(String value);

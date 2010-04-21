@@ -46,6 +46,7 @@ import org.omg.CORBA.TCKind;
 
 import RTC.ComponentProfile;
 import RTC.ExecutionContextProfile;
+import RTC.ExecutionContextService;
 import RTC.PortProfile;
 import RTC.RTObject;
 import _SDOPackage.Configuration;
@@ -98,6 +99,7 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 			case ComponentPackage.SYSTEM_DIAGRAM: return createSystemDiagram();
 			case ComponentPackage.COMPONENT_SPECIFICATION: return createComponentSpecification();
 			case ComponentPackage.EXECUTION_CONTEXT: return createExecutionContext();
+			case ComponentPackage.CONTEXT_HANDLER: return createContextHandler();
 			case ComponentPackage.CONFIGURATION_SET: return createConfigurationSet();
 			case ComponentPackage.NAME_VALUE: return createNameValue();
 			case ComponentPackage.PORT: return createPort();
@@ -112,6 +114,7 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 			case ComponentPackage.CORBA_CONNECTOR_PROFILE: return createCorbaConnectorProfile();
 			case ComponentPackage.CORBA_CONFIGURATION_SET: return createCorbaConfigurationSet();
 			case ComponentPackage.CORBA_EXECUTION_CONTEXT: return createCorbaExecutionContext();
+			case ComponentPackage.CORBA_CONTEXT_HANDLER: return createCorbaContextHandler();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -315,6 +318,16 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public CorbaContextHandler createCorbaContextHandler() {
+		CorbaContextHandlerImpl corbaContextHandler = new CorbaContextHandlerImpl();
+		return corbaContextHandler;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ComponentSpecification createComponentSpecification() {
 		ComponentSpecificationImpl componentSpecification = new ComponentSpecificationImpl();
 		return componentSpecification;
@@ -365,6 +378,16 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	public ExecutionContext createExecutionContext() {
 		ExecutionContextImpl executionContext = new ExecutionContextImpl();
 		return executionContext;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ContextHandler createContextHandler() {
+		ContextHandlerImpl contextHandler = new ContextHandlerImpl();
+		return contextHandler;
 	}
 
 	/**
@@ -506,6 +529,24 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public RTC.ExecutionContext createRTCExecutionContextFromString(EDataType eDataType, String initialValue) {
+		return (RTC.ExecutionContext)super.createFromString(eDataType, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertRTCExecutionContextToString(EDataType eDataType, Object instanceValue) {
+		return super.convertToString(eDataType, instanceValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public PropertyChangeListener createPropertyChangeListenerFromString(EDataType eDataType, String initialValue) {
 		return (PropertyChangeListener)super.createFromString(eDataType, initialValue);
 	}
@@ -552,24 +593,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	 * @generated
 	 */
 	public String convertPortInterfaceProfileToString(EDataType eDataType, Object instanceValue) {
-		return super.convertToString(eDataType, instanceValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public RTC.ExecutionContext createRTCExecutionContextFromString(EDataType eDataType, String initialValue) {
-		return (RTC.ExecutionContext)super.createFromString(eDataType, initialValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String convertRTCExecutionContextToString(EDataType eDataType, Object instanceValue) {
 		return super.convertToString(eDataType, instanceValue);
 	}
 

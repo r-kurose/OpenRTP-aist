@@ -125,195 +125,148 @@ public class RTCManagerMock implements RTCManager {
 	}
 
 	public Component createComponentR(String compName) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public int forkR() {
-		// TODO 自動生成されたメソッド・スタブ
 		return 0;
 	}
 
 	public int shutdownR() {
-		// TODO 自動生成されたメソッド・スタブ
 		return 0;
 	}
 
 	public int deleteComponentR(String instanceName) {
-		// TODO 自動生成されたメソッド・スタブ
 		return 0;
 	}
 
 	public EList<RTObject> getComponentsR() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public ManagerProfile getProfileR() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public Object getCorbaBaseObject() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public Object getCorbaObject() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public org.omg.CORBA.Object getCorbaObjectInterface() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public boolean ping() {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
 	public void setCorbaObject(Object value) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	public void accept(Visiter visiter) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	public void dispose() {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	public Rectangle getConstraint() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public void setConstraint(Rectangle rectangle) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	@SuppressWarnings("unchecked")
 	public TreeIterator eAllContents() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public EClass eClass() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public EObject eContainer() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public EStructuralFeature eContainingFeature() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public EReference eContainmentFeature() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public EList<EObject> eContents() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public EList<EObject> eCrossReferences() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public java.lang.Object eGet(EStructuralFeature feature) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public java.lang.Object eGet(EStructuralFeature feature, boolean resolve) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public boolean eIsProxy() {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
 	public boolean eIsSet(EStructuralFeature feature) {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
 	public Resource eResource() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public void eSet(EStructuralFeature feature, java.lang.Object newValue) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	public void eUnset(EStructuralFeature feature) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	public EList<Adapter> eAdapters() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public boolean eDeliver() {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
 	public void eNotify(Notification notification) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	public void eSetDeliver(boolean deliver) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	@SuppressWarnings("unchecked")
 	public java.lang.Object getAdapter(Class adapter) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public SynchronizationSupport getSynchronizationSupport() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public void setSynchronizationSupport(
 			SynchronizationSupport synchronizationSupport) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	public EList<String> getComponentInstanceNamesR() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public EList<ComponentProfile> getComponentProfilesR() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
@@ -398,104 +351,80 @@ public class RTCManagerMock implements RTCManager {
 	}
 
 	public String getInstanceNameL() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public ManagerProfile getManagerProfile() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public void setManagerProfile(ManagerProfile value) {
-		// TODO 自動生成されたメソッド・スタブ
-		
 	}
 
 	public EList<String> getFactoryProfileTypeNamesR() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public String getPathId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void setPathId(String value) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public void synchronizeLocalAttribute(EReference reference) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public void synchronizeLocalReference() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void synchronizeManually() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public EList<String> getComponentInstanceNames() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public EList<ComponentProfile> getComponentProfiles() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public EList<ModuleProfile> getFactoryModuleProfiles() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public EList<ModuleProfile> getFactoryModuleProfilesR() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public EList<String> getFactoryTypeNames() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public EList<String> getLoadableModuleFileNames() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public EList<ModuleProfile> getLoadableModuleProfiles() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public EList<String> getLoadedModuleFileNames() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public EList<ModuleProfile> getLoadedModuleProfiles() {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

@@ -1,5 +1,8 @@
 package jp.go.aist.rtm.systemeditor.ui.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.util.ComponentUtil;
 import jp.go.aist.rtm.systemeditor.ui.util.TimeoutWrappedJob;
@@ -15,7 +18,7 @@ import org.eclipse.jface.action.Action;
 
 /**
  * 複合コンポーネントを解除するアクション
- *
+ * 
  */
 public class DecomposeComponentAction extends Action {
 
@@ -26,50 +29,57 @@ public class DecomposeComponentAction extends Action {
 		target = compositeComponent;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void run() {
-		if (!CompositeComponentHelper.openConfirm(target, Messages.getString("DecomposeComponentAction.0"))) //$NON-NLS-1$
+		if (!CompositeComponentHelper.openConfirm(target, Messages
+				.getString("DecomposeComponentAction.0"))) //$NON-NLS-1$
 			return;
 		ComponentUtil.closeCompositeComponent(target);
-		
+
 		// 子コンポーネントをダイアグラムに追加する
-		for (Object o : target.getComponents()) {
-			Component c = (Component)o;
+		List<Component> children = new ArrayList<Component>();
+		for (Component c : target.getComponents()) {
 			parent.addComponent(c);
+			children.add(c);
 		}
-		
+		for (Component c : children) {
+			target.removeComponentR(c);
+		}
+
 		// 複合コンポーネントをダイアグラムから消す
 		parent.removeComponent(target);
-		
+
 		// 複合コンポーネントにつながっていた接続を消す
 		removeConnections();
-		
+
 		// ネストしている場合はメンバーの再設定が必要
 		if (parent.getCompositeComponent() != null) {
-			parent.getCompositeComponent().setComponentsR(parent.getComponents());
+			parent.getCompositeComponent().setComponentsR(
+					parent.getComponents());
 		}
-		
+
 		// オンラインの複合コンポーネントは、exitする
 		if (target instanceof CorbaComponent) {
-//			((CorbaComponent) target).exitR();
-			int defaultTimeout = ToolsCommonPreferenceManager.getInstance().getDefaultTimeout(
-					ToolsCommonPreferenceManager.DEFAULT_TIMEOUT_PERIOD);
+			int defaultTimeout = ToolsCommonPreferenceManager
+					.getInstance()
+					.getDefaultTimeout(
+							ToolsCommonPreferenceManager.DEFAULT_TIMEOUT_PERIOD);
 			TimeoutWrapper wrapper = new TimeoutWrapper(defaultTimeout);
-			wrapper.setJob(new TimeoutWrappedJob(){
+			wrapper.setJob(new TimeoutWrappedJob() {
 				@Override
 				protected Object executeCommand() {
 					return ((CorbaComponent) target).exitR();
-				}});
+				}
+			});
 			wrapper.start();
 		}
 	}
 
 	private void removeConnections() {
 		for (Object o2 : target.getPorts()) {
-			Port p = (Port)o2;
-			for (Object o3 :p.getConnectorProfiles()) {
-				ConnectorProfile cp = (ConnectorProfile)o3;
+			Port p = (Port) o2;
+			for (Object o3 : p.getConnectorProfiles()) {
+				ConnectorProfile cp = (ConnectorProfile) o3;
 				parent.getConnectorMap().remove(cp.getConnectorId());
 			}
 		}

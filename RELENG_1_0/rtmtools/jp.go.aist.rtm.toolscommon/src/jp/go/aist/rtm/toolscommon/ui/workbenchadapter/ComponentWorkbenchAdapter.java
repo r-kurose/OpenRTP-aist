@@ -23,13 +23,14 @@ public class ComponentWorkbenchAdapter extends ModelElementWorkbenchAdapter {
 		return ((Component) o).getInstanceNameL();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Object[] getChildren(Object o) {
 		List<Object> result = new ArrayList<Object>();
-		result.addAll(((Component) o).getExecutionContexts());
-		result.addAll(((Component) o).getPorts());
-		result.addAll(((Component) o).getComponents());
+		Component c = (Component) o;
+		result.add(c.getExecutionContextHandler());
+		result.add(c.getParticipationContextHandler());
+		result.addAll(c.getPorts());
+		result.addAll(c.getComponents());
 		return result.toArray();
 	}
 }

@@ -29,6 +29,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getServiceports <em>Serviceports</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getComponents <em>Components</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getExecutionContexts <em>Execution Contexts</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getParticipationContexts <em>Participation Contexts</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getExecutionContextHandler <em>Execution Context Handler</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getParticipationContextHandler <em>Participation Context Handler</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getChildSystemDiagram <em>Child System Diagram</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getInstanceNameL <em>Instance Name L</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getVenderL <em>Vender L</em>}</li>
@@ -187,6 +190,74 @@ public interface Component extends WrapperObject {
 	 * @generated
 	 */
 	EList<ExecutionContext> getExecutionContexts();
+
+	/**
+	 * Returns the value of the '<em><b>Participation Contexts</b></em>' reference list.
+	 * The list contents are of type {@link jp.go.aist.rtm.toolscommon.model.component.ExecutionContext}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Participation Contexts</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Participation Contexts</em>' reference list.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_ParticipationContexts()
+	 * @model
+	 * @generated
+	 */
+	EList<ExecutionContext> getParticipationContexts();
+
+	/**
+	 * Returns the value of the '<em><b>Execution Context Handler</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Execution Context Handler</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Execution Context Handler</em>' containment reference.
+	 * @see #setExecutionContextHandler(ContextHandler)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_ExecutionContextHandler()
+	 * @model containment="true"
+	 * @generated
+	 */
+	ContextHandler getExecutionContextHandler();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getExecutionContextHandler <em>Execution Context Handler</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Execution Context Handler</em>' containment reference.
+	 * @see #getExecutionContextHandler()
+	 * @generated
+	 */
+	void setExecutionContextHandler(ContextHandler value);
+
+	/**
+	 * Returns the value of the '<em><b>Participation Context Handler</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Participation Context Handler</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Participation Context Handler</em>' containment reference.
+	 * @see #setParticipationContextHandler(ContextHandler)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_ParticipationContextHandler()
+	 * @model containment="true"
+	 * @generated
+	 */
+	ContextHandler getParticipationContextHandler();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getParticipationContextHandler <em>Participation Context Handler</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Participation Context Handler</em>' containment reference.
+	 * @see #getParticipationContextHandler()
+	 * @generated
+	 */
+	void setParticipationContextHandler(ContextHandler value);
 
 	/**
 	 * Returns the value of the '<em><b>Instance Name L</b></em>' attribute.
@@ -527,10 +598,10 @@ public interface Component extends WrapperObject {
 	 * <!-- begin-user-doc -->
 	 * 子RTCとして含むコンポーネントを再帰的にすべて取得し、リストとして返す。
 	 * <!-- end-user-doc -->
-	 * @model kind="operation" dataType="jp.go.aist.rtm.toolscommon.model.component.List" many="false"
+	 * @model kind="operation"
 	 * @generated
 	 */
-	List getAllComponents();
+	EList<Component> getAllComponents();
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -552,12 +623,29 @@ public interface Component extends WrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean hasComponentAction();
+
+	/**
+	 * <!-- begin-user-doc -->
 	 * 当該RTCがオンラインのシステムダイアグラムに含まれるかを返す。
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
 	 */
 	boolean inOnlineSystemDiagram();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * 複合RTCの新規作成時に子RTCのリストを設定する。
+	 * <!-- end-user-doc -->
+	 * @model componentListDataType="jp.go.aist.rtm.toolscommon.model.component.List" componentListMany="false"
+	 * @generated NOT
+	 */
+	boolean setComponentsR(List<Component> componentList);
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -604,48 +692,12 @@ public interface Component extends WrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * 複合RTCの新規作成時に子RTCのリストを設定する。
-	 * <!-- end-user-doc -->
-	 * @model componentListDataType="jp.go.aist.rtm.toolscommon.model.component.List" componentListMany="false"
-	 * @generated NOT
-	 */
-	boolean setComponentsR(List<Component> componentList);
-	
-	/**
-	 * <!-- begin-user-doc -->
 	 * 新規複合コンポーネント作成ダイアログに表示するパスを返す。
 	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
 	 */
 	String getPath();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * IDに対応付けてExecutionContextを登録します。
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	ExecutionContext setExecutionContext(String id, ExecutionContext ec);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * IDに対応するExecutionContextを取得します。
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	ExecutionContext getExecutionContext(String id);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * ExecutionContextからIDを逆引きして返します。
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	String getExecutionContextId(ExecutionContext ec);
 
 	/**
 	 * 全属性と参照の同期を手動で行う

@@ -2,6 +2,7 @@ package jp.go.aist.rtm.toolscommon.model.component.validation;
 
 
 import RTC.ComponentProfile;
+import RTC.ExecutionContextService;
 import RTC.ExecutionContext;
 import _SDOPackage.Configuration;
 import _SDOPackage.Organization;
@@ -20,6 +21,12 @@ public interface CorbaComponentValidator {
 	boolean validateComponentState(int value);
 	boolean validateSDOConfiguration(Configuration value);
 	boolean validateRTCComponentProfile(ComponentProfile value);
+	boolean validateRTCExecutionContexts(EList<ExecutionContextService> value);
+
+	boolean validateRTCParticipationContexts(EList<ExecutionContext> value);
+
+	boolean validateRTCParticipatingContexts(EList<ExecutionContext> value);
+
 	boolean validateRTCExecutionContext(EList<ExecutionContext> value);
 	boolean validateSDOOrganization(Organization value);
 	boolean validateIor(String value);

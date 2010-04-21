@@ -7,6 +7,7 @@
 package jp.go.aist.rtm.nameserviceview.model.nameservice.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -84,7 +85,11 @@ public class NamingObjectNodeImpl extends CorbaNodeImpl implements NamingObjectN
 	 * @generated NOT
 	 */
 	public boolean isZombie() {
-		return getEntry() == null;
+		Binding bind = getNameServiceReference().getBinding();
+		NameComponent nc = bind.binding_name[bind.binding_name.length - 1];
+		String kind = (nc == null) ? "" : nc.kind;
+		List<String> targetZombies = Arrays.asList("rtc", "mgr");
+		return (targetZombies.contains(kind) && getEntry() == null);
 	}
 
 	/**

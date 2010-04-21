@@ -6,43 +6,33 @@ import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.nl.Messages;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
-import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
 /**
  * コンポーネントのIPropertySourceクラス（オフライン）
  */
-public class ComponentSpecificationPropertySource implements IPropertySource {
+public class ComponentSpecificationPropertySource extends AbstractPropertySource {
 
-	private static final String DISP_PATH_URI = Messages.getString("ComponentPropertySource.disp.path_uri");
-	private static final String DISP_INSTANCE_NAME = Messages.getString("ComponentSpecificationPropertySource.disp.instance_name");
+	static final String DISP_PATH_URI = Messages.getString("ComponentPropertySource.disp.path_uri");
 
-	private static final String DISP_TYPE_NAME = Messages.getString("ComponentSpecificationPropertySource.disp.type_name");
+	static final String DISP_INSTANCE_NAME = Messages.getString("ComponentSpecificationPropertySource.disp.instance_name");
 
-	private static final String DISP_DESCRIPTION = Messages.getString("ComponentSpecificationPropertySource.disp.description");
+	static final String DISP_TYPE_NAME = Messages.getString("ComponentSpecificationPropertySource.disp.type_name");
 
-	private static final String DISP_VERSION = Messages.getString("ComponentSpecificationPropertySource.disp.version");
+	static final String DISP_DESCRIPTION = Messages.getString("ComponentSpecificationPropertySource.disp.description");
 
-	private static final String DISP_VENDOR = Messages.getString("ComponentSpecificationPropertySource.disp.vendor");
+	static final String DISP_VERSION = Messages.getString("ComponentSpecificationPropertySource.disp.version");
 
-	private static final String DISP_CATEGORY = Messages.getString("ComponentSpecificationPropertySource.disp.category");
+	static final String DISP_VENDOR = Messages.getString("ComponentSpecificationPropertySource.disp.vendor");
 
-	private static final PropertyDescriptor[] componentPropertyDescriptor = new PropertyDescriptor[] {
-	    	new TextPropertyDescriptor(Component.PATH_URI, DISP_PATH_URI),
-			new TextPropertyDescriptor(Component.INSTANCE_NAME, DISP_INSTANCE_NAME),
-			new TextPropertyDescriptor(Component.TYPE_NAME, DISP_TYPE_NAME),
-			new TextPropertyDescriptor(Component.DESCRIPTION, DISP_DESCRIPTION),
-			new TextPropertyDescriptor(Component.VERSION, DISP_VERSION),
-			new TextPropertyDescriptor(Component.VENDER, DISP_VENDOR),
-			new TextPropertyDescriptor(Component.CATEGORY, DISP_CATEGORY),
-			};
+	static final String DISP_CATEGORY = Messages.getString("ComponentSpecificationPropertySource.disp.category");
+
+	static final String UNKNOWN = "<unknown>";
 
 	private ComponentSpecification component;
 
 	/**
-	 * {@inheritDoc}
-	 * 
 	 * @param component
 	 *            モデル
 	 */
@@ -50,19 +40,23 @@ public class ComponentSpecificationPropertySource implements IPropertySource {
 		this.component = component;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
-		return componentPropertyDescriptor;
+		return new PropertyDescriptor[] {
+				new TextPropertyDescriptor(Component.PATH_URI, DISP_PATH_URI),
+				new TextPropertyDescriptor(Component.INSTANCE_NAME,
+						DISP_INSTANCE_NAME),
+				new TextPropertyDescriptor(Component.TYPE_NAME, DISP_TYPE_NAME),
+				new TextPropertyDescriptor(Component.DESCRIPTION,
+						DISP_DESCRIPTION),
+				new TextPropertyDescriptor(Component.VERSION, DISP_VERSION),
+				new TextPropertyDescriptor(Component.VENDER, DISP_VENDOR),
+				new TextPropertyDescriptor(Component.CATEGORY, DISP_CATEGORY), };
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public java.lang.Object getPropertyValue(java.lang.Object id) {
 		String result = null;
-
 		try {
 			if (Component.PATH_URI.equals(id)) {
 				return component.getPathId();
@@ -84,35 +78,10 @@ public class ComponentSpecificationPropertySource implements IPropertySource {
 		}
 
 		if (result == null) {
-			result = "<unknown>";
+			result = UNKNOWN;
 		}
 
 		return result;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isPropertySet(java.lang.Object id) {
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void resetPropertyValue(java.lang.Object id) {
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setPropertyValue(java.lang.Object id, java.lang.Object value) {
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public java.lang.Object getEditableValue() {
-		return null;
-	}
 }

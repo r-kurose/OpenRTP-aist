@@ -1,5 +1,10 @@
 package jp.go.aist.rtm.toolscommon.ui.views.propertysheetview;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jp.go.aist.rtm.toolscommon.model.component.Component;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -36,4 +41,21 @@ public class ComponentWrapper {
 	public void setComponent(EObject component) {
 		this.component = component;
 	}
+
+	/**
+	 * containment=false‚Ì—v‘f‚ðŽæ“¾‚·‚é (eAllContents()‚Å‚½‚Ç‚ê‚È‚¢‚½‚ß)
+	 * 
+	 * @return containment=false‚Ì—v‘fƒŠƒXƒg
+	 */
+	public List<EObject> getSubContents() {
+		List<EObject> result = new ArrayList<EObject>();
+		if (component instanceof Component) {
+			Component c = (Component) component;
+			for (EObject eo : c.getParticipationContexts()) {
+				result.add(eo);
+			}
+		}
+		return result;
+	}
+
 }

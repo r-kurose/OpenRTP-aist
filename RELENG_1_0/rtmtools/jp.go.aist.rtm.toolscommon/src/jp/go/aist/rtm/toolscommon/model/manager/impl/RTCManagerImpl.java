@@ -452,7 +452,7 @@ public class RTCManagerImpl extends CorbaWrapperObjectImpl implements
 //		}
 		// TODO ミドルウェアでファクトリ取得が修正されるまで、loadable moduleから取得する
 		for (ModuleProfile prof : getLoadableModuleProfiles()) {
-			String file = SDOUtil.getStringValue(prof.properties, "type_name");
+			String file = SDOUtil.getStringValue(prof.properties, "implementation_id");
 			if (file != null) {
 				factoryModuleProfiles.add(prof);
 			}
@@ -582,7 +582,7 @@ public class RTCManagerImpl extends CorbaWrapperObjectImpl implements
 		BasicEList<String> result = new BasicEList<String>();
 		for (Object o : getFactoryModuleProfiles()) {
 			ModuleProfile prof = (ModuleProfile) o;
-			String type = SDOUtil.getStringValue(prof.properties, "type_name");
+			String type = SDOUtil.getStringValue(prof.properties, "implementation_id");
 			if (type != null) {
 				result.add(type);
 			}

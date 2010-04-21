@@ -78,6 +78,13 @@
 			id="jp.go.aist.rtm.systemeditor.ui.views.compositecomponentview.CompositeComponentView">
 		</view>
 		<view
+			name="%ExecutionContext_View"
+			icon="icons/RT_icon.png"
+			category="rtse"
+			class="jp.go.aist.rtm.systemeditor.ui.views.executioncontextview.ExecutionContextView"
+			id="jp.go.aist.rtm.systemeditor.ui.views.executioncontextview.ExecutionContextView">
+		</view>
+		<view
 			name="%RT_Log_View"
 			icon="icons/RT_icon.png"
 			category="rtse"
@@ -234,11 +241,6 @@
 				menubarPath="component"
 				class="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate">
 			</action>
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Finalize"
-				label="%Finalize"
-				menubarPath="component"
-				class="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate">
-			</action>
 			<action id="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Reset"
 				label="%Reset"
 				menubarPath="component"
@@ -247,11 +249,13 @@
 			<action id="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Deactivate"
 				label="%Deactivate"
 				menubarPath="component"
+				definitionId="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Deactivate"
 				class="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate">
 			</action>
 			<action id="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Activate"
 				label="%Activate"
 				menubarPath="component"
+				definitionId="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Activate"
 				class="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate">
 			</action>
 			<action id="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.executioncontext.Stop"
@@ -428,6 +432,11 @@
 				relationship="stack"
 				relative="jp.go.aist.rtm.systemeditor.ui.views.configurationview.ConfigurationView">
 			</view>
+ 			<view
+				id="jp.go.aist.rtm.systemeditor.ui.views.executioncontextview.ExecutionContextView"
+				relationship="stack"
+				relative="jp.go.aist.rtm.systemeditor.ui.views.configurationview.ConfigurationView">
+			</view>
 			<view
 				id="jp.go.aist.rtm.systemeditor.ui.views.RTLogView"
 				relationship="stack"
@@ -437,6 +446,7 @@
 			<viewShortcut id="jp.go.aist.rtm.systemeditor.ui.views.configurationview.ConfigurationView"/>
 			<viewShortcut id="jp.go.aist.rtm.systemeditor.ui.views.managercontrolview.ManagerControlView"/>
 			<viewShortcut id="jp.go.aist.rtm.systemeditor.ui.views.compositecomponentview.CompositeComponentView"/>
+			<viewShortcut id="jp.go.aist.rtm.systemeditor.ui.views.executioncontextview.ExecutionContextView"/>
 			<viewShortcut id="jp.go.aist.rtm.systemeditor.ui.views.RTLogView"/>
 		</perspectiveExtension>
 	</extension>

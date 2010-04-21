@@ -2,6 +2,7 @@ package jp.go.aist.rtm.systemeditor.ui.action;
 
 import java.lang.reflect.InvocationTargetException;
 
+import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
 import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
@@ -72,8 +73,13 @@ public class AllComponentActionDelegate implements IEditorActionDelegate {
 			comfirmMessage = Messages.getString("AllComponentActionDelegate.8"); //$NON-NLS-1$
 		}
 
-		boolean isOk = MessageDialog.openConfirm(targetEditor.getSite()
+		boolean isOk = true;
+		if (SystemEditorPreferenceManager.getInstance()
+				.isConfirmComponentAction()) {
+			isOk = MessageDialog.openConfirm(targetEditor.getSite()
 				.getShell(), Messages.getString("AllComponentActionDelegate.9"), comfirmMessage); //$NON-NLS-1$
+		}
+
 		if (isOk) {
 
 			ProgressMonitorDialog dialog = new ProgressMonitorDialog(

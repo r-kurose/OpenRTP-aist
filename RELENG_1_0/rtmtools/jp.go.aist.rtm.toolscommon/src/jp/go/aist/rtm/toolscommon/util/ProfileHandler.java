@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
@@ -31,7 +30,7 @@ public class ProfileHandler {
 	private static final String PORTTYPE_IN = "DataInPort";
 	private static final String SPEC_SUFFIX = "RTC";
 	private static final String SPEC_MAJOR_SEPARATOR = ":";
-	private static final String SPEC_MINOR_SEPARATOR = ".";
+	// private static final String SPEC_MINOR_SEPARATOR = ".";
 	
 	private static final String INTERFACE_DIRECTION_PROVIDED = "Provided";
 	private static final String INTERFACE_DIRECTION_REQUIRED = "Required";
@@ -71,7 +70,7 @@ public class ProfileHandler {
 		return component;
 	}
 
-	@SuppressWarnings({ "unchecked", "static-access" })
+	@SuppressWarnings("static-access")
 	private ComponentSpecification profile2ComponentEMF(RtcProfile module,
 			ComponentSpecification specification) throws Exception {
 		if( !checkProfile(module) ) throw new Exception("Incorrect Profile.");
@@ -90,18 +89,18 @@ public class ProfileHandler {
 		// BasicInfoからデフォルトのExecutionContextを作成
 		jp.go.aist.rtm.toolscommon.model.component.ExecutionContext ec = ComponentFactory.eINSTANCE
 				.createExecutionContext();
-		String type = bi.getActivityType();
-		if ("PERIODIC".equals(type)) {
+		String type = bi.getExecutionType();
+		if ("PeriodicExecutionContext".equals(type)) {
 			ec.setKindL(ec.KIND_PERIODIC);
-		} else if ("SPORADIC".equals(type)) {
-			ec.setKindL(ec.KIND_OTHER);
-		} else if ("EVENTDRIVEN".equals(type)) {
+		} else if ("ExtTrigExecutionContext".equals(type)) {
 			ec.setKindL(ec.KIND_EVENT_DRIVEN);
 		} else {
-			ec.setKindL(ec.KIND_UNKNOWN);
+			ec.setKindL(ec.KIND_OTHER);
 		}
 		ec.setRateL(bi.getExecutionRate());
-		specification.setExecutionContext("default", ec);
+		ec.setOwner(specification);
+		specification.getExecutionContexts().add(ec);
+		specification.getExecutionContextHandler().sync();
 
 		// Constraint設定とWidget設定に対応 2008.12.25
 		RTCConfigurationParser parser = new RTCConfigurationParser();

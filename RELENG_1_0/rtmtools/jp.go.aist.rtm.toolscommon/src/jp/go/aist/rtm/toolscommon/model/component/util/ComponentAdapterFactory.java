@@ -113,6 +113,10 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 				return createExecutionContextAdapter();
 			}
 			@Override
+			public Adapter caseContextHandler(ContextHandler object) {
+				return createContextHandlerAdapter();
+			}
+			@Override
 			public Adapter caseConfigurationSet(ConfigurationSet object) {
 				return createConfigurationSetAdapter();
 			}
@@ -171,6 +175,10 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseCorbaExecutionContext(CorbaExecutionContext object) {
 				return createCorbaExecutionContextAdapter();
+			}
+			@Override
+			public Adapter caseCorbaContextHandler(CorbaContextHandler object) {
+				return createCorbaContextHandlerAdapter();
 			}
 			@Override
 			public Adapter caseIAdaptable(IAdaptable object) {
@@ -395,6 +403,20 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaContextHandler <em>Corba Context Handler</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.CorbaContextHandler
+	 * @generated
+	 */
+	public Adapter createCorbaContextHandlerAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification <em>Specification</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -461,6 +483,20 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createExecutionContextAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.ContextHandler <em>Context Handler</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ContextHandler
+	 * @generated
+	 */
+	public Adapter createContextHandlerAdapter() {
 		return null;
 	}
 
