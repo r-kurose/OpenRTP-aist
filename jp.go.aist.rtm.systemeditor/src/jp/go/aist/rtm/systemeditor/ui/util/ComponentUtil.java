@@ -120,4 +120,17 @@ public class ComponentUtil {
 		}
 		return result;
 	}
+
+	/**
+	 * ポート名を正規化("RTC名"."ポート名" 形式)します。(オフライン)
+	 */
+	public static String createPortName(String insName, String portName) {
+		String result = (portName == null) ? "" : portName;
+		if (!result.startsWith(insName)) {
+			String[] ns = result.split("\\.");
+			result = insName + "." + ns[ns.length - 1];
+		}
+		return result;
+	}
+
 }

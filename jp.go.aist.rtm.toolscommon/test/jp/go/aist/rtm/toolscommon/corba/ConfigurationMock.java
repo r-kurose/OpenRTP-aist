@@ -34,7 +34,6 @@ public class ConfigurationMock implements Configuration {
 //	@Override
 	public boolean activate_configuration_set(String config_id)
 			throws InvalidParameter, NotAvailable, InternalError {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -53,14 +52,12 @@ public class ConfigurationMock implements Configuration {
 //	@Override
 	public boolean add_organization(Organization organization_object)
 			throws InvalidParameter, NotAvailable, InternalError {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 //	@Override
 	public boolean add_service_profile(ServiceProfile profile)
 			throws InvalidParameter, NotAvailable, InternalError {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -79,28 +76,24 @@ public class ConfigurationMock implements Configuration {
 //	@Override
 	public Any get_configuration_parameter_value(String name)
 			throws InvalidParameter, NotAvailable, InternalError {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 //	@Override
 	public NameValue[] get_configuration_parameter_values()
 			throws NotAvailable, InternalError {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 //	@Override
 	public Parameter[] get_configuration_parameters() throws NotAvailable,
 			InternalError {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 //	@Override
 	public ConfigurationSet get_configuration_set(String config_id)
 			throws NotAvailable, InternalError {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -117,28 +110,24 @@ public class ConfigurationMock implements Configuration {
 //	@Override
 	public boolean remove_configuration_set(String config_id)
 			throws InvalidParameter, NotAvailable, InternalError {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 //	@Override
 	public boolean remove_organization(String organization_id)
 			throws InvalidParameter, NotAvailable, InternalError {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 //	@Override
 	public boolean remove_service_profile(String id) throws InvalidParameter,
 			NotAvailable, InternalError {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 //	@Override
 	public boolean set_configuration_parameter(String name, Any value)
 			throws InvalidParameter, NotAvailable, InternalError {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -158,77 +147,61 @@ public class ConfigurationMock implements Configuration {
 //	@Override
 	public boolean set_device_profile(DeviceProfile profile)
 			throws InvalidParameter, NotAvailable, InternalError {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public Request _create_request(Context ctx, String operation,
 			NVList arg_list, NamedValue result) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public Request _create_request(Context ctx, String operation,
 			NVList arg_list, NamedValue result, ExceptionList exclist,
 			ContextList ctxlist) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public Object _duplicate() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public DomainManager[] _get_domain_managers() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public Object _get_interface_def() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public Policy _get_policy(int policy_type) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public int _hash(int maximum) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	public boolean _is_a(String repositoryIdentifier) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public boolean _is_equivalent(Object other) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public boolean _non_existent() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public void _release() {
-		// TODO Auto-generated method stub
-
 	}
 
 	public Request _request(String operation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public Object _set_policy_override(Policy[] policies,
 			SetOverrideType set_add) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

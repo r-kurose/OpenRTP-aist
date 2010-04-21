@@ -199,12 +199,10 @@ public class CorbaObjectMock implements RTObject, PortService {
 	}
 //	@Override
 	public ReturnCode_t connect(ConnectorProfileHolder connector_profile) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 //	@Override
 	public ReturnCode_t disconnect(String connector_id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 //	@Override
@@ -214,28 +212,22 @@ public class CorbaObjectMock implements RTObject, PortService {
 	}
 //	@Override
 	public ConnectorProfile get_connector_profile(String connector_id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 //	@Override
 	public ConnectorProfile[] get_connector_profiles() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 //	@Override
 	public PortProfile get_port_profile() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 //	@Override
 	public ReturnCode_t notify_connect(ConnectorProfileHolder connector_profile) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 //	@Override
 	public ReturnCode_t notify_disconnect(String connector_id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

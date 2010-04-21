@@ -215,18 +215,17 @@ public class SDOUtil {
     /**
      * ConfigurationSetÇ©ÇÁSDOÇÃConfigurationSetÇçÏê¨Ç∑ÇÈ
      */
-    @SuppressWarnings("unchecked")
 	public static _SDOPackage.ConfigurationSet createSdoConfigurationSet(
-    		jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet local) {
-        _SDOPackage.ConfigurationSet result = new _SDOPackage.ConfigurationSet();
-        result.id = local.getId();
+			jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet local) {
+		_SDOPackage.ConfigurationSet result = new _SDOPackage.ConfigurationSet();
+		result.id = local.getId();
 
-        result.description = "";
-        result.configuration_data = createNameValueArray(local
-                .getConfigurationData());
+		result.description = "";
+		result.configuration_data = createNameValueArray(local
+				.getConfigurationData());
 
-        return result;
-    }
+		return result;
+	}
 
 
 	/**
@@ -243,7 +242,7 @@ public class SDOUtil {
 		return result;
 	}
 
-	private static NameValue createNameValue(_SDOPackage.NameValue value) {
+	public static NameValue createNameValue(_SDOPackage.NameValue value) {
 		NameValue nameValue = ComponentFactory.eINSTANCE.createNameValue();
 		nameValue.setName(value.name);
 		if (value.value.type().kind() == TCKind.tk_wstring) {

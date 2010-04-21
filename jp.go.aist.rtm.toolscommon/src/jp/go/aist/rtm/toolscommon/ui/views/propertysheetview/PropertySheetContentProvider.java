@@ -7,8 +7,11 @@ import java.util.List;
 
 import jp.go.aist.rtm.toolscommon.model.core.CorePackage;
 import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
+import jp.go.aist.rtm.toolscommon.ui.propertysource.AbstractPropertySource;
 import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
@@ -28,9 +31,6 @@ public class PropertySheetContentProvider extends AdapterImpl implements
 
 	private Viewer viewer;
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		this.viewer = viewer;
 
@@ -50,6 +50,9 @@ public class PropertySheetContentProvider extends AdapterImpl implements
 					EObject element = (EObject) iter.next();
 					element.eAdapters().remove(provider);
 				}
+				for (EObject eo : w.getSubContents()) {
+					eo.eAdapters().remove(provider);
+				}
 			} else if (oldInput instanceof RTCManagerWrapper) {
 				RTCManagerWrapper w = (RTCManagerWrapper) oldInput;
 				w.getManager().eAdapters().remove(provider);
@@ -65,6 +68,9 @@ public class PropertySheetContentProvider extends AdapterImpl implements
 					EObject element = (EObject) iter.next();
 					element.eAdapters().add(provider);
 				}
+				for (EObject eo : w.getSubContents()) {
+					eo.eAdapters().add(provider);
+				}
 			} else if (newInput instanceof RTCManagerWrapper) {
 				RTCManagerWrapper w = (RTCManagerWrapper) newInput;
 				w.getManager().eAdapters().add(provider);
@@ -72,37 +78,26 @@ public class PropertySheetContentProvider extends AdapterImpl implements
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public void dispose() {
 		addListener(viewer.getInput(), null);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public Object[] getElements(Object parent) {
 		return getChildren(parent);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public Object getParent(Object child) {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public Object[] getChildren(Object parent) {
 		if (parent instanceof PropertyDescriptorWithSource) {
 			return new Object[0];
 		} else if (parent instanceof ComponentWrapper) {
 			return new Object[] { ((ComponentWrapper) parent).getComponent() };
 		} else if (parent instanceof PortConnectorWrapper) {
-			return new Object[] { ((PortConnectorWrapper) parent).getConnector() };
+			return new Object[] { ((PortConnectorWrapper) parent)
+					.getConnector() };
 		} else if (parent instanceof RTCManagerWrapper) {
 			return new Object[] { ((RTCManagerWrapper) parent).getManager() };
 		} else if (parent instanceof RTCManager) {
@@ -127,16 +122,29 @@ public class PropertySheetContentProvider extends AdapterImpl implements
 		} else {
 			List<Object> result = new ArrayList<Object>();
 
-			IPropertySource source = (IPropertySource) AdapterUtil.getAdapter(
-					parent, IPropertySource.class);
+			Object obj = parent;
+			IPropertySource source;
+			source = (IPropertySource) AdapterUtil.getAdapter(parent,
+					IPropertySource.class);
+
+			if (parent instanceof ChildWithParent) {
+				ChildWithParent cp = (ChildWithParent) parent;
+				obj = cp.getChild();
+				if (source instanceof AbstractPropertySource) {
+					((AbstractPropertySource) source).setParent(cp.getParent());
+				}
+			}
 			result.addAll(this.createProperDescriptorWithSourceList(source));
 
 			IWorkbenchAdapter workbenchAdapter = (IWorkbenchAdapter) AdapterUtil
 					.getAdapter(parent, IWorkbenchAdapter.class);
 			if (workbenchAdapter != null) {
-				Object[] children = workbenchAdapter.getChildren(parent);
+				Object[] children = workbenchAdapter.getChildren(obj);
 				if (children != null) {
-					result.addAll(Arrays.asList(children));
+					for (Object o : children) {
+						ChildWithParent cp = new ChildWithParent(o, obj);
+						result.add(cp);
+					}
 				}
 			}
 
@@ -156,45 +164,76 @@ public class PropertySheetContentProvider extends AdapterImpl implements
 		return result;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** 親/子要素をまとめてラップするクラス */
+	public static class ChildWithParent implements IAdaptable {
+		Object child;
+		Object parent;
+
+		public ChildWithParent(Object child, Object parent) {
+			this.child = child;
+			this.parent = parent;
+		}
+
+		public Object getChild() {
+			return child;
+		}
+
+		public Object getParent() {
+			return parent;
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public Object getAdapter(Class adapter) {
+			Object result = null;
+			if (getChild() instanceof IAdaptable) {
+				result = ((IAdaptable) getChild()).getAdapter(adapter);
+			}
+			if (result == null) {
+				result = Platform.getAdapterManager().getAdapter(getChild(),
+						adapter);
+			}
+			return result;
+		}
+	}
+
 	public boolean hasChildren(Object parent) {
 		return getChildren(parent).length > 0;
 	}
 
 	private Notification notifyMessage = null;
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public void notifyChanged(final Notification msg) {
-		if (msg.getOldValue() != this && msg.getNewValue() != this) { // 自分をリスナに追加することによる、変更通知を無視するため
-			if (!CorePackage.eINSTANCE.getModelElement_Constraint().equals(
-					msg.getFeature())) {
-				if (notifyMessage == null
-						|| !notifyMessage.getNotifier().equals(
-								msg.getNotifier())) {
-					notifyMessage = msg;
-				}
-				viewer.getControl().getDisplay().asyncExec(new Runnable() {
-					public void run() {
-						if (viewer.getControl().isDisposed()) {
-							return;
-						}
-						if (notifyMessage == null) {
-							return;
-						}
-						if (Arrays.asList(Notification.SET, Notification.ADD,
-								Notification.REMOVE).contains(
-								notifyMessage.getEventType())) {
-							viewer.refresh();
-							((TreeViewer) viewer).expandAll();
-						}
-						notifyMessage = null;
-					}
-				});
-			}
+		if (msg.getOldValue() == this || msg.getNewValue() == this) { // 自分をリスナに追加することによる、変更通知を無視するため
+			return;
 		}
+		if (CorePackage.eINSTANCE.getModelElement_Constraint().equals(
+				msg.getFeature())) {
+			return;
+		}
+		final List<Integer> refreshTypes = Arrays.asList(Notification.SET,
+				Notification.ADD, Notification.REMOVE);
+		if ((notifyMessage == null || !notifyMessage.getNotifier().equals(
+				msg.getNotifier()))
+				&& refreshTypes.contains(msg.getEventType())) {
+			notifyMessage = msg;
+		}
+		viewer.getControl().getDisplay().asyncExec(new Runnable() {
+			public void run() {
+				if (viewer.getControl().isDisposed()) {
+					return;
+				}
+				if (notifyMessage == null) {
+					return;
+				}
+				if (refreshTypes.contains(notifyMessage.getEventType())) {
+					viewer.refresh();
+					((TreeViewer) viewer).expandAll();
+				}
+				notifyMessage = null;
+			}
+		});
 	}
+
 }

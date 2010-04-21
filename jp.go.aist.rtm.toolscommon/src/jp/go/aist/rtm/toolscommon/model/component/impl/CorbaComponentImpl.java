@@ -7,8 +7,10 @@
 package jp.go.aist.rtm.toolscommon.model.component.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import java.util.Collections;
 import java.util.Iterator;
@@ -18,6 +20,7 @@ import jp.go.aist.rtm.toolscommon.factory.CorbaWrapperFactory;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
+import jp.go.aist.rtm.toolscommon.model.component.ContextHandler;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaPortSynchronizer;
@@ -45,6 +48,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EDataTypeEList;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.ui.views.properties.IPropertySource;
@@ -73,7 +77,8 @@ import _SDOPackage.SDO;
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl#getComponentState <em>Component State</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl#getSDOConfiguration <em>SDO Configuration</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl#getRTCComponentProfile <em>RTC Component Profile</em>}</li>
- *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl#getRTCExecutionContext <em>RTC Execution Context</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl#getRTCExecutionContexts <em>RTC Execution Contexts</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl#getRTCParticipationContexts <em>RTC Participation Contexts</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl#getSDOOrganization <em>SDO Organization</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl#getIor <em>Ior</em>}</li>
  * </ul>
@@ -183,14 +188,24 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	protected ComponentProfile rTCComponentProfile = RTC_COMPONENT_PROFILE_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getRTCExecutionContext() <em>RTC Execution Context</em>}' attribute list.
+	 * The cached value of the '{@link #getRTCExecutionContexts() <em>RTC Execution Contexts</em>}' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getRTCExecutionContext()
-	 * @generated
+	 * @see #getRTCExecutionContexts()
+	 * @generated NOT
 	 * @ordered
 	 */
-	protected EList<ExecutionContext> rTCExecutionContext;
+	protected EList<RTC.ExecutionContext> rTCExecutionContexts;
+
+	/**
+	 * The cached value of the '{@link #getRTCParticipationContexts() <em>RTC Participation Contexts</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRTCParticipationContexts()
+	 * @generated NOT
+	 * @ordered
+	 */
+	protected EList<RTC.ExecutionContext> rTCParticipationContexts;
 
 	/**
 	 * The default value of the '{@link #getSDOOrganization() <em>SDO Organization</em>}' attribute.
@@ -361,12 +376,23 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	@SuppressWarnings("unchecked")
-	public EList getRTCExecutionContext() {
-		if (rTCExecutionContext == null) {
-			rTCExecutionContext = new EDataTypeUniqueEList(RTC.ExecutionContext.class, this, ComponentPackage.CORBA_COMPONENT__RTC_EXECUTION_CONTEXT);
+	public EList<RTC.ExecutionContext> getRTCExecutionContexts() {
+		if (rTCExecutionContexts == null) {
+			rTCExecutionContexts = new EDataTypeUniqueEList<RTC.ExecutionContext>(RTC.ExecutionContext.class, this, ComponentPackage.CORBA_COMPONENT__RTC_EXECUTION_CONTEXTS);
 		}
-		return rTCExecutionContext;
+		return rTCExecutionContexts;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EList<RTC.ExecutionContext> getRTCParticipationContexts() {
+		if (rTCParticipationContexts == null) {
+			rTCParticipationContexts = new EDataTypeEList<RTC.ExecutionContext>(RTC.ExecutionContext.class, this, ComponentPackage.CORBA_COMPONENT__RTC_PARTICIPATION_CONTEXTS);
+		}
+		return rTCParticipationContexts;
 	}
 
 	/**
@@ -415,11 +441,34 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		return RTObjectHelper.narrow(getCorbaObject());
 	}
 
+	@Override
+	public boolean hasComponentAction() {
+		return true;
+	}
+
+	@Override
 	public RTC.ExecutionContext getPrimaryRTCExecutionContext() {
-		if (getRTCExecutionContext().size() > 0) 
-			return (RTC.ExecutionContext) getRTCExecutionContext().get(0);
+		if (getRTCExecutionContexts().size() > 0)
+			return getRTCExecutionContexts().get(0);
 		return null;
 	}
+
+	@Override
+	public ContextHandler getExecutionContextHandler() {
+		if (executionContextHandler == null) {
+			setExecutionContextHandler(new CorbaContextHandlerImpl());
+		}
+		return executionContextHandler;
+	}
+
+	@Override
+	public ContextHandler getParticipationContextHandler() {
+		if (participationContextHandler == null) {
+			setParticipationContextHandler(new CorbaContextHandlerImpl());
+		}
+		return participationContextHandler;
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -427,16 +476,14 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	 */
 	public int startR() {
 		if (getPrimaryRTCExecutionContext() != null) {
-			return getPrimaryRTCExecutionContext()
-					.start()
-					.value();
+			return getPrimaryRTCExecutionContext().start().value();
 		}
 		return RETURNCODE_ERROR;
 	}
 
 	public void startAll() {
-		for (Object obj : getRTCExecutionContext()) {
-			((RTC.ExecutionContext)obj).start();
+		for (RTC.ExecutionContext ec : getRTCExecutionContexts()) {
+			ec.start();
 		}
 	}
 
@@ -447,15 +494,14 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	 */
 	public int stopR() {
 		if (getPrimaryRTCExecutionContext() != null) {
-			return getPrimaryRTCExecutionContext().stop()
-					.value();
+			return getPrimaryRTCExecutionContext().stop().value();
 		}
 		return RETURNCODE_ERROR;
 	}
 
 	public void stopAll() {
-		for (Object obj : getRTCExecutionContext()) {
-			((RTC.ExecutionContext)obj).stop();
+		for (RTC.ExecutionContext ec : getRTCExecutionContexts()) {
+			ec.stop();
 		}
 	}
 
@@ -466,15 +512,15 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	 */
 	public int activateR() {
 		if (getPrimaryRTCExecutionContext() != null) {
-			return getPrimaryRTCExecutionContext()
-				.activate_component(getCorbaObjectInterface()).value();
+			return getPrimaryRTCExecutionContext().activate_component(
+					getCorbaObjectInterface()).value();
 		}
 		return RETURNCODE_ERROR;
 	}
-	
+
 	public void activateAll() {
-		for (Object obj : getRTCExecutionContext()) {
-			((RTC.ExecutionContext)obj).activate_component(getCorbaObjectInterface());
+		for (RTC.ExecutionContext ec : getRTCExecutionContexts()) {
+			ec.activate_component(getCorbaObjectInterface());
 		}
 	}
 
@@ -485,15 +531,15 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	 */
 	public int deactivateR() {
 		if (getPrimaryRTCExecutionContext() != null) {
-			return getPrimaryRTCExecutionContext()
-				.deactivate_component(getCorbaObjectInterface()).value();
+			return getPrimaryRTCExecutionContext().deactivate_component(
+					getCorbaObjectInterface()).value();
 		}
 		return RETURNCODE_ERROR;
 	}
 
 	public void deactivateAll() {
-		for (Object obj : getRTCExecutionContext()) {
-			((RTC.ExecutionContext)obj).deactivate_component(getCorbaObjectInterface());
+		for (RTC.ExecutionContext ec : getRTCExecutionContexts()) {
+			ec.deactivate_component(getCorbaObjectInterface());
 		}
 	}
 
@@ -504,8 +550,8 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	 */
 	public int resetR() {
 		if (getPrimaryRTCExecutionContext() != null) {
-			return getPrimaryRTCExecutionContext()
-				.reset_component(getCorbaObjectInterface()).value();
+			return getPrimaryRTCExecutionContext().reset_component(
+					getCorbaObjectInterface()).value();
 		}
 		return RETURNCODE_ERROR;
 	}
@@ -546,8 +592,10 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 				return getSDOConfiguration();
 			case ComponentPackage.CORBA_COMPONENT__RTC_COMPONENT_PROFILE:
 				return getRTCComponentProfile();
-			case ComponentPackage.CORBA_COMPONENT__RTC_EXECUTION_CONTEXT:
-				return getRTCExecutionContext();
+			case ComponentPackage.CORBA_COMPONENT__RTC_EXECUTION_CONTEXTS:
+				return getRTCExecutionContexts();
+			case ComponentPackage.CORBA_COMPONENT__RTC_PARTICIPATION_CONTEXTS:
+				return getRTCParticipationContexts();
 			case ComponentPackage.CORBA_COMPONENT__SDO_ORGANIZATION:
 				return getSDOOrganization();
 			case ComponentPackage.CORBA_COMPONENT__IOR:
@@ -580,9 +628,13 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 			case ComponentPackage.CORBA_COMPONENT__RTC_COMPONENT_PROFILE:
 				setRTCComponentProfile((ComponentProfile)newValue);
 				return;
-			case ComponentPackage.CORBA_COMPONENT__RTC_EXECUTION_CONTEXT:
-				getRTCExecutionContext().clear();
-				getRTCExecutionContext().addAll((Collection<? extends ExecutionContext>)newValue);
+			case ComponentPackage.CORBA_COMPONENT__RTC_EXECUTION_CONTEXTS:
+				getRTCExecutionContexts().clear();
+				getRTCExecutionContexts().addAll((Collection<? extends RTC.ExecutionContext>)newValue);
+				return;
+			case ComponentPackage.CORBA_COMPONENT__RTC_PARTICIPATION_CONTEXTS:
+				getRTCParticipationContexts().clear();
+				getRTCParticipationContexts().addAll((Collection<? extends RTC.ExecutionContext>)newValue);
 				return;
 			case ComponentPackage.CORBA_COMPONENT__SDO_ORGANIZATION:
 				setSDOOrganization((Organization)newValue);
@@ -617,8 +669,11 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 			case ComponentPackage.CORBA_COMPONENT__RTC_COMPONENT_PROFILE:
 				setRTCComponentProfile(RTC_COMPONENT_PROFILE_EDEFAULT);
 				return;
-			case ComponentPackage.CORBA_COMPONENT__RTC_EXECUTION_CONTEXT:
-				getRTCExecutionContext().clear();
+			case ComponentPackage.CORBA_COMPONENT__RTC_EXECUTION_CONTEXTS:
+				getRTCExecutionContexts().clear();
+				return;
+			case ComponentPackage.CORBA_COMPONENT__RTC_PARTICIPATION_CONTEXTS:
+				getRTCParticipationContexts().clear();
 				return;
 			case ComponentPackage.CORBA_COMPONENT__SDO_ORGANIZATION:
 				setSDOOrganization(SDO_ORGANIZATION_EDEFAULT);
@@ -648,8 +703,10 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 				return SDO_CONFIGURATION_EDEFAULT == null ? sDOConfiguration != null : !SDO_CONFIGURATION_EDEFAULT.equals(sDOConfiguration);
 			case ComponentPackage.CORBA_COMPONENT__RTC_COMPONENT_PROFILE:
 				return RTC_COMPONENT_PROFILE_EDEFAULT == null ? rTCComponentProfile != null : !RTC_COMPONENT_PROFILE_EDEFAULT.equals(rTCComponentProfile);
-			case ComponentPackage.CORBA_COMPONENT__RTC_EXECUTION_CONTEXT:
-				return rTCExecutionContext != null && !rTCExecutionContext.isEmpty();
+			case ComponentPackage.CORBA_COMPONENT__RTC_EXECUTION_CONTEXTS:
+				return rTCExecutionContexts != null && !rTCExecutionContexts.isEmpty();
+			case ComponentPackage.CORBA_COMPONENT__RTC_PARTICIPATION_CONTEXTS:
+				return rTCParticipationContexts != null && !rTCParticipationContexts.isEmpty();
 			case ComponentPackage.CORBA_COMPONENT__SDO_ORGANIZATION:
 				return SDO_ORGANIZATION_EDEFAULT == null ? sDOOrganization != null : !SDO_ORGANIZATION_EDEFAULT.equals(sDOOrganization);
 			case ComponentPackage.CORBA_COMPONENT__IOR:
@@ -710,8 +767,10 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		result.append(sDOConfiguration);
 		result.append(", rTCComponentProfile: ");
 		result.append(rTCComponentProfile);
-		result.append(", rTCExecutionContext: ");
-		result.append(rTCExecutionContext);
+		result.append(", rTCExecutionContexts: ");
+		result.append(rTCExecutionContexts);
+		result.append(", rTCParticipationContexts: ");
+		result.append(rTCParticipationContexts);
 		result.append(", sDOOrganization: ");
 		result.append(sDOOrganization);
 		result.append(", ior: ");
@@ -868,25 +927,24 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		return false;
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public boolean addComponentsR(List<Component> componentList) {
 		try {
 			Organization org = getSDOOrganization();
 			if (org == null) return false;
 
 			List<SDO> list = new ArrayList<SDO>();
-			EList components = getComponents();
-			for (Object obj : componentList) {
-				if (!(obj instanceof CorbaComponent)) {
+			EList<Component> components = getComponents();
+			for (Component c : componentList) {
+				if (!(c instanceof CorbaComponent)) {
 					continue;
 				}
-				CorbaComponent comp = (CorbaComponent) obj;
+				CorbaComponent comp = (CorbaComponent) c;
 				// リモートオブジェクトが一致するコンポーネントがなければ、
 				// 自身を追加する(同期処理で子コンポーネントを複製防止)
 				if (this._findChildComponentByRemoteObject(comp
@@ -909,10 +967,9 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	/**
 	 * this.componentsからremoteとリモートオブジェクトが一致するコンポーネントを検索します
 	 */
-	@SuppressWarnings("unchecked")
 	CorbaComponent _findChildComponentByRemoteObject(Object remote) {
-		EList components = getComponents();
-		for (Object c : components) {
+		EList<Component> components = getComponents();
+		for (Component c : components) {
 			if (!(c instanceof CorbaComponent)) {
 				continue;
 			}
@@ -925,12 +982,12 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		return null;
 	}
 
-	@Override
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public boolean removeComponentR(Component component) {
 		try {
 			Organization org = getSDOOrganization();
@@ -1131,6 +1188,21 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		}
 	}
 
+	static Map<RTC.RTObject, RTC.ComponentProfile> profileCache;
+
+	static RTC.ComponentProfile getProfile(RTC.RTObject ro) {
+		if (profileCache == null) {
+			profileCache = new HashMap<RTC.RTObject, RTC.ComponentProfile>();
+		}
+		return profileCache.get(ro);
+	}
+
+	static synchronized RTC.ComponentProfile putProfile(RTC.RTObject ro,
+			RTC.ComponentProfile profile) {
+		getProfile(ro);
+		return profileCache.put(ro, profile);
+	}
+
 	private static AttributeMapping[] getAttributeMappings() {
 
 		return new AttributeMapping[] {
@@ -1140,13 +1212,14 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 					public Object getRemoteAttributeValue(
 							LocalObject localObject, Object[] remoteObjects) {
 						try {
-							return((CorbaComponent) localObject)
+							return ((CorbaComponent) localObject)
 									.getCorbaObjectInterface()
 									.get_component_profile();
 						} catch (Exception e) {
 							return null;
 						}
 					}
+
 					@Override
 					public boolean isEquals(Object value1, Object value2) {
 						if (value1 == null) {
@@ -1165,7 +1238,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 								&& eq(cp1.instance_name, cp2.instance_name)
 								&& eq(cp1.type_name, cp2.type_name)
 								&& eq(cp1.vendor, cp2.vendor)
-								&& eq(cp1.version, cp2.version) 
+								&& eq(cp1.version, cp2.version)
 								&& eqPorts(cp1.port_profiles, cp2.port_profiles)) {
 							return true;
 						}
@@ -1200,6 +1273,15 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 							return s1.equals(s2);
 						}
 					}
+
+					@Override
+					public void postSynchronizeLocal(LocalObject lo) {
+						CorbaComponent cc = (CorbaComponent) lo;
+						RTC.RTObject ro = cc.getCorbaObjectInterface();
+						RTC.ComponentProfile profile = cc
+								.getRTCComponentProfile();
+						putProfile(ro, profile);
+					}
 				},
 				new AttributeMapping(ComponentPackage.eINSTANCE
 						.getCorbaComponent_SDOConfiguration(), true) {
@@ -1219,23 +1301,49 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 					}
 				},
 				new AttributeMapping(ComponentPackage.eINSTANCE
-						.getCorbaComponent_RTCExecutionContext(), false) {
-							@Override
-							public Object getRemoteAttributeValue(
-									LocalObject localObject,
-									Object[] remoteObjects) {
-								try {
-									RTObject ro = RTObjectHelper.narrow((org.omg.CORBA.Object) remoteObjects[0]);
-									RTC.ExecutionContext[] ec = ro.get_participating_contexts();
-									if (ec != null && ec.length > 0) return Arrays.asList(ec);
-									ec = ro.get_owned_contexts();
-									if (ec != null && ec.length > 0) return Arrays.asList(ec);
-									return Collections.EMPTY_LIST;
-								} catch (Exception e) {
-									return Collections.EMPTY_LIST;
+						.getCorbaComponent_RTCExecutionContexts(), false) {
+					@Override
+					public Object getRemoteAttributeValue(
+							LocalObject localObject, Object[] remoteObjects) {
+						try {
+							RTObject ro = RTObjectHelper
+									.narrow((org.omg.CORBA.Object) remoteObjects[0]);
+							RTC.ExecutionContext[] ec = ro.get_owned_contexts();
+							if (ec != null && ec.length > 0) {
+								List<RTC.ExecutionContext> result = new ArrayList<RTC.ExecutionContext>();
+								for (RTC.ExecutionContext r : ec) {
+									result.add(r);
 								}
+								return result;
 							}
-					
+							return Collections.EMPTY_LIST;
+						} catch (Exception e) {
+							return Collections.EMPTY_LIST;
+						}
+					}
+				},
+				new AttributeMapping(ComponentPackage.eINSTANCE
+						.getCorbaComponent_RTCParticipationContexts(), false) {
+					@Override
+					public Object getRemoteAttributeValue(
+							LocalObject localObject, Object[] remoteObjects) {
+						try {
+							RTObject ro = RTObjectHelper
+									.narrow((org.omg.CORBA.Object) remoteObjects[0]);
+							RTC.ExecutionContext[] ec = ro
+									.get_participating_contexts();
+							if (ec != null && ec.length > 0) {
+								List<RTC.ExecutionContext> result = new ArrayList<RTC.ExecutionContext>();
+								for (RTC.ExecutionContext r : ec) {
+									result.add(r);
+								}
+								return result;
+							}
+							return Collections.EMPTY_LIST;
+						} catch (Exception e) {
+							return Collections.EMPTY_LIST;
+						}
+					}
 				},
 				new AttributeMapping(ComponentPackage.eINSTANCE
 						.getCorbaComponent_ComponentState()) {
@@ -1439,7 +1547,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 					@Override
 					public List getNewRemoteLinkList(LocalObject localObject) {
 						CorbaComponent component = (CorbaComponent) localObject;
-						return component.getRTCExecutionContext();
+						return component.getRTCExecutionContexts();
 					}
 
 					@SuppressWarnings("unchecked")
@@ -1459,20 +1567,36 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 					@Override
 					public void postSynchronizeLocal(LocalObject localObject) {
 						CorbaComponent component = (CorbaComponent) localObject;
-						RTObject ro = component.getCorbaObjectInterface();
-						for (Object obj : (EList) component
-								.eGet(getLocalFeature())) {
-							CorbaExecutionContext cec = (CorbaExecutionContext) obj;
-							if (cec == null) {
-								continue;
+						component.getExecutionContextHandler().sync();
+					}
+				},
+				new ManyReferenceMapping(ComponentPackage.eINSTANCE
+						.getComponent_ParticipationContexts()) {
+					@SuppressWarnings("unchecked")
+					@Override
+					public List getNewRemoteLinkList(LocalObject localObject) {
+						CorbaComponent component = (CorbaComponent) localObject;
+						return component.getRTCParticipationContexts();
+					}
+
+					@SuppressWarnings("unchecked")
+					@Override
+					public List getOldRemoteLinkList(LocalObject localObject) {
+						List<org.omg.CORBA.Object> result = new ArrayList<org.omg.CORBA.Object>();
+						for (Object obj : ((CorbaComponent) localObject)
+								.getParticipationContexts()) {
+							CorbaExecutionContext ec = (CorbaExecutionContext) obj;
+							if (ec != null) {
+								result.add(ec.getCorbaObject());
 							}
-							RTC.ExecutionContext ec = cec
-									.getCorbaObjectInterface();
-							int handle = ro.get_context_handle(ec);
-							// CORBAの場合はcontext_handleをExecutionContext IDとして扱う
-							component.setExecutionContext(Integer
-									.toString(handle), cec);
 						}
+						return result;
+					}
+
+					@Override
+					public void postSynchronizeLocal(LocalObject localObject) {
+						CorbaComponent component = (CorbaComponent) localObject;
+						component.getParticipationContextHandler().sync();
 					}
 				},
 				new ManyReferenceMapping(ComponentPackage.eINSTANCE
@@ -1526,6 +1650,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 			};
 	}
 
+	@Override
 	public String getPath() {
 		if (getPathId() == null) return null;
 		int index = getPathId().indexOf("/");
@@ -1535,12 +1660,11 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 
 	private long lastExecutedTime;
 	private static long SYNC_MANUAL_INTERVAL = 1000L;
-	
+
 	public void synchronizeManually() {
-		if(eContainer() instanceof SystemDiagram) return;
-		
+		if (eContainer() instanceof SystemDiagram)
+			return;
 		if (System.currentTimeMillis() - lastExecutedTime < SYNC_MANUAL_INTERVAL) {
-//			System.out.println("already sync");
 			return;
 		}
 		synchronizeLocalAttribute(null);
@@ -1549,23 +1673,22 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		lastExecutedTime = System.currentTimeMillis();
 	}
 
-	@SuppressWarnings("unchecked")
-//	@Override
+	@Override
 	public Component copy() {
 		Component copy = (Component) EcoreUtil.copy(this);
 		// ExecutionContextの同期をさせるためクリア(同期時にEC-ID対応付けを設定)
 		copy.getExecutionContexts().clear();
-		getSynchronizationSupport().getSynchronizationManager().assignSynchonizationSupport(copy);
+		copy.getParticipationContexts().clear();
+		getSynchronizationSupport().getSynchronizationManager()
+				.assignSynchonizationSupport(copy);
 		copy.synchronizeManually();
 		adjustPathId(copy.getAllComponents());
 		return copy;
 	}
 
-//	@Override
+	@Override
 	public boolean isDead() {
 		return !SynchronizationSupport.ping(getCorbaObject());
 	}
-
-
 
 } //CorbaComponentImpl

@@ -137,6 +137,24 @@ public class SystemEditorPreferenceManager {
 	private static final String CONNECT_SUBSCRIPTION_TYPE = SystemEditorPreferenceManager.class.getName()
 			+ "CONNECT_SUBSCRIPTION_TYPE";
 
+	/**
+	 * Push Policyのキー
+	 */
+	private static final String CONNECT_PUSH_POLICY = SystemEditorPreferenceManager.class.getName()
+			+ "CONNECT_PUSH_POLICY";
+	
+	/**
+	 * Buffer Full Policyのキー
+	 */
+	private static final String CONNECT_BUFFER_FULL_POLICY = SystemEditorPreferenceManager.class.getName()
+			+ "CONNECT_BUFFER_FULL_POLICY";
+	
+	/**
+	 * Buffer Empty Policyのキー
+	 */
+	private static final String CONNECT_BUFFER_EMPTY_POLICY = SystemEditorPreferenceManager.class.getName()
+			+ "CONNECT_BUFFER_EMPTY_POLICY";
+	
 	// オンラインエディタ
 	/** コンポーネントアクションの実行確認 */
 	public static final String CONFIRM_COMPONENT_ACTION = SystemEditorPreferenceManager.class
@@ -192,6 +210,21 @@ public class SystemEditorPreferenceManager {
 	 */
 	public static String[] defaultConnectSubscriptionType = {"flush", "new", "periodic"};
 
+	/**
+	 * Push Policyのデフォルト値
+	 */
+	public static String[] defaultConnectPushPolicy = {"all", "fifo", "skip", "new"};
+	
+	/**
+	 * Buffer Full Policyのデフォルト値
+	 */
+	public static String[] defaultConnectBufferFullPolicy = {"overerite", "do_nothing", "block"};
+	
+	/**
+	 * Buffer Empty Policyのデフォルト値
+	 */
+	public static String[] defaultConnectBufferEmptyPolicy = {"readback", "do_nothing", "block"};
+	
 	IPreferenceStore store;
 
 	public SystemEditorPreferenceManager() {
@@ -346,16 +379,7 @@ public class SystemEditorPreferenceManager {
 	 * @return Interface Typeリスト
 	 */
 	public String[] getInterfaceTypes() {
-		RTSystemEditorPlugin.getDefault().getPreferenceStore().setDefault(CONNECT_INTERFACE_TYPE, "");
-
-		String resultTemp = RTSystemEditorPlugin.getDefault().getPreferenceStore().getString(CONNECT_INTERFACE_TYPE);
-		String[] result;
-		if (resultTemp.equals("")) { // defaultvalue
-			result = defaultConnectInterfaceType;
-		} else {
-			result = resultTemp.split(Separator);
-		}
-		return result;
+		return getStringListStoreValue(CONNECT_INTERFACE_TYPE, defaultConnectInterfaceType);
 	}
 	/**
 	 * Interface Typeを設定する
@@ -375,16 +399,7 @@ public class SystemEditorPreferenceManager {
 	 * @return Data Flow Typeリスト
 	 */
 	public String[] getDataFlowTypes() {
-		RTSystemEditorPlugin.getDefault().getPreferenceStore().setDefault(CONNECT_DATAFLOW_TYPE, "");
-
-		String resultTemp = RTSystemEditorPlugin.getDefault().getPreferenceStore().getString(CONNECT_DATAFLOW_TYPE);
-		String[] result;
-		if (resultTemp.equals("")) { // defaultvalue
-			result = defaultConnectDataFlowType;
-		} else {
-			result = resultTemp.split(Separator);
-		}
-		return result;
+		return getStringListStoreValue(CONNECT_DATAFLOW_TYPE, defaultConnectDataFlowType);
 	}
 	/**
 	 * Data Flow Typeを設定する
@@ -404,16 +419,7 @@ public class SystemEditorPreferenceManager {
 	 * @return Subscription Typeリスト
 	 */
 	public String[] getSubscriptionTypes() {
-		RTSystemEditorPlugin.getDefault().getPreferenceStore().setDefault(CONNECT_SUBSCRIPTION_TYPE, "");
-
-		String resultTemp = RTSystemEditorPlugin.getDefault().getPreferenceStore().getString(CONNECT_SUBSCRIPTION_TYPE);
-		String[] result;
-		if (resultTemp.equals("")) { // defaultvalue
-			result = defaultConnectSubscriptionType;
-		} else {
-			result = resultTemp.split(Separator);
-		}
-		return result;
+		return getStringListStoreValue(CONNECT_SUBSCRIPTION_TYPE, defaultConnectSubscriptionType);
 	}
 	/**
 	 * subscription Typeを設定する
@@ -427,6 +433,65 @@ public class SystemEditorPreferenceManager {
 		propertyChangeSupport.firePropertyChange(CONNECT_SUBSCRIPTION_TYPE, oldSubscriptionType, subscriptionType);
 	}
 
+	/**
+	 * Push Policyを取得する
+	 * 
+	 * @return Push Policyリスト
+	 */
+	public String[] getPushPolicies() {
+		return getStringListStoreValue(CONNECT_PUSH_POLICY, defaultConnectPushPolicy);
+	}
+	/**
+	 * Push Policyを設定する
+	 * 
+	 * @param pushPolicies
+	 *            Push Policyリスト
+	 */
+	public void setPushPolicies(List<String> pushPolicies) {
+		String[] oldPushPolicies = getPushPolicies();
+		RTSystemEditorPlugin.getDefault().getPreferenceStore().setValue(CONNECT_PUSH_POLICY, convertList2String(pushPolicies));
+		propertyChangeSupport.firePropertyChange(CONNECT_SUBSCRIPTION_TYPE, oldPushPolicies, pushPolicies);
+	}
+
+	/**
+	 * Buffer Full Policyを取得する
+	 * 
+	 * @return Buffer Full Policyリスト
+	 */
+	public String[] getBufferFullPolicies() {
+		return getStringListStoreValue(CONNECT_BUFFER_FULL_POLICY, defaultConnectBufferFullPolicy);
+	}
+	/**
+	 * Buffer Full Policyを設定する
+	 * 
+	 * @param bufferFullPolicies
+	 *            Buffer Full Policyリスト
+	 */
+	public void setBufferFullPolicies(List<String> bufferFullPolicies) {
+		String[] oldPushPolicies = getBufferFullPolicies();
+		RTSystemEditorPlugin.getDefault().getPreferenceStore().setValue(CONNECT_BUFFER_FULL_POLICY, convertList2String(bufferFullPolicies));
+		propertyChangeSupport.firePropertyChange(CONNECT_BUFFER_FULL_POLICY, oldPushPolicies, bufferFullPolicies);
+	}
+	
+	/**
+	 * Buffer Empty Policyを取得する
+	 * 
+	 * @return Buffer Empty Policyリスト
+	 */
+	public String[] getBufferEmptyPolicies() {
+		return getStringListStoreValue(CONNECT_BUFFER_EMPTY_POLICY, defaultConnectBufferEmptyPolicy);
+	}
+	/**
+	 * Buffer Empty Policyを設定する
+	 * 
+	 * @param bufferEmptyPolicies
+	 *            Buffer Empty Policyリスト
+	 */
+	public void setBufferEmptyPolicies(List<String> bufferEmptyPolicies) {
+		String[] oldPushPolicies = getBufferEmptyPolicies();
+		RTSystemEditorPlugin.getDefault().getPreferenceStore().setValue(CONNECT_BUFFER_EMPTY_POLICY, convertList2String(bufferEmptyPolicies));
+		propertyChangeSupport.firePropertyChange(CONNECT_BUFFER_EMPTY_POLICY, oldPushPolicies, bufferEmptyPolicies);
+	}
 	private static String convertList2String(List<String> source) {
 		StringBuffer resultTemp = new StringBuffer();
 		
@@ -466,4 +531,16 @@ public class SystemEditorPreferenceManager {
 		setConfirmComponentAction(false);
 	}
 
+	private String[] getStringListStoreValue(String key, String[] defaultValue) {
+		RTSystemEditorPlugin.getDefault().getPreferenceStore().setDefault(key, "");
+
+		String resultTemp = RTSystemEditorPlugin.getDefault().getPreferenceStore().getString(key);
+		String[] result;
+		if (resultTemp.equals("")) { // defaultvalue
+			result = defaultValue;
+		} else {
+			result = resultTemp.split(Separator);
+		}
+		return result;
+	}
 }

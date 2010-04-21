@@ -8,7 +8,6 @@ package jp.go.aist.rtm.toolscommon.model.component.impl;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -288,30 +287,35 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public boolean addComponentsR(List componentList) {
+	public boolean addComponentsR(List<Component> componentList) {
 		return doAddComponents(componentList);			
-	}
-
-	@SuppressWarnings("unchecked")
-	private boolean doAddComponents(Collection componentList) {
-		getComponents().addAll(componentList);
-		for (Object o : componentList) {
-			if (((Component) o).inOnlineSystemDiagram()) {
-				// オンラインの場合は同期処理でポート設定
-				return true;
-			}
-		}
-		// オフラインの場合はここでポート設定
-		_setWrappingPorts(_getWrappedPorts());
-		return true;
 	}
 
 	@Override
 	public boolean setComponentsR(List<Component> componentList) {
 		getComponents().clear();
 		return doAddComponents(componentList);			
+	}
+
+	private boolean doAddComponents(List<Component> componentList) {
+		getComponents().addAll(componentList);
+		for (Component c : componentList) {
+			if (c.inOnlineSystemDiagram()) {
+				// オンラインの場合は同期処理でポート設定
+				return true;
+			}
+		}
+		// オフラインの場合はここでポート設定
+		_setWrappingPorts(_getWrappedPorts());
+		// 複合RTCのECを、子RTCのparticipateに追加
+		for (Component c : componentList) {
+			for (ExecutionContext ec : getExecutionContexts()) {
+				ec.addComponentR(c);
+			}
+			c.getParticipationContextHandler().sync();
+		}
+		return true;
 	}
 
 	@Override
@@ -324,6 +328,17 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 		// オフラインの場合は手動で設定
 		List<Port> ports = this._getWrappedPorts();
 		this._setWrappingPorts(ports);
+		// 子RTCから複合RTCのECを削除
+		List<ExecutionContext> deletes = new ArrayList<ExecutionContext>();
+		for (ExecutionContext pc : component.getParticipationContexts()) {
+			if (getExecutionContexts().contains(pc)) {
+				deletes.add(pc);
+			}
+		}
+		for (ExecutionContext pc : deletes) {
+			pc.removeComponentR(component);
+		}
+		component.getParticipationContextHandler().sync();
 		return true;
 	}
 
@@ -334,7 +349,6 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	void _setWrappingPorts(List<Port> ports) {
 		// 子RTCのポートのコピーでポートリストを更新
 		getPorts().clear();
@@ -343,7 +357,6 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	List<Port> _getWrappedPorts() {
 		// プロパティから表示するポート名一覧を作成
 		List<String> names = new ArrayList<String>(getExportedPorts());
@@ -363,7 +376,7 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 		return ports;
 	}
 
-//	@Override
+	@Override
 	public boolean isGroupingCompositeComponent() {
 		return (getCompositeTypeL().equals(
 				Component.COMPOSITETYPE_GROUPING)) ;
@@ -459,7 +472,7 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 		}
 	}
 
-//	@Override
+	@Override
 	public String getPath() {
 		if (getPathId() == null) return null;
 		int index = getPathId().lastIndexOf(File.separator);
@@ -467,13 +480,12 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 		return getPathId().substring(0, index);
 	}
 
-//	@Override
+	@Override
 	public void synchronizeManually() {
 		//Nothing to do
 	}
 	
-	@SuppressWarnings("unchecked")
-//	@Override
+	@Override
 	public Component copy() {
 		Component copy = (Component) EcoreUtil.copy(this);
 		// ExecutionContextとIDの関連付けを複製
@@ -485,16 +497,16 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 			if (newEc == null) {
 				continue;
 			}
-			String ecid = this.getExecutionContextId(orgEc);
+			String ecid = this.getExecutionContextHandler().getId(orgEc);
 			if (ecid != null) {
-				copy.setExecutionContext(ecid, newEc);
+				copy.getExecutionContextHandler().setContext(ecid, newEc);
 			}
 		}
 		adjustPathId(copy.getAllComponents());
 		return copy;
 	}
 
-//	@Override
+	@Override
 	public boolean isDead() {
 		return true;
 	}

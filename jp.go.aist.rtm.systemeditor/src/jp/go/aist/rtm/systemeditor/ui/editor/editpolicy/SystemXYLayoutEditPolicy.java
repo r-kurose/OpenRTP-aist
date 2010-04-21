@@ -11,6 +11,7 @@ import jp.go.aist.rtm.systemeditor.ui.util.Draw2dUtil;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
+import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
 
@@ -148,6 +149,15 @@ public class SystemXYLayoutEditPolicy extends XYLayoutEditPolicy {
 		//PathIDの設定も必要
 		newObject2.setInstanceNameL(
 				newObject2.getInstanceNameL() + "_" + Integer.valueOf(compCount+1).toString());
+		// 設定されたインスタンス名を元に、ポート名を正規化する
+		for (Port port : newObject2.getPorts()) {
+			String name = ComponentUtil.createPortName(newObject2
+					.getInstanceNameL(), port.getNameL());
+			port.setNameL(name);
+		}
+		//TODO 09.09.30 pathURI対応
+//		String basePathId = newObject2.getPathId();
+//		int index = basePathId.lastIndexOf(":");
 	}
 
 	@Override

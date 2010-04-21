@@ -148,6 +148,7 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 							RtsProfileHandler handler = new RtsProfileHandler();
 							handler.restoreConnection(getSystemDiagram());
 							handler.restoreConfigSet(getSystemDiagram());
+							handler.restoreExecutionContext(getSystemDiagram());
 							doReplace(getSystemDiagram(), site);
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -200,12 +201,12 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 	 * {@inheritDoc}
 	 */
 	public void dispose() {
+		getSystemDiagram().setSynchronizeInterval(-1);
+
 		super.dispose();
 
 		SystemEditorPreferenceManager.getInstance()
 				.removePropertyChangeListener(preferenceListener);
-
-		getSystemDiagram().setSynchronizeInterval(-1);
 	}
 
 	@Override

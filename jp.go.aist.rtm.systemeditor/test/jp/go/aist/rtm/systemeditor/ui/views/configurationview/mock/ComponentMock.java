@@ -5,6 +5,7 @@ import java.util.List;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
+import jp.go.aist.rtm.toolscommon.model.component.ContextHandler;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
@@ -194,22 +195,18 @@ public class ComponentMock implements Component {
 	}
 
 	public EList getAllComponents() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public EList getAllInPorts() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public EList getAllOutPorts() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public EList getAllServiceports() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
@@ -218,7 +215,6 @@ public class ComponentMock implements Component {
 	}
 
 	public String getComponentId() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
@@ -227,7 +223,6 @@ public class ComponentMock implements Component {
 	}
 
 	public Component getCompositeComponent() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
@@ -240,17 +235,14 @@ public class ComponentMock implements Component {
 	}
 
 	public RTObject getCorbaObjectInterface() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public String getDescriptionL() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public EList getInports() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
@@ -259,27 +251,22 @@ public class ComponentMock implements Component {
 	}
 
 	public Action getOpenCompositeComponentAction() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public String getOutportDirection() {
-		// TODO 自動生成されたメソッド・スタブ
 		return "RIGHT";
 	}
 
 	public String getOutportDirectionStr() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public EList getOutports() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public String getPathId() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
@@ -288,37 +275,30 @@ public class ComponentMock implements Component {
 	}
 
 	public EList getProperties() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public ComponentProfile getRTCComponentProfile() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public Configuration getSDOConfiguration() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public EList getServiceports() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public String getTypeNameL() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public String getVenderL() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public String getVersionL() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
@@ -331,225 +311,162 @@ public class ComponentMock implements Component {
 	}
 
 	public void setActiveConfigurationSet(ConfigurationSet value) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	public void setComponentId(String value) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	public void setCompositeComponent(Component value) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	public void setCompsiteTypeStr(String type) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	public void setInstanceNameL(String value) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	public void setOpenCompositeComponentAction(Action value) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	public void setOutportDirection(int value) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	public void setOutportDirection(String value) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	public void setPathId(String value) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	public void setRTCComponentProfile(ComponentProfile value) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	public void setSDOConfiguration(Configuration value) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	@SuppressWarnings("unchecked")
 	public boolean updateConfigurationSetListR(List list,
 			ConfigurationSet activeConfigurationSet, List originallist) {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
 	public Object getCorbaBaseObject() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public Object getCorbaObject() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public boolean ping() {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
 	public void setCorbaObject(Object value) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	public void accept(Visiter visiter) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	public void dispose() {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	public Rectangle getConstraint() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public void setConstraint(Rectangle rectangle) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	@SuppressWarnings("unchecked")
 	public TreeIterator eAllContents() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public EClass eClass() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public EObject eContainer() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public EStructuralFeature eContainingFeature() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public EReference eContainmentFeature() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	@SuppressWarnings("unchecked")
 	public EList eContents() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	@SuppressWarnings("unchecked")
 	public EList eCrossReferences() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public java.lang.Object eGet(EStructuralFeature feature) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public java.lang.Object eGet(EStructuralFeature feature, boolean resolve) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public boolean eIsProxy() {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
 	public boolean eIsSet(EStructuralFeature feature) {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
 	public Resource eResource() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public void eSet(EStructuralFeature feature, java.lang.Object newValue) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	public void eUnset(EStructuralFeature feature) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	@SuppressWarnings("unchecked")
 	public EList eAdapters() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public boolean eDeliver() {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
 	public void eNotify(Notification notification) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	public void eSetDeliver(boolean deliver) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	@SuppressWarnings("unchecked")
 	public java.lang.Object getAdapter(Class adapter) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public SynchronizationSupport getSynchronizationSupport() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public void setSynchronizationSupport(
 			SynchronizationSupport synchronizationSupport) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	public boolean addComponentsR(List<Component> componentList) {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
 	public boolean removeComponentR(Component component) {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
@@ -562,18 +479,14 @@ public class ComponentMock implements Component {
 
 	@SuppressWarnings("unchecked")
 	public EList getOrganizationProperties() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public boolean isRequired() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public void setRequired(boolean value) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@SuppressWarnings("unchecked")
@@ -591,22 +504,21 @@ public class ComponentMock implements Component {
 	}
 
 	public boolean isGroupingCompositeComponent() {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
-	@SuppressWarnings("unchecked")
-	public boolean setExportedPorts(EList value) {
+	@Override
+	public boolean setExportedPorts(EList<String> values) {
 		NameValue nv = this._findExportedPortsNameValue();
 		if (nv == null) {
 			return false;
 		}
 		String result = "";
-		for (int i = 0; i < value.size(); i++) {
+		for (int i = 0; i < values.size(); i++) {
 			if (result.length() > 0) {
 				result += ",";
 			}
-			result += (String) value.get(i);
+			result += (String) values.get(i);
 		}
 		nv.setValue(result);
 		return true;
@@ -635,128 +547,131 @@ public class ComponentMock implements Component {
 		return null;
 	}
 	public boolean updateConfigurationSetR(ConfigurationSet configSet, boolean isActive) {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
 //	@Override
 	public void setCategoryL(String value) {
-		// TODO Auto-generated method stub
-		
 	}
 
 //	@Override
 	public void setDescriptionL(String value) {
-		// TODO Auto-generated method stub
-		
 	}
 
 //	@Override
 	public void setTypeNameL(String value) {
-		// TODO Auto-generated method stub
-		
 	}
 
 //	@Override
 	public void setVenderL(String value) {
-		// TODO Auto-generated method stub
-		
 	}
 
 //	@Override
 	public void setVersionL(String value) {
-		// TODO Auto-generated method stub
-		
 	}
 
 //	@Override
 	public SystemDiagram getChildSystemDiagram() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 //	@Override
 	public void setChildSystemDiagram(SystemDiagram value) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public boolean inOnlineSystemDiagram() {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
 //	@Override
 	public boolean setComponentsR(List<Component> componentList) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 //	@Override
 	public void synchronizeManually() {
-		// TODO Auto-generated method stub
-		
 	}
 
 //	@Override
 	public void synchronizeChildComponents() {
-		// TODO Auto-generated method stub
-		
 	}
 
 //	@Override
 	public void synchronizeLocalAttribute(EStructuralFeature reference) {
-		// TODO Auto-generated method stub
-		
 	}
 
 //	@Override
 	public void synchronizeLocalReference() {
-		// TODO Auto-generated method stub
-		
 	}
 
 //	@Override
 	public void addComponent(Component component) {
-		// TODO Auto-generated method stub
-		
 	}
 
 //	@Override
 	public Component copy() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 //	@Override
 	public boolean isDead() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 //	@Override
 	public void removeDeadChild() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public ExecutionContext getExecutionContext(String id) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public String getExecutionContextId(ExecutionContext ec) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public EList getExecutionContexts() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public ExecutionContext setExecutionContext(String id, ExecutionContext ec) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
+
+	@Override
+	public EList<ExecutionContext> getParticipationContexts() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean hasComponentAction() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public ContextHandler getExecutionContextHandler() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ContextHandler getParticipationContextHandler() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setExecutionContextHandler(ContextHandler value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setParticipationContextHandler(ContextHandler value) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

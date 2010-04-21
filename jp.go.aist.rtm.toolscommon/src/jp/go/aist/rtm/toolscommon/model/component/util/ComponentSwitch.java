@@ -152,6 +152,12 @@ public class ComponentSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ComponentPackage.CONTEXT_HANDLER: {
+				ContextHandler contextHandler = (ContextHandler)theEObject;
+				T result = caseContextHandler(contextHandler);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case ComponentPackage.CONFIGURATION_SET: {
 				ConfigurationSet configurationSet = (ConfigurationSet)theEObject;
 				T result = caseConfigurationSet(configurationSet);
@@ -302,6 +308,13 @@ public class ComponentSwitch<T> {
 				if (result == null) result = caseModelElement(corbaExecutionContext);
 				if (result == null) result = caseLocalObject(corbaExecutionContext);
 				if (result == null) result = caseIAdaptable(corbaExecutionContext);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ComponentPackage.CORBA_CONTEXT_HANDLER: {
+				CorbaContextHandler corbaContextHandler = (CorbaContextHandler)theEObject;
+				T result = caseCorbaContextHandler(corbaContextHandler);
+				if (result == null) result = caseContextHandler(corbaContextHandler);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -505,6 +518,21 @@ public class ComponentSwitch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Corba Context Handler</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Corba Context Handler</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCorbaContextHandler(CorbaContextHandler object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Specification</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -576,6 +604,21 @@ public class ComponentSwitch<T> {
 	 * @generated
 	 */
 	public T caseExecutionContext(ExecutionContext object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Context Handler</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Context Handler</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseContextHandler(ContextHandler object) {
 		return null;
 	}
 

@@ -27,22 +27,18 @@ public class PortServiceImpl implements PortService {
 	}
 
 	public ReturnCode_t connect(ConnectorProfileHolder connector_profile) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public ReturnCode_t disconnect(String connector_id) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public ReturnCode_t disconnect_all() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public ConnectorProfile get_connector_profile(String connector_id) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
@@ -55,80 +51,63 @@ public class PortServiceImpl implements PortService {
 	}
 
 	public ReturnCode_t notify_connect(ConnectorProfileHolder connector_profile) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public ReturnCode_t notify_disconnect(String connector_id) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public Request _create_request(Context arg0, String arg1, NVList arg2,
 			NamedValue arg3) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public Request _create_request(Context arg0, String arg1, NVList arg2,
 			NamedValue arg3, ExceptionList arg4, ContextList arg5) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public Object _duplicate() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public DomainManager[] _get_domain_managers() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public Object _get_interface_def() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public Policy _get_policy(int arg0) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public int _hash(int arg0) {
-		// TODO 自動生成されたメソッド・スタブ
 		return 0;
 	}
 
 	public boolean _is_a(String arg0) {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
 	public boolean _is_equivalent(Object arg0) {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
 	public boolean _non_existent() {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
 	public void _release() {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	public Request _request(String arg0) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public Object _set_policy_override(Policy[] arg0, SetOverrideType arg1) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
-
 }

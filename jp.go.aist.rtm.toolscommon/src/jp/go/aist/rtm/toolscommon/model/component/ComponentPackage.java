@@ -255,13 +255,40 @@ public interface ComponentPackage extends EPackage {
 	int COMPONENT__EXECUTION_CONTEXTS = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 7;
 
 	/**
+	 * The feature id for the '<em><b>Participation Contexts</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT__PARTICIPATION_CONTEXTS = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 8;
+
+	/**
+	 * The feature id for the '<em><b>Execution Context Handler</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT__EXECUTION_CONTEXT_HANDLER = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 9;
+
+	/**
+	 * The feature id for the '<em><b>Participation Context Handler</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT__PARTICIPATION_CONTEXT_HANDLER = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 10;
+
+	/**
 	 * The feature id for the '<em><b>Child System Diagram</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__CHILD_SYSTEM_DIAGRAM = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 8;
+	int COMPONENT__CHILD_SYSTEM_DIAGRAM = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 11;
 
 	/**
 	 * The feature id for the '<em><b>Instance Name L</b></em>' attribute.
@@ -270,7 +297,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__INSTANCE_NAME_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 9;
+	int COMPONENT__INSTANCE_NAME_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 12;
 
 	/**
 	 * The feature id for the '<em><b>Vender L</b></em>' attribute.
@@ -279,7 +306,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__VENDER_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 10;
+	int COMPONENT__VENDER_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 13;
 
 	/**
 	 * The feature id for the '<em><b>Description L</b></em>' attribute.
@@ -288,7 +315,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__DESCRIPTION_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 11;
+	int COMPONENT__DESCRIPTION_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 14;
 
 	/**
 	 * The feature id for the '<em><b>Category L</b></em>' attribute.
@@ -297,7 +324,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__CATEGORY_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 12;
+	int COMPONENT__CATEGORY_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 15;
 
 	/**
 	 * The feature id for the '<em><b>Type Name L</b></em>' attribute.
@@ -306,7 +333,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__TYPE_NAME_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 13;
+	int COMPONENT__TYPE_NAME_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 16;
 
 	/**
 	 * The feature id for the '<em><b>Version L</b></em>' attribute.
@@ -315,7 +342,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__VERSION_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 14;
+	int COMPONENT__VERSION_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 17;
 
 	/**
 	 * The feature id for the '<em><b>Path Id</b></em>' attribute.
@@ -324,7 +351,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__PATH_ID = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 15;
+	int COMPONENT__PATH_ID = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 18;
 
 	/**
 	 * The feature id for the '<em><b>Outport Direction</b></em>' attribute.
@@ -333,7 +360,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__OUTPORT_DIRECTION = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 16;
+	int COMPONENT__OUTPORT_DIRECTION = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 19;
 
 	/**
 	 * The feature id for the '<em><b>Composite Type L</b></em>' attribute.
@@ -342,7 +369,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__COMPOSITE_TYPE_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 17;
+	int COMPONENT__COMPOSITE_TYPE_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 20;
 
 	/**
 	 * The feature id for the '<em><b>Component Id</b></em>' attribute.
@@ -351,7 +378,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__COMPONENT_ID = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 18;
+	int COMPONENT__COMPONENT_ID = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 21;
 
 	/**
 	 * The feature id for the '<em><b>Required</b></em>' attribute.
@@ -360,7 +387,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__REQUIRED = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 19;
+	int COMPONENT__REQUIRED = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 22;
 
 	/**
 	 * The number of structural features of the '<em>Component</em>' class.
@@ -369,7 +396,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 20;
+	int COMPONENT_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 23;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl <em>Corba Component</em>}' class.
@@ -379,7 +406,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getCorbaComponent()
 	 * @generated
 	 */
-	int CORBA_COMPONENT = 14;
+	int CORBA_COMPONENT = 15;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentSpecificationImpl <em>Specification</em>}' class.
@@ -471,6 +498,33 @@ public interface ComponentPackage extends EPackage {
 	 * @ordered
 	 */
 	int COMPONENT_SPECIFICATION__EXECUTION_CONTEXTS = COMPONENT__EXECUTION_CONTEXTS;
+
+	/**
+	 * The feature id for the '<em><b>Participation Contexts</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__PARTICIPATION_CONTEXTS = COMPONENT__PARTICIPATION_CONTEXTS;
+
+	/**
+	 * The feature id for the '<em><b>Execution Context Handler</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__EXECUTION_CONTEXT_HANDLER = COMPONENT__EXECUTION_CONTEXT_HANDLER;
+
+	/**
+	 * The feature id for the '<em><b>Participation Context Handler</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__PARTICIPATION_CONTEXT_HANDLER = COMPONENT__PARTICIPATION_CONTEXT_HANDLER;
 
 	/**
 	 * The feature id for the '<em><b>Child System Diagram</b></em>' reference.
@@ -615,7 +669,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getPortConnector()
 	 * @generated
 	 */
-	int PORT_CONNECTOR = 11;
+	int PORT_CONNECTOR = 12;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.ExecutionContextImpl <em>Execution Context</em>}' class.
@@ -664,13 +718,59 @@ public interface ComponentPackage extends EPackage {
 	int EXECUTION_CONTEXT__STATE_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Owner</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXECUTION_CONTEXT__OWNER = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Participants</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXECUTION_CONTEXT__PARTICIPANTS = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXECUTION_CONTEXT__PROPERTIES = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 5;
+
+	/**
 	 * The number of structural features of the '<em>Execution Context</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXECUTION_CONTEXT_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 3;
+	int EXECUTION_CONTEXT_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 6;
+
+	/**
+	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.ContextHandlerImpl <em>Context Handler</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ContextHandlerImpl
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getContextHandler()
+	 * @generated
+	 */
+	int CONTEXT_HANDLER = 4;
+
+	/**
+	 * The number of structural features of the '<em>Context Handler</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTEXT_HANDLER_FEATURE_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.PortImpl <em>Port</em>}' class.
@@ -680,7 +780,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getPort()
 	 * @generated
 	 */
-	int PORT = 6;
+	int PORT = 7;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.InPortImpl <em>In Port</em>}' class.
@@ -690,7 +790,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getInPort()
 	 * @generated
 	 */
-	int IN_PORT = 7;
+	int IN_PORT = 8;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.NameValueImpl <em>Name Value</em>}' class.
@@ -700,7 +800,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getNameValue()
 	 * @generated
 	 */
-	int NAME_VALUE = 5;
+	int NAME_VALUE = 6;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.OutPortImpl <em>Out Port</em>}' class.
@@ -710,7 +810,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getOutPort()
 	 * @generated
 	 */
-	int OUT_PORT = 8;
+	int OUT_PORT = 9;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.ServicePortImpl <em>Service Port</em>}' class.
@@ -720,7 +820,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getServicePort()
 	 * @generated
 	 */
-	int SERVICE_PORT = 9;
+	int SERVICE_PORT = 10;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.ConnectorProfileImpl <em>Connector Profile</em>}' class.
@@ -730,7 +830,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getConnectorProfile()
 	 * @generated
 	 */
-	int CONNECTOR_PROFILE = 12;
+	int CONNECTOR_PROFILE = 13;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.ConfigurationSetImpl <em>Configuration Set</em>}' class.
@@ -740,7 +840,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getConfigurationSet()
 	 * @generated
 	 */
-	int CONFIGURATION_SET = 4;
+	int CONFIGURATION_SET = 5;
 
 	/**
 	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
@@ -1371,7 +1471,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getEIntegerObjectToPointMapEntry()
 	 * @generated
 	 */
-	int EINTEGER_OBJECT_TO_POINT_MAP_ENTRY = 13;
+	int EINTEGER_OBJECT_TO_POINT_MAP_ENTRY = 14;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.PortSynchronizerImpl <em>Port Synchronizer</em>}' class.
@@ -1381,7 +1481,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getPortSynchronizer()
 	 * @generated
 	 */
-	int PORT_SYNCHRONIZER = 10;
+	int PORT_SYNCHRONIZER = 11;
 
 	/**
 	 * The feature id for the '<em><b>Original Port String</b></em>' attribute.
@@ -1546,13 +1646,49 @@ public interface ComponentPackage extends EPackage {
 	int CONNECTOR_PROFILE__PUSH_RATE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 8;
 
 	/**
+	 * The feature id for the '<em><b>Push Policy</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__PUSH_POLICY = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 9;
+
+	/**
+	 * The feature id for the '<em><b>Skip Count</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__SKIP_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 10;
+
+	/**
+	 * The feature id for the '<em><b>Push Policy Available</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__PUSH_POLICY_AVAILABLE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 11;
+
+	/**
+	 * The feature id for the '<em><b>Skip Count Available</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__SKIP_COUNT_AVAILABLE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 12;
+
+	/**
 	 * The feature id for the '<em><b>Source String</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTOR_PROFILE__SOURCE_STRING = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 9;
+	int CONNECTOR_PROFILE__SOURCE_STRING = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 13;
 
 	/**
 	 * The feature id for the '<em><b>Target String</b></em>' attribute.
@@ -1561,7 +1697,97 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTOR_PROFILE__TARGET_STRING = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 10;
+	int CONNECTOR_PROFILE__TARGET_STRING = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 14;
+
+	/**
+	 * The feature id for the '<em><b>Outport Buffer Length</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__OUTPORT_BUFFER_LENGTH = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 15;
+
+	/**
+	 * The feature id for the '<em><b>Outport Buffer Full Policy</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__OUTPORT_BUFFER_FULL_POLICY = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 16;
+
+	/**
+	 * The feature id for the '<em><b>Outport Buffer Write Timeout</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__OUTPORT_BUFFER_WRITE_TIMEOUT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 17;
+
+	/**
+	 * The feature id for the '<em><b>Outport Buffer Empty Policy</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__OUTPORT_BUFFER_EMPTY_POLICY = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 18;
+
+	/**
+	 * The feature id for the '<em><b>Outport Buffer Read Timeout</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__OUTPORT_BUFFER_READ_TIMEOUT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 19;
+
+	/**
+	 * The feature id for the '<em><b>Inport Buffer Length</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__INPORT_BUFFER_LENGTH = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 20;
+
+	/**
+	 * The feature id for the '<em><b>Inport Buffer Full Policy</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__INPORT_BUFFER_FULL_POLICY = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 21;
+
+	/**
+	 * The feature id for the '<em><b>Inport Buffer Write Timeout</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__INPORT_BUFFER_WRITE_TIMEOUT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 22;
+
+	/**
+	 * The feature id for the '<em><b>Inport Buffer Empty Policy</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__INPORT_BUFFER_EMPTY_POLICY = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 23;
+
+	/**
+	 * The feature id for the '<em><b>Inport Buffer Read Timeout</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__INPORT_BUFFER_READ_TIMEOUT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 24;
 
 	/**
 	 * The number of structural features of the '<em>Connector Profile</em>' class.
@@ -1570,7 +1796,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTOR_PROFILE_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 11;
+	int CONNECTOR_PROFILE_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 25;
 
 	/**
 	 * The feature id for the '<em><b>Key</b></em>' attribute.
@@ -1679,6 +1905,33 @@ public interface ComponentPackage extends EPackage {
 	 * @ordered
 	 */
 	int CORBA_COMPONENT__EXECUTION_CONTEXTS = COMPONENT__EXECUTION_CONTEXTS;
+
+	/**
+	 * The feature id for the '<em><b>Participation Contexts</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_COMPONENT__PARTICIPATION_CONTEXTS = COMPONENT__PARTICIPATION_CONTEXTS;
+
+	/**
+	 * The feature id for the '<em><b>Execution Context Handler</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_COMPONENT__EXECUTION_CONTEXT_HANDLER = COMPONENT__EXECUTION_CONTEXT_HANDLER;
+
+	/**
+	 * The feature id for the '<em><b>Participation Context Handler</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_COMPONENT__PARTICIPATION_CONTEXT_HANDLER = COMPONENT__PARTICIPATION_CONTEXT_HANDLER;
 
 	/**
 	 * The feature id for the '<em><b>Child System Diagram</b></em>' reference.
@@ -1834,13 +2087,22 @@ public interface ComponentPackage extends EPackage {
 	int CORBA_COMPONENT__RTC_COMPONENT_PROFILE = COMPONENT_FEATURE_COUNT + 4;
 
 	/**
-	 * The feature id for the '<em><b>RTC Execution Context</b></em>' attribute list.
+	 * The feature id for the '<em><b>RTC Execution Contexts</b></em>' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CORBA_COMPONENT__RTC_EXECUTION_CONTEXT = COMPONENT_FEATURE_COUNT + 5;
+	int CORBA_COMPONENT__RTC_EXECUTION_CONTEXTS = COMPONENT_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>RTC Participation Contexts</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_COMPONENT__RTC_PARTICIPATION_CONTEXTS = COMPONENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>SDO Organization</b></em>' attribute.
@@ -1849,7 +2111,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CORBA_COMPONENT__SDO_ORGANIZATION = COMPONENT_FEATURE_COUNT + 6;
+	int CORBA_COMPONENT__SDO_ORGANIZATION = COMPONENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Ior</b></em>' attribute.
@@ -1858,7 +2120,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CORBA_COMPONENT__IOR = COMPONENT_FEATURE_COUNT + 7;
+	int CORBA_COMPONENT__IOR = COMPONENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The number of structural features of the '<em>Corba Component</em>' class.
@@ -1867,7 +2129,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CORBA_COMPONENT_FEATURE_COUNT = COMPONENT_FEATURE_COUNT + 8;
+	int CORBA_COMPONENT_FEATURE_COUNT = COMPONENT_FEATURE_COUNT + 9;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaPortSynchronizerImpl <em>Corba Port Synchronizer</em>}' class.
@@ -1877,7 +2139,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getCorbaPortSynchronizer()
 	 * @generated
 	 */
-	int CORBA_PORT_SYNCHRONIZER = 15;
+	int CORBA_PORT_SYNCHRONIZER = 16;
 
 	/**
 	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
@@ -1932,7 +2194,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getCorbaConnectorProfile()
 	 * @generated
 	 */
-	int CORBA_CONNECTOR_PROFILE = 16;
+	int CORBA_CONNECTOR_PROFILE = 17;
 
 	/**
 	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
@@ -2025,6 +2287,42 @@ public interface ComponentPackage extends EPackage {
 	int CORBA_CONNECTOR_PROFILE__PUSH_RATE = CONNECTOR_PROFILE__PUSH_RATE;
 
 	/**
+	 * The feature id for the '<em><b>Push Policy</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_CONNECTOR_PROFILE__PUSH_POLICY = CONNECTOR_PROFILE__PUSH_POLICY;
+
+	/**
+	 * The feature id for the '<em><b>Skip Count</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_CONNECTOR_PROFILE__SKIP_COUNT = CONNECTOR_PROFILE__SKIP_COUNT;
+
+	/**
+	 * The feature id for the '<em><b>Push Policy Available</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_CONNECTOR_PROFILE__PUSH_POLICY_AVAILABLE = CONNECTOR_PROFILE__PUSH_POLICY_AVAILABLE;
+
+	/**
+	 * The feature id for the '<em><b>Skip Count Available</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_CONNECTOR_PROFILE__SKIP_COUNT_AVAILABLE = CONNECTOR_PROFILE__SKIP_COUNT_AVAILABLE;
+
+	/**
 	 * The feature id for the '<em><b>Source String</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2041,6 +2339,96 @@ public interface ComponentPackage extends EPackage {
 	 * @ordered
 	 */
 	int CORBA_CONNECTOR_PROFILE__TARGET_STRING = CONNECTOR_PROFILE__TARGET_STRING;
+
+	/**
+	 * The feature id for the '<em><b>Outport Buffer Length</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_CONNECTOR_PROFILE__OUTPORT_BUFFER_LENGTH = CONNECTOR_PROFILE__OUTPORT_BUFFER_LENGTH;
+
+	/**
+	 * The feature id for the '<em><b>Outport Buffer Full Policy</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_CONNECTOR_PROFILE__OUTPORT_BUFFER_FULL_POLICY = CONNECTOR_PROFILE__OUTPORT_BUFFER_FULL_POLICY;
+
+	/**
+	 * The feature id for the '<em><b>Outport Buffer Write Timeout</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_CONNECTOR_PROFILE__OUTPORT_BUFFER_WRITE_TIMEOUT = CONNECTOR_PROFILE__OUTPORT_BUFFER_WRITE_TIMEOUT;
+
+	/**
+	 * The feature id for the '<em><b>Outport Buffer Empty Policy</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_CONNECTOR_PROFILE__OUTPORT_BUFFER_EMPTY_POLICY = CONNECTOR_PROFILE__OUTPORT_BUFFER_EMPTY_POLICY;
+
+	/**
+	 * The feature id for the '<em><b>Outport Buffer Read Timeout</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_CONNECTOR_PROFILE__OUTPORT_BUFFER_READ_TIMEOUT = CONNECTOR_PROFILE__OUTPORT_BUFFER_READ_TIMEOUT;
+
+	/**
+	 * The feature id for the '<em><b>Inport Buffer Length</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_CONNECTOR_PROFILE__INPORT_BUFFER_LENGTH = CONNECTOR_PROFILE__INPORT_BUFFER_LENGTH;
+
+	/**
+	 * The feature id for the '<em><b>Inport Buffer Full Policy</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_CONNECTOR_PROFILE__INPORT_BUFFER_FULL_POLICY = CONNECTOR_PROFILE__INPORT_BUFFER_FULL_POLICY;
+
+	/**
+	 * The feature id for the '<em><b>Inport Buffer Write Timeout</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_CONNECTOR_PROFILE__INPORT_BUFFER_WRITE_TIMEOUT = CONNECTOR_PROFILE__INPORT_BUFFER_WRITE_TIMEOUT;
+
+	/**
+	 * The feature id for the '<em><b>Inport Buffer Empty Policy</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_CONNECTOR_PROFILE__INPORT_BUFFER_EMPTY_POLICY = CONNECTOR_PROFILE__INPORT_BUFFER_EMPTY_POLICY;
+
+	/**
+	 * The feature id for the '<em><b>Inport Buffer Read Timeout</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_CONNECTOR_PROFILE__INPORT_BUFFER_READ_TIMEOUT = CONNECTOR_PROFILE__INPORT_BUFFER_READ_TIMEOUT;
 
 	/**
 	 * The feature id for the '<em><b>Rtc Connector Profile</b></em>' attribute.
@@ -2068,7 +2456,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getCorbaConfigurationSet()
 	 * @generated
 	 */
-	int CORBA_CONFIGURATION_SET = 17;
+	int CORBA_CONFIGURATION_SET = 18;
 
 	/**
 	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
@@ -2123,7 +2511,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getCorbaExecutionContext()
 	 * @generated
 	 */
-	int CORBA_EXECUTION_CONTEXT = 18;
+	int CORBA_EXECUTION_CONTEXT = 19;
 
 	/**
 	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
@@ -2162,6 +2550,33 @@ public interface ComponentPackage extends EPackage {
 	int CORBA_EXECUTION_CONTEXT__STATE_L = EXECUTION_CONTEXT__STATE_L;
 
 	/**
+	 * The feature id for the '<em><b>Owner</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_EXECUTION_CONTEXT__OWNER = EXECUTION_CONTEXT__OWNER;
+
+	/**
+	 * The feature id for the '<em><b>Participants</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_EXECUTION_CONTEXT__PARTICIPANTS = EXECUTION_CONTEXT__PARTICIPANTS;
+
+	/**
+	 * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_EXECUTION_CONTEXT__PROPERTIES = EXECUTION_CONTEXT__PROPERTIES;
+
+	/**
 	 * The feature id for the '<em><b>Corba Object</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2189,6 +2604,25 @@ public interface ComponentPackage extends EPackage {
 	int CORBA_EXECUTION_CONTEXT_FEATURE_COUNT = EXECUTION_CONTEXT_FEATURE_COUNT + 2;
 
 	/**
+	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaContextHandlerImpl <em>Corba Context Handler</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.CorbaContextHandlerImpl
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getCorbaContextHandler()
+	 * @generated
+	 */
+	int CORBA_CONTEXT_HANDLER = 20;
+
+	/**
+	 * The number of structural features of the '<em>Corba Context Handler</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_CONTEXT_HANDLER_FEATURE_COUNT = CONTEXT_HANDLER_FEATURE_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind <em>System Diagram Kind</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2196,7 +2630,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getSystemDiagramKind()
 	 * @generated
 	 */
-	int SYSTEM_DIAGRAM_KIND = 19;
+	int SYSTEM_DIAGRAM_KIND = 21;
 
 	/**
 	 * The meta object id for the '<em>RTC Component Profile</em>' data type.
@@ -2206,7 +2640,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getRTCComponentProfile()
 	 * @generated
 	 */
-	int RTC_COMPONENT_PROFILE = 24;
+	int RTC_COMPONENT_PROFILE = 26;
 
 	/**
 	 * The meta object id for the '<em>RTCRT Object</em>' data type.
@@ -2216,7 +2650,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getRTCRTObject()
 	 * @generated
 	 */
-	int RTCRT_OBJECT = 23;
+	int RTCRT_OBJECT = 25;
 
 	/**
 	 * The meta object id for the '<em>List</em>' data type.
@@ -2226,7 +2660,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getList()
 	 * @generated
 	 */
-	int LIST = 31;
+	int LIST = 33;
 
 	/**
 	 * The meta object id for the '<em>SDO Configuration</em>' data type.
@@ -2236,7 +2670,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getSDOConfiguration()
 	 * @generated
 	 */
-	int SDO_CONFIGURATION = 20;
+	int SDO_CONFIGURATION = 22;
 
 	/**
 	 * The meta object id for the '<em>SDO Configuration Set</em>' data type.
@@ -2246,7 +2680,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getSDOConfigurationSet()
 	 * @generated
 	 */
-	int SDO_CONFIGURATION_SET = 21;
+	int SDO_CONFIGURATION_SET = 23;
 
 	/**
 	 * The meta object id for the '<em>RTC Connector Profile</em>' data type.
@@ -2256,7 +2690,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getRTCConnectorProfile()
 	 * @generated
 	 */
-	int RTC_CONNECTOR_PROFILE = 25;
+	int RTC_CONNECTOR_PROFILE = 27;
 
 	/**
 	 * The meta object id for the '<em>RTC Port Profile</em>' data type.
@@ -2266,7 +2700,17 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getRTCPortProfile()
 	 * @generated
 	 */
-	int RTC_PORT_PROFILE = 26;
+	int RTC_PORT_PROFILE = 28;
+
+	/**
+	 * The meta object id for the '<em>RTC Execution Context</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see RTC.ExecutionContext
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getRTCExecutionContext()
+	 * @generated
+	 */
+	int RTC_EXECUTION_CONTEXT = 29;
 
 	/**
 	 * The meta object id for the '<em>Property Change Listener</em>' data type.
@@ -2276,7 +2720,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getPropertyChangeListener()
 	 * @generated
 	 */
-	int PROPERTY_CHANGE_LISTENER = 29;
+	int PROPERTY_CHANGE_LISTENER = 31;
 
 	/**
 	 * The meta object id for the '<em>SDO Organization</em>' data type.
@@ -2286,7 +2730,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getSDOOrganization()
 	 * @generated
 	 */
-	int SDO_ORGANIZATION = 22;
+	int SDO_ORGANIZATION = 24;
 
 
 	/**
@@ -2297,18 +2741,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getPortInterfaceProfile()
 	 * @generated
 	 */
-	int PORT_INTERFACE_PROFILE = 30;
-
-
-	/**
-	 * The meta object id for the '<em>RTC Execution Context</em>' data type.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see RTC.ExecutionContext
-	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getRTCExecutionContext()
-	 * @generated
-	 */
-	int RTC_EXECUTION_CONTEXT = 27;
+	int PORT_INTERFACE_PROFILE = 32;
 
 
 	/**
@@ -2319,7 +2752,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getRTCExecutionContextProfile()
 	 * @generated
 	 */
-	int RTC_EXECUTION_CONTEXT_PROFILE = 28;
+	int RTC_EXECUTION_CONTEXT_PROFILE = 30;
 
 
 	/**
@@ -2506,6 +2939,39 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getComponent_ExecutionContexts();
+
+	/**
+	 * Returns the meta object for the reference list '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getParticipationContexts <em>Participation Contexts</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Participation Contexts</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.Component#getParticipationContexts()
+	 * @see #getComponent()
+	 * @generated
+	 */
+	EReference getComponent_ParticipationContexts();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getExecutionContextHandler <em>Execution Context Handler</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Execution Context Handler</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.Component#getExecutionContextHandler()
+	 * @see #getComponent()
+	 * @generated
+	 */
+	EReference getComponent_ExecutionContextHandler();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getParticipationContextHandler <em>Participation Context Handler</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Participation Context Handler</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.Component#getParticipationContextHandler()
+	 * @see #getComponent()
+	 * @generated
+	 */
+	EReference getComponent_ParticipationContextHandler();
 
 	/**
 	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getInstanceNameL <em>Instance Name L</em>}'.
@@ -2705,15 +3171,26 @@ public interface ComponentPackage extends EPackage {
 	EAttribute getCorbaComponent_RTCComponentProfile();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getRTCExecutionContext <em>RTC Execution Context</em>}'.
+	 * Returns the meta object for the attribute list '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getRTCExecutionContexts <em>RTC Execution Contexts</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute list '<em>RTC Execution Context</em>'.
-	 * @see jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getRTCExecutionContext()
+	 * @return the meta object for the attribute list '<em>RTC Execution Contexts</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getRTCExecutionContexts()
 	 * @see #getCorbaComponent()
 	 * @generated
 	 */
-	EAttribute getCorbaComponent_RTCExecutionContext();
+	EAttribute getCorbaComponent_RTCExecutionContexts();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getRTCParticipationContexts <em>RTC Participation Contexts</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>RTC Participation Contexts</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getRTCParticipationContexts()
+	 * @see #getCorbaComponent()
+	 * @generated
+	 */
+	EAttribute getCorbaComponent_RTCParticipationContexts();
 
 	/**
 	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getSDOOrganization <em>SDO Organization</em>}'.
@@ -2865,6 +3342,49 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getExecutionContext_StateL();
+
+	/**
+	 * Returns the meta object for the reference '{@link jp.go.aist.rtm.toolscommon.model.component.ExecutionContext#getOwner <em>Owner</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Owner</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ExecutionContext#getOwner()
+	 * @see #getExecutionContext()
+	 * @generated
+	 */
+	EReference getExecutionContext_Owner();
+
+	/**
+	 * Returns the meta object for the reference list '{@link jp.go.aist.rtm.toolscommon.model.component.ExecutionContext#getParticipants <em>Participants</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Participants</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ExecutionContext#getParticipants()
+	 * @see #getExecutionContext()
+	 * @generated
+	 */
+	EReference getExecutionContext_Participants();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link jp.go.aist.rtm.toolscommon.model.component.ExecutionContext#getProperties <em>Properties</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Properties</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ExecutionContext#getProperties()
+	 * @see #getExecutionContext()
+	 * @generated
+	 */
+	EReference getExecutionContext_Properties();
+
+	/**
+	 * Returns the meta object for class '{@link jp.go.aist.rtm.toolscommon.model.component.ContextHandler <em>Context Handler</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Context Handler</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ContextHandler
+	 * @generated
+	 */
+	EClass getContextHandler();
 
 	/**
 	 * Returns the meta object for class '{@link jp.go.aist.rtm.toolscommon.model.component.InPort <em>In Port</em>}'.
@@ -3202,6 +3722,50 @@ public interface ComponentPackage extends EPackage {
 	EAttribute getConnectorProfile_PushRate();
 
 	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getPushPolicy <em>Push Policy</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Push Policy</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getPushPolicy()
+	 * @see #getConnectorProfile()
+	 * @generated
+	 */
+	EAttribute getConnectorProfile_PushPolicy();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getSkipCount <em>Skip Count</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Skip Count</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getSkipCount()
+	 * @see #getConnectorProfile()
+	 * @generated
+	 */
+	EAttribute getConnectorProfile_SkipCount();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#isPushPolicyAvailable <em>Push Policy Available</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Push Policy Available</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#isPushPolicyAvailable()
+	 * @see #getConnectorProfile()
+	 * @generated
+	 */
+	EAttribute getConnectorProfile_PushPolicyAvailable();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#isSkipCountAvailable <em>Skip Count Available</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Skip Count Available</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#isSkipCountAvailable()
+	 * @see #getConnectorProfile()
+	 * @generated
+	 */
+	EAttribute getConnectorProfile_SkipCountAvailable();
+
+	/**
 	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getSourceString <em>Source String</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3222,6 +3786,116 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getConnectorProfile_TargetString();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getOutportBufferLength <em>Outport Buffer Length</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Outport Buffer Length</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getOutportBufferLength()
+	 * @see #getConnectorProfile()
+	 * @generated
+	 */
+	EAttribute getConnectorProfile_OutportBufferLength();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getOutportBufferFullPolicy <em>Outport Buffer Full Policy</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Outport Buffer Full Policy</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getOutportBufferFullPolicy()
+	 * @see #getConnectorProfile()
+	 * @generated
+	 */
+	EAttribute getConnectorProfile_OutportBufferFullPolicy();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getOutportBufferWriteTimeout <em>Outport Buffer Write Timeout</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Outport Buffer Write Timeout</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getOutportBufferWriteTimeout()
+	 * @see #getConnectorProfile()
+	 * @generated
+	 */
+	EAttribute getConnectorProfile_OutportBufferWriteTimeout();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getOutportBufferEmptyPolicy <em>Outport Buffer Empty Policy</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Outport Buffer Empty Policy</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getOutportBufferEmptyPolicy()
+	 * @see #getConnectorProfile()
+	 * @generated
+	 */
+	EAttribute getConnectorProfile_OutportBufferEmptyPolicy();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getOutportBufferReadTimeout <em>Outport Buffer Read Timeout</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Outport Buffer Read Timeout</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getOutportBufferReadTimeout()
+	 * @see #getConnectorProfile()
+	 * @generated
+	 */
+	EAttribute getConnectorProfile_OutportBufferReadTimeout();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getInportBufferLength <em>Inport Buffer Length</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Inport Buffer Length</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getInportBufferLength()
+	 * @see #getConnectorProfile()
+	 * @generated
+	 */
+	EAttribute getConnectorProfile_InportBufferLength();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getInportBufferFullPolicy <em>Inport Buffer Full Policy</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Inport Buffer Full Policy</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getInportBufferFullPolicy()
+	 * @see #getConnectorProfile()
+	 * @generated
+	 */
+	EAttribute getConnectorProfile_InportBufferFullPolicy();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getInportBufferWriteTimeout <em>Inport Buffer Write Timeout</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Inport Buffer Write Timeout</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getInportBufferWriteTimeout()
+	 * @see #getConnectorProfile()
+	 * @generated
+	 */
+	EAttribute getConnectorProfile_InportBufferWriteTimeout();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getInportBufferEmptyPolicy <em>Inport Buffer Empty Policy</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Inport Buffer Empty Policy</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getInportBufferEmptyPolicy()
+	 * @see #getConnectorProfile()
+	 * @generated
+	 */
+	EAttribute getConnectorProfile_InportBufferEmptyPolicy();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getInportBufferReadTimeout <em>Inport Buffer Read Timeout</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Inport Buffer Read Timeout</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getInportBufferReadTimeout()
+	 * @see #getConnectorProfile()
+	 * @generated
+	 */
+	EAttribute getConnectorProfile_InportBufferReadTimeout();
 
 	/**
 	 * Returns the meta object for class '{@link jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet <em>Configuration Set</em>}'.
@@ -3395,6 +4069,16 @@ public interface ComponentPackage extends EPackage {
 	EAttribute getCorbaExecutionContext_RtcExecutionContextProfile();
 
 	/**
+	 * Returns the meta object for class '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaContextHandler <em>Corba Context Handler</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Corba Context Handler</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.CorbaContextHandler
+	 * @generated
+	 */
+	EClass getCorbaContextHandler();
+
+	/**
 	 * Returns the meta object for enum '{@link jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind <em>System Diagram Kind</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3482,6 +4166,17 @@ public interface ComponentPackage extends EPackage {
 	EDataType getRTCPortProfile();
 
 	/**
+	 * Returns the meta object for data type '{@link RTC.ExecutionContext <em>RTC Execution Context</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>RTC Execution Context</em>'.
+	 * @see RTC.ExecutionContext
+	 * @model instanceClass="RTC.ExecutionContext"
+	 * @generated
+	 */
+	EDataType getRTCExecutionContext();
+
+	/**
 	 * Returns the meta object for data type '{@link java.beans.PropertyChangeListener <em>Property Change Listener</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3513,17 +4208,6 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 */
 	EDataType getPortInterfaceProfile();
-
-	/**
-	 * Returns the meta object for data type '{@link RTC.ExecutionContext <em>RTC Execution Context</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for data type '<em>RTC Execution Context</em>'.
-	 * @see RTC.ExecutionContext
-	 * @model instanceClass="RTC.ExecutionContext"
-	 * @generated
-	 */
-	EDataType getRTCExecutionContext();
 
 	/**
 	 * Returns the meta object for data type '{@link RTC.ExecutionContextProfile <em>RTC Execution Context Profile</em>}'.
@@ -3699,6 +4383,30 @@ public interface ComponentPackage extends EPackage {
 		EReference COMPONENT__EXECUTION_CONTEXTS = eINSTANCE.getComponent_ExecutionContexts();
 
 		/**
+		 * The meta object literal for the '<em><b>Participation Contexts</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COMPONENT__PARTICIPATION_CONTEXTS = eINSTANCE.getComponent_ParticipationContexts();
+
+		/**
+		 * The meta object literal for the '<em><b>Execution Context Handler</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COMPONENT__EXECUTION_CONTEXT_HANDLER = eINSTANCE.getComponent_ExecutionContextHandler();
+
+		/**
+		 * The meta object literal for the '<em><b>Participation Context Handler</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COMPONENT__PARTICIPATION_CONTEXT_HANDLER = eINSTANCE.getComponent_ParticipationContextHandler();
+
+		/**
 		 * The meta object literal for the '<em><b>Instance Name L</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3845,12 +4553,20 @@ public interface ComponentPackage extends EPackage {
 		EAttribute CORBA_COMPONENT__RTC_COMPONENT_PROFILE = eINSTANCE.getCorbaComponent_RTCComponentProfile();
 
 		/**
-		 * The meta object literal for the '<em><b>RTC Execution Context</b></em>' attribute list feature.
+		 * The meta object literal for the '<em><b>RTC Execution Contexts</b></em>' attribute list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute CORBA_COMPONENT__RTC_EXECUTION_CONTEXT = eINSTANCE.getCorbaComponent_RTCExecutionContext();
+		EAttribute CORBA_COMPONENT__RTC_EXECUTION_CONTEXTS = eINSTANCE.getCorbaComponent_RTCExecutionContexts();
+
+		/**
+		 * The meta object literal for the '<em><b>RTC Participation Contexts</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CORBA_COMPONENT__RTC_PARTICIPATION_CONTEXTS = eINSTANCE.getCorbaComponent_RTCParticipationContexts();
 
 		/**
 		 * The meta object literal for the '<em><b>SDO Organization</b></em>' attribute feature.
@@ -3969,6 +4685,40 @@ public interface ComponentPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute EXECUTION_CONTEXT__STATE_L = eINSTANCE.getExecutionContext_StateL();
+
+		/**
+		 * The meta object literal for the '<em><b>Owner</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EXECUTION_CONTEXT__OWNER = eINSTANCE.getExecutionContext_Owner();
+
+		/**
+		 * The meta object literal for the '<em><b>Participants</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EXECUTION_CONTEXT__PARTICIPANTS = eINSTANCE.getExecutionContext_Participants();
+
+		/**
+		 * The meta object literal for the '<em><b>Properties</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EXECUTION_CONTEXT__PROPERTIES = eINSTANCE.getExecutionContext_Properties();
+
+		/**
+		 * The meta object literal for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.ContextHandlerImpl <em>Context Handler</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ContextHandlerImpl
+		 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getContextHandler()
+		 * @generated
+		 */
+		EClass CONTEXT_HANDLER = eINSTANCE.getContextHandler();
 
 		/**
 		 * The meta object literal for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.InPortImpl <em>In Port</em>}' class.
@@ -4231,6 +4981,38 @@ public interface ComponentPackage extends EPackage {
 		EAttribute CONNECTOR_PROFILE__PUSH_RATE = eINSTANCE.getConnectorProfile_PushRate();
 
 		/**
+		 * The meta object literal for the '<em><b>Push Policy</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONNECTOR_PROFILE__PUSH_POLICY = eINSTANCE.getConnectorProfile_PushPolicy();
+
+		/**
+		 * The meta object literal for the '<em><b>Skip Count</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONNECTOR_PROFILE__SKIP_COUNT = eINSTANCE.getConnectorProfile_SkipCount();
+
+		/**
+		 * The meta object literal for the '<em><b>Push Policy Available</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONNECTOR_PROFILE__PUSH_POLICY_AVAILABLE = eINSTANCE.getConnectorProfile_PushPolicyAvailable();
+
+		/**
+		 * The meta object literal for the '<em><b>Skip Count Available</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONNECTOR_PROFILE__SKIP_COUNT_AVAILABLE = eINSTANCE.getConnectorProfile_SkipCountAvailable();
+
+		/**
 		 * The meta object literal for the '<em><b>Source String</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -4245,6 +5027,86 @@ public interface ComponentPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute CONNECTOR_PROFILE__TARGET_STRING = eINSTANCE.getConnectorProfile_TargetString();
+
+		/**
+		 * The meta object literal for the '<em><b>Outport Buffer Length</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONNECTOR_PROFILE__OUTPORT_BUFFER_LENGTH = eINSTANCE.getConnectorProfile_OutportBufferLength();
+
+		/**
+		 * The meta object literal for the '<em><b>Outport Buffer Full Policy</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONNECTOR_PROFILE__OUTPORT_BUFFER_FULL_POLICY = eINSTANCE.getConnectorProfile_OutportBufferFullPolicy();
+
+		/**
+		 * The meta object literal for the '<em><b>Outport Buffer Write Timeout</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONNECTOR_PROFILE__OUTPORT_BUFFER_WRITE_TIMEOUT = eINSTANCE.getConnectorProfile_OutportBufferWriteTimeout();
+
+		/**
+		 * The meta object literal for the '<em><b>Outport Buffer Empty Policy</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONNECTOR_PROFILE__OUTPORT_BUFFER_EMPTY_POLICY = eINSTANCE.getConnectorProfile_OutportBufferEmptyPolicy();
+
+		/**
+		 * The meta object literal for the '<em><b>Outport Buffer Read Timeout</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONNECTOR_PROFILE__OUTPORT_BUFFER_READ_TIMEOUT = eINSTANCE.getConnectorProfile_OutportBufferReadTimeout();
+
+		/**
+		 * The meta object literal for the '<em><b>Inport Buffer Length</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONNECTOR_PROFILE__INPORT_BUFFER_LENGTH = eINSTANCE.getConnectorProfile_InportBufferLength();
+
+		/**
+		 * The meta object literal for the '<em><b>Inport Buffer Full Policy</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONNECTOR_PROFILE__INPORT_BUFFER_FULL_POLICY = eINSTANCE.getConnectorProfile_InportBufferFullPolicy();
+
+		/**
+		 * The meta object literal for the '<em><b>Inport Buffer Write Timeout</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONNECTOR_PROFILE__INPORT_BUFFER_WRITE_TIMEOUT = eINSTANCE.getConnectorProfile_InportBufferWriteTimeout();
+
+		/**
+		 * The meta object literal for the '<em><b>Inport Buffer Empty Policy</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONNECTOR_PROFILE__INPORT_BUFFER_EMPTY_POLICY = eINSTANCE.getConnectorProfile_InportBufferEmptyPolicy();
+
+		/**
+		 * The meta object literal for the '<em><b>Inport Buffer Read Timeout</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONNECTOR_PROFILE__INPORT_BUFFER_READ_TIMEOUT = eINSTANCE.getConnectorProfile_InportBufferReadTimeout();
 
 		/**
 		 * The meta object literal for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.ConfigurationSetImpl <em>Configuration Set</em>}' class.
@@ -4389,6 +5251,16 @@ public interface ComponentPackage extends EPackage {
 		EAttribute CORBA_EXECUTION_CONTEXT__RTC_EXECUTION_CONTEXT_PROFILE = eINSTANCE.getCorbaExecutionContext_RtcExecutionContextProfile();
 
 		/**
+		 * The meta object literal for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaContextHandlerImpl <em>Corba Context Handler</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see jp.go.aist.rtm.toolscommon.model.component.impl.CorbaContextHandlerImpl
+		 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getCorbaContextHandler()
+		 * @generated
+		 */
+		EClass CORBA_CONTEXT_HANDLER = eINSTANCE.getCorbaContextHandler();
+
+		/**
 		 * The meta object literal for the '{@link jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind <em>System Diagram Kind</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -4469,6 +5341,16 @@ public interface ComponentPackage extends EPackage {
 		EDataType RTC_PORT_PROFILE = eINSTANCE.getRTCPortProfile();
 
 		/**
+		 * The meta object literal for the '<em>RTC Execution Context</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see RTC.ExecutionContext
+		 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getRTCExecutionContext()
+		 * @generated
+		 */
+		EDataType RTC_EXECUTION_CONTEXT = eINSTANCE.getRTCExecutionContext();
+
+		/**
 		 * The meta object literal for the '<em>Property Change Listener</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -4497,16 +5379,6 @@ public interface ComponentPackage extends EPackage {
 		 * @generated
 		 */
 		EDataType PORT_INTERFACE_PROFILE = eINSTANCE.getPortInterfaceProfile();
-
-		/**
-		 * The meta object literal for the '<em>RTC Execution Context</em>' data type.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see RTC.ExecutionContext
-		 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getRTCExecutionContext()
-		 * @generated
-		 */
-		EDataType RTC_EXECUTION_CONTEXT = eINSTANCE.getRTCExecutionContext();
 
 		/**
 		 * The meta object literal for the '<em>RTC Execution Context Profile</em>' data type.

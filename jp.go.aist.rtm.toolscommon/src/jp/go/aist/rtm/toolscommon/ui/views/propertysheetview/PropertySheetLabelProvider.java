@@ -19,12 +19,10 @@ import org.eclipse.ui.model.IWorkbenchAdapter;
 public class PropertySheetLabelProvider extends LabelProvider implements
 		ITableLabelProvider, ITableColorProvider, ITableFontProvider {
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public Image getColumnImage(Object element, int columnIndex) {
 		Image result = null;
 		if (columnIndex == 0) {
+			element = getElement(element);
 			IWorkbenchAdapter workbenchAdapter = ((IWorkbenchAdapter) AdapterUtil
 					.getAdapter(element, IWorkbenchAdapter.class));
 			if (workbenchAdapter != null) {
@@ -33,13 +31,9 @@ public class PropertySheetLabelProvider extends LabelProvider implements
 				result = ToolsCommonPlugin.getCachedImage(descriptor);
 			}
 		}
-
 		return result;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public String getColumnText(Object element, int columnIndex) {
 		if (element instanceof PropertyDescriptorWithSource) {
 			if (columnIndex == 0) {
@@ -58,32 +52,32 @@ public class PropertySheetLabelProvider extends LabelProvider implements
 			}
 		} else {
 			if (columnIndex == 0) {
-				return((IWorkbenchAdapter) AdapterUtil.getAdapter(element,
+				element = getElement(element);
+				return ((IWorkbenchAdapter) AdapterUtil.getAdapter(element,
 						IWorkbenchAdapter.class)).getLabel(element);
 			}
 		}
-
 		return "";
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public Color getForeground(Object element, int columnIndex) {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public Color getBackground(Object element, int columnIndex) {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public Font getFont(Object element, int columnIndex) {
 		return null;
 	}
+
+	Object getElement(Object element) {
+		if (element instanceof PropertySheetContentProvider.ChildWithParent) {
+			return ((PropertySheetContentProvider.ChildWithParent) element)
+					.getChild();
+		}
+		return element;
+	}
+
 }

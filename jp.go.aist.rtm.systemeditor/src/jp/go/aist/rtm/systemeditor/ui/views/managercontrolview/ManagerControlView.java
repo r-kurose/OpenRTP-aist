@@ -378,8 +378,9 @@ public class ManagerControlView extends ViewPart {
 			this.loadedModuleButton.setEnabled(true);
 			this.activeComponentButton.setEnabled(true);
 			this.createButton.setEnabled(true);
-			this.forkButton.setEnabled(true);
-			this.shutdownButton.setEnabled(true);
+			// マネージャの仕様が決まっていないので無効にする
+			this.forkButton.setEnabled(false);
+			this.shutdownButton.setEnabled(false);
 		}
 		refreshModuleListData();
 	}

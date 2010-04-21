@@ -90,6 +90,7 @@ public class OfflineSystemDiagramEditor extends AbstractSystemDiagramEditor {
 						handler.restoreConfigSet(diagram);
 						handler.restoreCompositeComponentPort(diagram);
 						handler.restoreConnection(diagram);
+						handler.restoreExecutionContext(diagram);
 						setSystemDiagram(diagram);
 					} catch (Exception e) {
 						monitor.done();

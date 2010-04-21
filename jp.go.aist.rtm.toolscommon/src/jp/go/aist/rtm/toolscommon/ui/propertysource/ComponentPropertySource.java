@@ -6,55 +6,49 @@ import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 import jp.go.aist.rtm.toolscommon.nl.Messages;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
-import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
 /**
  * コンポーネントのIPropertySourceクラス（オンライン）
  */
-public class ComponentPropertySource implements IPropertySource {
-	private static final String DISP_PATH_URI = Messages.getString("ComponentPropertySource.disp.path_uri");
-	private static final String DISP_INSTANCE_NAME = Messages.getString("ComponentPropertySource.disp.instance_name");
+public class ComponentPropertySource extends AbstractPropertySource {
 
-	private static final String DISP_TYPE_NAME = Messages.getString("ComponentPropertySource.disp.type_name");
+	static final String DISP_PATH_URI = Messages.getString("ComponentPropertySource.disp.path_uri");
 
-	private static final String DISP_DESCRIPTION = Messages.getString("ComponentPropertySource.disp.description");
+	static final String DISP_INSTANCE_NAME = Messages.getString("ComponentPropertySource.disp.instance_name");
 
-	private static final String DISP_VERSION = Messages.getString("ComponentPropertySource.disp.version");
+	static final String DISP_TYPE_NAME = Messages.getString("ComponentPropertySource.disp.type_name");
 
-	private static final String DISP_VENDOR = Messages.getString("ComponentPropertySource.disp.vendor");
+	static final String DISP_DESCRIPTION = Messages.getString("ComponentPropertySource.disp.description");
 
-	private static final String DISP_CATEGORY = Messages.getString("ComponentPropertySource.disp.category");
+	static final String DISP_VERSION = Messages.getString("ComponentPropertySource.disp.version");
 
-	private static final String DISP_STATE = Messages	.getString("ComponentPropertySource.disp.state");
+	static final String DISP_VENDOR = Messages.getString("ComponentPropertySource.disp.vendor");
 
-	private static final String STATE_UNKNOWN_VIEWSTRING = Messages.getString("ComponentPropertySource.state.unknown");
+	static final String DISP_CATEGORY = Messages.getString("ComponentPropertySource.disp.category");
 
-	private static final String STATE_CREATED_VIEWSTRING = Messages.getString("ComponentPropertySource.state.created");
+	static final String DISP_STATE = Messages	.getString("ComponentPropertySource.disp.state");
 
-	private static final String STATE_INACTIVE_VIEWSTRING = Messages.getString("ComponentPropertySource.state.inactive");
+//	static final String RTC_UNKNOWN_VIEWSTRING = Messages	.getString("ComponentPropertySource.unknown");
 
-	private static final String STATE_ACTIVE_VIEWSTRING = Messages.getString("ComponentPropertySource.state.active");
+	static final String STATE_UNKNOWN_VIEWSTRING = Messages.getString("ComponentPropertySource.state.unknown");
 
-	private static final String STATE_ERROR_VIEWSTRING = Messages.getString("ComponentPropertySource.state.error");
+	static final String STATE_CREATED_VIEWSTRING = Messages.getString("ComponentPropertySource.state.created");
 
+	static final String STATE_INACTIVE_VIEWSTRING = Messages.getString("ComponentPropertySource.state.inactive");
 
-	private static final PropertyDescriptor[] componentPropertyDescriptor = new PropertyDescriptor[] {
-		    new TextPropertyDescriptor(Component.PATH_URI, DISP_PATH_URI),
-		    new TextPropertyDescriptor(Component.INSTANCE_NAME, DISP_INSTANCE_NAME),
-			new TextPropertyDescriptor(Component.TYPE_NAME, DISP_TYPE_NAME),
-			new TextPropertyDescriptor(Component.DESCRIPTION, DISP_DESCRIPTION),
-			new TextPropertyDescriptor(Component.VERSION, DISP_VERSION),
-			new TextPropertyDescriptor(Component.VENDER, DISP_VENDOR),
-			new TextPropertyDescriptor(Component.CATEGORY, DISP_CATEGORY),
-			new TextPropertyDescriptor(Component.STATE, DISP_STATE), };
+	static final String STATE_ACTIVE_VIEWSTRING = Messages.getString("ComponentPropertySource.state.active");
+
+//	static final String STATE_ALIVE_VIEWSTRING = Messages.getString("ComponentPropertySource.state.alive");
+
+	static final String STATE_ERROR_VIEWSTRING = Messages.getString("ComponentPropertySource.state.error");
+
+	static final String UNKNOWN = "<unknown>";
 
 	private Component component;
 
 	/**
-	 * {@inheritDoc}
-	 * 
 	 * @param component
 	 *            モデル
 	 */
@@ -62,16 +56,22 @@ public class ComponentPropertySource implements IPropertySource {
 		this.component = component;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
-		return componentPropertyDescriptor;
+		return new PropertyDescriptor[] {
+				new TextPropertyDescriptor(Component.PATH_URI, DISP_PATH_URI),
+				new TextPropertyDescriptor(Component.INSTANCE_NAME,
+						DISP_INSTANCE_NAME),
+				new TextPropertyDescriptor(Component.TYPE_NAME, DISP_TYPE_NAME),
+				new TextPropertyDescriptor(Component.DESCRIPTION,
+						DISP_DESCRIPTION),
+				new TextPropertyDescriptor(Component.VERSION, DISP_VERSION),
+				new TextPropertyDescriptor(Component.VENDER, DISP_VENDOR),
+				new TextPropertyDescriptor(Component.CATEGORY, DISP_CATEGORY),
+				new TextPropertyDescriptor(Component.STATE, DISP_STATE), };
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public java.lang.Object getPropertyValue(java.lang.Object id) {
 		try {
 			if (Component.PATH_URI.equals(id)) {
@@ -103,39 +103,12 @@ public class ComponentPropertySource implements IPropertySource {
 						return STATE_ERROR_VIEWSTRING;
 					}
 				}
-				
 			}
 		} catch (Exception e) {
-			return "<unknown>";
+			return UNKNOWN;
 		}
 
-		return "<unknown>";
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isPropertySet(java.lang.Object id) {
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void resetPropertyValue(java.lang.Object id) {
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setPropertyValue(java.lang.Object id, java.lang.Object value) {
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public java.lang.Object getEditableValue() {
-		return null;
+		return UNKNOWN;
 	}
 
 }
