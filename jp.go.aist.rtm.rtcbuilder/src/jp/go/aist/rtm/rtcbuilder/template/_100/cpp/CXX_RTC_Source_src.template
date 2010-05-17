@@ -95,13 +95,13 @@ RTC::ReturnCode_t ${rtcParam.name}::onInitialize()
   // <rtc-template block="registration">
   // Set InPort buffers
 #foreach($port in ${rtcParam.inports})
-#if(${port.type}!="")  registerInPort("${port.name}", ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix});
+#if(${port.type}!="")  addInPort("${port.name}", ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix});
 #end
 #end
   
   // Set OutPort buffer
 #foreach($port in ${rtcParam.outports})
-#if(${port.type}!="")  registerOutPort("${port.name}", ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}Out${rtcParam.dataPortSuffix}${rtcParam.commonSuffix});
+#if(${port.type}!="")  addOutPort("${port.name}", ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}Out${rtcParam.dataPortSuffix}${rtcParam.commonSuffix});
 #end
 #end
   
@@ -127,7 +127,7 @@ RTC::ReturnCode_t ${rtcParam.name}::onInitialize()
 #if(${rtcParam.servicePorts.size()}>0)
 #foreach($servicePort in ${rtcParam.servicePorts})
 #if(${servicePort.servicePortInterfaces.size()}>0)
-  registerPort(${rtcParam.commonPrefix}${rtcParam.servicePortPrefix}${servicePort.name}Port${rtcParam.servicePortSuffix}${rtcParam.commonSuffix});
+  addPort(${rtcParam.commonPrefix}${rtcParam.servicePortPrefix}${servicePort.name}Port${rtcParam.servicePortSuffix}${rtcParam.commonSuffix});
 #end#end#end
   
   // </rtc-template>

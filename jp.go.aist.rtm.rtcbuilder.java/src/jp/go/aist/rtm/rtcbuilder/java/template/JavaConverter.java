@@ -328,6 +328,10 @@ public class JavaConverter {
 	 * @return RTC.ReturnCode_tのインポートが必要な場合は true
 	 */
 	public boolean useReturnCode(RtcParam rtcParam) {
+		if( rtcParam.getInports().size()>0 || rtcParam.getOutports().size()>0 ||
+				rtcParam.getServicePorts().size()>0 ) {
+			return true;
+		}
 		if (!rtcParam.getConfigParams().isEmpty()) {
 			return true;
 		}

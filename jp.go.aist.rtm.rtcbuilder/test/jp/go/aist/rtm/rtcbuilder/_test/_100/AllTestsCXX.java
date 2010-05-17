@@ -26,7 +26,7 @@ public class AllTestsCXX {
 		suite.addTestSuite(CXXTemplateTestAIST2.class);
 		//
 		suite.addTestSuite(CXXDocLongTest.class);
-		suite.addTestSuite(CXXDocTest.class);
+		suite.addTestSuite(CXX042DocTest.class);
 		suite.addTestSuite(CXXExCxtTest.class);
 		suite.addTestSuite(CXXIDLPathTest.class);
 		suite.addTestSuite(CXXImplTest.class);

@@ -186,6 +186,7 @@ public class DocumentEditorFormPage extends AbstractEditorFormPage {
 			licenseText.setText(getDisplayDocText(getValue(rtcParam.getDocLicense())));
 			referenceText.setText(getDisplayDocText(getValue(rtcParam.getDocReference())));
 			//
+			versionUpLogList.removeAll();
 			for(String vuLog : rtcParam.getVersionUpLog() ) {
 				versionUpLogList.add(vuLog);
 			}

@@ -13,8 +13,8 @@ import time
 sys.path.append(".")
 
 # Import RTM module
-import OpenRTM_aist
 import RTC
+import OpenRTM_aist
 
 # Import Service implementation class
 # <rtc-template block="service_impl">
@@ -112,8 +112,8 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 		self._MyServiceRequirePort.registerConsumer("MyServiceRequire2", "MyServiceWithTypeChild", self._MyServiceRequire2)
 		
 		# Set CORBA Service Ports
-		self.registerPort(self._MyServiceProviderPort)
-		self.registerPort(self._MyServiceRequirePort)
+		self.addPort(self._MyServiceProviderPort)
+		self.addPort(self._MyServiceRequirePort)
 		
 		return RTC.RTC_OK
 	

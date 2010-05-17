@@ -14,6 +14,7 @@ import jp.go.aist.rtm.RTC.Manager;
 import jp.go.aist.rtm.RTC.port.InPort;
 import jp.go.aist.rtm.RTC.port.OutPort;
 import jp.go.aist.rtm.RTC.util.DataRef;
+import RTC.ReturnCode_t;
 
 /*!
  * @class fooImpl
@@ -39,31 +40,6 @@ public class fooImpl extends DataFlowComponentBase {
         m_OutP1 = new DataRef<TimedLong>(m_OutP1_val);
         m_OutP1Out = new OutPort<TimedLong>("OutP1", m_OutP1);
         // </rtc-template>
-
-        // Registration: InPort/OutPort/Service
-        // <rtc-template block="registration">
-        // Set InPort buffers
-        try {
-			registerInPort(TimedShort.class, "InP1", m_InP1In);
-			registerInPort(TimedLong.class, "InP2", m_InP2In);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-        
-        // Set OutPort buffer
-        try {
-			registerOutPort(TimedLong.class, "OutP1", m_OutP1Out);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-        
-        // Set service provider to Ports
-        
-        // Set service consumers to Ports
-        
-        // Set CORBA Service Ports
-        
-        // </rtc-template>
     }
 
     /**
@@ -75,10 +51,19 @@ public class fooImpl extends DataFlowComponentBase {
      * 
      * 
      */
-//    @Override
-//    protected ReturnCode_t onInitialize() {
-//        return super.onInitialize();
-//    }
+    @Override
+    protected ReturnCode_t onInitialize() {
+        // Registration: InPort/OutPort/Service
+        // <rtc-template block="registration">
+        // Set InPort buffers
+        addInPort("InP1", m_InP1In);
+        addInPort("InP2", m_InP2In);
+        
+        // Set OutPort buffer
+        addOutPort("OutP1", m_OutP1Out);
+        // </rtc-template>
+        return super.onInitialize();
+    }
 
     /***
      *

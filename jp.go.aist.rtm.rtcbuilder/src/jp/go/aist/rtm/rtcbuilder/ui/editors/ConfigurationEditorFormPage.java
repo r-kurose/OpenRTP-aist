@@ -324,10 +324,10 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		createHintLabel(IMessageConstants.CONFIGURATION_HINT_COFIGPARAM_TITLE, IMessageConstants.CONFIGURATION_HINT_COFIGPARAM_DESC, toolkit, composite);
 		createHintLabel(IMessageConstants.CONFIGURATION_HINT_PARAMNAME_TITLE, IMessageConstants.CONFIGURATION_HINT_PARAMNAME_DESC, toolkit, composite);
 		createHintLabel(IMessageConstants.CONFIGURATION_HINT_PARAMTYPE_TITLE, IMessageConstants.CONFIGURATION_HINT_PARAMTYPE_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.CONFIGURATION_HINT_VARNAME_TITLE, IMessageConstants.CONFIGURATION_HINT_VARNAME_DESC, toolkit, composite);
 		createHintLabel(IMessageConstants.CONFIGURATION_HINT_DEFAULT_TITLE, IMessageConstants.CONFIGURATION_HINT_DEFAULT_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.CONFIGURATION_HINT_CONSTRAINT_TITLE, IMessageConstants.CONFIGURATION_HINT_CONSTRAINT_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.CONFIGURATION_HINT_VARNAME_TITLE, IMessageConstants.CONFIGURATION_HINT_VARNAME_DESC, toolkit, composite);
 		createHintLabel(IMessageConstants.CONFIGURATION_HINT_UNIT_TITLE, IMessageConstants.CONFIGURATION_HINT_UNIT_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.CONFIGURATION_HINT_CONSTRAINT_TITLE, IMessageConstants.CONFIGURATION_HINT_CONSTRAINT_DESC, toolkit, composite);
 		createHintLabel(IMessageConstants.CONFIGURATION_HINT_WIDGET_TITLE, IMessageConstants.CONFIGURATION_HINT_WIDGET_DESC, toolkit, composite);
 		createHintLabel(IMessageConstants.CONFIGURATION_HINT_STEP_TITLE, IMessageConstants.CONFIGURATION_HINT_STEP_DESC, toolkit, composite);
 	}
@@ -496,6 +496,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 
 		RtcParam rtcParam = editor.getRtcParam();
 		Set<String> checkSet = new HashSet<String>(); 
+		Set<String> checkVarSet = new HashSet<String>(); 
 		
 		for(ConfigSetParam config : rtcParam.getConfigParams()) {
 			result = ValidationUtil.validateConfigurationSet(config);
@@ -506,6 +507,12 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 				return result;
 			}
 			checkSet.add(config.getName());
+			//ïœêîèdï°
+			if( checkVarSet.contains(config.getTmplVarName()) ) {
+				result = IMessageConstants.CONFIGURATION_VALIDATE_VAR_DUPLICATE;
+				return result;
+			}
+			checkVarSet.add(config.getTmplVarName());
 		}
 		return null;
 	}

@@ -9,8 +9,8 @@ import sys
 import time
 sys.path.append(".")
 # Import RTM module
-import OpenRTM_aist
 import RTC
+import OpenRTM_aist
 # Import Service implementation class
 # <rtc-template block="service_impl">
 from MyService_idl_example import *
@@ -92,12 +92,12 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 		# Bind variables and configuration variable
 		
 		# Set InPort buffers
-		self.registerInPort("InP1",self._InP1In)
-		self.registerInPort("InP2",self._InP2In)
+		self.addInPort("InP1",self._InP1In)
+		self.addInPort("InP2",self._InP2In)
 		
 		# Set OutPort buffers
-		self.registerOutPort("OutP1",self._OutP1Out)
-		self.registerOutPort("OutP2",self._OutP2Out)
+		self.addOutPort("OutP1",self._OutP1Out)
+		self.addOutPort("OutP2",self._OutP2Out)
 		
 		# Set service provider to Ports
 		self._svPortPort.registerProvider("acc", "MyService", self._acc)
@@ -106,8 +106,8 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 		self._cmPortPort.registerConsumer("rate", "DAQService", self._rate)
 		
 		# Set CORBA Service Ports
-		self.registerPort(self._svPortPort)
-		self.registerPort(self._cmPortPort)
+		self.addPort(self._svPortPort)
+		self.addPort(self._cmPortPort)
 		
 		return RTC.RTC_OK
 	

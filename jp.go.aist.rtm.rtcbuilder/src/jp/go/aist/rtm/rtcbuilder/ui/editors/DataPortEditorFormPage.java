@@ -367,14 +367,15 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 
 		RtcParam rtcParam = editor.getRtcParam();
 		Set<String> checkSet = new HashSet<String>(); 
+		Set<String> checkVarSet = new HashSet<String>(); 
 		
 		for(DataPortParam dataport : rtcParam.getInports()) {
-			result = checkDataPort(dataport, checkSet);
+			result = checkDataPort(dataport, checkSet, checkVarSet);
 			if( result != null) return result;
 		}
 		//
 		for(DataPortParam dataport : rtcParam.getOutports()) {
-			result = checkDataPort(dataport, checkSet);
+			result = checkDataPort(dataport, checkSet, checkVarSet);
 			if( result != null) return result;
 		}
 		
@@ -382,16 +383,22 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private String checkDataPort(DataPortParam dataport, Set checkSet) {
+	private String checkDataPort(DataPortParam dataport, Set checkSet, Set checkVarSet) {
 		String result = ValidationUtil.validateDataPort(dataport);
 		if( result!=null ) return result;
-		//èdï°
+		//ñºèÃèdï°
 		if( checkSet.contains(dataport.getName()) ) {
 			result = IMessageConstants.DATAPORT_VALIDATE_DUPLICATE;
 			return result;
 		}
-
 		checkSet.add(dataport.getName());
+		//ïœêîñºèdï°
+		if( checkVarSet.contains(dataport.getTmplVarName()) ) {
+			result = IMessageConstants.DATAPORT_VALIDATE_VAR_DUPLICATE;
+			return result;
+		}
+		checkVarSet.add(dataport.getTmplVarName());
+
 		return null;
 	}
 

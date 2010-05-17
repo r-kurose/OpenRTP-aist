@@ -55,7 +55,7 @@ RTC::ReturnCode_t test::onInitialize()
   // Registration: InPort/OutPort/Service
   // <rtc-template block="registration">
   // Set InPort buffers
-  registerInPort("InP1", m_InP1In);
+  addInPort("InP1", m_InP1In);
   
   // Set OutPort buffer
   

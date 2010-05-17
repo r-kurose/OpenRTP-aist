@@ -33,6 +33,8 @@ public class CXXDocLongTest extends TestBase {
 		rtcParam.setComponentType("STATIC2");
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
+		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion("1.0.0");
 		//
 		rtcParam.setDocCreator("Noriaki Ando <n-ando@aist.go.jp>34567894123456789512345678961234567897123456789812345");
 		rtcParam.setDocLicense("Copyright (C) 2006-2008 ƒ‰ƒCƒZƒ“ƒX12345678901234567890123456789012345678901234567890");
@@ -219,7 +221,7 @@ public class CXXDocLongTest extends TestBase {
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "\\resource\\CXX\\Doc\\fullLong\\";
+		String resourceDir = rootPath +  "\\resource\\100\\CXX\\Doc\\fullLong\\";
 
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "Makefile.foo");

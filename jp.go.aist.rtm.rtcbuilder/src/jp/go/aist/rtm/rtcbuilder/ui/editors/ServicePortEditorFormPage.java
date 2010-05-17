@@ -299,6 +299,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 
 		RtcParam rtcParam = editor.getRtcParam();
 		Set<String> checkSet = new HashSet<String>(); 
+		Set<String> checkVarSet = new HashSet<String>(); 
 		
 		for(ServicePortParam serviceport : rtcParam.getServicePorts()) {
 			result = ValidationUtil.validateServicePort(serviceport);
@@ -312,6 +313,12 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			for(ServicePortInterfaceParam ifparam : serviceport.getServicePortInterfaces()) {
 				result = ValidationUtil.validateServiceInterface(ifparam);
 				if( result!=null ) return result;
+				//
+				if( checkVarSet.contains(ifparam.getTmplVarName()) ) {
+					result = IMessageConstants.SERVICEPORT_VALIDATE_VAR_DUPLICATE;
+					return result;
+				}
+				checkVarSet.add(ifparam.getTmplVarName());
 			}
 		}
 		return null;

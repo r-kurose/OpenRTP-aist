@@ -21,8 +21,8 @@ import time
 sys.path.append(".")
 
 # Import RTM module
-import OpenRTM_aist
 import RTC
+import OpenRTM_aist
 
 # Import Service implementation class
 # <rtc-template block="service_impl">
@@ -249,12 +249,12 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 		
 		# Set InPort buffers
 #foreach($port in ${rtcParam.inports})
-		self.registerInPort("${port.name}",self._${port.name}In)
+		self.addInPort("${port.name}",self._${port.name}In)
 #end
 		
 		# Set OutPort buffers
 #foreach($port in ${rtcParam.outports})
-		self.registerOutPort("${port.name}",self._${port.name}Out)
+		self.addOutPort("${port.name}",self._${port.name}Out)
 #end
 		
 		# Set service provider to Ports
@@ -279,7 +279,7 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #if(${rtcParam.servicePorts.size()}>0)
 #foreach($servicePort in ${rtcParam.servicePorts})
 #if(${servicePort.servicePortInterfaces.size()}>0)
-		self.registerPort(self._${servicePort.name}Port)
+		self.addPort(self._${servicePort.name}Port)
 #end#end#end
 		
 		return RTC.RTC_OK

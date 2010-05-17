@@ -19,6 +19,7 @@ import jp.go.aist.rtm.RTC.port.CorbaPort;
 import org.omg.PortableServer.POAPackage.ObjectNotActive;
 import org.omg.PortableServer.POAPackage.ServantAlreadyActive;
 import org.omg.PortableServer.POAPackage.WrongPolicy;
+import RTC.ReturnCode_t;
 
 /*!
  * @class fooImpl
@@ -45,46 +46,6 @@ public class fooImpl extends DataFlowComponentBase {
         m_MyConProPort = new CorbaPort("MyConPro");
         m_MyConPro2Port = new CorbaPort("MyConPro2");
         // </rtc-template>
-
-        // Registration: InPort/OutPort/Service
-        // <rtc-template block="registration">
-        // Set InPort buffers
-        try {
-			registerInPort(TimedShort.class, "in1", m_in1In);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-        
-        // Set OutPort buffer
-        try {
-			registerOutPort(TimedLong.class, "out1", m_out1Out);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-        
-        // Set service provider to Ports
-        try {
-        	m_MySVProPort.registerProvider("myserviceP1", "MyService", m_myserviceP1);
-        	m_MySVPro2Port.registerProvider("myserviceP2", "MyService2", m_myserviceP2);
-        } catch (ServantAlreadyActive e) {
-            e.printStackTrace();
-        } catch (WrongPolicy e) {
-            e.printStackTrace();
-        } catch (ObjectNotActive e) {
-            e.printStackTrace();
-        }
-        
-        // Set service consumers to Ports
-        m_MyConProPort.registerConsumer("myservice0", "MyService", m_myservice0Base);
-        m_MyConPro2Port.registerConsumer("myservice2", "DAQService", m_myservice2Base);
-        
-        // Set CORBA Service Ports
-        registerPort(m_MySVProPort);
-        registerPort(m_MySVPro2Port);
-        registerPort(m_MyConProPort);
-        registerPort(m_MyConPro2Port);
-        
-        // </rtc-template>
     }
 
     /**
@@ -96,10 +57,32 @@ public class fooImpl extends DataFlowComponentBase {
      * 
      * 
      */
-//    @Override
-//    protected ReturnCode_t onInitialize() {
-//        return super.onInitialize();
-//    }
+    @Override
+    protected ReturnCode_t onInitialize() {
+        // Registration: InPort/OutPort/Service
+        // <rtc-template block="registration">
+        // Set InPort buffers
+        addInPort("in1", m_in1In);
+        
+        // Set OutPort buffer
+        addOutPort("out1", m_out1Out);
+        
+        // Set service provider to Ports
+        m_MySVProPort.registerProvider("myserviceP1", "MyService", m_myserviceP1);
+        m_MySVPro2Port.registerProvider("myserviceP2", "MyService2", m_myserviceP2);
+        
+        // Set service consumers to Ports
+        m_MyConProPort.registerConsumer("myservice0", "MyService", m_myservice0Base);
+        m_MyConPro2Port.registerConsumer("myservice2", "DAQService", m_myservice2Base);
+        
+        // Set CORBA Service Ports
+        addPort(m_MySVProPort);
+        addPort(m_MySVPro2Port);
+        addPort(m_MyConProPort);
+        addPort(m_MyConPro2Port);
+        // </rtc-template>
+        return super.onInitialize();
+    }
 
     /***
      *
