@@ -16,6 +16,7 @@ import jp.go.aist.rtm.RTC.port.OutPort;
 import jp.go.aist.rtm.RTC.util.DataRef;
 import jp.go.aist.rtm.RTC.port.CorbaConsumer;
 import jp.go.aist.rtm.RTC.port.CorbaPort;
+import RTC.ReturnCode_t;
 
 /*!
  * @class fooImpl
@@ -41,33 +42,6 @@ public class fooImpl extends DataFlowComponentBase {
         m_MyConPro2Port = new CorbaPort("MyConPro2");
         // </rtc-template>
 
-        // Registration: InPort/OutPort/Service
-        // <rtc-template block="registration">
-        // Set InPort buffers
-        try {
-			registerInPort(TimedShort.class, "in1", m_in1In);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-        
-        // Set OutPort buffer
-        try {
-			registerOutPort(TimedLong.class, "out1", m_out1Out);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-        
-        // Set service provider to Ports
-        
-        // Set service consumers to Ports
-        m_MyConProPort.registerConsumer("myservice0", "MyService", m_myservice0Base);
-        m_MyConPro2Port.registerConsumer("myservice2", "DAQService", m_myservice2Base);
-        
-        // Set CORBA Service Ports
-        registerPort(m_MyConProPort);
-        registerPort(m_MyConPro2Port);
-        
-        // </rtc-template>
     }
 
     /**
@@ -79,10 +53,26 @@ public class fooImpl extends DataFlowComponentBase {
      * 
      * 
      */
-//    @Override
-//    protected ReturnCode_t onInitialize() {
-//        return super.onInitialize();
-//    }
+    @Override
+    protected ReturnCode_t onInitialize() {
+        // Registration: InPort/OutPort/Service
+        // <rtc-template block="registration">
+        // Set InPort buffers
+        addInPort("in1", m_in1In);
+        
+        // Set OutPort buffer
+        addOutPort("out1", m_out1Out);
+        
+        // Set service consumers to Ports
+        m_MyConProPort.registerConsumer("myservice0", "MyService", m_myservice0Base);
+        m_MyConPro2Port.registerConsumer("myservice2", "DAQService", m_myservice2Base);
+        
+        // Set CORBA Service Ports
+        addPort(m_MyConProPort);
+        addPort(m_MyConPro2Port);
+        // </rtc-template>
+        return super.onInitialize();
+    }
 
     /***
      *

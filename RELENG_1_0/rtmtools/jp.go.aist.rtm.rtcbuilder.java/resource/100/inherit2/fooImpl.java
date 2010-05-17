@@ -14,6 +14,7 @@ import jp.go.aist.rtm.RTC.port.CorbaPort;
 import org.omg.PortableServer.POAPackage.ObjectNotActive;
 import org.omg.PortableServer.POAPackage.ServantAlreadyActive;
 import org.omg.PortableServer.POAPackage.WrongPolicy;
+import RTC.ReturnCode_t;
 
 /*!
  * @class fooImpl
@@ -32,34 +33,6 @@ public class fooImpl extends DataFlowComponentBase {
         m_MyServiceProviderPort = new CorbaPort("MyServiceProvider");
         m_MyServiceRequirePort = new CorbaPort("MyServiceRequire");
         // </rtc-template>
-
-        // Registration: InPort/OutPort/Service
-        // <rtc-template block="registration">
-        // Set InPort buffers
-        
-        // Set OutPort buffer
-        
-        // Set service provider to Ports
-        try {
-        	m_MyServiceProviderPort.registerProvider("MyServiceProvider", "MyServiceChild", m_MyServiceProvider);
-        	m_MyServiceProviderPort.registerProvider("MyServiceProvider2", "MyServiceWithTypeChild", m_MyServiceProvider2);
-        } catch (ServantAlreadyActive e) {
-            e.printStackTrace();
-        } catch (WrongPolicy e) {
-            e.printStackTrace();
-        } catch (ObjectNotActive e) {
-            e.printStackTrace();
-        }
-        
-        // Set service consumers to Ports
-        m_MyServiceRequirePort.registerConsumer("MyServiceRequire", "MyServiceChild", m_MyServiceRequireBase);
-        m_MyServiceRequirePort.registerConsumer("MyServiceRequire2", "MyServiceWithTypeChild", m_MyServiceRequire2Base);
-        
-        // Set CORBA Service Ports
-        registerPort(m_MyServiceProviderPort);
-        registerPort(m_MyServiceRequirePort);
-        
-        // </rtc-template>
     }
 
     /**
@@ -71,10 +44,25 @@ public class fooImpl extends DataFlowComponentBase {
      * 
      * 
      */
-//    @Override
-//    protected ReturnCode_t onInitialize() {
-//        return super.onInitialize();
-//    }
+    @Override
+    protected ReturnCode_t onInitialize() {
+        // Registration: InPort/OutPort/Service
+        // <rtc-template block="registration">
+        
+        // Set service provider to Ports
+        m_MyServiceProviderPort.registerProvider("MyServiceProvider", "MyServiceChild", m_MyServiceProvider);
+        m_MyServiceProviderPort.registerProvider("MyServiceProvider2", "MyServiceWithTypeChild", m_MyServiceProvider2);
+        
+        // Set service consumers to Ports
+        m_MyServiceRequirePort.registerConsumer("MyServiceRequire", "MyServiceChild", m_MyServiceRequireBase);
+        m_MyServiceRequirePort.registerConsumer("MyServiceRequire2", "MyServiceWithTypeChild", m_MyServiceRequire2Base);
+        
+        // Set CORBA Service Ports
+        addPort(m_MyServiceProviderPort);
+        addPort(m_MyServiceRequirePort);
+        // </rtc-template>
+        return super.onInitialize();
+    }
 
     /***
      *

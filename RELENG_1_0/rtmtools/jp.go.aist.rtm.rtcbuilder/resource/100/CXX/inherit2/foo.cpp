@@ -68,8 +68,8 @@ RTC::ReturnCode_t foo::onInitialize()
   m_MyServiceRequirePort.registerConsumer("MyServiceRequire2", "MyServiceWithTypeChild", m_MyServiceRequire2);
   
   // Set CORBA Service Ports
-  registerPort(m_MyServiceProviderPort);
-  registerPort(m_MyServiceRequirePort);
+  addPort(m_MyServiceProviderPort);
+  addPort(m_MyServiceRequirePort);
   
   // </rtc-template>
 

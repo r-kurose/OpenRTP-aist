@@ -25,20 +25,6 @@ public class fooImpl extends DataFlowComponentBase {
         super(manager);
         // <rtc-template block="initializer">
         // </rtc-template>
-
-        // Registration: InPort/OutPort/Service
-        // <rtc-template block="registration">
-        // Set InPort buffers
-        
-        // Set OutPort buffer
-        
-        // Set service provider to Ports
-        
-        // Set service consumers to Ports
-        
-        // Set CORBA Service Ports
-        
-        // </rtc-template>
     }
 
     /**
@@ -52,6 +38,9 @@ public class fooImpl extends DataFlowComponentBase {
      */
 //    @Override
 //    protected ReturnCode_t onInitialize() {
+        // Registration: InPort/OutPort/Service
+        // <rtc-template block="registration">
+        // </rtc-template>
 //        return super.onInitialize();
 //    }
 

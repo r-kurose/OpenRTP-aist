@@ -228,8 +228,13 @@ public class JavaGenerateManager extends GenerateManager {
 	protected List<GeneratedResult> generateRTCImplSource(Map<String, Object> contextMap, List<GeneratedResult> result) {
 		InputStream ins = null;
 
-		ins = JavaGenerateManager.class.getClassLoader()	
-			.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/java/template/Java_RTC_Impl_Source_src.template");
+		if( ((RtcParam)contextMap.get("rtcParam")).getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100) ) {
+			ins = JavaGenerateManager.class.getClassLoader()
+				.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/java/template/_100/Java_RTC_Impl_Source_src.template");
+		} else {
+			ins = JavaGenerateManager.class.getClassLoader()
+				.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/java/template/Java_RTC_Impl_Source_src.template");
+		}
 		result.add(TemplateUtil.createGeneratedResult(ins, contextMap, 
 				((RtcParam)contextMap.get("rtcParam")).getName() + "Impl.java"));
 

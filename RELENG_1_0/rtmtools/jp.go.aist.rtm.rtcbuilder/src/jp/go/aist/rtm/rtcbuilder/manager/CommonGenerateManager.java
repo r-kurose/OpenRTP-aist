@@ -36,7 +36,7 @@ public class CommonGenerateManager extends GenerateManager {
 		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
 
 		result = generateReadMe(rtcParam, result);
-		if(rtcParam.getExecutionRate() > 0.0 || rtcParam.checkConstraint()) {
+		if(rtcParam.getExecutionRate() > 0.0 || rtcParam.checkConstraint() || rtcParam.getConfigParameterParams().size()>0 ) {
 			result = generateRTCConf(rtcParam, result);				
 		}
 		result = generateCommonExtend(rtcParam, result);

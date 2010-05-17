@@ -19,6 +19,7 @@ import jp.go.aist.rtm.RTC.port.CorbaPort;
 import org.omg.PortableServer.POAPackage.ObjectNotActive;
 import org.omg.PortableServer.POAPackage.ServantAlreadyActive;
 import org.omg.PortableServer.POAPackage.WrongPolicy;
+import RTC.ReturnCode_t;
 
 /*!
  * @class fooImpl
@@ -48,42 +49,6 @@ public class fooImpl extends DataFlowComponentBase {
         m_OutP2Out = new OutPort<TimedFloat>("OutP2", m_OutP2);
         m_svPortPort = new CorbaPort("svPort");
         // </rtc-template>
-
-        // Registration: InPort/OutPort/Service
-        // <rtc-template block="registration">
-        // Set InPort buffers
-        try {
-			registerInPort(TimedShort.class, "InP1", m_InP1In);
-			registerInPort(TimedLong.class, "InP2", m_InP2In);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-        
-        // Set OutPort buffer
-        try {
-			registerOutPort(TimedLong.class, "OutP1", m_OutP1Out);
-			registerOutPort(TimedFloat.class, "OutP2", m_OutP2Out);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-        
-        // Set service provider to Ports
-        try {
-        	m_svPortPort.registerProvider("acc", "MyService", m_acc);
-        } catch (ServantAlreadyActive e) {
-            e.printStackTrace();
-        } catch (WrongPolicy e) {
-            e.printStackTrace();
-        } catch (ObjectNotActive e) {
-            e.printStackTrace();
-        }
-        
-        // Set service consumers to Ports
-        
-        // Set CORBA Service Ports
-        registerPort(m_svPortPort);
-        
-        // </rtc-template>
     }
 
     /**
@@ -95,10 +60,28 @@ public class fooImpl extends DataFlowComponentBase {
      * 
      * 
      */
-//    @Override
-//    protected ReturnCode_t onInitialize() {
-//        return super.onInitialize();
-//    }
+    @Override
+    protected ReturnCode_t onInitialize() {
+        // Registration: InPort/OutPort/Service
+        // <rtc-template block="registration">
+        // Set InPort buffers
+        addInPort("InP1", m_InP1In);
+        addInPort("InP2", m_InP2In);
+        
+        // Set OutPort buffer
+        addOutPort("OutP1", m_OutP1Out);
+        addOutPort("OutP2", m_OutP2Out);
+        
+        // Set service provider to Ports
+        m_svPortPort.registerProvider("acc", "MyService", m_acc);
+        
+        // Set service consumers to Ports
+        
+        // Set CORBA Service Ports
+        addPort(m_svPortPort);
+        // </rtc-template>
+        return super.onInitialize();
+    }
 
     /***
      *

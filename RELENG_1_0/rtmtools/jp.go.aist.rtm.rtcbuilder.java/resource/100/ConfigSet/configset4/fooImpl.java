@@ -20,32 +20,21 @@ public class fooImpl extends DataFlowComponentBase {
         super(manager);
         // <rtc-template block="initializer">
         // </rtc-template>
-
-        // Registration: InPort/OutPort/Service
-        // <rtc-template block="registration">
-        // Set InPort buffers
-        
-        // Set OutPort buffer
-        
-        // Set service provider to Ports
-        
-        // Set service consumers to Ports
-        
-        // Set CORBA Service Ports
-        
-        // </rtc-template>
     }
 
     // The initialize action (on CREATED->ALIVE transition)
     // formaer rtc_init_entry() 
     @Override
     protected ReturnCode_t onInitialize() {
+        // Registration: InPort/OutPort/Service
+        // <rtc-template block="registration">
+        // </rtc-template>
         bindParameter("int_param0", m_int_param0, "0");
         bindParameter("int_param1", m_int_param1, "1");
         bindParameter("double_param0", m_double_param0, "0.11");
         bindParameter("str_param0", m_str_param0, "“ú–{Œê");
         bindParameter("str_param1", m_str_param1, "dara");
-        return ReturnCode_t.RTC_OK;
+        return super.onInitialize();
     }
     // The finalize action (on ALIVE->END transition)
     // formaer rtc_exiting_entry()

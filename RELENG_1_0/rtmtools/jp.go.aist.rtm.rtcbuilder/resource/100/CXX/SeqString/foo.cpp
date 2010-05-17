@@ -64,7 +64,7 @@ RTC::ReturnCode_t foo::onInitialize()
   // Set service consumers to Ports
   
   // Set CORBA Service Ports
-  registerPort(m_svPortPort);
+  addPort(m_svPortPort);
   
   // </rtc-template>
 

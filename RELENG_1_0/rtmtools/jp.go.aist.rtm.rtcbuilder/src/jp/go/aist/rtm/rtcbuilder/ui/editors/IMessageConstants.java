@@ -203,6 +203,7 @@ public interface IMessageConstants {
 	public static final String DATAPORT_VALIDATE_PORTNAME2 = Messages.getString("IMessageConstants.DATAPORT_VALIDATE_PORTNAME2"); //$NON-NLS-1$
 	public static final String DATAPORT_VALIDATE_PORTTYPE = Messages.getString("IMessageConstants.DATAPORT_VALIDATE_PORTTYPE"); //$NON-NLS-1$
 	public static final String DATAPORT_VALIDATE_DUPLICATE = Messages.getString("IMessageConstants.DATAPORT_VALIDATE_DUPLICATE"); //$NON-NLS-1$
+	public static final String DATAPORT_VALIDATE_VAR_DUPLICATE = Messages.getString("IMessageConstants.DATAPORT_VALIDATE_VARÅQDUPLICATE"); //$NON-NLS-1$
 	public static final String DATAPORT_VALIDATE_PORTVARNAME = Messages.getString("IMessageConstants.DATAPORT_VALIDATE_PORTVARNAME"); //$NON-NLS-1$
 
 	public static final String SERVICEPORT_SECTION = Messages.getString("IMessageConstants.SERVICEPORT_SECTION"); //$NON-NLS-1$
@@ -237,6 +238,7 @@ public interface IMessageConstants {
 	public static final String SERVICEPORT_VALIDATE_PORTNAME1 = Messages.getString("IMessageConstants.SERVICEPORT_VALIDATE_PORTNAME1"); //$NON-NLS-1$
 	public static final String SERVICEPORT_VALIDATE_PORTNAME2 = Messages.getString("IMessageConstants.SERVICEPORT_VALIDATE_PORTNAME2"); //$NON-NLS-1$
 	public static final String SERVICEPORT_VALIDATE_DUPLICATE = Messages.getString("IMessageConstants.SERVICEPORT_VALIDATE_DUPLICATE"); //$NON-NLS-1$
+	public static final String SERVICEPORT_VALIDATE_VAR_DUPLICATE = Messages.getString("IMessageConstants.SERVICEPORT_VALIDATE_VAR_DUPLICATE"); //$NON-NLS-1$
 	public static final String SERVICEPORT_VALIDATE_IFNAME1 = Messages.getString("IMessageConstants.SERVICEPORT_VALIDATE_IFNAME1"); //$NON-NLS-1$
 	public static final String SERVICEPORT_VALIDATE_IFNAME2 = Messages.getString("IMessageConstants.SERVICEPORT_VALIDATE_IFNAME2"); //$NON-NLS-1$
 	public static final String SERVICEPORT_VALIDATE_INSTNAME1 = Messages.getString("IMessageConstants.SERVICEPORT_VALIDATE_INSTNAME1"); //$NON-NLS-1$
@@ -330,6 +332,7 @@ public interface IMessageConstants {
 	public static final String CONFIGURATION_VALIDATE_VARIABLE_P2 = Messages.getString("IMessageConstants.CONFIGURATION_VALIDATE_VARIABLE_P2"); //$NON-NLS-1$
 	public static final String CONFIGURATION_VALIDATE_VARIABLE = StringUtil.connectMessageWithSepalator( new String[]{CONFIGURATION_VALIDATE_VARIABLE_P1, CONFIGURATION_VALIDATE_VARIABLE_P2});
 	public static final String CONFIGURATION_VALIDATE_DUPLICATE = Messages.getString("IMessageConstants.CONFIGURATION_VALIDATE_DUPLICATE"); //$NON-NLS-1$
+	public static final String CONFIGURATION_VALIDATE_VAR_DUPLICATE = Messages.getString("IMessageConstants.CONFIGURATION_VALIDATE_VAR_DUPLICATE"); //$NON-NLS-1$
 
 	public static final String CONFIGURATION_VALIDATE_RADIO = Messages.getString("IMessageConstants.CONFIGURATION_VALIDATE_RADIO"); //$NON-NLS-1$
 	public static final String CONFIGURATION_VALIDATE_RADIO_DUPRICATE = Messages.getString("IMessageConstants.CONFIGURATION_VALIDATE_RADIO_DUPLICATE"); //$NON-NLS-1$

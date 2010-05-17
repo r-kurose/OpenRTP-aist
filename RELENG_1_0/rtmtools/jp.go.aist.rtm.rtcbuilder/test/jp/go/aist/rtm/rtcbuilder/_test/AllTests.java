@@ -10,7 +10,7 @@ import jp.go.aist.rtm.rtcbuilder._test._100.CXXBasicTest;
 import jp.go.aist.rtm.rtcbuilder._test._100.CXXConfigSetTest;
 import jp.go.aist.rtm.rtcbuilder._test._100.CXXConstraint;
 import jp.go.aist.rtm.rtcbuilder._test._100.CXXDocLongTest;
-import jp.go.aist.rtm.rtcbuilder._test._100.CXXDocTest;
+import jp.go.aist.rtm.rtcbuilder._test._100.CXX042DocTest;
 import jp.go.aist.rtm.rtcbuilder._test._100.CXXExCxtTest;
 import jp.go.aist.rtm.rtcbuilder._test._100.CXXIDLInheritTest;
 import jp.go.aist.rtm.rtcbuilder._test._100.CXXIDLPathTest;
@@ -54,7 +54,7 @@ public class AllTests {
 		suite.addTestSuite(StringUtilTest.class);
 		//CXX
 		suite.addTestSuite(CXXDocLongTest.class);
-		suite.addTestSuite(CXXDocTest.class);
+		suite.addTestSuite(CXX042DocTest.class);
 		suite.addTestSuite(CXXExCxtTest.class);
 		suite.addTestSuite(CXXIDLPathTest.class);
 		suite.addTestSuite(CXXImplTest.class);

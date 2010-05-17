@@ -25,7 +25,8 @@ static const char* foo_spec[] =
     "version",           "1.0.1",
     "vendor",            "TA",
     "category",          "Manip",
-    "activity_type",     "STATIC2",
+    "activity_type",     "PERIODIC2",
+    "kind",              "DataFlowComponent",
     "max_instance",      "5",
     "language",          "C++",
     "lang_type",         "compile",
@@ -35,6 +36,8 @@ static const char* foo_spec[] =
     "conf.default.double_param0", "0.11",
     "conf.default.str_param0", "hoge",
     "conf.default.str_param1", "dara",
+    // Widget
+    // Constraints
     ""
   };
 // </rtc-template>
@@ -44,38 +47,17 @@ static const char* foo_spec[] =
  * @param manager Maneger Object
  */
 foo::foo(RTC::Manager* manager)
-  : RTC::DataFlowComponentBase(manager),
     // <rtc-template block="initializer">
+  : RTC::DataFlowComponentBase(manager),
     m_InName1In("InP1", m_InName1),
     m_InNm2In("InP2", m_InNm2),
     m_OutName1Out("OutP1", m_OutName1),
     m_OutNme2Out("OutP2", m_OutNme2),
-    m_svPortPort("svPort"),m_cmPortPort("cmPort"),
-    // </rtc-template>
-	dummy(0)
-{
-  // Registration: InPort/OutPort/Service
-  // <rtc-template block="registration">
-  // Set InPort buffers
-  registerInPort("InP1", m_InName1In);
-  registerInPort("InP2", m_InNm2In);
-  
-  // Set OutPort buffer
-  registerOutPort("OutP1", m_OutName1Out);
-  registerOutPort("OutP2", m_OutNme2Out);
-  
-  // Set service provider to Ports
-  m_svPortPort.registerProvider("acc", "MyService", m_acc);
-  
-  // Set service consumers to Ports
-  m_cmPortPort.registerConsumer("rate", "DAQService", m_rate);
-  
-  // Set CORBA Service Ports
-  registerPort(m_svPortPort);
-  registerPort(m_cmPortPort);
-  
-  // </rtc-template>
+    m_svPortPort("svPort"),
+    m_cmPortPort("cmPort")
 
+    // </rtc-template>
+{
 }
 
 /*!
@@ -92,6 +74,28 @@ foo::~foo()
  */
 RTC::ReturnCode_t foo::onInitialize()
 {
+  // Registration: InPort/OutPort/Service
+  // <rtc-template block="registration">
+  // Set InPort buffers
+  addInPort("InP1", m_InName1In);
+  addInPort("InP2", m_InNm2In);
+  
+  // Set OutPort buffer
+  addOutPort("OutP1", m_OutName1Out);
+  addOutPort("OutP2", m_OutNme2Out);
+  
+  // Set service provider to Ports
+  m_svPortPort.registerProvider("acc", "MyService", m_acc);
+  
+  // Set service consumers to Ports
+  m_cmPortPort.registerConsumer("rate", "DAQService", m_rate);
+  
+  // Set CORBA Service Ports
+  addPort(m_svPortPort);
+  addPort(m_cmPortPort);
+  
+  // </rtc-template>
+
   // <rtc-template block="bind_config">
   // Bind variables and configuration variable
   bindParameter("int_param0", m_int_param0, "0");
@@ -232,7 +236,7 @@ extern "C"
  
   void fooInit(RTC::Manager* manager)
   {
-    RTC::Properties profile(foo_spec);
+    coil::Properties profile(foo_spec);
     manager->registerFactory(profile,
                              RTC::Create<foo>,
                              RTC::Delete<foo>);

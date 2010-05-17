@@ -13,8 +13,8 @@ import time
 sys.path.append(".")
 
 # Import RTM module
-import OpenRTM_aist
 import RTC
+import OpenRTM_aist
 
 # Import Service implementation class
 # <rtc-template block="service_impl">
@@ -79,7 +79,7 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 		# Bind variables and configuration variable
 		
 		# Set InPort buffers
-		self.registerInPort("InP1",self._InP1In)
+		self.addInPort("InP1",self._InP1In)
 		
 		# Set OutPort buffers
 		
