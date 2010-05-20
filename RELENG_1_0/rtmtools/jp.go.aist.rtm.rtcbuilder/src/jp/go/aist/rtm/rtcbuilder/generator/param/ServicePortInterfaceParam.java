@@ -126,6 +126,13 @@ public class ServicePortInterfaceParam extends AbstractRecordedParam implements
 	public String getInterfaceType() {
 		return interfacetype;
 	}
+	public String getInterfaceRawType() {
+		if(interfacetype.contains("::")) {
+			String[] elem = interfacetype.split("::");
+			return elem[elem.length-1];
+		}
+		return interfacetype;
+	}
 	public String getIdlSearchPath() {
 		return idlSearchPath;
 	}

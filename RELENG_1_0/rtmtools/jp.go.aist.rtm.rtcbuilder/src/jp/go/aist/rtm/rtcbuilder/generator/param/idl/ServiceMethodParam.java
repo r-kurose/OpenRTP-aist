@@ -12,6 +12,7 @@ public class ServiceMethodParam implements Serializable {
 	
 	private String type;
 	private String name;
+	private String module;
 	private boolean isSequence;
 
 	private List<ServiceArgumentParam> arguments = new ArrayList<ServiceArgumentParam>();
@@ -38,7 +39,13 @@ public class ServiceMethodParam implements Serializable {
 	public void setType(String methodType) {
 		this.type = methodType;
 	}
-
+	public String getModule() {
+		return module;
+	}
+	public void setModule(String module) {
+		this.module = module;
+	}
+	
 	public List<ServiceArgumentParam> getArguments() {
 		return arguments;
 	}

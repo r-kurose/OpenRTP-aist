@@ -12,10 +12,10 @@
  
 /*!
  * @class MyServiceSVC_impl
- * Example class implementing IDL interface Test::MyService
+ * Example class implementing IDL interface SimpleService::MyService
  */
 class MyServiceSVC_impl
- : public virtual POA_Test::MyService,
+ : public virtual POA_SimpleService::MyService,
    public virtual PortableServer::RefCountServantBase
 {
  private:
@@ -35,10 +35,10 @@ class MyServiceSVC_impl
 
    // attributes and operations
    char* echo(const char* msg);
-   Test::EchoList* get_echo_history();
+   SimpleService::EchoList* get_echo_history();
    void set_value(CORBA::Float value);
    CORBA::Float get_value();
-   Test::ValueList* get_value_history();
+   SimpleService::ValueList* get_value_history();
 
 };
 

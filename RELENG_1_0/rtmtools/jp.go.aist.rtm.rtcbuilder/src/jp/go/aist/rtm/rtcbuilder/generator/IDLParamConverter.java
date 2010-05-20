@@ -68,6 +68,7 @@ public class IDLParamConverter {
 
 				final ServiceClassParam service = new ServiceClassParam();
 				service.setIdlPath(idlPath);
+				service.setModule(getModuleName(n));
 				service.setName(getModuleName(n) + interfaceInfomation.name);
 				service.getSuperInterfaceList().addAll(interfaceInfomation.superInterfaceList);
 
@@ -78,6 +79,7 @@ public class IDLParamConverter {
 						serviceMethodParam
 								.setName(n.identifier.nodeToken.tokenImage);
 						serviceMethodParam.setType(node2String(n.op_type_spec));
+						serviceMethodParam.setModule(service.getModule());
 
 						n.parameter_dcls.accept(new GJVoidDepthFirst() {
 							@Override

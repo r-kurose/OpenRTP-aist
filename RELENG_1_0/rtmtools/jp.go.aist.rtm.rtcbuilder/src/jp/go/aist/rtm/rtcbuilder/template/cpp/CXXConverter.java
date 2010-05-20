@@ -149,6 +149,9 @@ public class CXXConverter {
 			if( !typeDef.getType().contains("::") && typeDef.isSequence()) {
 				result = result + "*";
 			}
+			if(typeDef.getModule()!=null && typeDef.getModule().length()>0) {
+				result = typeDef.getModule() + result;
+			}
 		}
 		return result;
 	}

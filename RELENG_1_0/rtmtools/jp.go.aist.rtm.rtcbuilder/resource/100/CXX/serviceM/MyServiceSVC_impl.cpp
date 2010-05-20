@@ -8,7 +8,7 @@
 #include "MyServiceSVC_impl.h"
 
 /*
- * Example implementational code for IDL interface Test::MyService
+ * Example implementational code for IDL interface SimpleService::MyService
  */
 MyServiceSVC_impl::MyServiceSVC_impl()
 {
@@ -28,31 +28,45 @@ MyServiceSVC_impl::~MyServiceSVC_impl()
 char* MyServiceSVC_impl::echo(const char* msg)
 {
   // Please insert your code here and remove the following warning pragma
+#ifndef WIN32
   #warning "Code missing in function <char* MyServiceSVC_impl::echo(const char* msg)>"
+#endif
+  return 0;
 }
 
-Test::EchoList* MyServiceSVC_impl::get_echo_history()
+SimpleService::EchoList* MyServiceSVC_impl::get_echo_history()
 {
   // Please insert your code here and remove the following warning pragma
-  #warning "Code missing in function <Test::EchoList* MyServiceSVC_impl::get_echo_history()>"
+#ifndef WIN32
+  #warning "Code missing in function <SimpleService::EchoList* MyServiceSVC_impl::get_echo_history()>"
+#endif
+  return 0;
 }
 
 void MyServiceSVC_impl::set_value(CORBA::Float value)
 {
   // Please insert your code here and remove the following warning pragma
+#ifndef WIN32
   #warning "Code missing in function <void MyServiceSVC_impl::set_value(CORBA::Float value)>"
+#endif
 }
 
 CORBA::Float MyServiceSVC_impl::get_value()
 {
   // Please insert your code here and remove the following warning pragma
+#ifndef WIN32
   #warning "Code missing in function <CORBA::Float MyServiceSVC_impl::get_value()>"
+#endif
+  return 0;
 }
 
-Test::ValueList* MyServiceSVC_impl::get_value_history()
+SimpleService::ValueList* MyServiceSVC_impl::get_value_history()
 {
   // Please insert your code here and remove the following warning pragma
-  #warning "Code missing in function <Test::ValueList* MyServiceSVC_impl::get_value_history()>"
+#ifndef WIN32
+  #warning "Code missing in function <SimpleService::ValueList* MyServiceSVC_impl::get_value_history()>"
+#endif
+  return 0;
 }
 
 
