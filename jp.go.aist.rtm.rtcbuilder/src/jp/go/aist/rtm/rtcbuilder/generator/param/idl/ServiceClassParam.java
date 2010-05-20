@@ -18,6 +18,7 @@ public class ServiceClassParam implements Serializable {
 	
 	private String name;
 	private String idlPath;
+	private String module;
 	private List<ServiceMethodParam> methods = new ArrayList<ServiceMethodParam>();
 	private RtcParam parent;
 	private Map<String,String> typeDef = new HashMap<String,String>();
@@ -43,6 +44,14 @@ public class ServiceClassParam implements Serializable {
 		this.name = serviceName;
 	}
 
+	public String getModule() {
+		return module;
+	}
+	
+	public void setModule(String module) {
+		this.module = module;
+	}
+	
 	public RtcParam getParent() {
 		return parent;
 	}

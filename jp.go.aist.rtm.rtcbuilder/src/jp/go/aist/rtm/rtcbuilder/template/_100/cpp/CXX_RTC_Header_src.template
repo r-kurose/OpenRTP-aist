@@ -443,7 +443,7 @@ class ${rtcParam.name}
 #if(${serviceInterface.docPostCondition.length()}>0)   * - PostCondition: ${tmpltHelper.convertInterfaceDetailDoc(${serviceInterface.docPostCondition})}
 #end
    */
-  ${serviceInterface.interfaceType}${tmpltHelper.serviceImplSuffix} ${rtcParam.commonPrefix}${rtcParam.serviceIFPrefix}${serviceInterface.tmplVarName}${rtcParam.serviceIFSuffix}${rtcParam.commonSuffix};
+  ${serviceInterface.interfaceRawType}${tmpltHelper.serviceImplSuffix} ${rtcParam.commonPrefix}${rtcParam.serviceIFPrefix}${serviceInterface.tmplVarName}${rtcParam.serviceIFSuffix}${rtcParam.commonSuffix};
 #end#end#end#end#end
   
   // </rtc-template>
