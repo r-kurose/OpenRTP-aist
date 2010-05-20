@@ -1,7 +1,6 @@
 package jp.go.aist.rtm.toolscommon.util;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
@@ -31,25 +30,22 @@ import org.openrtp.namespaces.rtc.version02.RtcProfile;
  */
 public class RTCConfigurationParser {
 	private ConfigurationSet activeSet = createConfigurationSet("default");
-	private ConfigurationSet constraints = createConfigurationSet("_default");
-	private ConfigurationSet widgets = createConfigurationSet("_widget_");
-	private String name;	// 現在設定中のコンフィグカラム名
+	private ConfigurationSet constraints = createConfigurationSet("__constraints__");
+	private ConfigurationSet widgets = createConfigurationSet("__widget__");
 
-	@SuppressWarnings("unchecked")
 	public List<ConfigurationSet> parse(RtcProfile profile) {
-		if (profile == null) return null;
-		if( profile.getConfigurationSet().getConfiguration().isEmpty() ) return null;
-		
-		for( Iterator iterator = profile.getConfigurationSet().getConfiguration().iterator(); iterator.hasNext(); ) {
-			Configuration config = (Configuration)iterator.next();
-			name = config.getName();
-			
-			parseConstraint(config.getConstraint());
-			parseWidget(config);
-			
-			activeSet.getConfigurationData().add(createNameValue(config.getDefaultValue()));
+		if (profile == null)
+			return null;
+		if (profile.getConfigurationSet().getConfiguration().isEmpty())
+			return null;
+		for (Configuration config : profile.getConfigurationSet()
+				.getConfiguration()) {
+			String name = config.getName();
+			parseConstraint(name, config.getConstraint());
+			parseWidget(name, config);
+			activeSet.getConfigurationData().add(
+					createNameValue(name, config.getDefaultValue()));
 		}
-		
 		List<ConfigurationSet> result = new ArrayList<ConfigurationSet>();
 		result.add(activeSet);
 		result.add(constraints);
@@ -57,39 +53,44 @@ public class RTCConfigurationParser {
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
-	private void parseWidget(Configuration config) {
-		if (!(config instanceof ConfigurationExt)) return;
-		ConfigurationExt configExt = (ConfigurationExt)config;
+	private void parseWidget(String name, Configuration config) {
+		if (!(config instanceof ConfigurationExt))
+			return;
+		ConfigurationExt configExt = (ConfigurationExt) config;
 		for (Property property : configExt.getProperties()) {
-			if (property.getName().equals("_widget_")) {
-				widgets.getConfigurationData().add(createNameValue(property.getValue()));
+			if (property.getName().equals("__widget__")) {
+				widgets.getConfigurationData().add(
+						createNameValue(name, property.getValue()));
 				return;
 			}
 		}
 	}
 
-	private NameValue createNameValue(String value) {
+	private NameValue createNameValue(String name, String value) {
 		NameValue nv = ComponentFactory.eINSTANCE.createNameValue();
 		nv.setName(name);
 		nv.setValue(value);
 		return nv;
 	}
 
-	private void parseConstraint(ConstraintType constraint) {
-		if (constraint == null) return;
+	private void parseConstraint(String name, ConstraintType constraint) {
+		if (constraint == null)
+			return;
 		String value = parseConstraintUnit(constraint.getConstraintUnitType());
-		if (addConstraint(value))return;
+		if (addConstraint(name, value))
+			return;
 		value = parseConstraintList(constraint.getConstraintListType());
-		if (addConstraint(value))return;
+		if (addConstraint(name, value))
+			return;
 		value = parseConstraintHash(constraint.getConstraintHashType());
-		if (addConstraint(value))return;
+		if (addConstraint(name, value))
+			return;
 	}
 
-	@SuppressWarnings("unchecked")
-	private boolean addConstraint(String value) {
-		if (value == null) return false;
-		constraints.getConfigurationData().add(createNameValue(value));
+	private boolean addConstraint(String name, String value) {
+		if (value == null)
+			return false;
+		constraints.getConfigurationData().add(createNameValue(name, value));
 		return true;
 	}
 

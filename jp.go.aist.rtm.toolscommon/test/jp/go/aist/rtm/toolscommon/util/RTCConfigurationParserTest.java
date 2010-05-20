@@ -36,8 +36,8 @@ public class RTCConfigurationParserTest {
 		List<ConfigurationSet> result = parser.parse(setupRtcProfile());
 		assertEquals(3, result.size());
 		verifyActiveset(parser.getActiveConfigurationSet());
-		verifyConstraints(find(result, "_default"));
-		verifyWidgets(find(result, "_widget_"));
+		verifyConstraints(find(result, "__constraints__"));
+		verifyWidgets(find(result, "__widget__"));
 	}
 
 	private void verifyWidgets(ConfigurationSet set) {
@@ -116,7 +116,7 @@ public class RTCConfigurationParserTest {
 		config.setName("config2");
 		config.setDefaultValue("Sample");
 		config.setConstraint(setupConstraint2());
-		config.getProperties().add(createProperty("_widget_", "radio"));
+		config.getProperties().add(createProperty("__widget__", "radio"));
 		return config;
 	}
 	private Configuration setupConfig3() {
@@ -131,7 +131,7 @@ public class RTCConfigurationParserTest {
 		config.setName("int_param1");
 		config.setDefaultValue("0");
 		config.setConstraint(setupConstraint4());
-		config.getProperties().add(createProperty("_widget_", "slider.10"));
+		config.getProperties().add(createProperty("__widget__", "slider.10"));
 		return config;
 	}
 	private Configuration setupConfig5() {
@@ -139,7 +139,7 @@ public class RTCConfigurationParserTest {
 		config.setName("vector_param0");
 		config.setDefaultValue("1,2,3,4,5");
 		config.setConstraint(setupConstraint5());
-		config.getProperties().add(createProperty("_widget_", "slider.10, spin, slider, spin"));
+		config.getProperties().add(createProperty("__widget__", "slider.10, spin, slider, spin"));
 		return config;
 	}
 	private Configuration setupConfig6() {
@@ -147,7 +147,7 @@ public class RTCConfigurationParserTest {
 		config.setName("hash_param1");
 		config.setDefaultValue("{key0:one, key1:5.0}");
 		config.setConstraint(setupConstraint6());
-		config.getProperties().add(createProperty("_widget_", "{key0:radio, key1:spin}"));
+		config.getProperties().add(createProperty("__widget__", "{key0:radio, key1:spin}"));
 		return config;
 	}
 	private Configuration setupConfig7() {

@@ -75,7 +75,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 
 	private TabItem currentTabItem;
 	
-	private Label errorLabel;
+	Text errorText;
 
 	public ConfigurationDialog(ConfigurationView view) {
 		super(view.getSite().getShell());
@@ -105,6 +105,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		Composite mainComposite = (Composite) super.createDialogArea(parent);
 
 		GridLayout gl;
+		GridData gd;
 		gl = new GridLayout();
 		mainComposite.setLayout(gl);
 		mainComposite.setFont(parent.getFont());
@@ -112,15 +113,16 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		createTabFolder(mainComposite);
 
 		// 制約エラー表示領域を追加 2009.12.09
-		errorLabel = new Label(mainComposite, SWT.SINGLE);
-		GridData errorLabelGd = new GridData();
-		errorLabelGd.horizontalAlignment = GridData.BEGINNING;
-		errorLabelGd.grabExcessHorizontalSpace = true;
-		errorLabelGd.widthHint = 200;
-		errorLabelGd.heightHint = 50;
-		errorLabel.setLayoutData(errorLabelGd);
-		
-		GridData gd = new GridData();
+		gd = new GridData();
+		errorText = new Text(mainComposite, SWT.MULTI | SWT.V_SCROLL);
+		errorText.setEditable(false);
+		gd.horizontalAlignment = GridData.FILL;
+		gd.verticalAlignment = GridData.FILL;
+		gd.grabExcessHorizontalSpace = true;
+		gd.heightHint = 50;
+		errorText.setLayoutData(gd);
+
+		gd = new GridData();
 		gd.horizontalAlignment = GridData.END;
 		gd.grabExcessHorizontalSpace = true;
 
@@ -687,17 +689,21 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		// 制約条件チェック
 		List<String> validateErrors = checkConstraints();
 		if (validateErrors.size() > 0) {
+			String msg = "";
+			for (String s : validateErrors) {
+				msg += "- " + s + "\n";
+			}
 			// 即時適用時にはエラーダイアログを出さない 2009.
-			if (isApply){
-				errorLabel.setText(Messages.getString("ConfigurationDialog.21") //$NON-NLS-1$ //$NON-NLS-2$
-						+ validateErrors.toString());
+			if (isApply) {
+				errorText.setText(Messages.getString("ConfigurationDialog.21")
+						+ msg);
 			} else {
 				MessageDialog.openWarning(getShell(), Messages.getString("ConfigurationDialog.20"), Messages.getString("ConfigurationDialog.21") //$NON-NLS-1$ //$NON-NLS-2$
-					+ validateErrors.toString());
+					+ msg);
 			}
 			return false;
 		}
-		errorLabel.setText("");
+		errorText.setText("");
 		// 設定値保存
 		List<ConfigurationSetConfigurationWrapper> origSetList = view.getComponentConfig()
 				.getConfigurationSetList();
@@ -797,7 +803,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		ConfigurationCondition cc = wd.getCondition();
 		String value = wd.getValue();
 		if (!cc.validate(value)) {
-			validateErrors.add(paramName + "(" + cc + ":" + value + ")\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			validateErrors.add(paramName + "(" + cc + ":" + value + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 	}
 
