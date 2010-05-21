@@ -80,6 +80,8 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 	Button addButton;
 	Button deleteButton;
 
+	Point defaultDialogSize;
+
 	private ConnectorProfile connectorProfile;
 	private ConnectorProfile dialogResult;
 
@@ -228,9 +230,10 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 		gl.marginTop = 0;
 		gl.marginWidth = 0;
 		portProfileEditComposite.setLayout(gl);
-		portProfileEditComposite
-				.setLayoutData(new GridData(GridData.FILL_BOTH));
-
+		gd = new GridData();
+		gd.horizontalAlignment = GridData.FILL;
+		gd.grabExcessHorizontalSpace = true;
+		portProfileEditComposite.setLayoutData(gd);
 
 		Label name = new Label(portProfileEditComposite, SWT.NONE);
 		name.setText(Messages.getString("ServiceConnectorCreaterDialog.5")); //$NON-NLS-1$
@@ -263,6 +266,13 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 					createDetailComposite(mainComposite);
 				}
 				detailComposite.setVisible(selection);
+				if (!selection) {
+					// 詳細チェック解除時に、元のダイアログのサイズに戻す
+					getShell().setSize(defaultDialogSize);
+				} else {
+					getShell().setSize(
+							getShell().computeSize(SWT.DEFAULT, SWT.DEFAULT));
+				}
 			}
 		});
 
@@ -372,6 +382,7 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 
 		loadDetailData();
 
+		defaultDialogSize = getShell().getSize();
 		getShell().setSize(getShell().computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
 		return detailComposite;
