@@ -84,6 +84,8 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 
 	Composite detailComposite;
 
+	Point defaultDialogSize;
+
 	private ConnectorProfile connectorProfile;
 
 	private ConnectorProfile dialogResult;
@@ -169,8 +171,10 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 		gl.marginRight = 0;
 		gl.marginTop = 0;
 		gl.marginWidth = 0;
-		gd = new GridData(GridData.FILL_BOTH);
 		portProfileEditComposite.setLayout(gl);
+		gd = new GridData();
+		gd.horizontalAlignment = GridData.FILL;
+		gd.grabExcessHorizontalSpace = true;
 		portProfileEditComposite.setLayoutData(gd);
 
 		int style;
@@ -384,6 +388,13 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 					disableNotify = false;
 				}
 				detailComposite.setVisible(selection);
+				if (!selection) {
+					// 詳細チェック解除時に、元のダイアログのサイズに戻す
+					getShell().setSize(defaultDialogSize);
+				} else {
+					getShell().setSize(
+							getShell().computeSize(SWT.DEFAULT, SWT.DEFAULT));
+				}
 			}
 		});
 
@@ -412,6 +423,7 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 
 		loadDetailData();
 
+		defaultDialogSize = getShell().getSize();
 		getShell().setSize(getShell().computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
 		return detailComposite;
