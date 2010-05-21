@@ -86,11 +86,11 @@ public class PyIDLInheritTest extends TestBase {
 		String resourceDir = fixturePath(name) + "\\";
 
 		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
-		checkCode(result, resourceDir, "MyServiceChildMulti_idl.py");
 		checkCode(result, resourceDir, "MyServiceChildMulti_idl_example.py");
 		checkCode(result, resourceDir, "README.foo");
+//		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
+//		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
+//		checkCode(result, resourceDir, "MyServiceChildMulti_idl.py");
 	}
 
 	public void testInherit2() throws Exception {
@@ -135,13 +135,13 @@ public class PyIDLInheritTest extends TestBase {
 		String resourceDir = fixturePath(name) + "\\";
 
 		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
-		checkCode(result, resourceDir, "MyServiceChildMulti_idl.py");
 		checkCode(result, resourceDir, "MyServiceChildMulti_idl_example.py");
-		checkCode(result, resourceDir, "MyServiceChildWithType_idl.py");
 		checkCode(result, resourceDir, "MyServiceChildWithType_idl_example.py");
 		checkCode(result, resourceDir, "README.foo");
+//		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
+//		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
+//		checkCode(result, resourceDir, "MyServiceChildMulti_idl.py");
+//		checkCode(result, resourceDir, "MyServiceChildWithType_idl.py");
 	}
 
 }

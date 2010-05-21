@@ -50,6 +50,13 @@ import jp.go.aist.rtm.RTC.util.${type};
 #if( ${javaConv.useReturnCode(${rtcParam})} )
 import RTC.ReturnCode_t;
 #end
+#if(${rtcParam.servicePorts.size()}>0)
+#foreach($servicePort in ${rtcParam.servicePorts})
+#if(${servicePort.servicePortInterfaces.size()}>0)
+#foreach($serviceInterface in ${servicePort.servicePortInterfaces})
+#if(${serviceInterface.index}==1)
+#if(${tmpltHelper.isModule(${serviceInterface.interfaceType})})import ${tmpltHelper.convFormat(${serviceInterface.interfaceType})};
+#end#end#end#end#end#end
 
 /*!
  * @class ${rtcParam.name}Impl
@@ -138,12 +145,20 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
         
         // Set service provider to Ports
 #if(${rtcParam.servicePorts.size()}>0)
+        try {
 #foreach($servicePort in ${rtcParam.servicePorts})
 #if(${servicePort.servicePortInterfaces.size()}>0)
 #foreach($serviceInterface in ${servicePort.servicePortInterfaces})
 #if(${serviceInterface.index}==0)
-        m_${servicePort.name}Port.registerProvider("${serviceInterface.name}", "${serviceInterface.interfaceType}", m_${serviceInterface.tmplVarName});
+        	m_${servicePort.name}Port.registerProvider("${serviceInterface.name}", "${tmpltHelper.convFormat(${serviceInterface.interfaceType})}", m_${serviceInterface.tmplVarName});
 #end#end#end#end#end
+        } catch (ServantAlreadyActive e) {
+            e.printStackTrace();
+        } catch (WrongPolicy e) {
+            e.printStackTrace();
+        } catch (ObjectNotActive e) {
+            e.printStackTrace();
+        }
 #end
 #if(${rtcParam.servicePorts.size()}>0)
         
@@ -152,7 +167,7 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #if(${servicePort.servicePortInterfaces.size()}>0)
 #foreach($serviceInterface in ${servicePort.servicePortInterfaces})
 #if(${serviceInterface.index}==1)
-        m_${servicePort.name}Port.registerConsumer("${serviceInterface.name}", "${serviceInterface.interfaceType}", m_${serviceInterface.tmplVarName}Base);
+        m_${servicePort.name}Port.registerConsumer("${serviceInterface.name}", "${tmpltHelper.convFormat(${serviceInterface.interfaceType})}", m_${serviceInterface.tmplVarName}Base);
 #end#end#end#end#end
 #if(${rtcParam.servicePorts.size()}>0)
         
@@ -528,7 +543,7 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #if(${serviceInterface.docPostCondition.length()}>0)     * - PostCondition: ${tmpltHelperJava.convertInterfaceDetailDocJava(${serviceInterface.docPostCondition})}
 #end
      */
-    protected ${serviceInterface.interfaceType}${tmpltHelper.serviceImplSuffix} m_${serviceInterface.tmplVarName} = new ${serviceInterface.interfaceType}${tmpltHelper.serviceImplSuffix}();
+    protected ${serviceInterface.interfaceRawType}${tmpltHelper.serviceImplSuffix} m_${serviceInterface.tmplVarName} = new ${serviceInterface.interfaceRawType}${tmpltHelper.serviceImplSuffix}();
 #end#end#end#end#end
     
     // </rtc-template>
@@ -540,7 +555,7 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #if(${servicePort.servicePortInterfaces.size()}>0)
 #foreach($serviceInterface in ${servicePort.servicePortInterfaces})
 #if(${serviceInterface.index}==1)
-    protected CorbaConsumer<${serviceInterface.interfaceType}> m_${serviceInterface.tmplVarName}Base = new CorbaConsumer<${serviceInterface.interfaceType}>(${serviceInterface.interfaceType}.class);
+    protected CorbaConsumer<${serviceInterface.interfaceRawType}> m_${serviceInterface.tmplVarName}Base = new CorbaConsumer<${serviceInterface.interfaceRawType}>(${serviceInterface.interfaceRawType}.class);
     /*!
 #if(${serviceInterface.docDescription.length()}>0)     * ${tmpltHelperJava.convertDescDocJava(${serviceInterface.docDescription})}
 #end
@@ -555,7 +570,7 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #if(${serviceInterface.docPostCondition.length()}>0)     * - PostCondition: ${tmpltHelperJava.convertInterfaceDetailDocJava(${serviceInterface.docPostCondition})}
 #end
      */
-    protected ${serviceInterface.interfaceType} m_${serviceInterface.tmplVarName};
+    protected ${serviceInterface.interfaceRawType} m_${serviceInterface.tmplVarName};
 #end#end#end#end#end
     
     // </rtc-template>

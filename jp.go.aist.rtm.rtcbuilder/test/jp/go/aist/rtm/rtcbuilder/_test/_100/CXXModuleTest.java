@@ -7,7 +7,6 @@ import jp.go.aist.rtm.rtcbuilder.Generator;
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder._test.TestBase;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
-import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
@@ -25,7 +24,7 @@ public class CXXModuleTest extends TestBase {
 		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
 	}
 
-	public void testServicePort1() throws Exception{
+	public void testProvModule() throws Exception{
 		rtcParam.setName("foo");
 		rtcParam.setDescription("ModuleDescription");
 		rtcParam.setVersion("1.0.0");
@@ -60,6 +59,53 @@ public class CXXModuleTest extends TestBase {
 		checkCode(result, resourceDir, "foo.cpp");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.h");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.cpp");
+		checkCode(result, resourceDir, "README.foo");
+		//
+		checkCode(result, resourceDir, "foo_vc8.sln");
+		checkCode(result, resourceDir, "foo_vc8.vcproj");
+		checkCode(result, resourceDir, "fooComp_vc8.vcproj");
+		checkCode(result, resourceDir, "foo_vc9.sln");
+		checkCode(result, resourceDir, "foo_vc9.vcproj");
+		checkCode(result, resourceDir, "fooComp_vc9.vcproj");
+		//
+		checkCode(result, resourceDir, "copyprops.bat");
+		checkCode(result, resourceDir, "user_config.vsprops");
+		//
+	}
+	
+	public void testConModule() throws Exception{
+		rtcParam.setName("foo");
+		rtcParam.setDescription("ModuleDescription");
+		rtcParam.setVersion("1.0.0");
+		rtcParam.setVender("VenderName");
+		rtcParam.setCategory("Category");
+		rtcParam.setComponentType("STATIC");
+		rtcParam.setActivityType("PERIODIC");
+		rtcParam.setMaxInstance(1);
+		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion("1.0.0");
+		rtcParam.setIsTest(true);
+		genParam.getRtcParams().add(rtcParam);
+
+		ServicePortParam service1 = new ServicePortParam("sv_name",0);
+		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
+		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "if_name", "", "", 
+				rootPath + "\\resource\\100\\CXX\\serviceCon\\MyService.idl", "SimpleService::MyService", "", 1);
+		srvinterts.add(int1);
+		service1.getServicePortInterfaces().addAll(srvinterts);
+		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
+		srvports.add(service1);
+		rtcParam.getServicePorts().addAll(srvports);
+		
+		Generator generator = new Generator();
+		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
+
+		String resourceDir = rootPath +  "\\resource\\100\\CXX\\serviceCon\\";
+
+		checkCode(result, resourceDir, "fooComp.cpp");
+		checkCode(result, resourceDir, "Makefile.foo");
+		checkCode(result, resourceDir, "foo.h");
+		checkCode(result, resourceDir, "foo.cpp");
 		checkCode(result, resourceDir, "README.foo");
 		//
 		checkCode(result, resourceDir, "foo_vc8.sln");

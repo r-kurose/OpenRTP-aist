@@ -17,7 +17,7 @@
 
 	<target name="idlcompile"  depends="mkdir">
 		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-fall MyServiceType1.idl"/>
+			<arg line="-fall 'MyServiceType1.idl'"/>
 		</exec>
 	</target>
 

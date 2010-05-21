@@ -75,7 +75,15 @@ public class fooImpl extends DataFlowComponentBase {
         addOutPort("OutP2", m_OutP2Out);
         
         // Set service provider to Ports
-        m_svPortPort.registerProvider("acc", "MyService", m_acc);
+        try {
+        	m_svPortPort.registerProvider("acc", "MyService", m_acc);
+        } catch (ServantAlreadyActive e) {
+            e.printStackTrace();
+        } catch (WrongPolicy e) {
+            e.printStackTrace();
+        } catch (ObjectNotActive e) {
+            e.printStackTrace();
+        }
         
         // Set service consumers to Ports
         m_cmPortPort.registerConsumer("rate", "DAQService", m_rateBase);

@@ -465,6 +465,13 @@ public class RtcExportWizardPage extends	WizardExportResourcesPage {
                 destinationText += File.separator + targetProjects[targetProjectList.getSelectionIndex()].getName() + idealSuffix;
             }
         }
+        
+        File check = new File(destinationText);
+        if(!check.isAbsolute()) {
+            IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+            destinationText = root.getLocation() + File.separator + destinationText;
+        }
+        
         return destinationText;
     }
 

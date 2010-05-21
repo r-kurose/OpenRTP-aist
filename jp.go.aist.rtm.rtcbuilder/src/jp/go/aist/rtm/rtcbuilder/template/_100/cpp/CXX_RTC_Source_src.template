@@ -24,8 +24,6 @@ static const char* ${rtcParam.name.toLowerCase()}_spec[] =
     "max_instance",      "${rtcParam.maxInstance}",
     "language",          "C++",
     "lang_type",         "compile",
-#if( ${rtcParam.IsExecutionRateSet()} )    "exec_cxt.periodic.rate", "${rtcParam.executionRate}",
-#end
 #if( ${rtcParam.configParams.size()} > 0 )
     // Configuration variables
 #foreach($configParam in ${rtcParam.configParams})  
@@ -49,7 +47,9 @@ static const char* ${rtcParam.name.toLowerCase()}_spec[] =
 #if( ${rtcParam.configParameterParams.size()} > 0 )
     // System Configuration
 #foreach($parameterParam in ${rtcParam.configParameterParams})  
+#if( ${parameterParam.isNonPeriodic()} )
     "${parameterParam.configName}", "${parameterParam.defaultVal}",
+#end
 #end
 #end
     ""

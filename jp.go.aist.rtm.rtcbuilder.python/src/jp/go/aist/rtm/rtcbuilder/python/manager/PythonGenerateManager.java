@@ -85,22 +85,24 @@ public class PythonGenerateManager extends GenerateManager {
 				}
 			}
 			contextMap = new HashMap<String, Object>();
-			for (IdlFileParam idlFileParam : allIdlFileParams) {
-				contextMap.put("rtcParam", rtcParam);
-				contextMap.put("pyConv", new PythonConverter());
-				contextMap.put("tmpltHelper", new TemplateHelper());
-				contextMap.put("tmpltHelperPy", new TemplateHelperPy());
-				contextMap.put("idlFileParam", idlFileParam);
-				result = generateSVCIDLSource(contextMap, result);
-			}
-			if( allIdlFileParams.size() > 0 ) {
-				contextMap = new HashMap<String, Object>();
-				contextMap.put("idlFileParams", allIdlFileParams);
-				contextMap.put("tmpltHelper", new TemplateHelper());
-				contextMap.put("tmpltHelperPy", new TemplateHelperPy());
-
-				result = generateGlobalInitSource(contextMap, result, rtcParam.getOutputProject());
-				result = generateGlobalPOAInitSource(contextMap, result, rtcParam.getOutputProject());
+			if( !rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100) ) {
+				for (IdlFileParam idlFileParam : allIdlFileParams) {
+					contextMap.put("rtcParam", rtcParam);
+					contextMap.put("pyConv", new PythonConverter());
+					contextMap.put("tmpltHelper", new TemplateHelper());
+					contextMap.put("tmpltHelperPy", new TemplateHelperPy());
+					contextMap.put("idlFileParam", idlFileParam);
+					result = generateSVCIDLSource(contextMap, result);
+				}
+				if( allIdlFileParams.size() > 0 ) {
+					contextMap = new HashMap<String, Object>();
+					contextMap.put("idlFileParams", allIdlFileParams);
+					contextMap.put("tmpltHelper", new TemplateHelper());
+					contextMap.put("tmpltHelperPy", new TemplateHelperPy());
+	
+					result = generateGlobalInitSource(contextMap, result, rtcParam.getOutputProject());
+					result = generateGlobalPOAInitSource(contextMap, result, rtcParam.getOutputProject());
+				}
 			}
 			for (IdlFileParam idlFileParam : providerIdlFileParams) {
 				contextMap = new HashMap<String, Object>();

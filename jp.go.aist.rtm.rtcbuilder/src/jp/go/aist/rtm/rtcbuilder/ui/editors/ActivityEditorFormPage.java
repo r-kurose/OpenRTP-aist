@@ -30,6 +30,21 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
  */
 public class ActivityEditorFormPage extends AbstractEditorFormPage {
 
+	private static final String ACTIVITY_INITIALIZE = "onInitialize";
+	private static final String ACTIVITY_FINALIZE = "onFinalize";
+	private static final String ACTIVITY_STARTUP = "onStartup";
+	private static final String ACTIVITY_SHUTDOWN = "onShutdown";
+	private static final String ACTIVITY_ACTIVATED = "onActivated";
+	private static final String ACTIVITY_DEACTIVATED = "onDeactivated";
+	private static final String ACTIVITY_ABORTING = "onAborting";
+	private static final String ACTIVITY_ERROR = "onError";
+	private static final String ACTIVITY_RESET = "onReset";
+	private static final String ACTIVITY_EXECUTE = "onExecute";
+	private static final String ACTIVITY_STATE_UPDATE = "onStateUpdate";
+	private static final String ACTIVITY_RATE_CHANGED = "onRateChanged";
+	private static final String ACTIVITY_ACTION = "onAction";
+	private static final String ACTIVITY_MODE_CHANGED = "onModeChanged";
+	
 	private List<Label> implChk;
 	private Text actionNameText;
 	private Button onBtn;
@@ -83,41 +98,41 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 
 	private void createModeSection(FormToolkit toolkit, Composite parent) {
 		createSectionTitle(toolkit, parent, IMessageConstants.ACTIVITY_LBL_MODE);
-		createActionSelection(parent, "on_mode_changed");
+		createActionSelection(parent, ACTIVITY_MODE_CHANGED);
 	}
 
 	private void createDataFlowSection(FormToolkit toolkit, Composite parent) {
 		createSectionTitle(toolkit, parent, IMessageConstants.ACTIVITY_LBL_DATAFLOW);
-		createActionSelection(parent, "on_execute");
-		createActionSelection(parent, "on_state_update");
-		createActionSelection(parent, "on_rate_changed");
+		createActionSelection(parent,ACTIVITY_EXECUTE);
+		createActionSelection(parent, ACTIVITY_STATE_UPDATE);
+		createActionSelection(parent, ACTIVITY_RATE_CHANGED);
 		createFsmSection(toolkit, parent);
 	}
 
 	private void createFsmSection(FormToolkit toolkit, Composite parent) {
 		createSectionTitle(toolkit, parent, IMessageConstants.ACTIVITY_LBL_FSM);
-		createActionSelection(parent, "on_action");
+		createActionSelection(parent, ACTIVITY_ACTION);
 	}
 
 	private void createAliveSection(FormToolkit toolkit, Composite parent) {
 		createSectionTitle(toolkit, parent, IMessageConstants.ACTIVITY_LBL_ALIVE);
-		createActionSelection(parent, "on_activated");
-		createActionSelection(parent, "on_deactivated");
-		createActionSelection(parent, "on_aborting");
-		createActionSelection(parent, "on_error");
-		createActionSelection(parent, "on_reset");
+		createActionSelection(parent, ACTIVITY_ACTIVATED);
+		createActionSelection(parent, ACTIVITY_DEACTIVATED);
+		createActionSelection(parent, ACTIVITY_ABORTING);
+		createActionSelection(parent, ACTIVITY_ERROR);
+		createActionSelection(parent, ACTIVITY_RESET);
 	}
 
 	private void createStartShutSection(FormToolkit toolkit, Composite parent) {
 		createSectionTitle(toolkit, parent, IMessageConstants.ACTIVITY_LBL_START_END);
-		createActionSelection(parent, "on_startup");
-		createActionSelection(parent, "on_shutdown");
+		createActionSelection(parent, ACTIVITY_STARTUP);
+		createActionSelection(parent, ACTIVITY_SHUTDOWN);
 	}
 
 	private void createInitFinalSection(FormToolkit toolkit, Composite parent) {
 		createSectionTitle(toolkit, parent, IMessageConstants.ACTIVITY_LBL_INIT_FINAL);
-		createActionSelection(parent, "on_initialize");
-		createActionSelection(parent, "on_finalize");
+		createActionSelection(parent, ACTIVITY_INITIALIZE);
+		createActionSelection(parent, ACTIVITY_FINALIZE);
 	}
 
 	private void createSectionTitle(FormToolkit toolkit, Composite parent, String title) {
@@ -150,12 +165,22 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 					rtcParam.setDocActionPostCondition(preSelection, getDocText(postConditionText.getText()));
 				}
 				int index = implChk.indexOf(e.getSource());
-				if( rtcParam.getActionImplemented(index) ) {
+				//onInitializeÇÕèÌÇ…óLå¯
+				if(index==IRtcBuilderConstants.ACTIVITY_INITIALIZE) {
 					onBtn.setSelection(true);
 					offBtn.setSelection(false);
+					onBtn.setEnabled(false);
+					offBtn.setEnabled(false);
 				} else {
-					onBtn.setSelection(false);
-					offBtn.setSelection(true);
+					if( rtcParam.getActionImplemented(index) ) {
+						onBtn.setSelection(true);
+						offBtn.setSelection(false);
+					} else {
+						onBtn.setSelection(false);
+						offBtn.setSelection(true);
+					}
+					onBtn.setEnabled(true);
+					offBtn.setEnabled(true);
 				}
 				actionNameText.setText(IRtcBuilderConstants.ACTION_TYPE_ITEMS[index]);
 				activityText.setText(getDisplayDocText(rtcParam.getDocActionOverView(index)));
@@ -187,20 +212,20 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 	private void createHintSection(FormToolkit toolkit, ScrolledForm form) {
 		Composite composite = createHintSectionBase(toolkit, form, 12);
 		//
-		createHintLabel(IMessageConstants.ACTIVITY_HINT_ONINITIALIZE_TITLE, IMessageConstants.ACTIVITY_HINT_ONINITIALIZE_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.ACTIVITY_HINT_ONFINALIZE_TITLE, IMessageConstants.ACTIVITY_HINT_ONFINALIZE_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.ACTIVITY_HINT_ONSTARTUP_TITLE, IMessageConstants.ACTIVITY_HINT_ONSTARTUP_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.ACTIVITY_HINT_ONSHUTDOWN_TITLE, IMessageConstants.ACTIVITY_HINT_ONSHUTDOWN_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.ACTIVITY_HINT_ONACTIVATED_TITLE, IMessageConstants.ACTIVITY_HINT_ONACTIVATED_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.ACTIVITY_HINT_ONDEACTIVATED_TITLE, IMessageConstants.ACTIVITY_HINT_ONDEACTIVATED_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.ACTIVITY_HINT_ONABORTING_TITLE, IMessageConstants.ACTIVITY_HINT_ONABORTING_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.ACTIVITY_HINT_ONERROR_TITLE, IMessageConstants.ACTIVITY_HINT_ONERROR_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.ACTIVITY_HINT_ONRESET_TITLE, IMessageConstants.ACTIVITY_HINT_ONRESET_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.ACTIVITY_HINT_ONEXECUTE_TITLE, IMessageConstants.ACTIVITY_HINT_ONEXECUTE_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.ACTIVITY_HINT_ONSTATEUPDATE_TITLE, IMessageConstants.ACTIVITY_HINT_ONSTATEUPDATE_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.ACTIVITY_HINT_ONRATECHANGED_TITLE, IMessageConstants.ACTIVITY_HINT_ONRATECHANGED_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.ACTIVITY_HINT_ONACTION_TITLE, IMessageConstants.ACTIVITY_HINT_ONACTION_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.ACTIVITY_HINT_ONMODECHANGED_TITLE, IMessageConstants.ACTIVITY_HINT_ONMODECHANGED_DESC, toolkit, composite);
+		createHintLabel(ACTIVITY_INITIALIZE, IMessageConstants.ACTIVITY_HINT_ONINITIALIZE_DESC, toolkit, composite);
+		createHintLabel(ACTIVITY_FINALIZE, IMessageConstants.ACTIVITY_HINT_ONFINALIZE_DESC, toolkit, composite);
+		createHintLabel(ACTIVITY_STARTUP, IMessageConstants.ACTIVITY_HINT_ONSTARTUP_DESC, toolkit, composite);
+		createHintLabel(ACTIVITY_SHUTDOWN, IMessageConstants.ACTIVITY_HINT_ONSHUTDOWN_DESC, toolkit, composite);
+		createHintLabel(ACTIVITY_ACTIVATED, IMessageConstants.ACTIVITY_HINT_ONACTIVATED_DESC, toolkit, composite);
+		createHintLabel(ACTIVITY_DEACTIVATED, IMessageConstants.ACTIVITY_HINT_ONDEACTIVATED_DESC, toolkit, composite);
+		createHintLabel(ACTIVITY_ABORTING, IMessageConstants.ACTIVITY_HINT_ONABORTING_DESC, toolkit, composite);
+		createHintLabel(ACTIVITY_ERROR, IMessageConstants.ACTIVITY_HINT_ONERROR_DESC, toolkit, composite);
+		createHintLabel(ACTIVITY_RESET, IMessageConstants.ACTIVITY_HINT_ONRESET_DESC, toolkit, composite);
+		createHintLabel(ACTIVITY_EXECUTE, IMessageConstants.ACTIVITY_HINT_ONEXECUTE_DESC, toolkit, composite);
+		createHintLabel(ACTIVITY_STATE_UPDATE, IMessageConstants.ACTIVITY_HINT_ONSTATEUPDATE_DESC, toolkit, composite);
+		createHintLabel(ACTIVITY_RATE_CHANGED, IMessageConstants.ACTIVITY_HINT_ONRATECHANGED_DESC, toolkit, composite);
+		createHintLabel(ACTIVITY_ACTION, IMessageConstants.ACTIVITY_HINT_ONACTION_DESC, toolkit, composite);
+		createHintLabel(ACTIVITY_MODE_CHANGED, IMessageConstants.ACTIVITY_HINT_ONMODECHANGED_DESC, toolkit, composite);
 		//
 		createHintSpace(toolkit, composite);
 		//

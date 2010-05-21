@@ -155,6 +155,9 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 				title = ((FileEditorInput) result).getPath().lastSegment();
 			}
 		}
+		//on_initializeÇÕèÌÇ…ON
+		setOnInitialize();
+		//
 
 		isDirty = false;
 		firePropertyChange(IEditorPart.PROP_TITLE);
@@ -164,6 +167,12 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		this.setInput(result);
 
 		return result;
+	}
+	
+	private void setOnInitialize() {
+		for( RtcParam param : generatorParam.getRtcParams() ) {
+			param.setActionImplemented(IRtcBuilderConstants.ACTIVITY_INITIALIZE, true);
+		}
 	}
 	
 	public void loadNewData(RtcParam param) {

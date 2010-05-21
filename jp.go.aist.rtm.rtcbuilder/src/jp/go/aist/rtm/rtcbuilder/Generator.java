@@ -196,9 +196,9 @@ public class Generator {
 			for( ServicePortInterfaceParam serviceInterface : servicePort.getServicePortInterfaces() ) {
 				String result = ValidationUtil.validateServiceInterface(serviceInterface);
 				if( result!=null ) 	throw new RuntimeException(result + " : " + rtcParam.getName());
-				if (serviceInterfaceNames.contains(serviceInterface.getName()))
+				if (serviceInterfaceNames.contains(serviceInterface.getTmplVarName()))
 					throw new RuntimeException(IRTCBMessageConstants.VALIDATE_ERROR_INTERFACESAMENAME + rtcParam.getName());
-				serviceInterfaceNames.add(serviceInterface.getName());
+				serviceInterfaceNames.add(serviceInterface.getTmplVarName());
 			}
 		}
 		/////ConfigurationSet

@@ -17,7 +17,7 @@ public class AllTestsJava {
 		suite.addTestSuite(BaseTest.class);
 		suite.addTestSuite(BuildPathTest.class);
 		suite.addTestSuite(VarTest.class);
-		suite.addTestSuite(JavaIDLPathTest.class);
+//		suite.addTestSuite(JavaIDLPathTest.class);
 		suite.addTestSuite(JavaDocTest.class);
 		suite.addTestSuite(JavaDocLongTest.class);
 		suite.addTestSuite(MLTest.class);
