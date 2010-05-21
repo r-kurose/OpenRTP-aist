@@ -18,6 +18,7 @@ import jp.go.aist.rtm.RTC.port.CorbaPort;
 import org.omg.PortableServer.POAPackage.ObjectNotActive;
 import org.omg.PortableServer.POAPackage.ServantAlreadyActive;
 import org.omg.PortableServer.POAPackage.WrongPolicy;
+import RTC.ReturnCode_t;
 
 /*!
  * @class testImpl

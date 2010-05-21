@@ -17,13 +17,13 @@
 
 	<target name="idlcompile"  depends="mkdir">
 		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-fall MyService.idl"/>
+			<arg line="-fall 'MyService.idl'"/>
 		</exec>
 		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-fall MyService2.idl"/>
+			<arg line="-fall 'MyService2.idl'"/>
 		</exec>
 		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-fall DAQService.idl"/>
+			<arg line="-fall 'DAQService.idl'"/>
 		</exec>
 	</target>
 

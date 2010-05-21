@@ -415,35 +415,21 @@ public interface IMessageConstants {
 	public static final String ACTIVITY_LBL_PRECONDITION = Messages.getString("IMessageConstants.ACTIVITY_LBL_PRECONDITION"); //$NON-NLS-1$
 	public static final String ACTIVITY_LBL_POSTCONDITION = Messages.getString("IMessageConstants.ACTIVITY_LBL_POSTCONDITION"); //$NON-NLS-1$
 
-	public static final String ACTIVITY_HINT_ONINITIALIZE_TITLE = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONINITIALIZE_TITLE"); //$NON-NLS-1$
 	public static final String ACTIVITY_HINT_ONINITIALIZE_DESC = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONINITIALIZE_DESC"); //$NON-NLS-1$
-	public static final String ACTIVITY_HINT_ONFINALIZE_TITLE = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONFINALIZE_TITLE"); //$NON-NLS-1$
 	public static final String ACTIVITY_HINT_ONFINALIZE_DESC = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONFINALIZE_DESC"); //$NON-NLS-1$
-	public static final String ACTIVITY_HINT_ONSTARTUP_TITLE = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONSTARTUP_TITLE"); //$NON-NLS-1$
 	public static final String ACTIVITY_HINT_ONSTARTUP_DESC = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONSTARTUP_DESC"); //$NON-NLS-1$
-	public static final String ACTIVITY_HINT_ONSHUTDOWN_TITLE = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONSHUTDOWN_TITLE"); //$NON-NLS-1$
 	public static final String ACTIVITY_HINT_ONSHUTDOWN_DESC = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONSHUTDOWN_DESC"); //$NON-NLS-1$
-	public static final String ACTIVITY_HINT_ONACTIVATED_TITLE = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONACTIVATED_TITLE"); //$NON-NLS-1$
 	public static final String ACTIVITY_HINT_ONACTIVATED_DESC = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONACTIVATED_DESC"); //$NON-NLS-1$
-	public static final String ACTIVITY_HINT_ONDEACTIVATED_TITLE = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONDEACTIVATED_TITLE"); //$NON-NLS-1$
 	public static final String ACTIVITY_HINT_ONDEACTIVATED_DESC = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONDEACTIVATED_DESC"); //$NON-NLS-1$
-	public static final String ACTIVITY_HINT_ONABORTING_TITLE = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONABORTING_TITLE"); //$NON-NLS-1$
 	public static final String ACTIVITY_HINT_ONABORTING_DESC = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONABORTING_DESC"); //$NON-NLS-1$
-	public static final String ACTIVITY_HINT_ONERROR_TITLE = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONERROR_TITLE"); //$NON-NLS-1$
 	public static final String ACTIVITY_HINT_ONERROR_DESC = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONERROR_DESC"); //$NON-NLS-1$
-	public static final String ACTIVITY_HINT_ONRESET_TITLE = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONRESET_TITLE"); //$NON-NLS-1$
 	public static final String ACTIVITY_HINT_ONRESET_DESC_P1 = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONRESET_DESC_P1"); //$NON-NLS-1$
 	public static final String ACTIVITY_HINT_ONRESET_DESC_P2 = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONRESET_DESC_P2"); //$NON-NLS-1$
 	public static final String ACTIVITY_HINT_ONRESET_DESC = StringUtil.connectMessageWithSepalator( new String[]{ACTIVITY_HINT_ONRESET_DESC_P1, ACTIVITY_HINT_ONRESET_DESC_P2});
-	public static final String ACTIVITY_HINT_ONEXECUTE_TITLE = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONEXECUTE_TITLE"); //$NON-NLS-1$
 	public static final String ACTIVITY_HINT_ONEXECUTE_DESC = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONEXECUTE_DESC"); //$NON-NLS-1$
-	public static final String ACTIVITY_HINT_ONSTATEUPDATE_TITLE = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONSTATEUPDATE_TITLE"); //$NON-NLS-1$
 	public static final String ACTIVITY_HINT_ONSTATEUPDATE_DESC = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONSTATEUPDATE_DESC"); //$NON-NLS-1$
-	public static final String ACTIVITY_HINT_ONRATECHANGED_TITLE = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONRATECHANGED_TITLE"); //$NON-NLS-1$
 	public static final String ACTIVITY_HINT_ONRATECHANGED_DESC = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONRATECHANGED_DESC"); //$NON-NLS-1$
-	public static final String ACTIVITY_HINT_ONACTION_TITLE = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONACTION_TITLE"); //$NON-NLS-1$
 	public static final String ACTIVITY_HINT_ONACTION_DESC = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONACTION_DESC"); //$NON-NLS-1$
-	public static final String ACTIVITY_HINT_ONMODECHANGED_TITLE = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONMODECHANGED_TITLE"); //$NON-NLS-1$
 	public static final String ACTIVITY_HINT_ONMODECHANGED_DESC = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONMODECHANGED_DESC"); //$NON-NLS-1$
 
 	public static final String ACTIVITY_HINT_DESCRIPTION_TITLE = Messages.getString("IMessageConstants.ACTIVITY_HINT_DESCRIPTION_TITLE"); //$NON-NLS-1$

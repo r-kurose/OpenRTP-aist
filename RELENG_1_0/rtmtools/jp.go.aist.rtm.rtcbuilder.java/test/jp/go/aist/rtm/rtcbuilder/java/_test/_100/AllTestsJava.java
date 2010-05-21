@@ -13,6 +13,7 @@ public class AllTestsJava {
 		suite.addTestSuite(MultiTest.class);
 		suite.addTestSuite(BaseTest.class);
 		suite.addTestSuite(JavaIDLInheritTest.class);
+		suite.addTestSuite(ModuleTest.class);
 		//$JUnit-END$
 		return suite;
 	}

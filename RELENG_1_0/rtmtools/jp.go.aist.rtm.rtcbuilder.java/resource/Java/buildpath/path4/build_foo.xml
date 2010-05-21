@@ -17,7 +17,7 @@
 
 	<target name="idlcompile"  depends="mkdir">
 		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-fall MyService.idl"/>
+			<arg line="-fall 'MyService.idl'"/>
 		</exec>
 	</target>
 
@@ -27,8 +27,8 @@
 				<fileset dir="${env.RTM_JAVA_ROOT}\jar">
 					<include name="*.jar"/>
 				</fileset>
-				<pathelement location="C:\xxx\yyy\zzz.jar"/>
-				<pathelement location="C:\aaa\bbb\ccc.jar"/>
+				<pathelement location="'C:\xxx\yyy\zzz.jar'"/>
+				<pathelement location="'C:\aaa\bbb\ccc.jar'"/>
 			</classpath>
 		</javac>
 	</target>

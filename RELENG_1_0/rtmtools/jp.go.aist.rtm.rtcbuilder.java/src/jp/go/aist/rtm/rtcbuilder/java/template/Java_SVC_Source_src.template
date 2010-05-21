@@ -12,6 +12,8 @@
 #end
  *
  */
+#if(${tmpltHelper.isModule(${serviceClassParam.name})})import ${tmpltHelper.convFormat(${serviceClassParam.name})}POA;
+#end
 /*!
  * @class ${tmpltHelper.getBasename(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}
  * Example class implementing IDL interface ${serviceClassParam.name}

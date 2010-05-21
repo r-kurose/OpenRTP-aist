@@ -53,8 +53,6 @@ ${rtcParam.name}_spec = ["implementation_id", "${rtcParam.name}",
 		 "max_instance",      "${rtcParam.maxInstance}", 
 		 "language",          "Python", 
 		 "lang_type",         "SCRIPT",
-#if( ${rtcParam.IsExecutionRateSet()} )		 "exec_cxt.periodic.rate", "${rtcParam.executionRate}",
-#end
 #foreach($configParam in ${rtcParam.configParams})
 		 "conf.default.${configParam.name}", "${configParam.defaultVal}",
 #end
@@ -72,7 +70,9 @@ ${rtcParam.name}_spec = ["implementation_id", "${rtcParam.name}",
 #end
 #if( ${rtcParam.configParameterParams.size()} > 0 )
 #foreach($parameterParam in ${rtcParam.configParameterParams})  
+#if( ${parameterParam.isNonPeriodic()} )
 		 "${parameterParam.configName}", "${parameterParam.defaultVal}",
+#end
 #end
 #end
 		 ""]

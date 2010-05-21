@@ -397,6 +397,23 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 				generatorParam.getRtcParams().get(0).getServiceClassParams().clear();
 				setPrefixSuffix(generatorParam.getRtcParams().get(0));
 				if (rtcBuilder.doGenerateWrite(generatorParam)) {
+					LanguageProperty langProp = LanguageProperty.checkPlugin(editor.getRtcParam());
+					if(langProp != null) {
+						try {
+							IProjectDescription description = project.getDescription();
+							String[] ids = description.getNatureIds();
+							String[] newIds = new String[ids.length + langProp.getNatures().size()];
+							System.arraycopy(ids, 0, newIds, 0, ids.length);
+							for( int intIdx=0; intIdx<langProp.getNatures().size(); intIdx++ ) {
+								newIds[ids.length+intIdx] = langProp.getNatures().get(intIdx);
+							}
+							description.setNatureIds(newIds);
+							project.setDescription(description, null);
+						} catch (CoreException e1) {
+							e1.printStackTrace();
+						}
+					}
+					//
 					saveRtcProfile(project);
 					switchPerspective();
 				}

@@ -20,21 +20,21 @@
 	<target name="idlcompile"  depends="mkdir">
 #foreach($idlPath in ${rtcParam.providerIdlPathes})
 		<exec executable="${dollarStr}{java.home}\..\bin\idlj">
-			<arg line="#foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i ${idlSearchPath} #end-fall ${tmpltHelper.getFileName(${idlPath.idlFile})}"/>
+			<arg line="#foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall '${tmpltHelper.getFileName(${idlPath.idlFile})}'"/>
 		</exec>
 #foreach ($idl in ${idlPath.includeIdlParams})
 		<exec executable="${dollarStr}{java.home}\..\bin\idlj">
-			<arg line="#foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i ${idlSearchPath} #end-fall ${tmpltHelper.getFileName(${idl.idlFile})}"/>
+			<arg line="#foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall '${tmpltHelper.getFileName(${idl.idlFile})}'"/>
 		</exec>
 #end
 #end
 #foreach($idlPath in ${rtcParam.consumerIdlPathes})
 		<exec executable="${dollarStr}{java.home}\..\bin\idlj">
-			<arg line="#foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i ${idlSearchPath} #end-fall ${tmpltHelper.getFileName(${idlPath.idlFile})}"/>
+			<arg line="#foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall '${tmpltHelper.getFileName(${idlPath.idlFile})}'"/>
 		</exec>
 #foreach ($idl in ${idlPath.includeIdlParams})
 		<exec executable="${dollarStr}{java.home}\..\bin\idlj">
-			<arg line="#foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i ${idlSearchPath} #end-fall ${tmpltHelper.getFileName(${idl.idlFile})}"/>
+			<arg line="#foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall '${tmpltHelper.getFileName(${idl.idlFile})}'"/>
 		</exec>
 #end
 #end
@@ -53,7 +53,7 @@
 				</fileset>
 #if( ${rtcParam.libraryPathes.size()} > 0 )
 #foreach($javaRef in ${rtcParam.libraryPathes})
-				<pathelement location="${javaRef}"/>
+				<pathelement location="'${javaRef}'"/>
 #end
 #end
 			</classpath>

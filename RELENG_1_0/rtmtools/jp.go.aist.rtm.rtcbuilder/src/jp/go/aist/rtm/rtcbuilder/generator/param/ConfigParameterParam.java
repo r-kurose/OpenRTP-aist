@@ -9,6 +9,7 @@ public class ConfigParameterParam extends AbstractRecordedParam implements
 		Serializable {
 
 	private static final long serialVersionUID = -6870474016201077762L;
+	private final String ec_Periodic = "exec_cxt.periodic";
 
 	private String configName;
 	private String defaultValue;
@@ -35,6 +36,11 @@ public class ConfigParameterParam extends AbstractRecordedParam implements
 
 	public int getIndex() {
 		return selection;
+	}
+	
+	public boolean isNonPeriodic() {
+		if(configName.startsWith(ec_Periodic)) return false;
+		return true;
 	}
 
 	public void setConfigName(String configName) {

@@ -229,12 +229,12 @@ public class PyDocTest extends TestBase {
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\Doc\\full\\";
 
 		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "MyService_idl.py");
-		checkCode(result, resourceDir, "DAQService_idl.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "README.foo");
+//		checkCode(result, resourceDir, "MyService_idl.py");
+//		checkCode(result, resourceDir, "DAQService_idl.py");
+//		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
+//		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
 	}
 
 	public void testDocRefer() throws Exception{
@@ -298,12 +298,12 @@ public class PyDocTest extends TestBase {
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\Doc\\refer\\";
 
 		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "MyService_idl.py");
-		checkCode(result, resourceDir, "DAQService_idl.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "README.foo");
+//		checkCode(result, resourceDir, "MyService_idl.py");
+//		checkCode(result, resourceDir, "DAQService_idl.py");
+//		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
+//		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
 	}
 
 	public void testDocAuthorLong() throws Exception{
@@ -362,12 +362,12 @@ public class PyDocTest extends TestBase {
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\Doc\\authorLong\\";
 
 		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "MyService_idl.py");
-		checkCode(result, resourceDir, "DAQService_idl.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "README.foo");
+//		checkCode(result, resourceDir, "MyService_idl.py");
+//		checkCode(result, resourceDir, "DAQService_idl.py");
+//		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
+//		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
 	}
 
 	public void testDocAuthor() throws Exception{
@@ -426,12 +426,12 @@ public class PyDocTest extends TestBase {
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\Doc\\author\\";
 
 		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "MyService_idl.py");
-		checkCode(result, resourceDir, "DAQService_idl.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "README.foo");
+//		checkCode(result, resourceDir, "MyService_idl.py");
+//		checkCode(result, resourceDir, "DAQService_idl.py");
+//		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
+//		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
 	}
 
 	public void testOriginal() throws Exception{
@@ -488,11 +488,11 @@ public class PyDocTest extends TestBase {
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\service2\\";
 
 		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "MyService_idl.py");
-		checkCode(result, resourceDir, "DAQService_idl.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "README.foo");
+//		checkCode(result, resourceDir, "MyService_idl.py");
+//		checkCode(result, resourceDir, "DAQService_idl.py");
+//		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
+//		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
 	}
 }
