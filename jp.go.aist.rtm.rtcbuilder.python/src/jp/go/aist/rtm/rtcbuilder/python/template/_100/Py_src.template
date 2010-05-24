@@ -35,7 +35,7 @@ from ${tmpltHelper.getFilenameNoExt(${providerIdlFile.idlFile})}_idl_example imp
 # Import Service stub modules
 # <rtc-template block="consumer_import">
 #if(${rtcParam.originalConsumerIdls.size()}>0)
-import _GlobalIDL, _GlobalIDL__POA
+${pyConv.convModuleNameAll(${allIdlFileParam})}
 
 #end
 # </rtc-template>
@@ -180,7 +180,7 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #if(${serviceInterface.docPostCondition.length()}>0)		 - PostCondition: ${tmpltHelperPy.convertDetailPy(${serviceInterface.docPostCondition})}
 #end
 		"""
-		self._${serviceInterface.tmplVarName} = ${serviceInterface.interfaceType}_i()
+		self._${serviceInterface.tmplVarName} = ${tmpltHelper.convFormat(${serviceInterface.interfaceType})}_i()
 #end#end#end#end#end
 		
 
@@ -203,7 +203,7 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #if(${serviceInterface.docPostCondition.length()}>0)		 - PostCondition: ${tmpltHelperPy.convertDetailPy(${serviceInterface.docPostCondition})}
 #end
 		"""
-		self._${serviceInterface.tmplVarName} = OpenRTM_aist.CorbaConsumer(interfaceType=_GlobalIDL.${serviceInterface.interfaceType})
+		self._${serviceInterface.tmplVarName} = OpenRTM_aist.CorbaConsumer(interfaceType=${pyConv.convFullName(${serviceInterface.interfaceType})})
 #end#end#end#end#end
 
 		# initialize of configuration-data.
@@ -263,7 +263,7 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #if(${servicePort.servicePortInterfaces.size()}>0)
 #foreach($serviceInterface in ${servicePort.servicePortInterfaces})
 #if(${serviceInterface.index}==0)
-		self._${servicePort.name}Port.registerProvider("${serviceInterface.name}", "${serviceInterface.interfaceType}", self._${serviceInterface.tmplVarName})
+		self._${servicePort.name}Port.registerProvider("${serviceInterface.name}", "${tmpltHelper.convFormat(${serviceInterface.interfaceType})}", self._${serviceInterface.tmplVarName})
 #end#end#end#end#end
 		
 		# Set service consumers to Ports
@@ -272,7 +272,7 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #if(${servicePort.servicePortInterfaces.size()}>0)
 #foreach($serviceInterface in ${servicePort.servicePortInterfaces})
 #if(${serviceInterface.index}==1)
-		self._${servicePort.name}Port.registerConsumer("${serviceInterface.name}", "${serviceInterface.interfaceType}", self._${serviceInterface.tmplVarName})
+		self._${servicePort.name}Port.registerConsumer("${serviceInterface.name}", "${tmpltHelper.convFormat(${serviceInterface.interfaceType})}", self._${serviceInterface.tmplVarName})
 #end#end#end#end#end
 		
 		# Set CORBA Service Ports
@@ -558,6 +558,12 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 	
 
 
+
+def ${rtcParam.name}Init(manager):
+    profile = OpenRTM_aist.Properties(defaults_str=${rtcParam.name}_spec)
+    manager.registerFactory(profile,
+                            ${rtcParam.name},
+                            OpenRTM_aist.Delete)
 
 def MyModuleInit(manager):
     profile = OpenRTM_aist.Properties(defaults_str=${rtcParam.name}_spec)

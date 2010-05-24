@@ -19,17 +19,19 @@ static const char* foo_spec[] =
     "version",           "1.0.3",
     "vendor",            "TA2",
     "category",          "manip2",
-    "activity_type",     "STATIC2",
+    "activity_type",     "PERIODIC2",
+    "kind",              "DataFlowComponent",
     "max_instance",      "3",
     "language",          "C++",
     "lang_type",         "compile",
-    "exec_cxt.periodic.rate", "5.0",
     // Configuration variables
     "conf.default.int_param0", "0",
     "conf.default.int_param1", "1",
     "conf.default.double_param0", "0.11",
     "conf.default.str_param0", "hoge",
     "conf.default.str_param1", "dara",
+    // Widget
+    // Constraints
     ""
   };
 // </rtc-template>
@@ -39,11 +41,23 @@ static const char* foo_spec[] =
  * @param manager Maneger Object
  */
 foo::foo(RTC::Manager* manager)
-  : RTC::DataFlowComponentBase(manager),
     // <rtc-template block="initializer">
-    
+  : RTC::DataFlowComponentBase(manager)
+
     // </rtc-template>
-	dummy(0)
+{
+}
+
+/*!
+ * @brief destructor
+ */
+foo::~foo()
+{
+}
+
+
+
+RTC::ReturnCode_t foo::onInitialize()
 {
   // Registration: InPort/OutPort/Service
   // <rtc-template block="registration">
@@ -59,19 +73,6 @@ foo::foo(RTC::Manager* manager)
   
   // </rtc-template>
 
-}
-
-/*!
- * @brief destructor
- */
-foo::~foo()
-{
-}
-
-
-
-RTC::ReturnCode_t foo::onInitialize()
-{
   // <rtc-template block="bind_config">
   // Bind variables and configuration variable
   bindParameter("int_param0", m_varname1, "0");
@@ -168,7 +169,7 @@ extern "C"
  
   void fooInit(RTC::Manager* manager)
   {
-    RTC::Properties profile(foo_spec);
+    coil::Properties profile(foo_spec);
     manager->registerFactory(profile,
                              RTC::Create<foo>,
                              RTC::Delete<foo>);

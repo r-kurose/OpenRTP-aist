@@ -1,7 +1,7 @@
 ======================================================================
   RTComponent: foo specificatioin
 
-  OpenRTM-aist-0.4.1
+  OpenRTM-aist-0.4.2
   Date: $Date$
 
   @author Noriaki Ando <n-ando@aist.go.jp>
@@ -13,12 +13,14 @@
 #   --module-category=Manip --module-comp-type=STATIC2 
 #   --module-act-type=PERIODIC2 --module-max-inst=5 
 #   --inport=InP1:RTC::TimedShort --inport=InP2:RTC::TimedLong --outport=OutP1:RTC::TimedInt --outport=OutP2:RTC::TimedFloat 
-#   --service-idl=C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\\resource\MyService.idl 
-#   --consumer-idl=C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\\resource\DAQService.idl 
+#   --service-idl=C:\Tech-Arts\EclipseRTM34\jp.go.aist.rtm.rtcbuilder\\resource\MyService.idl 
+#   --consumer-idl=C:\Tech-Arts\EclipseRTM34\jp.go.aist.rtm.rtcbuilder\\resource\DAQService.idl 
 #   --service=svPort:acc:MyService 
 #   --consumer=cmPort:rate:DAQService 
 
 
+======================================================================
+    Basic Information
 ======================================================================
 # <rtc-template block="module">
 Module Name: foo

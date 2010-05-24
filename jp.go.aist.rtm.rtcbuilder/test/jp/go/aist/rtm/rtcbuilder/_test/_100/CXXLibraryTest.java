@@ -34,6 +34,9 @@ public class CXXLibraryTest extends TestBase {
 		libraries.add("RTC2");
 		rtcParam.getLibraryPathes().addAll(libraries);
 		genParam.getRtcParams().add(rtcParam);
+		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion("1.0.0");
+		rtcParam.setIsTest(true);
 		
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
@@ -65,6 +68,9 @@ public class CXXLibraryTest extends TestBase {
 		libraries.add("RTC");
 		rtcParam.getLibraryPathes().addAll(libraries);
 		genParam.getRtcParams().add(rtcParam);
+		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion("1.0.0");
+		rtcParam.setIsTest(true);
 		
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);

@@ -32,6 +32,10 @@ public class CXXIDLPathTest extends TestBase {
 		rtcParam.setComponentType("STATIC2");
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
+		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion("1.0.0");
+		rtcParam.setIsTest(true);
+		
 		genParam.getRtcParams().add(rtcParam);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
@@ -44,10 +48,6 @@ public class CXXIDLPathTest extends TestBase {
 
 		ServicePortParam service1 = new ServicePortParam("svPort",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
-////		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
-////				rootPath + "\\resource\\MyService.idl", "MyService", "/usr/local", 0);
-//		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
-//				"MyService.idl", "MyService", rootPath + "\\resource", 0);
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
 				rootPath + "\\resource\\MyService.idl", "MyService", rootPath + "\\resource", 0);
 		srvinterts.add(int1);
@@ -57,10 +57,6 @@ public class CXXIDLPathTest extends TestBase {
 		
 		ServicePortParam service2 = new ServicePortParam("cmPort",0);
 		List<ServicePortInterfaceParam> srvinterts2 = new ArrayList<ServicePortInterfaceParam>(); 
-////		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service2, "rate", "", "", 
-////				rootPath + "\\resource\\DAQService.idl", "DAQService", "/usr/local2", 1);
-//		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service2, "rate", "", "", 
-//				"resource\\DAQService.idl", "DAQService", rootPath, 1);
 		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service2, "rate", "", "", 
 				rootPath + "\\resource\\DAQService.idl", "DAQService", rootPath, 1);
 		srvinterts2.add(int2);
@@ -97,6 +93,10 @@ public class CXXIDLPathTest extends TestBase {
 		rtcParam.setComponentType("STATIC2");
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
+		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion("1.0.0");
+		rtcParam.setIsTest(true);
+		
 		genParam.getRtcParams().add(rtcParam);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
@@ -109,10 +109,6 @@ public class CXXIDLPathTest extends TestBase {
 
 		ServicePortParam service1 = new ServicePortParam("svPort",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
-////		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
-////				rootPath + "\\resource\\MyService.idl", "MyService", "/usr/local", 0);
-//		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
-//				"MyService.idl", "MyService", rootPath + "\\resource", 0);
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
 				rootPath + "\\resource\\MyService.idl", "MyService", rootPath + "\\resource", 0);
 		srvinterts.add(int1);
@@ -122,10 +118,6 @@ public class CXXIDLPathTest extends TestBase {
 		
 		ServicePortParam service2 = new ServicePortParam("cmPort",0);
 		List<ServicePortInterfaceParam> srvinterts2 = new ArrayList<ServicePortInterfaceParam>(); 
-////		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service2, "rate", "", "", 
-////				rootPath + "\\resource\\DAQService.idl", "DAQService", "/usr/local", 1);
-//		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service2, "rate", "", "", 
-//				"DAQService.idl", "DAQService", rootPath + "\\resource", 1);
 		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service2, "rate", "", "", 
 				rootPath + "\\resource\\DAQService.idl", "DAQService", rootPath + "\\resource", 1);
 		srvinterts2.add(int2);
@@ -162,6 +154,10 @@ public class CXXIDLPathTest extends TestBase {
 		rtcParam.setComponentType("STATIC2");
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
+		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion("1.0.0");
+		rtcParam.setIsTest(true);
+		
 		genParam.getRtcParams().add(rtcParam);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
@@ -174,10 +170,6 @@ public class CXXIDLPathTest extends TestBase {
 
 		ServicePortParam service1 = new ServicePortParam("svPort",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
-////		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
-////				rootPath + "\\resource\\MyService.idl", "MyService", "/usr/local", 0);
-//		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
-//				"MyService.idl", "MyService", rootPath + "\\resource", 0);
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
 				rootPath + "\\resource\\MyService.idl", "MyService", rootPath + "\\resource", 0);
 		srvinterts.add(int1);

@@ -31,6 +31,9 @@ public class CXXExCxtTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(3);
 		rtcParam.setExecutionRate(5.0);;
+		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion("1.0.0");
+		rtcParam.setIsTest(true);
 
 		genParam.getRtcParams().add(rtcParam);
 		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 

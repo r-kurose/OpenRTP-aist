@@ -15,6 +15,7 @@ public class AllTestsPy {
 		suite.addTestSuite(PyDocTest.class);
 		suite.addTestSuite(PyIDLInheritTest.class);
 		suite.addTestSuite(PyImplTest.class);
+		suite.addTestSuite(PyModuleTest.class);
 		//$JUnit-END$
 		return suite;
 	}

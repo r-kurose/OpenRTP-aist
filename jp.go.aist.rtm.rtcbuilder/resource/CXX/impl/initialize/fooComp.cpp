@@ -37,7 +37,7 @@ void MyModuleInit(RTC::Manager* manager)
 //  rtobj = RTC::RTObject::_narrow(manager->getPOA()->servant_to_reference(comp));
 
   // Get the port list of the component
-//  PortList* portlist;
+//  PortServiceList* portlist;
 //  portlist = rtobj->get_ports();
 
   // getting port profiles
@@ -45,7 +45,7 @@ void MyModuleInit(RTC::Manager* manager)
 //  std::cout << portlist->length() << std::endl << std::endl; 
 //  for (CORBA::ULong i(0), n(portlist->length()); i < n; ++i)
 //  {
-//    Port_ptr port;
+//    PortService_ptr port;
 //    port = (*portlist)[i];
 //    std::cout << "Port" << i << " (name): ";
 //    std::cout << port->get_port_profile()->name << std::endl;

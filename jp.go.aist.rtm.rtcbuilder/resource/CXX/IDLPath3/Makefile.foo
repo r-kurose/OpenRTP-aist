@@ -11,15 +11,15 @@
 #   --module-category=Manip --module-comp-type=STATIC2 
 #   --module-act-type=PERIODIC2 --module-max-inst=5 
 #   --inport=InP1:RTC::TimedShort --inport=InP2:RTC::TimedLong --outport=OutP1:RTC::TimedLong --outport=OutP2:RTC::TimedFloat 
-#   --service-idl=C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\\resource\MyService.idl 
-#   --consumer-idl=C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\\resource\DAQService.idl 
+#   --service-idl=C:\Tech-Arts\EclipseRTM34\jp.go.aist.rtm.rtcbuilder\\resource\MyService.idl 
+#   --consumer-idl=C:\Tech-Arts\EclipseRTM34\jp.go.aist.rtm.rtcbuilder\\resource\DAQService.idl 
 #   --service=svPort:acc:MyService 
 #   --consumer=cmPort:rate:DAQService 
 #
 #
 # $Id$
 #
-CXXFLAGS = `rtm-config --cflags`
+CXXFLAGS = `rtm-config --cflags` -I.
 LDFLAGS  = `rtm-config --libs`
 SHFLAGS  = -shared
 
@@ -28,10 +28,10 @@ IDLFLAGS = `rtm-config --idlflags` -I`rtm-config --prefix`/include/rtm/idl
 WRAPPER  = rtm-skelwrapper
 WRAPPER_FLAGS = --include-dir="" --skel-suffix=Skel --stub-suffix=Stub
 
-SKEL_OBJ = MyServiceSkel.o DAQServiceStub.o 
-STUB_OBJ = MyServiceStub.o 
+SKEL_OBJ = MyServiceSkel.o 
+STUB_OBJ = DAQServiceStub.o 
 IMPL_OBJ = MyServiceSVC_impl.o 
-OBJS     = foo.o $(SKEL_OBJ) $(IMPL_OBJ)
+OBJS     = foo.o $(SKEL_OBJ) $(STUB_OBJ) $(IMPL_OBJ)
 
 .SUFFIXES : .so
 
@@ -60,24 +60,18 @@ clean_skelstub:
 	rm -f *Stub.h *Stub.cpp
 
 MyServiceSkel.cpp : MyService.idl
-	$(IDLC) $(IDLFLAGS) -IC:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\\resource MyService.idl
+	$(IDLC) $(IDLFLAGS) -IC:\Tech-Arts\EclipseRTM34\jp.go.aist.rtm.rtcbuilder\\resource MyService.idl
 	$(WRAPPER) $(WRAPPER_FLAGS) --idl-file=MyService.idl
 MyServiceSkel.h : MyService.idl
-	$(IDLC) $(IDLFLAGS) -IC:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\\resource MyService.idl
-	$(WRAPPER) $(WRAPPER_FLAGS) --idl-file=MyService.idl
-MyServiceStub.cpp : MyService.idl
-	$(IDLC) $(IDLFLAGS) -IC:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\\resource MyService.idl
-	$(WRAPPER) $(WRAPPER_FLAGS) --idl-file=MyService.idl
-MyServiceStub.h : MyService.idl
-	$(IDLC) $(IDLFLAGS) -IC:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\\resource MyService.idl
+	$(IDLC) $(IDLFLAGS) -IC:\Tech-Arts\EclipseRTM34\jp.go.aist.rtm.rtcbuilder\\resource MyService.idl
 	$(WRAPPER) $(WRAPPER_FLAGS) --idl-file=MyService.idl
 
 
 DAQServiceStub.cpp : DAQService.idl
-	$(IDLC) $(IDLFLAGS) -IC:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\ DAQService.idl
+	$(IDLC) $(IDLFLAGS) DAQService.idl
 	$(WRAPPER) $(WRAPPER_FLAGS) --idl-file=DAQService.idl
 DAQServiceStub.h : DAQService.idl
-	$(IDLC) $(IDLFLAGS) -IC:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\ DAQService.idl
+	$(IDLC) $(IDLFLAGS) DAQService.idl
 	$(WRAPPER) $(WRAPPER_FLAGS) --idl-file=DAQService.idl
 
 
@@ -90,6 +84,7 @@ MyServiceSkel.o: MyServiceSkel.cpp MyServiceSkel.h MyServiceStub.h
 MyServiceStub.o: MyServiceStub.cpp MyServiceStub.h
 
 
+DAQServiceSkel.o: DAQServiceSkel.cpp DAQServiceSkel.h DAQServiceStub.h
 DAQServiceStub.o: DAQServiceStub.cpp DAQServiceStub.h 
 
 # end of Makefile

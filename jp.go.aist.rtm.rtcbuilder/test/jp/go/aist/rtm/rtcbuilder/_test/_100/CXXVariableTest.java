@@ -32,6 +32,10 @@ public class CXXVariableTest extends TestBase {
 		rtcParam.setComponentType("STATIC2");
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
+		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion("1.0.0");
+		rtcParam.setIsTest(true);
+		
 		genParam.getRtcParams().add(rtcParam);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
@@ -89,6 +93,10 @@ public class CXXVariableTest extends TestBase {
 		rtcParam.setComponentType("STATIC2");
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
+		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion("1.0.0");
+		rtcParam.setIsTest(true);
+		
 		genParam.getRtcParams().add(rtcParam);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
@@ -146,6 +154,10 @@ public class CXXVariableTest extends TestBase {
 		rtcParam.setComponentType("STATIC2");
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
+		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion("1.0.0");
+		rtcParam.setIsTest(true);
+		
 		genParam.getRtcParams().add(rtcParam);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "VarInP1", 0));

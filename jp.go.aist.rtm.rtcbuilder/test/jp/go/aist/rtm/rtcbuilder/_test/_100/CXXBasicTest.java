@@ -39,36 +39,22 @@ public class CXXBasicTest extends TestBase {
 		rtcParam.setComponentType("STATIC2");
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
+		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion("1.0.0");
+		rtcParam.setIsTest(true);
 
-		// List<String> privateAtt = new ArrayList<String>();
-		// privateAtt.add(new String("int private1"));
-		// privateAtt.add(new String("static int attribute_4"));
-		// rtcParam.setPrivateAttributes(privateAtt);
 		rtcParam.getPrivateAttributes().clear();
 		rtcParam.getPrivateAttributes().add("int private1");
 		rtcParam.getPrivateAttributes().add("static int attribute_4");
 
-		// List<String> protectedAtt = new ArrayList<String>();
-		// protectedAtt.add(new String("String protectval"));
-		// protectedAtt.add(new String("static float attribute_4"));
-		// rtcParam.setProtectedAttributes(protectedAtt);
 		rtcParam.getProtectedAttributes().clear();
 		rtcParam.getProtectedAttributes().add("String protectval");
 		rtcParam.getProtectedAttributes().add("static float attribute_4");
 
-		// List<String> publicAtt = new ArrayList<String>();
-		// publicAtt.add(new String("boolean pubbol1"));
-		// publicAtt.add(new String("double attribute_5"));
-		// rtcParam.setPublicAttributes(publicAtt);
 		rtcParam.getPublicAttributes().clear();
 		rtcParam.getPublicAttributes().add("boolean pubbol1");
 		rtcParam.getPublicAttributes().add("double attribute_5");
 
-		// List<String> publicOpe = new ArrayList<String>();
-		// publicOpe.add(new String("int operation_2(int param_1 = 10)"));
-		// publicOpe.add(new String("String operation_1(String param_1, int
-		// param_2)"));
-		// rtcParam.setPublicOperations(publicOpe);
 		rtcParam.getPublicOperations().clear();
 		rtcParam.getPublicOperations().add("int operation_2(int param_1 = 10)");
 		rtcParam.getPublicOperations().add(
@@ -102,27 +88,18 @@ public class CXXBasicTest extends TestBase {
 		rtcParam.setComponentType("STATIC2");
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
+		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion("1.0.0");
+		rtcParam.setIsTest(true);
 
-		// List<String> privateAtt = new ArrayList<String>();
-		// privateAtt.add(new String("int private1"));
-		// privateAtt.add(new String("static int attribute_4"));
-		// rtcParam.setPrivateAttributes(privateAtt);
 		rtcParam.getPrivateAttributes().clear();
 		rtcParam.getPrivateAttributes().add("int private1");
 		rtcParam.getPrivateAttributes().add("static int attribute_4");
 
-		// List<String> protectedAtt = new ArrayList<String>();
-		// protectedAtt.add(new String("String protectval"));
-		// protectedAtt.add(new String("static float attribute_4"));
-		// rtcParam.setProtectedAttributes(protectedAtt);
 		rtcParam.getProtectedAttributes().clear();
 		rtcParam.getProtectedAttributes().add("String protectval");
 		rtcParam.getProtectedAttributes().add("static float attribute_4");
 
-		// List<String> publicdAtt = new ArrayList<String>();
-		// publicdAtt.add(new String("boolean pubbol1"));
-		// publicdAtt.add(new String("double attribute_5"));
-		// rtcParam.setPublicAttributes(publicdAtt);
 		rtcParam.getPublicAttributes().clear();
 		rtcParam.getPublicAttributes().add("boolean pubbol1");
 		rtcParam.getPublicAttributes().add("double attribute_5");

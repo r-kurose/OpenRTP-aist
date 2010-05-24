@@ -408,6 +408,12 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	#
 	#	return RTC.RTC_OK
 	
+def fooInit(manager):
+    profile = OpenRTM_aist.Properties(defaults_str=foo_spec)
+    manager.registerFactory(profile,
+                            foo,
+                            OpenRTM_aist.Delete)
+
 def MyModuleInit(manager):
     profile = OpenRTM_aist.Properties(defaults_str=foo_spec)
     manager.registerFactory(profile,
