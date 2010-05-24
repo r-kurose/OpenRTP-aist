@@ -253,6 +253,12 @@ class test(OpenRTM_aist.DataFlowComponentBase):
 	#
 	#	return RTC.RTC_OK
 	
+def testInit(manager):
+    profile = OpenRTM_aist.Properties(defaults_str=test_spec)
+    manager.registerFactory(profile,
+                            test,
+                            OpenRTM_aist.Delete)
+
 def MyModuleInit(manager):
     profile = OpenRTM_aist.Properties(defaults_str=test_spec)
     manager.registerFactory(profile,

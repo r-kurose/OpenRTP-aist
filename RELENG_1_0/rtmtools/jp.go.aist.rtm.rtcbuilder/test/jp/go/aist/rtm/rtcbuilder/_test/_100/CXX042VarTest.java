@@ -32,6 +32,7 @@ public class CXX042VarTest extends TestBase {
 		rtcParam.setCategory("manip2");
 		rtcParam.setComponentType("STATIC2");
 		rtcParam.setActivityType("PERIODIC2");
+		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_042);
 		rtcParam.setMaxInstance(3);
 
 		genParam.getRtcParams().add(rtcParam);
@@ -67,6 +68,7 @@ public class CXX042VarTest extends TestBase {
 		rtcParam.setCategory("Manip");
 		rtcParam.setComponentType("STATIC2");
 		rtcParam.setActivityType("PERIODIC2");
+		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_042);
 		rtcParam.setMaxInstance(5);
 		genParam.getRtcParams().add(rtcParam);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 

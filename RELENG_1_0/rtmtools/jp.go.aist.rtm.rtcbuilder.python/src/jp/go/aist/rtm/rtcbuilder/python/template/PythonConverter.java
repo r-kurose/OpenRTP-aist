@@ -1,9 +1,11 @@
 package jp.go.aist.rtm.rtcbuilder.python.template;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceArgumentParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceMethodParam;
@@ -299,5 +301,71 @@ public class PythonConverter {
 		}
 		
 		return methodName;
+	}
+	
+	public String convFullName(String source) {
+		if(source.contains("::")) {
+			return source.replace("::", ".");
+			
+		}
+		return "_GlobalIDL." + source;
+	}
+	
+	public String getModuleName(String source) {
+		if(source.contains("::")) {
+			int index = source.lastIndexOf("::");
+			return source.substring(0, index);
+			
+		}
+		return "_GlobalIDL";
+	}
+	
+	public String convModuleName(IdlFileParam source) {
+		StringBuffer result = new StringBuffer();
+		
+		boolean existGlobal = false;
+		for(ServiceClassParam target : source.getServiceClassParams() ) {
+			if(target.getName().contains("::")) {
+				int index = target.getName().lastIndexOf("::");
+				result.append("import ");
+				result.append(target.getName().substring(0, index));
+				result.append(", ");
+				result.append(target.getName().substring(0, index));
+				result.append("__POA");
+			} else {
+				if(!existGlobal) {
+					result.append("import ");
+					result.append("_GlobalIDL, _GlobalIDL__POA");
+					existGlobal = true;
+				}
+			}
+		}
+		return result.toString();
+	}
+	
+	public String convModuleNameAll(List<IdlFileParam> sourceList) {
+		StringBuffer result = new StringBuffer();
+		
+		boolean existGlobal = false;
+		for(IdlFileParam source : sourceList) {
+			
+			for(ServiceClassParam target : source.getServiceClassParams() ) {
+				if(target.getName().contains("::")) {
+					int index = target.getName().lastIndexOf("::");
+					result.append("import ");
+					result.append(target.getName().substring(0, index));
+					result.append(", ");
+					result.append(target.getName().substring(0, index));
+					result.append("__POA");
+				} else {
+					if(!existGlobal) {
+						result.append("import ");
+						result.append("_GlobalIDL, _GlobalIDL__POA");
+						existGlobal = true;
+					}
+				}
+			}
+		}
+		return result.toString();
 	}
 }

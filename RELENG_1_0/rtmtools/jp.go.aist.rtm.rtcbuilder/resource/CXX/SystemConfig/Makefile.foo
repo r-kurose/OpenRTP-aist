@@ -15,7 +15,7 @@
 #
 # $Id$
 #
-CXXFLAGS = `rtm-config --cflags`
+CXXFLAGS = `rtm-config --cflags` -I.
 LDFLAGS  = `rtm-config --libs`
 SHFLAGS  = -shared
 
@@ -27,7 +27,7 @@ WRAPPER_FLAGS = --include-dir="" --skel-suffix=Skel --stub-suffix=Stub
 SKEL_OBJ = 
 STUB_OBJ = 
 IMPL_OBJ = 
-OBJS     = foo.o $(SKEL_OBJ) $(IMPL_OBJ)
+OBJS     = foo.o $(SKEL_OBJ) $(STUB_OBJ) $(IMPL_OBJ)
 
 .SUFFIXES : .so
 

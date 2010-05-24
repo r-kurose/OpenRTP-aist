@@ -19,7 +19,8 @@ static const char* foo_spec[] =
     "version",           "1.0.1",
     "vendor",            "TA",
     "category",          "Manip",
-    "activity_type",     "STATIC2",
+    "activity_type",     "PERIODIC2",
+    "kind",              "DataFlowComponent",
     "max_instance",      "5",
     "language",          "C++",
     "lang_type",         "compile",
@@ -32,13 +33,15 @@ static const char* foo_spec[] =
  * @param manager Maneger Object
  */
 foo::foo(RTC::Manager* manager)
-  : RTC::DataFlowComponentBase(manager),
     // <rtc-template block="initializer">
+  : RTC::DataFlowComponentBase(manager),
     m_InName1In("InP1", m_InName1),
     m_InNm2In("InP2", m_InNm2),
     m_OutName1Out("OutP1", m_OutName1),
     m_OutNme2Out("OutP2", m_OutNme2),
-    m_svPortPort("svPort"),m_cmPortPort("cmPort"),
+    m_svPortPort("svPort"),
+    m_cmPortPort("cmPort"),
+
     // </rtc-template>
 	dummy(0)
 {

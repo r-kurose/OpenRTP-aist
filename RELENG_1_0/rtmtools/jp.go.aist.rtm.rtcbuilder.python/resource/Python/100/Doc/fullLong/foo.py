@@ -542,6 +542,12 @@ class foo(OpenRTM.DataFlowComponentBase):
 
 
 
+def fooInit(manager):
+    profile = OpenRTM_aist.Properties(defaults_str=foo_spec)
+    manager.registerFactory(profile,
+                            foo,
+                            OpenRTM_aist.Delete)
+
 def MyModuleInit(manager):
     profile = OpenRTM.Properties(defaults_str=foo_spec)
     manager.registerFactory(profile,

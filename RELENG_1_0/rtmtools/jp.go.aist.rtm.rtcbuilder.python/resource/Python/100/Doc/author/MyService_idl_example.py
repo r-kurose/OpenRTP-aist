@@ -11,13 +11,7 @@
 
 import CORBA, PortableServer
 
-# Import the Python stub modules so type definitions are available.
-
-import _GlobalIDL
-
-# Import the Python Skeleton modules so skeleton base classes are available.
-
-import _GlobalIDL__POA
+import _GlobalIDL, _GlobalIDL__POA
 
 
 class MyService_i (_GlobalIDL__POA.MyService):

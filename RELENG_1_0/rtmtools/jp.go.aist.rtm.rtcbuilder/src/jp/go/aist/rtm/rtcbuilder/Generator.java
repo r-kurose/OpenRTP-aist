@@ -30,7 +30,6 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceMethodParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.TypeDefParam;
 import jp.go.aist.rtm.rtcbuilder.generator.parser.MergeBlockParser;
 import jp.go.aist.rtm.rtcbuilder.manager.CXXGenerateManager;
-import jp.go.aist.rtm.rtcbuilder.manager.CXXWinGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.CommonGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.ui.editors.IMessageConstants;
@@ -58,7 +57,6 @@ public class Generator {
 	public Generator() {
 		this.addGenerateManager(new CommonGenerateManager());
 		this.addGenerateManager(new CXXGenerateManager());
-		this.addGenerateManager(new CXXWinGenerateManager());
 	}
 	
 	/**

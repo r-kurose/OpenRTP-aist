@@ -64,17 +64,8 @@ public class PythonGenerateManager extends GenerateManager {
 		List<IdlFileParam> providerIdlFileParams = new ArrayList<IdlFileParam>();
 
 		if (rtcParam.isLanguageExist(IRtcBuilderConstantsPython.LANG_PYTHON)) {
-			Map<String, Object> contextMap = new HashMap<String, Object>();
-			contextMap.put("rtcParam", rtcParam);
-			contextMap.put("tmpltHelper", new TemplateHelper());
-			contextMap.put("tmpltHelperPy", new TemplateHelperPy());
-			contextMap.put("pyConv", new PythonConverter());
-
-			result = generatePythonSource(contextMap, result);
-			result = generateCommonExtend(contextMap, result);
-
 			providerIdlFileParams = new ArrayList<IdlFileParam>(rtcParam.getProviderIdlPathes());
-			allIdlFileParams = rtcParam.getProviderIdlPathes();
+			allIdlFileParams = new ArrayList<IdlFileParam>(rtcParam.getProviderIdlPathes());
 			allIdlFileParams.addAll(rtcParam.getConsumerIdlPathes());
 
 			//IDLファイル内に記述されているServiceClassParamを設定する
@@ -84,6 +75,17 @@ public class PythonGenerateManager extends GenerateManager {
 						idlFileParam.addServiceClassParams(serviceClassParam);
 				}
 			}
+			
+			Map<String, Object> contextMap = new HashMap<String, Object>();
+			contextMap.put("rtcParam", rtcParam);
+			contextMap.put("tmpltHelper", new TemplateHelper());
+			contextMap.put("tmpltHelperPy", new TemplateHelperPy());
+			contextMap.put("pyConv", new PythonConverter());
+			contextMap.put("allIdlFileParam", allIdlFileParams);
+
+			result = generatePythonSource(contextMap, result);
+			result = generateCommonExtend(contextMap, result);
+
 			contextMap = new HashMap<String, Object>();
 			if( !rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100) ) {
 				for (IdlFileParam idlFileParam : allIdlFileParams) {
@@ -188,8 +190,14 @@ public class PythonGenerateManager extends GenerateManager {
 	protected List<GeneratedResult> generateSVCIDLExampleSource(Map<String, Object> contextMap, List<GeneratedResult> result) {
 		InputStream ins = null;
 
-		ins = PythonGenerateManager.class.getClassLoader()	
-				.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/python/template/Py_SVC_IDL_Example_src.template");
+		RtcParam param = (RtcParam)contextMap.get("rtcParam");
+		if( param.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100) ) {
+			ins = PythonGenerateManager.class.getClassLoader()	
+						.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/python/template/_100/Py_SVC_IDL_Example_src.template");
+		} else {
+			ins = PythonGenerateManager.class.getClassLoader()	
+						.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/python/template/Py_SVC_IDL_Example_src.template");
+		}
 		result.add(TemplateUtil.createGeneratedResult(ins, contextMap, 
 				((IdlFileParam)contextMap.get("idlFileParam")).getIdlFileNoExt() + "_idl_example.py"));
 		try {

@@ -41,6 +41,9 @@ public class CXXImplTest extends TestBase {
 		rtcParam.setActionImplemented(10, true);
 		rtcParam.setActionImplemented(11, true);
 		genParam.getRtcParams().add(rtcParam);
+		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion("1.0.0");
+		rtcParam.setIsTest(true);
 		
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
@@ -74,6 +77,9 @@ public class CXXImplTest extends TestBase {
 		rtcParam.setActionImplemented(5, true);
 		rtcParam.setActionImplemented(9, true);
 		genParam.getRtcParams().add(rtcParam);
+		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion("1.0.0");
+		rtcParam.setIsTest(true);
 		
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
@@ -104,6 +110,9 @@ public class CXXImplTest extends TestBase {
 		rtcParam.setActionImplemented(0, true);
 		rtcParam.setActionImplemented(1, true);
 		genParam.getRtcParams().add(rtcParam);
+		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion("1.0.0");
+		rtcParam.setIsTest(true);
 		
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
@@ -133,6 +142,9 @@ public class CXXImplTest extends TestBase {
 		rtcParam.setMaxInstance(5);
 		rtcParam.setActionImplemented(0, true);
 		genParam.getRtcParams().add(rtcParam);
+		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion("1.0.0");
+		rtcParam.setIsTest(true);
 		
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);

@@ -16,6 +16,8 @@
 #include <rtm/DataInPort.h>
 #include <rtm/DataOutPort.h>
 #include <rtm/idl/BasicDataTypeSkel.h>
+#include <rtm/idl/ExtendedDataTypesSkel.h>
+#include <rtm/idl/InterfaceDataTypesSkel.h>
 
 // Service implementation headers
 // <rtc-template block="service_impl_h">
@@ -61,7 +63,7 @@ class foo
   
   // </rtc-template>
 
-  /**
+  /***
    *
    * The initialize action (on CREATED->ALIVE transition)
    * formaer rtc_init_entry() 
@@ -252,7 +254,6 @@ class foo
   // </rtc-template>
 
  private:
-  int dummy;
   // <rtc-template block="private_attribute">
   int private1;
   static int attribute_4;
@@ -268,7 +269,7 @@ class foo
 
 extern "C"
 {
-  void fooInit(RTC::Manager* manager);
+  DLL_EXPORT void fooInit(RTC::Manager* manager);
 };
 
 #endif // FOO_H

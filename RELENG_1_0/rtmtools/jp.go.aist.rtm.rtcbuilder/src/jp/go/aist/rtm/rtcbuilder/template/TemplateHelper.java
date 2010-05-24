@@ -49,6 +49,15 @@ public class TemplateHelper {
 		}
 		return "";
 	}
+	
+	public String convFormat(String source) {
+		return source.replace("::", ".");
+	}
+	
+	public boolean isModule(String source) {
+		return source.contains("::");
+	}
+	
 	public static String getServiceImplSuffix() {
 		return IRtcBuilderConstants.DEFAULT_SVC_IMPL_SUFFIX;
 	}

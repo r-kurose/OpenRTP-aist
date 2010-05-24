@@ -1,7 +1,7 @@
 ======================================================================
   RTComponent: foo specificatioin
 
-  OpenRTM-aist-0.4.1
+  OpenRTM-aist-0.4.2
   Date: $Date$
 
   @author Noriaki Ando <n-ando@aist.go.jp>
@@ -16,12 +16,14 @@
 #   --module-act-type=PERIODIC2 --module-max-inst=5 
 #   --config=int_param0:int:0 --config=int_param1:int:1 --config=double_param0:double:0.11 --config=str_param0:std::string:hoge --config=str_param1:std::string:dara 
 #   --inport=InP1:RTC::TimedShort --inport=InP2:RTC::TimedLong --outport=OutP1:RTC::TimedLong --outport=OutP2:RTC::TimedFloat 
-#   --service-idl=C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\\resource\MyService.idl 
-#   --consumer-idl=C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\\resource\DAQService.idl 
+#   --service-idl=C:\Tech-Arts\EclipseRTM34\jp.go.aist.rtm.rtcbuilder\\resource\MyService.idl 
+#   --consumer-idl=C:\Tech-Arts\EclipseRTM34\jp.go.aist.rtm.rtcbuilder\\resource\DAQService.idl 
 #   --service=svPort:acc:MyService 
 #   --consumer=cmPort:rate:DAQService 
 
 
+======================================================================
+    Basic Information
 ======================================================================
 # <rtc-template block="module">
 Module Name: foo
@@ -229,36 +231,47 @@ Reference:   参考文献の情報
     Configuration definition
 ======================================================================
 # <rtc-template block="configuration">
-	ConfigurationName: Config1の名前 int_param0
+	Configuration:
+		Name:            Config1の名前 int_param0
 		Description:     Config1の概要
+		Type:            int
 		DefaultValue:    Config1のデフォルト値 0
 		Unit:            Config1の単位
 		Range:           Config1の範囲
 		Constraint:      Config1の制約条件
-	ConfigurationName: Config2の名前 int_param1
+
+		Name:            Config2の名前 int_param1
 		Description:     Config2の概要
+		Type:            int
 		DefaultValue:    Config2のデフォルト値 1
 		Unit:            Config2の単位
 		Range:           Config2の範囲
 		Constraint:      Config2の制約条件
-	ConfigurationName: Config3の名前 double_param0
+
+		Name:            Config3の名前 double_param0
 		Description:     Config3の概要
+		Type:            double
 		DefaultValue:    Config3のデフォルト値 0.11
 		Unit:            Config3の単位
 		Range:           Config3の範囲
 		Constraint:      Config3の制約条件
-	ConfigurationName: Config4の名前 str_param0
+
+		Name:            Config4の名前 str_param0
 		Description:     Config4の概要
+		Type:            std::string
 		DefaultValue:    Config4のデフォルト値 hoge
 		Unit:            Config4の単位
 		Range:           Config4の範囲
 		Constraint:      Config4の制約条件
-	ConfigurationName: Config5の名前 str_param1
+
+		Name:            Config5の名前 str_param1
 		Description:     Config5の概要
+		Type:            std::string
 		DefaultValue:    Config5のデフォルト値 dara
 		Unit:            Config5の単位
 		Range:           Config5の範囲
 		Constraint:      Config5の制約条件
+
 # </rtc-template> 
 This area is reserved for future OpenRTM.
 

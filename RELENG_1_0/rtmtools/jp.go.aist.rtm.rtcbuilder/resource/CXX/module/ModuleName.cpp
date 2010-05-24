@@ -19,7 +19,8 @@ static const char* modulename_spec[] =
     "version",           "1.0.0",
     "vendor",            "VenderName",
     "category",          "Category",
-    "activity_type",     "DataFlowComponent",
+    "activity_type",     "PERIODIC",
+    "kind",              "DataFlowComponent",
     "max_instance",      "1",
     "language",          "C++",
     "lang_type",         "compile",
@@ -32,11 +33,24 @@ static const char* modulename_spec[] =
  * @param manager Maneger Object
  */
 ModuleName::ModuleName(RTC::Manager* manager)
-  : RTC::DataFlowComponentBase(manager),
     // <rtc-template block="initializer">
-    m_portNamePort("portName"),
+  : RTC::DataFlowComponentBase(manager),
+    m_portNamePort("portName")
+
     // </rtc-template>
-	dummy(0)
+{
+}
+
+/*!
+ * @brief destructor
+ */
+ModuleName::~ModuleName()
+{
+}
+
+
+
+RTC::ReturnCode_t ModuleName::onInitialize()
 {
   // Registration: InPort/OutPort/Service
   // <rtc-template block="registration">
@@ -50,26 +64,12 @@ ModuleName::ModuleName(RTC::Manager* manager)
   // Set service consumers to Ports
   
   // Set CORBA Service Ports
-  registerPort(m_portNamePort);
+  addPort(m_portNamePort);
   
   // </rtc-template>
 
-}
-
-/*!
- * @brief destructor
- */
-ModuleName::~ModuleName()
-{
-}
-
-
-/*
-RTC::ReturnCode_t ModuleName::onInitialize()
-{
   return RTC::RTC_OK;
 }
-*/
 
 /*
 RTC::ReturnCode_t ModuleName::onFinalize()
@@ -155,7 +155,7 @@ extern "C"
  
   void ModuleNameInit(RTC::Manager* manager)
   {
-    RTC::Properties profile(modulename_spec);
+    coil::Properties profile(modulename_spec);
     manager->registerFactory(profile,
                              RTC::Create<ModuleName>,
                              RTC::Delete<ModuleName>);

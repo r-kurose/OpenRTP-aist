@@ -19,7 +19,8 @@ static const char* foo_spec[] =
     "version",           "1.0.1",
     "vendor",            "TA",
     "category",          "Manip",
-    "activity_type",     "STATIC2",
+    "activity_type",     "PERIODIC2",
+    "kind",              "DataFlowComponent",
     "max_instance",      "5",
     "language",          "C++",
     "lang_type",         "compile",
@@ -32,34 +33,15 @@ static const char* foo_spec[] =
  * @param manager Maneger Object
  */
 foo::foo(RTC::Manager* manager)
-  : RTC::DataFlowComponentBase(manager),
     // <rtc-template block="initializer">
+  : RTC::DataFlowComponentBase(manager),
     m_VarInP1In("InP1", m_VarInP1),
     m_InP2In("InP2", m_InP2),
     m_OutP1Out("OutP1", m_OutP1),
-    m_VarOutP2Out("OutP2", m_VarOutP2),
-    
-    // </rtc-template>
-	dummy(0)
-{
-  // Registration: InPort/OutPort/Service
-  // <rtc-template block="registration">
-  // Set InPort buffers
-  registerInPort("InP1", m_VarInP1In);
-  registerInPort("InP2", m_InP2In);
-  
-  // Set OutPort buffer
-  registerOutPort("OutP1", m_OutP1Out);
-  registerOutPort("OutP2", m_VarOutP2Out);
-  
-  // Set service provider to Ports
-  
-  // Set service consumers to Ports
-  
-  // Set CORBA Service Ports
-  
-  // </rtc-template>
+    m_VarOutP2Out("OutP2", m_VarOutP2)
 
+    // </rtc-template>
+{
 }
 
 /*!
@@ -70,12 +52,29 @@ foo::~foo()
 }
 
 
-/*
+
 RTC::ReturnCode_t foo::onInitialize()
 {
+  // Registration: InPort/OutPort/Service
+  // <rtc-template block="registration">
+  // Set InPort buffers
+  addInPort("InP1", m_VarInP1In);
+  addInPort("InP2", m_InP2In);
+  
+  // Set OutPort buffer
+  addOutPort("OutP1", m_OutP1Out);
+  addOutPort("OutP2", m_VarOutP2Out);
+  
+  // Set service provider to Ports
+  
+  // Set service consumers to Ports
+  
+  // Set CORBA Service Ports
+  
+  // </rtc-template>
+
   return RTC::RTC_OK;
 }
-*/
 
 /*
 RTC::ReturnCode_t foo::onFinalize()
@@ -161,7 +160,7 @@ extern "C"
  
   void fooInit(RTC::Manager* manager)
   {
-    RTC::Properties profile(foo_spec);
+    coil::Properties profile(foo_spec);
     manager->registerFactory(profile,
                              RTC::Create<foo>,
                              RTC::Delete<foo>);

@@ -30,6 +30,7 @@ public class CXXTemplateTestAIST2 extends TestBase {
 		rtcParam.setCategory("Category");
 		rtcParam.setComponentType("DataFlowComponent");
 		rtcParam.setActivityType("PERIODIC");
+		rtcParam.setComponentKind("DataFlowComponent");
 		rtcParam.setMaxInstance(1);
 
 		ServicePortParam service1 = new ServicePortParam("portName",0);
