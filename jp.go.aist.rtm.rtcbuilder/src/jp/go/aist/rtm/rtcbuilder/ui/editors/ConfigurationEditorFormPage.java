@@ -90,7 +90,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 	private String defaultConfigDefault;
 	private String defaultConfigConstraint;
 	private String defaultConfigUnit;
-	private String[] defaultTypeList;
+	private String[] defaultTypeList = {"bool", "char", "byte", "int", "long", "float", "double", "string"};
 	private String[] defaultParamNameList;
 	private String[] defaultParamDefaultList;
 	
@@ -118,7 +118,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		defaultConfigConstraint = store.getString(ComponentPreferenceManager.Generate_Configuration_Constraint);
 		defaultConfigUnit = store.getString(ComponentPreferenceManager.Generate_Configuration_Unit);
 		//
-		defaultTypeList = super.extractDataTypes();
+//		defaultTypeList = super.extractDataTypes();
 		//
 		defaultParamNameList = ConfigPreferenceManager.getConfigName();
 		defaultParamDefaultList = ConfigPreferenceManager.getDefaultValue();
@@ -553,7 +553,12 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 			for( int i=0; i<defaultTypeList.length; i++ ){
 				newDefaultTypeList[i] = defaultTypeList[i];
 			}
-			newDefaultTypeList[defaultTypeList.length] = newValue;
+			if(newValue.trim().length()==0) {
+				newDefaultTypeList[defaultTypeList.length] = newValue;
+			} else {
+				newDefaultTypeList[defaultTypeList.length-1] = newValue;
+				newDefaultTypeList[defaultTypeList.length] = "";
+			}
 			
 			defaultTypeList = newDefaultTypeList;
 			
