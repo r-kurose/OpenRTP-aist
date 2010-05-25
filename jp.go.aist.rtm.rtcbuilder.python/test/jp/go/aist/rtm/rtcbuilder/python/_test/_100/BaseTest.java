@@ -77,6 +77,8 @@ public class BaseTest extends TestBase {
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "README.foo");
+		checkCode(result, resourceDir, "idlcompile.bat");
+		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "MyService_idl.py");
 //		checkCode(result, resourceDir, "DAQService_idl.py");
 //		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
@@ -130,6 +132,8 @@ public class BaseTest extends TestBase {
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "README.foo");
+		checkCode(result, resourceDir, "idlcompile.bat");
+		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "MyService_idl.py");
 //		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
 //		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
@@ -273,6 +277,35 @@ public class BaseTest extends TestBase {
 		checkCode(result, resourceDir, "README.foo");
 	}
 
+	public void testName2() throws Exception{
+		GeneratorParam genParam = new GeneratorParam();
+		RtcParam rtcParam = new RtcParam(genParam, true);
+		rtcParam.setOutputProject(rootPath + "\\resource\\work");
+		rtcParam.setLanguage(IRtcBuilderConstantsPython.LANG_PYTHON);
+		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
+		rtcParam.setName("Foo");
+		rtcParam.setDescription("MDesc");
+		rtcParam.setVersion("1.0.1");
+		rtcParam.setVender("TA");
+		rtcParam.setCategory("Manip");
+		rtcParam.setComponentType("STATIC2");
+		rtcParam.setActivityType("PERIODIC2");
+		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setMaxInstance(5);
+		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
+		genParam.getRtcParams().add(rtcParam);
+		
+		Generator generator = new Generator();
+		GenerateManager manager = new PythonGenerateManager();
+		generator.addGenerateManager(manager);
+		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
+
+		String resourceDir = rootPath +  "\\resource\\Python\\100\\name2\\";
+
+		checkCode(result, resourceDir, "Foo.py");
+		checkCode(result, resourceDir, "README.Foo");
+	}
+	
 	public void testBasic() throws Exception{
 		GeneratorParam genParam = new GeneratorParam();
 		RtcParam rtcParam = new RtcParam(genParam, true);

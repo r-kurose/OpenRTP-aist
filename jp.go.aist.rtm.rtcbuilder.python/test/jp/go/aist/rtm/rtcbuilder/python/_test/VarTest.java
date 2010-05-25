@@ -34,6 +34,7 @@ public class VarTest extends TestBase {
 		rtcParam.setComponentType("STATIC2");
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(3);
+		rtcParam.setRtmVersion("0.4.2");
 
 		genParam.getRtcParams().add(rtcParam);
 		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
@@ -69,6 +70,7 @@ public class VarTest extends TestBase {
 		rtcParam.setComponentType("STATIC2");
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(3);
+		rtcParam.setRtmVersion("0.4.2");
 
 		genParam.getRtcParams().add(rtcParam);
 		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
@@ -103,6 +105,7 @@ public class VarTest extends TestBase {
 		rtcParam.setCategory("Manip");
 		rtcParam.setComponentType("STATIC2");
 		rtcParam.setActivityType("PERIODIC2");
+		rtcParam.setRtmVersion("0.4.2");
 		rtcParam.setMaxInstance(5);
 		genParam.getRtcParams().add(rtcParam);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
@@ -162,6 +165,7 @@ public class VarTest extends TestBase {
 		rtcParam.setCategory("Manip");
 		rtcParam.setComponentType("STATIC2");
 		rtcParam.setActivityType("PERIODIC2");
+		rtcParam.setRtmVersion("0.4.2");
 		rtcParam.setMaxInstance(5);
 		genParam.getRtcParams().add(rtcParam);
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 

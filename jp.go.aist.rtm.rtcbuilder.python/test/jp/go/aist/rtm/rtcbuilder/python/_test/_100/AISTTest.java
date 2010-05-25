@@ -38,16 +38,6 @@ public class AISTTest extends TestBase {
 		rtcParam.setComponentKind("DataFlowComponent");
 		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
 
-//		genParam.addProviderIDLPath(rootPath + "resource\\Python\\AIST6\\work\\MyService.idl");
-//		genParam.addProviderIDLPath(rootPath + "resource\\Python\\AIST6\\work\\MyServiceAIST.idl");
-//		genParam.getRtcParams().add(rtcParam);
-//		List<ServiceReferenceParam> srvproport = new ArrayList<ServiceReferenceParam>(); 
-//		srvproport.add(new ServiceReferenceParam("MySVPro0","myservice0","MyService", rtcParam));
-//		srvproport.add(new ServiceReferenceParam("MySVPro1","myservice","MyService2", rtcParam));
-//		rtcParam.setProviderReferences(srvproport);
-//		rtcParam.setOriginalConsumerIdls(new ArrayList<String>(genParam.getConsumerIDLPathParams()));
-//		rtcParam.setOriginalProviderIdls(new ArrayList<String>(genParam.getProviderIDLPathParams()));
-
 		ServicePortParam service1 = new ServicePortParam("MySVPro0",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "myservice0", "", "", 
@@ -71,8 +61,6 @@ public class AISTTest extends TestBase {
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 		//
 		genParam = new GeneratorParam();
-//		rtcParam.getProviderReferences().clear();
-//		rtcParam.getConsumerReferences().clear();
 		rtcParam.setOutputProject(rootPath + "\\resource\\work");
 		rtcParam.getServicePorts().clear();
 		genParam.getRtcParams().add(rtcParam);
@@ -133,6 +121,8 @@ public class AISTTest extends TestBase {
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "README.test");
+		checkCode(result, resourceDir, "idlcompile.bat");
+		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "MyService_idl.py");
 //		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
 //		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
@@ -192,6 +182,8 @@ public class AISTTest extends TestBase {
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "README.test");
+		checkCode(result, resourceDir, "idlcompile.bat");
+		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "MyService_idl.py");
 //		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
 //		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
@@ -242,6 +234,8 @@ public class AISTTest extends TestBase {
 
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "README.test");
+		checkCode(result, resourceDir, "idlcompile.bat");
+		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "MyService_idl.py");
 //		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
 //		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
@@ -285,6 +279,8 @@ public class AISTTest extends TestBase {
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "README.test");
+		checkCode(result, resourceDir, "idlcompile.bat");
+		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "MyService_idl.py");
 //		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
 //		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
@@ -328,6 +324,8 @@ public class AISTTest extends TestBase {
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "README.test");
+		checkCode(result, resourceDir, "idlcompile.bat");
+		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "MyService_idl.py");
 //		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
 //		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
@@ -371,6 +369,8 @@ public class AISTTest extends TestBase {
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "README.test");
+		checkCode(result, resourceDir, "idlcompile.bat");
+		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "MyService_idl.py");
 //		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
 //		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");

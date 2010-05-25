@@ -32,6 +32,7 @@ public class DiffTest extends TestBase {
 		rtcParam.setComponentType("STATIC");
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(1);
+		rtcParam.setRtmVersion("0.4.2");
 
 		ServicePortParam service1 = new ServicePortParam("MySVPro0",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
@@ -75,6 +76,7 @@ public class DiffTest extends TestBase {
 		rtcParam.setComponentType("STATIC");
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(1);
+		rtcParam.setRtmVersion("0.4.2");
 
 		ServicePortParam service1 = new ServicePortParam("MySVPro0",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 

@@ -85,6 +85,10 @@ public class PythonGenerateManager extends GenerateManager {
 
 			result = generatePythonSource(contextMap, result);
 			result = generateCommonExtend(contextMap, result);
+			if( rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100) &&
+					allIdlFileParams.size()>0 ) {
+				result = generateCompileExtend(contextMap, result);
+			}
 
 			contextMap = new HashMap<String, Object>();
 			if( !rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100) ) {
@@ -255,6 +259,26 @@ public class PythonGenerateManager extends GenerateManager {
 			targetDirectory.mkdir();
         }
 		result.add(TemplateUtil.createGeneratedResult(ins, contextMap, File.separator + "_GlobalIDL__POA" + File.separator + "__init__.py"));
+
+		try {
+			if( ins != null) ins.close();
+		} catch (Exception e) {
+			throw new RuntimeException(e); // system error
+		}
+
+		return result;
+	}
+	
+	protected List<GeneratedResult> generateCompileExtend(Map<String, Object> contextMap, List<GeneratedResult> result) {
+		InputStream ins = null;
+
+		ins = PythonGenerateManager.class.getClassLoader()	
+				.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/python/template/_100/IDL_Compile_bat.template");
+		result.add(TemplateUtil.createGeneratedResult(ins, contextMap, "idlcompile.bat"));
+		//
+		ins = PythonGenerateManager.class.getClassLoader()	
+				.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/python/template/_100/IDL_Compile_sh.template");
+		result.add(TemplateUtil.createGeneratedResult(ins, contextMap, "idlcompile.sh"));
 
 		try {
 			if( ins != null) ins.close();

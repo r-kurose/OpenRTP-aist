@@ -259,10 +259,7 @@ def fooInit(manager):
                             OpenRTM_aist.Delete)
 
 def MyModuleInit(manager):
-    profile = OpenRTM_aist.Properties(defaults_str=foo_spec)
-    manager.registerFactory(profile,
-                            foo,
-                            OpenRTM_aist.Delete)
+    fooInit(manager)
 
     # Create a component
     comp = manager.createComponent("foo")

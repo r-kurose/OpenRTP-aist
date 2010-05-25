@@ -33,6 +33,7 @@ public class MultiTest extends TestBase {
 		rtcParam.setComponentType("STATIC");
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(2);
+		rtcParam.setRtmVersion("0.4.2");
 		
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
 		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
@@ -109,6 +110,7 @@ public class MultiTest extends TestBase {
 		rtcParam.setComponentType("STATIC");
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(2);
+		rtcParam.setRtmVersion("0.4.2");
 		
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
 		dataInport.add(new DataPortParam("in", "RTC::TimedShort", "", 0));
@@ -166,6 +168,7 @@ public class MultiTest extends TestBase {
 		rtcParam.setComponentType("STATIC");
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(2);
+		rtcParam.setRtmVersion("0.4.2");
 		
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
 		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));

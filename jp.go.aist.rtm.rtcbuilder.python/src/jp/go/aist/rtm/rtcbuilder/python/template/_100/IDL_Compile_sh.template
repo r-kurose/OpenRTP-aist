@@ -1,0 +1,2 @@
+#!/bin/sh
+omniidl -bpython #foreach($IdlFile in ${allIdlFileParam})${IdlFile.IdlFile} #end

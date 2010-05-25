@@ -35,6 +35,7 @@ public class PyDocLongTest extends TestBase {
 		rtcParam.setComponentType("STATIC2");
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
+		rtcParam.setRtmVersion("0.4.2");
 		//
 		rtcParam.setDocCreator("Noriaki Ando <n-ando@aist.go.jp>34567894123456789512345678961234567897123456789812345");
 		rtcParam.setDocLicense("Copyright (C) 2006-2008 ƒ‰ƒCƒZƒ“ƒX12345678901234567890123456789012345678901234567890");

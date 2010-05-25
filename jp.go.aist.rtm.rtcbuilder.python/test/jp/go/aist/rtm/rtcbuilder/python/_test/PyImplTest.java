@@ -28,6 +28,7 @@ public class PyImplTest extends TestBase {
 		rtcParam.setCategory("Manip");
 		rtcParam.setComponentType("STATIC2");
 		rtcParam.setActivityType("PERIODIC2");
+		rtcParam.setRtmVersion("0.4.2");
 		rtcParam.setMaxInstance(5);
 		rtcParam.setActionImplemented(0, true);
 		rtcParam.setActionImplemented(1, true);
@@ -67,6 +68,7 @@ public class PyImplTest extends TestBase {
 		rtcParam.setCategory("Manip");
 		rtcParam.setComponentType("STATIC2");
 		rtcParam.setActivityType("PERIODIC2");
+		rtcParam.setRtmVersion("0.4.2");
 		rtcParam.setMaxInstance(5);
 		rtcParam.setActionImplemented(0, true);
 		rtcParam.setActionImplemented(1, true);
@@ -99,6 +101,7 @@ public class PyImplTest extends TestBase {
 		rtcParam.setCategory("Manip");
 		rtcParam.setComponentType("STATIC2");
 		rtcParam.setActivityType("PERIODIC2");
+		rtcParam.setRtmVersion("0.4.2");
 		rtcParam.setMaxInstance(5);
 		rtcParam.setActionImplemented(0, true);
 		rtcParam.setActionImplemented(1, true);
@@ -128,6 +131,7 @@ public class PyImplTest extends TestBase {
 		rtcParam.setCategory("Manip");
 		rtcParam.setComponentType("STATIC2");
 		rtcParam.setActivityType("PERIODIC2");
+		rtcParam.setRtmVersion("0.4.2");
 		rtcParam.setMaxInstance(5);
 		rtcParam.setActionImplemented(0, true);
 		genParam.getRtcParams().add(rtcParam);
