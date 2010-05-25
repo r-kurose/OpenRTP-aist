@@ -320,6 +320,10 @@ public class PythonConverter {
 		return "_GlobalIDL";
 	}
 	
+	public String convToLower(String source) {
+		return source.toLowerCase();
+	}
+	
 	public String convModuleName(IdlFileParam source) {
 		StringBuffer result = new StringBuffer();
 		

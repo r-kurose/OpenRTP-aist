@@ -63,6 +63,8 @@ public class PyModuleTest extends TestBase {
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "README.foo");
+		checkCode(result, resourceDir, "idlcompile.bat");
+		checkCode(result, resourceDir, "idlcompile.sh");
 	}
 	
 	public void testServicePortCon() throws Exception{

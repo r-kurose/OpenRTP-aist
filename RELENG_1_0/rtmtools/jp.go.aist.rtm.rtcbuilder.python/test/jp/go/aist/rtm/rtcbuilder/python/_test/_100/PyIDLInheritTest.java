@@ -88,6 +88,8 @@ public class PyIDLInheritTest extends TestBase {
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyServiceChildMulti_idl_example.py");
 		checkCode(result, resourceDir, "README.foo");
+		checkCode(result, resourceDir, "idlcompile.bat");
+		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
 //		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
 //		checkCode(result, resourceDir, "MyServiceChildMulti_idl.py");
@@ -138,6 +140,8 @@ public class PyIDLInheritTest extends TestBase {
 		checkCode(result, resourceDir, "MyServiceChildMulti_idl_example.py");
 		checkCode(result, resourceDir, "MyServiceChildWithType_idl_example.py");
 		checkCode(result, resourceDir, "README.foo");
+		checkCode(result, resourceDir, "idlcompile.bat");
+		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
 //		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
 //		checkCode(result, resourceDir, "MyServiceChildMulti_idl.py");

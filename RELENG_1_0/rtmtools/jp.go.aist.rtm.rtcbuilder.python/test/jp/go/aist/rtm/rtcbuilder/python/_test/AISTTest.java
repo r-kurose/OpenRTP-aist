@@ -33,6 +33,7 @@ public class AISTTest extends TestBase {
 		rtcParam.setComponentType("STATIC");
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(1);
+		rtcParam.setRtmVersion("0.4.2");
 
 //		genParam.addProviderIDLPath(rootPath + "resource\\Python\\AIST6\\work\\MyService.idl");
 //		genParam.addProviderIDLPath(rootPath + "resource\\Python\\AIST6\\work\\MyServiceAIST.idl");
@@ -97,6 +98,7 @@ public class AISTTest extends TestBase {
 		rtcParam.setComponentType("STATIC");
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(1);
+		rtcParam.setRtmVersion("0.4.2");
 
 		ServicePortParam service1 = new ServicePortParam("MySVPro0",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
@@ -146,6 +148,7 @@ public class AISTTest extends TestBase {
 		rtcParam.setComponentType("STATIC");
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(1);
+		rtcParam.setRtmVersion("0.4.2");
 
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("in", "RTC::TimedFloatSeq", "", 0));
@@ -203,6 +206,7 @@ public class AISTTest extends TestBase {
 		rtcParam.setComponentType("STATIC");
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(1);
+		rtcParam.setRtmVersion("0.4.2");
 
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("in", "RTC::TimedFloatSeq", "", 0));
@@ -251,6 +255,7 @@ public class AISTTest extends TestBase {
 		rtcParam.setComponentType("STATIC");
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(1);
+		rtcParam.setRtmVersion("0.4.2");
 
 		ServicePortParam service1 = new ServicePortParam("MySVPro",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
@@ -292,6 +297,7 @@ public class AISTTest extends TestBase {
 		rtcParam.setComponentType("STATIC");
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(1);
+		rtcParam.setRtmVersion("0.4.2");
 
 		ServicePortParam service1 = new ServicePortParam("MySVPro",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
@@ -333,6 +339,7 @@ public class AISTTest extends TestBase {
 		rtcParam.setComponentType("STATIC");
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(1);
+		rtcParam.setRtmVersion("0.4.2");
 
 		ServicePortParam service1 = new ServicePortParam("MySVPro",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 

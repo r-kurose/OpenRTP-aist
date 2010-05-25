@@ -43,7 +43,7 @@ ${pyConv.convModuleNameAll(${allIdlFileParam})}
 
 # This module's spesification
 # <rtc-template block="module_spec">
-${rtcParam.name}_spec = ["implementation_id", "${rtcParam.name}", 
+${pyConv.convToLower(${rtcParam.name})}_spec = ["implementation_id", "${rtcParam.name}", 
 		 "type_name",         "${rtcParam.name}", 
 		 "description",       "${rtcParam.description}", 
 		 "version",           "${rtcParam.version}", 
@@ -180,7 +180,7 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #if(${serviceInterface.docPostCondition.length()}>0)		 - PostCondition: ${tmpltHelperPy.convertDetailPy(${serviceInterface.docPostCondition})}
 #end
 		"""
-		self._${serviceInterface.tmplVarName} = ${tmpltHelper.convFormat(${serviceInterface.interfaceType})}_i()
+		self._${serviceInterface.tmplVarName} = ${tmpltHelper.getBasename(${serviceInterface.interfaceType})}_i()
 #end#end#end#end#end
 		
 
@@ -560,21 +560,16 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 
 
 def ${rtcParam.name}Init(manager):
-    profile = OpenRTM_aist.Properties(defaults_str=${rtcParam.name}_spec)
+    profile = OpenRTM_aist.Properties(defaults_str=${pyConv.convToLower(${rtcParam.name})}_spec)
     manager.registerFactory(profile,
                             ${rtcParam.name},
                             OpenRTM_aist.Delete)
 
 def MyModuleInit(manager):
-    profile = OpenRTM_aist.Properties(defaults_str=${rtcParam.name}_spec)
-    manager.registerFactory(profile,
-                            ${rtcParam.name},
-                            OpenRTM_aist.Delete)
+    ${rtcParam.name}Init(manager)
 
     # Create a component
     comp = manager.createComponent("${rtcParam.name}")
-
-
 
 def main():
 	mgr = OpenRTM_aist.Manager.init(sys.argv)
