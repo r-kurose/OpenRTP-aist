@@ -35,6 +35,7 @@ public class AllTestsCXX {
 		suite.addTestSuite(CXXSystemConfigTest.class);
 		suite.addTestSuite(CXXVariableTest.class);
 		suite.addTestSuite(CXXModuleTest.class);
+		suite.addTestSuite(CXXConfigSetTypeTest.class);
 		//
 		//$JUnit-END$
 		return suite;

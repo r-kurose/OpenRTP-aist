@@ -234,7 +234,7 @@ class foo
    * - Name:  str_param0
    * - DefaultValue: up
    */
-  string m_str_param0;
+  std::string m_str_param0;
   /*!
    * 
    * - Name:  int_param1

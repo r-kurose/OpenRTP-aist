@@ -225,16 +225,46 @@ class foo
   // <rtc-template block="config_declare">
   /*!
    * 
-   * - Name:  int_param0
+   * - Name:  short_param
    * - DefaultValue: 0
    */
-  int m_int_param0;
+  short int m_short_param;
+  /*!
+   * 
+   * - Name:  int_param
+   * - DefaultValue: 1
+   */
+  int m_int_param;
+  /*!
+   * 
+   * - Name:  long_param
+   * - DefaultValue: 14
+   */
+  long int m_long_param;
+  /*!
+   * 
+   * - Name:  float_param
+   * - DefaultValue: 0.11
+   */
+  float m_float_param;
+  /*!
+   * 
+   * - Name:  double_param
+   * - DefaultValue: 4.11
+   */
+  double m_double_param;
   /*!
    * 
    * - Name:  str_param0
-   * - DefaultValue: up
+   * - DefaultValue: hoge
    */
   std::string m_str_param0;
+  /*!
+   * 
+   * - Name:  str_param1
+   * - DefaultValue: dara
+   */
+  std::string m_str_param1;
   // </rtc-template>
 
   // DataInPort declaration

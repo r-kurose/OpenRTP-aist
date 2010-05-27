@@ -208,6 +208,17 @@ public class CXXConverter {
 		return result;
 	}
 
+	public String convConfigSetType(String typeDef) {
+		if( typeDef.trim().equals("short") ) {
+			return "short int";
+		} else if( typeDef.trim().equals("long") ) {
+			return "long int";
+		} else if( typeDef.trim().equals("string") ) {
+			return "std::string";
+		}
+		return typeDef;
+	}
+
 	/**
 	 * パッケージの区切り文字を「.」から「::」に変更する
 	 * @param fullName
