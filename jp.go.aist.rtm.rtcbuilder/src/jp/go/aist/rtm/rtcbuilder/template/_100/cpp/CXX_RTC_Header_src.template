@@ -348,7 +348,7 @@ class ${rtcParam.name}
 #if(${configParam.docConstraint.length()}>0)   * - Constraint: ${tmpltHelper.convertConstraintDoc(${configParam.docConstraint})}
 #end
    */
-  ${configParam.type} ${rtcParam.commonPrefix}${rtcParam.configurationPrefix}${configParam.tmplVarName}${rtcParam.configurationSuffix}${rtcParam.commonSuffix};
+  ${cXXConv.convConfigSetType(${configParam.type})} ${rtcParam.commonPrefix}${rtcParam.configurationPrefix}${configParam.tmplVarName}${rtcParam.configurationSuffix}${rtcParam.commonSuffix};
 #end
   // </rtc-template>
 

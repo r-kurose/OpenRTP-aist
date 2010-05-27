@@ -90,7 +90,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 	private String defaultConfigDefault;
 	private String defaultConfigConstraint;
 	private String defaultConfigUnit;
-	private String[] defaultTypeList = {"bool", "char", "byte", "int", "long", "float", "double", "string"};
+	private String[] defaultTypeList = {"int", "long", "float", "double", "string"};
 	private String[] defaultParamNameList;
 	private String[] defaultParamDefaultList;
 	

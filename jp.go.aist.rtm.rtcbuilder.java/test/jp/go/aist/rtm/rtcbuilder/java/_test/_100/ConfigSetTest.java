@@ -166,4 +166,45 @@ public class ConfigSetTest extends TestBase {
 		checkCode(result, resourceDir, "fooImpl.java");
 		checkCode(result, resourceDir, "README.foo");
 	}
+	
+	public void testConfigSetType() throws Exception{
+		GeneratorParam genParam = new GeneratorParam();
+		RtcParam rtcParam = new RtcParam(genParam, true);
+		rtcParam.setOutputProject(rootPath + "\\resource\\work");
+		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
+		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
+		rtcParam.setName("foo");
+		rtcParam.setDescription("MDesc");
+		rtcParam.setVersion("1.0.3");
+		rtcParam.setVender("TA2");
+		rtcParam.setCategory("manip2");
+		rtcParam.setComponentType("STATIC2");
+		rtcParam.setActivityType("PERIODIC2");
+		rtcParam.setMaxInstance(3);
+		rtcParam.setComponentKind("DataFlowComponent");
+
+		genParam.getRtcParams().add(rtcParam);
+		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
+		configset.add(new ConfigSetParam("short_param","short","", "0"));
+		configset.add(new ConfigSetParam("int_param","int","", "1"));
+		configset.add(new ConfigSetParam("long_param","long","", "14"));
+		configset.add(new ConfigSetParam("float_param","float","", "0.11"));
+		configset.add(new ConfigSetParam("double_param","double","", "4.11"));
+		configset.add(new ConfigSetParam("str_param0","string","", "hoge"));
+		configset.add(new ConfigSetParam("str_param1","string","", "dara"));
+		rtcParam.getConfigParams().addAll(configset);
+
+		Generator generator = new Generator();
+		GenerateManager manager = new JavaGenerateManager();
+		generator.addGenerateManager(manager);
+		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
+
+		String resourceDir = rootPath +  "\\resource\\100\\ConfigSet\\ConfigSetType\\";
+
+		checkCode(result, resourceDir, "fooComp.java");
+		checkCode(result, resourceDir, "build_foo.xml");
+		checkCode(result, resourceDir, "foo.java");
+		checkCode(result, resourceDir, "fooImpl.java");
+		checkCode(result, resourceDir, "README.foo");
+	}
 }

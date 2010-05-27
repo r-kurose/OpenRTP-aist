@@ -55,6 +55,7 @@ public class JavaConverter {
 	private final String javaWchar = "char";
 	private final String javaOctet = "byte";
 	private final String javaBoolean = "boolean";
+	private final String javaStringS = "string";
 	private final String javaString = "String";
 	private final String javaWstring = "String";
 	private final String javaAny = "org.omg.CORBA.Any";
@@ -135,6 +136,7 @@ public class JavaConverter {
 		mapParamHolder.put(javaDouble, javaDoubleParam);
 		mapParamHolder.put(javaByte, javaByteParam);
 		mapParamHolder.put(javaString, javaStringParam);
+		mapParamHolder.put(javaStringS, javaStringParam);
 	}
 
 	/**
