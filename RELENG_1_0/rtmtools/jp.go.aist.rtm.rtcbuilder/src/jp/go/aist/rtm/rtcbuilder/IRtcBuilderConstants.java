@@ -63,10 +63,10 @@ public interface IRtcBuilderConstants {
 		"PeriodicExecutionContext", "ExtTrigExecutionContext" };
 
 	public static final String[] ACTION_TYPE_ITEMS = new String[] {
-		"on_initialize", "on_finalize", "on_startup", "on_shutdown", "on_activated",
-		"on_deactivated", "on_aborting", "on_error", "on_reset",
-		"on_execute", "on_state_update", "on_rate_changed",
-		"on_action", "on_mode_changed"};
+		"OnInitialize", "OnFinalize", "OnStartup", "OnShutdown", "OnActivated",
+		"OnDeactivated", "OnAborting", "OnError", "OnReset",
+		"OnExecute", "OnStateUpdate", "OnRateChanged",
+		"OnAction", "OnModeChanged"};
 	
 	public static final String TAG_BACKEND = "backend";
 	public static final String TAG_SVC_IDL = "svc-idl";
