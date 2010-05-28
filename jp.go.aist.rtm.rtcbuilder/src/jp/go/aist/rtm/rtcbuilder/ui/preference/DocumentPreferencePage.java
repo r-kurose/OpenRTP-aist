@@ -181,7 +181,12 @@ public class DocumentPreferencePage extends AbstractPreferencePage implements
 	}
 	
 	private void setButton(ArrayList<String> param) {
-		for (int intIdx=0; intIdx < IRtcBuilderConstants.ACTION_TYPE_ITEMS.length; intIdx++) {
+		btnOff[0].setSelection(false);
+		btnOn[0].setSelection(true);
+		btnOff[0].setEnabled(false);
+		btnOn[0].setEnabled(false);
+		
+		for (int intIdx=1; intIdx < IRtcBuilderConstants.ACTION_TYPE_ITEMS.length; intIdx++) {
 			if(param.size()-1<intIdx) {
 				btnOff[intIdx].setSelection(true);
 				btnOn[intIdx].setSelection(false);
