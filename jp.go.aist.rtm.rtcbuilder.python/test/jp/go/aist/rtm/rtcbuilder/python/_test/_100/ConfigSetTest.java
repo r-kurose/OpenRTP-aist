@@ -48,8 +48,13 @@ public class ConfigSetTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\ConfigSet\\configset1\\";
 
+		assertEquals(2, result.size());
 		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
 	public void testConfigSet2() throws Exception{
@@ -82,8 +87,13 @@ public class ConfigSetTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\ConfigSet\\configset2\\";
 
+		assertEquals(2, result.size());
 		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
 	public void testConfigSet3() throws Exception{
@@ -119,8 +129,13 @@ public class ConfigSetTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\ConfigSet\\configset3\\";
 
+		assertEquals(2, result.size());
 		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
 	public void testConfigSet4() throws Exception{
@@ -157,7 +172,54 @@ public class ConfigSetTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\ConfigSet\\configset4\\";
 
+		assertEquals(2, result.size());
 		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
+	}
+	
+	public void testConfigSetType() throws Exception{
+		GeneratorParam genParam = new GeneratorParam();
+		RtcParam rtcParam = new RtcParam(genParam, true);
+		rtcParam.setOutputProject(rootPath + "\\resource\\work");
+		rtcParam.setLanguage(IRtcBuilderConstantsPython.LANG_PYTHON);
+		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
+		rtcParam.setName("foo");
+		rtcParam.setDescription("MDesc");
+		rtcParam.setVersion("1.0.3");
+		rtcParam.setVender("TA2");
+		rtcParam.setCategory("manip2");
+		rtcParam.setComponentType("STATIC2");
+		rtcParam.setActivityType("PERIODIC2");
+		rtcParam.setMaxInstance(3);
+
+		genParam.getRtcParams().add(rtcParam);
+		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
+		configset.add(new ConfigSetParam("short_param","short","", "0"));
+		configset.add(new ConfigSetParam("int_param","int","", "1"));
+		configset.add(new ConfigSetParam("long_param","long","", "14"));
+		configset.add(new ConfigSetParam("float_param","float","", "0.11"));
+		configset.add(new ConfigSetParam("double_param","double","", "4.11"));
+		configset.add(new ConfigSetParam("str_param0","string","", "hoge"));
+		configset.add(new ConfigSetParam("str_param1","string","", "dara"));
+		rtcParam.getConfigParams().addAll(configset);
+
+		Generator generator = new Generator();
+		GenerateManager manager = new PythonGenerateManager();
+		generator.addGenerateManager(manager);
+		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
+
+		String resourceDir = rootPath +  "\\resource\\Python\\100\\ConfigSet\\ConfigSetType\\";
+
+		assertEquals(2, result.size());
+		checkCode(result, resourceDir, "foo.py");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 }

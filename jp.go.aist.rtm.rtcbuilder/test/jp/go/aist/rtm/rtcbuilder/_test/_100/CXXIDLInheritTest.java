@@ -78,13 +78,18 @@ public class CXXIDLInheritTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "\\";
 
+		assertEquals(15, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
 		checkCode(result, resourceDir, "MyServiceChildMultiSVC_impl.h");
 		checkCode(result, resourceDir, "MyServiceChildMultiSVC_impl.cpp");
 		checkCode(result, resourceDir, "Makefile.foo");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		//
 		checkCode(result, resourceDir, "foo_vc8.sln");
 		checkCode(result, resourceDir, "foo_vc8.vcproj");
@@ -138,6 +143,7 @@ public class CXXIDLInheritTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "\\";
 
+		assertEquals(17, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -146,7 +152,11 @@ public class CXXIDLInheritTest extends TestBase {
 		checkCode(result, resourceDir, "MyServiceChildWithTypeSVC_impl.h");
 		checkCode(result, resourceDir, "MyServiceChildWithTypeSVC_impl.cpp");
 		checkCode(result, resourceDir, "Makefile.foo");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		//
 		checkCode(result, resourceDir, "foo_vc8.sln");
 		checkCode(result, resourceDir, "foo_vc8.vcproj");

@@ -28,6 +28,7 @@ public class JavaImplTest extends TestBase {
 		rtcParam.setComponentType("STATIC2");
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
+		rtcParam.setRtmVersion("0.4.2");
 		genParam.getRtcParams().add(rtcParam);
 	}
 

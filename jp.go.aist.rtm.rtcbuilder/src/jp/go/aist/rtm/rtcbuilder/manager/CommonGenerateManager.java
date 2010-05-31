@@ -56,13 +56,15 @@ public class CommonGenerateManager extends GenerateManager {
 		InputStream ins = null;
 		String tmpltPath = null;
 
+		if( rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100) ) {
+			return result;
+		}
+		
 		Map<String, Object> contextMap = new HashMap<String, Object>();
 		contextMap.put("rtcParam", rtcParam);
 		contextMap.put("tmpltHelper", new TemplateHelper());
 
-		if( rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100) ) {
-			tmpltPath = "jp/go/aist/rtm/rtcbuilder/template/_100/common/README_src.template";
-		} else if( rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_042) ) {
+		if( rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_042) ) {
 			tmpltPath = "jp/go/aist/rtm/rtcbuilder/template/_042/common/README_src.template";
 		} else {
 			tmpltPath = "jp/go/aist/rtm/rtcbuilder/template/common/README_src.template";

@@ -32,6 +32,7 @@ public class DiffTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(1);
 		genParam.getRtcParams().add(rtcParam);
+		rtcParam.setRtmVersion("0.4.2");
 	}
 
 	public void testDiffName2() throws Exception{

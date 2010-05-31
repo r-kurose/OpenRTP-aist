@@ -85,6 +85,7 @@ public class JavaIDLInheritTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "\\";
 
+		assertEquals(8, result.size());
 		checkCode(result, resourceDir, "fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
 		checkCode(result, resourceDir, "foo.java");
@@ -92,6 +93,11 @@ public class JavaIDLInheritTest extends TestBase {
 		checkCode(result, resourceDir, "MyServiceChildSVC_impl.java");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
 		checkCode(result, resourceDir, "MyService2SVC_impl.java");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
 	public void testInherit2() throws Exception {
@@ -135,6 +141,7 @@ public class JavaIDLInheritTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "\\";
 
+		assertEquals(10, result.size());
 		checkCode(result, resourceDir, "fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
 		checkCode(result, resourceDir, "foo.java");
@@ -144,6 +151,11 @@ public class JavaIDLInheritTest extends TestBase {
 		checkCode(result, resourceDir, "MyService2SVC_impl.java");
 		checkCode(result, resourceDir, "MyServiceWithTypeChildSVC_impl.java");
 		checkCode(result, resourceDir, "MyServiceWithTypeSVC_impl.java");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
 }

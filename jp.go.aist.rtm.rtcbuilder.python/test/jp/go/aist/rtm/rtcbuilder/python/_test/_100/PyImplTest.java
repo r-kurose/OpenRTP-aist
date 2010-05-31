@@ -54,8 +54,13 @@ public class PyImplTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\impl\\all\\";
 
+		assertEquals(2, result.size());
 		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
 	public void testExecute() throws Exception{
@@ -88,8 +93,13 @@ public class PyImplTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\impl\\execute\\";
 
+		assertEquals(2, result.size());
 		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
 	public void testFinalize() throws Exception{
@@ -119,8 +129,13 @@ public class PyImplTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\impl\\finalize\\";
 
+		assertEquals(2, result.size());
 		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
 	public void testInitialize() throws Exception{
@@ -149,7 +164,12 @@ public class PyImplTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\impl\\initialize\\";
 
+		assertEquals(2, result.size());
 		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 }

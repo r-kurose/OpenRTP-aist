@@ -1,31 +1,22 @@
 #!/usr/bin/env python
 # -*- Python -*-
-
 """
  \file foo.py
  \brief MDesc
  \date $Date$
-
-
 """
 import sys
 import time
 sys.path.append(".")
-
 # Import RTM module
 import OpenRTM
 import RTC
-
 # Import Service implementation class
 # <rtc-template block="service_impl">
-
 # </rtc-template>
-
 # Import Service stub modules
 # <rtc-template block="consumer_import">
 # </rtc-template>
-
-
 # This module's spesification
 # <rtc-template block="module_spec">
 foo_spec = ["implementation_id", "foo", 
@@ -46,7 +37,6 @@ foo_spec = ["implementation_id", "foo",
 		 "conf.default.vector_param0", "0.0,1.0,2.0,3.0",
 		 ""]
 # </rtc-template>
-
 class foo(OpenRTM.DataFlowComponentBase):
 	
 	"""
@@ -60,18 +50,13 @@ class foo(OpenRTM.DataFlowComponentBase):
 		\param manager Maneger Object
 		"""
 		OpenRTM.DataFlowComponentBase.__init__(self, manager)
-
 		
-
 		# Set InPort buffers
 		
 		# Set OutPort buffers
 		
-
 		
-
 		
-
 		
 		# Set service provider to Ports
 		
@@ -79,7 +64,6 @@ class foo(OpenRTM.DataFlowComponentBase):
 		
 		# Set CORBA Service Ports
 		
-
 		# initialize of configuration-data.
 		# <rtc-template block="init_conf_param">
 		"""
@@ -120,8 +104,6 @@ class foo(OpenRTM.DataFlowComponentBase):
 		self._vector_param0 = [[0.0, 1.0, 2.0, 3.0]]
 		
 		# </rtc-template>
-
-
 		 
 	def onInitialize(self):
 		"""
@@ -141,8 +123,6 @@ class foo(OpenRTM.DataFlowComponentBase):
 		self.bindParameter("vector_param0", self._vector_param0, "0.0,1.0,2.0,3.0")
 		
 		return RTC.RTC_OK
-
-
 	
 	#def onFinalize(self, ec_id):
 	#	"""
@@ -296,26 +276,17 @@ class foo(OpenRTM.DataFlowComponentBase):
 	#
 	#	return RTC.RTC_OK
 	
-
-
-
 def MyModuleInit(manager):
     profile = OpenRTM.Properties(defaults_str=foo_spec)
     manager.registerFactory(profile,
                             foo,
                             OpenRTM.Delete)
-
     # Create a component
     comp = manager.createComponent("foo")
-
-
-
 def main():
 	mgr = OpenRTM.Manager.init(len(sys.argv), sys.argv)
 	mgr.setModuleInitProc(MyModuleInit)
 	mgr.activateManager()
 	mgr.runManager()
-
 if __name__ == "__main__":
 	main()
-

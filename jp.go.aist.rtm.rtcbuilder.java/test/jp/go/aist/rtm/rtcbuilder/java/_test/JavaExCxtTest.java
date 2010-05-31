@@ -32,6 +32,7 @@ public class JavaExCxtTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(3);
 		rtcParam.setExecutionRate(5.0);
+		rtcParam.setRtmVersion("0.4.2");
 
 		genParam.getRtcParams().add(rtcParam);
 		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 

@@ -32,6 +32,7 @@ public class MultiTest extends TestBase {
 		rtcParam.setComponentType("STATIC");
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(2);
+		rtcParam.setRtmVersion("0.4.2");
 		genParam.getRtcParams().add(rtcParam);
 	}
 

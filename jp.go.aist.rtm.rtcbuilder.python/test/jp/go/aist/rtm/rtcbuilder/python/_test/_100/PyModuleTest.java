@@ -60,9 +60,14 @@ public class PyModuleTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\serviceM\\";
 
+		assertEquals(5, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
 	}
@@ -103,7 +108,12 @@ public class PyModuleTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\serviceMC\\";
 
+		assertEquals(4, result.size());
 		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 }

@@ -85,9 +85,14 @@ public class PyIDLInheritTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "\\";
 
+		assertEquals(5, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyServiceChildMulti_idl_example.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
@@ -136,10 +141,15 @@ public class PyIDLInheritTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "\\";
 
+		assertEquals(6, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyServiceChildMulti_idl_example.py");
 		checkCode(result, resourceDir, "MyServiceChildWithType_idl_example.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");

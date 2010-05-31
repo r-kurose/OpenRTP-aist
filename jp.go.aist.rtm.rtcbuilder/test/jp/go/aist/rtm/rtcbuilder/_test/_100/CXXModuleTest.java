@@ -53,13 +53,18 @@ public class CXXModuleTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\CXX\\serviceM\\";
 
+		assertEquals(15, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.h");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.cpp");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		//
 		checkCode(result, resourceDir, "foo_vc8.sln");
 		checkCode(result, resourceDir, "foo_vc8.vcproj");
@@ -102,11 +107,16 @@ public class CXXModuleTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\CXX\\serviceCon\\";
 
+		assertEquals(13, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		//
 		checkCode(result, resourceDir, "foo_vc8.sln");
 		checkCode(result, resourceDir, "foo_vc8.vcproj");

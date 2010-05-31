@@ -31,6 +31,7 @@ public class MLTest extends TestBase {
 		rtcParam.setComponentType("DataFlowComponent");
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(1);
+		rtcParam.setRtmVersion("0.4.2");
 		genParam.getRtcParams().add(rtcParam);
 	}
 

@@ -228,9 +228,14 @@ public class PyDocTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\Doc\\full\\";
 
+		assertEquals(5, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "MyService_idl.py");
@@ -299,9 +304,14 @@ public class PyDocTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\Doc\\refer\\";
 
+		assertEquals(5, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "MyService_idl.py");
@@ -365,9 +375,14 @@ public class PyDocTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\Doc\\authorLong\\";
 
+		assertEquals(5, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "MyService_idl.py");
@@ -431,9 +446,14 @@ public class PyDocTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\Doc\\author\\";
 
+		assertEquals(5, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "MyService_idl.py");
@@ -495,9 +515,14 @@ public class PyDocTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\service2\\";
 
+		assertEquals(5, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "MyService_idl.py");

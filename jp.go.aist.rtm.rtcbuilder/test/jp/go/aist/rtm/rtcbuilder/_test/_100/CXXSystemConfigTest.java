@@ -55,11 +55,16 @@ public class CXXSystemConfigTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\CXX\\SystemConfig\\";
 
+		assertEquals(14, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "rtc.conf");
 	}
 }
