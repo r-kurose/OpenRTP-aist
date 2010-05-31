@@ -63,11 +63,16 @@ public class CXXBaseClass extends TestBase {
 	}
 	
 	private void checkResults(List<GeneratedResult> result, String resourceDir) {
+		assertEquals(13, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		//
 		checkCode(result, resourceDir, "foo_vc8.sln");
 		checkCode(result, resourceDir, "foo_vc8.vcproj");

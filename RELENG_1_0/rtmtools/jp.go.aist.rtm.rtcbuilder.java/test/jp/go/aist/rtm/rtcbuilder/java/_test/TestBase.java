@@ -55,7 +55,6 @@ public class TestBase extends TestCase {
 				return intIdx;
 			}
 		}
-		fail();
 		return resultindex;
 	}
 	

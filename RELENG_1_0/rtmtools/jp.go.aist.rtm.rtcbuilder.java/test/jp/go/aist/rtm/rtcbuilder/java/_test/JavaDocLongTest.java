@@ -34,6 +34,7 @@ public class JavaDocLongTest extends TestBase {
 		rtcParam.setCategory("Manip");
 		rtcParam.setComponentType("STATIC2");
 		rtcParam.setActivityType("PERIODIC2");
+		rtcParam.setRtmVersion("0.4.2");
 		rtcParam.setMaxInstance(5);
 		//
 		rtcParam.setDocCreator("Noriaki Ando <n-ando@aist.go.jp>34567894123456789512345678961234567897123456789812345");

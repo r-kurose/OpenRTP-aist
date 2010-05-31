@@ -50,11 +50,16 @@ public class CXXImplTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\CXX\\impl\\all\\";
 
+		assertEquals(13, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
 	public void testExecute() throws Exception{
@@ -86,11 +91,16 @@ public class CXXImplTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\CXX\\impl\\execute\\";
 
+		assertEquals(13, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
 	public void testFinalize() throws Exception{
@@ -119,11 +129,16 @@ public class CXXImplTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\CXX\\impl\\finalize\\";
 
+		assertEquals(13, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
 	public void testInitialize() throws Exception{
@@ -151,10 +166,15 @@ public class CXXImplTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\CXX\\impl\\initialize\\";
 
+		assertEquals(13, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 }

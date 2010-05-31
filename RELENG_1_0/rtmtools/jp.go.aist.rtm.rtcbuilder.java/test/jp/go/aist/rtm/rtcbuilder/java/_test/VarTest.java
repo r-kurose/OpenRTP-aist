@@ -27,6 +27,7 @@ public class VarTest extends TestBase {
 		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
 		rtcParam.setName("foo");
 		rtcParam.setDescription("MDesc");
+		rtcParam.setRtmVersion("0.4.2");
 	}
 
 	public void testConfigSetVar() throws Exception{

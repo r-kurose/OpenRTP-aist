@@ -87,13 +87,18 @@ public class MultiTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\Multi\\ProConMulti\\";
 
+		assertEquals(7, result.size());
 		checkCode(result, resourceDir, "fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
 		checkCode(result, resourceDir, "foo.java");
 		checkCode(result, resourceDir, "fooImpl.java");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
 		checkCode(result, resourceDir, "MyService2SVC_impl.java");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
 	public void testConsumerMulti() throws Exception{
@@ -147,11 +152,16 @@ public class MultiTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\Multi\\ConMulti\\";
 
+		assertEquals(5, result.size());
 		checkCode(result, resourceDir, "fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
 		checkCode(result, resourceDir, "foo.java");
 		checkCode(result, resourceDir, "fooImpl.java");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
 	public void testProviderMulti() throws Exception{
@@ -205,12 +215,17 @@ public class MultiTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\Multi\\ProMulti\\";
 
+		assertEquals(7, result.size());
 		checkCode(result, resourceDir, "fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
 		checkCode(result, resourceDir, "foo.java");
 		checkCode(result, resourceDir, "fooImpl.java");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
 		checkCode(result, resourceDir, "DAQServiceSVC_impl.java");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 }

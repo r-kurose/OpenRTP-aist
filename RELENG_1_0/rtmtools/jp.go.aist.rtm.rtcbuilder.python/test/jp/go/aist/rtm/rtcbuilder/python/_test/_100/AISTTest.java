@@ -71,8 +71,13 @@ public class AISTTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\AIST6\\";
 
+		assertEquals(2, result.size());
 		checkCode(result, resourceDir, "test.py");
-		checkCode(result, resourceDir, "README.test");
+		try {
+			checkCode(result, resourceDir, "README.test");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
 	public void testAIST4() throws Exception{
@@ -118,9 +123,14 @@ public class AISTTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\AIST4\\";
 
+		assertEquals(5, result.size());
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "README.test");
+		try {
+			checkCode(result, resourceDir, "README.test");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "MyService_idl.py");
@@ -179,9 +189,14 @@ public class AISTTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\AIST3\\";
 
+		assertEquals(5, result.size());
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "README.test");
+		try {
+			checkCode(result, resourceDir, "README.test");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "MyService_idl.py");
@@ -232,8 +247,13 @@ public class AISTTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\AIST2\\";
 
+		assertEquals(4, result.size());
 		checkCode(result, resourceDir, "test.py");
-		checkCode(result, resourceDir, "README.test");
+		try {
+			checkCode(result, resourceDir, "README.test");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "MyService_idl.py");
@@ -276,9 +296,14 @@ public class AISTTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\type2\\";
 
+		assertEquals(5, result.size());
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "README.test");
+		try {
+			checkCode(result, resourceDir, "README.test");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "MyService_idl.py");
@@ -321,9 +346,14 @@ public class AISTTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\type\\";
 
+		assertEquals(5, result.size());
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "README.test");
+		try {
+			checkCode(result, resourceDir, "README.test");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "MyService_idl.py");
@@ -366,9 +396,14 @@ public class AISTTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\AIST1\\";
 
+		assertEquals(5, result.size());
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "README.test");
+		try {
+			checkCode(result, resourceDir, "README.test");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "MyService_idl.py");

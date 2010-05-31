@@ -74,9 +74,14 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\service2\\";
 
+		assertEquals(5, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "MyService_idl.py");
@@ -129,9 +134,14 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\service1\\";
 
+		assertEquals(5, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
 //		checkCode(result, resourceDir, "MyService_idl.py");
@@ -172,8 +182,13 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\outport2\\";
 
+		assertEquals(2, result.size());
 		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
 	public void testOutPort1() throws Exception{
@@ -208,8 +223,13 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\outport1\\";
 
+		assertEquals(2, result.size());
 		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
 	public void testInPort2() throws Exception{
@@ -241,8 +261,13 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\inport2\\";
 
+		assertEquals(2, result.size());
 		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
 	public void testInPort() throws Exception{
@@ -273,8 +298,13 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\inport1\\";
 
+		assertEquals(2, result.size());
 		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
 	public void testName2() throws Exception{
@@ -302,8 +332,13 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\name2\\";
 
+		assertEquals(2, result.size());
 		checkCode(result, resourceDir, "Foo.py");
-		checkCode(result, resourceDir, "README.Foo");
+		try {
+			checkCode(result, resourceDir, "README.Foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 	
 	public void testBasic() throws Exception{
@@ -331,7 +366,12 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Python\\100\\name\\";
 
+		assertEquals(2, result.size());
 		checkCode(result, resourceDir, "foo.py");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 }

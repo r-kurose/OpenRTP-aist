@@ -48,12 +48,17 @@ public class CXXTemplateTestAIST2 extends TestBase {
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
 		String targetDir = rootPath + "\\resource\\CXX\\module\\";
+		assertEquals(15, result.size());
 		checkCode(result, targetDir, "ModuleNameComp.cpp");
 		checkCode(result, targetDir, "Makefile.ModuleName");
 		checkCode(result, targetDir, "ModuleName.h");
 		checkCode(result, targetDir, "ModuleName.cpp");
 		checkCode(result, targetDir, "MyServiceSVC_impl.h");
 		checkCode(result, targetDir, "MyServiceSVC_impl.cpp");
-		checkCode(result, targetDir, "README.ModuleName");
+		try {
+			checkCode(result, targetDir, "README.ModuleName");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 }

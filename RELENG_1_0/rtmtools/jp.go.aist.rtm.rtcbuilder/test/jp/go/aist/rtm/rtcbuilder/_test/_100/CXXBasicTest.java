@@ -67,11 +67,16 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\CXX\\operation\\";
 
+		assertEquals(13, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
 	public void testAttribute() throws Exception{
@@ -111,11 +116,16 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\CXX\\attribute\\";
 
+		assertEquals(13, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
 	public void testServicePort2() throws Exception{
@@ -164,13 +174,18 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\CXX\\service2\\";
 
+		assertEquals(15, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.h");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.cpp");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		//
 		checkCode(result, resourceDir, "foo_vc8.sln");
 		checkCode(result, resourceDir, "foo_vc8.vcproj");
@@ -221,13 +236,18 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\CXX\\service1\\";
 
+		assertEquals(15, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.h");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.cpp");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		//
 		checkCode(result, resourceDir, "foo_vc8.sln");
 		checkCode(result, resourceDir, "foo_vc8.vcproj");
@@ -268,11 +288,16 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\CXX\\outport2\\";
 
+		assertEquals(13, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		//
 		checkCode(result, resourceDir, "foo_vc8.sln");
 		checkCode(result, resourceDir, "foo_vc8.vcproj");
@@ -312,11 +337,16 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\CXX\\outport1\\";
 
+		assertEquals(13, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		//
 		checkCode(result, resourceDir, "foo_vc8.sln");
 		checkCode(result, resourceDir, "foo_vc8.vcproj");
@@ -353,11 +383,16 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\CXX\\inport2\\";
 
+		assertEquals(13, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		//
 		checkCode(result, resourceDir, "foo_vc8.sln");
 		checkCode(result, resourceDir, "foo_vc8.vcproj");
@@ -394,11 +429,16 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\CXX\\inport1\\";
 
+		assertEquals(13, result.size());
 		checkCode(result, resourceDir, "testComp.cpp");
 		checkCode(result, resourceDir, "Makefile.test");
 		checkCode(result, resourceDir, "test.h");
 		checkCode(result, resourceDir, "test.cpp");
-		checkCode(result, resourceDir, "README.test");
+		try {
+			checkCode(result, resourceDir, "README.test");
+			fail();
+		} catch(Exception ex) {
+		}
 		//
 		checkCode(result, resourceDir, "test_vc8.sln");
 		checkCode(result, resourceDir, "test_vc8.vcproj");
@@ -431,11 +471,16 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\CXX\\name\\";
 
+		assertEquals(13, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		//
 		checkCode(result, resourceDir, "foo_vc8.sln");
 		checkCode(result, resourceDir, "foo_vc8.vcproj");

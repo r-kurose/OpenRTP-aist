@@ -70,13 +70,18 @@ public class CXXIDLPathTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\CXX\\IDLPath3\\";
 
+		assertEquals(15, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.h");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.cpp");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
 	public void testIDLSearchPath2() throws Exception{
@@ -131,13 +136,18 @@ public class CXXIDLPathTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\CXX\\IDLPath2\\";
 
+		assertEquals(15, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.h");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.cpp");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
 	public void testIDLSearchPath1() throws Exception{
@@ -192,12 +202,17 @@ public class CXXIDLPathTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\CXX\\IDLPath1\\";
 
+		assertEquals(15, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.h");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.cpp");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 }

@@ -85,6 +85,7 @@ public class CXXMultiTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\CXX\\Multi\\ProConMulti\\";
 
+		assertEquals(17, result.size());
 		checkCode(result, resourceDir, "MyServiceSVC_impl.h");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.cpp");
 		checkCode(result, resourceDir, "MyService2SVC_impl.h");
@@ -115,6 +116,7 @@ public class CXXMultiTest extends TestBase {
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
 		String resourceDir = rootPath +  "\\resource\\100\\CXX\\Multi\\ConMulti\\";
+		assertEquals(13, result.size());
 		checkResults(result, resourceDir);
 	}
 
@@ -144,6 +146,7 @@ public class CXXMultiTest extends TestBase {
 		String resourceDir = rootPath +  "\\resource\\100\\CXX\\Multi\\ProMulti\\";
 		checkResults(result, resourceDir);
 
+		assertEquals(17, result.size());
 		checkCode(result, resourceDir, "MyServiceSVC_impl.h");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.cpp");
 		checkCode(result, resourceDir, "DAQServiceSVC_impl.h");
@@ -155,7 +158,11 @@ public class CXXMultiTest extends TestBase {
 		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		//
 		checkCode(result, resourceDir, "foo_vc8.sln");
 		checkCode(result, resourceDir, "foo_vc8.vcproj");

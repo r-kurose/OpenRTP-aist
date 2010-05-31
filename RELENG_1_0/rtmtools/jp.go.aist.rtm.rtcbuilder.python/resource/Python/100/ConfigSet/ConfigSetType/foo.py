@@ -9,8 +9,8 @@ import sys
 import time
 sys.path.append(".")
 # Import RTM module
-import OpenRTM
 import RTC
+import OpenRTM_aist
 # Import Service implementation class
 # <rtc-template block="service_impl">
 # </rtc-template>
@@ -38,7 +38,7 @@ foo_spec = ["implementation_id", "foo",
 		 "conf.default.str_param1", "dara",
 		 ""]
 # </rtc-template>
-class foo(OpenRTM.DataFlowComponentBase):
+class foo(OpenRTM_aist.DataFlowComponentBase):
 	
 	"""
 	\class foo
@@ -50,20 +50,7 @@ class foo(OpenRTM.DataFlowComponentBase):
 		\brief constructor
 		\param manager Maneger Object
 		"""
-		OpenRTM.DataFlowComponentBase.__init__(self, manager)
-		
-		# Set InPort buffers
-		
-		# Set OutPort buffers
-		
-		
-		
-		
-		# Set service provider to Ports
-		
-		# Set service consumers to Ports
-		
-		# Set CORBA Service Ports
+		OpenRTM_aist.DataFlowComponentBase.__init__(self, manager)
 		
 		# initialize of configuration-data.
 		# <rtc-template block="init_conf_param">
@@ -129,6 +116,16 @@ class foo(OpenRTM.DataFlowComponentBase):
 		self.bindParameter("double_param", self._double_param, "4.11")
 		self.bindParameter("str_param0", self._str_param0, "hoge")
 		self.bindParameter("str_param1", self._str_param1, "dara")
+		
+		# Set InPort buffers
+		
+		# Set OutPort buffers
+		
+		# Set service provider to Ports
+		
+		# Set service consumers to Ports
+		
+		# Set CORBA Service Ports
 		
 		return RTC.RTC_OK
 	
@@ -284,15 +281,17 @@ class foo(OpenRTM.DataFlowComponentBase):
 	#
 	#	return RTC.RTC_OK
 	
-def MyModuleInit(manager):
-    profile = OpenRTM.Properties(defaults_str=foo_spec)
+def fooInit(manager):
+    profile = OpenRTM_aist.Properties(defaults_str=foo_spec)
     manager.registerFactory(profile,
                             foo,
-                            OpenRTM.Delete)
+                            OpenRTM_aist.Delete)
+def MyModuleInit(manager):
+    fooInit(manager)
     # Create a component
     comp = manager.createComponent("foo")
 def main():
-	mgr = OpenRTM.Manager.init(len(sys.argv), sys.argv)
+	mgr = OpenRTM_aist.Manager.init(sys.argv)
 	mgr.setModuleInitProc(MyModuleInit)
 	mgr.activateManager()
 	mgr.runManager()

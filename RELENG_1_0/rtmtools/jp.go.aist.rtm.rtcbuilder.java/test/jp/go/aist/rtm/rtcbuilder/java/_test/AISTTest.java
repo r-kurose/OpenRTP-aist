@@ -25,6 +25,7 @@ public class AISTTest extends TestBase {
 		rtcParam.setOutputProject(rootPath + "\\resource\\work");
 		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
 		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
+		rtcParam.setRtmVersion("0.4.2");
 	}
 
 	public void testAIST6() throws Exception{

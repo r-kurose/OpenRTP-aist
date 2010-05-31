@@ -55,11 +55,16 @@ public class CXXIDLStruct extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\CXX\\Struct\\";
 
+		assertEquals(16, result.size());
 		checkCode(result, resourceDir, "ModuleNameComp.cpp");
 		checkCode(result, resourceDir, "Makefile.ModuleName");
 		checkCode(result, resourceDir, "ModuleName.h");
 		checkCode(result, resourceDir, "ModuleName.cpp");
-		checkCode(result, resourceDir, "README.ModuleName");
+		try {
+			checkCode(result, resourceDir, "README.ModuleName");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "TestServiceSVC_impl.h");
 		checkCode(result, resourceDir, "TestServiceSVC_impl.cpp");
 		//
@@ -104,11 +109,16 @@ public class CXXIDLStruct extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\CXX\\SeqString\\";
 
+		assertEquals(15, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
-		checkCode(result, resourceDir, "README.foo");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "MyServiceSVC_impl.h");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.cpp");
 		//
