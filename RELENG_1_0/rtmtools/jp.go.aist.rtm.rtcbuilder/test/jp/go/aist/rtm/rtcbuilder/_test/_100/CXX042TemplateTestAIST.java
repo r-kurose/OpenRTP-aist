@@ -297,12 +297,12 @@ public class CXX042TemplateTestAIST extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\CXX\\type\\";
 
+		checkCode(result, resourceDir, "MyServiceSVC_impl.h");
+		checkCode(result, resourceDir, "MyServiceSVC_impl.cpp");
 		checkCode(result, resourceDir, "testComp.cpp");
 		checkCode(result, resourceDir, "Makefile.test");
 		checkCode(result, resourceDir, "test.h");
 		checkCode(result, resourceDir, "test.cpp");
-		checkCode(result, resourceDir, "MyServiceSVC_impl.h");
-		checkCode(result, resourceDir, "MyServiceSVC_impl.cpp");
 		checkCode(result, resourceDir, "README.test");
 		//
 		checkCode(result, resourceDir, "test_vc8.sln");

@@ -21,6 +21,7 @@ public class AllTestsCXX {
 		suite.addTestSuite(CXXConstraint.class);
 		suite.addTestSuite(CXXIDLInheritTest.class);
 		suite.addTestSuite(CXXIDLStruct.class);
+		suite.addTestSuite(CXXIDLStruct2.class);
 		suite.addTestSuite(CXXMultiTest.class);
 		suite.addTestSuite(CXXPrefixSuffixTest.class);
 		suite.addTestSuite(CXXTemplateTestAIST2.class);

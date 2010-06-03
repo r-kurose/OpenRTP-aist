@@ -201,7 +201,7 @@ public class CXXConverter {
 			if(typeDef.getDirection().equals("out") || typeDef.getDirection().equals("inout"))
 				result = result + "&";
 			if( !result.contains("CORBA::") ) {
-				if(result.contains("::")) result = "const " + result + "&";
+				result = "const " + result + "&";
 			}
 		}
 
