@@ -7,8 +7,7 @@ Bundle-Activator: jp.go.aist.rtm.rtcbuilder.java.RtcBuilderJavaPlugin
 Bundle-Localization: plugin
 Require-Bundle: jp.go.aist.rtm.rtcbuilder,
  org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.ui.forms
+ org.eclipse.core.runtime
 Eclipse-LazyStart: true
 Bundle-Vendor: %providerName
 Export-Package: jp.go.aist.rtm.rtcbuilder.java.manager
