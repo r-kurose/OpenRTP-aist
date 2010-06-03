@@ -44,15 +44,11 @@ Export-Package: RTC,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
- org.eclipse.jface.text;visibility:=reexport,
  org.eclipse.ui;visibility:=reexport,
  org.eclipse.core.runtime;visibility:=reexport,
- org.eclipse.ui.console;visibility:=reexport,
- org.eclipse.ui.views;visibility:=reexport,
  org.eclipse.ui.editors;visibility:=reexport,
  org.eclipse.core.resources;visibility:=reexport,
  org.eclipse.ui.ide;visibility:=reexport,
- org.eclipse.ui.workbench.texteditor;visibility:=reexport,
  jp.go.aist.rtm.toolscommon.profiles
 Bundle-ActivationPolicy: lazy
 Eclipse-BuddyPolicy: registered
