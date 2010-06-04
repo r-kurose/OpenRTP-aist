@@ -19,37 +19,37 @@ import jp.go.aist.rtm.rtcbuilder.template.TemplateHelper;
 public class CXXConverter {
 	protected Map<String, String> mapType;
 	
-	private final String idlLongLong = "longlong";
+	private final String idlShort = "short";
 	private final String idlLong = "long";
+	private final String idlLongLong = "longlong";
+	private final String idlUnsignedShort = "unsignedshort";
 	private final String idlUnsignedLong = "unsignedlong";
 	private final String idlUnsignedLongLong = "unsignedlonglong";
-	private final String idlShort = "short";
-	private final String idlUnsignedShort = "unsignedshort";
 	private final String idlFloat = "float";
 	private final String idlDouble = "double";
 	private final String idlLongDouble = "longdouble";
+	private final String idlBoolean = "boolean";
 	private final String idlChar = "char";
 	private final String idlWchar = "wchar";
 	private final String idlOctet = "octet";
-	private final String idlBoolean = "boolean";
 	private final String idlString = "string";
 	private final String idlWstring = "wstring";
 	private final String idlAny = "any";
 	private final String idlVoid= "void";
 
-	private final String cppLongLong = "CORBA::LongLong";
+	private final String cppShort = "CORBA::Short";
 	private final String cppLong = "CORBA::Long";
+	private final String cppLongLong = "CORBA::LongLong";
+	private final String cppUnsignedShort = "CORBA::UShort";
 	private final String cppUnsignedLong = "CORBA::ULong";
 	private final String cppUnsignedLongLong = "CORBA::ULongLong";
-	private final String cppShort = "CORBA::Short";
-	private final String cppUnsignedShort = "CORBA::UShort";
 	private final String cppFloat = "CORBA::Float";
 	private final String cppDouble = "CORBA::Double";
 	private final String cppLongDouble = "CORBA::LongDouble";
+	private final String cppBoolean = "CORBA::Boolean";
 	private final String cppChar = "CORBA::Char";
 	private final String cppWchar = "CORBA::WChar";
 	private final String cppOctet = "CORBA::Octet";
-	private final String cppBoolean = "CORBA::Boolean";
 	private final String cppString = "char*";
 	private final String cppWstring = "CORBA::WChar*";
 	private final String cppAny = "CORBA::Any*";
@@ -146,8 +146,12 @@ public class CXXConverter {
 		String result = mapType.get(typeDef.getType());
 		if( result == null ) {
 			result = typeDef.getType();
-			if( !typeDef.getType().contains("::") && typeDef.isSequence()) {
-				result = result + "*";
+			if( !typeDef.getType().contains("::") ) {
+				if(typeDef.isArray()) {
+					result = result + "_slice*";
+				} else if(typeDef.isSequence()) {
+					result = result + "*";
+				}
 			}
 			if(typeDef.getModule()!=null && typeDef.getModule().length()>0) {
 				result = typeDef.getModule() + result;
@@ -179,17 +183,29 @@ public class CXXConverter {
 		if(typeDef.getType().equals("string")) {
 			if(typeDef.getDirection().equals("in"))
 				result = "const char*";
-			else if(typeDef.getDirection().equals("out"))
-				result = "CORBA::String_out";
+			else if(typeDef.getDirection().equals("out")) {
+				if(typeDef.isUnbounded()) {
+					result = typeDef.getOriginalType() + "_out";
+				} else {
+					result = "CORBA::String_out";
+				}
+			}
 			else if(typeDef.getDirection().equals("inout"))
 				result = "char*&";
+			
 		} else if(typeDef.getType().equals("wstring")) {
 			if(typeDef.getDirection().equals("in"))
 				result = "const CORBA::WChar*";
-			else if(typeDef.getDirection().equals("out"))
-				result = "CORBA::WString_out";
+			else if(typeDef.getDirection().equals("out")) {
+				if(typeDef.isUnbounded()) {
+					result = typeDef.getOriginalType() + "_out";
+				} else {
+					result = "CORBA::WString_out";
+				}
+			}
 			else if(typeDef.getDirection().equals("inout"))
 				result = "CORBA::WChar*&";
+			
 		} else if(typeDef.getType().equals("any")) {
 			if(typeDef.getDirection().equals("in"))
 				result = "const CORBA::Any&";
@@ -197,12 +213,32 @@ public class CXXConverter {
 				result = "CORBA::Any_OUT_arg";
 			else if(typeDef.getDirection().equals("inout"))
 				result = "CORBA::Any&";
+			
+		} else if(typeDef.isUnbounded() && typeDef.isArray()) {
+			if(typeDef.getDirection().equals("in"))
+				result = "const " + result;
+			else if(typeDef.getDirection().equals("out"))
+				result = result + "_out";
+			
+		} else if(typeDef.isUnbounded()) {
+			if(typeDef.getDirection().equals("in"))
+				result = "const " + result + "&";
+			else if(typeDef.getDirection().equals("out"))
+				result = result + "_out";
+			else if(typeDef.getDirection().equals("inout"))
+				result = result + "&";
+			
+		} else if(typeDef.isArray()) {
+			if(typeDef.getDirection().equals("in"))
+				result = "const " + result;
+			
 		} else {
+			if(typeDef.isStruct()) {
+				if(typeDef.getDirection().equals("in"))
+					result = "const " + result + "&";
+			}
 			if(typeDef.getDirection().equals("out") || typeDef.getDirection().equals("inout"))
 				result = result + "&";
-			if( !result.contains("CORBA::") ) {
-				result = "const " + result + "&";
-			}
 		}
 
 		return result;

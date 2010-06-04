@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="test"
-	ProjectGUID="{D1CD3730-28E2-11DD-88AA-005056C00008}"
-	RootNamespace="test"
+	Name="ModuleNameComp"
+	ProjectGUID="{D1322FAE-28E2-11DD-B62B-005056C00008}"
+	RootNamespace="ModuleNameComp"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -14,13 +14,12 @@
 	</Platforms>
 	<ToolFiles>
 	</ToolFiles>
-
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(ProjectDir)test\$(ConfigurationName)"
-			IntermediateDirectory="test\$(ConfigurationName)"
-			ConfigurationType="2"
+			OutputDirectory="$(ProjectDir)ModuleNameComp\$(ConfigurationName)"
+			IntermediateDirectory="ModuleNameComp\$(ConfigurationName)"
+			ConfigurationType="1"
 			CharacterSet="0"
 			InheritedPropertySheets="$(SolutionDir)rtm_config.vsprops;$(SolutionDir)user_config.vsprops"
 			>
@@ -44,7 +43,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="."
-				PreprocessorDefinitions="USE_stub_in_nt_dll;WIN32;_DEBUG;_WINDOWS;_USRDLL;__WIN32__;__NT__;__OSVERSION__=4;__x86__;_WIN32_WINNT=0x0500;_CRT_SECURE_NO_DEPRECATE"
+				PreprocessorDefinitions="USE_stub_in_nt_dll;WIN32;_DEBUG;_CONSOLE;__WIN32__;__x86__;_WIN32_WINNT=0x0500;__NT__;__OSVERSION__=4;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -65,9 +64,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="$(rtm_libd) $(coil_libd)"
+				OutputFile="$(OutDir)\ModuleNameComp.exe"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
-				SubSystem="2"
+				SubSystem="1"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -97,9 +97,9 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(ProjectDir)test\$(ConfigurationName)"
-			IntermediateDirectory="test\$(ConfigurationName)"
-			ConfigurationType="2"
+			OutputDirectory="$(ProjectDir)ModuleNameComp\$(ConfigurationName)"
+			IntermediateDirectory="ModuleNameComp\$(ConfigurationName)"
+			ConfigurationType="1"
 			CharacterSet="0"
 			InheritedPropertySheets="$(SolutionDir)rtm_config.vsprops;$(SolutionDir)user_config.vsprops"
 			>
@@ -122,7 +122,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="."
-				PreprocessorDefinitions="USE_stub_in_nt_dll;WIN32;NDEBUG;_WINDOWS;_USRDLL;__WIN32__;__NT__;__OSVERSION__=4;__x86__;_WIN32_WINNT=0x0500;_CRT_SECURE_NO_DEPRECATE"
+				PreprocessorDefinitions="USE_stub_in_nt_dll;WIN32;NDEBUG;_CONSOLE;__WIN32__;__x86__;_WIN32_WINNT=0x0500;__NT__;__OSVERSION__=4;_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -141,11 +141,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="$(rtm_lib) $(coil_lib)"
+				OutputFile="$(OutDir)\ModuleNameComp.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
-				SubSystem="2"
+				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				LinkTimeCodeGeneration="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -171,47 +173,50 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="if NOT EXIST &quot;$(SolutionDir)\\components&quot; mkdir &quot;$(SolutionDir)\\components&quot;&#x0D;&#x0A;copy &quot;$(OutDir)\\test.dll&quot; &quot;$(SolutionDir)\\components&quot;&#x0D;&#x0A;"
+				CommandLine="if NOT EXIST &quot;$(SolutionDir)\\components&quot; mkdir &quot;$(SolutionDir)\\components&quot;&#x0D;&#x0A;copy &quot;$(OutDir)\\ModuleNameComp.exe&quot; &quot;$(SolutionDir)\\components&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>
-
 	<References>
 	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{D1CD3730-28E2-11DD-B7E1-005056C00008}"
+			UniqueIdentifier="{D19D74A1-28E2-11DD-81A5-005056C00008}"
 			>
 			<File
-				RelativePath="test.cpp"
+				RelativePath="ModuleName.cpp"
 				>
 			</File>
 			<File
-				RelativePath="MyServiceSkel.cpp"
+				RelativePath="ModuleNameComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="MyServiceSVC_impl.cpp"
+				RelativePath="TestIDLSkel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="TestIDLSVC_impl.cpp"
 				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{D1CD3730-28E2-11DD-A46E-005056C00008}"
+			UniqueIdentifier="{D19D74A1-28E2-11DD-9671-005056C00008}"
 			>
 			<File
-				RelativePath="test.h"
+				RelativePath="ModuleName.h"
 				>
 			</File>
 			<File
-				RelativePath="MyServiceSkel.h"
+				RelativePath="TestIDLSkel.h"
 				>
 			</File>
 			<File
-				RelativePath="MyServiceSVC_impl.h"
+				RelativePath="TestIDLSVC_impl.h"
 				>
 			</File>
 		</Filter>

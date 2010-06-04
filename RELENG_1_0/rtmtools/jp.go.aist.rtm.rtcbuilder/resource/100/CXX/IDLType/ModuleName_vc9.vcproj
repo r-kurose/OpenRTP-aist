@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="shift_jis"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
-	Name="test"
+	Version="9.00"
+	Name="ModuleName"
 	ProjectGUID="{D1CD3730-28E2-11DD-88AA-005056C00008}"
-	RootNamespace="test"
+	RootNamespace="ModuleName"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -14,12 +14,11 @@
 	</Platforms>
 	<ToolFiles>
 	</ToolFiles>
-
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(ProjectDir)test\$(ConfigurationName)"
-			IntermediateDirectory="test\$(ConfigurationName)"
+			OutputDirectory="$(ProjectDir)ModuleName\$(ConfigurationName)"
+			IntermediateDirectory="ModuleName\$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="0"
 			InheritedPropertySheets="$(SolutionDir)rtm_config.vsprops;$(SolutionDir)user_config.vsprops"
@@ -97,8 +96,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(ProjectDir)test\$(ConfigurationName)"
-			IntermediateDirectory="test\$(ConfigurationName)"
+			OutputDirectory="$(ProjectDir)ModuleName\$(ConfigurationName)"
+			IntermediateDirectory="ModuleName\$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="0"
 			InheritedPropertySheets="$(SolutionDir)rtm_config.vsprops;$(SolutionDir)user_config.vsprops"
@@ -171,11 +170,10 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="if NOT EXIST &quot;$(SolutionDir)\\components&quot; mkdir &quot;$(SolutionDir)\\components&quot;&#x0D;&#x0A;copy &quot;$(OutDir)\\test.dll&quot; &quot;$(SolutionDir)\\components&quot;&#x0D;&#x0A;"
+				CommandLine="if NOT EXIST &quot;$(SolutionDir)\\components&quot; mkdir &quot;$(SolutionDir)\\components&quot;&#x0D;&#x0A;copy &quot;$(OutDir)\\ModuleName.dll&quot; &quot;$(SolutionDir)\\components&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>
-
 	<References>
 	</References>
 	<Files>
@@ -185,15 +183,15 @@
 			UniqueIdentifier="{D1CD3730-28E2-11DD-B7E1-005056C00008}"
 			>
 			<File
-				RelativePath="test.cpp"
+				RelativePath="ModuleName.cpp"
 				>
 			</File>
 			<File
-				RelativePath="MyServiceSkel.cpp"
+				RelativePath="TestIDLSkel.cpp"
 				>
 			</File>
 			<File
-				RelativePath="MyServiceSVC_impl.cpp"
+				RelativePath="TestIDLSVC_impl.cpp"
 				>
 			</File>
 		</Filter>
@@ -203,15 +201,15 @@
 			UniqueIdentifier="{D1CD3730-28E2-11DD-A46E-005056C00008}"
 			>
 			<File
-				RelativePath="test.h"
+				RelativePath="ModuleName.h"
 				>
 			</File>
 			<File
-				RelativePath="MyServiceSkel.h"
+				RelativePath="TestIDLSkel.h"
 				>
 			</File>
 			<File
-				RelativePath="MyServiceSVC_impl.h"
+				RelativePath="TestIDLSVC_impl.h"
 				>
 			</File>
 		</Filter>

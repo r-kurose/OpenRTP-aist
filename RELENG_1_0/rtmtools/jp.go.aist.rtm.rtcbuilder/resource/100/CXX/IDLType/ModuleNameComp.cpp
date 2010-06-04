@@ -1,6 +1,6 @@
 // -*- C++ -*-
 /*!
- * @file testComp.cpp
+ * @file ModuleNameComp.cpp
  * @brief Standalone component
  * @date $Date$
  *
@@ -11,16 +11,16 @@
 #include <iostream>
 #include <string>
 #include <stdlib.h>
-#include "test.h"
+#include "ModuleName.h"
 
 
 void MyModuleInit(RTC::Manager* manager)
 {
-  testInit(manager);
+  ModuleNameInit(manager);
   RTC::RtcBase* comp;
 
   // Create a component
-  comp = manager->createComponent("test");
+  comp = manager->createComponent("ModuleName");
 
   if (comp==NULL)
   {

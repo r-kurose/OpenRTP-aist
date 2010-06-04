@@ -9,7 +9,9 @@ import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.IDLParser;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.ParseException;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.Node;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.NodeToken;
+import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.array_declarator;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.base_type_spec;
+import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.enum_type;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.identifier;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.interface_dcl;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.interface_header;
@@ -176,12 +178,52 @@ public class IDLParamConverter {
 				}, null);
 			}
 			@Override
+			public void visit(struct_type n, String argu) {
+				final TypeDefParam tdparam = new TypeDefParam();
+				tdparam.setStruct(true);
+				n.identifier.accept(new DepthFirstVisitor(){
+					@Override
+					public void visit(identifier n) {
+						tdparam.setTargetDef(node2String(n));
+					}
+				});
+				n.member_list.accept(new DepthFirstVisitor(){
+					@Override
+					public void visit(simple_type_spec n) {
+						tdparam.getChildType().add(node2String(n));
+					}
+				});
+				result.add(tdparam);
+			}
+			@Override
+			public void visit(enum_type n, String argu) {
+				final TypeDefParam tdparam = new TypeDefParam();
+				tdparam.setEnum(true);
+				n.identifier.accept(new DepthFirstVisitor(){
+					@Override
+					public void visit(identifier n) {
+						tdparam.setTargetDef(node2String(n));
+					}
+				});
+				result.add(tdparam);
+			}
+			@Override
 			public void visit(type_declarator n, String argu) {
 				final TypeDefParam tdparam = new TypeDefParam();
 				n.declarators.accept(new DepthFirstVisitor(){
 					@Override
 					public void visit(identifier n) {
 						tdparam.setTargetDef(node2String(n));
+					}
+					@Override
+					public void visit(array_declarator n) {
+						tdparam.setArray(true);
+						n.identifier.accept(new DepthFirstVisitor(){
+							@Override
+							public void visit(identifier n) {
+								tdparam.setTargetDef(node2String(n));
+							}
+						});
 					}
 				});
 				n.type_spec.accept(new DepthFirstVisitor(){

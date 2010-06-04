@@ -1,6 +1,8 @@
 package jp.go.aist.rtm.rtcbuilder.generator.param.idl;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * •Ï”’è‹`‚ğ‚ ‚ç‚í‚·ƒNƒ‰ƒX
@@ -13,6 +15,10 @@ public class TypeDefParam implements Serializable {
 	private String scopedName;
 	private boolean isSequence;
 	private boolean isString;
+	private boolean isArray;
+	private boolean isStruct;
+	private boolean isEnum;
+	private List<String> childType;
 
 	public TypeDefParam() {
 		originalDef = "";
@@ -20,6 +26,10 @@ public class TypeDefParam implements Serializable {
 		scopedName = "";
 		isSequence = false;
 		isString = false;
+		isArray = false;
+		isStruct = false;
+		isEnum = false;
+		childType = new ArrayList<String>();
 	}
 
 	public String getOriginalDef() {
@@ -55,5 +65,30 @@ public class TypeDefParam implements Serializable {
 	}
 	public void setString(boolean isString) {
 		this.isString = isString;
+	}
+
+	public boolean isArray() {
+		return isArray;
+	}
+	public void setArray(boolean isArray) {
+		this.isArray = isArray;
+	}
+
+	public boolean isStruct() {
+		return isStruct;
+	}
+	public void setStruct(boolean isStruct) {
+		this.isStruct = isStruct;
+	}
+
+	public boolean isEnum() {
+		return isEnum;
+	}
+	public void setEnum(boolean isEnum) {
+		this.isEnum = isEnum;
+	}
+
+	public List<String> getChildType() {
+		return childType;
 	}
 }
