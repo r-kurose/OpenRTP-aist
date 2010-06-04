@@ -1,14 +1,14 @@
 // -*- C++ -*-
 /*!
- * @file  test.h
- * @brief test component
+ * @file  ModuleName.h
+ * @brief ModuleDescription
  * @date  $Date$
  *
  * $Id$
  */
 
-#ifndef TEST_H
-#define TEST_H
+#ifndef MODULENAME_H
+#define MODULENAME_H
 
 #include <rtm/Manager.h>
 #include <rtm/DataFlowComponentBase.h>
@@ -21,7 +21,7 @@
 
 // Service implementation headers
 // <rtc-template block="service_impl_h">
-#include "MyServiceSVC_impl.h"
+#include "TestIDLSVC_impl.h"
 
 // </rtc-template>
 
@@ -33,11 +33,11 @@
 using namespace RTC;
 
 /*!
- * @class test
- * @brief test component
+ * @class ModuleName
+ * @brief ModuleDescription
  *
  */
-class test
+class ModuleName
   : public RTC::DataFlowComponentBase
 {
  public:
@@ -45,12 +45,12 @@ class test
    * @brief constructor
    * @param manager Maneger Object
    */
-  test(RTC::Manager* manager);
+  ModuleName(RTC::Manager* manager);
 
   /*!
    * @brief destructor
    */
-  ~test();
+  ~ModuleName();
 
   // <rtc-template block="public_attribute">
   
@@ -237,7 +237,7 @@ class test
   // <rtc-template block="corbaport_declare">
   /*!
    */
-  RTC::CorbaPort m_MySVProPort;
+  RTC::CorbaPort m_sV1Port;
   
   // </rtc-template>
 
@@ -245,7 +245,7 @@ class test
   // <rtc-template block="service_declare">
   /*!
    */
-  MyServiceSVC_impl m_myservice;
+  ComFkSVC_impl m_sIFv;
   
   // </rtc-template>
 
@@ -268,7 +268,7 @@ class test
 
 extern "C"
 {
-  DLL_EXPORT void testInit(RTC::Manager* manager);
+  DLL_EXPORT void ModuleNameInit(RTC::Manager* manager);
 };
 
-#endif // TEST_H
+#endif // MODULENAME_H

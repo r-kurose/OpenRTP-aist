@@ -35,10 +35,22 @@ static const char* test_spec[] =
 test::test(RTC::Manager* manager)
     // <rtc-template block="initializer">
   : RTC::DataFlowComponentBase(manager),
-    m_MySVProPort("MySVPro"),
+    m_MySVProPort("MySVPro")
 
     // </rtc-template>
-	dummy(0)
+{
+}
+
+/*!
+ * @brief destructor
+ */
+test::~test()
+{
+}
+
+
+
+RTC::ReturnCode_t test::onInitialize()
 {
   // Registration: InPort/OutPort/Service
   // <rtc-template block="registration">
@@ -52,26 +64,12 @@ test::test(RTC::Manager* manager)
   // Set service consumers to Ports
   
   // Set CORBA Service Ports
-  registerPort(m_MySVProPort);
+  addPort(m_MySVProPort);
   
   // </rtc-template>
 
-}
-
-/*!
- * @brief destructor
- */
-test::~test()
-{
-}
-
-
-/*
-RTC::ReturnCode_t test::onInitialize()
-{
   return RTC::RTC_OK;
 }
-*/
 
 /*
 RTC::ReturnCode_t test::onFinalize()
@@ -157,7 +155,7 @@ extern "C"
  
   void testInit(RTC::Manager* manager)
   {
-    RTC::Properties profile(test_spec);
+    coil::Properties profile(test_spec);
     manager->registerFactory(profile,
                              RTC::Create<test>,
                              RTC::Delete<test>);

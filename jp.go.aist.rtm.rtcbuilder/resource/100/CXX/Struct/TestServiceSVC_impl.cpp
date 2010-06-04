@@ -27,11 +27,12 @@ TestServiceSVC_impl::~TestServiceSVC_impl()
  */
 Data TestServiceSVC_impl::getData()
 {
+	Data result;
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
   #warning "Code missing in function <Data TestServiceSVC_impl::getData()>"
 #endif
-  return 0;
+  return result;
 }
 
 

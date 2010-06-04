@@ -317,16 +317,57 @@ public class Generator {
 	}
 	
 	private List<ServiceClassParam> convertType(List<ServiceClassParam> source, List<TypeDefParam> types) {
+		
+		for(int idxParent=0;idxParent<types.size();idxParent++) {
+			String target = types.get(idxParent).getOriginalDef();
+			checkTypeAtt(target, types.get(idxParent), types);
+			for(int idxChild=0; idxChild<types.get(idxParent).getChildType().size(); idxChild++) {
+				checkTypeAtt(types.get(idxParent).getChildType().get(idxChild), types.get(idxParent), types);
+			}
+		}
+		
 		for( ServiceClassParam target : source) {
 			for( ServiceMethodParam method : target.getMethods() ) {
-				method.setType(checkType(method.getType(), types));
-				method.setSequence(checkSeqType(method.getType(), types));
+				checkMethodType(method, types);
 				for( ServiceArgumentParam param : method.getArguments() ) {
-					param.setType(checkType(param.getType(), types));
+					checkArgumentType(param, types);
 				}
 			}
 		}
 		return source;
+	}
+
+	private void checkTypeAtt(String target, TypeDefParam source, List<TypeDefParam> types) {
+		for(int index=0;index<types.size();index++) {
+			if( target.equals(types.get(index).getTargetDef()) ) {
+				source.setSequence(types.get(index).isSequence());
+				source.setString(types.get(index).isString());
+				break;
+			}
+		}
+	}
+	private void checkMethodType(ServiceMethodParam target, List<TypeDefParam> types) {
+		for(TypeDefParam tdparam : types) {
+			if(target.getType().equals(tdparam.getTargetDef())) {
+				target.setSequence(tdparam.isSequence() || tdparam.isString());
+				target.setArray(tdparam.isArray());
+				target.setStruct(tdparam.isStruct() || tdparam.isEnum());
+				break;
+			}
+		}
+		target.setType(checkType(target.getType(), types));
+	}
+	private void checkArgumentType(ServiceArgumentParam target, List<TypeDefParam> types) {
+		for(TypeDefParam tdparam : types) {
+			if(target.getType().equals(tdparam.getTargetDef())) {
+				target.setOriginalType(target.getType());
+				target.setUnbounded(tdparam.isSequence() || tdparam.isString());
+				target.setArray(tdparam.isArray());
+				target.setStruct(tdparam.isStruct());
+				target.setType(checkType(target.getType(), types));
+				return;
+			}
+		}
 	}
 	private String checkType(String target, List<TypeDefParam> types) {
 		for(TypeDefParam tdparam : types) {
@@ -335,18 +376,10 @@ public class Generator {
 					if(tdparam.isString()) return tdparam.getScopedName() + "::" + tdparam.getOriginalDef();
 					return tdparam.getScopedName() + "::" + target;
 				}
-				if(tdparam.isString()) return tdparam.getOriginalDef();
+				if( tdparam.isString() && !tdparam.isStruct() ) return tdparam.getOriginalDef();
 			}
 		}
 		return target;
-	}
-	private boolean checkSeqType(String target, List<TypeDefParam> types) {
-		for(TypeDefParam tdparam : types) {
-			if(target.equals(tdparam.getTargetDef())) {
-				return tdparam.isSequence();
-			}
-		}
-		return false;
 	}
 
 	private File getIncludeIDLDic(String targetDir) {
