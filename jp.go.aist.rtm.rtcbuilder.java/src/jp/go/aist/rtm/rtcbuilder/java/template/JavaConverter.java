@@ -9,8 +9,10 @@ import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceArgumentParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceMethodParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.TypeDefParam;
 
 /**
  * Javaソースを出力する際に使用されるユーティリティ
@@ -182,22 +184,47 @@ public class JavaConverter {
 	 * @param strCorba CORBA型
 	 * @return Java型
 	 */
-	public String convCORBA2Java(String strCorba, ServiceClassParam scp) {
-		boolean blnSequence = false;
-		String strType = scp.getTypeDef().get(strCorba);
-		if( strType==null ) strType = strCorba;
-		else {
+	public String convCORBA2Java(ServiceMethodParam typeDef, ServiceClassParam scp) {
+		String strType = getTypeDefs(typeDef.getType(), scp);
+		if( strType==null ) {
+			strType = typeDef.getType();
+		} else {
 			strType.replaceAll("::", ".");
-			if(strType.endsWith("[]")) {
-				blnSequence = true;
-				strType = strType.substring(0, strType.length()-2);
-			}
 		}
-		String result = mapType.get(strType);
-		if( result == null ) result = strCorba;
-		if( blnSequence ) result += "[]";
+		
+		String rawType = strType.replaceAll("\\[\\]", "");
+		String convType = mapType.get(rawType);
+		
+		String result;
+		if( convType == null ) {
+			if(typeDef.isSequence() && !typeDef.isStruct()) {
+				result = strType;
+				
+			} else {
+				result = typeDef.getType();
+			}
+		} else {
+			result = strType.replaceAll(rawType, convType);
+			
+		}
+		
 		return result;
 	}
+	private String getTypeDefs(String target, ServiceClassParam scp) {
+		String result = null;
+		
+		TypeDefParam source = scp.getTypeDef().get(target);
+		if( source==null || source.getOriginalDef()==null || source.getOriginalDef().length()==0 ) {
+			return target;
+		} else {
+			result = getTypeDefs(source.getOriginalDef(), scp);
+			if( source!=null ) {
+				if( source.isSequence() || source.isArray() ) result += "[]";
+			}
+		}
+		return result;
+	}
+	
 	/**
 	 * CORBA型からJava型へ型を変換する
 	 * 
@@ -216,34 +243,35 @@ public class JavaConverter {
 	 * @param strDirection 入出力方向
 	 * @return Java型
 	 */
-	public String convCORBA2JavaforArg(String strCorba, String strDirection, ServiceClassParam scp) {
+	public String convCORBA2JavaforArg(ServiceArgumentParam typeDef, String strDirection, ServiceClassParam scp) {
 		String result = "";
-		String strType = scp.getTypeDef().get(strCorba);
-		if( strType==null ) {
+		String strType = getTypeDefs(typeDef.getType(), scp);
+		if( typeDef.getType().equals(strType) ) {
 			if( strDirection.equals(dirIn) ) {
-				result = mapType.get(strCorba);
-				if( result == null ) result = strCorba;
+				result = mapType.get(typeDef.getType());
+				if( result == null ) result = typeDef.getType();
 			} else {
-				result = mapTypeHolder.get(strCorba);
-				if( result == null ) result = strCorba + "Holder";
+				result = mapTypeHolder.get(typeDef.getType());
+				if( result == null ) result = typeDef.getType() + "Holder";
 			}
 		} else {
 			strType.replaceAll("::", ".");
-			boolean blnSequence = false;
-			if(strType.endsWith("[]")) {
-				blnSequence = true;
-				strType = strType.substring(0, strType.length()-2);
-			}
-			result = mapType.get(strType);
-			if( result == null ) {
-				result = strType;
-				if( !strDirection.equals(dirIn) ) result = result + "Holder";
-			}
-			if( blnSequence ) {
-				if( !strDirection.equals(dirIn) ) {
-					result = strCorba + "Holder";
+			String rawType = strType.replaceAll("\\[\\]", "");
+			String convType = mapType.get(rawType);
+			if( convType == null ) {
+				if(typeDef.isStruct() || typeDef.isEnum()) {
+					result = typeDef.getType();
 				} else {
-					result = result + "[]";
+					result = strType;
+				}
+				if( !strDirection.equals(dirIn) ) result = result + "Holder";
+			} else {
+				result = strType.replaceAll(rawType, convType);
+				
+			}
+			if( typeDef.isUnbounded() || typeDef.isArray() ) {
+				if( !strDirection.equals(dirIn) ) {
+					result = typeDef.getType() + "Holder";
 				}
 			}
 		}
@@ -284,8 +312,9 @@ public class JavaConverter {
 	 * @param srvMethod 検証対象メソッド
 	 * @return 検証結果
 	 */
-	public boolean isString(ServiceMethodParam srvMethod, ServiceClassParam scp) {
-		String conv = this.convCORBA2Java(srvMethod.getType(), scp);
+	public boolean isRetNull(ServiceMethodParam srvMethod, ServiceClassParam scp) {
+		if(srvMethod.isStruct()) return true;
+		String conv = this.convCORBA2Java(srvMethod, scp);
 		if(conv.equals(javaString) || conv.equals(javaWstring) || conv.equals(javaAny) || conv.endsWith("[]") )
 			return true;
 		return false;
