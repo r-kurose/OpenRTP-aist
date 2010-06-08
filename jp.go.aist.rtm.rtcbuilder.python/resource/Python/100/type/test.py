@@ -239,13 +239,10 @@ def testInit(manager):
     manager.registerFactory(profile,
                             test,
                             OpenRTM_aist.Delete)
-
 def MyModuleInit(manager):
     testInit(manager)
-
     # Create a component
     comp = manager.createComponent("test")
-
 def main():
 	mgr = OpenRTM_aist.Manager.init(sys.argv)
 	mgr.setModuleInitProc(MyModuleInit)
