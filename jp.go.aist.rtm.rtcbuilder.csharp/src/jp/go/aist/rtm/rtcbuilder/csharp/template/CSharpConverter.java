@@ -118,7 +118,7 @@ public class CSharpConverter {
 			String[] type = target.split("::");
 			target = type[type.length-1];
 		}
-		String strType = scp.getTypeDef().get(target);
+		String strType = scp.getTypeDef().get(target).getOriginalDef();
 		if(strType == null) strType = strCorba;
 		strType = convCORBA2CSharp(strType);
 			
@@ -156,7 +156,7 @@ public class CSharpConverter {
 			String[] type = target.split("::");
 			target = type[type.length-1];
 		}
-		String strType = scp.getTypeDef().get(target);
+		String strType = scp.getTypeDef().get(target).getOriginalDef();
 		if( strType==null ) {
 			if( strDirection.equals(dirIn) ) {
 				result = mapType.get(strCorba);
