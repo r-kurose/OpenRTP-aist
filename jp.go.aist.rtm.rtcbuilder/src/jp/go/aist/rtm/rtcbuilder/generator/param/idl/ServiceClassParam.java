@@ -21,7 +21,7 @@ public class ServiceClassParam implements Serializable {
 	private String module;
 	private List<ServiceMethodParam> methods = new ArrayList<ServiceMethodParam>();
 	private RtcParam parent;
-	private Map<String,String> typeDef = new HashMap<String,String>();
+	private Map<String,TypeDefParam> typeDef = new HashMap<String,TypeDefParam>();
 	private List<String> superInterfaceList = new ArrayList<String>();
 
 	public ServiceClassParam() {
@@ -68,16 +68,17 @@ public class ServiceClassParam implements Serializable {
 		this.idlPath = idlPath;
 	}
 
-	public Map<String,String> getTypeDef() {
+	public Map<String,TypeDefParam> getTypeDef() {
 		return this.typeDef;
 	}
 
 	public void setTypeDef(List<TypeDefParam> typeDef) {
 		Iterator<TypeDefParam> iterator = typeDef.iterator();
-		this.typeDef = new HashMap<String, String>();
+		this.typeDef = new HashMap<String, TypeDefParam>();
 		while(iterator.hasNext()) {
 			TypeDefParam typedef = iterator.next();
-			this.typeDef.put(typedef.getTargetDef(), typedef.getOriginalDef());
+//			this.typeDef.put(typedef.getTargetDef(), typedef.getOriginalDef());
+			this.typeDef.put(typedef.getTargetDef(), typedef);
 		}
 //		this.typeDef = typeDef;
 	}
@@ -89,7 +90,7 @@ public class ServiceClassParam implements Serializable {
 		while(iterator.hasNext()) {
 			TypeDefParam typedef = new TypeDefParam();
 			String key = iterator.next();
-			String value = this.typeDef.get(key);
+			String value = this.typeDef.get(key).getOriginalDef();
 			typedef.setTargetDef(key);
 			typedef.setOriginalDef(value);
 			typeDefList.add(typedef);

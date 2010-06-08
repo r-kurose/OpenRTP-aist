@@ -349,7 +349,8 @@ public class Generator {
 	private void checkMethodType(ServiceMethodParam target, List<TypeDefParam> types) {
 		for(TypeDefParam tdparam : types) {
 			if(target.getType().equals(tdparam.getTargetDef())) {
-				target.setSequence(tdparam.isSequence() || tdparam.isString());
+				target.setSequence(tdparam.isSequence());
+				target.setString(tdparam.isString());
 				target.setArray(tdparam.isArray());
 				target.setStruct(tdparam.isStruct() || tdparam.isEnum());
 				break;
@@ -364,6 +365,7 @@ public class Generator {
 				target.setUnbounded(tdparam.isSequence() || tdparam.isString());
 				target.setArray(tdparam.isArray());
 				target.setStruct(tdparam.isStruct());
+				target.setEnum(tdparam.isEnum());
 				target.setType(checkType(target.getType(), types));
 				return;
 			}
