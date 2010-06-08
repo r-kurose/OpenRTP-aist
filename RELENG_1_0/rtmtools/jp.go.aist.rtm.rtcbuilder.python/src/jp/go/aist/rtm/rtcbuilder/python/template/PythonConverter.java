@@ -66,7 +66,7 @@ public class PythonConverter {
 	 * @return Pythonå^
 	 */
 	public String convCORBA2PythonTypeDef(String strCorba, ServiceClassParam scp) {
-		String strType = scp.getTypeDef().get(strCorba);
+		String strType = scp.getTypeDef().get(strCorba).getOriginalDef();
 		String result = "";
 		if(strType.endsWith("[]")) {
 			strType = strType.substring(0, strType.length()-2);
@@ -113,7 +113,7 @@ public class PythonConverter {
 	 * @return Pythonå^
 	 */
 	public String convCORBA2Python4IDL(String strCorba, ServiceClassParam scp) {
-		String strType = scp.getTypeDef().get(strCorba);
+		String strType = scp.getTypeDef().get(strCorba).getOriginalDef();
 		String result = "";
 		if( strType==null) {
 			if(strCorba.equals(idlString)) {
