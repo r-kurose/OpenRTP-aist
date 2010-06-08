@@ -241,42 +241,6 @@ public class AISTTest extends TestBase {
 		checkCode(result, resourceDir, "README.test");
 	}
 
-	public void testType() throws Exception{
-		rtcParam.setName("test");
-		rtcParam.setDescription("test component");
-		rtcParam.setVersion("1.0.0");
-		rtcParam.setVender("S.Kurihara");
-		rtcParam.setCategory("exmple");
-		rtcParam.setComponentType("STATIC");
-		rtcParam.setActivityType("PERIODIC");
-		rtcParam.setMaxInstance(1);
-
-		ServicePortParam service1 = new ServicePortParam("MySVPro",0);
-		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
-		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "myservice", "", "", 
-				rootPath + "resource\\Java\\type\\MyService.idl", "MyService", "", 0);
-		srvinterts.add(int1);
-		service1.getServicePortInterfaces().addAll(srvinterts);
-		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
-		srvports.add(service1);
-		rtcParam.getServicePorts().addAll(srvports);
-		genParam.getRtcParams().add(rtcParam);
-
-		Generator generator = new Generator();
-		GenerateManager manager = new JavaGenerateManager();
-		generator.addGenerateManager(manager);
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
-
-		String resourceDir = rootPath +  "\\resource\\Java\\type\\";
-
-		checkCode(result, resourceDir, "testComp.java");
-		checkCode(result, resourceDir, "build_test.xml");
-		checkCode(result, resourceDir, "test.java");
-		checkCode(result, resourceDir, "testImpl.java");
-		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
-		checkCode(result, resourceDir, "README.test");
-	}
-
 	public void testServicePort() throws Exception{
 		rtcParam.setName("test");
 		rtcParam.setDescription("test component");

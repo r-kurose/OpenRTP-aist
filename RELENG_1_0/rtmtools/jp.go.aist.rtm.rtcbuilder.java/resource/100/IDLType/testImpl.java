@@ -26,7 +26,7 @@ public class testImpl extends DataFlowComponentBase {
 	public testImpl(Manager manager) {  
         super(manager);
         // <rtc-template block="initializer">
-        m_MySVProPort = new CorbaPort("MySVPro");
+        m_sV1Port = new CorbaPort("sV1");
         // </rtc-template>
     }
     /**
@@ -45,7 +45,7 @@ public class testImpl extends DataFlowComponentBase {
         
         // Set service provider to Ports
         try {
-        	m_MySVProPort.registerProvider("myservice", "MyService", m_myservice);
+        	m_sV1Port.registerProvider("sIF1", "ComFk", m_sIFv);
         } catch (ServantAlreadyActive e) {
             e.printStackTrace();
         } catch (WrongPolicy e) {
@@ -57,7 +57,7 @@ public class testImpl extends DataFlowComponentBase {
         // Set service consumers to Ports
         
         // Set CORBA Service Ports
-        addPort(m_MySVProPort);
+        addPort(m_sV1Port);
         // </rtc-template>
         return super.onInitialize();
     }
@@ -237,14 +237,14 @@ public class testImpl extends DataFlowComponentBase {
     // <rtc-template block="corbaport_declare">
     /*!
      */
-    protected CorbaPort m_MySVProPort;
+    protected CorbaPort m_sV1Port;
     
     // </rtc-template>
     // Service declaration
     // <rtc-template block="service_declare">
     /*!
      */
-    protected MyServiceSVC_impl m_myservice = new MyServiceSVC_impl();
+    protected ComFkSVC_impl m_sIFv = new ComFkSVC_impl();
     
     // </rtc-template>
     // Consumer declaration
