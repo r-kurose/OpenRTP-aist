@@ -15,6 +15,7 @@ public class ServiceArgumentParam implements Serializable {
 	private boolean isUnbounded;
 	private boolean isArray;
 	private boolean isStruct;
+	private boolean isEnum;
 
 	public String getName() {
 		return name;
@@ -63,5 +64,12 @@ public class ServiceArgumentParam implements Serializable {
 	}
 	public void setStruct(boolean isStruct) {
 		this.isStruct = isStruct;
+	}
+	
+	public boolean isEnum() {
+		return isEnum;
+	}
+	public void setEnum(boolean isEnum) {
+		this.isEnum = isEnum;
 	}
 }

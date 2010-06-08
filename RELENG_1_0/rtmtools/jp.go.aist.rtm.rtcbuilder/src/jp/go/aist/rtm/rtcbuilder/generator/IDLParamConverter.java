@@ -158,7 +158,7 @@ public class IDLParamConverter {
 								n.nodeChoice.accept(new DepthFirstVisitor(){
 									@Override
 									public void visit(simple_type_spec n) {
-										tdparam.setOriginalDef(node2String(n) + "[]");
+										tdparam.setOriginalDef(node2String(n));
 										tdparam.setSequence(true);
 									}
 									@Override
@@ -232,7 +232,7 @@ public class IDLParamConverter {
 						n.nodeChoice.accept(new DepthFirstVisitor(){
 							@Override
 							public void visit(simple_type_spec n) {
-								tdparam.setOriginalDef(node2String(n) + "[]");
+								tdparam.setOriginalDef(node2String(n));
 								tdparam.setSequence(true);
 							}
 							@Override
@@ -287,7 +287,6 @@ public class IDLParamConverter {
 				String resultType = iterRes.next();
 				if( result.contains(resultType) ) {
 					continue;
-//					throw new ParseException("[" + resultType + "]" + IRTCBMessageConstants.ERROR_IDLTYPEDUPLICAT);
 				}
 				result.add(resultType);
 				targetParam.getDefinedTypes().add(resultType);

@@ -16,6 +16,7 @@ public class ServiceMethodParam implements Serializable {
 	private boolean isSequence;
 	private boolean isArray;
 	private boolean isStruct;
+	private boolean isString;
 
 	private List<ServiceArgumentParam> arguments = new ArrayList<ServiceArgumentParam>();
 
@@ -26,7 +27,7 @@ public class ServiceMethodParam implements Serializable {
 		return type.equals("boolean");
 	}
 	public boolean getIsResult() {
-		return isStruct && !isSequence && !isArray;
+		return isStruct && !isSequence && !isString && !isArray;
 	}
 
 	public String getName() {
@@ -74,5 +75,12 @@ public class ServiceMethodParam implements Serializable {
 	}
 	public void setStruct(boolean isStruct) {
 		this.isStruct = isStruct;
+	}
+	
+	public boolean isString() {
+		return isString;
+	}
+	public void setString(boolean isString) {
+		this.isString = isString;
 	}
 }
