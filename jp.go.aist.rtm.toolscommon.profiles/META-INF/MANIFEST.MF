@@ -13,5 +13,4 @@ Export-Package: jp.go.aist.rtm.toolscommon.profiles.util,
  org.openrtp.namespaces.rtc.version02,
  org.openrtp.namespaces.rts.version01,
  org.openrtp.namespaces.rts.version02
-Require-Bundle: org.eclipse.pde.junit.runtime
 Bundle-ActivationPolicy: lazy
