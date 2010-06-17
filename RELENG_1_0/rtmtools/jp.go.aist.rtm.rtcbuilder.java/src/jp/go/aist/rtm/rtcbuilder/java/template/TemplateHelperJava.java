@@ -63,4 +63,9 @@ public class TemplateHelperJava {
 				IRtcBuilderConstantsJava.DOC_INTERFACE_DETAIL_PREFIX_JAVA, IRtcBuilderConstantsJava.DOC_INTERFACE_DETAIL_OFFSET_JAVA);
 	}
 	//
+	public boolean notNullRTMRoot() {
+		String defaultPath = System.getenv("RTM_ROOT");
+		if( defaultPath==null ) return false;
+		return true;
+	}
 }

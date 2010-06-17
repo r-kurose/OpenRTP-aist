@@ -1,5 +1,6 @@
 package jp.go.aist.rtm.rtcbuilder.java.manager;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,6 +69,12 @@ public class JavaGenerateManager extends GenerateManager {
 			contextMap.put("tmpltHelper", new TemplateHelper());
 			contextMap.put("tmpltHelperJava", new TemplateHelperJava());
 			contextMap.put("javaConv", new JavaConverter());
+			//
+			String defaultPath = System.getenv("RTM_ROOT");
+			if( defaultPath!=null ) { 
+				contextMap.put("javaRoot", defaultPath);
+			}
+			//
 
 			result = generateCompSource(contextMap, result);
 
@@ -138,8 +145,25 @@ public class JavaGenerateManager extends GenerateManager {
 
 		ins = JavaGenerateManager.class.getClassLoader()	
 			.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/java/template/Java_Comp_src.template");
-		result.add(TemplateUtil.createGeneratedResult(ins, contextMap, 
-				((RtcParam)contextMap.get("rtcParam")).getName() + "Comp.java"));
+		
+		String outDir = ((RtcParam)contextMap.get("rtcParam")).getOutputProject();
+		File targetDirectory = new File(outDir + File.separator + "src");
+		if( !targetDirectory.isDirectory() ) {
+			targetDirectory.mkdir();
+        }
+		targetDirectory = new File(outDir + File.separator + "bin");
+		if( !targetDirectory.isDirectory() ) {
+			targetDirectory.mkdir();
+        }
+		
+		String outFile; 
+		if( ((RtcParam)contextMap.get("rtcParam")).getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100) ) {
+			outFile = File.separator + "src" + File.separator + ((RtcParam)contextMap.get("rtcParam")).getName() + "Comp.java";
+		} else {
+			outFile = ((RtcParam)contextMap.get("rtcParam")).getName() + "Comp.java";
+		}
+		
+		result.add(TemplateUtil.createGeneratedResult(ins, contextMap, outFile));
 
 		try {
 			if( ins != null) ins.close();
@@ -160,8 +184,13 @@ public class JavaGenerateManager extends GenerateManager {
 	protected List<GeneratedResult> generateBuildFile(Map<String, Object> contextMap, List<GeneratedResult> result) {
 		InputStream ins = null;
 
-		ins = JavaGenerateManager.class.getClassLoader()	
-			.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/java/template/Java_Build_src.template");
+		if( ((RtcParam)contextMap.get("rtcParam")).getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100) ) {
+			ins = JavaGenerateManager.class.getClassLoader()	
+				.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/java/template/_100/Java_Build_src.template");
+		} else {
+			ins = JavaGenerateManager.class.getClassLoader()	
+				.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/java/template/Java_Build_src.template");
+		}
 		result.add(TemplateUtil.createGeneratedResult(ins, contextMap, 
 				"build_" + ((RtcParam)contextMap.get("rtcParam")).getName() +".xml"));
 
@@ -182,16 +211,29 @@ public class JavaGenerateManager extends GenerateManager {
 	 */
 	protected List<GeneratedResult> generateRTCSource(Map<String, Object> contextMap, List<GeneratedResult> result) {
 		InputStream ins = null;
+		String outFile;
 
 		if( ((RtcParam)contextMap.get("rtcParam")).getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100) ) {
 			ins = JavaGenerateManager.class.getClassLoader()	
 				.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/java/template/_100/Java_RTC_Source_src.template");
+			outFile = File.separator + "src" + File.separator + ((RtcParam)contextMap.get("rtcParam")).getName() + ".java";
 		} else {
 			ins = JavaGenerateManager.class.getClassLoader()	
 				.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/java/template/Java_RTC_Source_src.template");
+			outFile = ((RtcParam)contextMap.get("rtcParam")).getName() + ".java";
 		}
-		result.add(TemplateUtil.createGeneratedResult(ins, contextMap, 
-				((RtcParam)contextMap.get("rtcParam")).getName() + ".java"));
+		
+		String outDir = ((RtcParam)contextMap.get("rtcParam")).getOutputProject();
+		File targetDirectory = new File(outDir + File.separator + "src");
+		if( !targetDirectory.isDirectory() ) {
+			targetDirectory.mkdir();
+        }
+		targetDirectory = new File(outDir + File.separator + "bin");
+		if( !targetDirectory.isDirectory() ) {
+			targetDirectory.mkdir();
+        }
+		
+		result.add(TemplateUtil.createGeneratedResult(ins, contextMap, outFile));
 
 		try {
 			if( ins != null) ins.close();
@@ -203,17 +245,17 @@ public class JavaGenerateManager extends GenerateManager {
 	}
 	
 	protected List<GeneratedResult> generateRTCExtend(Map<String, Object> contextMap, List<GeneratedResult> result) {
-//		InputStream ins = null;
-//
-//		ins = JavaGenerateManager.class.getClassLoader()	
-//			.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/java/template/Java_ClassPath_src.template");
-//		result.add(TemplateUtil.createGeneratedResult(ins, contextMap, ".classpath"));
-//
-//		try {
-//			if( ins != null) ins.close();
-//		} catch (Exception e) {
-//			throw new RuntimeException(e); // system error
-//		}
+		InputStream ins = null;
+
+		ins = JavaGenerateManager.class.getClassLoader()	
+			.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/java/template/Java_ClassPath_src.template");
+		result.add(TemplateUtil.createGeneratedResult(ins, contextMap, ".classpath"));
+
+		try {
+			if( ins != null) ins.close();
+		} catch (Exception e) {
+			throw new RuntimeException(e); // system error
+		}
 
 		return result;
 	}
@@ -227,16 +269,29 @@ public class JavaGenerateManager extends GenerateManager {
 	 */
 	protected List<GeneratedResult> generateRTCImplSource(Map<String, Object> contextMap, List<GeneratedResult> result) {
 		InputStream ins = null;
+		String outFile;
 
 		if( ((RtcParam)contextMap.get("rtcParam")).getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100) ) {
 			ins = JavaGenerateManager.class.getClassLoader()
 				.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/java/template/_100/Java_RTC_Impl_Source_src.template");
+			outFile = File.separator + "src" + File.separator + ((RtcParam)contextMap.get("rtcParam")).getName() + "Impl.java";
 		} else {
 			ins = JavaGenerateManager.class.getClassLoader()
 				.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/java/template/Java_RTC_Impl_Source_src.template");
+			outFile = ((RtcParam)contextMap.get("rtcParam")).getName() + "Impl.java";
 		}
-		result.add(TemplateUtil.createGeneratedResult(ins, contextMap, 
-				((RtcParam)contextMap.get("rtcParam")).getName() + "Impl.java"));
+		
+		String outDir = ((RtcParam)contextMap.get("rtcParam")).getOutputProject();
+		File targetDirectory = new File(outDir + File.separator + "src");
+		if( !targetDirectory.isDirectory() ) {
+			targetDirectory.mkdir();
+        }
+		targetDirectory = new File(outDir + File.separator + "bin");
+		if( !targetDirectory.isDirectory() ) {
+			targetDirectory.mkdir();
+        }
+		
+		result.add(TemplateUtil.createGeneratedResult(ins, contextMap, outFile));
 
 		try {
 			if( ins != null) ins.close();
@@ -256,14 +311,30 @@ public class JavaGenerateManager extends GenerateManager {
 	 */
 	protected List<GeneratedResult> generateSVCSource(Map<String, Object> contextMap, List<GeneratedResult> result) {
 		InputStream ins = null;
+		String outFile;
 
+		String outDir = ((RtcParam)contextMap.get("rtcParam")).getOutputProject();
+		File targetDirectory = new File(outDir + File.separator + "src");
+		if( !targetDirectory.isDirectory() ) {
+			targetDirectory.mkdir();
+        }
+		targetDirectory = new File(outDir + File.separator + "bin");
+		if( !targetDirectory.isDirectory() ) {
+			targetDirectory.mkdir();
+        }
+		
 		for(ServiceClassParam serviceClass : ((IdlFileParam)contextMap.get("idlFileParam")).getServiceClassParams()) {
 			ins = JavaGenerateManager.class.getClassLoader()	
 					.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/java/template/Java_SVC_Source_src.template");
 			contextMap.put("serviceClassParam", serviceClass);
-			result.add(TemplateUtil.createGeneratedResult(ins, contextMap, 
-									TemplateHelper.getBasename(serviceClass.getName())
-										+ TemplateHelper.getServiceImplSuffix() + ".java"));
+			
+			if( ((RtcParam)contextMap.get("rtcParam")).getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100) ) {
+				outFile = File.separator + "src" + File.separator + TemplateHelper.getBasename(serviceClass.getName())
+							+ TemplateHelper.getServiceImplSuffix() + ".java";
+			} else {
+				outFile = TemplateHelper.getBasename(serviceClass.getName()) + TemplateHelper.getServiceImplSuffix() + ".java";
+			}
+			result.add(TemplateUtil.createGeneratedResult(ins, contextMap, outFile));
 	
 			try {
 				if( ins != null) ins.close();

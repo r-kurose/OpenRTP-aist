@@ -80,7 +80,7 @@ public class CSBaseTest extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\Properties\\AssemblyInfo.cs");
 		//
-		checkCode(result, resourceDir, "README.foo");
+//		checkCode(result, resourceDir, "README.foo");
 	}
 
 	public void testServicePort1() throws Exception{
@@ -135,7 +135,7 @@ public class CSBaseTest extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\Properties\\AssemblyInfo.cs");
 		//
-		checkCode(result, resourceDir, "README.foo");
+//		checkCode(result, resourceDir, "README.foo");
 	}
 
 	public void testOutPort2() throws Exception{
@@ -179,7 +179,7 @@ public class CSBaseTest extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\Properties\\AssemblyInfo.cs");
 		//
-		checkCode(result, resourceDir, "README.foo");
+//		checkCode(result, resourceDir, "README.foo");
 	}
 
 	public void testOutPort1() throws Exception{
@@ -222,7 +222,7 @@ public class CSBaseTest extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\Properties\\AssemblyInfo.cs");
 		//
-		checkCode(result, resourceDir, "README.foo");
+//		checkCode(result, resourceDir, "README.foo");
 	}
 
 	public void testInPort2() throws Exception{
@@ -262,7 +262,7 @@ public class CSBaseTest extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\Properties\\AssemblyInfo.cs");
 		//
-		checkCode(result, resourceDir, "README.foo");
+//		checkCode(result, resourceDir, "README.foo");
 	}
 
 	public void testInPort() throws Exception{
@@ -301,7 +301,7 @@ public class CSBaseTest extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\Properties\\AssemblyInfo.cs");
 		//
-		checkCode(result, resourceDir, "README.foo");
+//		checkCode(result, resourceDir, "README.foo");
 	}
 
 	public void testBasic() throws Exception{
@@ -337,6 +337,6 @@ public class CSBaseTest extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\Properties\\AssemblyInfo.cs");
 		//
-		checkCode(result, resourceDir, "README.foo");
+//		checkCode(result, resourceDir, "README.foo");
 	}
 }

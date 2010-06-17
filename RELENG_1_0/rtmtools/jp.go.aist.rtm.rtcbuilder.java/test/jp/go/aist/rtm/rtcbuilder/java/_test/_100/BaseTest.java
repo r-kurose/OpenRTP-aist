@@ -72,17 +72,12 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\service2\\";
 
-		assertEquals(6, result.size());
-		checkCode(result, resourceDir, "fooComp.java");
+		assertEquals(7, result.size());
+		checkCode(result, resourceDir, "\\src\\fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
+		checkCode(result, resourceDir, "\\src\\foo.java");
+		checkCode(result, resourceDir, "\\src\\fooImpl.java");
+		checkCode(result, resourceDir, "\\src\\MyServiceSVC_impl.java");
 	}
 
 	public void testServicePort1() throws Exception{
@@ -128,17 +123,12 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\service1\\";
 
-		assertEquals(6, result.size());
-		checkCode(result, resourceDir, "fooComp.java");
+		assertEquals(7, result.size());
+		checkCode(result, resourceDir, "\\src\\fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
+		checkCode(result, resourceDir, "\\src\\foo.java");
+		checkCode(result, resourceDir, "\\src\\fooImpl.java");
+		checkCode(result, resourceDir, "\\src\\MyServiceSVC_impl.java");
 	}
 
 	public void testOutPort2() throws Exception{
@@ -174,16 +164,12 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\outport2\\";
 
-		assertEquals(5, result.size());
-		checkCode(result, resourceDir, "fooComp.java");
+		assertEquals(6, result.size());
+		checkCode(result, resourceDir, "\\src\\fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
+		checkCode(result, resourceDir, "\\src\\foo.java");
+		checkCode(result, resourceDir, "\\src\\fooImpl.java");
+		checkCode(result, resourceDir, ".classpath");
 	}
 
 	public void testOutPort1() throws Exception{
@@ -218,16 +204,12 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\outport1\\";
 
-		assertEquals(5, result.size());
-		checkCode(result, resourceDir, "fooComp.java");
+		assertEquals(6, result.size());
+		checkCode(result, resourceDir, "\\src\\fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
+		checkCode(result, resourceDir, "\\src\\foo.java");
+		checkCode(result, resourceDir, "\\src\\fooImpl.java");
+		checkCode(result, resourceDir, ".classpath");
 	}
 
 	public void testInPort2() throws Exception{
@@ -259,16 +241,12 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\inport2\\";
 
-		assertEquals(5, result.size());
-		checkCode(result, resourceDir, "fooComp.java");
+		assertEquals(6, result.size());
+		checkCode(result, resourceDir, "\\src\\fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
+		checkCode(result, resourceDir, "\\src\\foo.java");
+		checkCode(result, resourceDir, "\\src\\fooImpl.java");
+		checkCode(result, resourceDir, ".classpath");
 	}
 
 	public void testInPort() throws Exception{
@@ -299,16 +277,12 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\inport1\\";
 
-		assertEquals(5, result.size());
-		checkCode(result, resourceDir, "fooComp.java");
+		assertEquals(6, result.size());
+		checkCode(result, resourceDir, "\\src\\fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
+		checkCode(result, resourceDir, "\\src\\foo.java");
+		checkCode(result, resourceDir, "\\src\\fooImpl.java");
+		checkCode(result, resourceDir, ".classpath");
 	}
 
 	public void testBasic() throws Exception{
@@ -336,15 +310,11 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\name\\";
 
-		assertEquals(5, result.size());
-		checkCode(result, resourceDir, "fooComp.java");
+		assertEquals(6, result.size());
+		checkCode(result, resourceDir, "\\src\\fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
+		checkCode(result, resourceDir, "\\src\\foo.java");
+		checkCode(result, resourceDir, "\\src\\fooImpl.java");
+		checkCode(result, resourceDir, ".classpath");
 	}
 }

@@ -85,19 +85,14 @@ public class JavaIDLInheritTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "\\";
 
-		assertEquals(8, result.size());
-		checkCode(result, resourceDir, "fooComp.java");
+		assertEquals(9, result.size());
+		checkCode(result, resourceDir, "\\src\\fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		checkCode(result, resourceDir, "MyServiceChildSVC_impl.java");
-		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
-		checkCode(result, resourceDir, "MyService2SVC_impl.java");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
+		checkCode(result, resourceDir, "\\src\\foo.java");
+		checkCode(result, resourceDir, "\\src\\fooImpl.java");
+		checkCode(result, resourceDir, "\\src\\MyServiceChildSVC_impl.java");
+		checkCode(result, resourceDir, "\\src\\MyServiceSVC_impl.java");
+		checkCode(result, resourceDir, "\\src\\MyService2SVC_impl.java");
 	}
 
 	public void testInherit2() throws Exception {
@@ -141,21 +136,16 @@ public class JavaIDLInheritTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "\\";
 
-		assertEquals(10, result.size());
-		checkCode(result, resourceDir, "fooComp.java");
+		assertEquals(11, result.size());
+		checkCode(result, resourceDir, "\\src\\fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		checkCode(result, resourceDir, "MyServiceChildSVC_impl.java");
-		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
-		checkCode(result, resourceDir, "MyService2SVC_impl.java");
-		checkCode(result, resourceDir, "MyServiceWithTypeChildSVC_impl.java");
-		checkCode(result, resourceDir, "MyServiceWithTypeSVC_impl.java");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
+		checkCode(result, resourceDir, "\\src\\foo.java");
+		checkCode(result, resourceDir, "\\src\\fooImpl.java");
+		checkCode(result, resourceDir, "\\src\\MyServiceChildSVC_impl.java");
+		checkCode(result, resourceDir, "\\src\\MyServiceSVC_impl.java");
+		checkCode(result, resourceDir, "\\src\\MyService2SVC_impl.java");
+		checkCode(result, resourceDir, "\\src\\MyServiceWithTypeChildSVC_impl.java");
+		checkCode(result, resourceDir, "\\src\\MyServiceWithTypeSVC_impl.java");
 	}
 
 }

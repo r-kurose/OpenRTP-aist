@@ -71,7 +71,7 @@ public class VbDotNetTestAIST extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\My Project\\AssemblyInfo.vb");
 		//
-		checkCode(result, resourceDir, "README.Test");
+//		checkCode(result, resourceDir, "README.Test");
 	}
 
 	public void testAIST4() throws Exception{
@@ -126,7 +126,7 @@ public class VbDotNetTestAIST extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\My Project\\AssemblyInfo.vb");
 		//
-		checkCode(result, resourceDir, "README.Test");
+//		checkCode(result, resourceDir, "README.Test");
 	}
 
 	public void testAIST3() throws Exception{
@@ -189,7 +189,7 @@ public class VbDotNetTestAIST extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\My Project\\AssemblyInfo.vb");
 		//
-		checkCode(result, resourceDir, "README.Test");
+//		checkCode(result, resourceDir, "README.Test");
 	}
 	
 	public void testAIST2() throws Exception{
@@ -244,7 +244,7 @@ public class VbDotNetTestAIST extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\My Project\\AssemblyInfo.vb");
 		//
-		checkCode(result, resourceDir, "README.Test");
+//		checkCode(result, resourceDir, "README.Test");
 	}
 
 	public void testType() throws Exception{
@@ -291,7 +291,7 @@ public class VbDotNetTestAIST extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\My Project\\AssemblyInfo.vb");
 		//
-		checkCode(result, resourceDir, "README.Test");
+//		checkCode(result, resourceDir, "README.Test");
 	}
 
 	public void testServicePort() throws Exception{
@@ -338,7 +338,7 @@ public class VbDotNetTestAIST extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\My Project\\AssemblyInfo.vb");
 		//
-		checkCode(result, resourceDir, "README.Test");
+//		checkCode(result, resourceDir, "README.Test");
 	}
 
 }

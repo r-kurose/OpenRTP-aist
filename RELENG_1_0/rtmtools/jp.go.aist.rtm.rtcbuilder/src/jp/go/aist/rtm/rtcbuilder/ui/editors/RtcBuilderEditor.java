@@ -1,9 +1,7 @@
 package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -36,42 +34,24 @@ import jp.go.aist.rtm.rtcbuilder.model.component.ServiceInterface;
 import jp.go.aist.rtm.rtcbuilder.model.component.ServicePort;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.DocumentPreferenceManager;
-import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.jface.action.IMenuListener;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.PageChangedEvent;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.ISelectionProvider;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionFilter;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -126,34 +106,29 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 
 	private IEditorInput load(IEditorInput input, IEditorSite site)
 			throws PartInitException {
-		boolean newOpenEditor = input instanceof NullEditorInput;// 新規エディタ
 
 		IEditorInput result = input;
 		
-		if (newOpenEditor) {
-			//新規エディタオープン処理
+		FileEditorInput fileEditorInput = ((FileEditorInput) result);
+		try {
+			ProfileHandler handler = new ProfileHandler();
+			generatorParam = handler.restorefromXMLFile(fileEditorInput.getPath().toOSString());
+			
+			if( buildview==null ) buildview = ComponentFactory.eINSTANCE.createBuildView();
+			updateEMFModuleName(this.getRtcParam().getName());
+			updateEMFDataPorts(
+					this.getRtcParam().getInports(), this.getRtcParam().getOutports(),
+					this.getRtcParam().getServicePorts());
+		} catch (Exception e) {
 			createGeneratorParam();
-			title = "RtcBuilder";
-		} else if (result instanceof FileEditorInput) {
-			FileEditorInput fileEditorInput = ((FileEditorInput) result);
-			try {
-				ProfileHandler handler = new ProfileHandler();
-				generatorParam = handler.restorefromXMLFile(fileEditorInput.getPath().toOSString());
-				
-				if( buildview==null ) buildview = ComponentFactory.eINSTANCE.createBuildView();
-				updateEMFModuleName(this.getRtcParam().getName());
-				updateEMFDataPorts(
-						this.getRtcParam().getInports(), this.getRtcParam().getOutports(),
-						this.getRtcParam().getServicePorts());
-			} catch (Exception e) {
-				createGeneratorParam();
-			}
-			String[] target = ((FileEditorInput) result).getPath().segments();
-			if( target.length>1 ) {
-				title = target[target.length-2];
-			} else {
-				title = ((FileEditorInput) result).getPath().lastSegment();
-			}
+		}
+		String[] target = ((FileEditorInput) result).getPath().segments();
+		if( target.length>1 ) {
+			title = target[target.length-2];
+			generatorParam.getRtcParams().get(0).setOutputProject(title);
+		} else {
+			title = ((FileEditorInput) result).getPath().lastSegment();
+			generatorParam.getRtcParams().get(0).setOutputProject(title);
 		}
 		//on_initializeは常にON
 		setOnInitialize();
@@ -233,50 +208,6 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		managerList = RtcBuilderPlugin.getDefault().getLoader().getManagerList();
 		// ページ切り替え時のイベントを管理
 		addPageChangedListener(pageChangedListener);
-	}
-
-	private void hookContextMenu() {
-		MenuManager menuMgr = new MenuManager();
-		menuMgr.setRemoveAllWhenShown(true);
-		menuMgr.addMenuListener(new IMenuListener() {
-			public void menuAboutToShow(IMenuManager manager) {
-				RtcBuilderEditor.this.fillContextMenu(manager);
-			}
-		});
-		Menu menu = menuMgr.createContextMenu(getContainer());
-		getContainer().setMenu(menu);
-		((IEditorSite) getSite()).registerContextMenu(menuMgr,
-				new ISelectionProvider() {
-
-					public void addSelectionChangedListener(
-							ISelectionChangedListener listener) {
-					}
-
-					public ISelection getSelection() {
-						return new StructuredSelection(RtcBuilderEditor.this);
-					}
-
-					public void removeSelectionChangedListener(
-							ISelectionChangedListener listener) {
-					}
-
-					public void setSelection(ISelection selection) {
-					}
-
-				}, false);
-	}
-
-	private void fillContextMenu(IMenuManager manager) {
-		manager.add(new Separator());
-		// drillDownAdapter.addNavigationActions(manager);
-		// Other plug-ins can contribute there actions here
-		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
-	}
-
-	@Override
-	protected void createPages() {
-		super.createPages();
-		hookContextMenu();
 	}
 
 	/**
@@ -440,13 +371,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	 */
 	public void doSave(IProgressMonitor monitor) {
 		boolean isRtcXml = getCurrentPage() == rtcXmlFormPage.getIndex();
-		boolean newOpenEditor = getEditorInput() instanceof NullEditorInput;// 新規エディタ
 		this.allUpdates();
-
-		if (newOpenEditor) {
-			doSaveAs();
-			return;
-		}
 
 		if (isRtcXml) {
 			try {
@@ -497,93 +422,6 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	 * {@inheritDoc}
 	 */
 	public void doSaveAs() {
-		final boolean isRtcXml = getCurrentPage() == rtcXmlFormPage.getIndex();
-		boolean newOpenEditor = getEditorInput() instanceof NullEditorInput;// 新規エディタ
-
-		if (isRtcXml) {
-			try {
-				ProfileHandler handler = new ProfileHandler();
-				if( !handler.validateXml(this.getRtcParam().getRtcXml()) ) return;
-			} catch (Exception e) {
-				String errMessage = null;
-				if( e.getCause()==null ) {
-					errMessage = e.getMessage();
-				} else {
-					errMessage = e.getCause().toString();
-				}
-				MessageDialog.openError(getSite().getShell(), "XML Save Error", errMessage);
-				return;
-			}
-		}else{
-			// RTC.xmlページではないとき
-			try {
-				ProfileHandler handler = new ProfileHandler();
-				if( !handler.validateXml(handler.convert2XML(this.getGeneratorParam())) ) return;
-			} catch (JAXBException ex) {
-				boolean result = MessageDialog.openQuestion(
-						getSite().getShell(),
-						ex.getMessage(),
-    					IMessageConstants.PROFILE_VALIDATE_ERROR_MESSAGE + System.getProperty("line.separator") + ex.getCause().toString()
-    				); 
-    			if( !result ) return;// 「いいえ」のときは保存しない
-			} catch (Exception e) {
-				MessageDialog.openError(getSite().getShell(), "XML Save Error", e.getMessage());
-				return;
-			}
-		}
-		
-		IPath oldFile = null;
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		if (newOpenEditor) {
-			oldFile = new Path(root.getLocation().toOSString());
-			// void
-		} else {
-			oldFile = ((FileEditorInput) getEditorInput()).getFile().getProject().getLocation();
-		}
-
-		final IPath newPath = FileUtil.getDirectoryPathByDialog(oldFile);
-
-		if (newPath == null) return;
-
-		if (newPath.toFile().exists() == false) {
-			try {
-				newPath.toFile().createNewFile();
-			} catch (IOException e) {
-				MessageDialog.openError(getSite().getShell(), "Error",
-						IMessageConstants.CREATE_FILE_ERROR + newPath.toOSString());
-				return;
-			}
-		}
-
-		final IFile newFile = root.getFileForLocation(newPath);
-
-		ProgressMonitorDialog progressMonitorDialog = new ProgressMonitorDialog(
-				getSite().getShell());
-
-		try {
-			progressMonitorDialog.run(false, false,
-					new IRunnableWithProgress() {
-						public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-							try {
-								if (newPath.toFile().exists() == false) {
-									try {
-										newPath.toFile().createNewFile();
-									} catch (IOException e) {
-										throw new RuntimeException(e); // SystemError
-									}
-								}
-
-								save(newFile, monitor, isRtcXml);
-								// getMultiPageCommandStackListener().markSaveLocations();
-							} catch (CoreException e) {
-							} catch (Exception e) {
-							}
-						}
-					});
-		} catch (Exception e) {
-			throw new RuntimeException(e); // SystemError
-		}
-
 	}
 
 	/**
@@ -735,31 +573,6 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	 */
 	public BuildView getEMFmodel() {
 		return buildview;
-	}
-	
-	public void open() {
-		boolean save = false;
-		if (isDirty()) {
-			save = MessageDialog.openQuestion(getSite().getShell(), "",
-					"ファイルが保存されていません。保存しますか？");
-		}
-
-		if (save) doSave(null);
-
-		final IPath newPath = FileUtil.getFilePathByDialog(null, SWT.OPEN);
-		if( newPath==null ) return;
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		final IFile newFile = root.getFileForLocation(newPath);
-		if (newFile != null) {
-			try {
-				load(new FileEditorInput(newFile), getEditorSite());
-			} catch (PartInitException e) {
-				e.printStackTrace(); // system error
-				MessageDialog.openError(getSite().getShell(), "", e.getMessage());
-			}
-		} else {
-			MessageDialog.openError(getSite().getShell(), "File Open Error", "Project内のファイルを選択してください。");
-		}
 	}
 	
 	public void updateEMFModuleName(String name) {

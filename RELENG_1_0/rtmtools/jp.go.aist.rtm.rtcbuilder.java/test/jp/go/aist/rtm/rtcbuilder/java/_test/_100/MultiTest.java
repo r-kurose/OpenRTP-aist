@@ -87,18 +87,13 @@ public class MultiTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\Multi\\ProConMulti\\";
 
-		assertEquals(7, result.size());
-		checkCode(result, resourceDir, "fooComp.java");
+		assertEquals(8, result.size());
+		checkCode(result, resourceDir, "\\src\\fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
-		checkCode(result, resourceDir, "MyService2SVC_impl.java");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
+		checkCode(result, resourceDir, "\\src\\foo.java");
+		checkCode(result, resourceDir, "\\src\\fooImpl.java");
+		checkCode(result, resourceDir, "\\src\\MyServiceSVC_impl.java");
+		checkCode(result, resourceDir, "\\src\\MyService2SVC_impl.java");
 	}
 
 	public void testConsumerMulti() throws Exception{
@@ -152,16 +147,11 @@ public class MultiTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\Multi\\ConMulti\\";
 
-		assertEquals(5, result.size());
-		checkCode(result, resourceDir, "fooComp.java");
+		assertEquals(6, result.size());
+		checkCode(result, resourceDir, "\\src\\fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
+		checkCode(result, resourceDir, "\\src\\foo.java");
+		checkCode(result, resourceDir, "\\src\\fooImpl.java");
 	}
 
 	public void testProviderMulti() throws Exception{
@@ -215,17 +205,12 @@ public class MultiTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\Multi\\ProMulti\\";
 
-		assertEquals(7, result.size());
-		checkCode(result, resourceDir, "fooComp.java");
+		assertEquals(8, result.size());
+		checkCode(result, resourceDir, "\\src\\fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
-		checkCode(result, resourceDir, "DAQServiceSVC_impl.java");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
+		checkCode(result, resourceDir, "\\src\\foo.java");
+		checkCode(result, resourceDir, "\\src\\fooImpl.java");
+		checkCode(result, resourceDir, "\\src\\MyServiceSVC_impl.java");
+		checkCode(result, resourceDir, "\\src\\DAQServiceSVC_impl.java");
 	}
 }

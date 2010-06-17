@@ -19,7 +19,6 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.ui.Perspective.LanguageProperty;
-import jp.go.aist.rtm.rtcbuilder.ui.dialog.ProjectSelectDialog;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.ui.wizard.RtcExportWizard;
 import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
@@ -31,7 +30,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.ISelection;
@@ -86,8 +84,6 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	private Button multiModeBtn;
 	private Text rtcTypeText;
 
-	private Text outputProjectText;
-
 	private Button generateButton;
 	private Button packageButton;
 
@@ -133,7 +129,6 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		});
 		//
 		createHintSection(toolkit, form);
-		createOutputProjectSection(toolkit, form);
 		createGenerateSection(toolkit, form);
 		createExportImportSection(toolkit, form);
 		//
@@ -294,10 +289,6 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		//
 		createHintSpace(toolkit, composite);
 		//
-		createHintLabel(IMessageConstants.BASIC_HINT_PROJECT_TITLE, IMessageConstants.BASIC_HINT_PROJECT_DESC, toolkit, composite);
-		//
-		createHintSpace(toolkit, composite);
-		//
 		createHintLabel(IMessageConstants.BASIC_HINT_GENERATE_TITLE, IMessageConstants.BASIC_HINT_GENERATE_DESC, toolkit, composite);
 		createHintLabel(IMessageConstants.BASIC_HINT_PACKAGE_TITLE, IMessageConstants.BASIC_HINT_PACKAGE_DESC, toolkit, composite);
 		//
@@ -307,41 +298,6 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		createHintLabel(IMessageConstants.BASIC_HINT_EXPORT_TITLE, IMessageConstants.BASIC_HINT_EXPORT_DESC, toolkit, composite);
 	}
 
-	private void createOutputProjectSection(FormToolkit toolkit, ScrolledForm form) {
-		outputProjectSection = createSectionBaseWithLabel(toolkit, form, 
-				IMessageConstants.BASIC_PROJECT_TITLE, IMessageConstants.BASIC_PROJECT_EXPL, 2);
-
-		outputProjectText = createLabelAndText(toolkit,	outputProjectSection, "");
-		createRefButton(toolkit);
-	}
-
-	private void createRefButton(FormToolkit toolkit) {
-		Button refButton = toolkit.createButton(outputProjectSection, IMessageConstants.BASIC_BTN_REF, SWT.NONE);
-		refButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				ProjectSelectDialog dialog = new ProjectSelectDialog(getSite().getShell());
-				int intRet = dialog.open();
-				if( intRet == IDialogConstants.OK_ID && dialog.getSelectedProject() != null ) {
-					outputProjectText.setText(dialog.getSelectedProject());
-					editor.getRtcParam().setOutputProject(dialog.getSelectedProject());
-				}
-				//
-//				//出力先ディレクトリ直接選択
-//				DirectoryDialog dialog = new DirectoryDialog(getEditorSite()
-//						.getShell());
-//				dialog.setText(IMessageConstants.SELECT_DIRECTORY);
-//				if (outputProjectText.getText().length() > 0)
-//					dialog.setFilterPath(outputProjectText.getText());
-//				String newPath = dialog.open();
-//				if (newPath != null) {
-//					outputProjectText.setText(newPath);
-//					update();
-//				}
-			}
-		});
-	}
-	
 	private void createGenerateSection(FormToolkit toolkit, ScrolledForm form) {
 		generateSection = createSectionBaseWithLabel(toolkit, form, 
 				IMessageConstants.BASIC_GENERATE_TITLE, IMessageConstants.BASIC_GENERATE_EXPL, 2);
@@ -691,8 +647,6 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 			executionRateText.setText(String.valueOf(rtcParam.getExecutionRate()));
 		}
 
-		rtcParam.setOutputProject(getText(outputProjectText.getText()));
-
 		editor.updateEMFModuleName(getText(nameText.getText()));
 		editor.updateDirty();
 	}
@@ -716,7 +670,6 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		executionRateText.setText(getValue(String.valueOf(rtcParam.getExecutionRate())));
 		abstractText.setText(getValue(rtcParam.getAbstract()));
 		rtcTypeText.setText(getValue(rtcParam.getRtcType()));
-		outputProjectText.setText(getValue(rtcParam.getOutputProject()));
 		//
 		editor.updateEMFModuleName(rtcParam.getName());
 	}
