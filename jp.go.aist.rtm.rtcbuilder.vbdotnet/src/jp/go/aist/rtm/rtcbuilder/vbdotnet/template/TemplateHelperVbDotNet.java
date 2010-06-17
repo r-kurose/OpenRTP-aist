@@ -1,7 +1,7 @@
 package jp.go.aist.rtm.rtcbuilder.vbdotnet.template;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
-import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
+import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 import jp.go.aist.rtm.rtcbuilder.vbdotnet.IRtcBuilderConstantsVbDotNet;
 
 public class TemplateHelperVbDotNet {

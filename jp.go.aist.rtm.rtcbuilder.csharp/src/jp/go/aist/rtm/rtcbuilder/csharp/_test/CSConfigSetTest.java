@@ -57,7 +57,7 @@ public class CSConfigSetTest extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\Properties\\AssemblyInfo.cs");
 		//
-		checkCode(result, resourceDir, "README.foo");
+//		checkCode(result, resourceDir, "README.foo");
 	}
 
 	public void testConfigSet2() throws Exception{
@@ -112,7 +112,7 @@ public class CSConfigSetTest extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\Properties\\AssemblyInfo.cs");
 		//
-		checkCode(result, resourceDir, "README.foo");
+//		checkCode(result, resourceDir, "README.foo");
 	}
 
 	public void testConfigSet3() throws Exception{
@@ -156,7 +156,7 @@ public class CSConfigSetTest extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\Properties\\AssemblyInfo.cs");
 		//
-		checkCode(result, resourceDir, "README.foo");
+//		checkCode(result, resourceDir, "README.foo");
 	}
 	public void testConfigSet4() throws Exception{
 		GeneratorParam genParam = new GeneratorParam();
@@ -196,7 +196,7 @@ public class CSConfigSetTest extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\Properties\\AssemblyInfo.cs");
 		//
-		checkCode(result, resourceDir, "README.foo");
+//		checkCode(result, resourceDir, "README.foo");
 	}
 	public void testConfigSet5() throws Exception{
 		GeneratorParam genParam = new GeneratorParam();
@@ -236,6 +236,6 @@ public class CSConfigSetTest extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\Properties\\AssemblyInfo.cs");
 		//
-		checkCode(result, resourceDir, "README.foo");
+//		checkCode(result, resourceDir, "README.foo");
 	}
 }

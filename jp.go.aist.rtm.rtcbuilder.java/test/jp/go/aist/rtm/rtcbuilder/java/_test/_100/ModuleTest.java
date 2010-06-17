@@ -56,17 +56,12 @@ public class ModuleTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\serviceM\\";
 
-		assertEquals(6, result.size());
-		checkCode(result, resourceDir, "fooComp.java");
+		assertEquals(7, result.size());
+		checkCode(result, resourceDir, "\\src\\fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
+		checkCode(result, resourceDir, "\\src\\foo.java");
+		checkCode(result, resourceDir, "\\src\\fooImpl.java");
+		checkCode(result, resourceDir, "\\src\\MyServiceSVC_impl.java");
 	}
 
 	public void testServicePortCons() throws Exception{
@@ -106,16 +101,11 @@ public class ModuleTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\serviceCon\\";
 
-		assertEquals(5, result.size());
-		checkCode(result, resourceDir, "fooComp.java");
+		assertEquals(6, result.size());
+		checkCode(result, resourceDir, "\\src\\fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
+		checkCode(result, resourceDir, "\\src\\foo.java");
+		checkCode(result, resourceDir, "\\src\\fooImpl.java");
 	}
 	
 	public void testServicePortProvCons() throws Exception{
@@ -165,16 +155,11 @@ public class ModuleTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\serviceMC\\";
 
-		assertEquals(6, result.size());
-		checkCode(result, resourceDir, "fooComp.java");
+		assertEquals(7, result.size());
+		checkCode(result, resourceDir, "\\src\\fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
+		checkCode(result, resourceDir, "\\src\\foo.java");
+		checkCode(result, resourceDir, "\\src\\fooImpl.java");
+		checkCode(result, resourceDir, "\\src\\MyServiceSVC_impl.java");
 	}
 }

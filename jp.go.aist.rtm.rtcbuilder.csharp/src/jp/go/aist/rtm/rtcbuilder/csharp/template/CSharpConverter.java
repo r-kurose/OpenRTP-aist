@@ -38,7 +38,7 @@ public class CSharpConverter {
 	private final String idlBoolean = "boolean";
 	private final String idlAny = "any";
 
-	private final String idlVoid= "void";
+//	private final String idlVoid= "void";
 	//
 	private final String typeShort = "System.Int16";
 	private final String typeLong = "System.Int32";
@@ -118,7 +118,10 @@ public class CSharpConverter {
 			String[] type = target.split("::");
 			target = type[type.length-1];
 		}
-		String strType = scp.getTypeDef().get(target).getOriginalDef();
+		String strType = null;
+		if (scp.getTypeDef().get(target) != null) {
+			strType = scp.getTypeDef().get(target).getOriginalDef();
+		}
 		if(strType == null) strType = strCorba;
 		strType = convCORBA2CSharp(strType);
 			
@@ -156,7 +159,10 @@ public class CSharpConverter {
 			String[] type = target.split("::");
 			target = type[type.length-1];
 		}
-		String strType = scp.getTypeDef().get(target).getOriginalDef();
+		String strType = null;
+		if (scp.getTypeDef().get(target) != null) {
+			strType = scp.getTypeDef().get(target).getOriginalDef();
+		}
 		if( strType==null ) {
 			if( strDirection.equals(dirIn) ) {
 				result = mapType.get(strCorba);

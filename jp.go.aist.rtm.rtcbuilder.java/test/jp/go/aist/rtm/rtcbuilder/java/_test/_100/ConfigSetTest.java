@@ -47,16 +47,11 @@ public class ConfigSetTest extends TestBase {
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
 		String targetDir = rootPath + "\\resource\\100\\ConfigSet\\AIST6\\";
-		assertEquals(5, result.size());
-		checkCode(result, targetDir, "ModuleNameComp.java");
+		assertEquals(6, result.size());
+		checkCode(result, targetDir, "\\src\\ModuleNameComp.java");
 		checkCode(result, targetDir, "build_ModuleName.xml");
-		checkCode(result, targetDir, "ModuleName.java");
-		checkCode(result, targetDir, "ModuleNameImpl.java");
-		try {
-			checkCode(result, targetDir, "README.ModuleName");
-			fail();
-		} catch(Exception ex) {
-		}
+		checkCode(result, targetDir, "\\src\\ModuleName.java");
+		checkCode(result, targetDir, "\\src\\ModuleNameImpl.java");
 	}
 
 	public void testConfigSet() throws Exception{
@@ -88,16 +83,12 @@ public class ConfigSetTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\ConfigSet\\configset1\\";
 
-		assertEquals(5, result.size());
-		checkCode(result, resourceDir, "fooComp.java");
+		assertEquals(6, result.size());
+		checkCode(result, resourceDir, "\\src\\fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
+		checkCode(result, resourceDir, "\\src\\foo.java");
+		checkCode(result, resourceDir, "\\src\\fooImpl.java");
+		checkCode(result, resourceDir, ".classpath");
 	}
 
 	public void testConfigSet2() throws Exception{
@@ -130,16 +121,12 @@ public class ConfigSetTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\ConfigSet\\configset2\\";
 
-		assertEquals(5, result.size());
-		checkCode(result, resourceDir, "fooComp.java");
+		assertEquals(6, result.size());
+		checkCode(result, resourceDir, "\\src\\fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
+		checkCode(result, resourceDir, "\\src\\foo.java");
+		checkCode(result, resourceDir, "\\src\\fooImpl.java");
+		checkCode(result, resourceDir, ".classpath");
 	}
 
 	public void testConfigSet3() throws Exception{
@@ -175,16 +162,12 @@ public class ConfigSetTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\ConfigSet\\configset3\\";
 
-		assertEquals(5, result.size());
-		checkCode(result, resourceDir, "fooComp.java");
+		assertEquals(6, result.size());
+		checkCode(result, resourceDir, "\\src\\fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
+		checkCode(result, resourceDir, "\\src\\foo.java");
+		checkCode(result, resourceDir, "\\src\\fooImpl.java");
+		checkCode(result, resourceDir, ".classpath");
 	}
 	
 	public void testConfigSetType() throws Exception{
@@ -221,15 +204,11 @@ public class ConfigSetTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\ConfigSet\\ConfigSetType\\";
 
-		assertEquals(5, result.size());
-		checkCode(result, resourceDir, "fooComp.java");
+		assertEquals(6, result.size());
+		checkCode(result, resourceDir, "\\src\\fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
-		checkCode(result, resourceDir, "foo.java");
-		checkCode(result, resourceDir, "fooImpl.java");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
+		checkCode(result, resourceDir, "\\src\\foo.java");
+		checkCode(result, resourceDir, "\\src\\fooImpl.java");
+		checkCode(result, resourceDir, ".classpath");
 	}
 }

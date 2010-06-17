@@ -25,43 +25,11 @@
         point="org.eclipse.ui.editors">
      <editor
            class="jp.go.aist.rtm.rtcbuilder.ui.editors.RtcBuilderEditor"
-           extensions="rtcbuilder"
+           extensions="xml"
+           filenames="RTC.xml"
            icon="icons/RTCBuilder.png"
            id="jp.go.aist.rtm.rtcbuilder.ui.editors.RtcBuilderEditor"
            name="%RtcBuilderEditorName"/>
-  </extension>
-  <extension
-        point="org.eclipse.ui.popupMenus">
-    <viewerContribution
-           id="jp.go.aist.rtm.rtcbuilder.ui.viewerContribution.saveas"
-           targetID="jp.go.aist.rtm.rtcbuilder.ui.editors.RtcBuilderEditor" >
-		<action id="jp.go.aist.rtm.rtcbuilder.ui.action.SaveAsAction" 
-			label="%SaveAsActionLabel" 
-			menubarPath="file"
-			class="jp.go.aist.rtm.rtcbuilder.ui.action.SaveAsAction" > 
-		</action>
-	</viewerContribution>
-    <viewerContribution
-     	id="jp.go.aist.rtm.rtcbuilder.ui.viewerContribution.save"
-        targetID="jp.go.aist.rtm.rtcbuilder.ui.editors.RtcBuilderEditor" >
-		<visibility>
-			<objectState name="dirty" value="true"/>
-		</visibility>
-		<action id="jp.go.aist.rtm.rtcbuilder.ui.action.SaveAction" 
-			label="%SaveActionLabel" 
-			menubarPath="file"
-			class="jp.go.aist.rtm.rtcbuilder.ui.action.SaveAction" > 
-		</action>
-	</viewerContribution>
-    <viewerContribution
-           id="jp.go.aist.rtm.rtcbuilder.ui.viewerContribution.open"
-           targetID="jp.go.aist.rtm.rtcbuilder.ui.editors.RtcBuilderEditor">
-		<action id="jp.go.aist.rtm.rtcbuilder.ui.action.OpenAction" 
-			label="%OpenActionLabel" 
-			menubarPath="file"
-			class="jp.go.aist.rtm.rtcbuilder.ui.action.OpenAction" > 
-		</action>
-    </viewerContribution>
   </extension>
   <extension
         point="org.eclipse.ui.actionSets">

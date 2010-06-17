@@ -10,7 +10,7 @@ namespace Test
         {
             throw new Exception("The method or operation is not implemented.");
         }
-        public System.String[] get_echo_history()
+        public System.String get_echo_history()
         {
             throw new Exception("The method or operation is not implemented.");
         }
@@ -22,7 +22,7 @@ namespace Test
         {
             throw new Exception("The method or operation is not implemented.");
         }
-        public System.Single[] get_value_history()
+        public System.Single get_value_history()
         {
             throw new Exception("The method or operation is not implemented.");
         }

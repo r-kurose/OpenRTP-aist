@@ -7,6 +7,7 @@ import javax.xml.datatype.DatatypeFactory;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.ProfileHandler;
+import jp.go.aist.rtm.rtcbuilder.ui.editors.RtcBuilderEditor;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -20,7 +21,11 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
+import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 
 import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
@@ -37,6 +42,7 @@ public class NewWizard extends Wizard implements INewWizard, IExecutableExtensio
 
 	public boolean performFinish() {
 		IProject projectHandle = newProjectPage.getProjectHandle();
+		IFile rtcxml = null;
 		try {
 			if( !newProjectPage.useDefaults() ) {
 				IPath newPath = newProjectPage.getLocationPath();
@@ -56,7 +62,7 @@ public class NewWizard extends Wizard implements INewWizard, IExecutableExtensio
 			ProfileHandler handler = new ProfileHandler();
 			String xmlFile = handler.createInitialRtcXml(dateTime);
 			//
-			IFile rtcxml = projectHandle.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML);
+			rtcxml = projectHandle.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML);
 			rtcxml.create(new ByteArrayInputStream(xmlFile.getBytes()), false, null);
 		} catch (CoreException ex) {
 			System.out.println(ex);
@@ -64,6 +70,16 @@ public class NewWizard extends Wizard implements INewWizard, IExecutableExtensio
 		}
 		// パースペクティブを切り替え
 		BasicNewProjectResourceWizard.updatePerspective(configElement);
+		
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+		try {
+			window.getActivePage().openEditor(new FileEditorInput(rtcxml),
+					RtcBuilderEditor.RTC_BUILDER_EDITOR_ID);
+		} catch (PartInitException e) {
+			e.printStackTrace();
+		}
+		
 		return true;
 	}
 	

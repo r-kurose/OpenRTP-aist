@@ -24,10 +24,6 @@ import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 import jp.go.aist.rtm.rtcbuilder.util.ValidationUtil;
 
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IMenuListener;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -324,30 +320,6 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		return null;
 	}
 
-	private MenuManager createContextMenu() {
-		MenuManager menuMgr = new MenuManager("#PopupMenu");
-		menuMgr.setRemoveAllWhenShown(true);
-		menuMgr.addMenuListener(new IMenuListener() {
-			public void menuAboutToShow(IMenuManager manager) {
-				manager.add(new Action("Open...") {
-					@Override
-					public void run() { editor.open(); }
-				});
-				manager.add(new Action("Save ...") {
-					@Override
-					public void run() { editor.doSave(null); }
-					@Override
-					public boolean isEnabled() { return editor.isDirty(); }
-				});
-				manager.add(new Action("Save As...") {
-					@Override
-					public void run() { editor.doSaveAs(); }
-				});
-			}
-		});
-		return menuMgr;
-	}
-
 	//Master Block ƒNƒ‰ƒX
 	private class ServicePortMasterBlock extends MasterDetailsBlock {
 
@@ -360,8 +332,6 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			client.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
 			client.setLayout(new GridLayout(2, false));
 			//
-			MenuManager menuMgr = createContextMenu();
-			client.setMenu(menuMgr.createContextMenu(client));
 			//////
 			Tree tree = toolkit.createTree(client, SWT.BORDER);
 			servicePortViewer = new TreeViewer(tree);
@@ -372,16 +342,10 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			gridData.grabExcessHorizontalSpace = true;
 			gridData.verticalSpan  = 4;
 			tree.setLayoutData(gridData);
-			servicePortViewer.getControl().setMenu(menuMgr.createContextMenu(servicePortViewer.getControl()));
 			//
 			createPortAddButton(managedForm, client);
 			createIFAddButton(managedForm, client);
 			createDeleteButton(managedForm, client);
-			Label label = toolkit.createLabel(client, "");
-			gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
-			gridData.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
-			label.setLayoutData(gridData);
-			label.setMenu(menuMgr.createContextMenu(label));
 			//
 			final SectionPart sectionPart = new SectionPart(servicePortMasterBlockSection);
 			managedForm.addPart(sectionPart);
@@ -502,8 +466,6 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			GridData gd = new GridData();
 			gd.horizontalSpan = 2;
 			exp.setLayoutData(gd);
-			MenuManager menuMgr = createContextMenu();
-			client.setMenu(menuMgr.createContextMenu(client));
 			//
 			nameText = createLabelAndText(toolkit, client,
 					IMessageConstants.REQUIRED + IMessageConstants.SERVICEPORT_LBL_PORTNAME, SWT.NONE, SWT.COLOR_RED);
@@ -595,8 +557,6 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			client.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
 			form.getToolkit().paintBordersFor(client);
 			client.setLayout(new GridLayout(3, false));
-			MenuManager menuMgr = createContextMenu();
-			client.setMenu(menuMgr.createContextMenu(client));
 			//
 			Label exp = toolkit.createLabel(client, IMessageConstants.SERVICEPORT_IF_EXPL);
 			GridData gd = new GridData();

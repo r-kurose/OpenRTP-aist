@@ -5,7 +5,7 @@ Public Class MyServiceImpl
         Throw New Exception("The method or operation is not implemented.")
     End Function
 
-    Public Function get_echo_history() As System.String() Implements MyService.get_echo_history
+    Public Function get_echo_history() As System.String Implements MyService.get_echo_history
         Throw New Exception("The method or operation is not implemented.")
     End Function
 
@@ -17,7 +17,7 @@ Public Class MyServiceImpl
         Throw New Exception("The method or operation is not implemented.")
     End Function
 
-    Public Function get_value_history() As System.Single() Implements MyService.get_value_history
+    Public Function get_value_history() As System.Single Implements MyService.get_value_history
         Throw New Exception("The method or operation is not implemented.")
     End Function
 

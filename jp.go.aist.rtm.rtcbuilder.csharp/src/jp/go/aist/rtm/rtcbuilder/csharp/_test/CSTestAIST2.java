@@ -74,7 +74,7 @@ public class CSTestAIST2 extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\Properties\\AssemblyInfo.cs");
 		//
-		checkCode(result, resourceDir, "README.foo");
+//		checkCode(result, resourceDir, "README.foo");
 	}
 
 	public void testAIST6() throws Exception{
@@ -132,7 +132,7 @@ public class CSTestAIST2 extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\Properties\\AssemblyInfo.cs");
 		//
-		checkCode(result, resourceDir, "README.bar");
+//		checkCode(result, resourceDir, "README.bar");
 	}
 
 }

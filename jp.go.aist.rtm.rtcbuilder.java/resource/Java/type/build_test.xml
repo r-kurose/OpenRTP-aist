@@ -7,8 +7,8 @@
 # $Id$
  -->
 <project name="test" default="compile">
-	<property name="source" value="." />
-	<property name="dest" value="classes" />
+	<property name="source" value="src" />
+	<property name="dest" value="bin" />
 	<property environment="env" />
 
 	<target name="mkdir">
@@ -17,7 +17,7 @@
 
 	<target name="idlcompile"  depends="mkdir">
 		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-fall 'MyService.idl'"/>
+			<arg line="-td 'src' -fall 'MyService.idl'"/>
 		</exec>
 	</target>
 

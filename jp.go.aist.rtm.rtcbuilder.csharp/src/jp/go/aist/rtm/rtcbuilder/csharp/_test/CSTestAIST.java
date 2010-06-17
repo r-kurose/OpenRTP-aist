@@ -72,7 +72,7 @@ public class CSTestAIST extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\Properties\\AssemblyInfo.cs");
 		//
-		checkCode(result, resourceDir, "README.Test");
+//		checkCode(result, resourceDir, "README.Test");
 	}
 
 	public void testAIST4() throws Exception{
@@ -127,7 +127,7 @@ public class CSTestAIST extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\Properties\\AssemblyInfo.cs");
 		//
-		checkCode(result, resourceDir, "README.Test");
+//		checkCode(result, resourceDir, "README.Test");
 	}
 
 	public void testAIST3() throws Exception{
@@ -190,7 +190,7 @@ public class CSTestAIST extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\Properties\\AssemblyInfo.cs");
 		//
-		checkCode(result, resourceDir, "README.Test");
+//		checkCode(result, resourceDir, "README.Test");
 	}
 	
 	public void testAIST2() throws Exception{
@@ -245,7 +245,7 @@ public class CSTestAIST extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\Properties\\AssemblyInfo.cs");
 		//
-		checkCode(result, resourceDir, "README.Test");
+//		checkCode(result, resourceDir, "README.Test");
 	}
 
 	public void testType() throws Exception{
@@ -292,7 +292,7 @@ public class CSTestAIST extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\Properties\\AssemblyInfo.cs");
 		//
-		checkCode(result, resourceDir, "README.Test");
+//		checkCode(result, resourceDir, "README.Test");
 	}
 
 	public void testServicePort() throws Exception{
@@ -339,6 +339,6 @@ public class CSTestAIST extends TestBase {
 		//
 		checkCode(result, resourceDir, "\\Properties\\AssemblyInfo.cs");
 		//
-		checkCode(result, resourceDir, "README.Test");
+//		checkCode(result, resourceDir, "README.Test");
 	}
 }

@@ -56,12 +56,11 @@ public class JavaIDLTypeTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\100\\IDLType\\";
 
-		checkCode(result, resourceDir, "testComp.java");
+		checkCode(result, resourceDir, "\\src\\testComp.java");
 		checkCode(result, resourceDir, "build_test.xml");
-		checkCode(result, resourceDir, "test.java");
-		checkCode(result, resourceDir, "testImpl.java");
-		checkCode(result, resourceDir, "ComFkSVC_impl.java");
-//		checkCode(result, resourceDir, "README.test");
+		checkCode(result, resourceDir, "\\src\\test.java");
+		checkCode(result, resourceDir, "\\src\\testImpl.java");
+		checkCode(result, resourceDir, "\\src\\ComFkSVC_impl.java");
 	}
 
 	public void testBasicType() throws Exception{
@@ -92,12 +91,11 @@ public class JavaIDLTypeTest extends TestBase {
 
 		String resourceDir = rootPath +  "\\resource\\Java\\type\\";
 
-		checkCode(result, resourceDir, "testComp.java");
+		checkCode(result, resourceDir, "\\src\\testComp.java");
 		checkCode(result, resourceDir, "build_test.xml");
-		checkCode(result, resourceDir, "test.java");
-		checkCode(result, resourceDir, "testImpl.java");
-		checkCode(result, resourceDir, "MyServiceSVC_impl.java");
-//		checkCode(result, resourceDir, "README.test");
+		checkCode(result, resourceDir, "\\src\\test.java");
+		checkCode(result, resourceDir, "\\src\\testImpl.java");
+		checkCode(result, resourceDir, "\\src\\MyServiceSVC_impl.java");
 	}
 
 }

@@ -75,11 +75,26 @@ public class TestBase extends TestCase {
 		}
 		return stbRet.toString();
 	}
-	
-	protected void checkCode(List<GeneratedResult> result, String resourceDir, String fileName) {
+
+	protected String replaceRootPath(String content) {
+		String result = content.replace("__ROOT_PATH__", rootPath);
+		String origPathes[] = {
+				"C:\\Tech-Arts\\EclipseRTM\\jp.go.aist.rtm.rtcbuilder.csharp\\",
+				"C:\\Tech-Arts\\EclipseRTM34\\jp.go.aist.rtm.rtcbuilder.csharp\\" };
+		for (String path : origPathes) {
+			result = result.replace(path, rootPath);
+		}
+		return result;
+	}
+
+	protected void checkCode(List<GeneratedResult> result, String resourceDir,
+			String fileName) {
 		index = getFileIndex(fileName, result);
 		expPath = resourceDir + fileName;
 		expContent = readFile(expPath);
-		assertEquals(expContent, getGeneratedString(result.get(index).getCode()));
+		expContent = replaceRootPath(expContent);
+		assertEquals(expContent,
+				getGeneratedString(result.get(index).getCode()));
 	}
+
 }
