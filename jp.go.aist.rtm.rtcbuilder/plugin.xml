@@ -25,11 +25,12 @@
         point="org.eclipse.ui.editors">
      <editor
            class="jp.go.aist.rtm.rtcbuilder.ui.editors.RtcBuilderEditor"
-           extensions="xml"
-           filenames="RTC.xml"
+           default="true"
            icon="icons/RTCBuilder.png"
            id="jp.go.aist.rtm.rtcbuilder.ui.editors.RtcBuilderEditor"
-           name="%RtcBuilderEditorName"/>
+           name="%RtcBuilderEditorName">
+        <contentTypeBinding contentTypeId="jp.go.aist.rtm.rtcbuilder.rtcProfile"/>
+     </editor>
   </extension>
   <extension
         point="org.eclipse.ui.actionSets">
@@ -123,6 +124,19 @@
            class="jp.go.aist.rtm.rtcbuilder.ui.preference.DocumentPreferencePage"
            id="jp.go.aist.rtm.rtcbuilder.ui.preferencePage.codeGenerate.Document"
            name="%preferecePagesDocumentName"/>
+  </extension>
+  <extension
+        point="org.eclipse.core.runtime.contentTypes">
+     <content-type
+           base-type="org.eclipse.core.runtime.xml"
+           file-names="RTC.xml"
+           id="rtcProfile"
+           name="%rtcProfileName"
+           priority="high">
+        <describer class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber">
+           <parameter name="element" value="RtcProfile"/>
+        </describer>
+     </content-type>
   </extension>
 
 </plugin>
