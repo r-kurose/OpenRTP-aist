@@ -374,8 +374,9 @@ public class ComponentPreferenceManager {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(key, "");
 
 		int resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getInt(key);
+		int defaultReg = RtcBuilderPlugin.getDefault().getPreferenceStore().getDefaultInt(key);
 		int result;
-		if (resultTemp == -1) { // defaultvalue
+		if (resultTemp == defaultReg) { // defaultvalue
 			result = defaultValue;
 		} else {
 			result = resultTemp;
@@ -387,8 +388,9 @@ public class ComponentPreferenceManager {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(key, "");
 
 		double resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getDouble(key);
+		double defaultReg = RtcBuilderPlugin.getDefault().getPreferenceStore().getDefaultDouble(key);
 		double result;
-		if (resultTemp == -1) { // defaultvalue
+		if (resultTemp == defaultReg) { // defaultvalue
 			result = defaultValue;
 		} else {
 			result = resultTemp;
