@@ -165,7 +165,7 @@ public class ComponentPreferenceManager {
 	public static final String DEFAULT_COMPONENT_KIND = IRtcBuilderConstants.COMPONENT_KIND_ITEMS[0];
 	public static final int DEFAULT_MAXINST = 1;
 	public static final String DEFAULT_EXECUTION_TYPE = IRtcBuilderConstants.EXECUTIONCONTEXT_TYPE_ITEMS[0];
-	public static final double DEFAULT_EXECUTION_RATE = 1.0;
+	public static final double DEFAULT_EXECUTION_RATE = 1000.0;
 	public static final String DEFAULT_PREFIX = "m_";
 	public static final String DEFAULT_SUFFIX = "";
 	//
