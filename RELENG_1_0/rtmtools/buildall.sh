@@ -26,16 +26,21 @@
 
 #---------------------------------------------------------------------------
 #---------------------------------------------------------------------------
-
+export JAVA_HOME=/usr/lib/jvm/java-6-sun/
+export JAVA_LIBS=/usr/lib/jvm/java-6-sun/jre/lib/
+export JAVA_LIBS2=/usr/lib/jvm/java-6-sun/lib/
+export ECLIPSE_HOME=/usr/users/builder/RtmtoolsBuild/eclipse/
 DUMMY=$ANT_HOME
 export ANT_HOME=$ECLIPSE_HOME/plugins/org.apache.ant_1.6.5/
+export ANT_HOME=$ECLIPSE_HOME/plugins/org.apache.ant_1.7.0.v200803061910/
 
-ECLIPSE_HOME=/usr/users/n-ando/work/rtmtools/eclipse/
+#ECLIPSE_HOME=/usr/users/n-ando/work/rtmtools/eclipse/
 
 ANT4ECLIPSE=$ECLIPSE_HOME/plugins/net.sf.ant4eclipse.plugin_0.5.0.rc1/lib/
 JUNIT=$ECLIPSE_HOME/plugins/org.junit_3.8.1/
+JUNIT=$ECLIPSE_HOME/plugins/org.junit_3.8.2.v20080602-1318/
 JARDIR=openrtp_1.0.0
-LIBS="-lib $ANT4ECLIPSE -lib $ANT_HOME -lib $JUNIT -lib $ECLIPSE_HOME/plugins"
+LIBS="-lib $JAVA_LIBS2 -lib $JAVA_LIBS -lib $ANT4ECLIPSE -lib $ANT_HOME -lib $JUNIT -lib $ECLIPSE_HOME/plugins"
 projects="jp.go.aist.rtm.toolscommon.profiles
     jp.go.aist.rtm.toolscommon.profiles.nl1
     jp.go.aist.rtm.toolscommon
