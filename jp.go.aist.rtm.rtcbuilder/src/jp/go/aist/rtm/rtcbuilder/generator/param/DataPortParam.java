@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * データポートを表すクラス
+ * 繝�繝ｼ繧ｿ繝昴�ｼ繝医ｒ陦ｨ縺吶け繝ｩ繧ｹ
  */
 public class DataPortParam extends PortBaseParam implements Serializable {
 
