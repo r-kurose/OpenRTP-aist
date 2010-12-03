@@ -4,12 +4,6 @@
  * @brief Standalone component
  * @date $Date$
  *
- * @author Noriaki Ando <n-ando@aist.go.jp>3456789412345678951234567896123456789
- * 7123456789812345
- *
- * Copyright (C) 2006-2008 ƒ‰ƒCƒZƒ“ƒX12345678901234567890123456789
- * 012345678901234567890
- *
  * $Id$
  */
 

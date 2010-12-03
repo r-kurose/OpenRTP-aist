@@ -43,7 +43,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 /**
- * Languageƒy[ƒW
+ * Languageãƒšãƒ¼ã‚¸
  */
 public class LanguageEditorFormPage extends AbstractEditorFormPage {
 	
@@ -70,10 +70,10 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 	private TableViewer libraryViewer;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param editor
-	 *            e‚ÌƒGƒfƒBƒ^
+	 *            è¦ªã®ã‚¨ãƒ‡ã‚£ã‚¿
 	 */
 	public LanguageEditorFormPage(RtcBuilderEditor editor) {
 		super(editor, "id", IMessageConstants.LANGUAGE_SECTION);
@@ -423,9 +423,9 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 	@SuppressWarnings("unchecked")
 	public void update() {
 		if (cppRadio != null) {
-			// ˆÈ‰ºAcppRadio‚ª—LŒø‚Èê‡‚Ì‚İÀs‚·‚é
-			// ¨‚±‚Ì‰æ–Ê‚ª•\¦‚³‚ê‚é‘O‚É‚±‚Ìˆ—‚ªŒÄ‚Î‚ê‚½ê‡‚ÍA‚È‚É‚à‚µ‚È‚¢
-			// ærtcParam‚ª‰æ–Ê‚É”½‰f‚³‚ê‚é‘O‚ÉƒNƒŠƒA‚µ‚Ä‚µ‚Ü‚¤‚Æ‚Ü‚¸‚¢‚½‚ß
+			// ä»¥ä¸‹ã€cppRadioãŒæœ‰åŠ¹ãªå ´åˆã®ã¿å®Ÿè¡Œã™ã‚‹
+			// â†’ã“ã®ç”»é¢ãŒè¡¨ç¤ºã•ã‚Œã‚‹å‰ã«ã“ã®å‡¦ç†ãŒå‘¼ã°ã‚ŒãŸå ´åˆã¯ã€ãªã«ã‚‚ã—ãªã„
+			// âˆµrtcParamãŒç”»é¢ã«åæ˜ ã•ã‚Œã‚‹å‰ã«ã‚¯ãƒªã‚¢ã—ã¦ã—ã¾ã†ã¨ã¾ãšã„ãŸã‚
 			RtcParam rtcParam = editor.getRtcParam();
 
 			List<String> langList = new ArrayList<String>();
@@ -489,7 +489,7 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	/**
-	 * ƒf[ƒ^‚ğƒ[ƒh‚·‚é
+	 * ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
 	 */
 	public void load() {
 		if (cppRadio == null) return;
@@ -500,7 +500,7 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 						IRtcBuilderConstants.LANG_CPPWIN)) {
 			cppRadio.setSelection(true);
 		} else {
-			// rtcParam.getLangList()‚ÉŠÜ‚Ü‚ê‚È‚¢ê‡‚Í‘I‘ğ‰ğœ
+			// rtcParam.getLangList()ã«å«ã¾ã‚Œãªã„å ´åˆã¯é¸æŠè§£é™¤
 			cppRadio.setSelection(false);
 		}
 		if (buttonList != null) {
@@ -508,7 +508,7 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 				if (rtcParam.getLangList().contains(chkButton.getText().trim())) {
 					chkButton.setSelection(true);
 				} else {
-					// rtcParam.getLangList()‚ÉŠÜ‚Ü‚ê‚È‚¢ê‡‚Í‘I‘ğ‰ğœ
+					// rtcParam.getLangList()ã«å«ã¾ã‚Œãªã„å ´åˆã¯é¸æŠè§£é™¤
 					chkButton.setSelection(false);
 				}
 			}
@@ -544,7 +544,7 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 	@Override
 	public void pageSelected() {
 		Control [] btns = LangGroup.getChildren();
-		boolean selected = false;// Radio‚ªˆê‚Â‚Å‚à‘I‘ğ‚³‚ê‚Ä‚¢‚é‚Ætrue
+		boolean selected = false;// RadioãŒä¸€ã¤ã§ã‚‚é¸æŠã•ã‚Œã¦ã„ã‚‹ã¨true
 		for(int i=0; i<btns.length; i++){
 			if( ((Button)btns[i]).getSelection() ){
 				selected = true;
@@ -776,11 +776,11 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		return new org.eclipse.swt.events.SelectionAdapter(){
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				// event‚©‚çƒ{ƒ^ƒ“–¼Ì‚ğæ“¾
+				// eventã‹ã‚‰ãƒœã‚¿ãƒ³åç§°ã‚’å–å¾—
 				String btnName = ((Button)e.widget).getText();
-				// ‘I‘ğŒ¾Œê‚É‚æ‚éŠˆ«ó‘Ô‚Ì§Œä
+				// é¸æŠè¨€èªã«ã‚ˆã‚‹æ´»æ€§çŠ¶æ…‹ã®åˆ¶å¾¡
 				editor.setEnabledInfoByLang(btnName);
-				// ©ƒy[ƒW“à‚ÌŠÂ‹«ƒZƒNƒVƒ‡ƒ“‚ÌŠˆ«ó‘Ô‚Ì§Œä
+				// è‡ªãƒšãƒ¼ã‚¸å†…ã®ç’°å¢ƒã‚»ã‚¯ã‚·ãƒ§ãƒ³ã®æ´»æ€§çŠ¶æ…‹ã®åˆ¶å¾¡
 				setEnvSectionEnabled(true);
 			}
 		};

@@ -37,6 +37,7 @@ public class AllTestsCXX {
 		suite.addTestSuite(CXXVariableTest.class);
 		suite.addTestSuite(CXXModuleTest.class);
 		suite.addTestSuite(CXXConfigSetTypeTest.class);
+		suite.addTestSuite(CXXDataPortIDLTest.class);
 		//
 		//$JUnit-END$
 		return suite;
