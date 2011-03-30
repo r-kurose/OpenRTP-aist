@@ -19,7 +19,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.geometry.Transform;
 
 /**
- * ƒ}ƒ“ƒnƒbƒ^ƒ“Œ^‚Ìƒ‰ƒCƒ“•\¦‚ğs‚¤
+ * ãƒãƒ³ãƒãƒƒã‚¿ãƒ³å‹ã®ãƒ©ã‚¤ãƒ³è¡¨ç¤ºã‚’è¡Œã†
  */
 public class EditableManhattanConnectorRouter extends AbstractRouter {
 	private static final int BUF = 20;
@@ -48,7 +48,7 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 	}
 
 	/**
-	 * •ûŒü‚ğ’è‹`‚·‚é
+	 * æ–¹å‘ã‚’å®šç¾©ã™ã‚‹
 	 */
 	public static Ray UP = new Ray(0, -1), DOWN = new Ray(0, 1),
 			LEFT = new Ray(-1, 0), RIGHT = new Ray(1, 0);
@@ -61,13 +61,13 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 	}
 
 	/**
-	 * Rectangle‚©‚ç‚İ‚½Point‚Ì•ûŒü‚ğæ“¾‚·‚é
+	 * Rectangleã‹ã‚‰ã¿ãŸPointã®æ–¹å‘ã‚’å–å¾—ã™ã‚‹
 	 * 
 	 * @param r
 	 *            Rectangle
 	 * @param p
 	 *            Point
-	 * @return •ûŒü
+	 * @return æ–¹å‘
 	 */
 	protected Ray getDirection(Rectangle r, Point p) {
 		int i, distance = Math.abs(r.x - p.x);
@@ -97,13 +97,13 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 	}
 
 	/**
-	 * Ú‘±æ‚Ì•ûŒü‚ğæ“¾‚·‚é
+	 * æ¥ç¶šå…ˆã®æ–¹å‘ã‚’å–å¾—ã™ã‚‹
 	 * 
 	 * @param conn
-	 *            ƒRƒlƒNƒVƒ‡ƒ“
+	 *            ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
 	 * @param dafaultDirection
-	 *            ƒfƒtƒHƒ‹ƒg‚Ì•ûŒü
-	 * @return •ûŒü
+	 *            ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®æ–¹å‘
+	 * @return æ–¹å‘
 	 */
 	protected Ray getEndDirection(Connection conn, Ray dafaultDirection) {
 		ConnectionAnchor anchor = conn.getTargetAnchor();
@@ -116,13 +116,13 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 	}
 
 	/**
-	 * Ú‘±Œ³‚Ì•ûŒü‚ğæ“¾‚·‚é
+	 * æ¥ç¶šå…ƒã®æ–¹å‘ã‚’å–å¾—ã™ã‚‹
 	 * 
 	 * @param conn
-	 *            ƒRƒlƒNƒVƒ‡ƒ“
+	 *            ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
 	 * @param dafaultDirection
-	 *            ƒfƒtƒHƒ‹ƒg‚Ì•ûŒü
-	 * @return •ûŒü
+	 *            ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®æ–¹å‘
+	 * @return æ–¹å‘
 	 */
 	protected Ray getStartDirection(Connection conn, Ray dafaultDirection) {
 		ConnectionAnchor anchor = conn.getSourceAnchor();
@@ -135,10 +135,10 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 	}
 
 	/**
-	 * •ûŒü‚©‚çRay‚ğì¬‚·‚é
+	 * æ–¹å‘ã‹ã‚‰Rayã‚’ä½œæˆã™ã‚‹
 	 * 
 	 * @param direction
-	 *            •ûŒü
+	 *            æ–¹å‘
 	 * @return Ray
 	 */
 	private Ray directionToRay(String direction) {
@@ -212,9 +212,20 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 			convertPointListByConstraint(conn, points);
 		}
 
+//		dumpPoints(points);
+		
 		conn.setPoints(points);
 
 	}
+
+//	private void dumpPoints(PointList points) {
+//		int[] ps = points.toIntArray();
+//		for (int p :ps){
+//			System.out.print(p);
+//			System.out.print(" ");
+//		}
+//		System.out.println();
+//	}
 
 	@SuppressWarnings("unchecked")
 	private void convertPointListByConstraint(Connection conn, PointList points) {
@@ -229,12 +240,21 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 
 		for (Integer index : routingConstraint.keySet()) {
 			Point constPoint = routingConstraint.get(index);
+//			System.out.print(index);
+//			System.out.print(" ");
+//			System.out.print(constPoint.x);
+//			System.out.print(" ");
+//			System.out.print(constPoint.y);
+//			System.out.println();
 			
 			if (index < 0 || index > size - 2) continue;
 			
 			Point startPoint = points.getPoint(index);
 			Point endPoint = points.getPoint(index + 1);
 
+//			System.out.println(startPoint);
+//			System.out.println(endPoint);
+			
 			if (startPoint.x == endPoint.x) {
 				points.setPoint(new Point(constPoint.x, startPoint.y), index);
 				points.setPoint(new Point(constPoint.x, endPoint.y), index + 1);
@@ -290,9 +310,12 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 	}
 
 	private PointList getManhattanPointListProcessOnlyRight(PointNormal from,
-			PointNormal to) {
+			PointNormal to) { // fromãŒå³å‘ãã®æ™‚ã«ã ã‘å‡¦ç†ã™ã‚‹ã“ã¨ãŒå¯èƒ½
 
 		PointList points = new PointList();
+
+//		Ray direction = new Ray(new Ray(from.point), new Ray(to.point));
+//		Ray orthogonalDirection = getOrthogonalDirection(direction);
 
 		Ray verticalRay = DOWN;
 		if (from.point.y > to.point.y) {
@@ -309,7 +332,7 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 		}
 
 		if ((from.point.x == to.point.x && from.point.y == to.point.y) == false) {
-			if (to.normal.equals(UP) || to.normal.equals(DOWN)) { // ‚’¼‚©‚Ç‚¤‚©
+			if (to.normal.equals(UP) || to.normal.equals(DOWN)) { // å‚ç›´ã‹ã©ã†ã‹
 				if (from.point.x <= to.point.x
 						&& ((from.point.y >= to.point.y && to.normal
 								.equals(DOWN)) || (from.point.y <= to.point.y && to.normal
@@ -327,10 +350,10 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 							|| (from.point.y <= to.point.y && to.normal
 									.equals(DOWN))) {
 						nextTo = new PointNormal(new Point(to.point.x,
-								to.point.y + BUF), reverseRay(horizonalRay)); // LEFT‚ÍAfrom‚Ì•ûŒü
+								to.point.y + BUF), reverseRay(horizonalRay)); // LEFTã¯ã€fromã®æ–¹å‘
 						if (to.normal.equals(UP)) {
 							nextTo = new PointNormal(new Point(to.point.x,
-									to.point.y - BUF), reverseRay(horizonalRay));// LEFT‚ÍAfrom‚Ì•ûŒü
+									to.point.y - BUF), reverseRay(horizonalRay));// LEFTã¯ã€fromã®æ–¹å‘
 						}
 					}
 
@@ -342,7 +365,7 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 						points.addPoint(nextTo.point);
 					}
 				}
-			} else if (to.normal.equals(LEFT)) { // Œü‚©‚¢‡‚Á‚Ä‚¢‚é
+			} else if (to.normal.equals(LEFT)) { // å‘ã‹ã„åˆã£ã¦ã„ã‚‹
 				if (from.point.x > to.point.x) {
 					Point newFromPoint = new Point(from.point.x + BUF,
 							from.point.y);
@@ -360,7 +383,7 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 							.addPoint((from.point.x + to.point.x) / 2,
 									to.point.y);
 				}
-			} else if (to.normal.equals(RIGHT)) { // “¯‚¶•ûŒü
+			} else if (to.normal.equals(RIGHT)) { // åŒã˜æ–¹å‘
 
 				PointNormal nextFrom = from;
 				if (from.point.x >= to.point.x) {
@@ -409,7 +432,7 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 	}
 
 	/**
-	 * ƒxƒNƒgƒ‹‚ğ’è‹`‚·‚éƒNƒ‰ƒX
+	 * ãƒ™ã‚¯ãƒˆãƒ«ã‚’å®šç¾©ã™ã‚‹ã‚¯ãƒ©ã‚¹
 	 */
 	public static class PointNormal {
 		public Point point;
@@ -417,9 +440,9 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 		public Ray normal;
 
 		/**
-		 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-		 * @param point ˆÊ’u
-		 * @param normal •ûŒü
+		 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+		 * @param point ä½ç½®
+		 * @param normal æ–¹å‘
 		 */
 		public PointNormal(Point point, Ray normal) {
 			this.point = point;
@@ -427,8 +450,8 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 		}
 
 		/**
-		 * ƒRƒs[‚·‚é
-		 * @return ƒRƒs[‚³‚ê‚½ƒxƒNƒgƒ‹
+		 * ã‚³ãƒ”ãƒ¼ã™ã‚‹
+		 * @return ã‚³ãƒ”ãƒ¼ã•ã‚ŒãŸãƒ™ã‚¯ãƒˆãƒ«
 		 */
 		public PointNormal copy() {
 			return new PointNormal(point.getCopy(), new Ray(normal.x, normal.y));

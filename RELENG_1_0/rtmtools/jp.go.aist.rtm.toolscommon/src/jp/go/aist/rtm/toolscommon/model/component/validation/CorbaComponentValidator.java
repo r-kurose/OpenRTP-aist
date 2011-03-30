@@ -4,8 +4,11 @@ package jp.go.aist.rtm.toolscommon.model.component.validation;
 import RTC.ComponentProfile;
 import RTC.ExecutionContextService;
 import RTC.ExecutionContext;
+import RTC.RTObject;
 import _SDOPackage.Configuration;
+import _SDOPackage.ConfigurationSet;
 import _SDOPackage.Organization;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaStatusObserver;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -20,6 +23,8 @@ public interface CorbaComponentValidator {
 	boolean validateExecutionContextState(int value);
 	boolean validateComponentState(int value);
 	boolean validateSDOConfiguration(Configuration value);
+	boolean validateSDOConfigurationSets(EList<ConfigurationSet> value);
+
 	boolean validateRTCComponentProfile(ComponentProfile value);
 	boolean validateRTCExecutionContexts(EList<ExecutionContextService> value);
 
@@ -29,5 +34,11 @@ public interface CorbaComponentValidator {
 
 	boolean validateRTCExecutionContext(EList<ExecutionContext> value);
 	boolean validateSDOOrganization(Organization value);
+	boolean validateRTCRTObjects(EList<RTObject> value);
+
+	boolean validateRTCRTObject(EList<RTObject> value);
+
 	boolean validateIor(String value);
+
+	boolean validateStatusObserver(CorbaStatusObserver value);
 }

@@ -6,7 +6,7 @@ import jp.go.aist.rtm.rtcbuilder.ui.editors.AbstractCustomFormPage;
 import jp.go.aist.rtm.rtcbuilder.ui.editors.RtcBuilderEditor;
 
 public abstract class AddFormPageExtension {
-	//‘ÎÛŒ¾Œê
+	//å¯¾è±¡è¨€èª
 	public abstract String getManagerKey();
 
 	public abstract Map<Integer,AbstractCustomFormPage> getCustomPages(RtcBuilderEditor editor);

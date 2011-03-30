@@ -26,7 +26,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 /**
- * ƒAƒNƒeƒBƒrƒeƒBƒy[ƒW
+ * ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£ãƒšãƒ¼ã‚¸
  */
 public class ActivityEditorFormPage extends AbstractEditorFormPage {
 
@@ -56,10 +56,10 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 	private int preSelection;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param editor
-	 *            e‚ÌƒGƒfƒBƒ^
+	 *            è¦ªã®ã‚¨ãƒ‡ã‚£ã‚¿
 	 */
 	public ActivityEditorFormPage(RtcBuilderEditor editor) {
 		super(editor, "id", IMessageConstants.ACTIVITY_SECTION);
@@ -78,7 +78,7 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 		createHintSection(toolkit, form);
 		createDocumentSection(managedForm.getToolkit(), form);
 
-		// Œ¾ŒêEŠÂ‹«ƒy[ƒW‚æ‚èæ‚É‚±‚Ìƒy[ƒW‚ª•\¦‚³‚ê‚½ê‡A‚±‚±‚ÅŒ¾Œê‚ğ”»’f‚·‚é
+		// è¨€èªãƒ»ç’°å¢ƒãƒšãƒ¼ã‚¸ã‚ˆã‚Šå…ˆã«ã“ã®ãƒšãƒ¼ã‚¸ãŒè¡¨ç¤ºã•ã‚ŒãŸå ´åˆã€ã“ã“ã§è¨€èªã‚’åˆ¤æ–­ã™ã‚‹
 		editor.setEnabledInfoByLang();
 
 		load();
@@ -165,7 +165,7 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 					rtcParam.setDocActionPostCondition(preSelection, getDocText(postConditionText.getText()));
 				}
 				int index = implChk.indexOf(e.getSource());
-				//onInitialize‚Íí‚É—LŒø
+				//onInitializeã¯å¸¸ã«æœ‰åŠ¹
 				if(index==IRtcBuilderConstants.ACTIVITY_INITIALIZE) {
 					onBtn.setSelection(true);
 					offBtn.setSelection(false);
@@ -292,7 +292,7 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	/**
-	 * ƒf[ƒ^‚ğƒ[ƒh‚·‚é
+	 * ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
 	 */
 	public void load() {
 		RtcParam rtcParam = editor.getRtcParam();
@@ -307,27 +307,27 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	public String validateParam() {
-		//“ü—Íƒpƒ‰ƒ[ƒ^ƒ`ƒFƒbƒN‚È‚µ
+		//å…¥åŠ›ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒã‚§ãƒƒã‚¯ãªã—
 		return null;
 	}
 
 	/**
-	 * ActivityƒtƒH[ƒ€“à‚Ì—v‘f‚Ì—LŒø/–³Œø‚ğİ’è‚µ‚Ü‚·B
+	 * Activityãƒ•ã‚©ãƒ¼ãƒ å†…ã®è¦ç´ ã®æœ‰åŠ¹/ç„¡åŠ¹ã‚’è¨­å®šã—ã¾ã™ã€‚
 	 * <ul>
-	 * <li>activity.action.onInitialize : ActivityƒZƒNƒVƒ‡ƒ“‚Ì on_initialize</li>
-	 * <li>activity.action.onFinalize : ActivityƒZƒNƒVƒ‡ƒ“‚Ì on_finalize</li>
-	 * <li>activity.action.onStartup : ActivityƒZƒNƒVƒ‡ƒ“‚Ì on_startup</li>
-	 * <li>activity.action.onShutdown : ActivityƒZƒNƒVƒ‡ƒ“‚Ì on_shutdown</li>
-	 * <li>activity.action.onActivated : ActivityƒZƒNƒVƒ‡ƒ“‚Ì on_activated</li>
-	 * <li>activity.action.onDeactivated : ActivityƒZƒNƒVƒ‡ƒ“‚Ì on_deactivated</li>
-	 * <li>activity.action.onAborting : ActivityƒZƒNƒVƒ‡ƒ“‚Ì on_aborting</li>
-	 * <li>activity.action.onError : ActivityƒZƒNƒVƒ‡ƒ“‚Ì on_error</li>
-	 * <li>activity.action.onReset : ActivityƒZƒNƒVƒ‡ƒ“‚Ì on_reset</li>
-	 * <li>activity.action.onExecute : ActivityƒZƒNƒVƒ‡ƒ“‚Ì on_execute</li>
-	 * <li>activity.action.onStateUpdate : ActivityƒZƒNƒVƒ‡ƒ“‚Ì on_state_update</li>
-	 * <li>activity.action.onRateChanged : ActivityƒZƒNƒVƒ‡ƒ“‚Ì on_rate_changed</li>
-	 * <li>activity.action.onAction : ActivityƒZƒNƒVƒ‡ƒ“‚Ì on_action</li>
-	 * <li>activity.action.onModeChanged : ActivityƒZƒNƒVƒ‡ƒ“‚Ì on_mode_changed</li>
+	 * <li>activity.action.onInitialize : Activityã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® on_initialize</li>
+	 * <li>activity.action.onFinalize : Activityã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® on_finalize</li>
+	 * <li>activity.action.onStartup : Activityã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® on_startup</li>
+	 * <li>activity.action.onShutdown : Activityã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® on_shutdown</li>
+	 * <li>activity.action.onActivated : Activityã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® on_activated</li>
+	 * <li>activity.action.onDeactivated : Activityã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® on_deactivated</li>
+	 * <li>activity.action.onAborting : Activityã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® on_aborting</li>
+	 * <li>activity.action.onError : Activityã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® on_error</li>
+	 * <li>activity.action.onReset : Activityã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® on_reset</li>
+	 * <li>activity.action.onExecute : Activityã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® on_execute</li>
+	 * <li>activity.action.onStateUpdate : Activityã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® on_state_update</li>
+	 * <li>activity.action.onRateChanged : Activityã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® on_rate_changed</li>
+	 * <li>activity.action.onAction : Activityã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® on_action</li>
+	 * <li>activity.action.onModeChanged : Activityã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® on_mode_changed</li>
 	 * </ul>
 	 */
 	public void setEnabledInfo(WidgetInfo widgetInfo, boolean enabled) {

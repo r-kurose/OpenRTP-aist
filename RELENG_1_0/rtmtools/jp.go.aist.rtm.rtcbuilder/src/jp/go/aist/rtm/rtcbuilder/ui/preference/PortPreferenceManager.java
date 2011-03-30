@@ -11,98 +11,98 @@ public class PortPreferenceManager {
 			this);
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
-	 * @return ƒVƒ“ƒOƒ‹ƒgƒ“
+	 * @return ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³
 	 */
 	public static PortPreferenceManager getInstance() {
 		return __instance;
 	}
 
 	/**
-	 * DataPort Name‚ÌƒL[
+	 * DataPort Nameã®ã‚­ãƒ¼
 	 */
 	private static final String Generate_DataPort_Name = PortPreferenceManager.class.getName()
 			+ "GENERATE_DATAPORT_NAME";
 	/**
-	 * DataPort Type‚ÌƒL[
+	 * DataPort Typeã®ã‚­ãƒ¼
 	 */
 	private static final String Generate_DataPort_Type = PortPreferenceManager.class.getName()
 			+ "GENERATE_DATAPORT_TYPE";
 	/**
-	 * DataPort VarName‚ÌƒL[
+	 * DataPort VarNameã®ã‚­ãƒ¼
 	 */
 	private static final String Generate_DataPort_VarName = PortPreferenceManager.class.getName()
 			+ "GENERATE_DATAPORT_VARNAME";
 	/**
-	 * DataPort Constraint‚ÌƒL[
+	 * DataPort Constraintã®ã‚­ãƒ¼
 	 */
 	private static final String Generate_DataPort_Constraint = PortPreferenceManager.class.getName()
 			+ "GENERATE_DATAPORT_CONSTRAINT";
 	/**
-	 * DataPort Unit‚ÌƒL[
+	 * DataPort Unitã®ã‚­ãƒ¼
 	 */
 	private static final String Generate_DataPort_Unit = PortPreferenceManager.class.getName()
 			+ "GENERATE_DATAPORT_UNIT";
 	/**
-	 * DataPort Ú“ªŒê‚ÌƒL[
+	 * DataPort æ¥é ­èªã®ã‚­ãƒ¼
 	 */
 	private static final String Generate_DataPort_Prefix = PortPreferenceManager.class.getName()
 			+ "GENERATE_DATAPORT_PREFIX";
 	/**
-	 * DataPort Ú”öŒê‚ÌƒL[
+	 * DataPort æ¥å°¾èªã®ã‚­ãƒ¼
 	 */
 	private static final String Generate_DataPort_Suffix = PortPreferenceManager.class.getName()
 			+ "GENERATE_DATAPORT_SUFFIX";
 	////
 	/**
-	 * ServicePort Name‚ÌƒL[
+	 * ServicePort Nameã®ã‚­ãƒ¼
 	 */
 	private static final String Generate_ServicePort_Name = PortPreferenceManager.class.getName()
 			+ "GENERATE_SERVICEPORT_NAME";
 	/**
-	 * ServicePort Ú“ªŒê‚ÌƒL[
+	 * ServicePort æ¥é ­èªã®ã‚­ãƒ¼
 	 */
 	private static final String Generate_ServicePort_Prefix = PortPreferenceManager.class.getName()
 			+ "GENERATE_SERVICEPORT_PREFIX";
 	/**
-	 * ServicePort Ú”öŒê‚ÌƒL[
+	 * ServicePort æ¥å°¾èªã®ã‚­ãƒ¼
 	 */
 	private static final String Generate_ServicePort_Suffix = PortPreferenceManager.class.getName()
 			+ "GENERATE_SERVICEPORT_SUFFIX";
 	/**
-	 * ServiceInterfacet Name‚ÌƒL[
+	 * ServiceInterfacet Nameã®ã‚­ãƒ¼
 	 */
 	private static final String Generate_ServiceIF_Name = PortPreferenceManager.class.getName()
 			+ "GENERATE_SERVICEIF_NAME";
 	/**
-	 * ServiceInterfacet Instance Name‚ÌƒL[
+	 * ServiceInterfacet Instance Nameã®ã‚­ãƒ¼
 	 */
 	private static final String Generate_ServiceIF_InstanceName = PortPreferenceManager.class.getName()
 			+ "GENERATE_SERVICEIF_INSTANCENAME";
 	/**
-	 * ServiceInterfacet Varriable Name‚ÌƒL[
+	 * ServiceInterfacet Varriable Nameã®ã‚­ãƒ¼
 	 */
 	private static final String Generate_ServiceIF_VarName = PortPreferenceManager.class.getName()
 			+ "GENERATE_SERVICEIF_VARNAME";
 	/**
-	 * ServiceInterfacet Instance Ú“ªŒê‚ÌƒL[
+	 * ServiceInterfacet Instance æ¥é ­èªã®ã‚­ãƒ¼
 	 */
 	private static final String Generate_ServiceIF_Prefix = PortPreferenceManager.class.getName()
 			+ "GENERATE_SERVICEIF_PREFIX";
 	/**
-	 * ServiceInterfacet Instance Ú”öŒê‚ÌƒL[
+	 * ServiceInterfacet Instance æ¥å°¾èªã®ã‚­ãƒ¼
 	 */
 	private static final String Generate_ServiceIF_Suffix = PortPreferenceManager.class.getName()
 			+ "GENERATE_SERVICEIF_SUFFIX";
 	///
 	/**
-	 * Portİ’è‰æ–Ê‚Åˆê“x‚Å‚àOK‚ª‰Ÿ‚³‚ê‚½‚©”Û‚©‚ğ¦‚·ƒtƒB[ƒ‹ƒh‚ÌƒL[
+	 * Portè¨­å®šç”»é¢ã§ä¸€åº¦ã§ã‚‚OKãŒæŠ¼ã•ã‚ŒãŸã‹å¦ã‹ã‚’ç¤ºã™ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®ã‚­ãƒ¼
 	 */
 	private static final String Port_Preference_Status = PortPreferenceManager.class.getName()
 			+ "PORT_PREFERENCE_STATUS";
 	/**
-	 * Portİ’è‰æ–Ê‚Åˆê“x‚Å‚àOK‚ª‰Ÿ‚³‚ê‚½ê‡ã‹LƒtƒB[ƒ‹ƒh‚ÉŠi”[‚·‚é’è”’l
+	 * Portè¨­å®šç”»é¢ã§ä¸€åº¦ã§ã‚‚OKãŒæŠ¼ã•ã‚ŒãŸå ´åˆä¸Šè¨˜ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«æ ¼ç´ã™ã‚‹å®šæ•°å€¤
 	 */
 	private static final String Port_Preference_Status_Dirty = "DIRTY";
 
@@ -125,10 +125,10 @@ public class PortPreferenceManager {
 	public static final String DEFAULT_SERVICEIF_SUFFIX = "";
 
 	/**
-	 * ƒR[ƒh¶¬‚Ì DataPort Name ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® DataPort Name ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return DataPort Name ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return DataPort Name ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getDataPort_Name() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_DataPort_Name, "");
@@ -143,10 +143,10 @@ public class PortPreferenceManager {
 		return result;
 	}
 	/**
-	 * ƒR[ƒh¶¬‚Ì DataPort Name ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® DataPort Name ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¨­å®šã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @param defaultDataPortName	 DataPort Name ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @param defaultDataPortName	 DataPort Name ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public void setDataPort_Name(String defaultDataPortName) {
 		String oldDataPortName = getDataPort_Name();
@@ -157,10 +157,10 @@ public class PortPreferenceManager {
 	}
 
 	/**
-	 * ƒR[ƒh¶¬‚Ì DataPort Type ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® DataPort Type ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return DataPort Type ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return DataPort Type ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getDataPort_Type() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_DataPort_Type, "");
@@ -175,10 +175,10 @@ public class PortPreferenceManager {
 		return result;
 	}
 	/**
-	 * ƒR[ƒh¶¬‚Ì DataPort Type ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® DataPort Type ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¨­å®šã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @param defaultDataPortType	 DataPort Type ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @param defaultDataPortType	 DataPort Type ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public void setDataPort_Type(String defaultDataPortType) {
 		String oldDataPortType = getDataPort_Type();
@@ -189,10 +189,10 @@ public class PortPreferenceManager {
 	}
 
 	/**
-	 * ƒR[ƒh¶¬‚Ì DataPort •Ï”–¼ ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® DataPort å¤‰æ•°å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return DataPort •Ï”–¼ ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return DataPort å¤‰æ•°å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getDataPort_VarName() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_DataPort_VarName, "");
@@ -207,10 +207,10 @@ public class PortPreferenceManager {
 		return result;
 	}
 	/**
-	 * ƒR[ƒh¶¬‚Ì DataPort •Ï”–¼ ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® DataPort å¤‰æ•°å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¨­å®šã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @param defaultDataPortVarName	 DataPort •Ï”–¼ ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @param defaultDataPortVarName	 DataPort å¤‰æ•°å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public void setDataPort_VarName(String defaultDataPortVarName) {
 		String oldDataPortVarName = getDataPort_VarName();
@@ -221,10 +221,10 @@ public class PortPreferenceManager {
 	}
 
 	/**
-	 * ƒR[ƒh¶¬‚Ì DataPort §–ñ ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® DataPort åˆ¶ç´„ ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return DataPort §–ñ ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return DataPort åˆ¶ç´„ ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getDataPort_Constraint() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_DataPort_Constraint, "");
@@ -239,10 +239,10 @@ public class PortPreferenceManager {
 		return result;
 	}
 	/**
-	 * ƒR[ƒh¶¬‚Ì DataPort §–ñ ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® DataPort åˆ¶ç´„ ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¨­å®šã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @param defaultDataPortVarName	 DataPort §–ñ ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @param defaultDataPortVarName	 DataPort åˆ¶ç´„ ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public void setDataPort_Constraint(String defaultDataPortConstraint) {
 		String oldDataPortConstraint = getDataPort_Constraint();
@@ -253,10 +253,10 @@ public class PortPreferenceManager {
 	}
 	
 	/**
-	 * ƒR[ƒh¶¬‚Ì DataPort Unit ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® DataPort Unit ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return DataPort Unit ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return DataPort Unit ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getDataPort_Unit() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_DataPort_Unit, "");
@@ -271,10 +271,10 @@ public class PortPreferenceManager {
 		return result;
 	}
 	/**
-	 * ƒR[ƒh¶¬‚Ì DataPort Unit ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® DataPort Unit ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¨­å®šã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @param defaultDataPortVarName	 DataPort Unit ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @param defaultDataPortVarName	 DataPort Unit ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public void setDataPort_Unit(String defaultDataPortUnit) {
 		String oldDataPortUnit = getDataPort_Unit();
@@ -285,10 +285,10 @@ public class PortPreferenceManager {
 	}
 	
 	/**
-	 * ƒR[ƒh¶¬‚Ì DataPort Ú“ªŒê ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® DataPort æ¥é ­èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return DataPort Ú“ªŒê ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return DataPort æ¥é ­èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getDataPort_Prefix() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_DataPort_Prefix, "");
@@ -303,10 +303,10 @@ public class PortPreferenceManager {
 		return result;
 	}
 	/**
-	 * ƒR[ƒh¶¬‚Ì DataPort Ú“ªŒê ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® DataPort æ¥é ­èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¨­å®šã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @param defaultDataPortPrefix	 DataPort Ú“ªŒê ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @param defaultDataPortPrefix	 DataPort æ¥é ­èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public void setDataPort_Prefix(String defaultDataPortPrefix) {
 		String oldDataPortPrefix = getDataPort_Prefix();
@@ -317,10 +317,10 @@ public class PortPreferenceManager {
 	}
 	
 	/**
-	 * ƒR[ƒh¶¬‚Ì DataPort Ú”öŒê ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® DataPort æ¥å°¾èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return DataPort Ú”öŒê ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return DataPort æ¥å°¾èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getDataPort_Suffix() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_DataPort_Suffix, "");
@@ -335,10 +335,10 @@ public class PortPreferenceManager {
 		return result;
 	}
 	/**
-	 * ƒR[ƒh¶¬‚Ì DataPort Ú”öŒê ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® DataPort æ¥å°¾èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¨­å®šã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @param defaultDataPortSuffix	 DataPort Ú”öŒê ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @param defaultDataPortSuffix	 DataPort æ¥å°¾èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public void setDataPort_Suffix(String defaultDataPortSuffix) {
 		String oldDataPortSuffix = getDataPort_Suffix();
@@ -351,10 +351,10 @@ public class PortPreferenceManager {
 	//
 	//
 	/**
-	 * ƒR[ƒh¶¬‚Ì ServicePort –¼ ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® ServicePort å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return ServicePort •Ï”–¼ ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return ServicePort å¤‰æ•°å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getServicePort_Name() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_ServicePort_Name, "");
@@ -369,10 +369,10 @@ public class PortPreferenceManager {
 		return result;
 	}
 	/**
-	 * ƒR[ƒh¶¬‚Ì ServicePort –¼ ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® ServicePort å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¨­å®šã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @param defaultServicePortName	 ServicePort –¼ ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @param defaultServicePortName	 ServicePort å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public void setServicePort_Name(String defaultServicePortName) {
 		String oldServicePortName = getServicePort_Name();
@@ -383,10 +383,10 @@ public class PortPreferenceManager {
 	}
 
 	/**
-	 * ƒR[ƒh¶¬‚Ì ServicePort Ú“ªŒê ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® ServicePort æ¥é ­èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return ServicePort Ú“ªŒê ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return ServicePort æ¥é ­èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getServicePort_Prefix() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_ServicePort_Prefix, "");
@@ -401,10 +401,10 @@ public class PortPreferenceManager {
 		return result;
 	}
 	/**
-	 * ƒR[ƒh¶¬‚Ì ServicePort Ú“ªŒê ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® ServicePort æ¥é ­èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¨­å®šã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @param defaultServicePortPrefix	 ServicePort Ú“ªŒê ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @param defaultServicePortPrefix	 ServicePort æ¥é ­èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public void setServicePort_Prefix(String defaultServicePortPrefix) {
 		String oldServicePortPrefix = getServicePort_Prefix();
@@ -415,10 +415,10 @@ public class PortPreferenceManager {
 	}
 
 	/**
-	 * ƒR[ƒh¶¬‚Ì ServicePort Ú”öŒê ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® ServicePort æ¥å°¾èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return ServicePort Ú”öŒê ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return ServicePort æ¥å°¾èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getServicePort_Suffix() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_ServicePort_Suffix, "");
@@ -433,10 +433,10 @@ public class PortPreferenceManager {
 		return result;
 	}
 	/**
-	 * ƒR[ƒh¶¬‚Ì ServicePort Ú”öŒê ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® ServicePort æ¥å°¾èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¨­å®šã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @param defaultServicePortSuffix	 ServicePort Ú”öŒê ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @param defaultServicePortSuffix	 ServicePort æ¥å°¾èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public void setServicePort_Suffix(String defaultServicePortSuffix) {
 		String oldServicePortSuffix = getServicePort_Suffix();
@@ -447,10 +447,10 @@ public class PortPreferenceManager {
 	}
 
 	/**
-	 * ƒR[ƒh¶¬‚Ì ServiceIF –¼ ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® ServiceIF å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return ServiceIF–¼ ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return ServiceIFå ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getServiceIF_Name() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_ServiceIF_Name, "");
@@ -465,10 +465,10 @@ public class PortPreferenceManager {
 		return result;
 	}
 	/**
-	 * ƒR[ƒh¶¬‚Ì ServiceIF –¼ ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® ServiceIF å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¨­å®šã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @param defaultServiceIFName	 ServiceIF –¼ ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @param defaultServiceIFName	 ServiceIF å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public void setServiceIF_Name(String defaultServiceIFName) {
 		String oldServiceIFName = getServiceIF_Name();
@@ -479,10 +479,10 @@ public class PortPreferenceManager {
 	}
 
 	/**
-	 * ƒR[ƒh¶¬‚Ì ServiceIF ƒCƒ“ƒXƒ^ƒ“ƒX–¼ ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® ServiceIF ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return ServiceIF ƒCƒ“ƒXƒ^ƒ“ƒX–¼ ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return ServiceIF ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getServiceIF_InstanceName() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_ServiceIF_InstanceName, "");
@@ -497,10 +497,10 @@ public class PortPreferenceManager {
 		return result;
 	}
 	/**
-	 * ƒR[ƒh¶¬‚Ì ServiceIF ƒCƒ“ƒXƒ^ƒ“ƒX–¼ ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® ServiceIF ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¨­å®šã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @param defaultServiceIFInstanceName	 ServiceIF ƒCƒ“ƒXƒ^ƒ“ƒX–¼ ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @param defaultServiceIFInstanceName	 ServiceIF ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public void setServiceIF_InstanceName(String defaultServiceIFInstanceName) {
 		String oldServiceIFInstanceName = getServiceIF_InstanceName();
@@ -511,10 +511,10 @@ public class PortPreferenceManager {
 	}
 
 	/**
-	 * ƒR[ƒh¶¬‚Ì ServiceIF •Ï”–¼ ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® ServiceIF å¤‰æ•°å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return ServiceIF •Ï”–¼ ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return ServiceIF å¤‰æ•°å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getServiceIF_VarName() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_ServiceIF_VarName, "");
@@ -529,10 +529,10 @@ public class PortPreferenceManager {
 		return result;
 	}
 	/**
-	 * ƒR[ƒh¶¬‚Ì ServiceIF •Ï”–¼ ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® ServiceIF å¤‰æ•°å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¨­å®šã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @param defaultServiceIFVarName	 ServiceIF •Ï”–¼ ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @param defaultServiceIFVarName	 ServiceIF å¤‰æ•°å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public void setServiceIF_VarName(String defaultServiceIFVarName) {
 		String oldServiceIFVarName = getServiceIF_VarName();
@@ -543,10 +543,10 @@ public class PortPreferenceManager {
 	}
 
 	/**
-	 * ƒR[ƒh¶¬‚Ì ServiceIF Ú“ªŒê‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® ServiceIF æ¥é ­èªã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return ServiceIF Ú“ªŒê ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return ServiceIF æ¥é ­èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getServiceIF_Prefix() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_ServiceIF_Prefix, "");
@@ -561,10 +561,10 @@ public class PortPreferenceManager {
 		return result;
 	}
 	/**
-	 * ƒR[ƒh¶¬‚Ì ServiceIF Ú“ªŒê ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® ServiceIF æ¥é ­èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¨­å®šã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @param defaultServiceIFPrefix	 ServiceIF Ú“ªŒê ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @param defaultServiceIFPrefix	 ServiceIF æ¥é ­èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public void setServiceIF_Prefix(String defaultServiceIFPrefix) {
 		String oldServiceIFPrefix = getServiceIF_Prefix();
@@ -575,10 +575,10 @@ public class PortPreferenceManager {
 	}
 
 	/**
-	 * ƒR[ƒh¶¬‚Ì ServiceIF Ú”öŒê‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® ServiceIF æ¥å°¾èªã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return ServiceIF Ú”öŒê ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return ServiceIF æ¥å°¾èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getServiceIF_Suffix() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_ServiceIF_Suffix, "");
@@ -593,10 +593,10 @@ public class PortPreferenceManager {
 		return result;
 	}
 	/**
-	 * ƒR[ƒh¶¬‚Ì ServiceIF Ú”öŒê ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® ServiceIF æ¥å°¾èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’è¨­å®šã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @param defaultServiceIFSuffix	 ServiceIF Ú”öŒê ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @param defaultServiceIFSuffix	 ServiceIF æ¥å°¾èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public void setServiceIF_Suffix(String defaultServiceIFSuffix) {
 		String oldServiceIFSuffix = getServiceIF_Suffix();
@@ -607,7 +607,7 @@ public class PortPreferenceManager {
 	}
 
 	/**
-	 * Portİ’è‰æ–Ê‚ªİ’èÏ‚İ‚©”Û‚©‚ğ¦‚·€–Ú‚Ì’l‚ğæ“¾‚·‚é
+	 * Portè¨­å®šç”»é¢ãŒè¨­å®šæ¸ˆã¿ã‹å¦ã‹ã‚’ç¤ºã™é …ç›®ã®å€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
 	 * @return
 	 */
@@ -616,7 +616,7 @@ public class PortPreferenceManager {
 		return RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Port_Preference_Status);
 	}
 	/**
-	 * Portİ’è‰æ–Ê‚ªİ’èÏ‚İ‚©”Û‚©‚ğ¦‚·€–Ú‚Ì’l‚ğİ’è‚·‚é
+	 * Portè¨­å®šç”»é¢ãŒè¨­å®šæ¸ˆã¿ã‹å¦ã‹ã‚’ç¤ºã™é …ç›®ã®å€¤ã‚’è¨­å®šã™ã‚‹
 	 */
 	public void setDirtyToPortPreferenceStatus() {
 		String oldStatus = getPortPreferenceStatus();

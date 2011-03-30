@@ -3,7 +3,7 @@ package jp.go.aist.rtm.repositoryView.model;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 
 /**
- * RepositoryViewItem‚ÌƒcƒŠ[‚ğ\’z‚·‚éƒtƒ@ƒNƒgƒŠ
+ * RepositoryViewItemã®ãƒ„ãƒªãƒ¼ã‚’æ§‹ç¯‰ã™ã‚‹ãƒ•ã‚¡ã‚¯ãƒˆãƒª
  *
  */
 public class RepositoryViewFactory {
@@ -15,6 +15,10 @@ public class RepositoryViewFactory {
 		return itemChild;
 	}
 
+//	public static RepositoryViewItem makeLeaf(RepositoryViewItem itemParent, String name, ComponentSpecification component, String leafType) {
+//		return makeLeaf(itemParent, name, component, leafType, false);
+//	}
+	
 	private static RepositoryViewItem makeLeaf(RepositoryViewItem itemParent, String name, 
 			ComponentSpecification component, String leafType, boolean isRepository) {
 		RepositoryViewLeafItem itemChild = null;
@@ -36,21 +40,21 @@ public class RepositoryViewFactory {
 	}
 
 	/**
-	 * RepositoryViewItem‚ÌƒcƒŠ[‚ğ\’z‚·‚é
-	 * @param itemFirst  @ƒ‹[ƒg‚ÌRepositoryViewItem
-	 * @param module@@@@@ƒ[ƒh‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒgd—l
-	 * @param leafType	@ƒŠ[ƒt‚ÌŒ^iŒ»ó‚ÍRTC‚Ì‚İj
+	 * RepositoryViewItemã®ãƒ„ãƒªãƒ¼ã‚’æ§‹ç¯‰ã™ã‚‹
+	 * @param itemFirst  ã€€ãƒ«ãƒ¼ãƒˆã®RepositoryViewItem
+	 * @param moduleã€€ã€€ã€€ã€€ã€€ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆä»•æ§˜
+	 * @param leafType	ã€€ãƒªãƒ¼ãƒ•ã®å‹ï¼ˆç¾çŠ¶ã¯RTCã®ã¿ï¼‰
 	 */
 	public static void buildTree(RepositoryViewItem itemFirst, ComponentSpecification module, String leafType) {
 		buildTree(itemFirst, module, leafType, false);
 	}
 	
 	/**
-	 * RepositoryViewItem‚ÌƒcƒŠ[‚ğ\’z‚·‚é
-	 * @param itemFirst		ƒ‹[ƒg‚ÌRepositoryViewItem
-	 * @param module		ƒ[ƒh‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒgd—l
-	 * @param leafType		ƒŠ[ƒt‚ÌŒ^
-	 * @param isRepository	ƒŒƒ|ƒWƒgƒŠ‚Å‚ ‚é‚©‚ğ¦‚·ƒtƒ‰ƒO
+	 * RepositoryViewItemã®ãƒ„ãƒªãƒ¼ã‚’æ§‹ç¯‰ã™ã‚‹
+	 * @param itemFirst		ãƒ«ãƒ¼ãƒˆã®RepositoryViewItem
+	 * @param module		ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆä»•æ§˜
+	 * @param leafType		ãƒªãƒ¼ãƒ•ã®å‹
+	 * @param isRepository	ãƒ¬ãƒã‚¸ãƒˆãƒªã§ã‚ã‚‹ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°
 	 */
 	public static void buildTree(RepositoryViewItem itemFirst, ComponentSpecification module, String leafType, boolean isRepository) {
 		RepositoryViewItem itemSecond = itemFirst.getChild(module.getCategoryL());

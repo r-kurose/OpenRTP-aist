@@ -6,27 +6,27 @@ import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSuppor
 import org.eclipse.emf.ecore.EReference;
 
 /**
- * ’PQÆ‚Ìƒ}ƒbƒsƒ“ƒO‚ğ’è‹`‚·‚éƒNƒ‰ƒX
+ * å˜å‚ç…§ã®ãƒãƒƒãƒ”ãƒ³ã‚°ã‚’å®šç¾©ã™ã‚‹ã‚¯ãƒ©ã‚¹
  */
 public abstract class OneReferenceMapping extends ReferenceMapping {
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param localFeature
-	 *            ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒtƒB[ƒ`ƒƒ
+	 *            ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ•ã‚£ãƒ¼ãƒãƒ£
 	 */
 	public OneReferenceMapping(EReference localFeature) {
 		this(localFeature, false);
 	}
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param localFeature
-	 *            ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒtƒB[ƒ`ƒƒ
+	 *            ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ•ã‚£ãƒ¼ãƒãƒ£
 	 * @param allowZombie
-	 *            ƒ]ƒ“ƒriƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ª€‚ñ‚¾ó‘Ôj‚Å‚à‘¶İ‚³‚¹‚é‚©
+	 *            ã‚¾ãƒ³ãƒ“ï¼ˆãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒæ­»ã‚“ã çŠ¶æ…‹ï¼‰ã§ã‚‚å­˜åœ¨ã•ã›ã‚‹ã‹
 	 */
 	public OneReferenceMapping(EReference localFeature, boolean allowZombie) {
 		super(localFeature, allowZombie);
@@ -65,34 +65,35 @@ public abstract class OneReferenceMapping extends ReferenceMapping {
 			}
 
 			if ((localObject.eGet(getLocalFeature()) == null && loadLocalObjectByRemoteObject != null)
-					|| (localObject.eGet(getLocalFeature()) != null && loadLocalObjectByRemoteObject == null)) { //‚‘¬‰»
+					|| (localObject.eGet(getLocalFeature()) != null && loadLocalObjectByRemoteObject == null)) { //é«˜é€ŸåŒ–
 				localObject.eSet(getLocalFeature(),
 						loadLocalObjectByRemoteObject);
 			}
 		}
+//		System.out.println(System.currentTimeMillis() -start);
 	}
 
 	/**
-	 * ÅV‚ÌƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ÌƒŠƒ“ƒN‚ğ•Ô‚·‚æ‚¤‚ÉAƒI[ƒo[ƒ‰ƒCƒh‚³‚ê‚é‚±‚Æ‚ªˆÓ}‚³‚ê‚é
+	 * æœ€æ–°ã®ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªãƒ³ã‚¯ã‚’è¿”ã™ã‚ˆã†ã«ã€ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã•ã‚Œã‚‹ã“ã¨ãŒæ„å›³ã•ã‚Œã‚‹
 	 * 
 	 * @param localObject
 	 * 
 	 * @param remoteObjects
-	 *            ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg
-	 * @return ÅV‚ÌƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ÌƒŠƒ“ƒN
+	 *            ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @return æœ€æ–°ã®ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªãƒ³ã‚¯
 	 */
 	public abstract Object getNewRemoteLink(LocalObject localObject,
 			Object[] remoteObjects);
 
 	/**
-	 * Œ»İg—p‚µ‚Ä‚¢‚éAƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ÌƒŠƒ“ƒN‚ğ•Ô‚·
+	 * ç¾åœ¨ä½¿ç”¨ã—ã¦ã„ã‚‹ã€ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªãƒ³ã‚¯ã‚’è¿”ã™
 	 * <p>
-	 * •K—v‚É‰‚¶‚ÄAƒI[ƒo[ƒ‰ƒCƒh‚·‚é‚±‚Æ ƒfƒtƒHƒ‹ƒgÀ‘•‚ÍAƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚ÄAƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ª‚P‚Â‚Å‚ ‚éê‡‚ÌÀ‘•B // *
-	 * ŠÖ˜AƒIƒuƒWƒFƒNƒg‚È‚Ç‚Ì•¡”‚ÌƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ª‘¶İ‚·‚éê‡‚É‚ÍAƒI[ƒo[ƒ‰ƒCƒh‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+	 * å¿…è¦ã«å¿œã˜ã¦ã€ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã™ã‚‹ã“ã¨ ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå®Ÿè£…ã¯ã€ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¯¾ã—ã¦ã€ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒï¼‘ã¤ã§ã‚ã‚‹å ´åˆã®å®Ÿè£…ã€‚ // *
+	 * é–¢é€£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãªã©ã®è¤‡æ•°ã®ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå­˜åœ¨ã™ã‚‹å ´åˆã«ã¯ã€ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
 	 * 
 	 * @param localObject
-	 *            ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg
-	 * @return Œ»İg—p‚µ‚Ä‚¢‚éAƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ÌƒŠƒ“ƒN
+	 *            ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @return ç¾åœ¨ä½¿ç”¨ã—ã¦ã„ã‚‹ã€ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªãƒ³ã‚¯
 	 */
 	public Object getOldRemoteLink(LocalObject localObject) {
 		LocalObject elem = ((LocalObject) localObject.eGet(getLocalFeature()));

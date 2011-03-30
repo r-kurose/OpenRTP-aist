@@ -22,12 +22,14 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * OutPort��EditPart�N���X
+ * OutPortのEditPartクラス
  */
 public class OutPortEditPart extends PortEditPart {
 
+//	private Notification notification;
+
 	/**
-	 * �R���X�g���N�^
+	 * コンストラクタ
 	 * 
 	 * @param actionRegistry
 	 *            ActionRegistry
@@ -48,10 +50,13 @@ public class OutPortEditPart extends PortEditPart {
 	 * {@inheritDoc}
 	 */
 	public void notifyChanged(Notification notification) {
+//		this.notification = notification;
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 			public void run() {
 				if (isActive()) {
 					refresh();
+//					refreshVisuals();
+//					refreshSourceConnections();
 				}
 			}
 		});
@@ -72,7 +77,7 @@ public class OutPortEditPart extends PortEditPart {
 	}
 
 	/**
-	 * �|�[�g��ŁA�����I�ɃR�l�N�^���쐬���郂�[�h�ɕύX����@�\��t�����郁�\�b�h
+	 * ポート上で、自動的にコネクタを作成するモードに変更する機能を付加するメソッド
 	 */
 	public static void supportAutoCreateConnectorToolMode(
 			final EditPartViewer viewer, IFigure figure) {
@@ -116,7 +121,7 @@ public class OutPortEditPart extends PortEditPart {
 	}
 
 	/**
-	 * �R�l�N�^���쐬����c�[��
+	 * コネクタを作成するツール
 	 */
 	public static class AutoConnectorCreationTool extends
 			ConnectionDragCreationTool {

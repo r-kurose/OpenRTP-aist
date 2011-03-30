@@ -12,12 +12,12 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.gef.commands.Command;
 
 /**
- * ƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€‚É•¡‡Rtc‚ğ’Ç‰Á‚·‚éƒRƒ}ƒ“ƒh
+ * ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã«è¤‡åˆRtcã‚’è¿½åŠ ã™ã‚‹ã‚³ãƒãƒ³ãƒ‰
  */
 public class CombineCommand extends Command {
 	private SystemDiagram parent;
 
-	// •¡‡RTC
+	// è¤‡åˆRTC
 	private Component target;
 
 	@SuppressWarnings("unchecked")
@@ -26,16 +26,16 @@ public class CombineCommand extends Command {
 	 * {@inheritDoc}
 	 */
 	public void execute() {
-		// •¡‡ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌqƒEƒBƒ“ƒhƒE‚É‚Ä•¡‡ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğì¬‚µ‚½‚Æ‚«‚Ìˆ—
+		// è¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å­ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«ã¦è¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ä½œæˆã—ãŸã¨ãã®å‡¦ç†
 		adjustParentDiagram(target.getComponents());
 		
-		// qRTC‚ğƒ_ƒCƒAƒOƒ‰ƒ€‚©‚çÁ‚·
+		// å­RTCã‚’ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã‹ã‚‰æ¶ˆã™
 		parent.removeComponents(target.getComponents());
 		
-		// qRTC‚Ìƒ|[ƒg‚É‚Â‚È‚ª‚Á‚Ä‚¢‚½Ú‘±‚ğÁ‚·
+		// å­RTCã®ãƒãƒ¼ãƒˆã«ã¤ãªãŒã£ã¦ã„ãŸæ¥ç¶šã‚’æ¶ˆã™
 		removeConnections(target.getComponents());
 		
-		// •¡‡ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğƒ_ƒCƒAƒOƒ‰ƒ€‚É’Ç‰Á‚·‚é
+		// è¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã«è¿½åŠ ã™ã‚‹
 		parent.addComponent(target);
 	}
 
@@ -58,7 +58,7 @@ public class CombineCommand extends Command {
 		Component parentCompositeComponent = parent.getCompositeComponent();
 		if (parentCompositeComponent == null) return;
 		
-		// ƒT[ƒo‚É‘Î‚µ‚ÄAset_members‚ğŒÄ‚Ño‚·
+		// ã‚µãƒ¼ãƒã«å¯¾ã—ã¦ã€set_membersã‚’å‘¼ã³å‡ºã™
 		parentCompositeComponent.setComponentsR(getTargets());
 	}
 
@@ -73,20 +73,20 @@ public class CombineCommand extends Command {
 	}
 
 	/**
-	 * e‚Æ‚È‚éƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€‚ğİ’è‚·‚é
+	 * è¦ªã¨ãªã‚‹ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã‚’è¨­å®šã™ã‚‹
 	 * 
 	 * @param parent
-	 *            e‚Æ‚È‚éƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€
+	 *            è¦ªã¨ãªã‚‹ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ 
 	 */
 	public void setParent(SystemDiagram parent) {
 		this.parent = parent;
 	}
 
 	/**
-	 * •¡‡ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğİ’è‚·‚é
+	 * è¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’è¨­å®šã™ã‚‹
 	 * 
 	 * @param target
-	 *            •¡‡ƒRƒ“ƒ|[ƒlƒ“ƒg
+	 *            è¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 	 */
 	public void setTarget(Component target) {
 		this.target = target;

@@ -69,14 +69,14 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 
 /**
- * ConfigurationView‚ğ’è‹`‚·‚éƒNƒ‰ƒX
+ * ConfigurationViewã‚’å®šç¾©ã™ã‚‹ã‚¯ãƒ©ã‚¹
  * <p>
- * Applyƒ{ƒ^ƒ“‰Ÿ‰º‚Ü‚Å‚ÍAC³‚Ì“K—p‚Í•Û—¯‚³‚êA•ÏX‚³‚ê‚½êŠ‚ÍF‚ª‚Â‚¢‚Ä•\¦‚³‚ê‚éB
- * NameValue‚Ì’l‚Ì•ÒW‚ª‚Å‚«‚é‚Ì‚ÍStirngƒNƒ‰ƒX‚Ì‚İ‚Å‚ ‚èA‚»‚êˆÈŠO‚ÌƒIƒuƒWƒFƒNƒg‚ªŠÜ‚Ü‚ê‚Ä‚¢‚½ê‡‚É‚ÍA•ÒW‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢iíœ‚Í‰Â”\j
+ * Applyãƒœã‚¿ãƒ³æŠ¼ä¸‹ã¾ã§ã¯ã€ä¿®æ­£ã®é©ç”¨ã¯ä¿ç•™ã•ã‚Œã€å¤‰æ›´ã•ã‚ŒãŸå ´æ‰€ã¯è‰²ãŒã¤ã„ã¦è¡¨ç¤ºã•ã‚Œã‚‹ã€‚
+ * NameValueã®å€¤ã®ç·¨é›†ãŒã§ãã‚‹ã®ã¯Stirngã‚¯ãƒ©ã‚¹ã®ã¿ã§ã‚ã‚Šã€ãã‚Œä»¥å¤–ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå«ã¾ã‚Œã¦ã„ãŸå ´åˆã«ã¯ã€ç·¨é›†ã™ã‚‹ã“ã¨ã¯ã§ããªã„ï¼ˆå‰Šé™¤ã¯å¯èƒ½ï¼‰
  */
 public class ConfigurationView extends ViewPart {
 	
-	/** •ÒWƒ{ƒ^ƒ“‰Ÿ‰º‚ÉŒÄ‚Ño‚³‚ê‚éƒŠƒXƒi[ */
+	/** ç·¨é›†ãƒœã‚¿ãƒ³æŠ¼ä¸‹æ™‚ã«å‘¼ã³å‡ºã•ã‚Œã‚‹ãƒªã‚¹ãƒŠãƒ¼ */
 	public static class EditSelectionAdapter implements SelectionListener {
 
 		private ConfigurationView configurationView;
@@ -85,15 +85,19 @@ public class ConfigurationView extends ViewPart {
 			this.configurationView = configurationView;
 		}
 
-		@Override
+//		@Override
 		public void widgetDefaultSelected(SelectionEvent e) {
 		}
 
-		@Override
+//		@Override
 		public void widgetSelected(SelectionEvent e) {
 			ConfigurationDialog dialog = new ConfigurationDialog(
 					configurationView);
 			if (dialog.open() == IDialogConstants.OK_ID) {
+				// ConfigurationDialogå†…ã§applyã‚’å®Ÿè¡Œã™ã‚‹ 2009.11.16
+//				if (dialog.isApply()) {
+//					applyConfiguration();
+//				}
 				configurationView.refreshData();
 			}
 		}
@@ -136,6 +140,7 @@ public class ConfigurationView extends ViewPart {
 
 	private Button addConfigurationSetButton;
 
+	// ConfigSetã®ã‚³ãƒ”ãƒ¼ãƒœã‚¿ãƒ³ 2008.12.17
 	private Button copyConfigurationSetButton;
 
 	private Button deleteConfigurationSetButton;
@@ -230,7 +235,7 @@ public class ConfigurationView extends ViewPart {
 	}
 
 	/**
-	 * Configuration‚Ì•ÏX‚ğ”½‰f‚µ‚Ü‚·B
+	 * Configurationã®å¤‰æ›´ã‚’åæ˜ ã—ã¾ã™ã€‚
 	 */
 	public void applyConfiguration(boolean first) {
 		if (first && !confirmActiveApply()) return;
@@ -271,7 +276,7 @@ public class ConfigurationView extends ViewPart {
 		leftTable.setSelection(selectionIndex);
 	}
 
-	/** Active‚ÈRTC‚ÌƒRƒ“ƒtƒBƒO‚ğ•ÏX‚·‚é‚©‚ğŠm”F‚·‚é */
+	/** ActiveãªRTCã®ã‚³ãƒ³ãƒ•ã‚£ã‚°ã‚’å¤‰æ›´ã™ã‚‹ã‹ã‚’ç¢ºèªã™ã‚‹ */
 	public boolean confirmActiveApply() {
 		if (targetComponent instanceof CorbaComponent) {
 			if (((CorbaComponent) targetComponent).getComponentState() == ExecutionContext.RTC_ACTIVE
@@ -294,7 +299,7 @@ public class ConfigurationView extends ViewPart {
 	}
 
 	/**
-	 * ƒAƒNƒeƒBƒu‚ÈƒRƒ“ƒtƒBƒOƒŒ[ƒVƒ‡ƒ“‚ğC³‚µ‚½‚©‚Ç‚¤‚©
+	 * ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãªã‚³ãƒ³ãƒ•ã‚£ã‚°ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ä¿®æ­£ã—ãŸã‹ã©ã†ã‹
 	 * 
 	 * @return
 	 */
@@ -325,7 +330,7 @@ public class ConfigurationView extends ViewPart {
 	}
 
 	/**
-	 * •ÒWŒã‚ÌV‚µ‚¢ConfigurationSet‚ğì¬‚·‚éB
+	 * ç·¨é›†å¾Œã®æ–°ã—ã„ConfigurationSetã‚’ä½œæˆã™ã‚‹ã€‚
 	 * <p>
 	 * 
 	 * @param copiedComponent
@@ -450,6 +455,7 @@ public class ConfigurationView extends ViewPart {
 		gd.horizontalAlignment = SWT.FILL;
 		buttonCompsite.setLayoutData(gd);
 
+		// Copyãƒœã‚¿ãƒ³ã®è¿½åŠ  2008.12.17
 		createCopyConfigurationSetButton(buttonCompsite);
 		
 		addConfigurationSetButton = new Button(buttonCompsite, SWT.NONE);
@@ -470,11 +476,11 @@ public class ConfigurationView extends ViewPart {
 
 				copiedComponent.addConfigurationSet(csw);
 
-				if (copiedComponent.getConfigurationSetList().size() == 1) { // ƒRƒ“ƒtƒBƒOƒŒ[ƒVƒ‡ƒ“ƒZƒbƒg‚ª’Ç‰Á‚µ‚½‚P‚Â‚µ‚©‚È‚¢ê‡‚É‚ÍA‚»‚ê‚ğƒAƒNƒeƒBƒu‚É‚·‚éB
+				if (copiedComponent.getConfigurationSetList().size() == 1) { // ã‚³ãƒ³ãƒ•ã‚£ã‚°ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã‚»ãƒƒãƒˆãŒè¿½åŠ ã—ãŸï¼‘ã¤ã—ã‹ãªã„å ´åˆã«ã¯ã€ãã‚Œã‚’ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã«ã™ã‚‹ã€‚
 					copiedComponent.setActiveConfigSet(csw);
 				}
 
-				// ƒfƒtƒHƒ‹ƒg‚Ìwidget‚Æ§–ñğŒ‚©‚çNVListì¬
+				// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®widgetã¨åˆ¶ç´„æ¡ä»¶ã‹ã‚‰NVListä½œæˆ
 				List<NamedValueConfigurationWrapper> nvlist = csw.getNamedValueList();
 				for (String key : copiedComponent.getDefaultNameSet()) {
 					NamedValueConfigurationWrapper nvw = new NamedValueConfigurationWrapper(key, Messages.getString("ConfigurationView.21"));
@@ -535,7 +541,7 @@ public class ConfigurationView extends ViewPart {
 							}
 
 							refreshLeftData();
-							leftTableViewer.refresh(); // Active‚ÈConfigurationSet‚ğíœ‚·‚éê‡‚É•K—v
+							leftTableViewer.refresh(); // ActiveãªConfigurationSetã‚’å‰Šé™¤ã™ã‚‹å ´åˆã«å¿…è¦
 
 							if (leftTable.getItemCount() >= 1) {
 								leftTable.forceFocus();
@@ -555,6 +561,7 @@ public class ConfigurationView extends ViewPart {
 				});
 	}
 
+	//	 Copyãƒœã‚¿ãƒ³ã®è¿½åŠ  2008.12.17
 	private void createCopyConfigurationSetButton(Composite buttonCompsite) {
 		copyConfigurationSetButton = new Button(buttonCompsite, SWT.NONE);
 		copyConfigurationSetButton.setText(Messages.getString("ConfigurationView.23")); //$NON-NLS-1$
@@ -576,7 +583,7 @@ public class ConfigurationView extends ViewPart {
 
 				copiedComponent.addConfigurationSet(csw);
 
-				// ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒRƒ“ƒtƒBƒOƒZƒbƒg‚Ìİ’è’l‚ğ‚»‚Ì‚Ü‚ÜƒRƒs[
+				// é¸æŠã•ã‚Œã¦ã„ã‚‹ã‚³ãƒ³ãƒ•ã‚£ã‚°ã‚»ãƒƒãƒˆã®è¨­å®šå€¤ã‚’ãã®ã¾ã¾ã‚³ãƒ”ãƒ¼
 				List<NamedValueConfigurationWrapper> nvlist = csw.getNamedValueList();
 				ConfigurationSetConfigurationWrapper currentConfugurationSet = copiedComponent.getConfigurationSetList().get(
 						leftTable.getSelectionIndex());
@@ -836,7 +843,7 @@ public class ConfigurationView extends ViewPart {
 	}
 
 	/**
-	 * ‘I‘ğ‚ğŠÄ‹‚·‚éƒŠƒXƒi
+	 * é¸æŠã‚’ç›£è¦–ã™ã‚‹ãƒªã‚¹ãƒŠ
 	 */
 	private ISelectionListener selectionListener = new ISelectionListener() {
 		public void selectionChanged(IWorkbenchPart part, ISelection selection) {
@@ -910,6 +917,7 @@ public class ConfigurationView extends ViewPart {
 		updateDeleteConfigurationSetButtonEnable();
 	}
 
+	// ConfigSetã®Deleteãƒœã‚¿ãƒ³ã¨Copyãƒœã‚¿ãƒ³ã®enableå±æ€§ã¯åŒã˜ 2008.12.17
 	private void updateDeleteConfigurationSetButtonEnable() {
 		boolean deleteConfigurationSetEnabled = (leftTable.getSelectionIndex() != -1) ;
 
@@ -966,7 +974,7 @@ public class ConfigurationView extends ViewPart {
 	}
 
 	/**
-	 * ConfigurationView‚Ì“à•”ƒ‚ƒfƒ‹‚Å‚ ‚éComponentConfigurationWrapper‚ğì¬‚·‚é
+	 * ConfigurationViewã®å†…éƒ¨ãƒ¢ãƒ‡ãƒ«ã§ã‚ã‚‹ComponentConfigurationWrapperã‚’ä½œæˆã™ã‚‹
 	 */
 	public ComponentConfigurationWrapper createConfigurationWrapper(
 			Component target) {
@@ -1008,7 +1016,7 @@ public class ConfigurationView extends ViewPart {
 
 
 	/**
-	 * ¶ƒe[ƒuƒ‹‚ÌCellModifierƒNƒ‰ƒX
+	 * å·¦ãƒ†ãƒ¼ãƒ–ãƒ«ã®CellModifierã‚¯ãƒ©ã‚¹
 	 */
 	public class LeftTableCellModifier implements ICellModifier {
 		private TableViewer viewer;
@@ -1071,7 +1079,7 @@ public class ConfigurationView extends ViewPart {
 	}
 
 	/**
-	 * ‰Eƒe[ƒuƒ‹‚ÌCellModifierƒNƒ‰ƒX
+	 * å³ãƒ†ãƒ¼ãƒ–ãƒ«ã®CellModifierã‚¯ãƒ©ã‚¹
 	 */
 	public class RightTableCellModifier implements ICellModifier {
 		private TableViewer viewer;
@@ -1144,7 +1152,7 @@ public class ConfigurationView extends ViewPart {
 	}
 
 	/**
-	 * LabelProviderƒNƒ‰ƒX
+	 * LabelProviderã‚¯ãƒ©ã‚¹
 	 */
 	public class ConfigSetLabelProvider extends LabelProvider implements
 			ITableLabelProvider, ITableColorProvider {
@@ -1208,7 +1216,7 @@ public class ConfigurationView extends ViewPart {
 	}
 
 	/**
-	 * LabelProviderƒNƒ‰ƒX
+	 * LabelProviderã‚¯ãƒ©ã‚¹
 	 */
 	public class MapEntryLabelProvider extends LabelProvider implements
 			ITableLabelProvider, ITableColorProvider {
@@ -1260,7 +1268,7 @@ public class ConfigurationView extends ViewPart {
 		return result;
 	}
 
-	/**@•ÒW—p‚ÌƒRƒ“ƒtƒBƒO‚ğ•Ô‚· */
+	/**ã€€ç·¨é›†ç”¨ã®ã‚³ãƒ³ãƒ•ã‚£ã‚°ã‚’è¿”ã™ */
 	public ComponentConfigurationWrapper getComponentConfig() {
 		return  copiedComponent;
 	}

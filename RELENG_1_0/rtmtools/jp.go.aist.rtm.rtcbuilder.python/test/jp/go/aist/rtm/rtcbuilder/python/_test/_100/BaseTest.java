@@ -14,19 +14,31 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython;
 import jp.go.aist.rtm.rtcbuilder.python._test.TestBase;
+import jp.go.aist.rtm.rtcbuilder.python.manager.PythonCMakeGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.python.manager.PythonGenerateManager;
 
 public class BaseTest extends TestBase {
 
-	protected void setUp() throws Exception {
-	}
+	Generator generator;
+	GeneratorParam genParam;
+	RtcParam rtcParam;
 
-	public void testServicePort2() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
+	protected void setUp() throws Exception {
+		genParam = new GeneratorParam();
+		rtcParam = new RtcParam(genParam, true);
+		rtcParam.setOutputProject(rootPath + "/resource/work");
 		rtcParam.setLanguage(IRtcBuilderConstantsPython.LANG_PYTHON);
 		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
+		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
+		rtcParam.setIsTest(true);
+		genParam.getRtcParams().add(rtcParam);
+
+		generator = new Generator();
+		generator.addGenerateManager(new PythonGenerateManager());
+		generator.addGenerateManager(new PythonCMakeGenerateManager());
+	}
+
+	public void testServicePort2() throws Exception {
 		rtcParam.setName("foo");
 		rtcParam.setDescription("MDesc");
 		rtcParam.setVersion("1.0.1");
@@ -36,66 +48,49 @@ public class BaseTest extends TestBase {
 		rtcParam.setComponentKind("DataFlowComponent");
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
-		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
 
-		genParam.getRtcParams().add(rtcParam);
-		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
+		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
 		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
 		rtcParam.getInports().addAll(dataport);
-		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
+		List<DataPortParam> outport = new ArrayList<DataPortParam>();
 		outport.add(new DataPortParam("OutP1", "RTC::TimedLong", "", 0));
 		outport.add(new DataPortParam("OutP2", "RTC::TimedFloat", "", 0));
 		rtcParam.getOutports().addAll(outport);
 
-		ServicePortParam service1 = new ServicePortParam("svPort",0);
-		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
-		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
-				rootPath + "\\resource\\MyService.idl", "MyService", "", 0);
+		ServicePortParam service1 = new ServicePortParam("svPort", 0);
+		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>();
+		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(
+				service1, "acc", "", "", rootPath + "/resource/MyService.idl",
+				"MyService", "", 0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
-		
-		ServicePortParam service2 = new ServicePortParam("cmPort",0);
-		List<ServicePortInterfaceParam> srvinterts2 = new ArrayList<ServicePortInterfaceParam>(); 
-		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service2, "rate", "", "", 
-				rootPath + "\\resource\\DAQService.idl", "DAQService", "", 1);
+
+		ServicePortParam service2 = new ServicePortParam("cmPort", 0);
+		List<ServicePortInterfaceParam> srvinterts2 = new ArrayList<ServicePortInterfaceParam>();
+		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(
+				service2, "rate", "", "",
+				rootPath + "/resource/DAQService.idl", "DAQService", "", 1);
 		srvinterts2.add(int2);
 		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
-		
+
 		rtcParam.getServicePorts().addAll(srvports);
 
-		Generator generator = new Generator();
-		GenerateManager manager = new PythonGenerateManager();
-		generator.addGenerateManager(manager);
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "\\resource\\Python\\100\\service2\\";
+		String resourceDir = rootPath + "/resource/100/base/service2/";
 
-		assertEquals(5, result.size());
+		assertEquals(14, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
-//		checkCode(result, resourceDir, "MyService_idl.py");
-//		checkCode(result, resourceDir, "DAQService_idl.py");
-//		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
-//		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
 	}
 
-	public void testServicePort1() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsPython.LANG_PYTHON);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
+	public void testServicePort1() throws Exception {
 		rtcParam.setName("foo");
 		rtcParam.setDescription("MDesc");
 		rtcParam.setVersion("1.0.1");
@@ -105,56 +100,39 @@ public class BaseTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setComponentKind("DataFlowComponent");
 		rtcParam.setMaxInstance(5);
-		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
-		genParam.getRtcParams().add(rtcParam);
 
-		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
+		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
 		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
 		rtcParam.getInports().addAll(dataport);
-		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
+		List<DataPortParam> outport = new ArrayList<DataPortParam>();
 		outport.add(new DataPortParam("OutP1", "RTC::TimedLong", "", 0));
 		outport.add(new DataPortParam("OutP2", "RTC::TimedFloat", "", 0));
 		rtcParam.getOutports().addAll(outport);
 
-		ServicePortParam service1 = new ServicePortParam("svPort",0);
-		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
-		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
-				rootPath + "\\resource\\MyService.idl", "MyService", "", 0);
+		ServicePortParam service1 = new ServicePortParam("svPort", 0);
+		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>();
+		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(
+				service1, "acc", "", "", rootPath + "/resource/MyService.idl",
+				"MyService", "", 0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 		rtcParam.getServicePorts().addAll(srvports);
-		
-		Generator generator = new Generator();
-		GenerateManager manager = new PythonGenerateManager();
-		generator.addGenerateManager(manager);
+
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "\\resource\\Python\\100\\service1\\";
+		String resourceDir = rootPath + "/resource/100/base/service1/";
 
-		assertEquals(5, result.size());
+		assertEquals(14, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
-//		checkCode(result, resourceDir, "MyService_idl.py");
-//		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
-//		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
 	}
 
-	public void testOutPort2() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsPython.LANG_PYTHON);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
+	public void testOutPort2() throws Exception {
 		rtcParam.setName("foo");
 		rtcParam.setDescription("MDesc");
 		rtcParam.setVersion("1.0.1");
@@ -164,39 +142,25 @@ public class BaseTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setComponentKind("DataFlowComponent");
 		rtcParam.setMaxInstance(5);
-		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
-		genParam.getRtcParams().add(rtcParam);
-		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
+
+		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
 		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
 		rtcParam.getInports().addAll(dataport);
-		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
+		List<DataPortParam> outport = new ArrayList<DataPortParam>();
 		outport.add(new DataPortParam("OutP1", "RTC::TimedLong", "", 0));
 		outport.add(new DataPortParam("OutP2", "RTC::TimedFloat", "", 0));
 		rtcParam.getOutports().addAll(outport);
-		
-		Generator generator = new Generator();
-		GenerateManager manager = new PythonGenerateManager();
-		generator.addGenerateManager(manager);
+
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "\\resource\\Python\\100\\outport2\\";
+		String resourceDir = rootPath + "/resource/100/base/outport2/";
 
-		assertEquals(2, result.size());
+		assertEquals(11, result.size());
 		checkCode(result, resourceDir, "foo.py");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
 	}
 
-	public void testOutPort1() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsPython.LANG_PYTHON);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
+	public void testOutPort1() throws Exception {
 		rtcParam.setName("foo");
 		rtcParam.setDescription("MDesc");
 		rtcParam.setVersion("1.0.1");
@@ -206,38 +170,24 @@ public class BaseTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setComponentKind("DataFlowComponent");
 		rtcParam.setMaxInstance(5);
-		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
-		genParam.getRtcParams().add(rtcParam);
-		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
+
+		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
 		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
 		rtcParam.getInports().addAll(dataport);
-		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
+		List<DataPortParam> outport = new ArrayList<DataPortParam>();
 		outport.add(new DataPortParam("OutP1", "RTC::TimedLong", "", 0));
 		rtcParam.getOutports().addAll(outport);
-		
-		Generator generator = new Generator();
-		GenerateManager manager = new PythonGenerateManager();
-		generator.addGenerateManager(manager);
+
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "\\resource\\Python\\100\\outport1\\";
+		String resourceDir = rootPath + "/resource/100/base/outport1/";
 
-		assertEquals(2, result.size());
+		assertEquals(11, result.size());
 		checkCode(result, resourceDir, "foo.py");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
 	}
 
-	public void testInPort2() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsPython.LANG_PYTHON);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
+	public void testInPort2() throws Exception {
 		rtcParam.setName("foo");
 		rtcParam.setDescription("MDesc");
 		rtcParam.setVersion("1.0.1");
@@ -247,35 +197,21 @@ public class BaseTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setComponentKind("DataFlowComponent");
 		rtcParam.setMaxInstance(5);
-		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
-		genParam.getRtcParams().add(rtcParam);
-		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
+
+		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
 		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
 		rtcParam.getInports().addAll(dataport);
-		
-		Generator generator = new Generator();
-		GenerateManager manager = new PythonGenerateManager();
-		generator.addGenerateManager(manager);
+
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "\\resource\\Python\\100\\inport2\\";
+		String resourceDir = rootPath + "/resource/100/base/inport2/";
 
-		assertEquals(2, result.size());
+		assertEquals(11, result.size());
 		checkCode(result, resourceDir, "foo.py");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
 	}
 
-	public void testInPort() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsPython.LANG_PYTHON);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
+	public void testInPort() throws Exception {
 		rtcParam.setName("foo");
 		rtcParam.setDescription("MDesc");
 		rtcParam.setVersion("1.0.1");
@@ -285,34 +221,20 @@ public class BaseTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setComponentKind("DataFlowComponent");
 		rtcParam.setMaxInstance(5);
-		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
-		genParam.getRtcParams().add(rtcParam);
-		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
+
+		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
 		rtcParam.getInports().addAll(dataport);
-		
-		Generator generator = new Generator();
-		GenerateManager manager = new PythonGenerateManager();
-		generator.addGenerateManager(manager);
+
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "\\resource\\Python\\100\\inport1\\";
+		String resourceDir = rootPath + "/resource/100/base/inport1/";
 
-		assertEquals(2, result.size());
+		assertEquals(11, result.size());
 		checkCode(result, resourceDir, "foo.py");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
 	}
 
-	public void testName2() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsPython.LANG_PYTHON);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
+	public void testName2() throws Exception {
 		rtcParam.setName("Foo");
 		rtcParam.setDescription("MDesc");
 		rtcParam.setVersion("1.0.1");
@@ -322,31 +244,16 @@ public class BaseTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setComponentKind("DataFlowComponent");
 		rtcParam.setMaxInstance(5);
-		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
-		genParam.getRtcParams().add(rtcParam);
-		
-		Generator generator = new Generator();
-		GenerateManager manager = new PythonGenerateManager();
-		generator.addGenerateManager(manager);
+
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "\\resource\\Python\\100\\name2\\";
+		String resourceDir = rootPath + "/resource/100/base/name2/";
 
-		assertEquals(2, result.size());
+		assertEquals(11, result.size());
 		checkCode(result, resourceDir, "Foo.py");
-		try {
-			checkCode(result, resourceDir, "README.Foo");
-			fail();
-		} catch(Exception ex) {
-		}
 	}
-	
-	public void testBasic() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstantsPython.LANG_PYTHON);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
+
+	public void testBasic() throws Exception {
 		rtcParam.setName("foo");
 		rtcParam.setDescription("MDesc");
 		rtcParam.setVersion("1.0.1");
@@ -356,22 +263,16 @@ public class BaseTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setComponentKind("DataFlowComponent");
 		rtcParam.setMaxInstance(5);
-		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
-		genParam.getRtcParams().add(rtcParam);
-		
+
 		Generator generator = new Generator();
 		GenerateManager manager = new PythonGenerateManager();
 		generator.addGenerateManager(manager);
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "\\resource\\Python\\100\\name\\";
+		String resourceDir = rootPath + "/resource/100/base/name/";
 
 		assertEquals(2, result.size());
 		checkCode(result, resourceDir, "foo.py");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
 	}
+
 }

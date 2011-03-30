@@ -1,6 +1,7 @@
 package jp.go.aist.rtm.systemeditor.ui.views.configurationview.mock;
 
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
+import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 import jp.go.aist.rtm.toolscommon.model.core.Rectangle;
 import jp.go.aist.rtm.toolscommon.model.core.Visiter;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSupport;
@@ -18,9 +19,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 public class ConfigurationSetMock implements ConfigurationSet {
 
 	public String id;
-	public BasicEList configurationData = new BasicEList();
+	public BasicEList<NameValue> configurationData = new BasicEList<NameValue>();
 
-	public EList getConfigurationData() {
+	@Override
+	public EList<NameValue> getConfigurationData() {
 		return this.configurationData;
 	}
 
@@ -28,21 +30,11 @@ public class ConfigurationSetMock implements ConfigurationSet {
 		return this.id;
 	}
 
-	public _SDOPackage.ConfigurationSet getSDOConfigurationSet() {
-		return null;
-	}
-
 	public void setId(String value) {
 		this.id = value;
 	}
 
-	public void setSDOConfigurationSet(_SDOPackage.ConfigurationSet value) {
-	}
-
 	public void accept(Visiter visiter) {
-	}
-
-	public void dispose() {
 	}
 
 	public Rectangle getConstraint() {

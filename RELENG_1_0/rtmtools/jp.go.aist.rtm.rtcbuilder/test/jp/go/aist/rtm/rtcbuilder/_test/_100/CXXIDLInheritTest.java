@@ -24,7 +24,7 @@ public class CXXIDLInheritTest extends TestBase {
 		genParam = new GeneratorParam();
 		rtcParam = new RtcParam(genParam, true);
 
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
+		rtcParam.setOutputProject(rootPath + "/resource/work");
 		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
 		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
 		rtcParam.setName("foo");
@@ -44,11 +44,11 @@ public class CXXIDLInheritTest extends TestBase {
 	}
 
 	String fixturePath(String name) {
-		return rootPath + "resource\\100\\CXX\\" + name;
+		return rootPath + "resource/100/CXX/" + name;
 	}
 
 	public void testInherit1() throws Exception {
-		String name = "inherit1";
+		String name = "idlinherit/inherit1";
 
 		List<ServicePortParam> svports = new ArrayList<ServicePortParam>();
 
@@ -56,7 +56,7 @@ public class CXXIDLInheritTest extends TestBase {
 		List<ServicePortInterfaceParam> iflist = new ArrayList<ServicePortInterfaceParam>();
 		ServicePortInterfaceParam sif1 = new ServicePortInterfaceParam(sv1,
 				"MyServiceProvider", "", "", fixturePath(name)
-						+ "\\MyServiceChildMulti.idl", "MyServiceChild",
+						+ "/MyServiceChildMulti.idl", "MyServiceChild",
 				fixturePath(name), 0);
 		iflist.add(sif1);
 		sv1.getServicePortInterfaces().addAll(iflist);
@@ -66,7 +66,7 @@ public class CXXIDLInheritTest extends TestBase {
 		iflist = new ArrayList<ServicePortInterfaceParam>();
 		ServicePortInterfaceParam sif2 = new ServicePortInterfaceParam(sv2,
 				"MyServiceRequire", "", "", fixturePath(name)
-						+ "\\MyServiceChildMulti.idl", "MyServiceChild",
+						+ "/MyServiceChildMulti.idl", "MyServiceChild",
 				fixturePath(name), 1);
 		iflist.add(sif2);
 		sv2.getServicePortInterfaces().addAll(iflist);
@@ -76,7 +76,7 @@ public class CXXIDLInheritTest extends TestBase {
 
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = fixturePath(name) + "\\";
+		String resourceDir = fixturePath(name) + "/";
 
 		assertEquals(15, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
@@ -84,26 +84,10 @@ public class CXXIDLInheritTest extends TestBase {
 		checkCode(result, resourceDir, "foo.cpp");
 		checkCode(result, resourceDir, "MyServiceChildMultiSVC_impl.h");
 		checkCode(result, resourceDir, "MyServiceChildMultiSVC_impl.cpp");
-		checkCode(result, resourceDir, "Makefile.foo");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
-		//
-		checkCode(result, resourceDir, "foo_vc8.sln");
-		checkCode(result, resourceDir, "foo_vc8.vcproj");
-		checkCode(result, resourceDir, "fooComp_vc8.vcproj");
-		checkCode(result, resourceDir, "foo_vc9.sln");
-		checkCode(result, resourceDir, "foo_vc9.vcproj");
-		checkCode(result, resourceDir, "fooComp_vc9.vcproj");
-		//
-		checkCode(result, resourceDir, "copyprops.bat");
-		checkCode(result, resourceDir, "user_config.vsprops");
 	}
 
 	public void testInherit2() throws Exception {
-		String name = "inherit2";
+		String name = "idlinherit/inherit2";
 
 		List<ServicePortParam> svports = new ArrayList<ServicePortParam>();
 
@@ -111,12 +95,12 @@ public class CXXIDLInheritTest extends TestBase {
 		List<ServicePortInterfaceParam> iflist = new ArrayList<ServicePortInterfaceParam>();
 		ServicePortInterfaceParam sif1 = new ServicePortInterfaceParam(sv1,
 				"MyServiceProvider", "", "", fixturePath(name)
-						+ "\\MyServiceChildMulti.idl", "MyServiceChild",
+						+ "/MyServiceChildMulti.idl", "MyServiceChild",
 				fixturePath(name), 0);
 		iflist.add(sif1);
 		ServicePortInterfaceParam sif2 = new ServicePortInterfaceParam(sv1,
 				"MyServiceProvider2", "", "", fixturePath(name)
-						+ "\\MyServiceChildWithType.idl",
+						+ "/MyServiceChildWithType.idl",
 				"MyServiceWithTypeChild", fixturePath(name), 0);
 		iflist.add(sif2);
 		sv1.getServicePortInterfaces().addAll(iflist);
@@ -126,12 +110,12 @@ public class CXXIDLInheritTest extends TestBase {
 		iflist = new ArrayList<ServicePortInterfaceParam>();
 		ServicePortInterfaceParam sif3 = new ServicePortInterfaceParam(sv2,
 				"MyServiceRequire", "", "", fixturePath(name)
-						+ "\\MyServiceChildMulti.idl", "MyServiceChild",
+						+ "/MyServiceChildMulti.idl", "MyServiceChild",
 				fixturePath(name), 1);
 		iflist.add(sif3);
 		ServicePortInterfaceParam sif4 = new ServicePortInterfaceParam(sv2,
 				"MyServiceRequire2", "", "", fixturePath(name)
-						+ "\\MyServiceChildWithType.idl",
+						+ "/MyServiceChildWithType.idl",
 				"MyServiceWithTypeChild", fixturePath(name), 1);
 		iflist.add(sif4);
 		sv2.getServicePortInterfaces().addAll(iflist);
@@ -141,7 +125,7 @@ public class CXXIDLInheritTest extends TestBase {
 
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = fixturePath(name) + "\\";
+		String resourceDir = fixturePath(name) + "/";
 
 		assertEquals(17, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
@@ -151,22 +135,6 @@ public class CXXIDLInheritTest extends TestBase {
 		checkCode(result, resourceDir, "MyServiceChildMultiSVC_impl.cpp");
 		checkCode(result, resourceDir, "MyServiceChildWithTypeSVC_impl.h");
 		checkCode(result, resourceDir, "MyServiceChildWithTypeSVC_impl.cpp");
-		checkCode(result, resourceDir, "Makefile.foo");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
-		//
-		checkCode(result, resourceDir, "foo_vc8.sln");
-		checkCode(result, resourceDir, "foo_vc8.vcproj");
-		checkCode(result, resourceDir, "fooComp_vc8.vcproj");
-		checkCode(result, resourceDir, "foo_vc9.sln");
-		checkCode(result, resourceDir, "foo_vc9.vcproj");
-		checkCode(result, resourceDir, "fooComp_vc9.vcproj");
-		//
-		checkCode(result, resourceDir, "copyprops.bat");
-		checkCode(result, resourceDir, "user_config.vsprops");
 	}
 
 }

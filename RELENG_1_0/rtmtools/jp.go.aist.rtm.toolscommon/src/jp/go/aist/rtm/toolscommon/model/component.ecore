@@ -3,7 +3,7 @@
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="component"
     nsURI="http:///jp/go/aist/rtm/toolscommon/model/component.ecore" nsPrefix="jp.go.aist.rtm.toolscommon.model.component">
-  <eClassifiers xsi:type="ecore:EClass" name="SystemDiagram" eSuperTypes="core.ecore#//ModelElement">
+  <eClassifiers xsi:type="ecore:EClass" name="SystemDiagram" eSuperTypes="core.ecore#//ModelElement #//IPropertyMap">
     <eOperations name="setSynchronizeInterval">
       <eParameters name="milliSecond" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
     </eOperations>
@@ -23,7 +23,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="parentSystemDiagram" eType="#//SystemDiagram"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="compositeComponent" eType="#//Component"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Component" abstract="true" eSuperTypes="core.ecore#//WrapperObject">
+  <eClassifiers xsi:type="ecore:EClass" name="Component" abstract="true" eSuperTypes="core.ecore#//WrapperObject #//IPropertyMap">
     <eOperations name="getAllComponents" upperBound="-1" eType="#//Component"/>
     <eOperations name="isCompositeComponent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eOperations name="isGroupingCompositeComponent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
@@ -99,8 +99,9 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="aliasName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="specUnLoad" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rtcType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ExecutionContext" eSuperTypes="core.ecore#//WrapperObject">
+  <eClassifiers xsi:type="ecore:EClass" name="ExecutionContext" eSuperTypes="core.ecore#//WrapperObject #//IPropertyMap">
     <eOperations name="getKindName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eOperations name="getStateName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eOperations name="setRateR" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
@@ -119,10 +120,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="owner" eType="#//Component"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="participants" unique="false"
         upperBound="-1" eType="#//Component" resolveProxies="false"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
-        eType="#//NameValue" containment="true" resolveProxies="false"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ContextHandler">
+  <eClassifiers xsi:type="ecore:EClass" name="ContextHandler" eSuperTypes="core.ecore#//IAdaptable">
     <eOperations name="setContext" eType="#//ExecutionContext">
       <eParameters name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eParameters name="ec" eType="#//ExecutionContext"/>
@@ -143,6 +142,8 @@
     <eOperations name="values" eType="#//List"/>
     <eOperations name="keys" eType="#//List"/>
     <eOperations name="clear"/>
+    <eOperations name="getType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations name="getOwnerContexts" upperBound="-1" eType="#//ExecutionContext"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ConfigurationSet" eSuperTypes="core.ecore#//WrapperObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -194,7 +195,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="InPort" eSuperTypes="#//Port"/>
   <eClassifiers xsi:type="ecore:EClass" name="OutPort" eSuperTypes="#//Port"/>
   <eClassifiers xsi:type="ecore:EClass" name="ServicePort" eSuperTypes="#//Port"/>
-  <eClassifiers xsi:type="ecore:EClass" name="PortSynchronizer">
+  <eClassifiers xsi:type="ecore:EClass" name="PortSynchronizer" eSuperTypes="#//IPropertyMap">
     <eOperations name="disconnectAll"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="originalPortString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
@@ -209,18 +210,7 @@
         transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Port"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ConnectorProfile" eSuperTypes="core.ecore#//WrapperObject">
-    <eOperations name="getProperty" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
-      <eParameters name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </eOperations>
-    <eOperations name="setProperty">
-      <eParameters name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eParameters name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </eOperations>
-    <eOperations name="removeProperty" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
-      <eParameters name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </eOperations>
-    <eOperations name="getPropertyKeys" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConnectorProfile" eSuperTypes="core.ecore#//WrapperObject #//IPropertyMap">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataflowType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="subscriptionType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="subscriptionTypeAvailable"
@@ -265,9 +255,23 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType core.ecore#//Point"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IPropertyMap" abstract="true" interface="true">
+    <eOperations name="getProperty" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eParameters name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="setProperty">
+      <eParameters name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="removeProperty" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eParameters name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="getPropertyKeys" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="SDOConfiguration" instanceClassName="_SDOPackage.Configuration"/>
   <eClassifiers xsi:type="ecore:EDataType" name="SDOConfigurationSet" instanceClassName="_SDOPackage.ConfigurationSet"/>
   <eClassifiers xsi:type="ecore:EDataType" name="SDOOrganization" instanceClassName="_SDOPackage.Organization"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="SDOServiceProfile" instanceClassName="_SDOPackage.ServiceProfile"/>
   <eClassifiers xsi:type="ecore:EDataType" name="RTCRTObject" instanceClassName="RTC.RTObject"/>
   <eClassifiers xsi:type="ecore:EDataType" name="RTCComponentProfile" instanceClassName="RTC.ComponentProfile"/>
   <eClassifiers xsi:type="ecore:EDataType" name="RTCConnectorProfile" instanceClassName="RTC.ConnectorProfile"/>
@@ -295,7 +299,6 @@
         defaultValueLiteral="0"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="componentState" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         transient="true" defaultValueLiteral="1"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sDOConfiguration" eType="#//SDOConfiguration"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rTCComponentProfile" eType="#//RTCComponentProfile"
         transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rTCExecutionContexts" upperBound="-1"
@@ -303,9 +306,13 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rTCParticipationContexts"
         unique="false" upperBound="-1" eType="#//RTCExecutionContext" transient="true"
         defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sDOConfiguration" eType="#//SDOConfiguration"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="sDOOrganization" eType="#//SDOOrganization"
         defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rTCRTObjects" unique="false"
+        upperBound="-1" eType="#//RTCRTObject" transient="true" defaultValueLiteral=""/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ior" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statusObserver" eType="#//CorbaStatusObserver"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CorbaPortSynchronizer" eSuperTypes="core.ecore#//CorbaWrapperObject #//PortSynchronizer">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rTCPortProfile" eType="#//RTCPortProfile"/>
@@ -333,6 +340,13 @@
     <eOperations name="getComponentStateR" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
       <eParameters name="comp" eType="#//Component"/>
     </eOperations>
+    <eOperations name="getComponentState" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eParameters name="comp" eType="#//Component"/>
+    </eOperations>
+    <eOperations name="setComponentState">
+      <eParameters name="comp" eType="#//Component"/>
+      <eParameters name="state" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
     <eOperations name="getComponentStateName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eParameters name="comp" eType="#//Component"/>
     </eOperations>
@@ -340,4 +354,22 @@
         eType="#//RTCExecutionContextProfile"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CorbaContextHandler" eSuperTypes="#//ContextHandler"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CorbaObserver" eSuperTypes="#//IPropertyMap core.ecore#//IAdaptable">
+    <eOperations name="activate"/>
+    <eOperations name="deactivate"/>
+    <eOperations name="attachComponent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="component" eType="#//CorbaComponent"/>
+    </eOperations>
+    <eOperations name="detachComponent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="component" eType="#//CorbaComponent"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="serviceProfile" eType="#//SDOServiceProfile"
+        changeable="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="servant" eType="#//Servant"
+        changeable="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CorbaStatusObserver" eSuperTypes="#//CorbaObserver">
+    <eOperations name="isTimeOut" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Servant" instanceClassName="org.omg.PortableServer.Servant"/>
 </ecore:EPackage>

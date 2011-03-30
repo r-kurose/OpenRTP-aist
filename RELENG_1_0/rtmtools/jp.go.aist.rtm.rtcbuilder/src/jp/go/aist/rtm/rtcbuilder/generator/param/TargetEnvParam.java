@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 実行環境を表すクラス
+ * 螳溯｡檎腸蠅�繧定｡ｨ縺吶け繝ｩ繧ｹ
  */
 public class TargetEnvParam extends AbstractRecordedParam implements
 		Serializable {

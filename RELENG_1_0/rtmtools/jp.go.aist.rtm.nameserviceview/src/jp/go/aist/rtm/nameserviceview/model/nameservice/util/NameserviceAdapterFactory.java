@@ -6,13 +6,9 @@
  */
 package jp.go.aist.rtm.nameserviceview.model.nameservice.util;
 
-import jp.go.aist.rtm.nameserviceview.manager.NameServerContext;
-import jp.go.aist.rtm.nameserviceview.manager.Node;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NameservicePackage;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode;
+import jp.go.aist.rtm.nameserviceview.model.manager.NameServerContext;
+import jp.go.aist.rtm.nameserviceview.model.manager.Node;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.*;
 import jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject;
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
 import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
@@ -62,6 +58,7 @@ public class NameserviceAdapterFactory extends AdapterFactoryImpl {
 	 * @return whether this factory is applicable for the type of the object.
 	 * @generated
 	 */
+	@Override
 	public boolean isFactoryForType(Object object) {
 		if (object == modelPackage) {
 			return true;
@@ -73,50 +70,63 @@ public class NameserviceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * The switch the delegates to the <code>createXXX</code> methods.
+	 * The switch that delegates to the <code>createXXX</code> methods.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected NameserviceSwitch modelSwitch =
-		new NameserviceSwitch() {
-			public Object caseNamingContextNode(NamingContextNode object) {
+	protected NameserviceSwitch<Adapter> modelSwitch =
+		new NameserviceSwitch<Adapter>() {
+			@Override
+			public Adapter caseNamingContextNode(NamingContextNode object) {
 				return createNamingContextNodeAdapter();
 			}
-			public Object caseNamingObjectNode(NamingObjectNode object) {
+			@Override
+			public Adapter caseNamingObjectNode(NamingObjectNode object) {
 				return createNamingObjectNodeAdapter();
 			}
-			public Object caseCorbaNode(CorbaNode object) {
+			@Override
+			public Adapter caseCorbaNode(CorbaNode object) {
 				return createCorbaNodeAdapter();
 			}
-			public Object caseNamingContext(NamingContext object) {
+			@Override
+			public Adapter caseNamingContext(NamingContext object) {
 				return createNamingContextAdapter();
 			}
-			public Object caseNameServiceReference(NameServiceReference object) {
+			@Override
+			public Adapter caseNameServiceReference(NameServiceReference object) {
 				return createNameServiceReferenceAdapter();
 			}
-			public Object caseIAdaptable(IAdaptable object) {
+			@Override
+			public Adapter caseIAdaptable(IAdaptable object) {
 				return createIAdaptableAdapter();
 			}
-			public Object caseModelElement(ModelElement object) {
+			@Override
+			public Adapter caseModelElement(ModelElement object) {
 				return createModelElementAdapter();
 			}
-			public Object caseLocalObject(LocalObject object) {
+			@Override
+			public Adapter caseLocalObject(LocalObject object) {
 				return createLocalObjectAdapter();
 			}
-			public Object caseWrapperObject(WrapperObject object) {
+			@Override
+			public Adapter caseWrapperObject(WrapperObject object) {
 				return createWrapperObjectAdapter();
 			}
-			public Object caseCorbaWrapperObject(CorbaWrapperObject object) {
+			@Override
+			public Adapter caseCorbaWrapperObject(CorbaWrapperObject object) {
 				return createCorbaWrapperObjectAdapter();
 			}
-			public Object caseNode(Node object) {
+			@Override
+			public Adapter caseNode(Node object) {
 				return createNodeAdapter();
 			}
-			public Object caseNameServerContext(NameServerContext object) {
+			@Override
+			public Adapter caseNameServerContext(NameServerContext object) {
 				return createNameServerContextAdapter();
 			}
-			public Object defaultCase(EObject object) {
+			@Override
+			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
 		};
@@ -129,8 +139,9 @@ public class NameserviceAdapterFactory extends AdapterFactoryImpl {
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
 	 */
+	@Override
 	public Adapter createAdapter(Notifier target) {
-		return (Adapter)modelSwitch.doSwitch((EObject)target);
+		return modelSwitch.doSwitch((EObject)target);
 	}
 
 
@@ -177,13 +188,13 @@ public class NameserviceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.nameserviceview.manager.Node <em>Node</em>}'.
+	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.nameserviceview.model.manager.Node <em>Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see jp.go.aist.rtm.nameserviceview.manager.Node
+	 * @see jp.go.aist.rtm.nameserviceview.model.manager.Node
 	 * @generated
 	 */
 	public Adapter createNodeAdapter() {
@@ -289,13 +300,13 @@ public class NameserviceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.nameserviceview.manager.NameServerContext <em>Name Server Context</em>}'.
+	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.nameserviceview.model.manager.NameServerContext <em>Name Server Context</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see jp.go.aist.rtm.nameserviceview.manager.NameServerContext
+	 * @see jp.go.aist.rtm.nameserviceview.model.manager.NameServerContext
 	 * @generated
 	 */
 	public Adapter createNameServerContextAdapter() {

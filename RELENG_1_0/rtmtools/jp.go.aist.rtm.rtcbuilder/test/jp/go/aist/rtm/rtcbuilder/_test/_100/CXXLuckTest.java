@@ -14,15 +14,21 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
 
 public class CXXLuckTest extends TestBase {
 
-	protected void setUp() throws Exception {
-	}
+	RtcParam rtcParam;
+	GeneratorParam genParam;
 
-	public void testConsumerNoType() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
+	protected void setUp() throws Exception {
+		genParam = new GeneratorParam();
+		rtcParam = new RtcParam(genParam, true);
+		rtcParam.setOutputProject(rootPath + "/resource/work");
 		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
 		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
+		rtcParam.setRtmVersion("1.0.0");
+		rtcParam.setIsTest(true);
+		genParam.getRtcParams().add(rtcParam);
+	}
+
+	public void testConsumerNoType() throws Exception {
 		rtcParam.setName("foo");
 		rtcParam.setDescription("test module");
 		rtcParam.setVersion("1.0.1");
@@ -32,7 +38,7 @@ public class CXXLuckTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(2);
 		
-		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
+		List<DataPortParam> dataInport = new ArrayList<DataPortParam>();
 		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.getInports().addAll(dataInport);
 
@@ -43,7 +49,7 @@ public class CXXLuckTest extends TestBase {
 		ServicePortParam service1 = new ServicePortParam("MySVPro",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "myservice0", "", "", 
-				rootPath + "\\resource\\CXX\\Exception\\MyService.idl", "MyService", "", 0);
+				rootPath + "/resource/CXX/Exception/MyService.idl", "MyService", "", 0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
@@ -52,28 +58,22 @@ public class CXXLuckTest extends TestBase {
 		ServicePortParam service2 = new ServicePortParam("MyConPro",0);
 		List<ServicePortInterfaceParam> srvinterts2 = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service1, "myservice1", "", "", 
-				rootPath + "\\resource\\CXX\\Exception\\MyService.idl", "", "", 1);
+				rootPath + "/resource/CXX/Exception/MyService.idl", "", "", 1);
 		srvinterts2.add(int2);
 		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
 
 		rtcParam.getServicePorts().addAll(srvports);
-		genParam.getRtcParams().add(rtcParam);
 
 		Generator generator = new Generator();
 		try {
 			generator.generateTemplateCode(genParam);
 			fail();
-		} catch ( Exception ex ) {
+		} catch (Exception ex) {
 		}
 	}
 
-	public void testConsumerNoName() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
-		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
+	public void testConsumerNoName() throws Exception {
 		rtcParam.setName("foo");
 		rtcParam.setDescription("test module");
 		rtcParam.setVersion("1.0.1");
@@ -83,7 +83,7 @@ public class CXXLuckTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(2);
 		
-		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
+		List<DataPortParam> dataInport = new ArrayList<DataPortParam>();
 		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.getInports().addAll(dataInport);
 
@@ -94,7 +94,7 @@ public class CXXLuckTest extends TestBase {
 		ServicePortParam service1 = new ServicePortParam("MySVPro",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "myservice0", "", "", 
-				rootPath + "\\resource\\CXX\\Exception\\MyService.idl", "MyService", "", 0);
+				rootPath + "/resource/CXX/Exception/MyService.idl", "MyService", "", 0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
@@ -103,28 +103,22 @@ public class CXXLuckTest extends TestBase {
 		ServicePortParam service2 = new ServicePortParam("MyConPro",0);
 		List<ServicePortInterfaceParam> srvinterts2 = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service1, "", "", "", 
-				rootPath + "\\resource\\CXX\\Exception\\MyService.idl", "MyService", "", 1);
+				rootPath + "/resource/CXX/Exception/MyService.idl", "MyService", "", 1);
 		srvinterts2.add(int2);
 		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
 
 		rtcParam.getServicePorts().addAll(srvports);
-		genParam.getRtcParams().add(rtcParam);
 
 		Generator generator = new Generator();
 		try {
 			generator.generateTemplateCode(genParam);
 			fail();
-		} catch(Exception e) {
+		} catch (Exception e) {
 		}
 	}
 
-	public void testConsumerNoPortName() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
-		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
+	public void testConsumerNoPortName() throws Exception {
 		rtcParam.setName("foo");
 		rtcParam.setDescription("test module");
 		rtcParam.setVersion("1.0.1");
@@ -134,7 +128,7 @@ public class CXXLuckTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(2);
 		
-		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
+		List<DataPortParam> dataInport = new ArrayList<DataPortParam>();
 		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.getInports().addAll(dataInport);
 
@@ -145,37 +139,31 @@ public class CXXLuckTest extends TestBase {
 		ServicePortParam service1 = new ServicePortParam("MySVPro",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "myservice0", "", "", 
-				rootPath + "\\resource\\CXX\\Exception\\MyService.idl", "MyService", "", 0);
+				rootPath + "/resource/CXX/Exception/MyService.idl", "MyService", "", 0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
-		
+
 		ServicePortParam service2 = new ServicePortParam("",0);
 		List<ServicePortInterfaceParam> srvinterts2 = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service1, "myservice1", "", "", 
-				rootPath + "\\resource\\CXX\\Exception\\MyService.idl", "MyService", "", 1);
+				rootPath + "/resource/CXX/Exception/MyService.idl", "MyService", "", 1);
 		srvinterts2.add(int2);
 		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
 
 		rtcParam.getServicePorts().addAll(srvports);
-		genParam.getRtcParams().add(rtcParam);
 
 		Generator generator = new Generator();
 		try {
 			generator.generateTemplateCode(genParam);
 			fail();
-		} catch(Exception e) {
+		} catch (Exception e) {
 		}
 	}
 
-	public void testProviderNoType() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
-		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
+	public void testProviderNoType() throws Exception {
 		rtcParam.setName("foo");
 		rtcParam.setDescription("test module");
 		rtcParam.setVersion("1.0.1");
@@ -184,8 +172,8 @@ public class CXXLuckTest extends TestBase {
 		rtcParam.setComponentType("STATIC");
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(2);
-		
-		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
+
+		List<DataPortParam> dataInport = new ArrayList<DataPortParam>();
 		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.getInports().addAll(dataInport);
 
@@ -196,29 +184,22 @@ public class CXXLuckTest extends TestBase {
 		ServicePortParam service1 = new ServicePortParam("MySVPro",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "myservice0", "", "", 
-				rootPath + "\\resource\\CXX\\Exception\\MyService.idl", "", "", 0);
+				rootPath + "/resource/CXX/Exception/MyService.idl", "", "", 0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 		rtcParam.getServicePorts().addAll(srvports);
-		genParam.getRtcParams().add(rtcParam);
-		
+
 		Generator generator = new Generator();
 		try {
 			generator.generateTemplateCode(genParam);
 			fail();
-		} catch ( Exception ex ) {
+		} catch (Exception ex) {
 		}
-
 	}
 
-	public void testProviderNoName() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
-		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
+	public void testProviderNoName() throws Exception {
 		rtcParam.setName("foo");
 		rtcParam.setDescription("test module");
 		rtcParam.setVersion("1.0.1");
@@ -227,8 +208,8 @@ public class CXXLuckTest extends TestBase {
 		rtcParam.setComponentType("STATIC");
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(2);
-		
-		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
+
+		List<DataPortParam> dataInport = new ArrayList<DataPortParam>();
 		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.getInports().addAll(dataInport);
 
@@ -239,28 +220,22 @@ public class CXXLuckTest extends TestBase {
 		ServicePortParam service1 = new ServicePortParam("MySVPro",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "", "", "", 
-				rootPath + "\\resource\\CXX\\Exception\\MyService.idl", "MyService", "", 0);
+				rootPath + "/resource/CXX/Exception/MyService.idl", "MyService", "", 0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 		rtcParam.getServicePorts().addAll(srvports);
-		genParam.getRtcParams().add(rtcParam);
 
 		Generator generator = new Generator();
 		try {
 			generator.generateTemplateCode(genParam);
 			fail();
-		} catch(Exception e) {
+		} catch (Exception e) {
 		}
 	}
 
-	public void testProviderNoPortName() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
-		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
+	public void testProviderNoPortName() throws Exception {
 		rtcParam.setName("foo");
 		rtcParam.setDescription("test module");
 		rtcParam.setVersion("1.0.1");
@@ -269,8 +244,8 @@ public class CXXLuckTest extends TestBase {
 		rtcParam.setComponentType("STATIC");
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(2);
-		
-		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
+
+		List<DataPortParam> dataInport = new ArrayList<DataPortParam>();
 		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.getInports().addAll(dataInport);
 
@@ -281,28 +256,22 @@ public class CXXLuckTest extends TestBase {
 		ServicePortParam service1 = new ServicePortParam("",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "myservice0", "", "", 
-				rootPath + "\\resource\\CXX\\Exception\\MyService.idl", "MyService", "", 0);
+				rootPath + "/resource/CXX/Exception/MyService.idl", "MyService", "", 0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 		rtcParam.getServicePorts().addAll(srvports);
-		genParam.getRtcParams().add(rtcParam);
-		
+
 		Generator generator = new Generator();
 		try {
 			generator.generateTemplateCode(genParam);
 			fail();
-		} catch(Exception e) {
+		} catch (Exception e) {
 		}
 	}
 
-	public void testOutPortNoType() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
-		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
+	public void testOutPortNoType() throws Exception {
 		rtcParam.setName("foo");
 		rtcParam.setDescription("test module");
 		rtcParam.setVersion("1.0.1");
@@ -311,30 +280,24 @@ public class CXXLuckTest extends TestBase {
 		rtcParam.setComponentType("STATIC");
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(2);
-		genParam.getRtcParams().add(rtcParam);
-		
-		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
+
+		List<DataPortParam> dataInport = new ArrayList<DataPortParam>();
 		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.getInports().addAll(dataInport);
 
-		List<DataPortParam> dataOutport = new ArrayList<DataPortParam>(); 
+		List<DataPortParam> dataOutport = new ArrayList<DataPortParam>();
 		dataOutport.add(new DataPortParam("out1", "", "", 0));
 		rtcParam.getOutports().addAll(dataOutport);
-		
+
 		Generator generator = new Generator();
 		try {
 			generator.generateTemplateCode(genParam);
 			fail();
-		} catch(Exception e) {
+		} catch (Exception e) {
 		}
 	}
 
-	public void testOutPortNoName() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
-		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
+	public void testOutPortNoName() throws Exception {
 		rtcParam.setName("foo");
 		rtcParam.setDescription("test module");
 		rtcParam.setVersion("1.0.1");
@@ -343,30 +306,24 @@ public class CXXLuckTest extends TestBase {
 		rtcParam.setComponentType("STATIC");
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(2);
-		genParam.getRtcParams().add(rtcParam);
-		
-		List<DataPortParam> dataInport = new ArrayList<DataPortParam>(); 
+
+		List<DataPortParam> dataInport = new ArrayList<DataPortParam>();
 		dataInport.add(new DataPortParam("in1", "RTC::TimedShort", "", 0));
 		rtcParam.getInports().addAll(dataInport);
 
-		List<DataPortParam> dataOutport = new ArrayList<DataPortParam>(); 
+		List<DataPortParam> dataOutport = new ArrayList<DataPortParam>();
 		dataOutport.add(new DataPortParam("", "RTC::TimedLong", "", 0));
 		rtcParam.getOutports().addAll(dataOutport);
-		
+
 		Generator generator = new Generator();
 		try {
 			generator.generateTemplateCode(genParam);
 			fail();
-		} catch(Exception e) {
+		} catch (Exception e) {
 		}
 	}
 
-	public void testInPortNoType() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
-		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
+	public void testInPortNoType() throws Exception {
 		rtcParam.setName("foo");
 		rtcParam.setDescription("test module");
 		rtcParam.setVersion("1.0.1");
@@ -375,26 +332,20 @@ public class CXXLuckTest extends TestBase {
 		rtcParam.setComponentType("STATIC");
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(2);
-		genParam.getRtcParams().add(rtcParam);
-		
-		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
+
+		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
 		dataport.add(new DataPortParam("in1", "", "", 0));
 		rtcParam.getInports().addAll(dataport);
-		
+
 		Generator generator = new Generator();
 		try {
 			generator.generateTemplateCode(genParam);
 			fail();
-		} catch(Exception e) {
+		} catch (Exception e) {
 		}
 	}
 
-	public void testInPortNoName() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
-		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
+	public void testInPortNoName() throws Exception {
 		rtcParam.setName("foo");
 		rtcParam.setDescription("test module");
 		rtcParam.setVersion("1.0.1");
@@ -403,17 +354,17 @@ public class CXXLuckTest extends TestBase {
 		rtcParam.setComponentType("STATIC");
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(2);
-		genParam.getRtcParams().add(rtcParam);
-		
-		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
+
+		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
 		dataport.add(new DataPortParam("", "RTC::TimedShort", "", 0));
 		rtcParam.getInports().addAll(dataport);
-		
+
 		Generator generator = new Generator();
 		try {
 			generator.generateTemplateCode(genParam);
 			fail();
-		} catch(Exception e) {
+		} catch (Exception e) {
 		}
 	}
+
 }

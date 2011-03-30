@@ -5,7 +5,7 @@ import jp.go.aist.rtm.toolscommon.model.component.Component;
 import org.eclipse.gef.commands.Command;
 
 /**
- * •ûŒü‚ğ•ÏX‚·‚éƒRƒ}ƒ“ƒh
+ * æ–¹å‘ã‚’å¤‰æ›´ã™ã‚‹ã‚³ãƒãƒ³ãƒ‰
  */
 public class ChangeDirectionCommand extends Command {
 
@@ -29,20 +29,20 @@ public class ChangeDirectionCommand extends Command {
 	}
 
 	/**
-	 * •ûŒü‚ğİ’è‚·‚é
+	 * æ–¹å‘ã‚’è¨­å®šã™ã‚‹
 	 * 
 	 * @param direction
-	 *            •ûŒü
+	 *            æ–¹å‘
 	 */
 	public void setDirection(String direction) {
 		this.direction = direction;
 	}
 
 	/**
-	 * •ÏX‘ÎÛ‚Ìƒ‚ƒfƒ‹‚ğİ’è‚·‚é
+	 * å¤‰æ›´å¯¾è±¡ã®ãƒ¢ãƒ‡ãƒ«ã‚’è¨­å®šã™ã‚‹
 	 * 
 	 * @param model
-	 *            •ÏX‘ÎÛ‚Ìƒ‚ƒfƒ‹
+	 *            å¤‰æ›´å¯¾è±¡ã®ãƒ¢ãƒ‡ãƒ«
 	 */
 	public void setModel(Component model) {
 		this.model = model;

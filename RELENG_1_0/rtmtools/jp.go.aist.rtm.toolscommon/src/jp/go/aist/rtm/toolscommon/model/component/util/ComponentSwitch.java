@@ -117,6 +117,7 @@ public class ComponentSwitch<T> {
 				SystemDiagram systemDiagram = (SystemDiagram)theEObject;
 				T result = caseSystemDiagram(systemDiagram);
 				if (result == null) result = caseModelElement(systemDiagram);
+				if (result == null) result = caseIPropertyMap(systemDiagram);
 				if (result == null) result = caseIAdaptable(systemDiagram);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -125,6 +126,7 @@ public class ComponentSwitch<T> {
 				Component component = (Component)theEObject;
 				T result = caseComponent(component);
 				if (result == null) result = caseWrapperObject(component);
+				if (result == null) result = caseIPropertyMap(component);
 				if (result == null) result = caseModelElement(component);
 				if (result == null) result = caseLocalObject(component);
 				if (result == null) result = caseIAdaptable(component);
@@ -136,6 +138,7 @@ public class ComponentSwitch<T> {
 				T result = caseComponentSpecification(componentSpecification);
 				if (result == null) result = caseComponent(componentSpecification);
 				if (result == null) result = caseWrapperObject(componentSpecification);
+				if (result == null) result = caseIPropertyMap(componentSpecification);
 				if (result == null) result = caseModelElement(componentSpecification);
 				if (result == null) result = caseLocalObject(componentSpecification);
 				if (result == null) result = caseIAdaptable(componentSpecification);
@@ -146,6 +149,7 @@ public class ComponentSwitch<T> {
 				ExecutionContext executionContext = (ExecutionContext)theEObject;
 				T result = caseExecutionContext(executionContext);
 				if (result == null) result = caseWrapperObject(executionContext);
+				if (result == null) result = caseIPropertyMap(executionContext);
 				if (result == null) result = caseModelElement(executionContext);
 				if (result == null) result = caseLocalObject(executionContext);
 				if (result == null) result = caseIAdaptable(executionContext);
@@ -155,6 +159,7 @@ public class ComponentSwitch<T> {
 			case ComponentPackage.CONTEXT_HANDLER: {
 				ContextHandler contextHandler = (ContextHandler)theEObject;
 				T result = caseContextHandler(contextHandler);
+				if (result == null) result = caseIAdaptable(contextHandler);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -224,6 +229,7 @@ public class ComponentSwitch<T> {
 			case ComponentPackage.PORT_SYNCHRONIZER: {
 				PortSynchronizer portSynchronizer = (PortSynchronizer)theEObject;
 				T result = casePortSynchronizer(portSynchronizer);
+				if (result == null) result = caseIPropertyMap(portSynchronizer);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -241,6 +247,7 @@ public class ComponentSwitch<T> {
 				ConnectorProfile connectorProfile = (ConnectorProfile)theEObject;
 				T result = caseConnectorProfile(connectorProfile);
 				if (result == null) result = caseWrapperObject(connectorProfile);
+				if (result == null) result = caseIPropertyMap(connectorProfile);
 				if (result == null) result = caseModelElement(connectorProfile);
 				if (result == null) result = caseLocalObject(connectorProfile);
 				if (result == null) result = caseIAdaptable(connectorProfile);
@@ -253,12 +260,19 @@ public class ComponentSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ComponentPackage.IPROPERTY_MAP: {
+				IPropertyMap iPropertyMap = (IPropertyMap)theEObject;
+				T result = caseIPropertyMap(iPropertyMap);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case ComponentPackage.CORBA_COMPONENT: {
 				CorbaComponent corbaComponent = (CorbaComponent)theEObject;
 				T result = caseCorbaComponent(corbaComponent);
 				if (result == null) result = caseComponent(corbaComponent);
 				if (result == null) result = caseCorbaWrapperObject(corbaComponent);
 				if (result == null) result = caseWrapperObject(corbaComponent);
+				if (result == null) result = caseIPropertyMap(corbaComponent);
 				if (result == null) result = caseModelElement(corbaComponent);
 				if (result == null) result = caseLocalObject(corbaComponent);
 				if (result == null) result = caseIAdaptable(corbaComponent);
@@ -271,6 +285,7 @@ public class ComponentSwitch<T> {
 				if (result == null) result = caseCorbaWrapperObject(corbaPortSynchronizer);
 				if (result == null) result = casePortSynchronizer(corbaPortSynchronizer);
 				if (result == null) result = caseWrapperObject(corbaPortSynchronizer);
+				if (result == null) result = caseIPropertyMap(corbaPortSynchronizer);
 				if (result == null) result = caseModelElement(corbaPortSynchronizer);
 				if (result == null) result = caseLocalObject(corbaPortSynchronizer);
 				if (result == null) result = caseIAdaptable(corbaPortSynchronizer);
@@ -282,6 +297,7 @@ public class ComponentSwitch<T> {
 				T result = caseCorbaConnectorProfile(corbaConnectorProfile);
 				if (result == null) result = caseConnectorProfile(corbaConnectorProfile);
 				if (result == null) result = caseWrapperObject(corbaConnectorProfile);
+				if (result == null) result = caseIPropertyMap(corbaConnectorProfile);
 				if (result == null) result = caseModelElement(corbaConnectorProfile);
 				if (result == null) result = caseLocalObject(corbaConnectorProfile);
 				if (result == null) result = caseIAdaptable(corbaConnectorProfile);
@@ -305,6 +321,7 @@ public class ComponentSwitch<T> {
 				if (result == null) result = caseExecutionContext(corbaExecutionContext);
 				if (result == null) result = caseCorbaWrapperObject(corbaExecutionContext);
 				if (result == null) result = caseWrapperObject(corbaExecutionContext);
+				if (result == null) result = caseIPropertyMap(corbaExecutionContext);
 				if (result == null) result = caseModelElement(corbaExecutionContext);
 				if (result == null) result = caseLocalObject(corbaExecutionContext);
 				if (result == null) result = caseIAdaptable(corbaExecutionContext);
@@ -315,6 +332,24 @@ public class ComponentSwitch<T> {
 				CorbaContextHandler corbaContextHandler = (CorbaContextHandler)theEObject;
 				T result = caseCorbaContextHandler(corbaContextHandler);
 				if (result == null) result = caseContextHandler(corbaContextHandler);
+				if (result == null) result = caseIAdaptable(corbaContextHandler);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ComponentPackage.CORBA_OBSERVER: {
+				CorbaObserver corbaObserver = (CorbaObserver)theEObject;
+				T result = caseCorbaObserver(corbaObserver);
+				if (result == null) result = caseIPropertyMap(corbaObserver);
+				if (result == null) result = caseIAdaptable(corbaObserver);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ComponentPackage.CORBA_STATUS_OBSERVER: {
+				CorbaStatusObserver corbaStatusObserver = (CorbaStatusObserver)theEObject;
+				T result = caseCorbaStatusObserver(corbaStatusObserver);
+				if (result == null) result = caseCorbaObserver(corbaStatusObserver);
+				if (result == null) result = caseIPropertyMap(corbaStatusObserver);
+				if (result == null) result = caseIAdaptable(corbaStatusObserver);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -443,6 +478,21 @@ public class ComponentSwitch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>IProperty Map</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>IProperty Map</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIPropertyMap(IPropertyMap object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Port Synchronizer</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -529,6 +579,36 @@ public class ComponentSwitch<T> {
 	 * @generated
 	 */
 	public T caseCorbaContextHandler(CorbaContextHandler object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Corba Observer</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Corba Observer</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCorbaObserver(CorbaObserver object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Corba Status Observer</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Corba Status Observer</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCorbaStatusObserver(CorbaStatusObserver object) {
 		return null;
 	}
 

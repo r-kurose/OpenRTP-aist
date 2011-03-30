@@ -1,7 +1,7 @@
 package jp.go.aist.rtm.rtcbuilder.generator;
 
 /**
- * ƒeƒ“ƒvƒŒ[ƒg‚©‚ç¶¬‚³‚ê‚½Aƒtƒ@ƒCƒ‹–¼‚ÆƒRƒ“ƒeƒ“ƒc‚ðŠi”[‚·‚éƒNƒ‰ƒX
+ * ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã‹ã‚‰ç”Ÿæˆã•ã‚ŒãŸã€ãƒ•ã‚¡ã‚¤ãƒ«åã¨ã‚³ãƒ³ãƒ†ãƒ³ãƒ„ã‚’æ ¼ç´ã™ã‚‹ã‚¯ãƒ©ã‚¹
  */
 public class GeneratedResult {
 	private String name;

@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import jp.go.aist.rtm.nameserviceview.factory.NameServiceViewWrapperFactory;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameservicePackage;
@@ -62,8 +63,8 @@ public class NamingObjectNodeImpl extends CorbaNodeImpl implements NamingObjectN
 	protected WrapperObject entry;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public NamingObjectNodeImpl() {
@@ -71,7 +72,8 @@ public class NamingObjectNodeImpl extends CorbaNodeImpl implements NamingObjectN
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -80,10 +82,11 @@ public class NamingObjectNodeImpl extends CorbaNodeImpl implements NamingObjectN
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public boolean isZombie() {
 		Binding bind = getNameServiceReference().getBinding();
 		NameComponent nc = bind.binding_name[bind.binding_name.length - 1];
@@ -93,17 +96,21 @@ public class NamingObjectNodeImpl extends CorbaNodeImpl implements NamingObjectN
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public WrapperObject getEntry() {
 		return entry;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setEntry(WrapperObject newEntry) {
 		WrapperObject oldEntry = entry;
 		entry = newEntry;
@@ -112,7 +119,8 @@ public class NamingObjectNodeImpl extends CorbaNodeImpl implements NamingObjectN
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -125,7 +133,8 @@ public class NamingObjectNodeImpl extends CorbaNodeImpl implements NamingObjectN
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -139,7 +148,8 @@ public class NamingObjectNodeImpl extends CorbaNodeImpl implements NamingObjectN
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -153,7 +163,8 @@ public class NamingObjectNodeImpl extends CorbaNodeImpl implements NamingObjectN
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -166,12 +177,13 @@ public class NamingObjectNodeImpl extends CorbaNodeImpl implements NamingObjectN
 	}
 
 	/**
-	 * ƒl[ƒ€ƒT[ƒrƒX‚É“o˜^‚³‚ê‚Ä‚¢‚éRTCManager‚ÌƒŠƒXƒg‚ğ•Ô‚µ‚Ü‚·B
+	 * ãƒãƒ¼ãƒ ã‚µãƒ¼ãƒ“ã‚¹ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹RTCManagerã®ãƒªã‚¹ãƒˆã‚’è¿”ã—ã¾ã™ã€‚
 	 */
+	@Override
 	public List<RTCManager> getRTCManagerList() {
 		if (!(getEntry() instanceof RTCManager))
 			return Collections.emptyList();
-		
+
 		RTCManager mgr = (RTCManager) getEntry();
 		mgr.setPathId(getBindPath());
 		List<RTCManager> list = new ArrayList<RTCManager>();
@@ -214,23 +226,23 @@ public class NamingObjectNodeImpl extends CorbaNodeImpl implements NamingObjectN
 					NamingObjectNode result = (NamingObjectNode) super
 							.createLocalObject(parent, remoteObjects, link);
 
-					NameServiceReference createMergedNameServiceReference = ((CorbaNode) parent)
-							.getNameServiceReference()
-							.createMergedNameServiceReference((Binding) link);
+					NameServiceReference nsref = ((CorbaNode) parent)
+							.getNameServiceReference().createChildReference(
+									(Binding) link);
 
-					((CorbaNode) result)
-							.setNameServiceReference(createMergedNameServiceReference);
+					((CorbaNode) result).setNameServiceReference(nsref);
 					return result;
 				}
 
 			}, new AttributeMapping[] { new AttributeMapping(
 					CorePackage.eINSTANCE.getCorbaWrapperObject_CorbaObject()) {
-				// ƒ]ƒ“ƒr‚Ìê‡‚ÉAV‚½‚ÈƒIƒuƒWƒFƒNƒg‚ÉXV‚³‚ê‚Ä‚àŒŸo‚Å‚«‚é‚æ‚¤‚É‚·‚é‚½‚ß‚Ì“¯ŠúB
-				// ‚±‚±‚ÅÀ‘•‚·‚é‚Ì‚Í‚ ‚Ü‚è‚«‚ê‚¢‚Å‚Í‚È‚¢İŒv
-				// –{—ˆ‚È‚ç‚ÎANamingContextExt‚ÅŒŸo‚·‚é‚×‚«‚¾‚ªA
-				// ƒ]ƒ“ƒr‰»‚µ‚ÄV‚½‚ÈƒIƒuƒWƒFƒNƒg‚ÉXV‚³‚ê‚Ä‚àlink‚ª‘S‚­“¯‚¶‚Å‚ ‚é‚½‚ßA
-				// ˆá‚¤NamingObject‚Å‚ ‚é‚Æ”»’f‚³‚ê‚È‚¢‚½‚ßA‚±‚±‚ÉÀ‘•‚·‚é‚±‚Æ‚É‚µ‚½B
+				// ã‚¾ãƒ³ãƒ“ã®å ´åˆã«ã€æ–°ãŸãªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«æ›´æ–°ã•ã‚Œã¦ã‚‚æ¤œå‡ºã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹ãŸã‚ã®åŒæœŸã€‚
+				// ã“ã“ã§å®Ÿè£…ã™ã‚‹ã®ã¯ã‚ã¾ã‚Šãã‚Œã„ã§ã¯ãªã„è¨­è¨ˆ
+				// æœ¬æ¥ãªã‚‰ã°ã€NamingContextExtã§æ¤œå‡ºã™ã‚‹ã¹ãã ãŒã€
+				// ã‚¾ãƒ³ãƒ“åŒ–ã—ã¦æ–°ãŸãªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«æ›´æ–°ã•ã‚Œã¦ã‚‚linkãŒå…¨ãåŒã˜ã§ã‚ã‚‹ãŸã‚ã€
+				// é•ã†NamingObjectã§ã‚ã‚‹ã¨åˆ¤æ–­ã•ã‚Œãªã„ãŸã‚ã€ã“ã“ã«å®Ÿè£…ã™ã‚‹ã“ã¨ã«ã—ãŸã€‚
 
+				@Override
 				public Object getRemoteAttributeValue(LocalObject localObject,
 						Object[] remoteObjects) {
 
@@ -294,4 +306,30 @@ public class NamingObjectNodeImpl extends CorbaNodeImpl implements NamingObjectN
 						}
 					}
 			});
+
+	/**
+	 * ã‚¨ãƒ³ãƒˆãƒªã®åŒæœŸ (ä¸€æ‹¬æ›´æ–°)
+	 * 
+	 * @param binding_object
+	 */
+	void synchronizeEntry(org.omg.CORBA.Object binding_object) {
+		LocalObject lo = NameServiceViewWrapperFactory.getInstance()
+				.getSynchronizationManager().createLocalObject(this,
+						new Object[] { binding_object }, binding_object, true);
+		if (lo == null) {
+			eSet(NameservicePackage.eINSTANCE.getNamingObjectNode_Entry(), lo);
+			return;
+		}
+		if (getEntry() != null
+				&& binding_object._is_equivalent(getCorbaObject())) {
+			return;
+		}
+		setCorbaObject(binding_object);
+		if (lo instanceof Component) {
+			String pathId = getNameServiceReference().getPathId();
+			((Component) lo).setPathId(pathId);
+		}
+		eSet(NameservicePackage.eINSTANCE.getNamingObjectNode_Entry(), lo);
+	}
+
 } // NamingObjectNodeImpl

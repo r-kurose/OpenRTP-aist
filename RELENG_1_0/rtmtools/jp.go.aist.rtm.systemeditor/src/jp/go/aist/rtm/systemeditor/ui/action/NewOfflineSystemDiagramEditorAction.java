@@ -10,7 +10,7 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PartInitException;
 
 /**
- * 新しいシステムダイアグラムを作成するアクション
+ * 譁ｰ縺励＞繧ｷ繧ｹ繝�繝繝繧､繧｢繧ｰ繝ｩ繝繧剃ｽ懈�舌☆繧九い繧ｯ繧ｷ繝ｧ繝ｳ
  */
 public class NewOfflineSystemDiagramEditorAction implements
 		IWorkbenchWindowActionDelegate {

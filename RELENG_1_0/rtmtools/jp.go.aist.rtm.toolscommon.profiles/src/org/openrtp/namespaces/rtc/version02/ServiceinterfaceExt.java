@@ -131,5 +131,4 @@ public class ServiceinterfaceExt
     }
     public void setProperties(List<Property> list) {
     }
-
 }

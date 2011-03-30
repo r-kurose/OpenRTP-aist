@@ -19,7 +19,7 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * ƒŒƒ|ƒWƒgƒŠƒrƒ…[‚©‚çRepositoryViewLeafItem‚ğíœ‚·‚éƒAƒNƒVƒ‡ƒ“ƒfƒŠƒQ[ƒg
+ * ãƒ¬ãƒã‚¸ãƒˆãƒªãƒ“ãƒ¥ãƒ¼ã‹ã‚‰RepositoryViewLeafItemã‚’å‰Šé™¤ã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ‡ãƒªã‚²ãƒ¼ãƒˆ
  *
  */
 public class ViewActionRepositoryDelete implements IObjectActionDelegate {

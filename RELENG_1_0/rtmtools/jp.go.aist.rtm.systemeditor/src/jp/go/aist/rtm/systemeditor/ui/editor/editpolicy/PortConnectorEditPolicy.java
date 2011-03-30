@@ -8,7 +8,7 @@ import org.eclipse.gef.editpolicies.ConnectionEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
 /**
- * コネクタのEditPolicyクラス
+ * 繧ｳ繝阪け繧ｿ縺ｮEditPolicy繧ｯ繝ｩ繧ｹ
  */
 public class PortConnectorEditPolicy extends ConnectionEditPolicy {
 	@Override

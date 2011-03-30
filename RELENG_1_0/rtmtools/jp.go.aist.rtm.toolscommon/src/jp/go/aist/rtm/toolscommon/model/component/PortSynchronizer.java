@@ -8,11 +8,9 @@ package jp.go.aist.rtm.toolscommon.model.component;
 
 import java.util.List;
 
-import org.eclipse.emf.ecore.EObject;
-
 /**
  * <!-- begin-user-doc -->
- * AƒŠƒ‚[ƒg‚É‚ ‚éRTCã‚Ìƒ|[ƒg‚ª‚Âî•ñ‚Æ‚Ì“¯Šú‚ğæ‚é‚½‚ß‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX
+ * ã€ãƒªãƒ¢ãƒ¼ãƒˆã«ã‚ã‚‹RTCä¸Šã®ãƒãƒ¼ãƒˆãŒæŒã¤æƒ…å ±ã¨ã®åŒæœŸã‚’å–ã‚‹ãŸã‚ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹
  * <!-- end-user-doc -->
  *
  * <p>
@@ -26,16 +24,16 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface PortSynchronizer extends EObject {
+public interface PortSynchronizer extends IPropertyMap {
 
 	/**
 	 * Returns the value of the '<em><b>Original Port String</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒ|[ƒg‚ğ¯•Ê‚·‚é‚½‚ß‚Ì•¶š—ñ‚ğ•Ô‚·B
-	 * CorbaƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìê‡‚ÍAƒ|[ƒg‚ÌCorbaƒCƒ“ƒ^[ƒtƒF[ƒX‚ªg—p‚³‚ê‚éB
-	 * ƒIƒtƒ‰ƒCƒ“ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìê‡‚ÍA•¡‡RTC‚Å‚È‚¢ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌIDAƒCƒ“ƒXƒ^ƒ“ƒX–¼Aƒ|[ƒg–¼‚Ì‘g‚İ‡‚í‚¹‚ªg—p‚³‚ê‚éB
-	 * TODO:ComponentSpecification‚ÌPort‚É‘Î‚µ‚Ä‚ÍPortProxy‚ªg—p‚³‚ê‚éB
+	 * ãƒãƒ¼ãƒˆã‚’è­˜åˆ¥ã™ã‚‹ãŸã‚ã®æ–‡å­—åˆ—ã‚’è¿”ã™ã€‚
+	 * Corbaã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å ´åˆã¯ã€ãƒãƒ¼ãƒˆã®Corbaã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ãŒä½¿ç”¨ã•ã‚Œã‚‹ã€‚
+	 * ã‚ªãƒ•ãƒ©ã‚¤ãƒ³ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å ´åˆã¯ã€è¤‡åˆRTCã§ãªã„ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®IDã€ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åã€ãƒãƒ¼ãƒˆåã®çµ„ã¿åˆã‚ã›ãŒä½¿ç”¨ã•ã‚Œã‚‹ã€‚
+	 * TODO:ComponentSpecificationã®Portã«å¯¾ã—ã¦ã¯PortProxyãŒä½¿ç”¨ã•ã‚Œã‚‹ã€‚
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Original Port String</em>' attribute.
@@ -49,8 +47,8 @@ public interface PortSynchronizer extends EObject {
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.PortSynchronizer#getOriginalPortString <em>Original Port String</em>}' attribute.
 	 * <!-- begin-user-doc -->
-	 * ƒ|[ƒg‚ğ¯•Ê‚·‚é‚½‚ß‚Ì•¶š—ñ‚ğİ’è‚·‚éBŒ»İ‚ÍƒIƒtƒ‰ƒCƒ“‚Ì‚Æ‚«‚Ì‚İg—pB
-	 * TODO:ComponentSpecification‚ÌPort‚É‘Î‚µ‚Ä‚ÍPortProxy‚ªg—p‚³‚ê‚éB
+	 * ãƒãƒ¼ãƒˆã‚’è­˜åˆ¥ã™ã‚‹ãŸã‚ã®æ–‡å­—åˆ—ã‚’è¨­å®šã™ã‚‹ã€‚ç¾åœ¨ã¯ã‚ªãƒ•ãƒ©ã‚¤ãƒ³ã®ã¨ãã®ã¿ä½¿ç”¨ã€‚
+	 * TODO:ComponentSpecificationã®Portã«å¯¾ã—ã¦ã¯PortProxyãŒä½¿ç”¨ã•ã‚Œã‚‹ã€‚
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Original Port String</em>' attribute.
 	 * @see #getOriginalPortString()
@@ -60,7 +58,7 @@ public interface PortSynchronizer extends EObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * “–ŠYƒ|[ƒgã‚ÌÚ‘±‚ğ‚·‚×‚ÄØ’f‚·‚éB
+	 * å½“è©²ãƒãƒ¼ãƒˆä¸Šã®æ¥ç¶šã‚’ã™ã¹ã¦åˆ‡æ–­ã™ã‚‹ã€‚
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated

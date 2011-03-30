@@ -74,5 +74,4 @@ public class ConstraintListType {
     }
     public void setConstraint(List<ConstraintType> list) {
     }
-
 }

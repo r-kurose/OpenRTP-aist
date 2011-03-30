@@ -6,7 +6,7 @@ import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
 import org.eclipse.gef.ui.actions.EditorPartAction;
 
 /**
- * RTSプロファイルを読み込んで、システムダイアグラムエディタにロードするアクション
+ * RTS繝励Ο繝輔ぃ繧､繝ｫ繧定ｪｭ縺ｿ霎ｼ繧薙〒縲√す繧ｹ繝�繝繝繧､繧｢繧ｰ繝ｩ繝繧ｨ繝�繧｣繧ｿ縺ｫ繝ｭ繝ｼ繝峨☆繧九い繧ｯ繧ｷ繝ｧ繝ｳ
  *
  */
 public class OpenAction extends EditorPartAction {

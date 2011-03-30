@@ -406,7 +406,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getCorbaComponent()
 	 * @generated
 	 */
-	int CORBA_COMPONENT = 15;
+	int CORBA_COMPONENT = 16;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentSpecificationImpl <em>Specification</em>}' class.
@@ -653,13 +653,22 @@ public interface ComponentPackage extends EPackage {
 	int COMPONENT_SPECIFICATION__SPEC_UN_LOAD = COMPONENT_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Rtc Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__RTC_TYPE = COMPONENT_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Specification</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_SPECIFICATION_FEATURE_COUNT = COMPONENT_FEATURE_COUNT + 2;
+	int COMPONENT_SPECIFICATION_FEATURE_COUNT = COMPONENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.PortConnectorImpl <em>Port Connector</em>}' class.
@@ -736,22 +745,13 @@ public interface ComponentPackage extends EPackage {
 	int EXECUTION_CONTEXT__PARTICIPANTS = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 4;
 
 	/**
-	 * The feature id for the '<em><b>Properties</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXECUTION_CONTEXT__PROPERTIES = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 5;
-
-	/**
 	 * The number of structural features of the '<em>Execution Context</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXECUTION_CONTEXT_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 6;
+	int EXECUTION_CONTEXT_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.ContextHandlerImpl <em>Context Handler</em>}' class.
@@ -770,7 +770,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONTEXT_HANDLER_FEATURE_COUNT = 0;
+	int CONTEXT_HANDLER_FEATURE_COUNT = CorePackage.IADAPTABLE_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.PortImpl <em>Port</em>}' class.
@@ -1464,6 +1464,25 @@ public interface ComponentPackage extends EPackage {
 	int SERVICE_PORT_FEATURE_COUNT = PORT_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.IPropertyMap <em>IProperty Map</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see jp.go.aist.rtm.toolscommon.model.component.IPropertyMap
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getIPropertyMap()
+	 * @generated
+	 */
+	int IPROPERTY_MAP = 15;
+
+	/**
+	 * The number of structural features of the '<em>IProperty Map</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPROPERTY_MAP_FEATURE_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.EIntegerObjectToPointMapEntryImpl <em>EInteger Object To Point Map Entry</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1490,7 +1509,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PORT_SYNCHRONIZER__ORIGINAL_PORT_STRING = 0;
+	int PORT_SYNCHRONIZER__ORIGINAL_PORT_STRING = IPROPERTY_MAP_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Port Synchronizer</em>' class.
@@ -1499,7 +1518,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PORT_SYNCHRONIZER_FEATURE_COUNT = 1;
+	int PORT_SYNCHRONIZER_FEATURE_COUNT = IPROPERTY_MAP_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
@@ -2069,22 +2088,13 @@ public interface ComponentPackage extends EPackage {
 	int CORBA_COMPONENT__COMPONENT_STATE = COMPONENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>SDO Configuration</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CORBA_COMPONENT__SDO_CONFIGURATION = COMPONENT_FEATURE_COUNT + 3;
-
-	/**
 	 * The feature id for the '<em><b>RTC Component Profile</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CORBA_COMPONENT__RTC_COMPONENT_PROFILE = COMPONENT_FEATURE_COUNT + 4;
+	int CORBA_COMPONENT__RTC_COMPONENT_PROFILE = COMPONENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>RTC Execution Contexts</b></em>' attribute list.
@@ -2093,7 +2103,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CORBA_COMPONENT__RTC_EXECUTION_CONTEXTS = COMPONENT_FEATURE_COUNT + 5;
+	int CORBA_COMPONENT__RTC_EXECUTION_CONTEXTS = COMPONENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>RTC Participation Contexts</b></em>' attribute list.
@@ -2102,7 +2112,16 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CORBA_COMPONENT__RTC_PARTICIPATION_CONTEXTS = COMPONENT_FEATURE_COUNT + 6;
+	int CORBA_COMPONENT__RTC_PARTICIPATION_CONTEXTS = COMPONENT_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>SDO Configuration</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_COMPONENT__SDO_CONFIGURATION = COMPONENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>SDO Organization</b></em>' attribute.
@@ -2114,13 +2133,31 @@ public interface ComponentPackage extends EPackage {
 	int CORBA_COMPONENT__SDO_ORGANIZATION = COMPONENT_FEATURE_COUNT + 7;
 
 	/**
+	 * The feature id for the '<em><b>RTCRT Objects</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_COMPONENT__RTCRT_OBJECTS = COMPONENT_FEATURE_COUNT + 8;
+
+	/**
 	 * The feature id for the '<em><b>Ior</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CORBA_COMPONENT__IOR = COMPONENT_FEATURE_COUNT + 8;
+	int CORBA_COMPONENT__IOR = COMPONENT_FEATURE_COUNT + 9;
+
+	/**
+	 * The feature id for the '<em><b>Status Observer</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_COMPONENT__STATUS_OBSERVER = COMPONENT_FEATURE_COUNT + 10;
 
 	/**
 	 * The number of structural features of the '<em>Corba Component</em>' class.
@@ -2129,7 +2166,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CORBA_COMPONENT_FEATURE_COUNT = COMPONENT_FEATURE_COUNT + 9;
+	int CORBA_COMPONENT_FEATURE_COUNT = COMPONENT_FEATURE_COUNT + 11;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaPortSynchronizerImpl <em>Corba Port Synchronizer</em>}' class.
@@ -2139,7 +2176,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getCorbaPortSynchronizer()
 	 * @generated
 	 */
-	int CORBA_PORT_SYNCHRONIZER = 16;
+	int CORBA_PORT_SYNCHRONIZER = 17;
 
 	/**
 	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
@@ -2194,7 +2231,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getCorbaConnectorProfile()
 	 * @generated
 	 */
-	int CORBA_CONNECTOR_PROFILE = 17;
+	int CORBA_CONNECTOR_PROFILE = 18;
 
 	/**
 	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
@@ -2456,7 +2493,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getCorbaConfigurationSet()
 	 * @generated
 	 */
-	int CORBA_CONFIGURATION_SET = 18;
+	int CORBA_CONFIGURATION_SET = 19;
 
 	/**
 	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
@@ -2511,7 +2548,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getCorbaExecutionContext()
 	 * @generated
 	 */
-	int CORBA_EXECUTION_CONTEXT = 19;
+	int CORBA_EXECUTION_CONTEXT = 20;
 
 	/**
 	 * The feature id for the '<em><b>Constraint</b></em>' attribute.
@@ -2568,15 +2605,6 @@ public interface ComponentPackage extends EPackage {
 	int CORBA_EXECUTION_CONTEXT__PARTICIPANTS = EXECUTION_CONTEXT__PARTICIPANTS;
 
 	/**
-	 * The feature id for the '<em><b>Properties</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CORBA_EXECUTION_CONTEXT__PROPERTIES = EXECUTION_CONTEXT__PROPERTIES;
-
-	/**
 	 * The feature id for the '<em><b>Corba Object</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2611,7 +2639,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getCorbaContextHandler()
 	 * @generated
 	 */
-	int CORBA_CONTEXT_HANDLER = 20;
+	int CORBA_CONTEXT_HANDLER = 21;
 
 	/**
 	 * The number of structural features of the '<em>Corba Context Handler</em>' class.
@@ -2623,6 +2651,80 @@ public interface ComponentPackage extends EPackage {
 	int CORBA_CONTEXT_HANDLER_FEATURE_COUNT = CONTEXT_HANDLER_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaObserverImpl <em>Corba Observer</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.CorbaObserverImpl
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getCorbaObserver()
+	 * @generated
+	 */
+	int CORBA_OBSERVER = 22;
+
+	/**
+	 * The feature id for the '<em><b>Service Profile</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_OBSERVER__SERVICE_PROFILE = IPROPERTY_MAP_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Servant</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_OBSERVER__SERVANT = IPROPERTY_MAP_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Corba Observer</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_OBSERVER_FEATURE_COUNT = IPROPERTY_MAP_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaStatusObserverImpl <em>Corba Status Observer</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.CorbaStatusObserverImpl
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getCorbaStatusObserver()
+	 * @generated
+	 */
+	int CORBA_STATUS_OBSERVER = 23;
+
+	/**
+	 * The feature id for the '<em><b>Service Profile</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_STATUS_OBSERVER__SERVICE_PROFILE = CORBA_OBSERVER__SERVICE_PROFILE;
+
+	/**
+	 * The feature id for the '<em><b>Servant</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_STATUS_OBSERVER__SERVANT = CORBA_OBSERVER__SERVANT;
+
+	/**
+	 * The number of structural features of the '<em>Corba Status Observer</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_STATUS_OBSERVER_FEATURE_COUNT = CORBA_OBSERVER_FEATURE_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind <em>System Diagram Kind</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2630,7 +2732,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getSystemDiagramKind()
 	 * @generated
 	 */
-	int SYSTEM_DIAGRAM_KIND = 21;
+	int SYSTEM_DIAGRAM_KIND = 24;
 
 	/**
 	 * The meta object id for the '<em>RTC Component Profile</em>' data type.
@@ -2640,7 +2742,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getRTCComponentProfile()
 	 * @generated
 	 */
-	int RTC_COMPONENT_PROFILE = 26;
+	int RTC_COMPONENT_PROFILE = 30;
 
 	/**
 	 * The meta object id for the '<em>RTCRT Object</em>' data type.
@@ -2650,7 +2752,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getRTCRTObject()
 	 * @generated
 	 */
-	int RTCRT_OBJECT = 25;
+	int RTCRT_OBJECT = 29;
 
 	/**
 	 * The meta object id for the '<em>List</em>' data type.
@@ -2660,7 +2762,17 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getList()
 	 * @generated
 	 */
-	int LIST = 33;
+	int LIST = 37;
+
+	/**
+	 * The meta object id for the '<em>Servant</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.omg.PortableServer.Servant
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getServant()
+	 * @generated
+	 */
+	int SERVANT = 38;
 
 	/**
 	 * The meta object id for the '<em>SDO Configuration</em>' data type.
@@ -2670,7 +2782,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getSDOConfiguration()
 	 * @generated
 	 */
-	int SDO_CONFIGURATION = 22;
+	int SDO_CONFIGURATION = 25;
 
 	/**
 	 * The meta object id for the '<em>SDO Configuration Set</em>' data type.
@@ -2680,7 +2792,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getSDOConfigurationSet()
 	 * @generated
 	 */
-	int SDO_CONFIGURATION_SET = 23;
+	int SDO_CONFIGURATION_SET = 26;
 
 	/**
 	 * The meta object id for the '<em>RTC Connector Profile</em>' data type.
@@ -2690,7 +2802,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getRTCConnectorProfile()
 	 * @generated
 	 */
-	int RTC_CONNECTOR_PROFILE = 27;
+	int RTC_CONNECTOR_PROFILE = 31;
 
 	/**
 	 * The meta object id for the '<em>RTC Port Profile</em>' data type.
@@ -2700,7 +2812,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getRTCPortProfile()
 	 * @generated
 	 */
-	int RTC_PORT_PROFILE = 28;
+	int RTC_PORT_PROFILE = 32;
 
 	/**
 	 * The meta object id for the '<em>RTC Execution Context</em>' data type.
@@ -2710,7 +2822,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getRTCExecutionContext()
 	 * @generated
 	 */
-	int RTC_EXECUTION_CONTEXT = 29;
+	int RTC_EXECUTION_CONTEXT = 33;
 
 	/**
 	 * The meta object id for the '<em>Property Change Listener</em>' data type.
@@ -2720,7 +2832,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getPropertyChangeListener()
 	 * @generated
 	 */
-	int PROPERTY_CHANGE_LISTENER = 31;
+	int PROPERTY_CHANGE_LISTENER = 35;
 
 	/**
 	 * The meta object id for the '<em>SDO Organization</em>' data type.
@@ -2730,8 +2842,18 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getSDOOrganization()
 	 * @generated
 	 */
-	int SDO_ORGANIZATION = 24;
+	int SDO_ORGANIZATION = 27;
 
+
+	/**
+	 * The meta object id for the '<em>SDO Service Profile</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see _SDOPackage.ServiceProfile
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getSDOServiceProfile()
+	 * @generated
+	 */
+	int SDO_SERVICE_PROFILE = 28;
 
 	/**
 	 * The meta object id for the '<em>Port Interface Profile</em>' data type.
@@ -2741,7 +2863,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getPortInterfaceProfile()
 	 * @generated
 	 */
-	int PORT_INTERFACE_PROFILE = 32;
+	int PORT_INTERFACE_PROFILE = 36;
 
 
 	/**
@@ -2752,7 +2874,7 @@ public interface ComponentPackage extends EPackage {
 	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getRTCExecutionContextProfile()
 	 * @generated
 	 */
-	int RTC_EXECUTION_CONTEXT_PROFILE = 30;
+	int RTC_EXECUTION_CONTEXT_PROFILE = 34;
 
 
 	/**
@@ -3204,6 +3326,17 @@ public interface ComponentPackage extends EPackage {
 	EAttribute getCorbaComponent_SDOOrganization();
 
 	/**
+	 * Returns the meta object for the attribute list '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getRTCRTObjects <em>RTCRT Objects</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>RTCRT Objects</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getRTCRTObjects()
+	 * @see #getCorbaComponent()
+	 * @generated
+	 */
+	EAttribute getCorbaComponent_RTCRTObjects();
+
+	/**
 	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getIor <em>Ior</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3213,6 +3346,17 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getCorbaComponent_Ior();
+
+	/**
+	 * Returns the meta object for the reference '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getStatusObserver <em>Status Observer</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Status Observer</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getStatusObserver()
+	 * @see #getCorbaComponent()
+	 * @generated
+	 */
+	EReference getCorbaComponent_StatusObserver();
 
 	/**
 	 * Returns the meta object for class '{@link jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification <em>Specification</em>}'.
@@ -3245,6 +3389,17 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getComponentSpecification_SpecUnLoad();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification#getRtcType <em>Rtc Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Rtc Type</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification#getRtcType()
+	 * @see #getComponentSpecification()
+	 * @generated
+	 */
+	EAttribute getComponentSpecification_RtcType();
 
 	/**
 	 * Returns the meta object for class '{@link jp.go.aist.rtm.toolscommon.model.component.PortConnector <em>Port Connector</em>}'.
@@ -3364,17 +3519,6 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getExecutionContext_Participants();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link jp.go.aist.rtm.toolscommon.model.component.ExecutionContext#getProperties <em>Properties</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Properties</em>'.
-	 * @see jp.go.aist.rtm.toolscommon.model.component.ExecutionContext#getProperties()
-	 * @see #getExecutionContext()
-	 * @generated
-	 */
-	EReference getExecutionContext_Properties();
 
 	/**
 	 * Returns the meta object for class '{@link jp.go.aist.rtm.toolscommon.model.component.ContextHandler <em>Context Handler</em>}'.
@@ -3964,6 +4108,16 @@ public interface ComponentPackage extends EPackage {
 	EAttribute getEIntegerObjectToPointMapEntry_Value();
 
 	/**
+	 * Returns the meta object for class '{@link jp.go.aist.rtm.toolscommon.model.component.IPropertyMap <em>IProperty Map</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>IProperty Map</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.IPropertyMap
+	 * @generated
+	 */
+	EClass getIPropertyMap();
+
+	/**
 	 * Returns the meta object for class '{@link jp.go.aist.rtm.toolscommon.model.component.PortSynchronizer <em>Port Synchronizer</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4079,6 +4233,48 @@ public interface ComponentPackage extends EPackage {
 	EClass getCorbaContextHandler();
 
 	/**
+	 * Returns the meta object for class '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaObserver <em>Corba Observer</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Corba Observer</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.CorbaObserver
+	 * @generated
+	 */
+	EClass getCorbaObserver();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaObserver#getServiceProfile <em>Service Profile</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Service Profile</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.CorbaObserver#getServiceProfile()
+	 * @see #getCorbaObserver()
+	 * @generated
+	 */
+	EAttribute getCorbaObserver_ServiceProfile();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaObserver#getServant <em>Servant</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Servant</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.CorbaObserver#getServant()
+	 * @see #getCorbaObserver()
+	 * @generated
+	 */
+	EAttribute getCorbaObserver_Servant();
+
+	/**
+	 * Returns the meta object for class '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaStatusObserver <em>Corba Status Observer</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Corba Status Observer</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.CorbaStatusObserver
+	 * @generated
+	 */
+	EClass getCorbaStatusObserver();
+
+	/**
 	 * Returns the meta object for enum '{@link jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind <em>System Diagram Kind</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4120,6 +4316,17 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 */
 	EDataType getList();
+
+	/**
+	 * Returns the meta object for data type '{@link org.omg.PortableServer.Servant <em>Servant</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Servant</em>'.
+	 * @see org.omg.PortableServer.Servant
+	 * @model instanceClass="org.omg.PortableServer.Servant"
+	 * @generated
+	 */
+	EDataType getServant();
 
 	/**
 	 * Returns the meta object for data type '{@link _SDOPackage.Configuration <em>SDO Configuration</em>}'.
@@ -4197,6 +4404,17 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 */
 	EDataType getSDOOrganization();
+
+	/**
+	 * Returns the meta object for data type '{@link _SDOPackage.ServiceProfile <em>SDO Service Profile</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>SDO Service Profile</em>'.
+	 * @see _SDOPackage.ServiceProfile
+	 * @model instanceClass="_SDOPackage.ServiceProfile"
+	 * @generated
+	 */
+	EDataType getSDOServiceProfile();
 
 	/**
 	 * Returns the meta object for data type '{@link jp.go.aist.rtm.toolscommon.model.component.PortInterfaceProfile <em>Port Interface Profile</em>}'.
@@ -4577,12 +4795,28 @@ public interface ComponentPackage extends EPackage {
 		EAttribute CORBA_COMPONENT__SDO_ORGANIZATION = eINSTANCE.getCorbaComponent_SDOOrganization();
 
 		/**
+		 * The meta object literal for the '<em><b>RTCRT Objects</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CORBA_COMPONENT__RTCRT_OBJECTS = eINSTANCE.getCorbaComponent_RTCRTObjects();
+
+		/**
 		 * The meta object literal for the '<em><b>Ior</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute CORBA_COMPONENT__IOR = eINSTANCE.getCorbaComponent_Ior();
+
+		/**
+		 * The meta object literal for the '<em><b>Status Observer</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CORBA_COMPONENT__STATUS_OBSERVER = eINSTANCE.getCorbaComponent_StatusObserver();
 
 		/**
 		 * The meta object literal for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentSpecificationImpl <em>Specification</em>}' class.
@@ -4609,6 +4843,14 @@ public interface ComponentPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute COMPONENT_SPECIFICATION__SPEC_UN_LOAD = eINSTANCE.getComponentSpecification_SpecUnLoad();
+
+		/**
+		 * The meta object literal for the '<em><b>Rtc Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMPONENT_SPECIFICATION__RTC_TYPE = eINSTANCE.getComponentSpecification_RtcType();
 
 		/**
 		 * The meta object literal for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.PortConnectorImpl <em>Port Connector</em>}' class.
@@ -4701,14 +4943,6 @@ public interface ComponentPackage extends EPackage {
 		 * @generated
 		 */
 		EReference EXECUTION_CONTEXT__PARTICIPANTS = eINSTANCE.getExecutionContext_Participants();
-
-		/**
-		 * The meta object literal for the '<em><b>Properties</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference EXECUTION_CONTEXT__PROPERTIES = eINSTANCE.getExecutionContext_Properties();
 
 		/**
 		 * The meta object literal for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.ContextHandlerImpl <em>Context Handler</em>}' class.
@@ -5161,6 +5395,16 @@ public interface ComponentPackage extends EPackage {
 		EAttribute EINTEGER_OBJECT_TO_POINT_MAP_ENTRY__VALUE = eINSTANCE.getEIntegerObjectToPointMapEntry_Value();
 
 		/**
+		 * The meta object literal for the '{@link jp.go.aist.rtm.toolscommon.model.component.IPropertyMap <em>IProperty Map</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see jp.go.aist.rtm.toolscommon.model.component.IPropertyMap
+		 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getIPropertyMap()
+		 * @generated
+		 */
+		EClass IPROPERTY_MAP = eINSTANCE.getIPropertyMap();
+
+		/**
 		 * The meta object literal for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.PortSynchronizerImpl <em>Port Synchronizer</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -5261,6 +5505,42 @@ public interface ComponentPackage extends EPackage {
 		EClass CORBA_CONTEXT_HANDLER = eINSTANCE.getCorbaContextHandler();
 
 		/**
+		 * The meta object literal for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaObserverImpl <em>Corba Observer</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see jp.go.aist.rtm.toolscommon.model.component.impl.CorbaObserverImpl
+		 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getCorbaObserver()
+		 * @generated
+		 */
+		EClass CORBA_OBSERVER = eINSTANCE.getCorbaObserver();
+
+		/**
+		 * The meta object literal for the '<em><b>Service Profile</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CORBA_OBSERVER__SERVICE_PROFILE = eINSTANCE.getCorbaObserver_ServiceProfile();
+
+		/**
+		 * The meta object literal for the '<em><b>Servant</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CORBA_OBSERVER__SERVANT = eINSTANCE.getCorbaObserver_Servant();
+
+		/**
+		 * The meta object literal for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaStatusObserverImpl <em>Corba Status Observer</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see jp.go.aist.rtm.toolscommon.model.component.impl.CorbaStatusObserverImpl
+		 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getCorbaStatusObserver()
+		 * @generated
+		 */
+		EClass CORBA_STATUS_OBSERVER = eINSTANCE.getCorbaStatusObserver();
+
+		/**
 		 * The meta object literal for the '{@link jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind <em>System Diagram Kind</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -5299,6 +5579,16 @@ public interface ComponentPackage extends EPackage {
 		 * @generated
 		 */
 		EDataType LIST = eINSTANCE.getList();
+
+		/**
+		 * The meta object literal for the '<em>Servant</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.omg.PortableServer.Servant
+		 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getServant()
+		 * @generated
+		 */
+		EDataType SERVANT = eINSTANCE.getServant();
 
 		/**
 		 * The meta object literal for the '<em>SDO Configuration</em>' data type.
@@ -5369,6 +5659,16 @@ public interface ComponentPackage extends EPackage {
 		 * @generated
 		 */
 		EDataType SDO_ORGANIZATION = eINSTANCE.getSDOOrganization();
+
+		/**
+		 * The meta object literal for the '<em>SDO Service Profile</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see _SDOPackage.ServiceProfile
+		 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getSDOServiceProfile()
+		 * @generated
+		 */
+		EDataType SDO_SERVICE_PROFILE = eINSTANCE.getSDOServiceProfile();
 
 		/**
 		 * The meta object literal for the '<em>Port Interface Profile</em>' data type.

@@ -18,7 +18,7 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * ƒ|[ƒg‚ÌŒöŠJE”ñŒöŠJ‚ğØ‚è‘Ö‚¦‚éƒAƒNƒVƒ‡ƒ“‚ÌƒfƒŠƒQ[ƒg
+ * ãƒãƒ¼ãƒˆã®å…¬é–‹ãƒ»éå…¬é–‹ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®ãƒ‡ãƒªã‚²ãƒ¼ãƒˆ
  *
  */
 public class ExportPortPopupMenuActionDelegate implements IObjectActionDelegate {

@@ -6,15 +6,15 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.PointList;
 
 /**
- * ServicePortのFigure
+ * ServicePort縺ｮFigure
  */
 public class ServicePortFigure extends PortFigure {
 
 	/**
-	 * コンストラクタ
+	 * 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ
 	 * 
 	 * @param servicePort
-	 *            モデル
+	 *            繝｢繝�繝ｫ
 	 */
 	public ServicePortFigure(ServicePort servicePort) {
 		setScale(1.0, 1.0);

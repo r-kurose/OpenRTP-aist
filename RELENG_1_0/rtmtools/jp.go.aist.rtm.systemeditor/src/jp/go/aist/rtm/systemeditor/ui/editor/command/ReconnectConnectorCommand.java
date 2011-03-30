@@ -8,9 +8,9 @@ import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 import org.eclipse.gef.commands.Command;
 
 /**
- * ƒRƒlƒNƒ^‚ğÚ‘±‚µ‚È‚¨‚·ƒRƒ}ƒ“ƒh
+ * ã‚³ãƒã‚¯ã‚¿ã‚’æ¥ç¶šã—ãªãŠã™ã‚³ãƒãƒ³ãƒ‰
  * <p>
- * “à•”‚Å‚ÍAÌ‚ÌÚ‘±‚ğ”jŠü‚µ‚ÄV‚µ‚­Ú‘±‚ğs‚¤B
+ * å†…éƒ¨ã§ã¯ã€æ˜”ã®æ¥ç¶šã‚’ç ´æ£„ã—ã¦æ–°ã—ãæ¥ç¶šã‚’è¡Œã†ã€‚
  */
 public class ReconnectConnectorCommand extends Command {
 	private Port newSource;
@@ -26,10 +26,10 @@ public class ReconnectConnectorCommand extends Command {
 	private boolean result;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param connector
-	 *            ƒRƒlƒNƒ^
+	 *            ã‚³ãƒã‚¯ã‚¿
 	 * @param manager
 	 *            ConnectorCreateManager
 	 */
@@ -107,20 +107,20 @@ public class ReconnectConnectorCommand extends Command {
 	}
 
 	/**
-	 * V‚µ‚¢Ú‘±Œ³‚ğİ’è‚·‚é
+	 * æ–°ã—ã„æ¥ç¶šå…ƒã‚’è¨­å®šã™ã‚‹
 	 * 
 	 * @param source
-	 *            V‚µ‚¢Ú‘±Œ³
+	 *            æ–°ã—ã„æ¥ç¶šå…ƒ
 	 */
 	public void setNewSource(Port source) {
 		this.newSource = source;
 	}
 
 	/**
-	 * V‚µ‚¢Ú‘±æ‚ğİ’è‚·‚é
+	 * æ–°ã—ã„æ¥ç¶šå…ˆã‚’è¨­å®šã™ã‚‹
 	 * 
 	 * @param source
-	 *            V‚µ‚¢Ú‘±æ
+	 *            æ–°ã—ã„æ¥ç¶šå…ˆ
 	 */
 	public void setNewTarget(Port target) {
 		this.newTarget = target;

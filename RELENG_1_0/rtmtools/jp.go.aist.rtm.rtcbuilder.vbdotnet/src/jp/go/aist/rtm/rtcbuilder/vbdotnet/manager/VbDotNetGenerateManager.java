@@ -46,10 +46,10 @@ public class VbDotNetGenerateManager extends GenerateManager {
 	}
 
 	/**
-	 * ƒtƒ@ƒCƒ‹‚ğo—Í‚·‚é
+	 * ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‡ºåŠ›ã™ã‚‹
 	 * 
-	 * @param generatorParam	¶¬—pƒpƒ‰ƒ[ƒ^
-	 * @return o—ÍŒ‹‰Ê‚ÌƒŠƒXƒg
+	 * @param generatorParam	ç”Ÿæˆç”¨ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+	 * @return å‡ºåŠ›çµæœã®ãƒªã‚¹ãƒˆ
 	 */
 	@Override
 	public List<GeneratedResult> generateTemplateCode(RtcParam rtcParam) {
@@ -71,7 +71,7 @@ public class VbDotNetGenerateManager extends GenerateManager {
 			result = generateProgramFile(contextMap, result);
 			result = generateAssemblyInfoFile(contextMap, result, rtcParam.getOutputProject());
 
-			//IDLƒtƒ@ƒCƒ‹“à‚É‹Lq‚³‚ê‚Ä‚¢‚éServiceClassParam‚ğİ’è‚·‚é
+			//IDLãƒ•ã‚¡ã‚¤ãƒ«å†…ã«è¨˜è¿°ã•ã‚Œã¦ã„ã‚‹ServiceClassParamã‚’è¨­å®šã™ã‚‹
 			for( IdlFileParam idlFileParam : rtcParam.getProviderIdlPathes() ) {
 				for (ServiceClassParam serviceClassParam : rtcParam.getServiceClassParams()) {
 					if( idlFileParam.getIdlPath().equals(serviceClassParam.getIdlPath()) )
@@ -79,7 +79,7 @@ public class VbDotNetGenerateManager extends GenerateManager {
 				}
 			}
 
-			//Provider‚ÉQÆ‚³‚ê‚Ä‚¢‚éServiceClassParam‚ğì¬‚·‚é
+			//Providerã«å‚ç…§ã•ã‚Œã¦ã„ã‚‹ServiceClassParamã‚’ä½œæˆã™ã‚‹
 			Set<ServiceClassParam> providerRefenencedServiceClassParam = new HashSet<ServiceClassParam>();
 			for( ServicePortParam servicePort : rtcParam.getServicePorts() ) {
 				for( ServicePortInterfaceParam serviceInterface : servicePort.getServicePortInterfaces() ) {
@@ -121,10 +121,10 @@ public class VbDotNetGenerateManager extends GenerateManager {
 		return result;
 	}
 	/**
-	 * RTC‚Ìƒ\[ƒXEƒtƒ@ƒCƒ‹‚ğ¶¬‚·‚é
+	 * RTCã®ã‚½ãƒ¼ã‚¹ãƒ»ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç”Ÿæˆã™ã‚‹
 	 * 
-	 * @param result	¶¬—pƒpƒ‰ƒ[ƒ^
-	 * @return o—ÍŒ‹‰Ê‚ÌƒŠƒXƒg
+	 * @param result	ç”Ÿæˆç”¨ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+	 * @return å‡ºåŠ›çµæœã®ãƒªã‚¹ãƒˆ
 	 */
 	protected List<GeneratedResult> generateRTCSource(Map<String, Object> contextMap, List<GeneratedResult> result) {
 		InputStream ins = null;
@@ -144,10 +144,10 @@ public class VbDotNetGenerateManager extends GenerateManager {
 	}
 	
 	/**
-	 * App.configƒtƒ@ƒCƒ‹‚ğ¶¬‚·‚é
+	 * App.configãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç”Ÿæˆã™ã‚‹
 	 * 
-	 * @param result	¶¬—pƒpƒ‰ƒ[ƒ^
-	 * @return o—ÍŒ‹‰Ê‚ÌƒŠƒXƒg
+	 * @param result	ç”Ÿæˆç”¨ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+	 * @return å‡ºåŠ›çµæœã®ãƒªã‚¹ãƒˆ
 	 */
 	protected List<GeneratedResult> generateAppConfig(Map<String, Object> contextMap, List<GeneratedResult> result) {
 		InputStream ins = null;
@@ -166,10 +166,10 @@ public class VbDotNetGenerateManager extends GenerateManager {
 	}
 	
 	/**
-	 * ƒvƒƒWƒFƒNƒgƒtƒ@ƒCƒ‹‚ğ¶¬‚·‚é
+	 * ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç”Ÿæˆã™ã‚‹
 	 * 
-	 * @param result	¶¬—pƒpƒ‰ƒ[ƒ^
-	 * @return o—ÍŒ‹‰Ê‚ÌƒŠƒXƒg
+	 * @param result	ç”Ÿæˆç”¨ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+	 * @return å‡ºåŠ›çµæœã®ãƒªã‚¹ãƒˆ
 	 */
 	protected List<GeneratedResult> generateProject(Map<String, Object> contextMap, List<GeneratedResult> result) {
 		InputStream ins = null;
@@ -189,10 +189,10 @@ public class VbDotNetGenerateManager extends GenerateManager {
 	}
 	
 	/**
-	 * UserƒvƒƒWƒFƒNƒgƒtƒ@ƒCƒ‹‚ğ¶¬‚·‚é
+	 * Userãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç”Ÿæˆã™ã‚‹
 	 * 
-	 * @param result	¶¬—pƒpƒ‰ƒ[ƒ^
-	 * @return o—ÍŒ‹‰Ê‚ÌƒŠƒXƒg
+	 * @param result	ç”Ÿæˆç”¨ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+	 * @return å‡ºåŠ›çµæœã®ãƒªã‚¹ãƒˆ
 	 */
 	protected List<GeneratedResult> generateUserProject(Map<String, Object> contextMap, List<GeneratedResult> result) {
 		InputStream ins = null;
@@ -212,10 +212,10 @@ public class VbDotNetGenerateManager extends GenerateManager {
 	}
 	
 	/**
-	 * Genƒtƒ@ƒCƒ‹‚ğ¶¬‚·‚é
+	 * Genãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç”Ÿæˆã™ã‚‹
 	 * 
-	 * @param result	¶¬—pƒpƒ‰ƒ[ƒ^
-	 * @return o—ÍŒ‹‰Ê‚ÌƒŠƒXƒg
+	 * @param result	ç”Ÿæˆç”¨ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+	 * @return å‡ºåŠ›çµæœã®ãƒªã‚¹ãƒˆ
 	 */
 	protected List<GeneratedResult> generateGenFile(Map<String, Object> contextMap, List<GeneratedResult> result) {
 		InputStream ins = null;
@@ -234,10 +234,10 @@ public class VbDotNetGenerateManager extends GenerateManager {
 	}
 
 	/**
-	 * Programƒtƒ@ƒCƒ‹‚ğ¶¬‚·‚é
+	 * Programãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç”Ÿæˆã™ã‚‹
 	 * 
-	 * @param result	¶¬—pƒpƒ‰ƒ[ƒ^
-	 * @return o—ÍŒ‹‰Ê‚ÌƒŠƒXƒg
+	 * @param result	ç”Ÿæˆç”¨ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+	 * @return å‡ºåŠ›çµæœã®ãƒªã‚¹ãƒˆ
 	 */
 	protected List<GeneratedResult> generateProgramFile(Map<String, Object> contextMap, List<GeneratedResult> result) {
 		InputStream ins = null;
@@ -256,10 +256,10 @@ public class VbDotNetGenerateManager extends GenerateManager {
 	}
 
 	/**
-	 * AssemblyInfoƒtƒ@ƒCƒ‹‚ğ¶¬‚·‚é
+	 * AssemblyInfoãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç”Ÿæˆã™ã‚‹
 	 * 
-	 * @param result	¶¬—pƒpƒ‰ƒ[ƒ^
-	 * @return o—ÍŒ‹‰Ê‚ÌƒŠƒXƒg
+	 * @param result	ç”Ÿæˆç”¨ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+	 * @return å‡ºåŠ›çµæœã®ãƒªã‚¹ãƒˆ
 	 */
 	protected List<GeneratedResult> generateAssemblyInfoFile(Map<String, Object> contextMap, List<GeneratedResult> result, String outDir) {
 		InputStream ins = null;
@@ -282,11 +282,11 @@ public class VbDotNetGenerateManager extends GenerateManager {
 	}
 
 	/**
-	 * RTCImpl‚Ìƒ\[ƒXEƒtƒ@ƒCƒ‹‚ğ¶¬‚·‚é
+	 * RTCImplã®ã‚½ãƒ¼ã‚¹ãƒ»ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç”Ÿæˆã™ã‚‹
 	 * 
-	 * @param rtcParam	¶¬—pƒpƒ‰ƒ[ƒ^
-	 * @param result	¶¬Œ‹‰ÊŠi”[æ
-	 * @return o—ÍŒ‹‰Ê‚ÌƒŠƒXƒg
+	 * @param rtcParam	ç”Ÿæˆç”¨ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+	 * @param result	ç”Ÿæˆçµæœæ ¼ç´å…ˆ
+	 * @return å‡ºåŠ›çµæœã®ãƒªã‚¹ãƒˆ
 	 */
 	protected List<GeneratedResult> generateSVCSource(Map<String, Object> contextMap, List<GeneratedResult> result) {
 		InputStream ins = null;

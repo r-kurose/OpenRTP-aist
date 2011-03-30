@@ -7,7 +7,7 @@ import java.util.List;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 
 /**
- * ƒ}ƒbƒsƒ“ƒOƒ‹[ƒ‹‚ğ’è‹`‚·‚éƒNƒ‰ƒX
+ * ãƒãƒƒãƒ”ãƒ³ã‚°ãƒ«ãƒ¼ãƒ«ã‚’å®šç¾©ã™ã‚‹ã‚¯ãƒ©ã‚¹
  */
 public class MappingRule {
 	private MappingRule superMappingRule;
@@ -19,18 +19,18 @@ public class MappingRule {
 	private ReferenceMapping[] referenceMappings;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * <p>
-	 * Œp³Œ³‚Ìƒ}ƒbƒsƒ“ƒOƒ‹[ƒ‹‚ğw’è‚·‚é‚ÆA‘®«‚ÆQÆ‚ªŒp³‚³‚ê‚éBŒp³Œ³‚ª‘¶İ‚µ‚È‚¢ê‡‚É‚ÍnullB
+	 * ç¶™æ‰¿å…ƒã®ãƒãƒƒãƒ”ãƒ³ã‚°ãƒ«ãƒ¼ãƒ«ã‚’æŒ‡å®šã™ã‚‹ã¨ã€å±æ€§ã¨å‚ç…§ãŒç¶™æ‰¿ã•ã‚Œã‚‹ã€‚ç¶™æ‰¿å…ƒãŒå­˜åœ¨ã—ãªã„å ´åˆã«ã¯nullã€‚
 	 * 
 	 * @param superMappingRule
-	 *            Œp³Œ³‚Ìƒ}ƒbƒsƒ“ƒOƒ‹[ƒ‹
+	 *            ç¶™æ‰¿å…ƒã®ãƒãƒƒãƒ”ãƒ³ã‚°ãƒ«ãƒ¼ãƒ«
 	 * @param classMapping
-	 *            ƒNƒ‰ƒXƒ}ƒbƒsƒ“ƒO
+	 *            ã‚¯ãƒ©ã‚¹ãƒãƒƒãƒ”ãƒ³ã‚°
 	 * @param attributeMappings
-	 *            ‘®«ƒ}ƒbƒsƒ“ƒO
+	 *            å±æ€§ãƒãƒƒãƒ”ãƒ³ã‚°
 	 * @param referenceMappings
-	 *            QÆƒ}ƒbƒsƒ“ƒO
+	 *            å‚ç…§ãƒãƒƒãƒ”ãƒ³ã‚°
 	 */
 	public MappingRule(MappingRule superMappingRule, ClassMapping classMapping,
 			AttributeMapping[] attributeMappings,
@@ -42,36 +42,36 @@ public class MappingRule {
 	}
 
 	/**
-	 * ‘®«ƒ}ƒbƒsƒ“ƒO‚ğæ“¾‚·‚é
+	 * å±æ€§ãƒãƒƒãƒ”ãƒ³ã‚°ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @return ‘®«ƒ}ƒbƒsƒ“ƒO
+	 * @return å±æ€§ãƒãƒƒãƒ”ãƒ³ã‚°
 	 */
 	public AttributeMapping[] getAttributeMappings() {
 		return attributeMappings;
 	}
 
 	/**
-	 * ƒNƒ‰ƒXƒ}ƒbƒsƒ“ƒO‚ğæ“¾‚·‚é
+	 * ã‚¯ãƒ©ã‚¹ãƒãƒƒãƒ”ãƒ³ã‚°ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @return ƒNƒ‰ƒXƒ}ƒbƒsƒ“ƒO
+	 * @return ã‚¯ãƒ©ã‚¹ãƒãƒƒãƒ”ãƒ³ã‚°
 	 */
 	public ClassMapping getClassMapping() {
 		return classMapping;
 	}
 
 	/**
-	 * QÆƒ}ƒbƒsƒ“ƒO‚ğæ“¾‚·‚é
+	 * å‚ç…§ãƒãƒƒãƒ”ãƒ³ã‚°ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @return QÆƒ}ƒbƒsƒ“ƒO
+	 * @return å‚ç…§ãƒãƒƒãƒ”ãƒ³ã‚°
 	 */
 	public ReferenceMapping[] getReferenceMappings() {
 		return referenceMappings;
 	}
 
 	/**
-	 * ‘®«ƒ}ƒbƒsƒ“ƒO‚ğæ“¾‚·‚é
+	 * å±æ€§ãƒãƒƒãƒ”ãƒ³ã‚°ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @return ‘®«ƒ}ƒbƒsƒ“ƒO
+	 * @return å±æ€§ãƒãƒƒãƒ”ãƒ³ã‚°
 	 */
 	public AttributeMapping[] getAllAttributeMappings() {
 		List<AttributeMapping> result = new ArrayList<AttributeMapping>();
@@ -87,8 +87,8 @@ public class MappingRule {
 	}
 
 	/**
-	 * Œp³Œ³‚ğŠÜ‚Ş‚·‚×‚Ä‚ÌQÆƒ}ƒbƒsƒ“ƒO‚ğæ“¾‚·‚é
-	 * @return QÆƒ}ƒbƒsƒ“ƒO
+	 * ç¶™æ‰¿å…ƒã‚’å«ã‚€ã™ã¹ã¦ã®å‚ç…§ãƒãƒƒãƒ”ãƒ³ã‚°ã‚’å–å¾—ã™ã‚‹
+	 * @return å‚ç…§ãƒãƒƒãƒ”ãƒ³ã‚°
 	 */
 	public ReferenceMapping[] getAllReferenceMappings() {
 		List<ReferenceMapping> result = new ArrayList<ReferenceMapping>();
@@ -104,16 +104,16 @@ public class MappingRule {
 	}
 
 	/**
-	 * Œp³Œ³‚Ìƒ}ƒbƒsƒ“ƒOƒ‹[ƒ‹‚ğæ“¾‚·‚é
-	 * @return Œp³Œ³‚Ìƒ}ƒbƒsƒ“ƒOƒ‹[ƒ‹
+	 * ç¶™æ‰¿å…ƒã®ãƒãƒƒãƒ”ãƒ³ã‚°ãƒ«ãƒ¼ãƒ«ã‚’å–å¾—ã™ã‚‹
+	 * @return ç¶™æ‰¿å…ƒã®ãƒãƒƒãƒ”ãƒ³ã‚°ãƒ«ãƒ¼ãƒ«
 	 */
 	public MappingRule getSuperMappingRule() {
 		return superMappingRule;
 	}
 
 	/**
-	 * Œp³Œ³‚ğŠÜ‚Ş‚·‚×‚Ä‚Ì‘®«ƒ}ƒbƒsƒ“ƒO‚ğæ“¾‚·‚é
-	 * @return ‘®«ƒ}ƒbƒsƒ“ƒO
+	 * ç¶™æ‰¿å…ƒã‚’å«ã‚€ã™ã¹ã¦ã®å±æ€§ãƒãƒƒãƒ”ãƒ³ã‚°ã‚’å–å¾—ã™ã‚‹
+	 * @return å±æ€§ãƒãƒƒãƒ”ãƒ³ã‚°
 	 */
 	public ReferenceMapping[] getAllContainerReferenceMappings() {
 		List<ReferenceMapping> result = new ArrayList<ReferenceMapping>();
@@ -128,8 +128,8 @@ public class MappingRule {
 	}
 
 	/**
-	 * localObject‚ÌƒNƒ‰ƒX‚ªClassMapping‚Ìƒ[ƒJƒ‹ƒNƒ‰ƒX‚Æˆê’v‚·‚é‚±‚ÆˆÈŠO‚Éƒ}ƒbƒsƒ“ƒO‚ÌğŒ‚ª
-	 * ‘¶İ‚·‚éê‡‚ÉƒI[ƒoƒ‰ƒCƒh‚·‚é
+	 * localObjectã®ã‚¯ãƒ©ã‚¹ãŒClassMappingã®ãƒ­ãƒ¼ã‚«ãƒ«ã‚¯ãƒ©ã‚¹ã¨ä¸€è‡´ã™ã‚‹ã“ã¨ä»¥å¤–ã«ãƒãƒƒãƒ”ãƒ³ã‚°ã®æ¡ä»¶ãŒ
+	 * å­˜åœ¨ã™ã‚‹å ´åˆã«ã‚ªãƒ¼ãƒãƒ©ã‚¤ãƒ‰ã™ã‚‹
 	 * @param localObject
 	 * @return
 	 */

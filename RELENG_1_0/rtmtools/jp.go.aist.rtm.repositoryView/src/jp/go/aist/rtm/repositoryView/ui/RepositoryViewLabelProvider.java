@@ -19,7 +19,7 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * ���|�W�g���r���[�̃��x���v���o�C�_
+ * レポジトリビューのラベルプロバイダ
  *
  */
 public class RepositoryViewLabelProvider extends LabelProvider {
@@ -32,6 +32,7 @@ public class RepositoryViewLabelProvider extends LabelProvider {
 		return ""; 
 	}
 	
+	// アダプタを使わないとしても、imageNameの取得は別メソッドにしたい
 	public Image getImage(Object obj) {
 		String imageKey = ISharedImages.IMG_OBJ_ELEMENT;
 

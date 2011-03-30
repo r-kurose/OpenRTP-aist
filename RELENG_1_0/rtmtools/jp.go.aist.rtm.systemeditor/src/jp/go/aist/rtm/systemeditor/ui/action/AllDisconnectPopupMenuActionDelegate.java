@@ -13,7 +13,7 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * ƒ|[ƒg‚ÌÚ‘±‚ğ‚·‚×‚Äíœ‚·‚éƒAƒNƒVƒ‡ƒ“ƒfƒŠƒQ[ƒg
+ * ãƒãƒ¼ãƒˆã®æ¥ç¶šã‚’ã™ã¹ã¦å‰Šé™¤ã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ‡ãƒªã‚²ãƒ¼ãƒˆ
  *
  */
 public class AllDisconnectPopupMenuActionDelegate implements

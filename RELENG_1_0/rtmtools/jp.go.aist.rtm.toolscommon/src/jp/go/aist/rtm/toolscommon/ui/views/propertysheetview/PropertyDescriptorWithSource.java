@@ -5,7 +5,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 
 
 /**
- * Property‚ÌDescriptor‚ÆSource‚ğ‚Ü‚Æ‚ß‚½ƒNƒ‰ƒX
+ * Propertyã®Descriptorã¨Sourceã‚’ã¾ã¨ã‚ãŸã‚¯ãƒ©ã‚¹
  */
 public class PropertyDescriptorWithSource {
 	private IPropertyDescriptor propertyDescriptor;
@@ -13,7 +13,7 @@ public class PropertyDescriptorWithSource {
 	private IPropertySource source;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param propertyDescriptor
 	 *            IPropertyDescriptor
@@ -27,7 +27,7 @@ public class PropertyDescriptorWithSource {
 	}
 
 	/**
-	 * IPropertyDescriptor‚ğæ“¾‚·‚é
+	 * IPropertyDescriptorã‚’å–å¾—ã™ã‚‹
 	 * 
 	 * @return IPropertyDescriptor
 	 */
@@ -36,7 +36,7 @@ public class PropertyDescriptorWithSource {
 	}
 
 	/**
-	 * IPropertySource‚ğæ“¾‚·‚é
+	 * IPropertySourceã‚’å–å¾—ã™ã‚‹
 	 * 
 	 * @return IPropertySource
 	 */

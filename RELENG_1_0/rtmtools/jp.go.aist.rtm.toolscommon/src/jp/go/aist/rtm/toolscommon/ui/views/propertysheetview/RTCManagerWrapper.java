@@ -18,7 +18,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
 /**
- * ƒ}ƒl[ƒWƒƒ‚Ìƒ‰ƒbƒpƒNƒ‰ƒX
+ * ãƒãƒãƒ¼ã‚¸ãƒ£ã®ãƒ©ãƒƒãƒ‘ã‚¯ãƒ©ã‚¹
  */
 public class RTCManagerWrapper {
 	public static final String DISP_COMPONENTS = Messages.getString("RTCManagerWrapper.disp.components");
@@ -30,63 +30,63 @@ public class RTCManagerWrapper {
 	private EObject manager;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param manager
-	 *            ƒhƒƒCƒ“ƒ‚ƒfƒ‹
+	 *            ãƒ‰ãƒ¡ã‚¤ãƒ³ãƒ¢ãƒ‡ãƒ«
 	 */
 	public RTCManagerWrapper(EObject manager) {
 		this.manager = manager;
 	}
 
 	/**
-	 * ƒ}ƒl[ƒWƒƒ‚ğæ“¾‚·‚é
+	 * ãƒãƒãƒ¼ã‚¸ãƒ£ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @return ƒ}ƒl[ƒWƒƒ‚ÌƒIƒuƒWƒFƒNƒg
+	 * @return ãƒãƒãƒ¼ã‚¸ãƒ£ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 */
 	public EObject getManager() {
 		return manager;
 	}
 
 	/**
-	 * ƒ}ƒl[ƒWƒƒ‚ğİ’è‚·‚é
+	 * ãƒãƒãƒ¼ã‚¸ãƒ£ã‚’è¨­å®šã™ã‚‹
 	 * 
 	 * @param manager
-	 *            ƒ}ƒl[ƒWƒƒ‚ÌƒIƒuƒWƒFƒNƒg
+	 *            ãƒãƒãƒ¼ã‚¸ãƒ£ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 */
 	public void setManager(EObject manager) {
 		this.manager = manager;
 	}
 
 	/**
-	 * ‹N“®’†ƒRƒ“ƒ|[ƒlƒ“ƒg–¼ˆê——‚ÌqƒIƒuƒWƒFƒNƒg‚ğæ“¾‚µ‚Ü‚·B
+	 * èµ·å‹•ä¸­ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆåä¸€è¦§ã®å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚
 	 * 
-	 * @return ƒRƒ“ƒ|[ƒlƒ“ƒg–¼ˆê——‚ÌqƒIƒuƒWƒFƒNƒg
+	 * @return ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆåä¸€è¦§ã®å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 */
 	public Child getComponentsChild() {
 		return new Child((RTCManager) this.manager, Child.COMPONENTS);
 	}
 
 	/**
-	 * ƒ[ƒh‰Â”\ƒ‚ƒWƒ…[ƒ‹–¼ˆê——‚ÌqƒIƒuƒWƒFƒNƒg‚ğæ“¾‚µ‚Ü‚·B
+	 * ãƒ­ãƒ¼ãƒ‰å¯èƒ½ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«åä¸€è¦§ã®å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚
 	 * 
-	 * @return ƒ[ƒh‰Â”\ƒ‚ƒWƒ…[ƒ‹–¼ˆê——‚ÌqƒIƒuƒWƒFƒNƒg
+	 * @return ãƒ­ãƒ¼ãƒ‰å¯èƒ½ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«åä¸€è¦§ã®å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 */
 	public Child getLoadableModulesChild() {
 		return new Child((RTCManager) this.manager, Child.LOADABLE_MODULES);
 	}
 
 	/**
-	 * ƒ[ƒhÏ‚İƒ‚ƒWƒ…[ƒ‹–¼ˆê——‚ÌqƒIƒuƒWƒFƒNƒg‚ğæ“¾‚µ‚Ü‚·B
+	 * ãƒ­ãƒ¼ãƒ‰æ¸ˆã¿ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«åä¸€è¦§ã®å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚
 	 * 
-	 * @return ƒ[ƒhÏ‚İƒ‚ƒWƒ…[ƒ‹–¼ˆê——‚ÌqƒIƒuƒWƒFƒNƒg
+	 * @return ãƒ­ãƒ¼ãƒ‰æ¸ˆã¿ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«åä¸€è¦§ã®å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 */
 	public Child getLoadedModulesChild() {
 		return new Child((RTCManager) this.manager, Child.LOADED_MODULES);
 	}
 
 	/**
-	 * ƒ}ƒl[ƒWƒƒ‚ÌqƒIƒuƒWƒFƒNƒg—p‚ÌƒvƒƒpƒeƒBEƒ\[ƒX
+	 * ãƒãƒãƒ¼ã‚¸ãƒ£ã®å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”¨ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ»ã‚½ãƒ¼ã‚¹
 	 */
 	public class PropertySource implements IPropertySource {
 
@@ -97,14 +97,14 @@ public class RTCManagerWrapper {
 		private Map<String, String> valueMap = new HashMap<String, String>();
 
 		/**
-		 * ƒvƒƒpƒeƒB‚ğ’Ç‰Á‚µ‚Ü‚·B
+		 * ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 		 * 
 		 * @param id
-		 *            ƒvƒƒpƒeƒBID
+		 *            ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ID
 		 * @param name
-		 *            ƒvƒƒpƒeƒB•\¦–¼
+		 *            ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£è¡¨ç¤ºå
 		 * @param value
-		 *            ƒvƒƒpƒeƒB’l
+		 *            ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å€¤
 		 */
 		public void addProperty(String id, String name, String value) {
 			this.idList.add(id);
@@ -151,7 +151,7 @@ public class RTCManagerWrapper {
 	}
 
 	/**
-	 * ƒ}ƒl[ƒWƒƒ‚ÌqƒIƒuƒWƒFƒNƒg—p‚Ìƒ[ƒNƒxƒ“ƒ`EƒAƒ_ƒvƒ^
+	 * ãƒãƒãƒ¼ã‚¸ãƒ£ã®å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”¨ã®ãƒ¯ãƒ¼ã‚¯ãƒ™ãƒ³ãƒãƒ»ã‚¢ãƒ€ãƒ—ã‚¿
 	 */
 	public class WorkbenchAdapter implements IWorkbenchAdapter {
 		public Object[] getChildren(Object o) {
@@ -175,7 +175,7 @@ public class RTCManagerWrapper {
 	};
 
 	/**
-	 * ƒ}ƒl[ƒWƒƒ‚ÌqƒIƒuƒWƒFƒNƒg‚ğ•\‚µ‚Ü‚·B
+	 * ãƒãƒãƒ¼ã‚¸ãƒ£ã®å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¡¨ã—ã¾ã™ã€‚
 	 */
 	public class Child implements IAdaptable {
 		public static final String COMPONENTS = "COMPONENTS";
@@ -186,7 +186,7 @@ public class RTCManagerWrapper {
 
 		private RTCManager manager;
 
-		/** qƒIƒuƒWƒFƒNƒg‚ÌƒL[(COMPONENTS/LOADABLE_MODULES/LOADED_MODULES) */
+		/** å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚­ãƒ¼(COMPONENTS/LOADABLE_MODULES/LOADED_MODULES) */
 		private String key;
 
 		PropertySource source;
@@ -198,9 +198,9 @@ public class RTCManagerWrapper {
 		}
 
 		/**
-		 * ‚±‚ÌqƒIƒuƒWƒFƒNƒg‚Ì•\¦–¼‚ğ•Ô‚µ‚Ü‚·B
+		 * ã“ã®å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è¡¨ç¤ºåã‚’è¿”ã—ã¾ã™ã€‚
 		 * 
-		 * @return qƒIƒuƒWƒFƒNƒg‚Ì•\¦–¼(Components/Loadable Modules/Loaded Modules)
+		 * @return å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è¡¨ç¤ºå(Components/Loadable Modules/Loaded Modules)
 		 */
 		public String getLabel() {
 			if (this.key.equals(COMPONENTS)) {
@@ -214,9 +214,9 @@ public class RTCManagerWrapper {
 		}
 
 		/**
-		 * ‚±‚ÌqƒIƒuƒWƒFƒNƒg‚ÌƒvƒƒpƒeƒBEƒ\[ƒX‚ğ•Ô‚µ‚Ü‚·B
+		 * ã“ã®å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ»ã‚½ãƒ¼ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚
 		 * 
-		 * @return ƒvƒƒpƒeƒBEƒ\[ƒX
+		 * @return ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ»ã‚½ãƒ¼ã‚¹
 		 */
 		@SuppressWarnings("unchecked")
 		public IPropertySource getPropertySource() {

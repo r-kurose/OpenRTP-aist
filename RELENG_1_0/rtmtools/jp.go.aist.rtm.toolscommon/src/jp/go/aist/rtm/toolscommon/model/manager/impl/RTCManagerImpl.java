@@ -293,9 +293,9 @@ public class RTCManagerImpl extends CorbaWrapperObjectImpl implements
 		if (local == null || !(local instanceof Component)) {
 			return null;
 		}
-		// ƒLƒƒƒbƒVƒ…XV
+		// ã‚­ãƒ£ãƒƒã‚·ãƒ¥æ›´æ–°
 		getComponentProfilesR();
-		// ƒvƒƒpƒeƒBXV’Ê’m
+		// ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£æ›´æ–°é€šçŸ¥
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					ManagerPackage.RTM_MODULE_PROFILE, false, true));
@@ -310,9 +310,9 @@ public class RTCManagerImpl extends CorbaWrapperObjectImpl implements
 	public int deleteComponentR(String instanceName) {
 		RTC.ReturnCode_t rc = this.getCorbaObjectInterface().delete_component(
 				instanceName);
-		// ƒLƒƒƒbƒVƒ…XV
+		// ã‚­ãƒ£ãƒƒã‚·ãƒ¥æ›´æ–°
 		getComponentProfilesR();
-		// ƒvƒƒpƒeƒBXV’Ê’m
+		// ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£æ›´æ–°é€šçŸ¥
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					ManagerPackage.RTM_MODULE_PROFILE, false, true));
@@ -362,10 +362,10 @@ public class RTCManagerImpl extends CorbaWrapperObjectImpl implements
 	public int loadModuleR(String pathname, String initfunc) {
 		RTC.ReturnCode_t rc = this.getCorbaObjectInterface().load_module(
 				pathname, initfunc);
-		// ƒLƒƒƒbƒVƒ…XV
+		// ã‚­ãƒ£ãƒƒã‚·ãƒ¥æ›´æ–°
 		getLoadableModuleProfilesR();
 		getLoadedModuleProfilesR();
-		// ƒvƒƒpƒeƒBXV’Ê’m
+		// ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£æ›´æ–°é€šçŸ¥
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					ManagerPackage.RTM_MODULE_PROFILE, false, true));
@@ -380,10 +380,10 @@ public class RTCManagerImpl extends CorbaWrapperObjectImpl implements
 	public int unloadModuleR(String pathname) {
 		RTC.ReturnCode_t rc = this.getCorbaObjectInterface().unload_module(
 				pathname);
-		// ƒLƒƒƒbƒVƒ…XV
+		// ã‚­ãƒ£ãƒƒã‚·ãƒ¥æ›´æ–°
 		getLoadableModuleProfilesR();
 		getLoadedModuleProfilesR();
-		// ƒvƒƒpƒeƒBXV’Ê’m
+		// ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£æ›´æ–°é€šçŸ¥
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					ManagerPackage.RTM_MODULE_PROFILE, false, true));
@@ -450,7 +450,7 @@ public class RTCManagerImpl extends CorbaWrapperObjectImpl implements
 //		for (int i = 0; i < profs.length; i++) {
 //			factoryModuleProfiles.add(profs[i]);
 //		}
-		// TODO ƒ~ƒhƒ‹ƒEƒFƒA‚Åƒtƒ@ƒNƒgƒŠæ“¾‚ªC³‚³‚ê‚é‚Ü‚ÅAloadable module‚©‚çæ“¾‚·‚é
+		// TODO ãƒŸãƒ‰ãƒ«ã‚¦ã‚§ã‚¢ã§ãƒ•ã‚¡ã‚¯ãƒˆãƒªå–å¾—ãŒä¿®æ­£ã•ã‚Œã‚‹ã¾ã§ã€loadable moduleã‹ã‚‰å–å¾—ã™ã‚‹
 		for (ModuleProfile prof : getLoadableModuleProfiles()) {
 			String file = SDOUtil.getStringValue(prof.properties, "implementation_id");
 			if (file != null) {
@@ -486,7 +486,7 @@ public class RTCManagerImpl extends CorbaWrapperObjectImpl implements
 	 * @generated NOT
 	 */
 	public EList<String> getComponentInstanceNamesR() {
-		// ƒLƒƒƒbƒVƒ…XV
+		// ã‚­ãƒ£ãƒƒã‚·ãƒ¥æ›´æ–°
 		getComponentProfilesR();
 		return getComponentInstanceNames();
 	}
@@ -497,7 +497,7 @@ public class RTCManagerImpl extends CorbaWrapperObjectImpl implements
 	 * @generated NOT
 	 */
 	public EList<String> getLoadableModuleFileNamesR() {
-		// ƒLƒƒƒbƒVƒ…XV
+		// ã‚­ãƒ£ãƒƒã‚·ãƒ¥æ›´æ–°
 		getLoadableModuleProfilesR();
 		return getLoadableModuleFileNames();
 	}
@@ -508,7 +508,7 @@ public class RTCManagerImpl extends CorbaWrapperObjectImpl implements
 	 * @generated NOT
 	 */
 	public EList<String> getLoadedModuleFileNamesR() {
-		// ƒLƒƒƒbƒVƒ…XV
+		// ã‚­ãƒ£ãƒƒã‚·ãƒ¥æ›´æ–°
 		getLoadedModuleProfilesR();
 		return getLoadedModuleFileNames();
 	}
@@ -519,7 +519,7 @@ public class RTCManagerImpl extends CorbaWrapperObjectImpl implements
 	 * @generated NOT
 	 */
 	public EList<String> getFactoryProfileTypeNamesR() {
-		// ƒLƒƒƒbƒVƒ…XV
+		// ã‚­ãƒ£ãƒƒã‚·ãƒ¥æ›´æ–°
 		getFactoryModuleProfilesR();
 		return getFactoryTypeNames();
 	}

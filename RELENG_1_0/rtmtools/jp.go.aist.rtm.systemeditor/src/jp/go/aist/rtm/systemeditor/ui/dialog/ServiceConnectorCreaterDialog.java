@@ -45,12 +45,12 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * ƒT[ƒrƒXƒ|[ƒgŠÔ‚ÌÚ‘±‚ÌƒRƒlƒNƒ^ƒvƒƒtƒ@ƒCƒ‹‚Ì‘I‘ğƒ_ƒCƒAƒƒO
+ * ã‚µãƒ¼ãƒ“ã‚¹ãƒãƒ¼ãƒˆé–“ã®æ¥ç¶šã®ã‚³ãƒã‚¯ã‚¿ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã®é¸æŠãƒ€ã‚¤ã‚¢ãƒ­ã‚°
  * <P>
- * ƒ|[ƒg–¼‚ğ“ü—Í‚·‚é Ú‘±‚µ‚æ‚¤‚Æ‚µ‚Ä‚¢‚éServicePortŠÔ‚Åƒ}ƒbƒ`ƒ“ƒO‚ğs‚¢A•K—v‚É‰‚¶‚ÄŒx‚ğ•\¦‚·‚éB
- * ‚±‚±‚Å‚¢‚¤ƒ}ƒbƒ`ƒ“ƒO‚ÍAuPortInterfaceProfile.typev‚ª“¯‚¶‚ÅAuPortInterfaceProfile.polarityv‚ªPROVIDED‚ÆREQUIRED‚Å‘Î‰‚·‚é‚±‚Æ‚ğ‚¢‚¤B
- * EŠ®‘Sˆê’v‚µ‚½ê‡ ¨ Œx‚È‚µ Eˆê•”ˆê’v‚µ‚½ê‡ ¨ Œx uPort interfaces do not match completely.v
- * EŠ®‘S•sˆê’v‚µ‚½ê‡ ¨ Œx uNo corresponding port interface.v
+ * ãƒãƒ¼ãƒˆåã‚’å…¥åŠ›ã™ã‚‹ æ¥ç¶šã—ã‚ˆã†ã¨ã—ã¦ã„ã‚‹ServicePorté–“ã§ãƒãƒƒãƒãƒ³ã‚°ã‚’è¡Œã„ã€å¿…è¦ã«å¿œã˜ã¦è­¦å‘Šã‚’è¡¨ç¤ºã™ã‚‹ã€‚
+ * ã“ã“ã§ã„ã†ãƒãƒƒãƒãƒ³ã‚°ã¯ã€ã€ŒPortInterfaceProfile.typeã€ãŒåŒã˜ã§ã€ã€ŒPortInterfaceProfile.polarityã€ãŒPROVIDEDã¨REQUIREDã§å¯¾å¿œã™ã‚‹ã“ã¨ã‚’ã„ã†ã€‚
+ * ãƒ»å®Œå…¨ä¸€è‡´ã—ãŸå ´åˆ â†’ è­¦å‘Šãªã— ãƒ»ä¸€éƒ¨ä¸€è‡´ã—ãŸå ´åˆ â†’ è­¦å‘Š ã€ŒPort interfaces do not match completely.ã€
+ * ãƒ»å®Œå…¨ä¸ä¸€è‡´ã—ãŸå ´åˆ â†’ è­¦å‘Š ã€ŒNo corresponding port interface.ã€
  * 
  */
 public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
@@ -104,9 +104,9 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 	}
 
 	/**
-	 * ConnectorProfileCreaterƒCƒ“ƒ^ƒtƒF[ƒX‚ÌÀ‘•ƒƒ\ƒbƒh
+	 * ConnectorProfileCreaterã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã®å®Ÿè£…ãƒ¡ã‚½ãƒƒãƒ‰
 	 * <p>
-	 * ConnectorProfile‚Æ‚È‚éŒó•â‚ª•¡”‚ ‚éê‡‚É‚ÍAƒ_ƒCƒAƒƒO‚ğ•\¦‚µAConnectorProfile‚ğì¬‚·‚éB
+	 * ConnectorProfileã¨ãªã‚‹å€™è£œãŒè¤‡æ•°ã‚ã‚‹å ´åˆã«ã¯ã€ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’è¡¨ç¤ºã—ã€ConnectorProfileã‚’ä½œæˆã™ã‚‹ã€‚
 	 */
 	public ConnectorProfile getConnectorProfile(ServicePort first,
 			ServicePort second) {
@@ -130,7 +130,7 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 		return dialogResult;
 	}
 
-	/** Consumer/Provider‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXˆê——‚ğ“o˜^ */
+	/** Consumer/Providerã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ä¸€è¦§ã‚’ç™»éŒ² */
 	void registInterfaceMap(ServicePort port) {
 		if (port == null) {
 			return;
@@ -215,7 +215,7 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 	}
 
 	/**
-	 * ƒƒCƒ“‚Æ‚È‚é•\¦•”‚ğì¬‚·‚é
+	 * ãƒ¡ã‚¤ãƒ³ã¨ãªã‚‹è¡¨ç¤ºéƒ¨ã‚’ä½œæˆã™ã‚‹
 	 */
 	private void createConnectorProfileComposite(final Composite mainComposite) {
 		GridLayout gl;
@@ -267,7 +267,7 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 				}
 				detailComposite.setVisible(selection);
 				if (!selection) {
-					// Ú×ƒ`ƒFƒbƒN‰ğœ‚ÉAŒ³‚Ìƒ_ƒCƒAƒƒO‚ÌƒTƒCƒY‚É–ß‚·
+					// è©³ç´°ãƒã‚§ãƒƒã‚¯è§£é™¤æ™‚ã«ã€å…ƒã®ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã®ã‚µã‚¤ã‚ºã«æˆ»ã™
 					getShell().setSize(defaultDialogSize);
 				} else {
 					getShell().setSize(
@@ -280,7 +280,7 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 	}
 
 	/**
-	 * Ú×İ’è‚Ì•\¦•”‚ğì¬‚·‚é
+	 * è©³ç´°è¨­å®šã®è¡¨ç¤ºéƒ¨ã‚’ä½œæˆã™ã‚‹
 	 */
 	Composite createDetailComposite(Composite parent) {
 		GridLayout gl;
@@ -395,7 +395,7 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 	}
 
 	/**
-	 * ƒ‚ƒfƒ‹î•ñ‚ÉƒAƒNƒZƒX‚µA•\¦‚Éİ’è‚·‚é
+	 * ãƒ¢ãƒ‡ãƒ«æƒ…å ±ã«ã‚¢ã‚¯ã‚»ã‚¹ã—ã€è¡¨ç¤ºã«è¨­å®šã™ã‚‹
 	 */
 	void loadData() {
 		nameText.setText(connectorProfile.getName());
@@ -415,7 +415,7 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 		interfaceTableViewer.setInput(interfaceList);
 	}
 
-	/** Consumer/Provider‚ÌV‹KƒGƒ“ƒgƒŠ‚ğì¬ */
+	/** Consumer/Providerã®æ–°è¦ã‚¨ãƒ³ãƒˆãƒªã‚’ä½œæˆ */
 	InterfaceEntry newEntry() {
 		InterfaceEntry entry = new InterfaceEntry();
 		//
@@ -429,13 +429,13 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 		return entry;
 	}
 
-	/** Consumer/Provider‚ÌƒGƒ“ƒgƒŠ‚ğƒvƒƒtƒ@ƒCƒ‹‚Ö”½‰f */
+	/** Consumer/Providerã®ã‚¨ãƒ³ãƒˆãƒªã‚’ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã¸åæ˜  */
 	void applyEntry() {
 		if (interfaceList == null) {
 			return;
 		}
 		List<String> keys = new ArrayList<String>();
-		// Consumer/Provider‚ÌƒvƒƒpƒeƒB‚ğƒNƒŠƒA
+		// Consumer/Providerã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’ã‚¯ãƒªã‚¢
 		for (String key : connectorProfile.getPropertyKeys()) {
 			if (ConnectorProfile.InterfaceId.isValid(key)) {
 				keys.add(key);
@@ -444,7 +444,7 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 		for (String key : keys) {
 			connectorProfile.removeProperty(key);
 		}
-		// V‚µ‚¢Consumer/Provider‚ğİ’è
+		// æ–°ã—ã„Consumer/Providerã‚’è¨­å®š
 		for (InterfaceEntry e : interfaceList) {
 			String consumer = e.consumer.toString();
 			String provider = e.provider.toString();
@@ -475,25 +475,25 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * ƒƒbƒZ[ƒW‚ğİ’è‚·‚éB
+	 * ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¨­å®šã™ã‚‹ã€‚
 	 */
 	public void setMessage(String newMessage, int newType) {
 		super.setMessage(newMessage, newType);
 	}
 
 	/**
-	 * İ’è‚É•ÏX‚ª‚ ‚Á‚½ê‡‚ÉŒÄ‚Ño‚³‚ê‚é‚±‚Æ‚ğ‘z’è‚µ‚½ƒƒ\ƒbƒhB
+	 * è¨­å®šã«å¤‰æ›´ãŒã‚ã£ãŸå ´åˆã«å‘¼ã³å‡ºã•ã‚Œã‚‹ã“ã¨ã‚’æƒ³å®šã—ãŸãƒ¡ã‚½ãƒƒãƒ‰ã€‚
 	 * <p>
-	 * ’ˆÓFİ’è’l‚Ì•ÏX‚ª‚ ‚éê‡‚É‚ÍA•K‚¸‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚±‚Æ<br>
-	 * Œ»İ‚ÍA•\¦‘¤‚Åİ’è‚ğ•ÏX‚µ‚½Œã‚ÉA‚±‚Ìƒƒ\ƒbƒh‚ğ•K‚¸ŒÄ‚Ño‚·‚æ‚¤‚ÉÀ‘•‚µ‚Ä‚¢‚é‚ªA
-	 * €–Ú”‚ª‘‚¦‚é‚æ‚¤‚È‚ç‚ÎAƒ‚ƒfƒ‹‚Ì•ÏX’Ê’m‹@”\‚ğg—p‚µ‚ÄÀ‘•‚·‚é•û‚ª—Ç‚¢B
+	 * æ³¨æ„ï¼šè¨­å®šå€¤ã®å¤‰æ›´ãŒã‚ã‚‹å ´åˆã«ã¯ã€å¿…ãšã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã™ã“ã¨<br>
+	 * ç¾åœ¨ã¯ã€è¡¨ç¤ºå´ã§è¨­å®šã‚’å¤‰æ›´ã—ãŸå¾Œã«ã€ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å¿…ãšå‘¼ã³å‡ºã™ã‚ˆã†ã«å®Ÿè£…ã—ã¦ã„ã‚‹ãŒã€
+	 * é …ç›®æ•°ãŒå¢—ãˆã‚‹ã‚ˆã†ãªã‚‰ã°ã€ãƒ¢ãƒ‡ãƒ«ã®å¤‰æ›´é€šçŸ¥æ©Ÿèƒ½ã‚’ä½¿ç”¨ã—ã¦å®Ÿè£…ã™ã‚‹æ–¹ãŒè‰¯ã„ã€‚
 	 */
 	public void notifyModified() {
 	}
 
 	/**
-	 * PortInterfaceProfile‚Ìƒ}ƒbƒ`”‚ğ”‚¦‚é
-	 *    required‚¾‚¯‚ª‘ÎÛ
+	 * PortInterfaceProfileã®ãƒãƒƒãƒæ•°ã‚’æ•°ãˆã‚‹
+	 *    requiredã ã‘ãŒå¯¾è±¡
 	 * 
 	 * @param interfaces1
 	 * @param interfaces2
@@ -513,7 +513,7 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 		return result;
 	}
 
-	//@requiring interface ‚Ì”‚ğ•Ô‚·
+	//ã€€requiring interface ã®æ•°ã‚’è¿”ã™
 	private int countTotal(List<PortInterfaceProfile> interfaces1,
 			List<PortInterfaceProfile> interfaces2) {
 		int result = 0;
@@ -537,11 +537,11 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 	}
 
 	/**
-	 * PortInterfaceProfile‚ªƒ}ƒbƒ`‚·‚é‚©‚Ç‚¤‚©
+	 * PortInterfaceProfileãŒãƒãƒƒãƒã™ã‚‹ã‹ã©ã†ã‹
 	 * 
 	 * @param profile
 	 * @param profile2
-	 * @return ƒ}ƒbƒ`‚·‚é‚©‚Ç‚¤‚©
+	 * @return ãƒãƒƒãƒã™ã‚‹ã‹ã©ã†ã‹
 	 */
 	private boolean isMatch(PortInterfaceProfile profile1,
 			PortInterfaceProfile profile2) {
@@ -558,7 +558,7 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 		return getShell().computeSize(SWT.DEFAULT, SWT.DEFAULT, true);
 	}
 
-	/** ƒCƒ“ƒ^[ƒtƒF[ƒXˆê——‚ÌƒGƒ“ƒgƒŠ */
+	/** ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ä¸€è¦§ã®ã‚¨ãƒ³ãƒˆãƒª */
 	public static class InterfaceEntry {
 		ConnectorProfile.InterfaceId consumer;
 		ConnectorProfile.InterfaceId provider;
@@ -576,7 +576,7 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 		}
 	}
 
-	/** ƒ|[ƒgˆê——•\¦‚ÌLabelProvider */
+	/** ãƒãƒ¼ãƒˆä¸€è¦§è¡¨ç¤ºã®LabelProvider */
 	public class InterfaceEntryLabelProvider extends LabelProvider implements
 			ITableLabelProvider {
 		@Override
@@ -596,7 +596,7 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 		}
 	}
 
-	/** ƒCƒ“ƒ^[ƒtƒF[ƒXˆê——‚ÌCellModifier */
+	/** ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ä¸€è¦§ã®CellModifier */
 	public class InterfaceTableCellModifier implements ICellModifier {
 		private TableViewer viewer;
 

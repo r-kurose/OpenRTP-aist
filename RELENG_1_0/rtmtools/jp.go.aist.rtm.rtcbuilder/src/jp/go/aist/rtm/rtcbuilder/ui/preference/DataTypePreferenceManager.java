@@ -13,16 +13,16 @@ public class DataTypePreferenceManager {
 	private static DataTypePreferenceManager __instance = new DataTypePreferenceManager();
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
-	 * @return ƒVƒ“ƒOƒ‹ƒgƒ“
+	 * @return ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³
 	 */
 	public static DataTypePreferenceManager getInstance() {
 		return __instance;
 	}
 
 	/**
-	 * IDL File‚ÌƒL[
+	 * IDL Fileã®ã‚­ãƒ¼
 	 */
 	public static final String IDLFILE_DIRECTORIES = DataTypePreferenceManager.class.getName()
 			+ "IDLFILE_DIRECTORIES";
@@ -33,10 +33,10 @@ public class DataTypePreferenceManager {
 			this);
 
 	/**
-	 * DataType —pIDLƒtƒ@ƒCƒ‹Ši”[ƒfƒBƒŒƒNƒgƒŠ‚Ì ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * DataType ç”¨IDLãƒ•ã‚¡ã‚¤ãƒ«æ ¼ç´ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã® ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return IDLFile Directories ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return IDLFile Directories ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public List<String> getIdlFileDirectories() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(IDLFILE_DIRECTORIES, "");

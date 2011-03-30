@@ -11,8 +11,8 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
-import jp.go.aist.rtm.nameserviceview.manager.ManagerPackage;
-import jp.go.aist.rtm.nameserviceview.manager.Node;
+import jp.go.aist.rtm.nameserviceview.model.manager.ManagerPackage;
+import jp.go.aist.rtm.nameserviceview.model.manager.Node;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameservicePackage;
@@ -42,6 +42,7 @@ import org.omg.CosNaming.NamingContextPackage.NotFound;
  * <ul>
  *   <li>{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.CorbaNodeImpl#getNodes <em>Nodes</em>}</li>
  *   <li>{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.CorbaNodeImpl#getNameServiceReference <em>Name Service Reference</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.CorbaNodeImpl#isZombie <em>Zombie</em>}</li>
  * </ul>
  * </p>
  *
@@ -56,7 +57,7 @@ public class CorbaNodeImpl extends CorbaWrapperObjectImpl implements CorbaNode {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList nodes;
+	protected EList<Node> nodes;
 
 	/**
 	 * The cached value of the '{@link #getNameServiceReference() <em>Name Service Reference</em>}' reference.
@@ -67,6 +68,16 @@ public class CorbaNodeImpl extends CorbaWrapperObjectImpl implements CorbaNode {
 	 * @ordered
 	 */
 	protected NameServiceReference nameServiceReference;
+
+	/**
+	 * The default value of the '{@link #isZombie() <em>Zombie</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isZombie()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean ZOMBIE_EDEFAULT = false;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -82,6 +93,7 @@ public class CorbaNodeImpl extends CorbaWrapperObjectImpl implements CorbaNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return NameservicePackage.Literals.CORBA_NODE;
 	}
@@ -91,9 +103,10 @@ public class CorbaNodeImpl extends CorbaWrapperObjectImpl implements CorbaNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getNodes() {
+	@Override
+	public EList<Node> getNodes() {
 		if (nodes == null) {
-			nodes = new EObjectContainmentEList(Node.class, this, NameservicePackage.CORBA_NODE__NODES);
+			nodes = new EObjectContainmentEList<Node>(Node.class, this, NameservicePackage.CORBA_NODE__NODES);
 		}
 		return nodes;
 	}
@@ -103,6 +116,7 @@ public class CorbaNodeImpl extends CorbaWrapperObjectImpl implements CorbaNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NameServiceReference getNameServiceReference() {
 		if (nameServiceReference != null && nameServiceReference.eIsProxy()) {
 			InternalEObject oldNameServiceReference = (InternalEObject)nameServiceReference;
@@ -129,6 +143,7 @@ public class CorbaNodeImpl extends CorbaWrapperObjectImpl implements CorbaNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setNameServiceReference(NameServiceReference newNameServiceReference) {
 		NameServiceReference oldNameServiceReference = nameServiceReference;
 		nameServiceReference = newNameServiceReference;
@@ -137,11 +152,23 @@ public class CorbaNodeImpl extends CorbaWrapperObjectImpl implements CorbaNode {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> 
-	 * ìñäYÉmÅ[ÉhÇÉlÅ[ÉÄÉTÅ[ÉoÇ©ÇÁçÌèúÇ∑ÇÈÅiCORBAêÍópÅj
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 * @generated
 	 */
+	@Override
+	public boolean isZombie() {
+		// TODO: implement this method to return the 'Zombie' attribute
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc --> 
+	 * ÂΩìË©≤„Éé„Éº„Éâ„Çí„Éç„Éº„É†„Çµ„Éº„Éê„Åã„ÇâÂâäÈô§„Åô„ÇãÔºàCORBAÂ∞ÇÁî®Ôºâ
+	 * <!-- end-user-doc -->
+	 */
+	@Override
 	public void deleteR() throws NotFound, CannotProceed, InvalidName {
 		NameComponent[] nameComponents = getNameServiceReference().getBinding().binding_name;
 		if (eContainer() instanceof NamingContextNode) {
@@ -151,7 +178,7 @@ public class CorbaNodeImpl extends CorbaWrapperObjectImpl implements CorbaNode {
 					new NameComponent[] { nameComponents[nameComponents.length - 1] });
 			
 		}
-		// ÉmÅ[ÉhÇè¡Ç∑ÇÃÇÕìØä˙ÉXÉåÉbÉhÇ…îCÇπÇÈ 2009.4.2
+		// „Éé„Éº„Éâ„ÇíÊ∂à„Åô„ÅÆ„ÅØÂêåÊúü„Çπ„É¨„ÉÉ„Éâ„Å´‰ªª„Åõ„Çã 2009.4.2
 //		EcoreUtil.remove(this);
 	}
 
@@ -160,10 +187,11 @@ public class CorbaNodeImpl extends CorbaWrapperObjectImpl implements CorbaNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case NameservicePackage.CORBA_NODE__NODES:
-				return ((InternalEList)getNodes()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getNodes()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -173,6 +201,7 @@ public class CorbaNodeImpl extends CorbaWrapperObjectImpl implements CorbaNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case NameservicePackage.CORBA_NODE__NODES:
@@ -180,6 +209,8 @@ public class CorbaNodeImpl extends CorbaWrapperObjectImpl implements CorbaNode {
 			case NameservicePackage.CORBA_NODE__NAME_SERVICE_REFERENCE:
 				if (resolve) return getNameServiceReference();
 				return basicGetNameServiceReference();
+			case NameservicePackage.CORBA_NODE__ZOMBIE:
+				return isZombie() ? Boolean.TRUE : Boolean.FALSE;
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -189,11 +220,13 @@ public class CorbaNodeImpl extends CorbaWrapperObjectImpl implements CorbaNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case NameservicePackage.CORBA_NODE__NODES:
 				getNodes().clear();
-				getNodes().addAll((Collection)newValue);
+				getNodes().addAll((Collection<? extends Node>)newValue);
 				return;
 			case NameservicePackage.CORBA_NODE__NAME_SERVICE_REFERENCE:
 				setNameServiceReference((NameServiceReference)newValue);
@@ -207,6 +240,7 @@ public class CorbaNodeImpl extends CorbaWrapperObjectImpl implements CorbaNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case NameservicePackage.CORBA_NODE__NODES:
@@ -224,12 +258,15 @@ public class CorbaNodeImpl extends CorbaWrapperObjectImpl implements CorbaNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case NameservicePackage.CORBA_NODE__NODES:
 				return nodes != null && !nodes.isEmpty();
 			case NameservicePackage.CORBA_NODE__NAME_SERVICE_REFERENCE:
 				return nameServiceReference != null;
+			case NameservicePackage.CORBA_NODE__ZOMBIE:
+				return isZombie() != ZOMBIE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -239,7 +276,8 @@ public class CorbaNodeImpl extends CorbaWrapperObjectImpl implements CorbaNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int eBaseStructuralFeatureID(int derivedFeatureID, Class baseClass) {
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == Node.class) {
 			switch (derivedFeatureID) {
 				case NameservicePackage.CORBA_NODE__NODES: return ManagerPackage.NODE__NODES;
@@ -254,7 +292,8 @@ public class CorbaNodeImpl extends CorbaWrapperObjectImpl implements CorbaNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int eDerivedStructuralFeatureID(int baseFeatureID, Class baseClass) {
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == Node.class) {
 			switch (baseFeatureID) {
 				case ManagerPackage.NODE__NODES: return NameservicePackage.CORBA_NODE__NODES;
@@ -264,17 +303,16 @@ public class CorbaNodeImpl extends CorbaWrapperObjectImpl implements CorbaNode {
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 	
-	/* (non-Javadoc)
-	 * @see jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject#getCorbaObjectInterface()
-	 */
+	@Override
 	public org.omg.CORBA.Object getCorbaObjectInterface() {
 		throw new UnsupportedOperationException();
 	}
 
 	/**
-	 * BindingÇÃî‰ärÇçsÇ§
+	 * Binding„ÅÆÊØîËºÉ„ÇíË°å„ÅÜ
 	 */
 	public static Comparator<org.omg.CosNaming.Binding> COMARATOR = new Comparator<org.omg.CosNaming.Binding>() {
+		@Override
 		public int compare(org.omg.CosNaming.Binding o1,
 				org.omg.CosNaming.Binding o2) {
 			for (int i = 0; i < o1.binding_name.length
@@ -297,13 +335,13 @@ public class CorbaNodeImpl extends CorbaWrapperObjectImpl implements CorbaNode {
 	};
 	
 	/**
-	 * ÉlÅ[ÉÄÉTÅ[ÉrÉXÇ…ìoò^Ç≥ÇÍÇƒÇ¢ÇÈRTCManagerÇÃÉäÉXÉgÇï‘ÇµÇ‹Ç∑ÅB
-	 * NodeImplÇ∆ìØÇ∂é¿ëïÇ≈ÇÕÇ†ÇÈÇ™ÅAÇµÇÂÇ§Ç™Ç»Ç¢
+	 * „Éç„Éº„É†„Çµ„Éº„Éì„Çπ„Å´ÁôªÈå≤„Åï„Çå„Å¶„ÅÑ„ÇãRTCManager„ÅÆ„É™„Çπ„Éà„ÇíËøî„Åó„Åæ„Åô„ÄÇ
+	 * NodeImpl„Å®Âêå„ÅòÂÆüË£Ö„Åß„ÅØ„ÅÇ„Çã„Åå„ÄÅ„Åó„Çá„ÅÜ„Åå„Å™„ÅÑ
 	 */
+	@Override
 	public List<RTCManager> getRTCManagerList() {
 		List<RTCManager> list = new ArrayList<RTCManager>();
-		for (Object obj : getNodes()) {
-			Node nc = (Node) obj;
+		for (Node nc : getNodes()) {
 			list.addAll(nc.getRTCManagerList());
 		}
 		return list;

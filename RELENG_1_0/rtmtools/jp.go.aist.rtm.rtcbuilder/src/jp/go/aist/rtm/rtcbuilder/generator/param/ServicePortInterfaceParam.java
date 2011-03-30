@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * サービスポートを表すクラス
+ * 繧ｵ繝ｼ繝薙せ繝昴�ｼ繝医ｒ陦ｨ縺吶け繝ｩ繧ｹ
  */
 public class ServicePortInterfaceParam extends AbstractRecordedParam implements
 		Serializable {

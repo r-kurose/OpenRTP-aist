@@ -1,12 +1,15 @@
 package jp.go.aist.rtm.systemeditor.ui.dialog;
 
-import java.util.List;
-
+import jp.go.aist.rtm.systemeditor.extension.SaveProfileExtension;
+import jp.go.aist.rtm.systemeditor.factory.ProfileSaver;
 import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
+import jp.go.aist.rtm.toolscommon.profiles.util.IDUtil;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ILabelProviderListener;
@@ -30,11 +33,18 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
+import static jp.go.aist.rtm.systemeditor.ui.util.RTMixin.*;
+
 /**
- * RTS�v���t�@�C���̕ۑ����ɕ\������_�C�A���O
+ * RTSプロファイルの保存時に表示するダイアログ
  *
  */
 public class ProfileInformationDialog extends Dialog {
+
+	static final String DIALOG_TITLE_CONFIRM = Messages
+			.getString("Common.dialog.confirm_title");
+	static final String DIALOG_TITLE_ERROR = Messages
+			.getString("Common.dialog.error_title");
 
 	private Text txtVendor;
 	private Text txtSystemName;
@@ -42,20 +52,18 @@ public class ProfileInformationDialog extends Dialog {
 	private Text txtUpdateLog;
 	private Text txtPath;
 	//
-	private String inputVendor;
-	private String inputSystemName;
-	private String inputVersion;
+	IDUtil.RTSId inputId;
 //	private String inputUpdateLog;
 	private String inputPath;
 	//
 	private boolean isOverWrite = false;
 	
-//	 �K�{�R���|�[�l���g�ݒ�̑Ώ� 2008.12.11
+//	 必須コンポーネント設定の対象 2008.12.11
 	private CheckboxTableViewer viewer;
-	private List<Component> components;
+	private SystemDiagram systemDiagram;
 
 	/**
-	 * �R���X�g���N�^
+	 * コンストラクタ
 	 * 
 	 * @param shell
 	 */
@@ -65,32 +73,32 @@ public class ProfileInformationDialog extends Dialog {
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected Control createDialogArea(Composite parent) {
 		GridLayout gridLayout = new GridLayout(3, false);
 
 		Composite mainComposite = (Composite) super.createDialogArea(parent);
 		mainComposite.setLayout(gridLayout);
 		mainComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
-		
+
 		KeyListener listener = new KeyListener() {
+			@Override
 			public void keyReleased(KeyEvent e) {
 				doValidate();
 			}
+
+			@Override
 			public void keyPressed(KeyEvent e) {
 			}
 		};
 
 		txtVendor = createLabelAndText(mainComposite, Messages.getString("ProfileInformationDialog.0")); //$NON-NLS-1$
-		if(inputVendor!=null) txtVendor.setText(inputVendor);
+		if (inputId != null) txtVendor.setText(inputId.vendor);
 		txtVendor.addKeyListener(listener);
 		txtSystemName = createLabelAndText(mainComposite, Messages.getString("ProfileInformationDialog.1")); //$NON-NLS-1$
-		if(inputSystemName!=null) txtSystemName.setText(inputSystemName);
+		if (inputId != null) txtSystemName.setText(inputId.name);
 		txtSystemName.addKeyListener(listener);
 		txtVersion = createLabelAndText(mainComposite, Messages.getString("ProfileInformationDialog.2")); //$NON-NLS-1$
-		if(inputVersion!=null) txtVersion.setText(inputVersion);
+		if (inputId != null) txtVersion.setText(inputId.version);
 		txtVersion.addKeyListener(listener);
 		//
 		GridData gd;
@@ -101,6 +109,7 @@ public class ProfileInformationDialog extends Dialog {
 		if(inputPath!=null) txtPath.setText(inputPath);
 		txtPath.addKeyListener(listener);
 		txtPath.addModifyListener(new ModifyListener() {
+			@Override
 			public void modifyText(ModifyEvent e) {
 				doValidate();
 			}
@@ -117,6 +126,7 @@ public class ProfileInformationDialog extends Dialog {
 		gd.horizontalAlignment = SWT.FILL;
 		checkButton.setLayoutData(gd);
 		checkButton.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog dialog = new FileDialog(getShell());
 				dialog.setFilterExtensions(new String[] { "*.xml" }); //$NON-NLS-1$
@@ -142,16 +152,34 @@ public class ProfileInformationDialog extends Dialog {
 		gd.heightHint = 70;
 		txtUpdateLog.setLayoutData(gd);
 		//
-		// �K�{�R���|�[�l���g�I���G���A��ǉ�  2008.12.11
+		// 必須コンポーネント選択エリアを追加  2008.12.11
 		createRequiedComponentsArea(mainComposite);
-		
+
+		// 拡張ポイントボタンエリアを追加
+		Composite extensionButtonComposite = new Composite(parent, SWT.NONE);
+		gridLayout = new GridLayout(1, false);
+		extensionButtonComposite.setLayout(gridLayout);
+		extensionButtonComposite
+				.setLayoutData(new GridData(GridData.FILL_BOTH));
+
+		ProfileSaver creator = new ProfileSaver();
+		for (ProfileSaver.ExtentionButton eb : creator
+				.loadExtentionButtons(systemDiagram)) {
+			if (isBlank(eb.getLabel()) || eb.getListener() == null) {
+				continue;
+			}
+			Button button = new Button(extensionButtonComposite, SWT.PUSH);
+			button.setText(eb.getLabel());
+			gd = new GridData(GridData.HORIZONTAL_ALIGN_END);
+			gd.horizontalAlignment = SWT.FILL;
+			button.setLayoutData(gd);
+			button.addSelectionListener(eb.getListener());
+		}
+
 		return mainComposite;
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
 		shell.setText(Messages.getString("ProfileInformationDialog.9")); //$NON-NLS-1$
@@ -165,77 +193,108 @@ public class ProfileInformationDialog extends Dialog {
 
 	@Override
 	protected void okPressed() {
-		inputVendor = txtVendor.getText();
-		inputSystemName = txtSystemName.getText();
-		inputVersion = txtVersion.getText();
+		ProfileSaver creator = new ProfileSaver();
+
+		for (SaveProfileExtension.ErrorInfo info : creator
+				.validate(systemDiagram)) {
+			if (info.isError()) {
+				openError(DIALOG_TITLE_ERROR, info.getMessage());
+				return;
+			} else {
+				if (!openConfirm(DIALOG_TITLE_CONFIRM, info.getMessage())) {
+					return;
+				}
+			}
+		}
+
+		if (inputId == null) {
+			inputId = new IDUtil.RTSId(null, null, null);
+		}
+		inputId.vendor = txtVendor.getText();
+		inputId.name = txtSystemName.getText();
+		inputId.version = txtVersion.getText();
 		inputPath = txtPath.getText();
 //		inputUpdateLog = txtUpdateLog.getText();
-		// OK�{�^���������ꂽ�Ƃ��ɕK�{�R���|�[�l���g�ł��邩�̐ݒ���X�V����
+		// OKボタンが押されたときに必須コンポーネントであるかの設定を更新する
 		syncRequiredComponents();
+
+		for (SaveProfileExtension.ErrorInfo info : creator.prepareSave(
+				systemDiagram, inputId.vendor, inputId.name, inputId.version,
+				inputPath)) {
+			if (info.isError()) {
+				openError(DIALOG_TITLE_ERROR, info.getMessage());
+				return;
+			} else {
+				if (!openConfirm(DIALOG_TITLE_CONFIRM, info.getMessage())) {
+					return;
+				}
+			}
+		}
+
 		super.okPressed();
 	}
-	
-    public String getInputPath() {
+
+	public void setInputPath(String inputPath) {
+		this.inputPath = inputPath;
+	}
+
+	public String getInputPath() {
 		return inputPath;
 	}
 
 	public String getInputSystemName() {
-		return inputSystemName;
+		return (inputId == null) ? null : inputId.name;
 	}
 
 //	public String getInputUpdateLog() {
 //		return inputUpdateLog;
 //	}
 
-	/**
-	 * @return ���͂��ꂽ�x���_�[
-	 */
 	public String getInputVendor() {
-		return inputVendor;
+		return (inputId == null) ? null : inputId.vendor;
 	}
 
 	public String getInputVersion() {
-		return inputVersion;
+		return (inputId == null) ? null : inputId.version;
 	}
 
 	/**
-	 * �V�X�e��ID����x���_�[�A�o�[�W�����A�V�X�e�������Z�b�g����
-	 * @param id	�V�X�e��ID
+	 * システムIDからベンダー、バージョン、システム名をセットする
+	 * 
+	 * @param id
+	 *            システムID
 	 */
 	public void setSystemId(String id) {
-		if (id == null) return;
-		String[] strSplit = id.split(":"); //$NON-NLS-1$
-		if(strSplit.length==3) {
-			this.inputVersion = strSplit[strSplit.length-1];
-			String strId = strSplit[strSplit.length-2];
-			int index = strId.lastIndexOf("."); //$NON-NLS-1$
-			this.inputSystemName = strId.substring(index+1);
-			this.inputVendor = strId.substring(0,index);
-		} else if(strSplit.length==4) {
-			this.inputVersion = strSplit[strSplit.length-1];
-			this.inputSystemName = strSplit[2];
-			this.inputVendor = strSplit[1];
-		}
+		this.inputId = IDUtil.parseRTSId(id);
 	}
 
 	/**
-	 * @param owflag	�㏑���ۑ��ł���΁Atrue:�V�K�ۑ��ł���΁Afalse
+	 * 入力値からシステムIDを生成して返します。
+	 * 
+	 * @return システムID
+	 */
+	public String getSystemId() {
+		return (inputId == null) ? "RTSystem:::" : inputId.toString();
+	}
+
+	/**
+	 * @param owflag	上書き保存であれば、true:新規保存であれば、false
 	 */
 	public void setOverWrite(boolean owflag) {
 		this.isOverWrite = owflag;
 	}
 
 	private void doValidate() {
-    	if( txtVendor.getText() != null && !txtVendor.getText().equals("") && //$NON-NLS-1$
-			txtSystemName.getText() != null && !txtSystemName.getText().equals("") &&    			 //$NON-NLS-1$
-			txtVersion.getText() != null && !txtVersion.getText().equals("") &&    			 //$NON-NLS-1$
-			( isOverWrite || (!isOverWrite && txtPath.getText() != null && !txtPath.getText().equals(""))) ) { //$NON-NLS-1$
-    			this.getButton(IDialogConstants.OK_ID).setEnabled(true);
-    	} else {
+		if (!isBlank(txtVendor.getText())
+				&& !isBlank(txtSystemName.getText())
+				&& !isBlank(txtVersion.getText())
+				&& (isOverWrite || (!isOverWrite && !isBlank(txtPath.getText())))) {
+			this.getButton(IDialogConstants.OK_ID).setEnabled(true);
+		} else {
 			this.getButton(IDialogConstants.OK_ID).setEnabled(false);
-    	}
-    }
-	
+		}
+	}
+
 	private Text createLabelAndText(Composite baseComposite, String labelString) {
 		GridData gd;
 		Label label = new Label(baseComposite, SWT.NULL);
@@ -257,34 +316,45 @@ public class ProfileInformationDialog extends Dialog {
 		return result;
 	}
 
-	// �K�{�R���|�[�l���g�ݒ�̑Ώ� 2008.12.11
-	public void setComponets(List<Component> components) {
-		this.components = components;
+	public void setSystemDiagram(SystemDiagram sd) {
+		this.systemDiagram = sd;
 	}
 
-	// �K�{�R���|�[�l���g�I���G���A 2008.12.11
+	// 必須コンポーネント選択エリア 2008.12.11
 	private void createRequiedComponentsArea(Composite mainComposite) {
 		Label pathLabel = new Label(mainComposite, SWT.LEFT);
 		pathLabel.setText(Messages.getString("ProfileInformationDialog.16")); //$NON-NLS-1$
 		viewer = CheckboxTableViewer.newCheckList(mainComposite, SWT.BORDER);
 		viewer.setContentProvider(new ArrayContentProvider());
-		viewer.setLabelProvider(new ITableLabelProvider(){
+		viewer.setLabelProvider(new ITableLabelProvider() {
+			@Override
 			public Image getColumnImage(Object element, int columnIndex) {
 				return null;
 			}
+
+			@Override
 			public String getColumnText(Object element, int columnIndex) {
-				Component item = (Component)element;
+				Component item = (Component) element;
 				return item.getInstanceNameL();
 			}
+
+			@Override
 			public void addListener(ILabelProviderListener listener) {
 			}
+
+			@Override
 			public void dispose() {
 			}
+
+			@Override
 			public boolean isLabelProperty(Object element, String property) {
 				return true;
 			}
+
+			@Override
 			public void removeListener(ILabelProviderListener listener) {
-			}});
+			}
+		});
 		GridData gd = new GridData();
 		gd.verticalAlignment = SWT.FILL;
 		gd.horizontalAlignment = SWT.FILL;
@@ -305,6 +375,7 @@ public class ProfileInformationDialog extends Dialog {
 		gd.horizontalAlignment = SWT.FILL;
 		selectButton.setLayoutData(gd);
 		selectButton.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				viewer.setAllChecked(true);
 			}
@@ -316,6 +387,7 @@ public class ProfileInformationDialog extends Dialog {
 		gd.horizontalAlignment = SWT.FILL;
 		deselectButton.setLayoutData(gd);
 		deselectButton.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				viewer.setAllChecked(false);
 			}
@@ -324,23 +396,30 @@ public class ProfileInformationDialog extends Dialog {
 	}
 
 	private void setViewerInput() {
-		viewer.setInput(components);
+		viewer.setInput(systemDiagram.getRegisteredComponents());
 		TableItem[] children = viewer.getTable().getItems();
-        for (int i = 0; i < children.length; i++) {
-            TableItem item = children[i];
-            Component component = (Component) item.getData();
-            item.setChecked(component.isRequired());
-        } 
+		for (int i = 0; i < children.length; i++) {
+			TableItem item = children[i];
+			Component component = (Component) item.getData();
+			item.setChecked(component.isRequired());
+		}
 	}
 
 	private void syncRequiredComponents() {
 		TableItem[] children = viewer.getTable().getItems();
-        for (int i = 0; i < children.length; i++) {
-            TableItem item = children[i];
-            Component component = (Component) item.getData();
-            component.setRequired(item.getChecked());
-        } 
-		
+		for (int i = 0; i < children.length; i++) {
+			TableItem item = children[i];
+			Component component = (Component) item.getData();
+			component.setRequired(item.getChecked());
+		}
+	}
+
+	public void openError(String title, String message) {
+		MessageDialog.openError(getShell(), title, message);
+	}
+
+	public boolean openConfirm(String title, String message) {
+		return MessageDialog.openConfirm(getShell(), title, message);
 	}
 
 }

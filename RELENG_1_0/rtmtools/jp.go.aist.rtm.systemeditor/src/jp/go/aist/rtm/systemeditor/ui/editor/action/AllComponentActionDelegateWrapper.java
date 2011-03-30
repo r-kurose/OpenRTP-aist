@@ -12,8 +12,8 @@ import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * ‚·‚×‚Ä‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚É‘Î‚µ‚ÄƒAƒNƒVƒ‡ƒ“‚ğs‚¤Û‚Ég—p‚·‚éƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒXB
- * Œ»İ‚Í–¢g—p
+ * ã™ã¹ã¦ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã«å¯¾ã—ã¦ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚’è¡Œã†éš›ã«ä½¿ç”¨ã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã€‚
+ * ç¾åœ¨ã¯æœªä½¿ç”¨
  */
 public class AllComponentActionDelegateWrapper extends Action implements
 		ISelectionListener {
@@ -22,12 +22,12 @@ public class AllComponentActionDelegateWrapper extends Action implements
 	private AllComponentActionDelegate delegate;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param id
-	 *            ƒAƒNƒVƒ‡ƒ“‚ÌId
+	 *            ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®Id
 	 * @param text
-	 *            ƒ‰ƒxƒ‹
+	 *            ãƒ©ãƒ™ãƒ«
 	 */
 	public AllComponentActionDelegateWrapper(String id, String text) {
 		setId(id);
@@ -38,12 +38,14 @@ public class AllComponentActionDelegateWrapper extends Action implements
 
 	@Override
 	public void run() {
+//		delegate.setActivePart(this, PlatformUI.getWorkbench()
+//				.getActiveWorkbenchWindow().getActivePage().getActivePart());
 		delegate.selectionChanged(this, convertSelection(selection));
 		delegate.run(this);
 	}
 
 	/**
-	 * ƒZƒŒƒNƒVƒ‡ƒ“‚ª•ÏX‚³‚ê‚½Û‚ÉÀs‚³‚ê‚éƒƒ\ƒbƒh
+	 * ã‚»ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ãŒå¤‰æ›´ã•ã‚ŒãŸéš›ã«å®Ÿè¡Œã•ã‚Œã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
 	 * 
 	 * @param selection
 	 */

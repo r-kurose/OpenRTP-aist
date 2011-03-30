@@ -41,7 +41,7 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * RTƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒRƒ“ƒtƒBƒOƒf[ƒ^•ÒWƒ_ƒCƒAƒƒO
+ * RTã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ã‚³ãƒ³ãƒ•ã‚£ã‚°ãƒ‡ãƒ¼ã‚¿ç·¨é›†ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
  *
  */
 public class ConfigurationDialog extends TitleAreaDialog {
@@ -57,10 +57,10 @@ public class ConfigurationDialog extends TitleAreaDialog {
 
 	private static ColorRegistry colorRegistry = null;
 
-	/** •ÒW—p‚ÉƒRƒs[‚µ‚½ComponentConfiguration */
+	/** ç·¨é›†ç”¨ã«ã‚³ãƒ”ãƒ¼ã—ãŸComponentConfiguration */
 	ComponentConfigurationWrapper copiedConfig;
 
-	/** Œ»İƒ^ƒu‚ÅŠJ‚¢‚Ä‚¢‚éConfigurationSet */
+	/** ç¾åœ¨ã‚¿ãƒ–ã§é–‹ã„ã¦ã„ã‚‹ConfigurationSet */
 	ConfigurationSetConfigurationWrapper selectedConfigSet;
 
 	private TabFolder tabFolder;
@@ -94,8 +94,8 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		this.firstApply = true;
 	}
 
-	// •ÒWƒ_ƒCƒAƒƒO“à‚Åapply‚ğÀs‚·‚é 2009.11.16
-//	/** ‘¦•Û‘¶‚ªw’è‚³‚ê‚Ä‚¢‚½‚çtrue */
+	// ç·¨é›†ãƒ€ã‚¤ã‚¢ãƒ­ã‚°å†…ã§applyã‚’å®Ÿè¡Œã™ã‚‹ 2009.11.16
+//	/** å³æ™‚ä¿å­˜ãŒæŒ‡å®šã•ã‚Œã¦ã„ãŸã‚‰true */
 //	public boolean isApply() {
 //		return this.isApply;
 //	}
@@ -112,7 +112,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 
 		createTabFolder(mainComposite);
 
-		// §–ñƒGƒ‰[•\¦—Ìˆæ‚ğ’Ç‰Á 2009.12.09
+		// åˆ¶ç´„ã‚¨ãƒ©ãƒ¼è¡¨ç¤ºé ˜åŸŸã‚’è¿½åŠ  2009.12.09
 		gd = new GridData();
 		errorText = new Text(mainComposite, SWT.MULTI | SWT.V_SCROLL);
 		errorText.setEditable(false);
@@ -158,19 +158,19 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		if (currentTabItem == null) return;
 		if (selectedConfigSet == null) return;
 		
-		// ƒRƒ“ƒgƒ[ƒ‹‚ğ‘S•”ì‚è‚©‚¦‚È‚¢	2009.12.04
+		// ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã‚’å…¨éƒ¨ä½œã‚Šã‹ãˆãªã„	2009.12.04
 //		currentTabItem.setControl(createConfigSetComposite(selectedConfigSet));
 		
-		// ƒEƒBƒWƒFƒbƒg‚ğ•ÒW’†‚Ìó‘Ô‚É–ß‚· 2009.12.04
+		// ã‚¦ã‚£ã‚¸ã‚§ãƒƒãƒˆã‚’ç·¨é›†ä¸­ã®çŠ¶æ…‹ã«æˆ»ã™ 2009.12.04
 		for (NamedValueConfigurationWrapper nv : selectedConfigSet.getNamedValueList()) {
 			nv.loadWidgetValue();
 		}
 		
-		// C³Ï‚Ì”wŒiF‚ÌƒRƒ“ƒgƒ[ƒ‹‚ğŒ³‚É–ß‚· 2009.12.04
+		// ä¿®æ­£æ¸ˆã®èƒŒæ™¯è‰²ã®ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã‚’å…ƒã«æˆ»ã™ 2009.12.04
 		resetBackground(currentTabItem.getControl());
 	}
 
-	// Ä‹A“I‚ÉControl‚Ì”wŒiF‚ğC³Ï‚©‚çŒ³‚É–ß‚· 2009.12.04
+	// å†å¸°çš„ã«Controlã®èƒŒæ™¯è‰²ã‚’ä¿®æ­£æ¸ˆã‹ã‚‰å…ƒã«æˆ»ã™ 2009.12.04
 	private void resetBackground(Control content) {
 		if (content instanceof Composite){
 			for (Control child : ((Composite)content).getChildren()) {
@@ -214,7 +214,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		});
 	}
 
-	/** ConfigurationSet’PˆÊ‚ÌComposite‚ğì¬ */
+	/** ConfigurationSetå˜ä½ã®Compositeã‚’ä½œæˆ */
 	private Control createConfigSetComposite(
 			ConfigurationSetConfigurationWrapper configSet) {
 		GridLayout gl;
@@ -225,7 +225,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		gd.horizontalAlignment = GridData.FILL;
 		gd.grabExcessHorizontalSpace = true;
 
-		// ƒXƒNƒ[ƒ‹İ’è
+		// ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«è¨­å®š
 		ScrolledComposite scroll = new ScrolledComposite(tabFolder, SWT.V_SCROLL);
 		scroll.setLayout(new FillLayout());
 		scroll.setExpandHorizontal(true);
@@ -251,13 +251,13 @@ public class ConfigurationDialog extends TitleAreaDialog {
 			createNamedValueComposite(configSetComposite, nv);
 		}
 
-		// ƒXƒNƒ[ƒ‹‚Ì‰ŠúƒTƒCƒY
+		// ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ã®åˆæœŸã‚µã‚¤ã‚º
 		scroll.setMinHeight(configSetComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y + 10);
 
 		return scroll;
 	}
 
-	/** NamedValue’PˆÊ‚ÌComposite‚ğì¬ */
+	/** NamedValueå˜ä½ã®Compositeã‚’ä½œæˆ */
 	private void createNamedValueComposite(Composite parent,
 			final NamedValueConfigurationWrapper namedValue) {
 		GridLayout gl;
@@ -279,7 +279,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 
 		Label keyLabel = new Label(namedValueComposite, SWT.NONE);
 		keyLabel.setText(namedValue.getKey());
-		if (namedValue.getKey().length() * 7 <= NAME_WIDTH) {
+		if (namedValue.getKey().length() * 6 <= NAME_WIDTH) {
 			keyLabel.setLayoutData(gd);
 		}
 
@@ -293,13 +293,13 @@ public class ConfigurationDialog extends TitleAreaDialog {
 
 		namedValue.loadWidgetValue();
 		if (namedValue.widgetKeySet().size() > 0) {
-			// ƒnƒbƒVƒ…‚Ìê‡
+			// ãƒãƒƒã‚·ãƒ¥ã®å ´åˆ
 			for (String key : new TreeSet<String>(namedValue.widgetKeySet())) {
 				ConfigurationWidget widget = namedValue.widget(key);
 				createValueComposite(valueComposite, key, widget);
 			}
 		} else {
-			// ”z—ñA’P‘Ì
+			// é…åˆ—ã€å˜ä½“
 			for (int i = 0; i < namedValue.widgetSize(); i++) {
 				ConfigurationWidget widget = namedValue.widget(i);
 				createValueComposite(valueComposite, null, widget);
@@ -380,12 +380,12 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		return button;
 	}
 
-	/** NamedValue’PˆÊ‚ÌComposite‚ğì¬ */
+	/** NamedValueå˜ä½ã®Compositeã‚’ä½œæˆ */
 	private void createValueComposite(final Composite parent, final String key,
 			final ConfigurationWidget widget) {
 
 		if (widget != null && widget.isSlider()) {
-			// widgetí•Ê‚ªslider‚Ìê‡
+			// widgetç¨®åˆ¥ãŒsliderã®å ´åˆ
 			Composite valueComposite = createComposite(parent);
 
 			createKeyLabel(key, valueComposite);
@@ -397,9 +397,9 @@ public class ConfigurationDialog extends TitleAreaDialog {
 			valueSlider.setMaximum(widget.getSliderMaxStep() + 10);
 			valueSlider.setIncrement(1);
 
-			// sliderAtext‚É‰Šú’lİ’è(ƒŠƒXƒi“o˜^‘O)
+			// sliderã€textã«åˆæœŸå€¤è¨­å®š(ãƒªã‚¹ãƒŠç™»éŒ²å‰)
 			try {
-				// ’l‚ğ§–ñ”ÍˆÍ“à‚ÌƒXƒeƒbƒv‚ÉŠ·Z
+				// å€¤ã‚’åˆ¶ç´„ç¯„å›²å†…ã®ã‚¹ãƒ†ãƒƒãƒ—ã«æ›ç®—
 				int step = widget.getCondition().getStepByValue(
 						widget.getValue(), widget);
 				valueSlider.setSelection(step);
@@ -415,7 +415,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 			valueSlider.addSelectionListener(createSliderSelectionListner(widget, valueSliderText, valueSlider));
 
 		} else if (widget != null && widget.isSpinner()) {
-			// widgetí•Ê‚ªspinner‚Ìê‡
+			// widgetç¨®åˆ¥ãŒspinnerã®å ´åˆ
 			Composite valueComposite = createComposite(parent);
 
 			createKeyLabel(key, valueComposite);
@@ -423,7 +423,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 			final Spinner valueSpinner = createSpinner(valueComposite);
 
 			if (widget.getCondition().getDigits() > 0) {
-				// ¬”‚Ìê‡‚ÍŒ…”‚ğİ’è
+				// å°æ•°ã®å ´åˆã¯æ¡æ•°ã‚’è¨­å®š
 				valueSpinner.setDigits(widget.getCondition().getDigits());
 			}
 			valueSpinner.setMaximum(widget.getCondition().getMaxByInteger()
@@ -432,7 +432,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 					.intValue());
 			valueSpinner.setIncrement(widget.getSpinIncrement());
 
-			// spinner‚É‰Šú’lİ’è
+			// spinnerã«åˆæœŸå€¤è¨­å®š
 			try {
 				Double d = Double.valueOf(widget.getValue());
 				Integer i = widget.getCondition().getIntegerByDigits(
@@ -448,21 +448,21 @@ public class ConfigurationDialog extends TitleAreaDialog {
 			valueSpinner.addModifyListener(createSpinnerModifyListner(widget, valueSpinner));
 
 		} else if (widget != null && widget.isRadio()) {
-			// widgetí•Ê‚ªradio‚Ìê‡
+			// widgetç¨®åˆ¥ãŒradioã®å ´åˆ
 			Group valueRadioGroup = createGroup(parent);
 			if (key != null) {
-				// ƒnƒbƒVƒ…ƒL[‚Ì‚ ‚éê‡
+				// ãƒãƒƒã‚·ãƒ¥ã‚­ãƒ¼ã®ã‚ã‚‹å ´åˆ
 				valueRadioGroup.setText(key);
 			}
 
 			SelectionListener sl = createButtonSelectionListner(widget);
 
-			// —ñ‹“Œ^§–ñğŒ‚©‚ç‘I‘ğƒŠƒXƒgì¬
+			// åˆ—æŒ™å‹åˆ¶ç´„æ¡ä»¶ã‹ã‚‰é¸æŠãƒªã‚¹ãƒˆä½œæˆ
 			for (String s : widget.getCondition().getEnumList()) {
 				Button vb = createButton(valueRadioGroup);
 				vb.setText(s);
 				vb.addSelectionListener(sl);
-				// ‰Šú’lİ’è
+				// åˆæœŸå€¤è¨­å®š
 				if (vb.getText().equals(widget.getValue())) {
 					vb.setSelection(true);
 				}
@@ -475,7 +475,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 			valueText.setTextLimit(255);
 			valueText.setEnabled(true);
 
-			// text‚É‰Šú’lİ’è
+			// textã«åˆæœŸå€¤è¨­å®š
 			valueText.setText(widget.getValue());
 			if (widget.isValueModified()) {
 				valueText.setBackground(colorRegistry.get(MODIFY_COLOR));
@@ -521,7 +521,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		};
 	}
 
-	/** Apply‚ª‰Ÿ‚³‚ê‚Ä‚¢‚½‚ç‘¦XV‚·‚é */
+	/** ApplyãŒæŠ¼ã•ã‚Œã¦ã„ãŸã‚‰å³æ™‚æ›´æ–°ã™ã‚‹ */
 	private void doModify(Control control) {
 		if (control != null)
 			control.setBackground(colorRegistry.get(MODIFY_COLOR));
@@ -563,7 +563,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 				ConfigurationCondition condition = wd.getCondition();
 				if (!condition.validate(value)) {
 					valueSpinner.setToolTipText(Messages.getString("ConfigurationDialog.9") + condition + Messages.getString("ConfigurationDialog.10")); //$NON-NLS-1$ //$NON-NLS-2$
-					// Å¬/Å‘å’l‚ğ’´‚¦‚é’l‚ğŠÛ‚ß‚é
+					// æœ€å°/æœ€å¤§å€¤ã‚’è¶…ãˆã‚‹å€¤ã‚’ä¸¸ã‚ã‚‹
 					wd.setValue(condition.adjustMinMaxValue(value));
 					if (wd.isValueModified()) {
 						doModify(valueSpinner);
@@ -598,7 +598,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 			ConfigurationWidget wd = widget;
 
 			public void widgetSelected(SelectionEvent e) {
-				// ƒXƒeƒbƒv‚©‚ç§–ñ”ÍˆÍ“à‚Ì’l‚ÉŠ·Z
+				// ã‚¹ãƒ†ãƒƒãƒ—ã‹ã‚‰åˆ¶ç´„ç¯„å›²å†…ã®å€¤ã«æ›ç®—
 				int step = valueSlider.getSelection();
 				String value = wd.getCondition().getValueByStep(step, wd,
 						valueSliderText.getText());
@@ -620,7 +620,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 				String value = valueSliderText.getText();
 				ConfigurationCondition condition = wd.getCondition();
 				try {
-					// ’l‚ğ§–ñ”ÍˆÍ“à‚ÌƒXƒeƒbƒv‚ÉŠ·Z
+					// å€¤ã‚’åˆ¶ç´„ç¯„å›²å†…ã®ã‚¹ãƒ†ãƒƒãƒ—ã«æ›ç®—
 					int step = condition.getStepByValue(value, widget);
 					valueSlider.setSelection(step);
 				} catch (NumberFormatException ne) {
@@ -628,7 +628,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 				}
 				if (!condition.validate(value)) {
 					valueSliderText.setToolTipText(Messages.getString("ConfigurationDialog.6") + condition + Messages.getString("ConfigurationDialog.7")); //$NON-NLS-1$ //$NON-NLS-2$
-					// Å¬/Å‘å’l‚ğ’´‚¦‚é’l‚ğŠÛ‚ß‚é
+					// æœ€å°/æœ€å¤§å€¤ã‚’è¶…ãˆã‚‹å€¤ã‚’ä¸¸ã‚ã‚‹
 					wd.setValue(condition.adjustMinMaxValue(value));
 					if (wd.isValueModified()) {
 						doModify(valueSliderText);
@@ -649,7 +649,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 
 	private void createKeyLabel(final String key, Composite parent) {
 		if (key != null) {
-			// ƒnƒbƒVƒ…ƒL[‚Ì‚ ‚éê‡
+			// ãƒãƒƒã‚·ãƒ¥ã‚­ãƒ¼ã®ã‚ã‚‹å ´åˆ
 			final Label valueSliderLabel = createLabel(parent);
 			valueSliderLabel.setText(key + ":"); //$NON-NLS-1$
 		}
@@ -660,7 +660,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 			return;
 		}
 		currentTabItem = tabFolder.getItem(index);
-		// ‘I‘ğƒ^ƒu‚É‘Î‰‚·‚éConfigurationSet‚ğŒŸõ
+		// é¸æŠã‚¿ãƒ–ã«å¯¾å¿œã™ã‚‹ConfigurationSetã‚’æ¤œç´¢
 		selectedConfigSet = null;
 		for (ConfigurationSetConfigurationWrapper cs : copiedConfig
 				.getConfigurationSetList()) {
@@ -677,23 +677,23 @@ public class ConfigurationDialog extends TitleAreaDialog {
 	}
 
 	/**
-	 * •ÒWŒ‹‰Ê‚ğƒ‚ƒfƒ‹î•ñ‚Ö•Û‘¶‚·‚é
+	 * ç·¨é›†çµæœã‚’ãƒ¢ãƒ‡ãƒ«æƒ…å ±ã¸ä¿å­˜ã™ã‚‹
 	 * 
-	 * @return •Û‘¶ƒGƒ‰[‚Ìê‡‚Ífalse
+	 * @return ä¿å­˜ã‚¨ãƒ©ãƒ¼ã®å ´åˆã¯false
 	 */
 	private boolean saveData() {
 		if (!this.isValueModified) {
-			// ’l‚É•ÏX‚ª‚È‚¢ê‡
+			// å€¤ã«å¤‰æ›´ãŒãªã„å ´åˆ
 			return true;
 		}
-		// §–ñğŒƒ`ƒFƒbƒN
+		// åˆ¶ç´„æ¡ä»¶ãƒã‚§ãƒƒã‚¯
 		List<String> validateErrors = checkConstraints();
 		if (validateErrors.size() > 0) {
 			String msg = "";
 			for (String s : validateErrors) {
 				msg += "- " + s + "\n";
 			}
-			// ‘¦“K—p‚É‚ÍƒGƒ‰[ƒ_ƒCƒAƒƒO‚ğo‚³‚È‚¢ 2009.
+			// å³æ™‚é©ç”¨æ™‚ã«ã¯ã‚¨ãƒ©ãƒ¼ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’å‡ºã•ãªã„ 2009.
 			if (isApply) {
 				errorText.setText(Messages.getString("ConfigurationDialog.21")
 						+ msg);
@@ -704,7 +704,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 			return false;
 		}
 		errorText.setText("");
-		// İ’è’l•Û‘¶
+		// è¨­å®šå€¤ä¿å­˜
 		List<ConfigurationSetConfigurationWrapper> origSetList = view.getComponentConfig()
 				.getConfigurationSetList();
 		List<ConfigurationSetConfigurationWrapper> copySetList = this.copiedConfig
@@ -726,13 +726,13 @@ public class ConfigurationDialog extends TitleAreaDialog {
 			for (int j = 0; j < copyNvList.size(); j++) {
 				NamedValueConfigurationWrapper copyNv = copyNvList.get(j);
 				if (!copyNv.isLoadedWidgetValue()) {
-					// •ÒW’†‚Å‚È‚¯‚ê‚ÎƒXƒLƒbƒv
+					// ç·¨é›†ä¸­ã§ãªã‘ã‚Œã°ã‚¹ã‚­ãƒƒãƒ—
 					continue;
 				}
-				// value‚Ì•ÏX‚ª‚ ‚èA‚©‚Â•¶š—ñ‚Ìê‡‚Ì‚İ•Û‘¶
+				// valueã®å¤‰æ›´ãŒã‚ã‚Šã€ã‹ã¤æ–‡å­—åˆ—ã®å ´åˆã®ã¿ä¿å­˜
 				boolean modified = false;
 				if (copyNv.widgetKeySet().size() > 0) {
-					// ƒnƒbƒVƒ…‚Ìê‡
+					// ãƒãƒƒã‚·ãƒ¥ã®å ´åˆ
 					for (String key : copyNv.widgetKeySet()) {
 						if (copyNv.widget(key).isValueModified()) {
 							modified = true;
@@ -740,7 +740,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 						}
 					}
 				} else {
-					// ”z—ñA’P‘Ì‚Ìê‡
+					// é…åˆ—ã€å˜ä½“ã®å ´åˆ
 					for (int k = 0; k < copyNv.widgetSize(); k++) {
 						if (copyNv.widget(k).isValueModified()) {
 							modified = true;
@@ -754,9 +754,9 @@ public class ConfigurationDialog extends TitleAreaDialog {
 				copyNv.saveWidgetValue();
 
 				for (NamedValueConfigurationWrapper origNv : origNvList) {
-					// ƒ_ƒCƒAƒƒO‚ÌƒI[ƒvƒ“’†‚Éƒrƒ…[‚Ì ConfigurationDataƒŠƒXƒg‚É
-					// ‚¸‚ê‚ª¶‚¶‚é‚ÆAˆÙ‚È‚é NameValue‚É•ÏX‚ğ”½‰f‚µ‚Ä‚µ‚Ü‚¤‚½‚ßA
-					// ƒL[‚Å•ÏX‘ÎÛ‚Ì NameValue‚ÌŒŸõ‚ğs‚¤B
+					// ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã®ã‚ªãƒ¼ãƒ—ãƒ³ä¸­ã«ãƒ“ãƒ¥ãƒ¼ã® ConfigurationDataãƒªã‚¹ãƒˆã«
+					// ãšã‚ŒãŒç”Ÿã˜ã‚‹ã¨ã€ç•°ãªã‚‹ NameValueã«å¤‰æ›´ã‚’åæ˜ ã—ã¦ã—ã¾ã†ãŸã‚ã€
+					// ã‚­ãƒ¼ã§å¤‰æ›´å¯¾è±¡ã® NameValueã®æ¤œç´¢ã‚’è¡Œã†ã€‚
 					if (copyNv.getKey().equals(origNv.getKey())) {
 						origNv.setValue(copyNv.getValue());
 						break;
@@ -772,18 +772,18 @@ public class ConfigurationDialog extends TitleAreaDialog {
 				.getConfigurationSetList()) {
 			for (NamedValueConfigurationWrapper nv : cs.getNamedValueList()) {
 				if (!nv.isLoadedWidgetValue()) {
-					// •ÒW’†‚Å‚È‚¯‚ê‚ÎƒXƒLƒbƒv
+					// ç·¨é›†ä¸­ã§ãªã‘ã‚Œã°ã‚¹ã‚­ãƒƒãƒ—
 					continue;
 				}
 				if (nv.widgetKeySet().size() > 0) {
-					// ƒnƒbƒVƒ…‚Ìê‡
+					// ãƒãƒƒã‚·ãƒ¥ã®å ´åˆ
 					for (String key : nv.widgetKeySet()) {
 						ConfigurationWidget wd = nv.widget(key);
 						String paramName = cs.getId() + "." + nv.getKey() + "["	+ key + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 						validateParam(validateErrors, wd, paramName);
 					}
 				} else {
-					// ”z—ñA’P‘Ì‚Ìê‡
+					// é…åˆ—ã€å˜ä½“ã®å ´åˆ
 					for (int i = 0; i < nv.widgetSize(); i++) {
 						ConfigurationWidget wd = nv.widget(i);
 						String paramName = cs.getId() + "." + nv.getKey(); //$NON-NLS-1$
@@ -798,7 +798,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		return validateErrors;
 	}
 
-	// Configurationƒ_ƒCƒAƒƒO‚Å•Û‘¶‚Ì§–ñğŒƒ`ƒFƒbƒN‚É‚æ‚éƒGƒ‰[ƒƒbƒZ[ƒW‚ÅA  ƒpƒ‰ƒ[ƒ^–¼A§–ñğŒAƒGƒ‰[‚É‚È‚Á‚½’l‚ğ•\¦‚µ‚½‚¢@2008.12.18
+	// Configurationãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã§ä¿å­˜æ™‚ã®åˆ¶ç´„æ¡ä»¶ãƒã‚§ãƒƒã‚¯ã«ã‚ˆã‚‹ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã§ã€  ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿åã€åˆ¶ç´„æ¡ä»¶ã€ã‚¨ãƒ©ãƒ¼ã«ãªã£ãŸå€¤ã‚’è¡¨ç¤ºã—ãŸã„ã€€2008.12.18
 	private void validateParam(List<String> validateErrors, ConfigurationWidget wd, String paramName) {
 		ConfigurationCondition cc = wd.getCondition();
 		String value = wd.getValue();
@@ -820,7 +820,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		}
 	}
 
-	/** ƒRƒ“ƒtƒBƒO’l‚ğÄ•`‰æ‚·‚é */
+	/** ã‚³ãƒ³ãƒ•ã‚£ã‚°å€¤ã‚’å†æç”»ã™ã‚‹ */
 	private void selectConfigSet() {
 		int index = tabFolder.getSelectionIndex();
 		selectConfigSet((index == -1) ? 0 : index);

@@ -8,7 +8,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
 /**
- * RT Name Service ViewのAboutを表示するアクション
+ * RT Name Service View縺ｮAbout繧定｡ｨ遉ｺ縺吶ｋ繧｢繧ｯ繧ｷ繝ｧ繝ｳ
  */
 public class AboutAction implements IWorkbenchWindowActionDelegate {
 

@@ -6,7 +6,7 @@
  */
 package jp.go.aist.rtm.nameserviceview.model.nameservice;
 
-import jp.go.aist.rtm.nameserviceview.manager.Node;
+import jp.go.aist.rtm.nameserviceview.model.manager.Node;
 import jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject;
 
 import org.omg.CosNaming.NamingContextPackage.CannotProceed;
@@ -22,6 +22,7 @@ import org.omg.CosNaming.NamingContextPackage.NotFound;
  * The following features are supported:
  * <ul>
  *   <li>{@link jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode#getNameServiceReference <em>Name Service Reference</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode#isZombie <em>Zombie</em>}</li>
  * </ul>
  * </p>
  *
@@ -55,6 +56,21 @@ public interface CorbaNode extends CorbaWrapperObject, Node {
 	 * @generated
 	 */
 	void setNameServiceReference(NameServiceReference value);
+
+	/**
+	 * Returns the value of the '<em><b>Zombie</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Zombie</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Zombie</em>' attribute.
+	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.NameservicePackage#getCorbaNode_Zombie()
+	 * @model transient="true" changeable="false" volatile="true"
+	 * @generated
+	 */
+	boolean isZombie();
 
 	/**
 	 * <!-- begin-user-doc -->

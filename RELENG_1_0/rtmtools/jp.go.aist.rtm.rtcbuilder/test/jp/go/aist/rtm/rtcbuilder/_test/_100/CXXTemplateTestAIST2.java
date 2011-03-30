@@ -14,15 +14,21 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
 
 public class CXXTemplateTestAIST2 extends TestBase {
 
-	protected void setUp() throws Exception {
-	}
+	RtcParam rtcParam;
+	GeneratorParam genParam;
 
-	public void testAIST5() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam,true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
+	protected void setUp() throws Exception {
+		genParam = new GeneratorParam();
+		rtcParam = new RtcParam(genParam, true);
+		rtcParam.setOutputProject(rootPath + "/resource/work");
 		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
 		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
+		rtcParam.setRtmVersion("1.0.0");
+		rtcParam.setIsTest(true);
+		genParam.getRtcParams().add(rtcParam);
+	}
+
+	public void testAIST5() throws Exception {
 		rtcParam.setName("ModuleName");
 		rtcParam.setDescription("ModuleDescription");
 		rtcParam.setVersion("1.0.0");
@@ -36,29 +42,23 @@ public class CXXTemplateTestAIST2 extends TestBase {
 		ServicePortParam service1 = new ServicePortParam("portName",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "name", "", "", 
-				rootPath + "resource\\CXX\\module\\MyService.idl", "Test::MyService", "", 0);
+				rootPath + "resource/100/CXX/AIST2/MyService.idl", "Test::MyService", "", 0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 		rtcParam.getServicePorts().addAll(srvports);
-		genParam.getRtcParams().add(rtcParam);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String targetDir = rootPath + "\\resource\\CXX\\module\\";
+		String targetDir = rootPath + "/resource/100/CXX/AIST2/";
 		assertEquals(15, result.size());
 		checkCode(result, targetDir, "ModuleNameComp.cpp");
-		checkCode(result, targetDir, "Makefile.ModuleName");
 		checkCode(result, targetDir, "ModuleName.h");
 		checkCode(result, targetDir, "ModuleName.cpp");
 		checkCode(result, targetDir, "MyServiceSVC_impl.h");
 		checkCode(result, targetDir, "MyServiceSVC_impl.cpp");
-		try {
-			checkCode(result, targetDir, "README.ModuleName");
-			fail();
-		} catch(Exception ex) {
-		}
 	}
+
 }

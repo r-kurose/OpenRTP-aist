@@ -131,5 +131,4 @@ public class ConfigurationExt
     }
     public void setProperties(List<Property> list) {
     }
-
 }

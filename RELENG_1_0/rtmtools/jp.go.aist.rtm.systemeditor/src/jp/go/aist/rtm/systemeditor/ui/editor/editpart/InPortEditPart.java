@@ -18,12 +18,12 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * InPort‚ÌEditPartƒNƒ‰ƒX
+ * InPortã®EditPartã‚¯ãƒ©ã‚¹
  */
 public class InPortEditPart extends PortEditPart {
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param actionRegistry
 	 *            ActionRegistry
@@ -91,11 +91,11 @@ public class InPortEditPart extends PortEditPart {
 	}
 
 	/**
-	 * ƒf[ƒ^ƒ|[ƒg‚Ìƒc[ƒ‹ƒ`ƒbƒv‚ğæ“¾‚·‚é
+	 * ãƒ‡ãƒ¼ã‚¿ãƒãƒ¼ãƒˆã®ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—ã‚’å–å¾—ã™ã‚‹
 	 * 
 	 * @param profile
-	 *            ƒ‚ƒfƒ‹
-	 * @return ƒc[ƒ‹ƒ`ƒbƒv
+	 *            ãƒ¢ãƒ‡ãƒ«
+	 * @return ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—
 	 */
 	public static Panel getDataPortToolTip(Port port) {
 		Panel tooltip = new Panel();
@@ -116,7 +116,7 @@ public class InPortEditPart extends PortEditPart {
 							: port.getDataflowTypes()) + "\r\n";
 			labelString = labelString
 					+ (port.getSubscriptionTypes().size() == 0 ? "<unknown>"
-							: port.getSubscriptionTypes()) + ""; // \r\n‚ÍÅŒã‚Í‚¢‚ç‚È‚¢
+							: port.getSubscriptionTypes()) + ""; // \r\nã¯æœ€å¾Œã¯ã„ã‚‰ãªã„
 		} catch (RuntimeException e) {
 			// void
 		}

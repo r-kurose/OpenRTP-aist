@@ -42,7 +42,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 /**
- * DataPortƒy[ƒW
+ * DataPortãƒšãƒ¼ã‚¸
  */
 public class DataPortEditorFormPage extends AbstractEditorFormPage {
 
@@ -75,10 +75,10 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 	private String[] defaultTypeList;
 	
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param editor
-	 *            e‚ÌƒGƒfƒBƒ^
+	 *            è¦ªã®ã‚¨ãƒ‡ã‚£ã‚¿
 	 */
 	public DataPortEditorFormPage(RtcBuilderEditor editor) {
 		super(editor, "id", IMessageConstants.DATAPORT_SECTION);
@@ -113,7 +113,7 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 
 		createDetailSection(toolkit, form);
 		//
-		// Œ¾ŒêEŠÂ‹«ƒy[ƒW‚æ‚èæ‚É‚±‚Ìƒy[ƒW‚ª•\¦‚³‚ê‚½ê‡A‚±‚±‚ÅŒ¾Œê‚ğ”»’f‚·‚é
+		// è¨€èªãƒ»ç’°å¢ƒãƒšãƒ¼ã‚¸ã‚ˆã‚Šå…ˆã«ã“ã®ãƒšãƒ¼ã‚¸ãŒè¡¨ç¤ºã•ã‚ŒãŸå ´åˆã€ã“ã“ã§è¨€èªã‚’åˆ¤æ–­ã™ã‚‹
 		editor.setEnabledInfoByLang();
 
 		load();
@@ -342,7 +342,7 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	/**
-	 * ƒf[ƒ^‚ğƒ[ƒh‚·‚é
+	 * ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
 	 */
 	public void load() {
 		if (inportTableViewer == null) return;
@@ -386,13 +386,13 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 	private String checkDataPort(DataPortParam dataport, Set checkSet, Set checkVarSet) {
 		String result = ValidationUtil.validateDataPort(dataport);
 		if( result!=null ) return result;
-		//–¼Ìd•¡
+		//åç§°é‡è¤‡
 		if( checkSet.contains(dataport.getName()) ) {
 			result = IMessageConstants.DATAPORT_VALIDATE_DUPLICATE;
 			return result;
 		}
 		checkSet.add(dataport.getName());
-		//•Ï”–¼d•¡
+		//å¤‰æ•°åé‡è¤‡
 		if( checkVarSet.contains(dataport.getTmplVarName()) ) {
 			result = IMessageConstants.DATAPORT_VALIDATE_VAR_DUPLICATE;
 			return result;
@@ -459,14 +459,14 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	/**
-	 * DataPortƒtƒH[ƒ€“à‚Ì—v‘f‚Ì—LŒø/–³Œø‚ğİ’è‚µ‚Ü‚·B
+	 * DataPortãƒ•ã‚©ãƒ¼ãƒ å†…ã®è¦ç´ ã®æœ‰åŠ¹/ç„¡åŠ¹ã‚’è¨­å®šã—ã¾ã™ã€‚
 	 * <ul>
-	 * <li>dataport.inPort.table : InPortƒZƒNƒVƒ‡ƒ“‚Ìƒe[ƒuƒ‹</li>
-	 * <li>dataport.inPort.addButton : InPortƒZƒNƒVƒ‡ƒ“‚Ì Addƒ{ƒ^ƒ“</li>
-	 * <li>dataport.inPort.deleteButton : InPortƒZƒNƒVƒ‡ƒ“‚Ì Deleteƒ{ƒ^ƒ“</li>
-	 * <li>dataport.outPort.table : OutPortƒZƒNƒVƒ‡ƒ“‚Ìƒe[ƒuƒ‹</li>
-	 * <li>dataport.outPort.addButton : OutPortƒZƒNƒVƒ‡ƒ“‚Ì Addƒ{ƒ^ƒ“</li>
-	 * <li>dataport.outPort.deleteButton : OutPortƒZƒNƒVƒ‡ƒ“‚Ì Deleteƒ{ƒ^ƒ“</li>
+	 * <li>dataport.inPort.table : InPortã‚»ã‚¯ã‚·ãƒ§ãƒ³ã®ãƒ†ãƒ¼ãƒ–ãƒ«</li>
+	 * <li>dataport.inPort.addButton : InPortã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Addãƒœã‚¿ãƒ³</li>
+	 * <li>dataport.inPort.deleteButton : InPortã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Deleteãƒœã‚¿ãƒ³</li>
+	 * <li>dataport.outPort.table : OutPortã‚»ã‚¯ã‚·ãƒ§ãƒ³ã®ãƒ†ãƒ¼ãƒ–ãƒ«</li>
+	 * <li>dataport.outPort.addButton : OutPortã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Addãƒœã‚¿ãƒ³</li>
+	 * <li>dataport.outPort.deleteButton : OutPortã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Deleteãƒœã‚¿ãƒ³</li>
 	 * </ul>
 	 */
 	public void setEnabledInfo(WidgetInfo widgetInfo, boolean enabled) {

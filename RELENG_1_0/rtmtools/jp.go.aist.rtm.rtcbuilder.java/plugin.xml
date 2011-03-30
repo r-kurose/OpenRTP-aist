@@ -5,6 +5,9 @@
       <manager
             managerclass="jp.go.aist.rtm.rtcbuilder.java.manager.JavaGenerateManager"
             seq="200"/>
+      <manager
+            managerclass="jp.go.aist.rtm.rtcbuilder.java.manager.JavaCMakeGenerateManager"
+            seq="210"/>
    </extension>
 
 </plugin>

@@ -4,7 +4,7 @@ import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 
 
 /**
- * Corbaのリモートオブジェクトではないオブジェクトをラップしたい場合に使用するクラス
+ * Corba縺ｮ繝ｪ繝｢繝ｼ繝医が繝悶ず繧ｧ繧ｯ繝医〒縺ｯ縺ｪ縺�繧ｪ繝悶ず繧ｧ繧ｯ繝医ｒ繝ｩ繝�繝励＠縺溘＞蝣ｴ蜷医↓菴ｿ逕ｨ縺吶ｋ繧ｯ繝ｩ繧ｹ
  * @model
  */
 public interface WrapperObject extends ModelElement, LocalObject {

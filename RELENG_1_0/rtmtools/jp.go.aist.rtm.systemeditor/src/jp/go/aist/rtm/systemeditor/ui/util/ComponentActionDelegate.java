@@ -14,7 +14,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * ƒRƒ}ƒ“ƒh‚ÌŽÀs‚ð‘ã—‚·‚éƒNƒ‰ƒX
+ * ã‚³ãƒžãƒ³ãƒ‰ã®å®Ÿè¡Œã‚’ä»£ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
  */
 public class ComponentActionDelegate {
 
@@ -37,7 +37,7 @@ public class ComponentActionDelegate {
 	}
 
 	/**
-	 * ƒRƒ}ƒ“ƒhŽÀs‚ÌŠî–{ƒNƒ‰ƒX
+	 * ã‚³ãƒžãƒ³ãƒ‰å®Ÿè¡Œã®åŸºæœ¬ã‚¯ãƒ©ã‚¹
 	 */
 	public static abstract class Command {
 		public String getConfirmMessage() {

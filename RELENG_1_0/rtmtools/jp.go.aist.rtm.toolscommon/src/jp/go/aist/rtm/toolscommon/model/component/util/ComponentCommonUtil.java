@@ -9,7 +9,7 @@ import jp.go.aist.rtm.toolscommon.model.component.Port;
 
 public class ComponentCommonUtil {
 
-	/** portsˆÈŠO‚Ìƒ|[ƒg‚Æ‚ÌÚ‘±‚ğ‚Âƒ|[ƒg‚ğ’Šo */
+	/** portsä»¥å¤–ã®ãƒãƒ¼ãƒˆã¨ã®æ¥ç¶šã‚’æŒã¤ãƒãƒ¼ãƒˆã‚’æŠ½å‡º */
 	static List<Port> getConnectedPorts(List<Port> ports) {
 		List<Port> result = new ArrayList<Port>();
 		if (ports.isEmpty())
@@ -38,7 +38,7 @@ public class ComponentCommonUtil {
 		return false;
 	}
 
-	/** RTCˆê——‚©‚çA•¡‡RTC‚ÌŒöŠJ•K{‚Ìƒ|[ƒgİ’è‚ğæ“¾ */
+	/** RTCä¸€è¦§ã‹ã‚‰ã€è¤‡åˆRTCã®å…¬é–‹å¿…é ˆã®ãƒãƒ¼ãƒˆè¨­å®šã‚’å–å¾— */
 	public static List<String> getRequiredExportedPorts(
 			List<Component> components) {
 		List<String> result = new ArrayList<String>();

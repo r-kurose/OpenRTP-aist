@@ -18,7 +18,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
- * NameServiceView�̃A�N�Z�X�����A�f�t�H���g�|�[�g�ԍ��̐ݒ�y�[�W
+ * NameServiceViewのアクセス周期、デフォルトポート番号の設定ページ
  */
 public class NameServiceViewPreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage {
@@ -67,7 +67,7 @@ public class NameServiceViewPreferencePage extends PreferencePage implements
 		Label treeViewLabelMs = new Label(nameServiceViewGroup, SWT.NULL);
 		treeViewLabelMs.setText(Messages.getString("NameServiceViewPreferencePage.2")); //$NON-NLS-1$
 
-		/* �f�t�H���g�|�[�g�ԍ� */
+		/* デフォルトポート番号 */
 		
 		Label defaultPortLabel = new Label(nameServiceViewGroup, SWT.NULL);
 		defaultPortLabel.setText(Messages.getString("NameServiceViewPreferencePage.3")); //$NON-NLS-1$
@@ -105,7 +105,7 @@ public class NameServiceViewPreferencePage extends PreferencePage implements
 	}
 
 	/**
-	 * ��Ԃ�ύX�����ۂɌĂяo������
+	 * 状態を変更した際に呼び出すこと
 	 */
 	private void updateStatus() {
 		setValid(validate());

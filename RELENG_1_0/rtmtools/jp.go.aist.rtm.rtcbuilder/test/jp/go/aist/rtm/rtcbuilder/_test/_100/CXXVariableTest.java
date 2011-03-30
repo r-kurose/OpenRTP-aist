@@ -15,15 +15,21 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
 
 public class CXXVariableTest extends TestBase {
 
+	RtcParam rtcParam;
+	GeneratorParam genParam;
+
 	protected void setUp() throws Exception {
-	}
-
-	public void testServicePort2() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
+		genParam = new GeneratorParam();
+		rtcParam = new RtcParam(genParam, true);
+		rtcParam.setOutputProject(rootPath + "/resource/work");
 		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
 		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
+		rtcParam.setRtmVersion("1.0.0");
+		rtcParam.setIsTest(true);
+		genParam.getRtcParams().add(rtcParam);
+	}
+
+	public void testServicePort2() throws Exception {
 		rtcParam.setName("foo");
 		rtcParam.setDescription("MDesc");
 		rtcParam.setVersion("1.0.1");
@@ -33,63 +39,52 @@ public class CXXVariableTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
 		rtcParam.setComponentKind("DataFlowComponent");
-		rtcParam.setRtmVersion("1.0.0");
-		rtcParam.setIsTest(true);
-		
-		genParam.getRtcParams().add(rtcParam);
-		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
+
+		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
 		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
 		rtcParam.getInports().addAll(dataport);
-		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
+		List<DataPortParam> outport = new ArrayList<DataPortParam>();
 		outport.add(new DataPortParam("OutP1", "RTC::TimedLong", "", 0));
 		outport.add(new DataPortParam("OutP2", "RTC::TimedFloat", "", 0));
 		rtcParam.getOutports().addAll(outport);
 
-		ServicePortParam service1 = new ServicePortParam("svPort",0);
-		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
-		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "acinst", "acvaria", 
-				rootPath + "\\resource\\MyService.idl", "MyService", "", 0);
+		ServicePortParam service1 = new ServicePortParam("svPort", 0);
+		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>();
+		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(
+				service1, "acc", "acinst", "acvaria", rootPath
+						+ "/resource/MyService.idl", "MyService", "", 0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
-		
-		ServicePortParam service2 = new ServicePortParam("cmPort",0);
-		List<ServicePortInterfaceParam> srvinterts2 = new ArrayList<ServicePortInterfaceParam>(); 
-		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service2, "rate", "rinst", "rvaria", 
-				rootPath + "\\resource\\DAQService.idl", "DAQService", "", 1);
+
+		ServicePortParam service2 = new ServicePortParam("cmPort", 0);
+		List<ServicePortInterfaceParam> srvinterts2 = new ArrayList<ServicePortInterfaceParam>();
+		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(
+				service2, "rate", "rinst", "rvaria", rootPath
+						+ "/resource/DAQService.idl", "DAQService", "", 1);
 		srvinterts2.add(int2);
 		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
-		
+
 		rtcParam.getServicePorts().addAll(srvports);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "\\resource\\CXX\\Variable\\ServicePort2\\";
+		String resourceDir = rootPath
+				+ "/resource/100/CXX/Variable/ServicePort2/";
 
 		assertEquals(15, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
-		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.h");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.cpp");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
 	}
 
-	public void testServicePort1() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
-		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
+	public void testServicePort1() throws Exception {
 		rtcParam.setName("foo");
 		rtcParam.setDescription("MDesc");
 		rtcParam.setVersion("1.0.1");
@@ -99,63 +94,52 @@ public class CXXVariableTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
 		rtcParam.setComponentKind("DataFlowComponent");
-		rtcParam.setRtmVersion("1.0.0");
-		rtcParam.setIsTest(true);
-		
-		genParam.getRtcParams().add(rtcParam);
-		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
+
+		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
 		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
 		rtcParam.getInports().addAll(dataport);
-		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
+		List<DataPortParam> outport = new ArrayList<DataPortParam>();
 		outport.add(new DataPortParam("OutP1", "RTC::TimedLong", "", 0));
 		outport.add(new DataPortParam("OutP2", "RTC::TimedFloat", "", 0));
 		rtcParam.getOutports().addAll(outport);
 
-		ServicePortParam service1 = new ServicePortParam("svPort",0);
-		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
-		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "acinst", "", 
-				rootPath + "\\resource\\MyService.idl", "MyService", "", 0);
+		ServicePortParam service1 = new ServicePortParam("svPort", 0);
+		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>();
+		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(
+				service1, "acc", "acinst", "", rootPath
+						+ "/resource/MyService.idl", "MyService", "", 0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
-		
-		ServicePortParam service2 = new ServicePortParam("cmPort",0);
-		List<ServicePortInterfaceParam> srvinterts2 = new ArrayList<ServicePortInterfaceParam>(); 
-		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service2, "rate", "rinst", "", 
-				rootPath + "\\resource\\DAQService.idl", "DAQService", "", 1);
+
+		ServicePortParam service2 = new ServicePortParam("cmPort", 0);
+		List<ServicePortInterfaceParam> srvinterts2 = new ArrayList<ServicePortInterfaceParam>();
+		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(
+				service2, "rate", "rinst", "", rootPath
+						+ "/resource/DAQService.idl", "DAQService", "", 1);
 		srvinterts2.add(int2);
 		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
-		
+
 		rtcParam.getServicePorts().addAll(srvports);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "\\resource\\CXX\\Variable\\ServicePort1\\";
+		String resourceDir = rootPath
+				+ "/resource/100/CXX/Variable/ServicePort1/";
 
 		assertEquals(15, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
-		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.h");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.cpp");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
 	}
 
-	public void testDataPort() throws Exception{
-		GeneratorParam genParam = new GeneratorParam();
-		RtcParam rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
-		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
-		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
+	public void testDataPort() throws Exception {
 		rtcParam.setName("foo");
 		rtcParam.setDescription("MDesc");
 		rtcParam.setVersion("1.0.1");
@@ -165,33 +149,28 @@ public class CXXVariableTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
 		rtcParam.setComponentKind("DataFlowComponent");
-		rtcParam.setRtmVersion("1.0.0");
-		rtcParam.setIsTest(true);
-		
-		genParam.getRtcParams().add(rtcParam);
-		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
-		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "VarInP1", 0));
+
+		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
+		dataport
+				.add(new DataPortParam("InP1", "RTC::TimedShort", "VarInP1", 0));
 		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
 		rtcParam.getInports().addAll(dataport);
-		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
+		List<DataPortParam> outport = new ArrayList<DataPortParam>();
 		outport.add(new DataPortParam("OutP1", "RTC::TimedLong", "", 0));
-		outport.add(new DataPortParam("OutP2", "RTC::TimedFloat", "VarOutP2", 0));
+		outport
+				.add(new DataPortParam("OutP2", "RTC::TimedFloat", "VarOutP2",
+						0));
 		rtcParam.getOutports().addAll(outport);
-		
+
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "\\resource\\CXX\\Variable\\DataPort\\";
+		String resourceDir = rootPath + "/resource/100/CXX/Variable/DataPort/";
 
 		assertEquals(13, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
-		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
 	}
+
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.util.ComponentUtil;
+import jp.go.aist.rtm.systemeditor.ui.util.CompositeComponentHelper;
 import jp.go.aist.rtm.systemeditor.ui.util.TimeoutWrappedJob;
 import jp.go.aist.rtm.systemeditor.ui.util.TimeoutWrapper;
 import jp.go.aist.rtm.toolscommon.manager.ToolsCommonPreferenceManager;
@@ -17,7 +18,7 @@ import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import org.eclipse.jface.action.Action;
 
 /**
- * •¡‡ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ‰ğœ‚·‚éƒAƒNƒVƒ‡ƒ“
+ * è¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’è§£é™¤ã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
  * 
  */
 public class DecomposeComponentAction extends Action {
@@ -36,7 +37,7 @@ public class DecomposeComponentAction extends Action {
 			return;
 		ComponentUtil.closeCompositeComponent(target);
 
-		// qƒRƒ“ƒ|[ƒlƒ“ƒg‚ğƒ_ƒCƒAƒOƒ‰ƒ€‚É’Ç‰Á‚·‚é
+		// å­ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã«è¿½åŠ ã™ã‚‹
 		List<Component> children = new ArrayList<Component>();
 		for (Component c : target.getComponents()) {
 			parent.addComponent(c);
@@ -46,19 +47,19 @@ public class DecomposeComponentAction extends Action {
 			target.removeComponentR(c);
 		}
 
-		// •¡‡ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğƒ_ƒCƒAƒOƒ‰ƒ€‚©‚çÁ‚·
+		// è¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã‹ã‚‰æ¶ˆã™
 		parent.removeComponent(target);
 
-		// •¡‡ƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚Â‚È‚ª‚Á‚Ä‚¢‚½Ú‘±‚ğÁ‚·
+		// è¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã«ã¤ãªãŒã£ã¦ã„ãŸæ¥ç¶šã‚’æ¶ˆã™
 		removeConnections();
 
-		// ƒlƒXƒg‚µ‚Ä‚¢‚éê‡‚Íƒƒ“ƒo[‚ÌÄİ’è‚ª•K—v
+		// ãƒã‚¹ãƒˆã—ã¦ã„ã‚‹å ´åˆã¯ãƒ¡ãƒ³ãƒãƒ¼ã®å†è¨­å®šãŒå¿…è¦
 		if (parent.getCompositeComponent() != null) {
 			parent.getCompositeComponent().setComponentsR(
 					parent.getComponents());
 		}
 
-		// ƒIƒ“ƒ‰ƒCƒ“‚Ì•¡‡ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÍAexit‚·‚é
+		// ã‚ªãƒ³ãƒ©ã‚¤ãƒ³ã®è¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã¯ã€exitã™ã‚‹
 		if (target instanceof CorbaComponent) {
 			int defaultTimeout = ToolsCommonPreferenceManager
 					.getInstance()

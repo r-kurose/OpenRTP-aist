@@ -74,5 +74,4 @@ public class Or {
     }
     public void setConstraint(List<ConstraintType> list) {
     }
-
 }

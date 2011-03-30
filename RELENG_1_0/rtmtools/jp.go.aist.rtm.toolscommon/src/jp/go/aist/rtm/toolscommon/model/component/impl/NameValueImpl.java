@@ -266,9 +266,9 @@ public class NameValueImpl extends WrapperObjectImpl implements NameValue {
 	}
 
 	/**
-	 * CSVからList<String>を作成する
+	 * CSV縺九ｉList<String>繧剃ｽ懈�舌☆繧�
 	 * <p>
-	 * csvがnullの場合には空リストを返す
+	 * csv縺系ull縺ｮ蝣ｴ蜷医↓縺ｯ遨ｺ繝ｪ繧ｹ繝医ｒ霑斐☆
 	 * 
 	 * @param csv
 	 *            csv
@@ -308,11 +308,11 @@ public class NameValueImpl extends WrapperObjectImpl implements NameValue {
 	}
 
 	/**
-	 * NameValueのリストからnameを基に検索を行う
+	 * NameValue縺ｮ繝ｪ繧ｹ繝医°繧穎ame繧貞渕縺ｫ讀懃ｴ｢繧定｡後≧
 	 * 
 	 * @param nameValues 
-	 * @param name　検索キー
-	 * @return　検索結果
+	 * @param name縲讀懃ｴ｢繧ｭ繝ｼ
+	 * @return縲讀懃ｴ｢邨先棡
 	 */
 	public static NameValue findByName(List<NameValue> nameValues, String name) {
 		for (NameValue nameValue : nameValues) {

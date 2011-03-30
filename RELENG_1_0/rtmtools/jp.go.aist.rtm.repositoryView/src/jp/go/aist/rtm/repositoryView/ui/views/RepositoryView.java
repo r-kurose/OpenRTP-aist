@@ -40,7 +40,7 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 
 
 /**
- * レポジトリビューのUIを構築するクラス
+ * 繝ｬ繝昴ず繝医Μ繝薙Η繝ｼ縺ｮUI繧呈ｧ狗ｯ峨☆繧九け繝ｩ繧ｹ
  *
  */
 public class RepositoryView extends org.eclipse.ui.part.ViewPart {
@@ -66,7 +66,7 @@ public class RepositoryView extends org.eclipse.ui.part.ViewPart {
 		//
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override
 	public void createPartControl(Composite parent) {
 		viewer = new TreeViewer(parent,SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		drillDownAdapter = new DrillDownAdapter(viewer);
@@ -100,6 +100,7 @@ public class RepositoryView extends org.eclipse.ui.part.ViewPart {
 					}
 				});
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				StructuredSelection selection = (StructuredSelection)event.getSelection();
 				if( selection.getFirstElement() instanceof RTCRVLeafItem ) {
@@ -128,15 +129,16 @@ public class RepositoryView extends org.eclipse.ui.part.ViewPart {
 		MenuManager menuMgr = new MenuManager(Messages.getString("RepositoryView.5")); //$NON-NLS-1$
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
+			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				RepositoryView.this.fillContextMenu(manager);
 			}
 		});
 		Menu menu = menuMgr.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);
-		
+
 		getSite().registerContextMenu(getSite().getId(), menuMgr, viewer);
-		
+
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
@@ -148,6 +150,7 @@ public class RepositoryView extends org.eclipse.ui.part.ViewPart {
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
+	@Override
 	public void setFocus() {
 		viewer.getControl().setFocus();
 	}
@@ -158,16 +161,15 @@ public class RepositoryView extends org.eclipse.ui.part.ViewPart {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public Object getAdapter(Class adapter) {
 		if (adapter.equals(IPropertySheetPage.class)) {
 			return new RtcPropertySheetPage();
 		}
 		return super.getAdapter(adapter);
 	}
-	public Object getModel(){
+
+	public Object getModel() {
 		return viewer.getInput();
 	}
+
 }

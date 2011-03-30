@@ -1,10 +1,10 @@
 package jp.go.aist.rtm.systemeditor.ui.dialog;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.go.aist.rtm.nameserviceview.manager.NameServerManager;
+import jp.go.aist.rtm.nameserviceview.model.manager.NameServerManager;
+import jp.go.aist.rtm.systemeditor.factory.CompositeComponentCreator;
 import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.util.ComponentCommonUtil;
@@ -41,89 +41,42 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * •¡‡ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğV‹K‚Éì¬‚·‚éƒ_ƒCƒAƒƒO
+ * è¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’æ–°è¦ã«ä½œæˆã™ã‚‹ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
  * 
  */
 public class NewCompositeComponentDialog extends TitleAreaDialog {
 
-	public class PortLabelProvider extends LabelProvider implements
-		ITableLabelProvider, ITableColorProvider {
-		
-		private ColorRegistry colorRegistry;
-		private static final String COLOR_REQUIRED = "COLOR_REQUIRED";
-		
-		PortLabelProvider() {
-			colorRegistry = new ColorRegistry();
-			colorRegistry.put(COLOR_REQUIRED, new RGB(192, 192, 192));
-		}
-
-		public String getColumnText(Object element, int columnIndex) {
-			return element.toString();
-		}
-
-		public Image getColumnImage(Object element, int columnIndex) {
-			return null;
-		}
-
-		public Color getBackground(Object element, int columnIndex) {
-			if (requiredExportedPorts.contains(element)) {
-				return colorRegistry.get(COLOR_REQUIRED);
-			}
-			return null;
-		}
-
-		public Color getForeground(Object element, int columnIndex) {
-			return null;
-		}
-	}
-
 	// The Grouping composite component cannot be included in the composite
 	// components other than Grouping.
-	private static final String MESSAGE_CONTAIN_GROUPING_FAIL = Messages
+	public static final String MESSAGE_CONTAIN_GROUPING_FAIL = Messages
 			.getString("NewCompositeComponentDialog.msg.contain_grouping_fail");
 
 	// The component name already exists.
-	private static final String MESSAGE_ALREADY_EXIST_NAME = Messages
+	public static final String MESSAGE_ALREADY_EXIST_NAME = Messages
 			.getString("NewCompositeComponentDialog.msg.already_exist_name");
 
+	private static final String rtcExtension = ".rtc";
+	private static final String xmlExtension = ".xml";
+
 	private Combo mgrCombo;
-
 	private Text nameText;
-
 	private Combo typeCombo;
-
 	private Combo pathCombo;
 
 	private List<Component> selectedComponents;
-
 	private List<Component> baseComponents;
 
 	private List<String> allPorts;
-
 	private List<String> selectedPorts;
-
 	private List<String> requiredExportedPorts;
 
 	private List<RTCManager> mgrList;
 
-	private static final String xmlExtension = ".xml"; //$NON-NLS-1$
+	CompositeComponentCreator creator;
 
-	private static final String rtcExtension = ".rtc"; //$NON-NLS-1$
-
-	private RTCManager selectedManager;
-
-	private String instanceName;
-
-	private String compositeType;
-
-	private String pathId;
-
-	private boolean isOnline;
-
-	private boolean containGroupingCompositeComponent;
-
-	public NewCompositeComponentDialog(Shell parentShell, boolean isOnline,
-			List<Component> list, List<Component> baseList) {
+	public NewCompositeComponentDialog(Shell parentShell,
+			CompositeComponentCreator creator, List<Component> list,
+			List<Component> baseList) {
 		super(parentShell);
 		setHelpAvailable(false);
 		if (list == null || list.size() == 0) {
@@ -131,26 +84,20 @@ public class NewCompositeComponentDialog extends TitleAreaDialog {
 		}
 		this.selectedComponents = list;
 		this.baseComponents = baseList;
-		this.isOnline = isOnline;
-		this.containGroupingCompositeComponent = false;
-		for (Component ac : list) {
-			if (ac.isGroupingCompositeComponent()) {
-				this.containGroupingCompositeComponent = true;
-				break;
-			}
-		}
+
 		this.allPorts = NewCompositeComponentDialogData
 				.getPorts(this.selectedComponents);
 		this.selectedPorts = new ArrayList<String>();
 		this.requiredExportedPorts = ComponentCommonUtil
 				.getRequiredExportedPorts(this.selectedComponents);
+
+		this.creator = creator;
+		this.creator.setComponents(this.selectedComponents);
+
 		setShellStyle(getShellStyle() | SWT.CENTER | SWT.RESIZE);
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected Control createDialogArea(Composite parent) {
 		GridLayout gl = new GridLayout();
 		Composite mainComposite = (Composite) super.createDialogArea(parent);
@@ -162,9 +109,6 @@ public class NewCompositeComponentDialog extends TitleAreaDialog {
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected Control createButtonBar(Composite parent) {
 		Control composite = super.createButtonBar(parent);
 		pathCombo.setText(pathCombo.getItem(0));
@@ -172,7 +116,7 @@ public class NewCompositeComponentDialog extends TitleAreaDialog {
 	}
 
 	/**
-	 * ƒƒCƒ“‚Æ‚È‚é•\¦•”‚ğì¬‚·‚é
+	 * ãƒ¡ã‚¤ãƒ³ã¨ãªã‚‹è¡¨ç¤ºéƒ¨ã‚’ä½œæˆã™ã‚‹
 	 */
 	private void createConnectorProfileComposite(Composite mainComposite) {
 		GridLayout gl;
@@ -185,8 +129,8 @@ public class NewCompositeComponentDialog extends TitleAreaDialog {
 		portProfileEditComposite
 				.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		if (this.isOnline) {
-			// ƒIƒ“ƒ‰ƒCƒ“‚Ìê‡‚ÍƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ¶¬‚·‚éƒ}ƒl[ƒWƒƒ‚ğ‘I‘ğ
+		if (creator.isOnline()) {
+			// ã‚ªãƒ³ãƒ©ã‚¤ãƒ³ã®å ´åˆã¯ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ç”Ÿæˆã™ã‚‹ãƒãƒãƒ¼ã‚¸ãƒ£ã‚’é¸æŠ
 			Label mgr = new Label(portProfileEditComposite, SWT.NONE);
 			mgr.setText(Messages.getString("NewCompositeComponentDialog.2")); //$NON-NLS-1$
 			mgrList = NameServerManager.eInstance.getRTCManagerList();
@@ -203,12 +147,12 @@ public class NewCompositeComponentDialog extends TitleAreaDialog {
 			}
 			if (mgrList.size() > 0) {
 				mgrCombo.select(0);
-				this.selectedManager = mgrList.get(0);
+				this.creator.setManager(mgrList.get(0));
 			}
 			mgrCombo.addModifyListener(new ModifyListener() {
 				public void modifyText(ModifyEvent e) {
 					Combo c = (Combo) e.widget;
-					selectedManager = mgrList.get(c.getSelectionIndex());
+					creator.setManager(mgrList.get(c.getSelectionIndex()));
 					notifyModified();
 				}
 			});
@@ -234,15 +178,15 @@ public class NewCompositeComponentDialog extends TitleAreaDialog {
 		gd.horizontalAlignment = GridData.FILL;
 		gd.grabExcessHorizontalSpace = true;
 		typeCombo.setLayoutData(gd);
-		typeCombo.add(Component.COMPOSITETYPE_PERIODIC_EC_SHARED);
-		typeCombo.add(Component.COMPOSITETYPE_PERIODIC_STATE_SHARED);
-		typeCombo.add(Component.COMPOSITETYPE_GROUPING);
+		for (String t : creator.getCompositeTypes()) {
+			typeCombo.add(t);
+		}
 		typeCombo.select(0);
-		this.compositeType = typeCombo.getText();
+		this.creator.setCompositeType(typeCombo.getText());
 		typeCombo.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				Combo c = (Combo) e.widget;
-				compositeType = c.getText();
+				creator.setCompositeType(c.getText());
 				notifyModified();
 			}
 		});
@@ -266,17 +210,17 @@ public class NewCompositeComponentDialog extends TitleAreaDialog {
 		});
 		nameText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
-				instanceName = nameText.getText();
+				creator.setInstanceName(nameText.getText());
 				setPath();
 				notifyModified();
 			}
 		});
-		// ƒ|[ƒg‘I‘ğƒGƒŠƒA‚ğ’Ç‰Á 2008.11.26
+		// ãƒãƒ¼ãƒˆé¸æŠã‚¨ãƒªã‚¢ã‚’è¿½åŠ  2008.11.26
 		createPortArea(portProfileEditComposite);
 	}
 
 	/**
-	 * ƒ|[ƒg‘I‘ğƒGƒŠƒA
+	 * ãƒãƒ¼ãƒˆé¸æŠã‚¨ãƒªã‚¢
 	 */
 	private void createPortArea(Composite portProfileEditComposite) {
 		Label pathLabel = new Label(portProfileEditComposite, SWT.NONE);
@@ -286,7 +230,6 @@ public class NewCompositeComponentDialog extends TitleAreaDialog {
 		viewer.setContentProvider(new ArrayContentProvider());
 		viewer.setLabelProvider(new PortLabelProvider());
 		viewer.addCheckStateListener(new ICheckStateListener() {
-			@SuppressWarnings("unchecked")//$NON-NLS-1$
 			public void checkStateChanged(CheckStateChangedEvent event) {
 				refreshSelectedPorts(viewer);
 				requireCheck(viewer);
@@ -302,7 +245,7 @@ public class NewCompositeComponentDialog extends TitleAreaDialog {
 		gd.minimumWidth = 240;
 		viewer.getTable().setLayoutData(gd);
 		viewer.setInput(this.allPorts);
-		// •K{ŒöŠJƒ|[ƒg‚ğ‚ ‚ç‚©‚¶‚ßƒ`ƒFƒbƒN
+		// å¿…é ˆå…¬é–‹ãƒãƒ¼ãƒˆã‚’ã‚ã‚‰ã‹ã˜ã‚ãƒã‚§ãƒƒã‚¯
 		requireCheck(viewer);
 
 		Composite buttonComposite = new Composite(portProfileEditComposite,
@@ -355,74 +298,54 @@ public class NewCompositeComponentDialog extends TitleAreaDialog {
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
 		shell.setText(Messages.getString("NewCompositeComponentDialog.13")); //$NON-NLS-1$
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected void okPressed() {
+		creator.setExportedPorts(getExportedPortString());
 		super.okPressed();
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected void cancelPressed() {
 		super.cancelPressed();
 	}
 
-	@Override
 	/**
-	 * {@inheritDoc}
-	 * <p>
-	 * ƒƒbƒZ[ƒW‚ğİ’è‚·‚éB
+	 * ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¨­å®šã™ã‚‹ã€‚
 	 */
+	@Override
 	public void setMessage(String newMessage, int newType) {
 		super.setMessage(newMessage, newType);
 	}
 
 	/**
-	 * İ’è‚É•ÏX‚ª‚ ‚Á‚½ê‡‚ÉŒÄ‚Ño‚³‚ê‚é‚±‚Æ‚ğ‘z’è‚µ‚½ƒƒ\ƒbƒhB
+	 * è¨­å®šã«å¤‰æ›´ãŒã‚ã£ãŸå ´åˆã«å‘¼ã³å‡ºã•ã‚Œã‚‹ã“ã¨ã‚’æƒ³å®šã—ãŸãƒ¡ã‚½ãƒƒãƒ‰ã€‚
 	 * <p>
-	 * ’ˆÓFİ’è’l‚Ì•ÏX‚ª‚ ‚éê‡‚É‚ÍA•K‚¸‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚±‚Æ<br>
-	 * Œ»İ‚ÍA•\¦‘¤‚Åİ’è‚ğ•ÏX‚µ‚½Œã‚ÉA‚±‚Ìƒƒ\ƒbƒh‚ğ•K‚¸ŒÄ‚Ño‚·‚æ‚¤‚ÉÀ‘•‚µ‚Ä‚¢‚é‚ªA
-	 * €–Ú”‚ª‘‚¦‚é‚æ‚¤‚È‚ç‚ÎAƒ‚ƒfƒ‹‚Ì•ÏX’Ê’m‹@”\‚ğg—p‚µ‚ÄÀ‘•‚·‚é•û‚ª—Ç‚¢B
+	 * æ³¨æ„ï¼šè¨­å®šå€¤ã®å¤‰æ›´ãŒã‚ã‚‹å ´åˆã«ã¯ã€å¿…ãšã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã™ã“ã¨<br>
+	 * ç¾åœ¨ã¯ã€è¡¨ç¤ºå´ã§è¨­å®šã‚’å¤‰æ›´ã—ãŸå¾Œã«ã€ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å¿…ãšå‘¼ã³å‡ºã™ã‚ˆã†ã«å®Ÿè£…ã—ã¦ã„ã‚‹ãŒã€
+	 * é …ç›®æ•°ãŒå¢—ãˆã‚‹ã‚ˆã†ãªã‚‰ã°ã€ãƒ¢ãƒ‡ãƒ«ã®å¤‰æ›´é€šçŸ¥æ©Ÿèƒ½ã‚’ä½¿ç”¨ã—ã¦å®Ÿè£…ã™ã‚‹æ–¹ãŒè‰¯ã„ã€‚
 	 */
 	public void notifyModified() {
-		if (nameText.getText().equals("") || pathCombo.getText().equals("") //$NON-NLS-1$ //$NON-NLS-2$
+		if (nameText.getText().equals("") || pathCombo.getText().equals("")
 				|| !validateInput()) {
 			getButton(IDialogConstants.OK_ID).setEnabled(false);
-
 		} else {
 			getButton(IDialogConstants.OK_ID).setEnabled(true);
 		}
 	}
 
 	private boolean validateInput() {
-		if (this.isOnline && this.selectedManager == null) {
-			return false;
-		}
-		if (this.compositeType == null || this.compositeType.length() == 0) {
-			return false;
-		}
-		if (this.containGroupingCompositeComponent
-				&& !this.compositeType.equals(Component.COMPOSITETYPE_GROUPING)) {
-			this.setMessage(MESSAGE_CONTAIN_GROUPING_FAIL,
-					IMessageProvider.WARNING);
+		if (!creator.isValid()) {
+			setMessage(creator.getMessage(), IMessageProvider.ERROR);
 			return false;
 		}
 		for (Component target : baseComponents) {
 			if (nameText.getText().trim().equals(target.getInstanceNameL())) {
-				this.setMessage(MESSAGE_ALREADY_EXIST_NAME,
-						IMessageProvider.WARNING);
+				setMessage(MESSAGE_ALREADY_EXIST_NAME, IMessageProvider.WARNING);
 				return false;
 			}
 		}
@@ -438,25 +361,14 @@ public class NewCompositeComponentDialog extends TitleAreaDialog {
 		return computeSize;
 	}
 
-	private RTCManager getSelectedManager() {
-		return this.selectedManager;
-	}
-
-	String getInstanceName() {
-		return this.instanceName;
-	}
-
-	public String getCompositeType() {
-		return this.compositeType;
-	}
-
-	String getPathId() {
-		return this.pathId;
-	}
-
 	private void setPath() {
-		this.pathId = pathCombo.getText() + "/" + nameText.getText() //$NON-NLS-1$
-				+ rtcExtension;
+		String path = pathCombo.getText();
+		if (creator.isOnline()) {
+			creator.setPathId(path + "/" + nameText.getText() + rtcExtension);
+		} else {
+			creator.setPathId(path.substring(0, path.lastIndexOf("/")) + "/"
+					+ nameText.getText() + xmlExtension);
+		}
 	}
 
 	String getExportedPortString() {
@@ -477,20 +389,35 @@ public class NewCompositeComponentDialog extends TitleAreaDialog {
 		return buffer.toString();
 	}
 
-	/**
-	 * ƒ}ƒl[ƒWƒƒ‚ÅƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ä•Ô‚·
-	 * 
-	 * @return ¶¬‚³‚ê‚½‚Î‚©‚è‚Ì•¡‡ƒRƒ“ƒ|[ƒlƒ“ƒgiƒƒ“ƒo[‚ÍƒZƒbƒg‚³‚ê‚Ä‚¢‚È‚¢j
-	 */
-	public Component createComponentR() {
-		String param = NewCompositeComponentDialogData.getParam(
-				getCompositeType(), getInstanceName(), getExportedPortString());
-		Component compositeComponent = getSelectedManager().createComponentR(
-				param);
-		String childPathId = selectedComponents.get(0).getPathId();
-		compositeComponent.setPathId(childPathId.substring(0, childPathId
-				.lastIndexOf("/") + 1)
-				+ getInstanceName() + ".rtc");
-		return compositeComponent;
+	public class PortLabelProvider extends LabelProvider implements
+			ITableLabelProvider, ITableColorProvider {
+
+		private ColorRegistry colorRegistry;
+		private static final String COLOR_REQUIRED = "COLOR_REQUIRED";
+
+		PortLabelProvider() {
+			colorRegistry = new ColorRegistry();
+			colorRegistry.put(COLOR_REQUIRED, new RGB(192, 192, 192));
+		}
+
+		public String getColumnText(Object element, int columnIndex) {
+			return element.toString();
+		}
+
+		public Image getColumnImage(Object element, int columnIndex) {
+			return null;
+		}
+
+		public Color getBackground(Object element, int columnIndex) {
+			if (requiredExportedPorts.contains(element)) {
+				return colorRegistry.get(COLOR_REQUIRED);
+			}
+			return null;
+		}
+
+		public Color getForeground(Object element, int columnIndex) {
+			return null;
+		}
 	}
+
 }

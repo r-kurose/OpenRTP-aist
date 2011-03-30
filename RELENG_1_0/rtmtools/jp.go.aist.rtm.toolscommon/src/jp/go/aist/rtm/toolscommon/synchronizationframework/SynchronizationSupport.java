@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚ÄA“¯Šú‹@”\‚ğ’ñ‹Ÿ‚·‚éƒNƒ‰ƒX
+ * ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¯¾ã—ã¦ã€åŒæœŸæ©Ÿèƒ½ã‚’æä¾›ã™ã‚‹ã‚¯ãƒ©ã‚¹
  */
 public class SynchronizationSupport {
 	private LocalObject localObject;
@@ -29,14 +29,14 @@ public class SynchronizationSupport {
 	private SynchronizationManager synchronizationManager;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param localObject
-	 *            ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg
+	 *            ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 * @param mappingRule
-	 *            ƒ}ƒbƒsƒ“ƒOƒ‹[ƒ‹
+	 *            ãƒãƒƒãƒ”ãƒ³ã‚°ãƒ«ãƒ¼ãƒ«
 	 * @param synchronizationManager
-	 *            “¯Šúƒ}ƒl[ƒWƒƒ
+	 *            åŒæœŸãƒãƒãƒ¼ã‚¸ãƒ£
 	 */
 	public SynchronizationSupport(LocalObject localObject,
 			MappingRule mappingRule,
@@ -47,23 +47,23 @@ public class SynchronizationSupport {
 	}
 
 	/**
-	 * “¯Šúƒ}ƒl[ƒWƒƒ‚ğæ“¾‚·‚é
+	 * åŒæœŸãƒãƒãƒ¼ã‚¸ãƒ£ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @return “¯Šúƒ}ƒl[ƒWƒƒ
+	 * @return åŒæœŸãƒãƒãƒ¼ã‚¸ãƒ£
 	 */
 	public SynchronizationManager getSynchronizationManager() {
 		return synchronizationManager;
 	}
 
 	/**
-	 * ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚ğ“¯Šú‚·‚éB
+	 * ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’åŒæœŸã™ã‚‹ã€‚
 	 * <p>
-	 * •ïŠÜQÆ‚ğ‚½‚Ç‚èA‚·‚×‚Ä‚Ìƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚ğ“¯Šú‚·‚é
+	 * åŒ…å«å‚ç…§ã‚’ãŸã©ã‚Šã€ã™ã¹ã¦ã®ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’åŒæœŸã™ã‚‹
 	 */
 	public synchronized void synchronizeLocal() {
 		Object[] remoteObjects = null;
 		try {
-			remoteObjects = getRemoteObjects(); // —áŠO‚ª”­¶‚·‚é‚±‚Æ‚ª‚ ‚é
+			remoteObjects = getRemoteObjects(); // ä¾‹å¤–ãŒç™ºç”Ÿã™ã‚‹ã“ã¨ãŒã‚ã‚‹
 		} catch (Exception e) {
 			// void
 		}
@@ -136,10 +136,10 @@ public class SynchronizationSupport {
 	}
 
 	/**
-	 * ƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚ÄÚ‘±‚Å‚«‚é‚©Šm”F‚·‚é
+	 * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¯¾ã—ã¦æ¥ç¶šã§ãã‚‹ã‹ç¢ºèªã™ã‚‹
 	 * 
 	 * @param remoteObject
-	 * @return Ú‘±‚Å‚«‚é‚©‚Ç‚¤‚©
+	 * @return æ¥ç¶šã§ãã‚‹ã‹ã©ã†ã‹
 	 */
 	public static boolean ping(Object[] remoteObject) {
 		if (remoteObject != null) {
@@ -153,10 +153,10 @@ public class SynchronizationSupport {
 	}
 
 	/**
-	 * ƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚ÄÚ‘±‚Å‚«‚é‚©Šm”F‚·‚é
+	 * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¯¾ã—ã¦æ¥ç¶šã§ãã‚‹ã‹ç¢ºèªã™ã‚‹
 	 * 
 	 * @param remoteObject
-	 * @return Ú‘±‚Å‚«‚é‚©‚Ç‚¤‚©
+	 * @return æ¥ç¶šã§ãã‚‹ã‹ã©ã†ã‹
 	 */
 	public static boolean ping(Object remoteObject) {
 		try {
@@ -171,7 +171,7 @@ public class SynchronizationSupport {
 	}
 
 	/**
-	 * ƒIƒuƒWƒFƒNƒgƒOƒ‰ƒt“à‚©‚çAƒ[ƒJƒ‹‚ğƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚É‚æ‚Á‚ÄŒŸõ‚µ‚Ü‚·B
+	 * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚°ãƒ©ãƒ•å†…ã‹ã‚‰ã€ãƒ­ãƒ¼ã‚«ãƒ«ã‚’ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ã‚ˆã£ã¦æ¤œç´¢ã—ã¾ã™ã€‚
 	 * 
 	 * @param remoteObjects
 	 * @param graphPart
@@ -234,9 +234,9 @@ public class SynchronizationSupport {
 	}
 
 	/**
-	 * ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚é
+	 * ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @return ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg
+	 * @return ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 */
 	public Object[] getRemoteObjects() {
 		List<Object> result = new ArrayList<Object>();

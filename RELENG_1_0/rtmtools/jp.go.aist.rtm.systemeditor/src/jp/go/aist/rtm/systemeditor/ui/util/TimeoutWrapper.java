@@ -6,7 +6,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * ���Ԃ̂����鏈����ʃX���b�h�ōs���A�w�肳�ꂽ���ԓ��ɏI���Ȃ���΁A�G���[���b�Z�[�W��\������N���X
+ * 時間のかかる処理を別スレッドで行い、指定された時間内に終わらなければ、エラーメッセージを表示するクラス
  *
  */
 public class TimeoutWrapper {

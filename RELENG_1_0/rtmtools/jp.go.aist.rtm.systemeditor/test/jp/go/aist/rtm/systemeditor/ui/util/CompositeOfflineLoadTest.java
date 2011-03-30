@@ -17,6 +17,7 @@ import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
+import jp.go.aist.rtm.toolscommon.util.RtsProfileHandler;
 import junit.framework.TestCase;
 
 import org.eclipse.emf.common.util.EList;
@@ -46,10 +47,9 @@ public class CompositeOfflineLoadTest extends TestCase {
 		dateFactory = new DatatypeFactoryImpl();
 		SystemEditorWrapperFactory instance = new SystemEditorWrapperFactory(NameServerAccesserTest.setupMappingRule());
 		SystemEditorWrapperFactory.setInstance(instance);
-		
+
 		RtsProfileHandler handler = new RtsProfileHandler();
 		handler.setOnline(false);
-		handler.setRepositoryModel(createRepositoryModel());
 		diagram = ComponentFactory.eINSTANCE.createSystemDiagram();
 		diagram.setKind(SystemDiagramKind.OFFLINE_LITERAL);
 		RtsProfileExt rtsProfile = createRtsProfile();
@@ -63,11 +63,11 @@ public class CompositeOfflineLoadTest extends TestCase {
 		assertEquals("2009-03-06T10:15:43.349+09:00", diagram.getCreationDate());
 		assertEquals("RTSystem:d.d:d", diagram.getSystemId());
 		
-		assertEquals(4, diagram.getComponents().size());
+		assertEquals(2, diagram.getComponents().size());
 		verfifyComponentS1((ComponentSpecification) diagram.getComponents().get(0));
-		verfifyComponentCameraComponent((ComponentSpecification) diagram.getComponents().get(1));
-		verfifyComponentImageProcess((ComponentSpecification) diagram.getComponents().get(2));
-		verfifyComponentImageViewer((ComponentSpecification) diagram.getComponents().get(3));
+//		verfifyComponentCameraComponent((ComponentSpecification) diagram.getComponents().get(1));
+//		verfifyComponentImageProcess((ComponentSpecification) diagram.getComponents().get(2));
+		verfifyComponentImageViewer((ComponentSpecification) diagram.getComponents().get(1));
 		
 		RtsProfileExt savedProfile = handler.save(diagram);
 		assertEquals(rtsProfile.getUpdateDate(), savedProfile.getUpdateDate());
@@ -188,32 +188,32 @@ public class CompositeOfflineLoadTest extends TestCase {
 		assertEquals("file://localhost/C:\\RTSystemEditor\\rsmtj\\s1.xml", component.getPathId());
 		assertEquals("RTC:.composite.PeriodicECShared.:", component.getComponentId());
 		assertEquals(5, component.getPorts().size());
-		verifyPort("ImageData"
-				, "{componentId:RTC:Sample Vender.example.CameraComponent:1.0.0,instanceName:CameraComponent_1,portName:ImageData}"
+		verifyPort("CameraComponent_1.ImageData"
+				, "{componentId:RTC:Sample Vender.example.CameraComponent:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.CameraComponent_1.0.0.xml:1,instanceName:CameraComponent_1,portName:CameraComponent_1.ImageData}"
 				, (Port) component.getPorts().get(0)
 				, new String[]{});
-		verifyPort("CapPORT"
-				, "{componentId:RTC:Sample Vender.example.CameraComponent:1.0.0,instanceName:CameraComponent_1,portName:CapPORT}"
+		verifyPort("CameraComponent_1.CapPORT"
+				, "{componentId:RTC:Sample Vender.example.CameraComponent:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.CameraComponent_1.0.0.xml:1,instanceName:CameraComponent_1,portName:CameraComponent_1.CapPORT}"
 				, (Port) component.getPorts().get(1)
 				, new String[]{"9b4074b4-29b5-4a22-9956-22070915ef25"});
-		verifyPort("In"
-				, "{componentId:RTC:Sample Vender.example.ImageProcess:1.0.0,instanceName:ImageProcess_1,portName:In}"
+		verifyPort("ImageProcess_1.Out"
+				, "{componentId:RTC:Sample Vender.example.ImageProcess:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageProcess_1.0.0.xml:1,instanceName:ImageProcess_1,portName:ImageProcess_1.Out}"
 				, (Port) component.getPorts().get(2)
 				, new String[]{});
-		verifyPort("Out"
-				, "{componentId:RTC:Sample Vender.example.ImageProcess:1.0.0,instanceName:ImageProcess_1,portName:Out}"
+		verifyPort("ImageProcess_1.In"
+				, "{componentId:RTC:Sample Vender.example.ImageProcess:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageProcess_1.0.0.xml:1,instanceName:ImageProcess_1,portName:ImageProcess_1.In}"
 				, (Port) component.getPorts().get(3)
 				, new String[]{});
-		verifyPort("CapPORT"
-				, "{componentId:RTC:Sample Vender.example.ImageProcess:1.0.0,instanceName:ImageProcess_1,portName:CapPORT}"
+		verifyPort("ImageProcess_1.CapPORT"
+				, "{componentId:RTC:Sample Vender.example.ImageProcess:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageProcess_1.0.0.xml:1,instanceName:ImageProcess_1,portName:ImageProcess_1.CapPORT}"
 				, (Port) component.getPorts().get(4)
 				, new String[]{});
 		assertEquals(1, component.getConfigurationSets().size());
 		verifyConfigSet((jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet) component.getConfigurationSets().get(0));
 		EList components = component.getComponents();
 		assertEquals(2, components.size());
-		assertEquals(diagram.getComponents().get(1), components.get(0));
-		assertEquals(diagram.getComponents().get(2), components.get(1));
+//		assertEquals(diagram.getComponents().get(0), components.get(0));
+//		assertEquals(diagram.getComponents().get(1), components.get(1));
 		verifyLocation("RIGHT", 255, 131, component);
 	}
 
@@ -226,12 +226,12 @@ public class CompositeOfflineLoadTest extends TestCase {
 		assertEquals("file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.CameraComponent_1.0.0.xml:1", component.getPathId());
 		assertEquals("RTC:Sample Vender.example.CameraComponent:1.0.0", component.getComponentId());
 		assertEquals(2, component.getPorts().size());
-		verifyPort("ImageData"
-				, "{componentId:RTC:Sample Vender.example.CameraComponent:1.0.0,instanceName:CameraComponent_1,portName:ImageData}"
+		verifyPort("CameraComponent_1.ImageData"
+				, "{componentId:RTC:Sample Vender.example.CameraComponent:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.CameraComponent_1.0.0.xml:1,instanceName:CameraComponent_1,portName:CameraComponent_1.ImageData}"
 				, (Port) component.getPorts().get(0)
 				, new String[]{});
-		verifyPort("CapPORT"
-				, "{componentId:RTC:Sample Vender.example.CameraComponent:1.0.0,instanceName:CameraComponent_1,portName:CapPORT}"
+		verifyPort("CameraComponent_1.CapPORT"
+				, "{componentId:RTC:Sample Vender.example.CameraComponent:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.CameraComponent_1.0.0.xml:1,instanceName:CameraComponent_1,portName:CameraComponent_1.CapPORT}"
 				, (Port) component.getPorts().get(1)
 				, new String[]{"9b4074b4-29b5-4a22-9956-22070915ef25"});
 		assertEquals(0, component.getConfigurationSets().size());
@@ -247,16 +247,16 @@ public class CompositeOfflineLoadTest extends TestCase {
 		assertEquals("file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageProcess_1.0.0.xml:1", component.getPathId());
 		assertEquals("RTC:Sample Vender.example.ImageProcess:1.0.0", component.getComponentId());
 		assertEquals(3, component.getPorts().size());
-		verifyPort("In"
-				, "{componentId:RTC:Sample Vender.example.ImageProcess:1.0.0,instanceName:ImageProcess_1,portName:In}"
+		verifyPort("ImageProcess_1.In"
+				, "{componentId:RTC:Sample Vender.example.ImageProcess:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageProcess_1.0.0.xml:1,instanceName:ImageProcess_1,portName:ImageProcess_1.In}"
 				, (Port) component.getPorts().get(0)
 				, new String[]{});
-		verifyPort("Out"
-				, "{componentId:RTC:Sample Vender.example.ImageProcess:1.0.0,instanceName:ImageProcess_1,portName:Out}"
+		verifyPort("ImageProcess_1.Out"
+				, "{componentId:RTC:Sample Vender.example.ImageProcess:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageProcess_1.0.0.xml:1,instanceName:ImageProcess_1,portName:ImageProcess_1.Out}"
 				, (Port) component.getPorts().get(1)
 				, new String[]{});
-		verifyPort("CapPORT"
-				, "{componentId:RTC:Sample Vender.example.ImageProcess:1.0.0,instanceName:ImageProcess_1,portName:CapPORT}"
+		verifyPort("ImageProcess_1.CapPORT"
+				, "{componentId:RTC:Sample Vender.example.ImageProcess:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageProcess_1.0.0.xml:1,instanceName:ImageProcess_1,portName:ImageProcess_1.CapPORT}"
 				, (Port) component.getPorts().get(2)
 				, new String[]{});
 		assertEquals(0, component.getConfigurationSets().size());
@@ -272,12 +272,12 @@ public class CompositeOfflineLoadTest extends TestCase {
 		assertEquals("file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageViewer_1.0.0.xml:1", component.getPathId());
 		assertEquals("RTC:Sample Vender.example.ImageViewer:1.0.0", component.getComponentId());
 		assertEquals(2, component.getPorts().size());
-		verifyPort("ImageDataIn"
-				, "{componentId:RTC:Sample Vender.example.ImageViewer:1.0.0,instanceName:ImageViewer_1,portName:ImageDataIn}"
+		verifyPort("ImageViewer_1.ImageDataIn"
+				, "{componentId:RTC:Sample Vender.example.ImageViewer:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageViewer_1.0.0.xml:1,instanceName:ImageViewer_1,portName:ImageViewer_1.ImageDataIn}"
 				, (Port) component.getPorts().get(0)
 				, new String[]{});
-		verifyPort("CapPORT"
-				, "{componentId:RTC:Sample Vender.example.ImageViewer:1.0.0,instanceName:ImageViewer_1,portName:CapPORT}"
+		verifyPort("ImageViewer_1.CapPORT"
+				, "{componentId:RTC:Sample Vender.example.ImageViewer:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageViewer_1.0.0.xml:1,instanceName:ImageViewer_1,portName:ImageViewer_1.CapPORT}"
 				, (Port) component.getPorts().get(1)
 				, new String[]{"9b4074b4-29b5-4a22-9956-22070915ef25"});
 		assertEquals(0, component.getConfigurationSets().size());
@@ -317,9 +317,9 @@ public class CompositeOfflineLoadTest extends TestCase {
 		rtsProfile.setVersion("0.2");
 		rtsProfile.setId("RTSystem:d.d:d");
 		rtsProfile.getComponents().add(createComponentS1());
+		rtsProfile.getComponents().add(craeteComponentImageViewer());
 		rtsProfile.getComponents().add(craeteComponentCameraComponent());
 		rtsProfile.getComponents().add(craeteComponentImageProcess());
-		rtsProfile.getComponents().add(craeteComponentImageViewer());
 		rtsProfile.getServicePortConnectors().add(createServiceportConnector());
 		return rtsProfile;
 	}
@@ -332,11 +332,11 @@ public class CompositeOfflineLoadTest extends TestCase {
 		component.setInstanceName("s1");
 		component.setPathUri("file://localhost/C:\\RTSystemEditor\\rsmtj\\s1.xml");
 		component.setId("RTC:.composite.PeriodicECShared.:");
-		component.getDataPorts().add(createDataPort("ImageData"));
-		component.getDataPorts().add(createDataPort("Out"));
-		component.getDataPorts().add(createDataPort("In"));
-		component.getServicePorts().add(createServicePort("CapPORT"));
-		component.getServicePorts().add(createServicePort("CapPORT"));
+		component.getDataPorts().add(createDataPort("CameraComponent_1.ImageData"));
+		component.getDataPorts().add(createDataPort("ImageProcess_1.Out"));
+		component.getDataPorts().add(createDataPort("ImageProcess_1.In"));
+		component.getServicePorts().add(createServicePort("CameraComponent_1.CapPORT"));
+		component.getServicePorts().add(createServicePort("ImageProcess_1.CapPORT"));
 		component.getConfigurationSets().add(createConfigurationSet());
 		component.getParticipants().add(createParticipants("CameraComponent_1", "RTC:Sample Vender.example.CameraComponent:1.0.0"));
 		component.getParticipants().add(createParticipants("ImageProcess_1", "RTC:Sample Vender.example.ImageProcess:1.0.0"));
@@ -351,8 +351,8 @@ public class CompositeOfflineLoadTest extends TestCase {
 		component.setInstanceName("CameraComponent_1");
 		component.setPathUri("file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.CameraComponent_1.0.0.xml:1");
 		component.setId("RTC:Sample Vender.example.CameraComponent:1.0.0");
-		component.getDataPorts().add(createDataPort("ImageData"));
-		component.getServicePorts().add(createServicePort("CapPORT"));
+		component.getDataPorts().add(createDataPort("CameraComponent_1.ImageData"));
+		component.getServicePorts().add(createServicePort("CameraComponent_1.CapPORT"));
 		component.setLocation(createLocation("RIGHT", 255, 131));
 		return component;
 	}
@@ -364,9 +364,9 @@ public class CompositeOfflineLoadTest extends TestCase {
 		component.setInstanceName("ImageProcess_1");
 		component.setPathUri("file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageProcess_1.0.0.xml:1");
 		component.setId("RTC:Sample Vender.example.ImageProcess:1.0.0");
-		component.getDataPorts().add(createDataPort("Out"));
-		component.getDataPorts().add(createDataPort("In"));
-		component.getServicePorts().add(createServicePort("CapPORT"));
+		component.getDataPorts().add(createDataPort("ImageProcess_1.Out"));
+		component.getDataPorts().add(createDataPort("ImageProcess_1.In"));
+		component.getServicePorts().add(createServicePort("ImageProcess_1.CapPORT"));
 		component.setLocation(createLocation("RIGHT", 474, 113));
 		return component;
 	}
@@ -378,8 +378,8 @@ public class CompositeOfflineLoadTest extends TestCase {
 		component.setInstanceName("ImageViewer_1");
 		component.setPathUri("file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageViewer_1.0.0.xml:1");
 		component.setId("RTC:Sample Vender.example.ImageViewer:1.0.0");
-		component.getDataPorts().add(createDataPort("ImageDataIn"));
-		component.getServicePorts().add(createServicePort("CapPORT"));
+		component.getDataPorts().add(createDataPort("ImageViewer_1.ImageDataIn"));
+		component.getServicePorts().add(createServicePort("ImageViewer_1.CapPORT"));
 		component.setLocation(createLocation("LEFT", 495, 160));
 		return component;
 	}
@@ -437,10 +437,10 @@ public class CompositeOfflineLoadTest extends TestCase {
 
 	private ServiceportConnector createServiceportConnector() {
 		ServiceportConnector connector = objectFactory.createServiceportConnectorExt();
-		connector.setName("CapPORT_CapPORT");
+		connector.setName("CameraComponent_1.CapPORT_ImageViewer_1.CapPORT");
 		connector.setConnectorId("9b4074b4-29b5-4a22-9956-22070915ef25");
-		connector.setSourceServicePort(createTargetPort("CapPORT", "CameraComponent_1", "RTC:Sample Vender.example.CameraComponent:1.0.0"));
-		connector.setTargetServicePort(createTargetPort("CapPORT", "ImageViewer_1", "RTC:Sample Vender.example.ImageViewer:1.0.0"));
+		connector.setSourceServicePort(createTargetPort("CameraComponent_1.CapPORT", "CameraComponent_1", "RTC:Sample Vender.example.CameraComponent:1.0.0"));
+		connector.setTargetServicePort(createTargetPort("ImageViewer_1.CapPORT", "ImageViewer_1", "RTC:Sample Vender.example.ImageViewer:1.0.0"));
 		return connector;
 	}
 
@@ -462,7 +462,6 @@ public class CompositeOfflineLoadTest extends TestCase {
 		return repositoryModel;
 	}
 
-	@SuppressWarnings("unchecked")
 	private RepositoryViewItem createEofComponentCameraComponent() {
 		RepositoryViewLeafItem item = new RepositoryViewLeafItem("CameraComponent");
 		ComponentSpecification component = ComponentFactory.eINSTANCE.createComponentSpecification();
@@ -476,7 +475,6 @@ public class CompositeOfflineLoadTest extends TestCase {
 		return item;
 	}
 
-	@SuppressWarnings("unchecked")
 	private RepositoryViewItem createEofComponentImageProcess() {
 		RepositoryViewLeafItem item = new RepositoryViewLeafItem("ImageProcess");
 		ComponentSpecification component = ComponentFactory.eINSTANCE.createComponentSpecification();
@@ -491,7 +489,6 @@ public class CompositeOfflineLoadTest extends TestCase {
 		return item;
 	}
 
-	@SuppressWarnings("unchecked")
 	private RepositoryViewItem createEofComponentImageViewer() {
 		RepositoryViewLeafItem item = new RepositoryViewLeafItem("ImageViewer");
 		ComponentSpecification component = ComponentFactory.eINSTANCE.createComponentSpecification();

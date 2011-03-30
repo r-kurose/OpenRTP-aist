@@ -24,7 +24,7 @@ import org.eclipse.ui.model.IWorkbenchAdapter;
 import org.omg.CosNaming.Binding;
 
 /**
- *　ネームサービスビューに対して、フィルタを設定するアクション
+ *縲繝阪�ｼ繝繧ｵ繝ｼ繝薙せ繝薙Η繝ｼ縺ｫ蟇ｾ縺励※縲√ヵ繧｣繝ｫ繧ｿ繧定ｨｭ螳壹☆繧九い繧ｯ繧ｷ繝ｧ繝ｳ
  *
  */
 public class FilterAction implements IViewActionDelegate {

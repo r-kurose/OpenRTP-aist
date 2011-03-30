@@ -6,47 +6,47 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * ƒuƒƒbƒN‚ğƒp[ƒX‚·‚éƒNƒ‰ƒX
+ * ãƒ–ãƒ­ãƒƒã‚¯ã‚’ãƒ‘ãƒ¼ã‚¹ã™ã‚‹ã‚¯ãƒ©ã‚¹
  */
 public class BlockParser {
 
 	/**
-	 * ƒuƒƒbƒN‚Ì³‹K•\Œ»i•¡”sj
+	 * ãƒ–ãƒ­ãƒƒã‚¯ã®æ­£è¦è¡¨ç¾ï¼ˆè¤‡æ•°è¡Œï¼‰
 	 */
 	private Pattern multiLineBlockPattern;
 
 	/**
-	 * ƒuƒƒbƒN‚Ì³‹K•\Œ»i’Psj
+	 * ãƒ–ãƒ­ãƒƒã‚¯ã®æ­£è¦è¡¨ç¾ï¼ˆå˜è¡Œï¼‰
 	 */
 	private Pattern singleLineBlockPattern;
 
 	/**
-	 * ƒ}[ƒWêŠ ƒXƒ^[ƒgƒ^ƒO‚ÌƒOƒ‹[ƒv
+	 * ãƒãƒ¼ã‚¸å ´æ‰€ ã‚¹ã‚¿ãƒ¼ãƒˆã‚¿ã‚°ã®ã‚°ãƒ«ãƒ¼ãƒ—
 	 */
 	private static final int START_TAG_GROUP = 1;
 
 	/**
-	 * ƒ}[ƒWêŠ ‘®«‚ÌƒOƒ‹[ƒv
+	 * ãƒãƒ¼ã‚¸å ´æ‰€ å±æ€§ã®ã‚°ãƒ«ãƒ¼ãƒ—
 	 */
 	private static final int ATTRIBUTE_GROUP = 2;
 
 	/**
-	 * ƒ}[ƒWêŠ ƒ^ƒO‚Ìƒ{ƒfƒB‚ÌƒOƒ‹[ƒv
+	 * ãƒãƒ¼ã‚¸å ´æ‰€ ã‚¿ã‚°ã®ãƒœãƒ‡ã‚£ã®ã‚°ãƒ«ãƒ¼ãƒ—
 	 */
 	private static final int TAG_BODY_GROUP = 4;
 
 	/**
-	 * ƒ}[ƒWêŠ ƒGƒ“ƒhƒ^ƒO‚ÌƒOƒ‹[ƒv
+	 * ãƒãƒ¼ã‚¸å ´æ‰€ ã‚¨ãƒ³ãƒ‰ã‚¿ã‚°ã®ã‚°ãƒ«ãƒ¼ãƒ—
 	 */
 	private static final int END_TAG_GROUP = 5;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param tagName
-	 *            ƒuƒƒbƒN‚Ìƒ^ƒO–¼
+	 *            ãƒ–ãƒ­ãƒƒã‚¯ã®ã‚¿ã‚°å
 	 * @param attributeName
-	 *            ƒuƒƒbƒN‚Ì‘®«–¼
+	 *            ãƒ–ãƒ­ãƒƒã‚¯ã®å±æ€§å
 	 */
 	public BlockParser(String tagName, String attributeName) {
 		this.singleLineBlockPattern = Pattern.compile("(<" + tagName + "\\s+"
@@ -65,11 +65,11 @@ public class BlockParser {
 	}
 
 	/**
-	 * ˆø”‚Ì•¶š—ñ‚©‚çƒ}[ƒWêŠ‚ğ“Á’è‚µAblock‘®«–¼‚ğƒL[/ƒ{ƒfƒB‚Ì“à—e‚ğ’l‚Æ‚µ‚½Map‚ğ•Ô‚·
+	 * å¼•æ•°ã®æ–‡å­—åˆ—ã‹ã‚‰ãƒãƒ¼ã‚¸å ´æ‰€ã‚’ç‰¹å®šã—ã€blockå±æ€§åã‚’ã‚­ãƒ¼/ãƒœãƒ‡ã‚£ã®å†…å®¹ã‚’å€¤ã¨ã—ãŸMapã‚’è¿”ã™
 	 * 
 	 * @param target
-	 *            ‘ÎÛ•¶š—ñ
-	 * @return block‘®«–¼‚ğƒL[Eƒ{ƒfƒB‚Ì“à—e‚ğ’l‚Æ‚µ‚½Map
+	 *            å¯¾è±¡æ–‡å­—åˆ—
+	 * @return blockå±æ€§åã‚’ã‚­ãƒ¼ãƒ»ãƒœãƒ‡ã‚£ã®å†…å®¹ã‚’å€¤ã¨ã—ãŸMap
 	 */
 	public Map<String, String> parse(String target) {
 		Matcher singleLineMatcher = singleLineBlockPattern.matcher(target);
@@ -100,16 +100,16 @@ public class BlockParser {
 	}
 
 	/**
-	 * ˆø”‚Ì•¶š—ñ‚É‘Î‚µ‚ÄAƒ}[ƒW‚ğs‚¤B
+	 * å¼•æ•°ã®æ–‡å­—åˆ—ã«å¯¾ã—ã¦ã€ãƒãƒ¼ã‚¸ã‚’è¡Œã†ã€‚
 	 * <p>
-	 * ˆø”‚Ì•¶š—ñ‚É‘Î‚µ‚Äƒ}[ƒWêŠ‚ğ“Á’è‚µAˆø”‚ÌMap‚ğŠî‚É’l‚ğ“ü‚ê‘Ö‚¦‚éB
+	 * å¼•æ•°ã®æ–‡å­—åˆ—ã«å¯¾ã—ã¦ãƒãƒ¼ã‚¸å ´æ‰€ã‚’ç‰¹å®šã—ã€å¼•æ•°ã®Mapã‚’åŸºã«å€¤ã‚’å…¥ã‚Œæ›¿ãˆã‚‹ã€‚
 	 * 
 	 * @param target
-	 *            ‘ÎÛ•¶š—ñ
+	 *            å¯¾è±¡æ–‡å­—åˆ—
 	 * @param mergeStringMap
-	 *            ’uŠ·
+	 *            ç½®æ›
 	 * @param includeTag
-	 *            ƒ^ƒO‚ğŠÜ‚ß‚Ä’uŠ·‚·‚é‚©‚Ç‚¤‚©
+	 *            ã‚¿ã‚°ã‚’å«ã‚ã¦ç½®æ›ã™ã‚‹ã‹ã©ã†ã‹
 	 * @return
 	 */
 	public String merge(String target, Map<String, String> mergeStringMap,

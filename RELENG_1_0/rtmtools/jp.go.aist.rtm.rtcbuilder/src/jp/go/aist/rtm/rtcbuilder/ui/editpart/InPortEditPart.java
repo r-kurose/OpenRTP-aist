@@ -9,7 +9,7 @@ import jp.go.aist.rtm.rtcbuilder.ui.preference.BuilderViewPreferenceManager;
 import org.eclipse.draw2d.IFigure;
 
 /**
- * InPort‚ÌEditPartƒNƒ‰ƒX
+ * InPortã®EditPartã‚¯ãƒ©ã‚¹
  */
 public class InPortEditPart extends PortEditPartBase {
 

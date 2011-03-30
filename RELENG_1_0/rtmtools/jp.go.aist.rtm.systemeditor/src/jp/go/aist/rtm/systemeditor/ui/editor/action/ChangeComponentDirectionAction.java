@@ -15,28 +15,28 @@ import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * RTC�̌�����ύX����A�N�V����
+ * RTCの向きを変更するアクション
  */
 public class ChangeComponentDirectionAction extends SelectionAction {
 
 	/**
-	 * ���������ւ̌������w������ۂɎg�p�����ID�B���̒l���APlugin.xml�Ɏw�肳��Ȃ���΂Ȃ�Ȃ��B
+	 * 水平方向への向きを指示する際に使用されるID。この値が、Plugin.xmlに指定されなければならない。
 	 */
 	public static final String HORIZON_DIRECTION_ACTION_ID = ChangeComponentDirectionAction.class
 			.getName()
 			+ "_HORIZON"; //$NON-NLS-1$
 
 	/**
-	 * ���������ւ̌������w������ۂɎg�p�����ID�B���̒l���APlugin.xml�Ɏw�肳��Ȃ���΂Ȃ�Ȃ��B
+	 * 垂直方向への向きを指示する際に使用されるID。この値が、Plugin.xmlに指定されなければならない。
 	 */
 	public static final String VERTICAL_DIRECTION_ACTION_ID = ChangeComponentDirectionAction.class
 			.getName()
 			+ "_VERTICAL"; //$NON-NLS-1$
 
 	/**
-	 * �R���X�g���N�^
+	 * コンストラクタ
 	 * @param part 
-	 * @param id�@�A�N�V������ID
+	 * @param id　アクションのID
 	 */
 	public ChangeComponentDirectionAction(IWorkbenchPart part, String id) {
 		super(part);

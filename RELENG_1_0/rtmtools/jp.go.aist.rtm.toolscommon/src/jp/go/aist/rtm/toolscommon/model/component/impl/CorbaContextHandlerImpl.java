@@ -6,14 +6,15 @@
  */
 package jp.go.aist.rtm.toolscommon.model.component.impl;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaContextHandler;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.util.CorbaObjectStore;
 
 import org.eclipse.emf.ecore.EClass;
 
@@ -30,10 +31,11 @@ public class CorbaContextHandlerImpl extends ContextHandlerImpl implements Corba
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	protected CorbaContextHandlerImpl() {
 		super();
+		this.contextMap = null;
 	}
 
 	/**
@@ -47,57 +49,27 @@ public class CorbaContextHandlerImpl extends ContextHandlerImpl implements Corba
 	}
 
 	@Override
-	public String getId(ExecutionContext ec) {
-		for (String id : contextMap.keySet()) {
-			ExecutionContext e = contextMap.get(id);
-			if (e == null) {
-				continue;
-			}
-			if (e.equals(ec)) {
-				return id;
-			}
-			if (e instanceof CorbaExecutionContext
-					&& ec instanceof CorbaExecutionContext) {
-				// EMFのExecutionContext、もしくはCORBAオブジェクトに一致するIDを取得
-				// (ID:CORBAオブジェクト = 1:1、ID:EMFオブジェクト = 1:n となるため)
-				CorbaExecutionContext ce = (CorbaExecutionContext) e;
-				CorbaExecutionContext cec = (CorbaExecutionContext) ec;
-				if (ce.getCorbaObjectInterface().equals(
-						cec.getCorbaObjectInterface())) {
-					return id;
-				}
-			}
-		}
-		return null;
+	public void sync() {
+		contextMap = null;
+		getContextMap();
 	}
 
 	@Override
-	public void sync() {
-		List<ExecutionContext> deletes = new ArrayList<ExecutionContext>();
-		for (ExecutionContext ec : values()) {
-			if (!getOwnerContexts().contains(ec)) {
-				deletes.add(ec);
+	protected Map<String, ExecutionContext> getContextMap() {
+		if (contextMap == null) {
+			CorbaComponent cc = (CorbaComponent) eContainer();
+			contextMap = new HashMap<String, ExecutionContext>();
+			RTC.RTObject ro = cc.getCorbaObjectInterface();
+			for (ExecutionContext ec : getOwnerContexts()) {
+				CorbaExecutionContext cec = (CorbaExecutionContext) ec;
+				RTC.ExecutionContext eo = cec.getCorbaObjectInterface();
+				String id = CorbaObjectStore.eINSTANCE.findContextId(ro, eo);
+				if (id != null) {
+					contextMap.put(id, cec);
+				}
 			}
 		}
-		for (ExecutionContext ec : deletes) {
-			removeId(ec);
-		}
-		for (ExecutionContext ec : getOwnerContexts()) {
-			String id = createExecutionContextId(ec);
-			setContext(id, ec);
-		}
-	}
-
-	String createExecutionContextId(ExecutionContext ec) {
-		if (!(ec instanceof CorbaExecutionContext)) {
-			return null;
-		}
-		CorbaExecutionContext cec = (CorbaExecutionContext) ec;
-		CorbaComponent cc = (CorbaComponent) eContainer();
-		RTC.ExecutionContext rec = cec.getCorbaObjectInterface();
-		int handle = cc.getCorbaObjectInterface().get_context_handle(rec);
-		// CORBAの場合はcontext_handleをExecutionContext IDとして扱う
-		return Integer.toString(handle);
+		return contextMap;
 	}
 
 } //CorbaContextHandlerImpl

@@ -6,155 +6,155 @@ import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
 public class ComponentPreferenceManager {
 	private static ComponentPreferenceManager __instance = new ComponentPreferenceManager();
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
-	 * @return ƒVƒ“ƒOƒ‹ƒgƒ“
+	 * @return ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³
 	 */
 	public static ComponentPreferenceManager getInstance() {
 		return __instance;
 	}
-	//ƒR[ƒh¶¬
+	//ã‚³ãƒ¼ãƒ‰ç”Ÿæˆ
 	/**
-	 * Module Name‚ÌƒL[
+	 * Module Nameã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_Basic_Name = getClassName() + "GENERATE_MODULE_NAME";
 	/**
-	 * Description‚ÌƒL[
+	 * Descriptionã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_Basic_Description = getClassName() + "GENERATE_BASIC_DESCRIPTION";
 	/**
-	 * Version‚ÌƒL[
+	 * Versionã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_Basic_Version = getClassName() + "GENERATE_BASIC_VERSION";
 	/**
-	 * Vendor Name‚ÌƒL[
+	 * Vendor Nameã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_Basic_Vendor_Name = getClassName() + "GENERATE_BASIC_VENDOR_NAME";
 	/**
-	 * Category‚ÌƒL[
+	 * Categoryã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_Basic_Category = getClassName() + "GENERATE_BASIC_CATEGORY";
 	/**
-	 * Component Type‚ÌƒL[
+	 * Component Typeã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_Basic_ComponentType = getClassName() + "GENERATE_BASIC_COMPONENT_TYPE";
 	/**
-	 * Activity Type‚ÌƒL[
+	 * Activity Typeã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_Basic_ActivityType = getClassName() + "GENERATE_BASIC_ACTIVITY_TYPE";
 	/**
-	 * Component Kind‚ÌƒL[
+	 * Component Kindã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_Basic_ComponentKind = getClassName() + "GENERATE_BASIC_COMPONENT_KIND";
 	/**
-	 * Max Instance‚ÌƒL[
+	 * Max Instanceã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_Basic_Max_Instance = getClassName() + "GENERATE_BASIC_MAX_INSTANCES";
 	/**
-	 * Execution Type‚ÌƒL[
+	 * Execution Typeã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_Basic_ExecutionType = getClassName() + "GENERATE_BASIC_EXECUTION_TYPE";
 	/**
-	 * Execution Rate‚ÌƒL[
+	 * Execution Rateã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_Basic_Execution_Rate = getClassName() + "GENERATE_BASIC_EXECUTION_RATE";
 	/**
-	 * ‹¤’ÊÚ“ªŒê‚ÌƒL[
+	 * å…±é€šæ¥é ­èªã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_Basic_Prefix = getClassName() + "GENERATE_BASIC_PREFIX";
 	/**
-	 * ‹¤’ÊÚ”öŒê‚ÌƒL[
+	 * å…±é€šæ¥å°¾èªã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_Basic_Suffix = getClassName() + "GENERATE_BASIC_SUFFIX";
 	////
 	/**
-	 * Configuration Name‚ÌƒL[
+	 * Configuration Nameã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_Configuration_Name = getClassName() + "GENERATE_CONFIGURATION_NAME";
 	/**
-	 * Configuration Type‚ÌƒL[
+	 * Configuration Typeã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_Configuration_Type = getClassName() + "GENERATE_CONFIGURATION_TYPE";
 	/**
-	 * Configuration Variable Name‚ÌƒL[
+	 * Configuration Variable Nameã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_Configuration_VarName = getClassName() + "GENERATE_CONFIGURATION_VARNAME";
 	/**
-	 * Configuration Default Value‚ÌƒL[
+	 * Configuration Default Valueã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_Configuration_Default = getClassName() + "GENERATE_CONFIGURATION_DEFAULT";
 	/**
-	 * Configuration Constraint‚ÌƒL[
+	 * Configuration Constraintã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_Configuration_Constraint = getClassName() + "GENERATE_CONFIGURATION_CONSTRAINT";
 	/**
-	 * Configuration Unit‚ÌƒL[
+	 * Configuration Unitã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_Configuration_Unit = getClassName() + "GENERATE_CONFIGURATION_UNIT";
 	/**
-	 * Configuration Ú“ªŒê‚ÌƒL[
+	 * Configuration æ¥é ­èªã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_Configuration_Prefix = getClassName() + "GENERATE_CONFIGURATION_PREFIX";
 	/**
-	 * Configuration Ú“ª”ö‚ÌƒL[
+	 * Configuration æ¥é ­å°¾ã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_Configuration_Suffix = getClassName() + "GENERATE_CONFIGURATION_SUFFIX";
 	//////////
 	/**
-	 * DataPort Name‚ÌƒL[
+	 * DataPort Nameã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_DataPort_Name = getClassName() + "GENERATE_DATAPORT_NAME";
 	/**
-	 * DataPort Type‚ÌƒL[
+	 * DataPort Typeã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_DataPort_Type = getClassName() + "GENERATE_DATAPORT_TYPE";
 	/**
-	 * DataPort VarName‚ÌƒL[
+	 * DataPort VarNameã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_DataPort_VarName = getClassName() + "GENERATE_DATAPORT_VARNAME";
 	/**
-	 * DataPort Ú“ªŒê‚ÌƒL[
+	 * DataPort æ¥é ­èªã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_DataPort_Prefix = getClassName() + "GENERATE_DATAPORT_PREFIX";
 	/**
-	 * DataPort Ú”öŒê‚ÌƒL[
+	 * DataPort æ¥å°¾èªã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_DataPort_Suffix = getClassName() + "GENERATE_DATAPORT_SUFFIX";
 	////
 	/**
-	 * ServicePort Name‚ÌƒL[
+	 * ServicePort Nameã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_ServicePort_Name = getClassName() + "GENERATE_SERVICEPORT_NAME";
 	/**
-	 * ServicePort Ú“ªŒê‚ÌƒL[
+	 * ServicePort æ¥é ­èªã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_ServicePort_Prefix = getClassName() + "GENERATE_SERVICEPORT_PREFIX";
 	/**
-	 * ServicePort Ú”öŒê‚ÌƒL[
+	 * ServicePort æ¥å°¾èªã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_ServicePort_Suffix = getClassName() + "GENERATE_SERVICEPORT_SUFFIX";
 	/**
-	 * ServiceInterfacet Name‚ÌƒL[
+	 * ServiceInterfacet Nameã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_ServiceIF_Name = getClassName() + "GENERATE_SERVICEIF_NAME";
 	/**
-	 * ServiceInterfacet Instance Name‚ÌƒL[
+	 * ServiceInterfacet Instance Nameã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_ServiceIF_InstanceName = getClassName() + "GENERATE_SERVICEIF_INSTANCENAME";
 	/**
-	 * ServiceInterfacet Varriable Name‚ÌƒL[
+	 * ServiceInterfacet Varriable Nameã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_ServiceIF_VarName = getClassName() + "GENERATE_SERVICEIF_VARNAME";
 	/**
-	 * ServiceInterfacet Instance Ú“ªŒê‚ÌƒL[
+	 * ServiceInterfacet Instance æ¥é ­èªã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_ServiceIF_Prefix = getClassName() + "GENERATE_SERVICEIF_PREFIX";
 	/**
-	 * ServiceInterfacet Instance Ú”öŒê‚ÌƒL[
+	 * ServiceInterfacet Instance æ¥å°¾èªã®ã‚­ãƒ¼
 	 */
 	public static final String Generate_ServiceIF_Suffix = getClassName() + "GENERATE_SERVICEIF_SUFFIX";
 	
-	//ƒfƒtƒHƒ‹ƒg’l‚ğ‹ó”’‚©‚ç•ÏX‚·‚éê‡‚É‚ÍCgetter‚Ì’è‹`‚ª•K—v
+	//ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’ç©ºç™½ã‹ã‚‰å¤‰æ›´ã™ã‚‹å ´åˆã«ã¯ï¼Œgetterã®å®šç¾©ãŒå¿…è¦
 	public static final String DEFAULT_COMPONENT_NAME = "ModuleName";
 	public static final String DEFAULT_DESCRIPTION = "ModuleDescription";
 	public static final String DEFAULT_CATEGORY = "Category";
@@ -197,120 +197,120 @@ public class ComponentPreferenceManager {
 	public static final String DEFAULT_SERVICEIF_SUFFIX = "";
 	
 	/**
-	 * ƒR[ƒh¶¬‚Ì ModuleName ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® ModuleName ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return Module Name ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return Module Name ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getBasic_ComponentName() {
 		return getStringStoreValue(Generate_Basic_Name, DEFAULT_COMPONENT_NAME);
 	}
 
 	/**
-	 * ƒR[ƒh¶¬‚Ì ModuleDescription ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® ModuleDescription ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return Module Description ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return Module Description ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getBasic_Description() {
 		return getStringStoreValue(Generate_Basic_Description, DEFAULT_DESCRIPTION);
 	}
 	
 	/**
-	 * ƒR[ƒh¶¬‚Ì Module Category ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® Module Category ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return Module Category ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return Module Category ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getBasic_Category() {
 		return getStringStoreValue(Generate_Basic_Category, DEFAULT_CATEGORY);
 	}
 	
 	/**
-	 * ƒR[ƒh¶¬‚Ì Module Version ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® Module Version ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return Module Version ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return Module Version ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getBasic_Version() {
 		return getStringStoreValue(Generate_Basic_Version, DEFAULT_VERSION);
 	}
 
 	/**
-	 * ƒR[ƒh¶¬‚Ì Module Component Type ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® Module Component Type ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return Module Component Type ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return Module Component Type ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getBasic_ComponentType() {
 		return getStringStoreValue(Generate_Basic_ComponentType, DEFAULT_COMPONENT_TYPE);
 	}
 
 	/**
-	 * ƒR[ƒh¶¬‚Ì Module Activity Type ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® Module Activity Type ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return Module Activity Type ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return Module Activity Type ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getBasic_ActivityType() {
 		return getStringStoreValue(Generate_Basic_ActivityType, DEFAULT_ACTIVITY_TYPE);
 	}
 
 	/**
-	 * ƒR[ƒh¶¬‚Ì Module Component Kind ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® Module Component Kind ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return Module Component Kind ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return Module Component Kind ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getBasic_ComponentKind() {
 		return getStringStoreValue(Generate_Basic_ComponentKind, DEFAULT_COMPONENT_KIND);
 	}
 
 	/**
-	 * ƒR[ƒh¶¬‚Ì Module Vendor Name ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® Module Vendor Name ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return Module Vendor Name ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return Module Vendor Name ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getBasic_VendorName() {
 		return getStringStoreValue(Generate_Basic_Vendor_Name, DEFAULT_VENDER);
 	}
 	
 	/**
-	 * ƒR[ƒh¶¬‚Ì Module Max Instances ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® Module Max Instances ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return Module Max Instances ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return Module Max Instances ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public int getBasic_MaxInstances() {
 		return getIntegaerStoreValue(Generate_Basic_Max_Instance, DEFAULT_MAXINST);
 	}
 
 	/**
-	 * ƒR[ƒh¶¬‚Ì Module Execution Type ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® Module Execution Type ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return Module Execution Type ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return Module Execution Type ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getBasic_ExecutionType() {
 		return getStringStoreValue(Generate_Basic_ExecutionType, DEFAULT_EXECUTION_TYPE);
 	}
 
 	/**
-	 * ƒR[ƒh¶¬‚Ì Execution Rate ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® Execution Rate ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return Execution Rate ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return Execution Rate ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public double getBasic_ExecutionRate() {
 		return getDoubleStoreValue(Generate_Basic_Execution_Rate, DEFAULT_EXECUTION_RATE);
 	}
 	
 	/**
-	 * ƒR[ƒh¶¬‚Ì Ú“ªŒê ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® æ¥é ­èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return Ú“ªŒê ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return æ¥é ­èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getBasic_Prefix() {
 		return getStringStoreValue(Generate_Basic_Prefix, DEFAULT_PREFIX);
@@ -318,40 +318,40 @@ public class ComponentPreferenceManager {
 	
 	////
 	/**
-	 * ƒR[ƒh¶¬‚Ì Configuration Name ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® Configuration Name ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return Configuration Name ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return Configuration Name ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getConfiguration_Name() {
 		return getStringStoreValue(Generate_Configuration_Name, DEFAULT_CONFIGURATION_NAME);
 	}
 	//////////
 	/**
-	 * ƒR[ƒh¶¬‚Ì DataPort Name ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® DataPort Name ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return DataPort Name ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return DataPort Name ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getDataPort_Name() {
 		return getStringStoreValue(Generate_DataPort_Name, DEFAULT_DATAPORT_NAME);
 	}
 	/////
 	/**
-	 * ƒR[ƒh¶¬‚Ì ServicePort –¼ ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® ServicePort å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return ServicePort •Ï”–¼ ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return ServicePort å¤‰æ•°å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getServicePort_Name() {
 		return getStringStoreValue(Generate_ServicePort_Name, DEFAULT_SERVICEPORT_NAME);
 	}
 	/////
 	/**
-	 * ƒR[ƒh¶¬‚Ì ServiceIF –¼ ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® ServiceIF å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return ServiceIF–¼ ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return ServiceIFå ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getServiceIF_Name() {
 		return getStringStoreValue(Generate_ServiceIF_Name, DEFAULT_SERVICEIF_NAME);

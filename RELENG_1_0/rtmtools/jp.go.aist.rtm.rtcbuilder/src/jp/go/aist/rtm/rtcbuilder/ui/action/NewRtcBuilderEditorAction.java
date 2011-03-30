@@ -9,7 +9,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
 /**
- * 新しいRtcBuilderエディタを作成するアクション
+ * 譁ｰ縺励＞RtcBuilder繧ｨ繝�繧｣繧ｿ繧剃ｽ懈�舌☆繧九い繧ｯ繧ｷ繝ｧ繝ｳ
  */
 public class NewRtcBuilderEditorAction implements
 		IWorkbenchWindowActionDelegate {

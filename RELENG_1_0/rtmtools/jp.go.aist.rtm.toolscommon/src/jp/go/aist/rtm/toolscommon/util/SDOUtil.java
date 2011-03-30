@@ -1,7 +1,6 @@
 package jp.go.aist.rtm.toolscommon.util;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,12 +14,12 @@ import org.omg.CORBA.TCKind;
 import org.omg.CORBA.TypeCodePackage.BadKind;
 
 /**
- * SDO‚ÉŠÖ‚í‚éƒ†[ƒeƒBƒŠƒeƒB
+ * SDOã«é–¢ã‚ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
  */
 public class SDOUtil {
 
 	/**
-	 * String‚Ìname‚Ævalue‚ğ‚ÂNameValue‚ğ¶¬‚µ‚Ü‚·B
+	 * Stringã®nameã¨valueã‚’æŒã¤NameValueã‚’ç”Ÿæˆã—ã¾ã™ã€‚
 	 */
 	public static _SDOPackage.NameValue newNV(String name, String value) {
 		_SDOPackage.NameValue nv = new _SDOPackage.NameValue();
@@ -30,7 +29,7 @@ public class SDOUtil {
 	}
 
 	/**
-	 * String‚©‚çAny‚ğ¶¬‚µ‚Ü‚·B
+	 * Stringã‹ã‚‰Anyã‚’ç”Ÿæˆã—ã¾ã™ã€‚
 	 */
 	public static Any newAny(String value) {
 		Any any = CorbaUtil.getOrb().create_any();
@@ -43,7 +42,7 @@ public class SDOUtil {
 	}
 
 	/**
-	 * Any‚ğ•¶š—ñ‚É•ÏŠ·‚µ‚Ü‚·B
+	 * Anyã‚’æ–‡å­—åˆ—ã«å¤‰æ›ã—ã¾ã™ã€‚
 	 */
 	public static String toAnyString(Any any) {
 		if (any == null) return null;
@@ -56,129 +55,132 @@ public class SDOUtil {
 	}
 
 	/**
-	 * nameValue”z—ñ‚©‚çAname‚Ìˆê’v‚·‚éAnyŒ^‚ğè‚É“ü‚ê‚é
+	 * SDO.NameValueã®é…åˆ—ã‹ã‚‰ nameã«ä¸€è‡´ã™ã‚‹ã‚‚ã®ã‚’æ¤œç´¢ã—ã¾ã™ã€‚
 	 * 
-	 * @param nameValue
 	 * @param name
-	 * @return
+	 *            ã‚­ãƒ¼
+	 * @param nvlist
+	 *            SDO.NameValueã®é…åˆ—
+	 * @return ã‚­ãƒ¼ã«ä¸€è‡´ã™ã‚‹ SDO.NameValue
 	 */
-	private static Any getValue(_SDOPackage.NameValue[] nameValue, String name) {
-		Any result = null;
-		if (nameValue != null) {
-			for (_SDOPackage.NameValue elem : nameValue) {
-				if (elem != null && name.equals(elem.name)) {
-					result = elem.value;
-					break;
-				}
+	public static _SDOPackage.NameValue findNV(String name,
+			_SDOPackage.NameValue[] nvlist) {
+		if (nvlist == null) {
+			return null;
+		}
+		for (_SDOPackage.NameValue nv : nvlist) {
+			if (nv != null && name != null && name.equals(nv.name)) {
+				return nv;
 			}
 		}
-
-		return result;
+		return null;
 	}
 
 	/**
-	 * nameValue”z—ñ‚©‚çAname‚Ìˆê’v‚·‚éStringŒ^‚ğè‚É“ü‚ê‚é
+	 * SDO.NameValueã®é…åˆ—ã‹ã‚‰ nameã«ä¸€è‡´ã™ã‚‹ã‚‚ã®ã‚’æ¤œç´¢ã—ã€valueã‚’è¿”ã—ã¾ã™ã€‚
 	 * 
-	 * @param nameValue
 	 * @param name
-	 * @return
+	 *            ã‚­ãƒ¼
+	 * @param nvlist
+	 *            SDO.NameValueã®é…åˆ—
+	 * @return ã‚­ãƒ¼ã«ä¸€è‡´ã™ã‚‹ SDO.NameValueã® value
 	 */
-	public static String getStringValue(_SDOPackage.NameValue[] nameValue, String name) {
-		Any any = getValue(nameValue, name);
-
-		String result = null;
-		if (any != null) {
-			if (any.type().kind() == TCKind.tk_wstring) {
-				result = any.extract_wstring();
-			} else {
-				result = any.extract_string();
-			}
+	public static Any findValue(String name, _SDOPackage.NameValue[] nvlist) {
+		_SDOPackage.NameValue nv = findNV(name, nvlist);
+		if (nv != null) {
+			return nv.value;
 		}
-
-		return result;
+		return null;
 	}
 
 	/**
-	 * nameValue”z—ñ‚©‚çAname‚ğíœ‚µ‚½NameValue”z—ñ‚ğ•Ô‚·
+	 * SDO.NameValueã®é…åˆ—ã‹ã‚‰ nameã«ä¸€è‡´ã™ã‚‹ã‚‚ã®ã‚’æ¤œç´¢ã—ã€valueã‚’æ–‡å­—åˆ—ã§è¿”ã—ã¾ã™ã€‚
+	 * 
+	 * @param name
+	 *            ã‚­ãƒ¼
+	 * @param nvlist
+	 *            SDO.NameValueã®é…åˆ—
+	 * @return ã‚­ãƒ¼ã«ä¸€è‡´ã™ã‚‹ SDO.NameValueã® valueã®æ–‡å­—åˆ—
+	 */
+	public static String findValueAsString(String name,
+			_SDOPackage.NameValue[] nvlist) {
+		_SDOPackage.NameValue nv = findNV(name, nvlist);
+		if (nv != null) {
+			return toAnyString(nv.value);
+		}
+		return null;
+	}
+
+	@Deprecated
+	public static String getStringValue(_SDOPackage.NameValue[] nameValue,
+			String name) {
+		return findValueAsString(name, nameValue);
+	}
+
+	/**
+	 * nameValueé…åˆ—ã‹ã‚‰ã€nameã‚’å‰Šé™¤ã—ãŸNameValueé…åˆ—ã‚’è¿”ã™
 	 * 
 	 * @param nameValue
 	 * @param name
 	 * @return
 	 */
-	public static _SDOPackage.NameValue[] removeNameValue(_SDOPackage.NameValue[] nameValue, String name) {
-		List<_SDOPackage.NameValue> result = new ArrayList<_SDOPackage.NameValue>(Arrays
-				.asList(nameValue));
-		for (_SDOPackage.NameValue value : nameValue) {
-			if (value != null) {
-				if (value.name.equals(name)) {
-					result.remove(value);
+	public static _SDOPackage.NameValue[] removeNameValue(
+			_SDOPackage.NameValue[] nameValue, String name) {
+		List<_SDOPackage.NameValue> result = new ArrayList<_SDOPackage.NameValue>();
+		for (_SDOPackage.NameValue nv : nameValue) {
+			if (nv != null) {
+				if (name != null && nv.name.equals(name)) {
+					continue;
 				}
+				result.add(nv);
 			}
 		}
-
 		return result.toArray(new _SDOPackage.NameValue[result.size()]);
 	}
 
 	/**
-	 * nameValue”z—ñ‚ÉAname‚Ì’l‚ğİ’è‚µ‚½‚à‚Ì‚ğ•Ô‚·B
+	 * nameValueé…åˆ—ã«ã€nameã®å€¤ã‚’è¨­å®šã—ãŸã‚‚ã®ã‚’è¿”ã™ã€‚
 	 * <p>
-	 * name‚ª‘¶İ‚·‚ê‚Î‚»‚Ì’l‚ğ•ÏX‚µ‚½‚à‚Ì‚ğ•Ô‚µA ‘¶İ‚µ‚È‚¯‚ê‚ÎV‚µ‚¢”z—ñ‚ğì¬‚µA’l‚ğ’Ç‰Á‚µ‚Ä•Ô‚·B
+	 * nameãŒå­˜åœ¨ã™ã‚Œã°ãã®å€¤ã‚’å¤‰æ›´ã—ãŸã‚‚ã®ã‚’è¿”ã—ã€ å­˜åœ¨ã—ãªã‘ã‚Œã°æ–°ã—ã„é…åˆ—ã‚’ä½œæˆã—ã€å€¤ã‚’è¿½åŠ ã—ã¦è¿”ã™ã€‚
 	 * 
 	 * @param nameValue
 	 * @param name
 	 * @return
 	 */
-	public static _SDOPackage.NameValue[] storeNameValue(_SDOPackage.NameValue[] nameValue,
-			String name, String value) {
-		Any anyValue = CorbaUtil.getOrb().create_any();
-		if (StringUtils.isAsciiPrintable((String) value)) {
-			anyValue.insert_string(value);
-		} else {
-			anyValue.insert_wstring(value);
-		}
-
+	public static _SDOPackage.NameValue[] storeNameValue(
+			_SDOPackage.NameValue[] nameValue, String name, String value) {
+		Any anyValue = newAny(value);
 		return storeNameValue(nameValue, name, anyValue);
 	}
 
 	/**
-	 * nameValue”z—ñ‚ÉAname‚Ì’l‚ğİ’è‚µ‚½‚à‚Ì‚ğ•Ô‚·B
+	 * nameValueé…åˆ—ã«ã€nameã®å€¤ã‚’è¨­å®šã—ãŸã‚‚ã®ã‚’è¿”ã™ã€‚
 	 * <p>
-	 * name‚ª‘¶İ‚·‚ê‚Î‚»‚Ì’l‚ğ•ÏX‚µ‚½‚à‚Ì‚ğ•Ô‚µA ‘¶İ‚µ‚È‚¯‚ê‚ÎV‚µ‚¢”z—ñ‚ğì¬‚µA’l‚ğ’Ç‰Á‚µ‚Ä•Ô‚·B
+	 * nameãŒå­˜åœ¨ã™ã‚Œã°ãã®å€¤ã‚’å¤‰æ›´ã—ãŸã‚‚ã®ã‚’è¿”ã—ã€ å­˜åœ¨ã—ãªã‘ã‚Œã°æ–°ã—ã„é…åˆ—ã‚’ä½œæˆã—ã€å€¤ã‚’è¿½åŠ ã—ã¦è¿”ã™ã€‚
 	 * 
 	 * @param nameValue
 	 * @param name
 	 * @return
 	 */
-	public static _SDOPackage.NameValue[] storeNameValue(_SDOPackage.NameValue[] nameValue,
-			String name, Any value) {
+	public static _SDOPackage.NameValue[] storeNameValue(
+			_SDOPackage.NameValue[] nameValue, String name, Any value) {
 		if (nameValue == null) {
 			nameValue = new _SDOPackage.NameValue[0];
 		}
-
 		boolean find = false;
-		for (_SDOPackage.NameValue elem : nameValue) {
-			if (elem != null && name.equals(elem.name)) {
+		for (_SDOPackage.NameValue nv : nameValue) {
+			if (nv != null && name.equals(nv.name)) {
+				nv.value = value;
 				find = true;
 				break;
 			}
 		}
-
-		_SDOPackage.NameValue[] result;
-		if (find) {
-			result = nameValue;
-
-			for (_SDOPackage.NameValue elem : result) {
-				if (elem != null && name.equals(elem.name)) {
-					elem.value = value;
-					break;
-				}
-			}
-		} else {
-			result = new _SDOPackage.NameValue[nameValue == null ? 0 : nameValue.length + 1];
+		_SDOPackage.NameValue[] result = nameValue;
+		if (!find) {
+			result = new _SDOPackage.NameValue[nameValue.length + 1];
 			System.arraycopy(nameValue, 0, result, 0, nameValue.length);
 			result[nameValue.length] = new _SDOPackage.NameValue(name, value);
 		}
-
 		return result;
 	}
 
@@ -191,7 +193,7 @@ public class SDOUtil {
 	}
 
 	/**
-	 * List‚©‚çSDO‚ÌNamevalue”z—ñ‚ğì¬‚·‚é
+	 * Listã‹ã‚‰SDOã®Namevalueé…åˆ—ã‚’ä½œæˆã™ã‚‹
 	 * 
 	 * @param values
 	 * @return
@@ -213,7 +215,7 @@ public class SDOUtil {
 	}
 
     /**
-     * ConfigurationSet‚©‚çSDO‚ÌConfigurationSet‚ğì¬‚·‚é
+     * ConfigurationSetã‹ã‚‰SDOã®ConfigurationSetã‚’ä½œæˆã™ã‚‹
      */
 	public static _SDOPackage.ConfigurationSet createSdoConfigurationSet(
 			jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet local) {
@@ -229,7 +231,7 @@ public class SDOUtil {
 
 
 	/**
-	 * SDO‚ÌNamevalue”z—ñ‚©‚çList‚ğì¬‚·‚é
+	 * SDOã®Namevalueé…åˆ—ã‹ã‚‰Listã‚’ä½œæˆã™ã‚‹
 	 * 
 	 * @param values
 	 * @return

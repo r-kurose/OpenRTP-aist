@@ -13,7 +13,7 @@ import org.eclipse.ui.IViewActionDelegate;
 import org.eclipse.ui.IViewPart;
 
 /**
- * RTレポジトリに接続するアクション
+ * RT繝ｬ繝昴ず繝医Μ縺ｫ謗･邯壹☆繧九い繧ｯ繧ｷ繝ｧ繝ｳ
  *
  */
 public class ConnectRTRepositoryAction implements IViewActionDelegate {

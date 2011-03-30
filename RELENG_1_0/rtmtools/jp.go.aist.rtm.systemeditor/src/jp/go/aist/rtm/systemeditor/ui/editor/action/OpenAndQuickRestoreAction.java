@@ -7,7 +7,7 @@ import org.eclipse.gef.ui.actions.EditorPartAction;
 import org.eclipse.ui.IEditorPart;
 
 /**
- * RTSプロファイルを読み込んで、IORに基づく復元、パスIDに基づく復元を行うアクション
+ * RTS繝励Ο繝輔ぃ繧､繝ｫ繧定ｪｭ縺ｿ霎ｼ繧薙〒縲！OR縺ｫ蝓ｺ縺･縺丞ｾｩ蜈�縲√ヱ繧ｹID縺ｫ蝓ｺ縺･縺丞ｾｩ蜈�繧定｡後≧繧｢繧ｯ繧ｷ繝ｧ繝ｳ
  *
  */
 public class OpenAndQuickRestoreAction extends EditorPartAction {

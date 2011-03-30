@@ -9,46 +9,46 @@ import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * “¯Šúƒ}ƒl[ƒWƒƒ
+ * åŒæœŸãƒãƒãƒ¼ã‚¸ãƒ£
  * <p>
- * ƒ}ƒbƒsƒ“ƒOƒ‹[ƒ‹‚ÌƒŠƒXƒg‚ğ•Û‚·‚éi“¯Šú‹@”\‚ÌƒRƒ“ƒeƒNƒXƒg‚Æ‚à‚¢‚¦‚éj
+ * ãƒãƒƒãƒ”ãƒ³ã‚°ãƒ«ãƒ¼ãƒ«ã®ãƒªã‚¹ãƒˆã‚’ä¿æŒã™ã‚‹ï¼ˆåŒæœŸæ©Ÿèƒ½ã®ã‚³ãƒ³ãƒ†ã‚¯ã‚¹ãƒˆã¨ã‚‚ã„ãˆã‚‹ï¼‰
  * 
  */
 public class SynchronizationManager {
 	private MappingRule[] mappingRules;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param mappingRules
-	 *            ƒ}ƒbƒsƒ“ƒOƒ‹[ƒ‹‚ÌƒŠƒXƒg
+	 *            ãƒãƒƒãƒ”ãƒ³ã‚°ãƒ«ãƒ¼ãƒ«ã®ãƒªã‚¹ãƒˆ
 	 */
 	public SynchronizationManager(MappingRule[] mappingRules) {
 		this.mappingRules = mappingRules;
 	}
 
 	/**
-	 * ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒgƒcƒŠ[‚©‚çAƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒgƒcƒŠ[‚ğì¬‚·‚éB
+	 * ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ„ãƒªãƒ¼ã‹ã‚‰ã€ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ„ãƒªãƒ¼ã‚’ä½œæˆã™ã‚‹ã€‚
 	 * 
 	 * @param remoteObject
-	 *            ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒgƒ‹[ƒg
-	 * @return ì¬‚µ‚½ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg
+	 *            ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ«ãƒ¼ãƒˆ
+	 * @return ä½œæˆã—ãŸãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 */
 	public LocalObject createLocalObject(Object[] remoteObjects) {
 		return createLocalObject(null, remoteObjects, null, true);
 	}
 
 	/**
-	 * e‚Ìƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒgAƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒgƒ‹[ƒg‚¨‚æ‚ÑƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ÌƒŠƒ“ƒN‚©‚çAƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒgƒcƒŠ[‚ğì¬‚·‚é
+	 * è¦ªã®ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ«ãƒ¼ãƒˆãŠã‚ˆã³ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªãƒ³ã‚¯ã‹ã‚‰ã€ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ„ãƒªãƒ¼ã‚’ä½œæˆã™ã‚‹
 	 * 
 	 * @param parent
-	 *            e‚Ìƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg
+	 *            è¦ªã®ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 * @param remoteObject
-	 *            ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒgƒ‹[ƒg
+	 *            ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ«ãƒ¼ãƒˆ
 	 * @param link
-	 *            ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ÌƒŠƒ“ƒN
-	 * @param needSynchronize “¯Šú‚ª•K—v‚©          
-	 * @return ì¬‚µ‚½ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg
+	 *            ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªãƒ³ã‚¯
+	 * @param needSynchronize åŒæœŸãŒå¿…è¦ã‹          
+	 * @return ä½œæˆã—ãŸãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 */
 	public LocalObject createLocalObject(LocalObject parent,
 			Object[] remoteObjects, java.lang.Object link, boolean needSynchronize) {
@@ -75,7 +75,7 @@ public class SynchronizationManager {
 		return result;
 	}
 
-	// g—p‚·‚×‚«ƒ}ƒbƒsƒ“ƒOƒ‹[ƒ‹‚ğ•Ô‚·
+	// ä½¿ç”¨ã™ã¹ããƒãƒƒãƒ”ãƒ³ã‚°ãƒ«ãƒ¼ãƒ«ã‚’è¿”ã™
 	private MappingRule getMappingRule(LocalObject parent,
 			Object[] remoteObjects, java.lang.Object link) {
 		boolean ping = true;
@@ -89,6 +89,7 @@ public class SynchronizationManager {
 					if (ping) return temp;
 				}
 			} catch (Exception e) {
+//				System.out.println("Exception Catched" + e);
 				ping = false;
 			}
 		}
@@ -101,14 +102,14 @@ public class SynchronizationManager {
 	}
 
 	/**
-	 * “¯ŠúƒTƒ|[ƒg‚ğì¬‚·‚é
+	 * åŒæœŸã‚µãƒãƒ¼ãƒˆã‚’ä½œæˆã™ã‚‹
 	 * 
 	 * @param localObject
-	 *            ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg
+	 *            ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 * @param remoteObject
-	 *            ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg
+	 *            ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 * @param rule
-	 *            ƒ}ƒbƒsƒ“ƒOƒ‹[ƒ‹
+	 *            ãƒãƒƒãƒ”ãƒ³ã‚°ãƒ«ãƒ¼ãƒ«
 	 * @return
 	 */
 	private SynchronizationSupport createSynchronizeSupport(
@@ -117,7 +118,7 @@ public class SynchronizationManager {
 	}
 
 	/**
-	 * •ïŠÜQÆ‚ğ‚½‚Ç‚èA‚·‚×‚Ä‚Ìƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚ÄA“¯ŠúƒTƒ|[ƒg‚ğ•œŒ³‚·‚é
+	 * åŒ…å«å‚ç…§ã‚’ãŸã©ã‚Šã€ã™ã¹ã¦ã®ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¯¾ã—ã¦ã€åŒæœŸã‚µãƒãƒ¼ãƒˆã‚’å¾©å…ƒã™ã‚‹
 	 * 
 	 * @param eobj
 	 *            EObject
@@ -141,7 +142,7 @@ public class SynchronizationManager {
 	}
 
 	/**
-	 * ƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€‚ÉŠÜ‚Ü‚ê‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚É‘Î‚µA“¯ŠúƒTƒ|[ƒg‚ğ•œŒ³‚·‚é
+	 * ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã«å«ã¾ã‚Œã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã«å¯¾ã—ã€åŒæœŸã‚µãƒãƒ¼ãƒˆã‚’å¾©å…ƒã™ã‚‹
 	 * @param diagram
 	 */
 	public void assignSynchonizationSupportToDiagram(SystemDiagram diagram) {
@@ -161,7 +162,7 @@ public class SynchronizationManager {
 	}
 
 	/**
-	 * ƒ}ƒbƒsƒ“ƒOƒ‹[ƒ‹‚ğæ“¾‚·‚é
+	 * ãƒãƒƒãƒ”ãƒ³ã‚°ãƒ«ãƒ¼ãƒ«ã‚’å–å¾—ã™ã‚‹
 	 * @return
 	 */
 	public MappingRule[] getMappingRules() {
@@ -169,7 +170,7 @@ public class SynchronizationManager {
 	}
 
 	/**
-	 * ƒ}ƒbƒsƒ“ƒOƒ‹[ƒ‹‚ğİ’è‚·‚é
+	 * ãƒãƒƒãƒ”ãƒ³ã‚°ãƒ«ãƒ¼ãƒ«ã‚’è¨­å®šã™ã‚‹
 	 * @param mappingRules
 	 */
 	public void setMappingRules(MappingRule[] mappingRules) {

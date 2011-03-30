@@ -12,4 +12,6 @@ public interface ComponentSpecificationValidator {
 
 	boolean validateAliasName(String value);
 	boolean validateSpecUnLoad(boolean value);
+
+	boolean validateRtcType(String value);
 }

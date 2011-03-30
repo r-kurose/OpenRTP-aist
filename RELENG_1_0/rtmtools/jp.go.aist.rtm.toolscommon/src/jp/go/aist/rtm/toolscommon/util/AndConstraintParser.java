@@ -10,7 +10,7 @@ import org.openrtp.namespaces.rtc.version02.PropertyIsLessThan;
 import org.openrtp.namespaces.rtc.version02.PropertyIsLessThanOrEqualTo;
 
 /**
- * ƒRƒ“ƒtƒBƒOƒf[ƒ^‚Ì§–ñğŒ“à‚Å‚ÌA And ğŒ‚ğ‰ğß‚·‚éƒNƒ‰ƒX
+ * ã‚³ãƒ³ãƒ•ã‚£ã‚°ãƒ‡ãƒ¼ã‚¿ã®åˆ¶ç´„æ¡ä»¶å†…ã§ã®ã€ And æ¡ä»¶ã‚’è§£é‡ˆã™ã‚‹ã‚¯ãƒ©ã‚¹
  *
  */
 public class AndConstraintParser {

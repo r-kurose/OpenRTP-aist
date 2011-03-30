@@ -1,7 +1,7 @@
 package jp.go.aist.rtm.toolscommon.model.core;
 
 /**
- * Visiterパターンを使用して、RTCLinkのオブジェクトを走査するためのクラス
+ * Visiter繝代ち繝ｼ繝ｳ繧剃ｽｿ逕ｨ縺励※縲ヽTCLink縺ｮ繧ｪ繝悶ず繧ｧ繧ｯ繝医ｒ襍ｰ譟ｻ縺吶ｋ縺溘ａ縺ｮ繧ｯ繝ｩ繧ｹ
  */
 public interface Visiter {
 	void visit(ModelElement element);
