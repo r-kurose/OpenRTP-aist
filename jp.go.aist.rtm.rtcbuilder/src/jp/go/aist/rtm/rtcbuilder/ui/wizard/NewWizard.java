@@ -68,7 +68,7 @@ public class NewWizard extends Wizard implements INewWizard, IExecutableExtensio
 			System.out.println(ex);
 			return false;
 		}
-		// ƒp[ƒXƒyƒNƒeƒBƒu‚ğØ‚è‘Ö‚¦
+		// ãƒ‘ãƒ¼ã‚¹ãƒšã‚¯ãƒ†ã‚£ãƒ–ã‚’åˆ‡ã‚Šæ›¿ãˆ
 		BasicNewProjectResourceWizard.updatePerspective(configElement);
 		
 		IWorkbench workbench = PlatformUI.getWorkbench();

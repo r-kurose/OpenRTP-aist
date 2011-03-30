@@ -7,6 +7,7 @@
 package jp.go.aist.rtm.toolscommon.model.component.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import jp.go.aist.rtm.toolscommon.factory.CorbaWrapperFactory;
@@ -14,9 +15,13 @@ import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaPortInterfaceProfile;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaPortSynchronizer;
+import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.PortSynchronizer;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
+import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile.PROP;
+import jp.go.aist.rtm.toolscommon.model.component.util.CorbaPropertyMap;
+import jp.go.aist.rtm.toolscommon.model.component.util.IPropertyMapUtil;
 import jp.go.aist.rtm.toolscommon.model.core.impl.CorbaWrapperObjectImpl;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.AttributeMapping;
@@ -27,6 +32,7 @@ import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ReferenceMapp
 import jp.go.aist.rtm.toolscommon.util.SDOUtil;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -49,13 +55,13 @@ import _SDOPackage.NameValue;
  */
 public class CorbaPortSynchronizerImpl extends CorbaWrapperObjectImpl implements CorbaPortSynchronizer {
 
-	private static final String NAME_VALUE_KEY_PORT_PORT_TYPE_DATA_OUTPORT_VALUE = "DataOutPort";
+	private static final String VALUE_PORT_TYPE_DATA_OUTPORT = "DataOutPort";
 
-	private static final String NAME_VALUE_KEY_PORT_PORT_TYPE_DATA_INPORT_VALUE = "DataInPort";
+	private static final String VALUE_PORT_TYPE_DATA_INPORT = "DataInPort";
 
-	private static final String NAME_VALUE_KEY_PORT_PORT_TYPE_SERVICE_PORT_VALUE = "CorbaPort";
+	private static final String VALUE_PORT_TYPE_SERVICE_PORT = "CorbaPort";
 
-	private static final String NAME_VALUE_KEY_PORT_PORT_TYPE = "port.port_type";
+	private static final String KEY_PORT_TYPE = "port.port_type";
 
 	/**
 	 * The default value of the '{@link #getOriginalPortString() <em>Original Port String</em>}' attribute.
@@ -97,7 +103,10 @@ public class CorbaPortSynchronizerImpl extends CorbaWrapperObjectImpl implements
 	 */
 	protected PortProfile rTCPortProfile = RTC_PORT_PROFILE_EDEFAULT;
 
+	@SuppressWarnings("unused")
 	private SystemDiagram currentDiagram;
+
+	protected IPropertyMapUtil properties;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -106,6 +115,17 @@ public class CorbaPortSynchronizerImpl extends CorbaWrapperObjectImpl implements
 	 */
 	public CorbaPortSynchronizerImpl() {
 		super();
+		this.properties = new CorbaPropertyMap() {
+			@Override
+			public NameValue[] getNameValues() {
+				return getRTCPortProfile().properties;
+			}
+
+			@Override
+			public void setNameValues(NameValue[] nvs) {
+				getRTCPortProfile().properties = nvs;
+			}
+		};
 	}
 
 	/**
@@ -236,6 +256,11 @@ public class CorbaPortSynchronizerImpl extends CorbaWrapperObjectImpl implements
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == IPropertyMap.class) {
+			switch (derivedFeatureID) {
+				default: return -1;
+			}
+		}
 		if (baseClass == PortSynchronizer.class) {
 			switch (derivedFeatureID) {
 				case ComponentPackage.CORBA_PORT_SYNCHRONIZER__ORIGINAL_PORT_STRING: return ComponentPackage.PORT_SYNCHRONIZER__ORIGINAL_PORT_STRING;
@@ -252,6 +277,11 @@ public class CorbaPortSynchronizerImpl extends CorbaWrapperObjectImpl implements
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == IPropertyMap.class) {
+			switch (baseFeatureID) {
+				default: return -1;
+			}
+		}
 		if (baseClass == PortSynchronizer.class) {
 			switch (baseFeatureID) {
 				case ComponentPackage.PORT_SYNCHRONIZER__ORIGINAL_PORT_STRING: return ComponentPackage.CORBA_PORT_SYNCHRONIZER__ORIGINAL_PORT_STRING;
@@ -279,163 +309,237 @@ public class CorbaPortSynchronizerImpl extends CorbaWrapperObjectImpl implements
 		return result.toString();
 	}
 
-//	@Override
+	@Override
 	public RTC.PortService getCorbaObjectInterface() {
 		return getRTCPortProfile().port_ref;
 	}
-// Mapping Rule
 
-	public static final MappingRule MAPPING_RULE = new MappingRule(null,
+	// Mapping Rule
+	public static final MappingRule MAPPING_RULE = new MappingRule(
+			null,
 			new ClassMapping(
 					Port.class,
 					new ConstructorParamMapping[] { new ConstructorParamMapping(
 							ComponentPackage.eINSTANCE
-								.getCorbaPortSynchronizer_RTCPortProfile()) }) {
+									.getCorbaPortSynchronizer_RTCPortProfile()) }) {
+				@Override
+				public LocalObject createLocalObject(LocalObject parent,
+						Object[] remoteObjects, Object link) {
+					RTC.PortProfile profile = (PortProfile) remoteObjects[0];
+					String portType = SDOUtil.findValueAsString(KEY_PORT_TYPE,
+							profile.properties);
+					Port port;
+					if (portType.equals(VALUE_PORT_TYPE_DATA_INPORT)) {
+						port = ComponentFactory.eINSTANCE.createInPort();
+					} else if (portType.equals(VALUE_PORT_TYPE_DATA_OUTPORT)) {
+						port = ComponentFactory.eINSTANCE.createOutPort();
+					} else if (portType.equals(VALUE_PORT_TYPE_SERVICE_PORT)) {
+						port = ComponentFactory.eINSTANCE.createServicePort();
+					} else {
+						throw new IllegalStateException("unknown port type:"
+								+ portType);
+					}
+					CorbaPortSynchronizer synchronizer = ComponentFactory.eINSTANCE
+							.createCorbaPortSynchronizer();
+					port.setSynchronizer(synchronizer);
+					synchronizer.setRTCPortProfile(profile);
+					return port;
+				}
+			}, new AttributeMapping[] {
+					new AttributeMapping(ComponentPackage.eINSTANCE
+							.getPort_NameL(), true) {
 						@Override
-						public LocalObject createLocalObject(
-								LocalObject parent,
-								Object[] remoteObjects, Object link) {
-							RTC.PortProfile profile = (PortProfile) remoteObjects[0];
-							String portType = SDOUtil.getStringValue(profile.properties
-									, NAME_VALUE_KEY_PORT_PORT_TYPE);
-							Port port;
-							if (portType.equals(NAME_VALUE_KEY_PORT_PORT_TYPE_DATA_INPORT_VALUE)){
-								port = ComponentFactory.eINSTANCE.createInPort();
-							} else if (portType.equals(NAME_VALUE_KEY_PORT_PORT_TYPE_DATA_OUTPORT_VALUE)) {
-								port = ComponentFactory.eINSTANCE.createOutPort();
-							} else if (portType.equals(NAME_VALUE_KEY_PORT_PORT_TYPE_SERVICE_PORT_VALUE)) {
-								port = ComponentFactory.eINSTANCE.createServicePort();
-							} else {
-								throw new IllegalStateException("unknown port type:" + portType);
+						public Object getRemoteAttributeValue(
+								LocalObject localObject, Object[] remoteObjects) {
+							try {
+								PortProfile portProfile = getPortProfile(localObject);
+								return portProfile != null ? portProfile.name
+										: null;
+							} catch (Exception e) {
+								return null;
 							}
-							CorbaPortSynchronizer synchronizer = ComponentFactory.eINSTANCE.createCorbaPortSynchronizer();
-							port.setSynchronizer(synchronizer);
-							synchronizer.setRTCPortProfile(profile);
-							return port;
 						}
-			},
-		new AttributeMapping[] {
-			new AttributeMapping(ComponentPackage.eINSTANCE
-					.getPort_NameL(), true) {
-				@Override
-				public Object getRemoteAttributeValue(
-						LocalObject localObject, Object[] remoteObjects) {
-					try {
-						PortProfile portProfile = getPortProfile(localObject);
-						return portProfile != null ? portProfile.name : null;
-					} catch (Exception e) {
-						return null;
-					}
-				}
-			},
-			new AttributeMapping(ComponentPackage.eINSTANCE
-					.getPort_ConnectorProfiles(), false) {
-				@SuppressWarnings("unchecked")
-				@Override
-				public Object getRemoteAttributeValue(
-						LocalObject localObject, Object[] remoteObjects) {
-					List result = new ArrayList();
-					try {
-						PortProfile portProfile = getPortProfile(localObject);
-						if (portProfile == null) return result;
-						for (RTC.ConnectorProfile profile : portProfile.connector_profiles) {
-							result.add(CorbaWrapperFactory
-									.getInstance().createWrapperObject(
+					},
+					new AttributeMapping(ComponentPackage.eINSTANCE
+							.getPort_ConnectorProfiles(), false) {
+						@SuppressWarnings("unchecked")
+						@Override
+						public Object getRemoteAttributeValue(
+								LocalObject localObject, Object[] remoteObjects) {
+							List result = new ArrayList();
+							try {
+								PortProfile portProfile = getPortProfile(localObject);
+								if (portProfile == null)
+									return result;
+								for (RTC.ConnectorProfile profile : portProfile.connector_profiles) {
+									result.add(CorbaWrapperFactory
+											.getInstance().createWrapperObject(
+													profile));
+								}
+							} catch (Exception e) {
+								// void
+							}
+
+							return result;
+						}
+					},
+					new AttributeMapping(ComponentPackage.eINSTANCE
+							.getPort_Interfaces(), true) {
+						@SuppressWarnings("unchecked")
+						@Override
+						public Object getRemoteAttributeValue(
+								LocalObject localObject, Object[] remoteObjects) {
+							List result = new ArrayList();
+							try {
+								PortProfile portProfile = getPortProfile(localObject);
+								if (portProfile == null)
+									return result;
+								for (RTC.PortInterfaceProfile profile : portProfile.interfaces) {
+									result.add(new CorbaPortInterfaceProfile(
 											profile));
+								}
+							} catch (Exception e) {
+								// void
+							}
+
+							return result;
 						}
-					} catch (Exception e) {
-						// void
-					}
+					} }, new ReferenceMapping[] {}) {
 
-					return result;
-				}
-			} ,
-			new AttributeMapping(ComponentPackage.eINSTANCE
-					.getPort_Interfaces(), true) {
-				@SuppressWarnings("unchecked")
-				@Override
-				public Object getRemoteAttributeValue(
-						LocalObject localObject, Object[] remoteObjects) {
-					List result = new ArrayList();
-					try {
-						PortProfile portProfile = getPortProfile(localObject);
-						if (portProfile == null) return result;
-						for (RTC.PortInterfaceProfile profile : portProfile.interfaces) {
-							result.add(new CorbaPortInterfaceProfile(profile));
-						}
-					} catch (Exception e) {
-						// void
-					}
-
-					return result;
-				}
-			}
-}, new ReferenceMapping[] {}){
-
-	@Override
-	public boolean isTarget(LocalObject localObject) {
-		Port port = (Port) localObject;
-		return port.getSynchronizer() instanceof CorbaPortSynchronizer;
-	}};
+		@Override
+		public boolean isTarget(LocalObject localObject) {
+			Port port = (Port) localObject;
+			return port.getSynchronizer() instanceof CorbaPortSynchronizer;
+		}
+	};
 
 	protected static PortProfile getPortProfile(LocalObject localObject) {
 		CorbaPortSynchronizer synchronizer = getCorbaSynchronizer(localObject);
-		if (synchronizer == null) return null;
+		if (synchronizer == null)
+			return null;
 		return synchronizer.getRTCPortProfile();
 	}
 
 	private static CorbaPortSynchronizer getCorbaSynchronizer(
 			LocalObject localObject) {
-		if (!(localObject instanceof Port)) return null;
+		if (!(localObject instanceof Port))
+			return null;
 		Port port = (Port) localObject;
-		if (!(port.getSynchronizer() instanceof CorbaPortSynchronizer)) return null;
-		CorbaPortSynchronizer synchronizer = (CorbaPortSynchronizer)port.getSynchronizer();
+		if (!(port.getSynchronizer() instanceof CorbaPortSynchronizer))
+			return null;
+		CorbaPortSynchronizer synchronizer = (CorbaPortSynchronizer) port
+				.getSynchronizer();
 		return synchronizer;
 	}
 
-	public static RTC.PortService getRemoteObjectsForSync(LocalObject localObject) {
+	public static RTC.PortService getRemoteObjectsForSync(
+			LocalObject localObject) {
 		CorbaPortSynchronizer synchronizer = getCorbaSynchronizer(localObject);
-		if (synchronizer == null) return null;
+		if (synchronizer == null)
+			return null;
 		return synchronizer.getCorbaObjectInterface();
 	}
 
-//	@Override
+	@Override
 	public void disconnectAll() {
 		getCorbaObjectInterface().disconnect_all();
 	}
 
-//	@Override
+	@Override
 	public String getDataflowType() {
-		return CorbaConnectorProfileImpl.getDataflowTypes(getRtcProperties());
+		String result = getProperty(PROP.DATAFLOW_TYPE);
+		return result;
 	}
 
-//	@Override
+	@Override
 	public String getDataType() {
-		return CorbaConnectorProfileImpl.getDataTypes(getRtcProperties());
+		String result = getProperty(PROP.DATA_TYPE);
+		return result;
 	}
 
-//	@Override
+	@Override
 	public String getInterfaceType() {
-		return CorbaConnectorProfileImpl.getInterfaceTypes(getRtcProperties());
+		String result = getProperty(PROP.INTERFACE_TYPE);
+		return result;
 	}
 
-//	@Override
+	@Override
 	public String getSubscriptionType() {
-		return CorbaConnectorProfileImpl.getSubscriptionTypes(getRtcProperties());
+		String result = getProperty(PROP.SUBSCRIPTION_TYPE);
+		return result;
 	}
 
-	private NameValue[] getRtcProperties() {
-		if (getRTCPortProfile() == null) return null;
-		return getRTCPortProfile().properties;
+	@Override
+	public NameValue[] getRTCProperties() {
+		if (getRTCPortProfile() != null) {
+			return getRTCPortProfile().properties;
+		}
+		return null;
 	}
 
+	@Override
 	public List<jp.go.aist.rtm.toolscommon.model.component.NameValue> getProperties() {
-		return CorbaConnectorProfileImpl.getProperties(getRtcProperties());
+		if (getRTCProperties() == null) {
+			return Collections.emptyList();
+		}
+		List<jp.go.aist.rtm.toolscommon.model.component.NameValue> result = new ArrayList<jp.go.aist.rtm.toolscommon.model.component.NameValue>();
+		for (NameValue property : getRTCProperties()) {
+			String name = property.name;
+			if (name.equals(PROP.DATAFLOW_TYPE) || name.equals(PROP.DATA_TYPE)
+					|| name.equals(PROP.INTERFACE_TYPE)
+					|| name.equals(PROP.SUBSCRIPTION_TYPE)) {
+				continue;
+			}
+			jp.go.aist.rtm.toolscommon.model.component.NameValue entry = ComponentFactory.eINSTANCE
+					.createNameValue();
+			entry.setName(name);
+			entry.setValue(SDOUtil.toAnyString(property.value));
+			result.add(entry);
+		}
+		return result;
 	}
 
-	public String getProperty(String name) {
-		return CorbaConnectorProfileImpl.getPropertyValueAsStringValue(getRtcProperties(), name);
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public String getProperty(String key) {
+		return properties.getProperty(key);
 	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public void setProperty(String key, String value) {
+		properties.setProperty(key, value);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public String removeProperty(String key) {
+		return properties.removeProperty(key);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public EList<String> getPropertyKeys() {
+		return properties.getPropertyKeys();
+	}
+
+	@Override
 	public void setCurrentDiagram(SystemDiagram currentDiagram) {
 		this.currentDiagram = currentDiagram;
 	}

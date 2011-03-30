@@ -70,7 +70,7 @@ Package core <http://rtm.aist.go.jp/toolscommon/model/toolscommon>
 
 Package component <http:///jp/go/aist/rtm/toolscommon/model/component.ecore>
 
-  Class SystemDiagram -> ModelElement
+  Class SystemDiagram -> ModelElement, IPropertyMap
     Reference components : Component<<0..*>>
     Attribute kind : SystemDiagramKind
     Attribute ConnectorProcessing : EBoolean
@@ -83,7 +83,7 @@ Package component <http:///jp/go/aist/rtm/toolscommon/model/component.ecore>
     Operation addPropertyChangeListener(PropertyChangeListener) : void
     Operation removePropertyChangeListener(PropertyChangeListener) : void
 
-  Class Component -> WrapperObject
+  Class Component -> WrapperObject, IPropertyMap
     Reference configurationSets : ConfigurationSet<<0..*>>
     Reference activeConfigurationSet : ConfigurationSet
     Reference ports : Port<<0..*>>
@@ -123,21 +123,21 @@ Package component <http:///jp/go/aist/rtm/toolscommon/model/component.ecore>
   Class ComponentSpecification -> Component
     Attribute aliasName : EString
     Attribute specUnLoad : EBoolean
+    Attribute rtcType : EString
 
-  Class ExecutionContext -> WrapperObject
+  Class ExecutionContext -> WrapperObject, IPropertyMap
     Attribute kindL : EInt
     Attribute rateL : EDoubleObject
     Attribute stateL : EInt
     Reference owner : Component
     Reference participants : Component<<0..*>>
-    Reference properties : NameValue<<0..*>>
     Operation getKindName() : EString
     Operation getStateName() : EString
     Operation setRateR(EDoubleObject) : EBoolean
     Operation addComponentR(Component) : EBoolean
     Operation removeComponentR(Component) : EBoolean
 
-  Class ContextHandler
+  Class ContextHandler -> IAdaptable
     Operation setContext(EString, ExecutionContext) : ExecutionContext
     Operation getContext(EString) : ExecutionContext
     Operation getId(ExecutionContext) : EString
@@ -147,6 +147,8 @@ Package component <http:///jp/go/aist/rtm/toolscommon/model/component.ecore>
     Operation values() : List
     Operation keys() : List
     Operation clear() : void
+    Operation getType() : EString
+    Operation getOwnerContexts() : ExecutionContext<<0..*>>
 
   Class ConfigurationSet -> WrapperObject
     Attribute id : EString
@@ -182,7 +184,7 @@ Package component <http:///jp/go/aist/rtm/toolscommon/model/component.ecore>
 
   Class ServicePort -> Port
 
-  Class PortSynchronizer
+  Class PortSynchronizer -> IPropertyMap
     Attribute originalPortString : EString
     Operation disconnectAll() : void
 
@@ -194,7 +196,7 @@ Package component <http:///jp/go/aist/rtm/toolscommon/model/component.ecore>
     Operation createConnectorR() : EBoolean
     Operation deleteConnectorR() : EBoolean
 
-  Class ConnectorProfile -> WrapperObject
+  Class ConnectorProfile -> WrapperObject, IPropertyMap
     Attribute dataflowType : EString
     Attribute subscriptionType : EString
     Attribute subscriptionTypeAvailable : EBoolean
@@ -220,24 +222,28 @@ Package component <http:///jp/go/aist/rtm/toolscommon/model/component.ecore>
     Attribute inportBufferWriteTimeout : EDoubleObject
     Attribute inportBufferEmptyPolicy : EString
     Attribute inportBufferReadTimeout : EDoubleObject
-    Operation getProperty(EString) : EString
-    Operation setProperty(EString, EString) : void
-    Operation removeProperty(EString) : EString
-    Operation getPropertyKeys() : EString<<0..*>>
 
   Class EIntegerObjectToPointMapEntry
     Attribute key : EIntegerObject
     Attribute value : Point
 
+  Class IPropertyMap
+    Operation getProperty(EString) : EString
+    Operation setProperty(EString, EString) : void
+    Operation removeProperty(EString) : EString
+    Operation getPropertyKeys() : EString<<0..*>>
+
   Class CorbaComponent -> Component, CorbaWrapperObject
     Attribute executionContextState : EInt
     Attribute componentState : EInt
-    Attribute sDOConfiguration : SDOConfiguration
     Attribute rTCComponentProfile : RTCComponentProfile
     Attribute rTCExecutionContexts : RTCExecutionContext<<0..*>>
     Attribute rTCParticipationContexts : RTCExecutionContext<<0..*>>
+    Attribute sDOConfiguration : SDOConfiguration
     Attribute sDOOrganization : SDOOrganization
+    Attribute rTCRTObjects : RTCRTObject<<0..*>>
     Attribute ior : EString
+    Reference statusObserver : CorbaStatusObserver
     Operation startR() : EInt
     Operation stopR() : EInt
     Operation activateR() : EInt
@@ -264,9 +270,22 @@ Package component <http:///jp/go/aist/rtm/toolscommon/model/component.ecore>
     Operation deactivateR(Component) : EInt
     Operation resetR(Component) : EInt
     Operation getComponentStateR(Component) : EInt
+    Operation getComponentState(Component) : EInt
+    Operation setComponentState(Component, EInt) : void
     Operation getComponentStateName(Component) : EString
 
   Class CorbaContextHandler -> ContextHandler
+
+  Class CorbaObserver -> IPropertyMap, IAdaptable
+    Attribute serviceProfile : SDOServiceProfile
+    Attribute servant : Servant
+    Operation activate() : void
+    Operation deactivate() : void
+    Operation attachComponent(CorbaComponent) : EBoolean
+    Operation detachComponent(CorbaComponent) : EBoolean
+
+  Class CorbaStatusObserver -> CorbaObserver
+    Operation isTimeOut() : EBoolean
 
   Enum SystemDiagramKind
     Literal ONLINE = 1
@@ -277,6 +296,8 @@ Package component <http:///jp/go/aist/rtm/toolscommon/model/component.ecore>
   DataType SDOConfigurationSet <_SDOPackage.ConfigurationSet>
 
   DataType SDOOrganization <_SDOPackage.Organization>
+
+  DataType SDOServiceProfile <_SDOPackage.ServiceProfile>
 
   DataType RTCRTObject <RTC.RTObject>
 
@@ -295,3 +316,5 @@ Package component <http:///jp/go/aist/rtm/toolscommon/model/component.ecore>
   DataType PortInterfaceProfile <jp.go.aist.rtm.toolscommon.model.component.PortInterfaceProfile>
 
   DataType List <java.util.List>
+
+  DataType Servant <org.omg.PortableServer.Servant>

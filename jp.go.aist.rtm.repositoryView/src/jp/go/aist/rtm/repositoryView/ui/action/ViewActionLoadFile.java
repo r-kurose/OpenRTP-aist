@@ -12,7 +12,7 @@ import jp.go.aist.rtm.repositoryView.model.RepositoryViewLeafItem;
 import jp.go.aist.rtm.repositoryView.nl.Messages;
 import jp.go.aist.rtm.repositoryView.ui.views.RepositoryView;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
-import jp.go.aist.rtm.toolscommon.util.ProfileHandler;
+import jp.go.aist.rtm.toolscommon.util.RtcProfileHandler;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -24,8 +24,8 @@ import org.eclipse.ui.IViewActionDelegate;
 import org.eclipse.ui.IViewPart;
 
 /**
- * XMLƒtƒ@ƒCƒ‹‚©‚çRTC‚ğƒ[ƒh‚·‚éƒAƒNƒVƒ‡ƒ“ƒfƒŠƒQ[ƒg
- * ViewActionLoadDirecroty‚Æ‹¤’Ê‚·‚éˆ—‚Í•ÊƒNƒ‰ƒX‚É’Šo‚µ‚½‚¢
+ * XMLãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰RTCã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ‡ãƒªã‚²ãƒ¼ãƒˆ
+ * ViewActionLoadDirecrotyã¨å…±é€šã™ã‚‹å‡¦ç†ã¯åˆ¥ã‚¯ãƒ©ã‚¹ã«æŠ½å‡ºã—ãŸã„
  *
  */
 public class ViewActionLoadFile implements IViewActionDelegate {
@@ -39,7 +39,7 @@ public class ViewActionLoadFile implements IViewActionDelegate {
 	@SuppressWarnings("unchecked")
 	public void run(IAction action) {
 
-		//‘ÎÛƒtƒ@ƒCƒ‹‚Ì‘I‘ğ
+		//å¯¾è±¡ãƒ•ã‚¡ã‚¤ãƒ«ã®é¸æŠ
 		FileDialog fileDialog = new FileDialog(view.getSite().getShell(), SWT.OPEN);
 		fileDialog.setFilterNames(new String[]{Messages.getString("ViewActionLoadFile.0")}); //$NON-NLS-1$
 		fileDialog.setFilterExtensions(new String[]{"*.xml"}); //$NON-NLS-1$
@@ -47,7 +47,7 @@ public class ViewActionLoadFile implements IViewActionDelegate {
 		if( targetFileName==null ) return;
 		
 		ComponentSpecification module = null;
-    	ProfileHandler handler = new ProfileHandler();
+    	RtcProfileHandler handler = new RtcProfileHandler();
 		try {
 			module = handler.createComponent(targetFileName);
 		} catch (Exception e) {
@@ -55,8 +55,11 @@ public class ViewActionLoadFile implements IViewActionDelegate {
 					Messages.getString("ViewActionLoadFile.3") + "\r\n\r\n[ " + e.getMessage() + " ]"); //$NON-NLS-1$
 			return;
 		}
+//		module.setPathId(targetFileName.substring(0, targetFileName.lastIndexOf(File.separator)));
 		String fileName = targetFileName.substring(targetFileName.lastIndexOf(File.separator) + 1);
 		module.setAliasName(module.getInstanceNameL() + "(" + fileName + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+		//TODO 09.09.30 pathURIå¯¾å¿œ
+//		module.setPathId("file://localhost/" + targetFileName + ":1"); //$NON-NLS-1$
 		//
 		File convFile = new File(targetFileName);
 		try {

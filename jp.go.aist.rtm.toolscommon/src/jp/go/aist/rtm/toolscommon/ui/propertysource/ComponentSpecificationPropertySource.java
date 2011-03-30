@@ -1,16 +1,18 @@
 package jp.go.aist.rtm.toolscommon.ui.propertysource;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.nl.Messages;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
-import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
 /**
- * ÉRÉìÉ|Å[ÉlÉìÉgÇÃIPropertySourceÉNÉâÉXÅiÉIÉtÉâÉCÉìÅj
+ * „Ç≥„É≥„Éù„Éº„Éç„É≥„Éà„ÅÆIPropertySource„ÇØ„É©„ÇπÔºà„Ç™„Éï„É©„Ç§„É≥Ôºâ
  */
 public class ComponentSpecificationPropertySource extends AbstractPropertySource {
 
@@ -34,7 +36,7 @@ public class ComponentSpecificationPropertySource extends AbstractPropertySource
 
 	/**
 	 * @param component
-	 *            ÉÇÉfÉã
+	 *            „É¢„Éá„É´
 	 */
 	public ComponentSpecificationPropertySource(ComponentSpecification component) {
 		this.component = component;
@@ -42,16 +44,22 @@ public class ComponentSpecificationPropertySource extends AbstractPropertySource
 
 	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
-		return new PropertyDescriptor[] {
-				new TextPropertyDescriptor(Component.PATH_URI, DISP_PATH_URI),
-				new TextPropertyDescriptor(Component.INSTANCE_NAME,
-						DISP_INSTANCE_NAME),
-				new TextPropertyDescriptor(Component.TYPE_NAME, DISP_TYPE_NAME),
-				new TextPropertyDescriptor(Component.DESCRIPTION,
-						DISP_DESCRIPTION),
-				new TextPropertyDescriptor(Component.VERSION, DISP_VERSION),
-				new TextPropertyDescriptor(Component.VENDER, DISP_VENDOR),
-				new TextPropertyDescriptor(Component.CATEGORY, DISP_CATEGORY), };
+		List<IPropertyDescriptor> result = new ArrayList<IPropertyDescriptor>();
+		result.add(new TextPropertyDescriptor(Component.PATH_URI, DISP_PATH_URI));
+		result.add(new TextPropertyDescriptor(Component.INSTANCE_NAME, DISP_INSTANCE_NAME));
+		result.add(new TextPropertyDescriptor(Component.TYPE_NAME, 	DISP_TYPE_NAME));
+		result.add(new TextPropertyDescriptor(Component.DESCRIPTION, DISP_DESCRIPTION));
+		result.add(new TextPropertyDescriptor(Component.VERSION, DISP_VERSION));
+		result.add(new TextPropertyDescriptor(Component.VENDER, DISP_VENDOR));
+		result.add(new TextPropertyDescriptor(Component.CATEGORY, DISP_CATEGORY));
+		if (component.getRtcType() != null) {
+			result.add(new TextPropertyDescriptor("RTC_TYPE", "RTC Type"));
+		}
+		for (String key : component.getPropertyKeys()) {
+			result.add(new TextPropertyDescriptor(new DynamicID("PROPERTIES", key), key));
+		}
+		return (IPropertyDescriptor[]) result
+				.toArray(new IPropertyDescriptor[result.size()]);
 	}
 
 	@Override
@@ -72,6 +80,13 @@ public class ComponentSpecificationPropertySource extends AbstractPropertySource
 				result = component.getTypeNameL();
 			} else if (Component.VERSION.equals(id)) {
 				result = component.getVersionL();
+			} else if ("RTC_TYPE".equals(id)) {
+				result = component.getRtcType();
+			} else if (id instanceof DynamicID) {
+				DynamicID dynamicId = (DynamicID) id;
+				if ("PROPERTIES".equals(dynamicId.categoryId)) {
+					return component.getProperty(dynamicId.subId);
+				}
 			}
 		} catch (Exception e) {
 			// void

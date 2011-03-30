@@ -1,7 +1,7 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.editpolicy;
 
 /**
- * RtcLinkのEditPolicyで使用される定数が定義されるクラス
+ * RtcLink縺ｮEditPolicy縺ｧ菴ｿ逕ｨ縺輔ｌ繧句ｮ壽焚縺悟ｮ夂ｾｩ縺輔ｌ繧九け繝ｩ繧ｹ
  */
 public interface EditPolicyConstraint {
 	public static final String CHANGE_DIRECTION_ROLE = "CHANGE_DIRECTION_ROLE";

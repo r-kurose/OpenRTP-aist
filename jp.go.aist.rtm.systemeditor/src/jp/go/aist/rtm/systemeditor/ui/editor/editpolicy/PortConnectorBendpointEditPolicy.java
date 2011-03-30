@@ -23,7 +23,7 @@ import org.eclipse.gef.editpolicies.SelectionHandlesEditPolicy;
 import org.eclipse.gef.requests.BendpointRequest;
 
 /**
- * コネクタのベンドポイント編集のEditPolicyクラス
+ * 繧ｳ繝阪け繧ｿ縺ｮ繝吶Φ繝峨�昴う繝ｳ繝育ｷｨ髮�縺ｮEditPolicy繧ｯ繝ｩ繧ｹ
  */
 public class PortConnectorBendpointEditPolicy extends
 		SelectionHandlesEditPolicy implements PropertyChangeListener {

@@ -38,7 +38,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 
 /**
- * ƒ}ƒl[ƒWƒƒŠÇ—ƒrƒ…[
+ * ãƒãƒãƒ¼ã‚¸ãƒ£ç®¡ç†ãƒ“ãƒ¥ãƒ¼
  *
  */
 public class ManagerControlView extends ViewPart {
@@ -120,7 +120,7 @@ public class ManagerControlView extends ViewPart {
 				if (targetManager != null) {
 					moduleColumn.setText(Messages.getString("ManagerControlView.1")); //$NON-NLS-1$
 					isSelectedLoadableModules = true;
-					// ƒLƒƒƒbƒVƒ…XV
+					// ã‚­ãƒ£ãƒƒã‚·ãƒ¥æ›´æ–°
 					targetManager.getLoadableModuleProfilesR();
 				}
 				refreshModuleListData();
@@ -142,7 +142,7 @@ public class ManagerControlView extends ViewPart {
 				if (targetManager != null) {
 					moduleColumn.setText(Messages.getString("ManagerControlView.3")); //$NON-NLS-1$
 					isSelectedLoadedModules = true;
-					// ƒLƒƒƒbƒVƒ…XV
+					// ã‚­ãƒ£ãƒƒã‚·ãƒ¥æ›´æ–°
 					targetManager.getLoadedModuleProfilesR();
 				}
 				refreshModuleListData();
@@ -164,7 +164,7 @@ public class ManagerControlView extends ViewPart {
 				if (targetManager != null) {
 					moduleColumn.setText(Messages.getString("ManagerControlView.5")); //$NON-NLS-1$
 					isSelectedActiveComponents = true;
-					// ƒLƒƒƒbƒVƒ…XV
+					// ã‚­ãƒ£ãƒƒã‚·ãƒ¥æ›´æ–°
 					targetManager.getComponentProfilesR();
 				}
 				refreshModuleListData();
@@ -316,7 +316,7 @@ public class ManagerControlView extends ViewPart {
 						module = urlText.getText();
 					}
 					if (module != null) {
-						// TODO initfunc‚Í‚Ç‚±‚Åw’èH
+						// TODO initfuncã¯ã©ã“ã§æŒ‡å®šï¼Ÿ
 						targetManager.loadModuleR(module, ""); //$NON-NLS-1$
 					}
 				}
@@ -351,7 +351,7 @@ public class ManagerControlView extends ViewPart {
 
 	@Override
 	public void setFocus() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
+		// TODO è‡ªå‹•ç”Ÿæˆã•ã‚ŒãŸãƒ¡ã‚½ãƒƒãƒ‰ãƒ»ã‚¹ã‚¿ãƒ–
 
 	}
 
@@ -378,7 +378,7 @@ public class ManagerControlView extends ViewPart {
 			this.loadedModuleButton.setEnabled(true);
 			this.activeComponentButton.setEnabled(true);
 			this.createButton.setEnabled(true);
-			// ƒ}ƒl[ƒWƒƒ‚Ìd—l‚ªŒˆ‚Ü‚Á‚Ä‚¢‚È‚¢‚Ì‚Å–³Œø‚É‚·‚é
+			// ãƒãƒãƒ¼ã‚¸ãƒ£ã®ä»•æ§˜ãŒæ±ºã¾ã£ã¦ã„ãªã„ã®ã§ç„¡åŠ¹ã«ã™ã‚‹
 			this.forkButton.setEnabled(false);
 			this.shutdownButton.setEnabled(false);
 		}
@@ -427,7 +427,7 @@ public class ManagerControlView extends ViewPart {
 				unloadButton.setEnabled(true);
 			}
 		} else if (urlText.getText().length() > 0) {
-			// URLw’è‚Ìê‡
+			// URLæŒ‡å®šã®å ´åˆ
 			loadButton.setEnabled(true);
 		}
 	}
@@ -466,11 +466,11 @@ public class ManagerControlView extends ViewPart {
 
 		selectionListener.selectionChanged(null, getSite().getWorkbenchWindow().getSelectionService().getSelection());
 		
-		// NameServiceView‚Ì‘I‘ğŠÄ‹ƒŠƒXƒi‚ğ“o˜^
+		// NameServiceViewã®é¸æŠç›£è¦–ãƒªã‚¹ãƒŠã‚’ç™»éŒ²
 		getSite().getWorkbenchWindow().getSelectionService()
 				.addSelectionListener(selectionListener);
 
-		// SelectionProvider‚ğ“o˜^(ƒvƒƒpƒeƒBEƒrƒ…[˜AŒg)
+		// SelectionProviderã‚’ç™»éŒ²(ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ»ãƒ“ãƒ¥ãƒ¼é€£æº)
 		getSite().setSelectionProvider(new ISelectionProvider() {
 			public void addSelectionChangedListener(
 					ISelectionChangedListener listener) {

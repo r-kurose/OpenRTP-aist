@@ -1,5 +1,12 @@
 package jp.go.aist.rtm.systemeditor;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -15,12 +22,21 @@ public class RTSystemEditorPlugin extends AbstractUIPlugin {
 
 	// The shared instance
 	private static RTSystemEditorPlugin plugin;
-	
+
+	RTSELogHandler logHandler;
+
 	/**
 	 * The constructor
 	 */
 	public RTSystemEditorPlugin() {
 		plugin = this;
+		//
+		getLogger();
+		try {
+			logHandler = new RTSELogHandler();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/*
@@ -28,6 +44,8 @@ public class RTSystemEditorPlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
 	 */
 	public void start(BundleContext context) throws Exception {
+		logHandler.start();
+		//
 		super.start(context);
 	}
 
@@ -36,6 +54,8 @@ public class RTSystemEditorPlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
+		logHandler.stop();
+		//
 		plugin = null;
 		super.stop(context);
 	}
@@ -62,18 +82,18 @@ public class RTSystemEditorPlugin extends AbstractUIPlugin {
 	}
 	
 	/**
-	 * ImageRegistry‚ÉƒLƒƒƒbƒVƒ…‚µ‚½ƒCƒ[ƒW‚ð•Ô‚·
-	 * @param path ƒvƒ‰ƒOƒCƒ“‚Ì‘Š‘ÎƒpƒX
-	 * @return@ƒCƒ[ƒW
+	 * ImageRegistryã«ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã—ãŸã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’è¿”ã™
+	 * @param path ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ç›¸å¯¾ãƒ‘ã‚¹
+	 * @returnã€€ã‚¤ãƒ¡ãƒ¼ã‚¸
 	 */
 	public static Image getCachedImage(String path) {
 		return getCachedImage(getImageDescriptor(path));
 	}
 
 	/**
-	 * ImageRegistry‚ÉƒLƒƒƒbƒVƒ…‚µ‚½ƒCƒ[ƒW‚ð•Ô‚·
-	 * @param descriptor ƒCƒ[ƒWƒfƒBƒXƒNƒŠƒvƒ^
-	 * @return@ƒCƒ[ƒW
+	 * ImageRegistryã«ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã—ãŸã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’è¿”ã™
+	 * @param descriptor ã‚¤ãƒ¡ãƒ¼ã‚¸ãƒ‡ã‚£ã‚¹ã‚¯ãƒªãƒ—ã‚¿
+	 * @returnã€€ã‚¤ãƒ¡ãƒ¼ã‚¸
 	 */
 	public static Image getCachedImage(ImageDescriptor descriptor) {
 		if (descriptor == null) return null;
@@ -85,4 +105,38 @@ public class RTSystemEditorPlugin extends AbstractUIPlugin {
 		}
 		return result;
 	}
+
+	static LogManager logManager;
+	static Logger log;
+
+	public static Logger getLogger() {
+		if (logManager == null) {
+			try {
+				InputStream ins = new FileInputStream(new File(
+						"systemeditor.logging.properties"));
+				logManager = LogManager.getLogManager();
+				logManager.readConfiguration(ins);
+			} catch (IOException e) {
+				// void
+			}
+		}
+		//
+		if (log == null) {
+			log = Logger.getLogger(PLUGIN_ID);
+		}
+		return log;
+	}
+
+	public static void addLogger(Logger logger) {
+		if (plugin != null) {
+			plugin.logHandler.addLogger(logger);
+		}
+	}
+
+	public static void removeLogger(Logger logger) {
+		if (plugin != null) {
+			plugin.logHandler.removeLogger(logger);
+		}
+	}
+
 }

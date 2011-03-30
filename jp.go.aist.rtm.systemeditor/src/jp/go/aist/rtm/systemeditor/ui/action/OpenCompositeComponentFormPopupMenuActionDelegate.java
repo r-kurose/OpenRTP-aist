@@ -11,7 +11,7 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * •¡‡ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğŠJ‚­ƒAƒNƒVƒ‡ƒ“‚ÌƒfƒŠƒQ[ƒg
+ * è¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’é–‹ãã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®ãƒ‡ãƒªã‚²ãƒ¼ãƒˆ
  *
  */
 public class OpenCompositeComponentFormPopupMenuActionDelegate implements IObjectActionDelegate {

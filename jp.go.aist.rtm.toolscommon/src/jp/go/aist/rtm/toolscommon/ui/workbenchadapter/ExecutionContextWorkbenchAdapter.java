@@ -6,7 +6,7 @@ import jp.go.aist.rtm.toolscommon.nl.Messages;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 /**
- * ExecutionContextÇÃWorkbenchAdapter
+ * ExecutionContext„ÅÆWorkbenchAdapter
  */
 public class ExecutionContextWorkbenchAdapter extends ModelElementWorkbenchAdapter {
 

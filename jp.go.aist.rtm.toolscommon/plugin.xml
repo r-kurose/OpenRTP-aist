@@ -14,6 +14,8 @@
 	<extension-point id="propertysheetpageextentionpoint" name="%propertysheetpageextentionpoint" schema="schema/propertysheetpageextentionpoint.exsd"/>
 	<extension-point id="openViews" name="%openviews" schema="schema/openviews.exsd"/>
  	<extension-point id="validations" name="%validations" schema="schema/validations.exsd"/>
+	<extension-point id="portconnectorfactory" name="PortConnectorFactory" schema="schema/portconnectorfactory.exsd"/>
+	<extension-point id="loadcomponent" name="LoadComponent" schema="schema/loadcomponent.exsd"/>
 
 	<extension point="org.eclipse.emf.ecore.generated_package">
    		<package uri = "http://rtm.aist.go.jp/toolscommon/model/core" 
@@ -32,12 +34,14 @@
 		<mappingrule seq="1700" mappingrule="jp.go.aist.rtm.toolscommon.model.component.impl.CorbaExecutionContextImpl.MAPPING_RULE"/>
 		<mappingrule seq="1800" mappingrule="jp.go.aist.rtm.toolscommon.model.manager.impl.RTCManagerImpl.MAPPING_RULE"/>
 	</extension>
-	
+
 	<extension point="jp.go.aist.rtm.toolscommon.propertysheetpageextentionpoint">
 		<propertysheetpage displayclass="jp.go.aist.rtm.toolscommon.model.component.Component"/>
+		<propertysheetpage displayclass="jp.go.aist.rtm.toolscommon.model.component.PortConnector"/>
+		<propertysheetpage displayclass="jp.go.aist.rtm.toolscommon.model.component.SystemDiagram"/>
 		<propertysheetpage displayclass="jp.go.aist.rtm.toolscommon.model.manager.RTCManager"/>
 	</extension>
-	
+
 	<extension  point="org.eclipse.core.runtime.adapters">
      <factory
             class="jp.go.aist.rtm.toolscommon.adapterfactory.WorkbenchAdapterFactory"
@@ -74,6 +78,16 @@
      <factory
             class="jp.go.aist.rtm.toolscommon.adapterfactory.WorkbenchAdapterFactory"
             adaptableType="jp.go.aist.rtm.toolscommon.model.component.ContextHandler">
+                <adapter type="org.eclipse.ui.model.IWorkbenchAdapter"/>
+     </factory>
+     <factory
+            class="jp.go.aist.rtm.toolscommon.adapterfactory.WorkbenchAdapterFactory"
+            adaptableType="jp.go.aist.rtm.toolscommon.model.component.CorbaStatusObserver">
+                <adapter type="org.eclipse.ui.model.IWorkbenchAdapter"/>
+     </factory>
+     <factory
+            class="jp.go.aist.rtm.toolscommon.adapterfactory.WorkbenchAdapterFactory"
+            adaptableType="jp.go.aist.rtm.toolscommon.model.component.SystemDiagram">
                 <adapter type="org.eclipse.ui.model.IWorkbenchAdapter"/>
      </factory>
      <factory

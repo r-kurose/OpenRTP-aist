@@ -6,111 +6,138 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateHelper;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
 
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
+import static jp.go.aist.rtm.rtcbuilder.util.RTCUtil.*;
+
 /**
- * ˆê”Êƒtƒ@ƒCƒ‹‚Ìo—Í‚ğ§Œä‚·‚éƒ}ƒl[ƒWƒƒ
+ * ä¸€èˆ¬ãƒ•ã‚¡ã‚¤ãƒ«ã®å‡ºåŠ›ã‚’åˆ¶å¾¡ã™ã‚‹ãƒãƒãƒ¼ã‚¸ãƒ£
  */
 public class CommonGenerateManager extends GenerateManager {
+
+	static final String TEMPLATE_PATH = "jp/go/aist/rtm/rtcbuilder/template";
+
+	static final String MSG_ERROR_GENERATE_FILE = "Common generation error. [{0}]";
 
 	@Override
 	public String getManagerKey() {
 		return "Common";
 	}
+
 	@Override
 	public String getLangArgList() {
 		return null;
 	}
 
 	/**
-	 * ƒtƒ@ƒCƒ‹‚ğo—Í‚·‚é
+	 * ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‡ºåŠ›ã™ã‚‹
 	 * 
 	 * @param generatorParam
-	 * @return o—ÍŒ‹‰Ê‚ÌƒŠƒXƒg
+	 * @return å‡ºåŠ›çµæœã®ãƒªã‚¹ãƒˆ
 	 */
 	public List<GeneratedResult> generateTemplateCode(RtcParam rtcParam) {
-		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
-
-		result = generateReadMe(rtcParam, result);
-		if(rtcParam.getExecutionRate() > 0.0 || rtcParam.checkConstraint() || rtcParam.getConfigParameterParams().size()>0 ) {
-			result = generateRTCConf(rtcParam, result);				
-		}
-		result = generateCommonExtend(rtcParam, result);
-
-		return result;
-	}
-	
-	/**
-	 * ReadMe‚ğ¶¬‚·‚é
-	 * 
-	 * @param rtcParam	¶¬—pƒpƒ‰ƒ[ƒ^
-	 * @param contextMap	¶¬Œ³î•ñ
-	 * @param result	¶¬Œ‹‰ÊŠi”[æ
-	 * @return o—ÍŒ‹‰Ê‚ÌƒŠƒXƒg
-	 */
-	protected List<GeneratedResult> generateReadMe(RtcParam rtcParam, List<GeneratedResult> result) {
-		InputStream ins = null;
-		String tmpltPath = null;
-
-		if( rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100) ) {
-			return result;
-		}
-		
 		Map<String, Object> contextMap = new HashMap<String, Object>();
+		contextMap.put("template", TEMPLATE_PATH);
 		contextMap.put("rtcParam", rtcParam);
 		contextMap.put("tmpltHelper", new TemplateHelper());
 
-		if( rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_042) ) {
-			tmpltPath = "jp/go/aist/rtm/rtcbuilder/template/_042/common/README_src.template";
-		} else {
-			tmpltPath = "jp/go/aist/rtm/rtcbuilder/template/common/README_src.template";
+		if (rtcParam.getRtmVersion().equals(RTM_VERSION_042)) {
+			return generateTemplateCode04(contextMap);
 		}
-		ins = CommonGenerateManager.class.getClassLoader().getResourceAsStream(tmpltPath);
-		result.add(TemplateUtil.createGeneratedResult(ins, contextMap, "README." + rtcParam.getName()));
-
-		try {
-			if( ins != null) ins.close();
-		} catch (Exception e) {
-			throw new RuntimeException(e); // system error
-		}
-
-		return result;
+		return generateTemplateCode10(contextMap);
 	}
-	
-	protected List<GeneratedResult> generateRTCConf(RtcParam rtcParam, List<GeneratedResult> result) {
-		InputStream ins = null;
 
-		ins = CommonGenerateManager.class.getClassLoader()	
-			.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/template/common/rtc_conf.template");
-		result.add(TemplateUtil.createGeneratedResult(ins, "rtcParam", rtcParam, "rtc.conf"));
+	// RTM 1.0ç³»
+	public List<GeneratedResult> generateTemplateCode10(
+			Map<String, Object> contextMap) {
+		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 
-		try {
-			if( ins != null) ins.close();
-		} catch (Exception e) {
-			throw new RuntimeException(e); // system error
+		GeneratedResult gr;
+
+		if (rtcParam.getExecutionRate() > 0.0 || rtcParam.checkConstraint()
+				|| rtcParam.getConfigParameterParams().size() > 0) {
+			gr = generateRTCConf(contextMap);
+			result.add(gr);
 		}
+
+		gr = generateComponentConf(contextMap);
+		result.add(gr);
 
 		return result;
 	}
 
-	protected List<GeneratedResult> generateCommonExtend(RtcParam rtcParam, List<GeneratedResult> result) {
-		InputStream ins = null;
+	// RTM 0.4ç³»
+	public List<GeneratedResult> generateTemplateCode04(
+			Map<String, Object> contextMap) {
+		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 
-		if( rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100) ) {
-			ins = CommonGenerateManager.class.getClassLoader()	
-					.getResourceAsStream("jp/go/aist/rtm/rtcbuilder/template/_100/common/Component_conf.template");
-			result.add(TemplateUtil.createGeneratedResult(ins, "rtcParam", rtcParam, rtcParam.getName() + ".conf"));
-		}
-		try {
-			if( ins != null) ins.close();
-		} catch (Exception e) {
-			throw new RuntimeException(e); // system error
+		GeneratedResult gr;
+		gr = generateREADME_04(contextMap);
+		result.add(gr);
+
+		if (rtcParam.getExecutionRate() > 0.0 || rtcParam.checkConstraint()
+				|| rtcParam.getConfigParameterParams().size() > 0) {
+			gr = generateRTCConf(contextMap);
+			result.add(gr);
 		}
 
-		return result;		
+		return result;
 	}
+
+	// RTM 1.0
+
+	public GeneratedResult generateREADME(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = "README." + rtcParam.getName();
+		String infile = "common/README.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+
+	public GeneratedResult generateRTCConf(Map<String, Object> contextMap) {
+		String outfile = "rtc.conf";
+		String infile = "common/rtc.conf.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+
+	public GeneratedResult generateComponentConf(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = rtcParam.getName() + ".conf";
+		String infile = "common/Component.conf.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+
+	// RTM 0.4
+
+	public GeneratedResult generateREADME_04(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+
+		String outfile = "README." + rtcParam.getName();
+		String infile = "common_04/README.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+
+	public GeneratedResult generate(String infile, String outfile,
+			Map<String, Object> contextMap) {
+		try {
+			String template = TEMPLATE_PATH + "/" + infile;
+			InputStream ins = getClass().getClassLoader().getResourceAsStream(
+					template);
+			GeneratedResult gr = TemplateUtil.createGeneratedResult(ins,
+					contextMap, outfile);
+			if (ins != null) {
+				ins.close();
+			}
+			return gr;
+		} catch (Exception e) {
+			throw new RuntimeException(form(MSG_ERROR_GENERATE_FILE,
+					new String[] { outfile }), e);
+		}
+	}
+
 }

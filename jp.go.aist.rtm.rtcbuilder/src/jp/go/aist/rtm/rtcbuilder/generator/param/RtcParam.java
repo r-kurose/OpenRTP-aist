@@ -19,7 +19,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
 
 /**
- * RTC‚ğ•\‚·ƒNƒ‰ƒX
+ * RTCã‚’è¡¨ã™ã‚¯ãƒ©ã‚¹
  */
 public class RtcParam extends AbstractRecordedParam implements Serializable {
 
@@ -28,7 +28,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	private GeneratorParam parent;
 
 	private String schemaVersion;
-	//Šî–{
+	//åŸºæœ¬
 	private String abstractDesc;
 	private String name;
 	private String category;
@@ -46,27 +46,28 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	private double executionRate;
 	private String rtcType;
 	private String currentVULog;
-	//ƒf[ƒ^ƒ|[ƒg
+	//ãƒ‡ãƒ¼ã‚¿ãƒãƒ¼ãƒˆ
 	private RecordedList<DataPortParam> inports = new RecordedList<DataPortParam>();
 	private RecordedList<DataPortParam> outports = new RecordedList<DataPortParam>();
-	//ƒT[ƒrƒXƒ|[ƒg
+	//ã‚µãƒ¼ãƒ“ã‚¹ãƒãƒ¼ãƒˆ
 	private RecordedList<ServicePortParam> serviceports = new RecordedList<ServicePortParam>();
 //	private List<String> idlSearchPathes = new RecordedList<String>();
 //	private String includeIDLPath = null;
 	//
 	private RecordedList<ServiceClassParam> serviceClassParams = new RecordedList<ServiceClassParam>();
-	//ƒRƒ“ƒtƒBƒMƒ…ƒŒ[ƒVƒ‡ƒ“
+	//ã‚³ãƒ³ãƒ•ã‚£ã‚®ãƒ¥ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³
 	private RecordedList<ConfigSetParam> configParams = new RecordedList<ConfigSetParam>();
 	private RecordedList<ConfigParameterParam> configParameterParams = new RecordedList<ConfigParameterParam>();
-	//Œ¾ŒêEŠÂ‹«
+	//è¨€èªãƒ»ç’°å¢ƒ
 	private RecordedList<String> langList = new RecordedList<String>();
 	private RecordedList<String> langArgList = new RecordedList<String>();
 	private RecordedList<String> libraryPath = new RecordedList<String>();
 	private String architecture = new String();
+	boolean enableOldBuildEnv= false;
 	private RecordedList<TargetEnvParam> targetEnvs = new RecordedList<TargetEnvParam>();
 	//RTC.xml
 	private String rtcxml;
-	//ƒhƒLƒ…ƒƒ“ƒg
+	//ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆ
 	private String doc_description;
 	private String doc_in_out;
 	private String doc_algorithm;
@@ -167,7 +168,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		checkUpdated(this.schemaVersion, version);
 		this.schemaVersion = version;
 	}
-	//Šî–{
+	//åŸºæœ¬
 	public String getAbstract() {
 		return abstractDesc;
 	}
@@ -290,14 +291,14 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		checkUpdated(this.currentVULog, cvulog);
 		this.currentVULog = cvulog;
 	}
-	//ƒf[ƒ^ƒ|[ƒg
+	//ãƒ‡ãƒ¼ã‚¿ãƒãƒ¼ãƒˆ
 	public List<DataPortParam> getInports() {
 		return inports;
 	}
 	public List<DataPortParam> getOutports() {
 		return outports;
 	}
-	//ƒT[ƒrƒXƒ|[ƒg
+	//ã‚µãƒ¼ãƒ“ã‚¹ãƒãƒ¼ãƒˆ
 	public List<ServicePortParam> getServicePorts() {
 		return serviceports;
 	}
@@ -306,7 +307,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		return serviceClassParams;
 	}
 
-	//ƒRƒ“ƒtƒBƒMƒ…ƒŒ[ƒVƒ‡ƒ“
+	//ã‚³ãƒ³ãƒ•ã‚£ã‚®ãƒ¥ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³
 	public List<ConfigSetParam> getConfigParams() {
 		return configParams;
 	}
@@ -321,7 +322,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		checkUpdated(this.rtcxml, rtcXml);
 		this.rtcxml = rtcXml;
 	}
-	//Œ¾ŒêEŠÂ‹«
+	//è¨€èªãƒ»ç’°å¢ƒ
 	public String getLanguage() {
 		return getLangageListString(langList);
 	}
@@ -339,6 +340,9 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	}
 	public String getArchitecture() {
 		return this.architecture;
+	}
+	public boolean enableOldBuildEnv() {
+		return enableOldBuildEnv;
 	}
 	public List<TargetEnvParam> getTargetEnvs() {
 		return this.targetEnvs;
@@ -374,8 +378,12 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		}
 		return result;
 	}
+	public void setEnableOldBuildEnv(boolean b) {
+		checkUpdated(this.enableOldBuildEnv, b);
+		this.enableOldBuildEnv = b;
+	}
 
-	//ƒhƒLƒ…ƒƒ“ƒg-Component
+	//ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆ-Component
 	public boolean isDocExist() {
 		if( (doc_description==null || doc_description.equals("")) &&
 			(doc_in_out==null || doc_in_out.equals("")) && 
@@ -464,7 +472,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		actions.get(actionId).setPreCondition(precond);
 		actions.get(actionId).setPostCondition(postcond);
 	}
-	//ƒhƒLƒ…ƒƒ“ƒg-‚»‚Ì‘¼
+	//ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆ-ãã®ä»–
 	public String getDocCreator() {
 		if(doc_creator==null) doc_creator = ""; 
 		return doc_creator;
@@ -657,7 +665,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		
 		List<ServicePortInterfaceParam> serviceIFs = getServiceInterfaceList();
 
-		//IDLƒpƒXCIDLƒT[ƒ`ƒpƒX‚ÌŠm”F
+		//IDLãƒ‘ã‚¹ï¼ŒIDLã‚µãƒ¼ãƒãƒ‘ã‚¹ã®ç¢ºèª
 		for( ServicePortInterfaceParam serviceInterface : serviceIFs ) {
 			if( serviceInterface.getDirection().equals(ServicePortInterfaceParam.INTERFACE_DIRECTION_PROVIDED)) {
 				if( !providerIdlStrings.contains(serviceInterface.getIdlFullPath()) ) {
@@ -714,7 +722,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		getOriginalConsumerIdls().clear();
 		getOriginalConsumerIdls().addAll(originalConsumerIdlPathList);
 
-		//ƒNƒ‰ƒXƒpƒX‚Ìd•¡íœ
+		//ã‚¯ãƒ©ã‚¹ãƒ‘ã‚¹ã®é‡è¤‡å‰Šé™¤
 		ArrayList<String> libraries = new ArrayList<String>();
 		for (String library : this.getLibraryPathes()) {
 			if (!libraries.contains(library)) {

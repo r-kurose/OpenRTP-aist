@@ -3,35 +3,35 @@ package jp.go.aist.rtm.toolscommon.ui.views.propertysheetview;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * ƒRƒlƒNƒ^‚Ìƒ‰ƒbƒpƒNƒ‰ƒX
+ * ã‚³ãƒã‚¯ã‚¿ã®ãƒ©ãƒƒãƒ‘ã‚¯ãƒ©ã‚¹
  */
 public class PortConnectorWrapper {
 	private EObject connector;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param component
-	 *            ƒhƒƒCƒ“ƒ‚ƒfƒ‹
+	 *            ãƒ‰ãƒ¡ã‚¤ãƒ³ãƒ¢ãƒ‡ãƒ«
 	 */
 	public PortConnectorWrapper(EObject connector) {
 		this.connector = connector;
 	}
 
 	/**
-	 * ƒRƒlƒNƒ^‚ğæ“¾‚·‚é
+	 * ã‚³ãƒã‚¯ã‚¿ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @return ƒRƒlƒNƒ^
+	 * @return ã‚³ãƒã‚¯ã‚¿
 	 */
 	public EObject getConnector() {
 		return connector;
 	}
 
 	/**
-	 * ƒRƒlƒNƒ^‚ğİ’è‚·‚é
+	 * ã‚³ãƒã‚¯ã‚¿ã‚’è¨­å®šã™ã‚‹
 	 * 
 	 * @param component
-	 *            ƒRƒlƒNƒ^
+	 *            ã‚³ãƒã‚¯ã‚¿
 	 */
 	public void setConnector(EObject connector) {
 		this.connector = connector;

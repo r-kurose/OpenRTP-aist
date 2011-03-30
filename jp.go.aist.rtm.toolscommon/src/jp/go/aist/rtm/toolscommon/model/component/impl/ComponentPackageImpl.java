@@ -22,8 +22,11 @@ import jp.go.aist.rtm.toolscommon.model.component.CorbaConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaConnectorProfile;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaContextHandler;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaObserver;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaPortSynchronizer;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaStatusObserver;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
 import jp.go.aist.rtm.toolscommon.model.component.InPort;
 import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 import jp.go.aist.rtm.toolscommon.model.component.OutPort;
@@ -48,6 +51,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import org.omg.PortableServer.Servant;
 import RTC.ComponentProfile;
 import RTC.ExecutionContextProfile;
 import RTC.ExecutionContextService;
@@ -55,6 +59,7 @@ import RTC.PortProfile;
 import RTC.RTObject;
 import _SDOPackage.Configuration;
 import _SDOPackage.Organization;
+import _SDOPackage.ServiceProfile;
 
 /**
  * <!-- begin-user-doc -->
@@ -166,6 +171,13 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass iPropertyMapEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass portSynchronizerEClass = null;
 
 	/**
@@ -208,6 +220,20 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass corbaObserverEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass corbaStatusObserverEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass componentSpecificationEClass = null;
 
 	/**
@@ -223,6 +249,13 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * @generated
 	 */
 	private EDataType listEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType servantEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -286,6 +319,13 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * @generated
 	 */
 	private EDataType sdoOrganizationEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType sdoServiceProfileEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -626,7 +666,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * @generated
 	 */
 	public EAttribute getCorbaComponent_SDOConfiguration() {
-		return (EAttribute)corbaComponentEClass.getEStructuralFeatures().get(2);
+		return (EAttribute)corbaComponentEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -635,7 +675,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * @generated
 	 */
 	public EAttribute getCorbaComponent_RTCComponentProfile() {
-		return (EAttribute)corbaComponentEClass.getEStructuralFeatures().get(3);
+		return (EAttribute)corbaComponentEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -644,7 +684,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * @generated
 	 */
 	public EAttribute getCorbaComponent_RTCExecutionContexts() {
-		return (EAttribute)corbaComponentEClass.getEStructuralFeatures().get(4);
+		return (EAttribute)corbaComponentEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -653,7 +693,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * @generated
 	 */
 	public EAttribute getCorbaComponent_RTCParticipationContexts() {
-		return (EAttribute)corbaComponentEClass.getEStructuralFeatures().get(5);
+		return (EAttribute)corbaComponentEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -670,8 +710,26 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCorbaComponent_Ior() {
+	public EAttribute getCorbaComponent_RTCRTObjects() {
 		return (EAttribute)corbaComponentEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCorbaComponent_Ior() {
+		return (EAttribute)corbaComponentEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCorbaComponent_StatusObserver() {
+		return (EReference)corbaComponentEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -726,15 +784,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 */
 	public EReference getExecutionContext_Participants() {
 		return (EReference)executionContextEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getExecutionContext_Properties() {
-		return (EReference)executionContextEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -1345,6 +1394,15 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getIPropertyMap() {
+		return iPropertyMapEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getPortSynchronizer() {
 		return portSynchronizerEClass;
 	}
@@ -1444,6 +1502,42 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getCorbaObserver() {
+		return corbaObserverEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCorbaObserver_ServiceProfile() {
+		return (EAttribute)corbaObserverEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCorbaObserver_Servant() {
+		return (EAttribute)corbaObserverEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getCorbaStatusObserver() {
+		return corbaStatusObserverEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getComponentSpecification() {
 		return componentSpecificationEClass;
 	}
@@ -1471,6 +1565,15 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getComponentSpecification_RtcType() {
+		return (EAttribute)componentSpecificationEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getSystemDiagramKind() {
 		return systemDiagramKindEEnum;
 	}
@@ -1491,6 +1594,15 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 */
 	public EDataType getList() {
 		return listEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getServant() {
+		return servantEDataType;
 	}
 
 	/**
@@ -1579,6 +1691,15 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EDataType getSDOServiceProfile() {
+		return sdoServiceProfileEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EDataType getPortInterfaceProfile() {
 		return portInterfaceProfileEDataType;
 	}
@@ -1658,6 +1779,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		componentSpecificationEClass = createEClass(COMPONENT_SPECIFICATION);
 		createEAttribute(componentSpecificationEClass, COMPONENT_SPECIFICATION__ALIAS_NAME);
 		createEAttribute(componentSpecificationEClass, COMPONENT_SPECIFICATION__SPEC_UN_LOAD);
+		createEAttribute(componentSpecificationEClass, COMPONENT_SPECIFICATION__RTC_TYPE);
 
 		executionContextEClass = createEClass(EXECUTION_CONTEXT);
 		createEAttribute(executionContextEClass, EXECUTION_CONTEXT__KIND_L);
@@ -1665,7 +1787,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		createEAttribute(executionContextEClass, EXECUTION_CONTEXT__STATE_L);
 		createEReference(executionContextEClass, EXECUTION_CONTEXT__OWNER);
 		createEReference(executionContextEClass, EXECUTION_CONTEXT__PARTICIPANTS);
-		createEReference(executionContextEClass, EXECUTION_CONTEXT__PROPERTIES);
 
 		contextHandlerEClass = createEClass(CONTEXT_HANDLER);
 
@@ -1739,15 +1860,19 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		createEAttribute(eIntegerObjectToPointMapEntryEClass, EINTEGER_OBJECT_TO_POINT_MAP_ENTRY__KEY);
 		createEAttribute(eIntegerObjectToPointMapEntryEClass, EINTEGER_OBJECT_TO_POINT_MAP_ENTRY__VALUE);
 
+		iPropertyMapEClass = createEClass(IPROPERTY_MAP);
+
 		corbaComponentEClass = createEClass(CORBA_COMPONENT);
 		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__EXECUTION_CONTEXT_STATE);
 		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__COMPONENT_STATE);
-		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__SDO_CONFIGURATION);
 		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__RTC_COMPONENT_PROFILE);
 		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__RTC_EXECUTION_CONTEXTS);
 		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__RTC_PARTICIPATION_CONTEXTS);
+		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__SDO_CONFIGURATION);
 		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__SDO_ORGANIZATION);
+		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__RTCRT_OBJECTS);
 		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__IOR);
+		createEReference(corbaComponentEClass, CORBA_COMPONENT__STATUS_OBSERVER);
 
 		corbaPortSynchronizerEClass = createEClass(CORBA_PORT_SYNCHRONIZER);
 		createEAttribute(corbaPortSynchronizerEClass, CORBA_PORT_SYNCHRONIZER__RTC_PORT_PROFILE);
@@ -1763,6 +1888,12 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 		corbaContextHandlerEClass = createEClass(CORBA_CONTEXT_HANDLER);
 
+		corbaObserverEClass = createEClass(CORBA_OBSERVER);
+		createEAttribute(corbaObserverEClass, CORBA_OBSERVER__SERVICE_PROFILE);
+		createEAttribute(corbaObserverEClass, CORBA_OBSERVER__SERVANT);
+
+		corbaStatusObserverEClass = createEClass(CORBA_STATUS_OBSERVER);
+
 		// Create enums
 		systemDiagramKindEEnum = createEEnum(SYSTEM_DIAGRAM_KIND);
 
@@ -1770,6 +1901,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		sdoConfigurationEDataType = createEDataType(SDO_CONFIGURATION);
 		sdoConfigurationSetEDataType = createEDataType(SDO_CONFIGURATION_SET);
 		sdoOrganizationEDataType = createEDataType(SDO_ORGANIZATION);
+		sdoServiceProfileEDataType = createEDataType(SDO_SERVICE_PROFILE);
 		rtcrtObjectEDataType = createEDataType(RTCRT_OBJECT);
 		rtcComponentProfileEDataType = createEDataType(RTC_COMPONENT_PROFILE);
 		rtcConnectorProfileEDataType = createEDataType(RTC_CONNECTOR_PROFILE);
@@ -1779,6 +1911,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		propertyChangeListenerEDataType = createEDataType(PROPERTY_CHANGE_LISTENER);
 		portInterfaceProfileEDataType = createEDataType(PORT_INTERFACE_PROFILE);
 		listEDataType = createEDataType(LIST);
+		servantEDataType = createEDataType(SERVANT);
 	}
 
 	/**
@@ -1813,17 +1946,23 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 		// Add supertypes to classes
 		systemDiagramEClass.getESuperTypes().add(theCorePackage.getModelElement());
+		systemDiagramEClass.getESuperTypes().add(this.getIPropertyMap());
 		componentEClass.getESuperTypes().add(theCorePackage.getWrapperObject());
+		componentEClass.getESuperTypes().add(this.getIPropertyMap());
 		componentSpecificationEClass.getESuperTypes().add(this.getComponent());
 		executionContextEClass.getESuperTypes().add(theCorePackage.getWrapperObject());
+		executionContextEClass.getESuperTypes().add(this.getIPropertyMap());
+		contextHandlerEClass.getESuperTypes().add(theCorePackage.getIAdaptable());
 		configurationSetEClass.getESuperTypes().add(theCorePackage.getWrapperObject());
 		nameValueEClass.getESuperTypes().add(theCorePackage.getWrapperObject());
 		portEClass.getESuperTypes().add(theCorePackage.getWrapperObject());
 		inPortEClass.getESuperTypes().add(this.getPort());
 		outPortEClass.getESuperTypes().add(this.getPort());
 		servicePortEClass.getESuperTypes().add(this.getPort());
+		portSynchronizerEClass.getESuperTypes().add(this.getIPropertyMap());
 		portConnectorEClass.getESuperTypes().add(theCorePackage.getWrapperObject());
 		connectorProfileEClass.getESuperTypes().add(theCorePackage.getWrapperObject());
+		connectorProfileEClass.getESuperTypes().add(this.getIPropertyMap());
 		corbaComponentEClass.getESuperTypes().add(this.getComponent());
 		corbaComponentEClass.getESuperTypes().add(theCorePackage.getCorbaWrapperObject());
 		corbaPortSynchronizerEClass.getESuperTypes().add(theCorePackage.getCorbaWrapperObject());
@@ -1833,6 +1972,9 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		corbaExecutionContextEClass.getESuperTypes().add(this.getExecutionContext());
 		corbaExecutionContextEClass.getESuperTypes().add(theCorePackage.getCorbaWrapperObject());
 		corbaContextHandlerEClass.getESuperTypes().add(this.getContextHandler());
+		corbaObserverEClass.getESuperTypes().add(this.getIPropertyMap());
+		corbaObserverEClass.getESuperTypes().add(theCorePackage.getIAdaptable());
+		corbaStatusObserverEClass.getESuperTypes().add(this.getCorbaObserver());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(systemDiagramEClass, SystemDiagram.class, "SystemDiagram", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1915,6 +2057,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		initEClass(componentSpecificationEClass, ComponentSpecification.class, "ComponentSpecification", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getComponentSpecification_AliasName(), ecorePackage.getEString(), "aliasName", null, 0, 1, ComponentSpecification.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getComponentSpecification_SpecUnLoad(), ecorePackage.getEBoolean(), "specUnLoad", "false", 0, 1, ComponentSpecification.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getComponentSpecification_RtcType(), ecorePackage.getEString(), "rtcType", null, 0, 1, ComponentSpecification.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(executionContextEClass, ExecutionContext.class, "ExecutionContext", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getExecutionContext_KindL(), ecorePackage.getEInt(), "kindL", "-1", 0, 1, ExecutionContext.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1922,7 +2065,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		initEAttribute(getExecutionContext_StateL(), ecorePackage.getEInt(), "stateL", null, 0, 1, ExecutionContext.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getExecutionContext_Owner(), this.getComponent(), null, "owner", null, 0, 1, ExecutionContext.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getExecutionContext_Participants(), this.getComponent(), null, "participants", null, 0, -1, ExecutionContext.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getExecutionContext_Properties(), this.getNameValue(), null, "properties", null, 0, -1, ExecutionContext.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(executionContextEClass, ecorePackage.getEString(), "getKindName", 0, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -1962,6 +2104,10 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		addEOperation(contextHandlerEClass, this.getList(), "keys", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		addEOperation(contextHandlerEClass, null, "clear", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(contextHandlerEClass, ecorePackage.getEString(), "getType", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(contextHandlerEClass, this.getExecutionContext(), "getOwnerContexts", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(configurationSetEClass, ConfigurationSet.class, "ConfigurationSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getConfigurationSet_Id(), ecorePackage.getEString(), "id", null, 0, 1, ConfigurationSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2047,31 +2193,35 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		initEAttribute(getConnectorProfile_InportBufferEmptyPolicy(), ecorePackage.getEString(), "inportBufferEmptyPolicy", null, 0, 1, ConnectorProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getConnectorProfile_InportBufferReadTimeout(), ecorePackage.getEDoubleObject(), "inportBufferReadTimeout", null, 0, 1, ConnectorProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		op = addEOperation(connectorProfileEClass, ecorePackage.getEString(), "getProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEString(), "key", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = addEOperation(connectorProfileEClass, null, "setProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEString(), "key", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEString(), "value", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = addEOperation(connectorProfileEClass, ecorePackage.getEString(), "removeProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEString(), "key", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		addEOperation(connectorProfileEClass, ecorePackage.getEString(), "getPropertyKeys", 0, -1, IS_UNIQUE, IS_ORDERED);
-
 		initEClass(eIntegerObjectToPointMapEntryEClass, Map.Entry.class, "EIntegerObjectToPointMapEntry", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getEIntegerObjectToPointMapEntry_Key(), ecorePackage.getEIntegerObject(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEIntegerObjectToPointMapEntry_Value(), theCorePackage.getPoint(), "value", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(iPropertyMapEClass, IPropertyMap.class, "IPropertyMap", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		op = addEOperation(iPropertyMapEClass, ecorePackage.getEString(), "getProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "key", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(iPropertyMapEClass, null, "setProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "key", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "value", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(iPropertyMapEClass, ecorePackage.getEString(), "removeProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "key", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(iPropertyMapEClass, ecorePackage.getEString(), "getPropertyKeys", 0, -1, IS_UNIQUE, IS_ORDERED);
+
 		initEClass(corbaComponentEClass, CorbaComponent.class, "CorbaComponent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCorbaComponent_ExecutionContextState(), ecorePackage.getEInt(), "executionContextState", "0", 0, 1, CorbaComponent.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCorbaComponent_ComponentState(), ecorePackage.getEInt(), "componentState", "1", 0, 1, CorbaComponent.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCorbaComponent_SDOConfiguration(), this.getSDOConfiguration(), "sDOConfiguration", null, 0, 1, CorbaComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCorbaComponent_RTCComponentProfile(), this.getRTCComponentProfile(), "rTCComponentProfile", null, 0, 1, CorbaComponent.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCorbaComponent_RTCExecutionContexts(), this.getRTCExecutionContext(), "rTCExecutionContexts", "", 0, -1, CorbaComponent.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCorbaComponent_RTCParticipationContexts(), this.getRTCExecutionContext(), "rTCParticipationContexts", "", 0, -1, CorbaComponent.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCorbaComponent_SDOConfiguration(), this.getSDOConfiguration(), "sDOConfiguration", null, 0, 1, CorbaComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCorbaComponent_SDOOrganization(), this.getSDOOrganization(), "sDOOrganization", "", 0, 1, CorbaComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCorbaComponent_RTCRTObjects(), this.getRTCRTObject(), "rTCRTObjects", "", 0, -1, CorbaComponent.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCorbaComponent_Ior(), ecorePackage.getEString(), "ior", null, 0, 1, CorbaComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCorbaComponent_StatusObserver(), this.getCorbaStatusObserver(), null, "statusObserver", null, 0, 1, CorbaComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(corbaComponentEClass, ecorePackage.getEInt(), "startR", 0, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -2117,10 +2267,35 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		op = addEOperation(corbaExecutionContextEClass, ecorePackage.getEInt(), "getComponentStateR", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getComponent(), "comp", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+		op = addEOperation(corbaExecutionContextEClass, ecorePackage.getEInt(), "getComponentState", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getComponent(), "comp", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(corbaExecutionContextEClass, null, "setComponentState", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getComponent(), "comp", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEInt(), "state", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		op = addEOperation(corbaExecutionContextEClass, ecorePackage.getEString(), "getComponentStateName", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getComponent(), "comp", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(corbaContextHandlerEClass, CorbaContextHandler.class, "CorbaContextHandler", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(corbaObserverEClass, CorbaObserver.class, "CorbaObserver", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getCorbaObserver_ServiceProfile(), this.getSDOServiceProfile(), "serviceProfile", null, 0, 1, CorbaObserver.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCorbaObserver_Servant(), this.getServant(), "servant", null, 0, 1, CorbaObserver.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		addEOperation(corbaObserverEClass, null, "activate", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(corbaObserverEClass, null, "deactivate", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(corbaObserverEClass, ecorePackage.getEBoolean(), "attachComponent", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getCorbaComponent(), "component", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(corbaObserverEClass, ecorePackage.getEBoolean(), "detachComponent", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getCorbaComponent(), "component", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(corbaStatusObserverEClass, CorbaStatusObserver.class, "CorbaStatusObserver", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		addEOperation(corbaStatusObserverEClass, ecorePackage.getEBoolean(), "isTimeOut", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(systemDiagramKindEEnum, SystemDiagramKind.class, "SystemDiagramKind");
@@ -2131,6 +2306,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		initEDataType(sdoConfigurationEDataType, Configuration.class, "SDOConfiguration", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(sdoConfigurationSetEDataType, _SDOPackage.ConfigurationSet.class, "SDOConfigurationSet", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(sdoOrganizationEDataType, Organization.class, "SDOOrganization", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(sdoServiceProfileEDataType, ServiceProfile.class, "SDOServiceProfile", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(rtcrtObjectEDataType, RTObject.class, "RTCRTObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(rtcComponentProfileEDataType, ComponentProfile.class, "RTCComponentProfile", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(rtcConnectorProfileEDataType, RTC.ConnectorProfile.class, "RTCConnectorProfile", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
@@ -2140,6 +2316,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		initEDataType(propertyChangeListenerEDataType, PropertyChangeListener.class, "PropertyChangeListener", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(portInterfaceProfileEDataType, PortInterfaceProfile.class, "PortInterfaceProfile", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(listEDataType, List.class, "List", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(servantEDataType, Servant.class, "Servant", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

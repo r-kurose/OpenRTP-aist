@@ -7,7 +7,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 
 /**
- * §–ñiˆÊ’uA‘å‚«‚³j‚Ì•ÏX‚ğs‚¤ƒRƒ}ƒ“ƒh
+ * åˆ¶ç´„ï¼ˆä½ç½®ã€å¤§ãã•ï¼‰ã®å¤‰æ›´ã‚’è¡Œã†ã‚³ãƒãƒ³ãƒ‰
  */
 public class ChangeConstraintCommand extends Command {
 	private ModelElement model;
@@ -30,10 +30,10 @@ public class ChangeConstraintCommand extends Command {
 	}
 
 	/**
-	 * §–ñiˆÊ’uA‘å‚«‚³j‚ğİ’è‚·‚é
+	 * åˆ¶ç´„ï¼ˆä½ç½®ã€å¤§ãã•ï¼‰ã‚’è¨­å®šã™ã‚‹
 	 * 
 	 * @param constraint
-	 *            §–ñ
+	 *            åˆ¶ç´„
 	 */
 	public void setConstraint(Rectangle constraint) {
 		if( constraint.x < 0 ) constraint.x = 0;
@@ -42,10 +42,10 @@ public class ChangeConstraintCommand extends Command {
 	}
 
 	/**
-	 * •ÏX‘ÎÛ‚Ìƒ‚ƒfƒ‹‚ğİ’è
+	 * å¤‰æ›´å¯¾è±¡ã®ãƒ¢ãƒ‡ãƒ«ã‚’è¨­å®š
 	 * 
 	 * @param model
-	 *            •ÏX‘ÎÛ‚Ìƒ‚ƒfƒ‹
+	 *            å¤‰æ›´å¯¾è±¡ã®ãƒ¢ãƒ‡ãƒ«
 	 */
 	public void setModel(ModelElement model) {
 		this.model = model;

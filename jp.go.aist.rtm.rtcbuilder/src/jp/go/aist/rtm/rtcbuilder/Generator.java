@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.IDLParser;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.ParseException;
@@ -29,6 +30,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceMethodParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.TypeDefParam;
 import jp.go.aist.rtm.rtcbuilder.generator.parser.MergeBlockParser;
+import jp.go.aist.rtm.rtcbuilder.manager.CMakeGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.CXXGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.CommonGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
@@ -48,45 +50,53 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.IDialogConstants;
 
 /**
- * ƒWƒFƒlƒŒ[ƒ^ƒNƒ‰ƒX
+ * ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã‚¯ãƒ©ã‚¹
  */
 public class Generator {
 	
-	private HashMap<String, GenerateManager> generateManagerList = new HashMap<String, GenerateManager>();
+	Map<String, GenerateManager> generateManagerList = new HashMap<String, GenerateManager>();
 
 	public Generator() {
 		this.addGenerateManager(new CommonGenerateManager());
 		this.addGenerateManager(new CXXGenerateManager());
+		this.addGenerateManager(new CMakeGenerateManager());
 	}
-	
+
 	/**
-	 * ƒWƒFƒlƒŒ[ƒgEƒ}ƒl[ƒWƒƒ‚ğ’Ç‰Á‚·‚é
+	 * ã‚¸ã‚§ãƒãƒ¬ãƒ¼ãƒˆãƒ»ãƒãƒãƒ¼ã‚¸ãƒ£ã‚’è¿½åŠ ã™ã‚‹
 	 * 
-	 * @param genManager@¶¬‘ÎÛ‚ÌƒWƒFƒlƒŒ[ƒgEƒ}ƒl[ƒWƒƒ
+	 * @param genManager
+	 *            ã€€ç”Ÿæˆå¯¾è±¡ã®ã‚¸ã‚§ãƒãƒ¬ãƒ¼ãƒˆãƒ»ãƒãƒãƒ¼ã‚¸ãƒ£
 	 */
 	public void addGenerateManager(GenerateManager genManager) {
-		generateManagerList.put(genManager.getManagerKey(), genManager);
+		String key = genManager.getClass().getName();
+		generateManagerList.put(key, genManager);
 	}
+
 	/**
-	 * ƒWƒFƒlƒŒ[ƒgEƒ}ƒl[ƒWƒƒ‚ğƒNƒŠƒA‚·‚é
+	 * ã‚¸ã‚§ãƒãƒ¬ãƒ¼ãƒˆãƒ»ãƒãƒãƒ¼ã‚¸ãƒ£ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
 	 */
 	public void clearGenerateManager() {
-		generateManagerList = new HashMap<String, GenerateManager>();
+		generateManagerList.clear();
 	}
-	public List<GeneratedResult> generateTemplateCode(GeneratorParam generatorParam)	throws Exception {
+
+	public List<GeneratedResult> generateTemplateCode(
+			GeneratorParam generatorParam) throws Exception {
 		return generateTemplateCode(generatorParam, true);
 	}
+
 	/**
-	 * ƒWƒFƒlƒŒ[ƒg‚·‚é
+	 * ã‚¸ã‚§ãƒãƒ¬ãƒ¼ãƒˆã™ã‚‹
 	 * 
 	 * @param generatorParam
-	 *            ƒpƒ‰ƒ[ƒ^
-	 * @return GeneratedResult‚ÌƒŠƒXƒg
+	 *            ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+	 * @return GeneratedResultã®ãƒªã‚¹ãƒˆ
 	 * @throws ParseException
-	 *             IDL‚Ìƒp[ƒX‚É¸”s‚µ‚½ê‡‚È‚Ç
+	 *             IDLã®ãƒ‘ãƒ¼ã‚¹ã«å¤±æ•—ã—ãŸå ´åˆãªã©
 	 */
-	public List<GeneratedResult> generateTemplateCode(GeneratorParam generatorParam, boolean validateFlag)	 
-					throws Exception {
+	public List<GeneratedResult> generateTemplateCode(
+			GeneratorParam generatorParam, boolean validateFlag)
+			throws Exception {
 
 		if( validateFlag ) {
 			for( RtcParam rtcParam : generatorParam.getRtcParams() ) {
@@ -95,9 +105,9 @@ public class Generator {
 		}
 
 		List<ServiceClassParam> rtcServiceClasses = new ArrayList<ServiceClassParam>();
-		//IDLd•¡ƒ`ƒFƒbƒN—p
+		//IDLé‡è¤‡ãƒã‚§ãƒƒã‚¯ç”¨
 		List<String> IDLPathes = new ArrayList<String>();
-		//IDL“Ç‚İ‚İ—p
+		//IDLèª­ã¿è¾¼ã¿ç”¨
 		List<ServiceClassParam> IDLPathParams = new ArrayList<ServiceClassParam>();
 		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
 		for( RtcParam rtcParam : generatorParam.getRtcParams() ) {
@@ -128,11 +138,12 @@ public class Generator {
 			}
 			List<GeneratedResult> resultEach = new ArrayList<GeneratedResult>();
 			for (String key : generateManagerList.keySet()) {
-				if (!"Common".equals(key)
-						&& !rtcParam.getLangList().contains(key)) {
+				GenerateManager manager = generateManagerList.get(key);
+				if (!"Common".equals(manager.getManagerKey())
+						&& !rtcParam.getLangList().contains(
+								manager.getManagerKey())) {
 					continue;
 				}
-				GenerateManager manager = generateManagerList.get(key);
 				resultEach.addAll(manager.generateTemplateCode(rtcParam));
 			}
 			result.addAll(resultEach);
@@ -142,7 +153,7 @@ public class Generator {
 	}
 
 	/**
-	 * ƒoƒŠƒf[ƒg‚ğs‚¤
+	 * ãƒãƒªãƒ‡ãƒ¼ãƒˆã‚’è¡Œã†
 	 * 
 	 * @param generatorParam
 	 */
@@ -211,7 +222,7 @@ public class Generator {
 	}
 
 	/**
-	 * QÆ‚³‚ê‚Ä‚¢‚éService‚ª‘¶İ‚·‚é‚©Šm”F‚·‚é
+	 * å‚ç…§ã•ã‚Œã¦ã„ã‚‹ServiceãŒå­˜åœ¨ã™ã‚‹ã‹ç¢ºèªã™ã‚‹
 	 * 
 	 * @param rtcServiceClasses
 	 * @param generatorParam
@@ -241,7 +252,7 @@ public class Generator {
 	}
 
 	/**
-	 * ƒT[ƒrƒXƒNƒ‰ƒX,Œ^’è‹`‚ğæ“¾‚·‚é
+	 * ã‚µãƒ¼ãƒ“ã‚¹ã‚¯ãƒ©ã‚¹,å‹å®šç¾©ã‚’å–å¾—ã™ã‚‹
 	 * 
 	 * @param generatorParam
 	 * @param IDLPathes
@@ -474,7 +485,7 @@ public class Generator {
 
 		if (isOutput) {
 			IFile outputFile = outputProject.getFile(generatedResult.getName());
-			//TODO ŠK‘w‚ª[‚¢ƒpƒX‚Ö‚Ì‘Î‰‚Í–¢
+			//TODO éšå±¤ãŒæ·±ã„ãƒ‘ã‚¹ã¸ã®å¯¾å¿œã¯æœª
 			IPath relPath = outputFile.getProjectRelativePath();
 			if( relPath.segmentCount() > 1 ) {
 				IPath outPath = relPath.removeLastSegments(1);
@@ -497,10 +508,10 @@ public class Generator {
 	}
 
 	/**
-	 * ƒWƒFƒlƒŒ[ƒg‚µAƒtƒ@ƒCƒ‹o—Í‚ğs‚¤
+	 * ã‚¸ã‚§ãƒãƒ¬ãƒ¼ãƒˆã—ã€ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›ã‚’è¡Œã†
 	 * 
 	 * @param generatorParam
-	 *            ƒpƒ‰ƒ[ƒ^
+	 *            ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 	 * @param handler
 	 *            MergeHandler
 	 * @throws ParseException
@@ -516,31 +527,31 @@ public class Generator {
 	}
 
 	/**
-	 * ƒ}[ƒWƒnƒ“ƒhƒ‰
+	 * ãƒãƒ¼ã‚¸ãƒãƒ³ãƒ‰ãƒ©
 	 */
 	public interface MergeHandler {
 		/**
-		 * ƒvƒƒZƒXFƒIƒŠƒWƒiƒ‹‚ğc‚·
+		 * ãƒ—ãƒ­ã‚»ã‚¹ï¼šã‚ªãƒªã‚¸ãƒŠãƒ«ã‚’æ®‹ã™
 		 */
 		public static final int PROCESS_ORIGINAL_ID = 10;
 
 		/**
-		 * ƒvƒƒZƒXFV‚µ‚­¶¬‚µ‚½‚à‚Ì‚ğ—˜—p‚·‚é
+		 * ãƒ—ãƒ­ã‚»ã‚¹ï¼šæ–°ã—ãç”Ÿæˆã—ãŸã‚‚ã®ã‚’åˆ©ç”¨ã™ã‚‹
 		 */
 		public static final int PROCESS_GENERATE_ID = 20;
 
 		/**
-		 * ƒvƒƒZƒXFƒ}[ƒW‚ğs‚¤
+		 * ãƒ—ãƒ­ã‚»ã‚¹ï¼šãƒãƒ¼ã‚¸ã‚’è¡Œã†
 		 */
 		public static final int PROCESS_MERGE_ID = 30;
 
 		/**
-		 * ƒvƒƒZƒX‚ğ‘I‘ğ‚·‚é
+		 * ãƒ—ãƒ­ã‚»ã‚¹ã‚’é¸æŠã™ã‚‹
 		 * 
 		 * @param generatedResult
-		 *            ¶¬Œ‹‰Ê
+		 *            ç”Ÿæˆçµæœ
 		 * @param originalFileContents
-		 *            Šù‘¶ƒtƒ@ƒCƒ‹‚Ì“à—e
+		 *            æ—¢å­˜ãƒ•ã‚¡ã‚¤ãƒ«ã®å†…å®¹
 		 * @return
 		 */
 		public int getSelectedProcess(GeneratedResult generatedResult,

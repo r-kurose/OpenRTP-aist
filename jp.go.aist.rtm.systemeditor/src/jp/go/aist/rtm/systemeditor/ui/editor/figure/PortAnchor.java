@@ -5,14 +5,14 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
- * ƒ|[ƒgƒAƒ“ƒJ[ƒNƒ‰ƒX
+ * ãƒãƒ¼ãƒˆã‚¢ãƒ³ã‚«ãƒ¼ã‚¯ãƒ©ã‚¹
  */
 public class PortAnchor extends ChopboxAnchor {
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param figure
-	 *            ƒAƒ“ƒJ[‘ÎÛ‚Ìƒ|[ƒgFigure
+	 *            ã‚¢ãƒ³ã‚«ãƒ¼å¯¾è±¡ã®ãƒãƒ¼ãƒˆFigure
 	 */
 	public PortAnchor(PortFigure figure) {
 		super(figure);
@@ -36,9 +36,9 @@ public class PortAnchor extends ChopboxAnchor {
 	}
 
 	/**
-	 * •ûŒü‚ğæ“¾‚·‚é
+	 * æ–¹å‘ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @return •ûŒü
+	 * @return æ–¹å‘
 	 */
 	public String getDirection() {
 		return getOwner().getDirection();

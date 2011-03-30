@@ -4,86 +4,65 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import jp.go.aist.rtm.systemeditor.factory.SystemEditorWrapperFactory;
+import jp.go.aist.rtm.systemeditor.factory.CompositeComponentCreator;
+import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.dialog.NewCompositeComponentDialog;
-import jp.go.aist.rtm.systemeditor.ui.dialog.NewCompositeComponentDialogData;
 import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
 import jp.go.aist.rtm.systemeditor.ui.editor.command.CombineCommand;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart;
-import jp.go.aist.rtm.systemeditor.ui.util.TimeoutWrappedJob;
-import jp.go.aist.rtm.systemeditor.ui.util.TimeoutWrapper;
-import jp.go.aist.rtm.toolscommon.manager.ToolsCommonPreferenceManager;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
-import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
-import jp.go.aist.rtm.toolscommon.model.core.Rectangle;
 
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
-import org.omg.CORBA.TIMEOUT;
 
 /**
- * •¡‡ƒRƒ“ƒ|[ƒlƒ“ƒg‚ðì¬‚·‚éƒAƒNƒVƒ‡ƒ“
+ * è¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ä½œæˆã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
  */
 public class CombineActionDelegate implements IEditorActionDelegate {
 
+	static final String DIALOG_TITLE_ERROR = Messages
+			.getString("Common.dialog.error_title");
+
 	private ISelection selection;
-
 	private AbstractSystemDiagramEditor targetEditor;
-
 	private List<Component> selectedComponents;
 
 	/**
-	 * ƒAƒNƒVƒ‡ƒ“‚ÌƒƒCƒ“‚ÌŽÀsƒƒ\ƒbƒh
+	 * ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®ãƒ¡ã‚¤ãƒ³ã®å®Ÿè¡Œãƒ¡ã‚½ãƒƒãƒ‰
 	 * 
 	 */
-	@SuppressWarnings("unchecked") //$NON-NLS-1$
 	public void run(final IAction action) {
 		if (selectedComponents.size() == 0) {
 			return;
 		}
 		Shell shell = targetEditor.getSite().getShell();
+
+		final CompositeComponentCreator creator = new CompositeComponentCreator();
+		creator.setTargetEditor(targetEditor);
+		creator.setComponents(selectedComponents);
+		if (!creator.canCreate()) {
+			MessageDialog.openError(shell, DIALOG_TITLE_ERROR, creator
+					.getMessage());
+			return;
+		}
+
 		NewCompositeComponentDialog dialog = new NewCompositeComponentDialog(
-				shell, targetEditor.isOnline(), selectedComponents,
-				targetEditor.getSystemDiagram().getComponents());
+				shell, creator, selectedComponents, targetEditor
+						.getSystemDiagram().getComponents());
 		int open = dialog.open();
 		if (open != IDialogConstants.OK_ID) {
 			return;
 		}
+		Component compositeComponent = creator.create();
 
-		int defaultTimeout = ToolsCommonPreferenceManager.getInstance().getDefaultTimeout(
-				ToolsCommonPreferenceManager.DEFAULT_TIMEOUT_PERIOD);
-		TimeoutWrapper wrapper = new TimeoutWrapper(defaultTimeout);
-
-		CreateCompositeComponentJob1 job1 = new CreateCompositeComponentJob1();
-		job1.setDialog(dialog);
-		job1.setTargetEditor(targetEditor);
-		wrapper.setJob(job1);
-		Component compositeComponent = (Component) wrapper.start();
-		if (compositeComponent == null) return;
-
-		CreateCompositeComponentJob2 job2 = new CreateCompositeComponentJob2();
-		job2.setCompositeComponent(compositeComponent);
-		job2.setSelectedComponents(selectedComponents);
-		wrapper.setJob(job2);
-		if (wrapper.start() == null && compositeComponent instanceof CorbaComponent) {
-			final CorbaComponent comp = (CorbaComponent) compositeComponent;
-			wrapper.setJob(new TimeoutWrappedJob(){
-				@Override
-				protected Object executeCommand() {
-					return comp.exitR();
-				}});
-			wrapper.start();
-			return;
-		}
-
-		// ƒ_ƒCƒAƒOƒ‰ƒ€‚Ö‚Ì“o˜^‚ÍCombineCommand‚Ås‚¤
+		// ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã¸ã®ç™»éŒ²ã¯CombineCommandã§è¡Œã†
 		CombineCommand command = new CombineCommand();
 		command.setParent(this.targetEditor.getSystemDiagram());
 		command.setTarget(compositeComponent);
@@ -119,6 +98,14 @@ public class CombineActionDelegate implements IEditorActionDelegate {
 				}
 			}
 		}
-		return (selectedComponents.size() > 0);
+		if (selectedComponents.isEmpty()) {
+			return false;
+		}
+		//
+		CompositeComponentCreator creator = new CompositeComponentCreator();
+		creator.setTargetEditor(targetEditor);
+		creator.setComponents(selectedComponents);
+		return creator.isActionEnabled();
 	}
+
 }

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * ジェネレータの引数となるクラス
+ * 繧ｸ繧ｧ繝阪Ξ繝ｼ繧ｿ縺ｮ蠑墓焚縺ｨ縺ｪ繧九け繝ｩ繧ｹ
  */
 public class GeneratorParam implements Serializable {
 

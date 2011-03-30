@@ -1,5 +1,8 @@
 package jp.go.aist.rtm.toolscommon.ui.propertysource;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jp.go.aist.rtm.toolscommon.model.component.ContextHandler;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
@@ -9,7 +12,7 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
 /**
- * ExecutionContextのPropertySourceクラス
+ * ExecutionContext縺ｮPropertySource繧ｯ繝ｩ繧ｹ
  */
 public class ExecutionContextPropertySource extends AbstractPropertySource {
 
@@ -46,10 +49,10 @@ public class ExecutionContextPropertySource extends AbstractPropertySource {
 	private ExecutionContext delegate;
 
 	/**
-	 * コンストラクタ
+	 * 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ
 	 * 
 	 * @param delegate
-	 *            モデル
+	 *            繝｢繝�繝ｫ
 	 */
 	public ExecutionContextPropertySource(ExecutionContext delegate) {
 		this.delegate = delegate;
@@ -57,20 +60,23 @@ public class ExecutionContextPropertySource extends AbstractPropertySource {
 
 	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
-		IPropertyDescriptor[] result = new IPropertyDescriptor[0];
+		List<IPropertyDescriptor> result = new ArrayList<IPropertyDescriptor>();
 		if (this.delegate instanceof CorbaExecutionContext) {
-			result = new IPropertyDescriptor[] {
-					new TextPropertyDescriptor(EC_ID, DISP_EC_ID),
-					new TextPropertyDescriptor(STATE, DISP_STATE),
-					new TextPropertyDescriptor(KIND, DISP_KIND),
-					new TextPropertyDescriptor(RATE, DISP_RATE) };
+			result.add(new TextPropertyDescriptor(EC_ID, DISP_EC_ID));
+			result.add(new TextPropertyDescriptor(STATE, DISP_STATE));
+			result.add(new TextPropertyDescriptor(KIND, DISP_KIND));
+			result.add(new TextPropertyDescriptor(RATE, DISP_RATE));
 		} else {
-			result = new IPropertyDescriptor[] {
-					new TextPropertyDescriptor(EC_ID, DISP_EC_ID),
-					new TextPropertyDescriptor(KIND, DISP_KIND),
-					new TextPropertyDescriptor(RATE, DISP_RATE) };
+			result.add(new TextPropertyDescriptor(EC_ID, DISP_EC_ID));
+			result.add(new TextPropertyDescriptor(KIND, DISP_KIND));
+			result.add(new TextPropertyDescriptor(RATE, DISP_RATE));
 		}
-		return result;
+		for (String key : delegate.getPropertyKeys()) {
+			result.add(new TextPropertyDescriptor(new DynamicID("PROPERTIES",
+					key), key));
+		}
+		return (IPropertyDescriptor[]) result
+				.toArray(new IPropertyDescriptor[result.size()]);
 	}
 
 	@Override
@@ -104,6 +110,11 @@ public class ExecutionContextPropertySource extends AbstractPropertySource {
 					if (ecid != null) {
 						result = ecid;
 					}
+				}
+			} else if (id instanceof DynamicID) {
+				DynamicID dynamicId = (DynamicID) id;
+				if ("PROPERTIES".equals(dynamicId.categoryId)) {
+					return delegate.getProperty(dynamicId.subId);
 				}
 			}
 		} catch (Exception e) {

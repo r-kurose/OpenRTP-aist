@@ -9,7 +9,7 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * CORBAオブジェクトを追加するダイアログを表示するアクション
+ * CORBA繧ｪ繝悶ず繧ｧ繧ｯ繝医ｒ霑ｽ蜉縺吶ｋ繝繧､繧｢繝ｭ繧ｰ繧定｡ｨ遉ｺ縺吶ｋ繧｢繧ｯ繧ｷ繝ｧ繝ｳ
  */
 public class AddObjectAction implements IObjectActionDelegate {
 	private IWorkbenchPart targetPart;

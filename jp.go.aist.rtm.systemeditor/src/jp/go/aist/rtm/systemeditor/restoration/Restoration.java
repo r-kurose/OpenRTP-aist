@@ -14,16 +14,16 @@ import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSuppor
 import _SDOPackage.Configuration;
 
 /**
- * ƒ[ƒh‚É•œŒ³‚ğs‚¤ƒNƒ‰ƒX
+ * ãƒ­ãƒ¼ãƒ‰æ™‚ã«å¾©å…ƒã‚’è¡Œã†ã‚¯ãƒ©ã‚¹
  */
 public class Restoration {
 	/**
-	 * ÀsƒƒCƒ“
+	 * å®Ÿè¡Œãƒ¡ã‚¤ãƒ³
 	 * 
 	 * @param systemDiagram
-	 *            ƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€
+	 *            ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ 
 	 * @param result
-	 *            Œ‹‰ÊŠi”[
+	 *            çµæœæ ¼ç´
 	 */
 	public static void execute(SystemDiagram systemDiagram, Result result) {
 		result.setSuccess(true);
@@ -38,55 +38,54 @@ public class Restoration {
 	}
 
 	/**
-	 * RtcLink‚ÌXML‚ÉŠÜ‚Ü‚ê‚é‚·‚×‚Ä‚ÌƒRƒ“ƒtƒBƒOƒŒ[ƒVƒ‡ƒ“‚ğ•œŒ³‚·‚éB
-	 * Œ»ó‚ÍCorbaƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì‚İ‚É‘Î‰
+	 * RtcLinkã®XMLã«å«ã¾ã‚Œã‚‹ã™ã¹ã¦ã®ã‚³ãƒ³ãƒ•ã‚£ã‚°ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å¾©å…ƒã™ã‚‹ã€‚
+	 * ç¾çŠ¶ã¯Corbaã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ã¿ã«å¯¾å¿œ
 	 * 
 	 * @param result
 	 * @param systemDiagram
 	 */
-	@SuppressWarnings("unchecked")
 	public static void processAllRestoreConfigurationSet(Result result,
 			SystemDiagram systemDiagram) {
-		
-		List<CorbaConfigurationSet> remoteConfigurationSets = new ArrayList<CorbaConfigurationSet>();
-		
-		for (Component c: systemDiagram.getRegisteredComponents()) {
-			if (c instanceof CorbaComponent) {
-				CorbaComponent component = (CorbaComponent) c;
 
-				boolean isOk = false;
-				try {
-					Configuration configuration = component.getCorbaObjectInterface()
-						.	get_configuration();
-					_SDOPackage.ConfigurationSet[] remoteConfigurationSet = configuration
-							.get_configuration_sets();	
-					for (_SDOPackage.ConfigurationSet remote : remoteConfigurationSet) {
-						CorbaConfigurationSet configSet = (CorbaConfigurationSet) CorbaWrapperFactory.getInstance()
-																.createWrapperObject(remote);
-						remoteConfigurationSets.add(configSet);
-					}
-					
-					isOk = component.updateConfigurationSetListR(component
-							.getConfigurationSets(), component
-							.getActiveConfigurationSet(),
-							remoteConfigurationSets);
-				} catch (Exception e) {
-					e.printStackTrace();
-					
-					// void
+		List<CorbaConfigurationSet> remoteConfigurationSets = new ArrayList<CorbaConfigurationSet>();
+
+		for (Component c : systemDiagram.getRegisteredComponents()) {
+			if (!(c instanceof CorbaComponent)) {
+				continue;
+			}
+			CorbaComponent component = (CorbaComponent) c;
+			if (component.getCorbaObjectInterface() == null) {
+				continue;
+			}
+			boolean isOk = false;
+			try {
+				Configuration configuration = component
+						.getCorbaObjectInterface().get_configuration();
+				_SDOPackage.ConfigurationSet[] remoteConfigurationSet = configuration
+						.get_configuration_sets();
+				for (_SDOPackage.ConfigurationSet remote : remoteConfigurationSet) {
+					CorbaConfigurationSet configSet = (CorbaConfigurationSet) CorbaWrapperFactory
+							.getInstance().createWrapperObject(remote);
+					remoteConfigurationSets.add(configSet);
 				}
-				if (isOk == false) {
-					result.putResult(Messages.getString("Restoration.0") //$NON-NLS-1$
-							+ c.getInstanceNameL() + " : " //$NON-NLS-1$
-							+ c.getPathId() + "]"); //$NON-NLS-1$
-					result.setSuccess(false);
-				}
+				isOk = component.updateConfigurationSetListR(component
+						.getConfigurationSets(), component
+						.getActiveConfigurationSet(), remoteConfigurationSets);
+			} catch (Exception e) {
+				e.printStackTrace();
+				// void
+			}
+			if (isOk == false) {
+				result.putResult(Messages.getString("Restoration.0") //$NON-NLS-1$
+						+ c.getInstanceNameL() + " : " //$NON-NLS-1$
+						+ c.getPathId() + "]"); //$NON-NLS-1$
+				result.setSuccess(false);
 			}
 		}
 	}
 
 	/**
-	 * RtcLink‚ÌXML‚ÉŠÜ‚Ü‚ê‚é‚·‚×‚Ä‚ÌRTC‚ÉƒAƒNƒZƒX‰Â”\‚Å‚ ‚é‚©Šm”F‚·‚éB
+	 * RtcLinkã®XMLã«å«ã¾ã‚Œã‚‹ã™ã¹ã¦ã®RTCã«ã‚¢ã‚¯ã‚»ã‚¹å¯èƒ½ã§ã‚ã‚‹ã‹ç¢ºèªã™ã‚‹ã€‚
 	 * 
 	 * @param result
 	 * @param systemDiagram

@@ -14,9 +14,11 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
 /**
- * PortConnectorÇÃIPropertySourceÉNÉâÉX
+ * PortConnector„ÅÆIPropertySource„ÇØ„É©„Çπ
  */
 public class PortConnectorPropertySource extends AbstractPropertySource {
+
+	static final String DISP_CONNECTOR_ID = "Connector ID";
 
 	static final String DISP_ID_NAME = "Name";
 
@@ -56,13 +58,15 @@ public class PortConnectorPropertySource extends AbstractPropertySource {
 
 	static final String ID_NAME = "NAME";
 
+	static final String ID_CONNECTOR_ID = "CONNECTOR_ID";
+
 	static final String UNKNOWN = "<unknown>";
 
 	private PortConnector portConnector;
 
 	/**
 	 * @param PortConnector
-	 *            ÉÇÉfÉã
+	 *            „É¢„Éá„É´
 	 */
 	public PortConnectorPropertySource(PortConnector portConnector) {
 		this.portConnector = portConnector;
@@ -75,6 +79,7 @@ public class PortConnectorPropertySource extends AbstractPropertySource {
 			return new TextPropertyDescriptor[] {};
 		}
 		List<TextPropertyDescriptor> descriptors = new ArrayList<TextPropertyDescriptor>();
+		descriptors.add(new TextPropertyDescriptor(ID_CONNECTOR_ID, DISP_CONNECTOR_ID));
 		descriptors.add(new TextPropertyDescriptor(ID_NAME, DISP_ID_NAME));
 
 		if ((portConnector.getSource() instanceof InPort)
@@ -121,6 +126,30 @@ public class PortConnectorPropertySource extends AbstractPropertySource {
 			}
 		}
 
+		for (String key : profile.getPropertyKeys()) {
+			if (PROP.DATA_TYPE.equals(key) || PROP.INTERFACE_TYPE.equals(key)
+					|| PROP.DATAFLOW_TYPE.equals(key)
+					|| PROP.SUBSCRIPTION_TYPE.equals(key)
+					|| PROP.PUSH_RATE.equals(key)
+					|| PROP.PUSH_POLICY.equals(key)
+					|| PROP.SKIP_COUNT.equals(key)
+					|| PROP.OUTPORT_BUFF_LENGTH.equals(key)
+					|| PROP.OUTPORT_FULL_POLICY.equals(key)
+					|| PROP.OUTPORT_WRITE_TIMEOUT.equals(key)
+					|| PROP.OUTPORT_EMPTY_POLICY.equals(key)
+					|| PROP.OUTPORT_READ_TIMEOUT.equals(key)
+					|| PROP.INPORT_BUFF_LENGTH.equals(key)
+					|| PROP.INPORT_FULL_POLICY.equals(key)
+					|| PROP.INPORT_WRITE_TIMEOUT.equals(key)
+					|| PROP.INPORT_EMPTY_POLICY.equals(key)
+					|| PROP.INPORT_READ_TIMEOUT.equals(key)
+					|| ConnectorProfile.InterfaceId.isValid(key)) {
+				continue;
+			}
+			descriptors.add(new TextPropertyDescriptor(new DynamicID(
+					"PROPERTIES", key), key));
+		}
+
 		return descriptors.toArray(new TextPropertyDescriptor []{});
 	}
 
@@ -129,7 +158,9 @@ public class PortConnectorPropertySource extends AbstractPropertySource {
 		String result = null;
 		try {
 			ConnectorProfile profile = portConnector.getConnectorProfile();
-			if (ID_NAME.equals(id)) {
+			if (ID_CONNECTOR_ID.equals(id)) {
+				result = profile.getConnectorId();
+			} else if (ID_NAME.equals(id)) {
 				result = profile.getName();
 			} else if (PROP.DATA_TYPE.equals(id)) {
 				result = profile.getDataType();
@@ -172,6 +203,13 @@ public class PortConnectorPropertySource extends AbstractPropertySource {
 			if (id instanceof String
 					&& ConnectorProfile.InterfaceId.isValid((String) id)) {
 				result = profile.getProperty((String) id);
+			}
+			//
+			else if (id instanceof DynamicID) {
+				DynamicID dynamicId = (DynamicID) id;
+				if ("PROPERTIES".equals(dynamicId.categoryId)) {
+					return profile.getProperty(dynamicId.subId);
+				}
 			}
 		} catch (Exception e) {
 			// void

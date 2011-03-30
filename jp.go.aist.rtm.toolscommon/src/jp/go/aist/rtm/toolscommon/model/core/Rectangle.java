@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 
 /**
- * §ŒÀi‹éŒ`j‚ğ•\‚·ƒNƒ‰ƒX
+ * åˆ¶é™ï¼ˆçŸ©å½¢ï¼‰ã‚’è¡¨ã™ã‚¯ãƒ©ã‚¹
  */
 public class Rectangle implements Serializable {
 	private static final long serialVersionUID = -6075985022948365976L;

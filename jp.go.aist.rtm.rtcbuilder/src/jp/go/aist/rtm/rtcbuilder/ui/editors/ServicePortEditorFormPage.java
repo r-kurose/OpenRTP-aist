@@ -63,7 +63,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 /**
- * ServicePortƒy[ƒW
+ * ServicePortãƒšãƒ¼ã‚¸
  */
 public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 
@@ -105,10 +105,10 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 	private String defaultIFVarName;
 	
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param editor
-	 *            e‚ÌƒGƒfƒBƒ^
+	 *            è¦ªã®ã‚¨ãƒ‡ã‚£ã‚¿
 	 */
 	public ServicePortEditorFormPage(RtcBuilderEditor editor) {
 		super(editor, "id", IMessageConstants.SERVICEPORT_SECTION);
@@ -132,13 +132,13 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		ServicePortMasterBlock block = new ServicePortMasterBlock();
 		block.createContent(managedForm);
 		
-		// Œ¾ŒêEŠÂ‹«ƒy[ƒW‚æ‚èæ‚É‚±‚Ìƒy[ƒW‚ª•\¦‚³‚ê‚½ê‡A‚±‚±‚ÅŒ¾Œê‚ğ”»’f‚·‚é
+		// è¨€èªãƒ»ç’°å¢ƒãƒšãƒ¼ã‚¸ã‚ˆã‚Šå…ˆã«ã“ã®ãƒšãƒ¼ã‚¸ãŒè¡¨ç¤ºã•ã‚ŒãŸå ´åˆã€ã“ã“ã§è¨€èªã‚’åˆ¤æ–­ã™ã‚‹
 		editor.setEnabledInfoByLang();
 
 		load();
 		
-		// ‰Šúó‘Ô‚É‰‚¶‚ÄAƒ{ƒ^ƒ“‚ÌŠˆ«ó‘Ô‚ğŒˆ’è‚·‚é
-		// ‚±‚Ìˆ—‚ÍARTC.xml“Ç‚İ‚İ‚ÉˆË‘¶‚·‚é‚½‚ßAload()‚æ‚èŒã‚Å‚ ‚é•K—v‚ª‚ ‚éB
+		// åˆæœŸçŠ¶æ…‹ã«å¿œã˜ã¦ã€ãƒœã‚¿ãƒ³ã®æ´»æ€§çŠ¶æ…‹ã‚’æ±ºå®šã™ã‚‹
+		// ã“ã®å‡¦ç†ã¯ã€RTC.xmlèª­ã¿è¾¼ã¿ã«ä¾å­˜ã™ã‚‹ãŸã‚ã€load()ã‚ˆã‚Šå¾Œã§ã‚ã‚‹å¿…è¦ãŒã‚ã‚‹ã€‚
 		setButtonEnabled(servicePortViewer.getSelection());
 	}
 
@@ -276,7 +276,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	/**
-	 * ƒf[ƒ^‚ğƒ[ƒh‚·‚é
+	 * ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
 	 */
 	public void load() {
 		GeneratorParam generator = editor.getGeneratorParam();
@@ -300,7 +300,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		for(ServicePortParam serviceport : rtcParam.getServicePorts()) {
 			result = ValidationUtil.validateServicePort(serviceport);
 			if( result!=null ) return result;
-			//d•¡
+			//é‡è¤‡
 			if( checkSet.contains(serviceport.getName()) ) {
 				result = IMessageConstants.SERVICEPORT_VALIDATE_DUPLICATE;
 				return result;
@@ -320,7 +320,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		return null;
 	}
 
-	//Master Block ƒNƒ‰ƒX
+	//Master Block ã‚¯ãƒ©ã‚¹
 	private class ServicePortMasterBlock extends MasterDetailsBlock {
 
 		@Override
@@ -368,7 +368,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 				public void widgetSelected(SelectionEvent e) {
 					TreeItem[] selections = servicePortViewer.getTree().getSelection();
 					if( selections==null || selections.length==0 )
-						return;// ‰½‚à‘I‘ğ‚³‚ê‚Ä‚¢‚È‚¢‚Æ‚«‚Í‰½‚à‚µ‚È‚¢
+						return;// ä½•ã‚‚é¸æŠã•ã‚Œã¦ã„ãªã„ã¨ãã¯ä½•ã‚‚ã—ãªã„
 					TreeItem selection = selections[0];
 					if( selection.getData() instanceof ServicePortParam ) {
 						((List) servicePortViewer.getInput()).remove(selection.getData());
@@ -395,7 +395,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 					updateDefaultValue();
 					TreeItem[] selections = servicePortViewer.getTree().getSelection();
 					if( selections==null || selections.length==0 )
-						return;// ‰½‚à‘I‘ğ‚³‚ê‚Ä‚¢‚È‚¢‚Æ‚«‚Í‰½‚à‚µ‚È‚¢
+						return;// ä½•ã‚‚é¸æŠã•ã‚Œã¦ã„ãªã„ã¨ãã¯ä½•ã‚‚ã—ãªã„
 					TreeItem selection = selections[0];
 					if( selection.getData() instanceof ServicePortParam ) {
 						servicePortViewer.getTree().setRedraw(false);
@@ -449,7 +449,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		}
 	}
 
-	//ServicePort Detail Block ƒNƒ‰ƒX
+	//ServicePort Detail Block ã‚¯ãƒ©ã‚¹
 	private class ServicePortDetailsPage implements IDetailsPage {
 		private IManagedForm form;
 
@@ -544,7 +544,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		}
 	}
 	
-	//ServicePortInterface Detail Block ƒNƒ‰ƒX
+	//ServicePortInterface Detail Block ã‚¯ãƒ©ã‚¹
 	private class ServicePortInterfaceDetailsPage implements IDetailsPage {
 		private IManagedForm form;
 
@@ -764,10 +764,10 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	/**
-	 * ServicePortƒtƒH[ƒ€“à‚Ì—v‘f‚Ì—LŒø/–³Œø‚ğİ’è‚µ‚Ü‚·B
+	 * ServicePortãƒ•ã‚©ãƒ¼ãƒ å†…ã®è¦ç´ ã®æœ‰åŠ¹/ç„¡åŠ¹ã‚’è¨­å®šã—ã¾ã™ã€‚
 	 * <ul>
-	 * <li>serviceport.servicePort.table : ServicePortƒZƒNƒVƒ‡ƒ“‚Ìƒe[ƒuƒ‹</li>
-	 * <li>serviceport.servicePort.addButton : ServicePortƒZƒNƒVƒ‡ƒ“‚Ì Addƒ{ƒ^ƒ“</li>
+	 * <li>serviceport.servicePort.table : ServicePortã‚»ã‚¯ã‚·ãƒ§ãƒ³ã®ãƒ†ãƒ¼ãƒ–ãƒ«</li>
+	 * <li>serviceport.servicePort.addButton : ServicePortã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Addãƒœã‚¿ãƒ³</li>
 	 * </ul>
 	 */
 	public void setEnabledInfo(WidgetInfo widgetInfo, boolean enabled) {

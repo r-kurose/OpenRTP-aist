@@ -22,6 +22,7 @@ public interface IRTCBMessageConstants {
 	public static final String ERROR_PROFILE_RESTORE_P2 = Messages.getString("IRTCBMessageConstants.ERROR_PROFILE_RESTORE_P2"); //$NON-NLS-1$
 	public static final String ERROR_PROFILE_RESTORE = StringUtil.connectMessageWithSepalator( new String[]{ERROR_PROFILE_RESTORE_P1, ERROR_PROFILE_RESTORE_P2});
 
+	public static final String ERROR_CODE_GENERATION = Messages.getString("IRTCBMessageConstants.ERROR_CODE_GENERATION");
 
 	public static final String CONFIRM_PROJECT_GENERATE_TITLE = Messages.getString("IRTCBMessageConstants.CONFIRM_PROJECT_GENERATE_TITLE"); //$NON-NLS-1$
 	public static final String CONFIRM_PROJECT_GENERATE_P1 = Messages.getString("IRTCBMessageConstants.CONFIRM_PROJECT_GENERATE_P1"); //$NON-NLS-1$

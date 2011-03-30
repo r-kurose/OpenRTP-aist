@@ -203,7 +203,7 @@ public interface IMessageConstants {
 	public static final String DATAPORT_VALIDATE_PORTNAME2 = Messages.getString("IMessageConstants.DATAPORT_VALIDATE_PORTNAME2"); //$NON-NLS-1$
 	public static final String DATAPORT_VALIDATE_PORTTYPE = Messages.getString("IMessageConstants.DATAPORT_VALIDATE_PORTTYPE"); //$NON-NLS-1$
 	public static final String DATAPORT_VALIDATE_DUPLICATE = Messages.getString("IMessageConstants.DATAPORT_VALIDATE_DUPLICATE"); //$NON-NLS-1$
-	public static final String DATAPORT_VALIDATE_VAR_DUPLICATE = Messages.getString("IMessageConstants.DATAPORT_VALIDATE_VARÅQDUPLICATE"); //$NON-NLS-1$
+	public static final String DATAPORT_VALIDATE_VAR_DUPLICATE = Messages.getString("IMessageConstants.DATAPORT_VALIDATE_VAR_DUPLICATE"); //$NON-NLS-1$
 	public static final String DATAPORT_VALIDATE_PORTVARNAME = Messages.getString("IMessageConstants.DATAPORT_VALIDATE_PORTVARNAME"); //$NON-NLS-1$
 
 	public static final String SERVICEPORT_SECTION = Messages.getString("IMessageConstants.SERVICEPORT_SECTION"); //$NON-NLS-1$
@@ -366,6 +366,7 @@ public interface IMessageConstants {
 	public static final String LANGUAGE_LBL_LIBRARY = Messages.getString("IMessageConstants.LANGUAGE_LBL_LIBRARY"); //$NON-NLS-1$
 
 	public static final String LANGUAGE_SELECTION_CAUTION = Messages.getString("IMessageConstants.LANGUAGE_SELECTION_CAUTION"); //$NON-NLS-1$
+	public static final String LANGUAGE_USE_OLD_BUILD = Messages.getString("IMessageConstants.LANGUAGE_USE_OLD_BUILD");
 
 
 	public static final String RTCXML_SECTION = Messages.getString("IMessageConstants.RTCXML_SECTION"); //$NON-NLS-1$

@@ -7,7 +7,7 @@ import jp.go.aist.rtm.toolscommon.model.component.Component;
 import org.eclipse.core.runtime.IAdapterFactory;
 
 /**
- * Component Specification用のアダプタファクトリ
+ * Component Specification逕ｨ縺ｮ繧｢繝繝励ち繝輔ぃ繧ｯ繝医Μ
  */
 public class AdapterFactory implements IAdapterFactory {
 	/**

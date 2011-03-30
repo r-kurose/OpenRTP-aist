@@ -8,7 +8,7 @@ import java.util.List;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 
 /**
- * IDLファイルをあらわすクラス
+ * IDL繝輔ぃ繧､繝ｫ繧偵≠繧峨ｏ縺吶け繝ｩ繧ｹ
  */
 public class IdlFileParam implements Serializable {
 	private static final long serialVersionUID = 5842336537244727703L;

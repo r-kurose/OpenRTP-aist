@@ -16,38 +16,38 @@ public class BuilderViewPreferenceManager {
 	private static BuilderViewPreferenceManager __instance = new BuilderViewPreferenceManager();
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
-	 * @return ƒVƒ“ƒOƒ‹ƒgƒ“
+	 * @return ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³
 	 */
 	public static BuilderViewPreferenceManager getInstance() {
 		return __instance;
 	}
 
 	/**
-	 * Component Color‚ÌƒL[
+	 * Component Colorã®ã‚­ãƒ¼
 	 */
 	public static final String COLOR_COMPONENT = BuilderViewPreferenceManager.class.getName()
 			+ "COMPONENT_COLOR";
 	/**
-	 * DataInPort Color‚ÌƒL[
+	 * DataInPort Colorã®ã‚­ãƒ¼
 	 */
 	public static final String COLOR_DATAINPORT = BuilderViewPreferenceManager.class.getName()
 			+ "DATA_INPORT_COLOR";
 
 	/**
-	 * DataOutPort Color‚ÌƒL[
+	 * DataOutPort Colorã®ã‚­ãƒ¼
 	 */
 	public static final String COLOR_DATAOUTPORT = BuilderViewPreferenceManager.class.getName()
 			+ "DATA_OUTPORT_COLOR";
 	/**
-	 * ServicePort Color‚ÌƒL[
+	 * ServicePort Colorã®ã‚­ãƒ¼
 	 */
 	public static final String COLOR_SERVICEPORT = BuilderViewPreferenceManager.class.getName()
 			+ "SERVICE_PORT_COLOR";
 
 	/**
-	 * Service I/F Color‚ÌƒL[
+	 * Service I/F Colorã®ã‚­ãƒ¼
 	 */
 	public static final String COLOR_SERVICEIF = BuilderViewPreferenceManager.class.getName()
 			+ "SERVICE_IF_COLOR";
@@ -56,7 +56,7 @@ public class BuilderViewPreferenceManager {
 			this);
 
 	/**
-	 * ƒfƒtƒHƒ‹ƒg‚ÌF‚ğŠÇ—‚·‚éƒ}ƒbƒv
+	 * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®è‰²ã‚’ç®¡ç†ã™ã‚‹ãƒãƒƒãƒ—
 	 */
 	public static final Map<String, RGB> defaultRGBMap = new HashMap<String, RGB>();
 	static {
@@ -68,17 +68,17 @@ public class BuilderViewPreferenceManager {
 	}
 
 	/**
-	 * ƒLƒƒƒbƒVƒ…‚µ‚½FiƒŠƒ\[ƒXj‚ğŠÇ—‚·‚éƒ}ƒbƒv
+	 * ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã—ãŸè‰²ï¼ˆãƒªã‚½ãƒ¼ã‚¹ï¼‰ã‚’ç®¡ç†ã™ã‚‹ãƒãƒƒãƒ—
 	 */
 	private static transient final Map<String, Color> cachedColorMap = new HashMap<String, Color>();
 
 	/**
-	 * ƒL[‚©‚çF‚ğ•Ô‚·
+	 * ã‚­ãƒ¼ã‹ã‚‰è‰²ã‚’è¿”ã™
 	 * <p>
-	 * F‚Í‚èƒ\[ƒX‚Å‚ ‚é‚½‚ßAƒLƒƒƒbƒVƒ…‚µ‚Äg—p‚µ‚Ä‚¢‚éB
+	 * è‰²ã¯ã‚Šã‚½ãƒ¼ã‚¹ã§ã‚ã‚‹ãŸã‚ã€ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã—ã¦ä½¿ç”¨ã—ã¦ã„ã‚‹ã€‚
 	 * 
 	 * @param key
-	 * @return F
+	 * @return è‰²
 	 */
 	public synchronized Color getColor(String key) {
 		RGB rgb = getRGB(key);
@@ -96,7 +96,7 @@ public class BuilderViewPreferenceManager {
 	}
 
 	/**
-	 * ƒL[‚©‚çRGB‚ğæ“¾‚·‚é
+	 * ã‚­ãƒ¼ã‹ã‚‰RGBã‚’å–å¾—ã™ã‚‹
 	 * 
 	 * @param key
 	 * @return RGB

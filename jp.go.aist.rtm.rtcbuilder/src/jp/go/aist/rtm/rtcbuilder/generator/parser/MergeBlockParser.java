@@ -3,14 +3,14 @@ package jp.go.aist.rtm.rtcbuilder.generator.parser;
 import java.util.Map;
 
 /**
- * ƒ}[ƒWêŠ‚ðƒp[ƒX‚·‚éƒNƒ‰ƒX ƒ^ƒO–¼‚Íurtc-templatevA‘®«–¼‚Íublockv‚ðŽg—p‚·‚é
+ * ãƒžãƒ¼ã‚¸å ´æ‰€ã‚’ãƒ‘ãƒ¼ã‚¹ã™ã‚‹ã‚¯ãƒ©ã‚¹ ã‚¿ã‚°åã¯ã€Œrtc-templateã€ã€å±žæ€§åã¯ã€Œblockã€ã‚’ä½¿ç”¨ã™ã‚‹
  */
 public class MergeBlockParser {
 
 	public static final BlockParser parser = new BlockParser("rtc-template", "block");
 
 	/**
-	 * “à•”ŽÀ‘•‚ÍBlockParser‚ðŽg—p‚·‚é
+	 * å†…éƒ¨å®Ÿè£…ã¯BlockParserã‚’ä½¿ç”¨ã™ã‚‹
 	 * 
 	 * @param target
 	 * @return
@@ -20,7 +20,7 @@ public class MergeBlockParser {
 	}
 
 	/**
-	 * “à•”ŽÀ‘•‚ÍBlockParser‚ðŽg—p‚·‚é
+	 * å†…éƒ¨å®Ÿè£…ã¯BlockParserã‚’ä½¿ç”¨ã™ã‚‹
 	 * 
 	 * @param target
 	 * @return

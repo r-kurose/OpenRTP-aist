@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * サービスのメソッドを表すクラス
+ * 繧ｵ繝ｼ繝薙せ縺ｮ繝｡繧ｽ繝�繝峨ｒ陦ｨ縺吶け繝ｩ繧ｹ
  */
 public class ServiceMethodParam implements Serializable {
 	private static final long serialVersionUID = -880298040480678410L;

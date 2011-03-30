@@ -275,7 +275,7 @@ public class PortImpl extends WrapperObjectImpl implements Port {
 		}
 		Component component = (Component) eContainer();
 		if (component == null) return getOriginalPortString(null, null, null, getNameL());
-		//TODO 09.09.30 instanceName ’Ç‰Á(pathURI‘Î‰)
+		//TODO 09.09.30 instanceName è¿½åŠ (pathURIå¯¾å¿œ)
 		return  getOriginalPortString(
 				component.getComponentId(), component.getPathId(),
 				component.getInstanceNameL(), getNameL());
@@ -374,7 +374,7 @@ public class PortImpl extends WrapperObjectImpl implements Port {
 	}
 
 	/**
-	 * nameValue‚©‚ç’l‚ğæ“¾‚·‚é
+	 * nameValueã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
 	 * @param nameValues
 	 * @param key
@@ -553,7 +553,7 @@ public class PortImpl extends WrapperObjectImpl implements Port {
 	}
 
 	/**
-	 * ‘ÎÛ‚ªAny‚Å‚ ‚é‚©Šm”F‚·‚é
+	 * å¯¾è±¡ãŒAnyã§ã‚ã‚‹ã‹ç¢ºèªã™ã‚‹
 	 * 
 	 * @param target
 	 * @return
@@ -825,7 +825,7 @@ public class PortImpl extends WrapperObjectImpl implements Port {
 		return result.toString();
 	}
 
-	//TODO 09.09.30 instanceName ’Ç‰Á(pathURI‘Î‰)
+	//TODO 09.09.30 instanceName è¿½åŠ (pathURIå¯¾å¿œ)
 	private String getOriginalPortString(String componentId,
 			String pathId, String instanceName, String portName) {
 		StringBuffer buffer = new StringBuffer();
@@ -841,15 +841,15 @@ public class PortImpl extends WrapperObjectImpl implements Port {
 		return PortProxy.proxy(this);
 	}
 	/**
-	 * @return DataType/InterfaceType/DataflowType/SUBSCRIPTION_TYPEˆÈŠO‚ÌƒvƒƒpƒeƒB
+	 * @return DataType/InterfaceType/DataflowType/SUBSCRIPTION_TYPEä»¥å¤–ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
 	 */
 	public List<NameValue> getProperties() {
 		return getSynchronizer().getProperties();
 	}
 
 	/**
-	 * @param name	ƒvƒƒpƒeƒB–¼
-	 * @return		ƒvƒƒpƒeƒB‚Ì’l
+	 * @param name	ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å
+	 * @return		ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®å€¤
 	 */
 	public String getProperty(String name) {
 		return getSynchronizer().getProperty(name);		

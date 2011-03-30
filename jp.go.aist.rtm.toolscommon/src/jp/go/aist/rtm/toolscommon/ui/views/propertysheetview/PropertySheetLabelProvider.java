@@ -14,7 +14,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.model.IWorkbenchAdapter;
 
 /**
- * Rtc‚ÌPropertySheet‚ÌLabelProviderƒNƒ‰ƒX
+ * Rtcã®PropertySheetã®LabelProviderã‚¯ãƒ©ã‚¹
  */
 public class PropertySheetLabelProvider extends LabelProvider implements
 		ITableLabelProvider, ITableColorProvider, ITableFontProvider {

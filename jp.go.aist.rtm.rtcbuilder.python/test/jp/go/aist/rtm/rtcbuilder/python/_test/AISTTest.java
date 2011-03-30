@@ -127,8 +127,8 @@ public class AISTTest extends TestBase {
 		String resourceDir = rootPath +  "\\resource\\Python\\AIST4\\";
 
 		checkCode(result, resourceDir, "test.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
+		checkCode(result, resourceDir, "_GlobalIDL/__init__.py");
+		checkCode(result, resourceDir, "_GlobalIDL__POA/__init__.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "README.test");
 		checkCode(result, resourceDir, "MyService_idl.py");
@@ -185,8 +185,8 @@ public class AISTTest extends TestBase {
 		String resourceDir = rootPath +  "\\resource\\Python\\AIST3\\";
 
 		checkCode(result, resourceDir, "test.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
+		checkCode(result, resourceDir, "_GlobalIDL/__init__.py");
+		checkCode(result, resourceDir, "_GlobalIDL__POA/__init__.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "README.test");
 		checkCode(result, resourceDir, "MyService_idl.py");
@@ -235,8 +235,8 @@ public class AISTTest extends TestBase {
 		String resourceDir = rootPath +  "\\resource\\Python\\AIST2\\";
 
 		checkCode(result, resourceDir, "test.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
+		checkCode(result, resourceDir, "_GlobalIDL/__init__.py");
+		checkCode(result, resourceDir, "_GlobalIDL__POA/__init__.py");
 		checkCode(result, resourceDir, "README.test");
 		checkCode(result, resourceDir, "MyService_idl.py");
 	}
@@ -277,8 +277,8 @@ public class AISTTest extends TestBase {
 
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
+		checkCode(result, resourceDir, "_GlobalIDL/__init__.py");
+		checkCode(result, resourceDir, "_GlobalIDL__POA/__init__.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "README.test");
 	}
@@ -319,8 +319,8 @@ public class AISTTest extends TestBase {
 
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
+		checkCode(result, resourceDir, "_GlobalIDL/__init__.py");
+		checkCode(result, resourceDir, "_GlobalIDL__POA/__init__.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "README.test");
 	}
@@ -360,8 +360,8 @@ public class AISTTest extends TestBase {
 		String resourceDir = rootPath +  "\\resource\\Python\\AIST1\\";
 
 		checkCode(result, resourceDir, "test.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
-		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
+		checkCode(result, resourceDir, "_GlobalIDL/__init__.py");
+		checkCode(result, resourceDir, "_GlobalIDL__POA/__init__.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "README.test");
 		checkCode(result, resourceDir, "MyService_idl.py");

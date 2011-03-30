@@ -1,8 +1,8 @@
 package jp.go.aist.rtm.repositoryView.model;
 
 /**
- * ���[�J���̃f�B���N�g���܂��̓t�@�C�����烍�[�h����RepositoryViewItem�̑��G�������g
- * RepositoryViewRootItem�ƕʂɒ�`����Ӗ��͂��܂�Ȃ�
+ * ローカルのディレクトリまたはファイルからロードしたRepositoryViewItemの第一エレメント
+ * RepositoryViewRootItemと別に定義する意味はあまりない
  *
  */
 public class LocalRVRootItem extends RepositoryViewRootItem {

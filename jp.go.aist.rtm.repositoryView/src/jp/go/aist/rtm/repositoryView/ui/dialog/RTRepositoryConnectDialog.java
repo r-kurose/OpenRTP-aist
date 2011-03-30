@@ -25,34 +25,34 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * RT���|�W�g���ւ̐ڑ��_�C�A���O
+ * RTレポジトリへの接続ダイアログ
  *
  */
 public class RTRepositoryConnectDialog extends Dialog {
 
 	/**
-	 * �ڑ��v������ �ڑ��Ɏ��s�������Ƃ������萔
+	 * 接続要求結果 接続に失敗したことを示す定数
 	 */
 	private static final int CANT_CONNECT = 1;
 
 	/**
-	 * �ڑ��v������ �ڑ��ɐ������ART���|�W�g���̈ꗗ�c���[�쐬�Ɏ��s�������Ƃ������萔
+	 * 接続要求結果 接続に成功し、RTリポジトリの一覧ツリー作成に失敗したことを示す定数
 	 */
 	private static final int CANT_CREATE_RTC_TREE = 2;
 
 	/**
-	 * �ڑ��v������ ����
+	 * 接続要求結果 成功
 	 */
 	private static final int SUCCESS = 0;
 
 	/**
-	 * �ڑ��������������Ƃ̂���A�h���X�̈ꗗ��ۑ�����A���[�N�X�y�[�X�i��������ւ̃L�[
+	 * 接続が成功したことのあるアドレスの一覧を保存する、ワークスペース永続文字列へのキー
 	 */
 	private static final String COMBO_ITEMS_KEY = RTRepositoryConnectDialog.class
 			.getName() + ".combo.items"; //$NON-NLS-1$
 
 	/**
-	 * �Ō�ɐڑ������������A�h���X�̃C���f�b�N�X��ۑ�����A���[�N�X�y�[�X�i��������ւ̃L�[
+	 * 最後に接続が成功したアドレスのインデックスを保存する、ワークスペース永続文字列へのキー
 	 */
 	private static final String COMBO_SELECTION_INDEX_KEY = RTRepositoryConnectDialog.class
 			.getName() + ".combo.selectIndex"; //$NON-NLS-1$
@@ -64,7 +64,7 @@ public class RTRepositoryConnectDialog extends Dialog {
 	private RepositoryViewItem resultItem;
 
 	/**
-	 * �R���X�g���N�^
+	 * コンストラクタ
 	 * 
 	 * @param shell
 	 */
@@ -112,7 +112,7 @@ public class RTRepositoryConnectDialog extends Dialog {
 	}
 
 	/**
-	 * ���[�N�X�y�[�X�̉i����񂩂�A�R���{�̃��X�g�ƑI���C���f�b�N�X�����[�h����
+	 * ワークスペースの永続情報から、コンボのリストと選択インデックスをロードする
 	 * 
 	 * @param combo
 	 */
@@ -129,7 +129,7 @@ public class RTRepositoryConnectDialog extends Dialog {
 	}
 
 	/**
-	 * ���������A�h���X����ёI���C���f�b�N�X���A�i�����ɐݒ肷��
+	 * 成功したアドレスおよび選択インデックスを、永続情報に設定する
 	 * 
 	 * @param combo
 	 */
@@ -153,7 +153,7 @@ public class RTRepositoryConnectDialog extends Dialog {
 		}
 
 		int selectionIndex = valueList.indexOf(value);
-		if (selectionIndex == -1) { // �V�������͂��s�����ꍇ
+		if (selectionIndex == -1) { // 新しい入力を行った場合
 			selectionIndex = 0;
 		}
 		RepositoryViewPlugin.getDefault().getPreferenceStore().setValue(
@@ -179,7 +179,7 @@ public class RTRepositoryConnectDialog extends Dialog {
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * OK�{�^���������Ɏ��s���s���A���Ȃ��Ȃ�΁A��������URI��ۑ�����B
+	 * OKボタン押下時に実行を行い、問題ないならば、成功したURIを保存する。
 	 */
 	protected void okPressed() {
 		value = combo.getText();
@@ -196,14 +196,14 @@ public class RTRepositoryConnectDialog extends Dialog {
 	}
 
 	/**
-	 * URI�̃o���f�[�g���s���A���Ȃ��ꍇ�ɂ̓A�h���X��ǉ�����
+	 * URIのバリデートを行い、問題ない場合にはアドレスを追加する
 	 * <P>
-	 * �o���f�[�g�Ƃ��Ă͈ȉ����s��
+	 * バリデートとしては以下を行う
 	 * <ol>
-	 * <li>�K�{�`�F�b�N</li>
-	 * <li>�ڑ��ς݃A�h���X�ł��邩�ǂ���</li>
-	 * <li>�ڑ��ł��邩</li>
-	 * <li>RTC�c���[���쐬�ł��邩</li>
+	 * <li>必須チェック</li>
+	 * <li>接続済みアドレスであるかどうか</li>
+	 * <li>接続できるか</li>
+	 * <li>RTCツリーが作成できるか</li>
 	 * </ol>
 	 * 
 	 * @param address
@@ -247,7 +247,7 @@ public class RTRepositoryConnectDialog extends Dialog {
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * RT���|�W�g���փA�N�Z�X���ARTC�Q���\�z���āART���|�W�g����ǉ�����
+	 * RTリポジトリへアクセスし、RTC群を構築して、RTリポジトリを追加する
 	 */
 	private final class ConnectToRTRepository implements IRunnableWithProgress {
 		private final String value;
@@ -256,9 +256,9 @@ public class RTRepositoryConnectDialog extends Dialog {
 		private RepositoryViewItem resultItem;
 
 		/**
-		 * ���ʂ�Ԃ��B�iCANT_CONNECT,CANT_CREATE_RTC_TREE,SUCCESS�j
+		 * 結果を返す。（CANT_CONNECT,CANT_CREATE_RTC_TREE,SUCCESS）
 		 * 
-		 * @return ����
+		 * @return 結果
 		 */
 		public int getResult() {
 			return result;

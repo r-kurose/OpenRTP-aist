@@ -11,20 +11,18 @@ import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 
-import jp.go.aist.rtm.toolscommon.model.component.NameValue;
+import jp.go.aist.rtm.toolscommon.model.component.util.IPropertyMapUtil;
+import jp.go.aist.rtm.toolscommon.model.component.util.PropertyMap;
 import jp.go.aist.rtm.toolscommon.model.core.impl.WrapperObjectImpl;
 
 import jp.go.aist.rtm.toolscommon.ui.propertysource.ExecutionContextPropertySource;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 /**
@@ -38,7 +36,6 @@ import org.eclipse.ui.views.properties.IPropertySource;
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ExecutionContextImpl#getStateL <em>State L</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ExecutionContextImpl#getOwner <em>Owner</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ExecutionContextImpl#getParticipants <em>Participants</em>}</li>
- *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ExecutionContextImpl#getProperties <em>Properties</em>}</li>
  * </ul>
  * </p>
  *
@@ -126,15 +123,7 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	 */
 	protected EList<Component> participants;
 
-	/**
-	 * The cached value of the '{@link #getProperties() <em>Properties</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getProperties()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<NameValue> properties;
+	protected IPropertyMapUtil properties;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -144,6 +133,7 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	 */
 	public ExecutionContextImpl() {
 		super();
+		this.properties = new PropertyMap();
 	}
 
 	/**
@@ -265,7 +255,7 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	@SuppressWarnings("serial")
 	public EList<Component> getParticipants() {
 		if (participants == null) {
-			// EReferenceの重複が許容されないのでisUnique()を変更
+			// EReference縺ｮ驥崎､�縺瑚ｨｱ螳ｹ縺輔ｌ縺ｪ縺�縺ｮ縺ｧisUnique()繧貞､画峩
 			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=89325
 			participants = new EObjectEList<Component>(Component.class, this, ComponentPackage.EXECUTION_CONTEXT__PARTICIPANTS) {
 				@Override
@@ -275,18 +265,6 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 			};
 		}
 		return participants;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<NameValue> getProperties() {
-		if (properties == null) {
-			properties = new EObjectContainmentEList<NameValue>(NameValue.class, this, ComponentPackage.EXECUTION_CONTEXT__PROPERTIES);
-		}
-		return properties;
 	}
 
 	/**
@@ -337,7 +315,7 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	 * @generated NOT
 	 */
 	public boolean addComponentR(Component comp) {
-		// 同一RTCのアタッチを許容
+		// 蜷御ｸRTC縺ｮ繧｢繧ｿ繝�繝√ｒ險ｱ螳ｹ
 		getParticipants().add(comp);
 		comp.getParticipationContexts().add(this);
 		comp.getParticipationContextHandler().sync();
@@ -363,15 +341,37 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case ComponentPackage.EXECUTION_CONTEXT__PROPERTIES:
-				return ((InternalEList<?>)getProperties()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
+	public String getProperty(String key) {
+		return properties.getProperty(key);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void setProperty(String key, String value) {
+		properties.setProperty(key, value);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public String removeProperty(String key) {
+		return properties.removeProperty(key);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EList<String> getPropertyKeys() {
+		return properties.getPropertyKeys();
 	}
 
 	/**
@@ -393,8 +393,6 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 				return basicGetOwner();
 			case ComponentPackage.EXECUTION_CONTEXT__PARTICIPANTS:
 				return getParticipants();
-			case ComponentPackage.EXECUTION_CONTEXT__PROPERTIES:
-				return getProperties();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -424,10 +422,6 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 				getParticipants().clear();
 				getParticipants().addAll((Collection<? extends Component>)newValue);
 				return;
-			case ComponentPackage.EXECUTION_CONTEXT__PROPERTIES:
-				getProperties().clear();
-				getProperties().addAll((Collection<? extends NameValue>)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -455,9 +449,6 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 			case ComponentPackage.EXECUTION_CONTEXT__PARTICIPANTS:
 				getParticipants().clear();
 				return;
-			case ComponentPackage.EXECUTION_CONTEXT__PROPERTIES:
-				getProperties().clear();
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -480,8 +471,6 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 				return owner != null;
 			case ComponentPackage.EXECUTION_CONTEXT__PARTICIPANTS:
 				return participants != null && !participants.isEmpty();
-			case ComponentPackage.EXECUTION_CONTEXT__PROPERTIES:
-				return properties != null && !properties.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

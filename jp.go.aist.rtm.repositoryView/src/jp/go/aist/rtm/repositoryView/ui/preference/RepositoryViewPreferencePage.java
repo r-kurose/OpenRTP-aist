@@ -22,7 +22,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
- * レポジトリビューの設定画面
+ * 繝ｬ繝昴ず繝医Μ繝薙Η繝ｼ縺ｮ險ｭ螳夂判髱｢
  *
  */
 public class RepositoryViewPreferencePage extends PreferencePage implements

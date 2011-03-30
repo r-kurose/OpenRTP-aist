@@ -1,6 +1,6 @@
 package jp.go.aist.rtm.nameserviceview.ui.action;
 
-import jp.go.aist.rtm.nameserviceview.manager.NameServerManager;
+import jp.go.aist.rtm.nameserviceview.model.manager.NameServerManager;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -8,7 +8,7 @@ import org.eclipse.ui.IViewActionDelegate;
 import org.eclipse.ui.IViewPart;
 
 /**
- * ƒl[ƒ€ƒT[ƒo‚ÌƒŠƒtƒŒƒbƒVƒ…‚ðs‚¤ƒAƒNƒVƒ‡ƒ“
+ * ãƒãƒ¼ãƒ ã‚µãƒ¼ãƒã®ãƒªãƒ•ãƒ¬ãƒƒã‚·ãƒ¥ã‚’è¡Œã†ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
  */
 public class RefreshNameServerAction implements IViewActionDelegate {
 //	private NameServiceView view;

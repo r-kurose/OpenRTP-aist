@@ -506,7 +506,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 			return result;
 		} catch (ConcurrentModificationException ex) {
 			ex.printStackTrace();
-			// •ÊƒXƒŒƒbƒh‚ÅXV‚ª‚©‚©‚Á‚½‚ÍA‚Æ‚è‚ ‚¦‚¸‹ó‚ÌƒŠƒXƒg‚ğ•Ô‚µ‚Ä‚¨‚­
+			// åˆ¥ã‚¹ãƒ¬ãƒƒãƒ‰ã§æ›´æ–°ãŒã‹ã‹ã£ãŸæ™‚ã¯ã€ã¨ã‚Šã‚ãˆãšç©ºã®ãƒªã‚¹ãƒˆã‚’è¿”ã—ã¦ãŠã
 			return new BasicEList<E>();
 		}
 	}
@@ -531,7 +531,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	@SuppressWarnings("serial")
 	public EList<ExecutionContext> getParticipationContexts() {
 		if (participationContexts == null) {
-			// EReference‚Ìd•¡‚ª‹–—e‚³‚ê‚È‚¢‚Ì‚ÅisUnique()‚ğ•ÏX
+			// EReferenceã®é‡è¤‡ãŒè¨±å®¹ã•ã‚Œãªã„ã®ã§isUnique()ã‚’å¤‰æ›´
 			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=89325
 			participationContexts = new EObjectResolvingEList<ExecutionContext>(ExecutionContext.class, this, ComponentPackage.COMPONENT__PARTICIPATION_CONTEXTS) {
 				@Override
@@ -1010,7 +1010,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	}
 
 	/**
-	 * ŒöŠJ‚³‚ê‚Ä‚¢‚éƒ|[ƒg‚Ì–¼Ì‚ğƒŠƒXƒg‚É‚µ‚Ä•Ô‚·
+	 * å…¬é–‹ã•ã‚Œã¦ã„ã‚‹ãƒãƒ¼ãƒˆã®åç§°ã‚’ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™
 	 */
 	public List<String> getExportedPorts() {
 		List<String> result = new ArrayList<String>();
@@ -1085,6 +1085,50 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * @generated
 	 */
 	public String getPath() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getProperty(String key) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setProperty(String key, String value) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String removeProperty(String key) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<String> getPropertyKeys() {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();
@@ -1410,12 +1454,12 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 		return result.toString();
 	}
 
-	// “¯ˆêƒRƒ“ƒ|[ƒlƒ“ƒg‚Å‚ ‚é‚©‚Ìƒ`ƒFƒbƒN‚ğcomponentId + pathId‚ğ—p‚¢‚Äs‚¤B
+	// åŒä¸€ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã§ã‚ã‚‹ã‹ã®ãƒã‚§ãƒƒã‚¯ã‚’componentId + pathIdã‚’ç”¨ã„ã¦è¡Œã†ã€‚
 	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Component))
 			return false;
-		//TODO 09.09.30 instanceName ’Ç‰Á(pathURI‘Î‰)
+		//TODO 09.09.30 instanceName è¿½åŠ (pathURIå¯¾å¿œ)
 		if (getComponentId() == null || getPathId() == null || getInstanceNameL() == null)
 			return super.equals(obj);
 		Component other = (Component) obj;

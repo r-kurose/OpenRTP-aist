@@ -1,7 +1,7 @@
 package jp.go.aist.rtm.toolscommon.synchronizationframework;
 
 /**
- * ’èŠú“I‚ÉƒT[ƒo‚Ìî•ñ‚ðƒ[ƒJƒ‹‚É”½‰f‚³‚¹‚éƒNƒ‰ƒX
+ * å®šæœŸçš„ã«ã‚µãƒ¼ãƒã®æƒ…å ±ã‚’ãƒ­ãƒ¼ã‚«ãƒ«ã«åæ˜ ã•ã›ã‚‹ã‚¯ãƒ©ã‚¹
  *
  */
 public abstract class RefreshThread extends Thread {
@@ -13,12 +13,12 @@ public abstract class RefreshThread extends Thread {
 	}
 	
 	/**
-	 * Žw’è‚µ‚½ŠÔŠu‚²‚Æ‚ÉŽÀs‚³‚ê‚é“¯ŠúƒRƒ}ƒ“ƒh
+	 * æŒ‡å®šã—ãŸé–“éš”ã”ã¨ã«å®Ÿè¡Œã•ã‚Œã‚‹åŒæœŸã‚³ãƒžãƒ³ãƒ‰
 	 */
 	abstract protected void executeCommand();
 
 	/**
-	 * @param milliSecond	ƒT[ƒo‚©‚çî•ñ‚ðŽûW‚·‚éŠÔŠu
+	 * @param milliSecond	ã‚µãƒ¼ãƒã‹ã‚‰æƒ…å ±ã‚’åŽé›†ã™ã‚‹é–“éš”
 	 */
 	public void setSynchronizeInterval(long milliSecond) {
 		if (this.milliSecond == milliSecond) return;
@@ -39,7 +39,9 @@ public abstract class RefreshThread extends Thread {
 	private void execute() {
 		waitIfNotSync();
 		lastExceutedTime = System.currentTimeMillis();
+//		System.out.println(lastExceutedTime);
 		executeCommand();
+//		System.out.println(System.currentTimeMillis() - lastExceutedTime);
 	}
 
 	private void sleepInterval() {
@@ -69,7 +71,7 @@ public abstract class RefreshThread extends Thread {
 	}
 
 	/**
-	 * @return	“¯ŠúƒXƒŒƒbƒh‚ªŽÀs’†‚Å‚ ‚é‚©‚Ç‚¤‚©
+	 * @return	åŒæœŸã‚¹ãƒ¬ãƒƒãƒ‰ãŒå®Ÿè¡Œä¸­ã§ã‚ã‚‹ã‹ã©ã†ã‹
 	 */
 	public boolean isRunning() {
 		return milliSecond > 0;

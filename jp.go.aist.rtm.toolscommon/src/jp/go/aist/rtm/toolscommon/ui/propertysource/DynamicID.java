@@ -1,9 +1,9 @@
 package jp.go.aist.rtm.toolscommon.ui.propertysource;
 
 /**
- * PropertySource—p‚Ìƒ_ƒCƒiƒ~ƒbƒN‚ÈID‚ð•\‚·ƒNƒ‰ƒX
+ * PropertySourceç”¨ã®ãƒ€ã‚¤ãƒŠãƒŸãƒƒã‚¯ãªIDã‚’è¡¨ã™ã‚¯ãƒ©ã‚¹
  * <p>
- * ƒtƒB[ƒ‹ƒh‚ÍƒpƒuƒŠƒbƒN‚Æ‚·‚é
+ * ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã¯ãƒ‘ãƒ–ãƒªãƒƒã‚¯ã¨ã™ã‚‹
  */
 public class DynamicID {
 	public DynamicID(String categoryId, String subId) {

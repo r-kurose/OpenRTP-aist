@@ -16,13 +16,13 @@ import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.ui.views.navigator.LocalSelectionTransfer;
 
 /**
- * ƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€‚ÌDropTargetListener
+ * ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã®DropTargetListener
  */
 public class SystemDiagramDropTargetListener extends
 		AbstractTransferDropTargetListener {
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param viewer
 	 *            EditPartViewer
@@ -42,7 +42,7 @@ public class SystemDiagramDropTargetListener extends
 		Component component = getComponent();
 		setComponent(factory, component);
 
-		CreateRequest result = new CreateRequest(); // nullObject‚Æ‚µ‚Ä•Ô‚·B
+		CreateRequest result = new CreateRequest(); // nullObjectã¨ã—ã¦è¿”ã™ã€‚
 		result.setFactory(factory);
 		return result;
 	}
@@ -76,8 +76,8 @@ public class SystemDiagramDropTargetListener extends
 		if (!super.isEnabled(event)) {
 			return false;
 		}
-		// ƒIƒ“ƒ‰ƒCƒ“ƒGƒfƒBƒ^‚Ö‚Í NameServiceView‚©‚ç DnD‰Â”\
-		// ƒIƒtƒ‰ƒCƒ“ƒGƒfƒBƒ^‚Ö‚Í RepositoryView‚©‚ç DnD‰Â”\
+		// ã‚ªãƒ³ãƒ©ã‚¤ãƒ³ã‚¨ãƒ‡ã‚£ã‚¿ã¸ã¯ NameServiceViewã‹ã‚‰ DnDå¯èƒ½
+		// ã‚ªãƒ•ãƒ©ã‚¤ãƒ³ã‚¨ãƒ‡ã‚£ã‚¿ã¸ã¯ RepositoryViewã‹ã‚‰ DnDå¯èƒ½
 		boolean online = false;
 		if (getViewer().getRootEditPart().getContents().getModel() instanceof SystemDiagram) {
 			SystemDiagram sd = (SystemDiagram) getViewer().getRootEditPart()

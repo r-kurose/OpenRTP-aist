@@ -98,7 +98,7 @@ public class ConfigPreferencePage extends AbstractPreferencePage implements
 		targetViewer.setContentProvider(new ArrayContentProvider());
         targetViewer.setLabelProvider(new ConfigParamLabelProvider());
 		
-		// ƒ{ƒ^ƒ“¶¬
+		// ãƒœã‚¿ãƒ³ç”Ÿæˆ
 		gd = new GridData();
 		Button addButton = new Button(group, SWT.PUSH);
 		addButton.setText(IPreferenceMessageConstants.CONFIG_BTN_ADD);
@@ -259,7 +259,7 @@ public class ConfigPreferencePage extends AbstractPreferencePage implements
 		for (int intIdx1=0; intIdx1 <= intRow-1; intIdx1++) {
 			result1 = configSetTable.getTable().getItem(intIdx1).getText();
 			if (result1 == "") {
-				MessageDialog.openError(getShell(),"Error","Configuration‚Ì’l‚Í•K{“ü—Í‚Å‚·");
+				MessageDialog.openError(getShell(),"Error","Configurationã®å€¤ã¯å¿…é ˆå…¥åŠ›ã§ã™");
 				configSetTable.getTable().setSelection(intIdx1);
 				return false;
 			}
@@ -267,7 +267,7 @@ public class ConfigPreferencePage extends AbstractPreferencePage implements
 				if (intIdx1 != intIdx2) {
 					result2 = configSetTable.getTable().getItem(intIdx2).getText();
 					if (result1.equals(result2)) {
-						MessageDialog.openError(getShell(),"Error","Configuration‚Ì’l‚ªd•¡‚µ‚Ä‚¢‚Ü‚·");
+						MessageDialog.openError(getShell(),"Error","Configurationã®å€¤ãŒé‡è¤‡ã—ã¦ã„ã¾ã™");
 						configSetTable.getTable().setSelection(intIdx2);
 						return false;
 					}

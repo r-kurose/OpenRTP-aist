@@ -18,16 +18,16 @@ import org.omg.CosNaming.BindingListHolder;
 import org.omg.CosNaming.NamingContext;
 
 /**
- * CORBA‚ÉŠÖ‚·‚éƒ†[ƒeƒBƒŠƒeƒB
+ * CORBAã«é–¢ã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
  */
 public class CorbaUtil {
 
 	/**
-	 * ‘ÎÛ‚ÌNamingContextExt‚©‚çq‹Ÿ‚ÌBinding‚ğList‚Æ‚µ‚Ä•Ô‚·
+	 * å¯¾è±¡ã®NamingContextExtã‹ã‚‰å­ä¾›ã®Bindingã‚’Listã¨ã—ã¦è¿”ã™
 	 * 
 	 * @param target
-	 *            ‘ÎÛ‚ÌNamingContextExt
-	 * @return q‹Ÿ‚ÌBinding‚ÌList
+	 *            å¯¾è±¡ã®NamingContextExt
+	 * @return å­ä¾›ã®Bindingã®List
 	 */
 	public static List<Binding> getBindingList(NamingContext target) {
 		BindingListHolder bindingListHolder = new BindingListHolder();
@@ -50,8 +50,16 @@ public class CorbaUtil {
 	}
 
 	/**
-	 * ORBƒIƒuƒWƒFƒNƒg
+	 * ORBã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 */
+//	private static ORB orb = ORB.init(new String[] {
+//			"-ORBTCPReadTimeouts",	"1:60000:300:1" }
+//		, null);
+	
+	// omniORBã®ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã ã‚ã†. JDKã®CORBAå®Ÿè£…ã«ã¯ãªã„
+//	"-ORBclientCallTimeOutPeriod", 
+//	String.valueOf(ToolsCommonPreferenceManager.getInstance().getDefaultTimeout(
+//		ToolsCommonPreferenceManager.DEFAULT_TIMEOUT_PERIOD)
 	private static ORB orb = ORB.init(new String[] {}, createProps());
 	static {
 		try {
@@ -64,7 +72,7 @@ public class CorbaUtil {
 	}
 
 	/**
-	 * ORBƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚é
+	 * ORBã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã™ã‚‹
 	 * 
 	 * @return ORB
 	 */
@@ -91,17 +99,18 @@ public class CorbaUtil {
 
 	private static PropertyChangeListener createListner() {
 		return new PropertyChangeListener(){
+//			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				setConnectionTimeout();
 			}};
 	}
 
 	/**
-	 * CORBAƒIƒuƒWƒFƒNƒgiƒvƒƒLƒVj‚ğƒVƒŠƒAƒ‰ƒCƒY‚µ‚½•¶š—ñ‚©‚çACORBAƒIƒuƒWƒFƒNƒg‚Ö•ÏŠ·‚·‚é
+	 * CORBAã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆï¼ˆãƒ—ãƒ­ã‚­ã‚·ï¼‰ã‚’ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºã—ãŸæ–‡å­—åˆ—ã‹ã‚‰ã€CORBAã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¸å¤‰æ›ã™ã‚‹
 	 * 
 	 * @param str
-	 *            CORBAƒIƒuƒWƒFƒNƒgiƒvƒƒLƒVj‚ğƒVƒŠƒAƒ‰ƒCƒY‚µ‚½•¶š—ñ
-	 * @return CORBAƒIƒuƒWƒFƒNƒg
+	 *            CORBAã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆï¼ˆãƒ—ãƒ­ã‚­ã‚·ï¼‰ã‚’ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºã—ãŸæ–‡å­—åˆ—
+	 * @return CORBAã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 */
 	public static org.omg.CORBA.Object stringToObject(String str) {
 		return orb.string_to_object(str);

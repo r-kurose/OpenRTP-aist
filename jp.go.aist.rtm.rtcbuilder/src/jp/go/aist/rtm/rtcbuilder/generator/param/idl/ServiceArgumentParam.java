@@ -3,7 +3,7 @@ package jp.go.aist.rtm.rtcbuilder.generator.param.idl;
 import java.io.Serializable;
 
 /**
- * サービスのメソッド引数をあらわすクラス
+ * 繧ｵ繝ｼ繝薙せ縺ｮ繝｡繧ｽ繝�繝牙ｼ墓焚繧偵≠繧峨ｏ縺吶け繝ｩ繧ｹ
  */
 public class ServiceArgumentParam implements Serializable {
 	private static final long serialVersionUID = 5610882091160166120L;

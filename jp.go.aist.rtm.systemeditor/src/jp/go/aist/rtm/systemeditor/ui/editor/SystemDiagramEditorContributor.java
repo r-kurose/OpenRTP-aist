@@ -19,7 +19,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * システムダイアグラムのActionBarContributorクラス
+ * 繧ｷ繧ｹ繝�繝繝繧､繧｢繧ｰ繝ｩ繝縺ｮActionBarContributor繧ｯ繝ｩ繧ｹ
  */
 public class SystemDiagramEditorContributor extends ActionBarContributor {
 
@@ -71,9 +71,9 @@ public class SystemDiagramEditorContributor extends ActionBarContributor {
 	}
 
 	/**
-	 * ステータス行を表示するリスナクラス
+	 * 繧ｹ繝�繝ｼ繧ｿ繧ｹ陦後ｒ陦ｨ遉ｺ縺吶ｋ繝ｪ繧ｹ繝翫け繝ｩ繧ｹ
 	 * <p>
-	 * ComponentEditPartに対して仕掛ける
+	 * ComponentEditPart縺ｫ蟇ｾ縺励※莉墓寺縺代ｋ
 	 */
 	private final class StatusLineDrawer implements ISelectionListener,
 			PropertyChangeListener {

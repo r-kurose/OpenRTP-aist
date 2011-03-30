@@ -34,7 +34,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * ネームサービスビューに適用するフィルタを設定するダイアログ
+ * 繝阪�ｼ繝繧ｵ繝ｼ繝薙せ繝薙Η繝ｼ縺ｫ驕ｩ逕ｨ縺吶ｋ繝輔ぅ繝ｫ繧ｿ繧定ｨｭ螳壹☆繧九ム繧､繧｢繝ｭ繧ｰ
  *
  */
 public class FiltersDialog extends Dialog {

@@ -1,8 +1,8 @@
 package jp.go.aist.rtm.repositoryView.model;
 
 /**
- * ���|�W�g���烍�[�h����RepositoryViewRootItem
- * RepositoryViewRootItem�ƕʂɒ�`����Ӗ��͂��܂�Ȃ�
+ * レポジトリらロードしたRepositoryViewRootItem
+ * RepositoryViewRootItemと別に定義する意味はあまりない
  *
  */
 

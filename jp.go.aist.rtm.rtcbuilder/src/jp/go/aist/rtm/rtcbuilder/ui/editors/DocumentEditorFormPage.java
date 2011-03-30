@@ -14,7 +14,7 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
 /**
- * ƒhƒLƒ…ƒƒ“ƒgƒy[ƒW
+ * ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆãƒšãƒ¼ã‚¸
  */
 public class DocumentEditorFormPage extends AbstractEditorFormPage {
 
@@ -30,10 +30,10 @@ public class DocumentEditorFormPage extends AbstractEditorFormPage {
 	private List versionUpLogList;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param editor
-	 *            e‚ÌƒGƒfƒBƒ^
+	 *            è¦ªã®ã‚¨ãƒ‡ã‚£ã‚¿
 	 */
 	public DocumentEditorFormPage(RtcBuilderEditor editor) {
 		super(editor, "id", IMessageConstants.DOCUMENT_SECTION);
@@ -172,7 +172,7 @@ public class DocumentEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	/**
-	 * ƒf[ƒ^‚ğƒ[ƒh‚·‚é
+	 * ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
 	 */
 	public void load() {
 		RtcParam rtcParam = editor.getRtcParam();
@@ -194,7 +194,7 @@ public class DocumentEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	public String validateParam() {
-		//“ü—Íƒpƒ‰ƒ[ƒ^ƒ`ƒFƒbƒN‚È‚µ
+		//å…¥åŠ›ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒã‚§ãƒƒã‚¯ãªã—
 		return null;
 	}
 }

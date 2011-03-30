@@ -12,8 +12,8 @@ import jp.go.aist.rtm.rtcbuilder.GuiRtcBuilder;
 import jp.go.aist.rtm.rtcbuilder.IRTCBMessageConstants;
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
-import jp.go.aist.rtm.rtcbuilder.extension.ExportExtension;
 import jp.go.aist.rtm.rtcbuilder.extension.ImportExtension;
+import jp.go.aist.rtm.rtcbuilder.factory.ExportCreator;
 import jp.go.aist.rtm.rtcbuilder.generator.ProfileHandler;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
@@ -58,12 +58,12 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 /**
- * Basic Profile İ’èƒy[ƒW
+ * Basic Profile è¨­å®šãƒšãƒ¼ã‚¸
  */
 public class BasicEditorFormPage extends AbstractEditorFormPage {
 
 	/**
-	 * ¶¬‚ğs‚Á‚½Category‚Ìî•ñ‚ğ•Û‘¶‚·‚éƒ[ƒNƒXƒy[ƒX‰i‘±•¶š—ñ‚Ö‚ÌƒL[
+	 * ç”Ÿæˆã‚’è¡Œã£ãŸCategoryã®æƒ…å ±ã‚’ä¿å­˜ã™ã‚‹ãƒ¯ãƒ¼ã‚¯ã‚¹ãƒšãƒ¼ã‚¹æ°¸ç¶šæ–‡å­—åˆ—ã¸ã®ã‚­ãƒ¼
 	 */
 	private static final String CATEGORY_INDEX_KEY = BasicEditorFormPage.class.getName() + ".category.name";
 	private final String CATEGORY_COMPOSITE =  "composite.";
@@ -97,10 +97,10 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
 	
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param editor
-	 *            e‚ÌƒGƒfƒBƒ^
+	 *            è¦ªã®ã‚¨ãƒ‡ã‚£ã‚¿
 	 */
 	public BasicEditorFormPage(RtcBuilderEditor editor) {
 		super(editor, "id", IMessageConstants.BASIC_SECTION);
@@ -132,12 +132,12 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		createGenerateSection(toolkit, form);
 		createExportImportSection(toolkit, form);
 		//
-		// Œ¾ŒêEŠÂ‹«ƒy[ƒW‚æ‚èæ‚É‚±‚Ìƒy[ƒW‚ª•\¦‚³‚ê‚½ê‡A‚±‚±‚ÅŒ¾Œê‚ğ”»’f‚·‚é
+		// è¨€èªãƒ»ç’°å¢ƒãƒšãƒ¼ã‚¸ã‚ˆã‚Šå…ˆã«ã“ã®ãƒšãƒ¼ã‚¸ãŒè¡¨ç¤ºã•ã‚ŒãŸå ´åˆã€ã“ã“ã§è¨€èªã‚’åˆ¤æ–­ã™ã‚‹
 		editor.setEnabledInfoByLang();
 		
 		load();
 	}
-	
+
 	private String getFileExtension(String filename){
 		int index = filename.lastIndexOf(".");
 		if( index > -1 ) return filename.substring(index + 1);
@@ -147,7 +147,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	private void switchPerspective() {
 
 		for(RtcParam rtcParam : editor.getGeneratorParam().getRtcParams() ) {
-			//Plugin‚Ì‘¶İŠm”F
+			//Pluginã®å­˜åœ¨ç¢ºèª
 			LanguageProperty langProp = LanguageProperty.checkPlugin(rtcParam);
 			String currentPerspectiveId = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
 	            							.getActivePage().getPerspective().getId();
@@ -167,7 +167,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	/**
-	 * ƒoƒŠƒf[ƒg‚ğs‚¤BƒGƒ‰[‚ª‚È‚¢ê‡‚É‚Ínull‚ğ•Ô‚µAƒGƒ‰[‚ª‚ ‚éê‡‚É‚ÍƒƒbƒZ[ƒW‚ğ•Ô‚·B
+	 * ãƒãƒªãƒ‡ãƒ¼ãƒˆã‚’è¡Œã†ã€‚ã‚¨ãƒ©ãƒ¼ãŒãªã„å ´åˆã«ã¯nullã‚’è¿”ã—ã€ã‚¨ãƒ©ãƒ¼ãŒã‚ã‚‹å ´åˆã«ã¯ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¿”ã™ã€‚
 	 * 
 	 * @return
 	 */
@@ -328,11 +328,11 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					MessageDialog.openError(getSite().getShell(), "Error", validateRtcParam);
 					return;
 				}
-				//‘ÎÛƒvƒƒWƒFƒNƒg‚ÌŠm”F
+				//å¯¾è±¡ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã®ç¢ºèª
 				IProject project = checkTargetProject();
 				if( project==null) return;
-				// — ‚©‚çƒtƒ@ƒCƒ‹‚ğíœ‚³‚ê‚Ä‚¢‚é‰Â”\«‚ª‚ ‚é‚½‚ßA
-				// ƒvƒƒWƒFƒNƒg‚Æƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Ì“¯Šú‚ğæ‚é
+				// è£ã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‰Šé™¤ã•ã‚Œã¦ã„ã‚‹å¯èƒ½æ€§ãŒã‚ã‚‹ãŸã‚ã€
+				// ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã¨ãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã®åŒæœŸã‚’å–ã‚‹
 				try {
 					project.refreshLocal(IResource.DEPTH_INFINITE, null);
 				} catch (CoreException e1) {
@@ -341,15 +341,15 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 				//
 				editor.addDefaultComboValue();
 				GuiRtcBuilder rtcBuilder = new GuiRtcBuilder();
-				List<GenerateManager> managerList = RtcBuilderPlugin.getDefault().getLoader().getManagerList();
-				if( managerList != null ) {
-					for( Iterator<GenerateManager> iter = managerList.iterator(); iter.hasNext(); ) {
-						GenerateManager manager = iter.next();
+				List<GenerateManager> managerList = RtcBuilderPlugin
+						.getDefault().getLoader().getManagerList();
+				if (managerList != null) {
+					for (GenerateManager manager : managerList) {
 						rtcBuilder.addGenerateManager(manager);
 					}
 				}
 				GeneratorParam generatorParam = editor.getGeneratorParam();
-				//TODO •¡”ƒRƒ“ƒ|[ƒlƒ“ƒg‘Î‰”Å‚Æ‚·‚éê‡‚É‚Í•¡”İ’è
+				//TODO è¤‡æ•°ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå¯¾å¿œç‰ˆã¨ã™ã‚‹å ´åˆã«ã¯è¤‡æ•°è¨­å®š
 				generatorParam.getRtcParams().get(0).getServiceClassParams().clear();
 				setPrefixSuffix(generatorParam.getRtcParams().get(0));
 				if (rtcBuilder.doGenerateWrite(generatorParam)) {
@@ -375,10 +375,13 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 				}
 			}
 
-			// Profile‚ğ•Û‘¶
+			// Profileã‚’ä¿å­˜
 			private void saveRtcProfile(IProject project) {
 				ProfileHandler handler = new ProfileHandler();
 				try {
+					ExportCreator export = new ExportCreator();
+					export.preExport(editor);
+
 					String strXml = handler.convert2XML(editor.getGeneratorParam());
 
 					IFile orgRtcxml = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML);
@@ -464,20 +467,6 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		}
 		return null;
 	}
-	@SuppressWarnings("unchecked")
-	private ExportExtension getTargetExportExtension() {
-		List list = RtcBuilderPlugin.getDefault().getExportExtensionLoader().getList();
-		if (list != null) {
-			String targetLang = editor.getRtcParam().getLanguage();
-			for( Iterator iter = list.iterator(); iter.hasNext(); ) {
-				ExportExtension extension = (ExportExtension) iter.next();
-				if( extension.getManagerKey().equals(targetLang) ){
-					return extension;
-				}
-			}
-		}
-		return null;
-	}
 	
 	private void createExportImportSection(FormToolkit toolkit, ScrolledForm form) {
 		profileSection = createSectionBaseWithLabel(toolkit, form, 
@@ -497,54 +486,48 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					MessageDialog.openError(getSite().getShell(), "Error", validateRtcParam);
 					return;
 				}
-				
-				ExportExtension extension = getTargetExportExtension();
-				FileDialog dialog = new FileDialog(getSite().getShell(),SWT.SAVE);
-		        dialog.setText(IMessageConstants.BASIC_BTN_EXPORT);
-				String[] names = extension == null ? new String[] { IMessageConstants.FILETYPE_XML,IMessageConstants.FILETYPE_YAML }
-				  					: extension.getFileDialogFilterNames();
-				String[] exts = extension == null ? new String[] { "*.xml","*.yaml" }
-				 					: extension.getFileDialogFilterExtensions();
-				dialog.setFilterNames(names);
-				dialog.setFilterExtensions(exts);
 
-				String selectedFileName = dialog.open();
+				String selectedFileName; 
+        		ExportCreator export = new ExportCreator();
+        		if(!export.canCreateProfileName(editor)) {
+        			FileDialog dialog = new FileDialog(getSite().getShell(),SWT.SAVE);
+    		        dialog.setText(IMessageConstants.BASIC_BTN_EXPORT);
+    				dialog.setFilterNames(new String[] {IMessageConstants.FILETYPE_XML,IMessageConstants.FILETYPE_YAML});
+    				dialog.setFilterExtensions(new String[] { "*.xml","*.yaml" });
+    				selectedFileName = dialog.open();
+        		} else {
+        			selectedFileName = export.createProfileName(editor);
+        		}
+        		
 		        if (selectedFileName != null) {
-		        	if (extension == null) {
-			        	try {
-				        	if (getFileExtension(selectedFileName).equals(IRtcBuilderConstants.YAML_EXTENSION)) {
-				        		ProfileHandler handler = new ProfileHandler();
-				        		handler.createYaml(selectedFileName, editor.getGeneratorParam());
-				        	} else {
-				        		ProfileHandler handler = new ProfileHandler();
-				        		try {
-									handler.validateXml(handler.convert2XML(editor.getGeneratorParam()));
-								} catch (JAXBException ex) {
-				        			if (!MessageDialog.openQuestion(getSite().getShell(),ex.getMessage(),
-				        					IMessageConstants.PROFILE_VALIDATE_ERROR_MESSAGE + System.getProperty("line.separator") + ex.getCause().toString()) )
-				        				return;// u‚¢‚¢‚¦v‚Ì‚Æ‚«‚Í•Û‘¶‚µ‚È‚¢
-				        		}// ’Êí‚ÌException‚ÍŠO‘¤‚Åcatch‚·‚é
-								handler.storeToXML(selectedFileName, editor.getGeneratorParam());
-				        	}
-							editor.getRtcParam().resetUpdated();
-							editor.updateDirty();
-						} catch (Exception e1) {
-							MessageDialog.openError(getSite().getShell(), "Error", IMessageConstants.BASIC_EXPORT_ERROR);
-							return;
+		        	try {
+		        		export.preExport(editor);
+
+		            	if (getFileExtension(selectedFileName).equals(IRtcBuilderConstants.YAML_EXTENSION)) {
+		            		ProfileHandler handler = new ProfileHandler();
+		            		handler.createYaml(selectedFileName, editor.getGeneratorParam());
+		            	} else {
+		            		ProfileHandler handler = new ProfileHandler();
+		            		try {
+		        				handler.validateXml(handler.convert2XML(editor.getGeneratorParam()));
+		        			} catch (JAXBException ex) {
+		            			if (!MessageDialog.openQuestion(getSite().getShell(),ex.getMessage(),
+		            					IMessageConstants.PROFILE_VALIDATE_ERROR_MESSAGE + System.getProperty("line.separator") + ex.getCause().toString()) )
+		            				return ;// ã€Œã„ã„ãˆã€ã®ã¨ãã¯ä¿å­˜ã—ãªã„
+		            		}// é€šå¸¸ã®Exceptionã¯å¤–å´ã§catchã™ã‚‹
+		        			handler.storeToXML(selectedFileName, editor.getGeneratorParam());
+		            	}
+		        		export.postExport(selectedFileName, editor);
+		        		editor.getRtcParam().resetUpdated();
+		        		editor.updateDirty();
+		            	
+					} catch (Exception e1) {
+						String msg = e1.getMessage();
+						if (msg == null || msg.equals("")) {
+							msg = IMessageConstants.BASIC_EXPORT_ERROR;
 						}
-		        	} else {
-						try {
-							extension.export(selectedFileName, editor);
-							editor.getRtcParam().resetUpdated();
-							editor.updateDirty();
-						} catch (Exception e1) {
-							String msg = e1.getMessage();
-							if (msg == null || msg.equals("")) {
-								msg = IMessageConstants.BASIC_EXPORT_ERROR;
-							}
-							MessageDialog.openError(getSite().getShell(), "Error", msg);
-							return;
-						}
+						MessageDialog.openError(getSite().getShell(), "Error", msg);
+						return;
 					}
 					MessageDialog.openInformation(getSite().getShell(), "Finish", IMessageConstants.BASIC_EXPORT_DONE);
 		        }
@@ -572,15 +555,18 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		        if (selectedFileName != null) {
 		        	if(extension == null) {
 			        	try {
-				        	if( getFileExtension(selectedFileName).equals(IRtcBuilderConstants.YAML_EXTENSION) ) {
-				        		ProfileHandler handler = new ProfileHandler();
-								editor.setGeneratorParam(handler.readYaml(selectedFileName));
-								String xmlFile = handler.convert2XML(editor.getGeneratorParam());
+			        		String origProject = editor.getRtcParam().getOutputProject();
+			        		ProfileHandler handler = new ProfileHandler();
+				        	if (getFileExtension(selectedFileName).equals(IRtcBuilderConstants.YAML_EXTENSION)) {
+				        		GeneratorParam genParam = handler.readYaml(selectedFileName);
+								String xmlFile = handler.convert2XML(genParam);
+								editor.setGeneratorParam(genParam);
 								editor.getRtcParam().setRtcXml(xmlFile);
 				        	} else {
-				        		ProfileHandler handler = new ProfileHandler();
-				        		editor.setGeneratorParam(handler.restorefromXMLFile(selectedFileName));
-				        	}
+								GeneratorParam genParam = handler.restorefromXMLFile(selectedFileName);
+								editor.setGeneratorParam(genParam);
+							}
+							editor.getRtcParam().setOutputProject(origProject);
 						} catch (Exception e1) {
 							MessageDialog.openError(getSite().getShell(), "Error", IMessageConstants.BASIC_IMPORT_ERROR);
 							return;
@@ -633,7 +619,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					.getText()));
 			rtcParam.setMaxInstance(maxInstance);
 		} catch (Exception e) {
-			// —áŠO‚Ìê‡A‰æ–Ê‚Ì’l‚ğŒ»İ‚Ì’l‚É–ß‚·
+			// ä¾‹å¤–ã®å ´åˆã€ç”»é¢ã®å€¤ã‚’ç¾åœ¨ã®å€¤ã«æˆ»ã™
 			maxInstanceText.setText(String.valueOf(rtcParam.getMaxInstance()));
 		}
 
@@ -643,7 +629,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					.getText()));
 			rtcParam.setExecutionRate(exec_rate);
 		} catch (Exception e) {
-			// —áŠO‚Ìê‡A‰æ–Ê‚Ì’l‚ğŒ»İ‚Ì’l‚É–ß‚·
+			// ä¾‹å¤–ã®å ´åˆã€ç”»é¢ã®å€¤ã‚’ç¾åœ¨ã®å€¤ã«æˆ»ã™
 			executionRateText.setText(String.valueOf(rtcParam.getExecutionRate()));
 		}
 
@@ -652,7 +638,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	/**
-	 * ƒf[ƒ^‚ğƒ[ƒh‚·‚é
+	 * ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
 	 */
 	public void load() {
 		RtcParam rtcParam = editor.getRtcParam();
@@ -711,28 +697,28 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	/**
-	 * BasicInfoƒtƒH[ƒ€“à‚Ì—v‘f‚Ì—LŒø/–³Œø‚ğİ’è‚µ‚Ü‚·B
+	 * BasicInfoãƒ•ã‚©ãƒ¼ãƒ å†…ã®è¦ç´ ã®æœ‰åŠ¹/ç„¡åŠ¹ã‚’è¨­å®šã—ã¾ã™ã€‚
 	 * <ul>
-	 * <li>basic.info.moduleName : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Module name</li>
-	 * <li>basic.info.moduleDescription : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Module description</li>
-	 * <li>basic.info.moduleVersion : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Module version</li>
-	 * <li>basic.info.moduleVendor : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Module vendor</li>
-	 * <li>basic.info.moduleCategory : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Module category</li>
-	 * <li>basic.info.componentType : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Component type</li>
-	 * <li>basic.info.activityType : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Component's activity type</li>
-	 * <li>basic.info.dataFlow : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Component kind ‚Ì DataFlow</li>
-	 * <li>basic.info.fsm : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Component kind ‚Ì FSM</li>
-	 * <li>basic.info.multiMode : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Component kind ‚Ì MultiMode</li>
-	 * <li>basic.info.maxInstances : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì maximum instances</li>
-	 * <li>basic.info.executionType : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Execution type</li>
-	 * <li>basic.info.executionRate : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Execution rate</li>
-	 * <li>basic.info.abstract : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Abstract</li>
-	 * <li>basic.info.rtcType : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì RTC type</li>
-	 * <li>basic.outputProject.* : OutputProjectƒZƒNƒVƒ‡ƒ“‘S‘Ì</li>
-	 * <li>basic.generate.code : GenerateƒZƒNƒVƒ‡ƒ“‚ÌƒR[ƒh¶¬ƒ{ƒ^ƒ“</li>
-	 * <li>basic.generate.package : GenerateƒZƒNƒVƒ‡ƒ“‚ÌƒpƒbƒP[ƒW‰»ƒ{ƒ^ƒ“</li>
-	 * <li>basic.profile.import : ProfileƒZƒNƒVƒ‡ƒ“‚ÌƒCƒ“ƒ|[ƒgƒ{ƒ^ƒ“</li>
-	 * <li>basic.profile.export : ProfileƒZƒNƒVƒ‡ƒ“‚ÌƒGƒNƒXƒ|[ƒgƒ{ƒ^ƒ“</li>
+	 * <li>basic.info.moduleName : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Module name</li>
+	 * <li>basic.info.moduleDescription : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Module description</li>
+	 * <li>basic.info.moduleVersion : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Module version</li>
+	 * <li>basic.info.moduleVendor : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Module vendor</li>
+	 * <li>basic.info.moduleCategory : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Module category</li>
+	 * <li>basic.info.componentType : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Component type</li>
+	 * <li>basic.info.activityType : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Component's activity type</li>
+	 * <li>basic.info.dataFlow : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Component kind ã® DataFlow</li>
+	 * <li>basic.info.fsm : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Component kind ã® FSM</li>
+	 * <li>basic.info.multiMode : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Component kind ã® MultiMode</li>
+	 * <li>basic.info.maxInstances : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® maximum instances</li>
+	 * <li>basic.info.executionType : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Execution type</li>
+	 * <li>basic.info.executionRate : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Execution rate</li>
+	 * <li>basic.info.abstract : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Abstract</li>
+	 * <li>basic.info.rtcType : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® RTC type</li>
+	 * <li>basic.outputProject.* : OutputProjectã‚»ã‚¯ã‚·ãƒ§ãƒ³å…¨ä½“</li>
+	 * <li>basic.generate.code : Generateã‚»ã‚¯ã‚·ãƒ§ãƒ³ã®ã‚³ãƒ¼ãƒ‰ç”Ÿæˆãƒœã‚¿ãƒ³</li>
+	 * <li>basic.generate.package : Generateã‚»ã‚¯ã‚·ãƒ§ãƒ³ã®ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸åŒ–ãƒœã‚¿ãƒ³</li>
+	 * <li>basic.profile.import : Profileã‚»ã‚¯ã‚·ãƒ§ãƒ³ã®ã‚¤ãƒ³ãƒãƒ¼ãƒˆãƒœã‚¿ãƒ³</li>
+	 * <li>basic.profile.export : Profileã‚»ã‚¯ã‚·ãƒ§ãƒ³ã®ã‚¨ã‚¯ã‚¹ãƒãƒ¼ãƒˆãƒœã‚¿ãƒ³</li>
 	 * </ul>
 	 */
 	public void setEnabledInfo(WidgetInfo widgetInfo, boolean enabled) {

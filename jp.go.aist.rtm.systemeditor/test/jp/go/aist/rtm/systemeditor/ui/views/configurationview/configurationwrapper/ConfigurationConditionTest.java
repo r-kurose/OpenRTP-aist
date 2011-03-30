@@ -8,11 +8,11 @@ public class ConfigurationConditionTest extends TestCase {
 		ConfigurationCondition actual = ConfigurationCondition.parse("");
 		assertEquals(true, actual.isNull());
 
-		// ‘¦’l(100)
+		// å³å€¤(100)
 		actual = ConfigurationCondition.parse("100");
 		assertEquals(true, actual.hasConstValue());
 		assertEquals("100", actual.getConstValue());
-		// ‘¦’l(10a) ƒGƒ‰[
+		// å³å€¤(10a) ã‚¨ãƒ©ãƒ¼
 		try {
 			actual = ConfigurationCondition.parse("10a");
 			fail();
@@ -20,7 +20,7 @@ public class ConfigurationConditionTest extends TestCase {
 			assertTrue(true);
 		}
 
-		// (ichi,one),(ni,two),(san,three) (æ“ª‚ª—ñ‹“‚Ì”z—ñ)
+		// (ichi,one),(ni,two),(san,three) (å…ˆé ­ãŒåˆ—æŒ™ã®é…åˆ—)
 		actual = ConfigurationCondition.parse("(ichi,one),(ni,two),(san,three)");
 		assertTrue(actual.isArrayCondition());
 		assertEquals(3, actual.getArraySize());
@@ -34,7 +34,7 @@ public class ConfigurationConditionTest extends TestCase {
 		assertEquals("san", actual.getCondition(2).getEnumList().get(0));
 		assertEquals("three", actual.getCondition(2).getEnumList().get(1));
 
-		// (ichi,one) ,(ni,two), (san,three) (æ“ª‚ª—ñ‹“‚Ì”z—ñ)
+		// (ichi,one) ,(ni,two), (san,three) (å…ˆé ­ãŒåˆ—æŒ™ã®é…åˆ—)
 		actual = ConfigurationCondition.parse("(ichi,one),(ni,two),(san,three)");
 		assertTrue(actual.isArrayCondition());
 		assertEquals(3, actual.getArraySize());
@@ -50,14 +50,14 @@ public class ConfigurationConditionTest extends TestCase {
 	}
 
 	public void testParseXError() throws Exception {
-		// x‚È‚µ (‘¦’lƒGƒ‰[)
+		// xãªã— (å³å€¤ã‚¨ãƒ©ãƒ¼)
 		try {
 			ConfigurationCondition.parseX("0<");
 			fail();
 		} catch (ConfigurationCondition.NumberException e) {
 			assertTrue(true);
 		}
-		// •s“™†‚È‚µ
+		// ä¸ç­‰å·ãªã—
 		try {
 			ConfigurationCondition.parseX("0=x");
 			fail();
@@ -92,7 +92,7 @@ public class ConfigurationConditionTest extends TestCase {
 		assertEquals(true, actual.isMaxEquals());
 		assertEquals(null, actual.getMin());
 		assertEquals(false, actual.isMinEquals());
-		// x<10a Å‘å’lƒtƒH[ƒ}ƒbƒgƒGƒ‰[
+		// x<10a æœ€å¤§å€¤ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚¨ãƒ©ãƒ¼
 		try {
 			actual = ConfigurationCondition.parseX("x<10a");
 			fail();
@@ -118,7 +118,7 @@ public class ConfigurationConditionTest extends TestCase {
 		assertEquals(true, actual.isMaxEquals());
 		assertEquals(null, actual.getMin());
 		assertEquals(false, actual.isMinEquals());
-		// 10a>x Å‘å’lƒtƒH[ƒ}ƒbƒgƒGƒ‰[
+		// 10a>x æœ€å¤§å€¤ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚¨ãƒ©ãƒ¼
 		try {
 			actual = ConfigurationCondition.parseX("10a>x");
 			fail();
@@ -147,7 +147,7 @@ public class ConfigurationConditionTest extends TestCase {
 		assertEquals(false, actual.isMaxEquals());
 		assertEquals("-5.0", actual.getMin());
 		assertEquals(true, actual.isMinEquals());
-		// x>10a Å¬’lƒtƒH[ƒ}ƒbƒgƒGƒ‰[
+		// x>10a æœ€å°å€¤ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚¨ãƒ©ãƒ¼
 		try {
 			actual = ConfigurationCondition.parseX("x>10a");
 			fail();
@@ -172,7 +172,7 @@ public class ConfigurationConditionTest extends TestCase {
 		assertEquals(false, actual.isMaxEquals());
 		assertEquals("-5.0", actual.getMin());
 		assertEquals(true, actual.isMinEquals());
-		// 10a<x Å¬’lƒtƒH[ƒ}ƒbƒgƒGƒ‰[
+		// 10a<x æœ€å°å€¤ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚¨ãƒ©ãƒ¼
 		try {
 			actual = ConfigurationCondition.parseX("10a<x");
 			fail();
@@ -238,28 +238,28 @@ public class ConfigurationConditionTest extends TestCase {
 		assertEquals("-0.5", actual.getMin());
 		assertEquals(false, actual.isMinEquals());
 
-		// -10<x<10a Å‘å’lƒtƒH[ƒ}ƒbƒgƒGƒ‰[
+		// -10<x<10a æœ€å¤§å€¤ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚¨ãƒ©ãƒ¼
 		try {
 			actual = ConfigurationCondition.parseX("-10<x<10a");
 			fail();
 		} catch (ConfigurationCondition.NumberException e) {
 			assertTrue(true);
 		}
-		// -10a<=x<10 Å¬’lƒtƒH[ƒ}ƒbƒgƒGƒ‰[
+		// -10a<=x<10 æœ€å°å€¤ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚¨ãƒ©ãƒ¼
 		try {
 			actual = ConfigurationCondition.parseX("-10a<=x<10");
 			fail();
 		} catch (ConfigurationCondition.NumberException e) {
 			assertTrue(true);
 		}
-		// -10<x<= Å‘å’l‚È‚µƒtƒH[ƒ}ƒbƒgƒGƒ‰[
+		// -10<x<= æœ€å¤§å€¤ãªã—ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚¨ãƒ©ãƒ¼
 		try {
 			actual = ConfigurationCondition.parseX("-10<x<=");
 			fail();
 		} catch (ConfigurationCondition.NumberException e) {
 			assertTrue(true);
 		}
-		// <=x<=10 Å¬’l‚È‚µƒtƒH[ƒ}ƒbƒgƒGƒ‰[
+		// <=x<=10 æœ€å°å€¤ãªã—ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚¨ãƒ©ãƒ¼
 		try {
 			actual = ConfigurationCondition.parseX("<x<=10");
 			fail();
@@ -267,14 +267,14 @@ public class ConfigurationConditionTest extends TestCase {
 			assertTrue(true);
 		}
 
-		// 1<x>1 •s“™†‚ÌŒü‚«‚ª•sˆê’v
+		// 1<x>1 ä¸ç­‰å·ã®å‘ããŒä¸ä¸€è‡´
 		try {
 			actual = ConfigurationCondition.parseX("1<x>1");
 			fail();
 		} catch (ConfigurationCondition.FormatException e) {
 			assertTrue(true);
 		}
-		// 10>=x<=10 •s“™†‚ÌŒü‚«‚ª•sˆê’v
+		// 10>=x<=10 ä¸ç­‰å·ã®å‘ããŒä¸ä¸€è‡´
 		try {
 			actual = ConfigurationCondition.parseX("10>=x<=10");
 			fail();
@@ -282,7 +282,7 @@ public class ConfigurationConditionTest extends TestCase {
 			assertTrue(true);
 		}
 
-		// 10<x<1 Å¬’lAÅ‘å’l‚Ì‘å¬ƒGƒ‰[
+		// 10<x<1 æœ€å°å€¤ã€æœ€å¤§å€¤ã®å¤§å°ã‚¨ãƒ©ãƒ¼
 		try {
 			actual = ConfigurationCondition.parseX("10<x<1");
 			fail();
@@ -290,7 +290,7 @@ public class ConfigurationConditionTest extends TestCase {
 			assertTrue(true);
 		}
 
-		// <x<1 ¶®‚È‚µƒtƒH[ƒ}ƒbƒgƒGƒ‰[
+		// <x<1 å·¦å¼ãªã—ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚¨ãƒ©ãƒ¼
 		try {
 			actual = ConfigurationCondition.parseX("<x<1");
 			fail();
@@ -298,7 +298,7 @@ public class ConfigurationConditionTest extends TestCase {
 			assertTrue(true);
 		}
 
-		// 1<x< ‰E®‚È‚µƒtƒH[ƒ}ƒbƒgƒGƒ‰[
+		// 1<x< å³å¼ãªã—ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚¨ãƒ©ãƒ¼
 		try {
 			actual = ConfigurationCondition.parseX("1<x<");
 			fail();
@@ -316,20 +316,20 @@ public class ConfigurationConditionTest extends TestCase {
 		assertEquals("100", actual.getEnumList().get(0));
 		assertEquals("200", actual.getEnumList().get(1));
 		assertEquals("300", actual.getEnumList().get(2));
-		// (one, two, one) d•¡œ‹
+		// (one, two, one) é‡è¤‡é™¤å»
 		actual = ConfigurationCondition.parseEnum("(one, two, one)");
 		assertEquals(true, actual.hasEnumList());
 		assertEquals(2, actual.getEnumList().size());
 		assertEquals("one", actual.getEnumList().get(0));
 		assertEquals("two", actual.getEnumList().get(1));
-		// (100, •Â‚¶Š‡ŒÊ‚È‚µ
+		// (100, é–‰ã˜æ‹¬å¼§ãªã—
 		try {
 			actual = ConfigurationCondition.parseEnum("(100,");
 			fail();
 		} catch (ConfigurationCondition.FormatException e) {
 			assertTrue(true);
 		}
-		// 100,200) ŠJ‚«Š‡ŒÊ‚È‚µ
+		// 100,200) é–‹ãæ‹¬å¼§ãªã—
 		try {
 			actual = ConfigurationCondition.parseEnum("100,200)");
 			fail();
@@ -366,7 +366,7 @@ public class ConfigurationConditionTest extends TestCase {
 		assertEquals(true, actual.getCondition(0).isMinEquals());
 		assertEquals("1.0", actual.getCondition(0).getMax());
 		assertEquals(true, actual.getCondition(0).isMaxEquals());
-		assertEquals(true, actual.getCondition(1).validate("")); // ‹óğŒ
+		assertEquals(true, actual.getCondition(1).validate("")); // ç©ºæ¡ä»¶
 		assertEquals(null, actual.getCondition(1).getMin());
 		assertEquals(null, actual.getCondition(1).getMax());
 		assertEquals(false, actual.getCondition(1).hasEnumList());
@@ -383,7 +383,7 @@ public class ConfigurationConditionTest extends TestCase {
 		assertEquals(true, actual.getCondition(0).isMaxEquals());
 		assertEquals(true, actual.getCondition(1).hasEnumList());
 		assertEquals(3, actual.getCondition(1).getEnumList().size());
-		assertEquals(true, actual.getCondition(2).validate("")); // ‹óğŒ
+		assertEquals(true, actual.getCondition(2).validate("")); // ç©ºæ¡ä»¶
 		assertEquals(null, actual.getCondition(2).getMin());
 		assertEquals(null, actual.getCondition(2).getMax());
 		assertEquals(false, actual.getCondition(2).hasEnumList());
@@ -392,24 +392,24 @@ public class ConfigurationConditionTest extends TestCase {
 		actual = ConfigurationCondition.parseArray(",, , ");
 		assertTrue(actual.isArrayCondition());
 		assertEquals(4, actual.getArraySize());
-		assertEquals(true, actual.getCondition(0).validate("")); // ‹óğŒ
+		assertEquals(true, actual.getCondition(0).validate("")); // ç©ºæ¡ä»¶
 		assertEquals(null, actual.getCondition(0).getMin());
 		assertEquals(null, actual.getCondition(0).getMax());
 		assertEquals(false, actual.getCondition(0).hasEnumList());
-		assertEquals(true, actual.getCondition(1).validate("")); // ‹óğŒ
+		assertEquals(true, actual.getCondition(1).validate("")); // ç©ºæ¡ä»¶
 		assertEquals(null, actual.getCondition(1).getMin());
 		assertEquals(null, actual.getCondition(1).getMax());
 		assertEquals(false, actual.getCondition(1).hasEnumList());
-		assertEquals(true, actual.getCondition(2).validate("")); // ‹óğŒ
+		assertEquals(true, actual.getCondition(2).validate("")); // ç©ºæ¡ä»¶
 		assertEquals(null, actual.getCondition(2).getMin());
 		assertEquals(null, actual.getCondition(2).getMax());
 		assertEquals(false, actual.getCondition(2).hasEnumList());
-		assertEquals(true, actual.getCondition(3).validate("")); // ‹óğŒ
+		assertEquals(true, actual.getCondition(3).validate("")); // ç©ºæ¡ä»¶
 		assertEquals(null, actual.getCondition(3).getMin());
 		assertEquals(null, actual.getCondition(3).getMax());
 		assertEquals(false, actual.getCondition(3).hasEnumList());
 
-		// 0<x<1, 1<x<, 2<x<3 (ˆê•”‚ªƒGƒ‰[)
+		// 0<x<1, 1<x<, 2<x<3 (ä¸€éƒ¨ãŒã‚¨ãƒ©ãƒ¼)
 		actual = ConfigurationCondition.parseArray("0<x<1, 1<x<, 2<x<3");
 		assertTrue(actual.isArrayCondition());
 		assertEquals(3, actual.getArraySize());
@@ -446,7 +446,7 @@ public class ConfigurationConditionTest extends TestCase {
 		assertEquals(true, actual.getCondition("key0").isMinEquals());
 		assertEquals("1.0", actual.getCondition("key0").getMax());
 		assertEquals(true, actual.getCondition("key0").isMaxEquals());
-		assertEquals(true, actual.getCondition("key1").validate("")); // ‹óğŒ
+		assertEquals(true, actual.getCondition("key1").validate("")); // ç©ºæ¡ä»¶
 		assertEquals(null, actual.getCondition("key1").getMin());
 		assertEquals(null, actual.getCondition("key1").getMax());
 		assertEquals(false, actual.getCondition("key1").hasEnumList());
@@ -462,7 +462,7 @@ public class ConfigurationConditionTest extends TestCase {
 		assertEquals(true, actual.getCondition("key0").isMaxEquals());
 		assertEquals(true, actual.getCondition("key1").hasEnumList());
 		assertEquals(3, actual.getCondition("key1").getEnumList().size());
-		assertEquals(true, actual.getCondition("key2").validate("")); // ‹óğŒ
+		assertEquals(true, actual.getCondition("key2").validate("")); // ç©ºæ¡ä»¶
 		assertEquals(null, actual.getCondition("key2").getMin());
 		assertEquals(null, actual.getCondition("key2").getMax());
 		assertEquals(false, actual.getCondition("key2").hasEnumList());
@@ -470,24 +470,24 @@ public class ConfigurationConditionTest extends TestCase {
 		// {key0:  ,key1:, key2:, key3:}
 		actual = ConfigurationCondition.parseHash("{key0:  ,key1:, key2:, key3:}");
 		assertTrue(actual.isHashCondition());
-		assertEquals(true, actual.getCondition("key0").validate("")); // ‹óğŒ
+		assertEquals(true, actual.getCondition("key0").validate("")); // ç©ºæ¡ä»¶
 		assertEquals(null, actual.getCondition("key0").getMin());
 		assertEquals(null, actual.getCondition("key0").getMax());
 		assertEquals(false, actual.getCondition("key0").hasEnumList());
-		assertEquals(true, actual.getCondition("key1").validate("")); // ‹óğŒ
+		assertEquals(true, actual.getCondition("key1").validate("")); // ç©ºæ¡ä»¶
 		assertEquals(null, actual.getCondition("key1").getMin());
 		assertEquals(null, actual.getCondition("key1").getMax());
 		assertEquals(false, actual.getCondition("key1").hasEnumList());
-		assertEquals(true, actual.getCondition("key2").validate("")); // ‹óğŒ
+		assertEquals(true, actual.getCondition("key2").validate("")); // ç©ºæ¡ä»¶
 		assertEquals(null, actual.getCondition("key2").getMin());
 		assertEquals(null, actual.getCondition("key2").getMax());
 		assertEquals(false, actual.getCondition("key2").hasEnumList());
-		assertEquals(true, actual.getCondition("key3").validate("")); // ‹óğŒ
+		assertEquals(true, actual.getCondition("key3").validate("")); // ç©ºæ¡ä»¶
 		assertEquals(null, actual.getCondition("key3").getMin());
 		assertEquals(null, actual.getCondition("key3").getMax());
 		assertEquals(false, actual.getCondition("key3").hasEnumList());
 
-		// {key0: 0<x<1, key1:1<x<, key2:2<x<3} (ˆê•”‚ªƒGƒ‰[)
+		// {key0: 0<x<1, key1:1<x<, key2:2<x<3} (ä¸€éƒ¨ãŒã‚¨ãƒ©ãƒ¼)
 		actual = ConfigurationCondition.parseHash("{key0: 0<x<1, key1:1<x<, key2:2<x<3}");
 		assertTrue(actual.isHashCondition());
 		assertEquals(3, actual.getHashKeySet().size());
@@ -497,21 +497,21 @@ public class ConfigurationConditionTest extends TestCase {
 		assertEquals("2", actual.getCondition("key2").getMin());
 		assertEquals("3", actual.getCondition("key2").getMax());
 
-		// {key0: 0<x<1 •Â‚¶Š‡ŒÊ‚È‚µ
+		// {key0: 0<x<1 é–‰ã˜æ‹¬å¼§ãªã—
 		try {
 			actual = ConfigurationCondition.parseHash("{key0: 0<x<1");
 			fail();
 		} catch (ConfigurationCondition.FormatException e) {
 			assertTrue(true);
 		}
-		// { : 0<x<1} ƒL[‚È‚µ
+		// { : 0<x<1} ã‚­ãƒ¼ãªã—
 		try {
 			actual = ConfigurationCondition.parseHash("{ : 0<x<1}");
 			fail();
 		} catch (ConfigurationCondition.FormatException e) {
 			assertTrue(true);
 		}
-		// { key0: 0<x,:2>x } ƒL[‚È‚µ
+		// { key0: 0<x,:2>x } ã‚­ãƒ¼ãªã—
 		try {
 			actual = ConfigurationCondition.parseHash("{ key0: 0<x,:2>x }");
 			fail();
@@ -522,10 +522,10 @@ public class ConfigurationConditionTest extends TestCase {
 
 	public void testGetDigits() throws Exception {
 		ConfigurationCondition actual;
-		// ®”
+		// æ•´æ•°
 		actual = ConfigurationCondition.parseX("-10<x<10");
 		assertEquals(0, actual.getDigits());
-		// ¬”
+		// å°æ•°
 		actual = ConfigurationCondition.parseX("-10.0<x<10");
 		assertEquals(1, actual.getDigits());
 		actual = ConfigurationCondition.parseX("-10<x<10.00");
@@ -561,16 +561,16 @@ public class ConfigurationConditionTest extends TestCase {
 	public void testGetStepByValue() throws Exception {
 		ConfigurationWidget wd;
 		ConfigurationCondition actual;
-		// ®”
+		// æ•´æ•°
 		actual = ConfigurationCondition.parseX("-10<x<10");
 		wd = new ConfigurationWidget("slider.1", actual);
 		assertEquals(9, actual.getStepByValue("-1", wd));
-		assertEquals(0, actual.getStepByValue("-11", wd)); // ”ÍˆÍŠO
-		// ¬”
+		assertEquals(0, actual.getStepByValue("-11", wd)); // ç¯„å›²å¤–
+		// å°æ•°
 		actual = ConfigurationCondition.parseX("-0.5<x<0.5");
 		wd = new ConfigurationWidget("slider.0.05", actual);
 		assertEquals(4, actual.getStepByValue("-0.3", wd));
-		assertEquals(20, actual.getStepByValue("0.6", wd)); // ”ÍˆÍŠO
+		assertEquals(20, actual.getStepByValue("0.6", wd)); // ç¯„å›²å¤–
 		actual = ConfigurationCondition.parseX("-10.0<x<10.0");
 		wd = new ConfigurationWidget("slider.1", actual);
 		assertEquals(20, actual.getStepByValue("9.9", wd));
@@ -580,18 +580,18 @@ public class ConfigurationConditionTest extends TestCase {
 	public void testGetValueByStep() throws Exception {
 		ConfigurationWidget wd;
 		ConfigurationCondition actual;
-		// ®”
+		// æ•´æ•°
 		actual = ConfigurationCondition.parseX("-10<x<10");
 		wd = new ConfigurationWidget("slider.1", actual);
 		assertEquals("-1", actual.getValueByStep(9, wd, "0"));
-		assertEquals("-10", actual.getValueByStep(-1, wd, "1")); // ”ÍˆÍŠO
-		assertEquals("10", actual.getValueByStep(21, wd, "2")); // ”ÍˆÍŠO
-		// ¬”
+		assertEquals("-10", actual.getValueByStep(-1, wd, "1")); // ç¯„å›²å¤–
+		assertEquals("10", actual.getValueByStep(21, wd, "2")); // ç¯„å›²å¤–
+		// å°æ•°
 		actual = ConfigurationCondition.parseX("-0.5<x<0.5");
 		wd = new ConfigurationWidget("slider.0.05", actual);
 		assertEquals("-0.3", actual.getValueByStep(4, wd, "3"));
-		assertEquals("-0.5", actual.getValueByStep(-1, wd, "4")); // ”ÍˆÍŠO
-		assertEquals("0.5", actual.getValueByStep(21, wd, "5")); // ”ÍˆÍŠO
+		assertEquals("-0.5", actual.getValueByStep(-1, wd, "4")); // ç¯„å›²å¤–
+		assertEquals("0.5", actual.getValueByStep(21, wd, "5")); // ç¯„å›²å¤–
 		actual = ConfigurationCondition.parseX("-10.0<x<10.0");
 		wd = new ConfigurationWidget("slider.1", actual);
 		assertEquals("9.0", actual.getValueByStep(19, wd, "6"));
@@ -620,7 +620,7 @@ public class ConfigurationConditionTest extends TestCase {
 
 	public void testAdjustMinMaxValue() throws Exception {
 		ConfigurationCondition actual;
-		// ®”(<)
+		// æ•´æ•°(<)
 		actual = ConfigurationCondition.parseX("0<x<10");
 		assertEquals("1", actual.adjustMinMaxValue("-1"));
 		assertEquals("1", actual.adjustMinMaxValue("0"));
@@ -628,7 +628,7 @@ public class ConfigurationConditionTest extends TestCase {
 		assertEquals("9", actual.adjustMinMaxValue("9"));
 		assertEquals("9", actual.adjustMinMaxValue("10"));
 		assertEquals("9", actual.adjustMinMaxValue("11"));
-		// ®”(<=)
+		// æ•´æ•°(<=)
 		actual = ConfigurationCondition.parseX("0<=x<=10");
 		assertEquals("0", actual.adjustMinMaxValue("-1"));
 		assertEquals("0", actual.adjustMinMaxValue("0"));
@@ -636,7 +636,7 @@ public class ConfigurationConditionTest extends TestCase {
 		assertEquals("9", actual.adjustMinMaxValue("9"));
 		assertEquals("10", actual.adjustMinMaxValue("10"));
 		assertEquals("10", actual.adjustMinMaxValue("11"));
-		// ¬”(<)
+		// å°æ•°(<)
 		actual = ConfigurationCondition.parseX("0.0<x<10.0");
 		assertEquals("0.1", actual.adjustMinMaxValue("-1"));
 		assertEquals("0.1", actual.adjustMinMaxValue("0"));
@@ -644,7 +644,7 @@ public class ConfigurationConditionTest extends TestCase {
 		assertEquals("9", actual.adjustMinMaxValue("9"));
 		assertEquals("9.9", actual.adjustMinMaxValue("10"));
 		assertEquals("9.9", actual.adjustMinMaxValue("11"));
-		// ¬”(<=)
+		// å°æ•°(<=)
 		actual = ConfigurationCondition.parseX("0.0<=x<=10.0");
 		assertEquals("0.0", actual.adjustMinMaxValue("-1"));
 		assertEquals("0", actual.adjustMinMaxValue("0"));
@@ -652,7 +652,7 @@ public class ConfigurationConditionTest extends TestCase {
 		assertEquals("9", actual.adjustMinMaxValue("9"));
 		assertEquals("10", actual.adjustMinMaxValue("10"));
 		assertEquals("10.0", actual.adjustMinMaxValue("11"));
-		// ¬”(<A<=)
+		// å°æ•°(<ã€<=)
 		actual = ConfigurationCondition.parseX("0.0<x<=10.00");
 		assertEquals("0.01", actual.adjustMinMaxValue("-1"));
 		assertEquals("0.01", actual.adjustMinMaxValue("0"));
@@ -664,39 +664,39 @@ public class ConfigurationConditionTest extends TestCase {
 
 	public void testValidate() throws Exception {
 		ConfigurationCondition actual;
-		// ‘¦’l
+		// å³å€¤
 		actual = ConfigurationCondition.parse("10.0");
 		assertEquals(true, actual.validate("10.0"));
 		assertEquals(true, actual.validate("10"));
 		assertEquals(false, actual.validate("11.0"));
-		// —ñ‹“Œ^
+		// åˆ—æŒ™å‹
 		actual = ConfigurationCondition.parse("(100,200,aaa)");
 		assertEquals(true, actual.validate("100"));
 		assertEquals(true, actual.validate("200"));
 		assertEquals(true, actual.validate("aaa"));
 		assertEquals(false, actual.validate("100.0"));
 		assertEquals(false, actual.validate("aab"));
-		// ‰ºŒÀ‚Ì‚İ(x>)
+		// ä¸‹é™ã®ã¿(x>)
 		actual = ConfigurationCondition.parse("x>10.0");
 		assertEquals(false, actual.validate("9.9"));
 		assertEquals(false, actual.validate("10.0"));
 		assertEquals(true, actual.validate("10.1"));
-		// ‰ºŒÀ‚Ì‚İ(x>=)
+		// ä¸‹é™ã®ã¿(x>=)
 		actual = ConfigurationCondition.parse("x>=10.0");
 		assertEquals(false, actual.validate("9.9"));
 		assertEquals(true, actual.validate("10.0"));
 		assertEquals(true, actual.validate("10.1"));
-		// ãŒÀ‚Ì‚İ(x<)
+		// ä¸Šé™ã®ã¿(x<)
 		actual = ConfigurationCondition.parse("x<10.0");
 		assertEquals(true, actual.validate("9.9"));
 		assertEquals(false, actual.validate("10.0"));
 		assertEquals(false, actual.validate("10.1"));
-		// ãŒÀ‚Ì‚İ(x<=)
+		// ä¸Šé™ã®ã¿(x<=)
 		actual = ConfigurationCondition.parse("x<=10.0");
 		assertEquals(true, actual.validate("9.9"));
 		assertEquals(true, actual.validate("10.0"));
 		assertEquals(false, actual.validate("10.1"));
-		// ”ÍˆÍ(-10<x<10)
+		// ç¯„å›²(-10<x<10)
 		actual = ConfigurationCondition.parse("-10<x<10");
 		assertEquals(false, actual.validate("-10.1"));
 		assertEquals(false, actual.validate("-10.0"));
@@ -704,7 +704,7 @@ public class ConfigurationConditionTest extends TestCase {
 		assertEquals(true, actual.validate("9.9"));
 		assertEquals(false, actual.validate("10.0"));
 		assertEquals(false, actual.validate("10.1"));
-		// ”ÍˆÍ(-10<=x<10)
+		// ç¯„å›²(-10<=x<10)
 		actual = ConfigurationCondition.parse("-10<=x<10");
 		assertEquals(false, actual.validate("-10.1"));
 		assertEquals(true, actual.validate("-10.0"));
@@ -712,7 +712,7 @@ public class ConfigurationConditionTest extends TestCase {
 		assertEquals(true, actual.validate("9.9"));
 		assertEquals(false, actual.validate("10.0"));
 		assertEquals(false, actual.validate("10.1"));
-		// ”ÍˆÍ(-10<x<=10)
+		// ç¯„å›²(-10<x<=10)
 		actual = ConfigurationCondition.parse("-10<x<=10");
 		assertEquals(false, actual.validate("-10.1"));
 		assertEquals(false, actual.validate("-10.0"));
@@ -720,7 +720,7 @@ public class ConfigurationConditionTest extends TestCase {
 		assertEquals(true, actual.validate("9.9"));
 		assertEquals(true, actual.validate("10.0"));
 		assertEquals(false, actual.validate("10.1"));
-		// ”ÍˆÍ(-10<=x<=10)
+		// ç¯„å›²(-10<=x<=10)
 		actual = ConfigurationCondition.parse("-10<=x<=10");
 		assertEquals(false, actual.validate("-10.1"));
 		assertEquals(true, actual.validate("-10.0"));
@@ -732,19 +732,19 @@ public class ConfigurationConditionTest extends TestCase {
 
 	public void testClone() throws Exception {
 		ConfigurationCondition actual;
-		// ‘¦’l
+		// å³å€¤
 		actual = ConfigurationCondition.parse("10.0");
 		assertEqualsClone(actual, actual.clone());
-		// ”ÍˆÍw’è
+		// ç¯„å›²æŒ‡å®š
 		actual = ConfigurationCondition.parseX("-10<x<10");
 		assertEqualsClone(actual, actual.clone());
-		// —ñ‹“Œ^
+		// åˆ—æŒ™å‹
 		actual = ConfigurationCondition.parseEnum("(100,200,300)");
 		assertEqualsClone(actual, actual.clone());
-		// ”z—ñŒ^
+		// é…åˆ—å‹
 		actual = ConfigurationCondition.parseArray("100, 0<=x<1,(100,200,300)");
 		assertEqualsClone(actual, actual.clone());
-		// ƒnƒbƒVƒ…Œ^
+		// ãƒãƒƒã‚·ãƒ¥å‹
 		actual = ConfigurationCondition.parseHash("{key0:100, key1: 0<=x<1,key2: (100,200,300) }");
 		assertEqualsClone(actual, actual.clone());
 	}

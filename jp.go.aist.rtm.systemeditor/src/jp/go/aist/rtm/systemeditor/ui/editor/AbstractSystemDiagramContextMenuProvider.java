@@ -13,7 +13,7 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.actions.ActionFactory;
 
 /**
- * システムダイアグラムのContextMenuProviderクラス
+ * 繧ｷ繧ｹ繝�繝繝繧､繧｢繧ｰ繝ｩ繝縺ｮContextMenuProvider繧ｯ繝ｩ繧ｹ
  */
 public class AbstractSystemDiagramContextMenuProvider extends
 		ContextMenuProvider {

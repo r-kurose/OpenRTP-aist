@@ -69,5 +69,14 @@ public class TestBase extends TestCase {
 		assertEquals(expContent, result.get(index).getCode());
 	}
 
+	protected void nonexist(List<GeneratedResult> result, String resourceDir,
+			String fileName) {
+		int i = getFileIndex(fileName, result);
+		if (i != -1) {
+			fail();
+		}
+		assertTrue(true);
+	}
+
 }
 

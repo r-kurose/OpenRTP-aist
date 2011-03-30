@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import jp.go.aist.rtm.nameserviceview.NameServiceViewPlugin;
-import jp.go.aist.rtm.nameserviceview.manager.AlreadyExistException;
-import jp.go.aist.rtm.nameserviceview.manager.NameServerContext;
-import jp.go.aist.rtm.nameserviceview.manager.NameServerManager;
+import jp.go.aist.rtm.nameserviceview.model.manager.NameServerContext;
+import jp.go.aist.rtm.nameserviceview.model.manager.NameServerManager;
+import jp.go.aist.rtm.nameserviceview.model.manager.util.AlreadyExistException;
 import jp.go.aist.rtm.nameserviceview.nl.Messages;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -26,22 +26,22 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * ƒl[ƒ€ƒT[ƒo‚ğ’Ç‰Á‚·‚éƒ_ƒCƒAƒƒO
+ * ãƒãƒ¼ãƒ ã‚µãƒ¼ãƒã‚’è¿½åŠ ã™ã‚‹ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
  * <p>
- * ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚É‚ÍAÚ‘±‚ª¬Œ÷‚µ‚½‚±‚Æ‚Ì‚ ‚éƒAƒhƒŒƒX‚Ìˆê——‚ª•\¦‚³‚êAÅŒã‚ÉÚ‘±‚µ‚½ƒAƒhƒŒƒX‚ª‘I‘ğ‚³‚ê‚éB
+ * ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã«ã¯ã€æ¥ç¶šãŒæˆåŠŸã—ãŸã“ã¨ã®ã‚ã‚‹ã‚¢ãƒ‰ãƒ¬ã‚¹ã®ä¸€è¦§ãŒè¡¨ç¤ºã•ã‚Œã€æœ€å¾Œã«æ¥ç¶šã—ãŸã‚¢ãƒ‰ãƒ¬ã‚¹ãŒé¸æŠã•ã‚Œã‚‹ã€‚
  */
 public class NameServerSectionsDialog extends Dialog {
 	private enum AddStatus{SUCCESS, CANT_CONNECT, CANT_CREATE_OBJECT_TREE, ALREADY_CONNECT}
 
 	/**
-	 * Ú‘±‚ª¬Œ÷‚µ‚½‚±‚Æ‚Ì‚ ‚éƒAƒhƒŒƒX‚Ìˆê——‚ğ•Û‘¶‚·‚éAƒ[ƒNƒXƒy[ƒX‰i‘±•¶š—ñ‚Ö‚ÌƒL[
+	 * æ¥ç¶šãŒæˆåŠŸã—ãŸã“ã¨ã®ã‚ã‚‹ã‚¢ãƒ‰ãƒ¬ã‚¹ã®ä¸€è¦§ã‚’ä¿å­˜ã™ã‚‹ã€ãƒ¯ãƒ¼ã‚¯ã‚¹ãƒšãƒ¼ã‚¹æ°¸ç¶šæ–‡å­—åˆ—ã¸ã®ã‚­ãƒ¼
 	 */
 	public static final String COMBO_ITEMS_KEY = NameServerSectionsDialog.class
 			.getName()
 			+ ".combo.items"; //$NON-NLS-1$
 
 	/**
-	 * ÅŒã‚ÉÚ‘±‚ª¬Œ÷‚µ‚½ƒAƒhƒŒƒX‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ•Û‘¶‚·‚éAƒ[ƒNƒXƒy[ƒX‰i‘±•¶š—ñ‚Ö‚ÌƒL[
+	 * æœ€å¾Œã«æ¥ç¶šãŒæˆåŠŸã—ãŸã‚¢ãƒ‰ãƒ¬ã‚¹ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ä¿å­˜ã™ã‚‹ã€ãƒ¯ãƒ¼ã‚¯ã‚¹ãƒšãƒ¼ã‚¹æ°¸ç¶šæ–‡å­—åˆ—ã¸ã®ã‚­ãƒ¼
 	 */
 	public static final String COMBO_SELECTION_INDEX_KEY = NameServerSectionsDialog.class
 			.getName()
@@ -54,7 +54,7 @@ public class NameServerSectionsDialog extends Dialog {
 	private Label message;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param shell
 	 */
@@ -109,7 +109,7 @@ public class NameServerSectionsDialog extends Dialog {
 	}
 
 	/**
-	 * ƒ[ƒNƒXƒy[ƒX‚Ì‰i‘±î•ñ‚©‚çAƒRƒ“ƒ{‚ÌƒŠƒXƒg‚Æ‘I‘ğƒCƒ“ƒfƒbƒNƒX‚ğƒ[ƒh‚·‚é
+	 * ãƒ¯ãƒ¼ã‚¯ã‚¹ãƒšãƒ¼ã‚¹ã®æ°¸ç¶šæƒ…å ±ã‹ã‚‰ã€ã‚³ãƒ³ãƒœã®ãƒªã‚¹ãƒˆã¨é¸æŠã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
 	 * 
 	 * @param combo
 	 */
@@ -126,7 +126,7 @@ public class NameServerSectionsDialog extends Dialog {
 	}
 
 	/**
-	 * ¬Œ÷‚µ‚½ƒAƒhƒŒƒX‚¨‚æ‚Ñ‘I‘ğƒCƒ“ƒfƒbƒNƒX‚ğA‰i‘±î•ñ‚Éİ’è‚·‚é
+	 * æˆåŠŸã—ãŸã‚¢ãƒ‰ãƒ¬ã‚¹ãŠã‚ˆã³é¸æŠã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ã€æ°¸ç¶šæƒ…å ±ã«è¨­å®šã™ã‚‹
 	 * 
 	 * @param combo
 	 */
@@ -150,7 +150,7 @@ public class NameServerSectionsDialog extends Dialog {
 		}
 
 		int selectionIndex = valueList.indexOf(value);
-		if (selectionIndex == -1) { // V‚µ‚¢“ü—Í‚ğs‚Á‚½ê‡
+		if (selectionIndex == -1) { // æ–°ã—ã„å…¥åŠ›ã‚’è¡Œã£ãŸå ´åˆ
 			selectionIndex = 0;
 		}
 		NameServiceViewPlugin.getDefault().getPreferenceStore().setValue(
@@ -170,7 +170,7 @@ public class NameServerSectionsDialog extends Dialog {
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * OKƒ{ƒ^ƒ“‰Ÿ‰º‚ÉÀs‚ğs‚¢A–â‘è‚È‚¢‚È‚ç‚ÎA¬Œ÷‚µ‚½ƒAƒhƒŒƒX‚ğ•Û‘¶‚·‚éB
+	 * OKãƒœã‚¿ãƒ³æŠ¼ä¸‹æ™‚ã«å®Ÿè¡Œã‚’è¡Œã„ã€å•é¡Œãªã„ãªã‚‰ã°ã€æˆåŠŸã—ãŸã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’ä¿å­˜ã™ã‚‹ã€‚
 	 */
 	protected void okPressed() {
 		value = combo.getText();
@@ -183,13 +183,13 @@ public class NameServerSectionsDialog extends Dialog {
 	}
 
 	/**
-	 * ƒAƒhƒŒƒX‚ÌƒoƒŠƒf[ƒg‚ğs‚¢A–â‘è‚È‚¢ê‡‚É‚ÍƒAƒhƒŒƒX‚ğ’Ç‰Á‚·‚é
+	 * ã‚¢ãƒ‰ãƒ¬ã‚¹ã®ãƒãƒªãƒ‡ãƒ¼ãƒˆã‚’è¡Œã„ã€å•é¡Œãªã„å ´åˆã«ã¯ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¿½åŠ ã™ã‚‹
 	 * <P>
-	 * ƒoƒŠƒf[ƒg‚Æ‚µ‚Ä‚ÍˆÈ‰º‚ğs‚¤
+	 * ãƒãƒªãƒ‡ãƒ¼ãƒˆã¨ã—ã¦ã¯ä»¥ä¸‹ã‚’è¡Œã†
 	 * <ol>
-	 * <li>•K{ƒ`ƒFƒbƒN</li>
-	 * <li>Ú‘±Ï‚İƒAƒhƒŒƒX‚Å‚ ‚é‚©‚Ç‚¤‚©</li>
-	 * <li>Ú‘±‚Å‚«‚é‚©</li>
+	 * <li>å¿…é ˆãƒã‚§ãƒƒã‚¯</li>
+	 * <li>æ¥ç¶šæ¸ˆã¿ã‚¢ãƒ‰ãƒ¬ã‚¹ã§ã‚ã‚‹ã‹ã©ã†ã‹</li>
+	 * <li>æ¥ç¶šã§ãã‚‹ã‹</li>
 	 * </ol>
 	 * 
 	 * @param address
@@ -234,7 +234,7 @@ public class NameServerSectionsDialog extends Dialog {
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * ƒl[ƒ€ƒT[ƒo‚ÖƒAƒNƒZƒX‚µAƒIƒuƒWƒFƒNƒgŒQ‚ğ\’z‚µ‚ÄAƒl[ƒ€ƒT[ƒo‚ğ’Ç‰Á‚·‚é
+	 * ãƒãƒ¼ãƒ ã‚µãƒ¼ãƒã¸ã‚¢ã‚¯ã‚»ã‚¹ã—ã€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç¾¤ã‚’æ§‹ç¯‰ã—ã¦ã€ãƒãƒ¼ãƒ ã‚µãƒ¼ãƒã‚’è¿½åŠ ã™ã‚‹
 	 */
 	private final class ConnectToNameServer implements IRunnableWithProgress {
 		private final String value;
@@ -242,9 +242,9 @@ public class NameServerSectionsDialog extends Dialog {
 		private AddStatus result;
 
 		/**
-		 * Œ‹‰Ê‚ğ•Ô‚·BiCANT_CONNECT,CANT_CREATE_OBJECT_TREE,SUCCESSj
+		 * çµæœã‚’è¿”ã™ã€‚ï¼ˆCANT_CONNECT,CANT_CREATE_OBJECT_TREE,SUCCESSï¼‰
 		 * 
-		 * @return Œ‹‰Ê
+		 * @return çµæœ
 		 */
 		public AddStatus getResult() {
 			return result;

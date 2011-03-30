@@ -6,6 +6,7 @@ import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.core.Rectangle;
+import jp.go.aist.rtm.toolscommon.profiles.util.IDUtil;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.ui.IEditorPart;
@@ -14,14 +15,14 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * ƒRƒ“ƒ|[ƒlƒ“ƒgˆ—‚ÉŠÖ‚·‚éƒ†[ƒeƒBƒŠƒeƒB
+ * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå‡¦ç†ã«é–¢ã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
  */
 public class ComponentUtil {
 
 	/**
-	 * ƒ_ƒCƒAƒOƒ‰ƒ€‚ğ•\¦‚µ‚Ä‚¢‚éƒGƒfƒBƒ^‚ğ’T‚µo‚µ‚Ä•Ô‚·B
-	 * Œ©‚Â‚©‚ç‚È‚¯‚ê‚ÎAnull‚ğ•Ô‚·B
-	 * @param diagram	ˆ—‘ÎÛ‚ÌƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€
+	 * ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã‚’è¡¨ç¤ºã—ã¦ã„ã‚‹ã‚¨ãƒ‡ã‚£ã‚¿ã‚’æ¢ã—å‡ºã—ã¦è¿”ã™ã€‚
+	 * è¦‹ã¤ã‹ã‚‰ãªã‘ã‚Œã°ã€nullã‚’è¿”ã™ã€‚
+	 * @param diagram	å‡¦ç†å¯¾è±¡ã®ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ 
 	 * @return
 	 */
 	public static AbstractSystemDiagramEditor findEditor(
@@ -42,8 +43,8 @@ public class ComponentUtil {
 	}
 
 	/**
-	 * ŠJ‚¢‚½qƒEƒBƒ“ƒhƒE‚ğ•Â‚¶‚é
-	 * @param target	•¡‡ƒRƒ“ƒ|[ƒlƒ“ƒg
+	 * é–‹ã„ãŸå­ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‰ã˜ã‚‹
+	 * @param target	è¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 	 */
 	public static void closeCompositeComponent(Component target) {
 		final AbstractSystemDiagramEditor editor = ComponentUtil.findEditor(target.getChildSystemDiagram());
@@ -69,9 +70,9 @@ public class ComponentUtil {
 	}
 
 	/**
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg”‚ğŒŸõ‚·‚éƒƒ\ƒbƒh(ƒIƒtƒ‰ƒCƒ“ƒGƒfƒBƒ^—p)
-	 * @param component	ƒRƒ“ƒ|[ƒlƒ“ƒgd—l
-	 * @param rootSystemDiagram@ƒ‹[ƒg‚ÌƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆæ•°ã‚’æ¤œç´¢ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰(ã‚ªãƒ•ãƒ©ã‚¤ãƒ³ã‚¨ãƒ‡ã‚£ã‚¿ç”¨)
+	 * @param component	ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆä»•æ§˜
+	 * @param rootSystemDiagramã€€ãƒ«ãƒ¼ãƒˆã®ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ 
 	 * @return
 	 */
 	public static int getComponentNumberByPathId(
@@ -80,10 +81,15 @@ public class ComponentUtil {
 		if (component == null || rootSystemDiagram == null) {
 			return result;
 		}
+		//TODO 09.09.30 pathURIå¯¾å¿œ
 		String basePathId = component.getPathId();
+//		int compIndex  = basePathId.lastIndexOf(":");
+//		if (compIndex >= 0) basePathId = basePathId.substring(0, compIndex);
 		for (Component tempComponent : rootSystemDiagram.getRegisteredComponents()) {
 			if (tempComponent.getPathId() != null ) {
 				String pathID = tempComponent.getPathId();
+//				int index = pathID.lastIndexOf(":");
+//				pathID = pathID.substring(0, index);
 				if( pathID.equals(basePathId)) {
 					result++;
 				}
@@ -93,9 +99,9 @@ public class ComponentUtil {
 	}
 
 	/**
-	 * @param rectangle	Šî€‚Æ‚È‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌˆÊ’u
-	 * @param count@@@@V‹K‚É“o˜^‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì”Ô†
-	 * @return@@@@@@@@V‹K‚É“o˜^‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌˆÊ’u
+	 * @param rectangle	åŸºæº–ã¨ãªã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ä½ç½®
+	 * @param countã€€ã€€ã€€ã€€æ–°è¦ã«ç™»éŒ²ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ç•ªå·
+	 * @returnã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€æ–°è¦ã«ç™»éŒ²ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ä½ç½®
 	 */
 	public static Rectangle getNewComponentConstraint(Rectangle rectangle,
 			int count) {
@@ -110,8 +116,8 @@ public class ComponentUtil {
 	}
 
 	/**
-	 * @param cs	•¡ÊŒ³‚ÌConfigurationSet
-	 * @return@@@@@•¡Ê‚µ‚½ConfigurationSet
+	 * @param cs	è¤‡å†™å…ƒã®ConfigurationSet
+	 * @returnã€€ã€€ã€€ã€€ã€€è¤‡å†™ã—ãŸConfigurationSet
 	 */
 	public static ConfigurationSet cloneConfigurationSet(ConfigurationSet cs) {
 		ConfigurationSet result = (ConfigurationSet) EcoreUtil.copy(cs);
@@ -122,15 +128,48 @@ public class ComponentUtil {
 	}
 
 	/**
-	 * ƒ|[ƒg–¼‚ğ³‹K‰»("RTC–¼"."ƒ|[ƒg–¼" Œ`®)‚µ‚Ü‚·B(ƒIƒtƒ‰ƒCƒ“)
+	 * è¤‡åˆRTCå†…ã‚’è¡¨ã™ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã‚’è¨­å®šã—ã¾ã™ã€‚
+	 * 
+	 * @param diagram
+	 *            è¤‡åˆRTCå†…ã‚’è¡¨ã™ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ 
+	 * @param compositeComponent
+	 *            è¤‡åˆRTC
+	 * @param parentDiagram
+	 *            è¦ªã®ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ 
 	 */
-	public static String createPortName(String insName, String portName) {
-		String result = (portName == null) ? "" : portName;
-		if (!result.startsWith(insName)) {
-			String[] ns = result.split("\\.");
-			result = insName + "." + ns[ns.length - 1];
+	public static void setCompositeComponentDiagram(SystemDiagram diagram,
+			Component compositeComponent, SystemDiagram parentDiagram) {
+		// ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ å±æ€§ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+		diagram.setParentSystemDiagram(parentDiagram);
+		diagram.setKind(parentDiagram.getKind());
+		diagram.setCreationDate(parentDiagram.getCreationDate());
+		diagram.setUpdateDate(parentDiagram.getUpdateDate());
+
+		// è¤‡åˆRTCå±æ€§ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+		diagram.setCompositeComponent(compositeComponent);
+		IDUtil.RTSId rtsId = new IDUtil.RTSId(compositeComponent.getVenderL(),
+				compositeComponent.getInstanceNameL(), compositeComponent
+						.getVersionL());
+		diagram.setSystemId(rtsId.toString());
+		for (String key : compositeComponent.getPropertyKeys()) {
+			diagram.setProperty(key, compositeComponent.getProperty(key));
 		}
-		return result;
+		// å…¬é–‹ãƒãƒ¼ãƒˆæƒ…å ±ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+		String value = "";
+		for (String p : compositeComponent.getExportedPorts()) {
+			if (!value.isEmpty()) {
+				value += ",";
+			}
+			value += p;
+		}
+		diagram.setProperty("exported_ports", value);
+
+		// å­ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã«ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+		diagram.clearComponents();
+		for (Object o : compositeComponent.getComponents()) {
+			Component component = (Component) o;
+			diagram.addComponent(component); // ãƒ«ãƒ¼ãƒˆãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å­ä¾›ã‚’ãã®ã¾ã¾ä½¿ã„ã¾ã‚ã™
+		}
 	}
 
 }

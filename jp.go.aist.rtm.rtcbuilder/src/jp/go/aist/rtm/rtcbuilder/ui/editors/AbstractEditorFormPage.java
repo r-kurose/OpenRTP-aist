@@ -3,6 +3,8 @@ package jp.go.aist.rtm.rtcbuilder.ui.editors;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -53,7 +55,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	protected Font titleFont;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 */
 	public AbstractEditorFormPage(RtcBuilderEditor editor, String id, String name) {
@@ -399,7 +401,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 
 	/**
-	 * ƒ[ƒNƒXƒy[ƒX‚Ì‰i‘±î•ñ‚©‚çAƒRƒ“ƒ{‚ÌƒŠƒXƒg‚Æ‘I‘ğƒCƒ“ƒfƒbƒNƒX‚ğƒ[ƒh‚·‚é
+	 * ãƒ¯ãƒ¼ã‚¯ã‚¹ãƒšãƒ¼ã‚¹ã®æ°¸ç¶šæƒ…å ±ã‹ã‚‰ã€ã‚³ãƒ³ãƒœã®ãƒªã‚¹ãƒˆã¨é¸æŠã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
 	 * 
 	 * @param combo
 	 */
@@ -413,7 +415,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 
 	/**
-	 * “ü—Í‚µ‚½ƒJƒeƒSƒŠ‚ğ‰i‘±î•ñ‚Éİ’è‚·‚é
+	 * å…¥åŠ›ã—ãŸã‚«ãƒ†ã‚´ãƒªã‚’æ°¸ç¶šæƒ…å ±ã«è¨­å®šã™ã‚‹
 	 * 
 	 * @param combo
 	 */
@@ -451,26 +453,42 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 	
 	protected String[] extractDataTypes() {
-		List<String> sources = new ArrayList<String>(DataTypePreferenceManager.getInstance().getIdlFileDirectories());
+		String FS = System.getProperty("file.separator");
+		List<String> sources = new ArrayList<String>(DataTypePreferenceManager
+				.getInstance().getIdlFileDirectories());
 		String defaultPath = System.getenv("RTM_ROOT");
-		if( defaultPath!=null ) { 
-			sources.add(0, defaultPath + "rtm"+System.getProperty( "file.separator" )+"idl");
+		if (defaultPath != null) {
+			sources.add(0, defaultPath + "rtm" + FS + "idl");
 		}
 		List<DataTypeParam> sourceContents = new ArrayList<DataTypeParam>();
-		for(int intidx=0;intidx<sources.size();intidx++) {
+		for (int intidx = 0; intidx < sources.size(); intidx++) {
+			String source = sources.get(intidx);
 			try {
-				File idlDir = new File(sources.get(intidx));
-				String[] idlNames = idlDir.list();
-				if (idlNames == null) continue;
-				for( int intidxFile=0; intidxFile<idlNames.length; intidxFile++ ) {
-					if(idlNames[intidxFile].toLowerCase().endsWith(".idl") ) {
-						String idlContent = FileUtil.readFile(
-								sources.get(intidx) + System.getProperty( "file.separator" ) + idlNames[intidxFile]);
-						DataTypeParam param = new DataTypeParam();
-						param.setContent(idlContent);
-						param.setFullPath(sources.get(intidx) + System.getProperty( "file.separator" ) + idlNames[intidxFile]);
-						sourceContents.add(param);
-						if( intidx>0 ) param.setAddition(true);
+				File idlDir = new File(source);
+				String[] list = idlDir.list();
+				if (list == null) {
+					continue;
+				}
+				List<String> idlNames = new ArrayList<String>();
+				for (String name : list) {
+					if (name.toLowerCase().endsWith(".idl")) {
+						idlNames.add(name);
+					}
+				}
+				Collections.sort(idlNames, new Comparator<String>() {
+					public int compare(String a, String b) {
+						return a.compareTo(b);
+					}
+				});
+				for (String idlName : idlNames) {
+					String idlContent = FileUtil
+							.readFile(source + FS + idlName);
+					DataTypeParam param = new DataTypeParam();
+					param.setContent(idlContent);
+					param.setFullPath(source + FS + idlName);
+					sourceContents.add(param);
+					if (intidx > 0) {
+						param.setAddition(true);
 					}
 				}
 			} catch (IOException e) {
@@ -480,14 +498,15 @@ public abstract class AbstractEditorFormPage extends FormPage {
 			}
 		}
 		String[] defaultTypeList = new String[0];
-		List<String> dataTypes = IDLParamConverter.extractTypeDef(sourceContents);
+		List<String> dataTypes = IDLParamConverter
+				.extractTypeDef(sourceContents);
 		defaultTypeList = new String[dataTypes.size()];
 		defaultTypeList = dataTypes.toArray(defaultTypeList);
 		//
 		editor.getGeneratorParam().getDataTypeParams().clear();
 		editor.getGeneratorParam().getDataTypeParams().addAll(sourceContents);
 		//
-		
+
 		return defaultTypeList;
 	}
 
@@ -512,14 +531,14 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 	
 	public void pageSelected(){
-		// ƒy[ƒW‚ª‘I‘ğ‚³‚ê‚½‚Æ‚«‚Éˆ—‚ª•K—v‚Èê‡‚ÍA‚±‚ê‚ğƒI[ƒo[ƒ‰ƒCƒh‚·‚é
+		// ãƒšãƒ¼ã‚¸ãŒé¸æŠã•ã‚ŒãŸã¨ãã«å‡¦ç†ãŒå¿…è¦ãªå ´åˆã¯ã€ã“ã‚Œã‚’ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã™ã‚‹
 	}
 
 	/**
-	 * Composite‚ÉBackgroundColor‚ğw’è‚·‚éB
-	 * Composite‚ªq‚ğ‚Âê‡‚É‚Íq‚ÌBackgroundColor‚àw’è‚·‚éB
-	 * q‚ªComposite‚Ìê‡‚É‚ÍÄ‹NŒÄ‚Ño‚µ‚ğs‚¤B
-	 * w’è‚µ‚½Composite‚Ì‰º‚É‚ ‚éControl‚·‚×‚Ä‚ª“¯‚¶BackgroundColor‚É‚È‚éB
+	 * Compositeã«BackgroundColorã‚’æŒ‡å®šã™ã‚‹ã€‚
+	 * CompositeãŒå­ã‚’æŒã¤å ´åˆã«ã¯å­ã®BackgroundColorã‚‚æŒ‡å®šã™ã‚‹ã€‚
+	 * å­ãŒCompositeã®å ´åˆã«ã¯å†èµ·å‘¼ã³å‡ºã—ã‚’è¡Œã†ã€‚
+	 * æŒ‡å®šã—ãŸCompositeã®ä¸‹ã«ã‚ã‚‹Controlã™ã¹ã¦ãŒåŒã˜BackgroundColorã«ãªã‚‹ã€‚
 	 * 
 	 * @param composit
 	 * @param color
@@ -538,7 +557,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 
 	/**
-	 * ƒtƒH[ƒ€“à‚Ì—v‘f‚ğw‚µ¦‚·ƒIƒuƒWƒFƒNƒgB
+	 * ãƒ•ã‚©ãƒ¼ãƒ å†…ã®è¦ç´ ã‚’æŒ‡ã—ç¤ºã™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
 	 */
 	public static class WidgetInfo {
 		String formName;
@@ -576,22 +595,22 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 
 	/**
-	 * ƒtƒH[ƒ€“à‚Ì—v‘f‚Ì—LŒø/–³Œø‚ğİ’è‚µ‚Ü‚·B
+	 * ãƒ•ã‚©ãƒ¼ãƒ å†…ã®è¦ç´ ã®æœ‰åŠ¹/ç„¡åŠ¹ã‚’è¨­å®šã—ã¾ã™ã€‚
 	 * 
 	 * @param widgetInfo
-	 *            ƒtƒH[ƒ€“à‚Ì—v‘f‚ÌƒAƒhƒŒƒXî•ñ
+	 *            ãƒ•ã‚©ãƒ¼ãƒ å†…ã®è¦ç´ ã®ã‚¢ãƒ‰ãƒ¬ã‚¹æƒ…å ±
 	 * @param enabled
-	 *            —LŒø‚Ìê‡‚Í true
+	 *            æœ‰åŠ¹ã®å ´åˆã¯ true
 	 */
 	public void setEnabledInfo(WidgetInfo widgetInfo, boolean enabled) {
 	}
 
 	/**
-	 * —LŒø/–³Œø‚Ì”wŒiF‚ğæ“¾‚µ‚Ü‚·B
+	 * æœ‰åŠ¹/ç„¡åŠ¹æ™‚ã®èƒŒæ™¯è‰²ã‚’å–å¾—ã—ã¾ã™ã€‚
 	 * 
 	 * @param enabled
-	 *            —LŒø‚Ìê‡‚Í true
-	 * @return —LŒø‚Ìê‡‚Í SWT.COLOR_LIST_BACKGROUNDA–³Œø‚Ìê‡‚Í
+	 *            æœ‰åŠ¹ã®å ´åˆã¯ true
+	 * @return æœ‰åŠ¹ã®å ´åˆã¯ SWT.COLOR_LIST_BACKGROUNDã€ç„¡åŠ¹ã®å ´åˆã¯
 	 *         SWT.COLOR_WIDGET_LIGHT_SHADOW
 	 */
 	public Color getBackgroundByEnabled(boolean enabled) {
@@ -601,12 +620,12 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 
 	/**
-	 * Viewer‚Ì—LŒø/–³Œø‚ğİ’è‚µ‚Ü‚·B
+	 * Viewerã®æœ‰åŠ¹/ç„¡åŠ¹ã‚’è¨­å®šã—ã¾ã™ã€‚
 	 * 
 	 * @param viewer
-	 *            ViewerƒIƒuƒWƒFƒNƒg
+	 *            Viewerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 * @param enabled
-	 *            —LŒø‚Ìê‡‚Í true
+	 *            æœ‰åŠ¹ã®å ´åˆã¯ true
 	 */
 	public void setViewerEnabled(Viewer viewer, boolean enabled) {
 		if (viewer == null) {
@@ -618,12 +637,12 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 
 	/**
-	 * Control‚Ì—LŒø/–³Œø‚ğİ’è‚µ‚Ü‚·B
+	 * Controlã®æœ‰åŠ¹/ç„¡åŠ¹ã‚’è¨­å®šã—ã¾ã™ã€‚
 	 * 
 	 * @param control
-	 *            ControlƒIƒuƒWƒFƒNƒg
+	 *            Controlã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 * @param enabled
-	 *            —LŒø‚Ìê‡‚Í true
+	 *            æœ‰åŠ¹ã®å ´åˆã¯ true
 	 */
 	public void setControlEnabled(Control control, boolean enabled) {
 		if (control == null) {
@@ -635,12 +654,12 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 
 	/**
-	 * Button‚Ì—LŒø/–³Œø‚ğİ’è‚µ‚Ü‚·B
+	 * Buttonã®æœ‰åŠ¹/ç„¡åŠ¹ã‚’è¨­å®šã—ã¾ã™ã€‚
 	 * 
 	 * @param button
-	 *            ButtonƒIƒuƒWƒFƒNƒg
+	 *            Buttonã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 * @param enabled
-	 *            —LŒø‚Ìê‡‚Í true
+	 *            æœ‰åŠ¹ã®å ´åˆã¯ true
 	 */
 	public void setButtonEnabled(Button button, boolean enabled) {
 		if (button == null) {

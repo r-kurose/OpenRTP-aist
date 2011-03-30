@@ -15,14 +15,14 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
 
 public class CXXPrefixSuffixTest extends TestBase {
-	
+
 	private RtcParam rtcParam;
 	private GeneratorParam genParam;
 
 	protected void setUp() throws Exception {
 		genParam = new GeneratorParam();
 		rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "\\resource\\work");
+		rtcParam.setOutputProject(rootPath + "/resource/work");
 		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
 		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
 		rtcParam.setName("foo");
@@ -42,38 +42,38 @@ public class CXXPrefixSuffixTest extends TestBase {
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
 		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
 		rtcParam.getInports().addAll(dataport);
-		
-		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
+
+		List<DataPortParam> outport = new ArrayList<DataPortParam>();
 		outport.add(new DataPortParam("OutP1", "RTC::TimedOctet", "", 0));
 		outport.add(new DataPortParam("OutP2", "RTC::TimedFloat", "", 0));
 		rtcParam.getOutports().addAll(outport);
-		
+
 		////
 		ServicePortParam service1 = new ServicePortParam("svPort",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
-				rootPath + "\\resource\\MyService.idl", "MyService", "", 0);
+				rootPath + "/resource/MyService.idl", "MyService", "", 0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
-		
+
 		ServicePortParam service2 = new ServicePortParam("cmPort",0);
 		List<ServicePortInterfaceParam> srvinterts2 = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service2, "rate", "", "", 
-				rootPath + "\\resource\\DAQService.idl", "DAQService", "", 1);
+				rootPath + "/resource/DAQService.idl", "DAQService", "", 1);
 		srvinterts2.add(int2);
 		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
-		
+
 		rtcParam.getServicePorts().addAll(srvports);
 		//
-		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
-		configset.add(new ConfigSetParam("int_param0","int","", "0"));
+		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>();
+		configset.add(new ConfigSetParam("int_param0", "int", "", "0"));
 		rtcParam.getConfigParams().addAll(configset);
 	}
 
-	public void testSuffixConf() throws Exception{
+	public void testSuffixConf() throws Exception {
 		rtcParam.setCommonPrefix("p_");
 		rtcParam.setCommonSuffix("_s");
 		rtcParam.setDataPortPrefix("dt");
@@ -88,11 +88,11 @@ public class CXXPrefixSuffixTest extends TestBase {
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "\\resource\\100\\CXX\\PrefixSuffix\\confsuffix\\";
+		String resourceDir = rootPath +  "/resource/100/CXX/PrefixSuffix/confsuffix/";
 		checkResults(result, resourceDir);
 	}
-	
-	public void testPrefixConf() throws Exception{
+
+	public void testPrefixConf() throws Exception {
 		rtcParam.setCommonPrefix("p_");
 		rtcParam.setCommonSuffix("_s");
 		rtcParam.setDataPortPrefix("dt");
@@ -106,11 +106,11 @@ public class CXXPrefixSuffixTest extends TestBase {
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "\\resource\\100\\CXX\\PrefixSuffix\\confprefix\\";
+		String resourceDir = rootPath +  "/resource/100/CXX/PrefixSuffix/confprefix/";
 		checkResults(result, resourceDir);
 	}
-	
-	public void testSuffixIF() throws Exception{
+
+	public void testSuffixIF() throws Exception {
 		rtcParam.setCommonPrefix("p_");
 		rtcParam.setCommonSuffix("_s");
 		rtcParam.setDataPortPrefix("dt");
@@ -123,11 +123,11 @@ public class CXXPrefixSuffixTest extends TestBase {
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "\\resource\\100\\CXX\\PrefixSuffix\\sisuffix\\";
+		String resourceDir = rootPath +  "/resource/100/CXX/PrefixSuffix/sisuffix/";
 		checkResults(result, resourceDir);
 	}
-	
-	public void testPrefixIF() throws Exception{
+
+	public void testPrefixIF() throws Exception {
 		rtcParam.setCommonPrefix("p_");
 		rtcParam.setCommonSuffix("_s");
 		rtcParam.setDataPortPrefix("dt");
@@ -139,11 +139,11 @@ public class CXXPrefixSuffixTest extends TestBase {
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "\\resource\\100\\CXX\\PrefixSuffix\\siprefix\\";
+		String resourceDir = rootPath +  "/resource/100/CXX/PrefixSuffix/siprefix/";
 		checkResults(result, resourceDir);
 	}
-	
-	public void testSuffixService() throws Exception{
+
+	public void testSuffixService() throws Exception {
 		rtcParam.setCommonPrefix("p_");
 		rtcParam.setCommonSuffix("_s");
 		rtcParam.setDataPortPrefix("dt");
@@ -154,11 +154,11 @@ public class CXXPrefixSuffixTest extends TestBase {
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "\\resource\\100\\CXX\\PrefixSuffix\\svsuffix\\";
+		String resourceDir = rootPath +  "/resource/100/CXX/PrefixSuffix/svsuffix/";
 		checkResults(result, resourceDir);
 	}
 	
-	public void testPrefixService() throws Exception{
+	public void testPrefixService() throws Exception {
 		rtcParam.setCommonPrefix("p_");
 		rtcParam.setCommonSuffix("_s");
 		rtcParam.setDataPortPrefix("dt");
@@ -168,11 +168,11 @@ public class CXXPrefixSuffixTest extends TestBase {
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "\\resource\\100\\CXX\\PrefixSuffix\\svprefix\\";
+		String resourceDir = rootPath +  "/resource/100/CXX/PrefixSuffix/svprefix/";
 		checkResults(result, resourceDir);
 	}
 	
-	public void testSuffixData() throws Exception{
+	public void testSuffixData() throws Exception {
 		rtcParam.setCommonPrefix("p_");
 		rtcParam.setCommonSuffix("_s");
 		rtcParam.setDataPortPrefix("dt");
@@ -181,7 +181,7 @@ public class CXXPrefixSuffixTest extends TestBase {
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "\\resource\\100\\CXX\\PrefixSuffix\\dtsuffix\\";
+		String resourceDir = rootPath +  "/resource/100/CXX/PrefixSuffix/dtsuffix/";
 		checkResults(result, resourceDir);
 	}
 	
@@ -193,7 +193,7 @@ public class CXXPrefixSuffixTest extends TestBase {
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "\\resource\\100\\CXX\\PrefixSuffix\\dtprefix\\";
+		String resourceDir = rootPath +  "/resource/100/CXX/PrefixSuffix/dtprefix/";
 		checkResults(result, resourceDir);
 	}
 	
@@ -204,7 +204,7 @@ public class CXXPrefixSuffixTest extends TestBase {
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "\\resource\\100\\CXX\\PrefixSuffix\\suffix\\";
+		String resourceDir = rootPath +  "/resource/100/CXX/PrefixSuffix/suffix/";
 		checkResults(result, resourceDir);
 	}
 
@@ -214,32 +214,16 @@ public class CXXPrefixSuffixTest extends TestBase {
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "\\resource\\100\\CXX\\PrefixSuffix\\prefix\\";
+		String resourceDir = rootPath +  "/resource/100/CXX/PrefixSuffix/prefix/";
 		checkResults(result, resourceDir);
 	}
 
 	private void checkResults(List<GeneratedResult> result, String resourceDir) {
 		assertEquals(15, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
-		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.h");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.cpp");
-		try {
-			checkCode(result, resourceDir, "README.foo");
-			fail();
-		} catch(Exception ex) {
-		}
-		//
-		checkCode(result, resourceDir, "foo_vc8.sln");
-		checkCode(result, resourceDir, "foo_vc8.vcproj");
-		checkCode(result, resourceDir, "fooComp_vc8.vcproj");
-		checkCode(result, resourceDir, "foo_vc9.sln");
-		checkCode(result, resourceDir, "foo_vc9.vcproj");
-		checkCode(result, resourceDir, "fooComp_vc9.vcproj");
-		//
-		checkCode(result, resourceDir, "copyprops.bat");
-		checkCode(result, resourceDir, "user_config.vsprops");
 	}
 }

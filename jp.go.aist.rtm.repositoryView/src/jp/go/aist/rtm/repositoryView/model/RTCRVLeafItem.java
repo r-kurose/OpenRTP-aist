@@ -1,8 +1,8 @@
 package jp.go.aist.rtm.repositoryView.model;
 
 /**
- * –³–¼‚ÌRepositoryViewLeafItem
- * RepositoryViewLeafItem‚Æ‚Í•Ê‚É’è‹`‚·‚éˆÓ–¡‚Í‚ ‚Ü‚è‚È‚¢
+ * ç„¡åã®RepositoryViewLeafItem
+ * RepositoryViewLeafItemã¨ã¯åˆ¥ã«å®šç¾©ã™ã‚‹æ„å‘³ã¯ã‚ã¾ã‚Šãªã„
  *
  */
 public class RTCRVLeafItem extends RepositoryViewLeafItem {

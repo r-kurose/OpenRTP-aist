@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
-import jp.go.aist.rtm.nameserviceview.manager.impl.NameServerManagerImpl;
+import jp.go.aist.rtm.nameserviceview.model.manager.impl.NameServerManagerImpl;
 import jp.go.aist.rtm.toolscommon.factory.MappingRuleFactory;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
@@ -62,8 +62,8 @@ public class CorbaTest {
 				.getInstance().getNameServerRootContext(nameServerAddress);
 		System.out.println("name_service_root_context=" + nc);
 
-		// RTCManagerˆê——•\¦
-		jp.go.aist.rtm.nameserviceview.manager.NameServerManager nsmgr = NameServerManagerImpl
+		// RTCManagerä¸€è¦§è¡¨ç¤º
+		jp.go.aist.rtm.nameserviceview.model.manager.NameServerManager nsmgr = NameServerManagerImpl
 				.getInstance();
 		nsmgr.addNameServer(nameServerAddress);
 //		nsmgr.addNameServer("localhost");
@@ -76,7 +76,7 @@ public class CorbaTest {
 		CorbaTest test = new CorbaTest();
 
 		while (true) {
-			System.out.print("ƒIƒuƒWƒFƒNƒg–¼[quit‚ÅI—¹]> ");
+			System.out.print("ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå[quitã§çµ‚äº†]> ");
 			String name = test.readLine();
 			if (name.equals("quit")) {
 				break;
@@ -84,7 +84,7 @@ public class CorbaTest {
 			LocalObject local = getLocalObject(name);
 		
 			if (local == null) {
-				System.out.println("ƒIƒuƒWƒFƒNƒg‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ");
+				System.out.println("ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“");
 				continue;
 			}
 			System.out.println(local.toString());
@@ -99,7 +99,7 @@ public class CorbaTest {
 		}
 	}
 
-	/** ƒl[ƒ€ƒT[ƒo‚©‚çname‚É‘Î‰‚·‚éƒIƒuƒWƒFƒNƒg‚ğŒŸõ */
+	/** ãƒãƒ¼ãƒ ã‚µãƒ¼ãƒã‹ã‚‰nameã«å¯¾å¿œã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ¤œç´¢ */
 	public static LocalObject getLocalObject(String name) {
 		try {
 			org.omg.CORBA.Object remote = nc.resolve_str(name);
@@ -116,7 +116,7 @@ public class CorbaTest {
 		return null;
 	}
 
-	/** ƒ}ƒl[ƒWƒƒƒAƒNƒVƒ‡ƒ“ */
+	/** ãƒãƒãƒ¼ã‚¸ãƒ£ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ */
 	void actionManager(RTCManager m) {
 		m.synchronizeManually();
 		String result = m.getInstanceNameL() + "\n" + "  components="
@@ -125,9 +125,9 @@ public class CorbaTest {
 				+ m.getLoadedModuleFileNamesR() + "\n";
 		System.out.println(result);
 		while (true) {
-			String in = selectMenu(new String[] { "1", "ƒRƒ“ƒ|[ƒlƒ“ƒgˆê——", "2",
-					"ƒ[ƒh‰Â”\ƒ‚ƒWƒ…[ƒ‹ˆê——", "3", "ƒ[ƒhÏ‚İƒ‚ƒWƒ…[ƒ‹ˆê——", "4", "ƒRƒ“ƒ|[ƒlƒ“ƒgì¬", "5",
-					"ƒ}ƒl[ƒWƒƒ•¡»", "6", "ƒ}ƒl[ƒWƒƒI—¹" });
+			String in = selectMenu(new String[] { "1", "ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆä¸€è¦§", "2",
+					"ãƒ­ãƒ¼ãƒ‰å¯èƒ½ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ä¸€è¦§", "3", "ãƒ­ãƒ¼ãƒ‰æ¸ˆã¿ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ä¸€è¦§", "4", "ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆä½œæˆ", "5",
+					"ãƒãƒãƒ¼ã‚¸ãƒ£è¤‡è£½", "6", "ãƒãƒãƒ¼ã‚¸ãƒ£çµ‚äº†" });
 			if (in.equals("q")) {
 				break;
 			}
@@ -138,7 +138,7 @@ public class CorbaTest {
 			} else if (in.equals("3")) {
 				System.out.println(m.getLoadedModuleFileNamesR());
 			} else if (in.equals("4")) {
-				System.out.print("¶¬ƒpƒ‰ƒ[ƒ^> ");
+				System.out.print("ç”Ÿæˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿> ");
 				String p = readLine();
 				Component comp = m.createComponentR(p);
 				System.out.println(comp);
@@ -150,7 +150,7 @@ public class CorbaTest {
 		}
 	}
 
-	/** ƒRƒ“ƒ|[ƒlƒ“ƒgƒAƒNƒVƒ‡ƒ“ */
+	/** ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚¢ã‚¯ã‚·ãƒ§ãƒ³ */
 	@SuppressWarnings("unchecked")
 	void actionComponent(CorbaComponent c) {
 		c.synchronizeLocalAttribute(null);
@@ -161,9 +161,9 @@ public class CorbaTest {
 				+ "  components=" + c.getComponents() + "\n";
 		System.out.println(result);
 		while (true) {
-			String in = selectMenu(new String[] { "0", "exit", "1", "ƒƒ“ƒoˆê——",
-					"2", "ƒƒ“ƒo’Ç‰Á", "3", "ƒƒ“ƒoíœ", "4", "OrganizationPropertyˆê——",
-					"5", "OrganizationPropertyXV", "s", "“¯Šú" });
+			String in = selectMenu(new String[] { "0", "exit", "1", "ãƒ¡ãƒ³ãƒä¸€è¦§",
+					"2", "ãƒ¡ãƒ³ãƒè¿½åŠ ", "3", "ãƒ¡ãƒ³ãƒå‰Šé™¤", "4", "OrganizationPropertyä¸€è¦§",
+					"5", "OrganizationPropertyæ›´æ–°", "s", "åŒæœŸ" });
 			if (in.equals("q")) {
 				break;
 			}
@@ -187,7 +187,7 @@ public class CorbaTest {
 					e.printStackTrace();
 				}
 			} else if (in.equals("2")) {
-				System.out.print("’Ç‰Á‚·‚éƒƒ“ƒo–¼[,‹æØ‚è]> ");
+				System.out.print("è¿½åŠ ã™ã‚‹ãƒ¡ãƒ³ãƒå[,åŒºåˆ‡ã‚Š]> ");
 				String p = readLine();
 				String[] ms = p.split(",");
 				List<LocalObject> list = new ArrayList<LocalObject>();
@@ -201,8 +201,8 @@ public class CorbaTest {
 				System.out.println("  components=" + c.getComponents());
 
 			} else if (in.equals("3")) {
-				System.out.println("Œ»İ‚Ìƒƒ“ƒo: " + c.getComponents());
-				System.out.print("íœ‚·‚éƒƒ“ƒo–¼> ");
+				System.out.println("ç¾åœ¨ã®ãƒ¡ãƒ³ãƒ: " + c.getComponents());
+				System.out.print("å‰Šé™¤ã™ã‚‹ãƒ¡ãƒ³ãƒå> ");
 				String p = readLine();
 				LocalObject lo = getLocalObject(p);
 				System.out.println("  " + p + " -> " + lo);
@@ -231,7 +231,7 @@ public class CorbaTest {
 					e.printStackTrace();
 				}
 			} else if (in.equals("5")) {
-				System.out.print("İ’èƒpƒ‰ƒ[ƒ^[name=value,...]> ");
+				System.out.print("è¨­å®šãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿[name=value,...]> ");
 				String p = readLine();
 				String[] nvs = p.split(",");
 				List nvlist = new ArrayList();
@@ -255,7 +255,7 @@ public class CorbaTest {
 		}
 	}
 
-	/** ƒƒjƒ…[‘I‘ğ */
+	/** ãƒ¡ãƒ‹ãƒ¥ãƒ¼é¸æŠ */
 	String selectMenu(String[] menus) {
 		Map<String, String> menuMap = new HashMap<String, String>();
 		for (int i = 0; i < menus.length; i += 2) {
@@ -278,7 +278,7 @@ public class CorbaTest {
 		}
 	}
 
-	/** “ü—Íó•t */
+	/** å…¥åŠ›å—ä»˜ */
 	String readLine() {
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(

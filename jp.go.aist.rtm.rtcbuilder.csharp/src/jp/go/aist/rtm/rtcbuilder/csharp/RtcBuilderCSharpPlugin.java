@@ -1,5 +1,9 @@
 package jp.go.aist.rtm.rtcbuilder.csharp;
 
+import java.util.logging.Logger;
+
+import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
+
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -19,6 +23,7 @@ public class RtcBuilderCSharpPlugin extends AbstractUIPlugin {
 	 */
 	public RtcBuilderCSharpPlugin() {
 		plugin = this;
+		getLogger();
 	}
 
 	/*
@@ -26,6 +31,8 @@ public class RtcBuilderCSharpPlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
 	 */
 	public void start(BundleContext context) throws Exception {
+		RtcBuilderPlugin.addLogger(getLogger());
+		//
 		super.start(context);
 	}
 
@@ -34,6 +41,8 @@ public class RtcBuilderCSharpPlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
+		RtcBuilderPlugin.removeLogger(getLogger());
+		//
 		plugin = null;
 		super.stop(context);
 	}
@@ -45,6 +54,15 @@ public class RtcBuilderCSharpPlugin extends AbstractUIPlugin {
 	 */
 	public static RtcBuilderCSharpPlugin getDefault() {
 		return plugin;
+	}
+
+	static Logger log;
+
+	public static Logger getLogger() {
+		if (log == null) {
+			log = Logger.getLogger(PLUGIN_ID);
+		}
+		return log;
 	}
 
 }

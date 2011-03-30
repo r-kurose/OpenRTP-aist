@@ -12,17 +12,16 @@ import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.component.util.PortConnectorFactory;
 
 /**
- * •¡‡ƒRƒ“ƒ|[ƒlƒ“ƒgŠÖŒW‚ÅEditPart‚É•\¦‚·‚éƒIƒuƒWƒFƒNƒg‚ğ§Œä‚·‚é
+ * è¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆé–¢ä¿‚ã§EditPartã«è¡¨ç¤ºã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’åˆ¶å¾¡ã™ã‚‹
  *
  */
 public class CompositeFilter {
 
 	/**
-	 * w’è‚µ‚½ƒ|[ƒgˆ¶‚ÌƒRƒlƒNƒ^‚ÌƒŠƒXƒg‚ğ•Ô‚·
-	 * @param port	•`‰æ‘ÎÛ‚Ìƒ|[ƒg
+	 * æŒ‡å®šã—ãŸãƒãƒ¼ãƒˆå®›ã®ã‚³ãƒã‚¯ã‚¿ã®ãƒªã‚¹ãƒˆã‚’è¿”ã™
+	 * @param port	æç”»å¯¾è±¡ã®ãƒãƒ¼ãƒˆ
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public static List<PortConnector> getModelTargetConnections(Port port) {
 		return getConnections(null, port);
 	}
@@ -37,7 +36,7 @@ public class CompositeFilter {
 				}
 			}
 		}
-		return null;	// Component ‚ªExit‚µ‚½‚Æ‚«‚È‚Ç
+		return null;	// Component ãŒExitã—ãŸã¨ããªã©
 	}
 
 	private static SystemDiagram getDiagram(Port port) {
@@ -47,11 +46,10 @@ public class CompositeFilter {
 	}
 
 	/**
-	 * w’è‚µ‚½ƒ|[ƒg”­‚ÌƒRƒlƒNƒ^‚ÌƒŠƒXƒg‚ğ•Ô‚·
-	 * @param port	•`‰æ‘ÎÛ‚Ìƒ|[ƒg
+	 * æŒ‡å®šã—ãŸãƒãƒ¼ãƒˆç™ºã®ã‚³ãƒã‚¯ã‚¿ã®ãƒªã‚¹ãƒˆã‚’è¿”ã™
+	 * @param port	æç”»å¯¾è±¡ã®ãƒãƒ¼ãƒˆ
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public static List<PortConnector> getModelSourceConnections(Port port) {
 		return getConnections(port, null);
 	}
@@ -79,38 +77,41 @@ public class CompositeFilter {
 			Port anotherPort = findPort(components, anotherString);
 			if (anotherPort == null) continue;
 			
-			PortConnector connector = findOrCreateConnector(port, profile);
+			PortConnector connector = findOrCreateConnector(port, anotherPort, profile);
 			if (connector == null) continue;
 			
 			connector.setSource(first != null ? port : anotherPort);
 			connector.setTarget(first != null ? anotherPort : port);
 			
 			result.add(connector);
-//			return result;
 		}
 		return result;
 	}
 
-	private static PortConnector findOrCreateConnector(Port port,
-			ConnectorProfile profile) {
-		SystemDiagram diagram = getDiagram(port);
-		if (diagram == null) return null;
-		
-//		Map<String, PortConnector> connectorMap = diagram.getRootDiagram().getConnectorMap();
-		// •¡”‚Ìƒ_ƒCƒAƒOƒ‰ƒ€‚Å“¯‚¶ƒRƒlƒNƒ^ID‚ÌƒRƒlƒNƒ^‚ª‘¶İ‚·‚éê‡‚ª‚ ‚é‚Ì‚ÅAƒ_ƒCƒAƒOƒ‰ƒ€‚²‚Æ‚ÉŠÇ— 2009.05.25
+	private static PortConnector findOrCreateConnector(Port source,
+			Port target, ConnectorProfile profile) {
+		SystemDiagram diagram = getDiagram(source);
+		if (diagram == null) {
+			return null;
+		}
+
+		// è¤‡æ•°ã®ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã§åŒã˜ã‚³ãƒã‚¯ã‚¿IDã®ã‚³ãƒã‚¯ã‚¿ãŒå­˜åœ¨ã™ã‚‹å ´åˆãŒã‚ã‚‹ã®ã§ã€ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã”ã¨ã«ç®¡ç† 2009.05.25
 		Map<String, PortConnector> connectorMap = diagram.getConnectorMap();
 		PortConnector connector = connectorMap.get(profile.getConnectorId());
-		if (connector != null) return connector;
-		
-		connector = PortConnectorFactory.createPortConnector(profile);
+		if (connector != null) {
+			return connector;
+		}
+		connector = PortConnectorFactory.createPortConnector(source, target);
 		connector.setConnectorProfile(profile);
 		connectorMap.put(profile.getConnectorId(), connector);
 
-		// qƒ_ƒCƒAƒOƒ‰ƒ€‚ÌƒRƒlƒNƒ^‚Ìƒxƒ“ƒhƒ|ƒCƒ“ƒg‚ª•Û‘¶‚³‚ê‚é‚æ‚¤‚ÉAƒ‹[ƒgƒ_ƒCƒAƒOƒ‰ƒ€‚É‚à‹É—Íİ’è
-		Map<String, PortConnector> rootConnectorMap = diagram.getRootDiagram().getConnectorMap();
+		// å­ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã®ã‚³ãƒã‚¯ã‚¿ã®ãƒ™ãƒ³ãƒ‰ãƒã‚¤ãƒ³ãƒˆãŒä¿å­˜ã•ã‚Œã‚‹ã‚ˆã†ã«ã€ãƒ«ãƒ¼ãƒˆãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã«ã‚‚æ¥µåŠ›è¨­å®š
+		Map<String, PortConnector> rootConnectorMap = diagram.getRootDiagram()
+				.getConnectorMap();
 		if (!rootConnectorMap.containsKey(profile.getConnectorId())) {
 			rootConnectorMap.put(profile.getConnectorId(), connector);
 		}
 		return connector;
 	}
+
 }

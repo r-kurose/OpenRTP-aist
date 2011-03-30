@@ -13,23 +13,23 @@ public abstract class EditorExtension {
 
 	public static String GENERATE_BUTTON_SECTION_INAPPLICABLE = "GENERATE_BUTTON_SECTION_INAPPLICABLE";
 
-	// ¶¬‘ÎÛŒ¾Œê
+	// ç”Ÿæˆå¯¾è±¡è¨€èª
 	public abstract String getManagerKey();
 
-	// “Á’è‚Ìƒ^ƒO‚ğ“K—p‘ÎÛŠO‚Æ‚·‚é‚©”Û‚©
+	// ç‰¹å®šã®ã‚¿ã‚°ã‚’é©ç”¨å¯¾è±¡å¤–ã¨ã™ã‚‹ã‹å¦ã‹
 	@Deprecated
 	public List<String> getInapplicables() {
-		// “K—p‘ÎÛŠO‚Æ‚·‚éê‡‚ÍAƒI[ƒo[ƒ‰ƒCƒh‚µ‚Äã‚Å
-		// ’è‹`‚³‚ê‚Ä‚¢‚é’è”‚ğList‚Æ‚µ‚Ä•Ô‚·
+		// é©ç”¨å¯¾è±¡å¤–ã¨ã™ã‚‹å ´åˆã¯ã€ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦ä¸Šã§
+		// å®šç¾©ã•ã‚Œã¦ã„ã‚‹å®šæ•°ã‚’Listã¨ã—ã¦è¿”ã™
 		return null;
 	}
 
 	/**
-	 * –³Œø‰»‚µ‚½‚¢ƒtƒH[ƒ€‚Ì—v‘f(Widget)‚Ì–¼‘OƒŠƒXƒg‚ğ•Ô‚µ‚Ü‚·B
+	 * ç„¡åŠ¹åŒ–ã—ãŸã„ãƒ•ã‚©ãƒ¼ãƒ ã®è¦ç´ (Widget)ã®åå‰ãƒªã‚¹ãƒˆã‚’è¿”ã—ã¾ã™ã€‚
 	 * 
-	 * uƒtƒH[ƒ€–¼.ƒZƒNƒVƒ‡ƒ“–¼.—v‘f–¼v‚Åw’è‚µ‚Ü‚·B
+	 * ã€Œãƒ•ã‚©ãƒ¼ãƒ å.ã‚»ã‚¯ã‚·ãƒ§ãƒ³å.è¦ç´ åã€ã§æŒ‡å®šã—ã¾ã™ã€‚
 	 * 
-	 * ƒZƒNƒVƒ‡ƒ“‘S‘Ì‚ğw’è‚·‚éê‡‚ÍA—v‘f–¼‚Éu*v‚ğw’è‚µ‚Ü‚·B
+	 * ã‚»ã‚¯ã‚·ãƒ§ãƒ³å…¨ä½“ã‚’æŒ‡å®šã™ã‚‹å ´åˆã¯ã€è¦ç´ åã«ã€Œ*ã€ã‚’æŒ‡å®šã—ã¾ã™ã€‚
 	 * 
 	 * ex) basic.profile.moduleName
 	 * 
@@ -37,7 +37,7 @@ public abstract class EditorExtension {
 	 * 
 	 * dataport.outPort.*
 	 * 
-	 * @return —v‘f(Widget)‚Ì–¼‘OƒŠƒXƒgBƒfƒtƒHƒ‹ƒg‚Í‹ó‚ÌƒŠƒXƒgB
+	 * @return è¦ç´ (Widget)ã®åå‰ãƒªã‚¹ãƒˆã€‚ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¯ç©ºã®ãƒªã‚¹ãƒˆã€‚
 	 */
 	public List<String> getDisableFormWidgets() {
 		return new ArrayList<String>();

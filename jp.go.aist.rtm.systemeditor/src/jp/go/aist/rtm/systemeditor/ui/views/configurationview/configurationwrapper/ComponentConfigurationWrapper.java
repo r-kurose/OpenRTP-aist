@@ -14,7 +14,7 @@ import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 
 /**
- * ƒRƒ“ƒtƒBƒOƒZƒbƒg‚Ì•ÒW—pƒf[ƒ^
+ * ã‚³ãƒ³ãƒ•ã‚£ã‚°ã‚»ãƒƒãƒˆã®ç·¨é›†ç”¨ãƒ‡ãƒ¼ã‚¿
  *
  */
 public class ComponentConfigurationWrapper {
@@ -25,9 +25,9 @@ public class ComponentConfigurationWrapper {
 		List<ConfigurationSetConfigurationWrapper> configurationSetList = result
 				.getConfigurationSetList();
 
-		// ƒpƒ‰ƒ[ƒ^–¼|widgetí•Ê
+		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿åï¼widgetç¨®åˆ¥
 		Map<String, String> widgets = new HashMap<String, String>();
-		// configurationSet–¼|§–ñğŒƒ}ƒbƒv(ƒpƒ‰ƒ[ƒ^–¼|§–ñ)
+		// configurationSetåï¼åˆ¶ç´„æ¡ä»¶ãƒãƒƒãƒ—(ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿åï¼åˆ¶ç´„)
 		Map<String, Map<String, String>> conditions = new HashMap<String, Map<String, String>>();
 
 		for (Object o : target.getConfigurationSets()) {
@@ -64,7 +64,7 @@ public class ComponentConfigurationWrapper {
 			List<NamedValueConfigurationWrapper> namedValueList = configurationSetConfigurationWrapper
 					.getNamedValueList();
 
-			// configurationSet‚É‘Î‰‚·‚é§–ñğŒ(‚È‚¯‚ê‚Îdefault‚ğg—p)
+			// configurationSetã«å¯¾å¿œã™ã‚‹åˆ¶ç´„æ¡ä»¶(ãªã‘ã‚Œã°defaultã‚’ä½¿ç”¨)
 			Map<String, String> conds = conditions.get(configurationSet.getId());
 			if (conds == null) 
 				conds = conditions.get("constraints__");
@@ -131,7 +131,7 @@ public class ComponentConfigurationWrapper {
 	}
 
 	/**
-	 * ƒpƒ‰ƒ[ƒ^–¼‚Æwidgetİ’è•¶š—ñ‚Ìƒ}ƒbƒv‚ğ•Ô‚µ‚Ü‚·B
+	 * ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿åã¨widgetè¨­å®šæ–‡å­—åˆ—ã®ãƒãƒƒãƒ—ã‚’è¿”ã—ã¾ã™ã€‚
 	 */
 	public Map<String, String> getWidgetSetting() {
 		if (this.widgetSetting == null) {
@@ -141,14 +141,14 @@ public class ComponentConfigurationWrapper {
 	}
 
 	/**
-	 * ƒfƒtƒHƒ‹ƒg‚Ìƒpƒ‰ƒ[ƒ^–¼‚Æ§–ñğŒİ’è•¶š—ñ‚Ìƒ}ƒbƒv‚ğ•Ô‚µ‚Ü‚·B
+	 * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿åã¨åˆ¶ç´„æ¡ä»¶è¨­å®šæ–‡å­—åˆ—ã®ãƒãƒƒãƒ—ã‚’è¿”ã—ã¾ã™ã€‚
 	 */
 	public Map<String, String> getDefaultConditionSetting() {
 		return this.getConditionSetting("default");
 	}
 
 	/**
-	 * configSet–¼‚ğw’è‚µ‚ÄAƒpƒ‰ƒ[ƒ^–¼‚Æ§–ñğŒİ’è•¶š—ñ‚Ìƒ}ƒbƒv‚ğ•Ô‚µ‚Ü‚·B
+	 * configSetåã‚’æŒ‡å®šã—ã¦ã€ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿åã¨åˆ¶ç´„æ¡ä»¶è¨­å®šæ–‡å­—åˆ—ã®ãƒãƒƒãƒ—ã‚’è¿”ã—ã¾ã™ã€‚
 	 */
 	public Map<String, String> getConditionSetting(String key) {
 		Map<String, String> result = this.conditionSetting.get(key);
@@ -159,7 +159,7 @@ public class ComponentConfigurationWrapper {
 	}
 
 	/**
-	 * ƒfƒtƒHƒ‹ƒg‚ÌNameValue‚Ì–¼‘OƒŠƒXƒg‚ğæ“¾‚µ‚Ü‚·B
+	 * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®NameValueã®åå‰ãƒªã‚¹ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚
 	 */
 	public Set<String> getDefaultNameSet() {
 		Set<String> result = new HashSet<String>();

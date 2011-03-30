@@ -6,7 +6,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
 /**
- * EditPart�̒��ۃN���X�B�A�_�v�^�@�\�ƃh���C�����f������̕ύX�ʒm�̋@�\��ǉ����Ă���
+ * EditPartの抽象クラス。アダプタ機能とドメインモデルからの変更通知の機能を追加している
  */
 public abstract class AbstractEditPart extends AbstractGraphicalEditPart
 		implements Adapter {

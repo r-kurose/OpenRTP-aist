@@ -4,7 +4,7 @@ package jp.go.aist.rtm.rtcbuilder;
 public interface IRtcBuilderConstants {
 
     /**
-     * OpenNewEditor ActionSet ‚ÌID
+     * OpenNewEditor ActionSet ã®ID
      */
     public static final String NEWEDITOR_ACTION_ID = RtcBuilderPlugin.PLUGIN_ID + ".ui.actionSet";
 
@@ -13,17 +13,17 @@ public interface IRtcBuilderConstants {
 	public static final String DEFAULT_RTM_VERSION = RTM_VERSION_100;
 
 	/**
-	 * ƒT[ƒrƒXŽÀ‘•‚ÌƒfƒtƒHƒ‹ƒgƒTƒtƒBƒbƒNƒX
+	 * ã‚µãƒ¼ãƒ“ã‚¹å®Ÿè£…ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚µãƒ•ã‚£ãƒƒã‚¯ã‚¹
 	 */
 	public static final String DEFAULT_SVC_IMPL_SUFFIX = "SVC_impl";
 
 	/**
-	 * ƒT[ƒrƒXƒXƒ^ƒu‚ÌƒfƒtƒHƒ‹ƒgƒTƒtƒBƒbƒNƒX
+	 * ã‚µãƒ¼ãƒ“ã‚¹ã‚¹ã‚¿ãƒ–ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚µãƒ•ã‚£ãƒƒã‚¯ã‚¹
 	 */
 	public static final String DEFAULT_SVC_STUB_SUFFIX = "Stub";
 
 	/**
-	 * ƒT[ƒrƒXƒXƒPƒ‹ƒgƒ“‚ÌƒfƒtƒHƒ‹ƒgƒTƒtƒBƒbƒNƒX
+	 * ã‚µãƒ¼ãƒ“ã‚¹ã‚¹ã‚±ãƒ«ãƒˆãƒ³ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚µãƒ•ã‚£ãƒƒã‚¯ã‚¹
 	 */
 	public static final String DEFAULT_SVC_SKEL_SUFFIX = "Skel";
 	
