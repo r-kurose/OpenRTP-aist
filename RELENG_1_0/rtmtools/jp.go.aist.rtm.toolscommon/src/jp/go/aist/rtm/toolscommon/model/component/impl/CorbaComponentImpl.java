@@ -1619,10 +1619,11 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 						.findComponentState(ec, ro);
 				Integer ecStateValue = CorbaObjectStore.eINSTANCE
 						.findECState(ec);
-				if (stateValue != getComponentState()) {
+				if (stateValue != null && stateValue != getComponentState()) {
 					setComponentState(stateValue);
 				}
-				if (ecStateValue != getExecutionContextState()) {
+				if (ecStateValue != null
+						&& ecStateValue != getExecutionContextState()) {
 					setExecutionContextState(ecStateValue);
 				}
 			}
