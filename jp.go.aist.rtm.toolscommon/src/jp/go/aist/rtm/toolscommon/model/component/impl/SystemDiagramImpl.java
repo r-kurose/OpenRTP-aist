@@ -855,7 +855,10 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 					// 状態通知オブザーバが登録されている場合の同期
 					if (obs.isTimeOut()) {
 						// H.Bがタイムアウトしていたらダイアグラムから削除
-						removeComponent(corbaComp);
+						if (!SynchronizationSupport.ping(corbaComp
+								.getCorbaObjectInterface())) {
+							removeComponent(corbaComp);
+						}
 						continue;
 					}
 					corbaComp.synchronizeLocalAttribute(null);

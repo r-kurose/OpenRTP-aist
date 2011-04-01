@@ -22,16 +22,16 @@ public class ToolsCommonPreferenceManager {
 			.getName()
 			+ "DEFAULT_TIMEOUT_PERIOD";
 
-	/** ó‘Ô’Ê’mƒIƒuƒU[ƒo‚Ì—LŒø/–³Œøİ’è */
+	/** çŠ¶æ…‹é€šçŸ¥ã‚ªãƒ–ã‚¶ãƒ¼ãƒã®æœ‰åŠ¹/ç„¡åŠ¹è¨­å®š */
 	public static final String KEY_STATUS_OBSERVER_HB_ENABLE = ToolsCommonPreferenceManager.class
 			.getName()
 			+ ".STATUS_OBSERVER_HB_ENABLE";
 
-	/** ó‘Ô’Ê’mƒIƒuƒU[ƒo‚Ì H.BóMŠÔŠu [sec] */
+	/** çŠ¶æ…‹é€šçŸ¥ã‚ªãƒ–ã‚¶ãƒ¼ãƒã® H.Bå—ä¿¡é–“éš” [sec] */
 	public static final String KEY_STATUS_OBSERVER_HB_INTERVAL = ToolsCommonPreferenceManager.class
 			.getName()
 			+ ".STATUS_OBSERVER_HB_INTERVAL";
-	/** ó‘Ô’Ê’mƒIƒuƒU[ƒo‚Ìƒ^ƒCƒ€ƒAƒEƒg”»’è‰ñ” */
+	/** çŠ¶æ…‹é€šçŸ¥ã‚ªãƒ–ã‚¶ãƒ¼ãƒã®ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆåˆ¤å®šå›æ•° */
 	public static final String KEY_STATUS_OBSERVER_HB_TRYCOUNT = ToolsCommonPreferenceManager.class
 			.getName()
 			+ ".STATUS_OBSERVER_HB_TRYCOUNT";
@@ -59,14 +59,14 @@ public class ToolsCommonPreferenceManager {
 	 */
 	public static final int defaultTimeoutPeriod = 1000;
 
-	/** ó‘Ô’Ê’mƒIƒuƒU[ƒo (ƒfƒtƒHƒ‹ƒg —LŒø) */
+	/** çŠ¶æ…‹é€šçŸ¥ã‚ªãƒ–ã‚¶ãƒ¼ãƒ (ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ æœ‰åŠ¹) */
 	public static final Boolean DEFAULT_STATUS_OBSERVER_HB_ENABLE = true;
 
-	/** ó‘Ô’Ê’mƒIƒuƒU[ƒo‚Ì H.BóMŠÔŠu (ƒfƒtƒHƒ‹ƒg 1.0[sec]) */
+	/** çŠ¶æ…‹é€šçŸ¥ã‚ªãƒ–ã‚¶ãƒ¼ãƒã® H.Bå—ä¿¡é–“éš” (ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ 1.0[sec]) */
 	public static final Double DEFAULT_STATUS_OBSERVER_HB_INTERVAL = 1.0;
 
-	/** ó‘Ô’Ê’mƒIƒuƒU[ƒo‚Ìƒ^ƒCƒ€ƒAƒEƒg”»’è‰ñ” (ƒfƒtƒHƒ‹ƒg 3‰ñ) */
-	public static final Integer DEFAULT_STATUS_OBSERVER_HB_TRYCOUNT = 3;
+	/** çŠ¶æ…‹é€šçŸ¥ã‚ªãƒ–ã‚¶ãƒ¼ãƒã®ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆåˆ¤å®šå›æ•° (ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ 5å›) */
+	public static final Integer DEFAULT_STATUS_OBSERVER_HB_TRYCOUNT = 5;
 
 	/**
 	 * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆåˆ¤å®šæ™‚é–“ã‚’å–å¾—ã™ã‚‹
@@ -104,16 +104,16 @@ public class ToolsCommonPreferenceManager {
 				defaultTimeout);
 	}
 
-	// ó‘Ô’Ê’mƒIƒuƒU[ƒo—LŒø/–³Œø (STATUS_OBSERVER_HB_ENABLE)
+	// çŠ¶æ…‹é€šçŸ¥ã‚ªãƒ–ã‚¶ãƒ¼ãƒæœ‰åŠ¹/ç„¡åŠ¹ (STATUS_OBSERVER_HB_ENABLE)
 
-	/** STATUS_OBSERVER_HB_ENABLE ‚Ìæ“¾ */
+	/** STATUS_OBSERVER_HB_ENABLE ã®å–å¾— */
 	public final Boolean isSTATUS_OBSERVER_HB_ENABLE() {
 		String key = KEY_STATUS_OBSERVER_HB_ENABLE;
 		store.setDefault(key, DEFAULT_STATUS_OBSERVER_HB_ENABLE);
 		return store.getBoolean(key);
 	}
 
-	/** STATUS_OBSERVER_HB_ENABLE ‚Ìİ’è */
+	/** STATUS_OBSERVER_HB_ENABLE ã®è¨­å®š */
 	public void setSTATUS_OBSERVER_HB_ENABLE(Boolean value) {
 		String key = KEY_STATUS_OBSERVER_HB_ENABLE;
 		Boolean oldValue = isSTATUS_OBSERVER_HB_ENABLE();
@@ -123,21 +123,21 @@ public class ToolsCommonPreferenceManager {
 		propertyChangeSupport.firePropertyChange(key, oldValue, newValue);
 	}
 
-	/** STATUS_OBSERVER_HB_ENABLE ‚Ì•œŒ³ */
+	/** STATUS_OBSERVER_HB_ENABLE ã®å¾©å…ƒ */
 	public void resetSTATUS_OBSERVER_HB_ENABLE() {
 		setSTATUS_OBSERVER_HB_ENABLE(DEFAULT_STATUS_OBSERVER_HB_ENABLE);
 	}
 
-	// ó‘Ô’Ê’mƒIƒuƒU[ƒoóMŠÔŠu (STATUS_OBSERVER_HB_INTERVAL)
+	// çŠ¶æ…‹é€šçŸ¥ã‚ªãƒ–ã‚¶ãƒ¼ãƒå—ä¿¡é–“éš” (STATUS_OBSERVER_HB_INTERVAL)
 
-	/** STATUS_OBSERVER_HB_INTERVAL ‚Ìæ“¾ */
+	/** STATUS_OBSERVER_HB_INTERVAL ã®å–å¾— */
 	public final Double getSTATUS_OBSERVER_HB_INTERVAL() {
 		String key = KEY_STATUS_OBSERVER_HB_INTERVAL;
 		store.setDefault(key, DEFAULT_STATUS_OBSERVER_HB_INTERVAL);
 		return store.getDouble(key);
 	}
 
-	/** STATUS_OBSERVER_HB_INTERVAL ‚Ìİ’è */
+	/** STATUS_OBSERVER_HB_INTERVAL ã®è¨­å®š */
 	public void setSTATUS_OBSERVER_HB_INTERVAL(Double value) {
 		String key = KEY_STATUS_OBSERVER_HB_INTERVAL;
 		Double oldValue = getSTATUS_OBSERVER_HB_INTERVAL();
@@ -148,21 +148,21 @@ public class ToolsCommonPreferenceManager {
 		propertyChangeSupport.firePropertyChange(key, oldValue, newValue);
 	}
 
-	/** STATUS_OBSERVER_HB_INTERVAL ‚Ì•œŒ³ */
+	/** STATUS_OBSERVER_HB_INTERVAL ã®å¾©å…ƒ */
 	public void resetSTATUS_OBSERVER_HB_INTERVAL() {
 		setSTATUS_OBSERVER_HB_INTERVAL(DEFAULT_STATUS_OBSERVER_HB_INTERVAL);
 	}
 
-	// ó‘Ô’Ê’mƒIƒuƒU[ƒoóM‰ñ” (STATUS_OBSERVER_HB_TRYCOUNT)
+	// çŠ¶æ…‹é€šçŸ¥ã‚ªãƒ–ã‚¶ãƒ¼ãƒå—ä¿¡å›æ•° (STATUS_OBSERVER_HB_TRYCOUNT)
 
-	/** STATUS_OBSERVER_HB_TRYCOUNT ‚Ìæ“¾ */
+	/** STATUS_OBSERVER_HB_TRYCOUNT ã®å–å¾— */
 	public final Integer getSTATUS_OBSERVER_HB_TRYCOUNT() {
 		String key = KEY_STATUS_OBSERVER_HB_TRYCOUNT;
 		store.setDefault(key, DEFAULT_STATUS_OBSERVER_HB_TRYCOUNT);
 		return store.getInt(key);
 	}
 
-	/** STATUS_OBSERVER_HB_TRYCOUNT ‚Ìİ’è */
+	/** STATUS_OBSERVER_HB_TRYCOUNT ã®è¨­å®š */
 	public void setSTATUS_OBSERVER_HB_TRYCOUNT(Integer value) {
 		String key = KEY_STATUS_OBSERVER_HB_TRYCOUNT;
 		Integer oldValue = getSTATUS_OBSERVER_HB_TRYCOUNT();
@@ -173,7 +173,7 @@ public class ToolsCommonPreferenceManager {
 		propertyChangeSupport.firePropertyChange(key, oldValue, newValue);
 	}
 
-	/** STATUS_OBSERVER_HB_TRYCOUNT ‚Ì•œŒ³ */
+	/** STATUS_OBSERVER_HB_TRYCOUNT ã®å¾©å…ƒ */
 	public void resetSTATUS_OBSERVER_HB_TRYCOUNT() {
 		setSTATUS_OBSERVER_HB_TRYCOUNT(DEFAULT_STATUS_OBSERVER_HB_TRYCOUNT);
 	}

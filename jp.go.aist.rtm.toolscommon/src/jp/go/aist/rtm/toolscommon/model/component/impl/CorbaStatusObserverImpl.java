@@ -209,6 +209,7 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 			HeartBeat hb = hbMap.get(rtc);
 			if (hb != null) {
 				hb.recv();
+				hb.setForceTimeOut(false);
 			}
 			return;
 		}
@@ -244,6 +245,11 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 				stateValue = RTC.LifeCycleState._INACTIVE_STATE;
 			} else if ("ERROR".equals(state)) {
 				stateValue = RTC.LifeCycleState._ERROR_STATE;
+			} else if ("FINALIZE".equals(state)) {
+				// H.Bタイムアウトを設定
+				HeartBeat hb = hbMap.get(rtc);
+				hb.setForceTimeOut(true);
+				return;
 			}
 			//
 			RTC.ExecutionContext ec = CorbaObjectStore.eINSTANCE.findContext(
@@ -381,6 +387,7 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 		Integer tryCount;
 		Integer count;
 		Long nextTime;
+		boolean forceTimeOut;
 
 		ToolsCommonPreferenceManager pref;
 
@@ -392,6 +399,7 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 			this.tryCount = pref.getSTATUS_OBSERVER_HB_TRYCOUNT();
 			this.count = 0;
 			this.nextTime = new Date().getTime();
+			this.forceTimeOut = false;
 		}
 
 		void updatePreference() {
@@ -434,6 +442,9 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 		}
 
 		boolean isTimeOut() {
+			if (forceTimeOut) {
+				return true;
+			}
 			Date now = new Date();
 			if (now.getTime() > nextTime) {
 				nextTime = getNextTime();
@@ -448,6 +459,10 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 		long getNextTime() {
 			Date now = new Date();
 			return now.getTime() + new Double(interval * 1000.0).longValue();
+		}
+
+		void setForceTimeOut(boolean b) {
+			this.forceTimeOut = b;
 		}
 	}
 
