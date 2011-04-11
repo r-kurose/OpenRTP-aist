@@ -1,17 +1,10 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.editpolicy;
 
-import java.util.Iterator;
-
+import jp.go.aist.rtm.systemeditor.factory.ComponentCommandCreator;
 import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.editor.command.ChangeConstraintCommand;
-import jp.go.aist.rtm.systemeditor.ui.editor.command.CreateCommand;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpart.SystemDiagramEditPart;
-import jp.go.aist.rtm.systemeditor.ui.util.ComponentUtil;
 import jp.go.aist.rtm.systemeditor.ui.util.Draw2dUtil;
-import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
-import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
-import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
 
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -24,24 +17,18 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * ƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€‚ÉŠÖ‚·‚éEditPolicyƒNƒ‰ƒX
+ * ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã«é–¢ã™ã‚‹EditPolicyã‚¯ãƒ©ã‚¹
  */
 public class SystemXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
 	CreateRequest request;
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected Command createAddCommand(EditPart child, Object constraint) {
 		return null;
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected Command createChangeConstraintCommand(EditPart child,
 			Object constraint) {
 		ChangeConstraintCommand command = new ChangeConstraintCommand();
@@ -51,113 +38,36 @@ public class SystemXYLayoutEditPolicy extends XYLayoutEditPolicy {
 		return command;
 	}
 
+	/**
+	 * ã‚ªãƒ³ãƒ©ã‚¤ãƒ³ã®å ´åˆã«ã¯ã€æ—¢ã«å­˜åœ¨ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯ç™»éŒ²ã§ããªã„ã€‚
+	 */
 	@Override
-	/**
-	 * {@inheritDoc}
-	 * <p>
-	 * ƒIƒ“ƒ‰ƒCƒ“‚Ìê‡‚É‚ÍAŠù‚É‘¶Ý‚·‚éƒIƒuƒWƒFƒNƒg‚Í“o˜^‚Å‚«‚È‚¢B
-	 */
 	protected Command getCreateCommand(CreateRequest request) {
-		this.request = request;
-		Component newObject2 = (Component)request.getNewObject();
-		if (newObject2 == null) return null;
-		
-		boolean isExist = isExist(newObject2);
+		ComponentCommandCreator creator = new ComponentCommandCreator();
+		ComponentCommandCreator.CommandPair result = creator.getCreateCommand(
+				request, getHost().getModel());
 
-		if (isExist) return null;
-		
-		CreateCommand command = new CreateCommand();
-		command.setParent(getHost().getModel());
-		command.setTarget(newObject2);
-		if (request.getLocation() != null) {
-			newObject2.setConstraint(Draw2dUtil
-					.toRtcLinkRectangle((Rectangle) getConstraintFor(request)));
-		}
-
-		return command;
-	}
-
-	@SuppressWarnings("unchecked")
-	private boolean isExist(Component newObject2) {
-		if (newObject2 == null) return false;
-		SystemDiagram rootSystemDiagram = getHost().getModel().getRootDiagram();
-		if(newObject2 instanceof ComponentSpecification) {
-			ensureSpec((ComponentSpecification) newObject2, rootSystemDiagram);
-			return false;
-		}
-		Component localComponent =  findComponentInDiagram(newObject2, rootSystemDiagram);
-		// CompositeComponentƒ_ƒuƒ‹ƒNƒŠƒbƒN‚ÅŠJ‚¢‚½ƒGƒfƒBƒ^(SystemDiagram)‚Ìê‡A
-		// combine‚³‚ê‚½Component‚Í“o˜^‚µ‚È‚¢B
-		if (localComponent != null) {
+		if (result == null) {
 			MessageDialog.openInformation(PlatformUI.getWorkbench()
-					.getActiveWorkbenchWindow().getShell(),
-					Messages.getString("SystemXYLayoutEditPolicy.6"), Messages.getString("SystemXYLayoutEditPolicy.7") //$NON-NLS-1$ //$NON-NLS-2$
-							+ localComponent.getInstanceNameL()
-							+ Messages.getString("SystemXYLayoutEditPolicy.8")); //$NON-NLS-1$
-			return true;
-		} else if (newObject2.isCompositeComponent()
-					&& !newObject2.getAllComponents().isEmpty()) {
-			for (Iterator iterator = newObject2.getAllComponents().iterator(); iterator.hasNext();) {
-				Component component = (Component) iterator.next();
-				localComponent = findComponentInDiagram(component, rootSystemDiagram);
-				if (localComponent != null) {
-					MessageDialog.openInformation(PlatformUI.getWorkbench()
-							.getActiveWorkbenchWindow().getShell(),
-							Messages.getString("SystemXYLayoutEditPolicy.6"), Messages.getString("SystemXYLayoutEditPolicy.7") //$NON-NLS-1$ //$NON-NLS-2$
-									+ localComponent.getInstanceNameL()
-									+ Messages.getString("SystemXYLayoutEditPolicy.8")); //$NON-NLS-1$
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
-	/**
-	 * ƒIƒ“ƒ‰ƒCƒ“ƒGƒfƒBƒ^‚Ìƒ_ƒCƒAƒOƒ‰ƒ€‚©‚çƒRƒ“ƒ|[ƒlƒ“ƒg‚ðŒŸõ‚µ‚Ü‚·B
-	 */
-	private Component findComponentInDiagram(
-			Component component, SystemDiagram diagram) {
-		if (component instanceof CorbaComponent) {
-			org.omg.CORBA.Object obj = ((CorbaComponent)component).getCorbaObject();
-			if (obj != null) {
-				return findByCorbaObject(obj, diagram);
-			}
-		}
-		return null;
-	}
-
-	private Component findByCorbaObject(org.omg.CORBA.Object obj, SystemDiagram diagram) {
-		if (obj == null || diagram == null) {
+					.getActiveWorkbenchWindow().getShell(), Messages
+					.getString("SystemXYLayoutEditPolicy.6"), creator
+					.getMessage());
 			return null;
 		}
-		for (Component tempComponent : diagram.getRegisteredComponents()) {
-			if (!(tempComponent instanceof CorbaComponent)) continue;
-			CorbaComponent c = (CorbaComponent)tempComponent;
-			if (obj.equals(c.getCorbaObject())) return c;
-		}
-		return null;
-	}
 
-	private void ensureSpec(ComponentSpecification newObject2,
-			SystemDiagram rootSystemDiagram) {
-		int compCount =	ComponentUtil.getComponentNumberByPathId(
-				newObject2, rootSystemDiagram);
-		//’PˆêŽd—l‚©‚ç•¡”ƒCƒ“ƒXƒ^ƒ“ƒX‚ð¶¬‚·‚é‚½‚ß
-		//PortŠÔÚ‘±Žž‚ÉƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì‹æ•Ê‚ðPathID‚ð—p‚¢‚Äs‚Á‚Ä‚¢‚é‚½‚ß
-		//PathID‚ÌÝ’è‚à•K—v
-		newObject2.setInstanceNameL(
-				newObject2.getInstanceNameL() + "_" + Integer.valueOf(compCount+1).toString());
+		if (request.getLocation() != null) {
+			result.component.setConstraint(Draw2dUtil
+					.toRtcLinkRectangle((Rectangle) getConstraintFor(request)));
+		}
+		return result.command;
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected Command getDeleteDependantCommand(Request request) {
 		return null;
 	}
 
+	@Override
 	public SystemDiagramEditPart getHost() {
 		return (SystemDiagramEditPart) super.getHost();
 	}

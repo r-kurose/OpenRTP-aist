@@ -11,7 +11,7 @@ import jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject;
 
 /**
  * <!-- begin-user-doc -->
- * CorbaƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒ|[ƒg—p‚Ì“¯Šúˆ—‚ð’è‹`‚·‚éƒNƒ‰ƒX
+ * Corbaã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒãƒ¼ãƒˆç”¨ã®åŒæœŸå‡¦ç†ã‚’å®šç¾©ã™ã‚‹ã‚¯ãƒ©ã‚¹
  * <!-- end-user-doc -->
  *
  * <p>
@@ -53,4 +53,7 @@ public interface CorbaPortSynchronizer extends CorbaWrapperObject, PortSynchroni
 	void setRTCPortProfile(PortProfile value);
 
 	RTC.PortService getCorbaObjectInterface();
+
+	_SDOPackage.NameValue[] getRTCProperties();
+
 } // CorbaPortSynchronizer

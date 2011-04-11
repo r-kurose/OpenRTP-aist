@@ -10,7 +10,7 @@ import org.eclipse.gef.handles.BendpointHandle;
 import org.eclipse.gef.tools.ConnectionBendpointTracker;
 
 /**
- * ���C���ړ��̍ۂ̃n���h��
+ * ライン移動の際のハンドル
  */
 public class LineMoveHandle extends BendpointHandle {
 
@@ -21,12 +21,12 @@ public class LineMoveHandle extends BendpointHandle {
 	}
 
 	/**
-	 * �R���X�g���N�^
+	 * コンストラクタ
 	 * 
 	 * @param owner
-	 *            �I�[�i�[��ConnectionEditPart
+	 *            オーナーのConnectionEditPart
 	 * @param index
-	 *            �ύX�ꏊ�̃C���f�b�N�X
+	 *            変更場所のインデックス
 	 */
 	public LineMoveHandle(ConnectionEditPart owner, int index) {
 		setOwner(owner);

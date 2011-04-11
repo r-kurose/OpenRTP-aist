@@ -2,34 +2,37 @@ package jp.go.aist.rtm.nameserviceview.model.nameservice;
 
 import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
 
-
-
 /**
- * ƒl[ƒ~ƒ“ƒOƒIƒuƒWƒFƒNƒg‚ğ•\‚·ƒNƒ‰ƒXiCORBAê—pj
+ * ãƒãƒ¼ãƒŸãƒ³ã‚°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¡¨ã™ã‚¯ãƒ©ã‚¹ï¼ˆCORBAå°‚ç”¨ï¼‰
  * @model
  */
 public interface NamingObjectNode extends CorbaNode {
-	/**
-	 * @model containment="true"
-	 */
-	public abstract WrapperObject getEntry();
 
+	/**
+	 * Returns the value of the '<em><b>Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Entry</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Entry</em>' reference.
+	 * @see #setEntry(WrapperObject)
+	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.NameservicePackage#getNamingObjectNode_Entry()
+	 * @model resolveProxies="false"
+	 * @generated
+	 */
+	WrapperObject getEntry();
 
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode#getEntry <em>Entry</em>}' reference.
 	 * <!-- begin-user-doc -->
-	 * ƒl[ƒ~ƒ“ƒOƒIƒuƒWƒFƒNƒg‚ğRTƒRƒ“ƒ|[ƒlƒ“ƒg‚Ü‚½‚ÍRTƒ}ƒl[ƒWƒƒ‚Æ‚µ‚Ä•Û‚·‚é
+	 * ãƒãƒ¼ãƒŸãƒ³ã‚°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’RTã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã¾ãŸã¯RTãƒãƒãƒ¼ã‚¸ãƒ£ã¨ã—ã¦ä¿æŒã™ã‚‹
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Entry</em>' reference.
 	 * @see #getEntry()
 	 * @generated
 	 */
 	void setEntry(WrapperObject value);
-
-	/**
-	 * ƒ]ƒ“ƒr‚Å‚ ‚é‚©‚ğ•Ô‚·
-	 * @model changeable="false" transient="true" volatile="true"
-	 */
-	public boolean isZombie();
 
 }

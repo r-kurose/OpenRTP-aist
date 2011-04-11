@@ -1,12 +1,12 @@
 package jp.go.aist.rtm.nameserviceview.ui.workbenchadapter;
 
 import jp.go.aist.rtm.nameserviceview.NameServiceViewPlugin;
-import jp.go.aist.rtm.nameserviceview.manager.NameServerContext;
+import jp.go.aist.rtm.nameserviceview.model.manager.NameServerContext;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 
 /**
- * NameServderNamingContextÇÃWorkbenchAdapter
+ * NameServderNamingContext„ÅÆWorkbenchAdapter
  */
 public class NameServerContextWorkbenchAdapter extends
 		NamingContextNodeWorkbenchAdapter {

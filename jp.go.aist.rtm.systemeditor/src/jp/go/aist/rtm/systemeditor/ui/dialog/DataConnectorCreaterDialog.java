@@ -1,5 +1,6 @@
 package jp.go.aist.rtm.systemeditor.ui.dialog;
 
+import java.util.Arrays;
 import java.util.List;
 
 import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
@@ -17,29 +18,53 @@ import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * ƒf[ƒ^ƒ|[ƒgŠÔ‚ÌÚ‘±‚ÌƒRƒlƒNƒ^ƒvƒƒtƒ@ƒCƒ‹‚Ì‘I‘ğƒ_ƒCƒAƒƒO
+ * ãƒ‡ãƒ¼ã‚¿ãƒãƒ¼ãƒˆé–“ã®æ¥ç¶šã®ã‚³ãƒã‚¯ã‚¿ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã®é¸æŠãƒ€ã‚¤ã‚¢ãƒ­ã‚°
  * <P>
- * ƒRƒlƒNƒ^ƒvƒƒtƒ@ƒCƒ‹‚Ì‘I‘ğ‰Â”\‚Èƒ^ƒCƒv‚ğAOutPort‚¨‚æ‚ÑInPort‚©‚ç”»’f‚µƒvƒ‹ƒ_ƒEƒ“‚Æ‚µ‚Ä•\¦‚·‚éBiuAnyv©‘Ì‚Í•\¦‚³‚ê‚È‚¢j(•¶š‚ÌƒP[ƒX‚Í–³‹‚µ‚Äƒ}ƒbƒ`ƒ“ƒO‚µAƒ}ƒbƒ`‚µ‚½Û‚É•\¦‚³‚ê‚é‚Ì‚ÍOutPort‚Ì•¶š—ñ‚Æ‚·‚é)<br>
- * ‘I‘ğ‰Â”\‚Å‚ ‚é‚Ì‚ÍAƒf[ƒ^ƒ|[ƒg‚¾‚¯‚Å‚ ‚èAƒT[ƒrƒXƒ|[ƒg‚ÍŠÜ‚Ü‚ê‚È‚¢B<br>
- * OutPort‚à‚µ‚­‚ÍInPort‚ÉuAnyv‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éê‡‚É‚ÍA‘Šè‚Ì‚·‚×‚ÄŒ^‚ğó‚¯“ü‚ê‚é‚à‚Ì‚Æ‚·‚éB<br>
- * OutPort‚¨‚æ‚ÑInport‚ÉAny‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éê‡‚É‚ÍAƒRƒ“ƒ{ƒ{ƒbƒNƒX‚É”CˆÓ‚Ì•¶š—ñ‚ğ“ü—Í‰Â”\‚Æ‚µAu*”CˆÓ“ü—Í‰Âv‚ğ•\¦‚·‚éB<br>
- * ƒTƒuƒXƒNƒŠƒvƒVƒ‡ƒ“ƒ^ƒCƒv‚ÍAƒf[ƒ^ƒtƒ[ƒ^ƒCƒv‚ªuPushv‚Ì‚Ì‚İ•\¦‚³‚ê‚éB<br>
- * PushRate‚ÍAƒTƒuƒXƒNƒŠƒvƒVƒ‡ƒ“ƒ^ƒCƒv‚ªuPeriodicv‚Å‚ ‚èA‚©‚Âƒf[ƒ^ƒtƒ[ƒ^ƒCƒv‚ªuPushv‚Ì‚Ì‚İ•\¦‚³‚ê‚é<br>
+ * ã‚³ãƒã‚¯ã‚¿ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã®é¸æŠå¯èƒ½ãªã‚¿ã‚¤ãƒ—ã‚’ã€OutPortãŠã‚ˆã³InPortã‹ã‚‰åˆ¤æ–­ã—ãƒ—ãƒ«ãƒ€ã‚¦ãƒ³ã¨ã—ã¦è¡¨ç¤ºã™ã‚‹ã€‚ï¼ˆã€ŒAnyã€è‡ªä½“ã¯è¡¨ç¤ºã•ã‚Œãªã„ï¼‰(æ–‡å­—ã®ã‚±ãƒ¼ã‚¹ã¯ç„¡è¦–ã—ã¦ãƒãƒƒãƒãƒ³ã‚°ã—ã€ãƒãƒƒãƒã—ãŸéš›ã«è¡¨ç¤ºã•ã‚Œã‚‹ã®ã¯OutPortã®æ–‡å­—åˆ—ã¨ã™ã‚‹)<br>
+ * é¸æŠå¯èƒ½ã§ã‚ã‚‹ã®ã¯ã€ãƒ‡ãƒ¼ã‚¿ãƒãƒ¼ãƒˆã ã‘ã§ã‚ã‚Šã€ã‚µãƒ¼ãƒ“ã‚¹ãƒãƒ¼ãƒˆã¯å«ã¾ã‚Œãªã„ã€‚<br>
+ * OutPortã‚‚ã—ãã¯InPortã«ã€ŒAnyã€ãŒå«ã¾ã‚Œã¦ã„ã‚‹å ´åˆã«ã¯ã€ç›¸æ‰‹ã®ã™ã¹ã¦å‹ã‚’å—ã‘å…¥ã‚Œã‚‹ã‚‚ã®ã¨ã™ã‚‹ã€‚<br>
+ * OutPortãŠã‚ˆã³Inportã«AnyãŒå«ã¾ã‚Œã¦ã„ã‚‹å ´åˆã«ã¯ã€ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã«ä»»æ„ã®æ–‡å­—åˆ—ã‚’å…¥åŠ›å¯èƒ½ã¨ã—ã€ã€Œ*ä»»æ„å…¥åŠ›å¯ã€ã‚’è¡¨ç¤ºã™ã‚‹ã€‚<br>
+ * ã‚µãƒ–ã‚¹ã‚¯ãƒªãƒ—ã‚·ãƒ§ãƒ³ã‚¿ã‚¤ãƒ—ã¯ã€ãƒ‡ãƒ¼ã‚¿ãƒ•ãƒ­ãƒ¼ã‚¿ã‚¤ãƒ—ãŒã€ŒPushã€ã®æ™‚ã®ã¿è¡¨ç¤ºã•ã‚Œã‚‹ã€‚<br>
+ * PushRateã¯ã€ã‚µãƒ–ã‚¹ã‚¯ãƒªãƒ—ã‚·ãƒ§ãƒ³ã‚¿ã‚¤ãƒ—ãŒã€ŒPeriodicã€ã§ã‚ã‚Šã€ã‹ã¤ãƒ‡ãƒ¼ã‚¿ãƒ•ãƒ­ãƒ¼ã‚¿ã‚¤ãƒ—ãŒã€ŒPushã€ã®æ™‚ã®ã¿è¡¨ç¤ºã•ã‚Œã‚‹<br>
  */
 public class DataConnectorCreaterDialog extends TitleAreaDialog {
 
-	private static final int COMBO_MIN = 72;
+	static final String LABEL_PUSH_POLICY = Messages.getString("DataConnectorCreaterDialog.20");
+	static final String LABEL_SKIP_COUNT = Messages.getString("DataConnectorCreaterDialog.21");
+	static final String LABEL_DETAIL = Messages.getString("DataConnectorCreaterDialog.22");
+
+	static final String LABEL_OUTPORT_BUFFER = Messages.getString("DataConnectorCreaterDialog.23");
+	static final String LABEL_INPORT_BUFFER = Messages.getString("DataConnectorCreaterDialog.24");
+
+	static final String LABEL_BUFFER_LENGTH = Messages.getString("DataConnectorCreaterDialog.25");
+	static final String LABEL_BUFFER_FULL_POLICY = Messages.getString("DataConnectorCreaterDialog.26");
+	static final String LABEL_BUFFER_WRITE_TIMEOUT = Messages.getString("DataConnectorCreaterDialog.27");
+	static final String LABEL_BUFFER_EMPTY_POLICY = Messages.getString("DataConnectorCreaterDialog.28");
+	static final String LABEL_BUFFER_READ_TIMEOUT = Messages.getString("DataConnectorCreaterDialog.29");
+
+	static final String MSG_ERROR_PUSH_RATE_NOT_NUMERIC = Messages.getString("DataConnectorCreaterDialog.19");
+	static final String MSG_ERROR_SKIP_COUNT_NOT_INTEGER = Messages.getString("DataConnectorCreaterDialog.30");
+	static final String MSG_ERROR_OUTPORT_BUFF_LENGTH_NOT_INTEGER = Messages.getString("DataConnectorCreaterDialog.31");
+	static final String MSG_ERROR_OUTPORT_WRITE_TIMEOUT_NOT_NUMERIC = Messages.getString("DataConnectorCreaterDialog.32");
+	static final String MSG_ERROR_OUTPORT_READ_TIMEOUT_NOT_NUMERIC = Messages.getString("DataConnectorCreaterDialog.33");
+	static final String MSG_ERROR_INPORT_BUFF_LENGTH_NOT_INTEGER = Messages.getString("DataConnectorCreaterDialog.34");
+	static final String MSG_ERROR_INPORT_WRITE_TIMEOUT_NOT_NUMERIC = Messages.getString("DataConnectorCreaterDialog.35");
+	static final String MSG_ERROR_INPORT_READ_TIMEOUT_NOT_NUMERIC = Messages.getString("DataConnectorCreaterDialog.36");
 
 	private Text nameText;
 
@@ -51,15 +76,37 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 
 	private Combo subscriptionTypeCombo;
 
+	private Text pushRateText;
+
+	private Combo pushPolicyCombo;
+
+	private Text skipCountText;
+
+	Composite detailComposite;
+
+	Point defaultDialogSize;
+
 	private ConnectorProfile connectorProfile;
 
 	private ConnectorProfile dialogResult;
 
-	private Text pushRateText;
-
 	private OutPort outport;
 
 	private InPort inport;
+
+	BufferPackage ob;
+
+	BufferPackage ib;
+
+	boolean disableNotify;
+
+	static class BufferPackage {
+		Text lengthText;
+		Combo fullPolicyCombo;
+		Text writeTimeoutText;
+		Combo emptyPolicyCombo;
+		Text readTimeoutText;
+	}
 
 	public DataConnectorCreaterDialog(Shell parentShell) {
 		super(parentShell);
@@ -67,39 +114,38 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 	}
 
 	/**
-	 * ConnectorProfileCreaterƒCƒ“ƒ^ƒtƒF[ƒX‚ÌÀ‘•ƒƒ\ƒbƒh
+	 * ConnectorProfileCreaterã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã®å®Ÿè£…ãƒ¡ã‚½ãƒƒãƒ‰
 	 * <p>
-	 * ConnectorProfile‚Æ‚È‚éŒó•â‚ª•¡”‚ ‚éê‡‚É‚ÍAƒ_ƒCƒAƒƒO‚ğ•\¦‚µAConnectorProfile‚ğì¬‚·‚éB
+	 * ConnectorProfileã¨ãªã‚‹å€™è£œãŒè¤‡æ•°ã‚ã‚‹å ´åˆã«ã¯ã€ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’è¡¨ç¤ºã—ã€ConnectorProfileã‚’ä½œæˆã™ã‚‹ã€‚
 	 */
 	public ConnectorProfile getConnectorProfile(OutPort outport, InPort inport) {
 		this.outport = outport;
 		this.inport = inport;
 
-		connectorProfile = ComponentFactory.eINSTANCE
-				.createConnectorProfile();
-		connectorProfile.setName(outport.getNameL() + "_" //$NON-NLS-1$
-				+ inport.getNameL());
+		connectorProfile = ComponentFactory.eINSTANCE.createConnectorProfile();
+		connectorProfile.setName(outport.getNameL() + "_" + inport.getNameL());
 
-		setShellStyle(this.getShellStyle() | SWT.RESIZE  );
+		setShellStyle(this.getShellStyle() | SWT.RESIZE);
 		open();
 
 		return dialogResult;
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected Control createDialogArea(Composite parent) {
 		GridLayout gl;
-		gl = new GridLayout();
+		GridData gd;
+
+		disableNotify = false;
 
 		Composite mainComposite = (Composite) super.createDialogArea(parent);
+		gl = new GridLayout();
+		gd = new GridData(GridData.FILL_BOTH);
 		mainComposite.setLayout(gl);
-		mainComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
+		mainComposite.setLayoutData(gd);
 
-		Label label = new Label(mainComposite, SWT.NONE);
-		label.setText(Messages.getString("DataConnectorCreaterDialog.1")); //$NON-NLS-1$
+		Label label = createLabel(mainComposite, Messages
+				.getString("DataConnectorCreaterDialog.1"));
 		GridData labelLayloutData = new GridData(
 				GridData.HORIZONTAL_ALIGN_BEGINNING);
 		label.setLayoutData(labelLayloutData);
@@ -111,9 +157,9 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 	}
 
 	/**
-	 * ƒƒCƒ“‚Æ‚È‚é•\¦•”‚ğì¬‚·‚é
+	 * ãƒ¡ã‚¤ãƒ³ã¨ãªã‚‹è¡¨ç¤ºéƒ¨ã‚’ä½œæˆã™ã‚‹
 	 */
-	private void createConnectorProfileComposite(Composite mainComposite) {
+	private void createConnectorProfileComposite(final Composite mainComposite) {
 		GridLayout gl;
 		GridData gd;
 		Composite portProfileEditComposite = new Composite(mainComposite,
@@ -126,17 +172,19 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 		gl.marginTop = 0;
 		gl.marginWidth = 0;
 		portProfileEditComposite.setLayout(gl);
-		portProfileEditComposite
-				.setLayoutData(new GridData(GridData.FILL_BOTH));
+		gd = new GridData();
+		gd.horizontalAlignment = GridData.FILL;
+		gd.grabExcessHorizontalSpace = true;
+		portProfileEditComposite.setLayoutData(gd);
 
 		int style;
 
 		Label name = new Label(portProfileEditComposite, SWT.NONE);
 		name.setText(Messages.getString("DataConnectorCreaterDialog.2")); //$NON-NLS-1$
 		nameText = new Text(portProfileEditComposite, SWT.SINGLE | SWT.BORDER);
-		gd = new GridData(GridData.GRAB_HORIZONTAL);
-		gd.minimumWidth = 140;
-		gd.horizontalSpan = 2;
+		gd = new GridData();
+		gd.horizontalAlignment = GridData.FILL;
+		gd.grabExcessHorizontalSpace = true;
 		nameText.setLayoutData(gd);
 		nameText.setTextLimit(255);
 		nameText.addModifyListener(new ModifyListener() {
@@ -145,6 +193,7 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 				notifyModified();
 			}
 		});
+		createLabel(portProfileEditComposite, "");
 
 		Label dataTypeLabel = new Label(portProfileEditComposite, SWT.NONE);
 		dataTypeLabel.setText(Messages.getString("DataConnectorCreaterDialog.3")); //$NON-NLS-1$
@@ -152,7 +201,8 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 				: SWT.DROP_DOWN | SWT.READ_ONLY;
 		dataTypeCombo = new Combo(portProfileEditComposite, style);
 		gd = new GridData();
-		gd.widthHint = COMBO_MIN;
+		gd.horizontalAlignment = GridData.FILL;
+		gd.grabExcessHorizontalSpace = true;
 		dataTypeCombo.setLayoutData(gd);
 		dataTypeCombo.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
@@ -171,7 +221,8 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 				: SWT.DROP_DOWN | SWT.READ_ONLY;
 		interfaceTypeCombo = new Combo(portProfileEditComposite, style);
 		gd = new GridData();
-		gd.widthHint = COMBO_MIN;
+		gd.horizontalAlignment = GridData.FILL;
+		gd.grabExcessHorizontalSpace = true;
 		interfaceTypeCombo.setLayoutData(gd);
 		interfaceTypeCombo.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
@@ -190,11 +241,15 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 				: SWT.DROP_DOWN | SWT.READ_ONLY;
 		dataflowTypeCombo = new Combo(portProfileEditComposite, style);
 		gd = new GridData();
-		gd.widthHint = COMBO_MIN;
+		gd.horizontalAlignment = GridData.FILL;
+		gd.grabExcessHorizontalSpace = true;
 		dataflowTypeCombo.setLayoutData(gd);
 		dataflowTypeCombo.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				connectorProfile.setDataflowType(dataflowTypeCombo.getText());
+				if (!connectorProfile.isSubscriptionTypeAvailable()) {
+					subscriptionTypeCombo.select(0);
+				}
 				notifyModified();
 			}
 		});
@@ -210,15 +265,22 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 				: SWT.DROP_DOWN | SWT.READ_ONLY;
 		subscriptionTypeCombo = new Combo(portProfileEditComposite, style);
 		gd = new GridData();
-		gd.widthHint = COMBO_MIN;
+		gd.horizontalAlignment = GridData.FILL;
+		gd.grabExcessHorizontalSpace = true;
 		subscriptionTypeCombo.setLayoutData(gd);
 		subscriptionTypeCombo.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				connectorProfile.setSubscriptionType(subscriptionTypeCombo
 						.getText());
-				if (connectorProfile.isPushIntervalAvailable()
-						&& pushRateText.getText().isEmpty()) {
-					pushRateText.setText("1000.0");
+				if (!connectorProfile.isPushIntervalAvailable()) {
+					pushRateText.setText("");
+				} else {
+					if (pushRateText.getText().isEmpty()) {
+						pushRateText.setText("1000.0");
+					}
+				}
+				if (!connectorProfile.isPushPolicyAvailable()) {
+					pushPolicyCombo.select(0);
 				}
 				notifyModified();
 			}
@@ -235,7 +297,8 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 				| SWT.BORDER);
 		pushRateText.setEnabled(false);
 		gd = new GridData();
-		gd.widthHint = COMBO_MIN + 21;
+		gd.horizontalAlignment = GridData.FILL;
+		gd.grabExcessHorizontalSpace = true;
 		pushRateText.setLayoutData(gd);
 		pushRateText.setTextLimit(9);
 		pushRateText.addModifyListener(new ModifyListener() {
@@ -257,90 +320,448 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 				notifyModified();
 			}
 		});
+		Label footerLabel = new Label(portProfileEditComposite, SWT.NONE);
+		footerLabel.setText("");
+
+		// Push Policy
+		createLabel(portProfileEditComposite, LABEL_PUSH_POLICY);
+		style = SWT.DROP_DOWN | SWT.READ_ONLY;
+		pushPolicyCombo = new Combo(portProfileEditComposite, style);
+		gd = new GridData();
+		gd.horizontalAlignment = GridData.FILL;
+		gd.grabExcessHorizontalSpace = true;
+		pushPolicyCombo.setLayoutData(gd);
+		pushPolicyCombo.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				connectorProfile.setPushPolicy(pushPolicyCombo.getText());
+				if (!connectorProfile.isSkipCountAvailable()) {
+					skipCountText.setText("");
+				} else {
+					if (skipCountText.getText().isEmpty()) {
+						skipCountText.setText("0");
+					}
+				}
+
+				notifyModified();
+			}
+		});
+		createLabel(portProfileEditComposite, "");
+
+		// Skip Count
+		createLabel(portProfileEditComposite, LABEL_SKIP_COUNT);
+		skipCountText = new Text(portProfileEditComposite, SWT.SINGLE
+				| SWT.BORDER);
+		skipCountText.setEnabled(false);
+		gd = new GridData();
+		gd.horizontalAlignment = GridData.FILL;
+		gd.grabExcessHorizontalSpace = true;
+		skipCountText.setLayoutData(gd);
+		skipCountText.setTextLimit(9);
+		skipCountText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				String text = skipCountText.getText();
+				try {
+					int i = Integer.parseInt(text);
+					connectorProfile.setSkipCount(i);
+				} catch (Exception ex) {
+					// void
+				}
+				notifyModified();
+			}
+		});
+		createLabel(portProfileEditComposite, "");
+
+		final Button detailCheck = new Button(portProfileEditComposite,
+				SWT.CHECK);
+		detailCheck.setText(LABEL_DETAIL);
+		detailCheck.setSelection(false);
+		createLabel(portProfileEditComposite, "");
+		createLabel(portProfileEditComposite, "");
+
+		detailCheck.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				boolean selection = detailCheck.getSelection();
+				if (selection && detailComposite == null) {
+					disableNotify = true;
+					createDetailComposite(mainComposite);
+					disableNotify = false;
+				}
+				detailComposite.setVisible(selection);
+				if (!selection) {
+					// è©³ç´°ãƒã‚§ãƒƒã‚¯è§£é™¤æ™‚ã«ã€å…ƒã®ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã®ã‚µã‚¤ã‚ºã«æˆ»ã™
+					getShell().setSize(defaultDialogSize);
+				} else {
+					getShell().setSize(
+							getShell().computeSize(SWT.DEFAULT, SWT.DEFAULT));
+				}
+			}
+		});
 
 		loadData();
 	}
 
 	/**
-	 * ƒ‚ƒfƒ‹î•ñ‚ÉƒAƒNƒZƒX‚µA•\¦‚Éİ’è‚·‚é
+	 * è©³ç´°è¨­å®šã®è¡¨ç¤ºéƒ¨ã‚’ä½œæˆã™ã‚‹
 	 */
-	@SuppressWarnings("unchecked")
-	private void loadData() {
+	Composite createDetailComposite(Composite parent) {
+		GridLayout gl;
+		GridData gd;
 
-		nameText.setText(connectorProfile.getName());
-		dataTypeCombo.setItems((String[]) ConnectorUtil.getAllowDataTypes(
-				outport, inport).toArray(
-				new String[0]));
-		connectorProfile.setDataType(getDefaultValue(ConnectorUtil
-				.getAllowDataTypes(outport, inport), ConnectorUtil
-				.isAllowAnyDataType(outport, inport)));
-		dataTypeCombo.select(ConnectorUtil
-				.getAllowDataTypes(outport, inport).indexOf(
-						connectorProfile.getDataType()));
+		detailComposite = new Composite(parent, SWT.NONE);
+		gl = new GridLayout(2, false);
+		gd = new GridData(GridData.FILL_BOTH);
+		detailComposite.setLayout(gl);
+		detailComposite.setLayoutData(gd);
+		detailComposite.setVisible(false);
 
-		if( inport.eContainer() instanceof ComponentSpecification ) {
-			interfaceTypeCombo.setItems(SystemEditorPreferenceManager.getInstance().getInterfaceTypes());
-			interfaceTypeCombo.select(0);
-			//
-			dataflowTypeCombo.setItems(SystemEditorPreferenceManager.getInstance().getDataFlowTypes());
-			dataflowTypeCombo.select(0);
-			//
-			subscriptionTypeCombo.setItems(SystemEditorPreferenceManager.getInstance().getSubscriptionTypes());
-			subscriptionTypeCombo.select(0);
-		} else {
-			interfaceTypeCombo.setItems((String[]) ConnectorUtil
-					.getAllowInterfaceTypes(outport, inport).toArray(
-							new String[0]));
-			connectorProfile.setInterfaceType(getDefaultValue(ConnectorUtil
-					.getAllowInterfaceTypes(outport, inport), ConnectorUtil
-					.isAllowAnyInterfaceType(outport, inport)));
-			interfaceTypeCombo.select(ConnectorUtil.getAllowInterfaceTypes(
-					outport, inport).indexOf(connectorProfile.getInterfaceType()));
+		ob = new BufferPackage();
+		createBufferComposite(detailComposite, LABEL_OUTPORT_BUFFER, ob);
 
-			dataflowTypeCombo.setItems((String[]) ConnectorUtil
-					.getAllowDataflowTypes(outport, inport).toArray(
-							new String[0]));
-			connectorProfile.setDataflowType(getDefaultValue(ConnectorUtil
-					.getAllowDataflowTypes(outport, inport), ConnectorUtil
-					.isAllowAnyDataflowType(outport, inport)));
-			dataflowTypeCombo.select(ConnectorUtil.getAllowDataflowTypes(
-					outport, inport).indexOf(connectorProfile.getDataflowType()));
-	
-			subscriptionTypeCombo.setItems((String[]) ConnectorUtil
-					.getAllowSubscriptionTypes(outport, inport).toArray(
-							new String[0]));
-			connectorProfile.setSubscriptionType(getDefaultValue(ConnectorUtil
-					.getAllowSubscriptionTypes(outport, inport), ConnectorUtil
-					.isAllowAnySubscriptionType(outport, inport)));
-			subscriptionTypeCombo.select(ConnectorUtil
-					.getAllowSubscriptionTypes(outport, inport).indexOf(
-							connectorProfile.getSubscriptionType()));
-		}
+		ib = new BufferPackage();
+		createBufferComposite(detailComposite, LABEL_INPORT_BUFFER, ib);
+
+		loadDetailData();
+
+		defaultDialogSize = getShell().getSize();
+		getShell().setSize(getShell().computeSize(SWT.DEFAULT, SWT.DEFAULT));
+
+		return detailComposite;
 	}
 
 	/**
-	 * ƒRƒ“ƒ{‚É‚¨‚¢‚ÄAu•\¦Œó•â‚ÌƒŠƒXƒgv‚ÆAu‚Ç‚Ì‚æ‚¤‚È•¶š—ñ‚Å‚àİ’è‰Â”\‚Å‚ ‚é‚©‚Ç‚¤‚©v‚ğˆø”‚Éæ‚èA‰Šú•\¦‚Ì•¶š—ñ‚ğŒˆ’è‚·‚é
-	 * 
-	 * @param candidateList
-	 *            •\¦Œó•âƒŠƒXƒg
-	 * @param isAllowAny
-	 *            ‚Ç‚Ì‚æ‚¤‚È•¶š—ñ‚Å‚àİ’è‰Â”\‚Å‚ ‚é‚©‚Ç‚¤‚©
-	 * @return ‰Šú•\¦‚Ì•¶š—ñ
+	 * ãƒãƒ¼ãƒˆãƒãƒƒãƒ•ã‚¡è¨­å®šã®è¡¨ç¤ºéƒ¨ã‚’ä½œæˆã™ã‚‹
 	 */
-	@SuppressWarnings("unchecked")
-	private String getDefaultValue(List candidateList, boolean isAllowAny) {
-		String result = null;
+	Composite createBufferComposite(Composite parent, String label,
+			BufferPackage pkg) {
+		GridLayout gl;
+		GridData gd;
 
-		if (candidateList.size() > 0) {
-			result = (String) candidateList.get(0);
+		Group composite = new Group(parent, SWT.NONE);
+		gl = new GridLayout(3, false);
+		gd = new GridData();
+		gd.horizontalAlignment = GridData.FILL;
+		gd.grabExcessHorizontalSpace = true;
+		composite.setLayout(gl);
+		composite.setLayoutData(gd);
+		composite.setText(label);
+
+		final boolean isOutport = (pkg == ob);
+
+		// Buffer length
+		createLabel(composite, LABEL_BUFFER_LENGTH);
+		pkg.lengthText = new Text(composite, SWT.SINGLE | SWT.BORDER);
+		gd = new GridData();
+		gd.horizontalAlignment = GridData.FILL;
+		gd.grabExcessHorizontalSpace = true;
+		pkg.lengthText.setLayoutData(gd);
+		pkg.lengthText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				BufferPackage bp = (isOutport) ? ob : ib;
+				String text = bp.lengthText.getText();
+				try {
+					int i = Integer.parseInt(text);
+					if (isOutport) {
+						connectorProfile.setOutportBufferLength(i);
+					} else {
+						connectorProfile.setInportBufferLength(i);
+					}
+				} catch (Exception ex) {
+					// void
+				}
+				notifyModified();
+			}
+		});
+		createLabel(composite, "");
+
+		// Buffer full policy
+		createLabel(composite, LABEL_BUFFER_FULL_POLICY);
+		pkg.fullPolicyCombo = new Combo(composite, SWT.DROP_DOWN
+				| SWT.READ_ONLY);
+		gd = new GridData();
+		gd.horizontalAlignment = GridData.FILL;
+		gd.grabExcessHorizontalSpace = true;
+		pkg.fullPolicyCombo.setLayoutData(gd);
+		pkg.fullPolicyCombo.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				BufferPackage bp = (isOutport) ? ob : ib;
+				String value = bp.fullPolicyCombo.getText();
+				if (isOutport) {
+					connectorProfile.setOutportBufferFullPolicy(value);
+				} else {
+					connectorProfile.setInportBufferFullPolicy(value);
+				}
+				notifyModified();
+			}
+		});
+		createLabel(composite, "");
+
+		// Buffer write timeout
+		createLabel(composite, LABEL_BUFFER_WRITE_TIMEOUT);
+		pkg.writeTimeoutText = new Text(composite, SWT.SINGLE | SWT.BORDER);
+		gd = new GridData();
+		gd.horizontalAlignment = GridData.FILL;
+		gd.grabExcessHorizontalSpace = true;
+		pkg.writeTimeoutText.setLayoutData(gd);
+		pkg.writeTimeoutText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				BufferPackage bp = (isOutport) ? ob : ib;
+				String text = bp.writeTimeoutText.getText();
+				try {
+					double d = Double.parseDouble(text);
+					if (isOutport) {
+						connectorProfile.setOutportBufferWriteTimeout(d);
+					} else {
+						connectorProfile.setInportBufferWriteTimeout(d);
+					}
+				} catch (Exception ex) {
+					// void
+				}
+				notifyModified();
+			}
+		});
+		createLabel(composite, "");
+
+		// Buffer empty policy
+		createLabel(composite, LABEL_BUFFER_EMPTY_POLICY);
+		pkg.emptyPolicyCombo = new Combo(composite, SWT.DROP_DOWN
+				| SWT.READ_ONLY);
+		gd = new GridData();
+		gd.horizontalAlignment = GridData.FILL;
+		gd.grabExcessHorizontalSpace = true;
+		pkg.emptyPolicyCombo.setLayoutData(gd);
+		pkg.emptyPolicyCombo.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				BufferPackage bp = (isOutport) ? ob : ib;
+				String value = bp.emptyPolicyCombo.getText();
+				if (isOutport) {
+					connectorProfile.setOutportBufferEmptyPolicy(value);
+				} else {
+					connectorProfile.setInportBufferEmptyPolicy(value);
+				}
+				notifyModified();
+			}
+		});
+		createLabel(composite, "");
+
+		// Buffer read timeout
+		createLabel(composite, LABEL_BUFFER_READ_TIMEOUT);
+		pkg.readTimeoutText = new Text(composite, SWT.SINGLE | SWT.BORDER);
+		gd = new GridData();
+		gd.horizontalAlignment = GridData.FILL;
+		gd.grabExcessHorizontalSpace = true;
+		pkg.readTimeoutText.setLayoutData(gd);
+		pkg.readTimeoutText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				BufferPackage bp = (isOutport) ? ob : ib;
+				String text = bp.readTimeoutText.getText();
+				try {
+					double d = Double.parseDouble(text);
+					if (isOutport) {
+						connectorProfile.setOutportBufferReadTimeout(d);
+					} else {
+						connectorProfile.setInportBufferReadTimeout(d);
+					}
+				} catch (Exception ex) {
+					// void
+				}
+				notifyModified();
+			}
+		});
+		createLabel(composite, "");
+
+		return composite;
+	}
+
+	Label createLabel(Composite parent, String label) {
+		Label l = new Label(parent, SWT.NONE);
+		l.setText(label);
+		return l;
+	}
+
+	/**
+	 * ãƒ¢ãƒ‡ãƒ«æƒ…å ±ã«ã‚¢ã‚¯ã‚»ã‚¹ã—ã€è¡¨ç¤ºã«è¨­å®šã™ã‚‹
+	 */
+	void loadData() {
+		//
+		nameText.setText(connectorProfile.getName());
+		//
+		List<String> types = ConnectorUtil.getAllowDataTypes(outport, inport);
+		boolean isAllowAny = ConnectorUtil.isAllowAnyDataType(outport, inport);
+		String value = loadCombo(dataTypeCombo, types, connectorProfile
+				.getDataType(), isAllowAny);
+		connectorProfile.setDataType(value);
+
+		boolean isOffline = inport.eContainer() instanceof ComponentSpecification;
+
+		SystemEditorPreferenceManager preference = SystemEditorPreferenceManager
+				.getInstance();
+
+		//
+		if (!isOffline) {
+			types = ConnectorUtil.getAllowInterfaceTypes(outport, inport);
+			isAllowAny = ConnectorUtil.isAllowAnyInterfaceType(outport, inport);
+		} else {
+			types = Arrays.asList(preference.getInterfaceTypes());
+			isAllowAny = false;
+		}
+		value = loadCombo(interfaceTypeCombo, types, connectorProfile
+				.getInterfaceType(), isAllowAny);
+		connectorProfile.setInterfaceType(value);
+		//
+		if (!isOffline) {
+			types = ConnectorUtil.getAllowDataflowTypes(outport, inport);
+			isAllowAny = ConnectorUtil.isAllowAnyDataflowType(outport, inport);
+		} else {
+			types = Arrays.asList(preference.getDataFlowTypes());
+			isAllowAny = false;
+		}
+		value = loadCombo(dataflowTypeCombo, types, connectorProfile
+				.getDataflowType(), isAllowAny);
+		connectorProfile.setDataflowType(value);
+		//
+		if (!isOffline) {
+			types = ConnectorUtil.getAllowSubscriptionTypes(outport, inport);
+			isAllowAny = ConnectorUtil.isAllowAnySubscriptionType(outport,
+					inport);
+		} else {
+			types = Arrays.asList(preference.getSubscriptionTypes());
+			isAllowAny = false;
+		}
+		value = loadCombo(subscriptionTypeCombo, types, connectorProfile
+				.getSubscriptionType(), isAllowAny);
+		connectorProfile.setSubscriptionType(value);
+		//
+		if (!isOffline) {
+			types = Arrays.asList(ConnectorProfile.PUSH_POLICY_TYPES);
+		} else {
+			types = Arrays.asList(preference.getPushPolicies());
+		}
+		isAllowAny = false;
+		value = loadCombo(pushPolicyCombo, types, connectorProfile
+				.getPushPolicy(), isAllowAny);
+		connectorProfile.setPushPolicy(value);
+
+		loadDetailData();
+	}
+
+	/**
+	 * ãƒ¢ãƒ‡ãƒ«ã®è©³ç´°è¨­å®šé …ç›®ã‚’è¡¨ç¤ºã™ã‚‹
+	 */
+	void loadDetailData() {
+		List<String> fullTypes;
+		List<String> emptyTypes;
+		String value;
+		boolean isAllowAny = false;
+
+		boolean isOffline = inport.eContainer() instanceof ComponentSpecification;
+
+		SystemEditorPreferenceManager preference = SystemEditorPreferenceManager
+				.getInstance();
+
+		if (!isOffline) {
+			fullTypes = Arrays
+					.asList(ConnectorProfile.BUFFER_FULL_POLICY_TYPES);
+			emptyTypes = Arrays
+					.asList(ConnectorProfile.BUFFER_EMPTY_POLICY_TYPES);
+		} else {
+			fullTypes = Arrays.asList(preference.getBufferFullPolicies());
+			emptyTypes = Arrays.asList(preference.getBufferEmptyPolicies());
 		}
 
+		if (ob != null) {
+			//
+			value = loadCombo(ob.fullPolicyCombo, fullTypes, connectorProfile
+					.getOutportBufferFullPolicy(), isAllowAny);
+			connectorProfile.setOutportBufferFullPolicy(value);
+			//
+			value = loadCombo(ob.emptyPolicyCombo, emptyTypes, connectorProfile
+					.getOutportBufferEmptyPolicy(), isAllowAny);
+			connectorProfile.setOutportBufferEmptyPolicy(value);
+			//
+			if (connectorProfile.getOutportBufferLength() == null) {
+				connectorProfile.setOutportBufferLength(0);
+			}
+			value = connectorProfile.getOutportBufferLength().toString();
+			ob.lengthText.setText(value);
+			//
+			if (connectorProfile.getOutportBufferWriteTimeout() == null) {
+				connectorProfile.setOutportBufferWriteTimeout(1.0);
+			}
+			value = connectorProfile.getOutportBufferWriteTimeout().toString();
+			ob.writeTimeoutText.setText(value);
+			//
+			if (connectorProfile.getOutportBufferReadTimeout() == null) {
+				connectorProfile.setOutportBufferReadTimeout(1.0);
+			}
+			value = connectorProfile.getOutportBufferReadTimeout().toString();
+			ob.readTimeoutText.setText(value);
+		}
+		//
+		if (ib != null) {
+			//
+			value = loadCombo(ib.fullPolicyCombo, fullTypes, connectorProfile
+					.getInportBufferFullPolicy(), isAllowAny);
+			connectorProfile.setInportBufferFullPolicy(value);
+			//
+			value = loadCombo(ib.emptyPolicyCombo, emptyTypes, connectorProfile
+					.getInportBufferEmptyPolicy(), isAllowAny);
+			connectorProfile.setInportBufferEmptyPolicy(value);
+			//
+			if (connectorProfile.getInportBufferLength() == null) {
+				connectorProfile.setInportBufferLength(0);
+			}
+			value = connectorProfile.getInportBufferLength().toString();
+			ib.lengthText.setText(value);
+			//
+			if (connectorProfile.getInportBufferWriteTimeout() == null) {
+				connectorProfile.setInportBufferWriteTimeout(1.0);
+			}
+			value = connectorProfile.getInportBufferWriteTimeout().toString();
+			ib.writeTimeoutText.setText(value);
+			//
+			if (connectorProfile.getInportBufferReadTimeout() == null) {
+				connectorProfile.setInportBufferReadTimeout(1.0);
+			}
+			value = connectorProfile.getInportBufferReadTimeout().toString();
+			ib.readTimeoutText.setText(value);
+		}
+	}
+
+	String loadCombo(Combo combo, List<String> types, String value,
+			boolean isAllowAny) {
+		combo.setItems(types.toArray(new String[0]));
+		String def = getDefaultValue(types, value, isAllowAny);
+		int index = types.indexOf(def);
+		index = (index == -1) ? 0 : index;
+		combo.select(index);
+		return types.get(index);
+	}
+
+	/**
+	 * ã‚³ãƒ³ãƒœã«ãŠã„ã¦ã€ã€Œè¡¨ç¤ºå€™è£œã®ãƒªã‚¹ãƒˆã€ã¨ã€ã€Œã©ã®ã‚ˆã†ãªæ–‡å­—åˆ—ã§ã‚‚è¨­å®šå¯èƒ½ã§ã‚ã‚‹ã‹ã©ã†ã‹ã€ã‚’å¼•æ•°ã«å–ã‚Šã€åˆæœŸè¡¨ç¤ºã®æ–‡å­—åˆ—ã‚’æ±ºå®šã™ã‚‹
+	 * 
+	 * @param candidateList
+	 *            è¡¨ç¤ºå€™è£œãƒªã‚¹ãƒˆ
+	 * @param isAllowAny
+	 *            ã©ã®ã‚ˆã†ãªæ–‡å­—åˆ—ã§ã‚‚è¨­å®šå¯èƒ½ã§ã‚ã‚‹ã‹ã©ã†ã‹
+	 * @return åˆæœŸè¡¨ç¤ºã®æ–‡å­—åˆ—
+	 */
+	private String getDefaultValue(List<String> candidateList, String value,
+			boolean isAllowAny) {
+		String result = null;
+		if (candidateList.size() > 0) {
+			if (candidateList.contains(value)) {
+				result = value;
+			} else {
+				result = candidateList.get(0);
+			}
+		}
 		if (result == null) {
 			if (isAllowAny) {
 				result = ConnectorProfile.ANY;
 			}
 		}
-
 		return result;
 	}
 
@@ -366,8 +787,8 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * ƒƒbƒZ[ƒW‚ğİ’è‚·‚éB ƒƒbƒZ[ƒW‚Æ‚µ‚Ä‚ÍƒGƒ‰[ƒƒbƒZ[ƒW‚ğ‘z’è‚µ‚Ä‚¨‚èA
-	 * ƒGƒ‰[ƒƒbƒZ[ƒW‚ª‘¶İ‚·‚é‚©‹ó•¶š‚©‚Ç‚¤‚©‚É‚æ‚èAOKƒ{ƒ^ƒ“‚ÌEnable‚Ì§Œä‚às‚¤‚æ‚¤‚ÉAƒI[ƒo[ƒ‰ƒCƒh‚µ‚½B
+	 * ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¨­å®šã™ã‚‹ã€‚ ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¨ã—ã¦ã¯ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’æƒ³å®šã—ã¦ãŠã‚Šã€
+	 * ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒå­˜åœ¨ã™ã‚‹ã‹ç©ºæ–‡å­—ã‹ã©ã†ã‹ã«ã‚ˆã‚Šã€OKãƒœã‚¿ãƒ³ã®Enableã®åˆ¶å¾¡ã‚‚è¡Œã†ã‚ˆã†ã«ã€ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ãŸã€‚
 	 */
 	public void setMessage(String newMessage, int newType) {
 		super.setMessage(newMessage, newType);
@@ -381,14 +802,17 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 	}
 
 	/**
-	 * İ’è‚É•ÏX‚ª‚ ‚Á‚½ê‡‚ÉŒÄ‚Ño‚³‚ê‚é‚±‚Æ‚ğ‘z’è‚µ‚½ƒƒ\ƒbƒhB
-	 * SubscriptionTypeƒRƒ“ƒ{‚ÆPushInterbal‚ÌEnable‚ğŠÇ—‚·‚éB
+	 * è¨­å®šã«å¤‰æ›´ãŒã‚ã£ãŸå ´åˆã«å‘¼ã³å‡ºã•ã‚Œã‚‹ã“ã¨ã‚’æƒ³å®šã—ãŸãƒ¡ã‚½ãƒƒãƒ‰ã€‚
+	 * SubscriptionTypeã‚³ãƒ³ãƒœã¨PushInterbalã®Enableã‚’ç®¡ç†ã™ã‚‹ã€‚
 	 * <p>
-	 * ’ˆÓFİ’è’l‚Ì•ÏX‚ª‚ ‚éê‡‚É‚ÍA•K‚¸‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚±‚Æ<br>
-	 * Œ»İ‚ÍA•\¦‘¤‚Åİ’è‚ğ•ÏX‚µ‚½Œã‚ÉA‚±‚Ìƒƒ\ƒbƒh‚ğ•K‚¸ŒÄ‚Ño‚·‚æ‚¤‚ÉÀ‘•‚µ‚Ä‚¢‚é‚ªA
-	 * €–Ú”‚ª‘‚¦‚é‚æ‚¤‚È‚ç‚ÎAƒ‚ƒfƒ‹‚Ì•ÏX’Ê’m‹@”\‚ğg—p‚µ‚ÄÀ‘•‚·‚é•û‚ª—Ç‚¢B
+	 * æ³¨æ„ï¼šè¨­å®šå€¤ã®å¤‰æ›´ãŒã‚ã‚‹å ´åˆã«ã¯ã€å¿…ãšã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã™ã“ã¨<br>
+	 * ç¾åœ¨ã¯ã€è¡¨ç¤ºå´ã§è¨­å®šã‚’å¤‰æ›´ã—ãŸå¾Œã«ã€ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å¿…ãšå‘¼ã³å‡ºã™ã‚ˆã†ã«å®Ÿè£…ã—ã¦ã„ã‚‹ãŒã€
+	 * é …ç›®æ•°ãŒå¢—ãˆã‚‹ã‚ˆã†ãªã‚‰ã°ã€ãƒ¢ãƒ‡ãƒ«ã®å¤‰æ›´é€šçŸ¥æ©Ÿèƒ½ã‚’ä½¿ç”¨ã—ã¦å®Ÿè£…ã™ã‚‹æ–¹ãŒè‰¯ã„ã€‚
 	 */
 	public void notifyModified() {
+		if (disableNotify) {
+			return;
+		}
 		if (getButton(IDialogConstants.OK_ID) != null) {
 			setMessage("", IMessageProvider.NONE); //$NON-NLS-1$
 		}
@@ -404,13 +828,113 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 				// void
 			}
 
-			String message = ""; //$NON-NLS-1$
-			if (isDouble == false) {
-				message = Messages.getString("DataConnectorCreaterDialog.19"); //$NON-NLS-1$
+			if (!isDouble) {
+				setMessage(MSG_ERROR_PUSH_RATE_NOT_NUMERIC,
+						IMessageProvider.ERROR);
 			}
+		}
 
-			if (message.length() != 0) {
-				setMessage(message, IMessageProvider.ERROR);
+		if (connectorProfile.isSkipCountAvailable()) {
+			boolean isInt = false;
+			try {
+				int i = Integer.parseInt(skipCountText.getText());
+				if (i >= 0) {
+					isInt = true;
+				}
+			} catch (Exception ex) {
+				// void
+			}
+			if (!isInt) {
+				setMessage(MSG_ERROR_SKIP_COUNT_NOT_INTEGER,
+						IMessageProvider.ERROR);
+			}
+		}
+
+		if (ob != null) {
+			boolean isInt = false;
+			try {
+				int i = Integer.parseInt(ob.lengthText.getText());
+				if (i >= 0) {
+					isInt = true;
+				}
+			} catch (Exception ex) {
+				// void
+			}
+			if (!isInt) {
+				setMessage(MSG_ERROR_OUTPORT_BUFF_LENGTH_NOT_INTEGER,
+						IMessageProvider.ERROR);
+			}
+			//
+			boolean isDouble = false;
+			try {
+				double d = Double.parseDouble(ob.writeTimeoutText.getText());
+				if (d >= 0.0) {
+					isDouble = true;
+				}
+			} catch (Exception ex) {
+				// void
+			}
+			if (!isDouble) {
+				setMessage(MSG_ERROR_OUTPORT_WRITE_TIMEOUT_NOT_NUMERIC,
+						IMessageProvider.ERROR);
+			}
+			//
+			isDouble = false;
+			try {
+				double d = Double.parseDouble(ob.readTimeoutText.getText());
+				if (d >= 0.0) {
+					isDouble = true;
+				}
+			} catch (Exception ex) {
+				// void
+			}
+			if (!isDouble) {
+				setMessage(MSG_ERROR_OUTPORT_READ_TIMEOUT_NOT_NUMERIC,
+						IMessageProvider.ERROR);
+			}
+		}
+
+		if (ib != null) {
+			boolean isInt = false;
+			try {
+				int i = Integer.parseInt(ib.lengthText.getText());
+				if (i >= 0) {
+					isInt = true;
+				}
+			} catch (Exception ex) {
+				// void
+			}
+			if (!isInt) {
+				setMessage(MSG_ERROR_INPORT_BUFF_LENGTH_NOT_INTEGER,
+						IMessageProvider.ERROR);
+			}
+			//
+			boolean isDouble = false;
+			try {
+				double d = Double.parseDouble(ib.writeTimeoutText.getText());
+				if (d >= 0.0) {
+					isDouble = true;
+				}
+			} catch (Exception ex) {
+				// void
+			}
+			if (!isDouble) {
+				setMessage(MSG_ERROR_INPORT_WRITE_TIMEOUT_NOT_NUMERIC,
+						IMessageProvider.ERROR);
+			}
+			//
+			isDouble = false;
+			try {
+				double d = Double.parseDouble(ib.readTimeoutText.getText());
+				if (d >= 0.0) {
+					isDouble = true;
+				}
+			} catch (Exception ex) {
+				// void
+			}
+			if (!isDouble) {
+				setMessage(MSG_ERROR_INPORT_READ_TIMEOUT_NOT_NUMERIC,
+						IMessageProvider.ERROR);
 			}
 		}
 
@@ -418,6 +942,10 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 				.isSubscriptionTypeAvailable());
 
 		pushRateText.setEnabled(connectorProfile.isPushIntervalAvailable());
+
+		pushPolicyCombo.setEnabled(connectorProfile.isPushPolicyAvailable());
+
+		skipCountText.setEnabled(connectorProfile.isSkipCountAvailable());
 	}
 
 	@Override

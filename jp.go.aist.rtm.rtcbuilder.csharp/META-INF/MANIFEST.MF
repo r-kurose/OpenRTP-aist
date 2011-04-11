@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: jp.go.aist.rtm.rtcbuilder.csharp;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.1.0.v20110411
 Bundle-Activator: jp.go.aist.rtm.rtcbuilder.csharp.RtcBuilderCSharpPlugin
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
@@ -11,3 +11,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.forms
 Eclipse-LazyStart: true
 Bundle-Vendor: %providerName
+Eclipse-BuddyPolicy: registered
+Export-Package: jp.go.aist.rtm.rtcbuilder.csharp,
+ jp.go.aist.rtm.rtcbuilder.csharp.manager,
+ jp.go.aist.rtm.rtcbuilder.csharp.template

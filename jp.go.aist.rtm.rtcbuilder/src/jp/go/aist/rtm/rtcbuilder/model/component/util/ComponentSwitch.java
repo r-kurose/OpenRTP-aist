@@ -137,13 +137,13 @@ public class ComponentSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Component</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Component</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Component</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Component</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -152,13 +152,13 @@ public class ComponentSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Data In Port</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Data In Port</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Data In Port</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Data In Port</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -167,13 +167,13 @@ public class ComponentSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Data Out Port</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Data Out Port</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Data Out Port</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Data Out Port</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -182,13 +182,13 @@ public class ComponentSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Service Port</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Service Port</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Service Port</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Service Port</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -197,13 +197,13 @@ public class ComponentSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Service Interface</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Service Interface</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Service Interface</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Service Interface</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -212,13 +212,13 @@ public class ComponentSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Build View</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Build View</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Build View</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Build View</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -227,13 +227,13 @@ public class ComponentSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Port Base</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Port Base</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Port Base</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Port Base</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -242,13 +242,13 @@ public class ComponentSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last case anyway.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */

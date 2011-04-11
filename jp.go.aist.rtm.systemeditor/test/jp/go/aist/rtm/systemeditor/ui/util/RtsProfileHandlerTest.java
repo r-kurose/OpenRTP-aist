@@ -34,6 +34,7 @@ import jp.go.aist.rtm.toolscommon.model.component.impl.ExecutionContextImpl;
 import jp.go.aist.rtm.toolscommon.model.component.util.PortConnectorFactory;
 import jp.go.aist.rtm.toolscommon.model.core.Point;
 import jp.go.aist.rtm.toolscommon.model.core.Rectangle;
+import jp.go.aist.rtm.toolscommon.util.RtsProfileHandler;
 import junit.framework.TestCase;
 
 import org.eclipse.emf.common.util.TreeIterator;
@@ -80,14 +81,14 @@ import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
 
 public class RtsProfileHandlerTest extends TestCase {
 	private RtsProfileHandler handler;
-	
+
 	private Port port1;
 	private Port port2;
 	private Port port3;
 	private Port port4;
 	private Port port5;
 	private Port port6;
-	
+
 	private CorbaComponent eofComponent1;
 	private CorbaComponent eofComponent2;
 	private CorbaComponent eofComponent3;
@@ -104,15 +105,15 @@ public class RtsProfileHandlerTest extends TestCase {
 		SystemEditorWrapperFactory.setInstance(instance);
 	}
 
-	// ƒtƒ@ƒCƒ‹‚ª‚È‚¢‚ÆƒGƒ‰[‚É‚È‚éŠÂ‹«ˆË‘¶ƒeƒXƒg
+	// ãƒ•ã‚¡ã‚¤ãƒ«ãŒãªã„ã¨ã‚¨ãƒ©ãƒ¼ã«ãªã‚‹ç’°å¢ƒä¾å­˜ãƒ†ã‚¹ãƒˆ
 	public void testLoad() throws Exception {
 		String targetFile = "/RTSystemEditor/RtsSampleVer0.2.xml";
 		SystemDiagram diagram = handler.load(targetFile, SystemDiagramKind.ONLINE_LITERAL);
 		assertEquals(SystemDiagramKind.ONLINE_LITERAL, diagram.getKind());
 		assertNotNull(diagram.getProfile());
 	}
-	
-	// XML‚Ìƒ[ƒh‚¾‚¯‚ğs‚¤ƒeƒXƒg
+
+	// XMLã®ãƒ­ãƒ¼ãƒ‰ã ã‘ã‚’è¡Œã†ãƒ†ã‚¹ãƒˆ
 	public void testPopulate() throws Exception {
 		SystemDiagram diagram = ComponentFactory.eINSTANCE.createSystemDiagram();
 //		diagram.setKind(SystemDiagramKind.ONLINE_LITERAL);
@@ -146,10 +147,10 @@ public class RtsProfileHandlerTest extends TestCase {
 //		assertEquals("property2", property.getName());
 //		assertEquals("value2", property.getValue());
 		
-		// XML‚Ìƒ[ƒh‚ğs‚Á‚½’iŠK‚Å‚Íƒ|[ƒg‚Ìî•ñ‚ÍƒZƒbƒg‚Å‚«‚È‚¢
+		// XMLã®ãƒ­ãƒ¼ãƒ‰ã‚’è¡Œã£ãŸæ®µéšã§ã¯ãƒãƒ¼ãƒˆã®æƒ…å ±ã¯ã‚»ãƒƒãƒˆã§ããªã„
 		assertTrue(component.getPorts().isEmpty());
 
-		// XML‚Ìƒ[ƒh‚ğs‚Á‚½’iŠK‚Å‚ÍƒRƒ“ƒtƒBƒO‚Ìî•ñ‚ÍƒZƒbƒg‚µ‚È‚¢
+		// XMLã®ãƒ­ãƒ¼ãƒ‰ã‚’è¡Œã£ãŸæ®µéšã§ã¯ã‚³ãƒ³ãƒ•ã‚£ã‚°ã®æƒ…å ±ã¯ã‚»ãƒƒãƒˆã—ãªã„
 		assertTrue(component.getConfigurationSets().isEmpty());
 
 		jp.go.aist.rtm.toolscommon.model.component.Component component2 = (jp.go.aist.rtm.toolscommon.model.component.Component) component.getComponents().get(0);
@@ -160,13 +161,12 @@ public class RtsProfileHandlerTest extends TestCase {
 		jp.go.aist.rtm.toolscommon.model.component.Component component3 = (jp.go.aist.rtm.toolscommon.model.component.Component) component.getComponents().get(1);
 		assertEquals(0, component3.getComponents().size());
 	}
-	
-	// ƒIƒtƒ‰ƒCƒ“‚Åƒ[ƒh‚ğs‚¤ƒeƒXƒg
+
+	// ã‚ªãƒ•ãƒ©ã‚¤ãƒ³ã§ãƒ­ãƒ¼ãƒ‰ã‚’è¡Œã†ãƒ†ã‚¹ãƒˆ
 	public void testPopulate2() throws Exception {
 		SystemDiagram diagram = ComponentFactory.eINSTANCE.createSystemDiagram();
 		diagram.setKind(SystemDiagramKind.OFFLINE_LITERAL);
 		handler.setOnline(false);
-		handler.setRepositoryModel(setupRepositoryModel());
 		RtsProfileExt profile = setupProfile();
 		handler.populate(diagram, profile);
 		diagram.setProfile(profile);
@@ -178,19 +178,19 @@ public class RtsProfileHandlerTest extends TestCase {
 		handler.restoreCompositeComponentPort(diagram);
 		
 		Port port = (Port) component.getPorts().get(0);
-		assertEquals("out", port.getNameL());
+		assertEquals("ConsoleIn0.out", port.getNameL());
 		port = (Port) component.getPorts().get(1);
-		assertEquals("client", port.getNameL());
-		assertEquals("{componentId:id2,instanceName:ConsoleIn0,portName:client}", port.getOriginalPortString());
+		assertEquals("ConsoleIn0.client", port.getNameL());
+		assertEquals("{componentId:id2,pathId:192.168.1.164/client164.local.tech-arts.co.jp.host_cxt/ConsoleIn0.rtc,instanceName:ConsoleIn0,portName:ConsoleIn0.client}", port.getOriginalPortString());
 		port = (Port) component.getPorts().get(2);
-		assertEquals("in", port.getNameL());
+		assertEquals("ConsoleOut0.in", port.getNameL());
 		port = (Port) component.getPorts().get(3);
-		assertEquals("server", port.getNameL());
+		assertEquals("ConsoleOut0.server", port.getNameL());
 
 		handler.restoreConnection(diagram);
 		port = (Port) component.getPorts().get(0);
-		assertEquals("out", port.getNameL());
-		assertEquals("{componentId:id2,instanceName:ConsoleIn0,portName:out}", port.getOriginalPortString());
+		assertEquals("ConsoleIn0.out", port.getNameL());
+		assertEquals("{componentId:id2,pathId:192.168.1.164/client164.local.tech-arts.co.jp.host_cxt/ConsoleIn0.rtc,instanceName:ConsoleIn0,portName:ConsoleIn0.out}", port.getOriginalPortString());
 		ConnectorProfile connector1 = (ConnectorProfile) port.getConnectorProfiles().get(0);
 		assertEquals("connector1", connector1.getConnectorId());
 		assertEquals("conectorName1", connector1.getName());
@@ -199,7 +199,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		assertEquals("PUSH", connector1.getDataflowType());
 		assertEquals("Flush", connector1.getSubscriptionType());
 		assertNull(connector1.getPushRate());
-		// ƒxƒ“ƒfƒBƒ“ƒOƒ|ƒCƒ“ƒg‚Ì•œŒ³
+		// ãƒ™ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ãƒã‚¤ãƒ³ãƒˆã®å¾©å…ƒ
 		PortConnector portConnector = diagram.getConnectorMap().get("connector1");
 		Point point = (Point) portConnector.getRoutingConstraint().map().get(1);
 		assertEquals(392, point.getX());
@@ -209,12 +209,12 @@ public class RtsProfileHandlerTest extends TestCase {
 		ConnectorProfile connector2 = (ConnectorProfile) port.getConnectorProfiles().get(0);
 		assertEquals("connector2", connector2.getConnectorId());
 		assertEquals("conectorName2", connector2.getName());
-		// ƒxƒ“ƒfƒBƒ“ƒOƒ|ƒCƒ“ƒg‚Ì•œŒ³
+		// ãƒ™ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ãƒã‚¤ãƒ³ãƒˆã®å¾©å…ƒ
 		portConnector = diagram.getConnectorMap().get("connector2");
 		assertTrue(portConnector.getRoutingConstraint().map().isEmpty());
 
 		port = (Port) component.getPorts().get(1);
-		assertEquals("client", port.getNameL());
+		assertEquals("ConsoleIn0.client", port.getNameL());
 
 		jp.go.aist.rtm.toolscommon.model.component.Component component3 = (jp.go.aist.rtm.toolscommon.model.component.Component) component.getComponents().get(1);
 		port = (Port) component3.getPorts().get(0);
@@ -233,8 +233,8 @@ public class RtsProfileHandlerTest extends TestCase {
 		assertEquals("value1", configData.getValueAsString());
 	}
 
-	// IOR‚Ì•œŒ³‚ğs‚¤ƒeƒXƒg
-	// 192.168.1.164‚Éƒl[ƒ€ƒT[ƒo‚Ærtcd‚ª‹N“®‚µ‚Ä‚¢‚é‚Æ‚¢‚¤‘O’ñ
+	// IORã®å¾©å…ƒã‚’è¡Œã†ãƒ†ã‚¹ãƒˆ
+	// 192.168.1.164ã«ãƒãƒ¼ãƒ ã‚µãƒ¼ãƒã¨rtcdãŒèµ·å‹•ã—ã¦ã„ã‚‹ã¨ã„ã†å‰æ
 	@SuppressWarnings("unchecked")
 	public void _testLoadIOR() throws Exception {
 		NamingContextNode context = NameServerAccesserTest.getNamingContext();
@@ -265,7 +265,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		assertTrue(didAssert);
 	}
 
-	// ƒxƒ“ƒhƒ|ƒCƒ“ƒg‚ğ•œŒ³‚·‚éƒeƒXƒg
+	// ãƒ™ãƒ³ãƒ‰ãƒã‚¤ãƒ³ãƒˆã‚’å¾©å…ƒã™ã‚‹ãƒ†ã‚¹ãƒˆ
 	public void testConvertFromBendPointString() throws Exception {
 		Map<Integer, jp.go.aist.rtm.toolscommon.model.core.Point> result 
 			= handler.convertFromBendPointString("{1:(392,110)}");
@@ -274,6 +274,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		assertEquals(392, point.getX());
 		assertEquals(110, point.getY());
 	}
+
 	public void testConvertFromBendPointString2() throws Exception {
 		Map<Integer, jp.go.aist.rtm.toolscommon.model.core.Point> result 
 			= handler.convertFromBendPointString("{1:(392,110), 2:(23,45)}");
@@ -285,7 +286,8 @@ public class RtsProfileHandlerTest extends TestCase {
 		assertEquals(23, point.getX());
 		assertEquals(45, point.getY());
 	}
-	// ƒ_ƒCƒAƒOƒ‰ƒ€‚ğ•Û‘¶‚·‚éƒeƒXƒg(online)
+
+	// ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã‚’ä¿å­˜ã™ã‚‹ãƒ†ã‚¹ãƒˆ(online)
 	public void testSaveOnline() throws Exception {
 		SystemDiagram diagram = setupDiagram();
 		diagram.setKind(SystemDiagramKind.ONLINE_LITERAL);
@@ -294,7 +296,7 @@ public class RtsProfileHandlerTest extends TestCase {
 
 		ComponentExt component = (ComponentExt) result.getComponents().get(1);
 		
-		// ƒRƒ“ƒ|[ƒlƒ“ƒg1‚ÌEC
+		// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ1ã®EC
 		ExecutionContextExt executionContext = (ExecutionContextExt) component.getExecutionContexts().get(0);
 		assertEquals("default", executionContext.getId());
 		assertEquals("PERIODIC", executionContext.getKind());
@@ -306,8 +308,8 @@ public class RtsProfileHandlerTest extends TestCase {
 		
 		assertEquals("default2", component.getExecutionContexts().get(1).getId());
 	}
-	
-	// ƒ_ƒCƒAƒOƒ‰ƒ€‚ğ•Û‘¶‚·‚éƒeƒXƒg
+
+	// ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã‚’ä¿å­˜ã™ã‚‹ãƒ†ã‚¹ãƒˆ
 	public void testSave() throws Exception {
 		SystemDiagram diagram = setupDiagram();
 		diagram.setKind(SystemDiagramKind.OFFLINE_LITERAL);
@@ -315,13 +317,13 @@ public class RtsProfileHandlerTest extends TestCase {
 
 		RtsProfileExt result = handler.save(diagram);
 		
-		// ƒvƒƒtƒ@ƒCƒ‹’¼‰º‚Ì‘®«
+		// ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ç›´ä¸‹ã®å±æ€§
 		assertEquals("id1", result.getId());
 		assertEquals("abstract1", result.getAbstract());
 		assertEquals("2009-01-14T18:49:18.892+09:00", result.getCreationDate().toString());
 		assertEquals("2009-01-25T09:35:18.892+09:00", result.getUpdateDate().toString());
 		assertEquals("0.2", result.getVersion());
-		// Šg’£‘®«
+		// æ‹¡å¼µå±æ€§
 		assertEquals("comment1", result.getComment());
 		assertEquals("version up log1", result.getVersionUpLogs().get(0));
 //		Property property3 = result.getProperties().get(0);
@@ -331,7 +333,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		assertEquals("property1", property1.getName());
 		assertEquals("value1", property1.getValue());
 		
-		// ƒRƒ“ƒ|[ƒlƒ“ƒg‚PF’ÊíƒIƒuƒWƒFƒNƒg
+		// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆï¼‘ï¼šé€šå¸¸ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 		assertEquals(3, result.getComponents().size());
 		ComponentExt component = (ComponentExt) result.getComponents().get(1);
 		assertEquals("id2", component.getId());
@@ -341,7 +343,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		assertEquals("None", component.getCompositeType());
 		assertTrue(component.isIsRequired());
 		
-		// ƒRƒ“ƒ|[ƒlƒ“ƒg1‚Ìƒf[ƒ^ƒ|[ƒg
+		// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ1ã®ãƒ‡ãƒ¼ã‚¿ãƒãƒ¼ãƒˆ
 		DataportExt dataport = (DataportExt) component.getDataPorts().get(0);
 		assertEquals("out", dataport.getName());
 		assertEquals("comment3", dataport.getComment());
@@ -350,7 +352,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		assertEquals("property3", property7.getName());
 		assertEquals("value3", property7.getValue());
 
-		// ƒRƒ“ƒ|[ƒlƒ“ƒg1‚ÌƒT[ƒrƒXƒ|[ƒg
+		// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ1ã®ã‚µãƒ¼ãƒ“ã‚¹ãƒãƒ¼ãƒˆ
 		ServiceportExt serviceport = (ServiceportExt)component.getServicePorts().get(0);
 		assertEquals("client", serviceport.getName());
 		assertEquals("comment4", serviceport.getComment());
@@ -359,14 +361,14 @@ public class RtsProfileHandlerTest extends TestCase {
 		assertEquals("property4", property8.getName());
 		assertEquals("value4", property8.getValue());
 		
-		// ƒRƒ“ƒ|[ƒlƒ“ƒg1‚ÌƒRƒ“ƒtƒBƒOƒZƒbƒg
+		// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ1ã®ã‚³ãƒ³ãƒ•ã‚£ã‚°ã‚»ãƒƒãƒˆ
 		ConfigurationSet configurationSet = component.getConfigurationSets().get(0);
 		assertEquals("config1", configurationSet.getId());
 		ConfigurationData configurationData = configurationSet.getConfigurationData().get(0);
 		assertEquals("name1", configurationData.getName());
 		assertEquals("value1", configurationData.getData());
 				
-		// ƒRƒ“ƒ|[ƒlƒ“ƒg1‚Ì’Ç‰Á‘®«
+		// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ1ã®è¿½åŠ å±æ€§
 		assertEquals("comment2", component.getComment());
 		assertTrue(component.isVisible());
 		Location location = component.getLocation();
@@ -382,7 +384,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		assertEquals("IOR", property6.getName());
 		assertEquals("newIOR", property6.getValue());
 		
-		// ƒRƒ“ƒ|[ƒlƒ“ƒgƒOƒ‹[ƒv
+		// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚°ãƒ«ãƒ¼ãƒ—
 		ComponentGroup componentGroup = result.getGroups().get(0);
 		assertEquals("groupId1", componentGroup.getGroupId());
 		TargetComponentExt targetComponent = (TargetComponentExt) componentGroup.getMembers().get(0);
@@ -392,7 +394,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		assertEquals("property8", property.getName());
 		assertEquals("value8", property.getValue());
 		
-		// ƒRƒ“ƒ|[ƒlƒ“ƒg2F•¡‡ƒRƒ“ƒ|[ƒlƒ“ƒg
+		// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ2ï¼šè¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 		ComponentExt component2 = (ComponentExt) result.getComponents().get(0);
 		assertEquals("id3", component2.getId());
 		assertEquals("PeriodicECShared", component2.getCompositeType());
@@ -406,7 +408,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		dataport = (DataportExt) component2.getDataPorts().get(0);
 		assertEquals("out", dataport.getName());
 
-		// ƒRƒ“ƒ|[ƒlƒ“ƒg3F’ÊíƒRƒ“ƒ|[ƒlƒ“ƒg
+		// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ3ï¼šé€šå¸¸ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 		ComponentExt component3 = (ComponentExt) result.getComponents().get(2);
 		assertEquals("id4", component3.getId());
 		assertEquals("ConsoleOut0", component3.getInstanceName());
@@ -427,7 +429,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		assertNull(connector1.getPushInterval());
 		assertEquals("comment6", connector1.getComment());
 		assertTrue(connector1.isVisible());
-		// ƒxƒ“ƒhƒ|ƒCƒ“ƒg‚Ì•Û‘¶
+		// ãƒ™ãƒ³ãƒ‰ãƒã‚¤ãƒ³ãƒˆã®ä¿å­˜
 		assertEquals(2, connector1.getProperties().size());
 		property = connector1.getProperties().get(0);
 		assertEquals("BEND_POINT", property.getName());
@@ -437,7 +439,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		assertEquals("value6", property.getValue());
 
 
-		// ƒf[ƒ^ƒ|[ƒgÚ‘±‚Ìƒ^[ƒQƒbƒgƒ|[ƒg
+		// ãƒ‡ãƒ¼ã‚¿ãƒãƒ¼ãƒˆæ¥ç¶šã®ã‚¿ãƒ¼ã‚²ãƒƒãƒˆãƒãƒ¼ãƒˆ
 		TargetPortExt sourceDataPort = (TargetPortExt) connector1.getSourceDataPort();
 		assertEquals("id2", sourceDataPort.getComponentId());
 		assertEquals("ConsoleIn0", sourceDataPort.getInstanceName());
@@ -446,7 +448,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		assertEquals("method", sourceDataPort.getProperties().get(0).getName());
 		assertEquals("setupSourceDataport", sourceDataPort.getProperties().get(0).getValue());
 		TargetPortExt targetDataPort = (TargetPortExt) connector1.getTargetDataPort();
-		// id3‚Æid4‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚É“¯‚¶ƒ|[ƒg‚ª‘¶İ‚·‚é
+		// id3ã¨id4ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã«åŒã˜ãƒãƒ¼ãƒˆãŒå­˜åœ¨ã™ã‚‹
 		assertEquals("id4", targetDataPort.getComponentId());
 		assertEquals("ConsoleOut0", targetDataPort.getInstanceName());
 		assertEquals("in", targetDataPort.getPortName());
@@ -494,8 +496,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		assertEquals(BigInteger.ONE, result.getFinalizing().getTargets().get(0).getSequence());
 		
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	private SystemDiagram setupDiagram() {
 		diagram = ComponentFactory.eINSTANCE.createSystemDiagram();
 		diagram.setProfile(setupProfile());
@@ -523,7 +524,6 @@ public class RtsProfileHandlerTest extends TestCase {
 				, "Flush");
 	}
 
-	@SuppressWarnings("unchecked")
 	private void populateComponentImpl(SystemDiagram diagram, String ior) {
 		CorbaComponent component = ComponentFactory.eINSTANCE.createCorbaComponent();
 		component.setIor(ior);
@@ -555,7 +555,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		profile.getProperties().add(createPropery("property1", "value1"));
 		return profile;
 	}
-	
+
 	private List<RepositoryViewItem> setupRepositoryModel() {
 		List<RepositoryViewItem> result = new ArrayList<RepositoryViewItem>();
 		result.add(setupRepositoryViewItem1());
@@ -568,13 +568,13 @@ public class RtsProfileHandlerTest extends TestCase {
 		result.setComponent(setupComponentSpecification1());
 		return result;
 	}
+
 	private RepositoryViewItem setupRepositoryViewItem2() {
 		RepositoryViewLeafItem result = new RepositoryViewLeafItem("name2");
 		result.setComponent(setupComponentSpecification2());
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
 	private ComponentSpecification setupComponentSpecification1() {
 		ComponentSpecification result = ComponentFactory.eINSTANCE.createComponentSpecification();
 		result.setComponentId("id2");
@@ -584,15 +584,14 @@ public class RtsProfileHandlerTest extends TestCase {
 		result.getPorts().add(createServiceport("client"));
 		return result;
 	}
-	
-	private Object createServiceport(String name) {
+
+	private ServicePort createServiceport(String name) {
 		ServicePort result = ComponentFactory.eINSTANCE.createServicePort();
 		result.setSynchronizer(ComponentFactory.eINSTANCE.createPortSynchronizer());
 		result.setNameL(name);
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
 	private ComponentSpecification setupComponentSpecification2() {
 		ComponentSpecification result = ComponentFactory.eINSTANCE.createComponentSpecification();
 		result.setComponentId("id4");
@@ -649,8 +648,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
-	private Object setupEofComponent1() {
+	private CorbaComponent setupEofComponent1() {
 		if (eofComponent1 != null) return eofComponent1;
 		eofComponent1 = ComponentFactory.eINSTANCE.createCorbaComponent();
 		eofComponent1.setComponentId("id2");
@@ -715,7 +713,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		result.setLocation(createLocation(10,20,30,40));
 		return result;
 	}
-	
+
 	private ConfigurationSet createConfigurationSet() {
 		ConfigurationSet config = objectFactory.createConfigurationSet();
 		config.setId("default");
@@ -730,8 +728,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		return data;
 	}
 
-	@SuppressWarnings("unchecked")
-	private Object setupEofComponent2() {
+	private CorbaComponent setupEofComponent2() {
 		if (eofComponent2 != null) return eofComponent2;
 		eofComponent2 = ComponentFactory.eINSTANCE.createCorbaComponent();
 		eofComponent2.setComponentId("id3");
@@ -761,7 +758,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		eofComponent2.setActiveConfigurationSet(setupEofConfigurationSet1);
 		return eofComponent2;
 	}
-	
+
 	private Component setupComponent3() {
 		Component result = new Component();
 		result.setId("id4");
@@ -773,8 +770,8 @@ public class RtsProfileHandlerTest extends TestCase {
 		result.getServicePorts().add(createRtsServicePort("server"));
 		return result;
 	}
-	@SuppressWarnings("unchecked")
-	private Object setupEofComponent3() {
+
+	private CorbaComponent setupEofComponent3() {
 		if (eofComponent3 != null) return eofComponent3;
 		eofComponent3 = ComponentFactory.eINSTANCE.createCorbaComponent();
 		eofComponent3.setComponentId("id4");
@@ -882,7 +879,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		return result;
 	}
 
-	private Dataport setupDataPort1() {
+	private DataportExt setupDataPort1() {
 		DataportExt result = new DataportExt();
 		result.setName("out");
 		result.setComment("comment3");
@@ -918,6 +915,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		port2.setNameL("in");
 		return port2;
 	}
+
 	private Port setupEofDataport3() {
 		if (port5 != null) return port5;
 		port5 = ComponentFactory.eINSTANCE.createOutPort();
@@ -925,6 +923,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		port5.setNameL("out2");
 		return port5;
 	}
+
 	private Port setupEofDataport4() {
 		if (port6 != null) return port6;
 		port6 = ComponentFactory.eINSTANCE.createInPort();
@@ -940,6 +939,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		port3.setNameL("client");
 		return port3;
 	}
+
 	private Port setupEofServiceport2() {
 		if (port4 != null) return port4;
 		port4 = ComponentFactory.eINSTANCE.createServicePort();
@@ -957,18 +957,17 @@ public class RtsProfileHandlerTest extends TestCase {
 		return result;
 	}
 
-	private Dataport createDataPort(String name) {
-		Dataport result = new Dataport();
+	private DataportExt createDataPort(String name) {
+		DataportExt result = new DataportExt();
 		result.setName(name);
 		return result;
 	}
 
-	private Serviceport createRtsServicePort(String name) {
-		Serviceport result = new Serviceport();
+	private ServiceportExt createRtsServicePort(String name) {
+		ServiceportExt result = new ServiceportExt();
 		result.setName(name);
 		return result;
 	}
-
 
 	private ConfigurationSet setupConfigurationSet1() {
 		ConfigurationSet result = new ConfigurationSet();
@@ -977,7 +976,6 @@ public class RtsProfileHandlerTest extends TestCase {
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
 	private jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet setupEofConfigurationSet1() {
 		ConfigurationSetImpl result = new ConfigurationSetImpl();
 		result.setId("config1");
@@ -1002,7 +1000,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		return result;
 	}
 
-	private Object setupEofConfigurationData() {
+	private NameValue setupEofConfigurationData() {
 		NameValue value = ComponentFactory.eINSTANCE.createNameValue();
 		value.setName("name1");
 		value.setValue("value1");
@@ -1014,6 +1012,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		result.setParticipant(setupTargetComponent());
 		return result;
 	}
+
 	private Participants setupParticipant2() {
 		Participants result = new Participants();
 		result.setParticipant(setupTargetComponent2());
@@ -1093,6 +1092,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		result.getProperties().add(createPropery("property8", "value8"));
 		return result;
 	}
+
 	private TargetComponent setupTargetComponent2() {
 		TargetComponentExt result = new TargetComponentExt();
 		result.setComponentId("id4");
@@ -1100,7 +1100,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		result.getProperties().add(createPropery("property10", "value10"));
 		return result;
 	}
-	@SuppressWarnings("unchecked")
+
 	private void setupConnector(Port source, Port target, String connectorId
 			, String connectorName, String dataType, String interfaceType
 			, String dataFlowType, String subscriptionType) {

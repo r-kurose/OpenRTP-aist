@@ -14,76 +14,76 @@ import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * RTC‚ğ–îˆóƒL[‚ÅˆÚ“®‚·‚éƒAƒNƒVƒ‡ƒ“
- * ShiftƒL[‚ğ‰Ÿ‚µ‚Ä‚¢‚é‚Æ‘å‚«‚­ˆÚ“®‚·‚é
+ * RTCã‚’çŸ¢å°ã‚­ãƒ¼ã§ç§»å‹•ã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
+ * Shiftã‚­ãƒ¼ã‚’æŠ¼ã—ã¦ã„ã‚‹ã¨å¤§ããç§»å‹•ã™ã‚‹
  */
 public class MoveComponentAction extends SelectionAction {
 
 	/**
-	 * ‘å‚«‚­ˆÚ“®‚·‚éê‡‚ÌƒCƒ“ƒ^[ƒoƒ‹
+	 * å¤§ããç§»å‹•ã™ã‚‹å ´åˆã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒãƒ«
 	 */
 	public static final int MOVE_L_SIZE = 10;
 
 	/**
-	 * ¬‚³‚­ã‚ÉˆÚ“®‚·‚éƒAƒNƒVƒ‡ƒ“‚ÌIDF‚±‚ÌID‚ªplugin.xml‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+	 * å°ã•ãä¸Šã«ç§»å‹•ã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®IDï¼šã“ã®IDãŒplugin.xmlã«æŒ‡å®šã•ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
 	 */
 	public static final String MOVE_UP_ACTION_ID = MoveComponentAction.class
 			.getName()
 			+ "_UP"; //$NON-NLS-1$
 
 	/**
-	 * ¬‚³‚­‰º‚ÉˆÚ“®‚·‚éƒAƒNƒVƒ‡ƒ“‚ÌIDF‚±‚ÌID‚ªplugin.xml‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+	 * å°ã•ãä¸‹ã«ç§»å‹•ã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®IDï¼šã“ã®IDãŒplugin.xmlã«æŒ‡å®šã•ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
 	 */
 	public static final String MOVE_DOWN_ACTION_ID = MoveComponentAction.class
 			.getName()
 			+ "_DOWN"; //$NON-NLS-1$
 
 	/**
-	 * ¬‚³‚­‰E‚ÉˆÚ“®‚·‚éƒAƒNƒVƒ‡ƒ“‚ÌIDF‚±‚ÌID‚ªplugin.xml‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+	 * å°ã•ãå³ã«ç§»å‹•ã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®IDï¼šã“ã®IDãŒplugin.xmlã«æŒ‡å®šã•ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
 	 */
 	public static final String MOVE_RIGHT_ACTION_ID = MoveComponentAction.class
 			.getName()
 			+ "_RIGHT"; //$NON-NLS-1$
 
 	/**
-	 * ¬‚³‚­¶‚ÉˆÚ“®‚·‚éƒAƒNƒVƒ‡ƒ“‚ÌIDF‚±‚ÌID‚ªplugin.xml‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+	 * å°ã•ãå·¦ã«ç§»å‹•ã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®IDï¼šã“ã®IDãŒplugin.xmlã«æŒ‡å®šã•ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
 	 */
 	public static final String MOVE_LEFT_ACTION_ID = MoveComponentAction.class
 			.getName()
 			+ "_LEFT"; //$NON-NLS-1$
 
 	/**
-	 * ‘å‚«‚­ã‚ÉˆÚ“®‚·‚éƒAƒNƒVƒ‡ƒ“‚ÌIDF‚±‚ÌID‚ªplugin.xml‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+	 * å¤§ããä¸Šã«ç§»å‹•ã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®IDï¼šã“ã®IDãŒplugin.xmlã«æŒ‡å®šã•ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
 	 */
 	public static final String MOVE_UP_L_ACTION_ID = MoveComponentAction.class
 			.getName()
 			+ "_UP_L"; //$NON-NLS-1$
 
 	/**
-	 * ‘å‚«‚­‰º‚ÉˆÚ“®‚·‚éƒAƒNƒVƒ‡ƒ“‚ÌIDF‚±‚ÌID‚ªplugin.xml‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+	 * å¤§ããä¸‹ã«ç§»å‹•ã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®IDï¼šã“ã®IDãŒplugin.xmlã«æŒ‡å®šã•ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
 	 */
 	public static final String MOVE_DOWN_L_ACTION_ID = MoveComponentAction.class
 			.getName()
 			+ "_DOWN_L"; //$NON-NLS-1$
 
 	/**
-	 * ‘å‚«‚­‰E‚ÉˆÚ“®‚·‚éƒAƒNƒVƒ‡ƒ“‚ÌIDF‚±‚ÌID‚ªplugin.xml‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+	 * å¤§ããå³ã«ç§»å‹•ã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®IDï¼šã“ã®IDãŒplugin.xmlã«æŒ‡å®šã•ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
 	 */
 	public static final String MOVE_RIGHT_L_ACTION_ID = MoveComponentAction.class
 			.getName()
 			+ "_RIGHT_L"; //$NON-NLS-1$
 
 	/**
-	 * ‘å‚«‚­¶‚ÉˆÚ“®‚·‚éƒAƒNƒVƒ‡ƒ“‚ÌIDF‚±‚ÌID‚ªplugin.xml‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+	 * å¤§ããå·¦ã«ç§»å‹•ã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®IDï¼šã“ã®IDãŒplugin.xmlã«æŒ‡å®šã•ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
 	 */
 	public static final String MOVE_LEFT_L_ACTION_ID = MoveComponentAction.class
 			.getName()
 			+ "_LEFT_L"; //$NON-NLS-1$
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * @param part IWorkbenchPart
-	 * @param id@ƒAƒNƒVƒ‡ƒ“‚ÌID
+	 * @param idã€€ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®ID
 	 */
 	public MoveComponentAction(IWorkbenchPart part, String id) {
 		super(part);
@@ -102,9 +102,9 @@ public class MoveComponentAction extends SelectionAction {
 	}
 
 	/**
-	 * ˆÚ“®‚ÌƒRƒ}ƒ“ƒh‚ğì¬‚·‚é
-	 * @param selectedEditParts ‘ÎÛ‚ÌEditPart
-	 * @return ì¬‚µ‚½ƒRƒ}ƒ“ƒh
+	 * ç§»å‹•ã®ã‚³ãƒãƒ³ãƒ‰ã‚’ä½œæˆã™ã‚‹
+	 * @param selectedEditParts å¯¾è±¡ã®EditPart
+	 * @return ä½œæˆã—ãŸã‚³ãƒãƒ³ãƒ‰
 	 */
 	@SuppressWarnings("unchecked")
 	protected Command createMoveCommand(List selectedEditParts) {

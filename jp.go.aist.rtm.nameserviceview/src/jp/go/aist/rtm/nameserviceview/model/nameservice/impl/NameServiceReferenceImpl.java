@@ -6,14 +6,18 @@
  */
 package jp.go.aist.rtm.nameserviceview.model.nameservice.impl;
 
-import java.util.ArrayList;
+import OpenRTMNaming.NamingNotifier;
+import OpenRTMNaming.ObserverProfile;
 import java.util.Collections;
-import java.util.List;
+import java.util.UUID;
 
+import jp.go.aist.rtm.nameserviceview.corba.NameServerAccesser;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameservicePackage;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -30,6 +34,8 @@ import org.omg.CosNaming.NamingContextExt;
  *   <li>{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameServiceReferenceImpl#getBinding <em>Binding</em>}</li>
  *   <li>{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameServiceReferenceImpl#getNameServerName <em>Name Server Name</em>}</li>
  *   <li>{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameServiceReferenceImpl#getRootNamingContext <em>Root Naming Context</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameServiceReferenceImpl#getNotifier <em>Notifier</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameServiceReferenceImpl#isUpdated <em>Updated</em>}</li>
  * </ul>
  * </p>
  *
@@ -92,14 +98,42 @@ public class NameServiceReferenceImpl extends EObjectImpl implements
 	protected NamingContextExt rootNamingContext = ROOT_NAMING_CONTEXT_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getNotifier() <em>Notifier</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getNotifier()
+	 * @generated
+	 * @ordered
 	 */
+	protected static final NamingNotifier NOTIFIER_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getNotifier() <em>Notifier</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getNotifier()
+	 * @generated
+	 * @ordered
+	 */
+	protected NamingNotifier notifier = NOTIFIER_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isUpdated() <em>Updated</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isUpdated()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean UPDATED_EDEFAULT = false;
+
 	public NameServiceReferenceImpl() {
 		super();
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -108,17 +142,21 @@ public class NameServiceReferenceImpl extends EObjectImpl implements
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Binding getBinding() {
 		return binding;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setBinding(Binding newBinding) {
 		Binding oldBinding = binding;
 		binding = newBinding;
@@ -127,17 +165,21 @@ public class NameServiceReferenceImpl extends EObjectImpl implements
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getNameServerName() {
 		return nameServerName;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setNameServerName(String newNameServerName) {
 		String oldNameServerName = nameServerName;
 		nameServerName = newNameServerName;
@@ -146,17 +188,21 @@ public class NameServiceReferenceImpl extends EObjectImpl implements
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NamingContextExt getRootNamingContext() {
 		return rootNamingContext;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRootNamingContext(NamingContextExt newRootNamingContext) {
 		NamingContextExt oldRootNamingContext = rootNamingContext;
 		rootNamingContext = newRootNamingContext;
@@ -165,7 +211,177 @@ public class NameServiceReferenceImpl extends EObjectImpl implements
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NamingNotifier getNotifier() {
+		return notifier;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setNotifier(NamingNotifier newNotifier) {
+		NamingNotifier oldNotifier = notifier;
+		notifier = newNotifier;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, NameservicePackage.NAME_SERVICE_REFERENCE__NOTIFIER, oldNotifier, notifier));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public NameServiceReference createChildReference(Binding childBinding) {
+		NameServiceReference result = new NameServiceReferenceImpl();
+		result.setRootNamingContext(this.getRootNamingContext());
+		result.setNameServerName(this.getNameServerName());
+		Binding binding = createChildBinding(childBinding);
+		result.setBinding(binding);
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public Binding createChildBinding(Binding childBinding) {
+		EList<NameComponent> name = new BasicEList<NameComponent>();
+		Collections.addAll(name, this.getBinding().binding_name);
+		Collections.addAll(name, childBinding.binding_name);
+		Binding result = new Binding();
+		result.binding_name = name.toArray(new NameComponent[name.size()]);
+		result.binding_type = childBinding.binding_type;
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public Binding getBaseBinding() {
+		Binding result = new Binding();
+		result.binding_type = binding.binding_type;
+		result.binding_name = new NameComponent[] { getBinding().binding_name[getBinding().binding_name.length - 1] };
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public String getPathId() {
+		StringBuffer result = new StringBuffer(getNameServerName());
+		for (NameComponent name : getBinding().binding_name) {
+			result.append("/" + name.id + "." + name.kind);
+		}
+		return result.toString();
+	}
+
+	OpenRTMNaming.ObserverProfile observerProfile;
+	boolean updated = false;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public boolean isUpdated() {
+		return updated;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setUpdated(boolean newUpdated) {
+		boolean oldUpdated = updated;
+		updated = newUpdated;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, NameservicePackage.NAME_SERVICE_REFERENCE__UPDATED, oldUpdated, updated));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public ObserverProfile runObserver() {
+		if (notifier == null) {
+			return null;
+		}
+		if (observerProfile == null) {
+			observerProfile = new OpenRTMNaming.ObserverProfile();
+		}
+		NamingObserverPOAImpl observer = new NamingObserverPOAImpl(this);
+		org.omg.CORBA.Object o = NameServerAccesser.getInstance()
+				.activateServant(observer);
+		OpenRTMNaming.NamingObserver obs = OpenRTMNaming.NamingObserverHelper
+				.narrow(o);
+		observerProfile.id = UUID.randomUUID().toString();
+		observerProfile.interface_type = OpenRTMNaming.NamingObserverHelper
+				.id();
+		observerProfile.observer = obs;
+		this.setUpdated(true);
+		notifier.subscribe(observerProfile);
+		return observerProfile;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void stopObserver() {
+		if (notifier == null) {
+			return;
+		}
+		if (observerProfile == null) {
+			return;
+		}
+		try {
+			NameServerAccesser.getInstance().deactivateServant(
+					observerProfile.observer);
+			notifier.unsubscribe(observerProfile.id);
+		} catch (RuntimeException e) {
+
+		}
+		observerProfile = null;
+	}
+
+	static class NamingObserverPOAImpl extends OpenRTMNaming.NamingObserverPOA {
+		NameServiceReferenceImpl ref;
+
+		public NamingObserverPOAImpl(NameServiceReferenceImpl ref) {
+			this.ref = ref;
+		}
+
+		@Override
+		public void update() {
+			ref.setUpdated(true);
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -179,30 +395,12 @@ public class NameServiceReferenceImpl extends EObjectImpl implements
 		result.append(nameServerName);
 		result.append(", rootNamingContext: ");
 		result.append(rootNamingContext);
+		result.append(", notifier: ");
+		result.append(notifier);
+		result.append(", updated: ");
+		result.append(updated);
 		result.append(')');
 		return result.toString();
-	}
-
-	/* (non-Javadoc)
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference#createMergedNameServiceReference(org.omg.CosNaming.Binding)
-	 */
-	public NameServiceReference createMergedNameServiceReference(
-			Binding childBinding) {
-		NameServiceReference result = new NameServiceReferenceImpl();
-		result.setRootNamingContext(this.getRootNamingContext());
-		result.setNameServerName(this.getNameServerName());
-
-		Binding binding = new Binding();
-		List<NameComponent> temp = new ArrayList<NameComponent>();
-		Collections.addAll(temp, this.getBinding().binding_name);
-		Collections.addAll(temp, childBinding.binding_name);
-
-		binding.binding_name = temp.toArray(new NameComponent[temp.size()]);
-		binding.binding_type = childBinding.binding_type;
-
-		result.setBinding(binding);
-
-		return result;
 	}
 
 	/**
@@ -219,6 +417,10 @@ public class NameServiceReferenceImpl extends EObjectImpl implements
 				return getNameServerName();
 			case NameservicePackage.NAME_SERVICE_REFERENCE__ROOT_NAMING_CONTEXT:
 				return getRootNamingContext();
+			case NameservicePackage.NAME_SERVICE_REFERENCE__NOTIFIER:
+				return getNotifier();
+			case NameservicePackage.NAME_SERVICE_REFERENCE__UPDATED:
+				return isUpdated() ? Boolean.TRUE : Boolean.FALSE;
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -239,6 +441,12 @@ public class NameServiceReferenceImpl extends EObjectImpl implements
 				return;
 			case NameservicePackage.NAME_SERVICE_REFERENCE__ROOT_NAMING_CONTEXT:
 				setRootNamingContext((NamingContextExt)newValue);
+				return;
+			case NameservicePackage.NAME_SERVICE_REFERENCE__NOTIFIER:
+				setNotifier((NamingNotifier)newValue);
+				return;
+			case NameservicePackage.NAME_SERVICE_REFERENCE__UPDATED:
+				setUpdated(((Boolean)newValue).booleanValue());
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -261,6 +469,12 @@ public class NameServiceReferenceImpl extends EObjectImpl implements
 			case NameservicePackage.NAME_SERVICE_REFERENCE__ROOT_NAMING_CONTEXT:
 				setRootNamingContext(ROOT_NAMING_CONTEXT_EDEFAULT);
 				return;
+			case NameservicePackage.NAME_SERVICE_REFERENCE__NOTIFIER:
+				setNotifier(NOTIFIER_EDEFAULT);
+				return;
+			case NameservicePackage.NAME_SERVICE_REFERENCE__UPDATED:
+				setUpdated(UPDATED_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -279,19 +493,12 @@ public class NameServiceReferenceImpl extends EObjectImpl implements
 				return NAME_SERVER_NAME_EDEFAULT == null ? nameServerName != null : !NAME_SERVER_NAME_EDEFAULT.equals(nameServerName);
 			case NameservicePackage.NAME_SERVICE_REFERENCE__ROOT_NAMING_CONTEXT:
 				return ROOT_NAMING_CONTEXT_EDEFAULT == null ? rootNamingContext != null : !ROOT_NAMING_CONTEXT_EDEFAULT.equals(rootNamingContext);
+			case NameservicePackage.NAME_SERVICE_REFERENCE__NOTIFIER:
+				return NOTIFIER_EDEFAULT == null ? notifier != null : !NOTIFIER_EDEFAULT.equals(notifier);
+			case NameservicePackage.NAME_SERVICE_REFERENCE__UPDATED:
+				return updated != UPDATED_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
 
-	/* (non-Javadoc)
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference#getPathId()
-	 */
-	public String getPathId() {
-		StringBuffer result = new StringBuffer(getNameServerName());
-		for (NameComponent name : getBinding().binding_name) {
-			result.append("/" + name.id + "." + name.kind);
-		}
-
-		return result.toString();
-	}
 } // NameServiceReferenceImpl

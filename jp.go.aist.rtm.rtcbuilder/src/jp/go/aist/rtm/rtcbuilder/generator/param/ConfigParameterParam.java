@@ -3,12 +3,13 @@ package jp.go.aist.rtm.rtcbuilder.generator.param;
 import java.io.Serializable;
 
 /**
- * コンフィギュレーションプロファイルを表すクラス
+ * 繧ｳ繝ｳ繝輔ぅ繧ｮ繝･繝ｬ繝ｼ繧ｷ繝ｧ繝ｳ繝励Ο繝輔ぃ繧､繝ｫ繧定｡ｨ縺吶け繝ｩ繧ｹ
  */
 public class ConfigParameterParam extends AbstractRecordedParam implements
 		Serializable {
 
 	private static final long serialVersionUID = -6870474016201077762L;
+	private final String ec_Periodic = "exec_cxt.periodic";
 
 	private String configName;
 	private String defaultValue;
@@ -35,6 +36,11 @@ public class ConfigParameterParam extends AbstractRecordedParam implements
 
 	public int getIndex() {
 		return selection;
+	}
+	
+	public boolean isNonPeriodic() {
+		if(configName.startsWith(ec_Periodic)) return false;
+		return true;
 	}
 
 	public void setConfigName(String configName) {

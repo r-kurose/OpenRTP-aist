@@ -1,9 +1,7 @@
 package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -36,42 +34,25 @@ import jp.go.aist.rtm.rtcbuilder.model.component.ServiceInterface;
 import jp.go.aist.rtm.rtcbuilder.model.component.ServicePort;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.DocumentPreferenceManager;
-import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
+import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.jface.action.IMenuListener;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.PageChangedEvent;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.ISelectionProvider;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionFilter;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -81,7 +62,7 @@ import org.openrtp.namespaces.rtc.version02.RtcProfile;
 import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
 
 /**
- * RtcBuilderÉGÉfÉBÉ^
+ * RtcBuilder„Ç®„Éá„Ç£„Çø
  */
 public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	public static final String RTC_BUILDER_EDITOR_ID = RtcBuilderEditor.class
@@ -126,41 +107,33 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 
 	private IEditorInput load(IEditorInput input, IEditorSite site)
 			throws PartInitException {
-		boolean newOpenEditor = input instanceof NullEditorInput;// êVãKÉGÉfÉBÉ^
 
 		IEditorInput result = input;
-		if (newOpenEditor) {
-			//êVãKÉGÉfÉBÉ^ÉIÅ[ÉvÉìèàóù
+		
+		FileEditorInput fileEditorInput = ((FileEditorInput) result);
+		try {
+			ProfileHandler handler = new ProfileHandler();
+			generatorParam = handler.restorefromXMLFile(fileEditorInput.getPath().toOSString());
+			
+			if( buildview==null ) buildview = ComponentFactory.eINSTANCE.createBuildView();
+			updateEMFModuleName(this.getRtcParam().getName());
+			updateEMFDataPorts(
+					this.getRtcParam().getInports(), this.getRtcParam().getOutports(),
+					this.getRtcParam().getServicePorts());
+		} catch (Exception e) {
 			createGeneratorParam();
 		}
-
-		if (newOpenEditor) {
-
-		} else if (result instanceof FileEditorInput) {
-			FileEditorInput fileEditorInput = ((FileEditorInput) result);
-			try {
-				ProfileHandler handler = new ProfileHandler();
-				generatorParam = handler.restorefromXMLFile(fileEditorInput.getPath().toOSString());
-				if( buildview==null ) buildview = ComponentFactory.eINSTANCE.createBuildView();
-				updateEMFModuleName(this.getRtcParam().getName());
-				updateEMFDataInPorts(this.getRtcParam().getInports());
-				updateEMFDataOutPorts(this.getRtcParam().getOutports());
-				updateEMFServiceOutPorts(this.getRtcParam().getServicePorts());
-			} catch (Exception e) {
-				createGeneratorParam();
-			}
+		String[] target = ((FileEditorInput) result).getPath().segments();
+		if( target.length>1 ) {
+			title = target[target.length-2];
+			generatorParam.getRtcParams().get(0).setOutputProject(title);
+		} else {
+			title = ((FileEditorInput) result).getPath().lastSegment();
+			generatorParam.getRtcParams().get(0).setOutputProject(title);
 		}
-
-		if (newOpenEditor) {
-			title = "RtcBuilder";
-		} else if (result instanceof FileEditorInput) {
-			String[] target = ((FileEditorInput) result).getPath().segments();
-			if( target.length>1 ) {
-				title = target[target.length-2];
-			} else {
-				title = ((FileEditorInput) result).getPath().lastSegment();
-			}
-		}
+		//on_initialize„ÅØÂ∏∏„Å´ON
+		setOnInitialize();
+		//
 
 		isDirty = false;
 		firePropertyChange(IEditorPart.PROP_TITLE);
@@ -170,6 +143,29 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		this.setInput(result);
 
 		return result;
+	}
+	
+	private void setOnInitialize() {
+		for( RtcParam param : generatorParam.getRtcParams() ) {
+			param.setActionImplemented(IRtcBuilderConstants.ACTIVITY_INITIALIZE, true);
+		}
+	}
+	
+	public void loadNewData(RtcParam param) {
+		this.generatorParam.getRtcParams().set(0, param);
+		
+		title = "RtcBuilder";
+		if( buildview==null ) buildview = ComponentFactory.eINSTANCE.createBuildView();
+		updateEMFModuleName(this.getRtcParam().getName());
+		updateEMFDataPorts(this.getRtcParam().getInports(), this.getRtcParam().getOutports(),
+				this.getRtcParam().getServicePorts());
+		//
+
+		if( basicFormPage != null )	 basicFormPage.load();
+		allPagesReLoad();
+//		dataPortFormPage.reDraw();
+		
+		updateDirty();
 	}
 
 	private void createGeneratorParam(){
@@ -189,22 +185,13 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		rtcParam.setExecutionType(ComponentPreferenceManager.getInstance().getBasic_ExecutionType());
 		rtcParam.setExecutionRate(ComponentPreferenceManager.getInstance().getBasic_ExecutionRate());
 		//
-		ArrayList<String> docs = DocumentPreferenceManager.getInstance().getDocumentValue();
-		rtcParam.setActionImplemented(IRtcBuilderConstants.ACTIVITY_INITIALIZE, docs.get(IRtcBuilderConstants.ACTIVITY_INITIALIZE));
-		rtcParam.setActionImplemented(IRtcBuilderConstants.ACTIVITY_FINALIZE, docs.get(IRtcBuilderConstants.ACTIVITY_FINALIZE));
-		rtcParam.setActionImplemented(IRtcBuilderConstants.ACTIVITY_STARTUP, docs.get(IRtcBuilderConstants.ACTIVITY_STARTUP));
-		rtcParam.setActionImplemented(IRtcBuilderConstants.ACTIVITY_SHUTDOWN, docs.get(IRtcBuilderConstants.ACTIVITY_SHUTDOWN));
-		rtcParam.setActionImplemented(IRtcBuilderConstants.ACTIVITY_ACTIVATED, docs.get(IRtcBuilderConstants.ACTIVITY_ACTIVATED));
-		rtcParam.setActionImplemented(IRtcBuilderConstants.ACTIVITY_DEACTIVATED, docs.get(IRtcBuilderConstants.ACTIVITY_DEACTIVATED));
-		rtcParam.setActionImplemented(IRtcBuilderConstants.ACTIVITY_EXECUTE, docs.get(IRtcBuilderConstants.ACTIVITY_EXECUTE));
-		rtcParam.setActionImplemented(IRtcBuilderConstants.ACTIVITY_ABORTING, docs.get(IRtcBuilderConstants.ACTIVITY_ABORTING));
-		rtcParam.setActionImplemented(IRtcBuilderConstants.ACTIVITY_ERROR, docs.get(IRtcBuilderConstants.ACTIVITY_ERROR));
-		rtcParam.setActionImplemented(IRtcBuilderConstants.ACTIVITY_RESET, docs.get(IRtcBuilderConstants.ACTIVITY_RESET));
-		rtcParam.setActionImplemented(IRtcBuilderConstants.ACTIVITY_STATE_UPDATE, docs.get(IRtcBuilderConstants.ACTIVITY_STATE_UPDATE));
-		rtcParam.setActionImplemented(IRtcBuilderConstants.ACTIVITY_RATE_CHANGED, docs.get(IRtcBuilderConstants.ACTIVITY_RATE_CHANGED));
+		ArrayList<String> docs = DocumentPreferenceManager.getDocumentValue();
+		for( int intidx=IRtcBuilderConstants.ACTIVITY_INITIALIZE; intidx<IRtcBuilderConstants.ACTIVITY_DUMMY; intidx++) {
+			rtcParam.setActionImplemented(intidx, docs.get(intidx));
+		}
 		//
-		rtcParam.setDocLicense(DocumentPreferenceManager.getInstance().getLicenseValue());
-		rtcParam.setDocCreator(DocumentPreferenceManager.getInstance().getCreatorValue());
+		rtcParam.setDocLicense(DocumentPreferenceManager.getLicenseValue());
+		rtcParam.setDocCreator(DocumentPreferenceManager.getCreatorValue());
 		//
 		rtcParam.resetUpdated();
 		generatorParam.getRtcParams().add(rtcParam);
@@ -220,52 +207,8 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		IEditorInput newInput = load(input, site);
 		super.init(site, newInput);
 		managerList = RtcBuilderPlugin.getDefault().getLoader().getManagerList();
-		// ÉyÅ[ÉWêÿÇËë÷Ç¶éûÇÃÉCÉxÉìÉgÇä«óù
+		// „Éö„Éº„Ç∏Âàá„ÇäÊõø„ÅàÊôÇ„ÅÆ„Ç§„Éô„É≥„Éà„ÇíÁÆ°ÁêÜ
 		addPageChangedListener(pageChangedListener);
-	}
-
-	private void hookContextMenu() {
-		MenuManager menuMgr = new MenuManager();
-		menuMgr.setRemoveAllWhenShown(true);
-		menuMgr.addMenuListener(new IMenuListener() {
-			public void menuAboutToShow(IMenuManager manager) {
-				RtcBuilderEditor.this.fillContextMenu(manager);
-			}
-		});
-		Menu menu = menuMgr.createContextMenu(getContainer());
-		getContainer().setMenu(menu);
-		((IEditorSite) getSite()).registerContextMenu(menuMgr,
-				new ISelectionProvider() {
-
-					public void addSelectionChangedListener(
-							ISelectionChangedListener listener) {
-					}
-
-					public ISelection getSelection() {
-						return new StructuredSelection(RtcBuilderEditor.this);
-					}
-
-					public void removeSelectionChangedListener(
-							ISelectionChangedListener listener) {
-					}
-
-					public void setSelection(ISelection selection) {
-					}
-
-				}, false);
-	}
-
-	private void fillContextMenu(IMenuManager manager) {
-		manager.add(new Separator());
-		// drillDownAdapter.addNavigationActions(manager);
-		// Other plug-ins can contribute there actions here
-		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
-	}
-
-	@Override
-	protected void createPages() {
-		super.createPages();
-		hookContextMenu();
 	}
 
 	/**
@@ -275,6 +218,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		return new FormToolkit(getSite().getShell().getDisplay());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void addPages() {
 		try {
@@ -333,7 +277,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 					}
 				}
 			}
-			// nullÉyÅ[ÉWÇ™ë}ì¸Ç≥ÇÍÇÈÇÃÇ≈çÌèúÇµÇƒÇ®Ç≠ (EclipseÇÃÉoÉOÅH)
+			// null„Éö„Éº„Ç∏„ÅåÊåøÂÖ•„Åï„Çå„Çã„ÅÆ„ÅßÂâäÈô§„Åó„Å¶„Åä„Åè (Eclipse„ÅÆ„Éê„Ç∞Ôºü)
 			if (this.pages.contains(null)) {
 				int nullIndex = -1;
 				for (int i = 0; i < this.pages.size(); i++) {
@@ -368,8 +312,8 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 			if (command.equals("load")) {
 				customPage.load();
 			} else if (command.equals("update")) {
-				// åæåÍëIëÇ…àÍívÇµÇ»Ç¢ÉyÅ[ÉWÇÕâÊñ Å®RtcParamÇ÷îΩâfÇµÇ»Ç¢
-				if (!getRtcParam().getLangList().contains(key)) {
+				// Ë®ÄË™ûÈÅ∏Êäû„Å´‰∏ÄËá¥„Åó„Å™„ÅÑ„Éö„Éº„Ç∏„ÅØÁîªÈù¢‚ÜíRtcParam„Å∏ÂèçÊò†„Åó„Å™„ÅÑ
+				if (!StringUtil.matchKey(getRtcParam().getLangList(), key)) {
 					continue;
 				}
 				customPage.update();
@@ -408,16 +352,11 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	public String validateParam() {
 		String result = null;
 		for (int intIdx = 0; intIdx < this.pages.size(); intIdx++) {
-			AbstractEditorFormPage page = (AbstractEditorFormPage) this.pages
-					.get(intIdx);
-			if (page == null) {
-				continue;
-			}
+			AbstractEditorFormPage page = (AbstractEditorFormPage) this.pages.get(intIdx);
+			if (page == null) continue;
 			if (page instanceof AbstractCustomFormPage) {
 				String key = ((AbstractCustomFormPage) page).getManagerKey();
-				if (!getRtcParam().getLangList().contains(key)) {
-					continue;
-				}
+				if (!StringUtil.matchKey(getRtcParam().getLangList(), key)) continue;
 			}
 			result = page.validateParam();
 			if (result != null) {
@@ -433,13 +372,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	 */
 	public void doSave(IProgressMonitor monitor) {
 		boolean isRtcXml = getCurrentPage() == rtcXmlFormPage.getIndex();
-		boolean newOpenEditor = getEditorInput() instanceof NullEditorInput;// êVãKÉGÉfÉBÉ^
 		this.allUpdates();
-
-		if (newOpenEditor) {
-			doSaveAs();
-			return;
-		}
 
 		if (isRtcXml) {
 			try {
@@ -456,7 +389,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 				return;
 			}
 		}else{
-			// RTC.xmlÉyÅ[ÉWÇ≈ÇÕÇ»Ç¢Ç∆Ç´
+			// RTC.xml„Éö„Éº„Ç∏„Åß„ÅØ„Å™„ÅÑ„Å®„Åç
 			try {
 				ProfileHandler handler = new ProfileHandler();
 				if( !handler.validateXml(handler.convert2XML(this.getGeneratorParam())) ) return;
@@ -466,7 +399,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 						ex.getMessage(),
     					IMessageConstants.PROFILE_VALIDATE_ERROR_MESSAGE + System.getProperty("line.separator") + ex.getCause().toString()
     				); 
-    			if( !result ) return;// ÅuÇ¢Ç¢Ç¶ÅvÇÃÇ∆Ç´ÇÕï€ë∂ÇµÇ»Ç¢
+    			if( !result ) return;// „Äå„ÅÑ„ÅÑ„Åà„Äç„ÅÆ„Å®„Åç„ÅØ‰øùÂ≠ò„Åó„Å™„ÅÑ
 			} catch (Exception e) {
 				MessageDialog.openError(getSite().getShell(), "XML Save Error", e.getMessage());
 				return;
@@ -490,97 +423,6 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	 * {@inheritDoc}
 	 */
 	public void doSaveAs() {
-		final boolean isRtcXml = getCurrentPage() == rtcXmlFormPage.getIndex();
-		boolean newOpenEditor = getEditorInput() instanceof NullEditorInput;// êVãKÉGÉfÉBÉ^
-
-		if (isRtcXml) {
-			try {
-				ProfileHandler handler = new ProfileHandler();
-				if( !handler.validateXml(this.getRtcParam().getRtcXml()) ) return;
-			} catch (Exception e) {
-				String errMessage = null;
-				if( e.getCause()==null ) {
-					errMessage = e.getMessage();
-				} else {
-					errMessage = e.getCause().toString();
-				}
-				MessageDialog.openError(getSite().getShell(), "XML Save Error", errMessage);
-				return;
-			}
-		}else{
-			// RTC.xmlÉyÅ[ÉWÇ≈ÇÕÇ»Ç¢Ç∆Ç´
-			try {
-				ProfileHandler handler = new ProfileHandler();
-				if( !handler.validateXml(handler.convert2XML(this.getGeneratorParam())) ) return;
-			} catch (JAXBException ex) {
-				boolean result = MessageDialog.openQuestion(
-						getSite().getShell(),
-						ex.getMessage(),
-    					IMessageConstants.PROFILE_VALIDATE_ERROR_MESSAGE + System.getProperty("line.separator") + ex.getCause().toString()
-    				); 
-    			if( !result ) return;// ÅuÇ¢Ç¢Ç¶ÅvÇÃÇ∆Ç´ÇÕï€ë∂ÇµÇ»Ç¢
-			} catch (Exception e) {
-				MessageDialog.openError(getSite().getShell(), "XML Save Error", e.getMessage());
-				return;
-			}
-		}
-		
-		IPath oldFile = null;
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		if (newOpenEditor) {
-			oldFile = new Path(root.getLocation().toOSString());
-			// void
-		} else {
-			oldFile = ((FileEditorInput) getEditorInput()).getFile().getProject().getLocation();
-		}
-
-//		final IPath newPath = getFilePathByDialog(oldFile, SWT.SAVE);
-		final IPath newPath = FileUtil.getDirectoryPathByDialog(oldFile);
-
-		if (newPath == null)
-			return;
-
-		if (newPath.toFile().exists() == false) {
-			try {
-				newPath.toFile().createNewFile();
-			} catch (IOException e) {
-				MessageDialog.openError(getSite().getShell(), "Error",
-						IMessageConstants.CREATE_FILE_ERROR + newPath.toOSString());
-				return;
-			}
-		}
-
-		final IFile newFile = root.getFileForLocation(newPath);
-
-		ProgressMonitorDialog progressMonitorDialog = new ProgressMonitorDialog(
-				getSite().getShell());
-
-		try {
-			progressMonitorDialog.run(false, false,
-					new IRunnableWithProgress() {
-						public void run(IProgressMonitor monitor)
-								throws InvocationTargetException,
-								InterruptedException {
-							try {
-								if (newPath.toFile().exists() == false) {
-									try {
-										newPath.toFile().createNewFile();
-									} catch (IOException e) {
-										throw new RuntimeException(e); // SystemError
-									}
-								}
-
-								save(newFile, monitor, isRtcXml);
-								// getMultiPageCommandStackListener().markSaveLocations();
-							} catch (CoreException e) {
-							} catch (Exception e) {
-							}
-						}
-					});
-		} catch (Exception e) {
-			throw new RuntimeException(e); // SystemError
-		}
-
 	}
 
 	/**
@@ -590,8 +432,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	private void save(IFile file, IProgressMonitor progressMonitor, boolean blnRtcXml)
 			throws Exception {
 
-		if (null == progressMonitor)
-			progressMonitor = new NullProgressMonitor();
+		if (null == progressMonitor) progressMonitor = new NullProgressMonitor();
 
 		progressMonitor.beginTask("Saving ", 2);
 		String xmlFile = "";
@@ -647,7 +488,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	}
 
 	protected void updateProfiles(String xmlFile) throws Exception {
-		// RTC.xmlÇÃì‡óeÇëºÇÃÉyÅ[ÉWÇ…îΩâf
+		// RTC.xml„ÅÆÂÜÖÂÆπ„Çí‰ªñ„ÅÆ„Éö„Éº„Ç∏„Å´ÂèçÊò†
 		ProfileHandler handler = new ProfileHandler();
 		RtcProfile module = handler.restorefromXML(xmlFile);
 		ParamUtil putil = new ParamUtil();
@@ -696,7 +537,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	}
 
 	/**
-	 * ÉGÉfÉBÉ^ÇÉ_Å[ÉeÉBÇ…Ç∑ÇÈÅB
+	 * „Ç®„Éá„Ç£„Çø„Çí„ÉÄ„Éº„ÉÜ„Ç£„Å´„Åô„Çã„ÄÇ
 	 */
 	public void updateDirty() {
 		setDirty(getRtcParam().isUpdated());
@@ -712,7 +553,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	}
 
 	/**
-	 * GeneratorParamÇéÊìæÇ∑ÇÈ
+	 * GeneratorParam„ÇíÂèñÂæó„Åô„Çã
 	 */
 	public GeneratorParam getGeneratorParam() {
 		return generatorParam;
@@ -722,51 +563,32 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	}
 
 	/**
-	 * RtcParamÇéÊìæÇ∑ÇÈ
+	 * RtcParam„ÇíÂèñÂæó„Åô„Çã
 	 */
 	public RtcParam getRtcParam() {
 		return generatorParam.getRtcParams().get(0);
 	}
 
 	/**
-	 * EMF modelÇéÊìæÇ∑ÇÈ
+	 * EMF model„ÇíÂèñÂæó„Åô„Çã
 	 */
 	public BuildView getEMFmodel() {
 		return buildview;
-	}
-	
-	public void open() {
-		boolean save = false;
-		if (isDirty()) {
-			save = MessageDialog.openQuestion(getSite().getShell(), "",
-					"ÉtÉ@ÉCÉãÇ™ï€ë∂Ç≥ÇÍÇƒÇ¢Ç‹ÇπÇÒÅBï€ë∂ÇµÇ‹Ç∑Ç©ÅH");
-		}
-
-		if (save) {
-			doSave(null);
-		}
-
-		final IPath newPath = FileUtil.getFilePathByDialog(null, SWT.OPEN);
-		if( newPath==null ) return;
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		final IFile newFile = root.getFileForLocation(newPath);
-		if (newFile != null) {
-			try {
-				load(new FileEditorInput(newFile), getEditorSite());
-			} catch (PartInitException e) {
-				e.printStackTrace(); // system error
-				MessageDialog.openError(getSite().getShell(), "", e.getMessage());
-			}
-		} else {
-			MessageDialog.openError(getSite().getShell(), "File Open Error", "Projectì‡ÇÃÉtÉ@ÉCÉãÇëIëÇµÇƒÇ≠ÇæÇ≥Ç¢ÅB");
-		}
 	}
 	
 	public void updateEMFModuleName(String name) {
 		((Component)buildview.getComponents().get(0)).setComponent_Name(name);
 	}
 
-	public void updateEMFDataInPorts(List<DataPortParam> dataInPorts) {
+	public void updateEMFDataPorts(
+			List<DataPortParam> dataInPorts, List<DataPortParam> dataOutPorts,
+			List<ServicePortParam> servicePorts) {
+		updateEMFDataInPorts(dataInPorts);
+		updateEMFDataOutPorts(dataOutPorts);
+		updateEMFServiceOutPorts(servicePorts);
+	}
+	
+	private void updateEMFDataInPorts(List<DataPortParam> dataInPorts) {
 		((Component)buildview.getComponents().get(0)).clearDataInports();
 		for(int intIdx=0; intIdx<dataInPorts.size();intIdx++ ) {
 			DataInPort dataInport= ComponentFactory.eINSTANCE.createDataInPort();
@@ -777,7 +599,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		}
 	}
 
-	public void updateEMFDataOutPorts(List<DataPortParam> dataOutPorts) {
+	private void updateEMFDataOutPorts(List<DataPortParam> dataOutPorts) {
 		((Component)buildview.getComponents().get(0)).clearDataOutports();
 		for(int intIdx=0; intIdx<dataOutPorts.size();intIdx++ ) {
 			DataOutPort dataOutport= ComponentFactory.eINSTANCE.createDataOutPort();
@@ -788,7 +610,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		}
 	}
 
-	public void updateEMFServiceOutPorts(List<ServicePortParam> servicePorts) {
+	private void updateEMFServiceOutPorts(List<ServicePortParam> servicePorts) {
 		((Component)buildview.getComponents().get(0)).clearServiceports();
 		for(int intIdx=0; intIdx<servicePorts.size();intIdx++ ) {
 			ServicePortParam srvParam = servicePorts.get(intIdx);
@@ -818,10 +640,10 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 				result = "false".equalsIgnoreCase(value);
 			}
 		}
-
 		return result;
 	}
 
+	@SuppressWarnings("unused")
 	private String getEclipseVersion() {
 		return System.getProperty("osgi.framework.version");
 	}
@@ -830,21 +652,22 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		setEnabledInfoByLang(getRtcParam().getLanguage());
 	}
 
+	@SuppressWarnings("deprecation")
 	public void setEnabledInfoByLang(String langName) {
 		EditorExtension ext = RtcBuilderPlugin.getDefault()
 				.getEditorExtensionLoader().findByLang(langName);
 		if (ext == null) {
-			// ëSï\é¶(C++ä‹Çﬁ)
+			// ÂÖ®Ë°®Á§∫(C++Âê´„ÇÄ)
 			setEnabledInfo(new ArrayList<String>());
 		} else {
 			if (!ext.getDisableFormWidgets().isEmpty()) {
 				setEnabledInfo(ext.getDisableFormWidgets());
 			} else {
-				// îpé~ó\íË
+				// ÂªÉÊ≠¢‰∫àÂÆö
 				setEnabledInfoObsolete(ext.getInapplicables());
 			}
 		}
-		// ägí£ÇµÇƒÇ¢ÇÈFormPage
+		// Êã°Âºµ„Åó„Å¶„ÅÑ„ÇãFormPage
 		for (AbstractCustomFormPage customPage : customFormPages.values()) {
 			customPage.setEnableInfo(langName);
 		}
@@ -881,7 +704,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		}
 	}
 
-	/** å√Ç¢ï˚éÆÇ…ÇÊÇÈÉtÉHÅ[ÉÄÇÃäàê´âªê›íË */
+	/** Âè§„ÅÑÊñπÂºè„Å´„Çà„Çã„Éï„Ç©„Éº„É†„ÅÆÊ¥ªÊÄßÂåñË®≠ÂÆö */
 	@Deprecated
 	void setEnabledInfoObsolete(List<String> infos) {
 		AbstractEditorFormPage.WidgetInfo widgetInfo;
@@ -952,5 +775,4 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		}
 		return new AbstractEditorFormPage.WidgetInfo(ss[0], ss[1], ss[2]);
 	}
-
 }

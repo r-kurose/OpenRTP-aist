@@ -19,7 +19,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
 
 /**
- * RTCÇï\Ç∑ÉNÉâÉX
+ * RTC„ÇíË°®„Åô„ÇØ„É©„Çπ
  */
 public class RtcParam extends AbstractRecordedParam implements Serializable {
 
@@ -28,7 +28,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	private GeneratorParam parent;
 
 	private String schemaVersion;
-	//äÓñ{
+	//Âü∫Êú¨
 	private String abstractDesc;
 	private String name;
 	private String category;
@@ -46,27 +46,28 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	private double executionRate;
 	private String rtcType;
 	private String currentVULog;
-	//ÉfÅ[É^É|Å[Ég
+	//„Éá„Éº„Çø„Éù„Éº„Éà
 	private RecordedList<DataPortParam> inports = new RecordedList<DataPortParam>();
 	private RecordedList<DataPortParam> outports = new RecordedList<DataPortParam>();
-	//ÉTÅ[ÉrÉXÉ|Å[Ég
+	//„Çµ„Éº„Éì„Çπ„Éù„Éº„Éà
 	private RecordedList<ServicePortParam> serviceports = new RecordedList<ServicePortParam>();
 //	private List<String> idlSearchPathes = new RecordedList<String>();
 //	private String includeIDLPath = null;
 	//
 	private RecordedList<ServiceClassParam> serviceClassParams = new RecordedList<ServiceClassParam>();
-	//ÉRÉìÉtÉBÉMÉÖÉåÅ[ÉVÉáÉì
+	//„Ç≥„É≥„Éï„Ç£„ÇÆ„É•„É¨„Éº„Ç∑„Éß„É≥
 	private RecordedList<ConfigSetParam> configParams = new RecordedList<ConfigSetParam>();
 	private RecordedList<ConfigParameterParam> configParameterParams = new RecordedList<ConfigParameterParam>();
-	//åæåÍÅEä¬ã´
+	//Ë®ÄË™û„ÉªÁí∞Â¢É
 	private RecordedList<String> langList = new RecordedList<String>();
 	private RecordedList<String> langArgList = new RecordedList<String>();
 	private RecordedList<String> libraryPath = new RecordedList<String>();
 	private String architecture = new String();
+	boolean enableOldBuildEnv= false;
 	private RecordedList<TargetEnvParam> targetEnvs = new RecordedList<TargetEnvParam>();
 	//RTC.xml
 	private String rtcxml;
-	//ÉhÉLÉÖÉÅÉìÉg
+	//„Éâ„Ç≠„É•„É°„É≥„Éà
 	private String doc_description;
 	private String doc_in_out;
 	private String doc_algorithm;
@@ -81,6 +82,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	//
 	private String outputProject = null;
 
+	@SuppressWarnings("unchecked")
 	private Map extentionData = new HashMap();
 
 	private List<IdlFileParam> providerIdlPathes = new ArrayList<IdlFileParam>();
@@ -166,7 +168,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		checkUpdated(this.schemaVersion, version);
 		this.schemaVersion = version;
 	}
-	//äÓñ{
+	//Âü∫Êú¨
 	public String getAbstract() {
 		return abstractDesc;
 	}
@@ -289,14 +291,14 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		checkUpdated(this.currentVULog, cvulog);
 		this.currentVULog = cvulog;
 	}
-	//ÉfÅ[É^É|Å[Ég
+	//„Éá„Éº„Çø„Éù„Éº„Éà
 	public List<DataPortParam> getInports() {
 		return inports;
 	}
 	public List<DataPortParam> getOutports() {
 		return outports;
 	}
-	//ÉTÅ[ÉrÉXÉ|Å[Ég
+	//„Çµ„Éº„Éì„Çπ„Éù„Éº„Éà
 	public List<ServicePortParam> getServicePorts() {
 		return serviceports;
 	}
@@ -305,7 +307,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		return serviceClassParams;
 	}
 
-	//ÉRÉìÉtÉBÉMÉÖÉåÅ[ÉVÉáÉì
+	//„Ç≥„É≥„Éï„Ç£„ÇÆ„É•„É¨„Éº„Ç∑„Éß„É≥
 	public List<ConfigSetParam> getConfigParams() {
 		return configParams;
 	}
@@ -320,7 +322,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		checkUpdated(this.rtcxml, rtcXml);
 		this.rtcxml = rtcXml;
 	}
-	//åæåÍÅEä¬ã´
+	//Ë®ÄË™û„ÉªÁí∞Â¢É
 	public String getLanguage() {
 		return getLangageListString(langList);
 	}
@@ -338,6 +340,9 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	}
 	public String getArchitecture() {
 		return this.architecture;
+	}
+	public boolean enableOldBuildEnv() {
+		return enableOldBuildEnv;
 	}
 	public List<TargetEnvParam> getTargetEnvs() {
 		return this.targetEnvs;
@@ -373,8 +378,12 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		}
 		return result;
 	}
+	public void setEnableOldBuildEnv(boolean b) {
+		checkUpdated(this.enableOldBuildEnv, b);
+		this.enableOldBuildEnv = b;
+	}
 
-	//ÉhÉLÉÖÉÅÉìÉg-Component
+	//„Éâ„Ç≠„É•„É°„É≥„Éà-Component
 	public boolean isDocExist() {
 		if( (doc_description==null || doc_description.equals("")) &&
 			(doc_in_out==null || doc_in_out.equals("")) && 
@@ -463,7 +472,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		actions.get(actionId).setPreCondition(precond);
 		actions.get(actionId).setPostCondition(postcond);
 	}
-	//ÉhÉLÉÖÉÅÉìÉg-ÇªÇÃëº
+	//„Éâ„Ç≠„É•„É°„É≥„Éà-„Åù„ÅÆ‰ªñ
 	public String getDocCreator() {
 		if(doc_creator==null) doc_creator = ""; 
 		return doc_creator;
@@ -490,6 +499,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		this.doc_reference = reference;
 	}
 
+	@SuppressWarnings("unchecked")
 	public String getLangageListArgString() {
 		StringBuffer result = new StringBuffer();
 		for (Iterator iter = langArgList.iterator(); iter.hasNext();) {
@@ -502,6 +512,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		return result.toString();
 	}
 
+	@SuppressWarnings("unchecked")
 	public static String getLangageListString(List langList) {
 		StringBuffer result = new StringBuffer();
 		for (Iterator iter = langList.iterator(); iter.hasNext();) {
@@ -523,6 +534,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		this.outputProject = outputDirectory;
 	}
 
+	@SuppressWarnings("unchecked")
 	public Map getExtentionData() {
 		return extentionData;
 	}
@@ -646,47 +658,56 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 
 		List<String> providerIdlStrings = new ArrayList<String>();
 		List<String> consumerIdlStrings = new ArrayList<String>();
+		List<String> idlPathes = new ArrayList<String>();
 		List<IdlFileParam> providerIdlParams = new ArrayList<IdlFileParam>();
 		List<IdlFileParam> consumerIdlParams = new ArrayList<IdlFileParam>();
 		List<String> originalConsumerIdlPathList = new ArrayList<String>();
+		
+		List<ServicePortInterfaceParam> serviceIFs = getServiceInterfaceList();
 
-		//IDLÉpÉXÅCIDLÉTÅ[É`ÉpÉXÇÃämîF
-		for( ServicePortParam servicePort : this.getServicePorts() ) {
-			for( ServicePortInterfaceParam serviceInterface : servicePort.getServicePortInterfaces() ) {
-				if( serviceInterface.getDirection().equals(ServicePortInterfaceParam.INTERFACE_DIRECTION_PROVIDED)) {
-					if( !providerIdlStrings.contains(serviceInterface.getIdlFullPath()) ) {
-						providerIdlStrings.add(serviceInterface.getIdlFullPath());
-						providerIdlParams.add(new IdlFileParam(serviceInterface.getIdlFullPath(),this));
-					}
+		//IDL„Éë„ÇπÔºåIDL„Çµ„Éº„ÉÅ„Éë„Çπ„ÅÆÁ¢∫Ë™ç
+		for( ServicePortInterfaceParam serviceInterface : serviceIFs ) {
+			if( serviceInterface.getDirection().equals(ServicePortInterfaceParam.INTERFACE_DIRECTION_PROVIDED)) {
+				if( !providerIdlStrings.contains(serviceInterface.getIdlFullPath()) ) {
+					idlPathes.add(serviceInterface.getIdlFullPath().trim());
+					providerIdlStrings.add(serviceInterface.getIdlFullPath());
+					providerIdlParams.add(new IdlFileParam(serviceInterface.getIdlFullPath(),this));
 				}
 			}
 		}
-		for( ServicePortParam servicePort : this.getServicePorts() ) {
-			for( ServicePortInterfaceParam serviceInterface : servicePort.getServicePortInterfaces() ) {
-				if( serviceInterface.getDirection().equals(ServicePortInterfaceParam.INTERFACE_DIRECTION_REQUIRED)) {
-					originalConsumerIdlPathList.add(serviceInterface.getIdlFullPath());
-					if( !providerIdlStrings.contains(serviceInterface.getIdlFullPath()) && 
-							!consumerIdlStrings.contains(serviceInterface.getIdlFullPath()) ) {
-						consumerIdlStrings.add(serviceInterface.getIdlFullPath());
-						consumerIdlParams.add(new IdlFileParam(serviceInterface.getIdlFullPath(),this));
-					}
+		for( ServicePortInterfaceParam serviceInterface : serviceIFs ) {
+			if( serviceInterface.getDirection().equals(ServicePortInterfaceParam.INTERFACE_DIRECTION_REQUIRED)) {
+				originalConsumerIdlPathList.add(serviceInterface.getIdlFullPath());
+				if( !idlPathes.contains(serviceInterface.getIdlFullPath().trim()) ) {
+					idlPathes.add(serviceInterface.getIdlFullPath().trim());
+					consumerIdlStrings.add(serviceInterface.getIdlFullPath());
+					consumerIdlParams.add(new IdlFileParam(serviceInterface.getIdlFullPath(),this));
 				}
 			}
 		}
-		for( ServicePortParam servicePort : this.getServicePorts() ) {
-			for( ServicePortInterfaceParam serviceInterface : servicePort.getServicePortInterfaces() ) {
-				if( serviceInterface.getIdlSearchPath()!=null && !serviceInterface.getIdlSearchPath().equals("") ){
-					for( IdlFileParam idlParam : providerIdlParams ) {
-						if( serviceInterface.getIdlFullPath().trim().equals(idlParam.getIdlPath().trim()) ) {
-							idlParam.getIdlSearchPathes().add(serviceInterface.getIdlSearchPath());
-							break;
-						}
+		/////
+		for( DataPortParam target : inports ) {
+			checkAndAddIDLPath(target.getType(), idlPathes, consumerIdlStrings, consumerIdlParams);
+		}
+		for( DataPortParam target : outports ) {
+			checkAndAddIDLPath(target.getType(), idlPathes, consumerIdlStrings, consumerIdlParams);
+		}
+		for( ConfigSetParam target : configParams ) {
+			checkAndAddIDLPath(target.getType(), idlPathes, consumerIdlStrings, consumerIdlParams);
+		}
+		/////
+		for( ServicePortInterfaceParam serviceInterface : serviceIFs ) {
+			if( serviceInterface.getIdlSearchPath()!=null && !serviceInterface.getIdlSearchPath().equals("") ){
+				for( IdlFileParam idlParam : providerIdlParams ) {
+					if( serviceInterface.getIdlFullPath().trim().equals(idlParam.getIdlPath().trim()) ) {
+						idlParam.getIdlSearchPathes().add(serviceInterface.getIdlSearchPath());
+						break;
 					}
-					for( IdlFileParam idlParam : consumerIdlParams ) {
-						if( serviceInterface.getIdlFullPath().trim().equals(idlParam.getIdlPath().trim()) ) {
-							idlParam.getIdlSearchPathes().add(serviceInterface.getIdlSearchPath());
-							break;
-						}
+				}
+				for( IdlFileParam idlParam : consumerIdlParams ) {
+					if( serviceInterface.getIdlFullPath().trim().equals(idlParam.getIdlPath().trim()) ) {
+						idlParam.getIdlSearchPathes().add(serviceInterface.getIdlSearchPath());
+						break;
 					}
 				}
 			}
@@ -701,7 +722,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		getOriginalConsumerIdls().clear();
 		getOriginalConsumerIdls().addAll(originalConsumerIdlPathList);
 
-		//ÉNÉâÉXÉpÉXÇÃèdï°çÌèú
+		//„ÇØ„É©„Çπ„Éë„Çπ„ÅÆÈáçË§áÂâäÈô§
 		ArrayList<String> libraries = new ArrayList<String>();
 		for (String library : this.getLibraryPathes()) {
 			if (!libraries.contains(library)) {
@@ -711,6 +732,32 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		getLibraryPathes().clear();
 		getLibraryPathes().addAll(libraries);
 		// this.setLibraryPathes(libraries);
+	}
+
+	private void checkAndAddIDLPath(String targetType, List<String> idlPathes,
+			List<String> consumerIdlStrings, List<IdlFileParam> consumerIdlParams) {
+		for(DataTypeParam dataTypes : this.parent.getDataTypeParams()) {
+			if( !dataTypes.isAddition() ) continue;
+			if( dataTypes.getDefinedTypes().contains(targetType) ) {
+				String targetIDL = dataTypes.getFullPath();
+				if( !idlPathes.contains(targetIDL.trim()) ) {
+					if( targetIDL!=null) {
+						idlPathes.add(targetIDL.trim());
+						consumerIdlStrings.add(targetIDL);
+						consumerIdlParams.add(new IdlFileParam(targetIDL,this));
+					}
+				}
+				break;
+			}
+		}
+	}
+	
+	private List<ServicePortInterfaceParam> getServiceInterfaceList() {
+		List<ServicePortInterfaceParam> result = new ArrayList<ServicePortInterfaceParam>();
+		for( ServicePortParam servicePort : this.getServicePorts() ) {
+			result.addAll(servicePort.getServicePortInterfaces());
+		}
+		return result;
 	}
 	//
 	public String getRtmVersion() {

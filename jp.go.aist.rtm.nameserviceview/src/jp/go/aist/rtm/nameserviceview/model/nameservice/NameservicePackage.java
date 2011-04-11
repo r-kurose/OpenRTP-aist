@@ -108,13 +108,22 @@ public interface NameservicePackage extends EPackage {
 	int CORBA_NODE__NAME_SERVICE_REFERENCE = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Zombie</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_NODE__ZOMBIE = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Corba Node</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CORBA_NODE_FEATURE_COUNT = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 2;
+	int CORBA_NODE_FEATURE_COUNT = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NamingContextNodeImpl <em>Naming Context Node</em>}' class.
@@ -163,6 +172,15 @@ public interface NameservicePackage extends EPackage {
 	int NAMING_CONTEXT_NODE__NAME_SERVICE_REFERENCE = CORBA_NODE__NAME_SERVICE_REFERENCE;
 
 	/**
+	 * The feature id for the '<em><b>Zombie</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAMING_CONTEXT_NODE__ZOMBIE = CORBA_NODE__ZOMBIE;
+
+	/**
 	 * The feature id for the '<em><b>Name Server Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -172,22 +190,13 @@ public interface NameservicePackage extends EPackage {
 	int NAMING_CONTEXT_NODE__NAME_SERVER_NAME = CORBA_NODE_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Zombie</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NAMING_CONTEXT_NODE__ZOMBIE = CORBA_NODE_FEATURE_COUNT + 1;
-
-	/**
 	 * The feature id for the '<em><b>Kind</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NAMING_CONTEXT_NODE__KIND = CORBA_NODE_FEATURE_COUNT + 2;
+	int NAMING_CONTEXT_NODE__KIND = CORBA_NODE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Naming Context Node</em>' class.
@@ -196,7 +205,7 @@ public interface NameservicePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NAMING_CONTEXT_NODE_FEATURE_COUNT = CORBA_NODE_FEATURE_COUNT + 3;
+	int NAMING_CONTEXT_NODE_FEATURE_COUNT = CORBA_NODE_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NamingObjectNodeImpl <em>Naming Object Node</em>}' class.
@@ -243,6 +252,15 @@ public interface NameservicePackage extends EPackage {
 	 * @ordered
 	 */
 	int NAMING_OBJECT_NODE__NAME_SERVICE_REFERENCE = CORBA_NODE__NAME_SERVICE_REFERENCE;
+
+	/**
+	 * The feature id for the '<em><b>Zombie</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAMING_OBJECT_NODE__ZOMBIE = CORBA_NODE__ZOMBIE;
 
 	/**
 	 * The feature id for the '<em><b>Entry</b></em>' reference.
@@ -319,13 +337,31 @@ public interface NameservicePackage extends EPackage {
 	int NAME_SERVICE_REFERENCE__ROOT_NAMING_CONTEXT = 2;
 
 	/**
+	 * The feature id for the '<em><b>Notifier</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAME_SERVICE_REFERENCE__NOTIFIER = 3;
+
+	/**
+	 * The feature id for the '<em><b>Updated</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAME_SERVICE_REFERENCE__UPDATED = 4;
+
+	/**
 	 * The number of structural features of the '<em>Name Service Reference</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NAME_SERVICE_REFERENCE_FEATURE_COUNT = 3;
+	int NAME_SERVICE_REFERENCE_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '<em>Naming Context Ext</em>' data type.
@@ -380,6 +416,27 @@ public interface NameservicePackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '<em>Naming Notifier</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see OpenRTMNaming.NamingNotifier
+	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getNamingNotifier()
+	 * @generated
+	 */
+	int NAMING_NOTIFIER = 10;
+
+
+	/**
+	 * The meta object id for the '<em>Observer Profile</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see OpenRTMNaming.ObserverProfile
+	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getObserverProfile()
+	 * @generated
+	 */
+	int OBSERVER_PROFILE = 11;
+
+	/**
 	 * Returns the meta object for class '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode <em>Naming Context Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -388,17 +445,6 @@ public interface NameservicePackage extends EPackage {
 	 * @generated
 	 */
 	EClass getNamingContextNode();
-
-	/**
-	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode#isZombie <em>Zombie</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Zombie</em>'.
-	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode#isZombie()
-	 * @see #getNamingContextNode()
-	 * @generated
-	 */
-	EAttribute getNamingContextNode_Zombie();
 
 	/**
 	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode#getKind <em>Kind</em>}'.
@@ -454,6 +500,17 @@ public interface NameservicePackage extends EPackage {
 	EReference getCorbaNode_NameServiceReference();
 
 	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode#isZombie <em>Zombie</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Zombie</em>'.
+	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode#isZombie()
+	 * @see #getCorbaNode()
+	 * @generated
+	 */
+	EAttribute getCorbaNode_Zombie();
+
+	/**
 	 * Returns the meta object for class '{@link org.omg.CosNaming.NamingContext <em>Naming Context</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -506,6 +563,28 @@ public interface NameservicePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getNameServiceReference_RootNamingContext();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference#getNotifier <em>Notifier</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Notifier</em>'.
+	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference#getNotifier()
+	 * @see #getNameServiceReference()
+	 * @generated
+	 */
+	EAttribute getNameServiceReference_Notifier();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference#isUpdated <em>Updated</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Updated</em>'.
+	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference#isUpdated()
+	 * @see #getNameServiceReference()
+	 * @generated
+	 */
+	EAttribute getNameServiceReference_Updated();
 
 	/**
 	 * Returns the meta object for data type '{@link org.omg.CosNaming.NamingContextExt <em>Naming Context Ext</em>}'.
@@ -563,6 +642,28 @@ public interface NameservicePackage extends EPackage {
 	EDataType getInvalidName();
 
 	/**
+	 * Returns the meta object for data type '{@link OpenRTMNaming.NamingNotifier <em>Naming Notifier</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Naming Notifier</em>'.
+	 * @see OpenRTMNaming.NamingNotifier
+	 * @model instanceClass="OpenRTMNaming.NamingNotifier"
+	 * @generated
+	 */
+	EDataType getNamingNotifier();
+
+	/**
+	 * Returns the meta object for data type '{@link OpenRTMNaming.ObserverProfile <em>Observer Profile</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Observer Profile</em>'.
+	 * @see OpenRTMNaming.ObserverProfile
+	 * @model instanceClass="OpenRTMNaming.ObserverProfile"
+	 * @generated
+	 */
+	EDataType getObserverProfile();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -593,14 +694,6 @@ public interface NameservicePackage extends EPackage {
 		 * @generated
 		 */
 		EClass NAMING_CONTEXT_NODE = eINSTANCE.getNamingContextNode();
-
-		/**
-		 * The meta object literal for the '<em><b>Zombie</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute NAMING_CONTEXT_NODE__ZOMBIE = eINSTANCE.getNamingContextNode_Zombie();
 
 		/**
 		 * The meta object literal for the '<em><b>Kind</b></em>' attribute feature.
@@ -647,6 +740,14 @@ public interface NameservicePackage extends EPackage {
 		EReference CORBA_NODE__NAME_SERVICE_REFERENCE = eINSTANCE.getCorbaNode_NameServiceReference();
 
 		/**
+		 * The meta object literal for the '<em><b>Zombie</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CORBA_NODE__ZOMBIE = eINSTANCE.getCorbaNode_Zombie();
+
+		/**
 		 * The meta object literal for the '{@link org.omg.CosNaming.NamingContext <em>Naming Context</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -689,6 +790,22 @@ public interface NameservicePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute NAME_SERVICE_REFERENCE__ROOT_NAMING_CONTEXT = eINSTANCE.getNameServiceReference_RootNamingContext();
+
+		/**
+		 * The meta object literal for the '<em><b>Notifier</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute NAME_SERVICE_REFERENCE__NOTIFIER = eINSTANCE.getNameServiceReference_Notifier();
+
+		/**
+		 * The meta object literal for the '<em><b>Updated</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute NAME_SERVICE_REFERENCE__UPDATED = eINSTANCE.getNameServiceReference_Updated();
 
 		/**
 		 * The meta object literal for the '<em>Naming Context Ext</em>' data type.
@@ -739,6 +856,26 @@ public interface NameservicePackage extends EPackage {
 		 * @generated
 		 */
 		EDataType INVALID_NAME = eINSTANCE.getInvalidName();
+
+		/**
+		 * The meta object literal for the '<em>Naming Notifier</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see OpenRTMNaming.NamingNotifier
+		 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getNamingNotifier()
+		 * @generated
+		 */
+		EDataType NAMING_NOTIFIER = eINSTANCE.getNamingNotifier();
+
+		/**
+		 * The meta object literal for the '<em>Observer Profile</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see OpenRTMNaming.ObserverProfile
+		 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameservicePackageImpl#getObserverProfile()
+		 * @generated
+		 */
+		EDataType OBSERVER_PROFILE = eINSTANCE.getObserverProfile();
 
 	}
 

@@ -14,9 +14,10 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.internal.handlers.CommandLegacyActionWrapper;
 
 /**
- * レポジトリビューからノードを削除するアクション
+ * 繝ｬ繝昴ず繝医Μ繝薙Η繝ｼ縺九ｉ繝弱�ｼ繝峨ｒ蜑企勁縺吶ｋ繧｢繧ｯ繧ｷ繝ｧ繝ｳ
  *
  */
+@SuppressWarnings("restriction")
 public class ViewActionDelete implements IObjectActionDelegate {
 
 	private RepositoryView view;

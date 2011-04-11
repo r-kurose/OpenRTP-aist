@@ -6,7 +6,7 @@ import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
 import org.eclipse.gef.ui.actions.EditorPartAction;
 
 /**
- * RTSプロファイルを読み込んで、パスIDに基づく復元を行うアクション
+ * RTS繝励Ο繝輔ぃ繧､繝ｫ繧定ｪｭ縺ｿ霎ｼ繧薙〒縲√ヱ繧ｹID縺ｫ蝓ｺ縺･縺丞ｾｩ蜈�繧定｡後≧繧｢繧ｯ繧ｷ繝ｧ繝ｳ
  *
  */
 public class OpenAndRestoreAction extends EditorPartAction {

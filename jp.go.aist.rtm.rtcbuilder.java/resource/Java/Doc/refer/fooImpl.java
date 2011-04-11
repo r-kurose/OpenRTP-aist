@@ -6,7 +6,7 @@
  *
  * @author Noriaki Ando <n-ando@aist.go.jp>
  *
- * Copyright (C) 2006-2008 ƒ‰ƒCƒZƒ“ƒX
+ * Copyright (C) 2006-2008 ãƒ©ã‚¤ã‚»ãƒ³ã‚¹
  *
  * $Id$
  */
@@ -24,18 +24,19 @@ import jp.go.aist.rtm.RTC.port.CorbaPort;
 import org.omg.PortableServer.POAPackage.ObjectNotActive;
 import org.omg.PortableServer.POAPackage.ServantAlreadyActive;
 import org.omg.PortableServer.POAPackage.WrongPolicy;
+import RTC.ReturnCode_t;
 
 /*!
  * @class fooImpl
  * @brief MDesc
  *
- * –{ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌŠT—và–¾
+ * æœ¬ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®æ¦‚è¦èª¬æ˜
  *
- * –{ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì“üo—Í
+ * æœ¬ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å…¥å‡ºåŠ›
  *
- * –{ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒAƒ‹ƒSƒŠƒYƒ€‚È‚Ç
+ * æœ¬ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ ãªã©
  *
- * Ql•¶Œ£‚Ìî•ñ
+ * å‚è€ƒæ–‡çŒ®ã®æƒ…å ±
  *
  */
 public class fooImpl extends DataFlowComponentBase {

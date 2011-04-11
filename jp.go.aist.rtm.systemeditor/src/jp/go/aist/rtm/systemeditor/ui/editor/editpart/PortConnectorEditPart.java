@@ -25,14 +25,14 @@ import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 
 /**
- * ƒRƒlƒNƒ^‚ÌEditPartƒNƒ‰ƒX
+ * ã‚³ãƒã‚¯ã‚¿ã®EditPartã‚¯ãƒ©ã‚¹
  */
 public class PortConnectorEditPart extends AbstractConnectionEditPart {
 
 	private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
 			this);
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param actionRegistry
 	 */
@@ -41,7 +41,7 @@ public class PortConnectorEditPart extends AbstractConnectionEditPart {
 	}
 
 	/**
-	 * ƒ‚ƒfƒ‹‚Ö‚ÌƒŠƒXƒi
+	 * ãƒ¢ãƒ‡ãƒ«ã¸ã®ãƒªã‚¹ãƒŠ
 	 */
 	protected Adapter modelListener = new AdapterImpl() {
 		@Override
@@ -104,7 +104,7 @@ public class PortConnectorEditPart extends AbstractConnectionEditPart {
 	}
 
 	/**
-	 * ƒxƒ“ƒhƒ|ƒCƒ“ƒg‚ğÄİ’è‚·‚é
+	 * ãƒ™ãƒ³ãƒ‰ãƒã‚¤ãƒ³ãƒˆã‚’å†è¨­å®šã™ã‚‹
 	 */
 	@SuppressWarnings("unchecked")
 	protected void refreshBendPoint() {
@@ -138,7 +138,7 @@ public class PortConnectorEditPart extends AbstractConnectionEditPart {
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * ƒ‚ƒfƒ‹‚ÌƒIƒuƒWƒFƒNƒg‚ÉˆÏ÷‚µ‚Ä‚¢‚é
+	 * ãƒ¢ãƒ‡ãƒ«ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å§”è­²ã—ã¦ã„ã‚‹
 	 */
 	public Object getAdapter(Class key) {
 		Object result = AdapterUtil.getAdapter(getModel(), key);
@@ -149,7 +149,7 @@ public class PortConnectorEditPart extends AbstractConnectionEditPart {
 		return result;
 	}
 	/**
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒgFigure‚Ì•ÏX‚Ì’Ê’m‚ğs‚¤ƒŠƒXƒi‚ğ“o˜^‚·‚é
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆFigureã®å¤‰æ›´ã®é€šçŸ¥ã‚’è¡Œã†ãƒªã‚¹ãƒŠã‚’ç™»éŒ²ã™ã‚‹
 	 * 
 	 * @param listener
 	 */
@@ -158,7 +158,7 @@ public class PortConnectorEditPart extends AbstractConnectionEditPart {
 	}
 
 	/**
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒgFigure‚Ì•ÏX‚Ì’Ê’m‚ğs‚¤ƒŠƒXƒi‚ğíœ‚·‚é
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆFigureã®å¤‰æ›´ã®é€šçŸ¥ã‚’è¡Œã†ãƒªã‚¹ãƒŠã‚’å‰Šé™¤ã™ã‚‹
 	 * 
 	 * @param listener
 	 */

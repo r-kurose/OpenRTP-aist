@@ -21,7 +21,8 @@ public class RtcExportWizard extends Wizard implements IExportWizard {
 	    /**
 	     * Creates a wizard for exporting workspace resources to a zip file.
 	     */
-	    public RtcExportWizard() {
+	    @SuppressWarnings("deprecation")
+		public RtcExportWizard() {
 	        AbstractUIPlugin plugin = (AbstractUIPlugin) Platform.getPlugin(PlatformUI.PLUGIN_ID);
 	        IDialogSettings workbenchSettings = plugin.getDialogSettings();
 	        IDialogSettings section = workbenchSettings.getSection("RtcExportWizard");//$NON-NLS-1$
@@ -43,7 +44,8 @@ public class RtcExportWizard extends Wizard implements IExportWizard {
 	    /* (non-Javadoc)
 	     * Method declared on IWorkbenchWizard.
 	     */
-	    public void init(IWorkbench workbench, IStructuredSelection currentSelection) {
+	    @SuppressWarnings("unchecked")
+		public void init(IWorkbench workbench, IStructuredSelection currentSelection) {
 	        this.selection = currentSelection;
 	        List selectedResources = IDE.computeSelectedResources(currentSelection);
 	        if (!selectedResources.isEmpty()) {

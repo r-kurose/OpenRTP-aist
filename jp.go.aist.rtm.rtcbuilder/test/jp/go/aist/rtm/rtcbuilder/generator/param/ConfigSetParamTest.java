@@ -98,12 +98,12 @@ public class ConfigSetParamTest extends ParamTestCase<ConfigSetParam> {
 		assertUpdated(csp, new UpdateChecker() {
 			@Override
 			void execute1(ConfigSetParam e) {
-				e.setSliderStep("0.1");
+				e.setStep("0.1");
 			}
 
 			@Override
 			void execute2(ConfigSetParam e) {
-				e.setSliderStep("0.01");
+				e.setStep("0.01");
 			}
 		});
 	}
@@ -113,72 +113,72 @@ public class ConfigSetParamTest extends ParamTestCase<ConfigSetParam> {
 		assertUpdated(csp, new UpdateChecker() {
 			@Override
 			void execute1(ConfigSetParam e) {
-				e.setDocDataName("ƒf[ƒ^–¼‚P");
+				e.setDocDataName("ãƒ‡ãƒ¼ã‚¿åï¼‘");
 			}
 
 			@Override
 			void execute2(ConfigSetParam e) {
-				e.setDocDataName("ƒf[ƒ^–¼‚Q");
+				e.setDocDataName("ãƒ‡ãƒ¼ã‚¿åï¼’");
 			}
 		});
 		//
 		assertUpdated(csp, new UpdateChecker() {
 			@Override
 			void execute1(ConfigSetParam e) {
-				e.setDocDefaultVal("ƒfƒtƒHƒ‹ƒg’l‚P");
+				e.setDocDefaultVal("ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ï¼‘");
 			}
 
 			@Override
 			void execute2(ConfigSetParam e) {
-				e.setDocDefaultVal("ƒfƒtƒHƒ‹ƒg’l‚Q");
+				e.setDocDefaultVal("ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ï¼’");
 			}
 		});
 		//
 		assertUpdated(csp, new UpdateChecker() {
 			@Override
 			void execute1(ConfigSetParam e) {
-				e.setDocDescription("ŠT—v‚P");
+				e.setDocDescription("æ¦‚è¦ï¼‘");
 			}
 
 			@Override
 			void execute2(ConfigSetParam e) {
-				e.setDocDescription("ŠT—v‚Q");
+				e.setDocDescription("æ¦‚è¦ï¼’");
 			}
 		});
 		//
 		assertUpdated(csp, new UpdateChecker() {
 			@Override
 			void execute1(ConfigSetParam e) {
-				e.setDocUnit("’PˆÊ‚P");
+				e.setDocUnit("å˜ä½ï¼‘");
 			}
 
 			@Override
 			void execute2(ConfigSetParam e) {
-				e.setDocUnit("’PˆÊ‚Q");
+				e.setDocUnit("å˜ä½ï¼’");
 			}
 		});
 		//
 		assertUpdated(csp, new UpdateChecker() {
 			@Override
 			void execute1(ConfigSetParam e) {
-				e.setDocRange("”ÍˆÍ‚P");
+				e.setDocRange("ç¯„å›²ï¼‘");
 			}
 
 			@Override
 			void execute2(ConfigSetParam e) {
-				e.setDocRange("”ÍˆÍ‚Q");
+				e.setDocRange("ç¯„å›²ï¼’");
 			}
 		});
 		//
 		assertUpdated(csp, new UpdateChecker() {
 			@Override
 			void execute1(ConfigSetParam e) {
-				e.setDocConstraint("§–ñğŒ‚P");
+				e.setDocConstraint("åˆ¶ç´„æ¡ä»¶ï¼‘");
 			}
 
 			@Override
 			void execute2(ConfigSetParam e) {
-				e.setDocConstraint("§–ñğŒ‚Q");
+				e.setDocConstraint("åˆ¶ç´„æ¡ä»¶ï¼’");
 			}
 		});
 	}

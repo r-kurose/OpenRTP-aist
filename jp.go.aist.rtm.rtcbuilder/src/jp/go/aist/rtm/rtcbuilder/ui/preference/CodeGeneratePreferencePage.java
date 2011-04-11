@@ -1,247 +1,183 @@
 package jp.go.aist.rtm.rtcbuilder.ui.preference;
 
-import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
+import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
+import jp.go.aist.rtm.rtcbuilder.ui.editors.IMessageConstants;
 
-import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.preference.ComboFieldEditor;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.preference.IntegerFieldEditor;
+import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-public class CodeGeneratePreferencePage extends AbstractPreferencePage implements
-		IWorkbenchPreferencePage {
-
-	private Text moduleNameText;
-	private Text moduleDescriptionText;
-	private Text moduleCategoryText;
-	private Text moduleVersionText;
-	private Text moduleVendorText;
-	private Text moduleMaxInstanceText;
-	private Text moduleExecutionRateText;
+public class CodeGeneratePreferencePage extends AbstarctFieldEditorPreferencePage implements
+							IWorkbenchPreferencePage {
 	//
-	private Combo typeCombo;
-	private Combo activityTypeCombo;
-	private Combo componentKindCombo;
-	private Combo executionTypeCombo;
+	static private String[][] componentTypeItems = {
+						{"STATIC", "STATIC"},
+						{"UNIQUE", "UNIQUE"},
+						{"COMMUTATIVE","COMMUTATIVE"}};
+	static private String[][] activityTypeItems = {
+						{"PERIODIC", "PERIODIC"},
+						{"SPORADIC", "SPORADIC"},
+						{"EVENTDRIVEN","EVENTDRIVEN"}};
+	static private String[][] componentKindItems = {
+						{"DataFlowComponent", "DataFlowComponent"}, 
+						{"FiniteStateMachineComponent","FiniteStateMachineComponent"},
+						{"DataFlowFiniteStateMachineComponent","DataFlowFiniteStateMachineComponent"},
+						{"FiniteStateMachineMultiModeComponent","FiniteStateMachineMultiModeComponent"},
+						{"DataFlowMultiModeComponent","DataFlowMultiModeComponent"},
+						{"DataFlowFiniteStateMachineMultiModeComponent", "DataFlowFiniteStateMachineMultiModeComponent"}};
 	//
-	private Text commonPrefixText;
-	private Text commonSuffixText;
-	//
-	private Text configurationNameText;
-	private Text configurationTypeText;
-	private Text configurationVarNameText;
-	private Text configurationDefaultText;
-	private Text configurationConstraint;
-	private Text configurationUnit;
-	private Text configurationPrefixText;
-	private Text configurationSuffixText;
-	//
-
-	public CodeGeneratePreferencePage() {
-	}
-
-	public CodeGeneratePreferencePage(String title) {
-		super(title);
-	}
-
-	public CodeGeneratePreferencePage(String title, ImageDescriptor image) {
-		super(title, image);
-	}
-
-	@Override
-	protected Control createContents(Composite parent) {
-		GridData gd;
-
-		Composite composite = new Composite(parent, SWT.NULL);
-		composite.setLayout(new GridLayout());
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.grabExcessHorizontalSpace = true;
-		composite.setLayoutData(gd);
-		//Basic Page
-		Group basicGroup = createGroup(composite, IPreferenceMessageConstants.CODE_GEN_TITLE_BASIC);
-		moduleNameText = createLabelAndText(basicGroup, IPreferenceMessageConstants.CODE_GEN_LBL_COMPONENT_NAME);
-		moduleNameText.setText(String.valueOf(
-				ComponentPreferenceManager.getInstance().getBasic_ComponentName()));
-		moduleDescriptionText = createLabelAndText(basicGroup, IPreferenceMessageConstants.CODE_GEN_LBL_DESCRIPTION);
-		moduleDescriptionText.setText(String.valueOf(
-				ComponentPreferenceManager.getInstance().getBasic_Description()));
-		moduleVersionText = createLabelAndText(basicGroup, IPreferenceMessageConstants.CODE_GEN_LBL_VERSION);
-		moduleVersionText.setText(String.valueOf(
-				ComponentPreferenceManager.getInstance().getBasic_Version()));
-		moduleVendorText = createLabelAndText(basicGroup, IPreferenceMessageConstants.CODE_GEN_LBL_VENDOR);
-		moduleVendorText.setText(String.valueOf(
-				ComponentPreferenceManager.getInstance().getBasic_VendorName()));
-		moduleCategoryText = createLabelAndText(basicGroup, IPreferenceMessageConstants.CODE_GEN_LBL_CATEGORY);
-		moduleCategoryText.setText(String.valueOf(
-				ComponentPreferenceManager.getInstance().getBasic_Category()));
-		//
-		typeCombo = createLabelAndCombo(basicGroup, IPreferenceMessageConstants.CODE_GEN_LBL_COMPONENT_TYPE, IRtcBuilderConstants.COMPONENT_TYPE_ITEMS);
-		String defaultSelection = ComponentPreferenceManager.getInstance().getBasic_ComponentType();
-		for(int intidx=0; intidx<IRtcBuilderConstants.COMPONENT_TYPE_ITEMS.length ;intidx++ ){
-			if( IRtcBuilderConstants.COMPONENT_TYPE_ITEMS[intidx].equals(defaultSelection) ) {
-				typeCombo.select(intidx);
-				break;
-			}
-		}
-		activityTypeCombo = createLabelAndCombo(basicGroup, IPreferenceMessageConstants.CODE_GEN_LBL_COMPONENT_S_ACTIVITY_TYPE, IRtcBuilderConstants.ACTIVITY_TYPE_ITEMS);
-		defaultSelection = ComponentPreferenceManager.getInstance().getBasic_ActivityType();
-		for(int intidx=0; intidx<IRtcBuilderConstants.ACTIVITY_TYPE_ITEMS.length ;intidx++ ){
-			if( IRtcBuilderConstants.ACTIVITY_TYPE_ITEMS[intidx].equals(defaultSelection) ) {
-				activityTypeCombo.select(intidx);
-				break;
-			}
-		}
-		componentKindCombo = createLabelAndCombo(basicGroup, IPreferenceMessageConstants.CODE_GEN_LBL_COMPONENT_KIND, IRtcBuilderConstants.COMPONENT_KIND_ITEMS);
-		defaultSelection = ComponentPreferenceManager.getInstance().getBasic_ComponentKind();
-		for(int intidx=0; intidx<IRtcBuilderConstants.COMPONENT_KIND_ITEMS.length ;intidx++ ){
-			if( IRtcBuilderConstants.COMPONENT_KIND_ITEMS[intidx].equals(defaultSelection) ) {
-				componentKindCombo.select(intidx);
-				break;
-			}
-		}
-		//
-		moduleMaxInstanceText = createLabelAndText(basicGroup, IPreferenceMessageConstants.CODE_GEN_LBL_MAX_INSTANCES);
-		moduleMaxInstanceText.setText(String.valueOf(
-				ComponentPreferenceManager.getInstance().getBasic_MaxInstances()));
-		//
-		executionTypeCombo = createLabelAndCombo(basicGroup, IPreferenceMessageConstants.CODE_GEN_LBL_EXECUTION_TYPE, IRtcBuilderConstants.EXECUTIONCONTEXT_TYPE_ITEMS);
-		defaultSelection = ComponentPreferenceManager.getInstance().getBasic_ExecutionType();
-		for(int intidx=0; intidx<IRtcBuilderConstants.EXECUTIONCONTEXT_TYPE_ITEMS.length ;intidx++ ){
-			if( IRtcBuilderConstants.EXECUTIONCONTEXT_TYPE_ITEMS[intidx].equals(defaultSelection) ) {
-				executionTypeCombo.select(intidx);
-				break;
-			}
-		}
-		//
-		moduleExecutionRateText = createLabelAndText(basicGroup, IPreferenceMessageConstants.CODE_GEN_LBL_EXECUTION_RATE);
-		moduleExecutionRateText.setText(String.valueOf(
-				ComponentPreferenceManager.getInstance().getBasic_ExecutionRate()));
-		//
-		commonPrefixText = createLabelAndText(basicGroup, IPreferenceMessageConstants.PORT_LBL_PREFIX);
-		commonPrefixText.setText(String.valueOf(ComponentPreferenceManager.getInstance().getBasic_Prefix()));
-		//
-		commonSuffixText = createLabelAndText(basicGroup, IPreferenceMessageConstants.PORT_LBL_SUFFIX);
-		commonSuffixText.setText(String.valueOf(ComponentPreferenceManager.getInstance().getBasic_Suffix()));
-		//
-		//Configuration I/F Page
-		Group configGroup = createGroup(composite, IPreferenceMessageConstants.CODE_GEN_TITLE_CONFIG);
-		configurationNameText = createLabelAndText(configGroup, IPreferenceMessageConstants.CODE_GEN_LBL_NAME);
-		configurationNameText.setText(String.valueOf(
-				ComponentPreferenceManager.getInstance().getConfiguration_Name()));
-		configurationTypeText = createLabelAndText(configGroup, IPreferenceMessageConstants.CODE_GEN_LBL_TYPE);
-		configurationTypeText.setText(String.valueOf(
-				ComponentPreferenceManager.getInstance().getConfiguration_Type()));
-		configurationVarNameText = createLabelAndText(configGroup, IPreferenceMessageConstants.CODE_GEN_LBL_VARIABLE_NAME);
-		configurationVarNameText.setText(String.valueOf(
-				ComponentPreferenceManager.getInstance().getConfiguration_VarName()));
-		configurationDefaultText = createLabelAndText(configGroup, IPreferenceMessageConstants.CODE_GEN_LBL_DEFAULT_VALUE);
-		configurationDefaultText.setText(String.valueOf(
-				ComponentPreferenceManager.getInstance().getConfiguration_Default()));
-		configurationConstraint = createLabelAndText(configGroup, IPreferenceMessageConstants.CODE_GEN_LBL_CONSTRAINT);
-		configurationConstraint.setText(String.valueOf(
-				ComponentPreferenceManager.getInstance().getConfiguration_Constraint()));
-		configurationUnit = createLabelAndText(configGroup, IPreferenceMessageConstants.CODE_GEN_LBL_UNIT);
-		configurationUnit.setText(String.valueOf(
-				ComponentPreferenceManager.getInstance().getConfiguration_Unit()));
-		//
-		//
-		configurationPrefixText = createLabelAndText(configGroup, IPreferenceMessageConstants.PORT_LBL_PREFIX);
-		configurationPrefixText.setText(String.valueOf(ComponentPreferenceManager.getInstance().getConfiguration_Prefix()));
-		//
-		configurationSuffixText = createLabelAndText(configGroup, IPreferenceMessageConstants.PORT_LBL_SUFFIX);
-		configurationSuffixText.setText(String.valueOf(ComponentPreferenceManager.getInstance().getConfiguration_Suffix()));
-
-		return composite;
-	}
-
-	@Override
-	protected void performDefaults() {
-		setDefault();
-
-		super.performDefaults();
-	}
-
-	@Override
-	public boolean performOk() {
-		ComponentPreferenceManager.getInstance().setBasic_ComponentName(moduleNameText.getText());
-		ComponentPreferenceManager.getInstance().setBasic_Description(moduleDescriptionText.getText());
-		ComponentPreferenceManager.getInstance().setBasic_Category(moduleCategoryText.getText());
-		ComponentPreferenceManager.getInstance().setBasic_Version(moduleVersionText.getText());
-		ComponentPreferenceManager.getInstance().setBasic_VendorName(moduleVendorText.getText());
-		ComponentPreferenceManager.getInstance().setBasic_ComponentType(typeCombo.getText());
-		ComponentPreferenceManager.getInstance().setBasic_ActivityType(activityTypeCombo.getText());
-		ComponentPreferenceManager.getInstance().setBasic_ComponentKind(componentKindCombo.getText());
-		ComponentPreferenceManager.getInstance().setBasic_MaxInstances(
-				Integer.valueOf(moduleMaxInstanceText.getText()).intValue());
-		ComponentPreferenceManager.getInstance().setBasic_ExecutionType(executionTypeCombo.getText());
-		ComponentPreferenceManager.getInstance().setBasic_ExecutionRate(
-				Double.valueOf(moduleExecutionRateText.getText()).intValue());
-		ComponentPreferenceManager.getInstance().setBasic_Prefix(commonPrefixText.getText());
-		ComponentPreferenceManager.getInstance().setBasic_Suffix(commonSuffixText.getText());
-		//
-		ComponentPreferenceManager.getInstance().setConfiguration_Name(configurationNameText.getText());
-		ComponentPreferenceManager.getInstance().setConfiguration_Type(configurationTypeText.getText());
-		ComponentPreferenceManager.getInstance().setConfiguration_VarName(configurationVarNameText.getText());
-		ComponentPreferenceManager.getInstance().setConfiguration_Default(configurationDefaultText.getText());
-		ComponentPreferenceManager.getInstance().setConfiguration_Constraint(configurationConstraint.getText());
-		ComponentPreferenceManager.getInstance().setConfiguration_Unit(configurationUnit.getText());
-		ComponentPreferenceManager.getInstance().setConfiguration_Prefix(configurationPrefixText.getText());
-		ComponentPreferenceManager.getInstance().setConfiguration_Suffix(configurationSuffixText.getText());
-
-		ComponentPreferenceManager.getInstance().setDirtyToPreferenceStatus();
-
-		return super.performOk();
-	}
-
-	private void setDefault() {
-		moduleNameText.setText(ComponentPreferenceManager.DEFAULT_COMPONENT_NAME);
-		moduleDescriptionText.setText(ComponentPreferenceManager.DEFAULT_DESCRIPTION);
-		moduleCategoryText.setText(ComponentPreferenceManager.DEFAULT_CATEGORY);
-		moduleVersionText.setText(ComponentPreferenceManager.DEFAULT_VERSION);
-		moduleVendorText.setText(ComponentPreferenceManager.DEFAULT_VENDER);
-		typeCombo.select(0);
-		activityTypeCombo.select(0);
-		componentKindCombo.select(0);
-		moduleMaxInstanceText.setText(String.valueOf(ComponentPreferenceManager.DEFAULT_MAXINST));
-		executionTypeCombo.select(0);
-		moduleExecutionRateText.setText(String.valueOf(ComponentPreferenceManager.DEFAULT_EXECUTION_RATE));
-		commonPrefixText.setText(String.valueOf(ComponentPreferenceManager.DEFAULT_PREFIX));
-		commonSuffixText.setText(String.valueOf(ComponentPreferenceManager.DEFAULT_SUFFIX));
-		//
-		configurationNameText.setText(String.valueOf(ComponentPreferenceManager.DEFAULT_CONFIGURATION_NAME));
-		configurationTypeText.setText(String.valueOf(ComponentPreferenceManager.DEFAULT_CONFIGURATION_TYPE));
-		configurationVarNameText.setText(String.valueOf(ComponentPreferenceManager.DEFAULT_CONFIGURATION_VARNAME));
-		configurationDefaultText.setText(String.valueOf(ComponentPreferenceManager.DEFAULT_CONFIGURATION_DEFAULT));
-		configurationConstraint.setText(String.valueOf(ComponentPreferenceManager.DEFAULT_CONFIGURATION_CONSTRAINT));
-		configurationUnit.setText(String.valueOf(ComponentPreferenceManager.DEFAULT_CONFIGURATION_UNIT));
-		configurationPrefixText.setText(String.valueOf(ComponentPreferenceManager.DEFAULT_CONFIGURATION_PREFIX));
-		configurationSuffixText.setText(String.valueOf(ComponentPreferenceManager.DEFAULT_CONFIGURATION_SUFFIX));
+	static private String[][] executionContextTypeItems = {
+						{"PeriodicExecutionContext", "PeriodicExecutionContext"},
+						{"ExtTrigExecutionContext","ExtTrigExecutionContext"}};
+	
+	public CodeGeneratePreferencePage(){
+		setPreferenceStore(RtcBuilderPlugin.getDefault().getPreferenceStore());
 	}
 	
-	protected boolean validate() {
-		if( moduleNameText.getText()==null || moduleNameText.getText().equals("") ) {
-			return false;
-		}
+	@Override
+	public void init(IWorkbench workbench) {
+		IPreferenceStore store = RtcBuilderPlugin.getDefault().getPreferenceStore();
+		storeComponentInitialSetting(store);
+		storeConfigurationSetInitialSetting(store);
+	}
+
+	@Override
+	protected void createFieldEditors() {
+		Composite composite = new Composite(getFieldEditorParent(), SWT.NULL);
+		composite.setLayout(new GridLayout());
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.grabExcessHorizontalSpace = true;
+		composite.setLayoutData(gd);
+		createComponentPart(composite);
+		createConfigurationSetParts(composite);
+	}
+
+	private void createConfigurationSetParts(Composite composite) {
+		Composite configGroup = createGroup(composite, IPreferenceMessageConstants.CODE_GEN_TITLE_CONFIG);
+		DigitAlphabetStringFieldEditor configurationNameEditor = 
+			new DigitAlphabetStringFieldEditor(ComponentPreferenceManager.Generate_Configuration_Name,
+					IMessageConstants.CONFIGURATION_TBLLBL_NAME, configGroup);
+		addField(configurationNameEditor);
+		StringFieldEditor configurationTypeEditor = 
+			new StringFieldEditor(ComponentPreferenceManager.Generate_Configuration_Type,
+					IMessageConstants.CONFIGURATION_TBLLBL_TYPE, configGroup);
+		addField(configurationTypeEditor);
+		StringFieldEditor configurationVarNameEditor = 
+			new StringFieldEditor(ComponentPreferenceManager.Generate_Configuration_VarName,
+					IMessageConstants.CONFIGURATION_LBL_VARNAME, configGroup);
+		addField(configurationVarNameEditor);
+		DigitAlphabetStringFieldEditor configurationDefaultEditor = 
+			new DigitAlphabetStringFieldEditor(ComponentPreferenceManager.Generate_Configuration_Default,
+					IMessageConstants.CONFIGURATION_TBLLBL_DEFAULTVAL, configGroup);
+		addField(configurationDefaultEditor);
+		StringFieldEditor configurationConstraintEditor = 
+			new StringFieldEditor(ComponentPreferenceManager.Generate_Configuration_Constraint,
+					IMessageConstants.CONFIGURATION_LBL_CONSTRAINT, configGroup);
+		addField(configurationConstraintEditor);
+		StringFieldEditor configurationUnitEditor = 
+			new StringFieldEditor(ComponentPreferenceManager.Generate_Configuration_Unit,
+					IMessageConstants.CONFIGURATION_LBL_UNIT, configGroup);
+		addField(configurationUnitEditor);
 		//
-		try {
-			int parse = Integer.parseInt(moduleMaxInstanceText.getText());
-			if(parse<0) return false;
-		} catch (Exception e) {
-			return false;
-		}
+		StringFieldEditor configurationPrefixEditor = 
+			new StringFieldEditor(ComponentPreferenceManager.Generate_Configuration_Prefix,
+					IPreferenceMessageConstants.PORT_LBL_PREFIX, configGroup);
+		addField(configurationPrefixEditor);
+		StringFieldEditor configurationSuffixEditor = 
+			new StringFieldEditor(ComponentPreferenceManager.Generate_Configuration_Suffix,
+					IPreferenceMessageConstants.PORT_LBL_SUFFIX, configGroup);
+		addField(configurationSuffixEditor);
+	}
+
+	private void createComponentPart(Composite composite) {
+		//Basic Page
+		Composite basicGroup = createGroup(composite, IPreferenceMessageConstants.CODE_GEN_TITLE_BASIC);
+		DigitAlphabetStringFieldEditor moduleNameEditor = 
+			new DigitAlphabetStringFieldEditor(ComponentPreferenceManager.Generate_Basic_Name,
+					IMessageConstants.BASIC_LBL_MODULENAME, basicGroup);
+		addField(moduleNameEditor);
+		StringFieldEditor moduleDescriptionEditor = 
+			new StringFieldEditor(ComponentPreferenceManager.Generate_Basic_Description,
+				IMessageConstants.BASIC_LBL_DESCRIPTION, basicGroup);
+		addField(moduleDescriptionEditor);
+		StringFieldEditor moduleVersionEditor = 
+			new StringFieldEditor(ComponentPreferenceManager.Generate_Basic_Version,
+					IMessageConstants.BASIC_LBL_VERSION, basicGroup);
+		addField(moduleVersionEditor);
+		StringFieldEditor moduleVendorEditor = 
+			new StringFieldEditor(ComponentPreferenceManager.Generate_Basic_Vendor_Name,
+					IMessageConstants.BASIC_LBL_VENDOR, basicGroup);
+		addField(moduleVendorEditor);
+		StringFieldEditor moduleCategoryEditor = 
+			new StringFieldEditor(ComponentPreferenceManager.Generate_Basic_Category,
+					IMessageConstants.BASIC_LBL_CATEGORY, basicGroup);
+		addField(moduleCategoryEditor);
 		//
-		try {
-			double parse = Double.parseDouble(moduleExecutionRateText.getText());
-			if(parse<0) return false;
-		} catch (Exception e) {
-			return false;
-		}
+		ComboFieldEditor componentTypeComboEditor = new ComboFieldEditor(ComponentPreferenceManager.Generate_Basic_ComponentType,
+				IMessageConstants.BASIC_LBL_COMPONENT_TYPE, componentTypeItems, basicGroup);
+		addField(componentTypeComboEditor);
+		ComboFieldEditor activityTypeComboEditor = new ComboFieldEditor(ComponentPreferenceManager.Generate_Basic_ActivityType,
+				IMessageConstants.BASIC_LBL_ACTIVITY_TYPE, activityTypeItems, basicGroup);
+		addField(activityTypeComboEditor);
 		//
-		return true;
+		ComboFieldEditor componentKindCombo = new ComboFieldEditor(ComponentPreferenceManager.Generate_Basic_ComponentKind,
+				IMessageConstants.BASIC_LBL_COMPONENT_KIND, componentKindItems, basicGroup);
+		addField(componentKindCombo);
+		//
+		IntegerFieldEditor moduleMaxInstanceTextEditor = new IntegerFieldEditor(ComponentPreferenceManager.Generate_Basic_Max_Instance,
+				IMessageConstants.BASIC_LBL_MAX_INSTANCES, basicGroup);
+		addField(moduleMaxInstanceTextEditor);
+		//
+		ComboFieldEditor executionTypeCombo = new ComboFieldEditor(ComponentPreferenceManager.Generate_Basic_ExecutionType,
+				IMessageConstants.BASIC_LBL_EXECUTION_TYPE, executionContextTypeItems, basicGroup);
+		addField(executionTypeCombo);
+		//
+		DoubleStringFieldEditor moduleExecutionRateTextEditor = 
+			new DoubleStringFieldEditor(ComponentPreferenceManager.Generate_Basic_Execution_Rate,
+					IMessageConstants.BASIC_LBL_EXECUTION_RATE, basicGroup);
+		addField(moduleExecutionRateTextEditor);
+		//
+		StringFieldEditor commonPrefixEditor = 
+			new StringFieldEditor(ComponentPreferenceManager.Generate_Basic_Prefix,
+					IPreferenceMessageConstants.PORT_LBL_PREFIX, basicGroup);
+		addField(commonPrefixEditor);
+		StringFieldEditor commonSuffixEditor = 
+			new StringFieldEditor(ComponentPreferenceManager.Generate_Basic_Suffix,
+					IPreferenceMessageConstants.PORT_LBL_SUFFIX, basicGroup);
+		addField(commonSuffixEditor);
+	}
+	
+	private void storeConfigurationSetInitialSetting(IPreferenceStore store) {
+		store.setDefault(ComponentPreferenceManager.Generate_Configuration_Name, ComponentPreferenceManager.DEFAULT_CONFIGURATION_NAME);
+		store.setDefault(ComponentPreferenceManager.Generate_Configuration_Type, ComponentPreferenceManager.DEFAULT_CONFIGURATION_TYPE);
+		store.setDefault(ComponentPreferenceManager.Generate_Configuration_VarName, ComponentPreferenceManager.DEFAULT_CONFIGURATION_VARNAME);
+		store.setDefault(ComponentPreferenceManager.Generate_Configuration_Default, ComponentPreferenceManager.DEFAULT_CONFIGURATION_DEFAULT);
+		store.setDefault(ComponentPreferenceManager.Generate_Configuration_Constraint, ComponentPreferenceManager.DEFAULT_CONFIGURATION_CONSTRAINT);
+		store.setDefault(ComponentPreferenceManager.Generate_Configuration_Unit, ComponentPreferenceManager.DEFAULT_CONFIGURATION_UNIT);
+		store.setDefault(ComponentPreferenceManager.Generate_Configuration_Prefix, ComponentPreferenceManager.DEFAULT_CONFIGURATION_PREFIX);
+		store.setDefault(ComponentPreferenceManager.Generate_Configuration_Suffix, ComponentPreferenceManager.DEFAULT_CONFIGURATION_SUFFIX);
+	}
+
+	private void storeComponentInitialSetting(IPreferenceStore store) {
+		store.setDefault(ComponentPreferenceManager.Generate_Basic_Name, ComponentPreferenceManager.DEFAULT_COMPONENT_NAME);
+		store.setDefault(ComponentPreferenceManager.Generate_Basic_Description, ComponentPreferenceManager.DEFAULT_DESCRIPTION);
+		store.setDefault(ComponentPreferenceManager.Generate_Basic_Version, ComponentPreferenceManager.DEFAULT_VERSION);
+		store.setDefault(ComponentPreferenceManager.Generate_Basic_Vendor_Name, ComponentPreferenceManager.DEFAULT_VENDER);
+		store.setDefault(ComponentPreferenceManager.Generate_Basic_Category, ComponentPreferenceManager.DEFAULT_CATEGORY);
+		store.setDefault(ComponentPreferenceManager.Generate_Basic_ComponentType, ComponentPreferenceManager.DEFAULT_COMPONENT_TYPE);
+		store.setDefault(ComponentPreferenceManager.Generate_Basic_ActivityType, ComponentPreferenceManager.DEFAULT_ACTIVITY_TYPE);
+		store.setDefault(ComponentPreferenceManager.Generate_Basic_ComponentKind, ComponentPreferenceManager.DEFAULT_COMPONENT_KIND);
+		store.setDefault(ComponentPreferenceManager.Generate_Basic_ExecutionType, ComponentPreferenceManager.DEFAULT_EXECUTION_TYPE);
+		store.setDefault(ComponentPreferenceManager.Generate_Basic_Max_Instance, ComponentPreferenceManager.DEFAULT_MAXINST);
+		store.setDefault(ComponentPreferenceManager.Generate_Basic_Execution_Rate, ComponentPreferenceManager.DEFAULT_EXECUTION_RATE);
+		store.setDefault(ComponentPreferenceManager.Generate_Basic_Prefix, ComponentPreferenceManager.DEFAULT_PREFIX);
+		store.setDefault(ComponentPreferenceManager.Generate_Basic_Suffix, ComponentPreferenceManager.DEFAULT_SUFFIX);
 	}
 }

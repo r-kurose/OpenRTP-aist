@@ -7,12 +7,11 @@
 package jp.go.aist.rtm.toolscommon.model.component.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaConnectorProfile;
+import jp.go.aist.rtm.toolscommon.model.component.util.CorbaPropertyMap;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.AttributeMapping;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ClassMapping;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ConstructorParamMapping;
@@ -22,6 +21,7 @@ import jp.go.aist.rtm.toolscommon.util.SDOUtil;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -43,16 +43,6 @@ import _SDOPackage.NameValue;
  */
 public class CorbaConnectorProfileImpl extends ConnectorProfileImpl implements CorbaConnectorProfile {
 
-	private static final String NAME_VALUE_KEY_DATAPORT_DATA_TYPE = "dataport.data_type";
-
-	private static final String NAME_VALUE_KEY_DATAPORT_INTERFACE_TYPE = "dataport.interface_type";
-
-	private static final String NAME_VALUE_KEY_DATAPORT_DATAFLOW_TYPE = "dataport.dataflow_type";
-
-	private static final String NAME_VALUE_KEY_DATAPORT_SUBSCRIPTION_TYPE = "dataport.subscription_type";
-
-	private static final String NAME_VALUE_KEY_PORT_PUSH_RATE = "dataport.push_rate";
-	
 	/**
 	 * The default value of the '{@link #getRtcConnectorProfile() <em>Rtc Connector Profile</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -80,6 +70,17 @@ public class CorbaConnectorProfileImpl extends ConnectorProfileImpl implements C
 	 */
 	public CorbaConnectorProfileImpl() {
 		super();
+		this.properties = new CorbaPropertyMap() {
+			@Override
+			public NameValue[] getNameValues() {
+				return getRtcConnectorProfile().properties;
+			}
+
+			@Override
+			public void setNameValues(NameValue[] nvs) {
+				getRtcConnectorProfile().properties = nvs;
+			}
+		};
 	}
 
 	/**
@@ -87,6 +88,7 @@ public class CorbaConnectorProfileImpl extends ConnectorProfileImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return ComponentPackage.Literals.CORBA_CONNECTOR_PROFILE;
 	}
@@ -117,6 +119,7 @@ public class CorbaConnectorProfileImpl extends ConnectorProfileImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ComponentPackage.CORBA_CONNECTOR_PROFILE__RTC_CONNECTOR_PROFILE:
@@ -130,6 +133,7 @@ public class CorbaConnectorProfileImpl extends ConnectorProfileImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ComponentPackage.CORBA_CONNECTOR_PROFILE__RTC_CONNECTOR_PROFILE:
@@ -144,6 +148,7 @@ public class CorbaConnectorProfileImpl extends ConnectorProfileImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case ComponentPackage.CORBA_CONNECTOR_PROFILE__RTC_CONNECTOR_PROFILE:
@@ -158,6 +163,7 @@ public class CorbaConnectorProfileImpl extends ConnectorProfileImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case ComponentPackage.CORBA_CONNECTOR_PROFILE__RTC_CONNECTOR_PROFILE:
@@ -171,6 +177,7 @@ public class CorbaConnectorProfileImpl extends ConnectorProfileImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
@@ -223,206 +230,114 @@ public class CorbaConnectorProfileImpl extends ConnectorProfileImpl implements C
 		return getRtcConnectorProfile().ports[1].toString();
 	}
 
-	static String getDataflowTypes(NameValue[] properties) {
-		return getPropertyValueAsStringValue(properties, NAME_VALUE_KEY_DATAPORT_DATAFLOW_TYPE);
-	}
-	static String getDataTypes(NameValue[] properties) {
-		return getPropertyValueAsStringValue(properties, NAME_VALUE_KEY_DATAPORT_DATA_TYPE);
-	}
-	static String getInterfaceTypes(NameValue[] properties) {
-		return getPropertyValueAsStringValue(properties, NAME_VALUE_KEY_DATAPORT_INTERFACE_TYPE);
-	}
-	static String getSubscriptionTypes(NameValue[] properties) {
-		return getPropertyValueAsStringValue(properties, NAME_VALUE_KEY_DATAPORT_SUBSCRIPTION_TYPE);
-	}
-	
-	static List<jp.go.aist.rtm.toolscommon.model.component.NameValue> getProperties(
-			NameValue[] rtcProperties) {
-		if (rtcProperties == null) Collections.emptyList();
-		List<jp.go.aist.rtm.toolscommon.model.component.NameValue> result = 
-			new ArrayList<jp.go.aist.rtm.toolscommon.model.component.NameValue>();
-		for (NameValue property : rtcProperties) {
-			String name = property.name;
-			if (name.equals(NAME_VALUE_KEY_DATAPORT_DATAFLOW_TYPE)) continue;
-			if (name.equals(NAME_VALUE_KEY_DATAPORT_DATA_TYPE)) continue;
-			if (name.equals(NAME_VALUE_KEY_DATAPORT_INTERFACE_TYPE)) continue;
-			if (name.equals(NAME_VALUE_KEY_DATAPORT_SUBSCRIPTION_TYPE)) continue;
-			jp.go.aist.rtm.toolscommon.model.component.NameValue entry 
-				= ComponentFactory.eINSTANCE.createNameValue();
-			entry.setName(name);
-			entry.setValue(SDOUtil.toAnyString(property.value));
-			result.add(entry);
-		}
-		return result;
-	}
+	public static NameValue[] createProperties(
+			jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile profile) {
+		List<NameValue> result = new ArrayList<NameValue>();
 
-	static String getPropertyValueAsStringValue(NameValue[] properties,
-			String name) {
-		if (properties == null) return null;
-		for (NameValue nv : properties) {
-			if (nv.name.equals(name)) return SDOUtil.toAnyString(nv.value);
-		}
-		return null;
-	}
+		addProperty(result, profile.getDataType(), PROP.DATA_TYPE);
+		addProperty(result, profile.getInterfaceType(), PROP.INTERFACE_TYPE);
+		addProperty(result, profile.getDataflowType(), PROP.DATAFLOW_TYPE);
+		addProperty(result, profile.getSubscriptionType(),
+				PROP.SUBSCRIPTION_TYPE);
+		addProperty(result, profile.getPushRate(), PROP.PUSH_RATE);
+		addProperty(result, profile.getPushPolicy(), PROP.PUSH_POLICY);
+		addProperty(result, profile.getSkipCount(), PROP.SKIP_COUNT);
+		//
+		addProperty(result, profile.getOutportBufferLength(),
+				PROP.OUTPORT_BUFF_LENGTH);
+		addProperty(result, profile.getOutportBufferFullPolicy(),
+				PROP.OUTPORT_FULL_POLICY);
+		addProperty(result, profile.getOutportBufferWriteTimeout(),
+				PROP.OUTPORT_WRITE_TIMEOUT);
+		addProperty(result, profile.getOutportBufferEmptyPolicy(),
+				PROP.OUTPORT_EMPTY_POLICY);
+		addProperty(result, profile.getOutportBufferReadTimeout(),
+				PROP.OUTPORT_READ_TIMEOUT);
+		//
+		addProperty(result, profile.getInportBufferLength(),
+				PROP.INPORT_BUFF_LENGTH);
+		addProperty(result, profile.getInportBufferFullPolicy(),
+				PROP.INPORT_FULL_POLICY);
+		addProperty(result, profile.getInportBufferWriteTimeout(),
+				PROP.INPORT_WRITE_TIMEOUT);
+		addProperty(result, profile.getInportBufferEmptyPolicy(),
+				PROP.INPORT_EMPTY_POLICY);
+		addProperty(result, profile.getInportBufferReadTimeout(),
+				PROP.INPORT_READ_TIMEOUT);
 
-	private void setPropertyValueAsStringValue(NameValue[] properties,
-			String name, String value) {
-		if (properties == null) return;
-		for (NameValue nv : properties) {
-			if (nv.name.equals(name)){
-				nv.value = SDOUtil.newAny(value);
-				return;
+		for (String key : profile.getPropertyKeys()) {
+			if (InterfaceId.isValid(key)) {
+				addProperty(result, profile.getProperty(key), key);
 			}
 		}
-		addRrcConnectotProfileProperty(name, value);
-	}
 
-	private void addRrcConnectotProfileProperty(String name, String value) {
-		if (getRtcConnectorProfile() == null) return;
-		
-		NameValue[] properties = getNewProperties(getRtcConnectorProfile().properties);
-		
-		properties[properties.length-1] = SDOUtil.newNV(name, value);
-		
-		getRtcConnectorProfile().properties = properties;
-	}
-	
-	public static NameValue[] createProperties(
-			jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile connectorProfile) {
-		List<NameValue> result = new ArrayList<NameValue>();
-		
-		addProperty(result, connectorProfile.getDataflowType(), NAME_VALUE_KEY_DATAPORT_DATAFLOW_TYPE);
-		addProperty(result, connectorProfile.getSubscriptionType(), NAME_VALUE_KEY_DATAPORT_SUBSCRIPTION_TYPE);
-		addProperty(result, connectorProfile.getDataType(), NAME_VALUE_KEY_DATAPORT_DATA_TYPE);
-		addProperty(result, connectorProfile.getInterfaceType(), NAME_VALUE_KEY_DATAPORT_INTERFACE_TYPE);
-		addProperty(result, connectorProfile.getPushRate(), NAME_VALUE_KEY_PORT_PUSH_RATE);
-		
 		return result.toArray(new NameValue[0]);
 	}
-	
-	private static void addProperty(List<NameValue> result, Double value, String name) {
-		if (value == null) return;
+
+	private static void addProperty(List<NameValue> result, Double value,
+			String name) {
+		if (value == null)
+			return;
 		addProperty(result, value.toString(), name);
 	}
 
-	private static void addProperty(List<NameValue> result, String value, String name) {
-		if (StringUtils.isBlank(value)) return;
+	private static void addProperty(List<NameValue> result, Integer value,
+			String name) {
+		if (value == null)
+			return;
+		addProperty(result, value.toString(), name);
+	}
+
+	private static void addProperty(List<NameValue> result, String value,
+			String name) {
+		if (StringUtils.isBlank(value))
+			return;
 		result.add(SDOUtil.newNV(name, value));
 	}
 
-	private NameValue[] getNewProperties(NameValue[] properties) {
-		if (properties == null) return new NameValue[1];
-		NameValue[] result = new NameValue[properties.length + 1];
-		System.arraycopy(properties, 0, result, 0, properties.length);
-		return result;
-	}
-
-	private NameValue[] getProperties() {
-		if (getRtcConnectorProfile() == null) return null;
-		return getRtcConnectorProfile().properties;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
 	@Override
 	public String getDataflowType() {
-		return getPropertyValueAsStringValue(getProperties(),
-				NAME_VALUE_KEY_DATAPORT_DATAFLOW_TYPE);
+		return getProperty(PROP.DATAFLOW_TYPE);
 	}
 
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
 	@Override
 	public void setDataflowType(String newDataflowType) {
-		setPropertyValueAsStringValue(getProperties(),
-				NAME_VALUE_KEY_DATAPORT_DATAFLOW_TYPE,
-				newDataflowType);
+		setProperty(PROP.DATAFLOW_TYPE, newDataflowType);
 	}
 
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
 	@Override
 	public String getSubscriptionType() {
-		return getPropertyValueAsStringValue(getProperties(),
-				NAME_VALUE_KEY_DATAPORT_SUBSCRIPTION_TYPE);
+		return getProperty(PROP.SUBSCRIPTION_TYPE);
 	}
 
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
 	@Override
 	public void setSubscriptionType(String newSubscriptionType) {
-		setPropertyValueAsStringValue(getProperties(),
-				NAME_VALUE_KEY_DATAPORT_SUBSCRIPTION_TYPE,
-				newSubscriptionType);
+		setProperty(PROP.SUBSCRIPTION_TYPE, newSubscriptionType);
 	}
 
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
 	@Override
 	public String getDataType() {
-		return getPropertyValueAsStringValue(getProperties(),
-				NAME_VALUE_KEY_DATAPORT_DATA_TYPE);
+		return getProperty(PROP.DATA_TYPE);
 	}
 
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
 	@Override
 	public void setDataType(String newDataType) {
-		setPropertyValueAsStringValue(getProperties(),
-				NAME_VALUE_KEY_DATAPORT_DATA_TYPE, newDataType);
+		setProperty(PROP.DATA_TYPE, newDataType);
 	}
 
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
 	@Override
 	public String getInterfaceType() {
-		return getPropertyValueAsStringValue(getProperties(),
-				NAME_VALUE_KEY_DATAPORT_INTERFACE_TYPE);
+		return getProperty(PROP.INTERFACE_TYPE);
 	}
 
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
 	@Override
 	public void setInterfaceType(String newInterfaceType) {
-		setPropertyValueAsStringValue(getProperties(),
-				NAME_VALUE_KEY_DATAPORT_INTERFACE_TYPE,
-				newInterfaceType);
+		setProperty(PROP.INTERFACE_TYPE, newInterfaceType);
 	}
 
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
 	@Override
 	public Double getPushRate() {
-		String value = getPropertyValueAsStringValue(getProperties(),
-				NAME_VALUE_KEY_PORT_PUSH_RATE);
-
+		String value = getProperty(PROP.PUSH_RATE);
 		try {
 			return Double.parseDouble(value);
 		} catch (RuntimeException e) {
@@ -430,15 +345,188 @@ public class CorbaConnectorProfileImpl extends ConnectorProfileImpl implements C
 		}
 	}
 
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
 	@Override
 	public void setPushRate(Double newPushRate) {
-		setPropertyValueAsStringValue(getProperties(),
-				NAME_VALUE_KEY_PORT_PUSH_RATE, newPushRate.toString());
+		setProperty(PROP.PUSH_RATE, newPushRate.toString());
+	}
+
+	@Override
+	public String getPushPolicy() {
+		return getProperty(PROP.PUSH_POLICY);
+	}
+
+	@Override
+	public void setPushPolicy(String newPushPolicy) {
+		setProperty(PROP.PUSH_POLICY, newPushPolicy);
+	}
+
+	@Override
+	public Integer getSkipCount() {
+		String value = getProperty(PROP.SKIP_COUNT);
+		try {
+			return Integer.parseInt(value);
+		} catch (RuntimeException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public void setSkipCount(Integer newSkipCount) {
+		setProperty(PROP.SKIP_COUNT, newSkipCount.toString());
+	}
+
+	@Override
+	public Integer getOutportBufferLength() {
+		String value = getProperty(PROP.OUTPORT_BUFF_LENGTH);
+		try {
+			return Integer.parseInt(value);
+		} catch (RuntimeException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public void setOutportBufferLength(Integer newOutportBufferLength) {
+		setProperty(PROP.OUTPORT_BUFF_LENGTH, newOutportBufferLength.toString());
+	}
+
+	@Override
+	public String getOutportBufferFullPolicy() {
+		return getProperty(PROP.OUTPORT_FULL_POLICY);
+	}
+
+	@Override
+	public void setOutportBufferFullPolicy(String newOutportBufferFullPolicy) {
+		setProperty(PROP.OUTPORT_FULL_POLICY, newOutportBufferFullPolicy);
+	}
+
+	@Override
+	public Double getOutportBufferWriteTimeout() {
+		String value = getProperty(PROP.OUTPORT_WRITE_TIMEOUT);
+		try {
+			return Double.parseDouble(value);
+		} catch (RuntimeException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public void setOutportBufferWriteTimeout(Double newOutportBufferWriteTimeout) {
+		setProperty(PROP.OUTPORT_WRITE_TIMEOUT, newOutportBufferWriteTimeout
+				.toString());
+	}
+
+	@Override
+	public String getOutportBufferEmptyPolicy() {
+		return getProperty(PROP.OUTPORT_EMPTY_POLICY);
+	}
+
+	@Override
+	public void setOutportBufferEmptyPolicy(String newOutportBufferEmptyPolicy) {
+		setProperty(PROP.OUTPORT_EMPTY_POLICY, newOutportBufferEmptyPolicy);
+	}
+
+	@Override
+	public Double getOutportBufferReadTimeout() {
+		String value = getProperty(PROP.OUTPORT_READ_TIMEOUT);
+		try {
+			return Double.parseDouble(value);
+		} catch (RuntimeException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public void setOutportBufferReadTimeout(Double newOutportBufferReadTimeout) {
+		setProperty(PROP.OUTPORT_READ_TIMEOUT, newOutportBufferReadTimeout
+				.toString());
+	}
+
+	@Override
+	public Integer getInportBufferLength() {
+		String value = getProperty(PROP.INPORT_BUFF_LENGTH);
+		try {
+			return Integer.parseInt(value);
+		} catch (RuntimeException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public void setInportBufferLength(Integer newInportBufferLength) {
+		setProperty(PROP.INPORT_BUFF_LENGTH, newInportBufferLength.toString());
+	}
+
+	@Override
+	public String getInportBufferFullPolicy() {
+		return getProperty(PROP.INPORT_FULL_POLICY);
+	}
+
+	@Override
+	public void setInportBufferFullPolicy(String newInportBufferFullPolicy) {
+		setProperty(PROP.INPORT_FULL_POLICY, newInportBufferFullPolicy);
+	}
+
+	@Override
+	public Double getInportBufferWriteTimeout() {
+		String value = getProperty(PROP.INPORT_WRITE_TIMEOUT);
+		try {
+			return Double.parseDouble(value);
+		} catch (RuntimeException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public void setInportBufferWriteTimeout(Double newInportBufferWriteTimeout) {
+		setProperty(PROP.INPORT_WRITE_TIMEOUT, newInportBufferWriteTimeout
+				.toString());
+	}
+
+	@Override
+	public String getInportBufferEmptyPolicy() {
+		return getProperty(PROP.INPORT_EMPTY_POLICY);
+	}
+
+	@Override
+	public void setInportBufferEmptyPolicy(String newInportBufferEmptyPolicy) {
+		setProperty(PROP.INPORT_EMPTY_POLICY, newInportBufferEmptyPolicy);
+	}
+
+	@Override
+	public Double getInportBufferReadTimeout() {
+		String value = getProperty(PROP.INPORT_READ_TIMEOUT);
+		try {
+			return Double.parseDouble(value);
+		} catch (RuntimeException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public void setInportBufferReadTimeout(Double newInportBufferReadTimeout) {
+		setProperty(PROP.INPORT_READ_TIMEOUT, newInportBufferReadTimeout
+				.toString());
+	}
+
+	@Override
+	public String getProperty(String key) {
+		return properties.getProperty(key);
+	}
+
+	@Override
+	public void setProperty(String key, String value) {
+		properties.setProperty(key, value);
+	}
+
+	@Override
+	public String removeProperty(String key) {
+		return properties.removeProperty(key);
+	}
+
+	@Override
+	public EList<String> getPropertyKeys() {
+		return properties.getPropertyKeys();
 	}
 
 	// Mapping Rule

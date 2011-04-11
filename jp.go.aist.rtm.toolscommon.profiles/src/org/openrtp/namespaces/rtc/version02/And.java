@@ -74,5 +74,4 @@ public class And {
     }
     public void setConstraint(List<ConstraintType> list) {
     }
-
 }

@@ -54,7 +54,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 
 /**
- * •¡‡ƒRƒ“ƒ|[ƒlƒ“ƒgƒrƒ…[
+ * è¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãƒ“ãƒ¥ãƒ¼
  *
  */
 public class CompositeComponentView extends ViewPart {
@@ -75,7 +75,7 @@ public class CompositeComponentView extends ViewPart {
 
 	private static final String PROPERTY_PORT_NAME = "PROPERTY_PORT_NAME";
 
-	private static final String LABEL_COMPONENT_NAME = Messages.getString("CompositeComponentView.label.component_name"); //@component:
+	private static final String LABEL_COMPONENT_NAME = Messages.getString("CompositeComponentView.label.component_name"); //ã€€component:
 
 	private static final String LABEL_COMPONENT_TYPE = Messages.getString("CompositeComponentView.label.component_type"); // type:
 
@@ -324,7 +324,7 @@ public class CompositeComponentView extends ViewPart {
 		if (targetComponent.inOnlineSystemDiagram()) {
 			targetComponent.getSynchronizationSupport().synchronizeLocal();
 		} else {
-			// ƒIƒtƒ‰ƒCƒ“‚Ìê‡‚Íexported_ports‚©‚çŒöŠJƒ|[ƒg‚ğİ’è
+			// ã‚ªãƒ•ãƒ©ã‚¤ãƒ³ã®å ´åˆã¯exported_portsã‹ã‚‰å…¬é–‹ãƒãƒ¼ãƒˆã‚’è¨­å®š
 			targetComponent.addComponentsR(new ArrayList());
 		}
 
@@ -408,7 +408,7 @@ public class CompositeComponentView extends ViewPart {
 		return false;
 	}
 
-	/** ƒ|[ƒgˆê——‚ÌƒGƒ“ƒgƒŠ */
+	/** ãƒãƒ¼ãƒˆä¸€è¦§ã®ã‚¨ãƒ³ãƒˆãƒª */
 	public class PortEntry {
 		boolean checked = false;
 
@@ -429,7 +429,7 @@ public class CompositeComponentView extends ViewPart {
 		}
 	}
 
-	/** ƒ|[ƒgˆê——•\¦‚ÌLabelProvider */
+	/** ãƒãƒ¼ãƒˆä¸€è¦§è¡¨ç¤ºã®LabelProvider */
 	public class PortEntryLabelProvider extends LabelProvider implements
 			ITableLabelProvider, ITableColorProvider {
 
@@ -477,7 +477,7 @@ public class CompositeComponentView extends ViewPart {
 		}
 	}
 
-	/** ƒ|[ƒgˆê——‚ÌCellModifier */
+	/** ãƒãƒ¼ãƒˆä¸€è¦§ã®CellModifier */
 	public class PortTableCellModifier implements ICellModifier {
 		private TableViewer viewer;
 
@@ -557,10 +557,10 @@ public class CompositeComponentView extends ViewPart {
 					Component ac = null;
 					Port port = null;
 					if (adapter instanceof Component) {
-						// ƒRƒ“ƒ|[ƒlƒ“ƒg‘I‘ğ
+						// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆé¸æŠæ™‚
 						ac = (Component) adapter;
 					} else if (adapter instanceof Port) {
-						// ƒ|[ƒg‘I‘ğ‚ÍAeContainer‚©‚çƒRƒ“ƒ|[ƒlƒ“ƒg‚ğæ“¾
+						// ãƒãƒ¼ãƒˆé¸æŠæ™‚ã¯ã€eContainerã‹ã‚‰ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å–å¾—
 						port = (Port) adapter;
 						if (port.eContainer() != null
 								&& port.eContainer() instanceof Component) {
@@ -585,11 +585,11 @@ public class CompositeComponentView extends ViewPart {
 			return;
 		}
 
-		// NameServiceView‚Ì‘I‘ğŠÄ‹ƒŠƒXƒi‚ğ“o˜^
+		// NameServiceViewã®é¸æŠç›£è¦–ãƒªã‚¹ãƒŠã‚’ç™»éŒ²
 		getSite().getWorkbenchWindow().getSelectionService()
 				.addSelectionListener(selectionListener);
 
-		// SelectionProvider‚ğ“o˜^(ƒvƒƒpƒeƒBEƒrƒ…[˜AŒg)
+		// SelectionProviderã‚’ç™»éŒ²(ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ»ãƒ“ãƒ¥ãƒ¼é€£æº)
 		getSite().setSelectionProvider(new ISelectionProvider() {
 			public void addSelectionChangedListener(
 					ISelectionChangedListener listener) {

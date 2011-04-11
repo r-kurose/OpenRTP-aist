@@ -27,6 +27,8 @@ static const char* foo_spec[] =
     // Configuration variables
     "conf.default.int_param0", "0",
     "conf.default.int_param1", "1",
+    // Widget
+    // Constraints
     ""
   };
 // </rtc-template>

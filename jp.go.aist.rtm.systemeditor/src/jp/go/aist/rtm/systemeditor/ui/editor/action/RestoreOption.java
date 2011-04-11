@@ -1,7 +1,7 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.action;
 
 /**
- * ƒIƒ“ƒ‰ƒCƒ“ƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€‚ÉRTSƒvƒƒtƒ@ƒCƒ‹‚ðƒ[ƒh‚·‚é‚Æ‚«‚Ì•œŒ³ƒIƒvƒVƒ‡ƒ“
+ * ã‚ªãƒ³ãƒ©ã‚¤ãƒ³ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã«RTSãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã¨ãã®å¾©å…ƒã‚ªãƒ—ã‚·ãƒ§ãƒ³
  *
  */
 public enum RestoreOption {

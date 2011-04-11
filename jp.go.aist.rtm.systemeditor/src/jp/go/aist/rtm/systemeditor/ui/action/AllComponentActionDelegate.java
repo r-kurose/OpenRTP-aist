@@ -2,6 +2,7 @@ package jp.go.aist.rtm.systemeditor.ui.action;
 
 import java.lang.reflect.InvocationTargetException;
 
+import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
 import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
@@ -19,33 +20,33 @@ import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
 
 /**
- * AllStart,AllStop‚ğÀs‚·‚éƒAƒNƒVƒ‡ƒ“
+ * AllStart,AllStopã‚’å®Ÿè¡Œã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
  */
 public class AllComponentActionDelegate implements IEditorActionDelegate {
 
 	/**
-	 * AllStart‚Ég—p‚³‚ê‚éIDB‚±‚Ì’l‚ªAPlugin.XML‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+	 * AllStartã«ä½¿ç”¨ã•ã‚Œã‚‹IDã€‚ã“ã®å€¤ãŒã€Plugin.XMLã«æŒ‡å®šã•ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
 	 */
 	public static final String ALL_START_ACTION_ID = AllComponentActionDelegate.class
 			.getName()
 			+ ".AllStart"; //$NON-NLS-1$
 
 	/**
-	 * AllStop‚Ég—p‚³‚ê‚éIDB‚±‚Ì’l‚ªAPlugin.XML‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+	 * AllStopã«ä½¿ç”¨ã•ã‚Œã‚‹IDã€‚ã“ã®å€¤ãŒã€Plugin.XMLã«æŒ‡å®šã•ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
 	 */
 	public static final String ALL_STOP_ACTION_ID = AllComponentActionDelegate.class
 			.getName()
 			+ ".AllStop"; //$NON-NLS-1$
 
 	/**
-	 * AllActivate‚Ég—p‚³‚ê‚éIDB‚±‚Ì’l‚ªAPlugin.XML‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+	 * AllActivateã«ä½¿ç”¨ã•ã‚Œã‚‹IDã€‚ã“ã®å€¤ãŒã€Plugin.XMLã«æŒ‡å®šã•ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
 	 */
 	public static final String ALL_ACTIVATE_ACTION_ID = AllComponentActionDelegate.class
 			.getName()
 			+ ".AllActivate"; //$NON-NLS-1$
 
 	/**
-	 * AllDeactivate‚Ég—p‚³‚ê‚éIDB‚±‚Ì’l‚ªAPlugin.XML‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+	 * AllDeactivateã«ä½¿ç”¨ã•ã‚Œã‚‹IDã€‚ã“ã®å€¤ãŒã€Plugin.XMLã«æŒ‡å®šã•ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
 	 */
 	public static final String ALL_DEACTIVATE_ACTION_ID = AllComponentActionDelegate.class
 			.getName()
@@ -54,9 +55,9 @@ public class AllComponentActionDelegate implements IEditorActionDelegate {
 	private SystemDiagramEditor targetEditor;
 
 	/**
-	 * ƒAƒNƒVƒ‡ƒ“‚ÌƒƒCƒ“‚ÌÀsƒƒ\ƒbƒh
+	 * ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®ãƒ¡ã‚¤ãƒ³ã®å®Ÿè¡Œãƒ¡ã‚½ãƒƒãƒ‰
 	 * <p>
-	 * Às‰Â”Û‚ÌŠm”F‚ğ‹‚ßAÀs‚ğs‚¤B
+	 * å®Ÿè¡Œå¯å¦ã®ç¢ºèªã‚’æ±‚ã‚ã€å®Ÿè¡Œã‚’è¡Œã†ã€‚
 	 */
 	public void run(final IAction action) {
 		final SystemDiagram systemDiagram = targetEditor.getSystemDiagram();
@@ -72,8 +73,13 @@ public class AllComponentActionDelegate implements IEditorActionDelegate {
 			comfirmMessage = Messages.getString("AllComponentActionDelegate.8"); //$NON-NLS-1$
 		}
 
-		boolean isOk = MessageDialog.openConfirm(targetEditor.getSite()
+		boolean isOk = true;
+		if (SystemEditorPreferenceManager.getInstance()
+				.isConfirmComponentAction()) {
+			isOk = MessageDialog.openConfirm(targetEditor.getSite()
 				.getShell(), Messages.getString("AllComponentActionDelegate.9"), comfirmMessage); //$NON-NLS-1$
+		}
+
 		if (isOk) {
 
 			ProgressMonitorDialog dialog = new ProgressMonitorDialog(

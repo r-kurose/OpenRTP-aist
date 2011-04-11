@@ -4,6 +4,10 @@ import java.io.File;
 
 import jp.go.aist.rtm.repositoryView.model.RepositoryViewItem;
 
+/**
+ * 現状は未使用
+ *
+ */
 public class RepositoryViewUtil {
 	
 	public static String getPath(RepositoryViewItem viewItem) {

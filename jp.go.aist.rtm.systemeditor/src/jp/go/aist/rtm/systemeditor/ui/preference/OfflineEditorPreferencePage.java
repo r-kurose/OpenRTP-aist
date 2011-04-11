@@ -33,7 +33,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
- * オフラインエディタの設定ページ
+ * 繧ｪ繝輔Λ繧､繝ｳ繧ｨ繝�繧｣繧ｿ縺ｮ險ｭ螳壹�壹�ｼ繧ｸ
  *
  */
 public class OfflineEditorPreferencePage extends PreferencePage implements
@@ -42,10 +42,16 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 	private TableViewer interfaceTypeViewer;
 	private TableViewer dataFlowTypeViewer;
 	private TableViewer subscriptionTypeViewer;
+	private TableViewer pushPolicyViewer;
+	private TableViewer bufferFullPolicyViewer;
+	private TableViewer bufferEmptyPolicyViewer;
 	//
     private List<SingleLabelItem> selectedInterfaceType = new ArrayList<SingleLabelItem>();
     private List<SingleLabelItem> selectedDataFlowType = new ArrayList<SingleLabelItem>();
     private List<SingleLabelItem> selectedSubscriptionType = new ArrayList<SingleLabelItem>();
+    private List<SingleLabelItem> selectedPushPolicy = new ArrayList<SingleLabelItem>();
+    private List<SingleLabelItem> selectedBufferFullPolicy = new ArrayList<SingleLabelItem>();
+    private List<SingleLabelItem> selectedBufferEmptyPolicy = new ArrayList<SingleLabelItem>();
 
 	public OfflineEditorPreferencePage() {
 	}
@@ -71,40 +77,56 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 		//Interface Type
 		Group interfaceTypeGroup = createGroup(composite, Messages.getString("OfflineEditorPreferencePage.8")); //$NON-NLS-1$
 		interfaceTypeViewer = new TableViewer(interfaceTypeGroup, SWT.BORDER | SWT.FULL_SELECTION);
-		gd = new GridData(GridData.FILL_BOTH);
-		gd.horizontalSpan = 2;
-		gd.grabExcessHorizontalSpace = true;
-		interfaceTypeViewer.getTable().setLayoutData(gd);
 		interfaceTypeViewer = createTableViewer(interfaceTypeGroup, interfaceTypeViewer);
+		//
+        interfaceTypeViewer.setInput(selectedInterfaceType);
+		convertStrings2SingleItems(SystemEditorPreferenceManager.getInstance().getInterfaceTypes(), selectedInterfaceType);
+		interfaceTypeViewer.refresh();
 
 		//DataFlow Type
 		Group dataFlowTypeGroup = createGroup(composite, Messages.getString("OfflineEditorPreferencePage.9")); //$NON-NLS-1$
 		dataFlowTypeViewer = new TableViewer(dataFlowTypeGroup, SWT.BORDER | SWT.FULL_SELECTION);
-		gd = new GridData(GridData.FILL_BOTH);
-		gd.horizontalSpan = 2;
-		gd.grabExcessHorizontalSpace = true;
-		dataFlowTypeViewer.getTable().setLayoutData(gd);
 		dataFlowTypeViewer = createTableViewer(dataFlowTypeGroup, dataFlowTypeViewer);
-
+		//
+		dataFlowTypeViewer.setInput(selectedDataFlowType);
+		convertStrings2SingleItems(SystemEditorPreferenceManager.getInstance().getDataFlowTypes(), selectedDataFlowType);
+		dataFlowTypeViewer.refresh();
+		
 		//Subscription Type
 		Group subscriptionTypeGroup = createGroup(composite, Messages.getString("OfflineEditorPreferencePage.10")); //$NON-NLS-1$
 		subscriptionTypeViewer = new TableViewer(subscriptionTypeGroup, SWT.BORDER | SWT.FULL_SELECTION);
-		gd = new GridData(GridData.FILL_BOTH);
-		gd.horizontalSpan = 2;
-		gd.grabExcessHorizontalSpace = true;
-		subscriptionTypeViewer.getTable().setLayoutData(gd);
 		subscriptionTypeViewer = createTableViewer(subscriptionTypeGroup, subscriptionTypeViewer);
-
-        interfaceTypeViewer.setInput(selectedInterfaceType);
-		dataFlowTypeViewer.setInput(selectedDataFlowType);
+		//
 		subscriptionTypeViewer.setInput(selectedSubscriptionType);
-
-		convertStrings2SingleItems(SystemEditorPreferenceManager.getInstance().getInterfaceTypes(), selectedInterfaceType);
-		interfaceTypeViewer.refresh();
-		convertStrings2SingleItems(SystemEditorPreferenceManager.getInstance().getDataFlowTypes(), selectedDataFlowType);
-		dataFlowTypeViewer.refresh();
 		convertStrings2SingleItems(SystemEditorPreferenceManager.getInstance().getSubscriptionTypes(), selectedSubscriptionType);
 		subscriptionTypeViewer.refresh();
+		
+		//Push Policy
+		Group pushPolicyGroup = createGroup(composite, Messages.getString("OfflineEditorPreferencePage.11")); //$NON-NLS-1$
+		pushPolicyViewer = new TableViewer(pushPolicyGroup, SWT.BORDER | SWT.FULL_SELECTION);
+		pushPolicyViewer = createTableViewer(pushPolicyGroup, pushPolicyViewer);
+		//
+		pushPolicyViewer.setInput(selectedPushPolicy);
+		convertStrings2SingleItems(SystemEditorPreferenceManager.getInstance().getPushPolicies(), selectedPushPolicy);
+		pushPolicyViewer.refresh();
+		
+		//Buffer Full Policy
+		Group bufferFullPolicyGroup = createGroup(composite, Messages.getString("OfflineEditorPreferencePage.12")); //$NON-NLS-1$
+		bufferFullPolicyViewer = new TableViewer(bufferFullPolicyGroup, SWT.BORDER | SWT.FULL_SELECTION);
+		bufferFullPolicyViewer = createTableViewer(bufferFullPolicyGroup, bufferFullPolicyViewer);
+		//
+		bufferFullPolicyViewer.setInput(selectedBufferFullPolicy);
+		convertStrings2SingleItems(SystemEditorPreferenceManager.getInstance().getBufferFullPolicies(), selectedBufferFullPolicy);
+		bufferFullPolicyViewer.refresh();
+		
+		//Buffer Empty Policy
+		Group bufferEmptyPolicyGroup = createGroup(composite, Messages.getString("OfflineEditorPreferencePage.13")); //$NON-NLS-1$
+		bufferEmptyPolicyViewer = new TableViewer(bufferEmptyPolicyGroup, SWT.BORDER | SWT.FULL_SELECTION);
+		bufferEmptyPolicyViewer = createTableViewer(bufferEmptyPolicyGroup, bufferEmptyPolicyViewer);
+		//
+		bufferEmptyPolicyViewer.setInput(selectedBufferEmptyPolicy);
+		convertStrings2SingleItems(SystemEditorPreferenceManager.getInstance().getBufferEmptyPolicies(), selectedBufferEmptyPolicy);
+		bufferEmptyPolicyViewer.refresh();
 
 		return composite;
 	}
@@ -130,6 +152,15 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 		convertSingleItems2Strings(selectedSubscriptionType, strArray);
 		SystemEditorPreferenceManager.getInstance().setSubscriptionTypes(strArray);
 
+		convertSingleItems2Strings(selectedPushPolicy, strArray);
+		SystemEditorPreferenceManager.getInstance().setPushPolicies(strArray);
+
+		convertSingleItems2Strings(selectedBufferFullPolicy, strArray);
+		SystemEditorPreferenceManager.getInstance().setBufferFullPolicies(strArray);
+
+		convertSingleItems2Strings(selectedBufferEmptyPolicy, strArray);
+		SystemEditorPreferenceManager.getInstance().setBufferEmptyPolicies(strArray);
+
 		return super.performOk();
 	}
 		
@@ -145,6 +176,18 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 		String[] prefSubscriptionType = SystemEditorPreferenceManager.defaultConnectSubscriptionType;
 		convertStrings2SingleItems(prefSubscriptionType, selectedSubscriptionType);
 		subscriptionTypeViewer.refresh();
+
+		String[] prefPushPolicies = SystemEditorPreferenceManager.defaultConnectPushPolicy;
+		convertStrings2SingleItems(prefPushPolicies, selectedPushPolicy);
+		pushPolicyViewer.refresh();
+		
+		String[] prefBufferFullPolicies = SystemEditorPreferenceManager.defaultConnectBufferFullPolicy;
+		convertStrings2SingleItems(prefBufferFullPolicies, selectedBufferFullPolicy);
+		bufferFullPolicyViewer.refresh();
+		
+		String[] prefBufferEmptyPolicies = SystemEditorPreferenceManager.defaultConnectBufferEmptyPolicy;
+		convertStrings2SingleItems(prefBufferEmptyPolicies, selectedBufferEmptyPolicy);
+		bufferEmptyPolicyViewer.refresh();
 	}
 		
 	private TableViewer createTableViewer(Composite parent, final TableViewer targetViewer) {
@@ -152,11 +195,17 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 		Table table = targetViewer.getTable();
         table.setLinesVisible(false);
         table.setHeaderVisible(false);
+        
+        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.grabExcessHorizontalSpace = true;
+		gd.heightHint = 50;
+		table.setLayoutData(gd);
+        
         targetViewer.setContentProvider(new ArrayContentProvider());
         targetViewer.setLabelProvider(new SingleLabelProvider());
 		TableColumn nameColumn = new TableColumn(targetViewer.getTable(), SWT.NONE);
 		nameColumn.setText(""); //$NON-NLS-1$
-		nameColumn.setWidth(200);
+		nameColumn.setWidth(150);
 		targetViewer.setColumnProperties(new String[] { "newItem" }); //$NON-NLS-1$
 		CellEditor[] editors = new CellEditor[] {
 				new TextCellEditor(targetViewer.getTable()),
@@ -164,7 +213,13 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 		targetViewer.setCellEditors(editors);
 		targetViewer.setCellModifier(new SingleLabelCellModifier(targetViewer));
 
-		Button addButton = new Button(parent, SWT.PUSH);
+		Composite composite = new Composite(parent, SWT.NULL);
+		composite.setLayout(new GridLayout());
+		gd = new GridData();
+		composite.setLayoutData(gd);
+
+		//////////
+		Button addButton = new Button(composite, SWT.PUSH);
 		addButton.setText(Messages.getString("OfflineEditorPreferencePage.5")); //$NON-NLS-1$
 		addButton.addSelectionListener(new SelectionAdapter() {
 			@SuppressWarnings("unchecked")
@@ -174,11 +229,10 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 				targetViewer.refresh();
 			}
 		});
-		GridData gd = new GridData();
-		gd.verticalAlignment = SWT.END;
-		gd.widthHint = 100;
+		gd = new GridData();
 		addButton.setLayoutData(gd);
-		Button deleteButton = new Button(parent, SWT.PUSH);
+		/////
+		Button deleteButton = new Button(composite, SWT.PUSH);
 		//
 		deleteButton.setText(Messages.getString("OfflineEditorPreferencePage.7")); //$NON-NLS-1$
 		deleteButton.addSelectionListener(new SelectionAdapter() {
@@ -196,8 +250,6 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 			}
 		});
 		gd = new GridData();
-		gd.verticalAlignment = SWT.END;
-		gd.widthHint = 100;
 		deleteButton.setLayoutData(gd);
 		
 		return targetViewer;

@@ -5,6 +5,7 @@ import java.beans.PropertyChangeListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,7 +18,8 @@ import java.util.List;
 import javax.xml.datatype.DatatypeFactory;
 
 import jp.go.aist.rtm.systemeditor.RTSystemEditorPlugin;
-import jp.go.aist.rtm.systemeditor.factory.SystemEditorWrapperFactory;
+import jp.go.aist.rtm.systemeditor.extension.SaveProfileExtension;
+import jp.go.aist.rtm.systemeditor.factory.ProfileSaver;
 import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.action.OpenCompositeComponentAction;
 import jp.go.aist.rtm.systemeditor.ui.dialog.ProfileInformationDialog;
@@ -33,8 +35,10 @@ import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
+import jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSupport;
 import jp.go.aist.rtm.toolscommon.ui.views.propertysheetview.RtcPropertySheetPage;
+import jp.go.aist.rtm.toolscommon.util.RtsProfileHandler;
 import jp.go.aist.rtm.toolscommon.validation.ValidateException;
 import jp.go.aist.rtm.toolscommon.validation.Validator;
 
@@ -44,14 +48,11 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.util.URI;
@@ -94,44 +95,26 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
+import org.openrtp.namespaces.rts.version02.RtsProfileExt;
 
 import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
 
 public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 
-	static final String EXTENTION_POINT_NAME = "postsaveextension";
-	private static List<PostSaveExtension> postSaveList;
-	
-	private static void buildExtensionDataSave() {
-		postSaveList = new ArrayList<PostSaveExtension>();
-		String ns = RTSystemEditorPlugin.class.getPackage().getName();
-		IExtension[] extensions = Platform.getExtensionRegistry()
-			.getExtensionPoint(ns, EXTENTION_POINT_NAME).getExtensions();
-		for (IExtension ex : extensions) {
-			for (IConfigurationElement ce : ex.getConfigurationElements()) {
-				Object obj;
-				try {
-					obj = ce.createExecutableExtension("extensionclass");
-					if (obj instanceof PostSaveExtension) {
-						postSaveList.add((PostSaveExtension)obj);
-					}
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
-			}
-		}
-	}
-	
-	
+	static final String DIALOG_TITLE_CONFIRM = Messages
+			.getString("Common.dialog.confirm_title");
+	static final String DIALOG_TITLE_ERROR = Messages
+			.getString("Common.dialog.error_title");
+
 	public static final String MSG_TITLE_VALIDATION_ERROR = Messages.getString("AbstractSystemDiagramEditor.33");
 
 	/**
-	 * ƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€‚ÌŠg’£q
+	 * ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã®æ‹¡å¼µå­
 	 */
 	public static final String FILE_EXTENTION = "xml"; //$NON-NLS-1$
 
 	/**
-	 * RTCLink‚ÌƒvƒƒWƒFƒNƒg–¼
+	 * RTCLinkã®ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆå
 	 */
 	public static String RTCLINK_PROJECT_NAME = "RTSE_Files"; //$NON-NLS-1$
 
@@ -142,22 +125,19 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	private SystemDiagramPropertyChangeListener systemDiagramPropertyChangeListener;
 
 	protected String diagramName;
-	
+
 	public AbstractSystemDiagramEditor() {
 		setEditDomain(new DefaultEditDomain(this));
 		getEditDomain().setCommandStack(new ConnectCancelCommandStack());
 	}
 	
 	/**
-	 * @return openEditor‚Ìˆø”‚Æ‚µ‚Ä“n‚³‚ê‚éiƒIƒ“ƒ‰ƒCƒ“‚Ü‚½‚ÍƒIƒtƒ‰ƒCƒ“‚ÌjƒGƒfƒBƒ^ID
+	 * @return openEditorã®å¼•æ•°ã¨ã—ã¦æ¸¡ã•ã‚Œã‚‹ï¼ˆã‚ªãƒ³ãƒ©ã‚¤ãƒ³ã¾ãŸã¯ã‚ªãƒ•ãƒ©ã‚¤ãƒ³ã®ï¼‰ã‚¨ãƒ‡ã‚£ã‚¿ID
 	 */
 	abstract public String getEditorId();
 
-	@SuppressWarnings("unchecked") //$NON-NLS-1$
+	@SuppressWarnings("unchecked")
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected void createActions() {
 		super.createActions();
 
@@ -230,6 +210,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 				setToolTipText(Messages.getString("AbstractSystemDiagramEditor.4")); //$NON-NLS-1$
 			}
 
+			@Override
 			public void run() {
 				doSaveAs();
 			}
@@ -269,9 +250,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected void configureGraphicalViewer() {
 		super.configureGraphicalViewer();
 
@@ -308,9 +286,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected void initializeGraphicalViewer() {
 		GraphicalViewer viewer = getGraphicalViewer();
 		viewer
@@ -363,42 +338,41 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		viewer.setKeyHandler(keyHandler);
 	}
 
-	@SuppressWarnings("unchecked") //$NON-NLS-1$
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public void doSave(IProgressMonitor monitor) {
 		IEditorInput input = getInput();
-		
-		if (input instanceof NullEditorInput) { // V‹KƒGƒfƒBƒ^
+		if (input instanceof NullEditorInput) { // æ–°è¦ã‚¨ãƒ‡ã‚£ã‚¿
 			doSaveAs();
 			return;
 		}
-		
-		// ƒIƒ“ƒ‰ƒCƒ“‚Å‚à–ˆ‰ñƒ_ƒCƒAƒƒO‚ğo‚·‚æ‚¤‚É‚µ‚Ä‚¨‚­ 2008.12.11
-		ProfileInformationDialog dialog = new ProfileInformationDialog(getSite().getShell());
+		IFile file = ((IFileEditorInput) input).getFile();
+
+		// ã‚ªãƒ³ãƒ©ã‚¤ãƒ³ã§ã‚‚æ¯å›ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’å‡ºã™ã‚ˆã†ã«ã—ã¦ãŠã 2008.12.11
+		ProfileInformationDialog dialog = new ProfileInformationDialog(
+				getSite().getShell());
 		dialog.setSystemId(getSystemDiagram().getSystemId());
 		dialog.setOverWrite(true);
-		dialog.setComponets(getSystemDiagram().getComponents());
-		if( dialog.open() != IDialogConstants.OK_ID ) return;
-		
-		String systemId = Messages.getString("AbstractSystemDiagramEditor.9") + dialog.getInputVendor() + ":"  //$NON-NLS-1$ //$NON-NLS-2$
-							+ dialog.getInputSystemName() + ":" //$NON-NLS-1$
-							+ dialog.getInputVersion();
-		getSystemDiagram().setSystemId(systemId);
-		DatatypeFactory dateFactory = new DatatypeFactoryImpl();
-		getSystemDiagram().setUpdateDate(dateFactory.newXMLGregorianCalendar(new GregorianCalendar()).toString());
+		dialog.setInputPath(file.getLocation().toOSString());
+		dialog.setSystemDiagram(getSystemDiagram());
+		if (dialog.open() != IDialogConstants.OK_ID) {
+			return;
+		}
 
-		// ƒ_ƒCƒAƒOƒ‰ƒ€‚ÌƒoƒŠƒf[ƒVƒ‡ƒ“
+		getSystemDiagram().setSystemId(dialog.getSystemId());
+		DatatypeFactory dateFactory = new DatatypeFactoryImpl();
+		getSystemDiagram().setUpdateDate(
+				dateFactory.newXMLGregorianCalendar(new GregorianCalendar())
+						.toString());
+
+		// TODO ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚¢ãƒƒãƒ—ãƒ­ã‚°ã¸ã®å¯¾å¿œ
+
+		// ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã®ãƒãƒªãƒ‡ãƒ¼ã‚·ãƒ§ãƒ³
 		if (!validateDiagram()) {
 			return;
 		}
 
 		try {
-			IFile file = ((IFileEditorInput) input).getFile();
 			save(file, monitor);
-			saveExtensionData(file, monitor);
 		} catch (CoreException e) {
 			e.printStackTrace();
 			ErrorDialog.openError(getSite().getShell(), Messages.getString("AbstractSystemDiagramEditor.12"), //$NON-NLS-1$
@@ -417,29 +391,31 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		return input;
 	}
 
-	@SuppressWarnings("unchecked") //$NON-NLS-1$
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public void doSaveAs() {
-		ProfileInformationDialog dialog = new ProfileInformationDialog(getSite().getShell());
-		if( getSystemDiagram().getSystemId() != null ) {
+		ProfileInformationDialog dialog = new ProfileInformationDialog(
+				getSite().getShell());
+		if (getSystemDiagram().getSystemId() != null) {
 			dialog.setSystemId(getSystemDiagram().getSystemId());
 		}
-		dialog.setComponets(getSystemDiagram().getComponents());
-		
-		if( dialog.open() != IDialogConstants.OK_ID ) return;
-		
-		String systemId = Messages.getString("AbstractSystemDiagramEditor.18") + dialog.getInputVendor() + ":"  //$NON-NLS-1$ //$NON-NLS-2$
-							+ dialog.getInputSystemName() + ":" //$NON-NLS-1$
-							+ dialog.getInputVersion();
-		getSystemDiagram().setSystemId(systemId);
-		DatatypeFactory dateFactory = new DatatypeFactoryImpl();
-		getSystemDiagram().setCreationDate(dateFactory.newXMLGregorianCalendar(new GregorianCalendar()).toString());
-		getSystemDiagram().setUpdateDate(dateFactory.newXMLGregorianCalendar(new GregorianCalendar()).toString());
+		dialog.setSystemDiagram(getSystemDiagram());
 
-		// ƒ_ƒCƒAƒOƒ‰ƒ€‚ÌƒoƒŠƒf[ƒVƒ‡ƒ“
+		if (dialog.open() != IDialogConstants.OK_ID) {
+			return;
+		}
+
+		getSystemDiagram().setSystemId(dialog.getSystemId());
+		DatatypeFactory dateFactory = new DatatypeFactoryImpl();
+		getSystemDiagram().setCreationDate(
+				dateFactory.newXMLGregorianCalendar(new GregorianCalendar())
+						.toString());
+		getSystemDiagram().setUpdateDate(
+				dateFactory.newXMLGregorianCalendar(new GregorianCalendar())
+						.toString());
+
+		// TODO ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚¢ãƒƒãƒ—ãƒ­ã‚°ã¸ã®å¯¾å¿œ
+
+		// ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã®ãƒãƒªãƒ‡ãƒ¼ã‚·ãƒ§ãƒ³
 		if (!validateDiagram()) {
 			return;
 		}
@@ -454,12 +430,12 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		try {
 			progressMonitorDialog.run(false, false,
 				new IRunnableWithProgress() {
+					@Override
 					public void run(IProgressMonitor monitor)
 							throws InvocationTargetException,
 							InterruptedException {
 						try {
 							save(newFile, monitor);
-							saveExtensionData(newFile, monitor);
 						} catch (CoreException e) {
 							e.printStackTrace();
 							MessageDialog.openError(getSite().getShell(), Messages.getString("AbstractSystemDiagramEditor.21"), //$NON-NLS-1$
@@ -471,25 +447,13 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 			throw new RuntimeException(e); // SystemError
 		}
 	}
-	
-	private void saveExtensionData(IFile file,IProgressMonitor progressMonitor) {
-		if(postSaveList == null) {
-			buildExtensionDataSave();
-		}
-		for(PostSaveExtension extension : postSaveList) {
-			PostSaveExtension.ResultCode result =
-				extension.execute(this, file, progressMonitor);
-			if(result == PostSaveExtension.ResultCode.FAILURE) {
-				extension.showErrorMessage(getSite().getShell());
-			}
-		}
-	}
+
 	/**
-	 * ƒ_ƒCƒAƒOƒ‰ƒ€‚Ì®‡«‚ğƒ`ƒFƒbƒN‚µ‚Ü‚·B
+	 * ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã®æ•´åˆæ€§ã‚’ãƒã‚§ãƒƒã‚¯ã—ã¾ã™ã€‚
 	 * 
-	 * Šg’£ƒ|ƒCƒ“ƒg: jp.go.aist.rtm.toolscommon.validations
+	 * æ‹¡å¼µãƒã‚¤ãƒ³ãƒˆ: jp.go.aist.rtm.toolscommon.validations
 	 * 
-	 * @return •s®‡‚Ìê‡‚Ífalse
+	 * @return ä¸æ•´åˆã®å ´åˆã¯false
 	 */
 	public boolean validateDiagram() {
 		try {
@@ -555,7 +519,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		List<AbstractSystemDiagramEditor> editors = new ArrayList<AbstractSystemDiagramEditor>();
 		editors.add(this);
 		
-		// qƒGƒfƒBƒ^‚ğæ“¾
+		// å­ã‚¨ãƒ‡ã‚£ã‚¿ã‚’å–å¾—
 		for (Iterator iterator = systemDiagram.getComponents().iterator(); iterator
 				.hasNext();) {
 			Component compnent = (Component) iterator.next();
@@ -566,7 +530,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					editors.add(editor);
 			}
 		}
-		// eƒGƒfƒBƒ^‚ğæ“¾
+		// è¦ªã‚¨ãƒ‡ã‚£ã‚¿ã‚’å–å¾—
 		SystemDiagram parentSystemDiagram = systemDiagram.getParentSystemDiagram();
 		while (parentSystemDiagram != null) {
 			AbstractSystemDiagramEditor editor = ComponentUtil.findEditor(parentSystemDiagram);
@@ -583,7 +547,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 				Component localObject = getLocalObject(parentSystemDiagram,
 						component);
 
-				// Constraint‚ğ•ÏX
+				// Constraintã‚’å¤‰æ›´
 				if (localObject != null) {
 					localObject.getConstraint().setX(
 							component.getConstraint().getX());
@@ -598,29 +562,81 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 
 			parentSystemDiagram = parentSystemDiagram.getParentSystemDiagram();
 		}
-		if (null == progressMonitor)
-			progressMonitor = new NullProgressMonitor();
 
-		progressMonitor.beginTask(Messages.getString("AbstractSystemDiagramEditor.26") + file.getLocation().toOSString(), //$NON-NLS-1$
-				2);
+		if (progressMonitor == null) {
+			progressMonitor = new NullProgressMonitor();
+		}
+		progressMonitor.beginTask(Messages
+				.getString("AbstractSystemDiagramEditor.26")
+				+ file.getLocation().toOSString(), 6);
 
 		try {
+			// STEP1: ãƒªã‚½ãƒ¼ã‚¹ã‚’ä½œæˆ
 			progressMonitor.worked(1);
 
 			Resource resource = null;
 			ResourceSet resourceSet = new ResourceSetImpl();
-			resource = resourceSet.createResource(URI
-					.createFileURI(file.getLocation().toOSString()));
+			resource = resourceSet.createResource(URI.createFileURI(file
+					.getLocation().toOSString()));
 
-			SystemEditorWrapperFactory.getInstance().saveContentsToResource(
-					resource, systemDiagram.getRootDiagram());
+			// STEP2: ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã‹ã‚‰RTSãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ
+			progressMonitor.worked(2);
 
+			RtsProfileHandler handler = new RtsProfileHandler();
+			SystemDiagram diagram = systemDiagram.getRootDiagram();
+			RtsProfileExt profile = handler.save(diagram);
+			diagram.setProfile(profile);
+
+			// STEP3: æ‹¡å¼µãƒã‚¤ãƒ³ãƒˆ (RTSãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ä¿å­˜å‰)
+			progressMonitor.worked(3);
+
+			ProfileSaver creator = new ProfileSaver();
+			for (SaveProfileExtension.ErrorInfo info : creator.preSave(
+					diagram, profile)) {
+				if (info.isError()) {
+					openError(DIALOG_TITLE_ERROR, info.getMessage());
+					progressMonitor.done();
+					return;
+				} else {
+					if (!openConfirm(DIALOG_TITLE_CONFIRM, info.getMessage())) {
+						progressMonitor.done();
+						return;
+					}
+				}
+			}
+
+			// STEP4: RTSãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã¸ä¿å­˜
+			progressMonitor.worked(4);
+
+			String targetFileName = resource.getURI().devicePath();
+			XmlHandler xmlHandler = new XmlHandler();
+			xmlHandler.saveXmlRts(profile, URLDecoder.decode(targetFileName,
+					"UTF-8"));
 			file.refreshLocal(IResource.DEPTH_ZERO, null);
 			for (AbstractSystemDiagramEditor editor : editors) {
 				editor.changeFile(file);
 			}
-			progressMonitor.worked(2);
+
+			// STEP5: æ‹¡å¼µãƒã‚¤ãƒ³ãƒˆ (RTSãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ä¿å­˜å¾Œ)
+			progressMonitor.worked(5);
+
+			for (SaveProfileExtension.ErrorInfo info : creator.postSave(
+					diagram, file)) {
+				if (info.isError()) {
+					openError(DIALOG_TITLE_ERROR, info.getMessage());
+					progressMonitor.done();
+					return;
+				} else {
+					if (!openConfirm(DIALOG_TITLE_CONFIRM, info.getMessage())) {
+						progressMonitor.done();
+						return;
+					}
+				}
+			}
+
+			progressMonitor.worked(6);
 			progressMonitor.done();
+
 		} catch (FileNotFoundException e) {
 			progressMonitor.done();
 			IStatus status = new Status(IStatus.ERROR, RTSystemEditorPlugin.getDefault()
@@ -651,7 +667,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	}
 
 	/**
-	 * component‚ğdiagram‚©‚ç’T‚·iPathId‚Å’T‚·)
+	 * componentã‚’diagramã‹ã‚‰æ¢ã™ï¼ˆPathIdã§æ¢ã™)
 	 * @param component
 	 * @param diagram
 	 * @return
@@ -682,31 +698,22 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public void commandStackChanged(EventObject event) {
 		firePropertyChange(IEditorPart.PROP_DIRTY);
 		super.commandStackChanged(event);
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public boolean isSaveAsAllowed() {
 		return true;
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public boolean isDirty() {
 		return getCommandStack().isDirty();
 	}
 
-	// ConfigSet‚ª•ÏX‚³‚ê‚½‚Ì‚ÅA‹­§“I‚Édirty‚Æ‚·‚é
+	// ConfigSetãŒå¤‰æ›´ã•ã‚ŒãŸã®ã§ã€å¼·åˆ¶çš„ã«dirtyã¨ã™ã‚‹
 	public void setDirty() {
 		Command cannnotUndoCommand = new Command(){
 			@Override
@@ -717,16 +724,13 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public void init(IEditorSite site, IEditorInput input)
 			throws PartInitException {
 		IEditorInput newInput;
 		try {
 			newInput = load(input, site, RestoreOption.NONE);
 		} catch (Throwable t) {
-			// ‹N“®‚Éƒtƒ@ƒCƒ‹ƒI[ƒvƒ“ƒGƒ‰[‚ª”­¶‚µ‚½‚ÍƒGƒfƒBƒ^‚Ì’†g‚ğ‹ó‚É‚·‚é 2009.11.06
+			// èµ·å‹•æ™‚ã«ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸæ™‚ã¯ã‚¨ãƒ‡ã‚£ã‚¿ã®ä¸­èº«ã‚’ç©ºã«ã™ã‚‹ 2009.11.06
 			newInput = load(new NullEditorInput(), site, RestoreOption.NONE);
 		}
 		super.init(site, newInput);
@@ -763,7 +767,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 
 	public void postLoad() {
 		GraphicalViewer graphicalViewer2 = getGraphicalViewer();
-		if (graphicalViewer2 != null) { // ‰Šúƒ[ƒh‚Ìê‡‚É‚Í‘¶İ‚µ‚È‚¢B•Ê“rŒã‚Åƒ[ƒh‚·‚é
+		if (graphicalViewer2 != null) { // åˆæœŸãƒ­ãƒ¼ãƒ‰ã®å ´åˆã«ã¯å­˜åœ¨ã—ãªã„ã€‚åˆ¥é€”å¾Œã§ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
 			graphicalViewer2.setContents(getSystemDiagram());
 		}
 
@@ -830,9 +834,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public void dispose() {
 		try {
 			super.dispose();
@@ -844,20 +845,20 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 			getSystemDiagramPropertyChangeListener().dispose();
 		}
 
-		// •¡‡RTCƒGƒfƒBƒ^‚ªŠJ‚©‚ê‚Ä‚¢‚½‚ç•Â‚¶‚é
-		if (getSystemDiagram() == null) return;
-		if (getSystemDiagram().getComponents() == null) return;
-		for (Object o : getSystemDiagram().getComponents()) {
-			Component ac = (Component) o;
+		// è¤‡åˆRTCã‚¨ãƒ‡ã‚£ã‚¿ãŒé–‹ã‹ã‚Œã¦ã„ãŸã‚‰é–‰ã˜ã‚‹
+		if (getSystemDiagram() == null)
+			return;
+		if (getSystemDiagram().getComponents() == null)
+			return;
+		for (Component ac : getSystemDiagram().getComponents()) {
 			ComponentUtil.closeCompositeComponent(ac);
 		}
+		getSystemDiagram().clearComponents();
+		systemDiagram = null;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public Object getAdapter(Class type) {
 		if (type.equals(IPropertySheetPage.class)) {
 			return new RtcPropertySheetPage();
@@ -867,9 +868,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public String getTitle() {
 		return (title == null) ? diagramName : title;
 	}
@@ -902,7 +900,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	}
 
 	/**
-	 * SystemDiagram‚ğæ“¾‚·‚é
+	 * SystemDiagramã‚’å–å¾—ã™ã‚‹
 	 * 
 	 * @return
 	 */
@@ -922,9 +920,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 			this.page = page;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
+		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			if (evt.getPropertyName().equals("SYSTEM_DIAGRAM_COMPONENTS")) { //$NON-NLS-1$
 				final PropertyChangeEvent changeEvent = evt;
@@ -934,7 +930,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					try {
 						page.getWorkbenchWindow().getShell().getDisplay()
 								.asyncExec(new Runnable() {
-									@SuppressWarnings("unchecked")
+									@Override
 									public void run() {
 										List<Component> components = new ArrayList<Component>();
 										components
@@ -977,6 +973,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	public void setSystemDiagram(SystemDiagram systemDiagram) {
 		this.systemDiagram = systemDiagram;
 	}
+
 	public void deselectAll() {
 		getGraphicalViewer().deselectAll();
 	}
@@ -984,7 +981,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	@Override
 	public boolean isSaveOnCloseNeeded() {
 		if (getSystemDiagram().getParentSystemDiagram() != null) {
-			// •¡‡RTC‚ÌƒGƒfƒBƒ^‚Ìê‡‚Í•Û‘¶‚µ‚È‚¢
+			// è¤‡åˆRTCã®ã‚¨ãƒ‡ã‚£ã‚¿ã®å ´åˆã¯ä¿å­˜ã—ãªã„
 			return false;
 		}
 		return super.isSaveOnCloseNeeded();
@@ -1004,13 +1001,15 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	}
 
 	/**
-	 * ƒGƒfƒBƒ^“à‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğÄ•`‰æ‚·‚é
+	 * ã‚¨ãƒ‡ã‚£ã‚¿å†…ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å†æç”»ã™ã‚‹
 	 */
 	public void refresh() {
 		for (Object model : getSystemDiagram().getComponents()) {
 			EditPart ep = findEditPart(model);
 			if (ep != null) {
+//				debugPrint(ep, ep.getChildren().size());
 				for (Object obj :ep.getChildren()) {
+//					debugPrint((EditPart)obj, 0);
 					((EditPart)obj).refresh();
 				}
 			}
@@ -1019,4 +1018,33 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		if (parent != null) parent.refresh();
 		
 	}
+
+	public void openError(String title, String message) {
+		MessageDialog.openError(getSite().getShell(), title, message);
+	}
+
+	public boolean openConfirm(String title, String message) {
+		return MessageDialog.openConfirm(getSite().getShell(), title, message);
+	}
+
+//	private void debugPrint(EditPart part, int size) {
+//		Object model = part.getModel();
+//		if (model instanceof Port) debugPrint((Port)model);
+//		if (model instanceof Component) debugPrint((Component)model, size, part);
+//	}
+//	private void debugPrint(Component component, int size, EditPart part) {
+//		if (component.getInstanceNameL().equals("test3"))  {
+//			System.out.println(component.getPorts().size() + ":" + size);
+//			for (Object obj :part.getChildren()) {
+//				System.out.println(obj);
+//			}
+//		}
+//	}
+//
+//	private static void debugPrint(Port port) {
+//		Component comp = (Component) port.eContainer();
+//		if (comp.getInstanceNameL().equals("test3"))
+//			System.out.println(port.getNameL() + ":" + comp.getPorts().size());
+//	}
+
 }

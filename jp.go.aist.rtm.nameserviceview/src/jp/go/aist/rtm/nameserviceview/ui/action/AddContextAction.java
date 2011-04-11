@@ -9,7 +9,7 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * ƒl[ƒ€ƒT[ƒrƒX‚ÉƒRƒ“ƒeƒLƒXƒg‚ğ’Ç‰Á‚·‚éƒ_ƒCƒAƒƒO‚ğ•\¦‚·‚éƒAƒNƒVƒ‡ƒ“(CORBAê—pj
+ * ãƒãƒ¼ãƒ ã‚µãƒ¼ãƒ“ã‚¹ã«ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã‚’è¿½åŠ ã™ã‚‹ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’è¡¨ç¤ºã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³(CORBAå°‚ç”¨ï¼‰
  */
 public class AddContextAction implements IObjectActionDelegate {
 	private IWorkbenchPart targetPart;

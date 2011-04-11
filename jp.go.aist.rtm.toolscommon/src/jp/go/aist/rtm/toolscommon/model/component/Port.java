@@ -7,7 +7,7 @@ import org.eclipse.emf.common.util.EList;
 
 
 /**
- * Port‚ğ•\Œ»‚·‚éƒNƒ‰ƒX
+ * Portã‚’è¡¨ç¾ã™ã‚‹ã‚¯ãƒ©ã‚¹
  * @model
  */
 public interface Port extends WrapperObject {
@@ -16,8 +16,8 @@ public interface Port extends WrapperObject {
 	 * Returns the value of the '<em><b>Original Port String</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒ|[ƒg‚ğ¯•Ê‚·‚é‚½‚ß‚Ì•¶š—ñ‚ğ•Ô‚·B
-	 * ÀÛ‚Ìˆ—‚ÍPortSynchronizer‚ÉˆÏ÷‚³‚ê‚é
+	 * ãƒãƒ¼ãƒˆã‚’è­˜åˆ¥ã™ã‚‹ãŸã‚ã®æ–‡å­—åˆ—ã‚’è¿”ã™ã€‚
+	 * å®Ÿéš›ã®å‡¦ç†ã¯PortSynchronizerã«å§”è­²ã•ã‚Œã‚‹
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Original Port String</em>' attribute.
@@ -31,8 +31,8 @@ public interface Port extends WrapperObject {
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Port#getOriginalPortString <em>Original Port String</em>}' attribute.
 	 * <!-- begin-user-doc -->
-	 * ƒ|[ƒg‚ğ¯•Ê‚·‚é‚½‚ß‚Ì•¶š—ñ‚ğİ’è‚·‚éB
-	 * ÀÛ‚Ìˆ—‚ÍPortSynchronizer‚ÉˆÏ÷‚³‚ê‚é
+	 * ãƒãƒ¼ãƒˆã‚’è­˜åˆ¥ã™ã‚‹ãŸã‚ã®æ–‡å­—åˆ—ã‚’è¨­å®šã™ã‚‹ã€‚
+	 * å®Ÿéš›ã®å‡¦ç†ã¯PortSynchronizerã«å§”è­²ã•ã‚Œã‚‹
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Original Port String</em>' attribute.
 	 * @see #getOriginalPortString()
@@ -44,7 +44,7 @@ public interface Port extends WrapperObject {
 	 * Returns the value of the '<em><b>Synchronizer</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * “¯Šúˆ——p‚ÌPortSynchronizer‚ğæ“¾‚·‚é
+	 * åŒæœŸå‡¦ç†ç”¨ã®PortSynchronizerã‚’å–å¾—ã™ã‚‹
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Synchronizer</em>' containment reference.
@@ -58,7 +58,7 @@ public interface Port extends WrapperObject {
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Port#getSynchronizer <em>Synchronizer</em>}' containment reference.
 	 * <!-- begin-user-doc -->
-	 * “¯Šúˆ——p‚ÌPortSynchronizer‚ğİ’è‚·‚éB
+	 * åŒæœŸå‡¦ç†ç”¨ã®PortSynchronizerã‚’è¨­å®šã™ã‚‹ã€‚
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Synchronizer</em>' containment reference.
 	 * @see #getSynchronizer()
@@ -70,7 +70,7 @@ public interface Port extends WrapperObject {
 	 * Returns the value of the '<em><b>Name L</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒ|[ƒg‚Ì–¼Ì‚ğ•Ô‚·
+	 * ãƒãƒ¼ãƒˆã®åç§°ã‚’è¿”ã™
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name L</em>' attribute.
@@ -84,7 +84,7 @@ public interface Port extends WrapperObject {
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Port#getNameL <em>Name L</em>}' attribute.
 	 * <!-- begin-user-doc -->
-	 * ƒ|[ƒg‚Ì–¼Ì‚ğİ’è‚·‚é
+	 * ãƒãƒ¼ãƒˆã®åç§°ã‚’è¨­å®šã™ã‚‹
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Name L</em>' attribute.
 	 * @see #getNameL()
@@ -96,7 +96,7 @@ public interface Port extends WrapperObject {
 	 * Returns the value of the '<em><b>Allow Any Data Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒJƒ“ƒ}‹æØ‚è‚Åw’è‚³‚ê‚éƒ|[ƒg‚Ìƒf[ƒ^Œ^‚Ì’†‚ÉAny‚ª‘¶İ‚·‚é‚©‚ğ•Ô‚·
+	 * ã‚«ãƒ³ãƒåŒºåˆ‡ã‚Šã§æŒ‡å®šã•ã‚Œã‚‹ãƒãƒ¼ãƒˆã®ãƒ‡ãƒ¼ã‚¿å‹ã®ä¸­ã«AnyãŒå­˜åœ¨ã™ã‚‹ã‹ã‚’è¿”ã™
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Allow Any Data Type</em>' attribute.
@@ -110,7 +110,7 @@ public interface Port extends WrapperObject {
 	 * Returns the value of the '<em><b>Allow Any Interface Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒJƒ“ƒ}‹æØ‚è‚Åw’è‚³‚ê‚éƒ|[ƒg‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXŒ^‚Ì’†‚ÉAny‚ª‘¶İ‚·‚é‚©‚ğ•Ô‚·
+	 * ã‚«ãƒ³ãƒåŒºåˆ‡ã‚Šã§æŒ‡å®šã•ã‚Œã‚‹ãƒãƒ¼ãƒˆã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹å‹ã®ä¸­ã«AnyãŒå­˜åœ¨ã™ã‚‹ã‹ã‚’è¿”ã™
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Allow Any Interface Type</em>' attribute.
@@ -124,7 +124,7 @@ public interface Port extends WrapperObject {
 	 * Returns the value of the '<em><b>Allow Any Dataflow Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒJƒ“ƒ}‹æØ‚è‚Åw’è‚³‚ê‚éƒ|[ƒg‚Ìƒf[ƒ^ƒtƒ[Œ^‚Ì’†‚ÉAny‚ª‘¶İ‚·‚é‚©‚ğ•Ô‚·
+	 * ã‚«ãƒ³ãƒåŒºåˆ‡ã‚Šã§æŒ‡å®šã•ã‚Œã‚‹ãƒãƒ¼ãƒˆã®ãƒ‡ãƒ¼ã‚¿ãƒ•ãƒ­ãƒ¼å‹ã®ä¸­ã«AnyãŒå­˜åœ¨ã™ã‚‹ã‹ã‚’è¿”ã™
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Allow Any Dataflow Type</em>' attribute.
@@ -138,7 +138,7 @@ public interface Port extends WrapperObject {
 	 * Returns the value of the '<em><b>Allow Any Subscription Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒJƒ“ƒ}‹æØ‚è‚Åw’è‚³‚ê‚éƒ|[ƒg‚ÌƒTƒuƒXƒNƒŠƒvƒVƒ‡ƒ“Œ^‚Ì’†‚ÉAny‚ª‘¶İ‚·‚é‚©‚ğ•Ô‚·
+	 * ã‚«ãƒ³ãƒåŒºåˆ‡ã‚Šã§æŒ‡å®šã•ã‚Œã‚‹ãƒãƒ¼ãƒˆã®ã‚µãƒ–ã‚¹ã‚¯ãƒªãƒ—ã‚·ãƒ§ãƒ³å‹ã®ä¸­ã«AnyãŒå­˜åœ¨ã™ã‚‹ã‹ã‚’è¿”ã™
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Allow Any Subscription Type</em>' attribute.
@@ -153,33 +153,33 @@ public interface Port extends WrapperObject {
 	 * The list contents are of type {@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒ|[ƒg‚ª•Û‚·‚éƒRƒlƒNƒ^ƒvƒƒtƒ@ƒCƒ‹‚ÌƒŠƒXƒg‚ğ•Ô‚·
+	 * ãƒãƒ¼ãƒˆãŒä¿æŒã™ã‚‹ã‚³ãƒã‚¯ã‚¿ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒªã‚¹ãƒˆã‚’è¿”ã™
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Connector Profiles</em>' reference list.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getPort_ConnectorProfiles()
-	 * @model type="jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile" transient="true"
+	 * @model transient="true"
 	 * @generated
 	 */
-	EList getConnectorProfiles();
+	EList<ConnectorProfile> getConnectorProfiles();
 
 	/**
 	 * Returns the value of the '<em><b>Interfaces</b></em>' attribute list.
 	 * The list contents are of type {@link jp.go.aist.rtm.toolscommon.model.component.PortInterfaceProfile}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 *  ƒT[ƒrƒXƒ|[ƒg‚ª•Û‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌƒŠƒXƒg‚ğ•Ô‚·
+	 *  ã‚µãƒ¼ãƒ“ã‚¹ãƒãƒ¼ãƒˆãŒä¿æŒã™ã‚‹ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã®ãƒªã‚¹ãƒˆã‚’è¿”ã™
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Interfaces</em>' attribute list.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getPort_Interfaces()
-	 * @model type="jp.go.aist.rtm.toolscommon.model.component.PortInterfaceProfile" dataType="jp.go.aist.rtm.toolscommon.model.component.PortInterfaceProfile"
+	 * @model dataType="jp.go.aist.rtm.toolscommon.model.component.PortInterfaceProfile"
 	 * @generated
 	 */
-	EList getInterfaces();
+	EList<PortInterfaceProfile> getInterfaces();
 
 	/**
-	 * ƒJƒ“ƒ}‹æØ‚è‚Åw’è‚³‚ê‚éƒ|[ƒg‚Ìƒf[ƒ^ƒtƒ[Œ^‚ğƒf[ƒ^ƒtƒ[Œ^‚ÌƒŠƒXƒg‚É‚µ‚Ä•Ô‚·
+	 * ã‚«ãƒ³ãƒåŒºåˆ‡ã‚Šã§æŒ‡å®šã•ã‚Œã‚‹ãƒãƒ¼ãƒˆã®ãƒ‡ãƒ¼ã‚¿ãƒ•ãƒ­ãƒ¼å‹ã‚’ãƒ‡ãƒ¼ã‚¿ãƒ•ãƒ­ãƒ¼å‹ã®ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™
 	 */
 	public List<String> getDataflowTypes();
 
@@ -196,7 +196,7 @@ public interface Port extends WrapperObject {
 	void setDataflowType(String value);
 
 	/**
-	 *  ƒJƒ“ƒ}‹æØ‚è‚Åw’è‚³‚ê‚éƒ|[ƒg‚Ìƒf[ƒ^Œ^‚ğƒf[ƒ^Œ^‚ÌƒŠƒXƒg‚É‚µ‚Ä•Ô‚·
+	 *  ã‚«ãƒ³ãƒåŒºåˆ‡ã‚Šã§æŒ‡å®šã•ã‚Œã‚‹ãƒãƒ¼ãƒˆã®ãƒ‡ãƒ¼ã‚¿å‹ã‚’ãƒ‡ãƒ¼ã‚¿å‹ã®ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™
 	 */
 	public List<String> getDataTypes();
 
@@ -205,7 +205,7 @@ public interface Port extends WrapperObject {
 	void setDataType(String type);
 
 	/**
-	 * ƒJƒ“ƒ}‹æØ‚è‚Åw’è‚³‚ê‚éƒ|[ƒg‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXŒ^‚ğƒCƒ“ƒ^[ƒtƒF[ƒXŒ^‚ÌƒŠƒXƒg‚É‚µ‚Ä•Ô‚·
+	 * ã‚«ãƒ³ãƒåŒºåˆ‡ã‚Šã§æŒ‡å®šã•ã‚Œã‚‹ãƒãƒ¼ãƒˆã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹å‹ã‚’ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹å‹ã®ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™
 	 */
 	public List<String> getInterfaceTypes();
 
@@ -222,7 +222,7 @@ public interface Port extends WrapperObject {
 	void setInterfaceType(String value);
 
 	/**
-	 * ƒJƒ“ƒ}‹æØ‚è‚Åw’è‚³‚ê‚éƒ|[ƒg‚ÌƒTƒuƒXƒNƒŠƒvƒVƒ‡ƒ“Œ^‚ğƒTƒuƒXƒNƒŠƒvƒVƒ‡ƒ“Œ^‚ÌƒŠƒXƒg‚É‚µ‚Ä•Ô‚·
+	 * ã‚«ãƒ³ãƒåŒºåˆ‡ã‚Šã§æŒ‡å®šã•ã‚Œã‚‹ãƒãƒ¼ãƒˆã®ã‚µãƒ–ã‚¹ã‚¯ãƒªãƒ—ã‚·ãƒ§ãƒ³å‹ã‚’ã‚µãƒ–ã‚¹ã‚¯ãƒªãƒ—ã‚·ãƒ§ãƒ³å‹ã®ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™
 	 */
 	public List<String> getSubscriptionTypes();
 
@@ -240,8 +240,8 @@ public interface Port extends WrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * “–ŠYƒ|[ƒgã‚ÌÚ‘±‚ğ‚·‚×‚ÄØ’f‚·‚éB
-	 * ÀÛ‚Ìˆ—‚ÍPortSynchronizer‚ÉˆÏ÷‚³‚ê‚é
+	 * å½“è©²ãƒãƒ¼ãƒˆä¸Šã®æ¥ç¶šã‚’ã™ã¹ã¦åˆ‡æ–­ã™ã‚‹ã€‚
+	 * å®Ÿéš›ã®å‡¦ç†ã¯PortSynchronizerã«å§”è­²ã•ã‚Œã‚‹
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -250,8 +250,8 @@ public interface Port extends WrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * “–ŠYƒ|[ƒg‚ª‘®‚·‚éƒ‹[ƒg‚ÌƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€‚©‚çƒ|[ƒg¯•Ê—p‚Ì•¶š—ñiOriginalPortString)‚Æˆê’v‚·‚é
-	 * ƒ|[ƒg‚ğ•Ô‚·B‚±‚Ì‚Æ‚«A•¡‡RTC‚Å‚Í‚È‚¢ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒ|[ƒg‚ª•Ô‚³‚ê‚éB
+	 * å½“è©²ãƒãƒ¼ãƒˆãŒå±ã™ã‚‹ãƒ«ãƒ¼ãƒˆã®ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã‹ã‚‰ãƒãƒ¼ãƒˆè­˜åˆ¥ç”¨ã®æ–‡å­—åˆ—ï¼ˆOriginalPortString)ã¨ä¸€è‡´ã™ã‚‹
+	 * ãƒãƒ¼ãƒˆã‚’è¿”ã™ã€‚ã“ã®ã¨ãã€è¤‡åˆRTCã§ã¯ãªã„ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒãƒ¼ãƒˆãŒè¿”ã•ã‚Œã‚‹ã€‚
 	 * <!-- end-user-doc -->
 	 * @model originalPortStringUnique="false"
 	 * @generated
@@ -275,18 +275,18 @@ public interface Port extends WrapperObject {
 	boolean validateSourceConnector(Port source);
 
 	/**
-	 * @return	ƒvƒƒLƒV‚Æ‚È‚éƒ|[ƒg
+	 * @return	ãƒ—ãƒ­ã‚­ã‚·ã¨ãªã‚‹ãƒãƒ¼ãƒˆ
 	 */
 	Port proxy();
 
 	/**
-	 * @return DataType/InterfaceType/DataflowType/SUBSCRIPTION_TYPEˆÈŠO‚ÌƒvƒƒpƒeƒB
+	 * @return DataType/InterfaceType/DataflowType/SUBSCRIPTION_TYPEä»¥å¤–ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
 	 */
 	List<NameValue> getProperties();
 
 	/**
-	 * @param name	ƒvƒƒpƒeƒB–¼
-	 * @return		ƒvƒƒpƒeƒB‚Ì’l
+	 * @param name	ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å
+	 * @return		ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®å€¤
 	 */
 	String getProperty(String name);
 }

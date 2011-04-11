@@ -1,8 +1,8 @@
 package jp.go.aist.rtm.toolscommon.model.component;
 
 /**
- * OutPortを表現するクラス
- * 中身は空であるが、描画において必要とされるので残す
+ * OutPort繧定｡ｨ迴ｾ縺吶ｋ繧ｯ繝ｩ繧ｹ
+ * 荳ｭ霄ｫ縺ｯ遨ｺ縺ｧ縺ゅｋ縺後∵緒逕ｻ縺ｫ縺翫＞縺ｦ蠢�隕√→縺輔ｌ繧九�ｮ縺ｧ谿九☆
  * @model
  */
 public interface OutPort extends Port {

@@ -15,6 +15,7 @@ import jp.go.aist.rtm.RTC.port.OutPort;
 import jp.go.aist.rtm.RTC.util.DataRef;
 import jp.go.aist.rtm.RTC.port.CorbaConsumer;
 import jp.go.aist.rtm.RTC.port.CorbaPort;
+import RTC.ReturnCode_t;
 
 /*!
  * @class testImpl

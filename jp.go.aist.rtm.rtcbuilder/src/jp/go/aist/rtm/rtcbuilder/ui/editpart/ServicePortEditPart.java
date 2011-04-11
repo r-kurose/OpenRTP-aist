@@ -12,6 +12,7 @@ import org.eclipse.draw2d.geometry.Point;
 
 public class ServicePortEditPart extends PortEditPartBase {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected List getModelChildren() {
 		return getModel().getServiceInterfaces();

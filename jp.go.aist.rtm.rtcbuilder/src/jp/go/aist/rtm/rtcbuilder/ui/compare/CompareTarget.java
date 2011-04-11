@@ -1,7 +1,7 @@
 package jp.go.aist.rtm.rtcbuilder.ui.compare;
 
 /**
- * ”äŠr‘ÎÛ‚Ìî•ñ‚ğ•\‚·ƒNƒ‰ƒX
+ * æ¯”è¼ƒå¯¾è±¡ã®æƒ…å ±ã‚’è¡¨ã™ã‚¯ãƒ©ã‚¹
  */
 public class CompareTarget {
 	private String targetName;

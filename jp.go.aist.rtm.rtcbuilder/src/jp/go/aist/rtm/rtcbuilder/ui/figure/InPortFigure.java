@@ -8,10 +8,11 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
 
 /**
- * InPortÇÃFigure
+ * InPort„ÅÆFigure
  */
 public class InPortFigure extends PortFigureBase {
 
+	@SuppressWarnings("unused")
 	private DataInPort inport;
 
 	public InPortFigure(DataInPort inport, int direction, Color backColor) {

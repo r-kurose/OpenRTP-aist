@@ -15,39 +15,39 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * GUI‚ÌRtcBuilder‚ğÀs‚·‚éÛ‚ÌƒƒCƒ“‚Æ‚È‚éƒNƒ‰ƒX
+ * GUIã®RtcBuilderã‚’å®Ÿè¡Œã™ã‚‹éš›ã®ãƒ¡ã‚¤ãƒ³ã¨ãªã‚‹ã‚¯ãƒ©ã‚¹
  */
 public class GuiRtcBuilder {
 
 	Generator generator = new Generator();
 	/**
-	 * ƒWƒFƒlƒŒ[ƒgEƒ}ƒl[ƒWƒƒ‚ğ’Ç‰Á‚·‚é
+	 * ã‚¸ã‚§ãƒãƒ¬ãƒ¼ãƒˆãƒ»ãƒãƒãƒ¼ã‚¸ãƒ£ã‚’è¿½åŠ ã™ã‚‹
 	 * 
-	 * @param genManager@¶¬‘ÎÛ‚ÌƒWƒFƒlƒŒ[ƒgEƒ}ƒl[ƒWƒƒ
+	 * @param genManagerã€€ç”Ÿæˆå¯¾è±¡ã®ã‚¸ã‚§ãƒãƒ¬ãƒ¼ãƒˆãƒ»ãƒãƒãƒ¼ã‚¸ãƒ£
 	 */
 	public void addGenerateManager(GenerateManager genManager) {
 		generator.addGenerateManager(genManager);
 	}
 	/**
-	 * ƒWƒFƒlƒŒ[ƒgEƒ}ƒl[ƒWƒƒ‚ğƒNƒŠƒA‚·‚é
+	 * ã‚¸ã‚§ãƒãƒ¬ãƒ¼ãƒˆãƒ»ãƒãƒãƒ¼ã‚¸ãƒ£ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
 	 */
 	public void clearGenerateManager() {
 		generator.clearGenerateManager();
 	}
 	/**
-	 * ƒWƒFƒlƒŒ[ƒg‚ğs‚¢Aƒtƒ@ƒCƒ‹o—Í‚ğs‚¤
+	 * ã‚¸ã‚§ãƒãƒ¬ãƒ¼ãƒˆã‚’è¡Œã„ã€ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›ã‚’è¡Œã†
 	 * 
 	 * @param generatorParam
-	 *            ƒpƒ‰ƒ[ƒ^
+	 *            ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 	 */
 	public boolean doGenerateWrite(GeneratorParam generatorParam) {
 		return this.doGenerateWrite(generatorParam, true);
 	}
 	/**
-	 * ƒWƒFƒlƒŒ[ƒg‚ğs‚¢Aƒtƒ@ƒCƒ‹o—Í‚ğs‚¤
+	 * ã‚¸ã‚§ãƒãƒ¬ãƒ¼ãƒˆã‚’è¡Œã„ã€ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›ã‚’è¡Œã†
 	 * 
-	 * @param generatorParam   ƒpƒ‰ƒ[ƒ^
-	 * @param isShowDialog     Š®—¹‚Éƒ_ƒCƒAƒƒO‚ğ•\¦‚·‚é‚©
+	 * @param generatorParam   ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+	 * @param isShowDialog     å®Œäº†æ™‚ã«ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’è¡¨ç¤ºã™ã‚‹ã‹
 	 */
 	public boolean doGenerateWrite(GeneratorParam generatorParam, boolean isShowDialog) {
 

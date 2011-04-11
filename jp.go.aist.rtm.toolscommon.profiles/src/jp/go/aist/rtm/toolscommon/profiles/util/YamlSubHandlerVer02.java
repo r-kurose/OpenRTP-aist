@@ -59,7 +59,7 @@ public class YamlSubHandlerVer02 {
 				profile = factory.createRtcProfile();
 				profile.setId((String)profileY.get("id"));
 				profile.setVersion((String)profileY.get("version"));
-				//Šî–{
+				//åŸºæœ¬
 				Map basicY = (Map)profileY.get("basicInfo");
 				if( basicY != null ) {
 					BasicInfoExt basic = factory.createBasicInfoExt();

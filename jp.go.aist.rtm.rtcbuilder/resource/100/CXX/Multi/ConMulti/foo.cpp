@@ -58,10 +58,10 @@ RTC::ReturnCode_t foo::onInitialize()
   // Registration: InPort/OutPort/Service
   // <rtc-template block="registration">
   // Set InPort buffers
-  registerInPort("in1", m_in1In);
+  addInPort("in1", m_in1In);
   
   // Set OutPort buffer
-  registerOutPort("out1", m_out1Out);
+  addOutPort("out1", m_out1Out);
   
   // Set service provider to Ports
   
@@ -70,8 +70,8 @@ RTC::ReturnCode_t foo::onInitialize()
   m_MyConPro2Port.registerConsumer("myservice2", "DAQService", m_myservice2);
   
   // Set CORBA Service Ports
-  registerPort(m_MyConProPort);
-  registerPort(m_MyConPro2Port);
+  addPort(m_MyConProPort);
+  addPort(m_MyConPro2Port);
   
   // </rtc-template>
 

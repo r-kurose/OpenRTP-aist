@@ -6,7 +6,7 @@ import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 /**
- * NamingObjectNodeÇÃWorkbenchAdapter
+ * NamingObjectNode„ÅÆWorkbenchAdapter
  */
 public class NamingObjectNodeWorkbenchAdapter extends NamingContextNodeWorkbenchAdapter {
 

@@ -13,6 +13,7 @@ import org.eclipse.core.runtime.Platform;
 
 public abstract class AbstractExtensionLoader {
 	// Manager
+	@SuppressWarnings("unchecked")
 	private List list = new ArrayList();
 	
 	abstract String getPointId();
@@ -20,19 +21,19 @@ public abstract class AbstractExtensionLoader {
 	abstract void addExtension(IConfigurationElement element) throws CoreException;
 	
 	/**
-	 * Šg’£ƒIƒuƒWƒFƒNƒg‚ğƒ[ƒh‚µ‚ÄƒŠƒXƒg‚ÉŠi”[‚·‚éB
+	 * æ‹¡å¼µã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ãƒ­ãƒ¼ãƒ‰ã—ã¦ãƒªã‚¹ãƒˆã«æ ¼ç´ã™ã‚‹ã€‚
 	 * @throws CoreException 
 	 */
 	public void loadExtensions() throws CoreException {
-		// Šg’£ƒ|ƒCƒ“ƒg‚Ìæ“¾
+		// æ‹¡å¼µãƒã‚¤ãƒ³ãƒˆã®å–å¾—
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IExtensionPoint point = registry.getExtensionPoint( getPointId() );		
 		if( point == null ) return;		
 		
-		// Šg’£éŒ¾‚Ìƒ[ƒh
+		// æ‹¡å¼µå®£è¨€ã®ãƒ­ãƒ¼ãƒ‰
 		IExtension[] extensions = point.getExtensions();
 		for( int index = 0; index < extensions.length; index++ ) {
-			// Šg’£éŒ¾iextensionƒ^ƒOj‚²‚Æ‚ÉA‰ºˆÊ‚Ìƒ^ƒO‚ğˆ—‚·‚é
+			// æ‹¡å¼µå®£è¨€ï¼ˆextensionã‚¿ã‚°ï¼‰ã”ã¨ã«ã€ä¸‹ä½ã®ã‚¿ã‚°ã‚’å‡¦ç†ã™ã‚‹
 			IConfigurationElement[] cfgElems = extensions[index].getConfigurationElements();
 			for(int intext = 0; intext < cfgElems.length; intext++) {
 				IConfigurationElement cfgElem = cfgElems[intext];
@@ -60,6 +61,7 @@ public abstract class AbstractExtensionLoader {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List getList() {
 		return list;
 	}

@@ -9,7 +9,7 @@ import org.eclipse.ui.IViewActionDelegate;
 import org.eclipse.ui.IViewPart;
 
 /**
- * ネームサービスを追加するダイアログを表示するアクション
+ * 繝阪�ｼ繝繧ｵ繝ｼ繝薙せ繧定ｿｽ蜉縺吶ｋ繝繧､繧｢繝ｭ繧ｰ繧定｡ｨ遉ｺ縺吶ｋ繧｢繧ｯ繧ｷ繝ｧ繝ｳ
  */
 public class AddNameServiceAction implements IViewActionDelegate {
 	private NameServiceView view;

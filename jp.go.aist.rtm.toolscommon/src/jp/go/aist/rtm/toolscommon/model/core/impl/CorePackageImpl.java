@@ -343,6 +343,10 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
 
+		// Create type parameters
+
+		// Set bounds for type parameters
+
 		// Add supertypes to classes
 		corbaWrapperObjectEClass.getESuperTypes().add(this.getWrapperObject());
 		modelElementEClass.getESuperTypes().add(this.getIAdaptable());
@@ -356,8 +360,8 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		initEClass(modelElementEClass, ModelElement.class, "ModelElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getModelElement_Constraint(), this.getRectangle(), "constraint", null, 0, 1, ModelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		EOperation op = addEOperation(modelElementEClass, null, "accept");
-		addEParameter(op, this.getVisiter(), "visiter", 0, 1);
+		EOperation op = addEOperation(modelElementEClass, null, "accept", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getVisiter(), "visiter", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(iAdaptableEClass, IAdaptable.class, "IAdaptable", IS_ABSTRACT, IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
 

@@ -115,4 +115,7 @@ public class AllDisconnectActionTest extends TestCase {
 		assertEquals(count, port2.getConnectorProfiles().size());
 		assertEquals(count, port3.getConnectorProfiles().size());
 	}
+	
+	// TODO: オフライン時の複合コンポーネントのdisconnect allに関しては、connectorIdからPortConnectorSpecificationを探し出す処理がおそらく必要
+	// TODO: 複合コンポーネントを開いたウィンドウに対する手動同期が不完全。（接続関連だけか）
 }

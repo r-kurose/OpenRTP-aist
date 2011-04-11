@@ -15,54 +15,122 @@ import org.omg.CosNaming.NamingContextExtHelper;
 import RTM.ManagerHelper;
 
 /**
- * ƒl[ƒ€ƒT[ƒo‚ÉƒAƒNƒZƒX‚·‚éƒ†[ƒeƒBƒŠƒeƒB
- * CORBAê—p‚ÌƒNƒ‰ƒX‚Å‚ ‚é
+ * ãƒãƒ¼ãƒ ã‚µãƒ¼ãƒã«ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ CORBAå°‚ç”¨ã®ã‚¯ãƒ©ã‚¹ã§ã‚ã‚‹
  */
 public class NameServerAccesser {
 	/**
-	 * ƒVƒ“ƒOƒ‹ƒgƒ“ƒCƒ“ƒXƒ^ƒ“ƒX
+	 * ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 	 */
 	private static NameServerAccesser __instance = new NameServerAccesser();
 
+	static org.omg.PortableServer.POA rootpoa = null;
+
 	/**
-	 * ƒVƒ“ƒOƒ‹ƒgƒ“‚Ö‚ÌƒAƒNƒZƒT
+	 * ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã¸ã®ã‚¢ã‚¯ã‚»ã‚µ
 	 * 
-	 * @return ƒVƒ“ƒOƒ‹ƒgƒ“
+	 * @return ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³
 	 */
 	public static NameServerAccesser getInstance() {
 		return __instance;
 	}
 
 	/**
-	 * ƒAƒhƒŒƒX‚ğˆø”‚Éæ‚èAƒl[ƒ€ƒT[ƒo‚Ìƒ‹[ƒg‚ÌNamingContextExt‚ğ•Ô‚·
+	 * ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å¼•æ•°ã«å–ã‚Šã€ãƒãƒ¼ãƒ ã‚µãƒ¼ãƒã®ãƒ«ãƒ¼ãƒˆã®NamingContextExtã‚’è¿”ã™
 	 * <p>
-	 * Œ`®‚ÍAuaddress:portv‚Æ‚È‚éBƒ|[ƒg‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚É‚ÍAƒ†[ƒUİ’èƒ|[ƒg‚ğg—p‚·‚é
+	 * å½¢å¼ã¯ã€ã€Œaddress:portã€ã¨ãªã‚‹ã€‚ãƒãƒ¼ãƒˆãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„å ´åˆã«ã¯ã€ãƒ¦ãƒ¼ã‚¶è¨­å®šãƒãƒ¼ãƒˆã‚’ä½¿ç”¨ã™ã‚‹
 	 * 
 	 * @param address
-	 *            ƒl[ƒ€ƒT[ƒo‚ÌƒAƒhƒŒƒX
-	 * @return ƒl[ƒ€ƒT[ƒo‚Ìƒ‹[ƒg‚ÌNamingContextExt
+	 *            ãƒãƒ¼ãƒ ã‚µãƒ¼ãƒã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+	 * @return ãƒãƒ¼ãƒ ã‚µãƒ¼ãƒã®ãƒ«ãƒ¼ãƒˆã®NamingContextExt
 	 */
 	public NamingContextExt getNameServerRootContext(String address) {
-		if ("".equals(address)) {
+		String url = toCORBAURL(address);
+		try {
+			NamingContextExt ns = NamingContextExtHelper.narrow(CorbaUtil
+					.getOrb().string_to_object(url + "/NameService"));
+			return ns;
+		} catch (Exception e) {
 			return null;
 		}
+	}
 
-		if (address.indexOf(":") == -1) {
-			address = address
-					+ ":"
-					+ NameServiceViewPreferenceManager.getInstance().getDefaultPort(
-							NameServiceViewPreferenceManager.DEFAULT_CONNECTION_PORT);
+	public OpenRTMNaming.NamingNotifier getNamingNotifier(String address) {
+		String url = toCORBAURL(address);
+		try {
+			OpenRTMNaming.NamingNotifier notifier = OpenRTMNaming.NamingNotifierHelper
+					.narrow(CorbaUtil.getOrb().string_to_object(
+							url + "/OpenRTMNamingNotifier"));
+			return notifier;
+		} catch (Exception e) {
+			return null;
 		}
-		
-		String version = "1.0";
-		
-		return NamingContextExtHelper.narrow(CorbaUtil
-				.getOrb().string_to_object(
-						"corbaloc:iiop:" + version + "@" + address + "/NameService"));
 	}
 
 	/**
-	 * PathId‚©‚çObject‚ğæ“¾‚·‚é
+	 * ã‚¢ãƒ‰ãƒ¬ã‚¹ãƒãƒ¼ãƒˆã‹ã‚‰ CORBA URLã¸å¤‰æ›ã—ã¾ã™ã€‚(ãƒãƒ¼ãƒˆæŒ‡å®šãŒãªã„å ´åˆã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒãƒ¼ãƒˆã‚’ä½¿ç”¨)
+	 * 
+	 * @param addressport
+	 * @return
+	 */
+	public String toCORBAURL(String addressport) {
+		if ("".equals(addressport)) {
+			return null;
+		}
+		if (addressport.indexOf(":") == -1) {
+			String defaultPort = NameServiceViewPreferenceManager
+					.getInstance()
+					.getDefaultPort(
+							NameServiceViewPreferenceManager.DEFAULT_CONNECTION_PORT);
+			// address = address + ":2809";
+			addressport = addressport + ":" + defaultPort;
+		}
+		String version = "1.0";
+		return "corbaloc:iiop:" + version + "@" + addressport;
+	}
+
+	/**
+	 * ã‚µãƒ¼ãƒãƒ³ãƒˆã‚’æ´»æ€§åŒ–ã—ã¾ã™ã€‚
+	 * 
+	 * @param servant
+	 * @return
+	 */
+	public org.omg.CORBA.Object activateServant(
+			org.omg.PortableServer.Servant servant) {
+		if (rootpoa == null) {
+			try {
+				// RootPOAã®å‚ç…§ã‚’å–å¾—ã—POAManagerã‚’ä½¿ç”¨å¯èƒ½ã«ã—ã¾ã™
+				rootpoa = org.omg.PortableServer.POAHelper.narrow(CorbaUtil
+						.getOrb().resolve_initial_references("RootPOA"));
+				rootpoa.the_POAManager().activate();
+			} catch (Exception e) {
+				throw new RuntimeException("Initialize RootPOA error.", e);
+			}
+		}
+		// ã‚µãƒ¼ãƒãƒ³ãƒˆã‹ã‚‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å‚ç…§ã‚’å–å¾—ã—ã¾ã™
+		try {
+			org.omg.CORBA.Object servant_ref = rootpoa
+					.servant_to_reference(servant);
+			return servant_ref;
+		} catch (Exception e) {
+			throw new RuntimeException("Activate servant error.", e);
+		}
+	}
+
+	/**
+	 * ã‚µãƒ¼ãƒãƒ³ãƒˆã‚’ä¸æ´»æ€§åŒ–ã—ã¾ã™ã€‚
+	 * 
+	 * @param servant_ref
+	 */
+	public void deactivateServant(org.omg.CORBA.Object servant_ref) {
+		try {
+			byte[] oid = rootpoa.reference_to_id(servant_ref);
+			rootpoa.deactivate_object(oid);
+		} catch (Exception e) {
+		}
+	}
+
+	/**
+	 * PathIdã‹ã‚‰Objectã‚’å–å¾—ã™ã‚‹
 	 * 
 	 * @param pathId
 	 * @return
@@ -77,7 +145,7 @@ public class NameServerAccesser {
 	}
 
 	/**
-	 * PathId‚©‚çNameServerName‚ğæ“¾‚·‚é
+	 * PathIdã‹ã‚‰NameServerNameã‚’å–å¾—ã™ã‚‹
 	 * 
 	 * @param pathId
 	 * @return
@@ -87,9 +155,9 @@ public class NameServerAccesser {
 	}
 
 	/**
-	 * PathId‚©‚çNameComponent‚ğæ“¾‚·‚é
+	 * PathIdã‹ã‚‰NameComponentã‚’å–å¾—ã™ã‚‹
 	 * <p>
-	 * ƒl[ƒ€ƒT[ƒo–¼‚Íœ‚­
+	 * ãƒãƒ¼ãƒ ã‚µãƒ¼ãƒåã¯é™¤ã
 	 * 
 	 * @param pathId
 	 * @return
@@ -109,7 +177,8 @@ public class NameServerAccesser {
 	}
 
 	/**
-	 * context‚©‚çRTM.Manager‚ğæ“¾‚·‚é
+	 * contextã‹ã‚‰RTM.Managerã‚’å–å¾—ã™ã‚‹
+	 * 
 	 * @param context
 	 * @return
 	 */
@@ -118,10 +187,12 @@ public class NameServerAccesser {
 		for (Binding b : bindingList) {
 			try {
 				org.omg.CORBA.Object resolve = context.resolve(b.binding_name);
-				if (resolve._is_a(ManagerHelper.id()))return ManagerHelper.narrow(resolve);
+				if (resolve._is_a(ManagerHelper.id()))
+					return ManagerHelper.narrow(resolve);
 				if (resolve instanceof NamingContext) {
-					RTM.Manager temp = findManager((NamingContext)resolve);
-					if (temp != null) return temp;
+					RTM.Manager temp = findManager((NamingContext) resolve);
+					if (temp != null)
+						return temp;
 				}
 			} catch (Exception e) {
 				// continue
@@ -131,7 +202,8 @@ public class NameServerAccesser {
 	}
 
 	/**
-	 * contextId‚©‚çRTM.Manager‚ğæ“¾‚·‚é
+	 * contextIdã‹ã‚‰RTM.Managerã‚’å–å¾—ã™ã‚‹
+	 * 
 	 * @param contextId
 	 * @return
 	 */

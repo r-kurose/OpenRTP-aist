@@ -2,17 +2,18 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: jp.go.aist.rtm.nameserviceview; singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.1.0.v20110411
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: jp.go.aist.rtm.nameserviceview,
  jp.go.aist.rtm.nameserviceview.adapterfactory,
  jp.go.aist.rtm.nameserviceview.corba,
  jp.go.aist.rtm.nameserviceview.factory,
  jp.go.aist.rtm.nameserviceview.manager,
- jp.go.aist.rtm.nameserviceview.manager.impl,
+ jp.go.aist.rtm.nameserviceview.model.manager,
+ jp.go.aist.rtm.nameserviceview.model.manager.impl,
+ jp.go.aist.rtm.nameserviceview.model.manager.util,
  jp.go.aist.rtm.nameserviceview.model.nameservice,
  jp.go.aist.rtm.nameserviceview.model.nameservice.impl,
  jp.go.aist.rtm.nameserviceview.model.nameservice.util,
@@ -24,5 +25,6 @@ Export-Package: jp.go.aist.rtm.nameserviceview,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  jp.go.aist.rtm.toolscommon
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-Activator: jp.go.aist.rtm.nameserviceview.NameServiceViewPlugin
+Eclipse-BuddyPolicy: registered

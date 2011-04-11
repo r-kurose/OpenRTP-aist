@@ -3,11 +3,9 @@ package jp.go.aist.rtm.rtcbuilder.ui.editors;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
@@ -16,7 +14,7 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
 /**
- * ƒhƒLƒ…ƒƒ“ƒgƒy[ƒW
+ * ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆãƒšãƒ¼ã‚¸
  */
 public class DocumentEditorFormPage extends AbstractEditorFormPage {
 
@@ -32,10 +30,10 @@ public class DocumentEditorFormPage extends AbstractEditorFormPage {
 	private List versionUpLogList;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param editor
-	 *            e‚ÌƒGƒfƒBƒ^
+	 *            è¦ªã®ã‚¨ãƒ‡ã‚£ã‚¿
 	 */
 	public DocumentEditorFormPage(RtcBuilderEditor editor) {
 		super(editor, "id", IMessageConstants.DOCUMENT_SECTION);
@@ -45,17 +43,8 @@ public class DocumentEditorFormPage extends AbstractEditorFormPage {
 	 * {@inheritDoc}
 	 */
 	protected void createFormContent(IManagedForm managedForm) {
-		ScrolledForm form = super.createBase(managedForm);
+		ScrolledForm form = super.createBase(managedForm, IMessageConstants.DOCUMENT_SECTION);
 		FormToolkit toolkit = managedForm.getToolkit();
-
-		Label label = toolkit.createLabel(form.getBody(), IMessageConstants.DOCUMENT_SECTION);
-		if( titleFont==null ) {
-			titleFont = new Font(form.getDisplay(), IMessageConstants.TITLE_FONT, 16, SWT.BOLD);
-		}
-		label.setFont(titleFont);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.horizontalSpan = 2;
-		label.setLayoutData(gd);
 		//
 		createOverViewSection(toolkit, form);
 		createHintSection(toolkit, form);
@@ -183,7 +172,7 @@ public class DocumentEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	/**
-	 * ƒf[ƒ^‚ğƒ[ƒh‚·‚é
+	 * ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
 	 */
 	public void load() {
 		RtcParam rtcParam = editor.getRtcParam();
@@ -197,6 +186,7 @@ public class DocumentEditorFormPage extends AbstractEditorFormPage {
 			licenseText.setText(getDisplayDocText(getValue(rtcParam.getDocLicense())));
 			referenceText.setText(getDisplayDocText(getValue(rtcParam.getDocReference())));
 			//
+			versionUpLogList.removeAll();
 			for(String vuLog : rtcParam.getVersionUpLog() ) {
 				versionUpLogList.add(vuLog);
 			}
@@ -204,8 +194,7 @@ public class DocumentEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	public String validateParam() {
-		//“ü—Íƒpƒ‰ƒ[ƒ^ƒ`ƒFƒbƒN‚È‚µ
+		//å…¥åŠ›ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒã‚§ãƒƒã‚¯ãªã—
 		return null;
 	}
-
 }

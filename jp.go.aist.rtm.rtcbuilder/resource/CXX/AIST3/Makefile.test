@@ -10,7 +10,7 @@
 #   --module-desc='test component' --module-version=1.0.0 --module-vendor=S.Kurihara 
 #   --module-category=example --module-comp-type=STATIC 
 #   --module-act-type=PERIODIC --module-max-inst=1 
-#   --inport=in:RTC::TimedFloatSeq --outport=out:RTC::TimedFloatSeq 
+#   --inport=in:TimedFloatSeq --outport=out:TimedFloatSeq 
 #   --service-idl=C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\resource\CXX\AIST3\MyService.idl 
 #   --consumer-idl=C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder\resource\CXX\AIST3\MyService.idl 
 #   --service=MySVPro:myservice0:MyService 
@@ -19,7 +19,7 @@
 #
 # $Id$
 #
-CXXFLAGS = `rtm-config --cflags`
+CXXFLAGS = `rtm-config --cflags` -I.
 LDFLAGS  = `rtm-config --libs`
 SHFLAGS  = -shared
 
@@ -29,9 +29,9 @@ WRAPPER  = rtm-skelwrapper
 WRAPPER_FLAGS = --include-dir="" --skel-suffix=Skel --stub-suffix=Stub
 
 SKEL_OBJ = MyServiceSkel.o 
-STUB_OBJ = MyServiceStub.o 
+STUB_OBJ = 
 IMPL_OBJ = MyServiceSVC_impl.o 
-OBJS     = test.o $(SKEL_OBJ) $(IMPL_OBJ)
+OBJS     = test.o $(SKEL_OBJ) $(STUB_OBJ) $(IMPL_OBJ)
 
 .SUFFIXES : .so
 
@@ -63,12 +63,6 @@ MyServiceSkel.cpp : MyService.idl
 	$(IDLC) $(IDLFLAGS) MyService.idl
 	$(WRAPPER) $(WRAPPER_FLAGS) --idl-file=MyService.idl
 MyServiceSkel.h : MyService.idl
-	$(IDLC) $(IDLFLAGS) MyService.idl
-	$(WRAPPER) $(WRAPPER_FLAGS) --idl-file=MyService.idl
-MyServiceStub.cpp : MyService.idl
-	$(IDLC) $(IDLFLAGS) MyService.idl
-	$(WRAPPER) $(WRAPPER_FLAGS) --idl-file=MyService.idl
-MyServiceStub.h : MyService.idl
 	$(IDLC) $(IDLFLAGS) MyService.idl
 	$(WRAPPER) $(WRAPPER_FLAGS) --idl-file=MyService.idl
 

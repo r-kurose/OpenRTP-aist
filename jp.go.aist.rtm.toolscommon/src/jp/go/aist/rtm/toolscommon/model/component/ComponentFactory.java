@@ -108,6 +108,33 @@ public interface ComponentFactory extends EFactory {
 	CorbaExecutionContext createCorbaExecutionContext();
 
 	/**
+	 * Returns a new object of class '<em>Corba Context Handler</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Corba Context Handler</em>'.
+	 * @generated
+	 */
+	CorbaContextHandler createCorbaContextHandler();
+
+	/**
+	 * Returns a new object of class '<em>Corba Observer</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Corba Observer</em>'.
+	 * @generated
+	 */
+	CorbaObserver createCorbaObserver();
+
+	/**
+	 * Returns a new object of class '<em>Corba Status Observer</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Corba Status Observer</em>'.
+	 * @generated
+	 */
+	CorbaStatusObserver createCorbaStatusObserver();
+
+	/**
 	 * Returns a new object of class '<em>Specification</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -160,6 +187,15 @@ public interface ComponentFactory extends EFactory {
 	 * @generated
 	 */
 	ExecutionContext createExecutionContext();
+
+	/**
+	 * Returns a new object of class '<em>Context Handler</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Context Handler</em>'.
+	 * @generated
+	 */
+	ContextHandler createContextHandler();
 
 	/**
 	 * Returns a new object of class '<em>Name Value</em>'.

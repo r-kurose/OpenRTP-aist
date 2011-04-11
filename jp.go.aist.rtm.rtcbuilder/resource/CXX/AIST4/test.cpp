@@ -19,7 +19,8 @@ static const char* test_spec[] =
     "version",           "1.0.0",
     "vendor",            "S.Kurihara",
     "category",          "sample",
-    "activity_type",     "STATIC",
+    "activity_type",     "PERIODIC",
+    "kind",              "DataFlowComponent",
     "max_instance",      "1",
     "language",          "C++",
     "lang_type",         "compile",
@@ -32,9 +33,11 @@ static const char* test_spec[] =
  * @param manager Maneger Object
  */
 test::test(RTC::Manager* manager)
-  : RTC::DataFlowComponentBase(manager),
     // <rtc-template block="initializer">
-    m_MySVPro0Port("MySVPro0"),m_MySVPro1Port("MySVPro1"),
+  : RTC::DataFlowComponentBase(manager),
+    m_MySVPro0Port("MySVPro0"),
+    m_MySVPro1Port("MySVPro1"),
+
     // </rtc-template>
 	dummy(0)
 {

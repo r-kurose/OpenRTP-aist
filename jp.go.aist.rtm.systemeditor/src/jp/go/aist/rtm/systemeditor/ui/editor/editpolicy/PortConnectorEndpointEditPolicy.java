@@ -9,7 +9,7 @@ import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 import org.eclipse.gef.requests.ReconnectRequest;
 
 /**
- * ポートのEditPolicyクラス
+ * 繝昴�ｼ繝医�ｮEditPolicy繧ｯ繝ｩ繧ｹ
  */
 public class PortConnectorEndpointEditPolicy extends
 		ConnectionEndpointEditPolicy {

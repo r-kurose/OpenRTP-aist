@@ -1,75 +1,85 @@
 package jp.go.aist.rtm.toolscommon.ui.propertysource;
 
-import jp.go.aist.rtm.toolscommon.model.component.Component;
+import java.util.ArrayList;
+import java.util.List;
+
+import jp.go.aist.rtm.toolscommon.model.component.ContextHandler;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 import jp.go.aist.rtm.toolscommon.nl.Messages;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
-import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
 /**
- * PortInterfaceProfileのPropertySourceクラス
+ * ExecutionContext縺ｮPropertySource繧ｯ繝ｩ繧ｹ
  */
-public class ExecutionContextPropertySource implements IPropertySource {
+public class ExecutionContextPropertySource extends AbstractPropertySource {
 
-	private static final String DISP_EC_ID = "ID";
+	static final String DISP_EC_ID = "ID";
 
-	private static final String DISP_STATE = Messages.getString("ExecutionContextPropertySource.disp.state");
+	static final String DISP_STATE = Messages.getString("ExecutionContextPropertySource.disp.state");
 
-	private static final String DISP_KIND = Messages.getString("ExecutionContextPropertySource.disp.kind");
+	static final String DISP_KIND = Messages.getString("ExecutionContextPropertySource.disp.kind");
 
-	private static final String DISP_RATE = Messages.getString("ExecutionContextPropertySource.disp.rate");
+	static final String DISP_RATE = Messages.getString("ExecutionContextPropertySource.disp.rate");
 
-	private static final String EC_ID = "ID";
+	static final String EC_ID = "ID";
 
-	private static final String STATE = "STATE";
+	static final String STATE = "STATE";
 
-	private static final String KIND = "KIND";
+	static final String KIND = "KIND";
 
-	private static final String RATE = "RATE";
+	static final String RATE = "RATE";
 
-	private static final String UNKNOWN = Messages.getString("ExecutionContextPropertySource.unknown");
+	static final String UNKNOWN = Messages.getString("ExecutionContextPropertySource.unknown");
 
-	private static final String STATE_RUNNING_LABEL = Messages.getString("ExecutionContextPropertySource.state.running");
+	static final String STATE_RUNNING_LABEL = Messages.getString("ExecutionContextPropertySource.state.running");
 
-	private static final String STATE_STOPPED_LABEL = Messages.getString("ExecutionContextPropertySource.state.stopped");
+	static final String STATE_STOPPED_LABEL = Messages.getString("ExecutionContextPropertySource.state.stopped");
 
-	private static final String STATE_UNKNOWN_LABEL = Messages.getString("ExecutionContextPropertySource.state.unknown");
+	static final String STATE_UNKNOWN_LABEL = Messages.getString("ExecutionContextPropertySource.state.unknown");
 
-	private static final String KIND_EVENT_DRIVEN_LABEL = Messages.getString("ExecutionContextPropertySource.kind.event_driven");
+	static final String KIND_EVENT_DRIVEN_LABEL = Messages.getString("ExecutionContextPropertySource.kind.event_driven");
 
-	private static final String KIND_PERIODIC_LABEL = Messages.getString("ExecutionContextPropertySource.kind.periodic");
+	static final String KIND_PERIODIC_LABEL = Messages.getString("ExecutionContextPropertySource.kind.periodic");
 
-	private static final String KIND_OTHER_LABEL = Messages.getString("ExecutionContextPropertySource.kind.other");
-
-	private static final IPropertyDescriptor[] PROPERTY_DESCRIPTORS = new IPropertyDescriptor[] {
-			new TextPropertyDescriptor(EC_ID, DISP_EC_ID),
-			new TextPropertyDescriptor(KIND, DISP_KIND),
-			new TextPropertyDescriptor(RATE, DISP_RATE) };
-
-	private static final IPropertyDescriptor[] ONLINE_PROPERTY_DESCRIPTORS = new IPropertyDescriptor[] {
-			new TextPropertyDescriptor(EC_ID, DISP_EC_ID),
-			new TextPropertyDescriptor(STATE, DISP_STATE),
-			new TextPropertyDescriptor(KIND, DISP_KIND),
-			new TextPropertyDescriptor(RATE, DISP_RATE) };
+	static final String KIND_OTHER_LABEL = Messages.getString("ExecutionContextPropertySource.kind.other");
 
 	private ExecutionContext delegate;
 
 	/**
-	 * コンストラクタ
+	 * 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ
 	 * 
 	 * @param delegate
-	 *            モデル
+	 *            繝｢繝�繝ｫ
 	 */
 	public ExecutionContextPropertySource(ExecutionContext delegate) {
 		this.delegate = delegate;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
+	public IPropertyDescriptor[] getPropertyDescriptors() {
+		List<IPropertyDescriptor> result = new ArrayList<IPropertyDescriptor>();
+		if (this.delegate instanceof CorbaExecutionContext) {
+			result.add(new TextPropertyDescriptor(EC_ID, DISP_EC_ID));
+			result.add(new TextPropertyDescriptor(STATE, DISP_STATE));
+			result.add(new TextPropertyDescriptor(KIND, DISP_KIND));
+			result.add(new TextPropertyDescriptor(RATE, DISP_RATE));
+		} else {
+			result.add(new TextPropertyDescriptor(EC_ID, DISP_EC_ID));
+			result.add(new TextPropertyDescriptor(KIND, DISP_KIND));
+			result.add(new TextPropertyDescriptor(RATE, DISP_RATE));
+		}
+		for (String key : delegate.getPropertyKeys()) {
+			result.add(new TextPropertyDescriptor(new DynamicID("PROPERTIES",
+					key), key));
+		}
+		return (IPropertyDescriptor[]) result
+				.toArray(new IPropertyDescriptor[result.size()]);
+	}
+
+	@Override
 	public java.lang.Object getPropertyValue(java.lang.Object id) {
 		String result = UNKNOWN;
 		try {
@@ -94,12 +104,17 @@ public class ExecutionContextPropertySource implements IPropertySource {
 			} else if (RATE.equals(id)) {
 				result = String.valueOf(delegate.getRateL());
 			} else if (EC_ID.equals(id)) {
-				if (delegate.eContainer() instanceof Component) {
-					Component cp = (Component) delegate.eContainer();
-					String ecid = cp.getExecutionContextId(delegate);
+				if (getParent() instanceof ContextHandler) {
+					ContextHandler ch = (ContextHandler) getParent();
+					String ecid = ch.getId(delegate);
 					if (ecid != null) {
 						result = ecid;
 					}
+				}
+			} else if (id instanceof DynamicID) {
+				DynamicID dynamicId = (DynamicID) id;
+				if ("PROPERTIES".equals(dynamicId.categoryId)) {
+					return delegate.getProperty(dynamicId.subId);
 				}
 			}
 		} catch (Exception e) {
@@ -109,36 +124,4 @@ public class ExecutionContextPropertySource implements IPropertySource {
 		return result;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isPropertySet(java.lang.Object id) {
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void resetPropertyValue(java.lang.Object id) {
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setPropertyValue(java.lang.Object id, java.lang.Object value) {
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public java.lang.Object getEditableValue() {
-		return null;
-	}
-
-	public IPropertyDescriptor[] getPropertyDescriptors() {
-		if (this.delegate instanceof CorbaExecutionContext) {
-			return ONLINE_PROPERTY_DESCRIPTORS;
-		}
-		return PROPERTY_DESCRIPTORS;
-	}
 }

@@ -3,25 +3,112 @@ package jp.go.aist.rtm.toolscommon.model.component;
 import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
 
 /**
- * ConnectorProfile‚ğ•\Œ»‚·‚éƒNƒ‰ƒX
+ * ConnectorProfileã‚’è¡¨ç¾ã™ã‚‹ã‚¯ãƒ©ã‚¹
  * <p>
  * 
- * ‚±‚ÌƒIƒuƒWƒFƒNƒg‚ÍAƒoƒŠƒ…[ƒIƒuƒWƒFƒNƒg‚Å‚ ‚é‚±‚Æ‚É’ˆÓ‚·‚é‚±‚ÆB<br>
- * ‚±‚ÌƒIƒuƒWƒFƒNƒg©‘Ì‚Í“¯Šú‚ªs‚í‚ê‚È‚¢‚½‚ßA‚±‚ÌƒIƒuƒWƒFƒNƒg‚ÌQÆ‚ğ•Û‚µ‘±‚¯‚é‚±‚Æ‚ÍAŠëŒ¯‚Å‚ ‚éB<br>
- * –î‚ª‹–‚·ŒÀ‚èAQÆŒ³‚ÌƒIƒuƒWƒFƒNƒg‚ğQÆ‚µ‚ÄA•K—v‚É‚È‚é‚½‚Ñ‚É‚»‚±‚©‚çè‚É“ü‚ê‚é‚±‚ÆB
+ * ã“ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯ã€ãƒãƒªãƒ¥ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã§ã‚ã‚‹ã“ã¨ã«æ³¨æ„ã™ã‚‹ã“ã¨ã€‚<br>
+ * ã“ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè‡ªä½“ã¯åŒæœŸãŒè¡Œã‚ã‚Œãªã„ãŸã‚ã€ã“ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å‚ç…§ã‚’ä¿æŒã—ç¶šã‘ã‚‹ã“ã¨ã¯ã€å±é™ºã§ã‚ã‚‹ã€‚<br>
+ * äº‹æƒ…ãŒè¨±ã™é™ã‚Šã€å‚ç…§å…ƒã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‚ç…§ã—ã¦ã€å¿…è¦ã«ãªã‚‹ãŸã³ã«ãã“ã‹ã‚‰æ‰‹ã«å…¥ã‚Œã‚‹ã“ã¨ã€‚
  * 
  * @model
  */
-public interface ConnectorProfile extends WrapperObject{
+public interface ConnectorProfile extends WrapperObject, IPropertyMap{
 
 	public static final String ANY = "Any";
 
 	public static final String PERIODIC = "Periodic";
 
+	public static final String NEW = "New";
+
 	public static final String PUSH = "Push";
 
+	public static final String SKIP = "Skip";
+
+	public static final String[] PUSH_POLICY_TYPES = new String[] { "all",
+			"fifo", "skip", "new" };
+
+	public static final String[] BUFFER_FULL_POLICY_TYPES = new String[] {
+			"overwrite", "do_nothing", "block" };
+
+	public static final String[] BUFFER_EMPTY_POLICY_TYPES = new String[] {
+			"readback", "do_nothing", "block" };
+
+	public static interface PROP {
+		static final String DATA_TYPE = "dataport.data_type";
+		static final String INTERFACE_TYPE = "dataport.interface_type";
+		static final String DATAFLOW_TYPE = "dataport.dataflow_type";
+		static final String SUBSCRIPTION_TYPE = "dataport.subscription_type";
+		static final String PUSH_RATE = "dataport.push_rate";
+		static final String PUSH_POLICY = "dataport.publisher.push_policy";
+		static final String SKIP_COUNT = "dataport.publisher.skip_count";
+		//
+		static final String OUTPORT_BUFF_LENGTH = "dataport.outport.buffer.length";
+		static final String OUTPORT_FULL_POLICY = "dataport.outport.buffer.write.full_policy";
+		static final String OUTPORT_WRITE_TIMEOUT = "dataport.outport.buffer.write.timeout";
+		static final String OUTPORT_EMPTY_POLICY = "dataport.outport.buffer.read.empty_policy";
+		static final String OUTPORT_READ_TIMEOUT = "dataport.outport.buffer.read.timeout";
+		//
+		static final String INPORT_BUFF_LENGTH = "dataport.inport.buffer.length";
+		static final String INPORT_FULL_POLICY = "dataport.inport.buffer.write.full_policy";
+		static final String INPORT_WRITE_TIMEOUT = "dataport.inport.buffer.write.timeout";
+		static final String INPORT_EMPTY_POLICY = "dataport.inport.buffer.read.empty_policy";
+		static final String INPORT_READ_TIMEOUT = "dataport.inport.buffer.read.timeout";
+	}
+
 	/**
-	 * “–ŠYƒRƒlƒNƒ^‚Åg—p‚³‚ê‚éƒf[ƒ^ƒtƒ[Œ^‚ğ•Ô‚·B
+	 * ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹æŒ‡å®šå­ (ref. CorbaPort)
+	 */
+	public static class InterfaceId {
+		public static final String REQUIRED = "required";
+		public static final String PROVIDED = "provided";
+
+		public String rtc_name;
+		public String port_name;
+		public String if_polarity;
+		public String if_tname;
+		public String if_iname;
+
+		public void setPolarityBy(PortInterfaceProfile profile) {
+			if (profile == null) {
+				return;
+			}
+			if_polarity = (profile.isRequiredPolarity()) ? REQUIRED : PROVIDED;
+		}
+
+		public static boolean isValid(String id) {
+			String[] s = id.split("\\.");
+			if (s.length != 6) {
+				return false;
+			}
+			if (!"port".equals(s[1])) {
+				return false;
+			}
+			if (!REQUIRED.equals(s[3]) && !PROVIDED.equals(s[3])) {
+				return false;
+			}
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return rtc_name + ".port." + port_name + "." + if_polarity + "."
+					+ if_tname + "." + if_iname;
+		}
+
+		@Override
+		public InterfaceId clone() {
+			InterfaceId c = new InterfaceId();
+			c.rtc_name = this.rtc_name;
+			c.port_name = this.port_name;
+			c.if_polarity = this.if_polarity;
+			c.if_tname = this.if_tname;
+			c.if_iname = this.if_iname;
+			return c;
+		}
+	}
+
+	/**
+	 * å½“è©²ã‚³ãƒã‚¯ã‚¿ã§ä½¿ç”¨ã•ã‚Œã‚‹ãƒ‡ãƒ¼ã‚¿ãƒ•ãƒ­ãƒ¼å‹ã‚’è¿”ã™ã€‚
 	 * @model changeable="true" transient="true" volatile="true"
 	 * @return
 	 */
@@ -30,7 +117,7 @@ public interface ConnectorProfile extends WrapperObject{
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getDataflowType <em>Dataflow Type</em>}' attribute.
 	 * <!-- begin-user-doc --> 
-	 * “–ŠYƒRƒlƒNƒ^‚Åg—p‚³‚ê‚éƒf[ƒ^ƒtƒ[Œ^‚ğİ’è‚·‚éB
+	 * å½“è©²ã‚³ãƒã‚¯ã‚¿ã§ä½¿ç”¨ã•ã‚Œã‚‹ãƒ‡ãƒ¼ã‚¿ãƒ•ãƒ­ãƒ¼å‹ã‚’è¨­å®šã™ã‚‹ã€‚
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Dataflow Type</em>' attribute.
 	 * @see #getDataflowType()
@@ -39,7 +126,7 @@ public interface ConnectorProfile extends WrapperObject{
 	void setDataflowType(String value);
 
 	/**
-	 * “–ŠYƒRƒlƒNƒ^‚Åg—p‚³‚ê‚éƒTƒuƒXƒNƒŠƒvƒVƒ‡ƒ“Œ^‚ğ•Ô‚·
+	 * å½“è©²ã‚³ãƒã‚¯ã‚¿ã§ä½¿ç”¨ã•ã‚Œã‚‹ã‚µãƒ–ã‚¹ã‚¯ãƒªãƒ—ã‚·ãƒ§ãƒ³å‹ã‚’è¿”ã™
 	 * @model changeable="true" transient="true" volatile="true"
 	 * @return
 	 */
@@ -48,7 +135,7 @@ public interface ConnectorProfile extends WrapperObject{
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getSubscriptionType <em>Subscription Type</em>}' attribute.
 	 * <!-- begin-user-doc --> 
-	 * “–ŠYƒRƒlƒNƒ^‚Åg—p‚³‚ê‚éƒTƒuƒXƒNƒŠƒvƒVƒ‡ƒ“Œ^‚ğİ’è‚·‚é
+	 * å½“è©²ã‚³ãƒã‚¯ã‚¿ã§ä½¿ç”¨ã•ã‚Œã‚‹ã‚µãƒ–ã‚¹ã‚¯ãƒªãƒ—ã‚·ãƒ§ãƒ³å‹ã‚’è¨­å®šã™ã‚‹
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Subscription Type</em>' attribute.
 	 * @see #getSubscriptionType()
@@ -57,21 +144,21 @@ public interface ConnectorProfile extends WrapperObject{
 	void setSubscriptionType(String value);
 
 	/**
-	 * ƒTƒuƒXƒNƒŠƒvƒVƒ‡ƒ“Œ^‚ªg—p‰Â”\‚©iƒf[ƒ^ƒtƒ[Œ^‚ªPUSH‚Å‚ ‚é‚©j‚ğ•Ô‚·
+	 * ã‚µãƒ–ã‚¹ã‚¯ãƒªãƒ—ã‚·ãƒ§ãƒ³å‹ãŒä½¿ç”¨å¯èƒ½ã‹ï¼ˆãƒ‡ãƒ¼ã‚¿ãƒ•ãƒ­ãƒ¼å‹ãŒPUSHã§ã‚ã‚‹ã‹ï¼‰ã‚’è¿”ã™
 	 * @model changeable="false" transient="true" volatile="true"
 	 * @return
 	 */
 	public boolean isSubscriptionTypeAvailable();
 
 	/**
-	 * PUSHŠÔŠu‚ªg—p‰Â”\‚©iƒTƒuƒXƒNƒŠƒvƒVƒ‡ƒ“Œ^‚ªg—p‰Â”\‚ÅƒTƒuƒXƒNƒŠƒvƒVƒ‡ƒ“Œ^‚ªPERIODICj‚ğ•Ô‚·
+	 * PUSHé–“éš”ãŒä½¿ç”¨å¯èƒ½ã‹ï¼ˆã‚µãƒ–ã‚¹ã‚¯ãƒªãƒ—ã‚·ãƒ§ãƒ³å‹ãŒä½¿ç”¨å¯èƒ½ã§ã‚µãƒ–ã‚¹ã‚¯ãƒªãƒ—ã‚·ãƒ§ãƒ³å‹ãŒPERIODICï¼‰ã‚’è¿”ã™
 	 * @model changeable="false" transient="true" volatile="true"
 	 * @return
 	 */
 	public boolean isPushIntervalAvailable();
 
 	/**
-	 * Outport‚©‚çInport‚É—¬‚ê‚éƒf[ƒ^‚ÌŒ^‚ğ•Ô‚·
+	 * Outportã‹ã‚‰Inportã«æµã‚Œã‚‹ãƒ‡ãƒ¼ã‚¿ã®å‹ã‚’è¿”ã™
 	 * @model changeable="true" transient="true" volatile="true"
 	 * @return
 	 */
@@ -80,7 +167,7 @@ public interface ConnectorProfile extends WrapperObject{
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getDataType <em>Data Type</em>}' attribute.
 	 * <!-- begin-user-doc --> 
-	 * Outport‚©‚çInport‚É—¬‚ê‚éƒf[ƒ^‚ÌŒ^‚ğİ’è‚·‚é
+	 * Outportã‹ã‚‰Inportã«æµã‚Œã‚‹ãƒ‡ãƒ¼ã‚¿ã®å‹ã‚’è¨­å®šã™ã‚‹
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Data Type</em>' attribute.
 	 * @see #getDataType()
@@ -89,7 +176,7 @@ public interface ConnectorProfile extends WrapperObject{
 	void setDataType(String value);
 
 	/**
-	 *  “–ŠYƒRƒlƒNƒ^‚Åg—p‚³‚ê‚éƒCƒ“ƒ^[ƒtƒF[ƒXŒ^‚ğ•Ô‚·
+	 *  å½“è©²ã‚³ãƒã‚¯ã‚¿ã§ä½¿ç”¨ã•ã‚Œã‚‹ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹å‹ã‚’è¿”ã™
 	 * @model changeable="true" transient="true" volatile="true"
 	 * @return
 	 */
@@ -98,7 +185,7 @@ public interface ConnectorProfile extends WrapperObject{
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getInterfaceType <em>Interface Type</em>}' attribute.
 	 * <!-- begin-user-doc --> 
-	 * “–ŠYƒRƒlƒNƒ^‚Åg—p‚³‚ê‚éƒCƒ“ƒ^[ƒtƒF[ƒXŒ^‚ğİ’è‚·‚é
+	 * å½“è©²ã‚³ãƒã‚¯ã‚¿ã§ä½¿ç”¨ã•ã‚Œã‚‹ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹å‹ã‚’è¨­å®šã™ã‚‹
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Interface Type</em>' attribute.
 	 * @see #getInterfaceType()
@@ -107,7 +194,7 @@ public interface ConnectorProfile extends WrapperObject{
 	void setInterfaceType(String value);
 
 	/**
-	 * “–ŠYƒRƒlƒNƒ^‚Åg—p‚³‚ê‚éƒf[ƒ^‘—MüŠú‚ğ•Ô‚·
+	 * å½“è©²ã‚³ãƒã‚¯ã‚¿ã§ä½¿ç”¨ã•ã‚Œã‚‹ãƒ‡ãƒ¼ã‚¿é€ä¿¡å‘¨æœŸã‚’è¿”ã™
 	 * @model changeable="true" transient="true" volatile="true"
 	 * @return
 	 */
@@ -116,7 +203,7 @@ public interface ConnectorProfile extends WrapperObject{
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getPushRate <em>Push Rate</em>}' attribute.
 	 * <!-- begin-user-doc --> 
-	 * “–ŠYƒRƒlƒNƒ^‚Åg—p‚³‚ê‚éƒf[ƒ^‘—MüŠú‚ğİ’è‚·‚é
+	 * å½“è©²ã‚³ãƒã‚¯ã‚¿ã§ä½¿ç”¨ã•ã‚Œã‚‹ãƒ‡ãƒ¼ã‚¿é€ä¿¡å‘¨æœŸã‚’è¨­å®šã™ã‚‹
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Push Rate</em>' attribute.
 	 * @see #getPushRate()
@@ -125,10 +212,92 @@ public interface ConnectorProfile extends WrapperObject{
 	void setPushRate(Double value);
 
 	/**
+	 * Returns the value of the '<em><b>Push Policy</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Push Policy</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Push Policy</em>' attribute.
+	 * @see #setPushPolicy(String)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getConnectorProfile_PushPolicy()
+	 * @model
+	 * @generated
+	 */
+	String getPushPolicy();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getPushPolicy <em>Push Policy</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Push Policy</em>' attribute.
+	 * @see #getPushPolicy()
+	 * @generated
+	 */
+	void setPushPolicy(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Skip Count</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Skip Count</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Skip Count</em>' attribute.
+	 * @see #setSkipCount(Integer)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getConnectorProfile_SkipCount()
+	 * @model
+	 * @generated
+	 */
+	Integer getSkipCount();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getSkipCount <em>Skip Count</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Skip Count</em>' attribute.
+	 * @see #getSkipCount()
+	 * @generated
+	 */
+	void setSkipCount(Integer value);
+
+	/**
+	 * Returns the value of the '<em><b>Push Policy Available</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Push Policy Available</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Push Policy Available</em>' attribute.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getConnectorProfile_PushPolicyAvailable()
+	 * @model transient="true" changeable="false" volatile="true"
+	 * @generated
+	 */
+	boolean isPushPolicyAvailable();
+
+	/**
+	 * Returns the value of the '<em><b>Skip Count Available</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Skip Count Available</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Skip Count Available</em>' attribute.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getConnectorProfile_SkipCountAvailable()
+	 * @model transient="true" changeable="false" volatile="true"
+	 * @generated
+	 */
+	boolean isSkipCountAvailable();
+
+	/**
 	 * Returns the value of the '<em><b>Source String</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒRƒlƒNƒ^‚ÌÚ‘±Œ³‚Å‚ ‚éƒ|[ƒg‚Ì¯•Ê•¶š—ñ‚ğ•Ô‚·
+	 * ã‚³ãƒã‚¯ã‚¿ã®æ¥ç¶šå…ƒã§ã‚ã‚‹ãƒãƒ¼ãƒˆã®è­˜åˆ¥æ–‡å­—åˆ—ã‚’è¿”ã™
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Source String</em>' attribute.
@@ -142,7 +311,7 @@ public interface ConnectorProfile extends WrapperObject{
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getSourceString <em>Source String</em>}' attribute.
 	 * <!-- begin-user-doc -->
-	 * ƒRƒlƒNƒ^‚ÌÚ‘±Œ³‚Å‚ ‚éƒ|[ƒg‚Ì¯•Ê•¶š—ñ‚ğİ’è‚·‚é
+	 * ã‚³ãƒã‚¯ã‚¿ã®æ¥ç¶šå…ƒã§ã‚ã‚‹ãƒãƒ¼ãƒˆã®è­˜åˆ¥æ–‡å­—åˆ—ã‚’è¨­å®šã™ã‚‹
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Source String</em>' attribute.
 	 * @see #getSourceString()
@@ -154,7 +323,7 @@ public interface ConnectorProfile extends WrapperObject{
 	 * Returns the value of the '<em><b>Target String</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒRƒlƒNƒ^‚ÌÚ‘±æ‚Å‚ ‚éƒ|[ƒg‚Ì¯•Ê•¶š—ñ‚ğ•Ô‚·
+	 * ã‚³ãƒã‚¯ã‚¿ã®æ¥ç¶šå…ˆã§ã‚ã‚‹ãƒãƒ¼ãƒˆã®è­˜åˆ¥æ–‡å­—åˆ—ã‚’è¿”ã™
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Target String</em>' attribute.
@@ -168,7 +337,7 @@ public interface ConnectorProfile extends WrapperObject{
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getTargetString <em>Target String</em>}' attribute.
 	 * <!-- begin-user-doc -->
-	 * ƒRƒlƒNƒ^‚ÌÚ‘±æ‚Å‚ ‚éƒ|[ƒg‚Ì¯•Ê•¶š—ñ‚ğİ’è‚·‚é
+	 * ã‚³ãƒã‚¯ã‚¿ã®æ¥ç¶šå…ˆã§ã‚ã‚‹ãƒãƒ¼ãƒˆã®è­˜åˆ¥æ–‡å­—åˆ—ã‚’è¨­å®šã™ã‚‹
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Target String</em>' attribute.
 	 * @see #getTargetString()
@@ -177,15 +346,275 @@ public interface ConnectorProfile extends WrapperObject{
 	void setTargetString(String value);
 
 	/**
+	 * Returns the value of the '<em><b>Outport Buffer Length</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Outport Buffer Length</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Outport Buffer Length</em>' attribute.
+	 * @see #setOutportBufferLength(Integer)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getConnectorProfile_OutportBufferLength()
 	 * @model
-	 * @return	Ú‘±î•ñ‚Ì–¼Ì
+	 * @generated
+	 */
+	Integer getOutportBufferLength();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getOutportBufferLength <em>Outport Buffer Length</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Outport Buffer Length</em>' attribute.
+	 * @see #getOutportBufferLength()
+	 * @generated
+	 */
+	void setOutportBufferLength(Integer value);
+
+	/**
+	 * Returns the value of the '<em><b>Outport Buffer Full Policy</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Outport Buffer Full Policy</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Outport Buffer Full Policy</em>' attribute.
+	 * @see #setOutportBufferFullPolicy(String)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getConnectorProfile_OutportBufferFullPolicy()
+	 * @model
+	 * @generated
+	 */
+	String getOutportBufferFullPolicy();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getOutportBufferFullPolicy <em>Outport Buffer Full Policy</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Outport Buffer Full Policy</em>' attribute.
+	 * @see #getOutportBufferFullPolicy()
+	 * @generated
+	 */
+	void setOutportBufferFullPolicy(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Outport Buffer Write Timeout</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Outport Buffer Write Timeout</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Outport Buffer Write Timeout</em>' attribute.
+	 * @see #setOutportBufferWriteTimeout(Double)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getConnectorProfile_OutportBufferWriteTimeout()
+	 * @model
+	 * @generated
+	 */
+	Double getOutportBufferWriteTimeout();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getOutportBufferWriteTimeout <em>Outport Buffer Write Timeout</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Outport Buffer Write Timeout</em>' attribute.
+	 * @see #getOutportBufferWriteTimeout()
+	 * @generated
+	 */
+	void setOutportBufferWriteTimeout(Double value);
+
+	/**
+	 * Returns the value of the '<em><b>Outport Buffer Empty Policy</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Outport Buffer Empty Policy</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Outport Buffer Empty Policy</em>' attribute.
+	 * @see #setOutportBufferEmptyPolicy(String)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getConnectorProfile_OutportBufferEmptyPolicy()
+	 * @model
+	 * @generated
+	 */
+	String getOutportBufferEmptyPolicy();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getOutportBufferEmptyPolicy <em>Outport Buffer Empty Policy</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Outport Buffer Empty Policy</em>' attribute.
+	 * @see #getOutportBufferEmptyPolicy()
+	 * @generated
+	 */
+	void setOutportBufferEmptyPolicy(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Outport Buffer Read Timeout</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Outport Buffer Read Timeout</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Outport Buffer Read Timeout</em>' attribute.
+	 * @see #setOutportBufferReadTimeout(Double)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getConnectorProfile_OutportBufferReadTimeout()
+	 * @model
+	 * @generated
+	 */
+	Double getOutportBufferReadTimeout();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getOutportBufferReadTimeout <em>Outport Buffer Read Timeout</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Outport Buffer Read Timeout</em>' attribute.
+	 * @see #getOutportBufferReadTimeout()
+	 * @generated
+	 */
+	void setOutportBufferReadTimeout(Double value);
+
+	/**
+	 * Returns the value of the '<em><b>Inport Buffer Length</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Inport Buffer Length</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Inport Buffer Length</em>' attribute.
+	 * @see #setInportBufferLength(Integer)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getConnectorProfile_InportBufferLength()
+	 * @model
+	 * @generated
+	 */
+	Integer getInportBufferLength();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getInportBufferLength <em>Inport Buffer Length</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Inport Buffer Length</em>' attribute.
+	 * @see #getInportBufferLength()
+	 * @generated
+	 */
+	void setInportBufferLength(Integer value);
+
+	/**
+	 * Returns the value of the '<em><b>Inport Buffer Full Policy</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Inport Buffer Full Policy</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Inport Buffer Full Policy</em>' attribute.
+	 * @see #setInportBufferFullPolicy(String)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getConnectorProfile_InportBufferFullPolicy()
+	 * @model
+	 * @generated
+	 */
+	String getInportBufferFullPolicy();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getInportBufferFullPolicy <em>Inport Buffer Full Policy</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Inport Buffer Full Policy</em>' attribute.
+	 * @see #getInportBufferFullPolicy()
+	 * @generated
+	 */
+	void setInportBufferFullPolicy(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Inport Buffer Write Timeout</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Inport Buffer Write Timeout</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Inport Buffer Write Timeout</em>' attribute.
+	 * @see #setInportBufferWriteTimeout(Double)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getConnectorProfile_InportBufferWriteTimeout()
+	 * @model
+	 * @generated
+	 */
+	Double getInportBufferWriteTimeout();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getInportBufferWriteTimeout <em>Inport Buffer Write Timeout</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Inport Buffer Write Timeout</em>' attribute.
+	 * @see #getInportBufferWriteTimeout()
+	 * @generated
+	 */
+	void setInportBufferWriteTimeout(Double value);
+
+	/**
+	 * Returns the value of the '<em><b>Inport Buffer Empty Policy</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Inport Buffer Empty Policy</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Inport Buffer Empty Policy</em>' attribute.
+	 * @see #setInportBufferEmptyPolicy(String)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getConnectorProfile_InportBufferEmptyPolicy()
+	 * @model
+	 * @generated
+	 */
+	String getInportBufferEmptyPolicy();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getInportBufferEmptyPolicy <em>Inport Buffer Empty Policy</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Inport Buffer Empty Policy</em>' attribute.
+	 * @see #getInportBufferEmptyPolicy()
+	 * @generated
+	 */
+	void setInportBufferEmptyPolicy(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Inport Buffer Read Timeout</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Inport Buffer Read Timeout</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Inport Buffer Read Timeout</em>' attribute.
+	 * @see #setInportBufferReadTimeout(Double)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getConnectorProfile_InportBufferReadTimeout()
+	 * @model
+	 * @generated
+	 */
+	Double getInportBufferReadTimeout();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getInportBufferReadTimeout <em>Inport Buffer Read Timeout</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Inport Buffer Read Timeout</em>' attribute.
+	 * @see #getInportBufferReadTimeout()
+	 * @generated
+	 */
+	void setInportBufferReadTimeout(Double value);
+
+	/**
+	 * @model
+	 * @return	æ¥ç¶šæƒ…å ±ã®åç§°
 	 */
 	public String getName();
 
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getName <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc --> 
-	 * Ú‘±î•ñ‚Ì–¼Ì‚ğİ’è‚·‚é
+	 * æ¥ç¶šæƒ…å ±ã®åç§°ã‚’è¨­å®šã™ã‚‹
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Name</em>' attribute.
 	 * @see #getName()
@@ -195,14 +624,14 @@ public interface ConnectorProfile extends WrapperObject{
 
 	/**
 	 * @model
-	 * @return@Ú‘±î•ñ‚ÌˆêˆÓ¯•Êq
+	 * @returnã€€æ¥ç¶šæƒ…å ±ã®ä¸€æ„è­˜åˆ¥å­
 	 */
 	public String getConnectorId();
 
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getConnectorId <em>Connector Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
-	 * Ú‘±î•ñ‚ÌˆêˆÓ¯•Êq‚ğİ’è‚·‚é
+	 * æ¥ç¶šæƒ…å ±ã®ä¸€æ„è­˜åˆ¥å­ã‚’è¨­å®šã™ã‚‹
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Connector Id</em>' attribute.
 	 * @see #getConnectorId()

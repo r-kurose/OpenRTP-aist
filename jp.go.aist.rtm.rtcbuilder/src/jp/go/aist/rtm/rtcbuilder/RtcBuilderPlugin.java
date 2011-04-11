@@ -1,5 +1,12 @@
 package jp.go.aist.rtm.rtcbuilder;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -13,8 +20,10 @@ public class RtcBuilderPlugin extends AbstractUIPlugin {
 
 	// The shared instance
 	private static RtcBuilderPlugin plugin;
-	
-	//ägí£ÉçÅ[É_
+
+	RTCBLogHandler logHandler;
+
+	// Êã°Âºµ„É≠„Éº„ÉÄ
 	private ExtensionLoader loader;
 	private EditorExtensionLoader editorExtensionLoader;
 	private AddFormPageExtensionLoader addFormPageExtensionLoader;
@@ -26,6 +35,13 @@ public class RtcBuilderPlugin extends AbstractUIPlugin {
 	 */
 	public RtcBuilderPlugin() {
 		plugin = this;
+		//
+		getLogger();
+		try {
+			logHandler = new RTCBLogHandler();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/*
@@ -33,19 +49,21 @@ public class RtcBuilderPlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
 	 */
 	public void start(BundleContext context) throws Exception {
+		logHandler.start();
+		//
 		super.start(context);
 		loader = new ExtensionLoader();
 		loader.loadExtensions();
-		
+
 		editorExtensionLoader = new EditorExtensionLoader();
 		editorExtensionLoader.loadExtensions();
 
 		addFormPageExtensionLoader = new AddFormPageExtensionLoader();
 		addFormPageExtensionLoader.loadExtensions();
-		
+
 		importExtensionLoader = new ImportExtensionLoader();
 		importExtensionLoader.loadExtensions();
-		
+
 		exportExtensionLoader = new ExportExtensionLoader();
 		exportExtensionLoader.loadExtensions();
 	}
@@ -55,23 +73,25 @@ public class RtcBuilderPlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
+		logHandler.stop();
+		//
 		plugin = null;
 		super.stop(context);
 	}
 
 	/**
 	 * Returns the shared instance
-	 *
+	 * 
 	 * @return the shared instance
 	 */
 	public static RtcBuilderPlugin getDefault() {
 		return plugin;
 	}
-	
+
 	public ExtensionLoader getLoader() {
 		return loader;
 	}
-	
+
 	public EditorExtensionLoader getEditorExtensionLoader() {
 		return this.editorExtensionLoader;
 	}
@@ -79,7 +99,7 @@ public class RtcBuilderPlugin extends AbstractUIPlugin {
 	public AddFormPageExtensionLoader getAddFormPageExtensionLoader() {
 		return this.addFormPageExtensionLoader;
 	}
-	
+
 	public ImportExtensionLoader getImportExtensionLoader() {
 		return this.importExtensionLoader;
 	}
@@ -87,4 +107,38 @@ public class RtcBuilderPlugin extends AbstractUIPlugin {
 	public ExportExtensionLoader getExportExtensionLoader() {
 		return this.exportExtensionLoader;
 	}
+
+	static LogManager logManager;
+	static Logger log;
+
+	public static Logger getLogger() {
+		if (logManager == null) {
+			try {
+				InputStream ins = new FileInputStream(new File(
+						"rtcbuilder.logging.properties"));
+				logManager = LogManager.getLogManager();
+				logManager.readConfiguration(ins);
+			} catch (IOException e) {
+				// void
+			}
+		}
+		//
+		if (log == null) {
+			log = Logger.getLogger(PLUGIN_ID);
+		}
+		return log;
+	}
+
+	public static void addLogger(Logger logger) {
+		if (plugin != null) {
+			plugin.logHandler.addLogger(logger);
+		}
+	}
+
+	public static void removeLogger(Logger logger) {
+		if (plugin != null) {
+			plugin.logHandler.removeLogger(logger);
+		}
+	}
+
 }

@@ -2,18 +2,18 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: jp.go.aist.rtm.toolscommon; singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.1.0.v20110411
 Bundle-ClassPath: .,
  lib/commons-lang-2.2.jar
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: RTC,
  RTM,
  _SDOPackage,
  jp.go.aist.rtm.toolscommon,
  jp.go.aist.rtm.toolscommon.adapterfactory,
  jp.go.aist.rtm.toolscommon.corba,
+ jp.go.aist.rtm.toolscommon.extension,
  jp.go.aist.rtm.toolscommon.factory,
  jp.go.aist.rtm.toolscommon.manager,
  jp.go.aist.rtm.toolscommon.model.component,
@@ -45,16 +45,13 @@ Export-Package: RTC,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
- org.eclipse.jface.text;visibility:=reexport,
  org.eclipse.ui;visibility:=reexport,
+ org.eclipse.ui.views,
  org.eclipse.core.runtime;visibility:=reexport,
- org.eclipse.ui.console;visibility:=reexport,
- org.eclipse.ui.views;visibility:=reexport,
  org.eclipse.ui.editors;visibility:=reexport,
  org.eclipse.core.resources;visibility:=reexport,
  org.eclipse.ui.ide;visibility:=reexport,
- org.eclipse.ui.workbench.texteditor;visibility:=reexport,
  jp.go.aist.rtm.toolscommon.profiles
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Eclipse-BuddyPolicy: registered
 Bundle-Activator: jp.go.aist.rtm.toolscommon.ToolsCommonPlugin

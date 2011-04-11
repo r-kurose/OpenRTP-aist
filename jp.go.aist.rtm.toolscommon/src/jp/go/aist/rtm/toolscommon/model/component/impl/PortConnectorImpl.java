@@ -11,6 +11,7 @@ import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 
+import jp.go.aist.rtm.toolscommon.model.core.Point;
 import jp.go.aist.rtm.toolscommon.model.core.impl.WrapperObjectImpl;
 import jp.go.aist.rtm.toolscommon.ui.propertysource.PortConnectorPropertySource;
 
@@ -49,7 +50,7 @@ public abstract class PortConnectorImpl extends WrapperObjectImpl implements Por
 	 * @generated
 	 * @ordered
 	 */
-	protected ConnectorProfile connectorProfile= null;
+	protected ConnectorProfile connectorProfile;
 
 	/**
 	 * The cached value of the '{@link #getRoutingConstraint() <em>Routing Constraint</em>}' map.
@@ -59,7 +60,7 @@ public abstract class PortConnectorImpl extends WrapperObjectImpl implements Por
 	 * @generated
 	 * @ordered
 	 */
-	protected EMap routingConstraint= null;
+	protected EMap<Integer, Point> routingConstraint;
 	/**
 	 * The cached value of the '{@link #getSource() <em>Source</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -68,7 +69,7 @@ public abstract class PortConnectorImpl extends WrapperObjectImpl implements Por
 	 * @generated
 	 * @ordered
 	 */
-	protected Port source= null;
+	protected Port source;
 	/**
 	 * The cached value of the '{@link #getTarget() <em>Target</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -77,7 +78,7 @@ public abstract class PortConnectorImpl extends WrapperObjectImpl implements Por
 	 * @generated
 	 * @ordered
 	 */
-	protected Port target= null;
+	protected Port target;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -90,6 +91,7 @@ public abstract class PortConnectorImpl extends WrapperObjectImpl implements Por
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return ComponentPackage.Literals.PORT_CONNECTOR;
 	}
@@ -142,9 +144,9 @@ public abstract class PortConnectorImpl extends WrapperObjectImpl implements Por
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EMap getRoutingConstraint() {
+	public EMap<Integer, Point> getRoutingConstraint() {
 		if (routingConstraint == null) {
-			routingConstraint = new EcoreEMap(ComponentPackage.Literals.EINTEGER_OBJECT_TO_POINT_MAP_ENTRY, EIntegerObjectToPointMapEntryImpl.class, this, ComponentPackage.PORT_CONNECTOR__ROUTING_CONSTRAINT);
+			routingConstraint = new EcoreEMap<Integer,Point>(ComponentPackage.Literals.EINTEGER_OBJECT_TO_POINT_MAP_ENTRY, EIntegerObjectToPointMapEntryImpl.class, this, ComponentPackage.PORT_CONNECTOR__ROUTING_CONSTRAINT);
 		}
 		return routingConstraint;
 	}
@@ -167,7 +169,7 @@ public abstract class PortConnectorImpl extends WrapperObjectImpl implements Por
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!--
+	 * <!-- begin-user-doc --> TODO:コネクタが接続元（先）から削除された場合には、接続先（元）からも削除を行う<!--
 	 * end-user-doc -->
 	 * 
 	 * @generated NOT
@@ -190,12 +192,13 @@ public abstract class PortConnectorImpl extends WrapperObjectImpl implements Por
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case ComponentPackage.PORT_CONNECTOR__CONNECTOR_PROFILE:
 				return basicSetConnectorProfile(null, msgs);
 			case ComponentPackage.PORT_CONNECTOR__ROUTING_CONSTRAINT:
-				return ((InternalEList)getRoutingConstraint()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getRoutingConstraint()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -205,6 +208,7 @@ public abstract class PortConnectorImpl extends WrapperObjectImpl implements Por
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ComponentPackage.PORT_CONNECTOR__CONNECTOR_PROFILE:
@@ -227,6 +231,7 @@ public abstract class PortConnectorImpl extends WrapperObjectImpl implements Por
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ComponentPackage.PORT_CONNECTOR__CONNECTOR_PROFILE:
@@ -250,6 +255,7 @@ public abstract class PortConnectorImpl extends WrapperObjectImpl implements Por
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case ComponentPackage.PORT_CONNECTOR__CONNECTOR_PROFILE:
@@ -273,6 +279,7 @@ public abstract class PortConnectorImpl extends WrapperObjectImpl implements Por
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case ComponentPackage.PORT_CONNECTOR__CONNECTOR_PROFILE:

@@ -1,6 +1,10 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.dnd;
 
+import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode;
+import jp.go.aist.rtm.repositoryView.model.RTCRVLeafItem;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
 import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 
 import org.eclipse.gef.EditPartViewer;
@@ -8,16 +12,17 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.dnd.AbstractTransferDropTargetListener;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.ui.views.navigator.LocalSelectionTransfer;
 
 /**
- * ÉVÉXÉeÉÄÉ_ÉCÉAÉOÉâÉÄÇÃDropTargetListener
+ * „Ç∑„Çπ„ÉÜ„É†„ÉÄ„Ç§„Ç¢„Ç∞„É©„É†„ÅÆDropTargetListener
  */
 public class SystemDiagramDropTargetListener extends
 		AbstractTransferDropTargetListener {
 
 	/**
-	 * ÉRÉìÉXÉgÉâÉNÉ^
+	 * „Ç≥„É≥„Çπ„Éà„É©„ÇØ„Çø
 	 * 
 	 * @param viewer
 	 *            EditPartViewer
@@ -27,23 +32,17 @@ public class SystemDiagramDropTargetListener extends
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected void updateTargetRequest() {
 		((CreateRequest) getTargetRequest()).setLocation(getDropLocation());
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected Request createTargetRequest() {
 		ComponentFactory factory = new ComponentFactory();
 		Component component = getComponent();
 		setComponent(factory, component);
 
-		CreateRequest result = new CreateRequest(); // nullObjectÇ∆ÇµÇƒï‘Ç∑ÅB
+		CreateRequest result = new CreateRequest(); // nullObject„Å®„Åó„Å¶Ëøî„Åô„ÄÇ
 		result.setFactory(factory);
 		return result;
 	}
@@ -65,14 +64,37 @@ public class SystemDiagramDropTargetListener extends
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected void handleDrop() {
 		IStructuredSelection selection = (IStructuredSelection) LocalSelectionTransfer
 				.getInstance().getSelection();
 		getCurrentEvent().data = selection;
 		super.handleDrop();
+	}
+
+	@Override
+	public boolean isEnabled(DropTargetEvent event) {
+		if (!super.isEnabled(event)) {
+			return false;
+		}
+		// „Ç™„É≥„É©„Ç§„É≥„Ç®„Éá„Ç£„Çø„Å∏„ÅØ NameServiceView„Åã„Çâ DnDÂèØËÉΩ
+		// „Ç™„Éï„É©„Ç§„É≥„Ç®„Éá„Ç£„Çø„Å∏„ÅØ RepositoryView„Åã„Çâ DnDÂèØËÉΩ
+		boolean online = false;
+		if (getViewer().getRootEditPart().getContents().getModel() instanceof SystemDiagram) {
+			SystemDiagram sd = (SystemDiagram) getViewer().getRootEditPart()
+					.getContents().getModel();
+			if (SystemDiagramKind.ONLINE_LITERAL.equals(sd.getKind())) {
+				online = true;
+			}
+		}
+		IStructuredSelection selection = (IStructuredSelection) LocalSelectionTransfer
+				.getInstance().getSelection();
+		if (online && selection.getFirstElement() instanceof NamingObjectNode) {
+			return true;
+		} else if (!online
+				&& selection.getFirstElement() instanceof RTCRVLeafItem) {
+			return true;
+		}
+		return false;
 	}
 
 }

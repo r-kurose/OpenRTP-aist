@@ -5,8 +5,13 @@ import java.util.List;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
+import jp.go.aist.rtm.toolscommon.model.component.ContextHandler;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.InPort;
 import jp.go.aist.rtm.toolscommon.model.component.NameValue;
+import jp.go.aist.rtm.toolscommon.model.component.OutPort;
+import jp.go.aist.rtm.toolscommon.model.component.Port;
+import jp.go.aist.rtm.toolscommon.model.component.ServicePort;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.core.Rectangle;
 import jp.go.aist.rtm.toolscommon.model.core.Visiter;
@@ -21,12 +26,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.jface.action.Action;
-import org.omg.CORBA.Object;
-
-import RTC.ComponentProfile;
-import RTC.RTObject;
-import _SDOPackage.Configuration;
 
 public class ComponentMock implements Component {
 
@@ -41,7 +40,6 @@ public class ComponentMock implements Component {
 		createCompMock1();
 	}
 
-	@SuppressWarnings("unchecked")
 	static void createMock1() {
 		mock1 = new ComponentMock();
 		mock1.instanceName = "component1";
@@ -96,9 +94,9 @@ public class ComponentMock implements Component {
 		cs.configurationData.add(nv);
 		nv = createNameValue("str_param1", "radio");
 		cs.configurationData.add(nv);
-		nv = createNameValue("str_param2", "hoge"); // •s–¾‚Èwidgetí•Ê
+		nv = createNameValue("str_param2", "hoge"); // ä¸æ˜ãªwidgetç¨®åˆ¥
 		cs.configurationData.add(nv);
-		nv = createNameValue("vector_param1", "spin");
+		nv = createNameValue("vector_param1", "spin"); // TODO é…åˆ—è¡¨è¨˜
 		cs.configurationData.add(nv);
 		mock1.configurationSets.add(cs);
 		// mock1.__constraints__
@@ -125,7 +123,7 @@ public class ComponentMock implements Component {
 		nv = createNameValue("vector_param1", "5.0<x<10.0, 10.0<x<15.0, 15.0<x<20.0");
 		cs.configurationData.add(nv);
 		mock1.configurationSets.add(cs);
-		// mock1.__config2 ‚È‚µ
+		// mock1.__config2 ãªã—
 	}
 
 	static void createCompMock1() {
@@ -182,34 +180,18 @@ public class ComponentMock implements Component {
 
 	public ConfigurationSetMock activeConfigurationSet;
 
-	public BasicEList configurationSets = new BasicEList();
+	public BasicEList<ConfigurationSet> configurationSets = new BasicEList<ConfigurationSet>();
 
-	public BasicEList components = new BasicEList();
+	public BasicEList<Component> components = new BasicEList<Component>();
 
-	public BasicEList ports = new BasicEList();
+	public BasicEList<Port> ports = new BasicEList<Port>();
 
 
 	public ConfigurationSet getActiveConfigurationSet() {
 		return this.activeConfigurationSet;
 	}
 
-	public EList getAllComponents() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-		return null;
-	}
-
-	public EList getAllInPorts() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-		return null;
-	}
-
-	public EList getAllOutPorts() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-		return null;
-	}
-
-	public EList getAllServiceports() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
+	public EList<Component> getAllComponents() {
 		return null;
 	}
 
@@ -218,39 +200,22 @@ public class ComponentMock implements Component {
 	}
 
 	public String getComponentId() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return null;
 	}
 
-	public EList getComponents() {
+	public EList<Component> getComponents() {
 		return this.components;
 	}
 
-	public Component getCompositeComponent() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-		return null;
-	}
-
-	public String getCompsiteTypeStr() {
-		return null;
-	}
-
-	public EList getConfigurationSets() {
+	public EList<ConfigurationSet> getConfigurationSets() {
 		return this.configurationSets;
 	}
 
-	public RTObject getCorbaObjectInterface() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-		return null;
-	}
-
 	public String getDescriptionL() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return null;
 	}
 
-	public EList getInports() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
+	public EList<InPort> getInports() {
 		return null;
 	}
 
@@ -258,67 +223,35 @@ public class ComponentMock implements Component {
 		return this.instanceName;
 	}
 
-	public Action getOpenCompositeComponentAction() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-		return null;
-	}
-
 	public String getOutportDirection() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return "RIGHT";
 	}
 
-	public String getOutportDirectionStr() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-		return null;
-	}
-
-	public EList getOutports() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
+	public EList<OutPort> getOutports() {
 		return null;
 	}
 
 	public String getPathId() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return null;
 	}
 
-	public EList getPorts() {
+	public EList<Port> getPorts() {
 		return this.ports;
 	}
 
-	public EList getProperties() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-		return null;
-	}
-
-	public ComponentProfile getRTCComponentProfile() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-		return null;
-	}
-
-	public Configuration getSDOConfiguration() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-		return null;
-	}
-
-	public EList getServiceports() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
+	public EList<ServicePort> getServiceports() {
 		return null;
 	}
 
 	public String getTypeNameL() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return null;
 	}
 
 	public String getVenderL() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return null;
 	}
 
 	public String getVersionL() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return null;
 	}
 
@@ -331,225 +264,126 @@ public class ComponentMock implements Component {
 	}
 
 	public void setActiveConfigurationSet(ConfigurationSet value) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-
 	}
 
 	public void setComponentId(String value) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-
-	}
-
-	public void setCompositeComponent(Component value) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-
-	}
-
-	public void setCompsiteTypeStr(String type) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-
 	}
 
 	public void setInstanceNameL(String value) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-
-	}
-
-	public void setOpenCompositeComponentAction(Action value) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-
-	}
-
-	public void setOutportDirection(int value) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-
 	}
 
 	public void setOutportDirection(String value) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-
 	}
 
 	public void setPathId(String value) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-
-	}
-
-	public void setRTCComponentProfile(ComponentProfile value) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-
-	}
-
-	public void setSDOConfiguration(Configuration value) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-
 	}
 
 	@SuppressWarnings("unchecked")
 	public boolean updateConfigurationSetListR(List list,
 			ConfigurationSet activeConfigurationSet, List originallist) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return false;
-	}
-
-	public Object getCorbaBaseObject() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-		return null;
-	}
-
-	public Object getCorbaObject() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-		return null;
-	}
-
-	public boolean ping() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-		return false;
-	}
-
-	public void setCorbaObject(Object value) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-
 	}
 
 	public void accept(Visiter visiter) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-
-	}
-
-	public void dispose() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-
 	}
 
 	public Rectangle getConstraint() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return null;
 	}
 
 	public void setConstraint(Rectangle rectangle) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-
 	}
 
 	@SuppressWarnings("unchecked")
 	public TreeIterator eAllContents() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return null;
 	}
 
 	public EClass eClass() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return null;
 	}
 
 	public EObject eContainer() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return null;
 	}
 
 	public EStructuralFeature eContainingFeature() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return null;
 	}
 
 	public EReference eContainmentFeature() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return null;
 	}
 
 	@SuppressWarnings("unchecked")
 	public EList eContents() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return null;
 	}
 
 	@SuppressWarnings("unchecked")
 	public EList eCrossReferences() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return null;
 	}
 
 	public java.lang.Object eGet(EStructuralFeature feature) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return null;
 	}
 
 	public java.lang.Object eGet(EStructuralFeature feature, boolean resolve) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return null;
 	}
 
 	public boolean eIsProxy() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return false;
 	}
 
 	public boolean eIsSet(EStructuralFeature feature) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return false;
 	}
 
 	public Resource eResource() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return null;
 	}
 
 	public void eSet(EStructuralFeature feature, java.lang.Object newValue) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-
 	}
 
 	public void eUnset(EStructuralFeature feature) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-
 	}
 
 	@SuppressWarnings("unchecked")
 	public EList eAdapters() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return null;
 	}
 
 	public boolean eDeliver() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return false;
 	}
 
 	public void eNotify(Notification notification) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-
 	}
 
 	public void eSetDeliver(boolean deliver) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-
 	}
 
 	@SuppressWarnings("unchecked")
 	public java.lang.Object getAdapter(Class adapter) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return null;
 	}
 
 	public SynchronizationSupport getSynchronizationSupport() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return null;
 	}
 
 	public void setSynchronizationSupport(
 			SynchronizationSupport synchronizationSupport) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-
 	}
 
 	public boolean addComponentsR(List<Component> componentList) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return false;
 	}
 
 	public boolean removeComponentR(Component component) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return false;
 	}
 
@@ -560,25 +394,20 @@ public class ComponentMock implements Component {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
-	public EList getOrganizationProperties() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-		return null;
-	}
+//	@SuppressWarnings("unchecked")
+//	public EList getOrganizationProperties() {
+//		return null;
+//	}
 
 	public boolean isRequired() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public void setRequired(boolean value) {
-		// TODO Auto-generated method stub
-		
 	}
 
-	@SuppressWarnings("unchecked")
-	public EList getExportedPorts() {
-		EList result = new BasicEList();
+	public EList<String> getExportedPorts() {
+		EList<String> result = new BasicEList<String>();
 		NameValue nv = this._findExportedPortsNameValue();
 		if (nv == null) {
 			return result;
@@ -591,37 +420,35 @@ public class ComponentMock implements Component {
 	}
 
 	public boolean isGroupingCompositeComponent() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return false;
 	}
 
-	@SuppressWarnings("unchecked")
-	public boolean setExportedPorts(EList value) {
+	@Override
+	public boolean setExportedPorts(EList<String> values) {
 		NameValue nv = this._findExportedPortsNameValue();
 		if (nv == null) {
 			return false;
 		}
 		String result = "";
-		for (int i = 0; i < value.size(); i++) {
+		for (int i = 0; i < values.size(); i++) {
 			if (result.length() > 0) {
 				result += ",";
 			}
-			result += (String) value.get(i);
+			result += (String) values.get(i);
 		}
 		nv.setValue(result);
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
 	NameValue _findExportedPortsNameValue() {
 		NameValue result = null;
 		ConfigurationSetMock cs = this.activeConfigurationSet;
 		if (cs == null) {
 			return result;
 		}
-		EList data = cs.getConfigurationData();
+		EList<NameValue> data = cs.getConfigurationData();
 		for (int i = 0; i < data.size(); i++) {
-			NameValue nv = (NameValue) data.get(i);
+			NameValue nv = data.get(i);
 			if (!nv.getName().equals("exported_ports")) {
 				continue;
 			}
@@ -635,128 +462,140 @@ public class ComponentMock implements Component {
 		return null;
 	}
 	public boolean updateConfigurationSetR(ConfigurationSet configSet, boolean isActive) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return false;
 	}
 
 //	@Override
 	public void setCategoryL(String value) {
-		// TODO Auto-generated method stub
-		
 	}
 
 //	@Override
 	public void setDescriptionL(String value) {
-		// TODO Auto-generated method stub
-		
 	}
 
 //	@Override
 	public void setTypeNameL(String value) {
-		// TODO Auto-generated method stub
-		
 	}
 
 //	@Override
 	public void setVenderL(String value) {
-		// TODO Auto-generated method stub
-		
 	}
 
 //	@Override
 	public void setVersionL(String value) {
-		// TODO Auto-generated method stub
-		
 	}
 
 //	@Override
 	public SystemDiagram getChildSystemDiagram() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 //	@Override
 	public void setChildSystemDiagram(SystemDiagram value) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public boolean inOnlineSystemDiagram() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return false;
 	}
 
 //	@Override
 	public boolean setComponentsR(List<Component> componentList) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 //	@Override
 	public void synchronizeManually() {
-		// TODO Auto-generated method stub
-		
 	}
 
 //	@Override
 	public void synchronizeChildComponents() {
-		// TODO Auto-generated method stub
-		
 	}
 
 //	@Override
 	public void synchronizeLocalAttribute(EStructuralFeature reference) {
-		// TODO Auto-generated method stub
-		
 	}
 
 //	@Override
 	public void synchronizeLocalReference() {
-		// TODO Auto-generated method stub
-		
 	}
 
 //	@Override
 	public void addComponent(Component component) {
-		// TODO Auto-generated method stub
-		
 	}
 
 //	@Override
 	public Component copy() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 //	@Override
 	public boolean isDead() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 //	@Override
 	public void removeDeadChild() {
+	}
+
+	public EList<ExecutionContext> getExecutionContexts() {
+		return null;
+	}
+
+	@Override
+	public EList<ExecutionContext> getParticipationContexts() {
 		// TODO Auto-generated method stub
-		
-	}
-
-	public ExecutionContext getExecutionContext(String id) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
 		return null;
 	}
 
-	public String getExecutionContextId(ExecutionContext ec) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
+	@Override
+	public boolean hasComponentAction() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public ContextHandler getExecutionContextHandler() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public EList getExecutionContexts() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
+	@Override
+	public ContextHandler getParticipationContextHandler() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public ExecutionContext setExecutionContext(String id, ExecutionContext ec) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
+	@Override
+	public void setExecutionContextHandler(ContextHandler value) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void setParticipationContextHandler(ContextHandler value) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public String getProperty(String key) {
+		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public EList<String> getPropertyKeys() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String removeProperty(String key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setProperty(String key, String value) {
+		// TODO Auto-generated method stub
+	}
+
 }

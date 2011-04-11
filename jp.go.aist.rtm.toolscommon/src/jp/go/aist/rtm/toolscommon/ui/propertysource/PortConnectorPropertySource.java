@@ -3,120 +3,223 @@ package jp.go.aist.rtm.toolscommon.ui.propertysource;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.go.aist.rtm.toolscommon.model.component.InPort;
+import jp.go.aist.rtm.toolscommon.model.component.OutPort;
 import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
 import jp.go.aist.rtm.toolscommon.model.component.ServicePort;
+import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile.PROP;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
-import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
 /**
- * PortConnectorÇÃIPropertySourceÉNÉâÉX
+ * PortConnector„ÅÆIPropertySource„ÇØ„É©„Çπ
  */
-public class PortConnectorPropertySource implements IPropertySource {
+public class PortConnectorPropertySource extends AbstractPropertySource {
+
+	static final String DISP_CONNECTOR_ID = "Connector ID";
+
+	static final String DISP_ID_NAME = "Name";
+
+	static final String DISP_DATA_TYPE = "Data Type";
+
+	static final String DISP_INTERFACE_TYPE = "Interface Type";
+
+	static final String DISP_DATAFLOW_TYPE = "Dataflow Type";
+
+	static final String DISP_SUBSCRIPTION_TYPE = "Subscription Type";
+
+	static final String DISP_PUSH_RATE = "Push Rate(Hz)";
+
+	static final String DISP_PUSH_POLICY = "Push Policy";
+
+	static final String DISP_SKIP_COUNT = "Skip Count";
+
+	static final String DISP_OUTPORT_BUFF_LENGTH = "Outport Buffer length";
+
+	static final String DISP_OUTPORT_FULL_POLICY = "Outport Buffer full policy";
+
+	static final String DISP_OUTPORT_WRITE_TIMEOUT = "Outport Buffer write timeout";
+
+	static final String DISP_OUTPORT_EMPTY_POLICY = "Outport Buffer empty policy";
+
+	static final String DISP_OUTPORT_READ_TIMEOUT = "Outport Buffer read timeout";
+
+	static final String DISP_INPORT_BUFF_LENGTH = "Inport Buffer length";
+
+	static final String DISP_INPORT_FULL_POLICY = "Inport Buffer full policy";
+
+	static final String DISP_INPORT_WRITE_TIMEOUT = "Inport Buffer write timeout";
+
+	static final String DISP_INPORT_EMPTY_POLICY = "Inport Buffer empty policy";
+
+	static final String DISP_INPORT_READ_TIMEOUT = "Inport Buffer read timeout";
+
+	static final String ID_NAME = "NAME";
+
+	static final String ID_CONNECTOR_ID = "CONNECTOR_ID";
+
+	static final String UNKNOWN = "<unknown>";
 
 	private PortConnector portConnector;
-	private final static String ID_NAME = "NAME";
-	private final static String ID_DATA_TYPE = "DATA_TYPE";
-	private final static String ID_INTERFACE_TYPE = "INTERFACE_TYPE";
-	private final static String ID_DATAFLOW_TYPE = "DATAFLOW_TYPE";
-	private final static String ID_SUBSCRIPTION_TYPE = "SUBSCRIPTION_TYPE";
-	private final static String ID_PUSH_RATE = "PUSH_RATE";
+
 	/**
-	 * {@inheritDoc}
-	 * 
 	 * @param PortConnector
-	 *            ÉÇÉfÉã
+	 *            „É¢„Éá„É´
 	 */
 	public PortConnectorPropertySource(PortConnector portConnector) {
 		this.portConnector = portConnector;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
-		
-		ConnectorProfile connectorProfile = portConnector.getConnectorProfile();
-		if (connectorProfile == null) {
-			return new TextPropertyDescriptor []{};
+		ConnectorProfile profile = portConnector.getConnectorProfile();
+		if (profile == null) {
+			return new TextPropertyDescriptor[] {};
 		}
 		List<TextPropertyDescriptor> descriptors = new ArrayList<TextPropertyDescriptor>();
-		descriptors.add(new TextPropertyDescriptor(ID_NAME, "Name"));
-		
-		if (!(portConnector.eContainer() instanceof ServicePort)) {
-			descriptors.add(new TextPropertyDescriptor(ID_DATA_TYPE, "Data Type"));
-			descriptors.add(new TextPropertyDescriptor(ID_INTERFACE_TYPE, "Interface Type"));
-			descriptors.add(new TextPropertyDescriptor(ID_DATAFLOW_TYPE, "Dataflow Type"));
-			if (connectorProfile.isSubscriptionTypeAvailable()){
-				descriptors.add(new TextPropertyDescriptor(ID_SUBSCRIPTION_TYPE,
-				"Subscription Type"));
-			}
+		descriptors.add(new TextPropertyDescriptor(ID_CONNECTOR_ID, DISP_CONNECTOR_ID));
+		descriptors.add(new TextPropertyDescriptor(ID_NAME, DISP_ID_NAME));
 
-			if (connectorProfile.isPushIntervalAvailable()){
-				descriptors.add(new TextPropertyDescriptor(ID_PUSH_RATE, "Push Rate(HZ)"));
+		if ((portConnector.getSource() instanceof InPort)
+				|| (portConnector.getSource() instanceof OutPort)) {
+			descriptors.add(new TextPropertyDescriptor(PROP.DATA_TYPE, DISP_DATA_TYPE));
+			descriptors.add(new TextPropertyDescriptor(PROP.INTERFACE_TYPE, DISP_INTERFACE_TYPE));
+			descriptors.add(new TextPropertyDescriptor(PROP.DATAFLOW_TYPE, DISP_DATAFLOW_TYPE));
+			if (profile.isSubscriptionTypeAvailable()) {
+				descriptors.add(new TextPropertyDescriptor(PROP.SUBSCRIPTION_TYPE, DISP_SUBSCRIPTION_TYPE));
+			}
+			if (profile.isPushIntervalAvailable()) {
+				descriptors.add(new TextPropertyDescriptor(PROP.PUSH_RATE, DISP_PUSH_RATE));
+			}
+			if (profile.isPushPolicyAvailable()) {
+				descriptors.add(new TextPropertyDescriptor(PROP.PUSH_POLICY, DISP_PUSH_POLICY));
+			}
+			if (profile.isSkipCountAvailable()) {
+				descriptors.add(new TextPropertyDescriptor(PROP.SKIP_COUNT, DISP_SKIP_COUNT));
+			}
+			//
+			if (profile.getOutportBufferFullPolicy() != null
+					|| profile.getOutportBufferEmptyPolicy() != null) {
+				descriptors.add(new TextPropertyDescriptor(PROP.OUTPORT_BUFF_LENGTH, DISP_OUTPORT_BUFF_LENGTH));
+				descriptors.add(new TextPropertyDescriptor(PROP.OUTPORT_FULL_POLICY, DISP_OUTPORT_FULL_POLICY));
+				descriptors.add(new TextPropertyDescriptor(PROP.OUTPORT_WRITE_TIMEOUT, DISP_OUTPORT_WRITE_TIMEOUT));
+				descriptors.add(new TextPropertyDescriptor(PROP.OUTPORT_EMPTY_POLICY, DISP_OUTPORT_EMPTY_POLICY));
+				descriptors.add(new TextPropertyDescriptor(PROP.OUTPORT_READ_TIMEOUT, DISP_OUTPORT_READ_TIMEOUT));
+			}
+			//
+			if (profile.getInportBufferFullPolicy() != null
+					|| profile.getInportBufferEmptyPolicy() != null) {
+				descriptors.add(new TextPropertyDescriptor(PROP.INPORT_BUFF_LENGTH, DISP_INPORT_BUFF_LENGTH));
+				descriptors.add(new TextPropertyDescriptor(PROP.INPORT_FULL_POLICY, DISP_INPORT_FULL_POLICY));
+				descriptors.add(new TextPropertyDescriptor(PROP.INPORT_WRITE_TIMEOUT, DISP_INPORT_WRITE_TIMEOUT));
+				descriptors.add(new TextPropertyDescriptor(PROP.INPORT_EMPTY_POLICY, DISP_INPORT_EMPTY_POLICY));
+				descriptors.add(new TextPropertyDescriptor(PROP.INPORT_READ_TIMEOUT, DISP_INPORT_READ_TIMEOUT));
+			}
+		} else if (portConnector.getSource() instanceof ServicePort) {
+			for (String key : profile.getPropertyKeys()) {
+				if (!ConnectorProfile.InterfaceId.isValid(key)) {
+					continue;
+				}
+				descriptors.add(new TextPropertyDescriptor(key, key));
 			}
 		}
+
+		for (String key : profile.getPropertyKeys()) {
+			if (PROP.DATA_TYPE.equals(key) || PROP.INTERFACE_TYPE.equals(key)
+					|| PROP.DATAFLOW_TYPE.equals(key)
+					|| PROP.SUBSCRIPTION_TYPE.equals(key)
+					|| PROP.PUSH_RATE.equals(key)
+					|| PROP.PUSH_POLICY.equals(key)
+					|| PROP.SKIP_COUNT.equals(key)
+					|| PROP.OUTPORT_BUFF_LENGTH.equals(key)
+					|| PROP.OUTPORT_FULL_POLICY.equals(key)
+					|| PROP.OUTPORT_WRITE_TIMEOUT.equals(key)
+					|| PROP.OUTPORT_EMPTY_POLICY.equals(key)
+					|| PROP.OUTPORT_READ_TIMEOUT.equals(key)
+					|| PROP.INPORT_BUFF_LENGTH.equals(key)
+					|| PROP.INPORT_FULL_POLICY.equals(key)
+					|| PROP.INPORT_WRITE_TIMEOUT.equals(key)
+					|| PROP.INPORT_EMPTY_POLICY.equals(key)
+					|| PROP.INPORT_READ_TIMEOUT.equals(key)
+					|| ConnectorProfile.InterfaceId.isValid(key)) {
+				continue;
+			}
+			descriptors.add(new TextPropertyDescriptor(new DynamicID(
+					"PROPERTIES", key), key));
+		}
+
 		return descriptors.toArray(new TextPropertyDescriptor []{});
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public Object getPropertyValue(Object id) {
-
 		String result = null;
+		try {
+			ConnectorProfile profile = portConnector.getConnectorProfile();
+			if (ID_CONNECTOR_ID.equals(id)) {
+				result = profile.getConnectorId();
+			} else if (ID_NAME.equals(id)) {
+				result = profile.getName();
+			} else if (PROP.DATA_TYPE.equals(id)) {
+				result = profile.getDataType();
+			} else if (PROP.INTERFACE_TYPE.equals(id)) {
+				result = profile.getInterfaceType();
+			} else if (PROP.DATAFLOW_TYPE.equals(id)) {
+				result = profile.getDataflowType();
+			} else if (PROP.SUBSCRIPTION_TYPE.equals(id)) {
+				result = profile.getSubscriptionType();
+			} else if (PROP.PUSH_RATE.equals(id)) {
+				result = profile.getPushRate().toString();
+			} else if (PROP.PUSH_POLICY.equals(id)) {
+				result = profile.getPushPolicy();
+			} else if (PROP.SKIP_COUNT.equals(id)) {
+				result = profile.getSkipCount().toString();
 
-		 try {
-			 if (ID_NAME.equals(id)) {
-				 result = portConnector.getConnectorProfile().getName();
-			 } else if (ID_DATA_TYPE.equals(id)) {
-				 result = portConnector.getConnectorProfile().getDataType();
-			 } else if (ID_INTERFACE_TYPE.equals(id)) {
-				 result = portConnector.getConnectorProfile().getInterfaceType();
-			 } else if (ID_DATAFLOW_TYPE.equals(id)) {
-				 result = portConnector.getConnectorProfile().getDataflowType();
-			 } else if (ID_SUBSCRIPTION_TYPE.equals(id)) {
-				 result = portConnector.getConnectorProfile().getSubscriptionType();
-			 } else if (ID_PUSH_RATE.equals(id)) {
-				 result = portConnector.getConnectorProfile().getPushRate().toString();
-			 }
-		 } catch (Exception e) {
-			 // void
-		 }
+			} else if (PROP.OUTPORT_BUFF_LENGTH.equals(id)) {
+				result = profile.getOutportBufferLength().toString();
+			} else if (PROP.OUTPORT_FULL_POLICY.equals(id)) {
+				result = profile.getOutportBufferFullPolicy();
+			} else if (PROP.OUTPORT_WRITE_TIMEOUT.equals(id)) {
+				result = profile.getOutportBufferWriteTimeout().toString();
+			} else if (PROP.OUTPORT_EMPTY_POLICY.equals(id)) {
+				result = profile.getOutportBufferEmptyPolicy();
+			} else if (PROP.OUTPORT_READ_TIMEOUT.equals(id)) {
+				result = profile.getOutportBufferReadTimeout().toString();
+
+			} else if (PROP.INPORT_BUFF_LENGTH.equals(id)) {
+				result = profile.getInportBufferLength().toString();
+			} else if (PROP.INPORT_FULL_POLICY.equals(id)) {
+				result = profile.getInportBufferFullPolicy();
+			} else if (PROP.INPORT_WRITE_TIMEOUT.equals(id)) {
+				result = profile.getInportBufferWriteTimeout().toString();
+			} else if (PROP.INPORT_EMPTY_POLICY.equals(id)) {
+				result = profile.getInportBufferEmptyPolicy();
+			} else if (PROP.INPORT_READ_TIMEOUT.equals(id)) {
+				result = profile.getInportBufferReadTimeout().toString();
+			}
+			//
+			if (id instanceof String
+					&& ConnectorProfile.InterfaceId.isValid((String) id)) {
+				result = profile.getProperty((String) id);
+			}
+			//
+			else if (id instanceof DynamicID) {
+				DynamicID dynamicId = (DynamicID) id;
+				if ("PROPERTIES".equals(dynamicId.categoryId)) {
+					return profile.getProperty(dynamicId.subId);
+				}
+			}
+		} catch (Exception e) {
+			// void
+		}
 
 		if (result == null) {
-			result = "<unknown>";
+			result = UNKNOWN;
 		}
 
 		return result;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isPropertySet(Object id) {
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void resetPropertyValue(Object id) {
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setPropertyValue(Object id, Object value) {
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public Object getEditableValue() {
-		return null;
 	}
 
 }

@@ -1,17 +1,18 @@
 package jp.go.aist.rtm.toolscommon.model.component;
 
+import jp.go.aist.rtm.toolscommon.model.core.Point;
 import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
 import org.eclipse.emf.common.util.EMap;
 
 /**
- * �|�[�g�Ԑڑ���\������N���X
+ * ポート間接続を表現するクラス
  * 
  * @model
  */
 public interface PortConnector extends WrapperObject {
 
 	/**
-	 * �ڑ�����Ԃ�
+	 * 接続情報を返す
 	 * @model containment="true"
 	 */
 	public ConnectorProfile getConnectorProfile();
@@ -32,21 +33,21 @@ public interface PortConnector extends WrapperObject {
 	 * and the value is of type {@link jp.go.aist.rtm.toolscommon.model.core.Point},
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * �R�l�N�^�̃x���h�|�C���g�̏W�����}�b�v�ŕԂ�
+	 * コネクタのベンドポイントの集合をマップで返す
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Routing Constraint</em>' map.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getPortConnector_RoutingConstraint()
-	 * @model mapType="jp.go.aist.rtm.toolscommon.model.component.EIntegerObjectToPointMapEntry" keyType="java.lang.Integer" valueType="jp.go.aist.rtm.toolscommon.model.core.Point"
+	 * @model mapType="jp.go.aist.rtm.toolscommon.model.component.EIntegerObjectToPointMapEntry<org.eclipse.emf.ecore.EIntegerObject, jp.go.aist.rtm.toolscommon.model.core.Point>"
 	 * @generated
 	 */
-	EMap getRoutingConstraint();
+	EMap<Integer, Point> getRoutingConstraint();
 
 	/**
 	 * Returns the value of the '<em><b>Source</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * �R�l�N�^�̐ڑ����ł���|�[�g��Ԃ�
+	 * コネクタの接続元であるポートを返す
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Source</em>' reference.
@@ -71,7 +72,7 @@ public interface PortConnector extends WrapperObject {
 	 * Returns the value of the '<em><b>Target</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * �R�l�N�^�̐ڑ���ł���|�[�g��Ԃ�
+	 * コネクタの接続先であるポートを返す
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Target</em>' reference.
@@ -94,8 +95,8 @@ public interface PortConnector extends WrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * �R�l�N�^���쐬���郁�b�Z�[�W�������[�g�ɑ΂��đ��M����
-	 * �I�t���C���̏ꍇ�́A�ΏۂƂȂ�|�[�g�ɃR�l�N�^�v���t�@�C����ǉ�����
+	 * コネクタを作成するメッセージをリモートに対して送信する
+	 * オフラインの場合は、対象となるポートにコネクタプロファイルを追加する
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -104,8 +105,8 @@ public interface PortConnector extends WrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * �R�l�N�^���폜���郁�b�Z�[�W�������[�g�ɑ΂��đ��M����
-	 * �I�t���C���̏ꍇ�́A�ΏۂƂȂ�|�[�g����R�l�N�^�v���t�@�C�����폜����
+	 * コネクタを削除するメッセージをリモートに対して送信する
+	 * オフラインの場合は、対象となるポートからコネクタプロファイルを削除する
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated

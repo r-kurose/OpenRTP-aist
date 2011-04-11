@@ -8,132 +8,161 @@ import java.util.Map;
 
 import jp.go.aist.rtm.systemeditor.RTSystemEditorPlugin;
 
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * İ’è‚ğŠÇ—‚·‚éƒ}ƒl[ƒWƒƒ
+ * è¨­å®šã‚’ç®¡ç†ã™ã‚‹ãƒãƒãƒ¼ã‚¸ãƒ£
  * <p>
- * İ’èî•ñ‚ÉƒAƒNƒZƒX‚·‚é‚É‚Í‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğg—p‚·‚é
+ * è¨­å®šæƒ…å ±ã«ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹ã«ã¯ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ä½¿ç”¨ã™ã‚‹
  */
 public class SystemEditorPreferenceManager {
 	private static final String Separator = ":";
-	private static SystemEditorPreferenceManager __instance = new SystemEditorPreferenceManager();
+
+	private static SystemEditorPreferenceManager __instance;
+	static {
+		__instance = new SystemEditorPreferenceManager();
+	}
 
 	/**
-	 * RTCó‘ÔF‚ÌƒL[F Start
+	 * RTCçŠ¶æ…‹è‰²ã®ã‚­ãƒ¼ï¼š Start
 	 */
 	public static final String COLOR_RTC_STATE_CREATED = SystemEditorPreferenceManager.class
 			.getName()
 			+ "COLOR_RTC_STATE_CREATED";
 
 	/**
-	 * RTCó‘ÔF‚ÌƒL[F InActive
+	 * RTCçŠ¶æ…‹è‰²ã®ã‚­ãƒ¼ï¼š InActive
 	 */
 	public static final String COLOR_RTC_STATE_INACTIVE = SystemEditorPreferenceManager.class
 			.getName()
 			+ "COLOR_RTC_STATE_INACTIVE";
 
 	/**
-	 * RTCó‘ÔF‚ÌƒL[F Active
+	 * RTCçŠ¶æ…‹è‰²ã®ã‚­ãƒ¼ï¼š Active
 	 */
 	public static final String COLOR_RTC_STATE_ACTIVE = SystemEditorPreferenceManager.class
 			.getName()
 			+ "COLOR_RTC_STATE_ACTIVE";
 
 	/**
-	 * RTCó‘ÔF‚ÌƒL[F Error
+	 * RTCçŠ¶æ…‹è‰²ã®ã‚­ãƒ¼ï¼š Error
 	 */
 	public static final String COLOR_RTC_STATE_ERROR = SystemEditorPreferenceManager.class
 			.getName()
 			+ "COLOR_RTC_STATE_ERROR";
 
 	/**
-	 * RTCó‘ÔF‚ÌƒL[F UnKnown
+	 * RTCçŠ¶æ…‹è‰²ã®ã‚­ãƒ¼ï¼š UnKnown
 	 */
 	public static final String COLOR_RTC_STATE_UNKNOWN = SystemEditorPreferenceManager.class
 			.getName()
 			+ "COLOR_RTC_STATE_UNKNOWN";
 
 	/**
-	 * RTCó‘ÔF‚ÌƒL[F UnKnown
+	 * RTCçŠ¶æ…‹è‰²ã®ã‚­ãƒ¼ï¼š UnKnown
 	 */
 	public static final String COLOR_RTC_STATE_UNCERTAIN = SystemEditorPreferenceManager.class
 			.getName()
 			+ "COLOR_RTC_STATE_UNCERTAIN";
 
 	/**
-	 * RTCExecutionContextF‚ÌƒL[F Running
+	 * RTCExecutionContextè‰²ã®ã‚­ãƒ¼ï¼š Running
 	 */
 	public static final String COLOR_RTC_EXECUTION_CONTEXT_RUNNING = SystemEditorPreferenceManager.class
 			.getName()
 			+ "COLOR_RTC_EXECUTION_CONTEXT_RUNNING";
 
 	/**
-	 * RTCExecutionContextF‚ÌƒL[F Stopped
+	 * RTCExecutionContextè‰²ã®ã‚­ãƒ¼ï¼š Stopped
 	 */
 	public static final String COLOR_RTC_EXECUTION_CONTEXT_STOPPED = SystemEditorPreferenceManager.class
 			.getName()
 			+ "COLOR_RTC_EXECUTION_CONTEXT_STOPPED";
 
 	/**
-	 * DataPortF‚ÌƒL[F –¢Ú‘±
+	 * DataPortè‰²ã®ã‚­ãƒ¼ï¼š æœªæ¥ç¶š
 	 */
 	public static final String COLOR_DATAPORT_NO_CONNECT = SystemEditorPreferenceManager.class
 			.getName()
 			+ "COLOR_DATAPORT_NO_CONNECT";
 
 	/**
-	 * DataPortF‚ÌƒL[F Ú‘±Ï
+	 * DataPortè‰²ã®ã‚­ãƒ¼ï¼š æ¥ç¶šæ¸ˆ
 	 */
 	public static final String COLOR_DATAPORT_CONNECTED = SystemEditorPreferenceManager.class
 			.getName()
 			+ "COLOR_DATAPORT_CONNECTED";
 
 	/**
-	 * ServicePortF‚ÌƒL[F –¢Ú‘±
+	 * ServicePortè‰²ã®ã‚­ãƒ¼ï¼š æœªæ¥ç¶š
 	 */
 	public static final String COLOR_SERVICEPORT_NO_CONNECT = SystemEditorPreferenceManager.class
 			.getName()
 			+ "COLOR_SERVICEPORT_NO_CONNECT";
 
 	/**
-	 * ServicePortF‚ÌƒL[F Ú‘±Ï
+	 * ServicePortè‰²ã®ã‚­ãƒ¼ï¼š æ¥ç¶šæ¸ˆ
 	 */
 	public static final String COLOR_SERVICEPORT_CONNECTED = SystemEditorPreferenceManager.class
 			.getName()
 			+ "COLOR_SERVICEPORT_CONNECTED";
 
 	/**
-	 * “¯ŠúŠÔŠu‚ÌƒL[F ƒVƒXƒeƒ€ƒGƒfƒBƒ^
+	 * åŒæœŸé–“éš”ã®ã‚­ãƒ¼ï¼š ã‚·ã‚¹ãƒ†ãƒ ã‚¨ãƒ‡ã‚£ã‚¿
 	 */
 	public static final String SYNC_SYSTEMEDITOR_INTERVAL = SystemEditorPreferenceManager.class
 			.getName()
 			+ "SYNC_SYSTEMEDITOR_INTERVAL";
 
-	//Ú‘±î•ñ
+	//æ¥ç¶šæƒ…å ±
 	/**
-	 * Interface Type‚ÌƒL[
+	 * Interface Typeã®ã‚­ãƒ¼
 	 */
 	private static final String CONNECT_INTERFACE_TYPE = SystemEditorPreferenceManager.class.getName()
 			+ "CONNECT_INTERFACE_TYPE";
 
 	/**
-	 * DataFlow Type‚ÌƒL[
+	 * DataFlow Typeã®ã‚­ãƒ¼
 	 */
 	private static final String CONNECT_DATAFLOW_TYPE = SystemEditorPreferenceManager.class.getName()
 			+ "CONNECT_DATAFLOW_TYPE";
 
 	/**
-	 * Subscription Type‚ÌƒL[
+	 * Subscription Typeã®ã‚­ãƒ¼
 	 */
 	private static final String CONNECT_SUBSCRIPTION_TYPE = SystemEditorPreferenceManager.class.getName()
 			+ "CONNECT_SUBSCRIPTION_TYPE";
 
 	/**
-	 * ƒfƒtƒHƒ‹ƒg‚ÌF‚ğŠÇ—‚·‚éƒ}ƒbƒv
+	 * Push Policyã®ã‚­ãƒ¼
+	 */
+	private static final String CONNECT_PUSH_POLICY = SystemEditorPreferenceManager.class.getName()
+			+ "CONNECT_PUSH_POLICY";
+	
+	/**
+	 * Buffer Full Policyã®ã‚­ãƒ¼
+	 */
+	private static final String CONNECT_BUFFER_FULL_POLICY = SystemEditorPreferenceManager.class.getName()
+			+ "CONNECT_BUFFER_FULL_POLICY";
+	
+	/**
+	 * Buffer Empty Policyã®ã‚­ãƒ¼
+	 */
+	private static final String CONNECT_BUFFER_EMPTY_POLICY = SystemEditorPreferenceManager.class.getName()
+			+ "CONNECT_BUFFER_EMPTY_POLICY";
+	
+	// ã‚ªãƒ³ãƒ©ã‚¤ãƒ³ã‚¨ãƒ‡ã‚£ã‚¿
+	/** ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®å®Ÿè¡Œç¢ºèª */
+	public static final String CONFIRM_COMPONENT_ACTION = SystemEditorPreferenceManager.class
+			.getName()
+			+ ".CONFIRM_COMPONENT_ACTION";
+
+	/**
+	 * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®è‰²ã‚’ç®¡ç†ã™ã‚‹ãƒãƒƒãƒ—
 	 */
 	public static final Map<String, RGB> defaultRGBMap = new HashMap<String, RGB>();
 	static {
@@ -154,7 +183,7 @@ public class SystemEditorPreferenceManager {
 	}
 
 	/**
-	 * ƒfƒtƒHƒ‹ƒg‚Ì“¯ŠúŠÔŠu‚ğŠÇ—‚·‚éƒ}ƒbƒv
+	 * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®åŒæœŸé–“éš”ã‚’ç®¡ç†ã™ã‚‹ãƒãƒƒãƒ—
 	 */
 	public static final Map<String, Integer> defaultInvervalMap = new HashMap<String, Integer>();
 	static {
@@ -162,35 +191,56 @@ public class SystemEditorPreferenceManager {
 	}
 
 	/**
-	 * ƒLƒƒƒbƒVƒ…‚µ‚½FiƒŠƒ\[ƒXj‚ğŠÇ—‚·‚éƒ}ƒbƒv
+	 * ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã—ãŸè‰²ï¼ˆãƒªã‚½ãƒ¼ã‚¹ï¼‰ã‚’ç®¡ç†ã™ã‚‹ãƒãƒƒãƒ—
 	 */
 	private static transient final Map<String, Color> cachedColorMap = new HashMap<String, Color>();
 
 	/**
-	 * Interface Type‚ÌƒfƒtƒHƒ‹ƒg’l
+	 * Interface Typeã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public static String[] defaultConnectInterfaceType = {"corba_cdr"};
 
 	/**
-	 * DataFlow Type‚ÌƒfƒtƒHƒ‹ƒg’l
+	 * DataFlow Typeã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public static String[] defaultConnectDataFlowType = {"push", "pull"};
 	
 	/**
-	 * subscription Type‚ÌƒfƒtƒHƒ‹ƒg’l
+	 * subscription Typeã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public static String[] defaultConnectSubscriptionType = {"flush", "new", "periodic"};
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * Push Policyã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
+	 */
+	public static String[] defaultConnectPushPolicy = {"all", "fifo", "skip", "new"};
+	
+	/**
+	 * Buffer Full Policyã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
+	 */
+	public static String[] defaultConnectBufferFullPolicy = {"overerite", "do_nothing", "block"};
+	
+	/**
+	 * Buffer Empty Policyã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
+	 */
+	public static String[] defaultConnectBufferEmptyPolicy = {"readback", "do_nothing", "block"};
+	
+	IPreferenceStore store;
+
+	public SystemEditorPreferenceManager() {
+		this.store = RTSystemEditorPlugin.getDefault().getPreferenceStore();
+	}
+
+	/**
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
-	 * @return ƒVƒ“ƒOƒ‹ƒgƒ“
+	 * @return ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³
 	 */
 	public static SystemEditorPreferenceManager getInstance() {
 		return __instance;
 	}
 	/**
-	 * ƒVƒ“ƒOƒ‹ƒgƒ“‚ğƒZƒbƒg‚·‚éBiŠî–{“I‚Ég—p‚µ‚Ä‚Í‚È‚ç‚È‚¢Bƒ†ƒjƒbƒgƒeƒXƒg‚©‚ç‚ÌÀs‚Ì‚½‚ß‚É’Ç‰Áj
+	 * ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚ï¼ˆåŸºæœ¬çš„ã«ä½¿ç”¨ã—ã¦ã¯ãªã‚‰ãªã„ã€‚ãƒ¦ãƒ‹ãƒƒãƒˆãƒ†ã‚¹ãƒˆã‹ã‚‰ã®å®Ÿè¡Œã®ãŸã‚ã«è¿½åŠ ï¼‰
 	 * 
 	 */
 	public static void setInstance(SystemEditorPreferenceManager instance) {
@@ -201,12 +251,12 @@ public class SystemEditorPreferenceManager {
 			this);
 
 	/**
-	 * ƒL[‚©‚çF‚ğ•Ô‚·
+	 * ã‚­ãƒ¼ã‹ã‚‰è‰²ã‚’è¿”ã™
 	 * <p>
-	 * F‚Í‚èƒ\[ƒX‚Å‚ ‚é‚½‚ßAƒLƒƒƒbƒVƒ…‚µ‚Äg—p‚µ‚Ä‚¢‚éB
+	 * è‰²ã¯ã‚Šã‚½ãƒ¼ã‚¹ã§ã‚ã‚‹ãŸã‚ã€ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã—ã¦ä½¿ç”¨ã—ã¦ã„ã‚‹ã€‚
 	 * 
 	 * @param key
-	 * @return F
+	 * @return è‰²
 	 */
 	public synchronized Color getColor(String key) {
 		RGB rgb = getRGB(key);
@@ -224,7 +274,7 @@ public class SystemEditorPreferenceManager {
 	}
 
 	/**
-	 * ƒL[‚©‚çRGB‚ğæ“¾‚·‚é
+	 * ã‚­ãƒ¼ã‹ã‚‰RGBã‚’å–å¾—ã™ã‚‹
 	 * 
 	 * @param key
 	 * @return RGB
@@ -241,12 +291,12 @@ public class SystemEditorPreferenceManager {
 	}
 
 	/**
-	 * ƒL[‚ÉARGB‚ğŠÖ˜A•t‚¯‚é
+	 * ã‚­ãƒ¼ã«ã€RGBã‚’é–¢é€£ä»˜ã‘ã‚‹
 	 * 
 	 * @param key
-	 *            ƒL[
+	 *            ã‚­ãƒ¼
 	 * @param newRGB
-	 *            ŠÖ˜A•t‚¯‚éRGB
+	 *            é–¢é€£ä»˜ã‘ã‚‹RGB
 	 */
 	public void setRGB(String key, RGB newRGB) {
 		RGB oldRgb = getRGB(key);
@@ -258,11 +308,11 @@ public class SystemEditorPreferenceManager {
 	}
 
 	/**
-	 * ŠÔŠu‚ğæ“¾‚·‚é
+	 * é–“éš”ã‚’å–å¾—ã™ã‚‹
 	 * 
 	 * @param key
-	 *            ƒL[
-	 * @return ŠÔŠu
+	 *            ã‚­ãƒ¼
+	 * @return é–“éš”
 	 */
 	public int getInterval(String key) {
 		RTSystemEditorPlugin.getDefault().getPreferenceStore().setDefault(key, -1);
@@ -276,12 +326,12 @@ public class SystemEditorPreferenceManager {
 	}
 
 	/**
-	 * ŠÔŠu‚ğİ’è‚·‚é
+	 * é–“éš”ã‚’è¨­å®šã™ã‚‹
 	 * 
 	 * @param key
-	 *            ƒL[
+	 *            ã‚­ãƒ¼
 	 * @param interval
-	 *            ŠÔŠu
+	 *            é–“éš”
 	 */
 	public void setInterval(String key, int interval) {
 		int oldInterval = getInterval(key);
@@ -306,45 +356,36 @@ public class SystemEditorPreferenceManager {
 	}
 
 	/**
-	 * ƒfƒtƒHƒ‹ƒgF‚Ìƒ}ƒbƒv‚ğæ“¾‚·‚é
+	 * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆè‰²ã®ãƒãƒƒãƒ—ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @return ƒfƒtƒHƒ‹ƒgF‚Ìƒ}ƒbƒv
+	 * @return ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆè‰²ã®ãƒãƒƒãƒ—
 	 */
 	public Map<String, RGB> getDefaultRGBMap() {
 		return defaultRGBMap;
 	}
 
 	/**
-	 * ƒfƒtƒHƒ‹ƒgŠÔŠu‚Ìƒ}ƒbƒv‚ğæ“¾‚·‚é
+	 * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆé–“éš”ã®ãƒãƒƒãƒ—ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @return ƒfƒtƒHƒ‹ƒgŠÔŠu‚Ìƒ}ƒbƒv
+	 * @return ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆé–“éš”ã®ãƒãƒƒãƒ—
 	 */
 	public Map<String, Integer> getDefaultIntervalMap() {
 		return defaultInvervalMap;
 	}
 
 	/**
-	 * Interface Type‚ğæ“¾‚·‚é
+	 * Interface Typeã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @return Interface TypeƒŠƒXƒg
+	 * @return Interface Typeãƒªã‚¹ãƒˆ
 	 */
 	public String[] getInterfaceTypes() {
-		RTSystemEditorPlugin.getDefault().getPreferenceStore().setDefault(CONNECT_INTERFACE_TYPE, "");
-
-		String resultTemp = RTSystemEditorPlugin.getDefault().getPreferenceStore().getString(CONNECT_INTERFACE_TYPE);
-		String[] result;
-		if (resultTemp.equals("")) { // defaultvalue
-			result = defaultConnectInterfaceType;
-		} else {
-			result = resultTemp.split(Separator);
-		}
-		return result;
+		return getStringListStoreValue(CONNECT_INTERFACE_TYPE, defaultConnectInterfaceType);
 	}
 	/**
-	 * Interface Type‚ğİ’è‚·‚é
+	 * Interface Typeã‚’è¨­å®šã™ã‚‹
 	 * 
 	 * @param interfaceType
-	 *            Interface TypeƒŠƒXƒg
+	 *            Interface Typeãƒªã‚¹ãƒˆ
 	 */
 	public void setInterfaceTypes(List<String> interfaceType) {
 		String[] oldInterfaceType = getInterfaceTypes();
@@ -353,27 +394,18 @@ public class SystemEditorPreferenceManager {
 	}
 
 	/**
-	 * Data Flow Type‚ğæ“¾‚·‚é
+	 * Data Flow Typeã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @return Data Flow TypeƒŠƒXƒg
+	 * @return Data Flow Typeãƒªã‚¹ãƒˆ
 	 */
 	public String[] getDataFlowTypes() {
-		RTSystemEditorPlugin.getDefault().getPreferenceStore().setDefault(CONNECT_DATAFLOW_TYPE, "");
-
-		String resultTemp = RTSystemEditorPlugin.getDefault().getPreferenceStore().getString(CONNECT_DATAFLOW_TYPE);
-		String[] result;
-		if (resultTemp.equals("")) { // defaultvalue
-			result = defaultConnectDataFlowType;
-		} else {
-			result = resultTemp.split(Separator);
-		}
-		return result;
+		return getStringListStoreValue(CONNECT_DATAFLOW_TYPE, defaultConnectDataFlowType);
 	}
 	/**
-	 * Data Flow Type‚ğİ’è‚·‚é
+	 * Data Flow Typeã‚’è¨­å®šã™ã‚‹
 	 * 
 	 * @param dataFlowType
-	 *            Data Flow TypeƒŠƒXƒg
+	 *            Data Flow Typeãƒªã‚¹ãƒˆ
 	 */
 	public void setDataFlowTypes(List<String> dataflowType) {
 		String[] oldDataFlowType = getDataFlowTypes();
@@ -382,27 +414,18 @@ public class SystemEditorPreferenceManager {
 	}
 
 	/**
-	 * Subscription Type‚ğæ“¾‚·‚é
+	 * Subscription Typeã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @return Subscription TypeƒŠƒXƒg
+	 * @return Subscription Typeãƒªã‚¹ãƒˆ
 	 */
 	public String[] getSubscriptionTypes() {
-		RTSystemEditorPlugin.getDefault().getPreferenceStore().setDefault(CONNECT_SUBSCRIPTION_TYPE, "");
-
-		String resultTemp = RTSystemEditorPlugin.getDefault().getPreferenceStore().getString(CONNECT_SUBSCRIPTION_TYPE);
-		String[] result;
-		if (resultTemp.equals("")) { // defaultvalue
-			result = defaultConnectSubscriptionType;
-		} else {
-			result = resultTemp.split(Separator);
-		}
-		return result;
+		return getStringListStoreValue(CONNECT_SUBSCRIPTION_TYPE, defaultConnectSubscriptionType);
 	}
 	/**
-	 * subscription Type‚ğİ’è‚·‚é
+	 * subscription Typeã‚’è¨­å®šã™ã‚‹
 	 * 
 	 * @param subscriptionType
-	 *            subscription TypeƒŠƒXƒg
+	 *            subscription Typeãƒªã‚¹ãƒˆ
 	 */
 	public void setSubscriptionTypes(List<String> subscriptionType) {
 		String[] oldSubscriptionType = getSubscriptionTypes();
@@ -410,6 +433,65 @@ public class SystemEditorPreferenceManager {
 		propertyChangeSupport.firePropertyChange(CONNECT_SUBSCRIPTION_TYPE, oldSubscriptionType, subscriptionType);
 	}
 
+	/**
+	 * Push Policyã‚’å–å¾—ã™ã‚‹
+	 * 
+	 * @return Push Policyãƒªã‚¹ãƒˆ
+	 */
+	public String[] getPushPolicies() {
+		return getStringListStoreValue(CONNECT_PUSH_POLICY, defaultConnectPushPolicy);
+	}
+	/**
+	 * Push Policyã‚’è¨­å®šã™ã‚‹
+	 * 
+	 * @param pushPolicies
+	 *            Push Policyãƒªã‚¹ãƒˆ
+	 */
+	public void setPushPolicies(List<String> pushPolicies) {
+		String[] oldPushPolicies = getPushPolicies();
+		RTSystemEditorPlugin.getDefault().getPreferenceStore().setValue(CONNECT_PUSH_POLICY, convertList2String(pushPolicies));
+		propertyChangeSupport.firePropertyChange(CONNECT_SUBSCRIPTION_TYPE, oldPushPolicies, pushPolicies);
+	}
+
+	/**
+	 * Buffer Full Policyã‚’å–å¾—ã™ã‚‹
+	 * 
+	 * @return Buffer Full Policyãƒªã‚¹ãƒˆ
+	 */
+	public String[] getBufferFullPolicies() {
+		return getStringListStoreValue(CONNECT_BUFFER_FULL_POLICY, defaultConnectBufferFullPolicy);
+	}
+	/**
+	 * Buffer Full Policyã‚’è¨­å®šã™ã‚‹
+	 * 
+	 * @param bufferFullPolicies
+	 *            Buffer Full Policyãƒªã‚¹ãƒˆ
+	 */
+	public void setBufferFullPolicies(List<String> bufferFullPolicies) {
+		String[] oldPushPolicies = getBufferFullPolicies();
+		RTSystemEditorPlugin.getDefault().getPreferenceStore().setValue(CONNECT_BUFFER_FULL_POLICY, convertList2String(bufferFullPolicies));
+		propertyChangeSupport.firePropertyChange(CONNECT_BUFFER_FULL_POLICY, oldPushPolicies, bufferFullPolicies);
+	}
+	
+	/**
+	 * Buffer Empty Policyã‚’å–å¾—ã™ã‚‹
+	 * 
+	 * @return Buffer Empty Policyãƒªã‚¹ãƒˆ
+	 */
+	public String[] getBufferEmptyPolicies() {
+		return getStringListStoreValue(CONNECT_BUFFER_EMPTY_POLICY, defaultConnectBufferEmptyPolicy);
+	}
+	/**
+	 * Buffer Empty Policyã‚’è¨­å®šã™ã‚‹
+	 * 
+	 * @param bufferEmptyPolicies
+	 *            Buffer Empty Policyãƒªã‚¹ãƒˆ
+	 */
+	public void setBufferEmptyPolicies(List<String> bufferEmptyPolicies) {
+		String[] oldPushPolicies = getBufferEmptyPolicies();
+		RTSystemEditorPlugin.getDefault().getPreferenceStore().setValue(CONNECT_BUFFER_EMPTY_POLICY, convertList2String(bufferEmptyPolicies));
+		propertyChangeSupport.firePropertyChange(CONNECT_BUFFER_EMPTY_POLICY, oldPushPolicies, bufferEmptyPolicies);
+	}
 	private static String convertList2String(List<String> source) {
 		StringBuffer resultTemp = new StringBuffer();
 		
@@ -422,4 +504,43 @@ public class SystemEditorPreferenceManager {
 		return result.substring(0, result.length()-1);
 	}
 
+	/**
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®å®Ÿè¡Œç¢ºèªåˆ¤å®š
+	 * 
+	 * @return å®Ÿè¡Œç¢ºèªã‚’ã™ã‚‹å ´åˆã¯ true
+	 */
+	public boolean isConfirmComponentAction() {
+		store.setDefault(CONFIRM_COMPONENT_ACTION, false);
+		return store.getBoolean(CONFIRM_COMPONENT_ACTION);
+	}
+
+	/**
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®å®Ÿè¡Œç¢ºèªè¨­å®š
+	 * 
+	 * @param b
+	 *            å®Ÿè¡Œç¢ºèªã‚’ã™ã‚‹å ´åˆã¯ true
+	 */
+	public void setConfirmComponentAction(boolean b) {
+		store.setValue(CONFIRM_COMPONENT_ACTION, b);
+	}
+
+	/**
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®å®Ÿè¡Œç¢ºèªåˆæœŸåŒ–
+	 */
+	public void resetConfirmComponentAction() {
+		setConfirmComponentAction(false);
+	}
+
+	private String[] getStringListStoreValue(String key, String[] defaultValue) {
+		RTSystemEditorPlugin.getDefault().getPreferenceStore().setDefault(key, "");
+
+		String resultTemp = RTSystemEditorPlugin.getDefault().getPreferenceStore().getString(key);
+		String[] result;
+		if (resultTemp.equals("")) { // defaultvalue
+			result = defaultValue;
+		} else {
+			result = resultTemp.split(Separator);
+		}
+		return result;
+	}
 }

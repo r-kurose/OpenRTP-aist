@@ -8,7 +8,7 @@ import org.eclipse.emf.common.util.EMap;
 import org.eclipse.gef.commands.Command;
 
 /**
- * ƒRƒlƒNƒ^‚Ìƒ‰ƒCƒ“‚ğˆÚ“®‚·‚éƒRƒ}ƒ“ƒh
+ * ã‚³ãƒã‚¯ã‚¿ã®ãƒ©ã‚¤ãƒ³ã‚’ç§»å‹•ã™ã‚‹ã‚³ãƒãƒ³ãƒ‰
  */
 public class MoveLineCommand extends Command {
 	private PortConnector model;
@@ -34,8 +34,8 @@ public class MoveLineCommand extends Command {
 		if (p == null) {
 			routingConstraint.remove(new Integer(index));
 		} else {
-			// routingConstraint‚É‚ÍAŠù‚É‘¶İ‚·‚ékey‚ÌPut‚ğs‚Á‚½ê‡‚ÉA•ÏX‚Ì’Ê’m‚ªs‚í‚ê‚È‚¢ƒoƒO‚ª‚ ‚éB
-			// ‚±‚Ì‚½‚ßAˆÈ‰º‚Ì•û–@‚Å•ÏX‚ğs‚¤B
+			// routingConstraintã«ã¯ã€æ—¢ã«å­˜åœ¨ã™ã‚‹keyã®Putã‚’è¡Œã£ãŸå ´åˆã«ã€å¤‰æ›´ã®é€šçŸ¥ãŒè¡Œã‚ã‚Œãªã„ãƒã‚°ãŒã‚ã‚‹ã€‚
+			// ã“ã®ãŸã‚ã€ä»¥ä¸‹ã®æ–¹æ³•ã§å¤‰æ›´ã‚’è¡Œã†ã€‚
 			routingConstraint.put(new Integer(index), Draw2dUtil
 					.toRtcLinkPoint(p));
 
@@ -58,10 +58,10 @@ public class MoveLineCommand extends Command {
 	}
 
 	/**
-	 * •ÏX‘ÎÛ‚Ìƒ‚ƒfƒ‹‚ğİ’è‚·‚é
+	 * å¤‰æ›´å¯¾è±¡ã®ãƒ¢ãƒ‡ãƒ«ã‚’è¨­å®šã™ã‚‹
 	 * 
 	 * @param model
-	 *            •ÏX‘ÎÛ‚Ìƒ‚ƒfƒ‹
+	 *            å¤‰æ›´å¯¾è±¡ã®ãƒ¢ãƒ‡ãƒ«
 	 */
 	public void setModel(PortConnector model) {
 		this.model = model;
@@ -77,16 +77,16 @@ public class MoveLineCommand extends Command {
 	}
 
 	/**
-	 * ƒCƒ“ƒfƒbƒNƒX‚ğİ’è‚·‚é
-	 * @param index ƒCƒ“ƒfƒbƒNƒX
+	 * ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’è¨­å®šã™ã‚‹
+	 * @param index ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 	 */
 	public void setIndex(int index) {
 		this.index = index;
 	}
 
 	/**
-	 * ƒƒP[ƒVƒ‡ƒ“‚ğİ’è‚·‚é
-	 * @param point ƒƒP[ƒVƒ‡ƒ“
+	 * ãƒ­ã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚’è¨­å®šã™ã‚‹
+	 * @param point ãƒ­ã‚±ãƒ¼ã‚·ãƒ§ãƒ³
 	 */
 	public void setLocation(Point point) {
 		this.point = point;

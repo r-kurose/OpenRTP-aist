@@ -4,10 +4,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import jp.go.aist.rtm.nameserviceview.NameServiceViewPlugin;
-import jp.go.aist.rtm.nameserviceview.manager.NameServerContext;
-import jp.go.aist.rtm.nameserviceview.manager.NameServerManager;
 import jp.go.aist.rtm.nameserviceview.manager.NameServiceViewPreferenceManager;
-import jp.go.aist.rtm.nameserviceview.manager.impl.NameServerManagerImpl;
+import jp.go.aist.rtm.nameserviceview.model.manager.NameServerContext;
+import jp.go.aist.rtm.nameserviceview.model.manager.NameServerManager;
+import jp.go.aist.rtm.nameserviceview.model.manager.impl.NameServerManagerImpl;
 import jp.go.aist.rtm.toolscommon.ui.views.propertysheetview.RtcPropertySheetPage;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -39,10 +39,10 @@ import org.eclipse.ui.views.navigator.LocalSelectionTransfer;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 
 /**
- * NameServiceView‚ğ’è‹`‚·‚éƒNƒ‰ƒX
+ * NameServiceViewã‚’å®šç¾©ã™ã‚‹ã‚¯ãƒ©ã‚¹
  * <p>
- * ‰Šú•\¦‚ÉAÅŒã‚ÉƒAƒNƒZƒX‚µ‚½ƒl[ƒ€ƒT[ƒrƒX‚ğ•\¦‚·‚éB
- * ÅŒã‚ÉƒAƒNƒZƒX‚µ‚½ƒl[ƒ€ƒT[ƒrƒX‚ª‘¶İ‚µ‚È‚¢ê‡‚É‚ÍAƒ[ƒJƒ‹(127.0.0.1)‚ÉƒAƒNƒZƒX‚·‚é
+ * åˆæœŸè¡¨ç¤ºæ™‚ã«ã€æœ€å¾Œã«ã‚¢ã‚¯ã‚»ã‚¹ã—ãŸãƒãƒ¼ãƒ ã‚µãƒ¼ãƒ“ã‚¹ã‚’è¡¨ç¤ºã™ã‚‹ã€‚
+ * æœ€å¾Œã«ã‚¢ã‚¯ã‚»ã‚¹ã—ãŸãƒãƒ¼ãƒ ã‚µãƒ¼ãƒ“ã‚¹ãŒå­˜åœ¨ã—ãªã„å ´åˆã«ã¯ã€ãƒ­ãƒ¼ã‚«ãƒ«(127.0.0.1)ã«ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹
  */
 public class NameServiceView extends ViewPart {
 	private static final String LAST_NAMESERVICE_ADDRESS = "ui.views.NameServiceView.lastNameServiceAddress";
@@ -137,9 +137,9 @@ public class NameServiceView extends ViewPart {
 	}
 
 	/**
-	 * ƒrƒ…[ƒ‚ğæ“¾‚·‚é
+	 * ãƒ“ãƒ¥ãƒ¼ãƒ¯ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @return ƒrƒ…[ƒ
+	 * @return ãƒ“ãƒ¥ãƒ¼ãƒ¯
 	 */
 	public TreeViewer getViewer() {
 		return viewer;
@@ -164,7 +164,7 @@ public class NameServiceView extends ViewPart {
 	}
 
 	/**
-	 * İ’è‚ğŠÄ‹‚·‚éƒŠƒXƒi
+	 * è¨­å®šã‚’ç›£è¦–ã™ã‚‹ãƒªã‚¹ãƒŠ
 	 */
 	PropertyChangeListener preferenceListener = new PropertyChangeListener() {
 		public void propertyChange(PropertyChangeEvent evt) {
@@ -175,7 +175,7 @@ public class NameServiceView extends ViewPart {
 	};
 
 	/**
-	 * ƒl[ƒ€ƒT[ƒoƒ}ƒl[ƒWƒƒ‚ğŠÄ‹‚·‚éƒŠƒXƒi
+	 * ãƒãƒ¼ãƒ ã‚µãƒ¼ãƒãƒãƒãƒ¼ã‚¸ãƒ£ã‚’ç›£è¦–ã™ã‚‹ãƒªã‚¹ãƒŠ
 	 */
 	Adapter nameServerManagerListener = new AdapterImpl() {
 		@Override
@@ -214,7 +214,7 @@ public class NameServiceView extends ViewPart {
 	}
 
 	private void addDefaultNameServer() {
-		// ‰Šú•\¦‚ÉAÅŒã‚ÉƒAƒNƒZƒX‚µ‚½ƒl[ƒ€ƒT[ƒrƒX‚ğƒcƒŠ[‚É•\¦‚·‚é
+		// åˆæœŸè¡¨ç¤ºæ™‚ã«ã€æœ€å¾Œã«ã‚¢ã‚¯ã‚»ã‚¹ã—ãŸãƒãƒ¼ãƒ ã‚µãƒ¼ãƒ“ã‚¹ã‚’ãƒ„ãƒªãƒ¼ã«è¡¨ç¤ºã™ã‚‹
 		String lastNameServiceAddress = NameServiceViewPlugin.getDefault()
 				.getPreferenceStore().getString(LAST_NAMESERVICE_ADDRESS);
 		if ("".equals(lastNameServiceAddress)) {
@@ -230,7 +230,7 @@ public class NameServiceView extends ViewPart {
 					nameServerAddress);
 			}}).start();
 		} catch (Exception e) {
-			// void ƒGƒ‰[‚Í–³‹‚·‚é
+			// void ã‚¨ãƒ©ãƒ¼ã¯ç„¡è¦–ã™ã‚‹
 		}
 	}
 

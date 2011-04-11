@@ -2,9 +2,9 @@ package jp.go.aist.rtm.rtcbuilder.ui.preference;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
@@ -13,16 +13,16 @@ public class DataTypePreferenceManager {
 	private static DataTypePreferenceManager __instance = new DataTypePreferenceManager();
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
-	 * @return ƒVƒ“ƒOƒ‹ƒgƒ“
+	 * @return ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³
 	 */
 	public static DataTypePreferenceManager getInstance() {
 		return __instance;
 	}
 
 	/**
-	 * IDL File‚ÌƒL[
+	 * IDL Fileã®ã‚­ãƒ¼
 	 */
 	public static final String IDLFILE_DIRECTORIES = DataTypePreferenceManager.class.getName()
 			+ "IDLFILE_DIRECTORIES";
@@ -33,34 +33,20 @@ public class DataTypePreferenceManager {
 			this);
 
 	/**
-	 * DataType —pIDLƒtƒ@ƒCƒ‹Ši”[ƒfƒBƒŒƒNƒgƒŠ‚Ì ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * DataType ç”¨IDLãƒ•ã‚¡ã‚¤ãƒ«æ ¼ç´ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã® ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return IDLFile Directories ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return IDLFile Directories ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public List<String> getIdlFileDirectories() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(IDLFILE_DIRECTORIES, "");
 
 		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(IDLFILE_DIRECTORIES);
-		List<String> result = Arrays.asList(resultTemp.split(","));
+		List<String> result = Arrays.asList(resultTemp.split(File.pathSeparator));
 		if (resultTemp.equals("")) { // defaultvalue
 			result = defaultIdlFileDirectories;
 		}
 		return result;
-	}
-	/**
-	 * DataType —pIDLƒtƒ@ƒCƒ‹Ši”[ƒfƒBƒŒƒNƒgƒŠ‚Ì ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @param IDLFile Directories ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public void setIdlFileDirectories(List<String> defaultFileName) {
-		String oldIdlFileDirectories = Array2String(getIdlFileDirectories());
-		String newIdlFileDirectories = Array2String(defaultFileName);
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(IDLFILE_DIRECTORIES, newIdlFileDirectories);
-
-		propertyChangeSupport.firePropertyChange(IDLFILE_DIRECTORIES, oldIdlFileDirectories, newIdlFileDirectories);
 	}
 
 	/**
@@ -75,19 +61,5 @@ public class DataTypePreferenceManager {
 	 */
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		propertyChangeSupport.removePropertyChangeListener(listener);
-	}
-	private String Array2String(List<String> source) {
-		StringBuffer buffer = new StringBuffer();
-		String result = null;
-		
-		for( Iterator<String> iter = source.iterator(); iter.hasNext(); ) {
-			String idlFile = iter.next();
-			buffer.append(idlFile + ",");
-		}
-		result = buffer.toString();
-		if( result!=null && result.length()>0 ) {
-			result = result.substring(0, result.length()-1);
-		}
-		return result;
 	}
 }

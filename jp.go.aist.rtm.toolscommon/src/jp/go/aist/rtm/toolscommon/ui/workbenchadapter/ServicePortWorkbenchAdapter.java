@@ -6,7 +6,7 @@ import jp.go.aist.rtm.toolscommon.nl.Messages;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 /**
- * ServicePortÇÃWorkbenchAdapter
+ * ServicePort„ÅÆWorkbenchAdapter
  */
 public class ServicePortWorkbenchAdapter extends PortWorkbenchAdapter {
 

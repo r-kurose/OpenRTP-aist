@@ -1,0 +1,234 @@
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+
+project(${rtcParam.name} Java)
+
+set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true)
+set(CMAKE_MODULE_PATH "${dol}{PROJECT_SOURCE_DIR}/cmake_modules")
+
+set(LINUX_PACKAGE_GENERATOR "DEB")
+${sharp}set(LINUX_PACKAGE_GENERATOR "RPM")
+
+
+${sharp} component settings
+set(RTC_NAME "${dol}{PROJECT_NAME}")
+set(RTC_VERSION "${rtcParam.version}")
+set(RTC_VERSION_MAJOR "${helper.getVerMajor(${rtcParam.version})}")
+set(RTC_VERSION_MINOR "${helper.getVerMinor(${rtcParam.version})}")
+set(RTC_VERSION_PATCH "${helper.getVerPatch(${rtcParam.version})}")
+set(RTC_LANG "${helper.toLower(${rtcParam.language})}")
+set(RTC_DESCRIPTION "${rtcParam.description}")
+set(RTC_VENDOR "${rtcParam.vender}")
+set(RTC_MAINTAINER "author@example.com")
+
+string(TOLOWER ${dol}{RTC_NAME} PACKAGE_NAME)
+set(PACKAGE_VERSION "${dol}{RTC_VERSION_MAJOR}.${dol}{RTC_VERSION_MINOR}.${dol}{RTC_VERSION_PATCH}")
+
+set(IDL_FILES ""
+#foreach($p in ${rtcParam.providerIdlPathes})
+              ${p.idlFile}
+#end
+#foreach($p in ${rtcParam.consumerIdlPathes})
+              ${p.idlFile}
+#end)
+
+set(OTHER_SRCS CMakeLists.txt Doxyfile.in
+               RTC.xml ${rtcParam.name}.conf rtc.conf)
+
+
+${sharp} check OpenRTM installed
+find_package(OpenRTMJava REQUIRED)
+
+${sharp} check doxygen installed
+find_package(Doxygen)
+if(DOXYGEN_FOUND STREQUAL "NO")
+    message(FATAL_ERROR "Doxygen not found.")
+endif()
+
+${sharp} Java IDL settings
+get_filename_component(CMAKE_Java_HOME ${dol}{CMAKE_Java_COMPILER} PATH)
+set(CMAKE_Java_IDLJ ${dol}{CMAKE_Java_HOME}/idlj)
+
+
+if(WIN32)
+    ${sharp} add command path
+    set(${dol}ENV{PATH} ${dol}ENV{PATH} "${dol}{OPENRTM_DIR}/bin")
+    ${sharp} set install path prefix
+    set(CMAKE_INSTALL_PREFIX "${dol}{OPENRTM_DIR}")
+    set(INSTALL_PREFIX "components/${dol}{RTC_LANG}/${dol}{PACKAGE_NAME}${dol}{PACKAGE_VERSION}")
+else()
+    ${sharp} add command path
+    set(${dol}ENV{PATH} ${dol}ENV{PATH} "${dol}{OPENRTM_DIR}/bin")
+    ${sharp} set install path prefix
+    set(CMAKE_INSTALL_PREFIX "/usr")
+    ${sharp} set(CMAKE_INSTALL_PREFIX "${dol}{OPENRTM_DIR}")
+    set(OPENRTM_SHARE_PREFIX "share/openrtm-${dol}{OPENRTM_VERSION_MAJOR}.${dol}{OPENRTM_VERSION_MINOR}")
+    set(INSTALL_PREFIX "${dol}{OPENRTM_SHARE_PREFIX}/components/${dol}{RTC_LANG}/${dol}{PACKAGE_NAME}${dol}{PACKAGE_VERSION}")
+endif()
+
+
+${sharp} add uninstall target
+configure_file(
+    "${dol}{CMAKE_CURRENT_SOURCE_DIR}/cmake_modules/cmake_uninstall.cmake.in"
+    "${dol}{CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+    IMMEDIATE @ONLY)
+add_custom_target(uninstall COMMAND 
+    ${dol}{CMAKE_COMMAND} -P ${dol}{CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+
+
+${sharp} add compile target
+set(JAVAC_SOURCE_DIRS ${dol}{PROJECT_SOURCE_DIR}/src ${dol}{PROJECT_BINARY_DIR}/src)
+set(JAVAC_DEST_DIR ${dol}{PROJECT_BINARY_DIR}/bin)
+set(JAVAC_CLASSPATH "${dol}{OPENRTM_CLASSPATH}")
+
+add_custom_target(idlcompile)
+
+foreach(idl ${dol}{IDL_FILES})
+    add_custom_command(TARGET idlcompile PRE_BUILD
+        COMMAND ${dol}{CMAKE_Java_IDLJ} -td src -fall "${dol}{PROJECT_SOURCE_DIR}/${dol}{idl}")
+endforeach()
+
+configure_file(
+    "${dol}{CMAKE_CURRENT_SOURCE_DIR}/cmake_modules/cmake_javacompile.cmake.in"
+    "${dol}{CMAKE_CURRENT_BINARY_DIR}/cmake_javacompile.cmake"
+    IMMEDIATE @ONLY)
+add_custom_target(compile ALL
+    COMMAND ${dol}{CMAKE_COMMAND} -E make_directory bin
+    COMMAND ${dol}{CMAKE_COMMAND} -P ${dol}{CMAKE_CURRENT_BINARY_DIR}/cmake_javacompile.cmake)
+add_dependencies(compile idlcompile)
+
+if(UNIX)
+    add_custom_command(TARGET compile
+        COMMAND ${dol}{CMAKE_COMMAND} -E copy ${dol}{CMAKE_CURRENT_SOURCE_DIR}/${dol}{RTC_NAME}.bat ${dol}{RTC_NAME}.bat
+        COMMAND ${dol}{CMAKE_COMMAND} -E copy ${dol}{CMAKE_CURRENT_SOURCE_DIR}/${dol}{RTC_NAME}.sh ${dol}{RTC_NAME}.sh.dos
+        COMMAND sed -e 's,\r,,' ${dol}{RTC_NAME}.sh.dos > ${dol}{RTC_NAME}.sh)
+else()
+    add_custom_command(TARGET compile
+        COMMAND ${dol}{CMAKE_COMMAND} -E copy ${dol}{CMAKE_CURRENT_SOURCE_DIR}/${dol}{RTC_NAME}.bat ${dol}{RTC_NAME}.bat
+        COMMAND ${dol}{CMAKE_COMMAND} -E copy ${dol}{CMAKE_CURRENT_SOURCE_DIR}/${dol}{RTC_NAME}.sh ${dol}{RTC_NAME}.sh)
+endif()
+
+set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES bin)
+
+install(FILES RTC.xml DESTINATION "${dol}{INSTALL_PREFIX}"
+        COMPONENT "applications")
+
+install(PROGRAMS ${dol}{CMAKE_CURRENT_BINARY_DIR}/${dol}{RTC_NAME}.sh DESTINATION "${dol}{INSTALL_PREFIX}"
+        COMPONENT "applications")
+install(PROGRAMS ${dol}{CMAKE_CURRENT_BINARY_DIR}/${dol}{RTC_NAME}.bat DESTINATION "${dol}{INSTALL_PREFIX}"
+        COMPONENT "applications")
+
+install(DIRECTORY ${dol}{CMAKE_CURRENT_BINARY_DIR}/bin DESTINATION "${dol}{INSTALL_PREFIX}"
+        COMPONENT "applications")
+
+
+${sharp} target settings for document
+configure_file("${dol}{CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in"
+               "${dol}{CMAKE_CURRENT_BINARY_DIR}/Doxyfile")
+
+add_custom_target(doxygen COMMAND
+                  ${dol}{DOXYGEN_EXECUTABLE} ${dol}{CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+
+set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES doc)
+
+get_target_property(DOC_TARGET doc TYPE)
+if(NOT DOC_TARGET)
+    add_custom_target(doc)
+endif()
+add_dependencies(doc doxygen)
+
+install(DIRECTORY ${dol}{CMAKE_CURRENT_BINARY_DIR}/doc DESTINATION "${dol}{INSTALL_PREFIX}"
+        COMPONENT "documents")
+
+
+${sharp} install source files
+install(DIRECTORY src
+        DESTINATION "${dol}{INSTALL_PREFIX}/src"
+        COMPONENT "sources")
+
+install(FILES ${dol}{IDL_FILES} ${dol}{RTC_NAME}.sh ${dol}{RTC_NAME}.bat ${dol}{OTHER_SRCS}
+        DESTINATION "${dol}{INSTALL_PREFIX}/src"
+        COMPONENT "sources")
+
+install(DIRECTORY cmake_modules cpack_resources
+        DESTINATION "${dol}{INSTALL_PREFIX}/src"
+        COMPONENT "sources")
+
+
+${sharp} package settings
+set(CPACK_PACKAGE_NAME "${dol}{RTC_NAME}")
+set(CPACK_PACKAGE_VERSION_MAJOR "${dol}{RTC_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${dol}{RTC_VERSION_MINOR}")
+set(CPACK_PACKAGE_VERSION_PATCH "${dol}{RTC_VERSION_PATCH}")
+set(CPACK_PACKAGE_VERSION "${dol}{CPACK_PACKAGE_VERSION_MAJOR}.${dol}{CPACK_PACKAGE_VERSION_MINOR}.${dol}{CPACK_PACKAGE_VERSION_PATCH}")
+set(CPACK_PACKAGE_VENDOR "${dol}{RTC_VENDOR}")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${dol}{RTC_DESCRIPTION}")
+set(CPACK_PACKAGE_CONTACT "${dol}{RTC_MAINTAINER}")
+
+set(CPACK_RESOURCE_FILE_LICENSE
+    "${dol}{CMAKE_CURRENT_SOURCE_DIR}/cpack_resources/License.txt")
+set(CPACK_PACKAGE_DESCRIPTION_FILE
+    "${dol}{CMAKE_CURRENT_SOURCE_DIR}/cpack_resources/Description.txt")
+
+set(CPACK_COMPONENTS_ALL applications documents sources)
+set(CPACK_COMPONENT_APPLICATIONS_DISPLAY_NAME "Applications")
+set(CPACK_COMPONENT_APPLICATIONS_DESCRIPTION "RT-Component applications")
+set(CPACK_COMPONENT_APPLICATIONS_DISABLED FALSE)
+
+set(CPACK_COMPONENT_DOCUMENTS_DISPLAY_NAME "Documents")
+set(CPACK_COMPONENT_DOCUMENTS_DESCRIPTION "RT-Component documents")
+set(CPACK_COMPONENT_DOCUMENTS_DISABLED TRUE)
+
+set(CPACK_COMPONENT_SOURCES_DISPLAY_NAME "Source files")
+set(CPACK_COMPONENT_SOURCES_DESCRIPTION "RT-Component source files")
+set(CPACK_COMPONENT_SOURCES_DISABLED TRUE)
+
+if(WIN32)
+    set(CPACK_GENERATOR "WIX")
+
+    ${sharp} Windows WiX package settings
+
+    set(CPACK_WIX_XSL "@CMAKE_CURRENT_BINARY_DIR@/wix.xsl")
+    set(CPACK_WIX_LANG "ja-jp")
+    set(CPACK_RESOURCE_FILE_LICENSE
+        "@CMAKE_CURRENT_SOURCE_DIR@/cpack_resources/License.rtf")
+    configure_file(
+        "${dol}{CMAKE_CURRENT_SOURCE_DIR}/cpack_resources/wix.xsl.in"
+        "${dol}{CMAKE_CURRENT_BINARY_DIR}/wix.xsl" @ONLY)
+
+    set(CPACK_PACKAGE_FILE_NAME
+        "rtc${dol}{OPENRTM_VERSION}-${dol}{PACKAGE_NAME}${dol}{PACKAGE_VERSION}")
+
+else()
+    set(CPACK_GENERATOR "${dol}{LINUX_PACKAGE_GENERATOR}")
+
+    if(CPACK_GENERATOR STREQUAL "DEB")
+        ${sharp} Linux Debian package settings
+
+        set(CPACK_DEBIAN_PACKAGE_VERSION "${dol}{CPACK_PACKAGE_VERSION}-1")
+        set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "i386")
+        set(CPACK_DEBIAN_PACKAGE_SECTION "main")
+        set(CPACK_DEBIAN_PACKAGE_PRIORITY  "extra")
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS "openrtm-aist (>= ${rtcParam.rtmVersion})")
+
+        set(CPACK_PACKAGE_FILE_NAME
+            "rtc${dol}{OPENRTM_VERSION}-${dol}{PACKAGE_NAME}_${dol}{CPACK_DEBIAN_PACKAGE_VERSION}_${dol}{CPACK_DEBIAN_PACKAGE_ARCHITECTURE}")
+
+    elseif(CPACK_GENERATOR STREQUAL "RPM")
+        ${sharp} Linux RPM package settings
+
+        set(CPACK_RPM_PACKAGE_RELEASE "1.fc10")
+        set(CPACK_RPM_PACKAGE_ARCHITECTURE "i386")
+        set(CPACK_RPM_PACKAGE_GROUP "Development/Libraries")
+        set(CPACK_RPM_PACKAGE_LICENSE "LGPL")
+        set(CPACK_RPM_PACKAGE_REQUIRES "OpenRTM-aist >= ${rtcParam.rtmVersion}")
+
+        set(CPACK_PACKAGE_FILE_NAME
+            "rtc${dol}{OPENRTM_VERSION}-${dol}{PACKAGE_NAME}-${dol}{PACKAGE_VERSION}-${dol}{CPACK_RPM_PACKAGE_RELEASE}.${dol}{CPACK_RPM_PACKAGE_ARCHITECTURE}")
+
+    endif()
+endif()
+
+message(STATUS "Package type: ${dol}{CPACK_GENERATOR}")
+message(STATUS "Package name: ${dol}{CPACK_PACKAGE_FILE_NAME}")
+
+include(CPack)

@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 
 /**
- * プロシキとなるポートを返すクラス
+ * 繝励Ο繧ｷ繧ｭ縺ｨ縺ｪ繧九�昴�ｼ繝医ｒ霑斐☆繧ｯ繝ｩ繧ｹ
  *
  */
 public abstract class PortProxy extends EObjectImpl implements Port {
@@ -64,6 +64,7 @@ public abstract class PortProxy extends EObjectImpl implements Port {
 	}
 //	@Override
 	public void disconnectAll() {
+		substance.getSynchronizer().setCurrentDiagram((SystemDiagram) eContainer().eContainer());
 		substance.disconnectAll();
 	}
 

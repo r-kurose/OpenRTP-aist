@@ -6,13 +6,13 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.PointList;
 
 /**
- * OutPortのFigure
+ * OutPort縺ｮFigure
  */
 public class OutPortFigure extends PortFigure {
 
 	/**
-	 * コンストラクタ
-	 * @param outport　モデル
+	 * 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ
+	 * @param outport縲繝｢繝�繝ｫ
 	 */
 	public OutPortFigure(OutPort outport) {
 

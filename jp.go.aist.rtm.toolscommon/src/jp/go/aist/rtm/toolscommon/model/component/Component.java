@@ -29,6 +29,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getServiceports <em>Serviceports</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getComponents <em>Components</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getExecutionContexts <em>Execution Contexts</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getParticipationContexts <em>Participation Contexts</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getExecutionContextHandler <em>Execution Context Handler</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getParticipationContextHandler <em>Participation Context Handler</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getChildSystemDiagram <em>Child System Diagram</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getInstanceNameL <em>Instance Name L</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getVenderL <em>Vender L</em>}</li>
@@ -48,7 +51,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * @model abstract="true"
  * @generated
  */
-public interface Component extends WrapperObject {
+public interface Component extends WrapperObject, IPropertyMap {
 	public static final String CATEGORY = "CATEGORY";
 	public static final String DESCRIPTION = "DESCRIPTION";
 	public static final String PATH_URI = "PATH_URI";
@@ -76,21 +79,21 @@ public interface Component extends WrapperObject {
 	 * The list contents are of type {@link jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒ“ƒ|[ƒlƒ“ƒg‚ª•Û‚·‚éConfigurationSet‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
+	 * ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒä¿æŒã™ã‚‹ConfigurationSetã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Configuration Sets</em>' containment reference list.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_ConfigurationSets()
-	 * @model type="jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet" containment="true"
+	 * @model containment="true"
 	 * @generated
 	 */
-	EList getConfigurationSets();
+	EList<ConfigurationSet> getConfigurationSets();
 
 	/**
 	 * Returns the value of the '<em><b>Active Configuration Set</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒAƒNƒeƒBƒu‚ÈConfigurationSet‚ğæ“¾‚·‚éB
+	 * ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãªConfigurationSetã‚’å–å¾—ã™ã‚‹ã€‚
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Active Configuration Set</em>' reference.
@@ -104,7 +107,7 @@ public interface Component extends WrapperObject {
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getActiveConfigurationSet <em>Active Configuration Set</em>}' reference.
 	 * <!-- begin-user-doc -->
-	 * ƒAƒNƒeƒBƒu‚ÈConfigurationSet‚ğİ’è‚·‚éB
+	 * ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãªConfigurationSetã‚’è¨­å®šã™ã‚‹ã€‚
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Active Configuration Set</em>' reference.
 	 * @see #getActiveConfigurationSet()
@@ -117,60 +120,60 @@ public interface Component extends WrapperObject {
 	 * The list contents are of type {@link jp.go.aist.rtm.toolscommon.model.component.Port}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ª•Û‚·‚éPort‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒä¿æŒã™ã‚‹Portã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ports</em>' containment reference list.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_Ports()
-	 * @model type="jp.go.aist.rtm.toolscommon.model.component.Port" containment="true"
+	 * @model containment="true"
 	 * @generated
 	 */
-	EList getPorts();
+	EList<Port> getPorts();
 
 	/**
 	 * Returns the value of the '<em><b>Inports</b></em>' reference list.
 	 * The list contents are of type {@link jp.go.aist.rtm.toolscommon.model.component.InPort}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ª•Û‚·‚éInPort‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB(getPorts()‚ÌƒTƒuƒZƒbƒg‚ª•Ô‚³‚ê‚é)
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒä¿æŒã™ã‚‹InPortã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚(getPorts()ã®ã‚µãƒ–ã‚»ãƒƒãƒˆãŒè¿”ã•ã‚Œã‚‹)
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Inports</em>' reference list.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_Inports()
-	 * @model type="jp.go.aist.rtm.toolscommon.model.component.InPort" transient="true" changeable="false" volatile="true"
+	 * @model transient="true" changeable="false" volatile="true"
 	 * @generated
 	 */
-	EList getInports();
+	EList<InPort> getInports();
 
 	/**
 	 * Returns the value of the '<em><b>Outports</b></em>' reference list.
 	 * The list contents are of type {@link jp.go.aist.rtm.toolscommon.model.component.OutPort}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ª•Û‚·‚éOutPort‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB(getPorts()‚ÌƒTƒuƒZƒbƒg‚ª•Ô‚³‚ê‚é)
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒä¿æŒã™ã‚‹OutPortã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚(getPorts()ã®ã‚µãƒ–ã‚»ãƒƒãƒˆãŒè¿”ã•ã‚Œã‚‹)
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Outports</em>' reference list.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_Outports()
-	 * @model type="jp.go.aist.rtm.toolscommon.model.component.OutPort" transient="true" changeable="false" volatile="true"
+	 * @model transient="true" changeable="false" volatile="true"
 	 * @generated
 	 */
-	EList getOutports();
+	EList<OutPort> getOutports();
 
 	/**
 	 * Returns the value of the '<em><b>Serviceports</b></em>' reference list.
 	 * The list contents are of type {@link jp.go.aist.rtm.toolscommon.model.component.ServicePort}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ª•Û‚·‚éServicePort‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB(getPorts()‚ÌƒTƒuƒZƒbƒg‚ª•Ô‚³‚ê‚é)
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒä¿æŒã™ã‚‹ServicePortã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚(getPorts()ã®ã‚µãƒ–ã‚»ãƒƒãƒˆãŒè¿”ã•ã‚Œã‚‹)
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Serviceports</em>' reference list.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_Serviceports()
-	 * @model type="jp.go.aist.rtm.toolscommon.model.component.ServicePort" transient="true" changeable="false" volatile="true"
+	 * @model transient="true" changeable="false" volatile="true"
 	 * @generated
 	 */
-	EList getServiceports();
+	EList<ServicePort> getServiceports();
 
 	/**
 	 * Returns the value of the '<em><b>Execution Contexts</b></em>' containment reference list.
@@ -183,17 +186,85 @@ public interface Component extends WrapperObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Execution Contexts</em>' containment reference list.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_ExecutionContexts()
-	 * @model type="jp.go.aist.rtm.toolscommon.model.component.ExecutionContext" containment="true"
+	 * @model containment="true"
 	 * @generated
 	 */
-	EList getExecutionContexts();
+	EList<ExecutionContext> getExecutionContexts();
+
+	/**
+	 * Returns the value of the '<em><b>Participation Contexts</b></em>' reference list.
+	 * The list contents are of type {@link jp.go.aist.rtm.toolscommon.model.component.ExecutionContext}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Participation Contexts</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Participation Contexts</em>' reference list.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_ParticipationContexts()
+	 * @model
+	 * @generated
+	 */
+	EList<ExecutionContext> getParticipationContexts();
+
+	/**
+	 * Returns the value of the '<em><b>Execution Context Handler</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Execution Context Handler</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Execution Context Handler</em>' containment reference.
+	 * @see #setExecutionContextHandler(ContextHandler)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_ExecutionContextHandler()
+	 * @model containment="true"
+	 * @generated
+	 */
+	ContextHandler getExecutionContextHandler();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getExecutionContextHandler <em>Execution Context Handler</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Execution Context Handler</em>' containment reference.
+	 * @see #getExecutionContextHandler()
+	 * @generated
+	 */
+	void setExecutionContextHandler(ContextHandler value);
+
+	/**
+	 * Returns the value of the '<em><b>Participation Context Handler</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Participation Context Handler</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Participation Context Handler</em>' containment reference.
+	 * @see #setParticipationContextHandler(ContextHandler)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_ParticipationContextHandler()
+	 * @model containment="true"
+	 * @generated
+	 */
+	ContextHandler getParticipationContextHandler();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getParticipationContextHandler <em>Participation Context Handler</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Participation Context Handler</em>' containment reference.
+	 * @see #getParticipationContextHandler()
+	 * @generated
+	 */
+	void setParticipationContextHandler(ContextHandler value);
 
 	/**
 	 * Returns the value of the '<em><b>Instance Name L</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX–¼‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åã‚’å–å¾—ã™ã‚‹
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Instance Name L</em>' attribute.
@@ -207,7 +278,7 @@ public interface Component extends WrapperObject {
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getInstanceNameL <em>Instance Name L</em>}' attribute.
 	 * <!-- begin-user-doc -->
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX–¼‚ğİ’è‚·‚éB
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åã‚’è¨­å®šã™ã‚‹ã€‚
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Instance Name L</em>' attribute.
 	 * @see #getInstanceNameL()
@@ -220,7 +291,7 @@ public interface Component extends WrapperObject {
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìì¬ƒxƒ“ƒ_–¼‚ğæ“¾‚·‚éBƒxƒ“ƒ_–¼‚ÍƒRƒ“ƒ|[ƒlƒ“ƒgId‚Ìˆê•”‚Æ‚µ‚Äg—p‚³‚ê‚éB
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ä½œæˆãƒ™ãƒ³ãƒ€åã‚’å–å¾—ã™ã‚‹ã€‚ãƒ™ãƒ³ãƒ€åã¯ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆIdã®ä¸€éƒ¨ã¨ã—ã¦ä½¿ç”¨ã•ã‚Œã‚‹ã€‚
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Vender L</em>' attribute.
@@ -234,7 +305,7 @@ public interface Component extends WrapperObject {
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getVenderL <em>Vender L</em>}' attribute.
 	 * <!-- begin-user-doc -->
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìì¬ƒxƒ“ƒ_–¼‚ğİ’è‚·‚éB
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ä½œæˆãƒ™ãƒ³ãƒ€åã‚’è¨­å®šã™ã‚‹ã€‚
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Vender L</em>' attribute.
 	 * @see #getVenderL()
@@ -247,7 +318,7 @@ public interface Component extends WrapperObject {
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌŠT—vî•ñ‚ğæ“¾‚·‚éB
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®æ¦‚è¦æƒ…å ±ã‚’å–å¾—ã™ã‚‹ã€‚
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Description L</em>' attribute.
@@ -261,7 +332,7 @@ public interface Component extends WrapperObject {
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getDescriptionL <em>Description L</em>}' attribute.
 	 * <!-- begin-user-doc -->
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌŠT—vî•ñ‚ğİ’è‚·‚éB
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®æ¦‚è¦æƒ…å ±ã‚’è¨­å®šã™ã‚‹ã€‚
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Description L</em>' attribute.
 	 * @see #getDescriptionL()
@@ -274,7 +345,7 @@ public interface Component extends WrapperObject {
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒJƒeƒSƒŠ‚ğæ“¾‚·‚éBƒJƒeƒSƒŠ‚ÍƒRƒ“ƒ|[ƒlƒ“ƒgId‚Ìˆê•”‚Æ‚µ‚Äg—p‚³‚ê‚éB
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ã‚«ãƒ†ã‚´ãƒªã‚’å–å¾—ã™ã‚‹ã€‚ã‚«ãƒ†ã‚´ãƒªã¯ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆIdã®ä¸€éƒ¨ã¨ã—ã¦ä½¿ç”¨ã•ã‚Œã‚‹ã€‚
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Category L</em>' attribute.
@@ -289,7 +360,7 @@ public interface Component extends WrapperObject {
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getCategoryL <em>Category L</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒJƒeƒSƒŠ‚ğİ’è‚·‚éB
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ã‚«ãƒ†ã‚´ãƒªã‚’è¨­å®šã™ã‚‹ã€‚
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Category L</em>' attribute.
@@ -303,7 +374,7 @@ public interface Component extends WrapperObject {
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * RTCd—l‚Ì–¼Ì‚ğæ“¾‚·‚éBRTCd—l–¼Ì‚ÍƒRƒ“ƒ|[ƒlƒ“ƒgId‚Ìˆê•”‚Æ‚µ‚Äg—p‚³‚ê‚éB
+	 * RTCä»•æ§˜ã®åç§°ã‚’å–å¾—ã™ã‚‹ã€‚RTCä»•æ§˜åç§°ã¯ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆIdã®ä¸€éƒ¨ã¨ã—ã¦ä½¿ç”¨ã•ã‚Œã‚‹ã€‚
 	 * </p>
 	 * @return the value of the '<em>Serviceports</em>' reference list.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_Serviceports()
@@ -320,7 +391,7 @@ public interface Component extends WrapperObject {
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getTypeNameL <em>Type Name L</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * RTCd—l‚Ì–¼Ì‚ğİ’è‚·‚éB
+	 * RTCä»•æ§˜ã®åç§°ã‚’è¨­å®šã™ã‚‹ã€‚
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Type Name L</em>' attribute.
@@ -334,7 +405,7 @@ public interface Component extends WrapperObject {
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * RTCd—l‚Ìƒo[ƒWƒ‡ƒ“”Ô†‚ğæ“¾‚·‚éBƒo[ƒWƒ‡ƒ“”Ô†‚ÍƒRƒ“ƒ|[ƒlƒ“ƒgId‚Ìˆê•”‚Æ‚µ‚Äg—p‚³‚ê‚éB
+	 * RTCä»•æ§˜ã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ç•ªå·ã‚’å–å¾—ã™ã‚‹ã€‚ãƒãƒ¼ã‚¸ãƒ§ãƒ³ç•ªå·ã¯ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆIdã®ä¸€éƒ¨ã¨ã—ã¦ä½¿ç”¨ã•ã‚Œã‚‹ã€‚
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Version L</em>' attribute.
@@ -348,7 +419,7 @@ public interface Component extends WrapperObject {
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getVersionL <em>Version L</em>}' attribute.
 	 * <!-- begin-user-doc -->
-	 * RTCd—l‚Ìƒo[ƒWƒ‡ƒ“”Ô†‚ğİ’è‚·‚éB
+	 * RTCä»•æ§˜ã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ç•ªå·ã‚’è¨­å®šã™ã‚‹ã€‚
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Version L</em>' attribute.
 	 * @see #getVersionL()
@@ -360,7 +431,7 @@ public interface Component extends WrapperObject {
 	 * Returns the value of the '<em><b>Path Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌURI‚ğæ“¾‚·‚éB
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®URIã‚’å–å¾—ã™ã‚‹ã€‚
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Path Id</em>' attribute.
@@ -374,7 +445,7 @@ public interface Component extends WrapperObject {
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getPathId <em>Path Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌURI‚ğİ’è‚·‚éB
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®URIã‚’è¨­å®šã™ã‚‹ã€‚
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Path Id</em>' attribute.
 	 * @see #getPathId()
@@ -387,7 +458,7 @@ public interface Component extends WrapperObject {
 	 * The default value is <code>"RIGHT"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì•ûŒüiRIGHT/LEFT/UP/DOWNj‚ğ•Ô‚·
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®æ–¹å‘ï¼ˆRIGHT/LEFT/UP/DOWNï¼‰ã‚’è¿”ã™
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Outport Direction</em>' attribute.
@@ -399,7 +470,7 @@ public interface Component extends WrapperObject {
 	String getOutportDirection();
 
 	/**
-	 * @param value ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì•ûŒüiRIGHT/LEFT/UP/DOWNj
+	 * @param value ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®æ–¹å‘ï¼ˆRIGHT/LEFT/UP/DOWNï¼‰
 	 */
 	void setOutportDirection(String value);
 
@@ -407,7 +478,7 @@ public interface Component extends WrapperObject {
 	 * Returns the value of the '<em><b>Composite Type L</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒRƒ“ƒ|ƒWƒbƒgƒ^ƒCƒv‚ğæ“¾‚·‚éBƒRƒ“ƒ|ƒWƒbƒgƒ^ƒCƒv‚ÍƒJƒeƒSƒŠ‚©‚ç“±o‚³‚ê‚éB
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ã‚³ãƒ³ãƒã‚¸ãƒƒãƒˆã‚¿ã‚¤ãƒ—ã‚’å–å¾—ã™ã‚‹ã€‚ã‚³ãƒ³ãƒã‚¸ãƒƒãƒˆã‚¿ã‚¤ãƒ—ã¯ã‚«ãƒ†ã‚´ãƒªã‹ã‚‰å°å‡ºã•ã‚Œã‚‹ã€‚
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Composite Type L</em>' attribute.
@@ -422,23 +493,23 @@ public interface Component extends WrapperObject {
 	 * The list contents are of type {@link jp.go.aist.rtm.toolscommon.model.component.Component}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * qRTC‚Æ‚µ‚ÄŠÜ‚ŞƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒŠƒXƒg‚ğ•Ô‚·B
+	 * å­RTCã¨ã—ã¦å«ã‚€ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Components</em>' reference list.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_Components()
-	 * @model type="jp.go.aist.rtm.toolscommon.model.component.Component"
+	 * @model
 	 * @generated
 	 */
-	EList getComponents();
+	EList<Component> getComponents();
 
 	/**
 	 * Returns the value of the '<em><b>Component Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌID‚ğæ“¾‚·‚éBƒRƒ“ƒ|[ƒlƒ“ƒgID‚Í
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®IDã‚’å–å¾—ã™ã‚‹ã€‚ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆIDã¯
 	 * "RTC:" + getVenderL() + "." + getCategoryL () + "."+ getTypeNameL() + ":"+ getVersionL()
-	 * ‚Åİ’è‚³‚ê‚éB
+	 * ã§è¨­å®šã•ã‚Œã‚‹ã€‚
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Component Id</em>' attribute.
@@ -452,7 +523,7 @@ public interface Component extends WrapperObject {
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getComponentId <em>Component Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌID‚ğİ’è‚·‚éBŠî–{“I‚É‚ÍƒLƒƒƒbƒVƒ…‚Ì–ğ–Ú‚µ‚©‚È‚¢B
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®IDã‚’è¨­å®šã™ã‚‹ã€‚åŸºæœ¬çš„ã«ã¯ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã®å½¹ç›®ã—ã‹ãªã„ã€‚
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Component Id</em>' attribute.
 	 * @see #getComponentId()
@@ -465,7 +536,7 @@ public interface Component extends WrapperObject {
 	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ª•K{‚Å‚ ‚é‚©‚ğ•Ô‚·B
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒå¿…é ˆã§ã‚ã‚‹ã‹ã‚’è¿”ã™ã€‚
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Required</em>' attribute.
@@ -479,7 +550,7 @@ public interface Component extends WrapperObject {
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Component#isRequired <em>Required</em>}' attribute.
 	 * <!-- begin-user-doc -->
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ª•K{‚Å‚ ‚é‚©‚ğİ’è‚·‚éB
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒå¿…é ˆã§ã‚ã‚‹ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Required</em>' attribute.
 	 * @see #isRequired()
@@ -491,7 +562,7 @@ public interface Component extends WrapperObject {
 	 * Returns the value of the '<em><b>Child System Diagram</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * •¡‡RTC‚Ì“à•”‚ğ•\Œ»‚·‚éƒ_ƒCƒAƒOƒ‰ƒ€‚ğæ“¾‚·‚éB
+	 * è¤‡åˆRTCã®å†…éƒ¨ã‚’è¡¨ç¾ã™ã‚‹ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã‚’å–å¾—ã™ã‚‹ã€‚
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Child System Diagram</em>' reference.
@@ -505,7 +576,7 @@ public interface Component extends WrapperObject {
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getChildSystemDiagram <em>Child System Diagram</em>}' reference.
 	 * <!-- begin-user-doc -->
-	 * •¡‡RTC‚Ì“à•”‚ğ•\Œ»‚·‚éƒ_ƒCƒAƒOƒ‰ƒ€‚ğİ’è‚·‚éB
+	 * è¤‡åˆRTCã®å†…éƒ¨ã‚’è¡¨ç¾ã™ã‚‹ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã‚’è¨­å®šã™ã‚‹ã€‚
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Child System Diagram</em>' reference.
 	 * @see #getChildSystemDiagram()
@@ -515,8 +586,8 @@ public interface Component extends WrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌConfigurationSet‚ğXV‚·‚éB
-	 * •K—v‚É‰‚¶‚ÄAConfigurationSet‚Ì’Ç‰Á^C³^íœ‚ÆƒAƒNƒeƒBƒu‚ÈConfigurationSet‚Ì•ÏX‚ğs‚¤B
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ConfigurationSetã‚’æ›´æ–°ã™ã‚‹ã€‚
+	 * å¿…è¦ã«å¿œã˜ã¦ã€ConfigurationSetã®è¿½åŠ ï¼ä¿®æ­£ï¼å‰Šé™¤ã¨ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãªConfigurationSetã®å¤‰æ›´ã‚’è¡Œã†ã€‚
 	 * <!-- end-user-doc -->
 	 * @model listDataType="jp.go.aist.rtm.toolscommon.model.component.List" listMany="false" originallistDataType="jp.go.aist.rtm.toolscommon.model.component.List" originallistMany="false"
 	 * @generated
@@ -525,16 +596,16 @@ public interface Component extends WrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * qRTC‚Æ‚µ‚ÄŠÜ‚ŞƒRƒ“ƒ|[ƒlƒ“ƒg‚ğÄ‹A“I‚É‚·‚×‚Äæ“¾‚µAƒŠƒXƒg‚Æ‚µ‚Ä•Ô‚·B
+	 * å­RTCã¨ã—ã¦å«ã‚€ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å†å¸°çš„ã«ã™ã¹ã¦å–å¾—ã—ã€ãƒªã‚¹ãƒˆã¨ã—ã¦è¿”ã™ã€‚
 	 * <!-- end-user-doc -->
-	 * @model kind="operation" dataType="jp.go.aist.rtm.toolscommon.model.component.List" many="false"
+	 * @model kind="operation"
 	 * @generated
 	 */
-	List getAllComponents();
+	EList<Component> getAllComponents();
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * “–ŠYRTC‚ª•¡‡ƒRƒ“ƒ|[ƒlƒ“ƒg‚Å‚ ‚é‚©‚ğ•Ô‚·B
+	 * å½“è©²RTCãŒè¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã§ã‚ã‚‹ã‹ã‚’è¿”ã™ã€‚
 	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
@@ -543,7 +614,7 @@ public interface Component extends WrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * “–ŠYRTC‚ªuGroupingv•¡‡RTCiƒOƒ‹[ƒsƒ“ƒO‚¾‚¯‚Ì•¡‡ƒRƒ“ƒ|[ƒlƒ“ƒgj‚Å‚ ‚é‚©‚ğ•Ô‚·B
+	 * å½“è©²RTCãŒã€ŒGroupingã€è¤‡åˆRTCï¼ˆã‚°ãƒ«ãƒ¼ãƒ”ãƒ³ã‚°ã ã‘ã®è¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆï¼‰ã§ã‚ã‚‹ã‹ã‚’è¿”ã™ã€‚
 	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
@@ -552,7 +623,15 @@ public interface Component extends WrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * “–ŠYRTC‚ªƒIƒ“ƒ‰ƒCƒ“‚ÌƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€‚ÉŠÜ‚Ü‚ê‚é‚©‚ğ•Ô‚·B
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean hasComponentAction();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * å½“è©²RTCãŒã‚ªãƒ³ãƒ©ã‚¤ãƒ³ã®ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã«å«ã¾ã‚Œã‚‹ã‹ã‚’è¿”ã™ã€‚
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -561,7 +640,16 @@ public interface Component extends WrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * •¡‡RTC‚ÉqRTC‚ğ’Ç‰Á‚·‚éB
+	 * è¤‡åˆRTCã®æ–°è¦ä½œæˆæ™‚ã«å­RTCã®ãƒªã‚¹ãƒˆã‚’è¨­å®šã™ã‚‹ã€‚
+	 * <!-- end-user-doc -->
+	 * @model componentListDataType="jp.go.aist.rtm.toolscommon.model.component.List" componentListMany="false"
+	 * @generated NOT
+	 */
+	boolean setComponentsR(List<Component> componentList);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * è¤‡åˆRTCã«å­RTCã‚’è¿½åŠ ã™ã‚‹ã€‚
 	 * <!-- end-user-doc -->
 	 * @model componentListDataType="jp.go.aist.rtm.toolscommon.model.component.List" componentListMany="false"
 	 * @generated NOT
@@ -570,7 +658,7 @@ public interface Component extends WrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * •¡‡RTC‚©‚çqRTC‚ğíœ‚·‚é
+	 * è¤‡åˆRTCã‹ã‚‰å­RTCã‚’å‰Šé™¤ã™ã‚‹
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -579,23 +667,23 @@ public interface Component extends WrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * •¡‡RTC‚ªŒöŠJ‚µ‚Ä‚¢‚éƒ|[ƒg‚Ì–¼ÌiqRTC‚ÌƒCƒ“ƒXƒ^ƒ“ƒX–¼@+@"." + ƒ|[ƒg–¼j‚ÌƒŠƒXƒg‚ğ•Ô‚·B
+	 * è¤‡åˆRTCãŒå…¬é–‹ã—ã¦ã„ã‚‹ãƒãƒ¼ãƒˆã®åç§°ï¼ˆå­RTCã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åã€€+ã€€"." + ãƒãƒ¼ãƒˆåï¼‰ã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
 	 * <!-- end-user-doc -->
 	 */
 	List<String> getExportedPorts();
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * •¡‡RTC‚ªŒöŠJ‚µ‚Ä‚¢‚éƒ|[ƒg‚Ì–¼ÌiqRTC‚ÌƒCƒ“ƒXƒ^ƒ“ƒX–¼@+@"." + ƒ|[ƒg–¼j‚ÌƒŠƒXƒg‚ğİ’è‚·‚éB
+	 * è¤‡åˆRTCãŒå…¬é–‹ã—ã¦ã„ã‚‹ãƒãƒ¼ãƒˆã®åç§°ï¼ˆå­RTCã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åã€€+ã€€"." + ãƒãƒ¼ãƒˆåï¼‰ã®ãƒªã‚¹ãƒˆã‚’è¨­å®šã™ã‚‹ã€‚
 	 * <!-- end-user-doc -->
-	 * @model valuesType="java.lang.String" valuesMany="true"
+	 * @model valuesMany="true"
 	 * @generated
 	 */
-	boolean setExportedPorts(EList values);
+	boolean setExportedPorts(EList<String> values);
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * “–ŠYRTC‚ÌConfigurationSet‚ğXV‚·‚éBisActive‚ªtrue‚Ìê‡‚ÍAƒAƒNƒeƒBƒx[ƒg‚às‚¤B
+	 * å½“è©²RTCã®ConfigurationSetã‚’æ›´æ–°ã™ã‚‹ã€‚isActiveãŒtrueã®å ´åˆã¯ã€ã‚¢ã‚¯ãƒ†ã‚£ãƒ™ãƒ¼ãƒˆã‚‚è¡Œã†ã€‚
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -604,16 +692,7 @@ public interface Component extends WrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * •¡‡RTC‚ÌV‹Kì¬‚ÉqRTC‚ÌƒŠƒXƒg‚ğİ’è‚·‚éB
-	 * <!-- end-user-doc -->
-	 * @model componentListDataType="jp.go.aist.rtm.toolscommon.model.component.List" componentListMany="false"
-	 * @generated NOT
-	 */
-	boolean setComponentsR(List<Component> componentList);
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * V‹K•¡‡ƒRƒ“ƒ|[ƒlƒ“ƒgì¬ƒ_ƒCƒAƒƒO‚É•\¦‚·‚éƒpƒX‚ğ•Ô‚·B
+	 * æ–°è¦è¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆä½œæˆãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã«è¡¨ç¤ºã™ã‚‹ãƒ‘ã‚¹ã‚’è¿”ã™ã€‚
 	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
@@ -621,70 +700,43 @@ public interface Component extends WrapperObject {
 	String getPath();
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * ID‚É‘Î‰•t‚¯‚ÄExecutionContext‚ğ“o˜^‚µ‚Ü‚·B
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	ExecutionContext setExecutionContext(String id, ExecutionContext ec);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * ID‚É‘Î‰‚·‚éExecutionContext‚ğæ“¾‚µ‚Ü‚·B
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	ExecutionContext getExecutionContext(String id);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * ExecutionContext‚©‚çID‚ğ‹tˆø‚«‚µ‚Ä•Ô‚µ‚Ü‚·B
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	String getExecutionContextId(ExecutionContext ec);
-
-	/**
-	 * ‘S‘®«‚ÆQÆ‚Ì“¯Šú‚ğè“®‚Ås‚¤
+	 * å…¨å±æ€§ã¨å‚ç…§ã®åŒæœŸã‚’æ‰‹å‹•ã§è¡Œã†
 	 */
 	void synchronizeManually();
 
 	/**
-	 * qƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì“¯Šú‚ğè“®‚Ås‚¤
+	 * å­ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®åŒæœŸã‚’æ‰‹å‹•ã§è¡Œã†
 	 */
 	void synchronizeChildComponents();
 	
 	/**
-	 * w’è‚µ‚½‘®«inull‚Ìê‡‚Í‘S‘®«j‚Ì“¯Šú‚ğÀs‚·‚é
+	 * æŒ‡å®šã—ãŸå±æ€§ï¼ˆnullã®å ´åˆã¯å…¨å±æ€§ï¼‰ã®åŒæœŸã‚’å®Ÿè¡Œã™ã‚‹
 	 * @param reference
 	 */
 	void synchronizeLocalAttribute(EStructuralFeature reference);
 
 	/**
-	 * QÆ‚Ì“¯Šú‚ğÀs‚·‚é
+	 * å‚ç…§ã®åŒæœŸã‚’å®Ÿè¡Œã™ã‚‹
 	 */
 	void synchronizeLocalReference();
 
 	/**
-	 * qƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ’Ç‰Á‚·‚é 
+	 * å­ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’è¿½åŠ ã™ã‚‹ 
 	 */
 	void addComponent(Component component);
 
 	/**
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒfƒB[ƒvƒRƒs[‚ğì‚Á‚Ä•Ô‚·
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒ‡ã‚£ãƒ¼ãƒ—ã‚³ãƒ”ãƒ¼ã‚’ä½œã£ã¦è¿”ã™
 	 */
 	Component copy();
 
 	/**
-	 * ping‚É‰“š‚µ‚È‚¢qRTC‚ğcomponents‚©‚çæ‚èœ‚­
+	 * pingã«å¿œç­”ã—ãªã„å­RTCã‚’componentsã‹ã‚‰å–ã‚Šé™¤ã
 	 */
 	void removeDeadChild();
 
 	/**
-	 * @return ƒRƒ“ƒ|[ƒlƒ“ƒg‚ª¶‚«‚Ä‚¢‚é‚©
+	 * @return ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒç”Ÿãã¦ã„ã‚‹ã‹
 	 */
 	boolean isDead();
 

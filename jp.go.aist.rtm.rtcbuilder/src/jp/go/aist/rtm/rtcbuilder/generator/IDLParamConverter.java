@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import jp.go.aist.rtm.rtcbuilder.IRTCBMessageConstants;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.IDLParser;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.ParseException;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.Node;
-import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.NodeSequence;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.NodeToken;
+import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.array_declarator;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.base_type_spec;
+import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.enum_type;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.identifier;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.interface_dcl;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.interface_header;
@@ -27,19 +27,20 @@ import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.type_declarator;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.visitor.DepthFirstVisitor;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.visitor.GJNoArguDepthFirst;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.visitor.GJVoidDepthFirst;
+import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceArgumentParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceMethodParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.TypeDefParam;
 
 /**
- * IDL‚Ì\•¶‰ğÍ–Ø‚©‚çAƒWƒFƒlƒŒ[ƒ^‚ÌƒCƒ“ƒvƒbƒg‚Æ‚È‚éî•ñ‚É•ÏŠ·‚·‚éƒNƒ‰ƒX
+ * IDLã®æ§‹æ–‡è§£ææœ¨ã‹ã‚‰ã€ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã®ã‚¤ãƒ³ãƒ—ãƒƒãƒˆã¨ãªã‚‹æƒ…å ±ã«å¤‰æ›ã™ã‚‹ã‚¯ãƒ©ã‚¹
  * <p>
  */
 public class IDLParamConverter {
 
 	/**
-	 * IDL‚Ì\•¶‰ğÍ–Ø‚©‚çAƒWƒFƒlƒŒ[ƒ^‚ÌƒCƒ“ƒvƒbƒg‚Æ‚È‚éServiceParam‚É•ÏŠ·‚·‚é
+	 * IDLã®æ§‹æ–‡è§£ææœ¨ã‹ã‚‰ã€ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã®ã‚¤ãƒ³ãƒ—ãƒƒãƒˆã¨ãªã‚‹ServiceParamã«å¤‰æ›ã™ã‚‹
 	 * 
 	 * @param spec
 	 * @return ServiceParam
@@ -48,6 +49,7 @@ public class IDLParamConverter {
 			final String idlPath) {
 		final List<ServiceClassParam> result = new ArrayList<ServiceClassParam>();
 		spec.accept(new GJVoidDepthFirst<String>() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void visit(interface_dcl n, String argu) {
 				final InterfaceInfomation interfaceInfomation = new InterfaceInfomation();
@@ -68,6 +70,7 @@ public class IDLParamConverter {
 
 				final ServiceClassParam service = new ServiceClassParam();
 				service.setIdlPath(idlPath);
+				service.setModule(getModuleName(n));
 				service.setName(getModuleName(n) + interfaceInfomation.name);
 				service.getSuperInterfaceList().addAll(interfaceInfomation.superInterfaceList);
 
@@ -78,6 +81,7 @@ public class IDLParamConverter {
 						serviceMethodParam
 								.setName(n.identifier.nodeToken.tokenImage);
 						serviceMethodParam.setType(node2String(n.op_type_spec));
+						serviceMethodParam.setModule(service.getModule());
 
 						n.parameter_dcls.accept(new GJVoidDepthFirst() {
 							@Override
@@ -124,7 +128,7 @@ public class IDLParamConverter {
 	}
 
 	/**
-	 * IDL‚Ì\•¶‰ğÍ–Ø‚©‚çAsequenceŒ^‚Ìtypedef‚ğ’Tõ‚·‚é
+	 * IDLã®æ§‹æ–‡è§£ææœ¨ã‹ã‚‰ã€sequenceå‹ã®typedefã‚’æ¢ç´¢ã™ã‚‹
 	 * 
 	 * @param spec
 	 * @return HashMap
@@ -154,7 +158,7 @@ public class IDLParamConverter {
 								n.nodeChoice.accept(new DepthFirstVisitor(){
 									@Override
 									public void visit(simple_type_spec n) {
-										tdparam.setOriginalDef(node2String(n) + "[]");
+										tdparam.setOriginalDef(node2String(n));
 										tdparam.setSequence(true);
 									}
 									@Override
@@ -174,12 +178,52 @@ public class IDLParamConverter {
 				}, null);
 			}
 			@Override
+			public void visit(struct_type n, String argu) {
+				final TypeDefParam tdparam = new TypeDefParam();
+				tdparam.setStruct(true);
+				n.identifier.accept(new DepthFirstVisitor(){
+					@Override
+					public void visit(identifier n) {
+						tdparam.setTargetDef(node2String(n));
+					}
+				});
+				n.member_list.accept(new DepthFirstVisitor(){
+					@Override
+					public void visit(simple_type_spec n) {
+						tdparam.getChildType().add(node2String(n));
+					}
+				});
+				result.add(tdparam);
+			}
+			@Override
+			public void visit(enum_type n, String argu) {
+				final TypeDefParam tdparam = new TypeDefParam();
+				tdparam.setEnum(true);
+				n.identifier.accept(new DepthFirstVisitor(){
+					@Override
+					public void visit(identifier n) {
+						tdparam.setTargetDef(node2String(n));
+					}
+				});
+				result.add(tdparam);
+			}
+			@Override
 			public void visit(type_declarator n, String argu) {
 				final TypeDefParam tdparam = new TypeDefParam();
 				n.declarators.accept(new DepthFirstVisitor(){
 					@Override
 					public void visit(identifier n) {
 						tdparam.setTargetDef(node2String(n));
+					}
+					@Override
+					public void visit(array_declarator n) {
+						tdparam.setArray(true);
+						n.identifier.accept(new DepthFirstVisitor(){
+							@Override
+							public void visit(identifier n) {
+								tdparam.setTargetDef(node2String(n));
+							}
+						});
 					}
 				});
 				n.type_spec.accept(new DepthFirstVisitor(){
@@ -188,7 +232,7 @@ public class IDLParamConverter {
 						n.nodeChoice.accept(new DepthFirstVisitor(){
 							@Override
 							public void visit(simple_type_spec n) {
-								tdparam.setOriginalDef(node2String(n) + "[]");
+								tdparam.setOriginalDef(node2String(n));
 								tdparam.setSequence(true);
 							}
 							@Override
@@ -224,21 +268,28 @@ public class IDLParamConverter {
 		return result;
 	}
 	
-	public static List<String> extractTypeDef(List<String> sources) throws ParseException {
+	public static List<String> extractTypeDef(List<DataTypeParam> sources) {
 		List<String> result = new ArrayList<String>();
 		
-		for( Iterator<String> iter = sources.iterator(); iter.hasNext(); ) {
-			String targetContent = iter.next();
+		for( Iterator<DataTypeParam> iter = sources.iterator(); iter.hasNext(); ) {
+			DataTypeParam targetParam = iter.next();
+			String targetContent = targetParam.getContent();
 			targetContent = PreProcessor.parseAlltoSpace(targetContent);
 			IDLParser parser = new IDLParser(new StringReader(targetContent));
-			specification spec = parser.specification();
+			specification spec=null;
+			try {
+				spec = parser.specification();
+			} catch (ParseException e) {
+				continue;
+			}
 			List<String> types = parseForTypeDef(spec);
 			for( Iterator<String> iterRes = types.iterator(); iterRes.hasNext(); ) {
 				String resultType = iterRes.next();
 				if( result.contains(resultType) ) {
-					throw new ParseException("[" + resultType + "]" + IRTCBMessageConstants.ERROR_IDLTYPEDUPLICAT);
+					continue;
 				}
 				result.add(resultType);
+				targetParam.getDefinedTypes().add(resultType);
 			}
 		}
 		return result;
@@ -248,6 +299,7 @@ public class IDLParamConverter {
 		final List<String> results = new ArrayList<String>();
 		
 		spec.accept(new GJVoidDepthFirst<String>() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void visit(module n, String argu) {
 				final String moduleName = node2String(n.identifier);
@@ -274,7 +326,7 @@ public class IDLParamConverter {
 		return results;
 	}
 	/**
-	 * ƒCƒ“ƒ^ƒtƒF[ƒX‚Ìƒ‚ƒWƒ…[ƒ‹–¼‚ğæ“¾‚·‚é
+	 * ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã®ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«åã‚’å–å¾—ã™ã‚‹
 	 * 
 	 * @param n
 	 * @return
@@ -294,12 +346,13 @@ public class IDLParamConverter {
 	}
 
 	/**
-	 * ƒm[ƒh‚ğ•¶š—ñ‚É•ÏŠ·‚·‚é
+	 * ãƒãƒ¼ãƒ‰ã‚’æ–‡å­—åˆ—ã«å¤‰æ›ã™ã‚‹
 	 * 
 	 * @param n
-	 *            ƒm[ƒh
-	 * @return •ÏŠ·Œ‹‰Ê‚Ì•¶š—ñ
+	 *            ãƒãƒ¼ãƒ‰
+	 * @return å¤‰æ›çµæœã®æ–‡å­—åˆ—
 	 */
+	@SuppressWarnings("unchecked")
 	public static String node2String(Node n) {
 		final StringBuffer result = new StringBuffer();
 		n.accept(new GJNoArguDepthFirst() {
@@ -313,9 +366,9 @@ public class IDLParamConverter {
 	}
 
 	/**
-	 * IDLParamConverterƒNƒ‰ƒX‚ª“à•”‚Åˆê“I‚Ég—p‚·‚éAIDL‚ÌƒCƒ“ƒ^ƒtƒF[ƒX•\Œ»B
+	 * IDLParamConverterã‚¯ãƒ©ã‚¹ãŒå†…éƒ¨ã§ä¸€æ™‚çš„ã«ä½¿ç”¨ã™ã‚‹ã€IDLã®ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹è¡¨ç¾ã€‚
 	 * <p>
-	 * “à•”ƒNƒ‰ƒX‚Å‚ ‚è‘å‚«‚È–â‘è‚à‚È‚¢‚Ì‚ÅA‘®«‚ğpublic‚Æ‚µ‚Ä‚¢‚éB
+	 * å†…éƒ¨ã‚¯ãƒ©ã‚¹ã§ã‚ã‚Šå¤§ããªå•é¡Œã‚‚ãªã„ã®ã§ã€å±æ€§ã‚’publicã¨ã—ã¦ã„ã‚‹ã€‚
 	 */
 	public static class InterfaceInfomation {
 		public String name;

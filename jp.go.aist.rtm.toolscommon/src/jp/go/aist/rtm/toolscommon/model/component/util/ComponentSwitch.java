@@ -31,6 +31,7 @@ import jp.go.aist.rtm.toolscommon.model.component.ServicePort;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject;
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
+import jp.go.aist.rtm.toolscommon.model.core.Point;
 import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 
@@ -51,7 +52,7 @@ import org.eclipse.emf.ecore.EObject;
  * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage
  * @generated
  */
-public class ComponentSwitch {
+public class ComponentSwitch<T> {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
@@ -79,7 +80,7 @@ public class ComponentSwitch {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	public Object doSwitch(EObject theEObject) {
+	public T doSwitch(EObject theEObject) {
 		return doSwitch(theEObject.eClass(), theEObject);
 	}
 
@@ -90,16 +91,16 @@ public class ComponentSwitch {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected Object doSwitch(EClass theEClass, EObject theEObject) {
+	protected T doSwitch(EClass theEClass, EObject theEObject) {
 		if (theEClass.eContainer() == modelPackage) {
 			return doSwitch(theEClass.getClassifierID(), theEObject);
 		}
 		else {
-			List eSuperTypes = theEClass.getESuperTypes();
+			List<EClass> eSuperTypes = theEClass.getESuperTypes();
 			return
 				eSuperTypes.isEmpty() ?
 					defaultCase(theEObject) :
-					doSwitch((EClass)eSuperTypes.get(0), theEObject);
+					doSwitch(eSuperTypes.get(0), theEObject);
 		}
 	}
 
@@ -110,72 +111,91 @@ public class ComponentSwitch {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected Object doSwitch(int classifierID, EObject theEObject) {
+	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
 			case ComponentPackage.SYSTEM_DIAGRAM: {
 				SystemDiagram systemDiagram = (SystemDiagram)theEObject;
-				Object result = caseSystemDiagram(systemDiagram);
+				T result = caseSystemDiagram(systemDiagram);
 				if (result == null) result = caseModelElement(systemDiagram);
+				if (result == null) result = caseIPropertyMap(systemDiagram);
 				if (result == null) result = caseIAdaptable(systemDiagram);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ComponentPackage.COMPONENT: {
 				Component component = (Component)theEObject;
-				Object result = caseComponent(component);
+				T result = caseComponent(component);
 				if (result == null) result = caseWrapperObject(component);
+				if (result == null) result = caseIPropertyMap(component);
 				if (result == null) result = caseModelElement(component);
 				if (result == null) result = caseLocalObject(component);
 				if (result == null) result = caseIAdaptable(component);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ComponentPackage.CORBA_COMPONENT: {
-				CorbaComponent corbaComponent = (CorbaComponent)theEObject;
-				Object result = caseCorbaComponent(corbaComponent);
-				if (result == null) result = caseComponent(corbaComponent);
-				if (result == null) result = caseCorbaWrapperObject(corbaComponent);
-				if (result == null) result = caseWrapperObject(corbaComponent);
-				if (result == null) result = caseModelElement(corbaComponent);
-				if (result == null) result = caseLocalObject(corbaComponent);
-				if (result == null) result = caseIAdaptable(corbaComponent);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case ComponentPackage.COMPONENT_SPECIFICATION: {
 				ComponentSpecification componentSpecification = (ComponentSpecification)theEObject;
-				Object result = caseComponentSpecification(componentSpecification);
+				T result = caseComponentSpecification(componentSpecification);
 				if (result == null) result = caseComponent(componentSpecification);
 				if (result == null) result = caseWrapperObject(componentSpecification);
+				if (result == null) result = caseIPropertyMap(componentSpecification);
 				if (result == null) result = caseModelElement(componentSpecification);
 				if (result == null) result = caseLocalObject(componentSpecification);
 				if (result == null) result = caseIAdaptable(componentSpecification);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ComponentPackage.PORT_CONNECTOR: {
-				PortConnector portConnector = (PortConnector)theEObject;
-				Object result = casePortConnector(portConnector);
-				if (result == null) result = caseWrapperObject(portConnector);
-				if (result == null) result = caseModelElement(portConnector);
-				if (result == null) result = caseLocalObject(portConnector);
-				if (result == null) result = caseIAdaptable(portConnector);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case ComponentPackage.EXECUTION_CONTEXT: {
 				ExecutionContext executionContext = (ExecutionContext)theEObject;
-				Object result = caseExecutionContext(executionContext);
+				T result = caseExecutionContext(executionContext);
 				if (result == null) result = caseWrapperObject(executionContext);
+				if (result == null) result = caseIPropertyMap(executionContext);
 				if (result == null) result = caseModelElement(executionContext);
 				if (result == null) result = caseLocalObject(executionContext);
 				if (result == null) result = caseIAdaptable(executionContext);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ComponentPackage.CONTEXT_HANDLER: {
+				ContextHandler contextHandler = (ContextHandler)theEObject;
+				T result = caseContextHandler(contextHandler);
+				if (result == null) result = caseIAdaptable(contextHandler);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ComponentPackage.CONFIGURATION_SET: {
+				ConfigurationSet configurationSet = (ConfigurationSet)theEObject;
+				T result = caseConfigurationSet(configurationSet);
+				if (result == null) result = caseWrapperObject(configurationSet);
+				if (result == null) result = caseModelElement(configurationSet);
+				if (result == null) result = caseLocalObject(configurationSet);
+				if (result == null) result = caseIAdaptable(configurationSet);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ComponentPackage.NAME_VALUE: {
+				NameValue nameValue = (NameValue)theEObject;
+				T result = caseNameValue(nameValue);
+				if (result == null) result = caseWrapperObject(nameValue);
+				if (result == null) result = caseModelElement(nameValue);
+				if (result == null) result = caseLocalObject(nameValue);
+				if (result == null) result = caseIAdaptable(nameValue);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ComponentPackage.PORT: {
+				Port port = (Port)theEObject;
+				T result = casePort(port);
+				if (result == null) result = caseWrapperObject(port);
+				if (result == null) result = caseModelElement(port);
+				if (result == null) result = caseLocalObject(port);
+				if (result == null) result = caseIAdaptable(port);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case ComponentPackage.IN_PORT: {
 				InPort inPort = (InPort)theEObject;
-				Object result = caseInPort(inPort);
+				T result = caseInPort(inPort);
 				if (result == null) result = casePort(inPort);
 				if (result == null) result = caseWrapperObject(inPort);
 				if (result == null) result = caseModelElement(inPort);
@@ -184,19 +204,9 @@ public class ComponentSwitch {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ComponentPackage.NAME_VALUE: {
-				NameValue nameValue = (NameValue)theEObject;
-				Object result = caseNameValue(nameValue);
-				if (result == null) result = caseWrapperObject(nameValue);
-				if (result == null) result = caseModelElement(nameValue);
-				if (result == null) result = caseLocalObject(nameValue);
-				if (result == null) result = caseIAdaptable(nameValue);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case ComponentPackage.OUT_PORT: {
 				OutPort outPort = (OutPort)theEObject;
-				Object result = caseOutPort(outPort);
+				T result = caseOutPort(outPort);
 				if (result == null) result = casePort(outPort);
 				if (result == null) result = caseWrapperObject(outPort);
 				if (result == null) result = caseModelElement(outPort);
@@ -205,19 +215,9 @@ public class ComponentSwitch {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ComponentPackage.PORT: {
-				Port port = (Port)theEObject;
-				Object result = casePort(port);
-				if (result == null) result = caseWrapperObject(port);
-				if (result == null) result = caseModelElement(port);
-				if (result == null) result = caseLocalObject(port);
-				if (result == null) result = caseIAdaptable(port);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case ComponentPackage.SERVICE_PORT: {
 				ServicePort servicePort = (ServicePort)theEObject;
-				Object result = caseServicePort(servicePort);
+				T result = caseServicePort(servicePort);
 				if (result == null) result = casePort(servicePort);
 				if (result == null) result = caseWrapperObject(servicePort);
 				if (result == null) result = caseModelElement(servicePort);
@@ -226,44 +226,66 @@ public class ComponentSwitch {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ComponentPackage.PORT_SYNCHRONIZER: {
+				PortSynchronizer portSynchronizer = (PortSynchronizer)theEObject;
+				T result = casePortSynchronizer(portSynchronizer);
+				if (result == null) result = caseIPropertyMap(portSynchronizer);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ComponentPackage.PORT_CONNECTOR: {
+				PortConnector portConnector = (PortConnector)theEObject;
+				T result = casePortConnector(portConnector);
+				if (result == null) result = caseWrapperObject(portConnector);
+				if (result == null) result = caseModelElement(portConnector);
+				if (result == null) result = caseLocalObject(portConnector);
+				if (result == null) result = caseIAdaptable(portConnector);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case ComponentPackage.CONNECTOR_PROFILE: {
 				ConnectorProfile connectorProfile = (ConnectorProfile)theEObject;
-				Object result = caseConnectorProfile(connectorProfile);
+				T result = caseConnectorProfile(connectorProfile);
 				if (result == null) result = caseWrapperObject(connectorProfile);
+				if (result == null) result = caseIPropertyMap(connectorProfile);
 				if (result == null) result = caseModelElement(connectorProfile);
 				if (result == null) result = caseLocalObject(connectorProfile);
 				if (result == null) result = caseIAdaptable(connectorProfile);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ComponentPackage.CONFIGURATION_SET: {
-				ConfigurationSet configurationSet = (ConfigurationSet)theEObject;
-				Object result = caseConfigurationSet(configurationSet);
-				if (result == null) result = caseWrapperObject(configurationSet);
-				if (result == null) result = caseModelElement(configurationSet);
-				if (result == null) result = caseLocalObject(configurationSet);
-				if (result == null) result = caseIAdaptable(configurationSet);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case ComponentPackage.EINTEGER_OBJECT_TO_POINT_MAP_ENTRY: {
-				Map.Entry eIntegerObjectToPointMapEntry = (Map.Entry)theEObject;
-				Object result = caseEIntegerObjectToPointMapEntry(eIntegerObjectToPointMapEntry);
+				@SuppressWarnings("unchecked") Map.Entry<Integer, Point> eIntegerObjectToPointMapEntry = (Map.Entry<Integer, Point>)theEObject;
+				T result = caseEIntegerObjectToPointMapEntry(eIntegerObjectToPointMapEntry);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ComponentPackage.PORT_SYNCHRONIZER: {
-				PortSynchronizer portSynchronizer = (PortSynchronizer)theEObject;
-				Object result = casePortSynchronizer(portSynchronizer);
+			case ComponentPackage.IPROPERTY_MAP: {
+				IPropertyMap iPropertyMap = (IPropertyMap)theEObject;
+				T result = caseIPropertyMap(iPropertyMap);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ComponentPackage.CORBA_COMPONENT: {
+				CorbaComponent corbaComponent = (CorbaComponent)theEObject;
+				T result = caseCorbaComponent(corbaComponent);
+				if (result == null) result = caseComponent(corbaComponent);
+				if (result == null) result = caseCorbaWrapperObject(corbaComponent);
+				if (result == null) result = caseWrapperObject(corbaComponent);
+				if (result == null) result = caseIPropertyMap(corbaComponent);
+				if (result == null) result = caseModelElement(corbaComponent);
+				if (result == null) result = caseLocalObject(corbaComponent);
+				if (result == null) result = caseIAdaptable(corbaComponent);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ComponentPackage.CORBA_PORT_SYNCHRONIZER: {
 				CorbaPortSynchronizer corbaPortSynchronizer = (CorbaPortSynchronizer)theEObject;
-				Object result = caseCorbaPortSynchronizer(corbaPortSynchronizer);
+				T result = caseCorbaPortSynchronizer(corbaPortSynchronizer);
 				if (result == null) result = caseCorbaWrapperObject(corbaPortSynchronizer);
 				if (result == null) result = casePortSynchronizer(corbaPortSynchronizer);
 				if (result == null) result = caseWrapperObject(corbaPortSynchronizer);
+				if (result == null) result = caseIPropertyMap(corbaPortSynchronizer);
 				if (result == null) result = caseModelElement(corbaPortSynchronizer);
 				if (result == null) result = caseLocalObject(corbaPortSynchronizer);
 				if (result == null) result = caseIAdaptable(corbaPortSynchronizer);
@@ -272,9 +294,10 @@ public class ComponentSwitch {
 			}
 			case ComponentPackage.CORBA_CONNECTOR_PROFILE: {
 				CorbaConnectorProfile corbaConnectorProfile = (CorbaConnectorProfile)theEObject;
-				Object result = caseCorbaConnectorProfile(corbaConnectorProfile);
+				T result = caseCorbaConnectorProfile(corbaConnectorProfile);
 				if (result == null) result = caseConnectorProfile(corbaConnectorProfile);
 				if (result == null) result = caseWrapperObject(corbaConnectorProfile);
+				if (result == null) result = caseIPropertyMap(corbaConnectorProfile);
 				if (result == null) result = caseModelElement(corbaConnectorProfile);
 				if (result == null) result = caseLocalObject(corbaConnectorProfile);
 				if (result == null) result = caseIAdaptable(corbaConnectorProfile);
@@ -283,7 +306,7 @@ public class ComponentSwitch {
 			}
 			case ComponentPackage.CORBA_CONFIGURATION_SET: {
 				CorbaConfigurationSet corbaConfigurationSet = (CorbaConfigurationSet)theEObject;
-				Object result = caseCorbaConfigurationSet(corbaConfigurationSet);
+				T result = caseCorbaConfigurationSet(corbaConfigurationSet);
 				if (result == null) result = caseConfigurationSet(corbaConfigurationSet);
 				if (result == null) result = caseWrapperObject(corbaConfigurationSet);
 				if (result == null) result = caseModelElement(corbaConfigurationSet);
@@ -294,13 +317,39 @@ public class ComponentSwitch {
 			}
 			case ComponentPackage.CORBA_EXECUTION_CONTEXT: {
 				CorbaExecutionContext corbaExecutionContext = (CorbaExecutionContext)theEObject;
-				Object result = caseCorbaExecutionContext(corbaExecutionContext);
+				T result = caseCorbaExecutionContext(corbaExecutionContext);
 				if (result == null) result = caseExecutionContext(corbaExecutionContext);
 				if (result == null) result = caseCorbaWrapperObject(corbaExecutionContext);
 				if (result == null) result = caseWrapperObject(corbaExecutionContext);
+				if (result == null) result = caseIPropertyMap(corbaExecutionContext);
 				if (result == null) result = caseModelElement(corbaExecutionContext);
 				if (result == null) result = caseLocalObject(corbaExecutionContext);
 				if (result == null) result = caseIAdaptable(corbaExecutionContext);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ComponentPackage.CORBA_CONTEXT_HANDLER: {
+				CorbaContextHandler corbaContextHandler = (CorbaContextHandler)theEObject;
+				T result = caseCorbaContextHandler(corbaContextHandler);
+				if (result == null) result = caseContextHandler(corbaContextHandler);
+				if (result == null) result = caseIAdaptable(corbaContextHandler);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ComponentPackage.CORBA_OBSERVER: {
+				CorbaObserver corbaObserver = (CorbaObserver)theEObject;
+				T result = caseCorbaObserver(corbaObserver);
+				if (result == null) result = caseIPropertyMap(corbaObserver);
+				if (result == null) result = caseIAdaptable(corbaObserver);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ComponentPackage.CORBA_STATUS_OBSERVER: {
+				CorbaStatusObserver corbaStatusObserver = (CorbaStatusObserver)theEObject;
+				T result = caseCorbaStatusObserver(corbaStatusObserver);
+				if (result == null) result = caseCorbaObserver(corbaStatusObserver);
+				if (result == null) result = caseIPropertyMap(corbaStatusObserver);
+				if (result == null) result = caseIAdaptable(corbaStatusObserver);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -309,377 +358,452 @@ public class ComponentSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>System Diagram</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>System Diagram</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>System Diagram</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>System Diagram</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseSystemDiagram(SystemDiagram object) {
+	public T caseSystemDiagram(SystemDiagram object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>In Port</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>In Port</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>In Port</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>In Port</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseInPort(InPort object) {
+	public T caseInPort(InPort object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Out Port</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Out Port</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Out Port</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Out Port</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseOutPort(OutPort object) {
+	public T caseOutPort(OutPort object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Component</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Component</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Component</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Component</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseComponent(Component object) {
+	public T caseComponent(Component object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Corba Component</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Corba Component</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Corba Component</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Corba Component</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCorbaComponent(CorbaComponent object) {
+	public T caseCorbaComponent(CorbaComponent object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Connector Profile</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Connector Profile</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Connector Profile</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Connector Profile</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseConnectorProfile(ConnectorProfile object) {
+	public T caseConnectorProfile(ConnectorProfile object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Configuration Set</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Configuration Set</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Configuration Set</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Configuration Set</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseConfigurationSet(ConfigurationSet object) {
+	public T caseConfigurationSet(ConfigurationSet object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>EInteger Object To Point Map Entry</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>EInteger Object To Point Map Entry</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>EInteger Object To Point Map Entry</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EInteger Object To Point Map Entry</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseEIntegerObjectToPointMapEntry(Map.Entry object) {
+	public T caseEIntegerObjectToPointMapEntry(Map.Entry<Integer, Point> object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Port Synchronizer</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>IProperty Map</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Port Synchronizer</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>IProperty Map</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object casePortSynchronizer(PortSynchronizer object) {
+	public T caseIPropertyMap(IPropertyMap object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Corba Port Synchronizer</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Port Synchronizer</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Corba Port Synchronizer</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Port Synchronizer</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCorbaPortSynchronizer(CorbaPortSynchronizer object) {
+	public T casePortSynchronizer(PortSynchronizer object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Corba Connector Profile</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Corba Port Synchronizer</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Corba Connector Profile</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Corba Port Synchronizer</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCorbaConnectorProfile(CorbaConnectorProfile object) {
+	public T caseCorbaPortSynchronizer(CorbaPortSynchronizer object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Corba Configuration Set</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Corba Connector Profile</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Corba Configuration Set</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Corba Connector Profile</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCorbaConfigurationSet(CorbaConfigurationSet object) {
+	public T caseCorbaConnectorProfile(CorbaConnectorProfile object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Corba Execution Context</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Corba Configuration Set</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Corba Execution Context</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Corba Configuration Set</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCorbaExecutionContext(CorbaExecutionContext object) {
+	public T caseCorbaConfigurationSet(CorbaConfigurationSet object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Specification</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Corba Execution Context</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Specification</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Corba Execution Context</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseComponentSpecification(ComponentSpecification object) {
+	public T caseCorbaExecutionContext(CorbaExecutionContext object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Port</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Corba Context Handler</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Port</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Corba Context Handler</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object casePort(Port object) {
+	public T caseCorbaContextHandler(CorbaContextHandler object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Port Connector</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Corba Observer</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Port Connector</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Corba Observer</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object casePortConnector(PortConnector object) {
+	public T caseCorbaObserver(CorbaObserver object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Service Port</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Corba Status Observer</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Service Port</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Corba Status Observer</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseServicePort(ServicePort object) {
+	public T caseCorbaStatusObserver(CorbaStatusObserver object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Execution Context</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Specification</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Execution Context</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Specification</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseExecutionContext(ExecutionContext object) {
+	public T caseComponentSpecification(ComponentSpecification object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Name Value</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Port</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Name Value</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Port</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseNameValue(NameValue object) {
+	public T casePort(Port object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>IAdaptable</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Port Connector</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>IAdaptable</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Port Connector</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseIAdaptable(IAdaptable object) {
+	public T casePortConnector(PortConnector object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Model Element</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Service Port</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Model Element</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Service Port</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseModelElement(ModelElement object) {
+	public T caseServicePort(ServicePort object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Local Object</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Execution Context</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Local Object</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Execution Context</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseLocalObject(LocalObject object) {
+	public T caseExecutionContext(ExecutionContext object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Wrapper Object</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Context Handler</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Wrapper Object</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Context Handler</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseWrapperObject(WrapperObject object) {
+	public T caseContextHandler(ContextHandler object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Corba Wrapper Object</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Name Value</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Corba Wrapper Object</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Name Value</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCorbaWrapperObject(CorbaWrapperObject object) {
+	public T caseNameValue(NameValue object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>IAdaptable</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>IAdaptable</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIAdaptable(IAdaptable object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Model Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Model Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseModelElement(ModelElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Local Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Local Object</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLocalObject(LocalObject object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Wrapper Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Wrapper Object</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseWrapperObject(WrapperObject object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Corba Wrapper Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Corba Wrapper Object</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCorbaWrapperObject(CorbaWrapperObject object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last case anyway.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
-	public Object defaultCase(EObject object) {
+	public T defaultCase(EObject object) {
 		return null;
 	}
 

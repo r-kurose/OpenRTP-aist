@@ -1,7 +1,6 @@
 package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
@@ -15,22 +14,21 @@ import jp.go.aist.rtm.rtcbuilder.ui.parts.SingleLabelItem;
 import jp.go.aist.rtm.rtcbuilder.ui.parts.SingleLabelProvider;
 import jp.go.aist.rtm.rtcbuilder.ui.parts.SingleLabelUtil;
 
-import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.ICellModifier;
+import org.eclipse.jface.viewers.ColumnViewer;
+import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -39,30 +37,31 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 /**
- * Languageƒy[ƒW
+ * Languageãƒšãƒ¼ã‚¸
  */
 public class LanguageEditorFormPage extends AbstractEditorFormPage {
-	
-	private static final String LANGUAGE_PROPERTY_VERSION = "LANGUAGE_PROPERTY_VERSION";
-	private static final String LANGUAGE_PROPERTY_OS = "LANGUAGE_PROPERTY_OS";
+
+	static final String LABEL_USE_OLD_BUILD = IMessageConstants.LANGUAGE_USE_OLD_BUILD;
+
+	private static final int LANGUAGE_VERSION = 0;
+	private static final int LANGUAGE_OS = 1;
 	//
-	private static final String LANGUAGE_PROPERTY_LIBRARY_NAME = "LANGUAGE_PROPERTY_LIBRARY_NAME";
-	private static final String LANGUAGE_PROPERTY_LIBRARY_VERSION = "LANGUAGE_PROPERTY_LIBRARY_VERSION";
-	private static final String LANGUAGE_PROPERTY_LIBRARY_OTHER = "LANGUAGE_PROPERTY_LIBRARY_OTHER";
+	private static final int LIBRARY_NAME = 0;
+	private static final int LIBRARY_VERSION = 1;
+	private static final int LIBRARY_OTHER = 2;
 	
 	private List<GenerateManager> managerList = null;
 	private Group LangGroup;
 	private Button cppRadio;
 	private Button rubyRadio;
 	private List<Button> buttonList = new ArrayList<Button>();
+	Button oldBuildEnvButton;
 	//
 	private Composite envSection;
 	private TableViewer langVersionViewer;
@@ -74,47 +73,39 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 	private TableViewer libraryViewer;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param editor
-	 *            e‚ÌƒGƒfƒBƒ^
+	 *            è¦ªã®ã‚¨ãƒ‡ã‚£ã‚¿
 	 */
 	public LanguageEditorFormPage(RtcBuilderEditor editor) {
 		super(editor, "id", IMessageConstants.LANGUAGE_SECTION);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	protected void createFormContent(IManagedForm managedForm) {
-		ScrolledForm form = super.createBase(managedForm);
+		ScrolledForm form = super.createBase(managedForm, IMessageConstants.LANGUAGE_SECTION);
 		FormToolkit toolkit = managedForm.getToolkit();
-
-		Label label = toolkit.createLabel(form.getBody(), IMessageConstants.LANGUAGE_SECTION);
-		if( titleFont==null ) {
-			titleFont = new Font(form.getDisplay(), IMessageConstants.TITLE_FONT, 16, SWT.BOLD);
-		}
-		label.setFont(titleFont);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.horizontalSpan = 2;
-		label.setLayoutData(gd);
 		//
 		createLanguageSection(toolkit, form);
 		createHintSection(toolkit, form);
 		creatEnvSection(toolkit, form);
 		//
-		managerList = RtcBuilderPlugin.getDefault().getLoader().getManagerList();
-		if( managerList != null ) {
-			for( Iterator<GenerateManager> iter = managerList.iterator(); iter.hasNext(); ) {
-				GenerateManager manager = iter.next();
-				Button extRadio = createRadioCheckButton(toolkit, LangGroup, manager.getManagerKey(), SWT.RADIO);
+		managerList = RtcBuilderPlugin.getDefault().getLoader()
+				.getManagerList();
+		if (managerList != null) {
+			for (String key : RtcBuilderPlugin.getDefault().getLoader()
+					.getManagerKeyList()) {
+				Button extRadio = createRadioCheckButton(toolkit, LangGroup,
+						key, SWT.RADIO);
 				extRadio.addSelectionListener(createLanguageRadioListner());
 				buttonList.add(extRadio);
 			}
 		}
-		rubyRadio = createRadioCheckButton(toolkit, LangGroup, "Ruby", SWT.RADIO);
+		rubyRadio = createRadioCheckButton(toolkit, LangGroup, "Ruby",
+				SWT.RADIO);
 		rubyRadio.setEnabled(false);
-		
+
 		load();
 	}
 
@@ -122,7 +113,7 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		envSection = createSectionBaseWithLabel(toolkit, form, 
 				IMessageConstants.LANGUAGE_ENV_TITLE, IMessageConstants.LANGUAGE_ENV_EXPL, 2);
 		//
-		langVersionViewer = createVersionTableViewer(envSection);
+		langVersionViewer = createVersionTableViewer(toolkit, envSection);
 		//
 		Group detailGroup = new Group(envSection, SWT.SHADOW_IN);
 		detailGroup.setText(IMessageConstants.LANGUAGE_LBL_DETAIL);
@@ -138,8 +129,8 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		gd = new GridData(GridData.FILL_BOTH);
 		detailBase.setLayoutData(gd);
 		//
-		osVersionViewer = createSingleTableViewer(detailBase, "OS Version", "OS Version");
-		cpuTypesViewer = createSingleTableViewer(detailBase, "CPU", "CPU");
+		osVersionViewer = createSingleTableViewer(toolkit, detailBase, "OS Version", "OS Version");
+		cpuTypesViewer = createSingleTableViewer(toolkit, detailBase, "CPU", "CPU");
 		//
 		Composite textBase = toolkit.createComposite(detailGroup, SWT.NULL);
 		toolkit.paintBordersFor(textBase);
@@ -167,19 +158,13 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		gd.horizontalSpan = 2;
 		libraryGroup.setLayoutData(gd);
 		toolkit.paintBordersFor(libraryGroup);
-		
-//		Composite libraryBase = toolkit.createComposite(detailGroup, SWT.NULL);
-//		gl = new GridLayout(2, false);
-//		libraryBase.setLayout(gl);
-//		gd = new GridData(GridData.FILL_BOTH);
-//		libraryBase.setLayoutData(gd);
 		//
-		libraryViewer = createLibrariesTableViewer(libraryGroup);
+		libraryViewer = createLibrariesTableViewer(toolkit, libraryGroup);
 	}
 
 	private void createLanguageSection(FormToolkit toolkit, ScrolledForm form) {
 		Composite composite = createSectionBaseWithLabel(toolkit, form, 
-				IMessageConstants.LANGUAGE_LANG_TITLE, IMessageConstants.LANGUAGE_LANG_EXPL, 1);
+				IMessageConstants.LANGUAGE_LANG_TITLE, IMessageConstants.LANGUAGE_LANG_EXPL, 2);
 		//
 		LangGroup = new Group(composite, SWT.NONE);
 		LangGroup.setLayout(new GridLayout(1, false));
@@ -188,6 +173,24 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		//
 		cppRadio = createRadioCheckButton(toolkit, LangGroup, "C++", SWT.RADIO);
 		cppRadio.addSelectionListener(createLanguageRadioListner());
+
+		// æ—§ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã®ãƒ“ãƒ«ãƒ‰ç’°å¢ƒã®æŒ‡å®š
+		Composite c = new Composite(composite, SWT.NONE);
+		GridLayout gl = new GridLayout(2, false);
+		c.setLayout(gl);
+		gd = new GridData();
+		gd.horizontalAlignment = GridData.END;
+		gd.verticalAlignment = GridData.END;
+		c.setLayoutData(gd);
+		oldBuildEnvButton = new Button(c, SWT.CHECK);
+		Label l = new Label(c, SWT.NONE);
+		l.setText(LABEL_USE_OLD_BUILD);
+		oldBuildEnvButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				update();
+			}
+		});
 	}
 
 	private void createHintSection(FormToolkit toolkit, ScrolledForm form) {
@@ -197,51 +200,59 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		createHintLabel(IMessageConstants.LANGUAGE_HINT_ENV_TITLE, IMessageConstants.LANGUAGE_HINT_ENV_DESC, toolkit, composite);
 	}
 
-	private TableViewer createLibrariesTableViewer(Composite parent) {
+	private TableViewer createLibrariesTableViewer(FormToolkit toolkit, Composite parent) {
 		//
-		final TableViewer targetTableViewer = new TableViewer(parent, SWT.SINGLE | SWT.FULL_SELECTION);
-		GridData gd = new GridData(GridData.FILL_BOTH);
-		gd.heightHint = 120;
-		gd.grabExcessHorizontalSpace = true;
-		targetTableViewer.getTable().setLayoutData(gd);
-
-		targetTableViewer.getTable().setHeaderVisible(true);
-		targetTableViewer.getTable().setLinesVisible(true);
-
-		targetTableViewer.setContentProvider(new ArrayContentProvider());
-
+		final TableViewer targetTableViewer = createTableViewer(toolkit, parent);
+		createLibraryColumn(targetTableViewer,"Name", 130, LIBRARY_NAME);
+		createLibraryColumn(targetTableViewer,"Version", 130, LIBRARY_VERSION);
+		createLibraryColumn(targetTableViewer,"Info.", 130, LIBRARY_OTHER);
 		targetTableViewer.setLabelProvider(new LibraryLabelProvider());
-
-		createColumnToTableViewer(targetTableViewer,"Name", 130);
-		createColumnToTableViewer(targetTableViewer,"Version", 130);
-		createColumnToTableViewer(targetTableViewer,"Info.", 130);
-
-
-		targetTableViewer.setColumnProperties(new String[] {
-				LANGUAGE_PROPERTY_LIBRARY_NAME, LANGUAGE_PROPERTY_LIBRARY_VERSION,
-				LANGUAGE_PROPERTY_LIBRARY_OTHER});
-
-		CellEditor[] editors = new CellEditor[] {
-				new TextCellEditor(targetTableViewer.getTable()),
-				new TextCellEditor(targetTableViewer.getTable()),
-				new TextCellEditor(targetTableViewer.getTable())
-			};
-		
-		targetTableViewer.setCellEditors(editors);
-		targetTableViewer.setCellModifier(new LibraryCellModifier(targetTableViewer));
-
+		//
 		Composite buttonComposite = new Composite(parent, SWT.NONE);
 		GridLayout gl = new GridLayout();
 		gl.marginRight = 0;
 		buttonComposite.setLayout(gl);
-		gd = new GridData(GridData.FILL_VERTICAL);
+		GridData gd = new GridData(GridData.FILL_VERTICAL);
 		gd.verticalAlignment = SWT.BEGINNING;
 		gd.horizontalAlignment = SWT.BEGINNING;
 		buttonComposite.setLayoutData(gd);
+		createLibraryAddButton(targetTableViewer, buttonComposite);
+		createLibraryDeleteButton(targetTableViewer, buttonComposite);
+		
+		return targetTableViewer;
+	}
 
+	private void createLibraryDeleteButton(final TableViewer targetTableViewer,
+			Composite buttonComposite) {
+		GridData gd;
+		Button deleteButton = new Button(buttonComposite, SWT.PUSH);
+		deleteButton.setText("Delete");
+		deleteButton.addSelectionListener(new SelectionAdapter() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				int selectionIndex = targetTableViewer.getTable()
+						.getSelectionIndex();
+				if (selectionIndex >= 0
+						&& ((List) targetTableViewer.getInput()).size() >= selectionIndex + 1) {
+					((List) targetTableViewer.getInput())
+							.remove(selectionIndex);
+					targetTableViewer.refresh();
+					update();
+				}
+			}
+		});
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		deleteButton.setLayoutData(gd);
+	}
+
+	private void createLibraryAddButton(final TableViewer targetTableViewer,
+			Composite buttonComposite) {
+		GridData gd;
 		Button addButton = new Button(buttonComposite, SWT.PUSH);
 		addButton.setText("Add");
 		addButton.addSelectionListener(new SelectionAdapter() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if( targetTableViewer.getInput()==null ) return;
@@ -253,9 +264,36 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		});
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		addButton.setLayoutData(gd);
+	}
+
+	private TableViewer createSingleTableViewer(FormToolkit toolkit, Composite parent,
+								String title, final String newItem) {
+		final TableViewer targetTableViewer = createTableViewer(toolkit, parent);
+		createLangColumn(targetTableViewer, title, 160);
+		targetTableViewer.setLabelProvider(new SingleLabelProvider());
+		//
+		Composite buttonComposite = new Composite(parent, SWT.NONE);
+		GridLayout gl = new GridLayout();
+		gl.marginRight = 0;
+		buttonComposite.setLayout(gl);
+		GridData gd = new GridData(GridData.FILL_VERTICAL);
+		gd.verticalAlignment = SWT.BEGINNING;
+		gd.horizontalAlignment = SWT.BEGINNING;
+		buttonComposite.setLayoutData(gd);
+
+		createSingleAddButton(newItem, targetTableViewer, buttonComposite);
+		createSingleDeleteButton(targetTableViewer, buttonComposite);
+		//
+		return targetTableViewer;
+	}
+
+	private void createSingleDeleteButton(final TableViewer targetTableViewer,
+			Composite buttonComposite) {
+		GridData gd;
 		Button deleteButton = new Button(buttonComposite, SWT.PUSH);
 		deleteButton.setText("Delete");
 		deleteButton.addSelectionListener(new SelectionAdapter() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int selectionIndex = targetTableViewer.getTable()
@@ -271,51 +309,15 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		});
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		deleteButton.setLayoutData(gd);
-		return targetTableViewer;
 	}
 
-	private TableViewer createSingleTableViewer(Composite parent, String title, final String newItem) {
-		//
-		final TableViewer targetTableViewer = new TableViewer(parent, SWT.SINGLE | SWT.FULL_SELECTION);
-		GridData gd = new GridData(GridData.FILL_BOTH);
-		gd.heightHint = 120;
-		gd.grabExcessHorizontalSpace = true;
-		targetTableViewer.getTable().setLayoutData(gd);
-		targetTableViewer.getTable().setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
-
-		targetTableViewer.getTable().setHeaderVisible(true);
-		targetTableViewer.getTable().setLinesVisible(true);
-
-		targetTableViewer.setContentProvider(new ArrayContentProvider());
-
-		targetTableViewer.setLabelProvider(new SingleLabelProvider());
-
-		TableColumn versionColumn = new TableColumn(targetTableViewer.getTable(), SWT.NONE);
-		versionColumn.setText(title);
-		versionColumn.setWidth(160);
-
-
-		targetTableViewer.setColumnProperties(new String[] {"single"});
-
-		CellEditor[] editors = new CellEditor[] {
-				new TextCellEditor(targetTableViewer.getTable())
-			};
-		
-		targetTableViewer.setCellEditors(editors);
-		targetTableViewer.setCellModifier(new LangCellModifier(targetTableViewer));
-
-		Composite buttonComposite = new Composite(parent, SWT.NONE);
-		GridLayout gl = new GridLayout();
-		gl.marginRight = 0;
-		buttonComposite.setLayout(gl);
-		gd = new GridData(GridData.FILL_VERTICAL);
-		gd.verticalAlignment = SWT.BEGINNING;
-		gd.horizontalAlignment = SWT.BEGINNING;
-		buttonComposite.setLayoutData(gd);
-
+	private void createSingleAddButton(final String newItem,
+			final TableViewer targetTableViewer, Composite buttonComposite) {
+		GridData gd;
 		Button addButton = new Button(buttonComposite, SWT.PUSH);
 		addButton.setText("Add");
 		addButton.addSelectionListener(new SelectionAdapter() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if( targetTableViewer.getInput()==null ) return;
@@ -326,107 +328,26 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		});
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		addButton.setLayoutData(gd);
-		Button deleteButton = new Button(buttonComposite, SWT.PUSH);
-		deleteButton.setText("Delete");
-		deleteButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				int selectionIndex = targetTableViewer.getTable()
-						.getSelectionIndex();
-				if (selectionIndex >= 0
-						&& ((List) targetTableViewer.getInput()).size() >= selectionIndex + 1) {
-					((List) targetTableViewer.getInput())
-							.remove(selectionIndex);
-					targetTableViewer.refresh();
-					update();
-				}
-			}
-		});
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		deleteButton.setLayoutData(gd);
-		//
-		return targetTableViewer;
 	}
 
-	private TableViewer createVersionTableViewer(Composite parent) {
+	private TableViewer createVersionTableViewer(FormToolkit toolkit, Composite parent) {
 		//
-		final TableViewer targetTableViewer = new TableViewer(parent, SWT.SINGLE | SWT.FULL_SELECTION);
-		GridData gd = new GridData(GridData.FILL_BOTH);
-		gd.heightHint = 120;
-		gd.grabExcessHorizontalSpace = true;
-		targetTableViewer.getTable().setLayoutData(gd);
-
-		targetTableViewer.getTable().setHeaderVisible(true);
-		targetTableViewer.getTable().setLinesVisible(true);
-
-		targetTableViewer.setContentProvider(new ArrayContentProvider());
-
+		final TableViewer targetTableViewer = createTableViewer(toolkit, parent);
+		createLanguageColumn(targetTableViewer,"Version", 200, LANGUAGE_VERSION);
+		createLanguageColumn(targetTableViewer,"OS", 200, LANGUAGE_OS);
 		targetTableViewer.setLabelProvider(new VersionLabelProvider());
-
-		createColumnToTableViewer(targetTableViewer,"Version", 200);
-		createColumnToTableViewer(targetTableViewer,"OS", 200);
-
-		targetTableViewer.setColumnProperties(new String[] {
-				LANGUAGE_PROPERTY_VERSION, LANGUAGE_PROPERTY_OS});
-
-		CellEditor[] editors = new CellEditor[] {
-				new TextCellEditor(targetTableViewer.getTable()),
-				new TextCellEditor(targetTableViewer.getTable())
-			};
-		
-		targetTableViewer.setCellEditors(editors);
-		targetTableViewer.setCellModifier(new VersionCellModifier(targetTableViewer));
-
+		//
 		Composite buttonComposite = new Composite(parent, SWT.NONE);
 		GridLayout gl = new GridLayout();
 		gl.marginRight = 0;
 		buttonComposite.setLayout(gl);
-		gd = new GridData(GridData.FILL_VERTICAL);
+		GridData gd = new GridData(GridData.FILL_VERTICAL);
 		gd.verticalAlignment = SWT.BEGINNING;
 		gd.horizontalAlignment = SWT.BEGINNING;
 		buttonComposite.setLayoutData(gd);
 
-		Button addButton = new Button(buttonComposite, SWT.PUSH);
-		addButton.setText("Add");
-		addButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if( targetTableViewer.getInput()==null ) return;
-				TargetEnvParam selectParam = new TargetEnvParam("New Version", "Target OS", "", "");
-				((List) targetTableViewer.getInput()).add(selectParam);
-				targetTableViewer.refresh();
-				update();
-			}
-		});
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		addButton.setLayoutData(gd);
-		Button deleteButton = new Button(buttonComposite, SWT.PUSH);
-		deleteButton.setText("Delete");
-		deleteButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				int selectionIndex = targetTableViewer.getTable()
-						.getSelectionIndex();
-				if (selectionIndex >= 0
-						&& ((List) targetTableViewer.getInput()).size() >= selectionIndex + 1) {
-					((List) targetTableViewer.getInput())
-							.remove(selectionIndex);
-					targetTableViewer.refresh();
-					
-					osVersionViewer.setInput(null);
-					cpuTypesViewer.setInput(null);
-					osOther.setText("");
-					cpuOther.setText("");
-					libraryViewer.setInput(null);
-					//
-					setEnvSectionEnabled(true);
-					//
-					update();
-				}
-			}
-		});
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		deleteButton.setLayoutData(gd);
+		createVersionAddButton(targetTableViewer, buttonComposite);
+		createVersionDeleteButton(targetTableViewer, buttonComposite);
 		//
 		targetTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
@@ -453,80 +374,149 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		return targetTableViewer;
 	}
 
-	public void update() {
-		if (cppRadio != null) {
-			// ˆÈ‰ºAcppRadio‚ª—LŒø‚Èê‡‚Ì‚İÀs‚·‚é
-			// ¨‚±‚Ì‰æ–Ê‚ª•\¦‚³‚ê‚é‘O‚É‚±‚Ìˆ—‚ªŒÄ‚Î‚ê‚½ê‡‚ÍA‚È‚É‚à‚µ‚È‚¢
-			// ærtcParam‚ª‰æ–Ê‚É”½‰f‚³‚ê‚é‘O‚ÉƒNƒŠƒA‚µ‚Ä‚µ‚Ü‚¤‚Æ‚Ü‚¸‚¢‚½‚ß
-			RtcParam rtcParam = editor.getRtcParam();
-
-			List<String> langList = new ArrayList<String>();
-			List<String> langArgList = new ArrayList<String>();
-			String rtmVersion = null;
-
-			if (cppRadio.getSelection()) {
-				langList.add(IRtcBuilderConstants.LANG_CPP);
-				langArgList.add(IRtcBuilderConstants.LANG_CPP_ARG);
-				rtmVersion = IRtcBuilderConstants.RTM_VERSION_100;
-			}
-			if (buttonList != null) {
-				for (Button extButton : buttonList) {
-					if (!extButton.getSelection()) {
-						continue;
-					}
-					for (GenerateManager manager : managerList) {
-						if (!extButton.getText().trim().equals(
-								manager.getManagerKey())) {
-							continue;
-						}
-						langList.add(manager.getManagerKey());
-						langArgList.add(manager.getManagerKey());
-						rtmVersion = manager.getTargetVersion();
-						break;
-					}
-					break;
+	private void createVersionDeleteButton(final TableViewer targetTableViewer,
+			Composite buttonComposite) {
+		GridData gd;
+		Button deleteButton = new Button(buttonComposite, SWT.PUSH);
+		deleteButton.setText("Delete");
+		deleteButton.addSelectionListener(new SelectionAdapter() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				int selectionIndex = targetTableViewer.getTable()
+						.getSelectionIndex();
+				if (selectionIndex >= 0
+						&& ((List) targetTableViewer.getInput()).size() >= selectionIndex + 1) {
+					((List) targetTableViewer.getInput())
+							.remove(selectionIndex);
+					targetTableViewer.refresh();
+					
+					osVersionViewer.setInput(null);
+					cpuTypesViewer.setInput(null);
+					osOther.setText("");
+					cpuOther.setText("");
+					libraryViewer.setInput(null);
+					//
+					setEnvSectionEnabled(true);
+					//
+					update();
 				}
 			}
-			if (!rtcParam.getLangList().equals(langList)) {
-				rtcParam.getLangList().clear();
-				rtcParam.getLangList().addAll(langList);
-				rtcParam.getLangArgList().clear();
-				rtcParam.getLangArgList().addAll(langArgList);
-				rtcParam.setRtmVersion(rtmVersion);
-			}
-			//
-			StructuredSelection selection = (StructuredSelection) langVersionViewer.getSelection();
-			TargetEnvParam selectParam = (TargetEnvParam) selection.getFirstElement();
-			if (selectParam != null) {
-				ArrayList<String> targets = new ArrayList<String>();
-				SingleLabelUtil.convertSingleItems2Strings((ArrayList<SingleLabelItem>) osVersionViewer.getInput(), targets);
-				if (!selectParam.getOsVersions().equals(targets)) {
-					selectParam.getOsVersions().clear();
-					selectParam.getOsVersions().addAll(targets);
-				}
-				//
-				targets = new ArrayList<String>();
-				SingleLabelUtil.convertSingleItems2Strings((ArrayList<SingleLabelItem>) cpuTypesViewer.getInput(), targets);
-				if (!selectParam.getCpus().equals(targets)) {
-					selectParam.getCpus().clear();
-					selectParam.getCpus().addAll(targets);
-				}
-				//
-				selectParam.setOther(getText(osOther.getText()));
-				selectParam.setCpuOther(getText(cpuOther.getText()));
-			}
-			//
-			editor.updateDirty();
-		}
+		});
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		deleteButton.setLayoutData(gd);
 	}
 
-	/**
-	 * ƒf[ƒ^‚ğƒ[ƒh‚·‚é
-	 */
-	public void load() {
+	private void createVersionAddButton(final TableViewer targetTableViewer,
+			Composite buttonComposite) {
+		GridData gd;
+		Button addButton = new Button(buttonComposite, SWT.PUSH);
+		addButton.setText("Add");
+		addButton.addSelectionListener(new SelectionAdapter() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if( targetTableViewer.getInput()==null ) return;
+				TargetEnvParam selectParam = new TargetEnvParam("New Version", "Target OS", "", "");
+				((List) targetTableViewer.getInput()).add(selectParam);
+				targetTableViewer.refresh();
+				update();
+			}
+		});
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		addButton.setLayoutData(gd);
+	}
+
+	private void createLanguageColumn(TableViewer tv, String title, int width, int no){
+		TableViewerColumn col = super.createColumn(tv, title, width);
+		col.setEditingSupport(new VersionCellModifier(tv, no));
+	}
+
+	private void createLibraryColumn(TableViewer tv, String title, int width, int no){
+		TableViewerColumn col = super.createColumn(tv, title, width);
+		col.setEditingSupport(new LibraryCellModifier(tv, no));
+	}
+	
+	private void createLangColumn(TableViewer tv, String title, int width){
+		TableViewerColumn col = super.createColumn(tv, title, width);
+		col.setEditingSupport(new LangCellModifier(tv));
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void update() {
 		if (cppRadio == null) {
 			return;
 		}
+		// ä»¥ä¸‹ã€cppRadioãŒæœ‰åŠ¹ãªå ´åˆã®ã¿å®Ÿè¡Œã™ã‚‹
+		// â†’ã“ã®ç”»é¢ãŒè¡¨ç¤ºã•ã‚Œã‚‹å‰ã«ã“ã®å‡¦ç†ãŒå‘¼ã°ã‚ŒãŸå ´åˆã¯ã€ãªã«ã‚‚ã—ãªã„
+		// âˆµrtcParamãŒç”»é¢ã«åæ˜ ã•ã‚Œã‚‹å‰ã«ã‚¯ãƒªã‚¢ã—ã¦ã—ã¾ã†ã¨ã¾ãšã„ãŸã‚
+		RtcParam rtcParam = editor.getRtcParam();
+
+		List<String> langList = new ArrayList<String>();
+		List<String> langArgList = new ArrayList<String>();
+		String rtmVersion = null;
+
+		if (cppRadio.getSelection()) {
+			langList.add(IRtcBuilderConstants.LANG_CPP);
+			langArgList.add(IRtcBuilderConstants.LANG_CPP_ARG);
+			rtmVersion = IRtcBuilderConstants.RTM_VERSION_100;
+		}
+		if (buttonList != null) {
+			for (Button extButton : buttonList) {
+				if (!extButton.getSelection()) {
+					continue;
+				}
+				for (GenerateManager manager : managerList) {
+					if (!extButton.getText().trim().equals(
+							manager.getManagerKey())) {
+						continue;
+					}
+					langList.add(manager.getManagerKey());
+					langArgList.add(manager.getManagerKey());
+					rtmVersion = manager.getTargetVersion();
+					break;
+				}
+				break;
+			}
+		}
+		if (!rtcParam.getLangList().equals(langList)) {
+			rtcParam.getLangList().clear();
+			rtcParam.getLangList().addAll(langList);
+			rtcParam.getLangArgList().clear();
+			rtcParam.getLangArgList().addAll(langArgList);
+			rtcParam.setRtmVersion(rtmVersion);
+		}
+		rtcParam.setEnableOldBuildEnv(oldBuildEnvButton.getSelection());
+		//
+		StructuredSelection selection = (StructuredSelection) langVersionViewer.getSelection();
+		TargetEnvParam selectParam = (TargetEnvParam) selection.getFirstElement();
+		if (selectParam != null) {
+			ArrayList<String> targets = new ArrayList<String>();
+			SingleLabelUtil.convertSingleItems2Strings((ArrayList<SingleLabelItem>) osVersionViewer.getInput(), targets);
+			if (!selectParam.getOsVersions().equals(targets)) {
+				selectParam.getOsVersions().clear();
+				selectParam.getOsVersions().addAll(targets);
+			}
+			//
+			targets = new ArrayList<String>();
+			SingleLabelUtil.convertSingleItems2Strings((ArrayList<SingleLabelItem>) cpuTypesViewer.getInput(), targets);
+			if (!selectParam.getCpus().equals(targets)) {
+				selectParam.getCpus().clear();
+				selectParam.getCpus().addAll(targets);
+			}
+			//
+			selectParam.setOther(getText(osOther.getText()));
+			selectParam.setCpuOther(getText(cpuOther.getText()));
+		}
+		//
+		editor.updateDirty();
+	}
+
+	/**
+	 * ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
+	 */
+	public void load() {
+		if (cppRadio == null) return;
 		//
 		RtcParam rtcParam = editor.getRtcParam();
 		if (rtcParam.getLangList().contains(IRtcBuilderConstants.LANG_CPP)
@@ -534,7 +524,7 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 						IRtcBuilderConstants.LANG_CPPWIN)) {
 			cppRadio.setSelection(true);
 		} else {
-			// rtcParam.getLangList()‚ÉŠÜ‚Ü‚ê‚È‚¢ê‡‚Í‘I‘ğ‰ğœ
+			// rtcParam.getLangList()ã«å«ã¾ã‚Œãªã„å ´åˆã¯é¸æŠè§£é™¤
 			cppRadio.setSelection(false);
 		}
 		if (buttonList != null) {
@@ -542,11 +532,12 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 				if (rtcParam.getLangList().contains(chkButton.getText().trim())) {
 					chkButton.setSelection(true);
 				} else {
-					// rtcParam.getLangList()‚ÉŠÜ‚Ü‚ê‚È‚¢ê‡‚Í‘I‘ğ‰ğœ
+					// rtcParam.getLangList()ã«å«ã¾ã‚Œãªã„å ´åˆã¯é¸æŠè§£é™¤
 					chkButton.setSelection(false);
 				}
 			}
 		}
+		oldBuildEnvButton.setSelection(rtcParam.enableOldBuildEnv());
 		//
 		langVersionViewer.setInput(rtcParam.getTargetEnvs());
 		//
@@ -578,7 +569,7 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 	@Override
 	public void pageSelected() {
 		Control [] btns = LangGroup.getChildren();
-		boolean selected = false;// Radio‚ªˆê‚Â‚Å‚à‘I‘ğ‚³‚ê‚Ä‚¢‚é‚Ætrue
+		boolean selected = false;// RadioãŒä¸€ã¤ã§ã‚‚é¸æŠã•ã‚Œã¦ã„ã‚‹ã¨true
 		for(int i=0; i<btns.length; i++){
 			if( ((Button)btns[i]).getSelection() ){
 				selected = true;
@@ -626,16 +617,15 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 
 	private class LangCellModifier extends SingleLabelCellModifier {
 
-		public LangCellModifier(StructuredViewer viewer) {
+		public LangCellModifier(ColumnViewer viewer) {
 			super(viewer);
 		}
 
 		@Override
-		public void modify(Object element, String property, Object value) {
-			super.modify(element, property, value);
+		public void setValue(Object element, Object value) {
+			super.setValue(element, value);
 			update();
 		}
-		
 	}
 
 	private class VersionLabelProvider extends LabelProvider implements	ITableLabelProvider {
@@ -648,12 +638,9 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		 * {@inheritDoc}
 		 */
 		public String getColumnText(Object element, int columnIndex) {
-			if (element instanceof TargetEnvParam == false) {
-				return null;
-			}
-		
+			if (element instanceof TargetEnvParam == false) return null;
+
 			TargetEnvParam targetEnvParam = (TargetEnvParam) element;
-		
 			String result = null;
 			if (columnIndex == 0) {
 				result = targetEnvParam.getLangVersion();
@@ -665,62 +652,63 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		}
 	}
 
-	private class VersionCellModifier implements ICellModifier {
-	
-		private StructuredViewer viewer;
-		
-		public VersionCellModifier(StructuredViewer viewer) {
-			this.viewer = viewer;
+	private class VersionCellModifier extends EditingSupport {
+		private CellEditor editor;
+		private int column;
+
+		public VersionCellModifier(ColumnViewer viewer, int column) {
+			super(viewer);
+			editor = new TextCellEditor(((TableViewer) viewer).getTable());
+			this.column = column;
 		}
-		
-		/**
-		 * {@inheritDoc}
-		 */
-		public boolean canModify(Object element, String property) {
+
+		@Override
+		protected boolean canEdit(Object element) {
 			return true;
 		}
-		
-		/**
-		 * {@inheritDoc}
-		 */
-		public Object getValue(Object element, String property) {
-			if (element instanceof TargetEnvParam == false) {
-				return null;
-			}
-		
-			TargetEnvParam targetParam = (TargetEnvParam) element;
-		
-			String result = null;
-			if (LANGUAGE_PROPERTY_VERSION.equals(property)) {
-				result = targetParam.getLangVersion();
-			} else if (LANGUAGE_PROPERTY_OS.equals(property)) {
-				result = targetParam.getOs();
-			}
-		
-			return result;
+
+		@Override
+		protected CellEditor getCellEditor(Object element) {
+			return editor;
 		}
-		
-		/**
-		 * {@inheritDoc}
-		 */
-		public void modify(Object element, String property, Object value) {
-			if (element instanceof TableItem == false) {
-				return;
+
+		@Override
+		protected Object getValue(Object element) {
+			if (element instanceof TargetEnvParam == false) return null;
+			TargetEnvParam targetParam = (TargetEnvParam) element;
+
+			switch (this.column) {
+			case LANGUAGE_VERSION:
+				return targetParam.getLangVersion();
+			case LANGUAGE_OS:
+				return targetParam.getOs();
+			default:
+				break;
 			}
-		
-			TargetEnvParam targetParam = (TargetEnvParam) ((TableItem) element).getData();
-		
-			if (LANGUAGE_PROPERTY_VERSION.equals(property)) {
+			return null;
+		}
+
+		@Override
+		protected void setValue(Object element, Object value) {
+			if (element instanceof TargetEnvParam == false) return;
+			TargetEnvParam targetParam = (TargetEnvParam) element;
+
+			switch (this.column) {
+			case LANGUAGE_VERSION:
 				targetParam.setLangVersion((String) value);
-			} else if (LANGUAGE_PROPERTY_OS.equals(property)) {
+				break;
+			case LANGUAGE_OS:
 				targetParam.setOs((String) value);
+				break;
+			default:
+				break;
 			}
-		
-			viewer.refresh();
+
+			getViewer().update(element, null);
 			update();
 		}
 	}
-	
+
 	private class LibraryLabelProvider extends LabelProvider implements	ITableLabelProvider {
 
 		public Image getColumnImage(Object element, int columnIndex) {
@@ -731,12 +719,9 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		 * {@inheritDoc}
 		 */
 		public String getColumnText(Object element, int columnIndex) {
-			if (element instanceof LibraryParam == false) {
-				return null;
-			}
+			if (element instanceof LibraryParam == false) return null;
 		
 			LibraryParam libraryParam = (LibraryParam) element;
-		
 			String result = null;
 			if (columnIndex == 0) {
 				result = libraryParam.getName();
@@ -750,62 +735,64 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		}
 	}
 
-	private class LibraryCellModifier implements ICellModifier {
-	
-		private StructuredViewer viewer;
-		
-		public LibraryCellModifier(StructuredViewer viewer) {
-			this.viewer = viewer;
+	private class LibraryCellModifier extends EditingSupport {
+		private CellEditor editor;
+		private int column;
+
+		public LibraryCellModifier(ColumnViewer viewer, int column) {
+			super(viewer);
+			editor = new TextCellEditor(((TableViewer) viewer).getTable());
+			this.column = column;
 		}
-		
-		/**
-		 * {@inheritDoc}
-		 */
-		public boolean canModify(Object element, String property) {
+
+		@Override
+		protected boolean canEdit(Object element) {
 			return true;
 		}
-		
-		/**
-		 * {@inheritDoc}
-		 */
-		public Object getValue(Object element, String property) {
-			if (element instanceof LibraryParam == false) {
-				return null;
-			}
-		
-			LibraryParam libraryParam = (LibraryParam) element;
-		
-			String result = null;
-			if (LANGUAGE_PROPERTY_LIBRARY_NAME.equals(property)) {
-				result = libraryParam.getName();
-			} else if (LANGUAGE_PROPERTY_LIBRARY_VERSION.equals(property)) {
-				result = libraryParam.getVersion();
-			} else if (LANGUAGE_PROPERTY_LIBRARY_OTHER.equals(property)) {
-				result = libraryParam.getOther();
-			}
-		
-			return result;
+
+		@Override
+		protected CellEditor getCellEditor(Object element) {
+			return editor;
 		}
-		
-		/**
-		 * {@inheritDoc}
-		 */
-		public void modify(Object element, String property, Object value) {
-			if (element instanceof TableItem == false) {
-				return;
+
+		@Override
+		protected Object getValue(Object element) {
+			if (element instanceof LibraryParam == false) return null;
+			LibraryParam libraryParam = (LibraryParam) element;
+
+			switch (this.column) {
+			case LIBRARY_NAME:
+				return libraryParam.getName();
+			case LIBRARY_VERSION:
+				return libraryParam.getVersion();
+			case LIBRARY_OTHER:
+				return libraryParam.getOther();
+			default:
+				break;
 			}
-		
-			LibraryParam libraryParam = (LibraryParam) ((TableItem) element).getData();
-		
-			if (LANGUAGE_PROPERTY_LIBRARY_NAME.equals(property)) {
+			return null;
+		}
+
+		@Override
+		protected void setValue(Object element, Object value) {
+			if (element instanceof LibraryParam == false) return;
+			LibraryParam libraryParam = (LibraryParam) element;
+
+			switch (this.column) {
+			case LIBRARY_NAME:
 				libraryParam.setName((String) value);
-			} else if (LANGUAGE_PROPERTY_LIBRARY_VERSION.equals(property)) {
+				break;
+			case LIBRARY_VERSION:
 				libraryParam.setVersion((String) value);
-			} else if (LANGUAGE_PROPERTY_LIBRARY_OTHER.equals(property)) {
+				break;
+			case LIBRARY_OTHER:
 				libraryParam.setOther((String) value);
+				break;
+			default:
+				break;
 			}
-		
-			viewer.refresh();
+
+			getViewer().update(element, null);
 			update();
 		}
 	}
@@ -814,11 +801,11 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		return new org.eclipse.swt.events.SelectionAdapter(){
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				// event‚©‚çƒ{ƒ^ƒ“–¼Ì‚ğæ“¾
+				// eventã‹ã‚‰ãƒœã‚¿ãƒ³åç§°ã‚’å–å¾—
 				String btnName = ((Button)e.widget).getText();
-				// ‘I‘ğŒ¾Œê‚É‚æ‚éŠˆ«ó‘Ô‚Ì§Œä
+				// é¸æŠè¨€èªã«ã‚ˆã‚‹æ´»æ€§çŠ¶æ…‹ã®åˆ¶å¾¡
 				editor.setEnabledInfoByLang(btnName);
-				// ©ƒy[ƒW“à‚ÌŠÂ‹«ƒZƒNƒVƒ‡ƒ“‚ÌŠˆ«ó‘Ô‚Ì§Œä
+				// è‡ªãƒšãƒ¼ã‚¸å†…ã®ç’°å¢ƒã‚»ã‚¯ã‚·ãƒ§ãƒ³ã®æ´»æ€§çŠ¶æ…‹ã®åˆ¶å¾¡
 				setEnvSectionEnabled(true);
 			}
 		};

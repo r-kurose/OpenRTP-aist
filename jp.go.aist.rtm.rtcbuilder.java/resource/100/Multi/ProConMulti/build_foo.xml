@@ -7,8 +7,8 @@
 # $Id$
  -->
 <project name="foo" default="compile">
-	<property name="source" value="." />
-	<property name="dest" value="classes" />
+	<property name="source" value="src" />
+	<property name="dest" value="bin" />
 	<property environment="env" />
 
 	<target name="mkdir">
@@ -16,21 +16,21 @@
 	</target>
 
 	<target name="idlcompile"  depends="mkdir">
-		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-fall MyService.idl"/>
+		<exec executable="${java.home}/../bin/idlj">
+			<arg line="-td 'src' -fall 'MyService.idl'"/>
 		</exec>
-		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-fall MyService2.idl"/>
+		<exec executable="${java.home}/../bin/idlj">
+			<arg line="-td 'src' -fall 'MyService2.idl'"/>
 		</exec>
-		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-fall DAQService.idl"/>
+		<exec executable="${java.home}/../bin/idlj">
+			<arg line="-td 'src' -fall 'DAQService.idl'"/>
 		</exec>
 	</target>
 
 	<target name="compile" depends="idlcompile">
 		<javac srcdir="${source}" destdir="${dest}">
 			<classpath>
-				<fileset dir="${env.RTM_JAVA_ROOT}\jar">
+				<fileset dir="${env.RTM_JAVA_ROOT}/jar">
 					<include name="*.jar"/>
 				</fileset>
 			</classpath>

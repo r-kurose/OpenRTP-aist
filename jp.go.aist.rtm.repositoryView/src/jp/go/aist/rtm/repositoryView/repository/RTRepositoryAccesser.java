@@ -9,12 +9,15 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.CRC32;
 import java.util.zip.CheckedOutputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import jp.go.aist.rtm.repositoryView.RepositoryViewPlugin;
 import jp.go.aist.rtm.repositoryView.model.RepositoryViewFactory;
 import jp.go.aist.rtm.repositoryView.model.RepositoryViewItem;
 import jp.go.aist.rtm.repositoryView.model.RepositoryViewLeafItem;
@@ -24,9 +27,8 @@ import jp.go.aist.rtm.repositoryView.nl.Messages;
 import jp.go.aist.rtm.repositoryView.ui.preference.RepositoryViewPreferenceManager;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
-import jp.go.aist.rtm.toolscommon.util.ProfileHandler;
+import jp.go.aist.rtm.toolscommon.util.RtcProfileHandler;
 
-import org.apache.commons.logging.Log;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.wizards.datatransfer.TarEntry;
@@ -39,49 +41,50 @@ import org.openrtp.repository.RTRepositoryClientFactory;
 
 
 /**
- * RTƒŠƒ|ƒWƒgƒŠ‚ÉƒAƒNƒZƒX‚·‚éƒ†[ƒeƒBƒŠƒeƒB
+ * RTãƒªãƒã‚¸ãƒˆãƒªã«ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
  */
+@SuppressWarnings("restriction")
 public class RTRepositoryAccesser {
+
+	static Logger log = RepositoryViewPlugin.getLogger();
 
 	private static final String ZIP_EXT = "ZIP"; //$NON-NLS-1$
 	private static final String TAR_EXT = "TAR"; //$NON-NLS-1$
 	private static final String GZ_EXT = "GZ"; //$NON-NLS-1$
 	//
 	private static final String RTC_XML = "RTC.XML"; //$NON-NLS-1$
-	//
-	private static Log Logger;
 
 	/**
-	 * ƒVƒ“ƒOƒ‹ƒgƒ“ƒCƒ“ƒXƒ^ƒ“ƒX
+	 * ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 	 */
 	private static RTRepositoryAccesser __instance = new RTRepositoryAccesser();
 
 	/**
-	 * ƒVƒ“ƒOƒ‹ƒgƒ“‚Ö‚ÌƒAƒNƒZƒT
+	 * ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã¸ã®ã‚¢ã‚¯ã‚»ã‚µ
 	 * 
-	 * @return ƒVƒ“ƒOƒ‹ƒgƒ“
+	 * @return ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³
 	 */
 	public static RTRepositoryAccesser getInstance() {
 		return __instance;
 	}
 
 	/**
-	 * RTƒŠƒ|ƒWƒgƒŠ‚Æ‚µ‚Ä‘ÎÛƒAƒhƒŒƒX‚ÉƒAƒNƒZƒX‰Â”\‚Å‚ ‚é‚©‚Ç‚¤‚©Šm”F‚·‚éi–¢À‘•j
+	 * RTãƒªãƒã‚¸ãƒˆãƒªã¨ã—ã¦å¯¾è±¡ã‚¢ãƒ‰ãƒ¬ã‚¹ã«ã‚¢ã‚¯ã‚»ã‚¹å¯èƒ½ã§ã‚ã‚‹ã‹ã©ã†ã‹ç¢ºèªã™ã‚‹ï¼ˆæœªå®Ÿè£…ï¼‰
 	 * 
 	 * @param address
-	 *            ’²¸‘ÎÛ‚ÌƒAƒhƒŒƒX
-	 * @return RTƒŠƒ|ƒWƒgƒŠ‚Æ‚µ‚ÄƒAƒNƒZƒX‰Â”\‚©‚Ç‚¤‚©
+	 *            èª¿æŸ»å¯¾è±¡ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+	 * @return RTãƒªãƒã‚¸ãƒˆãƒªã¨ã—ã¦ã‚¢ã‚¯ã‚»ã‚¹å¯èƒ½ã‹ã©ã†ã‹
 	 */
 	public boolean validateNameServerAddress(String address) {
 		return true;
 	}
 
 	/**
-	 * URI‚ğˆø”‚Éæ‚èAƒŠƒ|ƒWƒgƒŠƒT[ƒo‚Ìî•ñ‚ğ•Ô‚·
+	 * URIã‚’å¼•æ•°ã«å–ã‚Šã€ãƒªãƒã‚¸ãƒˆãƒªã‚µãƒ¼ãƒã®æƒ…å ±ã‚’è¿”ã™
 	 * 
 	 * @param address
-	 *            ƒŠƒ|ƒWƒgƒŠƒT[ƒo‚ÌƒAƒhƒŒƒX
-	 * @return ƒŠƒ|ƒWƒgƒŠƒT[ƒo“àî•ñ‚ÌƒŠƒXƒg
+	 *            ãƒªãƒã‚¸ãƒˆãƒªã‚µãƒ¼ãƒã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+	 * @return ãƒªãƒã‚¸ãƒˆãƒªã‚µãƒ¼ãƒå†…æƒ…å ±ã®ãƒªã‚¹ãƒˆ
 	 */
 	public RepositoryViewItem getRepositoryServerRoot(String address) {
 		if( "".equals(address) ) { //$NON-NLS-1$
@@ -97,8 +100,7 @@ public class RTRepositoryAccesser {
 		try {
 			numberOfItems = client.countItem(itemCategory, keywords);
 		} catch (RTRepositoryAccessException e1) {
-			e1.printStackTrace();
-			Logger.error(null, e1);
+			log.log(Level.SEVERE, null, e1);
 			return null;
 		}
 		if( cautionNumber<=numberOfItems ) {
@@ -122,6 +124,9 @@ public class RTRepositoryAccesser {
 	}
 	
 	private RepositoryViewItem createRoot(String repositoryAddress, String[] source) {
+//		if( source.length==0 ) {
+//			return null;
+//		}
 
 		RepositoryViewRootItem result = new ServerRVRootItem(repositoryAddress);
 
@@ -134,6 +139,7 @@ public class RTRepositoryAccesser {
 				specification.setTypeNameL(items[items.length-1]);
 				specification.setAliasName(items[items.length-1]);
 				specification.setComponentId(source[intIdx]);
+//				specification.setPathId(repositoryAddress);
 				specification.setPathId(repositoryAddress + "/" + source[intIdx]); //$NON-NLS-1$
 				
 				RepositoryViewFactory.buildTree(result, specification, element[0], true);
@@ -143,8 +149,8 @@ public class RTRepositoryAccesser {
 	}
 	
 	/**
-	 * @param component		ƒRƒ“ƒ|[ƒlƒ“ƒgd—l‚ÌID‚»‚Ì‘¼
-	 * @return				ƒ_ƒEƒ“ƒ[ƒh‚µ‚½ƒRƒ“ƒ|[ƒlƒ“ƒgd—l
+	 * @param component		ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆä»•æ§˜ã®IDãã®ä»–
+	 * @return				ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ã—ãŸã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆä»•æ§˜
 	 * @throws Exception
 	 */
 	public ComponentSpecification getComponentProfile(ComponentSpecification component) throws Exception {
@@ -153,7 +159,7 @@ public class RTRepositoryAccesser {
 		RTRepositoryClient client = factory.create(component.getPathId());
 		ItemCategory itemCategory = ItemCategory.RTC;
 		String targetXML = client.downloadProfile(component.getComponentId(), itemCategory);
-		ProfileHandler handler = new ProfileHandler();
+		RtcProfileHandler handler = new RtcProfileHandler();
     	ComponentSpecification specification  = handler.createComponentFromXML(targetXML);
 		specification.setAliasName(component.getAliasName());
 		specification.setComponentId(component.getComponentId());
@@ -163,7 +169,7 @@ public class RTRepositoryAccesser {
 	}
 
 	/**
-	 * targetServer‚©‚çtargetItem‚ğíœ‚·‚é
+	 * targetServerã‹ã‚‰targetItemã‚’å‰Šé™¤ã™ã‚‹
 	 * @param targetItem
 	 * @param targetServer
 	 * @throws Exception
@@ -176,7 +182,7 @@ public class RTRepositoryAccesser {
 	}
 
 	/**
-	 * targetServer‚ÉtargetItem‚ğƒAƒbƒvƒ[ƒh‚·‚é
+	 * targetServerã«targetItemã‚’ã‚¢ãƒƒãƒ—ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
 	 * @param targetItem
 	 * @param targetServer
 	 * @return
@@ -187,17 +193,17 @@ public class RTRepositoryAccesser {
 		if( rtcXml==null ) {
 			throw new IOException(Messages.getString("RTRepositoryAccesser.11")); //$NON-NLS-1$
 		}
-		//XMLƒoƒŠƒf[ƒVƒ‡ƒ“
-		ProfileHandler handler = new ProfileHandler();
-		ProfileHandler.validateXml(rtcXml);
-		//Profile‚Ì“o˜^
+		//XMLãƒãƒªãƒ‡ãƒ¼ã‚·ãƒ§ãƒ³
+		RtcProfileHandler handler = new RtcProfileHandler();
+		RtcProfileHandler.validateXml(rtcXml);
+		//Profileã®ç™»éŒ²
 		ComponentSpecification module = handler.createComponentFromXML(rtcXml);
 		String itemId = module.getComponentId();
 		ItemCategory itemCategory = getItemCategory(itemId);
 		RTRepositoryClientFactory factory = RTRepositoryClientFactory.getInstance();
 		RTRepositoryClient client = factory.create(targetServer);
 		client.registerProfile(itemId, itemCategory, rtcXml, false);
-		//ƒpƒbƒP[ƒW‚Ì“o˜^
+		//ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã®ç™»éŒ²
 		itemCategory = ItemCategory.RTC;
 		client.registerPackage(itemId, itemCategory, targetItem);
 		
@@ -217,7 +223,7 @@ public class RTRepositoryAccesser {
 			return null;
 		}
 	}
-	
+
 	private String getGzProfile(String target) throws IOException, TarException {
 		TarInputStream tarinput = new TarInputStream(new GZIPInputStream(new BufferedInputStream(new FileInputStream(target))));
 		return readTar(tarinput);
@@ -229,7 +235,6 @@ public class RTRepositoryAccesser {
 	}
 
 	private String readTar(TarInputStream input) throws IOException, TarException {
-			
 		TarEntry tarEntry = input.getNextEntry();
 		while( tarEntry!=null ){
 			if( tarEntry.getName().toUpperCase().contains(RTC_XML)) {
@@ -251,24 +256,20 @@ public class RTRepositoryAccesser {
 	        tarEntry = input.getNextEntry(); 
 		}
 		input.close();
-
         return null;
 	}
 
 	private void copyEntryContents(TarInputStream tarinput, OutputStream out) throws IOException {
         byte[] buf = new byte[32 * 1024];
-
         while (true) {
             int numRead = tarinput.read(buf, 0, buf.length);
-
             if (numRead == -1) {
                 break;
             }
-
             out.write(buf, 0, numRead);
         }
     }
-	
+
 	private String getZipProfile(String target) throws IOException {
 		
 		ZipInputStream zipinput = new ZipInputStream(new BufferedInputStream(new FileInputStream(target)));

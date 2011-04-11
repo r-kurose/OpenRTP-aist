@@ -137,5 +137,4 @@ public class Serviceport {
     }
     public void setTransMethods(List<TransmissionMethod> list) {
     }
-
 }

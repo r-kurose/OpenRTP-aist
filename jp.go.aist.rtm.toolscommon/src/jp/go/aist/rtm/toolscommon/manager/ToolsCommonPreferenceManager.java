@@ -3,77 +3,179 @@ package jp.go.aist.rtm.toolscommon.manager;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import org.eclipse.jface.preference.IPreferenceStore;
+
 import jp.go.aist.rtm.toolscommon.ToolsCommonPlugin;
 
 /**
- * �ݒ���Ǘ�����}�l�[�W��
+ * 設定を管理するマネージャ
  * <p>
- * �ݒ���ɃA�N�Z�X����ɂ͂��̃C���X�^���X���g�p����
+ * 設定情報にアクセスするにはこのインスタンスを使用する
  */
 public class ToolsCommonPreferenceManager {
 	private static ToolsCommonPreferenceManager __instance = new ToolsCommonPreferenceManager();
 
 	/**
-	 * �^�C���A�E�g���莞��
+	 * タイムアウト判定時間
 	 */
 	public static final String DEFAULT_TIMEOUT_PERIOD = ToolsCommonPreferenceManager.class
 			.getName()
 			+ "DEFAULT_TIMEOUT_PERIOD";
+
+	/** 状態通知オブザーバの有効/無効設定 */
+	public static final String KEY_STATUS_OBSERVER_HB_ENABLE = ToolsCommonPreferenceManager.class
+			.getName()
+			+ ".STATUS_OBSERVER_HB_ENABLE";
+
+	/** 状態通知オブザーバの H.B受信間隔 [sec] */
+	public static final String KEY_STATUS_OBSERVER_HB_INTERVAL = ToolsCommonPreferenceManager.class
+			.getName()
+			+ ".STATUS_OBSERVER_HB_INTERVAL";
+	/** 状態通知オブザーバのタイムアウト判定回数 */
+	public static final String KEY_STATUS_OBSERVER_HB_TRYCOUNT = ToolsCommonPreferenceManager.class
+			.getName()
+			+ ".STATUS_OBSERVER_HB_TRYCOUNT";
+
 	/**
-	 * �R���X�g���N�^
+	 * コンストラクタ
 	 * 
-	 * @return �V���O���g��
+	 * @return シングルトン
 	 */
 	public static ToolsCommonPreferenceManager getInstance() {
 		return __instance;
 	}
+
 	protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
 			this);
+	IPreferenceStore store;
+
+	public ToolsCommonPreferenceManager() {
+		this.propertyChangeSupport = new PropertyChangeSupport(this);
+		this.store = ToolsCommonPlugin.getDefault().getPreferenceStore();
+	}
 
 	/**
-	 * �f�t�H���g�^�C���A�E�g���莞��
+	 * デフォルトタイムアウト判定時間
 	 */
 	public static final int defaultTimeoutPeriod = 1000;
-	
+
+	/** 状態通知オブザーバ (デフォルト 有効) */
+	public static final Boolean DEFAULT_STATUS_OBSERVER_HB_ENABLE = true;
+
+	/** 状態通知オブザーバの H.B受信間隔 (デフォルト 1.0[sec]) */
+	public static final Double DEFAULT_STATUS_OBSERVER_HB_INTERVAL = 1.0;
+
+	/** 状態通知オブザーバのタイムアウト判定回数 (デフォルト 5回) */
+	public static final Integer DEFAULT_STATUS_OBSERVER_HB_TRYCOUNT = 5;
+
 	/**
-	 * �f�t�H���g�^�C���A�E�g���莞�Ԃ��擾����
+	 * デフォルトタイムアウト判定時間を取得する
 	 * 
 	 * @param key
-	 *            �L�[
-	 * @return �f�t�H���g�|�[�g
+	 *            キー
+	 * @return デフォルトポート
 	 */
 	public int getDefaultTimeout(String key) {
-		// �R���\�[������N�����ꂽ�ꍇ�ɂ́Aplugin�͑��݂��Ȃ��ׁAnull�ƂȂ�B
+		// コンソールから起動された場合には、pluginは存在しない為、nullとなる。
 		if (ToolsCommonPlugin.getDefault() == null){
 			return defaultTimeoutPeriod;
 		}
-		
 		ToolsCommonPlugin.getDefault().getPreferenceStore().setDefault(key, -1);
-
 		int result = ToolsCommonPlugin.getDefault().getPreferenceStore().getInt(key);
 		if (result == -1) { // defaultvalue
 			result = defaultTimeoutPeriod;
 		}
-
 		return result;
 	}
 
 	/**
-	 * �f�t�H���g�^�C���A�E�g���莞�Ԃ�ݒ肷��
+	 * デフォルトタイムアウト判定時間を設定する
 	 * 
 	 * @param key
-	 *            �L�[
+	 *            キー
 	 * @param interval
-	 *            �Ԋu
+	 *            間隔
 	 */
 	public void setDefaultTimeout(String key, int defaultTimeout) {
 		int oldDefaultTimeout = getDefaultTimeout(key);
-
 		ToolsCommonPlugin.getDefault().getPreferenceStore().setValue(key,
 				defaultTimeout);
-
 		propertyChangeSupport.firePropertyChange(key, oldDefaultTimeout,
 				defaultTimeout);
+	}
+
+	// 状態通知オブザーバ有効/無効 (STATUS_OBSERVER_HB_ENABLE)
+
+	/** STATUS_OBSERVER_HB_ENABLE の取得 */
+	public final Boolean isSTATUS_OBSERVER_HB_ENABLE() {
+		String key = KEY_STATUS_OBSERVER_HB_ENABLE;
+		store.setDefault(key, DEFAULT_STATUS_OBSERVER_HB_ENABLE);
+		return store.getBoolean(key);
+	}
+
+	/** STATUS_OBSERVER_HB_ENABLE の設定 */
+	public void setSTATUS_OBSERVER_HB_ENABLE(Boolean value) {
+		String key = KEY_STATUS_OBSERVER_HB_ENABLE;
+		Boolean oldValue = isSTATUS_OBSERVER_HB_ENABLE();
+		store.setValue(key, (value == null) ? false : value);
+		Boolean newValue = isSTATUS_OBSERVER_HB_ENABLE();
+		//
+		propertyChangeSupport.firePropertyChange(key, oldValue, newValue);
+	}
+
+	/** STATUS_OBSERVER_HB_ENABLE の復元 */
+	public void resetSTATUS_OBSERVER_HB_ENABLE() {
+		setSTATUS_OBSERVER_HB_ENABLE(DEFAULT_STATUS_OBSERVER_HB_ENABLE);
+	}
+
+	// 状態通知オブザーバ受信間隔 (STATUS_OBSERVER_HB_INTERVAL)
+
+	/** STATUS_OBSERVER_HB_INTERVAL の取得 */
+	public final Double getSTATUS_OBSERVER_HB_INTERVAL() {
+		String key = KEY_STATUS_OBSERVER_HB_INTERVAL;
+		store.setDefault(key, DEFAULT_STATUS_OBSERVER_HB_INTERVAL);
+		return store.getDouble(key);
+	}
+
+	/** STATUS_OBSERVER_HB_INTERVAL の設定 */
+	public void setSTATUS_OBSERVER_HB_INTERVAL(Double value) {
+		String key = KEY_STATUS_OBSERVER_HB_INTERVAL;
+		Double oldValue = getSTATUS_OBSERVER_HB_INTERVAL();
+		store.setValue(key,
+				(value == null) ? DEFAULT_STATUS_OBSERVER_HB_INTERVAL : value);
+		Double newValue = getSTATUS_OBSERVER_HB_INTERVAL();
+		//
+		propertyChangeSupport.firePropertyChange(key, oldValue, newValue);
+	}
+
+	/** STATUS_OBSERVER_HB_INTERVAL の復元 */
+	public void resetSTATUS_OBSERVER_HB_INTERVAL() {
+		setSTATUS_OBSERVER_HB_INTERVAL(DEFAULT_STATUS_OBSERVER_HB_INTERVAL);
+	}
+
+	// 状態通知オブザーバ受信回数 (STATUS_OBSERVER_HB_TRYCOUNT)
+
+	/** STATUS_OBSERVER_HB_TRYCOUNT の取得 */
+	public final Integer getSTATUS_OBSERVER_HB_TRYCOUNT() {
+		String key = KEY_STATUS_OBSERVER_HB_TRYCOUNT;
+		store.setDefault(key, DEFAULT_STATUS_OBSERVER_HB_TRYCOUNT);
+		return store.getInt(key);
+	}
+
+	/** STATUS_OBSERVER_HB_TRYCOUNT の設定 */
+	public void setSTATUS_OBSERVER_HB_TRYCOUNT(Integer value) {
+		String key = KEY_STATUS_OBSERVER_HB_TRYCOUNT;
+		Integer oldValue = getSTATUS_OBSERVER_HB_TRYCOUNT();
+		store.setValue(key,
+				(value == null) ? DEFAULT_STATUS_OBSERVER_HB_TRYCOUNT : value);
+		Integer newValue = getSTATUS_OBSERVER_HB_TRYCOUNT();
+		//
+		propertyChangeSupport.firePropertyChange(key, oldValue, newValue);
+	}
+
+	/** STATUS_OBSERVER_HB_TRYCOUNT の復元 */
+	public void resetSTATUS_OBSERVER_HB_TRYCOUNT() {
+		setSTATUS_OBSERVER_HB_TRYCOUNT(DEFAULT_STATUS_OBSERVER_HB_TRYCOUNT);
 	}
 
 	/**
@@ -89,6 +191,5 @@ public class ToolsCommonPreferenceManager {
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		propertyChangeSupport.removePropertyChangeListener(listener);
 	}
-
 
 }

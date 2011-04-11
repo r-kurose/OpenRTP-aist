@@ -8,7 +8,6 @@ package jp.go.aist.rtm.toolscommon.model.component.impl;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,6 +17,8 @@ import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
+import jp.go.aist.rtm.toolscommon.model.component.util.IPropertyMapUtil;
+import jp.go.aist.rtm.toolscommon.model.component.util.PropertyMap;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.AttributeMapping;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ClassMapping;
@@ -44,6 +45,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
  * <ul>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentSpecificationImpl#getAliasName <em>Alias Name</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentSpecificationImpl#isSpecUnLoad <em>Spec Un Load</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentSpecificationImpl#getRtcType <em>Rtc Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -91,12 +93,35 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 	protected boolean specUnLoad = SPEC_UN_LOAD_EDEFAULT;
 
 	/**
+	 * The default value of the '{@link #getRtcType() <em>Rtc Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRtcType()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String RTC_TYPE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getRtcType() <em>Rtc Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRtcType()
+	 * @generated
+	 * @ordered
+	 */
+	protected String rtcType = RTC_TYPE_EDEFAULT;
+
+	IPropertyMapUtil properties;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public ComponentSpecificationImpl() {
 		super();
+		this.properties = new PropertyMap();
 	}
 
 	/**
@@ -104,6 +129,7 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return ComponentPackage.Literals.COMPONENT_SPECIFICATION;
 	}
@@ -155,12 +181,36 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getRtcType() {
+		return rtcType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRtcType(String newRtcType) {
+		String oldRtcType = rtcType;
+		rtcType = newRtcType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT_SPECIFICATION__RTC_TYPE, oldRtcType, rtcType));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ComponentPackage.COMPONENT_SPECIFICATION__ALIAS_NAME:
 				return getAliasName();
 			case ComponentPackage.COMPONENT_SPECIFICATION__SPEC_UN_LOAD:
 				return isSpecUnLoad() ? Boolean.TRUE : Boolean.FALSE;
+			case ComponentPackage.COMPONENT_SPECIFICATION__RTC_TYPE:
+				return getRtcType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -170,6 +220,7 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ComponentPackage.COMPONENT_SPECIFICATION__ALIAS_NAME:
@@ -177,6 +228,9 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 				return;
 			case ComponentPackage.COMPONENT_SPECIFICATION__SPEC_UN_LOAD:
 				setSpecUnLoad(((Boolean)newValue).booleanValue());
+				return;
+			case ComponentPackage.COMPONENT_SPECIFICATION__RTC_TYPE:
+				setRtcType((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -187,6 +241,7 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case ComponentPackage.COMPONENT_SPECIFICATION__ALIAS_NAME:
@@ -194,6 +249,9 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 				return;
 			case ComponentPackage.COMPONENT_SPECIFICATION__SPEC_UN_LOAD:
 				setSpecUnLoad(SPEC_UN_LOAD_EDEFAULT);
+				return;
+			case ComponentPackage.COMPONENT_SPECIFICATION__RTC_TYPE:
+				setRtcType(RTC_TYPE_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -204,12 +262,15 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case ComponentPackage.COMPONENT_SPECIFICATION__ALIAS_NAME:
 				return ALIAS_NAME_EDEFAULT == null ? aliasName != null : !ALIAS_NAME_EDEFAULT.equals(aliasName);
 			case ComponentPackage.COMPONENT_SPECIFICATION__SPEC_UN_LOAD:
 				return specUnLoad != SPEC_UN_LOAD_EDEFAULT;
+			case ComponentPackage.COMPONENT_SPECIFICATION__RTC_TYPE:
+				return RTC_TYPE_EDEFAULT == null ? rtcType != null : !RTC_TYPE_EDEFAULT.equals(rtcType);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -219,6 +280,7 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
@@ -227,6 +289,8 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 		result.append(aliasName);
 		result.append(", specUnLoad: ");
 		result.append(specUnLoad);
+		result.append(", rtcType: ");
+		result.append(rtcType);
 		result.append(')');
 		return result.toString();
 	}
@@ -249,6 +313,7 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 			if (configSet.getId().startsWith("_")) continue;
 			iterate.remove();
 		}
+//		getConfigurationSets().clear();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -281,24 +346,9 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public boolean addComponentsR(List componentList) {
+	public boolean addComponentsR(List<Component> componentList) {
 		return doAddComponents(componentList);			
-	}
-
-	@SuppressWarnings("unchecked")
-	private boolean doAddComponents(Collection componentList) {
-		getComponents().addAll(componentList);
-		for (Object o : componentList) {
-			if (((Component) o).inOnlineSystemDiagram()) {
-				// ƒIƒ“ƒ‰ƒCƒ“‚Ìê‡‚Í“¯Šúˆ—‚Åƒ|[ƒgİ’è
-				return true;
-			}
-		}
-		// ƒIƒtƒ‰ƒCƒ“‚Ìê‡‚Í‚±‚±‚Åƒ|[ƒgİ’è
-		_setWrappingPorts(_getWrappedPorts());
-		return true;
 	}
 
 	@Override
@@ -307,16 +357,47 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 		return doAddComponents(componentList);			
 	}
 
+	private boolean doAddComponents(List<Component> componentList) {
+		getComponents().addAll(componentList);
+		for (Component c : componentList) {
+			if (c.inOnlineSystemDiagram()) {
+				// ã‚ªãƒ³ãƒ©ã‚¤ãƒ³ã®å ´åˆã¯åŒæœŸå‡¦ç†ã§ãƒãƒ¼ãƒˆè¨­å®š
+				return true;
+			}
+		}
+		// ã‚ªãƒ•ãƒ©ã‚¤ãƒ³ã®å ´åˆã¯ã“ã“ã§ãƒãƒ¼ãƒˆè¨­å®š
+		_setWrappingPorts(_getWrappedPorts());
+		// è¤‡åˆRTCã®ECã‚’ã€å­RTCã®participateã«è¿½åŠ 
+		for (Component c : componentList) {
+			for (ExecutionContext ec : getExecutionContexts()) {
+				ec.addComponentR(c);
+			}
+			c.getParticipationContextHandler().sync();
+		}
+		return true;
+	}
+
 	@Override
 	public boolean removeComponentR(Component component) {
 		removeByEqual(getComponents(), component);
 		if (component.inOnlineSystemDiagram()) {
-			// ƒIƒ“ƒ‰ƒCƒ“‚Ìê‡‚Í“¯Šúˆ—‚Åƒ|[ƒgİ’è
+			// ã‚ªãƒ³ãƒ©ã‚¤ãƒ³ã®å ´åˆã¯åŒæœŸå‡¦ç†ã§ãƒãƒ¼ãƒˆè¨­å®š
 			return true;
 		}
-		// ƒIƒtƒ‰ƒCƒ“‚Ìê‡‚Íè“®‚Åİ’è
+		// ã‚ªãƒ•ãƒ©ã‚¤ãƒ³ã®å ´åˆã¯æ‰‹å‹•ã§è¨­å®š
 		List<Port> ports = this._getWrappedPorts();
 		this._setWrappingPorts(ports);
+		// å­RTCã‹ã‚‰è¤‡åˆRTCã®ECã‚’å‰Šé™¤
+		List<ExecutionContext> deletes = new ArrayList<ExecutionContext>();
+		for (ExecutionContext pc : component.getParticipationContexts()) {
+			if (getExecutionContexts().contains(pc)) {
+				deletes.add(pc);
+			}
+		}
+		for (ExecutionContext pc : deletes) {
+			pc.removeComponentR(component);
+		}
+		component.getParticipationContextHandler().sync();
 		return true;
 	}
 
@@ -327,21 +408,19 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	void _setWrappingPorts(List<Port> ports) {
-		// qRTC‚Ìƒ|[ƒg‚ÌƒRƒs[‚Åƒ|[ƒgƒŠƒXƒg‚ğXV
+		// å­RTCã®ãƒãƒ¼ãƒˆã®ã‚³ãƒ”ãƒ¼ã§ãƒãƒ¼ãƒˆãƒªã‚¹ãƒˆã‚’æ›´æ–°
 		getPorts().clear();
 		for (Port port : ports) {
 			getPorts().add(port.proxy());
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	List<Port> _getWrappedPorts() {
-		// ƒvƒƒpƒeƒB‚©‚ç•\¦‚·‚éƒ|[ƒg–¼ˆê——‚ğì¬
+		// ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‹ã‚‰è¡¨ç¤ºã™ã‚‹ãƒãƒ¼ãƒˆåä¸€è¦§ã‚’ä½œæˆ
 		List<String> names = new ArrayList<String>(getExportedPorts());
 
-		// ƒvƒƒLƒV‘ÎÛ‚ÌqƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒ|[ƒgˆê——‚ğ¶¬
+		// ãƒ—ãƒ­ã‚­ã‚·å¯¾è±¡ã®å­ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒãƒ¼ãƒˆä¸€è¦§ã‚’ç”Ÿæˆ
 		List<Port> ports = new ArrayList<Port>();
 		for (Object obj : getComponents()) {
 			Component cp = (Component) obj;
@@ -356,13 +435,14 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 		return ports;
 	}
 
-//	@Override
+	@Override
 	public boolean isGroupingCompositeComponent() {
 		return (getCompositeTypeL().equals(
 				Component.COMPOSITETYPE_GROUPING)) ;
 	}
 
 	@SuppressWarnings("unchecked")
+	@Override
 	public java.lang.Object getAdapter(Class adapter) {
 		java.lang.Object result = null;
 		if (IPropertySource.class.equals(adapter)) {
@@ -375,7 +455,27 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 		return result;
 	}
 
-	/** Grouping•¡‡RTC—p‚Ìƒ}ƒbƒsƒ“ƒOƒ‹[ƒ‹ */
+	@Override
+	public String getProperty(String key) {
+		return properties.getProperty(key);
+	}
+
+	@Override
+	public void setProperty(String key, String value) {
+		properties.setProperty(key, value);
+	}
+
+	@Override
+	public String removeProperty(String key) {
+		return properties.removeProperty(key);
+	}
+
+	@Override
+	public EList<String> getPropertyKeys() {
+		return properties.getPropertyKeys();
+	}
+
+	/** Groupingè¤‡åˆRTCç”¨ã®ãƒãƒƒãƒ”ãƒ³ã‚°ãƒ«ãƒ¼ãƒ« */
 	public static final MappingRule MAPPING_RULE = new MappingRule(null,
 			new ClassMapping(ComponentSpecificationImpl.class,
 					new ConstructorParamMapping[] {}, true) {
@@ -401,20 +501,20 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 					return;
 				}
 				
-				// qƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì¶‘¶Šm”F‚ğs‚¤
+				// å­ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ç”Ÿå­˜ç¢ºèªã‚’è¡Œã†
 				comp.removeDeadChild();
 				
-				// ƒ|[ƒg‚ÌXV‚ğs‚¤
-				// V‚µ‚¢ƒ|[ƒg‚ÌƒŠƒ“ƒNƒŠƒXƒg
+				// ãƒãƒ¼ãƒˆã®æ›´æ–°ã‚’è¡Œã†
+				// æ–°ã—ã„ãƒãƒ¼ãƒˆã®ãƒªãƒ³ã‚¯ãƒªã‚¹ãƒˆ
 				List<Port> newPorts = comp._getWrappedPorts();
-				// Œ»İ‚Ìƒ|[ƒg‚ğXV‚·‚é
+				// ç¾åœ¨ã®ãƒãƒ¼ãƒˆã‚’æ›´æ–°ã™ã‚‹
 				for (Iterator iterate = comp.getPorts().iterator();iterate.hasNext();){
 					Port port = (Port) iterate.next();
 					if (!isExist(port, newPorts)) {
 						iterate.remove();
 					}
 				}
-				// ’Ç‰Á‘ÎÛ‚Ìƒ|[ƒg‚ğ’Ç‰Á
+				// è¿½åŠ å¯¾è±¡ã®ãƒãƒ¼ãƒˆã‚’è¿½åŠ 
 				for (Port port : newPorts) {
 					comp.getPorts().add(port.proxy());
 				}
@@ -452,7 +552,7 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 		}
 	}
 
-//	@Override
+	@Override
 	public String getPath() {
 		if (getPathId() == null) return null;
 		int index = getPathId().lastIndexOf(File.separator);
@@ -460,16 +560,15 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 		return getPathId().substring(0, index);
 	}
 
-//	@Override
+	@Override
 	public void synchronizeManually() {
 		//Nothing to do
 	}
 	
-	@SuppressWarnings("unchecked")
-//	@Override
+	@Override
 	public Component copy() {
 		Component copy = (Component) EcoreUtil.copy(this);
-		// ExecutionContext‚ÆID‚ÌŠÖ˜A•t‚¯‚ğ•¡»
+		// ExecutionContextã¨IDã®é–¢é€£ä»˜ã‘ã‚’è¤‡è£½
 		for (int i = 0; i < this.getExecutionContexts().size(); i++) {
 			ExecutionContext orgEc = (ExecutionContext) this
 					.getExecutionContexts().get(i);
@@ -478,16 +577,28 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 			if (newEc == null) {
 				continue;
 			}
-			String ecid = this.getExecutionContextId(orgEc);
+			String ecid = this.getExecutionContextHandler().getId(orgEc);
 			if (ecid != null) {
-				copy.setExecutionContext(ecid, newEc);
+				copy.getExecutionContextHandler().setContext(ecid, newEc);
 			}
 		}
 		adjustPathId(copy.getAllComponents());
+		// ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®è¤‡è£½
+		for (String key : this.getPropertyKeys()) {
+			copy.setProperty(key, this.getProperty(key));
+		}
+		for (int i = 0; i < this.getPorts().size(); i++) {
+			Port origPort = this.getPorts().get(i);
+			Port copyPort = copy.getPorts().get(i);
+			for (String key : origPort.getSynchronizer().getPropertyKeys()) {
+				String value = origPort.getSynchronizer().getProperty(key);
+				copyPort.getSynchronizer().setProperty(key, value);
+			}
+		}
 		return copy;
 	}
 
-//	@Override
+	@Override
 	public boolean isDead() {
 		return true;
 	}

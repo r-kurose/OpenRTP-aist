@@ -21,7 +21,7 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * RTƒŒƒ|ƒWƒgƒŠ‚É‘I‘ğ‚µ‚½ƒm[ƒh‚ğƒAƒbƒvƒ[ƒh‚·‚éƒAƒNƒVƒ‡ƒ“ƒfƒŠƒQ[ƒg
+ * RTãƒ¬ãƒã‚¸ãƒˆãƒªã«é¸æŠã—ãŸãƒãƒ¼ãƒ‰ã‚’ã‚¢ãƒƒãƒ—ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ‡ãƒªã‚²ãƒ¼ãƒˆ
  *
  */
 public class ViewActionUpLoad implements IObjectActionDelegate {
@@ -30,7 +30,9 @@ public class ViewActionUpLoad implements IObjectActionDelegate {
 	private ISelection selection;
 
 	public void run(IAction action) {
-		//‘ÎÛƒtƒ@ƒCƒ‹‘I‘ğ‰æ–Ê‚Ì•\¦
+		//TODO ãƒ­ã‚°ã‚¤ãƒ³ç”»é¢ã®è¡¨ç¤º
+		
+		//å¯¾è±¡ãƒ•ã‚¡ã‚¤ãƒ«é¸æŠç”»é¢ã®è¡¨ç¤º
 		FileDialog fileDialog = new FileDialog(view.getSite().getShell(), SWT.OPEN);
 		fileDialog.setFilterNames(new String[]{Messages.getString("ViewActionUpLoad.0"),Messages.getString("ViewActionUpLoad.1"),Messages.getString("ViewActionUpLoad.2"),Messages.getString("ViewActionUpLoad.3")}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		fileDialog.setFilterExtensions(new String[]{"*.zip","*.tar","*.gz","*.*"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -51,7 +53,7 @@ public class ViewActionUpLoad implements IObjectActionDelegate {
 			Messages.getString("ViewActionUpLoad.11")); //$NON-NLS-1$
 			return;
 		}
-		//î•ñ’Ç‰Á
+		//æƒ…å ±è¿½åŠ 
     	TreeViewer viewer = this.view.getViewer();
     	module.setAliasName(module.getInstanceNameL());
 		RepositoryViewFactory.buildTree(targetServer, module, RepositoryViewLeafItem.RTC_LEAF, true);

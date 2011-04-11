@@ -6,7 +6,7 @@ import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.commands.Command;
 
 /**
- * ƒRƒlƒNƒ^‚ğì¬‚·‚éƒRƒ}ƒ“ƒh
+ * ã‚³ãƒã‚¯ã‚¿ã‚’ä½œæˆã™ã‚‹ã‚³ãƒãƒ³ãƒ‰
  */
 public class CreateConnectorCommand extends Command {
 	private GraphicalConnectorCreateManager manager;
@@ -14,10 +14,10 @@ public class CreateConnectorCommand extends Command {
 	private boolean result;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param connector
-	 *            ƒRƒlƒNƒ^
+	 *            ã‚³ãƒã‚¯ã‚¿
 	 * @param manager
 	 *            manager
 	 */
@@ -41,7 +41,7 @@ public class CreateConnectorCommand extends Command {
 	 */
 	public void execute() {
 		viewer.deselectAll();
-		result = manager.createProfileAndConnector(); //¬Œ÷‚©¸”s‚©‚Í•Ô‚³‚È‚¢‚ªA«—ˆ•K—v‚È‚ç•Ô‚·‚æ‚¤‚ÉC³‚·‚é‚±‚Æ
+		result = manager.createProfileAndConnector(); //æˆåŠŸã‹å¤±æ•—ã‹ã¯è¿”ã•ãªã„ãŒã€å°†æ¥å¿…è¦ãªã‚‰è¿”ã™ã‚ˆã†ã«ä¿®æ­£ã™ã‚‹ã“ã¨
 	}
 
 	public boolean getResult() {
@@ -54,10 +54,10 @@ public class CreateConnectorCommand extends Command {
 	 */
 	public void undo() {
 		if (true) {
-			// ƒRƒ}ƒ“ƒhÀs‚ÉprofileCreater‚É‚æ‚èA
-			// ü‚ğˆø‚±‚¤‚Æ‚µ‚ÄƒLƒƒƒ“ƒZƒ‹‚·‚é‚ÆAexecuteij‚ÉÀs‚ğæ‚è‚â‚ß‚é‚±‚Æ‚É‚È‚é‚ªA
-			// ‚±‚¤‚µ‚Äæ‚è‚â‚ß‚½ê‡‚É‚àAƒRƒ}ƒ“ƒh‚ªÀs‚³‚ê‚½‚à‚Ì‚Æ‚µ‚ÄUndo‚ª—LŒø‚É‚È‚Á‚Ä‚µ‚Ü‚¤B
-			// ‚±‚ê‚ğ‚¤‚Ü‚­ˆµ‚¦‚é‚æ‚¤‚É‚È‚é‚Ü‚Å‚ÍAUNDO‚Í“ï‚µ‚¢BBB
+			// ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œæ™‚ã«profileCreaterã«ã‚ˆã‚Šã€
+			// ç·šã‚’å¼•ã“ã†ã¨ã—ã¦ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã™ã‚‹ã¨ã€executeï¼ˆï¼‰æ™‚ã«å®Ÿè¡Œã‚’å–ã‚Šã‚„ã‚ã‚‹ã“ã¨ã«ãªã‚‹ãŒã€
+			// ã“ã†ã—ã¦å–ã‚Šã‚„ã‚ãŸå ´åˆã«ã‚‚ã€ã‚³ãƒãƒ³ãƒ‰ãŒå®Ÿè¡Œã•ã‚ŒãŸã‚‚ã®ã¨ã—ã¦UndoãŒæœ‰åŠ¹ã«ãªã£ã¦ã—ã¾ã†ã€‚
+			// ã“ã‚Œã‚’ã†ã¾ãæ‰±ãˆã‚‹ã‚ˆã†ã«ãªã‚‹ã¾ã§ã¯ã€UNDOã¯é›£ã—ã„ã€‚ã€‚ã€‚
 
 			throw new RuntimeException();
 		}

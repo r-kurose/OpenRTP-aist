@@ -13,6 +13,7 @@ public class ImportExtensionLoader extends AbstractExtensionLoader {
 	@Override
 	String getPointId() { return "jp.go.aist.rtm.rtcbuilder.importExtension"; }
 
+	@SuppressWarnings("unchecked")
 	@Override
 	void addExtension(IConfigurationElement element) throws CoreException {
 		Object obj = element.createExecutableExtension( "extensionclass" );

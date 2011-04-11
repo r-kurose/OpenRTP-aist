@@ -15,7 +15,7 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.Platform;
 
 /**
- * Plugin.xmlに記述されたマッピングルールを解析するクラス
+ * Plugin.xml縺ｫ險倩ｿｰ縺輔ｌ縺溘�槭ャ繝斐Φ繧ｰ繝ｫ繝ｼ繝ｫ繧定ｧ｣譫舌☆繧九け繝ｩ繧ｹ
  */
 public class MappingRuleFactory {
 	public static final String EXTENTION_POINT_NAME = "wrapperfactory";

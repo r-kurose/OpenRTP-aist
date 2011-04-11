@@ -3,7 +3,7 @@ package jp.go.aist.rtm.toolscommon.model.core;
 import java.io.Serializable;
 
 /**
- * RtcLink‚ÌPoint‚ğ•\Œ»‚·‚éƒNƒ‰ƒX
+ * RtcLinkã®Pointã‚’è¡¨ç¾ã™ã‚‹ã‚¯ãƒ©ã‚¹
  */
 public class Point implements Serializable {
 	private static final long serialVersionUID = -6040171233600016868L;

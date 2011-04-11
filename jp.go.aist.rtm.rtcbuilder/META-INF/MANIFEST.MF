@@ -2,13 +2,15 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: jp.go.aist.rtm.rtcbuilder; singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.1.0.v20110411
 Bundle-ClassPath: .,
- lib/velocity-dep-1.5.jar
+ lib/velocity-1.6.3-dep.jar
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Export-Package: jp.go.aist.rtm.rtcbuilder,
  jp.go.aist.rtm.rtcbuilder.corba.idl.parser,
+ jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree,
+ jp.go.aist.rtm.rtcbuilder.corba.idl.parser.visitor,
  jp.go.aist.rtm.rtcbuilder.extension,
  jp.go.aist.rtm.rtcbuilder.generator,
  jp.go.aist.rtm.rtcbuilder.generator.param,
@@ -20,7 +22,6 @@ Export-Package: jp.go.aist.rtm.rtcbuilder,
  jp.go.aist.rtm.rtcbuilder.template,
  jp.go.aist.rtm.rtcbuilder.ui,
  jp.go.aist.rtm.rtcbuilder.ui.Perspective,
- jp.go.aist.rtm.rtcbuilder.ui.dialog,
  jp.go.aist.rtm.rtcbuilder.ui.editors,
  jp.go.aist.rtm.rtcbuilder.ui.parts,
  jp.go.aist.rtm.rtcbuilder.ui.preference,
@@ -33,13 +34,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.text,
  org.eclipse.ui.forms,
  org.eclipse.core.resources,
- org.eclipse.pde.junit.runtime,
- org.eclipse.ui.ide,
- org.eclipse.ui.editors,
  org.eclipse.gef,
- org.eclipse.ui.workbench.texteditor,
+ org.eclipse.ui.ide,
  org.eclipse.jdt.ui,
- org.eclipse.jdt.core,
  jp.go.aist.rtm.toolscommon.profiles
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-Activator: jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin
+Eclipse-BuddyPolicy: registered

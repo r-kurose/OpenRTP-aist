@@ -1,32 +1,41 @@
 package jp.go.aist.rtm.systemeditor.ui.editor;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 
-import jp.go.aist.rtm.repositoryView.RepositoryViewPlugin;
-import jp.go.aist.rtm.repositoryView.model.RepositoryViewItem;
-import jp.go.aist.rtm.repositoryView.ui.views.RepositoryView;
+import jp.go.aist.rtm.systemeditor.extension.LoadProfileExtension;
+import jp.go.aist.rtm.systemeditor.factory.ProfileLoader;
 import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.editor.action.RestoreOption;
-import jp.go.aist.rtm.systemeditor.ui.util.RtsProfileHandler;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
+import jp.go.aist.rtm.toolscommon.util.RtsProfileHandler;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.FileEditorInput;
+import org.openrtp.namespaces.rts.version02.RtsProfileExt;
 
 /**
- * SystemDiagramEditor�N���X
+ * SystemDiagramEditorクラス
  */
 public class OfflineSystemDiagramEditor extends AbstractSystemDiagramEditor {
 
+	static final String MSG_PROGRESS_BEGIN = Messages
+			.getString("OfflineSystemDiagramEditor.2");
+	static final String MSG_PROGRESS_SUB = Messages
+			.getString("OfflineSystemDiagramEditor.3");
+	static final String MSG_FAIL_LOAD = Messages
+			.getString("OfflineSystemDiagramEditor.5");
+	static final String MSG_FAIL_OPEN = Messages
+			.getString("OfflineSystemDiagramEditor.6");
+
 	/**
-	 * �V�X�e���_�C�A�O�����G�f�B�^��ID
+	 * システムダイアグラムエディタのID
 	 */
 	public static final String OFFLINE_SYSTEM_DIAGRAM_EDITOR_ID = "jp.go.aist.rtm.systemeditor.ui.editor.OfflineSystemDiagramEditor"; //$NON-NLS-1$
 
@@ -38,9 +47,6 @@ public class OfflineSystemDiagramEditor extends AbstractSystemDiagramEditor {
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
 		getSystemDiagram().setKind(SystemDiagramKind.OFFLINE_LITERAL);
@@ -53,7 +59,7 @@ public class OfflineSystemDiagramEditor extends AbstractSystemDiagramEditor {
 				, Messages.getString("OfflineSystemDiagramEditor.7"));
 
 		if (targetInput instanceof FileEditorInput)	 {
-			// RTS�v���t�@�C�����t�@�C�����烍�[�h����
+			// RTSプロファイルをファイルからロードする
 			doLoad(site, (FileEditorInput)targetInput);
 		}
 
@@ -64,45 +70,92 @@ public class OfflineSystemDiagramEditor extends AbstractSystemDiagramEditor {
 
 	private void doLoad(final IEditorSite site, FileEditorInput editorInput)
 			throws PartInitException {
+		String strPath = editorInput.getPath().toOSString();
+		doLoad(site.getShell(), strPath);
+	}
+
+	public void doLoad(String path) throws PartInitException {
+		doLoad(getEditorSite().getShell(), path);
+	}
+
+	public void doLoad(Shell shell, String path) throws PartInitException {
 		try {
-			final String strPath = editorInput.getPath().toOSString();
-
-			ProgressMonitorDialog dialog = new ProgressMonitorDialog(site
-					.getShell());
+			final String strPath = path;
+			ProgressMonitorDialog dialog = new ProgressMonitorDialog(shell);
 			IRunnableWithProgress runable = new IRunnableWithProgress() {
-				@SuppressWarnings("unchecked")
-				public void run(IProgressMonitor monitor)
-						throws InvocationTargetException,
-						InterruptedException {
 
-					monitor.beginTask(Messages.getString("OfflineSystemDiagramEditor.2"), 100); //$NON-NLS-1$
-					monitor.subTask(Messages.getString("OfflineSystemDiagramEditor.3")); //$NON-NLS-1$
-					monitor.internalWorked(20);
+				public void run(IProgressMonitor monitor)
+						throws InvocationTargetException, InterruptedException {
+
+					monitor.beginTask(MSG_PROGRESS_BEGIN, 100);
+					monitor.subTask(MSG_PROGRESS_SUB);
 
 					try {
-						RepositoryView repositoryViewerPart = 
-							  (RepositoryView)getSite().getWorkbenchWindow().getActivePage().
-							  findView(RepositoryViewPlugin.PLUGIN_ID +  ".view"); //$NON-NLS-1$
-						
 						RtsProfileHandler handler = new RtsProfileHandler();
-						handler.setRepositoryModel((List<RepositoryViewItem>) repositoryViewerPart.getModel());
-						SystemDiagram diagram = handler.load(strPath, SystemDiagramKind.OFFLINE_LITERAL);
+
+						// STEP1: ファイルからRTSプロファイルオブジェクトを作成
+						monitor.internalWorked(20);
+
+						RtsProfileExt profile = handler.load(strPath);
+
+						// STEP2: 拡張ポイント (ダイアグラム生成前)
+						monitor.internalWorked(20);
+
+						ProfileLoader creator = new ProfileLoader();
+						for (LoadProfileExtension.ErrorInfo info : creator
+								.preLoad(profile, strPath)) {
+							if (info.isError()) {
+								openError(DIALOG_TITLE_ERROR, info.getMessage());
+								return;
+							} else {
+								if (!openConfirm(DIALOG_TITLE_CONFIRM, info
+										.getMessage())) {
+									return;
+								}
+							}
+						}
+
+						// STEP3: RTSプロファイルオブジェクトからダイアグラムを作成
+						monitor.internalWorked(20);
+
+						SystemDiagram diagram = handler.load(profile,
+								SystemDiagramKind.OFFLINE_LITERAL);
 						handler.restoreConfigSet(diagram);
 						handler.restoreCompositeComponentPort(diagram);
 						handler.restoreConnection(diagram);
+						handler.restoreExecutionContext(diagram);
+
+						SystemDiagram oldDiagram = getSystemDiagram();
 						setSystemDiagram(diagram);
+
+						// STEP4: 拡張ポイント (ダイアグラム生成後)
+						monitor.internalWorked(20);
+
+						for (LoadProfileExtension.ErrorInfo info : creator
+								.postLoad(diagram, profile, oldDiagram)) {
+							if (info.isError()) {
+								openError(DIALOG_TITLE_ERROR, info.getMessage());
+								return;
+							} else {
+								if (!openConfirm(DIALOG_TITLE_CONFIRM, info
+										.getMessage())) {
+									return;
+								}
+							}
+						}
+
 					} catch (Exception e) {
 						monitor.done();
-						throw new InvocationTargetException(e,
-								Messages.getString("OfflineSystemDiagramEditor.5") + e.getMessage()); //$NON-NLS-1$
+						throw new InvocationTargetException(e, MSG_FAIL_LOAD
+								+ e.getMessage());
 					}
 					monitor.done();
 				}
 			};
-
 			dialog.run(false, false, runable);
+
 		} catch (Exception e) {
-			throw new PartInitException(Messages.getString("OfflineSystemDiagramEditor.6"), e); //$NON-NLS-1$
+			throw new PartInitException(MSG_FAIL_OPEN, e);
 		}
 	}
 
@@ -115,4 +168,5 @@ public class OfflineSystemDiagramEditor extends AbstractSystemDiagramEditor {
 	public boolean isOnline() {
 		return false;
 	}
+
 }

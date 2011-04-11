@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * サービスポートを表すクラス
+ * 繧ｵ繝ｼ繝薙せ繝昴�ｼ繝医ｒ陦ｨ縺吶け繝ｩ繧ｹ
  */
 public class ServicePortInterfaceParam extends AbstractRecordedParam implements
 		Serializable {
@@ -124,6 +124,13 @@ public class ServicePortInterfaceParam extends AbstractRecordedParam implements
 		return idlfile;
 	}
 	public String getInterfaceType() {
+		return interfacetype;
+	}
+	public String getInterfaceRawType() {
+		if(interfacetype.contains("::")) {
+			String[] elem = interfacetype.split("::");
+			return elem[elem.length-1];
+		}
 		return interfacetype;
 	}
 	public String getIdlSearchPath() {

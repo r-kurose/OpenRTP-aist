@@ -4,9 +4,9 @@ import java.io.FileOutputStream;
 import java.net.URLDecoder;
 
 import junit.framework.TestCase;
-
+//
 public class XMLHandlerTest extends TestCase {
-	// /RTSystemEditor/a@b‚Æ/RTSystemEditor/a%20bƒfƒBƒŒƒNƒgƒŠ‚ª‘¶İ‚·‚é‚Æ‚¢‚¤‘O’ñ‚ÌƒeƒXƒg
+	// /RTSystemEditor/aã€€bã¨/RTSystemEditor/a%20bãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒå­˜åœ¨ã™ã‚‹ã¨ã„ã†å‰æã®ãƒ†ã‚¹ãƒˆ
 	public void testHasSpace() throws Exception {
 		String fileName = "/RTSystemEditor/a%20b/test.xml";
 		new FileOutputStream(fileName);

@@ -12,18 +12,16 @@ import jp.go.aist.rtm.rtcbuilder.GuiRtcBuilder;
 import jp.go.aist.rtm.rtcbuilder.IRTCBMessageConstants;
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
-import jp.go.aist.rtm.rtcbuilder.extension.ExportExtension;
 import jp.go.aist.rtm.rtcbuilder.extension.ImportExtension;
+import jp.go.aist.rtm.rtcbuilder.factory.ExportCreator;
 import jp.go.aist.rtm.rtcbuilder.generator.ProfileHandler;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
-import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
 import jp.go.aist.rtm.rtcbuilder.ui.Perspective.LanguageProperty;
-import jp.go.aist.rtm.rtcbuilder.ui.dialog.ProjectSelectDialog;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
-import jp.go.aist.rtm.rtcbuilder.ui.preference.PortPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.ui.wizard.RtcExportWizard;
+import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -32,8 +30,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
@@ -42,7 +40,6 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -50,7 +47,6 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
@@ -62,12 +58,12 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 /**
- * Basic Profile İ’èƒy[ƒW
+ * Basic Profile è¨­å®šãƒšãƒ¼ã‚¸
  */
 public class BasicEditorFormPage extends AbstractEditorFormPage {
 
 	/**
-	 * ¶¬‚ğs‚Á‚½Category‚Ìî•ñ‚ğ•Û‘¶‚·‚éƒ[ƒNƒXƒy[ƒX‰i‘±•¶š—ñ‚Ö‚ÌƒL[
+	 * ç”Ÿæˆã‚’è¡Œã£ãŸCategoryã®æƒ…å ±ã‚’ä¿å­˜ã™ã‚‹ãƒ¯ãƒ¼ã‚¯ã‚¹ãƒšãƒ¼ã‚¹æ°¸ç¶šæ–‡å­—åˆ—ã¸ã®ã‚­ãƒ¼
 	 */
 	private static final String CATEGORY_INDEX_KEY = BasicEditorFormPage.class.getName() + ".category.name";
 	private final String CATEGORY_COMPOSITE =  "composite.";
@@ -88,8 +84,6 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	private Button multiModeBtn;
 	private Text rtcTypeText;
 
-	private Text outputProjectText;
-
 	private Button generateButton;
 	private Button packageButton;
 
@@ -103,10 +97,10 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
 	
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param editor
-	 *            e‚ÌƒGƒfƒBƒ^
+	 *            è¦ªã®ã‚¨ãƒ‡ã‚£ã‚¿
 	 */
 	public BasicEditorFormPage(RtcBuilderEditor editor) {
 		super(editor, "id", IMessageConstants.BASIC_SECTION);
@@ -115,19 +109,9 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected void createFormContent(IManagedForm managedForm) {
-		ScrolledForm form = super.createBase(managedForm);
+	protected void createFormContent(final IManagedForm managedForm) {
+		ScrolledForm form = super.createBase(managedForm, IMessageConstants.BASIC_SECTION);
 		FormToolkit toolkit = managedForm.getToolkit();
-
-		Label label = toolkit.createLabel(form.getBody(), IMessageConstants.BASIC_SECTION);
-		if( titleFont==null ) {
-			titleFont = new Font(form.getDisplay(), IMessageConstants.TITLE_FONT, 16, SWT.BOLD);
-		}
-		label.setFont(titleFont);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.horizontalSpan = 2;
-		label.setLayoutData(gd);
-		//
 		createModuleSection(toolkit, form);
 		//
 		getSite().setSelectionProvider(new ISelectionProvider() {
@@ -145,16 +129,15 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		});
 		//
 		createHintSection(toolkit, form);
-		createOutputProjectSection(toolkit, form);
 		createGenerateSection(toolkit, form);
 		createExportImportSection(toolkit, form);
 		//
-		// Œ¾ŒêEŠÂ‹«ƒy[ƒW‚æ‚èæ‚É‚±‚Ìƒy[ƒW‚ª•\¦‚³‚ê‚½ê‡A‚±‚±‚ÅŒ¾Œê‚ğ”»’f‚·‚é
+		// è¨€èªãƒ»ç’°å¢ƒãƒšãƒ¼ã‚¸ã‚ˆã‚Šå…ˆã«ã“ã®ãƒšãƒ¼ã‚¸ãŒè¡¨ç¤ºã•ã‚ŒãŸå ´åˆã€ã“ã“ã§è¨€èªã‚’åˆ¤æ–­ã™ã‚‹
 		editor.setEnabledInfoByLang();
 		
 		load();
 	}
-	
+
 	private String getFileExtension(String filename){
 		int index = filename.lastIndexOf(".");
 		if( index > -1 ) return filename.substring(index + 1);
@@ -164,7 +147,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	private void switchPerspective() {
 
 		for(RtcParam rtcParam : editor.getGeneratorParam().getRtcParams() ) {
-			//Plugin‚Ì‘¶İŠm”F
+			//Pluginã®å­˜åœ¨ç¢ºèª
 			LanguageProperty langProp = LanguageProperty.checkPlugin(rtcParam);
 			String currentPerspectiveId = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
 	            							.getActivePage().getPerspective().getId();
@@ -184,7 +167,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	/**
-	 * ƒoƒŠƒf[ƒg‚ğs‚¤BƒGƒ‰[‚ª‚È‚¢ê‡‚É‚Ínull‚ğ•Ô‚µAƒGƒ‰[‚ª‚ ‚éê‡‚É‚ÍƒƒbƒZ[ƒW‚ğ•Ô‚·B
+	 * ãƒãƒªãƒ‡ãƒ¼ãƒˆã‚’è¡Œã†ã€‚ã‚¨ãƒ©ãƒ¼ãŒãªã„å ´åˆã«ã¯nullã‚’è¿”ã—ã€ã‚¨ãƒ©ãƒ¼ãŒã‚ã‚‹å ´åˆã«ã¯ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¿”ã™ã€‚
 	 * 
 	 * @return
 	 */
@@ -250,15 +233,17 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		Composite composite = createSectionBaseWithLabel(toolkit, form, 
 				IMessageConstants.BASIC_COMPONENT_TITLE, IMessageConstants.BASIC_COMPONENT_EXPL, 2);
 		//
-
-		nameText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_MODULENAME);
+		nameText = createLabelAndText(toolkit, composite, 
+				IMessageConstants.REQUIRED + IMessageConstants.BASIC_LBL_MODULENAME, SWT.NONE, SWT.COLOR_RED);
 		descriptionText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_DESCRIPTION);
-		versionText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_VERSION);
-		venderText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_VENDOR);
-//		String[] defaultCategory = {"composite.PeriodicECShared", "composite.PeriodicStateShared", "composite.FsmECShared", "composite.FsmStateShared"};
+		versionText = createLabelAndText(toolkit, composite,
+				IMessageConstants.REQUIRED + IMessageConstants.BASIC_LBL_VERSION, SWT.NONE, SWT.COLOR_RED);
+		venderText = createLabelAndText(toolkit, composite,
+				IMessageConstants.REQUIRED + IMessageConstants.BASIC_LBL_VENDOR, SWT.NONE, SWT.COLOR_RED);
 		String[] defaultCategory = {};
-		categoryCombo = createEditableCombo(toolkit, composite,	IMessageConstants.BASIC_LBL_CATEGORY,
-				CATEGORY_INDEX_KEY, defaultCategory);
+		categoryCombo = createEditableCombo(toolkit, composite,
+				IMessageConstants.REQUIRED + IMessageConstants.BASIC_LBL_CATEGORY,
+				CATEGORY_INDEX_KEY, defaultCategory, SWT.COLOR_RED);
 		typeCombo = createLabelAndCombo(toolkit, composite, IMessageConstants.BASIC_LBL_COMPONENT_TYPE,
 				IRtcBuilderConstants.COMPONENT_TYPE_ITEMS);
 		activityTypeCombo = createLabelAndCombo(toolkit, composite, IMessageConstants.BASIC_LBL_ACTIVITY_TYPE,
@@ -304,10 +289,6 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		//
 		createHintSpace(toolkit, composite);
 		//
-		createHintLabel(IMessageConstants.BASIC_HINT_PROJECT_TITLE, IMessageConstants.BASIC_HINT_PROJECT_DESC, toolkit, composite);
-		//
-		createHintSpace(toolkit, composite);
-		//
 		createHintLabel(IMessageConstants.BASIC_HINT_GENERATE_TITLE, IMessageConstants.BASIC_HINT_GENERATE_DESC, toolkit, composite);
 		createHintLabel(IMessageConstants.BASIC_HINT_PACKAGE_TITLE, IMessageConstants.BASIC_HINT_PACKAGE_DESC, toolkit, composite);
 		//
@@ -317,40 +298,26 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		createHintLabel(IMessageConstants.BASIC_HINT_EXPORT_TITLE, IMessageConstants.BASIC_HINT_EXPORT_DESC, toolkit, composite);
 	}
 
-	private void createOutputProjectSection(FormToolkit toolkit, ScrolledForm form) {
-		outputProjectSection = createSectionBaseWithLabel(toolkit, form, 
-				IMessageConstants.BASIC_PROJECT_TITLE, IMessageConstants.BASIC_PROJECT_EXPL, 2);
-
-		outputProjectText = createLabelAndText(toolkit,	outputProjectSection, "");
-		Button refButton = toolkit.createButton(outputProjectSection, IMessageConstants.BASIC_BTN_REF, SWT.NONE);
-		refButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				ProjectSelectDialog dialog = new ProjectSelectDialog(getSite().getShell());
-				int intRet = dialog.open();
-				if( intRet == IDialogConstants.OK_ID && dialog.getSelectedProject() != null ) {
-					outputProjectText.setText(dialog.getSelectedProject());
-				}
-				//
-//				//o—ÍæƒfƒBƒŒƒNƒgƒŠ’¼Ú‘I‘ğ
-//				DirectoryDialog dialog = new DirectoryDialog(getEditorSite()
-//						.getShell());
-//				dialog.setText(IMessageConstants.SELECT_DIRECTORY);
-//				if (outputProjectText.getText().length() > 0)
-//					dialog.setFilterPath(outputProjectText.getText());
-//				String newPath = dialog.open();
-//				if (newPath != null) {
-//					outputProjectText.setText(newPath);
-//					update();
-//				}
-			}
-		});
-	}
-	
 	private void createGenerateSection(FormToolkit toolkit, ScrolledForm form) {
 		generateSection = createSectionBaseWithLabel(toolkit, form, 
 				IMessageConstants.BASIC_GENERATE_TITLE, IMessageConstants.BASIC_GENERATE_EXPL, 2);
 		//
+		createGenerateButton(toolkit);
+		createPackageButton(toolkit);
+	}
+
+	private void createPackageButton(FormToolkit toolkit) {
+		packageButton = toolkit.createButton(generateSection, IMessageConstants.BASIC_BTN_PACKAGING, SWT.NONE);
+		packageButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				WizardDialog dialog = new WizardDialog(getSite().getShell(), new RtcExportWizard());
+				dialog.open();
+			}
+		});
+	}
+
+	private void createGenerateButton(FormToolkit toolkit) {
 		generateButton = toolkit.createButton(generateSection, IMessageConstants.BASIC_BTN_GENERATE, SWT.NONE);
 		generateButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -361,11 +328,11 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					MessageDialog.openError(getSite().getShell(), "Error", validateRtcParam);
 					return;
 				}
-				//‘ÎÛƒvƒƒWƒFƒNƒg‚ÌŠm”F
+				//å¯¾è±¡ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã®ç¢ºèª
 				IProject project = checkTargetProject();
 				if( project==null) return;
-				// — ‚©‚çƒtƒ@ƒCƒ‹‚ğíœ‚³‚ê‚Ä‚¢‚é‰Â”\«‚ª‚ ‚é‚½‚ßA
-				// ƒvƒƒWƒFƒNƒg‚Æƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Ì“¯Šú‚ğæ‚é
+				// è£ã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‰Šé™¤ã•ã‚Œã¦ã„ã‚‹å¯èƒ½æ€§ãŒã‚ã‚‹ãŸã‚ã€
+				// ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã¨ãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã®åŒæœŸã‚’å–ã‚‹
 				try {
 					project.refreshLocal(IResource.DEPTH_INFINITE, null);
 				} catch (CoreException e1) {
@@ -374,38 +341,61 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 				//
 				editor.addDefaultComboValue();
 				GuiRtcBuilder rtcBuilder = new GuiRtcBuilder();
-				List<GenerateManager> managerList = RtcBuilderPlugin.getDefault().getLoader().getManagerList();
-				if( managerList != null ) {
-					for( Iterator<GenerateManager> iter = managerList.iterator(); iter.hasNext(); ) {
-						GenerateManager manager = iter.next();
+				List<GenerateManager> managerList = RtcBuilderPlugin
+						.getDefault().getLoader().getManagerList();
+				if (managerList != null) {
+					for (GenerateManager manager : managerList) {
 						rtcBuilder.addGenerateManager(manager);
 					}
 				}
 				GeneratorParam generatorParam = editor.getGeneratorParam();
-				//TODO •¡”ƒRƒ“ƒ|[ƒlƒ“ƒg‘Î‰”Å‚Æ‚·‚éê‡‚É‚Í•¡”İ’è
+				//TODO è¤‡æ•°ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå¯¾å¿œç‰ˆã¨ã™ã‚‹å ´åˆã«ã¯è¤‡æ•°è¨­å®š
 				generatorParam.getRtcParams().get(0).getServiceClassParams().clear();
 				setPrefixSuffix(generatorParam.getRtcParams().get(0));
 				if (rtcBuilder.doGenerateWrite(generatorParam)) {
-					// xml‚ğ•Û‘¶
-					ProfileHandler handler = new ProfileHandler();
-					try {
-						String strXml = handler.convert2XML(editor.getGeneratorParam());
-
-						IFile orgRtcxml = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML);
-						if (orgRtcxml.exists()) {
-							IFile renameFile = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML + DATE_FORMAT.format(new GregorianCalendar().getTime()) );
-							orgRtcxml.move(renameFile.getFullPath(), true, null);
+					LanguageProperty langProp = LanguageProperty.checkPlugin(editor.getRtcParam());
+					if(langProp != null) {
+						try {
+							IProjectDescription description = project.getDescription();
+							String[] ids = description.getNatureIds();
+							String[] newIds = new String[ids.length + langProp.getNatures().size()];
+							System.arraycopy(ids, 0, newIds, 0, ids.length);
+							for( int intIdx=0; intIdx<langProp.getNatures().size(); intIdx++ ) {
+								newIds[ids.length+intIdx] = langProp.getNatures().get(intIdx);
+							}
+							description.setNatureIds(newIds);
+							project.setDescription(description, null);
+						} catch (CoreException e1) {
+							e1.printStackTrace();
 						}
-						IFile saveRtcxml = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML);
-						saveRtcxml.create(new ByteArrayInputStream(strXml.getBytes("UTF-8")), true, null);
-						//
-						editor.getRtcParam().resetUpdated();
-						editor.updateDirty();
-					} catch (Exception e1) {
-						e1.printStackTrace();
 					}
 					//
+					saveRtcProfile(project);
 					switchPerspective();
+				}
+			}
+
+			// Profileã‚’ä¿å­˜
+			private void saveRtcProfile(IProject project) {
+				ProfileHandler handler = new ProfileHandler();
+				try {
+					ExportCreator export = new ExportCreator();
+					export.preExport(editor);
+
+					String strXml = handler.convert2XML(editor.getGeneratorParam());
+
+					IFile orgRtcxml = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML);
+					if (orgRtcxml.exists()) {
+						IFile renameFile = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML + DATE_FORMAT.format(new GregorianCalendar().getTime()) );
+						orgRtcxml.move(renameFile.getFullPath(), true, null);
+					}
+					IFile saveRtcxml = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML);
+					saveRtcxml.create(new ByteArrayInputStream(strXml.getBytes("UTF-8")), true, null);
+					//
+					editor.getRtcParam().resetUpdated();
+					editor.updateDirty();
+				} catch (Exception e1) {
+					e1.printStackTrace();
 				}
 			}
 
@@ -446,31 +436,24 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 				return project;
 			}
 		});
-		//
-		packageButton = toolkit.createButton(generateSection, IMessageConstants.BASIC_BTN_PACKAGING, SWT.NONE);
-		packageButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				WizardDialog dialog = new WizardDialog(getSite().getShell(), new RtcExportWizard());
-				dialog.open();
-			}
-		});
 	}
 	
 	private void setPrefixSuffix(RtcParam param) {
+		IPreferenceStore store = RtcBuilderPlugin.getDefault().getPreferenceStore();
 		param.setCommonPrefix(ComponentPreferenceManager.getInstance().getBasic_Prefix());
-		param.setCommonSuffix(ComponentPreferenceManager.getInstance().getBasic_Suffix());
-		param.setConfigurationPrefix(ComponentPreferenceManager.getInstance().getConfiguration_Prefix());
-		param.setConfigurationSuffix(ComponentPreferenceManager.getInstance().getConfiguration_Suffix());
+		param.setCommonSuffix(store.getString(ComponentPreferenceManager.Generate_Basic_Suffix));
+		param.setConfigurationPrefix(store.getString(ComponentPreferenceManager.Generate_Configuration_Prefix));
+		param.setConfigurationSuffix(store.getString(ComponentPreferenceManager.Generate_Configuration_Suffix));
 		//
-		param.setDataPortPrefix(PortPreferenceManager.getInstance().getDataPort_Prefix());
-		param.setDataPortSuffix(PortPreferenceManager.getInstance().getDataPort_Suffix());
-		param.setServicePortPrefix(PortPreferenceManager.getInstance().getServicePort_Prefix());
-		param.setServicePortSuffix(PortPreferenceManager.getInstance().getServicePort_Suffix());
-		param.setServiceIFPrefix(PortPreferenceManager.getInstance().getServiceIF_Prefix());
-		param.setServiceIFSuffix(PortPreferenceManager.getInstance().getServiceIF_Suffix());
+		param.setDataPortPrefix(store.getString(ComponentPreferenceManager.Generate_DataPort_Prefix));
+		param.setDataPortSuffix(store.getString(ComponentPreferenceManager.Generate_DataPort_Type));
+		param.setServicePortPrefix(store.getString(ComponentPreferenceManager.Generate_ServicePort_Suffix));
+		param.setServicePortSuffix(store.getString(ComponentPreferenceManager.Generate_ServicePort_Prefix));
+		param.setServiceIFPrefix(store.getString(ComponentPreferenceManager.Generate_ServiceIF_Prefix));
+		param.setServiceIFSuffix(store.getString(ComponentPreferenceManager.Generate_ServiceIF_Suffix));
 	}
 
+	@SuppressWarnings("unchecked")
 	private ImportExtension getTargetImportExtension() {
 		List list = RtcBuilderPlugin.getDefault().getImportExtensionLoader().getList();
 		if( list != null ) {
@@ -484,24 +467,75 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		}
 		return null;
 	}
-	private ExportExtension getTargetExportExtension() {
-		List list = RtcBuilderPlugin.getDefault().getExportExtensionLoader().getList();
-		if (list != null) {
-			String targetLang = editor.getRtcParam().getLanguage();
-			for( Iterator iter = list.iterator(); iter.hasNext(); ) {
-				ExportExtension extension = (ExportExtension) iter.next();
-				if( extension.getManagerKey().equals(targetLang) ){
-					return extension;
-				}
-			}
-		}
-		return null;
-	}
 	
 	private void createExportImportSection(FormToolkit toolkit, ScrolledForm form) {
 		profileSection = createSectionBaseWithLabel(toolkit, form, 
 				IMessageConstants.BASIC_EXPORT_IMPORT_TITLE, IMessageConstants.BASIC_EXPORT_IMPORT_EXPL, 2);
-		//
+		createProfileLoadButton(toolkit);
+		createProfileSaveButton(toolkit);
+	}
+
+	private void createProfileSaveButton(FormToolkit toolkit) {
+		profileSaveButton = toolkit.createButton(profileSection, IMessageConstants.BASIC_BTN_EXPORT, SWT.NONE);
+		profileSaveButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				editor.allUpdates();
+				String validateRtcParam = editor.validateParam();
+				if (validateRtcParam != null) {
+					MessageDialog.openError(getSite().getShell(), "Error", validateRtcParam);
+					return;
+				}
+
+				String selectedFileName; 
+        		ExportCreator export = new ExportCreator();
+        		if(!export.canCreateProfileName(editor)) {
+        			FileDialog dialog = new FileDialog(getSite().getShell(),SWT.SAVE);
+    		        dialog.setText(IMessageConstants.BASIC_BTN_EXPORT);
+    				dialog.setFilterNames(new String[] {IMessageConstants.FILETYPE_XML,IMessageConstants.FILETYPE_YAML});
+    				dialog.setFilterExtensions(new String[] { "*.xml","*.yaml" });
+    				selectedFileName = dialog.open();
+        		} else {
+        			selectedFileName = export.createProfileName(editor);
+        		}
+        		
+		        if (selectedFileName != null) {
+		        	try {
+		        		export.preExport(editor);
+
+		            	if (getFileExtension(selectedFileName).equals(IRtcBuilderConstants.YAML_EXTENSION)) {
+		            		ProfileHandler handler = new ProfileHandler();
+		            		handler.createYaml(selectedFileName, editor.getGeneratorParam());
+		            	} else {
+		            		ProfileHandler handler = new ProfileHandler();
+		            		try {
+		        				handler.validateXml(handler.convert2XML(editor.getGeneratorParam()));
+		        			} catch (JAXBException ex) {
+		            			if (!MessageDialog.openQuestion(getSite().getShell(),ex.getMessage(),
+		            					IMessageConstants.PROFILE_VALIDATE_ERROR_MESSAGE + System.getProperty("line.separator") + ex.getCause().toString()) )
+		            				return ;// ã€Œã„ã„ãˆã€ã®ã¨ãã¯ä¿å­˜ã—ãªã„
+		            		}// é€šå¸¸ã®Exceptionã¯å¤–å´ã§catchã™ã‚‹
+		        			handler.storeToXML(selectedFileName, editor.getGeneratorParam());
+		            	}
+		        		export.postExport(selectedFileName, editor);
+		        		editor.getRtcParam().resetUpdated();
+		        		editor.updateDirty();
+		            	
+					} catch (Exception e1) {
+						String msg = e1.getMessage();
+						if (msg == null || msg.equals("")) {
+							msg = IMessageConstants.BASIC_EXPORT_ERROR;
+						}
+						MessageDialog.openError(getSite().getShell(), "Error", msg);
+						return;
+					}
+					MessageDialog.openInformation(getSite().getShell(), "Finish", IMessageConstants.BASIC_EXPORT_DONE);
+		        }
+			}
+		});
+	}
+
+	private void createProfileLoadButton(FormToolkit toolkit) {
 		profileLoadButton = toolkit.createButton(profileSection, IMessageConstants.BASIC_BTN_IMPORT, SWT.NONE);
 		profileLoadButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -521,15 +555,18 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		        if (selectedFileName != null) {
 		        	if(extension == null) {
 			        	try {
-				        	if( getFileExtension(selectedFileName).equals(IRtcBuilderConstants.YAML_EXTENSION) ) {
-				        		ProfileHandler handler = new ProfileHandler();
-								editor.setGeneratorParam(handler.readYaml(selectedFileName));
-								String xmlFile = handler.convert2XML(editor.getGeneratorParam());
+			        		String origProject = editor.getRtcParam().getOutputProject();
+			        		ProfileHandler handler = new ProfileHandler();
+				        	if (getFileExtension(selectedFileName).equals(IRtcBuilderConstants.YAML_EXTENSION)) {
+				        		GeneratorParam genParam = handler.readYaml(selectedFileName);
+								String xmlFile = handler.convert2XML(genParam);
+								editor.setGeneratorParam(genParam);
 								editor.getRtcParam().setRtcXml(xmlFile);
 				        	} else {
-				        		ProfileHandler handler = new ProfileHandler();
-				        		editor.setGeneratorParam(handler.restorefromXMLFile(selectedFileName));
-				        	}
+								GeneratorParam genParam = handler.restorefromXMLFile(selectedFileName);
+								editor.setGeneratorParam(genParam);
+							}
+							editor.getRtcParam().setOutputProject(origProject);
 						} catch (Exception e1) {
 							MessageDialog.openError(getSite().getShell(), "Error", IMessageConstants.BASIC_IMPORT_ERROR);
 							return;
@@ -550,9 +587,9 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					//
 					editor.allPagesReLoad();
 					editor.updateEMFModuleName(editor.getRtcParam().getName());
-					editor.updateEMFDataInPorts(editor.getRtcParam().getInports());
-					editor.updateEMFDataOutPorts(editor.getRtcParam().getOutports());
-					editor.updateEMFServiceOutPorts(editor.getRtcParam().getServicePorts());
+					editor.updateEMFDataPorts(
+							editor.getRtcParam().getInports(), editor.getRtcParam().getOutports(),
+							editor.getRtcParam().getServicePorts());
 					editor.setEnabledInfoByLang();
 					load();
 					//
@@ -561,71 +598,6 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		        }
 			}
 		});
-		//
-		profileSaveButton = toolkit.createButton(profileSection, IMessageConstants.BASIC_BTN_EXPORT, SWT.NONE);
-		profileSaveButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				editor.allUpdates();
-				String validateRtcParam = editor.validateParam();
-				if (validateRtcParam != null) {
-					MessageDialog.openError(getSite().getShell(), "Error", validateRtcParam);
-					return;
-				}
-				
-				ExportExtension extension = getTargetExportExtension();
-				FileDialog dialog = new FileDialog(getSite().getShell(),SWT.SAVE);
-		        dialog.setText(IMessageConstants.BASIC_BTN_EXPORT);
-				String[] names = extension == null ? new String[] { IMessageConstants.FILETYPE_XML,IMessageConstants.FILETYPE_YAML }
-				  					: extension.getFileDialogFilterNames();
-				String[] exts = extension == null ? new String[] { "*.xml","*.yaml" }
-				 					: extension.getFileDialogFilterExtensions();
-				dialog.setFilterNames(names);
-				dialog.setFilterExtensions(exts);
-
-				String selectedFileName = dialog.open();
-		        if (selectedFileName != null) {
-		        	if (extension == null) {
-			        	try {
-				        	if (getFileExtension(selectedFileName).equals(IRtcBuilderConstants.YAML_EXTENSION)) {
-				        		ProfileHandler handler = new ProfileHandler();
-				        		handler.createYaml(selectedFileName, editor.getGeneratorParam());
-				        	} else {
-				        		ProfileHandler handler = new ProfileHandler();
-				        		try {
-									handler.validateXml(handler.convert2XML(editor.getGeneratorParam()));
-								} catch (JAXBException ex) {
-				        			if (!MessageDialog.openQuestion(getSite().getShell(),ex.getMessage(),
-				        					IMessageConstants.PROFILE_VALIDATE_ERROR_MESSAGE + System.getProperty("line.separator") + ex.getCause().toString()) )
-				        				return;// u‚¢‚¢‚¦v‚Ì‚Æ‚«‚Í•Û‘¶‚µ‚È‚¢
-				        		}// ’Êí‚ÌException‚ÍŠO‘¤‚Åcatch‚·‚é
-								handler.storeToXML(selectedFileName, editor.getGeneratorParam());
-				        	}
-							editor.getRtcParam().resetUpdated();
-							editor.updateDirty();
-						} catch (Exception e1) {
-							MessageDialog.openError(getSite().getShell(), "Error", IMessageConstants.BASIC_EXPORT_ERROR);
-							return;
-						}
-		        	} else {
-						try {
-							extension.export(selectedFileName, editor);
-							editor.getRtcParam().resetUpdated();
-							editor.updateDirty();
-						} catch (Exception e1) {
-							String msg = e1.getMessage();
-							if (msg == null || msg.equals("")) {
-								msg = IMessageConstants.BASIC_EXPORT_ERROR;
-							}
-							MessageDialog.openError(getSite().getShell(), "Error", msg);
-							return;
-						}
-					}
-					MessageDialog.openInformation(getSite().getShell(), "Finish", IMessageConstants.BASIC_EXPORT_DONE);
-		        }
-			}
-		});
-		//
 	}
 
 	protected void update() {
@@ -647,7 +619,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					.getText()));
 			rtcParam.setMaxInstance(maxInstance);
 		} catch (Exception e) {
-			// —áŠO‚Ìê‡A‰æ–Ê‚Ì’l‚ğŒ»İ‚Ì’l‚É–ß‚·
+			// ä¾‹å¤–ã®å ´åˆã€ç”»é¢ã®å€¤ã‚’ç¾åœ¨ã®å€¤ã«æˆ»ã™
 			maxInstanceText.setText(String.valueOf(rtcParam.getMaxInstance()));
 		}
 
@@ -657,18 +629,16 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					.getText()));
 			rtcParam.setExecutionRate(exec_rate);
 		} catch (Exception e) {
-			// —áŠO‚Ìê‡A‰æ–Ê‚Ì’l‚ğŒ»İ‚Ì’l‚É–ß‚·
+			// ä¾‹å¤–ã®å ´åˆã€ç”»é¢ã®å€¤ã‚’ç¾åœ¨ã®å€¤ã«æˆ»ã™
 			executionRateText.setText(String.valueOf(rtcParam.getExecutionRate()));
 		}
-
-		rtcParam.setOutputProject(getText(outputProjectText.getText()));
 
 		editor.updateEMFModuleName(getText(nameText.getText()));
 		editor.updateDirty();
 	}
 
 	/**
-	 * ƒf[ƒ^‚ğƒ[ƒh‚·‚é
+	 * ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
 	 */
 	public void load() {
 		RtcParam rtcParam = editor.getRtcParam();
@@ -681,14 +651,11 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		loadSelectedCompKind(rtcParam.getComponentKind());
 		activityTypeCombo.setText(getValue(rtcParam.getActivityType()));
 		typeCombo.setText(getValue(rtcParam.getComponentType()));
-		maxInstanceText.setText(getValue(String.valueOf(rtcParam
-				.getMaxInstance())));
+		maxInstanceText.setText(getValue(String.valueOf(rtcParam.getMaxInstance())));
 		executionTypeCombo.setText(getValue(rtcParam.getExecutionType()));
-		executionRateText.setText(getValue(String.valueOf(rtcParam
-				.getExecutionRate())));
+		executionRateText.setText(getValue(String.valueOf(rtcParam.getExecutionRate())));
 		abstractText.setText(getValue(rtcParam.getAbstract()));
 		rtcTypeText.setText(getValue(rtcParam.getRtcType()));
-		outputProjectText.setText(getValue(rtcParam.getOutputProject()));
 		//
 		editor.updateEMFModuleName(rtcParam.getName());
 	}
@@ -698,31 +665,17 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	}
 	
 	private void loadSelectedCompKind(String type) {
-		if( type.contains("DataFlow") ) {
-			dataFlowBtn.setSelection(true);
-		}
-		if( type.contains("FiniteStateMachine") ) {
-			fsmBtn.setSelection(true);
-		}
-		if( type.contains("MultiMode") ) {
-			multiModeBtn.setSelection(true);
-		}
+		if( type.contains("DataFlow") )           dataFlowBtn.setSelection(true);
+		if( type.contains("FiniteStateMachine") ) fsmBtn.setSelection(true);
+		if( type.contains("MultiMode") )          multiModeBtn.setSelection(true);
 	}
 	private String getSelectedCompKind() {
 		StringBuffer result = new StringBuffer();
 		
-		if(dataFlowBtn.getSelection()) {
-			result.append("DataFlow");
-		}
-		if(fsmBtn.getSelection()) {
-			result.append("FiniteStateMachine");
-		}
-		if(multiModeBtn.getSelection()) {
-			result.append("MultiMode");
-		}
-		if( result.length() > 0 ) {
-			result.append("Component");
-		}
+		if(dataFlowBtn.getSelection())  result.append("DataFlow");
+		if(fsmBtn.getSelection())       result.append("FiniteStateMachine");
+		if(multiModeBtn.getSelection()) result.append("MultiMode");
+		if( result.length() > 0 ) result.append("Component");
 		
 		return result.toString();
 	}
@@ -736,130 +689,87 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	@Override
-	protected Combo createEditableCombo(FormToolkit toolkit, Composite composite, String labelString, String key, String[] defaultValue) {
-		Combo combo = super.createEditableCombo(toolkit, composite, labelString, key, defaultValue); 
+	protected Combo createEditableCombo(FormToolkit toolkit, Composite composite, String labelString, String key, String[] defaultValue, int color) {
+		Combo combo = super.createEditableCombo(toolkit, composite, labelString, key, defaultValue, color); 
 		GridData gd = (GridData)combo.getLayoutData();
 		gd.widthHint = 100;
 		return combo;
 	}
 
 	/**
-	 * BasicInfoƒtƒH[ƒ€“à‚Ì—v‘f‚Ì—LŒø/–³Œø‚ğİ’è‚µ‚Ü‚·B
+	 * BasicInfoãƒ•ã‚©ãƒ¼ãƒ å†…ã®è¦ç´ ã®æœ‰åŠ¹/ç„¡åŠ¹ã‚’è¨­å®šã—ã¾ã™ã€‚
 	 * <ul>
-	 * <li>basic.info.moduleName : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Module name</li>
-	 * <li>basic.info.moduleDescription : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Module description</li>
-	 * <li>basic.info.moduleVersion : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Module version</li>
-	 * <li>basic.info.moduleVendor : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Module vendor</li>
-	 * <li>basic.info.moduleCategory : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Module category</li>
-	 * <li>basic.info.componentType : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Component type</li>
-	 * <li>basic.info.activityType : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Component's activity type</li>
-	 * <li>basic.info.dataFlow : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Component kind ‚Ì DataFlow</li>
-	 * <li>basic.info.fsm : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Component kind ‚Ì FSM</li>
-	 * <li>basic.info.multiMode : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Component kind ‚Ì MultiMode</li>
-	 * <li>basic.info.maxInstances : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì maximum instances</li>
-	 * <li>basic.info.executionType : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Execution type</li>
-	 * <li>basic.info.executionRate : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Execution rate</li>
-	 * <li>basic.info.abstract : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì Abstract</li>
-	 * <li>basic.info.rtcType : BasicInfoƒZƒNƒVƒ‡ƒ“‚Ì RTC type</li>
-	 * <li>basic.outputProject.* : OutputProjectƒZƒNƒVƒ‡ƒ“‘S‘Ì</li>
-	 * <li>basic.generate.code : GenerateƒZƒNƒVƒ‡ƒ“‚ÌƒR[ƒh¶¬ƒ{ƒ^ƒ“</li>
-	 * <li>basic.generate.package : GenerateƒZƒNƒVƒ‡ƒ“‚ÌƒpƒbƒP[ƒW‰»ƒ{ƒ^ƒ“</li>
-	 * <li>basic.profile.import : ProfileƒZƒNƒVƒ‡ƒ“‚ÌƒCƒ“ƒ|[ƒgƒ{ƒ^ƒ“</li>
-	 * <li>basic.profile.export : ProfileƒZƒNƒVƒ‡ƒ“‚ÌƒGƒNƒXƒ|[ƒgƒ{ƒ^ƒ“</li>
+	 * <li>basic.info.moduleName : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Module name</li>
+	 * <li>basic.info.moduleDescription : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Module description</li>
+	 * <li>basic.info.moduleVersion : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Module version</li>
+	 * <li>basic.info.moduleVendor : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Module vendor</li>
+	 * <li>basic.info.moduleCategory : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Module category</li>
+	 * <li>basic.info.componentType : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Component type</li>
+	 * <li>basic.info.activityType : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Component's activity type</li>
+	 * <li>basic.info.dataFlow : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Component kind ã® DataFlow</li>
+	 * <li>basic.info.fsm : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Component kind ã® FSM</li>
+	 * <li>basic.info.multiMode : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Component kind ã® MultiMode</li>
+	 * <li>basic.info.maxInstances : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® maximum instances</li>
+	 * <li>basic.info.executionType : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Execution type</li>
+	 * <li>basic.info.executionRate : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Execution rate</li>
+	 * <li>basic.info.abstract : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Abstract</li>
+	 * <li>basic.info.rtcType : BasicInfoã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® RTC type</li>
+	 * <li>basic.outputProject.* : OutputProjectã‚»ã‚¯ã‚·ãƒ§ãƒ³å…¨ä½“</li>
+	 * <li>basic.generate.code : Generateã‚»ã‚¯ã‚·ãƒ§ãƒ³ã®ã‚³ãƒ¼ãƒ‰ç”Ÿæˆãƒœã‚¿ãƒ³</li>
+	 * <li>basic.generate.package : Generateã‚»ã‚¯ã‚·ãƒ§ãƒ³ã®ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸åŒ–ãƒœã‚¿ãƒ³</li>
+	 * <li>basic.profile.import : Profileã‚»ã‚¯ã‚·ãƒ§ãƒ³ã®ã‚¤ãƒ³ãƒãƒ¼ãƒˆãƒœã‚¿ãƒ³</li>
+	 * <li>basic.profile.export : Profileã‚»ã‚¯ã‚·ãƒ§ãƒ³ã®ã‚¨ã‚¯ã‚¹ãƒãƒ¼ãƒˆãƒœã‚¿ãƒ³</li>
 	 * </ul>
 	 */
 	public void setEnabledInfo(WidgetInfo widgetInfo, boolean enabled) {
 		if (widgetInfo.matchSection("info")) {
 			if (nameText != null) {
-				if (widgetInfo.matchWidget("moduleName")) {
-					setControlEnabled(nameText, enabled);
-				}
-				if (widgetInfo.matchWidget("moduleDescription")) {
-					setControlEnabled(descriptionText, enabled);
-				}
-				if (widgetInfo.matchWidget("moduleVersion")) {
-					setControlEnabled(versionText, enabled);
-				}
-				if (widgetInfo.matchWidget("moduleVendor")) {
-					setControlEnabled(venderText, enabled);
-				}
-				if (widgetInfo.matchWidget("moduleCategory")) {
-					setControlEnabled(categoryCombo, enabled);
-				}
-				if (widgetInfo.matchWidget("componentType")) {
-					setControlEnabled(typeCombo, enabled);
-				}
-				if (widgetInfo.matchWidget("activityType")) {
-					setControlEnabled(activityTypeCombo, enabled);
-				}
-				if (widgetInfo.matchWidget("dataFlow")) {
-					setControlEnabled(dataFlowBtn, enabled);
-				}
-				if (widgetInfo.matchWidget("fsm")) {
-					setControlEnabled(fsmBtn, enabled);
-				}
-				if (widgetInfo.matchWidget("multiMode")) {
-					setControlEnabled(multiModeBtn, enabled);
-				}
-				if (widgetInfo.matchWidget("maxInstances")) {
-					setControlEnabled(maxInstanceText, enabled);
-				}
-				if (widgetInfo.matchWidget("executionType")) {
-					setControlEnabled(executionTypeCombo, enabled);
-				}
-				if (widgetInfo.matchWidget("executionRate")) {
-					setControlEnabled(executionRateText, enabled);
-				}
-				if (widgetInfo.matchWidget("abstract")) {
-					setControlEnabled(abstractText, enabled);
-				}
-				if (widgetInfo.matchWidget("rtcType")) {
-					setControlEnabled(rtcTypeText, enabled);
-				}
+				if (widgetInfo.matchWidget("moduleName"))        setControlEnabled(nameText, enabled);
+				if (widgetInfo.matchWidget("moduleDescription")) setControlEnabled(descriptionText, enabled);
+				if (widgetInfo.matchWidget("moduleVersion"))     setControlEnabled(versionText, enabled);
+				if (widgetInfo.matchWidget("moduleVendor"))      setControlEnabled(venderText, enabled);
+				if (widgetInfo.matchWidget("moduleCategory"))    setControlEnabled(categoryCombo, enabled);
+				if (widgetInfo.matchWidget("componentType"))     setControlEnabled(typeCombo, enabled);
+				if (widgetInfo.matchWidget("activityType"))      setControlEnabled(activityTypeCombo, enabled);
+				if (widgetInfo.matchWidget("dataFlow"))          setControlEnabled(dataFlowBtn, enabled);
+				if (widgetInfo.matchWidget("fsm"))               setControlEnabled(fsmBtn, enabled);
+				if (widgetInfo.matchWidget("multiMode"))         setControlEnabled(multiModeBtn, enabled);
+				if (widgetInfo.matchWidget("maxInstances"))      setControlEnabled(maxInstanceText, enabled);
+				if (widgetInfo.matchWidget("executionType"))     setControlEnabled(executionTypeCombo, enabled);
+				if (widgetInfo.matchWidget("executionRate"))     setControlEnabled(executionRateText, enabled);
+				if (widgetInfo.matchWidget("abstract"))          setControlEnabled(abstractText, enabled);
+				if (widgetInfo.matchWidget("rtcType"))           setControlEnabled(rtcTypeText, enabled);
 			}
 		}
 		if (widgetInfo.matchSection("outputProject")) {
 			if (outputProjectSection != null) {
 				outputProjectSection.setEnabled(enabled);
-				setEnableBackground(outputProjectSection,
-						getBackgroundByEnabled(enabled));
+				setEnableBackground(outputProjectSection, getBackgroundByEnabled(enabled));
 			}
 		}
 		if (widgetInfo.matchSection("generate")) {
 			if (generateSection != null) {
-				if (widgetInfo.matchWidget("code")) {
-					setButtonEnabled(generateButton, enabled);
-				}
-				if (widgetInfo.matchWidget("package")) {
-					setButtonEnabled(packageButton, enabled);
-				}
+				if (widgetInfo.matchWidget("code"))    setButtonEnabled(generateButton, enabled);
+				if (widgetInfo.matchWidget("package")) setButtonEnabled(packageButton, enabled);
 				boolean genEnable = false;
 				if (generateButton.getEnabled() || packageButton.getEnabled()) {
 					genEnable = true;
 				}
 				generateSection.setEnabled(genEnable);
-				setEnableBackground(generateSection,
-						getBackgroundByEnabled(genEnable));
+				setEnableBackground(generateSection, getBackgroundByEnabled(genEnable));
 			}
 		}
 		if (widgetInfo.matchSection("profile")) {
 			if (profileSection != null) {
-				if (widgetInfo.matchWidget("import")) {
-					setButtonEnabled(profileLoadButton, enabled);
-				}
-				if (widgetInfo.matchWidget("export")) {
-					setButtonEnabled(profileSaveButton, enabled);
-				}
+				if (widgetInfo.matchWidget("import")) setButtonEnabled(profileLoadButton, enabled);
+				if (widgetInfo.matchWidget("export")) setButtonEnabled(profileSaveButton, enabled);
 				boolean profEnable = false;
-				if (profileLoadButton.getEnabled()
-						|| profileSaveButton.getEnabled()) {
+				if (profileLoadButton.getEnabled() || profileSaveButton.getEnabled()) {
 					profEnable = true;
 				}
 				profileSection.setEnabled(profEnable);
-				setEnableBackground(profileSection,
-						getBackgroundByEnabled(profEnable));
+				setEnableBackground(profileSection,	getBackgroundByEnabled(profEnable));
 			}
 		}
 	}
-
 }

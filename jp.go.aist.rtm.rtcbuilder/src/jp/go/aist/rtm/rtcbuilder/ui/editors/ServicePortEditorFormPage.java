@@ -20,15 +20,12 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
-import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
-import jp.go.aist.rtm.rtcbuilder.ui.preference.PortPreferenceManager;
+import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
+import jp.go.aist.rtm.rtcbuilder.util.ValidationUtil;
 
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IMenuListener;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -66,7 +63,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 /**
- * ServicePortÉyÅ[ÉW
+ * ServicePort„Éö„Éº„Ç∏
  */
 public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 
@@ -108,10 +105,10 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 	private String defaultIFVarName;
 	
 	/**
-	 * ÉRÉìÉXÉgÉâÉNÉ^
+	 * „Ç≥„É≥„Çπ„Éà„É©„ÇØ„Çø
 	 * 
 	 * @param editor
-	 *            êeÇÃÉGÉfÉBÉ^
+	 *            Ë¶™„ÅÆ„Ç®„Éá„Ç£„Çø
 	 */
 	public ServicePortEditorFormPage(RtcBuilderEditor editor) {
 		super(editor, "id", IMessageConstants.SERVICEPORT_SECTION);
@@ -119,22 +116,36 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	private void updateDefaultValue() {
-		defaultPortName =PortPreferenceManager.getInstance().getServicePort_Name();
+		IPreferenceStore store = RtcBuilderPlugin.getDefault().getPreferenceStore();
+		defaultPortName = ComponentPreferenceManager.getInstance().getServicePort_Name();
 		
-		defaultIFName =PortPreferenceManager.getInstance().getServiceIF_Name();
-		defaultIFInstanceName =PortPreferenceManager.getInstance().getServiceIF_InstanceName();
-		defaultIFVarName =PortPreferenceManager.getInstance().getServiceIF_VarName();
+		defaultIFName = ComponentPreferenceManager.getInstance().getServiceIF_Name();
+		defaultIFInstanceName = store.getString(ComponentPreferenceManager.Generate_ServiceIF_InstanceName);
+		defaultIFVarName = store.getString(ComponentPreferenceManager.Generate_ServiceIF_VarName);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	protected void createFormContent(IManagedForm managedForm) {
-		GridLayout gl = new GridLayout();
-		gl.numColumns = 1;
+		createServiceBase(managedForm);
+		ServicePortMasterBlock block = new ServicePortMasterBlock();
+		block.createContent(managedForm);
+		
+		// Ë®ÄË™û„ÉªÁí∞Â¢É„Éö„Éº„Ç∏„Çà„ÇäÂÖà„Å´„Åì„ÅÆ„Éö„Éº„Ç∏„ÅåË°®Á§∫„Åï„Çå„ÅüÂ†¥Âêà„ÄÅ„Åì„Åì„ÅßË®ÄË™û„ÇíÂà§Êñ≠„Åô„Çã
+		editor.setEnabledInfoByLang();
+
+		load();
+		
+		// ÂàùÊúüÁä∂ÊÖã„Å´Âøú„Åò„Å¶„ÄÅ„Éú„Çø„É≥„ÅÆÊ¥ªÊÄßÁä∂ÊÖã„ÇíÊ±∫ÂÆö„Åô„Çã
+		// „Åì„ÅÆÂá¶ÁêÜ„ÅØ„ÄÅRTC.xmlË™≠„ÅøËæº„Åø„Å´‰æùÂ≠ò„Åô„Çã„Åü„ÇÅ„ÄÅload()„Çà„ÇäÂæå„Åß„ÅÇ„ÇãÂøÖË¶Å„Åå„ÅÇ„Çã„ÄÇ
+		setButtonEnabled(servicePortViewer.getSelection());
+	}
+
+	private void createServiceBase(IManagedForm managedForm) {
 		FormToolkit toolkit = managedForm.getToolkit();
 		Composite composite = toolkit.createComposite(managedForm.getForm().getBody(), SWT.NULL);
-		gl = new GridLayout(1, true);
+		GridLayout gl = new GridLayout(1, true);
 		composite.setLayout(gl);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		composite.setLayoutData(gd);
@@ -146,18 +157,6 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		title.setFont(titleFont);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		title.setLayoutData(gd);
-		
-		ServicePortMasterBlock block = new ServicePortMasterBlock();
-		block.createContent(managedForm);
-		
-		// åæåÍÅEä¬ã´ÉyÅ[ÉWÇÊÇËêÊÇ…Ç±ÇÃÉyÅ[ÉWÇ™ï\é¶Ç≥ÇÍÇΩèÍçáÅAÇ±Ç±Ç≈åæåÍÇîªífÇ∑ÇÈ
-		editor.setEnabledInfoByLang();
-
-		load();
-		
-		// èâä˙èÛë‘Ç…âûÇ∂ÇƒÅAÉ{É^ÉìÇÃäàê´èÛë‘ÇåàíËÇ∑ÇÈ
-		// Ç±ÇÃèàóùÇÕÅARTC.xmlì«Ç›çûÇ›Ç…àÀë∂Ç∑ÇÈÇΩÇﬂÅAload()ÇÊÇËå„Ç≈Ç†ÇÈïKóvÇ™Ç†ÇÈÅB
-		setButtonEnabled(servicePortViewer.getSelection());
 	}
 	
 	private void setButtonEnabled(ISelection selection){
@@ -171,24 +170,21 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 	}
 	
 	private Text createLabelAndFile(FormToolkit toolkit, Composite composite,
-			final String extention, String labelString) {
-		GridData gd;
-
-		toolkit.createLabel(composite, labelString);
+			final String extention, String labelString, int color) {
+		Label label = toolkit.createLabel(composite, labelString);
+		if(color>0) label.setForeground(getSite().getShell().getDisplay().getSystemColor(color));
 		final Text text = toolkit.createText(composite, "");
 		text.addKeyListener(new KeyListener() {
 			public void keyReleased(KeyEvent e) {
 				update();
 			}
-
 			public void keyPressed(KeyEvent e) {
 			}
 		});
-		gd = new GridData(GridData.FILL_HORIZONTAL);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		text.setLayoutData(gd);
 
-		Button checkButton = toolkit.createButton(composite, "Browse...",
-				SWT.PUSH);
+		Button checkButton = toolkit.createButton(composite, "Browse...", SWT.PUSH);
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_END);
 		checkButton.setLayoutData(gd);
 		checkButton.addSelectionListener(new SelectionAdapter() {
@@ -202,14 +198,6 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 					text.setText(newPath);
 					update();
 				}
-			}
-		});
-		text.addKeyListener(new KeyListener() {
-			public void keyReleased(KeyEvent e) {
-				update();
-			}
-
-			public void keyPressed(KeyEvent e) {
 			}
 		});
 
@@ -236,9 +224,9 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 					if( !((ServicePortInterfaceParam)selection.getData()).getIdlFile().equals(
 							idlFileText.getText()) ) {
 						if(idlFileText.getText()!=null && idlFileText.getText().length()>0) {
-							String targetContent = PreProcessor.parseAlltoSpace(FileUtil.readFile(idlFileText.getText()));
-							IDLParser parser = new IDLParser(new StringReader(targetContent));
 							try {
+								String targetContent = PreProcessor.parseAlltoSpace(FileUtil.readFile(idlFileText.getText()));
+								IDLParser parser = new IDLParser(new StringReader(targetContent));
 								List<ServiceClassParam> serviceClassParams = IDLParamConverter.convert(parser.specification(), "");
 								if( serviceClassParams!=null && serviceClassParams.size()>0 ) {
 									interfaceTypeCombo.removeAll();
@@ -246,7 +234,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 										interfaceTypeCombo.add(target.getName());
 									}
 								}
-							} catch (Throwable e) {
+							} catch (Exception e) {
 								MessageDialog.openError(getSite().getShell(), "Error", 
 										IMessageConstants.PREF_IDLPARSE_ERROR + System.getProperty( "line.separator" ) + System.getProperty( "line.separator" ) + 
 										e.getMessage() );
@@ -254,6 +242,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 								interfaceTypeCombo.removeAll();
 								interfaceTypeCombo.setText(selected);
 								servicePortViewer.getTree().setRedraw(true);
+								return;
 							}
 						}
 					}
@@ -262,7 +251,6 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 					((ServicePortInterfaceParam)selection.getData()).setInstanceName(instanceNameText.getText());
 					((ServicePortInterfaceParam)selection.getData()).setVarName(varNameText.getText());
 					((ServicePortInterfaceParam)selection.getData()).setIdlFile(idlFileText.getText());
-//					((ServicePortInterfaceParam)selection.getData()).setInterfaceType(interfaceTypeText.getText());
 					((ServicePortInterfaceParam)selection.getData()).setInterfaceType(interfaceTypeCombo.getText());
 					((ServicePortInterfaceParam)selection.getData()).setIdlSearchPath(idlPathText.getText());
 					//
@@ -280,13 +268,15 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			servicePortViewer.getTree().setRedraw(true);
 			servicePortViewer.setExpandedElements(expanded);
 			//
-			editor.updateEMFServiceOutPorts(editor.getRtcParam().getServicePorts());
+			editor.updateEMFDataPorts(
+					editor.getRtcParam().getInports(), editor.getRtcParam().getOutports(),
+					editor.getRtcParam().getServicePorts());
 			editor.updateDirty();
 		}
 	}
 
 	/**
-	 * ÉfÅ[É^ÇÉçÅ[ÉhÇ∑ÇÈ
+	 * „Éá„Éº„Çø„Çí„É≠„Éº„Éâ„Åô„Çã
 	 */
 	public void load() {
 		GeneratorParam generator = editor.getGeneratorParam();
@@ -294,7 +284,9 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			RtcParam rtcParam = generator.getRtcParams().get(0);
 			if( servicePortViewer != null )
 				servicePortViewer.setInput(rtcParam.getServicePorts());
-			editor.updateEMFServiceOutPorts(editor.getRtcParam().getServicePorts());
+			editor.updateEMFDataPorts(
+					editor.getRtcParam().getInports(), editor.getRtcParam().getOutports(),
+					editor.getRtcParam().getServicePorts());
 		}
 	}
 
@@ -303,81 +295,32 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 
 		RtcParam rtcParam = editor.getRtcParam();
 		Set<String> checkSet = new HashSet<String>(); 
+		Set<String> checkVarSet = new HashSet<String>(); 
 		
 		for(ServicePortParam serviceport : rtcParam.getServicePorts()) {
-			//ServicePort name
-			if( serviceport.getName()==null || serviceport.getName().trim().length()==0 ) {
-				result = IMessageConstants.SERVICEPORT_VALIDATE_PORTNAME1;
-				return result;
-			}
-			if( !StringUtil.checkDigitAlphabet(serviceport.getName()) ) {
-				result = IMessageConstants.SERVICEPORT_VALIDATE_PORTNAME2;
-				return result;
-			}
-			//èdï°
+			result = ValidationUtil.validateServicePort(serviceport);
+			if( result!=null ) return result;
+			//ÈáçË§á
 			if( checkSet.contains(serviceport.getName()) ) {
 				result = IMessageConstants.SERVICEPORT_VALIDATE_DUPLICATE;
 				return result;
 			}
 			checkSet.add(serviceport.getName());
 			for(ServicePortInterfaceParam ifparam : serviceport.getServicePortInterfaces()) {
-				//ServiceInterface name
-				if( ifparam.getName()==null || ifparam.getName().length()==0 ) {
-					result = IMessageConstants.SERVICEPORT_VALIDATE_IFNAME1;
+				result = ValidationUtil.validateServiceInterface(ifparam);
+				if( result!=null ) return result;
+				//
+				if( checkVarSet.contains(ifparam.getTmplVarName()) ) {
+					result = IMessageConstants.SERVICEPORT_VALIDATE_VAR_DUPLICATE;
 					return result;
 				}
-				if( !StringUtil.checkDigitAlphabet(ifparam.getName()) ) {
-					result = IMessageConstants.SERVICEPORT_VALIDATE_IFNAME2;
-					return result;
-				}
-				//ServiceInterface Instance name
-				if( ifparam.getInstanceName()==null || ifparam.getInstanceName().length()==0 ) {
-					result = IMessageConstants.SERVICEPORT_VALIDATE_INSTNAME1;
-					return result;
-				}
-				if( !StringUtil.checkDigitAlphabet(ifparam.getInstanceName()) ) {
-					result = IMessageConstants.SERVICEPORT_VALIDATE_INSTNAME2;
-					return result;
-				}
-				//ServiceInterface Instance type
-				if( ifparam.getInterfaceType()==null || ifparam.getInterfaceType().length()==0 ) {
-					result = IMessageConstants.SERVICEPORT_VALIDATE_IFTYPE1;
-					return result;
-				}
-				if( !StringUtil.checkDigitAlphabet(ifparam.getInterfaceType()) ) {
-					result = IMessageConstants.SERVICEPORT_VALIDATE_IFTYPE2;
-					return result;
-				}
+				checkVarSet.add(ifparam.getTmplVarName());
 			}
 		}
 		return null;
 	}
 
-	private MenuManager createContextMenu() {
-		MenuManager menuMgr = new MenuManager("#PopupMenu");
-		menuMgr.setRemoveAllWhenShown(true);
-		menuMgr.addMenuListener(new IMenuListener() {
-			public void menuAboutToShow(IMenuManager manager) {
-				manager.add(new Action("Open...") {
-					@Override
-					public void run() { editor.open(); }
-				});
-				manager.add(new Action("Save ...") {
-					@Override
-					public void run() { editor.doSave(null); }
-					@Override
-					public boolean isEnabled() { return editor.isDirty(); }
-				});
-				manager.add(new Action("Save As...") {
-					@Override
-					public void run() { editor.doSaveAs(); }
-				});
-			}
-		});
-		return menuMgr;
-	}
-
-	//Master Block ÉNÉâÉX
+	//Master Block „ÇØ„É©„Çπ
 	private class ServicePortMasterBlock extends MasterDetailsBlock {
 
 		@Override
@@ -389,8 +332,6 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			client.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
 			client.setLayout(new GridLayout(2, false));
 			//
-			MenuManager menuMgr = createContextMenu();
-			client.setMenu(menuMgr.createContextMenu(client));
 			//////
 			Tree tree = toolkit.createTree(client, SWT.BORDER);
 			servicePortViewer = new TreeViewer(tree);
@@ -401,22 +342,52 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			gridData.grabExcessHorizontalSpace = true;
 			gridData.verticalSpan  = 4;
 			tree.setLayoutData(gridData);
-			servicePortViewer.getControl().setMenu(menuMgr.createContextMenu(servicePortViewer.getControl()));
 			//
-			addButton = managedForm.getToolkit().createButton(client, IMessageConstants.SERVICEPORT_BTN_ADDPORT, SWT.PUSH);
-			addButton.addSelectionListener(new SelectionAdapter() {
+			createPortAddButton(managedForm, client);
+			createIFAddButton(managedForm, client);
+			createDeleteButton(managedForm, client);
+			//
+			final SectionPart sectionPart = new SectionPart(servicePortMasterBlockSection);
+			managedForm.addPart(sectionPart);
+			servicePortViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+				public void selectionChanged(SelectionChangedEvent event) {
+					managedForm.fireSelectionChanged(sectionPart, event.getSelection());
+					setButtonEnabled(event.getSelection());
+				}
+			});
+			servicePortMasterBlockSection.setClient(client);
+		}
+
+		private void createDeleteButton(final IManagedForm managedForm,
+				Composite client) {
+			GridData gridData;
+			deleteButton = managedForm.getToolkit().createButton(client, IMessageConstants.SERVICEPORT_BTN_DELETE, SWT.PUSH);
+			deleteButton.addSelectionListener(new SelectionAdapter() {
+				@SuppressWarnings("unchecked")
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					updateDefaultValue();
-					ServicePortParam selectParam = new ServicePortParam(defaultPortName, 0);
-					((List) servicePortViewer.getInput()).add(selectParam);
-					update();
+					TreeItem[] selections = servicePortViewer.getTree().getSelection();
+					if( selections==null || selections.length==0 )
+						return;// ‰Ωï„ÇÇÈÅ∏Êäû„Åï„Çå„Å¶„ÅÑ„Å™„ÅÑ„Å®„Åç„ÅØ‰Ωï„ÇÇ„Åó„Å™„ÅÑ
+					TreeItem selection = selections[0];
+					if( selection.getData() instanceof ServicePortParam ) {
+						((List) servicePortViewer.getInput()).remove(selection.getData());
+						update();
+					} else	if( selection.getData() instanceof ServicePortInterfaceParam ) {
+						((ServicePortInterfaceParam)selection.getData()).getParent().getServicePortInterfaces()
+							.remove(selection.getData());
+						update();
+					}
 				}
 			});
 			gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 			gridData.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
-			addButton.setLayoutData(gridData);
-			//
+			deleteButton.setLayoutData(gridData);
+		}
+
+		private void createIFAddButton(final IManagedForm managedForm,
+				Composite client) {
+			GridData gridData;
 			addinterfaceButton = managedForm.getToolkit().createButton(client, IMessageConstants.SERVICEPORT_BTN_ADDIF, SWT.PUSH);
 			addinterfaceButton.addSelectionListener(new SelectionAdapter() {
 				@Override
@@ -424,7 +395,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 					updateDefaultValue();
 					TreeItem[] selections = servicePortViewer.getTree().getSelection();
 					if( selections==null || selections.length==0 )
-						return;// âΩÇ‡ëIëÇ≥ÇÍÇƒÇ¢Ç»Ç¢Ç∆Ç´ÇÕâΩÇ‡ÇµÇ»Ç¢
+						return;// ‰Ωï„ÇÇÈÅ∏Êäû„Åï„Çå„Å¶„ÅÑ„Å™„ÅÑ„Å®„Åç„ÅØ‰Ωï„ÇÇ„Åó„Å™„ÅÑ
 					TreeItem selection = selections[0];
 					if( selection.getData() instanceof ServicePortParam ) {
 						servicePortViewer.getTree().setRedraw(false);
@@ -446,43 +417,25 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 			gridData.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
 			addinterfaceButton.setLayoutData(gridData);
-			//
-			deleteButton = managedForm.getToolkit().createButton(client, IMessageConstants.SERVICEPORT_BTN_DELETE, SWT.PUSH);
-			deleteButton.addSelectionListener(new SelectionAdapter() {
+		}
+
+		private void createPortAddButton(final IManagedForm managedForm,
+				Composite client) {
+			GridData gridData;
+			addButton = managedForm.getToolkit().createButton(client, IMessageConstants.SERVICEPORT_BTN_ADDPORT, SWT.PUSH);
+			addButton.addSelectionListener(new SelectionAdapter() {
+				@SuppressWarnings("unchecked")
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					TreeItem[] selections = servicePortViewer.getTree().getSelection();
-					if( selections==null || selections.length==0 )
-						return;// âΩÇ‡ëIëÇ≥ÇÍÇƒÇ¢Ç»Ç¢Ç∆Ç´ÇÕâΩÇ‡ÇµÇ»Ç¢
-					TreeItem selection = selections[0];
-					if( selection.getData() instanceof ServicePortParam ) {
-						((List) servicePortViewer.getInput()).remove(selection.getData());
-						update();
-					} else	if( selection.getData() instanceof ServicePortInterfaceParam ) {
-						((ServicePortInterfaceParam)selection.getData()).getParent().getServicePortInterfaces()
-							.remove(selection.getData());
-						update();
-					}
+					updateDefaultValue();
+					ServicePortParam selectParam = new ServicePortParam(defaultPortName, 0);
+					((List) servicePortViewer.getInput()).add(selectParam);
+					update();
 				}
 			});
 			gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 			gridData.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
-			deleteButton.setLayoutData(gridData);
-			Label label = toolkit.createLabel(client, "");
-			gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
-			gridData.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
-			label.setLayoutData(gridData);
-			label.setMenu(menuMgr.createContextMenu(label));
-			//
-			final SectionPart sectionPart = new SectionPart(servicePortMasterBlockSection);
-			managedForm.addPart(sectionPart);
-			servicePortViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-				public void selectionChanged(SelectionChangedEvent event) {
-					managedForm.fireSelectionChanged(sectionPart, event.getSelection());
-					setButtonEnabled(event.getSelection());
-				}
-			});
-			servicePortMasterBlockSection.setClient(client);
+			addButton.setLayoutData(gridData);
 		}
 		
 		@Override
@@ -496,7 +449,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		}
 	}
 
-	//ServicePort Detail Block ÉNÉâÉX
+	//ServicePort Detail Block „ÇØ„É©„Çπ
 	private class ServicePortDetailsPage implements IDetailsPage {
 		private IManagedForm form;
 
@@ -513,10 +466,9 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			GridData gd = new GridData();
 			gd.horizontalSpan = 2;
 			exp.setLayoutData(gd);
-			MenuManager menuMgr = createContextMenu();
-			client.setMenu(menuMgr.createContextMenu(client));
 			//
-			nameText = createLabelAndText(toolkit, client, IMessageConstants.SERVICEPORT_LBL_PORTNAME);
+			nameText = createLabelAndText(toolkit, client,
+					IMessageConstants.REQUIRED + IMessageConstants.SERVICEPORT_LBL_PORTNAME, SWT.NONE, SWT.COLOR_RED);
 			positionCombo = createLabelAndCombo(toolkit, client,
 					IMessageConstants.SERVICEPORT_LBL_POSITION, DataPortParam.COMBO_ITEM);
 			
@@ -525,8 +477,6 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		}
 
 		private void createSrvPortDocumentSection(IManagedForm managedForm, Composite parent) {
-
-			GridLayout gl;
 
 			Section section = managedForm.getToolkit().createSection(
 					parent,
@@ -541,7 +491,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 					SWT.NULL);
 			composite.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
 			managedForm.getToolkit().paintBordersFor(composite);
-			gl = new GridLayout(2, false);
+			GridLayout gl = new GridLayout(2, false);
 			composite.setLayout(gl);
 			section.setClient(composite);
 
@@ -594,7 +544,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		}
 	}
 	
-	//ServicePortInterface Detail Block ÉNÉâÉX
+	//ServicePortInterface Detail Block „ÇØ„É©„Çπ
 	private class ServicePortInterfaceDetailsPage implements IDetailsPage {
 		private IManagedForm form;
 
@@ -607,15 +557,14 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			client.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
 			form.getToolkit().paintBordersFor(client);
 			client.setLayout(new GridLayout(3, false));
-			MenuManager menuMgr = createContextMenu();
-			client.setMenu(menuMgr.createContextMenu(client));
 			//
 			Label exp = toolkit.createLabel(client, IMessageConstants.SERVICEPORT_IF_EXPL);
 			GridData gd = new GridData();
 			gd.horizontalSpan = 3;
 			exp.setLayoutData(gd);
 			//
-			interfaceNameText = createLabelAndText(toolkit, client, IMessageConstants.SERVICEPORT_LBL_IFNAME);
+			interfaceNameText = createLabelAndText(toolkit, client,
+					IMessageConstants.REQUIRED + IMessageConstants.SERVICEPORT_LBL_IFNAME, SWT.NONE, SWT.COLOR_RED);
 			toolkit.createLabel(client, "");
 			directionCombo = createLabelAndCombo(toolkit, client,
 					IMessageConstants.SERVICEPORT_LBL_IFDIRECTION, ServicePortInterfaceParam.COMBO_ITEM);
@@ -624,10 +573,12 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			toolkit.createLabel(client, "");
 			varNameText = createLabelAndText(toolkit, client, IMessageConstants.SERVICEPORT_LBL_IFVARNAME);
 			toolkit.createLabel(client, "");
-			idlFileText = createLabelAndFile(toolkit, client, IDL_EXTENTION, IMessageConstants.SERVICEPORT_LBL_IDLFILE);
+			idlFileText = createLabelAndFile(toolkit, client, IDL_EXTENTION,
+					IMessageConstants.REQUIRED + IMessageConstants.SERVICEPORT_LBL_IDLFILE, SWT.COLOR_RED);
 //			interfaceTypeText = createLabelAndText(toolkit, client, IMessageConstants.SERVICEPORT_LBL_IFTYPE);
 			String[] defaultVal = new String[0];
-			interfaceTypeCombo = createEditableCombo(toolkit, client, IMessageConstants.SERVICEPORT_LBL_IFTYPE, "", defaultVal);
+			interfaceTypeCombo = createEditableCombo(toolkit, client,
+					IMessageConstants.REQUIRED + IMessageConstants.SERVICEPORT_LBL_IFTYPE, "", defaultVal, SWT.COLOR_RED);
 			toolkit.createLabel(client, "");
 			idlPathText = createLabelAndDirectory(toolkit, client, IMessageConstants.SERVICEPORT_LBL_IDLPATH);
 			
@@ -636,9 +587,6 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		}
 
 		private void createSrvPortIfDocumentSection(IManagedForm managedForm, Composite parent) {
-
-			GridLayout gl;
-
 			Section section = managedForm.getToolkit().createSection(
 					parent,
 					Section.TITLE_BAR | Section.EXPANDED | Section.TWISTIE);
@@ -652,7 +600,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 					SWT.NULL);
 			composite.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
 			managedForm.getToolkit().paintBordersFor(composite);
-			gl = new GridLayout(2, false);
+			GridLayout gl = new GridLayout(2, false);
 			composite.setLayout(gl);
 			section.setClient(composite);
 
@@ -729,6 +677,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 
 	private class ServiceParamContentProvider implements ITreeContentProvider {
 
+		@SuppressWarnings("unchecked")
 		public Object[] getChildren(Object parentElement) {
 			if(parentElement instanceof ServicePortParam) {
 				ServicePortParam servicePort = (ServicePortParam)parentElement;
@@ -815,21 +764,17 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	/**
-	 * ServicePortÉtÉHÅ[ÉÄì‡ÇÃóvëfÇÃóLå¯/ñ≥å¯Çê›íËÇµÇ‹Ç∑ÅB
+	 * ServicePort„Éï„Ç©„Éº„É†ÂÜÖ„ÅÆË¶ÅÁ¥†„ÅÆÊúâÂäπ/ÁÑ°Âäπ„ÇíË®≠ÂÆö„Åó„Åæ„Åô„ÄÇ
 	 * <ul>
-	 * <li>serviceport.servicePort.table : ServicePortÉZÉNÉVÉáÉìÇÃÉeÅ[ÉuÉã</li>
-	 * <li>serviceport.servicePort.addButton : ServicePortÉZÉNÉVÉáÉìÇÃ AddÉ{É^Éì</li>
+	 * <li>serviceport.servicePort.table : ServicePort„Çª„ÇØ„Ç∑„Éß„É≥„ÅÆ„ÉÜ„Éº„Éñ„É´</li>
+	 * <li>serviceport.servicePort.addButton : ServicePort„Çª„ÇØ„Ç∑„Éß„É≥„ÅÆ Add„Éú„Çø„É≥</li>
 	 * </ul>
 	 */
 	public void setEnabledInfo(WidgetInfo widgetInfo, boolean enabled) {
 		if (widgetInfo.matchSection("servicePort")) {
 			if (servicePortViewer != null) {
-				if (widgetInfo.matchWidget("table")) {
-					setViewerEnabled(servicePortViewer, enabled);
-				}
-				if (widgetInfo.matchWidget("addButton")) {
-					setButtonEnabled(addButton, enabled);
-				}
+				if (widgetInfo.matchWidget("table"))     setViewerEnabled(servicePortViewer, enabled);
+				if (widgetInfo.matchWidget("addButton")) setButtonEnabled(addButton, enabled);
 			}
 		}
 	}

@@ -29,7 +29,7 @@ public class XMLTest {
 
 	/**
 	 * @param args
-	 * createExtendedMetaDataAnnotations‚Ì–¼Ì•ÏX
+	 * createExtendedMetaDataAnnotationsã®åç§°å¤‰æ›´
 	 */
 	public static void main(String[] args) {
 //		YAMLoutputSample();
@@ -114,7 +114,7 @@ public class XMLTest {
 
 	private static void XMLoutputSample() throws Exception {
 		SampleProfileGenerator handle = new SampleProfileGenerator();
-		//o—Í
+		//å‡ºåŠ›
 //		RtcProfile profile = handle.generateProfile();
 		RtsProfileExt profile = handle.generateRtsProfile();
 		//
@@ -131,7 +131,7 @@ public class XMLTest {
 		    marshaller.marshal(profile, xmlFileWriter);
 		    xmlString = xmlFileWriter.toString();
 		} catch (JAXBException exception) {
-			System.out.println("XML‚Ö‚Ì•ÏŠ·‚É¸”s‚µ‚Ü‚µ‚½B" + exception);
+			System.out.println("XMLã¸ã®å¤‰æ›ã«å¤±æ•—ã—ã¾ã—ãŸã€‚" + exception);
 		}
 
 		BufferedWriter outputFile;

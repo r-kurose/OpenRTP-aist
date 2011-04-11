@@ -10,9 +10,8 @@ import jp.go.aist.rtm.rtcbuilder.ui.parts.SingleLabelUtil;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -26,7 +25,6 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.dialogs.TypeFilteringDialog;
@@ -41,11 +39,14 @@ public class ExportPreferencePage extends PreferencePage implements
 	private List sourcebinaryExtList;
 	private TableViewer sourcebinaryFileViewer;
 	//
-    private ArrayList selectedSourceExt = new ArrayList();
+    @SuppressWarnings("unchecked")
+	private ArrayList selectedSourceExt = new ArrayList();
     private ArrayList<SingleLabelItem> selectedSourceFile = new ArrayList<SingleLabelItem>();
-    private ArrayList selectedBinaryExt = new ArrayList();
+    @SuppressWarnings("unchecked")
+	private ArrayList selectedBinaryExt = new ArrayList();
     private ArrayList<SingleLabelItem> selectedBinaryFile = new ArrayList<SingleLabelItem>();
-    private ArrayList selectedSourceBinaryExt = new ArrayList();
+    @SuppressWarnings("unchecked")
+	private ArrayList selectedSourceBinaryExt = new ArrayList();
     private ArrayList<SingleLabelItem> selectedSourceBinaryFile = new ArrayList<SingleLabelItem>();
 
 	public ExportPreferencePage() {
@@ -170,6 +171,7 @@ public class ExportPreferencePage extends PreferencePage implements
 		super.performDefaults();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean performOk() {
 		ArrayList<String> strArray = new ArrayList<String>();
@@ -208,6 +210,7 @@ public class ExportPreferencePage extends PreferencePage implements
 		sourcebinaryFileViewer.refresh();
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void updateList(List targetList, ArrayList sourceData) {
 		targetList.removeAll();
 		for (int index = 0; index < sourceData.size(); index++) {
@@ -219,22 +222,16 @@ public class ExportPreferencePage extends PreferencePage implements
 		Table table = targetViewer.getTable();
         table.setLinesVisible(false);
         table.setHeaderVisible(false);
-        targetViewer.setContentProvider(new ArrayContentProvider());
+		
+		createSingleLabelColumn(targetViewer, "", 200);
+		
+		targetViewer.setContentProvider(new ArrayContentProvider());
         targetViewer.setLabelProvider(new SingleLabelProvider());
-		TableColumn nameColumn = new TableColumn(targetViewer
-				.getTable(), SWT.NONE);
-		nameColumn.setText("");
-		nameColumn.setWidth(200);
-		targetViewer.setColumnProperties(new String[] { "FileName" });
-		CellEditor[] editors = new CellEditor[] {
-				new TextCellEditor(targetViewer.getTable()),
-		};
-		targetViewer.setCellEditors(editors);
-		targetViewer.setCellModifier(new SingleLabelCellModifier(targetViewer));
-
+		
 		Button addButton = new Button(parent, SWT.PUSH);
 		addButton.setText("Add");
 		addButton.addSelectionListener(new SelectionAdapter() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				((java.util.List) targetViewer.getInput()).add(new SingleLabelItem("name"));
@@ -248,6 +245,7 @@ public class ExportPreferencePage extends PreferencePage implements
 		Button deleteButton = new Button(parent, SWT.PUSH);
 		deleteButton.setText("Delete");
 		deleteButton.addSelectionListener(new SelectionAdapter() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int selectionIndex = targetViewer.getTable()
@@ -290,6 +288,7 @@ public class ExportPreferencePage extends PreferencePage implements
 		return targetGroup;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private ArrayList handleTypesEditButtonPressed(List targetList, ArrayList targetSelection) {
     	Object[] newSelectedTypes = queryResourceTypes(targetSelection);
 	
@@ -304,12 +303,23 @@ public class ExportPreferencePage extends PreferencePage implements
     	return targetSelection;
 	}
 
-    private Object[] queryResourceTypes(ArrayList targetSelection) {
+    @SuppressWarnings("unchecked")
+	private Object[] queryResourceTypes(ArrayList targetSelection) {
 
     	TypeFilteringDialog dialog = new TypeFilteringDialog(this.getShell(), targetSelection);
     
 	    dialog.open();
     
 		return dialog.getResult();
+	}
+    
+	private void createSingleLabelColumn(TableViewer tv, String title, int width){
+		TableViewerColumn col = new TableViewerColumn(tv, SWT.NONE);
+		col.getColumn().setText(title);
+		col.getColumn().setWidth(width);
+		col.getColumn().setResizable(true);
+		col.getColumn().setMoveable(false);
+		
+		col.setEditingSupport(new SingleLabelCellModifier(tv));
 	}
 }

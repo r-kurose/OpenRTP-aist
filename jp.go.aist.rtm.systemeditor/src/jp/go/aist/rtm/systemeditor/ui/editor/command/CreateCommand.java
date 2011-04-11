@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
 import jp.go.aist.rtm.systemeditor.ui.util.ComponentUtil;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
@@ -11,29 +12,33 @@ import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import org.eclipse.gef.commands.Command;
 
 /**
- * ƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€‚ÉRtc‚ğ’Ç‰Á‚·‚éƒRƒ}ƒ“ƒh
+ * ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã«Rtcã‚’è¿½åŠ ã™ã‚‹ã‚³ãƒãƒ³ãƒ‰
  */
 public class CreateCommand extends Command {
 	private SystemDiagram parent;
 
 	private Component target;
 
-	@SuppressWarnings("unchecked")
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public void execute() {
-		parent.addComponent(target);
-		setComponentsConstraint(target);
-		ComponentUtil.findEditor(parent).refresh();
-		Component compositeComponent = parent.getCompositeComponent();
-		if (compositeComponent != null) {
-			// •¡‡RTC“à‚ÌƒGƒfƒBƒ^‚Ìê‡
-			// •¡‡ƒRƒ“ƒ|[ƒlƒ“ƒg‚Éq‚ğ’Ç‰Á
+		boolean can = true;
+		Component cc = parent.getCompositeComponent();
+		if (cc != null) {
+			// è¤‡åˆRTCå†…ã®ã‚¨ãƒ‡ã‚£ã‚¿ã®å ´åˆã¯è¤‡åˆRTCã«å­ã‚’è¿½åŠ 
 			List<Component> list = new ArrayList<Component>();
 			list.add(target);
-			compositeComponent.addComponentsR(list);
+			if (!cc.addComponentsR(list)) {
+				// è¤‡åˆRTCã¸è¿½åŠ ã§ããªã„å ´åˆã¯ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ï½ˆã®è¿½åŠ ä¸å¯
+				can = false;
+			}
+		}
+		if (can) {
+			parent.addComponent(target);
+			setComponentsConstraint(target);
+			AbstractSystemDiagramEditor ae = ComponentUtil.findEditor(parent);
+			if (ae != null) {
+				ae.refresh();
+			}
 		}
 	}
 
@@ -60,20 +65,20 @@ public class CreateCommand extends Command {
 	}
 
 	/**
-	 * e‚Æ‚È‚éƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€‚ğİ’è‚·‚é
+	 * è¦ªã¨ãªã‚‹ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã‚’è¨­å®šã™ã‚‹
 	 * 
 	 * @param parent
-	 *            e‚Æ‚È‚éƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€
+	 *            è¦ªã¨ãªã‚‹ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ 
 	 */
 	public void setParent(SystemDiagram parent) {
 		this.parent = parent;
 	}
 
 	/**
-	 * ì¬‘ÎÛ‚ÌRtc‚ğİ’è‚·‚é
+	 * ä½œæˆå¯¾è±¡ã®Rtcã‚’è¨­å®šã™ã‚‹
 	 * 
 	 * @param target
-	 *            ì¬‘ÎÛ‚ÌRtc
+	 *            ä½œæˆå¯¾è±¡ã®Rtc
 	 */
 	public void setTarget(Component target) {
 		this.target = target;

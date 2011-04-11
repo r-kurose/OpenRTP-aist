@@ -2,14 +2,14 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: jp.go.aist.rtm.repositoryView;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.1.0.v20110411
 Bundle-Activator: jp.go.aist.rtm.repositoryView.RepositoryViewPlugin
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  jp.go.aist.rtm.toolscommon,
  jp.go.aist.rtm.toolscommon.profiles
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Export-Package: jp.go.aist.rtm.repositoryView,
  jp.go.aist.rtm.repositoryView.adapterfactory,
  jp.go.aist.rtm.repositoryView.model,
@@ -17,9 +17,6 @@ Export-Package: jp.go.aist.rtm.repositoryView,
  jp.go.aist.rtm.repositoryView.ui.action,
  jp.go.aist.rtm.repositoryView.ui.views
 Bundle-ClassPath: lib/rtrepository_local-1.0.jar,
- lib/commons-logging.jar,
- lib/log4j-1.2.13.jar,
- .,
- lib/jaxb-impl.jar
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+ .
 Bundle-Vendor: %providerName
+Eclipse-BuddyPolicy: registered

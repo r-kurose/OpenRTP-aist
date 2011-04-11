@@ -8,7 +8,7 @@ import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
 import org.apache.commons.lang.builder.CompareToBuilder;
 
 /**
- * �ύX�O�ƕύX���ConfigurationSet��ێ����郉�b�p�[
+ * 変更前と変更後のConfigurationSetを保持するラッパー
  *
  */
 public class ConfigurationSetConfigurationWrapper implements Comparable<ConfigurationSetConfigurationWrapper> {

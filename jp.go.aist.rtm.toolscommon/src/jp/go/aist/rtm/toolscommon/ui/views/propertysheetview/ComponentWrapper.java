@@ -1,39 +1,61 @@
 package jp.go.aist.rtm.toolscommon.ui.views.propertysheetview;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jp.go.aist.rtm.toolscommon.model.component.Component;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒ‰ƒbƒpƒNƒ‰ƒX
+ * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒ©ãƒƒãƒ‘ã‚¯ãƒ©ã‚¹
  */
 public class ComponentWrapper {
 	private EObject component;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param component
-	 *            ƒhƒƒCƒ“ƒ‚ƒfƒ‹
+	 *            ãƒ‰ãƒ¡ã‚¤ãƒ³ãƒ¢ãƒ‡ãƒ«
 	 */
 	public ComponentWrapper(EObject component) {
 		this.component = component;
 	}
 
 	/**
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @return ƒRƒ“ƒ|[ƒlƒ“ƒg
+	 * @return ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 	 */
 	public EObject getComponent() {
 		return component;
 	}
 
 	/**
-	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğİ’è‚·‚é
+	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’è¨­å®šã™ã‚‹
 	 * 
 	 * @param component
-	 *            ƒRƒ“ƒ|[ƒlƒ“ƒg
+	 *            ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 	 */
 	public void setComponent(EObject component) {
 		this.component = component;
 	}
+
+	/**
+	 * containment=falseã®è¦ç´ ã‚’å–å¾—ã™ã‚‹ (eAllContents()ã§ãŸã©ã‚Œãªã„ãŸã‚)
+	 * 
+	 * @return containment=falseã®è¦ç´ ãƒªã‚¹ãƒˆ
+	 */
+	public List<EObject> getSubContents() {
+		List<EObject> result = new ArrayList<EObject>();
+		if (component instanceof Component) {
+			Component c = (Component) component;
+			for (EObject eo : c.getParticipationContexts()) {
+				result.add(eo);
+			}
+		}
+		return result;
+	}
+
 }

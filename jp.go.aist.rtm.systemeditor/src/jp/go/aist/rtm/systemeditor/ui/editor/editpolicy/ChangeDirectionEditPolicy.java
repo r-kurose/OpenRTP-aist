@@ -12,7 +12,7 @@ import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
 
 /**
- * •ûŒü•ÏX‚ÌEditPolicyƒNƒ‰ƒX
+ * æ–¹å‘å¤‰æ›´ã®EditPolicyã‚¯ãƒ©ã‚¹
  */
 public class ChangeDirectionEditPolicy extends LayoutEditPolicy {
 

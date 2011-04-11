@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.IDLParser;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.ParseException;
@@ -17,6 +18,7 @@ import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.specification;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.IDLParamConverter;
 import jp.go.aist.rtm.rtcbuilder.generator.PreProcessor;
+import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
@@ -28,11 +30,14 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceMethodParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.TypeDefParam;
 import jp.go.aist.rtm.rtcbuilder.generator.parser.MergeBlockParser;
+import jp.go.aist.rtm.rtcbuilder.manager.CMakeGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.CXXGenerateManager;
-import jp.go.aist.rtm.rtcbuilder.manager.CXXWinGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.CommonGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
+import jp.go.aist.rtm.rtcbuilder.ui.editors.IMessageConstants;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
+import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
+import jp.go.aist.rtm.rtcbuilder.util.ValidationUtil;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -45,46 +50,53 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.IDialogConstants;
 
 /**
- * ƒWƒFƒlƒŒ[ƒ^ƒNƒ‰ƒX
+ * ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã‚¯ãƒ©ã‚¹
  */
 public class Generator {
 	
-	private HashMap<String, GenerateManager> generateManagerList = new HashMap<String, GenerateManager>();
+	Map<String, GenerateManager> generateManagerList = new HashMap<String, GenerateManager>();
 
 	public Generator() {
 		this.addGenerateManager(new CommonGenerateManager());
 		this.addGenerateManager(new CXXGenerateManager());
-		this.addGenerateManager(new CXXWinGenerateManager());
+		this.addGenerateManager(new CMakeGenerateManager());
 	}
-	
+
 	/**
-	 * ƒWƒFƒlƒŒ[ƒgEƒ}ƒl[ƒWƒƒ‚ğ’Ç‰Á‚·‚é
+	 * ã‚¸ã‚§ãƒãƒ¬ãƒ¼ãƒˆãƒ»ãƒãƒãƒ¼ã‚¸ãƒ£ã‚’è¿½åŠ ã™ã‚‹
 	 * 
-	 * @param genManager@¶¬‘ÎÛ‚ÌƒWƒFƒlƒŒ[ƒgEƒ}ƒl[ƒWƒƒ
+	 * @param genManager
+	 *            ã€€ç”Ÿæˆå¯¾è±¡ã®ã‚¸ã‚§ãƒãƒ¬ãƒ¼ãƒˆãƒ»ãƒãƒãƒ¼ã‚¸ãƒ£
 	 */
 	public void addGenerateManager(GenerateManager genManager) {
-		generateManagerList.put(genManager.getManagerKey(), genManager);
+		String key = genManager.getClass().getName();
+		generateManagerList.put(key, genManager);
 	}
+
 	/**
-	 * ƒWƒFƒlƒŒ[ƒgEƒ}ƒl[ƒWƒƒ‚ğƒNƒŠƒA‚·‚é
+	 * ã‚¸ã‚§ãƒãƒ¬ãƒ¼ãƒˆãƒ»ãƒãƒãƒ¼ã‚¸ãƒ£ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
 	 */
 	public void clearGenerateManager() {
-		generateManagerList = new HashMap<String, GenerateManager>();
+		generateManagerList.clear();
 	}
-	public List<GeneratedResult> generateTemplateCode(GeneratorParam generatorParam)	throws Exception {
+
+	public List<GeneratedResult> generateTemplateCode(
+			GeneratorParam generatorParam) throws Exception {
 		return generateTemplateCode(generatorParam, true);
 	}
+
 	/**
-	 * ƒWƒFƒlƒŒ[ƒg‚·‚é
+	 * ã‚¸ã‚§ãƒãƒ¬ãƒ¼ãƒˆã™ã‚‹
 	 * 
 	 * @param generatorParam
-	 *            ƒpƒ‰ƒ[ƒ^
-	 * @return GeneratedResult‚ÌƒŠƒXƒg
+	 *            ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+	 * @return GeneratedResultã®ãƒªã‚¹ãƒˆ
 	 * @throws ParseException
-	 *             IDL‚Ìƒp[ƒX‚É¸”s‚µ‚½ê‡‚È‚Ç
+	 *             IDLã®ãƒ‘ãƒ¼ã‚¹ã«å¤±æ•—ã—ãŸå ´åˆãªã©
 	 */
-	public List<GeneratedResult> generateTemplateCode(GeneratorParam generatorParam, boolean validateFlag)	 
-					throws Exception {
+	public List<GeneratedResult> generateTemplateCode(
+			GeneratorParam generatorParam, boolean validateFlag)
+			throws Exception {
 
 		if( validateFlag ) {
 			for( RtcParam rtcParam : generatorParam.getRtcParams() ) {
@@ -93,9 +105,9 @@ public class Generator {
 		}
 
 		List<ServiceClassParam> rtcServiceClasses = new ArrayList<ServiceClassParam>();
-		//IDLd•¡ƒ`ƒFƒbƒN—p
+		//IDLé‡è¤‡ãƒã‚§ãƒƒã‚¯ç”¨
 		List<String> IDLPathes = new ArrayList<String>();
-		//IDL“Ç‚İ‚İ—p
+		//IDLèª­ã¿è¾¼ã¿ç”¨
 		List<ServiceClassParam> IDLPathParams = new ArrayList<ServiceClassParam>();
 		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
 		for( RtcParam rtcParam : generatorParam.getRtcParams() ) {
@@ -118,7 +130,6 @@ public class Generator {
 					serviceClassParamList.add(serviceClassParam);
 				}
 			}
-	
 			rtcParam.getServiceClassParams().clear();
 	
 			for( ServiceClassParam param : serviceClassParamList ) {
@@ -127,11 +138,12 @@ public class Generator {
 			}
 			List<GeneratedResult> resultEach = new ArrayList<GeneratedResult>();
 			for (String key : generateManagerList.keySet()) {
-				if (!"Common".equals(key)
-						&& !rtcParam.getLangList().contains(key)) {
+				GenerateManager manager = generateManagerList.get(key);
+				if (!"Common".equals(manager.getManagerKey())
+						&& !rtcParam.getLangList().contains(
+								manager.getManagerKey())) {
 					continue;
 				}
-				GenerateManager manager = generateManagerList.get(key);
 				resultEach.addAll(manager.generateTemplateCode(rtcParam));
 			}
 			result.addAll(resultEach);
@@ -141,7 +153,7 @@ public class Generator {
 	}
 
 	/**
-	 * ƒoƒŠƒf[ƒg‚ğs‚¤
+	 * ãƒãƒªãƒ‡ãƒ¼ãƒˆã‚’è¡Œã†
 	 * 
 	 * @param generatorParam
 	 */
@@ -150,43 +162,67 @@ public class Generator {
 		if( rtcParam.getOutputProject() == null ) {
 			throw new RuntimeException(IRTCBMessageConstants.VALIDATE_ERROR_OUTPUTPROJECT);
 		}
-		if( rtcParam.getName() == null ) {
+		/////Module
+		//Name
+		if( rtcParam.getName() == null || rtcParam.getName().length()==0 ) {
 			throw new RuntimeException(IRTCBMessageConstants.VALIDATE_ERROR_COMPONENTNAME);
 		}
-
+		if( !StringUtil.checkDigitAlphabet(rtcParam.getName()) ) {
+			throw new RuntimeException(IMessageConstants.BASIC_VALIDATE_NAME2);
+		}
+		//Category
+		if( rtcParam.getCategory()==null || rtcParam.getCategory().length() == 0) {
+			throw new RuntimeException(IMessageConstants.BASIC_VALIDATE_CATEGORY);
+		}
+		/////DataPort
 		List<String> portNames = new ArrayList<String>();
 		for( DataPortParam inport : rtcParam.getInports() ) {
+			String result = ValidationUtil.validateDataPort(inport);
+			if( result!=null ) 	throw new RuntimeException(result + " : " + rtcParam.getName());
 			if (portNames.contains(inport.getName()))
 				throw new RuntimeException(IRTCBMessageConstants.VALIDATE_ERROR_PORTSAMENAME + rtcParam.getName());
 			portNames.add(inport.getName());
 		}
 		for (DataPortParam outport : rtcParam.getOutports()) {
+			String result = ValidationUtil.validateDataPort(outport);
+			if( result!=null ) 	throw new RuntimeException(result + " : " + rtcParam.getName());
 			if( portNames.contains(outport.getName()) )
 				throw new RuntimeException(IRTCBMessageConstants.VALIDATE_ERROR_PORTSAMENAME + rtcParam.getName());
 			portNames.add(outport.getName());
 		}
-
+		/////Service Port
 		List<String> servicePortNames = new ArrayList<String>();
 		for( ServicePortParam servicePort : rtcParam.getServicePorts() ) {
+			String result = ValidationUtil.validateServicePort(servicePort);
+			if( result!=null ) 	throw new RuntimeException(result + " : " + rtcParam.getName());
 			if( servicePortNames.contains(servicePort.getName()) )
-				throw new RuntimeException(
-						IRTCBMessageConstants.VALIDATE_ERROR_INTERFACESAMENAME + rtcParam.getName());
+				throw new RuntimeException(IRTCBMessageConstants.VALIDATE_ERROR_INTERFACESAMENAME + rtcParam.getName());
 			servicePortNames.add(servicePort.getName());
 		}
-
+		/////Service Interface
 		List<String> serviceInterfaceNames = new ArrayList<String>();
 		for( ServicePortParam servicePort : rtcParam.getServicePorts() ) {
 			for( ServicePortInterfaceParam serviceInterface : servicePort.getServicePortInterfaces() ) {
-				if (serviceInterfaceNames.contains(serviceInterface.getName()))
-					throw new RuntimeException(
-							IRTCBMessageConstants.VALIDATE_ERROR_INTERFACESAMENAME + rtcParam.getName());
-				serviceInterfaceNames.add(serviceInterface.getName());
+				String result = ValidationUtil.validateServiceInterface(serviceInterface);
+				if( result!=null ) 	throw new RuntimeException(result + " : " + rtcParam.getName());
+				if (serviceInterfaceNames.contains(serviceInterface.getTmplVarName()))
+					throw new RuntimeException(IRTCBMessageConstants.VALIDATE_ERROR_INTERFACESAMENAME + rtcParam.getName());
+				serviceInterfaceNames.add(serviceInterface.getTmplVarName());
 			}
+		}
+		/////ConfigurationSet
+		List<String> configNames = new ArrayList<String>();
+		for( ConfigSetParam config : rtcParam.getConfigParams() ) {
+			String result = ValidationUtil.validateConfigurationSet(config);
+			if( result!=null ) 	throw new RuntimeException(result + " : " + rtcParam.getName());
+			if (configNames.contains(config.getName()))
+				throw new RuntimeException(IMessageConstants.CONFIGURATION_VALIDATE_DUPLICATE + rtcParam.getName());
+			configNames.add(config.getName());
 		}
 	}
 
 	/**
-	 * QÆ‚³‚ê‚Ä‚¢‚éService‚ª‘¶İ‚·‚é‚©Šm”F‚·‚é
+	 * å‚ç…§ã•ã‚Œã¦ã„ã‚‹ServiceãŒå­˜åœ¨ã™ã‚‹ã‹ç¢ºèªã™ã‚‹
 	 * 
 	 * @param rtcServiceClasses
 	 * @param generatorParam
@@ -216,7 +252,7 @@ public class Generator {
 	}
 
 	/**
-	 * ƒT[ƒrƒXƒNƒ‰ƒX,Œ^’è‹`‚ğæ“¾‚·‚é
+	 * ã‚µãƒ¼ãƒ“ã‚¹ã‚¯ãƒ©ã‚¹,å‹å®šç¾©ã‚’å–å¾—ã™ã‚‹
 	 * 
 	 * @param generatorParam
 	 * @param IDLPathes
@@ -230,15 +266,16 @@ public class Generator {
 
 		for (int intIdx = 0; intIdx < IDLPathes.size(); intIdx++) {
 			ServiceClassParam sv = IDLPathes.get(intIdx);
-			if (sv == null) {
-				continue;
-			}
-			String idlContent = FileUtil.readFile(sv.getName());
-			if (idlContent == null) {
-				continue;
-			}
+			if (sv == null) continue;
 			List<String> incs = new ArrayList<String>();
-			String idl = PreProcessor.parse(idlContent, getIncludeIDLDic(sv.getIdlPath()), incs);
+			String idl = null;
+			try {
+				String idlContent = FileUtil.readFile(sv.getName());
+				if (idlContent == null) continue;
+				idl = PreProcessor.parse(idlContent, getIncludeIDLDic(sv.getIdlPath()), incs);
+			} catch (IOException e) {
+				continue;
+			}
 			IDLParser parser = new IDLParser(new StringReader(idl));
 
 			specification spec = parser.specification();
@@ -291,16 +328,59 @@ public class Generator {
 	}
 	
 	private List<ServiceClassParam> convertType(List<ServiceClassParam> source, List<TypeDefParam> types) {
+		
+		for(int idxParent=0;idxParent<types.size();idxParent++) {
+			String target = types.get(idxParent).getOriginalDef();
+			checkTypeAtt(target, types.get(idxParent), types);
+			for(int idxChild=0; idxChild<types.get(idxParent).getChildType().size(); idxChild++) {
+				checkTypeAtt(types.get(idxParent).getChildType().get(idxChild), types.get(idxParent), types);
+			}
+		}
+		
 		for( ServiceClassParam target : source) {
 			for( ServiceMethodParam method : target.getMethods() ) {
-				method.setType(checkType(method.getType(), types));
-				method.setSequence(checkSeqType(method.getType(), types));
+				checkMethodType(method, types);
 				for( ServiceArgumentParam param : method.getArguments() ) {
-					param.setType(checkType(param.getType(), types));
+					checkArgumentType(param, types);
 				}
 			}
 		}
 		return source;
+	}
+
+	private void checkTypeAtt(String target, TypeDefParam source, List<TypeDefParam> types) {
+		for(int index=0;index<types.size();index++) {
+			if( target.equals(types.get(index).getTargetDef()) ) {
+				source.setSequence(types.get(index).isSequence());
+				source.setString(types.get(index).isString());
+				break;
+			}
+		}
+	}
+	private void checkMethodType(ServiceMethodParam target, List<TypeDefParam> types) {
+		for(TypeDefParam tdparam : types) {
+			if(target.getType().equals(tdparam.getTargetDef())) {
+				target.setSequence(tdparam.isSequence());
+				target.setString(tdparam.isString());
+				target.setArray(tdparam.isArray());
+				target.setStruct(tdparam.isStruct() || tdparam.isEnum());
+				break;
+			}
+		}
+		target.setType(checkType(target.getType(), types));
+	}
+	private void checkArgumentType(ServiceArgumentParam target, List<TypeDefParam> types) {
+		for(TypeDefParam tdparam : types) {
+			if(target.getType().equals(tdparam.getTargetDef())) {
+				target.setOriginalType(target.getType());
+				target.setUnbounded(tdparam.isSequence() || tdparam.isString());
+				target.setArray(tdparam.isArray());
+				target.setStruct(tdparam.isStruct());
+				target.setEnum(tdparam.isEnum());
+				target.setType(checkType(target.getType(), types));
+				return;
+			}
+		}
 	}
 	private String checkType(String target, List<TypeDefParam> types) {
 		for(TypeDefParam tdparam : types) {
@@ -309,18 +389,10 @@ public class Generator {
 					if(tdparam.isString()) return tdparam.getScopedName() + "::" + tdparam.getOriginalDef();
 					return tdparam.getScopedName() + "::" + target;
 				}
-				if(tdparam.isString()) return tdparam.getOriginalDef();
+				if( tdparam.isString() && !tdparam.isStruct() ) return tdparam.getOriginalDef();
 			}
 		}
 		return target;
-	}
-	private boolean checkSeqType(String target, List<TypeDefParam> types) {
-		for(TypeDefParam tdparam : types) {
-			if(target.equals(tdparam.getTargetDef())) {
-				return tdparam.isSequence();
-			}
-		}
-		return false;
 	}
 
 	private File getIncludeIDLDic(String targetDir) {
@@ -413,6 +485,7 @@ public class Generator {
 
 		if (isOutput) {
 			IFile outputFile = outputProject.getFile(generatedResult.getName());
+			//TODO éšå±¤ãŒæ·±ã„ãƒ‘ã‚¹ã¸ã®å¯¾å¿œã¯æœª
 			IPath relPath = outputFile.getProjectRelativePath();
 			if( relPath.segmentCount() > 1 ) {
 				IPath outPath = relPath.removeLastSegments(1);
@@ -425,6 +498,7 @@ public class Generator {
 					}
 				}
 			}
+			//TODO
 			try {
 				outputFile.create(new ByteArrayInputStream(generatedResult.getCode().getBytes("UTF-8")), false, null);
 			} catch (CoreException e) {
@@ -434,10 +508,10 @@ public class Generator {
 	}
 
 	/**
-	 * ƒWƒFƒlƒŒ[ƒg‚µAƒtƒ@ƒCƒ‹o—Í‚ğs‚¤
+	 * ã‚¸ã‚§ãƒãƒ¬ãƒ¼ãƒˆã—ã€ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›ã‚’è¡Œã†
 	 * 
 	 * @param generatorParam
-	 *            ƒpƒ‰ƒ[ƒ^
+	 *            ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 	 * @param handler
 	 *            MergeHandler
 	 * @throws ParseException
@@ -453,31 +527,31 @@ public class Generator {
 	}
 
 	/**
-	 * ƒ}[ƒWƒnƒ“ƒhƒ‰
+	 * ãƒãƒ¼ã‚¸ãƒãƒ³ãƒ‰ãƒ©
 	 */
 	public interface MergeHandler {
 		/**
-		 * ƒvƒƒZƒXFƒIƒŠƒWƒiƒ‹‚ğc‚·
+		 * ãƒ—ãƒ­ã‚»ã‚¹ï¼šã‚ªãƒªã‚¸ãƒŠãƒ«ã‚’æ®‹ã™
 		 */
 		public static final int PROCESS_ORIGINAL_ID = 10;
 
 		/**
-		 * ƒvƒƒZƒXFV‚µ‚­¶¬‚µ‚½‚à‚Ì‚ğ—˜—p‚·‚é
+		 * ãƒ—ãƒ­ã‚»ã‚¹ï¼šæ–°ã—ãç”Ÿæˆã—ãŸã‚‚ã®ã‚’åˆ©ç”¨ã™ã‚‹
 		 */
 		public static final int PROCESS_GENERATE_ID = 20;
 
 		/**
-		 * ƒvƒƒZƒXFƒ}[ƒW‚ğs‚¤
+		 * ãƒ—ãƒ­ã‚»ã‚¹ï¼šãƒãƒ¼ã‚¸ã‚’è¡Œã†
 		 */
 		public static final int PROCESS_MERGE_ID = 30;
 
 		/**
-		 * ƒvƒƒZƒX‚ğ‘I‘ğ‚·‚é
+		 * ãƒ—ãƒ­ã‚»ã‚¹ã‚’é¸æŠã™ã‚‹
 		 * 
 		 * @param generatedResult
-		 *            ¶¬Œ‹‰Ê
+		 *            ç”Ÿæˆçµæœ
 		 * @param originalFileContents
-		 *            Šù‘¶ƒtƒ@ƒCƒ‹‚Ì“à—e
+		 *            æ—¢å­˜ãƒ•ã‚¡ã‚¤ãƒ«ã®å†…å®¹
 		 * @return
 		 */
 		public int getSelectedProcess(GeneratedResult generatedResult,

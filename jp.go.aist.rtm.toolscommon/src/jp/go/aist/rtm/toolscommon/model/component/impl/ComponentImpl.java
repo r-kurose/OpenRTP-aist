@@ -9,14 +9,13 @@ package jp.go.aist.rtm.toolscommon.model.component.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
+import jp.go.aist.rtm.toolscommon.model.component.ContextHandler;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.InPort;
@@ -34,7 +33,6 @@ import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -58,6 +56,9 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getServiceports <em>Serviceports</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getComponents <em>Components</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getExecutionContexts <em>Execution Contexts</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getParticipationContexts <em>Participation Contexts</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getExecutionContextHandler <em>Execution Context Handler</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getParticipationContextHandler <em>Participation Context Handler</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getChildSystemDiagram <em>Child System Diagram</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getInstanceNameL <em>Instance Name L</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getVenderL <em>Vender L</em>}</li>
@@ -84,7 +85,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * @generated
 	 * @ordered
 	 */
-	protected EList configurationSets= null;
+	protected EList<ConfigurationSet> configurationSets;
 
 	/**
 	 * The cached value of the '{@link #getActiveConfigurationSet() <em>Active Configuration Set</em>}' reference.
@@ -94,7 +95,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * @generated
 	 * @ordered
 	 */
-	protected ConfigurationSet activeConfigurationSet= null;
+	protected ConfigurationSet activeConfigurationSet;
 
 	/**
 	 * The cached value of the '{@link #getPorts() <em>Ports</em>}' containment reference list.
@@ -104,7 +105,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * @generated
 	 * @ordered
 	 */
-	protected EList ports= null;
+	protected EList<Port> ports;
 
 	/**
 	 * The cached value of the '{@link #getComponents() <em>Components</em>}' reference list.
@@ -114,7 +115,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * @generated
 	 * @ordered
 	 */
-	protected EList components= null;
+	protected EList<Component> components;
 
 	/**
 	 * The cached value of the '{@link #getExecutionContexts() <em>Execution Contexts</em>}' containment reference list.
@@ -124,7 +125,37 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * @generated
 	 * @ordered
 	 */
-	protected EList executionContexts = null;
+	protected EList<ExecutionContext> executionContexts;
+
+	/**
+	 * The cached value of the '{@link #getParticipationContexts() <em>Participation Contexts</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getParticipationContexts()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<ExecutionContext> participationContexts;
+
+	/**
+	 * The cached value of the '{@link #getExecutionContextHandler() <em>Execution Context Handler</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getExecutionContextHandler()
+	 * @generated
+	 * @ordered
+	 */
+	protected ContextHandler executionContextHandler;
+
+	/**
+	 * The cached value of the '{@link #getParticipationContextHandler() <em>Participation Context Handler</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getParticipationContextHandler()
+	 * @generated
+	 * @ordered
+	 */
+	protected ContextHandler participationContextHandler;
 
 	/**
 	 * The cached value of the '{@link #getChildSystemDiagram() <em>Child System Diagram</em>}' reference.
@@ -134,7 +165,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * @generated
 	 * @ordered
 	 */
-	protected SystemDiagram childSystemDiagram= null;
+	protected SystemDiagram childSystemDiagram;
 
 	/**
 	 * The default value of the '{@link #getInstanceNameL() <em>Instance Name L</em>}' attribute.
@@ -370,6 +401,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected EClass eStaticClass() {
 		return ComponentPackage.Literals.COMPONENT;
 	}
@@ -379,9 +411,9 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getConfigurationSets() {
+	public EList<ConfigurationSet> getConfigurationSets() {
 		if (configurationSets == null) {
-			configurationSets = new EObjectContainmentEList(ConfigurationSet.class, this, ComponentPackage.COMPONENT__CONFIGURATION_SETS);
+			configurationSets = new EObjectContainmentEList<ConfigurationSet>(ConfigurationSet.class, this, ComponentPackage.COMPONENT__CONFIGURATION_SETS);
 		}
 		return configurationSets;
 	}
@@ -429,9 +461,9 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getPorts() {
+	public EList<Port> getPorts() {
 		if (ports == null) {
-			ports = new EObjectContainmentEList(Port.class, this, ComponentPackage.COMPONENT__PORTS);
+			ports = new EObjectContainmentEList<Port>(Port.class, this, ComponentPackage.COMPONENT__PORTS);
 		}
 		return ports;
 	}
@@ -441,26 +473,8 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	@SuppressWarnings("unchecked")
-	public EList getInports() {
+	public EList<InPort> getInports() {
 		return selectPorts(InPort.class);
-	}
-
-	@SuppressWarnings("unchecked")
-	private EList selectPorts(Class<?> cls) {
-		try {
-			EList result = new BasicEList();
-			for (Object element: getPorts()) {
-				if (cls.isAssignableFrom(element.getClass())) {
-					result.add(element);
-				}
-			}
-			return result;
-		} catch (ConcurrentModificationException ex) {
-			ex.printStackTrace();
-			// ï ÉXÉåÉbÉhÇ≈çXêVÇ™Ç©Ç©Ç¡ÇΩéûÇÕÅAÇ∆ÇËÇ†Ç¶Ç∏ãÛÇÃÉäÉXÉgÇï‘ÇµÇƒÇ®Ç≠
-			return ECollections.EMPTY_ELIST;
-		}
 	}
 
 	/**
@@ -468,8 +482,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	@SuppressWarnings("unchecked")
-	public EList getOutports() {
+	public EList<OutPort> getOutports() {
 		return selectPorts(OutPort.class);
 	}
 
@@ -478,20 +491,148 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	@SuppressWarnings("unchecked")
-	public EList getServiceports() {
+	public EList<ServicePort> getServiceports() {
 		return selectPorts(ServicePort.class);
 	}
+
+	<E extends Port> EList<E> selectPorts(Class<E> type) {
+		try {
+			EList<E> result = new BasicEList<E>();
+			for (Port port : getPorts()) {
+				if (type.isInstance(port)) {
+					result.add(type.cast(port));
+				}
+			}
+			return result;
+		} catch (ConcurrentModificationException ex) {
+			ex.printStackTrace();
+			// Âà•„Çπ„É¨„ÉÉ„Éâ„ÅßÊõ¥Êñ∞„Åå„Åã„Åã„Å£„ÅüÊôÇ„ÅØ„ÄÅ„Å®„Çä„ÅÇ„Åà„ÅöÁ©∫„ÅÆ„É™„Çπ„Éà„ÇíËøî„Åó„Å¶„Åä„Åè
+			return new BasicEList<E>();
+		}
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getExecutionContexts() {
+	public EList<ExecutionContext> getExecutionContexts() {
 		if (executionContexts == null) {
-			executionContexts = new EObjectContainmentEList(ExecutionContext.class, this, ComponentPackage.COMPONENT__EXECUTION_CONTEXTS);
+			executionContexts = new EObjectContainmentEList<ExecutionContext>(ExecutionContext.class, this, ComponentPackage.COMPONENT__EXECUTION_CONTEXTS);
 		}
 		return executionContexts;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@SuppressWarnings("serial")
+	public EList<ExecutionContext> getParticipationContexts() {
+		if (participationContexts == null) {
+			// EReference„ÅÆÈáçË§á„ÅåË®±ÂÆπ„Åï„Çå„Å™„ÅÑ„ÅÆ„ÅßisUnique()„ÇíÂ§âÊõ¥
+			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=89325
+			participationContexts = new EObjectResolvingEList<ExecutionContext>(ExecutionContext.class, this, ComponentPackage.COMPONENT__PARTICIPATION_CONTEXTS) {
+				@Override
+				protected boolean isUnique() {
+					return false;
+				}
+			};
+		}
+		return participationContexts;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public ContextHandler getExecutionContextHandler() {
+		if (executionContextHandler == null) {
+			setExecutionContextHandler(new ContextHandlerImpl());
+		}
+		return executionContextHandler;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetExecutionContextHandler(ContextHandler newExecutionContextHandler, NotificationChain msgs) {
+		ContextHandler oldExecutionContextHandler = executionContextHandler;
+		executionContextHandler = newExecutionContextHandler;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__EXECUTION_CONTEXT_HANDLER, oldExecutionContextHandler, newExecutionContextHandler);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setExecutionContextHandler(ContextHandler newExecutionContextHandler) {
+		if (newExecutionContextHandler != executionContextHandler) {
+			NotificationChain msgs = null;
+			if (executionContextHandler != null)
+				msgs = ((InternalEObject)executionContextHandler).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.COMPONENT__EXECUTION_CONTEXT_HANDLER, null, msgs);
+			if (newExecutionContextHandler != null)
+				msgs = ((InternalEObject)newExecutionContextHandler).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.COMPONENT__EXECUTION_CONTEXT_HANDLER, null, msgs);
+			msgs = basicSetExecutionContextHandler(newExecutionContextHandler, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__EXECUTION_CONTEXT_HANDLER, newExecutionContextHandler, newExecutionContextHandler));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public ContextHandler getParticipationContextHandler() {
+		if (participationContextHandler == null) {
+			setParticipationContextHandler(new ContextHandlerImpl());
+		}
+		return participationContextHandler;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetParticipationContextHandler(ContextHandler newParticipationContextHandler, NotificationChain msgs) {
+		ContextHandler oldParticipationContextHandler = participationContextHandler;
+		participationContextHandler = newParticipationContextHandler;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__PARTICIPATION_CONTEXT_HANDLER, oldParticipationContextHandler, newParticipationContextHandler);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setParticipationContextHandler(ContextHandler newParticipationContextHandler) {
+		if (newParticipationContextHandler != participationContextHandler) {
+			NotificationChain msgs = null;
+			if (participationContextHandler != null)
+				msgs = ((InternalEObject)participationContextHandler).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.COMPONENT__PARTICIPATION_CONTEXT_HANDLER, null, msgs);
+			if (newParticipationContextHandler != null)
+				msgs = ((InternalEObject)newParticipationContextHandler).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.COMPONENT__PARTICIPATION_CONTEXT_HANDLER, null, msgs);
+			msgs = basicSetParticipationContextHandler(newParticipationContextHandler, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__PARTICIPATION_CONTEXT_HANDLER, newParticipationContextHandler, newParticipationContextHandler));
 	}
 
 	/**
@@ -685,9 +826,9 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getComponents() {
+	public EList<Component> getComponents() {
 		if (components == null) {
-			components = new EObjectResolvingEList(Component.class, this, ComponentPackage.COMPONENT__COMPONENTS);
+			components = new EObjectResolvingEList<Component>(Component.class, this, ComponentPackage.COMPONENT__COMPONENTS);
 		}
 		return components;
 	}
@@ -788,12 +929,10 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	@SuppressWarnings("unchecked")
-	public List getAllComponents() {
-		EList result = new BasicEList();
+	public EList<Component> getAllComponents() {
+		EList<Component> result = new BasicEList<Component>();
 		result.addAll(getComponents());
-		for (Iterator iterator = getComponents().iterator(); iterator.hasNext(); ) {
-			Component component = (Component) iterator.next();
+		for (Component component : getComponents()) {
 			if (!component.equals(this)) {
 				result.addAll(component.getAllComponents());
 			}
@@ -820,6 +959,15 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * @generated NOT
 	 */
 	public boolean isGroupingCompositeComponent() {
+		return false;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean hasComponentAction() {
 		return false;
 	}
 
@@ -862,7 +1010,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	}
 
 	/**
-	 * åˆäJÇ≥ÇÍÇƒÇ¢ÇÈÉ|Å[ÉgÇÃñºèÃÇÉäÉXÉgÇ…ÇµÇƒï‘Ç∑
+	 * ÂÖ¨Èñã„Åï„Çå„Å¶„ÅÑ„Çã„Éù„Éº„Éà„ÅÆÂêçÁß∞„Çí„É™„Çπ„Éà„Å´„Åó„Å¶Ëøî„Åô
 	 */
 	public List<String> getExportedPorts() {
 		List<String> result = new ArrayList<String>();
@@ -888,17 +1036,13 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	@SuppressWarnings("unchecked")
-	public boolean setExportedPorts(EList values) {
+	public boolean setExportedPorts(EList<String> values) {
 		StringBuffer value = new StringBuffer();
-		for (Object o : values) {
-			if (o instanceof String) {
-				String s = (String) o;
-				if (value.length() > 0) {
-					value.append(",");
-				}
-				value.append(s);
+		for (String s : values) {
+			if (value.length() > 0) {
+				value.append(",");
 			}
+			value.append(s);
 		}
 		ConfigurationSet cs = this.getActiveConfigurationSet();
 		if (cs != null && cs.getConfigurationData() != null) {
@@ -946,45 +1090,15 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 		throw new UnsupportedOperationException();
 	}
 
-	/** IDÇ∆ExecutionContextÇëŒâûïtÇØÇƒäiî[ */
-	protected Map<String, ExecutionContext> executionContextMap = new HashMap<String, ExecutionContext>();
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
-	public ExecutionContext setExecutionContext(String id, ExecutionContext ec) {
-		if (!getExecutionContexts().contains(ec)) {
-			getExecutionContexts().add(ec);
-		}
-		executionContextMap.put(id, ec);
-		return ec;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public ExecutionContext getExecutionContext(String id) {
-		return executionContextMap.get(id);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public String getExecutionContextId(ExecutionContext ec) {
-		for (String id : executionContextMap.keySet()) {
-			ExecutionContext e = executionContextMap.get(id);
-			if (e != null && e.equals(ec)) {
-				return id;
-			}
-		}
-		return null;
+	public String getProperty(String key) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -992,14 +1106,52 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public void setProperty(String key, String value) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String removeProperty(String key) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<String> getPropertyKeys() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case ComponentPackage.COMPONENT__CONFIGURATION_SETS:
-				return ((InternalEList)getConfigurationSets()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getConfigurationSets()).basicRemove(otherEnd, msgs);
 			case ComponentPackage.COMPONENT__PORTS:
-				return ((InternalEList)getPorts()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getPorts()).basicRemove(otherEnd, msgs);
 			case ComponentPackage.COMPONENT__EXECUTION_CONTEXTS:
-				return ((InternalEList)getExecutionContexts()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getExecutionContexts()).basicRemove(otherEnd, msgs);
+			case ComponentPackage.COMPONENT__EXECUTION_CONTEXT_HANDLER:
+				return basicSetExecutionContextHandler(null, msgs);
+			case ComponentPackage.COMPONENT__PARTICIPATION_CONTEXT_HANDLER:
+				return basicSetParticipationContextHandler(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -1009,6 +1161,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ComponentPackage.COMPONENT__CONFIGURATION_SETS:
@@ -1028,6 +1181,12 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 				return getComponents();
 			case ComponentPackage.COMPONENT__EXECUTION_CONTEXTS:
 				return getExecutionContexts();
+			case ComponentPackage.COMPONENT__PARTICIPATION_CONTEXTS:
+				return getParticipationContexts();
+			case ComponentPackage.COMPONENT__EXECUTION_CONTEXT_HANDLER:
+				return getExecutionContextHandler();
+			case ComponentPackage.COMPONENT__PARTICIPATION_CONTEXT_HANDLER:
+				return getParticipationContextHandler();
 			case ComponentPackage.COMPONENT__CHILD_SYSTEM_DIAGRAM:
 				if (resolve) return getChildSystemDiagram();
 				return basicGetChildSystemDiagram();
@@ -1062,26 +1221,38 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ComponentPackage.COMPONENT__CONFIGURATION_SETS:
 				getConfigurationSets().clear();
-				getConfigurationSets().addAll((Collection)newValue);
+				getConfigurationSets().addAll((Collection<? extends ConfigurationSet>)newValue);
 				return;
 			case ComponentPackage.COMPONENT__ACTIVE_CONFIGURATION_SET:
 				setActiveConfigurationSet((ConfigurationSet)newValue);
 				return;
 			case ComponentPackage.COMPONENT__PORTS:
 				getPorts().clear();
-				getPorts().addAll((Collection)newValue);
+				getPorts().addAll((Collection<? extends Port>)newValue);
 				return;
 			case ComponentPackage.COMPONENT__COMPONENTS:
 				getComponents().clear();
-				getComponents().addAll((Collection)newValue);
+				getComponents().addAll((Collection<? extends Component>)newValue);
 				return;
 			case ComponentPackage.COMPONENT__EXECUTION_CONTEXTS:
 				getExecutionContexts().clear();
-				getExecutionContexts().addAll((Collection)newValue);
+				getExecutionContexts().addAll((Collection<? extends ExecutionContext>)newValue);
+				return;
+			case ComponentPackage.COMPONENT__PARTICIPATION_CONTEXTS:
+				getParticipationContexts().clear();
+				getParticipationContexts().addAll((Collection<? extends ExecutionContext>)newValue);
+				return;
+			case ComponentPackage.COMPONENT__EXECUTION_CONTEXT_HANDLER:
+				setExecutionContextHandler((ContextHandler)newValue);
+				return;
+			case ComponentPackage.COMPONENT__PARTICIPATION_CONTEXT_HANDLER:
+				setParticipationContextHandler((ContextHandler)newValue);
 				return;
 			case ComponentPackage.COMPONENT__CHILD_SYSTEM_DIAGRAM:
 				setChildSystemDiagram((SystemDiagram)newValue);
@@ -1125,6 +1296,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case ComponentPackage.COMPONENT__CONFIGURATION_SETS:
@@ -1141,6 +1313,15 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 				return;
 			case ComponentPackage.COMPONENT__EXECUTION_CONTEXTS:
 				getExecutionContexts().clear();
+				return;
+			case ComponentPackage.COMPONENT__PARTICIPATION_CONTEXTS:
+				getParticipationContexts().clear();
+				return;
+			case ComponentPackage.COMPONENT__EXECUTION_CONTEXT_HANDLER:
+				setExecutionContextHandler((ContextHandler)null);
+				return;
+			case ComponentPackage.COMPONENT__PARTICIPATION_CONTEXT_HANDLER:
+				setParticipationContextHandler((ContextHandler)null);
 				return;
 			case ComponentPackage.COMPONENT__CHILD_SYSTEM_DIAGRAM:
 				setChildSystemDiagram((SystemDiagram)null);
@@ -1184,6 +1365,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case ComponentPackage.COMPONENT__CONFIGURATION_SETS:
@@ -1202,6 +1384,12 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 				return components != null && !components.isEmpty();
 			case ComponentPackage.COMPONENT__EXECUTION_CONTEXTS:
 				return executionContexts != null && !executionContexts.isEmpty();
+			case ComponentPackage.COMPONENT__PARTICIPATION_CONTEXTS:
+				return participationContexts != null && !participationContexts.isEmpty();
+			case ComponentPackage.COMPONENT__EXECUTION_CONTEXT_HANDLER:
+				return executionContextHandler != null;
+			case ComponentPackage.COMPONENT__PARTICIPATION_CONTEXT_HANDLER:
+				return participationContextHandler != null;
 			case ComponentPackage.COMPONENT__CHILD_SYSTEM_DIAGRAM:
 				return childSystemDiagram != null;
 			case ComponentPackage.COMPONENT__INSTANCE_NAME_L:
@@ -1235,6 +1423,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
@@ -1265,11 +1454,12 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 		return result.toString();
 	}
 
-	// ìØàÍÉRÉìÉ|Å[ÉlÉìÉgÇ≈Ç†ÇÈÇ©ÇÃÉ`ÉFÉbÉNÇcomponentId + pathIdÇópÇ¢ÇƒçsÇ§ÅB
+	// Âêå‰∏Ä„Ç≥„É≥„Éù„Éº„Éç„É≥„Éà„Åß„ÅÇ„Çã„Åã„ÅÆ„ÉÅ„Çß„ÉÉ„ÇØ„ÇícomponentId + pathId„ÇíÁî®„ÅÑ„Å¶Ë°å„ÅÜ„ÄÇ
 	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Component))
 			return false;
+		//TODO 09.09.30 instanceName ËøΩÂä†(pathURIÂØæÂøú)
 		if (getComponentId() == null || getPathId() == null || getInstanceNameL() == null)
 			return super.equals(obj);
 		Component other = (Component) obj;
@@ -1294,7 +1484,12 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 				}
 			}
 		}
-		
+		for (ExecutionContext pc : getParticipationContexts()) {
+			if (pc.getSynchronizationSupport() != null) {
+				pc.getSynchronizationSupport().synchronizeLocal();
+			}
+		}
+
 		if (getComponents() == null) {
 			return;
 		}
@@ -1308,7 +1503,6 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public synchronized void addComponent(Component component) {
 		getComponents().add(component);
 	}
@@ -1324,9 +1518,10 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 */
-	@SuppressWarnings("unchecked")
+	@Override
 	public void accept(Visiter visiter) {
 		super.accept(visiter);
 		for (Object obj : getComponents()) {
@@ -1336,19 +1531,16 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	}
 
 	@SuppressWarnings("unchecked")
-//	@Override
+	@Override
 	public void removeDeadChild() {
-		for (Iterator iterate = getComponents().iterator();iterate.hasNext();){
-			Component c = (Component)iterate.next();
+		for (Iterator iterate = getComponents().iterator(); iterate.hasNext();) {
+			Component c = (Component) iterate.next();
 			if (c.isDead()) {
 				iterate.remove();
 			} else {
 				c.removeDeadChild();
 			}
 		}
-		
 	}
-	
-	
 
 } //ComponentImpl

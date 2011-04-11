@@ -1,143 +1,160 @@
 package jp.go.aist.rtm.rtcbuilder.ui.preference;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
 
 public class ComponentPreferenceManager {
 	private static ComponentPreferenceManager __instance = new ComponentPreferenceManager();
-	protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
-			this);
-
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
-	 * @return ƒVƒ“ƒOƒ‹ƒgƒ“
+	 * @return ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³
 	 */
 	public static ComponentPreferenceManager getInstance() {
 		return __instance;
 	}
-
-	//ƒR[ƒh¶¬
+	//ã‚³ãƒ¼ãƒ‰ç”Ÿæˆ
 	/**
-	 * Module Name‚ÌƒL[
+	 * Module Nameã®ã‚­ãƒ¼
 	 */
-	private static final String Generate_Basic_Name = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_MODULE_NAME";
+	public static final String Generate_Basic_Name = getClassName() + "GENERATE_MODULE_NAME";
 	/**
-	 * Description‚ÌƒL[
+	 * Descriptionã®ã‚­ãƒ¼
 	 */
-	private static final String Generate_Basic_Description = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_BASIC_DESCRIPTION";
+	public static final String Generate_Basic_Description = getClassName() + "GENERATE_BASIC_DESCRIPTION";
 	/**
-	 * Version‚ÌƒL[
+	 * Versionã®ã‚­ãƒ¼
 	 */
-	private static final String Generate_Basic_Version = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_BASIC_VERSION";
+	public static final String Generate_Basic_Version = getClassName() + "GENERATE_BASIC_VERSION";
 	/**
-	 * Vendor Name‚ÌƒL[
+	 * Vendor Nameã®ã‚­ãƒ¼
 	 */
-	private static final String Generate_Basic_Vendor_Name = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_BASIC_VENDOR_NAME";
+	public static final String Generate_Basic_Vendor_Name = getClassName() + "GENERATE_BASIC_VENDOR_NAME";
 	/**
-	 * Category‚ÌƒL[
+	 * Categoryã®ã‚­ãƒ¼
 	 */
-	private static final String Generate_Basic_Category = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_BASIC_CATEGORY";
+	public static final String Generate_Basic_Category = getClassName() + "GENERATE_BASIC_CATEGORY";
 	/**
-	 * Component Type‚ÌƒL[
+	 * Component Typeã®ã‚­ãƒ¼
 	 */
-	private static final String Generate_Basic_ComponentType = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_BASIC_COMPONENT_TYPE";
+	public static final String Generate_Basic_ComponentType = getClassName() + "GENERATE_BASIC_COMPONENT_TYPE";
 	/**
-	 * Activity Type‚ÌƒL[
+	 * Activity Typeã®ã‚­ãƒ¼
 	 */
-	private static final String Generate_Basic_ActivityType = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_BASIC_ACTIVITY_TYPE";
+	public static final String Generate_Basic_ActivityType = getClassName() + "GENERATE_BASIC_ACTIVITY_TYPE";
 	/**
-	 * Component Kind‚ÌƒL[
+	 * Component Kindã®ã‚­ãƒ¼
 	 */
-	private static final String Generate_Basic_ComponentKind = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_BASIC_COMPONENT_KIND";
+	public static final String Generate_Basic_ComponentKind = getClassName() + "GENERATE_BASIC_COMPONENT_KIND";
 	/**
-	 * Max Instance‚ÌƒL[
+	 * Max Instanceã®ã‚­ãƒ¼
 	 */
-	private static final String Generate_Basic_Max_Instance = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_BASIC_MAX_INSTANCES";
+	public static final String Generate_Basic_Max_Instance = getClassName() + "GENERATE_BASIC_MAX_INSTANCES";
 	/**
-	 * Execution Type‚ÌƒL[
+	 * Execution Typeã®ã‚­ãƒ¼
 	 */
-	private static final String Generate_Basic_ExecutionType = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_BASIC_EXECUTION_TYPE";
+	public static final String Generate_Basic_ExecutionType = getClassName() + "GENERATE_BASIC_EXECUTION_TYPE";
 	/**
-	 * Execution Rate‚ÌƒL[
+	 * Execution Rateã®ã‚­ãƒ¼
 	 */
-	private static final String Generate_Basic_Execution_Rate = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_BASIC_EXECUTION_RATE";
+	public static final String Generate_Basic_Execution_Rate = getClassName() + "GENERATE_BASIC_EXECUTION_RATE";
 	/**
-	 * ‹¤’ÊÚ“ªŒê‚ÌƒL[
+	 * å…±é€šæ¥é ­èªã®ã‚­ãƒ¼
 	 */
-	private static final String Generate_Basic_Prefix = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_BASIC_PREFIX";
+	public static final String Generate_Basic_Prefix = getClassName() + "GENERATE_BASIC_PREFIX";
 	/**
-	 * ‹¤’ÊÚ”öŒê‚ÌƒL[
+	 * å…±é€šæ¥å°¾èªã®ã‚­ãƒ¼
 	 */
-	private static final String Generate_Basic_Suffix = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_BASIC_SUFFIX";
+	public static final String Generate_Basic_Suffix = getClassName() + "GENERATE_BASIC_SUFFIX";
 	////
 	/**
-	 * Configuration Name‚ÌƒL[
+	 * Configuration Nameã®ã‚­ãƒ¼
 	 */
-	private static final String Generate_Configuration_Name = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_CONFIGURATION_NAME";
+	public static final String Generate_Configuration_Name = getClassName() + "GENERATE_CONFIGURATION_NAME";
 	/**
-	 * Configuration Type‚ÌƒL[
+	 * Configuration Typeã®ã‚­ãƒ¼
 	 */
-	private static final String Generate_Configuration_Type = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_CONFIGURATION_TYPE";
+	public static final String Generate_Configuration_Type = getClassName() + "GENERATE_CONFIGURATION_TYPE";
 	/**
-	 * Configuration Variable Name‚ÌƒL[
+	 * Configuration Variable Nameã®ã‚­ãƒ¼
 	 */
-	private static final String Generate_Configuration_VarName = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_CONFIGURATION_VARNAME";
+	public static final String Generate_Configuration_VarName = getClassName() + "GENERATE_CONFIGURATION_VARNAME";
 	/**
-	 * Configuration Default Value‚ÌƒL[
+	 * Configuration Default Valueã®ã‚­ãƒ¼
 	 */
-	private static final String Generate_Configuration_Default = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_CONFIGURATION_DEFAULT";
+	public static final String Generate_Configuration_Default = getClassName() + "GENERATE_CONFIGURATION_DEFAULT";
 	/**
-	 * Configuration Constraint‚ÌƒL[
+	 * Configuration Constraintã®ã‚­ãƒ¼
 	 */
-	private static final String Generate_Configuration_Constraint = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_CONFIGURATION_CONSTRAINT";
+	public static final String Generate_Configuration_Constraint = getClassName() + "GENERATE_CONFIGURATION_CONSTRAINT";
 	/**
-	 * Configuration Unit‚ÌƒL[
+	 * Configuration Unitã®ã‚­ãƒ¼
 	 */
-	private static final String Generate_Configuration_Unit = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_CONFIGURATION_UNIT";
+	public static final String Generate_Configuration_Unit = getClassName() + "GENERATE_CONFIGURATION_UNIT";
 	/**
-	 * Configuration Ú“ªŒê‚ÌƒL[
+	 * Configuration æ¥é ­èªã®ã‚­ãƒ¼
 	 */
-	private static final String Generate_Configuration_Prefix = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_CONFIGURATION_PREFIX";
+	public static final String Generate_Configuration_Prefix = getClassName() + "GENERATE_CONFIGURATION_PREFIX";
 	/**
-	 * Configuration Ú“ª”ö‚ÌƒL[
+	 * Configuration æ¥é ­å°¾ã®ã‚­ãƒ¼
 	 */
-	private static final String Generate_Configuration_Suffix = ComponentPreferenceManager.class.getName()
-			+ "GENERATE_CONFIGURATION_SUFFIX";
-	///
+	public static final String Generate_Configuration_Suffix = getClassName() + "GENERATE_CONFIGURATION_SUFFIX";
+	//////////
 	/**
-	 * İ’è‰æ–Ê‚Åˆê“x‚Å‚àOK‚ª‰Ÿ‚³‚ê‚½‚©”Û‚©‚ğ¦‚·ƒtƒB[ƒ‹ƒh‚ÌƒL[
+	 * DataPort Nameã®ã‚­ãƒ¼
 	 */
-	private static final String Basic_Preference_Status = ComponentPreferenceManager.class.getName()
-			+ "BASIC_PREFERENCE_STATUS";
+	public static final String Generate_DataPort_Name = getClassName() + "GENERATE_DATAPORT_NAME";
 	/**
-	 * İ’è‰æ–Ê‚Åˆê“x‚Å‚àOK‚ª‰Ÿ‚³‚ê‚½ê‡ã‹LƒtƒB[ƒ‹ƒh‚ÉŠi”[‚·‚é’è”’l
+	 * DataPort Typeã®ã‚­ãƒ¼
 	 */
-	private static final String Basic_Preference_Status_Dirty = "DIRTY";
-
+	public static final String Generate_DataPort_Type = getClassName() + "GENERATE_DATAPORT_TYPE";
+	/**
+	 * DataPort VarNameã®ã‚­ãƒ¼
+	 */
+	public static final String Generate_DataPort_VarName = getClassName() + "GENERATE_DATAPORT_VARNAME";
+	/**
+	 * DataPort æ¥é ­èªã®ã‚­ãƒ¼
+	 */
+	public static final String Generate_DataPort_Prefix = getClassName() + "GENERATE_DATAPORT_PREFIX";
+	/**
+	 * DataPort æ¥å°¾èªã®ã‚­ãƒ¼
+	 */
+	public static final String Generate_DataPort_Suffix = getClassName() + "GENERATE_DATAPORT_SUFFIX";
+	////
+	/**
+	 * ServicePort Nameã®ã‚­ãƒ¼
+	 */
+	public static final String Generate_ServicePort_Name = getClassName() + "GENERATE_SERVICEPORT_NAME";
+	/**
+	 * ServicePort æ¥é ­èªã®ã‚­ãƒ¼
+	 */
+	public static final String Generate_ServicePort_Prefix = getClassName() + "GENERATE_SERVICEPORT_PREFIX";
+	/**
+	 * ServicePort æ¥å°¾èªã®ã‚­ãƒ¼
+	 */
+	public static final String Generate_ServicePort_Suffix = getClassName() + "GENERATE_SERVICEPORT_SUFFIX";
+	/**
+	 * ServiceInterfacet Nameã®ã‚­ãƒ¼
+	 */
+	public static final String Generate_ServiceIF_Name = getClassName() + "GENERATE_SERVICEIF_NAME";
+	/**
+	 * ServiceInterfacet Instance Nameã®ã‚­ãƒ¼
+	 */
+	public static final String Generate_ServiceIF_InstanceName = getClassName() + "GENERATE_SERVICEIF_INSTANCENAME";
+	/**
+	 * ServiceInterfacet Varriable Nameã®ã‚­ãƒ¼
+	 */
+	public static final String Generate_ServiceIF_VarName = getClassName() + "GENERATE_SERVICEIF_VARNAME";
+	/**
+	 * ServiceInterfacet Instance æ¥é ­èªã®ã‚­ãƒ¼
+	 */
+	public static final String Generate_ServiceIF_Prefix = getClassName() + "GENERATE_SERVICEIF_PREFIX";
+	/**
+	 * ServiceInterfacet Instance æ¥å°¾èªã®ã‚­ãƒ¼
+	 */
+	public static final String Generate_ServiceIF_Suffix = getClassName() + "GENERATE_SERVICEIF_SUFFIX";
+	
+	//ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’ç©ºç™½ã‹ã‚‰å¤‰æ›´ã™ã‚‹å ´åˆã«ã¯ï¼Œgetterã®å®šç¾©ãŒå¿…è¦
 	public static final String DEFAULT_COMPONENT_NAME = "ModuleName";
 	public static final String DEFAULT_DESCRIPTION = "ModuleDescription";
 	public static final String DEFAULT_CATEGORY = "Category";
@@ -148,722 +165,240 @@ public class ComponentPreferenceManager {
 	public static final String DEFAULT_COMPONENT_KIND = IRtcBuilderConstants.COMPONENT_KIND_ITEMS[0];
 	public static final int DEFAULT_MAXINST = 1;
 	public static final String DEFAULT_EXECUTION_TYPE = IRtcBuilderConstants.EXECUTIONCONTEXT_TYPE_ITEMS[0];
-	public static final double DEFAULT_EXECUTION_RATE = 1.0;
+	public static final double DEFAULT_EXECUTION_RATE = 1000.0;
 	public static final String DEFAULT_PREFIX = "m_";
 	public static final String DEFAULT_SUFFIX = "";
 	//
 	public static final String DEFAULT_CONFIGURATION_NAME = "conf_name";
-	public static final String DEFAULT_CONFIGURATION_TYPE = "conf_type";
-	public static final String DEFAULT_CONFIGURATION_VARNAME = "conf_varname";
-	public static final String DEFAULT_CONFIGURATION_DEFAULT = "conf_default";
-	public static final String DEFAULT_CONFIGURATION_CONSTRAINT = "conf_constraint";
+	public static final String DEFAULT_CONFIGURATION_TYPE = "";
+	public static final String DEFAULT_CONFIGURATION_VARNAME = "";
+	public static final String DEFAULT_CONFIGURATION_DEFAULT = "";
+	public static final String DEFAULT_CONFIGURATION_CONSTRAINT = "";
 	public static final String DEFAULT_CONFIGURATION_UNIT = "";
 	public static final String DEFAULT_CONFIGURATION_PREFIX = "";
 	public static final String DEFAULT_CONFIGURATION_SUFFIX = "";
+	//////////
+	public static final String DEFAULT_DATAPORT_NAME = "dp_name";
+	public static final String DEFAULT_DATAPORT_TYPE = "";
+	public static final String DEFAULT_DATAPORT_VARNAME = "";
+	public static final String DEFAULT_DATAPORT_CONSTRAINT = "";
+	public static final String DEFAULT_DATAPORT_UNIT = "";
+	public static final String DEFAULT_DATAPORT_PREFIX = "";
+	public static final String DEFAULT_DATAPORT_SUFFIX = "";
 	//
+	public static final String DEFAULT_SERVICEPORT_NAME = "sv_name";
+	public static final String DEFAULT_SERVICEPORT_PREFIX = "";
+	public static final String DEFAULT_SERVICEPORT_SUFFIX = "";
+	//
+	public static final String DEFAULT_SERVICEIF_NAME = "if_name";
+	public static final String DEFAULT_SERVICEIF_INSTANCENAME = "";
+	public static final String DEFAULT_SERVICEIF_VARNAME = "";
+	public static final String DEFAULT_SERVICEIF_PREFIX = "";
+	public static final String DEFAULT_SERVICEIF_SUFFIX = "";
 	
-
 	/**
-	 * ƒR[ƒh¶¬‚Ì ModuleName ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® ModuleName ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return Module Name ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return Module Name ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getBasic_ComponentName() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Basic_Name, "");
-
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Basic_Name);
-		String result = new String();
-		if (resultTemp.equals("")) { // defaultvalue
-			result = DEFAULT_COMPONENT_NAME;
-		} else {
-			result = resultTemp;
-		}
-		return result;
+		return getStringStoreValue(Generate_Basic_Name, DEFAULT_COMPONENT_NAME);
 	}
-	/**
-	 * ƒR[ƒh¶¬‚Ì ModuleName ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @param defaultModuleName	 ModuleName ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public void setBasic_ComponentName(String defaultModuleName) {
-		String oldModuleName = getBasic_ComponentName();
 
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Basic_Name, defaultModuleName);
-
-		propertyChangeSupport.firePropertyChange(Generate_Basic_Name, oldModuleName, defaultModuleName);
-	}
-	
 	/**
-	 * ƒR[ƒh¶¬‚Ì ModuleDescription ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® ModuleDescription ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return Module Description ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return Module Description ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getBasic_Description() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Basic_Description, "");
-
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Basic_Description);
-		String result = new String();
-		if (resultTemp.equals("")) { // defaultvalue
-			result = DEFAULT_DESCRIPTION;
-		} else {
-			result = resultTemp;
-		}
-		return result;
+		return getStringStoreValue(Generate_Basic_Description, DEFAULT_DESCRIPTION);
 	}
+	
 	/**
-	 * ƒR[ƒh¶¬‚Ì ModuleDescription ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® Module Category ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @param defaultDescription	 Module Description ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public void setBasic_Description(String defaultDescription) {
-		String oldDescription = getBasic_Description();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Basic_Description, defaultDescription);
-
-		propertyChangeSupport.firePropertyChange(Generate_Basic_Description, oldDescription, defaultDescription);
-	}
-
-	/**
-	 * ƒR[ƒh¶¬‚Ì Module Category ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @return Module Category ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return Module Category ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getBasic_Category() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Basic_Category, "");
-
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Basic_Category);
-		String result = new String();
-		if (resultTemp.equals("")) { // defaultvalue
-			result = DEFAULT_CATEGORY;
-		} else {
-			result = resultTemp;
-		}
-		return result;
+		return getStringStoreValue(Generate_Basic_Category, DEFAULT_CATEGORY);
 	}
+	
 	/**
-	 * ƒR[ƒh¶¬‚Ì Module Category ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® Module Version ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @param defaultCategory	 Module Category ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public void setBasic_Category(String defaultCategory) {
-		String oldCategory = getBasic_Category();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Basic_Category, defaultCategory);
-
-		propertyChangeSupport.firePropertyChange(Generate_Basic_Category, oldCategory, defaultCategory);
-	}
-
-	/**
-	 * ƒR[ƒh¶¬‚Ì Module Version ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @return Module Version ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return Module Version ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getBasic_Version() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Basic_Version, "");
-
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Basic_Version);
-		String result = new String();
-		if (resultTemp.equals("")) { // defaultvalue
-			result = DEFAULT_VERSION;
-		} else {
-			result = resultTemp;
-		}
-		return result;
-	}
-	/**
-	 * ƒR[ƒh¶¬‚Ì Module Version ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @param defaultVersion	 Module Version ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public void setBasic_Version(String defaultVersion) {
-		String oldVersion = getBasic_Version();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Basic_Version, defaultVersion);
-
-		propertyChangeSupport.firePropertyChange(Generate_Basic_Version, oldVersion, defaultVersion);
+		return getStringStoreValue(Generate_Basic_Version, DEFAULT_VERSION);
 	}
 
 	/**
-	 * ƒR[ƒh¶¬‚Ì Module Component Type ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® Module Component Type ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return Module Component Type ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return Module Component Type ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getBasic_ComponentType() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Basic_ComponentType, "");
-
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Basic_ComponentType);
-		String result = new String();
-		if (resultTemp.equals("")) { // defaultvalue
-			result = DEFAULT_COMPONENT_TYPE;
-		} else {
-			result = resultTemp;
-		}
-		return result;
-	}
-	/**
-	 * ƒR[ƒh¶¬‚Ì Module Component Type ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @param defaultCompType	 Module Component Type ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public void setBasic_ComponentType(String defaultCompType) {
-		String oldCompType = getBasic_ComponentType();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Basic_ComponentType, defaultCompType);
-
-		propertyChangeSupport.firePropertyChange(Generate_Basic_ComponentType, oldCompType, defaultCompType);
+		return getStringStoreValue(Generate_Basic_ComponentType, DEFAULT_COMPONENT_TYPE);
 	}
 
 	/**
-	 * ƒR[ƒh¶¬‚Ì Module Activity Type ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® Module Activity Type ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return Module Activity Type ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return Module Activity Type ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getBasic_ActivityType() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Basic_ActivityType, "");
-
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Basic_ActivityType);
-		String result = new String();
-		if (resultTemp.equals("")) { // defaultvalue
-			result = DEFAULT_ACTIVITY_TYPE;
-		} else {
-			result = resultTemp;
-		}
-		return result;
-	}
-	/**
-	 * ƒR[ƒh¶¬‚Ì Module Activity Type ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @param defaultActivityType	 Module Activity Type ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public void setBasic_ActivityType(String defaultActivityType) {
-		String oldActivityType = getBasic_ActivityType();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Basic_ActivityType, defaultActivityType);
-
-		propertyChangeSupport.firePropertyChange(Generate_Basic_ActivityType, oldActivityType, defaultActivityType);
+		return getStringStoreValue(Generate_Basic_ActivityType, DEFAULT_ACTIVITY_TYPE);
 	}
 
 	/**
-	 * ƒR[ƒh¶¬‚Ì Module Component Kind ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® Module Component Kind ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return Module Component Kind ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return Module Component Kind ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getBasic_ComponentKind() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Basic_ComponentKind, "");
-
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Basic_ComponentKind);
-		String result = new String();
-		if (resultTemp.equals("")) { // defaultvalue
-			result = DEFAULT_COMPONENT_KIND;
-		} else {
-			result = resultTemp;
-		}
-		return result;
-	}
-	/**
-	 * ƒR[ƒh¶¬‚Ì Module Component Kind ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @param defaultCompKind	 Module Component Kind ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public void setBasic_ComponentKind(String defaultCompKind) {
-		String oldCompKind = getBasic_ComponentKind();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Basic_ComponentKind, defaultCompKind);
-
-		propertyChangeSupport.firePropertyChange(Generate_Basic_ComponentKind, oldCompKind, defaultCompKind);
+		return getStringStoreValue(Generate_Basic_ComponentKind, DEFAULT_COMPONENT_KIND);
 	}
 
 	/**
-	 * ƒR[ƒh¶¬‚Ì Module Vendor Name ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® Module Vendor Name ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return Module Vendor Name ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return Module Vendor Name ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getBasic_VendorName() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Basic_Vendor_Name, "");
-
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Basic_Vendor_Name);
-		String result = new String();
-		if (resultTemp.equals("")) { // defaultvalue
-			result = DEFAULT_VENDER;
-		} else {
-			result = resultTemp;
-		}
-		return result;
+		return getStringStoreValue(Generate_Basic_Vendor_Name, DEFAULT_VENDER);
 	}
+	
 	/**
-	 * ƒR[ƒh¶¬‚Ì Module Vendor Name ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® Module Max Instances ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @param defaultVendor	 Module Vendor Name ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public void setBasic_VendorName(String defaultVendor) {
-		String oldVendor = getBasic_VendorName();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Basic_Vendor_Name, defaultVendor);
-
-		propertyChangeSupport.firePropertyChange(Generate_Basic_Vendor_Name, oldVendor, defaultVendor);
-	}
-
-	/**
-	 * ƒR[ƒh¶¬‚Ì Module Max Instances ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @return Module Max Instances ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return Module Max Instances ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public int getBasic_MaxInstances() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Basic_Max_Instance, -1);
-
-		int resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getInt(Generate_Basic_Max_Instance);
-		int result;
-		if (resultTemp == -1) { // defaultvalue
-			result = DEFAULT_MAXINST;
-		} else {
-			result = resultTemp;
-		}
-		return result;
-	}
-	/**
-	 * ƒR[ƒh¶¬‚Ì Module Max Instances ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @param defaultMaxInst	 Module Max Instances ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public void setBasic_MaxInstances(int defaultMaxInst) {
-		int oldMaxInst = getBasic_MaxInstances();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Basic_Max_Instance, defaultMaxInst);
-
-		propertyChangeSupport.firePropertyChange(Generate_Basic_Max_Instance, oldMaxInst, defaultMaxInst);
+		return getIntegaerStoreValue(Generate_Basic_Max_Instance, DEFAULT_MAXINST);
 	}
 
 	/**
-	 * ƒR[ƒh¶¬‚Ì Module Execution Type ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® Module Execution Type ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return Module Execution Type ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return Module Execution Type ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getBasic_ExecutionType() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Basic_ExecutionType, "");
-
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Basic_ExecutionType);
-		String result = new String();
-		if (resultTemp.equals("")) { // defaultvalue
-			result = DEFAULT_EXECUTION_TYPE;
-		} else {
-			result = resultTemp;
-		}
-		return result;
-	}
-	/**
-	 * ƒR[ƒh¶¬‚Ì Module Execution Type ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @param defaultExecutionType	 Module Execution Type ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public void setBasic_ExecutionType(String defaultExecutionType) {
-		String oldExecutionType = getBasic_ExecutionType();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Basic_ExecutionType, defaultExecutionType);
-
-		propertyChangeSupport.firePropertyChange(Generate_Basic_ExecutionType, oldExecutionType, defaultExecutionType);
+		return getStringStoreValue(Generate_Basic_ExecutionType, DEFAULT_EXECUTION_TYPE);
 	}
 
 	/**
-	 * ƒR[ƒh¶¬‚Ì Execution Rate ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® Execution Rate ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return Execution Rate ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return Execution Rate ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public double getBasic_ExecutionRate() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Basic_Execution_Rate, -1);
-
-		double resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getDouble(Generate_Basic_Execution_Rate);
-		double result;
-		if (resultTemp == -1) { // defaultvalue
-			result = DEFAULT_EXECUTION_RATE;
-		} else {
-			result = resultTemp;
-		}
-		return result;
-	}
-	/**
-	 * ƒR[ƒh¶¬‚Ì Execution Rate ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @param defaultExecutionRate	 Execution Rate ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public void setBasic_ExecutionRate(double defaultExecutionRate) {
-		double oldExecutionRate = getBasic_ExecutionRate();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Basic_Execution_Rate, defaultExecutionRate);
-
-		propertyChangeSupport.firePropertyChange(Generate_Basic_Execution_Rate, Double.valueOf(oldExecutionRate), Double.valueOf(defaultExecutionRate));
+		return getDoubleStoreValue(Generate_Basic_Execution_Rate, DEFAULT_EXECUTION_RATE);
 	}
 	
 	/**
-	 * ƒR[ƒh¶¬‚Ì Ú“ªŒê ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® æ¥é ­èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return Ú“ªŒê ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return æ¥é ­èª ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getBasic_Prefix() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Basic_Prefix, "");
-
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Basic_Prefix);
-		String result;
-		if (resultTemp.equals("") && !Basic_Preference_Status_Dirty.equals(getPreferenceStatus())) { // defaultvalue
-			result = DEFAULT_PREFIX;
-		} else {
-			result = resultTemp;
-		}
-		return result;
-	}
-	/**
-	 * ƒR[ƒh¶¬‚Ì Ú“ªŒê ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @param defaultPrefix	 Ú“ªŒê ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public void setBasic_Prefix(String defaultPrefix) {
-		String oldPrefix = getBasic_Prefix();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Basic_Prefix, defaultPrefix);
-
-		propertyChangeSupport.firePropertyChange(Generate_Basic_Prefix, oldPrefix, defaultPrefix);
+		return getStringStoreValue(Generate_Basic_Prefix, DEFAULT_PREFIX);
 	}
 	
-	/**
-	 * ƒR[ƒh¶¬‚Ì Ú”öŒê ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @return Ú”öŒê ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public String getBasic_Suffix() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Basic_Suffix, "");
-
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Basic_Suffix);
-		String result;
-		if (resultTemp.equals("") && !Basic_Preference_Status_Dirty.equals(getPreferenceStatus())) { // defaultvalue
-			result = DEFAULT_SUFFIX;
-		} else {
-			result = resultTemp;
-		}
-		return result;
-	}
-	/**
-	 * ƒR[ƒh¶¬‚Ì Ú”öŒê ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @param defaultSuffix	 Ú”öŒê ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public void setBasic_Suffix(String defaultSuffix) {
-		String oldSuffix = getBasic_Suffix();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Basic_Suffix, defaultSuffix);
-
-		propertyChangeSupport.firePropertyChange(Generate_Basic_Suffix, oldSuffix, defaultSuffix);
-	}
 	////
 	/**
-	 * ƒR[ƒh¶¬‚Ì Configuration Name ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® Configuration Name ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
 	 * 
-	 * @param key ƒL[
-	 * @return Configuration Name ƒfƒtƒHƒ‹ƒg’l
+	 * @param key ã‚­ãƒ¼
+	 * @return Configuration Name ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
 	 */
 	public String getConfiguration_Name() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Configuration_Name, "");
+		return getStringStoreValue(Generate_Configuration_Name, DEFAULT_CONFIGURATION_NAME);
+	}
+	//////////
+	/**
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® DataPort Name ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
+	 * 
+	 * @param key ã‚­ãƒ¼
+	 * @return DataPort Name ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
+	 */
+	public String getDataPort_Name() {
+		return getStringStoreValue(Generate_DataPort_Name, DEFAULT_DATAPORT_NAME);
+	}
+	/////
+	/**
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® ServicePort å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
+	 * 
+	 * @param key ã‚­ãƒ¼
+	 * @return ServicePort å¤‰æ•°å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
+	 */
+	public String getServicePort_Name() {
+		return getStringStoreValue(Generate_ServicePort_Name, DEFAULT_SERVICEPORT_NAME);
+	}
+	/////
+	/**
+	 * ã‚³ãƒ¼ãƒ‰ç”Ÿæˆæ™‚ã® ServiceIF å ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã™ã‚‹
+	 * 
+	 * @param key ã‚­ãƒ¼
+	 * @return ServiceIFå ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
+	 */
+	public String getServiceIF_Name() {
+		return getStringStoreValue(Generate_ServiceIF_Name, DEFAULT_SERVICEIF_NAME);
+	}
+	/////
+	private String getStringStoreValue(String key, String defaultValue) {
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(key, "");
 
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Configuration_Name);
-		String result;
+		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(key);
+		String result = new String();
 		if (resultTemp.equals("")) { // defaultvalue
-			result = DEFAULT_CONFIGURATION_NAME;
+			result = defaultValue;
 		} else {
 			result = resultTemp;
 		}
 		return result;
-	}
-	/**
-	 * ƒR[ƒh¶¬‚Ì Configuration Name ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @param defaultConfigurationName	 Configuration Name ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public void setConfiguration_Name(String defaultConfigurationName) {
-		String oldConfigName = getConfiguration_Name();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Configuration_Name, defaultConfigurationName);
-
-		propertyChangeSupport.firePropertyChange(Generate_Configuration_Name, oldConfigName, defaultConfigurationName);
-	}
-
-	/**
-	 * ƒR[ƒh¶¬‚Ì Configuration Type ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @return Configuration Type ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public String getConfiguration_Type() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Configuration_Type, "");
-
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Configuration_Type);
-		String result;
-		if (resultTemp.equals("")) { // defaultvalue
-			result = DEFAULT_CONFIGURATION_TYPE;
-		} else {
-			result = resultTemp;
-		}
-		return result;
-	}
-	/**
-	 * ƒR[ƒh¶¬‚Ì Configuration Type ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @param defaultConfigurationType	 Configuration Type ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public void setConfiguration_Type(String defaultConfigurationType) {
-		String oldConfigType = getConfiguration_Type();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Configuration_Type, defaultConfigurationType);
-
-		propertyChangeSupport.firePropertyChange(Generate_Configuration_Type, oldConfigType, defaultConfigurationType);
-	}
-
-	/**
-	 * ƒR[ƒh¶¬‚Ì Configuration •Ï”–¼ ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @return Configuration •Ï”–¼ ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public String getConfiguration_VarName() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Configuration_VarName, "");
-
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Configuration_VarName);
-		String result;
-		if (resultTemp.equals("")) { // defaultvalue
-			result = DEFAULT_CONFIGURATION_VARNAME;
-		} else {
-			result = resultTemp;
-		}
-		return result;
-	}
-	/**
-	 * ƒR[ƒh¶¬‚Ì Configuration •Ï”–¼ ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @param defaultConfigurationVarName	 Configuration •Ï”–¼ ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public void setConfiguration_VarName(String defaultConfigurationVarName) {
-		String oldConfigVarName = getConfiguration_VarName();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Configuration_VarName, defaultConfigurationVarName);
-
-		propertyChangeSupport.firePropertyChange(Generate_Configuration_VarName, oldConfigVarName, defaultConfigurationVarName);
-	}
-
-	/**
-	 * ƒR[ƒh¶¬‚Ì Configuration ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @return Configuration ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public String getConfiguration_Default() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Configuration_Default, "");
-
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Configuration_Default);
-		String result;
-		if (resultTemp.equals("")) { // defaultvalue
-			result = DEFAULT_CONFIGURATION_DEFAULT;
-		} else {
-			result = resultTemp;
-		}
-		return result;
-	}
-	/**
-	 * ƒR[ƒh¶¬‚Ì Configuration ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @param defaultConfigurationDefault	 Configuration ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public void setConfiguration_Default(String defaultConfigurationDefault) {
-		String oldConfigDefault = getConfiguration_Default();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Configuration_Default, defaultConfigurationDefault);
-
-		propertyChangeSupport.firePropertyChange(Generate_Configuration_Default, oldConfigDefault, defaultConfigurationDefault);
-	}
-
-	/**
-	 * ƒR[ƒh¶¬‚Ì Configuration §–ñ‚ğæ“¾‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @return Configuration §–ñ
-	 */
-	public String getConfiguration_Constraint() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Configuration_Constraint, "");
-
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Configuration_Constraint);
-		String result;
-		if (resultTemp.equals("")) { // defaultvalue
-			result = DEFAULT_CONFIGURATION_CONSTRAINT;
-		} else {
-			result = resultTemp;
-		}
-		return result;
-	}
-	/**
-	 * ƒR[ƒh¶¬‚Ì Configuration §–ñ‚ğİ’è‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @param defaultConfigurationConstraint	 Configuration §–ñ
-	 */
-	public void setConfiguration_Constraint(String defaultConfigurationConstraint) {
-		String oldConfigConstraint = getConfiguration_Constraint();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Configuration_Constraint, defaultConfigurationConstraint);
-
-		propertyChangeSupport.firePropertyChange(Generate_Configuration_Constraint, oldConfigConstraint, defaultConfigurationConstraint);
-	}
-
-	/**
-	 * ƒR[ƒh¶¬‚Ì Configuration Unit‚ğæ“¾‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @return Configuration §–ñ
-	 */
-	public String getConfiguration_Unit() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Configuration_Unit, "");
-
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Configuration_Unit);
-		String result;
-		if (resultTemp.equals("")) { // defaultvalue
-			result = DEFAULT_CONFIGURATION_UNIT;
-		} else {
-			result = resultTemp;
-		}
-		return result;
-	}
-	/**
-	 * ƒR[ƒh¶¬‚Ì Configuration Unit‚ğİ’è‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @param defaultConfigurationUnit	 Configuration Unit
-	 */
-	public void setConfiguration_Unit(String defaultConfigurationUnit) {
-		String oldConfigUnit = getConfiguration_Unit();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Configuration_Unit, defaultConfigurationUnit);
-
-		propertyChangeSupport.firePropertyChange(Generate_Configuration_Unit, oldConfigUnit, defaultConfigurationUnit);
 	}
 	
-	/**
-	 * ƒR[ƒh¶¬‚Ì Configuration Ú“ªŒê ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @return Ú“ªŒê ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public String getConfiguration_Prefix() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Configuration_Prefix, "");
+	private int getIntegaerStoreValue(String key, int defaultValue) {
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(key, "");
 
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Configuration_Prefix);
-		String result;
-		if (resultTemp.equals("") && !Basic_Preference_Status_Dirty.equals(getPreferenceStatus())) { // defaultvalue
-			result = DEFAULT_CONFIGURATION_PREFIX;
+		int resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getInt(key);
+		int defaultReg = RtcBuilderPlugin.getDefault().getPreferenceStore().getDefaultInt(key);
+		int result;
+		if (resultTemp == defaultReg) { // defaultvalue
+			result = defaultValue;
 		} else {
 			result = resultTemp;
 		}
 		return result;
 	}
-	/**
-	 * ƒR[ƒh¶¬‚Ì Configuration Ú“ªŒê ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @param defaultConfigPrefix	 Ú“ªŒê ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public void setConfiguration_Prefix(String defaultConfigPrefix) {
-		String oldConfigPrefix = getConfiguration_Prefix();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Configuration_Prefix, defaultConfigPrefix);
-
-		propertyChangeSupport.firePropertyChange(Generate_Configuration_Prefix, oldConfigPrefix, defaultConfigPrefix);
-	}
 	
-	/**
-	 * ƒR[ƒh¶¬‚Ì Configuration Ú”öŒê ƒfƒtƒHƒ‹ƒg’l‚ğæ“¾‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @return Configuration Ú”öŒê ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public String getConfiguration_Suffix() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Generate_Configuration_Suffix, "");
+	private double getDoubleStoreValue(String key, double defaultValue) {
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(key, "");
 
-		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Generate_Configuration_Suffix);
-		String result;
-		if (resultTemp.equals("") && !Basic_Preference_Status_Dirty.equals(getPreferenceStatus())) { // defaultvalue
-			result = DEFAULT_CONFIGURATION_SUFFIX;
+		double resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getDouble(key);
+		double defaultReg = RtcBuilderPlugin.getDefault().getPreferenceStore().getDefaultDouble(key);
+		double result;
+		if (resultTemp == defaultReg) { // defaultvalue
+			result = defaultValue;
 		} else {
 			result = resultTemp;
 		}
 		return result;
 	}
-	/**
-	 * ƒR[ƒh¶¬‚Ì Configuration Ú”öŒê ƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚·‚é
-	 * 
-	 * @param key ƒL[
-	 * @param defaultSuffix	 Configuration Ú”öŒê ƒfƒtƒHƒ‹ƒg’l
-	 */
-	public void setConfiguration_Suffix(String defaultConfigSuffix) {
-		String oldConfigSuffix = getConfiguration_Suffix();
-
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Generate_Configuration_Suffix, defaultConfigSuffix);
-
-		propertyChangeSupport.firePropertyChange(Generate_Configuration_Suffix, oldConfigSuffix, defaultConfigSuffix);
-	}
-
-	/**
-	 * İ’è‰æ–Ê‚ªİ’èÏ‚İ‚©”Û‚©‚ğ¦‚·€–Ú‚Ì’l‚ğæ“¾‚·‚é
-	 * 
-	 * @return
-	 */
-	public String getPreferenceStatus() {
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Basic_Preference_Status, "");
-		return RtcBuilderPlugin.getDefault().getPreferenceStore().getString(Basic_Preference_Status);
-	}
-	/**
-	 * İ’è‰æ–Ê‚ªİ’èÏ‚İ‚©”Û‚©‚ğ¦‚·€–Ú‚Ì’l‚ğİ’è‚·‚é
-	 */
-	public void setDirtyToPreferenceStatus() {
-		String oldStatus = getPreferenceStatus();
-		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Basic_Preference_Status, Basic_Preference_Status_Dirty);
-		propertyChangeSupport.firePropertyChange(Basic_Preference_Status, oldStatus, Basic_Preference_Status_Dirty);
-	}
 	
-	/**
-	 * @see PropertyChangeSupport#addPropertyChangeListener(java.beans.PropertyChangeListener)
-	 */
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		propertyChangeSupport.addPropertyChangeListener(listener);
-	}
-
-	/**
-	 * @see PropertyChangeSupport#removePropertyChangeListener(java.beans.PropertyChangeListener)
-	 */
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		propertyChangeSupport.removePropertyChangeListener(listener);
+	private static String getClassName() {
+		return ComponentPreferenceManager.class.getName();
 	}
 }

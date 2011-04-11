@@ -2,13 +2,14 @@ package jp.go.aist.rtm.toolscommon.model.component;
 
 import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
 
+import org.eclipse.emf.common.util.EList;
 import RTC.ExecutionKind;
 
 /**
- * ExecutionContext‚ğ•\Œ»‚·‚éƒNƒ‰ƒX
+ * ExecutionContextã‚’è¡¨ç¾ã™ã‚‹ã‚¯ãƒ©ã‚¹
  * @model
  */
-public interface ExecutionContext extends WrapperObject {
+public interface ExecutionContext extends WrapperObject, IPropertyMap {
 	public static final int STATE_UNKNOWN = (0);
 	public static final int STATE_STOPPED = (1);
 	public static final int STATE_RUNNING = (2);
@@ -21,17 +22,14 @@ public interface ExecutionContext extends WrapperObject {
 	
 	public static final int RTC_UNCERTAIN = -2;
 	public static final int RTC_UNKNOWN = -1;
-	public static final int RTC_CREATED = RTC.LifeCycleState.CREATED_STATE.value();
-	public static final int RTC_INACTIVE = RTC.LifeCycleState.INACTIVE_STATE
-			.value();
-	public static final int RTC_ACTIVE = RTC.LifeCycleState.ACTIVE_STATE
-			.value();
-	public static final int RTC_ERROR = RTC.LifeCycleState.ERROR_STATE.value();
-
+	public static final int RTC_CREATED = RTC.LifeCycleState._CREATED_STATE;
+	public static final int RTC_INACTIVE = RTC.LifeCycleState._INACTIVE_STATE;
+	public static final int RTC_ACTIVE = RTC.LifeCycleState._ACTIVE_STATE;
+	public static final int RTC_ERROR = RTC.LifeCycleState._ERROR_STATE;
 
 	/**
 	 * @model
-	 * @return ExecutionContext‚Ìí—ŞiUNKNOWN/PERIODIC/EVENT_DRIVEN/OTHER)
+	 * @return ExecutionContextã®ç¨®é¡ï¼ˆUNKNOWN/PERIODIC/EVENT_DRIVEN/OTHER)
 	 */
 	public int getKindL();
 
@@ -45,7 +43,7 @@ public interface ExecutionContext extends WrapperObject {
 	void setKindL(int value);
 
 	/**
-	 * @model ExcetuionContext‚ÌÀsŠÔŠu
+	 * @model ExcetuionContextã®å®Ÿè¡Œé–“éš”
 	 * @return
 	 */
 	public Double getRateL();
@@ -62,7 +60,7 @@ public interface ExecutionContext extends WrapperObject {
 
 	/**
 	 * @model
-	 * @return@ExecutionContext‚Ìó‘Ô(UNKNOWN/STOPPED/RUNNING)
+	 * @returnã€€ExecutionContextã®çŠ¶æ…‹(UNKNOWN/STOPPED/RUNNING)
 	 */
 	public int getStateL();
 
@@ -76,8 +74,50 @@ public interface ExecutionContext extends WrapperObject {
 	void setStateL(int value);
 
 	/**
+	 * Returns the value of the '<em><b>Owner</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * ExecutionContext‚Ìí—Ş‚ğ•\‚·•¶š—ñ‚ğ•Ô‚µ‚Ü‚·B(UNKNOWN/PERIODIC/EVENT_DRIVEN/OTHER)
+	 * <p>
+	 * If the meaning of the '<em>Owner</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Owner</em>' reference.
+	 * @see #setOwner(Component)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getExecutionContext_Owner()
+	 * @model
+	 * @generated
+	 */
+	Component getOwner();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ExecutionContext#getOwner <em>Owner</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Owner</em>' reference.
+	 * @see #getOwner()
+	 * @generated
+	 */
+	void setOwner(Component value);
+
+	/**
+	 * Returns the value of the '<em><b>Participants</b></em>' reference list.
+	 * The list contents are of type {@link jp.go.aist.rtm.toolscommon.model.component.Component}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Participants</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Participants</em>' reference list.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getExecutionContext_Participants()
+	 * @model resolveProxies="false"
+	 * @generated
+	 */
+	EList<Component> getParticipants();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * ExecutionContextã®ç¨®é¡ã‚’è¡¨ã™æ–‡å­—åˆ—ã‚’è¿”ã—ã¾ã™ã€‚(UNKNOWN/PERIODIC/EVENT_DRIVEN/OTHER)
 	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
@@ -86,11 +126,35 @@ public interface ExecutionContext extends WrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ExecutionContext‚Ìó‘Ô‚ğ•\‚·•¶š—ñ‚ğ•Ô‚µ‚Ü‚·B(UNKNOWN/STOPPED/RUNNING)
+	 * ExecutionContextã®çŠ¶æ…‹ã‚’è¡¨ã™æ–‡å­—åˆ—ã‚’è¿”ã—ã¾ã™ã€‚(UNKNOWN/STOPPED/RUNNING)
 	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
 	 */
 	String getStateName();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean setRateR(Double rate);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean addComponentR(Component comp);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean removeComponentR(Component comp);
 
 }

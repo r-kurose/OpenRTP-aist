@@ -2,6 +2,8 @@ package jp.go.aist.rtm.rtcbuilder.ui.preference;
 
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -102,10 +104,19 @@ public abstract class AbstractPreferencePage extends PreferencePage  implements
 	}
 
 	/**
-	 * ó‘Ô‚ğ•ÏX‚µ‚½Û‚ÉŒÄ‚Ño‚·‚±‚Æ
+	 * çŠ¶æ…‹ã‚’å¤‰æ›´ã—ãŸéš›ã«å‘¼ã³å‡ºã™ã“ã¨
 	 */
 	private void updateStatus() {
 		setValid(validate());
+	}
+	
+	protected TableViewerColumn createColumn(TableViewer tv, String title, int width){
+		TableViewerColumn col = new TableViewerColumn(tv, SWT.NONE);
+		col.getColumn().setText(title);
+		col.getColumn().setWidth(width);
+		col.getColumn().setResizable(true);
+		col.getColumn().setMoveable(false);
+		return col;
 	}
 
 	protected abstract boolean validate();

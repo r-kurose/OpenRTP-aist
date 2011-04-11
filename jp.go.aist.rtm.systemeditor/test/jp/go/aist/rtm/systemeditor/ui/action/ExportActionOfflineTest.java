@@ -17,11 +17,9 @@ public class ExportActionOfflineTest extends TestCase {
 
 	private Port port1;
 	private Port port2;
-	private Port port3;
 
 	private ExportPortAction action;
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void setUp() throws Exception {
 		diagram1 = createSystemDiagram();
@@ -38,15 +36,12 @@ public class ExportActionOfflineTest extends TestCase {
 		diagram1.getComponents().add(component1);
 		diagram1.setCompositeComponent(component2);
 		diagram2.getComponents().add(component2);
-		
 
-		port1 = createPort("1", "port1");
-		port2 = createPort("2", "port2");
-		port3 = createPort("2", "child.port2");
+		port1 = createPort(1, "1", "child.port1");
+		port2 = createPort(2, "2", "child.port2");
 
 		component1.getPorts().add(port1);
 		component1.getPorts().add(port2);
-		component2.getPorts().add(port3);
 
 		action = new ExportPortAction();
 		action.setParent(component2);
@@ -58,14 +53,19 @@ public class ExportActionOfflineTest extends TestCase {
 		return diagram;
 	}
 
-	private Port createPort(String originalPortString, String portName) {
-		Port result = ComponentFactory.eINSTANCE.createPort();
+	private Port createPort(int type, String originalPortString, String portName) {
+		Port result;
+		if (type == 1) {
+			result = ComponentFactory.eINSTANCE.createInPort();
+		} else {
+			result = ComponentFactory.eINSTANCE.createOutPort();
+		}
 		result.setNameL(portName);
 		result.setSynchronizer(ComponentFactory.eINSTANCE.createPortSynchronizer());
 		result.setOriginalPortString(originalPortString);
 		return result;
 	}
-	@SuppressWarnings("unchecked")
+
 	private ConfigurationSet setupConfigurationSet2() {
 		ConfigurationSet result = ComponentFactory.eINSTANCE.createConfigurationSet();
 		result.setId("default");
@@ -89,6 +89,7 @@ public class ExportActionOfflineTest extends TestCase {
 	}
 
 	public void testOfflineUnexport() throws Exception {
+		component2.getPorts().add(port2.proxy());
 		action.setTarget(port2);
 		action.run();
 		assertEquals(0, component2.getPorts().size());
@@ -97,8 +98,8 @@ public class ExportActionOfflineTest extends TestCase {
 	
 	public void testCameraComponent() throws Exception {
 		component1.setInstanceNameL("CameraComponent_1");
-		port1.setNameL("ImageData");
-		port2.setNameL("CapPORT");
+		port1.setNameL("CameraComponent_1.ImageData");
+		port2.setNameL("CameraComponent_1.CapPORT");
 		component2.getPorts().clear();
 		component2.setActiveConfigurationSet(setupConfigurationSet2());
 		
@@ -118,8 +119,8 @@ public class ExportActionOfflineTest extends TestCase {
 
 	public void testSeq() throws Exception {
 		component1.setInstanceNameL("SeqIn");
-		port1.setNameL("Short");
-		port2.setNameL("ShortSeq");
+		port1.setNameL("SeqIn.Short");
+		port2.setNameL("SeqIn.ShortSeq");
 		component2.getPorts().clear();
 		component2.setActiveConfigurationSet(setupConfigurationSet2());
 		

@@ -5,7 +5,7 @@ import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 /**
- * ‘®«‚Ìƒ}ƒbƒsƒ“ƒO‚ğ’è‹`‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX
+ * å±æ€§ã®ãƒãƒƒãƒ”ãƒ³ã‚°ã‚’å®šç¾©ã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹
  */
 public abstract class AttributeMapping {
 	private EStructuralFeature localFeature;
@@ -13,27 +13,27 @@ public abstract class AttributeMapping {
 	private boolean once;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * <p>
-	 * once‚ÍAfalse‚Æ‚È‚é
+	 * onceã¯ã€falseã¨ãªã‚‹
 	 * 
 	 * @param localFeature
-	 *            ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒtƒB[ƒ`ƒƒ[
+	 *            ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ•ã‚£ãƒ¼ãƒãƒ£ãƒ¼
 	 */
 	public AttributeMapping(EStructuralFeature localFeature) {
 		this(localFeature, false);
 	}
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * <p>
-	 * once‚ÍAÀÛ‚É‚Íˆê“x‚µ‚©æ“¾‚µ‚È‚¢‚Ì‚Å‚Í‚È‚­AƒfƒtƒHƒ‹ƒg’l‚Å‚È‚¯‚ê‚Îæ“¾‚·‚é‚Æ‚¢‚¤“®ì‚ğ‚¨‚±‚È‚¤B
-	 * ‚±‚Ì‚½‚ßAƒfƒtƒHƒ‹ƒg’l‚É—áŠO“I‚È’l‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚±‚Æ‚ª‹‚ß‚ç‚ê‚éB
+	 * onceã¯ã€å®Ÿéš›ã«ã¯ä¸€åº¦ã—ã‹å–å¾—ã—ãªã„ã®ã§ã¯ãªãã€ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã§ãªã‘ã‚Œã°å–å¾—ã™ã‚‹ã¨ã„ã†å‹•ä½œã‚’ãŠã“ãªã†ã€‚
+	 * ã“ã®ãŸã‚ã€ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã«ä¾‹å¤–çš„ãªå€¤ãŒå«ã¾ã‚Œã¦ã„ã‚‹ã“ã¨ãŒæ±‚ã‚ã‚‰ã‚Œã‚‹ã€‚
 	 * 
 	 * @param localFeature
-	 *            ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒtƒB[ƒ`ƒƒ[
+	 *            ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ•ã‚£ãƒ¼ãƒãƒ£ãƒ¼
 	 * @param once
-	 *            ˆê“x‚µ‚©’l‚ğæ“¾‚µ‚È‚¢‚©‚Ç‚¤‚©
+	 *            ä¸€åº¦ã—ã‹å€¤ã‚’å–å¾—ã—ãªã„ã‹ã©ã†ã‹
 	 */
 	public AttributeMapping(EStructuralFeature localFeature, boolean once) {
 		this.localFeature = localFeature;
@@ -41,12 +41,12 @@ public abstract class AttributeMapping {
 	}
 
 	/**
-	 * ƒ[ƒJƒ‹‚ğ“¯Šú‚·‚éå‚Æ‚È‚éƒƒ\ƒbƒh
+	 * ãƒ­ãƒ¼ã‚«ãƒ«ã‚’åŒæœŸã™ã‚‹ä¸»ã¨ãªã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
 	 * 
 	 * @param localObject
-	 *            ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg
+	 *            ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 * @param synchronizationManager
-	 *            “¯Šúƒ}ƒl[ƒWƒƒ
+	 *            åŒæœŸãƒãƒãƒ¼ã‚¸ãƒ£
 	 */
 	public void syncronizeLocal(LocalObject localObject) {
 		if (once == false
@@ -55,34 +55,43 @@ public abstract class AttributeMapping {
 			Object newValue = convert2LocalValue(localObject,
 					getRemoteAttributeValue(localObject));
 
-			if (newValue == null) return; // EMF‚ÅNullPointerException‚ª‹N‚«‚È‚¢‚æ‚¤‚É‚µ‚Ä‚¨‚­ 2008.12.11
-			if (isEquals(newValue, oldValue) == false) {
+			if (newValue == null)
+				return; // EMFã§NullPointerExceptionãŒèµ·ããªã„ã‚ˆã†ã«ã—ã¦ãŠã 2008.12.11
+
+			boolean updated = false;
+
+			if (!isEquals(newValue, oldValue)) {
 				localObject.eSet(getLocalFeature(), newValue);
+				updated = true;
+			}
+			if (updated) {
+				// å¤‰æ›´ãŒã‚ã£ãŸå ´åˆã®äº‹å¾Œå‡¦ç†
+				postSynchronizeLocal(localObject);
 			}
 		}
 	}
 
 	/**
-	 * ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚Ì‘®«‚Ì’l‚ğ•Ô‚·‚æ‚¤‚ÉAƒI[ƒo[ƒ‰ƒCƒh‚³‚ê‚é‚±‚Æ‚ğˆÓ}‚³‚ê‚éB
+	 * ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å±æ€§ã®å€¤ã‚’è¿”ã™ã‚ˆã†ã«ã€ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã•ã‚Œã‚‹ã“ã¨ã‚’æ„å›³ã•ã‚Œã‚‹ã€‚
 	 * <p>
-	 * ‚±‚Ìƒƒ\ƒbƒh‚©ƒI[ƒo[ƒ[ƒh‚³‚ê‚½ALocalObject‚Ìƒƒ\ƒbƒh‚ğ•K‚¸ƒI[ƒo[ƒ‰ƒCƒh‚·‚é‚±‚Æ
+	 * ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‹ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰ã•ã‚ŒãŸã€LocalObjectã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å¿…ãšã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã™ã‚‹ã“ã¨
 	 * @param localObject TODO
 	 * @param remoteObjects
-	 *            ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg
+	 *            ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 * 
-	 * @return ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚Ì‘®«’l
+	 * @return ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å±æ€§å€¤
 	 */
 	public Object getRemoteAttributeValue(LocalObject localObject, Object[] remoteObjects) {
 		throw new UnsupportedOperationException();
 	}
 
 	/**
-	 * ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚Ì‘®«‚Ì’l‚ğ•Ô‚·B
+	 * ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å±æ€§ã®å€¤ã‚’è¿”ã™ã€‚
 	 * <p>
 	 * 
 	 * @param localObject
-	 *            ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg
-	 * @return ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚Ì‘®«’l
+	 *            ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @return ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å±æ€§å€¤
 	 */
 	public Object getRemoteAttributeValue(LocalObject localObject) {
 		return getRemoteAttributeValue(localObject, localObject.getSynchronizationSupport()
@@ -90,28 +99,28 @@ public abstract class AttributeMapping {
 	}
 
 	/**
-	 * ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚Ì‘®«‚Ì’l‚ğ•Ô‚·B
+	 * ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å±æ€§ã®å€¤ã‚’è¿”ã™ã€‚
 	 * <p>
-	 * •K—v‚É‰‚¶‚ÄAƒI[ƒo[ƒ‰ƒCƒh‚·‚é‚±‚ÆB
+	 * å¿…è¦ã«å¿œã˜ã¦ã€ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã™ã‚‹ã“ã¨ã€‚
 	 * 
 	 * @param localObject
-	 *            ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg
-	 * @return ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚Ì‘®«‚Ì’l
+	 *            ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @return ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å±æ€§ã®å€¤
 	 */
 	public Object getLocalAttributeValue(LocalObject localObject) {
 		return localObject.eGet(localFeature);
 	}
 
 	/**
-	 * 2‚Â‚Ì’l‚ª“¯‚¶‚Å‚ ‚é‚©‚Ç‚¤‚©
+	 * 2ã¤ã®å€¤ãŒåŒã˜ã§ã‚ã‚‹ã‹ã©ã†ã‹
 	 * <p>
-	 * —¼•û‚ªnull‚Ìê‡‚É‚Ítrue‚Æ‚È‚é
+	 * ä¸¡æ–¹ãŒnullã®å ´åˆã«ã¯trueã¨ãªã‚‹
 	 * 
 	 * @param value1
-	 *            1‚Â‚ß‚Ì’l
+	 *            1ã¤ã‚ã®å€¤
 	 * @param value2
-	 *            2‚Â‚ß‚Ì’l
-	 * @return 2‚Â‚Ì’l‚ª“¯‚¶‚Å‚ ‚é‚©‚Ç‚¤‚©
+	 *            2ã¤ã‚ã®å€¤
+	 * @return 2ã¤ã®å€¤ãŒåŒã˜ã§ã‚ã‚‹ã‹ã©ã†ã‹
 	 */
 	public boolean isEquals(Object value1, Object value2) {
 		boolean result = false;
@@ -125,28 +134,38 @@ public abstract class AttributeMapping {
 	}
 
 	/**
-	 * ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒtƒB[ƒ`ƒƒ[
+	 * ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ•ã‚£ãƒ¼ãƒãƒ£ãƒ¼
 	 * 
-	 * @return ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒtƒB[ƒ`ƒƒ[
+	 * @return ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ•ã‚£ãƒ¼ãƒãƒ£ãƒ¼
 	 */
 	public EStructuralFeature getLocalFeature() {
 		return localFeature;
 	}
 
 	/**
-	 * ƒŠƒ‚[ƒg‚Ì’l‚©‚çƒ[ƒJƒ‹‚Ì’l‚É•ÏŠ·‚·‚é
+	 * ãƒªãƒ¢ãƒ¼ãƒˆã®å€¤ã‹ã‚‰ãƒ­ãƒ¼ã‚«ãƒ«ã®å€¤ã«å¤‰æ›ã™ã‚‹
 	 * <p>
-	 * •K—v‚É‰‚¶‚ÄƒI[ƒo[ƒ‰ƒCƒh‚·‚é‚±‚Æ
+	 * å¿…è¦ã«å¿œã˜ã¦ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã™ã‚‹ã“ã¨
 	 * 
 	 * @param localObject
-	 *            ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg
+	 *            ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 * @param remoteAttributeValue
-	 *            ƒŠƒ‚[ƒg‚Ì’l
+	 *            ãƒªãƒ¢ãƒ¼ãƒˆã®å€¤
 	 * 
-	 * @return ƒ[ƒJƒ‹‚Ì’l
+	 * @return ãƒ­ãƒ¼ã‚«ãƒ«ã®å€¤
 	 */
 	public Object convert2LocalValue(LocalObject localObject,
 			Object remoteAttributeValue) {
 		return remoteAttributeValue;
 	}
+
+	/**
+	 * åŒæœŸå¾Œã®äº‹å¾Œå‡¦ç†ã‚’å®šç¾©ã—ã¾ã™ã€‚
+	 * 
+	 * @param lo
+	 *            åŒæœŸå¯¾è±¡ã®ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 */
+	public void postSynchronizeLocal(LocalObject lo) {
+	}
+
 }

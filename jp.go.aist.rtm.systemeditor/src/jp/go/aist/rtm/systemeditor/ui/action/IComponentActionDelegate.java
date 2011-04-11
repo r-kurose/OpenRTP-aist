@@ -1,100 +1,99 @@
 package jp.go.aist.rtm.systemeditor.ui.action;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 
+import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
 import jp.go.aist.rtm.systemeditor.nl.Messages;
-import jp.go.aist.rtm.systemeditor.ui.util.TimeoutWrappedJob;
-import jp.go.aist.rtm.systemeditor.ui.util.TimeoutWrapper;
-import jp.go.aist.rtm.toolscommon.manager.ToolsCommonPreferenceManager;
+import jp.go.aist.rtm.systemeditor.ui.util.ComponentActionDelegate;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * RtcLink‚ÌŒÂX‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚»‚ê‚¼‚ê‚É‘Î‚·‚éƒAƒNƒVƒ‡ƒ“
+ * RtcLinkã®å€‹ã€…ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãã‚Œãã‚Œã«å¯¾ã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
  */
 public class IComponentActionDelegate implements IObjectActionDelegate {
 	/**
-	 * Start‚Ég—p‚³‚ê‚éIDB‚±‚Ì’l‚ªAPlugin.xml‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+	 * Startã«ä½¿ç”¨ã•ã‚Œã‚‹IDã€‚ã“ã®å€¤ãŒã€Plugin.xmlã«æŒ‡å®šã•ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
 	 */
 	public static final String START_ACTION_ID = IComponentActionDelegate.class
 			.getName()
 			+ ".executioncontext.Start"; //$NON-NLS-1$
 
 	/**
-	 * Stop‚Ég—p‚³‚ê‚éIDB‚±‚Ì’l‚ªAPlugin.xml‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+	 * Stopã«ä½¿ç”¨ã•ã‚Œã‚‹IDã€‚ã“ã®å€¤ãŒã€Plugin.xmlã«æŒ‡å®šã•ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
 	 */
 	public static final String STOP_ACTION_ID = IComponentActionDelegate.class
 			.getName()
 			+ ".executioncontext.Stop"; //$NON-NLS-1$
 
 	/**
-	 * Activate‚Ég—p‚³‚ê‚éIDB‚±‚Ì’l‚ªAPlugin.xml‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+	 * Activateã«ä½¿ç”¨ã•ã‚Œã‚‹IDã€‚ã“ã®å€¤ãŒã€Plugin.xmlã«æŒ‡å®šã•ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
 	 */
 	public static final String ACTIVATE_ACTION_ID = IComponentActionDelegate.class
 			.getName()
 			+ ".Activate"; //$NON-NLS-1$
 
 	/**
-	 * Deactivate‚Ég—p‚³‚ê‚éIDB‚±‚Ì’l‚ªAPlugin.xml‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+	 * Deactivateã«ä½¿ç”¨ã•ã‚Œã‚‹IDã€‚ã“ã®å€¤ãŒã€Plugin.xmlã«æŒ‡å®šã•ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
 	 */
 	public static final String DEACTIVATE_ACTION_ID = IComponentActionDelegate.class
 			.getName()
 			+ ".Deactivate"; //$NON-NLS-1$
 
 	/**
-	 * Reset‚Ég—p‚³‚ê‚éIDB‚±‚Ì’l‚ªAPlugin.xml‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+	 * Resetã«ä½¿ç”¨ã•ã‚Œã‚‹IDã€‚ã“ã®å€¤ãŒã€Plugin.xmlã«æŒ‡å®šã•ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
 	 */
 	public static final String RESET_ACTION_ID = IComponentActionDelegate.class
 			.getName()
 			+ ".Reset"; //$NON-NLS-1$
 
 	/**
-	 * Finalize‚Ég—p‚³‚ê‚éIDB‚±‚Ì’l‚ªAPlugin.xml‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-	 */
-	public static final String FINALIZE_ACTION_ID = IComponentActionDelegate.class
-			.getName()
-			+ ".Finalize"; //$NON-NLS-1$
-
-	/**
-	 * Exit‚Ég—p‚³‚ê‚éIDB‚±‚Ì’l‚ªAPlugin.xml‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+	 * Exitã«ä½¿ç”¨ã•ã‚Œã‚‹IDã€‚ã“ã®å€¤ãŒã€Plugin.xmlã«æŒ‡å®šã•ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
 	 */
 	public static final String EXIT_ACTION_ID = IComponentActionDelegate.class
 			.getName()
 			+ ".Exit"; //$NON-NLS-1$
 
+	static final String TITLE_CONFIRM_DIALOG = Messages
+			.getString("IComponentActionDelegate.15");
+
+	static final String MSG_CONFIRM_START = Messages.getString("IComponentActionDelegate.7");
+	static final String MSG_CONFIRM_STOP = Messages.getString("IComponentActionDelegate.8");
+	static final String MSG_CONFIRM_ACTIVATE = Messages.getString("IComponentActionDelegate.9");
+	static final String MSG_CONFIRM_DEACTIVATE = Messages.getString("IComponentActionDelegate.10");
+	static final String MSG_CONFIRM_RESET = Messages.getString("IComponentActionDelegate.11");
+	static final String MSG_CONFIRM_EXIT = Messages.getString("IComponentActionDelegate.12");
+
+	static final String ERROR_UNKNOWN_COMMAND = Messages.getString("IComponentActionDelegate.14");
+
 	private ISelection selection;
 
 	private IWorkbenchPart targetPart;
 
-	/**
-	 * {@inheritDoc}
-	 */
+	ComponentActionDelegate actionDelegate;
+
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
 		this.targetPart = targetPart;
+		actionDelegate = new ComponentActionDelegate();
+		actionDelegate.setActivePart(null, this.targetPart);
 	}
 
-	/**
-	 * ƒAƒNƒVƒ‡ƒ““à•”‚Åg—p‚³‚ê‚éAƒƒbƒZ[ƒW‚ÆƒRƒ}ƒ“ƒh‚ğ‚Ü‚Æ‚ß‚½ƒCƒ“ƒ^ƒtƒF[ƒX
-	 */
-	public interface MessageAndCommand {
-		public String getConfirmMessage();
+	/** ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®ã‚³ãƒãƒ³ãƒ‰ */
+	static abstract class ComponentCommand extends
+			ComponentActionDelegate.Command {
+		protected CorbaComponent comp;
 
-		public int run();
+		public ComponentCommand(CorbaComponent comp) {
+			this.comp = comp;
+		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@SuppressWarnings("unchecked")
 	public void run(final IAction action) {
 
@@ -103,152 +102,130 @@ public class IComponentActionDelegate implements IObjectActionDelegate {
 
 			final CorbaComponent component = (CorbaComponent) iter.next();
 
-			MessageAndCommand command = null;
+			ComponentCommand command = null;
 			if ((START_ACTION_ID).equals(action.getId())) {
-				command = new MessageAndCommand() {
+				command = new ComponentCommand(component) {
+					@Override
 					public String getConfirmMessage() {
-						return Messages.getString("IComponentActionDelegate.7"); //$NON-NLS-1$
+						return MSG_CONFIRM_START;
 					}
 
+					@Override
 					public int run() {
-						return component.startR();
+						return comp.startR();
+					}
+
+					@Override
+					public void done() {
+						comp.synchronizeManually();
 					}
 				};
 			} else if (STOP_ACTION_ID.equals(action.getId())) {
-				command = new MessageAndCommand() {
+				command = new ComponentCommand(component) {
+					@Override
 					public String getConfirmMessage() {
-						return Messages.getString("IComponentActionDelegate.8"); //$NON-NLS-1$
+						return MSG_CONFIRM_STOP;
 					}
 
+					@Override
 					public int run() {
 						return component.stopR();
 					}
+
+					@Override
+					public void done() {
+						comp.synchronizeManually();
+					}
 				};
 			} else if (ACTIVATE_ACTION_ID.equals(action.getId())) {
-				command = new MessageAndCommand() {
+				command = new ComponentCommand(component) {
+					@Override
 					public String getConfirmMessage() {
-						return Messages.getString("IComponentActionDelegate.9"); //$NON-NLS-1$
+						return MSG_CONFIRM_ACTIVATE;
 					}
 
+					@Override
 					public int run() {
 						return component.activateR();
 					}
+
+					@Override
+					public void done() {
+						comp.synchronizeManually();
+					}
 				};
 			} else if (DEACTIVATE_ACTION_ID.equals(action.getId())) {
-				command = new MessageAndCommand() {
+				command = new ComponentCommand(component) {
+					@Override
 					public String getConfirmMessage() {
-						return Messages.getString("IComponentActionDelegate.10"); //$NON-NLS-1$
+						return MSG_CONFIRM_DEACTIVATE;
 					}
 
+					@Override
 					public int run() {
 						return component.deactivateR();
 					}
+
+					@Override
+					public void done() {
+						comp.synchronizeManually();
+					}
 				};
 			} else if (RESET_ACTION_ID.equals(action.getId())) {
-				command = new MessageAndCommand() {
+				command = new ComponentCommand(component) {
+					@Override
 					public String getConfirmMessage() {
-						return Messages.getString("IComponentActionDelegate.11"); //$NON-NLS-1$
+						return MSG_CONFIRM_RESET;
 					}
 
+					@Override
 					public int run() {
 						return component.resetR();
 					}
+
+					@Override
+					public void done() {
+						comp.synchronizeManually();
+					}
 				};
 			} else if (EXIT_ACTION_ID.equals(action.getId())) {
-				command = new MessageAndCommand() {
+				command = new ComponentCommand(component) {
+					@Override
 					public String getConfirmMessage() {
-						return Messages.getString("IComponentActionDelegate.12"); //$NON-NLS-1$
+						return MSG_CONFIRM_EXIT;
 					}
 
+					@Override
 					public int run() {
 						return component.exitR();
 					}
-				};
-			} else if (FINALIZE_ACTION_ID.equals(action.getId())) {
-				command = new MessageAndCommand() {
-					public String getConfirmMessage() {
-						return Messages.getString("IComponentActionDelegate.13"); //$NON-NLS-1$
-					}
 
-					public int run() {
-						return component.finalizeR();
+					@Override
+					public void done() {
+						comp.synchronizeManually();
 					}
 				};
 			} else {
-				throw new RuntimeException(Messages.getString("IComponentActionDelegate.14")); //$NON-NLS-1$
+				throw new RuntimeException(ERROR_UNKNOWN_COMMAND);
 			}
 
-			boolean isOK = MessageDialog.openConfirm(targetPart.getSite()
-					.getShell(), Messages.getString("IComponentActionDelegate.15"), command.getConfirmMessage()); //$NON-NLS-1$
-			if (isOK == false) {
-				return;
-			}
-
-			final MessageAndCommand finalCommand = command;
-
-			final Integer[] returnCode = new Integer[1]; // final”z—ñ‰»‚·‚é‚±‚Æ‚ÅAƒNƒ[ƒWƒƒ“à‚Å•Ô‚è’l‚ğİ’è‚·‚é‚±‚Æ‚ª‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-			ProgressMonitorDialog dialog = new ProgressMonitorDialog(targetPart
-					.getSite().getShell());
-			IRunnableWithProgress runable = new IRunnableWithProgress() {
-				public void run(IProgressMonitor monitor)
-						throws InvocationTargetException, InterruptedException {
-
-					monitor.beginTask(Messages.getString("IComponentActionDelegate.16"), 100); //$NON-NLS-1$
-
-					monitor.worked(20);
-					monitor.subTask(Messages.getString("IComponentActionDelegate.17")); //$NON-NLS-1$
-
-//					returnCode[0] = finalCommand.run();
-					int defaultTimeout = ToolsCommonPreferenceManager.getInstance().getDefaultTimeout(
-							ToolsCommonPreferenceManager.DEFAULT_TIMEOUT_PERIOD);
-					TimeoutWrapper wrapper = new TimeoutWrapper(defaultTimeout);
-					wrapper.setJob(new TimeoutWrappedJob(){
-						@Override
-						protected Object executeCommand() {
-							return finalCommand.run();
-						}});
-					returnCode[0] = (Integer) wrapper.start();
-					
-					monitor.subTask(Messages.getString("IComponentActionDelegate.18")); //$NON-NLS-1$
-					monitor.done();
+			if (SystemEditorPreferenceManager.getInstance()
+					.isConfirmComponentAction()) {
+				// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®å®Ÿè¡Œç¢ºèªãŒæœ‰åŠ¹ãªå ´åˆ
+				boolean isOK = MessageDialog.openConfirm(targetPart.getSite()
+						.getShell(), TITLE_CONFIRM_DIALOG, command
+						.getConfirmMessage());
+				if (!isOK) {
+					return;
 				}
-			};
-
-			try {
-				dialog.run(false, false, runable);
-			} catch (Exception e) {
-				e.printStackTrace(); // system error
 			}
 
-			if (returnCode[0] == null) return;
-			
-			if (CorbaComponent.RETURNCODE_OK == returnCode[0]) {
-				component.synchronizeManually();
-			} else if (CorbaComponent.RETURNCODE_ERROR == returnCode[0]) {
-				MessageDialog.openError(targetPart.getSite().getShell(), Messages.getString("IComponentActionDelegate.19"), //$NON-NLS-1$
-						Messages.getString("IComponentActionDelegate.20")); //$NON-NLS-1$
-			} else if (CorbaComponent.RETURNCODE_BAD_PARAMETER == returnCode[0]) {
-				MessageDialog.openError(targetPart.getSite().getShell(), Messages.getString("IComponentActionDelegate.21"), //$NON-NLS-1$
-						Messages.getString("IComponentActionDelegate.22")); //$NON-NLS-1$
-			} else if (CorbaComponent.RETURNCODE_UNSUPPORTED == returnCode[0]) {
-				MessageDialog.openError(targetPart.getSite().getShell(), Messages.getString("IComponentActionDelegate.23"), //$NON-NLS-1$
-						Messages.getString("IComponentActionDelegate.24")); //$NON-NLS-1$
-			} else if (CorbaComponent.RETURNCODE_OUT_OF_RESOURCES == returnCode[0]) {
-				MessageDialog.openError(targetPart.getSite().getShell(), Messages.getString("IComponentActionDelegate.25"), //$NON-NLS-1$
-						Messages.getString("IComponentActionDelegate.26")); //$NON-NLS-1$
-			} else if (CorbaComponent.RETURNCODE_PRECONDITION_NOT_MET == returnCode[0]) {
-				MessageDialog.openError(targetPart.getSite().getShell(), Messages.getString("IComponentActionDelegate.27"), //$NON-NLS-1$
-						Messages.getString("IComponentActionDelegate.28")); //$NON-NLS-1$
-			}
-
+			actionDelegate.run(command);
 		}
-
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public void selectionChanged(IAction action, ISelection selection) {
 		this.selection = selection;
 	}
+
 }

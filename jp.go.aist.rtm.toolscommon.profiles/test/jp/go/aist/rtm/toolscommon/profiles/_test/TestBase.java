@@ -456,7 +456,6 @@ public class TestBase extends TestCase {
 		assertEquals("int", config.getType());
 		assertEquals("10", config.getDefaultValue());
 		assertEquals("config_unit1", config.getUnit());
-		//TODO YAML–¢‘Î‰ž‚Ì‚½‚ß
 //		assertEquals("100", config.getConstraint().getConstraintUnitType().getPropertyIsLessThan().getLiteral());
 		assertEquals("Sample", config.getComment());
 		assertEquals("var1", config.getVariableName());
@@ -472,7 +471,6 @@ public class TestBase extends TestCase {
 		assertEquals("config2", config2.getName());
 		assertEquals("String", config2.getType());
 		assertEquals("Sample", config2.getDefaultValue());
-		//TODO YAML–¢‘Î‰ž‚Ì‚½‚ß
 //		assertEquals("up", config2.getConstraint().getConstraintUnitType().getOr().getConstraint().get(0).getConstraintUnitType().getPropertyIsEqualTo().getLiteral());
 //		assertEquals("down", config2.getConstraint().getConstraintUnitType().getOr().getConstraint().get(1).getConstraintUnitType().getPropertyIsEqualTo().getLiteral());
 //		assertEquals("left", config2.getConstraint().getConstraintUnitType().getOr().getConstraint().get(2).getConstraintUnitType().getPropertyIsEqualTo().getLiteral());
@@ -487,7 +485,6 @@ public class TestBase extends TestCase {
 		assertEquals("Push,Pull", dataport1.getDataflowType());
 		assertEquals("Periodic,New,Flush", dataport1.getSubscriptionType());
 		assertEquals("In1Unit", dataport1.getUnit());
-		//TODO YAML–¢‘Î‰ž‚Ì‚½‚ß
 //		assertEquals("100", dataport1.getConstraint().getConstraintUnitType().getPropertyIsBetween().getLowerBoundary());
 //		assertEquals("200", dataport1.getConstraint().getConstraintUnitType().getPropertyIsBetween().getUpperBoundary());
 		assertEquals("In1Var", dataport1.getVariableName());

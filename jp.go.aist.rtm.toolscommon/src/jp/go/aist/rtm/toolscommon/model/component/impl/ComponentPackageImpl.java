@@ -16,12 +16,17 @@ import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
+import jp.go.aist.rtm.toolscommon.model.component.ContextHandler;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaConnectorProfile;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaContextHandler;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaObserver;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaPortSynchronizer;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaStatusObserver;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
 import jp.go.aist.rtm.toolscommon.model.component.InPort;
 import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 import jp.go.aist.rtm.toolscommon.model.component.OutPort;
@@ -46,12 +51,15 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import org.omg.PortableServer.Servant;
 import RTC.ComponentProfile;
 import RTC.ExecutionContextProfile;
+import RTC.ExecutionContextService;
 import RTC.PortProfile;
 import RTC.RTObject;
 import _SDOPackage.Configuration;
 import _SDOPackage.Organization;
+import _SDOPackage.ServiceProfile;
 
 /**
  * <!-- begin-user-doc -->
@@ -80,6 +88,13 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * @generated
 	 */
 	private EClass executionContextEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass contextHandlerEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -156,6 +171,13 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass iPropertyMapEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass portSynchronizerEClass = null;
 
 	/**
@@ -191,6 +213,27 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass corbaContextHandlerEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass corbaObserverEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass corbaStatusObserverEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass componentSpecificationEClass = null;
 
 	/**
@@ -206,6 +249,13 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * @generated
 	 */
 	private EDataType listEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType servantEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -254,6 +304,13 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EDataType rtcExecutionContextEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EDataType propertyChangeListenerEDataType = null;
 
 	/**
@@ -268,14 +325,14 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EDataType portInterfaceProfileEDataType = null;
+	private EDataType sdoServiceProfileEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EDataType rtcExecutionContextEDataType = null;
+	private EDataType portInterfaceProfileEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -437,34 +494,34 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getComponent_ParticipationContexts() {
+		return (EReference)componentEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getComponent_ExecutionContextHandler() {
+		return (EReference)componentEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getComponent_ParticipationContextHandler() {
+		return (EReference)componentEClass.getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getComponent_InstanceNameL() {
-		return (EAttribute)componentEClass.getEStructuralFeatures().get(9);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getComponent_VenderL() {
-		return (EAttribute)componentEClass.getEStructuralFeatures().get(10);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getComponent_DescriptionL() {
-		return (EAttribute)componentEClass.getEStructuralFeatures().get(11);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getComponent_CategoryL() {
 		return (EAttribute)componentEClass.getEStructuralFeatures().get(12);
 	}
 
@@ -473,7 +530,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getComponent_TypeNameL() {
+	public EAttribute getComponent_VenderL() {
 		return (EAttribute)componentEClass.getEStructuralFeatures().get(13);
 	}
 
@@ -482,7 +539,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getComponent_VersionL() {
+	public EAttribute getComponent_DescriptionL() {
 		return (EAttribute)componentEClass.getEStructuralFeatures().get(14);
 	}
 
@@ -491,7 +548,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getComponent_PathId() {
+	public EAttribute getComponent_CategoryL() {
 		return (EAttribute)componentEClass.getEStructuralFeatures().get(15);
 	}
 
@@ -500,7 +557,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getComponent_OutportDirection() {
+	public EAttribute getComponent_TypeNameL() {
 		return (EAttribute)componentEClass.getEStructuralFeatures().get(16);
 	}
 
@@ -509,8 +566,35 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getComponent_CompositeTypeL() {
+	public EAttribute getComponent_VersionL() {
 		return (EAttribute)componentEClass.getEStructuralFeatures().get(17);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getComponent_PathId() {
+		return (EAttribute)componentEClass.getEStructuralFeatures().get(18);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getComponent_OutportDirection() {
+		return (EAttribute)componentEClass.getEStructuralFeatures().get(19);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getComponent_CompositeTypeL() {
+		return (EAttribute)componentEClass.getEStructuralFeatures().get(20);
 	}
 
 	/**
@@ -528,7 +612,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * @generated
 	 */
 	public EAttribute getComponent_ComponentId() {
-		return (EAttribute)componentEClass.getEStructuralFeatures().get(18);
+		return (EAttribute)componentEClass.getEStructuralFeatures().get(21);
 	}
 
 	/**
@@ -537,7 +621,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * @generated
 	 */
 	public EAttribute getComponent_Required() {
-		return (EAttribute)componentEClass.getEStructuralFeatures().get(19);
+		return (EAttribute)componentEClass.getEStructuralFeatures().get(22);
 	}
 
 	/**
@@ -546,7 +630,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * @generated
 	 */
 	public EReference getComponent_ChildSystemDiagram() {
-		return (EReference)componentEClass.getEStructuralFeatures().get(8);
+		return (EReference)componentEClass.getEStructuralFeatures().get(11);
 	}
 
 	/**
@@ -582,7 +666,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * @generated
 	 */
 	public EAttribute getCorbaComponent_SDOConfiguration() {
-		return (EAttribute)corbaComponentEClass.getEStructuralFeatures().get(2);
+		return (EAttribute)corbaComponentEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -591,6 +675,15 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * @generated
 	 */
 	public EAttribute getCorbaComponent_RTCComponentProfile() {
+		return (EAttribute)corbaComponentEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCorbaComponent_RTCExecutionContexts() {
 		return (EAttribute)corbaComponentEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -599,7 +692,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCorbaComponent_RTCExecutionContext() {
+	public EAttribute getCorbaComponent_RTCParticipationContexts() {
 		return (EAttribute)corbaComponentEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -609,7 +702,16 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * @generated
 	 */
 	public EAttribute getCorbaComponent_SDOOrganization() {
-		return (EAttribute)corbaComponentEClass.getEStructuralFeatures().get(5);
+		return (EAttribute)corbaComponentEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCorbaComponent_RTCRTObjects() {
+		return (EAttribute)corbaComponentEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -618,7 +720,16 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * @generated
 	 */
 	public EAttribute getCorbaComponent_Ior() {
-		return (EAttribute)corbaComponentEClass.getEStructuralFeatures().get(6);
+		return (EAttribute)corbaComponentEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCorbaComponent_StatusObserver() {
+		return (EReference)corbaComponentEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -655,6 +766,33 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 */
 	public EAttribute getExecutionContext_StateL() {
 		return (EAttribute)executionContextEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getExecutionContext_Owner() {
+		return (EReference)executionContextEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getExecutionContext_Participants() {
+		return (EReference)executionContextEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getContextHandler() {
+		return contextHandlerEClass;
 	}
 
 	/**
@@ -1058,7 +1196,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConnectorProfile_SourceString() {
+	public EAttribute getConnectorProfile_PushPolicy() {
 		return (EAttribute)connectorProfileEClass.getEStructuralFeatures().get(9);
 	}
 
@@ -1067,8 +1205,134 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConnectorProfile_TargetString() {
+	public EAttribute getConnectorProfile_SkipCount() {
 		return (EAttribute)connectorProfileEClass.getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getConnectorProfile_PushPolicyAvailable() {
+		return (EAttribute)connectorProfileEClass.getEStructuralFeatures().get(11);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getConnectorProfile_SkipCountAvailable() {
+		return (EAttribute)connectorProfileEClass.getEStructuralFeatures().get(12);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getConnectorProfile_SourceString() {
+		return (EAttribute)connectorProfileEClass.getEStructuralFeatures().get(13);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getConnectorProfile_TargetString() {
+		return (EAttribute)connectorProfileEClass.getEStructuralFeatures().get(14);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getConnectorProfile_OutportBufferLength() {
+		return (EAttribute)connectorProfileEClass.getEStructuralFeatures().get(15);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getConnectorProfile_OutportBufferFullPolicy() {
+		return (EAttribute)connectorProfileEClass.getEStructuralFeatures().get(16);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getConnectorProfile_OutportBufferWriteTimeout() {
+		return (EAttribute)connectorProfileEClass.getEStructuralFeatures().get(17);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getConnectorProfile_OutportBufferEmptyPolicy() {
+		return (EAttribute)connectorProfileEClass.getEStructuralFeatures().get(18);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getConnectorProfile_OutportBufferReadTimeout() {
+		return (EAttribute)connectorProfileEClass.getEStructuralFeatures().get(19);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getConnectorProfile_InportBufferLength() {
+		return (EAttribute)connectorProfileEClass.getEStructuralFeatures().get(20);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getConnectorProfile_InportBufferFullPolicy() {
+		return (EAttribute)connectorProfileEClass.getEStructuralFeatures().get(21);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getConnectorProfile_InportBufferWriteTimeout() {
+		return (EAttribute)connectorProfileEClass.getEStructuralFeatures().get(22);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getConnectorProfile_InportBufferEmptyPolicy() {
+		return (EAttribute)connectorProfileEClass.getEStructuralFeatures().get(23);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getConnectorProfile_InportBufferReadTimeout() {
+		return (EAttribute)connectorProfileEClass.getEStructuralFeatures().get(24);
 	}
 
 	/**
@@ -1123,6 +1387,15 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 */
 	public EAttribute getEIntegerObjectToPointMapEntry_Value() {
 		return (EAttribute)eIntegerObjectToPointMapEntryEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getIPropertyMap() {
+		return iPropertyMapEClass;
 	}
 
 	/**
@@ -1220,6 +1493,51 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getCorbaContextHandler() {
+		return corbaContextHandlerEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getCorbaObserver() {
+		return corbaObserverEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCorbaObserver_ServiceProfile() {
+		return (EAttribute)corbaObserverEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCorbaObserver_Servant() {
+		return (EAttribute)corbaObserverEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getCorbaStatusObserver() {
+		return corbaStatusObserverEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getComponentSpecification() {
 		return componentSpecificationEClass;
 	}
@@ -1247,6 +1565,15 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getComponentSpecification_RtcType() {
+		return (EAttribute)componentSpecificationEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getSystemDiagramKind() {
 		return systemDiagramKindEEnum;
 	}
@@ -1267,6 +1594,15 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 */
 	public EDataType getList() {
 		return listEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getServant() {
+		return servantEDataType;
 	}
 
 	/**
@@ -1328,6 +1664,15 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EDataType getRTCExecutionContext() {
+		return rtcExecutionContextEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EDataType getPropertyChangeListener() {
 		return propertyChangeListenerEDataType;
 	}
@@ -1346,8 +1691,8 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EDataType getPortInterfaceProfile() {
-		return portInterfaceProfileEDataType;
+	public EDataType getSDOServiceProfile() {
+		return sdoServiceProfileEDataType;
 	}
 
 	/**
@@ -1355,8 +1700,8 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EDataType getRTCExecutionContext() {
-		return rtcExecutionContextEDataType;
+	public EDataType getPortInterfaceProfile() {
+		return portInterfaceProfileEDataType;
 	}
 
 	/**
@@ -1415,6 +1760,9 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		createEReference(componentEClass, COMPONENT__SERVICEPORTS);
 		createEReference(componentEClass, COMPONENT__COMPONENTS);
 		createEReference(componentEClass, COMPONENT__EXECUTION_CONTEXTS);
+		createEReference(componentEClass, COMPONENT__PARTICIPATION_CONTEXTS);
+		createEReference(componentEClass, COMPONENT__EXECUTION_CONTEXT_HANDLER);
+		createEReference(componentEClass, COMPONENT__PARTICIPATION_CONTEXT_HANDLER);
 		createEReference(componentEClass, COMPONENT__CHILD_SYSTEM_DIAGRAM);
 		createEAttribute(componentEClass, COMPONENT__INSTANCE_NAME_L);
 		createEAttribute(componentEClass, COMPONENT__VENDER_L);
@@ -1428,38 +1776,28 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		createEAttribute(componentEClass, COMPONENT__COMPONENT_ID);
 		createEAttribute(componentEClass, COMPONENT__REQUIRED);
 
-		corbaComponentEClass = createEClass(CORBA_COMPONENT);
-		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__EXECUTION_CONTEXT_STATE);
-		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__COMPONENT_STATE);
-		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__SDO_CONFIGURATION);
-		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__RTC_COMPONENT_PROFILE);
-		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__RTC_EXECUTION_CONTEXT);
-		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__SDO_ORGANIZATION);
-		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__IOR);
-
 		componentSpecificationEClass = createEClass(COMPONENT_SPECIFICATION);
 		createEAttribute(componentSpecificationEClass, COMPONENT_SPECIFICATION__ALIAS_NAME);
 		createEAttribute(componentSpecificationEClass, COMPONENT_SPECIFICATION__SPEC_UN_LOAD);
-
-		portConnectorEClass = createEClass(PORT_CONNECTOR);
-		createEReference(portConnectorEClass, PORT_CONNECTOR__CONNECTOR_PROFILE);
-		createEReference(portConnectorEClass, PORT_CONNECTOR__ROUTING_CONSTRAINT);
-		createEReference(portConnectorEClass, PORT_CONNECTOR__SOURCE);
-		createEReference(portConnectorEClass, PORT_CONNECTOR__TARGET);
+		createEAttribute(componentSpecificationEClass, COMPONENT_SPECIFICATION__RTC_TYPE);
 
 		executionContextEClass = createEClass(EXECUTION_CONTEXT);
 		createEAttribute(executionContextEClass, EXECUTION_CONTEXT__KIND_L);
 		createEAttribute(executionContextEClass, EXECUTION_CONTEXT__RATE_L);
 		createEAttribute(executionContextEClass, EXECUTION_CONTEXT__STATE_L);
+		createEReference(executionContextEClass, EXECUTION_CONTEXT__OWNER);
+		createEReference(executionContextEClass, EXECUTION_CONTEXT__PARTICIPANTS);
 
-		inPortEClass = createEClass(IN_PORT);
+		contextHandlerEClass = createEClass(CONTEXT_HANDLER);
+
+		configurationSetEClass = createEClass(CONFIGURATION_SET);
+		createEAttribute(configurationSetEClass, CONFIGURATION_SET__ID);
+		createEReference(configurationSetEClass, CONFIGURATION_SET__CONFIGURATION_DATA);
 
 		nameValueEClass = createEClass(NAME_VALUE);
 		createEAttribute(nameValueEClass, NAME_VALUE__NAME);
 		createEAttribute(nameValueEClass, NAME_VALUE__VALUE);
 		createEAttribute(nameValueEClass, NAME_VALUE__TYPE_NAME);
-
-		outPortEClass = createEClass(OUT_PORT);
 
 		portEClass = createEClass(PORT);
 		createEAttribute(portEClass, PORT__ORIGINAL_PORT_STRING);
@@ -1476,7 +1814,20 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		createEAttribute(portEClass, PORT__DATA_TYPE);
 		createEAttribute(portEClass, PORT__INTERFACE_TYPE);
 
+		inPortEClass = createEClass(IN_PORT);
+
+		outPortEClass = createEClass(OUT_PORT);
+
 		servicePortEClass = createEClass(SERVICE_PORT);
+
+		portSynchronizerEClass = createEClass(PORT_SYNCHRONIZER);
+		createEAttribute(portSynchronizerEClass, PORT_SYNCHRONIZER__ORIGINAL_PORT_STRING);
+
+		portConnectorEClass = createEClass(PORT_CONNECTOR);
+		createEReference(portConnectorEClass, PORT_CONNECTOR__CONNECTOR_PROFILE);
+		createEReference(portConnectorEClass, PORT_CONNECTOR__ROUTING_CONSTRAINT);
+		createEReference(portConnectorEClass, PORT_CONNECTOR__SOURCE);
+		createEReference(portConnectorEClass, PORT_CONNECTOR__TARGET);
 
 		connectorProfileEClass = createEClass(CONNECTOR_PROFILE);
 		createEAttribute(connectorProfileEClass, CONNECTOR_PROFILE__DATAFLOW_TYPE);
@@ -1488,19 +1839,40 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		createEAttribute(connectorProfileEClass, CONNECTOR_PROFILE__DATA_TYPE);
 		createEAttribute(connectorProfileEClass, CONNECTOR_PROFILE__INTERFACE_TYPE);
 		createEAttribute(connectorProfileEClass, CONNECTOR_PROFILE__PUSH_RATE);
+		createEAttribute(connectorProfileEClass, CONNECTOR_PROFILE__PUSH_POLICY);
+		createEAttribute(connectorProfileEClass, CONNECTOR_PROFILE__SKIP_COUNT);
+		createEAttribute(connectorProfileEClass, CONNECTOR_PROFILE__PUSH_POLICY_AVAILABLE);
+		createEAttribute(connectorProfileEClass, CONNECTOR_PROFILE__SKIP_COUNT_AVAILABLE);
 		createEAttribute(connectorProfileEClass, CONNECTOR_PROFILE__SOURCE_STRING);
 		createEAttribute(connectorProfileEClass, CONNECTOR_PROFILE__TARGET_STRING);
-
-		configurationSetEClass = createEClass(CONFIGURATION_SET);
-		createEAttribute(configurationSetEClass, CONFIGURATION_SET__ID);
-		createEReference(configurationSetEClass, CONFIGURATION_SET__CONFIGURATION_DATA);
+		createEAttribute(connectorProfileEClass, CONNECTOR_PROFILE__OUTPORT_BUFFER_LENGTH);
+		createEAttribute(connectorProfileEClass, CONNECTOR_PROFILE__OUTPORT_BUFFER_FULL_POLICY);
+		createEAttribute(connectorProfileEClass, CONNECTOR_PROFILE__OUTPORT_BUFFER_WRITE_TIMEOUT);
+		createEAttribute(connectorProfileEClass, CONNECTOR_PROFILE__OUTPORT_BUFFER_EMPTY_POLICY);
+		createEAttribute(connectorProfileEClass, CONNECTOR_PROFILE__OUTPORT_BUFFER_READ_TIMEOUT);
+		createEAttribute(connectorProfileEClass, CONNECTOR_PROFILE__INPORT_BUFFER_LENGTH);
+		createEAttribute(connectorProfileEClass, CONNECTOR_PROFILE__INPORT_BUFFER_FULL_POLICY);
+		createEAttribute(connectorProfileEClass, CONNECTOR_PROFILE__INPORT_BUFFER_WRITE_TIMEOUT);
+		createEAttribute(connectorProfileEClass, CONNECTOR_PROFILE__INPORT_BUFFER_EMPTY_POLICY);
+		createEAttribute(connectorProfileEClass, CONNECTOR_PROFILE__INPORT_BUFFER_READ_TIMEOUT);
 
 		eIntegerObjectToPointMapEntryEClass = createEClass(EINTEGER_OBJECT_TO_POINT_MAP_ENTRY);
 		createEAttribute(eIntegerObjectToPointMapEntryEClass, EINTEGER_OBJECT_TO_POINT_MAP_ENTRY__KEY);
 		createEAttribute(eIntegerObjectToPointMapEntryEClass, EINTEGER_OBJECT_TO_POINT_MAP_ENTRY__VALUE);
 
-		portSynchronizerEClass = createEClass(PORT_SYNCHRONIZER);
-		createEAttribute(portSynchronizerEClass, PORT_SYNCHRONIZER__ORIGINAL_PORT_STRING);
+		iPropertyMapEClass = createEClass(IPROPERTY_MAP);
+
+		corbaComponentEClass = createEClass(CORBA_COMPONENT);
+		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__EXECUTION_CONTEXT_STATE);
+		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__COMPONENT_STATE);
+		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__RTC_COMPONENT_PROFILE);
+		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__RTC_EXECUTION_CONTEXTS);
+		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__RTC_PARTICIPATION_CONTEXTS);
+		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__SDO_CONFIGURATION);
+		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__SDO_ORGANIZATION);
+		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__RTCRT_OBJECTS);
+		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__IOR);
+		createEReference(corbaComponentEClass, CORBA_COMPONENT__STATUS_OBSERVER);
 
 		corbaPortSynchronizerEClass = createEClass(CORBA_PORT_SYNCHRONIZER);
 		createEAttribute(corbaPortSynchronizerEClass, CORBA_PORT_SYNCHRONIZER__RTC_PORT_PROFILE);
@@ -1514,22 +1886,32 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		corbaExecutionContextEClass = createEClass(CORBA_EXECUTION_CONTEXT);
 		createEAttribute(corbaExecutionContextEClass, CORBA_EXECUTION_CONTEXT__RTC_EXECUTION_CONTEXT_PROFILE);
 
+		corbaContextHandlerEClass = createEClass(CORBA_CONTEXT_HANDLER);
+
+		corbaObserverEClass = createEClass(CORBA_OBSERVER);
+		createEAttribute(corbaObserverEClass, CORBA_OBSERVER__SERVICE_PROFILE);
+		createEAttribute(corbaObserverEClass, CORBA_OBSERVER__SERVANT);
+
+		corbaStatusObserverEClass = createEClass(CORBA_STATUS_OBSERVER);
+
 		// Create enums
 		systemDiagramKindEEnum = createEEnum(SYSTEM_DIAGRAM_KIND);
 
 		// Create data types
-		rtcComponentProfileEDataType = createEDataType(RTC_COMPONENT_PROFILE);
-		rtcrtObjectEDataType = createEDataType(RTCRT_OBJECT);
-		listEDataType = createEDataType(LIST);
 		sdoConfigurationEDataType = createEDataType(SDO_CONFIGURATION);
 		sdoConfigurationSetEDataType = createEDataType(SDO_CONFIGURATION_SET);
+		sdoOrganizationEDataType = createEDataType(SDO_ORGANIZATION);
+		sdoServiceProfileEDataType = createEDataType(SDO_SERVICE_PROFILE);
+		rtcrtObjectEDataType = createEDataType(RTCRT_OBJECT);
+		rtcComponentProfileEDataType = createEDataType(RTC_COMPONENT_PROFILE);
 		rtcConnectorProfileEDataType = createEDataType(RTC_CONNECTOR_PROFILE);
 		rtcPortProfileEDataType = createEDataType(RTC_PORT_PROFILE);
-		propertyChangeListenerEDataType = createEDataType(PROPERTY_CHANGE_LISTENER);
-		sdoOrganizationEDataType = createEDataType(SDO_ORGANIZATION);
-		portInterfaceProfileEDataType = createEDataType(PORT_INTERFACE_PROFILE);
-		rtcExecutionContextProfileEDataType = createEDataType(RTC_EXECUTION_CONTEXT_PROFILE);
 		rtcExecutionContextEDataType = createEDataType(RTC_EXECUTION_CONTEXT);
+		rtcExecutionContextProfileEDataType = createEDataType(RTC_EXECUTION_CONTEXT_PROFILE);
+		propertyChangeListenerEDataType = createEDataType(PROPERTY_CHANGE_LISTENER);
+		portInterfaceProfileEDataType = createEDataType(PORT_INTERFACE_PROFILE);
+		listEDataType = createEDataType(LIST);
+		servantEDataType = createEDataType(SERVANT);
 	}
 
 	/**
@@ -1558,27 +1940,41 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		// Obtain other dependent packages
 		CorePackage theCorePackage = (CorePackage)EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI);
 
+		// Create type parameters
+
+		// Set bounds for type parameters
+
 		// Add supertypes to classes
 		systemDiagramEClass.getESuperTypes().add(theCorePackage.getModelElement());
+		systemDiagramEClass.getESuperTypes().add(this.getIPropertyMap());
 		componentEClass.getESuperTypes().add(theCorePackage.getWrapperObject());
+		componentEClass.getESuperTypes().add(this.getIPropertyMap());
+		componentSpecificationEClass.getESuperTypes().add(this.getComponent());
+		executionContextEClass.getESuperTypes().add(theCorePackage.getWrapperObject());
+		executionContextEClass.getESuperTypes().add(this.getIPropertyMap());
+		contextHandlerEClass.getESuperTypes().add(theCorePackage.getIAdaptable());
+		configurationSetEClass.getESuperTypes().add(theCorePackage.getWrapperObject());
+		nameValueEClass.getESuperTypes().add(theCorePackage.getWrapperObject());
+		portEClass.getESuperTypes().add(theCorePackage.getWrapperObject());
+		inPortEClass.getESuperTypes().add(this.getPort());
+		outPortEClass.getESuperTypes().add(this.getPort());
+		servicePortEClass.getESuperTypes().add(this.getPort());
+		portSynchronizerEClass.getESuperTypes().add(this.getIPropertyMap());
+		portConnectorEClass.getESuperTypes().add(theCorePackage.getWrapperObject());
+		connectorProfileEClass.getESuperTypes().add(theCorePackage.getWrapperObject());
+		connectorProfileEClass.getESuperTypes().add(this.getIPropertyMap());
 		corbaComponentEClass.getESuperTypes().add(this.getComponent());
 		corbaComponentEClass.getESuperTypes().add(theCorePackage.getCorbaWrapperObject());
-		componentSpecificationEClass.getESuperTypes().add(this.getComponent());
-		portConnectorEClass.getESuperTypes().add(theCorePackage.getWrapperObject());
-		executionContextEClass.getESuperTypes().add(theCorePackage.getWrapperObject());
-		inPortEClass.getESuperTypes().add(this.getPort());
-		nameValueEClass.getESuperTypes().add(theCorePackage.getWrapperObject());
-		outPortEClass.getESuperTypes().add(this.getPort());
-		portEClass.getESuperTypes().add(theCorePackage.getWrapperObject());
-		servicePortEClass.getESuperTypes().add(this.getPort());
-		connectorProfileEClass.getESuperTypes().add(theCorePackage.getWrapperObject());
-		configurationSetEClass.getESuperTypes().add(theCorePackage.getWrapperObject());
 		corbaPortSynchronizerEClass.getESuperTypes().add(theCorePackage.getCorbaWrapperObject());
 		corbaPortSynchronizerEClass.getESuperTypes().add(this.getPortSynchronizer());
 		corbaConnectorProfileEClass.getESuperTypes().add(this.getConnectorProfile());
 		corbaConfigurationSetEClass.getESuperTypes().add(this.getConfigurationSet());
 		corbaExecutionContextEClass.getESuperTypes().add(this.getExecutionContext());
 		corbaExecutionContextEClass.getESuperTypes().add(theCorePackage.getCorbaWrapperObject());
+		corbaContextHandlerEClass.getESuperTypes().add(this.getContextHandler());
+		corbaObserverEClass.getESuperTypes().add(this.getIPropertyMap());
+		corbaObserverEClass.getESuperTypes().add(theCorePackage.getIAdaptable());
+		corbaStatusObserverEClass.getESuperTypes().add(this.getCorbaObserver());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(systemDiagramEClass, SystemDiagram.class, "SystemDiagram", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1591,14 +1987,14 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		initEReference(getSystemDiagram_ParentSystemDiagram(), this.getSystemDiagram(), null, "parentSystemDiagram", null, 0, 1, SystemDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSystemDiagram_CompositeComponent(), this.getComponent(), null, "compositeComponent", null, 0, 1, SystemDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		EOperation op = addEOperation(systemDiagramEClass, null, "setSynchronizeInterval");
-		addEParameter(op, ecorePackage.getELong(), "milliSecond", 0, 1);
+		EOperation op = addEOperation(systemDiagramEClass, null, "setSynchronizeInterval", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getELong(), "milliSecond", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		op = addEOperation(systemDiagramEClass, null, "addPropertyChangeListener");
-		addEParameter(op, this.getPropertyChangeListener(), "listener", 0, 1);
+		op = addEOperation(systemDiagramEClass, null, "addPropertyChangeListener", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getPropertyChangeListener(), "listener", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		op = addEOperation(systemDiagramEClass, null, "removePropertyChangeListener");
-		addEParameter(op, this.getPropertyChangeListener(), "listener", 0, 1);
+		op = addEOperation(systemDiagramEClass, null, "removePropertyChangeListener", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getPropertyChangeListener(), "listener", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(componentEClass, Component.class, "Component", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getComponent_ConfigurationSets(), this.getConfigurationSet(), null, "configurationSets", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1607,8 +2003,11 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		initEReference(getComponent_Inports(), this.getInPort(), null, "inports", null, 0, -1, Component.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponent_Outports(), this.getOutPort(), null, "outports", null, 0, -1, Component.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponent_Serviceports(), this.getServicePort(), null, "serviceports", null, 0, -1, Component.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getComponent_Components(), this.getComponent(), null, "components", "", 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getComponent_Components(), this.getComponent(), null, "components", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponent_ExecutionContexts(), this.getExecutionContext(), null, "executionContexts", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getComponent_ParticipationContexts(), this.getExecutionContext(), null, "participationContexts", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getComponent_ExecutionContextHandler(), this.getContextHandler(), null, "executionContextHandler", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getComponent_ParticipationContextHandler(), this.getContextHandler(), null, "participationContextHandler", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponent_ChildSystemDiagram(), this.getSystemDiagram(), null, "childSystemDiagram", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getComponent_InstanceNameL(), ecorePackage.getEString(), "instanceNameL", "", 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getComponent_VenderL(), ecorePackage.getEString(), "venderL", "", 0, 1, Component.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1622,103 +2021,102 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		initEAttribute(getComponent_ComponentId(), ecorePackage.getEString(), "componentId", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getComponent_Required(), ecorePackage.getEBoolean(), "required", "false", 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		op = addEOperation(componentEClass, ecorePackage.getEBoolean(), "updateConfigurationSetListR", 0, 1);
-		addEParameter(op, this.getList(), "list", 0, 1);
-		addEParameter(op, this.getConfigurationSet(), "activeConfigurationSet", 0, 1);
-		addEParameter(op, this.getList(), "originallist", 0, 1);
+		addEOperation(componentEClass, this.getComponent(), "getAllComponents", 0, -1, IS_UNIQUE, IS_ORDERED);
 
-		addEOperation(componentEClass, this.getList(), "getAllComponents", 0, 1);
+		addEOperation(componentEClass, ecorePackage.getEBoolean(), "isCompositeComponent", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		addEOperation(componentEClass, ecorePackage.getEBoolean(), "isCompositeComponent", 0, 1);
+		addEOperation(componentEClass, ecorePackage.getEBoolean(), "isGroupingCompositeComponent", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		addEOperation(componentEClass, ecorePackage.getEBoolean(), "isGroupingCompositeComponent", 0, 1);
+		addEOperation(componentEClass, ecorePackage.getEBoolean(), "hasComponentAction", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		addEOperation(componentEClass, ecorePackage.getEBoolean(), "inOnlineSystemDiagram", 0, 1);
+		addEOperation(componentEClass, ecorePackage.getEBoolean(), "inOnlineSystemDiagram", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		op = addEOperation(componentEClass, ecorePackage.getEBoolean(), "addComponentsR", 0, 1);
-		addEParameter(op, this.getList(), "componentList", 0, 1);
+		op = addEOperation(componentEClass, ecorePackage.getEBoolean(), "setComponentsR", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getList(), "componentList", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		op = addEOperation(componentEClass, ecorePackage.getEBoolean(), "removeComponentR", 0, 1);
-		addEParameter(op, this.getComponent(), "component", 0, 1);
+		op = addEOperation(componentEClass, ecorePackage.getEBoolean(), "addComponentsR", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getList(), "componentList", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		op = addEOperation(componentEClass, ecorePackage.getEBoolean(), "setExportedPorts", 0, 1);
-		addEParameter(op, ecorePackage.getEString(), "values", 0, -1);
+		op = addEOperation(componentEClass, ecorePackage.getEBoolean(), "removeComponentR", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getComponent(), "component", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		op = addEOperation(componentEClass, ecorePackage.getEBoolean(), "updateConfigurationSetR", 0, 1);
-		addEParameter(op, this.getConfigurationSet(), "configSet", 0, 1);
-		addEParameter(op, ecorePackage.getEBoolean(), "isActive", 0, 1);
+		op = addEOperation(componentEClass, ecorePackage.getEBoolean(), "setExportedPorts", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "values", 0, -1, IS_UNIQUE, IS_ORDERED);
 
-		op = addEOperation(componentEClass, ecorePackage.getEBoolean(), "setComponentsR", 0, 1);
-		addEParameter(op, this.getList(), "componentList", 0, 1);
+		op = addEOperation(componentEClass, ecorePackage.getEBoolean(), "updateConfigurationSetR", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getConfigurationSet(), "configSet", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEBoolean(), "isActive", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		addEOperation(componentEClass, ecorePackage.getEString(), "getPath", 0, 1);
+		op = addEOperation(componentEClass, ecorePackage.getEBoolean(), "updateConfigurationSetListR", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getList(), "list", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getConfigurationSet(), "activeConfigurationSet", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getList(), "originallist", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		op = addEOperation(componentEClass, this.getExecutionContext(), "setExecutionContext", 0, 1);
-		addEParameter(op, ecorePackage.getEString(), "id", 0, 1);
-		addEParameter(op, this.getExecutionContext(), "ec", 0, 1);
-
-		op = addEOperation(componentEClass, this.getExecutionContext(), "getExecutionContext", 0, 1);
-		addEParameter(op, ecorePackage.getEString(), "id", 0, 1);
-
-		op = addEOperation(componentEClass, ecorePackage.getEString(), "getExecutionContextId", 0, 1);
-		addEParameter(op, this.getExecutionContext(), "ec", 0, 1);
-
-		initEClass(corbaComponentEClass, CorbaComponent.class, "CorbaComponent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getCorbaComponent_ExecutionContextState(), ecorePackage.getEInt(), "executionContextState", "0", 0, 1, CorbaComponent.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCorbaComponent_ComponentState(), ecorePackage.getEInt(), "componentState", "1", 0, 1, CorbaComponent.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCorbaComponent_SDOConfiguration(), this.getSDOConfiguration(), "sDOConfiguration", null, 0, 1, CorbaComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCorbaComponent_RTCComponentProfile(), this.getRTCComponentProfile(), "rTCComponentProfile", null, 0, 1, CorbaComponent.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCorbaComponent_RTCExecutionContext(), this.getRTCExecutionContext(), "rTCExecutionContext", "", 0, -1, CorbaComponent.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCorbaComponent_SDOOrganization(), this.getSDOOrganization(), "sDOOrganization", "", 0, 1, CorbaComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCorbaComponent_Ior(), ecorePackage.getEString(), "ior", null, 0, 1, CorbaComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		addEOperation(corbaComponentEClass, ecorePackage.getEInt(), "startR", 0, 1);
-
-		addEOperation(corbaComponentEClass, ecorePackage.getEInt(), "stopR", 0, 1);
-
-		addEOperation(corbaComponentEClass, ecorePackage.getEInt(), "activateR", 0, 1);
-
-		addEOperation(corbaComponentEClass, ecorePackage.getEInt(), "deactivateR", 0, 1);
-
-		addEOperation(corbaComponentEClass, ecorePackage.getEInt(), "resetR", 0, 1);
-
-		addEOperation(corbaComponentEClass, ecorePackage.getEInt(), "finalizeR", 0, 1);
-
-		addEOperation(corbaComponentEClass, ecorePackage.getEInt(), "exitR", 0, 1);
-
-		addEOperation(corbaComponentEClass, this.getRTCRTObject(), "getCorbaObjectInterface", 0, 1);
+		addEOperation(componentEClass, ecorePackage.getEString(), "getPath", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(componentSpecificationEClass, ComponentSpecification.class, "ComponentSpecification", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getComponentSpecification_AliasName(), ecorePackage.getEString(), "aliasName", null, 0, 1, ComponentSpecification.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getComponentSpecification_SpecUnLoad(), ecorePackage.getEBoolean(), "specUnLoad", "false", 0, 1, ComponentSpecification.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(portConnectorEClass, PortConnector.class, "PortConnector", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getPortConnector_ConnectorProfile(), this.getConnectorProfile(), null, "connectorProfile", null, 0, 1, PortConnector.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPortConnector_RoutingConstraint(), this.getEIntegerObjectToPointMapEntry(), null, "routingConstraint", null, 0, -1, PortConnector.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPortConnector_Source(), this.getPort(), null, "source", null, 0, 1, PortConnector.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPortConnector_Target(), this.getPort(), null, "target", null, 0, 1, PortConnector.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		addEOperation(portConnectorEClass, ecorePackage.getEBoolean(), "createConnectorR", 0, 1);
-
-		addEOperation(portConnectorEClass, ecorePackage.getEBoolean(), "deleteConnectorR", 0, 1);
+		initEAttribute(getComponentSpecification_RtcType(), ecorePackage.getEString(), "rtcType", null, 0, 1, ComponentSpecification.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(executionContextEClass, ExecutionContext.class, "ExecutionContext", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getExecutionContext_KindL(), ecorePackage.getEInt(), "kindL", "-1", 0, 1, ExecutionContext.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getExecutionContext_RateL(), ecorePackage.getEDoubleObject(), "rateL", null, 0, 1, ExecutionContext.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getExecutionContext_StateL(), ecorePackage.getEInt(), "stateL", null, 0, 1, ExecutionContext.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getExecutionContext_Owner(), this.getComponent(), null, "owner", null, 0, 1, ExecutionContext.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getExecutionContext_Participants(), this.getComponent(), null, "participants", null, 0, -1, ExecutionContext.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		addEOperation(executionContextEClass, ecorePackage.getEString(), "getKindName", 0, 1);
+		addEOperation(executionContextEClass, ecorePackage.getEString(), "getKindName", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		addEOperation(executionContextEClass, ecorePackage.getEString(), "getStateName", 0, 1);
+		addEOperation(executionContextEClass, ecorePackage.getEString(), "getStateName", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		initEClass(inPortEClass, InPort.class, "InPort", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		op = addEOperation(executionContextEClass, ecorePackage.getEBoolean(), "setRateR", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEDoubleObject(), "rate", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(executionContextEClass, ecorePackage.getEBoolean(), "addComponentR", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getComponent(), "comp", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(executionContextEClass, ecorePackage.getEBoolean(), "removeComponentR", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getComponent(), "comp", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(contextHandlerEClass, ContextHandler.class, "ContextHandler", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		op = addEOperation(contextHandlerEClass, this.getExecutionContext(), "setContext", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "id", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getExecutionContext(), "ec", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(contextHandlerEClass, this.getExecutionContext(), "getContext", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "id", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(contextHandlerEClass, ecorePackage.getEString(), "getId", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getExecutionContext(), "ec", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(contextHandlerEClass, this.getExecutionContext(), "removeContext", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "id", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(contextHandlerEClass, ecorePackage.getEString(), "removeId", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getExecutionContext(), "ec", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(contextHandlerEClass, null, "sync", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(contextHandlerEClass, this.getList(), "values", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(contextHandlerEClass, this.getList(), "keys", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(contextHandlerEClass, null, "clear", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(contextHandlerEClass, ecorePackage.getEString(), "getType", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(contextHandlerEClass, this.getExecutionContext(), "getOwnerContexts", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(configurationSetEClass, ConfigurationSet.class, "ConfigurationSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getConfigurationSet_Id(), ecorePackage.getEString(), "id", null, 0, 1, ConfigurationSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getConfigurationSet_ConfigurationData(), this.getNameValue(), null, "configurationData", null, 0, -1, ConfigurationSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(nameValueEClass, NameValue.class, "NameValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getNameValue_Name(), ecorePackage.getEString(), "name", null, 0, 1, NameValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getNameValue_Value(), ecorePackage.getEString(), "value", "", 0, 1, NameValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getNameValue_TypeName(), ecorePackage.getEString(), "typeName", "", 0, 1, NameValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(outPortEClass, OutPort.class, "OutPort", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(portEClass, Port.class, "Port", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getPort_OriginalPortString(), ecorePackage.getEString(), "originalPortString", null, 0, 1, Port.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1735,19 +2133,38 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		initEAttribute(getPort_DataType(), ecorePackage.getEString(), "dataType", null, 0, 1, Port.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPort_InterfaceType(), ecorePackage.getEString(), "interfaceType", null, 0, 1, Port.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		addEOperation(portEClass, null, "disconnectAll");
+		addEOperation(portEClass, null, "disconnectAll", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		op = addEOperation(portEClass, this.getPort(), "findPort", 0, 1);
-		addEParameter(op, this.getSystemDiagram(), "diagram", 0, 1);
-		addEParameter(op, ecorePackage.getEString(), "originalPortString", 0, 1);
+		op = addEOperation(portEClass, this.getPort(), "findPort", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getSystemDiagram(), "diagram", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "originalPortString", 0, 1, !IS_UNIQUE, IS_ORDERED);
 
-		op = addEOperation(portEClass, ecorePackage.getEBoolean(), "validateTargetConnector", 0, 1);
-		addEParameter(op, this.getPort(), "target", 0, 1);
+		op = addEOperation(portEClass, ecorePackage.getEBoolean(), "validateTargetConnector", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getPort(), "target", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		op = addEOperation(portEClass, ecorePackage.getEBoolean(), "validateSourceConnector", 0, 1);
-		addEParameter(op, this.getPort(), "source", 0, 1);
+		op = addEOperation(portEClass, ecorePackage.getEBoolean(), "validateSourceConnector", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getPort(), "source", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(inPortEClass, InPort.class, "InPort", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(outPortEClass, OutPort.class, "OutPort", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(servicePortEClass, ServicePort.class, "ServicePort", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(portSynchronizerEClass, PortSynchronizer.class, "PortSynchronizer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getPortSynchronizer_OriginalPortString(), ecorePackage.getEString(), "originalPortString", null, 0, 1, PortSynchronizer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		addEOperation(portSynchronizerEClass, null, "disconnectAll", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(portConnectorEClass, PortConnector.class, "PortConnector", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getPortConnector_ConnectorProfile(), this.getConnectorProfile(), null, "connectorProfile", null, 0, 1, PortConnector.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPortConnector_RoutingConstraint(), this.getEIntegerObjectToPointMapEntry(), null, "routingConstraint", null, 0, -1, PortConnector.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPortConnector_Source(), this.getPort(), null, "source", null, 0, 1, PortConnector.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPortConnector_Target(), this.getPort(), null, "target", null, 0, 1, PortConnector.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		addEOperation(portConnectorEClass, ecorePackage.getEBoolean(), "createConnectorR", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(portConnectorEClass, ecorePackage.getEBoolean(), "deleteConnectorR", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(connectorProfileEClass, ConnectorProfile.class, "ConnectorProfile", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getConnectorProfile_DataflowType(), ecorePackage.getEString(), "dataflowType", null, 0, 1, ConnectorProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1759,21 +2176,68 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		initEAttribute(getConnectorProfile_DataType(), ecorePackage.getEString(), "dataType", null, 0, 1, ConnectorProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getConnectorProfile_InterfaceType(), ecorePackage.getEString(), "interfaceType", null, 0, 1, ConnectorProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getConnectorProfile_PushRate(), ecorePackage.getEDoubleObject(), "pushRate", null, 0, 1, ConnectorProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getConnectorProfile_PushPolicy(), ecorePackage.getEString(), "pushPolicy", null, 0, 1, ConnectorProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getConnectorProfile_SkipCount(), ecorePackage.getEIntegerObject(), "skipCount", null, 0, 1, ConnectorProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getConnectorProfile_PushPolicyAvailable(), ecorePackage.getEBoolean(), "pushPolicyAvailable", null, 0, 1, ConnectorProfile.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getConnectorProfile_SkipCountAvailable(), ecorePackage.getEBoolean(), "skipCountAvailable", null, 0, 1, ConnectorProfile.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getConnectorProfile_SourceString(), ecorePackage.getEString(), "sourceString", null, 0, 1, ConnectorProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getConnectorProfile_TargetString(), ecorePackage.getEString(), "targetString", null, 0, 1, ConnectorProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(configurationSetEClass, ConfigurationSet.class, "ConfigurationSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getConfigurationSet_Id(), ecorePackage.getEString(), "id", null, 0, 1, ConfigurationSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getConfigurationSet_ConfigurationData(), this.getNameValue(), null, "configurationData", null, 0, -1, ConfigurationSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getConnectorProfile_OutportBufferLength(), ecorePackage.getEIntegerObject(), "outportBufferLength", null, 0, 1, ConnectorProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getConnectorProfile_OutportBufferFullPolicy(), ecorePackage.getEString(), "outportBufferFullPolicy", null, 0, 1, ConnectorProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getConnectorProfile_OutportBufferWriteTimeout(), ecorePackage.getEDoubleObject(), "outportBufferWriteTimeout", null, 0, 1, ConnectorProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getConnectorProfile_OutportBufferEmptyPolicy(), ecorePackage.getEString(), "outportBufferEmptyPolicy", null, 0, 1, ConnectorProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getConnectorProfile_OutportBufferReadTimeout(), ecorePackage.getEDoubleObject(), "outportBufferReadTimeout", null, 0, 1, ConnectorProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getConnectorProfile_InportBufferLength(), ecorePackage.getEIntegerObject(), "inportBufferLength", null, 0, 1, ConnectorProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getConnectorProfile_InportBufferFullPolicy(), ecorePackage.getEString(), "inportBufferFullPolicy", null, 0, 1, ConnectorProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getConnectorProfile_InportBufferWriteTimeout(), ecorePackage.getEDoubleObject(), "inportBufferWriteTimeout", null, 0, 1, ConnectorProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getConnectorProfile_InportBufferEmptyPolicy(), ecorePackage.getEString(), "inportBufferEmptyPolicy", null, 0, 1, ConnectorProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getConnectorProfile_InportBufferReadTimeout(), ecorePackage.getEDoubleObject(), "inportBufferReadTimeout", null, 0, 1, ConnectorProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(eIntegerObjectToPointMapEntryEClass, Map.Entry.class, "EIntegerObjectToPointMapEntry", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getEIntegerObjectToPointMapEntry_Key(), ecorePackage.getEIntegerObject(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEIntegerObjectToPointMapEntry_Value(), theCorePackage.getPoint(), "value", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(portSynchronizerEClass, PortSynchronizer.class, "PortSynchronizer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getPortSynchronizer_OriginalPortString(), ecorePackage.getEString(), "originalPortString", null, 0, 1, PortSynchronizer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(iPropertyMapEClass, IPropertyMap.class, "IPropertyMap", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		addEOperation(portSynchronizerEClass, null, "disconnectAll");
+		op = addEOperation(iPropertyMapEClass, ecorePackage.getEString(), "getProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "key", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(iPropertyMapEClass, null, "setProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "key", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "value", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(iPropertyMapEClass, ecorePackage.getEString(), "removeProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "key", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(iPropertyMapEClass, ecorePackage.getEString(), "getPropertyKeys", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(corbaComponentEClass, CorbaComponent.class, "CorbaComponent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getCorbaComponent_ExecutionContextState(), ecorePackage.getEInt(), "executionContextState", "0", 0, 1, CorbaComponent.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCorbaComponent_ComponentState(), ecorePackage.getEInt(), "componentState", "1", 0, 1, CorbaComponent.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCorbaComponent_RTCComponentProfile(), this.getRTCComponentProfile(), "rTCComponentProfile", null, 0, 1, CorbaComponent.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCorbaComponent_RTCExecutionContexts(), this.getRTCExecutionContext(), "rTCExecutionContexts", "", 0, -1, CorbaComponent.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCorbaComponent_RTCParticipationContexts(), this.getRTCExecutionContext(), "rTCParticipationContexts", "", 0, -1, CorbaComponent.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCorbaComponent_SDOConfiguration(), this.getSDOConfiguration(), "sDOConfiguration", null, 0, 1, CorbaComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCorbaComponent_SDOOrganization(), this.getSDOOrganization(), "sDOOrganization", "", 0, 1, CorbaComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCorbaComponent_RTCRTObjects(), this.getRTCRTObject(), "rTCRTObjects", "", 0, -1, CorbaComponent.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCorbaComponent_Ior(), ecorePackage.getEString(), "ior", null, 0, 1, CorbaComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCorbaComponent_StatusObserver(), this.getCorbaStatusObserver(), null, "statusObserver", null, 0, 1, CorbaComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		addEOperation(corbaComponentEClass, ecorePackage.getEInt(), "startR", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(corbaComponentEClass, ecorePackage.getEInt(), "stopR", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(corbaComponentEClass, ecorePackage.getEInt(), "activateR", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(corbaComponentEClass, ecorePackage.getEInt(), "deactivateR", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(corbaComponentEClass, ecorePackage.getEInt(), "resetR", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(corbaComponentEClass, ecorePackage.getEInt(), "finalizeR", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(corbaComponentEClass, ecorePackage.getEInt(), "exitR", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(corbaComponentEClass, this.getRTCRTObject(), "getCorbaObjectInterface", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(corbaPortSynchronizerEClass, CorbaPortSynchronizer.class, "CorbaPortSynchronizer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCorbaPortSynchronizer_RTCPortProfile(), this.getRTCPortProfile(), "rTCPortProfile", null, 0, 1, CorbaPortSynchronizer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1787,24 +2251,72 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		initEClass(corbaExecutionContextEClass, CorbaExecutionContext.class, "CorbaExecutionContext", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCorbaExecutionContext_RtcExecutionContextProfile(), this.getRTCExecutionContextProfile(), "rtcExecutionContextProfile", null, 0, 1, CorbaExecutionContext.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		addEOperation(corbaExecutionContextEClass, ecorePackage.getEInt(), "startR", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(corbaExecutionContextEClass, ecorePackage.getEInt(), "stopR", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(corbaExecutionContextEClass, ecorePackage.getEInt(), "activateR", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getComponent(), "comp", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(corbaExecutionContextEClass, ecorePackage.getEInt(), "deactivateR", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getComponent(), "comp", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(corbaExecutionContextEClass, ecorePackage.getEInt(), "resetR", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getComponent(), "comp", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(corbaExecutionContextEClass, ecorePackage.getEInt(), "getComponentStateR", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getComponent(), "comp", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(corbaExecutionContextEClass, ecorePackage.getEInt(), "getComponentState", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getComponent(), "comp", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(corbaExecutionContextEClass, null, "setComponentState", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getComponent(), "comp", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEInt(), "state", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(corbaExecutionContextEClass, ecorePackage.getEString(), "getComponentStateName", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getComponent(), "comp", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(corbaContextHandlerEClass, CorbaContextHandler.class, "CorbaContextHandler", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(corbaObserverEClass, CorbaObserver.class, "CorbaObserver", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getCorbaObserver_ServiceProfile(), this.getSDOServiceProfile(), "serviceProfile", null, 0, 1, CorbaObserver.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCorbaObserver_Servant(), this.getServant(), "servant", null, 0, 1, CorbaObserver.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		addEOperation(corbaObserverEClass, null, "activate", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(corbaObserverEClass, null, "deactivate", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(corbaObserverEClass, ecorePackage.getEBoolean(), "attachComponent", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getCorbaComponent(), "component", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(corbaObserverEClass, ecorePackage.getEBoolean(), "detachComponent", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getCorbaComponent(), "component", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(corbaStatusObserverEClass, CorbaStatusObserver.class, "CorbaStatusObserver", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		addEOperation(corbaStatusObserverEClass, ecorePackage.getEBoolean(), "isTimeOut", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		// Initialize enums and add enum literals
 		initEEnum(systemDiagramKindEEnum, SystemDiagramKind.class, "SystemDiagramKind");
 		addEEnumLiteral(systemDiagramKindEEnum, SystemDiagramKind.ONLINE_LITERAL);
 		addEEnumLiteral(systemDiagramKindEEnum, SystemDiagramKind.OFFLINE_LITERAL);
 
 		// Initialize data types
-		initEDataType(rtcComponentProfileEDataType, ComponentProfile.class, "RTCComponentProfile", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-		initEDataType(rtcrtObjectEDataType, RTObject.class, "RTCRTObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-		initEDataType(listEDataType, List.class, "List", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(sdoConfigurationEDataType, Configuration.class, "SDOConfiguration", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(sdoConfigurationSetEDataType, _SDOPackage.ConfigurationSet.class, "SDOConfigurationSet", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(sdoOrganizationEDataType, Organization.class, "SDOOrganization", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(sdoServiceProfileEDataType, ServiceProfile.class, "SDOServiceProfile", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(rtcrtObjectEDataType, RTObject.class, "RTCRTObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(rtcComponentProfileEDataType, ComponentProfile.class, "RTCComponentProfile", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(rtcConnectorProfileEDataType, RTC.ConnectorProfile.class, "RTCConnectorProfile", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(rtcPortProfileEDataType, PortProfile.class, "RTCPortProfile", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-		initEDataType(propertyChangeListenerEDataType, PropertyChangeListener.class, "PropertyChangeListener", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-		initEDataType(sdoOrganizationEDataType, Organization.class, "SDOOrganization", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-		initEDataType(portInterfaceProfileEDataType, PortInterfaceProfile.class, "PortInterfaceProfile", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-		initEDataType(rtcExecutionContextProfileEDataType, ExecutionContextProfile.class, "RTCExecutionContextProfile", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(rtcExecutionContextEDataType, RTC.ExecutionContext.class, "RTCExecutionContext", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(rtcExecutionContextProfileEDataType, ExecutionContextProfile.class, "RTCExecutionContextProfile", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(propertyChangeListenerEDataType, PropertyChangeListener.class, "PropertyChangeListener", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(portInterfaceProfileEDataType, PortInterfaceProfile.class, "PortInterfaceProfile", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(listEDataType, List.class, "List", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(servantEDataType, Servant.class, "Servant", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

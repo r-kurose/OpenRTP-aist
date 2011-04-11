@@ -5,7 +5,7 @@
  *
  * @author Noriaki Ando <n-ando@aist.go.jp>
  *
- * Copyright (C) 2006-2008 ƒ‰ƒCƒZƒ“ƒX
+ * Copyright (C) 2006-2008 ãƒ©ã‚¤ã‚»ãƒ³ã‚¹
  *
  */
 
@@ -32,13 +32,18 @@ MyServiceSVC_impl::~MyServiceSVC_impl()
 void MyServiceSVC_impl::setGain(CORBA::Float gain)
 {
   // Please insert your code here and remove the following warning pragma
+#ifndef WIN32
   #warning "Code missing in function <void MyServiceSVC_impl::setGain(CORBA::Float gain)>"
+#endif
 }
 
 CORBA::Float MyServiceSVC_impl::getGain()
 {
   // Please insert your code here and remove the following warning pragma
+#ifndef WIN32
   #warning "Code missing in function <CORBA::Float MyServiceSVC_impl::getGain()>"
+#endif
+  return 0;
 }
 
 

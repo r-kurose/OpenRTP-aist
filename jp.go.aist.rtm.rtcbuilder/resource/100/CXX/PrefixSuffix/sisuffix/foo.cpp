@@ -26,6 +26,8 @@ static const char* foo_spec[] =
     "lang_type",         "compile",
     // Configuration variables
     "conf.default.int_param0", "0",
+    // Widget
+    // Constraints
     ""
   };
 // </rtc-template>
@@ -62,12 +64,12 @@ RTC::ReturnCode_t foo::onInitialize()
   // Registration: InPort/OutPort/Service
   // <rtc-template block="registration">
   // Set InPort buffers
-  registerInPort("InP1", p_dtInP1Inds_s);
-  registerInPort("InP2", p_dtInP2Inds_s);
+  addInPort("InP1", p_dtInP1Inds_s);
+  addInPort("InP2", p_dtInP2Inds_s);
   
   // Set OutPort buffer
-  registerOutPort("OutP1", p_dtOutP1Outds_s);
-  registerOutPort("OutP2", p_dtOutP2Outds_s);
+  addOutPort("OutP1", p_dtOutP1Outds_s);
+  addOutPort("OutP2", p_dtOutP2Outds_s);
   
   // Set service provider to Ports
   p_spsvPortPortss_s.registerProvider("acc", "MyService", p_sipaccsis_s);
@@ -76,8 +78,8 @@ RTC::ReturnCode_t foo::onInitialize()
   p_spcmPortPortss_s.registerConsumer("rate", "DAQService", p_sipratesis_s);
   
   // Set CORBA Service Ports
-  registerPort(p_spsvPortPortss_s);
-  registerPort(p_spcmPortPortss_s);
+  addPort(p_spsvPortPortss_s);
+  addPort(p_spcmPortPortss_s);
   
   // </rtc-template>
 

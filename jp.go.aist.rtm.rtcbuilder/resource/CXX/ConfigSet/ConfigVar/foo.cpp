@@ -19,7 +19,8 @@ static const char* foo_spec[] =
     "version",           "1.0.3",
     "vendor",            "TA2",
     "category",          "manip2",
-    "activity_type",     "STATIC2",
+    "activity_type",     "PERIODIC2",
+    "kind",              "DataFlowComponent",
     "max_instance",      "3",
     "language",          "C++",
     "lang_type",         "compile",
@@ -38,9 +39,9 @@ static const char* foo_spec[] =
  * @param manager Maneger Object
  */
 foo::foo(RTC::Manager* manager)
-  : RTC::DataFlowComponentBase(manager),
     // <rtc-template block="initializer">
-    
+  : RTC::DataFlowComponentBase(manager),
+
     // </rtc-template>
 	dummy(0)
 {

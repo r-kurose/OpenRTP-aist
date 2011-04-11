@@ -1,30 +1,37 @@
 package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.StringTokenizer;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
-import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.ParseException;
 import jp.go.aist.rtm.rtcbuilder.generator.IDLParamConverter;
+import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
 import jp.go.aist.rtm.rtcbuilder.model.component.BuildView;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.DataTypePreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 
+import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -48,7 +55,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	protected Font titleFont;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 */
 	public AbstractEditorFormPage(RtcBuilderEditor editor, String id, String name) {
@@ -57,11 +64,12 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		this.buildview = editor.getEMFmodel();
 	}
 
-	protected ScrolledForm createBase(IManagedForm managedForm) {
+	protected ScrolledForm createBase(final IManagedForm managedForm, String title) {
 		GridLayout gl = new GridLayout();
 		gl.numColumns = 1;
 
 		managedForm.getForm().getBody().setLayout(gl);
+		managedForm.getForm().setShowFocusedControl(true);
 		FormToolkit toolkit = managedForm.getToolkit();
 
 		ScrolledForm form = toolkit.createScrolledForm(managedForm.getForm().getBody());
@@ -75,14 +83,43 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		toolkit.paintBordersFor(form.getBody());
 
 		form.getBody().setLayout(gl);
-		
+		form.addMouseWheelListener(new MouseWheelListener(){
+			@Override
+			public void mouseScrolled(MouseEvent e) {
+				int delta = e.count * 5;
+				Point point =managedForm.getForm().getContent().getLocation();
+				int margin = managedForm.getForm().getClientArea().height - managedForm.getForm().getContent().getSize().y;
+				int newLocation = point.y + delta;
+				if( 0<newLocation ) {
+					newLocation = 0;
+				} else if( newLocation < margin ) {
+					newLocation = margin;
+				}
+				
+				int selection = managedForm.getForm().getVerticalBar().getSelection();
+				int newBarVal = selection - delta;
+				point.y = newLocation;
+				managedForm.getForm().getContent().setLocation(point);
+				managedForm.getForm().getVerticalBar().setSelection(newBarVal);
+			}
+		});
+		//
+		Label label = toolkit.createLabel(form.getBody(), title);
+		if( titleFont==null ) {
+			titleFont = new Font(form.getDisplay(), IMessageConstants.TITLE_FONT, 16, SWT.BOLD);
+		}
+		label.setFont(titleFont);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
+		label.setLayoutData(gd);
+
 		return form;
 	}
 	
 	protected Composite createSectionBaseWithLabel(FormToolkit toolkit, ScrolledForm form,
 			String title, String explain, int colnum) {
 		Section sctBasic = toolkit.createSection(form.getBody(),
-		Section.TITLE_BAR | Section.EXPANDED | Section.TWISTIE);
+							Section.TITLE_BAR | Section.EXPANDED | Section.TWISTIE);
 		sctBasic.setText(title);
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
@@ -141,13 +178,40 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		sep.setLayoutData(gd);
 	}
 
+	protected TableViewer createTableViewer(FormToolkit toolkit, Composite composite) {
+		return createTableViewer(toolkit, composite, 120);
+	}
+	protected TableViewer createTableViewer(FormToolkit toolkit, Composite composite, int height) {
+		final TableViewer portParamTableViewer = new TableViewer(toolkit.createTable(composite,
+						SWT.SINGLE | SWT.FULL_SELECTION | SWT.BORDER));
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		gd.heightHint = height;
+		gd.widthHint = 120;
+		gd.grabExcessHorizontalSpace = true;
+		portParamTableViewer.getTable().setLayoutData(gd);
+
+		portParamTableViewer.getTable().setHeaderVisible(true);
+		portParamTableViewer.getTable().setLinesVisible(true);
+		portParamTableViewer.setContentProvider(new ArrayContentProvider());
+
+		return portParamTableViewer;
+	}
+
 	protected Text createLabelAndText(FormToolkit toolkit, Composite composite,
 			String labelString) {
-		return createLabelAndText(toolkit, composite, labelString, SWT.NONE);
+		return createLabelAndText(toolkit, composite, labelString, SWT.NONE, 0);
 	}
 	protected Text createLabelAndText(FormToolkit toolkit, Composite composite,
 			String labelString, int style) {
-		if( labelString!=null && labelString.length()>0 ) toolkit.createLabel(composite, labelString);
+		return createLabelAndText(toolkit, composite, labelString, style, 0);
+	}
+	protected Text createLabelAndText(FormToolkit toolkit, Composite composite,
+			String labelString, int style, int color) {
+		if( labelString!=null && labelString.length()>0 ) {
+			Label label = toolkit.createLabel(composite, labelString);
+			if(color>0 ) label.setForeground(getSite().getShell().getDisplay().getSystemColor(color));
+		}
+		
 		final Text text = toolkit.createText(composite, "", style);
 		text.addKeyListener(new KeyListener() {
 			public void keyReleased(KeyEvent e) {
@@ -177,7 +241,13 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	
 	protected Combo createLabelAndCombo(FormToolkit toolkit, Composite composite,
 			String labelString, String[] items) {
-		toolkit.createLabel(composite, labelString);
+		return createLabelAndCombo(toolkit, composite, labelString, items, 0);
+	}
+	
+	protected Combo createLabelAndCombo(FormToolkit toolkit, Composite composite,
+			String labelString, String[] items, int color) {
+		Label label = toolkit.createLabel(composite, labelString);
+		if(color>0 ) label.setForeground(getSite().getShell().getDisplay().getSystemColor(color));
 		Combo combo = new Combo(composite, SWT.DROP_DOWN | SWT.READ_ONLY);
 		combo.setItems(items);
 		combo.select(0);
@@ -279,7 +349,12 @@ public abstract class AbstractEditorFormPage extends FormPage {
 
 	protected Combo createEditableCombo(FormToolkit toolkit, Composite composite,
 			String labelString, String key, String[] defaultValue) {
-		toolkit.createLabel(composite, labelString);
+		return createEditableCombo(toolkit, composite, labelString, key, defaultValue, 0);
+	}
+	protected Combo createEditableCombo(FormToolkit toolkit, Composite composite,
+			String labelString, String key, String[] defaultValue, int color) {
+		Label label = toolkit.createLabel(composite, labelString);
+		if(color>0) label.setForeground(getSite().getShell().getDisplay().getSystemColor(color));
 		Combo combo = new Combo(composite, SWT.DROP_DOWN);
 		for(int index=0;index<defaultValue.length;index++) {
 			combo.add(defaultValue[index]);
@@ -316,10 +391,17 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		col.setText(title);
 		col.setWidth(width);
 	}
-
+	protected TableViewerColumn createColumn(TableViewer tv, String title, int width){
+		TableViewerColumn col = new TableViewerColumn(tv, SWT.NONE);
+		col.getColumn().setText(title);
+		col.getColumn().setWidth(width);
+		col.getColumn().setResizable(true);
+		col.getColumn().setMoveable(false);
+		return col;
+	}
 
 	/**
-	 * ƒ[ƒNƒXƒy[ƒX‚Ì‰i‘±î•ñ‚©‚çAƒRƒ“ƒ{‚ÌƒŠƒXƒg‚Æ‘I‘ğƒCƒ“ƒfƒbƒNƒX‚ğƒ[ƒh‚·‚é
+	 * ãƒ¯ãƒ¼ã‚¯ã‚¹ãƒšãƒ¼ã‚¹ã®æ°¸ç¶šæƒ…å ±ã‹ã‚‰ã€ã‚³ãƒ³ãƒœã®ãƒªã‚¹ãƒˆã¨é¸æŠã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
 	 * 
 	 * @param combo
 	 */
@@ -333,7 +415,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 
 	/**
-	 * “ü—Í‚µ‚½ƒJƒeƒSƒŠ‚ğ‰i‘±î•ñ‚Éİ’è‚·‚é
+	 * å…¥åŠ›ã—ãŸã‚«ãƒ†ã‚´ãƒªã‚’æ°¸ç¶šæƒ…å ±ã«è¨­å®šã™ã‚‹
 	 * 
 	 * @param combo
 	 */
@@ -371,29 +453,60 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 	
 	protected String[] extractDataTypes() {
-		List<String> sources = DataTypePreferenceManager.getInstance().getIdlFileDirectories();
-		List<String> sourceContents = new ArrayList<String>();
-		for(int intidx=0;intidx<sources.size();intidx++) {
+		String FS = System.getProperty("file.separator");
+		List<String> sources = new ArrayList<String>(DataTypePreferenceManager
+				.getInstance().getIdlFileDirectories());
+		String defaultPath = System.getenv("RTM_ROOT");
+		if (defaultPath != null) {
+			sources.add(0, defaultPath + "rtm" + FS + "idl");
+		}
+		List<DataTypeParam> sourceContents = new ArrayList<DataTypeParam>();
+		for (int intidx = 0; intidx < sources.size(); intidx++) {
+			String source = sources.get(intidx);
 			try {
-				File idlDir = new File(sources.get(intidx));
-				String[] idlNames = idlDir.list();
-				for( int intidxFile=0; intidxFile<idlNames.length; intidxFile++ ) {
-					if(idlNames[intidxFile].toLowerCase().endsWith(".idl") ) {
-						String idlContent = FileUtil.readFile(
-								sources.get(intidx) + System.getProperty( "file.separator" ) + idlNames[intidxFile]);
-						sourceContents.add(idlContent);
+				File idlDir = new File(source);
+				String[] list = idlDir.list();
+				if (list == null) {
+					continue;
+				}
+				List<String> idlNames = new ArrayList<String>();
+				for (String name : list) {
+					if (name.toLowerCase().endsWith(".idl")) {
+						idlNames.add(name);
 					}
 				}
-			} catch(RuntimeException ex) {
+				Collections.sort(idlNames, new Comparator<String>() {
+					public int compare(String a, String b) {
+						return a.compareTo(b);
+					}
+				});
+				for (String idlName : idlNames) {
+					String idlContent = FileUtil
+							.readFile(source + FS + idlName);
+					DataTypeParam param = new DataTypeParam();
+					param.setContent(idlContent);
+					param.setFullPath(source + FS + idlName);
+					sourceContents.add(param);
+					if (intidx > 0) {
+						param.setAddition(true);
+					}
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (java.lang.SecurityException e) {
+				e.printStackTrace();
 			}
 		}
 		String[] defaultTypeList = new String[0];
-		try {
-			List<String> dataTypes = IDLParamConverter.extractTypeDef(sourceContents);
-			defaultTypeList = new String[dataTypes.size()];
-			defaultTypeList = dataTypes.toArray(defaultTypeList);
-		} catch (ParseException ex) {
-		}
+		List<String> dataTypes = IDLParamConverter
+				.extractTypeDef(sourceContents);
+		defaultTypeList = new String[dataTypes.size()];
+		defaultTypeList = dataTypes.toArray(defaultTypeList);
+		//
+		editor.getGeneratorParam().getDataTypeParams().clear();
+		editor.getGeneratorParam().getDataTypeParams().addAll(sourceContents);
+		//
+
 		return defaultTypeList;
 	}
 
@@ -418,14 +531,14 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 	
 	public void pageSelected(){
-		// ƒy[ƒW‚ª‘I‘ğ‚³‚ê‚½‚Æ‚«‚Éˆ—‚ª•K—v‚Èê‡‚ÍA‚±‚ê‚ğƒI[ƒo[ƒ‰ƒCƒh‚·‚é
+		// ãƒšãƒ¼ã‚¸ãŒé¸æŠã•ã‚ŒãŸã¨ãã«å‡¦ç†ãŒå¿…è¦ãªå ´åˆã¯ã€ã“ã‚Œã‚’ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã™ã‚‹
 	}
 
 	/**
-	 * Composite‚ÉBackgroundColor‚ğw’è‚·‚éB
-	 * Composite‚ªq‚ğ‚Âê‡‚É‚Íq‚ÌBackgroundColor‚àw’è‚·‚éB
-	 * q‚ªComposite‚Ìê‡‚É‚ÍÄ‹NŒÄ‚Ño‚µ‚ğs‚¤B
-	 * w’è‚µ‚½Composite‚Ì‰º‚É‚ ‚éControl‚·‚×‚Ä‚ª“¯‚¶BackgroundColor‚É‚È‚éB
+	 * Compositeã«BackgroundColorã‚’æŒ‡å®šã™ã‚‹ã€‚
+	 * CompositeãŒå­ã‚’æŒã¤å ´åˆã«ã¯å­ã®BackgroundColorã‚‚æŒ‡å®šã™ã‚‹ã€‚
+	 * å­ãŒCompositeã®å ´åˆã«ã¯å†èµ·å‘¼ã³å‡ºã—ã‚’è¡Œã†ã€‚
+	 * æŒ‡å®šã—ãŸCompositeã®ä¸‹ã«ã‚ã‚‹Controlã™ã¹ã¦ãŒåŒã˜BackgroundColorã«ãªã‚‹ã€‚
 	 * 
 	 * @param composit
 	 * @param color
@@ -444,7 +557,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 
 	/**
-	 * ƒtƒH[ƒ€“à‚Ì—v‘f‚ğw‚µ¦‚·ƒIƒuƒWƒFƒNƒgB
+	 * ãƒ•ã‚©ãƒ¼ãƒ å†…ã®è¦ç´ ã‚’æŒ‡ã—ç¤ºã™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
 	 */
 	public static class WidgetInfo {
 		String formName;
@@ -482,22 +595,22 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 
 	/**
-	 * ƒtƒH[ƒ€“à‚Ì—v‘f‚Ì—LŒø/–³Œø‚ğİ’è‚µ‚Ü‚·B
+	 * ãƒ•ã‚©ãƒ¼ãƒ å†…ã®è¦ç´ ã®æœ‰åŠ¹/ç„¡åŠ¹ã‚’è¨­å®šã—ã¾ã™ã€‚
 	 * 
 	 * @param widgetInfo
-	 *            ƒtƒH[ƒ€“à‚Ì—v‘f‚ÌƒAƒhƒŒƒXî•ñ
+	 *            ãƒ•ã‚©ãƒ¼ãƒ å†…ã®è¦ç´ ã®ã‚¢ãƒ‰ãƒ¬ã‚¹æƒ…å ±
 	 * @param enabled
-	 *            —LŒø‚Ìê‡‚Í true
+	 *            æœ‰åŠ¹ã®å ´åˆã¯ true
 	 */
 	public void setEnabledInfo(WidgetInfo widgetInfo, boolean enabled) {
 	}
 
 	/**
-	 * —LŒø/–³Œø‚Ì”wŒiF‚ğæ“¾‚µ‚Ü‚·B
+	 * æœ‰åŠ¹/ç„¡åŠ¹æ™‚ã®èƒŒæ™¯è‰²ã‚’å–å¾—ã—ã¾ã™ã€‚
 	 * 
 	 * @param enabled
-	 *            —LŒø‚Ìê‡‚Í true
-	 * @return —LŒø‚Ìê‡‚Í SWT.COLOR_LIST_BACKGROUNDA–³Œø‚Ìê‡‚Í
+	 *            æœ‰åŠ¹ã®å ´åˆã¯ true
+	 * @return æœ‰åŠ¹ã®å ´åˆã¯ SWT.COLOR_LIST_BACKGROUNDã€ç„¡åŠ¹ã®å ´åˆã¯
 	 *         SWT.COLOR_WIDGET_LIGHT_SHADOW
 	 */
 	public Color getBackgroundByEnabled(boolean enabled) {
@@ -507,12 +620,12 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 
 	/**
-	 * Viewer‚Ì—LŒø/–³Œø‚ğİ’è‚µ‚Ü‚·B
+	 * Viewerã®æœ‰åŠ¹/ç„¡åŠ¹ã‚’è¨­å®šã—ã¾ã™ã€‚
 	 * 
 	 * @param viewer
-	 *            ViewerƒIƒuƒWƒFƒNƒg
+	 *            Viewerã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 * @param enabled
-	 *            —LŒø‚Ìê‡‚Í true
+	 *            æœ‰åŠ¹ã®å ´åˆã¯ true
 	 */
 	public void setViewerEnabled(Viewer viewer, boolean enabled) {
 		if (viewer == null) {
@@ -524,12 +637,12 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 
 	/**
-	 * Control‚Ì—LŒø/–³Œø‚ğİ’è‚µ‚Ü‚·B
+	 * Controlã®æœ‰åŠ¹/ç„¡åŠ¹ã‚’è¨­å®šã—ã¾ã™ã€‚
 	 * 
 	 * @param control
-	 *            ControlƒIƒuƒWƒFƒNƒg
+	 *            Controlã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 * @param enabled
-	 *            —LŒø‚Ìê‡‚Í true
+	 *            æœ‰åŠ¹ã®å ´åˆã¯ true
 	 */
 	public void setControlEnabled(Control control, boolean enabled) {
 		if (control == null) {
@@ -541,12 +654,12 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 
 	/**
-	 * Button‚Ì—LŒø/–³Œø‚ğİ’è‚µ‚Ü‚·B
+	 * Buttonã®æœ‰åŠ¹/ç„¡åŠ¹ã‚’è¨­å®šã—ã¾ã™ã€‚
 	 * 
 	 * @param button
-	 *            ButtonƒIƒuƒWƒFƒNƒg
+	 *            Buttonã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 * @param enabled
-	 *            —LŒø‚Ìê‡‚Í true
+	 *            æœ‰åŠ¹ã®å ´åˆã¯ true
 	 */
 	public void setButtonEnabled(Button button, boolean enabled) {
 		if (button == null) {

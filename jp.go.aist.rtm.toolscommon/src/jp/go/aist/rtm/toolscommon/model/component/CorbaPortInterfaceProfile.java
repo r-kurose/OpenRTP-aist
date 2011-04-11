@@ -3,8 +3,8 @@ package jp.go.aist.rtm.toolscommon.model.component;
 import RTC.PortInterfacePolarity;
 
 /**
- * CorbaƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒT[ƒrƒXƒ|[ƒgƒCƒ“ƒ^[ƒtƒF[ƒXƒvƒƒtƒ@ƒCƒ‹
- * RTC.PortInterfaceProfile‚Éˆ—‚ðˆÏ÷‚·‚é
+ * Corbaã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ã‚µãƒ¼ãƒ“ã‚¹ãƒãƒ¼ãƒˆã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«
+ * RTC.PortInterfaceProfileã«å‡¦ç†ã‚’å§”è­²ã™ã‚‹
  *
  */
 public class CorbaPortInterfaceProfile extends PortInterfaceProfile {

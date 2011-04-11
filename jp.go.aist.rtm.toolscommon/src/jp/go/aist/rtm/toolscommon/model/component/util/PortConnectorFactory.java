@@ -1,7 +1,14 @@
 package jp.go.aist.rtm.toolscommon.model.component.util;
 
-import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
-import jp.go.aist.rtm.toolscommon.model.component.CorbaConnectorProfile;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.Platform;
+
+import jp.go.aist.rtm.toolscommon.ToolsCommonPlugin;
+import jp.go.aist.rtm.toolscommon.extension.PortConnectorFactoryExtension;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaPortSynchronizer;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
@@ -10,13 +17,16 @@ import jp.go.aist.rtm.toolscommon.model.component.impl.CorbaPortConnectorImpl;
 import jp.go.aist.rtm.toolscommon.model.component.impl.PortConnectorSpecificationImpl;
 
 /**
- * PortConnector‚Ìƒtƒ@ƒNƒgƒŠƒNƒ‰ƒX
- *
+ * PortConnectorã®ãƒ•ã‚¡ã‚¯ãƒˆãƒªã‚¯ãƒ©ã‚¹
+ * 
  */
 public class PortConnectorFactory {
 
+	static final String EXTENTION_POINT_NAME = "portconnectorfactory";
+	static List<PortConnectorFactoryExtension> portConnectorFactories;
+
 	/**
-	 * @return	ƒIƒtƒ‰ƒCƒ“—p‚ÌPortConnector
+	 * @return ã‚ªãƒ•ãƒ©ã‚¤ãƒ³ç”¨ã®PortConnector
 	 */
 	public static PortConnector createPortConnectorSpecification() {
 		return new PortConnectorSpecificationImpl();
@@ -27,42 +37,92 @@ public class PortConnectorFactory {
 	}
 
 	/**
-	 * @param profile
-	 * @return	ƒRƒlƒNƒ^ƒvƒƒtƒ@ƒCƒ‹‚É‘¦‚µ‚½PortConnector
+	 * @param source
+	 *            ã‚³ãƒã‚¯ã‚¿ã®æ¥ç¶šå…ƒã¨ãªã‚‹ãƒãƒ¼ãƒˆ
+	 * @param target
+	 *            ã‚³ãƒã‚¯ã‚¿ã®æ¥ç¶šå…ˆã¨ãªã‚‹ãƒãƒ¼ãƒˆ
+	 * @return ãƒãƒ¼ãƒˆã«å³ã—ãŸã‚³ãƒã‚¯ã‚¿ï¼ˆæ‹¡å¼µå¯ã€‚ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¯CORBAã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒã¤ã‹ã©ã†ã‹ã ã‘ã§åˆ¤æ–­ï¼‰
 	 */
-	public static PortConnector createPortConnector(ConnectorProfile profile) {
-		if (profile instanceof CorbaConnectorProfile) {
-			return createCorbaPortConnector();
-		} else {
-			return createPortConnectorSpecification();
+	public static PortConnector createPortConnector(Port source, Port target) {
+		if (portConnectorFactories == null) {
+			buildPortConnectorFactory();
 		}
-	}
-
-	/**
-	 * @param corbaObjectInterface
-	 * @return ƒIƒ“ƒ‰ƒCƒ“‚©‚Ç‚¤‚©‚É‘¦‚µ‚½PortConnector
-	 * Œ»ó‚ÍƒIƒ“ƒ‰ƒCƒ“‚Ìê‡‚ÍCORBAŒÅ’è
-	 */
-	public static PortConnector createPortConnector(boolean online) {
-		if (online) {
-			return createCorbaPortConnector();
-		} else {
-			return createPortConnectorSpecification();
+		PortConnectorFactoryExtension factory = null;
+		for (PortConnectorFactoryExtension ext : portConnectorFactories) {
+			ext.setSource(source);
+			ext.setTarget(target);
+			if (!ext.canCreate()) {
+				continue;
+			}
+			factory = ext;
+			break;
 		}
+		return factory.createPortConnector();
 	}
 
-	/**
-	 * @param port	ƒRƒlƒNƒ^‚ÌÚ‘±Œ³‚Ü‚½‚ÍÚ‘±æ‚Æ‚È‚éƒ|[ƒg
-	 * @return@@@@@ƒ|[ƒg‚É‘¦‚µ‚½ƒRƒlƒNƒ^iŒ»ó‚ÍCORBAƒIƒuƒWƒFƒNƒg‚ğ‚Â‚©‚Ç‚¤‚©‚¾‚¯‚Å”»’fj
-	 */
-	public static PortConnector createPortConnector(Port port) {
-		return createPortConnector(getCorbaObjectInterface(port) != null);
+	static void buildPortConnectorFactory() {
+		portConnectorFactories = new ArrayList<PortConnectorFactoryExtension>();
+		//
+		String ns = ToolsCommonPlugin.class.getPackage().getName();
+		if (Platform.getExtensionRegistry() != null) {
+			IExtension[] extensions = Platform.getExtensionRegistry()
+					.getExtensionPoint(ns, EXTENTION_POINT_NAME)
+					.getExtensions();
+			for (IExtension ex : extensions) {
+				for (IConfigurationElement ce : ex.getConfigurationElements()) {
+					Object obj;
+					try {
+						obj = ce.createExecutableExtension("extensionclass");
+						if (obj instanceof PortConnectorFactoryExtension) {
+							portConnectorFactories
+									.add((PortConnectorFactoryExtension) obj);
+						}
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					}
+				}
+			}
+		}
+		// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ•ã‚¡ã‚¯ãƒˆãƒª
+		PortConnectorFactoryExtension ext = createDefaultExtension();
+		portConnectorFactories.add(ext);
 	}
 
-	private static Object getCorbaObjectInterface(Port port) {
-		PortSynchronizer synchronizer = port.getSynchronizer();
-		if (!(synchronizer instanceof CorbaPortSynchronizer)) return null;
-		return ((CorbaPortSynchronizer)synchronizer).getCorbaObjectInterface();
+	public static List<PortConnectorFactoryExtension> getExtensions() {
+		return portConnectorFactories;
+	}
+
+	public static PortConnectorFactoryExtension createDefaultExtension() {
+		return new PortConnectorFactoryExtension() {
+			@Override
+			public boolean canCreate() {
+				return true;
+			}
+
+			@Override
+			public PortConnector createPortConnector() {
+				PortConnector result = null;
+				if (getCorbaObjectInterface(source) == null) {
+					result = createPortConnectorSpecification();
+				} else {
+					result = createCorbaPortConnector();
+				}
+				if (result == null) {
+					return null;
+				}
+				result.setSource(source);
+				result.setTarget(target);
+				return result;
+			}
+
+			Object getCorbaObjectInterface(Port port) {
+				PortSynchronizer sync = port.getSynchronizer();
+				if (!(sync instanceof CorbaPortSynchronizer)) {
+					return null;
+				}
+				return ((CorbaPortSynchronizer) sync).getCorbaObjectInterface();
+			}
+		};
 	}
 
 }

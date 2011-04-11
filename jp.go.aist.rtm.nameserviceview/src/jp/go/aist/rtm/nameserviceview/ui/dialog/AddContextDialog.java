@@ -24,9 +24,9 @@ import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContextPackage.AlreadyBound;
 
 /**
- * �l�[���T�[�o�ɃR���e�L�X�g��ǉ�����_�C�A���O�iCORBA��p�j
+ * ネームサーバにコンテキストを追加するダイアログ（CORBA専用）
  * <P>
- * �I�����ꂽ�R���e�L�X�g�ɓ��͂������O�Akind�ŐV���ȃR���e�L�X�g���쐬����B
+ * 選択されたコンテキストに入力した名前、kindで新たなコンテキストを作成する。
  * 
  */
 public class AddContextDialog extends TitleAreaDialog {
@@ -60,7 +60,7 @@ public class AddContextDialog extends TitleAreaDialog {
 	}
 
 	/**
-	 * ���C���ƂȂ�\�������쐬����
+	 * メインとなる表示部を作成する
 	 */
 	private void createContextComposite(Composite mainComposite) {
 		GridLayout gl;
@@ -132,7 +132,7 @@ public class AddContextDialog extends TitleAreaDialog {
 	}
 	
 	/**
-	 * �w�肳�ꂽ���O�AKind�ŐV���ȃR���e�L�X�g��I�����ꂽ�R���e�L�X�g�ɍ쐬����B
+	 * 指定された名前、Kindで新たなコンテキストを選択されたコンテキストに作成する。
 	 */
 	private boolean doAddContext() {
 		NamingContextNode parentContext = (NamingContextNode) selection
@@ -167,18 +167,18 @@ public class AddContextDialog extends TitleAreaDialog {
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * ���b�Z�[�W��ݒ肷��B
+	 * メッセージを設定する。
 	 */
 	public void setMessage(String newMessage, int newType) {
 		super.setMessage(newMessage, newType);
 	}
 
 	/**
-	 * �ݒ�ɕύX���������ꍇ�ɌĂяo����邱�Ƃ�z�肵�����\�b�h�B
+	 * 設定に変更があった場合に呼び出されることを想定したメソッド。
 	 * <p>
-	 * ���ӁF�ݒ�l�̕ύX������ꍇ�ɂ́A�K�����̃��\�b�h���Ăяo������<br>
-	 * ���݂́A�\�����Őݒ��ύX������ɁA���̃��\�b�h��K���Ăяo���悤�Ɏ������Ă��邪�A
-	 * ���ڐ���������悤�Ȃ�΁A���f���̕ύX�ʒm�@�\���g�p���Ď�����������ǂ��B
+	 * 注意：設定値の変更がある場合には、必ずこのメソッドを呼び出すこと<br>
+	 * 現在は、表示側で設定を変更した後に、このメソッドを必ず呼び出すように実装しているが、
+	 * 項目数が増えるようならば、モデルの変更通知機能を使用して実装する方が良い。
 	 */
 	public void notifyModified() {
 		errorMessage = ""; //$NON-NLS-1$

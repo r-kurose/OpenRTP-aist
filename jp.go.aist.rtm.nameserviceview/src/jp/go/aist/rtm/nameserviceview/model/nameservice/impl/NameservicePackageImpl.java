@@ -6,8 +6,10 @@
  */
 package jp.go.aist.rtm.nameserviceview.model.nameservice.impl;
 
-import jp.go.aist.rtm.nameserviceview.manager.ManagerPackage;
-import jp.go.aist.rtm.nameserviceview.manager.impl.ManagerPackageImpl;
+import OpenRTMNaming.NamingNotifier;
+import OpenRTMNaming.ObserverProfile;
+import jp.go.aist.rtm.nameserviceview.model.manager.ManagerPackage;
+import jp.go.aist.rtm.nameserviceview.model.manager.impl.ManagerPackageImpl;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameserviceFactory;
@@ -109,6 +111,20 @@ public class NameservicePackageImpl extends EPackageImpl implements NameserviceP
 	private EDataType invalidNameEDataType = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType namingNotifierEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType observerProfileEDataType = null;
+
+	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
 	 * package URI value.
@@ -198,17 +214,8 @@ public class NameservicePackageImpl extends EPackageImpl implements NameserviceP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getNamingContextNode_Zombie() {
-		return (EAttribute)namingContextNodeEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getNamingContextNode_Kind() {
-		return (EAttribute)namingContextNodeEClass.getEStructuralFeatures().get(1);
+		return (EAttribute)namingContextNodeEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -245,6 +252,15 @@ public class NameservicePackageImpl extends EPackageImpl implements NameserviceP
 	 */
 	public EReference getCorbaNode_NameServiceReference() {
 		return (EReference)corbaNodeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCorbaNode_Zombie() {
+		return (EAttribute)corbaNodeEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -297,6 +313,24 @@ public class NameservicePackageImpl extends EPackageImpl implements NameserviceP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getNameServiceReference_Notifier() {
+		return (EAttribute)nameServiceReferenceEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getNameServiceReference_Updated() {
+		return (EAttribute)nameServiceReferenceEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EDataType getNamingContextExt() {
 		return namingContextExtEDataType;
 	}
@@ -342,6 +376,24 @@ public class NameservicePackageImpl extends EPackageImpl implements NameserviceP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EDataType getNamingNotifier() {
+		return namingNotifierEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getObserverProfile() {
+		return observerProfileEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NameserviceFactory getNameserviceFactory() {
 		return (NameserviceFactory)getEFactoryInstance();
 	}
@@ -366,7 +418,6 @@ public class NameservicePackageImpl extends EPackageImpl implements NameserviceP
 
 		// Create classes and their features
 		namingContextNodeEClass = createEClass(NAMING_CONTEXT_NODE);
-		createEAttribute(namingContextNodeEClass, NAMING_CONTEXT_NODE__ZOMBIE);
 		createEAttribute(namingContextNodeEClass, NAMING_CONTEXT_NODE__KIND);
 
 		namingObjectNodeEClass = createEClass(NAMING_OBJECT_NODE);
@@ -374,6 +425,7 @@ public class NameservicePackageImpl extends EPackageImpl implements NameserviceP
 
 		corbaNodeEClass = createEClass(CORBA_NODE);
 		createEReference(corbaNodeEClass, CORBA_NODE__NAME_SERVICE_REFERENCE);
+		createEAttribute(corbaNodeEClass, CORBA_NODE__ZOMBIE);
 
 		namingContextEClass = createEClass(NAMING_CONTEXT);
 
@@ -381,6 +433,8 @@ public class NameservicePackageImpl extends EPackageImpl implements NameserviceP
 		createEAttribute(nameServiceReferenceEClass, NAME_SERVICE_REFERENCE__BINDING);
 		createEAttribute(nameServiceReferenceEClass, NAME_SERVICE_REFERENCE__NAME_SERVER_NAME);
 		createEAttribute(nameServiceReferenceEClass, NAME_SERVICE_REFERENCE__ROOT_NAMING_CONTEXT);
+		createEAttribute(nameServiceReferenceEClass, NAME_SERVICE_REFERENCE__NOTIFIER);
+		createEAttribute(nameServiceReferenceEClass, NAME_SERVICE_REFERENCE__UPDATED);
 
 		// Create data types
 		namingContextExtEDataType = createEDataType(NAMING_CONTEXT_EXT);
@@ -388,6 +442,8 @@ public class NameservicePackageImpl extends EPackageImpl implements NameserviceP
 		notFoundEDataType = createEDataType(NOT_FOUND);
 		cannotProceedEDataType = createEDataType(CANNOT_PROCEED);
 		invalidNameEDataType = createEDataType(INVALID_NAME);
+		namingNotifierEDataType = createEDataType(NAMING_NOTIFIER);
+		observerProfileEDataType = createEDataType(OBSERVER_PROFILE);
 	}
 
 	/**
@@ -417,6 +473,10 @@ public class NameservicePackageImpl extends EPackageImpl implements NameserviceP
 		ManagerPackage theManagerPackage = (ManagerPackage)EPackage.Registry.INSTANCE.getEPackage(ManagerPackage.eNS_URI);
 		CorePackage theCorePackage = (CorePackage)EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI);
 
+		// Create type parameters
+
+		// Set bounds for type parameters
+
 		// Add supertypes to classes
 		namingContextNodeEClass.getESuperTypes().add(this.getCorbaNode());
 		namingContextNodeEClass.getESuperTypes().add(theManagerPackage.getNameServerContext());
@@ -426,16 +486,18 @@ public class NameservicePackageImpl extends EPackageImpl implements NameserviceP
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(namingContextNodeEClass, NamingContextNode.class, "NamingContextNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getNamingContextNode_Zombie(), ecorePackage.getEBoolean(), "zombie", null, 0, 1, NamingContextNode.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getNamingContextNode_Kind(), ecorePackage.getEString(), "kind", null, 0, 1, NamingContextNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		addEOperation(namingContextNodeEClass, this.getNamingContext(), "getCorbaObjectInterface", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(namingObjectNodeEClass, NamingObjectNode.class, "NamingObjectNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getNamingObjectNode_Entry(), theCorePackage.getWrapperObject(), null, "entry", null, 0, 1, NamingObjectNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(corbaNodeEClass, CorbaNode.class, "CorbaNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCorbaNode_NameServiceReference(), this.getNameServiceReference(), null, "nameServiceReference", null, 0, 1, CorbaNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCorbaNode_Zombie(), ecorePackage.getEBoolean(), "zombie", null, 0, 1, CorbaNode.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		EOperation op = addEOperation(corbaNodeEClass, null, "deleteR");
+		EOperation op = addEOperation(corbaNodeEClass, null, "deleteR", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEException(op, this.getNotFound());
 		addEException(op, this.getCannotProceed());
 		addEException(op, this.getInvalidName());
@@ -446,9 +508,22 @@ public class NameservicePackageImpl extends EPackageImpl implements NameserviceP
 		initEAttribute(getNameServiceReference_Binding(), this.getBinding(), "binding", null, 0, 1, NameServiceReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getNameServiceReference_NameServerName(), ecorePackage.getEString(), "nameServerName", null, 0, 1, NameServiceReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getNameServiceReference_RootNamingContext(), this.getNamingContextExt(), "rootNamingContext", null, 0, 1, NameServiceReference.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNameServiceReference_Notifier(), this.getNamingNotifier(), "notifier", null, 0, 1, NameServiceReference.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNameServiceReference_Updated(), ecorePackage.getEBoolean(), "updated", null, 0, 1, NameServiceReference.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		op = addEOperation(nameServiceReferenceEClass, this.getNameServiceReference(), "createMergedNameServiceReference", 0, 1);
-		addEParameter(op, this.getBinding(), "childBinding", 0, 1);
+		op = addEOperation(nameServiceReferenceEClass, this.getNameServiceReference(), "createChildReference", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getBinding(), "childBinding", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(nameServiceReferenceEClass, this.getBinding(), "createChildBinding", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getBinding(), "childBinding", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(nameServiceReferenceEClass, this.getBinding(), "getBaseBinding", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(nameServiceReferenceEClass, ecorePackage.getEString(), "getPathId", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(nameServiceReferenceEClass, this.getObserverProfile(), "runObserver", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(nameServiceReferenceEClass, null, "stopObserver", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(namingContextExtEDataType, NamingContextExt.class, "NamingContextExt", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
@@ -456,6 +531,8 @@ public class NameservicePackageImpl extends EPackageImpl implements NameserviceP
 		initEDataType(notFoundEDataType, NotFound.class, "NotFound", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(cannotProceedEDataType, CannotProceed.class, "CannotProceed", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(invalidNameEDataType, InvalidName.class, "InvalidName", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(namingNotifierEDataType, NamingNotifier.class, "NamingNotifier", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(observerProfileEDataType, ObserverProfile.class, "ObserverProfile", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

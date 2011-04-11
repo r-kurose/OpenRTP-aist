@@ -5,6 +5,9 @@
       <manager
             managerclass="jp.go.aist.rtm.rtcbuilder.python.manager.PythonGenerateManager"
             seq="100"/>
+      <manager
+            managerclass="jp.go.aist.rtm.rtcbuilder.python.manager.PythonCMakeGenerateManager"
+            seq="110"/>
    </extension>
 
 </plugin>

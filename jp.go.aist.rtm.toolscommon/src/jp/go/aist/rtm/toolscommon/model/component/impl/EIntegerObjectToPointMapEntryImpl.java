@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class EIntegerObjectToPointMapEntryImpl extends EObjectImpl implements BasicEMap.Entry {
+public class EIntegerObjectToPointMapEntryImpl extends EObjectImpl implements BasicEMap.Entry<Integer,Point> {
 	/**
 	 * The default value of the '{@link #getTypedKey() <em>Key</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -253,7 +253,7 @@ public class EIntegerObjectToPointMapEntryImpl extends EObjectImpl implements Ba
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object getKey() {
+	public Integer getKey() {
 		return getTypedKey();
 	}
 
@@ -262,8 +262,8 @@ public class EIntegerObjectToPointMapEntryImpl extends EObjectImpl implements Ba
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setKey(Object key) {
-		setTypedKey((Integer)key);
+	public void setKey(Integer key) {
+		setTypedKey(key);
 	}
 
 	/**
@@ -271,7 +271,7 @@ public class EIntegerObjectToPointMapEntryImpl extends EObjectImpl implements Ba
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object getValue() {
+	public Point getValue() {
 		return getTypedValue();
 	}
 
@@ -280,9 +280,9 @@ public class EIntegerObjectToPointMapEntryImpl extends EObjectImpl implements Ba
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object setValue(Object value) {
-		Object oldValue = getValue();
-		setTypedValue((Point)value);
+	public Point setValue(Point value) {
+		Point oldValue = getValue();
+		setTypedValue(value);
 		return oldValue;
 	}
 
@@ -292,9 +292,9 @@ public class EIntegerObjectToPointMapEntryImpl extends EObjectImpl implements Ba
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EMap getEMap() {
+	public EMap<Integer, Point> getEMap() {
 		EObject container = eContainer();
-		return container == null ? null : (EMap)container.eGet(eContainmentFeature());
+		return container == null ? null : (EMap<Integer, Point>)container.eGet(eContainmentFeature());
 	}
 
 } //EIntegerObjectToPointMapEntryImpl

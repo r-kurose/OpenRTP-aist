@@ -46,10 +46,10 @@ public class ParamUtil {
 		ObjectFactory factory = new ObjectFactory();
 		RtcProfile profileType = factory.createRtcProfile();
 		String moduleId = IRtcBuilderConstants.SPEC_SUFFIX + IRtcBuilderConstants.SPEC_MAJOR_SEPARATOR +
-							ComponentPreferenceManager.getInstance().getBasic_VendorName() + IRtcBuilderConstants.SPEC_MAJOR_SEPARATOR +
-							ComponentPreferenceManager.getInstance().getBasic_Category() + IRtcBuilderConstants.SPEC_MAJOR_SEPARATOR +
-							ComponentPreferenceManager.getInstance().getBasic_ComponentName() + IRtcBuilderConstants.SPEC_MAJOR_SEPARATOR +
-							ComponentPreferenceManager.getInstance().getBasic_Version();
+				ComponentPreferenceManager.getInstance().getBasic_VendorName() + IRtcBuilderConstants.SPEC_MAJOR_SEPARATOR +
+				ComponentPreferenceManager.getInstance().getBasic_Category() + IRtcBuilderConstants.SPEC_MAJOR_SEPARATOR +
+				ComponentPreferenceManager.getInstance().getBasic_ComponentName() + IRtcBuilderConstants.SPEC_MAJOR_SEPARATOR +
+				ComponentPreferenceManager.getInstance().getBasic_Version();
 		profileType.setId(moduleId);
 		profileType.setVersion(IRtcBuilderConstants.SCHEMA_VERSION);
 		
@@ -64,7 +64,7 @@ public class ParamUtil {
 
 	private static Actions initActions(ObjectFactory factory) {
 
-		ArrayList<String> docs = DocumentPreferenceManager.getInstance().getDocumentValue();
+		ArrayList<String> docs = DocumentPreferenceManager.getDocumentValue();
 		Actions actionType = factory.createActions();
 		//
 		ActionStatusDoc actionStatus = null;
@@ -174,8 +174,8 @@ public class ParamUtil {
 		basic.setUpdateDate(dateFactory.newXMLGregorianCalendar(creationDate));
 		//
 		DocBasic docBasic = factory.createDocBasic();
-		docBasic.setCreator(DocumentPreferenceManager.getInstance().getCreatorValue());
-		docBasic.setLicense(DocumentPreferenceManager.getInstance().getLicenseValue());
+		docBasic.setCreator(DocumentPreferenceManager.getCreatorValue());
+		docBasic.setLicense(DocumentPreferenceManager.getLicenseValue());
 		basic.setDoc(docBasic);
 
 		return basic;
@@ -363,6 +363,7 @@ public class ParamUtil {
 		return false;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void createConfigParam(List configs, RtcParam rtcParam)  throws Exception{
 		for( Object config : configs ) {
 			ConfigurationExt configDoc = (ConfigurationExt)config;
@@ -404,6 +405,7 @@ public class ParamUtil {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void createServicePortParam(List servicePorts, List<ServicePortParam> targetPort) {
 		for( Object serviceport : servicePorts ) {
 			ServiceportExt servicePortExt = (ServiceportExt)serviceport;
@@ -460,6 +462,7 @@ public class ParamUtil {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void createDataPortParam(List dataPorts, RtcParam rtcParam) throws Exception {
 		List<DataPortParam> InPortList = new ArrayList<DataPortParam>();
 		List<DataPortParam> OutPortList = new ArrayList<DataPortParam>();

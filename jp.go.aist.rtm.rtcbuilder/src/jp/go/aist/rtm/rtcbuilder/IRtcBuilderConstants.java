@@ -4,27 +4,26 @@ package jp.go.aist.rtm.rtcbuilder;
 public interface IRtcBuilderConstants {
 
     /**
-     * OpenNewEditor ActionSet ‚ÌID
+     * OpenNewEditor ActionSet ã®ID
      */
     public static final String NEWEDITOR_ACTION_ID = RtcBuilderPlugin.PLUGIN_ID + ".ui.actionSet";
 
-	public static final String RTM_VERSION_041 = "0.4.1";
 	public static final String RTM_VERSION_042 = "0.4.2";
 	public static final String RTM_VERSION_100 = "1.0.0";
-	public static final String DEFAULT_RTM_VERSION = RTM_VERSION_041;
+	public static final String DEFAULT_RTM_VERSION = RTM_VERSION_100;
 
 	/**
-	 * ƒT[ƒrƒXŽÀ‘•‚ÌƒfƒtƒHƒ‹ƒgƒTƒtƒBƒbƒNƒX
+	 * ã‚µãƒ¼ãƒ“ã‚¹å®Ÿè£…ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚µãƒ•ã‚£ãƒƒã‚¯ã‚¹
 	 */
 	public static final String DEFAULT_SVC_IMPL_SUFFIX = "SVC_impl";
 
 	/**
-	 * ƒT[ƒrƒXƒXƒ^ƒu‚ÌƒfƒtƒHƒ‹ƒgƒTƒtƒBƒbƒNƒX
+	 * ã‚µãƒ¼ãƒ“ã‚¹ã‚¹ã‚¿ãƒ–ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚µãƒ•ã‚£ãƒƒã‚¯ã‚¹
 	 */
 	public static final String DEFAULT_SVC_STUB_SUFFIX = "Stub";
 
 	/**
-	 * ƒT[ƒrƒXƒXƒPƒ‹ƒgƒ“‚ÌƒfƒtƒHƒ‹ƒgƒTƒtƒBƒbƒNƒX
+	 * ã‚µãƒ¼ãƒ“ã‚¹ã‚¹ã‚±ãƒ«ãƒˆãƒ³ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚µãƒ•ã‚£ãƒƒã‚¯ã‚¹
 	 */
 	public static final String DEFAULT_SVC_SKEL_SUFFIX = "Skel";
 	
@@ -64,10 +63,10 @@ public interface IRtcBuilderConstants {
 		"PeriodicExecutionContext", "ExtTrigExecutionContext" };
 
 	public static final String[] ACTION_TYPE_ITEMS = new String[] {
-		"on_initialize", "on_finalize", "on_startup", "on_shutdown", "on_activated",
-		"on_deactivated", "on_aborting", "on_error", "on_reset",
-		"on_execute", "on_state_update", "on_rate_changed",
-		"on_action", "on_mode_changed"};
+		"onInitialize", "onFinalize", "onStartup", "onShutdown", "onActivated",
+		"onDeactivated", "onAborting", "onError", "onReset",
+		"onExecute", "onStateUpdate", "onRateChanged",
+		"onAction", "onModeChanged"};
 	
 	public static final String TAG_BACKEND = "backend";
 	public static final String TAG_SVC_IDL = "svc-idl";
@@ -86,6 +85,10 @@ public interface IRtcBuilderConstants {
 
 	public static final String LANG_CPP_ARG = "cxx";
 	public static final String LANG_CPPWIN_ARG = "cxxwin";
+	
+	public static final String CONFIG_WIDGET = "__widget__";
+	public static final String CONFIG_WIDGET_SPIN = "spin";
+	public static final String CONFIG_WIDGET_SLIDER = "slider";
 	//
 	public static final String SPACE1 = " "; 
 	public static final String SPACE2 = "  "; 

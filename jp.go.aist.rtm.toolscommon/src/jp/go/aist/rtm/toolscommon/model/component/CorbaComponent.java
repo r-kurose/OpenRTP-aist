@@ -11,6 +11,7 @@ import jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject;
 import org.eclipse.emf.common.util.EList;
 
 import RTC.ComponentProfile;
+import RTC.ExecutionContext;
 import RTC.RTObject;
 import RTC.ReturnCode_t;
 import _SDOPackage.Configuration;
@@ -26,11 +27,14 @@ import _SDOPackage.Organization;
  * <ul>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getExecutionContextState <em>Execution Context State</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getComponentState <em>Component State</em>}</li>
- *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getSDOConfiguration <em>SDO Configuration</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getRTCComponentProfile <em>RTC Component Profile</em>}</li>
- *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getRTCExecutionContext <em>RTC Execution Context</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getRTCExecutionContexts <em>RTC Execution Contexts</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getRTCParticipationContexts <em>RTC Participation Contexts</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getSDOConfiguration <em>SDO Configuration</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getSDOOrganization <em>SDO Organization</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getRTCRTObjects <em>RTCRT Objects</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getIor <em>Ior</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getStatusObserver <em>Status Observer</em>}</li>
  * </ul>
  * </p>
  *
@@ -157,20 +161,36 @@ public interface CorbaComponent extends Component, CorbaWrapperObject {
 	void setRTCComponentProfile(ComponentProfile value);
 
 	/**
-	 * Returns the value of the '<em><b>RTC Execution Context</b></em>' attribute list.
+	 * Returns the value of the '<em><b>RTC Execution Contexts</b></em>' attribute list.
 	 * The list contents are of type {@link RTC.ExecutionContext}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>RTC Execution Context</em>' attribute isn't clear,
+	 * If the meaning of the '<em>RTC Execution Contexts</em>' attribute list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>RTC Execution Context</em>' attribute list.
-	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getCorbaComponent_RTCExecutionContext()
-	 * @model type="RTC.ExecutionContext" default="" dataType="jp.go.aist.rtm.toolscommon.model.component.RTCExecutionContext" transient="true"
+	 * @return the value of the '<em>RTC Execution Contexts</em>' attribute list.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getCorbaComponent_RTCExecutionContexts()
+	 * @model default="" dataType="jp.go.aist.rtm.toolscommon.model.component.RTCExecutionContext" transient="true"
 	 * @generated
 	 */
-	EList getRTCExecutionContext();
+	EList<ExecutionContext> getRTCExecutionContexts();
+
+	/**
+	 * Returns the value of the '<em><b>RTC Participation Contexts</b></em>' attribute list.
+	 * The list contents are of type {@link RTC.ExecutionContext}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>RTC Participation Contexts</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>RTC Participation Contexts</em>' attribute list.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getCorbaComponent_RTCParticipationContexts()
+	 * @model default="" unique="false" dataType="jp.go.aist.rtm.toolscommon.model.component.RTCExecutionContext" transient="true"
+	 * @generated
+	 */
+	EList<ExecutionContext> getRTCParticipationContexts();
 
 	/**
 	 * Returns the value of the '<em><b>SDO Organization</b></em>' attribute.
@@ -200,6 +220,22 @@ public interface CorbaComponent extends Component, CorbaWrapperObject {
 	void setSDOOrganization(Organization value);
 
 	/**
+	 * Returns the value of the '<em><b>RTCRT Objects</b></em>' attribute list.
+	 * The list contents are of type {@link RTC.RTObject}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>RTCRT Objects</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>RTCRT Objects</em>' attribute list.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getCorbaComponent_RTCRTObjects()
+	 * @model default="" unique="false" dataType="jp.go.aist.rtm.toolscommon.model.component.RTCRTObject" transient="true"
+	 * @generated
+	 */
+	EList<RTObject> getRTCRTObjects();
+
+	/**
 	 * Returns the value of the '<em><b>Ior</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -224,6 +260,32 @@ public interface CorbaComponent extends Component, CorbaWrapperObject {
 	 * @generated
 	 */
 	void setIor(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Status Observer</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Status Observer</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Status Observer</em>' reference.
+	 * @see #setStatusObserver(CorbaStatusObserver)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getCorbaComponent_StatusObserver()
+	 * @model
+	 * @generated
+	 */
+	CorbaStatusObserver getStatusObserver();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getStatusObserver <em>Status Observer</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Status Observer</em>' reference.
+	 * @see #getStatusObserver()
+	 * @generated
+	 */
+	void setStatusObserver(CorbaStatusObserver value);
 
 	/**
 	 * <!-- begin-user-doc -->

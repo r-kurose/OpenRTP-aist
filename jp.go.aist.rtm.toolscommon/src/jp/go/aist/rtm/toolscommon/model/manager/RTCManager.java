@@ -6,12 +6,15 @@
  */
 package jp.go.aist.rtm.toolscommon.model.manager;
 
+import RTC.ComponentProfile;
+import RTC.RTObject;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject;
 
 import org.eclipse.emf.common.util.EList;
 
 import RTM.ManagerProfile;
+import RTM.ModuleProfile;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,6 +27,10 @@ import RTM.ManagerProfile;
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getManagerProfile <em>Manager Profile</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getInstanceNameL <em>Instance Name L</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getPathId <em>Path Id</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getComponentProfiles <em>Component Profiles</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getLoadableModuleProfiles <em>Loadable Module Profiles</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getLoadedModuleProfiles <em>Loaded Module Profiles</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getFactoryModuleProfiles <em>Factory Module Profiles</em>}</li>
  * </ul>
  * </p>
  *
@@ -100,8 +107,72 @@ public interface RTCManager extends CorbaWrapperObject {
 	void setPathId(String value);
 
 	/**
+	 * Returns the value of the '<em><b>Component Profiles</b></em>' attribute list.
+	 * The list contents are of type {@link RTC.ComponentProfile}.
 	 * <!-- begin-user-doc -->
-	 * RTƒRƒ“ƒ|[ƒlƒ“ƒg‚ğV‹K‚Éì¬‚·‚é
+	 * <p>
+	 * If the meaning of the '<em>Component Profiles</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Component Profiles</em>' attribute list.
+	 * @see jp.go.aist.rtm.toolscommon.model.manager.ManagerPackage#getRTCManager_ComponentProfiles()
+	 * @model dataType="jp.go.aist.rtm.toolscommon.model.component.RTCComponentProfile" transient="true"
+	 * @generated
+	 */
+	EList<ComponentProfile> getComponentProfiles();
+
+	/**
+	 * Returns the value of the '<em><b>Loadable Module Profiles</b></em>' attribute list.
+	 * The list contents are of type {@link RTM.ModuleProfile}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Loadable Module Profiles</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Loadable Module Profiles</em>' attribute list.
+	 * @see jp.go.aist.rtm.toolscommon.model.manager.ManagerPackage#getRTCManager_LoadableModuleProfiles()
+	 * @model dataType="jp.go.aist.rtm.toolscommon.model.manager.RTMModuleProfile" transient="true"
+	 * @generated
+	 */
+	EList<ModuleProfile> getLoadableModuleProfiles();
+
+	/**
+	 * Returns the value of the '<em><b>Loaded Module Profiles</b></em>' attribute list.
+	 * The list contents are of type {@link RTM.ModuleProfile}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Loaded Module Profiles</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Loaded Module Profiles</em>' attribute list.
+	 * @see jp.go.aist.rtm.toolscommon.model.manager.ManagerPackage#getRTCManager_LoadedModuleProfiles()
+	 * @model dataType="jp.go.aist.rtm.toolscommon.model.manager.RTMModuleProfile" transient="true"
+	 * @generated
+	 */
+	EList<ModuleProfile> getLoadedModuleProfiles();
+
+	/**
+	 * Returns the value of the '<em><b>Factory Module Profiles</b></em>' attribute list.
+	 * The list contents are of type {@link RTM.ModuleProfile}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Factory Module Profiles</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Factory Module Profiles</em>' attribute list.
+	 * @see jp.go.aist.rtm.toolscommon.model.manager.ManagerPackage#getRTCManager_FactoryModuleProfiles()
+	 * @model dataType="jp.go.aist.rtm.toolscommon.model.manager.RTMModuleProfile" transient="true"
+	 * @generated
+	 */
+	EList<ModuleProfile> getFactoryModuleProfiles();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * RTã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’æ–°è¦ã«ä½œæˆã™ã‚‹
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -110,7 +181,7 @@ public interface RTCManager extends CorbaWrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * Œ»İ‚Í–¢g—p
+	 * ç¾åœ¨ã¯æœªä½¿ç”¨
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -119,25 +190,25 @@ public interface RTCManager extends CorbaWrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * Œ»İ‚Í–¢g—p
+	 * ç¾åœ¨ã¯æœªä½¿ç”¨
 	 * <!-- end-user-doc -->
-	 * @model kind="operation" many="false"
+	 * @model kind="operation" dataType="jp.go.aist.rtm.toolscommon.model.component.RTCRTObject"
 	 * @generated
 	 */
-	EList getComponentsR();
+	EList<RTObject> getComponentsR();
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * Œ»İ‚Í–¢g—p
+	 * ç¾åœ¨ã¯æœªä½¿ç”¨
 	 * <!-- end-user-doc -->
-	 * @model kind="operation" many="false"
+	 * @model kind="operation" dataType="jp.go.aist.rtm.toolscommon.model.component.RTCComponentProfile"
 	 * @generated
 	 */
-	EList getComponentProfilesR();
+	EList<ComponentProfile> getComponentProfilesR();
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ƒ‚ƒWƒ…[ƒ‹‚ğƒ[ƒh‚·‚é
+	 * ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -146,7 +217,7 @@ public interface RTCManager extends CorbaWrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ƒ‚ƒWƒ…[ƒ‹‚ğƒAƒ“ƒ[ƒh‚·‚é
+	 * ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‚’ã‚¢ãƒ³ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -155,25 +226,33 @@ public interface RTCManager extends CorbaWrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * LoadableModule‚Ìƒvƒƒtƒ@ƒCƒ‹ˆê——‚ğ•Ô‚·
+	 * LoadableModuleã®ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ä¸€è¦§ã‚’è¿”ã™
 	 * <!-- end-user-doc -->
-	 * @model kind="operation" many="false"
+	 * @model kind="operation" dataType="jp.go.aist.rtm.toolscommon.model.manager.RTMModuleProfile"
 	 * @generated
 	 */
-	EList getLoadableModuleProfilesR();
+	EList<ModuleProfile> getLoadableModuleProfilesR();
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * LoadedModule‚Ìƒvƒƒtƒ@ƒCƒ‹ˆê——‚ğ•Ô‚·
+	 * LoadedModuleã®ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ä¸€è¦§ã‚’è¿”ã™
 	 * <!-- end-user-doc -->
-	 * @model kind="operation" many="false"
+	 * @model kind="operation" dataType="jp.go.aist.rtm.toolscommon.model.manager.RTMModuleProfile"
 	 * @generated
 	 */
-	EList getLoadedModuleProfilesR();
+	EList<ModuleProfile> getLoadedModuleProfilesR();
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * RTƒRƒ“ƒ|[ƒlƒ“ƒg‚ğƒtƒH[ƒN‚·‚é
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" dataType="jp.go.aist.rtm.toolscommon.model.manager.RTMModuleProfile"
+	 * @generated
+	 */
+	EList<ModuleProfile> getFactoryModuleProfilesR();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * RTã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ãƒ•ã‚©ãƒ¼ã‚¯ã™ã‚‹
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -182,7 +261,7 @@ public interface RTCManager extends CorbaWrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ƒ}ƒl[ƒWƒƒ‚ğƒVƒƒƒbƒgƒ_ƒEƒ“‚·‚é
+	 * ãƒãƒãƒ¼ã‚¸ãƒ£ã‚’ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³ã™ã‚‹
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -191,43 +270,74 @@ public interface RTCManager extends CorbaWrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ŠÇ—‰º‚ÌRTC‚Ìˆê——‚ğ•Ô‚·
+	 * ç®¡ç†ä¸‹ã®RTCã®ä¸€è¦§ã‚’è¿”ã™(IDL)
 	 * <!-- end-user-doc -->
-	 * @model kind="operation" many="false"
+	 * @model kind="operation"
 	 * @generated
 	 */
-	EList getComponentInstanceNamesR();
+	EList<String> getComponentInstanceNamesR();
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * LoadableModule‚Ìƒtƒ@ƒCƒ‹–¼ˆê——‚ğ•Ô‚·
 	 * <!-- end-user-doc -->
-	 * @model kind="operation" many="false"
+	 * @model kind="operation"
 	 * @generated
 	 */
-	EList getLoadableModuleFileNameR();
+	EList<String> getLoadableModuleFileNamesR();
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * LoadedModule‚Ìƒtƒ@ƒCƒ‹–¼ˆê——‚ğ•Ô‚·
+	 * LoadedModuleã®ãƒ•ã‚¡ã‚¤ãƒ«åä¸€è¦§ã‚’è¿”ã™(IDL)
 	 * <!-- end-user-doc -->
-	 * @model kind="operation" many="false"
+	 * @model kind="operation"
 	 * @generated
 	 */
-	EList getLoadedModuleFileNamesR();
+	EList<String> getLoadedModuleFileNamesR();
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ƒtƒ@ƒNƒgƒŠ‚Ìˆê——‚ğ•Ô‚·
+	 * ãƒ•ã‚¡ã‚¯ãƒˆãƒªã®ä¸€è¦§ã‚’è¿”ã™(IDL)
 	 * <!-- end-user-doc -->
-	 * @model kind="operation" many="false"
+	 * @model kind="operation"
 	 * @generated
 	 */
-	EList getFactoryProfileTypeNamesR();
+	EList<String> getFactoryProfileTypeNamesR();
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ManagerProfile‚ğ•Ô‚·
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	EList<String> getComponentInstanceNames();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	EList<String> getLoadableModuleFileNames();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	EList<String> getLoadedModuleFileNames();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	EList<String> getFactoryTypeNames();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * ManagerProfileã‚’è¿”ã™
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" dataType="jp.go.aist.rtm.toolscommon.model.manager.RTMManagerProfile"
 	 * @generated
@@ -235,7 +345,7 @@ public interface RTCManager extends CorbaWrapperObject {
 	ManagerProfile getProfileR();
 
 	/**
-	 * “¯Šú‚ğè“®‚ÅÀs‚·‚é
+	 * åŒæœŸã‚’æ‰‹å‹•ã§å®Ÿè¡Œã™ã‚‹
 	 */
 	void synchronizeManually();
 
