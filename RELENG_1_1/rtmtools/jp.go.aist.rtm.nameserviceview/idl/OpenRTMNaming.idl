@@ -1,0 +1,51 @@
+//
+// OpenRTMNaming.idl
+//
+#ifndef __OPENRTMNAMING_IDL__
+#define __OPENRTMNAMING_IDL__
+
+#pragma hh #ifndef __Naming_hh_EXTERNAL_GUARD__
+#pragma hh #define __Naming_hh_EXTERNAL_GUARD__
+#pragma hh #include <omniORB4/Naming.hh>
+#pragma hh #endif
+
+#include "Naming.idl"
+
+module OpenRTMNaming {
+
+    typedef CosNaming::NameComponent NameComponent;
+    typedef CosNaming::Name Name;
+    typedef CosNaming::BindingType BindingType;
+
+    interface NamingObserver;
+    interface NamingNotifier;
+
+    struct TreeBinding;
+    typedef sequence <TreeBinding> TreeBindingList;
+
+    struct TreeBinding {
+        Name            binding_name;
+        BindingType     binding_type;
+        Object          binding_object;
+        TreeBindingList binding_children;
+    };
+
+    struct ObserverProfile {
+        string          id;
+        string          interface_type;
+        NamingObserver  observer;
+    };
+
+    interface NamingObserver {
+        void update();
+    };
+
+    interface NamingNotifier {
+        void list_all( out TreeBindingList tbl );
+        boolean subscribe( in ObserverProfile oprof );
+        boolean unsubscribe( in string id );
+    };
+
+};
+
+#endif // __OPENRTMNAMING_IDL__
