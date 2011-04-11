@@ -1,0 +1,10 @@
+--- 
+rtcProfile: 
+  configurationSet: 
+    configuration: 
+      -
+        constraint: 
+          constraintUnitType: 
+            propertyIsLessThanOrEqualTo: 
+              literal: "100"
+  version: "0.2"

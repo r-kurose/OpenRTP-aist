@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<ComponentInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <OutputFolder>C:\Tech-Arts\Robot\work\dotNet\VB\type</OutputFolder>
+  <Platform>.NET Framework 2.0</Platform>
+  <Language>Visual Basic</Language>
+  <Profile>
+    <ComponentName>Test</ComponentName>
+    <ComponentDescription>Test Component.</ComponentDescription>
+    <Maker>S.Kurihara</Maker>
+    <Version>1.0.0</Version>
+    <Category>exmple</Category>
+    <ComponentType>STATIC</ComponentType>
+    <ActivityType>DataFlowComponent</ActivityType>
+    <MaxInstance>1</MaxInstance>
+  </Profile>
+  <IdlFileCollection>
+    <string>C:\Tech-Arts\Robot\work\dotNet\VB\type\idl\MyServiceType.idl</string>
+  </IdlFileCollection>
+  <DataPortInfoCollection />
+  <ServicePortInfoCollection>
+    <ServicePortInfo>
+      <portType>PROVIDED</portType>
+      <serviceName>meservice</serviceName>
+      <serviceType>MyService</serviceType>
+    </ServicePortInfo>
+  </ServicePortInfoCollection>
+  <ConfigurationInfoCollection />
+</ComponentInfo>
