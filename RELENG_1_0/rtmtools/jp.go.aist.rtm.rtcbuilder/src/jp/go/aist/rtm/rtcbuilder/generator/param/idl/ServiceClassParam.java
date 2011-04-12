@@ -11,7 +11,7 @@ import java.util.Set;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 
 /**
- * 繧ｵ繝ｼ繝薙せ繧ｯ繝ｩ繧ｹ繧偵≠繧峨ｏ縺吶け繝ｩ繧ｹ
+ * サービスクラスをあらわすクラス
  */
 public class ServiceClassParam implements Serializable {
 	private static final long serialVersionUID = 6794300037580191558L;

@@ -1,7 +1,5 @@
 package jp.go.aist.rtm.nameserviceview;
 
-import java.util.logging.Logger;
-
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -23,7 +21,6 @@ public class NameServiceViewPlugin extends AbstractUIPlugin {
 	 */
 	public NameServiceViewPlugin() {
 		plugin = this;
-		getLogger();
 	}
 
 	/*
@@ -67,18 +64,18 @@ public class NameServiceViewPlugin extends AbstractUIPlugin {
 	}
 	
 	/**
-	 * ImageRegistryã«ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã—ãŸã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’è¿”ã™
-	 * @param path ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ç›¸å¯¾ãƒ‘ã‚¹
-	 * @returnã€€ã‚¤ãƒ¡ãƒ¼ã‚¸
+	 * ImageRegistry‚ÉƒLƒƒƒbƒVƒ…‚µ‚½ƒCƒ[ƒW‚ð•Ô‚·
+	 * @param path ƒvƒ‰ƒOƒCƒ“‚Ì‘Š‘ÎƒpƒX
+	 * @return@ƒCƒ[ƒW
 	 */
 	public static Image getCachedImage(String path) {
 		return getCachedImage(getImageDescriptor(path));
 	}
 
 	/**
-	 * ImageRegistryã«ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã—ãŸã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’è¿”ã™
-	 * @param descriptor ã‚¤ãƒ¡ãƒ¼ã‚¸ãƒ‡ã‚£ã‚¹ã‚¯ãƒªãƒ—ã‚¿
-	 * @returnã€€ã‚¤ãƒ¡ãƒ¼ã‚¸
+	 * ImageRegistry‚ÉƒLƒƒƒbƒVƒ…‚µ‚½ƒCƒ[ƒW‚ð•Ô‚·
+	 * @param descriptor ƒCƒ[ƒWƒfƒBƒXƒNƒŠƒvƒ^
+	 * @return@ƒCƒ[ƒW
 	 */
 	public static Image getCachedImage(ImageDescriptor descriptor) {
 		if (descriptor == null) return null;
@@ -90,14 +87,4 @@ public class NameServiceViewPlugin extends AbstractUIPlugin {
 		}
 		return result;
 	}
-
-	static Logger log;
-
-	public static Logger getLogger() {
-		if (log == null) {
-			log = Logger.getLogger(PLUGIN_ID);
-		}
-		return log;
-	}
-
 }

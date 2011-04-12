@@ -1,6 +1,6 @@
 package jp.go.aist.rtm.toolscommon.profiles.util;
 
-import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
+import com.sun.xml.internal.bind.marshaller.NamespacePrefixMapper;
 
 public class NamespacePrefixMapperImpl extends NamespacePrefixMapper {
 //    private String rootNamespace;

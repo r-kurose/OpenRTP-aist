@@ -8,7 +8,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
 /**
- * RtcLink縺ｮAbout繧定｡ｨ遉ｺ縺吶ｋ繧｢繧ｯ繧ｷ繝ｧ繝ｳ
+ * RtcLinkのAboutを表示するアクション
  */
 public class AboutAction implements IWorkbenchWindowActionDelegate {
 

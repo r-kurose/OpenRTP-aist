@@ -6,13 +6,13 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 
 /**
- * ContextHandlerã®IPropertySourceã‚¯ãƒ©ã‚¹
+ * ContextHandler‚ÌIPropertySourceƒNƒ‰ƒX
  */
 public class ContextHandlerPropertySource extends AbstractPropertySource {
 
 	/**
 	 * @param handler
-	 *            ãƒ¢ãƒ‡ãƒ«
+	 *            ƒ‚ƒfƒ‹
 	 */
 	public ContextHandlerPropertySource(ContextHandler handler) {
 	}

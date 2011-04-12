@@ -3,9 +3,9 @@ package jp.go.aist.rtm.systemeditor.ui.dialog;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.go.aist.rtm.systemeditor.factory.CompositeComponentCreator;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
+import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.impl.ComponentFactoryImpl;
@@ -39,39 +39,39 @@ public class NewCompositeComponentDialogTest extends TestCase {
 		assertEquals("PeriodicECSharedComposite?instance_name=MyCompositeComponent&exported_ports=SequenceOutComponent0.Short,SequenceOutComponent0.ShortSeq,ConsoleIn0.out"
 				, NewCompositeComponentDialogData.getParam(compositeType, instanceName, exportedPortString));
 	}
-//	public void testCreateCompositeComponentSpecification() throws Exception {
-//		NewCompositeComponentDialog dialog = new NewCompositeComponentDialog(null, true, null, null){
-//			@Override
-//			public String getInstanceName() {
-//				return "composite1";
-//			}
-//			@Override
-//			public String getCompositeType() {
-//				return Component.COMPOSITETYPE_GROUPING;
-//			}
-//			@Override
-//			public String getPathId() {
-//				return "pathId1";
-//			}
-//			@Override
-//			public String getExportedPortString() {
-//				return "child.port1,child.port2";
-//			}			
-//		};
-//		Component compositeComponent = NewCompositeComponentDialogData.createCompositeComponentSpecification(dialog);
-//		assertEquals("child.port1,child.port2", getExportedPorts(compositeComponent));
-//		assertEquals("default", compositeComponent.getActiveConfigurationSet().getId());
-//	}
-//	private String getExportedPorts(Component compositeComponent) {
-//		ConfigurationSet activeConfigurationSet = compositeComponent.getActiveConfigurationSet();
-//		for (Object  element : activeConfigurationSet.getConfigurationData()) {
-//			NameValue value = (NameValue) element;
-//			if (value.getName().equals("exported_ports")) {
-//				return value.getValueAsString();
-//			}
-//		}
-//		return null;
-//	}
+	public void testCreateCompositeComponentSpecification() throws Exception {
+		NewCompositeComponentDialog dialog = new NewCompositeComponentDialog(null, true, null, null){
+			@Override
+			public String getInstanceName() {
+				return "composite1";
+			}
+			@Override
+			public String getCompositeType() {
+				return Component.COMPOSITETYPE_GROUPING;
+			}
+			@Override
+			public String getPathId() {
+				return "pathId1";
+			}
+			@Override
+			public String getExportedPortString() {
+				return "child.port1,child.port2";
+			}			
+		};
+		Component compositeComponent = NewCompositeComponentDialogData.createCompositeComponentSpecification(dialog);
+		assertEquals("child.port1,child.port2", getExportedPorts(compositeComponent));
+		assertEquals("default", compositeComponent.getActiveConfigurationSet().getId());
+	}
+	private String getExportedPorts(Component compositeComponent) {
+		ConfigurationSet activeConfigurationSet = compositeComponent.getActiveConfigurationSet();
+		for (Object  element : activeConfigurationSet.getConfigurationData()) {
+			NameValue value = (NameValue) element;
+			if (value.getName().equals("exported_ports")) {
+				return value.getValueAsString();
+			}
+		}
+		return null;
+	}
 
 	protected NameValue createNameValue(String name, String value) {
 		NameValue nv = ComponentFactory.eINSTANCE.createNameValue();
@@ -81,7 +81,7 @@ public class NewCompositeComponentDialogTest extends TestCase {
 	}
 
 	/**
-	 * æ–°è¦è¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆä½œæˆãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã®ãƒ†ã‚¹ãƒˆç”¨ãƒ¡ã‚½ãƒƒãƒ‰
+	 * V‹K•¡‡ƒRƒ“ƒ|[ƒlƒ“ƒgì¬ƒ_ƒCƒAƒƒO‚ÌƒeƒXƒg—pƒƒ\ƒbƒh
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -90,8 +90,7 @@ public class NewCompositeComponentDialogTest extends TestCase {
 	    shell.pack();
 	    shell.open();
 	    List<Component> list = setupSelectedComponents();
-	    CompositeComponentCreator creator = new CompositeComponentCreator();
-	    Dialog dialog = new NewCompositeComponentDialog(shell, creator, list, null);
+	    Dialog dialog = new NewCompositeComponentDialog(shell, true, list, null);
 		dialog.open();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
@@ -106,6 +105,7 @@ public class NewCompositeComponentDialogTest extends TestCase {
 		list.add(createComponent("component2/3", "def", "out"));
 		return list;
 	}
+	@SuppressWarnings("unchecked")
 	private static Component createComponent(String pathId, String name, String portName) {
 		Component component = ComponentFactory.eINSTANCE.createCorbaComponent();
 		component.setPathId(pathId);

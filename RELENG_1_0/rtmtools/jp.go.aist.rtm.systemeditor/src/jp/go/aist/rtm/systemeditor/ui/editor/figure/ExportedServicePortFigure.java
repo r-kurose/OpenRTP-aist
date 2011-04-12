@@ -6,7 +6,7 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.PointList;
 
 /**
- * å…¬é–‹ã•ã‚ŒãŸServiceportã®ãƒ•ã‚£ã‚®ãƒ¥ã‚¢ï¼ˆå­RTCã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã§ä½¿ç”¨ã•ã‚Œã‚‹ï¼‰
+ * ŒöŠJ‚³‚ê‚½Serviceport‚ÌƒtƒBƒMƒ…ƒAiqRTCƒEƒBƒ“ƒhƒE‚Åg—p‚³‚ê‚éj
  *
  */
 public class ExportedServicePortFigure extends ServicePortFigure {

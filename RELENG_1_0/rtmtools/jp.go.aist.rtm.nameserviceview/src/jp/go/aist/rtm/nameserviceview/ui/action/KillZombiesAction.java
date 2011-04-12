@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import jp.go.aist.rtm.nameserviceview.model.manager.NameServerManager;
+import jp.go.aist.rtm.nameserviceview.manager.NameServerManager;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -16,8 +16,7 @@ import org.eclipse.ui.IViewActionDelegate;
 import org.eclipse.ui.IViewPart;
 
 /**
- * ã‚¾ãƒ³ãƒ“ã‚’ä¸€æ‹¬ã—ã¦å‰Šé™¤ã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
- * TODO:ãƒãƒ«ãƒã‚¹ãƒ¬ãƒƒãƒ‰å¯¾å¿œ
+ * ƒ]ƒ“ƒr‚ğˆêŠ‡‚µ‚Äíœ‚·‚éƒAƒNƒVƒ‡ƒ“
  *
  */
 public class KillZombiesAction implements IViewActionDelegate {
@@ -27,15 +26,15 @@ public class KillZombiesAction implements IViewActionDelegate {
 	}
 
 	public void run(IAction action) {
-		Job job = new Job("ã‚¾ãƒ³ãƒ“å‰Šé™¤å‡¦ç†") {
+		Job job = new Job("ƒ]ƒ“ƒríœˆ—") {
 			@SuppressWarnings("unchecked")
 			protected IStatus run(IProgressMonitor monitor) {
 
-				monitor.beginTask("ã™ã¹ã¦ã®ã‚¾ãƒ³ãƒ“ã‚¨ãƒ³ãƒˆãƒªã‚’å‰Šé™¤ã—ã¾ã™", 100);
+				monitor.beginTask("‚·‚×‚Ä‚Ìƒ]ƒ“ƒrƒGƒ“ƒgƒŠ‚ğíœ‚µ‚Ü‚·", 100);
 
 				monitor.internalWorked(30);
 
-				monitor.subTask("ã‚¾ãƒ³ãƒ“ã®ã‚¨ãƒ³ãƒˆãƒªã‚’å‰Šé™¤ã—ã¦ã„ã¾ã™...");
+				monitor.subTask("ƒ]ƒ“ƒr‚ÌƒGƒ“ƒgƒŠ‚ğíœ‚µ‚Ä‚¢‚Ü‚·...");
 
 				List<NamingObjectNode> deleteList = new ArrayList<NamingObjectNode>();
 				for (Iterator iter = NameServerManager.eInstance
@@ -57,7 +56,7 @@ public class KillZombiesAction implements IViewActionDelegate {
 					}
 				}
 
-				monitor.subTask("ã‚¾ãƒ³ãƒ“ã®ã‚¨ãƒ³ãƒˆãƒªã®å‰Šé™¤ã‚’çµ‚äº†ã—ã¾ã—ãŸã€‚");
+				monitor.subTask("ƒ]ƒ“ƒr‚ÌƒGƒ“ƒgƒŠ‚Ìíœ‚ğI—¹‚µ‚Ü‚µ‚½B");
 				monitor.done();
 
 				return org.eclipse.core.runtime.Status.OK_STATUS;

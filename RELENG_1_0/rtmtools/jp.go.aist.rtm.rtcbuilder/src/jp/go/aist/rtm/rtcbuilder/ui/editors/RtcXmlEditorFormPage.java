@@ -54,10 +54,10 @@ public class RtcXmlEditorFormPage extends AbstractEditorFormPage {
 	private Font cautionFont;
 
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	 * 
 	 * @param editor
-	 *            è¦ªã®ã‚¨ãƒ‡ã‚£ã‚¿
+	 *            e‚ÌƒGƒfƒBƒ^
 	 */
 	public RtcXmlEditorFormPage(RtcBuilderEditor editor) {
 		super(editor, "id", IMessageConstants.RTCXML_SECTION);
@@ -216,7 +216,7 @@ public class RtcXmlEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	/**
-	 * ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
+	 * ƒf[ƒ^‚ğƒ[ƒh‚·‚é
 	 */
 	public void load() {
 		if (RTCXmlViewer == null) return;
@@ -230,14 +230,14 @@ public class RtcXmlEditorFormPage extends AbstractEditorFormPage {
 			if (message != null && !"".equals(message)) {
 				MessageDialog.openError(getSite().getShell(), "Error", message);
 			} else {
-				e.printStackTrace();// ä»Šã®ã¨ã“ã‚ã“ã¡ã‚‰ã«ã¯ã“ãªã„ã¯ãš
+				e.printStackTrace();// ¡‚Ì‚Æ‚±‚ë‚±‚¿‚ç‚É‚Í‚±‚È‚¢‚Í‚¸
 			}
 		}
 		//
 		if (sourceTextListener == null) {
 			sourceTextListener = new SourceTextListener();
 		}
-		// XMLç·¨é›†é–‹å§‹å‰ã®åˆæœŸãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆè¨­å®šæ™‚ã« updateã—ãªã„ã‚ˆã†ãƒªã‚¹ãƒŠã‚’è§£é™¤
+		// XML•ÒWŠJn‘O‚Ì‰ŠúƒhƒLƒ…ƒƒ“ƒgİ’è‚É update‚µ‚È‚¢‚æ‚¤ƒŠƒXƒi‚ğ‰ğœ
 		RTCXmlViewer.removeTextListener(sourceTextListener);
 		//
 		originalContent = editor.getRtcParam().getRtcXml();
@@ -260,11 +260,11 @@ public class RtcXmlEditorFormPage extends AbstractEditorFormPage {
 	public void setActive(boolean active) {
 		super.setActive(active);
 		if (active) {
-			// XMLç·¨é›†é–‹å§‹å‰ã® dirtyè¨­å®šã‚’ä¿å­˜ã—ã¦ãŠã
+			// XML•ÒWŠJn‘O‚Ì dirtyİ’è‚ğ•Û‘¶‚µ‚Ä‚¨‚­
 			isUpdatedOriginal = editor.getRtcParam().isUpdated();
 			load();
 		} else {
-			// XMLç·¨é›†é–‹å§‹å‰ã® dirtyè¨­å®šã«æˆ»ã™
+			// XML•ÒWŠJn‘O‚Ì dirtyİ’è‚É–ß‚·
 			if (!isUpdatedOriginal) {
 				editor.getRtcParam().resetUpdated();
 				editor.updateDirty();

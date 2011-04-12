@@ -10,7 +10,7 @@ import java.util.Set;
 import org.apache.commons.lang.builder.CompareToBuilder;
 
 /**
- * NamedValueã‚’ç·¨é›†ã™ã‚‹ãŸã‚ã®ãƒ©ãƒƒãƒ‘ãƒ¼
+ * NamedValue‚ğ•ÒW‚·‚é‚½‚ß‚Ìƒ‰ƒbƒp[
  *
  */
 public class NamedValueConfigurationWrapper implements Comparable<NamedValueConfigurationWrapper> {
@@ -80,9 +80,9 @@ public class NamedValueConfigurationWrapper implements Comparable<NamedValueConf
 	}
 
 	/**
-	 * widgetç¨®åˆ¥ã€åˆ¶ç´„æ¡ä»¶ã‚’è¨­å®šã—ã¾ã™ã€‚
-	 * @param widgets widgetç¨®åˆ¥è¨­å®š (ConfigurationSetã®_widget_ã§è¨­å®š)
-	 * @param conditions åˆ¶ç´„æ¡ä»¶ (ConfigurationSetã®_<configå>ã§è¨­å®š)
+	 * widgetí•ÊA§–ñğŒ‚ğİ’è‚µ‚Ü‚·B
+	 * @param widgets widgetí•Êİ’è (ConfigurationSet‚Ì_widget_‚Åİ’è)
+	 * @param conditions §–ñğŒ (ConfigurationSet‚Ì_<config–¼>‚Åİ’è)
 	 */
 	public void setWidgetAndCondition(String widgets, String conditions) {
 		ConfigurationCondition cc = ConfigurationCondition.NULL_CONDITION;
@@ -92,10 +92,10 @@ public class NamedValueConfigurationWrapper implements Comparable<NamedValueConf
 		} catch (ConfigurationCondition.FormatException e) {
 		}
 		if (cc.isArrayCondition()) {
-			// é…åˆ—å‹ã®å ´åˆ
+			// ”z—ñŒ^‚Ìê‡
 			widgetList = ConfigurationWidget.parseArrayWidget(widgets, cc);
 		} else if (cc.isHashCondition()) {
-			// ãƒãƒƒã‚·ãƒ¥å‹ã®å ´åˆ
+			// ƒnƒbƒVƒ…Œ^‚Ìê‡
 			widgetMap = ConfigurationWidget.parseHashWidget(widgets, cc);
 		} else {
 			widgetList = ConfigurationWidget.parseSimpleWidget(widgets, cc);
@@ -103,25 +103,25 @@ public class NamedValueConfigurationWrapper implements Comparable<NamedValueConf
 	}
 
 	/**
-	 * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®widgetã‚’å–å¾—ã—ã¾ã™ã€‚
-	 * @return widgetã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * ƒfƒtƒHƒ‹ƒg‚Ìwidget‚ğæ“¾‚µ‚Ü‚·B
+	 * @return widgetƒIƒuƒWƒFƒNƒg
 	 */
 	public ConfigurationWidget widget() {
 		return widget(0);
 	}
 
 	/**
-	 * é…åˆ—ã®å ´åˆã®widgetã‚’å–å¾—ã—ã¾ã™ã€‚
-	 * @param index widgetã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-	 * @return widgetã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * ”z—ñ‚Ìê‡‚Ìwidget‚ğæ“¾‚µ‚Ü‚·B
+	 * @param index widget‚ÌƒCƒ“ƒfƒbƒNƒX
+	 * @return widgetƒIƒuƒWƒFƒNƒg
 	 */
 	public ConfigurationWidget widget(int index) {
 		return widgetList.get(index);
 	}
 
 	/**
-	 * é…åˆ—ã®å ´åˆã®widgetæ•°ã‚’å–å¾—ã—ã¾ã™ã€‚
-	 * @return widgetæ•°ã€‚ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆæ™‚ã¯1
+	 * ”z—ñ‚Ìê‡‚Ìwidget”‚ğæ“¾‚µ‚Ü‚·B
+	 * @return widget”BƒfƒtƒHƒ‹ƒg‚Í1
 	 */
 	public int widgetSize() {
 		if (widgetList == null)
@@ -130,17 +130,17 @@ public class NamedValueConfigurationWrapper implements Comparable<NamedValueConf
 	}
 
 	/**
-	 * ãƒãƒƒã‚·ãƒ¥ã®å ´åˆã®widgetã‚’å–å¾—ã—ã¾ã™ã€‚
-	 * @param key widgetã®ã‚­ãƒ¼
-	 * @return widgetã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * ƒnƒbƒVƒ…‚Ìê‡‚Ìwidget‚ğæ“¾‚µ‚Ü‚·B
+	 * @param key widget‚ÌƒL[
+	 * @return widgetƒIƒuƒWƒFƒNƒg
 	 */
 	public ConfigurationWidget widget(String key) {
 		return widgetMap.get(key);
 	}
 
 	/**
-	 * ãƒãƒƒã‚·ãƒ¥ã®å ´åˆã®widgetã®ã‚­ãƒ¼ã‚»ãƒƒãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚
-	 * @return widgetã®ã‚­ãƒ¼ã‚»ãƒƒãƒˆ
+	 * ƒnƒbƒVƒ…‚Ìê‡‚Ìwidget‚ÌƒL[ƒZƒbƒg‚ğæ“¾‚µ‚Ü‚·B
+	 * @return widget‚ÌƒL[ƒZƒbƒg
 	 */
 	public Set<String> widgetKeySet() {
 		if (widgetMap == null)
@@ -149,17 +149,17 @@ public class NamedValueConfigurationWrapper implements Comparable<NamedValueConf
 	}
 
 	/**
-	 * @return ç·¨é›†ç”¨ã«widgetã«valueã‚’è¨­å®šã—ã¦ã„ã‚‹å ´åˆã¯true
+	 * @return •ÒW—p‚Éwidget‚Évalue‚ğİ’è‚µ‚Ä‚¢‚éê‡‚Ítrue
 	 */
 	public boolean isLoadedWidgetValue() {
 		return loadedWidgetValue;
 	}
 
 	/**
-	 * ç·¨é›†ç”¨ã«valueã‚’widgetã«è¨­å®šã—ã¾ã™ã€‚(é…åˆ—ã€ãƒãƒƒã‚·ãƒ¥ã¯è¦ç´ æ¯)
+	 * •ÒW—p‚Évalue‚ğwidget‚Éİ’è‚µ‚Ü‚·B(”z—ñAƒnƒbƒVƒ…‚Í—v‘f–ˆ)
 	 */
 	public void loadWidgetValue() {
-		// ãƒãƒƒã‚·ãƒ¥ã®å ´åˆ
+		// ƒnƒbƒVƒ…‚Ìê‡
 		if (widgetMap != null) {
 			Map<String, String> vm = parseMap(getValueAsString());
 			for (String key : widgetMap.keySet()) {
@@ -172,7 +172,7 @@ public class NamedValueConfigurationWrapper implements Comparable<NamedValueConf
 			return;
 		}
 
-		// widgetç¨®åˆ¥ã€åˆ¶ç´„æ¡ä»¶ãŒãªã„å ´åˆã¯ç©ºã®widgetã‚’ç”Ÿæˆ
+		// widgetí•ÊA§–ñğŒ‚ª‚È‚¢ê‡‚Í‹ó‚Ìwidget‚ğ¶¬
 		if (widgetList == null) {
 			widgetList = new ArrayList<ConfigurationWidget>();
 			ConfigurationWidget w = new ConfigurationWidget(ConfigurationWidget.TEXT,
@@ -180,12 +180,12 @@ public class NamedValueConfigurationWrapper implements Comparable<NamedValueConf
 			widgetList.add(w);
 		}
 		if (widgetList.size() == 1) {
-			// å˜ä½“å€¤ã®å ´åˆ
+			// ’P‘Ì’l‚Ìê‡
 			ConfigurationWidget w = widgetList.get(0);
 			w.setValue(getValueAsString());
 			w.clearValueModified();
 		} else {
-			// é…åˆ—ã®å ´åˆ
+			// ”z—ñ‚Ìê‡
 			String v[] = getValueAsString().split(",");
 			for (int i = 0; i < widgetList.size(); i++) {
 				String value = (i < v.length) ? v[i] : "";
@@ -203,13 +203,13 @@ public class NamedValueConfigurationWrapper implements Comparable<NamedValueConf
 	}
 
 	/**
-	 * widgetã«è¨­å®šã—ãŸç·¨é›†å€¤ã‚’valueã«ä¿å­˜ã—ã¾ã™ã€‚
+	 * widget‚Éİ’è‚µ‚½•ÒW’l‚ğvalue‚É•Û‘¶‚µ‚Ü‚·B
 	 */
 	public void saveWidgetValue() {
-		// ãƒãƒƒã‚·ãƒ¥ã®å ´åˆ
+		// ƒnƒbƒVƒ…‚Ìê‡
 		if (widgetMap != null) {
 			StringBuffer value = new StringBuffer("{");
-			// ã‚­ãƒ¼ã‚’ã‚½ãƒ¼ãƒˆ
+			// ƒL[‚ğƒ\[ƒg
 			for (String key : widgetMap.keySet()) {
 				ConfigurationWidget w = widgetMap.get(key);
 				if (!value.toString().equals("{")) {
@@ -227,7 +227,7 @@ public class NamedValueConfigurationWrapper implements Comparable<NamedValueConf
 		if (widgetList == null) {
 			return;
 		}
-		// é…åˆ—ã€å˜ä½“ã®å ´åˆ
+		// ”z—ñA’P‘Ì‚Ìê‡
 		ConfigurationWidget w = widgetList.get(0);
 		StringBuffer value = new StringBuffer(w.getValue());
 		w.clearValueModified();
@@ -242,7 +242,7 @@ public class NamedValueConfigurationWrapper implements Comparable<NamedValueConf
 	}
 
 	/**
-	 * {key:value,...}å½¢å¼ã®æ–‡å­—åˆ—ã‚’ãƒãƒƒãƒ—ã«ãƒ‘ãƒ¼ã‚¹ã—ã¾ã™ã€‚
+	 * {key:value,...}Œ`®‚Ì•¶š—ñ‚ğƒ}ƒbƒv‚Éƒp[ƒX‚µ‚Ü‚·B
 	 */
 	public Map<String, String> parseMap(String s) {
 		Map<String, String> result = new HashMap<String, String>();
@@ -269,7 +269,7 @@ public class NamedValueConfigurationWrapper implements Comparable<NamedValueConf
 			String vi = v[i].trim();
 			String[] km = vi.split(":");
 			if (km.length == 1 && vi.charAt(vi.length() - 1) == ':') {
-				// ã‚­ãƒ¼ã®ã¿
+				// ƒL[‚Ì‚İ
 				result.put(km[0].trim(), "");
 			} else if (km.length == 2 && vi.charAt(0) != ':') {
 				result.put(km[0].trim(), km[1].trim());

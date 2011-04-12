@@ -8,7 +8,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.internal.ide.dialogs.InternalErrorDialog;
 
 /**
- * 繧ｨ繝ｩ繝ｼ陦ｨ遉ｺ逕ｨ縺ｮ繝繧､繧｢繝ｭ繧ｰ
+ * エラー表示用のダイアログ
  */
 public class ErrorDialog extends InternalErrorDialog {
 

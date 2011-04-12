@@ -4,22 +4,22 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Platform;
 
 /**
- * org.eclipse.core.runtime.IAdaptableã‚’æ‰±ã†ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹
+ * org.eclipse.core.runtime.IAdaptable‚ğˆµ‚¤ƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX
  */
 public class AdapterUtil {
 
 	/**
-	 * ã‚¢ãƒ€ãƒ—ã‚¿ã‚’å–å¾—ã™ã‚‹
+	 * ƒAƒ_ƒvƒ^‚ğæ“¾‚·‚é
 	 * <p>
-	 * å¯¾è±¡ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã€å¯¾è±¡ã®ã‚¯ãƒ©ã‚¹ã‚’ç¶™æ‰¿ã—ã¦ã„ã‚‹å ´åˆã«ã¯ã€ãã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿”ã—ã€
-	 * ç¶™æ‰¿ã—ã¦ã„ãªã„å ´åˆã«ã¯ã€IAdaptable#getAdapterã‚’ä½¿ç”¨ã—ã¦ã‚¢ãƒ€ãƒ—ã‚¿ã®å–å¾—ã‚’è©¦ã¿ã‚‹
-	 * ãã‚Œã§ã‚‚ã è¦‹ã¤ã‹ã‚‰ãªã„å ´åˆã«ã¯ã€Eclipseã®AdapterManagerã‚’ä½¿ç”¨ã™ã‚‹
+	 * ‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒg‚ªA‘ÎÛ‚ÌƒNƒ‰ƒX‚ğŒp³‚µ‚Ä‚¢‚éê‡‚É‚ÍA‚»‚ÌƒIƒuƒWƒFƒNƒg‚ğ•Ô‚µA
+	 * Œp³‚µ‚Ä‚¢‚È‚¢ê‡‚É‚ÍAIAdaptable#getAdapter‚ğg—p‚µ‚ÄƒAƒ_ƒvƒ^‚Ìæ“¾‚ğ‚İ‚é
+	 * ‚»‚ê‚Å‚à‚¾Œ©‚Â‚©‚ç‚È‚¢ê‡‚É‚ÍAEclipse‚ÌAdapterManager‚ğg—p‚·‚é
 	 * 
 	 * @param obj
-	 *            å¯¾è±¡ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 *            ‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒg
 	 * @param clazz
-	 *            å¯¾è±¡ã®ã‚¯ãƒ©ã‚¹
-	 * @return ã‚¢ãƒ€ãƒ—ã‚¿
+	 *            ‘ÎÛ‚ÌƒNƒ‰ƒX
+	 * @return ƒAƒ_ƒvƒ^
 	 */
 	@SuppressWarnings("unchecked")
 	public static Object getAdapter(Object obj, Class clazz) {

@@ -152,84 +152,84 @@ public class DataPortParamTest extends ParamTestCase<DataPortParam> {
 		assertUpdated(dp, new UpdateChecker() {
 			@Override
 			void execute1(DataPortParam e) {
-				e.setDocDescription("ãƒãƒ¼ãƒˆæ¦‚è¦ï¼‘");
+				e.setDocDescription("ƒ|[ƒgŠT—v‚P");
 			}
 
 			@Override
 			void execute2(DataPortParam e) {
-				e.setDocDescription("ãƒãƒ¼ãƒˆæ¦‚è¦ï¼’");
+				e.setDocDescription("ƒ|[ƒgŠT—v‚Q");
 			}
 		});
 		//
 		assertUpdated(dp, new UpdateChecker() {
 			@Override
 			void execute1(DataPortParam e) {
-				e.setDocType("ãƒãƒ¼ãƒˆç¨®åˆ¥ï¼‘");
+				e.setDocType("ƒ|[ƒgí•Ê‚P");
 			}
 
 			@Override
 			void execute2(DataPortParam e) {
-				e.setDocType("ãƒãƒ¼ãƒˆç¨®åˆ¥ï¼’");
+				e.setDocType("ƒ|[ƒgí•Ê‚Q");
 			}
 		});
 		//
 		assertUpdated(dp, new UpdateChecker() {
 			@Override
 			void execute1(DataPortParam e) {
-				e.setDocNum("ãƒ‡ãƒ¼ã‚¿æ•°ï¼‘");
+				e.setDocNum("ƒf[ƒ^”‚P");
 			}
 
 			@Override
 			void execute2(DataPortParam e) {
-				e.setDocNum("ãƒ‡ãƒ¼ã‚¿æ•°ï¼’");
+				e.setDocNum("ƒf[ƒ^”‚Q");
 			}
 		});
 		//
 		assertUpdated(dp, new UpdateChecker() {
 			@Override
 			void execute1(DataPortParam e) {
-				e.setDocSemantics("ãƒãƒ¼ãƒˆèª¬æ˜ï¼‘");
+				e.setDocSemantics("ƒ|[ƒgà–¾‚P");
 			}
 
 			@Override
 			void execute2(DataPortParam e) {
-				e.setDocSemantics("ãƒãƒ¼ãƒˆèª¬æ˜ï¼’");
+				e.setDocSemantics("ƒ|[ƒgà–¾‚Q");
 			}
 		});
 		//
 		assertUpdated(dp, new UpdateChecker() {
 			@Override
 			void execute1(DataPortParam e) {
-				e.setDocUnit("ãƒãƒ¼ãƒˆå˜ä½ï¼‘");
+				e.setDocUnit("ƒ|[ƒg’PˆÊ‚P");
 			}
 
 			@Override
 			void execute2(DataPortParam e) {
-				e.setDocUnit("ãƒãƒ¼ãƒˆå˜ä½ï¼’");
+				e.setDocUnit("ƒ|[ƒg’PˆÊ‚Q");
 			}
 		});
 		//
 		assertUpdated(dp, new UpdateChecker() {
 			@Override
 			void execute1(DataPortParam e) {
-				e.setDocOccurrence("ç™ºç”Ÿé »åº¦ï¼‘");
+				e.setDocOccurrence("”­¶•p“x‚P");
 			}
 
 			@Override
 			void execute2(DataPortParam e) {
-				e.setDocOccurrence("ç™ºç”Ÿé »åº¦ï¼’");
+				e.setDocOccurrence("”­¶•p“x‚Q");
 			}
 		});
 		//
 		assertUpdated(dp, new UpdateChecker() {
 			@Override
 			void execute1(DataPortParam e) {
-				e.setDocOperation("å®Ÿè¡Œé »åº¦ï¼‘");
+				e.setDocOperation("Às•p“x‚P");
 			}
 
 			@Override
 			void execute2(DataPortParam e) {
-				e.setDocOperation("å®Ÿè¡Œé »åº¦ï¼’");
+				e.setDocOperation("Às•p“x‚Q");
 			}
 		});
 	}

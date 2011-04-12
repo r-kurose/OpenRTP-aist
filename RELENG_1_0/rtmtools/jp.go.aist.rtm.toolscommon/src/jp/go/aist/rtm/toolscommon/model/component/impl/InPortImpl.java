@@ -43,7 +43,7 @@ public class InPortImpl extends PortImpl implements InPort {
 	}
 
 	public boolean validateSourceConnector(Port source) {
-		return source instanceof OutPort; // ãã®ä»–ã®åˆ¤æ–­ã¯OutPortã«ä»»ã›ã‚‹
+		return source instanceof OutPort; // ‚»‚Ì‘¼‚Ì”»’f‚ÍOutPort‚É”C‚¹‚é
 	}
 
 	public boolean validateTargetConnector(Port target) {

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * å¤‰æ•°å®šç¾©ã‚’ã‚ã‚‰ã‚ã™ã‚¯ãƒ©ã‚¹
+ * •Ï”’è‹`‚ğ‚ ‚ç‚í‚·ƒNƒ‰ƒX
  */
 public class TypeDefParam implements Serializable {
 	private static final long serialVersionUID = -5166319784409856148L;

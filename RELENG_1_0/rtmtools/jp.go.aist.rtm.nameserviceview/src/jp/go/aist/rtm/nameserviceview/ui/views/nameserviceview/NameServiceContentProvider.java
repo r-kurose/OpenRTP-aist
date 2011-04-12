@@ -1,6 +1,6 @@
 package jp.go.aist.rtm.nameserviceview.ui.views.nameserviceview;
 
-import jp.go.aist.rtm.nameserviceview.model.manager.Node;
+import jp.go.aist.rtm.nameserviceview.manager.Node;
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
 import jp.go.aist.rtm.toolscommon.model.core.Visiter;
 
@@ -11,7 +11,7 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 /**
- * NameServiceView„ÅÆContentProvider„ÇØ„É©„Çπ
+ * NameServiceViewÇÃContentProviderÉNÉâÉX
  */
 public class NameServiceContentProvider extends AdapterImpl implements
 		IStructuredContentProvider, ITreeContentProvider {

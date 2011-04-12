@@ -6,10 +6,10 @@ import org.eclipse.emf.common.util.EList;
 import RTC.ExecutionKind;
 
 /**
- * ExecutionContextã‚’è¡¨ç¾ã™ã‚‹ã‚¯ãƒ©ã‚¹
+ * ExecutionContext‚ğ•\Œ»‚·‚éƒNƒ‰ƒX
  * @model
  */
-public interface ExecutionContext extends WrapperObject, IPropertyMap {
+public interface ExecutionContext extends WrapperObject {
 	public static final int STATE_UNKNOWN = (0);
 	public static final int STATE_STOPPED = (1);
 	public static final int STATE_RUNNING = (2);
@@ -22,14 +22,17 @@ public interface ExecutionContext extends WrapperObject, IPropertyMap {
 	
 	public static final int RTC_UNCERTAIN = -2;
 	public static final int RTC_UNKNOWN = -1;
-	public static final int RTC_CREATED = RTC.LifeCycleState._CREATED_STATE;
-	public static final int RTC_INACTIVE = RTC.LifeCycleState._INACTIVE_STATE;
-	public static final int RTC_ACTIVE = RTC.LifeCycleState._ACTIVE_STATE;
-	public static final int RTC_ERROR = RTC.LifeCycleState._ERROR_STATE;
+	public static final int RTC_CREATED = RTC.LifeCycleState.CREATED_STATE.value();
+	public static final int RTC_INACTIVE = RTC.LifeCycleState.INACTIVE_STATE
+			.value();
+	public static final int RTC_ACTIVE = RTC.LifeCycleState.ACTIVE_STATE
+			.value();
+	public static final int RTC_ERROR = RTC.LifeCycleState.ERROR_STATE.value();
+
 
 	/**
 	 * @model
-	 * @return ExecutionContextã®ç¨®é¡ï¼ˆUNKNOWN/PERIODIC/EVENT_DRIVEN/OTHER)
+	 * @return ExecutionContext‚Ìí—ŞiUNKNOWN/PERIODIC/EVENT_DRIVEN/OTHER)
 	 */
 	public int getKindL();
 
@@ -43,7 +46,7 @@ public interface ExecutionContext extends WrapperObject, IPropertyMap {
 	void setKindL(int value);
 
 	/**
-	 * @model ExcetuionContextã®å®Ÿè¡Œé–“éš”
+	 * @model ExcetuionContext‚ÌÀsŠÔŠu
 	 * @return
 	 */
 	public Double getRateL();
@@ -60,7 +63,7 @@ public interface ExecutionContext extends WrapperObject, IPropertyMap {
 
 	/**
 	 * @model
-	 * @returnã€€ExecutionContextã®çŠ¶æ…‹(UNKNOWN/STOPPED/RUNNING)
+	 * @return@ExecutionContext‚Ìó‘Ô(UNKNOWN/STOPPED/RUNNING)
 	 */
 	public int getStateL();
 
@@ -116,8 +119,24 @@ public interface ExecutionContext extends WrapperObject, IPropertyMap {
 	EList<Component> getParticipants();
 
 	/**
+	 * Returns the value of the '<em><b>Properties</b></em>' containment reference list.
+	 * The list contents are of type {@link jp.go.aist.rtm.toolscommon.model.component.NameValue}.
 	 * <!-- begin-user-doc -->
-	 * ExecutionContextã®ç¨®é¡ã‚’è¡¨ã™æ–‡å­—åˆ—ã‚’è¿”ã—ã¾ã™ã€‚(UNKNOWN/PERIODIC/EVENT_DRIVEN/OTHER)
+	 * <p>
+	 * If the meaning of the '<em>Properties</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Properties</em>' containment reference list.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getExecutionContext_Properties()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<NameValue> getProperties();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * ExecutionContext‚Ìí—Ş‚ğ•\‚·•¶š—ñ‚ğ•Ô‚µ‚Ü‚·B(UNKNOWN/PERIODIC/EVENT_DRIVEN/OTHER)
 	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
@@ -126,7 +145,7 @@ public interface ExecutionContext extends WrapperObject, IPropertyMap {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ExecutionContextã®çŠ¶æ…‹ã‚’è¡¨ã™æ–‡å­—åˆ—ã‚’è¿”ã—ã¾ã™ã€‚(UNKNOWN/STOPPED/RUNNING)
+	 * ExecutionContext‚Ìó‘Ô‚ğ•\‚·•¶š—ñ‚ğ•Ô‚µ‚Ü‚·B(UNKNOWN/STOPPED/RUNNING)
 	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated

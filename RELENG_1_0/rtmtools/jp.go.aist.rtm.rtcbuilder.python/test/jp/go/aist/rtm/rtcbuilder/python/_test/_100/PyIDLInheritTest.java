@@ -10,22 +10,26 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
+import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython;
 import jp.go.aist.rtm.rtcbuilder.python._test.TestBase;
-import jp.go.aist.rtm.rtcbuilder.python.manager.PythonCMakeGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.python.manager.PythonGenerateManager;
 
 public class PyIDLInheritTest extends TestBase {
 
-	Generator generator;
 	GeneratorParam genParam;
+
 	RtcParam rtcParam;
+
+	Generator generator;
+
+	GenerateManager manager;
 
 	protected void setUp() throws Exception {
 		genParam = new GeneratorParam();
 		rtcParam = new RtcParam(genParam, true);
 
-		rtcParam.setOutputProject(rootPath + "/resource/work");
+		rtcParam.setOutputProject(rootPath + "\\resource\\work");
 		rtcParam.setLanguage(IRtcBuilderConstantsPython.LANG_PYTHON);
 		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
 		rtcParam.setName("foo");
@@ -42,16 +46,16 @@ public class PyIDLInheritTest extends TestBase {
 		genParam.getRtcParams().add(rtcParam);
 
 		generator = new Generator();
-		generator.addGenerateManager(new PythonGenerateManager());
-		generator.addGenerateManager(new PythonCMakeGenerateManager());
+		manager = new PythonGenerateManager();
+		generator.addGenerateManager(manager);
 	}
 
 	String fixturePath(String name) {
-		return rootPath + "resource/100/" + name;
+		return rootPath + "resource\\Python\\100\\" + name;
 	}
 
 	public void testInherit1() throws Exception {
-		String name = "idlinherit/inherit1";
+		String name = "inherit1";
 
 		List<ServicePortParam> svports = new ArrayList<ServicePortParam>();
 
@@ -59,7 +63,7 @@ public class PyIDLInheritTest extends TestBase {
 		List<ServicePortInterfaceParam> iflist = new ArrayList<ServicePortInterfaceParam>();
 		ServicePortInterfaceParam sif1 = new ServicePortInterfaceParam(sv1,
 				"MyServiceProvider", "", "", fixturePath(name)
-						+ "/MyServiceChildMulti.idl", "MyServiceChild",
+						+ "\\MyServiceChildMulti.idl", "MyServiceChild",
 				fixturePath(name), 0);
 		iflist.add(sif1);
 		sv1.getServicePortInterfaces().addAll(iflist);
@@ -69,7 +73,7 @@ public class PyIDLInheritTest extends TestBase {
 		iflist = new ArrayList<ServicePortInterfaceParam>();
 		ServicePortInterfaceParam sif2 = new ServicePortInterfaceParam(sv2,
 				"MyServiceRequire", "", "", fixturePath(name)
-						+ "/MyServiceChildMulti.idl", "MyServiceChild",
+						+ "\\MyServiceChildMulti.idl", "MyServiceChild",
 				fixturePath(name), 1);
 		iflist.add(sif2);
 		sv2.getServicePortInterfaces().addAll(iflist);
@@ -79,17 +83,25 @@ public class PyIDLInheritTest extends TestBase {
 
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = fixturePath(name) + "/";
+		String resourceDir = fixturePath(name) + "\\";
 
-		assertEquals(14, result.size());
+		assertEquals(5, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyServiceChildMulti_idl_example.py");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
+//		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
+//		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
+//		checkCode(result, resourceDir, "MyServiceChildMulti_idl.py");
 	}
 
 	public void testInherit2() throws Exception {
-		String name = "idlinherit/inherit2";
+		String name = "inherit2";
 
 		List<ServicePortParam> svports = new ArrayList<ServicePortParam>();
 
@@ -97,12 +109,12 @@ public class PyIDLInheritTest extends TestBase {
 		List<ServicePortInterfaceParam> iflist = new ArrayList<ServicePortInterfaceParam>();
 		ServicePortInterfaceParam sif1 = new ServicePortInterfaceParam(sv1,
 				"MyServiceProvider", "", "", fixturePath(name)
-						+ "/MyServiceChildMulti.idl", "MyServiceChild",
+						+ "\\MyServiceChildMulti.idl", "MyServiceChild",
 				fixturePath(name), 0);
 		iflist.add(sif1);
 		ServicePortInterfaceParam sif2 = new ServicePortInterfaceParam(sv1,
 				"MyServiceProvider2", "", "", fixturePath(name)
-						+ "/MyServiceChildWithType.idl",
+						+ "\\MyServiceChildWithType.idl",
 				"MyServiceWithTypeChild", fixturePath(name), 0);
 		iflist.add(sif2);
 		sv1.getServicePortInterfaces().addAll(iflist);
@@ -112,12 +124,12 @@ public class PyIDLInheritTest extends TestBase {
 		iflist = new ArrayList<ServicePortInterfaceParam>();
 		ServicePortInterfaceParam sif3 = new ServicePortInterfaceParam(sv2,
 				"MyServiceRequire", "", "", fixturePath(name)
-						+ "/MyServiceChildMulti.idl", "MyServiceChild",
+						+ "\\MyServiceChildMulti.idl", "MyServiceChild",
 				fixturePath(name), 1);
 		iflist.add(sif3);
 		ServicePortInterfaceParam sif4 = new ServicePortInterfaceParam(sv2,
 				"MyServiceRequire2", "", "", fixturePath(name)
-						+ "/MyServiceChildWithType.idl",
+						+ "\\MyServiceChildWithType.idl",
 				"MyServiceWithTypeChild", fixturePath(name), 1);
 		iflist.add(sif4);
 		sv2.getServicePortInterfaces().addAll(iflist);
@@ -127,14 +139,23 @@ public class PyIDLInheritTest extends TestBase {
 
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = fixturePath(name) + "/";
+		String resourceDir = fixturePath(name) + "\\";
 
-		assertEquals(15, result.size());
+		assertEquals(6, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyServiceChildMulti_idl_example.py");
 		checkCode(result, resourceDir, "MyServiceChildWithType_idl_example.py");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
+//		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
+//		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
+//		checkCode(result, resourceDir, "MyServiceChildMulti_idl.py");
+//		checkCode(result, resourceDir, "MyServiceChildWithType_idl.py");
 	}
 
 }

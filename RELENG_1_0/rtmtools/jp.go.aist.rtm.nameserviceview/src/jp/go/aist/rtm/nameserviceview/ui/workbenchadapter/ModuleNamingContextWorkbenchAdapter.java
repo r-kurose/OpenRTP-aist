@@ -5,7 +5,7 @@ import jp.go.aist.rtm.nameserviceview.NameServiceViewPlugin;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 /**
- * ModuleNamingContext„ÅÆWorkbenchAdapter
+ * ModuleNamingContextÇÃWorkbenchAdapter
  */
 public class ModuleNamingContextWorkbenchAdapter extends
 		NamingContextNodeWorkbenchAdapter {

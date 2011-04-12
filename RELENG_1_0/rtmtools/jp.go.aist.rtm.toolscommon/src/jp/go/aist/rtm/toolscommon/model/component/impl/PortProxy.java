@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 
 /**
- * 繝励Ο繧ｷ繧ｭ縺ｨ縺ｪ繧九�昴�ｼ繝医ｒ霑斐☆繧ｯ繝ｩ繧ｹ
+ * プロシキとなるポートを返すクラス
  *
  */
 public abstract class PortProxy extends EObjectImpl implements Port {

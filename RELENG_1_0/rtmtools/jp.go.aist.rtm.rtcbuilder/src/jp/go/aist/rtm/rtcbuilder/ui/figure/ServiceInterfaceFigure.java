@@ -19,10 +19,10 @@ public class ServiceInterfaceFigure extends PortFigureBase {
 	private ServiceInterface serviceIF;
 
 	/**
-	 * 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ
+	 * コンストラクタ
 	 * 
 	 * @param servicePort
-	 *            繝｢繝�繝ｫ
+	 *            モデル
 	 */
 	public ServiceInterfaceFigure(ServiceInterface serviceIF, int portDirection, int ifDirection, Color backColor) {
 		this.serviceIF = serviceIF;

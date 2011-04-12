@@ -11,21 +11,15 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 
 public class CXXImplTest extends TestBase {
 
-	RtcParam rtcParam;
-	GeneratorParam genParam;
-
 	protected void setUp() throws Exception {
-		genParam = new GeneratorParam();
-		rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "/resource/work");
-		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
-		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
-		rtcParam.setRtmVersion("1.0.0");
-		rtcParam.setIsTest(true);
-		genParam.getRtcParams().add(rtcParam);
 	}
 
-	public void testAll() throws Exception {
+	public void testAll() throws Exception{
+		GeneratorParam genParam = new GeneratorParam();
+		RtcParam rtcParam = new RtcParam(genParam, true);
+		rtcParam.setOutputProject(rootPath + "\\resource\\work");
+		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
+		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
 		rtcParam.setName("foo");
 		rtcParam.setDescription("MDesc");
 		rtcParam.setVersion("1.0.1");
@@ -46,20 +40,34 @@ public class CXXImplTest extends TestBase {
 		rtcParam.setActionImplemented(9, true);
 		rtcParam.setActionImplemented(10, true);
 		rtcParam.setActionImplemented(11, true);
+		genParam.getRtcParams().add(rtcParam);
 		rtcParam.setComponentKind("DataFlowComponent");
-
+		rtcParam.setRtmVersion("1.0.0");
+		rtcParam.setIsTest(true);
+		
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath + "/resource/100/CXX/impl/all/";
+		String resourceDir = rootPath +  "\\resource\\CXX\\impl\\all\\";
 
 		assertEquals(13, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
+		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
-	public void testExecute() throws Exception {
+	public void testExecute() throws Exception{
+		GeneratorParam genParam = new GeneratorParam();
+		RtcParam rtcParam = new RtcParam(genParam, true);
+		rtcParam.setOutputProject(rootPath + "\\resource\\work");
+		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
+		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
 		rtcParam.setName("foo");
 		rtcParam.setDescription("MDesc");
 		rtcParam.setVersion("1.0.1");
@@ -73,20 +81,34 @@ public class CXXImplTest extends TestBase {
 		rtcParam.setActionImplemented(3, true);
 		rtcParam.setActionImplemented(5, true);
 		rtcParam.setActionImplemented(9, true);
+		genParam.getRtcParams().add(rtcParam);
 		rtcParam.setComponentKind("DataFlowComponent");
-
+		rtcParam.setRtmVersion("1.0.0");
+		rtcParam.setIsTest(true);
+		
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath + "/resource/100/CXX/impl/execute/";
+		String resourceDir = rootPath +  "\\resource\\CXX\\impl\\execute\\";
 
 		assertEquals(13, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
+		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
-	public void testFinalize() throws Exception {
+	public void testFinalize() throws Exception{
+		GeneratorParam genParam = new GeneratorParam();
+		RtcParam rtcParam = new RtcParam(genParam, true);
+		rtcParam.setOutputProject(rootPath + "\\resource\\work");
+		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
+		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
 		rtcParam.setName("foo");
 		rtcParam.setDescription("MDesc");
 		rtcParam.setVersion("1.0.1");
@@ -97,22 +119,34 @@ public class CXXImplTest extends TestBase {
 		rtcParam.setMaxInstance(5);
 		rtcParam.setActionImplemented(0, true);
 		rtcParam.setActionImplemented(1, true);
+		genParam.getRtcParams().add(rtcParam);
 		rtcParam.setComponentKind("DataFlowComponent");
 		rtcParam.setRtmVersion("1.0.0");
 		rtcParam.setIsTest(true);
-
+		
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath + "/resource/100/CXX/impl/finalize/";
+		String resourceDir = rootPath +  "\\resource\\CXX\\impl\\finalize\\";
 
 		assertEquals(13, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
+		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
-	public void testInitialize() throws Exception {
+	public void testInitialize() throws Exception{
+		GeneratorParam genParam = new GeneratorParam();
+		RtcParam rtcParam = new RtcParam(genParam, true);
+		rtcParam.setOutputProject(rootPath + "\\resource\\work");
+		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
+		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
 		rtcParam.setName("foo");
 		rtcParam.setDescription("MDesc");
 		rtcParam.setVersion("1.0.1");
@@ -122,16 +156,25 @@ public class CXXImplTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
 		rtcParam.setActionImplemented(0, true);
+		genParam.getRtcParams().add(rtcParam);
 		rtcParam.setComponentKind("DataFlowComponent");
-
+		rtcParam.setRtmVersion("1.0.0");
+		rtcParam.setIsTest(true);
+		
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath + "/resource/100/CXX/impl/initialize/";
+		String resourceDir = rootPath +  "\\resource\\CXX\\impl\\initialize\\";
 
 		assertEquals(13, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
+		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 }

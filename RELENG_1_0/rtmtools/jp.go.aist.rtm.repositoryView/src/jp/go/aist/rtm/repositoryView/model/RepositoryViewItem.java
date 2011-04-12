@@ -5,8 +5,8 @@ import java.util.List;
 
 
 /**
- * ãƒ¬ãƒã‚¸ãƒˆãƒªãƒ“ãƒ¥ãƒ¼ã®ãƒãƒ¼ãƒ‰ã‚’è¡¨ç¾ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
- * nameã§ãƒ¦ãƒ‹ãƒ¼ã‚¯
+ * ƒŒƒ|ƒWƒgƒŠƒrƒ…[‚Ìƒm[ƒh‚ğ•\Œ»‚·‚éƒIƒuƒWƒFƒNƒg
+ * name‚Åƒ†ƒj[ƒN
  *
  */
 public class RepositoryViewItem {
@@ -21,10 +21,10 @@ public class RepositoryViewItem {
 	private List<RepositoryViewItem> children;
 
 	/**
-	 * @param name		ãƒãƒ¼ãƒ‰å
-	 * @param type		ãƒãƒ¼ãƒ‰ã®å‹ï¼ˆenumã®æ–¹ãŒã‚ˆã„ã‹ã‚‚ï¼‰
-	 * @param parent	è¦ªãƒãƒ¼ãƒ‰
-	 * @param children	å­ãƒãƒ¼ãƒ‰
+	 * @param name		ƒm[ƒh–¼
+	 * @param type		ƒm[ƒh‚ÌŒ^ienum‚Ì•û‚ª‚æ‚¢‚©‚àj
+	 * @param parent	eƒm[ƒh
+	 * @param children	qƒm[ƒh
 	 */
 	public RepositoryViewItem(String name,int type, Object parent, List<RepositoryViewItem>  children){
 		this.name = name;
@@ -69,8 +69,8 @@ public class RepositoryViewItem {
 	}
 	
 	/**
-	 * @param target	å¯¾è±¡ã¨ãªã‚‹ãƒãƒ¼ãƒ‰ã®åå‰
-	 * @return			ã¿ã¤ã‹ã£ãŸãƒãƒ¼ãƒ‰
+	 * @param target	‘ÎÛ‚Æ‚È‚éƒm[ƒh‚Ì–¼‘O
+	 * @return			‚İ‚Â‚©‚Á‚½ƒm[ƒh
 	 */
 	public RepositoryViewItem getChild(String target) {
 		for (RepositoryViewItem item : children) {

@@ -18,7 +18,6 @@ package jp.go.aist.rtm.toolscommon.model.component;
  * <ul>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification#getAliasName <em>Alias Name</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification#isSpecUnLoad <em>Spec Un Load</em>}</li>
- *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification#getRtcType <em>Rtc Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -79,31 +78,5 @@ public interface ComponentSpecification extends Component {
 	 * @generated
 	 */
 	void setSpecUnLoad(boolean value);
-
-	/**
-	 * Returns the value of the '<em><b>Rtc Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Rtc Type</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Rtc Type</em>' attribute.
-	 * @see #setRtcType(String)
-	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponentSpecification_RtcType()
-	 * @model
-	 * @generated
-	 */
-	String getRtcType();
-
-	/**
-	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification#getRtcType <em>Rtc Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Rtc Type</em>' attribute.
-	 * @see #getRtcType()
-	 * @generated
-	 */
-	void setRtcType(String value);
 
 } // ComponentSpecification

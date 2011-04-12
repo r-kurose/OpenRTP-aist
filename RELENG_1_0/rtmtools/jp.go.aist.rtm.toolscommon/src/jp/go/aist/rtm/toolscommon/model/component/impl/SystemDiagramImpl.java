@@ -16,17 +16,12 @@ import java.util.Map;
 
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
-import jp.go.aist.rtm.toolscommon.model.component.CorbaStatusObserver;
 import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
-import jp.go.aist.rtm.toolscommon.model.component.util.IPropertyMapUtil;
-import jp.go.aist.rtm.toolscommon.model.component.util.PropertyMap;
 import jp.go.aist.rtm.toolscommon.model.core.impl.ModelElementImpl;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.RefreshThread;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSupport;
-import jp.go.aist.rtm.toolscommon.ui.propertysource.SystemDiagramPropertySource;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -36,7 +31,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.ui.views.properties.IPropertySource;
 import org.openrtp.namespaces.rts.version02.RtsProfileExt;
 
 /**
@@ -63,8 +57,7 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 
 	/**
 	 * The cached value of the '{@link #getComponents() <em>Components</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getComponents()
 	 * @generated
 	 * @ordered
@@ -91,21 +84,17 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 	 */
 	protected SystemDiagramKind kind = KIND_EDEFAULT;
 
-	protected IPropertyMapUtil properties;
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	protected SystemDiagramImpl() {
 		super();
-		this.properties = new PropertyMap();
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -114,8 +103,7 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EList<Component> getComponents() {
@@ -408,14 +396,13 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 	protected Component compositeComponent;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 */
-	@Override
 	public synchronized void setSynchronizeInterval(long milliSecond) {
 		if (!SystemDiagramKind.ONLINE_LITERAL.equals(getKind())) return;
 		if (refreshThread == null) {
 			refreshThread = new RefreshThread(milliSecond){
+				@SuppressWarnings("unchecked")
 				@Override
 				protected void executeCommand() {
 					synchronizeLocal();
@@ -427,86 +414,51 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 			refreshThread.setSynchronizeInterval(milliSecond);
 		}
 	}
-
+	
+	@SuppressWarnings("unchecked")
 	protected synchronized List<Component> getUnmodifiedComponents() {
 		return new ArrayList<Component>(getComponents());
 	}
 
-	@Override
+	/**
+	 * @param component	íœ‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg
+	 */
 	public synchronized void removeComponent(Component component) {
-		if (component instanceof CorbaComponentImpl) {
-			CorbaComponentImpl corbaComp = (CorbaComponentImpl) component;
-			// çŠ¶æ…‹é€šçŸ¥ã‚ªãƒ–ã‚¶ãƒ¼ãƒè§£é™¤
-			if (corbaComp.getStatusObserver() != null) {
-				corbaComp.getStatusObserver().detachComponent(corbaComp);
-			}
-		}
-		for (Component comp : component.getComponents()) {
-			if (comp instanceof CorbaComponentImpl) {
-				CorbaComponentImpl corbaComp = (CorbaComponentImpl) comp;
-				// çŠ¶æ…‹é€šçŸ¥ã‚ªãƒ–ã‚¶ãƒ¼ãƒè§£é™¤
-				if (corbaComp.getStatusObserver() != null) {
-					corbaComp.getStatusObserver().detachComponent(corbaComp);
-				}
-			}
-		}
 		getComponents().remove(component);
 	}
+	
 
-	@Override
+//	@Override
 	public synchronized void removeComponents(List<Component> components) {
 		for (Component c : components) {
 			removeComponent(c);
 		}
 	}
 
-	@Override
+
+	@SuppressWarnings("unchecked")
+//	@Override
 	public synchronized void addComponent(Component component) {
-		addComponent(-1, component);
+		getComponents().add(component);
 	}
-
-	@Override
+	
+//	@Override
+	@SuppressWarnings("unchecked")
 	public synchronized void addComponent(int pos, Component component) {
-		if (component instanceof CorbaComponentImpl) {
-			CorbaComponentImpl corbaComp = (CorbaComponentImpl) component;
-			if (corbaComp.supportedCorbaObserver()) {
-				// çŠ¶æ…‹é€šçŸ¥ã‚ªãƒ–ã‚¶ãƒ¼ãƒç™»éŒ²
-				CorbaStatusObserver ob = new CorbaStatusObserverImpl();
-				ob.attachComponent(corbaComp);
-			}
-		}
-		for (Component comp : component.getComponents()) {
-			if (comp instanceof CorbaComponentImpl) {
-				CorbaComponentImpl corbaComp = (CorbaComponentImpl) comp;
-				if (corbaComp.supportedCorbaObserver()) {
-					// çŠ¶æ…‹é€šçŸ¥ã‚ªãƒ–ã‚¶ãƒ¼ãƒç™»éŒ²
-					CorbaStatusObserver ob = new CorbaStatusObserverImpl();
-					ob.attachComponent(corbaComp);
-				}
-			}
-		}
-		if (pos == -1) {
-			getComponents().add(component);
-		} else {
-			getComponents().add(pos, component);
-		}
+		getComponents().add(pos, component);
 	}
 
-	@Override
+	@SuppressWarnings("unchecked")
+//	@Override
 	public synchronized void addComponents(List<Component> components) {
-		for (Component c : components) {
-			addComponent(-1, c);
-		}
+		getComponents().addAll(components);
 	}
 
-	@Override
+//	@Override
 	public synchronized void clearComponents() {
-		for (Component c : getUnmodifiedComponents()) {
-			removeComponent(c);
-		}
+		getComponents().clear();
 	}
 
-	@Override
 	public SystemDiagram getRootDiagram() {
 		if (getParentSystemDiagram() == null) return this;
 		return getParentSystemDiagram().getRootDiagram();
@@ -518,20 +470,19 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 	private RtsProfileExt profile;
 	/**
 	 * <!-- begin-user-doc -->
-	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒ„å¤‰æ›´ã®é€šçŸ¥ã‚’è¡Œã†ãƒªã‚¹ãƒŠã‚’ç™»éŒ²ã™ã‚‹
+	 * ƒRƒ“ƒ|[ƒlƒ“ƒc•ÏX‚Ì’Ê’m‚ğs‚¤ƒŠƒXƒi‚ğ“o˜^‚·‚é
 	 * @param listener
 	 * 
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	@Override
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		propertyChangeSupport.addPropertyChangeListener(listener);
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒ„å¤‰æ›´ã®é€šçŸ¥ã‚’è¡Œã†ãƒªã‚¹ãƒŠã‚’å–å¾—ã™ã‚‹
+	 * ƒRƒ“ƒ|[ƒlƒ“ƒc•ÏX‚Ì’Ê’m‚ğs‚¤ƒŠƒXƒi‚ğæ“¾‚·‚é
 	 * @param listener
 	 * 
 	 * <!-- end-user-doc -->
@@ -543,60 +494,18 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒ„å¤‰æ›´ã®é€šçŸ¥ã‚’è¡Œã†ãƒªã‚¹ãƒŠã‚’å‰Šé™¤ã™ã‚‹
+	 * ƒRƒ“ƒ|[ƒlƒ“ƒc•ÏX‚Ì’Ê’m‚ğs‚¤ƒŠƒXƒi‚ğíœ‚·‚é
 	 * @param listener
 	 * 
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	@Override
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	@Override
-	public String getProperty(String key) {
-		return properties.getProperty(key);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	@Override
-	public void setProperty(String key, String value) {
-		properties.setProperty(key, value);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	@Override
-	public String removeProperty(String key) {
-		return properties.removeProperty(key);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	@Override
-	public EList<String> getPropertyKeys() {
-		return properties.getPropertyKeys();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -609,8 +518,7 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -639,8 +547,7 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -677,8 +584,7 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -713,8 +619,7 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -764,80 +669,64 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 		return result.toString();
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public java.lang.Object getAdapter(Class adapter) {
-		java.lang.Object result = null;
-		if (IPropertySource.class.equals(adapter)) {
-			result = new SystemDiagramPropertySource(this);
-		}
-		if (result == null) {
-			result = super.getAdapter(adapter);
-		}
-		return result;
-	}
-
-	@Override
+//	@Override
 	public RtsProfileExt getProfile() {
 		return profile;
 	}
 
-	@Override
+//	@Override
 	public void setProfile(RtsProfileExt profile) {
 		this.profile = profile;
 	}
 
 	private Map<String, PortConnector> connectorMap = new HashMap<String, PortConnector>();
-
-	@Override
+//	@Override
 	public Map<String, PortConnector> getConnectorMap() {
 		return connectorMap;
 	}
 
 	private void synchronizeLocal() {
-		// ãƒªãƒ¢ãƒ¼ãƒˆã¨åŒæœŸã‚’å–ã‚‹
+		// ƒŠƒ‚[ƒg‚Æ“¯Šú‚ğæ‚é
 		synchronizeFromRemote();
+		// e‚Ì•¡‡ƒRƒ“ƒ|[ƒlƒ“ƒg‚ªíœ‚³‚ê‚½‚Æ‚«‚ÍqƒEƒBƒ“ƒhƒE‚ğ•Â‚¶‚é
+		// qƒEƒBƒ“ƒhƒE“à‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ªíœ‚³‚ê‚½‚Æ‚«‚àqƒEƒBƒ“ƒhƒE‚ğ•Â‚¶‚é
 		try {
 			closeIfExit();
 		} catch (Exception e) {
-			// void
+			//void
 		}
 	}
 
 	private void closeIfExit() {
-		if (getParentSystemDiagram() == null) {
-			return;
-		}
+		if (getParentSystemDiagram() == null) return;
 		SystemDiagram rootDiagram = getRootDiagram();
-
+			
 		synchronized (rootDiagram) {
-			List<Component> registeredComponents = rootDiagram
-					.getRegisteredComponents();
-			List<Component> exits = new ArrayList<Component>();
-			for (Component c : getComponents()) {
-				if (!isExist(registeredComponents, c)) {
-					exits.add(c);
-				}
-			}
-			// å½“ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ä¸­ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒå­˜åœ¨ã—ãªã„(Exit)ã¨ãã¯å‰Šé™¤
-			for (Component c : exits) {
-				getComponents().remove(c);
-			}
-			// è¦ªã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒå­˜åœ¨ã—ãªã„(Exit)å ´åˆã¯ã‚¨ãƒ‡ã‚£ã‚¿ã‚’é–‰ã˜ã‚‹
-			if (!isExist(registeredComponents, getCompositeComponent())) {
-				getPropertyChangeSupport().firePropertyChange(
-						"SYSTEM_DIAGRAM_COMPONENTS", getCompositeComponent(),
-						null);
+			List<Component> registeredComponents = rootDiagram.getRegisteredComponents();
+			if (!isExist(registeredComponents, getCompositeComponent())
+					|| !isExist(registeredComponents, getComponents())) {
+				getPropertyChangeSupport()
+						.firePropertyChange(
+								"SYSTEM_DIAGRAM_COMPONENTS",
+								getCompositeComponent(),
+								null);
 			}
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private boolean isExist(List<Component> registeredComponents,
+			EList components) {
+		for (Object obj: components) {
+			if (!isExist(registeredComponents, (Component)obj)) return false;
+		}
+		return true;
 	}
 
 	private boolean isExist(List<Component> registeredComponents,
 			Component component) {
 		for (Component element : registeredComponents) {
-			if (element == component) {
-				return true;
-			}
+			if (element == component) return true;
 		}
 		return false;
 	}
@@ -846,66 +735,34 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 		if (getParentSystemDiagram() != null) {
 			return;
 		}
+		
 		List<Component> components = getUnmodifiedComponents();
 		for (Component component : components) {
-			if (component instanceof CorbaComponentImpl) {
-				CorbaComponentImpl corbaComp = (CorbaComponentImpl) component;
-				CorbaStatusObserver obs = corbaComp.getStatusObserver();
-				if (obs != null) {
-					// çŠ¶æ…‹é€šçŸ¥ã‚ªãƒ–ã‚¶ãƒ¼ãƒãŒç™»éŒ²ã•ã‚Œã¦ã„ã‚‹å ´åˆã®åŒæœŸ
-					if (obs.isTimeOut()) {
-						// H.BãŒã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆã—ã¦ã„ãŸã‚‰ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã‹ã‚‰å‰Šé™¤
-						if (!SynchronizationSupport.ping(corbaComp
-								.getCorbaObjectInterface())) {
-							removeComponent(corbaComp);
-						}
-						continue;
-					}
-					corbaComp.synchronizeLocalAttribute(null);
-					corbaComp.synchronizeLocalReference();
-					corbaComp.synchronizeChildComponents();
-					for (Object content : corbaComp.eContents()) {
-						if (content instanceof LocalObject) {
-							LocalObject lo = (LocalObject) content;
-							if (lo.getSynchronizationSupport() != null) {
-								lo.getSynchronizationSupport()
-										.synchronizeLocal();
-							}
-						}
-					}
-					continue;
-				}
-			}
-			//
-			SynchronizationSupport support = component
-					.getSynchronizationSupport();
-			if (support == null) {
-				continue;
-			}
+			SynchronizationSupport support = component.getSynchronizationSupport();
+			if (support == null) continue;
 			support.synchronizeLocal();
 		}
 	}
 
-	@Override
+//	@Override
 	public synchronized boolean synchronizeManually() {
-		if (!SystemDiagramKind.ONLINE_LITERAL.equals(getKind())) {
-			return false;
-		}
-		if (refreshThread != null && refreshThread.isRunning()) {
-			return false;
-		}
+		if (!SystemDiagramKind.ONLINE_LITERAL.equals(getKind())) return false;
+		if (refreshThread != null && refreshThread.isRunning()) return false;
+		
 		synchronizeLocal();
 		return true;
 	}
 
-	@Override
+	@SuppressWarnings("unchecked")
+//	@Override
 	public List<Component> getRegisteredComponents() {
 		List<Component> unmodifiedComponents = getUnmodifiedComponents();
 		List<Component> result = new ArrayList<Component>(unmodifiedComponents);
-		for (Component c : unmodifiedComponents) {
+		for (Component c: unmodifiedComponents) {
 			result.addAll(c.getAllComponents());
 		}
 		return result;
 	}
+
 
 } // SystemDiagramImpl

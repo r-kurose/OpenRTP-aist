@@ -177,7 +177,7 @@ public class RtcExportWizardPage extends	WizardExportResourcesPage {
         zipFormatButton.setFont(font);
 
 //        bzipFormatButton = new Button(optionsGroup, SWT.RADIO | SWT.LEFT);
-//        bzipFormatButton.setText("BZIP繝輔か繝ｼ繝槭ャ繝医〒菫晉ｮ｡");
+//        bzipFormatButton.setText("BZIPフォーマットで保管");
 //        bzipFormatButton.setSelection(false);
 //        bzipFormatButton.setFont(font);
 

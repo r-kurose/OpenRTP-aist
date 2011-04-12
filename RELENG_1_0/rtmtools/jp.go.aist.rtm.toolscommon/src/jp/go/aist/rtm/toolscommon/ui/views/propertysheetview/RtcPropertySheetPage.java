@@ -2,12 +2,10 @@ package jp.go.aist.rtm.toolscommon.ui.views.propertysheetview;
 
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
-import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -36,12 +34,11 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.IPropertySourceProvider;
 
 /**
- * Rtcå°‚ç”¨ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚·ãƒ¼ãƒˆãƒšãƒ¼ã‚¸ã‚¯ãƒ©ã‚¹
+ * Rtcê—p‚ÌƒvƒƒpƒeƒBƒV[ƒgƒy[ƒWƒNƒ‰ƒX
  * <p>
- * Rtcã®å ´åˆã ã‘ã€ç‰¹æ®Šãªãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒšãƒ¼ã‚¸ã‚’è¡¨ç¤ºã™ã‚‹ ãã‚Œä»¥å¤–ã®å ´åˆã«ã¯ã€é€šå¸¸ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒšãƒ¼ã‚¸ã‚’è¡¨ç¤ºã™ã‚‹
- * ã“ã®ã‚¯ãƒ©ã‚¹ã«ã¯ã€ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆä»¥å¤–ã®IPropertySourceã‚’æŒã£ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚‚è¡¨ç¤ºã§ãã‚‹ã‚ˆã†defaultDelegateã‚’ä½œæˆã—ã¦ã„ãŸãŒã€ç”»é¢ãŒãƒã‚«ãƒã‚«ã™ã‚‹ãŸã‚å»ƒæ­¢ã—ãŸã€‚
+ * Rtc‚Ìê‡‚¾‚¯A“Áê‚ÈƒvƒƒpƒeƒBƒy[ƒW‚ğ•\¦‚·‚é ‚»‚êˆÈŠO‚Ìê‡‚É‚ÍA’Êí‚ÌƒvƒƒpƒeƒBƒy[ƒW‚ğ•\¦‚·‚é
+ * ‚±‚ÌƒNƒ‰ƒX‚É‚ÍAƒRƒ“ƒ|[ƒlƒ“ƒgˆÈŠO‚ÌIPropertySource‚ğ‚Á‚½ƒIƒuƒWƒFƒNƒg‚à•\¦‚Å‚«‚é‚æ‚¤defaultDelegate‚ğì¬‚µ‚Ä‚¢‚½‚ªA‰æ–Ê‚ªƒ`ƒJƒ`ƒJ‚·‚é‚½‚ß”p~‚µ‚½B
  */
-@SuppressWarnings("restriction")
 public class RtcPropertySheetPage implements IPropertySheetPage,
 		IPageBookViewPage {
 
@@ -122,26 +119,16 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 		return composite;
 	}
 
-	// /**
-	// * IPageSiteã‚’å–å¾—ã™ã‚‹
-	// *
-	// * @return IPageSite
-	// */
-	// public IPageSite getSite() {
-	// return getSite();
-	// }
-
 	/**
-	 * å§”è­²
+	 * ˆÏ÷
 	 * 
 	 * @param selection
 	 */
 	public void handleEntrySelection(ISelection selection) {
-		// defaultDelegate.handleEntrySelection(selection);
 	}
 
 	/**
-	 * å§”è­²
+	 * ˆÏ÷
 	 * 
 	 * @param pageSite
 	 */
@@ -150,7 +137,7 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 	}
 
 	/**
-	 * å§”è­²
+	 * ˆÏ÷
 	 * 
 	 * @param menuManager
 	 * @param toolBarManager
@@ -158,73 +145,67 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 	 */
 	public void makeContributions(IMenuManager menuManager,
 			IToolBarManager toolBarManager, IStatusLineManager statusLineManager) {
-		// defaultDelegate.makeContributions(menuManager, toolBarManager,
-		// statusLineManager);
 	}
 
 	/**
-	 * å§”è­²
+	 * ˆÏ÷
 	 */
 	public void refresh() {
-		// defaultDelegate.refresh();
 	}
 	
-	private EObject prevComponent;
+	private LocalObject prevComponent;
 	
 	/**
-	 * Rtcã®å ´åˆã ã‘ã€ç‰¹æ®Šãªãƒšãƒ¼ã‚¸ã‚’è¡¨ç¤ºã™ã‚‹ã‚ˆã†ã«ã™ã‚‹
-	 * ã¾ãŸã€ã“ã®ãƒšãƒ¼ã‚¸ã§ã¯ã€RTCä»¥å¤–ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è§¦ã£ã¦ã‚‚ã€ãã‚ŒãŒIPropertySouceã‚’æŒã£ã¦ã„ãªã„å ´åˆã«ã¯ï¼ˆPropertyiesãƒšãƒ¼ã‚¸ã‚’è¡¨ç¤ºã§ããªã„å ´åˆã«ã¯ï¼‰RTCã‚’è¡¨ç¤ºã—ç¶šã‘ã‚‹ã€‚ï¼ˆã“ã‚Œã¯ã€selectionChangedã‚’ç„¡è¦–ã™ã‚‹ã“ã¨ã§å®Ÿç¾ã—ã¦ã„ã‚‹ï¼‰
+	 * {@inheritDoc}
+	 * <p>
+	 * 
+	 * Rtc‚Ìê‡‚¾‚¯A“Áê‚Èƒy[ƒW‚ğ•\¦‚·‚é‚æ‚¤‚É‚·‚é
+	 * ‚Ü‚½A‚±‚Ìƒy[ƒW‚Å‚ÍARTCˆÈŠOƒIƒuƒWƒFƒNƒg‚ğG‚Á‚Ä‚àA‚»‚ê‚ªIPropertySouce‚ğ‚Á‚Ä‚¢‚È‚¢ê‡‚É‚ÍiPropertyiesƒy[ƒW‚ğ•\¦‚Å‚«‚È‚¢ê‡‚É‚ÍjRTC‚ğ•\¦‚µ‘±‚¯‚éBi‚±‚ê‚ÍAselectionChanged‚ğ–³‹‚·‚é‚±‚Æ‚ÅÀŒ»‚µ‚Ä‚¢‚éj
 	 */
+	@SuppressWarnings("unchecked")
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-		if (!(selection instanceof IStructuredSelection)) {
-			return;
-		}
-		IStructuredSelection sSelection = (IStructuredSelection) selection;
+		if (selection instanceof IStructuredSelection) {
+			IStructuredSelection sSelection = (IStructuredSelection) selection;
 
-		EObject component = getDisplayObject(sSelection.getFirstElement());
-		if (component instanceof LocalObject && component == prevComponent) {
-			return;
-		}
-		prevComponent = component;
+			LocalObject component = getDisplayObject(sSelection.getFirstElement());		
+			if (component == prevComponent) return;
+			prevComponent = component;
 
-		String kind = null;
-		if (component instanceof Component) {
-			Component c = (Component) component;
-			c.synchronizeManually();
-			if (c.isCompositeComponent()) {
-				kind = "composite";
+			String kind = null;
+			if (component instanceof Component) {
+				Component c = (Component) component;
+				c.synchronizeManually();
+				if (c.isCompositeComponent()) {
+					kind = "composite";
+				}
+
+				componentViewer.setInput(new ComponentWrapper(component));
+				componentViewer.reveal(component);// •\¦ŒãAã‚ÉƒXƒNƒ[ƒ‹‚·‚é
+				stackLayout.topControl = componentView;
+			} else if (component instanceof PortConnector) {
+				componentViewer.setInput(new PortConnectorWrapper(component));
+				componentViewer.reveal(component);// •\¦ŒãAã‚ÉƒXƒNƒ[ƒ‹‚·‚é
+				stackLayout.topControl = componentView;
+
+			} else if (component instanceof RTCManager) {
+				RTCManager m = (RTCManager) component;
+				m.synchronizeManually();
+				prevComponent = null;
+
+				componentViewer.setInput(new RTCManagerWrapper(component));
+				componentViewer.reveal(component);// •\¦ŒãAã‚ÉƒXƒNƒ[ƒ‹‚·‚é
+				stackLayout.topControl = componentView;
+
+			} else {
+				componentViewer.setInput(null);
 			}
-			componentViewer.setInput(new ComponentWrapper(component));
-			componentViewer.reveal(component);// è¡¨ç¤ºå¾Œã€ä¸Šã«ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ã™ã‚‹
-			stackLayout.topControl = componentView;
+			composite.layout();
 
-		} else if (component instanceof PortConnector) {
-			componentViewer.setInput(new PortConnectorWrapper(component));
-			componentViewer.reveal(component);// è¡¨ç¤ºå¾Œã€ä¸Šã«ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ã™ã‚‹
-			stackLayout.topControl = componentView;
-
-		} else if (component instanceof SystemDiagram) {
-			componentViewer.setInput(new SystemDiagramWrapper(component));
-			componentViewer.reveal(component);// è¡¨ç¤ºå¾Œã€ä¸Šã«ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ã™ã‚‹
-			stackLayout.topControl = componentView;
-
-		} else if (component instanceof RTCManager) {
-			RTCManager m = (RTCManager) component;
-			m.synchronizeManually();
-			prevComponent = null;
-			componentViewer.setInput(new RTCManagerWrapper(component));
-			componentViewer.reveal(component);// è¡¨ç¤ºå¾Œã€ä¸Šã«ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ã™ã‚‹
-			stackLayout.topControl = componentView;
-
-		} else {
-			componentViewer.setInput(null);
+			switchView(component, kind);
 		}
-		composite.layout();
-
-		switchView(component, kind);
 	}
 
-	private void switchView(EObject component, String kind) {
+	private void switchView(LocalObject component, String kind) {
 		String viewId = OpenView.getViewId(component, kind);
 		if (viewId != null) {
 			try {
@@ -239,19 +220,19 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 	}
 
 	@SuppressWarnings("unchecked")
-	private EObject getDisplayObject(Object firstElement) {
+	private LocalObject getDisplayObject(Object firstElement) {
 		for (Class displayClass : PropertysheetpageExtentionpoint
 				.getDisplayclassList()) {
-			Object obj = AdapterUtil.getAdapter(firstElement, displayClass);
+			Object obj = AdapterUtil.getAdapter(firstElement,	displayClass);
 			if (obj != null) {
-				return (EObject) obj;
+				return (LocalObject) obj;
 			}
 		}
 		return null;
 	}
 
 	/**
-	 * å§”è­²
+	 * ˆÏ÷
 	 * 
 	 * @param actionBars
 	 */
@@ -266,7 +247,7 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 	}
 
 	/**
-	 * å§”è­²
+	 * ˆÏ÷
 	 * 
 	 * @param newProvider
 	 */
@@ -274,7 +255,7 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 	}
 
 	/**
-	 * å§”è­²
+	 * ˆÏ÷
 	 * 
 	 * @param entry
 	 */

@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
+import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
+import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
 
 /**
- * æ–°è¦è¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆä½œæˆãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã«è¡¨ç¤ºã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã‚’ç”¨æ„ã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒ†ã‚£ã‚¯ãƒ©ã‚¹
+ * V‹K•¡‡ƒRƒ“ƒ|[ƒlƒ“ƒgì¬ƒ_ƒCƒAƒƒO‚É•\Ž¦‚·‚éƒf[ƒ^‚ð—pˆÓ‚·‚éƒ†[ƒeƒBƒeƒBƒNƒ‰ƒX
  * 
  */
 public class NewCompositeComponentDialogData {
-
 	static String[] getPathComboItems(List<Component> selectedComponents) {
 		List<String> paths = new ArrayList<String>();
 		for (Component obj : selectedComponents) {
@@ -29,12 +32,13 @@ public class NewCompositeComponentDialogData {
 			for (Object element : obj.getPorts()) {
 				Port port = (Port) element;
 				ports.add(port.getNameL());
+				// ports.add(obj.getInstanceNameL()+ "." + port.getNameL());
 			}
 		}
 		return ports;
 	}
 
-	// è¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆç”Ÿæˆæ™‚ã«ãƒžãƒãƒ¼ã‚¸ãƒ£ã«æ¸¡ã™ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¿”ã™
+	// •¡‡ƒRƒ“ƒ|[ƒlƒ“ƒg¶¬Žž‚Éƒ}ƒl[ƒWƒƒ‚É“n‚·ƒpƒ‰ƒ[ƒ^‚ð•Ô‚·
 	public static String getParam(String compositeType, String instanceName,
 			String exportedPortString) {
 		StringBuffer buffer = new StringBuffer();
@@ -43,6 +47,58 @@ public class NewCompositeComponentDialogData {
 		buffer.append("&exported_ports=");
 		buffer.append(exportedPortString);
 		return buffer.toString();
+	}
+
+	/**
+	 * @param dialog
+	 *            V‹K•¡‡ƒRƒ“ƒ|[ƒlƒ“ƒgì¬ƒ_ƒCƒAƒƒO
+	 * @return ƒIƒtƒ‰ƒCƒ“ƒGƒfƒBƒ^‚Åì¬‚³‚ê‚½•¡‡ƒRƒ“ƒ|[ƒlƒ“ƒg
+	 */
+	public static Component createCompositeComponentSpecification(
+			NewCompositeComponentDialog dialog) {
+		Component compositeComponent = ComponentFactory.eINSTANCE
+				.createComponentSpecification();
+		// ƒvƒƒtƒ@ƒCƒ‹Ý’è(category‚Ì‚Ý)
+		compositeComponent.setInstanceNameL(dialog.getInstanceName());
+		compositeComponent.setVenderL("");
+		compositeComponent.setCategoryL("composite."
+				+ dialog.getCompositeType());
+		compositeComponent
+				.setTypeNameL(dialog.getCompositeType() + "Composite");
+		compositeComponent.setVersionL("");
+		String compId = "RTC:" + compositeComponent.getVenderL() + "."
+				+ compositeComponent.getCategoryL() + "."
+				+ compositeComponent.getTypeNameL() + ":"
+				+ compositeComponent.getVersionL();
+		compositeComponent.setComponentId(compId);
+		compositeComponent.setPathId(dialog.getPathId());
+		// ƒIƒtƒ‰ƒCƒ“‚ÅGrouping•¡‡RTCˆÈŠO‚Ìê‡‚ÍEC‚ð’Ç‰Á
+		if (!Component.COMPOSITETYPE_GROUPING.equals(dialog.getCompositeType())) {
+			ExecutionContext ec = ComponentFactory.eINSTANCE
+					.createExecutionContext();
+			ec.setKindL(ExecutionContext.KIND_PERIODIC);
+			ec.setRateL(1000.0);
+			ec.setOwner(compositeComponent);
+			compositeComponent.getExecutionContexts().add(ec);
+			compositeComponent.getExecutionContextHandler().sync();
+		}
+		// ‹ó‚ÌConfigurationSetÝ’è
+		ConfigurationSet configSet = ComponentFactory.eINSTANCE
+				.createConfigurationSet();
+		compositeComponent.getConfigurationSets().add(configSet);
+		compositeComponent.setActiveConfigurationSet(configSet);
+		configSet.setId("default");
+		populateExportPorts(configSet, dialog.getExportedPortString());
+
+		return compositeComponent;
+	}
+
+	private static void populateExportPorts(ConfigurationSet configSet,
+			String exportedPortString) {
+		NameValue nv = ComponentFactory.eINSTANCE.createNameValue();
+		nv.setName("exported_ports");
+		nv.setValue(exportedPortString);
+		configSet.getConfigurationData().add(nv);
 	}
 
 }

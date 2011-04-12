@@ -3,12 +3,7 @@ package jp.go.aist.rtm.systemeditor.ui.editor;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
 
-import jp.go.aist.rtm.systemeditor.extension.LoadProfileExtension;
-import jp.go.aist.rtm.systemeditor.factory.ProfileLoader;
-import jp.go.aist.rtm.systemeditor.factory.Rehabilitation;
 import jp.go.aist.rtm.systemeditor.factory.SystemEditorWrapperFactory;
 import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
 import jp.go.aist.rtm.systemeditor.nl.Messages;
@@ -17,10 +12,8 @@ import jp.go.aist.rtm.systemeditor.restoration.Result;
 import jp.go.aist.rtm.systemeditor.ui.editor.action.OpenAndQuickRestoreAction;
 import jp.go.aist.rtm.systemeditor.ui.editor.action.OpenAndRestoreAction;
 import jp.go.aist.rtm.systemeditor.ui.editor.action.RestoreOption;
-import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.systemeditor.ui.util.RtsProfileHandler;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
-import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
-import jp.go.aist.rtm.toolscommon.util.RtsProfileHandler;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.ContextMenuProvider;
@@ -34,18 +27,21 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.FileEditorInput;
-import org.openrtp.namespaces.rts.version02.RtsProfileExt;
 
 /**
- * SystemDiagramEditorã‚¯ãƒ©ã‚¹
+ * SystemDiagramEditorƒNƒ‰ƒX
  */
 public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 	/**
-	 * ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã‚¨ãƒ‡ã‚£ã‚¿ã®ID
+	 * ƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€ƒGƒfƒBƒ^‚ÌID
 	 */
 	public static final String SYSTEM_DIAGRAM_EDITOR_ID = "jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor"; //$NON-NLS-1$
 
+	@SuppressWarnings("unchecked") //$NON-NLS-1$
 	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	protected void createActions() {
 		super.createActions();
 		addAction(new OpenAndRestoreAction(this));
@@ -58,7 +54,7 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 	}
 
 	/**
-	 * è¨­å®šã®å¤‰æ›´ã«å¯¾ã™ã‚‹ãƒªã‚¹ãƒŠ
+	 * İ’è‚Ì•ÏX‚É‘Î‚·‚éƒŠƒXƒi
 	 */
 	PropertyChangeListener preferenceListener = new PropertyChangeListener() {
 		public void propertyChange(PropertyChangeEvent evt) {
@@ -72,6 +68,9 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 	};
 
 	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	protected void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
 
@@ -93,11 +92,11 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 				, Messages.getString("SystemDiagramEditor.10"));
 
 		if (targetInput instanceof FileEditorInput) {	
-			// RTSãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
+			// RTSƒvƒƒtƒ@ƒCƒ‹‚ğƒtƒ@ƒCƒ‹‚©‚çƒ[ƒh‚·‚é
 			doLoad(site, restore, (FileEditorInput)targetInput);
 		}
 
-		// ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã®åŒæœŸã‚¹ãƒ¬ãƒƒãƒ‰é–‹å§‹
+		// ƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€‚Ì“¯ŠúƒXƒŒƒbƒhŠJn
 		getSystemDiagram()
 				.setSynchronizeInterval(
 						SystemEditorPreferenceManager
@@ -127,77 +126,16 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 						InterruptedException {
 
 					monitor.beginTask(Messages.getString("SystemDiagramEditor.3"), 100); //$NON-NLS-1$
-					monitor.subTask(Messages.getString("SystemDiagramEditor.4")); //$NON-NLS-1$
+
+					monitor
+							.subTask(Messages.getString("SystemDiagramEditor.4")); //$NON-NLS-1$
+					monitor.internalWorked(20);
 
 					try {
-						RtsProfileHandler handler = new RtsProfileHandler();
-
-						// STEP1: ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰RTSãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆ
-						monitor.internalWorked(20);
-
-						RtsProfileExt profile = handler.load(strPath);
-
-						// STEP2: æ‹¡å¼µãƒã‚¤ãƒ³ãƒˆ (ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ç”Ÿæˆå‰)
-						monitor.internalWorked(20);
-
-						ProfileLoader creator = new ProfileLoader();
-						for (LoadProfileExtension.ErrorInfo info : creator
-								.preLoad(profile, strPath)) {
-							if (info.isError()) {
-								openError(DIALOG_TITLE_ERROR, info.getMessage());
-								return;
-							} else {
-								if (!openConfirm(DIALOG_TITLE_CONFIRM, info
-										.getMessage())) {
-									return;
-								}
-							}
-						}
-
-						// STEP3: RTSãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã‚’ä½œæˆ
-						monitor.internalWorked(20);
-
-						SystemDiagram diagram = handler.load(profile,
-								SystemDiagramKind.ONLINE_LITERAL);
-
-						if (restore.doQuick()) {
-							handler.populateCorbaBaseObject(diagram);
-						}
-						SystemEditorWrapperFactory.getInstance()
-								.getSynchronizationManager()
-								.assignSynchonizationSupportToDiagram(diagram);
-						Rehabilitation.rehabilitation(diagram);
-
-						// èª­ã¿è¾¼ã¿æ™‚ã«æ˜ç¤ºçš„ã«çŠ¶æ…‹ã®åŒæœŸã‚’å®Ÿè¡Œ
-						List<Component> eComps = new ArrayList<Component>(
-								diagram.getComponents());
-						diagram.getComponents().clear();
-						for (Component c : eComps) {
-							c.synchronizeManually();
-							diagram.addComponent(c);
-						}
-						handler.restoreCompositeComponentPort(diagram);
-
-						SystemDiagram oldDiagram = getSystemDiagram();
+						SystemDiagram diagram = (SystemDiagram) SystemEditorWrapperFactory
+								.getInstance().loadContentFromResource(strPath, restore);
 						setSystemDiagram(diagram);
-
-						// STEP4: æ‹¡å¼µãƒã‚¤ãƒ³ãƒˆ (ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ç”Ÿæˆå¾Œ)
-						monitor.internalWorked(20);
-
-						for (LoadProfileExtension.ErrorInfo info : creator
-								.postLoad(diagram, profile, oldDiagram)) {
-							if (info.isError()) {
-								openError(DIALOG_TITLE_ERROR, info.getMessage());
-								return;
-							} else {
-								if (!openConfirm(DIALOG_TITLE_CONFIRM, info
-										.getMessage())) {
-									return;
-								}
-							}
-						}
-
-					} catch (Exception e) {
+					} catch (Exception e) {	 
 						monitor.done();
 						throw new InvocationTargetException(e,
 								Messages.getString("SystemDiagramEditor.6")  + "\r\n" + e.getMessage()); //$NON-NLS-1$
@@ -229,7 +167,7 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 	}
 
 	/**
-	 * ãƒ­ãƒ¼ãƒ‰æ™‚ã®å¾©å…ƒã‚’è¡Œã„ã¾ã™ã€‚
+	 * ƒ[ƒh‚Ì•œŒ³‚ğs‚¢‚Ü‚·B
 	 */
 	public void doReplace(SystemDiagram systemDiagram, IEditorSite site) {
 		final StringBuffer buffer = new StringBuffer();
@@ -259,6 +197,9 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 	}
 
 	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public void dispose() {
 		getSystemDiagram().setSynchronizeInterval(-1);
 
@@ -277,5 +218,4 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 	public String getEditorId() {
 		return SYSTEM_DIAGRAM_EDITOR_ID;
 	}
-
 }

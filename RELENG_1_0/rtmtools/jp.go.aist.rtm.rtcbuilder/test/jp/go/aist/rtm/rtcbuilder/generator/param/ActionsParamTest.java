@@ -38,36 +38,36 @@ public class ActionsParamTest extends ParamTestCase<ActionsParam> {
 		assertUpdated(ap, new UpdateChecker() {
 			@Override
 			void execute1(ActionsParam e) {
-				e.setOverview("æ¦‚è¦ï¼‘");
+				e.setOverview("ŠT—v‚P");
 			}
 
 			@Override
 			void execute2(ActionsParam e) {
-				e.setOverview("æ¦‚è¦ï¼’");
+				e.setOverview("ŠT—v‚Q");
 			}
 		});
 		//
 		assertUpdated(ap, new UpdateChecker() {
 			@Override
 			void execute1(ActionsParam e) {
-				e.setPreCondition("äº‹å‰æ¡ä»¶ï¼‘");
+				e.setPreCondition("–‘OğŒ‚P");
 			}
 
 			@Override
 			void execute2(ActionsParam e) {
-				e.setPreCondition("äº‹å‰æ¡ä»¶ï¼’");
+				e.setPreCondition("–‘OğŒ‚Q");
 			}
 		});
 		//
 		assertUpdated(ap, new UpdateChecker() {
 			@Override
 			void execute1(ActionsParam e) {
-				e.setPostCondition("äº‹å¾Œæ¡ä»¶ï¼‘");
+				e.setPostCondition("–ŒãğŒ‚P");
 			}
 
 			@Override
 			void execute2(ActionsParam e) {
-				e.setPostCondition("äº‹å¾Œæ¡ä»¶ï¼’");
+				e.setPostCondition("–ŒãğŒ‚Q");
 			}
 		});
 	}

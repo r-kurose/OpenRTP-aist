@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URLDecoder;
 
 import jp.go.aist.rtm.systemeditor.ui.editor.action.RestoreOption;
+import jp.go.aist.rtm.systemeditor.ui.util.RtsProfileHandler;
 import jp.go.aist.rtm.toolscommon.factory.MappingRuleFactory;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
@@ -11,15 +12,14 @@ import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
 import jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationManager;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
-import jp.go.aist.rtm.toolscommon.util.RtsProfileHandler;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.openrtp.namespaces.rts.version02.RtsProfileExt;
 
 /**
- * ã‚·ã‚¹ãƒ†ãƒ ã‚¨ãƒ‡ã‚£ã‚¿ã§å¿…è¦ã¨ãªã‚‹WrapperObjectã®ãƒ•ã‚¡ã‚¯ãƒˆãƒª
- * ç¾çŠ¶ã¯CORBAç”¨ã®ãƒãƒƒãƒ”ãƒ³ã‚°ãƒ«ãƒ¼ãƒ«ã®ã¿ã«å¯¾å¿œ
+ * ƒVƒXƒeƒ€ƒGƒfƒBƒ^‚Å•K—v‚Æ‚È‚éWrapperObject‚Ìƒtƒ@ƒNƒgƒŠ
+ * Œ»ó‚ÍCORBA—p‚Ìƒ}ƒbƒsƒ“ƒOƒ‹[ƒ‹‚Ì‚İ‚É‘Î‰
  *
  */
 public class SystemEditorWrapperFactory {
@@ -29,9 +29,9 @@ public class SystemEditorWrapperFactory {
 	private SynchronizationManager synchronizationManager;
 
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	 * <p>
-	 * ä»–ã®ãƒãƒƒãƒ”ãƒ³ã‚°ãƒ«ãƒ¼ãƒ«ã‚’ä½¿ç”¨ã—ãŸãƒ•ã‚¡ã‚¯ãƒˆãƒªã‚’ä½œæˆã™ã‚‹ã“ã¨ãŒã§ãã‚‹ã‚ˆã†ã«ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’å…¬é–‹ã™ã‚‹ãŒã€åŸºæœ¬çš„ã«ã¯getInstance()ã‚’åˆ©ç”¨ã—ã¦ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚’ä½œæˆã™ã‚‹ã“ã¨
+	 * ‘¼‚Ìƒ}ƒbƒsƒ“ƒOƒ‹[ƒ‹‚ğg—p‚µ‚½ƒtƒ@ƒNƒgƒŠ‚ğì¬‚·‚é‚±‚Æ‚ª‚Å‚«‚é‚æ‚¤‚ÉƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğŒöŠJ‚·‚é‚ªAŠî–{“I‚É‚ÍgetInstance()‚ğ—˜—p‚µ‚ÄƒVƒ“ƒOƒ‹ƒgƒ“‚ğì¬‚·‚é‚±‚Æ
 	 * 
 	 * @param mappingRules
 	 */
@@ -40,9 +40,9 @@ public class SystemEditorWrapperFactory {
 	}
 
 	/**
-	 * ãƒ•ã‚¡ã‚¯ãƒˆãƒªã®ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚’å–å¾—ã™ã‚‹
+	 * ƒtƒ@ƒNƒgƒŠ‚ÌƒVƒ“ƒOƒ‹ƒgƒ“‚ğæ“¾‚·‚é
 	 * 
-	 * @return ãƒ•ã‚¡ã‚¯ãƒˆãƒªã®ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³
+	 * @return ƒtƒ@ƒNƒgƒŠ‚ÌƒVƒ“ƒOƒ‹ƒgƒ“
 	 */
 	public static SystemEditorWrapperFactory getInstance() {
 		if (__instance == null) {
@@ -54,7 +54,7 @@ public class SystemEditorWrapperFactory {
 	}
 
 	/**
-	 * ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚ï¼ˆåŸºæœ¬çš„ã«ä½¿ç”¨ã—ã¦ã¯ãªã‚‰ãªã„ã€‚ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã‹ã‚‰ã®å®Ÿè¡Œã®ãŸã‚ã«è¿½åŠ ï¼‰
+	 * ƒVƒ“ƒOƒ‹ƒgƒ“‚ğƒZƒbƒg‚·‚éBiŠî–{“I‚Ég—p‚µ‚Ä‚Í‚È‚ç‚È‚¢BƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚©‚ç‚ÌÀs‚Ì‚½‚ß‚É’Ç‰Áj
 	 * 
 	 */
 	public static void setInstance(SystemEditorWrapperFactory instance) {
@@ -62,18 +62,18 @@ public class SystemEditorWrapperFactory {
 	}
 
 	/**
-	 * XMLã‹ã‚‰ãƒ‰ãƒ¡ã‚¤ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ„ãƒªãƒ¼ã‚’å¾©å…ƒã™ã‚‹
+	 * XML‚©‚çƒhƒƒCƒ“ƒIƒuƒWƒFƒNƒgƒcƒŠ[‚ğ•œŒ³‚·‚é
 	 * <p>
-	 * å†…éƒ¨ã§ã¯ã€EMFã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ãƒ­ãƒ¼ãƒ‰ã—ã€åŒæœŸãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¯ãƒ¼ã‚¯ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å¾©å…ƒã‚’è¡Œã†
+	 * “à•”‚Å‚ÍAEMF‚ÌƒIƒuƒWƒFƒNƒg‚ğƒ[ƒh‚µA“¯ŠúƒtƒŒ[ƒ€ƒ[ƒN‚ÌƒIƒuƒWƒFƒNƒg‚Ì•œŒ³‚ğs‚¤
 	 * 
 	 * @param strPath
-	 *            ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
-	 * @param restore	IORã‹ã‚‰ã®å¾©å…ƒã‚’è¡Œã†ã‹ã‚’åˆ¤æ–­ã™ã‚‹
-	 * @return ãƒ‰ãƒ¡ã‚¤ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ«ãƒ¼ãƒˆ
+	 *            ƒtƒ@ƒCƒ‹‚ÌƒpƒX
+	 * @param restore	IOR‚©‚ç‚Ì•œŒ³‚ğs‚¤‚©‚ğ”»’f‚·‚é
+	 * @return ƒhƒƒCƒ“ƒIƒuƒWƒFƒNƒgƒ‹[ƒg
 	 * @throws IOException
-	 *             ãƒ•ã‚¡ã‚¤ãƒ«ãŒèª­ã¿è¾¼ã‚ãªã„å ´åˆãªã©
+	 *             ƒtƒ@ƒCƒ‹‚ª“Ç‚İ‚ß‚È‚¢ê‡‚È‚Ç
 	 */
-	@Deprecated
+	@SuppressWarnings("unchecked")
 	public EObject loadContentFromResource(String strPath, RestoreOption restore)
 			throws Exception {
 		RtsProfileHandler handler = new RtsProfileHandler();
@@ -87,7 +87,7 @@ public class SystemEditorWrapperFactory {
 		getSynchronizationManager().assignSynchonizationSupportToDiagram(diagram);
 		Rehabilitation.rehabilitation(diagram);
 		
-		// èª­ã¿è¾¼ã¿æ™‚ã«æ˜ç¤ºçš„ã«çŠ¶æ…‹ã®åŒæœŸã‚’å®Ÿè¡Œ
+		// “Ç‚İ‚İ‚É–¾¦“I‚Éó‘Ô‚Ì“¯Šú‚ğÀs
 		for (Object obj : diagram.getComponents()) {
 			((Component)obj).getSynchronizationSupport().synchronizeLocal();
 		}
@@ -97,18 +97,17 @@ public class SystemEditorWrapperFactory {
 	}
 
 	/**
-	 * XMLã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ„ãƒªãƒ¼ã‚’ä¿å­˜ã™ã‚‹
+	 * XML‚ÉƒIƒuƒWƒFƒNƒgƒcƒŠ[‚ğ•Û‘¶‚·‚é
 	 * <p>
-	 * å†…éƒ¨ã§ã¯ã€EMFã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ã‚»ãƒ¼ãƒ–ã™ã‚‹ã€‚ åŒæœŸãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¯ãƒ¼ã‚¯ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯ã‚»ãƒ¼ãƒ–ã•ã‚Œãªã„ã®ã§ã€ãƒ­ãƒ¼ãƒ‰æ™‚ã«å¾©å…ƒã‚’è¡Œã†å¿…è¦ãŒã‚ã‚‹ã€‚
+	 * “à•”‚Å‚ÍAEMF‚ÌƒIƒuƒWƒFƒNƒg‚ğƒZ[ƒu‚·‚éB “¯ŠúƒtƒŒ[ƒ€ƒ[ƒN‚ÌƒIƒuƒWƒFƒNƒg‚ÍƒZ[ƒu‚³‚ê‚È‚¢‚Ì‚ÅAƒ[ƒh‚É•œŒ³‚ğs‚¤•K—v‚ª‚ ‚éB
 	 * 
 	 * @param resource
-	 *            ãƒªã‚½ãƒ¼ã‚¹
+	 *            ƒŠƒ\[ƒX
 	 * @param content
-	 *            ãƒ‰ãƒ¡ã‚¤ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ«ãƒ¼ãƒˆ
+	 *            ƒhƒƒCƒ“ƒIƒuƒWƒFƒNƒgƒ‹[ƒg
 	 * @throws IOException
-	 *             ãƒ•ã‚¡ã‚¤ãƒ«ã«ä¿å­˜ã§ããªã„å ´åˆãªã©
+	 *             ƒtƒ@ƒCƒ‹‚É•Û‘¶‚Å‚«‚È‚¢ê‡‚È‚Ç
 	 */
-	@Deprecated
 	public void saveContentsToResource(Resource resource, EObject content)
 			throws Exception {
 		RtsProfileHandler handler = new RtsProfileHandler();
@@ -122,7 +121,7 @@ public class SystemEditorWrapperFactory {
 	}
 
 	/**
-	 * SynchronizationManagerã‚’å–å¾—ã™ã‚‹
+	 * SynchronizationManager‚ğæ“¾‚·‚é
 	 */
 	public SynchronizationManager getSynchronizationManager() {
 		return synchronizationManager;

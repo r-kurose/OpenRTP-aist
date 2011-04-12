@@ -11,7 +11,7 @@ import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
 
 /**
- * 繧ｳ繝阪け繧ｿ縺ｮ菴懈�舌ｄ莉倥￠譖ｿ縺医↓髢｢縺吶ｋEditPolicy繧ｯ繝ｩ繧ｹ
+ * コネクタの作成や付け替えに関するEditPolicyクラス
  */
 public class PortGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 

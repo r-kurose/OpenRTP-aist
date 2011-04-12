@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
-	<extension-point id="editpartfactory" name="EditPartFactory" schema="schema/editpartfactory.exsd"/>
-	<extension-point id="createconnectorprofile" name="CreateConnectorProfile" schema="schema/createconnectorprofile.exsd"/>
-	<extension-point id="createcomponentcommand" name="CreateComponentCommand" schema="schema/createcomponentcommand.exsd"/>
-	<extension-point id="saveprofile" name="SaveProfile" schema="schema/saveprofile.exsd"/>
-	<extension-point id="loadprofile" name="LoadProfile" schema="schema/loadprofile.exsd"/>
-	<extension-point id="rehabilitatecomponent" name="RehabilitateComponent" schema="schema/rehabilitatecomponent.exsd"/>
-	<extension-point id="createcompositecomponent" name="CreateCompositeComponent" schema="schema/createcompositecomponent.exsd"/>
-
+   <extension-point id="editpartfactory" name="%EditPartFactory" schema="schema/editpartfactory.exsd"/>
+   <extension-point id="createconnectorprofile" name="%CreateConnectorProfile" schema="schema/createconnectorprofile.exsd"/>
+   <extension-point id="postsaveextension" name="PostSaveExtension" schema="schema/postsaveextension.exsd"/>
+   
    <!--extension point="org.eclipse.emf.ecore.generated_package">
       <package uri="http://rtm.aist.go.jp/systemeditor/model/systemeditor" class="jp.go.aist.rtm.toolscommon.model.component.ComponentPackage"/>
    </extension -->
@@ -20,6 +16,10 @@
 		<editpart seq="400" targetclass="jp.go.aist.rtm.toolscommon.model.component.PortConnector" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.PortConnectorEditPart" />
 		<editpart seq="500" targetclass="jp.go.aist.rtm.toolscommon.model.component.Component" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart" />
 		<editpart seq="600" targetclass="jp.go.aist.rtm.toolscommon.model.component.SystemDiagram" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.SystemDiagramEditPart" />
+	</extension>
+	
+	<extension point="jp.go.aist.rtm.toolscommon.propertysheetpageextentionpoint">
+		<propertysheetpage displayclass="jp.go.aist.rtm.toolscommon.model.component.PortConnector"/>
 	</extension>
 
     <extension point="org.eclipse.ui.perspectives">
@@ -490,16 +490,10 @@
       		type="xml" 
       		class="org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl"/>
    </extension>
-
 	<extension point="jp.go.aist.rtm.toolscommon.openViews">
 		<view class="jp.go.aist.rtm.toolscommon.model.component.Component" view_id="jp.go.aist.rtm.systemeditor.ui.views.configurationview.ConfigurationView"/>
 		<view class="jp.go.aist.rtm.toolscommon.model.component.Component" view_id="jp.go.aist.rtm.systemeditor.ui.views.compositecomponentview.CompositeComponentView" kind="composite"/>
 		<view class="jp.go.aist.rtm.toolscommon.model.manager.RTCManager" view_id="jp.go.aist.rtm.systemeditor.ui.views.managercontrolview.ManagerControlView"/>
-	</extension>
-
-	<extension
-		point="jp.go.aist.rtm.toolscommon.loadcomponent">
-		<loadComponent extensionclass="jp.go.aist.rtm.systemeditor.extension.RTSELoadComponentExtension"/>
 	</extension>
 
 </plugin>

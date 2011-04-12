@@ -14,9 +14,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * RT Name Service View縺ｮAbout繝繧､繧｢繝ｭ繧ｰ
+ * RT Name Service ViewのAboutダイアログ
  * <p>
- * HTML縺ｫ繧医ｊ菴懈�舌☆繧�
+ * HTMLにより作成する
  */
 public class AboutDialog extends Dialog {
 	private static final String html = "<html>" //$NON-NLS-1$
@@ -40,7 +40,7 @@ public class AboutDialog extends Dialog {
 			+ "</p>" + "</center>" + "</body>" + "</html>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
 	/**
-	 * 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ
+	 * コンストラクタ
 	 * 
 	 * @param shell
 	 */

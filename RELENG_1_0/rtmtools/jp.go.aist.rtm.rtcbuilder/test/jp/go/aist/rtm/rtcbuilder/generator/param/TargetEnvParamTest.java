@@ -38,24 +38,24 @@ public class TargetEnvParamTest extends ParamTestCase<TargetEnvParam> {
 		assertUpdated(ep, new UpdateChecker() {
 			@Override
 			void execute1(TargetEnvParam e) {
-				e.setOther("ãã®ä»–ï¼‘");
+				e.setOther("‚»‚Ì‘¼‚P");
 			}
 
 			@Override
 			void execute2(TargetEnvParam e) {
-				e.setOther("ãã®ä»–ï¼’");
+				e.setOther("‚»‚Ì‘¼‚Q");
 			}
 		});
 		//
 		assertUpdated(ep, new UpdateChecker() {
 			@Override
 			void execute1(TargetEnvParam e) {
-				e.setCpuOther("ãã®ä»–CPUï¼‘");
+				e.setCpuOther("‚»‚Ì‘¼CPU‚P");
 			}
 
 			@Override
 			void execute2(TargetEnvParam e) {
-				e.setCpuOther("ãã®ä»–CPUï¼’");
+				e.setCpuOther("‚»‚Ì‘¼CPU‚Q");
 			}
 		});
 	}

@@ -7,7 +7,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.model.IWorkbenchAdapter;
 
 /**
- * ModelElement„ÅÆWorkbenchAdapter
+ * ModelElementÇÃWorkbenchAdapter
  */
 public class ModelElementWorkbenchAdapter implements IWorkbenchAdapter {
 

@@ -3,12 +3,12 @@ package jp.go.aist.rtm.rtcbuilder.generator.param;
 public interface UpdateRecordable {
 
 	/**
-	 * @return æ›´æ–°ã•ã‚Œã¦ã„ã‚‹å ´åˆã¯true
+	 * @return XV‚³‚ê‚Ä‚¢‚éê‡‚Ítrue
 	 */
 	boolean isUpdated();
 
 	/**
-	 * æ›´æ–°çŠ¶æ…‹ã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚
+	 * XVó‘Ô‚ð‰Šú‰»‚µ‚Ü‚·B
 	 */
 	void resetUpdated();
 

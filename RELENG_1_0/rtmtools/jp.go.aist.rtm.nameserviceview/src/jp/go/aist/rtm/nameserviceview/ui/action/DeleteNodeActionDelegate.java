@@ -2,8 +2,8 @@ package jp.go.aist.rtm.nameserviceview.ui.action;
 
 import java.util.Iterator;
 
-import jp.go.aist.rtm.nameserviceview.model.manager.NameServerContext;
-import jp.go.aist.rtm.nameserviceview.model.manager.NameServerManager;
+import jp.go.aist.rtm.nameserviceview.manager.NameServerContext;
+import jp.go.aist.rtm.nameserviceview.manager.NameServerManager;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode;
@@ -17,7 +17,7 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * ãƒãƒ¼ãƒ ã‚µãƒ¼ãƒ“ã‚¹ã‚’ãƒ“ãƒ¥ãƒ¼ã‹ã‚‰å‰Šé™¤ã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ ã¾ãŸã¯ ãƒãƒ¼ãƒ ã‚µãƒ¼ãƒ“ã‚¹ã‹ã‚‰ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã‚’å‰Šé™¤ã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
+ * ƒl[ƒ€ƒT[ƒrƒX‚ðƒrƒ…[‚©‚çíœ‚·‚éƒAƒNƒVƒ‡ƒ“ ‚Ü‚½‚Í ƒl[ƒ€ƒT[ƒrƒX‚©‚çƒRƒ“ƒeƒLƒXƒg‚ðíœ‚·‚éƒAƒNƒVƒ‡ƒ“
  * 
  */
 public class DeleteNodeActionDelegate implements IObjectActionDelegate {

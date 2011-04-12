@@ -8,9 +8,13 @@ package jp.go.aist.rtm.nameserviceview.model.nameservice.util;
 
 import java.util.List;
 
-import jp.go.aist.rtm.nameserviceview.model.manager.NameServerContext;
-import jp.go.aist.rtm.nameserviceview.model.manager.Node;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.*;
+import jp.go.aist.rtm.nameserviceview.manager.NameServerContext;
+import jp.go.aist.rtm.nameserviceview.manager.Node;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.NameservicePackage;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode;
 import jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject;
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
 import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
@@ -34,7 +38,7 @@ import org.omg.CosNaming.NamingContext;
  * @see jp.go.aist.rtm.nameserviceview.model.nameservice.NameservicePackage
  * @generated
  */
-public class NameserviceSwitch<T> {
+public class NameserviceSwitch {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
@@ -62,7 +66,7 @@ public class NameserviceSwitch<T> {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	public T doSwitch(EObject theEObject) {
+	public Object doSwitch(EObject theEObject) {
 		return doSwitch(theEObject.eClass(), theEObject);
 	}
 
@@ -73,16 +77,16 @@ public class NameserviceSwitch<T> {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected T doSwitch(EClass theEClass, EObject theEObject) {
+	protected Object doSwitch(EClass theEClass, EObject theEObject) {
 		if (theEClass.eContainer() == modelPackage) {
 			return doSwitch(theEClass.getClassifierID(), theEObject);
 		}
 		else {
-			List<EClass> eSuperTypes = theEClass.getESuperTypes();
+			List eSuperTypes = theEClass.getESuperTypes();
 			return
 				eSuperTypes.isEmpty() ?
 					defaultCase(theEObject) :
-					doSwitch(eSuperTypes.get(0), theEObject);
+					doSwitch((EClass)eSuperTypes.get(0), theEObject);
 		}
 	}
 
@@ -93,11 +97,11 @@ public class NameserviceSwitch<T> {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected T doSwitch(int classifierID, EObject theEObject) {
+	protected Object doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
 			case NameservicePackage.NAMING_CONTEXT_NODE: {
 				NamingContextNode namingContextNode = (NamingContextNode)theEObject;
-				T result = caseNamingContextNode(namingContextNode);
+				Object result = caseNamingContextNode(namingContextNode);
 				if (result == null) result = caseCorbaNode(namingContextNode);
 				if (result == null) result = caseNameServerContext(namingContextNode);
 				if (result == null) result = caseCorbaWrapperObject(namingContextNode);
@@ -111,7 +115,7 @@ public class NameserviceSwitch<T> {
 			}
 			case NameservicePackage.NAMING_OBJECT_NODE: {
 				NamingObjectNode namingObjectNode = (NamingObjectNode)theEObject;
-				T result = caseNamingObjectNode(namingObjectNode);
+				Object result = caseNamingObjectNode(namingObjectNode);
 				if (result == null) result = caseCorbaNode(namingObjectNode);
 				if (result == null) result = caseCorbaWrapperObject(namingObjectNode);
 				if (result == null) result = caseNode(namingObjectNode);
@@ -124,7 +128,7 @@ public class NameserviceSwitch<T> {
 			}
 			case NameservicePackage.CORBA_NODE: {
 				CorbaNode corbaNode = (CorbaNode)theEObject;
-				T result = caseCorbaNode(corbaNode);
+				Object result = caseCorbaNode(corbaNode);
 				if (result == null) result = caseCorbaWrapperObject(corbaNode);
 				if (result == null) result = caseNode(corbaNode);
 				if (result == null) result = caseWrapperObject(corbaNode);
@@ -136,7 +140,7 @@ public class NameserviceSwitch<T> {
 			}
 			case NameservicePackage.NAME_SERVICE_REFERENCE: {
 				NameServiceReference nameServiceReference = (NameServiceReference)theEObject;
-				T result = caseNameServiceReference(nameServiceReference);
+				Object result = caseNameServiceReference(nameServiceReference);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -155,7 +159,7 @@ public class NameserviceSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseNamingContextNode(NamingContextNode object) {
+	public Object caseNamingContextNode(NamingContextNode object) {
 		return null;
 	}
 
@@ -170,7 +174,7 @@ public class NameserviceSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseNamingObjectNode(NamingObjectNode object) {
+	public Object caseNamingObjectNode(NamingObjectNode object) {
 		return null;
 	}
 
@@ -185,7 +189,7 @@ public class NameserviceSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseCorbaNode(CorbaNode object) {
+	public Object caseCorbaNode(CorbaNode object) {
 		return null;
 	}
 
@@ -200,7 +204,7 @@ public class NameserviceSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseNode(Node object) {
+	public Object caseNode(Node object) {
 		return null;
 	}
 
@@ -215,7 +219,7 @@ public class NameserviceSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseNamingContext(NamingContext object) {
+	public Object caseNamingContext(NamingContext object) {
 		return null;
 	}
 
@@ -230,7 +234,7 @@ public class NameserviceSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseNameServiceReference(NameServiceReference object) {
+	public Object caseNameServiceReference(NameServiceReference object) {
 		return null;
 	}
 
@@ -245,7 +249,7 @@ public class NameserviceSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseIAdaptable(IAdaptable object) {
+	public Object caseIAdaptable(IAdaptable object) {
 		return null;
 	}
 
@@ -260,7 +264,7 @@ public class NameserviceSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseModelElement(ModelElement object) {
+	public Object caseModelElement(ModelElement object) {
 		return null;
 	}
 
@@ -275,7 +279,7 @@ public class NameserviceSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseLocalObject(LocalObject object) {
+	public Object caseLocalObject(LocalObject object) {
 		return null;
 	}
 
@@ -290,7 +294,7 @@ public class NameserviceSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseWrapperObject(WrapperObject object) {
+	public Object caseWrapperObject(WrapperObject object) {
 		return null;
 	}
 
@@ -305,7 +309,7 @@ public class NameserviceSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseCorbaWrapperObject(CorbaWrapperObject object) {
+	public Object caseCorbaWrapperObject(CorbaWrapperObject object) {
 		return null;
 	}
 
@@ -320,7 +324,7 @@ public class NameserviceSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseNameServerContext(NameServerContext object) {
+	public Object caseNameServerContext(NameServerContext object) {
 		return null;
 	}
 
@@ -335,7 +339,7 @@ public class NameserviceSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
-	public T defaultCase(EObject object) {
+	public Object defaultCase(EObject object) {
 		return null;
 	}
 

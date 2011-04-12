@@ -4,7 +4,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * 螟夊ｨ隱槫喧蟇ｾ蠢懊Γ繝�繧ｻ繝ｼ繧ｸ繧ｯ繝ｩ繧ｹ
+ * 多言語化対応メッセージクラス
  * @author nagata
  *
  */

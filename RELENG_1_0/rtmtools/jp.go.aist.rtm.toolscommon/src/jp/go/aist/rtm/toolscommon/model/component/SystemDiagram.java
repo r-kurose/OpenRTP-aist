@@ -10,17 +10,17 @@ import org.eclipse.emf.common.util.EList;
 import org.openrtp.namespaces.rts.version02.RtsProfileExt;
 
 /**
- * ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ï¼ˆã‚¨ãƒ‡ã‚£ã‚¿ï¼‰ã‚’è¡¨ç¾ã™ã‚‹ã‚¯ãƒ©ã‚¹
+ * ƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€iƒGƒfƒBƒ^j‚ğ•\Œ»‚·‚éƒNƒ‰ƒX
  * @model
  */
-public interface SystemDiagram extends ModelElement, IPropertyMap {
+public interface SystemDiagram extends ModelElement {
 	/**
 	 * Returns the value of the '<em><b>Components</b></em>' containment
 	 * reference list. The list contents are of type
 	 * {@link jp.go.aist.rtm.toolscommon.model.component.Component}. <!--
 	 * begin-user-doc -->
 	 * <p>
-	 * ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã«å«ã¾ã‚Œã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
+	 * ƒ_ƒCƒAƒOƒ‰ƒ€‚ÉŠÜ‚Ü‚ê‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒŠƒXƒg‚ğ•Ô‚·B
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * 
@@ -38,7 +38,7 @@ public interface SystemDiagram extends ModelElement, IPropertyMap {
 	 * The literals are from the enumeration {@link jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã®ç¨®é¡ã‚’è¿”ã™ã€‚ã‚ªãƒ³ãƒ©ã‚¤ãƒ³ã‹ã€ã‚ªãƒ•ãƒ©ã‚¤ãƒ³ã®ã„ãšã‚Œã‹ã§ã‚ã‚‹ã€‚
+	 * ƒ_ƒCƒAƒOƒ‰ƒ€‚Ìí—Ş‚ğ•Ô‚·BƒIƒ“ƒ‰ƒCƒ“‚©AƒIƒtƒ‰ƒCƒ“‚Ì‚¢‚¸‚ê‚©‚Å‚ ‚éB
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Kind</em>' attribute.
@@ -53,7 +53,7 @@ public interface SystemDiagram extends ModelElement, IPropertyMap {
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.SystemDiagram#getKind <em>Kind</em>}' attribute.
 	 * <!-- begin-user-doc -->
-	 * ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã®ç¨®é¡ã‚’è¨­å®šã™ã‚‹ã€‚
+	 * ƒ_ƒCƒAƒOƒ‰ƒ€‚Ìí—Ş‚ğİ’è‚·‚éB
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Kind</em>' attribute.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind
@@ -64,8 +64,8 @@ public interface SystemDiagram extends ModelElement, IPropertyMap {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ä½•ãƒŸãƒªç§’ãŠãã«å«ã‚“ã§ã„ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’æ›´æ–°ã™ã‚‹ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
-	 * ã‚ªãƒ³ãƒ©ã‚¤ãƒ³ã‚·ã‚¹ãƒ†ãƒ ã‚¨ãƒ‡ã‚£ã‚¿ã®ä½œæˆæ™‚ã€ç ´æ£„æ™‚ã€ã‚·ã‚¹ãƒ†ãƒ ã‚¨ãƒ‡ã‚£ã‚¿ã®è¨­å®šç”»é¢ã§æ¥ç¶šå‘¨æœŸã‚’å¤‰æ›´ã—ãŸã¨ãã«å‘¼ã³å‡ºã•ã‚Œã‚‹ã€‚
+	 * ‰½ƒ~ƒŠ•b‚¨‚«‚ÉŠÜ‚ñ‚Å‚¢‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚ğXV‚·‚é‚©‚ğİ’è‚·‚éB
+	 * ƒIƒ“ƒ‰ƒCƒ“ƒVƒXƒeƒ€ƒGƒfƒBƒ^‚Ìì¬A”jŠüAƒVƒXƒeƒ€ƒGƒfƒBƒ^‚Ìİ’è‰æ–Ê‚ÅÚ‘±üŠú‚ğ•ÏX‚µ‚½‚Æ‚«‚ÉŒÄ‚Ño‚³‚ê‚éB
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -73,34 +73,34 @@ public interface SystemDiagram extends ModelElement, IPropertyMap {
 	void setSynchronizeInterval(long milliSecond);
 
 	/**
-	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒ„å¤‰æ›´ã®é€šçŸ¥ã‚’è¡Œã†ãƒªã‚¹ãƒŠã‚’ç™»éŒ²ã™ã‚‹
-	 * ç¾åœ¨ã¯ã€è¤‡åˆRTCã®å‰Šé™¤æ™‚ã«ã€è¤‡åˆRTCã®å†…éƒ¨è¡¨ç¤ºã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‰ã˜ã‚‹éš›ã«ä½¿ç”¨ã•ã‚Œã¦ã„ã‚‹ã€‚
+	 * ƒRƒ“ƒ|[ƒlƒ“ƒc•ÏX‚Ì’Ê’m‚ğs‚¤ƒŠƒXƒi‚ğ“o˜^‚·‚é
+	 * Œ»İ‚ÍA•¡‡RTC‚Ìíœ‚ÉA•¡‡RTC‚Ì“à•”•\¦ƒEƒBƒ“ƒhƒE‚ğ•Â‚¶‚éÛ‚Ég—p‚³‚ê‚Ä‚¢‚éB
 	 * 
 	 * @param listener
 	 */
 	public void addPropertyChangeListener(PropertyChangeListener listener);
 	
 	/**
-	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒ„å¤‰æ›´ã®é€šçŸ¥ã‚’è¡Œã†ãƒªã‚¹ãƒŠã‚’å‰Šé™¤ã™ã‚‹
+	 * ƒRƒ“ƒ|[ƒlƒ“ƒc•ÏX‚Ì’Ê’m‚ğs‚¤ƒŠƒXƒi‚ğíœ‚·‚é
 	 * 
 	 * @param listener
 	 */
 	public void removePropertyChangeListener(PropertyChangeListener listener);
 	
 	/**
-	 * @return ã‚³ãƒã‚¯ã‚¿æç”»å‡¦ç†ä¸­ã§ã‚ã‚‹ã‹
+	 * @return ƒRƒlƒNƒ^•`‰æˆ—’†‚Å‚ ‚é‚©
 	 */
 	public boolean isConnectorProcessing();
 	
 	/**
-	 * @param connectorProcessing ã‚³ãƒã‚¯ã‚¿æç”»å‡¦ç†ä¸­ã§ã‚ã‚‹ã‹
+	 * @param connectorProcessing ƒRƒlƒNƒ^•`‰æˆ—’†‚Å‚ ‚é‚©
 	 */
 	public void setConnectorProcessing(boolean connectorProcessing);
 	/**
 	 * Returns the value of the '<em><b>System Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ã‚·ã‚¹ãƒ†ãƒ IDã‚’å–å¾—ã™ã‚‹ã€‚
+	 * ƒVƒXƒeƒ€ID‚ğæ“¾‚·‚éB
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>System Id</em>' attribute.
@@ -114,7 +114,7 @@ public interface SystemDiagram extends ModelElement, IPropertyMap {
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.SystemDiagram#getSystemId <em>System Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
-	 * ã‚·ã‚¹ãƒ†ãƒ IDã‚’è¨­å®šã™ã‚‹ã€‚
+	 * ƒVƒXƒeƒ€ID‚ğİ’è‚·‚éB
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>System Id</em>' attribute.
 	 * @see #getSystemId()
@@ -126,7 +126,7 @@ public interface SystemDiagram extends ModelElement, IPropertyMap {
 	 * Returns the value of the '<em><b>Creation Date</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ä½œæˆæ—¥æ™‚ã‚’å–å¾—ã™ã‚‹ã€‚
+	 * ì¬“ú‚ğæ“¾‚·‚éB
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Creation Date</em>' attribute.
@@ -140,7 +140,7 @@ public interface SystemDiagram extends ModelElement, IPropertyMap {
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.SystemDiagram#getCreationDate <em>Creation Date</em>}' attribute.
 	 * <!-- begin-user-doc -->
-	 * ä½œæˆæ—¥æ™‚ã‚’è¨­å®šã™ã‚‹ã€‚
+	 * ì¬“ú‚ğİ’è‚·‚éB
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Creation Date</em>' attribute.
 	 * @see #getCreationDate()
@@ -152,7 +152,7 @@ public interface SystemDiagram extends ModelElement, IPropertyMap {
 	 * Returns the value of the '<em><b>Update Date</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * æœ€çµ‚æ›´æ–°æ—¥æ™‚ã‚’å–å¾—ã™ã‚‹ã€‚
+	 * ÅIXV“ú‚ğæ“¾‚·‚éB
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Update Date</em>' attribute.
@@ -166,7 +166,7 @@ public interface SystemDiagram extends ModelElement, IPropertyMap {
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.SystemDiagram#getUpdateDate <em>Update Date</em>}' attribute.
 	 * <!-- begin-user-doc -->
-	 * æœ€çµ‚æ›´æ–°æ—¥æ™‚ã‚’è¨­å®šã™ã‚‹ã€‚
+	 * ÅIXV“ú‚ğİ’è‚·‚éB
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Update Date</em>' attribute.
 	 * @see #getUpdateDate()
@@ -178,7 +178,7 @@ public interface SystemDiagram extends ModelElement, IPropertyMap {
 	 * Returns the value of the '<em><b>Parent System Diagram</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * è¤‡åˆRTCã®å†…éƒ¨ã‚’è¡¨ç¾ã™ã‚‹ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã®å ´åˆã€ãã®è¤‡åˆRTCãŒå«ã¾ã‚Œã¦ã„ã‚‹å…ƒã®ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã‚’è¿”ã™ã€‚
+	 * •¡‡RTC‚Ì“à•”‚ğ•\Œ»‚·‚éƒ_ƒCƒAƒOƒ‰ƒ€‚Ìê‡A‚»‚Ì•¡‡RTC‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éŒ³‚Ìƒ_ƒCƒAƒOƒ‰ƒ€‚ğ•Ô‚·B
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Parent System Diagram</em>' reference.
@@ -192,7 +192,7 @@ public interface SystemDiagram extends ModelElement, IPropertyMap {
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.SystemDiagram#getParentSystemDiagram <em>Parent System Diagram</em>}' reference.
 	 * <!-- begin-user-doc -->
-	 * è¤‡åˆRTCã®å†…éƒ¨ã‚’è¡¨ç¾ã™ã‚‹ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã«å¯¾ã—ã€è¤‡åˆRTCãŒå«ã¾ã‚Œã¦ã„ã‚‹å…ƒã®ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã‚’è¨­å®šã™ã‚‹ã€‚
+	 * •¡‡RTC‚Ì“à•”‚ğ•\Œ»‚·‚éƒ_ƒCƒAƒOƒ‰ƒ€‚É‘Î‚µA•¡‡RTC‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éŒ³‚Ìƒ_ƒCƒAƒOƒ‰ƒ€‚ğİ’è‚·‚éB
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Parent System Diagram</em>' reference.
 	 * @see #getParentSystemDiagram()
@@ -204,7 +204,7 @@ public interface SystemDiagram extends ModelElement, IPropertyMap {
 	 * Returns the value of the '<em><b>Composite Component</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * è¤‡åˆRTCã®å†…éƒ¨ã‚’è¡¨ç¾ã™ã‚‹ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã®å ´åˆã€ãã®è¤‡åˆRTCã‚’è¿”ã™ã€‚
+	 * •¡‡RTC‚Ì“à•”‚ğ•\Œ»‚·‚éƒ_ƒCƒAƒOƒ‰ƒ€‚Ìê‡A‚»‚Ì•¡‡RTC‚ğ•Ô‚·B
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Composite Component</em>' reference.
@@ -218,7 +218,7 @@ public interface SystemDiagram extends ModelElement, IPropertyMap {
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.SystemDiagram#getCompositeComponent <em>Composite Component</em>}' reference.
 	 * <!-- begin-user-doc -->
-	 * è¤‡åˆRTCã®å†…éƒ¨ã‚’è¡¨ç¾ã™ã‚‹ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã«å¯¾ã—ã€è¤‡åˆRTCã‚’è¨­å®šã™ã‚‹ã€‚
+	 * •¡‡RTC‚Ì“à•”‚ğ•\Œ»‚·‚éƒ_ƒCƒAƒOƒ‰ƒ€‚É‘Î‚µA•¡‡RTC‚ğİ’è‚·‚éB
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Composite Component</em>' reference.
 	 * @see #getCompositeComponent()
@@ -227,63 +227,63 @@ public interface SystemDiagram extends ModelElement, IPropertyMap {
 	void setCompositeComponent(Component value);
 
 	/**
-	 * @param profile èª­ã¿è¾¼ã‚“ã RtsProfileExt
+	 * @param profile “Ç‚İ‚ñ‚¾RtsProfileExt
 	 */
 	void setProfile(RtsProfileExt profile);
 
 	/**
-	 * @return èª­ã¿è¾¼ã‚“ã RtsProfileExt
+	 * @return “Ç‚İ‚ñ‚¾RtsProfileExt
 	 */
 	RtsProfileExt getProfile();
 
 	/**
-	 * @return è¤‡åˆRTCã®å†…éƒ¨ã‚’è¡¨ç¾ã™ã‚‹ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã§ãªã„ã€RTã‚·ã‚¹ãƒ†ãƒ ãã®ã‚‚ã®ã‚’è¡¨ç¾ã™ã‚‹ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ 
+	 * @return •¡‡RTC‚Ì“à•”‚ğ•\Œ»‚·‚éƒ_ƒCƒAƒOƒ‰ƒ€‚Å‚È‚¢ARTƒVƒXƒeƒ€‚»‚Ì‚à‚Ì‚ğ•\Œ»‚·‚éƒ_ƒCƒAƒOƒ‰ƒ€
 	 */
 	SystemDiagram getRootDiagram();
 
 	/**
-	 * @return ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ å†…ã«å«ã¾ã‚Œã‚‹ã‚³ãƒã‚¯ã‚¿ã‚’ã‚³ãƒã‚¯ã‚¿IDã¨Connectorã®ãƒãƒƒãƒ—ã§è¿”ã™ã€‚
+	 * @return ƒ_ƒCƒAƒOƒ‰ƒ€“à‚ÉŠÜ‚Ü‚ê‚éƒRƒlƒNƒ^‚ğƒRƒlƒNƒ^ID‚ÆConnector‚Ìƒ}ƒbƒv‚Å•Ô‚·B
 	 */
 	Map<String, PortConnector> getConnectorMap();
 
 	/**
-	 * @param component	å‰Šé™¤ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
+	 * @param component	íœ‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg
 	 */
 	void removeComponent(Component component);
 
 	/**
-	 * @param componentsã€€å‰Šé™¤ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
+	 * @param components@íœ‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg
 	 */
 	void removeComponents(List<Component> components);
 
 	/**
-	 * @param component	è¿½åŠ ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
+	 * @param component	’Ç‰Á‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg
 	 */
 	void addComponent(Component component);
 
 	/**
-	 * @param pos		è¿½åŠ ã™ã‚‹ä½ç½®
-	 * @param component	è¿½åŠ ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
+	 * @param pos		’Ç‰Á‚·‚éˆÊ’u
+	 * @param component	’Ç‰Á‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg
 	 */
 	void addComponent(int pos, Component component);
 
 	/**
-	 * @param ï½ƒomponents	è¿½åŠ ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
+	 * @param ‚ƒomponents	’Ç‰Á‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg
 	 */
-	void addComponents(List<Component> ï½ƒomponents);
+	void addComponents(List<Component> ‚ƒomponents);
 
 	/**
-	 * å­ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
+	 * qƒRƒ“ƒ|[ƒlƒ“ƒg‚ğƒNƒŠƒA‚·‚é
 	 */
 	void clearComponents();
 
 	/**
-	 * ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ å†…ã®å…¨ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’æ‰‹å‹•ã§æ›´æ–°ã™ã‚‹
+	 * ƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€“à‚Ì‘SƒRƒ“ƒ|[ƒlƒ“ƒg‚ğè“®‚ÅXV‚·‚é
 	 */
 	boolean synchronizeManually();
 
 	/**
-	 * ãƒ«ãƒ¼ãƒˆã®ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã«å«ã¾ã‚Œã‚‹å…¨ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™
+	 * ƒ‹[ƒg‚ÌƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€‚ÉŠÜ‚Ü‚ê‚é‘SƒRƒ“ƒ|[ƒlƒ“ƒg‚ğƒŠƒXƒg‚É‚µ‚Ä•Ô‚·
 	 */
 	List<Component> getRegisteredComponents();
 

@@ -172,7 +172,7 @@ public interface RTCManager extends CorbaWrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * RTã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’æ–°è¦ã«ä½œæˆã™ã‚‹
+	 * RTƒRƒ“ƒ|[ƒlƒ“ƒg‚ğV‹K‚Éì¬‚·‚é
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -181,7 +181,7 @@ public interface RTCManager extends CorbaWrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ç¾åœ¨ã¯æœªä½¿ç”¨
+	 * Œ»İ‚Í–¢g—p
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -190,7 +190,7 @@ public interface RTCManager extends CorbaWrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ç¾åœ¨ã¯æœªä½¿ç”¨
+	 * Œ»İ‚Í–¢g—p
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" dataType="jp.go.aist.rtm.toolscommon.model.component.RTCRTObject"
 	 * @generated
@@ -199,7 +199,7 @@ public interface RTCManager extends CorbaWrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ç¾åœ¨ã¯æœªä½¿ç”¨
+	 * Œ»İ‚Í–¢g—p
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" dataType="jp.go.aist.rtm.toolscommon.model.component.RTCComponentProfile"
 	 * @generated
@@ -208,7 +208,7 @@ public interface RTCManager extends CorbaWrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
+	 * ƒ‚ƒWƒ…[ƒ‹‚ğƒ[ƒh‚·‚é
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -217,7 +217,7 @@ public interface RTCManager extends CorbaWrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‚’ã‚¢ãƒ³ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
+	 * ƒ‚ƒWƒ…[ƒ‹‚ğƒAƒ“ƒ[ƒh‚·‚é
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -226,7 +226,7 @@ public interface RTCManager extends CorbaWrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * LoadableModuleã®ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ä¸€è¦§ã‚’è¿”ã™
+	 * LoadableModule‚Ìƒvƒƒtƒ@ƒCƒ‹ˆê——‚ğ•Ô‚·
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" dataType="jp.go.aist.rtm.toolscommon.model.manager.RTMModuleProfile"
 	 * @generated
@@ -235,7 +235,7 @@ public interface RTCManager extends CorbaWrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * LoadedModuleã®ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ä¸€è¦§ã‚’è¿”ã™
+	 * LoadedModule‚Ìƒvƒƒtƒ@ƒCƒ‹ˆê——‚ğ•Ô‚·
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" dataType="jp.go.aist.rtm.toolscommon.model.manager.RTMModuleProfile"
 	 * @generated
@@ -252,7 +252,7 @@ public interface RTCManager extends CorbaWrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * RTã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ãƒ•ã‚©ãƒ¼ã‚¯ã™ã‚‹
+	 * RTƒRƒ“ƒ|[ƒlƒ“ƒg‚ğƒtƒH[ƒN‚·‚é
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -261,7 +261,7 @@ public interface RTCManager extends CorbaWrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ãƒãƒãƒ¼ã‚¸ãƒ£ã‚’ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³ã™ã‚‹
+	 * ƒ}ƒl[ƒWƒƒ‚ğƒVƒƒƒbƒgƒ_ƒEƒ“‚·‚é
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -270,7 +270,7 @@ public interface RTCManager extends CorbaWrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ç®¡ç†ä¸‹ã®RTCã®ä¸€è¦§ã‚’è¿”ã™(IDL)
+	 * ŠÇ—‰º‚ÌRTC‚Ìˆê——‚ğ•Ô‚·(IDL)
 	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
@@ -287,7 +287,7 @@ public interface RTCManager extends CorbaWrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * LoadedModuleã®ãƒ•ã‚¡ã‚¤ãƒ«åä¸€è¦§ã‚’è¿”ã™(IDL)
+	 * LoadedModule‚Ìƒtƒ@ƒCƒ‹–¼ˆê——‚ğ•Ô‚·(IDL)
 	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
@@ -296,7 +296,7 @@ public interface RTCManager extends CorbaWrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ãƒ•ã‚¡ã‚¯ãƒˆãƒªã®ä¸€è¦§ã‚’è¿”ã™(IDL)
+	 * ƒtƒ@ƒNƒgƒŠ‚Ìˆê——‚ğ•Ô‚·(IDL)
 	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
@@ -337,7 +337,7 @@ public interface RTCManager extends CorbaWrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ManagerProfileã‚’è¿”ã™
+	 * ManagerProfile‚ğ•Ô‚·
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" dataType="jp.go.aist.rtm.toolscommon.model.manager.RTMManagerProfile"
 	 * @generated
@@ -345,7 +345,7 @@ public interface RTCManager extends CorbaWrapperObject {
 	ManagerProfile getProfileR();
 
 	/**
-	 * åŒæœŸã‚’æ‰‹å‹•ã§å®Ÿè¡Œã™ã‚‹
+	 * “¯Šú‚ğè“®‚ÅÀs‚·‚é
 	 */
 	void synchronizeManually();
 

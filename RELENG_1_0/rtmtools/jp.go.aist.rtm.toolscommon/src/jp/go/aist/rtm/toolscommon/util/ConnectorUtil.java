@@ -11,13 +11,13 @@ import jp.go.aist.rtm.toolscommon.model.component.OutPort;
 import jp.go.aist.rtm.toolscommon.model.component.impl.PortImpl;
 
 /**
- * ポート間で接続可能なプロパティを管理するユーティリティ
+ * �|�[�g�ԂŐڑ��\�ȃv���p�e�B���Ǘ����郆�[�e�B���e�B
  * 
  */
 public class ConnectorUtil {
 
 	/**
-	 * 両端のポートがともにAnyのデータ型を許すかを返す
+	 * ���[�̃|�[�g���Ƃ���Any�̃f�[�^�^����������Ԃ�
 	 * 
 	 * @param source
 	 * @param target
@@ -28,7 +28,7 @@ public class ConnectorUtil {
 	}
 
 	/**
-	 * 両端のポートがともにAnyのインターフェース型を許すかを返す
+	 * ���[�̃|�[�g���Ƃ���Any�̃C���^�[�t�F�[�X�^����������Ԃ�
 	 * 
 	 * @param source
 	 * @param target
@@ -40,7 +40,7 @@ public class ConnectorUtil {
 	}
 
 	/**
-	 * 両端のポートがともにAnyのデータフロー型を許すかを返す
+	 * ���[�̃|�[�g���Ƃ���Any�̃f�[�^�t���[�^����������Ԃ�
 	 * 
 	 * @param source
 	 * @param target
@@ -52,7 +52,7 @@ public class ConnectorUtil {
 	}
 
 	/**
-	 * 両端のポートがともにAnyのサブスクリプション型を許すかを返す
+	 * ���[�̃|�[�g���Ƃ���Any�̃T�u�X�N���v�V�����^����������Ԃ�
 	 * 
 	 * @param source
 	 * @param target
@@ -65,7 +65,7 @@ public class ConnectorUtil {
 	}
 
 	/**
-	 * 使用可能なデータ型のリストを返す
+	 * �g�p�\�ȃf�[�^�^�̃��X�g��Ԃ�
 	 * 
 	 * @param source
 	 * @param target
@@ -76,7 +76,7 @@ public class ConnectorUtil {
 	}
 
 	/**
-	 * 使用可能なインターフェース型のリストを返す
+	 * �g�p�\�ȃC���^�[�t�F�[�X�^�̃��X�g��Ԃ�
 	 * 
 	 * @param source
 	 * @param target
@@ -89,7 +89,7 @@ public class ConnectorUtil {
 	}
 
 	/**
-	 * 使用可能なデータフロー型のリストを返す
+	 * �g�p�\�ȃf�[�^�t���[�^�̃��X�g��Ԃ�
 	 * 
 	 * @param source
 	 * @param target
@@ -102,7 +102,7 @@ public class ConnectorUtil {
 	}
 
 	/**
-	 * 使用可能なサブスクリプション型のリストを返す
+	 * �g�p�\�ȃT�u�X�N���v�V�����^�̃��X�g��Ԃ�
 	 * 
 	 * @param source
 	 * @param target
@@ -117,14 +117,13 @@ public class ConnectorUtil {
 	private static List<String> getAllowList(List<String> one, List<String> two) {
 		return getAllowList(one, two, true);
 	}
-	
 	/**
-	 * 2つの文字列のリストを受け取り、両方に存在する文字列だけのリストを作成する。 「Any」が含まれる場合には、相手先すべての文字列を許す。
-	 * 返り値のリストに「Any」自体は含まれないことに注意すること。
+	 * 2�̕�����̃��X�g���󂯎��A�����ɑ��݂��镶���񂾂��̃��X�g���쐬����B �uAny�v���܂܂��ꍇ�ɂ́A����悷�ׂĂ̕�����������B
+	 * �Ԃ�l�̃��X�g�ɁuAny�v���̂͊܂܂�Ȃ����Ƃɒ��ӂ��邱�ƁB
 	 * <p>
-	 * 文字列はCaseを無視して比較が行われる。<br>
-	 * Caseが違う文字列の場合、結果のリストに含まれるのは1番目の引数の文字列とおなじCaseとなる。<br>
-	 * 順番は、oneの出現順の後に、twoの出現順（oneがanyの場合のみ）で表示される。
+	 * �������Case�𖳎����Ĕ�r���s����B<br>
+	 * Case���Ⴄ������̏ꍇ�A���ʂ̃��X�g�Ɋ܂܂��̂�1�Ԗڂ̈����̕�����Ƃ��Ȃ�Case�ƂȂ�B<br>
+	 * ���Ԃ́Aone�̏o�����̌�ɁAtwo�̏o�����ione��any�̏ꍇ�̂݁j�ŕ\�������B
 	 * 
 	 * @param one
 	 * @param two
@@ -175,7 +174,7 @@ public class ConnectorUtil {
 		}
 
 		if(sorting) {
-			// リストを文字列順でソート
+			// ���X�g�𕶎��񏇂Ń\�[�g
 			result = sortTypes(result);
 		}
 

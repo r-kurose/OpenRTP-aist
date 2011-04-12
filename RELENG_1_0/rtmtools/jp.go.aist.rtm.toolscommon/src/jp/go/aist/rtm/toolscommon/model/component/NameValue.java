@@ -5,14 +5,14 @@ import java.util.List;
 import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
 
 /**
- * SDOã®NameValueã‚’ãƒ©ãƒƒãƒ—ã™ã‚‹ã‚¯ãƒ©ã‚¹
+ * SDO‚ÌNameValue‚ğƒ‰ƒbƒv‚·‚éƒNƒ‰ƒX
  * 
  * @model
  */
 public interface NameValue extends WrapperObject{
 	/**
 	 * @model
-	 * @returnã€€ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å
+	 * @return@ƒvƒƒpƒeƒB–¼
 	 */
 	public String getName();
 
@@ -27,7 +27,7 @@ public interface NameValue extends WrapperObject{
 
 	/**
 	 * @model
-	 * @returnã€€ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®å€¤
+	 * @return@ƒvƒƒpƒeƒB‚Ì’l
 	 */
 	public String getValue();
 
@@ -46,7 +46,7 @@ public interface NameValue extends WrapperObject{
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * å€¤ãŒæ–‡å­—åˆ—ä»¥å¤–ã®å ´åˆã«ã€å‹åã‚’è¿”ã™
+	 * ’l‚ª•¶š—ñˆÈŠO‚Ìê‡‚ÉAŒ^–¼‚ğ•Ô‚·
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Type Name</em>' attribute.
@@ -68,12 +68,12 @@ public interface NameValue extends WrapperObject{
 	void setTypeName(String value);
 
 	/**
-	 * @returnã€€å€¤ãŒæ–‡å­—åˆ—ã®å ´åˆã¯å€¤ã€ãã†ã§ãªã„å ´åˆã¯å‹å
+	 * @return@’l‚ª•¶š—ñ‚Ìê‡‚Í’lA‚»‚¤‚Å‚È‚¢ê‡‚ÍŒ^–¼
 	 */
 	public String getValueAsString();
 
 	/**
-	 * @returnã€€ã‚«ãƒ³ãƒåŒºåˆ‡ã‚Šã®å€¤ã‚’ã€å€¤ã®ãƒªã‚¹ãƒˆã«ã—ã¦è¿”ã™
+	 * @return@ƒJƒ“ƒ}‹æØ‚è‚Ì’l‚ğA’l‚ÌƒŠƒXƒg‚É‚µ‚Ä•Ô‚·
 	 */
 	public List<String> getValueAsStringList();
 

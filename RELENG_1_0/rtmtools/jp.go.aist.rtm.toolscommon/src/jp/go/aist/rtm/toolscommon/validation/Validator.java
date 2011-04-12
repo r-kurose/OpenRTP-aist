@@ -12,7 +12,7 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.Platform;
 
 /**
- * 諡｡蠑ｵ縺輔ｌ縺溘Δ繝�繝ｫ縺ｮ謨ｴ蜷域ｧ繝√ぉ繝�繧ｯ繧貞ｮ溯｡後☆繧九け繝ｩ繧ｹ
+ * 拡張されたモデルの整合性チェックを実行するクラス
  */
 public class Validator {
 	private static final String EXTENTION_POINT_NAME = "validations";

@@ -5,14 +5,14 @@ import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
 import org.eclipse.emf.common.util.EMap;
 
 /**
- * ポート間接続を表現するクラス
+ * �|�[�g�Ԑڑ���\������N���X
  * 
  * @model
  */
 public interface PortConnector extends WrapperObject {
 
 	/**
-	 * 接続情報を返す
+	 * �ڑ�����Ԃ�
 	 * @model containment="true"
 	 */
 	public ConnectorProfile getConnectorProfile();
@@ -33,7 +33,7 @@ public interface PortConnector extends WrapperObject {
 	 * and the value is of type {@link jp.go.aist.rtm.toolscommon.model.core.Point},
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * コネクタのベンドポイントの集合をマップで返す
+	 * �R�l�N�^�̃x���h�|�C���g�̏W�����}�b�v�ŕԂ�
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Routing Constraint</em>' map.
@@ -47,7 +47,7 @@ public interface PortConnector extends WrapperObject {
 	 * Returns the value of the '<em><b>Source</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * コネクタの接続元であるポートを返す
+	 * �R�l�N�^�̐ڑ����ł���|�[�g��Ԃ�
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Source</em>' reference.
@@ -72,7 +72,7 @@ public interface PortConnector extends WrapperObject {
 	 * Returns the value of the '<em><b>Target</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * コネクタの接続先であるポートを返す
+	 * �R�l�N�^�̐ڑ���ł���|�[�g��Ԃ�
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Target</em>' reference.
@@ -95,8 +95,8 @@ public interface PortConnector extends WrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * コネクタを作成するメッセージをリモートに対して送信する
-	 * オフラインの場合は、対象となるポートにコネクタプロファイルを追加する
+	 * �R�l�N�^���쐬���郁�b�Z�[�W�������[�g�ɑ΂��đ��M����
+	 * �I�t���C���̏ꍇ�́A�ΏۂƂȂ�|�[�g�ɃR�l�N�^�v���t�@�C����ǉ�����
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -105,8 +105,8 @@ public interface PortConnector extends WrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * コネクタを削除するメッセージをリモートに対して送信する
-	 * オフラインの場合は、対象となるポートからコネクタプロファイルを削除する
+	 * �R�l�N�^���폜���郁�b�Z�[�W�������[�g�ɑ΂��đ��M����
+	 * �I�t���C���̏ꍇ�́A�ΏۂƂȂ�|�[�g����R�l�N�^�v���t�@�C�����폜����
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated

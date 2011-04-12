@@ -1,7 +1,5 @@
 package jp.go.aist.rtm.repositoryView;
 
-import java.util.logging.Logger;
-
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -21,7 +19,6 @@ public class RepositoryViewPlugin extends AbstractUIPlugin {
 	 */
 	public RepositoryViewPlugin() {
 		plugin = this;
-		getLogger();
 	}
 
 	/*
@@ -48,15 +45,6 @@ public class RepositoryViewPlugin extends AbstractUIPlugin {
 	 */
 	public static RepositoryViewPlugin getDefault() {
 		return plugin;
-	}
-
-	static Logger log;
-
-	public static Logger getLogger() {
-		if (log == null) {
-			log = Logger.getLogger(PLUGIN_ID);
-		}
-		return log;
 	}
 
 }

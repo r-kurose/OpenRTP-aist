@@ -7,7 +7,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.model.IWorkbenchAdapter;
 
 /**
- * PortInterfaceProfile„ÅÆWorkbenchAdapter
+ * PortInterfaceProfileÇÃWorkbenchAdapter
  */
 public class PortInterfaceProfileWorkbenchAdapter implements IWorkbenchAdapter {
 

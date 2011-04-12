@@ -17,7 +17,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
- * RTCã®è‰²ã®è¨­å®šãƒšãƒ¼ã‚¸
+ * RTC‚ÌF‚Ìİ’èƒy[ƒW
  */
 public class ColorPreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage {
@@ -121,14 +121,14 @@ public class ColorPreferencePage extends PreferencePage implements
 	}
 
 	/**
-	 * è‰²ã®è¨­å®šæ˜ç´°ï¼ˆLabelã€ColorSelectorï¼‰è¡Œã‚’ä½œæˆã™ã‚‹
+	 * F‚Ìİ’è–¾×iLabelAColorSelectorjs‚ğì¬‚·‚é
 	 * 
 	 * @param labelText
-	 *            ãƒ©ãƒ™ãƒ«
+	 *            ƒ‰ƒxƒ‹
 	 * @param group
-	 *            ã‚°ãƒ«ãƒ¼ãƒ—
+	 *            ƒOƒ‹[ƒv
 	 * @param key
-	 *            PreferenceManagerã®è¨­å®šå€¤ã¸ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹éš›ã®ã‚­ãƒ¼
+	 *            PreferenceManager‚Ìİ’è’l‚ÖƒAƒNƒZƒX‚·‚éÛ‚ÌƒL[
 	 * @return ColorSelector
 	 */
 	private ColorSelector createColorSetting(String labelText, Group group,

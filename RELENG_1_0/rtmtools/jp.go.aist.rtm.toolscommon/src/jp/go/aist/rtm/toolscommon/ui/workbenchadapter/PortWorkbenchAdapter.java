@@ -3,7 +3,7 @@ package jp.go.aist.rtm.toolscommon.ui.workbenchadapter;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
 
 /**
- * Port„ÅÆWorkbenchAdapter
+ * PortÇÃWorkbenchAdapter
  */
 public abstract class PortWorkbenchAdapter extends ModelElementWorkbenchAdapter {
 	@Override

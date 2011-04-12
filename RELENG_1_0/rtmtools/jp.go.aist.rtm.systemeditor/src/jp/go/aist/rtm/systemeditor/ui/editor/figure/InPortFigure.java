@@ -6,15 +6,15 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.PointList;
 
 /**
- * InPort縺ｮFigure
+ * InPortのFigure
  */
 public class InPortFigure extends PortFigure {
 
 	/**
-	 * 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ
+	 * コンストラクタ
 	 * 
 	 * @param inport
-	 *            繝｢繝�繝ｫ
+	 *            モデル
 	 */
 	public InPortFigure(InPort inport) {
 		setScale(1.0, 1.0);

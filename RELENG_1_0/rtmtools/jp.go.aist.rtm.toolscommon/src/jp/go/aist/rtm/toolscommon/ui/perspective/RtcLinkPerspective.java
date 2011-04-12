@@ -4,7 +4,7 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
 /**
- * RtcLink縺ｮ繝代�ｼ繧ｹ繝壹け繝�繧｣繝門ｮ夂ｾｩ繧ｯ繝ｩ繧ｹ
+ * RtcLinkのパースペクティブ定義クラス
  */
 public class RtcLinkPerspective implements IPerspectiveFactory {
 	/**

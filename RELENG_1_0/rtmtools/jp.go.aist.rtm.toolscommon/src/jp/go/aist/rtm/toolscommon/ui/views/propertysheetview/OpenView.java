@@ -9,13 +9,10 @@ import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PlatformUI;
 
 /**
- * é¸æŠã•ã‚ŒãŸãƒãƒ¼ãƒ‰ã«é©ã—ãŸãƒ“ãƒ¥ãƒ¼ã«åˆ‡ã‚Šæ›¿ãˆã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹
- * 
+ * ‘I‘ğ‚³‚ê‚½ƒm[ƒh‚É“K‚µ‚½ƒrƒ…[‚ÉØ‚è‘Ö‚¦‚é‚½‚ß‚ÌƒNƒ‰ƒX
+ *
  */
 public class OpenView {
 	private static final String EXTENTION_POINT_NAME = "openViews";
@@ -23,26 +20,21 @@ public class OpenView {
 	@SuppressWarnings("unchecked")
 	private static Map<Class, Map<String, String>> viewMap;
 
+	@SuppressWarnings("unchecked")
 	public static String getViewId(Object obj) {
 		return getViewId(obj, null);
 	}
 
 	/**
-	 * @param obj
-	 *            é¸æŠã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-	 * @param kind
-	 *            é¸æŠã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”¨ã®ãƒ“ãƒ¥ãƒ¼ãŒè¤‡æ•°ã‚ã‚‹å ´åˆã®è­˜åˆ¥å­
-	 * @return é¸æŠã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æƒ…å ±ã‚’è¡¨ç¤ºã•ã›ã‚‹ãƒ“ãƒ¥ãƒ¼ã®ID
+	 * @param obj	‘I‘ğ‚³‚ê‚½ƒIƒuƒWƒFƒNƒg
+	 * @param kind	‘I‘ğ‚³‚ê‚½ƒIƒuƒWƒFƒNƒg—p‚Ìƒrƒ…[‚ª•¡”‚ ‚éê‡‚Ì¯•Êq
+	 * @return		‘I‘ğ‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚Ìî•ñ‚ğ•\¦‚³‚¹‚éƒrƒ…[‚ÌID
 	 */
 	@SuppressWarnings("unchecked")
 	public static String getViewId(Object obj, String kind) {
 		if (viewMap == null) {
 			buildViewMap();
 		}
-
-		IWorkbenchPage currentPage = PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow().getActivePage();
-
 		for (Class cl : viewMap.keySet()) {
 			Object adp = AdapterUtil.getAdapter(obj, cl);
 			if (adp == null) {
@@ -59,23 +51,13 @@ public class OpenView {
 			if (viewId == null) {
 				viewId = m.get("default");
 			}
-			if (currentPage != null) {
-				// ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãªãƒ‘ãƒ¼ã‚¹ãƒšã‚¯ãƒ†ã‚£ãƒ–ã§é–‹ã„ã¦ã„ã‚‹ãƒ“ãƒ¥ãƒ¼ã®å ´åˆ
-				IViewPart part = currentPage.findView(viewId);
-				if (part != null) {
-					return viewId;
-
-				}
-			}
+			return viewId;
 		}
 		return null;
 	}
 
 	@SuppressWarnings("unchecked")
 	private static void buildViewMap() {
-		// æ‹¡å¼µãƒã‚¤ãƒ³ãƒˆãŒNULLã¨ãªã£ãŸã¨ãã¯ã€ã€Œ-cleanã€ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã§èµ·å‹•ï¼Œ
-		// ã‚‚ã—ãã¯workspaceã‚’åˆ‡ã‚Šæ›¿ãˆã¦èµ·å‹•ã‚’è¡Œã†ã“ã¨ã§å¯¾å‡¦ã™ã‚‹ã€€2009.01.24
-
 		viewMap = new HashMap<Class, Map<String, String>>();
 		String ns = ToolsCommonPlugin.class.getPackage().getName();
 		IExtension[] extensions = Platform.getExtensionRegistry()
@@ -87,8 +69,8 @@ public class OpenView {
 				String kind = ce.getAttribute("kind");
 				Class keyClass;
 				try {
-					keyClass = Platform.getBundle(ex.getNamespaceIdentifier())
-							.loadClass(key);
+					keyClass = Platform.getBundle(
+							ex.getNamespaceIdentifier()).loadClass(key);
 				} catch (Exception e) {
 					throw new RuntimeException(e);
 				}

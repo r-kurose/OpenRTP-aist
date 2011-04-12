@@ -6,10 +6,6 @@
  */
 package jp.go.aist.rtm.nameserviceview.model.nameservice.impl;
 
-import OpenRTMNaming.NamingNotifier;
-import OpenRTMNaming.ObserverProfile;
-import OpenRTMNaming.NamingObserver;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.*;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameserviceFactory;
@@ -70,7 +66,6 @@ public class NameserviceFactoryImpl extends EFactoryImpl implements NameserviceF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case NameservicePackage.NAMING_CONTEXT_NODE: return createNamingContextNode();
@@ -100,10 +95,6 @@ public class NameserviceFactoryImpl extends EFactoryImpl implements NameserviceF
 				return createCannotProceedFromString(eDataType, initialValue);
 			case NameservicePackage.INVALID_NAME:
 				return createInvalidNameFromString(eDataType, initialValue);
-			case NameservicePackage.NAMING_NOTIFIER:
-				return createNamingNotifierFromString(eDataType, initialValue);
-			case NameservicePackage.OBSERVER_PROFILE:
-				return createObserverProfileFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -127,10 +118,6 @@ public class NameserviceFactoryImpl extends EFactoryImpl implements NameserviceF
 				return convertCannotProceedToString(eDataType, instanceValue);
 			case NameservicePackage.INVALID_NAME:
 				return convertInvalidNameToString(eDataType, instanceValue);
-			case NameservicePackage.NAMING_NOTIFIER:
-				return convertNamingNotifierToString(eDataType, instanceValue);
-			case NameservicePackage.OBSERVER_PROFILE:
-				return convertObserverProfileToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -263,42 +250,6 @@ public class NameserviceFactoryImpl extends EFactoryImpl implements NameserviceF
 	 * @generated
 	 */
 	public String convertInvalidNameToString(EDataType eDataType, Object instanceValue) {
-		return super.convertToString(eDataType, instanceValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NamingNotifier createNamingNotifierFromString(EDataType eDataType, String initialValue) {
-		return (NamingNotifier)super.createFromString(eDataType, initialValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String convertNamingNotifierToString(EDataType eDataType, Object instanceValue) {
-		return super.convertToString(eDataType, instanceValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ObserverProfile createObserverProfileFromString(EDataType eDataType, String initialValue) {
-		return (ObserverProfile)super.createFromString(eDataType, initialValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String convertObserverProfileToString(EDataType eDataType, Object instanceValue) {
 		return super.convertToString(eDataType, instanceValue);
 	}
 

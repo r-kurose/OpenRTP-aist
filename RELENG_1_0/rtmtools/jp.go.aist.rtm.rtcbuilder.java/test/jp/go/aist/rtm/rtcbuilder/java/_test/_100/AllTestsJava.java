@@ -15,7 +15,6 @@ public class AllTestsJava {
 		suite.addTestSuite(JavaIDLInheritTest.class);
 		suite.addTestSuite(ModuleTest.class);
 		suite.addTestSuite(JavaIDLTypeTest.class);
-		suite.addTestSuite(BuildTest.class);
 		//$JUnit-END$
 		return suite;
 	}

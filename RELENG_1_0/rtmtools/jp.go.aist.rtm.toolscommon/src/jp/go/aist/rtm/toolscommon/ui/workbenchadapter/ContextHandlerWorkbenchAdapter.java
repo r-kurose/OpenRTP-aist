@@ -8,7 +8,7 @@ import jp.go.aist.rtm.toolscommon.model.component.ContextHandler;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 /**
- * ContextHandler„ÅÆWorkbenchAdapter
+ * ContextHandlerÇÃWorkbenchAdapter
  */
 public class ContextHandlerWorkbenchAdapter extends
 		ModelElementWorkbenchAdapter {

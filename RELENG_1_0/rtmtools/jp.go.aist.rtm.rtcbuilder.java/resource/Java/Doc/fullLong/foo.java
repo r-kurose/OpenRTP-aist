@@ -6,7 +6,7 @@
  * @author Noriaki Ando <n-ando@aist.go.jp>3456789412345678951234567896123456789
  * 7123456789812345
  *
- * Copyright (C) 2006-2008 ãƒ©ã‚¤ã‚»ãƒ³ã‚¹1234567890123456789012345678901234567890123
+ * Copyright (C) 2006-2008 ƒ‰ƒCƒZƒ“ƒX1234567890123456789012345678901234567890123
  * 4567890
  *
  * $Id$
@@ -40,7 +40,7 @@ public class foo implements RtcNewFunc, RtcDeleteFunc {
             "conf.default.int_param0", "0",
             "conf.default.int_param1", "1",
             "conf.default.double_param0", "0.11",
-            "conf.default.str_param0", "æ—¥æœ¬èªž",
+            "conf.default.str_param0", "“ú–{Œê",
             "conf.default.str_param1", "dara",
     	    ""
             };

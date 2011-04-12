@@ -5,12 +5,11 @@ import java.util.List;
 
 import jp.go.aist.rtm.toolscommon.ToolsCommonPlugin;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 
 /**
- * Component„ÅÆWorkbenchAdapter
+ * ComponentÇÃWorkbenchAdapter
  */
 public class ComponentWorkbenchAdapter extends ModelElementWorkbenchAdapter {
 
@@ -28,20 +27,10 @@ public class ComponentWorkbenchAdapter extends ModelElementWorkbenchAdapter {
 	public Object[] getChildren(Object o) {
 		List<Object> result = new ArrayList<Object>();
 		Component c = (Component) o;
-		if (!c.getExecutionContextHandler().getOwnerContexts().isEmpty()) {
-			result.add(c.getExecutionContextHandler());
-		}
-		if (!c.getParticipationContextHandler().getOwnerContexts().isEmpty()) {
-			result.add(c.getParticipationContextHandler());
-		}
+		result.add(c.getExecutionContextHandler());
+		result.add(c.getParticipationContextHandler());
 		result.addAll(c.getPorts());
 		result.addAll(c.getComponents());
-		if (c instanceof CorbaComponent) {
-			CorbaComponent cc = (CorbaComponent) c;
-			if (cc.getStatusObserver() != null) {
-				result.add(cc.getStatusObserver());
-			}
-		}
 		return result.toArray();
 	}
 }

@@ -10,9 +10,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import jp.go.aist.rtm.nameserviceview.model.manager.ManagerPackage;
-import jp.go.aist.rtm.nameserviceview.model.manager.NameServerContext;
-import jp.go.aist.rtm.nameserviceview.model.manager.Node;
+import jp.go.aist.rtm.nameserviceview.manager.ManagerPackage;
+import jp.go.aist.rtm.nameserviceview.manager.NameServerContext;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NameservicePackage;
@@ -33,7 +32,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.omg.CosNaming.Binding;
-import org.omg.CosNaming.BindingType;
 import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContext;
 import org.omg.CosNaming.NamingContextHelper;
@@ -42,8 +40,6 @@ import org.omg.CosNaming.NamingContextPackage.CannotProceed;
 import org.omg.CosNaming.NamingContextPackage.InvalidName;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
-import static jp.go.aist.rtm.nameserviceview.model.nameservice.util.NSUtil.*;
-
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Naming Context Node</b></em>'.
  * <!-- end-user-doc -->
@@ -51,6 +47,7 @@ import static jp.go.aist.rtm.nameserviceview.model.nameservice.util.NSUtil.*;
  * The following features are implemented:
  * <ul>
  *   <li>{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NamingContextNodeImpl#getNameServerName <em>Name Server Name</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NamingContextNodeImpl#isZombie <em>Zombie</em>}</li>
  *   <li>{@link jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NamingContextNodeImpl#getKind <em>Kind</em>}</li>
  * </ul>
  * </p>
@@ -80,6 +77,15 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 	protected String nameServerName = NAME_SERVER_NAME_EDEFAULT;
 
 	/**
+	 * The default value of the '{@link #isZombie() <em>Zombie</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #isZombie()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean ZOMBIE_EDEFAULT = false;
+
+	/**
 	 * The default value of the '{@link #getKind() <em>Kind</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -100,8 +106,8 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 	protected String kind = KIND_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated NOT
 	 */
 	public NamingContextNodeImpl() {
@@ -109,8 +115,7 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -123,7 +128,6 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	@Override
 	public String getNameServerName() {
 		if (nameServerName == null && getNameServiceReference() != null)
 			return getNameServiceReference().getNameServerName();
@@ -135,7 +139,6 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setNameServerName(String newNameServerName) {
 		String oldNameServerName = nameServerName;
 		nameServerName = newNameServerName;
@@ -144,11 +147,19 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isZombie() {
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getKind() {
 		return kind;
 	}
@@ -158,7 +169,6 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setKind(String newKind) {
 		String oldKind = kind;
 		kind = newKind;
@@ -167,8 +177,7 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -176,6 +185,8 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 		switch (featureID) {
 			case NameservicePackage.NAMING_CONTEXT_NODE__NAME_SERVER_NAME:
 				return getNameServerName();
+			case NameservicePackage.NAMING_CONTEXT_NODE__ZOMBIE:
+				return isZombie() ? Boolean.TRUE : Boolean.FALSE;
 			case NameservicePackage.NAMING_CONTEXT_NODE__KIND:
 				return getKind();
 		}
@@ -183,10 +194,10 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -201,8 +212,7 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -219,8 +229,7 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -228,6 +237,8 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 		switch (featureID) {
 			case NameservicePackage.NAMING_CONTEXT_NODE__NAME_SERVER_NAME:
 				return NAME_SERVER_NAME_EDEFAULT == null ? nameServerName != null : !NAME_SERVER_NAME_EDEFAULT.equals(nameServerName);
+			case NameservicePackage.NAMING_CONTEXT_NODE__ZOMBIE:
+				return isZombie() != ZOMBIE_EDEFAULT;
 			case NameservicePackage.NAMING_CONTEXT_NODE__KIND:
 				return KIND_EDEFAULT == null ? kind != null : !KIND_EDEFAULT.equals(kind);
 		}
@@ -239,8 +250,7 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class baseClass) {
 		if (baseClass == NameServerContext.class) {
 			switch (derivedFeatureID) {
 				case NameservicePackage.NAMING_CONTEXT_NODE__NAME_SERVER_NAME: return ManagerPackage.NAME_SERVER_CONTEXT__NAME_SERVER_NAME;
@@ -255,8 +265,7 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class baseClass) {
 		if (baseClass == NameServerContext.class) {
 			switch (baseFeatureID) {
 				case ManagerPackage.NAME_SERVER_CONTEXT__NAME_SERVER_NAME: return NameservicePackage.NAMING_CONTEXT_NODE__NAME_SERVER_NAME;
@@ -271,7 +280,6 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
@@ -282,6 +290,15 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 		result.append(kind);
 		result.append(')');
 		return result.toString();
+	}
+
+	@SuppressWarnings("unused")
+	private Binding createLastBinding(Binding binding) {
+		Binding result = new Binding();
+		result.binding_type = binding.binding_type;
+		result.binding_name = new NameComponent[] { binding.binding_name[binding.binding_name.length - 1] };
+
+		return result;
 	}
 
 	public static final MappingRule MAPPING_RULE = new MappingRule(
@@ -298,8 +315,9 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 							remoteObjects, link);
 					Binding binding = (Binding) link;
 					result.setNameServiceReference(((CorbaNode) parent)
-							.getNameServiceReference().createChildReference(
-									binding));
+									.getNameServiceReference()
+									.createMergedNameServiceReference(
+											binding));
 					NameComponent[] nameComponent = binding.binding_name;
 					result.setKind(nameComponent[nameComponent.length-1].kind);
 					return result;
@@ -320,7 +338,6 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 					return bindingList;
 				}
 
-				@Override
 				public boolean isLinkEquals(java.lang.Object o1,
 						java.lang.Object o2) {
 					Binding o12 = (Binding) o1;
@@ -367,10 +384,17 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 							.eGet(getLocalFeature())).iterator(); iter
 							.hasNext();) {
 						CorbaNode bindNode = (CorbaNode) iter.next();
+
 						Binding binding = bindNode.getNameServiceReference()
-								.getBaseBinding();
-						result.add(binding);
+								.getBinding();
+
+						Binding lastBinding = new Binding();
+						lastBinding.binding_name = new NameComponent[] { binding.binding_name[binding.binding_name.length - 1] };
+						lastBinding.binding_type = binding.binding_type;
+
+						result.add(lastBinding);
 					}
+
 					return result;
 				}
 
@@ -382,13 +406,19 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 							.eGet(getLocalFeature())).iterator(); iter
 							.hasNext();) {
 						CorbaNode bindNode = (CorbaNode) iter.next();
+
 						Binding binding = bindNode.getNameServiceReference()
-								.getBaseBinding();
-						if (CorbaNodeImpl.COMARATOR.compare((Binding) link,
-								(Binding) binding) == 0) {
+								.getBinding();
+
+						Binding lastBinding = new Binding();
+						lastBinding.binding_name = new NameComponent[] { binding.binding_name[binding.binding_name.length - 1] };
+						lastBinding.binding_type = binding.binding_type;
+
+						if (CorbaNodeImpl.COMARATOR.compare((Binding)link, (Binding)lastBinding) == 0) {
 							return bindNode;
 						}
 					}
+
 					return null;
 				}
 
@@ -403,65 +433,24 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 
 			} });
 
-	@Override
+	/* (non-Javadoc)
+	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NodeImpl#getCorbaObjectInterface()
+	 */
 	public NamingContext getCorbaObjectInterface() {
 		return NamingContextHelper.narrow(super.getCorbaObject());
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
+	/* (non-Javadoc)
+	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode#createContextR(org.omg.CosNaming.NameComponent[])
 	 */
-	public void synchronizeLocal() {
-		if (getNameServiceReference().getNotifier() == null) {
-			getSynchronizationSupport().synchronizeLocal();
-			return;
-		}
-
-		// サーバコンテキストのみ実施
-		try {
-			OpenRTMNaming.NamingNotifier notifier = getNameServiceReference()
-					.getNotifier();
-			if (notifier._non_existent()) {
-				getNameServiceReference().setNotifier(null);
-				return;
-			}
-			if (!getNameServiceReference().isUpdated()) {
-				return;
-			}
-			OpenRTMNaming.TreeBindingListHolder tbl = new OpenRTMNaming.TreeBindingListHolder();
-			notifier.list_all(tbl);
-			synchronizeNodes(tbl.value);
-		} catch (Exception e) {
-			getNameServiceReference().setNotifier(null);
-			return;
-		} finally {
-			getNameServiceReference().setUpdated(false);
-		}
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public void finalizeLocal() {
-		if (getNameServiceReference().getNotifier() == null) {
-			return;
-		}
-
-		// サーバコンテキストのみ実施
-		getNameServiceReference().stopObserver();
-	}
-
-	@Override
 	public void createContextR(NameComponent[] path) throws NotFound,
 			AlreadyBound, CannotProceed, InvalidName {
 		getCorbaObjectInterface().bind_new_context(path);
 	}
 
-	@Override
+	/* (non-Javadoc)
+	 * @see jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode#createNamingObjectR(org.omg.CosNaming.NameComponent[], org.omg.CORBA.Object)
+	 */
 	public void createNamingObjectR(NameComponent[] path,
 			org.omg.CORBA.Object object) throws NotFound, AlreadyBound,
 			CannotProceed, InvalidName {
@@ -501,72 +490,5 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 				}
 
 			}, new AttributeMapping[] {}, new ReferenceMapping[] {});
-
-
-	/**
-	 * ノードリストの同期 (一括更新)
-	 * 
-	 * @param binding_list
-	 */
-	void synchronizeNodes(OpenRTMNaming.TreeBinding[] binding_list) {
-		List<Node> unModifiedNodeList = new ArrayList<Node>(getNodes());
-		List<OpenRTMNaming.TreeBinding> newBindingList = new ArrayList<OpenRTMNaming.TreeBinding>();
-		for (OpenRTMNaming.TreeBinding tb : binding_list) {
-			newBindingList.add(tb);
-		}
-
-		// Bindingの削除・更新
-		for (Node n : unModifiedNodeList) {
-			CorbaNode cn = (CorbaNode) n;
-			Binding b = cn.getNameServiceReference().getBaseBinding();
-			OpenRTMNaming.TreeBinding found = null;
-			for (OpenRTMNaming.TreeBinding tb : binding_list) {
-				if (eql(b.binding_name, tb.binding_name)
-						&& b.binding_type.equals(tb.binding_type)) {
-					found = tb;
-					newBindingList.remove(found);
-					break;
-				}
-			}
-			if (found == null) {
-				getNodes().remove(n);
-				continue;
-			}
-			if (found.binding_object == null) {
-				getNodes().remove(n);
-				continue;
-			}
-			if (b.binding_type == BindingType.ncontext) {
-				NamingContextNodeImpl nc = (NamingContextNodeImpl) cn;
-				nc.setCorbaObject(found.binding_object);
-				nc.synchronizeNodes(found.binding_children);
-			} else {
-				NamingObjectNodeImpl no = (NamingObjectNodeImpl) cn;
-				no.synchronizeEntry(found.binding_object);
-			}
-		}
-
-		// Bindingの追加
-		for (OpenRTMNaming.TreeBinding tb : newBindingList) {
-			Binding b = new Binding();
-			b.binding_name = tb.binding_name;
-			b.binding_type = tb.binding_type;
-			NameServiceReference nsref = getNameServiceReference()
-					.createChildReference(b);
-			if (b.binding_type == BindingType.ncontext) {
-				NamingContextNodeImpl nc = new NamingContextNodeImpl();
-				nc.setNameServiceReference(nsref);
-				nc.setKind(b.binding_name[b.binding_name.length - 1].kind);
-				nc.setCorbaObject(tb.binding_object);
-				nc.synchronizeNodes(tb.binding_children);
-				getNodes().add(nc);
-			} else {
-				NamingObjectNodeImpl no = new NamingObjectNodeImpl();
-				no.setNameServiceReference(nsref);
-				no.synchronizeEntry(tb.binding_object);
-				getNodes().add(no);
-			}
-		}
-	}
 
 } // NamingContextNodeImpl

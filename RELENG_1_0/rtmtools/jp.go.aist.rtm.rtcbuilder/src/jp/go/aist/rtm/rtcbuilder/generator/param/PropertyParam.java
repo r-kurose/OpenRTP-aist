@@ -1,7 +1,7 @@
 package jp.go.aist.rtm.rtcbuilder.generator.param;
 
 /**
- * Propertyæƒ…å ±ã‚’ä¿æŒã™ã‚‹ã‚¯ãƒ©ã‚¹
+ * Propertyî•ñ‚ğ•Û‚·‚éƒNƒ‰ƒX
  */
 public class PropertyParam {
 	private String name;

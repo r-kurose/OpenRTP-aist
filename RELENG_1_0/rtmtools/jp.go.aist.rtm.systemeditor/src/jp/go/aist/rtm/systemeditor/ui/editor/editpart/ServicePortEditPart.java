@@ -14,12 +14,12 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * ServicePort縺ｮEditPart繧ｯ繝ｩ繧ｹ
+ * ServicePortのEditPartクラス
  */
 public class ServicePortEditPart extends PortEditPart {
 
 	/**
-	 * 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ
+	 * コンストラクタ
 	 * 
 	 * @param actionRegistry
 	 *            ActionRegistry

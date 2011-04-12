@@ -1,6 +1,5 @@
 package jp.go.aist.rtm.systemeditor.ui.action;
 
-import jp.go.aist.rtm.systemeditor.ui.util.CompositeComponentHelper;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
@@ -8,7 +7,7 @@ import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
 import org.eclipse.jface.action.Action;
 
 /**
- * 繝昴�ｼ繝医�ｮ謗･邯壹ｒ縺吶∋縺ｦ蜑企勁縺吶ｋ繧｢繧ｯ繧ｷ繝ｧ繝ｳ
+ * ポートの接続をすべて削除するアクション
  *
  */
 public class AllDisconnectAction extends Action {

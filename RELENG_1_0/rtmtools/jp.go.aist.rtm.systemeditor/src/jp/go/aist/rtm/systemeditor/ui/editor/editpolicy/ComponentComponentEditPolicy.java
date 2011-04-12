@@ -9,7 +9,7 @@ import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
 /**
- * 繧ｳ繝ｳ繝昴�ｼ繝阪Φ繝医�ｮComponentEditPolicy繧ｯ繝ｩ繧ｹ
+ * コンポーネントのComponentEditPolicyクラス
  */
 public class ComponentComponentEditPolicy extends ComponentEditPolicy {
 	@Override

@@ -1,7 +1,7 @@
 package jp.go.aist.rtm.systemeditor.ui.util;
 
 /**
- * æ™‚é–“ãŒã‹ã‹ã‚‹å‡¦ç†ç”¨ã®ãƒ‡ãƒ¼ãƒ¢ãƒ³ã‚¹ãƒ¬ãƒƒãƒ‰
+ * ŽžŠÔ‚ª‚©‚©‚éˆ——p‚Ìƒf[ƒ‚ƒ“ƒXƒŒƒbƒh
  *
  */
 public abstract class TimeoutWrappedJob extends Thread {

@@ -5,7 +5,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
 
 /**
- * æ–°è¦ã‚¨ãƒ‡ã‚£ã‚¿ã‚’æ„å‘³ã™ã‚‹ã‚¨ãƒ‡ã‚£ã‚¿ã‚¤ãƒ³ãƒ—ãƒƒãƒˆ
+ * V‹KƒGƒfƒBƒ^‚ğˆÓ–¡‚·‚éƒGƒfƒBƒ^ƒCƒ“ƒvƒbƒg
  */
 public class NullEditorInput implements IEditorInput {
 

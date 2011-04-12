@@ -7,7 +7,7 @@ import java.util.List;
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 
 /**
- * 繧ｳ繝ｳ繝輔ぅ繧ｮ繝･繝ｬ繝ｼ繧ｷ繝ｧ繝ｳ繝代Λ繝｡繝ｼ繧ｿ螳夂ｾｩ繧定｡ｨ縺吶け繝ｩ繧ｹ
+ * コンフィギュレーションパラメータ定義を表すクラス
  */
 public class ConfigSetParam extends AbstractRecordedParam implements
 		Serializable {

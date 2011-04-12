@@ -41,7 +41,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.omg.PortableServer.Servant;
 import org.omg.CORBA.Any;
 import org.omg.CORBA.TCKind;
 
@@ -53,7 +52,6 @@ import RTC.RTObject;
 import _SDOPackage.Configuration;
 import _SDOPackage.ConfigurationHelper;
 import _SDOPackage.Organization;
-import _SDOPackage.ServiceProfile;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!--
@@ -117,8 +115,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 			case ComponentPackage.CORBA_CONFIGURATION_SET: return createCorbaConfigurationSet();
 			case ComponentPackage.CORBA_EXECUTION_CONTEXT: return createCorbaExecutionContext();
 			case ComponentPackage.CORBA_CONTEXT_HANDLER: return createCorbaContextHandler();
-			case ComponentPackage.CORBA_OBSERVER: return createCorbaObserver();
-			case ComponentPackage.CORBA_STATUS_OBSERVER: return createCorbaStatusObserver();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -140,8 +136,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 				return createSDOConfigurationSetFromString(eDataType, initialValue);
 			case ComponentPackage.SDO_ORGANIZATION:
 				return createSDOOrganizationFromString(eDataType, initialValue);
-			case ComponentPackage.SDO_SERVICE_PROFILE:
-				return createSDOServiceProfileFromString(eDataType, initialValue);
 			case ComponentPackage.RTCRT_OBJECT:
 				return createRTCRTObjectFromString(eDataType, initialValue);
 			case ComponentPackage.RTC_COMPONENT_PROFILE:
@@ -160,8 +154,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 				return createPortInterfaceProfileFromString(eDataType, initialValue);
 			case ComponentPackage.LIST:
 				return createListFromString(eDataType, initialValue);
-			case ComponentPackage.SERVANT:
-				return createServantFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -183,8 +175,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 				return convertSDOConfigurationSetToString(eDataType, instanceValue);
 			case ComponentPackage.SDO_ORGANIZATION:
 				return convertSDOOrganizationToString(eDataType, instanceValue);
-			case ComponentPackage.SDO_SERVICE_PROFILE:
-				return convertSDOServiceProfileToString(eDataType, instanceValue);
 			case ComponentPackage.RTCRT_OBJECT:
 				return convertRTCRTObjectToString(eDataType, instanceValue);
 			case ComponentPackage.RTC_COMPONENT_PROFILE:
@@ -203,8 +193,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 				return convertPortInterfaceProfileToString(eDataType, instanceValue);
 			case ComponentPackage.LIST:
 				return convertListToString(eDataType, instanceValue);
-			case ComponentPackage.SERVANT:
-				return convertServantToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -340,26 +328,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public CorbaObserver createCorbaObserver() {
-		CorbaObserverImpl corbaObserver = new CorbaObserverImpl();
-		return corbaObserver;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public CorbaStatusObserver createCorbaStatusObserver() {
-		CorbaStatusObserverImpl corbaStatusObserver = new CorbaStatusObserverImpl();
-		return corbaStatusObserver;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public ComponentSpecification createComponentSpecification() {
 		ComponentSpecificationImpl componentSpecification = new ComponentSpecificationImpl();
 		return componentSpecification;
@@ -444,24 +412,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	 * @generated
 	 */
 	public String convertListToString(EDataType eDataType, Object instanceValue) {
-		return super.convertToString(eDataType, instanceValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Servant createServantFromString(EDataType eDataType, String initialValue) {
-		return (Servant)super.createFromString(eDataType, initialValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String convertServantToString(EDataType eDataType, Object instanceValue) {
 		return super.convertToString(eDataType, instanceValue);
 	}
 
@@ -625,24 +575,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	 * @generated
 	 */
 	public String convertSDOOrganizationToString(EDataType eDataType, Object instanceValue) {
-		return super.convertToString(eDataType, instanceValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ServiceProfile createSDOServiceProfileFromString(EDataType eDataType, String initialValue) {
-		return (ServiceProfile)super.createFromString(eDataType, initialValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String convertSDOServiceProfileToString(EDataType eDataType, Object instanceValue) {
 		return super.convertToString(eDataType, instanceValue);
 	}
 

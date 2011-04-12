@@ -15,46 +15,46 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * RtcLinkã®å€‹ã€…ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãã‚Œãã‚Œã«å¯¾ã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
+ * RtcLink‚ÌŒÂX‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚»‚ê‚¼‚ê‚É‘Î‚·‚éƒAƒNƒVƒ‡ƒ“
  */
 public class IComponentActionDelegate implements IObjectActionDelegate {
 	/**
-	 * Startã«ä½¿ç”¨ã•ã‚Œã‚‹IDã€‚ã“ã®å€¤ãŒã€Plugin.xmlã«æŒ‡å®šã•ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
+	 * Start‚Ég—p‚³‚ê‚éIDB‚±‚Ì’l‚ªAPlugin.xml‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 	 */
 	public static final String START_ACTION_ID = IComponentActionDelegate.class
 			.getName()
 			+ ".executioncontext.Start"; //$NON-NLS-1$
 
 	/**
-	 * Stopã«ä½¿ç”¨ã•ã‚Œã‚‹IDã€‚ã“ã®å€¤ãŒã€Plugin.xmlã«æŒ‡å®šã•ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
+	 * Stop‚Ég—p‚³‚ê‚éIDB‚±‚Ì’l‚ªAPlugin.xml‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 	 */
 	public static final String STOP_ACTION_ID = IComponentActionDelegate.class
 			.getName()
 			+ ".executioncontext.Stop"; //$NON-NLS-1$
 
 	/**
-	 * Activateã«ä½¿ç”¨ã•ã‚Œã‚‹IDã€‚ã“ã®å€¤ãŒã€Plugin.xmlã«æŒ‡å®šã•ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
+	 * Activate‚Ég—p‚³‚ê‚éIDB‚±‚Ì’l‚ªAPlugin.xml‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 	 */
 	public static final String ACTIVATE_ACTION_ID = IComponentActionDelegate.class
 			.getName()
 			+ ".Activate"; //$NON-NLS-1$
 
 	/**
-	 * Deactivateã«ä½¿ç”¨ã•ã‚Œã‚‹IDã€‚ã“ã®å€¤ãŒã€Plugin.xmlã«æŒ‡å®šã•ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
+	 * Deactivate‚Ég—p‚³‚ê‚éIDB‚±‚Ì’l‚ªAPlugin.xml‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 	 */
 	public static final String DEACTIVATE_ACTION_ID = IComponentActionDelegate.class
 			.getName()
 			+ ".Deactivate"; //$NON-NLS-1$
 
 	/**
-	 * Resetã«ä½¿ç”¨ã•ã‚Œã‚‹IDã€‚ã“ã®å€¤ãŒã€Plugin.xmlã«æŒ‡å®šã•ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
+	 * Reset‚Ég—p‚³‚ê‚éIDB‚±‚Ì’l‚ªAPlugin.xml‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 	 */
 	public static final String RESET_ACTION_ID = IComponentActionDelegate.class
 			.getName()
 			+ ".Reset"; //$NON-NLS-1$
 
 	/**
-	 * Exitã«ä½¿ç”¨ã•ã‚Œã‚‹IDã€‚ã“ã®å€¤ãŒã€Plugin.xmlã«æŒ‡å®šã•ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
+	 * Exit‚Ég—p‚³‚ê‚éIDB‚±‚Ì’l‚ªAPlugin.xml‚Éw’è‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 	 */
 	public static final String EXIT_ACTION_ID = IComponentActionDelegate.class
 			.getName()
@@ -84,7 +84,7 @@ public class IComponentActionDelegate implements IObjectActionDelegate {
 		actionDelegate.setActivePart(null, this.targetPart);
 	}
 
-	/** ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®ã‚³ãƒãƒ³ãƒ‰ */
+	/** ƒRƒ“ƒ|[ƒlƒ“ƒgƒAƒNƒVƒ‡ƒ“‚ÌƒRƒ}ƒ“ƒh */
 	static abstract class ComponentCommand extends
 			ComponentActionDelegate.Command {
 		protected CorbaComponent comp;
@@ -211,7 +211,7 @@ public class IComponentActionDelegate implements IObjectActionDelegate {
 
 			if (SystemEditorPreferenceManager.getInstance()
 					.isConfirmComponentAction()) {
-				// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®å®Ÿè¡Œç¢ºèªãŒæœ‰åŠ¹ãªå ´åˆ
+				// ƒAƒNƒVƒ‡ƒ“‚ÌÀsŠm”F‚ª—LŒø‚Èê‡
 				boolean isOK = MessageDialog.openConfirm(targetPart.getSite()
 						.getShell(), TITLE_CONFIRM_DIALOG, command
 						.getConfirmMessage());

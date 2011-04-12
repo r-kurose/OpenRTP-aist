@@ -5,55 +5,33 @@ import java.util.List;
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 import jp.go.aist.rtm.rtcbuilder.ui.Perspective.LanguageProperty;
 
 public abstract class GenerateManager {
 	public static String RTC_PROFILE_PARAMETERS_INAPPLICABLE = "RTC_PROFILE_PARAMETERS_INAPPLICABLE";
 	public static String RTC_PROFILE_SERVICE_PORTS_INAPPLICABLE = "RTC_PROFILE_SERVICE_PORTS_INAPPLICABLE";
 
-	// ç”Ÿæˆå¯¾è±¡è¨€èª
+	//¶¬‘ÎÛŒ¾Œê
 	public abstract String getManagerKey();
-
-	// ç”Ÿæˆå¯¾è±¡è¨€èªåç§°(å¼•æ•°ç”¨)
+	//¶¬‘ÎÛŒ¾Œê–¼Ì(ˆø”—p)
 	public abstract String getLangArgList();
-
-	// ã‚¹ã‚±ãƒ«ãƒˆãƒ³ã‚³ãƒ¼ãƒ‰ã®ç”Ÿæˆ
+	//ƒXƒPƒ‹ƒgƒ“ƒR[ƒh‚Ì¶¬
 	public abstract List<GeneratedResult> generateTemplateCode(RtcParam rtcParam);
-
-	// ç”Ÿæˆå¯¾è±¡è¨€èªç”¨é–‹ç™ºãƒ—ãƒ©ã‚°ã‚¤ãƒ³æƒ…å ±ã®å–å¾—
+	//¶¬‘ÎÛŒ¾Œê—pŠJ”­ƒvƒ‰ƒOƒCƒ“î•ñ‚Ìæ“¾
 	public LanguageProperty getLanguageProperty(RtcParam rtcParam) {
 		return null;
 	}
-
-	// ç”Ÿæˆå¯¾è±¡è¨€èªåç§°(å¼•æ•°ç”¨)
+	//¶¬‘ÎÛŒ¾Œê–¼Ì(ˆø”—p)
 	public String getTargetVersion() {
 		return IRtcBuilderConstants.RTM_VERSION_042;
 	}
-
-	// ç‰¹å®šã®ã‚¿ã‚°ã‚’é©ç”¨å¯¾è±¡å¤–ã¨ã™ã‚‹ã‹å¦ã‹
-	public List<String> getInapplicables() {
-		// é©ç”¨å¯¾è±¡å¤–ã¨ã™ã‚‹å ´åˆã¯ã€ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦ä¸Šã§
-		// å®šç¾©ã•ã‚Œã¦ã„ã‚‹å®šæ•°ã‚’Listã¨ã—ã¦è¿”ã™
+	// “Á’è‚Ìƒ^ƒO‚ğ“K—p‘ÎÛŠO‚Æ‚·‚é‚©”Û‚©
+	public List<String> getInapplicables(){
+		// “K—p‘ÎÛŠO‚Æ‚·‚éê‡‚ÍAƒI[ƒo[ƒ‰ƒCƒh‚µ‚Äã‚Å
+		// ’è‹`‚³‚ê‚Ä‚¢‚é’è”‚ğList‚Æ‚µ‚Ä•Ô‚·
 		return null;
 	}
-
-	// Profileãƒ‡ãƒ¼ã‚¿å¤‰æ›ç”¨
+	//Profileƒf[ƒ^•ÏŠ·—p
 	public void convertProfile(Object profile) {
 	}
-
-	// IDLãƒ•ã‚¡ã‚¤ãƒ«å†…ã«è¨˜è¿°ã•ã‚Œã¦ã„ã‚‹ServiceClassParamã‚’è¨­å®šã™ã‚‹
-	public void resetIDLServiceClass(RtcParam rtcParam) {
-		for (IdlFileParam idl : rtcParam.getProviderIdlPathes()) {
-			for (ServiceClassParam svc : rtcParam.getServiceClassParams()) {
-				if (idl.getIdlPath().equals(svc.getIdlPath())) {
-					if (!idl.getServiceClassParams().contains(svc)) {
-						idl.addServiceClassParams(svc);
-					}
-				}
-			}
-		}
-	}
-
 }

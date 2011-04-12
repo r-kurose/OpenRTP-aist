@@ -49,7 +49,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 /**
- * Configãƒšãƒ¼ã‚¸
+ * Configƒy[ƒW
  */
 public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 
@@ -97,10 +97,10 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 	private Composite configurationParameterSectionComposite;
 	
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	 * 
 	 * @param editor
-	 *            è¦ªã®ã‚¨ãƒ‡ã‚£ã‚¿
+	 *            e‚ÌƒGƒfƒBƒ^
 	 */
 	public ConfigurationEditorFormPage(RtcBuilderEditor editor) {
 		super(editor, "id", IMessageConstants.CONFIGURATION_SECTION);
@@ -136,7 +136,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		createDetailSection(toolkit, form);
 		configurationProfileTableViewer = createConfigurationParameterSection(toolkit, form);
 		
-		// è¨€èªãƒ»ç’°å¢ƒãƒšãƒ¼ã‚¸ã‚ˆã‚Šå…ˆã«ã“ã®ãƒšãƒ¼ã‚¸ãŒè¡¨ç¤ºã•ã‚ŒãŸå ´åˆã€ã“ã“ã§è¨€èªã‚’åˆ¤æ–­ã™ã‚‹
+		// Œ¾ŒêEŠÂ‹«ƒy[ƒW‚æ‚èæ‚É‚±‚Ìƒy[ƒW‚ª•\¦‚³‚ê‚½ê‡A‚±‚±‚ÅŒ¾Œê‚ğ”»’f‚·‚é
 		editor.setEnabledInfoByLang();
 
 		load();
@@ -358,7 +358,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		configParameterTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				clearText();
-				// modifier.getValue()ãŒå‘¼ã°ã‚Œãªã„ã“ã¨ãŒã‚ã‚‹ãŸã‚
+				// modifier.getValue()‚ªŒÄ‚Î‚ê‚È‚¢‚±‚Æ‚ª‚ ‚é‚½‚ß
 			}
 		});
 		return configParameterTableViewer;
@@ -475,7 +475,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	/**
-	 * ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
+	 * ƒf[ƒ^‚ğƒ[ƒh‚·‚é
 	 */
 	public void load() {
 		if (configurationSetTableViewer == null) return;
@@ -501,13 +501,13 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		for(ConfigSetParam config : rtcParam.getConfigParams()) {
 			result = ValidationUtil.validateConfigurationSet(config);
 			if( result!=null ) return result;
-			//é‡è¤‡
+			//d•¡
 			if( checkSet.contains(config.getName()) ) {
 				result = IMessageConstants.CONFIGURATION_VALIDATE_DUPLICATE;
 				return result;
 			}
 			checkSet.add(config.getName());
-			//å¤‰æ•°é‡è¤‡
+			//•Ï”d•¡
 			if( checkVarSet.contains(config.getTmplVarName()) ) {
 				result = IMessageConstants.CONFIGURATION_VALIDATE_VAR_DUPLICATE;
 				return result;
@@ -548,7 +548,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 	private int updateDefaultTypeList(String newValue){
 		int index = searchIndex(defaultTypeList, newValue);
 		if( index == defaultTypeList.length ){
-			// ãã®å€¤ãŒãƒ—ãƒ«ãƒ€ã‚¦ãƒ³é¸æŠè‚¢ã«ãªã„å ´åˆã€é¸æŠè‚¢ã«ãã‚Œã‚’è¿½åŠ ã™ã‚‹
+			// ‚»‚Ì’l‚ªƒvƒ‹ƒ_ƒEƒ“‘I‘ğˆ‚É‚È‚¢ê‡A‘I‘ğˆ‚É‚»‚ê‚ğ’Ç‰Á‚·‚é
 			String[] newDefaultTypeList = new String[defaultTypeList.length+1];
 			for( int i=0; i<defaultTypeList.length; i++ ){
 				newDefaultTypeList[i] = defaultTypeList[i];
@@ -704,7 +704,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 								defaultParamDefaultList[((Integer) value).intValue()]);
 					}
 				}else{
-					// æ‰‹å…¥åŠ›ã•ã‚ŒãŸå ´åˆ
+					// è“ü—Í‚³‚ê‚½ê‡
 					updateDefaultConfigNameList((String)value);
 					configProfileParam.setConfigName((String)value);
 				}
@@ -722,7 +722,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		private int updateDefaultConfigNameList(String newValue){
 			int index = searchIndex(defaultParamNameList, newValue);
 			if( index == defaultParamNameList.length ){
-				// ãã®å€¤ãŒãƒ—ãƒ«ãƒ€ã‚¦ãƒ³é¸æŠè‚¢ã«ãªã„å ´åˆã€é¸æŠè‚¢ã«ãã‚Œã‚’è¿½åŠ ã™ã‚‹
+				// ‚»‚Ì’l‚ªƒvƒ‹ƒ_ƒEƒ“‘I‘ğˆ‚É‚È‚¢ê‡A‘I‘ğˆ‚É‚»‚ê‚ğ’Ç‰Á‚·‚é
 				String[] newDefaultTypeList = new String[defaultParamNameList.length+1];
 				for( int i=0; i<defaultParamNameList.length; i++ ){
 					newDefaultTypeList[i] = defaultParamNameList[i];
@@ -738,15 +738,15 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 	}
 	
 	/**
-	 * Configurationãƒ•ã‚©ãƒ¼ãƒ å†…ã®è¦ç´ ã®æœ‰åŠ¹/ç„¡åŠ¹ã‚’è¨­å®šã—ã¾ã™ã€‚
+	 * ConfigurationƒtƒH[ƒ€“à‚Ì—v‘f‚Ì—LŒø/–³Œø‚ğİ’è‚µ‚Ü‚·B
 	 * <ul>
-	 * <li>config.configSet.table : ConfigurationSetã‚»ã‚¯ã‚·ãƒ§ãƒ³ã®ãƒ†ãƒ¼ãƒ–ãƒ«</li>
-	 * <li>config.configSet.addButton : ConfigurationSetã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Addãƒœã‚¿ãƒ³</li>
-	 * <li>config.configSet.deleteButton : ConfigurationSetã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Deleteãƒœã‚¿ãƒ³</li>
-	 * <li>config.configParam.table : ConfigurationParameterã‚»ã‚¯ã‚·ãƒ§ãƒ³ã®ãƒ†ãƒ¼ãƒ–ãƒ«</li>
-	 * <li>config.configParam.addButton : ConfigurationParameterã‚»ã‚¯ã‚·ãƒ§ãƒ³ã® Addãƒœã‚¿ãƒ³</li>
-	 * <li>config.configParam.deleteButton : ConfigurationParameterã‚»ã‚¯ã‚·ãƒ§ãƒ³ã®
-	 * Deleteãƒœã‚¿ãƒ³</li>
+	 * <li>config.configSet.table : ConfigurationSetƒZƒNƒVƒ‡ƒ“‚Ìƒe[ƒuƒ‹</li>
+	 * <li>config.configSet.addButton : ConfigurationSetƒZƒNƒVƒ‡ƒ“‚Ì Addƒ{ƒ^ƒ“</li>
+	 * <li>config.configSet.deleteButton : ConfigurationSetƒZƒNƒVƒ‡ƒ“‚Ì Deleteƒ{ƒ^ƒ“</li>
+	 * <li>config.configParam.table : ConfigurationParameterƒZƒNƒVƒ‡ƒ“‚Ìƒe[ƒuƒ‹</li>
+	 * <li>config.configParam.addButton : ConfigurationParameterƒZƒNƒVƒ‡ƒ“‚Ì Addƒ{ƒ^ƒ“</li>
+	 * <li>config.configParam.deleteButton : ConfigurationParameterƒZƒNƒVƒ‡ƒ“‚Ì
+	 * Deleteƒ{ƒ^ƒ“</li>
 	 * </ul>
 	 */
 	public void setEnabledInfo(WidgetInfo widgetInfo, boolean enabled) {
@@ -778,7 +778,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		}
 	}
 
-	// é¸æŠè‚¢ä»¥å¤–ã®å€¤ãŒå…¥åŠ›ã•ã‚Œã¦ã„ã‚‹å ´åˆã«å¯¾å¿œã™ã‚‹ãŸã‚ã®ComboBoxCellEditor
+	// ‘I‘ğˆˆÈŠO‚Ì’l‚ª“ü—Í‚³‚ê‚Ä‚¢‚éê‡‚É‘Î‰‚·‚é‚½‚ß‚ÌComboBoxCellEditor
 	private class LocalComboBoxCellEditor extends ComboBoxCellEditor {
 		private CCombo comboBox;
 
@@ -795,7 +795,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		@Override
 		protected Object doGetValue() {
 			Object value = super.doGetValue();
-			if (value.equals(Integer.valueOf(-1))) { // é¸æŠè‚¢ä»¥å¤–ãŒå…¥åŠ›ã•ã‚ŒãŸå ´åˆ
+			if (value.equals(Integer.valueOf(-1))) { // ‘I‘ğˆˆÈŠO‚ª“ü—Í‚³‚ê‚½ê‡
 				return comboBox.getText();
 			}
 			return value;

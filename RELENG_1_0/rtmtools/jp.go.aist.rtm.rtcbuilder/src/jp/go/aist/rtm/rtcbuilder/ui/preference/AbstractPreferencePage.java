@@ -104,7 +104,7 @@ public abstract class AbstractPreferencePage extends PreferencePage  implements
 	}
 
 	/**
-	 * çŠ¶æ…‹ã‚’å¤‰æ›´ã—ãŸéš›ã«å‘¼ã³å‡ºã™ã“ã¨
+	 * ó‘Ô‚ğ•ÏX‚µ‚½Û‚ÉŒÄ‚Ño‚·‚±‚Æ
 	 */
 	private void updateStatus() {
 		setValid(validate());

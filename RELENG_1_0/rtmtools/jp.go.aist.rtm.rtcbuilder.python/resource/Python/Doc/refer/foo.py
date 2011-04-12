@@ -8,7 +8,7 @@
 
  \author Noriaki Ando <n-ando@aist.go.jp>
 
- Copyright (C) 2006-2008 ãƒ©ã‚¤ã‚»ãƒ³ã‚¹
+ Copyright (C) 2006-2008 ƒ‰ƒCƒZƒ“ƒX
 
 """
 import sys
@@ -53,13 +53,13 @@ class foo(OpenRTM.DataFlowComponentBase):
 	\class foo
 	\brief MDesc
 	
-	æœ¬ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®æ¦‚è¦èª¬æ˜Ž
+	–{ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌŠT—và–¾
 	
-	æœ¬ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å…¥å‡ºåŠ›
+	–{ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì“üo—Í
 	
-	æœ¬ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ ãªã©
+	–{ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒAƒ‹ƒSƒŠƒYƒ€‚È‚Ç
 	
-	å‚è€ƒæ–‡çŒ®ã®æƒ…å ±
+	ŽQl•¶Œ£‚Ìî•ñ
 	
 	"""
 	def __init__(self, manager):

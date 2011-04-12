@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * NVè¨­å®šç”¨widgetã¨åˆ¶ç´„æ¡ä»¶ã‚’è¡¨ã—ã¾ã™ã€‚
+ * NVİ’è—pwidget‚Æ§–ñğŒ‚ğ•\‚µ‚Ü‚·B
  */
 public class ConfigurationWidget {
 	public static final String TEXT = "text";
@@ -23,9 +23,9 @@ public class ConfigurationWidget {
 	double spinStep = 0.0;
 
 	/**
-	 * @param widgets	ã‚¦ã‚£ã‚¸ã‚§ãƒƒãƒˆæ–‡å­—åˆ—ï¼ˆé…åˆ—ç”¨ï¼‰
-	 * @param cc		åˆ¶ç´„æ¡ä»¶
-	 * @return			NVè¨­å®šç”¨widgetã¨åˆ¶ç´„æ¡ä»¶ã®ãƒªã‚¹ãƒˆ
+	 * @param widgets	ƒEƒBƒWƒFƒbƒg•¶š—ñi”z—ñ—pj
+	 * @param cc		§–ñğŒ
+	 * @return			NVİ’è—pwidget‚Æ§–ñğŒ‚ÌƒŠƒXƒg
 	 */
 	public static List<ConfigurationWidget> parseArrayWidget(String widgets, ConfigurationCondition cc) {
 		List<ConfigurationWidget> widgetList = new ArrayList<ConfigurationWidget>();
@@ -44,9 +44,9 @@ public class ConfigurationWidget {
 	}
 
 	/**
-	 * @param widgets		ã‚¦ã‚£ã‚¸ã‚§ãƒƒãƒˆæ–‡å­—åˆ—ï¼ˆãƒãƒƒãƒ—ç”¨ï¼‰
-	 * @param cc			åˆ¶ç´„æ¡ä»¶
-	 * @return				NVè¨­å®šç”¨widgetã¨åˆ¶ç´„æ¡ä»¶ã®ãƒãƒƒãƒ—
+	 * @param widgets		ƒEƒBƒWƒFƒbƒg•¶š—ñiƒ}ƒbƒv—pj
+	 * @param cc			§–ñğŒ
+	 * @return				NVİ’è—pwidget‚Æ§–ñğŒ‚Ìƒ}ƒbƒv
 	 */
 	public static Map<String, ConfigurationWidget> parseHashWidget(String widgets, ConfigurationCondition cc) {
 		Map<String, ConfigurationWidget> widgetMap = new HashMap<String, ConfigurationWidget>();
@@ -63,7 +63,7 @@ public class ConfigurationWidget {
 		String s = widgets.trim();
 		if (s.charAt(0) != '{')  return s;
 		
-		s = s.substring(1, s.length() - 1).trim();	// { }é™¤å»
+		s = s.substring(1, s.length() - 1).trim();	// { }œ‹
 
 		String[] tokens = s.split(",");
 		for(String token : tokens) {
@@ -76,9 +76,9 @@ public class ConfigurationWidget {
 	}
 
 	/**
-	 * @param widgets	ã‚¦ã‚£ã‚¸ã‚§ãƒƒãƒˆæ–‡å­—åˆ—ï¼ˆã‚¹ã‚«ãƒ©ãƒ¼ç”¨ï¼‰
-	 * @param cc		åˆ¶ç´„æ¡ä»¶
-	 * @return			NVè¨­å®šç”¨widgetã¨åˆ¶ç´„æ¡ä»¶ã®ãƒªã‚¹ãƒˆï¼ˆè¦ç´ ã¯1ã¤ï¼‰
+	 * @param widgets	ƒEƒBƒWƒFƒbƒg•¶š—ñiƒXƒJƒ‰[—pj
+	 * @param cc		§–ñğŒ
+	 * @return			NVİ’è—pwidget‚Æ§–ñğŒ‚ÌƒŠƒXƒgi—v‘f‚Í1‚Âj
 	 */
 	public static List<ConfigurationWidget> parseSimpleWidget(String widgets, ConfigurationCondition cc) {
 		List<ConfigurationWidget> widgetList = new ArrayList<ConfigurationWidget>();
@@ -90,17 +90,17 @@ public class ConfigurationWidget {
 	ConfigurationWidget(String type, ConfigurationCondition condition) {
 		this.type = parseType(type);
 		if (condition == null || condition.isNull()) {
-			// åˆ¶ç´„æ¡ä»¶ãŒãªã„å ´åˆã¯ãƒ†ã‚­ã‚¹ãƒˆ
+			// §–ñğŒ‚ª‚È‚¢ê‡‚ÍƒeƒLƒXƒg
 			this.type = TEXT;
 		} else {
 			if (this.isSlider() || this.isSpinner()) {
 				if (condition.getMax() == null || condition.getMin() == null) {
-					// sliderã€spinnerã§æœ€å¤§ã€æœ€å°å€¤ãŒãªã‘ã‚Œã°ãƒ†ã‚­ã‚¹ãƒˆ
+					// sliderAspinner‚ÅÅ‘åAÅ¬’l‚ª‚È‚¯‚ê‚ÎƒeƒLƒXƒg
 					this.type = TEXT;
 				}
 			} else if (this.isRadio()) {
 				if (!condition.hasEnumList()) {
-					// radioã¯åˆ—æŒ™è¨­å®šãŒãªã‘ã‚Œã°ãƒ†ã‚­ã‚¹ãƒˆ
+					// radio‚Í—ñ‹“İ’è‚ª‚È‚¯‚ê‚ÎƒeƒLƒXƒg
 					this.type = TEXT;
 				}
 			}

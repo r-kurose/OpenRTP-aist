@@ -1,6 +1,7 @@
 package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
@@ -36,7 +37,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -46,9 +46,7 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
  * Languageページ
  */
 public class LanguageEditorFormPage extends AbstractEditorFormPage {
-
-	static final String LABEL_USE_OLD_BUILD = IMessageConstants.LANGUAGE_USE_OLD_BUILD;
-
+	
 	private static final int LANGUAGE_VERSION = 0;
 	private static final int LANGUAGE_OS = 1;
 	//
@@ -61,7 +59,6 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 	private Button cppRadio;
 	private Button rubyRadio;
 	private List<Button> buttonList = new ArrayList<Button>();
-	Button oldBuildEnvButton;
 	//
 	private Composite envSection;
 	private TableViewer langVersionViewer;
@@ -82,7 +79,9 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		super(editor, "id", IMessageConstants.LANGUAGE_SECTION);
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	protected void createFormContent(IManagedForm managedForm) {
 		ScrolledForm form = super.createBase(managedForm, IMessageConstants.LANGUAGE_SECTION);
 		FormToolkit toolkit = managedForm.getToolkit();
@@ -91,21 +90,18 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		createHintSection(toolkit, form);
 		creatEnvSection(toolkit, form);
 		//
-		managerList = RtcBuilderPlugin.getDefault().getLoader()
-				.getManagerList();
-		if (managerList != null) {
-			for (String key : RtcBuilderPlugin.getDefault().getLoader()
-					.getManagerKeyList()) {
-				Button extRadio = createRadioCheckButton(toolkit, LangGroup,
-						key, SWT.RADIO);
+		managerList = RtcBuilderPlugin.getDefault().getLoader().getManagerList();
+		if( managerList != null ) {
+			for( Iterator<GenerateManager> iter = managerList.iterator(); iter.hasNext(); ) {
+				GenerateManager manager = iter.next();
+				Button extRadio = createRadioCheckButton(toolkit, LangGroup, manager.getManagerKey(), SWT.RADIO);
 				extRadio.addSelectionListener(createLanguageRadioListner());
 				buttonList.add(extRadio);
 			}
 		}
-		rubyRadio = createRadioCheckButton(toolkit, LangGroup, "Ruby",
-				SWT.RADIO);
+		rubyRadio = createRadioCheckButton(toolkit, LangGroup, "Ruby", SWT.RADIO);
 		rubyRadio.setEnabled(false);
-
+		
 		load();
 	}
 
@@ -164,7 +160,7 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 
 	private void createLanguageSection(FormToolkit toolkit, ScrolledForm form) {
 		Composite composite = createSectionBaseWithLabel(toolkit, form, 
-				IMessageConstants.LANGUAGE_LANG_TITLE, IMessageConstants.LANGUAGE_LANG_EXPL, 2);
+				IMessageConstants.LANGUAGE_LANG_TITLE, IMessageConstants.LANGUAGE_LANG_EXPL, 1);
 		//
 		LangGroup = new Group(composite, SWT.NONE);
 		LangGroup.setLayout(new GridLayout(1, false));
@@ -173,24 +169,6 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		//
 		cppRadio = createRadioCheckButton(toolkit, LangGroup, "C++", SWT.RADIO);
 		cppRadio.addSelectionListener(createLanguageRadioListner());
-
-		// 旧バージョンのビルド環境の指定
-		Composite c = new Composite(composite, SWT.NONE);
-		GridLayout gl = new GridLayout(2, false);
-		c.setLayout(gl);
-		gd = new GridData();
-		gd.horizontalAlignment = GridData.END;
-		gd.verticalAlignment = GridData.END;
-		c.setLayoutData(gd);
-		oldBuildEnvButton = new Button(c, SWT.CHECK);
-		Label l = new Label(c, SWT.NONE);
-		l.setText(LABEL_USE_OLD_BUILD);
-		oldBuildEnvButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				update();
-			}
-		});
 	}
 
 	private void createHintSection(FormToolkit toolkit, ScrolledForm form) {
@@ -444,72 +422,70 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 	
 	@SuppressWarnings("unchecked")
 	public void update() {
-		if (cppRadio == null) {
-			return;
-		}
-		// 以下、cppRadioが有効な場合のみ実行する
-		// →この画面が表示される前にこの処理が呼ばれた場合は、なにもしない
-		// ∵rtcParamが画面に反映される前にクリアしてしまうとまずいため
-		RtcParam rtcParam = editor.getRtcParam();
+		if (cppRadio != null) {
+			// 以下、cppRadioが有効な場合のみ実行する
+			// →この画面が表示される前にこの処理が呼ばれた場合は、なにもしない
+			// ∵rtcParamが画面に反映される前にクリアしてしまうとまずいため
+			RtcParam rtcParam = editor.getRtcParam();
 
-		List<String> langList = new ArrayList<String>();
-		List<String> langArgList = new ArrayList<String>();
-		String rtmVersion = null;
+			List<String> langList = new ArrayList<String>();
+			List<String> langArgList = new ArrayList<String>();
+			String rtmVersion = null;
 
-		if (cppRadio.getSelection()) {
-			langList.add(IRtcBuilderConstants.LANG_CPP);
-			langArgList.add(IRtcBuilderConstants.LANG_CPP_ARG);
-			rtmVersion = IRtcBuilderConstants.RTM_VERSION_100;
-		}
-		if (buttonList != null) {
-			for (Button extButton : buttonList) {
-				if (!extButton.getSelection()) {
-					continue;
-				}
-				for (GenerateManager manager : managerList) {
-					if (!extButton.getText().trim().equals(
-							manager.getManagerKey())) {
+			if (cppRadio.getSelection()) {
+				langList.add(IRtcBuilderConstants.LANG_CPP);
+				langArgList.add(IRtcBuilderConstants.LANG_CPP_ARG);
+				rtmVersion = IRtcBuilderConstants.RTM_VERSION_100;
+			}
+			if (buttonList != null) {
+				for (Button extButton : buttonList) {
+					if (!extButton.getSelection()) {
 						continue;
 					}
-					langList.add(manager.getManagerKey());
-					langArgList.add(manager.getManagerKey());
-					rtmVersion = manager.getTargetVersion();
+					for (GenerateManager manager : managerList) {
+						if (!extButton.getText().trim().equals(
+								manager.getManagerKey())) {
+							continue;
+						}
+						langList.add(manager.getManagerKey());
+						langArgList.add(manager.getManagerKey());
+						rtmVersion = manager.getTargetVersion();
+						break;
+					}
 					break;
 				}
-				break;
 			}
-		}
-		if (!rtcParam.getLangList().equals(langList)) {
-			rtcParam.getLangList().clear();
-			rtcParam.getLangList().addAll(langList);
-			rtcParam.getLangArgList().clear();
-			rtcParam.getLangArgList().addAll(langArgList);
-			rtcParam.setRtmVersion(rtmVersion);
-		}
-		rtcParam.setEnableOldBuildEnv(oldBuildEnvButton.getSelection());
-		//
-		StructuredSelection selection = (StructuredSelection) langVersionViewer.getSelection();
-		TargetEnvParam selectParam = (TargetEnvParam) selection.getFirstElement();
-		if (selectParam != null) {
-			ArrayList<String> targets = new ArrayList<String>();
-			SingleLabelUtil.convertSingleItems2Strings((ArrayList<SingleLabelItem>) osVersionViewer.getInput(), targets);
-			if (!selectParam.getOsVersions().equals(targets)) {
-				selectParam.getOsVersions().clear();
-				selectParam.getOsVersions().addAll(targets);
+			if (!rtcParam.getLangList().equals(langList)) {
+				rtcParam.getLangList().clear();
+				rtcParam.getLangList().addAll(langList);
+				rtcParam.getLangArgList().clear();
+				rtcParam.getLangArgList().addAll(langArgList);
+				rtcParam.setRtmVersion(rtmVersion);
 			}
 			//
-			targets = new ArrayList<String>();
-			SingleLabelUtil.convertSingleItems2Strings((ArrayList<SingleLabelItem>) cpuTypesViewer.getInput(), targets);
-			if (!selectParam.getCpus().equals(targets)) {
-				selectParam.getCpus().clear();
-				selectParam.getCpus().addAll(targets);
+			StructuredSelection selection = (StructuredSelection) langVersionViewer.getSelection();
+			TargetEnvParam selectParam = (TargetEnvParam) selection.getFirstElement();
+			if (selectParam != null) {
+				ArrayList<String> targets = new ArrayList<String>();
+				SingleLabelUtil.convertSingleItems2Strings((ArrayList<SingleLabelItem>) osVersionViewer.getInput(), targets);
+				if (!selectParam.getOsVersions().equals(targets)) {
+					selectParam.getOsVersions().clear();
+					selectParam.getOsVersions().addAll(targets);
+				}
+				//
+				targets = new ArrayList<String>();
+				SingleLabelUtil.convertSingleItems2Strings((ArrayList<SingleLabelItem>) cpuTypesViewer.getInput(), targets);
+				if (!selectParam.getCpus().equals(targets)) {
+					selectParam.getCpus().clear();
+					selectParam.getCpus().addAll(targets);
+				}
+				//
+				selectParam.setOther(getText(osOther.getText()));
+				selectParam.setCpuOther(getText(cpuOther.getText()));
 			}
 			//
-			selectParam.setOther(getText(osOther.getText()));
-			selectParam.setCpuOther(getText(cpuOther.getText()));
+			editor.updateDirty();
 		}
-		//
-		editor.updateDirty();
 	}
 
 	/**
@@ -537,7 +513,6 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 				}
 			}
 		}
-		oldBuildEnvButton.setSelection(rtcParam.enableOldBuildEnv());
 		//
 		langVersionViewer.setInput(rtcParam.getTargetEnvs());
 		//

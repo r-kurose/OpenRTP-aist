@@ -18,12 +18,12 @@ public class ConfigPreferenceManager {
 	}
 
 	/**
-	 * Configuration Name縺ｮ繧ｭ繝ｼ
+	 * Configuration Nameのキー
 	 */
 	private static final String Config_Name = ConfigPreferenceManager.class.getName()
 									+ "CONFIG_NAME";
 	/**
-	 * Default Value縺ｮ繧ｭ繝ｼ
+	 * Default Valueのキー
 	 */
 	private static final String Default_Value = ConfigPreferenceManager.class.getName()
 									+ "DEFAULT_VALUE";
@@ -101,7 +101,7 @@ public class ConfigPreferenceManager {
 
 		ArrayList<ConfigParameterParam> result = new ArrayList<ConfigParameterParam>();
 		if( configName.length==1 && "".equals(configName[0]) )
-			return result;	// 隕∫ｴ縺後↑縺�縺ｨ縺阪�ｯ遨ｺ縺ｮList繧定ｿ斐☆
+			return result;	// 要素がないときは空のListを返す
 		
 		for(int intIdx=0; intIdx < configName.length; intIdx++) {
 			ConfigParameterParam configParam;

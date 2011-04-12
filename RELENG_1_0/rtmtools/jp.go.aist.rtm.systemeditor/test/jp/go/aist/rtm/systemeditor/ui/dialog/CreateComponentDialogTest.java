@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.Shell;
 public class CreateComponentDialogTest extends TestCase {
 
 	/**
-	 * マネージャでのコンポーネント作成ダイアログのテスト用メソッド
+	 * �}�l�[�W���ł̃R���|�[�l���g�쐬�_�C�A���O�̃e�X�g�p���\�b�h
 	 * @param args
 	 */
 	public static void main(String[] args) {

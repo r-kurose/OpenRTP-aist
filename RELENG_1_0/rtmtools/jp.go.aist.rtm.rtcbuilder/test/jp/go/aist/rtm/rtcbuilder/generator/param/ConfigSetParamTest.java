@@ -113,72 +113,72 @@ public class ConfigSetParamTest extends ParamTestCase<ConfigSetParam> {
 		assertUpdated(csp, new UpdateChecker() {
 			@Override
 			void execute1(ConfigSetParam e) {
-				e.setDocDataName("ãƒ‡ãƒ¼ã‚¿åï¼‘");
+				e.setDocDataName("ƒf[ƒ^–¼‚P");
 			}
 
 			@Override
 			void execute2(ConfigSetParam e) {
-				e.setDocDataName("ãƒ‡ãƒ¼ã‚¿åï¼’");
+				e.setDocDataName("ƒf[ƒ^–¼‚Q");
 			}
 		});
 		//
 		assertUpdated(csp, new UpdateChecker() {
 			@Override
 			void execute1(ConfigSetParam e) {
-				e.setDocDefaultVal("ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ï¼‘");
+				e.setDocDefaultVal("ƒfƒtƒHƒ‹ƒg’l‚P");
 			}
 
 			@Override
 			void execute2(ConfigSetParam e) {
-				e.setDocDefaultVal("ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ï¼’");
+				e.setDocDefaultVal("ƒfƒtƒHƒ‹ƒg’l‚Q");
 			}
 		});
 		//
 		assertUpdated(csp, new UpdateChecker() {
 			@Override
 			void execute1(ConfigSetParam e) {
-				e.setDocDescription("æ¦‚è¦ï¼‘");
+				e.setDocDescription("ŠT—v‚P");
 			}
 
 			@Override
 			void execute2(ConfigSetParam e) {
-				e.setDocDescription("æ¦‚è¦ï¼’");
+				e.setDocDescription("ŠT—v‚Q");
 			}
 		});
 		//
 		assertUpdated(csp, new UpdateChecker() {
 			@Override
 			void execute1(ConfigSetParam e) {
-				e.setDocUnit("å˜ä½ï¼‘");
+				e.setDocUnit("’PˆÊ‚P");
 			}
 
 			@Override
 			void execute2(ConfigSetParam e) {
-				e.setDocUnit("å˜ä½ï¼’");
+				e.setDocUnit("’PˆÊ‚Q");
 			}
 		});
 		//
 		assertUpdated(csp, new UpdateChecker() {
 			@Override
 			void execute1(ConfigSetParam e) {
-				e.setDocRange("ç¯„å›²ï¼‘");
+				e.setDocRange("”ÍˆÍ‚P");
 			}
 
 			@Override
 			void execute2(ConfigSetParam e) {
-				e.setDocRange("ç¯„å›²ï¼’");
+				e.setDocRange("”ÍˆÍ‚Q");
 			}
 		});
 		//
 		assertUpdated(csp, new UpdateChecker() {
 			@Override
 			void execute1(ConfigSetParam e) {
-				e.setDocConstraint("åˆ¶ç´„æ¡ä»¶ï¼‘");
+				e.setDocConstraint("§–ñğŒ‚P");
 			}
 
 			@Override
 			void execute2(ConfigSetParam e) {
-				e.setDocConstraint("åˆ¶ç´„æ¡ä»¶ï¼’");
+				e.setDocConstraint("§–ñğŒ‚Q");
 			}
 		});
 	}

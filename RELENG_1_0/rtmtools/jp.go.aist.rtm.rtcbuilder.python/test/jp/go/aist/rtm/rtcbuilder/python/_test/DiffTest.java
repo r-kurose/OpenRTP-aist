@@ -55,8 +55,8 @@ public class DiffTest extends TestBase {
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService3_idl.py");
 //		checkCode(result, resourceDir, "DAQService_idl.py");
-		checkCode(result, resourceDir, "_GlobalIDL/__init__.py");
-		checkCode(result, resourceDir, "_GlobalIDL__POA/__init__.py");
+		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
+		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
 		checkCode(result, resourceDir, "MyService3_idl_example.py");
 //		checkCode(result, resourceDir, "DAQService_idl_example.py");
 		checkCode(result, resourceDir, "README.test");
@@ -98,8 +98,8 @@ public class DiffTest extends TestBase {
 
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService3_idl.py");
-		checkCode(result, resourceDir, "_GlobalIDL/__init__.py");
-		checkCode(result, resourceDir, "_GlobalIDL__POA/__init__.py");
+		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
+		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
 		checkCode(result, resourceDir, "MyService3_idl_example.py");
 		checkCode(result, resourceDir, "README.test");
 	}

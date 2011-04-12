@@ -11,7 +11,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 
 /**
- * C#ã‚½ãƒ¼ã‚¹ã‚’å‡ºåŠ›ã™ã‚‹éš›ã«ä½¿ç”¨ã•ã‚Œã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
+ * C#ƒ\[ƒX‚ğo—Í‚·‚éÛ‚Ég—p‚³‚ê‚éƒ†[ƒeƒBƒŠƒeƒB
  */
 public class CSharpConverter {
 	protected Map<String, String> mapType;
@@ -92,10 +92,10 @@ public class CSharpConverter {
 	}
 
 	/**
-	 * C#å‹ã§ä½¿ç”¨ã§ããªã„é–¢æ•°åã‚’escape
+	 * C#Œ^‚Åg—p‚Å‚«‚È‚¢ŠÖ”–¼‚ğescape
 	 * 
-	 * @param source å¯¾è±¡é–¢æ•°å
-	 * @return escapeçµæœ
+	 * @param source ‘ÎÛŠÖ”–¼
+	 * @return escapeŒ‹‰Ê
 	 */
 	public String escapeName(String source) {
 		for(int index=0;index<escapeName.length;index++) {
@@ -107,10 +107,10 @@ public class CSharpConverter {
 	}
 	
 	/**
-	 * CORBAå‹ã‹ã‚‰C#å‹ã¸å‹ã‚’å¤‰æ›ã™ã‚‹(TypeDefè€ƒæ…®)
+	 * CORBAŒ^‚©‚çC#Œ^‚ÖŒ^‚ğ•ÏŠ·‚·‚é(TypeDefl—¶)
 	 * 
-	 * @param strCorba CORBAå‹
-	 * @return C#å‹
+	 * @param strCorba CORBAŒ^
+	 * @return C#Œ^
 	 */
 	public String convCORBA2CSharpTypeDef(String strCorba, ServiceClassParam scp) {
 		String target = strCorba;
@@ -132,11 +132,11 @@ public class CSharpConverter {
 		return strType;
 	}
 	/**
-	 * CORBAå‹ã‹ã‚‰C#å‹ã¸å‹ã‚’å¤‰æ›ã™ã‚‹
+	 * CORBAŒ^‚©‚çC#Œ^‚ÖŒ^‚ğ•ÏŠ·‚·‚é
 	 * 
-	 * @param strCorba CORBAå‹
-	 * @param scp ã‚µãƒ¼ãƒ“ã‚¹ã‚¯ãƒ©ã‚¹
-	 * @return C#å‹
+	 * @param strCorba CORBAŒ^
+	 * @param scp ƒT[ƒrƒXƒNƒ‰ƒX
+	 * @return C#Œ^
 	 */
 	public String convCORBA2CSharp(String strCorba) {
 		String result = mapType.get(strCorba);
@@ -145,12 +145,12 @@ public class CSharpConverter {
 		return result;
 	}
 	/**
-	 * CORBAå‹ã‹ã‚‰C#å‹ã¸å‹ã‚’å¤‰æ›ã™ã‚‹(å¼•æ•°ç”¨,TypeDefè€ƒæ…®)
+	 * CORBAŒ^‚©‚çC#Œ^‚ÖŒ^‚ğ•ÏŠ·‚·‚é(ˆø”—p,TypeDefl—¶)
 	 * 
-	 * @param strCorba CORBAå‹
-	 * @param strDirection å…¥å‡ºåŠ›æ–¹å‘
-	 * @param scp ã‚µãƒ¼ãƒ“ã‚¹ã‚¯ãƒ©ã‚¹
-	 * @return C#å‹
+	 * @param strCorba CORBAŒ^
+	 * @param strDirection “üo—Í•ûŒü
+	 * @param scp ƒT[ƒrƒXƒNƒ‰ƒX
+	 * @return C#Œ^
 	 */
 	public String convCORBA2CSharpArg(String strCorba, String strDirection, ServiceClassParam scp) {
 		String result = "";
@@ -187,10 +187,10 @@ public class CSharpConverter {
 		return result;
 	}
 	/**
-	 * XMLç¦å‰‡æ–‡å­—ã‚’ã‚¨ã‚¹ã‚±ãƒ¼ãƒ—ã™ã‚‹
+	 * XML‹Ö‘¥•¶š‚ğƒGƒXƒP[ƒv‚·‚é
 	 * 
-	 * @param type å¯¾è±¡æ–‡å­—åˆ—
-	 * @return å–å¾—çµæœ
+	 * @param type ‘ÎÛ•¶š—ñ
+	 * @return æ“¾Œ‹‰Ê
 	 */
 	public String escapeString(String type) {
 		String result = type;
@@ -199,10 +199,10 @@ public class CSharpConverter {
 		return result;
 	}
 	/**
-	 * Listå‹ã®ä¸­èº«ã‚’å–å¾—ã™ã‚‹
+	 * ListŒ^‚Ì’†g‚ğæ“¾‚·‚é
 	 * 
-	 * @param type æ¤œè¨¼å¯¾è±¡å‹
-	 * @return å–å¾—çµæœ
+	 * @param type ŒŸØ‘ÎÛŒ^
+	 * @return æ“¾Œ‹‰Ê
 	 */
 	public String getListType(String type) {
 		int start = type.indexOf('<');
@@ -210,10 +210,10 @@ public class CSharpConverter {
 		return type.substring(start+1, end);
 	}
 	/**
-	 * Listå‹ã‹åˆ¤æ–­ã™ã‚‹
+	 * ListŒ^‚©”»’f‚·‚é
 	 * 
-	 * @param type æ¤œè¨¼å¯¾è±¡å‹
-	 * @return æ¤œè¨¼çµæœ
+	 * @param type ŒŸØ‘ÎÛŒ^
+	 * @return ŒŸØŒ‹‰Ê
 	 */
 	public boolean isList(String type) {
 		if( type.toLowerCase().startsWith("list") )
@@ -221,10 +221,10 @@ public class CSharpConverter {
 		return false;
 	}
 	/**
-	 * Stringå‹ã‹åˆ¤æ–­ã™ã‚‹
+	 * StringŒ^‚©”»’f‚·‚é
 	 * 
-	 * @param type æ¤œè¨¼å¯¾è±¡å‹
-	 * @return æ¤œè¨¼çµæœ
+	 * @param type ŒŸØ‘ÎÛŒ^
+	 * @return ŒŸØŒ‹‰Ê
 	 */
 	public boolean isString(String type) {
 		if( type.toLowerCase().equals(idlString) )
@@ -233,10 +233,10 @@ public class CSharpConverter {
 	}
 	
 	/**
-	 * Portã«è¨­å®šã•ã‚ŒãŸå‹ã®ä¸€è¦§ã‚’å–å¾—ã™ã‚‹
+	 * Port‚Éİ’è‚³‚ê‚½Œ^‚Ìˆê——‚ğæ“¾‚·‚é
 	 * 
 	 * @param param  RtcParam
-	 * @return å‹ä¸€è¦§ãƒªã‚¹ãƒˆ
+	 * @return Œ^ˆê——ƒŠƒXƒg
 	 */
 	public static List<String> getPortTypes(RtcParam param) {
 		List<String> portTypes = new ArrayList<String>();
@@ -254,30 +254,30 @@ public class CSharpConverter {
 	}
 	
 	/**
-	 * ãƒ‡ãƒ¼ã‚¿ãƒãƒ¼ãƒˆç”¨ã®ãƒ‡ãƒ¼ã‚¿å‹usingæ–‡ã‚’è¿”ã™
+	 * ƒf[ƒ^ƒ|[ƒg—p‚Ìƒf[ƒ^Œ^using•¶‚ğ•Ô‚·
 	 * 
-	 * @param rtcType ãƒãƒ¼ãƒˆã®å‹
-	 * @return usingæ–‡å­—åˆ—
+	 * @param rtcType ƒ|[ƒg‚ÌŒ^
+	 * @return using•¶š—ñ
 	 */
 	public String getDataportPackageName(String rtcType) {
-		//moduleåãŒä»˜ã„ã¦ã„ãªã„ãƒ‡ãƒ¼ã‚¿å‹ï¼ˆ::ãŒä»˜ã„ã¦ã„ãªã„ï¼‰ã¯usingæ–‡ã‚’ç”Ÿæˆã—ãªã„
+		//module–¼‚ª•t‚¢‚Ä‚¢‚È‚¢ƒf[ƒ^Œ^i::‚ª•t‚¢‚Ä‚¢‚È‚¢j‚Íusing•¶‚ğ¶¬‚µ‚È‚¢
 		if(!rtcType.matches(".*::.*")) return "";
 		
-		//moduleå=ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸å
-		//structå=ã‚¯ãƒ©ã‚¹å
+		//module–¼=ƒpƒbƒP[ƒW–¼
+		//struct–¼=ƒNƒ‰ƒX–¼
 		String importDef = "using " + rtcType.replace("::", ".") + ";";
 		return importDef;
 	}
 	
 	/**
-	 * ãƒ‡ãƒ¼ã‚¿ãƒãƒ¼ãƒˆåˆæœŸåŒ–ç”¨ã«moduleåã‚’ã‚«ãƒƒãƒˆã—ãŸãƒ‡ãƒ¼ã‚¿å‹ã‚¯ãƒ©ã‚¹åã‚’è¿”ã™
+	 * ƒf[ƒ^ƒ|[ƒg‰Šú‰»—p‚Émodule–¼‚ğƒJƒbƒg‚µ‚½ƒf[ƒ^Œ^ƒNƒ‰ƒX–¼‚ğ•Ô‚·
 	 * 
-	 * @param rtcType ãƒãƒ¼ãƒˆã®å‹
-	 * @return ã‚¯ãƒ©ã‚¹å
+	 * @param rtcType ƒ|[ƒg‚ÌŒ^
+	 * @return ƒNƒ‰ƒX–¼
 	 */
 	public String getDataTypeName(String rtcType) {
 		
-		//moduleåãŒä»˜ã„ã¦ã„ãªã„ãƒ‡ãƒ¼ã‚¿å‹ï¼ˆ::ãŒä»˜ã„ã¦ã„ãªã„ï¼‰ã¯ãã®ã¾ã¾è¿”ã™
+		//module–¼‚ª•t‚¢‚Ä‚¢‚È‚¢ƒf[ƒ^Œ^i::‚ª•t‚¢‚Ä‚¢‚È‚¢j‚Í‚»‚Ì‚Ü‚Ü•Ô‚·
 		if(!rtcType.matches(".*::.*")) return rtcType;
 
 		String dataTypeNames[] = rtcType.split("::", 0);

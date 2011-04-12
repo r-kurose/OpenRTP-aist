@@ -9,37 +9,37 @@ import jp.go.aist.rtm.nameserviceview.NameServiceViewPlugin;
 
 
 /**
- * è¨­å®šã‚’ç®¡ç†ã™ã‚‹ãƒãƒãƒ¼ã‚¸ãƒ£
+ * İ’è‚ğŠÇ—‚·‚éƒ}ƒl[ƒWƒƒ
  * <p>
- * è¨­å®šæƒ…å ±ã«ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹ã«ã¯ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ä½¿ç”¨ã™ã‚‹
+ * İ’èî•ñ‚ÉƒAƒNƒZƒX‚·‚é‚É‚Í‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğg—p‚·‚é
  */
 public class NameServiceViewPreferenceManager {
 	private static NameServiceViewPreferenceManager __instance = new NameServiceViewPreferenceManager();
 
 	/**
-	 * åŒæœŸé–“éš”ã®ã‚­ãƒ¼ï¼š ãƒãƒ¼ãƒ ã‚µãƒ¼ãƒ
+	 * “¯ŠúŠÔŠu‚ÌƒL[F ƒl[ƒ€ƒT[ƒo
 	 */
 	public static final String SYNC_NAMESERVER_INTERVAL = NameServiceViewPreferenceManager.class
 			.getName()
 			+ "SYNC_NAMESERVICE_INTERVAL";
 
 	/**
-	 * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆæ¥ç¶šãƒãƒ¼ãƒˆ
+	 * ƒfƒtƒHƒ‹ƒgÚ‘±ƒ|[ƒg
 	 */
 	public static final String DEFAULT_CONNECTION_PORT = NameServiceViewPreferenceManager.class
 			.getName()
 			+ "DEFAULT_CONNECTION_PORT";
 
 	/**
-	 * ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆåˆ¤å®šæ™‚é–“
-	 * ç¾çŠ¶ã¯ã€ã©ã“ã‹ã‚‰ã‚‚å‚ç…§ã•ã‚Œã¦ã„ãªã„
+	 * ƒ^ƒCƒ€ƒAƒEƒg”»’èŠÔ
+	 * Œ»ó‚ÍA‚Ç‚±‚©‚ç‚àQÆ‚³‚ê‚Ä‚¢‚È‚¢
 	 */
 	public static final String DEFAULT_TIMEOUT_PERIOD = NameServiceViewPreferenceManager.class
 			.getName()
 			+ "DEFAULT_TIMEOUT_PERIOD";
 
 	/**
-	 * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®åŒæœŸé–“éš”ã‚’ç®¡ç†ã™ã‚‹ãƒãƒƒãƒ—
+	 * ƒfƒtƒHƒ‹ƒg‚Ì“¯ŠúŠÔŠu‚ğŠÇ—‚·‚éƒ}ƒbƒv
 	 */
 	public static final Map<String, Integer> defaultInvervalMap = new HashMap<String, Integer>();
 	static {
@@ -47,15 +47,15 @@ public class NameServiceViewPreferenceManager {
 	}
 
 	/**
-	 * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆæ¥ç¶šãƒãƒ¼ãƒˆ
+	 * ƒfƒtƒHƒ‹ƒgÚ‘±ƒ|[ƒg
 	 */
 	public static final String defaultConnectionPort = new String("2809");
 
 
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	 * 
-	 * @return ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³
+	 * @return ƒVƒ“ƒOƒ‹ƒgƒ“
 	 */
 	public static NameServiceViewPreferenceManager getInstance() {
 		return __instance;
@@ -65,11 +65,11 @@ public class NameServiceViewPreferenceManager {
 			this);
 
 	/**
-	 * é–“éš”ã‚’å–å¾—ã™ã‚‹
+	 * ŠÔŠu‚ğæ“¾‚·‚é
 	 * 
 	 * @param key
-	 *            ã‚­ãƒ¼
-	 * @return é–“éš”
+	 *            ƒL[
+	 * @return ŠÔŠu
 	 */
 	public int getInterval(String key) {
 		NameServiceViewPlugin.getDefault().getPreferenceStore().setDefault(key, -1);
@@ -83,12 +83,12 @@ public class NameServiceViewPreferenceManager {
 	}
 
 	/**
-	 * é–“éš”ã‚’è¨­å®šã™ã‚‹
+	 * ŠÔŠu‚ğİ’è‚·‚é
 	 * 
 	 * @param key
-	 *            ã‚­ãƒ¼
+	 *            ƒL[
 	 * @param interval
-	 *            é–“éš”
+	 *            ŠÔŠu
 	 */
 	public void setInterval(String key, int interval) {
 		int oldInterval = getInterval(key);
@@ -99,11 +99,11 @@ public class NameServiceViewPreferenceManager {
 	}
 
 	/**
-	 * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒãƒ¼ãƒˆã‚’å–å¾—ã™ã‚‹
+	 * ƒfƒtƒHƒ‹ƒgƒ|[ƒg‚ğæ“¾‚·‚é
 	 * 
 	 * @param key
-	 *            ã‚­ãƒ¼
-	 * @return ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒãƒ¼ãƒˆ
+	 *            ƒL[
+	 * @return ƒfƒtƒHƒ‹ƒgƒ|[ƒg
 	 */
 	public String getDefaultPort(String key) {
 		if (NameServiceViewPlugin.getDefault() == null){
@@ -121,12 +121,12 @@ public class NameServiceViewPreferenceManager {
 	}
 
 	/**
-	 * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆæ¥ç¶šãƒãƒ¼ãƒˆã‚’è¨­å®šã™ã‚‹
+	 * ƒfƒtƒHƒ‹ƒgÚ‘±ƒ|[ƒg‚ğİ’è‚·‚é
 	 * 
 	 * @param key
-	 *            ã‚­ãƒ¼
+	 *            ƒL[
 	 * @param interval
-	 *            é–“éš”
+	 *            ŠÔŠu
 	 */
 	public void setDefaultPort(String key, String defaultPort) {
 		String oldDefaultPort = getDefaultPort(key);
@@ -152,9 +152,9 @@ public class NameServiceViewPreferenceManager {
 	}
 
 	/**
-	 * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆé–“éš”ã®ãƒãƒƒãƒ—ã‚’å–å¾—ã™ã‚‹
+	 * ƒfƒtƒHƒ‹ƒgŠÔŠu‚Ìƒ}ƒbƒv‚ğæ“¾‚·‚é
 	 * 
-	 * @return ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆé–“éš”ã®ãƒãƒƒãƒ—
+	 * @return ƒfƒtƒHƒ‹ƒgŠÔŠu‚Ìƒ}ƒbƒv
 	 */
 	public Map<String, Integer> getDefaultIntervalMap() {
 		return defaultInvervalMap;

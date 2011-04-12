@@ -10,17 +10,17 @@ import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Point;
 
 /**
- * Portã®Figure
+ * Port‚ÌFigure
  */
 public class PortFigure extends PolygonDecoration {
 
 	private String direction;
 
 	/**
-	 * æ–¹å‘ã‚’è¨­å®šã™ã‚‹
+	 * •ûŒü‚ğİ’è‚·‚é
 	 * 
 	 * @param direction
-	 *            æ–¹å‘
+	 *            •ûŒü
 	 */
 	public void setDirection(String direction) {
 		this.direction = direction;
@@ -41,20 +41,20 @@ public class PortFigure extends PolygonDecoration {
 	}
 
 	/**
-	 * æ–¹å‘ã‚’å–å¾—ã™ã‚‹
+	 * •ûŒü‚ğæ“¾‚·‚é
 	 * 
-	 * @return æ–¹å‘
+	 * @return •ûŒü
 	 */
 	public String getDirection() {
 		return direction;
 	}
 
 	/**
-	 * ãƒ‡ãƒ¼ã‚¿ãƒãƒ¼ãƒˆã®ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—ã‚’å–å¾—ã™ã‚‹
+	 * ƒf[ƒ^ƒ|[ƒg‚Ìƒc[ƒ‹ƒ`ƒbƒv‚ğæ“¾‚·‚é
 	 * 
 	 * @param profile
-	 *            ãƒ¢ãƒ‡ãƒ«
-	 * @return ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—
+	 *            ƒ‚ƒfƒ‹
+	 * @return ƒc[ƒ‹ƒ`ƒbƒv
 	 */
 	public static Panel getServicePortToolTip(Port port) {
 		Panel tooltip = new Panel();
@@ -64,7 +64,7 @@ public class PortFigure extends PolygonDecoration {
 		try {
 			labelString = labelString
 					+ (port.getNameL() == null ? "<unknown>" : port
-							.getNameL()) + ""; // \r\nã¯æœ€å¾Œã¯ã„ã‚‰ãªã„
+							.getNameL()) + ""; // \r\n‚ÍÅŒã‚Í‚¢‚ç‚È‚¢
 		} catch (RuntimeException e) {
 			// void
 		}

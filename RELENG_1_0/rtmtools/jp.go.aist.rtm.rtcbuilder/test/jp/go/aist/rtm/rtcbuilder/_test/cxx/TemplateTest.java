@@ -10,8 +10,8 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceArgumentParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceMethodParam;
-import jp.go.aist.rtm.rtcbuilder.manager.CXXConverter;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
+import jp.go.aist.rtm.rtcbuilder.template.cpp.CXXConverter;
 
 public class TemplateTest {
 	public static void main(String[] args) {

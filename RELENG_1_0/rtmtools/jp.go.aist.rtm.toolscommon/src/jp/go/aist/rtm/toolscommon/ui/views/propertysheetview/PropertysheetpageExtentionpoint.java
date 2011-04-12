@@ -10,7 +10,7 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.Platform;
 
 /**
- * 繧ｷ繧ｹ繝�繝繝繧､繧｢繧ｰ繝ｩ繝縺ｮEditPartFactory
+ * システムダイアグラムのEditPartFactory
  */
 public class PropertysheetpageExtentionpoint {
 	private static final String EXTENTION_POINT_NAME = "propertysheetpageextentionpoint";

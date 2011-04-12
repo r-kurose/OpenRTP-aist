@@ -6,16 +6,19 @@
  */
 package jp.go.aist.rtm.toolscommon.model.component.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
-import jp.go.aist.rtm.toolscommon.model.component.util.IPropertyMapUtil;
-import jp.go.aist.rtm.toolscommon.model.component.util.PropertyMap;
 import jp.go.aist.rtm.toolscommon.model.core.impl.WrapperObjectImpl;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -505,7 +508,7 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 	 */
 	protected Double inportBufferReadTimeout = INPORT_BUFFER_READ_TIMEOUT_EDEFAULT;
 
-	IPropertyMapUtil properties;
+	Map<String, String> properties;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -514,7 +517,7 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 	 */
 	public ConnectorProfileImpl() {
 		super();
-		this.properties = new PropertyMap();
+		properties = new HashMap<String, String>();
 	}
 
 	/**
@@ -1020,7 +1023,8 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 	 * @generated NOT
 	 */
 	public String getProperty(String key) {
-		return properties.getProperty(key);
+		String result = properties.get(key);
+		return result;
 	}
 
 	/**
@@ -1029,7 +1033,7 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 	 * @generated NOT
 	 */
 	public void setProperty(String key, String value) {
-		properties.setProperty(key, value);
+		properties.put(key, value);
 	}
 
 	/**
@@ -1038,7 +1042,9 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 	 * @generated NOT
 	 */
 	public String removeProperty(String key) {
-		return properties.removeProperty(key);
+		String old = properties.get(key);
+		properties.remove(key);
+		return old;
 	}
 
 	/**
@@ -1047,7 +1053,11 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 	 * @generated NOT
 	 */
 	public EList<String> getPropertyKeys() {
-		return properties.getPropertyKeys();
+		EList<String> result = new BasicEList<String>();
+		for (String key : properties.keySet()) {
+			result.add(key);
+		}
+		return result;
 	}
 
 	/**

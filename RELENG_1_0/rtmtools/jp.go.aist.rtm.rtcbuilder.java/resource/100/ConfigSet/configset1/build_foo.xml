@@ -19,7 +19,7 @@
 	<target name="compile" depends="mkdir">
 		<javac srcdir="${source}" destdir="${dest}">
 			<classpath>
-				<fileset dir="${env.RTM_JAVA_ROOT}/jar">
+				<fileset dir="${env.RTM_JAVA_ROOT}\jar">
 					<include name="*.jar"/>
 				</fileset>
 			</classpath>

@@ -9,7 +9,6 @@ package jp.go.aist.rtm.toolscommon.model.component;
 import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -19,13 +18,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  *
  * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getContextHandler()
- * @model superTypes="jp.go.aist.rtm.toolscommon.model.core.IAdaptable"
+ * @model
  * @generated
  */
 public interface ContextHandler extends EObject, IAdaptable {
 	/**
 	 * <!-- begin-user-doc -->
-	 * IDã«å¯¾å¿œä»˜ã‘ã¦ExecutionContextã‚’ç™»éŒ²ã—ã¾ã™ã€‚
+	 * ID‚É‘Î‰•t‚¯‚ÄExecutionContext‚ğ“o˜^‚µ‚Ü‚·B
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -34,7 +33,7 @@ public interface ContextHandler extends EObject, IAdaptable {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * IDã«å¯¾å¿œã™ã‚‹ExecutionContextã‚’å–å¾—ã—ã¾ã™ã€‚
+	 * ID‚É‘Î‰‚·‚éExecutionContext‚ğæ“¾‚µ‚Ü‚·B
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -43,7 +42,7 @@ public interface ContextHandler extends EObject, IAdaptable {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ExecutionContextã‹ã‚‰IDã‚’é€†å¼•ãã—ã¦è¿”ã—ã¾ã™ã€‚
+	 * ExecutionContext‚©‚çID‚ğ‹tˆø‚«‚µ‚Ä•Ô‚µ‚Ü‚·B
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -52,7 +51,7 @@ public interface ContextHandler extends EObject, IAdaptable {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * IDã«å¯¾å¿œã™ã‚‹ExecutionContextã‚’å‰Šé™¤ã—ã¾ã™ã€‚
+	 * ID‚É‘Î‰‚·‚éExecutionContext‚ğíœ‚µ‚Ü‚·B
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -61,7 +60,7 @@ public interface ContextHandler extends EObject, IAdaptable {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ExecutionContextã«é–¢é€£ã™ã‚‹IDã‚’å‰Šé™¤ã—ã¾ã™ã€‚
+	 * ExecutionContext‚ÉŠÖ˜A‚·‚éID‚ğíœ‚µ‚Ü‚·B
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -78,7 +77,7 @@ public interface ContextHandler extends EObject, IAdaptable {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ãƒãƒ³ãƒ‰ãƒ©ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ExecutionContextã®ãƒªã‚¹ãƒˆã‚’è¿”ã—ã¾ã™ã€‚
+	 * ƒnƒ“ƒhƒ‰‚É“o˜^‚³‚ê‚Ä‚¢‚éExecutionContext‚ÌƒŠƒXƒg‚ğ•Ô‚µ‚Ü‚·B
 	 * <!-- end-user-doc -->
 	 * @model dataType="jp.go.aist.rtm.toolscommon.model.component.List" many="false"
 	 * @generated NOT
@@ -87,7 +86,7 @@ public interface ContextHandler extends EObject, IAdaptable {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ãƒãƒ³ãƒ‰ãƒ©ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ExecutionContextã®IDãƒªã‚¹ãƒˆã‚’è¿”ã—ã¾ã™ã€‚
+	 * ƒnƒ“ƒhƒ‰‚É“o˜^‚³‚ê‚Ä‚¢‚éExecutionContext‚ÌIDƒŠƒXƒg‚ğ•Ô‚µ‚Ü‚·B
 	 * <!-- end-user-doc -->
 	 * @model dataType="jp.go.aist.rtm.toolscommon.model.component.List" many="false"
 	 * @generated NOT
@@ -96,29 +95,17 @@ public interface ContextHandler extends EObject, IAdaptable {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * ãƒãƒ³ãƒ‰ãƒ©ã«ç™»éŒ²ã•ã‚ŒãŸExecutionContextã‚’ã‚¯ãƒªã‚¢ã—ã¾ã™ã€‚
+	 * ƒnƒ“ƒhƒ‰‚É“o˜^‚³‚ê‚½ExecutionContext‚ğƒNƒŠƒA‚µ‚Ü‚·B
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
 	 */
 	void clear();
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * ãƒãƒ³ãƒ‰ãƒ©ã®ç¨®åˆ¥ã‚’è¿”ã—ã¾ã™ (owned/participate)
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
+	/** ƒnƒ“ƒhƒ‰‚Ìí•Ê‚ğ•Ô‚µ‚Ü‚· (owned/participate) */
 	String getType();
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * ãƒãƒ³ãƒ‰ãƒ©ã‚’æ‰€æœ‰ã™ã‚‹RTCã‹ã‚‰ECã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	EList<ExecutionContext> getOwnerContexts();
+	/** ƒnƒ“ƒhƒ‰‚ğŠ—L‚·‚éRTC‚©‚çEC‚ÌƒŠƒXƒg‚ğæ“¾‚µ‚Ü‚·B */
+	List<ExecutionContext> getOwnerContexts();
 
 } // ContextHandler

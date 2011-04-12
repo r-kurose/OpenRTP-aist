@@ -1,19 +1,19 @@
 package jp.go.aist.rtm.toolscommon.model.core;
 
 /**
- * Corbaã®ãƒ©ãƒƒãƒ‘ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¡¨ã™ã‚¯ãƒ©ã‚¹
+ * Corba‚Ìƒ‰ƒbƒp[ƒIƒuƒWƒFƒNƒg‚ğ•\‚·ƒNƒ‰ƒX
  * 
  * @model
  */
 public interface CorbaWrapperObject extends WrapperObject{
 	/**
 	 * @model
-	 * @return ãƒ©ãƒƒãƒ”ãƒ³ã‚°ã™ã‚‹Corbaã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @return ƒ‰ƒbƒsƒ“ƒO‚·‚éCorbaƒIƒuƒWƒFƒNƒg
 	 */
 	public org.omg.CORBA.Object getCorbaObject();
 	
 	/**
-	 * @returnã€€getCorbaObject()ã®corbaã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’narrowã—ã¦è¿”ã™
+	 * @return@getCorbaObject()‚ÌcorbaƒIƒuƒWƒFƒNƒg‚ğnarrow‚µ‚Ä•Ô‚·
 	 */
 	public org.omg.CORBA.Object getCorbaObjectInterface();
 

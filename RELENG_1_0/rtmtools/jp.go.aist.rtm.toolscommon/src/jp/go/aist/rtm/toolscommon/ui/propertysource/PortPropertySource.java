@@ -12,7 +12,7 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
 /**
- * ãƒãƒ¼ãƒˆã®PropertySourceã‚¯ãƒ©ã‚¹
+ * ƒ|[ƒg‚ÌPropertySourceƒNƒ‰ƒX
  */
 public class PortPropertySource extends AbstractPropertySource {
 
@@ -43,10 +43,10 @@ public class PortPropertySource extends AbstractPropertySource {
 	private Port port;
 
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	 * 
 	 * @param port
-	 *            ãƒ¢ãƒ‡ãƒ«
+	 *            ƒ‚ƒfƒ‹
 	 */
 	public PortPropertySource(Port inport) {
 		this.port = inport;

@@ -1,16 +1,17 @@
 package jp.go.aist.rtm.nameserviceview.model.nameservice;
 
-import jp.go.aist.rtm.nameserviceview.model.manager.NameServerContext;
+import jp.go.aist.rtm.nameserviceview.manager.NameServerContext;
 
-import org.omg.CosNaming.NamingContext;
+import org.eclipse.emf.common.util.EList;
 import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
 import org.omg.CosNaming.NamingContextPackage.AlreadyBound;
 import org.omg.CosNaming.NamingContextPackage.CannotProceed;
 import org.omg.CosNaming.NamingContextPackage.InvalidName;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 /**
- * ãƒãƒ¼ãƒŸãƒ³ã‚°ã‚³ãƒ³ãƒ†ã‚¯ã‚¹ãƒˆã‚’è¡¨ç¾ã™ã‚‹ã‚¯ãƒ©ã‚¹ï¼ˆCORBAå°‚ç”¨ï¼‰
+ * ƒl[ƒ~ƒ“ƒOƒRƒ“ƒeƒNƒXƒg‚ğ•\Œ»‚·‚éƒNƒ‰ƒXiCORBAê—pj
  * 
  * @model
  */
@@ -22,6 +23,22 @@ public interface NamingContextNode extends CorbaNode, NameServerContext {
 	String KIND_MODULE = "mod_cxt";
 	String KIND_SERVER = "server_cxt";
 
+	public NamingContext getCorbaObjectInterface();
+
+	/**
+	 * @model type="jp.go.aist.rtm.nameserviceview.model.nameservice.Node"
+	 *        containment="true" resolveProxies="false"
+	 * @return@q‚Æ‚µ‚ÄŠÜ‚Şƒm[ƒh
+	 */
+	public EList getNodes();
+
+	/**
+	 * @model changeable="false" transient="true" volatile="true"
+	 * ƒ]ƒ“ƒr‚Å‚ ‚é‚©‚ğ•Ô‚·
+	 */
+	public boolean isZombie();
+
+	
 	/**
 	 * Returns the value of the '<em><b>Kind</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -49,15 +66,7 @@ public interface NamingContextNode extends CorbaNode, NameServerContext {
 	void setKind(String value);
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model kind="operation" type="jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContext"
-	 * @generated
-	 */
-	NamingContext getCorbaObjectInterface();
-
-	/**
-	 * ã‚³ãƒ³ãƒ†ã‚¯ã‚¹ãƒˆã‚’ãƒãƒ¼ãƒ ã‚µãƒ¼ãƒä¸Šã«ä½œæˆã™ã‚‹
+	 * ƒRƒ“ƒeƒNƒXƒg‚ğƒl[ƒ€ƒT[ƒoã‚Éì¬‚·‚é
 	 * @param path
 	 * @throws NotFound
 	 * @throws AlreadyBound
@@ -67,7 +76,7 @@ public interface NamingContextNode extends CorbaNode, NameServerContext {
 	public void createContextR (NameComponent[] path) throws NotFound, AlreadyBound, CannotProceed, InvalidName;
 	
 	/**
-	 * æŒ‡å®šã—ãŸã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã§ã€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ãƒãƒ¼ãƒ ã‚µãƒ¼ãƒä¸Šã«ç™»éŒ²ã™ã‚‹
+	 * w’è‚µ‚½ƒRƒ“ƒeƒLƒXƒg‚ÅAƒIƒuƒWƒFƒNƒg‚ğƒl[ƒ€ƒT[ƒoã‚É“o˜^‚·‚é
 	 * @param path
 	 * @param object
 	 * @throws NotFound

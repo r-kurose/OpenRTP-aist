@@ -9,7 +9,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 /**
- * PortInterfaceProfileã‚’è¡¨ç¾ã™ã‚‹ã‚¯ãƒ©ã‚¹ 
+ * PortInterfaceProfile‚ğ•\Œ»‚·‚éƒNƒ‰ƒX 
  */
 public class PortInterfaceProfile implements IAdaptable {
 	protected static final String POLARITY_PROVIDED = Messages.getString("PortInterfaceProfilePropertySource.polarity.provided");

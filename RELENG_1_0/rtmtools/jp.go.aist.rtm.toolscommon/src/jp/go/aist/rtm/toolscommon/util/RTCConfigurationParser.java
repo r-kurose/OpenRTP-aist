@@ -25,7 +25,7 @@ import org.openrtp.namespaces.rtc.version02.PropertyIsLessThanOrEqualTo;
 import org.openrtp.namespaces.rtc.version02.RtcProfile;
 
 /**
- * RTC繝励Ο繝輔ぃ繧､繝ｫ縺ｮ繧ｳ繝ｳ繝輔ぅ繧ｰ驛ｨ蛻�繧定ｧ｣譫舌☆繧九け繝ｩ繧ｹ
+ * RTCプロファイルのコンフィグ部分を解析するクラス
  *
  */
 public class RTCConfigurationParser {

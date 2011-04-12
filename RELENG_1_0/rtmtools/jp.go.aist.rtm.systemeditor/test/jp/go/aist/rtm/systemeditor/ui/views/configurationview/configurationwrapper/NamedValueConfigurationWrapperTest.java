@@ -8,12 +8,12 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 
 	public void testSetWidgetAndCondition() throws Exception {
 		NamedValueConfigurationWrapper nv = new NamedValueConfigurationWrapper("key");
-		// åˆ¶ç´„æ¡ä»¶ãªã—
+		// §–ñğŒ‚È‚µ
 		nv.setWidgetAndCondition("text", null);
 		assertEquals(true, nv.widget().isText());
 		assertEquals(true, nv.widget().getCondition().isNull());
 
-		// sliderã¯æœ€å°ã€æœ€å¤§è¨­å®šãŒå¿…è¦
+		// slider‚ÍÅ¬AÅ‘åİ’è‚ª•K—v
 		nv.setWidgetAndCondition("slider", "0<x<100");
 		assertEquals(true, nv.widget().isSlider());
 		assertEquals("0", nv.widget().getCondition().getMin());
@@ -30,7 +30,7 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 		assertEquals(true, nv.widget().isText());
 		assertEquals(true, nv.widget().getCondition().isNull());
 
-		// spinnerã¯æœ€å¤§ã€æœ€å°è¨­å®šãŒå¿…è¦
+		// spinner‚ÍÅ‘åAÅ¬İ’è‚ª•K—v
 		nv.setWidgetAndCondition("spin", "0<x<100");
 		assertEquals(true, nv.widget().isSpinner());
 		assertEquals("0", nv.widget().getCondition().getMin());
@@ -47,7 +47,7 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 		assertEquals(true, nv.widget().isText());
 		assertEquals(true, nv.widget().getCondition().isNull());
 
-		// radioã¯åˆ—æŒ™è¨­å®šãŒå¿…è¦
+		// radio‚Í—ñ‹“İ’è‚ª•K—v
 		nv.setWidgetAndCondition("radio", "(100,200,300)");
 		assertEquals(true, nv.widget().isRadio());
 		assertEquals(true, nv.widget().getCondition().hasEnumList());
@@ -65,21 +65,19 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 		assertEquals(true, nv.widget().isText());
 		assertEquals(true, nv.widget().getCondition().isNull());
 
-		// åˆ¶ç´„æ¡ä»¶ã‚¨ãƒ©ãƒ¼ã®å ´åˆã¯text
-		nv.setWidgetAndCondition("radio", "(100,200"); // åˆ—æŒ™é–‰ã˜æ‹¬å¼§ãªã—
+		// §–ñğŒƒGƒ‰[‚Ìê‡‚Ítext
+		nv.setWidgetAndCondition("radio", "(100,200"); // —ñ‹“•Â‚¶Š‡ŒÊ‚È‚µ
 		assertEquals(false, nv.widget().isRadio());
 		assertEquals(true, nv.widget().isText());
 		assertEquals(true, nv.widget().getCondition().isNull());
 
-		nv.setWidgetAndCondition("slider", "0<x<100a"); // æ•°å€¤èª¤ã‚Š
+		nv.setWidgetAndCondition("slider", "0<x<100a"); // ”’lŒë‚è
 		assertEquals(false, nv.widget().isSlider());
 		assertEquals(true, nv.widget().isText());
 		assertEquals(true, nv.widget().getCondition().isNull());
 
 
-		// TODO widgetã®é…åˆ—è¡¨è¨˜
-
-		// é…åˆ—è¡¨è¨˜
+		// ”z—ñ•\‹L
 		nv.setWidgetAndCondition("slider", "0<x<1, 1<x<2");
 		assertEquals(2, nv.widgetSize());
 		assertEquals(true, nv.widget(0).isSlider());
@@ -89,7 +87,7 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 		assertEquals("1", nv.widget(1).getCondition().getMin());
 		assertEquals("2", nv.widget(1).getCondition().getMax());
 
-		// é…åˆ—è¡¨è¨˜(æ¡ä»¶ã‚¨ãƒ©ãƒ¼ã®è¦ç´ ã¯text)
+		// ”z—ñ•\‹L(ğŒƒGƒ‰[‚Ì—v‘f‚Ítext)
 		nv.setWidgetAndCondition("slider", "0<x<1, 1<x<2a");
 		assertEquals(2, nv.widgetSize());
 		assertEquals(true, nv.widget(0).isSlider());
@@ -99,7 +97,7 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 		assertEquals(true, nv.widget(1).isText());
 		assertEquals(true, nv.widget(1).getCondition().isNull());
 
-		// ãƒãƒƒã‚·ãƒ¥è¡¨è¨˜
+		// ƒnƒbƒVƒ…•\‹L
 		nv.setWidgetAndCondition("slider", "{key0:0<x<1, key1: 1<x<2 }");
 		assertEquals(2, nv.widgetKeySet().size());
 		assertEquals(true, nv.widget("key0").isSlider());
@@ -109,7 +107,7 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 		assertEquals("1", nv.widget("key1").getCondition().getMin());
 		assertEquals("2", nv.widget("key1").getCondition().getMax());
 
-		// ãƒãƒƒã‚·ãƒ¥è¡¨è¨˜(æ¡ä»¶ã‚¨ãƒ©ãƒ¼ã®è¦ç´ ã¯text)
+		// ƒnƒbƒVƒ…•\‹L(ğŒƒGƒ‰[‚Ì—v‘f‚Ítext)
 		nv.setWidgetAndCondition("slider", "{ key0:0<x<1, key1: 1<x< }");
 		assertEquals(2, nv.widgetKeySet().size());
 		assertEquals(true, nv.widget("key0").isSlider());
@@ -123,7 +121,7 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 	public void testLoadWidgetValue() throws Exception {
 		NamedValueConfigurationWrapper nv = new NamedValueConfigurationWrapper("key", null);
 		nv.setValue("1, 2,3");
-		// åˆ¶ç´„æ¡ä»¶ãªã—
+		// §–ñğŒ‚È‚µ
 		nv.setWidgetAndCondition("text", null);
 		nv.loadWidgetValue();
 		assertEquals(true, nv.widget().isText());
@@ -131,15 +129,15 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 		assertEquals("1, 2,3", nv.widget().getValue());
 		nv.widget().setValue("4");
 		assertEquals(true, nv.widget().isValueModified());
-		// ç·¨é›†ä¸­çŠ¶æ…‹ãƒã‚§ãƒƒã‚¯
+		// •ÒW’†ó‘Ôƒ`ƒFƒbƒN
 		assertEquals(true, nv.isLoadedWidgetValue());
 		nv.saveWidgetValue();
 		assertEquals(false, nv.isLoadedWidgetValue());
 
-		// é…åˆ—ã®å ´åˆ
+		// ”z—ñ‚Ìê‡
 		nv.setValue("1, 2,3");
 
-		// å€¤ãŒé…åˆ—ã€widgetãŒå˜ä½“
+		// ’l‚ª”z—ñAwidget‚ª’P‘Ì
 		nv.setWidgetAndCondition("slider", "0<x<100");
 		nv.loadWidgetValue();
 		assertEquals(true, nv.widget().isSlider());
@@ -148,7 +146,7 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 		nv.widget().setValue("4");
 		assertEquals(true, nv.widget().isValueModified());
 
-		// é…åˆ— (valueãŒwidgetã‚ˆã‚Šå¤šã„)
+		// ”z—ñ (value‚ªwidget‚æ‚è‘½‚¢)
 		nv.setWidgetAndCondition("text", "0<x<1, 1<x<2");
 		nv.loadWidgetValue();
 		assertEquals(2, nv.widgetSize());
@@ -163,7 +161,7 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 		nv.widget(1).setValue("5");
 		assertEquals(true, nv.widget(0).isValueModified());
 
-		// é…åˆ— (valueãŒwidgetã‚ˆã‚Šå°‘ãªã„)
+		// ”z—ñ (value‚ªwidget‚æ‚è­‚È‚¢)
 		nv.setWidgetAndCondition("text", "0<x<1, 1<x<2, 2<x<3, 3<x<4");
 		nv.loadWidgetValue();
 		assertEquals(4, nv.widgetSize());
@@ -176,10 +174,10 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 		assertEquals(true, nv.widget(3).isText());
 		assertEquals("", nv.widget(3).getValue());
 
-		// ãƒãƒƒã‚·ãƒ¥ã®å ´åˆ
+		// ƒnƒbƒVƒ…‚Ìê‡
 		nv.setValue("{key0:1, key1: 2,key2:3 }");
 
-		// å€¤ãŒãƒãƒƒã‚·ãƒ¥ã€widgetãŒå˜ä½“
+		// ’l‚ªƒnƒbƒVƒ…Awidget‚ª’P‘Ì
 		nv.setWidgetAndCondition("slider", "0<x<100");
 		nv.loadWidgetValue();
 		assertEquals(true, nv.widget().isSlider());
@@ -188,7 +186,7 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 		nv.widget().setValue("4");
 		assertEquals(true, nv.widget().isValueModified());
 
-		// ãƒãƒƒã‚·ãƒ¥ (valueãŒwidgetã‚ˆã‚Šå¤šã„)
+		// ƒnƒbƒVƒ… (value‚ªwidget‚æ‚è‘½‚¢)
 		nv.setWidgetAndCondition("text", "{key0: 0<x<1, key1:1<x<2 }");
 		nv.loadWidgetValue();
 		assertEquals(2, nv.widgetKeySet().size());
@@ -203,7 +201,7 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 		nv.widget("key1").setValue("5");
 		assertEquals(true, nv.widget("key1").isValueModified());
 
-		// ãƒãƒƒã‚·ãƒ¥ (valueãŒwidgetã‚ˆã‚Šå°‘ãªã„)
+		// ƒnƒbƒVƒ… (value‚ªwidget‚æ‚è­‚È‚¢)
 		nv.setWidgetAndCondition("text", "{ key0: 0<x<1, key1:1<x<2, key2: 2<x<3,key3: 3<x<4}");
 		nv.loadWidgetValue();
 		assertEquals(4, nv.widgetKeySet().size());
@@ -219,7 +217,7 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 
 	public void testSaveWidgetValue() throws Exception {
 		NamedValueConfigurationWrapper nv = new NamedValueConfigurationWrapper("key", null);
-		// åˆ¶ç´„æ¡ä»¶ãªã—
+		// §–ñğŒ‚È‚µ
 		nv.setWidgetAndCondition("text", null);
 		nv.widget().setValue("1");
 		nv.saveWidgetValue();
@@ -237,7 +235,7 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 		nv.widget().setValue("11");
 		assertEquals(true, nv.widget().isValueModified());
 
-		// é…åˆ—
+		// ”z—ñ
 		nv.setWidgetAndCondition("text", "0<x<1, 1<x<2");
 		nv.widget(0).setValue("0.1");
 		nv.widget(1).setValue("1.1");
@@ -250,7 +248,7 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 		nv.widget(1).setValue("11");
 		assertEquals(true, nv.widget(1).isValueModified());
 
-		// ãƒãƒƒã‚·ãƒ¥
+		// ƒnƒbƒVƒ…
 		nv.setWidgetAndCondition("text", "{key0:0<x<1, key1:1<x<2 }");
 		nv.widget("key0").setValue("0.1");
 		nv.widget("key1").setValue("1.1");
@@ -275,13 +273,13 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 		assertEquals("2", map.get("key1"));
 		assertEquals("3", map.get("key2"));
 
-		// {key0:, key1: 2 } // å€¤ãªã—
+		// {key0:, key1: 2 } // ’l‚È‚µ
 		map = nv.parseMap("{key0:, key1: 2 }");
 		assertEquals(2, map.keySet().size());
 		assertEquals("", map.get("key0"));
 		assertEquals("2", map.get("key1"));
 
-		// {:1, key1: 2 } // ã‚­ãƒ¼ãªã—
+		// {:1, key1: 2 } // ƒL[‚È‚µ
 		map = nv.parseMap("{:1, key1: 2 }");
 		assertEquals(1, map.keySet().size());
 		assertEquals("2", map.get("key1"));

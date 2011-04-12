@@ -34,7 +34,6 @@ import jp.go.aist.rtm.rtcbuilder.model.component.ServiceInterface;
 import jp.go.aist.rtm.rtcbuilder.model.component.ServicePort;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.DocumentPreferenceManager;
-import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -62,7 +61,7 @@ import org.openrtp.namespaces.rtc.version02.RtcProfile;
 import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
 
 /**
- * RtcBuilderã‚¨ãƒ‡ã‚£ã‚¿
+ * RtcBuilderƒGƒfƒBƒ^
  */
 public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	public static final String RTC_BUILDER_EDITOR_ID = RtcBuilderEditor.class
@@ -131,7 +130,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 			title = ((FileEditorInput) result).getPath().lastSegment();
 			generatorParam.getRtcParams().get(0).setOutputProject(title);
 		}
-		//on_initializeã¯å¸¸ã«ON
+		//on_initialize‚Íí‚ÉON
 		setOnInitialize();
 		//
 
@@ -207,7 +206,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		IEditorInput newInput = load(input, site);
 		super.init(site, newInput);
 		managerList = RtcBuilderPlugin.getDefault().getLoader().getManagerList();
-		// ãƒšãƒ¼ã‚¸åˆ‡ã‚Šæ›¿ãˆæ™‚ã®ã‚¤ãƒ™ãƒ³ãƒˆã‚’ç®¡ç†
+		// ƒy[ƒWØ‚è‘Ö‚¦‚ÌƒCƒxƒ“ƒg‚ğŠÇ—
 		addPageChangedListener(pageChangedListener);
 	}
 
@@ -277,7 +276,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 					}
 				}
 			}
-			// nullãƒšãƒ¼ã‚¸ãŒæŒ¿å…¥ã•ã‚Œã‚‹ã®ã§å‰Šé™¤ã—ã¦ãŠã (Eclipseã®ãƒã‚°ï¼Ÿ)
+			// nullƒy[ƒW‚ª‘}“ü‚³‚ê‚é‚Ì‚Åíœ‚µ‚Ä‚¨‚­ (Eclipse‚ÌƒoƒOH)
 			if (this.pages.contains(null)) {
 				int nullIndex = -1;
 				for (int i = 0; i < this.pages.size(); i++) {
@@ -312,8 +311,8 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 			if (command.equals("load")) {
 				customPage.load();
 			} else if (command.equals("update")) {
-				// è¨€èªé¸æŠã«ä¸€è‡´ã—ãªã„ãƒšãƒ¼ã‚¸ã¯ç”»é¢â†’RtcParamã¸åæ˜ ã—ãªã„
-				if (!StringUtil.matchKey(getRtcParam().getLangList(), key)) {
+				// Œ¾Œê‘I‘ğ‚Éˆê’v‚µ‚È‚¢ƒy[ƒW‚Í‰æ–Ê¨RtcParam‚Ö”½‰f‚µ‚È‚¢
+				if (!getRtcParam().getLangList().contains(key)) {
 					continue;
 				}
 				customPage.update();
@@ -356,7 +355,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 			if (page == null) continue;
 			if (page instanceof AbstractCustomFormPage) {
 				String key = ((AbstractCustomFormPage) page).getManagerKey();
-				if (!StringUtil.matchKey(getRtcParam().getLangList(), key)) continue;
+				if (!getRtcParam().getLangList().contains(key)) continue;
 			}
 			result = page.validateParam();
 			if (result != null) {
@@ -389,7 +388,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 				return;
 			}
 		}else{
-			// RTC.xmlãƒšãƒ¼ã‚¸ã§ã¯ãªã„ã¨ã
+			// RTC.xmlƒy[ƒW‚Å‚Í‚È‚¢‚Æ‚«
 			try {
 				ProfileHandler handler = new ProfileHandler();
 				if( !handler.validateXml(handler.convert2XML(this.getGeneratorParam())) ) return;
@@ -399,7 +398,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 						ex.getMessage(),
     					IMessageConstants.PROFILE_VALIDATE_ERROR_MESSAGE + System.getProperty("line.separator") + ex.getCause().toString()
     				); 
-    			if( !result ) return;// ã€Œã„ã„ãˆã€ã®ã¨ãã¯ä¿å­˜ã—ãªã„
+    			if( !result ) return;// u‚¢‚¢‚¦v‚Ì‚Æ‚«‚Í•Û‘¶‚µ‚È‚¢
 			} catch (Exception e) {
 				MessageDialog.openError(getSite().getShell(), "XML Save Error", e.getMessage());
 				return;
@@ -488,7 +487,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	}
 
 	protected void updateProfiles(String xmlFile) throws Exception {
-		// RTC.xmlã®å†…å®¹ã‚’ä»–ã®ãƒšãƒ¼ã‚¸ã«åæ˜ 
+		// RTC.xml‚Ì“à—e‚ğ‘¼‚Ìƒy[ƒW‚É”½‰f
 		ProfileHandler handler = new ProfileHandler();
 		RtcProfile module = handler.restorefromXML(xmlFile);
 		ParamUtil putil = new ParamUtil();
@@ -537,7 +536,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	}
 
 	/**
-	 * ã‚¨ãƒ‡ã‚£ã‚¿ã‚’ãƒ€ãƒ¼ãƒ†ã‚£ã«ã™ã‚‹ã€‚
+	 * ƒGƒfƒBƒ^‚ğƒ_[ƒeƒB‚É‚·‚éB
 	 */
 	public void updateDirty() {
 		setDirty(getRtcParam().isUpdated());
@@ -553,7 +552,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	}
 
 	/**
-	 * GeneratorParamã‚’å–å¾—ã™ã‚‹
+	 * GeneratorParam‚ğæ“¾‚·‚é
 	 */
 	public GeneratorParam getGeneratorParam() {
 		return generatorParam;
@@ -563,14 +562,14 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	}
 
 	/**
-	 * RtcParamã‚’å–å¾—ã™ã‚‹
+	 * RtcParam‚ğæ“¾‚·‚é
 	 */
 	public RtcParam getRtcParam() {
 		return generatorParam.getRtcParams().get(0);
 	}
 
 	/**
-	 * EMF modelã‚’å–å¾—ã™ã‚‹
+	 * EMF model‚ğæ“¾‚·‚é
 	 */
 	public BuildView getEMFmodel() {
 		return buildview;
@@ -657,17 +656,17 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		EditorExtension ext = RtcBuilderPlugin.getDefault()
 				.getEditorExtensionLoader().findByLang(langName);
 		if (ext == null) {
-			// å…¨è¡¨ç¤º(C++å«ã‚€)
+			// ‘S•\¦(C++ŠÜ‚Ş)
 			setEnabledInfo(new ArrayList<String>());
 		} else {
 			if (!ext.getDisableFormWidgets().isEmpty()) {
 				setEnabledInfo(ext.getDisableFormWidgets());
 			} else {
-				// å»ƒæ­¢äºˆå®š
+				// ”p~—\’è
 				setEnabledInfoObsolete(ext.getInapplicables());
 			}
 		}
-		// æ‹¡å¼µã—ã¦ã„ã‚‹FormPage
+		// Šg’£‚µ‚Ä‚¢‚éFormPage
 		for (AbstractCustomFormPage customPage : customFormPages.values()) {
 			customPage.setEnableInfo(langName);
 		}
@@ -704,7 +703,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		}
 	}
 
-	/** å¤ã„æ–¹å¼ã«ã‚ˆã‚‹ãƒ•ã‚©ãƒ¼ãƒ ã®æ´»æ€§åŒ–è¨­å®š */
+	/** ŒÃ‚¢•û®‚É‚æ‚éƒtƒH[ƒ€‚ÌŠˆ«‰»İ’è */
 	@Deprecated
 	void setEnabledInfoObsolete(List<String> infos) {
 		AbstractEditorFormPage.WidgetInfo widgetInfo;

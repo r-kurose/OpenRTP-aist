@@ -38,7 +38,7 @@ public abstract class LanguageProperty {
 	
 	public static LanguageProperty checkPlugin(RtcParam rtcParam) {
 		LanguageProperty langProp = getLanguageProperty(rtcParam);
-		//Pluginã®å­˜åœ¨ç¢ºèª
+		//Plugin‚Ì‘¶İŠm”F
 		if( langProp != null ) {
 			String[] plugins = Platform.getExtensionRegistry().getNamespaces();
 			List<String> pluginMap = Arrays.asList(plugins);

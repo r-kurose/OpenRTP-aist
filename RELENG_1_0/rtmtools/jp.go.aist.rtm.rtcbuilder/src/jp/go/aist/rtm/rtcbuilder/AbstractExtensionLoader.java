@@ -21,19 +21,19 @@ public abstract class AbstractExtensionLoader {
 	abstract void addExtension(IConfigurationElement element) throws CoreException;
 	
 	/**
-	 * æ‹¡å¼µã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ãƒ­ãƒ¼ãƒ‰ã—ã¦ãƒªã‚¹ãƒˆã«æ ¼ç´ã™ã‚‹ã€‚
+	 * Šg’£ƒIƒuƒWƒFƒNƒg‚ğƒ[ƒh‚µ‚ÄƒŠƒXƒg‚ÉŠi”[‚·‚éB
 	 * @throws CoreException 
 	 */
 	public void loadExtensions() throws CoreException {
-		// æ‹¡å¼µãƒã‚¤ãƒ³ãƒˆã®å–å¾—
+		// Šg’£ƒ|ƒCƒ“ƒg‚Ìæ“¾
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IExtensionPoint point = registry.getExtensionPoint( getPointId() );		
 		if( point == null ) return;		
 		
-		// æ‹¡å¼µå®£è¨€ã®ãƒ­ãƒ¼ãƒ‰
+		// Šg’£éŒ¾‚Ìƒ[ƒh
 		IExtension[] extensions = point.getExtensions();
 		for( int index = 0; index < extensions.length; index++ ) {
-			// æ‹¡å¼µå®£è¨€ï¼ˆextensionã‚¿ã‚°ï¼‰ã”ã¨ã«ã€ä¸‹ä½ã®ã‚¿ã‚°ã‚’å‡¦ç†ã™ã‚‹
+			// Šg’£éŒ¾iextensionƒ^ƒOj‚²‚Æ‚ÉA‰ºˆÊ‚Ìƒ^ƒO‚ğˆ—‚·‚é
 			IConfigurationElement[] cfgElems = extensions[index].getConfigurationElements();
 			for(int intext = 0; intext < cfgElems.length; intext++) {
 				IConfigurationElement cfgElem = cfgElems[intext];

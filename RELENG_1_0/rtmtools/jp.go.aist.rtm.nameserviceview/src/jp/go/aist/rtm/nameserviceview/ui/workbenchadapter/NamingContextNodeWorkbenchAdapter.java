@@ -10,7 +10,7 @@ import org.omg.CosNaming.Binding;
 import org.omg.CosNaming.NameComponent;
 
 /**
- * NamingContextNode„ÅÆWorkbenchAdapter
+ * NamingContextNodeÇÃWorkbenchAdapter
  */
 public class NamingContextNodeWorkbenchAdapter extends
 		ModelElementWorkbenchAdapter {

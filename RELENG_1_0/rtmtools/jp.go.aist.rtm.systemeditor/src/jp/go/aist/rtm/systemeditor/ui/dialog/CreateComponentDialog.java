@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ“ãƒ¥ãƒ¼ã‹ã‚‰ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ä½œæˆã™ã‚‹ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
+ * ƒ}ƒl[ƒWƒƒƒrƒ…[‚©‚çƒRƒ“ƒ|[ƒlƒ“ƒg‚ğì¬‚·‚éƒ_ƒCƒAƒƒO
  *
  */
 public class CreateComponentDialog extends TitleAreaDialog {
@@ -111,7 +111,7 @@ public class CreateComponentDialog extends TitleAreaDialog {
 	}
 
 	/**
-	 * å¤‰æ›´ã‚’é€šçŸ¥ã—ã¾ã™ã€‚
+	 * •ÏX‚ğ’Ê’m‚µ‚Ü‚·B
 	 */
 	private void notifyModified() {
 		parameter = typeCombo.getText() + "?" + paramText.getText(); //$NON-NLS-1$
@@ -129,12 +129,12 @@ public class CreateComponentDialog extends TitleAreaDialog {
 		String errmsg = Messages.getString("CreateComponentDialog.6"); //$NON-NLS-1$
 		String p[] = this.parameter.split("\\?"); //$NON-NLS-1$
 		if (p.length > 0 && p[0].indexOf("&") != -1) { //$NON-NLS-1$
-			// component_nameã«&ãŒå…¥ã£ã¦ã„ã‚‹
+			// component_name‚É&‚ª“ü‚Á‚Ä‚¢‚é
 			this.setMessage(errmsg, IMessageProvider.WARNING);
 			return false;
 		}
 		if (p.length == 1) {
-			// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆåã®ã¿æŒ‡å®š
+			// ƒRƒ“ƒ|[ƒlƒ“ƒg–¼‚Ì‚İw’è
 			return true;
 		}
 		return true;

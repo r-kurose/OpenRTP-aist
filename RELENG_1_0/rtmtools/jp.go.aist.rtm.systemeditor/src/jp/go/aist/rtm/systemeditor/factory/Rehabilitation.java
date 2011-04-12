@@ -3,101 +3,111 @@ package jp.go.aist.rtm.systemeditor.factory;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.go.aist.rtm.systemeditor.RTSystemEditorPlugin;
-import jp.go.aist.rtm.systemeditor.extension.RehabilitateComponentExtension;
+import jp.go.aist.rtm.nameserviceview.corba.NameServerAccesser;
+import jp.go.aist.rtm.systemeditor.ui.dialog.NewCompositeComponentDialogData;
+import jp.go.aist.rtm.systemeditor.ui.util.RtsProfileHandler;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
+import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSupport;
 
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtension;
-import org.eclipse.core.runtime.Platform;
+import org.openrtp.namespaces.rts.version02.ConfigurationData;
+import org.openrtp.namespaces.rts.version02.ConfigurationSet;
+
+import RTC.RTObject;
+import RTC.RTObjectHelper;
+import _SDOPackage.SDO;
 
 /**
- * ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¯¾ã—ã¦ã€PathIdã‚„åå‰ã‹ã‚‰ä¿®å¾©ã‚’è¡Œã†ã‚¯ãƒ©ã‚¹
+ * ƒAƒNƒZƒX‚Å‚«‚È‚¢ƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚ÄAPathId‚â–¼‘O‚©‚çC•œ‚ğs‚¤ƒNƒ‰ƒX
  * <p>
- * ã‚»ãƒ¼ãƒ–å¾Œã®ãƒ­ãƒ¼ãƒ‰ä¸­ã®ä¿®å¾©ã‚’æƒ³å®šã—ã¦ã„ã‚‹ã€‚ã‚»ãƒ¼ãƒ–å†…å®¹ãŒã“ã“ã§ã¯ç¢ºå®Ÿã«æ‰‹ã«å…¥ã‚‹ã¨è€ƒãˆã¦ã‚ˆã„ã€‚
- * <p>
- * ä¿®å¾©ã‚’ã‹ã‘ã‚‹ã®ã¯ã€Componentã®æƒ…å ±ã€‚
+ * ƒZ[ƒuŒã‚Ìƒ[ƒh’†‚ÌC•œ‚ğ‘z’è‚µ‚Ä‚¢‚éBƒZ[ƒu“à—e‚ª‚±‚±‚Å‚ÍŠmÀ‚Éè‚É“ü‚é‚Æl‚¦‚Ä‚æ‚¢B
+ * C•œ‚ğ‚©‚¯‚é‚Ì‚ÍAComponent‚Ìî•ñB
+ * Œ»İ‚ÍCORBAê—p
  */
 public class Rehabilitation {
-
-	static final String EXTENTION_POINT_NAME = "rehabilitatecomponent";
-	static List<RehabilitateComponentExtension> rehabilitaters;
-
+	@SuppressWarnings("unchecked")
 	public static void rehabilitation(SystemDiagram diagram) {
-		if (rehabilitaters == null) {
-			buildRehabilitaters();
-		}
 		for (Component c : diagram.getRegisteredComponents()) {
-			RehabilitateComponentExtension rehabilitater = null;
-			for (RehabilitateComponentExtension ext : rehabilitaters) {
-				ext.setComponent(c);
-				ext.setDiagram(diagram);
-				if (!ext.canRehabilitate()) {
-					continue;
-				}
-				rehabilitater = ext;
-				break;
-			}
-			rehabilitater.rehabilitate();
+			if (!(c instanceof CorbaComponent)) continue;
+			
+			CorbaComponent component = (CorbaComponent)c;
+			
+			rehabilitation(component, diagram);
 		}
 	}
 
-	static void buildRehabilitaters() {
-		rehabilitaters = new ArrayList<RehabilitateComponentExtension>();
-		//
-		String ns = RTSystemEditorPlugin.class.getPackage().getName();
-		IExtension[] extensions = Platform.getExtensionRegistry()
-				.getExtensionPoint(ns, EXTENTION_POINT_NAME).getExtensions();
-		for (IExtension ex : extensions) {
-			for (IConfigurationElement ce : ex.getConfigurationElements()) {
-				Object obj;
-				try {
-					obj = ce.createExecutableExtension("extensionclass");
-					if (obj instanceof RehabilitateComponentExtension) {
-						rehabilitaters
-								.add((RehabilitateComponentExtension) obj);
-					}
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
-			}
-		}
-		// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ•ã‚¡ã‚¯ãƒˆãƒª
-		RehabilitateComponentExtension ext = new RehabilitateComponentExtension() {
-			@Override
-			public boolean canRehabilitate() {
-				if (component instanceof CorbaComponent) {
-					return true;
-				}
-				return false;
-			}
+	private static RTObject rehabilitation(CorbaComponent component,
+			SystemDiagram diagram) {
+		if( component.getCorbaObject() != null &&
+				SynchronizationSupport.ping(component.getCorbaObject()) ) 
+			return (RTObject) component.getCorbaObject();
 
-			@Override
-			public Component rehabilitate() {
-				CorbaComponent comp = (CorbaComponent) component;
-				try {
-					comp = CORBA.rehabilitate(comp, diagram);
-				} catch (Exception e) {
-					if (!comp.isCompositeComponent()) {
-						throw new RuntimeException("cannot access: "
-								+ comp.getPathId() + "\n" + e.getMessage());
-					}
-				}
-				if (comp.getCorbaObject() == null
-						&& comp.isCompositeComponent()) {
-					comp = CORBA.createComponent(comp, diagram);
-					comp = CORBA.setCompositeMembers(comp, diagram);
-				}
-				if (comp.getCorbaObject() == null) {
-					throw new RuntimeException("cannot access: "
-							+ comp.getPathId());
-				}
-				return comp;
-			}
-		};
-		rehabilitaters.add(ext);
+		RTObject narrow = null;
+		try {
+			org.omg.CORBA.Object remote = NameServerAccesser.getInstance()
+						.getObjectFromPathId(component.getPathId());
+			narrow = RTObjectHelper.narrow(remote);
+		} catch (Exception e) {
+			if (!component.isCompositeComponent())
+				throw new RuntimeException("cannot access:" + component.getPathId() + "\n" + e.getMessage());
+		}
+		if (narrow == null && component.isCompositeComponent()) 
+			narrow = createCompositeComponent(component, diagram);
+		if (narrow == null) 
+			throw new RuntimeException("cannot access:" + component.getPathId());
+		component.setCorbaObject(narrow);
+		return narrow;
 	}
 
+	private static RTObject createCompositeComponent(CorbaComponent component,
+			SystemDiagram diagram) {
+		RTM.Manager manager = getManager(component.getPathId());
+		if (manager == null) return null;
+		
+		String param = NewCompositeComponentDialogData.getParam(
+				component.getCompositeTypeL()
+				, component.getInstanceNameL()
+				, getExportedPortString(component, diagram));
+		
+		RTC.RTObject remote = manager.create_component(param);
+		
+		try {
+			remote.get_owned_organizations()[0].set_members(getSdos(component,diagram));
+		} catch (Exception e) {
+			remote.exit();
+			return null;
+		}
+		return remote;
+	}
+
+	private static SDO[] getSdos(CorbaComponent component, SystemDiagram diagram) {
+		List<SDO> result = new ArrayList<SDO>();
+		for (Object o : component.getComponents()) {
+			CorbaComponent c = (CorbaComponent) o;
+			rehabilitation(c, diagram);
+			result.add(c.getCorbaObjectInterface());
+		}
+		return result.toArray(new SDO[0]);
+	}
+
+	private static String getExportedPortString(CorbaComponent component,
+			SystemDiagram diagram) {
+		org.openrtp.namespaces.rts.version02.Component originalComponent 
+			= RtsProfileHandler.findComponent(component, diagram.getProfile().getComponents());
+		String activeId = originalComponent.getActiveConfigurationSet();
+		for (ConfigurationSet configSet : originalComponent.getConfigurationSets()) {
+			if (!configSet.getId().equals(activeId)) continue;
+			for (ConfigurationData configData : configSet.getConfigurationData()) {
+				if (configData.getName().equals("exported_ports")) return configData.getData();
+			}
+		}
+		return "";
+	}
+
+	private static RTM.Manager getManager(String pathId) {
+		int index = pathId.lastIndexOf("/");
+		String contextId = pathId.substring(0, index);
+		return NameServerAccesser.getInstance().getManagerFromContextId(contextId);
+	}
 }

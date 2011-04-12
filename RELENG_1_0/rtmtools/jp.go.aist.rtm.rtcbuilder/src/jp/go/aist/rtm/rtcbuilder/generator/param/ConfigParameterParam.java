@@ -3,7 +3,7 @@ package jp.go.aist.rtm.rtcbuilder.generator.param;
 import java.io.Serializable;
 
 /**
- * 繧ｳ繝ｳ繝輔ぅ繧ｮ繝･繝ｬ繝ｼ繧ｷ繝ｧ繝ｳ繝励Ο繝輔ぃ繧､繝ｫ繧定｡ｨ縺吶け繝ｩ繧ｹ
+ * コンフィギュレーションプロファイルを表すクラス
  */
 public class ConfigParameterParam extends AbstractRecordedParam implements
 		Serializable {

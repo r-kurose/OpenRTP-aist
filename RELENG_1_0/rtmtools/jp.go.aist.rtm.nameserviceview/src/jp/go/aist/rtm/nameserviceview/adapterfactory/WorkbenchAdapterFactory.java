@@ -14,9 +14,9 @@ import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.ui.model.IWorkbenchAdapter;
 
 /**
- * RTCLinkのアダプタファクトリ
- * IAdapterFactoryがGenericに対応していないため、@SuppressWarnings("unchecked")を使用している
- * 現状のadaptableはCORBA専用のオブジェクトである
+ * RTCLink�̃A�_�v�^�t�@�N�g��
+ * IAdapterFactory��Generic�ɑΉ����Ă��Ȃ����߁A@SuppressWarnings("unchecked")���g�p���Ă���
+ * �����adaptable��CORBA��p�̃I�u�W�F�N�g�ł���
  */
 public class WorkbenchAdapterFactory implements IAdapterFactory {
 	/**

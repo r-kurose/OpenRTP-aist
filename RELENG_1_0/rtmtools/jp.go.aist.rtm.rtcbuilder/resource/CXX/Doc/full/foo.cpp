@@ -6,7 +6,7 @@
  *
  * @author Noriaki Ando <n-ando@aist.go.jp>
  *
- * Copyright (C) 2006-2008 ãƒ©ã‚¤ã‚»ãƒ³ã‚¹
+ * Copyright (C) 2006-2008 ƒ‰ƒCƒZƒ“ƒX
  *
  * $Id$
  */
@@ -88,7 +88,7 @@ foo::~foo()
 
 
 /*!
- * on_initializeæ¦‚è¦èª¬æ˜
+ * on_initializeŠT—và–¾
  */
 RTC::ReturnCode_t foo::onInitialize()
 {
@@ -105,7 +105,7 @@ RTC::ReturnCode_t foo::onInitialize()
 }
 
 /*!
- * on_finalizeæ¦‚è¦èª¬æ˜
+ * on_finalizeŠT—và–¾
  */
 /*
 RTC::ReturnCode_t foo::onFinalize()
@@ -115,7 +115,7 @@ RTC::ReturnCode_t foo::onFinalize()
 */
 
 /*!
- * on_startupæ¦‚è¦èª¬æ˜
+ * on_startupŠT—và–¾
  */
 /*
 RTC::ReturnCode_t foo::onStartup(RTC::UniqueId ec_id)
@@ -125,7 +125,7 @@ RTC::ReturnCode_t foo::onStartup(RTC::UniqueId ec_id)
 */
 
 /*!
- * on_shutdownæ¦‚è¦èª¬æ˜
+ * on_shutdownŠT—và–¾
  */
 /*
 RTC::ReturnCode_t foo::onShutdown(RTC::UniqueId ec_id)
@@ -135,7 +135,7 @@ RTC::ReturnCode_t foo::onShutdown(RTC::UniqueId ec_id)
 */
 
 /*!
- * on_activatedæ¦‚è¦èª¬æ˜
+ * on_activatedŠT—và–¾
  */
 /*
 RTC::ReturnCode_t foo::onActivated(RTC::UniqueId ec_id)
@@ -145,7 +145,7 @@ RTC::ReturnCode_t foo::onActivated(RTC::UniqueId ec_id)
 */
 
 /*!
- * on_deactivatedæ¦‚è¦èª¬æ˜
+ * on_deactivatedŠT—và–¾
  */
 /*
 RTC::ReturnCode_t foo::onDeactivated(RTC::UniqueId ec_id)
@@ -155,7 +155,7 @@ RTC::ReturnCode_t foo::onDeactivated(RTC::UniqueId ec_id)
 */
 
 /*!
- * on_executeæ¦‚è¦èª¬æ˜
+ * on_executeŠT—và–¾
  */
 /*
 RTC::ReturnCode_t foo::onExecute(RTC::UniqueId ec_id)
@@ -165,7 +165,7 @@ RTC::ReturnCode_t foo::onExecute(RTC::UniqueId ec_id)
 */
 
 /*!
- * on_abortingæ¦‚è¦èª¬æ˜
+ * on_abortingŠT—và–¾
  */
 /*
 RTC::ReturnCode_t foo::onAborting(RTC::UniqueId ec_id)
@@ -175,7 +175,7 @@ RTC::ReturnCode_t foo::onAborting(RTC::UniqueId ec_id)
 */
 
 /*!
- * on_erroræ¦‚è¦èª¬æ˜
+ * on_errorŠT—và–¾
  */
 /*
 RTC::ReturnCode_t foo::onError(RTC::UniqueId ec_id)
@@ -185,7 +185,7 @@ RTC::ReturnCode_t foo::onError(RTC::UniqueId ec_id)
 */
 
 /*!
- * on_resetæ¦‚è¦èª¬æ˜
+ * on_resetŠT—và–¾
  */
 /*
 RTC::ReturnCode_t foo::onReset(RTC::UniqueId ec_id)
@@ -195,7 +195,7 @@ RTC::ReturnCode_t foo::onReset(RTC::UniqueId ec_id)
 */
 
 /*!
- * on_state_updateæ¦‚è¦èª¬æ˜
+ * on_state_updateŠT—và–¾
  */
 /*
 RTC::ReturnCode_t foo::onStateUpdate(RTC::UniqueId ec_id)
@@ -205,7 +205,7 @@ RTC::ReturnCode_t foo::onStateUpdate(RTC::UniqueId ec_id)
 */
 
 /*!
- * on_rate_changedæ¦‚è¦èª¬æ˜
+ * on_rate_changedŠT—và–¾
  */
 /*
 RTC::ReturnCode_t foo::onRateChanged(RTC::UniqueId ec_id)

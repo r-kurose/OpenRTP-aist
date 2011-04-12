@@ -89,8 +89,8 @@ public class MultiTest extends TestBase {
 		checkCode(result, resourceDir, "MyService_idl.py");
 		checkCode(result, resourceDir, "MyService2_idl.py");
 		checkCode(result, resourceDir, "DAQService_idl.py");
-		checkCode(result, resourceDir, "_GlobalIDL/__init__.py");
-		checkCode(result, resourceDir, "_GlobalIDL__POA/__init__.py");
+		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
+		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "MyService2_idl_example.py");
 		checkCode(result, resourceDir, "README.foo");
@@ -149,8 +149,8 @@ public class MultiTest extends TestBase {
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl.py");
 		checkCode(result, resourceDir, "DAQService_idl.py");
-		checkCode(result, resourceDir, "_GlobalIDL/__init__.py");
-		checkCode(result, resourceDir, "_GlobalIDL__POA/__init__.py");
+		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
+		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
 		checkCode(result, resourceDir, "README.foo");
 	}
 
@@ -207,8 +207,8 @@ public class MultiTest extends TestBase {
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl.py");
 		checkCode(result, resourceDir, "DAQService_idl.py");
-		checkCode(result, resourceDir, "_GlobalIDL/__init__.py");
-		checkCode(result, resourceDir, "_GlobalIDL__POA/__init__.py");
+		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
+		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "DAQService_idl_example.py");
 		checkCode(result, resourceDir, "README.foo");

@@ -13,7 +13,7 @@ import jp.go.aist.rtm.repositoryView.model.RepositoryViewLeafItem;
 import jp.go.aist.rtm.repositoryView.nl.Messages;
 import jp.go.aist.rtm.repositoryView.ui.views.RepositoryView;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
-import jp.go.aist.rtm.toolscommon.util.RtcProfileHandler;
+import jp.go.aist.rtm.toolscommon.util.ProfileHandler;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -25,7 +25,7 @@ import org.eclipse.ui.IViewActionDelegate;
 import org.eclipse.ui.IViewPart;
 
 /**
- * ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‹ã‚‰RTCã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ‡ãƒªã‚²ãƒ¼ãƒˆ
+ * ƒfƒBƒŒƒNƒgƒŠ‚©‚çRTC‚ğƒ[ƒh‚·‚éƒAƒNƒVƒ‡ƒ“ƒfƒŠƒQ[ƒg
  *
  */
 public class ViewActionLoadDirecroty implements IViewActionDelegate  {
@@ -59,7 +59,7 @@ public class ViewActionLoadDirecroty implements IViewActionDelegate  {
     		((List)viewer.getInput()).add(itemFirst);
     	}
     	ComponentSpecification module = null;
-    	RtcProfileHandler handler = new RtcProfileHandler();
+    	ProfileHandler handler = new ProfileHandler();
 		for (int intIdx = 0; intIdx < files.length; intIdx++){
     		try {
 				module = handler.createComponent(files[intIdx].toString());
@@ -71,9 +71,6 @@ public class ViewActionLoadDirecroty implements IViewActionDelegate  {
 			module.setAliasName(module.getInstanceNameL() + "(" + files[intIdx].getName() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 
 			/////
-			//TODO 09.09.30 pathURIå¯¾å¿œ
-//			module.setPathId("file://localhost/" + files[intIdx].getPath() + ":1"); //$NON-NLS-1$
-			//
 			File convFile = new File(files[intIdx].getPath());
 			try {
 				URI pathUri = new URI("file", "localhost",convFile.toURI().getPath() , null );

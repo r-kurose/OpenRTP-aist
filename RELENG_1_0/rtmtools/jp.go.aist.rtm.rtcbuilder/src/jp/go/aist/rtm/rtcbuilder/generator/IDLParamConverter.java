@@ -34,13 +34,13 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceMethodParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.TypeDefParam;
 
 /**
- * IDLã®æ§‹æ–‡è§£ææœ¨ã‹ã‚‰ã€ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã®ã‚¤ãƒ³ãƒ—ãƒƒãƒˆã¨ãªã‚‹æƒ…å ±ã«å¤‰æ›ã™ã‚‹ã‚¯ãƒ©ã‚¹
+ * IDL‚Ì\•¶‰ğÍ–Ø‚©‚çAƒWƒFƒlƒŒ[ƒ^‚ÌƒCƒ“ƒvƒbƒg‚Æ‚È‚éî•ñ‚É•ÏŠ·‚·‚éƒNƒ‰ƒX
  * <p>
  */
 public class IDLParamConverter {
 
 	/**
-	 * IDLã®æ§‹æ–‡è§£ææœ¨ã‹ã‚‰ã€ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã®ã‚¤ãƒ³ãƒ—ãƒƒãƒˆã¨ãªã‚‹ServiceParamã«å¤‰æ›ã™ã‚‹
+	 * IDL‚Ì\•¶‰ğÍ–Ø‚©‚çAƒWƒFƒlƒŒ[ƒ^‚ÌƒCƒ“ƒvƒbƒg‚Æ‚È‚éServiceParam‚É•ÏŠ·‚·‚é
 	 * 
 	 * @param spec
 	 * @return ServiceParam
@@ -128,7 +128,7 @@ public class IDLParamConverter {
 	}
 
 	/**
-	 * IDLã®æ§‹æ–‡è§£ææœ¨ã‹ã‚‰ã€sequenceå‹ã®typedefã‚’æ¢ç´¢ã™ã‚‹
+	 * IDL‚Ì\•¶‰ğÍ–Ø‚©‚çAsequenceŒ^‚Ìtypedef‚ğ’Tõ‚·‚é
 	 * 
 	 * @param spec
 	 * @return HashMap
@@ -326,7 +326,7 @@ public class IDLParamConverter {
 		return results;
 	}
 	/**
-	 * ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã®ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«åã‚’å–å¾—ã™ã‚‹
+	 * ƒCƒ“ƒ^ƒtƒF[ƒX‚Ìƒ‚ƒWƒ…[ƒ‹–¼‚ğæ“¾‚·‚é
 	 * 
 	 * @param n
 	 * @return
@@ -346,11 +346,11 @@ public class IDLParamConverter {
 	}
 
 	/**
-	 * ãƒãƒ¼ãƒ‰ã‚’æ–‡å­—åˆ—ã«å¤‰æ›ã™ã‚‹
+	 * ƒm[ƒh‚ğ•¶š—ñ‚É•ÏŠ·‚·‚é
 	 * 
 	 * @param n
-	 *            ãƒãƒ¼ãƒ‰
-	 * @return å¤‰æ›çµæœã®æ–‡å­—åˆ—
+	 *            ƒm[ƒh
+	 * @return •ÏŠ·Œ‹‰Ê‚Ì•¶š—ñ
 	 */
 	@SuppressWarnings("unchecked")
 	public static String node2String(Node n) {
@@ -366,9 +366,9 @@ public class IDLParamConverter {
 	}
 
 	/**
-	 * IDLParamConverterã‚¯ãƒ©ã‚¹ãŒå†…éƒ¨ã§ä¸€æ™‚çš„ã«ä½¿ç”¨ã™ã‚‹ã€IDLã®ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹è¡¨ç¾ã€‚
+	 * IDLParamConverterƒNƒ‰ƒX‚ª“à•”‚Åˆê“I‚Ég—p‚·‚éAIDL‚ÌƒCƒ“ƒ^ƒtƒF[ƒX•\Œ»B
 	 * <p>
-	 * å†…éƒ¨ã‚¯ãƒ©ã‚¹ã§ã‚ã‚Šå¤§ããªå•é¡Œã‚‚ãªã„ã®ã§ã€å±æ€§ã‚’publicã¨ã—ã¦ã„ã‚‹ã€‚
+	 * “à•”ƒNƒ‰ƒX‚Å‚ ‚è‘å‚«‚È–â‘è‚à‚È‚¢‚Ì‚ÅA‘®«‚ğpublic‚Æ‚µ‚Ä‚¢‚éB
 	 */
 	public static class InterfaceInfomation {
 		public String name;

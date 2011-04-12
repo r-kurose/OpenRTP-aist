@@ -5,9 +5,9 @@ import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationManage
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
 
 /**
- * RtcLinkã®å†…éƒ¨ã§ä½¿ç”¨ã•ã‚Œã‚‹ãƒ‰ãƒ¡ã‚¤ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹ãƒ•ã‚¡ã‚¯ãƒˆãƒª
+ * RtcLink‚Ì“à•”‚Åg—p‚³‚ê‚éƒhƒƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éƒtƒ@ƒNƒgƒŠ
  * <p>
- * å†…éƒ¨ã§ã¯ã€åŒæœŸãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¯ãƒ¼ã‚¯ã‚’ä½¿ç”¨ã—ã¦ã„ã‚‹ã€‚
+ * “à•”‚Å‚ÍA“¯ŠúƒtƒŒ[ƒ€ƒ[ƒN‚ğg—p‚µ‚Ä‚¢‚éB
  */
 public class CorbaWrapperFactory {
 
@@ -16,9 +16,9 @@ public class CorbaWrapperFactory {
     private SynchronizationManager synchronizationManager;
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
      * <p>
-     * ä»–ã®ãƒãƒƒãƒ”ãƒ³ã‚°ãƒ«ãƒ¼ãƒ«ã‚’ä½¿ç”¨ã—ãŸãƒ•ã‚¡ã‚¯ãƒˆãƒªã‚’ä½œæˆã™ã‚‹ã“ã¨ãŒã§ãã‚‹ã‚ˆã†ã«ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’å…¬é–‹ã™ã‚‹ãŒã€åŸºæœ¬çš„ã«ã¯getInstance()ã‚’åˆ©ç”¨ã—ã¦ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚’ä½œæˆã™ã‚‹ã“ã¨
+     * ‘¼‚Ìƒ}ƒbƒsƒ“ƒOƒ‹[ƒ‹‚ğg—p‚µ‚½ƒtƒ@ƒNƒgƒŠ‚ğì¬‚·‚é‚±‚Æ‚ª‚Å‚«‚é‚æ‚¤‚ÉƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğŒöŠJ‚·‚é‚ªAŠî–{“I‚É‚ÍgetInstance()‚ğ—˜—p‚µ‚ÄƒVƒ“ƒOƒ‹ƒgƒ“‚ğì¬‚·‚é‚±‚Æ
      * 
      * @param mappingRules
      */
@@ -28,7 +28,7 @@ public class CorbaWrapperFactory {
     }
     
 	/**
-	 * ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚ï¼ˆåŸºæœ¬çš„ã«ä½¿ç”¨ã—ã¦ã¯ãªã‚‰ãªã„ã€‚ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã‹ã‚‰ã®å®Ÿè¡Œã®ãŸã‚ã«è¿½åŠ ï¼‰
+	 * ƒVƒ“ƒOƒ‹ƒgƒ“‚ğƒZƒbƒg‚·‚éBiŠî–{“I‚Ég—p‚µ‚Ä‚Í‚È‚ç‚È‚¢BƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚©‚ç‚ÌÀs‚Ì‚½‚ß‚É’Ç‰Áj
 	 * 
 	 */
 	public static void setInstance(CorbaWrapperFactory instance) {
@@ -36,9 +36,9 @@ public class CorbaWrapperFactory {
 	}
 
     /**
-     * ãƒ•ã‚¡ã‚¯ãƒˆãƒªã®ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚’å–å¾—ã™ã‚‹
+     * ƒtƒ@ƒNƒgƒŠ‚ÌƒVƒ“ƒOƒ‹ƒgƒ“‚ğæ“¾‚·‚é
      * 
-     * @return ãƒ•ã‚¡ã‚¯ãƒˆãƒªã®ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³
+     * @return ƒtƒ@ƒNƒgƒŠ‚ÌƒVƒ“ƒOƒ‹ƒgƒ“
      */
     public static CorbaWrapperFactory getInstance() {
         if (__instance == null) {
@@ -50,11 +50,11 @@ public class CorbaWrapperFactory {
     }
 
     /**
-     * ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ¸¡ã—ã€ãƒ‰ãƒ¡ã‚¤ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹
+     * ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ğ“n‚µAƒhƒƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é
      * 
      * @param remoteObject
-     *            ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-     * @return ä½œæˆã•ã‚ŒãŸãƒ‰ãƒ¡ã‚¤ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     *            ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg
+     * @return ì¬‚³‚ê‚½ƒhƒƒCƒ“ƒIƒuƒWƒFƒNƒg
      */
     public WrapperObject createWrapperObject(Object... remoteObjects) {
         return (WrapperObject) synchronizationManager
@@ -64,7 +64,7 @@ public class CorbaWrapperFactory {
    
 
     /**
-     * SynchronizationManagerã‚’å–å¾—ã™ã‚‹
+     * SynchronizationManager‚ğæ“¾‚·‚é
      */
     public SynchronizationManager getSynchronizationManager() {
         return synchronizationManager;

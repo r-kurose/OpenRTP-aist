@@ -5,7 +5,7 @@ import java.io.Serializable;
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 
 /**
- * 繝昴�ｼ繝域ュ蝣ｱ縺ｮ繝吶�ｼ繧ｹ繧ｯ繝ｩ繧ｹ
+ * ポート情報のベースクラス
  */
 public class PortBaseParam extends AbstractRecordedParam implements
 		Serializable {
