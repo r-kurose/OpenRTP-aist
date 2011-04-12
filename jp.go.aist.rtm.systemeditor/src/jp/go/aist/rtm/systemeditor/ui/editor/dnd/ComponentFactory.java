@@ -5,7 +5,7 @@ import jp.go.aist.rtm.toolscommon.model.component.Component;
 import org.eclipse.gef.requests.CreationFactory;
 
 /**
- * ãƒ‰ãƒ©ãƒƒã‚°ï¼†ãƒ‰ãƒ­ãƒƒãƒ—æ™‚ã€ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ä½œæˆã™ã‚‹ãƒ•ã‚¡ã‚¯ãƒˆãƒª
+ * ƒhƒ‰ƒbƒO•ƒhƒƒbƒvAƒRƒ“ƒ|[ƒlƒ“ƒg‚ğì¬‚·‚éƒtƒ@ƒNƒgƒŠ
  */
 public class ComponentFactory implements CreationFactory {
 	private Component component;
@@ -18,20 +18,20 @@ public class ComponentFactory implements CreationFactory {
 	}
 
 	/**
-	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¨­å®šã™ã‚‹
+	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ğİ’è‚·‚é
 	 * 
 	 * @param remoteObject
-	 *            ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 *            ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg
 	 */
 	public void setComponent(Component component) {
 		this.component = component;
 	}
 	
 	/**
-	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¨­å®šã™ã‚‹
+	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ğİ’è‚·‚é
 	 * 
 	 * @param remoteObject
-	 *            ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 *            ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg
 	 */
 	protected Component getComponent() {
 		return this.component;

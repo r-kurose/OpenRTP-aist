@@ -18,7 +18,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
- * åŒæœŸã®è¨­å®šãƒšãƒ¼ã‚¸
+ * “¯Šú‚Ìİ’èƒy[ƒW
  */
 public class SynchronizationPreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage {
@@ -44,7 +44,7 @@ public class SynchronizationPreferencePage extends PreferencePage implements
 		SynchronizationGroup.setLayoutData(gd);
 
 		SynchronizationGroup.setText(Messages.getString("SynchronizationPreferencePage.0")); //$NON-NLS-1$
-		/* ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆåˆ¤å®šæ™‚é–“ */
+		/* ƒ^ƒCƒ€ƒAƒEƒg”»’èŠÔ */
 		Label timeoutPeriodLabel = new Label(SynchronizationGroup, SWT.NULL);
 		timeoutPeriodLabel.setText(Messages.getString("SynchronizationPreferencePage.1")); //$NON-NLS-1$
 
@@ -76,7 +76,7 @@ public class SynchronizationPreferencePage extends PreferencePage implements
 	}
 
 	/**
-	 * çŠ¶æ…‹ã‚’å¤‰æ›´ã—ãŸéš›ã«å‘¼ã³å‡ºã™ã“ã¨
+	 * ó‘Ô‚ğ•ÏX‚µ‚½Û‚ÉŒÄ‚Ño‚·‚±‚Æ
 	 */
 	private void updateStatus() {
 		setValid(validate());

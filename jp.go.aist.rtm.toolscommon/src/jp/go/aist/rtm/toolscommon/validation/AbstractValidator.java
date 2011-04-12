@@ -1,7 +1,7 @@
 package jp.go.aist.rtm.toolscommon.validation;
 
 /**
- * 繝｢繝�繝ｫ縺ｮ謨ｴ蜷域ｧ繝√ぉ繝�繧ｯ繧呈僑蠑ｵ縺吶ｋ蝓ｺ譛ｬ繧ｯ繝ｩ繧ｹ
+ * モデルの整合性チェックを拡張する基本クラス
  */
 public abstract class AbstractValidator {
 	public void validate(Object obj) throws ValidateException {

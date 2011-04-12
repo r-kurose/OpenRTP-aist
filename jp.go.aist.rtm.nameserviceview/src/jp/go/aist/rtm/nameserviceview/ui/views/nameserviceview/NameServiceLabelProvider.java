@@ -10,7 +10,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.model.IWorkbenchAdapter;
 
 /**
- * NameServiceViewã®LabelProviderã‚¯ãƒ©ã‚¹
+ * NameServiceView‚ÌLabelProviderƒNƒ‰ƒX
  */
 public class NameServiceLabelProvider extends LabelProvider {
 
@@ -33,7 +33,7 @@ public class NameServiceLabelProvider extends LabelProvider {
 
 	/**
 	 * {@inheritDoc}
-	 * ç¾çŠ¶ã€ã‚¨ãƒ³ãƒˆãƒªã”ã¨ã«ã‚¢ã‚¤ã‚³ãƒ³ã‚’å¤‰åŒ–ã•ã›ã‚‹å‡¦ç†ã¯ã€NamingObjectNodeï¼ˆCORBAå°‚ç”¨ï¼‰ã ã‘ã«å¯¾å¿œã—ã¦ã„ã‚‹
+	 * Œ»óAƒGƒ“ƒgƒŠ‚²‚Æ‚ÉƒAƒCƒRƒ“‚ğ•Ï‰»‚³‚¹‚éˆ—‚ÍANamingObjectNodeiCORBAê—pj‚¾‚¯‚É‘Î‰‚µ‚Ä‚¢‚é
 	 */
 	public Image getImage(Object obj) {
 		Object targetObject = getTargetObject(obj);

@@ -1,7 +1,6 @@
 package jp.go.aist.rtm.rtcbuilder.util;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 
@@ -15,9 +14,9 @@ public class StringUtil {
 		if(source==null) return true;
 	    for(int intIdx = 0; intIdx < source.length(); intIdx++) {
 	        char target = source.charAt(intIdx);
-	        if( (target < '0' || target > '9') &&    //æ•°å­—ãƒã‚§ãƒƒã‚¯
-	            (target < 'a' || target > 'z') &&    //å°æ–‡å­—ã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆãƒã‚§ãƒƒã‚¯
-	            (target < 'A' || target > 'Z') &&    //å¤§æ–‡å­—ã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆãƒã‚§ãƒƒã‚¯
+	        if( (target < '0' || target > '9') &&    //”šƒ`ƒFƒbƒN
+	            (target < 'a' || target > 'z') &&    //¬•¶šƒAƒ‹ƒtƒ@ƒxƒbƒgƒ`ƒFƒbƒN
+	            (target < 'A' || target > 'Z') &&    //‘å•¶šƒAƒ‹ƒtƒ@ƒxƒbƒgƒ`ƒFƒbƒN
 	            (target != '_') && (target != '-') && (target != ':')) {
 	             return false;
 	        }
@@ -31,12 +30,12 @@ public class StringUtil {
 		String sep = System.getProperty("line.separator");
 		String lines[] = source.split(IRtcBuilderConstants.NEWLINE_CODE);
 
-		// ä¸€æ–‡å­—ãšã¤ä¿æŒ
+		// ˆê•¶š‚¸‚Â•Û
 		StringBuffer strBuf = new StringBuffer();
-		// æˆ»ã‚Šå€¤ç”¨
+		// –ß‚è’l—p
 		StringBuffer result = new StringBuffer();
 		
-		// resultã«æŠ•å…¥ã™ã‚‹å‰ã®work
+		// result‚É“Š“ü‚·‚é‘O‚Ìwork
 		ArrayList<StringBuffer> workResult = new ArrayList<StringBuffer>();
 		ArrayList<StringBuffer> temp = new ArrayList<StringBuffer>();
 		
@@ -46,27 +45,18 @@ public class StringUtil {
 		for( int intline=0; intline<lines.length; intline++ ) {
 			source = lines[intline];
 			for( int intIdx=0; intIdx<source.length(); intIdx++ ) {
-				char c = source.charAt(intIdx);
-				if ((c <= '\u007e') || // è‹±æ•°å­—
-						(c == '\u00a5') || // \è¨˜å·
-						(c == '\u203e') || // ~è¨˜å·
-						(c >= '\uff61' && c <= '\uff9f') // åŠè§’ã‚«ãƒŠ
-				) {
-					length += 1;
-				} else {
-					length += 2;
-				}
-				// ä¸€æ–‡å­—ãšã¤å–å¾—ã™ã‚‹
-				strBuf.append(c);
-				// æ”¹è¡Œæ–‡å­—ã®å ´åˆã¯ï¼Œãã®å‰ã¾ã§ã‚’æŠ•å…¥
-				if (String.valueOf(c).equals(sep)) {
+				length += String.valueOf(source.charAt(intIdx)).getBytes().length;
+				// ˆê•¶š‚¸‚Âæ“¾‚·‚é
+				strBuf.append(source.charAt(intIdx));
+				// ‰üs•¶š‚Ìê‡‚ÍC‚»‚Ì‘O‚Ü‚Å‚ğ“Š“ü
+				if (String.valueOf(source.charAt(intIdx)).equals(sep)) {
 					workResult.add(strBuf);
 					strBuf = new StringBuffer();
 					length = 0;
 				}
 				
-				if (String.valueOf(c).equals(START_MARK)) {
-					// tempã®å€¤ã‚’workã«æŠ•å…¥
+				if (String.valueOf(source.charAt(intIdx)).equals(START_MARK)) {
+					// temp‚Ì’l‚ğwork‚É“Š“ü
 					if (temp.size() > 0) {
 						workResult.addAll(temp);
 						temp = new ArrayList<StringBuffer>();
@@ -74,17 +64,17 @@ public class StringUtil {
 					bolFlg = false;
 				}
 				
-				if (String.valueOf(c).equals(END_MARK)) {
+				if (String.valueOf(source.charAt(intIdx)).equals(END_MARK)) {
 					bolFlg = true;
 					if (temp.size() > 0) {
-						// çµ‚äº†æ–‡å­—ã¾ã§ã‚’StringBufferã«ãŸã‚ã€workã«æŠ•å…¥
+						// I—¹•¶š‚Ü‚Å‚ğStringBuffer‚É‚½‚ßAwork‚É“Š“ü
 						StringBuffer workBuffer = new StringBuffer();
 						for (int intIdx2=0; intIdx2 < temp.size(); intIdx2++) {
 							workBuffer.append(temp.get(intIdx2));
 						}
 						workBuffer.append(strBuf);
 						workResult.add(workBuffer);
-						// åˆæœŸåŒ–
+						// ‰Šú‰»
 						bolFlg = false;
 						temp = new ArrayList<StringBuffer>();
 						strBuf = new StringBuffer();
@@ -93,8 +83,8 @@ public class StringUtil {
 				}
 				
 				if(length >= width) {
-					// widthåˆ†æ–‡å­—åˆ—ã‚’å–å¾—ã—ãŸæ™‚ã«çµ‚äº†æ–‡å­—ãŒå«ã¾ã‚Œã¦ã„ãªã‘ã‚Œã°tempã¸
-					// å«ã¾ã‚Œã¦ã„ãŸã‚‰workã¸ã€‚
+					// width•ª•¶š—ñ‚ğæ“¾‚µ‚½‚ÉI—¹•¶š‚ªŠÜ‚Ü‚ê‚Ä‚¢‚È‚¯‚ê‚Îtemp‚Ö
+					// ŠÜ‚Ü‚ê‚Ä‚¢‚½‚çwork‚ÖB
 					if (bolFlg == false) {
 						temp.add(strBuf);
 					} else {
@@ -106,16 +96,16 @@ public class StringUtil {
 				
 			}
 	
-			// tempã«æ®‹ã£ã¦ã„ã‚‹æ–‡å­—åˆ—ã‚’workã¸
+			// temp‚Éc‚Á‚Ä‚¢‚é•¶š—ñ‚ğwork‚Ö
 			if (temp.size() > 0) workResult.addAll(temp);
-			// strBufã«æ®‹ã£ã¦ã„ã‚‹æ–‡å­—åˆ—ã‚’workã¸
+			// strBuf‚Éc‚Á‚Ä‚¢‚é•¶š—ñ‚ğwork‚Ö
 			if (strBuf.length() > 0) workResult.add(strBuf);
 			temp = new ArrayList<StringBuffer>();
 			strBuf = new StringBuffer();
 			length = 0;
 		}
 		
-		// workResultã‹ã‚‰resultã‚’æˆå½¢ã™ã‚‹
+		// workResult‚©‚çresult‚ğ¬Œ`‚·‚é
 		for (int intIdx=0; intIdx < workResult.size();intIdx++){
 			if (intIdx > 0)	result.append(prefix);
 			result.append(workResult.get(intIdx));
@@ -161,25 +151,5 @@ public class StringUtil {
 		}
 		
 		return result;
-	}
-	
-	public static boolean matchKey(String source, String key) {
-		if(key.equals("*")) return true;
-		String[] keyList = key.split(",");
-		for(String target : keyList) {
-			if(source.trim().equals(target.trim())) return true;
-		}
-		
-		return false;
-	}
-
-	public static boolean matchKey(List<String> source, String key) {
-		if(key.equals("*")) return true;
-		String[] keyList = key.split(",");
-		for(String target : keyList) {
-			if(source.contains(target.trim())) return true;
-		}
-		
-		return false;
 	}
 }

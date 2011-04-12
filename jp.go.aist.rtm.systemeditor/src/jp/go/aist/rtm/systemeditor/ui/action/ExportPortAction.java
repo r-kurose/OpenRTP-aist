@@ -6,7 +6,6 @@ import java.util.List;
 import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpart.PortHelper;
 import jp.go.aist.rtm.systemeditor.ui.util.ComponentUtil;
-import jp.go.aist.rtm.systemeditor.ui.util.CompositeComponentHelper;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.NameValue;
@@ -18,7 +17,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * ãƒãƒ¼ãƒˆã®å…¬é–‹ãƒ»éå…¬é–‹ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
+ * ƒ|[ƒg‚ÌŒöŠJE”ñŒöŠJ‚ğØ‚è‘Ö‚¦‚éƒAƒNƒVƒ‡ƒ“
  *
  */
 public class ExportPortAction extends Action {
@@ -60,7 +59,7 @@ public class ExportPortAction extends Action {
 		try {
 			if (!runUpdate()) return false;
 
-			// exported_portsã®è¨­å®šã§ãƒãƒ¼ãƒˆã‚’å…¬é–‹è¨­å®š
+			// exported_ports‚Ìİ’è‚Åƒ|[ƒg‚ğŒöŠJİ’è
 			List<Component> emptyList = Collections.emptyList();
 			parent.addComponentsR(emptyList);
 

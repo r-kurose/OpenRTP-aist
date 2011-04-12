@@ -7,6 +7,7 @@
 package jp.go.aist.rtm.toolscommon.model.component.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,9 +16,6 @@ import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ContextHandler;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
-
-import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.EList;
 import jp.go.aist.rtm.toolscommon.ui.propertysource.ContextHandlerPropertySource;
 
 import org.eclipse.emf.ecore.EClass;
@@ -36,15 +34,8 @@ import org.eclipse.ui.views.properties.IPropertySource;
  */
 public class ContextHandlerImpl extends EObjectImpl implements ContextHandler {
 
-	/** ID„Å®ExecutionContext„ÇíÂØæÂøú‰ªò„Åë„Å¶Ê†ºÁ¥ç */
-	Map<String, ExecutionContext> contextMap = new HashMap<String, ExecutionContext>();
-
-	protected Map<String, ExecutionContext> getContextMap() {
-		if (contextMap == null) {
-			contextMap = new HashMap<String, ExecutionContext>();
-		}
-		return contextMap;
-	}
+	/** IDÇ∆ExecutionContextÇëŒâûïtÇØÇƒäiî[ */
+	protected Map<String, ExecutionContext> contextMap = new HashMap<String, ExecutionContext>();
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -71,7 +62,7 @@ public class ContextHandlerImpl extends EObjectImpl implements ContextHandler {
 	 * @generated NOT
 	 */
 	public ExecutionContext setContext(String id, ExecutionContext ec) {
-		getContextMap().put(id, ec);
+		contextMap.put(id, ec);
 		return ec;
 	}
 
@@ -81,7 +72,7 @@ public class ContextHandlerImpl extends EObjectImpl implements ContextHandler {
 	 * @generated NOT
 	 */
 	public ExecutionContext getContext(String id) {
-		return getContextMap().get(id);
+		return contextMap.get(id);
 	}
 
 	/**
@@ -90,8 +81,8 @@ public class ContextHandlerImpl extends EObjectImpl implements ContextHandler {
 	 * @generated NOT
 	 */
 	public String getId(ExecutionContext ec) {
-		for (String id : getContextMap().keySet()) {
-			ExecutionContext e = getContextMap().get(id);
+		for (String id : contextMap.keySet()) {
+			ExecutionContext e = contextMap.get(id);
 			if (e != null && e.equals(ec)) {
 				return id;
 			}
@@ -105,7 +96,7 @@ public class ContextHandlerImpl extends EObjectImpl implements ContextHandler {
 	 * @generated NOT
 	 */
 	public ExecutionContext removeContext(String id) {
-		return getContextMap().remove(id);
+		return contextMap.remove(id);
 	}
 
 	/**
@@ -116,7 +107,7 @@ public class ContextHandlerImpl extends EObjectImpl implements ContextHandler {
 	public String removeId(ExecutionContext ec) {
 		String removeId = getId(ec);
 		if (removeId != null) {
-			getContextMap().remove(removeId);
+			contextMap.remove(removeId);
 		}
 		return removeId;
 	}
@@ -127,7 +118,7 @@ public class ContextHandlerImpl extends EObjectImpl implements ContextHandler {
 	 * @generated NOT
 	 */
 	public void sync() {
-		getContextMap().clear();
+		contextMap.clear();
 		for (int i = 0; i < getOwnerContexts().size(); i++) {
 			ExecutionContext ec = getOwnerContexts().get(i);
 			String id = getType() + i;
@@ -142,7 +133,7 @@ public class ContextHandlerImpl extends EObjectImpl implements ContextHandler {
 	 */
 	public List<ExecutionContext> values() {
 		List<ExecutionContext> result = new ArrayList<ExecutionContext>();
-		result.addAll(getContextMap().values());
+		result.addAll(contextMap.values());
 		return result;
 	}
 
@@ -153,7 +144,7 @@ public class ContextHandlerImpl extends EObjectImpl implements ContextHandler {
 	 */
 	public List<String> keys() {
 		List<String> result = new ArrayList<String>();
-		result.addAll(getContextMap().keySet());
+		result.addAll(contextMap.keySet());
 		return result;
 	}
 
@@ -163,15 +154,19 @@ public class ContextHandlerImpl extends EObjectImpl implements ContextHandler {
 	 * @generated NOT
 	 */
 	public void clear() {
-		getContextMap().clear();
+		contextMap.clear();
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
+	@SuppressWarnings("unchecked")
 	@Override
+	public Object getAdapter(Class adapter) {
+		java.lang.Object result = null;
+		if (IPropertySource.class.equals(adapter)) {
+			result = new ContextHandlerPropertySource(this);
+		}
+		return result;
+	}
+
 	public String getType() {
 		int featureId = eContainerFeatureID();
 		if (featureId == EOPPOSITE_FEATURE_BASE
@@ -184,13 +179,7 @@ public class ContextHandlerImpl extends EObjectImpl implements ContextHandler {
 		return "";
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	@Override
-	public EList<ExecutionContext> getOwnerContexts() {
+	public List<ExecutionContext> getOwnerContexts() {
 		Component owner = (Component) eContainer();
 		int featureId = eContainerFeatureID();
 		if (featureId == EOPPOSITE_FEATURE_BASE
@@ -200,17 +189,7 @@ public class ContextHandlerImpl extends EObjectImpl implements ContextHandler {
 				- ComponentPackage.COMPONENT__PARTICIPATION_CONTEXT_HANDLER) {
 			return owner.getParticipationContexts();
 		}
-		return new BasicEList<ExecutionContext>();
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public Object getAdapter(Class adapter) {
-		java.lang.Object result = null;
-		if (IPropertySource.class.equals(adapter)) {
-			result = new ContextHandlerPropertySource(this);
-		}
-		return result;
+		return Collections.emptyList();
 	}
 
 } //ContextHandlerImpl

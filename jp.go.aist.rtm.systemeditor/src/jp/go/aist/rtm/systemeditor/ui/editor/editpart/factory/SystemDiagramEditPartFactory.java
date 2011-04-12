@@ -16,7 +16,7 @@ import org.eclipse.gef.EditPartFactory;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 
 /**
- * ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã®EditPartFactory
+ * ƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€‚ÌEditPartFactory
  */
 public class SystemDiagramEditPartFactory implements EditPartFactory {
     private static final String EXTENTION_POINT_NAME = "editpartfactory";
@@ -24,7 +24,7 @@ public class SystemDiagramEditPartFactory implements EditPartFactory {
     private ActionRegistry actionRegistry;
 
     /**
-     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
      * 
      * @param actionRegistry
      *            ActionRegistry
@@ -36,9 +36,9 @@ public class SystemDiagramEditPartFactory implements EditPartFactory {
     private static List<Map.Entry<Class<?>, Class<?>>> editPartMapping = null;
 
     /**
-     * ãƒ¢ãƒ‡ãƒ«ã‚¯ãƒ©ã‚¹ã«å¯¾å¿œã™ã‚‹EditPartã®ã‚¯ãƒ©ã‚¹ã‚’å–å¾—ã™ã‚‹
+     * ƒ‚ƒfƒ‹ƒNƒ‰ƒX‚É‘Î‰‚·‚éEditPart‚ÌƒNƒ‰ƒX‚ğæ“¾‚·‚é
      * <p>
-     * åˆæœŸå‹•ä½œæ™‚ã€Plugin.xmlã«å®šç¾©ã•ã‚ŒãŸeditpartfactoryã®æ‹¡å¼µãƒã‚¤ãƒ³ãƒˆã‚’è§£æã™ã‚‹
+     * ‰Šú“®ìAPlugin.xml‚É’è‹`‚³‚ê‚½editpartfactory‚ÌŠg’£ƒ|ƒCƒ“ƒg‚ğ‰ğÍ‚·‚é
      * 
      * @param clazz
      * @return

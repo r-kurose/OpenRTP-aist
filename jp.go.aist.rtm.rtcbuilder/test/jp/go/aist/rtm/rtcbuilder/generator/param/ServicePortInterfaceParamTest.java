@@ -117,72 +117,72 @@ public class ServicePortInterfaceParamTest extends
 		assertUpdated(sip, new UpdateChecker() {
 			@Override
 			void execute1(ServicePortInterfaceParam e) {
-				e.setDocDescription("æ¦‚è¦ï¼‘");
+				e.setDocDescription("ŠT—v‚P");
 			}
 
 			@Override
 			void execute2(ServicePortInterfaceParam e) {
-				e.setDocDescription("æ¦‚è¦ï¼’");
+				e.setDocDescription("ŠT—v‚Q");
 			}
 		});
 		//
 		assertUpdated(sip, new UpdateChecker() {
 			@Override
 			void execute1(ServicePortInterfaceParam e) {
-				e.setDocArgument("å¼•æ•°ï¼‘");
+				e.setDocArgument("ˆø”‚P");
 			}
 
 			@Override
 			void execute2(ServicePortInterfaceParam e) {
-				e.setDocArgument("å¼•æ•°ï¼’");
+				e.setDocArgument("ˆø”‚Q");
 			}
 		});
 		//
 		assertUpdated(sip, new UpdateChecker() {
 			@Override
 			void execute1(ServicePortInterfaceParam e) {
-				e.setDocReturn("è¿”ã‚Šå€¤ï¼‘");
+				e.setDocReturn("•Ô‚è’l‚P");
 			}
 
 			@Override
 			void execute2(ServicePortInterfaceParam e) {
-				e.setDocReturn("è¿”ã‚Šå€¤ï¼’");
+				e.setDocReturn("•Ô‚è’l‚Q");
 			}
 		});
 		//
 		assertUpdated(sip, new UpdateChecker() {
 			@Override
 			void execute1(ServicePortInterfaceParam e) {
-				e.setDocException("ä¾‹å¤–ï¼‘");
+				e.setDocException("—áŠO‚P");
 			}
 
 			@Override
 			void execute2(ServicePortInterfaceParam e) {
-				e.setDocException("ä¾‹å¤–ï¼’");
+				e.setDocException("—áŠO‚Q");
 			}
 		});
 		//
 		assertUpdated(sip, new UpdateChecker() {
 			@Override
 			void execute1(ServicePortInterfaceParam e) {
-				e.setDocPreCondition("äº‹å‰æ¡ä»¶ï¼‘");
+				e.setDocPreCondition("–‘OğŒ‚P");
 			}
 
 			@Override
 			void execute2(ServicePortInterfaceParam e) {
-				e.setDocPreCondition("äº‹å‰æ¡ä»¶ï¼’");
+				e.setDocPreCondition("–‘OğŒ‚Q");
 			}
 		});
 		//
 		assertUpdated(sip, new UpdateChecker() {
 			@Override
 			void execute1(ServicePortInterfaceParam e) {
-				e.setDocPostCondition("äº‹å¾Œæ¡ä»¶ï¼‘");
+				e.setDocPostCondition("–ŒãğŒ‚P");
 			}
 
 			@Override
 			void execute2(ServicePortInterfaceParam e) {
-				e.setDocPostCondition("äº‹å¾Œæ¡ä»¶ï¼’");
+				e.setDocPostCondition("–ŒãğŒ‚Q");
 			}
 		});
 	}

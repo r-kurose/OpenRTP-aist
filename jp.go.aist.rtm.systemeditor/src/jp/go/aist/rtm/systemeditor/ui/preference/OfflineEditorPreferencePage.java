@@ -33,7 +33,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
- * オフラインエディタの設定ページ
+ * �I�t���C���G�f�B�^�̐ݒ�y�[�W
  *
  */
 public class OfflineEditorPreferencePage extends PreferencePage implements

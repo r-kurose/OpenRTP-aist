@@ -35,7 +35,7 @@ public class ComponentCommonUtilTest {
 		ports.add(in1);
 		ports.add(in2);
 		ports.add(out1);
-		// out2ã¯ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå¤–
+		// out2‚ÍƒRƒ“ƒ|[ƒlƒ“ƒgŠO
 
 		List<Port> result = ComponentCommonUtil.getConnectedPorts(ports);
 		assertEquals(1, result.size());
@@ -61,7 +61,7 @@ public class ComponentCommonUtilTest {
 //		ports.add(in1);
 //		ports.add(in2);
 //		ports.add(out1);
-//		// out2ã¯ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå¤–
+//		// out2‚ÍƒRƒ“ƒ|[ƒlƒ“ƒgŠO
 //
 //		List<Port> result = ComponentCommonUtil.getConnectedPorts(ports);
 //		assertEquals(1, result.size());

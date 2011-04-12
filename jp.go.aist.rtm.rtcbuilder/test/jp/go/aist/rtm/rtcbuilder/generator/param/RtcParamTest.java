@@ -29,12 +29,12 @@ public class RtcParamTest extends ParamTestCase<RtcParam> {
 		assertUpdated(rtcParam, new UpdateChecker() {
 			@Override
 			void execute1(RtcParam e) {
-				e.setAbstract("æ¦‚è¦ï¼‘");
+				e.setAbstract("ŠT—v‚P");
 			}
 
 			@Override
 			void execute2(RtcParam e) {
-				e.setAbstract("æ¦‚è¦ï¼’");
+				e.setAbstract("ŠT—v‚Q");
 			}
 		});
 		//
@@ -89,12 +89,12 @@ public class RtcParamTest extends ParamTestCase<RtcParam> {
 		assertUpdated(rtcParam, new UpdateChecker() {
 			@Override
 			void execute1(RtcParam e) {
-				e.setDescription("èª¬æ˜ï¼‘");
+				e.setDescription("à–¾‚P");
 			}
 
 			@Override
 			void execute2(RtcParam e) {
-				e.setDescription("èª¬æ˜ï¼’");
+				e.setDescription("à–¾‚Q");
 			}
 		});
 		//
@@ -113,12 +113,12 @@ public class RtcParamTest extends ParamTestCase<RtcParam> {
 		assertUpdated(rtcParam, new UpdateChecker() {
 			@Override
 			void execute1(RtcParam e) {
-				e.setVender("ãƒ™ãƒ³ãƒ€ï¼‘");
+				e.setVender("ƒxƒ“ƒ_‚P");
 			}
 
 			@Override
 			void execute2(RtcParam e) {
-				e.setVender("ãƒ™ãƒ³ãƒ€ï¼’");
+				e.setVender("ƒxƒ“ƒ_‚Q");
 			}
 		});
 		//
@@ -261,72 +261,72 @@ public class RtcParamTest extends ParamTestCase<RtcParam> {
 		assertUpdated(rtcParam, new UpdateChecker() {
 			@Override
 			void execute1(RtcParam e) {
-				e.setDocDescription("ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆæ¦‚è¦ï¼‘");
+				e.setDocDescription("ƒRƒ“ƒ|[ƒlƒ“ƒgŠT—v‚P");
 			}
 
 			@Override
 			void execute2(RtcParam e) {
-				e.setDocDescription("ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆæ¦‚è¦ï¼’");
+				e.setDocDescription("ƒRƒ“ƒ|[ƒlƒ“ƒgŠT—v‚Q");
 			}
 		});
 		//
 		assertUpdated(rtcParam, new UpdateChecker() {
 			@Override
 			void execute1(RtcParam e) {
-				e.setDocInOut("ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå…¥å‡ºåŠ›ï¼‘");
+				e.setDocInOut("ƒRƒ“ƒ|[ƒlƒ“ƒg“üo—Í‚P");
 			}
 
 			@Override
 			void execute2(RtcParam e) {
-				e.setDocInOut("ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå…¥å‡ºåŠ›ï¼’");
+				e.setDocInOut("ƒRƒ“ƒ|[ƒlƒ“ƒg“üo—Í‚Q");
 			}
 		});
 		//
 		assertUpdated(rtcParam, new UpdateChecker() {
 			@Override
 			void execute1(RtcParam e) {
-				e.setDocAlgorithm("ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ ï¼‘");
+				e.setDocAlgorithm("ƒRƒ“ƒ|[ƒlƒ“ƒgƒAƒ‹ƒSƒŠƒYƒ€‚P");
 			}
 
 			@Override
 			void execute2(RtcParam e) {
-				e.setDocAlgorithm("ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ ï¼’");
+				e.setDocAlgorithm("ƒRƒ“ƒ|[ƒlƒ“ƒgƒAƒ‹ƒSƒŠƒYƒ€‚Q");
 			}
 		});
 		//
 		assertUpdated(rtcParam, new UpdateChecker() {
 			@Override
 			void execute1(RtcParam e) {
-				e.setDocCreator("ä½œæˆè€…ï¼‘");
+				e.setDocCreator("ì¬Ò‚P");
 			}
 
 			@Override
 			void execute2(RtcParam e) {
-				e.setDocCreator("ä½œæˆè€…ï¼’");
+				e.setDocCreator("ì¬Ò‚Q");
 			}
 		});
 		//
 		assertUpdated(rtcParam, new UpdateChecker() {
 			@Override
 			void execute1(RtcParam e) {
-				e.setDocLicense("ãƒ©ã‚¤ã‚»ãƒ³ã‚¹ï¼‘");
+				e.setDocLicense("ƒ‰ƒCƒZƒ“ƒX‚P");
 			}
 
 			@Override
 			void execute2(RtcParam e) {
-				e.setDocLicense("ãƒ©ã‚¤ã‚»ãƒ³ã‚¹ï¼’");
+				e.setDocLicense("ƒ‰ƒCƒZƒ“ƒX‚Q");
 			}
 		});
 		//
 		assertUpdated(rtcParam, new UpdateChecker() {
 			@Override
 			void execute1(RtcParam e) {
-				e.setDocReference("å‚è€ƒæ–‡çŒ®ï¼‘");
+				e.setDocReference("Ql•¶Œ£‚P");
 			}
 
 			@Override
 			void execute2(RtcParam e) {
-				e.setDocReference("å‚è€ƒæ–‡çŒ®ï¼’");
+				e.setDocReference("Ql•¶Œ£‚Q");
 			}
 		});
 	}
@@ -360,36 +360,36 @@ public class RtcParamTest extends ParamTestCase<RtcParam> {
 		assertUpdated(rtcParam, new UpdateChecker() {
 			@Override
 			void execute1(RtcParam e) {
-				e.setDocActionOverView(2, "ã‚¢ã‚¯ã‚·ãƒ§ãƒ³æ¦‚è¦ï¼‘");
+				e.setDocActionOverView(2, "ƒAƒNƒVƒ‡ƒ“ŠT—v‚P");
 			}
 
 			@Override
 			void execute2(RtcParam e) {
-				e.setDocActionOverView(2, "ã‚¢ã‚¯ã‚·ãƒ§ãƒ³æ¦‚è¦ï¼’");
+				e.setDocActionOverView(2, "ƒAƒNƒVƒ‡ƒ“ŠT—v‚Q");
 			}
 		});
 		//
 		assertUpdated(rtcParam, new UpdateChecker() {
 			@Override
 			void execute1(RtcParam e) {
-				e.setDocActionPreCondition(2, "ã‚¢ã‚¯ã‚·ãƒ§ãƒ³äº‹å‰æ¡ä»¶ï¼‘");
+				e.setDocActionPreCondition(2, "ƒAƒNƒVƒ‡ƒ“–‘OğŒ‚P");
 			}
 
 			@Override
 			void execute2(RtcParam e) {
-				e.setDocActionPreCondition(2, "ã‚¢ã‚¯ã‚·ãƒ§ãƒ³äº‹å‰æ¡ä»¶ï¼’");
+				e.setDocActionPreCondition(2, "ƒAƒNƒVƒ‡ƒ“–‘OğŒ‚Q");
 			}
 		});
 		//
 		assertUpdated(rtcParam, new UpdateChecker() {
 			@Override
 			void execute1(RtcParam e) {
-				e.setDocActionPostCondition(2, "ã‚¢ã‚¯ã‚·ãƒ§ãƒ³äº‹å¾Œæ¡ä»¶ï¼‘");
+				e.setDocActionPostCondition(2, "ƒAƒNƒVƒ‡ƒ“–ŒãğŒ‚P");
 			}
 
 			@Override
 			void execute2(RtcParam e) {
-				e.setDocActionPostCondition(2, "ã‚¢ã‚¯ã‚·ãƒ§ãƒ³äº‹å¾Œæ¡ä»¶ï¼’");
+				e.setDocActionPostCondition(2, "ƒAƒNƒVƒ‡ƒ“–ŒãğŒ‚Q");
 			}
 		});
 	}
@@ -405,7 +405,7 @@ public class RtcParamTest extends ParamTestCase<RtcParam> {
 		rtcParam.resetUpdated();
 		assertFalse(rtcParam.isUpdated());
 		//
-		dp.setDocUnit("å˜ä½ï¼‘");
+		dp.setDocUnit("’PˆÊ‚P");
 		assertTrue(rtcParam.isUpdated());
 		rtcParam.resetUpdated();
 		assertFalse(rtcParam.isUpdated());
@@ -425,7 +425,7 @@ public class RtcParamTest extends ParamTestCase<RtcParam> {
 		rtcParam.resetUpdated();
 		assertFalse(rtcParam.isUpdated());
 		//
-		dp.setDocDescription("æ¦‚è¦ï¼‘");
+		dp.setDocDescription("ŠT—v‚P");
 		assertTrue(rtcParam.isUpdated());
 		rtcParam.resetUpdated();
 		assertFalse(rtcParam.isUpdated());
@@ -445,7 +445,7 @@ public class RtcParamTest extends ParamTestCase<RtcParam> {
 		rtcParam.resetUpdated();
 		assertFalse(rtcParam.isUpdated());
 		//
-		sp.setDocDescription("æ¦‚è¦ï¼‘");
+		sp.setDocDescription("ŠT—v‚P");
 		assertTrue(rtcParam.isUpdated());
 		rtcParam.resetUpdated();
 		assertFalse(rtcParam.isUpdated());
@@ -465,7 +465,7 @@ public class RtcParamTest extends ParamTestCase<RtcParam> {
 		rtcParam.resetUpdated();
 		assertFalse(rtcParam.isUpdated());
 		//
-		csp.setDocConstraint("0ä»¥ä¸Šã®æ•´æ•°");
+		csp.setDocConstraint("0ˆÈã‚Ì®”");
 		assertTrue(rtcParam.isUpdated());
 		rtcParam.resetUpdated();
 		assertFalse(rtcParam.isUpdated());
@@ -505,7 +505,7 @@ public class RtcParamTest extends ParamTestCase<RtcParam> {
 		rtcParam.resetUpdated();
 		assertFalse(rtcParam.isUpdated());
 		//
-		ep.setCpuOther("ãã®ä»–CPU");
+		ep.setCpuOther("‚»‚Ì‘¼CPU");
 		assertTrue(rtcParam.isUpdated());
 		rtcParam.resetUpdated();
 		assertFalse(rtcParam.isUpdated());

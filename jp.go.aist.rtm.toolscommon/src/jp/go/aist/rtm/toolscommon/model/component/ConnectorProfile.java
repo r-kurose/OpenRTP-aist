@@ -1,18 +1,19 @@
 package jp.go.aist.rtm.toolscommon.model.component;
 
 import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
+import org.eclipse.emf.common.util.EList;
 
 /**
- * ConnectorProfileã‚’è¡¨ç¾ã™ã‚‹ã‚¯ãƒ©ã‚¹
+ * ConnectorProfile‚ğ•\Œ»‚·‚éƒNƒ‰ƒX
  * <p>
  * 
- * ã“ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯ã€ãƒãƒªãƒ¥ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã§ã‚ã‚‹ã“ã¨ã«æ³¨æ„ã™ã‚‹ã“ã¨ã€‚<br>
- * ã“ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè‡ªä½“ã¯åŒæœŸãŒè¡Œã‚ã‚Œãªã„ãŸã‚ã€ã“ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å‚ç…§ã‚’ä¿æŒã—ç¶šã‘ã‚‹ã“ã¨ã¯ã€å±é™ºã§ã‚ã‚‹ã€‚<br>
- * äº‹æƒ…ãŒè¨±ã™é™ã‚Šã€å‚ç…§å…ƒã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‚ç…§ã—ã¦ã€å¿…è¦ã«ãªã‚‹ãŸã³ã«ãã“ã‹ã‚‰æ‰‹ã«å…¥ã‚Œã‚‹ã“ã¨ã€‚
+ * ‚±‚ÌƒIƒuƒWƒFƒNƒg‚ÍAƒoƒŠƒ…[ƒIƒuƒWƒFƒNƒg‚Å‚ ‚é‚±‚Æ‚É’ˆÓ‚·‚é‚±‚ÆB<br>
+ * ‚±‚ÌƒIƒuƒWƒFƒNƒg©‘Ì‚Í“¯Šú‚ªs‚í‚ê‚È‚¢‚½‚ßA‚±‚ÌƒIƒuƒWƒFƒNƒg‚ÌQÆ‚ğ•Û‚µ‘±‚¯‚é‚±‚Æ‚ÍAŠëŒ¯‚Å‚ ‚éB<br>
+ * –î‚ª‹–‚·ŒÀ‚èAQÆŒ³‚ÌƒIƒuƒWƒFƒNƒg‚ğQÆ‚µ‚ÄA•K—v‚É‚È‚é‚½‚Ñ‚É‚»‚±‚©‚çè‚É“ü‚ê‚é‚±‚ÆB
  * 
  * @model
  */
-public interface ConnectorProfile extends WrapperObject, IPropertyMap{
+public interface ConnectorProfile extends WrapperObject{
 
 	public static final String ANY = "Any";
 
@@ -56,7 +57,7 @@ public interface ConnectorProfile extends WrapperObject, IPropertyMap{
 	}
 
 	/**
-	 * ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹æŒ‡å®šå­ (ref. CorbaPort)
+	 * ƒCƒ“ƒ^[ƒtƒF[ƒXw’èq (ref. CorbaPort)
 	 */
 	public static class InterfaceId {
 		public static final String REQUIRED = "required";
@@ -108,7 +109,7 @@ public interface ConnectorProfile extends WrapperObject, IPropertyMap{
 	}
 
 	/**
-	 * å½“è©²ã‚³ãƒã‚¯ã‚¿ã§ä½¿ç”¨ã•ã‚Œã‚‹ãƒ‡ãƒ¼ã‚¿ãƒ•ãƒ­ãƒ¼å‹ã‚’è¿”ã™ã€‚
+	 * “–ŠYƒRƒlƒNƒ^‚Åg—p‚³‚ê‚éƒf[ƒ^ƒtƒ[Œ^‚ğ•Ô‚·B
 	 * @model changeable="true" transient="true" volatile="true"
 	 * @return
 	 */
@@ -117,7 +118,7 @@ public interface ConnectorProfile extends WrapperObject, IPropertyMap{
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getDataflowType <em>Dataflow Type</em>}' attribute.
 	 * <!-- begin-user-doc --> 
-	 * å½“è©²ã‚³ãƒã‚¯ã‚¿ã§ä½¿ç”¨ã•ã‚Œã‚‹ãƒ‡ãƒ¼ã‚¿ãƒ•ãƒ­ãƒ¼å‹ã‚’è¨­å®šã™ã‚‹ã€‚
+	 * “–ŠYƒRƒlƒNƒ^‚Åg—p‚³‚ê‚éƒf[ƒ^ƒtƒ[Œ^‚ğİ’è‚·‚éB
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Dataflow Type</em>' attribute.
 	 * @see #getDataflowType()
@@ -126,7 +127,7 @@ public interface ConnectorProfile extends WrapperObject, IPropertyMap{
 	void setDataflowType(String value);
 
 	/**
-	 * å½“è©²ã‚³ãƒã‚¯ã‚¿ã§ä½¿ç”¨ã•ã‚Œã‚‹ã‚µãƒ–ã‚¹ã‚¯ãƒªãƒ—ã‚·ãƒ§ãƒ³å‹ã‚’è¿”ã™
+	 * “–ŠYƒRƒlƒNƒ^‚Åg—p‚³‚ê‚éƒTƒuƒXƒNƒŠƒvƒVƒ‡ƒ“Œ^‚ğ•Ô‚·
 	 * @model changeable="true" transient="true" volatile="true"
 	 * @return
 	 */
@@ -135,7 +136,7 @@ public interface ConnectorProfile extends WrapperObject, IPropertyMap{
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getSubscriptionType <em>Subscription Type</em>}' attribute.
 	 * <!-- begin-user-doc --> 
-	 * å½“è©²ã‚³ãƒã‚¯ã‚¿ã§ä½¿ç”¨ã•ã‚Œã‚‹ã‚µãƒ–ã‚¹ã‚¯ãƒªãƒ—ã‚·ãƒ§ãƒ³å‹ã‚’è¨­å®šã™ã‚‹
+	 * “–ŠYƒRƒlƒNƒ^‚Åg—p‚³‚ê‚éƒTƒuƒXƒNƒŠƒvƒVƒ‡ƒ“Œ^‚ğİ’è‚·‚é
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Subscription Type</em>' attribute.
 	 * @see #getSubscriptionType()
@@ -144,21 +145,21 @@ public interface ConnectorProfile extends WrapperObject, IPropertyMap{
 	void setSubscriptionType(String value);
 
 	/**
-	 * ã‚µãƒ–ã‚¹ã‚¯ãƒªãƒ—ã‚·ãƒ§ãƒ³å‹ãŒä½¿ç”¨å¯èƒ½ã‹ï¼ˆãƒ‡ãƒ¼ã‚¿ãƒ•ãƒ­ãƒ¼å‹ãŒPUSHã§ã‚ã‚‹ã‹ï¼‰ã‚’è¿”ã™
+	 * ƒTƒuƒXƒNƒŠƒvƒVƒ‡ƒ“Œ^‚ªg—p‰Â”\‚©iƒf[ƒ^ƒtƒ[Œ^‚ªPUSH‚Å‚ ‚é‚©j‚ğ•Ô‚·
 	 * @model changeable="false" transient="true" volatile="true"
 	 * @return
 	 */
 	public boolean isSubscriptionTypeAvailable();
 
 	/**
-	 * PUSHé–“éš”ãŒä½¿ç”¨å¯èƒ½ã‹ï¼ˆã‚µãƒ–ã‚¹ã‚¯ãƒªãƒ—ã‚·ãƒ§ãƒ³å‹ãŒä½¿ç”¨å¯èƒ½ã§ã‚µãƒ–ã‚¹ã‚¯ãƒªãƒ—ã‚·ãƒ§ãƒ³å‹ãŒPERIODICï¼‰ã‚’è¿”ã™
+	 * PUSHŠÔŠu‚ªg—p‰Â”\‚©iƒTƒuƒXƒNƒŠƒvƒVƒ‡ƒ“Œ^‚ªg—p‰Â”\‚ÅƒTƒuƒXƒNƒŠƒvƒVƒ‡ƒ“Œ^‚ªPERIODICj‚ğ•Ô‚·
 	 * @model changeable="false" transient="true" volatile="true"
 	 * @return
 	 */
 	public boolean isPushIntervalAvailable();
 
 	/**
-	 * Outportã‹ã‚‰Inportã«æµã‚Œã‚‹ãƒ‡ãƒ¼ã‚¿ã®å‹ã‚’è¿”ã™
+	 * Outport‚©‚çInport‚É—¬‚ê‚éƒf[ƒ^‚ÌŒ^‚ğ•Ô‚·
 	 * @model changeable="true" transient="true" volatile="true"
 	 * @return
 	 */
@@ -167,7 +168,7 @@ public interface ConnectorProfile extends WrapperObject, IPropertyMap{
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getDataType <em>Data Type</em>}' attribute.
 	 * <!-- begin-user-doc --> 
-	 * Outportã‹ã‚‰Inportã«æµã‚Œã‚‹ãƒ‡ãƒ¼ã‚¿ã®å‹ã‚’è¨­å®šã™ã‚‹
+	 * Outport‚©‚çInport‚É—¬‚ê‚éƒf[ƒ^‚ÌŒ^‚ğİ’è‚·‚é
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Data Type</em>' attribute.
 	 * @see #getDataType()
@@ -176,7 +177,7 @@ public interface ConnectorProfile extends WrapperObject, IPropertyMap{
 	void setDataType(String value);
 
 	/**
-	 *  å½“è©²ã‚³ãƒã‚¯ã‚¿ã§ä½¿ç”¨ã•ã‚Œã‚‹ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹å‹ã‚’è¿”ã™
+	 *  “–ŠYƒRƒlƒNƒ^‚Åg—p‚³‚ê‚éƒCƒ“ƒ^[ƒtƒF[ƒXŒ^‚ğ•Ô‚·
 	 * @model changeable="true" transient="true" volatile="true"
 	 * @return
 	 */
@@ -185,7 +186,7 @@ public interface ConnectorProfile extends WrapperObject, IPropertyMap{
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getInterfaceType <em>Interface Type</em>}' attribute.
 	 * <!-- begin-user-doc --> 
-	 * å½“è©²ã‚³ãƒã‚¯ã‚¿ã§ä½¿ç”¨ã•ã‚Œã‚‹ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹å‹ã‚’è¨­å®šã™ã‚‹
+	 * “–ŠYƒRƒlƒNƒ^‚Åg—p‚³‚ê‚éƒCƒ“ƒ^[ƒtƒF[ƒXŒ^‚ğİ’è‚·‚é
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Interface Type</em>' attribute.
 	 * @see #getInterfaceType()
@@ -194,7 +195,7 @@ public interface ConnectorProfile extends WrapperObject, IPropertyMap{
 	void setInterfaceType(String value);
 
 	/**
-	 * å½“è©²ã‚³ãƒã‚¯ã‚¿ã§ä½¿ç”¨ã•ã‚Œã‚‹ãƒ‡ãƒ¼ã‚¿é€ä¿¡å‘¨æœŸã‚’è¿”ã™
+	 * “–ŠYƒRƒlƒNƒ^‚Åg—p‚³‚ê‚éƒf[ƒ^‘—MüŠú‚ğ•Ô‚·
 	 * @model changeable="true" transient="true" volatile="true"
 	 * @return
 	 */
@@ -203,7 +204,7 @@ public interface ConnectorProfile extends WrapperObject, IPropertyMap{
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getPushRate <em>Push Rate</em>}' attribute.
 	 * <!-- begin-user-doc --> 
-	 * å½“è©²ã‚³ãƒã‚¯ã‚¿ã§ä½¿ç”¨ã•ã‚Œã‚‹ãƒ‡ãƒ¼ã‚¿é€ä¿¡å‘¨æœŸã‚’è¨­å®šã™ã‚‹
+	 * “–ŠYƒRƒlƒNƒ^‚Åg—p‚³‚ê‚éƒf[ƒ^‘—MüŠú‚ğİ’è‚·‚é
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Push Rate</em>' attribute.
 	 * @see #getPushRate()
@@ -297,7 +298,7 @@ public interface ConnectorProfile extends WrapperObject, IPropertyMap{
 	 * Returns the value of the '<em><b>Source String</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ã‚³ãƒã‚¯ã‚¿ã®æ¥ç¶šå…ƒã§ã‚ã‚‹ãƒãƒ¼ãƒˆã®è­˜åˆ¥æ–‡å­—åˆ—ã‚’è¿”ã™
+	 * ƒRƒlƒNƒ^‚ÌÚ‘±Œ³‚Å‚ ‚éƒ|[ƒg‚Ì¯•Ê•¶š—ñ‚ğ•Ô‚·
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Source String</em>' attribute.
@@ -311,7 +312,7 @@ public interface ConnectorProfile extends WrapperObject, IPropertyMap{
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getSourceString <em>Source String</em>}' attribute.
 	 * <!-- begin-user-doc -->
-	 * ã‚³ãƒã‚¯ã‚¿ã®æ¥ç¶šå…ƒã§ã‚ã‚‹ãƒãƒ¼ãƒˆã®è­˜åˆ¥æ–‡å­—åˆ—ã‚’è¨­å®šã™ã‚‹
+	 * ƒRƒlƒNƒ^‚ÌÚ‘±Œ³‚Å‚ ‚éƒ|[ƒg‚Ì¯•Ê•¶š—ñ‚ğİ’è‚·‚é
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Source String</em>' attribute.
 	 * @see #getSourceString()
@@ -323,7 +324,7 @@ public interface ConnectorProfile extends WrapperObject, IPropertyMap{
 	 * Returns the value of the '<em><b>Target String</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * ã‚³ãƒã‚¯ã‚¿ã®æ¥ç¶šå…ˆã§ã‚ã‚‹ãƒãƒ¼ãƒˆã®è­˜åˆ¥æ–‡å­—åˆ—ã‚’è¿”ã™
+	 * ƒRƒlƒNƒ^‚ÌÚ‘±æ‚Å‚ ‚éƒ|[ƒg‚Ì¯•Ê•¶š—ñ‚ğ•Ô‚·
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Target String</em>' attribute.
@@ -337,7 +338,7 @@ public interface ConnectorProfile extends WrapperObject, IPropertyMap{
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getTargetString <em>Target String</em>}' attribute.
 	 * <!-- begin-user-doc -->
-	 * ã‚³ãƒã‚¯ã‚¿ã®æ¥ç¶šå…ˆã§ã‚ã‚‹ãƒãƒ¼ãƒˆã®è­˜åˆ¥æ–‡å­—åˆ—ã‚’è¨­å®šã™ã‚‹
+	 * ƒRƒlƒNƒ^‚ÌÚ‘±æ‚Å‚ ‚éƒ|[ƒg‚Ì¯•Ê•¶š—ñ‚ğİ’è‚·‚é
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Target String</em>' attribute.
 	 * @see #getTargetString()
@@ -606,15 +607,47 @@ public interface ConnectorProfile extends WrapperObject, IPropertyMap{
 	void setInportBufferReadTimeout(Double value);
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @model
-	 * @return	æ¥ç¶šæƒ…å ±ã®åç§°
+	 * @generated
+	 */
+	String getProperty(String key);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	void setProperty(String key, String value);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	String removeProperty(String key);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	EList<String> getPropertyKeys();
+
+	/**
+	 * @model
+	 * @return	Ú‘±î•ñ‚Ì–¼Ì
 	 */
 	public String getName();
 
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getName <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc --> 
-	 * æ¥ç¶šæƒ…å ±ã®åç§°ã‚’è¨­å®šã™ã‚‹
+	 * Ú‘±î•ñ‚Ì–¼Ì‚ğİ’è‚·‚é
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Name</em>' attribute.
 	 * @see #getName()
@@ -624,14 +657,14 @@ public interface ConnectorProfile extends WrapperObject, IPropertyMap{
 
 	/**
 	 * @model
-	 * @returnã€€æ¥ç¶šæƒ…å ±ã®ä¸€æ„è­˜åˆ¥å­
+	 * @return@Ú‘±î•ñ‚ÌˆêˆÓ¯•Êq
 	 */
 	public String getConnectorId();
 
 	/**
 	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getConnectorId <em>Connector Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
-	 * æ¥ç¶šæƒ…å ±ã®ä¸€æ„è­˜åˆ¥å­ã‚’è¨­å®šã™ã‚‹
+	 * Ú‘±î•ñ‚ÌˆêˆÓ¯•Êq‚ğİ’è‚·‚é
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Connector Id</em>' attribute.
 	 * @see #getConnectorId()

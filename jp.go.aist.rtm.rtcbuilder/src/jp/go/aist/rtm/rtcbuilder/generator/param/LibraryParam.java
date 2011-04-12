@@ -3,7 +3,7 @@ package jp.go.aist.rtm.rtcbuilder.generator.param;
 import java.io.Serializable;
 
 /**
- * 繝ｩ繧､繝悶Λ繝ｪ諠�蝣ｱ繧定｡ｨ縺吶け繝ｩ繧ｹ
+ * ライブラリ情報を表すクラス
  */
 public class LibraryParam extends AbstractRecordedParam implements Serializable {
 

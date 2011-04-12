@@ -9,7 +9,7 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.editparts.ViewportAutoexposeHelper;
 
 /**
- * 繧ｪ繝ｼ繝医せ繧ｯ繝ｭ繝ｼ繝ｫ蜿ｯ閭ｽ縺ｪAutoexposeHelper
+ * オートスクロール可能なAutoexposeHelper
  */
 public class AutoScrollAutoexposeHelper extends ViewportAutoexposeHelper {
 	/** defines the range where autoscroll is active inside a viewer */
@@ -21,9 +21,9 @@ public class AutoScrollAutoexposeHelper extends ViewportAutoexposeHelper {
 	/** The insets for this helper. */
 	private Insets threshold;
 
-	private int width = -1; // 逕ｻ髱｢縺ｮ繧ｵ繧､繧ｺ繧剃ｿ晏ｭ倥☆繧九�
+	private int width = -1; // 画面のサイズを保存する。
 
-	private int height = -1; // 逕ｻ髱｢縺ｮ繧ｵ繧､繧ｺ繧剃ｿ晏ｭ倥☆繧九�
+	private int height = -1; // 画面のサイズを保存する。
 
 	public AutoScrollAutoexposeHelper(GraphicalEditPart owner) {
 		super(owner);
@@ -41,9 +41,6 @@ public class AutoScrollAutoexposeHelper extends ViewportAutoexposeHelper {
 		port.getClientArea(rect);
 		port.translateToParent(rect);
 		port.translateToAbsolute(rect);
-
-		// if (!rect.contains(where) || rect.crop(threshold).contains(where))
-		// return false;
 
 		// set scroll offset (speed factor)
 		int scrollOffset = 0;

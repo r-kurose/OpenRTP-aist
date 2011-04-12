@@ -359,14 +359,14 @@ public class NameServerAccesserTest {
 		List<Binding> bindingList = CorbaUtil.getBindingList(hostContext);
 		System.out.println("host_cxt has " + bindingList.size() + " nodes");
 
-		// 1ã¤ã‚ã¯Manager
+		// 1‚Â‚ß‚ÍManager
 		binding = bindingList.get(0);
 		assertTrue(BindingType.nobject == binding.binding_type);
 		org.omg.CORBA.Object resolve = hostContext.resolve(binding.binding_name);
 		assertFalse(resolve._is_a(RTObjectHelper.id())); 
 		RTM.Manager manager = ManagerHelper.narrow(resolve);
 
-		// 2ã¤ã‚ã¯Component
+		// 2‚Â‚ß‚ÍComponent
 		binding = bindingList.get(1);
 		assertTrue(BindingType.nobject == binding.binding_type);
 		resolve = hostContext.resolve(binding.binding_name);
@@ -376,7 +376,7 @@ public class NameServerAccesserTest {
 		assertEquals("ConsoleIn0", childProfile.instance_name);
 		assertEquals("out", childProfile.port_profiles[0].name);
 		
-		// è¤‡åˆRTCã‚’ä½œã‚‹
+		// •¡‡RTC‚ğì‚é
 		RTC.RTObject composite = manager.create_component("PeriodicECSharedComposite?instance_name=comp1&exported_ports=");
 		Organization org = composite.get_owned_organizations()[0];
 		Configuration configuration = composite.get_configuration();
@@ -389,15 +389,15 @@ public class NameServerAccesserTest {
 		assertEquals("exported_ports", activeConfigurationSet.configuration_data[1].name);
 		assertEquals("", activeConfigurationSet.configuration_data[1].value.extract_string());
 		
-		// ãƒãƒ¼ãƒˆã¯ã™ã¹ã¦éå…¬é–‹
+		// ƒ|[ƒg‚Í‚·‚×‚Ä”ñŒöŠJ
 		ComponentProfile compositeProfile = composite.get_component_profile();
 		assertEquals(0, compositeProfile.port_profiles.length);
 		
-		// ãƒãƒ¼ãƒˆã‚’å…¬é–‹ã™ã‚‹
+		// ƒ|[ƒg‚ğŒöŠJ‚·‚é
 		configuration.set_configuration_set_values(createSdoConfigurationSet("ConsoleIn0.out"));
 		configuration.activate_configuration_set("default");
 		
-		// å…¬é–‹å¾Œã®ã‚³ãƒ³ãƒ•ã‚£ã‚°ã‚»ãƒƒãƒˆ
+		// ŒöŠJŒã‚ÌƒRƒ“ƒtƒBƒOƒZƒbƒg
 		activeConfigurationSet = configuration.get_active_configuration_set();
 		assertEquals("default", activeConfigurationSet.id);
 		assertEquals(2, activeConfigurationSet.configuration_data.length);
@@ -406,11 +406,11 @@ public class NameServerAccesserTest {
 		assertEquals("exported_ports", activeConfigurationSet.configuration_data[1].name);
 		assertEquals("ConsoleIn0.out", activeConfigurationSet.configuration_data[1].value.extract_string());
 		
-		// å…¬é–‹å¾Œã®ãƒãƒ¼ãƒˆ
+		// ŒöŠJŒã‚Ìƒ|[ƒg
 		compositeProfile = composite.get_component_profile();
 		assertEquals(1, compositeProfile.port_profiles.length);
 		
-		// è¤‡åˆRTCã‚’æ¶ˆã—ã¦ãŠã
+		// •¡‡RTC‚ğÁ‚µ‚Ä‚¨‚­
 		composite.exit();
 	}
 	
@@ -431,14 +431,14 @@ public class NameServerAccesserTest {
 		List<Binding> bindingList = CorbaUtil.getBindingList(hostContext);
 		System.out.println("host_cxt has " + bindingList.size() + " nodes");
 
-		// 1ã¤ã‚ã¯Manager
+		// 1‚Â‚ß‚ÍManager
 		binding = bindingList.get(0);
 		assertTrue(BindingType.nobject == binding.binding_type);
 		org.omg.CORBA.Object resolve = hostContext.resolve(binding.binding_name);
 		assertFalse(resolve._is_a(RTObjectHelper.id())); 
 		RTM.Manager manager = ManagerHelper.narrow(resolve);
 
-		// 2ã¤ã‚ã¯Component
+		// 2‚Â‚ß‚ÍComponent
 		binding = bindingList.get(1);
 		assertTrue(BindingType.nobject == binding.binding_type);
 		resolve = hostContext.resolve(binding.binding_name);
@@ -448,7 +448,7 @@ public class NameServerAccesserTest {
 		assertEquals("ConsoleIn0", childProfile.instance_name);
 		assertEquals("out", childProfile.port_profiles[0].name);
 
-		// 3ã¤ã‚ã‚‚Component
+		// 3‚Â‚ß‚àComponent
 		binding = bindingList.get(2);
 		assertTrue(BindingType.nobject == binding.binding_type);
 		resolve = hostContext.resolve(binding.binding_name);
@@ -458,25 +458,25 @@ public class NameServerAccesserTest {
 		assertEquals("ConsoleOut0", childProfile.instance_name);
 		assertEquals("in", childProfile.port_profiles[0].name);
 
-		// è¤‡åˆRTCã‚’ä½œã‚‹
+		// •¡‡RTC‚ğì‚é
 		RTC.RTObject composite = manager.create_component("PeriodicECSharedComposite?instance_name=comp1&exported_ports=ConsoleIn0.out");
 		Organization org = composite.get_owned_organizations()[0];
 		Configuration configuration = composite.get_configuration();
 		org.set_members(new SDO[]{child});
 		verifyExportedConfig(configuration, "ConsoleIn0.out");
 
-		// ConsoleIn0.outã‚’å…¬é–‹
+		// ConsoleIn0.out‚ğŒöŠJ
 		ComponentProfile compositeProfile = composite.get_component_profile();
 		assertEquals(1, compositeProfile.port_profiles.length);
 
-		// ConsoleOut0ã‚’è¿½åŠ ã™ã‚‹
+		// ConsoleOut0‚ğ’Ç‰Á‚·‚é
 		org.add_members(new SDO[]{anotherChild});
 		
 		verifyExportedConfig(configuration, "ConsoleIn0.out");
 		compositeProfile = composite.get_component_profile();
 		assertEquals(1, compositeProfile.port_profiles.length);
 					
-		// ConsoleOut0.inã‚’å…¬é–‹
+		// ConsoleOut0.in‚ğŒöŠJ
 		configuration.set_configuration_set_values(createSdoConfigurationSet("ConsoleIn0.out,ConsoleOut0.in"));
 		configuration.activate_configuration_set("default");
 		
@@ -484,7 +484,7 @@ public class NameServerAccesserTest {
 		compositeProfile = composite.get_component_profile();
 		assertEquals(2, compositeProfile.port_profiles.length);
 		
-		// è¤‡åˆRTCã‚’æ¶ˆã—ã¦ãŠã
+		// •¡‡RTC‚ğÁ‚µ‚Ä‚¨‚­
 		composite.exit();
 	}
 	@Test
@@ -617,11 +617,11 @@ public class NameServerAccesserTest {
 		binding = bindingList.get(0);
 		assertTrue(BindingType.nobject == binding.binding_type);
 		org.omg.CORBA.Object resolve = hostContext.resolve(binding.binding_name);
-		assertTrue(resolve._is_a(RTObjectHelper.id())); // åå¿œãŒè¿”ã£ã¦ã“ãªã„
+		assertTrue(resolve._is_a(RTObjectHelper.id())); // ”½‰‚ª•Ô‚Á‚Ä‚±‚È‚¢
 	}
 //	@Test
-	// HostNamingContextImplãŒã‚¾ãƒ³ãƒ“ã ã¨å‡ºã¦ã“ãªã„å•é¡Œã¯ä¸æ˜ã ãŒã€ã»ã£ã¦ãŠã
-	// STATUS ãŒUNKNOWNã«ãªã‚‹ã®ã¯ã€IDLã®å•é¡Œã‹ã€‚activateã‚‚ã‚¨ãƒ©ãƒ¼ã¨ãªã‚‹ã—
+	// HostNamingContextImpl‚ªƒ]ƒ“ƒr‚¾‚Æo‚Ä‚±‚È‚¢–â‘è‚Í•s–¾‚¾‚ªA‚Ù‚Á‚Ä‚¨‚­
+	// STATUS ‚ªUNKNOWN‚É‚È‚é‚Ì‚ÍAIDL‚Ì–â‘è‚©Bactivate‚àƒGƒ‰[‚Æ‚È‚é‚µ
 	public void examineCommunication162() throws Exception {
 		String address = "192.168.1.162:2809";
 		NamingContextExt namingContext = NamingContextExtHelper.narrow(CorbaUtil
@@ -634,8 +634,8 @@ public class NameServerAccesserTest {
 		Binding binding = bindingList.get(0);
 		org.omg.CORBA.Object resolve = namingContext.resolve(binding.binding_name);
 		assertFalse(BindingType.nobject == binding.binding_type);
-//		assertFalse(resolve._is_a(RTObjectHelper.id())); // æ¥ç¶šã‚¨ãƒ©ãƒ¼
-//		assertFalse(resolve._non_existent());ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€// æ¥ç¶šã‚¨ãƒ©ãƒ¼
+//		assertFalse(resolve._is_a(RTObjectHelper.id())); // Ú‘±ƒGƒ‰[
+//		assertFalse(resolve._non_existent());@@@@@@@@@@// Ú‘±ƒGƒ‰[
 		assertEquals("host_cxt", binding.binding_name[0].kind);
 		binding = bindingList.get(1);
 		resolve = namingContext.resolve(binding.binding_name);
@@ -670,7 +670,7 @@ public class NameServerAccesserTest {
 		mappingRuleList.add(createMappingRule("jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NamingObjectNodeImpl.MAPPING_RULE"));
 		mappingRuleList.add(createMappingRule("jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NamingContextNodeImpl.MAPPING_RULE_NAMESERVER"));
 		mappingRuleList.add(createMappingRule("jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.MAPPING_RULE"));
-		mappingRuleList.add(createMappingRule("jp.go.aist.rtm.toolscommon.model.component.impl.CorbaExecutionContextImpl.MAPPING_RULE"));
+		mappingRuleList.add(createMappingRule("jp.go.aist.rtm.toolscommon.model.component.impl.ExecutionContextImpl.MAPPING_RULE"));
 		mappingRuleList.add(createMappingRule("jp.go.aist.rtm.toolscommon.model.manager.impl.RTCManagerImpl.MAPPING_RULE"));
 		mappingRuleList.add(createMappingRule("jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NamingContextNodeImpl.MAPPING_RULE"));
 		return mappingRuleList.toArray(new MappingRule[mappingRuleList.size()]);

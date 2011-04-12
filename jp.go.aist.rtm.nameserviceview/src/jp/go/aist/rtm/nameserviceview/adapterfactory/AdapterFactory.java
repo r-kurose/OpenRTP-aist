@@ -8,9 +8,9 @@ import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSuppor
 import org.eclipse.core.runtime.IAdapterFactory;
 
 /**
- * RTCLinkのアダプタファクトリ
- * IAdapterFactoryがGenericに対応していないため、@SuppressWarnings("unchecked")を使用している
- * NamingObjectNodeは現在CORBA専用のオブジェクトである
+ * RTCLink�̃A�_�v�^�t�@�N�g��
+ * IAdapterFactory��Generic�ɑΉ����Ă��Ȃ����߁A@SuppressWarnings("unchecked")���g�p���Ă���
+ * NamingObjectNode�͌���CORBA��p�̃I�u�W�F�N�g�ł���
  */
 public class AdapterFactory implements IAdapterFactory {
 	/**
@@ -34,7 +34,6 @@ public class AdapterFactory implements IAdapterFactory {
 	private boolean ping(NamingObjectNode namingObjectNode) {
 		if (SynchronizationSupport.ping(namingObjectNode.getCorbaObject())) return true;
 		namingObjectNode.setEntry(null);
-//		System.out.println("zombi deteced");
 		return false;
 	}
 

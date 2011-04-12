@@ -3,9 +3,9 @@ package jp.go.aist.rtm.toolscommon.synchronizationframework.mapping;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 
 /**
- * ã‚¯ãƒ©ã‚¹ã®ãƒãƒƒãƒ”ãƒ³ã‚°ã‚’å®šç¾©ã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹
+ * ƒNƒ‰ƒX‚Ìƒ}ƒbƒsƒ“ƒO‚ğ’è‹`‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX
  * <p>
- * ConstructorParamMappingsã«ãƒãƒƒãƒ—å¯èƒ½ãªãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨å¯¾å¿œã™ã‚‹
+ * ConstructorParamMappings‚Éƒ}ƒbƒv‰Â”\‚ÈƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚Æ‘Î‰‚·‚é
  */
 public class ClassMapping {
 	@SuppressWarnings("unchecked")
@@ -16,13 +16,13 @@ public class ClassMapping {
 	private boolean allowZombie;
 
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	 * 
 	 * @param localClass
-	 *            ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¯ãƒ©ã‚¹
+	 *            ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒNƒ‰ƒX
 	 * @param remoteClass
-	 *            ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¯ãƒ©ã‚¹
-	 * @param allowZombie ã‚¾ãƒ³ãƒ“ï¼ˆãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒæ­»ã‚“ã çŠ¶æ…‹ï¼‰ã§ã‚‚å­˜åœ¨ã•ã›ã‚‹ã‹
+	 *            ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ÌƒNƒ‰ƒX
+	 * @param allowZombie ƒ]ƒ“ƒriƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ª€‚ñ‚¾ó‘Ôj‚Å‚à‘¶İ‚³‚¹‚é‚©
 	 * 			
 	 */
 	@SuppressWarnings("unchecked")
@@ -34,12 +34,12 @@ public class ClassMapping {
 	}
 
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	 * 
 	 * @param localClass
-	 *            ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¯ãƒ©ã‚¹
+	 *            ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒNƒ‰ƒX
 	 * @param remoteClass
-	 *            ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¯ãƒ©ã‚¹
+	 *            ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ÌƒNƒ‰ƒX
 	 */
 	@SuppressWarnings("unchecked")
 	public ClassMapping(Class localClass,
@@ -48,16 +48,16 @@ public class ClassMapping {
 	}
 
 	/**
-	 * ã“ã®ã‚¯ãƒ©ã‚¹ãƒãƒƒãƒ”ãƒ³ã‚°ãŒã€ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«é–¢é€£ã¥ã„ãŸãƒãƒƒãƒ”ãƒ³ã‚°ã§ã‚ã‚‹ã‹ã©ã†ã‹
+	 * ‚±‚ÌƒNƒ‰ƒXƒ}ƒbƒsƒ“ƒO‚ªAƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A‚Ã‚¢‚½ƒ}ƒbƒsƒ“ƒO‚Å‚ ‚é‚©‚Ç‚¤‚©
 	 * <p>
-	 * ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨è¦ªãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€ãŠã‚ˆã³ãƒªãƒ³ã‚¯ã‹ã‚‰ã€ ã“ã®ã‚¯ãƒ©ã‚¹ãƒãƒƒãƒ”ãƒ³ã‚°ãŒé–¢é€£ã¥ã„ãŸãƒãƒƒãƒ”ãƒ³ã‚°ã§ã‚ã‚‹ã‹ã©ã†ã‹åˆ¤æ–­ã™ã‚‹ã€‚<br>
-	 * CORBAã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å ´åˆã€narrowã—ã¦æ¯”è¼ƒã™ã‚‹å¿…è¦ãŒã‚ã‚‹ãŸã‚ã€ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã™ã‚‹ã“ã¨ã€‚
+	 * ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚Æeƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒgA‚¨‚æ‚ÑƒŠƒ“ƒN‚©‚çA ‚±‚ÌƒNƒ‰ƒXƒ}ƒbƒsƒ“ƒO‚ªŠÖ˜A‚Ã‚¢‚½ƒ}ƒbƒsƒ“ƒO‚Å‚ ‚é‚©‚Ç‚¤‚©”»’f‚·‚éB<br>
+	 * CORBAƒIƒuƒWƒFƒNƒg‚Ìê‡Anarrow‚µ‚Ä”äŠr‚·‚é•K—v‚ª‚ ‚é‚½‚ßAƒI[ƒo[ƒ‰ƒCƒh‚·‚é‚±‚ÆB
 	 * 
 	 * @param parent
-	 *            è¦ªã®ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 *            e‚Ìƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg
 	 * @param remoteObjects
 	 * @param link
-	 *            é–¢é€£ã‚’ã‚ã‚‰ã‚ã™ãƒªãƒ³ã‚¯(ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè‡ªä½“ã§ã‚ã‚‹ã“ã¨ãŒå¤šã„)
+	 *            ŠÖ˜A‚ğ‚ ‚ç‚í‚·ƒŠƒ“ƒN(ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg©‘Ì‚Å‚ ‚é‚±‚Æ‚ª‘½‚¢)
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
@@ -73,14 +73,14 @@ public class ClassMapping {
 	}
 
 	/**
-	 * ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰ã€ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹ã€‚
+	 * ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚©‚çAƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 	 * 
 	 * @param parent
-	 *            è¦ªã®ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 *            e‚Ìƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg
 	 * @param remoteObjects
-	 *            ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 *            ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg
 	 * @param link
-	 *            é–¢é€£ã‚’ã‚ã‚‰ã‚ã™ãƒªãƒ³ã‚¯(ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè‡ªä½“ã§ã‚ã‚‹ã“ã¨ãŒå¤šã„)
+	 *            ŠÖ˜A‚ğ‚ ‚ç‚í‚·ƒŠƒ“ƒN(ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg©‘Ì‚Å‚ ‚é‚±‚Æ‚ª‘½‚¢)
 	 * @return
 	 */
 	public LocalObject createLocalObject(LocalObject parent,
@@ -101,16 +101,16 @@ public class ClassMapping {
 	}
 
 	/**
-	 * ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¯ãƒ©ã‚¹
+	 * ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒNƒ‰ƒX
 	 * 
-	 * @return ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¯ãƒ©ã‚¹
+	 * @return ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒNƒ‰ƒX
 	 */
 	public Class<?> getLocalClass() {
 		return localClass;
 	}
 
 	/**
-	 * narrowã™ã‚‹
+	 * narrow‚·‚é
 	 * 
 	 * @param remoteObjects
 	 * @return
@@ -120,7 +120,7 @@ public class ClassMapping {
 	}
 
 	/**
-	 * ConstructorParamMappingã‚’å–å¾—ã™ã‚‹
+	 * ConstructorParamMapping‚ğæ“¾‚·‚é
 	 * 
 	 * @return
 	 */
@@ -129,14 +129,14 @@ public class ClassMapping {
 	}
 
 	/**
-	 * ã‚¾ãƒ³ãƒ“ï¼ˆãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒæ­»ã‚“ã çŠ¶æ…‹ï¼‰ã§ã‚‚å­˜åœ¨ã•ã›ã‚‹ã‹
+	 * ƒ]ƒ“ƒriƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ª€‚ñ‚¾ó‘Ôj‚Å‚à‘¶İ‚³‚¹‚é‚©
 	 * @return
 	 */
 	public boolean allowZombie() {
 		return allowZombie;
 	}
 
-	// isTargetã®ä¸­ã§ãƒªãƒ¢ãƒ¼ãƒˆæ¥ç¶šã‚’è¡Œã†å ´åˆã¯ã€ã‚ªãƒ¼ãƒãƒ©ã‚¤ãƒ‰ã™ã‚‹ã“ã¨
+	// isTarget‚Ì’†‚ÅƒŠƒ‚[ƒgÚ‘±‚ğs‚¤ê‡‚ÍAƒI[ƒoƒ‰ƒCƒh‚·‚é‚±‚Æ
 	public boolean needsPing() {
 		return false;
 	}

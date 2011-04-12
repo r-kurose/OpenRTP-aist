@@ -16,16 +16,16 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
 /**
- * ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã‚’å‡ºåŠ›ã™ã‚‹éš›ã«ä½¿ç”¨ã•ã‚Œã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
+ * ƒeƒ“ƒvƒŒ[ƒg‚ğo—Í‚·‚éÛ‚Ég—p‚³‚ê‚éƒ†[ƒeƒBƒŠƒeƒB
  */
 public class TemplateUtil {
 
 	/**
-	 * ã‚¯ãƒ©ã‚¹ãƒ‘ã‚¹ãƒªã‚½ãƒ¼ã‚¹ã‹ã‚‰å†…å®¹ã‚’æ‰‹ã«å…¥ã‚Œã‚‹
+	 * ƒNƒ‰ƒXƒpƒXƒŠƒ\[ƒX‚©‚ç“à—e‚ğè‚É“ü‚ê‚é
 	 * 
 	 * @param path
-	 *            ãƒ‘ã‚¹
-	 * @return å†…å®¹
+	 *            ƒpƒX
+	 * @return “à—e
 	 */
 	public static String getResourceContents(String path) {
 		InputStream input = TemplateUtil.class.getClassLoader()
@@ -48,12 +48,12 @@ public class TemplateUtil {
 	}
 
 	/**
-	 * ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã‹ã‚‰GeneratedResultã‚’ä½œæˆã™ã‚‹
+	 * ƒeƒ“ƒvƒŒ[ƒg‚©‚çGeneratedResult‚ğì¬‚·‚é
 	 * 
-	 * @param templatePathã€€ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®ãƒ‘ã‚¹
-	 * @param contextRootName ã‚³ãƒ³ãƒ†ã‚¯ã‚¹ãƒˆã®ãƒ«ãƒ¼ãƒˆã¨ãªã‚‹åå‰
-	 * @param contextRoot ã‚³ãƒ³ãƒ†ã‚¯ã‚¹ãƒˆã®ãƒ«ãƒ¼ãƒˆ
-	 * @param fileName å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«å
+	 * @param templatePath@ƒeƒ“ƒvƒŒ[ƒg‚ÌƒpƒX
+	 * @param contextRootName ƒRƒ“ƒeƒNƒXƒg‚Ìƒ‹[ƒg‚Æ‚È‚é–¼‘O
+	 * @param contextRoot ƒRƒ“ƒeƒNƒXƒg‚Ìƒ‹[ƒg
+	 * @param fileName o—Íƒtƒ@ƒCƒ‹–¼
 	 * @return
 	 */
 	public static GeneratedResult createGeneratedResult(InputStream in,
@@ -65,11 +65,11 @@ public class TemplateUtil {
 	}
 
 	/**
-	 * ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã‹ã‚‰GeneratedResultã‚’ä½œæˆã™ã‚‹
+	 * ƒeƒ“ƒvƒŒ[ƒg‚©‚çGeneratedResult‚ğì¬‚·‚é
 	 * 
-	 * @param templatePathã€€ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®ãƒ‘ã‚¹
-	 * @param contextMap ã‚³ãƒ³ãƒ†ã‚¯ã‚¹ãƒˆã®ãƒãƒƒãƒ—
-	 * @param fileName å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«å
+	 * @param templatePath@ƒeƒ“ƒvƒŒ[ƒg‚ÌƒpƒX
+	 * @param contextMap ƒRƒ“ƒeƒNƒXƒg‚Ìƒ}ƒbƒv
+	 * @param fileName o—Íƒtƒ@ƒCƒ‹–¼
 	 * 
 	 * @return GeneratedResult
 	 */
@@ -80,7 +80,7 @@ public class TemplateUtil {
 	}
 
 	/**
-	 * è¨­å®šæ¸ˆã¿ã®VelocityEngineã‚’å–å¾—ã™ã‚‹
+	 * İ’èÏ‚İ‚ÌVelocityEngine‚ğæ“¾‚·‚é
 	 * 
 	 * @return
 	 */
@@ -113,7 +113,7 @@ public class TemplateUtil {
 	}
 
 	/**
-	 * ãƒãƒ¼ã‚¸ã‚’è¡Œã„çµæœã‚’è¿”ã™
+	 * ƒ}[ƒW‚ğs‚¢Œ‹‰Ê‚ğ•Ô‚·
 	 * 
 	 * @param template
 	 * @param vc
@@ -131,7 +131,7 @@ public class TemplateUtil {
 	}
 
 	/**
-	 * ç”Ÿæˆã‚’è¡Œã†
+	 * ¶¬‚ğs‚¤
 	 * 
 	 * @param contextRoot
 	 * @param templatePath

@@ -16,7 +16,7 @@ import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
 import jp.go.aist.rtm.systemeditor.nl.Messages;
 
 /**
- * オンラインエディタの設定ページ
+ * �I�����C���G�f�B�^�̐ݒ�y�[�W
  */
 public class OnlineEditorPreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage {

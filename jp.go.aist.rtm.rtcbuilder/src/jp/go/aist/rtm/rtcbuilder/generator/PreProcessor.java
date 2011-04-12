@@ -10,10 +10,10 @@ import jp.go.aist.rtm.rtcbuilder.IRTCBMessageConstants;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 
 /**
- * ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µ
+ * ƒvƒŠƒvƒƒZƒbƒT
  * <p>
- * ãƒ‘ãƒ¼ã‚¹ã®å‰ã«ã€å¯¾è±¡æ–‡å­—åˆ—ã«å¯¾ã—ã¦å®Ÿè¡Œã™ã‚‹ã€‚ <br>
- * ã€Œ#include<hoge>("")ã€ã®ã¿å¯¾å¿œã€‚ãã®ä»–ã¯ç©ºæ–‡å­—ã«å¤‰æ›ã™ã‚‹
+ * ƒp[ƒX‚Ì‘O‚ÉA‘ÎÛ•¶š—ñ‚É‘Î‚µ‚ÄÀs‚·‚éB <br>
+ * u#include<hoge>("")v‚Ì‚İ‘Î‰B‚»‚Ì‘¼‚Í‹ó•¶š‚É•ÏŠ·‚·‚é
  */
 public class PreProcessor {
 	private static final Pattern PREPROSESSOR_PATTERN = Pattern.compile(
@@ -28,12 +28,12 @@ public class PreProcessor {
 	private static final int INCLUDE_FILE_INDEX = 2;
 
 	/**
-	 * å¯¾è±¡æ–‡å­—åˆ—ã«å¯¾ã—ã¦ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µã‚’å®Ÿè¡Œã™ã‚‹ã€‚
-	 * å…¨ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µã‚’å‰Šé™¤ã™ã‚‹
+	 * ‘ÎÛ•¶š—ñ‚É‘Î‚µ‚ÄƒvƒŠƒvƒƒZƒbƒT‚ğÀs‚·‚éB
+	 * ‘SƒvƒŠƒvƒƒZƒbƒT‚ğíœ‚·‚é
 	 * 
 	 * @param target
-	 *            å¯¾è±¡æ–‡å­—åˆ—
-	 * @return å®Ÿè¡Œå¾Œæ–‡å­—åˆ—
+	 *            ‘ÎÛ•¶š—ñ
+	 * @return ÀsŒã•¶š—ñ
 	 */
 	public static String parseAlltoSpace(String target) {
 		String targetNoCmt = eraseComments(target);
@@ -60,11 +60,11 @@ public class PreProcessor {
 	}
 
 	/**
-	 * å¯¾è±¡æ–‡å­—åˆ—ã«å¯¾ã—ã¦ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µã‚’å®Ÿè¡Œã™ã‚‹ã€‚
+	 * ‘ÎÛ•¶š—ñ‚É‘Î‚µ‚ÄƒvƒŠƒvƒƒZƒbƒT‚ğÀs‚·‚éB
 	 * 
 	 * @param target
-	 *            å¯¾è±¡æ–‡å­—åˆ—
-	 * @return å®Ÿè¡Œå¾Œæ–‡å­—åˆ—
+	 *            ‘ÎÛ•¶š—ñ
+	 * @return ÀsŒã•¶š—ñ
 	 * @throws IOException 
 	 */
 	public static String parse(String target, File includeBaseDir, List<String> includeFiles) throws IOException {
@@ -99,7 +99,7 @@ public class PreProcessor {
 	}
 
 	/**
-	 * ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ã§ã‚ã£ãŸå ´åˆã«ã€ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚³ãƒ³ãƒ†ãƒ³ãƒ„ã‚’å–å¾—ã™ã‚‹
+	 * ƒCƒ“ƒNƒ‹[ƒh‚Å‚ ‚Á‚½ê‡‚ÉAƒtƒ@ƒCƒ‹‚ÌƒRƒ“ƒeƒ“ƒc‚ğæ“¾‚·‚é
 	 * 
 	 * @param directive
 	 * @param includeBaseDir

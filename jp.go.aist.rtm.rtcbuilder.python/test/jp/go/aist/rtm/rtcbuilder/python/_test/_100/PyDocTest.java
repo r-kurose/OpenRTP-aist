@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.go.aist.rtm.rtcbuilder.Generator;
+import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
@@ -11,35 +12,22 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
+import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython;
 import jp.go.aist.rtm.rtcbuilder.python._test.TestBase;
-import jp.go.aist.rtm.rtcbuilder.python.manager.PythonCMakeGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.python.manager.PythonGenerateManager;
-
-import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
 
 public class PyDocTest extends TestBase {
 
-	Generator generator;
-	GeneratorParam genParam;
-	RtcParam rtcParam;
-
 	protected void setUp() throws Exception {
-		genParam = new GeneratorParam();
-		rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "/resource/work");
-		rtcParam.setLanguage(IRtcBuilderConstantsPython.LANG_PYTHON);
-		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
-		rtcParam.setRtmVersion(RTM_VERSION_100);
-		rtcParam.setIsTest(true);
-		genParam.getRtcParams().add(rtcParam);
-
-		generator = new Generator();
-		generator.addGenerateManager(new PythonGenerateManager());
-		generator.addGenerateManager(new PythonCMakeGenerateManager());
 	}
 
-	public void testDocAll() throws Exception {
+	public void testDocAll() throws Exception{
+		GeneratorParam genParam = new GeneratorParam();
+		RtcParam rtcParam = new RtcParam(genParam, true);
+		rtcParam.setOutputProject(rootPath + "\\resource\\work");
+		rtcParam.setLanguage(IRtcBuilderConstantsPython.LANG_PYTHON);
+		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
 		rtcParam.setName("foo");
 		rtcParam.setDescription("MDesc");
 		rtcParam.setVersion("1.0.1");
@@ -49,227 +37,219 @@ public class PyDocTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
 		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
 		//
 		rtcParam.setDocCreator("Noriaki Ando <n-ando@aist.go.jp>");
-		rtcParam.setDocLicense("Copyright (C) 2006-2008 ãƒ©ã‚¤ã‚»ãƒ³ã‚¹");
-		rtcParam.setDocDescription("æœ¬ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®æ¦‚è¦èª¬æ˜");
-		rtcParam.setDocInOut("æœ¬ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å…¥å‡ºåŠ›");
-		rtcParam.setDocAlgorithm("æœ¬ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ ãªã©");
-		rtcParam.setDocReference("å‚è€ƒæ–‡çŒ®ã®æƒ…å ±");
+		rtcParam.setDocLicense("Copyright (C) 2006-2008 ƒ‰ƒCƒZƒ“ƒX");
+		rtcParam.setDocDescription("–{ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌŠT—và–¾");
+		rtcParam.setDocInOut("–{ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì“üo—Í");
+		rtcParam.setDocAlgorithm("–{ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒAƒ‹ƒSƒŠƒYƒ€‚È‚Ç");
+		rtcParam.setDocReference("Ql•¶Œ£‚Ìî•ñ");
 		//
-		rtcParam.setDocActionOverView(ACTIVITY_INITIALIZE, "on_initializeæ¦‚è¦èª¬æ˜");
-		rtcParam.setDocActionPreCondition(ACTIVITY_INITIALIZE,
-				"on_initializeäº‹å‰æ¡ä»¶");
-		rtcParam.setDocActionPostCondition(ACTIVITY_INITIALIZE,
-				"on_initializeäº‹å¾Œæ¡ä»¶");
+		rtcParam.setDocActionOverView(IRtcBuilderConstants.ACTIVITY_INITIALIZE, "on_initializeŠT—và–¾");
+		rtcParam.setDocActionPreCondition(IRtcBuilderConstants.ACTIVITY_INITIALIZE, "on_initialize–‘OğŒ");
+		rtcParam.setDocActionPostCondition(IRtcBuilderConstants.ACTIVITY_INITIALIZE, "on_initialize–ŒãğŒ");
 		//
-		rtcParam.setDocActionOverView(ACTIVITY_FINALIZE, "on_finalizeæ¦‚è¦èª¬æ˜");
-		rtcParam.setDocActionPreCondition(ACTIVITY_FINALIZE, "on_finalizeäº‹å‰æ¡ä»¶");
-		rtcParam
-				.setDocActionPostCondition(ACTIVITY_FINALIZE, "on_finalizeäº‹å¾Œæ¡ä»¶");
+		rtcParam.setDocActionOverView(IRtcBuilderConstants.ACTIVITY_FINALIZE, "on_finalizeŠT—và–¾");
+		rtcParam.setDocActionPreCondition(IRtcBuilderConstants.ACTIVITY_FINALIZE, "on_finalize–‘OğŒ");
+		rtcParam.setDocActionPostCondition(IRtcBuilderConstants.ACTIVITY_FINALIZE, "on_finalize–ŒãğŒ");
 		//
-		rtcParam.setDocActionOverView(ACTIVITY_STARTUP, "on_startupæ¦‚è¦èª¬æ˜");
-		rtcParam.setDocActionPreCondition(ACTIVITY_STARTUP, "on_startupäº‹å‰æ¡ä»¶");
-		rtcParam.setDocActionPostCondition(ACTIVITY_STARTUP, "on_startupäº‹å¾Œæ¡ä»¶");
+		rtcParam.setDocActionOverView(IRtcBuilderConstants.ACTIVITY_STARTUP, "on_startupŠT—và–¾");
+		rtcParam.setDocActionPreCondition(IRtcBuilderConstants.ACTIVITY_STARTUP, "on_startup–‘OğŒ");
+		rtcParam.setDocActionPostCondition(IRtcBuilderConstants.ACTIVITY_STARTUP, "on_startup–ŒãğŒ");
 		//
-		rtcParam.setDocActionOverView(ACTIVITY_SHUTDOWN, "on_shutdownæ¦‚è¦èª¬æ˜");
-		rtcParam.setDocActionPreCondition(ACTIVITY_SHUTDOWN, "on_shutdownäº‹å‰æ¡ä»¶");
-		rtcParam
-				.setDocActionPostCondition(ACTIVITY_SHUTDOWN, "on_shutdownäº‹å¾Œæ¡ä»¶");
+		rtcParam.setDocActionOverView(IRtcBuilderConstants.ACTIVITY_SHUTDOWN, "on_shutdownŠT—và–¾");
+		rtcParam.setDocActionPreCondition(IRtcBuilderConstants.ACTIVITY_SHUTDOWN, "on_shutdown–‘OğŒ");
+		rtcParam.setDocActionPostCondition(IRtcBuilderConstants.ACTIVITY_SHUTDOWN, "on_shutdown–ŒãğŒ");
 		//
-		rtcParam.setDocActionOverView(ACTIVITY_ACTIVATED, "on_activatedæ¦‚è¦èª¬æ˜");
-		rtcParam.setDocActionPreCondition(ACTIVITY_ACTIVATED,
-				"on_activatedäº‹å‰æ¡ä»¶");
-		rtcParam.setDocActionPostCondition(ACTIVITY_ACTIVATED,
-				"on_activatedäº‹å¾Œæ¡ä»¶");
+		rtcParam.setDocActionOverView(IRtcBuilderConstants.ACTIVITY_ACTIVATED, "on_activatedŠT—và–¾");
+		rtcParam.setDocActionPreCondition(IRtcBuilderConstants.ACTIVITY_ACTIVATED, "on_activated–‘OğŒ");
+		rtcParam.setDocActionPostCondition(IRtcBuilderConstants.ACTIVITY_ACTIVATED, "on_activated–ŒãğŒ");
 		//
-		rtcParam.setDocActionOverView(ACTIVITY_DEACTIVATED,
-				"on_deactivatedæ¦‚è¦èª¬æ˜");
-		rtcParam.setDocActionPreCondition(ACTIVITY_DEACTIVATED,
-				"on_deactivatedäº‹å‰æ¡ä»¶");
-		rtcParam.setDocActionPostCondition(ACTIVITY_DEACTIVATED,
-				"on_deactivatedäº‹å¾Œæ¡ä»¶");
+		rtcParam.setDocActionOverView(IRtcBuilderConstants.ACTIVITY_DEACTIVATED, "on_deactivatedŠT—và–¾");
+		rtcParam.setDocActionPreCondition(IRtcBuilderConstants.ACTIVITY_DEACTIVATED, "on_deactivated–‘OğŒ");
+		rtcParam.setDocActionPostCondition(IRtcBuilderConstants.ACTIVITY_DEACTIVATED, "on_deactivated–ŒãğŒ");
 		//
-		rtcParam.setDocActionOverView(ACTIVITY_EXECUTE, "on_executeæ¦‚è¦èª¬æ˜");
-		rtcParam.setDocActionPreCondition(ACTIVITY_EXECUTE, "on_executeäº‹å‰æ¡ä»¶");
-		rtcParam.setDocActionPostCondition(ACTIVITY_EXECUTE, "on_executeäº‹å¾Œæ¡ä»¶");
+		rtcParam.setDocActionOverView(IRtcBuilderConstants.ACTIVITY_EXECUTE, "on_executeŠT—và–¾");
+		rtcParam.setDocActionPreCondition(IRtcBuilderConstants.ACTIVITY_EXECUTE, "on_execute–‘OğŒ");
+		rtcParam.setDocActionPostCondition(IRtcBuilderConstants.ACTIVITY_EXECUTE, "on_execute–ŒãğŒ");
 		//
-		rtcParam.setDocActionOverView(ACTIVITY_ABORTING, "on_abortingæ¦‚è¦èª¬æ˜");
-		rtcParam.setDocActionPreCondition(ACTIVITY_ABORTING, "on_abortingäº‹å‰æ¡ä»¶");
-		rtcParam
-				.setDocActionPostCondition(ACTIVITY_ABORTING, "on_abortingäº‹å¾Œæ¡ä»¶");
+		rtcParam.setDocActionOverView(IRtcBuilderConstants.ACTIVITY_ABORTING, "on_abortingŠT—và–¾");
+		rtcParam.setDocActionPreCondition(IRtcBuilderConstants.ACTIVITY_ABORTING, "on_aborting–‘OğŒ");
+		rtcParam.setDocActionPostCondition(IRtcBuilderConstants.ACTIVITY_ABORTING, "on_aborting–ŒãğŒ");
 		//
-		rtcParam.setDocActionOverView(ACTIVITY_ERROR, "on_erroræ¦‚è¦èª¬æ˜");
-		rtcParam.setDocActionPreCondition(ACTIVITY_ERROR, "on_erroräº‹å‰æ¡ä»¶");
-		rtcParam.setDocActionPostCondition(ACTIVITY_ERROR, "on_erroräº‹å¾Œæ¡ä»¶");
+		rtcParam.setDocActionOverView(IRtcBuilderConstants.ACTIVITY_ERROR, "on_errorŠT—và–¾");
+		rtcParam.setDocActionPreCondition(IRtcBuilderConstants.ACTIVITY_ERROR, "on_error–‘OğŒ");
+		rtcParam.setDocActionPostCondition(IRtcBuilderConstants.ACTIVITY_ERROR, "on_error–ŒãğŒ");
 		//
-		rtcParam.setDocActionOverView(ACTIVITY_RESET, "on_resetæ¦‚è¦èª¬æ˜");
-		rtcParam.setDocActionPreCondition(ACTIVITY_RESET, "on_resetäº‹å‰æ¡ä»¶");
-		rtcParam.setDocActionPostCondition(ACTIVITY_RESET, "on_resetäº‹å¾Œæ¡ä»¶");
+		rtcParam.setDocActionOverView(IRtcBuilderConstants.ACTIVITY_RESET, "on_resetŠT—và–¾");
+		rtcParam.setDocActionPreCondition(IRtcBuilderConstants.ACTIVITY_RESET, "on_reset–‘OğŒ");
+		rtcParam.setDocActionPostCondition(IRtcBuilderConstants.ACTIVITY_RESET, "on_reset–ŒãğŒ");
 		//
-		rtcParam.setDocActionOverView(ACTIVITY_STATE_UPDATE,
-				"on_state_updateæ¦‚è¦èª¬æ˜");
-		rtcParam.setDocActionPreCondition(ACTIVITY_STATE_UPDATE,
-				"on_state_updateäº‹å‰æ¡ä»¶");
-		rtcParam.setDocActionPostCondition(ACTIVITY_STATE_UPDATE,
-				"on_state_updateäº‹å¾Œæ¡ä»¶");
+		rtcParam.setDocActionOverView(IRtcBuilderConstants.ACTIVITY_STATE_UPDATE, "on_state_updateŠT—và–¾");
+		rtcParam.setDocActionPreCondition(IRtcBuilderConstants.ACTIVITY_STATE_UPDATE, "on_state_update–‘OğŒ");
+		rtcParam.setDocActionPostCondition(IRtcBuilderConstants.ACTIVITY_STATE_UPDATE, "on_state_update–ŒãğŒ");
 		//
-		rtcParam.setDocActionOverView(ACTIVITY_RATE_CHANGED,
-				"on_rate_changedæ¦‚è¦èª¬æ˜");
-		rtcParam.setDocActionPreCondition(ACTIVITY_RATE_CHANGED,
-				"on_rate_changedäº‹å‰æ¡ä»¶");
-		rtcParam.setDocActionPostCondition(ACTIVITY_RATE_CHANGED,
-				"on_rate_changedäº‹å¾Œæ¡ä»¶");
+		rtcParam.setDocActionOverView(IRtcBuilderConstants.ACTIVITY_RATE_CHANGED, "on_rate_changedŠT—và–¾");
+		rtcParam.setDocActionPreCondition(IRtcBuilderConstants.ACTIVITY_RATE_CHANGED, "on_rate_changed–‘OğŒ");
+		rtcParam.setDocActionPostCondition(IRtcBuilderConstants.ACTIVITY_RATE_CHANGED, "on_rate_changed–ŒãğŒ");
 		//
-		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
+		genParam.getRtcParams().add(rtcParam);
+		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 
-		DataPortParam datap1 = new DataPortParam("InP1", "RTC::TimedShort", "",
-				0);
-		datap1.setDocDescription("InPort1ã®æ¦‚è¦");
-		datap1.setDocType("InPort1ã®ãƒ‡ãƒ¼ã‚¿ã®å‹");
-		datap1.setDocNum("InPort1ã®ãƒ‡ãƒ¼ã‚¿ã®æ•°");
-		datap1.setDocSemantics("InPort1ã®ãƒ‡ãƒ¼ã‚¿ã®æ„å‘³");
-		datap1.setDocUnit("InPort1ã®ãƒ‡ãƒ¼ã‚¿ã®å˜ä½");
-		datap1.setDocOccurrence("InPort1ã®ãƒ‡ãƒ¼ã‚¿ã®ç™ºç”Ÿé »åº¦");
-		datap1.setDocOperation("InPort1ã®ãƒ‡ãƒ¼ã‚¿ã®å‡¦ç†å‘¨æœŸ");
+		DataPortParam datap1 = new DataPortParam("InP1", "RTC::TimedShort", "", 0);
+		datap1.setDocDescription("InPort1‚ÌŠT—v");
+		datap1.setDocType("InPort1‚Ìƒf[ƒ^‚ÌŒ^");
+		datap1.setDocNum("InPort1‚Ìƒf[ƒ^‚Ì”");
+		datap1.setDocSemantics("InPort1‚Ìƒf[ƒ^‚ÌˆÓ–¡");
+		datap1.setDocUnit("InPort1‚Ìƒf[ƒ^‚Ì’PˆÊ");
+		datap1.setDocOccurrence("InPort1‚Ìƒf[ƒ^‚Ì”­¶•p“x");
+		datap1.setDocOperation("InPort1‚Ìƒf[ƒ^‚Ìˆ—üŠú");
 		dataport.add(datap1);
 
-		DataPortParam datap2 = new DataPortParam("InP2", "RTC::TimedLong", "",
-				0);
-		datap2.setDocDescription("InPort2ã®æ¦‚è¦");
-		datap2.setDocType("InPort2ã®ãƒ‡ãƒ¼ã‚¿ã®å‹");
-		datap2.setDocNum("InPort2ã®ãƒ‡ãƒ¼ã‚¿ã®æ•°");
-		datap2.setDocSemantics("InPort2ã®ãƒ‡ãƒ¼ã‚¿ã®æ„å‘³");
-		datap2.setDocUnit("InPort2ã®ãƒ‡ãƒ¼ã‚¿ã®å˜ä½");
-		datap2.setDocOccurrence("InPort2ã®ãƒ‡ãƒ¼ã‚¿ã®ç™ºç”Ÿé »åº¦");
-		datap2.setDocOperation("InPort2ã®ãƒ‡ãƒ¼ã‚¿ã®å‡¦ç†å‘¨æœŸ");
+		DataPortParam datap2 = new DataPortParam("InP2", "RTC::TimedLong", "", 0);
+		datap2.setDocDescription("InPort2‚ÌŠT—v");
+		datap2.setDocType("InPort2‚Ìƒf[ƒ^‚ÌŒ^");
+		datap2.setDocNum("InPort2‚Ìƒf[ƒ^‚Ì”");
+		datap2.setDocSemantics("InPort2‚Ìƒf[ƒ^‚ÌˆÓ–¡");
+		datap2.setDocUnit("InPort2‚Ìƒf[ƒ^‚Ì’PˆÊ");
+		datap2.setDocOccurrence("InPort2‚Ìƒf[ƒ^‚Ì”­¶•p“x");
+		datap2.setDocOperation("InPort2‚Ìƒf[ƒ^‚Ìˆ—üŠú");
 		dataport.add(datap2);
-
+		
 		rtcParam.getInports().addAll(dataport);
 		//
-		List<DataPortParam> outport = new ArrayList<DataPortParam>();
+		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
 
-		DataPortParam datap3 = new DataPortParam("OutP1", "RTC::TimedLong", "",
-				0);
-		datap3.setDocDescription("OutPort1ã®æ¦‚è¦");
-		datap3.setDocType("OutPort1ã®ãƒ‡ãƒ¼ã‚¿ã®å‹");
-		datap3.setDocNum("OutPort1ã®ãƒ‡ãƒ¼ã‚¿ã®æ•°");
-		datap3.setDocSemantics("OutPort1ã®ãƒ‡ãƒ¼ã‚¿ã®æ„å‘³");
-		datap3.setDocUnit("OutPort1ã®ãƒ‡ãƒ¼ã‚¿ã®å˜ä½");
-		datap3.setDocOccurrence("OutPort1ã®ãƒ‡ãƒ¼ã‚¿ã®ç™ºç”Ÿé »åº¦");
-		datap3.setDocOperation("OutPort1ã®ãƒ‡ãƒ¼ã‚¿ã®å‡¦ç†å‘¨æœŸ");
+		DataPortParam datap3 = new DataPortParam("OutP1", "RTC::TimedLong", "", 0);
+		datap3.setDocDescription("OutPort1‚ÌŠT—v");
+		datap3.setDocType("OutPort1‚Ìƒf[ƒ^‚ÌŒ^");
+		datap3.setDocNum("OutPort1‚Ìƒf[ƒ^‚Ì”");
+		datap3.setDocSemantics("OutPort1‚Ìƒf[ƒ^‚ÌˆÓ–¡");
+		datap3.setDocUnit("OutPort1‚Ìƒf[ƒ^‚Ì’PˆÊ");
+		datap3.setDocOccurrence("OutPort1‚Ìƒf[ƒ^‚Ì”­¶•p“x");
+		datap3.setDocOperation("OutPort1‚Ìƒf[ƒ^‚Ìˆ—üŠú");
 		outport.add(datap3);
 
-		DataPortParam datap4 = new DataPortParam("OutP2", "RTC::TimedFloat",
-				"", 0);
-		datap4.setDocDescription("OutPort2ã®æ¦‚è¦");
-		datap4.setDocType("OutPort2ã®ãƒ‡ãƒ¼ã‚¿ã®å‹");
-		datap4.setDocNum("OutPort2ã®ãƒ‡ãƒ¼ã‚¿ã®æ•°");
-		datap4.setDocSemantics("OutPort2ã®ãƒ‡ãƒ¼ã‚¿ã®æ„å‘³");
-		datap4.setDocUnit("OutPort2ã®ãƒ‡ãƒ¼ã‚¿ã®å˜ä½");
-		datap4.setDocOccurrence("OutPort2ã®ãƒ‡ãƒ¼ã‚¿ã®ç™ºç”Ÿé »åº¦");
-		datap4.setDocOperation("OutPort2ã®ãƒ‡ãƒ¼ã‚¿ã®å‡¦ç†å‘¨æœŸ");
+		DataPortParam datap4 = new DataPortParam("OutP2", "RTC::TimedFloat", "", 0);
+		datap4.setDocDescription("OutPort2‚ÌŠT—v");
+		datap4.setDocType("OutPort2‚Ìƒf[ƒ^‚ÌŒ^");
+		datap4.setDocNum("OutPort2‚Ìƒf[ƒ^‚Ì”");
+		datap4.setDocSemantics("OutPort2‚Ìƒf[ƒ^‚ÌˆÓ–¡");
+		datap4.setDocUnit("OutPort2‚Ìƒf[ƒ^‚Ì’PˆÊ");
+		datap4.setDocOccurrence("OutPort2‚Ìƒf[ƒ^‚Ì”­¶•p“x");
+		datap4.setDocOperation("OutPort2‚Ìƒf[ƒ^‚Ìˆ—üŠú");
 		outport.add(datap4);
 
 		rtcParam.getOutports().addAll(outport);
 
-		ServicePortParam service1 = new ServicePortParam("svPort", 0);
-		service1.setDocDescription("ServicePort1ã®æ¦‚è¦");
-		service1.setDocIfDescription("ServicePort1ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã®æ¦‚è¦");
-		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>();
-		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(
-				service1, "acc", "", "", rootPath + "/resource/MyService.idl",
-				"MyService", "", 0);
-		int1.setDocDescription("ServiceIF1ã®æ¦‚è¦èª¬æ˜");
-		int1.setDocArgument("ServiceIF1ã®å¼•æ•°");
-		int1.setDocReturn("ServiceIF1ã®è¿”å€¤");
-		int1.setDocException("ServiceIF1ã®ä¾‹å¤–");
-		int1.setDocPreCondition("ServiceIF1ã®äº‹å‰æ¡ä»¶");
-		int1.setDocPostCondition("ServiceIF1ã®äº‹å¾Œæ¡ä»¶");
+		ServicePortParam service1 = new ServicePortParam("svPort",0);
+		service1.setDocDescription("ServicePort1‚ÌŠT—v");
+		service1.setDocIfDescription("ServicePort1‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌŠT—v");
+		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
+		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
+				rootPath + "\\resource\\MyService.idl", "MyService", "", 0);
+		int1.setDocDescription("ServiceIF1‚ÌŠT—và–¾");
+		int1.setDocArgument("ServiceIF1‚Ìˆø”");
+		int1.setDocReturn("ServiceIF1‚Ì•Ô’l");
+		int1.setDocException("ServiceIF1‚Ì—áŠO");
+		int1.setDocPreCondition("ServiceIF1‚Ì–‘OğŒ");
+		int1.setDocPostCondition("ServiceIF1‚Ì–ŒãğŒ");
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
-
-		ServicePortParam service2 = new ServicePortParam("cmPort", 0);
-		service2.setDocDescription("ServicePort2ã®æ¦‚è¦");
-		service2.setDocIfDescription("ServicePort2ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã®æ¦‚è¦");
-		List<ServicePortInterfaceParam> srvinterts2 = new ArrayList<ServicePortInterfaceParam>();
-		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(
-				service2, "rate", "", "",
-				rootPath + "/resource/DAQService.idl", "DAQService", "", 1);
-		int2.setDocDescription("ServiceIF2ã®æ¦‚è¦èª¬æ˜");
-		int2.setDocArgument("ServiceIF2ã®å¼•æ•°");
-		int2.setDocReturn("ServiceIF2ã®è¿”å€¤");
-		int2.setDocException("ServiceIF2ã®ä¾‹å¤–");
-		int2.setDocPreCondition("ServiceIF2ã®äº‹å‰æ¡ä»¶");
-		int2.setDocPostCondition("ServiceIF2ã®äº‹å¾Œæ¡ä»¶");
+		
+		ServicePortParam service2 = new ServicePortParam("cmPort",0);
+		service2.setDocDescription("ServicePort2‚ÌŠT—v");
+		service2.setDocIfDescription("ServicePort2‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌŠT—v");
+		List<ServicePortInterfaceParam> srvinterts2 = new ArrayList<ServicePortInterfaceParam>(); 
+		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service2, "rate", "", "", 
+				rootPath + "\\resource\\DAQService.idl", "DAQService", "", 1);
+		int2.setDocDescription("ServiceIF2‚ÌŠT—và–¾");
+		int2.setDocArgument("ServiceIF2‚Ìˆø”");
+		int2.setDocReturn("ServiceIF2‚Ì•Ô’l");
+		int2.setDocException("ServiceIF2‚Ì—áŠO");
+		int2.setDocPreCondition("ServiceIF2‚Ì–‘OğŒ");
+		int2.setDocPostCondition("ServiceIF2‚Ì–ŒãğŒ");
 		srvinterts2.add(int2);
 		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
-
-		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>();
-		ConfigSetParam config1 = new ConfigSetParam("int_param0", "int", "",
-				"0");
-		config1.setDocDataName("Config1ã®åå‰");
-		config1.setDocDescription("Config1ã®æ¦‚è¦");
-		config1.setDocDefaultVal("Config1ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤");
-		config1.setDocUnit("Config1ã®å˜ä½");
-		config1.setDocRange("Config1ã®ç¯„å›²");
-		config1.setDocConstraint("Config1ã®åˆ¶ç´„æ¡ä»¶");
+		
+		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
+		ConfigSetParam config1 = new ConfigSetParam("int_param0","int","", "0");
+		config1.setDocDataName("Config1‚Ì–¼‘O");
+		config1.setDocDescription("Config1‚ÌŠT—v");
+		config1.setDocDefaultVal("Config1‚ÌƒfƒtƒHƒ‹ƒg’l");
+		config1.setDocUnit("Config1‚Ì’PˆÊ");
+		config1.setDocRange("Config1‚Ì”ÍˆÍ");
+		config1.setDocConstraint("Config1‚Ì§–ñğŒ");
 		configset.add(config1);
-		ConfigSetParam config2 = new ConfigSetParam("int_param1", "int", "",
-				"1");
-		config2.setDocDataName("Config2ã®åå‰");
-		config2.setDocDescription("Config2ã®æ¦‚è¦");
-		config2.setDocDefaultVal("Config2ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤");
-		config2.setDocUnit("Config2ã®å˜ä½");
-		config2.setDocRange("Config2ã®ç¯„å›²");
-		config2.setDocConstraint("Config2ã®åˆ¶ç´„æ¡ä»¶");
+		ConfigSetParam config2 = new ConfigSetParam("int_param1","int","", "1");
+		config2.setDocDataName("Config2‚Ì–¼‘O");
+		config2.setDocDescription("Config2‚ÌŠT—v");
+		config2.setDocDefaultVal("Config2‚ÌƒfƒtƒHƒ‹ƒg’l");
+		config2.setDocUnit("Config2‚Ì’PˆÊ");
+		config2.setDocRange("Config2‚Ì”ÍˆÍ");
+		config2.setDocConstraint("Config2‚Ì§–ñğŒ");
 		configset.add(config2);
-		ConfigSetParam config3 = new ConfigSetParam("double_param0", "double",
-				"", "0.11");
-		config3.setDocDataName("Config3ã®åå‰");
-		config3.setDocDescription("Config3ã®æ¦‚è¦");
-		config3.setDocDefaultVal("Config3ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤");
-		config3.setDocUnit("Config3ã®å˜ä½");
-		config3.setDocRange("Config3ã®ç¯„å›²");
-		config3.setDocConstraint("Config3ã®åˆ¶ç´„æ¡ä»¶");
+		ConfigSetParam config3 = new ConfigSetParam("double_param0","double","", "0.11");
+		config3.setDocDataName("Config3‚Ì–¼‘O");
+		config3.setDocDescription("Config3‚ÌŠT—v");
+		config3.setDocDefaultVal("Config3‚ÌƒfƒtƒHƒ‹ƒg’l");
+		config3.setDocUnit("Config3‚Ì’PˆÊ");
+		config3.setDocRange("Config3‚Ì”ÍˆÍ");
+		config3.setDocConstraint("Config3‚Ì§–ñğŒ");
 		configset.add(config3);
-		ConfigSetParam config4 = new ConfigSetParam("str_param0", "String", "",
-				"hoge");
-		config4.setDocDataName("Config4ã®åå‰");
-		config4.setDocDescription("Config4ã®æ¦‚è¦");
-		config4.setDocDefaultVal("Config4ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤");
-		config4.setDocUnit("Config4ã®å˜ä½");
-		config4.setDocRange("Config4ã®ç¯„å›²");
-		config4.setDocConstraint("Config4ã®åˆ¶ç´„æ¡ä»¶");
+		ConfigSetParam config4 = new ConfigSetParam("str_param0","String","", "hoge");
+		config4.setDocDataName("Config4‚Ì–¼‘O");
+		config4.setDocDescription("Config4‚ÌŠT—v");
+		config4.setDocDefaultVal("Config4‚ÌƒfƒtƒHƒ‹ƒg’l");
+		config4.setDocUnit("Config4‚Ì’PˆÊ");
+		config4.setDocRange("Config4‚Ì”ÍˆÍ");
+		config4.setDocConstraint("Config4‚Ì§–ñğŒ");
 		configset.add(config4);
-		ConfigSetParam config5 = new ConfigSetParam("str_param1", "String", "",
-				"dara");
-		config5.setDocDataName("Config5ã®åå‰");
-		config5.setDocDescription("Config5ã®æ¦‚è¦");
-		config5.setDocDefaultVal("Config5ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤");
-		config5.setDocUnit("Config5ã®å˜ä½");
-		config5.setDocRange("Config5ã®ç¯„å›²");
-		config5.setDocConstraint("Config5ã®åˆ¶ç´„æ¡ä»¶");
+		ConfigSetParam config5 = new ConfigSetParam("str_param1","String","", "dara");
+		config5.setDocDataName("Config5‚Ì–¼‘O");
+		config5.setDocDescription("Config5‚ÌŠT—v");
+		config5.setDocDefaultVal("Config5‚ÌƒfƒtƒHƒ‹ƒg’l");
+		config5.setDocUnit("Config5‚Ì’PˆÊ");
+		config5.setDocRange("Config5‚Ì”ÍˆÍ");
+		config5.setDocConstraint("Config5‚Ì§–ñğŒ");
 		configset.add(config5);
 		rtcParam.getConfigParams().addAll(configset);
 
 		rtcParam.getServicePorts().addAll(srvports);
 
+		Generator generator = new Generator();
+		GenerateManager manager = new PythonGenerateManager();
+		generator.addGenerateManager(manager);
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath + "/resource/100/Doc/full/";
+		String resourceDir = rootPath +  "\\resource\\Python\\100\\Doc\\full\\";
 
-		assertEquals(14, result.size());
+		assertEquals(5, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
+//		checkCode(result, resourceDir, "MyService_idl.py");
+//		checkCode(result, resourceDir, "DAQService_idl.py");
+//		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
+//		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
 	}
 
-	public void testDocRefer() throws Exception {
+	public void testDocRefer() throws Exception{
+		GeneratorParam genParam = new GeneratorParam();
+		RtcParam rtcParam = new RtcParam(genParam, true);
+		rtcParam.setOutputProject(rootPath + "\\resource\\work");
+		rtcParam.setLanguage(IRtcBuilderConstantsPython.LANG_PYTHON);
+		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
 		rtcParam.setName("foo");
 		rtcParam.setDescription("MDesc");
 		rtcParam.setVersion("1.0.1");
@@ -279,56 +259,73 @@ public class PyDocTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
 		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
 		//
 		rtcParam.setDocCreator("Noriaki Ando <n-ando@aist.go.jp>");
-		rtcParam.setDocLicense("Copyright (C) 2006-2008 ãƒ©ã‚¤ã‚»ãƒ³ã‚¹");
-		rtcParam.setDocDescription("æœ¬ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®æ¦‚è¦èª¬æ˜");
-		rtcParam.setDocInOut("æœ¬ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å…¥å‡ºåŠ›");
-		rtcParam.setDocAlgorithm("æœ¬ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ ãªã©");
-		rtcParam.setDocReference("å‚è€ƒæ–‡çŒ®ã®æƒ…å ±");
+		rtcParam.setDocLicense("Copyright (C) 2006-2008 ƒ‰ƒCƒZƒ“ƒX");
+		rtcParam.setDocDescription("–{ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌŠT—và–¾");
+		rtcParam.setDocInOut("–{ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì“üo—Í");
+		rtcParam.setDocAlgorithm("–{ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒAƒ‹ƒSƒŠƒYƒ€‚È‚Ç");
+		rtcParam.setDocReference("Ql•¶Œ£‚Ìî•ñ");
 		//
-		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
+		genParam.getRtcParams().add(rtcParam);
+		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
 		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
 		rtcParam.getInports().addAll(dataport);
-		List<DataPortParam> outport = new ArrayList<DataPortParam>();
+		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
 		outport.add(new DataPortParam("OutP1", "RTC::TimedLong", "", 0));
 		outport.add(new DataPortParam("OutP2", "RTC::TimedFloat", "", 0));
 		rtcParam.getOutports().addAll(outport);
 
-		ServicePortParam service1 = new ServicePortParam("svPort", 0);
-		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>();
-		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(
-				service1, "acc", "", "", rootPath + "/resource/MyService.idl",
-				"MyService", "", 0);
+		ServicePortParam service1 = new ServicePortParam("svPort",0);
+		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
+		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
+				rootPath + "\\resource\\MyService.idl", "MyService", "", 0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
-
-		ServicePortParam service2 = new ServicePortParam("cmPort", 0);
-		List<ServicePortInterfaceParam> srvinterts2 = new ArrayList<ServicePortInterfaceParam>();
-		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(
-				service2, "rate", "", "",
-				rootPath + "/resource/DAQService.idl", "DAQService", "", 1);
+		
+		ServicePortParam service2 = new ServicePortParam("cmPort",0);
+		List<ServicePortInterfaceParam> srvinterts2 = new ArrayList<ServicePortInterfaceParam>(); 
+		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service2, "rate", "", "", 
+				rootPath + "\\resource\\DAQService.idl", "DAQService", "", 1);
 		srvinterts2.add(int2);
 		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
-
+		
 		rtcParam.getServicePorts().addAll(srvports);
 
+		Generator generator = new Generator();
+		GenerateManager manager = new PythonGenerateManager();
+		generator.addGenerateManager(manager);
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath + "/resource/100/Doc/refer/";
+		String resourceDir = rootPath +  "\\resource\\Python\\100\\Doc\\refer\\";
 
-		assertEquals(14, result.size());
+		assertEquals(5, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
+//		checkCode(result, resourceDir, "MyService_idl.py");
+//		checkCode(result, resourceDir, "DAQService_idl.py");
+//		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
+//		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
 	}
 
-	public void testDocAuthorLong() throws Exception {
+	public void testDocAuthorLong() throws Exception{
+		GeneratorParam genParam = new GeneratorParam();
+		RtcParam rtcParam = new RtcParam(genParam, true);
+		rtcParam.setOutputProject(rootPath + "\\resource\\work");
+		rtcParam.setLanguage(IRtcBuilderConstantsPython.LANG_PYTHON);
+		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
 		rtcParam.setName("foo");
 		rtcParam.setDescription("MDesc");
 		rtcParam.setVersion("1.0.1");
@@ -338,52 +335,68 @@ public class PyDocTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
 		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
 		//
-		rtcParam
-				.setDocCreator("Noriaki Ando <n-ando@aist.go.jp>34567894123456789512345678961234567897123456789812345");
+		rtcParam.setDocCreator("Noriaki Ando <n-ando@aist.go.jp>34567894123456789512345678961234567897123456789812345");
 		//
-		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
+		genParam.getRtcParams().add(rtcParam);
+		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
 		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
 		rtcParam.getInports().addAll(dataport);
-		List<DataPortParam> outport = new ArrayList<DataPortParam>();
+		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
 		outport.add(new DataPortParam("OutP1", "RTC::TimedLong", "", 0));
 		outport.add(new DataPortParam("OutP2", "RTC::TimedFloat", "", 0));
 		rtcParam.getOutports().addAll(outport);
 
-		ServicePortParam service1 = new ServicePortParam("svPort", 0);
-		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>();
-		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(
-				service1, "acc", "", "", rootPath + "/resource/MyService.idl",
-				"MyService", "", 0);
+		ServicePortParam service1 = new ServicePortParam("svPort",0);
+		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
+		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
+				rootPath + "\\resource\\MyService.idl", "MyService", "", 0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
-
-		ServicePortParam service2 = new ServicePortParam("cmPort", 0);
-		List<ServicePortInterfaceParam> srvinterts2 = new ArrayList<ServicePortInterfaceParam>();
-		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(
-				service2, "rate", "", "",
-				rootPath + "/resource/DAQService.idl", "DAQService", "", 1);
+		
+		ServicePortParam service2 = new ServicePortParam("cmPort",0);
+		List<ServicePortInterfaceParam> srvinterts2 = new ArrayList<ServicePortInterfaceParam>(); 
+		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service2, "rate", "", "", 
+				rootPath + "\\resource\\DAQService.idl", "DAQService", "", 1);
 		srvinterts2.add(int2);
 		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
-
+		
 		rtcParam.getServicePorts().addAll(srvports);
 
+		Generator generator = new Generator();
+		GenerateManager manager = new PythonGenerateManager();
+		generator.addGenerateManager(manager);
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath + "/resource/100/Doc/authorLong/";
+		String resourceDir = rootPath +  "\\resource\\Python\\100\\Doc\\authorLong\\";
 
-		assertEquals(14, result.size());
+		assertEquals(5, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
+//		checkCode(result, resourceDir, "MyService_idl.py");
+//		checkCode(result, resourceDir, "DAQService_idl.py");
+//		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
+//		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
 	}
 
-	public void testDocAuthor() throws Exception {
+	public void testDocAuthor() throws Exception{
+		GeneratorParam genParam = new GeneratorParam();
+		RtcParam rtcParam = new RtcParam(genParam, true);
+		rtcParam.setOutputProject(rootPath + "\\resource\\work");
+		rtcParam.setLanguage(IRtcBuilderConstantsPython.LANG_PYTHON);
+		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
 		rtcParam.setName("foo");
 		rtcParam.setDescription("MDesc");
 		rtcParam.setVersion("1.0.1");
@@ -393,48 +406,128 @@ public class PyDocTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
 		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
 		//
 		rtcParam.setDocCreator("Noriaki Ando <n-ando@aist.go.jp>");
 		//
-		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
+		genParam.getRtcParams().add(rtcParam);
+		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
 		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
 		rtcParam.getInports().addAll(dataport);
-		List<DataPortParam> outport = new ArrayList<DataPortParam>();
+		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
 		outport.add(new DataPortParam("OutP1", "RTC::TimedLong", "", 0));
 		outport.add(new DataPortParam("OutP2", "RTC::TimedFloat", "", 0));
 		rtcParam.getOutports().addAll(outport);
 
-		ServicePortParam service1 = new ServicePortParam("svPort", 0);
-		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>();
-		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(
-				service1, "acc", "", "", rootPath + "/resource/MyService.idl",
-				"MyService", "", 0);
+		ServicePortParam service1 = new ServicePortParam("svPort",0);
+		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
+		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
+				rootPath + "\\resource\\MyService.idl", "MyService", "", 0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
-
-		ServicePortParam service2 = new ServicePortParam("cmPort", 0);
-		List<ServicePortInterfaceParam> srvinterts2 = new ArrayList<ServicePortInterfaceParam>();
-		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(
-				service2, "rate", "", "",
-				rootPath + "/resource/DAQService.idl", "DAQService", "", 1);
+		
+		ServicePortParam service2 = new ServicePortParam("cmPort",0);
+		List<ServicePortInterfaceParam> srvinterts2 = new ArrayList<ServicePortInterfaceParam>(); 
+		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service2, "rate", "", "", 
+				rootPath + "\\resource\\DAQService.idl", "DAQService", "", 1);
 		srvinterts2.add(int2);
 		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
-
+		
 		rtcParam.getServicePorts().addAll(srvports);
 
+		Generator generator = new Generator();
+		GenerateManager manager = new PythonGenerateManager();
+		generator.addGenerateManager(manager);
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath + "/resource/100/Doc/author/";
+		String resourceDir = rootPath +  "\\resource\\Python\\100\\Doc\\author\\";
 
-		assertEquals(14, result.size());
+		assertEquals(5, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
+//		checkCode(result, resourceDir, "MyService_idl.py");
+//		checkCode(result, resourceDir, "DAQService_idl.py");
+//		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
+//		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
 	}
 
+	public void testOriginal() throws Exception{
+		GeneratorParam genParam = new GeneratorParam();
+		RtcParam rtcParam = new RtcParam(genParam, true);
+		rtcParam.setOutputProject(rootPath + "\\resource\\work");
+		rtcParam.setLanguage(IRtcBuilderConstantsPython.LANG_PYTHON);
+		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
+		rtcParam.setName("foo");
+		rtcParam.setDescription("MDesc");
+		rtcParam.setVersion("1.0.1");
+		rtcParam.setVender("TA");
+		rtcParam.setCategory("Manip");
+		rtcParam.setComponentType("STATIC2");
+		rtcParam.setActivityType("PERIODIC2");
+		rtcParam.setMaxInstance(5);
+		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
+		
+		genParam.getRtcParams().add(rtcParam);
+		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
+		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
+		dataport.add(new DataPortParam("InP2", "RTC::TimedLong", "", 0));
+		rtcParam.getInports().addAll(dataport);
+		List<DataPortParam> outport = new ArrayList<DataPortParam>(); 
+		outport.add(new DataPortParam("OutP1", "RTC::TimedLong", "", 0));
+		outport.add(new DataPortParam("OutP2", "RTC::TimedFloat", "", 0));
+		rtcParam.getOutports().addAll(outport);
+
+		ServicePortParam service1 = new ServicePortParam("svPort",0);
+		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
+		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "acc", "", "", 
+				rootPath + "\\resource\\MyService.idl", "MyService", "", 0);
+		srvinterts.add(int1);
+		service1.getServicePortInterfaces().addAll(srvinterts);
+		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
+		srvports.add(service1);
+		
+		ServicePortParam service2 = new ServicePortParam("cmPort",0);
+		List<ServicePortInterfaceParam> srvinterts2 = new ArrayList<ServicePortInterfaceParam>(); 
+		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(service2, "rate", "", "", 
+				rootPath + "\\resource\\DAQService.idl", "DAQService", "", 1);
+		srvinterts2.add(int2);
+		service2.getServicePortInterfaces().addAll(srvinterts2);
+		srvports.add(service2);
+		
+		rtcParam.getServicePorts().addAll(srvports);
+
+		Generator generator = new Generator();
+		GenerateManager manager = new PythonGenerateManager();
+		generator.addGenerateManager(manager);
+		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
+
+		String resourceDir = rootPath +  "\\resource\\Python\\100\\service2\\";
+
+		assertEquals(5, result.size());
+		checkCode(result, resourceDir, "foo.py");
+		checkCode(result, resourceDir, "MyService_idl_example.py");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
+		checkCode(result, resourceDir, "idlcompile.bat");
+		checkCode(result, resourceDir, "idlcompile.sh");
+//		checkCode(result, resourceDir, "MyService_idl.py");
+//		checkCode(result, resourceDir, "DAQService_idl.py");
+//		checkCode(result, resourceDir, "\\_GlobalIDL\\__init__.py");
+//		checkCode(result, resourceDir, "\\_GlobalIDL__POA\\__init__.py");
+	}
 }

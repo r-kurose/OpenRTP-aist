@@ -14,11 +14,11 @@ import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * 繧ｷ繧ｹ繝�繝繝繧､繧｢繧ｰ繝ｩ繝縺ｮEditPart繧ｯ繝ｩ繧ｹ
+ * システムダイアグラムのEditPartクラス
  */
 public class SystemDiagramEditPart extends AbstractEditPart {
 	/**
-	 * 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ
+	 * コンストラクタ
 	 * 
 	 * @param actionRegistry
 	 *            ActionRegistry

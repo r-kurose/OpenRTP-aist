@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
 /**
- * ECã«å‚åŠ ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’é¸æŠã™ã‚‹ãƒ€ã‚¤ã‚¢ãƒ­ã‚° (ECViewã‹ã‚‰ä½¿ç”¨)
+ * EC‚ÉQ‰Á‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ‘I‘ğ‚·‚éƒ_ƒCƒAƒƒO (ECView‚©‚çg—p)
  */
 public class SelectAttachComponentDialog extends TitleAreaDialog {
 
@@ -52,12 +52,12 @@ public class SelectAttachComponentDialog extends TitleAreaDialog {
 		setShellStyle(getShellStyle() | SWT.CENTER | SWT.RESIZE);
 	}
 
-	/** é¸æŠå¯¾è±¡ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆä¸€è¦§ã‚’è¨­å®š */
+	/** ‘I‘ğ‘ÎÛ‚ÌƒRƒ“ƒ|[ƒlƒ“ƒgˆê——‚ğİ’è */
 	public void setComponents(List<Component> components) {
 		this.components = components;
 	}
 
-	/** é¸æŠã•ã‚ŒãŸã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å–å¾— */
+	/** ‘I‘ğ‚³‚ê‚½ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğæ“¾ */
 	public Component getSelectedComponent() {
 		return selectedComponent;
 	}
@@ -131,12 +131,12 @@ public class SelectAttachComponentDialog extends TitleAreaDialog {
 		return composite;
 	}
 
-	/** è¡¨ç¤ºå†…å®¹ã‚’æ§‹ç¯‰ */
+	/** •\¦“à—e‚ğ\’z */
 	void buildData() {
 		tableViewer.setInput(components);
 	}
 
-	/** å¤‰æ›´ã‚’é€šçŸ¥ã—ã¾ã™ */
+	/** •ÏX‚ğ’Ê’m‚µ‚Ü‚· */
 	void notifyModified() {
 		if (selectedComponent == null) {
 			getButton(IDialogConstants.OK_ID).setEnabled(false);
@@ -145,7 +145,7 @@ public class SelectAttachComponentDialog extends TitleAreaDialog {
 		}
 	}
 
-	/** ãƒ©ãƒ™ãƒ«ãƒ—ãƒ­ãƒã‚¤ãƒ€(ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ) */
+	/** ƒ‰ƒxƒ‹ƒvƒƒoƒCƒ_(ƒRƒ“ƒ|[ƒlƒ“ƒg) */
 	public class ComponentLabelProvider extends LabelProvider implements
 			ITableLabelProvider {
 

@@ -1,7 +1,5 @@
 package jp.go.aist.rtm.toolscommon;
 
-import java.util.logging.Logger;
-
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -24,7 +22,6 @@ public class ToolsCommonPlugin extends AbstractUIPlugin {
 	 */
 	public ToolsCommonPlugin() {
 		plugin = this;
-		getLogger();
 	}
 
 	/*
@@ -89,14 +86,4 @@ public class ToolsCommonPlugin extends AbstractUIPlugin {
 
 		return result;
 	}
-
-	static Logger log;
-
-	public static Logger getLogger() {
-		if (log == null) {
-			log = Logger.getLogger(PLUGIN_ID);
-		}
-		return log;
-	}
-
 }

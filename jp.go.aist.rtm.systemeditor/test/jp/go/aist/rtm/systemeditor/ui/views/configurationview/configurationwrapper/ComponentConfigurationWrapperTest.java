@@ -49,7 +49,7 @@ public class ComponentConfigurationWrapperTest extends TestCase {
 						assertEquals("2.0<x<3.0", nv.widget(2).getCondition()
 								.toString());
 					} else {
-						fail("ä¸æ˜Žãªãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å: " + csId + "." + nv.getKey());
+						fail("•s–¾‚Èƒpƒ‰ƒ[ƒ^–¼: " + csId + "." + nv.getKey());
 					}
 				}
 			} else if (csId == "config1") {
@@ -87,7 +87,7 @@ public class ComponentConfigurationWrapperTest extends TestCase {
 						assertEquals("15.0<x<20.0", nv.widget(2).getCondition()
 								.toString());
 					} else {
-						fail("ä¸æ˜Žãªãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å: " + csId + "." + nv.getKey());
+						fail("•s–¾‚Èƒpƒ‰ƒ[ƒ^–¼: " + csId + "." + nv.getKey());
 					}
 				}
 			} else if (csId == "config2") {
@@ -125,11 +125,11 @@ public class ComponentConfigurationWrapperTest extends TestCase {
 						assertEquals("2.0<x<3.0", nv.widget(2).getCondition()
 								.toString());
 					} else {
-						fail("ä¸æ˜Žãªãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å: " + csId + "." + nv.getKey());
+						fail("•s–¾‚Èƒpƒ‰ƒ[ƒ^–¼: " + csId + "." + nv.getKey());
 					}
 				}
 			} else {
-				fail("ä¸æ˜Žãªã‚³ãƒ³ãƒ•ã‚£ã‚°ã‚»ãƒƒãƒˆå: " + csId);
+				fail("•s–¾‚ÈƒRƒ“ƒtƒBƒOƒZƒbƒg–¼: " + csId);
 			}
 		}
 	}
@@ -146,7 +146,7 @@ public class ComponentConfigurationWrapperTest extends TestCase {
 		assertEquals(false, names.contains("unknown_param1"));
 	}
 
-	/** NamedValueConfigurationWrapperã®valueã‚’Stringã§å‚ç…§ */
+	/** NamedValueConfigurationWrapper‚Ìvalue‚ðString‚ÅŽQÆ */
 	public String getNamedValueString(NamedValueConfigurationWrapper nv) {
 		return nv.getValueAsString();
 	}

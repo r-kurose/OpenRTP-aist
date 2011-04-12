@@ -12,75 +12,61 @@ import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContextExt;
 
 /**
- * RtcLinkã®å†…éƒ¨ã§ä½¿ç”¨ã•ã‚Œã‚‹ãƒ‰ãƒ¡ã‚¤ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹ãƒ•ã‚¡ã‚¯ãƒˆãƒª
+ * RtcLink‚Ì“à•”‚Åg—p‚³‚ê‚éƒhƒƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éƒtƒ@ƒNƒgƒŠ
  * <p>
- * å†…éƒ¨ã§ã¯ã€åŒæœŸãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¯ãƒ¼ã‚¯ã‚’ä½¿ç”¨ã—ã¦ã„ã‚‹ã€‚
- * NameServerNamingContext(CORBAå°‚ç”¨ï¼‰ã‚’ä½œæˆã™ã‚‹ç”¨é€”ã«ã—ã‹ã€ä»Šã®ã¨ã“ã‚ç”¨ã„ã‚‰ã‚Œã¦ã„ãªã„
+ * “à•”‚Å‚ÍA“¯ŠúƒtƒŒ[ƒ€ƒ[ƒN‚ğg—p‚µ‚Ä‚¢‚éB
+ * NameServerNamingContext(CORBAê—pj‚ğì¬‚·‚é—p“r‚É‚µ‚©A¡‚Ì‚Æ‚±‚ë—p‚¢‚ç‚ê‚Ä‚¢‚È‚¢
  */
 public class NameServiceViewWrapperFactory {
 
-	private static NameServiceViewWrapperFactory __instance = null;
+    private static NameServiceViewWrapperFactory __instance = null;
+    
+    private SynchronizationManager synchronizationManager;
 
-	private SynchronizationManager synchronizationManager;
+    /**
+     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * 
+     * @param mappingRules
+     */
+    private NameServiceViewWrapperFactory(MappingRule[] mappingRules) {
+    	 synchronizationManager = new SynchronizationManager(mappingRules);
+    }
 
-	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
-	 * 
-	 * @param mappingRules
-	 */
-	private NameServiceViewWrapperFactory(MappingRule[] mappingRules) {
-		synchronizationManager = new SynchronizationManager(mappingRules);
-	}
+    /**
+     * ƒtƒ@ƒNƒgƒŠ‚ÌƒVƒ“ƒOƒ‹ƒgƒ“‚ğæ“¾‚·‚é
+     * 
+     * @return ƒtƒ@ƒNƒgƒŠ‚ÌƒVƒ“ƒOƒ‹ƒgƒ“
+     */
+    public static NameServiceViewWrapperFactory getInstance() {
+        if (__instance == null) {
+            __instance = new NameServiceViewWrapperFactory(MappingRuleFactory
+                    .getMappingRule());
+        }
 
-	/**
-	 * ãƒ•ã‚¡ã‚¯ãƒˆãƒªã®ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚’å–å¾—ã™ã‚‹
-	 * 
-	 * @return ãƒ•ã‚¡ã‚¯ãƒˆãƒªã®ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³
-	 */
-	public static NameServiceViewWrapperFactory getInstance() {
-		if (__instance == null) {
-			__instance = new NameServiceViewWrapperFactory(MappingRuleFactory
-					.getMappingRule());
-		}
-		return __instance;
-	}
+        return __instance;
+    }
 
-	public SynchronizationManager getSynchronizationManager() {
-		return this.synchronizationManager;
-	}
 
-	/**
-	 * ãƒãƒ¼ãƒ ã‚³ãƒ³ãƒ†ã‚¯ã‚¹ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨ãƒãƒ¼ãƒ ã‚µãƒ¼ãƒåã‹ã‚‰ã€ãƒãƒ¼ãƒ ã‚µãƒ¼ãƒã®ãƒ‰ãƒ¡ã‚¤ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹
-	 * 
-	 * @param namingContext
-	 *            ãƒãƒ¼ãƒŸãƒ³ã‚°ã‚³ãƒ³ãƒ†ã‚¯ã‚¹ãƒˆ
-	 * @param nameServerName
-	 *            ãƒãƒ¼ãƒ ã‚µãƒ¼ãƒå
-	 * @param notifier
-	 *            ãƒãƒ¼ãƒŸãƒ³ã‚°å¤‰æ›´é€šçŸ¥
-	 * @return ãƒãƒ¼ãƒ ã‚µãƒ¼ãƒã®ãƒ‰ãƒ¡ã‚¤ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-	 */
-	public NamingContextNode getNameServiceContextCorbaWrapper(
-			NamingContextExt namingContext, String nameServerName,
-			OpenRTMNaming.NamingNotifier notifier) {
-		NameServiceReference nameServiceReference = NameserviceFactory.eINSTANCE
-				.createNameServiceReference();
-		nameServiceReference.setNameServerName(nameServerName);
-		Binding binding = new Binding();
-		binding.binding_name = new NameComponent[] {};
-		nameServiceReference.setBinding(binding);
-		nameServiceReference.setRootNamingContext(namingContext);
-		if (notifier != null) {
-			nameServiceReference.setNotifier(notifier);
-		}
-		NamingContextNode node = (NamingContextNode) synchronizationManager
-				.createLocalObject(null, new Object[] { namingContext,
-						nameServiceReference }, null, false);
-		if (node != null
-				&& node.getNameServiceReference().getNotifier() != null) {
-			node.getNameServiceReference().runObserver();
-		}
-		return node;
-	}
+    /**
+     * ƒl[ƒ€ƒRƒ“ƒeƒNƒXƒgƒIƒuƒWƒFƒNƒg‚Æƒl[ƒ€ƒT[ƒo–¼‚©‚çAƒl[ƒ€ƒT[ƒo‚ÌƒhƒƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é
+     * 
+     * @param namingContext
+     *            ƒl[ƒ~ƒ“ƒOƒRƒ“ƒeƒNƒXƒg
+     * @param nameServerName
+     *            ƒl[ƒ€ƒT[ƒo–¼
+     * @return ƒl[ƒ€ƒT[ƒo‚ÌƒhƒƒCƒ“ƒIƒuƒWƒFƒNƒg
+     */
+    public NamingContextNode getNameServiceContextCorbaWrapper(
+            NamingContextExt namingContext, String nameServerName) {
 
+        NameServiceReference nameServiceReference = NameserviceFactory.eINSTANCE.createNameServiceReference();
+        nameServiceReference.setNameServerName(nameServerName);
+        Binding binding = new Binding();
+        binding.binding_name = new NameComponent[] {};
+        nameServiceReference.setBinding(binding);
+        nameServiceReference.setRootNamingContext(namingContext);
+        
+        return (NamingContextNode) synchronizationManager.createLocalObject(null,
+                new Object[]{namingContext, nameServiceReference}, null, false);
+    }
 }

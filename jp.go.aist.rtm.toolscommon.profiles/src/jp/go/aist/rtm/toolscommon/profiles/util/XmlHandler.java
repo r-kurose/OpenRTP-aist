@@ -126,7 +126,7 @@ public class XmlHandler {
 		JAXBContext jc = JAXBContext.newInstance(targetClass);
 		Unmarshaller unmarshaller = jc.createUnmarshaller();
 		unmarshaller.setEventHandler(new javax.xml.bind.helpers.DefaultValidationEventHandler());
-		// SAXã§ã®è§£æå¾Œã«closeã—ã¦ã—ã¾ã†ãŸã‚ï¼Œå†èª­è¾¼
+		// SAX‚Å‚Ì‰ğÍŒã‚Éclose‚µ‚Ä‚µ‚Ü‚¤‚½‚ßCÄ“Ç
 		xmlReader = new StringReader(targetXML);
 		Object profile = unmarshaller.unmarshal(xmlReader);
 		//
@@ -163,9 +163,8 @@ public class XmlHandler {
 			JAXBContext jaxbContext = JAXBContext.newInstance("org.openrtp.namespaces.rts.version02");
 			Marshaller marshaller = jaxbContext.createMarshaller();
 		    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT , new Boolean(true));
-		    marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper",
-					new NamespacePrefixMapperImpl(
-							"http://www.openrtp.org/namespaces/rts"));
+		    marshaller.setProperty("com.sun.xml.internal.bind.namespacePrefixMapper",
+	                new NamespacePrefixMapperImpl("http://www.openrtp.org/namespaces/rts"));
 		    StringWriter xmlFileWriter = new StringWriter();
 		    marshaller.marshal(profile, xmlFileWriter);
 		    xmlString = xmlFileWriter.toString();
@@ -200,9 +199,8 @@ public class XmlHandler {
 			JAXBContext jaxbContext = JAXBContext.newInstance("org.openrtp.namespaces.rtc.version02");
 			Marshaller marshaller = jaxbContext.createMarshaller();
 		    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT , new Boolean(true));
-			marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper",
-					new NamespacePrefixMapperImpl(
-							"http://www.openrtp.org/namespaces/rtc"));
+		    marshaller.setProperty("com.sun.xml.internal.bind.namespacePrefixMapper",
+	                new NamespacePrefixMapperImpl("http://www.openrtp.org/namespaces/rtc"));
 		    StringWriter xmlFileWriter = new StringWriter();
 		    marshaller.marshal(profile, xmlFileWriter);
 		    xmlString = xmlFileWriter.toString();
@@ -236,7 +234,7 @@ public class XmlHandler {
 		JAXBContext jc = JAXBContext.newInstance(targetClass);
 		Unmarshaller unmarshaller = jc.createUnmarshaller();
 		unmarshaller.setEventHandler(new javax.xml.bind.helpers.DefaultValidationEventHandler());
-		//SAXã§ã®è§£æå¾Œã«closeã—ã¦ã—ã¾ã†ãŸã‚ï¼Œå†èª­è¾¼
+		//SAX‚Å‚Ì‰ğÍŒã‚Éclose‚µ‚Ä‚µ‚Ü‚¤‚½‚ßCÄ“Ç
 	    xmlReader = new StringReader(targetXML);
 	    Object profile = ((JAXBElement<?>)unmarshaller.unmarshal(xmlReader)).getValue();
 	    //
@@ -286,7 +284,7 @@ public class XmlHandler {
 	}
 	
 	private String replacePositionValue(String targetXML) {
-		// æ—§version02ã‹ã‚‰æ–°version02ã®å·®åˆ†ã‚’å¸åã™ã‚‹ãŸã‚ã®ç½®æ›
+		// ‹Œversion02‚©‚çVversion02‚Ì·•ª‚ğ‹zû‚·‚é‚½‚ß‚Ì’uŠ·
 		Pattern patternLeft = Pattern.compile("rtcExt:position=\"left\"");
 		Matcher matcherLeft = patternLeft.matcher(targetXML);
 		targetXML = matcherLeft.replaceAll("rtcExt:position=\"LEFT\"");
@@ -400,7 +398,7 @@ public class XmlHandler {
 		//
 		And and = unit.getAnd();
 		if( and!=null ) {
-			//Andæ¡ä»¶ã§ï¼“ã¤ä»¥ä¸Šã®è¦ç´ ã¯ãªã„
+			//AndğŒ‚Å‚R‚ÂˆÈã‚Ì—v‘f‚Í‚È‚¢
 			if( and.getConstraint().size() > 2 ) throw new Exception(Messages.getString("XmlHandler.60"));
 			
 			ConstraintUnitType former = and.getConstraint().get(0).getConstraintUnitType();
@@ -632,7 +630,6 @@ public class XmlHandler {
 				location02.setHeight(comp01ex.getLocation().getHeight());
 				location02.setWidth(comp01ex.getLocation().getWidth());
 				location02.setDirection(comp01ex.getLocation().getDirection());
-				//TODO
 				comp02.setLocation(location02);
 				List<org.openrtp.namespaces.rts.version01.Property> properties01 = comp01ex.getProperties();
 				if( properties01!=null ) {
@@ -791,7 +788,6 @@ public class XmlHandler {
 						ExecutionContextExt ec02 = factory.createExecutionContextExt();
 						ec02.setKind(ec01.getKind());
 						ec02.setRate(ec01.getRate());
-						//TODO
 						comp02.getExecutionContexts().add(ec02);
 						//Participant
 						List<org.openrtp.namespaces.rts.version01.TargetComponent> particip01List = ec01.getParticipants();

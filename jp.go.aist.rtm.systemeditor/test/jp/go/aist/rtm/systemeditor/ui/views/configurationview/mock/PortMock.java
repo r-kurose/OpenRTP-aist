@@ -17,12 +17,18 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.omg.CORBA.Object;
 
 import RTC.PortProfile;
+import RTC.PortService;
 
 public class PortMock implements Port {
 
 	private PortProfile profile;
+
+	public PortService getCorbaObjectInterface() {
+		return null;
+	}
 
 	public String getOriginalPortString() {
 		return null;
@@ -35,11 +41,37 @@ public class PortMock implements Port {
 	public void setOriginalPortString(String value) {
 	}
 
+	public void setOriginalPortString(String componentId, String instanceName,
+			String portName) {
+	}
+
 	public void setPortProfile(PortProfile value) {
 		this.profile = value;
 	}
 
+	public EList getSourceConnectors() {
+		return null;
+	}
+
+	public Object getCorbaBaseObject() {
+		return null;
+	}
+
+	public Object getCorbaObject() {
+		return null;
+	}
+
+	public boolean ping() {
+		return false;
+	}
+
+	public void setCorbaObject(Object value) {
+	}
+
 	public void accept(Visiter visiter) {
+	}
+
+	public void dispose() {
 	}
 
 	public Rectangle getConstraint() {
@@ -145,6 +177,17 @@ public class PortMock implements Port {
 
 //	@Override
 	public void disconnectAll() {
+	}
+
+//	@Override
+	@SuppressWarnings("unchecked")
+	public EList findAllEquivalentPorts() {
+		return null;
+	}
+
+//	@Override
+	public Port findPort(String originalPortString) {
+		return null;
 	}
 
 //	@Override
@@ -261,6 +304,10 @@ public class PortMock implements Port {
 	}
 
 //	@Override
+	public void synchronizeLocalReference() {
+	}
+
+//	@Override
 	public Port proxy() {
 		return null;
 	}
@@ -270,9 +317,9 @@ public class PortMock implements Port {
 		return null;
 	}
 
-//	@Override
-	public String getProperty(String name) {
-		return null;
-	}
+//@Override
+public String getProperty(String name) {
+	return null;
+}
 
 }

@@ -7,9 +7,9 @@
 package jp.go.aist.rtm.toolscommon.model.component.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
 import jp.go.aist.rtm.toolscommon.model.component.NameValue;
@@ -17,12 +17,9 @@ import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 import jp.go.aist.rtm.toolscommon.model.component.PortSynchronizer;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
-import jp.go.aist.rtm.toolscommon.model.component.util.IPropertyMapUtil;
 import jp.go.aist.rtm.toolscommon.model.component.util.PortConnectorFactory;
-import jp.go.aist.rtm.toolscommon.model.component.util.PropertyMap;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -61,16 +58,13 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 	protected String originalPortString = ORIGINAL_PORT_STRING_EDEFAULT;
 	private SystemDiagram currentDiagram;
 
-	IPropertyMapUtil properties;
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
 	protected PortSynchronizerImpl() {
 		super();
-		this.properties = new PropertyMap();
 	}
 
 	/**
@@ -109,8 +103,9 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@SuppressWarnings("unchecked")
 	public void disconnectAll() {
-		// ここではオフラインのポート全切断を行う
+		// �����ł̓I�t���C���̃|�[�g�S�ؒf���s��
 		Port port = (Port) eContainer();
 		SystemDiagram diagram = (SystemDiagram) port.eContainer().eContainer();
 		diagram = diagram != null ? diagram.getRootDiagram() : currentDiagram.getRootDiagram();
@@ -219,57 +214,17 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 		return null;
 	}
 
-	@Override
+//	@Override
 	public List<NameValue> getProperties() {
-		List<jp.go.aist.rtm.toolscommon.model.component.NameValue> result = new ArrayList<jp.go.aist.rtm.toolscommon.model.component.NameValue>();
-		for (String key : getPropertyKeys()) {
-			String value = getProperty(key);
-			jp.go.aist.rtm.toolscommon.model.component.NameValue entry = ComponentFactory.eINSTANCE
-					.createNameValue();
-			entry.setName(key);
-			entry.setValue(value);
-			result.add(entry);
-		}
-		return result;
+		return Collections.emptyList();
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public String getProperty(String key) {
-		return properties.getProperty(key);
+//	@Override
+	public String getProperty(String name) {
+		return null;
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public void setProperty(String key, String value) {
-		properties.setProperty(key, value);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public String removeProperty(String key) {
-		return properties.removeProperty(key);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public EList<String> getPropertyKeys() {
-		return properties.getPropertyKeys();
-	}
-
-	//	@Override
+//	@Override
 	public void setCurrentDiagram(SystemDiagram currentDiagram) {
 		this.currentDiagram = currentDiagram;
 	}

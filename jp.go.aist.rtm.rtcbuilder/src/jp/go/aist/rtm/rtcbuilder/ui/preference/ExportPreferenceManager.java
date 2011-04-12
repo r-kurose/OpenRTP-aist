@@ -11,9 +11,9 @@ public class ExportPreferenceManager {
 	private static final String Separator = ":";
 
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	 * 
-	 * @return ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³
+	 * @return ƒVƒ“ƒOƒ‹ƒgƒ“
 	 */
 	public static ExportPreferenceManager getInstance() {
 		getDefaultExportSourceExt();
@@ -28,63 +28,63 @@ public class ExportPreferenceManager {
 
 	//Export
 	/**
-	 * Source Export ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ã®ã‚­ãƒ¼
+	 * Source Export ƒtƒ@ƒCƒ‹Šg’£q‚ÌƒL[
 	 */
 	private static final String Export_Source_EXT = ExportPreferenceManager.class.getName()
 			+ "EXPORT_SOURCE_EXT";
 	/**
-	 * Source Export ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚­ãƒ¼
+	 * Source Export ƒtƒ@ƒCƒ‹‚ÌƒL[
 	 */
 	private static final String Export_Source_File = ExportPreferenceManager.class.getName()
 			+ "EXPORT_SOURCE_FILE";
 
 	/**
-	 * Binary Export ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ã®ã‚­ãƒ¼
+	 * Binary Export ƒtƒ@ƒCƒ‹Šg’£q‚ÌƒL[
 	 */
 	private static final String Export_Binary_EXT = ExportPreferenceManager.class.getName()
 			+ "EXPORT_BINARY_EXT";
 	/**
-	 * Binary Export ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚­ãƒ¼
+	 * Binary Export ƒtƒ@ƒCƒ‹‚ÌƒL[
 	 */
 	private static final String Export_Binary_File = ExportPreferenceManager.class.getName()
 			+ "EXPORT_BINARY_FILE";
 
 	/**
-	 * Source+Binary Export ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ã®ã‚­ãƒ¼
+	 * Source+Binary Export ƒtƒ@ƒCƒ‹Šg’£q‚ÌƒL[
 	 */
 	private static final String Export_SourceBinary_EXT = ExportPreferenceManager.class.getName()
 			+ "EXPORT_SOURCE_BINARY_EXT";
 	/**
-	 * Source+Binary Export ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚­ãƒ¼
+	 * Source+Binary Export ƒtƒ@ƒCƒ‹‚ÌƒL[
 	 */
 	private static final String Export_SourceBinary_File = ExportPreferenceManager.class.getName()
 			+ "EXPORT_SOURCE_BINARY_FILE";
 
 	/**
-	 * Source Export ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
+	 * Source Export ƒtƒ@ƒCƒ‹Šg’£q‚ÌƒfƒtƒHƒ‹ƒg’l
 	 */
 	public static ArrayList<String> defaultExportSourceExt = new ArrayList<String>();
 	/**
-	 * Source Export ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
+	 * Source Export ƒtƒ@ƒCƒ‹‚ÌƒfƒtƒHƒ‹ƒg’l
 	 */
 	public static ArrayList<String> defaultExportSourceFile = new ArrayList<String>();
 
 	/**
-	 * Binary Export ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
+	 * Binary Export ƒtƒ@ƒCƒ‹Šg’£q‚ÌƒfƒtƒHƒ‹ƒg’l
 	 */
 	public static ArrayList<String> defaultExportBinaryExt = new ArrayList<String>();
 	/**
-	 * Binary Export ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
+	 * Binary Export ƒtƒ@ƒCƒ‹‚ÌƒfƒtƒHƒ‹ƒg’l
 	 */
 	public static ArrayList<String> defaultExportBinaryFile = new ArrayList<String>();
 
 
 	/**
-	 * Source+Binary Export ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
+	 * Source+Binary Export ƒtƒ@ƒCƒ‹Šg’£q‚ÌƒfƒtƒHƒ‹ƒg’l
 	 */
 	public static ArrayList<String> defaultExportSourceBinaryExt = new ArrayList<String>();
 	/**
-	 * Source+Binary Export ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
+	 * Source+Binary Export ƒtƒ@ƒCƒ‹‚ÌƒfƒtƒHƒ‹ƒg’l
 	 */
 	public static ArrayList<String> defaultExportSourceBinaryFile = new ArrayList<String>();
 
@@ -175,11 +175,11 @@ public class ExportPreferenceManager {
 	}
 
 	/**
-	 * Source Export ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ã‚’å–å¾—ã™ã‚‹
+	 * Source Export ƒtƒ@ƒCƒ‹Šg’£q‚ğæ“¾‚·‚é
 	 * 
 	 * @param key
-	 *            ã‚­ãƒ¼
-	 * @return Source Export ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ãƒªã‚¹ãƒˆ
+	 *            ƒL[
+	 * @return Source Export ƒtƒ@ƒCƒ‹Šg’£qƒŠƒXƒg
 	 */
 	public ArrayList<String> getExportSourceExt() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Export_Source_EXT, "");
@@ -194,12 +194,12 @@ public class ExportPreferenceManager {
 		return result;
 	}
 	/**
-	 * Source Export ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ã‚’è¨­å®šã™ã‚‹
+	 * Source Export ƒtƒ@ƒCƒ‹Šg’£q‚ğİ’è‚·‚é
 	 * 
 	 * @param key
-	 *            ã‚­ãƒ¼
+	 *            ƒL[
 	 * @param exportSourceExt
-	 *            Source Export ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ãƒªã‚¹ãƒˆ
+	 *            Source Export ƒtƒ@ƒCƒ‹Šg’£qƒŠƒXƒg
 	 */
 	public void setExportSourceExt(ArrayList<String> exportSourceExt) {
 		ArrayList<String> oldExportSourceExt = getExportSourceExt();
@@ -211,11 +211,11 @@ public class ExportPreferenceManager {
 	}
 
 	/**
-	 * Source Export ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å–å¾—ã™ã‚‹
+	 * Source Export ƒtƒ@ƒCƒ‹‚ğæ“¾‚·‚é
 	 * 
 	 * @param key
-	 *            ã‚­ãƒ¼
-	 * @return Source Export ãƒ•ã‚¡ã‚¤ãƒ«ãƒªã‚¹ãƒˆ
+	 *            ƒL[
+	 * @return Source Export ƒtƒ@ƒCƒ‹ƒŠƒXƒg
 	 */
 	public ArrayList<String> getExportSourceFile() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Export_Source_File, "");
@@ -230,12 +230,12 @@ public class ExportPreferenceManager {
 		return result;
 	}
 	/**
-	 * Source Export ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¨­å®šã™ã‚‹
+	 * Source Export ƒtƒ@ƒCƒ‹‚ğİ’è‚·‚é
 	 * 
 	 * @param key
-	 *            ã‚­ãƒ¼
+	 *            ƒL[
 	 * @param exportSourceFile
-	 *            Source Export ãƒ•ã‚¡ã‚¤ãƒ«ãƒªã‚¹ãƒˆ
+	 *            Source Export ƒtƒ@ƒCƒ‹ƒŠƒXƒg
 	 */
 	public void setExportSourceFile(ArrayList<String> exportSourceFile) {
 		ArrayList<String> oldExportSourceFile = getExportSourceFile();
@@ -246,11 +246,11 @@ public class ExportPreferenceManager {
 	}
 
 	/**
-	 * Binary Export ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ã‚’å–å¾—ã™ã‚‹
+	 * Binary Export ƒtƒ@ƒCƒ‹Šg’£q‚ğæ“¾‚·‚é
 	 * 
 	 * @param key
-	 *            ã‚­ãƒ¼
-	 * @return Binary Export ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ãƒªã‚¹ãƒˆ
+	 *            ƒL[
+	 * @return Binary Export ƒtƒ@ƒCƒ‹Šg’£qƒŠƒXƒg
 	 */
 	public ArrayList<String> getExportBinaryExt() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Export_Binary_EXT, "");
@@ -265,12 +265,12 @@ public class ExportPreferenceManager {
 		return result;
 	}
 	/**
-	 * Binary Export ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ã‚’è¨­å®šã™ã‚‹
+	 * Binary Export ƒtƒ@ƒCƒ‹Šg’£q‚ğİ’è‚·‚é
 	 * 
 	 * @param key
-	 *            ã‚­ãƒ¼
+	 *            ƒL[
 	 * @param exportBinaryExt
-	 *            Binary Export ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ãƒªã‚¹ãƒˆ
+	 *            Binary Export ƒtƒ@ƒCƒ‹Šg’£qƒŠƒXƒg
 	 */
 	public void setExportBinaryExt(ArrayList<String> exportBinaryExt) {
 		ArrayList<String> oldExportbinaryExt = getExportBinaryExt();
@@ -281,11 +281,11 @@ public class ExportPreferenceManager {
 	}
 
 	/**
-	 * Binary Export ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å–å¾—ã™ã‚‹
+	 * Binary Export ƒtƒ@ƒCƒ‹‚ğæ“¾‚·‚é
 	 * 
 	 * @param key
-	 *            ã‚­ãƒ¼
-	 * @return Binary Export ãƒ•ã‚¡ã‚¤ãƒ«ãƒªã‚¹ãƒˆ
+	 *            ƒL[
+	 * @return Binary Export ƒtƒ@ƒCƒ‹ƒŠƒXƒg
 	 */
 	public ArrayList<String> getExportBinaryFile() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Export_Binary_File, "");
@@ -300,12 +300,12 @@ public class ExportPreferenceManager {
 		return result;
 	}
 	/**
-	 * Binary Export ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¨­å®šã™ã‚‹
+	 * Binary Export ƒtƒ@ƒCƒ‹‚ğİ’è‚·‚é
 	 * 
 	 * @param key
-	 *            ã‚­ãƒ¼
+	 *            ƒL[
 	 * @param exportBinaryFile
-	 *            Binary Export ãƒ•ã‚¡ã‚¤ãƒ«ãƒªã‚¹ãƒˆ
+	 *            Binary Export ƒtƒ@ƒCƒ‹ƒŠƒXƒg
 	 */
 	public void setExportBinaryFile(ArrayList<String> exportBinaryFile) {
 		ArrayList<String> oldExportBinaryFile = getExportBinaryFile();
@@ -316,11 +316,11 @@ public class ExportPreferenceManager {
 	}
 
 	/**
-	 * Source+Binary Export ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ã‚’å–å¾—ã™ã‚‹
+	 * Source+Binary Export ƒtƒ@ƒCƒ‹Šg’£q‚ğæ“¾‚·‚é
 	 * 
 	 * @param key
-	 *            ã‚­ãƒ¼
-	 * @return Source+Binary Export ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ãƒªã‚¹ãƒˆ
+	 *            ƒL[
+	 * @return Source+Binary Export ƒtƒ@ƒCƒ‹Šg’£qƒŠƒXƒg
 	 */
 	public ArrayList<String> getExportSourceBinaryExt() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Export_SourceBinary_EXT, "");
@@ -335,12 +335,12 @@ public class ExportPreferenceManager {
 		return result;
 	}
 	/**
-	 * Source+Binary Export ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ã‚’è¨­å®šã™ã‚‹
+	 * Source+Binary Export ƒtƒ@ƒCƒ‹Šg’£q‚ğİ’è‚·‚é
 	 * 
 	 * @param key
-	 *            ã‚­ãƒ¼
+	 *            ƒL[
 	 * @param exportSourceBinaryExt
-	 *            Source+Binary Export ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ãƒªã‚¹ãƒˆ
+	 *            Source+Binary Export ƒtƒ@ƒCƒ‹Šg’£qƒŠƒXƒg
 	 */
 	public void setExportSourceBinaryExt(ArrayList<String> exportSourceBinaryExt) {
 		ArrayList<String> oldExportSourceBinaryExt = getExportSourceBinaryExt();
@@ -351,11 +351,11 @@ public class ExportPreferenceManager {
 	}
 
 	/**
-	 * Source+Binary Export ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å–å¾—ã™ã‚‹
+	 * Source+Binary Export ƒtƒ@ƒCƒ‹‚ğæ“¾‚·‚é
 	 * 
 	 * @param key
-	 *            ã‚­ãƒ¼
-	 * @return Source+Binary Export ãƒ•ã‚¡ã‚¤ãƒ«ãƒªã‚¹ãƒˆ
+	 *            ƒL[
+	 * @return Source+Binary Export ƒtƒ@ƒCƒ‹ƒŠƒXƒg
 	 */
 	public ArrayList<String> getExportSourceBinaryFile() {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(Export_SourceBinary_File, "");
@@ -370,12 +370,12 @@ public class ExportPreferenceManager {
 		return result;
 	}
 	/**
-	 * Source+Binary Export ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¨­å®šã™ã‚‹
+	 * Source+Binary Export ƒtƒ@ƒCƒ‹‚ğİ’è‚·‚é
 	 * 
 	 * @param key
-	 *            ã‚­ãƒ¼
+	 *            ƒL[
 	 * @param exportSourceBinaryFile
-	 *            Source+Binary Export ãƒ•ã‚¡ã‚¤ãƒ«ãƒªã‚¹ãƒˆ
+	 *            Source+Binary Export ƒtƒ@ƒCƒ‹ƒŠƒXƒg
 	 */
 	public void setExportSourceBinaryFile(ArrayList<String> exportSourceBinaryFile) {
 		ArrayList<String> oldExportSourceBinaryFile = getExportSourceBinaryFile();

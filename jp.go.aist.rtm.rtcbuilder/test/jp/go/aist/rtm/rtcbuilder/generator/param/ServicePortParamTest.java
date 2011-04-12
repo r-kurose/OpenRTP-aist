@@ -37,7 +37,7 @@ public class ServicePortParamTest extends ParamTestCase<ServicePortParam> {
 		sp.resetUpdated();
 		assertFalse(sp.isUpdated());
 		//
-		sip.setDocPreCondition("äº‹å‰æ¡ä»¶ï¼‘");
+		sip.setDocPreCondition("–‘OğŒ‚P");
 		assertTrue(sp.isUpdated());
 		sp.resetUpdated();
 		assertFalse(sp.isUpdated());
@@ -51,24 +51,24 @@ public class ServicePortParamTest extends ParamTestCase<ServicePortParam> {
 		assertUpdated(sp, new UpdateChecker() {
 			@Override
 			void execute1(ServicePortParam e) {
-				e.setDocDescription("ãƒãƒ¼ãƒˆæ¦‚è¦ï¼‘");
+				e.setDocDescription("ƒ|[ƒgŠT—v‚P");
 			}
 
 			@Override
 			void execute2(ServicePortParam e) {
-				e.setDocDescription("ãƒãƒ¼ãƒˆæ¦‚è¦ï¼’");
+				e.setDocDescription("ƒ|[ƒgŠT—v‚Q");
 			}
 		});
 		//
 		assertUpdated(sp, new UpdateChecker() {
 			@Override
 			void execute1(ServicePortParam e) {
-				e.setDocIfDescription("ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹æ¦‚è¦ï¼‘");
+				e.setDocIfDescription("ƒCƒ“ƒ^[ƒtƒF[ƒXŠT—v‚P");
 			}
 
 			@Override
 			void execute2(ServicePortParam e) {
-				e.setDocIfDescription("ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹æ¦‚è¦ï¼’");
+				e.setDocIfDescription("ƒCƒ“ƒ^[ƒtƒF[ƒXŠT—v‚Q");
 			}
 		});
 	}

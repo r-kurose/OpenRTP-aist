@@ -7,11 +7,7 @@ import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.ContextHandler;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
-import jp.go.aist.rtm.toolscommon.model.component.InPort;
 import jp.go.aist.rtm.toolscommon.model.component.NameValue;
-import jp.go.aist.rtm.toolscommon.model.component.OutPort;
-import jp.go.aist.rtm.toolscommon.model.component.Port;
-import jp.go.aist.rtm.toolscommon.model.component.ServicePort;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.core.Rectangle;
 import jp.go.aist.rtm.toolscommon.model.core.Visiter;
@@ -26,6 +22,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.action.Action;
+import org.omg.CORBA.Object;
+
+import RTC.ComponentProfile;
+import RTC.RTObject;
+import _SDOPackage.Configuration;
 
 public class ComponentMock implements Component {
 
@@ -40,6 +42,7 @@ public class ComponentMock implements Component {
 		createCompMock1();
 	}
 
+	@SuppressWarnings("unchecked")
 	static void createMock1() {
 		mock1 = new ComponentMock();
 		mock1.instanceName = "component1";
@@ -94,9 +97,9 @@ public class ComponentMock implements Component {
 		cs.configurationData.add(nv);
 		nv = createNameValue("str_param1", "radio");
 		cs.configurationData.add(nv);
-		nv = createNameValue("str_param2", "hoge"); // ‰∏çÊòé„Å™widgetÁ®ÆÂà•
+		nv = createNameValue("str_param2", "hoge"); // ïsñæÇ»widgetéÌï 
 		cs.configurationData.add(nv);
-		nv = createNameValue("vector_param1", "spin"); // TODO ÈÖçÂàóË°®Ë®ò
+		nv = createNameValue("vector_param1", "spin");
 		cs.configurationData.add(nv);
 		mock1.configurationSets.add(cs);
 		// mock1.__constraints__
@@ -123,7 +126,7 @@ public class ComponentMock implements Component {
 		nv = createNameValue("vector_param1", "5.0<x<10.0, 10.0<x<15.0, 15.0<x<20.0");
 		cs.configurationData.add(nv);
 		mock1.configurationSets.add(cs);
-		// mock1.__config2 „Å™„Åó
+		// mock1.__config2 Ç»Çµ
 	}
 
 	static void createCompMock1() {
@@ -180,18 +183,30 @@ public class ComponentMock implements Component {
 
 	public ConfigurationSetMock activeConfigurationSet;
 
-	public BasicEList<ConfigurationSet> configurationSets = new BasicEList<ConfigurationSet>();
+	public BasicEList configurationSets = new BasicEList();
 
-	public BasicEList<Component> components = new BasicEList<Component>();
+	public BasicEList components = new BasicEList();
 
-	public BasicEList<Port> ports = new BasicEList<Port>();
+	public BasicEList ports = new BasicEList();
 
 
 	public ConfigurationSet getActiveConfigurationSet() {
 		return this.activeConfigurationSet;
 	}
 
-	public EList<Component> getAllComponents() {
+	public EList getAllComponents() {
+		return null;
+	}
+
+	public EList getAllInPorts() {
+		return null;
+	}
+
+	public EList getAllOutPorts() {
+		return null;
+	}
+
+	public EList getAllServiceports() {
 		return null;
 	}
 
@@ -203,19 +218,31 @@ public class ComponentMock implements Component {
 		return null;
 	}
 
-	public EList<Component> getComponents() {
+	public EList getComponents() {
 		return this.components;
 	}
 
-	public EList<ConfigurationSet> getConfigurationSets() {
+	public Component getCompositeComponent() {
+		return null;
+	}
+
+	public String getCompsiteTypeStr() {
+		return null;
+	}
+
+	public EList getConfigurationSets() {
 		return this.configurationSets;
+	}
+
+	public RTObject getCorbaObjectInterface() {
+		return null;
 	}
 
 	public String getDescriptionL() {
 		return null;
 	}
 
-	public EList<InPort> getInports() {
+	public EList getInports() {
 		return null;
 	}
 
@@ -223,11 +250,19 @@ public class ComponentMock implements Component {
 		return this.instanceName;
 	}
 
+	public Action getOpenCompositeComponentAction() {
+		return null;
+	}
+
 	public String getOutportDirection() {
 		return "RIGHT";
 	}
 
-	public EList<OutPort> getOutports() {
+	public String getOutportDirectionStr() {
+		return null;
+	}
+
+	public EList getOutports() {
 		return null;
 	}
 
@@ -235,11 +270,23 @@ public class ComponentMock implements Component {
 		return null;
 	}
 
-	public EList<Port> getPorts() {
+	public EList getPorts() {
 		return this.ports;
 	}
 
-	public EList<ServicePort> getServiceports() {
+	public EList getProperties() {
+		return null;
+	}
+
+	public ComponentProfile getRTCComponentProfile() {
+		return null;
+	}
+
+	public Configuration getSDOConfiguration() {
+		return null;
+	}
+
+	public EList getServiceports() {
 		return null;
 	}
 
@@ -269,7 +316,19 @@ public class ComponentMock implements Component {
 	public void setComponentId(String value) {
 	}
 
+	public void setCompositeComponent(Component value) {
+	}
+
+	public void setCompsiteTypeStr(String type) {
+	}
+
 	public void setInstanceNameL(String value) {
+	}
+
+	public void setOpenCompositeComponentAction(Action value) {
+	}
+
+	public void setOutportDirection(int value) {
 	}
 
 	public void setOutportDirection(String value) {
@@ -278,13 +337,37 @@ public class ComponentMock implements Component {
 	public void setPathId(String value) {
 	}
 
+	public void setRTCComponentProfile(ComponentProfile value) {
+	}
+
+	public void setSDOConfiguration(Configuration value) {
+	}
+
 	@SuppressWarnings("unchecked")
 	public boolean updateConfigurationSetListR(List list,
 			ConfigurationSet activeConfigurationSet, List originallist) {
 		return false;
 	}
 
+	public Object getCorbaBaseObject() {
+		return null;
+	}
+
+	public Object getCorbaObject() {
+		return null;
+	}
+
+	public boolean ping() {
+		return false;
+	}
+
+	public void setCorbaObject(Object value) {
+	}
+
 	public void accept(Visiter visiter) {
+	}
+
+	public void dispose() {
 	}
 
 	public Rectangle getConstraint() {
@@ -394,10 +477,10 @@ public class ComponentMock implements Component {
 		return null;
 	}
 
-//	@SuppressWarnings("unchecked")
-//	public EList getOrganizationProperties() {
-//		return null;
-//	}
+	@SuppressWarnings("unchecked")
+	public EList getOrganizationProperties() {
+		return null;
+	}
 
 	public boolean isRequired() {
 		return false;
@@ -406,8 +489,9 @@ public class ComponentMock implements Component {
 	public void setRequired(boolean value) {
 	}
 
-	public EList<String> getExportedPorts() {
-		EList<String> result = new BasicEList<String>();
+	@SuppressWarnings("unchecked")
+	public EList getExportedPorts() {
+		EList result = new BasicEList();
 		NameValue nv = this._findExportedPortsNameValue();
 		if (nv == null) {
 			return result;
@@ -440,15 +524,16 @@ public class ComponentMock implements Component {
 		return true;
 	}
 
+	@SuppressWarnings("unchecked")
 	NameValue _findExportedPortsNameValue() {
 		NameValue result = null;
 		ConfigurationSetMock cs = this.activeConfigurationSet;
 		if (cs == null) {
 			return result;
 		}
-		EList<NameValue> data = cs.getConfigurationData();
+		EList data = cs.getConfigurationData();
 		for (int i = 0; i < data.size(); i++) {
-			NameValue nv = data.get(i);
+			NameValue nv = (NameValue) data.get(i);
 			if (!nv.getName().equals("exported_ports")) {
 				continue;
 			}
@@ -537,7 +622,19 @@ public class ComponentMock implements Component {
 	public void removeDeadChild() {
 	}
 
-	public EList<ExecutionContext> getExecutionContexts() {
+	public ExecutionContext getExecutionContext(String id) {
+		return null;
+	}
+
+	public String getExecutionContextId(ExecutionContext ec) {
+		return null;
+	}
+
+	public EList getExecutionContexts() {
+		return null;
+	}
+
+	public ExecutionContext setExecutionContext(String id, ExecutionContext ec) {
 		return null;
 	}
 
@@ -568,34 +665,13 @@ public class ComponentMock implements Component {
 	@Override
 	public void setExecutionContextHandler(ContextHandler value) {
 		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void setParticipationContextHandler(ContextHandler value) {
 		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public String getProperty(String key) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public EList<String> getPropertyKeys() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String removeProperty(String key) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setProperty(String key, String value) {
-		// TODO Auto-generated method stub
+		
 	}
 
 }

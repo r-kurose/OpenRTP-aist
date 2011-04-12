@@ -3,7 +3,7 @@ package jp.go.aist.rtm.rtcbuilder.generator.param;
 import java.io.Serializable;
 
 /**
- * Actionsæƒ…å ±ã‚’è¡¨ã™ã‚¯ãƒ©ã‚¹
+ * Actionsî•ñ‚ğ•\‚·ƒNƒ‰ƒX
  */
 public class ActionsParam extends AbstractRecordedParam implements Serializable {
 

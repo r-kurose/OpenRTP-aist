@@ -12,20 +12,24 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
 import jp.go.aist.rtm.rtcbuilder.java.IRtcBuilderConstantsJava;
 import jp.go.aist.rtm.rtcbuilder.java._test.TestBase;
-import jp.go.aist.rtm.rtcbuilder.java.manager.JavaCMakeGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.java.manager.JavaGenerateManager;
+import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 
 public class JavaIDLInheritTest extends TestBase {
 
 	GeneratorParam genParam;
+
 	RtcParam rtcParam;
+
 	Generator generator;
+
+	GenerateManager manager;
 
 	protected void setUp() throws Exception {
 		genParam = new GeneratorParam();
 		rtcParam = new RtcParam(genParam, true);
 
-		rtcParam.setOutputProject(rootPath + "/resource/work");
+		rtcParam.setOutputProject(rootPath + "\\resource\\work");
 		rtcParam.setLanguage(IRtcBuilderConstantsJava.LANG_JAVA);
 		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
 		rtcParam.setName("foo");
@@ -42,16 +46,16 @@ public class JavaIDLInheritTest extends TestBase {
 		genParam.getRtcParams().add(rtcParam);
 
 		generator = new Generator();
-		generator.addGenerateManager(new JavaGenerateManager());
-		generator.addGenerateManager(new JavaCMakeGenerateManager());
+		manager = new JavaGenerateManager();
+		generator.addGenerateManager(manager);
 	}
 
 	String fixturePath(String name) {
-		return rootPath + "resource/100/" + name;
+		return rootPath + "resource\\100\\" + name;
 	}
 
 	public void testInherit1() throws Exception {
-		String name = "idlinherit/inherit1";
+		String name = "inherit1";
 
 		List<ServicePortParam> svports = new ArrayList<ServicePortParam>();
 
@@ -59,7 +63,7 @@ public class JavaIDLInheritTest extends TestBase {
 		List<ServicePortInterfaceParam> iflist = new ArrayList<ServicePortInterfaceParam>();
 		ServicePortInterfaceParam sif1 = new ServicePortInterfaceParam(sv1,
 				"MyServiceProvider", "", "", fixturePath(name)
-						+ "/MyServiceChildMulti.idl", "MyServiceChild",
+						+ "\\MyServiceChildMulti.idl", "MyServiceChild",
 				fixturePath(name), 0);
 		iflist.add(sif1);
 		sv1.getServicePortInterfaces().addAll(iflist);
@@ -69,7 +73,7 @@ public class JavaIDLInheritTest extends TestBase {
 		iflist = new ArrayList<ServicePortInterfaceParam>();
 		ServicePortInterfaceParam sif2 = new ServicePortInterfaceParam(sv2,
 				"MyServiceRequire", "", "", fixturePath(name)
-						+ "/MyServiceChildMulti.idl", "MyServiceChild",
+						+ "\\MyServiceChildMulti.idl", "MyServiceChild",
 				fixturePath(name), 1);
 		iflist.add(sif2);
 		sv2.getServicePortInterfaces().addAll(iflist);
@@ -79,21 +83,20 @@ public class JavaIDLInheritTest extends TestBase {
 
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = fixturePath(name) + "/";
+		String resourceDir = fixturePath(name) + "\\";
 
-		assertEquals(21, result.size());
-		checkCode(result, resourceDir, "src/fooComp.java");
-		checkCode(result, resourceDir, "src/foo.java");
-		checkCode(result, resourceDir, "src/fooImpl.java");
-		checkCode(result, resourceDir, "src/MyServiceChildSVC_impl.java");
-		checkCode(result, resourceDir, "src/MyServiceSVC_impl.java");
-		checkCode(result, resourceDir, "src/MyService2SVC_impl.java");
-		//
+		assertEquals(9, result.size());
+		checkCode(result, resourceDir, "\\src\\fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
+		checkCode(result, resourceDir, "\\src\\foo.java");
+		checkCode(result, resourceDir, "\\src\\fooImpl.java");
+		checkCode(result, resourceDir, "\\src\\MyServiceChildSVC_impl.java");
+		checkCode(result, resourceDir, "\\src\\MyServiceSVC_impl.java");
+		checkCode(result, resourceDir, "\\src\\MyService2SVC_impl.java");
 	}
 
 	public void testInherit2() throws Exception {
-		String name = "idlinherit/inherit2";
+		String name = "inherit2";
 
 		List<ServicePortParam> svports = new ArrayList<ServicePortParam>();
 
@@ -101,12 +104,12 @@ public class JavaIDLInheritTest extends TestBase {
 		List<ServicePortInterfaceParam> iflist = new ArrayList<ServicePortInterfaceParam>();
 		ServicePortInterfaceParam sif1 = new ServicePortInterfaceParam(sv1,
 				"MyServiceProvider", "", "", fixturePath(name)
-						+ "/MyServiceChildMulti.idl", "MyServiceChild",
+						+ "\\MyServiceChildMulti.idl", "MyServiceChild",
 				fixturePath(name), 0);
 		iflist.add(sif1);
 		ServicePortInterfaceParam sif2 = new ServicePortInterfaceParam(sv1,
 				"MyServiceProvider2", "", "", fixturePath(name)
-						+ "/MyServiceChildWithType.idl",
+						+ "\\MyServiceChildWithType.idl",
 				"MyServiceWithTypeChild", fixturePath(name), 0);
 		iflist.add(sif2);
 		sv1.getServicePortInterfaces().addAll(iflist);
@@ -116,12 +119,12 @@ public class JavaIDLInheritTest extends TestBase {
 		iflist = new ArrayList<ServicePortInterfaceParam>();
 		ServicePortInterfaceParam sif3 = new ServicePortInterfaceParam(sv2,
 				"MyServiceRequire", "", "", fixturePath(name)
-						+ "/MyServiceChildMulti.idl", "MyServiceChild",
+						+ "\\MyServiceChildMulti.idl", "MyServiceChild",
 				fixturePath(name), 1);
 		iflist.add(sif3);
 		ServicePortInterfaceParam sif4 = new ServicePortInterfaceParam(sv2,
 				"MyServiceRequire2", "", "", fixturePath(name)
-						+ "/MyServiceChildWithType.idl",
+						+ "\\MyServiceChildWithType.idl",
 				"MyServiceWithTypeChild", fixturePath(name), 1);
 		iflist.add(sif4);
 		sv2.getServicePortInterfaces().addAll(iflist);
@@ -131,20 +134,18 @@ public class JavaIDLInheritTest extends TestBase {
 
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = fixturePath(name) + "/";
+		String resourceDir = fixturePath(name) + "\\";
 
-		assertEquals(23, result.size());
-		checkCode(result, resourceDir, "src/fooComp.java");
-		checkCode(result, resourceDir, "src/foo.java");
-		checkCode(result, resourceDir, "src/fooImpl.java");
-		checkCode(result, resourceDir, "src/MyServiceChildSVC_impl.java");
-		checkCode(result, resourceDir, "src/MyServiceSVC_impl.java");
-		checkCode(result, resourceDir, "src/MyService2SVC_impl.java");
-		checkCode(result, resourceDir,
-				"src/MyServiceWithTypeChildSVC_impl.java");
-		checkCode(result, resourceDir, "src/MyServiceWithTypeSVC_impl.java");
-		//
+		assertEquals(11, result.size());
+		checkCode(result, resourceDir, "\\src\\fooComp.java");
 		checkCode(result, resourceDir, "build_foo.xml");
+		checkCode(result, resourceDir, "\\src\\foo.java");
+		checkCode(result, resourceDir, "\\src\\fooImpl.java");
+		checkCode(result, resourceDir, "\\src\\MyServiceChildSVC_impl.java");
+		checkCode(result, resourceDir, "\\src\\MyServiceSVC_impl.java");
+		checkCode(result, resourceDir, "\\src\\MyService2SVC_impl.java");
+		checkCode(result, resourceDir, "\\src\\MyServiceWithTypeChildSVC_impl.java");
+		checkCode(result, resourceDir, "\\src\\MyServiceWithTypeSVC_impl.java");
 	}
 
 }

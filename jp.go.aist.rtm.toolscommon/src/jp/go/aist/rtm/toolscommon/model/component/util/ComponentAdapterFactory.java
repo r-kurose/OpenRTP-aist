@@ -157,10 +157,6 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 				return createEIntegerObjectToPointMapEntryAdapter();
 			}
 			@Override
-			public Adapter caseIPropertyMap(IPropertyMap object) {
-				return createIPropertyMapAdapter();
-			}
-			@Override
 			public Adapter caseCorbaComponent(CorbaComponent object) {
 				return createCorbaComponentAdapter();
 			}
@@ -183,14 +179,6 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseCorbaContextHandler(CorbaContextHandler object) {
 				return createCorbaContextHandlerAdapter();
-			}
-			@Override
-			public Adapter caseCorbaObserver(CorbaObserver object) {
-				return createCorbaObserverAdapter();
-			}
-			@Override
-			public Adapter caseCorbaStatusObserver(CorbaStatusObserver object) {
-				return createCorbaStatusObserverAdapter();
 			}
 			@Override
 			public Adapter caseIAdaptable(IAdaptable object) {
@@ -345,20 +333,6 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.IPropertyMap <em>IProperty Map</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see jp.go.aist.rtm.toolscommon.model.component.IPropertyMap
-	 * @generated
-	 */
-	public Adapter createIPropertyMapAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.PortSynchronizer <em>Port Synchronizer</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -439,34 +413,6 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCorbaContextHandlerAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaObserver <em>Corba Observer</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see jp.go.aist.rtm.toolscommon.model.component.CorbaObserver
-	 * @generated
-	 */
-	public Adapter createCorbaObserverAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaStatusObserver <em>Corba Status Observer</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see jp.go.aist.rtm.toolscommon.model.component.CorbaStatusObserver
-	 * @generated
-	 */
-	public Adapter createCorbaStatusObserverAdapter() {
 		return null;
 	}
 

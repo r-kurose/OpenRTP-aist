@@ -14,7 +14,7 @@ import org.eclipse.gef.commands.CommandStackEventListener;
 import org.eclipse.gef.commands.CommandStackListener;
 
 /**
- * ã‚³ãƒã‚¯ã‚¿ä½œæˆã®ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã‚’èªè­˜ã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ã‚¹ã‚¿ãƒƒã‚¯
+ * ƒRƒlƒNƒ^ì¬‚ÌƒLƒƒƒ“ƒZƒ‹‚ğ”F¯‚·‚éƒRƒ}ƒ“ƒhƒXƒ^ƒbƒN
  *
  */
 public class ConnectCancelCommandStack extends CommandStack {
@@ -63,14 +63,14 @@ public class ConnectCancelCommandStack extends CommandStack {
 			}
 			if (saveLocation > undoable.size())
 				saveLocation = -1; //The save point was somewhere in the redo stack
-			// ã‚³ãƒã‚¯ã‚¿æ¥ç¶šã®ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã¯Undoã®ã‚¹ã‚¿ãƒƒã‚¯ã«å…¥ã‚Œãªã„
+			// ƒRƒlƒNƒ^Ú‘±‚ÌƒLƒƒƒ“ƒZƒ‹‚ÍUndo‚ÌƒXƒ^ƒbƒN‚É“ü‚ê‚È‚¢
 			pushUndoable(command);
 			notifyListeners();
 		} finally {
 			notifyListeners(command, POST_EXECUTE);
 		}
 	}
-	// ã‚³ãƒã‚¯ã‚¿æ¥ç¶šã®ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã¯Undoã®ã‚¹ã‚¿ãƒƒã‚¯ã«å…¥ã‚Œãªã„
+	// ƒRƒlƒNƒ^Ú‘±‚ÌƒLƒƒƒ“ƒZƒ‹‚ÍUndo‚ÌƒXƒ^ƒbƒN‚É“ü‚ê‚È‚¢
 	@SuppressWarnings("unchecked")
 	private void pushUndoable(Command command) {
 		if (command instanceof CreateConnectorCommand) {

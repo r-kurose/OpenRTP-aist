@@ -8,7 +8,7 @@ import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.action.IMenuManager;
 
 /**
- * 繧ｷ繧ｹ繝�繝繝繧､繧｢繧ｰ繝ｩ繝縺ｮContextMenuProvider繧ｯ繝ｩ繧ｹ
+ * システムダイアグラムのContextMenuProviderクラス
  */
 public class SystemDiagramContextMenuProvider extends
 		AbstractSystemDiagramContextMenuProvider {

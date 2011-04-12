@@ -18,7 +18,7 @@ public class CXXConstraint extends TestBase {
 	protected void setUp() throws Exception {
 		genParam = new GeneratorParam();
 		rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "/resource/work");
+		rtcParam.setOutputProject(rootPath + "\\resource\\work");
 		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
 		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
 		rtcParam.setName("foo");
@@ -42,11 +42,11 @@ public class CXXConstraint extends TestBase {
 		configset.add(new ConfigSetParam("int_param1","int","", "0"));
 		configset.add(new ConfigSetParam("double_param0","int","", "0", "1.5<=x<=3.2"));
 		rtcParam.getConfigParams().addAll(configset);
-
+		
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "/resource/100/CXX/Constraint/Constraint3/";
+		String resourceDir = rootPath +  "\\resource\\100\\CXX\\Constraint3\\";
 		checkResults(result, resourceDir);
 	}
 
@@ -55,11 +55,11 @@ public class CXXConstraint extends TestBase {
 		configset.add(new ConfigSetParam("int_param0","int","", "0", "0<x<1"));
 		configset.add(new ConfigSetParam("str_param0","string","", "up", "(up, down, right, left)"));
 		rtcParam.getConfigParams().addAll(configset);
-
+		
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "/resource/100/CXX/Constraint/Constraint2/";
+		String resourceDir = rootPath +  "\\resource\\100\\CXX\\Constraint2\\";
 		checkResults(result, resourceDir);
 	}
 
@@ -67,21 +67,37 @@ public class CXXConstraint extends TestBase {
 		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
 		configset.add(new ConfigSetParam("int_param0","int","", "0", "0<x<1"));
 		rtcParam.getConfigParams().addAll(configset);
-
+		
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "/resource/100/CXX/Constraint/Constraint1/";
+		String resourceDir = rootPath +  "\\resource\\100\\CXX\\Constraint1\\";
 		checkResults(result, resourceDir);
 	}
-
+	
 	private void checkResults(List<GeneratedResult> result, String resourceDir) {
 		assertEquals(14, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
+		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 		checkCode(result, resourceDir, "foo.conf");
 		checkCode(result, resourceDir, "rtc.conf");
+		//
+		checkCode(result, resourceDir, "foo_vc8.sln");
+		checkCode(result, resourceDir, "foo_vc8.vcproj");
+		checkCode(result, resourceDir, "fooComp_vc8.vcproj");
+		checkCode(result, resourceDir, "foo_vc9.sln");
+		checkCode(result, resourceDir, "foo_vc9.vcproj");
+		checkCode(result, resourceDir, "fooComp_vc9.vcproj");
+		//
+		checkCode(result, resourceDir, "copyprops.bat");
+		checkCode(result, resourceDir, "user_config.vsprops");
 	}
 
 }

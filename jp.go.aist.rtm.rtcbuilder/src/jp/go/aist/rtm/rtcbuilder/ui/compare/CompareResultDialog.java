@@ -51,22 +51,22 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * æ–‡å­—åˆ—ã®å·®ç•°ã‚’å¯è¦–åŒ–ã—ã€ã‚ªãƒªã‚¸ãƒŠãƒ«ãƒ»ã‚¸ã‚§ãƒãƒ¬ãƒ¼ãƒˆãƒ»ãƒãƒ¼ã‚¸ã®ï¼“ã¤ã®å†…ã®1ã¤ã‚’é¸æŠã™ã‚‹ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
+ * •¶š—ñ‚Ì·ˆÙ‚ğ‰Â‹‰»‚µAƒIƒŠƒWƒiƒ‹EƒWƒFƒlƒŒ[ƒgEƒ}[ƒW‚Ì‚R‚Â‚Ì“à‚Ì1‚Â‚ğ‘I‘ğ‚·‚éƒ_ƒCƒAƒƒO
  */
 public class CompareResultDialog extends Dialog {
 
 	/**
-	 * ã‚ªãƒªã‚¸ãƒŠãƒ«ãƒœã‚¿ãƒ³ã®ãƒ©ãƒ™ãƒ«
+	 * ƒIƒŠƒWƒiƒ‹ƒ{ƒ^ƒ“‚Ìƒ‰ƒxƒ‹
 	 */
 	public static final String ORIGINAL_LABEL = "Original";
 
 	/**
-	 * ã‚¸ã‚§ãƒãƒ¬ãƒ¼ãƒˆãƒœã‚¿ãƒ³ã®ãƒ©ãƒ™ãƒ«
+	 * ƒWƒFƒlƒŒ[ƒgƒ{ƒ^ƒ“‚Ìƒ‰ƒxƒ‹
 	 */
 	public static final String GENERATE_LABEL = "Generated";
 
 	/**
-	 * ãƒãƒ¼ã‚¸ãƒœã‚¿ãƒ³ã®ãƒ©ãƒ™ãƒ«
+	 * ƒ}[ƒWƒ{ƒ^ƒ“‚Ìƒ‰ƒxƒ‹
 	 */
 	public static final String MERGE_LAGEL = "Merge";
 
@@ -93,12 +93,12 @@ public class CompareResultDialog extends Dialog {
 	private static final String HEIGHT = "height"; //$NON-NLS-1$
 
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	 * 
 	 * @param parentShell
-	 *            è¦ªã®ã‚·ã‚§ãƒ«
+	 *            e‚ÌƒVƒFƒ‹
 	 * @param target
-	 *            æ¯”è¼ƒå¯¾è±¡ã®æƒ…å ±
+	 *            ”äŠr‘ÎÛ‚Ìî•ñ
 	 */
 	public CompareResultDialog(Shell parentShell, CompareTarget target,
 									boolean isOkCancel, String rightLbl) {
@@ -175,11 +175,11 @@ public class CompareResultDialog extends Dialog {
 	}
 
 	/**
-	 * ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼éƒ¨ã‚’ä½œæˆã™ã‚‹
+	 * ƒvƒŒƒrƒ…[•”‚ğì¬‚·‚é
 	 * 
 	 * @param parent
-	 *            è¦ªã®ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«
-	 * @return ä½œæˆã—ãŸãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼éƒ¨
+	 *            e‚ÌƒRƒ“ƒgƒ[ƒ‹
+	 * @return ì¬‚µ‚½ƒvƒŒƒrƒ…[•”
 	 */
 	private Control createPreviewer(Composite parent) {
 		final CompareConfiguration compareConfiguration = new CompareConfiguration();
@@ -263,7 +263,7 @@ public class CompareResultDialog extends Dialog {
 	}
 
 	/**
-	 * çª“ã‚µã‚¤ã‚ºã‚’ä¿å­˜ã™ã‚‹
+	 * ‘‹ƒTƒCƒY‚ğ•Û‘¶‚·‚é
 	 */
 	private void saveBounds(Rectangle bounds) {
 		IDialogSettings dialogBounds = RtcBuilderPlugin.getDefault()
@@ -280,7 +280,7 @@ public class CompareResultDialog extends Dialog {
 	}
 
 	/**
-	 * å†…å®¹ã®å·®ç•°ã®å§‹ã‚ã¨æœ€å¾Œã®ä½ç½®ã‚’ç®—å‡ºã™ã‚‹
+	 * “à—e‚Ì·ˆÙ‚Ìn‚ß‚ÆÅŒã‚ÌˆÊ’u‚ğZo‚·‚é
 	 */
 	private void computePrefixSuffix() {
 		int end = Math.min(mOriginal.length(), mGenerate.length());
@@ -302,18 +302,18 @@ public class CompareResultDialog extends Dialog {
 	}
 
 	/**
-	 * æ¯”è¼ƒçµæœã®ãƒ“ãƒ¥ãƒ¼ãƒ¯ã‚¯ãƒ©ã‚¹
+	 * ”äŠrŒ‹‰Ê‚Ìƒrƒ…[ƒƒNƒ‰ƒX
 	 */
 	private static class CompareResultMergeViewer extends TextMergeViewer {
 		/**
-		 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+		 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 		 * 
 		 * @param parent
-		 *            è¦ªã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«
+		 *            eƒRƒ“ƒgƒ[ƒ‹
 		 * @param style
-		 *            ã‚¹ã‚¿ã‚¤ãƒ«
+		 *            ƒXƒ^ƒCƒ‹
 		 * @param configuration
-		 *            ã‚³ãƒ³ãƒšã‚¢è¨­å®š
+		 *            ƒRƒ“ƒyƒAİ’è
 		 */
 		private CompareResultMergeViewer(Composite parent, int style,
 				CompareConfiguration configuration) {
@@ -332,13 +332,13 @@ public class CompareResultDialog extends Dialog {
 	}
 
 	/**
-	 * æ¯”è¼ƒçµæœã®ãƒ“ãƒ¥ãƒ¼ãƒ¯ã®è¨­å®š
+	 * ”äŠrŒ‹‰Ê‚Ìƒrƒ…[ƒ‚Ìİ’è
 	 */
 	public static class CompareResultViewerConfiguration extends
 			SourceViewerConfiguration {
 
 		/**
-		 * IPresentationDamagerã¨IPresentationRepairerã®å®Ÿç¾ã‚¯ãƒ©ã‚¹
+		 * IPresentationDamager‚ÆIPresentationRepairer‚ÌÀŒ»ƒNƒ‰ƒX
 		 */
 		public static class SimpleDamagerRepairer implements
 				IPresentationDamager, IPresentationRepairer {
@@ -389,17 +389,17 @@ public class CompareResultDialog extends Dialog {
 	}
 
 	/**
-	 * æ¯”è¼ƒç¯„å›²
+	 * ”äŠr”ÍˆÍ
 	 */
 	private static class CompareElement implements ITypedElement,
 			IEncodedStreamContentAccessor {
 		private String fContent;
 
 		/**
-		 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+		 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 		 * 
 		 * @param content
-		 *            å†…å®¹
+		 *            “à—e
 		 */
 		public CompareElement(String content) {
 			fContent = content;

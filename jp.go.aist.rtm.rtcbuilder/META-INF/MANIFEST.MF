@@ -2,15 +2,13 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: jp.go.aist.rtm.rtcbuilder; singleton:=true
-Bundle-Version: 1.0.0.v20110323
+Bundle-Version: 1.0.0.v20100612
 Bundle-ClassPath: .,
  lib/velocity-1.6.3-dep.jar
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Export-Package: jp.go.aist.rtm.rtcbuilder,
  jp.go.aist.rtm.rtcbuilder.corba.idl.parser,
- jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree,
- jp.go.aist.rtm.rtcbuilder.corba.idl.parser.visitor,
  jp.go.aist.rtm.rtcbuilder.extension,
  jp.go.aist.rtm.rtcbuilder.generator,
  jp.go.aist.rtm.rtcbuilder.generator.param,
@@ -38,6 +36,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide,
  org.eclipse.jdt.ui,
  jp.go.aist.rtm.toolscommon.profiles
-Bundle-ActivationPolicy: lazy
+Eclipse-LazyStart: true
 Bundle-Activator: jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin
-Eclipse-BuddyPolicy: registered

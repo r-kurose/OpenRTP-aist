@@ -15,6 +15,7 @@ import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
 import jp.go.aist.rtm.toolscommon.ui.views.propertysheetview.RtcPropertySheetPage;
@@ -394,7 +395,6 @@ public class ExecutionContextView extends ViewPart {
 					@Override
 					public void done() {
 						comp.synchronizeManually();
-						waitSynchronize();
 						buildData();
 					}
 
@@ -426,7 +426,6 @@ public class ExecutionContextView extends ViewPart {
 					@Override
 					public void done() {
 						comp.synchronizeManually();
-						waitSynchronize();
 						buildData();
 					}
 
@@ -458,7 +457,6 @@ public class ExecutionContextView extends ViewPart {
 					@Override
 					public void done() {
 						comp.synchronizeManually();
-						waitSynchronize();
 						buildData();
 					}
 
@@ -545,13 +543,13 @@ public class ExecutionContextView extends ViewPart {
 		return composite;
 	}
 
-	/** attachã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å€™è£œãƒªã‚¹ãƒˆã‚’ä½œæˆ */
+	/** attach‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌŒó•âƒŠƒXƒg‚ğì¬ */
 	List<Component> buildAttachComponents(ExecutionContext ec) {
 		List<Component> result = new ArrayList<Component>();
 		if (getDiagram() == null) {
 			return result;
 		}
-		// ECã¨ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã®ã‚ªãƒ³ãƒ©ã‚¤ãƒ³/ã‚ªãƒ•ãƒ©ã‚¤ãƒ³ã®åˆ¥ãŒä¸ä¸€è‡´ã®å ´åˆã¯ã‚¹ã‚­ãƒƒãƒ—
+		// EC‚Æƒ_ƒCƒAƒOƒ‰ƒ€‚ÌƒIƒ“ƒ‰ƒCƒ“/ƒIƒtƒ‰ƒCƒ“‚Ì•Ê‚ª•sˆê’v‚Ìê‡‚ÍƒXƒLƒbƒv
 		SystemDiagramKind kind = getDiagram().getKind();
 		if (ec instanceof CorbaExecutionContext) {
 			if (!SystemDiagramKind.ONLINE_LITERAL.equals(kind)) {
@@ -564,16 +562,16 @@ public class ExecutionContextView extends ViewPart {
 		}
 		for (Component c : getDiagram().getRegisteredComponents()) {
 			if (c.isGroupingCompositeComponent()) {
-				// Groupingè¤‡åˆRTCã¯ECã‚’æŒãŸãªã„ã®ã§é¸æŠä¸å¯
+				// Grouping•¡‡RTC‚ÍEC‚ğ‚½‚È‚¢‚Ì‚Å‘I‘ğ•s‰Â
 				continue;
 			}
-			// ownerã®RTCã€attachæ¸ˆã¿ã®RTCã‚‚é¸æŠå¯èƒ½
+			// owner‚ÌRTCAattachÏ‚İ‚ÌRTC‚à‘I‘ğ‰Â”\
 			result.add(c);
 		}
 		return result;
 	}
 
-	/** å¤‰æ›´ã‚’åæ˜  */
+	/** •ÏX‚ğ”½‰f */
 	void applyData() {
 		if (eclist == null) {
 			return;
@@ -596,15 +594,7 @@ public class ExecutionContextView extends ViewPart {
 		buildData();
 	}
 
-	void waitSynchronize() {
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			// void
-		}
-	}
-
-	/** å†…éƒ¨ãƒ¢ãƒ‡ãƒ«ã‚’æ§‹ç¯‰ */
+	/** “à•”ƒ‚ƒfƒ‹‚ğ\’z */
 	void buildData() {
 		eclist = null;
 		if (targetComponent != null) {
@@ -629,7 +619,7 @@ public class ExecutionContextView extends ViewPart {
 		refreshData();
 	}
 
-	/** å†…éƒ¨ãƒ¢ãƒ‡ãƒ«ã«ECã‚’è¿½åŠ  */
+	/** “à•”ƒ‚ƒfƒ‹‚ÉEC‚ğ’Ç‰Á */
 	void buildDataAddEC(String name, ExecutionContext ec) {
 		if (eclist.ecnames.contains(name)) {
 			return;
@@ -677,19 +667,19 @@ public class ExecutionContextView extends ViewPart {
 				.toString(ec.getParticipants().size()));
 		props.add(prop);
 		// properties
-		for (String key : ec.getPropertyKeys()) {
-			prop = new ECData.ECProperty(key, ec.getProperty(key));
+		for (NameValue nv : ec.getProperties()) {
+			prop = new ECData.ECProperty(nv.getName(), nv.getValueAsString());
 			props.add(prop);
 		}
 	}
 
-	/** å†…éƒ¨ãƒ¢ãƒ‡ãƒ«ã‹ã‚‰è¡¨ç¤º */
+	/** “à•”ƒ‚ƒfƒ‹‚©‚ç•\¦ */
 	void refreshData() {
 		refreshECListData();
 		refreshECDetailData();
 	}
 
-	/** ECä¸€è¦§ã®è¡¨ç¤º */
+	/** ECˆê——‚Ì•\¦ */
 	void refreshECListData() {
 		eclistTableViewer.setInput(Collections.EMPTY_LIST);
 		componentNameLabel.setText("");
@@ -727,7 +717,7 @@ public class ExecutionContextView extends ViewPart {
 		}
 	}
 
-	/** ECè©³ç´°ã®è¡¨ç¤º */
+	/** ECÚ×‚Ì•\¦ */
 	void refreshECDetailData() {
 		ecdetailTableViewer.setInput(Collections.EMPTY_LIST);
 		rateText.setText("");
@@ -747,7 +737,7 @@ public class ExecutionContextView extends ViewPart {
 
 				attachButton.setEnabled(true);
 				if (!targetComponent.getExecutionContexts().contains(data.ec)) {
-					// é¸æŠä¸­ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒ ownerã§ãªã‘ã‚Œã° detachå¯
+					// ‘I‘ğ’†‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ª owner‚Å‚È‚¯‚ê‚Î detach‰Â
 					detachButton.setEnabled(true);
 				}
 			}
@@ -786,7 +776,7 @@ public class ExecutionContextView extends ViewPart {
 		return targetEditor.getSystemDiagram();
 	}
 
-	/** ECä¸€è¦§ã‚’è¡¨ã™ã‚¯ãƒ©ã‚¹ */
+	/** ECˆê——‚ğ•\‚·ƒNƒ‰ƒX */
 	static class ECList {
 		List<String> ecnames = new ArrayList<String>();
 		Map<String, ECData> datas = new HashMap<String, ECData>();
@@ -801,7 +791,7 @@ public class ExecutionContextView extends ViewPart {
 		}
 	}
 
-	/** ECã‚’è¡¨ã™ã‚¯ãƒ©ã‚¹ */
+	/** EC‚ğ•\‚·ƒNƒ‰ƒX */
 	static class ECData {
 		ExecutionContext ec;
 		Double rate = 0.0;
@@ -819,7 +809,7 @@ public class ExecutionContextView extends ViewPart {
 			return rate.doubleValue() != originalRate.doubleValue();
 		}
 
-		/** ECã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’è¡¨ã™ã‚¯ãƒ©ã‚¹ */
+		/** EC‚ÌƒvƒƒpƒeƒB‚ğ•\‚·ƒNƒ‰ƒX */
 		static class ECProperty {
 			String name;
 			String value;
@@ -831,7 +821,7 @@ public class ExecutionContextView extends ViewPart {
 		}
 	}
 
-	/** ECãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ä¸€è¦§è¡¨ç¤ºã®LabelProvider */
+	/** ECƒvƒƒpƒeƒBˆê——•\¦‚ÌLabelProvider */
 	public class ECPropertyLabelProvider extends LabelProvider implements
 			ITableLabelProvider {
 		@Override
@@ -851,7 +841,7 @@ public class ExecutionContextView extends ViewPart {
 		}
 	}
 
-	/** ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®ã‚³ãƒãƒ³ãƒ‰ */
+	/** ƒRƒ“ƒ|[ƒlƒ“ƒgƒAƒNƒVƒ‡ƒ“‚ÌƒRƒ}ƒ“ƒh */
 	static abstract class ComponentCommand extends
 			ComponentActionDelegate.Command {
 		protected CorbaExecutionContext ec;
@@ -871,7 +861,7 @@ public class ExecutionContextView extends ViewPart {
 		}
 	}
 
-	/** ECã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®ã‚³ãƒãƒ³ãƒ‰ */
+	/** ECƒAƒNƒVƒ‡ƒ“‚ÌƒRƒ}ƒ“ƒh */
 	static abstract class ContextCommand extends
 			ComponentActionDelegate.Command {
 		protected CorbaExecutionContext ec;
@@ -887,7 +877,7 @@ public class ExecutionContextView extends ViewPart {
 		}
 	}
 
-	/** ECã® attach/detachã‚³ãƒãƒ³ãƒ‰ */
+	/** EC‚Ì attach/detachƒRƒ}ƒ“ƒh */
 	static abstract class ParticipateCommand extends
 			ComponentActionDelegate.Command {
 		protected ExecutionContext ec;
@@ -907,36 +897,19 @@ public class ExecutionContextView extends ViewPart {
 		}
 	}
 
-	/** CORBAã®åŒæœŸã«ã‚ˆã‚‹å¤‰æ›´é€šçŸ¥ã‚’å—ã‘å–ã‚‹ã‚¢ãƒ€ãƒ—ã‚¿ */
+	/** CORBA‚Ì“¯Šú‚É‚æ‚é•ÏX’Ê’m‚ğó‚¯æ‚éƒAƒ_ƒvƒ^ */
 	AdapterImpl eAdapter = new AdapterImpl() {
 		@Override
 		public void notifyChanged(Notification msg) {
 			if (msg.getOldValue() == this || msg.getNewValue() == this) {
 				return;
 			}
-			boolean update = false;
-			//
-			if (ComponentPackage.eINSTANCE
+			if (!ComponentPackage.eINSTANCE
 					.getCorbaComponent_RTCExecutionContexts().equals(
-							msg.getFeature())) {
-				update = true;
-			}
-			if (ComponentPackage.eINSTANCE
-					.getCorbaComponent_RTCParticipationContexts().equals(
-							msg.getFeature())) {
-				update = true;
-			}
-			//
-			if (ComponentPackage.eINSTANCE.getExecutionContext_StateL().equals(
-					msg.getFeature())) {
-				update = true;
-			}
-			if (ComponentPackage.eINSTANCE
-					.getCorbaExecutionContext_RtcExecutionContextProfile()
-					.equals(msg.getFeature())) {
-				update = true;
-			}
-			if (!update) {
+							msg.getFeature())
+					&& !ComponentPackage.eINSTANCE
+							.getCorbaComponent_RTCParticipationContexts()
+							.equals(msg.getFeature())) {
 				return;
 			}
 			eclistTableViewer.getControl().getDisplay().asyncExec(
@@ -953,14 +926,6 @@ public class ExecutionContextView extends ViewPart {
 		public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 			if (targetComponent != null) {
 				targetComponent.eAdapters().remove(eAdapter);
-				for (ExecutionContext ec : targetComponent
-						.getExecutionContexts()) {
-					ec.eAdapters().remove(eAdapter);
-				}
-				for (ExecutionContext ec : targetComponent
-						.getParticipationContexts()) {
-					ec.eAdapters().remove(eAdapter);
-				}
 			}
 			targetComponent = null;
 			if (selection instanceof IStructuredSelection) {
@@ -972,14 +937,6 @@ public class ExecutionContextView extends ViewPart {
 					targetComponent = (Component) adapter;
 					targetComponent.synchronizeManually();
 					targetComponent.eAdapters().add(eAdapter);
-					for (ExecutionContext ec : targetComponent
-							.getExecutionContexts()) {
-						ec.eAdapters().add(eAdapter);
-					}
-					for (ExecutionContext ec : targetComponent
-							.getParticipationContexts()) {
-						ec.eAdapters().add(eAdapter);
-					}
 				}
 			}
 			if (part instanceof AbstractSystemDiagramEditor) {
@@ -1000,11 +957,11 @@ public class ExecutionContextView extends ViewPart {
 		selectionListener.selectionChanged(null, getSite().getWorkbenchWindow()
 				.getSelectionService().getSelection());
 
-		// NameServiceViewã®é¸æŠç›£è¦–ãƒªã‚¹ãƒŠã‚’ç™»éŒ²
+		// NameServiceView‚Ì‘I‘ğŠÄ‹ƒŠƒXƒi‚ğ“o˜^
 		getSite().getWorkbenchWindow().getSelectionService()
 				.addSelectionListener(selectionListener);
 
-		// SelectionProviderã‚’ç™»éŒ²(ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ»ãƒ“ãƒ¥ãƒ¼é€£æº)
+		// SelectionProvider‚ğ“o˜^(ƒvƒƒpƒeƒBEƒrƒ…[˜AŒg)
 		getSite().setSelectionProvider(new ISelectionProvider() {
 			public void addSelectionChangedListener(
 					ISelectionChangedListener listener) {

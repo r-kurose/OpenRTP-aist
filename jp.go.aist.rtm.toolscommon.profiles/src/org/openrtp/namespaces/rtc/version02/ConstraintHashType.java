@@ -74,4 +74,5 @@ public class ConstraintHashType {
     }
     public void setConstraint(List<ConstraintType> list) {
     }
+
 }

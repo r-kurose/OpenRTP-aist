@@ -37,9 +37,9 @@ public class CORBAParseMethodTypeTest extends TestBase {
 				.convert_typedef(spec, "");
 		
 		assertEquals(2, typedefParams.size());
-		assertEquals("string[]", typedefParams.get(0).getOriginalDef());
+		assertEquals("string", typedefParams.get(0).getOriginalDef());
 		assertEquals(true, typedefParams.get(0).isSequence());
-		assertEquals("float[]", typedefParams.get(1).getOriginalDef());
+		assertEquals("float", typedefParams.get(1).getOriginalDef());
 		assertEquals(true, typedefParams.get(1).isSequence());
 	}
 }

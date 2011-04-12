@@ -8,7 +8,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
 
 /**
- * ServicePort縺ｮFigure
+ * ServicePortのFigure
  */
 public class ServicePortFigure extends PortFigureBase {
 
@@ -16,10 +16,10 @@ public class ServicePortFigure extends PortFigureBase {
 	private ServicePort servicePort;
 
 	/**
-	 * 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ
+	 * コンストラクタ
 	 * 
 	 * @param servicePort
-	 *            繝｢繝�繝ｫ
+	 *            モデル
 	 */
 	public ServicePortFigure(ServicePort servicePort, int direction, Color backColor) {
 		this.servicePort = servicePort;

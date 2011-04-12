@@ -5,7 +5,7 @@
  *
  * @author Noriaki Ando <n-ando@aist.go.jp>
  *
- * Copyright (C) 2006-2008 ãƒ©ã‚¤ã‚»ãƒ³ã‚¹
+ * Copyright (C) 2006-2008 ƒ‰ƒCƒZƒ“ƒX
  *
  * $Id$
  */

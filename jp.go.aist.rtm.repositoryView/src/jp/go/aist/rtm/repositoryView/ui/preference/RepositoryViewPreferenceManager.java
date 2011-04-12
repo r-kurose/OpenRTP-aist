@@ -6,28 +6,28 @@ import java.beans.PropertyChangeSupport;
 import jp.go.aist.rtm.repositoryView.RepositoryViewPlugin;
 
 /**
- * ãƒ¬ãƒã‚¸ãƒˆãƒªãƒ“ãƒ¥ãƒ¼ã®å„ç¨®è¨­å®šã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
+ * ƒŒƒ|ƒWƒgƒŠƒrƒ…[‚ÌŠeíİ’è‚ğŠÇ—‚·‚éƒNƒ‰ƒX
  *
  */
 public class RepositoryViewPreferenceManager {
 	private static RepositoryViewPreferenceManager __instance = new RepositoryViewPreferenceManager();
 
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	 * 
-	 * @return ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³
+	 * @return ƒVƒ“ƒOƒ‹ƒgƒ“
 	 */
 	public static RepositoryViewPreferenceManager getInstance() {
 		return __instance;
 	}
 
 	/**
-	 * è­¦å‘Šæ•°ã®ã‚­ãƒ¼
+	 * Œx”‚ÌƒL[
 	 */
 	public static final String CAUTION_COUNT = RepositoryViewPreferenceManager.class.getName()
 			+ "CAUTION_COUNT";
 	/**
-	 * ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ä½ç½®ã®ã‚­ãƒ¼
+	 * ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹ˆÊ’u‚ÌƒL[
 	 */
 	public static final String PROPERTY_FILE_LOCATION = RepositoryViewPreferenceManager.class.getName()
 			+ "PROPERTY_FILE_LOCATION";
@@ -36,19 +36,19 @@ public class RepositoryViewPreferenceManager {
 			this);
 
 	/**
-	 * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®è­¦å‘Šæ•°
+	 * ƒfƒtƒHƒ‹ƒg‚ÌŒx”
 	 */
 	public static final int defaultCautionCount = 500;
 	/**
-	 * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ä½ç½®
+	 * ƒfƒtƒHƒ‹ƒg‚ÌƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹ˆÊ’u
 	 */
 	public static final String defaultPropertyFileLocation = "";
 
 	/**
-	 * è­¦å‘Šæ•°ã‚’è¨­å®šã™ã‚‹
+	 * Œx”‚ğİ’è‚·‚é
 	 * 
-	 * @param key ã‚­ãƒ¼
-	 * @param defaulCount è¨­å®šå€¤
+	 * @param key ƒL[
+	 * @param defaulCount İ’è’l
 	 */
 	public void setCaution_Count(int defaulCount) {
 		int oldCautionCount = defaultCautionCount;
@@ -59,10 +59,10 @@ public class RepositoryViewPreferenceManager {
 	}
 	
 	/**
-	 * è­¦å‘Šæ•°ã‚’å–å¾—ã™ã‚‹
+	 * Œx”‚ğæ“¾‚·‚é
 	 * 
-	 * @param key ã‚­ãƒ¼
-	 * @return cautionCount è¨­å®šå€¤
+	 * @param key ƒL[
+	 * @return cautionCount İ’è’l
 	 */
 	public int getCaution_Count() {
 		RepositoryViewPlugin.getDefault().getPreferenceStore().setDefault(CAUTION_COUNT, "");
@@ -78,10 +78,10 @@ public class RepositoryViewPreferenceManager {
 	}
 
 	/**
-	 * Property File ä½ç½®ã‚’è¨­å®šã™ã‚‹
+	 * Property File ˆÊ’u‚ğİ’è‚·‚é
 	 * 
-	 * @param key ã‚­ãƒ¼
-	 * @param defaulLocation ãƒ•ã‚¡ã‚¤ãƒ«ä½ç½®
+	 * @param key ƒL[
+	 * @param defaulLocation ƒtƒ@ƒCƒ‹ˆÊ’u
 	 */
 	public void setPropertyFile_Location(String defaulLocation) {
 		String oldPropertyLocation = defaultPropertyFileLocation;
@@ -92,10 +92,10 @@ public class RepositoryViewPreferenceManager {
 	}
 	
 	/**
-	 * Property File ä½ç½®ã‚’å–å¾—ã™ã‚‹
+	 * Property File ˆÊ’u‚ğæ“¾‚·‚é
 	 * 
-	 * @param key ã‚­ãƒ¼
-	 * @return propertyLocation ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ«ä½ç½®
+	 * @param key ƒL[
+	 * @return propertyLocation ƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹ˆÊ’u
 	 */
 	public String getPropertyFile_Location() {
 		RepositoryViewPlugin.getDefault().getPreferenceStore().setDefault(PROPERTY_FILE_LOCATION, "");

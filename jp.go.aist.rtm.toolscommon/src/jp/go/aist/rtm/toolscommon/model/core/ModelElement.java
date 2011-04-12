@@ -5,7 +5,7 @@ import org.eclipse.emf.ecore.EObject;
 
 
 /**
- * RTCLinkでの、
+ * RTCLink�ł́A
  * @model
  */
 public interface ModelElement extends EObject, IAdaptable {

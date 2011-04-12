@@ -32,13 +32,13 @@ import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * ãƒãƒ¼ãƒˆã®EditPartã‚¯ãƒ©ã‚¹
+ * ƒ|[ƒg‚ÌEditPartƒNƒ‰ƒX
  */
 public abstract class PortEditPart extends AbstractEditPart implements
 		NodeEditPart {
 
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	 * 
 	 * @param actionRegistry
 	 *            ActionRegistry
@@ -131,7 +131,7 @@ public abstract class PortEditPart extends AbstractEditPart implements
 	}
 
 	/**
-	 * è¨­å®šãƒãƒãƒ¼ã‚¸ãƒ£ã‚’ç›£è¦–ã™ã‚‹ãƒªã‚¹ãƒŠ
+	 * İ’èƒ}ƒl[ƒWƒƒ‚ğŠÄ‹‚·‚éƒŠƒXƒi
 	 */
 	PropertyChangeListener preferenceChangeListener = new PropertyChangeListener() {
 		public void propertyChange(PropertyChangeEvent evt) {
@@ -165,7 +165,7 @@ public abstract class PortEditPart extends AbstractEditPart implements
 				.removePropertyChangeListener(preferenceChangeListener);
 	}
 	
-	// ãƒãƒ¼ãƒˆãŒå…¬é–‹ã•ã‚Œã¦ã„ã‚‹ã‹ã‚’è¿”ã™
+	// ƒ|[ƒg‚ªŒöŠJ‚³‚ê‚Ä‚¢‚é‚©‚ğ•Ô‚·
 	protected boolean isExported() {
 		return PortHelper.isExported(getModel());
 	}
@@ -200,9 +200,6 @@ public abstract class PortEditPart extends AbstractEditPart implements
 				public void run() {
 					if (isActive()) {
 						refresh();
-//						refreshVisuals();
-//						refreshTargetConnections();
-//						refreshSourceConnections();
 					}
 				}
 			});
@@ -213,10 +210,10 @@ public abstract class PortEditPart extends AbstractEditPart implements
 		this.invalid = invalid;
 	}
 
-	// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã®ãƒãƒ¼ãƒˆã®EditPartãŒå­˜åœ¨ã—ãªã„æ™‚ã«èµ°ã‚‹ã¨ããŒã‚ã‚‹ã€‚
+	// ƒ^[ƒQƒbƒg‚Ìƒ|[ƒg‚ÌEditPart‚ª‘¶İ‚µ‚È‚¢‚É‘–‚é‚Æ‚«‚ª‚ ‚éB
 	protected void addSourceConnection(ConnectionEditPart connection, int index) {
 
-		// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆå´ã®è¨­å®šã‚‚è¡Œã†
+		// ƒ^[ƒQƒbƒg‘¤‚Ìİ’è‚às‚¤
 		PortConnector connectionModel = (PortConnector) connection.getModel();
 		PortEditPart targetPart = (PortEditPart) getViewer().getEditPartRegistry().get(connectionModel.getTarget());
 		if (targetPart == null) return;
@@ -234,18 +231,17 @@ public abstract class PortEditPart extends AbstractEditPart implements
 		connection.setTarget(targetPart);
 		targetPart.fireTargetConnectionAdded(connection, index);
 
-		// å…ƒã€…ã®ã‚½ãƒ¼ã‚¹å´ã®è¨­å®šã‚’è¡Œã†
+		// Œ³X‚Ìƒ\[ƒX‘¤‚Ìİ’è‚ğs‚¤
 		primAddSourceConnection(connection, index);
 	    
 		connection.setSource(this);
 		fireSourceConnectionAdded(connection, index);
 		
 		connection.activate();
-//		System.out.println("addSourceConnection from " + connection.getSource() + " to " + connection.getTarget());
 	}
 
 	protected void addTargetConnection(ConnectionEditPart connection, int index) {
-		// ã‚½ãƒ¼ã‚¹å´ã®è¨­å®šã‚‚è¡Œã†
+		// ƒ\[ƒX‘¤‚Ìİ’è‚às‚¤
 		PortConnector connectionModel = (PortConnector) connection.getModel();
 		PortEditPart sourcePart = (PortEditPart) getViewer().getEditPartRegistry().get(connectionModel.getSource());
 		if (sourcePart == null) return;
@@ -263,14 +259,13 @@ public abstract class PortEditPart extends AbstractEditPart implements
 		connection.setSource(sourcePart);
 		sourcePart.fireSourceConnectionAdded(connection, index);
 
-		// å…ƒã€…ã®ã‚¿ãƒ¼ã‚²ãƒƒãƒˆå´ã®è¨­å®šã‚’è¡Œã†
+		// Œ³X‚Ìƒ^[ƒQƒbƒg‘¤‚Ìİ’è‚ğs‚¤
 		primAddTargetConnection(connection, index);
 	    
 		connection.setTarget(this);
 		fireTargetConnectionAdded(connection, index);
 		
 		connection.activate();
-//		System.out.println("addTargetConnection from " + connection.getSource() + " to " + connection.getTarget());
 	}
 
 	@SuppressWarnings("unchecked")

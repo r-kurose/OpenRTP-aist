@@ -8,13 +8,13 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
 /**
- * ポートに関するユーティリティクラス
+ * �|�[�g�Ɋւ��郆�[�e�B���e�B�N���X
  *
  */
 public class PortHelper {
 
 	/**
-	 * 指定したポートにコネクタが存在するかを返す
+	 * �w�肵���|�[�g�ɃR�l�N�^�����݂��邩��Ԃ�
 	 * @param port
 	 * @return
 	 */
@@ -24,7 +24,7 @@ public class PortHelper {
 	}
 
 	/**
-	 * 選択されているポートを返す
+	 * �I������Ă���|�[�g��Ԃ�
 	 * @param selection
 	 * @return
 	 */
@@ -35,7 +35,7 @@ public class PortHelper {
 	}
 
 	/**
-	 * ポートが公開されているかを返す
+	 * �|�[�g�����J����Ă��邩��Ԃ�
 	 * @param port
 	 * @return
 	 */
@@ -55,7 +55,7 @@ public class PortHelper {
 	}
 
 	/**
-	 * 選択されているポートのEditPartを返す
+	 * �I������Ă���|�[�g��EditPart��Ԃ�
 	 * @param selection
 	 * @return
 	 */

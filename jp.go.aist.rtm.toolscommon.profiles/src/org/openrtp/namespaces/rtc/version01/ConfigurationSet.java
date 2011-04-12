@@ -74,4 +74,5 @@ public class ConfigurationSet {
     }
     public void setConfiguration(List<Configuration> list) {
     }
+
 }

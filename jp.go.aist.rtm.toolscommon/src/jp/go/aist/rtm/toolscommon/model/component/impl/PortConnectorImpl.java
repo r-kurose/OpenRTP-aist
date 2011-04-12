@@ -169,7 +169,7 @@ public abstract class PortConnectorImpl extends WrapperObjectImpl implements Por
 	}
 
 	/**
-	 * <!-- begin-user-doc --> TODO:コネクタが接続元（先）から削除された場合には、接続先（元）からも削除を行う<!--
+	 * <!-- begin-user-doc --> TODO:�R�l�N�^���ڑ����i��j����폜���ꂽ�ꍇ�ɂ́A�ڑ���i���j������폜���s��<!--
 	 * end-user-doc -->
 	 * 
 	 * @generated NOT

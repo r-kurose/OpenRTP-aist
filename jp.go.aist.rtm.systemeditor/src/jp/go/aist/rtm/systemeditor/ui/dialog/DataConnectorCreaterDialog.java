@@ -33,14 +33,14 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * データポート間の接続のコネクタプロファイルの選択ダイアログ
+ * �f�[�^�|�[�g�Ԃ̐ڑ��̃R�l�N�^�v���t�@�C���̑I���_�C�A���O
  * <P>
- * コネクタプロファイルの選択可能なタイプを、OutPortおよびInPortから判断しプルダウンとして表示する。（「Any」自体は表示されない）(文字のケースは無視してマッチングし、マッチした際に表示されるのはOutPortの文字列とする)<br>
- * 選択可能であるのは、データポートだけであり、サービスポートは含まれない。<br>
- * OutPortもしくはInPortに「Any」が含まれている場合には、相手のすべて型を受け入れるものとする。<br>
- * OutPortおよびInportにAnyが含まれている場合には、コンボボックスに任意の文字列を入力可能とし、「*任意入力可」を表示する。<br>
- * サブスクリプションタイプは、データフロータイプが「Push」の時のみ表示される。<br>
- * PushRateは、サブスクリプションタイプが「Periodic」であり、かつデータフロータイプが「Push」の時のみ表示される<br>
+ * �R�l�N�^�v���t�@�C���̑I���\�ȃ^�C�v���AOutPort�����InPort���画�f���v���_�E���Ƃ��ĕ\������B�i�uAny�v���͕̂\������Ȃ��j(�����̃P�[�X�͖������ă}�b�`���O���A�}�b�`�����ۂɕ\�������̂�OutPort�̕�����Ƃ���)<br>
+ * �I���\�ł���̂́A�f�[�^�|�[�g�����ł���A�T�[�r�X�|�[�g�͊܂܂�Ȃ��B<br>
+ * OutPort��������InPort�ɁuAny�v���܂܂�Ă���ꍇ�ɂ́A����̂��ׂČ^���󂯓������̂Ƃ���B<br>
+ * OutPort�����Inport��Any���܂܂�Ă���ꍇ�ɂ́A�R���{�{�b�N�X�ɔC�ӂ̕��������͉\�Ƃ��A�u*�C�ӓ��͉v��\������B<br>
+ * �T�u�X�N���v�V�����^�C�v�́A�f�[�^�t���[�^�C�v���uPush�v�̎��̂ݕ\�������B<br>
+ * PushRate�́A�T�u�X�N���v�V�����^�C�v���uPeriodic�v�ł���A���f�[�^�t���[�^�C�v���uPush�v�̎��̂ݕ\�������<br>
  */
 public class DataConnectorCreaterDialog extends TitleAreaDialog {
 
@@ -114,9 +114,9 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 	}
 
 	/**
-	 * ConnectorProfileCreaterインタフェースの実装メソッド
+	 * ConnectorProfileCreater�C���^�t�F�[�X�̎������\�b�h
 	 * <p>
-	 * ConnectorProfileとなる候補が複数ある場合には、ダイアログを表示し、ConnectorProfileを作成する。
+	 * ConnectorProfile�ƂȂ��₪��������ꍇ�ɂ́A�_�C�A���O��\�����AConnectorProfile���쐬����B
 	 */
 	public ConnectorProfile getConnectorProfile(OutPort outport, InPort inport) {
 		this.outport = outport;
@@ -157,7 +157,7 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 	}
 
 	/**
-	 * メインとなる表示部を作成する
+	 * ���C���ƂȂ�\�������쐬����
 	 */
 	private void createConnectorProfileComposite(final Composite mainComposite) {
 		GridLayout gl;
@@ -389,7 +389,7 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 				}
 				detailComposite.setVisible(selection);
 				if (!selection) {
-					// 詳細チェック解除時に、元のダイアログのサイズに戻す
+					// �ڍ׃`�F�b�N�������ɁA���̃_�C�A���O�̃T�C�Y�ɖ߂�
 					getShell().setSize(defaultDialogSize);
 				} else {
 					getShell().setSize(
@@ -402,7 +402,7 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 	}
 
 	/**
-	 * 詳細設定の表示部を作成する
+	 * �ڍאݒ�̕\�������쐬����
 	 */
 	Composite createDetailComposite(Composite parent) {
 		GridLayout gl;
@@ -430,7 +430,7 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 	}
 
 	/**
-	 * ポートバッファ設定の表示部を作成する
+	 * �|�[�g�o�b�t�@�ݒ�̕\�������쐬����
 	 */
 	Composite createBufferComposite(Composite parent, String label,
 			BufferPackage pkg) {
@@ -580,7 +580,7 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 	}
 
 	/**
-	 * モデル情報にアクセスし、表示に設定する
+	 * ���f�����ɃA�N�Z�X���A�\���ɐݒ肷��
 	 */
 	void loadData() {
 		//
@@ -646,7 +646,7 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 	}
 
 	/**
-	 * モデルの詳細設定項目を表示する
+	 * ���f���̏ڍאݒ荀�ڂ�\������
 	 */
 	void loadDetailData() {
 		List<String> fullTypes;
@@ -739,13 +739,13 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 	}
 
 	/**
-	 * コンボにおいて、「表示候補のリスト」と、「どのような文字列でも設定可能であるかどうか」を引数に取り、初期表示の文字列を決定する
+	 * �R���{�ɂ����āA�u�\�����̃��X�g�v�ƁA�u�ǂ̂悤�ȕ�����ł��ݒ�\�ł��邩�ǂ����v�������Ɏ��A�����\���̕���������肷��
 	 * 
 	 * @param candidateList
-	 *            表示候補リスト
+	 *            �\����⃊�X�g
 	 * @param isAllowAny
-	 *            どのような文字列でも設定可能であるかどうか
-	 * @return 初期表示の文字列
+	 *            �ǂ̂悤�ȕ�����ł��ݒ�\�ł��邩�ǂ���
+	 * @return �����\���̕�����
 	 */
 	private String getDefaultValue(List<String> candidateList, String value,
 			boolean isAllowAny) {
@@ -787,8 +787,8 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * メッセージを設定する。 メッセージとしてはエラーメッセージを想定しており、
-	 * エラーメッセージが存在するか空文字かどうかにより、OKボタンのEnableの制御も行うように、オーバーライドした。
+	 * ���b�Z�[�W��ݒ肷��B ���b�Z�[�W�Ƃ��Ă̓G���[���b�Z�[�W��z�肵�Ă���A
+	 * �G���[���b�Z�[�W�����݂��邩�󕶎����ǂ����ɂ��AOK�{�^����Enable�̐�����s���悤�ɁA�I�[�o�[���C�h�����B
 	 */
 	public void setMessage(String newMessage, int newType) {
 		super.setMessage(newMessage, newType);
@@ -802,12 +802,12 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 	}
 
 	/**
-	 * 設定に変更があった場合に呼び出されることを想定したメソッド。
-	 * SubscriptionTypeコンボとPushInterbalのEnableを管理する。
+	 * �ݒ�ɕύX���������ꍇ�ɌĂяo����邱�Ƃ�z�肵�����\�b�h�B
+	 * SubscriptionType�R���{��PushInterbal��Enable���Ǘ�����B
 	 * <p>
-	 * 注意：設定値の変更がある場合には、必ずこのメソッドを呼び出すこと<br>
-	 * 現在は、表示側で設定を変更した後に、このメソッドを必ず呼び出すように実装しているが、
-	 * 項目数が増えるようならば、モデルの変更通知機能を使用して実装する方が良い。
+	 * ���ӁF�ݒ�l�̕ύX������ꍇ�ɂ́A�K�����̃��\�b�h���Ăяo������<br>
+	 * ���݂́A�\�����Őݒ��ύX������ɁA���̃��\�b�h��K���Ăяo���悤�Ɏ������Ă��邪�A
+	 * ���ڐ���������悤�Ȃ�΁A���f���̕ύX�ʒm�@�\���g�p���Ď�����������ǂ��B
 	 */
 	public void notifyModified() {
 		if (disableNotify) {

@@ -24,9 +24,9 @@ import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContextPackage.AlreadyBound;
 
 /**
- * CORBAオブジェクトを追加するダイアログ
+ * CORBA�I�u�W�F�N�g��ǉ�����_�C�A���O
  * <P>
- * 入力したIORをObjectに変換し、選択されたコンテキストに登録する。
+ * ���͂���IOR��Object�ɕϊ����A�I�����ꂽ�R���e�L�X�g�ɓo�^����B
  * 
  */
 public class AddObjectDialog extends TitleAreaDialog {
@@ -63,7 +63,7 @@ public class AddObjectDialog extends TitleAreaDialog {
 	}
 
 	/**
-	 * メインとなる表示部を作成する
+	 * ���C���ƂȂ�\�������쐬����
 	 */
 	private void createObjecComposite(Composite mainComposite) {
 		GridLayout gl;
@@ -154,7 +154,7 @@ public class AddObjectDialog extends TitleAreaDialog {
 		
 	}
 	/**
-	 * IORをObjectに変換し、指定された名前、Kindで、選択されたコンテキストに登録する。
+	 * IOR��Object�ɕϊ����A�w�肳�ꂽ���O�AKind�ŁA�I�����ꂽ�R���e�L�X�g�ɓo�^����B
 	 */
 	private boolean doAddObject() {
 
@@ -196,11 +196,11 @@ public class AddObjectDialog extends TitleAreaDialog {
 	}
 
 	/**
-	 * 設定に変更があった場合に呼び出されることを想定したメソッド。
+	 * �ݒ�ɕύX���������ꍇ�ɌĂяo����邱�Ƃ�z�肵�����\�b�h�B
 	 * <p>
-	 * 注意：設定値の変更がある場合には、必ずこのメソッドを呼び出すこと<br>
-	 * 現在は、表示側で設定を変更した後に、このメソッドを必ず呼び出すように実装しているが、
-	 * 項目数が増えるようならば、モデルの変更通知機能を使用して実装する方が良い。
+	 * ���ӁF�ݒ�l�̕ύX������ꍇ�ɂ́A�K�����̃��\�b�h���Ăяo������<br>
+	 * ���݂́A�\�����Őݒ��ύX������ɁA���̃��\�b�h��K���Ăяo���悤�Ɏ������Ă��邪�A
+	 * ���ڐ���������悤�Ȃ�΁A���f���̕ύX�ʒm�@�\���g�p���Ď�����������ǂ��B
 	 */
 	public void notifyModified() {
 		errorMessage = ""; //$NON-NLS-1$

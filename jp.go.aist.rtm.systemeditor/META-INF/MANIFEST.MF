@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: jp.go.aist.rtm.systemeditor;singleton:=true
-Bundle-Version: 1.0.0.v20110323
+Bundle-Version: 1.0.0.v20100521
 Bundle-Activator: jp.go.aist.rtm.systemeditor.RTSystemEditorPlugin
 Bundle-Localization: plugin
 Require-Bundle: 
@@ -17,7 +17,6 @@ Export-Package: jp.go.aist.rtm.systemeditor,
  jp.go.aist.rtm.systemeditor._debug,
  jp.go.aist.rtm.systemeditor._test,
  jp.go.aist.rtm.systemeditor.adapterfactory,
- jp.go.aist.rtm.systemeditor.extension,
  jp.go.aist.rtm.systemeditor.factory,
  jp.go.aist.rtm.systemeditor.manager,
  jp.go.aist.rtm.systemeditor.nl,
@@ -34,7 +33,6 @@ Export-Package: jp.go.aist.rtm.systemeditor,
  jp.go.aist.rtm.systemeditor.ui.editor.figure,
  jp.go.aist.rtm.systemeditor.ui.preference,
  jp.go.aist.rtm.systemeditor.ui.util,
- jp.go.aist.rtm.systemeditor.ui.workbenchadapter,
- jp.go.aist.rtm.systemeditor.extension
+ jp.go.aist.rtm.systemeditor.ui.workbenchadapter
 Bundle-Vendor: %providerName
 Eclipse-BuddyPolicy: registered

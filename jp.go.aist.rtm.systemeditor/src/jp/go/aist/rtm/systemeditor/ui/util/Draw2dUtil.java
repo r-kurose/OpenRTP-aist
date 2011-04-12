@@ -8,15 +8,15 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
- * ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹
+ * ƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX
  */
 public class Draw2dUtil {
 	/**
-	 * RtcLinkãƒ¢ãƒ‡ãƒ«ã®Rectangleã‚’ã€Draw2Dã®Rectangleã«å¤‰æ›ã™ã‚‹
+	 * RtcLinkƒ‚ƒfƒ‹‚ÌRectangle‚ðADraw2D‚ÌRectangle‚É•ÏŠ·‚·‚é
 	 * 
 	 * @param constraint
-	 *            RtcLinkãƒ¢ãƒ‡ãƒ«ã®Rectangle
-	 * @return Draw2Dã®Rectangle
+	 *            RtcLinkƒ‚ƒfƒ‹‚ÌRectangle
+	 * @return Draw2D‚ÌRectangle
 	 */
 	public static Rectangle toDraw2dRectangle(
 			jp.go.aist.rtm.toolscommon.model.core.Rectangle constraint) {
@@ -25,11 +25,11 @@ public class Draw2dUtil {
 	}
 
 	/**
-	 * Draw2Dã®Rectangleã‚’ã€RtcLinkãƒ¢ãƒ‡ãƒ«ã®Rectangleã«å¤‰æ›ã™ã‚‹
+	 * Draw2D‚ÌRectangle‚ðARtcLinkƒ‚ƒfƒ‹‚ÌRectangle‚É•ÏŠ·‚·‚é
 	 * 
 	 * @param constraint
-	 *            Draw2Dã®Rectangle
-	 * @return RtcLinkãƒ¢ãƒ‡ãƒ«ã®Rectangle
+	 *            Draw2D‚ÌRectangle
+	 * @return RtcLinkƒ‚ƒfƒ‹‚ÌRectangle
 	 */
 	public static jp.go.aist.rtm.toolscommon.model.core.Rectangle toRtcLinkRectangle(
 			Rectangle constraint) {
@@ -43,7 +43,7 @@ public class Draw2dUtil {
 	}
 
 	/**
-	 * Draw2Dã®Pointãƒžãƒƒãƒ—ã‚’ã€RtcLinkãƒ¢ãƒ‡ãƒ«ã®Pointãƒžãƒƒãƒ—ã«å¤‰æ›ã™ã‚‹
+	 * Draw2D‚ÌPointƒ}ƒbƒv‚ðARtcLinkƒ‚ƒfƒ‹‚ÌPointƒ}ƒbƒv‚É•ÏŠ·‚·‚é
 	 */
 	public static Map<Integer,jp.go.aist.rtm.toolscommon.model.core.Point> 
 			toRtcLinkPointMap(Map<Integer,Point> draw2dPointMap) {
@@ -57,11 +57,11 @@ public class Draw2dUtil {
 	}
 
 	/**
-	 * RtcLinkãƒ¢ãƒ‡ãƒ«ã®Pointã®ãƒžãƒƒãƒ—ã‚’ã€Draw2Dã®Pointã®ãƒžãƒƒãƒ—ã«å¤‰æ›ã™ã‚‹
+	 * RtcLinkƒ‚ƒfƒ‹‚ÌPoint‚Ìƒ}ƒbƒv‚ðADraw2D‚ÌPoint‚Ìƒ}ƒbƒv‚É•ÏŠ·‚·‚é
 	 * 
 	 * @param rtcLinkPointMap
-	 *            RtcLinkãƒ¢ãƒ‡ãƒ«ã®Rectangle
-	 * @return Draw2Dã®Rectangle
+	 *            RtcLinkƒ‚ƒfƒ‹‚ÌRectangle
+	 * @return Draw2D‚ÌRectangle
 	 */
 	public static Map<Integer,Point> toDraw2dPointMap(
 			Map<Integer,jp.go.aist.rtm.toolscommon.model.core.Point> rtcLinkPointMap) {
@@ -75,11 +75,11 @@ public class Draw2dUtil {
 	}
 
 	/**
-	 * Draw2Dã®Pointã‚’ã€RtcLinkãƒ¢ãƒ‡ãƒ«ã®Pointã«å¤‰æ›ã™ã‚‹
+	 * Draw2D‚ÌPoint‚ðARtcLinkƒ‚ƒfƒ‹‚ÌPoint‚É•ÏŠ·‚·‚é
 	 * 
 	 * @param constraint
-	 *            Draw2Dã®Point
-	 * @return RtcLinkãƒ¢ãƒ‡ãƒ«ã®Point
+	 *            Draw2D‚ÌPoint
+	 * @return RtcLinkƒ‚ƒfƒ‹‚ÌPoint
 	 */
 	public static jp.go.aist.rtm.toolscommon.model.core.Point toRtcLinkPoint(
 			Point draw2dPoint) {
@@ -94,11 +94,11 @@ public class Draw2dUtil {
 	}
 
 	/**
-	 * RtcLinkãƒ¢ãƒ‡ãƒ«ã®Pointã‚’ã€Draw2Dã®Pointã«å¤‰æ›ã™ã‚‹
+	 * RtcLinkƒ‚ƒfƒ‹‚ÌPoint‚ðADraw2D‚ÌPoint‚É•ÏŠ·‚·‚é
 	 * 
 	 * @param constraint
-	 *            RtcLinkãƒ¢ãƒ‡ãƒ«ã®Point
-	 * @return Draw2Dã®Point
+	 *            RtcLinkƒ‚ƒfƒ‹‚ÌPoint
+	 * @return Draw2D‚ÌPoint
 	 */
 	public static Point toDraw2dPoint(
 			jp.go.aist.rtm.toolscommon.model.core.Point rtcLinkPoint) {

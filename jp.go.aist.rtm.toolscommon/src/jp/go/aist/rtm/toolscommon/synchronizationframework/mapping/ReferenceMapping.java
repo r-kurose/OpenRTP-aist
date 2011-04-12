@@ -6,7 +6,7 @@ import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationManage
 import org.eclipse.emf.ecore.EReference;
 
 /**
- * å‚ç…§ãƒãƒƒãƒ”ãƒ³ã‚°ã‚’å®šç¾©ã™ã‚‹ã‚¯ãƒ©ã‚¹
+ * QÆƒ}ƒbƒsƒ“ƒO‚ğ’è‹`‚·‚éƒNƒ‰ƒX
  */
 public abstract class ReferenceMapping {
 	private EReference localFeature;
@@ -14,7 +14,7 @@ public abstract class ReferenceMapping {
 	private boolean allowZombie;
 
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	 */
 	public ReferenceMapping(EReference localFeature, boolean allowZombie) {
 		this.localFeature = localFeature;
@@ -22,26 +22,26 @@ public abstract class ReferenceMapping {
 	}
 
 	/**
-	 * ãƒ­ãƒ¼ã‚«ãƒ«ã‚’åŒæœŸã™ã‚‹ä¸»ã¨ãªã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
+	 * ƒ[ƒJƒ‹‚ğ“¯Šú‚·‚éå‚Æ‚È‚éƒƒ\ƒbƒh
 	 * 
 	 * @param localObject
-	 *            ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 *            ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg
 	 * @param synchronizationManager
-	 *            åŒæœŸãƒãƒãƒ¼ã‚¸ãƒ£
+	 *            “¯Šúƒ}ƒl[ƒWƒƒ
 	 */
 	public abstract void syncronizeLocal(LocalObject localObject);
 
 	/**
-	 * ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ•ã‚£ãƒ¼ãƒãƒ£ã‚’å–å¾—ã™ã‚‹
+	 * ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒtƒB[ƒ`ƒƒ‚ğæ“¾‚·‚é
 	 * 
-	 * @return ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ•ã‚£ãƒ¼ãƒãƒ£
+	 * @return ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒtƒB[ƒ`ƒƒ
 	 */
 	public EReference getLocalFeature() {
 		return localFeature;
 	}
 
 	/**
-	 * ãƒªãƒ³ã‚¯ãŒåŒã˜ã‚‚ã®ã‹ã©ã†ã‹
+	 * ƒŠƒ“ƒN‚ª“¯‚¶‚à‚Ì‚©‚Ç‚¤‚©
 	 */
 	public boolean isLinkEquals(java.lang.Object link1, java.lang.Object link2) {
 		boolean result = false;
@@ -55,16 +55,16 @@ public abstract class ReferenceMapping {
 	}
 
 	/**
-	 * ãƒªãƒ¢ãƒ¼ãƒˆãƒªãƒ³ã‚¯ã‹ã‚‰ã€ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã™ã‚‹
+	 * ƒŠƒ‚[ƒgƒŠƒ“ƒN‚©‚çAƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚é
 	 * <p>
-	 * ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ãŸå ´åˆã«ã¯ã€getLocalObjectByRemoteLinkã‚‚ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã™ã‚‹å¯èƒ½æ€§ãŒé«˜ã„ã“ã¨ã«æ³¨æ„ã™ã‚‹ã“ã¨
+	 * ‚±‚Ìƒƒ\ƒbƒh‚ğƒI[ƒo[ƒ‰ƒCƒh‚µ‚½ê‡‚É‚ÍAgetLocalObjectByRemoteLink‚àƒI[ƒo[ƒ‰ƒCƒh‚·‚é‰Â”\«‚ª‚‚¢‚±‚Æ‚É’ˆÓ‚·‚é‚±‚Æ
 	 * 
 	 * @param localObject
 	 *            TODO
 	 * @param remoteObjects
-	 *            è¦ªã®ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 *            e‚ÌƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg
 	 * @param link
-	 *            ãƒªãƒ³ã‚¯
+	 *            ƒŠƒ“ƒN
 	 * 
 	 * 
 	 * @return
@@ -75,9 +75,9 @@ public abstract class ReferenceMapping {
 	}
 
 	/**
-	 * ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
+	 * ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ğƒ[ƒh‚·‚é
 	 * <p>
-	 * æ—¢å­˜ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚°ãƒ©ãƒ•ã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå­˜åœ¨ã™ã‚Œã°ãã‚Œã‚’è¿”ã—ã€å­˜åœ¨ã—ãªã‘ã‚Œã°ä½œæˆã—ã¦ãã‚Œã‚’è¿”ã™ã€‚
+	 * Šù‘¶‚ÌƒIƒuƒWƒFƒNƒgƒOƒ‰ƒt‚ÉƒIƒuƒWƒFƒNƒg‚ª‘¶İ‚·‚ê‚Î‚»‚ê‚ğ•Ô‚µA‘¶İ‚µ‚È‚¯‚ê‚Îì¬‚µ‚Ä‚»‚ê‚ğ•Ô‚·B
 	 * 
 	 * @param localObject
 	 * @param synchronizationManager
@@ -88,13 +88,13 @@ public abstract class ReferenceMapping {
 	public LocalObject loadLocalObjectByRemoteObject(LocalObject localObject,
 			SynchronizationManager synchronizationManager,
 			java.lang.Object link, Object[] remoteObject) {
-		// ä½œæˆã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ã®åŒæœŸã‚’ã™ãã«è¡Œã„ãŸããªã„å ´åˆã¯ã‚ªãƒ¼ãƒãƒ©ã‚¤ãƒ‰ã™ã‚‹
+		// ì¬‚µ‚½ƒIƒuƒWƒFƒNƒg‚ğ‚Ì“¯Šú‚ğ‚·‚®‚És‚¢‚½‚­‚È‚¢ê‡‚ÍƒI[ƒoƒ‰ƒCƒh‚·‚é
 		return synchronizationManager.createLocalObject(localObject,
 				remoteObject, link, true);
 	}
 
 	/**
-	 * ã‚¾ãƒ³ãƒ“ã‚’è¨±ã™ã‹ã©ã†ã‹
+	 * ƒ]ƒ“ƒr‚ğ‹–‚·‚©‚Ç‚¤‚©
 	 * 
 	 * @return
 	 */

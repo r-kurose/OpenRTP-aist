@@ -24,7 +24,7 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 /**
- * Rtcã®PropertySheetã®ContentProviderã‚¯ãƒ©ã‚¹
+ * Rtc‚ÌPropertySheet‚ÌContentProviderƒNƒ‰ƒX
  */
 public class PropertySheetContentProvider extends AdapterImpl implements
 		IStructuredContentProvider, ITreeContentProvider {
@@ -98,9 +98,6 @@ public class PropertySheetContentProvider extends AdapterImpl implements
 		} else if (parent instanceof PortConnectorWrapper) {
 			return new Object[] { ((PortConnectorWrapper) parent)
 					.getConnector() };
-		} else if (parent instanceof SystemDiagramWrapper) {
-			return new Object[] { ((SystemDiagramWrapper) parent)
-					.getDiagram() };
 		} else if (parent instanceof RTCManagerWrapper) {
 			return new Object[] { ((RTCManagerWrapper) parent).getManager() };
 		} else if (parent instanceof RTCManager) {
@@ -167,7 +164,7 @@ public class PropertySheetContentProvider extends AdapterImpl implements
 		return result;
 	}
 
-	/** è¦ª/å­è¦ç´ ã‚’ã¾ã¨ã‚ã¦ãƒ©ãƒƒãƒ—ã™ã‚‹ã‚¯ãƒ©ã‚¹ */
+	/** e/q—v‘f‚ğ‚Ü‚Æ‚ß‚Äƒ‰ƒbƒv‚·‚éƒNƒ‰ƒX */
 	public static class ChildWithParent implements IAdaptable {
 		Object child;
 		Object parent;
@@ -208,7 +205,7 @@ public class PropertySheetContentProvider extends AdapterImpl implements
 
 	@Override
 	public void notifyChanged(final Notification msg) {
-		if (msg.getOldValue() == this || msg.getNewValue() == this) { // è‡ªåˆ†ã‚’ãƒªã‚¹ãƒŠã«è¿½åŠ ã™ã‚‹ã“ã¨ã«ã‚ˆã‚‹ã€å¤‰æ›´é€šçŸ¥ã‚’ç„¡è¦–ã™ã‚‹ãŸã‚
+		if (msg.getOldValue() == this || msg.getNewValue() == this) { // ©•ª‚ğƒŠƒXƒi‚É’Ç‰Á‚·‚é‚±‚Æ‚É‚æ‚éA•ÏX’Ê’m‚ğ–³‹‚·‚é‚½‚ß
 			return;
 		}
 		if (CorePackage.eINSTANCE.getModelElement_Constraint().equals(
@@ -217,8 +214,8 @@ public class PropertySheetContentProvider extends AdapterImpl implements
 		}
 		final List<Integer> refreshTypes = Arrays.asList(Notification.SET,
 				Notification.ADD, Notification.REMOVE);
-		if ((notifyMessage == null || (notifyMessage.getNotifier() != null && !notifyMessage
-				.getNotifier().equals(msg.getNotifier())))
+		if ((notifyMessage == null || !notifyMessage.getNotifier().equals(
+				msg.getNotifier()))
 				&& refreshTypes.contains(msg.getEventType())) {
 			notifyMessage = msg;
 		}

@@ -8,9 +8,9 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
- * NameServiceViewè¨­å®šã®ãƒ¡ã‚¤ãƒ³
+ * NameServiceViewİ’è‚ÌƒƒCƒ“
  * <p>
- * ç‰¹ã«ä½•ã‚‚è¡¨ç¤ºã—ãªã„
+ * “Á‚É‰½‚à•\¦‚µ‚È‚¢
  */
 public class MainPreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage {

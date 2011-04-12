@@ -16,7 +16,7 @@ public class CXXBaseClass extends TestBase {
 	protected void setUp() throws Exception {
 		genParam = new GeneratorParam();
 		rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "/resource/work");
+		rtcParam.setOutputProject(rootPath + "\\resource\\work");
 		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
 		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
 		rtcParam.setName("foo");
@@ -29,8 +29,6 @@ public class CXXBaseClass extends TestBase {
 		rtcParam.setMaxInstance(5);
 		rtcParam.setRtmVersion("1.0.0");
 		rtcParam.setIsTest(true);
-		rtcParam.setEnableOldBuildEnv(true);
-
 		genParam.getRtcParams().add(rtcParam);
 	}
 
@@ -40,7 +38,7 @@ public class CXXBaseClass extends TestBase {
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "/resource/100/CXX/basicClass/DFFSMMM/";
+		String resourceDir = rootPath +  "\\resource\\100\\CXX\\DFFSMMM\\";
 		checkResults(result, resourceDir);
 	}
 
@@ -50,7 +48,7 @@ public class CXXBaseClass extends TestBase {
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "/resource/100/CXX/basicClass/FSM/";
+		String resourceDir = rootPath +  "\\resource\\100\\CXX\\FSM\\";
 		checkResults(result, resourceDir);
 	}
 	
@@ -60,15 +58,31 @@ public class CXXBaseClass extends TestBase {
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath +  "/resource/100/CXX/basicClass/DataFlow/";
+		String resourceDir = rootPath +  "\\resource\\100\\CXX\\DataFlow\\";
 		checkResults(result, resourceDir);
 	}
 	
 	private void checkResults(List<GeneratedResult> result, String resourceDir) {
-		assertEquals(22, result.size());
+		assertEquals(13, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
+		checkCode(result, resourceDir, "Makefile.foo");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
+		//
+		checkCode(result, resourceDir, "foo_vc8.sln");
+		checkCode(result, resourceDir, "foo_vc8.vcproj");
+		checkCode(result, resourceDir, "fooComp_vc8.vcproj");
+		checkCode(result, resourceDir, "foo_vc9.sln");
+		checkCode(result, resourceDir, "foo_vc9.vcproj");
+		checkCode(result, resourceDir, "fooComp_vc9.vcproj");
+		//
+		checkCode(result, resourceDir, "copyprops.bat");
+		checkCode(result, resourceDir, "user_config.vsprops");
 	}
 	
 }

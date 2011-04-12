@@ -1,29 +1,29 @@
 package jp.go.aist.rtm.systemeditor.restoration;
 
 /**
- * ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ãƒ­ãƒ¼ãƒ‰ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã§ã€çµæœã‚’åé›†ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+ * ƒRƒ“ƒ\[ƒ‹ƒ[ƒhƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÅAŒ‹‰Ê‚ğûW‚·‚éƒIƒuƒWƒFƒNƒg
  */
 public interface Result {
 	/**
-	 * æˆåŠŸã—ã¦çµ‚äº†ã—ãŸã‹ã©ã†ã‹
+	 * ¬Œ÷‚µ‚ÄI—¹‚µ‚½‚©‚Ç‚¤‚©
 	 * 
-	 * @return æˆåŠŸã—ãŸã‹
+	 * @return ¬Œ÷‚µ‚½‚©
 	 */
 	public boolean isSuccess();
 
 	/**
-	 * æˆåŠŸã‹ã©ã†ã‹è¨­å®šã™ã‚‹
+	 * ¬Œ÷‚©‚Ç‚¤‚©İ’è‚·‚é
 	 * 
 	 * @param success
-	 *            æˆåŠŸã‹ã©ã†ã‹
+	 *            ¬Œ÷‚©‚Ç‚¤‚©
 	 */
 	public void setSuccess(boolean success);
 
 	/**
-	 * çµæœã‚’è¿½åŠ ã™ã‚‹
+	 * Œ‹‰Ê‚ğ’Ç‰Á‚·‚é
 	 * 
 	 * @param resultPart
-	 *            çµæœ
+	 *            Œ‹‰Ê
 	 */
 	public void putResult(String resultPart);
 }

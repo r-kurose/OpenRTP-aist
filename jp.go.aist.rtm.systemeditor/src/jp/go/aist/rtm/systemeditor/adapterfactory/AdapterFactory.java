@@ -7,7 +7,7 @@ import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 import org.eclipse.core.runtime.IAdapterFactory;
 
 /**
- * RTCLink縺ｮ繧｢繝繝励ち繝輔ぃ繧ｯ繝医Μ
+ * RTCLinkのアダプタファクトリ
  */
 public class AdapterFactory implements IAdapterFactory {
 	/**

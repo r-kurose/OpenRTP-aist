@@ -1,12 +1,12 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.command;
 
-import jp.go.aist.rtm.systemeditor.ui.util.CompositeComponentHelper;
+import jp.go.aist.rtm.systemeditor.ui.action.CompositeComponentHelper;
 import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 
 import org.eclipse.gef.commands.Command;
 
 /**
- * ã‚³ãƒã‚¯ã‚¿ã‚’å‰Šé™¤ã™ã‚‹ã‚³ãƒãƒ³ãƒ‰
+ * ƒRƒlƒNƒ^‚ğíœ‚·‚éƒRƒ}ƒ“ƒh
  */
 public class DeleteConnectorCommand extends Command {
 	private PortConnector connector;
@@ -28,10 +28,10 @@ public class DeleteConnectorCommand extends Command {
 	}
 
 	/**
-	 * ã‚³ãƒã‚¯ã‚¿ã‚’è¨­å®šã™ã‚‹
+	 * ƒRƒlƒNƒ^‚ğİ’è‚·‚é
 	 * 
 	 * @param connector
-	 *            ã‚³ãƒã‚¯ã‚¿
+	 *            ƒRƒlƒNƒ^
 	 */
 	public void setConnector(PortConnector connector) {
 		this.connector = connector;

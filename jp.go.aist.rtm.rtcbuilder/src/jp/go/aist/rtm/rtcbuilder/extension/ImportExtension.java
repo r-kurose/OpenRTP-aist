@@ -3,7 +3,7 @@ package jp.go.aist.rtm.rtcbuilder.extension;
 import jp.go.aist.rtm.rtcbuilder.ui.editors.RtcBuilderEditor;
 
 public abstract class ImportExtension {
-	//å¯¾è±¡è¨€èª
+	//‘ÎÛŒ¾Œê
 	public abstract String getManagerKey();
 
 	public abstract String[] getFileDialogFilterNames();

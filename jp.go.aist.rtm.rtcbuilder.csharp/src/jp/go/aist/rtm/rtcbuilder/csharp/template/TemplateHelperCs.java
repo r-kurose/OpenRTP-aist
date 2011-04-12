@@ -5,7 +5,7 @@ import jp.go.aist.rtm.rtcbuilder.csharp.IRtcBuilderConstantsCSharp;
 import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
 
 /**
- * ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã‚’å‡ºåŠ›ã™ã‚‹éš›ã«ä½¿ç”¨ã•ã‚Œã‚‹ãƒ˜ãƒ«ãƒ‘ãƒ¼ Pythonç”¨
+ * ƒeƒ“ƒvƒŒ[ƒg‚ðo—Í‚·‚éÛ‚ÉŽg—p‚³‚ê‚éƒwƒ‹ƒp[ Python—p
  */
 public class TemplateHelperCs {
 	//

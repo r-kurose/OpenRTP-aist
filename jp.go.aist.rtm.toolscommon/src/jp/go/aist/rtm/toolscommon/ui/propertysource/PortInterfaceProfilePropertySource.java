@@ -7,7 +7,7 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
 /**
- * PortInterfaceProfile縺ｮPropertySource繧ｯ繝ｩ繧ｹ
+ * PortInterfaceProfileのPropertySourceクラス
  */
 public class PortInterfaceProfilePropertySource extends AbstractPropertySource {
 
@@ -28,10 +28,10 @@ public class PortInterfaceProfilePropertySource extends AbstractPropertySource {
 	private PortInterfaceProfile portInterfaceProfile;
 
 	/**
-	 * 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ
+	 * コンストラクタ
 	 * 
 	 * @param portInterfaceProfile
-	 *            繝｢繝�繝ｫ
+	 *            モデル
 	 */
 	public PortInterfaceProfilePropertySource(
 			PortInterfaceProfile portInterfaceProfile) {

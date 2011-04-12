@@ -3,8 +3,8 @@ package jp.go.aist.rtm.repositoryView.model;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 
 /**
- * ãƒªãƒ¼ãƒ•ã¨ãªã‚‹RepositoryViewItem
- * componentã¨isRepositoryãŒè¿½åŠ ã•ã‚Œã‚‹
+ * ƒŠ[ƒt‚Æ‚È‚éRepositoryViewItem
+ * component‚ÆisRepository‚ª’Ç‰Á‚³‚ê‚é
  *
  */
 public class RepositoryViewLeafItem extends RepositoryViewItem {
@@ -36,8 +36,8 @@ public class RepositoryViewLeafItem extends RepositoryViewItem {
 	}
 	//
 	/**
-	 * @return	ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ã®name
-	 * parentã‚’Objectã§ã¯ãªãRepositoryViewItemã§å®£è¨€ã—ãŸæ–¹ãŒè‰¯ã„ã‹ã‚‚ã—ã‚Œãªã„
+	 * @return	ƒ‹[ƒgƒm[ƒh‚Ìname
+	 * parent‚ğObject‚Å‚Í‚È‚­RepositoryViewItem‚ÅéŒ¾‚µ‚½•û‚ª—Ç‚¢‚©‚à‚µ‚ê‚È‚¢
 	 */
 	public String getServerAddress() {
 		RepositoryViewItem target = this;

@@ -4,8 +4,8 @@ import jp.go.aist.rtm.repositoryView.nl.Messages;
 
 
 /**
- * ãƒ«ãƒ¼ãƒˆã¨ãªã‚‹RepositoryViewItem
- * RepositoryViewItemã®ã‚µãƒ–ã‚¯ãƒ©ã‚¹ã¨ã—ã¦å®šç¾©ã™ã‚‹æ„å‘³ã¯ã‚ã¾ã‚Šãªã„
+ * ƒ‹[ƒg‚Æ‚È‚éRepositoryViewItem
+ * RepositoryViewItem‚ÌƒTƒuƒNƒ‰ƒX‚Æ‚µ‚Ä’è‹`‚·‚éˆÓ–¡‚Í‚ ‚Ü‚è‚È‚¢
  *
  */
 public class RepositoryViewRootItem extends RepositoryViewItem {

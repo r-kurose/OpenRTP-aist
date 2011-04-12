@@ -27,7 +27,7 @@ import org.eclipse.ui.part.ViewPart;
 public class ComponentBuildView extends ViewPart {
 
     /**
-     * ComponentBuildView ã®ID
+     * ComponentBuildView ‚ÌID
      */
     public static final String VIEW_ID = RtcBuilderPlugin.PLUGIN_ID + ".buildeview";
 
@@ -70,7 +70,7 @@ public class ComponentBuildView extends ViewPart {
 	}
 
 	/**
-	 * ãƒ¢ãƒ‡ãƒ«ã¸ã®ãƒªã‚¹ãƒŠ
+	 * ƒ‚ƒfƒ‹‚Ö‚ÌƒŠƒXƒi
 	 */
 	protected Adapter modelListener = new AdapterImpl() {
 		@SuppressWarnings("unchecked")
@@ -85,7 +85,7 @@ public class ComponentBuildView extends ViewPart {
 		}
 	};
 	/**
-	 * é¸æŠã‚’ç›£è¦–ã™ã‚‹ãƒªã‚¹ãƒŠ
+	 * ‘I‘ğ‚ğŠÄ‹‚·‚éƒŠƒXƒi
 	 */
 	private ISelectionListener selectionListener = new ISelectionListener() {
 		public void selectionChanged(IWorkbenchPart part, ISelection selection) {

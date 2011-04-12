@@ -10,7 +10,7 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 
 /**
- * EditPartã®æŠ½è±¡ã‚¯ãƒ©ã‚¹ã€‚ã‚¢ãƒ€ãƒ—ã‚¿æ©Ÿèƒ½ã¨ãƒ‰ãƒ¡ã‚¤ãƒ³ãƒ¢ãƒ‡ãƒ«ã‹ã‚‰ã®å¤‰æ›´é€šçŸ¥ã®æ©Ÿèƒ½ã‚’è¿½åŠ ã—ã¦ã„ã‚‹
+ * EditPart‚Ì’ŠÛƒNƒ‰ƒXBƒAƒ_ƒvƒ^‹@”\‚ÆƒhƒƒCƒ“ƒ‚ƒfƒ‹‚©‚ç‚Ì•ÏX’Ê’m‚Ì‹@”\‚ğ’Ç‰Á‚µ‚Ä‚¢‚é
  */
 public abstract class AbstractEditPart extends AbstractGraphicalEditPart
 		implements Adapter {
@@ -19,7 +19,7 @@ public abstract class AbstractEditPart extends AbstractGraphicalEditPart
 	Adapter defaultAdapterDelegate = new AdapterImpl();
 
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	 * 
 	 * @param actionRegistry
 	 *            ActionRegistry
@@ -50,7 +50,7 @@ public abstract class AbstractEditPart extends AbstractGraphicalEditPart
 	}
 
 	/**
-	 * ActionRegistryã‚’å–å¾—ã™ã‚‹
+	 * ActionRegistry‚ğæ“¾‚·‚é
 	 * 
 	 * @return ActionRegistry
 	 */
@@ -81,7 +81,7 @@ public abstract class AbstractEditPart extends AbstractGraphicalEditPart
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * ãƒ¢ãƒ‡ãƒ«ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å§”è­²ã—ã¦ã„ã‚‹
+	 * ƒ‚ƒfƒ‹‚ÌƒIƒuƒWƒFƒNƒg‚ÉˆÏ÷‚µ‚Ä‚¢‚é
 	 */
 	public Object getAdapter(Class key) {
 		Object result = AdapterUtil.getAdapter(getModel(), key);

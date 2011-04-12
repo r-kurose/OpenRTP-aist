@@ -8,32 +8,32 @@ import jp.go.aist.rtm.repositoryView.repository.RTRepositoryAccesser;
 
 
 /**
- * RTãƒªãƒã‚¸ãƒˆãƒªã®ãƒªã‚¹ãƒˆã‚’ç®¡ç†ã™ã‚‹ãƒãƒãƒ¼ã‚¸ãƒ£
+ * RTƒŠƒ|ƒWƒgƒŠ‚ÌƒŠƒXƒg‚ğŠÇ—‚·‚éƒ}ƒl[ƒWƒƒ
  */
 public class RTRepositoryManager {
 
 	/**
-	 * RTãƒªãƒã‚¸ãƒˆãƒªã®ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+	 * RTƒŠƒ|ƒWƒgƒŠ‚ÌƒVƒ“ƒOƒ‹ƒgƒ“ƒCƒ“ƒXƒ^ƒ“ƒX
 	 */
 	private static RTRepositoryManager __instance = new RTRepositoryManager();
 
 	/**
-	 * è¿½åŠ æ¸ˆã¿ãƒªãƒã‚¸ãƒˆãƒªãƒ»ã‚µãƒ¼ãƒã®ãƒªã‚¹ãƒˆ
+	 * ’Ç‰ÁÏ‚İƒŠƒ|ƒWƒgƒŠEƒT[ƒo‚ÌƒŠƒXƒg
 	 */
 	private List<String> repositoryList = new ArrayList<String>();
 
 	/**
-	 * RTãƒªãƒã‚¸ãƒˆãƒªã®ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹
+	 * RTƒŠƒ|ƒWƒgƒŠ‚ÌƒVƒ“ƒOƒ‹ƒgƒ“ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚é
 	 */
 	public static RTRepositoryManager getInstance() {
 		return __instance;
 	}
 
 	/**
-	 * RTãƒªãƒã‚¸ãƒˆãƒªã‚’è¿½åŠ ã™ã‚‹ã€‚
+	 * RTƒŠƒ|ƒWƒgƒŠ‚ğ’Ç‰Á‚·‚éB
 	 * 
 	 * @param repositoryServer
-	 * @return è¿½åŠ ã—ãŸRTãƒªãƒã‚¸ãƒˆãƒª
+	 * @return ’Ç‰Á‚µ‚½RTƒŠƒ|ƒWƒgƒŠ
 	 */
 	public RepositoryViewItem addRepository(String repositoryServer) {
 		if( isExist(repositoryServer) ) return null;
@@ -44,15 +44,13 @@ public class RTRepositoryManager {
 	}
 
 	/**
-	 * å¯¾è±¡ã®RTãƒªãƒã‚¸ãƒˆãƒªåãŒã€å­˜åœ¨ã™ã‚‹ã‹ã©ã†ã‹ã€‚
+	 * ‘ÎÛ‚ÌRTƒŠƒ|ƒWƒgƒŠ–¼‚ªA‘¶İ‚·‚é‚©‚Ç‚¤‚©B
 	 * 
 	 * @param RTRepository
-	 *            ç¢ºèªã™ã‚‹RTãƒªãƒã‚¸ãƒˆãƒª
-	 * @return RTãƒªãƒã‚¸ãƒˆãƒªåãŒå­˜åœ¨ã™ã‚‹ã‹ã©ã†ã‹
+	 *            Šm”F‚·‚éRTƒŠƒ|ƒWƒgƒŠ
+	 * @return RTƒŠƒ|ƒWƒgƒŠ–¼‚ª‘¶İ‚·‚é‚©‚Ç‚¤‚©
 	 */
 	public boolean isExist(String RTRepository) {
-		//TODO
-//		return repositoryList.contains(RTRepository);
 		return false;
 	}
 }

@@ -9,7 +9,7 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 /**
- * ãƒ¬ãƒã‚¸ãƒˆãƒªãƒ“ãƒ¥ãƒ¼ã®ã‚³ãƒ³ãƒ†ãƒ³ãƒ„ãƒ—ãƒ­ãƒã‚¤ãƒ€
+ * ƒŒƒ|ƒWƒgƒŠƒrƒ…[‚ÌƒRƒ“ƒeƒ“ƒcƒvƒƒoƒCƒ_
  *
  */
 public class ArrayContentProvider implements ITreeContentProvider {
@@ -30,7 +30,6 @@ public class ArrayContentProvider implements ITreeContentProvider {
 	}
 	
 	public boolean hasChildren(Object element) {
-	    //(è‡ªåˆ†å†…ã«ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒã‚ã‚‹ã‹ã©ã†ã‹)
 	    return getChildren(element).length > 0;
 	}
 

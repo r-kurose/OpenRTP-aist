@@ -9,26 +9,36 @@ public class AllTestsCXX {
 		TestSuite suite = new TestSuite(
 				"Test for jp.go.aist.rtm.rtcbuilder._test");
 		//$JUnit-BEGIN$
-		suite.addTestSuite(CXXIDLType.class);
-		suite.addTestSuite(CXXDocLongTest.class);
-		suite.addTestSuite(CXXDataPortIDLTest.class);
-		suite.addTestSuite(CXXExCxtTest.class);
+		suite.addTestSuite(CXX042DiffTest.class);
+		suite.addTestSuite(CXX042LuckTest.class);
+		suite.addTestSuite(CXX042TemplateTestAIST.class);
+		suite.addTestSuite(CXX042TemplateTestAIST3.class);
+		suite.addTestSuite(CXX042VarTest.class);
+		//
+		suite.addTestSuite(CXXBaseClass.class);
 		suite.addTestSuite(CXXBasicTest.class);
-		suite.addTestSuite(CXXBuildTest.class);
-		suite.addTestSuite(CXXLuckTest.class);
-		suite.addTestSuite(CXXTemplateTestAIST2.class);
-		suite.addTestSuite(CXXPrefixSuffixTest.class);
-		suite.addTestSuite(CXXIDLModuleTest.class);
+		suite.addTestSuite(CXXConfigSetTest.class);
 		suite.addTestSuite(CXXConstraint.class);
 		suite.addTestSuite(CXXIDLInheritTest.class);
+		suite.addTestSuite(CXXIDLStruct.class);
+		suite.addTestSuite(CXXIDLStruct2.class);
+		suite.addTestSuite(CXXMultiTest.class);
+		suite.addTestSuite(CXXPrefixSuffixTest.class);
+		suite.addTestSuite(CXXTemplateTestAIST2.class);
+		//
+		suite.addTestSuite(CXXDocLongTest.class);
+		suite.addTestSuite(CXX042DocTest.class);
+		suite.addTestSuite(CXXExCxtTest.class);
 		suite.addTestSuite(CXXIDLPathTest.class);
 		suite.addTestSuite(CXXImplTest.class);
-		suite.addTestSuite(CXXMultiTest.class);
-		suite.addTestSuite(CXXVariableTest.class);
-		suite.addTestSuite(CXXSystemConfigTest.class);
-		suite.addTestSuite(CXXBaseClass.class);
 		suite.addTestSuite(CXXLibraryTest.class);
-		suite.addTestSuite(CXXConfigSetTest.class);
+		suite.addTestSuite(CXXLuckTest.class);
+		suite.addTestSuite(CXXSystemConfigTest.class);
+		suite.addTestSuite(CXXVariableTest.class);
+		suite.addTestSuite(CXXModuleTest.class);
+		suite.addTestSuite(CXXConfigSetTypeTest.class);
+		suite.addTestSuite(CXXDataPortIDLTest.class);
+		//
 		//$JUnit-END$
 		return suite;
 	}

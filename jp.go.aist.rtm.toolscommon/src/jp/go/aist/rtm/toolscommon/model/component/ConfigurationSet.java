@@ -5,17 +5,17 @@ import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
 import org.eclipse.emf.common.util.EList;
 
 /**
- * ConfigurationSetã‚’è¡¨ç¾ã™ã‚‹ã‚¯ãƒ©ã‚¹
+ * ConfigurationSet‚ğ•\Œ»‚·‚éƒNƒ‰ƒX
  * <p>
  * 
- * @model ã“ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯ã€ãƒãƒªãƒ¥ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã§ã‚ã‚‹ã“ã¨ã«æ³¨æ„ã™ã‚‹ã“ã¨ã€‚<br>
- *        ã“ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè‡ªä½“ã¯åŒæœŸãŒè¡Œã‚ã‚Œãªã„ãŸã‚ã€ã“ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å‚ç…§ã‚’ä¿æŒã—ç¶šã‘ã‚‹ã“ã¨ã¯ã€å±é™ºã§ã‚ã‚‹ã€‚<br>
- *        äº‹æƒ…ãŒè¨±ã™é™ã‚Šã€å‚ç…§å…ƒã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‚ç…§ã—ã¦ã€å¿…è¦ã«ãªã‚‹ãŸã³ã«ãã“ã‹ã‚‰æ‰‹ã«å…¥ã‚Œã‚‹ã“ã¨ã€‚
+ * @model ‚±‚ÌƒIƒuƒWƒFƒNƒg‚ÍAƒoƒŠƒ…[ƒIƒuƒWƒFƒNƒg‚Å‚ ‚é‚±‚Æ‚É’ˆÓ‚·‚é‚±‚ÆB<br>
+ *        ‚±‚ÌƒIƒuƒWƒFƒNƒg©‘Ì‚Í“¯Šú‚ªs‚í‚ê‚È‚¢‚½‚ßA‚±‚ÌƒIƒuƒWƒFƒNƒg‚ÌQÆ‚ğ•Û‚µ‘±‚¯‚é‚±‚Æ‚ÍAŠëŒ¯‚Å‚ ‚éB<br>
+ *        –î‚ª‹–‚·ŒÀ‚èAQÆŒ³‚ÌƒIƒuƒWƒFƒNƒg‚ğQÆ‚µ‚ÄA•K—v‚É‚È‚é‚½‚Ñ‚É‚»‚±‚©‚çè‚É“ü‚ê‚é‚±‚ÆB
  */
 public interface ConfigurationSet extends WrapperObject{
 	/**
 	 * @model
-	 * @return ã‚³ãƒ³ãƒ•ã‚£ã‚°ã‚»ãƒƒãƒˆã®ID
+	 * @return ƒRƒ“ƒtƒBƒOƒZƒbƒg‚ÌID
 	 */
 	public String getId();
 
@@ -31,7 +31,7 @@ public interface ConfigurationSet extends WrapperObject{
 	/**
 	 * @model containment="true"
 	 *        type="jp.go.aist.rtm.toolscommon.model.component.NameValue"
-	 * @returnã€€ã‚³ãƒ³ãƒ•ã‚£ã‚°ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´ã™ã‚‹NameValueã®ãƒªã‚¹ãƒˆ
+	 * @return@ƒRƒ“ƒtƒBƒOƒf[ƒ^‚ğŠi”[‚·‚éNameValue‚ÌƒŠƒXƒg
 	 */
 	public EList<NameValue> getConfigurationData();
 

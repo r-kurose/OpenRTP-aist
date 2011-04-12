@@ -11,7 +11,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EReference;
 
 /**
- * å¤šå‚ç…§ã®ãƒãƒƒãƒ”ãƒ³ã‚°ã‚’å®šç¾©ã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹
+ * ‘½QÆ‚Ìƒ}ƒbƒsƒ“ƒO‚ğ’è‹`‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX
  */
 public abstract class ManyReferenceMapping extends ReferenceMapping {
 	private static class LinkHolder {
@@ -22,22 +22,22 @@ public abstract class ManyReferenceMapping extends ReferenceMapping {
 	}
 	
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	 * 
 	 * @param localFeature
-	 *            ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ•ã‚£ãƒ¼ãƒãƒ£
+	 *            ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒtƒB[ƒ`ƒƒ
 	 */
 	public ManyReferenceMapping(EReference localFeature) {
 		this(localFeature, false);
 	}
 
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	 * 
 	 * @param localFeature
-	 *            ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ•ã‚£ãƒ¼ãƒãƒ£
+	 *            ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒtƒB[ƒ`ƒƒ
 	 * @param allowZombie
-	 *            ã‚¾ãƒ³ãƒ“ï¼ˆãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒæ­»ã‚“ã çŠ¶æ…‹ï¼‰ã§ã‚‚å­˜åœ¨ã•ã›ã‚‹ã‹
+	 *            ƒ]ƒ“ƒriƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ª€‚ñ‚¾ó‘Ôj‚Å‚à‘¶İ‚³‚¹‚é‚©
 	 */
 	public ManyReferenceMapping(EReference localFeature, boolean allowZombie) {
 		super(localFeature, allowZombie);
@@ -83,7 +83,7 @@ public abstract class ManyReferenceMapping extends ReferenceMapping {
 		}
 
 		if (updated) {
-			// å¤‰æ›´ãŒã‚ã£ãŸå ´åˆã®äº‹å¾Œå‡¦ç†
+			// •ÏX‚ª‚ ‚Á‚½ê‡‚Ì–Œãˆ—
 			postSynchronizeLocal(localObject);
 		}
 	}
@@ -127,11 +127,11 @@ public abstract class ManyReferenceMapping extends ReferenceMapping {
 	}
 
 	/**
-	 * æœ€æ–°ã®ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªãƒ³ã‚¯ã‚’è¿”ã™ã‚ˆã†ã«ã€ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã•ã‚Œã‚‹ã“ã¨ãŒæ„å›³ã•ã‚Œã‚‹
+	 * ÅV‚ÌƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ÌƒŠƒ“ƒN‚ğ•Ô‚·‚æ‚¤‚ÉAƒI[ƒo[ƒ‰ƒCƒh‚³‚ê‚é‚±‚Æ‚ªˆÓ}‚³‚ê‚é
 	 * 
 	 * @param parentRemoteObjects
-	 *            ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-	 * @return æœ€æ–°ã®ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªãƒ³ã‚¯
+	 *            ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg
+	 * @return ÅV‚ÌƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ÌƒŠƒ“ƒN
 	 */
 	@SuppressWarnings("unchecked")
 	protected List getNewRemoteLinkList(Object[] parentRemoteObjects){return null;};
@@ -143,14 +143,14 @@ public abstract class ManyReferenceMapping extends ReferenceMapping {
 	}
 
 	/**
-	 * ç¾åœ¨ä½¿ç”¨ã—ã¦ã„ã‚‹ã€ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªãƒ³ã‚¯ã‚’è¿”ã™
+	 * Œ»İg—p‚µ‚Ä‚¢‚éAƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ÌƒŠƒ“ƒN‚ğ•Ô‚·
 	 * <p>
-	 * å¿…è¦ã«å¿œã˜ã¦ã€ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã™ã‚‹ã“ã¨ ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå®Ÿè£…ã¯ã€ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¯¾ã—ã¦ã€ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒï¼‘ã¤ã§ã‚ã‚‹å ´åˆã®å®Ÿè£…ã€‚ // *
-	 * é–¢é€£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãªã©ã®è¤‡æ•°ã®ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå­˜åœ¨ã™ã‚‹å ´åˆã«ã¯ã€ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
+	 * •K—v‚É‰‚¶‚ÄAƒI[ƒo[ƒ‰ƒCƒh‚·‚é‚±‚Æ ƒfƒtƒHƒ‹ƒgÀ‘•‚ÍAƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚ÄAƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ª‚P‚Â‚Å‚ ‚éê‡‚ÌÀ‘•B // *
+	 * ŠÖ˜AƒIƒuƒWƒFƒNƒg‚È‚Ç‚Ì•¡”‚ÌƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ª‘¶İ‚·‚éê‡‚É‚ÍAƒI[ƒo[ƒ‰ƒCƒh‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 	 * 
 	 * @param localObject
-	 *            ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-	 * @return ç¾åœ¨ä½¿ç”¨ã—ã¦ã„ã‚‹ã€ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªãƒ³ã‚¯
+	 *            ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg
+	 * @return Œ»İg—p‚µ‚Ä‚¢‚éAƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ÌƒŠƒ“ƒN
 	 */
 	@SuppressWarnings("unchecked")
 	public List getOldRemoteLinkList(LocalObject localObject) {
@@ -171,13 +171,13 @@ public abstract class ManyReferenceMapping extends ReferenceMapping {
 	}
 
 	/**
-	 * ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªãƒ³ã‚¯ã‹ã‚‰ã€ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã™ã‚‹
+	 * ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ÌƒŠƒ“ƒN‚©‚çAƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚é
 	 * 
 	 * @param parent
-	 *            è¦ªã®ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 *            e‚Ìƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg
 	 * @param link
-	 *            ãƒªãƒ¢ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªãƒ³ã‚¯
-	 * @return ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 *            ƒŠƒ‚[ƒgƒIƒuƒWƒFƒNƒg‚ÌƒŠƒ“ƒN
+	 * @return ƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg
 	 */
 	@SuppressWarnings("unchecked")
 	public LocalObject getLocalObjectByRemoteLink(LocalObject parent,
@@ -212,10 +212,10 @@ public abstract class ManyReferenceMapping extends ReferenceMapping {
 	}
 
 	/**
-	 * åŒæœŸå¾Œã®äº‹å¾Œå‡¦ç†ã‚’å®šç¾©ã—ã¾ã™ã€‚
+	 * “¯ŠúŒã‚Ì–Œãˆ—‚ğ’è‹`‚µ‚Ü‚·B
 	 * 
 	 * @param lo
-	 *            åŒæœŸå¯¾è±¡ã®ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 *            “¯Šú‘ÎÛ‚Ìƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg
 	 */
 	public void postSynchronizeLocal(LocalObject lo) {
 	}

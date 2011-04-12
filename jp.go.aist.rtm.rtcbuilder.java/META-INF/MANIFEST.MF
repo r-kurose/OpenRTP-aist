@@ -2,18 +2,12 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: jp.go.aist.rtm.rtcbuilder.java;singleton:=true
-Bundle-Version: 1.0.0.v20110316
+Bundle-Version: 1.0.0.v20100412
 Bundle-Activator: jp.go.aist.rtm.rtcbuilder.java.RtcBuilderJavaPlugin
 Bundle-Localization: plugin
 Require-Bundle: jp.go.aist.rtm.rtcbuilder,
  org.eclipse.ui,
  org.eclipse.core.runtime
-Bundle-ActivationPolicy: lazy
+Eclipse-LazyStart: true
 Bundle-Vendor: %providerName
-Export-Package: jp.go.aist.rtm.rtcbuilder.java,
- jp.go.aist.rtm.rtcbuilder.java.manager,
- jp.go.aist.rtm.rtcbuilder.java.template.cmake,
- jp.go.aist.rtm.rtcbuilder.java.template.java,
- jp.go.aist.rtm.rtcbuilder.java.template.java_04
-Eclipse-BuddyPolicy: registered
-Eclipse-RegisterBuddy: jp.go.aist.rtm.rtcbuilder
+Export-Package: jp.go.aist.rtm.rtcbuilder.java.manager

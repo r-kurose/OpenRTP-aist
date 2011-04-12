@@ -1,5 +1,7 @@
 package jp.go.aist.rtm.systemeditor.ui.action;
 
+import java.util.Iterator;
+
 import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
 import jp.go.aist.rtm.systemeditor.ui.editor.NullEditorInput;
 import jp.go.aist.rtm.systemeditor.ui.util.ComponentUtil;
@@ -14,7 +16,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * è¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’é–‹ãã‚¢ã‚¯ã‚·ãƒ§ãƒ³
+ * •¡‡ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğŠJ‚­ƒAƒNƒVƒ‡ƒ“
  */
 public class OpenCompositeComponentAction extends Action {
 
@@ -34,19 +36,22 @@ public class OpenCompositeComponentAction extends Action {
 	}
 
 	@Override
+	/**
+	 * {@inheritDoc}
+	 * 
+	 */
 	public void run() {
 		try {
-			// å­ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãŒé–‹ã‹ã‚Œã¦ã„ãªã„ã‘ã‚Œã°é–‹ãï¼ˆnotExist = trueï¼‰
-			// å­ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãŒé–‹ã‹ã‚Œã¦ã„ã‚Œã°ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã«ã™ã‚‹ï¼ˆnotExist = falseï¼‰
+			// qƒEƒBƒ“ƒhƒE‚ªŠJ‚©‚ê‚Ä‚¢‚È‚¢‚¯‚ê‚ÎŠJ‚­inotExist = truej
+			// qƒEƒBƒ“ƒhƒE‚ªŠJ‚©‚ê‚Ä‚¢‚ê‚ÎƒAƒNƒeƒBƒu‚É‚·‚éinotExist = falsej
 			boolean notExist = activateCompositeComponentEditor();
-			if (!notExist)
-				return;
+			if (!notExist) return;
 
-			// å­ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ã‚»ãƒƒãƒˆã™ã‚‹
-			SystemDiagram childDiagram = compositeComponentEditor
-					.getSystemDiagram();
+			// qƒEƒBƒ“ƒhƒE‚ÉƒRƒ“ƒ|[ƒlƒ“ƒg‚ğƒZƒbƒg‚·‚é
+			SystemDiagram childDiagram = compositeComponentEditor.getSystemDiagram();
 			compositeComponent2Editor(childDiagram);
-
+			childDiagram.setParentSystemDiagram(getParentSystemDiagram());
+			childDiagram.setCompositeComponent(compositeComponent);
 			compositeComponent.setChildSystemDiagram(childDiagram);
 			compositeComponentEditor.changeFile(null);
 		} catch (PartInitException e) {
@@ -54,25 +59,26 @@ public class OpenCompositeComponentAction extends Action {
 		}
 	}
 
-	// å­ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãŒé–‹ã‹ã‚Œã¦ã„ãªã„ã‘ã‚Œã°é–‹ãï¼ˆnotExist = trueï¼‰
-	// å­ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãŒé–‹ã‹ã‚Œã¦ã„ã‚Œã°ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã«ã™ã‚‹ï¼ˆnotExist = falseï¼‰
+	// qƒEƒBƒ“ƒhƒE‚ªŠJ‚©‚ê‚Ä‚¢‚È‚¢‚¯‚ê‚ÎŠJ‚­inotExist = truej
+	// qƒEƒBƒ“ƒhƒE‚ªŠJ‚©‚ê‚Ä‚¢‚ê‚ÎƒAƒNƒeƒBƒu‚É‚·‚éinotExist = falsej
 	private boolean activateCompositeComponentEditor() throws PartInitException {
 		IWorkbenchPage activePage = PlatformUI.getWorkbench()
 				.getActiveWorkbenchWindow().getActivePage();
-		compositeComponentEditor = ComponentUtil.findEditor(compositeComponent
-				.getChildSystemDiagram());
+		compositeComponentEditor = ComponentUtil.findEditor(compositeComponent.getChildSystemDiagram());
 		if (compositeComponentEditor == null) {
-			compositeComponentEditor = (AbstractSystemDiagramEditor) activePage
-					.openEditor(new NullEditorInput(),
+			compositeComponentEditor = (AbstractSystemDiagramEditor) activePage.openEditor(
+							new NullEditorInput(),
 							getParentSystemDiagramEditor().getEditorId());
 			return true;
 		} else {
-			IEditorPart oldIEditorPart = activePage
-					.findEditor(compositeComponentEditor.getEditorInput());
+			IEditorPart oldIEditorPart = activePage.findEditor(
+							compositeComponentEditor.getEditorInput());
 			if (oldIEditorPart == null) {
 				compositeComponentEditor = (AbstractSystemDiagramEditor) activePage
-						.openEditor(compositeComponentEditor.getEditorInput(),
-								getParentSystemDiagramEditor().getEditorId());
+						.openEditor(
+								compositeComponentEditor.getEditorInput(),
+								getParentSystemDiagramEditor()
+										.getEditorId());
 				return true;
 			} else {
 				activePage.activate(compositeComponentEditor);
@@ -85,19 +91,31 @@ public class OpenCompositeComponentAction extends Action {
 		this.compositeComponent = component;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void compositeComponent2Editor(SystemDiagram childDiagram) {
-		ComponentUtil.setCompositeComponentDiagram(childDiagram,
-				compositeComponent, getParentSystemDiagram());
-
-		// å­ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®Constraintã‚’è¨­å®šã™ã‚‹
+		// ƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€‘®«‚ğƒZƒbƒg‚·‚é
+		SystemDiagram psd = getParentSystemDiagram();
+		childDiagram.setSystemId(psd.getSystemId());
+		childDiagram.setCreationDate(psd.getCreationDate());
+		childDiagram.setUpdateDate(psd.getUpdateDate());
+		
+		// qƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌConstraint‚ğİ’è‚·‚é
 		int count = 0;
-		for (Component component : childDiagram.getComponents()) {
-			if (component.getConstraint() != null) {
-				continue;
+		for (Iterator iterator = compositeComponent.getAllComponents()
+				.iterator(); iterator.hasNext();) {
+			Component component = (Component) iterator.next();
+			if (component.getConstraint() == null) {
+				component.setConstraint(ComponentUtil
+						.getNewComponentConstraint(compositeComponent
+								.getConstraint(), count));
+				count++;
 			}
-			component.setConstraint(ComponentUtil.getNewComponentConstraint(
-					compositeComponent.getConstraint(), count));
-			count++;
+		}
+		// qƒ_ƒCƒAƒOƒ‰ƒ€‚ÉƒRƒ“ƒ|[ƒlƒ“ƒg‚ğƒZƒbƒg‚·‚é
+		childDiagram.clearComponents();
+		for (Object  o : compositeComponent.getComponents()) {
+			Component component = (Component) o;
+			childDiagram.addComponent(component);	// ƒ‹[ƒgƒ_ƒCƒAƒOƒ‰ƒ€‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìq‹Ÿ‚ğ‚»‚Ì‚Ü‚Üg‚¢‚Ü‚í‚·
 		}
 	}
 
@@ -108,5 +126,4 @@ public class OpenCompositeComponentAction extends Action {
 	private SystemDiagram getParentSystemDiagram() {
 		return getParentSystemDiagramEditor().getSystemDiagram();
 	}
-
 }

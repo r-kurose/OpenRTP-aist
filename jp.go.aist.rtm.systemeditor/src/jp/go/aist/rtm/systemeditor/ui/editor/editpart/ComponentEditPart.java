@@ -15,12 +15,9 @@ import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
 import jp.go.aist.rtm.systemeditor.ui.action.OpenCompositeComponentAction;
 import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
 import jp.go.aist.rtm.systemeditor.ui.editor.action.ChangeComponentDirectionAction;
-import jp.go.aist.rtm.systemeditor.ui.editor.editpart.direct.NameCellEditorLocator;
-import jp.go.aist.rtm.systemeditor.ui.editor.editpart.direct.NameDirectEditManager;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.ChangeDirectionEditPolicy;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.ComponentComponentEditPolicy;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.EditPolicyConstraint;
-import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.NameDirectEditPolicy;
 import jp.go.aist.rtm.systemeditor.ui.editor.figure.ComponentLayout;
 import jp.go.aist.rtm.systemeditor.ui.util.ComponentUtil;
 import jp.go.aist.rtm.systemeditor.ui.util.Draw2dUtil;
@@ -30,7 +27,6 @@ import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
-import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
 import jp.go.aist.rtm.toolscommon.model.core.CorePackage;
 
 import org.eclipse.draw2d.ColorConstants;
@@ -51,22 +47,21 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®EditPart
+ * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌEditPart
  * <p>
- * GEFã®ä»•æ§˜ã§ã¯å­ä¾›ã®EditPartã¯è¦ªã®EditPartã«å«ã¾ã‚Œãªã‘ã‚Œã°ãªã‚‰ãªã„ãŒã€ãƒãƒ¼ãƒˆã‚’ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‹ã‚‰ã¯ã¿å‡ºã—ã¦è¡¨ç¤ºã—ãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
- * ã“ã‚Œã‚’æº€ãŸã—ãªãŒã‚‰ã€ä¸€è¦‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å¤–ã«ãƒãƒ¼ãƒˆãŒå‡ºã¦ã„ã‚‹ã‚ˆã†ã«è¦‹ã›ã‚‹ãŸã‚ã«ã€ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒœãƒ‡ã‚£ã®ãƒ‰ãƒ­ãƒ¼ã‚¤ãƒ³ã‚°ã®ç¯„å›²ã‚’ç‹­ã‚ã‚‹ã“ã¨ã§å®Ÿç¾ã—ã¦ã„ã‚‹ãŸã‚ã€ç‰¹æ®Šãªå®Ÿè£…ã«ãªã£ã¦ã„ã‚‹ã€‚
+ * GEF‚Ìd—l‚Å‚Íq‹Ÿ‚ÌEditPart‚Íe‚ÌEditPart‚ÉŠÜ‚Ü‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢‚ªAƒ|[ƒg‚ğƒRƒ“ƒ|[ƒlƒ“ƒg‚©‚ç‚Í‚İo‚µ‚Ä•\¦‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+ * ‚±‚ê‚ğ–‚½‚µ‚È‚ª‚çAˆêŒ©ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌŠO‚Éƒ|[ƒg‚ªo‚Ä‚¢‚é‚æ‚¤‚ÉŒ©‚¹‚é‚½‚ß‚ÉAƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒ{ƒfƒB‚Ìƒhƒ[ƒCƒ“ƒO‚Ì”ÍˆÍ‚ğ‹·‚ß‚é‚±‚Æ‚ÅÀŒ»‚µ‚Ä‚¢‚é‚½‚ßA“Áê‚ÈÀ‘•‚É‚È‚Á‚Ä‚¢‚éB
  */
 public class ComponentEditPart extends AbstractEditPart {
 
-	/** ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å‘¨ã‚Šã¨ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒœãƒ‡ã‚£ã¾ã§ã®ã‚¹ãƒšãƒ¼ã‚¹(ãƒãƒ¼ãƒˆã‚ã‚Š) */
+	/** ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìü‚è‚ÆƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒ{ƒfƒB‚Ü‚Å‚ÌƒXƒy[ƒX(ƒ|[ƒg‚ ‚è) */
 	public static final int PORT_SPACE = 23;
 
-	/** ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å‘¨ã‚Šã¨ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒœãƒ‡ã‚£ã¾ã§ã®ã‚¹ãƒšãƒ¼ã‚¹(ãƒãƒ¼ãƒˆãªã—) */
+	/** ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìü‚è‚ÆƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒ{ƒfƒB‚Ü‚Å‚ÌƒXƒy[ƒX(ƒ|[ƒg‚È‚µ) */
 	public static final int NONE_SPACE = 7;
 
 	private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
@@ -74,10 +69,8 @@ public class ComponentEditPart extends AbstractEditPart {
 
 	private ComponentFloatingLabel componentLabel;
 
-	NameDirectEditManager directManager = null;
-
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	 * 
 	 * @param actionRegistry
 	 *            ActionRegistry
@@ -105,13 +98,13 @@ public class ComponentEditPart extends AbstractEditPart {
 			/**
 			 * {@inheritDoc}
 			 * <p>
-			 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å¤–ã«ãƒãƒ¼ãƒˆãŒå‡ºã¦ã„ã‚‹ã‚ˆã†ã«è¦‹ã›ã‚‹ãŸã‚ã«ã€ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒœãƒ‡ã‚£ã®ãƒ‰ãƒ­ãƒ¼ã‚¤ãƒ³ã‚°ã®ç¯„å›²ã‚’ç‹­ã‚ã¦ã„ã‚‹
+			 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌŠO‚Éƒ|[ƒg‚ªo‚Ä‚¢‚é‚æ‚¤‚ÉŒ©‚¹‚é‚½‚ß‚ÉAƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒ{ƒfƒB‚Ìƒhƒ[ƒCƒ“ƒO‚Ì”ÍˆÍ‚ğ‹·‚ß‚Ä‚¢‚é
 			 */
 			protected void paintFigure(Graphics graphics) {
 				if (isOpaque()) {
 					ComponentLayout cl = (ComponentLayout)this.getLayoutManager();
 					Rectangle bound = new Rectangle(getBounds());
-					// ãƒãƒ¼ãƒˆã®ã‚ã‚‹å´ã®ã‚¹ãƒšãƒ¼ã‚¹ã‚’åºƒãã¨ã‚‹ 2009.2.2
+					// ƒ|[ƒg‚Ì‚ ‚é‘¤‚ÌƒXƒy[ƒX‚ğL‚­‚Æ‚é 2009.2.2
 					if (cl.isVerticalDirection()) {
 						graphics.fillRectangle(bound.expand(-NONE_SPACE, -PORT_SPACE));
 					} else {
@@ -128,7 +121,7 @@ public class ComponentEditPart extends AbstractEditPart {
 			/**
 			 * {@inheritDoc}
 			 * <p>
-			 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å¤–ã«ãƒãƒ¼ãƒˆãŒå‡ºã¦ã„ã‚‹ã‚ˆã†ã«è¦‹ã›ã‚‹ãŸã‚ã€ç©ºå®Ÿè£…
+			 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌŠO‚Éƒ|[ƒg‚ªo‚Ä‚¢‚é‚æ‚¤‚ÉŒ©‚¹‚é‚½‚ßA‹óÀ‘•
 			 */
 			protected void paintBorder(Graphics graphics) {
 				// void
@@ -138,8 +131,8 @@ public class ComponentEditPart extends AbstractEditPart {
 			/**
 			 * {@inheritDoc}
 			 * <p>
-			 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®åˆ¶ç´„ãŒå¤‰æ›´ã•ã‚Œã‚‹ãŸã³ã«ã€ãƒ©ãƒ™ãƒ«ã‚‚ç§»å‹•ã•ã›ã‚‹ã€‚
-			 * ï¼ˆè²¬å‹™ã®åˆ†é›¢ã‹ã‚‰ã™ã‚Œã°ã‚ã¾ã‚Šã‚ˆããªã„ãŒã€ãƒ•ã‚¡ã‚¤ãƒ«å†…ã«é–‰ã˜ã¦ã„ã‚‹ã®ã§ã“ã“ã«å®Ÿè£…ã«ã—ãŸï¼‰
+			 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì§–ñ‚ª•ÏX‚³‚ê‚é‚½‚Ñ‚ÉAƒ‰ƒxƒ‹‚àˆÚ“®‚³‚¹‚éB
+			 * iÓ–±‚Ì•ª—£‚©‚ç‚·‚ê‚Î‚ ‚Ü‚è‚æ‚­‚È‚¢‚ªAƒtƒ@ƒCƒ‹“à‚É•Â‚¶‚Ä‚¢‚é‚Ì‚Å‚±‚±‚ÉÀ‘•‚É‚µ‚½j
 			 */
 			public void setBounds(Rectangle rect) {
 				super.setBounds(rect);
@@ -162,7 +155,7 @@ public class ComponentEditPart extends AbstractEditPart {
 			/**
 			 * {@inheritDoc}
 			 * <p>
-			 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å³ã‚¯ãƒªãƒƒã‚¯ï¼ˆ+Shiftï¼‰ã—ã¦ã€æ–¹å‘ã‚’å¤‰æ›ã™ã‚‹æ©Ÿèƒ½ã®å®Ÿè£…
+			 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ‰EƒNƒŠƒbƒNi+Shiftj‚µ‚ÄA•ûŒü‚ğ•ÏŠ·‚·‚é‹@”\‚ÌÀ‘•
 			 */
 			public void mousePressed(MouseEvent me) {
 				if (me.button == 3) { // right click
@@ -187,7 +180,7 @@ public class ComponentEditPart extends AbstractEditPart {
 
 		result.setBackgroundColor(ColorConstants.orange);
 
-		// æ³¨æ„ï¼šComponentLabelã®è¦ªã¯SystemDiagram
+		// ’ˆÓFComponentLabel‚Ìe‚ÍSystemDiagram
 		componentLabel = new ComponentFloatingLabel(
 				((AbstractGraphicalEditPart) getParent()).getFigure());
 		componentLabel.setText(getModel().getInstanceNameL());
@@ -199,7 +192,7 @@ public class ComponentEditPart extends AbstractEditPart {
 	}
 
 	/**
-	 * è¨­å®šãƒãƒãƒ¼ã‚¸ãƒ£ã‚’ç›£è¦–ã™ã‚‹ãƒªã‚¹ãƒŠ
+	 * İ’èƒ}ƒl[ƒWƒƒ‚ğŠÄ‹‚·‚éƒŠƒXƒi
 	 */
 	PropertyChangeListener preferenceChangeListener = new PropertyChangeListener() {
 		public void propertyChange(PropertyChangeEvent evt) {
@@ -251,10 +244,9 @@ public class ComponentEditPart extends AbstractEditPart {
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE,
 				new ComponentComponentEditPolicy());
+
 		installEditPolicy(EditPolicyConstraint.CHANGE_DIRECTION_ROLE,
 				new ChangeDirectionEditPolicy());
-		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
-				new NameDirectEditPolicy());
 	}
 
 	@Override
@@ -279,7 +271,7 @@ public class ComponentEditPart extends AbstractEditPart {
 	}
 
 	/**
-	 * æœ€æ–°ã®ãƒœãƒ¼ãƒ€ãƒ¼éƒ¨ã®è‰²ã‚’å–å¾—ã™ã‚‹
+	 * ÅV‚Ìƒ{[ƒ_[•”‚ÌF‚ğæ“¾‚·‚é
 	 * 
 	 * @return
 	 */
@@ -312,7 +304,7 @@ public class ComponentEditPart extends AbstractEditPart {
 	}
 
 	/**
-	 * æœ€æ–°ã®ãƒœãƒ‡ã‚£éƒ¨ã®è‰²ã‚’å–å¾—ã™ã‚‹
+	 * ÅV‚Ìƒ{ƒfƒB•”‚ÌF‚ğæ“¾‚·‚é
 	 * 
 	 * @return
 	 */
@@ -330,7 +322,7 @@ public class ComponentEditPart extends AbstractEditPart {
 
 			if (component.inOnlineSystemDiagram()
 					&& component.isGroupingCompositeComponent()) {
-				// ã‚ªãƒ³ãƒ©ã‚¤ãƒ³Groupingè¤‡åˆRTCã®å ´åˆã¯ã€å­RTCã®çŠ¶æ…‹ã‹ã‚‰è‰²ã‚’è¨­å®š
+				// ƒIƒ“ƒ‰ƒCƒ“Grouping•¡‡RTC‚Ìê‡‚ÍAqRTC‚Ìó‘Ô‚©‚çF‚ğİ’è
 				Set<Integer> sts = new HashSet<Integer>();
 				for (Object o : component.getComponents()) {
 					if (o instanceof CorbaComponent) {
@@ -361,7 +353,7 @@ public class ComponentEditPart extends AbstractEditPart {
 	}
 
 	Color getStateColor(int status) {
-		// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®çŠ¶æ…‹è‰²ã‚’åˆ¤å®š
+		// ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìó‘ÔF‚ğ”»’è
 		if (status == ExecutionContext.RTC_ACTIVE) {
 			return SystemEditorPreferenceManager.getInstance().getColor(
 					SystemEditorPreferenceManager.COLOR_RTC_STATE_ACTIVE);
@@ -428,11 +420,6 @@ public class ComponentEditPart extends AbstractEditPart {
 		} else if (ComponentPackage.eINSTANCE.getComponent_Ports()
 						.equals(notification.getFeature())) {
 			refreshComponent2();
-		} else if (ComponentPackage.eINSTANCE.getComponent_InstanceNameL()
-				.equals(notification.getFeature())) {
-			if (notification.getEventType() == Notification.SET) {
-				componentLabel.setText(notification.getNewStringValue());
-			}
 		}else if (getModel() instanceof ComponentSpecification) {
 			refreshComponent();
 		}
@@ -509,7 +496,7 @@ public class ComponentEditPart extends AbstractEditPart {
 			
 
 			private void refreshChildDiagram() {
-				// è¤‡åˆRTCã‚¨ãƒ‡ã‚£ã‚¿å†…ã®å­RTCã®ãƒãƒ¼ãƒˆå†æç”»
+				// •¡‡RTCƒGƒfƒBƒ^“à‚ÌqRTC‚Ìƒ|[ƒgÄ•`‰æ
 				SystemDiagram diagram = getModel().getChildSystemDiagram();
 				if (diagram != null) {
 					AbstractSystemDiagramEditor editor = ComponentUtil
@@ -537,7 +524,7 @@ public class ComponentEditPart extends AbstractEditPart {
 		});
 	}
 
-	/** ãƒãƒ¼ãƒˆå…¬é–‹/éå…¬é–‹æ™‚ã«PortEditPartã‚’æ›´æ–°ã—ã¾ã™ */
+	/** ƒ|[ƒgŒöŠJ/”ñŒöŠJ‚ÉPortEditPart‚ğXV‚µ‚Ü‚· */
 	@SuppressWarnings("unchecked")
 	public void refreshPortEditPart(final PortEditPart portPart) {
 		Object model = portPart.getModel();
@@ -565,7 +552,7 @@ public class ComponentEditPart extends AbstractEditPart {
 	 */
 	protected List getModelChildren() {
 		List result = new ArrayList();
-		// è¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã«ç›´æ¥å±ã™ã‚‹ãƒãƒ¼ãƒˆã ã‘ã‚’è¡¨ç¤ºã•ã›ã‚‹ 2008.11.26
+		// •¡‡ƒRƒ“ƒ|[ƒlƒ“ƒg‚É’¼Ú‘®‚·‚éƒ|[ƒg‚¾‚¯‚ğ•\¦‚³‚¹‚é 2008.11.26
 		result.addAll(getModel().getInports());
 		result.addAll(getModel().getOutports());
 		result.addAll(getModel().getServiceports());
@@ -574,7 +561,7 @@ public class ComponentEditPart extends AbstractEditPart {
 	}
 
 	/**
-	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆFigureã®å¤‰æ›´ã®é€šçŸ¥ã‚’è¡Œã†ãƒªã‚¹ãƒŠã‚’ç™»éŒ²ã™ã‚‹
+	 * ƒRƒ“ƒ|[ƒlƒ“ƒgFigure‚Ì•ÏX‚Ì’Ê’m‚ğs‚¤ƒŠƒXƒi‚ğ“o˜^‚·‚é
 	 * 
 	 * @param listener
 	 */
@@ -583,7 +570,7 @@ public class ComponentEditPart extends AbstractEditPart {
 	}
 
 	/**
-	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆFigureã®å¤‰æ›´ã®é€šçŸ¥ã‚’è¡Œã†ãƒªã‚¹ãƒŠã‚’å‰Šé™¤ã™ã‚‹
+	 * ƒRƒ“ƒ|[ƒlƒ“ƒgFigure‚Ì•ÏX‚Ì’Ê’m‚ğs‚¤ƒŠƒXƒi‚ğíœ‚·‚é
 	 * 
 	 * @param listener
 	 */
@@ -592,15 +579,15 @@ public class ComponentEditPart extends AbstractEditPart {
 	}
 
 	/**
-	 * ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã«è¡¨ç¤ºã•ã‚Œã‚‹ãƒ©ãƒ™ãƒ«
+	 * ƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚É•\¦‚³‚ê‚éƒ‰ƒxƒ‹
 	 */
 	public class ComponentFloatingLabel extends Label {
 
 		/**
-		 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+		 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 		 * 
 		 * @param parentFigure
-		 *            è¦ªãƒ•ã‚£ã‚®ãƒ¥ã‚¢
+		 *            eƒtƒBƒMƒ…ƒA
 		 */
 		public ComponentFloatingLabel(IFigure parentFigure) {
 			setParent(parentFigure);
@@ -608,7 +595,7 @@ public class ComponentEditPart extends AbstractEditPart {
 		}
 
 		/**
-		 * å‰Šé™¤ã™ã‚‹å ´åˆã«å‘¼ã³å‡ºã•ã‚Œã‚‹ã“ã¨ã‚’æ„å›³ã™ã‚‹
+		 * íœ‚·‚éê‡‚ÉŒÄ‚Ño‚³‚ê‚é‚±‚Æ‚ğˆÓ}‚·‚é
 		 */
 		public void deactivate() {
 			getParent().remove(this);
@@ -652,23 +639,6 @@ public class ComponentEditPart extends AbstractEditPart {
 				openAction.run();
 			}
 		}
-		// ã‚ªãƒ•ãƒ©ã‚¤ãƒ³ã‚¨ãƒ‡ã‚£ã‚¿ã®å ´åˆã¯ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åã®ç›´æ¥ç·¨é›†å¯
-		boolean offline = false;
-		if (getParent() != null
-				&& getParent().getModel() instanceof SystemDiagram) {
-			SystemDiagram sd = (SystemDiagram) getParent().getModel();
-			offline = SystemDiagramKind.OFFLINE_LITERAL.equals(sd.getKind());
-		}
-		if (offline && req.getType().equals(RequestConstants.REQ_DIRECT_EDIT)) {
-			if (directManager == null) {
-				directManager = new NameDirectEditManager(this,
-						TextCellEditor.class, new NameCellEditorLocator(
-								getFigure()));
-			}
-			directManager.show();
-			return;
-		}
 		super.performRequest(req);
 	}
-
 }

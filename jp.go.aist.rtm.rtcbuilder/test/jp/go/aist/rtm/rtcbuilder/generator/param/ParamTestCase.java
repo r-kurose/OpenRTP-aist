@@ -4,14 +4,14 @@ import junit.framework.TestCase;
 
 public class ParamTestCase<E> extends TestCase {
 
-	/** Updated縺ｮ繝√ぉ繝�繧ｫ */
+	/** Updatedのチェッカ */
 	abstract class UpdateChecker {
 		abstract void execute1(E e);
 
 		abstract void execute2(E e);
 	}
 
-	/** Updated繝√ぉ繝�繧ｯ縺ｮassert */
+	/** Updatedチェックのassert */
 	void assertUpdated(E e, UpdateChecker checker) {
 		UpdateRecordable ur = (UpdateRecordable) e;
 		ur.resetUpdated();

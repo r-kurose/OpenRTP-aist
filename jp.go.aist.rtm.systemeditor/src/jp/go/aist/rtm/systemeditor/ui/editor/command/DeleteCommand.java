@@ -1,9 +1,8 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.command;
 
 import jp.go.aist.rtm.systemeditor.nl.Messages;
-import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
+import jp.go.aist.rtm.systemeditor.ui.action.CompositeComponentHelper;
 import jp.go.aist.rtm.systemeditor.ui.util.ComponentUtil;
-import jp.go.aist.rtm.systemeditor.ui.util.CompositeComponentHelper;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
@@ -11,13 +10,14 @@ import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import org.eclipse.gef.commands.Command;
 
 /**
- * Rtcã‚’å‰Šé™¤ã™ã‚‹å‰Šé™¤ã‚³ãƒãƒ³ãƒ‰
+ * Rtc‚ğíœ‚·‚éíœƒRƒ}ƒ“ƒh
  */
 public class DeleteCommand extends Command {
 	private SystemDiagram parent;
 
 	private Component target;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	/**
 	 * {@inheritDoc}
@@ -28,39 +28,33 @@ public class DeleteCommand extends Command {
 		
 		disconnectAll();
 
-		// é–‹ã„ãŸã‚¨ãƒ‡ã‚£ã‚¿ã‚’é–‰ã˜ã‚‹
+		// ŠJ‚¢‚½ƒGƒfƒBƒ^‚ğ•Â‚¶‚é
 		ComponentUtil.closeCompositeComponent(target);
 		
-		// å‰Šé™¤å®Ÿè¡Œ
-		if (parent.getCompositeComponent() != null) {
-			// è‡ªèº«ãŒè¤‡åˆRTCã®å­ã®å ´åˆã¯è¤‡åˆRTCã‹ã‚‰å¤–ã™
-			if (parent.getCompositeComponent().removeComponentR(target)) {
-				// è¦ªã‚¨ãƒ‡ã‚£ã‚¿ã«è‡ªèº«ã‚’è¿½åŠ ã™ã‚‹
-				SystemDiagram parentSystemDiagram = parent
-						.getParentSystemDiagram();
-				parentSystemDiagram.addComponent(target);
-				// ãƒã‚¹ãƒˆã—ã¦ã„ã‚‹å ´åˆã¯ãƒ¡ãƒ³ãƒãƒ¼ã®å†è¨­å®šãŒå¿…è¦
-				if (parentSystemDiagram.getCompositeComponent() != null) {
-					parentSystemDiagram.getCompositeComponent().setComponentsR(
-							parentSystemDiagram.getComponents());
-				}
-				// ç”»é¢æ›´æ–°
-				ComponentUtil.findEditor(parentSystemDiagram).refresh();
+		// íœÀs
+		if (parent.getCompositeComponent()!= null) {
+			// ©g‚ª•¡‡ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìq‚Ìê‡‚Í•¡‡ƒRƒ“ƒ|[ƒlƒ“ƒg‚©‚çŠO‚·
+			parent.getCompositeComponent().removeComponentR(target);
+			// eƒGƒfƒBƒ^‚É©g‚ğ’Ç‰Á‚·‚é
+			SystemDiagram parentSystemDiagram = parent.getParentSystemDiagram();
+			parentSystemDiagram.addComponent(target);
+			// ƒlƒXƒg‚µ‚Ä‚¢‚éê‡‚Íƒƒ“ƒo[‚ÌÄİ’è‚ª•K—v
+			if (parentSystemDiagram.getCompositeComponent() != null) {
+				parentSystemDiagram.getCompositeComponent().setComponentsR(parentSystemDiagram.getComponents());
 			}
-		} else {
-			// ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã‹ã‚‰ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å‰Šé™¤ã™ã‚‹
+			// ‰æ–ÊXV
+			ComponentUtil.findEditor(parentSystemDiagram).refresh();
+		} else {		
+			// ƒ_ƒCƒAƒOƒ‰ƒ€‚©‚çƒRƒ“ƒ|[ƒlƒ“ƒg‚ğíœ‚·‚é
 			parent.removeComponent(target);
 		}
-
-		// ç”»é¢æ›´æ–°
-		AbstractSystemDiagramEditor ae = ComponentUtil.findEditor(parent);
-		if (ae != null) {
-			ae.refresh();
-		}
+		
+		// ‰æ–ÊXV
+		ComponentUtil.findEditor(parent).refresh();
 	}
 
 	/**
-	 * ã‚ªãƒ•ãƒ©ã‚¤ãƒ³ã‚¨ãƒ‡ã‚£ã‚¿ã®å ´åˆã«ã ã‘ã€æ¥ç¶šã‚’ã™ã¹ã¦è§£é™¤ã™ã‚‹
+	 * ƒIƒtƒ‰ƒCƒ“ƒGƒfƒBƒ^‚Ìê‡‚É‚¾‚¯AÚ‘±‚ğ‚·‚×‚Ä‰ğœ‚·‚é
 	 */
 	private void disconnectAll() {
 		if (target.inOnlineSystemDiagram()) return;
@@ -71,20 +65,20 @@ public class DeleteCommand extends Command {
 	}
 
 	/**
-	 * è¦ªã®ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ ã‚’è¨­å®šã™ã‚‹
+	 * e‚ÌƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€‚ğİ’è‚·‚é
 	 * 
 	 * @param parent
-	 *            è¦ªã®ã‚·ã‚¹ãƒ†ãƒ ãƒ€ã‚¤ã‚¢ã‚°ãƒ©ãƒ 
+	 *            e‚ÌƒVƒXƒeƒ€ƒ_ƒCƒAƒOƒ‰ƒ€
 	 */
 	public void setParent(SystemDiagram parent) {
 		this.parent = parent;
 	}
 
 	/**
-	 * å¤‰æ›´å¯¾è±¡ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
+	 * •ÏX‘ÎÛ‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg
 	 * 
 	 * @param target
-	 *            ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
+	 *            ƒRƒ“ƒ|[ƒlƒ“ƒg
 	 */
 	public void setTarget(Component target) {
 		this.target = target;

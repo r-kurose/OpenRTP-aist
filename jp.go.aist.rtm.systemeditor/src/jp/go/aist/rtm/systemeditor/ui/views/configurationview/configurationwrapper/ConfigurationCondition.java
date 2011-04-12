@@ -11,12 +11,12 @@ import java.util.Set;
 import jp.go.aist.rtm.systemeditor.nl.Messages;
 
 /**
- * ã‚³ãƒ³ãƒ•ã‚£ã‚°ãƒ‡ãƒ¼ã‚¿ã®åˆ¶ç´„æ¡ä»¶
+ * ƒRƒ“ƒtƒBƒOƒf[ƒ^‚Ì§–ñğŒ
  *
  */
 public class ConfigurationCondition {
 
-	/** ä¸æ­£ãªæ•°å€¤ã®ä¾‹å¤– */
+	/** •s³‚È”’l‚Ì—áŠO */
 	public static class NumberException extends Exception {
 		private static final long serialVersionUID = -7918405683075295181L;
 
@@ -29,7 +29,7 @@ public class ConfigurationCondition {
 		}
 	};
 
-	/** ä¸æ­£ãªå½¢å¼ã®ä¾‹å¤– */
+	/** •s³‚ÈŒ`®‚Ì—áŠO */
 	public static class FormatException extends Exception {
 		private static final long serialVersionUID = 2976559830653469461L;
 
@@ -42,46 +42,46 @@ public class ConfigurationCondition {
 		}
 	};
 
-	/** ç©ºæ¡ä»¶ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(Nullã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ) */
+	/** ‹óğŒƒIƒuƒWƒFƒNƒg(NullƒIƒuƒWƒFƒNƒg) */
 	public static final ConfigurationCondition NULL_CONDITION = new ConfigurationCondition(
 			true);
 
-	/** ç©ºæ¡ä»¶ã®å ´åˆã¯true */
+	/** ‹óğŒ‚Ìê‡‚Ítrue */
 	boolean isNull = false;
 
-	/** å³å€¤è¨­å®šã®å€¤ */
+	/** ‘¦’lİ’è‚Ì’l */
 	String constValue;
 
-	/** ä¸Šé™å€¤ */
+	/** ãŒÀ’l */
 	String max;
 
-	/** ä¸Šé™å€¤ã‚’å«ã‚€å ´åˆã¯true */
+	/** ãŒÀ’l‚ğŠÜ‚Şê‡‚Ítrue */
 	boolean maxEquals = false;
 
-	/** ä¸‹é™å€¤ */
+	/** ‰ºŒÀ’l */
 	String min;
 
-	/** ä¸‹é™å€¤ã‚’å«ã‚€å ´åˆã¯true */
+	/** ‰ºŒÀ’l‚ğŠÜ‚Şê‡‚Ítrue */
 	boolean minEquals = false;
 
-	/** å€¤ã®ç²¾åº¦ (digits=3 -> 0.001) */
+	/** ’l‚Ì¸“x (digits=3 -> 0.001) */
 	int digits = -1;
 
-	/** åˆ—æŒ™å‹ã®ãƒªã‚¹ãƒˆ */
+	/** —ñ‹“Œ^‚ÌƒŠƒXƒg */
 	List<String> enumList = null;
 
-	/** é…åˆ—å‹æ¡ä»¶ã®ãƒªã‚¹ãƒˆ */
+	/** ”z—ñŒ^ğŒ‚ÌƒŠƒXƒg */
 	List<ConfigurationCondition> conditionList = null;
 
-	/** ãƒãƒƒã‚·ãƒ¥å‹æ¡ä»¶ã®ãƒãƒƒãƒ— */
+	/** ƒnƒbƒVƒ…Œ^ğŒ‚Ìƒ}ƒbƒv */
 	Map<String, ConfigurationCondition> conditionMap = null;
 
 	/**
-	 * åˆ¶ç´„æ¡ä»¶æ–‡å­—åˆ—ã‚’ãƒ‘ãƒ¼ã‚¹ã—ã¦ã€æ¡ä»¶ã®ãƒªã‚¹ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚
-	 * @param s åˆ¶ç´„æ¡ä»¶æ–‡å­—åˆ—
-	 * @return ConfigurationConditionã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-	 * @throws NumberException æ•°å€¤ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚¨ãƒ©ãƒ¼
-	 * @throws FormatException æ¡ä»¶å¼ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚¨ãƒ©ãƒ¼
+	 * §–ñğŒ•¶š—ñ‚ğƒp[ƒX‚µ‚ÄAğŒ‚ÌƒŠƒXƒg‚ğ¶¬‚µ‚Ü‚·B
+	 * @param s §–ñğŒ•¶š—ñ
+	 * @return ConfigurationConditionƒIƒuƒWƒFƒNƒg
+	 * @throws NumberException ”’lƒtƒH[ƒ}ƒbƒgƒGƒ‰[
+	 * @throws FormatException ğŒ®ƒtƒH[ƒ}ƒbƒgƒGƒ‰[
 	 */
 	public static ConfigurationCondition parse(String s)
 			throws NumberException, FormatException {
@@ -104,17 +104,17 @@ public class ConfigurationCondition {
 			}
 		}
 		if (isEnum) {
-			// åˆ—æŒ™å‹
+			// —ñ‹“Œ^
 			ConfigurationCondition cc = parseEnum(s);
 			if (cc != null)
 				result = cc;
 		} else if (s.charAt(0) == '{') {
-			// ãƒãƒƒã‚·ãƒ¥å‹
+			// ƒnƒbƒVƒ…Œ^
 			ConfigurationCondition cc = parseHash(s);
 			if (cc != null)
 				result = cc;
 		} else if (s.split(",").length > 1) { //$NON-NLS-1$
-			// é…åˆ—å‹
+			// ”z—ñŒ^
 			ConfigurationCondition cc = parseArray(s);
 			if (cc != null)
 				result = cc;
@@ -128,11 +128,11 @@ public class ConfigurationCondition {
 
 
 	/**
-	 * ç¯„å›²è¨­å®šã®ãƒ‘ãƒ¼ã‚¹ã‚’è¡Œã„ã¾ã™ã€‚(ä¾‹ 0<x<100, 100(å³å€¤))
-	 * @param s åˆ¶ç´„æ¡ä»¶æ–‡å­—åˆ—
-	 * @return ConfigurationConditionã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-	 * @throws NumberException æ•°å€¤ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚¨ãƒ©ãƒ¼
-	 * @throws FormatException æ¡ä»¶å¼ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚¨ãƒ©ãƒ¼
+	 * ”ÍˆÍİ’è‚Ìƒp[ƒX‚ğs‚¢‚Ü‚·B(—á 0<x<100, 100(‘¦’l))
+	 * @param s §–ñğŒ•¶š—ñ
+	 * @return ConfigurationCondition‚ÌƒIƒuƒWƒFƒNƒg
+	 * @throws NumberException ”’lƒtƒH[ƒ}ƒbƒgƒGƒ‰[
+	 * @throws FormatException ğŒ®ƒtƒH[ƒ}ƒbƒgƒGƒ‰[
 	 */
 	public static ConfigurationCondition parseX(String s)
 			throws NumberException, FormatException {
@@ -230,10 +230,10 @@ public class ConfigurationCondition {
 	}
 
 	/**
-	 * åˆ—æŒ™å‹ã®ãƒ‘ãƒ¼ã‚¹ã‚’è¡Œã„ã¾ã™ã€‚(ä¾‹ (9200,9500,10000))
-	 * @param s åˆ¶ç´„æ¡ä»¶æ–‡å­—åˆ—
-	 * @return ConfigurationConditionã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-	 * @throws FormatException æ¡ä»¶å¼ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚¨ãƒ©ãƒ¼
+	 * —ñ‹“Œ^‚Ìƒp[ƒX‚ğs‚¢‚Ü‚·B(—á (9200,9500,10000))
+	 * @param s §–ñğŒ•¶š—ñ
+	 * @return ConfigurationCondition‚ÌƒIƒuƒWƒFƒNƒg
+	 * @throws FormatException ğŒ®ƒtƒH[ƒ}ƒbƒgƒGƒ‰[
 	 */
 	public static ConfigurationCondition parseEnum(String s) throws FormatException {
 		ConfigurationCondition result = new ConfigurationCondition();
@@ -241,7 +241,7 @@ public class ConfigurationCondition {
 		if (s.charAt(0) != '(' || s.charAt(s.length() - 1) != ')') {
 			throw new FormatException(Messages.getString("ConfigurationCondition.16") + s); //$NON-NLS-1$
 		}
-		// (, ) ã‚’é™¤å»
+		// (, ) ‚ğœ‹
 		s = s.substring(1, s.length() - 1).trim();
 		result.enumList = new ArrayList<String>();
 		for (String ss : s.split(",")) { //$NON-NLS-1$
@@ -253,11 +253,11 @@ public class ConfigurationCondition {
 	}
 
 	/**
-	 * é…åˆ—å‹æ¡ä»¶ã®ãƒ‘ãƒ¼ã‚¹ã‚’è¡Œã„ã¾ã™ã€‚(ä¾‹ 0<x<1, 2<x<=5)
-	 * @param s åˆ¶ç´„æ¡ä»¶æ–‡å­—åˆ—
-	 * @return ConfigurationConditionã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-	 * @throws NumberException æ•°å€¤ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚¨ãƒ©ãƒ¼
-	 * @throws FormatException æ¡ä»¶å¼ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚¨ãƒ©ãƒ¼
+	 * ”z—ñŒ^ğŒ‚Ìƒp[ƒX‚ğs‚¢‚Ü‚·B(—á 0<x<1, 2<x<=5)
+	 * @param s §–ñğŒ•¶š—ñ
+	 * @return ConfigurationCondition‚ÌƒIƒuƒWƒFƒNƒg
+	 * @throws NumberException ”’lƒtƒH[ƒ}ƒbƒgƒGƒ‰[
+	 * @throws FormatException ğŒ®ƒtƒH[ƒ}ƒbƒgƒGƒ‰[
 	 */
 	public static ConfigurationCondition parseArray(String s)
 			throws NumberException, FormatException {
@@ -290,7 +290,7 @@ public class ConfigurationCondition {
 			try {
 				ConfigurationCondition cc;
 				if (p.charAt(0) == '(') {
-					// åˆ—æŒ™å‹
+					// —ñ‹“Œ^
 					cc = parseEnum(p);
 				} else {
 					cc = parseX(p);
@@ -308,11 +308,11 @@ public class ConfigurationCondition {
 	}
 
 	/**
-	 * ãƒãƒƒã‚·ãƒ¥å‹æ¡ä»¶ã®ãƒ‘ãƒ¼ã‚¹ã‚’è¡Œã„ã¾ã™ã€‚(ä¾‹ {key0: 0<x<1, key1: 2<x<=5} )
-	 * @param s åˆ¶ç´„æ¡ä»¶æ–‡å­—åˆ—
-	 * @return ConfigurationConditionã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-	 * @throws NumberException æ•°å€¤ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚¨ãƒ©ãƒ¼
-	 * @throws FormatException æ¡ä»¶å¼ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚¨ãƒ©ãƒ¼
+	 * ƒnƒbƒVƒ…Œ^ğŒ‚Ìƒp[ƒX‚ğs‚¢‚Ü‚·B(—á {key0: 0<x<1, key1: 2<x<=5} )
+	 * @param s §–ñğŒ•¶š—ñ
+	 * @return ConfigurationCondition‚ÌƒIƒuƒWƒFƒNƒg
+	 * @throws NumberException ”’lƒtƒH[ƒ}ƒbƒgƒGƒ‰[
+	 * @throws FormatException ğŒ®ƒtƒH[ƒ}ƒbƒgƒGƒ‰[
 	 */
 	public static ConfigurationCondition parseHash(String s)
 			throws NumberException, FormatException {
@@ -322,7 +322,7 @@ public class ConfigurationCondition {
 		if (s.charAt(0) != '{' || s.charAt(s.length() - 1) != '}') {
 			throw new FormatException(Messages.getString("ConfigurationCondition.21") + s); //$NON-NLS-1$
 		}
-		// { }é™¤å»
+		// { }œ‹
 		s = s.substring(1, s.length() - 1).trim();
 
 		int start = 0, end = 0;
@@ -330,7 +330,7 @@ public class ConfigurationCondition {
 		while (start <= s.length()) {
 			end = s.indexOf(":", start); //$NON-NLS-1$
 			if (end == -1) {
-				// ã‚­ãƒ¼ãªã—
+				// ƒL[‚È‚µ
 				break;
 			}
 			key = s.substring(start, end).trim();
@@ -363,7 +363,7 @@ public class ConfigurationCondition {
 			try {
 				ConfigurationCondition cc;
 				if (p.charAt(0) == '(') {
-					// åˆ—æŒ™å‹
+					// —ñ‹“Œ^
 					cc = parseEnum(p);
 				} else {
 					cc = parseX(p);
@@ -390,8 +390,8 @@ public class ConfigurationCondition {
 	}
 
 	/**
-	 * ç©ºæ¡ä»¶ã‚’åˆ¤å®šã—ã¾ã™ã€‚
-	 * @return ç©ºæ¡ä»¶ã®å ´åˆã¯true
+	 * ‹óğŒ‚ğ”»’è‚µ‚Ü‚·B
+	 * @return ‹óğŒ‚Ìê‡‚Ítrue
 	 */
 	public boolean isNull() {
 		return this.isNull;
@@ -438,25 +438,25 @@ public class ConfigurationCondition {
 	}
 
 	/**
-	 * æœ€å¤§å€¤ã®ç²¾åº¦ã‚’æ•´æ•°ã«å¤‰æ›ã—ã¾ã™ (10.0 -> 100)
-	 * @return æœ€å¤§å€¤(æ•´æ•°)
+	 * Å‘å’l‚Ì¸“x‚ğ®”‚É•ÏŠ·‚µ‚Ü‚· (10.0 -> 100)
+	 * @return Å‘å’l(®”)
 	 */
 	public Integer getMaxByInteger() {
 		return this.getIntegerByDigits(this.getMaxValue().doubleValue());
 	}
 
 	/**
-	 * æœ€å°å€¤ã®ç²¾åº¦ã‚’æ•´æ•°ã«å¤‰æ›ã—ã¾ã™ (10.0 -> 100)
-	 * @return æœ€å°å€¤(æ•´æ•°)
+	 * Å¬’l‚Ì¸“x‚ğ®”‚É•ÏŠ·‚µ‚Ü‚· (10.0 -> 100)
+	 * @return Å¬’l(®”)
 	 */
 	public Integer getMinByInteger() {
 		return this.getIntegerByDigits(this.getMinValue().doubleValue());
 	}
 
 	/**
-	 * å°æ•°ã‚’digitsæ¡ãšã‚‰ã—ã¦æ•´æ•°ã«å¤‰æ›ã—ã¾ã™ (digits=2 10 -> 1000)
-	 * @param dvalue å°æ•°å€¤
-	 * @return æ•´æ•°å€¤
+	 * ¬”‚ğdigitsŒ…‚¸‚ç‚µ‚Ä®”‚É•ÏŠ·‚µ‚Ü‚· (digits=2 10 -> 1000)
+	 * @param dvalue ¬”’l
+	 * @return ®”’l
 	 */
 	public Integer getIntegerByDigits(double dvalue) {
 		dvalue *= Math.pow(10.0, this.getDigits());
@@ -464,9 +464,9 @@ public class ConfigurationCondition {
 	}
 
 	/**
-	 * æ•´æ•°ã‚’digitsæ¡ã®å°æ•°ã«å¤‰æ›ã—ã¾ã™ (digits=2 1000 -> 10.0)
-	 * @param ivalue æ•´æ•°å€¤
-	 * @return å°æ•°å€¤
+	 * ®”‚ğdigitsŒ…‚Ì¬”‚É•ÏŠ·‚µ‚Ü‚· (digits=2 1000 -> 10.0)
+	 * @param ivalue ®”’l
+	 * @return ¬”’l
 	 */
 	public Double getDecimalByDigits(int ivalue) {
 		Double d = Double.valueOf((double) ivalue);
@@ -475,8 +475,8 @@ public class ConfigurationCondition {
 	}
 
 	/**
-	 * minã€maxã®è¨­å®šå€¤ã‚ˆã‚Šã€ç²¾åº¦ã®é«˜ã„æ–¹(å°æ•°æ¡ã®å¤§ãã„æ–¹)ã®æ¡æ•°ã‚’å–å¾—ã—ã¾ã™
-	 * @return ç²¾åº¦(å°æ•°æ¡)
+	 * minAmax‚Ìİ’è’l‚æ‚èA¸“x‚Ì‚‚¢•û(¬”Œ…‚Ì‘å‚«‚¢•û)‚ÌŒ…”‚ğæ“¾‚µ‚Ü‚·
+	 * @return ¸“x(¬”Œ…)
 	 */
 	public int getDigits() {
 		if (this.digits != -1)
@@ -503,10 +503,10 @@ public class ConfigurationCondition {
 	}
 
 	/**
-	 * valueã‚’minï½maxå†…ã§maxStepæ®µéšã§ã‚¹ãƒ†ãƒƒãƒ—ä½ç½®ã«å¤‰æ›ã—ã¾ã™
-	 * @param value å€¤
-	 * @param widget Widgetã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-	 * @return æ›ç®—ã—ãŸã‚¹ãƒ†ãƒƒãƒ—ä½ç½®
+	 * value‚ğmin`max“à‚ÅmaxStep’iŠK‚ÅƒXƒeƒbƒvˆÊ’u‚É•ÏŠ·‚µ‚Ü‚·
+	 * @param value ’l
+	 * @param widget WidgetƒIƒuƒWƒFƒNƒg
+	 * @return Š·Z‚µ‚½ƒXƒeƒbƒvˆÊ’u
 	 */
 	public int getStepByValue(String value, ConfigurationWidget widget) {
 		if (this.min == null || this.max == null)
@@ -530,11 +530,11 @@ public class ConfigurationCondition {
 	}
 
 	/**
-	 * maxStepå†…ã®stepã‚’minï½maxå†…ã®å€¤ã«å¤‰æ›ã—ã¾ã™
-	 * @param step ã‚¹ãƒ†ãƒƒãƒ—ä½ç½®
-	 * @param widget Widgetã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * maxStep“à‚Ìstep‚ğmin`max“à‚Ì’l‚É•ÏŠ·‚µ‚Ü‚·
+	 * @param step ƒXƒeƒbƒvˆÊ’u
+	 * @param widget WidgetƒIƒuƒWƒFƒNƒg
 	 * @param previousValue 
-	 * @return æ›ç®—ã—ãŸå€¤
+	 * @return Š·Z‚µ‚½’l
 	 */
 	public String getValueByStep(int step, ConfigurationWidget widget,
 			String previousValue) {
@@ -566,16 +566,16 @@ public class ConfigurationCondition {
 
 	private boolean isInt() {
 		if (this.min.indexOf(".") != -1 || this.max.indexOf(".") != -1) { //$NON-NLS-1$ //$NON-NLS-2$
-			// æœ€å¤§å€¤ã€æœ€å°å€¤ã®ã„ãšã‚Œã‹ãŒå°æ•°ã®å ´åˆã¯å°æ•°æ‰±ã„
+			// Å‘å’lAÅ¬’l‚Ì‚¢‚¸‚ê‚©‚ª¬”‚Ìê‡‚Í¬”ˆµ‚¢
 			return false;
 		}
 		return true;
 	}
 
 	/**
-	 * æœ€å°/æœ€å¤§å€¤ã‚’è¶…ãˆã‚‹å€¤ã‚’æœ‰åŠ¹ç¯„å›²å†…ã«ä¸¸ã‚ã‚‹
-	 * @param value å…¥åŠ›å€¤
-	 * @return æœ€å°/æœ€å¤§ã®ç¯„å›²å†…ã®æœ‰åŠ¹ãªå€¤
+	 * Å¬/Å‘å’l‚ğ’´‚¦‚é’l‚ğ—LŒø”ÍˆÍ“à‚ÉŠÛ‚ß‚é
+	 * @param value “ü—Í’l
+	 * @return Å¬/Å‘å‚Ì”ÍˆÍ“à‚Ì—LŒø‚È’l
 	 */
 	public String adjustMinMaxValue(String value) {
 		if (validate(value)) {
@@ -608,17 +608,17 @@ public class ConfigurationCondition {
 	}
 
 	/**
-	 * åˆ¶ç´„æ¡ä»¶åˆ¤å®š
-	 * @param value åˆ¤å®šå¯¾è±¡
-	 * @return valueãŒåˆ¶ç´„æ¡ä»¶ã‚’æº€ãŸã›ã°true
+	 * §–ñğŒ”»’è
+	 * @param value ”»’è‘ÎÛ
+	 * @return value‚ª§–ñğŒ‚ğ–‚½‚¹‚Îtrue
 	 */
 	public boolean validate(String value) {
 		if (this.isNull) {
-			// ç©ºæ¡ä»¶ã®å ´åˆã¯true
+			// ‹óğŒ‚Ìê‡‚Ítrue
 			return true;
 		}
 		if (this.hasConstValue()) {
-			// å³å€¤ã®å ´åˆ
+			// ‘¦’l‚Ìê‡
 			try {
 				Double dconst = Double.valueOf(this.getConstValue());
 				Double dvalue = Double.valueOf(value);
@@ -627,7 +627,7 @@ public class ConfigurationCondition {
 				return false;
 			}
 		} else if (this.hasEnumList()) {
-			// åˆ—æŒ™å‹ã®å ´åˆ
+			// —ñ‹“Œ^‚Ìê‡
 			for (String es : this.getEnumList()) {
 				if (es.equals(value)) {
 					return true;
@@ -636,7 +636,7 @@ public class ConfigurationCondition {
 			return false;
 		} else {
 			try {
-				// ç¯„å›²æŒ‡å®š
+				// ”ÍˆÍw’è
 				Double dvalue = Double.valueOf(value);
 				boolean result = false;
 				if (this.min != null) {
@@ -668,16 +668,16 @@ public class ConfigurationCondition {
 
 
 	/**
-	 * é…åˆ—æ¡ä»¶ã‚’åˆ¤å®šã—ã¾ã™ã€‚
-	 * @return é…åˆ—æ¡ä»¶ã®å ´åˆã¯true
+	 * ”z—ñğŒ‚ğ”»’è‚µ‚Ü‚·B
+	 * @return ”z—ñğŒ‚Ìê‡‚Ítrue
 	 */
 	public boolean isArrayCondition() {
 		return (this.conditionList != null && this.conditionList.size() > 0);
 	}
 
 	/**
-	 * é…åˆ—æ¡ä»¶ã®è¦ç´ æ•°ã‚’è¿”ã—ã¾ã™ã€‚
-	 * @return è¦ç´ æ•°
+	 * ”z—ñğŒ‚Ì—v‘f”‚ğ•Ô‚µ‚Ü‚·B
+	 * @return —v‘f”
 	 */
 	public int getArraySize() {
 		if (!this.isArrayCondition()) {
@@ -687,9 +687,9 @@ public class ConfigurationCondition {
 	}
 
 	/**
-	 * indexç•ªç›®ã®æ¡ä»¶ã‚’å–å¾—ã—ã¾ã™ã€‚
-	 * @param index æ¡ä»¶ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-	 * @return indexç•ªç›®ã®æ¡ä»¶
+	 * index”Ô–Ú‚ÌğŒ‚ğæ“¾‚µ‚Ü‚·B
+	 * @param index ğŒƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒfƒbƒNƒX
+	 * @return index”Ô–Ú‚ÌğŒ
 	 */
 	public ConfigurationCondition getCondition(int index) {
 		if (index >= this.getArraySize()) {
@@ -700,16 +700,16 @@ public class ConfigurationCondition {
 
 
 	/**
-	 * ãƒãƒƒã‚·ãƒ¥æ¡ä»¶ã‚’åˆ¤å®šã—ã¾ã™ã€‚
-	 * @return ãƒãƒƒã‚·ãƒ¥æ¡ä»¶ã®å ´åˆã¯true
+	 * ƒnƒbƒVƒ…ğŒ‚ğ”»’è‚µ‚Ü‚·B
+	 * @return ƒnƒbƒVƒ…ğŒ‚Ìê‡‚Ítrue
 	 */
 	public boolean isHashCondition() {
 		return (this.conditionMap != null && this.conditionMap.keySet().size() > 0);
 	}
 
 	/**
-	 * ãƒãƒƒã‚·ãƒ¥æ¡ä»¶ã®ã‚­ãƒ¼ã‚»ãƒƒãƒˆã‚’è¿”ã—ã¾ã™ã€‚
-	 * @return ãƒãƒƒã‚·ãƒ¥æ¡ä»¶ã®ã‚­ãƒ¼ã‚»ãƒƒãƒˆ
+	 * ƒnƒbƒVƒ…ğŒ‚ÌƒL[ƒZƒbƒg‚ğ•Ô‚µ‚Ü‚·B
+	 * @return ƒnƒbƒVƒ…ğŒ‚ÌƒL[ƒZƒbƒg
 	 */
 	public Set<String> getHashKeySet() {
 		if (!this.isHashCondition()) {
@@ -719,9 +719,9 @@ public class ConfigurationCondition {
 	}
 
 	/**
-	 * keyã‚’ã‚­ãƒ¼ã«ã™ã‚‹æ¡ä»¶ã‚’å–å¾—ã—ã¾ã™ã€‚
-	 * @param key æ¡ä»¶ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚­ãƒ¼
-	 * @return keyã«å¯¾å¿œã™ã‚‹æ¡ä»¶
+	 * key‚ğƒL[‚É‚·‚éğŒ‚ğæ“¾‚µ‚Ü‚·B
+	 * @param key ğŒƒIƒuƒWƒFƒNƒg‚ÌƒL[
+	 * @return key‚É‘Î‰‚·‚éğŒ
 	 */
 	public ConfigurationCondition getCondition(String key) {
 		if (this.conditionMap == null) {

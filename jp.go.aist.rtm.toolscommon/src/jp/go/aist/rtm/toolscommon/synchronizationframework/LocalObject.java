@@ -4,21 +4,21 @@ import org.eclipse.emf.ecore.EObject;
 
 
 /**
- * åŒæœŸã®å¯¾è±¡ã¨ãªã‚‹ãƒ­ãƒ¼ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå®Ÿè£…ã™ã¹ãã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹
+ * “¯Šú‚Ì‘ÎÛ‚Æ‚È‚éƒ[ƒJƒ‹ƒIƒuƒWƒFƒNƒg‚ªÀ‘•‚·‚×‚«ƒCƒ“ƒ^ƒtƒF[ƒX
  */
 public interface LocalObject extends EObject {
 	/**
-	 * åŒæœŸã‚µãƒãƒ¼ãƒˆã‚’å–å¾—ã™ã‚‹
+	 * “¯ŠúƒTƒ|[ƒg‚ğæ“¾‚·‚é
 	 * 
-	 * @return åŒæœŸã‚µãƒãƒ¼ãƒˆ
+	 * @return “¯ŠúƒTƒ|[ƒg
 	 */
 	public SynchronizationSupport getSynchronizationSupport();
 
 	/**
-	 * åŒæœŸã‚µãƒãƒ¼ãƒˆã‚’è¨­å®šã™ã‚‹
+	 * “¯ŠúƒTƒ|[ƒg‚ğİ’è‚·‚é
 	 * 
 	 * @param synchronizationSupport
-	 *            åŒæœŸã‚µãƒãƒ¼ãƒˆ
+	 *            “¯ŠúƒTƒ|[ƒg
 	 */
 	public void setSynchronizationSupport(
 			SynchronizationSupport synchronizationSupport);

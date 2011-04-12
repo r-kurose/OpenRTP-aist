@@ -28,18 +28,18 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 public class Main {
 
 	/**
-	 * 指定されたXMLファイルを読み込み、XMLファイルの内容をシステムに反映する。
-	 * XMLファイルの場所は、ファイルパスもしくはURI(Webサーバ等可能)で指定する。
+	 * �w�肳�ꂽXML�t�@�C����ǂݍ��݁AXML�t�@�C���̓��e���V�X�e���ɔ��f����B
+	 * XML�t�@�C���̏ꏊ�́A�t�@�C���p�X��������URI(Web�T�[�o���\)�Ŏw�肷��B
 	 * <p>
-	 * [重要]マッピングルールは、実行ファイル直下に、別途作成したファイル(MAPPING_RULES)に指定する
+	 * [�d�v]�}�b�s���O���[���́A���s�t�@�C�������ɁA�ʓr�쐬�����t�@�C��(MAPPING_RULES)�Ɏw�肷��
 	 * 
-	 * コンソールからRtcLinkのXMLファイルを読み込み、XMLファイルの内容に沿って以下を行う。
-	 * <LI>１．RtcLinkのXMLに含まれるすべてのRTCにアクセス可能であるか確認する。</LI>
-	 * <LI>２．RtcLinkのXMLに含まれるすべてのコンフィグレーション情報を復元する</LI>
-	 * <LI>３．RtcLinkのXMLに含まれるすべてのコネクションを接続する</LI>
-	 * <LI>４・RtcLinkのXMLに含まれるすべてのRTCに対して、Start要求を送信する。</LI>
+	 * �R���\�[������RtcLink��XML�t�@�C����ǂݍ��݁AXML�t�@�C���̓��e�ɉ����Ĉȉ����s���B
+	 * <LI>�P�DRtcLink��XML�Ɋ܂܂�邷�ׂĂ�RTC�ɃA�N�Z�X�\�ł��邩�m�F����B</LI>
+	 * <LI>�Q�DRtcLink��XML�Ɋ܂܂�邷�ׂẴR���t�B�O���[�V�������𕜌�����</LI>
+	 * <LI>�R�DRtcLink��XML�Ɋ܂܂�邷�ׂẴR�l�N�V������ڑ�����</LI>
+	 * <LI>�S�ERtcLink��XML�Ɋ܂܂�邷�ׂĂ�RTC�ɑ΂��āAStart�v���𑗐M����B</LI>
 	 * 
-	 * ３．では、既に同じコネクションIDが存在すれば、接続は行われない <br>
+	 * �R�D�ł́A���ɓ����R�l�N�V����ID�����݂���΁A�ڑ��͍s���Ȃ� <br>
 	 * 
 	 * @param args
 	 */
@@ -97,7 +97,7 @@ public class Main {
 	}
 
 	/**
-	 * 実行メイン
+	 * ���s���C��
 	 * 
 	 * @param xmlUri
 	 * @param result
@@ -153,7 +153,7 @@ public class Main {
 	}
 
 	/**
-	 * ファイルからマッピングルールを作成する
+	 * �t�@�C������}�b�s���O���[�����쐬����
 	 * 
 	 * @return
 	 * @throws ClassNotFoundException

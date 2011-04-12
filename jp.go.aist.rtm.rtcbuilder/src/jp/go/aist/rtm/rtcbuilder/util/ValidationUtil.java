@@ -115,12 +115,12 @@ public class ValidationUtil {
 			}
 		}
 		
-		//åˆ¶ç´„
-		//radioã¯åˆ—æŒ™å‹ã®ã¿
+		//§–ñ
+		//radio‚Í—ñ‹“Œ^‚Ì‚İ
 		if( config.getWidget().equals("radio") ) {
 			if(config.getConstraint().trim().startsWith("(") 
 					&& config.getConstraint().trim().endsWith(")") ) {
-				//å€¤ã®é‡è¤‡ä¸å¯
+				//’l‚Ìd•¡•s‰Â
 				String[] enumVal = config.getConstraint().trim().substring(1, config.getConstraint().trim().length()-1).split(",");
 				List<String> arrayVal = new ArrayList<String>();
 				for(String val : enumVal) {
@@ -136,14 +136,14 @@ public class ValidationUtil {
 				return result;
 			}
 		}
-		//spinã¯intå‹ã®ã¿
+		//spin‚ÍintŒ^‚Ì‚İ
 //		if( config.getWidget().equals("spin") ) {
 //			if(!( config.getType().trim().equals("int") || config.getType().trim().equals("Integer") ) ) {
 //				result = IMessageConstants.CONFIGURATION_VALIDATE_SPIN;
 //				return result;
 //			}
 //		}
-//		//spin,sliderã«ã¯æœ€å¤§å€¤ï¼Œæœ€å°å€¤ãŒå¿…è¦
+//		//spin,slider‚É‚ÍÅ‘å’lCÅ¬’l‚ª•K—v
 //		if( config.getWidget().equals("spin") || config.getWidget().equals("slider")) {
 //		}
 		return result;

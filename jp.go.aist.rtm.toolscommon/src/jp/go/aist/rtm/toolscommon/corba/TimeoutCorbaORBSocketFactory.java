@@ -8,7 +8,7 @@ import com.sun.corba.se.impl.transport.DefaultSocketFactoryImpl;
 import com.sun.corba.se.spi.transport.ORBSocketFactory;
 
 /**
- * 謗･邯壹ち繧､繝繧｢繧ｦ繝医′險ｭ螳壼庄閭ｽ縺ｪ繧ｽ繧ｱ繝�繝医ヵ繧｡繧ｯ繝医Μ
+ * 接続タイムアウトが設定可能なソケットファクトリ
  *
  */
 public class TimeoutCorbaORBSocketFactory extends DefaultSocketFactoryImpl implements ORBSocketFactory {
@@ -20,8 +20,6 @@ public class TimeoutCorbaORBSocketFactory extends DefaultSocketFactoryImpl imple
 			throws IOException {
 		Socket socket = new Socket();
 		socket.connect(inetSocketAddress, connectionTimeout);
-//		socket.setSoTimeout(connectionTimeout);	// 縺薙＞縺､縺ｮ縺帙＞縺ｧ荳榊ｮ牙ｮ壹↑縺ｮ縺九ｂ
-		// Disable Nagle's algorithm (i.e., always send immediately).
 		socket.setTcpNoDelay(true);
 
 		return socket;

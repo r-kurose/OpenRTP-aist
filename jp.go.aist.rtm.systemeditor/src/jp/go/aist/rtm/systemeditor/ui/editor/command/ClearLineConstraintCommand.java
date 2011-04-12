@@ -14,7 +14,7 @@ import org.eclipse.emf.common.util.EMap;
 import org.eclipse.gef.commands.Command;
 
 /**
- * ãƒ©ã‚¤ãƒ³ã®åˆ¶ç´„ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹ã‚³ãƒãƒ³ãƒ‰
+ * ƒ‰ƒCƒ“‚Ì§–ñ‚ğƒNƒŠƒA‚·‚éƒRƒ}ƒ“ƒh
  */
 public class ClearLineConstraintCommand extends Command {
 	private ModelElement model;
@@ -23,10 +23,10 @@ public class ClearLineConstraintCommand extends Command {
 	private Map<PortConnector, Map> oldRoutingConstraint = new IdentityHashMap<PortConnector, Map>();
 
 	/**
-	 * å¤‰æ›´å¯¾è±¡ã®ãƒ¢ãƒ‡ãƒ«ã‚’è¨­å®šã™ã‚‹
+	 * •ÏX‘ÎÛ‚Ìƒ‚ƒfƒ‹‚ğİ’è‚·‚é
 	 * 
 	 * @param model
-	 *            å¤‰æ›´å¯¾è±¡ã®ãƒ¢ãƒ‡ãƒ«
+	 *            •ÏX‘ÎÛ‚Ìƒ‚ƒfƒ‹
 	 */
 	public void setModel(ModelElement model) {
 		this.model = model;
@@ -44,8 +44,6 @@ public class ClearLineConstraintCommand extends Command {
 				if (element instanceof PortConnector) {
 					connnectionList.add((PortConnector) element);
 				}
-
-				// TODO:SystemDiagramã‹ã‚‰PortConnectoræƒ…å ±ã‚’å¾—ã‚‹
 
 				for (PortConnector connection : connnectionList) {
 					Object routingConstraint = connection

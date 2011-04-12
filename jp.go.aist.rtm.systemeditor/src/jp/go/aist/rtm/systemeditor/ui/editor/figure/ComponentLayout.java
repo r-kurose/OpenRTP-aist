@@ -12,9 +12,9 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
- * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆFigureã®å†…éƒ¨ã§ä½¿ç”¨ã•ã‚Œã‚‹ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆ
+ * ƒRƒ“ƒ|[ƒlƒ“ƒgFigure‚Ì“à•”‚Åg—p‚³‚ê‚éƒŒƒCƒAƒEƒg
  * <p>
- * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆFigureã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚µã‚¤ã‚ºï¼ˆãƒãƒ¼ãƒˆã®æ•°ã‹ã‚‰è¨ˆç®—ï¼‰ã€æ–¹å‘ã‚„ãƒãƒ¼ãƒˆã®ä½ç½®ã‚’è¨ˆç®—ã™ã‚‹
+ * ƒRƒ“ƒ|[ƒlƒ“ƒgFigure‚ÌƒfƒtƒHƒ‹ƒgƒTƒCƒYiƒ|[ƒg‚Ì”‚©‚çŒvZjA•ûŒü‚âƒ|[ƒg‚ÌˆÊ’u‚ğŒvZ‚·‚é
  */
 public class ComponentLayout extends XYLayout {
 	private static final int MIN_WIDTH = 50;
@@ -33,10 +33,10 @@ public class ComponentLayout extends XYLayout {
 	private Component component;
 
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	 * 
 	 * @param Component
-	 *            ãƒ¢ãƒ‡ãƒ«
+	 *            ƒ‚ƒfƒ‹
 	 */
 	public ComponentLayout(Component component) {
 		this.component = component;
@@ -60,7 +60,7 @@ public class ComponentLayout extends XYLayout {
 		}
 	}
 
-	/** ãƒãƒ¼ãƒˆãŒå‚ç›´è¡¨ç¤ºã®å ´åˆã¯true */
+	/** ƒ|[ƒg‚ª‚’¼•\¦‚Ìê‡‚Ítrue */
 	public boolean isVerticalDirection() {
 		String direction = this.component.getOutportDirection();
 		return direction.equals(Component.OUTPORT_DIRECTION_UP_LITERAL)
@@ -82,7 +82,7 @@ public class ComponentLayout extends XYLayout {
 			figureClass = OUTPUT_CLASSES;
 		}
 
-		// ãƒãƒ¼ãƒˆã®æç”»ä½ç½®ã¸ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ 2009.2.2
+		// ƒ|[ƒg‚Ì•`‰æˆÊ’u‚Ö‚ÌƒIƒtƒZƒbƒg 2009.2.2
 		int portOffset = ComponentEditPart.PORT_SPACE - 2;
 		int portNumber = getTargetOccurenceNumber(parent, child,
 				figureClass);
@@ -191,7 +191,7 @@ public class ComponentLayout extends XYLayout {
 	}
 
 	/**
-	 * å¯¾è±¡ã‚¯ãƒ©ã‚¹ãŒclassesã«å«ã¾ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹
+	 * ‘ÎÛƒNƒ‰ƒX‚ªclasses‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©
 	 * 
 	 * @param target
 	 * @param classes

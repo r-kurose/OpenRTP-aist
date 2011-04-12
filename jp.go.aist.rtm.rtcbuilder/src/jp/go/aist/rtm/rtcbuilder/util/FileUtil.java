@@ -21,16 +21,16 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹
+ * ƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX
  */
 public class FileUtil {
 
 	/**
-	 * ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã«ã‚ˆã£ã¦ã€ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹
+	 * ƒ_ƒCƒAƒƒO‚É‚æ‚Á‚ÄAƒfƒBƒŒƒNƒgƒŠ‚ÌƒpƒX‚ğæ“¾‚·‚é
 	 * 
 	 * @param defaultValue
-	 *            ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
-	 * @return ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ãƒ‘ã‚¹
+	 *            ƒfƒtƒHƒ‹ƒg’l
+	 * @return ƒfƒBƒŒƒNƒgƒŠ‚ÌƒpƒX
 	 */
 	public static IPath getDirectoryPathByDialog(IPath defaultPath) {
 		IWorkbench workbench = PlatformUI.getWorkbench();
@@ -50,11 +50,11 @@ public class FileUtil {
 	}
 
 	/**
-	 * ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã«ã‚ˆã£ã¦ã€IDLãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹
+	 * ƒ_ƒCƒAƒƒO‚É‚æ‚Á‚ÄAIDLƒtƒ@ƒCƒ‹‚ÌƒpƒX‚ğæ“¾‚·‚é
 	 * 
 	 * @param defaultValue
-	 *            ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
-	 * @return IDLãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
+	 *            ƒfƒtƒHƒ‹ƒg’l
+	 * @return IDLƒtƒ@ƒCƒ‹‚ÌƒpƒX
 	 */
 	public static IPath getFilePathByDialog(IFile defaultFile, int style) {
 		IWorkbench workbench = PlatformUI.getWorkbench();
@@ -64,7 +64,7 @@ public class FileUtil {
 
 		if (defaultFile != null) {
 			dialog.setFileName(defaultFile.toString());
-			dialog.setFilterNames(new String[] { "RTCãƒ“ãƒ«ãƒ€è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«" });
+			dialog.setFilterNames(new String[] { "RTCƒrƒ‹ƒ_İ’èƒtƒ@ƒCƒ‹" });
 			dialog.setFilterExtensions(new String[] { "*.xml" });
 		}
 
@@ -80,11 +80,11 @@ public class FileUtil {
 	}
 
 	/**
-	 * ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã¿ã€å†…å®¹ã‚’è¿”ã™
+	 * ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İA“à—e‚ğ•Ô‚·
 	 * 
 	 * @param path
-	 *            ãƒ‘ã‚¹
-	 * @return ãƒ•ã‚¡ã‚¤ãƒ«å†…å®¹
+	 *            ƒpƒX
+	 * @return ƒtƒ@ƒCƒ‹“à—e
 	 * @throws IOException 
 	 */
 	public static String readFile(String path) throws IOException {

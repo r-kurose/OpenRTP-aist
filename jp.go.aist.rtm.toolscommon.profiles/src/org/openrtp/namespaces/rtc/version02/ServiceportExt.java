@@ -131,4 +131,5 @@ public class ServiceportExt
     }
     public void setProperties(List<Property> list) {
     }
+
 }

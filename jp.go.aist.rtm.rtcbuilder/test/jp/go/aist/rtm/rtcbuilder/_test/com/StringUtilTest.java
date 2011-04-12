@@ -19,37 +19,37 @@ public class StringUtilTest extends TestCase {
 	}
 
 	public void testSplit3() throws Exception{
-		String original = "ï¼‘ï¼’ï¼“ï¼”ï¼•ï¼–ï¼—ï¼˜ï¼™";
+		String original = "‚P‚Q‚R‚S‚T‚U‚V‚W‚X";
 		String result = StringUtil.splitString(original, 5, " * ", 0);
-		String expected = "ï¼‘ï¼’ï¼“\r\n * ï¼”ï¼•ï¼–\r\n * ï¼—ï¼˜ï¼™";
+		String expected = "‚P‚Q‚R\r\n * ‚S‚T‚U\r\n * ‚V‚W‚X";
 		assertEquals(expected, result);
 	}
 
 	public void testSplit4() throws Exception{
-		String original = "ï¼‘ï¼’ï¼“ï¼”ï¼•ï¼–ï¼—ï¼˜ï¼™ï¼";
+		String original = "‚P‚Q‚R‚S‚T‚U‚V‚W‚X‚O";
 		String result = StringUtil.splitString(original, 5, " * ", 0);
-		String expected = "ï¼‘ï¼’ï¼“\r\n * ï¼”ï¼•ï¼–\r\n * ï¼—ï¼˜ï¼™\r\n * ï¼";
+		String expected = "‚P‚Q‚R\r\n * ‚S‚T‚U\r\n * ‚V‚W‚X\r\n * ‚O";
 		assertEquals(expected, result);
 	}
 
 	public void testSplit5() throws Exception{
-		String original = "1ï¼’ï¼“4ï¼•ï¼–7ï¼˜ï¼™ï¼";
+		String original = "1‚Q‚R4‚T‚U7‚W‚X‚O";
 		String result = StringUtil.splitString(original, 5, " * ", 0);
-		String expected = "1ï¼’ï¼“\r\n * 4ï¼•ï¼–\r\n * 7ï¼˜ï¼™\r\n * ï¼";
+		String expected = "1‚Q‚R\r\n * 4‚T‚U\r\n * 7‚W‚X\r\n * ‚O";
 		assertEquals(expected, result);
 	}
 
 	public void testSplit6() throws Exception{
-		String original = "12ï¼“ï¼”ï¼•67ï¼˜ï¼™ï¼";
+		String original = "12‚R‚S‚T67‚W‚X‚O";
 		String result = StringUtil.splitString(original, 5, " * ", 0);
-		String expected = "12ï¼“ï¼”\r\n * ï¼•67ï¼˜\r\n * ï¼™ï¼";
+		String expected = "12‚R‚S\r\n * ‚T67‚W\r\n * ‚X‚O";
 		assertEquals(expected, result);
 	}
 
 	public void testSplit7() throws Exception{
-		String original = "12ï¼“ï¼”ï¼•67ï¼˜ï¼™ï¼";
+		String original = "12‚R‚S‚T67‚W‚X‚O";
 		String result = StringUtil.splitString(original, 5, " * ", 3);
-		String expected = "12\r\n * ï¼“ï¼”ï¼•\r\n * 67ï¼˜ï¼™\r\n * ï¼";
+		String expected = "12\r\n * ‚R‚S‚T\r\n * 67‚W‚X\r\n * ‚O";
 		assertEquals(expected, result);
 	}
 
@@ -68,23 +68,23 @@ public class StringUtilTest extends TestCase {
 	}
 	
 	public void testSplit10() throws Exception{
-		String original = "<li><a href=\"/news-and-topics/\" title=\"æ–°ç€æƒ…å ±\">æ–°ç€æƒ…å ±</a></li>";
+		String original = "<li><a href=\"/news-and-topics/\" title=\"V’…î•ñ\">V’…î•ñ</a></li>";
 		String result = StringUtil.splitString(original, 5, " * ", 0);
-		String expected = "<li><a href=\"/news-and-topics/\" title=\"æ–°ç€æƒ…å ±\">\r\n * æ–°ç€æƒ…\r\n * å ±</a>\r\n * </li>";
+		String expected = "<li><a href=\"/news-and-topics/\" title=\"V’…î•ñ\">\r\n * V’…î\r\n * •ñ</a>\r\n * </li>";
 		assertEquals(expected, result);
 	}
 
 //	public void testSplit11() throws Exception{
-//		String original = "<li><a href=\"/news-and-topics/\" title=\"æ–°ç€æƒ…å ±\">æ–°ç€æƒ…å ±</a></li>";
+//		String original = "<li><a href=\"/news-and-topics/\" title=\"V’…î•ñ\">V’…î•ñ</a></li>";
 //		String result = StringUtil.splitString(original, 50, " * ", 0);
-//		String expected = "<li><a href=\"/news-and-topics/\" title=\"æ–°ç€æƒ…å ±\">\r\n * æ–°ç€æƒ…å ±</a></li>";
+//		String expected = "<li><a href=\"/news-and-topics/\" title=\"V’…î•ñ\">\r\n * V’…î•ñ</a></li>";
 //		assertEquals(expected, result);
 //	}
 
 	public void testSplit12() throws Exception{
-		String original = "<li><a href=\"/news-and-topics/\" title=\"æ–°ç€æƒ…å ±\">æ–°ç€æƒ…å ±</a></li>";
+		String original = "<li><a href=\"/news-and-topics/\" title=\"V’…î•ñ\">V’…î•ñ</a></li>";
 		String result = StringUtil.splitString(original, 4, " * ", 0);
-		String expected = "<li>\r\n * <a href=\"/news-and-topics/\" title=\"æ–°ç€æƒ…å ±\">\r\n * æ–°ç€\r\n * æƒ…å ±\r\n * </a>\r\n * </li>";
+		String expected = "<li>\r\n * <a href=\"/news-and-topics/\" title=\"V’…î•ñ\">\r\n * V’…\r\n * î•ñ\r\n * </a>\r\n * </li>";
 		assertEquals(expected, result);
 	}
 	
@@ -117,16 +117,16 @@ public class StringUtilTest extends TestCase {
 	}
 
 	public void testSplit10_2() throws Exception{
-	String original = "<li><a href=\"/news-and-topics/\" title=\"æ–°ç€æƒ…å ±\">æ–°ç€æƒ…å ±</a></li>";
+	String original = "<li><a href=\"/news-and-topics/\" title=\"V’…î•ñ\">V’…î•ñ</a></li>";
 	String result = StringUtil.splitString(original, 5, " * ", 1);
-	String expected = "<li>\r\n * <a href=\"/news-and-topics/\" title=\"æ–°ç€æƒ…å ±\">\r\n * æ–°ç€æƒ…\r\n * å ±</a>\r\n * </li>";
+	String expected = "<li>\r\n * <a href=\"/news-and-topics/\" title=\"V’…î•ñ\">\r\n * V’…î\r\n * •ñ</a>\r\n * </li>";
 	assertEquals(expected, result);
 }
 	
 	public void testSplit11_2() throws Exception{
-		String original = "<li><a href=\"/news-and-topics/\" title=\"æ–°ç€æƒ…å ±\">æ–°ç€æƒ…å ±</a></li>";
+		String original = "<li><a href=\"/news-and-topics/\" title=\"V’…î•ñ\">V’…î•ñ</a></li>";
 		String result = StringUtil.splitString(original, 50, " * ", 45);
-		String expected = "<li><a href=\"/news-and-topics/\" title=\"æ–°ç€æƒ…å ±\">\r\n * æ–°ç€æƒ…å ±</a></li>";
+		String expected = "<li><a href=\"/news-and-topics/\" title=\"V’…î•ñ\">\r\n * V’…î•ñ</a></li>";
 		assertEquals(expected, result);
 	}
 	
@@ -157,15 +157,15 @@ public class StringUtilTest extends TestCase {
 	
 	
 	public void testSplit16() throws Exception{
-		String original = "ï¼‘ï¼’ï¼“ï¼”ï¼•ï¼–ï¼—ï¼˜ï¼™ï¼ï¼‘ï¼’ï¼“ï¼”ï¼•ï¼–ï¼—ï¼˜ï¼™ï¼<br>";
+		String original = "‚P‚Q‚R‚S‚T‚U‚V‚W‚X‚O‚P‚Q‚R‚S‚T‚U‚V‚W‚X‚O<br>";
 		String result = StringUtil.splitString(original, 16, " * ", 0);
-		String expected = "ï¼‘ï¼’ï¼“ï¼”ï¼•ï¼–ï¼—ï¼˜\r\n * ï¼™ï¼ï¼‘ï¼’ï¼“ï¼”ï¼•ï¼–\r\n * ï¼—ï¼˜ï¼™ï¼<br>";
+		String expected = "‚P‚Q‚R‚S‚T‚U‚V‚W\r\n * ‚X‚O‚P‚Q‚R‚S‚T‚U\r\n * ‚V‚W‚X‚O<br>";
 		assertEquals(expected, result);
 	}
 	public void testSplit17() throws Exception{
-		String original = "ï¼‘ï¼’ï¼“ï¼”ï¼•<br/>ï¼–ï¼—ï¼˜ï¼™ï¼ï¼‘ï¼’ï¼“ï¼”ï¼•ï¼–ï¼—ï¼˜ï¼™ï¼<br>";
+		String original = "‚P‚Q‚R‚S‚T<br/>‚U‚V‚W‚X‚O‚P‚Q‚R‚S‚T‚U‚V‚W‚X‚O<br>";
 		String result = StringUtil.splitString(original, 16, " * ", 0);
-		String expected = "ï¼‘ï¼’ï¼“ï¼”ï¼•\r\n * ï¼–ï¼—ï¼˜ï¼™ï¼ï¼‘ï¼’ï¼“\r\n * ï¼”ï¼•ï¼–ï¼—ï¼˜ï¼™ï¼<br>";
+		String expected = "‚P‚Q‚R‚S‚T\r\n * ‚U‚V‚W‚X‚O‚P‚Q‚R\r\n * ‚S‚T‚U‚V‚W‚X‚O<br>";
 		assertEquals(expected, result);
 	}
 }

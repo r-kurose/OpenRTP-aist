@@ -6,7 +6,7 @@
  *
  * @author Noriaki Ando <n-ando@aist.go.jp>
  *
- * Copyright (C) 2006-2008 ãƒ©ã‚¤ã‚»ãƒ³ã‚¹
+ * Copyright (C) 2006-2008 ƒ‰ƒCƒZƒ“ƒX
  *
  * $Id$
  */
@@ -39,13 +39,13 @@ using namespace RTC;
  * @class foo
  * @brief MDesc
  *
- * æœ¬ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®æ¦‚è¦èª¬æ˜
+ * –{ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌŠT—và–¾
  *
- * æœ¬ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å…¥å‡ºåŠ›
+ * –{ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì“üo—Í
  *
- * æœ¬ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ ãªã©
+ * –{ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒAƒ‹ƒSƒŠƒYƒ€‚È‚Ç
  *
- * å‚è€ƒæ–‡çŒ®ã®æƒ…å ±
+ * Ql•¶Œ£‚Ìî•ñ
  *
  */
 class foo
@@ -72,35 +72,35 @@ class foo
   // </rtc-template>
 
   /*!
-   * on_initializeæ¦‚è¦èª¬æ˜
+   * on_initializeŠT—và–¾
    *
    * The initialize action (on CREATED->ALIVE transition)
    * formaer rtc_init_entry() 
    *
    * @return RTC::ReturnCode_t
    * 
-   * @pre on_initializeäº‹å‰æ¡ä»¶
-   * @post on_initializeäº‹å¾Œæ¡ä»¶
+   * @pre on_initialize–‘OğŒ
+   * @post on_initialize–ŒãğŒ
    * 
    */
    virtual RTC::ReturnCode_t onInitialize();
 
   /***
-   * on_finalizeæ¦‚è¦èª¬æ˜
+   * on_finalizeŠT—và–¾
    *
    * The finalize action (on ALIVE->END transition)
    * formaer rtc_exiting_entry()
    *
    * @return RTC::ReturnCode_t
    * 
-   * @pre on_finalizeäº‹å‰æ¡ä»¶
-   * @post on_finalizeäº‹å¾Œæ¡ä»¶
+   * @pre on_finalize–‘OğŒ
+   * @post on_finalize–ŒãğŒ
    * 
    */
   // virtual RTC::ReturnCode_t onFinalize();
 
   /***
-   * on_startupæ¦‚è¦èª¬æ˜
+   * on_startupŠT—và–¾
    *
    * The startup action when ExecutionContext startup
    * former rtc_starting_entry()
@@ -109,14 +109,14 @@ class foo
    *
    * @return RTC::ReturnCode_t
    * 
-   * @pre on_startupäº‹å‰æ¡ä»¶
-   * @post on_startupäº‹å¾Œæ¡ä»¶
+   * @pre on_startup–‘OğŒ
+   * @post on_startup–ŒãğŒ
    * 
    */
   // virtual RTC::ReturnCode_t onStartup(RTC::UniqueId ec_id);
 
   /***
-   * on_shutdownæ¦‚è¦èª¬æ˜
+   * on_shutdownŠT—và–¾
    *
    * The shutdown action when ExecutionContext stop
    * former rtc_stopping_entry()
@@ -125,14 +125,14 @@ class foo
    *
    * @return RTC::ReturnCode_t
    * 
-   * @pre on_shutdownäº‹å‰æ¡ä»¶
-   * @post on_shutdownäº‹å¾Œæ¡ä»¶
+   * @pre on_shutdown–‘OğŒ
+   * @post on_shutdown–ŒãğŒ
    * 
    */
   // virtual RTC::ReturnCode_t onShutdown(RTC::UniqueId ec_id);
 
   /***
-   * on_activatedæ¦‚è¦èª¬æ˜
+   * on_activatedŠT—và–¾
    *
    * The activated action (Active state entry action)
    * former rtc_active_entry()
@@ -141,14 +141,14 @@ class foo
    *
    * @return RTC::ReturnCode_t
    * 
-   * @pre on_activatedäº‹å‰æ¡ä»¶
-   * @post on_activatedäº‹å¾Œæ¡ä»¶
+   * @pre on_activated–‘OğŒ
+   * @post on_activated–ŒãğŒ
    * 
    */
   // virtual RTC::ReturnCode_t onActivated(RTC::UniqueId ec_id);
 
   /***
-   * on_deactivatedæ¦‚è¦èª¬æ˜
+   * on_deactivatedŠT—và–¾
    *
    * The deactivated action (Active state exit action)
    * former rtc_active_exit()
@@ -157,14 +157,14 @@ class foo
    *
    * @return RTC::ReturnCode_t
    * 
-   * @pre on_deactivatedäº‹å‰æ¡ä»¶
-   * @post on_deactivatedäº‹å¾Œæ¡ä»¶
+   * @pre on_deactivated–‘OğŒ
+   * @post on_deactivated–ŒãğŒ
    * 
    */
   // virtual RTC::ReturnCode_t onDeactivated(RTC::UniqueId ec_id);
 
   /***
-   * on_executeæ¦‚è¦èª¬æ˜
+   * on_executeŠT—và–¾
    *
    * The execution action that is invoked periodically
    * former rtc_active_do()
@@ -173,14 +173,14 @@ class foo
    *
    * @return RTC::ReturnCode_t
    * 
-   * @pre on_executeäº‹å‰æ¡ä»¶
-   * @post on_executeäº‹å¾Œæ¡ä»¶
+   * @pre on_execute–‘OğŒ
+   * @post on_execute–ŒãğŒ
    * 
    */
   // virtual RTC::ReturnCode_t onExecute(RTC::UniqueId ec_id);
 
   /***
-   * on_abortingæ¦‚è¦èª¬æ˜
+   * on_abortingŠT—và–¾
    *
    * The aborting action when main logic error occurred.
    * former rtc_aborting_entry()
@@ -189,14 +189,14 @@ class foo
    *
    * @return RTC::ReturnCode_t
    * 
-   * @pre on_abortingäº‹å‰æ¡ä»¶
-   * @post on_abortingäº‹å¾Œæ¡ä»¶
+   * @pre on_aborting–‘OğŒ
+   * @post on_aborting–ŒãğŒ
    * 
    */
   // virtual RTC::ReturnCode_t onAborting(RTC::UniqueId ec_id);
 
   /***
-   * on_erroræ¦‚è¦èª¬æ˜
+   * on_errorŠT—và–¾
    *
    * The error action in ERROR state
    * former rtc_error_do()
@@ -205,14 +205,14 @@ class foo
    *
    * @return RTC::ReturnCode_t
    * 
-   * @pre on_erroräº‹å‰æ¡ä»¶
-   * @post on_erroräº‹å¾Œæ¡ä»¶
+   * @pre on_error–‘OğŒ
+   * @post on_error–ŒãğŒ
    * 
    */
   // virtual RTC::ReturnCode_t onError(RTC::UniqueId ec_id);
 
   /***
-   * on_resetæ¦‚è¦èª¬æ˜
+   * on_resetŠT—và–¾
    *
    * The reset action that is invoked resetting
    * This is same but different the former rtc_init_entry()
@@ -221,14 +221,14 @@ class foo
    *
    * @return RTC::ReturnCode_t
    * 
-   * @pre on_resetäº‹å‰æ¡ä»¶
-   * @post on_resetäº‹å¾Œæ¡ä»¶
+   * @pre on_reset–‘OğŒ
+   * @post on_reset–ŒãğŒ
    * 
    */
   // virtual RTC::ReturnCode_t onReset(RTC::UniqueId ec_id);
   
   /***
-   * on_state_updateæ¦‚è¦èª¬æ˜
+   * on_state_updateŠT—và–¾
    *
    * The state update action that is invoked after onExecute() action
    * no corresponding operation exists in OpenRTm-aist-0.2.0
@@ -237,14 +237,14 @@ class foo
    *
    * @return RTC::ReturnCode_t
    * 
-   * @pre on_state_updateäº‹å‰æ¡ä»¶
-   * @post on_state_updateäº‹å¾Œæ¡ä»¶
+   * @pre on_state_update–‘OğŒ
+   * @post on_state_update–ŒãğŒ
    * 
    */
   // virtual RTC::ReturnCode_t onStateUpdate(RTC::UniqueId ec_id);
 
   /***
-   * on_rate_changedæ¦‚è¦èª¬æ˜
+   * on_rate_changedŠT—và–¾
    *
    * The action that is invoked when execution context's rate is changed
    * no corresponding operation exists in OpenRTm-aist-0.2.0
@@ -253,8 +253,8 @@ class foo
    *
    * @return RTC::ReturnCode_t
    * 
-   * @pre on_rate_changedäº‹å‰æ¡ä»¶
-   * @post on_rate_changedäº‹å¾Œæ¡ä»¶
+   * @pre on_rate_changed–‘OğŒ
+   * @post on_rate_changed–ŒãğŒ
    * 
    */
   // virtual RTC::ReturnCode_t onRateChanged(RTC::UniqueId ec_id);
@@ -272,48 +272,48 @@ class foo
   // Configuration variable declaration
   // <rtc-template block="config_declare">
   /*!
-   * Config1ã®æ¦‚è¦
-   * - Name: Config1ã®åå‰ int_param0
+   * Config1‚ÌŠT—v
+   * - Name: Config1‚Ì–¼‘O int_param0
    * - DefaultValue: 0
-   * - Unit: Config1ã®å˜ä½
-   * - Range: Config1ã®ç¯„å›²
-   * - Constraint: Config1ã®åˆ¶ç´„æ¡ä»¶
+   * - Unit: Config1‚Ì’PˆÊ
+   * - Range: Config1‚Ì”ÍˆÍ
+   * - Constraint: Config1‚Ì§–ñğŒ
    */
   int m_int_param0;
   /*!
-   * Config2ã®æ¦‚è¦
-   * - Name: Config2ã®åå‰ int_param1
+   * Config2‚ÌŠT—v
+   * - Name: Config2‚Ì–¼‘O int_param1
    * - DefaultValue: 1
-   * - Unit: Config2ã®å˜ä½
-   * - Range: Config2ã®ç¯„å›²
-   * - Constraint: Config2ã®åˆ¶ç´„æ¡ä»¶
+   * - Unit: Config2‚Ì’PˆÊ
+   * - Range: Config2‚Ì”ÍˆÍ
+   * - Constraint: Config2‚Ì§–ñğŒ
    */
   int m_int_param1;
   /*!
-   * Config3ã®æ¦‚è¦
-   * - Name: Config3ã®åå‰ double_param0
+   * Config3‚ÌŠT—v
+   * - Name: Config3‚Ì–¼‘O double_param0
    * - DefaultValue: 0.11
-   * - Unit: Config3ã®å˜ä½
-   * - Range: Config3ã®ç¯„å›²
-   * - Constraint: Config3ã®åˆ¶ç´„æ¡ä»¶
+   * - Unit: Config3‚Ì’PˆÊ
+   * - Range: Config3‚Ì”ÍˆÍ
+   * - Constraint: Config3‚Ì§–ñğŒ
    */
   double m_double_param0;
   /*!
-   * Config4ã®æ¦‚è¦
-   * - Name: Config4ã®åå‰ str_param0
+   * Config4‚ÌŠT—v
+   * - Name: Config4‚Ì–¼‘O str_param0
    * - DefaultValue: hoge
-   * - Unit: Config4ã®å˜ä½
-   * - Range: Config4ã®ç¯„å›²
-   * - Constraint: Config4ã®åˆ¶ç´„æ¡ä»¶
+   * - Unit: Config4‚Ì’PˆÊ
+   * - Range: Config4‚Ì”ÍˆÍ
+   * - Constraint: Config4‚Ì§–ñğŒ
    */
   std::string m_str_param0;
   /*!
-   * Config5ã®æ¦‚è¦
-   * - Name: Config5ã®åå‰ str_param1
+   * Config5‚ÌŠT—v
+   * - Name: Config5‚Ì–¼‘O str_param1
    * - DefaultValue: dara
-   * - Unit: Config5ã®å˜ä½
-   * - Range: Config5ã®ç¯„å›²
-   * - Constraint: Config5ã®åˆ¶ç´„æ¡ä»¶
+   * - Unit: Config5‚Ì’PˆÊ
+   * - Range: Config5‚Ì”ÍˆÍ
+   * - Constraint: Config5‚Ì§–ñğŒ
    */
   std::string m_str_param1;
   // </rtc-template>
@@ -322,24 +322,24 @@ class foo
   // <rtc-template block="inport_declare">
   TimedShort m_InName1;
   /*!
-   * InPort1ã®æ¦‚è¦
-   * - Type: InPort1ã®ãƒ‡ãƒ¼ã‚¿ã®å‹
-   * - Number: InPort1ã®ãƒ‡ãƒ¼ã‚¿ã®æ•°
-   * - Semantics: InPort1ã®ãƒ‡ãƒ¼ã‚¿ã®æ„å‘³
-   * - Unit: InPort1ã®ãƒ‡ãƒ¼ã‚¿ã®å˜ä½
-   * - Frequency: InPort1ã®ãƒ‡ãƒ¼ã‚¿ã®ç™ºç”Ÿé »åº¦
-   * - Operation Cycle: InPort1ã®ãƒ‡ãƒ¼ã‚¿ã®å‡¦ç†å‘¨æœŸ
+   * InPort1‚ÌŠT—v
+   * - Type: InPort1‚Ìƒf[ƒ^‚ÌŒ^
+   * - Number: InPort1‚Ìƒf[ƒ^‚Ì”
+   * - Semantics: InPort1‚Ìƒf[ƒ^‚ÌˆÓ–¡
+   * - Unit: InPort1‚Ìƒf[ƒ^‚Ì’PˆÊ
+   * - Frequency: InPort1‚Ìƒf[ƒ^‚Ì”­¶•p“x
+   * - Operation Cycle: InPort1‚Ìƒf[ƒ^‚Ìˆ—üŠú
    */
   InPort<TimedShort> m_InName1In;
   TimedLong m_InNm2;
   /*!
-   * InPort2ã®æ¦‚è¦
-   * - Type: InPort2ã®ãƒ‡ãƒ¼ã‚¿ã®å‹
-   * - Number: InPort2ã®ãƒ‡ãƒ¼ã‚¿ã®æ•°
-   * - Semantics: InPort2ã®ãƒ‡ãƒ¼ã‚¿ã®æ„å‘³
-   * - Unit: InPort2ã®ãƒ‡ãƒ¼ã‚¿ã®å˜ä½
-   * - Frequency: InPort2ã®ãƒ‡ãƒ¼ã‚¿ã®ç™ºç”Ÿé »åº¦
-   * - Operation Cycle: InPort2ã®ãƒ‡ãƒ¼ã‚¿ã®å‡¦ç†å‘¨æœŸ
+   * InPort2‚ÌŠT—v
+   * - Type: InPort2‚Ìƒf[ƒ^‚ÌŒ^
+   * - Number: InPort2‚Ìƒf[ƒ^‚Ì”
+   * - Semantics: InPort2‚Ìƒf[ƒ^‚ÌˆÓ–¡
+   * - Unit: InPort2‚Ìƒf[ƒ^‚Ì’PˆÊ
+   * - Frequency: InPort2‚Ìƒf[ƒ^‚Ì”­¶•p“x
+   * - Operation Cycle: InPort2‚Ìƒf[ƒ^‚Ìˆ—üŠú
    */
   InPort<TimedLong> m_InNm2In;
   
@@ -350,24 +350,24 @@ class foo
   // <rtc-template block="outport_declare">
   TimedLong m_OutName1;
   /*!
-   * OutPort1ã®æ¦‚è¦
-   * - Type: OutPort1ã®ãƒ‡ãƒ¼ã‚¿ã®å‹
-   * - Number: OutPort1ã®ãƒ‡ãƒ¼ã‚¿ã®æ•°
-   * - Semantics: OutPort1ã®ãƒ‡ãƒ¼ã‚¿ã®æ„å‘³
-   * - Unit: OutPort1ã®ãƒ‡ãƒ¼ã‚¿ã®å˜ä½
-   * - Frequency: OutPort1ã®ãƒ‡ãƒ¼ã‚¿ã®ç™ºç”Ÿé »åº¦
-   * - Operation Cycle: OutPort1ã®ãƒ‡ãƒ¼ã‚¿ã®å‡¦ç†å‘¨æœŸ
+   * OutPort1‚ÌŠT—v
+   * - Type: OutPort1‚Ìƒf[ƒ^‚ÌŒ^
+   * - Number: OutPort1‚Ìƒf[ƒ^‚Ì”
+   * - Semantics: OutPort1‚Ìƒf[ƒ^‚ÌˆÓ–¡
+   * - Unit: OutPort1‚Ìƒf[ƒ^‚Ì’PˆÊ
+   * - Frequency: OutPort1‚Ìƒf[ƒ^‚Ì”­¶•p“x
+   * - Operation Cycle: OutPort1‚Ìƒf[ƒ^‚Ìˆ—üŠú
    */
   OutPort<TimedLong> m_OutName1Out;
   TimedFloat m_OutNme2;
   /*!
-   * OutPort2ã®æ¦‚è¦
-   * - Type: OutPort2ã®ãƒ‡ãƒ¼ã‚¿ã®å‹
-   * - Number: OutPort2ã®ãƒ‡ãƒ¼ã‚¿ã®æ•°
-   * - Semantics: OutPort2ã®ãƒ‡ãƒ¼ã‚¿ã®æ„å‘³
-   * - Unit: OutPort2ã®ãƒ‡ãƒ¼ã‚¿ã®å˜ä½
-   * - Frequency: OutPort2ã®ãƒ‡ãƒ¼ã‚¿ã®ç™ºç”Ÿé »åº¦
-   * - Operation Cycle: OutPort2ã®ãƒ‡ãƒ¼ã‚¿ã®å‡¦ç†å‘¨æœŸ
+   * OutPort2‚ÌŠT—v
+   * - Type: OutPort2‚Ìƒf[ƒ^‚ÌŒ^
+   * - Number: OutPort2‚Ìƒf[ƒ^‚Ì”
+   * - Semantics: OutPort2‚Ìƒf[ƒ^‚ÌˆÓ–¡
+   * - Unit: OutPort2‚Ìƒf[ƒ^‚Ì’PˆÊ
+   * - Frequency: OutPort2‚Ìƒf[ƒ^‚Ì”­¶•p“x
+   * - Operation Cycle: OutPort2‚Ìƒf[ƒ^‚Ìˆ—üŠú
    */
   OutPort<TimedFloat> m_OutNme2Out;
   
@@ -376,13 +376,13 @@ class foo
   // CORBA Port declaration
   // <rtc-template block="corbaport_declare">
   /*!
-   * ServicePort1ã®æ¦‚è¦
-   * Interface: ServicePort1ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã®æ¦‚è¦
+   * ServicePort1‚ÌŠT—v
+   * Interface: ServicePort1‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌŠT—v
    */
   RTC::CorbaPort m_svPortPort;
   /*!
-   * ServicePort2ã®æ¦‚è¦
-   * Interface: ServicePort2ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã®æ¦‚è¦
+   * ServicePort2‚ÌŠT—v
+   * Interface: ServicePort2‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌŠT—v
    */
   RTC::CorbaPort m_cmPortPort;
   
@@ -391,12 +391,12 @@ class foo
   // Service declaration
   // <rtc-template block="service_declare">
   /*!
-   * ServiceIF1ã®æ¦‚è¦èª¬æ˜
-   * - Argument:      ServiceIF1ã®å¼•æ•°
-   * - Return Value:  ServiceIF1ã®è¿”å€¤
-   * - Exception:     ServiceIF1ã®ä¾‹å¤–
-   * - PreCondition:  ServiceIF1ã®äº‹å‰æ¡ä»¶
-   * - PostCondition: ServiceIF1ã®äº‹å¾Œæ¡ä»¶
+   * ServiceIF1‚ÌŠT—và–¾
+   * - Argument:      ServiceIF1‚Ìˆø”
+   * - Return Value:  ServiceIF1‚Ì•Ô’l
+   * - Exception:     ServiceIF1‚Ì—áŠO
+   * - PreCondition:  ServiceIF1‚Ì–‘OğŒ
+   * - PostCondition: ServiceIF1‚Ì–ŒãğŒ
    */
   MyServiceSVC_impl m_acc;
   
@@ -405,12 +405,12 @@ class foo
   // Consumer declaration
   // <rtc-template block="consumer_declare">
   /*!
-   * ServiceIF2ã®æ¦‚è¦èª¬æ˜
-   * - Argument:      ServiceIF2ã®å¼•æ•°
-   * - Return Value:  ServiceIF2ã®è¿”å€¤
-   * - Exception:     ServiceIF2ã®ä¾‹å¤–
-   * - PreCondition:  ServiceIF2ã®äº‹å‰æ¡ä»¶
-   * - PostCondition: ServiceIF2ã®äº‹å¾Œæ¡ä»¶
+   * ServiceIF2‚ÌŠT—và–¾
+   * - Argument:      ServiceIF2‚Ìˆø”
+   * - Return Value:  ServiceIF2‚Ì•Ô’l
+   * - Exception:     ServiceIF2‚Ì—áŠO
+   * - PreCondition:  ServiceIF2‚Ì–‘OğŒ
+   * - PostCondition: ServiceIF2‚Ì–ŒãğŒ
    */
   RTC::CorbaConsumer<DAQService> m_rate;
   

@@ -8,44 +8,44 @@ import jp.go.aist.rtm.toolscommon.model.component.Component;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒ©ãƒƒãƒ‘ã‚¯ãƒ©ã‚¹
+ * ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒ‰ƒbƒpƒNƒ‰ƒX
  */
 public class ComponentWrapper {
 	private EObject component;
 
 	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	 * 
 	 * @param component
-	 *            ãƒ‰ãƒ¡ã‚¤ãƒ³ãƒ¢ãƒ‡ãƒ«
+	 *            ƒhƒƒCƒ“ƒ‚ƒfƒ‹
 	 */
 	public ComponentWrapper(EObject component) {
 		this.component = component;
 	}
 
 	/**
-	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å–å¾—ã™ã‚‹
+	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğæ“¾‚·‚é
 	 * 
-	 * @return ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
+	 * @return ƒRƒ“ƒ|[ƒlƒ“ƒg
 	 */
 	public EObject getComponent() {
 		return component;
 	}
 
 	/**
-	 * ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’è¨­å®šã™ã‚‹
+	 * ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğİ’è‚·‚é
 	 * 
 	 * @param component
-	 *            ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
+	 *            ƒRƒ“ƒ|[ƒlƒ“ƒg
 	 */
 	public void setComponent(EObject component) {
 		this.component = component;
 	}
 
 	/**
-	 * containment=falseã®è¦ç´ ã‚’å–å¾—ã™ã‚‹ (eAllContents()ã§ãŸã©ã‚Œãªã„ãŸã‚)
+	 * containment=false‚Ì—v‘f‚ğæ“¾‚·‚é (eAllContents()‚Å‚½‚Ç‚ê‚È‚¢‚½‚ß)
 	 * 
-	 * @return containment=falseã®è¦ç´ ãƒªã‚¹ãƒˆ
+	 * @return containment=false‚Ì—v‘fƒŠƒXƒg
 	 */
 	public List<EObject> getSubContents() {
 		List<EObject> result = new ArrayList<EObject>();

@@ -9,33 +9,60 @@ import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
+import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython;
 import jp.go.aist.rtm.rtcbuilder.python._test.TestBase;
-import jp.go.aist.rtm.rtcbuilder.python.manager.PythonCMakeGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.python.manager.PythonGenerateManager;
 
 public class ConfigSetTest extends TestBase {
 
-	Generator generator;
-	GeneratorParam genParam;
-	RtcParam rtcParam;
-
 	protected void setUp() throws Exception {
-		genParam = new GeneratorParam();
-		rtcParam = new RtcParam(genParam, true);
-		rtcParam.setOutputProject(rootPath + "/resource/work");
+	}
+
+	public void testConfigSet() throws Exception{
+		GeneratorParam genParam = new GeneratorParam();
+		RtcParam rtcParam = new RtcParam(genParam, true);
+		rtcParam.setOutputProject(rootPath + "\\resource\\work");
 		rtcParam.setLanguage(IRtcBuilderConstantsPython.LANG_PYTHON);
 		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
+		rtcParam.setName("foo");
+		rtcParam.setDescription("MDesc");
+		rtcParam.setVersion("1.0.3");
+		rtcParam.setVender("TA2");
+		rtcParam.setCategory("manip2");
+		rtcParam.setComponentType("STATIC2");
+		rtcParam.setActivityType("PERIODIC2");
+		rtcParam.setMaxInstance(3);
+		rtcParam.setComponentKind("DataFlowComponent");
 		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
-		rtcParam.setIsTest(true);
+
 		genParam.getRtcParams().add(rtcParam);
+		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
+		configset.add(new ConfigSetParam("int_param0","int","","0"));
+		rtcParam.getConfigParams().addAll(configset);
 
-		generator = new Generator();
-		generator.addGenerateManager(new PythonGenerateManager());
-		generator.addGenerateManager(new PythonCMakeGenerateManager());
+		Generator generator = new Generator();
+		GenerateManager manager = new PythonGenerateManager();
+		generator.addGenerateManager(manager);
+		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
+
+		String resourceDir = rootPath +  "\\resource\\Python\\100\\ConfigSet\\configset1\\";
+
+		assertEquals(2, result.size());
+		checkCode(result, resourceDir, "foo.py");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
-	public void testConfigSet() throws Exception {
+	public void testConfigSet2() throws Exception{
+		GeneratorParam genParam = new GeneratorParam();
+		RtcParam rtcParam = new RtcParam(genParam, true);
+		rtcParam.setOutputProject(rootPath + "\\resource\\work");
+		rtcParam.setLanguage(IRtcBuilderConstantsPython.LANG_PYTHON);
+		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
 		rtcParam.setName("foo");
 		rtcParam.setDescription("MDesc");
 		rtcParam.setVersion("1.0.3");
@@ -45,20 +72,36 @@ public class ConfigSetTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(3);
 		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
 
-		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>();
-		configset.add(new ConfigSetParam("int_param0", "int", "", "0"));
+		genParam.getRtcParams().add(rtcParam);
+		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
+		configset.add(new ConfigSetParam("int_param0","int","","0"));
+		configset.add(new ConfigSetParam("int_param1","int","","1"));
 		rtcParam.getConfigParams().addAll(configset);
 
+		Generator generator = new Generator();
+		GenerateManager manager = new PythonGenerateManager();
+		generator.addGenerateManager(manager);
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath + "/resource/100/ConfigSet/configset1/";
+		String resourceDir = rootPath +  "\\resource\\Python\\100\\ConfigSet\\configset2\\";
 
-		assertEquals(11, result.size());
+		assertEquals(2, result.size());
 		checkCode(result, resourceDir, "foo.py");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
-	public void testConfigSet2() throws Exception {
+	public void testConfigSet3() throws Exception{
+		GeneratorParam genParam = new GeneratorParam();
+		RtcParam rtcParam = new RtcParam(genParam, true);
+		rtcParam.setOutputProject(rootPath + "\\resource\\work");
+		rtcParam.setLanguage(IRtcBuilderConstantsPython.LANG_PYTHON);
+		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
 		rtcParam.setName("foo");
 		rtcParam.setDescription("MDesc");
 		rtcParam.setVersion("1.0.3");
@@ -68,21 +111,39 @@ public class ConfigSetTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(3);
 		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
 
-		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>();
-		configset.add(new ConfigSetParam("int_param0", "int", "", "0"));
-		configset.add(new ConfigSetParam("int_param1", "int", "", "1"));
+		genParam.getRtcParams().add(rtcParam);
+		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
+		configset.add(new ConfigSetParam("int_param0","int","","0"));
+		configset.add(new ConfigSetParam("int_param1","int","","1"));
+		configset.add(new ConfigSetParam("double_param0","double","","0.11"));
+		configset.add(new ConfigSetParam("str_param0","String","","hoge"));
+		configset.add(new ConfigSetParam("str_param1","String","","dara"));
 		rtcParam.getConfigParams().addAll(configset);
 
+		Generator generator = new Generator();
+		GenerateManager manager = new PythonGenerateManager();
+		generator.addGenerateManager(manager);
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath + "/resource/100/ConfigSet/configset2/";
+		String resourceDir = rootPath +  "\\resource\\Python\\100\\ConfigSet\\configset3\\";
 
-		assertEquals(11, result.size());
+		assertEquals(2, result.size());
 		checkCode(result, resourceDir, "foo.py");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 
-	public void testConfigSet3() throws Exception {
+	public void testConfigSet4() throws Exception{
+		GeneratorParam genParam = new GeneratorParam();
+		RtcParam rtcParam = new RtcParam(genParam, true);
+		rtcParam.setOutputProject(rootPath + "\\resource\\work");
+		rtcParam.setLanguage(IRtcBuilderConstantsPython.LANG_PYTHON);
+		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
 		rtcParam.setName("foo");
 		rtcParam.setDescription("MDesc");
 		rtcParam.setVersion("1.0.3");
@@ -92,55 +153,40 @@ public class ConfigSetTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(3);
 		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
 
-		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>();
-		configset.add(new ConfigSetParam("int_param0", "int", "", "0"));
-		configset.add(new ConfigSetParam("int_param1", "int", "", "1"));
-		configset
-				.add(new ConfigSetParam("double_param0", "double", "", "0.11"));
-		configset.add(new ConfigSetParam("str_param0", "String", "", "hoge"));
-		configset.add(new ConfigSetParam("str_param1", "String", "", "dara"));
+		genParam.getRtcParams().add(rtcParam);
+		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
+		configset.add(new ConfigSetParam("int_param0","int","","0"));
+		configset.add(new ConfigSetParam("int_param1","int","","1"));
+		configset.add(new ConfigSetParam("double_param0","double","","0.11"));
+		configset.add(new ConfigSetParam("str_param0","String","","hoge"));
+		configset.add(new ConfigSetParam("str_param1","String","","dara"));
+		configset.add(new ConfigSetParam("vector_param0","double","","0.0,1.0,2.0,3.0"));
 		rtcParam.getConfigParams().addAll(configset);
 
+		Generator generator = new Generator();
+		GenerateManager manager = new PythonGenerateManager();
+		generator.addGenerateManager(manager);
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath + "/resource/100/ConfigSet/configset3/";
+		String resourceDir = rootPath +  "\\resource\\Python\\100\\ConfigSet\\configset4\\";
 
-		assertEquals(11, result.size());
+		assertEquals(2, result.size());
 		checkCode(result, resourceDir, "foo.py");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
-
-	public void testConfigSet4() throws Exception {
-		rtcParam.setName("foo");
-		rtcParam.setDescription("MDesc");
-		rtcParam.setVersion("1.0.3");
-		rtcParam.setVender("TA2");
-		rtcParam.setCategory("manip2");
-		rtcParam.setComponentType("STATIC2");
-		rtcParam.setActivityType("PERIODIC2");
-		rtcParam.setMaxInstance(3);
-		rtcParam.setComponentKind("DataFlowComponent");
-
-		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>();
-		configset.add(new ConfigSetParam("int_param0", "int", "", "0"));
-		configset.add(new ConfigSetParam("int_param1", "int", "", "1"));
-		configset
-				.add(new ConfigSetParam("double_param0", "double", "", "0.11"));
-		configset.add(new ConfigSetParam("str_param0", "String", "", "hoge"));
-		configset.add(new ConfigSetParam("str_param1", "String", "", "dara"));
-		configset.add(new ConfigSetParam("vector_param0", "double", "",
-				"0.0,1.0,2.0,3.0"));
-		rtcParam.getConfigParams().addAll(configset);
-
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
-
-		String resourceDir = rootPath + "/resource/100/ConfigSet/configset4/";
-
-		assertEquals(11, result.size());
-		checkCode(result, resourceDir, "foo.py");
-	}
-
-	public void testConfigSetType() throws Exception {
+	
+	public void testConfigSetType() throws Exception{
+		GeneratorParam genParam = new GeneratorParam();
+		RtcParam rtcParam = new RtcParam(genParam, true);
+		rtcParam.setOutputProject(rootPath + "\\resource\\work");
+		rtcParam.setLanguage(IRtcBuilderConstantsPython.LANG_PYTHON);
+		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
 		rtcParam.setName("foo");
 		rtcParam.setDescription("MDesc");
 		rtcParam.setVersion("1.0.3");
@@ -150,22 +196,30 @@ public class ConfigSetTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(3);
 
-		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>();
-		configset.add(new ConfigSetParam("short_param", "short", "", "0"));
-		configset.add(new ConfigSetParam("int_param", "int", "", "1"));
-		configset.add(new ConfigSetParam("long_param", "long", "", "14"));
-		configset.add(new ConfigSetParam("float_param", "float", "", "0.11"));
-		configset.add(new ConfigSetParam("double_param", "double", "", "4.11"));
-		configset.add(new ConfigSetParam("str_param0", "string", "", "hoge"));
-		configset.add(new ConfigSetParam("str_param1", "string", "", "dara"));
+		genParam.getRtcParams().add(rtcParam);
+		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
+		configset.add(new ConfigSetParam("short_param","short","", "0"));
+		configset.add(new ConfigSetParam("int_param","int","", "1"));
+		configset.add(new ConfigSetParam("long_param","long","", "14"));
+		configset.add(new ConfigSetParam("float_param","float","", "0.11"));
+		configset.add(new ConfigSetParam("double_param","double","", "4.11"));
+		configset.add(new ConfigSetParam("str_param0","string","", "hoge"));
+		configset.add(new ConfigSetParam("str_param1","string","", "dara"));
 		rtcParam.getConfigParams().addAll(configset);
 
+		Generator generator = new Generator();
+		GenerateManager manager = new PythonGenerateManager();
+		generator.addGenerateManager(manager);
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
-		String resourceDir = rootPath
-				+ "/resource/100/ConfigSet/ConfigSetType/";
+		String resourceDir = rootPath +  "\\resource\\Python\\100\\ConfigSet\\ConfigSetType\\";
 
-		assertEquals(11, result.size());
+		assertEquals(2, result.size());
 		checkCode(result, resourceDir, "foo.py");
+		try {
+			checkCode(result, resourceDir, "README.foo");
+			fail();
+		} catch(Exception ex) {
+		}
 	}
 }

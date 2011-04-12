@@ -7,7 +7,7 @@ import jp.go.aist.rtm.rtcbuilder.IRTCBMessageConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 
 /**
- * 繧ｵ繝ｼ繝薙せ縺ｸ縺ｮ蜿ら�ｧ繧定｡ｨ縺吶け繝ｩ繧ｹ
+ * サービスへの参照を表すクラス
  */
 public class ServiceReferenceParam implements Serializable {
 
