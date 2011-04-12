@@ -572,15 +572,19 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		        if (selectedFileName != null) {
 		        	if(extension == null) {
 			        	try {
-				        	if( getFileExtension(selectedFileName).equals(IRtcBuilderConstants.YAML_EXTENSION) ) {
-				        		ProfileHandler handler = new ProfileHandler();
-								editor.setGeneratorParam(handler.readYaml(selectedFileName));
-								String xmlFile = handler.convert2XML(editor.getGeneratorParam());
+							String origProject = editor.getRtcParam()
+									.getOutputProject();
+							ProfileHandler handler = new ProfileHandler();
+							if (getFileExtension(selectedFileName).equals(IRtcBuilderConstants.YAML_EXTENSION)) {
+								GeneratorParam genParam = handler.readYaml(selectedFileName);
+								String xmlFile = handler.convert2XML(genParam);
+								editor.setGeneratorParam(genParam);
 								editor.getRtcParam().setRtcXml(xmlFile);
-				        	} else {
-				        		ProfileHandler handler = new ProfileHandler();
-				        		editor.setGeneratorParam(handler.restorefromXMLFile(selectedFileName));
-				        	}
+							} else {
+								GeneratorParam genParam = handler.restorefromXMLFile(selectedFileName);
+								editor.setGeneratorParam(genParam);
+							}
+							editor.getRtcParam().setOutputProject(origProject);
 						} catch (Exception e1) {
 							MessageDialog.openError(getSite().getShell(), "Error", IMessageConstants.BASIC_IMPORT_ERROR);
 							return;
