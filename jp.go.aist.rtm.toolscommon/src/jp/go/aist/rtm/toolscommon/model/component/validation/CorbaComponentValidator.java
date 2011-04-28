@@ -8,6 +8,7 @@ import RTC.RTObject;
 import _SDOPackage.Configuration;
 import _SDOPackage.ConfigurationSet;
 import _SDOPackage.Organization;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaLogObserver;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaStatusObserver;
 import org.eclipse.emf.common.util.EList;
 
@@ -41,4 +42,6 @@ public interface CorbaComponentValidator {
 	boolean validateIor(String value);
 
 	boolean validateStatusObserver(CorbaStatusObserver value);
+
+	boolean validateLogObserver(CorbaLogObserver value);
 }

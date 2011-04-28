@@ -34,6 +34,9 @@ public class AbstractSystemDiagramContextMenuProvider extends
 		menuManager.add(new Separator("executionContext_before"));
 		menuManager.add(new Separator("executionContext"));
 		menuManager.add(new Separator("executionContext_after"));
+		menuManager.add(new Separator("composite_before"));
+		menuManager.add(new Separator("composite"));
+		menuManager.add(new Separator("composite_after"));
 		menuManager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS
 				+ "_before"));
 		menuManager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));

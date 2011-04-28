@@ -41,6 +41,9 @@ public class ComponentWorkbenchAdapter extends ModelElementWorkbenchAdapter {
 			if (cc.getStatusObserver() != null) {
 				result.add(cc.getStatusObserver());
 			}
+			if (cc.getLogObserver() != null) {
+				result.add(cc.getLogObserver());
+			}
 		}
 		return result.toArray();
 	}

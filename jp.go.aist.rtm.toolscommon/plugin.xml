@@ -82,7 +82,7 @@
      </factory>
      <factory
             class="jp.go.aist.rtm.toolscommon.adapterfactory.WorkbenchAdapterFactory"
-            adaptableType="jp.go.aist.rtm.toolscommon.model.component.CorbaStatusObserver">
+            adaptableType="jp.go.aist.rtm.toolscommon.model.component.CorbaObserver">
                 <adapter type="org.eclipse.ui.model.IWorkbenchAdapter"/>
      </factory>
      <factory

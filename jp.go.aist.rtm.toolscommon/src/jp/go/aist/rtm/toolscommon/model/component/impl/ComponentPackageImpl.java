@@ -22,6 +22,7 @@ import jp.go.aist.rtm.toolscommon.model.component.CorbaConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaConnectorProfile;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaContextHandler;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaLogObserver;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaObserver;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaPortSynchronizer;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaStatusObserver;
@@ -228,6 +229,13 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * @generated
 	 */
 	private EClass corbaStatusObserverEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass corbaLogObserverEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -730,6 +738,15 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 */
 	public EReference getCorbaComponent_StatusObserver() {
 		return (EReference)corbaComponentEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCorbaComponent_LogObserver() {
+		return (EReference)corbaComponentEClass.getEStructuralFeatures().get(10);
 	}
 
 	/**
@@ -1538,6 +1555,15 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getCorbaLogObserver() {
+		return corbaLogObserverEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getComponentSpecification() {
 		return componentSpecificationEClass;
 	}
@@ -1873,6 +1899,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__RTCRT_OBJECTS);
 		createEAttribute(corbaComponentEClass, CORBA_COMPONENT__IOR);
 		createEReference(corbaComponentEClass, CORBA_COMPONENT__STATUS_OBSERVER);
+		createEReference(corbaComponentEClass, CORBA_COMPONENT__LOG_OBSERVER);
 
 		corbaPortSynchronizerEClass = createEClass(CORBA_PORT_SYNCHRONIZER);
 		createEAttribute(corbaPortSynchronizerEClass, CORBA_PORT_SYNCHRONIZER__RTC_PORT_PROFILE);
@@ -1893,6 +1920,8 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		createEAttribute(corbaObserverEClass, CORBA_OBSERVER__SERVANT);
 
 		corbaStatusObserverEClass = createEClass(CORBA_STATUS_OBSERVER);
+
+		corbaLogObserverEClass = createEClass(CORBA_LOG_OBSERVER);
 
 		// Create enums
 		systemDiagramKindEEnum = createEEnum(SYSTEM_DIAGRAM_KIND);
@@ -1975,6 +2004,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		corbaObserverEClass.getESuperTypes().add(this.getIPropertyMap());
 		corbaObserverEClass.getESuperTypes().add(theCorePackage.getIAdaptable());
 		corbaStatusObserverEClass.getESuperTypes().add(this.getCorbaObserver());
+		corbaLogObserverEClass.getESuperTypes().add(this.getCorbaObserver());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(systemDiagramEClass, SystemDiagram.class, "SystemDiagram", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2222,6 +2252,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		initEAttribute(getCorbaComponent_RTCRTObjects(), this.getRTCRTObject(), "rTCRTObjects", "", 0, -1, CorbaComponent.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCorbaComponent_Ior(), ecorePackage.getEString(), "ior", null, 0, 1, CorbaComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCorbaComponent_StatusObserver(), this.getCorbaStatusObserver(), null, "statusObserver", null, 0, 1, CorbaComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCorbaComponent_LogObserver(), this.getCorbaLogObserver(), null, "logObserver", null, 0, 1, CorbaComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(corbaComponentEClass, ecorePackage.getEInt(), "startR", 0, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -2238,6 +2269,8 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		addEOperation(corbaComponentEClass, ecorePackage.getEInt(), "exitR", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		addEOperation(corbaComponentEClass, this.getRTCRTObject(), "getCorbaObjectInterface", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(corbaComponentEClass, ecorePackage.getEBoolean(), "supportedCorbaObserver", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(corbaPortSynchronizerEClass, CorbaPortSynchronizer.class, "CorbaPortSynchronizer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCorbaPortSynchronizer_RTCPortProfile(), this.getRTCPortProfile(), "rTCPortProfile", null, 0, 1, CorbaPortSynchronizer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2290,12 +2323,15 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		op = addEOperation(corbaObserverEClass, ecorePackage.getEBoolean(), "attachComponent", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getCorbaComponent(), "component", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		op = addEOperation(corbaObserverEClass, ecorePackage.getEBoolean(), "detachComponent", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getCorbaComponent(), "component", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEOperation(corbaObserverEClass, ecorePackage.getEBoolean(), "detachComponent", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(corbaObserverEClass, ecorePackage.getEBoolean(), "finish", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(corbaStatusObserverEClass, CorbaStatusObserver.class, "CorbaStatusObserver", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		addEOperation(corbaStatusObserverEClass, ecorePackage.getEBoolean(), "isTimeOut", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(corbaLogObserverEClass, CorbaLogObserver.class, "CorbaLogObserver", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(systemDiagramKindEEnum, SystemDiagramKind.class, "SystemDiagramKind");

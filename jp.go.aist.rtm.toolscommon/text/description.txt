@@ -244,6 +244,7 @@ Package component <http:///jp/go/aist/rtm/toolscommon/model/component.ecore>
     Attribute rTCRTObjects : RTCRTObject<<0..*>>
     Attribute ior : EString
     Reference statusObserver : CorbaStatusObserver
+    Reference logObserver : CorbaLogObserver
     Operation startR() : EInt
     Operation stopR() : EInt
     Operation activateR() : EInt
@@ -252,6 +253,7 @@ Package component <http:///jp/go/aist/rtm/toolscommon/model/component.ecore>
     Operation finalizeR() : EInt
     Operation exitR() : EInt
     Operation getCorbaObjectInterface() : RTCRTObject
+    Operation supportedCorbaObserver() : EBoolean
 
   Class CorbaPortSynchronizer -> CorbaWrapperObject, PortSynchronizer
     Attribute rTCPortProfile : RTCPortProfile
@@ -282,10 +284,13 @@ Package component <http:///jp/go/aist/rtm/toolscommon/model/component.ecore>
     Operation activate() : void
     Operation deactivate() : void
     Operation attachComponent(CorbaComponent) : EBoolean
-    Operation detachComponent(CorbaComponent) : EBoolean
+    Operation detachComponent() : EBoolean
+    Operation finish() : EBoolean
 
   Class CorbaStatusObserver -> CorbaObserver
     Operation isTimeOut() : EBoolean
+
+  Class CorbaLogObserver -> CorbaObserver
 
   Enum SystemDiagramKind
     Literal ONLINE = 1

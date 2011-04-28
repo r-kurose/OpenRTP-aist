@@ -19,6 +19,7 @@ import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.ContextHandler;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaLogObserver;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaPortSynchronizer;
@@ -28,6 +29,7 @@ import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.component.util.CorbaObjectStore;
+import jp.go.aist.rtm.toolscommon.model.component.util.CorbaObserverStore;
 import jp.go.aist.rtm.toolscommon.model.component.util.CorbaPropertyMap;
 import jp.go.aist.rtm.toolscommon.model.component.util.IPropertyMapUtil;
 import jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject;
@@ -47,7 +49,6 @@ import jp.go.aist.rtm.toolscommon.util.SDOUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EDataTypeEList;
@@ -85,6 +86,7 @@ import static jp.go.aist.rtm.toolscommon.util.RTMixin.*;
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl#getRTCRTObjects <em>RTCRT Objects</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl#getIor <em>Ior</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl#getStatusObserver <em>Status Observer</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl#getLogObserver <em>Log Observer</em>}</li>
  * </ul>
  * </p>
  *
@@ -270,6 +272,16 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	 * @ordered
 	 */
 	protected CorbaStatusObserver statusObserver;
+
+	/**
+	 * The cached value of the '{@link #getLogObserver() <em>Log Observer</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLogObserver()
+	 * @generated
+	 * @ordered
+	 */
+	protected CorbaLogObserver logObserver;
 
 	protected IPropertyMapUtil properties;
 
@@ -509,19 +521,12 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public CorbaStatusObserver getStatusObserver() {
-		if (statusObserver != null && statusObserver.eIsProxy()) {
-			InternalEObject oldStatusObserver = (InternalEObject)statusObserver;
-			statusObserver = (CorbaStatusObserver)eResolveProxy(oldStatusObserver);
-			if (statusObserver != oldStatusObserver) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ComponentPackage.CORBA_COMPONENT__STATUS_OBSERVER, oldStatusObserver, statusObserver));
-			}
-		}
-		return statusObserver;
+		return CorbaObserverStore.eINSTANCE
+				.findStatusObserver(getCorbaObjectInterface());
 	}
 
 	/**
@@ -536,14 +541,51 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public void setStatusObserver(CorbaStatusObserver newStatusObserver) {
+		CorbaObserverStore.eINSTANCE.registStatusObserver(
+				getCorbaObjectInterface(), newStatusObserver);
+		//
 		CorbaStatusObserver oldStatusObserver = statusObserver;
 		statusObserver = newStatusObserver;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.CORBA_COMPONENT__STATUS_OBSERVER, oldStatusObserver, statusObserver));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public CorbaLogObserver getLogObserver() {
+		return CorbaObserverStore.eINSTANCE
+				.findLogObserver(getCorbaObjectInterface());
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CorbaLogObserver basicGetLogObserver() {
+		return logObserver;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void setLogObserver(CorbaLogObserver newLogObserver) {
+		CorbaObserverStore.eINSTANCE.registLogObserver(
+				getCorbaObjectInterface(), newLogObserver);
+		//
+		CorbaLogObserver oldLogObserver = logObserver;
+		logObserver = newLogObserver;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.CORBA_COMPONENT__LOG_OBSERVER, oldLogObserver, logObserver));
 	}
 
 	@Override
@@ -726,6 +768,9 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 			case ComponentPackage.CORBA_COMPONENT__STATUS_OBSERVER:
 				if (resolve) return getStatusObserver();
 				return basicGetStatusObserver();
+			case ComponentPackage.CORBA_COMPONENT__LOG_OBSERVER:
+				if (resolve) return getLogObserver();
+				return basicGetLogObserver();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -775,6 +820,9 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 			case ComponentPackage.CORBA_COMPONENT__STATUS_OBSERVER:
 				setStatusObserver((CorbaStatusObserver)newValue);
 				return;
+			case ComponentPackage.CORBA_COMPONENT__LOG_OBSERVER:
+				setLogObserver((CorbaLogObserver)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -820,6 +868,9 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 			case ComponentPackage.CORBA_COMPONENT__STATUS_OBSERVER:
 				setStatusObserver((CorbaStatusObserver)null);
 				return;
+			case ComponentPackage.CORBA_COMPONENT__LOG_OBSERVER:
+				setLogObserver((CorbaLogObserver)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -854,6 +905,8 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 				return IOR_EDEFAULT == null ? ior != null : !IOR_EDEFAULT.equals(ior);
 			case ComponentPackage.CORBA_COMPONENT__STATUS_OBSERVER:
 				return statusObserver != null;
+			case ComponentPackage.CORBA_COMPONENT__LOG_OBSERVER:
+				return logObserver != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -1421,9 +1474,9 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 						if (oec != null) {
 							for (RTC.ExecutionContext ec : oec) {
 								// ec profile
-								cc.synchronizeRemote_EC_ECProfile(ec);
+								synchronizeRemote_EC_ECProfile(ec);
 								// ec state
-								cc.synchronizeRemote_EC_ECState(ec);
+								synchronizeRemote_EC_ECState(ec);
 								// component state
 								cc.synchronizeRemote_EC_ComponentState(ec);
 							}
@@ -1473,6 +1526,10 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	/** RTC.ComponentProfileの同期 (CORBA=>オブジェクトDB) */
 	public void synchronizeRemote_RTCComponentProfile() {
 		RTC.RTObject ro = getCorbaObjectInterface();
+		synchronizeRemote_RTCComponentProfile(ro);
+	}
+
+	public static void synchronizeRemote_RTCComponentProfile(RTC.RTObject ro) {
 		try {
 			RTC.ComponentProfile prof = ro.get_component_profile();
 			CorbaObjectStore.eINSTANCE.registRTCProfile(ro, prof);
@@ -1484,6 +1541,11 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	/** RTC.PortProfileの同期 (CORBA=>オブジェクトDB) */
 	public void synchronizeRemote_RTCPortProfile(String name) {
 		RTC.RTObject ro = getCorbaObjectInterface();
+		synchronizeRemote_RTCPortProfile(ro, name);
+	}
+
+	public static void synchronizeRemote_RTCPortProfile(RTC.RTObject ro,
+			String name) {
 		RTC.PortProfile prof = CorbaObjectStore.eINSTANCE.findRTCPortProfile(
 				ro, name);
 		if (prof != null) {
@@ -1510,6 +1572,10 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	/** RTC.ExecutionContextの同期 (CORBA=>オブジェクトDB) */
 	public void synchronizeRemote_RTCExecutionContexts() {
 		RTC.RTObject ro = getCorbaObjectInterface();
+		synchronizeRemote_RTCExecutionContexts(ro);
+	}
+
+	public static void synchronizeRemote_RTCExecutionContexts(RTC.RTObject ro) {
 		boolean update = false;
 		try {
 			// owned context
@@ -1551,8 +1617,13 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 
 	/** RTC.ExecutionContextの同期(comp_state) (CORBA=>オブジェクトDB) */
 	public void synchronizeRemote_EC_ComponentState(RTC.ExecutionContext ec) {
+		RTC.RTObject ro = getCorbaObjectInterface();
+		synchronizeRemote_EC_ComponentState(ro, ec);
+	}
+
+	public static void synchronizeRemote_EC_ComponentState(RTC.RTObject ro,
+			RTC.ExecutionContext ec) {
 		try {
-			RTC.RTObject ro = getCorbaObjectInterface();
 			RTC.LifeCycleState state = ec.get_component_state(ro);
 			int stateValue = RTC_STATUS(state);
 			CorbaObjectStore.eINSTANCE.registComponentState(ec, ro, stateValue);
@@ -1562,7 +1633,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	}
 
 	/** RTC.ExecutionContextの同期(ec_state) (CORBA=>オブジェクトDB) */
-	public void synchronizeRemote_EC_ECState(RTC.ExecutionContext ec) {
+	public static void synchronizeRemote_EC_ECState(RTC.ExecutionContext ec) {
 		try {
 			int ecStateValue = ExecutionContext.STATE_UNKNOWN;
 			if (ec.is_running()) {
@@ -1577,7 +1648,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	}
 
 	/** RTC.ExecutionContextの同期(ec_profile) (CORBA=>オブジェクトDB) */
-	public void synchronizeRemote_EC_ECProfile(RTC.ExecutionContext ec) {
+	public static void synchronizeRemote_EC_ECProfile(RTC.ExecutionContext ec) {
 		try {
 			RTC.ExecutionContextProfile prof;
 			if (ec._is_a(RTC.ExecutionContextServiceHelper.id())) {
@@ -1647,8 +1718,12 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	/** SDO.ConfigurationSetの同期 (CORBA=>オブジェクトDB) */
 	public void synchronizeRemote_ConfigurationSets() {
 		RTC.RTObject ro = getCorbaObjectInterface();
-		_SDOPackage.Configuration conf = getSDOConfiguration();
+		synchronizeRemote_ConfigurationSets(ro);
+	}
+
+	public static void synchronizeRemote_ConfigurationSets(RTC.RTObject ro) {
 		try {
+			_SDOPackage.Configuration conf = ro.get_configuration();
 			_SDOPackage.ConfigurationSet[] cs = conf.get_configuration_sets();
 			CorbaObjectStore.eINSTANCE.registConfigSet(ro, cs);
 		} catch (Exception e) {
@@ -1695,8 +1770,12 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	/** SDO.ConfigurationSet(active)の同期 (CORBA=>オブジェクトDB) */
 	public void synchronizeRemote_ActiveConfigurationSet() {
 		RTC.RTObject ro = getCorbaObjectInterface();
-		_SDOPackage.Configuration conf = getSDOConfiguration();
+		synchronizeRemote_ActiveConfigurationSet(ro);
+	}
+
+	public static void synchronizeRemote_ActiveConfigurationSet(RTC.RTObject ro) {
 		try {
+			_SDOPackage.Configuration conf = ro.get_configuration();
 			_SDOPackage.ConfigurationSet cs = conf
 					.get_active_configuration_set();
 			CorbaObjectStore.eINSTANCE.registActiveConfigSet(ro, cs);
@@ -1711,6 +1790,10 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		boolean update = false;
 		_SDOPackage.ConfigurationSet cs = CorbaObjectStore.eINSTANCE
 				.findActiveConfigSet(ro);
+		if (cs == null) {
+			setActiveConfigurationSet(null);
+			return;
+		}
 		if (!(getActiveConfigurationSet() instanceof CorbaConfigurationSet)) {
 			update = true;
 		} else {
@@ -1737,14 +1820,18 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	/** RTC.RTObjectメンバの同期 (CORBA=>オブジェクトDB) */
 	public void synchronizeRemote_RTCRTObjects() {
 		RTC.RTObject ro = getCorbaObjectInterface();
-		Organization org = getSDOOrganization();
-		if (org == null) {
-			return;
-		}
+		synchronizeRemote_RTCRTObjects(ro);
+	}
+
+	public static void synchronizeRemote_RTCRTObjects(RTC.RTObject ro) {
 		List<RTC.RTObject> list = CorbaObjectStore.eINSTANCE
 				.getCompositeMemberList(ro);
 		try {
-			_SDOPackage.SDO[] sdo_list = org.get_members();
+			Organization[] orgs = ro.get_owned_organizations();
+			if (orgs.length == 0) {
+				return;
+			}
+			_SDOPackage.SDO[] sdo_list = orgs[0].get_members();
 			if (sdo_list == null) {
 				return;
 			}
@@ -1976,8 +2063,10 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	}
 
 	static _SDOPackage.ServiceProfile dummyServiceProfile;
+	Boolean supportCorbaObserver = null;
 
-	boolean supportedCorbaObserver() {
+	@Override
+	public boolean supportedCorbaObserver() {
 		// OpenRTM-aistバージョンチェック
 		if (dummyServiceProfile == null) {
 			dummyServiceProfile = new _SDOPackage.ServiceProfile();
@@ -1985,14 +2074,17 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 			dummyServiceProfile.interface_type = "";
 			dummyServiceProfile.properties = new _SDOPackage.NameValue[0];
 		}
-		boolean result = true;
-		try {
-			result = !getSDOConfiguration().add_service_profile(
-					dummyServiceProfile);
-		} catch (Exception e) {
-			result = false;
+		if (supportCorbaObserver == null) {
+			boolean result = true;
+			try {
+				result = !getSDOConfiguration().add_service_profile(
+						dummyServiceProfile);
+			} catch (Exception e) {
+				result = false;
+			}
+			supportCorbaObserver = Boolean.valueOf(result);
 		}
-		return result;
+		return supportCorbaObserver.booleanValue();
 	}
 
 	@Override
