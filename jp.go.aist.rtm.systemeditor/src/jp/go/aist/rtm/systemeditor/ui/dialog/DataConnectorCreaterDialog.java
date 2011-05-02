@@ -680,7 +680,7 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 			connectorProfile.setOutportBufferEmptyPolicy(value);
 			//
 			if (connectorProfile.getOutportBufferLength() == null) {
-				connectorProfile.setOutportBufferLength(0);
+				connectorProfile.setOutportBufferLength(8);
 			}
 			value = connectorProfile.getOutportBufferLength().toString();
 			ob.lengthText.setText(value);
@@ -709,7 +709,7 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 			connectorProfile.setInportBufferEmptyPolicy(value);
 			//
 			if (connectorProfile.getInportBufferLength() == null) {
-				connectorProfile.setInportBufferLength(0);
+				connectorProfile.setInportBufferLength(8);
 			}
 			value = connectorProfile.getInportBufferLength().toString();
 			ib.lengthText.setText(value);
