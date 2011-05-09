@@ -5,6 +5,21 @@ package jp.go.aist.rtm.systemeditor.ui.util;
  */
 public class RTMixin {
 
+	public static String form(String fm, String... args) {
+		String result = fm;
+		for (int i = 0; i < args.length; i++) {
+			String p = "{" + i + "}";
+			int j = result.indexOf(p);
+			if (j == -1) {
+				continue;
+			}
+			String head = result.substring(0, j);
+			String tail = result.substring(j + p.length());
+			result = head + args[i] + tail;
+		}
+		return result;
+	}
+
 	public static boolean isBlank(String s) {
 		return (s == null || s.isEmpty());
 	}
