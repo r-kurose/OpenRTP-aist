@@ -270,7 +270,7 @@ public interface SystemDiagram extends ModelElement, IPropertyMap {
 	/**
 	 * @param ｃomponents	追加するコンポーネント
 	 */
-	void addComponents(List<Component> ｃomponents);
+	void addComponents(List<Component> components);
 
 	/**
 	 * 子コンポーネントをクリアする
