@@ -310,9 +310,9 @@ public class CorbaExecutionContextImpl extends ExecutionContextImpl implements C
 	public String getComponentStateName(Component comp) {
 		int state = getComponentState(comp);
 		if (state == RTC.LifeCycleState.ACTIVE_STATE.value()) {
-			return "ACTIVATE";
+			return "ACTIVE";
 		} else if (state == RTC.LifeCycleState.INACTIVE_STATE.value()) {
-			return "INACTIVATE";
+			return "INACTIVE";
 		} else if (state == RTC.LifeCycleState.ERROR_STATE.value()) {
 			return "ERROR";
 		}
