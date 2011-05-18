@@ -16,12 +16,9 @@
 	<property name="idl.path" value="idl" />
 	<property name="idl.SDOPackage" value="${idl.path}/SDOPackage11.idl" />
 	<property name="idl.RTC" value="${idl.path}/RTC10.idl" />
-	<property name="idl.OpenRTM" value="${idl.path}/OpenRTM.idl" />
-	<property name="idl.BasicDataType" value="${idl.path}/BasicDataType.idl" />
-	<property name="idl.DataPort" value="${idl.path}/DataPort.idl" />
 	<property name="idl.Manager" value="${idl.path}/Manager.idl" />
-
-	
+	<property name="idl.ComponentObserver" value="${idl.path}/ComponentObserver.idl" />
+	<property name="idl.Logger" value="${idl.path}/Logger.idl" />
 	
 	<taskdef resource="net/sf/ant4eclipse/antlib.xml" />
 	<property name="targetPlatformLocation" value="${eclipse.home}" />
@@ -46,6 +43,12 @@
 		</exec>
 		<exec executable="${java.home}\..\bin\idlj">
 			<arg line="-fall -td ${source} -i ${idl.path} -emitAll ${idl.Manager}"/>
+		</exec>
+		<exec executable="${java.home}\..\bin\idlj">
+			<arg line="-fall -td ${source} -i ${idl.path} -emitAll ${idl.ComponentObserver}"/>
+		</exec>
+		<exec executable="${java.home}\..\bin\idlj">
+			<arg line="-fall -td ${source} -i ${idl.path} -emitAll ${idl.Logger}"/>
 		</exec>
 	</target>
 
