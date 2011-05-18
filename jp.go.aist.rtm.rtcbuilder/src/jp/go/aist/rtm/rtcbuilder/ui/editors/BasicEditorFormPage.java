@@ -372,6 +372,8 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					//
 					saveRtcProfile(project);
 					switchPerspective();
+	        		editor.getRtcParam().resetUpdated();
+	        		editor.updateDirty();
 				}
 			}
 
@@ -593,7 +595,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					editor.setEnabledInfoByLang();
 					load();
 					//
-					editor.getRtcParam().resetUpdated();
+//					editor.getRtcParam().resetUpdated();
 					editor.updateDirty();
 		        }
 			}

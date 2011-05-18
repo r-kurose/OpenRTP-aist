@@ -47,6 +47,8 @@ public class CMakeGenerateManager extends GenerateManager {
 	@Override
 	public List<GeneratedResult> generateTemplateCode(RtcParam rtcParam) {
 		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
+		if (rtcParam.enableOldBuildEnv()) return result;
+		
 		if (!validateRtcParam(rtcParam)) {
 			return result;
 		}
