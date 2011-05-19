@@ -3,7 +3,6 @@ package jp.go.aist.rtm.toolscommon.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 
 import jp.go.aist.rtm.toolscommon.model.component.InPort;
@@ -72,7 +71,13 @@ public class ConnectorUtil {
 	 * @return
 	 */
 	public static List<String> getAllowDataTypes(OutPort source, InPort target) {
-		return getAllowList(source.getDataTypes(), target.getDataTypes());
+		List<String> sourceTypes = source.getDataTypes();
+		List<String> targetTypes = target.getDataTypes();
+		//
+		List<String> result = getAllowList(sourceTypes, targetTypes,
+				dataTypeComparer);
+		result = sortTypes(result);
+		return result;
 	}
 
 	/**
@@ -84,8 +89,13 @@ public class ConnectorUtil {
 	 */
 	public static List<String> getAllowInterfaceTypes(OutPort source,
 			InPort target) {
-		return getAllowList(source.getInterfaceTypes(), target
-				.getInterfaceTypes());
+		List<String> sourceTypes = source.getInterfaceTypes();
+		List<String> targetTypes = target.getInterfaceTypes();
+		//
+		List<String> result = getAllowList(sourceTypes, targetTypes,
+				ignoreCaseComparer);
+		result = sortTypes(result);
+		return result;
 	}
 
 	/**
@@ -97,8 +107,12 @@ public class ConnectorUtil {
 	 */
 	public static List<String> getAllowDataflowTypes(OutPort source,
 			InPort target) {
-		return getAllowList(source.getDataflowTypes(), target
-				.getDataflowTypes(), false);
+		List<String> sourceTypes = source.getDataflowTypes();
+		List<String> targetTypes = target.getDataflowTypes();
+		//
+		List<String> result = getAllowList(sourceTypes, targetTypes,
+				ignoreCaseComparer);
+		return result;
 	}
 
 	/**
@@ -110,14 +124,14 @@ public class ConnectorUtil {
 	 */
 	public static List<String> getAllowSubscriptionTypes(OutPort source,
 			InPort target) {
-		return getAllowList(source.getSubscriptionTypes(), target
-				.getSubscriptionTypes());
+		List<String> sourceTypes = source.getSubscriptionTypes();
+		List<String> targetTypes = target.getSubscriptionTypes();
+		//
+		List<String> result = getAllowList(sourceTypes, targetTypes,
+				ignoreCaseComparer);
+		return result;
 	}
 
-	private static List<String> getAllowList(List<String> one, List<String> two) {
-		return getAllowList(one, two, true);
-	}
-	
 	/**
 	 * 2つの文字列のリストを受け取り、両方に存在する文字列だけのリストを作成する。 「Any」が含まれる場合には、相手先すべての文字列を許す。
 	 * 返り値のリストに「Any」自体は含まれないことに注意すること。
@@ -128,58 +142,124 @@ public class ConnectorUtil {
 	 * 
 	 * @param one
 	 * @param two
+	 * @param comparer
 	 * @return
 	 */
-	private static List<String> getAllowList(List<String> one, List<String> two, boolean sorting) {
+	public static List<String> getAllowList(List<String> one, List<String> two,
+			TypeComparer comparer) {
 		boolean isAllowAny_One = PortImpl.isExistAny(one);
 		boolean isAllowAny_Two = PortImpl.isExistAny(two);
 
 		List<String> result = new ArrayList<String>();
-		for (String elem1 : one) {
-			if (PortImpl.isAnyString(elem1) == false) {
-				boolean isEqualsIgnoreCase = false;
-				for (String elem2 : two) {
-					if (isAllowAny_Two || elem1.equalsIgnoreCase(elem2)) {
-						isEqualsIgnoreCase = true;
+		for (String type1 : one) {
+			if (PortImpl.isAnyString(type1)) {
+				continue;
+			}
+			if (isAllowAny_Two) {
+				result.add(type1);
+			} else {
+				String match = null;
+				for (String type2 : two) {
+					match = comparer.match(type1, type2);
+					if (match != null) {
 						break;
 					}
 				}
-
-				if (isEqualsIgnoreCase) {
-					result.add(elem1);
+				if (match != null) {
+					result.add(match);
 				}
 			}
 		}
 		if (isAllowAny_One) {
-			for (String elem1 : two) {
-				if (PortImpl.isAnyString(elem1) == false) {
-					boolean isEqualsIgnoreCase = false;
-					for (String elem2 : result) {
-						if (elem1.equalsIgnoreCase(elem2)) {
-							isEqualsIgnoreCase = true;
-							break;
-						}
+			for (String type1 : two) {
+				if (PortImpl.isAnyString(type1)) {
+					continue;
+				}
+				String match = null;
+				for (String type2 : result) {
+					match = comparer.match(type1, type2);
+					if (match != null) {
+						break;
 					}
-
-					if (isEqualsIgnoreCase == false) {
-						result.add(elem1);
-					}
+				}
+				if (match == null) {
+					result.add(type1);
 				}
 			}
 		}
-		for (Iterator<String> iter = result.iterator(); iter.hasNext();) {
-			String elem = iter.next();
-			if (PortImpl.isAnyString(elem)) {
-				iter.remove();
+		for (String type : new ArrayList<String>(result)) {
+			if (PortImpl.isAnyString(type)) {
+				result.remove(type);
 			}
 		}
-
-		if(sorting) {
-			// リストを文字列順でソート
-			result = sortTypes(result);
-		}
-
 		return result;
+	}
+
+	/** 型比較インターフェース */
+	public static interface TypeComparer {
+		String match(String type1, String type2);
+	}
+
+	/** デフォルト型比較(IgnoreCase) */
+	static TypeComparer ignoreCaseComparer = new TypeComparer() {
+		@Override
+		public String match(String type1, String type2) {
+			if (type1 != null && type1.equalsIgnoreCase(type2)) {
+				return type1;
+			}
+			return null;
+		}
+	};
+
+	/** データ型比較 */
+	static TypeComparer dataTypeComparer = new TypeComparer() {
+		@Override
+		public String match(String type1, String type2) {
+			boolean isIFR1 = isIFR(type1);
+			boolean isIFR2 = isIFR(type2);
+			// IFR形式同士(1.1)、単純形式同士(1.0)の場合はデフォルト型比較
+			if (isIFR1 == isIFR2) {
+				return ignoreCaseComparer.match(type1, type2);
+			}
+			// 1.1/1.0混在時は後方一致によるあいまい比較
+			String ifrType = null;
+			String oldType = null;
+			if (isIFR1) {
+				ifrType = type1;
+				oldType = type2;
+			} else if (isIFR2) {
+				ifrType = type2;
+				oldType = type1;
+			}
+			if (ifrType == null) {
+				return null;
+			}
+			String ifr[] = ifrType.split(":");
+			String ifrSeg[] = ifr[1].split("/");
+			String oldSeg[] = oldType.split("::");
+			if (oldSeg.length > ifrSeg.length) {
+				return null;
+			}
+			for (int i = 1; i <= oldSeg.length; i++) {
+				String s1 = oldSeg[oldSeg.length - i];
+				String s2 = ifrSeg[ifrSeg.length - i];
+				if (!s1.equalsIgnoreCase(s2)) {
+					return null;
+				}
+			}
+			// 1.1/1.0混在時のConnectorProfileにはIFR形式を使用
+			// return oldType;
+			return ifrType;
+		}
+	};
+
+	/** IFR形式の場合はtrue (ex. IDL:RTC/TimedLong:1.0) */
+	static boolean isIFR(String type) {
+		String ifr[] = (type == null ? "" : type).split(":");
+		if (ifr.length == 3 && ifr[0].equals("IDL")) {
+			return true;
+		}
+		return false;
 	}
 
 	public static List<String> sortTypes(List<String> list) {
@@ -189,6 +269,7 @@ public class ConnectorUtil {
 	public static List<String> sortTypes(List<String> list,
 			final boolean reverse) {
 		Collections.sort(list, new Comparator<String>() {
+			@Override
 			public int compare(String a, String b) {
 				return a.compareTo(b) * (reverse ? -1 : 1);
 			}

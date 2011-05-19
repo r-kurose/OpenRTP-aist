@@ -8,7 +8,6 @@ package jp.go.aist.rtm.toolscommon.model.component.impl;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import jp.go.aist.rtm.toolscommon.model.component.Component;
@@ -538,18 +537,13 @@ public class PortImpl extends WrapperObjectImpl implements Port {
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.PORT__INTERFACE_TYPE, oldInterfaceType, interfaceType));
 	}
 
-	@SuppressWarnings("unchecked")
-	public static boolean isExistAny(List targetList) {
-		boolean result = false;
-		for (Iterator iter = targetList.iterator(); iter.hasNext();) {
-			String target = (String) iter.next();
+	public static boolean isExistAny(List<String> targetList) {
+		for (String target : targetList) {
 			if (isAnyString(target)) {
-				result = true;
-				break;
+				return true;
 			}
 		}
-
-		return result;
+		return false;
 	}
 
 	/**

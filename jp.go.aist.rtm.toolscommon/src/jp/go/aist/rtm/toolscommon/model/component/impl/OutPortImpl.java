@@ -28,7 +28,8 @@ import org.eclipse.ui.views.properties.IPropertySource;
 public class OutPortImpl extends PortImpl implements OutPort {
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected OutPortImpl() {
@@ -36,7 +37,8 @@ public class OutPortImpl extends PortImpl implements OutPort {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -49,16 +51,18 @@ public class OutPortImpl extends PortImpl implements OutPort {
 		return false;
 	}
 
+	@Override
 	public boolean validateTargetConnector(Port target) {
-		if (target instanceof InPort == false) {
+		if (!(target instanceof InPort)) {
 			return false;
 		}
-		if (isAllowDataType((InPort) target)) return true;
-		if (this.eContainer instanceof ComponentSpecification){
-			if (ConnectorUtil.getAllowDataTypes(this, (InPort) target)
-					.size() >= 1
-					|| ConnectorUtil.isAllowAnyDataType(this,
-							(InPort) target)) {
+		InPort inTarget = (InPort) target;
+		if (isAllowDataType(inTarget)) {
+			return true;
+		}
+		if (this.eContainer instanceof ComponentSpecification) {
+			if (!ConnectorUtil.getAllowDataTypes(this, inTarget).isEmpty()
+					|| ConnectorUtil.isAllowAnyDataType(this, inTarget)) {
 				return true;
 			}
 		}
@@ -66,17 +70,17 @@ public class OutPortImpl extends PortImpl implements OutPort {
 	}
 
 	private boolean isAllowDataType(InPort target) {
-		if (ConnectorUtil.getAllowDataTypes(this, target).size() < 1
-				&& !ConnectorUtil.isAllowAnyDataType(this,target)) 
+		if (ConnectorUtil.getAllowDataTypes(this, target).isEmpty()
+				&& !ConnectorUtil.isAllowAnyDataType(this, target))
 			return false;
-		if (ConnectorUtil.getAllowDataflowTypes(this, target).size() < 1
-				&& !ConnectorUtil.isAllowAnyDataflowType(this,target)) 
+		if (ConnectorUtil.getAllowDataflowTypes(this, target).isEmpty()
+				&& !ConnectorUtil.isAllowAnyDataflowType(this, target))
 			return false;
-		if (ConnectorUtil.getAllowInterfaceTypes(this, target).size() < 1
-				&& !ConnectorUtil.isAllowAnyInterfaceType(this, target)) 
+		if (ConnectorUtil.getAllowInterfaceTypes(this, target).isEmpty()
+				&& !ConnectorUtil.isAllowAnyInterfaceType(this, target))
 			return false;
-		if (ConnectorUtil.getAllowSubscriptionTypes(this, target).size() < 1
-				&& !ConnectorUtil.isAllowAnySubscriptionType(this, target)) 
+		if (ConnectorUtil.getAllowSubscriptionTypes(this, target).isEmpty()
+				&& !ConnectorUtil.isAllowAnySubscriptionType(this, target))
 			return false;
 		return true;
 	}
