@@ -64,7 +64,7 @@ public class SystemEditorPreferencePage extends PreferencePage implements
 		Composite composite = new Composite(parent, SWT.NULL);
 		composite.setLayout(new GridLayout());
 
-		// ó‘Ô’Ê’mƒIƒuƒU[ƒoİ’è
+		// çŠ¶æ…‹é€šçŸ¥ã‚ªãƒ–ã‚¶ãƒ¼ãƒè¨­å®š
 		Group statusObserverGroup = new Group(composite, SWT.NONE);
 		gl = new GridLayout();
 		gl.numColumns = 3;
@@ -111,7 +111,7 @@ public class SystemEditorPreferencePage extends PreferencePage implements
 
 		createLabel(statusObserverGroup, LABEL_HB_TRYCOUNT_UNIT);
 
-		// “¯Šúİ’è
+		// åŒæœŸè¨­å®š
 		Group syncGroup = new Group(composite, SWT.NONE);
 		gl = new GridLayout();
 		gl.numColumns = 3;
@@ -223,12 +223,13 @@ public class SystemEditorPreferencePage extends PreferencePage implements
 				.getText()));
 		tcPref.setSTATUS_OBSERVER_HB_TRYCOUNT(Integer.valueOf(hbTryCountText
 				.getText()));
-		buildData();
 
 		SystemEditorPreferenceManager sePref = SystemEditorPreferenceManager
 				.getInstance();
 		sePref.setInterval(SYNC_SYSTEMEDITOR_INTERVAL, Integer
 				.parseInt(syncCycleText.getText()));
+
+		buildData();
 
 		return super.performOk();
 	}
