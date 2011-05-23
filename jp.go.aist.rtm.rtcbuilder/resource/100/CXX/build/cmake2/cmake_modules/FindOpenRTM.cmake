@@ -134,6 +134,8 @@ if(WIN32)
     string(REGEX REPLACE "([0-9]+)\\.([0-9]+)" "\\2" OPENRTM_VERSION_MINOR "${OPENRTM_VERSION}")
     set(OPENRTM_VERSION_PATCH "0")
     set(OPENRTM_VERSION "${OPENRTM_VERSION_MAJOR}.${OPENRTM_VERSION_MINOR}.${OPENRTM_VERSION_PATCH}")
+    string(REGEX REPLACE "[.]" ""
+           OPENRTM_VERSION_NUM "${OPENRTM_VERSION}")
 
     set(OPENRTM_INCLUDE_DIRS "${OPENRTM_DIR}")
     set(OPENRTM_LIBRARY_DIRS "${OPENRTM_DIR}/bin")
@@ -141,7 +143,7 @@ if(WIN32)
 
     set(OPENRTM_CFLAGS "-DUSE_stub_in_nt_dll")
 
-    foreach(library "RTC100" "coil")
+    foreach(library "RTC${OPENRTM_VERSION_NUM}" "coil")
         list(APPEND OPENRTM_LIBRARIES optimized "${library}" debug "${library}d")
     endforeach()
     foreach(library "ws2_32" "mswsock")
