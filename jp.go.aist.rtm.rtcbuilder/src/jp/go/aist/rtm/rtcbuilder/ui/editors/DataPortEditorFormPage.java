@@ -1,5 +1,6 @@
 package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -151,6 +152,10 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		//
 		typeCombo = createLabelAndCombo(toolkit, detailGroup,
 				IMessageConstants.REQUIRED + IMessageConstants.DATAPORT_TBLLBL_DATATYPE, defaultTypeList, SWT.COLOR_RED);
+		String[] items = typeCombo.getItems();
+		Arrays.sort(items);
+		typeCombo.setItems(items);
+		//
 		varNameText = createLabelAndText(toolkit, detailGroup, IMessageConstants.DATAPORT_TBLLBL_VARNAME, SWT.BORDER);
 		positionCombo = createLabelAndCombo(toolkit, detailGroup, IMessageConstants.DATAPORT_TBLLBL_POSITION, DataPortParam.COMBO_ITEM);
 		/////
