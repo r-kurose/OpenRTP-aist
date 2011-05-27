@@ -605,4 +605,14 @@ public class ComponentMock implements Component {
 		return null;
 	}
 
+	@Override
+	public void synchronizeRemoteAttribute(EStructuralFeature reference) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void synchronizeRemoteChildComponents() {
+		// TODO Auto-generated method stub
+	}
+
 }

@@ -848,12 +848,13 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		// 複合RTCエディタが開かれていたら閉じる
 		if (getSystemDiagram() == null)
 			return;
-		if (getSystemDiagram().getComponents() == null)
-			return;
-		for (Component ac : getSystemDiagram().getComponents()) {
-			ComponentUtil.closeCompositeComponent(ac);
+		if (getSystemDiagram().getComponents() != null) {
+			for (Component ac : getSystemDiagram().getComponents()) {
+				ComponentUtil.closeCompositeComponent(ac);
+			}
 		}
 		getSystemDiagram().clearComponents();
+		getSystemDiagram().dispose();
 		systemDiagram = null;
 	}
 

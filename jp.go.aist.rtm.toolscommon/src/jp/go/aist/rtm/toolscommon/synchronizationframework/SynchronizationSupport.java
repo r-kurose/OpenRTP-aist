@@ -56,30 +56,40 @@ public class SynchronizationSupport {
 	}
 
 	/**
-	 * ローカルオブジェクトを同期する。
-	 * <p>
-	 * 包含参照をたどり、すべてのローカルオブジェクトを同期する
+	 * リモートオブジェクトを同期する。
 	 */
-	public synchronized void synchronizeLocal() {
+	public synchronized void synchronizeRemote() {
 		Object[] remoteObjects = null;
 		try {
 			remoteObjects = getRemoteObjects(); // 例外が発生することがある
 		} catch (Exception e) {
 			// void
 		}
-
 		if (!mappingRule.getClassMapping().allowZombie()
 				&& (remoteObjects == null || !ping(remoteObjects))) {
 			remove();
 			return;
 		}
+		synchronizeRemoteAttribute();
+		if (localObject.eContainer() instanceof SystemDiagram) {
+			if (localObject instanceof Component) {
+				((Component) localObject).synchronizeRemoteChildComponents();
+			}
+		}
+	}
+
+	/**
+	 * ローカルオブジェクトを同期する。
+	 * <p>
+	 * 包含参照をたどり、すべてのローカルオブジェクトを同期する
+	 */
+	public synchronized void synchronizeLocal() {
 		synchronizeLocalAttribute();
 		synchronizeLocalReference();
 		if (localObject.eContainer() instanceof SystemDiagram) {
 			if (localObject instanceof Component) {
 				((Component) localObject).synchronizeChildComponents();
 			}
-			return;
 		}
 		for (Object content : localObject.eContents()) {
 			if (content instanceof LocalObject) {
@@ -102,11 +112,19 @@ public class SynchronizationSupport {
 		}
 	}
 
+	private void synchronizeRemoteAttribute() {
+		if (localObject.eContainer() instanceof SystemDiagram) {
+			if (localObject instanceof Component) {
+				((Component) localObject).synchronizeRemoteAttribute(null);
+			}
+		}
+	}
+
 	private void synchronizeLocalAttribute() {
 		if (localObject.eContainer() instanceof SystemDiagram) {
 			if (localObject instanceof Component) {
 				((Component) localObject).synchronizeLocalAttribute(null);
-			} 
+			}
 		}
 		for (AttributeMapping attibuteMapping : mappingRule
 				.getAllAttributeMappings()) {
@@ -121,9 +139,8 @@ public class SynchronizationSupport {
 	private void synchronizeLocalReference() {
 		if (localObject.eContainer() instanceof SystemDiagram) {
 			if (localObject instanceof Component) {
-				((Component) localObject)
-						.synchronizeLocalReference();
-			} 
+				((Component) localObject).synchronizeLocalReference();
+			}
 		}
 		for (ReferenceMapping referenceMapping : mappingRule
 				.getAllReferenceMappings()) {

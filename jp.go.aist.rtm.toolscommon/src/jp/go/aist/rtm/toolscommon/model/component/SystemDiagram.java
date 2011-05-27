@@ -237,6 +237,11 @@ public interface SystemDiagram extends ModelElement, IPropertyMap {
 	RtsProfileExt getProfile();
 
 	/**
+	 * ダイアグラムを終了
+	 */
+	void dispose();
+
+	/**
 	 * @return 複合RTCの内部を表現するダイアグラムでない、RTシステムそのものを表現するダイアグラム
 	 */
 	SystemDiagram getRootDiagram();

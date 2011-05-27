@@ -264,12 +264,11 @@ public class ConfigurationView extends ViewPart {
 		}
 		if (targetComponent instanceof CorbaComponent) {
 			CorbaComponent c = (CorbaComponent) targetComponent;
-			c.synchronizeLocalAttribute(
-					ComponentPackage.eINSTANCE
-							.getComponent_ConfigurationSets());
-			c.synchronizeLocalAttribute(
-					ComponentPackage.eINSTANCE
-							.getComponent_ActiveConfigurationSet());
+			c.synchronizeRemoteAttribute(ComponentPackage.eINSTANCE
+					.getComponent_ConfigurationSets());
+			c.synchronizeRemoteAttribute(ComponentPackage.eINSTANCE
+					.getComponent_ActiveConfigurationSet());
+			c.synchronizeLocalAttribute(null);
 		}
 		buildData();
 

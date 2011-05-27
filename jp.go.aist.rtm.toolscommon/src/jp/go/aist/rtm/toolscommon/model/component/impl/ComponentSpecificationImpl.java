@@ -31,7 +31,6 @@ import jp.go.aist.rtm.toolscommon.ui.propertysource.ComponentSpecificationProper
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.ui.views.properties.IPropertySource;
@@ -540,10 +539,7 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 		};
 	}
 
-	public void synchronizeLocalAttribute(EStructuralFeature reference) {
-		// Nothing to do
-	}
-
+	@Override
 	public void synchronizeLocalReference() {
 		if (!inOnlineSystemDiagram()) return;
 		if (!isGroupingCompositeComponent()) return;
@@ -565,11 +561,6 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 		return getPathId().substring(0, index);
 	}
 
-	@Override
-	public void synchronizeManually() {
-		//Nothing to do
-	}
-	
 	@Override
 	public Component copy() {
 		Component copy = (Component) EcoreUtil.copy(this);
@@ -607,6 +598,5 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 	public boolean isDead() {
 		return true;
 	}
-
 
 } // ComponentSpecificationImpl

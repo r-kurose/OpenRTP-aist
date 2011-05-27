@@ -390,10 +390,17 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Configuration getSDOConfiguration() {
+		try {
+			RTC.RTObject ro = getCorbaObjectInterface();
+			_SDOPackage.Configuration conf = ro.get_configuration();
+			setSDOConfiguration(conf);
+		} catch (Exception e) {
+			// void
+		}
 		return sDOConfiguration;
 	}
 
@@ -462,10 +469,21 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Organization getSDOOrganization() {
+		try {
+			RTC.RTObject ro = getCorbaObjectInterface();
+			Organization[] orgs = ro.get_owned_organizations();
+			if (orgs == null || orgs.length == 0) {
+				setSDOOrganization(new NullSDOOrganization());
+			} else {
+				setSDOOrganization(orgs[0]); // １つ目固定
+			}
+		} catch (Exception e) {
+			setSDOOrganization(new NullSDOOrganization());
+		}
 		return sDOOrganization;
 	}
 
@@ -1388,144 +1406,85 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 			}, new AttributeMapping[] {}, new ReferenceMapping[] {});
 
 	@Override
-	public void synchronizeLocalAttribute(EStructuralFeature reference) {
-		if (getStatusObserver() != null) {
-			// オブザーバの場合の更新
-			synchronizeLocal_RTCComponentProfile();
-			synchronizeLocal_RTCExecutionContexts();
-			synchronizeLocal_ConfigurationSets();
-			synchronizeLocal_ActiveConfigurationSet();
-			synchronizeLocal_RTCRTObjects();
-			return;
+	public void synchronizeRemoteAttribute(EStructuralFeature reference) {
+		ComponentPackage pkg = ComponentPackage.eINSTANCE;
+		RTC.RTObject ro = getCorbaObjectInterface();
+		//
+		if (pkg.getCorbaComponent_RTCComponentProfile().equals(reference)
+				|| reference == null) {
+			synchronizeRemote_RTCComponentProfile();
 		}
-		for (AttributeMapping attibuteMapping : getAttributeMappings()) {
-			if (reference != null) {
-				if (reference.equals(attibuteMapping.getLocalFeature())) {
-					try {
-						attibuteMapping.syncronizeLocal(this);
-						break;
-					} catch (Exception e) {
-						e.printStackTrace();
-						return;
-					}
+		//
+		if (pkg.getCorbaComponent_RTCExecutionContexts().equals(reference)
+				|| reference == null) {
+			synchronizeRemote_RTCExecutionContexts();
+			// owned context
+			RTC.ExecutionContext[] oec = CorbaObjectStore.eINSTANCE
+					.findOwnedContexts(ro);
+			if (oec != null) {
+				for (RTC.ExecutionContext ec : oec) {
+					// ec profile
+					synchronizeRemote_EC_ECProfile(ec);
+					// ec state
+					synchronizeRemote_EC_ECState(ec);
+					// component state
+					synchronizeRemote_EC_ComponentState(ec);
 				}
-			} else {
-				try {
-					attibuteMapping.syncronizeLocal(this);
-				} catch (Exception e) {
-					e.printStackTrace();
-					return;
+			}
+			// participating context
+			RTC.ExecutionContext[] pec = CorbaObjectStore.eINSTANCE
+					.findParticipatingContexts(ro);
+			if (pec != null) {
+				for (RTC.ExecutionContext ec : pec) {
+					// component state
+					synchronizeRemote_EC_ComponentState(ec);
 				}
 			}
 		}
+		//
+		if (pkg.getComponent_ConfigurationSets().equals(reference)
+				|| reference == null) {
+			synchronizeRemote_ConfigurationSets();
+		}
+		//
+		if (pkg.getComponent_ActiveConfigurationSet().equals(reference)
+				|| reference == null) {
+			synchronizeRemote_ActiveConfigurationSet();
+		}
+		//
+		if (pkg.getCorbaComponent_RTCRTObjects().equals(reference)
+				|| reference == null) {
+			synchronizeRemote_RTCRTObjects();
+		}
 	}
 
-	private static AttributeMapping[] getAttributeMappings() {
-		return new AttributeMapping[] {
-				new AttributeMapping(ComponentPackage.eINSTANCE
-						.getCorbaComponent_SDOConfiguration(), true) {
-					@Override
-					public Object getRemoteAttributeValue(
-							LocalObject localObject, Object[] remoteObjects) {
-						Object result = null;
-						try {
-							result = RTC.RTObjectHelper.narrow(
-									(org.omg.CORBA.Object) remoteObjects[0])
-									.get_configuration();
-						} catch (Exception e) {
-							// void
-						}
-						return result;
-					}
-				},
-				new AttributeMapping(ComponentPackage.eINSTANCE
-						.getCorbaComponent_SDOOrganization(), true) {
-					@Override
-					public Object getRemoteAttributeValue(
-							LocalObject localObject, Object[] remoteObjects) {
-						try {
-							RTC.RTObject ro = RTC.RTObjectHelper
-									.narrow((org.omg.CORBA.Object) remoteObjects[0]);
-							Organization[] orgs = ro.get_owned_organizations();
-							if (orgs == null || orgs.length == 0) {
-								return new NullSDOOrganization();
-							}
-							return orgs[0]; // １つ目固定
-						} catch (Exception e) {
-							return new NullSDOOrganization();
-						}
-					}
-				},
-				new AttributeMapping(ComponentPackage.eINSTANCE
-						.getCorbaComponent_RTCComponentProfile(), false) {
-					@Override
-					public void syncronizeLocal(LocalObject localObject) {
-						CorbaComponentImpl cc = (CorbaComponentImpl) localObject;
-						cc.synchronizeRemote_RTCComponentProfile();
-						cc.synchronizeLocal_RTCComponentProfile();
-					}
-				},
-				new AttributeMapping(ComponentPackage.eINSTANCE
-						.getCorbaComponent_RTCExecutionContexts(), false) {
-					@Override
-					public void syncronizeLocal(LocalObject localObject) {
-						CorbaComponentImpl cc = (CorbaComponentImpl) localObject;
-						cc.synchronizeRemote_RTCExecutionContexts();
-						//
-						RTC.RTObject ro = cc.getCorbaObjectInterface();
-						// owned context
-						RTC.ExecutionContext[] oec = CorbaObjectStore.eINSTANCE
-								.findOwnedContexts(ro);
-						if (oec != null) {
-							for (RTC.ExecutionContext ec : oec) {
-								// ec profile
-								synchronizeRemote_EC_ECProfile(ec);
-								// ec state
-								synchronizeRemote_EC_ECState(ec);
-								// component state
-								cc.synchronizeRemote_EC_ComponentState(ec);
-							}
-						}
-						// participating context
-						RTC.ExecutionContext[] pec = CorbaObjectStore.eINSTANCE
-								.findParticipatingContexts(ro);
-						if (pec != null) {
-							for (RTC.ExecutionContext ec : pec) {
-								// component state
-								cc.synchronizeRemote_EC_ComponentState(ec);
-							}
-						}
-						//
-						cc.synchronizeLocal_RTCExecutionContexts();
-					}
-				},
-				new AttributeMapping(ComponentPackage.eINSTANCE
-						.getComponent_ConfigurationSets()) {
-					@Override
-					public void syncronizeLocal(LocalObject localObject) {
-						CorbaComponentImpl cc = (CorbaComponentImpl) localObject;
-						cc.synchronizeRemote_ConfigurationSets();
-						cc.synchronizeLocal_ConfigurationSets();
-					}
-				},
-				new AttributeMapping(ComponentPackage.eINSTANCE
-						.getComponent_ActiveConfigurationSet()) {
-					@Override
-					public void syncronizeLocal(LocalObject localObject) {
-						CorbaComponentImpl cc = (CorbaComponentImpl) localObject;
-						cc.synchronizeRemote_ActiveConfigurationSet();
-						cc.synchronizeLocal_ActiveConfigurationSet();
-					}
-				},
-				new AttributeMapping(ComponentPackage.eINSTANCE
-						.getCorbaComponent_RTCRTObjects(), false) {
-					@Override
-					public void syncronizeLocal(LocalObject localObject) {
-						CorbaComponentImpl cc = (CorbaComponentImpl) localObject;
-						cc.synchronizeRemote_RTCRTObjects();
-						cc.synchronizeLocal_RTCRTObjects();
-					}
-				}, };
+	@Override
+	public void synchronizeLocalAttribute(EStructuralFeature reference) {
+		ComponentPackage pkg = ComponentPackage.eINSTANCE;
+		if (pkg.getCorbaComponent_RTCComponentProfile().equals(reference)
+				|| reference == null) {
+			synchronizeLocal_RTCComponentProfile();
+		}
+		//
+		if (pkg.getCorbaComponent_RTCExecutionContexts().equals(reference)
+				|| reference == null) {
+			synchronizeLocal_RTCExecutionContexts();
+		}
+		//
+		if (pkg.getComponent_ConfigurationSets().equals(reference)
+				|| reference == null) {
+			synchronizeLocal_ConfigurationSets();
+		}
+		//
+		if (pkg.getComponent_ActiveConfigurationSet().equals(reference)
+				|| reference == null) {
+			synchronizeLocal_ActiveConfigurationSet();
+		}
+		//
+		if (pkg.getCorbaComponent_RTCRTObjects().equals(reference)
+				|| reference == null) {
+			synchronizeLocal_RTCRTObjects();
+		}
 	}
 
 	/** RTC.ComponentProfileの同期 (CORBA=>オブジェクトDB) */
@@ -2061,6 +2020,10 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		if (System.currentTimeMillis() - lastExecutedTime < SYNC_MANUAL_INTERVAL) {
 			return;
 		}
+		//
+		synchronizeRemoteAttribute(null);
+		synchronizeRemoteChildComponents();
+		//
 		synchronizeLocalAttribute(null);
 		synchronizeLocalReference();
 		synchronizeChildComponents();
@@ -2107,4 +2070,4 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		return !SynchronizationSupport.ping(getCorbaObject());
 	}
 
-} //CorbaComponentImpl
+} // CorbaComponentImpl
