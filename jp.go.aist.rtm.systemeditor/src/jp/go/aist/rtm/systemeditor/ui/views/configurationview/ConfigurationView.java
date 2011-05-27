@@ -23,6 +23,8 @@ import jp.go.aist.rtm.toolscommon.ui.views.propertysheetview.RtcPropertySheetPag
 import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 import jp.go.aist.rtm.toolscommon.util.SDOUtil;
 
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -841,19 +843,52 @@ public class ConfigurationView extends ViewPart {
 		return super.getAdapter(adapter);
 	}
 
+	/** CORBAの同期による変更通知を受け取るアダプタ */
+	AdapterImpl eAdapter = new AdapterImpl() {
+		@Override
+		public void notifyChanged(Notification msg) {
+			if (msg.getOldValue() == this || msg.getNewValue() == this) {
+				return;
+			}
+			boolean update = false;
+			if (ComponentPackage.eINSTANCE.getComponent_ConfigurationSets()
+					.equals(msg.getFeature())) {
+				update = true;
+			}
+			if (ComponentPackage.eINSTANCE
+					.getComponent_ActiveConfigurationSet().equals(
+							msg.getFeature())) {
+				update = true;
+			}
+			if (!update) {
+				return;
+			}
+			leftTableViewer.getControl().getDisplay().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					buildData();
+				}
+			});
+		}
+	};
+
 	/**
 	 * 選択を監視するリスナ
 	 */
 	private ISelectionListener selectionListener = new ISelectionListener() {
 		public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+			if (targetComponent != null) {
+				targetComponent.eAdapters().remove(eAdapter);
+			}
 			targetComponent = null;
 			if (selection instanceof IStructuredSelection) {
 				IStructuredSelection sSelection = (IStructuredSelection) selection;
-				Object selectedComponent = AdapterUtil.getAdapter(sSelection.getFirstElement(),
-										Component.class);
+				Object selectedComponent = AdapterUtil.getAdapter(sSelection
+						.getFirstElement(), Component.class);
 				if (selectedComponent != null) {
 					targetComponent = (Component) selectedComponent;
 					targetComponent.synchronizeManually();
+					targetComponent.eAdapters().add(eAdapter);
 				}
 			}
 			buildData();
