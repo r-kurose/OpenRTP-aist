@@ -17,12 +17,12 @@ import java.util.Map;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
+import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaStatusObserver;
 import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
 import jp.go.aist.rtm.toolscommon.model.component.util.CorbaObserverStore;
-import jp.go.aist.rtm.toolscommon.model.component.util.IPropertyMapUtil;
 import jp.go.aist.rtm.toolscommon.model.component.util.PropertyMap;
 import jp.go.aist.rtm.toolscommon.model.core.impl.ModelElementImpl;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
@@ -93,7 +93,7 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 	 */
 	protected SystemDiagramKind kind = KIND_EDEFAULT;
 
-	protected IPropertyMapUtil properties;
+	protected IPropertyMap properties;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -619,6 +619,16 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 	@Override
 	public EList<String> getPropertyKeys() {
 		return properties.getPropertyKeys();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public IPropertyMap getPropertyMap() {
+		return properties;
 	}
 
 	/**

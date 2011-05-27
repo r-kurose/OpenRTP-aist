@@ -28,6 +28,9 @@ public class ComponentWorkbenchAdapter extends ModelElementWorkbenchAdapter {
 	public Object[] getChildren(Object o) {
 		List<Object> result = new ArrayList<Object>();
 		Component c = (Component) o;
+		if (!c.getPropertyKeys().isEmpty()) {
+			result.add(c.getPropertyMap());
+		}
 		if (!c.getExecutionContextHandler().getOwnerContexts().isEmpty()) {
 			result.add(c.getExecutionContextHandler());
 		}

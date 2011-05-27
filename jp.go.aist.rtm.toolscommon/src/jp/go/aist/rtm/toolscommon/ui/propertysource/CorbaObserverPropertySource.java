@@ -40,10 +40,6 @@ public class CorbaObserverPropertySource extends AbstractPropertySource {
 		result.add(new TextPropertyDescriptor(INTERFACE_TYPE,
 				DISP_INTERFACE_TYPE));
 		result.add(new TextPropertyDescriptor(SERVICE, DISP_SERVICE));
-		for (String key : observer.getPropertyKeys()) {
-			result.add(new TextPropertyDescriptor(new DynamicID("PROPERTIES",
-					key), key));
-		}
 		return (IPropertyDescriptor[]) result
 				.toArray(new IPropertyDescriptor[result.size()]);
 	}
@@ -57,11 +53,6 @@ public class CorbaObserverPropertySource extends AbstractPropertySource {
 			result = observer.getServiceProfile().interface_type;
 		} else if (SERVICE.equals(id)) {
 			result = observer.getServiceProfile().service.toString();
-		} else if (id instanceof DynamicID) {
-			DynamicID dynamicId = (DynamicID) id;
-			if ("PROPERTIES".equals(dynamicId.categoryId)) {
-				return observer.getProperty(dynamicId.subId);
-			}
 		}
 		return result;
 	}

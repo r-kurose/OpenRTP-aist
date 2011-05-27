@@ -227,11 +227,12 @@ Package component <http:///jp/go/aist/rtm/toolscommon/model/component.ecore>
     Attribute key : EIntegerObject
     Attribute value : Point
 
-  Class IPropertyMap
+  Class IPropertyMap -> IAdaptable
     Operation getProperty(EString) : EString
     Operation setProperty(EString, EString) : void
     Operation removeProperty(EString) : EString
     Operation getPropertyKeys() : EString<<0..*>>
+    Operation getPropertyMap() : IPropertyMap
 
   Class CorbaComponent -> Component, CorbaWrapperObject
     Attribute executionContextState : EInt

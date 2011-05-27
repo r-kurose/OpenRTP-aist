@@ -25,13 +25,13 @@ import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaPortSynchronizer;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaStatusObserver;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
 import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.component.util.CorbaObjectStore;
 import jp.go.aist.rtm.toolscommon.model.component.util.CorbaObserverStore;
 import jp.go.aist.rtm.toolscommon.model.component.util.CorbaPropertyMap;
-import jp.go.aist.rtm.toolscommon.model.component.util.IPropertyMapUtil;
 import jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject;
 import jp.go.aist.rtm.toolscommon.model.core.CorePackage;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
@@ -283,7 +283,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	 */
 	protected CorbaLogObserver logObserver;
 
-	protected IPropertyMapUtil properties;
+	protected IPropertyMap properties;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1352,6 +1352,11 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	@Override
 	public EList<String> getPropertyKeys() {
 		return properties.getPropertyKeys();
+	}
+
+	@Override
+	public IPropertyMap getPropertyMap() {
+		return properties;
 	}
 
 	// Mapping Rule

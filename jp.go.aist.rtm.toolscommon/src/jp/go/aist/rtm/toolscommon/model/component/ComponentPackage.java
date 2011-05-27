@@ -1480,7 +1480,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IPROPERTY_MAP_FEATURE_COUNT = 0;
+	int IPROPERTY_MAP_FEATURE_COUNT = CorePackage.IADAPTABLE_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.EIntegerObjectToPointMapEntryImpl <em>EInteger Object To Point Map Entry</em>}' class.

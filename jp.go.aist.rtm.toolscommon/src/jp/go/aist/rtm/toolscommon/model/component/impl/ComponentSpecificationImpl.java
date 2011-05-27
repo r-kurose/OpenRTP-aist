@@ -16,8 +16,8 @@ import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
-import jp.go.aist.rtm.toolscommon.model.component.util.IPropertyMapUtil;
 import jp.go.aist.rtm.toolscommon.model.component.util.PropertyMap;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.AttributeMapping;
@@ -112,7 +112,7 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 	 */
 	protected String rtcType = RTC_TYPE_EDEFAULT;
 
-	IPropertyMapUtil properties;
+	IPropertyMap properties;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -473,6 +473,11 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 	@Override
 	public EList<String> getPropertyKeys() {
 		return properties.getPropertyKeys();
+	}
+
+	@Override
+	public IPropertyMap getPropertyMap() {
+		return properties;
 	}
 
 	/** Grouping複合RTC用のマッピングルール */

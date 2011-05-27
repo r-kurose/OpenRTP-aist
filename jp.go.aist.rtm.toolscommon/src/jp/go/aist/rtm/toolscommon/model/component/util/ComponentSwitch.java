@@ -230,6 +230,7 @@ public class ComponentSwitch<T> {
 				PortSynchronizer portSynchronizer = (PortSynchronizer)theEObject;
 				T result = casePortSynchronizer(portSynchronizer);
 				if (result == null) result = caseIPropertyMap(portSynchronizer);
+				if (result == null) result = caseIAdaptable(portSynchronizer);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -263,6 +264,7 @@ public class ComponentSwitch<T> {
 			case ComponentPackage.IPROPERTY_MAP: {
 				IPropertyMap iPropertyMap = (IPropertyMap)theEObject;
 				T result = caseIPropertyMap(iPropertyMap);
+				if (result == null) result = caseIAdaptable(iPropertyMap);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}

@@ -21,7 +21,6 @@ import jp.go.aist.rtm.toolscommon.model.component.PortSynchronizer;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile.PROP;
 import jp.go.aist.rtm.toolscommon.model.component.util.CorbaPropertyMap;
-import jp.go.aist.rtm.toolscommon.model.component.util.IPropertyMapUtil;
 import jp.go.aist.rtm.toolscommon.model.core.impl.CorbaWrapperObjectImpl;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.AttributeMapping;
@@ -106,7 +105,7 @@ public class CorbaPortSynchronizerImpl extends CorbaWrapperObjectImpl implements
 	@SuppressWarnings("unused")
 	private SystemDiagram currentDiagram;
 
-	protected IPropertyMapUtil properties;
+	protected IPropertyMap properties;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -537,6 +536,16 @@ public class CorbaPortSynchronizerImpl extends CorbaWrapperObjectImpl implements
 	@Override
 	public EList<String> getPropertyKeys() {
 		return properties.getPropertyKeys();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public IPropertyMap getPropertyMap() {
+		return properties;
 	}
 
 	@Override

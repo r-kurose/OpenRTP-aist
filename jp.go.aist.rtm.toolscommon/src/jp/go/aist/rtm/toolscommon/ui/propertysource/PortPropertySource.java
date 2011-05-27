@@ -3,7 +3,6 @@ package jp.go.aist.rtm.toolscommon.ui.propertysource;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.util.ConnectorUtil;
 
@@ -68,12 +67,6 @@ public class PortPropertySource extends AbstractPropertySource {
 		addPropertyDescriptor(result, port.getSubscriptionType(),
 				new TextPropertyDescriptor(PORT_SUBSCRIPTION_TYPE,
 						DISP_PORT_SUBSCRIPTION_TYPE));
-		for (NameValue entry : port.getProperties()) {
-			result.add(new TextPropertyDescriptor(new DynamicID(
-					PROPERTIES_DYNAMICID_CATEGORY, entry.getName()), entry
-					.getName()));
-		}
-
 		return (IPropertyDescriptor[]) result
 				.toArray(new IPropertyDescriptor[result.size()]);
 	}
@@ -98,16 +91,10 @@ public class PortPropertySource extends AbstractPropertySource {
 				return sortValues(port.getInterfaceTypes());
 			} else if (PORT_SUBSCRIPTION_TYPE.equals(id)) {
 				return sortValues(port.getSubscriptionTypes());
-			} else if (id instanceof DynamicID) {
-				DynamicID dynamicId = (DynamicID) id;
-				if (PROPERTIES_DYNAMICID_CATEGORY.equals(dynamicId.categoryId)) {
-					return port.getProperty(dynamicId.subId);
-				}
 			}
 		} catch (Exception e) {
 			return UNKNOWN;
 		}
-
 		return UNKNOWN;
 	}
 

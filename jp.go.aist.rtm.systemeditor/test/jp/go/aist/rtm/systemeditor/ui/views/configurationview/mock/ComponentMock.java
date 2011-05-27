@@ -7,6 +7,7 @@ import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.ContextHandler;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
 import jp.go.aist.rtm.toolscommon.model.component.InPort;
 import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 import jp.go.aist.rtm.toolscommon.model.component.OutPort;
@@ -596,6 +597,12 @@ public class ComponentMock implements Component {
 	@Override
 	public void setProperty(String key, String value) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public IPropertyMap getPropertyMap() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

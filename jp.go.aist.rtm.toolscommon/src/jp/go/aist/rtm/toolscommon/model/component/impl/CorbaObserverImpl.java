@@ -15,8 +15,8 @@ import jp.go.aist.rtm.toolscommon.ToolsCommonPlugin;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaObserver;
+import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
 import jp.go.aist.rtm.toolscommon.model.component.util.CorbaPropertyMap;
-import jp.go.aist.rtm.toolscommon.model.component.util.IPropertyMapUtil;
 import jp.go.aist.rtm.toolscommon.ui.propertysource.CorbaObserverPropertySource;
 
 import org.eclipse.emf.common.util.EList;
@@ -90,7 +90,7 @@ public class CorbaObserverImpl extends EObjectImpl implements CorbaObserver {
 
 	static Logger log = ToolsCommonPlugin.getLogger();
 
-	protected IPropertyMapUtil properties;
+	protected IPropertyMap properties;
 
 	static ORB orb = null;
 	static POA rootpoa = null;
@@ -307,6 +307,15 @@ public class CorbaObserverImpl extends EObjectImpl implements CorbaObserver {
 	@Override
 	public EList<String> getPropertyKeys() {
 		return properties.getPropertyKeys();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public IPropertyMap getPropertyMap() {
+		return properties;
 	}
 
 	/**

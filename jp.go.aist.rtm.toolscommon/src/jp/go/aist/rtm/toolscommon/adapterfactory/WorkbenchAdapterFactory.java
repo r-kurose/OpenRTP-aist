@@ -4,6 +4,7 @@ import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ContextHandler;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaObserver;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
 import jp.go.aist.rtm.toolscommon.model.component.InPort;
 import jp.go.aist.rtm.toolscommon.model.component.OutPort;
 import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
@@ -19,6 +20,7 @@ import jp.go.aist.rtm.toolscommon.ui.workbenchadapter.InPortWorkbenchAdapter;
 import jp.go.aist.rtm.toolscommon.ui.workbenchadapter.OutPortWorkbenchAdapter;
 import jp.go.aist.rtm.toolscommon.ui.workbenchadapter.PortConnectorWorkbenchAdapter;
 import jp.go.aist.rtm.toolscommon.ui.workbenchadapter.PortInterfaceProfileWorkbenchAdapter;
+import jp.go.aist.rtm.toolscommon.ui.workbenchadapter.PropertyMapWorkbenchAdapter;
 import jp.go.aist.rtm.toolscommon.ui.workbenchadapter.RTCManagerWorkbenchAdapter;
 import jp.go.aist.rtm.toolscommon.ui.workbenchadapter.ServicePortWorkbenchAdapter;
 import jp.go.aist.rtm.toolscommon.ui.workbenchadapter.SystemDiagramWorkbenchAdapter;
@@ -54,6 +56,8 @@ public class WorkbenchAdapterFactory implements IAdapterFactory {
 				return new CorbaObserverWorkbenchAdapter();
 			} else if (adaptable instanceof SystemDiagram) {
 				return new SystemDiagramWorkbenchAdapter();
+			} else if (adaptable instanceof IPropertyMap) {
+				return new PropertyMapWorkbenchAdapter();
 			} else if (adaptable instanceof RTCManager) {
 				return new RTCManagerWorkbenchAdapter();
 			}

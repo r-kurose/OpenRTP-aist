@@ -1,6 +1,10 @@
 package jp.go.aist.rtm.toolscommon.ui.workbenchadapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jp.go.aist.rtm.toolscommon.ToolsCommonPlugin;
+import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 import jp.go.aist.rtm.toolscommon.nl.Messages;
 
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -19,9 +23,15 @@ public class ExecutionContextWorkbenchAdapter extends ModelElementWorkbenchAdapt
 	public String getLabel(Object o) {
 		return Messages.getString("ExecutionContextWorkbenchAdapter.label");
 	}
-	
+
 	@Override
 	public Object[] getChildren(Object o) {
-		return null;
+		List<Object> result = new ArrayList<Object>();
+		ExecutionContext c = (ExecutionContext) o;
+		if (!c.getPropertyKeys().isEmpty()) {
+			result.add(c.getPropertyMap());
+		}
+		return result.toArray();
 	}
+
 }

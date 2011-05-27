@@ -255,7 +255,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType core.ecore#//Point"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="IPropertyMap" abstract="true" interface="true">
+  <eClassifiers xsi:type="ecore:EClass" name="IPropertyMap" abstract="true" interface="true"
+      eSuperTypes="core.ecore#//IAdaptable">
     <eOperations name="getProperty" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eParameters name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
@@ -267,6 +268,7 @@
       <eParameters name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
     <eOperations name="getPropertyKeys" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations name="getPropertyMap" eType="#//IPropertyMap"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="SDOConfiguration" instanceClassName="_SDOPackage.Configuration"/>
   <eClassifiers xsi:type="ecore:EDataType" name="SDOConfigurationSet" instanceClassName="_SDOPackage.ConfigurationSet"/>

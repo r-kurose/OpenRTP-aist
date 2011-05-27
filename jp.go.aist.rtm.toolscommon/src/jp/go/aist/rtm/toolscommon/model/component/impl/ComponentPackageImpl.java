@@ -1992,6 +1992,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		portConnectorEClass.getESuperTypes().add(theCorePackage.getWrapperObject());
 		connectorProfileEClass.getESuperTypes().add(theCorePackage.getWrapperObject());
 		connectorProfileEClass.getESuperTypes().add(this.getIPropertyMap());
+		iPropertyMapEClass.getESuperTypes().add(theCorePackage.getIAdaptable());
 		corbaComponentEClass.getESuperTypes().add(this.getComponent());
 		corbaComponentEClass.getESuperTypes().add(theCorePackage.getCorbaWrapperObject());
 		corbaPortSynchronizerEClass.getESuperTypes().add(theCorePackage.getCorbaWrapperObject());
@@ -2240,6 +2241,8 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		addEParameter(op, ecorePackage.getEString(), "key", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		addEOperation(iPropertyMapEClass, ecorePackage.getEString(), "getPropertyKeys", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(iPropertyMapEClass, this.getIPropertyMap(), "getPropertyMap", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(corbaComponentEClass, CorbaComponent.class, "CorbaComponent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCorbaComponent_ExecutionContextState(), ecorePackage.getEInt(), "executionContextState", "0", 0, 1, CorbaComponent.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

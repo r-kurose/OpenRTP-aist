@@ -45,10 +45,6 @@ public class SystemDiagramPropertySource extends AbstractPropertySource {
 		result.add(new TextPropertyDescriptor(CREATE_DATE, DISP_CREATE_DATE));
 		result.add(new TextPropertyDescriptor(UPDATE_DATE, DISP_UPDATE_DATE));
 		result.add(new TextPropertyDescriptor(COMPOSITE, DISP_COMPOSITE));
-		for (String key : diagram.getPropertyKeys()) {
-			result.add(new TextPropertyDescriptor(new DynamicID("PROPERTIES",
-					key), key));
-		}
 		return (IPropertyDescriptor[]) result
 				.toArray(new IPropertyDescriptor[result.size()]);
 	}
@@ -71,11 +67,6 @@ public class SystemDiagramPropertySource extends AbstractPropertySource {
 					result = "None";
 				} else {
 					result = comp.getInstanceNameL();
-				}
-			} else if (id instanceof DynamicID) {
-				DynamicID dynamicId = (DynamicID) id;
-				if ("PROPERTIES".equals(dynamicId.categoryId)) {
-					return diagram.getProperty(dynamicId.subId);
 				}
 			}
 		} catch (Exception e) {

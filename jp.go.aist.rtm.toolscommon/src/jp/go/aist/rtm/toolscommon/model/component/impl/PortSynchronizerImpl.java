@@ -11,13 +11,13 @@ import java.util.List;
 
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
+import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
 import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 import jp.go.aist.rtm.toolscommon.model.component.PortSynchronizer;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
-import jp.go.aist.rtm.toolscommon.model.component.util.IPropertyMapUtil;
 import jp.go.aist.rtm.toolscommon.model.component.util.PortConnectorFactory;
 import jp.go.aist.rtm.toolscommon.model.component.util.PropertyMap;
 
@@ -61,7 +61,7 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 	protected String originalPortString = ORIGINAL_PORT_STRING_EDEFAULT;
 	private SystemDiagram currentDiagram;
 
-	IPropertyMapUtil properties;
+	IPropertyMap properties;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -199,22 +199,22 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 		return result.toString();
 	}
 
-//	@Override
+	@Override
 	public String getDataflowType() {
 		return null;
 	}
 
-//	@Override
+	@Override
 	public String getDataType() {
 		return null;
 	}
 
-//	@Override
+	@Override
 	public String getInterfaceType() {
 		return null;
 	}
 
-//	@Override
+	@Override
 	public String getSubscriptionType() {
 		return null;
 	}
@@ -238,6 +238,7 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public String getProperty(String key) {
 		return properties.getProperty(key);
 	}
@@ -247,6 +248,7 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public void setProperty(String key, String value) {
 		properties.setProperty(key, value);
 	}
@@ -256,6 +258,7 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public String removeProperty(String key) {
 		return properties.removeProperty(key);
 	}
@@ -265,14 +268,30 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public EList<String> getPropertyKeys() {
 		return properties.getPropertyKeys();
 	}
 
-	//	@Override
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public IPropertyMap getPropertyMap() {
+		return properties;
+	}
+
+	@Override
 	public void setCurrentDiagram(SystemDiagram currentDiagram) {
 		this.currentDiagram = currentDiagram;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public Object getAdapter(Class adapter) {
+		return null;
+	}
 
 } //PortSynchronizerImpl

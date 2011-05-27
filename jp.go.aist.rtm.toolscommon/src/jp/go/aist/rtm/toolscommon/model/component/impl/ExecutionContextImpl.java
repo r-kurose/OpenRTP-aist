@@ -11,7 +11,7 @@ import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 
-import jp.go.aist.rtm.toolscommon.model.component.util.IPropertyMapUtil;
+import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
 import jp.go.aist.rtm.toolscommon.model.component.util.PropertyMap;
 import jp.go.aist.rtm.toolscommon.model.core.impl.WrapperObjectImpl;
 
@@ -123,7 +123,7 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	 */
 	protected EList<Component> participants;
 
-	protected IPropertyMapUtil properties;
+	protected IPropertyMap properties;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -343,6 +343,7 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public String getProperty(String key) {
 		return properties.getProperty(key);
 	}
@@ -352,6 +353,7 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public void setProperty(String key, String value) {
 		properties.setProperty(key, value);
 	}
@@ -361,6 +363,7 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public String removeProperty(String key) {
 		return properties.removeProperty(key);
 	}
@@ -370,8 +373,19 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public EList<String> getPropertyKeys() {
 		return properties.getPropertyKeys();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public IPropertyMap getPropertyMap() {
+		return properties;
 	}
 
 	/**
