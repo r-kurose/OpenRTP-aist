@@ -64,7 +64,145 @@ if(UNIX)
 
 endif(UNIX)
 
+set(WIN32_RTM "")
+set(RTM_CONFIG_CMAKE "")
+
+macro(rtm_norm_path _path _result)
+    string(REGEX REPLACE "\"" ""    _var "${_path}")
+    string(REGEX REPLACE "[/]+" "/" _var "${_var}")
+    string(REGEX REPLACE "[/]$" ""  _var "${_var}")
+    set(${_result} "${_var}")
+endmacro(rtm_norm_path)
+
 if(WIN32)
+    set(WIN32_RTM "10")
+    find_file(rtm_conf "rtm_config.cmake" PATHS "$ENV{RTM_ROOT}/etc")
+    if(rtm_conf)
+        set(WIN32_RTM "11")
+        set(RTM_CONFIG_CMAKE "${rtm_conf}")
+    endif()
+endif(WIN32)
+
+if(WIN32_RTM STREQUAL "11")
+    include("${RTM_CONFIG_CMAKE}")
+    message(STATUS "Configuration by ${RTM_CONFIG_CMAKE}.")
+
+    # omniORB
+    set(OMNIORB_DIR "${omni_root}")
+    set(OMNIORB_FOUND TRUE)
+    file(TO_CMAKE_PATH "${OMNIORB_DIR}" OMNIORB_DIR)
+
+    foreach(path ${omni_includes})
+        file(TO_CMAKE_PATH "${path}" path)
+        rtm_norm_path("${path}" path)
+        list(APPEND OMNIORB_INCLUDE_DIRS "${path}")
+    endforeach()
+    foreach(path ${omni_libdir})
+        file(TO_CMAKE_PATH "${path}" path)
+        rtm_norm_path("${path}" path)
+        list(APPEND OMNIORB_LIBRARY_DIRS "${path}")
+    endforeach()
+
+    # omniORB version
+    file(GLOB _vers RELATIVE "${OMNIORB_DIR}" "${OMNIORB_DIR}/THIS_IS_OMNIORB*")
+    if("${_vers}" STREQUAL "")
+        message(FATAL_ERROR "omniORB version file not found.")
+    endif()
+
+    set(OMNIORB_VERSION "${_vers}")
+    string(REGEX REPLACE "THIS_IS_OMNIORB_" ""
+           OMNIORB_VERSION "${OMNIORB_VERSION}")
+    string(REGEX REPLACE "[_]" "."
+           OMNIORB_VERSION "${OMNIORB_VERSION}")
+
+    set(OMNIORB_VERSION_NUM "${omni_dllver}")
+    set(OMNIORB_THREAD_NUM "${omnithread_dllver}")
+
+    set(OMNIORB_CFLAGS -D__WIN32__;-D__x86__;-D__NT__;-D__OSVERSION__=4;-D_CRT_SECURE_NO_DEPRECATE)
+    if(${OMNIORB_VERSION_NUM} MATCHES "^40")
+      set(OMNIORB_CFLAGS ${OMNIORB_CFLAGS};-D_WIN32_WINNT=0x0400)
+    else()
+      set(OMNIORB_CFLAGS ${OMNIORB_CFLAGS};-D_WIN32_WINNT=0x0500;-DRTC_CORBA_CXXMAPPING11)
+    endif()
+
+    string(REGEX REPLACE " " ";" libs "${omni_lib}")
+    foreach(library ${libs})
+        string(REGEX REPLACE ".lib$" "" library "${library}")
+        list(APPEND OMNIORB_LIBRARIES optimized "${library}")
+    endforeach()
+    string(REGEX REPLACE " " ";" libs "${omni_libd}")
+    foreach(library ${libs})
+        string(REGEX REPLACE ".lib$" "" library "${library}")
+        list(APPEND OMNIORB_LIBRARIES debug "${library}")
+    endforeach()
+
+    # OpenRTM-aist
+    set(OPENRTM_DIR "${rtm_root}")
+    set(OPENRTM_FOUND TRUE)
+    file(TO_CMAKE_PATH "${OPENRTM_DIR}" OPENRTM_DIR)
+
+    # OpenRTM-aist version
+    set(OPENRTM_VERSION "${rtm_version}")
+    string(REGEX REPLACE "([0-9]+)\\.([0-9]+)\\.([0-9]+)" "\\1"
+           OPENRTM_VERSION_MAJOR "${OPENRTM_VERSION}")
+    string(REGEX REPLACE "([0-9]+)\\.([0-9]+)\\.([0-9]+)" "\\2"
+           OPENRTM_VERSION_MINOR "${OPENRTM_VERSION}")
+    string(REGEX REPLACE "([0-9]+)\\.([0-9]+)\\.([0-9]+)" "\\3"
+           OPENRTM_VERSION_PATCH "${OPENRTM_VERSION}")
+
+    set(OPENRTM_VERSION_NUM "${rtm_dllver}")
+
+    foreach(path ${rtm_includes})
+        file(TO_CMAKE_PATH "${path}" path)
+        rtm_norm_path("${path}" path)
+        list(APPEND OPENRTM_INCLUDE_DIRS "${path}")
+    endforeach()
+    foreach(path ${rtm_libdir})
+        file(TO_CMAKE_PATH "${path}" path)
+        rtm_norm_path("${path}" path)
+        list(APPEND OPENRTM_LIBRARY_DIRS "${path}")
+    endforeach()
+
+    set(OPENRTM_CFLAGS "-DUSE_stub_in_nt_dll")
+
+    string(REGEX REPLACE " " ";" libs "${rtm_lib}")
+    foreach(library ${libs})
+        string(REGEX REPLACE ".lib$" "" library "${library}")
+        list(APPEND OPENRTM_LIBRARIES optimized "${library}")
+    endforeach()
+    string(REGEX REPLACE " " ";" libs "${coil_lib}")
+    foreach(library ${libs})
+        string(REGEX REPLACE ".lib$" "" library "${library}")
+        list(APPEND OPENRTM_LIBRARIES optimized "${library}")
+    endforeach()
+
+    string(REGEX REPLACE " " ";" libs "${rtm_libd}")
+    foreach(library ${libs})
+        string(REGEX REPLACE ".lib$" "" library "${library}")
+        list(APPEND OPENRTM_LIBRARIES debug "${library}")
+    endforeach()
+    string(REGEX REPLACE " " ";" libs "${coil_libd}")
+    foreach(library ${libs})
+        string(REGEX REPLACE ".lib$" "" library "${library}")
+        list(APPEND OPENRTM_LIBRARIES debug "${library}")
+    endforeach()
+
+    # IDL Compiler
+    set(OPENRTM_IDLC "${rtm_idlc}")
+    string(REGEX REPLACE " " ";" flags "${rtm_idlflags}")
+    foreach(flag ${flags})
+        string(REGEX REPLACE "\$\\(SolutionDir\\)" "${OPENRTM_DIR}" flag "${flag}")
+        string(REGEX REPLACE "[\\]" "/" flag "${flag}")
+        list(APPEND OPENRTM_IDLFLAGS "${flag}")
+    endforeach()
+
+    # IDL Skelton Wrapper
+    set(OPENRTM_IDL_WRAPPER "rtm-skelwrapper.py")
+    set(OPENRTM_IDL_WRAPPER_FLAGS --include-dir="" --skel-suffix=Skel --stub-suffix=Stub)
+
+endif(WIN32_RTM STREQUAL "11")
+
+if(WIN32_RTM STREQUAL "10")
     # omniORB
     if(NOT OMNIORB_DIR)
         if(NOT $ENV{OMNI_ROOT} STREQUAL "")
