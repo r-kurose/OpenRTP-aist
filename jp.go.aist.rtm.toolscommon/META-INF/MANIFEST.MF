@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: jp.go.aist.rtm.toolscommon; singleton:=true
-Bundle-Version: 1.1.0.v20110519
+Bundle-Version: 1.1.0.rc1v20110526
 Bundle-ClassPath: .,
  lib/commons-lang-2.2.jar
 Bundle-Vendor: %providerName
