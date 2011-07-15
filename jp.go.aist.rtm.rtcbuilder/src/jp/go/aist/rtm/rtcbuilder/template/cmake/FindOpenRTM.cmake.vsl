@@ -282,7 +282,7 @@ if(WIN32_RTM STREQUAL "10")
     set(OPENRTM_IDL_WRAPPER "rtm-skelwrapper.py")
     set(OPENRTM_IDL_WRAPPER_FLAGS --include-dir="" --skel-suffix=Skel --stub-suffix=Stub)
 
-endif(WIN32)
+endif(WIN32_RTM STREQUAL "10")
 
 message(STATUS "FindOpenRTM setup done.")
 
