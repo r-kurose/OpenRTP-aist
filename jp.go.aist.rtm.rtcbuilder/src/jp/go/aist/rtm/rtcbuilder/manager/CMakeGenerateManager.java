@@ -124,8 +124,8 @@ public class CMakeGenerateManager extends GenerateManager {
 		result.add(gr);
 		gr = generateModulesCPackWIX(contextMap);
 		result.add(gr);
-		gr = generateModulesFindOpenRTM(contextMap);
-		result.add(gr);
+//		gr = generateModulesFindOpenRTM(contextMap);
+//		result.add(gr);
 
 		gr = generateResourceDescriptionTXT(contextMap);
 		result.add(gr);
@@ -171,9 +171,10 @@ public class CMakeGenerateManager extends GenerateManager {
 
 	public GeneratedResult generateModulesFindOpenRTM(
 			Map<String, Object> contextMap) {
-		String outfile = "cmake_modules/FindOpenRTM.cmake";
-		String infile = "cmake/FindOpenRTM.cmake.vsl";
-		return generate(infile, outfile, contextMap);
+//		String outfile = "cmake_modules/FindOpenRTM.cmake";
+//		String infile = "cmake/FindOpenRTM.cmake.vsl";
+//		return generate(infile, outfile, contextMap);
+		return null;
 	}
 
 	// 1.0系 (CMake/cpack_resources)

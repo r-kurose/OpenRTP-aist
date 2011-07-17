@@ -253,7 +253,7 @@ public class CXXBuildTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "/";
 
-		assertEquals(15, result.size());
+		assertEquals(14, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -264,7 +264,7 @@ public class CXXBuildTest extends TestBase {
 		checkCode(result, resourceDir, "Doxyfile.in");
 		checkCode(result, resourceDir, "cmake_modules/cmake_uninstall.cmake.in");
 		checkCode(result, resourceDir, "cmake_modules/CPackWIX.cmake");
-		checkCode(result, resourceDir, "cmake_modules/FindOpenRTM.cmake");
+//		checkCode(result, resourceDir, "cmake_modules/FindOpenRTM.cmake");
 		checkCode(result, resourceDir, "cpack_resources/Description.txt");
 		checkCode(result, resourceDir, "cpack_resources/License.txt");
 		checkCode(result, resourceDir, "cpack_resources/License.rtf");
@@ -332,7 +332,7 @@ public class CXXBuildTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "/";
 
-		assertEquals(17, result.size());
+		assertEquals(16, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -345,7 +345,7 @@ public class CXXBuildTest extends TestBase {
 		checkCode(result, resourceDir, "Doxyfile.in");
 		checkCode(result, resourceDir, "cmake_modules/cmake_uninstall.cmake.in");
 		checkCode(result, resourceDir, "cmake_modules/CPackWIX.cmake");
-		checkCode(result, resourceDir, "cmake_modules/FindOpenRTM.cmake");
+//		checkCode(result, resourceDir, "cmake_modules/FindOpenRTM.cmake");
 		checkCode(result, resourceDir, "cpack_resources/Description.txt");
 		checkCode(result, resourceDir, "cpack_resources/License.txt");
 		checkCode(result, resourceDir, "cpack_resources/License.rtf");
