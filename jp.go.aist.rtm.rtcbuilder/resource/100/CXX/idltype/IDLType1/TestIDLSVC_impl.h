@@ -39,10 +39,10 @@ class ComFkSVC_impl
    LongArray_slice* set_longArray(const LongArray frm, LongArray frmo, LongArray frmio);
    ValueListArray_slice* set_longArrayv(const ValueListArray frm, ValueListArray_out frmo, ValueListArray frmio);
    color set_color(color frm, color& frmo, color& frmio);
-   Frame0 set_tool0(const Frame0& frm, Frame0& frmo, Frame0& frmio);
+   Frame0 set_tool0(const Frame0& frm, Frame0_out frmo, Frame0& frmio);
    Frame1* set_tool1(const Frame1& frm, Frame1_out frmo, Frame1& frmio);
    Frame2* set_tool2(const Frame2& frm, Frame2_out frmo, Frame2& frmio);
-   Frame3 set_tool3(const Frame3& frm, Frame3& frmo, Frame3& frmio);
+   Frame3 set_tool3(const Frame3& frm, Frame3_out frmo, Frame3& frmio);
    Frame4* set_tool4(const Frame4& frm, Frame4_out frmo, Frame4& frmio);
    Frame5* set_tool5(const Frame5& frm, Frame5_out frmo, Frame5& frmio);
    Frame1List* set_toolSeq1(const Frame1List& frm, Frame1List_out frmo, Frame1List& frmio);

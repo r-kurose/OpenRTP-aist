@@ -131,4 +131,38 @@ public class CXXIDLModuleTest extends TestBase {
 		checkCode(result, resourceDir, "MyServiceModuleTypeDefSVC_impl.h");
 		checkCode(result, resourceDir, "MyServiceModuleTypeDefSVC_impl.cpp");
 	}
+	
+	public void testArgStructModule() throws Exception {
+		rtcParam.setName("foo");
+		rtcParam.setDescription("ModuleDescription");
+		rtcParam.setVersion("1.0.0");
+		rtcParam.setVender("VenderName");
+		rtcParam.setCategory("Category");
+		rtcParam.setComponentType("UNIQUE");
+		rtcParam.setActivityType("EVENTDRIVEN");
+		rtcParam.setMaxInstance(0);
+		rtcParam.setComponentKind("DataFlowComponent");
+
+		ServicePortParam service1 = new ServicePortParam("sv_name", 0);
+		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
+		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "if_name", "", "", 
+				rootPath + "/resource/100/CXX/idlmodule/serviceArgStruct/MyServiceModuleTypeDef.idl", "MyService", "", 0);
+		srvinterts.add(int1);
+		service1.getServicePortInterfaces().addAll(srvinterts);
+		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
+		srvports.add(service1);
+		rtcParam.getServicePorts().addAll(srvports);
+
+		Generator generator = new Generator();
+		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
+
+		String resourceDir = rootPath + "/resource/100/CXX/idlmodule/serviceArgStruct/";
+
+		assertEquals(14, result.size());
+		checkCode(result, resourceDir, "fooComp.cpp");
+		checkCode(result, resourceDir, "foo.h");
+		checkCode(result, resourceDir, "foo.cpp");
+		checkCode(result, resourceDir, "MyServiceModuleTypeDefSVC_impl.h");
+		checkCode(result, resourceDir, "MyServiceModuleTypeDefSVC_impl.cpp");
+	}
 }

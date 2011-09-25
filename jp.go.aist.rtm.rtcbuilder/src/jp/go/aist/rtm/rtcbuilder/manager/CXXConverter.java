@@ -239,9 +239,14 @@ public class CXXConverter {
 				}
 				if(typeDef.getDirection().equals("in"))
 					result = "const " + result + "&";
+				else if(typeDef.getDirection().equals("out"))
+					result = result + "_out";
+				else if(typeDef.getDirection().equals("inout"))
+					result = result + "&";
+			} else {
+				if(typeDef.getDirection().equals("out") || typeDef.getDirection().equals("inout"))
+					result = result + "&";
 			}
-			if(typeDef.getDirection().equals("out") || typeDef.getDirection().equals("inout"))
-				result = result + "&";
 		}
 
 		return result;
