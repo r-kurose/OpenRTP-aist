@@ -78,7 +78,7 @@ public class CXXIDLInheritTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "/";
 
-		assertEquals(15, result.size());
+		assertEquals(14, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -127,7 +127,7 @@ public class CXXIDLInheritTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "/";
 
-		assertEquals(17, result.size());
+		assertEquals(16, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");

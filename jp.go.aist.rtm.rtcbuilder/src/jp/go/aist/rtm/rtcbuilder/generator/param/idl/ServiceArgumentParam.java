@@ -11,6 +11,7 @@ public class ServiceArgumentParam implements Serializable {
 	private String type;
 	private String originalType;
 	private String name;
+	private String module;
 	private String direction;
 	private boolean isUnbounded;
 	private boolean isArray;
@@ -29,6 +30,13 @@ public class ServiceArgumentParam implements Serializable {
 	}
 	public void setType(String argType) {
 		this.type = argType;
+	}
+	
+	public String getModule() {
+		return module;
+	}
+	public void setModule(String module) {
+		this.module = module;
 	}
 
 	public String getOriginalType() {

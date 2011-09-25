@@ -47,7 +47,7 @@ public class CXXLibraryTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/library/library2/";
 
-		assertEquals(13, result.size());
+		assertEquals(12, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -73,7 +73,7 @@ public class CXXLibraryTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/library/library1/";
 
-		assertEquals(13, result.size());
+		assertEquals(12, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");

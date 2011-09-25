@@ -92,6 +92,7 @@ public class IDLParamConverter {
 								serviceArgumentParam
 										.setType(node2String(n.param_type_spec));
 								serviceArgumentParam.setDirection(node2String(n.param_attribute));
+								serviceArgumentParam.setModule(service.getModule());
 
 								serviceMethodParam.getArguments().add(
 										serviceArgumentParam);

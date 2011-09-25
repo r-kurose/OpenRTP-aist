@@ -76,7 +76,7 @@ public class CXXConstraint extends TestBase {
 	}
 
 	private void checkResults(List<GeneratedResult> result, String resourceDir) {
-		assertEquals(14, result.size());
+		assertEquals(13, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");

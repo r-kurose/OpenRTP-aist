@@ -234,6 +234,9 @@ public class CXXConverter {
 			
 		} else {
 			if(typeDef.isStruct()) {
+				if(typeDef.getModule()!=null && typeDef.getModule().length()>0) {
+					result = typeDef.getModule() + result;
+				}
 				if(typeDef.getDirection().equals("in"))
 					result = "const " + result + "&";
 			}

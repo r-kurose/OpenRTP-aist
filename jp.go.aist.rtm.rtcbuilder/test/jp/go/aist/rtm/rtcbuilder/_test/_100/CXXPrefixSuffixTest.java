@@ -219,7 +219,7 @@ public class CXXPrefixSuffixTest extends TestBase {
 	}
 
 	private void checkResults(List<GeneratedResult> result, String resourceDir) {
-		assertEquals(15, result.size());
+		assertEquals(14, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
