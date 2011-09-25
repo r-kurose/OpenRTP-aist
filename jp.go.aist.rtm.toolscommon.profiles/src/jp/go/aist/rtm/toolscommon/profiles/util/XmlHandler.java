@@ -446,6 +446,7 @@ public class XmlHandler {
 	
 	public static ConstraintType convertToXmlConstraint(String source) throws Exception {
 		if(source==null || source.length()==0 ) throw new Exception(Messages.getString("XmlHandler.69"));
+		source = source.replace(" ", "");
 		
 		ObjectFactory factory = new ObjectFactory();
 		ConstraintType result = factory.createConstraintType();
