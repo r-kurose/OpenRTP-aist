@@ -226,11 +226,9 @@ public abstract class AbstractEditorFormPage extends FormPage {
 			}
 
 			public void mouseDown(MouseEvent e) {
-				text.setSelection(0, text.getText().length());
 			}
 
 			public void mouseUp(MouseEvent e) {
-				text.setSelection(0, text.getText().length());
 			}
 
 		});
