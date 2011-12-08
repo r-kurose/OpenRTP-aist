@@ -28,7 +28,7 @@ public class RTSELogHandler {
 			propLevel = logManager.getProperty(".level");
 		}
 		//
-		String pattern = "systemeditor%u.log";
+		String pattern = "%h/workspace/systemeditor%u.log";
 		if (propPattern != null) {
 			pattern = propPattern;
 		}
