@@ -299,7 +299,9 @@ public interface IMessageConstants {
 	public static final String CONFIGURATION_HINT_UNIT_TITLE = Messages.getString("IMessageConstants.CONFIGURATION_HINT_UNIT_TITLE"); //$NON-NLS-1$
 	public static final String CONFIGURATION_HINT_UNIT_DESC = Messages.getString("IMessageConstants.CONFIGURATION_HINT_UNIT_DESC"); //$NON-NLS-1$
 	public static final String CONFIGURATION_HINT_WIDGET_TITLE = Messages.getString("IMessageConstants.CONFIGURATION_HINT_WIDGET_TITLE"); //$NON-NLS-1$
-	public static final String CONFIGURATION_HINT_WIDGET_DESC = Messages.getString("IMessageConstants.CONFIGURATION_HINT_WIDGET_DESC"); //$NON-NLS-1$
+	public static final String CONFIGURATION_HINT_WIDGET_DESC_P1 = Messages.getString("IMessageConstants.CONFIGURATION_HINT_WIDGET_DESC_P1"); //$NON-NLS-1$
+	public static final String CONFIGURATION_HINT_WIDGET_DESC_P2 = Messages.getString("IMessageConstants.CONFIGURATION_HINT_WIDGET_DESC_P2"); //$NON-NLS-1$
+	public static final String CONFIGURATION_HINT_WIDGET_DESC = StringUtil.connectMessageWithSepalator( new String[]{CONFIGURATION_HINT_WIDGET_DESC_P1, CONFIGURATION_HINT_WIDGET_DESC_P2});
 	public static final String CONFIGURATION_HINT_STEP_TITLE = Messages.getString("IMessageConstants.CONFIGURATION_HINT_STEP_TITLE"); //$NON-NLS-1$
 	public static final String CONFIGURATION_HINT_STEP_DESC_P1 = Messages.getString("IMessageConstants.CONFIGURATION_HINT_STEP_DESC_P1"); //$NON-NLS-1$
 	public static final String CONFIGURATION_HINT_STEP_DESC_P2 = Messages.getString("IMessageConstants.CONFIGURATION_HINT_STEP_DESC_P2"); //$NON-NLS-1$
