@@ -477,6 +477,8 @@ public class Generator {
 					} catch (CoreException e) {
 						e.printStackTrace();
 					}
+					//バックアップファイルの整理
+					FileUtil.removeBackupFiles(outputProject, generatedResult.getName());
 				}
 			}
 		} else {

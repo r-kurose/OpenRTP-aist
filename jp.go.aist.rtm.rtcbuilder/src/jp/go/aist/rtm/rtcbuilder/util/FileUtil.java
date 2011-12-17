@@ -5,11 +5,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.nl.Messages;
+import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.SWT;
@@ -108,5 +113,29 @@ public class FileUtil {
 		}
 
 		return result == null ? null : result.toString();
+	}
+	
+	/**
+	 * バックアップファイルの整理を行う
+	 * 
+	 * @param project 対象プロジェクト
+	 * @param targetFile 対象ファイル名
+	 */
+	public static void removeBackupFiles(IProject project, String targetFile) {
+		File dir = new File(project.getLocation().toOSString());
+		File[] files = dir.listFiles();
+		List<String> targets = new ArrayList<String>();
+		for(File target : files) {
+			if( target.getName().startsWith(targetFile) ) {
+				targets.add(target.getName());
+			}
+		}
+		if(ComponentPreferenceManager.getInstance().getBackup_Num() < targets.size()) {
+			Collections.sort(targets);
+			for(int index=0;index<targets.size()-ComponentPreferenceManager.getInstance().getBackup_Num();index++) {
+				File remTarget = new File(project.getLocation().toOSString() + File.separator + targets.get(index));
+				remTarget.delete();
+			}
+		}
 	}
 }

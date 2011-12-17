@@ -454,17 +454,12 @@ public interface IMessageConstants {
 	public static final String PROFILE_COMPARE_MESSAGE = StringUtil.connectMessageWithSepalator( new String[]{PROFILE_COMPARE_MESSAGE_P1, PROFILE_COMPARE_MESSAGE_P2});
 
 	public static final String CREATE_FILE_ERROR = Messages.getString("IMessageConstants.CREATE_FILE_ERROR"); //$NON-NLS-1$
-
-
 	public static final String FILETYPE_YAML = Messages.getString("IMessageConstants.FILETYPE_YAML"); //$NON-NLS-1$
-
-
 	public static final String COMPARE_TITLE = Messages.getString("IMessageConstants.COMPARE_TITLE"); //$NON-NLS-1$
-
-
 	public static final String COMMON_LABEL_UPDATE = Messages.getString("IMessageConstants.COMMON_LABEL_UPDATE"); //$NON-NLS-1$
 
-
+	public static final String BACKUP_FILE_NUM = Messages.getString("IMessageConstants.BACKUP_FILE_NUM"); //$NON-NLS-1$
+	
 	public static final String TITLE_FONT = Messages.getString("IMessageConstants.TITLE_FONT"); //$NON-NLS-1$
 
 	public static final String PROFILE_VALIDATE_ERROR_MESSAGE = Messages.getString("IMessageConstants.PROFILE_VALIDATE_ERROR_MESSAGE"); //$NON-NLS-1$
