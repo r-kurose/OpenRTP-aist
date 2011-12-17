@@ -465,4 +465,6 @@ public interface IMessageConstants {
 	public static final String PROFILE_VALIDATE_ERROR_MESSAGE = Messages.getString("IMessageConstants.PROFILE_VALIDATE_ERROR_MESSAGE"); //$NON-NLS-1$
 
 	public static final String SELECT_DIRECTORY = Messages.getString("IMessageConstants.SELECT_DIRECTORY"); //$NON-NLS-1$
+	
+	public static final String SAVE_MESSAGE = Messages.getString("IMessageConstants.SAVE_MESSAGE"); //$NON-NLS-1$
 }
