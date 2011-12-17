@@ -29,6 +29,8 @@ import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Point;
@@ -213,6 +215,15 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		}
 		
 		final Text text = toolkit.createText(composite, "", style);
+		text.addTraverseListener(new TraverseListener() {
+			
+			@Override
+			public void keyTraversed(TraverseEvent e) {
+				if( e.detail == SWT.TRAVERSE_TAB_NEXT || e.detail == SWT.TRAVERSE_TAB_PREVIOUS ) {
+					e.doit = true;
+				}
+			}
+		});
 		text.addKeyListener(new KeyListener() {
 			public void keyReleased(KeyEvent e) {
 				update();
