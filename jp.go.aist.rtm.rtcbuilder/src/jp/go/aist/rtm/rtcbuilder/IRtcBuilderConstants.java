@@ -123,7 +123,7 @@ public interface IRtcBuilderConstants {
 	public static final String DOC_README_PORT_DETAIL_PREFIX = "\t\t" + SPACE17; 
 	public static final String DOC_README_INTERFACE_PREFIX = "\t\t" + SPACE15; 
 	//
-	public static final int DOC_DEFAULT_WIDTH = 80; 
+	public static final int DOC_DEFAULT_WIDTH = 66; 
 	public static final int DOC_AUTHOR_OFFSET = 11; 
 	public static final int DOC_DEFAULT_OFFSET = 3; 
 	public static final int DOC_DESC_OFFSET = 5;

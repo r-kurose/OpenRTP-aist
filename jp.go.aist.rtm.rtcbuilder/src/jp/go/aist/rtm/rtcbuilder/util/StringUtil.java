@@ -45,74 +45,92 @@ public class StringUtil {
 		
 		for( int intline=0; intline<lines.length; intline++ ) {
 			source = lines[intline];
-			for( int intIdx=0; intIdx<source.length(); intIdx++ ) {
-				char c = source.charAt(intIdx);
-				if ((c <= '\u007e') || // 英数字
-						(c == '\u00a5') || // \記号
-						(c == '\u203e') || // ~記号
-						(c >= '\uff61' && c <= '\uff9f') // 半角カナ
-				) {
-					length += 1;
-				} else {
-					length += 2;
-				}
-				// 一文字ずつ取得する
-				strBuf.append(c);
-				// 改行文字の場合は，その前までを投入
-				if (String.valueOf(c).equals(sep)) {
-					workResult.add(strBuf);
-					strBuf = new StringBuffer();
-					length = 0;
-				}
-				
-				if (String.valueOf(c).equals(START_MARK)) {
-					// tempの値をworkに投入
-					if (temp.size() > 0) {
-						workResult.addAll(temp);
-						temp = new ArrayList<StringBuffer>();
-					}
-					bolFlg = false;
-				}
-				
-				if (String.valueOf(c).equals(END_MARK)) {
-					bolFlg = true;
-					if (temp.size() > 0) {
-						// 終了文字までをStringBufferにため、workに投入
-						StringBuffer workBuffer = new StringBuffer();
-						for (int intIdx2=0; intIdx2 < temp.size(); intIdx2++) {
-							workBuffer.append(temp.get(intIdx2));
-						}
-						workBuffer.append(strBuf);
-						workResult.add(workBuffer);
-						// 初期化
-						bolFlg = false;
-						temp = new ArrayList<StringBuffer>();
-						strBuf = new StringBuffer();
-						length = 0;
-					}
-				}
-				
-				if(length >= width) {
-					// width分文字列を取得した時に終了文字が含まれていなければtempへ
-					// 含まれていたらworkへ。
-					if (bolFlg == false) {
-						temp.add(strBuf);
+			String[] eachWord = source.split(" ");
+			
+			for(int idxWord=0;idxWord<eachWord.length;idxWord++) {
+				String target = eachWord[idxWord];
+				for( int intIdx=0; intIdx<target.length(); intIdx++ ) {
+					char c = target.charAt(intIdx);
+					if ((c <= '\u007e') || // 英数字
+							(c == '\u00a5') || // \記号
+							(c == '\u203e') || // ~記号
+							(c >= '\uff61' && c <= '\uff9f') // 半角カナ
+					) {
+						length += 1;
 					} else {
-						workResult.add(strBuf);
+						length += 2;
 					}
-					strBuf = new StringBuffer();
-					length = 0;
+					// 一文字ずつ取得する
+					strBuf.append(c);
+					// 改行文字の場合は，その前までを投入
+					if (String.valueOf(c).equals(sep)) {
+						workResult.add(strBuf);
+						strBuf = new StringBuffer();
+						length = offset;
+					}
+					
+					if (String.valueOf(c).equals(START_MARK)) {
+						// tempの値をworkに投入
+						if (temp.size() > 0) {
+							workResult.addAll(temp);
+							temp = new ArrayList<StringBuffer>();
+						}
+						bolFlg = false;
+					}
+					
+					if (String.valueOf(c).equals(END_MARK)) {
+						bolFlg = true;
+						if (temp.size() > 0) {
+							// 終了文字までをStringBufferにため、workに投入
+							StringBuffer workBuffer = new StringBuffer();
+							for (int intIdx2=0; intIdx2 < temp.size(); intIdx2++) {
+								workBuffer.append(temp.get(intIdx2));
+							}
+							workBuffer.append(strBuf);
+							workResult.add(workBuffer);
+							// 初期化
+							bolFlg = false;
+							temp = new ArrayList<StringBuffer>();
+							strBuf = new StringBuffer();
+							length = offset;
+						}
+					}
+					
+					if(length >= width) {
+						//単語の途中で改行になった場合
+						if(intIdx<target.length()) {
+							if(intIdx+2< strBuf.length()) {
+								//追加した単語の長さ分を削除
+								strBuf.delete(strBuf.length()-intIdx-2,strBuf.length());
+								//再度同じ単語を解析
+								intIdx = -1;
+							}
+						}
+						// width分文字列を取得した時に終了文字が含まれていなければtempへ
+						// 含まれていたらworkへ。
+						if (bolFlg == false) {
+							temp.add(strBuf);
+						} else {
+							workResult.add(strBuf);
+						}
+						strBuf = new StringBuffer();
+						length = offset;
+					}
+					
 				}
-				
+				if( idxWord<eachWord.length-1 && 0<strBuf.length()) {
+					strBuf.append(" ");
+					length += 1;
+				}
 			}
-	
+			
 			// tempに残っている文字列をworkへ
 			if (temp.size() > 0) workResult.addAll(temp);
 			// strBufに残っている文字列をworkへ
 			if (strBuf.length() > 0) workResult.add(strBuf);
 			temp = new ArrayList<StringBuffer>();
 			strBuf = new StringBuffer();
-			length = 0;
+			length = offset;
 		}
 		
 		// workResultからresultを成形する

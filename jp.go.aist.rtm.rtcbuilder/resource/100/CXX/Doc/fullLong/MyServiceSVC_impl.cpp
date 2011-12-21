@@ -3,11 +3,11 @@
  * @file  MyServiceSVC_impl.cpp
  * @brief Service implementation code of MyService.idl
  *
- * @author Noriaki Ando <n-ando@aist.go.jp>3456789412345678951234567896123456789
- * 7123456789812345
+ * @author Noriaki Ando <n-ando@aist.go.jp> one two three four
+ * five six seven eight nine ten
  *
- * Copyright (C) 2006-2008 ライセンス1234567890123456789012345678901234567890123
- * 4567890
+ * Copyright (C) 2006-2008
+ * ライセンス12345678901234567890123456789012345678901234567890
  *
  */
 

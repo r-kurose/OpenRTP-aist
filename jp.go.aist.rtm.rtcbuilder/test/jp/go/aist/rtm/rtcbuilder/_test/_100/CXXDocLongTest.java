@@ -42,7 +42,7 @@ public class CXXDocLongTest extends TestBase {
 		rtcParam.setMaxInstance(5);
 		rtcParam.setComponentKind("DataFlowComponent");
 		//
-		rtcParam.setDocCreator("Noriaki Ando <n-ando@aist.go.jp>34567894123456789512345678961234567897123456789812345");
+		rtcParam.setDocCreator("Noriaki Ando <n-ando@aist.go.jp> one two three four five six seven eight nine ten");
 		rtcParam.setDocLicense("Copyright (C) 2006-2008 ライセンス12345678901234567890123456789012345678901234567890");
 		rtcParam.setDocDescription("本コンポーネントの概要説明1234567890123456789012345678901234567890123456789012345678901234567890");
 		rtcParam.setDocInOut("本コンポーネントの入出力1234567890123456789012345678901234567890123456789012345678901234567890");
@@ -181,17 +181,17 @@ public class CXXDocLongTest extends TestBase {
 		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
 		ConfigSetParam config1 = new ConfigSetParam("int_param0","int","", "0");
 		config1.setDocDataName("Config1の名前");
-		config1.setDocDescription("Config1の概要1234567890123456789012345678901234567890123456789012345678901234567890");
+		config1.setDocDescription("０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９");
 		config1.setDocDefaultVal("Config1のデフォルト値");
-		config1.setDocUnit("Config1の単位1234567890123456789012345678901234567890123456789012345678901234567890");
-		config1.setDocRange("Config1の範囲1234567890123456789012345678901234567890123456789012345678901234567890");
-		config1.setDocConstraint("Config1の制約条件1234567890123456789012345678901234567890123456789012345678901234567890");
+		config1.setDocUnit("01234567890123456789０１２３４５01234567890123456789０１２３４５01234567890123456789");
+		config1.setDocRange("0123456789012345678901234567890123456789 one two three four five six");
+		config1.setDocConstraint("Config1の制約条件123456789012345678901234567890 one two 1234567890 one two three four five six");
 		configset.add(config1);
 		ConfigSetParam config2 = new ConfigSetParam("int_param1","int","", "1");
 		config2.setDocDataName("Config2の名前");
 		config2.setDocDescription("Config2の概要1234567890123456789012345678901234567890123456789012345678901234567890");
 		config2.setDocDefaultVal("Config2のデフォルト値");
-		config2.setDocUnit("Config2の単位1234567890123456789012345678901234567890123456789012345678901234567890");
+		config2.setDocUnit("Config2の単位 1234567890123456789012345678901234567890123456789012345678901234567890 1234567890");
 		config2.setDocRange("Config2の範囲1234567890123456789012345678901234567890123456789012345678901234567890");
 		config2.setDocConstraint("Config2の制約条件1234567890123456789012345678901234567890123456789012345678901234567890");
 		configset.add(config2);
