@@ -326,7 +326,7 @@ public class TestBase extends TestCase {
 		assertEquals("param_def2", param2.getDefaultValue());
 		//
 		LanguageExt lang = (LanguageExt)profile.getLanguage();
-		assertEquals("java", lang.getKind());
+		assertEquals("Java", lang.getKind());
 		assertEquals("library1", lang.getTargets().get(0).getLibraries().get(0).getName());
 	}
 	
