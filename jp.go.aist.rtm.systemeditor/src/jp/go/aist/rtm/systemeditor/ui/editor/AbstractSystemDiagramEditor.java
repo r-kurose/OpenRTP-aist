@@ -15,7 +15,9 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 import jp.go.aist.rtm.systemeditor.RTSystemEditorPlugin;
 import jp.go.aist.rtm.systemeditor.extension.SaveProfileExtension;
@@ -98,6 +100,7 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.openrtp.namespaces.rts.version02.RtsProfileExt;
 
 import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
+import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 
 public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 
@@ -359,10 +362,9 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		}
 
 		getSystemDiagram().setSystemId(dialog.getSystemId());
-		DatatypeFactory dateFactory = new DatatypeFactoryImpl();
-		getSystemDiagram().setUpdateDate(
-				dateFactory.newXMLGregorianCalendar(new GregorianCalendar())
-						.toString());
+		XMLGregorianCalendar calendar = new XMLGregorianCalendarImpl(new GregorianCalendar());
+		calendar.setMillisecond(DatatypeConstants.FIELD_UNDEFINED);
+		getSystemDiagram().setUpdateDate(calendar.toString());
 
 		// TODO バージョンアップログへの対応
 
@@ -405,13 +407,10 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		}
 
 		getSystemDiagram().setSystemId(dialog.getSystemId());
-		DatatypeFactory dateFactory = new DatatypeFactoryImpl();
-		getSystemDiagram().setCreationDate(
-				dateFactory.newXMLGregorianCalendar(new GregorianCalendar())
-						.toString());
-		getSystemDiagram().setUpdateDate(
-				dateFactory.newXMLGregorianCalendar(new GregorianCalendar())
-						.toString());
+		XMLGregorianCalendar calendar = new XMLGregorianCalendarImpl(new GregorianCalendar());
+		calendar.setMillisecond(DatatypeConstants.FIELD_UNDEFINED);
+		getSystemDiagram().setCreationDate(calendar.toString());
+		getSystemDiagram().setUpdateDate(calendar.toString());
 
 		// TODO バージョンアップログへの対応
 

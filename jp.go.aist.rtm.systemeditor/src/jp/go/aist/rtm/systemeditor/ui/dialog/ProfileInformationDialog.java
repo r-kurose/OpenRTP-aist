@@ -183,12 +183,6 @@ public class ProfileInformationDialog extends Dialog {
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
 		shell.setText(Messages.getString("ProfileInformationDialog.9")); //$NON-NLS-1$
-		int x = 550;
-		int y = 400;
-
-		shell.setBounds(shell.getDisplay().getBounds().width / 2 - x / 2, shell
-				.getDisplay().getBounds().height
-				/ 2 - y / 2, x, y);
 	}
 
 	@Override
@@ -361,6 +355,7 @@ public class ProfileInformationDialog extends Dialog {
 		gd.grabExcessVerticalSpace = true;
 		gd.grabExcessHorizontalSpace = true;
 		gd.minimumWidth = 320;
+		gd.heightHint = 100;
 		viewer.getTable().setLayoutData(gd);
 		setViewerInput();
 		
