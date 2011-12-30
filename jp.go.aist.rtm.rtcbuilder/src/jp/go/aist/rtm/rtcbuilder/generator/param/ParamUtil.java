@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
@@ -313,7 +315,7 @@ public class ParamUtil {
 
 	private void convertFromModuleBasic(RtcProfile profile, RtcParam rtcParam) {
 		BasicInfoExt basic = (BasicInfoExt)profile.getBasicInfo();
-		//Šî–{
+		//ï¿½ï¿½{
 		rtcParam.setName(basic.getName());
 		rtcParam.setComponentType(basic.getComponentType());
 		rtcParam.setActivityType(basic.getActivityType());
@@ -330,8 +332,13 @@ public class ParamUtil {
 			rtcParam.setExecutionRate(basic.getExecutionRate().doubleValue());
 		rtcParam.setAbstract(basic.getAbstract());
 		rtcParam.setRtcType(basic.getRtcType());
-		rtcParam.setCreationDate(basic.getCreationDate().toString());
-		rtcParam.setUpdateDate(basic.getUpdateDate().toString());
+		XMLGregorianCalendar crDate = basic.getCreationDate();
+		crDate.setMillisecond(DatatypeConstants.FIELD_UNDEFINED);
+		rtcParam.setCreationDate(crDate.toString());
+		XMLGregorianCalendar updateDate = basic.getUpdateDate();
+		updateDate.setMillisecond(DatatypeConstants.FIELD_UNDEFINED);
+		rtcParam.setUpdateDate(updateDate.toString());
+		
 		rtcParam.getVersionUpLog().clear();
 		rtcParam.getVersionUpLog().addAll(basic.getVersionUpLogs());
 		// rtcParam.setVersionUpLog(basic.getVersionUpLogs());

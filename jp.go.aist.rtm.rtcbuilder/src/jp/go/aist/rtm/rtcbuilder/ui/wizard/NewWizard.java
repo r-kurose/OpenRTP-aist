@@ -3,7 +3,8 @@ package jp.go.aist.rtm.rtcbuilder.ui.wizard;
 import java.io.ByteArrayInputStream;
 import java.util.GregorianCalendar;
 
-import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.DatatypeConstants;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.ProfileHandler;
@@ -28,7 +29,7 @@ import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 
-import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
+import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 
 public class NewWizard extends Wizard implements INewWizard, IExecutableExtension {
 
@@ -57,8 +58,9 @@ public class NewWizard extends Wizard implements INewWizard, IExecutableExtensio
 			}
 			projectHandle.open(null);
 			//
-			DatatypeFactory dateFactory = new DatatypeFactoryImpl();
-			String dateTime = dateFactory.newXMLGregorianCalendar(new GregorianCalendar()).toString();
+			XMLGregorianCalendar calendar = new XMLGregorianCalendarImpl(new GregorianCalendar());
+			calendar.setMillisecond(DatatypeConstants.FIELD_UNDEFINED);
+			String dateTime = calendar.toString();
 			ProfileHandler handler = new ProfileHandler();
 			String xmlFile = handler.createInitialRtcXml(dateTime);
 			//
@@ -87,7 +89,6 @@ public class NewWizard extends Wizard implements INewWizard, IExecutableExtensio
 		IConfigurationElement cfig, String propertyName, Object data) {
         configElement = cfig;
     }
-	
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 	}
@@ -96,5 +97,4 @@ public class NewWizard extends Wizard implements INewWizard, IExecutableExtensio
 		newProjectPage = new WizardNewProjectCreationPage("ProjectCreation");
 		addPage(newProjectPage);
 	}
-
 }
