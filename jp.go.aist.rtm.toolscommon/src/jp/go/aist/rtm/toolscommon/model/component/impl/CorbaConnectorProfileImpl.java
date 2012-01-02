@@ -267,9 +267,7 @@ public class CorbaConnectorProfileImpl extends ConnectorProfileImpl implements C
 				PROP.INPORT_READ_TIMEOUT);
 
 		for (String key : profile.getPropertyKeys()) {
-			if (InterfaceId.isValid(key)) {
-				addProperty(result, profile.getProperty(key), key);
-			}
+			addProperty(result, profile.getProperty(key), key);
 		}
 
 		return result.toArray(new NameValue[0]);
