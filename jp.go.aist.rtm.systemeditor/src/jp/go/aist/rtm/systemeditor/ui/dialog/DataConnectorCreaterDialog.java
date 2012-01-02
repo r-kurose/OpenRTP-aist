@@ -14,7 +14,7 @@ import jp.go.aist.rtm.toolscommon.util.ConnectorUtil;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
-import org.eclipse.jface.dialogs.TitleAreaDialog;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -42,7 +42,7 @@ import org.eclipse.swt.widgets.Text;
  * サブスクリプションタイプは、データフロータイプが「Push」の時のみ表示される。<br>
  * PushRateは、サブスクリプションタイプが「Periodic」であり、かつデータフロータイプが「Push」の時のみ表示される<br>
  */
-public class DataConnectorCreaterDialog extends TitleAreaDialog {
+public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 
 	static final String LABEL_PUSH_POLICY = Messages.getString("DataConnectorCreaterDialog.20");
 	static final String LABEL_SKIP_COUNT = Messages.getString("DataConnectorCreaterDialog.21");
@@ -67,37 +67,24 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 	static final String MSG_ERROR_INPORT_READ_TIMEOUT_NOT_NUMERIC = Messages.getString("DataConnectorCreaterDialog.36");
 
 	private Text nameText;
-
 	private Combo dataTypeCombo;
-
 	private Combo interfaceTypeCombo;
-
 	private Combo dataflowTypeCombo;
-
 	private Combo subscriptionTypeCombo;
-
 	private Text pushRateText;
-
 	private Combo pushPolicyCombo;
-
 	private Text skipCountText;
 
 	Composite detailComposite;
-
 	Point defaultDialogSize;
-
 	private ConnectorProfile connectorProfile;
-
 	private ConnectorProfile dialogResult;
-
 	private OutPort outport;
-
 	private InPort inport;
-
 	BufferPackage ob;
-
 	BufferPackage ib;
 
+	TableViewer additionalTableViewer;
 	boolean disableNotify;
 
 	static class BufferPackage {
@@ -110,7 +97,6 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 
 	public DataConnectorCreaterDialog(Shell parentShell) {
 		super(parentShell);
-		setShellStyle(getShellStyle() | SWT.CENTER | SWT.RESIZE);
 	}
 
 	/**
@@ -420,7 +406,9 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 
 		ib = new BufferPackage();
 		createBufferComposite(detailComposite, LABEL_INPORT_BUFFER, ib);
-
+		
+		additionalTableViewer = createAdditionalTableViewer(detailComposite);
+		
 		loadDetailData();
 
 		defaultDialogSize = getShell().getSize();
@@ -779,6 +767,12 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 	 * {@inheritDoc}
 	 */
 	protected void okPressed() {
+		if( additionalTableViewer!=null ) {
+			List<AdditionalEntry> additional = (List<AdditionalEntry>)additionalTableViewer.getInput();
+			for(AdditionalEntry target : additional) {
+				connectorProfile.setProperty(target.getName(), target.getValue());
+			}
+		}
 		dialogResult = connectorProfile;
 		super.okPressed();
 	}

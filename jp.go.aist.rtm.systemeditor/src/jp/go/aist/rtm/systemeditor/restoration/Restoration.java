@@ -47,9 +47,8 @@ public class Restoration {
 	public static void processAllRestoreConfigurationSet(Result result,
 			SystemDiagram systemDiagram) {
 
-		List<CorbaConfigurationSet> remoteConfigurationSets = new ArrayList<CorbaConfigurationSet>();
-
 		for (Component c : systemDiagram.getRegisteredComponents()) {
+			List<CorbaConfigurationSet> remoteConfigurationSets = new ArrayList<CorbaConfigurationSet>();
 			if (!(c instanceof CorbaComponent)) {
 				continue;
 			}

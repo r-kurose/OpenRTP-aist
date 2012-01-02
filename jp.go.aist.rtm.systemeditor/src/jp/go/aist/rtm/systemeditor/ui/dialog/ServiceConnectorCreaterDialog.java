@@ -1,11 +1,15 @@
 package jp.go.aist.rtm.systemeditor.ui.dialog;
 
+import static jp.go.aist.rtm.systemeditor.nl.Messages.getString;
+import static jp.go.aist.rtm.systemeditor.ui.util.RTMixin.form;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jp.go.aist.rtm.systemeditor.ui.dialog.ConnectorDialogBase.AdditionalEntry;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
@@ -13,7 +17,6 @@ import jp.go.aist.rtm.toolscommon.model.component.PortInterfaceProfile;
 import jp.go.aist.rtm.toolscommon.model.component.ServicePort;
 
 import org.eclipse.jface.dialogs.IMessageProvider;
-import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
@@ -43,9 +46,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 
-import static jp.go.aist.rtm.systemeditor.nl.Messages.getString;
-import static jp.go.aist.rtm.systemeditor.ui.util.RTMixin.*;
-
 /**
  * サービスポート間の接続のコネクタプロファイルの選択ダイアログ
  * <P>
@@ -66,7 +66,7 @@ import static jp.go.aist.rtm.systemeditor.ui.util.RTMixin.*;
  * provider={1}」</li>
  * </ul>
  */
-public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
+public class ServiceConnectorCreaterDialog extends ConnectorDialogBase {
 
 	static final int EXEC_BUTTON_WIDTH = 70;
 
@@ -123,10 +123,10 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 	List<String> providerLabels;
 
 	String baseMessage;
+	TableViewer additionalTableViewer;
 
 	public ServiceConnectorCreaterDialog(Shell parentShell) {
 		super(parentShell);
-		setShellStyle(getShellStyle() | SWT.CENTER | SWT.RESIZE);
 	}
 
 	/**
@@ -150,6 +150,7 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 				.createConnectorProfile();
 		this.connectorProfile.setName(first.getNameL() + "_"
 				+ second.getNameL());
+		this.connectorProfile.setProperty("port.connection.strictness", "strict");
 
 		open();
 
@@ -399,6 +400,8 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 			}
 		});
 
+		additionalTableViewer = createAdditionalTableViewer(detailComposite);
+		
 		loadDetailData();
 
 		defaultDialogSize = getShell().getSize();
@@ -411,15 +414,6 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 		Label l = new Label(parent, SWT.NONE);
 		l.setText(label);
 		return l;
-	}
-
-	TableViewerColumn createColumn(TableViewer tv, String title, int width) {
-		TableViewerColumn col = new TableViewerColumn(tv, SWT.NONE);
-		col.getColumn().setText(title);
-		col.getColumn().setWidth(width);
-		col.getColumn().setResizable(true);
-		col.getColumn().setMoveable(false);
-		return col;
 	}
 
 	/**
@@ -477,6 +471,13 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 			String consumer = e.consumer.toString();
 			String provider = e.provider.toString();
 			connectorProfile.setProperty(consumer, provider);
+		}
+		
+		if( additionalTableViewer!=null ) {
+			List<AdditionalEntry> additional = (List<AdditionalEntry>)additionalTableViewer.getInput();
+			for(AdditionalEntry target : additional) {
+				connectorProfile.setProperty(target.getName(), target.getValue());
+			}
 		}
 	}
 
