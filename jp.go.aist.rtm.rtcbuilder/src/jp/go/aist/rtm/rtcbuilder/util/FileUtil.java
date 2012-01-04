@@ -122,19 +122,51 @@ public class FileUtil {
 	 * @param targetFile 対象ファイル名
 	 */
 	public static void removeBackupFiles(IProject project, String targetFile) {
-		File dir = new File(project.getLocation().toOSString());
-		File[] files = dir.listFiles();
-		List<String> targets = new ArrayList<String>();
-		for(File target : files) {
-			if( target.getName().startsWith(targetFile) ) {
-				targets.add(target.getName());
+		String targetPath = project.getLocation().toOSString();
+		String targetRealFile = targetPath;
+		//
+		if(targetFile.contains("\\")) {
+			//ファイル名にパスが含まれる場合
+			String paths[] = targetFile.split("\\\\");
+			
+			for(int index=0;index<paths.length;index++) {
+				targetRealFile = targetRealFile + File.separator + paths[index];
+				if(index<paths.length-1) {
+					targetPath = targetPath + File.separator + paths[index];
+				}
 			}
-		}
-		if(ComponentPreferenceManager.getInstance().getBackup_Num() < targets.size()) {
-			Collections.sort(targets);
-			for(int index=0;index<targets.size()-ComponentPreferenceManager.getInstance().getBackup_Num();index++) {
-				File remTarget = new File(project.getLocation().toOSString() + File.separator + targets.get(index));
-				remTarget.delete();
+		
+			File dir = new File(targetPath);
+			File[] files = dir.listFiles();
+			List<String> targets = new ArrayList<String>();
+			for(File target : files) {
+				if( target.getPath().startsWith(targetRealFile) ) {
+					targets.add(target.getPath());
+				}
+			}
+			if(ComponentPreferenceManager.getInstance().getBackup_Num() < targets.size()) {
+				Collections.sort(targets);
+				for(int index=0;index<targets.size()-ComponentPreferenceManager.getInstance().getBackup_Num();index++) {
+					File remTarget = new File(targets.get(index));
+					remTarget.delete();
+				}
+			}
+		} else {
+			//ファイル名のみの場合
+			File dir = new File(project.getLocation().toOSString());
+			File[] files = dir.listFiles();
+			List<String> targets = new ArrayList<String>();
+			for(File target : files) {
+				if( target.getName().startsWith(targetFile) ) {
+					targets.add(target.getName());
+				}
+			}
+			if(ComponentPreferenceManager.getInstance().getBackup_Num() < targets.size()) {
+				Collections.sort(targets);
+				for(int index=0;index<targets.size()-ComponentPreferenceManager.getInstance().getBackup_Num();index++) {
+					File remTarget = new File(project.getLocation().toOSString() + File.separator + targets.get(index));
+					remTarget.delete();
+				}
 			}
 		}
 	}
