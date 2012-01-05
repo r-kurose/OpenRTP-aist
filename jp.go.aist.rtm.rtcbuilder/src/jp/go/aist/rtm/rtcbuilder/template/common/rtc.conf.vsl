@@ -33,7 +33,7 @@ ${sharp} ${rtcParam.category}.${rtcParam.name}2.config_file: ${rtcParam.name}2.c
 ${sharp}
 ${sharp}------------------------------------------------------------
 
-#if(${rtcParam.checkConstraint()})${rtcParam.category}.${rtcParam.name}.config_file: ${rtcParam.name}.conf
+#if(${rtcParam.checkConfig()})${rtcParam.category}.${rtcParam.name}.config_file: ${rtcParam.name}.conf
 #end
 
 ${sharp}

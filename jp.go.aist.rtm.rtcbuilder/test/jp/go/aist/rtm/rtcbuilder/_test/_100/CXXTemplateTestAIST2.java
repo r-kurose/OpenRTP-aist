@@ -53,7 +53,7 @@ public class CXXTemplateTestAIST2 extends TestBase {
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
 		String targetDir = rootPath + "/resource/100/CXX/AIST2/";
-		assertEquals(14, result.size());
+		assertEquals(15, result.size());
 		checkCode(result, targetDir, "ModuleNameComp.cpp");
 		checkCode(result, targetDir, "ModuleName.h");
 		checkCode(result, targetDir, "ModuleName.cpp");

@@ -53,7 +53,7 @@ public class CXXImplTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/impl/all/";
 
-		assertEquals(12, result.size());
+		assertEquals(13, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -80,7 +80,7 @@ public class CXXImplTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/impl/execute/";
 
-		assertEquals(12, result.size());
+		assertEquals(13, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -106,7 +106,7 @@ public class CXXImplTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/impl/finalize/";
 
-		assertEquals(12, result.size());
+		assertEquals(13, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -129,7 +129,7 @@ public class CXXImplTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/impl/initialize/";
 
-		assertEquals(12, result.size());
+		assertEquals(13, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");

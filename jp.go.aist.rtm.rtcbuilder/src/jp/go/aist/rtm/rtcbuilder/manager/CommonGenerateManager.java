@@ -59,11 +59,8 @@ public class CommonGenerateManager extends GenerateManager {
 
 		GeneratedResult gr;
 
-		if (rtcParam.getExecutionRate() > 0.0 || rtcParam.checkConstraint()
-				|| rtcParam.getConfigParameterParams().size() > 0) {
-			gr = generateRTCConf(contextMap);
-			result.add(gr);
-		}
+		gr = generateRTCConf(contextMap);
+		result.add(gr);
 
 		gr = generateComponentConf(contextMap);
 		result.add(gr);
@@ -81,8 +78,7 @@ public class CommonGenerateManager extends GenerateManager {
 		gr = generateREADME_04(contextMap);
 		result.add(gr);
 
-		if (rtcParam.getExecutionRate() > 0.0 || rtcParam.checkConstraint()
-				|| rtcParam.getConfigParameterParams().size() > 0) {
+		if (rtcParam.getExecutionRate() > 0.0 || rtcParam.checkConfig()) {
 			gr = generateRTCConf(contextMap);
 			result.add(gr);
 		}
