@@ -774,10 +774,8 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		this.test_version = isTest;
 	}
 	public boolean checkConstraint() {
-		for( ConfigSetParam config : configParams ) {
-			if( config.getConstraint()!=null && config.getConstraint().length()>0) {
-				return true;
-			}
+		if( 0<configParams.size() ) {
+			return true;
 		}
 		return false;
 	}

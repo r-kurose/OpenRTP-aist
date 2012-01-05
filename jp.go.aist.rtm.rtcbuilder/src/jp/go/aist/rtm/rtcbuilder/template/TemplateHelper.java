@@ -2,6 +2,9 @@ package jp.go.aist.rtm.rtcbuilder.template;
 
 import java.io.File;
 
+import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigParameterParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
+
 import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
 import static jp.go.aist.rtm.rtcbuilder.util.StringUtil.*;
 
@@ -237,5 +240,29 @@ public class TemplateHelper {
 		String[] vers = ver.split("\\.");
 		return (vers.length > 2) ? vers[2] : "0";
 	}
-
+	//ConfigParameterのチェック
+	public boolean checkPeriodicType(RtcParam param) {
+		for( ConfigParameterParam target : param.getConfigParameterParams() ) {
+			if( target.getConfigName().trim().equals("exec_cxt.periodic.type") ) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean checkNotPeriodicTypeParam(ConfigParameterParam param) {
+		if( param.getConfigName().trim().equals("exec_cxt.periodic.type") ) {
+			return false;
+		}
+		return true;
+	}
+	
+	public String getPeriodicTypeValue(RtcParam param) {
+		for( ConfigParameterParam target : param.getConfigParameterParams() ) {
+			if( target.getConfigName().trim().equals("exec_cxt.periodic.type") ) {
+				return target.getDefaultVal();
+			}
+		}
+		return "";
+	}
 }

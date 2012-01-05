@@ -101,7 +101,14 @@ ${sharp} conf.__widget__.double_param1: text
 ${sharp} conf.__widget__.str_param0: radio
 ${sharp} conf.__widget__.vector_param0: checkbox
 ${sharp} conf.__widget__.vector_param1: orderd_list
-${sharp}
+
+#foreach($configParam in ${rtcParam.configParams})
+#if( ${configParam.widget.length()} > 0 )
+conf.__widget__.${configParam.name}, ${configParam.widget}#if( ${configParam.step.length()} > 0 ).${configParam.step}#end
+#end
+#end
+
+
 ${sharp} conf.__constraints__.int_param0: 0<=x<=150
 ${sharp} conf.__constraints__.int_param1: 0<=x<=1000
 ${sharp} conf.__constraints__.double_param0: 0<=x<=100
@@ -109,6 +116,12 @@ ${sharp} conf.__constraints__.double_param1:
 ${sharp} conf.__constraints__.str_param0: (default,mode0,mode1)
 ${sharp} conf.__constraints__.vector_param0: (dog,monky,pheasant,cat)
 ${sharp} conf.__constraints__.vector_param1: (pita,gora,switch)
+
+#foreach($configParam in ${rtcParam.configParams})
+#if( ${configParam.constraint.length()} > 0 )
+conf.__constraints__.${configParam.name}, ${configParam.constraint}
+#end
+#end
 
 
 ${sharp}${sharp}============================================================
@@ -130,9 +143,24 @@ ${sharp}${sharp}                            RT-preemptive pathed kernel.
 ${sharp}${sharp} - ArtExecutionContext:     Real-time execution context for ARTLinux
 ${sharp}${sharp}                            (http://sourceforge.net/projects/art-linux/)
 ${sharp}${sharp}
+#if(${tmpltHelper.checkPeriodicType(${rtcParam})})
+exec_cxt.periodic.type:${tmpltHelper.getPeriodicTypeValue(${rtcParam})}
+#else
 ${sharp} exec_cxt.periodic.type: PeriodicExecutionContext
+#end
 
 ${sharp}${sharp}
 ${sharp}${sharp} The execution cycle of ExecutionContext
 ${sharp}${sharp}
+#if(${rtcParam.executionRate}>0)exec_cxt.periodic.rate:${rtcParam.executionRate}
+#else
 ${sharp} exec_cxt.periodic.rate: 1000
+#end
+
+#if( ${rtcParam.configParameterParams.size()} > 0 )
+#foreach($parameterParam in ${rtcParam.configParameterParams})  
+#if(${tmpltHelper.checkNotPeriodicTypeParam(${parameterParam})})
+${parameterParam.configName}:${parameterParam.defaultVal}
+#end
+#end
+#end

@@ -421,8 +421,6 @@ ${sharp}${sharp}
 ${sharp}${sharp} The execution cycle of ExecutionContext
 ${sharp}${sharp}
 ${sharp} exec_cxt.periodic.rate: 1000
-#if(${rtcParam.executionRate}>0)exec_cxt.periodic.rate:${rtcParam.executionRate}
-#end
 
 ${sharp}${sharp}============================================================
 ${sharp}${sharp} SDO service settings
@@ -438,9 +436,3 @@ ${sharp}${sharp} SDO service consumer settings
 ${sharp}${sharp}
 ${sharp} sdo.service.consumer.available_services: [read only]
 ${sharp} sdo.service.consumer.enabled_services: ALL
-
-#if( ${rtcParam.configParameterParams.size()} > 0 )
-#foreach($parameterParam in ${rtcParam.configParameterParams})  
-${parameterParam.configName}:${parameterParam.defaultVal}
-#end
-#end
