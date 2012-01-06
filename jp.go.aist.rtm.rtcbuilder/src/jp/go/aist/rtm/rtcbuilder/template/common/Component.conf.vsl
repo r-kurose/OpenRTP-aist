@@ -93,6 +93,7 @@ ${sharp}${sharp} - enumeration:  (enum0, enum1, ...)
 ${sharp}${sharp} - array:        <constraints0>, ,constraints1>, ... for only array value
 ${sharp}${sharp} - hash:         {key0: value0, key1:, value0, ...}
 ${sharp}${sharp}
+#if(${tmpltHelper.checkNotWidget(${rtcParam})})
 ${sharp}${sharp} examples:
 ${sharp} conf.__widget__.int_param0: slider.10
 ${sharp} conf.__widget__.int_param1: spin
@@ -101,14 +102,16 @@ ${sharp} conf.__widget__.double_param1: text
 ${sharp} conf.__widget__.str_param0: radio
 ${sharp} conf.__widget__.vector_param0: checkbox
 ${sharp} conf.__widget__.vector_param1: orderd_list
-
+#else
 #foreach($configParam in ${rtcParam.configParams})
 #if( ${configParam.widget.length()} > 0 )
-conf.__widget__.${configParam.name}, ${configParam.widget}#if( ${configParam.step.length()} > 0 ).${configParam.step}#end
+${sharp} conf.__widget__.${configParam.name}, ${configParam.widget}#if( ${configParam.step.length()} > 0 ).${configParam.step}#end
+#end
 #end
 #end
 
 
+#if(${tmpltHelper.checkNotConstraint(${rtcParam})})
 ${sharp} conf.__constraints__.int_param0: 0<=x<=150
 ${sharp} conf.__constraints__.int_param1: 0<=x<=1000
 ${sharp} conf.__constraints__.double_param0: 0<=x<=100
@@ -116,13 +119,13 @@ ${sharp} conf.__constraints__.double_param1:
 ${sharp} conf.__constraints__.str_param0: (default,mode0,mode1)
 ${sharp} conf.__constraints__.vector_param0: (dog,monky,pheasant,cat)
 ${sharp} conf.__constraints__.vector_param1: (pita,gora,switch)
-
+#else
 #foreach($configParam in ${rtcParam.configParams})
 #if( ${configParam.constraint.length()} > 0 )
-conf.__constraints__.${configParam.name}, ${configParam.constraint}
+${sharp} conf.__constraints__.${configParam.name}, ${configParam.constraint}
 #end
 #end
-
+#end
 
 ${sharp}${sharp}============================================================
 ${sharp}${sharp} Execution context settings

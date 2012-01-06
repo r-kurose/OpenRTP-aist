@@ -3,6 +3,7 @@ package jp.go.aist.rtm.rtcbuilder.template;
 import java.io.File;
 
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigParameterParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 
 import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
@@ -264,5 +265,23 @@ public class TemplateHelper {
 			}
 		}
 		return "";
+	}
+	
+	public boolean checkNotWidget(RtcParam param) {
+		for(ConfigSetParam target : param.getConfigParams()) {
+			if( target.getWidget()!=null && 0<target.getWidget().length() ) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean checkNotConstraint(RtcParam param) {
+		for(ConfigSetParam target : param.getConfigParams()) {
+			if( target.getConstraint()!=null && 0<target.getConstraint().length() ) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
