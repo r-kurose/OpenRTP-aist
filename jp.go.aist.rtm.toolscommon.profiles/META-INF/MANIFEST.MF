@@ -52,6 +52,7 @@ Export-Package: com.sun.xml.bind;
  com.sun.xml.bind.v2.schemagen.xmlschema,
  com.sun.xml.bind.v2.util,
  jp.go.aist.rtm.toolscommon.profiles.util;uses:="junit.framework",
+ org.openrtp.namespaces.deploy,
  org.openrtp.namespaces.rtc.version01;uses:="javax.xml.bind,javax.xml.datatype",
  org.openrtp.namespaces.rtc.version02;uses:="javax.xml.bind,javax.xml.datatype",
  org.openrtp.namespaces.rts.version01;uses:="javax.xml.bind,javax.xml.datatype",
