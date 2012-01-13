@@ -5,6 +5,9 @@ import static jp.go.aist.rtm.systemeditor.nl.Messages.getString;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.go.aist.rtm.systemeditor.nl.Messages;
+
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
@@ -31,6 +34,7 @@ public class ConnectorDialogBase extends TitleAreaDialog {
 	static final int PROPERTY_NAME = 0;
 	static final int PROPERTY_VALUE = 1;
 	static final int EXEC_BUTTON_WIDTH = 70;
+	static protected final String MSG_ERROR_PROPERTY_DUPLICATE = Messages.getString("ConnectorCreaterDialogBase.0");
 	
 	private List<AdditionalEntry> additional;
 	
@@ -130,6 +134,21 @@ public class ConnectorDialogBase extends TitleAreaDialog {
 		col.getColumn().setResizable(true);
 		col.getColumn().setMoveable(false);
 		return col;
+	}
+	
+	protected boolean checkProperties(List<AdditionalEntry> additional) {
+		//重複チェック
+		List<String> listAdd = new ArrayList<String>();
+		for(AdditionalEntry target : additional) {
+			if(listAdd.contains(target.getName().trim())==false) {
+				listAdd.add(target.getName().trim());
+			} else {
+				setMessage(MSG_ERROR_PROPERTY_DUPLICATE,
+						IMessageProvider.ERROR);
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	public class AdditionalEntry {

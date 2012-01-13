@@ -16,7 +16,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.datatype.DatatypeConstants;
-import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import jp.go.aist.rtm.systemeditor.RTSystemEditorPlugin;
@@ -99,7 +98,6 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.openrtp.namespaces.rts.version02.RtsProfileExt;
 
-import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
 import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 
 public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {

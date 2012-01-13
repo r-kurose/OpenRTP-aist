@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jp.go.aist.rtm.systemeditor.ui.dialog.ConnectorDialogBase.AdditionalEntry;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
@@ -517,6 +516,12 @@ public class ServiceConnectorCreaterDialog extends ConnectorDialogBase {
 
 	@Override
 	protected void okPressed() {
+		if( additionalTableViewer!=null ) {
+			//重複チェック
+			if( checkProperties((List<AdditionalEntry>)additionalTableViewer.getInput())==false) {
+				return;
+			}
+		}
 		applyEntry();
 		dialogResult = connectorProfile;
 		super.okPressed();

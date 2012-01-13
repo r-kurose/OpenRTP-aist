@@ -769,6 +769,10 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 	protected void okPressed() {
 		if( additionalTableViewer!=null ) {
 			List<AdditionalEntry> additional = (List<AdditionalEntry>)additionalTableViewer.getInput();
+			//重複チェック
+			if( checkProperties(additional)==false) {
+				return;
+			}
 			for(AdditionalEntry target : additional) {
 				connectorProfile.setProperty(target.getName(), target.getValue());
 			}
