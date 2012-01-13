@@ -61,7 +61,7 @@ import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
  * RTSプロファイルの入出力を司るクラス
  * 
  */
-public class RtsProfileHandler {
+public class RtsProfileHandler extends ProfileHandlerBase {
 	
 	private boolean online;
 	private RtsProfileExt originalProfile;
@@ -704,6 +704,10 @@ public class RtsProfileHandler {
 			ComponentExt target, Component original) {
 		// プロパティ設定
 		for (String key : eComp.getPropertyKeys()) {
+			//デプロイ情報は除外
+			if(key.equals(KEY_DEPLOY_TYPE) || key.equals(KEY_DEPLOY_TARGET)
+					|| key.equals(KEY_DEPLOY_IOR)) continue;
+			//
 			setProperty(key, eComp.getProperty(key), target.getProperties());
 		}
 		populateIOR(target.getProperties(), eComp);
