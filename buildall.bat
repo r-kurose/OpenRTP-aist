@@ -9,7 +9,7 @@ rem ---------------------------------------------------------------------------
 
 @set ANT4ECLIPSE=%ECLIPSE_HOME%\plugins\net.sf.ant4eclipse.plugin_0.5.0.rc1\lib\
 @set JUNIT=%ECLIPSE_HOME%\plugins\org.junit_3.8.1\
-@set JARDIR=openrtp_1.0.0
+@set JARDIR=openrtp_1.1.0
 
 
 set TARGETS=^

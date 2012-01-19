@@ -74,20 +74,20 @@ done
 #
 #
 #---------------------------------------------------------------------------
-mkdir ./rtsystemeditor_1.0.0
+mkdir ./rtsystemeditor_1.1.0
 #find ./ -name '*aist*.jar' -exec cp -p {} . \;
 ic=0
 declare name
 while [ $ic -lt $num ]
 do
-	name=${build_tbl[ic]}"_1.0.0.jar"
-	cp -p ${build_tbl[ic]}/jar/$name ./rtsystemeditor_1.0.0 
+	name=${build_tbl[ic]}"_1.1.0.jar"
+	cp -p ${build_tbl[ic]}/jar/$name ./rtsystemeditor_1.1.0 
 	ic=ic+1
 done
-rm rtsystemeditor_1.0.0.zip
-zip rtsystemeditor_1.0.0.zip -r ./rtsystemeditor_1.0.0
+rm rtsystemeditor_1.1.0.zip
+zip rtsystemeditor_1.1.0.zip -r ./rtsystemeditor_1.1.0
 
-rm -rf ./rtsystemeditor_1.0.0
+rm -rf ./rtsystemeditor_1.1.0
 
 
 

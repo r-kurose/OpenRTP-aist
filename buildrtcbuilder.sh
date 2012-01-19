@@ -72,19 +72,19 @@ done
 #
 #
 #---------------------------------------------------------------------------
-mkdir ./rtcbuilder_1.0.0
+mkdir ./rtcbuilder_1.1.0
 ic=0
 declare name
 while [ $ic -lt $num ]
 do
-	name=${build_tbl[ic]}"_1.0.0.jar"
-	cp -p ${build_tbl[ic]}/jar/$name ./rtcbuilder_1.0.0 
+	name=${build_tbl[ic]}"_1.1.0.jar"
+	cp -p ${build_tbl[ic]}/jar/$name ./rtcbuilder_1.1.0 
 	ic=ic+1
 done
-rm rtcbuilder_1.0.0.zip
-zip rtcbuilder_1.0.0.zip -r ./rtcbuilder_1.0.0/
+rm rtcbuilder_1.1.0.zip
+zip rtcbuilder_1.1.0.zip -r ./rtcbuilder_1.1.0/
 
-rm -rf ./rtcbuilder_1.0.0
+rm -rf ./rtcbuilder_1.1.0
 
 
 #---------------------------------------------------------------------------

@@ -6,10 +6,10 @@ rem ---------------------------------------------------------------------------
 rem ---------------------------------------------------------------------------
 rem
 rem ---------------------------------------------------------------------------
-@if exist rtsystemeditor_1.0.0 (
-	rd /S /Q rtsystemeditor_1.0.0
+@if exist rtsystemeditor_1.1.0 (
+	rd /S /Q rtsystemeditor_1.1.0
 )
-mkdir rtsystemeditor_1.0.0
+mkdir rtsystemeditor_1.1.0
 rem ---------------------------------------------------------------------------
 rem
 rem ---------------------------------------------------------------------------
@@ -18,7 +18,7 @@ rem ---------------------------------------------------------------------------
     cd jp.go.aist.rtm.toolscommon
     call ant buildAll -lib %ECLIPSE_HOME%\plugins\net.sf.ant4eclipse.plugin_0.5.0.rc1\lib\ -lib %ECLIPSE_HOME%\plugins\org.junit_3.8.1\
     if ERRORLEVEL 1 goto FAIL
-    copy jar\*aist*.jar ..\rtsystemeditor_1.0.0
+    copy jar\*aist*.jar ..\rtsystemeditor_1.1.0
     cd ..
 ) else (
     echo -jp.go.aist.rtm.toolscommon doesn't exist.
@@ -32,7 +32,7 @@ rem ---------------------------------------------------------------------------
     cd jp.go.aist.rtm.toolscommon.nl1
     call ant buildAll -lib %ECLIPSE_HOME%\plugins\net.sf.ant4eclipse.plugin_0.5.0.rc1\lib\ -lib %ECLIPSE_HOME%\plugins\org.junit_3.8.1\
     if ERRORLEVEL 1 goto FAIL
-    copy jar\*aist*.jar ..\rtsystemeditor_1.0.0
+    copy jar\*aist*.jar ..\rtsystemeditor_1.1.0
     cd ..
 ) else (
     echo -jp.go.aist.rtm.toolscommon.nl1 doesn't exist.
@@ -46,7 +46,7 @@ rem ---------------------------------------------------------------------------
     cd jp.go.aist.rtm.toolscommon.profiles
     call ant buildAll -lib %ECLIPSE_HOME%\plugins\net.sf.ant4eclipse.plugin_0.5.0.rc1\lib\ -lib %ECLIPSE_HOME%\plugins\org.junit_3.8.1\
     if ERRORLEVEL 1 goto FAIL
-    copy jar\*aist*.jar ..\rtsystemeditor_1.0.0
+    copy jar\*aist*.jar ..\rtsystemeditor_1.1.0
     cd ..
 ) else (
     echo -jp.go.aist.rtm.toolscommon.profiles doesn't exist.
@@ -60,7 +60,7 @@ rem ---------------------------------------------------------------------------
     cd jp.go.aist.rtm.toolscommon.profiles.nl1
     call ant buildAll -lib %ECLIPSE_HOME%\plugins\net.sf.ant4eclipse.plugin_0.5.0.rc1\lib\ -lib %ECLIPSE_HOME%\plugins\org.junit_3.8.1\
     if ERRORLEVEL 1 goto FAIL
-    copy jar\*aist*.jar ..\rtsystemeditor_1.0.0
+    copy jar\*aist*.jar ..\rtsystemeditor_1.1.0
     cd ..
 ) else (
     echo -jp.go.aist.rtm.toolscommon.profiles.nl1 doesn't exist.
@@ -74,7 +74,7 @@ rem ---------------------------------------------------------------------------
     cd jp.go.aist.rtm.repositoryView
     call ant buildAll -lib %ECLIPSE_HOME%\plugins\net.sf.ant4eclipse.plugin_0.5.0.rc1\lib\ -lib %ECLIPSE_HOME%\plugins\org.junit_3.8.1\
     if ERRORLEVEL 1 goto FAIL
-    copy jar\*aist*.jar ..\rtsystemeditor_1.0.0
+    copy jar\*aist*.jar ..\rtsystemeditor_1.1.0
     cd ..
 ) else (
     echo -jp.go.aist.rtm.repositoryView doesn't exist.
@@ -88,7 +88,7 @@ rem ---------------------------------------------------------------------------
     cd jp.go.aist.rtm.repositoryView.nl1
     call ant buildAll -lib %ECLIPSE_HOME%\plugins\net.sf.ant4eclipse.plugin_0.5.0.rc1\lib\ -lib %ECLIPSE_HOME%\plugins\org.junit_3.8.1\
     if ERRORLEVEL 1 goto FAIL
-    copy jar\*aist*.jar ..\rtsystemeditor_1.0.0
+    copy jar\*aist*.jar ..\rtsystemeditor_1.1.0
     cd ..
 ) else (
     echo -jp.go.aist.rtm.repositoryView.nl1 doesn't exist.
@@ -102,7 +102,7 @@ rem ---------------------------------------------------------------------------
     cd jp.go.aist.rtm.nameserviceview 
     call ant buildAll -lib %ECLIPSE_HOME%\plugins\net.sf.ant4eclipse.plugin_0.5.0.rc1\lib\
     if ERRORLEVEL 1 goto FAIL
-    copy jar\*aist*.jar ..\rtsystemeditor_1.0.0
+    copy jar\*aist*.jar ..\rtsystemeditor_1.1.0
     cd ..
 ) else (
     echo -jp.go.aist.rtm.nameserviceview doesn't exist.
@@ -116,7 +116,7 @@ rem ---------------------------------------------------------------------------
     cd jp.go.aist.rtm.nameserviceview.nl1 
     call ant buildAll -lib %ECLIPSE_HOME%\plugins\net.sf.ant4eclipse.plugin_0.5.0.rc1\lib\
     if ERRORLEVEL 1 goto FAIL
-    copy jar\*aist*.jar ..\rtsystemeditor_1.0.0
+    copy jar\*aist*.jar ..\rtsystemeditor_1.1.0
     cd ..
 ) else (
     echo -jp.go.aist.rtm.nameserviceview.nl1 doesn't exist.
@@ -131,7 +131,7 @@ rem ---------------------------------------------------------------------------
     call ant buildAll -lib %ECLIPSE_HOME%\plugins\net.sf.ant4eclipse.plugin_0.5.0.rc1\lib\
     echo --
     if ERRORLEVEL 1 goto FAIL
-    copy jar\*aist*.jar ..\rtsystemeditor_1.0.0
+    copy jar\*aist*.jar ..\rtsystemeditor_1.1.0
     cd ..
 ) else (
     echo -jp.go.aist.rtm.systemeditor doesn't exist.
@@ -146,7 +146,7 @@ rem ---------------------------------------------------------------------------
     call ant buildAll -lib %ECLIPSE_HOME%\plugins\net.sf.ant4eclipse.plugin_0.5.0.rc1\lib\
     echo --
     if ERRORLEVEL 1 goto FAIL
-    copy jar\*aist*.jar ..\rtsystemeditor_1.0.0
+    copy jar\*aist*.jar ..\rtsystemeditor_1.1.0
     cd ..
 ) else (
     echo -jp.go.aist.rtm.systemeditor.nl1 doesn't exist.
@@ -156,9 +156,9 @@ rem ---------------------------------------------------------------------------
 rem
 rem ---------------------------------------------------------------------------
 @if exist zip.vbs (
-	del rtsystemeditor_1.0.0.zip
-	CScript.exe .\zip.vbs\MakeZIP.VBS rtsystemeditor_1.0.0.zip rtsystemeditor_1.0.0
-	rd /S /Q rtsystemeditor_1.0.0
+	del rtsystemeditor_1.1.0.zip
+	CScript.exe .\zip.vbs\MakeZIP.VBS rtsystemeditor_1.1.0.zip rtsystemeditor_1.1.0
+	rd /S /Q rtsystemeditor_1.1.0
 )
 @set ANT_HOME=%DUMMY%
 @goto END
