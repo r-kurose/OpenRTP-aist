@@ -28,7 +28,7 @@
 #---------------------------------------------------------------------------
 
 DUMMY=$ANT_HOME
-export ANT_HOME=$ECLIPSE_HOME/plugins/org.apache.ant_1.6.5/
+export ANT_HOME=$ECLIPSE_HOME/plugins/org.apache.ant_1.7.0.v200803061910/
 
 # ECLIPSE_HOME=/usr/users/n-ando/work/rtmtools/eclipse/
 
