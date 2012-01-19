@@ -30,7 +30,7 @@
 DUMMY=$ANT_HOME
 export ANT_HOME=$ECLIPSE_HOME/plugins/org.apache.ant_1.6.5/
 
-ECLIPSE_HOME=/usr/users/n-ando/work/rtmtools/eclipse/
+# ECLIPSE_HOME=/usr/users/n-ando/work/rtmtools/eclipse/
 
 ANT4ECLIPSE=$ECLIPSE_HOME/plugins/net.sf.ant4eclipse.plugin_0.5.0.rc1/lib/
 JUNIT=$ECLIPSE_HOME/plugins/org.junit_3.8.1/
