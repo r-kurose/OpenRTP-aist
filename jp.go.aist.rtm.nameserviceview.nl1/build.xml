@@ -1,5 +1,5 @@
-<project name="jp.go.aist.rtm.nameserviceview.nl1_1.0.0" default="jar">
-	<property name="target.name" value="jp.go.aist.rtm.nameserviceview.nl1_1.0.0"/>
+<project name="jp.go.aist.rtm.nameserviceview.nl1_1.1.0" default="jar">
+	<property name="target.name" value="jp.go.aist.rtm.nameserviceview.nl1_1.1.0"/>
 
 	<property name="source" value="src"/>
 
@@ -34,7 +34,7 @@
 		<getEclipseClasspath pathid="build.classpath" targetplatformlocation="${targetPlatformLocation}"
 					workspace="${workspace}" projectname="${project.name}"/>
 		<javac srcdir="${source}" destdir="${build.dir}"
-			classpathref="build.classpath" classpath="lib/commons-lang-2.2.jar" encoding="Shift_JIS" />
+			classpathref="build.classpath" classpath="lib/commons-lang-2.2.jar" encoding="UTF-8" />
 	</target>
 
 	<target name="jar" description="jarファイルを作成します">

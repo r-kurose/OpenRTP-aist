@@ -1,5 +1,5 @@
-<project name="jp.go.aist.rtm.toolscommon.profiles_1.0.0" default="jar">
-	<property name="target.name" value="jp.go.aist.rtm.toolscommon.profiles_1.0.0"/>
+<project name="jp.go.aist.rtm.toolscommon.profiles_1.1.0" default="jar">
+	<property name="target.name" value="jp.go.aist.rtm.toolscommon.profiles_1.1.0"/>
 
 	<property name="source" value="src"/>
 
@@ -36,7 +36,7 @@
 		<getEclipseClasspath pathid="build.classpath" targetplatformlocation="${targetPlatformLocation}"
 					workspace="${workspace}" projectname="${project.name}" />
 		<javac bootclasspathref="jre.libs" includeJavaRuntime="true" srcdir="${source}" destdir="${build.dir}" verbose="off"
-			classpathref="build.classpath"  encoding="Shift_JIS" />
+			classpathref="build.classpath"  encoding="UTF-8" />
 	</target>
 
 	<target name="jar" description="jarファイルを作成します">
