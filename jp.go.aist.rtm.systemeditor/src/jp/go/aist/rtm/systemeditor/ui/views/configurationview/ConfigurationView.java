@@ -251,7 +251,7 @@ public class ConfigurationView extends ViewPart {
 						copiedComponent.getActiveConfigSet());
 
 		ConfigurationSet newActiveConfigurationSet = null;
-		if (activeConfigurationIndex != -1) {
+		if (activeConfigurationIndex != -1 && isActiveConfigurationSetChanged()) {
 			newActiveConfigurationSet = newConfigurationSetList
 					.get(activeConfigurationIndex);
 		}
@@ -275,6 +275,7 @@ public class ConfigurationView extends ViewPart {
 		buildData();
 
 		leftTable.setSelection(selectionIndex);
+		refreshRightData();
 	}
 
 	/** ActiveなRTCのコンフィグを変更するかを確認する */
@@ -300,36 +301,43 @@ public class ConfigurationView extends ViewPart {
 	}
 
 	/**
-	 * アクティブなコンフィグレーションを修正したかどうか
-	 * 
-	 * @return
+	 * アクティブなコンフィグレーションを切り替えたか
 	 */
-	private boolean isActiveConfigurationSetModified() {
-		if (copiedComponent.getActiveConfigSet() == null ||
-				copiedComponent.getActiveConfigSet().getConfigurationSet() == null) {
+	private boolean isActiveConfigurationSetChanged() {
+		if (copiedComponent.getActiveConfigSet() == null
+				|| copiedComponent.getActiveConfigSet().getConfigurationSet() == null) {
 			return targetComponent.getActiveConfigurationSet() != null;
 		}
-
-		if (targetComponent.getActiveConfigurationSet() == null)
-			return true;
-		if (copiedComponent.getActiveConfigSet().getConfigurationSet().getId().equals(
-				targetComponent.getActiveConfigurationSet().getId()) == false) 
-			return true;
-		if (copiedComponent.getActiveConfigSet().getNamedValueList()
-					.size() != targetComponent.getActiveConfigurationSet()
-					.getConfigurationData().size()) {
+		if (targetComponent.getActiveConfigurationSet() == null) {
 			return true;
 		}
-		for (NamedValueConfigurationWrapper namedValue : copiedComponent
-					.getActiveConfigSet().getNamedValueList()) {
-			if (namedValue.isKeyModified()
-						|| namedValue.isValueModified()) {
-					return true;
-			}
+		if (!copiedComponent.getActiveConfigSet().getConfigurationSet().getId()
+				.equals(targetComponent.getActiveConfigurationSet().getId())) {
+			return true;
 		}
 		return false;
 	}
 
+	/**
+	 * アクティブなコンフィグレーションを修正したかどうか
+	 */
+	private boolean isActiveConfigurationSetModified() {
+		if (isActiveConfigurationSetChanged()) {
+			return true;
+		}
+		if (copiedComponent.getActiveConfigSet().getNamedValueList().size() != targetComponent
+				.getActiveConfigurationSet().getConfigurationData().size()) {
+			return true;
+		}
+		for (NamedValueConfigurationWrapper namedValue : copiedComponent
+				.getActiveConfigSet().getNamedValueList()) {
+			if (namedValue.isKeyModified() || namedValue.isValueModified()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * 編集後の新しいConfigurationSetを作成する。
 	 * <p>
@@ -468,7 +476,6 @@ public class ConfigurationView extends ViewPart {
 		gd.widthHint = BUTTON_WIDTH;
 		addConfigurationSetButton.setLayoutData(gd);
 		addConfigurationSetButton.addSelectionListener(new SelectionAdapter() {
-			@SuppressWarnings("unchecked") //$NON-NLS-1$
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				ConfigurationSetConfigurationWrapper csw = new ConfigurationSetConfigurationWrapper(
@@ -573,7 +580,6 @@ public class ConfigurationView extends ViewPart {
 		gd.widthHint = BUTTON_WIDTH;
 		copyConfigurationSetButton.setLayoutData(gd);
 		copyConfigurationSetButton.addSelectionListener(new SelectionAdapter() {
-			@SuppressWarnings("unchecked") //$NON-NLS-1$
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (leftTable.getSelectionIndex() < 0) return;
@@ -964,18 +970,18 @@ public class ConfigurationView extends ViewPart {
 		configrationSetNameLabel.setText(""); //$NON-NLS-1$
 		addNamedValueButton.setEnabled(false);
 
-		if (copiedComponent != null) {
-			if (leftTable.getSelectionIndex() != -1) {
+		if (copiedComponent != null && leftTable.getSelectionIndex() != -1) {
+			ConfigurationSetConfigurationWrapper currentConfugurationSet = copiedComponent
+					.getConfigurationSetList().get(
+							leftTable.getSelectionIndex());
+
+			configrationSetNameLabel.setText(currentConfugurationSet.getId());
+
+			rightTableViewer.setInput(currentConfugurationSet
+					.getNamedValueList());
+			//
+			if (!(targetComponent instanceof CorbaComponent)) {
 				addNamedValueButton.setEnabled(true);
-				ConfigurationSetConfigurationWrapper currentConfugurationSet = copiedComponent
-						.getConfigurationSetList().get(
-								leftTable.getSelectionIndex());
-
-				configrationSetNameLabel.setText(currentConfugurationSet
-						.getId());
-
-				rightTableViewer.setInput(currentConfugurationSet
-						.getNamedValueList());
 			}
 		}
 
@@ -984,7 +990,9 @@ public class ConfigurationView extends ViewPart {
 
 	private void updateDeleteNamedValueButtonEnable() {
 		if (rightTable.getSelectionIndex() != -1) {
-			deleteNamedValueButton.setEnabled(true);
+			if (!(targetComponent instanceof CorbaComponent)) {
+				deleteNamedValueButton.setEnabled(true);
+			}
 		} else {
 			deleteNamedValueButton.setEnabled(false);
 		}
@@ -1224,7 +1232,7 @@ public class ConfigurationView extends ViewPart {
 
 			boolean isModify = false;
 			if (columnIndex == 0) {
-				if (isActiveConfigurationSetModified()) {
+				if (isActiveConfigurationSetChanged()) {
 					if (targetComponent.getActiveConfigurationSet() == configurationSetConfigurationWrapper
 							.getConfigurationSet()
 							|| copiedComponent.getActiveConfigSet() == configurationSetConfigurationWrapper) {
