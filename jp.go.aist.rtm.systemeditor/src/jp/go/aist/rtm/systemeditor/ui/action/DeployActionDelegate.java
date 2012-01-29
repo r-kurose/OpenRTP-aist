@@ -34,6 +34,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelection;
@@ -42,6 +43,7 @@ import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.openrtp.namespaces.rts.version02.ComponentExt;
 import org.openrtp.namespaces.rts.version02.ConfigurationSet;
 import org.openrtp.namespaces.rts.version02.DataportConnector;
@@ -89,10 +91,20 @@ public class DeployActionDelegate implements IEditorActionDelegate {
 		EList<Component> comps = targetEditor.getSystemDiagram().getComponents();
 		Map<String, CorbaComponent> replaced = new HashMap<String, CorbaComponent>();
 		//プロファイル情報の書き換え(複合RTC以外)
-		 modifyComponents(profile, ns, componentCandidates, factory, comps, replaced);
+		modifyComponents(profile, ns, componentCandidates, factory, comps, replaced);
+		List<org.openrtp.namespaces.rts.version02.Component> removed = new ArrayList<org.openrtp.namespaces.rts.version02.Component>();
+		//デプロイ情報の整合性の確認
+		if( checkDeployInfo(profile, replaced)==false ) {
+			return;
+		}
+		 
 		//プロファイル情報の書き換え
 		for(org.openrtp.namespaces.rts.version02.Component target : profile.getComponents()) {
 			CorbaComponent source = replaced.get(target.getId().trim() + target.getInstanceName().trim());
+			if( source==null ) {
+				removed.add(target);
+				continue;
+			}
 			if( target.getCompositeType()==null || target.getCompositeType().equals("None") ) {
 				target.setPathUri(source.getPathId());
 				target.setInstanceName(source.getInstanceNameL());
@@ -136,6 +148,70 @@ public class DeployActionDelegate implements IEditorActionDelegate {
 			}
 			modifyConfigurationSet(factory, target);
 		}
+		//デプロイ情報がない要素の削除
+		removeImComplete(profile, removed);
+		//新規オンラインエディタの生成
+		createNewOnlineEditor(profile);
+	}
+
+	private void removeImComplete(RtsProfileExt profile,
+			List<org.openrtp.namespaces.rts.version02.Component> removed) {
+		profile.getComponents().removeAll(removed);
+		if( 0<removed.size()) {
+			List<ServiceportConnector> removedSrv = new ArrayList<ServiceportConnector>();
+			for(ServiceportConnector source : profile.getServicePortConnectors() ) {
+				for(org.openrtp.namespaces.rts.version02.Component target : removed) {
+					if( source.getSourceServicePort().getComponentId().equals(target.getId())
+							&& source.getSourceServicePort().getInstanceName().equals(target.getInstanceName()) ) {
+						removedSrv.add(source);
+						break;
+					}
+					if( source.getTargetServicePort().getComponentId().equals(target.getId())
+							&& source.getTargetServicePort().getInstanceName().equals(target.getInstanceName()) ) {
+						removedSrv.add(source);
+						break;
+					}
+				}
+			}
+			profile.getServicePortConnectors().removeAll(removedSrv);
+			//
+			List<DataportConnector> removedData = new ArrayList<DataportConnector>();
+			for(DataportConnector source : profile.getDataPortConnectors() ) {
+				for(org.openrtp.namespaces.rts.version02.Component target : removed) {
+					if( source.getSourceDataPort().getComponentId().equals(target.getId())
+							&& source.getSourceDataPort().getInstanceName().equals(target.getInstanceName()) ) {
+						removedData.add(source);
+						break;
+					}
+					if( source.getTargetDataPort().getComponentId().equals(target.getId())
+							&& source.getTargetDataPort().getInstanceName().equals(target.getInstanceName()) ) {
+						removedData.add(source);
+						break;
+					}
+				}
+			}
+			profile.getDataPortConnectors().removeAll(removedData);
+		}
+	}
+
+	private boolean checkDeployInfo(RtsProfileExt profile, Map<String, CorbaComponent> replaced) {
+		boolean isImcomp = false;
+		 for(org.openrtp.namespaces.rts.version02.Component target : profile.getComponents()) {
+			 if( replaced.get(target.getId().trim() + target.getInstanceName().trim())==null ) {
+				 isImcomp = true;
+				break;
+			 }
+		 }
+		 if(isImcomp) {
+			 if(MessageDialog.openConfirm(PlatformUI.getWorkbench()
+						.getActiveWorkbenchWindow().getShell(), "Deploy", Messages.getString("Deployment.0"))==false ) {
+				 return false;
+			 }
+		 }
+		 return true;
+	}
+
+	private void createNewOnlineEditor(RtsProfileExt profile) {
 		//新規オンラインエディタの生成
 		IWorkbenchWindow window = targetEditor.getSite().getWorkbenchWindow();
 		IEditorPart newWindow = null;
