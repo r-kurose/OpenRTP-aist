@@ -8,20 +8,19 @@ package jp.go.aist.rtm.toolscommon.model.component.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import jp.go.aist.rtm.toolscommon.factory.CorbaWrapperFactory;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.ContextHandler;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
-import jp.go.aist.rtm.toolscommon.model.component.CorbaLogObserver;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaLogObserver;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaPortSynchronizer;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaStatusObserver;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
@@ -1007,117 +1006,57 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 			List originalConfigurationSets) {
 
 		try {
-			Configuration configuration = getCorbaObjectInterface()
+			_SDOPackage.Configuration configuration = getCorbaObjectInterface()
 					.get_configuration();
-			
-			List<_SDOPackage.ConfigurationSet> delectedConfigs = new ArrayList<_SDOPackage.ConfigurationSet>();
-			_SDOPackage.ConfigurationSet activeConfig = configuration.get_active_configuration_set();
-			for (Object original : originalConfigurationSets) {
-				ConfigurationSet configurationSet = (ConfigurationSet) original;
-				boolean isFind = false;
-				final String id = configurationSet.getId();
-				for (Iterator iter = localConfigurationSets.iterator(); iter
-						.hasNext();) {
-					ConfigurationSet element = (ConfigurationSet) iter.next();
-					if (element.getId().equals(id)) {
-						isFind = true;
+			for (Object o : localConfigurationSets) {
+				ConfigurationSet local = (ConfigurationSet) o;
+				ConfigurationSet updated = null;
+				for (Object o2 : originalConfigurationSets) {
+					ConfigurationSet original = (ConfigurationSet) o2;
+					if (local.getId().equals(original.getId())) {
+						updated = ComponentFactory.eINSTANCE
+								.createConfigurationSet();
+						updated.setId(local.getId());
+						for (int i = 0; i < local.getConfigurationData().size(); i++) {
+							NameValue lnv = (NameValue) local
+									.getConfigurationData().get(i);
+							NameValue onv = (NameValue) original
+									.getConfigurationData().get(i);
+							if (!lnv.getName().equals(onv.getName())) {
+								updated.getConfigurationData().add(lnv);
+							} else if (!lnv.getValueAsString().equals(
+									onv.getValueAsString())) {
+								updated.getConfigurationData().add(lnv);
+							}
+						}
 						break;
 					}
 				}
-
-				if (isFind == false) {
-					_SDOPackage.ConfigurationSet deletedConfig = configuration.get_configuration_set(id);
-					boolean result = configuration.remove_configuration_set(id);
+				if (updated != null
+						&& !updated.getConfigurationData().isEmpty()) {
+					boolean result = configuration
+							.set_configuration_set_values(SDOUtil
+									.createSdoConfigurationSet(updated));
 					if (!result) {
-						rollbackDelete(configuration, delectedConfigs, activeConfig);
 						return false;
 					}
-					delectedConfigs.add(deletedConfig);
 				}
 			}
-
-			for (Iterator iter = localConfigurationSets.iterator(); iter
-					.hasNext();) {
-				ConfigurationSet local = (ConfigurationSet) iter.next();
-
-				boolean isFind = false;
-				boolean isModified = false;
-				for (Object original : originalConfigurationSets) {
-					ConfigurationSet originalConfig = (ConfigurationSet) original;
-					if (local.getId().equals(originalConfig.getId())) {
-						isFind = true;
-						isModified = checkConfigurationSet(local,
-								originalConfig);
-						break;
-					}
-				}
-				if (isFind) {
-					if (isModified) {
-						boolean result = configuration
-								.set_configuration_set_values(SDOUtil
-										.createSdoConfigurationSet(local));
-						if (!result) return false;
-					}
-				} else {
-					boolean result = configuration.add_configuration_set(SDOUtil
-							.createSdoConfigurationSet(local));
-					if (!result) return false;
-				}
-			}
-
 			if (localActiveConfigurationSet != null) {
 				boolean result = configuration
 						.activate_configuration_set(localActiveConfigurationSet
 								.getId());
-				if (!result) return false;
+				if (!result) {
+					return false;
+				}
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
-
 		return true;
 	}
 
-	private void rollbackDelete(Configuration configuration,
-			List<_SDOPackage.ConfigurationSet> delectedConfigs,
-			_SDOPackage.ConfigurationSet activeConfig) {
-		try {
-			for (_SDOPackage.ConfigurationSet configurationSet : delectedConfigs) {
-					configuration.add_configuration_set(configurationSet);				
-			}
-			if (activeConfig != null){
-				configuration.activate_configuration_set(activeConfig.id);
-			}
-		} catch (Exception e) {
-			// ignore
-		}
-		
-	}
-
-	private boolean checkConfigurationSet(ConfigurationSet local,
-			ConfigurationSet original) {
-
-		if (local.getConfigurationData().size() != original
-				.getConfigurationData().size())
-			return true;
-
-		for (int index = 0; index < local.getConfigurationData().size(); index++) {
-			NameValue localNV = (NameValue) local.getConfigurationData().get(
-					index);
-			NameValue originalNV = (NameValue) original.getConfigurationData()
-					.get(index);
-			if (!localNV.getName().equals(originalNV.getName()))
-				return true;
-			if (!localNV.getValueAsString().equals(
-					originalNV.getValueAsString()))
-				return true;
-		}
-
-		return false;
-	}
-	
 	@Override
 	public boolean setComponentsR(List<Component> componentList) {
 		try {

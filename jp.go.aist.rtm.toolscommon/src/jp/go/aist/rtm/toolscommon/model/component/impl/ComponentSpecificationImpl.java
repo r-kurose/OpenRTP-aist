@@ -301,7 +301,9 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 		
 		clearConfigurationSet();
 		getConfigurationSets().addAll(list);
-		setActiveConfigurationSet(activeConfigurationSet);
+		if (activeConfigurationSet != null) {
+			setActiveConfigurationSet(activeConfigurationSet);
+		}
 
 		return true;
 	}
