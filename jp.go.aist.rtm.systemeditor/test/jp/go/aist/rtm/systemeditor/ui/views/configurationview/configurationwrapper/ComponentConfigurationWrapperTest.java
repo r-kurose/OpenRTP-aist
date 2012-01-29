@@ -32,6 +32,16 @@ public class ComponentConfigurationWrapperTest extends TestCase {
 						assertEquals("(test1,test2,test3,test4,test5)", nv
 								.widget().getCondition().toString());
 					} else if (nv.getKey() == "str_param2") {
+						assertEquals("top", this.getNamedValueString(nv));
+						assertEquals("checkbox", nv.widget().getType());
+						assertEquals("(top,left,bottom,right)", nv.widget()
+								.getCondition().toString());
+					} else if (nv.getKey() == "str_param3") {
+						assertEquals("bottom", this.getNamedValueString(nv));
+						assertEquals("ordered_list", nv.widget().getType());
+						assertEquals("(top,left,bottom,right)", nv.widget()
+								.getCondition().toString());
+					} else if (nv.getKey() == "str_param4") {
 						assertEquals("case1", this.getNamedValueString(nv));
 						assertEquals("text", nv.widget().getType());
 						assertEquals("null", nv.widget().getCondition().toString());
@@ -70,6 +80,16 @@ public class ComponentConfigurationWrapperTest extends TestCase {
 						assertEquals("(test1,test2,test3)", nv.widget()
 								.getCondition().toString());
 					} else if (nv.getKey() == "str_param2") {
+						assertEquals("right", this.getNamedValueString(nv));
+						assertEquals("checkbox", nv.widget().getType());
+						assertEquals("(top,left,bottom,right)", nv.widget()
+								.getCondition().toString());
+					} else if (nv.getKey() == "str_param3") {
+						assertEquals("top,left", this.getNamedValueString(nv));
+						assertEquals("ordered_list", nv.widget().getType());
+						assertEquals("(top,left,bottom,right)", nv.widget()
+								.getCondition().toString());
+					} else if (nv.getKey() == "str_param4") {
 						assertEquals("case2", this.getNamedValueString(nv));
 						assertEquals("text", nv.widget().getType());
 						assertEquals("null", nv.widget().getCondition().toString());
@@ -108,6 +128,16 @@ public class ComponentConfigurationWrapperTest extends TestCase {
 						assertEquals("(test1,test2,test3,test4,test5)", nv
 								.widget().getCondition().toString());
 					} else if (nv.getKey() == "str_param2") {
+						assertEquals("left", this.getNamedValueString(nv));
+						assertEquals("checkbox", nv.widget().getType());
+						assertEquals("(top,left,bottom,right)", nv.widget()
+								.getCondition().toString());
+					} else if (nv.getKey() == "str_param3") {
+						assertEquals("bottom,right,right", this.getNamedValueString(nv));
+						assertEquals("ordered_list", nv.widget().getType());
+						assertEquals("(top,left,bottom,right)", nv.widget()
+								.getCondition().toString());
+					} else if (nv.getKey() == "str_param4") {
 						assertEquals("case3", this.getNamedValueString(nv));
 						assertEquals("text", nv.widget().getType());
 						assertEquals("null", nv.widget().getCondition().toString());
@@ -142,6 +172,8 @@ public class ComponentConfigurationWrapperTest extends TestCase {
 		assertEquals(true, names.contains("double_param1"));
 		assertEquals(true, names.contains("str_param1"));
 		assertEquals(true, names.contains("str_param2"));
+		assertEquals(true, names.contains("str_param3"));
+		assertEquals(true, names.contains("str_param4"));
 		assertEquals(true, names.contains("vector_param1"));
 		assertEquals(false, names.contains("unknown_param1"));
 	}

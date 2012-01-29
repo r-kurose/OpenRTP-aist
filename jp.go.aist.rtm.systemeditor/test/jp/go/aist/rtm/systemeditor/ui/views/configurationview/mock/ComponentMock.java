@@ -53,7 +53,11 @@ public class ComponentMock implements Component {
 		cs.configurationData.add(nv);
 		nv = createNameValue("str_param1", "test1");
 		cs.configurationData.add(nv);
-		nv = createNameValue("str_param2", "case1");
+		nv = createNameValue("str_param2", "top");
+		cs.configurationData.add(nv);
+		nv = createNameValue("str_param3", "bottom");
+		cs.configurationData.add(nv);
+		nv = createNameValue("str_param4", "case1");
 		cs.configurationData.add(nv);
 		nv = createNameValue("vector_param1", "0.01, 0.11, 0.22");
 		cs.configurationData.add(nv);
@@ -67,7 +71,11 @@ public class ComponentMock implements Component {
 		cs.configurationData.add(nv);
 		nv = createNameValue("str_param1", "test2");
 		cs.configurationData.add(nv);
-		nv = createNameValue("str_param2", "case2");
+		nv = createNameValue("str_param2", "right");
+		cs.configurationData.add(nv);
+		nv = createNameValue("str_param3", "top,left");
+		cs.configurationData.add(nv);
+		nv = createNameValue("str_param4", "case2");
 		cs.configurationData.add(nv);
 		nv = createNameValue("vector_param1", "5.5, 10.5, 15.5");
 		cs.configurationData.add(nv);
@@ -81,7 +89,11 @@ public class ComponentMock implements Component {
 		cs.configurationData.add(nv);
 		nv = createNameValue("str_param1", "test3");
 		cs.configurationData.add(nv);
-		nv = createNameValue("str_param2", "case3");
+		nv = createNameValue("str_param2", "left");
+		cs.configurationData.add(nv);
+		nv = createNameValue("str_param3", "bottom,right,right");
+		cs.configurationData.add(nv);
+		nv = createNameValue("str_param4", "case3");
 		cs.configurationData.add(nv);
 		nv = createNameValue("vector_param1", "0.05, 0.15, 0.25");
 		cs.configurationData.add(nv);
@@ -95,7 +107,11 @@ public class ComponentMock implements Component {
 		cs.configurationData.add(nv);
 		nv = createNameValue("str_param1", "radio");
 		cs.configurationData.add(nv);
-		nv = createNameValue("str_param2", "hoge"); // 不明なwidget種別
+		nv = createNameValue("str_param2", "checkbox");
+		cs.configurationData.add(nv);
+		nv = createNameValue("str_param3", "ordered_list");
+		cs.configurationData.add(nv);
+		nv = createNameValue("str_param4", "hoge"); // 不明なwidget種別
 		cs.configurationData.add(nv);
 		nv = createNameValue("vector_param1", "spin"); // TODO 配列表記
 		cs.configurationData.add(nv);
@@ -109,6 +125,10 @@ public class ComponentMock implements Component {
 		cs.configurationData.add(nv);
 		nv = createNameValue("str_param1", "(test1,test2,test3,test4,test5)");
 		cs.configurationData.add(nv);
+		nv = createNameValue("str_param2", "(top,left,bottom,right)");
+		cs.configurationData.add(nv);
+		nv = createNameValue("str_param3", "(top,left,bottom,right)");
+		cs.configurationData.add(nv);
 		nv = createNameValue("vector_param1", "0.0<x<1.0, 1.0<x<2.0, 2.0<x<3.0");
 		cs.configurationData.add(nv);
 		mock1.configurationSets.add(cs);
@@ -120,6 +140,10 @@ public class ComponentMock implements Component {
 		nv = createNameValue("double_param1", "0<x<2");
 		cs.configurationData.add(nv);
 		nv = createNameValue("str_param1", "(test1,test2,test3)");
+		cs.configurationData.add(nv);
+		nv = createNameValue("str_param2", "(top,left,bottom,right)");
+		cs.configurationData.add(nv);
+		nv = createNameValue("str_param3", "(top,left,bottom,right)");
 		cs.configurationData.add(nv);
 		nv = createNameValue("vector_param1", "5.0<x<10.0, 10.0<x<15.0, 15.0<x<20.0");
 		cs.configurationData.add(nv);
