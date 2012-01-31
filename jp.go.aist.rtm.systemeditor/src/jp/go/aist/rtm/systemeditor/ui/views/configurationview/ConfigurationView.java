@@ -251,7 +251,7 @@ public class ConfigurationView extends ViewPart {
 						copiedComponent.getActiveConfigSet());
 
 		ConfigurationSet newActiveConfigurationSet = null;
-		if (activeConfigurationIndex != -1 && isActiveConfigurationSetChanged()) {
+        if (activeConfigurationIndex != -1) {
 			newActiveConfigurationSet = newConfigurationSetList
 					.get(activeConfigurationIndex);
 		}
