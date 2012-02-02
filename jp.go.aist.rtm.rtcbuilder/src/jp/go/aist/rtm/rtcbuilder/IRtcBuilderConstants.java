@@ -163,4 +163,5 @@ public interface IRtcBuilderConstants {
 	public static final int PORT_SPACE_HEIGHT = 60;
 	public static final int PORT_SPACE_WIDTH = 150;
 
+	public static final int SINGLE_COLUMN_WIDTH = 200;
 }

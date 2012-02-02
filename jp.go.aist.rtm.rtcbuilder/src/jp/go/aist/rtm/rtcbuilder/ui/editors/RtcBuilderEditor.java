@@ -348,6 +348,14 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	protected void addDefaultComboValue(){
 		basicFormPage.addDefaultComboValue();
 	}
+	
+	public void updateDataTypes() {
+		if( dataPortFormPage != null ) dataPortFormPage.updateDefaultValue();
+	}
+	
+	public void updatePages() {
+		if( activityFormPage != null ) activityFormPage.load();
+	}
 
 	public String validateParam() {
 		String result = null;

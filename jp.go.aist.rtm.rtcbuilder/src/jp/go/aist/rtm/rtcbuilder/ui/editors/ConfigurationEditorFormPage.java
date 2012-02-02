@@ -167,7 +167,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 				IMessageConstants.CONFIGURATION_LBL_UNIT, SWT.BORDER);
 		constraintConfigText = createLabelAndText(toolkit, detailGroup,
 				IMessageConstants.CONFIGURATION_LBL_CONSTRAINT, SWT.BORDER);
-		String[] widgetItems = {"text", "slider", "spin", "radio" };
+		String[] widgetItems = {"text", "slider", "spin", "radio", "checkbox", "ordered_list" };
 		widgetCombo = createLabelAndCombo(toolkit, detailGroup, IMessageConstants.CONFIGURATION_LBL_WIDGET,
 				widgetItems);
 		stepText = createLabelAndText(toolkit, detailGroup,
@@ -218,7 +218,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		//
 		final TableViewer configSetTableViewer = createTableViewer(toolkit,	composite);
 		final TableViewerColumn col = super.createColumn(configSetTableViewer,
-				IMessageConstants.REQUIRED + IMessageConstants.CONFIGURATION_TBLLBL_NAME, 200);
+				IMessageConstants.REQUIRED + IMessageConstants.CONFIGURATION_TBLLBL_NAME, IRtcBuilderConstants.SINGLE_COLUMN_WIDTH);
 		col.setEditingSupport(new ConfigSetCellModifier(configSetTableViewer));
 //		col.getColumn().setResizable(false);
 		configSetTableViewer.setLabelProvider(new ConfigSetLabelProvider());
@@ -337,8 +337,8 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 				IMessageConstants.CONFIGURATION_PARAMETER_TITLE, IMessageConstants.CONFIGURATION_PARAMETER_EXPL, 3);
 		//
 		final TableViewer configParameterTableViewer = createTableViewer(toolkit,	configurationParameterSectionComposite);
-		createConfigProfileColumn(configParameterTableViewer, IMessageConstants.CONFIGURATION_TBLLBL_CONFIGURATION, 200, CONFIGPROFILE_CONFIGURATION);
-		createConfigProfileColumn(configParameterTableViewer, IMessageConstants.CONFIGURATION_TBLLBL_DEFAULTVAL, 200, CONFIGPROFILE_DEFAULT);
+		createConfigProfileColumn(configParameterTableViewer, IMessageConstants.CONFIGURATION_TBLLBL_CONFIGURATION, IRtcBuilderConstants.SINGLE_COLUMN_WIDTH, CONFIGPROFILE_CONFIGURATION);
+		createConfigProfileColumn(configParameterTableViewer, IMessageConstants.CONFIGURATION_TBLLBL_DEFAULTVAL, IRtcBuilderConstants.SINGLE_COLUMN_WIDTH, CONFIGPROFILE_DEFAULT);
 		configParameterTableViewer.setLabelProvider(new ConfigParamLabelProvider());
 		//
 		Composite buttonComposite = toolkit.createComposite(configurationParameterSectionComposite, SWT.NONE);
@@ -482,8 +482,9 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		//
 		RtcParam rtcParam = editor.getRtcParam();
 		configurationSetTableViewer.setInput(rtcParam.getConfigParams());
-		configurationProfileTableViewer.setInput(rtcParam
-				.getConfigParameterParams());
+		configurationProfileTableViewer.setInput(rtcParam.getConfigParameterParams());
+		//Mac版では列の幅が最小化してしまうため，再度列幅を設定
+		configurationSetTableViewer.getTable().getColumn(0).setWidth(IRtcBuilderConstants.SINGLE_COLUMN_WIDTH);
 		//
 		StructuredSelection selection = (StructuredSelection) configurationSetTableViewer
 				.getSelection();
