@@ -881,31 +881,29 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 
 	void synchronizeLocal() {
 		// // リモートと同期を取る
-		if (getParentSystemDiagram() == null) {
-			for (Component component : getUnmodifiedComponents()) {
-				if (component instanceof CorbaComponentImpl) {
-					CorbaComponentImpl corbaComp = (CorbaComponentImpl) component;
-					CorbaStatusObserver obs = corbaComp.getStatusObserver();
-					if (obs != null) {
-						// 状態通知オブザーバが登録されている場合の同期
-						if (obs.isTimeOut()) {
-							// H.Bがタイムアウトしていたらダイアグラムから削除
-							if (!SynchronizationSupport.ping(corbaComp
-									.getCorbaObjectInterface())) {
-								removeComponent(corbaComp);
-							}
-							continue;
+		for (Component component : getUnmodifiedComponents()) {
+			if (component instanceof CorbaComponentImpl) {
+				CorbaComponentImpl corbaComp = (CorbaComponentImpl) component;
+				CorbaStatusObserver obs = corbaComp.getStatusObserver();
+				if (obs != null) {
+					// 状態通知オブザーバが登録されている場合の同期
+					if (obs.isTimeOut()) {
+						// H.Bがタイムアウトしていたらダイアグラムから削除
+						if (!SynchronizationSupport.ping(corbaComp
+								.getCorbaObjectInterface())) {
+							removeComponent(corbaComp);
 						}
+						continue;
 					}
 				}
-				//
-				SynchronizationSupport support = component
-						.getSynchronizationSupport();
-				if (support == null) {
-					continue;
-				}
-				support.synchronizeLocal();
 			}
+			//
+			SynchronizationSupport support = component
+					.getSynchronizationSupport();
+			if (support == null) {
+				continue;
+			}
+			support.synchronizeLocal();
 		}
 		//
 		try {

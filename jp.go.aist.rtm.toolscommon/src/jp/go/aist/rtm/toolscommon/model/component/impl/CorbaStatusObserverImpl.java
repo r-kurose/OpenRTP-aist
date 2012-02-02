@@ -212,8 +212,9 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 			return;
 		}
 
+		String profId = (serviceProfile == null) ? "" : serviceProfile.id;
 		log.info("update_status(" + TYPE_NAMES[status_kind.value()] + ", "
-				+ hint + ")");
+				+ hint + "): id=" + profId);
 
 		if (CorbaObserverStore.eINSTANCE.isEmptyComponentReference(rtc)) {
 			return;
