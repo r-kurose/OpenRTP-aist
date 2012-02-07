@@ -21,14 +21,14 @@ public class InPortFigure extends PortFigure {
 		setFill(true);
 
 		PointList pointList = new PointList(5);
-		pointList.addPoint(-5, -5);
-		pointList.addPoint(-5, 5);
-		pointList.addPoint(5, 5);
+		pointList.addPoint(-6, -6);
+		pointList.addPoint(-6, 6);
+		pointList.addPoint(6, 6);
 		pointList.addPoint(0, 0);
-		pointList.addPoint(5, -5);
+		pointList.addPoint(6, -6);
 		
 		setTemplate(pointList);
-		setSize(20 + 1, 20 + 1);
+		setSize(24 + 1, 24 + 1);
 
 		setBackgroundColor(ColorConstants.darkBlue);
 		setForegroundColor(ColorConstants.red);
