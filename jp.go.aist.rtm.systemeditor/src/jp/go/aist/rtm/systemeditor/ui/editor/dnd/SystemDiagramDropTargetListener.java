@@ -1,5 +1,9 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.dnd;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode;
 import jp.go.aist.rtm.repositoryView.model.RTCRVLeafItem;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
@@ -21,6 +25,8 @@ import org.eclipse.ui.views.navigator.LocalSelectionTransfer;
 public class SystemDiagramDropTargetListener extends
 		AbstractTransferDropTargetListener {
 
+	Boolean online = null;
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -31,6 +37,20 @@ public class SystemDiagramDropTargetListener extends
 		super(viewer, LocalSelectionTransfer.getInstance());
 	}
 
+	public boolean isOnline() {
+		if (online == null) {
+			online = false;
+			if (getViewer().getRootEditPart().getContents().getModel() instanceof SystemDiagram) {
+				SystemDiagram sd = (SystemDiagram) getViewer().getRootEditPart()
+						.getContents().getModel();
+				if (SystemDiagramKind.ONLINE_LITERAL.equals(sd.getKind())) {
+					online = true;
+				}
+			}
+		}
+		return online;
+	}
+
 	@Override
 	protected void updateTargetRequest() {
 		((CreateRequest) getTargetRequest()).setLocation(getDropLocation());
@@ -39,28 +59,43 @@ public class SystemDiagramDropTargetListener extends
 	@Override
 	protected Request createTargetRequest() {
 		ComponentFactory factory = new ComponentFactory();
-		Component component = getComponent();
-		setComponent(factory, component);
+		List<Component> components = getComponents();
+		setComponents(factory, components);
 
 		CreateRequest result = new CreateRequest(); // nullObjectとして返す。
 		result.setFactory(factory);
 		return result;
 	}
 
-	private void setComponent(ComponentFactory factory, Component component) {
-		if (component == null) return;
-		factory.setComponent(component);
+	void setComponents(ComponentFactory factory, List<Component> components) {
+		if (components == null || components.isEmpty()) {
+			return;
+		}
+		for (Component c : components) {
+			factory.addComponent(c);
+		}
 	}
 
-	private Component getComponent() {
+	List<Component> getComponents() {
+		List<Component> result = new ArrayList<Component>();
 		if (getCurrentEvent().data instanceof IStructuredSelection) {
 			IStructuredSelection selection = (IStructuredSelection) getCurrentEvent().data;
-			Object firstElement = selection.getFirstElement();
-
-			return (Component) AdapterUtil.getAdapter(firstElement,
-					Component.class);
+			Iterator<?> iter = selection.iterator();
+			while (iter.hasNext()) {
+				Object obj = iter.next();
+				Component comp = (Component) AdapterUtil.getAdapter(obj,
+						Component.class);
+				if (comp == null) {
+					continue;
+				}
+				if (isOnline() && obj instanceof NamingObjectNode) {
+					result.add(comp);
+				} else if (!isOnline() && obj instanceof RTCRVLeafItem) {
+					result.add(comp);
+				}
+			}
 		}
-		return null;
+		return result;
 	}
 
 	@Override
@@ -78,21 +113,16 @@ public class SystemDiagramDropTargetListener extends
 		}
 		// オンラインエディタへは NameServiceViewから DnD可能
 		// オフラインエディタへは RepositoryViewから DnD可能
-		boolean online = false;
-		if (getViewer().getRootEditPart().getContents().getModel() instanceof SystemDiagram) {
-			SystemDiagram sd = (SystemDiagram) getViewer().getRootEditPart()
-					.getContents().getModel();
-			if (SystemDiagramKind.ONLINE_LITERAL.equals(sd.getKind())) {
-				online = true;
-			}
-		}
 		IStructuredSelection selection = (IStructuredSelection) LocalSelectionTransfer
 				.getInstance().getSelection();
-		if (online && selection.getFirstElement() instanceof NamingObjectNode) {
-			return true;
-		} else if (!online
-				&& selection.getFirstElement() instanceof RTCRVLeafItem) {
-			return true;
+		Iterator<?> iter = selection.iterator();
+		while (iter.hasNext()) {
+			Object obj = iter.next();
+			if (isOnline() && obj instanceof NamingObjectNode) {
+				return true;
+			} else if (!isOnline() && obj instanceof RTCRVLeafItem) {
+				return true;
+			}
 		}
 		return false;
 	}

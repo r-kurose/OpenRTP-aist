@@ -15,6 +15,7 @@ import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
+import static jp.go.aist.rtm.toolscommon.util.ComponentUtil.*;
 
 public class ComponentCommandCreator {
 
@@ -38,7 +39,50 @@ public class ComponentCommandCreator {
 		return this.message;
 	}
 
-	public CommandPair getCreateCommand(CreateRequest request,
+	public MultiCreateCommand getCreateCommand(CreateRequest request,
+			SystemDiagram diagram) {
+		MultiCreateCommand result = new MultiCreateCommand();
+
+		if (!List.class.isAssignableFrom((Class<?>) request.getNewObjectType())) {
+			return result;
+		}
+
+		List<?> components = (List<?>) request.getNewObject();
+		List<Component> childComponents = new ArrayList<Component>();
+		for (Object o : components) {
+			Component c = (Component) o;
+			if (c.isCompositeComponent()) {
+				childComponents.addAll(c.getAllComponents());
+			}
+		}
+
+		for (Object o : components) {
+			final Component c = (Component) o;
+			if (find(c, childComponents) != null) {
+				continue;
+			}
+			CreateRequest req = new CreateRequest() {
+				Component component = c;
+
+				@Override
+				public Object getNewObject() {
+					return component;
+				}
+
+				@Override
+				public Object getNewObjectType() {
+					return component.getClass();
+				}
+			};
+			CommandPair pair = createCommandPair(req, diagram);
+			if (pair != null) {
+				result.getCommandPairs().add(pair);
+			}
+		}
+		return result;
+	}
+	
+	public CommandPair createCommandPair(CreateRequest request,
 			SystemDiagram diagram) {
 		CommandPair result = new CommandPair();
 		for (CreateComponentCommandExtension ext : creators) {
@@ -125,4 +169,33 @@ public class ComponentCommandCreator {
 		creators.add(ext);
 	}
 
+	public static class MultiCreateCommand extends Command {
+		List<CommandPair> commandPairs;
+
+		public MultiCreateCommand() {
+			commandPairs = new ArrayList<CommandPair>();
+		}
+
+		public List<CommandPair> getCommandPairs() {
+			return commandPairs;
+		}
+
+		@Override
+		public boolean canExecute() {
+			for (CommandPair cp : commandPairs) {
+				if (!cp.command.canExecute()) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		@Override
+		public void execute() {
+			for (CommandPair cp : commandPairs) {
+				cp.command.execute();
+			}
+		}
+	}
+	
 }
