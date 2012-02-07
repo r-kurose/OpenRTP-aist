@@ -8,6 +8,7 @@ import org.eclipse.draw2d.Panel;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
  * PortのFigure
@@ -75,12 +76,14 @@ public class PortFigure extends PolygonDecoration {
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public void setLocation(Point p) {
 		super.setLocation(p);
 		fireFigureMoved();
 	}
 
+	public Rectangle getBaseBounds() {
+		return (getParent() != null) ? getParent().getBounds()
+				: new Rectangle();
+	}
+	
 }

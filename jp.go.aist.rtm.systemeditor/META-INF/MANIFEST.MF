@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: jp.go.aist.rtm.systemeditor;singleton:=true
-Bundle-Version: 1.1.0.rc2v20110725
+Bundle-Version: 1.1.0.rc3v20120207
 Bundle-Activator: jp.go.aist.rtm.systemeditor.RTSystemEditorPlugin
 Bundle-Localization: plugin
 Require-Bundle: 

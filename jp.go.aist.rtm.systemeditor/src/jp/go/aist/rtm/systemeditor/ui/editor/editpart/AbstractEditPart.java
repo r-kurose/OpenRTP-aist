@@ -3,6 +3,8 @@ package jp.go.aist.rtm.systemeditor.ui.editor.editpart;
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
 import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
@@ -28,23 +30,17 @@ public abstract class AbstractEditPart extends AbstractGraphicalEditPart
 		this.actionRegistry = actionRegistry;
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public Notifier getTarget() {
 		return defaultAdapterDelegate.getTarget();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public boolean isAdapterForType(Object type) {
 		return defaultAdapterDelegate.isAdapterForType(type);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public void setTarget(Notifier newTarget) {
 		defaultAdapterDelegate.setTarget(newTarget);
 	}
@@ -59,30 +55,22 @@ public abstract class AbstractEditPart extends AbstractGraphicalEditPart
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public void activate() {
 		super.activate();
 		((ModelElement) getModel()).eAdapters().add(this);
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public void deactivate() {
 		super.deactivate();
 		((ModelElement) getModel()).eAdapters().remove(this);
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
 	/**
-	 * {@inheritDoc}
-	 * <p>
 	 * モデルのオブジェクトに委譲している
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public Object getAdapter(Class key) {
 		Object result = AdapterUtil.getAdapter(getModel(), key);
 		if (result == null) {
@@ -90,5 +78,38 @@ public abstract class AbstractEditPart extends AbstractGraphicalEditPart
 		}
 
 		return result;
+	}
+	
+	/**
+	 * 図に付与されるラベル
+	 */
+	public static class FloatingLabel extends Label {
+
+		public FloatingLabel(IFigure parentFigure) {
+			setParent(parentFigure);
+			parentFigure.add(this);
+		}
+
+		/**
+		 * 削除する場合に呼び出されることを意図する
+		 */
+		public void deactivate() {
+			getParent().remove(this);
+		}
+
+		@Override
+		public boolean isFocusTraversable() {
+			return false;
+		}
+
+		@Override
+		public boolean isRequestFocusEnabled() {
+			return false;
+		}
+
+		@Override
+		protected boolean isMouseEventTarget() {
+			return false;
+		}
 	}
 }

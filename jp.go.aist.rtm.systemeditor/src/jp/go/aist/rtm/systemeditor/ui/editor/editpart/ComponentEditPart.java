@@ -37,7 +37,6 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.draw2d.MouseListener;
 import org.eclipse.draw2d.Panel;
@@ -72,7 +71,7 @@ public class ComponentEditPart extends AbstractEditPart {
 	private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
 			this);
 
-	private ComponentFloatingLabel componentLabel;
+	FloatingLabel componentLabel;
 
 	NameDirectEditManager directManager = null;
 
@@ -87,26 +86,18 @@ public class ComponentEditPart extends AbstractEditPart {
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected IFigure createFigure() {
 		Figure result = new Panel() {
 
 			@Override
-			/**
-			 * {@inheritDoc}
-			 */
 			protected boolean useLocalCoordinates() {
 				return true;
 			}
 
-			@Override
 			/**
-			 * {@inheritDoc}
-			 * <p>
 			 * コンポーネントの外にポートが出ているように見せるために、コンポーネントのボディのドローイングの範囲を狭めている
 			 */
+			@Override
 			protected void paintFigure(Graphics graphics) {
 				if (isOpaque()) {
 					ComponentLayout cl = (ComponentLayout)this.getLayoutManager();
@@ -124,23 +115,19 @@ public class ComponentEditPart extends AbstractEditPart {
 				}
 			}
 
-			@Override
 			/**
-			 * {@inheritDoc}
-			 * <p>
 			 * コンポーネントの外にポートが出ているように見せるため、空実装
 			 */
+			@Override
 			protected void paintBorder(Graphics graphics) {
 				// void
 			}
 
-			@Override
 			/**
-			 * {@inheritDoc}
-			 * <p>
 			 * コンポーネントの制約が変更されるたびに、ラベルも移動させる。
 			 * （責務の分離からすればあまりよくないが、ファイル内に閉じているのでここに実装にした）
 			 */
+			@Override
 			public void setBounds(Rectangle rect) {
 				super.setBounds(rect);
 
@@ -154,16 +141,13 @@ public class ComponentEditPart extends AbstractEditPart {
 
 				propertyChangeSupport.firePropertyChange("Bounds", null, rect);
 			}
-
 		};
 
 		result.addMouseListener(new MouseListener.Stub() {
-			@Override
 			/**
-			 * {@inheritDoc}
-			 * <p>
 			 * コンポーネントを右クリック（+Shift）して、方向を変換する機能の実装
 			 */
+			@Override
 			public void mousePressed(MouseEvent me) {
 				if (me.button == 3) { // right click
 					IAction action = null;
@@ -188,7 +172,7 @@ public class ComponentEditPart extends AbstractEditPart {
 		result.setBackgroundColor(ColorConstants.orange);
 
 		// 注意：ComponentLabelの親はSystemDiagram
-		componentLabel = new ComponentFloatingLabel(
+		componentLabel = new FloatingLabel(
 				((AbstractGraphicalEditPart) getParent()).getFigure());
 		componentLabel.setText(getModel().getInstanceNameL());
 		componentLabel.setSize(30, 10);
@@ -209,9 +193,6 @@ public class ComponentEditPart extends AbstractEditPart {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public void activate() {
 		super.activate();
 		if (getModel().isCompositeComponent()) {
@@ -227,9 +208,6 @@ public class ComponentEditPart extends AbstractEditPart {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public void deactivate() {
 		componentLabel.deactivate();
 		super.deactivate();
@@ -245,9 +223,6 @@ public class ComponentEditPart extends AbstractEditPart {
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE,
 				new ComponentComponentEditPolicy());
@@ -258,9 +233,6 @@ public class ComponentEditPart extends AbstractEditPart {
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected void refreshVisuals() {
 		getFigure().setBackgroundColor(getNewBodyColor());
 
@@ -306,8 +278,6 @@ public class ComponentEditPart extends AbstractEditPart {
 								SystemEditorPreferenceManager.COLOR_RTC_STATE_UNKNOWN);
 			}
 		}
-		
-
 		return exexucitonContextColor;
 	}
 
@@ -356,7 +326,6 @@ public class ComponentEditPart extends AbstractEditPart {
 						SystemEditorPreferenceManager.COLOR_RTC_STATE_INACTIVE);
 			}
 		}
-
 		return stateColor;
 	}
 
@@ -386,16 +355,10 @@ public class ComponentEditPart extends AbstractEditPart {
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public Component getModel() {
 		return (Component) super.getModel();
 	}
 
-	/**
-	 * {@inheritDoc}component.eAdapters().add(this);
-	 */
 	@SuppressWarnings("unchecked")
 	public void notifyChanged(Notification notification) {
 		if (ComponentPackage.eINSTANCE.getComponent_Components().equals(
@@ -440,6 +403,7 @@ public class ComponentEditPart extends AbstractEditPart {
 
 	private void refreshComponent() {
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			@Override
 			public void run() {
 				if (isActive()) {
 					refresh();
@@ -452,6 +416,7 @@ public class ComponentEditPart extends AbstractEditPart {
 
 	private void refreshComponent2() {
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			@Override
 			public void run() {
 				if (isActive()) {
 					refresh();
@@ -461,6 +426,7 @@ public class ComponentEditPart extends AbstractEditPart {
 				}
 			}
 
+			@SuppressWarnings("unchecked")
 			private void refreshChildren2() {
 				int i;
 				EditPart editPart;
@@ -486,7 +452,6 @@ public class ComponentEditPart extends AbstractEditPart {
 						continue;						
 					}
 
-
 					//Look to see if the EditPart is already around but in the wrong location
 					editPart = (EditPart)modelToEditPart.get(model);
 
@@ -507,7 +472,7 @@ public class ComponentEditPart extends AbstractEditPart {
 				}
 			}
 			
-
+			@SuppressWarnings("unchecked")
 			private void refreshChildDiagram() {
 				// 複合RTCエディタ内の子RTCのポート再描画
 				SystemDiagram diagram = getModel().getChildSystemDiagram();
@@ -533,7 +498,6 @@ public class ComponentEditPart extends AbstractEditPart {
 					editor.refresh();
 				}
 			}
-
 		});
 	}
 
@@ -552,6 +516,7 @@ public class ComponentEditPart extends AbstractEditPart {
 			setFocus(true);
 		}
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			@Override
 			public void run() {
 				setFocus(false);
 			}
@@ -560,9 +525,6 @@ public class ComponentEditPart extends AbstractEditPart {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected List getModelChildren() {
 		List result = new ArrayList();
 		// 複合コンポーネントに直接属するポートだけを表示させる 2008.11.26
@@ -589,54 +551,6 @@ public class ComponentEditPart extends AbstractEditPart {
 	 */
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		propertyChangeSupport.removePropertyChangeListener(listener);
-	}
-
-	/**
-	 * システムダイアグラムのコンポーネントに表示されるラベル
-	 */
-	public class ComponentFloatingLabel extends Label {
-
-		/**
-		 * コンストラクタ
-		 * 
-		 * @param parentFigure
-		 *            親フィギュア
-		 */
-		public ComponentFloatingLabel(IFigure parentFigure) {
-			setParent(parentFigure);
-			parentFigure.add(this);
-		}
-
-		/**
-		 * 削除する場合に呼び出されることを意図する
-		 */
-		public void deactivate() {
-			getParent().remove(this);
-		}
-
-		@Override
-		/**
-		 * {@inheritDoc}
-		 */
-		public boolean isFocusTraversable() {
-			return false;
-		}
-
-		@Override
-		/**
-		 * {@inheritDoc}
-		 */
-		public boolean isRequestFocusEnabled() {
-			return false;
-		}
-
-		@Override
-		/**
-		 * {@inheritDoc}
-		 */
-		protected boolean isMouseEventTarget() {
-			return false;
-		}
 	}
 
 	@Override

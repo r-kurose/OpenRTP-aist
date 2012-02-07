@@ -11,6 +11,7 @@ import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.draw2d.MouseListener;
 import org.eclipse.draw2d.MouseMotionListener;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.EditPartViewer;
@@ -26,8 +27,6 @@ import org.eclipse.ui.PlatformUI;
  */
 public class OutPortEditPart extends PortEditPart {
 
-//	private Notification notification;
-
 	/**
 	 * コンストラクタ
 	 * 
@@ -39,19 +38,14 @@ public class OutPortEditPart extends PortEditPart {
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public OutPort getModel() {
 		return (OutPort) super.getModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public void notifyChanged(Notification notification) {
-//		this.notification = notification;
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			@Override
 			public void run() {
 				if (isActive()) {
 					refresh();
@@ -63,12 +57,27 @@ public class OutPortEditPart extends PortEditPart {
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected IFigure createFigure() {
-		IFigure result = isExported() ? new ExportedOutPortFigure(getModel())
-				: new OutPortFigure(getModel());
+		super.createFigure();
+
+		IFigure result = null;
+		if (isExported()) {
+			result = new ExportedOutPortFigure(getModel()) {
+				@Override
+				public void setBounds(Rectangle rect) {
+					super.setBounds(rect);
+					setLabelBounds(getBaseBounds(), rect, getDirection());
+				}
+			};
+		} else {
+			result = new OutPortFigure(getModel()) {
+				@Override
+				public void setBounds(Rectangle rect) {
+					super.setBounds(rect);
+					setLabelBounds(getBaseBounds(), rect, getDirection());
+				}
+			};
+		}
 		result.setLocation(new Point(0, 0));
 
 		supportAutoCreateConnectorToolMode(getViewer(), result);
@@ -85,15 +94,18 @@ public class OutPortEditPart extends PortEditPart {
 		final AutoConnectorCreationTool connectionCreationTool = new AutoConnectorCreationTool();
 
 		figure.addMouseMotionListener(new MouseMotionListener() {
+			@Override
 			public void mouseDragged(MouseEvent me) {
 			}
 
+			@Override
 			public void mouseEntered(MouseEvent me) {
 				connectionCreationTool.setFactory(new SimpleFactory(
 						PortConnectorImpl.class));
 				domain.setActiveTool(connectionCreationTool);
 			}
 
+			@Override
 			public void mouseExited(MouseEvent me) {
 				if (domain.getActiveTool() == connectionCreationTool
 						&& connectionCreationTool.isStartedState() == false) {
@@ -101,14 +113,16 @@ public class OutPortEditPart extends PortEditPart {
 				}
 			}
 
+			@Override
 			public void mouseHover(MouseEvent me) {
 			}
 
+			@Override
 			public void mouseMoved(MouseEvent me) {
 			}
 		});
+		
 		figure.addMouseListener(new MouseListener.Stub(){
-
 			@Override
 			public void mousePressed(MouseEvent me) {
 				// right click
@@ -116,7 +130,6 @@ public class OutPortEditPart extends PortEditPart {
 					domain.setActiveTool(domain.getDefaultTool());
 				}
 			}
-			
 		});
 	}
 
@@ -137,9 +150,6 @@ public class OutPortEditPart extends PortEditPart {
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected void refreshVisuals() {
 		Color color = SystemEditorPreferenceManager.getInstance().getColor(
 				SystemEditorPreferenceManager.COLOR_DATAPORT_NO_CONNECT);
@@ -151,8 +161,7 @@ public class OutPortEditPart extends PortEditPart {
 
 		getFigure().setBackgroundColor(color);
 
-		getFigure().setToolTip(
-				InPortEditPart.getDataPortToolTip(getModel()));
+		getFigure().setToolTip(InPortEditPart.getDataPortToolTip(getModel()));
 
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this,
 				getFigure(), getFigure().getBounds());
