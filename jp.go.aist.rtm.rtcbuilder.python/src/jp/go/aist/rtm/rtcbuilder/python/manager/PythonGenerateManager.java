@@ -91,9 +91,6 @@ public class PythonGenerateManager extends GenerateManager {
 		contextMap.put("pyConv", new PythonConverter());
 		contextMap.put("allIdlFileParam", allIdlFileParams);
 
-		if (rtcParam.getRtmVersion().equals(RTM_VERSION_042)) {
-			return generateTemplateCode04(contextMap);
-		}
 		return generateTemplateCode10(contextMap);
 	}
 
@@ -126,41 +123,6 @@ public class PythonGenerateManager extends GenerateManager {
 		return result;
 	}
 
-	// RTM 0.4系
-	@SuppressWarnings("unchecked")
-	public List<GeneratedResult> generateTemplateCode04(
-			Map<String, Object> contextMap) {
-		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
-		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		List<IdlFileParam> allIdlFileParams = (List<IdlFileParam>) contextMap
-				.get("allIdlFileParam");
-
-		GeneratedResult gr;
-		gr = generatePythonSource_04(contextMap);
-		result.add(gr);
-
-		for (IdlFileParam idl : allIdlFileParams) {
-			contextMap.put("idlFileParam", idl);
-			gr = generateSVCIDLSource(contextMap);
-			result.add(gr);
-		}
-		if (allIdlFileParams.size() > 0) {
-			contextMap.put("idlFileParams", allIdlFileParams);
-			gr = generateGlobalInitSource_04(contextMap);
-			result.add(gr);
-			gr = generateGlobalPOAInitSource_04(contextMap);
-			result.add(gr);
-		}
-
-		for (IdlFileParam idl : rtcParam.getProviderIdlPathes()) {
-			contextMap.put("idlFileParam", idl);
-			gr = generateSVCIDLExampleSource_04(contextMap);
-			result.add(gr);
-		}
-
-		return result;
-	}
-
 	// 1.0系 (Python)
 
 	public GeneratedResult generatePythonSource(Map<String, Object> contextMap) {
@@ -183,38 +145,6 @@ public class PythonGenerateManager extends GenerateManager {
 		IdlFileParam idlParam = (IdlFileParam) contextMap.get("idlFileParam");
 		String outfile = idlParam.getIdlFileNoExt() + "_idl_example.py";
 		String infile = "python/Py_SVC_idl_example.py.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-
-	// 0.4系 (Python)
-
-	public GeneratedResult generatePythonSource_04(
-			Map<String, Object> contextMap) {
-		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		String outfile = rtcParam.getName() + ".py";
-		String infile = "python_04/Py_RTC.py.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-
-	public GeneratedResult generateSVCIDLExampleSource_04(
-			Map<String, Object> contextMap) {
-		IdlFileParam idlParam = (IdlFileParam) contextMap.get("idlFileParam");
-		String outfile = idlParam.getIdlFileNoExt() + "_idl_example.py";
-		String infile = "python_04/Py_SVC_idl_example.py.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-
-	public GeneratedResult generateGlobalInitSource_04(
-			Map<String, Object> contextMap) {
-		String outfile = "_GlobalIDL/__init__.py";
-		String infile = "python_04/Py_Global__init__.py.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-
-	public GeneratedResult generateGlobalPOAInitSource_04(
-			Map<String, Object> contextMap) {
-		String outfile = "_GlobalIDL__POA/__init__.py";
-		String infile = "python_04/Py_Global_POA__init__.py.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 

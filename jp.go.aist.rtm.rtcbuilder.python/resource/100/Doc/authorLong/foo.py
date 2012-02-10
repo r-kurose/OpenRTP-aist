@@ -5,8 +5,9 @@
  \file foo.py
  \brief MDesc
  \date $Date$
- \author Noriaki Ando <n-ando@aist.go.jp>345678941234567895123456789612345678971
- 23456789812345
+ \author Noriaki Ando
+ <n-ando@aist.go.jp>3456789412345678951234567896123456789712345678981234
+ 5
 """
 import sys
 import time
@@ -271,13 +272,10 @@ def fooInit(manager):
     manager.registerFactory(profile,
                             foo,
                             OpenRTM_aist.Delete)
-
 def MyModuleInit(manager):
     fooInit(manager)
-
     # Create a component
     comp = manager.createComponent("foo")
-
 def main():
 	mgr = OpenRTM_aist.Manager.init(sys.argv)
 	mgr.setModuleInitProc(MyModuleInit)
