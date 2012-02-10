@@ -5,6 +5,7 @@ import java.io.File;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigParameterParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 
 import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
 import static jp.go.aist.rtm.rtcbuilder.util.StringUtil.*;
@@ -55,6 +56,27 @@ public class TemplateHelper {
 		return "";
 	}
 
+	public static String getIDLFilesforIDLCMake(RtcParam source) {
+		StringBuilder builder = new StringBuilder();
+		
+		for(IdlFileParam target : source.getProviderIdlPathes() ) {
+			builder.append("${CMAKE_CURRENT_SOURCE_DIR}/");
+			builder.append(getFilenameNoExt(target.getIdlFile()));
+			builder.append(".idl ");
+		}
+		for(IdlFileParam target : source.getConsumerIdlPathes() ) {
+			builder.append("${CMAKE_CURRENT_SOURCE_DIR}/");
+			builder.append(getFilenameNoExt(target.getIdlFile()));
+			builder.append(".idl ");
+		}
+		for(IdlFileParam target : source.getIncludedIdlPathes() ) {
+			builder.append("${CMAKE_CURRENT_SOURCE_DIR}/");
+			builder.append(getFilenameNoExt(target.getIdlFile()));
+			builder.append(".idl ");
+		}
+		return builder.toString();
+	}
+	
 	public static String toSvcImpl(String fullPath) {
 		String name = getFilenameNoExt(fullPath);
 		if (name.isEmpty()) {

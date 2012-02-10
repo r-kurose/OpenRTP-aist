@@ -37,7 +37,7 @@ public class CORBAParseInheritTest extends TestBase {
 		assertEquals("getGain", serviceClassParams.get(1).getMethods().get(3).getName());
 		//
 		assertEquals(1, includeFiles.size());
-		assertEquals("C:\\Tech-Arts\\EclipseRTM34\\jp.go.aist.rtm.rtcbuilder\\resource\\IDL\\MyServiceParent.idl",
+		assertEquals("C:\\GlobalAssist\\EclipseAISTRep\\jp.go.aist.rtm.rtcbuilder\\resource\\IDL\\MyServiceParent.idl",
 				includeFiles.get(0));
 	}
 

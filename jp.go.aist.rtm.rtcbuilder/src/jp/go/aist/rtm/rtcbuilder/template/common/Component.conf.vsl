@@ -106,6 +106,7 @@ ${sharp} conf.__widget__.vector_param1: orderd_list
 #foreach($configParam in ${rtcParam.configParams})
 #if( ${configParam.widget.length()} > 0 )
 ${sharp} conf.__widget__.${configParam.name}, ${configParam.widget}#if( ${configParam.step.length()} > 0 ).${configParam.step}#end
+
 #end
 #end
 #end

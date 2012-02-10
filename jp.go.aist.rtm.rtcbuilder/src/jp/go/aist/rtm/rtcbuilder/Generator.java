@@ -47,6 +47,7 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.IDialogConstants;
 
 /**
@@ -426,14 +427,24 @@ public class Generator {
 			}
 		}
 		for( IdlFileParam idlFile : rtcParam.getProviderIdlPathes() ) {
-			IFile idlTarget = project.getFile(idlFile.getIdlFile());
+			IFile idlTarget;
+			if(rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100)) {
+				idlTarget = project.getFile("idl" + File.separator + idlFile.getIdlFile());
+			} else {
+				idlTarget = project.getFile(idlFile.getIdlFile());
+			}
 			if( !idlTarget.getLocation().toOSString().equals(idlFile.getIdlPath()) )  {
 				idlTarget.delete(true, null);
 				idlTarget.create(new FileInputStream(idlFile.getIdlPath()), true, null);
 			}
 		}
 		for( IdlFileParam idlFile : rtcParam.getConsumerIdlPathes() ) {
-			IFile idlTarget = project.getFile(idlFile.getIdlFile());
+			IFile idlTarget;
+			if(rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100)) {
+				idlTarget = project.getFile("idl" + File.separator + idlFile.getIdlFile());
+			} else {
+				idlTarget = project.getFile(idlFile.getIdlFile());
+			}
 			if( !idlTarget.getLocation().toOSString().equals(idlFile.getIdlPath()) )  {
 				idlTarget.delete(true, null);
 				idlTarget.create(new FileInputStream(idlFile.getIdlPath()), true, null);
@@ -442,7 +453,12 @@ public class Generator {
 		//
 		for( String includedIdlFile : rtcParam.getIncludedIdls() ) {
 			File target = new File(includedIdlFile);
-			IFile idlTarget = project.getFile(target.getName());
+			IFile idlTarget;
+			if(rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100)) {
+				idlTarget = project.getFile("idl" + File.separator + target.getName());
+			} else {
+				idlTarget = project.getFile(target.getName());
+			}
 			if( !idlTarget.getLocation().toOSString().equals(includedIdlFile) )  {
 				idlTarget.delete(true, null);
 				idlTarget.create(new FileInputStream(includedIdlFile), true, null);
@@ -487,20 +503,22 @@ public class Generator {
 
 		if (isOutput) {
 			IFile outputFile = outputProject.getFile(generatedResult.getName());
-			//TODO 階層が深いパスへの対応は未
 			IPath relPath = outputFile.getProjectRelativePath();
 			if( relPath.segmentCount() > 1 ) {
-				IPath outPath = relPath.removeLastSegments(1);
-				IFolder folder = outputProject.getFolder(outPath);
-				if(!folder.exists()) {
-					try {
-						folder.create(false, true, null);
-					} catch (CoreException e) {
-						e.printStackTrace();
+				String[] segs = relPath.segments();
+				StringBuilder builder = new StringBuilder();
+				for(int index=0;index<relPath.segmentCount()-1;index++) {
+					builder.append(segs[index] + File.separator);
+					IFolder folder = outputProject.getFolder(builder.toString());
+					if(!folder.exists()) {
+						try {
+							folder.create(false, true, null);
+						} catch (CoreException e) {
+							e.printStackTrace();
+						}
 					}
 				}
 			}
-			//TODO
 			try {
 				outputFile.create(new ByteArrayInputStream(generatedResult.getCode().getBytes("UTF-8")), false, null);
 			} catch (CoreException e) {

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 
 /**
@@ -48,7 +49,7 @@ public class IdlFileParam implements Serializable {
 	}
 
 	public String getIdlFile() {
-		File file = new File(idlPath);
+		File file = new File( idlPath);
 		return file.getName();
 	}
 

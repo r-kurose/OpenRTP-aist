@@ -38,6 +38,7 @@ public class CXXIDLInheritTest extends TestBase {
 		rtcParam.setMaxInstance(2);
 		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
 		rtcParam.setIsTest(true);
+		rtcParam.setEnableOldBuildEnv(true);
 		genParam.getRtcParams().add(rtcParam);
 
 		generator = new Generator();
@@ -78,7 +79,7 @@ public class CXXIDLInheritTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "/";
 
-		assertEquals(15, result.size());
+		assertEquals(17, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -127,7 +128,7 @@ public class CXXIDLInheritTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "/";
 
-		assertEquals(17, result.size());
+		assertEquals(19, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");

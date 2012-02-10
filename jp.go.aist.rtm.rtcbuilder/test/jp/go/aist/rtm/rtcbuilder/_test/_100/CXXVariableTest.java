@@ -26,6 +26,7 @@ public class CXXVariableTest extends TestBase {
 		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
 		rtcParam.setRtmVersion("1.0.0");
 		rtcParam.setIsTest(true);
+		rtcParam.setEnableOldBuildEnv(true);
 		genParam.getRtcParams().add(rtcParam);
 	}
 
@@ -76,7 +77,7 @@ public class CXXVariableTest extends TestBase {
 		String resourceDir = rootPath
 				+ "/resource/100/CXX/Variable/ServicePort2/";
 
-		assertEquals(15, result.size());
+		assertEquals(17, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -131,7 +132,7 @@ public class CXXVariableTest extends TestBase {
 		String resourceDir = rootPath
 				+ "/resource/100/CXX/Variable/ServicePort1/";
 
-		assertEquals(15, result.size());
+		assertEquals(17, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -167,7 +168,7 @@ public class CXXVariableTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/Variable/DataPort/";
 
-		assertEquals(13, result.size());
+		assertEquals(15, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");

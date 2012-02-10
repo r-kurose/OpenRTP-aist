@@ -56,6 +56,7 @@ public class CMakeGenerateManager extends GenerateManager {
 		resetWIXUUID(rtcParam);
 
 		Map<String, Object> contextMap = createContextMap(rtcParam);
+		contextMap.put("tmpltHelper", new TemplateHelper());
 
 		resetIDLServiceClass(rtcParam);
 
@@ -67,9 +68,6 @@ public class CMakeGenerateManager extends GenerateManager {
 			return false;
 		}
 		if (rtcParam.getName() == null) {
-			return false;
-		}
-		if (rtcParam.getRtmVersion().equals(RTM_VERSION_042)) {
 			return false;
 		}
 		return true;
@@ -115,97 +113,221 @@ public class CMakeGenerateManager extends GenerateManager {
 		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
 
 		GeneratedResult gr;
+		//Root
+		gr = generateCOPYING(contextMap);
+		result.add(gr);
+		gr = generateCOPYING_LESSER(contextMap);
+		result.add(gr);
 		gr = generateCMakeLists(contextMap);
 		result.add(gr);
-		gr = generateDoxyfile(contextMap);
+		
+		//cmake
+		gr = generateCmakeCMakeLists(contextMap);
 		result.add(gr);
-
-		gr = generateModulesUninstall(contextMap);
-		result.add(gr);
-		gr = generateModulesCPackWIX(contextMap);
-		result.add(gr);
-//		gr = generateModulesFindOpenRTM(contextMap);
-//		result.add(gr);
-
-		gr = generateResourceDescriptionTXT(contextMap);
-		result.add(gr);
-		gr = generateResourceLicenseTXT(contextMap);
+		gr = generateCmakeCPackOption(contextMap);
 		result.add(gr);
 		gr = generateResourceLicenseRTF(contextMap);
 		result.add(gr);
+		gr = generateCmakeConfigVersion(contextMap);
+		result.add(gr);
+		gr = generateCmakeConfig(contextMap);
+		result.add(gr);
+		gr = generateCmakePcIn(contextMap);
+		result.add(gr);
+		gr = generateModulesUninstall(contextMap);
+		result.add(gr);
+		gr = generateUtilIn(contextMap);
+		result.add(gr);
 		gr = generateResourceWixXSL(contextMap);
 		result.add(gr);
+		//TODO アイコン、ビットマップのコピー
 
+		//cmake/Modules
+		gr = generateModulesFindOpenRTM(contextMap);
+		result.add(gr);
+
+		//doc
+		gr = generateDocCMakeLists(contextMap);
+		result.add(gr);
+		gr = generateDocConfPy(contextMap);
+		result.add(gr);
+		gr = generateDoxyfile(contextMap);
+		result.add(gr);
+		
+		//doc/content
+		gr = generateDocIndex(contextMap);
+		result.add(gr);
+		gr = generateDocIndexJ(contextMap);
+		result.add(gr);
+		
+		//idl
+		gr = generateIdlCMakeLists(contextMap);
+		result.add(gr);
+		
+		//include
+		gr = generateIncludeCMakeLists(contextMap);
+		result.add(gr);
+		
+		//include/Module
+		gr = generateIncModuleCMakeLists(contextMap);
+		result.add(gr);
+		
+		//src
+		gr = generateSrcCMakeLists(contextMap);
+		result.add(gr);
+		
 		return result;
 	}
 
 	// 1.0系 (CMake)
+	public GeneratedResult generateCOPYING(Map<String, Object> contextMap) {
+		String outfile = "COPYING";
+		String infile = "cmake/COPYING.vsl";
+		return generate(infile, outfile, contextMap);
+	}
 
+	public GeneratedResult generateCOPYING_LESSER(Map<String, Object> contextMap) {
+		String outfile = "COPYING.LESSER";
+		String infile = "cmake/COPYING.LESSER.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
 	public GeneratedResult generateCMakeLists(Map<String, Object> contextMap) {
 		String outfile = "CMakeLists.txt";
 		String infile = "cmake/CMakeLists.txt.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 
-	public GeneratedResult generateDoxyfile(Map<String, Object> contextMap) {
-		String outfile = "Doxyfile.in";
-		String infile = "cmake/Doxyfile.in.vsl";
+	// 1.0系 (CMake/cmake)
+	public GeneratedResult generateCmakeCMakeLists(Map<String, Object> contextMap) {
+		String outfile = "cmake/CMakeLists.txt";
+		String infile = "cmake/cmake/CMakeCMakeLists.txt.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
+	public GeneratedResult generateCmakeCPackOption(Map<String, Object> contextMap) {
+		String outfile = "cmake/cpack_options.cmake.in";
+		String infile = "cmake/cmake/cpack_options_cmake.in.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
+	public GeneratedResult generateResourceLicenseRTF(
+			Map<String, Object> contextMap) {
+		String outfile = "cmake/License.rtf";
+		String infile = "cmake/cmake/License.rtf.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 
-	// 1.0系 (CMake/cmake_modules)
+	public GeneratedResult generateCmakeConfigVersion(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = "cmake/" + rtcParam.getName() + "-config-version.cmake.in";
+		String infile = "cmake/cmake/config_version.cmake.in.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
+	public GeneratedResult generateCmakeConfig(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = "cmake/" + rtcParam.getName() + "-config.cmake.in";
+		String infile = "cmake/cmake/config.cmake.in.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+
+	public GeneratedResult generateCmakePcIn(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = "cmake/" + rtcParam.getName() + ".pc.in";
+		String infile = "cmake/cmake/pc.in.vsl";
+		return generate(infile, outfile, contextMap);
+	}
 
 	public GeneratedResult generateModulesUninstall(
 			Map<String, Object> contextMap) {
-		String outfile = "cmake_modules/cmake_uninstall.cmake.in";
-		String infile = "cmake/cmake_uninstall.cmake.in.vsl";
+		String outfile = "cmake/uninstall_target.cmake.in";
+		String infile = "cmake/cmake/cmake_uninstall.cmake.in.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 
-	public GeneratedResult generateModulesCPackWIX(
+	public GeneratedResult generateUtilIn(
 			Map<String, Object> contextMap) {
-		String outfile = "cmake_modules/CPackWIX.cmake";
-		String infile = "cmake/CPackWIX.cmake.vsl";
+		String outfile = "cmake/utils.cmake";
+		String infile = "cmake/cmake/utils.in.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
+	public GeneratedResult generateResourceWixXSL(Map<String, Object> contextMap) {
+		String outfile = "cmake/wix.xsl.in";
+		String infile = "cmake/cmake/wix.xsl.in.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 
+	// 1.0系 (CMake/cmake/Modules)
 	public GeneratedResult generateModulesFindOpenRTM(
 			Map<String, Object> contextMap) {
-//		String outfile = "cmake_modules/FindOpenRTM.cmake";
-//		String infile = "cmake/FindOpenRTM.cmake.vsl";
-//		return generate(infile, outfile, contextMap);
-		return null;
-	}
-
-	// 1.0系 (CMake/cpack_resources)
-
-	public GeneratedResult generateResourceDescriptionTXT(
-			Map<String, Object> contextMap) {
-		String outfile = "cpack_resources/Description.txt";
-		String infile = "cmake/Description.txt.vsl";
+		String outfile = "cmake/Modules/FindOpenRTM.cmake";
+		String infile = "cmake/cmake/FindOpenRTM.cmake.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 
-	public GeneratedResult generateResourceLicenseTXT(
-			Map<String, Object> contextMap) {
-		String outfile = "cpack_resources/License.txt";
-		String infile = "cmake/License.txt.vsl";
+	// 1.0系 (CMake/doc)
+	public GeneratedResult generateDocCMakeLists(Map<String, Object> contextMap) {
+		String outfile = "doc/CMakeLists.txt";
+		String infile = "cmake/doc/DocCMakeLists.txt.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 
-	public GeneratedResult generateResourceLicenseRTF(
-			Map<String, Object> contextMap) {
-		String outfile = "cpack_resources/License.rtf";
-		String infile = "cmake/License.rtf.vsl";
+	public GeneratedResult generateDocConfPy(Map<String, Object> contextMap) {
+		String outfile = "doc/conf.py.in";
+		String infile = "cmake/doc/conf.py.in.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
+	public GeneratedResult generateDoxyfile(Map<String, Object> contextMap) {
+		String outfile = "doc/doxyfile.in";
+		String infile = "cmake/doc/Doxyfile.in.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
+	// 1.0系 (CMake/doc/content)
+	public GeneratedResult generateDocIndex(Map<String, Object> contextMap) {
+		String outfile = "doc/content/index.txt";
+		String infile = "cmake/doc/index.txt.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 
-	public GeneratedResult generateResourceWixXSL(Map<String, Object> contextMap) {
-		String outfile = "cpack_resources/wix.xsl.in";
-		String infile = "cmake/wix.xsl.in.vsl";
+	public GeneratedResult generateDocIndexJ(Map<String, Object> contextMap) {
+		String outfile = "doc/content/index_j.txt";
+		String infile = "cmake/doc/index_j.txt.vsl";
 		return generate(infile, outfile, contextMap);
 	}
-
+	
+	// 1.0系 (CMake/idl)
+	public GeneratedResult generateIdlCMakeLists(Map<String, Object> contextMap) {
+		String outfile = "idl/CMakeLists.txt";
+		String infile = "cmake/idl/IdlCMakeLists.txt.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
+	// 1.0系 (CMake/include)
+	public GeneratedResult generateIncludeCMakeLists(Map<String, Object> contextMap) {
+		String outfile = "include/CMakeLists.txt";
+		String infile = "cmake/include/IncludeCMakeLists.txt.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
+	// 1.0系 (CMake/include/module)
+	public GeneratedResult generateIncModuleCMakeLists(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = "include/" + rtcParam.getName() + "/CMakeLists.txt";
+		String infile = "cmake/include/IncModuleCMakeLists.txt.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
+	// 1.0系 (CMake/src)
+	public GeneratedResult generateSrcCMakeLists(Map<String, Object> contextMap) {
+		String outfile = "src/CMakeLists.txt";
+		String infile = "cmake/src/SrcCMakeLists.txt.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
 	public GeneratedResult generate(String infile, String outfile,
 			Map<String, Object> contextMap) {
 		try {

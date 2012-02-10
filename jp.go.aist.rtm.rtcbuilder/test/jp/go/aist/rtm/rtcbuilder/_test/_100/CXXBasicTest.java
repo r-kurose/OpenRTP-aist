@@ -39,6 +39,7 @@ public class CXXBasicTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
 		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setEnableOldBuildEnv(true);
 
 		rtcParam.getPrivateAttributes().clear();
 		rtcParam.getPrivateAttributes().add("int private1");
@@ -62,7 +63,7 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/basic/operation/";
 
-		assertEquals(13, result.size());
+		assertEquals(15, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -78,6 +79,7 @@ public class CXXBasicTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
 		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setEnableOldBuildEnv(true);
 
 		rtcParam.getPrivateAttributes().clear();
 		rtcParam.getPrivateAttributes().add("int private1");
@@ -96,7 +98,7 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/basic/attribute/";
 
-		assertEquals(13, result.size());
+		assertEquals(15, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -112,6 +114,7 @@ public class CXXBasicTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
 		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setEnableOldBuildEnv(true);
 
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
@@ -149,7 +152,7 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/basic/service2/";
 
-		assertEquals(15, result.size());
+		assertEquals(17, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -167,6 +170,7 @@ public class CXXBasicTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
 		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setEnableOldBuildEnv(true);
 
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
@@ -193,7 +197,7 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/basic/service1/";
 
-		assertEquals(15, result.size());
+		assertEquals(17, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -211,6 +215,7 @@ public class CXXBasicTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
 		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setEnableOldBuildEnv(true);
 
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
@@ -226,7 +231,7 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/basic/outport2/";
 
-		assertEquals(13, result.size());
+		assertEquals(15, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -242,6 +247,7 @@ public class CXXBasicTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
 		rtcParam.setComponentKind("DataFlowComponent");
+		rtcParam.setEnableOldBuildEnv(true);
 
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
@@ -256,7 +262,7 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/basic/outport1/";
 
-		assertEquals(13, result.size());
+		assertEquals(15, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -272,6 +278,7 @@ public class CXXBasicTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setComponentKind("DataFlowComponent");
 		rtcParam.setMaxInstance(5);
+		rtcParam.setEnableOldBuildEnv(true);
 
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
@@ -283,7 +290,7 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/basic/inport2/";
 
-		assertEquals(13, result.size());
+		assertEquals(15, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -299,6 +306,7 @@ public class CXXBasicTest extends TestBase {
 		rtcParam.setComponentKind("DataFlowComponent");
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
+		rtcParam.setEnableOldBuildEnv(true);
 
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));
@@ -309,7 +317,7 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/basic/inport1/";
 
-		assertEquals(13, result.size());
+		assertEquals(15, result.size());
 		checkCode(result, resourceDir, "testComp.cpp");
 		checkCode(result, resourceDir, "test.h");
 		checkCode(result, resourceDir, "test.cpp");
@@ -325,13 +333,14 @@ public class CXXBasicTest extends TestBase {
 		rtcParam.setComponentKind("DataFlowComponent");
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
+		rtcParam.setEnableOldBuildEnv(true);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
 		String resourceDir = rootPath + "/resource/100/CXX/basic/name/";
 
-		assertEquals(13, result.size());
+		assertEquals(15, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
