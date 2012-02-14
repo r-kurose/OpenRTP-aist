@@ -43,7 +43,7 @@ recommended method of installation in Windows.
   to take effect before using the component.
 
 The component can be launched by double-clicking the
-``${rtcParam.name}_standalone`` executable. The ``${rtcParam.name}`` library
+``${rtcParam.name}Comp`` executable. The ``${rtcParam.name}`` library
 is available for loading into a manager, using the initialisation function
 ``rtc_init``.
 
@@ -92,10 +92,10 @@ The component is now ready for use. See the next section for instructions on
 configuring the component.
 
 ${rtcParam.name} can be launched in stand-alone mode by executing the
-``${rtcParam.name}_standalone`` executable (installed into ``${dol}{prefix}/bin``).
+``${rtcParam.name}Comp`` executable (installed into ``${dol}{prefix}/components/bin``).
 Alternatively, ``lib${rtcParam.name}.so`` can be loaded into a manager, using the
 initialisation function ``rtc_init``. This shared object can be found in
-``${dol}{prefix}/lib`` or ``${dol}{prefix}/lib64``.
+``${dol}{prefix}/components/lib`` or ``${dol}{prefix}/components/lib64``.
 
 
 Configuration
@@ -103,26 +103,44 @@ Configuration
 
 The available configuration parameters are described below:
 
-================ ======
-Parameter        Effect
-================ ======
-================ ======
+================ ================== ================ ======
+Parameter        Data type          Default Value    Effect
+================ ================== ================ ======
+#if( ${rtcParam.configParams.size()} > 0 )
+#foreach($configParam in ${rtcParam.configParams})  
+${tmpltHelper.convFormatted(${configParam.name},16)} ${tmpltHelper.convFormatted(${configParam.type},18)} ${tmpltHelper.convFormatted(${configParam.defaultVal},16)} ${configParam.docDescription}
+#end#end
+================ ================== ================ ======
 
 Ports
 =====
 
 The ports provided by the component are described below:
 
-=========== ======= ================== =======
-Name        Type    Data type          Purpose
-=========== ======= ================== =======
-=========== ======= ================== =======
+=============== =========== ============================== =======
+Name            Type        Data type                      Purpose
+=============== =========== ============================== =======
+#if( ${rtcParam.inports.size()} > 0 )
+#foreach($port in ${rtcParam.inports})
+${tmpltHelper.convFormatted(${port.name},15)} InPort      ${tmpltHelper.convFormatted(${port.type},30)} ${port.docDescription}
+#end#end
+#if( ${rtcParam.outports.size()} > 0 )
+#foreach($port in ${rtcParam.outports})
+${tmpltHelper.convFormatted(${port.name},15)} OutPort     ${tmpltHelper.convFormatted(${port.type},30)} ${port.docDescription}
+#end#end
+#if(${rtcParam.servicePorts.size()}>0)
+#foreach($servicePort in ${rtcParam.servicePorts})
+#if(${servicePort.servicePortInterfaces.size()}>0)
+#foreach($serviceInterface in ${servicePort.servicePortInterfaces})
+${tmpltHelper.convFormatted(${serviceInterface.name},15)} ServicePort ${tmpltHelper.convFormatted(${serviceInterface.interfaceType},30)} ${serviceInterface.docDescription}
+#end#end#end#end
+=============== =========== ============================== =======
 
 Examples
 ========
 
 An example configuration file is provided in the
-``${dol}{prefix}/share/${rtcParam.name}/examples/conf/`` directory.
+``${dol}{prefix}/components/share/${rtcParam.name}/examples/conf/`` directory.
 
 Changelog
 =========

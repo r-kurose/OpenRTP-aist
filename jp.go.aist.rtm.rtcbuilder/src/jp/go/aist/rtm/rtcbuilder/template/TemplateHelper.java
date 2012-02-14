@@ -263,6 +263,17 @@ public class TemplateHelper {
 		String[] vers = ver.split("\\.");
 		return (vers.length > 2) ? vers[2] : "0";
 	}
+	
+	public static String convFormatted(String source, int len) {
+		int clen = source.length();
+		StringBuilder builder = new StringBuilder();
+		builder.append(source);
+		for(int index=0;index<(len-clen);index++) {
+			builder.append(" ");
+		}
+		return builder.toString();
+	}
+	
 	//ConfigParameterのチェック
 	public boolean checkPeriodicType(RtcParam param) {
 		for( ConfigParameterParam target : param.getConfigParameterParams() ) {
