@@ -37,7 +37,7 @@ Windowsのユーザはインストーラパッケージを使用してコンポ�
   再起動する必要があるかもしれません。
 
 ${rtcParam.name}は ``${rtcParam.name}Comp`` の実行をダブルクリックして実行することが
-できます。あるいは、 ``${rtcParam.name}`` を初期化関数の ``rtc_init`` を利用して、
+できます。あるいは、 ``${rtcParam.name}`` を初期化関数の ``${rtcParam.name}Init`` を利用して、
 マネージャにロードすることができます。
 
 ソースから
@@ -84,7 +84,7 @@ ${rtcParam.name}は ``${rtcParam.name}Comp`` の実行をダブルクリック�
 
 ${rtcParam.name}は ``${rtcParam.name}Comp`` を実行（ ``${dol}{prefix}/components/bin`` に
 インストールされます）することでスタンドアローンモードで実行することができます。
-あるいは、 ``lib${rtcParam.name}.so`` を初期化関数の ``rtc_init`` を利用して、
+あるいは、 ``lib${rtcParam.name}.so`` を初期化関数の ``${rtcParam.name}Init`` を利用して、
 マネージャにロードすることができます。このライブラリは ``${dol}{prefix}/components/lib`` 
 または ``${dol}{prefix}/components/lib64`` にインストールされます。
 

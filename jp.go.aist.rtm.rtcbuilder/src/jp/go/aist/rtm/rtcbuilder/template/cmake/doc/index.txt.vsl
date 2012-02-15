@@ -45,7 +45,7 @@ recommended method of installation in Windows.
 The component can be launched by double-clicking the
 ``${rtcParam.name}Comp`` executable. The ``${rtcParam.name}`` library
 is available for loading into a manager, using the initialisation function
-``rtc_init``.
+``${rtcParam.name}Init``.
 
 From source
 -----------
@@ -94,7 +94,7 @@ configuring the component.
 ${rtcParam.name} can be launched in stand-alone mode by executing the
 ``${rtcParam.name}Comp`` executable (installed into ``${dol}{prefix}/components/bin``).
 Alternatively, ``lib${rtcParam.name}.so`` can be loaded into a manager, using the
-initialisation function ``rtc_init``. This shared object can be found in
+initialisation function ``${rtcParam.name}Init``. This shared object can be found in
 ``${dol}{prefix}/components/lib`` or ``${dol}{prefix}/components/lib64``.
 
 
