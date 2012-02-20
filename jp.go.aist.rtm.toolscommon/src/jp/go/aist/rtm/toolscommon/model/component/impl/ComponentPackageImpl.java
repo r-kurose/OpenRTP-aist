@@ -2185,7 +2185,13 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		initEClass(portSynchronizerEClass, PortSynchronizer.class, "PortSynchronizer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getPortSynchronizer_OriginalPortString(), ecorePackage.getEString(), "originalPortString", null, 0, 1, PortSynchronizer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		addEOperation(portSynchronizerEClass, null, "disconnectAll", 0, 1, IS_UNIQUE, IS_ORDERED);
+		op = addEOperation(portSynchronizerEClass, ecorePackage.getEBoolean(), "disconnect", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "conn_id", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(portSynchronizerEClass, ecorePackage.getEBoolean(), "disconnect", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getConnectorProfile(), "conn_prof", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(portSynchronizerEClass, ecorePackage.getEBoolean(), "disconnectAll", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(portConnectorEClass, PortConnector.class, "PortConnector", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getPortConnector_ConnectorProfile(), this.getConnectorProfile(), null, "connectorProfile", null, 0, 1, PortConnector.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

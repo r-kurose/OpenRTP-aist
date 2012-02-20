@@ -109,12 +109,61 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public void disconnectAll() {
+	@Override
+	public boolean disconnect(String conn_id) {
+		Port port = (Port) eContainer();
+		ConnectorProfile profile = findConnProfile(conn_id, port);
+		if (profile == null) {
+			return false;
+		}
+		SystemDiagram diagram = (SystemDiagram) port.eContainer().eContainer();
+		if (diagram == null) {
+			diagram = currentDiagram.getRootDiagram();
+		} else {
+			diagram = diagram.getRootDiagram();
+		}
+		PortConnector connector = PortConnectorFactory
+				.createPortConnectorSpecification();
+		connector.setConnectorProfile(profile);
+		connector.setSource(port.findPort(diagram, profile.getSourceString()));
+		connector.setTarget(port.findPort(diagram, profile.getTargetString()));
+		return connector.deleteConnectorR();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public boolean disconnect(ConnectorProfile conn_prof) {
+		if (conn_prof == null) {
+			return false;
+		}
+		return disconnect(conn_prof.getConnectorId());
+	}
+
+	ConnectorProfile findConnProfile(String conn_id, Port port) {
+		for (ConnectorProfile profile : port.getConnectorProfiles()) {
+			if (conn_id != null && conn_id.equals(profile.getConnectorId())) {
+				return profile;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public boolean disconnectAll() {
 		// ここではオフラインのポート全切断を行う
 		Port port = (Port) eContainer();
 		SystemDiagram diagram = (SystemDiagram) port.eContainer().eContainer();
 		diagram = diagram != null ? diagram.getRootDiagram() : currentDiagram.getRootDiagram();
-		
+
 		List<ConnectorProfile> profiles = new ArrayList<ConnectorProfile>(port.getConnectorProfiles());
 		for (ConnectorProfile profile : profiles) {
 			PortConnector connector = PortConnectorFactory.createPortConnectorSpecification();
@@ -123,6 +172,7 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 			connector.setTarget(port.findPort(diagram, profile.getTargetString()));
 			connector.deleteConnectorR();
 		}
+		return true;
 	}
 
 	/**

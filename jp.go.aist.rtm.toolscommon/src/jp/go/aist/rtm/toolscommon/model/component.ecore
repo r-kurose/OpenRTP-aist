@@ -196,7 +196,13 @@
   <eClassifiers xsi:type="ecore:EClass" name="OutPort" eSuperTypes="#//Port"/>
   <eClassifiers xsi:type="ecore:EClass" name="ServicePort" eSuperTypes="#//Port"/>
   <eClassifiers xsi:type="ecore:EClass" name="PortSynchronizer" eSuperTypes="#//IPropertyMap">
-    <eOperations name="disconnectAll"/>
+    <eOperations name="disconnect" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="conn_id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="disconnect" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="conn_prof" eType="#//ConnectorProfile"/>
+    </eOperations>
+    <eOperations name="disconnectAll" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="originalPortString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PortConnector" abstract="true" eSuperTypes="core.ecore#//WrapperObject">

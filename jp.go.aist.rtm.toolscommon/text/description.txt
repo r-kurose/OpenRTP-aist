@@ -186,7 +186,9 @@ Package component <http:///jp/go/aist/rtm/toolscommon/model/component.ecore>
 
   Class PortSynchronizer -> IPropertyMap
     Attribute originalPortString : EString
-    Operation disconnectAll() : void
+    Operation disconnect(EString) : EBoolean
+    Operation disconnect(ConnectorProfile) : EBoolean
+    Operation disconnectAll() : EBoolean
 
   Class PortConnector -> WrapperObject
     Reference connectorProfile : ConnectorProfile

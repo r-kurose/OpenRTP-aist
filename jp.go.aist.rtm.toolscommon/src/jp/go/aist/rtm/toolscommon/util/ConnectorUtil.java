@@ -23,7 +23,14 @@ public class ConnectorUtil {
 	 * @return
 	 */
 	public static boolean isAllowAnyDataType(OutPort source, InPort target) {
-		return source.isAllowAnyDataType() && target.isAllowAnyDataType();
+		if (source != null && target != null) {
+			return source.isAllowAnyDataType() && target.isAllowAnyDataType();
+		} else if (source != null && target == null) {
+			return source.isAllowAnyDataType();
+		} else if (source == null && target != null) {
+			return target.isAllowAnyDataType();
+		}
+		return false;
 	}
 
 	/**
@@ -34,8 +41,15 @@ public class ConnectorUtil {
 	 * @return
 	 */
 	public static boolean isAllowAnyInterfaceType(OutPort source, InPort target) {
-		return source.isAllowAnyInterfaceType()
-				&& target.isAllowAnyInterfaceType();
+		if (source != null && target != null) {
+			return source.isAllowAnyInterfaceType()
+					&& target.isAllowAnyInterfaceType();
+		} else if (source != null && target == null) {
+			return source.isAllowAnyInterfaceType();
+		} else if (source == null && target != null) {
+			return target.isAllowAnyInterfaceType();
+		}
+		return false;
 	}
 
 	/**
@@ -46,8 +60,15 @@ public class ConnectorUtil {
 	 * @return
 	 */
 	public static boolean isAllowAnyDataflowType(OutPort source, InPort target) {
-		return source.isAllowAnyDataflowType()
-				&& target.isAllowAnyDataflowType();
+		if (source != null && target != null) {
+			return source.isAllowAnyDataflowType()
+					&& target.isAllowAnyDataflowType();
+		} else if (source != null && target == null) {
+			return source.isAllowAnyDataflowType();
+		} else if (source == null && target != null) {
+			return target.isAllowAnyDataflowType();
+		}
+		return false;
 	}
 
 	/**
@@ -59,9 +80,18 @@ public class ConnectorUtil {
 	 */
 	public static boolean isAllowAnySubscriptionType(OutPort source,
 			InPort target) {
-		return source.isAllowAnySubscriptionType()
-				&& target.isAllowAnySubscriptionType();
+		if (source != null && target != null) {
+			return source.isAllowAnySubscriptionType()
+					&& target.isAllowAnySubscriptionType();
+		} else if (source != null && target == null) {
+			return source.isAllowAnySubscriptionType();
+		} else if (source == null && target != null) {
+			return target.isAllowAnySubscriptionType();
+		}
+		return false;
 	}
+
+	static List<String> emptyList = new ArrayList<String>();
 
 	/**
 	 * 使用可能なデータ型のリストを返す
@@ -71,6 +101,13 @@ public class ConnectorUtil {
 	 * @return
 	 */
 	public static List<String> getAllowDataTypes(OutPort source, InPort target) {
+		if (source == null && target == null) {
+			return emptyList;
+		} else if (source != null && target == null) {
+			return source.getDataTypes();
+		} else if (source == null && target != null) {
+			return target.getDataTypes();
+		}
 		List<String> sourceTypes = source.getDataTypes();
 		List<String> targetTypes = target.getDataTypes();
 		//
@@ -89,6 +126,13 @@ public class ConnectorUtil {
 	 */
 	public static List<String> getAllowInterfaceTypes(OutPort source,
 			InPort target) {
+		if (source == null && target == null) {
+			return emptyList;
+		} else if (source != null && target == null) {
+			return source.getInterfaceTypes();
+		} else if (source == null && target != null) {
+			return target.getInterfaceTypes();
+		}
 		List<String> sourceTypes = source.getInterfaceTypes();
 		List<String> targetTypes = target.getInterfaceTypes();
 		//
@@ -107,6 +151,13 @@ public class ConnectorUtil {
 	 */
 	public static List<String> getAllowDataflowTypes(OutPort source,
 			InPort target) {
+		if (source == null && target == null) {
+			return emptyList;
+		} else if (source != null && target == null) {
+			return source.getDataflowTypes();
+		} else if (source == null && target != null) {
+			return target.getDataflowTypes();
+		}
 		List<String> sourceTypes = source.getDataflowTypes();
 		List<String> targetTypes = target.getDataflowTypes();
 		//
@@ -124,6 +175,13 @@ public class ConnectorUtil {
 	 */
 	public static List<String> getAllowSubscriptionTypes(OutPort source,
 			InPort target) {
+		if (source == null && target == null) {
+			return emptyList;
+		} else if (source != null && target == null) {
+			return source.getSubscriptionTypes();
+		} else if (source == null && target != null) {
+			return target.getSubscriptionTypes();
+		}
 		List<String> sourceTypes = source.getSubscriptionTypes();
 		List<String> targetTypes = target.getSubscriptionTypes();
 		//

@@ -13,6 +13,7 @@ import java.util.List;
 import jp.go.aist.rtm.toolscommon.factory.CorbaWrapperFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
+import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaPortInterfaceProfile;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaPortSynchronizer;
 import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
@@ -178,6 +179,41 @@ public class CorbaPortSynchronizerImpl extends CorbaWrapperObjectImpl implements
 		rTCPortProfile = newRTCPortProfile;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.CORBA_PORT_SYNCHRONIZER__RTC_PORT_PROFILE, oldRTCPortProfile, rTCPortProfile));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public boolean disconnect(String conn_id) {
+		RTC.ReturnCode_t ret = getCorbaObjectInterface().disconnect(conn_id);
+		return ret == RTC.ReturnCode_t.RTC_OK;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public boolean disconnect(ConnectorProfile conn_prof) {
+		if (conn_prof == null) {
+			return false;
+		}
+		return disconnect(conn_prof.getConnectorId());
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public boolean disconnectAll() {
+		RTC.ReturnCode_t ret = getCorbaObjectInterface().disconnect_all();
+		return ret != RTC.ReturnCode_t.RTC_OK;
 	}
 
 	/**
@@ -437,11 +473,6 @@ public class CorbaPortSynchronizerImpl extends CorbaWrapperObjectImpl implements
 		if (synchronizer == null)
 			return null;
 		return synchronizer.getCorbaObjectInterface();
-	}
-
-	@Override
-	public void disconnectAll() {
-		getCorbaObjectInterface().disconnect_all();
 	}
 
 	@Override
