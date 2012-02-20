@@ -93,6 +93,11 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 		Text writeTimeoutText;
 		Combo emptyPolicyCombo;
 		Text readTimeoutText;
+		boolean enable;
+
+		public BufferPackage() {
+			this.enable = true;
+		}
 	}
 
 	public DataConnectorCreaterDialog(Shell parentShell) {
@@ -108,8 +113,11 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 		this.outport = outport;
 		this.inport = inport;
 
+		String outName = (outport != null) ? outport.getNameL() : "none";
+		String inName = (inport != null) ? inport.getNameL() : "none";
+
 		connectorProfile = ComponentFactory.eINSTANCE.createConnectorProfile();
-		connectorProfile.setName(outport.getNameL() + "_" + inport.getNameL());
+		connectorProfile.setName(outName + "_" + inName);
 
 		setShellStyle(this.getShellStyle() | SWT.RESIZE);
 		open();
@@ -558,6 +566,16 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 		});
 		createLabel(composite, "");
 
+		if ((isOutport && this.outport == null)
+				|| (!isOutport && this.inport == null)) {
+			pkg.enable = false;
+			pkg.lengthText.setEnabled(false);
+			pkg.fullPolicyCombo.setEnabled(false);
+			pkg.writeTimeoutText.setEnabled(false);
+			pkg.emptyPolicyCombo.setEnabled(false);
+			pkg.readTimeoutText.setEnabled(false);
+		}
+
 		return composite;
 	}
 
@@ -565,6 +583,15 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 		Label l = new Label(parent, SWT.NONE);
 		l.setText(label);
 		return l;
+	}
+
+	boolean isOffline() {
+		if (inport != null) {
+			return inport.eContainer() instanceof ComponentSpecification;
+		} else if (outport != null) {
+			return outport.eContainer() instanceof ComponentSpecification;
+		}
+		return false;
 	}
 
 	/**
@@ -580,13 +607,11 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 				.getDataType(), isAllowAny);
 		connectorProfile.setDataType(value);
 
-		boolean isOffline = inport.eContainer() instanceof ComponentSpecification;
-
 		SystemEditorPreferenceManager preference = SystemEditorPreferenceManager
 				.getInstance();
 
 		//
-		if (!isOffline) {
+		if (!isOffline()) {
 			types = ConnectorUtil.getAllowInterfaceTypes(outport, inport);
 			isAllowAny = ConnectorUtil.isAllowAnyInterfaceType(outport, inport);
 		} else {
@@ -597,7 +622,7 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 				.getInterfaceType(), isAllowAny);
 		connectorProfile.setInterfaceType(value);
 		//
-		if (!isOffline) {
+		if (!isOffline()) {
 			types = ConnectorUtil.getAllowDataflowTypes(outport, inport);
 			isAllowAny = ConnectorUtil.isAllowAnyDataflowType(outport, inport);
 		} else {
@@ -608,7 +633,7 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 				.getDataflowType(), isAllowAny);
 		connectorProfile.setDataflowType(value);
 		//
-		if (!isOffline) {
+		if (!isOffline()) {
 			types = ConnectorUtil.getAllowSubscriptionTypes(outport, inport);
 			isAllowAny = ConnectorUtil.isAllowAnySubscriptionType(outport,
 					inport);
@@ -620,7 +645,7 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 				.getSubscriptionType(), isAllowAny);
 		connectorProfile.setSubscriptionType(value);
 		//
-		if (!isOffline) {
+		if (!isOffline()) {
 			types = Arrays.asList(ConnectorProfile.PUSH_POLICY_TYPES);
 		} else {
 			types = Arrays.asList(preference.getPushPolicies());
@@ -642,12 +667,10 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 		String value;
 		boolean isAllowAny = false;
 
-		boolean isOffline = inport.eContainer() instanceof ComponentSpecification;
-
 		SystemEditorPreferenceManager preference = SystemEditorPreferenceManager
 				.getInstance();
 
-		if (!isOffline) {
+		if (!isOffline()) {
 			fullTypes = Arrays
 					.asList(ConnectorProfile.BUFFER_FULL_POLICY_TYPES);
 			emptyTypes = Arrays
@@ -657,7 +680,7 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 			emptyTypes = Arrays.asList(preference.getBufferEmptyPolicies());
 		}
 
-		if (ob != null) {
+		if (ob != null && ob.enable) {
 			//
 			value = loadCombo(ob.fullPolicyCombo, fullTypes, connectorProfile
 					.getOutportBufferFullPolicy(), isAllowAny);
@@ -686,7 +709,7 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 			ob.readTimeoutText.setText(value);
 		}
 		//
-		if (ib != null) {
+		if (ib != null && ib.enable) {
 			//
 			value = loadCombo(ib.fullPolicyCombo, fullTypes, connectorProfile
 					.getInportBufferFullPolicy(), isAllowAny);
@@ -721,9 +744,11 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 		combo.setItems(types.toArray(new String[0]));
 		String def = getDefaultValue(types, value, isAllowAny);
 		int index = types.indexOf(def);
-		index = (index == -1) ? 0 : index;
-		combo.select(index);
-		return types.get(index);
+		if (index != -1) {
+			combo.select(index);
+			return types.get(index);
+		}
+		return null;
 	}
 
 	/**
@@ -754,27 +779,24 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
 		shell.setText(Messages.getString("DataConnectorCreaterDialog.16")); //$NON-NLS-1$
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected void okPressed() {
-		if( additionalTableViewer!=null ) {
-			List<AdditionalEntry> additional = (List<AdditionalEntry>)additionalTableViewer.getInput();
-			//重複チェック
-			if( checkProperties(additional)==false) {
+		if (additionalTableViewer != null) {
+			List<AdditionalEntry> additional = (List<AdditionalEntry>) additionalTableViewer
+					.getInput();
+			// 重複チェック
+			if (checkProperties(additional) == false) {
 				return;
 			}
-			for(AdditionalEntry target : additional) {
-				connectorProfile.setProperty(target.getName(), target.getValue());
+			for (AdditionalEntry target : additional) {
+				connectorProfile.setProperty(target.getName(), target
+						.getValue());
 			}
 		}
 		dialogResult = connectorProfile;
@@ -783,19 +805,15 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 
 	@Override
 	/**
-	 * {@inheritDoc}
-	 * <p>
 	 * メッセージを設定する。 メッセージとしてはエラーメッセージを想定しており、
 	 * エラーメッセージが存在するか空文字かどうかにより、OKボタンのEnableの制御も行うように、オーバーライドした。
 	 */
 	public void setMessage(String newMessage, int newType) {
 		super.setMessage(newMessage, newType);
-
 		boolean isOkEnable = false;
 		if (newMessage.length() == 0) {
 			isOkEnable = true;
 		}
-
 		getButton(IDialogConstants.OK_ID).setEnabled(isOkEnable);
 	}
 
@@ -848,7 +866,7 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 			}
 		}
 
-		if (ob != null) {
+		if (ob != null && ob.enable) {
 			boolean isInt = false;
 			try {
 				int i = Integer.parseInt(ob.lengthText.getText());
@@ -892,7 +910,7 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 			}
 		}
 
-		if (ib != null) {
+		if (ib != null && ib.enable) {
 			boolean isInt = false;
 			try {
 				int i = Integer.parseInt(ib.lengthText.getText());

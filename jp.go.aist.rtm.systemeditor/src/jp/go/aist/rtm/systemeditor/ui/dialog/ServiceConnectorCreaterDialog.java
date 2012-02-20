@@ -142,13 +142,18 @@ public class ServiceConnectorCreaterDialog extends ConnectorDialogBase {
 		consumerLabels = new ArrayList<String>();
 		providerMap = new HashMap<String, ConnectorProfile.InterfaceId>();
 		providerLabels = new ArrayList<String>();
-		registInterfaceMap(first);
-		registInterfaceMap(second);
+		if (first != null) {
+			registInterfaceMap(first);
+		}
+		if (second != null) {
+			registInterfaceMap(second);
+		}
 
-		this.connectorProfile = ComponentFactory.eINSTANCE
-				.createConnectorProfile();
-		this.connectorProfile.setName(first.getNameL() + "_"
-				+ second.getNameL());
+		String firstName = (first != null) ? first.getNameL() : "none";
+		String secondName = (second != null) ? second.getNameL() : "none";
+
+  		connectorProfile = ComponentFactory.eINSTANCE.createConnectorProfile();
+		connectorProfile.setName(firstName + "_" + secondName);
 		this.connectorProfile.setProperty("port.connection.strictness", "strict");
 
 		open();
@@ -217,9 +222,10 @@ public class ServiceConnectorCreaterDialog extends ConnectorDialogBase {
 
 		baseMessage = MSG_ERROR;
 		try {
-			List<PortInterfaceProfile> interfaces1 = first.getInterfaces();
-			List<PortInterfaceProfile> interfaces2 = second.getInterfaces();
-
+			List<PortInterfaceProfile> interfaces1 = (first != null) ? first
+					.getInterfaces() : new ArrayList<PortInterfaceProfile>();
+			List<PortInterfaceProfile> interfaces2 = (second != null) ? second
+					.getInterfaces() : new ArrayList<PortInterfaceProfile>();
 			int countMatch = countMatch(interfaces1, interfaces2);
 			if (countMatch > 0
 					&& countMatch == countTotal(interfaces1, interfaces2)) {
@@ -472,10 +478,12 @@ public class ServiceConnectorCreaterDialog extends ConnectorDialogBase {
 			connectorProfile.setProperty(consumer, provider);
 		}
 		
-		if( additionalTableViewer!=null ) {
-			List<AdditionalEntry> additional = (List<AdditionalEntry>)additionalTableViewer.getInput();
-			for(AdditionalEntry target : additional) {
-				connectorProfile.setProperty(target.getName(), target.getValue());
+		if (additionalTableViewer != null) {
+			List<?> additional = (List<?>) additionalTableViewer.getInput();
+			for (Object o : additional) {
+				AdditionalEntry target = (AdditionalEntry) o;
+				connectorProfile.setProperty(target.getName(), target
+						.getValue());
 			}
 		}
 	}
@@ -514,11 +522,13 @@ public class ServiceConnectorCreaterDialog extends ConnectorDialogBase {
 		shell.setText(DIALOG_TITLE);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void okPressed() {
-		if( additionalTableViewer!=null ) {
-			//重複チェック
-			if( checkProperties((List<AdditionalEntry>)additionalTableViewer.getInput())==false) {
+		if (additionalTableViewer != null) {
+			// 重複チェック
+			if (!checkProperties((List<AdditionalEntry>) additionalTableViewer
+					.getInput())) {
 				return;
 			}
 		}

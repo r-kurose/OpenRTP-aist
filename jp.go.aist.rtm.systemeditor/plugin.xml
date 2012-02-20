@@ -352,6 +352,21 @@
 				menubarPath="additions">
 			</action>
 		</objectContribution>
+		<objectContribution
+			adaptable="true"
+			id="jp.go.aist.rtm.systemeditor.ui.objectContribution.Component"
+			objectClass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.PortEditPart">
+			<action
+				class="jp.go.aist.rtm.systemeditor.ui.action.ConnectPortActionDelegate"
+				id="jp.go.aist.rtm.systemeditor.ui.action.ConnectPortActionDelegate.Disconnect"
+				label="%DisconnectPort.label">
+			</action>
+			<action
+				class="jp.go.aist.rtm.systemeditor.ui.action.ConnectPortActionDelegate"
+				id="jp.go.aist.rtm.systemeditor.ui.action.ConnectPortActionDelegate.Connect"
+				label="%ConnectPort.label">
+			</action>
+		</objectContribution>
 	</extension>
 
 	<extension point = "org.eclipse.ui.actionSets"> 
