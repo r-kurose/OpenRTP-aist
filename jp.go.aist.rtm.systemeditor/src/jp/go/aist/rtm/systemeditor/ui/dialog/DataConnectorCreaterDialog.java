@@ -566,16 +566,6 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 		});
 		createLabel(composite, "");
 
-		if ((isOutport && this.outport == null)
-				|| (!isOutport && this.inport == null)) {
-			pkg.enable = false;
-			pkg.lengthText.setEnabled(false);
-			pkg.fullPolicyCombo.setEnabled(false);
-			pkg.writeTimeoutText.setEnabled(false);
-			pkg.emptyPolicyCombo.setEnabled(false);
-			pkg.readTimeoutText.setEnabled(false);
-		}
-
 		return composite;
 	}
 
