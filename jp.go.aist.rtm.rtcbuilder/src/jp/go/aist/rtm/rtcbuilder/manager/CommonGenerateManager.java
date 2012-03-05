@@ -99,8 +99,8 @@ public class CommonGenerateManager extends GenerateManager {
 			Map<String, Object> contextMap) {
 		try {
 			String template = TEMPLATE_PATH + "/" + infile;
-			InputStream ins = getClass().getClassLoader().getResourceAsStream(
-					template);
+			ClassLoader cl = Thread.currentThread().getContextClassLoader();
+			InputStream ins = cl.getResourceAsStream(template);
 			GeneratedResult gr = TemplateUtil.createGeneratedResult(ins,
 					contextMap, outfile);
 			if (ins != null) {
