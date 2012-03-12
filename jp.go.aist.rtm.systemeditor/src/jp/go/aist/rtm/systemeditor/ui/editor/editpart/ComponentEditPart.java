@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import jp.go.aist.rtm.systemeditor.manager.ComponentIconStore;
 import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
 import jp.go.aist.rtm.systemeditor.ui.action.OpenCompositeComponentAction;
 import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
@@ -52,6 +53,7 @@ import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -68,12 +70,17 @@ public class ComponentEditPart extends AbstractEditPart {
 	/** コンポーネントの周りとコンポーネントのボディまでのスペース(ポートなし) */
 	public static final int NONE_SPACE = 7;
 
+	/** コンポーネントアイコンのサイズ */
+	public static final int ICON_SIZE = 16;
+
 	private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
 			this);
 
 	FloatingLabel componentLabel;
 
 	NameDirectEditManager directManager = null;
+
+	Image iconImage;
 
 	/**
 	 * コンストラクタ
@@ -87,6 +94,8 @@ public class ComponentEditPart extends AbstractEditPart {
 
 	@Override
 	protected IFigure createFigure() {
+		iconImage = ComponentIconStore.eINSTANCE.findImageByComp(getModel());
+
 		Figure result = new Panel() {
 
 			@Override
@@ -112,6 +121,17 @@ public class ComponentEditPart extends AbstractEditPart {
 					Color saveForegroundColor = graphics.getForegroundColor();
 					graphics.drawRectangle(bound);
 					graphics.setForegroundColor(saveForegroundColor);
+
+					if (iconImage != null) {
+						org.eclipse.swt.graphics.Rectangle ir = iconImage
+								.getBounds();
+						Rectangle sr = new Rectangle(ir.x, ir.y, ir.width,
+								ir.height);
+						Rectangle dr = new Rectangle(bound.getCenter().x
+								- ICON_SIZE / 2, bound.getCenter().y
+								- ICON_SIZE / 2, ICON_SIZE, ICON_SIZE);
+						graphics.drawImage(iconImage, sr, dr);
+					}
 				}
 			}
 

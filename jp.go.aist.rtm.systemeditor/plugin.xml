@@ -527,6 +527,12 @@
 			category="jp.go.aist.rtm.systemeditor.ui.preference.MainPreferencePage">
 		</page>
 		<page
+			id="jp.go.aist.rtm.systemeditor.ui.preference.IconPreferencePage"
+			class="jp.go.aist.rtm.systemeditor.ui.preference.IconPreferencePage"
+			name="%IconPreference.name"
+			category="jp.go.aist.rtm.systemeditor.ui.preference.MainPreferencePage">
+		</page>
+		<page
 			id="jp.go.aist.rtm.systemeditor.ui.preference.OfflineEditorPreferencePage"
 			class="jp.go.aist.rtm.systemeditor.ui.preference.OfflineEditorPreferencePage"
 			name="%OfflineEditor"
