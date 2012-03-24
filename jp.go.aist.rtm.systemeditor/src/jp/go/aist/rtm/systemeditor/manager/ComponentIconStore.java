@@ -214,9 +214,10 @@ public class ComponentIconStore {
 	}
 
 	public void parsePreference(String pref) {
-		if (pref == null || pref.isEmpty()) {
+		if (pref == null) {
 			return;
 		}
+		clearAllImages();
 		for (String s : pref.split("\\|")) {
 			if (s == null || s.isEmpty()) {
 				continue;
