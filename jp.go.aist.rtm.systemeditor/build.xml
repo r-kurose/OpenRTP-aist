@@ -1,9 +1,9 @@
-<project name="jp.go.aist.rtm.systemeditor_1.1.0" default="jar">
-	<property name="target.name" value="jp.go.aist.rtm.systemeditor_1.1.0"/>
+<project name="jp.go.aist.rtm.systemeditor" default="jar">
+	<property name="target.name" value="jp.go.aist.rtm.systemeditor" />
+
+	<taskdef name="manifesttask" classname="aist.ManifestTask" />
 
 	<property name="source" value="src"/>
-	<property name="source.sdo" value="src/_SDOPackage"/>
-	<property name="source.rtc" value="src/RTC"/>
 
 	<property name="dist.dir" value="jar" />
 	<property name="build.dir" value="bin"/>
@@ -13,40 +13,15 @@
 	<property environment="env"/>
 	<property name="eclipse.home" value="${env.ECLIPSE_HOME}"/>
 
-	<property name="idl.path" value="idl" />
-	<property name="idl.SDOPackage" value="${idl.path}/SDOPackage11.idl" />
-	<property name="idl.RTC" value="${idl.path}/RTC10.idl" />
-	<property name="idl.OpenRTM" value="${idl.path}/OpenRTM.idl" />
-	<property name="idl.BasicDataType" value="${idl.path}/BasicDataType.idl" />
-	<property name="idl.DataPort" value="${idl.path}/DataPort.idl" />
-	<property name="idl.Manager" value="${idl.path}/Manager.idl" />
-
-	
-	
 	<taskdef resource="net/sf/ant4eclipse/antlib.xml" />
 	<property name="targetPlatformLocation" value="${eclipse.home}" />
 	<property name="workspace" value="${basedir}/.." />
 	<property name="project.name" value="jp.go.aist.rtm.systemeditor" />
 
 	<target name="buildAll">
-		<antcall target="idlCompile" />
 		<antcall target="clean" />
 		<antcall target="compile" />
 		<antcall target="jar" />
-	</target>
-
-	<target name="idlCompile" description="IDLファイルをコンパイルします">
-		<delete dir="${source.sdo}" />
-		<delete dir="${source.rtc}" />
-		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-fall -td ${source} -i ${idl.path} -emitAll ${idl.SDOPackage}"/>
-		</exec>
-		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-fall -td ${source} -i ${idl.path} -emitAll ${idl.RTC}"/>
-		</exec>
-		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-fall -td ${source} -i ${idl.path} -emitAll ${idl.Manager}"/>
-		</exec>
 	</target>
 
 	<target name="clean" description="ビルドで生成されたファイルを削除します">
@@ -66,9 +41,14 @@
 		<copy file="${source}/MAPPING_RULES" todir="${build.dir}/jp/go/aist/rtm/systemeditor/restoration" />
 		<copy file="${source}/jp/go/aist/rtm/systemeditor/nl/messages.properties" todir="${build.dir}/jp/go/aist/rtm/systemeditor/nl" />
 		<mkdir dir="${dist.dir}" />
-		<delete file="${dist.dir}/${target.name}.jar" />
+		<delete>
+			<fileset dir="${dist.dir}" includes="${target.name}_*.jar" />
+		</delete>
 
-		<jar destfile="${dist.dir}/${target.name}.jar" manifest="META-INF/MANIFEST.MF">
+		<manifesttask file="META-INF/MANIFEST.MF" key="Bundle-Version" property="version" />
+		<property name="jar.name" value="${target.name}_${version}"/>
+
+		<jar destfile="${dist.dir}/${jar.name}.jar" manifest="META-INF/MANIFEST.MF">
 			<fileset dir="${build.dir}" />
 			<fileset dir=".">
 				<include name="icons/**.**" />
@@ -82,4 +62,5 @@
 			</fileset>
 		</jar>
 	</target>
+
 </project>
