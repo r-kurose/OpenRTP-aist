@@ -1,5 +1,7 @@
-<project name="jp.go.aist.rtm.repositoryView.nl1_1.1.0" default="jar">
-	<property name="target.name" value="jp.go.aist.rtm.repositoryView.nl1_1.1.0"/>
+<project name="jp.go.aist.rtm.repositoryView.nl1" default="jar">
+	<property name="target.name" value="jp.go.aist.rtm.repositoryView.nl1" />
+
+	<taskdef name="manifesttask" classname="aist.ManifestTask" />
 
 	<property name="source" value="src"/>
 
@@ -39,13 +41,19 @@
 
 	<target name="jar" description="jarファイルを作成します">
 		<mkdir dir="${dist.dir}" />
-		<delete file="${dist.dir}/${target.name}.jar" />
+		<delete>
+			<fileset dir="${dist.dir}" includes="${target.name}_*.jar" />
+		</delete>
 
-		<jar destfile="${dist.dir}/${target.name}.jar" manifest="META-INF/MANIFEST.MF">
+		<manifesttask file="META-INF/MANIFEST.MF" key="Bundle-Version" property="version" />
+		<property name="jar.name" value="${target.name}_${version}"/>
+
+		<jar destfile="${dist.dir}/${jar.name}.jar" manifest="META-INF/MANIFEST.MF">
 			<fileset dir="${source}" />
 			<fileset dir=".">
 				<include name="plugin_ja.properties" />
 			</fileset>
 		</jar>
 	</target>
+
 </project>
