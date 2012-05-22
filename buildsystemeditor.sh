@@ -10,14 +10,11 @@
 #  °Ê²¼¤Ë¥Ó¥ë¥É¤ËÉ¬Í×¤Ê´Ä¶­¤È¥¤¥ó¥¹¥È¡¼¥ëÊýË¡¤ò´ÊÃ±¤Ë¼¨¤·¤Þ¤¹¡£
 #   Eclipse SDK
 #   ant
-#   ant4eclipse
 #   jdk
 # 
 # ´Ä¶­ÊÑ¿ô
 #  ¥Ó¥ë¥É¤ËÉ¬Í×¤Ê´Ä¶­ÊÑ¿ô¤ò°Ê²¼¤Ë¼¨¤·¤Þ¤¹¡£
-#   ECLIPSE_HOME   Eclipse SDK 3.2.x ¤Î¼Â¹Ô¥Õ¥¡¥¤¥ë¤¬¤¢¤ë¥Ç¥£¥ì¥¯¥È¥ê¤ò»ØÄê£
-#   ECLIPSE33_HOME Eclipse SDK 3.3.x ¤Î¼Â¹Ô¥Õ¥¡¥¤¥ë¤¬¤¢¤ë¥Ç¥£¥ì¥¯¥È¥ê¤ò»ØÄê£
-#   ANT_HOME       ant ¤Î¥Ç¥£¥ì¥¯¥È¥ê¤ò»ØÄê¤·¤Þ¤¹¡£
+#   ECLIPSE_HOME   Eclipse SDK 3.2.x ¤Î¼Â¹Ô¥Õ¥¡¥¤¥ë¤¬¤¢¤ë¥Ç¥£¥ì¥¯¥È¥ê¤ò»ØÄê
 #   JAVA_HOME      jdk¤Î¥Ç¥£¥ì¥¯¥È¥ê¤ò»ØÄê¤·¤Þ¤¹¡£
 #
 #===========================================================================
@@ -26,8 +23,9 @@
 
 #---------------------------------------------------------------------------
 #---------------------------------------------------------------------------
-set DUMMY=$ANT_HOME
-export ANT_HOME=$ECLIPSE_HOME/plugins/org.apache.ant_1.6.5/
+JARDIR=rtcbuilder_1.1.0
+LIBS="-lib ../lib -lib $ECLIPSE_HOME/plugins"
+
 #---------------------------------------------------------------------------
 #
 #---------------------------------------------------------------------------
@@ -56,10 +54,9 @@ do
 	then
 		echo "-" ${build_tbl[ic]}
 		cd ${build_tbl[ic]}
-		ant buildAll -lib $ECLIPSE_HOME/plugins/net.sf.ant4eclipse.plugin_0.5.0.rc1/lib/ -lib $ECLIPSE_HOME/plugins/org.apache.ant_1.6.5/lib/ -lib $ECLIPSE_HOME/plugins/org.junit_3.8.1/ -lib $ECLIPSE_HOME/plugins
+		ant buildAll ${LIBS}
 		if [ $? -ne 0 ];
 		then 
-			set ANT_HOME=$DUMMY
 			exit 1
 		fi
 		cd ..
@@ -74,25 +71,19 @@ done
 #
 #
 #---------------------------------------------------------------------------
-mkdir ./rtsystemeditor_1.1.0
+mkdir ./${JARDIR}
 #find ./ -name '*aist*.jar' -exec cp -p {} . \;
 ic=0
 declare name
 while [ $ic -lt $num ]
 do
-	name=${build_tbl[ic]}"_1.1.0.jar"
-	cp -p ${build_tbl[ic]}/jar/$name ./rtsystemeditor_1.1.0 
+	name=${build_tbl[ic]}"_*.jar"
+	cp -p ${build_tbl[ic]}/jar/$name ./${JARDIR}
 	ic=ic+1
 done
-rm rtsystemeditor_1.1.0.zip
-zip rtsystemeditor_1.1.0.zip -r ./rtsystemeditor_1.1.0
+rm ${JARDIR}.zip
+zip ${JARDIR}.zip -r ./${JARDIR}
 
-rm -rf ./rtsystemeditor_1.1.0
-
-
-
-#---------------------------------------------------------------------------
-#---------------------------------------------------------------------------
-set ANT_HOME=$DUMMY
+rm -rf ./${JARDIR}
 
 
