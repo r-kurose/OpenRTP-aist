@@ -1,5 +1,7 @@
-<project name="jp.go.aist.rtm.toolscommon.profiles_1.1.0" default="jar">
-	<property name="target.name" value="jp.go.aist.rtm.toolscommon.profiles_1.1.0"/>
+<project name="jp.go.aist.rtm.toolscommon.profiles" default="jar">
+	<property name="target.name" value="jp.go.aist.rtm.toolscommon.profiles" />
+
+	<taskdef name="manifesttask" classname="aist.ManifestTask" />
 
 	<property name="source" value="src"/>
 
@@ -42,9 +44,14 @@
 	<target name="jar" description="jarファイルを作成します">
 		<copy file="${source}/jp/go/aist/rtm/toolscommon/profiles/nl/messages.properties" todir="${build.dir}/jp/go/aist/rtm/toolscommon/profiles/nl" />
 		<mkdir dir="${dist.dir}" />
-		<delete file="${dist.dir}/${target.name}.jar" />
+		<delete>
+			<fileset dir="${dist.dir}" includes="${target.name}_*.jar" />
+		</delete>
 
-		<jar destfile="${dist.dir}/${target.name}.jar" manifest="META-INF/MANIFEST.MF">
+		<manifesttask file="META-INF/MANIFEST.MF" key="Bundle-Version" property="version" />
+		<property name="jar.name" value="${target.name}_${version}"/>
+
+		<jar destfile="${dist.dir}/${jar.name}.jar" manifest="META-INF/MANIFEST.MF">
 			<fileset dir="${build.dir}" />
 			<fileset dir=".">
 				<include name="schema/**.**" />
@@ -55,4 +62,5 @@
 			</fileset>
 		</jar>
 	</target>
+
 </project>
