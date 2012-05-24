@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<ComponentInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <OutputFolder>C:\Tech-Arts\EclipseRTM\jp.go.aist.rtm.rtcbuilder.csharp\\resource\work</OutputFolder>
+  <Platform>.NET Framework 2.0</Platform>
+  <Language>C#</Language>
+  <Profile>
+    <ComponentName>foo</ComponentName>
+    <ComponentDescription>MDesc</ComponentDescription>
+    <Maker>TA</Maker>
+    <Version>1.0.1</Version>
+    <Category>Manip</Category>
+    <ComponentType>STATIC</ComponentType>
+    <ActivityType>PERIODIC</ActivityType>
+    <MaxInstance>5</MaxInstance>
+  </Profile>
+  <IdlFileCollection />
+  <DataPortInfoCollection>
+    <DataPortInfo>
+      <portType>DataInPort</portType>
+      <portName>InP1</portName>
+      <dataType>TimedShort</dataType>
+    </DataPortInfo>
+    <DataPortInfo>
+      <portType>DataInPort</portType>
+      <portName>InP2</portName>
+      <dataType>TimedLong</dataType>
+    </DataPortInfo>
+  </DataPortInfoCollection>
+  <ServicePortInfoCollection />
+  <ConfigurationInfoCollection />
+</ComponentInfo>
