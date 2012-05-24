@@ -1,0 +1,160 @@
+Imports RTC
+Imports omg.org.RTC
+
+#foreach($type in ${vbConv.getPortTypes(${rtcParam})})  
+${vbConv.getDataportPackageName(${type})}
+#end
+
+Public Class ${rtcParam.name}
+    Inherits DataFlowComponentBase
+#foreach($port in ${rtcParam.inports})  
+    Private m_${port.name}InData As ${vbConv.getDataTypeName(${port.type})} = New ${vbConv.getDataTypeName(${port.type})}()
+    Private m_${port.name}InPort As InPort(Of ${vbConv.getDataTypeName(${port.type})}, RingBuffer(Of ${vbConv.getDataTypeName(${vbConv.getDataTypeName(${port.type})})}))
+#end
+#foreach($port in ${rtcParam.outports})  
+    Private m_${port.name}OutData As ${vbConv.getDataTypeName(${port.type})} = New ${vbConv.getDataTypeName(${vbConv.getDataTypeName(${port.type})})}()
+    Private m_${port.name}OutPort As OutPort(Of ${vbConv.getDataTypeName(${port.type})}, RingBuffer(Of ${vbConv.getDataTypeName(${vbConv.getDataTypeName(${port.type})})}))
+#end
+#if(${rtcParam.servicePorts.size()}>0)
+#foreach($servicePort in ${rtcParam.servicePorts})
+#if(${servicePort.servicePortInterfaces.size()}>0)
+#foreach($serviceInterface in ${servicePort.servicePortInterfaces})
+#if(${serviceInterface.index}==0)
+    Private m_${serviceInterface.name}Prov As ${serviceInterface.interfaceType}Impl  = New ${serviceInterface.interfaceType}Impl()
+    Private m_${serviceInterface.interfaceType}ProvPort As CorbaPort = New CorbaPort("${serviceInterface.name}Prov")
+#elseif(${serviceInterface.index}==1)
+    Private m_${serviceInterface.name}Cons As CorbaConsumerBase = New CorbaConsumerBase()
+    Private m_${serviceInterface.interfaceType}ConsPort As CorbaPort = New CorbaPort("${serviceInterface.name}Cons")
+#end#end#end#end#end
+#foreach($configParam in ${rtcParam.configParams})
+#if(${vbConv.isString(${configParam.type})})
+    Private m_${configParam.name}Conf As ${configParam.type} = New string()
+    Private Function ${configParam.name}Trans(ByVal str As String) As Boolean
+                m_${configParam.name}Conf = str
+                Return True
+    End Function
+#elseif(${vbConv.isList(${configParam.type})})
+    Private m_${configParam.name}Conf As List(Of ${vbConv.getListType(${configParam.type})}) = New List(Of ${vbConv.getListType(${configParam.type})})()
+    Private Function ${configParam.name}Trans(ByVal str As String) As Boolean
+                Dim items As String = str.Split(New Char() {","})
+                m_${configParam.name}Conf.Clear()
+                Dim ret As Boolean = True
+                For Each item As String in items
+#if(${vbConv.isString(${vbConv.getListType(${configParam.type})})})
+                    m_${configParam.name}Conf.Add(item)
+                Next
+                Return ret
+#else
+                    Dim temp As ${vbConv.getListType(${configParam.type})}
+                    if !${vbConv.getListType(${configParam.type})}.TryParse(item, temp) Then
+                        ret = True
+                        Continue For
+                    End If
+                    m_${configParam.name}Conf.Add(temp)
+                Next
+                Return ret
+#end
+    End Function
+#else
+    Private m_${configParam.name}Conf As ${configParam.type} = New ${configParam.type}()
+    Private Function ${configParam.name}Trans(ByVal str As String) As Boolean
+                Return ${configParam.type}.TryParse(str, m_${configParam.name}Conf)
+    End Function
+#end#end
+    Public Sub New(ByVal manager As Manager)
+        MyBase.New(manager)
+#foreach($port in ${rtcParam.inports})  
+        m_${port.name}InPort = New InPort(Of ${vbConv.getDataTypeName(${port.type})}, RingBuffer(Of ${vbConv.getDataTypeName(${port.type})}))("${port.name}", m_${port.name}InData)
+        registerInPort("${port.name}", m_${port.name}InPort)
+#end
+#foreach($port in ${rtcParam.outports})  
+        m_${port.name}OutPort = New OutPort(Of ${vbConv.getDataTypeName(${port.type})}, RingBuffer(Of ${vbConv.getDataTypeName(${port.type})}))("${port.name}", m_${port.name}OutData)
+        registerOutPort("${port.name}", m_${port.name}OutPort)
+#end
+#if(${rtcParam.servicePorts.size()}>0)
+#foreach($servicePort in ${rtcParam.servicePorts})
+#if(${servicePort.servicePortInterfaces.size()}>0)
+#foreach($serviceInterface in ${servicePort.servicePortInterfaces})
+#if(${serviceInterface.index}==0)
+        m_${serviceInterface.interfaceType}ProvPort.registerProvider("${serviceInterface.name}", "${serviceInterface.interfaceType}", m_${serviceInterface.name}Prov)
+        registerPort(m_${serviceInterface.interfaceType}ProvPort)
+#elseif(${serviceInterface.index}==1)
+        m_${serviceInterface.interfaceType}ConsPort.registerConsumer("${serviceInterface.name}", "${serviceInterface.interfaceType}", m_${serviceInterface.name}Cons)
+        registerPort(m_${serviceInterface.interfaceType}ConsPort)
+#end#end#end#end#end
+    End Sub
+
+    Protected Overrides Function onInitialize() As ReturnCode_t
+#foreach($configParam in ${rtcParam.configParams})  
+        bindParameter("${configParam.name}", "${configParam.defaultVal}", New RTC.Config.TransFunc(AddressOf ${configParam.name}Trans))
+#end
+        Return ReturnCode_t.RTC_OK
+    End Function
+
+    'Protected Overrides Function onFinalize() As ReturnCode_t
+    '    Return ReturnCode_t.RTC_OK
+    'End Function
+    'Protected Overrides Function onStartup(ByVal ec_id As Integer) As ReturnCode_t
+    '    Return ReturnCode_t.RTC_OK
+    'End Function
+    'Protected Overrides Function onShutdown(ByVal ec_id As Integer) As ReturnCode_t
+    '    Return ReturnCode_t.RTC_OK
+    'End Function
+    'Protected Overrides Function onActivated(ByVal ec_id As Integer) As ReturnCode_t
+    '    Return ReturnCode_t.RTC_OK
+    'End Function
+    'Protected Overrides Function onDeactivated(ByVal ec_id As Integer) As ReturnCode_t
+    '    Return ReturnCode_t.RTC_OK
+    'End Function
+    'Protected Overrides Function onExecute(ByVal ec_id As Integer) As ReturnCode_t
+    '    Return ReturnCode_t.RTC_OK
+    'End Function
+    'Protected Overrides Function onAborting(ByVal ec_id As Integer) As ReturnCode_t
+    '    Return ReturnCode_t.RTC_OK
+    'End Function
+    'Protected Overrides Function onError(ByVal ec_id As Integer) As ReturnCode_t
+    '    Return ReturnCode_t.RTC_OK
+    'End Function
+    'Protected Overrides Function onReset(ByVal ec_id As Integer) As ReturnCode_t
+    '    Return ReturnCode_t.RTC_OK
+    'End Function
+    'Protected Overrides Function onStateUpdate(ByVal ec_id As Integer) As ReturnCode_t
+    '    Return ReturnCode_t.RTC_OK
+    'End Function
+    'Protected Overrides Function onRateChanged(ByVal ec_id As Integer) As ReturnCode_t
+    '    Return ReturnCode_t.RTC_OK
+    'End Function
+End Class
+
+Public Class ${rtcParam.name}Init
+    Private spec() As String = New String() _
+    { _
+        "implementation_id", "${rtcParam.name}", _
+        "type_name",         "${rtcParam.name}", _
+        "description",       "${rtcParam.description}", _
+        "version",           "${rtcParam.version}", _
+        "vendor",            "${rtcParam.vender}", _
+        "category",          "${rtcParam.category}", _
+        "activity_type",     "${rtcParam.activityType}", _
+        "max_instance",      "${rtcParam.maxInstance}", _
+        "language",          "Visual Basic", _
+        "lang_type",         "COMPILE" _
+#foreach($configParam in ${rtcParam.configParams})  
+        , "conf.default.${configParam.name}",   "${configParam.defaultVal}" _
+#end
+    }
+
+    Public Sub New(ByVal manager As Manager)
+        Dim profile As Properties = New Properties(spec)
+        manager.registerFactory(profile, _
+            New RtcNewFunc(AddressOf Create${rtcParam.name}), _
+            New RtcDeleteFunc(AddressOf Delete${rtcParam.name}))
+    End Sub
+    Public Function Create${rtcParam.name}(ByVal manager As Manager) As RTObject_impl
+        Return New ${rtcParam.name}(manager)
+    End Function
+    Public Sub Delete${rtcParam.name}(ByVal rtc As RTObject_impl)
+        rtc.Dispose()
+    End Sub
+End Class
+

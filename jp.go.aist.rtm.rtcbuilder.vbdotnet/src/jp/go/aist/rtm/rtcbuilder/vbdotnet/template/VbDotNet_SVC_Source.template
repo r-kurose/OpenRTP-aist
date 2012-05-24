@@ -1,0 +1,17 @@
+Public Class ${tmpltHelper.getBasename(${serviceClassParam.name})}Impl
+    Inherits MarshalByRefObject
+    Implements ${tmpltHelper.getBasename(${serviceClassParam.name})}
+#foreach($serviceMethodParam in ${serviceClassParam.methods})
+#if(${vbConv.convCORBA2VBdotnetTypeDef(${serviceMethodParam.type},${serviceClassParam})} == "void")
+    Public Sub ${vbConv.escapeName(${serviceMethodParam.name})}(#foreach($serviceArgumentParam in ${serviceMethodParam.arguments})#if($velocityCount > 1),#end
+ByVal ${serviceArgumentParam.name} As ${vbConv.convCORBA2VBdotnetArg(${serviceArgumentParam.type},${serviceArgumentParam.direction},${serviceClassParam})}#end) Implements ${tmpltHelper.getBasename(${serviceClassParam.name})}.${vbConv.escapeName(${serviceMethodParam.name})}
+        Throw New Exception("The method or operation is not implemented.")
+    End Sub
+#else
+    Public Function ${vbConv.escapeName(${serviceMethodParam.name})}(#foreach($serviceArgumentParam in ${serviceMethodParam.arguments})#if($velocityCount > 1),#end
+ByVal ${serviceArgumentParam.name} As ${vbConv.convCORBA2VBdotnetArg(${serviceArgumentParam.type},${serviceArgumentParam.direction},${serviceClassParam})}#end) As ${vbConv.convCORBA2VBdotnetTypeDef(${serviceMethodParam.type},${serviceClassParam})} Implements ${tmpltHelper.getBasename(${serviceClassParam.name})}.${vbConv.escapeName(${serviceMethodParam.name})}
+        Throw New Exception("The method or operation is not implemented.")
+    End Function
+#end
+#end
+End Class

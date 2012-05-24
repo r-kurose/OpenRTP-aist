@@ -1,0 +1,5 @@
+interface test
+{
+  typedef  sequence <short>  TestData;
+  void Set(in TestData Data);
+};
