@@ -47,7 +47,6 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.IDialogConstants;
 
 /**
@@ -363,6 +362,7 @@ public class Generator {
 			if(target.getType().equals(tdparam.getTargetDef())) {
 				target.setSequence(tdparam.isSequence());
 				target.setString(tdparam.isString());
+				target.setChildString(tdparam.isChildString());
 				target.setArray(tdparam.isArray());
 				target.setStruct(tdparam.isStruct() || tdparam.isEnum());
 				break;

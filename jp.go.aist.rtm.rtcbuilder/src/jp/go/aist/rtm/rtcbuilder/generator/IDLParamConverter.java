@@ -192,6 +192,9 @@ public class IDLParamConverter {
 					@Override
 					public void visit(simple_type_spec n) {
 						tdparam.getChildType().add(node2String(n));
+						if(node2String(n).toLowerCase().equals("string") ) {
+							tdparam.setChildString(true);
+						}
 					}
 				});
 				result.add(tdparam);

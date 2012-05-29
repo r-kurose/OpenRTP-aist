@@ -18,6 +18,7 @@ public class TypeDefParam implements Serializable {
 	private boolean isArray;
 	private boolean isStruct;
 	private boolean isEnum;
+	private boolean isChildString;
 	private List<String> childType;
 
 	public TypeDefParam() {
@@ -29,6 +30,7 @@ public class TypeDefParam implements Serializable {
 		isArray = false;
 		isStruct = false;
 		isEnum = false;
+		isChildString = false;
 		childType = new ArrayList<String>();
 	}
 
@@ -86,6 +88,13 @@ public class TypeDefParam implements Serializable {
 	}
 	public void setEnum(boolean isEnum) {
 		this.isEnum = isEnum;
+	}
+
+	public boolean isChildString() {
+		return isChildString;
+	}
+	public void setChildString(boolean isChildString) {
+		this.isChildString = isChildString;
 	}
 
 	public List<String> getChildType() {

@@ -150,7 +150,7 @@ public class CXXConverter {
 			if( !typeDef.getType().contains("::") ) {
 				if(typeDef.isArray()) {
 					result = result + "_slice*";
-				} else if(typeDef.isSequence() || typeDef.isString()) {
+				} else if(typeDef.isSequence() || typeDef.isString() || typeDef.isChildString()) {
 					result = result + "*";
 				}
 			}
