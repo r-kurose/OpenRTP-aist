@@ -40,8 +40,9 @@
 	<target name="jar" description="jarファイルを作成します">
 		<copy todir="${build.dir}/jp/go/aist/rtm/rtcbuilder/python/template">
 			<fileset dir="${source}/jp/go/aist/rtm/rtcbuilder/python/template">
-				<include name="_100/**/**.template" />
-				<include name="**.template" />
+				<include name="cmake/**/**.vsl" />
+				<include name="python/**/**.vsl" />
+				<include name="python_04/**/**.vsl" />
 			</fileset>
 		</copy>
 		<mkdir dir="${dist.dir}" />
