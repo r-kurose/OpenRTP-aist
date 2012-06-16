@@ -43,6 +43,11 @@
 
 	<target name="jar" description="jarファイルを作成します">
 		<copy file="${source}/jp/go/aist/rtm/toolscommon/profiles/nl/messages.properties" todir="${build.dir}/jp/go/aist/rtm/toolscommon/profiles/nl" />
+		<copy todir="${build.dir}">
+			<fileset dir="${schema.dir}">
+				<include name="**.xsd" />
+			</fileset>
+		</copy>
 		<mkdir dir="${dist.dir}" />
 		<delete>
 			<fileset dir="${dist.dir}" includes="${target.name}_*.jar" />
