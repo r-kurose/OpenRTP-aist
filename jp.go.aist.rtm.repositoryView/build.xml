@@ -56,7 +56,6 @@
 				<include name="plugin.properties" />
 				<include name="repository.properties" />
 			</fileset>
-			<fileset dir="${source}" />
 		</jar>
 	</target>
 
