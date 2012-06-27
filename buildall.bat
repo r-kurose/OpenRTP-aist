@@ -16,8 +16,6 @@ set TARGETS=^
 	jp.go.aist.rtm.rtcbuilder.nl1 ^
 	jp.go.aist.rtm.rtcbuilder.java ^
 	jp.go.aist.rtm.rtcbuilder.python ^
-	jp.go.aist.rtm.rtcbuilder.vbdotnet ^
-	jp.go.aist.rtm.rtcbuilder.csharp ^
 	jp.go.aist.rtm.repositoryView ^
 	jp.go.aist.rtm.repositoryView.nl1 ^
 	jp.go.aist.rtm.nameserviceview ^
@@ -48,3 +46,5 @@ cd ..
 echo "Build failed" %TARGET%
 
 :END
+
+pause;
