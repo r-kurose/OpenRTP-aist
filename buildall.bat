@@ -46,5 +46,3 @@ cd ..
 echo "Build failed" %TARGET%
 
 :END
-
-pause;
