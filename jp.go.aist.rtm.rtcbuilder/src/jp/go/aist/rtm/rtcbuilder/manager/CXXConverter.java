@@ -148,9 +148,14 @@ public class CXXConverter {
 		if( result == null ) {
 			result = typeDef.getType();
 			if( !typeDef.getType().contains("::") ) {
+//				if(typeDef.isArray() && !typeDef.isStruct()) {
 				if(typeDef.isArray()) {
 					result = result + "_slice*";
 				} else if(typeDef.isSequence() || typeDef.isString() || typeDef.isChildString()) {
+					result = result + "*";
+				}
+			} else {
+				if(typeDef.isStruct()) {
 					result = result + "*";
 				}
 			}
@@ -240,8 +245,13 @@ public class CXXConverter {
 				}
 				if(typeDef.getDirection().equals("in"))
 					result = "const " + result + "&";
-				else if(typeDef.getDirection().equals("out"))
-					result = result + "_out";
+				else if(typeDef.getDirection().equals("out")) {
+					if(typeDef.isInnerArray()==false && typeDef.isChildDouble()) {
+						result = result + "&";
+					} else {
+						result = result + "_out";
+					}
+				}
 				else if(typeDef.getDirection().equals("inout"))
 					result = result + "&";
 			} else {

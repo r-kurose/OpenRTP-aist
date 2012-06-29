@@ -15,8 +15,10 @@ public class ServiceArgumentParam implements Serializable {
 	private String direction;
 	private boolean isUnbounded;
 	private boolean isArray;
+	private boolean isInnerArray;
 	private boolean isStruct;
 	private boolean isEnum;
+	private boolean isChildDouble;
 
 	public String getName() {
 		return name;
@@ -65,6 +67,20 @@ public class ServiceArgumentParam implements Serializable {
 	}
 	public void setArray(boolean isArray) {
 		this.isArray = isArray;
+	}
+	
+	public boolean isInnerArray() {
+		return isInnerArray;
+	}
+	public void setInnerArray(boolean isInnerArray) {
+		this.isInnerArray = isInnerArray;
+	}
+	
+	public boolean isChildDouble() {
+		return isChildDouble;
+	}
+	public void setChildDouble(boolean isChildDouble) {
+		this.isChildDouble = isChildDouble;
 	}
 	
 	public boolean isStruct() {

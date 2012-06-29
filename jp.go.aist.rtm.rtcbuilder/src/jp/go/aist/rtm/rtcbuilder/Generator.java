@@ -280,10 +280,8 @@ public class Generator {
 
 			specification spec = parser.specification();
 
-			List<ServiceClassParam> serviceClassParams = IDLParamConverter
-					.convert(spec, sv.getName());
-			List<TypeDefParam> typedefParams = IDLParamConverter
-					.convert_typedef(spec, sv.getName());
+			List<ServiceClassParam> serviceClassParams = IDLParamConverter.convert(spec, sv.getName());
+			List<TypeDefParam> typedefParams = IDLParamConverter.convert_typedef(spec, sv.getName());
 			if (typedefParams.size() > 0) {
 				serviceClassParams = convertType(serviceClassParams, typedefParams);
 			}
@@ -358,8 +356,17 @@ public class Generator {
 		}
 	}
 	private void checkMethodType(ServiceMethodParam target, List<TypeDefParam> types) {
+		String targetFull = target.getModule() + target.getType();
+		//
 		for(TypeDefParam tdparam : types) {
-			if(target.getType().equals(tdparam.getTargetDef())) {
+			String defFull = "";
+			if( 0<tdparam.getModuleName().length() ) {
+				defFull = tdparam.getModuleName() + "::" + tdparam.getTargetDef();
+			} else {
+				defFull = tdparam.getTargetDef();
+			}
+//			if(target.getType().equals(tdparam.getTargetDef())) {
+			if(targetFull.equals(defFull)) {
 				target.setSequence(tdparam.isSequence());
 				target.setString(tdparam.isString());
 				target.setChildString(tdparam.isChildString());
@@ -371,13 +378,22 @@ public class Generator {
 		target.setType(checkType(target.getType(), types));
 	}
 	private void checkArgumentType(ServiceArgumentParam target, List<TypeDefParam> types) {
+		String targetFull = target.getModule() + target.getType();
 		for(TypeDefParam tdparam : types) {
-			if(target.getType().equals(tdparam.getTargetDef())) {
+			String defFull = "";
+			if( 0<tdparam.getModuleName().length() ) {
+				defFull = tdparam.getModuleName() + "::" + tdparam.getTargetDef();
+			} else {
+				defFull = tdparam.getTargetDef();
+			}
+			if(targetFull.equals(defFull)) {
 				target.setOriginalType(target.getType());
 				target.setUnbounded(tdparam.isSequence() || tdparam.isString());
 				target.setArray(tdparam.isArray());
+				target.setInnerArray(tdparam.isInnerArray());
 				target.setStruct(tdparam.isStruct());
 				target.setEnum(tdparam.isEnum());
+				target.setChildDouble(tdparam.isChildDouble());
 				target.setType(checkType(target.getType(), types));
 				return;
 			}

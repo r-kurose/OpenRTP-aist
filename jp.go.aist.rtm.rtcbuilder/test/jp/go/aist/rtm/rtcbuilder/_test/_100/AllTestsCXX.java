@@ -30,6 +30,7 @@ public class AllTestsCXX {
 		suite.addTestSuite(CXXLibraryTest.class);
 		suite.addTestSuite(CXXConfigSetTest.class);
 		suite.addTestSuite(CXXIDLStructTest.class);
+		suite.addTestSuite(CXXManipTest.class);
 		//$JUnit-END$
 		return suite;
 	}

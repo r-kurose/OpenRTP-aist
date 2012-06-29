@@ -12,13 +12,16 @@ import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.NodeToken;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.array_declarator;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.base_type_spec;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.enum_type;
+import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.fixed_array_size;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.identifier;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.interface_dcl;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.interface_header;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.module;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.op_dcl;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.param_dcl;
+import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.primary_expr;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.scoped_name;
+import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.sequence_type;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.simple_type_spec;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.specification;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.string_type;
@@ -38,6 +41,8 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.idl.TypeDefParam;
  * <p>
  */
 public class IDLParamConverter {
+	
+	static private List<String> moduleName;
 
 	/**
 	 * IDLの構文解析木から、ジェネレータのインプットとなるServiceParamに変換する
@@ -78,8 +83,7 @@ public class IDLParamConverter {
 					@Override
 					public void visit(op_dcl n, Object argu) {
 						final ServiceMethodParam serviceMethodParam = new ServiceMethodParam();
-						serviceMethodParam
-								.setName(n.identifier.nodeToken.tokenImage);
+						serviceMethodParam.setName(n.identifier.nodeToken.tokenImage);
 						serviceMethodParam.setType(node2String(n.op_type_spec));
 						serviceMethodParam.setModule(service.getModule());
 
@@ -137,8 +141,24 @@ public class IDLParamConverter {
 	public static List<TypeDefParam> convert_typedef(specification spec,
 			final String idlPath) {
 		final List<TypeDefParam> result = new ArrayList<TypeDefParam>();
-
+		moduleName = new ArrayList<String>();
+		
 		spec.accept(new GJVoidDepthFirst<String>() {
+			
+			@Override
+			public void visit(module n, String argu) {
+				moduleName.add(node2String(n.identifier.nodeToken));
+				super.visit(n, argu);
+			}
+			
+			@Override
+			public void visit(NodeToken n, String argu) {
+				if( node2String(n).equals("}")) {
+					moduleName.remove(moduleName.size()-1);
+				}
+				super.visit(n, argu);
+			}
+
 			@Override
 			public void visit(interface_dcl n, String argu) {
 				final String ifname = n.interface_header.identifier.nodeToken.tokenImage;
@@ -146,6 +166,7 @@ public class IDLParamConverter {
 					@Override
 					public void visit(type_declarator n, String argu) {
 						final TypeDefParam tdparam = new TypeDefParam();
+						tdparam.setModuleName(getModuleNames());
 						n.declarators.accept(new DepthFirstVisitor(){
 							@Override
 							public void visit(identifier n) {
@@ -181,6 +202,7 @@ public class IDLParamConverter {
 			@Override
 			public void visit(struct_type n, String argu) {
 				final TypeDefParam tdparam = new TypeDefParam();
+				tdparam.setModuleName(getModuleNames());
 				tdparam.setStruct(true);
 				n.identifier.accept(new DepthFirstVisitor(){
 					@Override
@@ -194,7 +216,13 @@ public class IDLParamConverter {
 						tdparam.getChildType().add(node2String(n));
 						if(node2String(n).toLowerCase().equals("string") ) {
 							tdparam.setChildString(true);
+						} else if(node2String(n).toLowerCase().equals("double") ) {
+							tdparam.setChildDouble(true);
 						}
+					}
+					@Override
+					public void visit(array_declarator n) {
+						tdparam.setInnerArray(true);
 					}
 				});
 				result.add(tdparam);
@@ -202,6 +230,7 @@ public class IDLParamConverter {
 			@Override
 			public void visit(enum_type n, String argu) {
 				final TypeDefParam tdparam = new TypeDefParam();
+				tdparam.setModuleName(getModuleNames());
 				tdparam.setEnum(true);
 				n.identifier.accept(new DepthFirstVisitor(){
 					@Override
@@ -214,6 +243,7 @@ public class IDLParamConverter {
 			@Override
 			public void visit(type_declarator n, String argu) {
 				final TypeDefParam tdparam = new TypeDefParam();
+				tdparam.setModuleName(getModuleNames());
 				n.declarators.accept(new DepthFirstVisitor(){
 					@Override
 					public void visit(identifier n) {
@@ -270,6 +300,15 @@ public class IDLParamConverter {
 			}
 		}, null);
 		return result;
+	}
+	
+	private static String getModuleNames() {
+		StringBuilder builder = new StringBuilder();
+		for(int index=0;index<moduleName.size();index++) {
+			builder.append(moduleName.get(index));
+			if(index!=moduleName.size()-1) builder.append("::");
+		}
+		return builder.toString();
 	}
 	
 	public static List<String> extractTypeDef(List<DataTypeParam> sources) {
