@@ -132,15 +132,15 @@ RTC::ReturnCode_t ${rtcParam.name}::onInitialize()
   
   // </rtc-template>
 
-#if(${rtcParam.configParams.size()}>0)
   // <rtc-template block="bind_config">
+#if(${rtcParam.configParams.size()}>0)
   // Bind variables and configuration variable
 #foreach($configParam in ${rtcParam.configParams})  
   bindParameter("${configParam.name}", ${rtcParam.commonPrefix}${rtcParam.configurationPrefix}${configParam.tmplVarName}${rtcParam.configurationSuffix}${rtcParam.commonSuffix}, "${configParam.defaultVal}");
 #end
-  
-  // </rtc-template>
 #end
+  // </rtc-template>
+  
   return RTC::RTC_OK;
 }
 #if(${rtcParam.configParams.size()}==0 && ${rtcParam.IsNotImplemented(0)} && ${rtcParam.inports.size()}==0 && ${rtcParam.outports.size()}==0 && ${rtcParam.servicePorts.size()}==0)*/

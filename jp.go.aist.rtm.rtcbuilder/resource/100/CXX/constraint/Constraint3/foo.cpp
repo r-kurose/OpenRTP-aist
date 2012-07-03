@@ -81,8 +81,8 @@ RTC::ReturnCode_t foo::onInitialize()
   bindParameter("str_param0", m_str_param0, "up");
   bindParameter("int_param1", m_int_param1, "0");
   bindParameter("double_param0", m_double_param0, "0");
-  
   // </rtc-template>
+  
   return RTC::RTC_OK;
 }
 
