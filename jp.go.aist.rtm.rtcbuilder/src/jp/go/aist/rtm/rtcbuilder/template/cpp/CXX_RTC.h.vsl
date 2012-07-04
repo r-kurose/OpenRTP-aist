@@ -330,9 +330,9 @@ class ${rtcParam.name}
   
   // </rtc-template>
 
-#if( ${rtcParam.configParams.size()} > 0 )
   // Configuration variable declaration
   // <rtc-template block="config_declare">
+#if( ${rtcParam.configParams.size()} > 0 )
 #foreach($configParam in ${rtcParam.configParams})
   /*!
    * ${tmpltHelper.convertDescDoc(${configParam.docDescription})}
@@ -347,9 +347,10 @@ class ${rtcParam.name}
    */
   ${cXXConv.convConfigSetType(${configParam.type})} ${rtcParam.commonPrefix}${rtcParam.configurationPrefix}${configParam.tmplVarName}${rtcParam.configurationSuffix}${rtcParam.commonSuffix};
 #end
+#end
+
   // </rtc-template>
 
-#end
   // DataInPort declaration
   // <rtc-template block="inport_declare">
 #foreach($port in ${rtcParam.inports})

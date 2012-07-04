@@ -231,6 +231,7 @@ class foo
    * - DefaultValue: 0
    */
   int p_int_param0;
+
   // </rtc-template>
 
   // DataInPort declaration

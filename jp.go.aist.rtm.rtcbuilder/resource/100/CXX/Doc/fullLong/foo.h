@@ -381,6 +381,7 @@ class foo
    *               1234567890123456789012345678901234567890
    */
   std::string m_str_param1;
+
   // </rtc-template>
 
   // DataInPort declaration
