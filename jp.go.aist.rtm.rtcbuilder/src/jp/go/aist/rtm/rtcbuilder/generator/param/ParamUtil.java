@@ -522,32 +522,35 @@ public class ParamUtil {
 	public RtcProfile convertToModule(GeneratorParam generatorParam,
 										List<GenerateManager> managerList) throws Exception {
 		RtcParam rtcParam = generatorParam.getRtcParams().get(0);
-		
+		return convertToModule(rtcParam, managerList);
+	}
+
+	public RtcProfile convertToModule(RtcParam target, List<GenerateManager> managerList) throws Exception {
 		ObjectFactory factory = new ObjectFactory();
 		RtcProfile profile = factory.createRtcProfile();
 		String moduleId = IRtcBuilderConstants.SPEC_SUFFIX + IRtcBuilderConstants.SPEC_MAJOR_SEPARATOR +
-							rtcParam.getVender() + IRtcBuilderConstants.SPEC_MAJOR_SEPARATOR +
-							rtcParam.getCategory() + IRtcBuilderConstants.SPEC_MAJOR_SEPARATOR +
-							rtcParam.getName() + IRtcBuilderConstants.SPEC_MAJOR_SEPARATOR +
-							rtcParam.getVersion();
+		target.getVender() + IRtcBuilderConstants.SPEC_MAJOR_SEPARATOR +
+		target.getCategory() + IRtcBuilderConstants.SPEC_MAJOR_SEPARATOR +
+		target.getName() + IRtcBuilderConstants.SPEC_MAJOR_SEPARATOR +
+		target.getVersion();
 		profile.setId(moduleId);
-		profile.setVersion(rtcParam.getSchemaVersion());
-		convertToModuleBasic(rtcParam, factory, profile);
-		convertToModuleActions(rtcParam, factory, profile);
-		
-		for( DataPortParam dataportp : rtcParam.getInports() ) {
+		profile.setVersion(target.getSchemaVersion());
+		convertToModuleBasic(target, factory, profile);
+		convertToModuleActions(target, factory, profile);
+
+		for( DataPortParam dataportp : target.getInports() ) {
 			profile.getDataPorts().add(createDataPort(dataportp, IRtcBuilderConstants.SPEC_DATA_INPORT_KIND));
 		}
-		for( DataPortParam dataportp : rtcParam.getOutports() ) {
+		for( DataPortParam dataportp : target.getOutports() ) {
 			profile.getDataPorts().add(createDataPort(dataportp, IRtcBuilderConstants.SPEC_DATA_OUTPORT_KIND));
 		}
-		for( ServicePortParam serviceportp : rtcParam.getServicePorts() ) {
+		for( ServicePortParam serviceportp : target.getServicePorts() ) {
 			ServiceportExt serviceport = createServicePort(serviceportp);
 			profile.getServicePorts().add(serviceport);
 		}
-		convertToModuleConfiguration(rtcParam, factory, profile);
-		convertToModuleParameter(rtcParam, factory, profile);
-		convertToModuleLanguage(managerList, rtcParam, factory, profile);
+		convertToModuleConfiguration(target, factory, profile);
+		convertToModuleParameter(target, factory, profile);
+		convertToModuleLanguage(managerList, target, factory, profile);
 		
 		deleteInapplicableItem(profile, managerList);
 		
