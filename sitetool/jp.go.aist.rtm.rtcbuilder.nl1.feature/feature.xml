@@ -6,7 +6,7 @@
       provider-name="AIST">
 
    <url>
-      <update label="Open RTP tools update site" url="http://www.openrtm.org/pub/OpenRTP/updates/"/>
+      <update label="Open RTP tools update site" url="http://www.openrtm.org/staging/pub/OpenRTP/updates/"/>
    </url>
 
    <requires>
