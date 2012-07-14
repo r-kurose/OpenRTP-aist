@@ -86,6 +86,12 @@ public class ProfileHandler {
 		return xmlFile;
 	}
 
+	public RtcProfile convert2XMLProfile(RtcParam target) throws Exception {
+	    ParamUtil putil = new ParamUtil();
+		RtcProfile profile = putil.convertToModule(target, managerList);
+		return profile;
+	}
+	
 	public 	String createInitialRtcXml(String creationDate) {
 		String result = "";
 		RtcProfile profile = ParamUtil.initialXml(creationDate);
