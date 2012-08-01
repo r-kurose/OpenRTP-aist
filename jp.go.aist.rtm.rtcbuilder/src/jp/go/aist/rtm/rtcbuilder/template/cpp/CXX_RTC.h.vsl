@@ -78,14 +78,14 @@ class ${rtcParam.name}
 
   // <rtc-template block="public_attribute">
 #foreach($publicAttribute in ${rtcParam.publicAttributes})
-  ${publicAttribute};
+  ${publicAttribute}
 #end
   
   // </rtc-template>
 
   // <rtc-template block="public_operation">
 #foreach($publicOperation in ${rtcParam.publicOperations})
-  ${publicOperation};
+  ${publicOperation}
 #end
   
   // </rtc-template>
@@ -318,14 +318,14 @@ class ${rtcParam.name}
  protected:
   // <rtc-template block="protected_attribute">
 #foreach($protectedAttribute in ${rtcParam.protectedAttributes})
-  ${protectedAttribute};
+  ${protectedAttribute}
 #end
   
   // </rtc-template>
 
   // <rtc-template block="protected_operation">
 #foreach($protectedOperation in ${rtcParam.protectedOperations})
-  ${protectedOperation};
+  ${protectedOperation}
 #end
   
   // </rtc-template>
@@ -475,14 +475,14 @@ class ${rtcParam.name}
  private:
   // <rtc-template block="private_attribute">
 #foreach($privateAttribute in ${rtcParam.privateAttributes})
-  ${privateAttribute};
+  ${privateAttribute}
 #end
   
   // </rtc-template>
 
   // <rtc-template block="private_operation">
 #foreach($privateOperation in ${rtcParam.privateOperations})
-  ${privateOperation};
+  ${privateOperation}
 #end
   
   // </rtc-template>

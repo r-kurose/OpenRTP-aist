@@ -317,4 +317,16 @@ public class TemplateHelper {
 		}
 		return true;
 	}
+	
+	public boolean checkDetailContent(int index, RtcParam param) {
+		if(param.getDetailContent(index)==null || param.getDetailContent(index).length()==0)
+			return false;
+		return true;
+	}
+	
+	public boolean checkContents(String target) {
+		if( target==null || target.length()==0 )
+			return false;
+		return true;
+	}
 }

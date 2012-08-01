@@ -111,6 +111,12 @@ public class Generator {
 		List<ServiceClassParam> IDLPathParams = new ArrayList<ServiceClassParam>();
 		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
 		for( RtcParam rtcParam : generatorParam.getRtcParams() ) {
+			//onImplementedフラグの修正
+			for(int index=IRtcBuilderConstants.ACTIVITY_INITIALIZE;index<IRtcBuilderConstants.ACTIVITY_DUMMY;index++) {
+				if(rtcParam.getDetailContent(index)!=null && 0<rtcParam.getDetailContent(index).length()) {
+					rtcParam.setActionImplemented(index, true);
+				}
+			}
 			rtcParam.checkAndSetParameter();
 			for( ServicePortParam serviceport : rtcParam.getServicePorts() ) {
 				for( ServicePortInterfaceParam serviceInterfaces : serviceport.getServicePortInterfaces() ) {
@@ -506,6 +512,8 @@ public class Generator {
 						}
 	
 						isOutput = true;
+					} catch (NullPointerException e) {
+						e.printStackTrace();
 					} catch (CoreException e) {
 						e.printStackTrace();
 					}

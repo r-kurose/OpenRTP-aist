@@ -99,6 +99,10 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	private RecordedList<String> protectedOperations = new RecordedList<String>();
 	private RecordedList<String> publicOperations = new RecordedList<String>();
 	//
+	private String[] detailContent = new String[IRtcBuilderConstants.ACTIVITY_DUMMY];
+	private String privateOpeSource;
+	private String protectedOpeSource;
+	private String publicOpeSource;
 	//Prefix,Suffix
 	private String commonPrefix;
 	private String commonSuffix;
@@ -778,6 +782,34 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 			return true;
 		}
 		return false;
+	}
+	
+	public void setDetailContent(int index, String target) {
+		detailContent[index] = target;
+	}
+	public String getDetailContent(int index) {
+		return detailContent[index];
+	}
+
+	public String getPrivateOpeSource() {
+		return privateOpeSource;
+	}
+	public void setPrivateOpeSource(String privateOpeSource) {
+		this.privateOpeSource = privateOpeSource;
+	}
+
+	public String getProtectedOpeSource() {
+		return protectedOpeSource;
+	}
+	public void setProtectedOpeSource(String protectedOpeSource) {
+		this.protectedOpeSource = protectedOpeSource;
+	}
+
+	public String getPublicOpeSource() {
+		return publicOpeSource;
+	}
+	public void setPublicOpeSource(String publicOpeSource) {
+		this.publicOpeSource = publicOpeSource;
 	}
 
 	@Override

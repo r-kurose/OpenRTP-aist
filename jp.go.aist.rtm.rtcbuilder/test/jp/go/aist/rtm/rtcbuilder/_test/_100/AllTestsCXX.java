@@ -31,6 +31,7 @@ public class AllTestsCXX {
 		suite.addTestSuite(CXXConfigSetTest.class);
 		suite.addTestSuite(CXXIDLStructTest.class);
 		suite.addTestSuite(CXXManipTest.class);
+		suite.addTestSuite(CXXContentTest.class);
 		//$JUnit-END$
 		return suite;
 	}
