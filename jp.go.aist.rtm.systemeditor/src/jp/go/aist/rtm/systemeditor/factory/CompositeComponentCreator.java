@@ -254,7 +254,7 @@ public class CompositeComponentCreator {
 					return false;
 				}
 				if (base.editor != null && base.editor.isOnline()
-						&& base.manager == null) {
+						&& (base.compositeType.equals(Component.COMPOSITETYPE_GROUPING)==false && base.manager == null) ) {
 					return false;
 				}
 				return true;
