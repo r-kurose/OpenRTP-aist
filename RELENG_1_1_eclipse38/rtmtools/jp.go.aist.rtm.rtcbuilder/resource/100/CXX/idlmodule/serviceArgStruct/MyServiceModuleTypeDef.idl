@@ -1,0 +1,10 @@
+struct Time
+{
+	unsigned long sec;    // sec
+	unsigned long nsec;   // nano sec
+};
+
+interface MyService
+{
+	Time echo(out Time msg, in string str);
+};

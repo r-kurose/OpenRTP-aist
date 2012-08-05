@@ -1,0 +1,7 @@
+module aaa {
+ module bbb {
+    interface MyService {
+      string echo(in string msg);
+    };
+  };
+};

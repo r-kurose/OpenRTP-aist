@@ -1,0 +1,110 @@
+${sharp} Find OpenRTM-aist
+${sharp}
+${sharp} The following additional directories are searched:
+${sharp} OPENRTM_ROOT (CMake variable)
+${sharp} OPENRTM_ROOT (Environment variable)
+${sharp}
+${sharp} This sets the following variables:
+${sharp} OPENRTM_FOUND - True if OpenRTM-aist was found.
+${sharp} OPENRTM_INCLUDE_DIRS - Directories containing the OpenRTM-aist include files.
+${sharp} OPENRTM_LIBRARIES - Libraries needed to use OpenRTM-aist.
+${sharp} OPENRTM_CFLAGS - Compiler flags for OpenRTM-aist.
+${sharp} OPENRTM_VERSION - The version of OpenRTM-aist found.
+${sharp} OPENRTM_VERSION_MAJOR - The major version of OpenRTM-aist found.
+${sharp} OPENRTM_VERSION_MINOR - The minor version of OpenRTM-aist found.
+${sharp} OPENRTM_VERSION_REVISION - The revision version of OpenRTM-aist found.
+${sharp} OPENRTM_VERSION_CANDIDATE - The candidate version of OpenRTM-aist found.
+${sharp} OPENRTM_IDL_COMPILER - The IDL compiler used by OpenRTM-aist.
+${sharp} OPENRTM_IDL_FLAGS - The flags used to compile OpenRTM-aist IDL files.
+${sharp} OPENRTM_IDL_DIR - The directory containing the OpenRTM-aist IDL files.
+${sharp}
+${sharp} This module also defines one macro usable in your CMakeLists.txt files:
+${sharp} OPENRTM_COMPILE_IDL_FILES(file1 file2 ...)
+${sharp}   Compiles the specified IDL files, placing the generated C++ source files in
+${sharp}   ${dol}{CMAKE_CURRENT_BINARY_DIR}. The source files can be found in file1_SRCS,
+${sharp}   file2_SRCS, etc., and all source files for all IDL files are available in
+${sharp}   ALL_IDL_SRCS. To depend on the generated files, depend on the targets
+${sharp}   file1_TGT, file2_TGT, etc. The target ALL_IDL_TGT is available to depend on
+${sharp}   all source files generated from IDL files.
+
+find_package(PkgConfig)
+pkg_check_modules(PC_OPENRTM openrtm-aist)
+pkg_check_modules(PC_COIL libcoil)
+
+find_path(OPENRTM_INCLUDE_DIR rtm/RTC.h
+    HINTS ${dol}{OPENRTM_ROOT}/include ${dol}ENV{OPENRTM_ROOT}/include
+    ${dol}{PC_OPENRTM_INCLUDE_DIRS})
+find_path(COIL_INCLUDE_DIR coil/config_coil.h
+    HINTS ${dol}{OPENRTM_ROOT}/include ${dol}ENV{OPENRTM_ROOT}/include
+    ${dol}{PC_COIL_INCLUDE_DIRS})
+find_library(OPENRTM_LIBRARY RTC
+    HINTS ${dol}{OPENRTM_ROOT}/lib ${dol}ENV{OPENRTM_ROOT}/lib
+    ${dol}{PC_OPENRTM_LIBRARY_DIRS})
+find_library(COIL_LIBRARY coil
+    HINTS ${dol}{OPENRTM_ROOT}/lib ${dol}ENV{OPENRTM_ROOT}/lib
+    ${dol}{PC_COIL_LIBRARY_DIRS})
+
+set(OPENRTM_CFLAGS ${dol}{PC_OPENRTM_CFLAGS_OTHER} ${dol}{PC_COIL_CFLAGS_OTHER})
+set(OPENRTM_INCLUDE_DIRS ${dol}{OPENRTM_INCLUDE_DIR} ${dol}{OPENRTM_INCLUDE_DIR}/rtm/idl
+    ${dol}{COIL_INCLUDE_DIR})
+set(OPENRTM_LIBRARIES ${dol}{OPENRTM_LIBRARY} ${dol}{COIL_LIBRARY} uuid dl pthread
+    omniORB4 omnithread omniDynamic4)
+
+file(STRINGS ${dol}{OPENRTM_INCLUDE_DIR}/rtm/version.h OPENRTM_VERSION
+    NEWLINE_CONSUME)
+${sharp}set(OPENRTM_VERSION "1.1.0")
+string(REGEX MATCH "version = \"([0-9]+)\\.([0-9]+)\\.([0-9]+)-?([a-zA-Z0-9]*)\""
+    OPENRTM_VERSION "${dol}{OPENRTM_VERSION}")
+set(OPENRTM_VERSION_MAJOR ${dol}{CMAKE_MATCH_1})
+set(OPENRTM_VERSION_MINOR ${dol}{CMAKE_MATCH_2})
+set(OPENRTM_VERSION_REVISION ${dol}{CMAKE_MATCH_3})
+set(OPENRTM_VERSION_CANDIDATE ${dol}{CMAKE_MATCH_4})
+
+execute_process(COMMAND rtm-config --idlc OUTPUT_VARIABLE OPENRTM_IDL_COMPILER
+    OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(COMMAND rtm-config --idlflags OUTPUT_VARIABLE OPENRTM_IDL_FLAGS
+    OUTPUT_STRIP_TRAILING_WHITESPACE)
+separate_arguments(OPENRTM_IDL_FLAGS)
+execute_process(COMMAND rtm-config --prefix OUTPUT_VARIABLE _rtm_prefix
+    OUTPUT_STRIP_TRAILING_WHITESPACE)
+set(OPENRTM_IDL_DIR
+    ${dol}{_rtm_prefix}/include/openrtm-${dol}{OPENRTM_VERSION_MAJOR}.${dol}{OPENRTM_VERSION_MINOR}/rtm/idl
+    CACHE STRING "Directory containing the OpenRTM-aist IDL files.")
+
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(OpenRTM
+    REQUIRED_VARS OPENRTM_INCLUDE_DIR COIL_INCLUDE_DIR OPENRTM_LIBRARY
+    COIL_LIBRARY OPENRTM_IDL_COMPILER)
+
+macro(_IDL_OUTPUTS _idl _dir _result)
+    set(${dol}{_result} ${dol}{_dir}/${dol}{_idl}SK.cc ${dol}{_dir}/${dol}{_idl}.hh
+        ${dol}{_dir}/${dol}{_idl}DynSK.cc)
+endmacro(_IDL_OUTPUTS)
+
+
+macro(_COMPILE_IDL _idl_file)
+    get_filename_component(_idl ${dol}{_idl_file} NAME_WE)
+    set(_idl_srcs_var ${dol}{_idl}_SRCS)
+    _IDL_OUTPUTS(${dol}{_idl} ${dol}{CMAKE_CURRENT_BINARY_DIR} ${dol}{_idl_srcs_var})
+
+    add_custom_command(OUTPUT ${dol}{${dol}{_idl_srcs_var}}
+        COMMAND ${dol}{OPENRTM_IDL_COMPILER} ${dol}{OPENRTM_IDL_FLAGS}
+        -I${dol}{OPENRTM_IDL_DIR} ${dol}{_idl_file}
+        WORKING_DIRECTORY ${dol}{CURRENT_BINARY_DIR}
+        DEPENDS ${dol}{_idl_file}
+        COMMENT "Compiling ${dol}{_idl_file}" VERBATIM)
+    add_custom_target(${dol}{_idl}_TGT DEPENDS ${dol}{${dol}{_idl_srcs_var}})
+    set(ALL_IDL_SRCS ${dol}{ALL_IDL_SRCS} ${dol}{${dol}{_idl_srcs_var}})
+    if(NOT TARGET ALL_IDL_TGT)
+        add_custom_target(ALL_IDL_TGT)
+    endif(NOT TARGET ALL_IDL_TGT)
+    add_dependencies(ALL_IDL_TGT ${dol}{_idl}_TGT)
+endmacro(_COMPILE_IDL)
+
+${sharp} Module exposed to the user
+macro(OPENRTM_COMPILE_IDL_FILES)
+    foreach(idl ${dol}{ARGN})
+        _COMPILE_IDL(${dol}{idl})
+    endforeach(idl)
+endmacro(OPENRTM_COMPILE_IDL_FILES)
+

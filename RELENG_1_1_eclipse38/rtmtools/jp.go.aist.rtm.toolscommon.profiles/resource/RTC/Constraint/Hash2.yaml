@@ -1,0 +1,19 @@
+--- 
+rtcProfile: 
+  configurationSet: 
+    configuration: 
+      -
+        constraint: 
+          constraintHashType: 
+            constraint: 
+              -
+                constraintUnitType: 
+                  key: el1
+                  propertyIsGreaterThanOrEqualTo: 
+                    literal: "100"
+              -
+                constraintUnitType: 
+                  key: el2
+                  propertyIsEqualTo: 
+                    literal: "150"
+  version: "0.2"

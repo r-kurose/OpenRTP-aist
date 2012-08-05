@@ -1,0 +1,6 @@
+interface MyService2
+{
+  void setGain(in float gain);
+  float getGain();
+};
+

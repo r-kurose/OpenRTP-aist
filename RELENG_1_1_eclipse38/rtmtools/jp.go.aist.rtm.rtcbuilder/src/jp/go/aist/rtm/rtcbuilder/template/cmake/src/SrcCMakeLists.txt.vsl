@@ -1,0 +1,32 @@
+set(comp_srcs ${rtcParam.name}.cpp #foreach($providerIdlFile in ${rtcParam.providerIdlPathes})${tmpltHelper.getFilenameNoExt(${providerIdlFile.idlFile})}${tmpltHelper.serviceImplSuffix}.cpp #end)
+set(standalone_srcs ${rtcParam.name}Comp.cpp)
+
+include_directories(${dol}{PROJECT_SOURCE_DIR}/include)
+include_directories(${dol}{PROJECT_SOURCE_DIR}/include/${dol}{PROJECT_NAME})
+include_directories(${dol}{PROJECT_BINARY_DIR})
+include_directories(${dol}{PROJECT_BINARY_DIR}/idl)
+include_directories(${dol}{OPENRTM_INCLUDE_DIRS})
+include_directories(${dol}{OMNIORB_INCLUDE_DIRS})
+add_definitions(${dol}{OPENRTM_CFLAGS})
+add_definitions(${dol}{OMNIORB_CFLAGS})
+
+link_directories(${dol}{OPENRTM_LIBRARY_DIRS})
+link_directories(${dol}{OMNIORB_LIBRARY_DIRS})
+
+add_library(${dol}{PROJECT_NAME_LOWER} ${dol}{LIB_TYPE} ${dol}{comp_srcs} ${dol}{ALL_IDL_SRCS})
+set_source_files_properties(${dol}{ALL_IDL_SRCS} PROPERTIES GENERATED 1)
+add_dependencies(${dol}{PROJECT_NAME_LOWER} ALL_IDL_TGT)
+target_link_libraries(${dol}{PROJECT_NAME_LOWER} ${dol}{OPENRTM_LIBRARIES})
+
+add_executable(${dol}{PROJECT_NAME_LOWER}comp ${dol}{standalone_srcs})
+target_link_libraries(${dol}{PROJECT_NAME_LOWER}comp ${dol}{PROJECT_NAME_LOWER})
+
+install(TARGETS ${dol}{PROJECT_NAME_LOWER} ${dol}{PROJECT_NAME_LOWER}comp
+    EXPORT ${dol}{PROJECT_NAME_LOWER}
+    RUNTIME DESTINATION ${dol}{BIN_INSTALL_DIR} COMPONENT component
+    LIBRARY DESTINATION ${dol}{LIB_INSTALL_DIR} COMPONENT component
+    ARCHIVE DESTINATION ${dol}{LIB_INSTALL_DIR} COMPONENT component)
+install(EXPORT ${dol}{PROJECT_NAME_LOWER}
+    DESTINATION ${dol}{LIB_INSTALL_DIR}/${dol}{PROJECT_NAME_LOWER}
+    FILE ${dol}{PROJECT_NAME_LOWER}Depends.cmake)
+
