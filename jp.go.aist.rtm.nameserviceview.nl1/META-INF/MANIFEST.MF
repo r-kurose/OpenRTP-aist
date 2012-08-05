@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Nl Fragment
+Bundle-SymbolicName: jp.go.aist.rtm.nameserviceview.nl1
+Bundle-Version: 1.1.0.rc3v20120215
+Fragment-Host: jp.go.aist.rtm.nameserviceview;bundle-version="1.0.0"
