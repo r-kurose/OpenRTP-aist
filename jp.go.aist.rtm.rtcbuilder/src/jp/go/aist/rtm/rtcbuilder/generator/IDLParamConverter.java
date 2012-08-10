@@ -311,9 +311,8 @@ public class IDLParamConverter {
 		return builder.toString();
 	}
 	
-	public static List<String> extractTypeDef(List<DataTypeParam> sources) {
-		List<String> result = new ArrayList<String>();
-		
+	public static boolean extractTypeDef(List<DataTypeParam> sources, List<String> result) {
+		boolean ret = true;
 		for( Iterator<DataTypeParam> iter = sources.iterator(); iter.hasNext(); ) {
 			DataTypeParam targetParam = iter.next();
 			String targetContent = targetParam.getContent();
@@ -323,6 +322,7 @@ public class IDLParamConverter {
 			try {
 				spec = parser.specification();
 			} catch (ParseException e) {
+				ret = false;
 				continue;
 			}
 			List<String> types = parseForTypeDef(spec);
@@ -335,7 +335,7 @@ public class IDLParamConverter {
 				targetParam.getDefinedTypes().add(resultType);
 			}
 		}
-		return result;
+		return ret;
 	}
 	
 	private static List<String> parseForTypeDef(specification spec) {

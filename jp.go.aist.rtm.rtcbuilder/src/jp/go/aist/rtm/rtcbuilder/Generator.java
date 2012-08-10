@@ -35,6 +35,7 @@ import jp.go.aist.rtm.rtcbuilder.manager.CXXGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.CommonGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.ui.editors.IMessageConstants;
+import jp.go.aist.rtm.rtcbuilder.ui.preference.DataTypePreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 import jp.go.aist.rtm.rtcbuilder.util.ValidationUtil;
@@ -118,14 +119,22 @@ public class Generator {
 				}
 			}
 			rtcParam.checkAndSetParameter();
+			rtcParam.getIdlPathes().clear();
 			for( ServicePortParam serviceport : rtcParam.getServicePorts() ) {
 				for( ServicePortInterfaceParam serviceInterfaces : serviceport.getServicePortInterfaces() ) {
-					if( !IDLPathes.contains(serviceInterfaces.getIdlFullPath()) )
+					if( !IDLPathes.contains(serviceInterfaces.getIdlFullPath()) ) {
 						IDLPathes.add(serviceInterfaces.getIdlFullPath());
 						IDLPathParams.add(new ServiceClassParam(serviceInterfaces.getIdlFullPath(),
 																 serviceInterfaces.getIdlSearchPath()));
+					}
+					if( 0<serviceInterfaces.getIdlSearchPath().length() &&
+							rtcParam.getIdlPathes().contains(serviceInterfaces.getIdlSearchPath())==false) {
+						rtcParam.getIdlPathes().add(serviceInterfaces.getIdlSearchPath());
+					}
 				}
 			}
+			rtcParam.getIdlPathes().addAll(DataTypePreferenceManager.getInstance().getIdlFileDirectories());
+			
 			rtcServiceClasses.addAll(getRtcServiceClass(rtcParam, IDLPathParams));
 			checkReferencedServiceParam(rtcServiceClasses, rtcParam);
 			List<ServiceClassParam> serviceClassParamList = new ArrayList<ServiceClassParam>();

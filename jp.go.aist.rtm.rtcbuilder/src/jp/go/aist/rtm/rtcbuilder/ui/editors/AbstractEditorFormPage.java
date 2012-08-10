@@ -16,6 +16,7 @@ import jp.go.aist.rtm.rtcbuilder.model.component.BuildView;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.DataTypePreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -42,6 +43,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
@@ -507,8 +509,10 @@ public abstract class AbstractEditorFormPage extends FormPage {
 			}
 		}
 		String[] defaultTypeList = new String[0];
-		List<String> dataTypes = IDLParamConverter
-				.extractTypeDef(sourceContents);
+		List<String> dataTypes = new ArrayList<String>();
+		if( IDLParamConverter.extractTypeDef(sourceContents, dataTypes)==false ) {
+			MessageDialog.openWarning(RtcBuilderPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), "IDL Parse", IMessageConstants.IDL_PARSE_EROOR);
+		}
 		defaultTypeList = new String[dataTypes.size()];
 		defaultTypeList = dataTypes.toArray(defaultTypeList);
 		//

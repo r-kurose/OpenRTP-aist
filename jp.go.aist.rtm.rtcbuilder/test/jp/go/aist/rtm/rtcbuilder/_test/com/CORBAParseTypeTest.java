@@ -19,7 +19,7 @@ public class CORBAParseTypeTest extends TestBase {
 			String idlContent = FileUtil.readFile(sourceContents.get(intidx).getFullPath());
 			sourceContents.get(intidx).setContent(idlContent);
 		}
-		results = IDLParamConverter.extractTypeDef(sourceContents);
+		IDLParamConverter.extractTypeDef(sourceContents, results);
 		
 		assertEquals(9, results.size());
 		assertTrue(results.contains("SDOPackage::NameValue"));
@@ -43,7 +43,7 @@ public class CORBAParseTypeTest extends TestBase {
 			sourceContents.get(intidx).setContent(idlContent);
 		}
 			
-		results = IDLParamConverter.extractTypeDef(sourceContents);
+		IDLParamConverter.extractTypeDef(sourceContents, results);
 		
 		assertEquals(2, results.size());
 		assertTrue(results.contains("RTM::ModuleProfile"));
@@ -60,7 +60,7 @@ public class CORBAParseTypeTest extends TestBase {
 			String idlContent = FileUtil.readFile(sourceContents.get(intidx).getFullPath());
 			sourceContents.get(intidx).setContent(idlContent);
 		}
-		results = IDLParamConverter.extractTypeDef(sourceContents);
+		IDLParamConverter.extractTypeDef(sourceContents, results);
 		
 		assertEquals(2, results.size());
 		assertTrue(results.contains("RTC::Time"));
@@ -69,6 +69,7 @@ public class CORBAParseTypeTest extends TestBase {
 	
 	public void testDuplicate() throws Exception{
 		List<DataTypeParam> sourceContents = new ArrayList<DataTypeParam>();
+		List<String> results = new ArrayList<String>();
 		sourceContents.add(new DataTypeParam(rootPath + "\\resource\\IDL\\DupliDataTypes1.idl"));
 		sourceContents.add(new DataTypeParam(rootPath + "\\resource\\IDL\\DupliDataTypes2.idl"));
 		
@@ -78,7 +79,7 @@ public class CORBAParseTypeTest extends TestBase {
 		}
 			
 		try {
-			IDLParamConverter.extractTypeDef(sourceContents);
+			IDLParamConverter.extractTypeDef(sourceContents, results);
 		} catch (Exception e) {
 			fail();
 		}
@@ -94,7 +95,7 @@ public class CORBAParseTypeTest extends TestBase {
 			String idlContent = FileUtil.readFile(sourceContents.get(intidx).getFullPath());
 			sourceContents.get(intidx).setContent(idlContent);
 		}
-		results = IDLParamConverter.extractTypeDef(sourceContents);
+		IDLParamConverter.extractTypeDef(sourceContents, results);
 		
 		assertEquals(7, results.size());
 		assertTrue(results.contains("RTC::MyData"));
@@ -115,7 +116,7 @@ public class CORBAParseTypeTest extends TestBase {
 			String idlContent = FileUtil.readFile(sourceContents.get(intidx).getFullPath());
 			sourceContents.get(intidx).setContent(idlContent);
 		}
-		results = IDLParamConverter.extractTypeDef(sourceContents);
+		IDLParamConverter.extractTypeDef(sourceContents, results);
 
 		assertEquals(2, results.size());
 		assertTrue(results.contains("RTC::MyData"));
@@ -131,7 +132,7 @@ public class CORBAParseTypeTest extends TestBase {
 			String idlContent = FileUtil.readFile(sourceContents.get(intidx).getFullPath());
 			sourceContents.get(intidx).setContent(idlContent);
 		}
-		results = IDLParamConverter.extractTypeDef(sourceContents);
+		IDLParamConverter.extractTypeDef(sourceContents, results);
 
 		assertEquals(2, results.size());
 		assertTrue(results.contains("Time"));
@@ -147,7 +148,7 @@ public class CORBAParseTypeTest extends TestBase {
 			String idlContent = FileUtil.readFile(sourceContents.get(intidx).getFullPath());
 			sourceContents.get(intidx).setContent(idlContent);
 		}
-		results = IDLParamConverter.extractTypeDef(sourceContents);
+		IDLParamConverter.extractTypeDef(sourceContents, results);
 
 		assertEquals(5, results.size());
 		assertTrue(results.contains("Time"));
@@ -166,7 +167,7 @@ public class CORBAParseTypeTest extends TestBase {
 			String idlContent = FileUtil.readFile(sourceContents.get(intidx).getFullPath());
 			sourceContents.get(intidx).setContent(idlContent);
 		}
-		results = IDLParamConverter.extractTypeDef(sourceContents);
+		IDLParamConverter.extractTypeDef(sourceContents, results);
 		assertEquals(0, results.size());
 	}
 	
@@ -179,7 +180,7 @@ public class CORBAParseTypeTest extends TestBase {
 			String idlContent = FileUtil.readFile(sourceContents.get(intidx).getFullPath());
 			sourceContents.get(intidx).setContent(idlContent);
 		}
-		results = IDLParamConverter.extractTypeDef(sourceContents);
+		IDLParamConverter.extractTypeDef(sourceContents, results);
 
 		assertEquals(5, results.size());
 		assertTrue(results.contains("RTC::Time"));
@@ -198,7 +199,7 @@ public class CORBAParseTypeTest extends TestBase {
 			String idlContent = FileUtil.readFile(sourceContents.get(intidx).getFullPath());
 			sourceContents.get(intidx).setContent(idlContent);
 		}
-		results = IDLParamConverter.extractTypeDef(sourceContents);
+		IDLParamConverter.extractTypeDef(sourceContents, results);
 
 		assertEquals(22, results.size());
 		assertTrue(results.contains("RTC::Time"));
@@ -234,7 +235,7 @@ public class CORBAParseTypeTest extends TestBase {
 			String idlContent = FileUtil.readFile(sourceContents.get(intidx).getFullPath());
 			sourceContents.get(intidx).setContent(idlContent);
 		}
-		results = IDLParamConverter.extractTypeDef(sourceContents);
+		IDLParamConverter.extractTypeDef(sourceContents, results);
 
 		assertEquals(22, results.size());
 		assertTrue(results.contains("RTC::Time"));
@@ -270,7 +271,7 @@ public class CORBAParseTypeTest extends TestBase {
 			String idlContent = FileUtil.readFile(sourceContents.get(intidx).getFullPath());
 			sourceContents.get(intidx).setContent(idlContent);
 		}
-		results = IDLParamConverter.extractTypeDef(sourceContents);
+		IDLParamConverter.extractTypeDef(sourceContents, results);
 
 		assertEquals(1, results.size());
 		assertTrue(results.contains("RTC::Time"));
@@ -278,6 +279,7 @@ public class CORBAParseTypeTest extends TestBase {
 	
 	public void testError() throws Exception{
 		List<DataTypeParam> sourceContents = new ArrayList<DataTypeParam>();
+		List<String> results = new ArrayList<String>();
 		sourceContents.add(new DataTypeParam(rootPath + "\\resource\\IDL\\Error.idl"));
 		
 		for(int intidx=0;intidx<sourceContents.size();intidx++) {
@@ -285,7 +287,7 @@ public class CORBAParseTypeTest extends TestBase {
 			sourceContents.get(intidx).setContent(idlContent);
 		}
 		try {
-			IDLParamConverter.extractTypeDef(sourceContents);
+			IDLParamConverter.extractTypeDef(sourceContents, results);
 		} catch (Exception ex) {
 			fail();
 			System.out.println("Error");
