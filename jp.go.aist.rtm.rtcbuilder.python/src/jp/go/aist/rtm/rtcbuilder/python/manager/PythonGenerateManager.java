@@ -90,6 +90,7 @@ public class PythonGenerateManager extends GenerateManager {
 		contextMap.put("tmpltHelperPy", new TemplateHelperPy());
 		contextMap.put("pyConv", new PythonConverter());
 		contextMap.put("allIdlFileParam", allIdlFileParams);
+		contextMap.put("idlPathes", rtcParam.getIdlPathes());
 
 		return generateTemplateCode10(contextMap);
 	}

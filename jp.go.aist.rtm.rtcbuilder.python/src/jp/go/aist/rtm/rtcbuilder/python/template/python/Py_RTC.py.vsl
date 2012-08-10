@@ -282,6 +282,8 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #if(${servicePort.servicePortInterfaces.size()}>0)
 		self.addPort(self._${servicePort.name}Port)
 #end#end#end
+#if(${tmpltHelper.checkDetailContent(0,${rtcParam})})		${rtcParam.getDetailContent(0)}
+#end
 		
 		return RTC.RTC_OK
 	
@@ -304,6 +306,8 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
 	#if(${rtcParam.IsNotImplemented(1)})${sharp}#end	"""
 	#if(${rtcParam.IsNotImplemented(1)})${sharp}#end
+#if(${tmpltHelper.checkDetailContent(1,${rtcParam})})		${rtcParam.getDetailContent(1)}
+#end
 
 	#if(${rtcParam.IsNotImplemented(1)})${sharp}#end	return RTC.RTC_OK
 	
@@ -329,6 +333,8 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
 	#if(${rtcParam.IsNotImplemented(2)})${sharp}#end	"""
 	#if(${rtcParam.IsNotImplemented(2)})${sharp}#end
+#if(${tmpltHelper.checkDetailContent(2,${rtcParam})})		${rtcParam.getDetailContent(2)}
+#end
 
 	#if(${rtcParam.IsNotImplemented(2)})${sharp}#end	return RTC.RTC_OK
 	
@@ -354,6 +360,8 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
 	#if(${rtcParam.IsNotImplemented(3)})${sharp}#end	"""
 	#if(${rtcParam.IsNotImplemented(3)})${sharp}#end
+#if(${tmpltHelper.checkDetailContent(3,${rtcParam})})		${rtcParam.getDetailContent(3)}
+#end
 
 	#if(${rtcParam.IsNotImplemented(3)})${sharp}#end	return RTC.RTC_OK
 	
@@ -379,6 +387,8 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
 	#if(${rtcParam.IsNotImplemented(4)})${sharp}#end	"""
 	#if(${rtcParam.IsNotImplemented(4)})${sharp}#end
+#if(${tmpltHelper.checkDetailContent(4,${rtcParam})})		${rtcParam.getDetailContent(4)}
+#end
 
 	#if(${rtcParam.IsNotImplemented(4)})${sharp}#end	return RTC.RTC_OK
 	
@@ -404,6 +414,8 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
 	#if(${rtcParam.IsNotImplemented(5)})${sharp}#end	"""
 	#if(${rtcParam.IsNotImplemented(5)})${sharp}#end
+#if(${tmpltHelper.checkDetailContent(5,${rtcParam})})		${rtcParam.getDetailContent(5)}
+#end
 
 	#if(${rtcParam.IsNotImplemented(5)})${sharp}#end	return RTC.RTC_OK
 	
@@ -429,6 +441,8 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
 	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end	"""
 	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end
+#if(${tmpltHelper.checkDetailContent(9,${rtcParam})})		${rtcParam.getDetailContent(9)}
+#end
 
 	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end	return RTC.RTC_OK
 	
@@ -454,6 +468,8 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
 	#if(${rtcParam.IsNotImplemented(6)})${sharp}#end	"""
 	#if(${rtcParam.IsNotImplemented(6)})${sharp}#end
+#if(${tmpltHelper.checkDetailContent(6,${rtcParam})})		${rtcParam.getDetailContent(6)}
+#end
 
 	#if(${rtcParam.IsNotImplemented(6)})${sharp}#end	return RTC.RTC_OK
 	
@@ -479,6 +495,8 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
 	#if(${rtcParam.IsNotImplemented(7)})${sharp}#end	"""
 	#if(${rtcParam.IsNotImplemented(7)})${sharp}#end
+#if(${tmpltHelper.checkDetailContent(7,${rtcParam})})		${rtcParam.getDetailContent(7)}
+#end
 
 	#if(${rtcParam.IsNotImplemented(7)})${sharp}#end	return RTC.RTC_OK
 	
@@ -504,6 +522,8 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
 	#if(${rtcParam.IsNotImplemented(8)})${sharp}#end	"""
 	#if(${rtcParam.IsNotImplemented(8)})${sharp}#end
+#if(${tmpltHelper.checkDetailContent(8,${rtcParam})})		${rtcParam.getDetailContent(8)}
+#end
 
 	#if(${rtcParam.IsNotImplemented(8)})${sharp}#end	return RTC.RTC_OK
 	
@@ -529,6 +549,8 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
 	#if(${rtcParam.IsNotImplemented(10)})${sharp}#end	"""
 	#if(${rtcParam.IsNotImplemented(10)})${sharp}#end
+#if(${tmpltHelper.checkDetailContent(10,${rtcParam})})		${rtcParam.getDetailContent(10)}
+#end
 
 	#if(${rtcParam.IsNotImplemented(10)})${sharp}#end	return RTC.RTC_OK
 	
@@ -554,6 +576,8 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
 	#if(${rtcParam.IsNotImplemented(11)})${sharp}#end	"""
 	#if(${rtcParam.IsNotImplemented(11)})${sharp}#end
+#if(${tmpltHelper.checkDetailContent(11,${rtcParam})})		${rtcParam.getDetailContent(11)}
+#end
 
 	#if(${rtcParam.IsNotImplemented(11)})${sharp}#end	return RTC.RTC_OK
 	
