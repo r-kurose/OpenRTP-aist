@@ -596,6 +596,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 							editor.getRtcParam().getInports(), editor.getRtcParam().getOutports(),
 							editor.getRtcParam().getServicePorts());
 					editor.setEnabledInfoByLang();
+					extractDataTypes();
 					load();
 					//
 //					editor.getRtcParam().resetUpdated();
