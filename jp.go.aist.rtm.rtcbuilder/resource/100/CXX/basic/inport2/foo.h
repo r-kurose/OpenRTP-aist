@@ -228,14 +228,14 @@ class foo
 
   // DataInPort declaration
   // <rtc-template block="inport_declare">
-  TimedShort m_InP1;
+  RTC::TimedShort m_InP1;
   /*!
    */
-  InPort<TimedShort> m_InP1In;
-  TimedLong m_InP2;
+  InPort<RTC::TimedShort> m_InP1In;
+  RTC::TimedLong m_InP2;
   /*!
    */
-  InPort<TimedLong> m_InP2In;
+  InPort<RTC::TimedLong> m_InP2In;
   
   // </rtc-template>
 

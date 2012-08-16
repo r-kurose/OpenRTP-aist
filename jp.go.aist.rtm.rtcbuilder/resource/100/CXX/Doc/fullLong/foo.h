@@ -386,7 +386,7 @@ class foo
 
   // DataInPort declaration
   // <rtc-template block="inport_declare">
-  TimedShort m_InName1;
+  RTC::TimedShort m_InName1;
   /*!
    * InPort1の概要123456789012345678901234567890123456789012345678
    * 9012345678901234567890
@@ -404,8 +404,8 @@ class foo
    *                    890123456789012345678901234567890123456789
    *                    01234567890
    */
-  InPort<TimedShort> m_InName1In;
-  TimedLong m_InNm2;
+  InPort<RTC::TimedShort> m_InName1In;
+  RTC::TimedLong m_InNm2;
   /*!
    * InPort2の概要123456789012345678901234567890123456789012345678
    * 9012345678901234567890
@@ -423,14 +423,14 @@ class foo
    *                    890123456789012345678901234567890123456789
    *                    01234567890
    */
-  InPort<TimedLong> m_InNm2In;
+  InPort<RTC::TimedLong> m_InNm2In;
   
   // </rtc-template>
 
 
   // DataOutPort declaration
   // <rtc-template block="outport_declare">
-  TimedLong m_OutName1;
+  RTC::TimedLong m_OutName1;
   /*!
    * OutPort1の概要12345678901234567890123456789012345678901234567
    * 89012345678901234567890
@@ -448,8 +448,8 @@ class foo
    *                    789012345678901234567890123456789012345678
    *                    901234567890
    */
-  OutPort<TimedLong> m_OutName1Out;
-  TimedFloat m_OutNme2;
+  OutPort<RTC::TimedLong> m_OutName1Out;
+  RTC::TimedFloat m_OutNme2;
   /*!
    * OutPort2の概要12345678901234567890123456789012345678901234567
    * 89012345678901234567890
@@ -467,7 +467,7 @@ class foo
    *                    789012345678901234567890123456789012345678
    *                    901234567890
    */
-  OutPort<TimedFloat> m_OutNme2Out;
+  OutPort<RTC::TimedFloat> m_OutNme2Out;
   
   // </rtc-template>
 

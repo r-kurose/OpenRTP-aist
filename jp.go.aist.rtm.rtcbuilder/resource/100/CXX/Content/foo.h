@@ -52,12 +52,12 @@ class foo
   ~foo();
 
   // <rtc-template block="public_attribute">
-    publicdParam;
+    publicdParam
   
   // </rtc-template>
 
   // <rtc-template block="public_operation">
-    publicOpe();
+    publicOpe()
   
   // </rtc-template>
 
@@ -216,12 +216,12 @@ class foo
 
  protected:
   // <rtc-template block="protected_attribute">
-    protectedParam;
+    protectedParam
   
   // </rtc-template>
 
   // <rtc-template block="protected_operation">
-    protectedOpe();
+    protectedOpe()
   
   // </rtc-template>
 
@@ -258,13 +258,13 @@ class foo
 
  private:
   // <rtc-template block="private_attribute">
-    privateParam;
-    privateParam2;
+    privateParam
+    privateParam2
   
   // </rtc-template>
 
   // <rtc-template block="private_operation">
-    privateOpe();
+    privateOpe()
   
   // </rtc-template>
 

@@ -354,7 +354,7 @@ class ${rtcParam.name}
   // DataInPort declaration
   // <rtc-template block="inport_declare">
 #foreach($port in ${rtcParam.inports})
-#if(${port.type}!="")  ${cXXConv.getDataTypeName(${port.type})} ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
+#if(${port.type}!="")  ${port.type} ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
   /*!
 #if(${port.docDescription.length()}>0)   * ${tmpltHelper.convertDescDoc(${port.docDescription})}
 #end
@@ -371,7 +371,7 @@ class ${rtcParam.name}
 #if(${port.docOperation.length()}>0)   * - Operation Cycle: ${tmpltHelper.convertCycleDoc(${port.docOperation})}
 #end
    */
-  InPort<${cXXConv.getDataTypeName(${port.type})}> ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
+  InPort<${port.type}> ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
 #end
 #end
   
@@ -381,7 +381,7 @@ class ${rtcParam.name}
   // DataOutPort declaration
   // <rtc-template block="outport_declare">
 #foreach($port in ${rtcParam.outports})
-#if(${port.type}!="")  ${cXXConv.getDataTypeName(${port.type})} ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
+#if(${port.type}!="")  ${port.type} ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
   /*!
 #if(${port.docDescription.length()}>0)   * ${tmpltHelper.convertDescDoc(${port.docDescription})}
 #end
@@ -398,7 +398,7 @@ class ${rtcParam.name}
 #if(${port.docOperation.length()}>0)   * - Operation Cycle: ${tmpltHelper.convertCycleDoc(${port.docOperation})}
 #end
    */
-  OutPort<${cXXConv.getDataTypeName(${port.type})}> ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}Out${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
+  OutPort<${port.type}> ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}Out${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
 #end
 #end
   
