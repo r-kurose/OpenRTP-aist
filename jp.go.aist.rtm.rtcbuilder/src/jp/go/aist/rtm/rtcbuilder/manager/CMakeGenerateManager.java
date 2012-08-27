@@ -220,21 +220,24 @@ public class CMakeGenerateManager extends GenerateManager {
 
 	public GeneratedResult generateCmakeConfigVersion(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		String outfile = "cmake/" + rtcParam.getName() + "-config-version.cmake.in";
+		//TODO 暫定処理
+		String outfile = "cmake/" + rtcParam.getName().toLowerCase() + "-config-version.cmake.in";
 		String infile = "cmake/cmake/config_version.cmake.in.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 	
 	public GeneratedResult generateCmakeConfig(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		String outfile = "cmake/" + rtcParam.getName() + "-config.cmake.in";
+		//TODO 暫定処理
+		String outfile = "cmake/" + rtcParam.getName().toLowerCase() + "-config.cmake.in";
 		String infile = "cmake/cmake/config.cmake.in.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 
 	public GeneratedResult generateCmakePcIn(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		String outfile = "cmake/" + rtcParam.getName() + ".pc.in";
+		//TODO 暫定処理
+		String outfile = "cmake/" + rtcParam.getName().toLowerCase() + ".pc.in";
 		String infile = "cmake/cmake/pc.in.vsl";
 		return generate(infile, outfile, contextMap);
 	}
