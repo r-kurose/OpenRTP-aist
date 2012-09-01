@@ -31,7 +31,7 @@ find_package(PkgConfig)
 pkg_check_modules(PC_OPENRTM openrtm-aist)
 pkg_check_modules(PC_COIL libcoil)
 pkg_check_modules(PC_OMNIORB4 omniORB4)
-pkg_check_modules(PC_OMNITHREAD omnithread)
+pkg_check_modules(PC_OMNITHREAD3 omnithread3)
 pkg_check_modules(PC_OMNIDYNAMIC4 omniDynamic4)
 pkg_check_modules(PC_UUID uuid)
 
@@ -52,8 +52,8 @@ find_library(COIL_LIBRARY coil
     ${dol}{PC_COIL_LIBRARY_DIRS})
 find_library(OMNIORB4_LIBRARY omniORB4
     HINTS ${dol}{PC_OMNIORB4_LIBRARY_DIRS})
-find_library(OMNITHREAD_LIBRARY omnithread
-    HINTS ${dol}{PC_OMNITHREAD_LIBRARY_DIRS})
+find_library(OMNITHREAD3_LIBRARY omnithread
+    HINTS ${dol}{PC_OMNITHREAD3_LIBRARY_DIRS})
 find_library(OMNIDYNAMIC4_LIBRARY omniDynamic4
     HINTS ${dol}{PC_OMNIDYNAMIC4_LIBRARY_DIRS})
 find_library(UUID_LIBRARY uuid
@@ -62,7 +62,7 @@ find_library(UUID_LIBRARY uuid
 set(OPENRTM_CFLAGS ${dol}{PC_OPENRTM_CFLAGS_OTHER} ${dol}{PC_COIL_CFLAGS_OTHER} ${dol}{PC_OMNIORB4_CFLAGS_OTHER})
 set(OPENRTM_INCLUDE_DIRS ${dol}{OPENRTM_INCLUDE_DIR} ${dol}{OPENRTM_INCLUDE_DIR}/rtm/idl
     ${dol}{COIL_INCLUDE_DIR} ${dol}{OMNIORB4_INCLUDE_DIR})
-set(OPENRTM_LIBRARIES ${dol}{OPENRTM_LIBRARY} ${dol}{COIL_LIBRARY} ${dol}{OMNIORB4_LIBRARY} ${dol}{OMNITHREAD_LIBRARY} ${dol}{OMNIDYNAMIC4_LIBRARY} ${dol}{UUID_LIBRARY} dl pthread)
+set(OPENRTM_LIBRARIES ${dol}{OPENRTM_LIBRARY} ${dol}{COIL_LIBRARY} ${dol}{OMNIORB4_LIBRARY} ${dol}{OMNITHREAD3_LIBRARY} ${dol}{OMNIDYNAMIC4_LIBRARY} ${dol}{UUID_LIBRARY} dl pthread)
 
 file(STRINGS ${dol}{OPENRTM_INCLUDE_DIR}/rtm/version.h OPENRTM_VERSION
     NEWLINE_CONSUME)
