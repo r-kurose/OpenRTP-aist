@@ -469,6 +469,9 @@ public abstract class AbstractEditorFormPage extends FormPage {
 				.getInstance().getIdlFileDirectories());
 		String defaultPath = System.getenv("RTM_ROOT");
 		if (defaultPath != null) {
+			if(!defaultPath.endsWith(FS)) {
+				defaultPath += FS;
+			}
 			sources.add(0, defaultPath + "rtm" + FS + "idl");
 		}
 		List<DataTypeParam> sourceContents = new ArrayList<DataTypeParam>();
