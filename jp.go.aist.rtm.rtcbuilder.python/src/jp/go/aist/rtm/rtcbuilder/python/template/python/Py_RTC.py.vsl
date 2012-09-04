@@ -25,6 +25,9 @@ sys.path.append(".")
 import RTC
 import OpenRTM_aist
 
+#foreach($IdlFile in ${allIdlFileParam})import ${tmpltHelper.getFilenameNoExt(${IdlFile.IdlFile})}_idl
+#end
+
 # Import Service implementation class
 # <rtc-template block="service_impl">
 #foreach($providerIdlFile in ${rtcParam.providerIdlPathes})

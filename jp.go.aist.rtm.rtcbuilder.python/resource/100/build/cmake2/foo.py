@@ -12,6 +12,8 @@ sys.path.append(".")
 # Import RTM module
 import RTC
 import OpenRTM_aist
+import MyServiceChildMulti_idl
+import MyServiceChildWithType_idl
 # Import Service implementation class
 # <rtc-template block="service_impl">
 from MyServiceChildMulti_idl_example import *
