@@ -43,7 +43,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
@@ -468,7 +467,9 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		List<String> sources = new ArrayList<String>(DataTypePreferenceManager
 				.getInstance().getIdlFileDirectories());
 		String defaultPath = System.getenv("RTM_ROOT");
+		int baseindex = -1;
 		if (defaultPath != null) {
+			baseindex = 0;
 			if(!defaultPath.endsWith(FS)) {
 				defaultPath += FS;
 			}
@@ -501,7 +502,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 					param.setContent(idlContent);
 					param.setFullPath(source + FS + idlName);
 					sourceContents.add(param);
-					if (intidx > 0) {
+					if( baseindex<intidx) {
 						param.setAddition(true);
 					}
 				}
