@@ -5,6 +5,6 @@ if test "x${dol}RTM_JAVA_ROOT" = "x" ; then
     echo "Abort."
     exit 1
 fi
-export CLASSPATH=.:${dol}{RTM_JAVA_ROOT}/jar/OpenRTM-aist-${rtcParam.rtmVersion}.jar:${dol}{RTM_JAVA_ROOT}/jar/commons-cli-1.1.jar
+export CLASSPATH=.:${dol}{RTM_JAVA_ROOT}/jar/OpenRTM-aist-${rtcParam.rtmJavaVersion}.jar:${dol}{RTM_JAVA_ROOT}/jar/commons-cli-1.1.jar
 cd `dirname ${dol}0`/bin
 java ${rtcParam.name}Comp -f rtc.conf ${dol}*

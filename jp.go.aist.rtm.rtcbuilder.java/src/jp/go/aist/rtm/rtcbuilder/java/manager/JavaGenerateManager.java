@@ -1,5 +1,6 @@
 package jp.go.aist.rtm.rtcbuilder.java.manager;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,6 +70,24 @@ public class JavaGenerateManager extends GenerateManager {
 		if (!rtcParam.isLanguageExist(LANG_JAVA) || rtcParam.getName() == null) {
 			return result;
 		}
+		String rootPath = System.getenv("RTM_JAVA_ROOT") + File.separator + "jar";
+		File targetDir = new File(rootPath);
+		File[] targetFiles = targetDir.listFiles();
+		long lastDate = 0;
+		File targetJar = null;
+		for(File target : targetFiles) {
+			if( target.getName().startsWith("OpenRTM-aist") ) {
+				if( lastDate<target.lastModified() ) {
+					targetJar = target;
+				}
+			}
+		}
+		//
+		if( targetJar!=null ) {
+			String javaVersion = targetJar.getName().substring(13,18);
+			rtcParam.setRtmJavaVersion(javaVersion);
+		}
+		
 		Map<String, Object> contextMap = new HashMap<String, Object>();
 		contextMap.put("template", TEMPLATE_PATH);
 		contextMap.put("rtcParam", rtcParam);
