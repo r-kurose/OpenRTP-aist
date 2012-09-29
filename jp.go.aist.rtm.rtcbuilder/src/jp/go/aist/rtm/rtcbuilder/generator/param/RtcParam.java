@@ -118,6 +118,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	
 	//
 	private String rtm_version = IRtcBuilderConstants.DEFAULT_RTM_VERSION;
+	private String rtm_java_version = IRtcBuilderConstants.DEFAULT_RTM_VERSION;
 	private boolean test_version = false;
 
 	public RtcParam(GeneratorParam parent) {
@@ -773,6 +774,13 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	}
 	public void setRtmVersion(String version) {
 		this.rtm_version = version;
+	}
+
+	public String getRtmJavaVersion() {
+		return rtm_java_version;
+	}
+	public void setRtmJavaVersion(String rtm_java_version) {
+		this.rtm_java_version = rtm_java_version;
 	}
 
 	public boolean getIsTest() {
