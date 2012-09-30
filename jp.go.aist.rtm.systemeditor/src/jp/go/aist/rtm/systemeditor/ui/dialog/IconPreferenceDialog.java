@@ -40,7 +40,7 @@ public class IconPreferenceDialog extends TitleAreaDialog {
 
 	static final String BUTTON_LABEL_BROWSE = getString("Common.button.browse");
 
-	static final String ICON_EXTENSION = "*.ico; *.bmp; *.png; *.gif";
+	static final String ICON_EXTENSION = "*.ico;*.bmp;*.png;*.gif;*.jpg";
 	static final String FILTER_EXTENSIONS[] = new String[] { ICON_EXTENSION };
 	static final String FILTER_NAMES[] = new String[] { getString("IconPreferenceDialog.filter.name")
 			+ " (" + ICON_EXTENSION + ")" };
@@ -137,27 +137,7 @@ public class IconPreferenceDialog extends TitleAreaDialog {
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				imageLabel.setBackgroundImage(null);
-				if (pathText.getText() == null) {
-					path = "";
-					desc = null;
-					notifyModified();
-					return;
-				}
-				try {
-					path = pathText.getText();
-					File file = new File(path);
-					path = file.getAbsolutePath();
-					URL url = file.toURI().toURL();
-					desc = ImageDescriptor.createFromURL(url);
-					if (desc != null) {
-						imageLabel.setImage(desc.createImage());
-					}
-				} catch (Exception exp) {
-					path = "";
-					desc = null;
-				}
-				notifyModified();
+				updateImage();
 			}
 		});
 
@@ -179,6 +159,7 @@ public class IconPreferenceDialog extends TitleAreaDialog {
 				if (s != null) {
 					pathText.setFocus();
 					pathText.setText(s);
+					updateImage();
 					browseButton.setFocus();
 				}
 			}
@@ -198,6 +179,30 @@ public class IconPreferenceDialog extends TitleAreaDialog {
 		return mainComposite;
 	}
 
+	private void updateImage() {
+		imageLabel.setBackgroundImage(null);
+		if (pathText.getText() == null) {
+			path = "";
+			desc = null;
+			notifyModified();
+			return;
+		}
+		try {
+			path = pathText.getText();
+			File file = new File(path);
+			path = file.getAbsolutePath();
+			URL url = file.toURI().toURL();
+			desc = ImageDescriptor.createFromURL(url);
+			if (desc != null) {
+				imageLabel.setImage(desc.createImage());
+			}
+		} catch (Exception exp) {
+			path = "";
+			desc = null;
+		}
+		notifyModified();
+	}
+	
 	@Override
 	protected Control createButtonBar(Composite parent) {
 		Control composite = super.createButtonBar(parent);
