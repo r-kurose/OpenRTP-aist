@@ -81,8 +81,21 @@ find_RTM_ROOT()
     debug_echo "TRACE: find_RTM_ROOT"
     # find RTM_ROOT by rtm-config
     rtm_config=`which rtm-config`
+    if test "x$rtm_config" = "x" ; then
+        # rtm-config not found
+        return 1
+    fi
     debug_echo "rtm_config: " $rtm_config
-    if test ! "x$rtm_config" = "x" ; then
+
+    # check rtm-config version
+    ver=`grep rtm-idldir $rtm_config`
+    if test "x$var" = "x" ; then
+        # old version: no --rtm-idldir option
+        RTM_ROOT=`rtm-config --cflags | sed -e 's/.*\-I\(\/.*\)\/rtm\/idl/\1/'`
+        debug_echo "RTM_ROOT: " $RTM_ROOT
+        return 0
+    else
+        # new version: --rtm-idldir available
         RTM_ROOT=`rtm-config --rtm-idldir | sed -e 's/\/rtm\/idl$//'`
         debug_echo "RTM_ROOT: " $RTM_ROOT
         return 0
