@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 #if( ${tmpltHelperJava.notNullRTMRoot()} )
-	<classpathentry kind="lib" path="${javaRoot}jar/OpenRTM-aist-${rtcParam.rtmJavaVersion}.jar"/>
+	<classpathentry kind="lib" path="${javaRoot}/jar/OpenRTM-aist-${rtcParam.rtmJavaVersion}.jar"/>
 #end
 	<classpathentry kind="output" path="bin"/>
 </classpath>
