@@ -1084,9 +1084,10 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 							// void
 						}
 					} else {
-						if (!KEY_BEND_POINT.equals(name)) {
-							conn.setProperty(name, value);
+						if (isIOR(value) || KEY_BEND_POINT.equals(name)) {
+							continue;
 						}
+						conn.setProperty(name, value);
 					}
 				}
 			}
@@ -1110,7 +1111,8 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 			if (connBase instanceof ServiceportConnectorExt) {
 				ServiceportConnectorExt connExt = (ServiceportConnectorExt) connBase;
 				for (Property p : connExt.getProperties()) {
-					if (KEY_BEND_POINT.equals(p.getName())) {
+					if (isIOR(p.getValue())
+							|| KEY_BEND_POINT.equals(p.getName())) {
 						continue;
 					}
 					eConnProf.setProperty(p.getName(), p.getValue());
@@ -1120,6 +1122,10 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 			connectPorts(eConnProf, eComp, connBase.getTargetServicePort(),
 					connBase.getSourceServicePort(), getBendPoint(connBase));
 		}
+	}
+	
+	private boolean isIOR(String value) {
+		return (value != null && value.startsWith("IOR:"));
 	}
 
 	// ベンドポイントをプロパティから復元する
