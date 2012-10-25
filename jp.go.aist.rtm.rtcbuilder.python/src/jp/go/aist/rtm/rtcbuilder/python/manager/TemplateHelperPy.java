@@ -1,6 +1,10 @@
 package jp.go.aist.rtm.rtcbuilder.python.manager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 import jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython;
 import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 
@@ -86,4 +90,30 @@ public class TemplateHelperPy {
 				IRtcBuilderConstantsPython.DOC_POSTSH_PREFIX_PY, IRtcBuilderConstantsPython.DOC_POST_OFFSET_PY);
 	}
 	//
+	public boolean hasDataPortType(List<IdlFileParam> targetFiles) {
+		for(IdlFileParam target : targetFiles) {
+			if(target.isDataPort()) return true;
+		}
+		return false;
+	}
+	
+	public List<String> getDataPortTypes(List<IdlFileParam> targetFiles) {
+		List<String> result = new ArrayList<String>();
+		
+		for(IdlFileParam target : targetFiles) {
+			if(target.isDataPort()==false) continue;
+			String targetType = "";
+			if( target.getTargetType().contains("::") ) {
+				String[] types = target.getTargetType().split("::");
+				//TODO どこまでが必要なのか？
+				targetType = types[0];
+			} else {
+				targetType = "_GlobalIDL";
+			}
+			if(result.contains(targetType)==false) {
+				result.add(targetType);
+			}
+		}
+		return result;
+	}
 }
