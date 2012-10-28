@@ -19,6 +19,8 @@ public class IdlFileParam implements Serializable {
 	private RtcParam parent;
 	private List<String> idlSearchPathes = new ArrayList<String>();
 	private List<String> includeIdlPathes = new ArrayList<String>();
+	private boolean isDataPort = false;
+	private String targetType;
 
 	public IdlFileParam() {
 	}
@@ -91,6 +93,21 @@ public class IdlFileParam implements Serializable {
 			result.add(new IdlFileParam(s, this.parent));
 		}
 		return result;
+	}
+
+	public boolean isDataPort() {
+		return isDataPort;
+	}
+
+	public void setDataPort(boolean isDataPort) {
+		this.isDataPort = isDataPort;
+	}
+
+	public String getTargetType() {
+		return targetType;
+	}
+	public void setTargetType(String targetType) {
+		this.targetType = targetType;
 	}
 
 }

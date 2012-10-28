@@ -30,6 +30,12 @@ else(STATIC_LIBS)
     set(LIB_TYPE SHARED)
 endif(STATIC_LIBS)
 
+if (${dol}{CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+   ${sharp} Mac OS X specific code
+   SET(CMAKE_CXX_COMPILER "g++")
+endif (${dol}{CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+
+
 ${sharp} Set up installation directories
 set(BIN_INSTALL_DIR "components/bin")
 set(LIB_INSTALL_DIR "components/lib")
