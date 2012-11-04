@@ -190,8 +190,14 @@ public class ParamUtil {
 	}
 
 	public RtcParam convertFromModule(RtcProfile profile, GeneratorParam generatorParam,
-										List<GenerateManager> managerList) throws Exception {
-		RtcParam rtcParam = new RtcParam(generatorParam);
+			List<GenerateManager> managerList) throws Exception {
+		return convertFromModule(profile, generatorParam, managerList, false);
+		
+	}
+	
+	public RtcParam convertFromModule(RtcProfile profile, GeneratorParam generatorParam,
+										List<GenerateManager> managerList, boolean isDirect) throws Exception {
+		RtcParam rtcParam = new RtcParam(generatorParam, isDirect);
 		
 		rtcParam.setSchemaVersion(profile.getVersion());
 
