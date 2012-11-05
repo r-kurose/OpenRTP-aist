@@ -99,19 +99,32 @@ public class TemplateHelperPy {
 	
 	public List<String> getDataPortTypes(List<IdlFileParam> targetFiles) {
 		List<String> result = new ArrayList<String>();
+		List<String> check = new ArrayList<String>();
+		check.add("RTC");
+		check.add("OpenRTM_aist");
 		
 		for(IdlFileParam target : targetFiles) {
 			if(target.isDataPort()==false) continue;
 			String targetType = "";
 			if( target.getTargetType().contains("::") ) {
 				String[] types = target.getTargetType().split("::");
-				//TODO どこまでが必要なのか？
-				targetType = types[0];
+				StringBuilder builder = new StringBuilder();
+				for(int index=0;index<types.length-1;index++) {
+					if(index!=0) builder.append(".");
+					builder.append(types[index]);
+					targetType = builder.toString();
+					if(check.contains(targetType)==false) {
+						check.add(targetType);
+						result.add(targetType);
+					}
+				}
+				
 			} else {
 				targetType = "_GlobalIDL";
-			}
-			if(result.contains(targetType)==false) {
-				result.add(targetType);
+				if(check.contains(targetType)==false) {
+					check.add(targetType);
+					result.add(targetType);
+				}
 			}
 		}
 		return result;
