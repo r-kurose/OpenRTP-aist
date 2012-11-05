@@ -10,6 +10,21 @@ import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 
 public class CORBAParseTypeTest extends TestBase {
 
+	public void testModules() throws Exception{
+		List<DataTypeParam> sourceContents = new ArrayList<DataTypeParam>();
+		List<String> results = new ArrayList<String>();
+		sourceContents.add(new DataTypeParam(rootPath + "\\resource\\IDL\\Modules.idl"));
+		
+		for(int intidx=0;intidx<sourceContents.size();intidx++) {
+			String idlContent = FileUtil.readFile(sourceContents.get(intidx).getFullPath());
+			sourceContents.get(intidx).setContent(idlContent);
+		}
+		IDLParamConverter.extractTypeDef(sourceContents, results);
+
+		assertEquals(1, results.size());
+		assertTrue(results.contains("AAA::BBB::CCC::TimeBBB"));
+	}
+	
 	public void testException() throws Exception{
 		List<DataTypeParam> sourceContents = new ArrayList<DataTypeParam>();
 		List<String> results = new ArrayList<String>();

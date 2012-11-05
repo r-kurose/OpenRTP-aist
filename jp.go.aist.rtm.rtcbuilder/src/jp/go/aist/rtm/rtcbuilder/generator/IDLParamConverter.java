@@ -11,6 +11,7 @@ import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.Node;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.NodeToken;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.array_declarator;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.base_type_spec;
+import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.definition;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.enum_type;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.fixed_array_size;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.identifier;
@@ -345,29 +346,50 @@ public class IDLParamConverter {
 			@SuppressWarnings("unchecked")
 			@Override
 			public void visit(module n, String argu) {
-				final String moduleName = node2String(n.identifier);
-				n.accept(new GJVoidDepthFirst() {
-					@Override
-					public void visit(struct_type n, Object argu) {
-						String typeName = node2String(n.identifier);
-						if( moduleName!=null && moduleName.length()>0 ) {
-							typeName = moduleName + "::" + typeName;
-						}
-						results.add(typeName);
-					}
-					
-				},null);
+				moduleName = new ArrayList<String>();
+				final String moduleNames = node2String(n.identifier);
+				System.out.println("Mt:" + moduleNames);
+				moduleName.add(moduleNames);
+				n.accept(new ExtractModule(results),null);
 			}
 			//
 			@Override
 			public void visit(struct_type n, String argu) {
 				String typeName = node2String(n.identifier);
 				results.add(typeName);
+				System.out.println("Tt:" + typeName);
 			}
 		}, null);
 
 		return results;
 	}
+	private static final class ExtractModule extends GJVoidDepthFirst {
+		private List<String> results;
+		
+		public ExtractModule(List<String> results) {
+			this.results = results;
+		}
+		
+		@Override
+		public void visit(definition n, Object argu) {
+			n.accept(new GJVoidDepthFirst() {
+				@Override
+				public void visit(struct_type n, Object argu) {
+					String typeName = node2String(n.identifier);
+					System.out.println("Ti:" + typeName);
+					results.add(getModuleNames() + "::" + typeName);
+				}
+				@Override
+				public void visit(module n, Object argu) {
+					String typeName = node2String(n.identifier);
+					System.out.println("Mi:" + typeName);
+					moduleName.add(typeName);
+					n.accept(new ExtractModule(results),null);
+				}
+			},null);
+		}
+	}
+
 	/**
 	 * インタフェースのモジュール名を取得する
 	 * 
