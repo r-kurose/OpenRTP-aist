@@ -83,7 +83,7 @@ public class Generator {
 
 	public List<GeneratedResult> generateTemplateCode(
 			GeneratorParam generatorParam) throws Exception {
-		return generateTemplateCode(generatorParam, true);
+		return generateTemplateCode(generatorParam, null, true);
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class Generator {
 	 *             IDLのパースに失敗した場合など
 	 */
 	public List<GeneratedResult> generateTemplateCode(
-			GeneratorParam generatorParam, boolean validateFlag)
+			GeneratorParam generatorParam, String idlDir, boolean validateFlag)
 			throws Exception {
 
 		if( validateFlag ) {
@@ -134,6 +134,9 @@ public class Generator {
 				}
 			}
 			rtcParam.getIdlPathes().addAll(DataTypePreferenceManager.getInstance().getIdlFileDirectories());
+			if(idlDir!=null) {
+				rtcParam.getIdlPathes().add(idlDir);
+			}
 			
 			rtcServiceClasses.addAll(getRtcServiceClass(rtcParam, IDLPathParams));
 			checkReferencedServiceParam(rtcServiceClasses, rtcParam);

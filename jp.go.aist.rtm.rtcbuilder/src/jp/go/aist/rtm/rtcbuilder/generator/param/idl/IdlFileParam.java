@@ -98,7 +98,6 @@ public class IdlFileParam implements Serializable {
 	public boolean isDataPort() {
 		return isDataPort;
 	}
-
 	public void setDataPort(boolean isDataPort) {
 		this.isDataPort = isDataPort;
 	}
