@@ -25,7 +25,8 @@ sys.path.append(".")
 import RTC
 import OpenRTM_aist
 
-#foreach($IdlFile in ${allIdlFileParam})import ${tmpltHelper.getFilenameNoExt(${IdlFile.IdlFile})}_idl
+#foreach($IdlFile in ${allIdlFileParam})#if(!${IdlFile.dataPort})import ${tmpltHelper.getFilenameNoExt(${IdlFile.IdlFile})}_idl
+#end
 #end
 #if( ${tmpltHelperPy.hasDataPortType(${allIdlFileParam})})
 #foreach($idlTarget in ${tmpltHelperPy.getDataPortTypes(${allIdlFileParam})})import ${idlTarget}

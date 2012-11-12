@@ -108,16 +108,22 @@ public class TemplateHelperPy {
 			String targetType = "";
 			if( target.getTargetType().contains("::") ) {
 				String[] types = target.getTargetType().split("::");
-				StringBuilder builder = new StringBuilder();
-				for(int index=0;index<types.length-1;index++) {
-					if(index!=0) builder.append(".");
-					builder.append(types[index]);
-					targetType = builder.toString();
-					if(check.contains(targetType)==false) {
-						check.add(targetType);
-						result.add(targetType);
-					}
+				/////
+				targetType = types[0];
+				if(check.contains(targetType)==false) {
+					check.add(targetType);
+					result.add(targetType);
 				}
+//				StringBuilder builder = new StringBuilder();
+//				for(int index=0;index<types.length-1;index++) {
+//					if(index!=0) builder.append(".");
+//					builder.append(types[index]);
+//					targetType = builder.toString();
+//					if(check.contains(targetType)==false) {
+//						check.add(targetType);
+//						result.add(targetType);
+//					}
+//				}
 				
 			} else {
 				targetType = "_GlobalIDL";
