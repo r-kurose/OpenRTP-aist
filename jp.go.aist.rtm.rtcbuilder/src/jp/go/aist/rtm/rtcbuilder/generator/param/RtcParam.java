@@ -753,12 +753,25 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 					if( targetIDL!=null) {
 						idlPathes.add(targetIDL.trim());
 						consumerIdlStrings.add(targetIDL);
-						IdlFileParam target = new IdlFileParam(targetIDL,this);
-						target.setDataPort(true);
-						target.setTargetType(targetType);
-						consumerIdlParams.add(target);
 					}
 				}
+				boolean isHit = false;
+				for(IdlFileParam file : consumerIdlParams) {
+					if( file.getIdlPath().equals(targetIDL) ) {
+						if(file.getTargetType().contains(targetType)==false) {
+							file.getTargetType().add(targetType);
+							isHit = true;
+							break;
+						}
+					}
+				}
+				if(isHit==false) {
+					IdlFileParam target = new IdlFileParam(targetIDL,this);
+					target.setDataPort(true);
+					target.getTargetType().add(targetType);
+					consumerIdlParams.add(target);
+				}
+				
 				break;
 			}
 		}

@@ -20,7 +20,7 @@ public class IdlFileParam implements Serializable {
 	private List<String> idlSearchPathes = new ArrayList<String>();
 	private List<String> includeIdlPathes = new ArrayList<String>();
 	private boolean isDataPort = false;
-	private String targetType;
+	private List<String> targetTypes = new ArrayList<String>();
 
 	public IdlFileParam() {
 	}
@@ -102,11 +102,7 @@ public class IdlFileParam implements Serializable {
 		this.isDataPort = isDataPort;
 	}
 
-	public String getTargetType() {
-		return targetType;
+	public List<String> getTargetType() {
+		return targetTypes;
 	}
-	public void setTargetType(String targetType) {
-		this.targetType = targetType;
-	}
-
 }
