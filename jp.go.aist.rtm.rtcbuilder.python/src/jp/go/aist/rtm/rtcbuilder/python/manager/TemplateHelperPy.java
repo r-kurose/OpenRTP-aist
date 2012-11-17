@@ -106,30 +106,32 @@ public class TemplateHelperPy {
 		for(IdlFileParam target : targetFiles) {
 			if(target.isDataPort()==false) continue;
 			String targetType = "";
-			if( target.getTargetType().contains("::") ) {
-				String[] types = target.getTargetType().split("::");
-				/////
-				targetType = types[0];
-				if(check.contains(targetType)==false) {
-					check.add(targetType);
-					result.add(targetType);
-				}
-//				StringBuilder builder = new StringBuilder();
-//				for(int index=0;index<types.length-1;index++) {
-//					if(index!=0) builder.append(".");
-//					builder.append(types[index]);
-//					targetType = builder.toString();
-//					if(check.contains(targetType)==false) {
-//						check.add(targetType);
-//						result.add(targetType);
+			for(String targetTypes : target.getTargetType()) {
+				if( targetTypes.contains("::") ) {
+					String[] types = targetTypes.split("::");
+					/////
+					targetType = types[0];
+					if(check.contains(targetType)==false) {
+						check.add(targetType);
+						result.add(targetType);
+					}
+//					StringBuilder builder = new StringBuilder();
+//					for(int index=0;index<types.length-1;index++) {
+//						if(index!=0) builder.append(".");
+//						builder.append(types[index]);
+//						targetType = builder.toString();
+//						if(check.contains(targetType)==false) {
+//							check.add(targetType);
+//							result.add(targetType);
+//						}
 //					}
-//				}
 				
-			} else {
-				targetType = "_GlobalIDL";
-				if(check.contains(targetType)==false) {
-					check.add(targetType);
-					result.add(targetType);
+				} else {
+					targetType = "_GlobalIDL";
+					if(check.contains(targetType)==false) {
+						check.add(targetType);
+						result.add(targetType);
+					}
 				}
 			}
 		}
