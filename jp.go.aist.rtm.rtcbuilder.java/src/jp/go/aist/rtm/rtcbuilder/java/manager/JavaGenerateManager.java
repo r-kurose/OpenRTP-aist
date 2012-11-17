@@ -32,6 +32,8 @@ public class JavaGenerateManager extends GenerateManager {
 	static final String TEMPLATE_PATH = "jp/go/aist/rtm/rtcbuilder/java/template";
 
 	static final String MSG_ERROR_GENERATE_FILE = IRTCBMessageConstants.ERROR_CODE_GENERATION;
+	
+	private final String DEFAULT_VERSION = "1.1.0"; 
 
 	@Override
 	public String getTargetVersion() {
@@ -70,22 +72,32 @@ public class JavaGenerateManager extends GenerateManager {
 		if (!rtcParam.isLanguageExist(LANG_JAVA) || rtcParam.getName() == null) {
 			return result;
 		}
-		String rootPath = System.getenv("RTM_JAVA_ROOT") + File.separator + "jar";
-		File targetDir = new File(rootPath);
-		File[] targetFiles = targetDir.listFiles();
-		long lastDate = 0;
-		File targetJar = null;
-		for(File target : targetFiles) {
-			if( target.getName().startsWith("OpenRTM-aist") ) {
-				if( lastDate<target.lastModified() ) {
-					targetJar = target;
+		try {
+			String rootPath = System.getenv("RTM_JAVA_ROOT") + File.separator + "jar";
+			File targetDir = new File(rootPath);
+			File[] targetFiles = targetDir.listFiles();
+			long lastDate = 0;
+			File targetJar = null;
+			if( targetFiles==null) {
+				rtcParam.setRtmJavaVersion(DEFAULT_VERSION);
+			} else {
+				for(File target : targetFiles) {
+					if( target.getName().startsWith("OpenRTM-aist") ) {
+						if( lastDate<target.lastModified() ) {
+							targetJar = target;
+						}
+					}
+				}
+				//
+				if( targetJar!=null ) {
+					String javaVersion = targetJar.getName().substring(13,18);
+					rtcParam.setRtmJavaVersion(javaVersion);
+				} else {
+					rtcParam.setRtmJavaVersion(DEFAULT_VERSION);
 				}
 			}
-		}
-		//
-		if( targetJar!=null ) {
-			String javaVersion = targetJar.getName().substring(13,18);
-			rtcParam.setRtmJavaVersion(javaVersion);
+		} catch (NullPointerException ex) {
+			rtcParam.setRtmJavaVersion(DEFAULT_VERSION);
 		}
 		
 		Map<String, Object> contextMap = new HashMap<String, Object>();
