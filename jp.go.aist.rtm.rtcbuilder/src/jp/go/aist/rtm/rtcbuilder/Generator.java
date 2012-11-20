@@ -96,7 +96,7 @@ public class Generator {
 	 *             IDLのパースに失敗した場合など
 	 */
 	public List<GeneratedResult> generateTemplateCode(
-			GeneratorParam generatorParam, String idlDir, boolean validateFlag)
+			GeneratorParam generatorParam, List<String> idlDir, boolean validateFlag)
 			throws Exception {
 
 		if( validateFlag ) {
@@ -135,7 +135,7 @@ public class Generator {
 			}
 			rtcParam.getIdlPathes().addAll(DataTypePreferenceManager.getInstance().getIdlFileDirectories());
 			if(idlDir!=null) {
-				rtcParam.getIdlPathes().add(idlDir);
+				rtcParam.getIdlPathes().addAll(idlDir);
 			}
 			
 			rtcServiceClasses.addAll(getRtcServiceClass(rtcParam, IDLPathParams));
@@ -288,7 +288,29 @@ public class Generator {
 			List<String> incs = new ArrayList<String>();
 			String idl = null;
 			try {
-				String idlContent = FileUtil.readFile(sv.getName());
+				String fileName = sv.getName();
+				File file = new File(fileName);
+				if(file.exists()==false) {
+					for(String path : rtcParam.getIdlPathes()) {
+						String fullName = path + File.separator + fileName; 
+						file = new File(fullName);
+						if(file.exists()) {
+							for( IdlFileParam idlFile : rtcParam.getProviderIdlPathes() ) {
+								if( idlFile.getIdlFile().equals(fileName) ) {
+									idlFile.setIdlPath(fullName);
+								}
+							}
+							for( IdlFileParam idlFile : rtcParam.getConsumerIdlPathes() ) {
+								if( idlFile.getIdlFile().equals(fileName) ) {
+									idlFile.setIdlPath(fullName);
+								}
+							}
+							fileName = fullName;
+							break;
+						}
+					}
+				}
+				String idlContent = FileUtil.readFile(fileName);
 				if (idlContent == null) continue;
 				idl = PreProcessor.parse(idlContent, getIncludeIDLDic(sv.getIdlPath()), incs);
 			} catch (IOException e) {
