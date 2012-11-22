@@ -16,7 +16,7 @@
 
 
 	<!-- 更新サイトに関する設定 -->
-	<property name="site_proj.dir" value="openrtp_site" />
+	<property name="site_proj.dir" value="${basedir}/openrtp_site" />
 	<property name="update_site.name" value="OpenRTP Updates" />
 
 	<!-- フィーチャ(RTCBuilder)に関する設定 -->
@@ -550,13 +550,25 @@
 		<echo message="launcher.id=${launcher.id}" />
 		<echo message="launcher.jar=${launcher.jar}" />
 
+		<delete file="${update_site.dir}/artifacts.jar" />
+		<delete file="${update_site.dir}/content.jar" />
 		<java jar="${launcher.jar}" fork="true" failonerror="true" maxmemory="256m">
 			<arg line="org.eclipse.equinox.launcher.Main" />
-			<arg line="-application org.eclipse.equinox.p2.metadata.generator.EclipseGenerator" />
-			<arg line="-updateSite ${update_site.dir}/ -site file:${update_site.dir}/site.xml" />
-			<arg line="-metadataRepository file:${update_site.dir}/ -metadataRepositoryName &quot;${update_site.name}&quot;" />
-			<arg line="-artifactRepository file:${update_site.dir}/ -artifactRepositoryName &quot;${update_site.name}&quot;" />
-			<arg line="-noDefaultIUs -reusePack200Files" />
+			<arg line="-application org.eclipse.equinox.p2.publisher.FeaturesAndBundlesPublisher" />
+			<arg line="-source ${update_site.dir}" />
+			<arg line="-metadataRepository file://${update_site.dir}" />
+			<arg line="-artifactRepository file://${update_site.dir}" />
+			<arg line="-publishArtifacts -compress" />
+			
+		</java>
+
+		<java jar="${launcher.jar}" fork="true" failonerror="true" maxmemory="256m">
+			<arg line="org.eclipse.equinox.launcher.Main" />
+			<arg line="-application org.eclipse.equinox.p2.publisher.CategoryPublisher" />
+			<arg line="-metadataRepository file://${update_site.dir}" />
+			<arg line="-categoryDefinition file://${update_site.dir}/site.xml" />
+			<arg line="-compress -categoryQualifier" />
+			
 		</java>
 	</target>
 
