@@ -348,7 +348,6 @@ public class IDLParamConverter {
 			public void visit(module n, String argu) {
 				moduleName = new ArrayList<String>();
 				final String moduleNames = node2String(n.identifier);
-				System.out.println("Mt:" + moduleNames);
 				moduleName.add(moduleNames);
 				n.accept(new ExtractModule(results),null);
 			}
@@ -357,7 +356,6 @@ public class IDLParamConverter {
 			public void visit(struct_type n, String argu) {
 				String typeName = node2String(n.identifier);
 				results.add(typeName);
-				System.out.println("Tt:" + typeName);
 			}
 		}, null);
 
@@ -376,13 +374,11 @@ public class IDLParamConverter {
 				@Override
 				public void visit(struct_type n, Object argu) {
 					String typeName = node2String(n.identifier);
-					System.out.println("Ti:" + typeName);
 					results.add(getModuleNames() + "::" + typeName);
 				}
 				@Override
 				public void visit(module n, Object argu) {
 					String typeName = node2String(n.identifier);
-					System.out.println("Mi:" + typeName);
 					moduleName.add(typeName);
 					n.accept(new ExtractModule(results),null);
 				}

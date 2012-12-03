@@ -117,6 +117,10 @@ public class PreProcessor {
 				throw new RuntimeException(IRTCBMessageConstants.ERROR_PREPROCESSOR + filePath);
 			}
 			String includeFilePath = new File(includeBaseDir, filePath).getAbsolutePath();
+			File target = new File(includeFilePath);
+			if(target.exists()==false) {
+				throw new RuntimeException("Include of IDL '" + filePath + "' cannot be solved");
+			}
 			result = FileUtil.readFile(includeFilePath);
 			if(includeFiles!=null) {
 				if( !includeFiles.contains(includeFilePath) ) {
