@@ -76,7 +76,7 @@ PROJECTS="jp.go.aist.rtm.toolscommon.profiles
     jp.go.aist.rtm.nameserviceview.nl1
     jp.go.aist.rtm.systemeditor
     jp.go.aist.rtm.systemeditor.nl1"
-PROJECTS="jp.go.aist.rtm.toolscommon.nl1"
+#PROJECTS="jp.go.aist.rtm.toolscommon.nl1"
 #jp.go.aist.rtm.toolscommon.profiles
 #    jp.go.aist.rtm.toolscommon.profiles.nl1
 #    jp.go.aist.rtm.toolscommon
