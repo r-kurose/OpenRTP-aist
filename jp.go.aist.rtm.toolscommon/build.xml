@@ -58,9 +58,19 @@
 	</target>
 
 	<target name="clean" description="ビルドで生成されたファイルを削除します">
-		<delete includeEmptyDirs="true">
+		<delete includeEmptyDirs="true" quiet="true">
 			<fileset dir="${build.dir}" includes="**/*.class" />
+			<fileset dir="." includes="**/*.log" />
 		</delete>
+		<delete dir="${build.dir}/_SDOPackage" quiet="true"/>
+		<delete dir="${build.dir}/OpenRTM" quiet="true"/>
+		<delete dir="${build.dir}/RTM" quiet="true"/>
+		<delete dir="${build.dir}/RTC" quiet="true"/>
+		<delete dir="${build.dir}/jp" quiet="true"/>
+		<delete dir="${source}/_SDOPackage" quiet="true"/>
+		<delete dir="${source}/OpenRTM" quiet="true"/>
+		<delete dir="${source}/RTM" quiet="true"/>
+		<delete dir="${source}/RTC" quiet="true"/>
 	</target>
 
 	<target name="compile" description="ソースをコンパイルします">

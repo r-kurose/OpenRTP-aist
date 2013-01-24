@@ -59,6 +59,7 @@
 #---------------------------------------------------------------------------
 # Global variables
 #---------------------------------------------------------------------------
+TARGET=buildAll
 # jar directory
 JARDIR=openrtp_1.1.0
 # target projects
@@ -76,12 +77,6 @@ PROJECTS="jp.go.aist.rtm.toolscommon.profiles
     jp.go.aist.rtm.nameserviceview.nl1
     jp.go.aist.rtm.systemeditor
     jp.go.aist.rtm.systemeditor.nl1"
-#PROJECTS="jp.go.aist.rtm.toolscommon.nl1"
-#jp.go.aist.rtm.toolscommon.profiles
-#    jp.go.aist.rtm.toolscommon.profiles.nl1
-#    jp.go.aist.rtm.toolscommon
-#    jp.go.aist.rtm.toolscommon.nl1"
-#    jp.go.aist.rtm.toolscommon"
 
 # Eclipse search directories
 ECLIPSE_DIRS="../ ../../ ../../ $HOME /usr/lib/ /usr/share"
@@ -172,7 +167,7 @@ do_ant_build()
         if test -d $project; then
             echo "- Starting ant build of project: $project"
             cd $project
-            ant buildAll $LIBS
+            ant $TARGET $LIBS
             if test $? -ne 0; then
                 echo "[ERROR] build failed: " $project
                 echo "Aborting..."
@@ -196,9 +191,17 @@ create_zip()
     zip $JARDIR.zip -r ./$JARDIR
 }
 
+getopt()
+{
+    if test $# = 1 ; then
+        TARGET=$1
+    fi
+}
+
 #==============================
 # main
 #==============================
+getopt $*
 find_eclipsehome
 find_javahome
 get_version

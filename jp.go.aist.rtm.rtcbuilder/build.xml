@@ -28,22 +28,11 @@
 	</target>
 
 	<target name="clean" description="ビルドで生成されたファイルを削除します">
-		<!-- delete dir="${build.dir}/jp" verbose="true" /-->
-		<delete includeEmptyDirs="true">
+		<delete includeEmptyDirs="true" quiet="true">
 			<fileset dir="${build.dir}" includes="**/*.class" />
-			<!--
-			<fileset dir="${build.dir}/jp/go/aist/rtm/rtcbuilder/nl"
-                     includes="messages.properties" />
-			<fileset dir="${build.dir}/jp/go/aist/rtm/rtcbuilder"
-					 includes="**/*Help.txt" />
-			<fileset dir="${build.dir}/jp/go/aist/rtm/rtcbuilder/model"
-					 includes="component.ecore" />
-			<fileset dir="${build.dir}/jp/go/aist/rtm/rtcbuilder/model"
-					 includes="RTC.genmodel" />
-			<fileset dir="${build.dir}/jp/go/aist/rtm/rtcbuilder/template"
-					 includes="**/*.vsl" />
-					 -->
+			<fileset dir="." includes="**/*.log" />
 		</delete>
+		<delete dir="${build.dir}/jp" quiet="true"/>
 	</target>
 
 	<target name="compile" description="ソースをコンパイルします">

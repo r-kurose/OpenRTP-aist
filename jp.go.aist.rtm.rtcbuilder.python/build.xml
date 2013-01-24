@@ -28,9 +28,11 @@
 	</target>
 
 	<target name="clean" description="ビルドで生成されたファイルを削除します">
-		<delete includeEmptyDirs="true">
+		<delete includeEmptyDirs="true" quiet="true">
 			<fileset dir="${build.dir}" includes="**/*.class" />
+			<fileset dir="." includes="**/*.log" />
 		</delete>
+		<delete dir="${build.dir}/jp" quiet="true"/>
 	</target>
 
 	<target name="compile" description="ソースをコンパイルします">

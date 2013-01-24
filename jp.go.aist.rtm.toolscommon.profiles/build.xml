@@ -9,11 +9,11 @@
 	<property name="build.dir" value="bin"/>
 	<property name="lib.dir" value="lib"/>
 	<property name="schema.dir" value="schema"/>
-
+	
 	<property environment="env"/>
 	<property name="eclipse.home" value="${env.ECLIPSE_HOME}"/>
 	<property name="java.home" value="${env.JAVA_HOME}"/>
-
+	
         <taskdef resource="net/sf/ant4eclipse/antlib.xml" />
 	<property name="targetPlatformLocation" value="${eclipse.home}" />
 	<property name="workspace" value="${basedir}/.." />
@@ -32,9 +32,14 @@
 	</target>
 
 	<target name="clean" description="ビルドで生成されたファイルを削除します">
-		<delete includeEmptyDirs="true">
+		<delete includeEmptyDirs="true" quiet="true">
 			<fileset dir="${build.dir}" includes="**/*.class" />
+			<fileset dir="${build.dir}" includes="**/*.xsd" />
+			<fileset dir="." includes="**/*.log" />
 		</delete>
+		<delete dir="${build.dir}/jp" quiet="true" />
+		<delete dir="${build.dir}/org" quiet="true" />
+		<delete dir="${build.dir}/test" quiet="true" />
 	</target>
 
 	<target name="compile" description="ソースをコンパイルします">
