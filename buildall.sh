@@ -153,12 +153,13 @@ get_version()
 #------------------------------------------------------------
 cleanup_jardir()
 {
+    if test -f $JARDIR.zip ; then
+        rm -f $JARDIR.zip
+    fi
     if test -d $JARDIR; then
         rm -rf $JARDIR
-        mkdir $JARDIR
-    else
-        mkdir $JARDIR
     fi
+    mkdir $JARDIR
 }
 
 do_ant_build()
@@ -212,8 +213,14 @@ echo "VERSION: $VERSION"
 echo "PROJECT_VERSION: $PROJECT_VERSION"
 
 LIBS="-lib ../lib -lib $ECLIPSE_HOME/plugins"
+
+
 cleanup_jardir
 do_ant_build
+if test "x$TARGET" = "xclean" ; then
+    rm -rf $JARDIR
+    exit 0
+fi
 create_zip
 
 exit 0
