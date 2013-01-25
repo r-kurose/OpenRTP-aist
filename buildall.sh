@@ -54,14 +54,26 @@
 #                 rc120121212. This version string is used actual jar
 #                 file name.
 #
+# - JARDIR: A directory to store jar files. Default directory is "jar".
+#                 This directory is  temporary jar files store place.
+#
+# - DISTDIR: A directory to be archived for distribution package.
+#                 This directory name becomes archive package name.
+#                 Default name is openrtm-x.y.z. x, y, z are version
+#                 number which is defined in version text file.
+#
 
 
 #---------------------------------------------------------------------------
 # Global variables
 #---------------------------------------------------------------------------
-TARGET=buildAll
-# jar directory
-JARDIR=openrtp_1.1.0
+
+# Default build taget
+TARGET="buildAll"
+
+# Default
+JARDIR_DEFAULT="jar"
+
 # target projects
 PROJECTS="jp.go.aist.rtm.toolscommon.profiles
     jp.go.aist.rtm.toolscommon.profiles.nl1
@@ -144,6 +156,13 @@ get_version()
         echo "Getting from ./version text."
         . ./version
     fi
+
+    if test "x$DISTDIR" = "x" ; then
+        DISTDIR=openrtp-$VERSION
+    fi
+    if test "x$JARDIR" = "x" ; then
+        JARDIR=$JARDIR_DEFAULT
+    fi
 }
 
 #------------------------------------------------------------
@@ -153,12 +172,16 @@ get_version()
 #------------------------------------------------------------
 cleanup_jardir()
 {
-    if test -f $JARDIR.zip ; then
-        rm -f $JARDIR.zip
+    if test -f $DISTDIR.zip ; then
+        rm -f $DISTDIR.zip
+    fi
+    if test -d $DISTDIR; then
+        rm -rf $DISTDIR
     fi
     if test -d $JARDIR; then
         rm -rf $JARDIR
     fi
+    mkdir $DISTDIR
     mkdir $JARDIR
 }
 
@@ -174,8 +197,9 @@ do_ant_build()
                 echo "Aborting..."
                 exit 1
             fi
-            echo "Copying created jar file into $JARDIR..."
-            mv jar/*aist*.jar ../$JARDIR
+            echo "Copying created jar file into $DISTDIR..."
+            cp jar/*aist*.jar ../$DISTDIR
+            cp jar/*aist*.jar ../$JARDIR
             cd ..
         else
             echo "Project: $project does not exist"
@@ -186,10 +210,10 @@ do_ant_build()
 
 create_zip()
 {
-    if test -f $JARDIR.zip ; then
-        rm $JARDIR.zip
+    if test -f $DISTDIR.zip ; then
+        rm $DISTDIR.zip
     fi
-    zip $JARDIR.zip -r ./$JARDIR
+    zip $DISTDIR.zip -r ./$DISTDIR
 }
 
 getopt()
@@ -227,10 +251,10 @@ echo "PROJECT_VERSION: $PROJECT_VERSION"
 
 LIBS="-lib ../lib -lib $ECLIPSE_HOME/plugins"
 
-
 cleanup_jardir
 do_ant_build
 if test "x$TARGET" = "xclean" ; then
+    rm -rf $DISTDIR
     rm -rf $JARDIR
     exit 0
 fi
