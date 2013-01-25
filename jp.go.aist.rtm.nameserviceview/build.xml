@@ -34,6 +34,7 @@
 		</delete>
 		<delete dir="${build.dir}/OpenRTMNaming" quiet="true"/>
 		<delete dir="${build.dir}/jp" quiet="true"/>
+		<delete dir="${dist.dir}" quiet="true"/>
 	</target>
 
 	<target name="compile" description="ソースをコンパイルします">

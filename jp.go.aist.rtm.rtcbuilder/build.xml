@@ -33,6 +33,7 @@
 			<fileset dir="." includes="**/*.log" />
 		</delete>
 		<delete dir="${build.dir}/jp" quiet="true"/>
+		<delete dir="${dist.dir}" quiet="true"/>
 	</target>
 
 	<target name="compile" description="ソースをコンパイルします">

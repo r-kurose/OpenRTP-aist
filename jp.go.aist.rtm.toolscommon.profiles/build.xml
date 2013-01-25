@@ -40,6 +40,7 @@
 		<delete dir="${build.dir}/jp" quiet="true" />
 		<delete dir="${build.dir}/org" quiet="true" />
 		<delete dir="${build.dir}/test" quiet="true" />
+		<delete dir="${dist.dir}" quiet="true"/>
 	</target>
 
 	<target name="compile" description="ソースをコンパイルします">

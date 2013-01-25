@@ -71,6 +71,7 @@
 		<delete dir="${source}/OpenRTM" quiet="true"/>
 		<delete dir="${source}/RTM" quiet="true"/>
 		<delete dir="${source}/RTC" quiet="true"/>
+		<delete dir="${dist.dir}" quiet="true"/>
 	</target>
 
 	<target name="compile" description="ソースをコンパイルします">
