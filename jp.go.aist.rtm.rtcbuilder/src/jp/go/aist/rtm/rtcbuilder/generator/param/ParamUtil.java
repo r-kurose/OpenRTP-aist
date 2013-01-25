@@ -321,7 +321,7 @@ public class ParamUtil {
 
 	private void convertFromModuleBasic(RtcProfile profile, RtcParam rtcParam) {
 		BasicInfoExt basic = (BasicInfoExt)profile.getBasicInfo();
-		//��{
+		//鐃緒申{
 		rtcParam.setName(basic.getName());
 		rtcParam.setComponentType(basic.getComponentType());
 		rtcParam.setActivityType(basic.getActivityType());

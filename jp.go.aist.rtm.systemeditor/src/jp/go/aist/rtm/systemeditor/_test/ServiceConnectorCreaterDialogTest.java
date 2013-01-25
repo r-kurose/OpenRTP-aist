@@ -9,7 +9,7 @@
 //import RTC.PortInterfaceProfile;
 //
 ///**
-// * ƒeƒXƒgŒã‚ÍAServiceConnectorCreaterDialog‚ÉƒRƒs[‚·‚é
+// * ãƒ†ã‚¹ãƒˆå¾Œã¯ã€ServiceConnectorCreaterDialogã«ã‚³ãƒ”ãƒ¼ã™ã‚‹
 // */
 //public class ServiceConnectorCreaterDialogTest extends TestCase {
 //	public void testname() throws Exception {
@@ -101,7 +101,7 @@
 //	}
 //
 //	/**
-//	 * PortInterfaceProfile‚Ìƒ}ƒbƒ`”‚ğ”‚¦‚é
+//	 * PortInterfaceProfileã®ãƒãƒƒãƒæ•°ã‚’æ•°ãˆã‚‹
 //	 * 
 //	 * @param profile1
 //	 * @param profile2
@@ -128,11 +128,11 @@
 //	}
 //
 //	/**
-//	 * PortInterfaceProfile‚ªƒ}ƒbƒ`‚·‚é‚©‚Ç‚¤‚©
+//	 * PortInterfaceProfileãŒãƒãƒƒãƒã™ã‚‹ã‹ã©ã†ã‹
 //	 * 
 //	 * @param profile
 //	 * @param profile2
-//	 * @return ƒ}ƒbƒ`‚·‚é‚©‚Ç‚¤‚©
+//	 * @return ãƒãƒƒãƒã™ã‚‹ã‹ã©ã†ã‹
 //	 */
 //	private static boolean isMatch(PortInterfaceProfile profile1,
 //			PortInterfaceProfile profile2) {

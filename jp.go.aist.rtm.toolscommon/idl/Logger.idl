@@ -20,11 +20,11 @@
 #include <SDOPackage11.idl>
 /*!
  * @if jp
- * @brief �R���|�[�l���g���O���W�T�[�r�X�C���^�[�t�F�[�X
+ * @brief コンポーネントログ収集サービスインターフェース
  *
- * �R���|�[�l���g�̃��O�����O������擾���邽�߂̃C���^�[�t�F�[�X�B�R
- * ���|�[�l���g�ɑ΂��āA�{SDO�T�[�r�X�I�u�W�F�N�g���A�^�b�`���邱�ƂŁA
- * �R���|�[�l���g���o�͂��郍�O���O������擾���邱�Ƃ��ł���B
+ * コンポーネントのログ情報を外部から取得するためのインターフェース。コ
+ * ンポーネントに対して、本SDOサービスオブジェクトをアタッチすることで、
+ * コンポーネントが出力するログを外部から取得することができる。
  * 
  * @since 1.1
  *
@@ -44,19 +44,19 @@ module OpenRTM
   /*!
    * @if jp
    *
-   * @brief ���O���x��
+   * @brief ログレベル
    * 
-   * ���O���x���B���O���x����9�i�K����A���ꂼ��ȉ��̈Ӗ������B
+   * ログレベル。ログレベルは9段階あり、それぞれ以下の意味を持つ。
    * 
-   *  - SILENT  : ���M���O�@�\���I�t�ɂ��邽�߂̋^�����x��
-   *  - ERROR   : �G���[�������������Ƃ��Ӗ����郍�O���x��
-   *  - WARN    : �G���[�ł͂Ȃ������ӂ��ׂ��x�����Ӗ����郍�O���x��
-   *  - INFO    : �t���I�ȏ���񋟂��邽�߂̃��O���x��
-   *  - NORMAL  : �ʏ�̏���񋟂��邽�߂̃��O���x��
-   *  - DEBUG   : �f�o�b�O����񋟂���ۂ̃��O���x��
-   *  - TRACE   : �g���[�X���x���̏���񋟂���ۂ̃��O���x��
-   *  - VERBOSE : �g���[�X���ȏ�ɏڍׂȏ���񋟂���ۂ̃��O���x��
-   *  - PARANOID: ���A���^�C�������������s�����̏���񋟂��郍�O���x��
+   *  - SILENT  : ロギング機能をオフにするための疑似レベル
+   *  - ERROR   : エラーが発生したことを意味するログレベル
+   *  - WARN    : エラーではないが注意すべき警告を意味するログレベル
+   *  - INFO    : 付加的な情報を提供するためのログレベル
+   *  - NORMAL  : 通常の情報を提供するためのログレベル
+   *  - DEBUG   : デバッグ情報を提供する際のログレベル
+   *  - TRACE   : トレースレベルの情報を提供する際のログレベル
+   *  - VERBOSE : トレース情報以上に詳細な情報を提供する際のログレベル
+   *  - PARANOID: リアルタイム周期処理実行時等の情報を提供するログレベル
    * 
    * @else
    *
@@ -92,9 +92,9 @@ module OpenRTM
 
   /*!
    * @if jp
-   * @brief ���O���R�[�h�\����
+   * @brief ログレコード構造体
    *
-   * ���O���b�Z�[�W���܂ރ��O����ێ�����\����
+   * ログメッセージを含むログ情報を保持する構造体
    *
    * @else
    * @brief Log record structure
@@ -108,8 +108,8 @@ module OpenRTM
   {
     /*!
      * @if jp
-     * @brief ����
-     * �^�C���X�^���v
+     * @brief 時刻
+     * タイムスタンプ
      * @else
      * @brief Time
      * Time stump.
@@ -119,8 +119,8 @@ module OpenRTM
 
     /*!
      * @if jp
-     * @brief ���K�[��
-     * ���O���������񂾃��K�[�I�u�W�F�N�g��
+     * @brief ロガー名
+     * ログを書きこんだロガーオブジェクト名
      * @else
      * @brief logger name
      * The logger name which writes this record.
@@ -130,8 +130,8 @@ module OpenRTM
 
     /*!
      * @if jp
-     * @brief ���O���x��
-     * ���̃��R�[�h�̃��O���x��
+     * @brief ログレベル
+     * このレコードのログレベル
      * @else
      * @brief Log level
      * The log level of this record
@@ -141,8 +141,8 @@ module OpenRTM
 
     /*!
      * @if jp
-     * @brief ���b�Z�[�W
-     * ���O���b�Z�[�W
+     * @brief メッセージ
+     * ログメッセージ
      * @else
      * @brief Message
      * Log message.
@@ -155,41 +155,41 @@ module OpenRTM
   /*!
    * @if jp
    *
-   * @interface Logger �C���^�[�t�F�[�X
+   * @interface Logger インターフェース
    *
-   * �ʂ�RTC�̃��O�����擾���邽�߂̃T�[�r�X�C���^�[�t�F�[�X�BSDO
-   * Service �Ƃ��đΏۂƂȂ�RTC/SDO�ɑ΂��ăA�^�b�`����ARTC/SDO�̃��O
-   * �����O������擾����B���ۂ̏����V�[�P���X�͈ȉ��̒ʂ�ł���B
+   * 個別のRTCのログ情報を取得するためのサービスインターフェース。SDO
+   * Service として対象となるRTC/SDOに対してアタッチされ、RTC/SDOのログ
+   * 情報を外部から取得する。実際の処理シーケンスは以下の通りである。
    *
-   * -# SDO::get_configuration() �ɂ�� Configuration �I�u�W�F�N�g���擾
-   * -# Configuration::add_service_profile() �ɂ��Tool����
-   *     Logger �� ServiceProfile �ɂ�� RTC �ɗ^����B
-   *     ServiceProfile �̃����o�[�͈ȉ��̂悤�ɐݒ肷�邱��
-   *   - id: UUID �Ȃǈ�ӂ�ID��ݒ肷��B�폜���ɂ��K�v�ɂȂ�̂ŁATool
-   *     ���ł�ID��ێ����Ă����Ȃ���΂Ȃ�Ȃ��B
-   *   - interface_type: ���Y�T�[�r�X��IFR��ID�𕶎���Ƃ��Ďw��BRTC����
-   *     �͂��̕�����ɂ�蓖�Y�T�[�r�X�I�u�W�F�N�g���󂯓���邩���肷
-   *     �邽�ߎw��͕K�{�ƂȂ�B
-   *   - properties: RTC���̃T�[�r�X�̎󂯓��ꑤ�ɒʒm����v���p�e�B���
-   *     �肷��B���̃T�[�r�X�ł́A���L�̃��O���x���֘A�̃v���p�e�B��
-   *     �w�肷��B
-   *    - service: SDOService �I�u�W�F�N�g�̎Q�Ƃ��w�肷��B
-   * -# RTC���Ń��K�[�ւ̏������݂��L�����ꍇ�ɂ� publish() �I�y���[�V����
-   *     �� LogRecord �\���̂Ƃ��ă��O���b�Z�[�W��^�C���X�^���v���T�[
-   *     �r�X���ɒʒm����B�T�[�r�X��ێ����鑤�ł́ALogRecord���̏��
-   *     ���t�@�C���ɏ������ށA�\�����铙�̕��@�ŗ��p���邱�Ƃ��ł���B
-   * -# RTC�����I������Ƃ��ɂ́Aclose() �I�y���[�V�������Ăяo������
-   *    �ŁA�T�[�r�X�񋟑��͓K�؂ȏI���������s���K�v������Bclose()����
-   *    �΂ꂽ�ꍇ�́Aremove_service_profile() �ɂ�薾���I�ɃT�[�r�X��
-   *    �폜����K�v�͂Ȃ��B�܂�RTC���ł�close() ���Ă񂾌�́A���Y�T�[
-   *    �r�X�Ɋւ�����⃊�\�[�X��K�؂ɊJ�����Ȃ���΂Ȃ�Ȃ��B
-   * -# �c�[�����̃T�[�r�X�񋟑����I������ꍇ�Ȃǂ́A
-   *    remove_service_profile() �I�y���[�V�������Ăяo���A���YRTC���
-   *    ���\�[�X��K�؂ɊJ������K�v������BRTC���́A
-   *    remove_service_profile() ���Ăяo���ꂽ�ۂɂ́A���Y���M���O�Ɋ�
-   *    ���郊�\�[�X��K�؂ɊJ������K�v������B
+   * -# SDO::get_configuration() により Configuration オブジェクトを取得
+   * -# Configuration::add_service_profile() によりTool側の
+   *     Logger を ServiceProfile により RTC に与える。
+   *     ServiceProfile のメンバーは以下のように設定すること
+   *   - id: UUID など一意なIDを設定する。削除時にも必要になるので、Tool
+   *     側ではIDを保持しておかなければならない。
+   *   - interface_type: 当該サービスのIFRのIDを文字列として指定。RTC側で
+   *     はこの文字列により当該サービスオブジェクトを受け入れるか決定す
+   *     るため指定は必須となる。
+   *   - properties: RTC側のサービスの受け入れ側に通知するプロパティを設
+   *     定する。このサービスでは、下記のログレベル関連のプロパティを
+   *     指定する。
+   *    - service: SDOService オブジェクトの参照を指定する。
+   * -# RTC側でロガーへの書き込みが有った場合には publish() オペレーション
+   *     が LogRecord 構造体としてログメッセージやタイムスタンプをサー
+   *     ビス側に通知する。サービスを保持する側では、LogRecord内の情報
+   *     をファイルに書き込む、表示する等の方法で利用することができる。
+   * -# RTC側が終了するときには、close() オペレーションが呼び出されるの
+   *    で、サービス提供側は適切な終了処理を行う必要がある。close()が呼
+   *    ばれた場合は、remove_service_profile() により明示的にサービスを
+   *    削除する必要はない。またRTC側ではclose() を呼んだ後は、当該サー
+   *    ビスに関する情報やリソースを適切に開放しなければならない。
+   * -# ツール等のサービス提供側が終了する場合などは、
+   *    remove_service_profile() オペレーションを呼び出し、当該RTC上の
+   *    リソースを適切に開放する必要がある。RTC側は、
+   *    remove_service_profile() が呼び出された際には、当該ロギングに関
+   *    するリソースを適切に開放する必要がある。
    *
-   * ��L�̃v���Z�X�����L�V�[�P���X�}�Ɏ����B
+   * 上記のプロセスを下記シーケンス図に示す。
    *
    * <pre>
    * 
@@ -207,12 +207,12 @@ module OpenRTM
    *     |----------------------------------->|            |
    *     |            |       :               |            |
    *     |            |       :               |            |
-   *     |            | 1) RTC����ɏI������Ƃ�           |
+   *     |            | 1) RTCが先に終了するとき           |
    *     |            |       :               |            |
    *     |            | [close()]             |            |
    *     |----------------------------------->|            |
    *     |            |       :               |            |
-   *     |            | 2) �c�[�������M���O���I������Ƃ�  |
+   *     |            | 2) ツールがロギングを終了するとき  |
    *     |            |       :               |            |
    *     |            | remove_service_profile(id)         |
    *     |            |<-----------------------------------|
@@ -221,19 +221,19 @@ module OpenRTM
    *
    * </pre>
    *
-   * �Ȃ��AServiceProfile::properties �Ɏw�肷��v���p�e�B�Ƃ��ẮA
+   * なお、ServiceProfile::properties に指定するプロパティとしては、
    *
    * - logger.log_level: (ERROR, WARN, INFO, NORMAL, DEBUG, TRACE, VERBOSE,
    *                     PARANOID)
    * - logger.filter: logger name or "ALL"
    *
-   * ������A
+   * がある、
    *
    * - logger.log_level: ERROR, WARN, INFO, NORMAL, DEBUG, TRACE,
-   *   VERBOSE �܂���PARANOID �̂�������w�肷��B���w��̏ꍇ��
-   *   NORMAL �Ɠ����ƂȂ�B�w�肳�ꂽ���x���Ɠ������邢�͂�����d�v
-   *   �ȏ�񂪃��M���O�����B���Ȃ킿�A���ꂼ��̃��O���x�����w�肵��
-   *   �ۂɏo�͂���郍�O�͈ȉ��̊֌W�ɂȂ�B
+   *   VERBOSE またはPARANOID のうち一つを指定する。無指定の場合は
+   *   NORMAL と同等となる。指定されたレベルと同等あるいはそれより重要
+   *   な情報がロギングされる。すなわち、それぞれのログレベルを指定した
+   *   際に出力されるログは以下の関係になる。
    *   - ERROR   : (ERROR)
    *   - WARN    : (ERROR, WARN)
    *   - INFO    : (ERROR, WARN, INFO)
@@ -242,11 +242,11 @@ module OpenRTM
    *   - TRACE   : (ERROR, WARN, INFO, NORMAL, DEBUG, TRACE)
    *   - VERBOSE : (ERROR, WARN, INFO, NORMAL, DEBUG, TRACE, VERBOSE)
    *   - PARANOID: (ERROR, WARN, INFO, NORMAL, DEBUG, TRACE, VERBOSE, PARA)
-   * - logger.filter: RTC�����́ARTC�{�́A�f�[�^�|�[�g�A�T�[�r�X�|�[�g
-   *   �����ꂼ��̃I�u�W�F�N�g�Ƀ��K�[�I�u�W�F�N�g�����݂���B���̃v��
-   *   �p�e�B�̓��M���O����Ώۂ̃��K�[�I�u�W�F�N�g���J���}��؂�Ŏw��
-   *   ����B�܂��́AALL���w�肷�邱�Ƃ�RTC�z���̂��ׂẴ��M���O�I�u�W�F
-   *   �N�g����̃��b�Z�[�W����M����B���w��̏ꍇ��ALL�Ɠ����ɂȂ�B
+   * - logger.filter: RTC内部は、RTC本体、データポート、サービスポート
+   *   等それぞれのオブジェクトにロガーオブジェクトが存在する。このプロ
+   *   パティはロギングする対象のロガーオブジェクトをカンマ区切りで指定
+   *   する。または、ALLを指定することでRTC配下のすべてのロギングオブジェ
+   *   クトからのメッセージを受信する。無指定の場合はALLと同等になる。
    *
    * @else
    * @class
@@ -364,8 +364,8 @@ module OpenRTM
   {
     /*!
      * @if jp
-     * @brief ���O���b�Z�[�W�z�M
-     * ���O���b�Z�[�W��z�M����
+     * @brief ログメッセージ配信
+     * ログメッセージを配信する
      * @else
      * @brief Publish log message
      * This operation publishes log message.
@@ -375,8 +375,8 @@ module OpenRTM
 
     /*!
      * @if jp
-     * @brief �T�[�r�X�̏I��
-     * ���M���O�T�[�r�X�̏I����ʒm����
+     * @brief サービスの終了
+     * ロギングサービスの終了を通知する
      * @else
      * @brief Terminate service
      * This operation notifies logging service.

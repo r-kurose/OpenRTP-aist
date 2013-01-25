@@ -2,9 +2,9 @@ package OpenRTMNaming;
 
 /**
 * OpenRTMNaming/NamingNotifierHolder.java .
-* IDL-to-Java ƒRƒ“ƒpƒCƒ‰ (ƒ|[ƒ^ƒuƒ‹), ƒo[ƒWƒ‡ƒ“ "3.1" ‚Å¶¬
-* ¶¬Œ³: ./OpenRTMNaming.idl
-* 2011”N2Œ10“ú 1815•ª14•b JST
+* IDL-to-Java ã‚³ãƒ³ãƒ‘ã‚¤ãƒ© (ãƒãƒ¼ã‚¿ãƒ–ãƒ«), ãƒãƒ¼ã‚¸ãƒ§ãƒ³ "3.1" ã§ç”Ÿæˆ
+* ç”Ÿæˆå…ƒ: ./OpenRTMNaming.idl
+* 2011å¹´2æœˆ10æ—¥ 18æ™‚15åˆ†14ç§’ JST
 */
 
 public final class NamingNotifierHolder implements org.omg.CORBA.portable.Streamable
