@@ -31,8 +31,8 @@
 	</tstamp>
 
 	<target name="buildAll">
-		<antcall target="idlCompile" />
 		<antcall target="clean" />
+		<antcall target="idlCompile" />
 		<antcall target="compile" />
 		<antcall target="jar" />
 	</target>
