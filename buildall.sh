@@ -195,7 +195,20 @@ create_zip()
 getopt()
 {
     if test $# = 1 ; then
-        TARGET=$1
+        arg=$1
+        if test "x$arg" = "xclean" ; then
+            TARGET=$1
+            return 0
+        fi
+        if test "x$arg" = "xrevert" ; then
+            echo "Reverting updated MANIFEST.MF..."
+            mf=`svn status | grep '^M' | grep MANIFEST.MF | awk '{print $2;}'`
+            for m in $mf; do
+                rm $m
+                svn update $m
+            done
+            exit 0
+        fi
     fi
 }
 
