@@ -17,6 +17,7 @@ public class ServiceMethodParam implements Serializable {
 	private boolean isArray;
 	private boolean isStruct;
 	private boolean isString;
+	private boolean isChildString;
 
 	private List<ServiceArgumentParam> arguments = new ArrayList<ServiceArgumentParam>();
 
@@ -82,5 +83,12 @@ public class ServiceMethodParam implements Serializable {
 	}
 	public void setString(boolean isString) {
 		this.isString = isString;
+	}
+	
+	public boolean isChildString() {
+		return isChildString;
+	}
+	public void setChildString(boolean isChildString) {
+		this.isChildString = isChildString;
 	}
 }

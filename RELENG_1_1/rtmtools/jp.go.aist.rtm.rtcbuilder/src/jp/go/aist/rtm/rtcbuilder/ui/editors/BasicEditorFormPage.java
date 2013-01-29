@@ -21,6 +21,7 @@ import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.ui.Perspective.LanguageProperty;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.ui.wizard.RtcExportWizard;
+import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 
 import org.eclipse.core.resources.IFile;
@@ -372,6 +373,8 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					//
 					saveRtcProfile(project);
 					switchPerspective();
+	        		editor.getRtcParam().resetUpdated();
+	        		editor.updateDirty();
 				}
 			}
 
@@ -388,6 +391,8 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					if (orgRtcxml.exists()) {
 						IFile renameFile = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML + DATE_FORMAT.format(new GregorianCalendar().getTime()) );
 						orgRtcxml.move(renameFile.getFullPath(), true, null);
+						//バックアップ最大数以上のファイルは削除
+						FileUtil.removeBackupFiles(project, IRtcBuilderConstants.DEFAULT_RTC_XML);
 					}
 					IFile saveRtcxml = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML);
 					saveRtcxml.create(new ByteArrayInputStream(strXml.getBytes("UTF-8")), true, null);
@@ -591,9 +596,10 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 							editor.getRtcParam().getInports(), editor.getRtcParam().getOutports(),
 							editor.getRtcParam().getServicePorts());
 					editor.setEnabledInfoByLang();
+					extractDataTypes();
 					load();
 					//
-					editor.getRtcParam().resetUpdated();
+//					editor.getRtcParam().resetUpdated();
 					editor.updateDirty();
 		        }
 			}

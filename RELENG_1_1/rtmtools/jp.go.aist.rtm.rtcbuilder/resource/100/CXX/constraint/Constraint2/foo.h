@@ -235,6 +235,7 @@ class foo
    * - DefaultValue: up
    */
   std::string m_str_param0;
+
   // </rtc-template>
 
   // DataInPort declaration

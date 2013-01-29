@@ -223,26 +223,31 @@ class foo
   
   // </rtc-template>
 
+  // Configuration variable declaration
+  // <rtc-template block="config_declare">
+
+  // </rtc-template>
+
   // DataInPort declaration
   // <rtc-template block="inport_declare">
-  Frame1 m_InP1;
+  MyType::Frame1 m_InP1;
   /*!
    */
-  InPort<Frame1> m_InP1In;
-  TimedLong m_InP2;
+  InPort<MyType::Frame1> m_InP1In;
+  RTC::TimedLong m_InP2;
   /*!
    */
-  InPort<TimedLong> m_InP2In;
+  InPort<RTC::TimedLong> m_InP2In;
   
   // </rtc-template>
 
 
   // DataOutPort declaration
   // <rtc-template block="outport_declare">
-  TimedInt m_OutP1;
+  RTC::TimedInt m_OutP1;
   /*!
    */
-  OutPort<TimedInt> m_OutP1Out;
+  OutPort<RTC::TimedInt> m_OutP1Out;
   
   // </rtc-template>
 

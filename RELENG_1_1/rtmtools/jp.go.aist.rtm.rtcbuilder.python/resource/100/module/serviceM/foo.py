@@ -1,33 +1,25 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # -*- Python -*-
-
 """
  \file foo.py
  \brief ModuleDescription
  \date $Date$
-
-
 """
 import sys
 import time
 sys.path.append(".")
-
 # Import RTM module
 import RTC
 import OpenRTM_aist
-
+import MyService_idl
 # Import Service implementation class
 # <rtc-template block="service_impl">
 from MyService_idl_example import *
-
 # </rtc-template>
-
 # Import Service stub modules
 # <rtc-template block="consumer_import">
 # </rtc-template>
-
-
 # This module's spesification
 # <rtc-template block="module_spec">
 foo_spec = ["implementation_id", "foo", 
@@ -42,7 +34,6 @@ foo_spec = ["implementation_id", "foo",
 		 "lang_type",         "SCRIPT",
 		 ""]
 # </rtc-template>
-
 class foo(OpenRTM_aist.DataFlowComponentBase):
 	
 	"""
@@ -56,24 +47,17 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 		\param manager Maneger Object
 		"""
 		OpenRTM_aist.DataFlowComponentBase.__init__(self, manager)
-
-
 		"""
 		"""
 		self._sv_namePort = OpenRTM_aist.CorbaPort("sv_name")
-
 		"""
 		"""
 		self._if_name = MyService_i()
 		
-
-
 		# initialize of configuration-data.
 		# <rtc-template block="init_conf_param">
 		
 		# </rtc-template>
-
-
 		 
 	def onInitialize(self):
 		"""
@@ -252,29 +236,19 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	#
 	#	return RTC.RTC_OK
 	
-
-
-
 def fooInit(manager):
     profile = OpenRTM_aist.Properties(defaults_str=foo_spec)
     manager.registerFactory(profile,
                             foo,
                             OpenRTM_aist.Delete)
-
 def MyModuleInit(manager):
     fooInit(manager)
-
     # Create a component
     comp = manager.createComponent("foo")
-
-
-
 def main():
 	mgr = OpenRTM_aist.Manager.init(sys.argv)
 	mgr.setModuleInitProc(MyModuleInit)
 	mgr.activateManager()
 	mgr.runManager()
-
 if __name__ == "__main__":
 	main()
-

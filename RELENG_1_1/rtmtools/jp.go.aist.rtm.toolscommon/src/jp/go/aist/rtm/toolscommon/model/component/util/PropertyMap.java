@@ -1,12 +1,18 @@
 package jp.go.aist.rtm.toolscommon.model.component.util;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
+import jp.go.aist.rtm.toolscommon.ui.propertysource.PropertyMapPropertySource;
+
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.ui.views.properties.IPropertySource;
 
-public class PropertyMap implements IPropertyMapUtil {
+public class PropertyMap extends EObjectImpl implements IPropertyMap {
 
 	Map<String, String> properties;
 
@@ -37,6 +43,22 @@ public class PropertyMap implements IPropertyMapUtil {
 		EList<String> result = new BasicEList<String>();
 		for (String key : properties.keySet()) {
 			result.add(key);
+		}
+		Collections.sort(result);
+		return result;
+	}
+
+	@Override
+	public IPropertyMap getPropertyMap() {
+		return this;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public java.lang.Object getAdapter(Class adapter) {
+		java.lang.Object result = null;
+		if (IPropertySource.class.equals(adapter)) {
+			result = new PropertyMapPropertySource(this);
 		}
 		return result;
 	}

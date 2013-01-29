@@ -8,7 +8,7 @@ import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSuppor
 import org.eclipse.core.runtime.IAdapterFactory;
 
 /**
- * RTCLinkのアダプタファクトリ
+ * RTCLinkのアダプタファクトリ 
  * IAdapterFactoryがGenericに対応していないため、@SuppressWarnings("unchecked")を使用している
  * NamingObjectNodeは現在CORBA専用のオブジェクトである
  */

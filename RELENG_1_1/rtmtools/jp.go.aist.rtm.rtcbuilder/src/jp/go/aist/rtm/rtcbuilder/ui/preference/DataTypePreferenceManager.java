@@ -39,10 +39,12 @@ public class DataTypePreferenceManager {
 	 * @return IDLFile Directories デフォルト値
 	 */
 	public List<String> getIdlFileDirectories() {
+		List<String> result = new ArrayList<String>();
+		if(RtcBuilderPlugin.getDefault()==null) return result;
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(IDLFILE_DIRECTORIES, "");
 
 		String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(IDLFILE_DIRECTORIES);
-		List<String> result = Arrays.asList(resultTemp.split(File.pathSeparator));
+		result = Arrays.asList(resultTemp.split(File.pathSeparator));
 		if (resultTemp.equals("")) { // defaultvalue
 			result = defaultIdlFileDirectories;
 		}

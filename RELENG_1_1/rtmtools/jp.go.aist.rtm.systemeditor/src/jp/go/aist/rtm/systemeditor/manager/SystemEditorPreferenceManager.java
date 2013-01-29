@@ -161,6 +161,12 @@ public class SystemEditorPreferenceManager {
 			.getName()
 			+ ".CONFIRM_COMPONENT_ACTION";
 
+	// アイコン
+	/** コンポーネントアイコン設定 */
+	public static final String COMPONENT_ICONS = SystemEditorPreferenceManager.class
+			.getName()
+			+ ".COMPONENT_ICONS";
+
 	/**
 	 * デフォルトの色を管理するマップ
 	 */
@@ -543,4 +549,40 @@ public class SystemEditorPreferenceManager {
 		}
 		return result;
 	}
+
+	/** コンポーネントアイコンの設定を読込 */
+	public ComponentIconStore loadComponentIconStore(
+			ComponentIconStore iconStore) {
+		if (iconStore == null) {
+			return null;
+		}
+		store.setDefault(COMPONENT_ICONS, "");
+		String value = store.getString(COMPONENT_ICONS);
+		iconStore.parsePreference(value);
+		return iconStore;
+
+	}
+
+	public ComponentIconStore loadComponentIconStore() {
+		return loadComponentIconStore(ComponentIconStore.eINSTANCE);
+	}
+
+	/** コンポーネントアイコンの設定を保存 */
+	public void saveComponentIconStore(ComponentIconStore iconStore) {
+		if (iconStore == null) {
+			return;
+		}
+		String value = iconStore.toPreference();
+		store.setValue(COMPONENT_ICONS, value);
+	}
+
+	public void saveComponentIconStore() {
+		saveComponentIconStore(ComponentIconStore.eINSTANCE);
+	}
+
+	/** コンポーネントアイコンの設定をリセット */
+	public void resetComponentIconStore() {
+		store.setValue(COMPONENT_ICONS, "");
+	}
+
 }

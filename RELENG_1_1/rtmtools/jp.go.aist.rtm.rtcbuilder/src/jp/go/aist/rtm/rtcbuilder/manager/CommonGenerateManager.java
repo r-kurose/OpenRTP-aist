@@ -1,5 +1,7 @@
 package jp.go.aist.rtm.rtcbuilder.manager;
 
+import static jp.go.aist.rtm.rtcbuilder.util.RTCUtil.form;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,9 +12,6 @@ import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateHelper;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
-
-import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
-import static jp.go.aist.rtm.rtcbuilder.util.RTCUtil.*;
 
 /**
  * 一般ファイルの出力を制御するマネージャ
@@ -45,9 +44,6 @@ public class CommonGenerateManager extends GenerateManager {
 		contextMap.put("rtcParam", rtcParam);
 		contextMap.put("tmpltHelper", new TemplateHelper());
 
-		if (rtcParam.getRtmVersion().equals(RTM_VERSION_042)) {
-			return generateTemplateCode04(contextMap);
-		}
 		return generateTemplateCode10(contextMap);
 	}
 
@@ -59,33 +55,14 @@ public class CommonGenerateManager extends GenerateManager {
 
 		GeneratedResult gr;
 
-		if (rtcParam.getExecutionRate() > 0.0 || rtcParam.checkConstraint()
-				|| rtcParam.getConfigParameterParams().size() > 0) {
-			gr = generateRTCConf(contextMap);
-			result.add(gr);
-		}
+		gr = generateREADME(contextMap);
+		result.add(gr);
+
+		gr = generateRTCConf10(contextMap);
+		result.add(gr);
 
 		gr = generateComponentConf(contextMap);
 		result.add(gr);
-
-		return result;
-	}
-
-	// RTM 0.4系
-	public List<GeneratedResult> generateTemplateCode04(
-			Map<String, Object> contextMap) {
-		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
-		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-
-		GeneratedResult gr;
-		gr = generateREADME_04(contextMap);
-		result.add(gr);
-
-		if (rtcParam.getExecutionRate() > 0.0 || rtcParam.checkConstraint()
-				|| rtcParam.getConfigParameterParams().size() > 0) {
-			gr = generateRTCConf(contextMap);
-			result.add(gr);
-		}
 
 		return result;
 	}
@@ -105,6 +82,12 @@ public class CommonGenerateManager extends GenerateManager {
 		return generate(infile, outfile, contextMap);
 	}
 
+	public GeneratedResult generateRTCConf10(Map<String, Object> contextMap) {
+		String outfile = "rtc.conf";
+		String infile = "common/rtc.conf.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+
 	public GeneratedResult generateComponentConf(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = rtcParam.getName() + ".conf";
@@ -112,22 +95,12 @@ public class CommonGenerateManager extends GenerateManager {
 		return generate(infile, outfile, contextMap);
 	}
 
-	// RTM 0.4
-
-	public GeneratedResult generateREADME_04(Map<String, Object> contextMap) {
-		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-
-		String outfile = "README." + rtcParam.getName();
-		String infile = "common_04/README.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-
 	public GeneratedResult generate(String infile, String outfile,
 			Map<String, Object> contextMap) {
 		try {
 			String template = TEMPLATE_PATH + "/" + infile;
-			InputStream ins = getClass().getClassLoader().getResourceAsStream(
-					template);
+			ClassLoader cl = Thread.currentThread().getContextClassLoader();
+			InputStream ins = cl.getResourceAsStream(template);
 			GeneratedResult gr = TemplateUtil.createGeneratedResult(ins,
 					contextMap, outfile);
 			if (ins != null) {

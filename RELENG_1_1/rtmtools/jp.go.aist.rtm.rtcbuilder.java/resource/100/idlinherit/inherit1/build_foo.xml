@@ -10,19 +10,18 @@
 	<property name="source" value="src" />
 	<property name="dest" value="bin" />
 	<property environment="env" />
-
 	<target name="mkdir">
 		<mkdir dir="${dest}" />
 	</target>
 	<target name="idlcompile"  depends="mkdir">
 		<exec executable="${java.home}/../bin/idlj">
-			<arg line="-td 'src' -i '__ROOT_PATH__resource/100/idlinherit/inherit1' -i '__ROOT_PATH__resource/100/idlinherit/inherit1' -fall 'MyServiceChildMulti.idl'"/>
+			<arg line="-td 'src' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/idlinherit/inherit1' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/idlinherit/inherit1' -fall 'idl/MyServiceChildMulti.idl'"/>
 		</exec>
 		<exec executable="${java.home}/../bin/idlj">
-			<arg line="-td 'src' -i '__ROOT_PATH__resource/100/idlinherit/inherit1' -i '__ROOT_PATH__resource/100/idlinherit/inherit1' -fall 'MyServiceParent1.idl'"/>
+			<arg line="-td 'src' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/idlinherit/inherit1' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/idlinherit/inherit1' -fall 'idl/MyServiceParent1.idl'"/>
 		</exec>
 		<exec executable="${java.home}/../bin/idlj">
-			<arg line="-td 'src' -i '__ROOT_PATH__resource/100/idlinherit/inherit1' -i '__ROOT_PATH__resource/100/idlinherit/inherit1' -fall 'MyServiceParent2.idl'"/>
+			<arg line="-td 'src' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/idlinherit/inherit1' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/idlinherit/inherit1' -fall 'idl/MyServiceParent2.idl'"/>
 		</exec>
 	</target>
 	<target name="compile" depends="idlcompile">

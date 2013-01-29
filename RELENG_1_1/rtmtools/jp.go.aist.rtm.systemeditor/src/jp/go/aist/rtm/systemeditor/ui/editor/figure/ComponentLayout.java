@@ -44,18 +44,14 @@ public class ComponentLayout extends XYLayout {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public void layout(IFigure parent) {
 		Iterator children = parent.getChildren().iterator();
 		IFigure child;
 		while (children.hasNext()) {
 			child = (IFigure) children.next();
-
 			Rectangle bounds = getLocation(parent, child);
 			child.setLocation(new Point(bounds.x, bounds.y));
-
+			child.setBounds(child.getBounds());
 			parent.setBounds(parent.getBounds());
 		}
 	}

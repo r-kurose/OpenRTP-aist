@@ -44,9 +44,9 @@ public class Main {
 	private static void printTree(String indent, NameComponent component,
 			Object obj) throws NotFound, CannotProceed, InvalidName {
 		if (obj._is_a(NamingContextExtHelper.id())) {
-			System.out.print(indent + "Å†");
+			System.out.print(indent + "‚ñ°");
 		} else {
-			System.out.print(indent + "Å°");
+			System.out.print(indent + "‚ñ†");
 		}
 
 		if (component != null) {

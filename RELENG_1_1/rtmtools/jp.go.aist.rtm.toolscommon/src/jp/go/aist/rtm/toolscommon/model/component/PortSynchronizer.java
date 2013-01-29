@@ -58,12 +58,28 @@ public interface PortSynchronizer extends IPropertyMap {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean disconnect(String conn_id);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean disconnect(ConnectorProfile conn_prof);
+
+	/**
+	 * <!-- begin-user-doc -->
 	 * 当該ポート上の接続をすべて切断する。
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
 	 */
-	void disconnectAll();
+	boolean disconnectAll();
 
 	String getDataflowType();
 

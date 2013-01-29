@@ -25,9 +25,9 @@ public class ComponentConfigurationWrapper {
 		List<ConfigurationSetConfigurationWrapper> configurationSetList = result
 				.getConfigurationSetList();
 
-		// パラメータ名－widget種別
+		// パラメータ名−widget種別
 		Map<String, String> widgets = new HashMap<String, String>();
-		// configurationSet名－制約条件マップ(パラメータ名－制約)
+		// configurationSet名−制約条件マップ(パラメータ名−制約)
 		Map<String, Map<String, String>> conditions = new HashMap<String, Map<String, String>>();
 
 		for (Object o : target.getConfigurationSets()) {

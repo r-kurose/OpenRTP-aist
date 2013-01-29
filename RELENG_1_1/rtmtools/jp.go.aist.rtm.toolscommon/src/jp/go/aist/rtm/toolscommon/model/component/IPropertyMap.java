@@ -6,6 +6,7 @@
  */
 package jp.go.aist.rtm.toolscommon.model.component;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
@@ -17,10 +18,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  *
  * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getIPropertyMap()
- * @model interface="true" abstract="true"
+ * @model interface="true" abstract="true" superTypes="jp.go.aist.rtm.toolscommon.model.core.IAdaptable"
  * @generated
  */
-public interface IPropertyMap extends EObject {
+public interface IPropertyMap extends EObject, IAdaptable {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -52,5 +53,13 @@ public interface IPropertyMap extends EObject {
 	 * @generated
 	 */
 	EList<String> getPropertyKeys();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	IPropertyMap getPropertyMap();
 
 } // IPropertyMap

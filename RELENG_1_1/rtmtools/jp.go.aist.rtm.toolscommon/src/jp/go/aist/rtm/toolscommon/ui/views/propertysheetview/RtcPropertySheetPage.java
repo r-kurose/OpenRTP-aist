@@ -1,8 +1,14 @@
 package jp.go.aist.rtm.toolscommon.ui.views.propertysheetview;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
 import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
+import jp.go.aist.rtm.toolscommon.model.component.util.CorbaPropertyMap;
+import jp.go.aist.rtm.toolscommon.model.component.util.PropertyMap;
 import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
@@ -16,6 +22,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
@@ -175,6 +182,7 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 	 * Rtcの場合だけ、特殊なページを表示するようにする
 	 * また、このページでは、RTC以外オブジェクトを触っても、それがIPropertySouceを持っていない場合には（Propertyiesページを表示できない場合には）RTCを表示し続ける。（これは、selectionChangedを無視することで実現している）
 	 */
+	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		if (!(selection instanceof IStructuredSelection)) {
 			return;
@@ -196,16 +204,31 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 			}
 			componentViewer.setInput(new ComponentWrapper(component));
 			componentViewer.reveal(component);// 表示後、上にスクロールする
+
+			// ツリー展開のフィルタリング
+			ExpandFilter filter = new ExpandFilter(componentViewer);
+			filter.filter();
+
 			stackLayout.topControl = componentView;
 
 		} else if (component instanceof PortConnector) {
 			componentViewer.setInput(new PortConnectorWrapper(component));
 			componentViewer.reveal(component);// 表示後、上にスクロールする
+
+			// ツリー展開のフィルタリング
+			ExpandFilter filter = new ExpandFilter(componentViewer);
+			filter.filter();
+
 			stackLayout.topControl = componentView;
 
 		} else if (component instanceof SystemDiagram) {
 			componentViewer.setInput(new SystemDiagramWrapper(component));
 			componentViewer.reveal(component);// 表示後、上にスクロールする
+
+			// ツリー展開のフィルタリング
+			ExpandFilter filter = new ExpandFilter(componentViewer);
+			filter.filter();
+
 			stackLayout.topControl = componentView;
 
 		} else if (component instanceof RTCManager) {
@@ -235,6 +258,35 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
+	}
+
+	public static class ExpandFilter {
+		TreeViewer viewer;
+
+		public ExpandFilter(TreeViewer viewer) {
+			this.viewer = viewer;
+		}
+
+		public void filter() {
+			viewer.expandAll();
+			TreePath[] pathes = viewer.getExpandedTreePaths();
+			List<TreePath> pathList = new ArrayList<TreePath>();
+			for (TreePath tp : pathes) {
+				pathList.add(tp);
+			}
+			for (TreePath tp : pathes) {
+				Object last = tp.getLastSegment();
+				if (!(last instanceof PropertySheetContentProvider.ChildWithParent)) {
+					continue;
+				}
+				PropertySheetContentProvider.ChildWithParent cp = (PropertySheetContentProvider.ChildWithParent) last;
+				if (cp.child instanceof PropertyMap
+						|| cp.child instanceof CorbaPropertyMap) {
+					pathList.remove(tp);
+				}
+			}
+			viewer.setExpandedTreePaths(pathList.toArray(new TreePath[0]));
 		}
 	}
 

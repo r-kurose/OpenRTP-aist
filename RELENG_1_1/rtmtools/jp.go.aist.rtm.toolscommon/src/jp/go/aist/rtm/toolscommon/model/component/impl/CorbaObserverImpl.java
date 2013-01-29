@@ -6,8 +6,6 @@
  */
 package jp.go.aist.rtm.toolscommon.model.component.impl;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -17,15 +15,16 @@ import jp.go.aist.rtm.toolscommon.ToolsCommonPlugin;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaObserver;
-import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
+import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
 import jp.go.aist.rtm.toolscommon.model.component.util.CorbaPropertyMap;
-import jp.go.aist.rtm.toolscommon.model.component.util.IPropertyMapUtil;
+import jp.go.aist.rtm.toolscommon.ui.propertysource.CorbaObserverPropertySource;
 
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.ui.views.properties.IPropertySource;
 
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.ORBPackage.InvalidName;
@@ -91,7 +90,7 @@ public class CorbaObserverImpl extends EObjectImpl implements CorbaObserver {
 
 	static Logger log = ToolsCommonPlugin.getLogger();
 
-	protected IPropertyMapUtil properties;
+	protected IPropertyMap properties;
 
 	static ORB orb = null;
 	static POA rootpoa = null;
@@ -217,20 +216,15 @@ public class CorbaObserverImpl extends EObjectImpl implements CorbaObserver {
 		throw new UnsupportedOperationException();
 	}
 
-	protected boolean addServiceProfile(CorbaComponent component) {
-		boolean result;
-		try {
-			serviceProfile.id = UUID.randomUUID().toString();
-			result = component.getSDOConfiguration().add_service_profile(
-					serviceProfile);
-			//
-			log.info("add_service_profile:    id=" + serviceProfile.id
-					+ " ior=" + serviceProfile.service + " obs="
-					+ this.getClass());
-		} catch (Exception e) {
-			result = false;
-		}
-		return result;
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean detachComponent() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -238,21 +232,39 @@ public class CorbaObserverImpl extends EObjectImpl implements CorbaObserver {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean detachComponent(CorbaComponent component) {
+	public boolean finish() {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();
 	}
 
-	protected boolean removeServiceProfile(CorbaComponent component) {
+	protected boolean addServiceProfile(_SDOPackage.Configuration config) {
 		boolean result;
 		try {
-			result = component.getSDOConfiguration().remove_service_profile(
-					serviceProfile.id);
+			serviceProfile.id = UUID.randomUUID().toString();
+			result = config.add_service_profile(serviceProfile);
+			//
+			if( result ) {
+				log.info("add_service_profile:    id=" + serviceProfile.id
+						+ " type=" + serviceProfile.interface_type + " ior="
+						+ serviceProfile.service + " obs="
+						+ this.getClass().getName());
+			}
+		} catch (Exception e) {
+			result = false;
+		}
+		return result;
+	}
+
+	protected boolean removeServiceProfile(_SDOPackage.Configuration config) {
+		boolean result;
+		try {
+			result = config.remove_service_profile(serviceProfile.id);
 			//
 			log.info("remove_service_profile: id=" + serviceProfile.id
-					+ " ior=" + serviceProfile.service + " obs="
-					+ this.getClass());
+					+ " type=" + serviceProfile.interface_type + " ior="
+					+ serviceProfile.service + " obs="
+					+ this.getClass().getName());
 		} catch (Exception e) {
 			result = false;
 		}
@@ -297,6 +309,15 @@ public class CorbaObserverImpl extends EObjectImpl implements CorbaObserver {
 	@Override
 	public EList<String> getPropertyKeys() {
 		return properties.getPropertyKeys();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public IPropertyMap getPropertyMap() {
+		return properties;
 	}
 
 	/**
@@ -352,61 +373,11 @@ public class CorbaObserverImpl extends EObjectImpl implements CorbaObserver {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object getAdapter(Class adapter) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public boolean isCompositeMember(CorbaComponent component) {
-		if (component.eContainer() instanceof SystemDiagram) {
-			SystemDiagram sd = (SystemDiagram) component.eContainer();
-			if (sd.getCompositeComponent() != null) {
-				return true;
-			}
+		java.lang.Object result = null;
+		if (IPropertySource.class.equals(adapter)) {
+			result = new CorbaObserverPropertySource(this);
 		}
-		return false;
-	}
-
-	protected static class ComponentList {
-		List<CorbaComponent> components;
-
-		ComponentList() {
-			this.components = new ArrayList<CorbaComponent>();
-		}
-
-		public CorbaComponent get(int index) {
-			return components.get(index);
-		}
-
-		public boolean add(CorbaComponent component) {
-			return components.add(component);
-		}
-
-		public boolean contain(CorbaComponent component) {
-			for (CorbaComponent comp : components) {
-				if (comp == component) {
-					return true;
-				}
-			}
-			return false;
-		}
-
-		public boolean isEmpty() {
-			return components.isEmpty();
-		}
-
-		public CorbaComponent remove(CorbaComponent component) {
-			int index = -1;
-			for (int i = 0; i < components.size(); i++) {
-				if (components.get(i) == component) {
-					index = i;
-					break;
-				}
-			}
-			if (index != -1) {
-				return components.remove(index);
-			}
-			return null;
-		}
+		return result;
 	}
 
 } //CorbaObserverImpl

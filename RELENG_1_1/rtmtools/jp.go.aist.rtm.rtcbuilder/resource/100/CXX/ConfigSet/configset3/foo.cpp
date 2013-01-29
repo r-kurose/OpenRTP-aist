@@ -80,8 +80,8 @@ RTC::ReturnCode_t foo::onInitialize()
   bindParameter("double_param0", m_double_param0, "0.11");
   bindParameter("str_param0", m_str_param0, "hoge");
   bindParameter("str_param1", m_str_param1, "dara");
-  
   // </rtc-template>
+  
   return RTC::RTC_OK;
 }
 

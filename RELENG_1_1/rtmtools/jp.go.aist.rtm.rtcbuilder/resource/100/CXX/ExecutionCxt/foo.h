@@ -253,6 +253,7 @@ class foo
    * - DefaultValue: dara
    */
   std::string m_varname3;
+
   // </rtc-template>
 
   // DataInPort declaration

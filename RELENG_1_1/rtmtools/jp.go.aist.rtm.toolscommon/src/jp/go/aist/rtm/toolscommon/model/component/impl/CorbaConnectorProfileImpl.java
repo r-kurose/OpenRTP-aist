@@ -11,6 +11,7 @@ import java.util.List;
 
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaConnectorProfile;
+import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
 import jp.go.aist.rtm.toolscommon.model.component.util.CorbaPropertyMap;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.AttributeMapping;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ClassMapping;
@@ -266,9 +267,7 @@ public class CorbaConnectorProfileImpl extends ConnectorProfileImpl implements C
 				PROP.INPORT_READ_TIMEOUT);
 
 		for (String key : profile.getPropertyKeys()) {
-			if (InterfaceId.isValid(key)) {
-				addProperty(result, profile.getProperty(key), key);
-			}
+			addProperty(result, profile.getProperty(key), key);
 		}
 
 		return result.toArray(new NameValue[0]);
@@ -527,6 +526,11 @@ public class CorbaConnectorProfileImpl extends ConnectorProfileImpl implements C
 	@Override
 	public EList<String> getPropertyKeys() {
 		return properties.getPropertyKeys();
+	}
+
+	@Override
+	public IPropertyMap getPropertyMap() {
+		return properties;
 	}
 
 	// Mapping Rule

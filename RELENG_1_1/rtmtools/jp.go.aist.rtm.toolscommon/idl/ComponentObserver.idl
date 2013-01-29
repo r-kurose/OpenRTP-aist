@@ -21,12 +21,12 @@
 
 /*!
  * @if jp
- * @brief ����ݡ��ͥ�Ⱦ��֥��֥����Х��󥿡��ե�����
+ * @brief コンポーネント状態オブザーバインターフェース
  *
- * ����ݡ��ͥ�Ȥξ��֤�ƻ뤹�뤿��Υ��֥����Х��󥿡��ե�����������
- * �����Хѥ�����˽����������ġ��뤬����ݡ��ͥ�Ȥ˥��֥����Х��֥���
- * ���Ȥ򥻥åȤ�������ݡ��ͥ�ȤϳƼ����������ѹ����ˤ򥪥֥����Х���
- * �������Ȥ򥳡��뤷�����֥����Ф��Ф����ѹ������Τ��롣
+ * コンポーネントの状態を監視するためのオブザーバインターフェース。オブ
+ * ザーバパターンに従い、外部ツールがコンポーネントにオブザーバオブジェ
+ * クトをセットし、コンポーネントは各種内部状態変更時にをオブザーバオブ
+ * ジェクトをコールし、オブザーバに対して変更を通知する。
  *
  * @since 1.1
  *
@@ -48,9 +48,9 @@ module OpenRTM
   /*!
    * @if jp
    *
-   * @brief �������줿���֤μ���
+   * @brief 更新された状態の種類
    * 
-   * �������å�RTC�ǹ������줿���֤μ����ʬ�ह����󷿡�
+   * ターゲットRTCで更新された状態の種類を分類する列挙型。
    * 
    * @else
    *
@@ -65,21 +65,21 @@ module OpenRTM
     /*!
      * @if jp
      *
-     * @brief ����ݡ��ͥ�ȥץ��ե�����
+     * @brief コンポーネントプロファイル
      * 
-     * ����ݡ��ͥ�ȥץ��ե����� RTC::ComponentProfile ���������줿��
-     * �Ȥ򼨤���󷿡�
+     * コンポーネントプロファイル RTC::ComponentProfile が更新されたこ
+     * とを示す列挙型。
      *
-     * RTC::ComponentProfile �Υ��С��Τ�����instance_name,
-     * type_name, description, version, vendor, category ��RTCư�����
-     * �ѹ�����뤳�ȤϤʤ�������餬�ѹ����줿���ˤϡ�
-     * ComponentObserver::updatestatus() �� hint �ˤϡ����줾��Υ��С�
-     * ̾��ʸ����ǻ��ꤵ��롣�ޤ���parent ���Ф����ѹ������Τ���ʤ���
-     * ����ˡ�properties ���Ф����ѹ��ϡ�hint �� "<key0>, <key1>,
-     * ..." �η������Τ���롣
+     * RTC::ComponentProfile のメンバーのうち、instance_name,
+     * type_name, description, version, vendor, category はRTC動作中に
+     * 変更されることはない。これらが変更された場合には、
+     * ComponentObserver::updatestatus() の hint には、それぞれのメンバー
+     * 名が文字列で指定される。また、parent に対する変更は通知されない。
+     * さらに、properties に対する変更は、hint に "<key0>, <key1>,
+     * ..." の形で通知される。
      *
-     * port_profiles ���Ф����ѹ��ϡ���Ҥ� PORT_PROFILE �ˤ�ä����Τ�
-     * ��뤿�ᡢCOMPONENT_PROFILE �Ǥ����Τ���ʤ���
+     * port_profiles に対する変更は、後述の PORT_PROFILE によって通知さ
+     * れるため、COMPONENT_PROFILE では通知されない。
      *
      * @else
      *
@@ -106,22 +106,22 @@ module OpenRTM
     /*!
      * @if jp
      *
-     * @brief ����ݡ��ͥ�Ȥξ���
+     * @brief コンポーネントの状態
      * 
-     * ����ݡ��ͥ�Ȥξ��֤��Ѳ��������Ȥ򼨤����ҡ�
+     * コンポーネントの状態が変化したことを示す列挙子。
      *
-     * RTC�ˤ�EC�ξ��֤Ȥ��ơ�INACTIVE_STATE, ACTIVE_STATE,
-     * ERROR_STATE �����뤬�����ξ��֤��Ѳ��������Ȥ����Τ��뤿������
-     * �ҡ�
+     * RTCにはECの状態として、INACTIVE_STATE, ACTIVE_STATE,
+     * ERROR_STATE があるが、この状態が変化したことを通知するための列挙
+     * 子。
      *
-     * ComponentObserver::updatestatus() �� hint �ˤϡ����֤ȡ��ɤμ¹�
-     * ����ƥ����Ȥ��Ѳ������ä������Τ餻��ʲ���ʸ���� hint �˰���
-     * �Ȥ���Ϳ�����롣
+     * ComponentObserver::updatestatus() の hint には、状態と、どの実行
+     * コンテキストで変化があったかを知らせる以下の文字列が hint に引数
+     * として与えられる。
      *
      * hint: (INACTIVE, ACTIVE, ERROR):<Execution Context ID>
-     * ��:
-     *   ACTIVE:0 (�ǥե���ȥ���ƥ����Ȥ�RTC�������ƥ��֤ˤʤä�)
-     *   ERROR:1002 (�¹ԥ���ƥ�����1002��RTC�����顼�ˤʤä�)
+     * 例:
+     *   ACTIVE:0 (デフォルトコンテキストでRTCがアクティブになった)
+     *   ERROR:1002 (実行コンテキスト1002でRTCがエラーになった)
      *
      * @else
      *
@@ -144,22 +144,22 @@ module OpenRTM
     /*!
      * @if jp
      *
-     * @brief ExecutionContext�ξ���
+     * @brief ExecutionContextの状態
      * 
-     * ExecutionContext�ξ��֤��Ѳ��������Ȥ򼨤����ҡ�
+     * ExecutionContextの状態が変化したことを示す列挙子。
      *
-     * RTC��EC�� attach/detach/rate_change/startup/shutdown ���줿���Ȥ�
-     * �������ҡ�
+     * RTCにECが attach/detach/rate_change/startup/shutdown されたことを
+     * 示す列挙子。
      *
-     * ComponentObserver::updatestatus() �� hint �ˤϡ�
-     * attach/detach/rate_change/startup/shutdow �Τ����줬�Ԥ�줿���ȡ�
-     * �оݤȤʤ�EC��id��Ϳ�����롣
+     * ComponentObserver::updatestatus() の hint には、
+     * attach/detach/rate_change/startup/shutdow のいずれが行われたかと、
+     * 対象となるECのidが与えられる。
      *
      * hint: (ATTACHED, DETACHED, RATE_CHANGED, STARTUP,
      *        SHUTDOWN):<Execution Context ID>
      *
-     * ��:
-     *   ATTACHED:1002 (EC�������å����졢����ID��1002)
+     * 例:
+     *   ATTACHED:1002 (ECがアタッチされ、そのIDは1002)
      *
      * @else
      *
@@ -182,16 +182,16 @@ module OpenRTM
     /*!
      * @if jp
      *
-     * @brief Port�ξ���
+     * @brief Portの状態
      * 
-     * Port�ξ��֤��Ѳ��������Ȥ򼨤����ҡ�Port���ɲá��������³����
-     * �Ǥ��Ԥ�줿���Ȥ򼨤���ComponentObserver::updatestatus() ��
-     * hint �ˤϡ������줫�Υ�������󤬹Ԥ�줿���ȡ��оݤȤʤ�ݡ���
-     * ��̾����Ϳ�����롣
+     * Portの状態が変化したことを示す列挙子。Portの追加、削除、接続、切
+     * 断が行われたことを示す。ComponentObserver::updatestatus() の
+     * hint には、いずれかのアクションが行われたかと、対象となるポート
+     * の名前が与えられる。
      *
      * hint: (ADD, REMOVE, CONNECT, DISCONNECT):<port name>
-     * ��:
-     *   CONNECT:velocity (velocity �ݡ��Ȥ���³����Ω���줿)
+     * 例:
+     *   CONNECT:velocity (velocity ポートで接続が確立された)
      *
      * @else
      *
@@ -212,16 +212,16 @@ module OpenRTM
     /*!
      * @if jp
      *
-     * @brief Configuration�ξ���
+     * @brief Configurationの状態
      * 
-     * Configuration�ξ��֤��Ѳ��������Ȥ򼨤����ҡ�Configuration����
-     * ���ơ�����ե�����졼����󤬹������줿 (UPDATE)������ե�����
-     * �졼�����ѥ�᡼�����������줿 (UPDATEPARAM)�������ƥ��֥���ե�
-     * ����졼������ѹ����줿 (SET_ACTIVE_CONFIG_SET)������ե�����
-     * �졼����󥻥åȤ��ɲä��줿 (ADD_CONFIG_SET)������ե�����졼
-     * ����󥻥åȤ�������줿 (REMOVE_CONFIG_SET)������ե�����졼����
-     * �󥻥åȤ������ƥ��֤ˤ��줿 (ACTIVATE_CONFIG_SET) �Ȥ��ä�����
-     * ����󤬤��ä����Ȥ����Τ���롣
+     * Configurationの状態が変化したことを示す列挙子。Configurationに対
+     * して、コンフィギュレーションが更新された (UPDATE)、コンフィギュ
+     * レーションパラメータが更新された (UPDATEPARAM)、アクティブコンフィ
+     * ギュレーションが変更された (SET_ACTIVE_CONFIG_SET)、コンフィギュ
+     * レーションセットが追加された (ADD_CONFIG_SET)、コンフィギュレー
+     * ションセットが削除された (REMOVE_CONFIG_SET)、コンフィギュレーショ
+     * ンセットがアクティブにされた (ACTIVATE_CONFIG_SET) といったアク
+     * ションがあったことが通知される。
      *
      * - UPDATE_CONFIGSET:<configuration set's name>
      * - UPDATE_PARAMETER:<config set's name>.<config param's key>
@@ -253,12 +253,12 @@ module OpenRTM
     /*!
      * @if jp
      *
-     * @brief �ϡ��ȥӡ��ȥ��٥��
+     * @brief ハートビートイベント
      * 
-     * ����RTC����¸���Ƥ��뤳�Ȥ򥪥֥����С�¦�����Τ������ҡ�
+     * 当該RTCが生存していることをオブザーバー側に通知する列挙子。
      *
-     * �ϡ��ȥӡ��Ȥ����Ѥ��뤫�ɤ���������ӥϡ��ȥӡ��Ȥμ����ϡ�
-     * ServiceProfile::properties �ΰʲ��Υץ��ѥƥ��ˤ�ä�Ϳ�����롣
+     * ハートビートを利用するかどうか、およびハートビートの周期は、
+     * ServiceProfile::properties の以下のプロパティによって与えられる。
      *
      * heartbeat.enable: YES/NO
      * heartbeat.interval: x [s]
@@ -287,34 +287,34 @@ module OpenRTM
    *
    * @interface ComponentObserver
    * 
-   * RTC�γƼ���֤ι������Τ餻�뤿��Υ��֥����С����֥������ȤΤ���
-   * �Υ��󥿡��ե�������SDO Service �Ȥ��ơ��оݤȤʤ�RTC/SDO���Ф���
-   * �����å����졢RTC/SDO��ξ��֤��ѹ����줿���ˡ��ѹ����줿���֤�
-   * ����ȥҥ�Ȥ�Ʊ�������Τ��롣�ġ���ʤɤǡ��ݡ���󥰤ˤ�餺RTC
-   * �ξ��֤��Ѳ����Τꤿ�����ʤɤ����Ѥ��롣
+   * RTCの各種状態の更新を知らせるためのオブザーバーオブジェクトのため
+   * のインターフェース。SDO Service として、対象となるRTC/SDOに対して
+   * アタッチされ、RTC/SDO内の状態が変更された場合に、変更された状態の
+   * 種類とヒントを同時に通知する。ツールなどで、ポーリングによらずRTC
+   * の状態の変化を知りたい場合などに利用する。
    *
-   * ���ꤷ�Ƥ���������ˡ�ϰʲ��ΤȤ���Ǥ��롣
+   * 想定している利用方法は以下のとおりである。
    *
-   * -# SDO::get_configuration() �ˤ�� Configuration ���֥������Ȥ����
-   * -# Configuration::add_service_profile() �ˤ��Tool¦��
-   *     ComponentObserver �� ServiceProfile �ˤ�� RTC ��Ϳ���롣
-   *     ServiceProfile �Υ��С��ϰʲ��Τ褦�����ꤹ�뤳��
-   *   - id: UUID �ʤɰ�դ�ID�����ꤹ�롣������ˤ�ɬ�פˤʤ�Τǡ�Tool
-   *     ¦�Ǥ�ID���ݻ����Ƥ����ʤ���Фʤ�ʤ���
-   *   - interface_type: ���������ӥ���IFR��ID��ʸ����Ȥ��ƻ��ꡣRTC¦��
-   *     �Ϥ���ʸ����ˤ�����������ӥ����֥������Ȥ��������뤫���ꤹ
-   *     �뤿������ɬ�ܤȤʤ롣
-   *   - properties: RTC¦�Υ����ӥ��μ�������¦�����Τ���ץ��ѥƥ�����
-   *     �ꤹ�롣���Υ����ӥ��Ǥϡ������� heartbeat ��Ϣ�Υץ��ѥƥ���
-   *     ���ꤹ�롣
-   *    - service: SDOService ���֥������Ȥλ��Ȥ���ꤹ�롣
-   * -# RTC¦�Ǿ��֤��Ѳ������ä����� update_status() ���ڥ졼�����
-   *     �� StatusKind ����� hint ��ʸ����ȤȤ�˸ƤӽФ���롣Tool¦
-   *     �Ǥϡ�StatusKind �� hint �˴�Ť� RTC �Τ�����ʬ�ξ��֤��Ѳ���
-   *     �����Ȥ��Τꡢɬ�פʽ�����Ԥ���
-   * -# �ǽ�Ū��ComponentObserver���֥������Ȥ����פˤʤä����ˤϡ�
-   *     Configuration::remove_service_profile() �� id �ȤȤ�˸ƤӽФ�
-   *     RTC ���������롣
+   * -# SDO::get_configuration() により Configuration オブジェクトを取得
+   * -# Configuration::add_service_profile() によりTool側の
+   *     ComponentObserver を ServiceProfile により RTC に与える。
+   *     ServiceProfile のメンバーは以下のように設定すること
+   *   - id: UUID など一意なIDを設定する。削除時にも必要になるので、Tool
+   *     側ではIDを保持しておかなければならない。
+   *   - interface_type: 当該サービスのIFRのIDを文字列として指定。RTC側で
+   *     はこの文字列により当該サービスオブジェクトを受け入れるか決定す
+   *     るため指定は必須となる。
+   *   - properties: RTC側のサービスの受け入れ側に通知するプロパティを設
+   *     定する。このサービスでは、下記の heartbeat 関連のプロパティを
+   *     指定する。
+   *    - service: SDOService オブジェクトの参照を指定する。
+   * -# RTC側で状態の変化があった場合に update_status() オペレーション
+   *     が StatusKind および hint の文字列とともに呼び出される。Tool側
+   *     では、StatusKind と hint に基づき RTC のある部分の状態が変化し
+   *     たことを知り、必要な処理を行う。
+   * -# 最終的にComponentObserverオブジェクトが不要になった場合には、
+   *     Configuration::remove_service_profile() を id とともに呼び出し
+   *     RTC から削除する。
    *
    * <pre>
    * 
@@ -339,33 +339,33 @@ module OpenRTM
    *
    * </pre>
    *
-   * �ʤ���ServiceProfile::properties �˻��ꤹ��ץ��ѥƥ��Ȥ��Ƥϡ�
+   * なお、ServiceProfile::properties に指定するプロパティとしては、
    *
    * - observed_status: ALL or kind of status
    * - heartbeat.enable: YES/NO
    * - heartbeat.interval: x [s]
    * 
-   * �����롣
+   * がある。
    * 
-   * - observed_staus: ALL �ޤ��Ͼ��֤μ���򥫥�޶��ڤ�ǻ���
-   *   �ƻ뤹����֤���ꤹ�롣�����ǽ�ʾ��֤�ɽ��ʸ����ϡ�
+   * - observed_staus: ALL または状態の種類をカンマ区切りで指定
+   *   監視する状態を指定する。指定可能な状態を表す文字列は、
    *   COMPONENT_PROFILE, RTC_STATUS, EC_STATUS, PORT_PROFILE,
-   *   CONFIGURATION 5����Ǥ��롣�ƻ뤷�����оݤ򥫥�ޤǶ��ڤ�ʣ����
-   *   �ꤹ�뤳�Ȥ��Ǥ��롣�ޤ������٤Ƥξ��֤�ƻ뤹���硢ALL �����
-   *   ���뤳�Ȥ��Ǥ��롣����ʸ�������ʸ������ʸ�������ʤ���
+   *   CONFIGURATION 5種類である。監視したい対象をカンマで区切り複数指
+   *   定することができる。また、すべての状態を監視する場合、ALL を指定
+   *   することができる。指定文字列は大文字、小文字を問わない。
    *
-   * - heartbeat.interval: ��ñ�̤ǿ��ͤǻ���
-   *   �ϡ��ȥӡ��Ȥ����������������ñ�̤ǻ��ꤹ�롣�ʤ������ꤷ���ÿ�
-   *   �ǥϡ��ȥӡ��Ȥ�ɬ������������ݾڤϤʤ����������äơ�RTC�����
-   *   �����ɤ������ǧ����ˤϡ�heartbeat.interval ����ʬ�λ��֤��Ԥ�
-   *   ɬ�פ����롣
+   * - heartbeat.interval: 秒単位で数値で指定
+   *   ハートビートを送信する周期を秒単位で指定する。なお、指定した秒数
+   *   でハートビートが必ず送信される保証はない。したがって、RTCが死ん
+   *   だかどうかを確認するには、heartbeat.interval 数回分の時間を待つ
+   *   必要がある。
    *
-   * - heartbeat.enable: YES �ޤ��� NO�ǻ���
-   *   Tool¦�Ǥϡ����֤��Ѳ�������ޤ� RTC ����¸���Ƥ��뤫�ɤ����Τ�
-   *   ���ȤϤǤ��ʤ����ᡢ����RTC���������ˤϡ�������Τ뤳�Ȥ���
-   *   ���ʤ��������ǡ�HEART_BEAT ���٥�Ȥ����Ū��RTC¦�������餻�뤳
-   *   �Ȥ��Ǥ��롣�ϡ��ȥӡ��Ȥ�ͭ���ˤ��뤫�ݤ��򤳤Υ��ץ����ǻ���
-   *   ���롣
+   * - heartbeat.enable: YES または NOで指定
+   *   Tool側では、状態に変化があるまで RTC が生存しているかどうか知る
+   *   ことはできないため、突然RTCが死んだ場合には、これを知ることがで
+   *   きない。そこで、HEART_BEAT イベントを周期的にRTC側から送らせるこ
+   *   とができる。ハートビートを有効にするか否かをこのオプションで指定
+   *   する。
    * 
    * 
    * @else
@@ -471,14 +471,14 @@ module OpenRTM
     /*!
      * @if jp
      *
-     * @brief ���֤��������줿���Ȥ��Τ餻��
+     * @brief 状態が更新されたことを知らせる
      * 
-     * ���֤��������줿���Ȥ��Τ餻�륪�ڥ졼�����status_kind �ˤ��
-     * �ƹ������줿���֤μ��ࡢhint �ˤ�äƤɤΤ褦�ʾ��֤��ѹ����줿
-     * ���˴ؤ���ҥ�Ȥ�Ϳ�����롣
+     * 状態が更新されたことを知らせるオペレーション。status_kind によっ
+     * て更新された状態の種類、hint によってどのような状態が変更された
+     * かに関するヒントが与えられる。
      *
-     * @param status_kind: StatusKind ���ξ��֤μ���
-     * @param hint; StatusKind ��˷�ޤ�����ѹ��˴ؤ���ҥ��
+     * @param status_kind: StatusKind 型の状態の種類
+     * @param hint; StatusKind 毎に決まる状態変更に関するヒント
      *
      * @else
      *

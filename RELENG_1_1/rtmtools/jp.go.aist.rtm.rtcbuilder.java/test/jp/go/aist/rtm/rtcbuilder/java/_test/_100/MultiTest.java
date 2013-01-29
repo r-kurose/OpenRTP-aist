@@ -102,7 +102,7 @@ public class MultiTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/Multi/ProConMulti/";
 
-		assertEquals(20, result.size());
+		assertEquals(35, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
@@ -157,7 +157,7 @@ public class MultiTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/Multi/ConMulti/";
 
-		assertEquals(18, result.size());
+		assertEquals(33, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
@@ -210,7 +210,7 @@ public class MultiTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/Multi/ProMulti/";
 
-		assertEquals(20, result.size());
+		assertEquals(35, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");

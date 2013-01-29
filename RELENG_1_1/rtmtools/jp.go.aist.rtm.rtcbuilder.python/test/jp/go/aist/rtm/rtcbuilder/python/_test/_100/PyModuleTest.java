@@ -64,7 +64,7 @@ public class PyModuleTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/module/serviceM/";
 
-		assertEquals(14, result.size());
+		assertEquals(29, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "idlcompile.bat");
@@ -104,7 +104,7 @@ public class PyModuleTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/module/serviceM2/";
 
-		assertEquals(15, result.size());
+		assertEquals(30, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "DAQService_idl_example.py");
@@ -140,7 +140,7 @@ public class PyModuleTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/module/serviceMC/";
 
-		assertEquals(13, result.size());
+		assertEquals(28, result.size());
 		checkCode(result, resourceDir, "foo.py");
 	}
 
@@ -177,7 +177,7 @@ public class PyModuleTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/module/serviceMC2/";
 
-		assertEquals(13, result.size());
+		assertEquals(28, result.size());
 		checkCode(result, resourceDir, "foo.py");
 	}
 

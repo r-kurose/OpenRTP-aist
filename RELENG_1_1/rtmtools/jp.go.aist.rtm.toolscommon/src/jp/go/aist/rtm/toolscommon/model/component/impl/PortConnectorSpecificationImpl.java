@@ -22,24 +22,29 @@ import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
  *
  * @generated
  */
-public class PortConnectorSpecificationImpl extends PortConnectorImpl
-		implements PortConnector {
+public class PortConnectorSpecificationImpl extends PortConnectorImpl implements
+		PortConnector {
 
-
-	@SuppressWarnings("unchecked")
 	public boolean createConnectorR(Port source, Port target,
 			ConnectorProfile connectorProfile) {
 		if (connectorProfile.getConnectorId() == null) {
 			connectorProfile.setConnectorId(UUID.randomUUID().toString());
 		}
-		connectorProfile.setSourceString(source.getOriginalPortString());
-		connectorProfile.setTargetString(target.getOriginalPortString());
-		addPortProfile(source, connectorProfile);
-		addPortProfile(target, connectorProfile);
+		if (source != null) {
+			connectorProfile.setSourceString(source.getOriginalPortString());
+		}
+		if (target != null) {
+			connectorProfile.setTargetString(target.getOriginalPortString());
+		}
+		if (source != null) {
+			addPortProfile(source, connectorProfile);
+		}
+		if (target != null) {
+			addPortProfile(target, connectorProfile);
+		}
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
 	private void addPortProfile(Port port, ConnectorProfile connectorProfile) {
 		for (Object object : port.getConnectorProfiles()) {
 			if (connectorProfile.getConnectorId().equals(
@@ -50,13 +55,17 @@ public class PortConnectorSpecificationImpl extends PortConnectorImpl
 		port.getConnectorProfiles().add(connectorProfile);
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override
 	public boolean deleteConnectorR() {
 		try {
-			removeByID(getSource().getConnectorProfiles(),
-					getConnectorProfile());
-			removeByID(getTarget().getConnectorProfiles(),
-					getConnectorProfile());
+			if (getSource() != null) {
+				removeByID(getSource().getConnectorProfiles(),
+						getConnectorProfile());
+			}
+			if (getTarget() != null) {
+				removeByID(getTarget().getConnectorProfiles(),
+						getConnectorProfile());
+			}
 			return true;
 		} catch (RuntimeException e) {
 			return false;
@@ -74,8 +83,7 @@ public class PortConnectorSpecificationImpl extends PortConnectorImpl
 
 	@Override
 	public boolean createConnectorR() {
-		return createConnectorR(getSource(), getTarget(),
-				getConnectorProfile());
+		return createConnectorR(getSource(), getTarget(), getConnectorProfile());
 
 	}
 

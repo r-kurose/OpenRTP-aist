@@ -8,7 +8,7 @@ package jp.go.aist.rtm.toolscommon.model.component.impl;
 
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
-import jp.go.aist.rtm.toolscommon.model.component.util.IPropertyMapUtil;
+import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
 import jp.go.aist.rtm.toolscommon.model.component.util.PropertyMap;
 import jp.go.aist.rtm.toolscommon.model.core.impl.WrapperObjectImpl;
 
@@ -505,7 +505,7 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 	 */
 	protected Double inportBufferReadTimeout = INPORT_BUFFER_READ_TIMEOUT_EDEFAULT;
 
-	IPropertyMapUtil properties;
+	IPropertyMap properties;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1048,6 +1048,15 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 	 */
 	public EList<String> getPropertyKeys() {
 		return properties.getPropertyKeys();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public IPropertyMap getPropertyMap() {
+		return properties;
 	}
 
 	/**

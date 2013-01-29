@@ -32,7 +32,7 @@ public class fooImpl extends DataFlowComponentBase {
         bindParameter("int_param0", m_int_param0, "0");
         bindParameter("int_param1", m_int_param1, "1");
         bindParameter("double_param0", m_double_param0, "0.11");
-        bindParameter("str_param0", m_str_param0, "“ú–{Œê");
+        bindParameter("str_param0", m_str_param0, "æ—¥æœ¬èªž");
         bindParameter("str_param1", m_str_param1, "dara");
         return super.onInitialize();
     }

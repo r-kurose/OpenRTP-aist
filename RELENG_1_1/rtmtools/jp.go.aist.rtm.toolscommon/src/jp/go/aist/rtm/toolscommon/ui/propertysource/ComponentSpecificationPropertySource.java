@@ -55,9 +55,6 @@ public class ComponentSpecificationPropertySource extends AbstractPropertySource
 		if (component.getRtcType() != null) {
 			result.add(new TextPropertyDescriptor("RTC_TYPE", "RTC Type"));
 		}
-		for (String key : component.getPropertyKeys()) {
-			result.add(new TextPropertyDescriptor(new DynamicID("PROPERTIES", key), key));
-		}
 		return (IPropertyDescriptor[]) result
 				.toArray(new IPropertyDescriptor[result.size()]);
 	}
@@ -82,20 +79,13 @@ public class ComponentSpecificationPropertySource extends AbstractPropertySource
 				result = component.getVersionL();
 			} else if ("RTC_TYPE".equals(id)) {
 				result = component.getRtcType();
-			} else if (id instanceof DynamicID) {
-				DynamicID dynamicId = (DynamicID) id;
-				if ("PROPERTIES".equals(dynamicId.categoryId)) {
-					return component.getProperty(dynamicId.subId);
-				}
 			}
 		} catch (Exception e) {
 			// void
 		}
-
 		if (result == null) {
 			result = UNKNOWN;
 		}
-
 		return result;
 	}
 

@@ -15,19 +15,19 @@
 	</target>
 	<target name="idlcompile"  depends="mkdir">
 		<exec executable="${java.home}/../bin/idlj">
-			<arg line="-td 'src' -i '__ROOT_PATH__resource/100/build/cmake2' -i '__ROOT_PATH__resource/100/build/cmake2' -fall 'MyServiceChildMulti.idl'"/>
+			<arg line="-td 'src' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/build/cmake2' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/build/cmake2' -fall 'idl/MyServiceChildMulti.idl'"/>
 		</exec>
 		<exec executable="${java.home}/../bin/idlj">
-			<arg line="-td 'src' -i '__ROOT_PATH__resource/100/build/cmake2' -i '__ROOT_PATH__resource/100/build/cmake2' -fall 'MyServiceParent1.idl'"/>
+			<arg line="-td 'src' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/build/cmake2' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/build/cmake2' -fall 'idl/MyServiceParent1.idl'"/>
 		</exec>
 		<exec executable="${java.home}/../bin/idlj">
-			<arg line="-td 'src' -i '__ROOT_PATH__resource/100/build/cmake2' -i '__ROOT_PATH__resource/100/build/cmake2' -fall 'MyServiceParent2.idl'"/>
+			<arg line="-td 'src' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/build/cmake2' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/build/cmake2' -fall 'idl/MyServiceParent2.idl'"/>
 		</exec>
 		<exec executable="${java.home}/../bin/idlj">
-			<arg line="-td 'src' -i '__ROOT_PATH__resource/100/build/cmake2' -i '__ROOT_PATH__resource/100/build/cmake2' -fall 'MyServiceChildWithType.idl'"/>
+			<arg line="-td 'src' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/build/cmake2' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/build/cmake2' -fall 'idl/MyServiceChildWithType.idl'"/>
 		</exec>
 		<exec executable="${java.home}/../bin/idlj">
-			<arg line="-td 'src' -i '__ROOT_PATH__resource/100/build/cmake2' -i '__ROOT_PATH__resource/100/build/cmake2' -fall 'MyServiceParentWithType.idl'"/>
+			<arg line="-td 'src' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/build/cmake2' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/build/cmake2' -fall 'idl/MyServiceParentWithType.idl'"/>
 		</exec>
 	</target>
 	<target name="compile" depends="idlcompile">

@@ -15,6 +15,12 @@ import jp.go.aist.rtm.systemeditor.ui.views.configurationview.configurationwrapp
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.resource.ColorRegistry;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.FocusEvent;
@@ -468,6 +474,14 @@ public class ConfigurationDialog extends TitleAreaDialog {
 				}
 			}
 
+		} else if (widget != null && widget.isCheckbox()) {
+			// widget種別がcheckboxの場合
+			Checkbox.create(parent, key, this, widget);
+
+		} else if (widget != null && widget.isOrderedList()) {
+			// widget種別がordered_listの場合
+			OrderedList.create(parent, this, widget);
+
 		} else {
 			createKeyLabel(key, parent);
 
@@ -483,6 +497,347 @@ public class ConfigurationDialog extends TitleAreaDialog {
 
 			valueText.addModifyListener(createTextModifyListner(widget, valueText));
 			valueText.addFocusListener(createFocusListner(valueText));
+		}
+	}
+
+	/**
+	 * チェックボックスのコントロール
+	 */
+	public static class Checkbox {
+
+		List<Button> checkButtons;
+
+		String keyLabel;
+		ConfigurationDialog dialog;
+		ConfigurationWidget widget;
+
+		public static Checkbox create(Composite parent, String keyLabel,
+				ConfigurationDialog dialog, ConfigurationWidget widget) {
+			Checkbox cb = new Checkbox(keyLabel, dialog, widget);
+			cb.createComposite(parent);
+			//
+			cb.refreshCheck();
+			return cb;
+		}
+
+		Checkbox(String keyLabel, ConfigurationDialog dialog,
+				ConfigurationWidget widget) {
+			this.keyLabel = keyLabel;
+			this.dialog = dialog;
+			this.widget = widget;
+		}
+
+		void createComposite(Composite parent) {
+			GridLayout gl;
+			GridData gd;
+
+			Group group = new Group(parent, SWT.NONE);
+			gl = new GridLayout(3, false);
+			gl.marginHeight = 1;
+			gd = new GridData();
+			gd.horizontalAlignment = GridData.FILL;
+			gd.grabExcessHorizontalSpace = true;
+			group.setLayout(gl);
+			group.setLayoutData(gd);
+
+			if (keyLabel != null) {
+				// ハッシュキーのある場合
+				group.setText(keyLabel);
+			}
+
+			// 列挙型制約条件から選択リスト作成
+			List<String> enumList = widget.getCondition().getEnumList();
+			checkButtons = new ArrayList<Button>();
+			for (String s : enumList) {
+				Button vb = new Button(group, SWT.CHECK);
+				gd = new GridData();
+				gd.horizontalAlignment = GridData.FILL;
+				gd.grabExcessHorizontalSpace = true;
+				vb.setLayoutData(gd);
+				vb.setText(s);
+				vb.addSelectionListener(new SelectionListener() {
+					ConfigurationWidget wd = widget;
+
+					@Override
+					public void widgetDefaultSelected(SelectionEvent e) {
+					}
+
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						List<String> values = new ArrayList<String>();
+						for (Button b : checkButtons) {
+							if (b.getSelection()) {
+								values.add(b.getText());
+							}
+						}
+						wd.setValueByArray(values.toArray(new String[0]));
+						doModify();
+					}
+				});
+				checkButtons.add(vb);
+			}
+		}
+
+		void doModify() {
+			if (dialog != null) {
+				dialog.doModify(null);
+			}
+		}
+
+		public void refreshCheck() {
+			for (Button vb : checkButtons) {
+				for (String v : widget.getValueAsArray()) {
+					if (vb.getText().equals(v)) {
+						vb.setSelection(true);
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * 順序付きリストのコントロール
+	 */
+	public static class OrderedList {
+
+		TableViewer enumViewer;
+		TableViewer valueViewer;
+		Button addButton;
+		Button deleteButton;
+		Button upButton;
+		Button downButton;
+
+		String selectedEnum;
+		int selectedValueIndex = -1;
+
+		ConfigurationDialog dialog;
+		ConfigurationWidget widget;
+		List<String> valueList;
+
+		public static OrderedList create(Composite parent,
+				ConfigurationDialog dialog, ConfigurationWidget widget) {
+			OrderedList ol = new OrderedList(dialog, widget);
+			ol.createComposite(parent);
+			//
+			ol.refreshEnumList();
+			ol.refreshValueList();
+			ol.refreshButton();
+			return ol;
+		}
+
+		OrderedList(ConfigurationDialog dialog, ConfigurationWidget widget) {
+			this.dialog = dialog;
+			this.widget = widget;
+			this.valueList = new ArrayList<String>();
+		}
+
+		void createComposite(Composite parent) {
+			GridLayout gl;
+			GridData gd;
+
+			Composite composite = new Composite(parent, SWT.NONE);
+			gl = new GridLayout(4, false);
+			gd = new GridData();
+			gd.verticalAlignment = SWT.FILL;
+			gd.horizontalAlignment = SWT.FILL;
+			gd.grabExcessVerticalSpace = true;
+			gd.grabExcessHorizontalSpace = true;
+
+			composite.setLayout(gl);
+			composite.setLayoutData(gd);
+
+			enumViewer = new TableViewer(composite, SWT.BORDER);
+			gl = new GridLayout(1, false);
+			gd = new GridData();
+			gd.verticalAlignment = SWT.FILL;
+			gd.horizontalAlignment = SWT.FILL;
+			gd.grabExcessVerticalSpace = true;
+			gd.grabExcessHorizontalSpace = true;
+			enumViewer.getTable().setLayout(gl);
+			enumViewer.getTable().setLayoutData(gd);
+			enumViewer.setContentProvider(new ArrayContentProvider());
+			enumViewer.setLabelProvider(new LabelProvider());
+			enumViewer
+					.addSelectionChangedListener(new ISelectionChangedListener() {
+						@Override
+						public void selectionChanged(SelectionChangedEvent event) {
+							selectedEnum = null;
+							selectedValueIndex = -1;
+							StructuredSelection s = (StructuredSelection) event
+									.getSelection();
+							selectedEnum = (String) s.getFirstElement();
+							refreshButton();
+						}
+					});
+
+			Composite bc1 = new Composite(composite, SWT.NONE);
+			gl = new GridLayout(1, false);
+			gd = new GridData();
+			gd.horizontalAlignment = GridData.CENTER;
+			gd.verticalAlignment = GridData.CENTER;
+			gd.grabExcessVerticalSpace = false;
+			gd.grabExcessHorizontalSpace = false;
+			bc1.setLayout(gl);
+			bc1.setLayoutData(gd);
+
+			addButton = new Button(bc1, SWT.ARROW | SWT.RIGHT);
+			gd = new GridData();
+			gd.widthHint = 30;
+			addButton.setLayoutData(gd);
+			addButton.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					if (selectedEnum == null || widget == null) {
+						return;
+					}
+					valueList.add(selectedEnum);
+					widget.setValueByArray(valueList.toArray(new String[0]));
+					doModify();
+					refreshValueList();
+				}
+			});
+
+			deleteButton = new Button(bc1, SWT.ARROW | SWT.LEFT);
+			gd = new GridData();
+			gd.widthHint = 30;
+			deleteButton.setLayoutData(gd);
+			deleteButton.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					if (selectedValueIndex == -1 || widget == null) {
+						return;
+					}
+					valueList.remove(selectedValueIndex);
+					widget.setValueByArray(valueList.toArray(new String[0]));
+					doModify();
+					refreshValueList();
+				}
+			});
+
+			valueViewer = new TableViewer(composite, SWT.BORDER);
+			gl = new GridLayout(1, false);
+			gd = new GridData();
+			gd.verticalAlignment = SWT.FILL;
+			gd.horizontalAlignment = SWT.FILL;
+			gd.grabExcessVerticalSpace = true;
+			gd.grabExcessHorizontalSpace = true;
+			valueViewer.getTable().setLayout(gl);
+			valueViewer.getTable().setLayoutData(gd);
+			valueViewer.setContentProvider(new ArrayContentProvider());
+			valueViewer.setLabelProvider(new LabelProvider());
+			valueViewer
+					.addSelectionChangedListener(new ISelectionChangedListener() {
+						@Override
+						public void selectionChanged(SelectionChangedEvent event) {
+							selectedEnum = null;
+							selectedValueIndex = valueViewer.getTable()
+									.getSelectionIndex();
+							refreshButton();
+						}
+					});
+
+			Composite bc2 = new Composite(composite, SWT.NONE);
+			gl = new GridLayout(1, false);
+			gd = new GridData();
+			gd.horizontalAlignment = GridData.CENTER;
+			gd.verticalAlignment = GridData.CENTER;
+			gd.grabExcessVerticalSpace = false;
+			gd.grabExcessHorizontalSpace = false;
+			bc2.setLayout(gl);
+			bc2.setLayoutData(gd);
+
+			upButton = new Button(bc2, SWT.ARROW | SWT.UP);
+			gd = new GridData();
+			gd.widthHint = 30;
+			upButton.setLayoutData(gd);
+			upButton.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					int index = selectedValueIndex;
+					String s = valueList.remove(index);
+					valueList.add(index - 1, s);
+					selectedValueIndex = index - 1;
+					//
+					widget.setValueByArray(valueList.toArray(new String[0]));
+					doModify();
+					refreshValueList();
+					refreshButton();
+				}
+			});
+
+			downButton = new Button(bc2, SWT.ARROW | SWT.DOWN);
+			gd = new GridData();
+			gd.widthHint = 30;
+			downButton.setLayoutData(gd);
+			downButton.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					int index = selectedValueIndex;
+					String s = valueList.remove(index);
+					valueList.add(index + 1, s);
+					selectedValueIndex = index + 1;
+					//
+					widget.setValueByArray(valueList.toArray(new String[0]));
+					doModify();
+					refreshValueList();
+					refreshButton();
+				}
+			});
+		}
+
+		void doModify() {
+			if (dialog != null) {
+				dialog.doModify(null);
+			}
+		}
+
+		public void refreshEnumList() {
+			if (widget == null) {
+				return;
+			}
+			enumViewer.setInput(widget.getCondition().getEnumList());
+		}
+
+		public void refreshValueList() {
+			valueList.clear();
+			valueViewer.getTable().setBackground(
+					colorRegistry.get(NORMAL_COLOR));
+			if (widget != null) {
+				for (String v : widget.getValueAsArray()) {
+					if (widget.getCondition().getEnumList().contains(v)) {
+						valueList.add(v);
+					}
+				}
+				if (widget.isValueModified()) {
+					valueViewer.getTable().setBackground(
+							colorRegistry.get(MODIFY_COLOR));
+				}
+			}
+			valueViewer.setInput(valueList);
+			valueViewer.refresh();
+			if (selectedValueIndex != -1) {
+				valueViewer.getTable().setSelection(selectedValueIndex);
+			}
+		}
+
+		public void refreshButton() {
+			addButton.setEnabled(false);
+			deleteButton.setEnabled(false);
+			upButton.setEnabled(false);
+			downButton.setEnabled(false);
+			if (selectedEnum != null) {
+				addButton.setEnabled(true);
+			}
+			if (selectedValueIndex != -1) {
+				deleteButton.setEnabled(true);
+			}
+			if (selectedValueIndex > 0 && selectedValueIndex < valueList.size()) {
+				upButton.setEnabled(true);
+			}
+			if (selectedValueIndex >= 0
+					&& selectedValueIndex < valueList.size() - 1) {
+				downButton.setEnabled(true);
+			}
 		}
 	}
 
@@ -522,7 +877,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 	}
 
 	/** Applyが押されていたら即時更新する */
-	private void doModify(Control control) {
+	void doModify(Control control) {
 		if (control != null)
 			control.setBackground(colorRegistry.get(MODIFY_COLOR));
 		isValueModified = true;
@@ -801,9 +1156,17 @@ public class ConfigurationDialog extends TitleAreaDialog {
 	// Configurationダイアログで保存時の制約条件チェックによるエラーメッセージで、  パラメータ名、制約条件、エラーになった値を表示したい　2008.12.18
 	private void validateParam(List<String> validateErrors, ConfigurationWidget wd, String paramName) {
 		ConfigurationCondition cc = wd.getCondition();
-		String value = wd.getValue();
-		if (!cc.validate(value)) {
-			validateErrors.add(paramName + "(" + cc + ":" + value + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		if (wd.isCheckbox() || wd.isOrderedList()) {
+			for (String value : wd.getValueAsArray()) {
+				if (!cc.validate(value)) {
+					validateErrors.add(paramName + "(" + cc + ":" + value + ")");
+				}
+			}
+		} else {
+			String value = wd.getValue();
+			if (!cc.validate(value)) {
+				validateErrors.add(paramName + "(" + cc + ":" + value + ")");
+			}
 		}
 	}
 

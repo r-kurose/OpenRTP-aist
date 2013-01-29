@@ -299,7 +299,9 @@ public interface IMessageConstants {
 	public static final String CONFIGURATION_HINT_UNIT_TITLE = Messages.getString("IMessageConstants.CONFIGURATION_HINT_UNIT_TITLE"); //$NON-NLS-1$
 	public static final String CONFIGURATION_HINT_UNIT_DESC = Messages.getString("IMessageConstants.CONFIGURATION_HINT_UNIT_DESC"); //$NON-NLS-1$
 	public static final String CONFIGURATION_HINT_WIDGET_TITLE = Messages.getString("IMessageConstants.CONFIGURATION_HINT_WIDGET_TITLE"); //$NON-NLS-1$
-	public static final String CONFIGURATION_HINT_WIDGET_DESC = Messages.getString("IMessageConstants.CONFIGURATION_HINT_WIDGET_DESC"); //$NON-NLS-1$
+	public static final String CONFIGURATION_HINT_WIDGET_DESC_P1 = Messages.getString("IMessageConstants.CONFIGURATION_HINT_WIDGET_DESC_P1"); //$NON-NLS-1$
+	public static final String CONFIGURATION_HINT_WIDGET_DESC_P2 = Messages.getString("IMessageConstants.CONFIGURATION_HINT_WIDGET_DESC_P2"); //$NON-NLS-1$
+	public static final String CONFIGURATION_HINT_WIDGET_DESC = StringUtil.connectMessageWithSepalator( new String[]{CONFIGURATION_HINT_WIDGET_DESC_P1, CONFIGURATION_HINT_WIDGET_DESC_P2});
 	public static final String CONFIGURATION_HINT_STEP_TITLE = Messages.getString("IMessageConstants.CONFIGURATION_HINT_STEP_TITLE"); //$NON-NLS-1$
 	public static final String CONFIGURATION_HINT_STEP_DESC_P1 = Messages.getString("IMessageConstants.CONFIGURATION_HINT_STEP_DESC_P1"); //$NON-NLS-1$
 	public static final String CONFIGURATION_HINT_STEP_DESC_P2 = Messages.getString("IMessageConstants.CONFIGURATION_HINT_STEP_DESC_P2"); //$NON-NLS-1$
@@ -452,20 +454,18 @@ public interface IMessageConstants {
 	public static final String PROFILE_COMPARE_MESSAGE = StringUtil.connectMessageWithSepalator( new String[]{PROFILE_COMPARE_MESSAGE_P1, PROFILE_COMPARE_MESSAGE_P2});
 
 	public static final String CREATE_FILE_ERROR = Messages.getString("IMessageConstants.CREATE_FILE_ERROR"); //$NON-NLS-1$
-
-
 	public static final String FILETYPE_YAML = Messages.getString("IMessageConstants.FILETYPE_YAML"); //$NON-NLS-1$
-
-
 	public static final String COMPARE_TITLE = Messages.getString("IMessageConstants.COMPARE_TITLE"); //$NON-NLS-1$
-
-
 	public static final String COMMON_LABEL_UPDATE = Messages.getString("IMessageConstants.COMMON_LABEL_UPDATE"); //$NON-NLS-1$
 
-
+	public static final String BACKUP_FILE_NUM = Messages.getString("IMessageConstants.BACKUP_FILE_NUM"); //$NON-NLS-1$
+	
 	public static final String TITLE_FONT = Messages.getString("IMessageConstants.TITLE_FONT"); //$NON-NLS-1$
 
 	public static final String PROFILE_VALIDATE_ERROR_MESSAGE = Messages.getString("IMessageConstants.PROFILE_VALIDATE_ERROR_MESSAGE"); //$NON-NLS-1$
 
 	public static final String SELECT_DIRECTORY = Messages.getString("IMessageConstants.SELECT_DIRECTORY"); //$NON-NLS-1$
+	
+	public static final String SAVE_MESSAGE = Messages.getString("IMessageConstants.SAVE_MESSAGE"); //$NON-NLS-1$
+	public static final String IDL_PARSE_EROOR = Messages.getString("IMessageConstants.IDL_PARSE_EROOR"); //$NON-NLS-1$
 }

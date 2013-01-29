@@ -88,8 +88,8 @@
 			name="%RT_Log_View"
 			icon="icons/RT_icon.png"
 			category="rtse"
-			class="org.eclipse.ui.internal.console.ConsoleView"
-			id="jp.go.aist.rtm.systemeditor.ui.views.RTLogView">
+			class="jp.go.aist.rtm.systemeditor.ui.views.logview.LogView"
+			id="jp.go.aist.rtm.systemeditor.ui.views.logview.LogView">
 		</view>
 	</extension>
 	
@@ -201,10 +201,32 @@
 			</visibility>
 			<action id="jp.go.aist.rtm.systemeditor.ui.action.CombineActionDelegate"
 				label="%Create_Composite_Component"
-				menubarPath="additions"
+				menubarPath="composite"
 				class="jp.go.aist.rtm.systemeditor.ui.action.CombineActionDelegate">
 			</action>
 		</viewerContribution>
+  <viewerContribution
+        id="jp.go.aist.rtm.systemeditor.ui.editor.OfflineSystemDiagramEditor.deploy"
+        targetID="jp.go.aist.rtm.systemeditor.ui.editor.OfflineSystemDiagramEditor">
+     <action
+           class="jp.go.aist.rtm.systemeditor.ui.action.DeployLoadActionDelegate"
+           id="jp.go.aist.rtm.systemeditor.ui.action.DeployLoadActionDelegate"
+           label="%Deploy_Load"
+           menubarPath="deploy">
+     </action>
+     <action
+           class="jp.go.aist.rtm.systemeditor.ui.action.DeploySaveActionDelegate"
+           id="jp.go.aist.rtm.systemeditor.ui.action.DeploySaveActionDelegate"
+           label="%Deploy_Save"
+           menubarPath="deploy">
+     </action>
+     <action
+           class="jp.go.aist.rtm.systemeditor.ui.action.DeployActionDelegate"
+           id="jp.go.aist.rtm.systemeditor.ui.action.DeployActionDelegate"
+           label="%Deploy_System"
+           menubarPath="deploy">
+     </action>
+  </viewerContribution>
 		<viewerContribution
 			id="jp.go.aist.rtm.systemeditor.ui.editor.OfflineSystemDiagramEditor.combine" 
 			targetID="jp.go.aist.rtm.systemeditor.ui.editor.OfflineSystemDiagramEditor">
@@ -213,9 +235,15 @@
 			</visibility>
 			<action id="jp.go.aist.rtm.systemeditor.ui.action.CombineActionDelegate"
 				label="%Create_Composite_Component"
-				menubarPath="additions"
+				menubarPath="composite"
 				class="jp.go.aist.rtm.systemeditor.ui.action.CombineActionDelegate">
 			</action>
+		   <action
+		         class="jp.go.aist.rtm.systemeditor.ui.action.DeploySettingActionDelegate"
+		         id="jp.go.aist.rtm.systemeditor.ui.action.DeploySettingActionDelegate"
+		         label="%Set_Deploy_Info"
+		         menubarPath="deploy">
+		   </action>
 		</viewerContribution>
 		<!--
 		<viewerContribution
@@ -229,6 +257,7 @@
 			</action>
 		</viewerContribution>
 		-->
+	  
  		<objectContribution
 			id="jp.go.aist.rtm.systemeditor.ui.objectContribution.Component"
         	objectClass="jp.go.aist.rtm.toolscommon.model.component.Component"
@@ -276,7 +305,7 @@
 			<action id="jp.go.aist.rtm.systemeditor.ui.action.DecomposeComponentAction"
 				label="%Decompose_Composite_Component"
 				enablesFor="1"
-				menubarPath="additions"
+				menubarPath="composite"
 				class="jp.go.aist.rtm.systemeditor.ui.action.DecomposeComponentFormPopupMenuActionDelegate">
 			</action>
 		</objectContribution>
@@ -287,7 +316,7 @@
 			<action id="jp.go.aist.rtm.systemeditor.ui.action.OpenCompositeComponentAction"
 				label="%Open_With_System_Diagram_Editor"
 				enablesFor="1"
-				menubarPath="additions"
+				menubarPath="composite"
 				class="jp.go.aist.rtm.systemeditor.ui.action.OpenCompositeComponentFormPopupMenuActionDelegate">
 			</action>
 		</objectContribution>
@@ -311,6 +340,33 @@
 		           label="%Export">
 		     </action>
 		  </objectContribution>
+		<objectContribution
+			adaptable="true"
+			id="jp.go.aist.rtm.systemeditor.ui.objectContribution.Component"
+			objectClass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart">
+			<action
+				class="jp.go.aist.rtm.systemeditor.ui.action.StartLoggingActionDelegate"
+				id="jp.go.aist.rtm.systemeditor.ui.action.StartLoggingAction"
+				label="%StartLogging.label"
+				enablesFor="1"
+				menubarPath="additions">
+			</action>
+		</objectContribution>
+		<objectContribution
+			adaptable="true"
+			id="jp.go.aist.rtm.systemeditor.ui.objectContribution.Component"
+			objectClass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.PortEditPart">
+			<action
+				class="jp.go.aist.rtm.systemeditor.ui.action.ConnectPortActionDelegate"
+				id="jp.go.aist.rtm.systemeditor.ui.action.ConnectPortActionDelegate.Disconnect"
+				label="%DisconnectPort.label">
+			</action>
+			<action
+				class="jp.go.aist.rtm.systemeditor.ui.action.ConnectPortActionDelegate"
+				id="jp.go.aist.rtm.systemeditor.ui.action.ConnectPortActionDelegate.Connect"
+				label="%ConnectPort.label">
+			</action>
+		</objectContribution>
 	</extension>
 
 	<extension point = "org.eclipse.ui.actionSets"> 
@@ -438,7 +494,7 @@
 				relative="jp.go.aist.rtm.systemeditor.ui.views.configurationview.ConfigurationView">
 			</view>
 			<view
-				id="jp.go.aist.rtm.systemeditor.ui.views.RTLogView"
+				id="jp.go.aist.rtm.systemeditor.ui.views.logview.LogView"
 				relationship="stack"
 				relative="jp.go.aist.rtm.systemeditor.ui.views.configurationview.ConfigurationView">
 			</view>
@@ -447,7 +503,7 @@
 			<viewShortcut id="jp.go.aist.rtm.systemeditor.ui.views.managercontrolview.ManagerControlView"/>
 			<viewShortcut id="jp.go.aist.rtm.systemeditor.ui.views.compositecomponentview.CompositeComponentView"/>
 			<viewShortcut id="jp.go.aist.rtm.systemeditor.ui.views.executioncontextview.ExecutionContextView"/>
-			<viewShortcut id="jp.go.aist.rtm.systemeditor.ui.views.RTLogView"/>
+			<viewShortcut id="jp.go.aist.rtm.systemeditor.ui.views.logview.LogView"/>
 		</perspectiveExtension>
 	</extension>
 	
@@ -468,6 +524,12 @@
 			id="jp.go.aist.rtm.systemeditor.ui.preference.ColorPreferencePage"
 			class="jp.go.aist.rtm.systemeditor.ui.preference.ColorPreferencePage"
 			name="%DisplayColor"
+			category="jp.go.aist.rtm.systemeditor.ui.preference.MainPreferencePage">
+		</page>
+		<page
+			id="jp.go.aist.rtm.systemeditor.ui.preference.IconPreferencePage"
+			class="jp.go.aist.rtm.systemeditor.ui.preference.IconPreferencePage"
+			name="%IconPreference.name"
 			category="jp.go.aist.rtm.systemeditor.ui.preference.MainPreferencePage">
 		</page>
 		<page

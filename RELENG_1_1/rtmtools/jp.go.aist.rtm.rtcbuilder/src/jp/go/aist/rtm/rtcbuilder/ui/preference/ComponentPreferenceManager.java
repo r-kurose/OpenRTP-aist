@@ -153,6 +153,11 @@ public class ComponentPreferenceManager {
 	 * ServiceInterfacet Instance 接尾語のキー
 	 */
 	public static final String Generate_ServiceIF_Suffix = getClassName() + "GENERATE_SERVICEIF_SUFFIX";
+	//
+	/**
+	 * バックアップファイル設定数のキー
+	 */
+	public static final String Generate_Backup_Num = getClassName() + "GENERATE_BACKUP_NUM";
 	
 	//デフォルト値を空白から変更する場合には，getterの定義が必要
 	public static final String DEFAULT_COMPONENT_NAME = "ModuleName";
@@ -195,6 +200,8 @@ public class ComponentPreferenceManager {
 	public static final String DEFAULT_SERVICEIF_VARNAME = "";
 	public static final String DEFAULT_SERVICEIF_PREFIX = "";
 	public static final String DEFAULT_SERVICEIF_SUFFIX = "";
+	//
+	public static final int DEFAULT_BACKUP_NUM = 3;
 	
 	/**
 	 * コード生成時の ModuleName デフォルト値を取得する
@@ -356,6 +363,17 @@ public class ComponentPreferenceManager {
 	public String getServiceIF_Name() {
 		return getStringStoreValue(Generate_ServiceIF_Name, DEFAULT_SERVICEIF_NAME);
 	}
+	//
+	/**
+	 * コード生成時の バックアップファイル数を取得する
+	 * 
+	 * @param key キー
+	 * @return バックアップファイル数 デフォルト値
+	 */
+	public int getBackup_Num() {
+		return getIntegaerStoreValue(Generate_Backup_Num, DEFAULT_BACKUP_NUM);
+	}
+
 	/////
 	private String getStringStoreValue(String key, String defaultValue) {
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(key, "");

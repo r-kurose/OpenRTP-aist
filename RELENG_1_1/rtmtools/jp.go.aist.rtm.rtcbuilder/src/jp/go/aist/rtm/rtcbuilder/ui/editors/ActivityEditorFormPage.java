@@ -301,6 +301,8 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 			for( int intidx=IRtcBuilderConstants.ACTIVITY_INITIALIZE; intidx<IRtcBuilderConstants.ACTIVITY_DUMMY; intidx++) {
 				if( rtcParam.getActionImplemented(intidx) ) {
 					implChk.get(intidx).setBackground(new Color(PlatformUI.getWorkbench().getDisplay(), BuilderViewPreferenceManager.defaultRGBMap.get(BuilderViewPreferenceManager.COLOR_COMPONENT)));
+				} else {
+					implChk.get(intidx).setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WHITE));
 				}
 			}
 		}

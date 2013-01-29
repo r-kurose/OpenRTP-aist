@@ -503,7 +503,7 @@ public class ConfigurationCondition {
 	}
 
 	/**
-	 * valueをmin～max内でmaxStep段階でステップ位置に変換します
+	 * valueをmin〜max内でmaxStep段階でステップ位置に変換します
 	 * @param value 値
 	 * @param widget Widgetオブジェクト
 	 * @return 換算したステップ位置
@@ -530,7 +530,7 @@ public class ConfigurationCondition {
 	}
 
 	/**
-	 * maxStep内のstepをmin～max内の値に変換します
+	 * maxStep内のstepをmin〜max内の値に変換します
 	 * @param step ステップ位置
 	 * @param widget Widgetオブジェクト
 	 * @param previousValue 

@@ -52,8 +52,8 @@ class foo
   ~foo();
 
   // <rtc-template block="public_attribute">
-  boolean pubbol1;
-  double attribute_5;
+  boolean pubbol1
+  double attribute_5
   
   // </rtc-template>
 
@@ -216,13 +216,18 @@ class foo
 
  protected:
   // <rtc-template block="protected_attribute">
-  String protectval;
-  static float attribute_4;
+  String protectval
+  static float attribute_4
   
   // </rtc-template>
 
   // <rtc-template block="protected_operation">
   
+  // </rtc-template>
+
+  // Configuration variable declaration
+  // <rtc-template block="config_declare">
+
   // </rtc-template>
 
   // DataInPort declaration
@@ -253,8 +258,8 @@ class foo
 
  private:
   // <rtc-template block="private_attribute">
-  int private1;
-  static int attribute_4;
+  int private1
+  static int attribute_4
   
   // </rtc-template>
 

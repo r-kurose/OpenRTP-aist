@@ -7,6 +7,9 @@ import java.io.InputStream;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+import jp.go.aist.rtm.rtcbuilder.util.ShutdownListener;
+
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -30,6 +33,9 @@ public class RtcBuilderPlugin extends AbstractUIPlugin {
 	private ImportExtensionLoader importExtensionLoader;
 	private ExportExtensionLoader exportExtensionLoader;
 	
+	//終了時フラグ
+	private boolean canExit;
+	
 	/**
 	 * The constructor
 	 */
@@ -42,6 +48,7 @@ public class RtcBuilderPlugin extends AbstractUIPlugin {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		canExit = true;
 	}
 
 	/*
@@ -50,6 +57,7 @@ public class RtcBuilderPlugin extends AbstractUIPlugin {
 	 */
 	public void start(BundleContext context) throws Exception {
 		logHandler.start();
+		PlatformUI.getWorkbench().addWorkbenchListener(new ShutdownListener());
 		//
 		super.start(context);
 		loader = new ExtensionLoader();
@@ -141,4 +149,10 @@ public class RtcBuilderPlugin extends AbstractUIPlugin {
 		}
 	}
 
+	public boolean isCanExit() {
+		return canExit;
+	}
+	public void setCanExit(boolean canExit) {
+		this.canExit = canExit;
+	}
 }

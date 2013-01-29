@@ -72,8 +72,8 @@ RTC::ReturnCode_t foo::onInitialize()
   // <rtc-template block="bind_config">
   // Bind variables and configuration variable
   bindParameter("int_param0", m_int_param0, "0");
-  
   // </rtc-template>
+  
   return RTC::RTC_OK;
 }
 

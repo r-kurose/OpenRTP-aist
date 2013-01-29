@@ -65,6 +65,42 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 		assertEquals(true, nv.widget().isText());
 		assertEquals(true, nv.widget().getCondition().isNull());
 
+		// checkboxは列挙設定が必要
+		nv.setWidgetAndCondition("checkbox", "(top,left,bottom,right)");
+		assertEquals(true, nv.widget().isCheckbox());
+		assertEquals(true, nv.widget().getCondition().hasEnumList());
+		assertEquals(4, nv.widget().getCondition().getEnumList().size());
+
+		nv.setWidgetAndCondition("checkbox", "x<100");
+		assertEquals(false, nv.widget().isCheckbox());
+		assertEquals(true, nv.widget().isText());
+		assertEquals(false, nv.widget().getCondition().hasEnumList());
+		assertEquals(null, nv.widget().getCondition().getMin());
+		assertEquals("100", nv.widget().getCondition().getMax());
+
+		nv.setWidgetAndCondition("checkbox", "");
+		assertEquals(false, nv.widget().isCheckbox());
+		assertEquals(true, nv.widget().isText());
+		assertEquals(true, nv.widget().getCondition().isNull());
+
+		// ordered_listは列挙設定が必要
+		nv.setWidgetAndCondition("ordered_list", "(top,left,bottom,right)");
+		assertEquals(true, nv.widget().isOrderedList());
+		assertEquals(true, nv.widget().getCondition().hasEnumList());
+		assertEquals(4, nv.widget().getCondition().getEnumList().size());
+
+		nv.setWidgetAndCondition("ordered_list", "x<100");
+		assertEquals(false, nv.widget().isOrderedList());
+		assertEquals(true, nv.widget().isText());
+		assertEquals(false, nv.widget().getCondition().hasEnumList());
+		assertEquals(null, nv.widget().getCondition().getMin());
+		assertEquals("100", nv.widget().getCondition().getMax());
+
+		nv.setWidgetAndCondition("ordered_list", "");
+		assertEquals(false, nv.widget().isOrderedList());
+		assertEquals(true, nv.widget().isText());
+		assertEquals(true, nv.widget().getCondition().isNull());
+
 		// 制約条件エラーの場合はtext
 		nv.setWidgetAndCondition("radio", "(100,200"); // 列挙閉じ括弧なし
 		assertEquals(false, nv.widget().isRadio());

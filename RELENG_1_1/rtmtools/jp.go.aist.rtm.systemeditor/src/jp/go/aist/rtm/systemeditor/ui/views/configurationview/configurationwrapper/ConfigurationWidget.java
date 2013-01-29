@@ -13,6 +13,8 @@ public class ConfigurationWidget {
 	public static final String SLIDER = "slider";
 	public static final String SPIN = "spin";
 	public static final String RADIO = "radio";
+	public static final String CHECKBOX = "checkbox";
+	public static final String ORDERED_LIST = "ordered_list";
 
 	private String type;
 	private ConfigurationCondition condition;
@@ -98,7 +100,8 @@ public class ConfigurationWidget {
 					// slider、spinnerで最大、最小値がなければテキスト
 					this.type = TEXT;
 				}
-			} else if (this.isRadio()) {
+			} else if (this.isRadio() || this.isCheckbox()
+					|| this.isOrderedList()) {
 				if (!condition.hasEnumList()) {
 					// radioは列挙設定がなければテキスト
 					this.type = TEXT;
@@ -119,8 +122,15 @@ public class ConfigurationWidget {
 			setSpinStep(type);
 			return SPIN;
 		}
-		if (type.equals(RADIO))
+		if (type.equals(RADIO)) {
 			return RADIO;
+		}
+		if (type.equals(CHECKBOX)) {
+			return CHECKBOX;
+		}
+		if (type.equals(ORDERED_LIST)) {
+			return ORDERED_LIST;
+		}
 		return TEXT;
 	}
 
@@ -162,8 +172,17 @@ public class ConfigurationWidget {
 		return this.type.equals(RADIO);
 	}
 
+	public boolean isCheckbox() {
+		return this.type.equals(CHECKBOX);
+	}
+
+	public boolean isOrderedList() {
+		return this.type.equals(ORDERED_LIST);
+	}
+
 	public boolean isText() {
-		return !(this.isSlider() || this.isSpinner() || this.isRadio());
+		return !(this.isSlider() || this.isSpinner() || this.isRadio()
+				|| this.isCheckbox() || this.isOrderedList());
 	}
 
 	public boolean hasCondition() {
@@ -184,8 +203,30 @@ public class ConfigurationWidget {
 		this.valueModified = true;
 	}
 
+	public void setValueByArray(String[] values) {
+		if (values == null) {
+			return;
+		}
+		String val = "";
+		for (String s : values) {
+			if (!val.isEmpty()) {
+				val += ",";
+			}
+			val += s;
+		}
+		setValue(val);
+	}
+
 	public String getValue() {
 		return this.value;
+	}
+
+	public String[] getValueAsArray() {
+		String[] values = new String[0];
+		if (this.value != null && !this.value.isEmpty()) {
+			values = this.value.split(",");
+		}
+		return values;
 	}
 
 	public void clearValueModified() {

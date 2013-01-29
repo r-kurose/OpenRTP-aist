@@ -26,6 +26,7 @@ public interface IPreferenceMessageConstants {
 	public static final String CODE_GEN_TITLE_DOCUMENT = Messages.getString("IPreferenceMessageConstants.CODE_GEN_TITLE_DOCUMENT"); //$NON-NLS-1$
 	public static final String CODE_GEN_TITLE_CONFIG = Messages.getString("IPreferenceMessageConstants.CODE_GEN_TITLE_CONFIG"); //$NON-NLS-1$
 	public static final String CODE_GEN_TITLE_PRESUFFIX = Messages.getString("IPreferenceMessageConstants.CODE_GEN_TITLE_PRESUFFIX"); //$NON-NLS-1$
+	public static final String CODE_GEN_TITLE_BACKUP = Messages.getString("IPreferenceMessageConstants.CODE_GEN_TITLE_BACKUP"); //$NON-NLS-1$
 
 	public static final String CONFIG_CLMN_CONFIGURATION = Messages.getString("IPreferenceMessageConstants.CONFIG_CLMN_CONFIGURATION"); //$NON-NLS-1$
 	public static final String CONFIG_CLMN_DEFAUT_VALUE = Messages.getString("IPreferenceMessageConstants.CONFIG_CLMN_DEFAUT_VALUE"); //$NON-NLS-1$

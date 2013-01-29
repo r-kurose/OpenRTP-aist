@@ -8,7 +8,7 @@ import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.geometry.PointList;
 
 /**
- * Œ»İ‚Í–¢g—p
+ * ç¾åœ¨ã¯æœªä½¿ç”¨
  *
  */
 public class AbstractPolygon extends Shape {
