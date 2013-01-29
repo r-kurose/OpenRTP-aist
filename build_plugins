@@ -1,11 +1,8 @@
 #!/bin/sh
 #
-# @file buildall.sh
-# @brief rtmtools build script
+# @file build_plugins
+# @brief rtmtools plugins build script
 # @author Noriaki Ando <n-ando@aist.go.jp>
-#
-# update:
-# cerate:Sep/11/2008
 #
 # * How to build rtmtools
 #
@@ -91,11 +88,60 @@ PROJECTS="jp.go.aist.rtm.toolscommon.profiles
     jp.go.aist.rtm.systemeditor.nl1"
 
 # Eclipse search directories
-ECLIPSE_DIRS="../ ../../ ../../ $HOME /usr/lib/ /usr/share"
+ECLIPSE_DIRS="$HOME/eclipse ../ ../../ ../../ $HOME /usr/lib/ /usr/share"
 
 #============================================================
 # functions
 #============================================================
+
+#------------------------------------------------------------
+# getopt
+#
+# This function gets command line options
+# ------------------------------------------------------------
+getopt()
+{
+    if test $# = 1 ; then
+        arg=$1
+        if test "x$arg" = "xclean" ; then
+            TARGET=$1
+            return 0
+        fi
+        if test "x$arg" = "xrevert" ; then
+            echo "Reverting updated MANIFEST.MF..."
+            mf=`svn status | grep '^M' | grep MANIFEST.MF | awk '{print $2;}'`
+            for m in $mf; do
+                rm $m
+                svn update $m
+            done
+            exit 0
+        fi
+    fi
+}
+
+#------------------------------------------------------------
+# get_version
+#
+# This function gets version number and project version string
+# from version text file.
+# ------------------------------------------------------------
+get_version()
+{
+    if test "x$VERSION" = "x" || test "x$PROJECT_VERSION" = "x" ; then
+        echo "Environment variable VERSION/PROJECT_VERSION is not set."
+        echo "Getting from ./version text."
+        . ./version
+    fi
+    export VERSION
+    export PROJECT_VERSION
+
+    if test "x$DISTDIR" = "x" ; then
+        DISTDIR=openrtp-$VERSION
+    fi
+    if test "x$JARDIR" = "x" ; then
+        JARDIR=$JARDIR_DEFAULT
+    fi
+}
 
 #------------------------------------------------------------
 # find_eclipsehome
@@ -107,11 +153,14 @@ ECLIPSE_DIRS="../ ../../ ../../ $HOME /usr/lib/ /usr/share"
 find_eclipsehome()
 {
     if test ! "x$ECLIPSE_HOME" = "x" ; then
-        return 0
+        if test -d $ECLIPSE_HOME ; then
+            return 0
+        fi
+        echo "ECLIPSE_HOME $ECLIPSE_HOME does not exist."
     fi
     echo "Environment variable ECLIPSE_HOME is not set. Seaching..."
     for d in $ECLIPSE_DIRS ; do
-        tmp=`find $d -name .eclipseproduct`
+        tmp=`find -L $d -name .eclipseproduct`
         if test "x$tmp" = "x" ; then
             continue
         fi
@@ -136,9 +185,12 @@ find_eclipsehome()
 find_javahome()
 {
     if test ! "x$JAVA_HOME" = "x" ; then
-        return 0
+        if test -d $JAVA_HOME && test -f $JAVA_HOME/bin/javac ; then
+            return 0
+        fi
+        echo "JDK cannot be found under JAVA_HOME: $JAVA_HOME"
     fi
-    echo "Environment variable JAVA_HOME is not set. Searching..."
+    echo "Valid Environment variable JAVA_HOME is not set. Searching..."
     tmp=`readlink -e $(which javac)`
     jdk_path=`dirname $tmp | sed 's/\/bin$//'`
     if test "x$jdk_path" = "x" ; then
@@ -149,20 +201,24 @@ find_javahome()
     return 0
 }
 
-get_version()
+#------------------------------------------------------------
+# check_plugins
+#------------------------------------------------------------
+check_plugins()
 {
-    if test "x$VERSION" = "x" || test "x$PROJECT_VERSION" = "x" ; then
-        echo "Environment variable VERSION/PROJECT_VERSION is not set."
-        echo "Getting from ./version text."
-        . ./version
-    fi
-
-    if test "x$DISTDIR" = "x" ; then
-        DISTDIR=openrtp-$VERSION
-    fi
     if test "x$JARDIR" = "x" ; then
-        JARDIR=$JARDIR_DEFAULT
+        echo "Env variable JARDIR is not set. Aborting."
+        exit 1
     fi
+    echo "Checking plugin jar files..."
+    for p in $PROJECTS ; do
+        tmp="${p}_${PROJECT_VERSION}.jar"
+        if test ! -f $JARDIR/$tmp ; then
+            echo "[ERROR] $tmp not found"
+            return 1
+        fi
+        echo "[OK]    $tmp found"
+    done
 }
 
 #------------------------------------------------------------
@@ -185,13 +241,19 @@ cleanup_jardir()
     mkdir $JARDIR
 }
 
-do_ant_build()
+#------------------------------------------------------------
+# do_ant <TARGET>
+#
+# Invoke Ant build by buildAll target for each projects.
+#------------------------------------------------------------
+do_ant()
 {
+    target=$TARGET
     for project in $PROJECTS; do
         if test -d $project; then
             echo "- Starting ant build of project: $project"
             cd $project
-            ant $TARGET $LIBS
+            ant $target $LIBS
             if test $? -ne 0; then
                 echo "[ERROR] build failed: " $project
                 echo "Aborting..."
@@ -208,57 +270,66 @@ do_ant_build()
     done
 }
 
+#------------------------------------------------------------
+# create_zip
+#
+# Create ZIP archive of built plugin files.
+#------------------------------------------------------------
 create_zip()
 {
-    if test -f $DISTDIR.zip ; then
-        rm $DISTDIR.zip
+    echo "Creating ZIP archive of plugins jar files."
+    zipfile=$DISTDIR.zip
+    if test -f $zipfile ; then
+        rm $zipfile
     fi
-    zip $DISTDIR.zip -r ./$DISTDIR
-}
-
-getopt()
-{
-    if test $# = 1 ; then
-        arg=$1
-        if test "x$arg" = "xclean" ; then
-            TARGET=$1
-            return 0
-        fi
-        if test "x$arg" = "xrevert" ; then
-            echo "Reverting updated MANIFEST.MF..."
-            mf=`svn status | grep '^M' | grep MANIFEST.MF | awk '{print $2;}'`
-            for m in $mf; do
-                rm $m
-                svn update $m
-            done
-            exit 0
-        fi
+    zip $zipfile -r ./$DISTDIR
+    if test $? -ne 0 ; then
+        echo "Faild to create ZIP file: $zipfile created"
+        exit 1
+    else
+        echo "ZIP file: $zipfile created"
     fi
 }
 
 #==============================
 # main
 #==============================
+export LC_ALL=C
+cd `dirname $0`
+
 getopt $*
-find_eclipsehome
-find_javahome
 get_version
 
+find_eclipsehome
+find_javahome
+
+echo "------------------------------------------------------------"
+echo "Environment variables:"
 echo "ECLIPSE_HOME: $ECLIPSE_HOME"
 echo "JAVA_HOME: $JAVA_HOME"
 echo "VERSION: $VERSION"
 echo "PROJECT_VERSION: $PROJECT_VERSION"
+echo "------------------------------------------------------------"
 
 LIBS="-lib ../lib -lib $ECLIPSE_HOME/plugins"
 
 cleanup_jardir
-do_ant_build
+do_ant $TARGET
+
+# Check and finalize Ant results
 if test "x$TARGET" = "xclean" ; then
+    # cleanup jar directories
     rm -rf $DISTDIR
     rm -rf $JARDIR
     exit 0
+elif test "x$TARGET" = "xbuildAll" ; then
+    check_plugins
+    if test $? -ne 0 ;then
+        echo "Build failed? Some jar files are not found. Aborting..."
+        exit 1
+    fi
+    create_zip
 fi
-create_zip
 
 exit 0
 

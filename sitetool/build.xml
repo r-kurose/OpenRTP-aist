@@ -10,13 +10,21 @@
 	<property name="eclipse.dir" value="eclipse" />
 	<property name="launcher.id" value="org.eclipse.equinox.launcher" />
 
+	<property name="temp.build.dir" value="build" />
 	<property name="temp.plugins.dir" value="build/plugins" />
 	<property name="temp.features.dir" value="build/features" />
 	<property name="temp.site.dir" value="build/site" />
+	<property name="temp.backup.dir" value="backup" />
+	
 
 
 	<!-- 更新サイトに関する設定 -->
 	<property name="site_proj.dir" value="${basedir}/openrtp_site" />
+	<property name="site_proj.plugins.dir"
+			  value="${site_proj.dir}/plugins"  />
+	<property name="site_proj.features.dir"
+			  value="${site_proj.dir}/features"  />
+
 	<property name="update_site.name" value="OpenRTP Updates" />
 
 	<!-- フィーチャ(RTCBuilder)に関する設定 -->
@@ -150,9 +158,18 @@
 	</target>
 
 	<target name="clean" description="中間生成ファイルの削除">
-		<delete dir="${temp.plugins.dir}" />
-		<delete dir="${temp.features.dir}" />
-		<delete dir="${temp.site.dir}" />
+		<delete dir="${temp.plugins.dir}" quiet="true" />
+		<delete dir="${temp.features.dir}" quiet="true" />
+		<delete dir="${temp.site.dir}" quiet="true" />
+		<delete dir="${temp.build.dir}" quiet="true" />
+		<delete dir="${temp.backup.dir}" quiet="true" />
+		<delete dir="${site_proj.plugins.dir}" quiet="true" />
+		<delete dir="${site_proj.features.dir}" quiet="true" />
+		<delete includeEmptyDirs="true" quiet="true">
+			<fileset dir="." includes="**/*.log" />
+			<fileset dir="${site_proj.dir}" includes="**/*.jar" />
+			<fileset dir="conf" includes="**/*.keystore" />
+		</delete>
 	</target>
 
 
