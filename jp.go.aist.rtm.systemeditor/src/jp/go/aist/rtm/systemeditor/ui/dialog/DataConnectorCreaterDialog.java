@@ -14,7 +14,7 @@ import jp.go.aist.rtm.toolscommon.util.ConnectorUtil;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
-import org.eclipse.jface.dialogs.TitleAreaDialog;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -42,7 +42,7 @@ import org.eclipse.swt.widgets.Text;
  * サブスクリプションタイプは、データフロータイプが「Push」の時のみ表示される。<br>
  * PushRateは、サブスクリプションタイプが「Periodic」であり、かつデータフロータイプが「Push」の時のみ表示される<br>
  */
-public class DataConnectorCreaterDialog extends TitleAreaDialog {
+public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 
 	static final String LABEL_PUSH_POLICY = Messages.getString("DataConnectorCreaterDialog.20");
 	static final String LABEL_SKIP_COUNT = Messages.getString("DataConnectorCreaterDialog.21");
@@ -67,37 +67,24 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 	static final String MSG_ERROR_INPORT_READ_TIMEOUT_NOT_NUMERIC = Messages.getString("DataConnectorCreaterDialog.36");
 
 	private Text nameText;
-
 	private Combo dataTypeCombo;
-
 	private Combo interfaceTypeCombo;
-
 	private Combo dataflowTypeCombo;
-
 	private Combo subscriptionTypeCombo;
-
 	private Text pushRateText;
-
 	private Combo pushPolicyCombo;
-
 	private Text skipCountText;
 
 	Composite detailComposite;
-
 	Point defaultDialogSize;
-
 	private ConnectorProfile connectorProfile;
-
 	private ConnectorProfile dialogResult;
-
 	private OutPort outport;
-
 	private InPort inport;
-
 	BufferPackage ob;
-
 	BufferPackage ib;
 
+	TableViewer additionalTableViewer;
 	boolean disableNotify;
 
 	static class BufferPackage {
@@ -106,11 +93,15 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 		Text writeTimeoutText;
 		Combo emptyPolicyCombo;
 		Text readTimeoutText;
+		boolean enable;
+
+		public BufferPackage() {
+			this.enable = true;
+		}
 	}
 
 	public DataConnectorCreaterDialog(Shell parentShell) {
 		super(parentShell);
-		setShellStyle(getShellStyle() | SWT.CENTER | SWT.RESIZE);
 	}
 
 	/**
@@ -122,8 +113,11 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 		this.outport = outport;
 		this.inport = inport;
 
+		String outName = (outport != null) ? outport.getNameL() : "none";
+		String inName = (inport != null) ? inport.getNameL() : "none";
+
 		connectorProfile = ComponentFactory.eINSTANCE.createConnectorProfile();
-		connectorProfile.setName(outport.getNameL() + "_" + inport.getNameL());
+		connectorProfile.setName(outName + "_" + inName);
 
 		setShellStyle(this.getShellStyle() | SWT.RESIZE);
 		open();
@@ -420,7 +414,9 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 
 		ib = new BufferPackage();
 		createBufferComposite(detailComposite, LABEL_INPORT_BUFFER, ib);
-
+		
+		additionalTableViewer = createAdditionalTableViewer(detailComposite);
+		
 		loadDetailData();
 
 		defaultDialogSize = getShell().getSize();
@@ -579,6 +575,15 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 		return l;
 	}
 
+	boolean isOffline() {
+		if (inport != null) {
+			return inport.eContainer() instanceof ComponentSpecification;
+		} else if (outport != null) {
+			return outport.eContainer() instanceof ComponentSpecification;
+		}
+		return false;
+	}
+
 	/**
 	 * モデル情報にアクセスし、表示に設定する
 	 */
@@ -592,13 +597,11 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 				.getDataType(), isAllowAny);
 		connectorProfile.setDataType(value);
 
-		boolean isOffline = inport.eContainer() instanceof ComponentSpecification;
-
 		SystemEditorPreferenceManager preference = SystemEditorPreferenceManager
 				.getInstance();
 
 		//
-		if (!isOffline) {
+		if (!isOffline()) {
 			types = ConnectorUtil.getAllowInterfaceTypes(outport, inport);
 			isAllowAny = ConnectorUtil.isAllowAnyInterfaceType(outport, inport);
 		} else {
@@ -609,7 +612,7 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 				.getInterfaceType(), isAllowAny);
 		connectorProfile.setInterfaceType(value);
 		//
-		if (!isOffline) {
+		if (!isOffline()) {
 			types = ConnectorUtil.getAllowDataflowTypes(outport, inport);
 			isAllowAny = ConnectorUtil.isAllowAnyDataflowType(outport, inport);
 		} else {
@@ -620,7 +623,7 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 				.getDataflowType(), isAllowAny);
 		connectorProfile.setDataflowType(value);
 		//
-		if (!isOffline) {
+		if (!isOffline()) {
 			types = ConnectorUtil.getAllowSubscriptionTypes(outport, inport);
 			isAllowAny = ConnectorUtil.isAllowAnySubscriptionType(outport,
 					inport);
@@ -632,7 +635,7 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 				.getSubscriptionType(), isAllowAny);
 		connectorProfile.setSubscriptionType(value);
 		//
-		if (!isOffline) {
+		if (!isOffline()) {
 			types = Arrays.asList(ConnectorProfile.PUSH_POLICY_TYPES);
 		} else {
 			types = Arrays.asList(preference.getPushPolicies());
@@ -654,12 +657,10 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 		String value;
 		boolean isAllowAny = false;
 
-		boolean isOffline = inport.eContainer() instanceof ComponentSpecification;
-
 		SystemEditorPreferenceManager preference = SystemEditorPreferenceManager
 				.getInstance();
 
-		if (!isOffline) {
+		if (!isOffline()) {
 			fullTypes = Arrays
 					.asList(ConnectorProfile.BUFFER_FULL_POLICY_TYPES);
 			emptyTypes = Arrays
@@ -669,7 +670,7 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 			emptyTypes = Arrays.asList(preference.getBufferEmptyPolicies());
 		}
 
-		if (ob != null) {
+		if (ob != null && ob.enable) {
 			//
 			value = loadCombo(ob.fullPolicyCombo, fullTypes, connectorProfile
 					.getOutportBufferFullPolicy(), isAllowAny);
@@ -680,7 +681,7 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 			connectorProfile.setOutportBufferEmptyPolicy(value);
 			//
 			if (connectorProfile.getOutportBufferLength() == null) {
-				connectorProfile.setOutportBufferLength(0);
+				connectorProfile.setOutportBufferLength(8);
 			}
 			value = connectorProfile.getOutportBufferLength().toString();
 			ob.lengthText.setText(value);
@@ -698,7 +699,7 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 			ob.readTimeoutText.setText(value);
 		}
 		//
-		if (ib != null) {
+		if (ib != null && ib.enable) {
 			//
 			value = loadCombo(ib.fullPolicyCombo, fullTypes, connectorProfile
 					.getInportBufferFullPolicy(), isAllowAny);
@@ -709,7 +710,7 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 			connectorProfile.setInportBufferEmptyPolicy(value);
 			//
 			if (connectorProfile.getInportBufferLength() == null) {
-				connectorProfile.setInportBufferLength(0);
+				connectorProfile.setInportBufferLength(8);
 			}
 			value = connectorProfile.getInportBufferLength().toString();
 			ib.lengthText.setText(value);
@@ -733,9 +734,11 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 		combo.setItems(types.toArray(new String[0]));
 		String def = getDefaultValue(types, value, isAllowAny);
 		int index = types.indexOf(def);
-		index = (index == -1) ? 0 : index;
-		combo.select(index);
-		return types.get(index);
+		if (index != -1) {
+			combo.select(index);
+			return types.get(index);
+		}
+		return null;
 	}
 
 	/**
@@ -766,38 +769,41 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
 		shell.setText(Messages.getString("DataConnectorCreaterDialog.16")); //$NON-NLS-1$
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected void okPressed() {
+		if (additionalTableViewer != null) {
+			List<AdditionalEntry> additional = (List<AdditionalEntry>) additionalTableViewer
+					.getInput();
+			// 重複チェック
+			if (checkProperties(additional) == false) {
+				return;
+			}
+			for (AdditionalEntry target : additional) {
+				connectorProfile.setProperty(target.getName(), target
+						.getValue());
+			}
+		}
 		dialogResult = connectorProfile;
 		super.okPressed();
 	}
 
 	@Override
 	/**
-	 * {@inheritDoc}
-	 * <p>
 	 * メッセージを設定する。 メッセージとしてはエラーメッセージを想定しており、
 	 * エラーメッセージが存在するか空文字かどうかにより、OKボタンのEnableの制御も行うように、オーバーライドした。
 	 */
 	public void setMessage(String newMessage, int newType) {
 		super.setMessage(newMessage, newType);
-
 		boolean isOkEnable = false;
 		if (newMessage.length() == 0) {
 			isOkEnable = true;
 		}
-
 		getButton(IDialogConstants.OK_ID).setEnabled(isOkEnable);
 	}
 
@@ -850,7 +856,7 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 			}
 		}
 
-		if (ob != null) {
+		if (ob != null && ob.enable) {
 			boolean isInt = false;
 			try {
 				int i = Integer.parseInt(ob.lengthText.getText());
@@ -894,7 +900,7 @@ public class DataConnectorCreaterDialog extends TitleAreaDialog {
 			}
 		}
 
-		if (ib != null) {
+		if (ib != null && ib.enable) {
 			boolean isInt = false;
 			try {
 				int i = Integer.parseInt(ib.lengthText.getText());

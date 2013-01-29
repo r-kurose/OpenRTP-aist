@@ -1,5 +1,7 @@
-<project name="jp.go.aist.rtm.repositoryVie4_1.0.0" default="jar">
-	<property name="target.name" value="jp.go.aist.rtm.repositoryView_1.0.0"/>
+<project name="jp.go.aist.rtm.repositoryView" default="jar">
+	<property name="target.name" value="jp.go.aist.rtm.repositoryView" />
+
+	<taskdef name="manifesttask" classname="aist.ManifestTask" />
 
 	<property name="source" value="src"/>
 
@@ -15,6 +17,9 @@
 	<property name="targetPlatformLocation" value="${eclipse.home}" />
 	<property name="workspace" value="${basedir}/.." />
 	<property name="project.name" value="jp.go.aist.rtm.repositoryView" />
+	<tstamp>
+		<format property="built.date" pattern="yyyy/MM/dd HH:mm:ss" />
+	</tstamp>
 
 	<target name="buildAll">
 		<antcall target="clean" />
@@ -23,37 +28,54 @@
 	</target>
 
 	<target name="clean" description="ビルドで生成されたファイルを削除します">
-		<delete includeEmptyDirs="true">
+		<delete includeEmptyDirs="true" quiet="true">
 			<fileset dir="${build.dir}" includes="**/*.class" />
+			<fileset dir="." includes="**/*.log" />
 		</delete>
+		<delete dir="${build.dir}/jp" quiet="true" />
+		<delete dir="${dist.dir}" quiet="true"/>
 	</target>
 
 	<target name="compile" description="ソースをコンパイルします">
 		<getEclipseClasspath pathid="build.classpath" targetplatformlocation="${targetPlatformLocation}"
 					workspace="${workspace}" projectname="${project.name}"/>
 		<javac srcdir="${source}" destdir="${build.dir}"
-			classpathref="build.classpath"  encoding="Shift_JIS" />
+			classpathref="build.classpath"  encoding="UTF-8" />
 	</target>
 
 	<target name="jar" description="jarファイルを作成します">
-		<copy file="${source}/log4j.properties" todir="${build.dir}" />
 		<copy file="${source}/jp/go/aist/rtm/repositoryView/nl/messages.properties" todir="${build.dir}/jp/go/aist/rtm/repositoryView/nl" />
 		<mkdir dir="${dist.dir}" />
-		<delete file="${dist.dir}/${target.name}.jar" />
+		<delete>
+			<fileset dir="${dist.dir}" includes="${target.name}_*.jar" />
+		</delete>
 
-		<jar destfile="${dist.dir}/${target.name}.jar" manifest="META-INF/MANIFEST.MF">
+		<!-- Version settings -->
+		<manifesttask file="META-INF/MANIFEST.MF" key="Bundle-Version" property="manifest.project.version" />
+		<condition property="project.version"
+                   value="${env.PROJECT_VERSION}"
+                   else="${manifest.project.version}">
+			<isset property="env.PROJECT_VERSION" />
+		</condition>
+		<property name="jar.version" value="_${project.version}"/>
+		<property name="jar.name" value="${target.name}${jar.version}"/>
+		<!-- Updating MANIFEST.MF -->
+		<manifest file="META-INF/MANIFEST.MF" mode="update">
+			<attribute name="Bundle-Version" value="${project.version}"/>
+			<attribute name="Built-By" value="${user.name}"/>
+			<attribute name="Built-Date" value="${built.date}"/>
+		</manifest>
+		<!-- Creating a jar file -->
+		<jar destfile="${dist.dir}/${jar.name}.jar" manifest="META-INF/MANIFEST.MF">
 			<fileset dir="${build.dir}" />
 			<fileset dir=".">
-				<include name="bin/log4j.properties" />
 				<include name="icon/**.**" />
 				<include name="lib/**.**" />
 				<include name="plugin.xml" />
 				<include name="plugin.properties" />
 				<include name="repository.properties" />
 			</fileset>
-			<fileset dir="${source}">
-				<include name="log4j.properties" />
-			</fileset>
 		</jar>
 	</target>
+
 </project>

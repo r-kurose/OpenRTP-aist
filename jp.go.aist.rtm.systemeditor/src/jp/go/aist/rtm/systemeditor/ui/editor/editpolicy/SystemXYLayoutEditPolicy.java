@@ -44,10 +44,10 @@ public class SystemXYLayoutEditPolicy extends XYLayoutEditPolicy {
 	@Override
 	protected Command getCreateCommand(CreateRequest request) {
 		ComponentCommandCreator creator = new ComponentCommandCreator();
-		ComponentCommandCreator.CommandPair result = creator.getCreateCommand(
-				request, getHost().getModel());
+		ComponentCommandCreator.MultiCreateCommand result = creator
+				.getCreateCommand(request, getHost().getModel());
 
-		if (result == null) {
+		if (result.getCommandPairs().isEmpty()) {
 			MessageDialog.openInformation(PlatformUI.getWorkbench()
 					.getActiveWorkbenchWindow().getShell(), Messages
 					.getString("SystemXYLayoutEditPolicy.6"), creator
@@ -56,10 +56,18 @@ public class SystemXYLayoutEditPolicy extends XYLayoutEditPolicy {
 		}
 
 		if (request.getLocation() != null) {
-			result.component.setConstraint(Draw2dUtil
-					.toRtcLinkRectangle((Rectangle) getConstraintFor(request)));
+			int count = 0;
+			for (ComponentCommandCreator.CommandPair pair : result
+					.getCommandPairs()) {
+				Rectangle rect = (Rectangle) getConstraintFor(request);
+				rect.x += count * 20;
+				rect.y += count * 20;
+				pair.component.setConstraint(Draw2dUtil
+						.toRtcLinkRectangle(rect));
+				count++;
+			}
 		}
-		return result.command;
+		return result;
 	}
 
 	@Override

@@ -69,9 +69,6 @@ public class ComponentPropertySource extends AbstractPropertySource {
 		result.add(new TextPropertyDescriptor(Component.VENDER, DISP_VENDOR));
 		result.add(new TextPropertyDescriptor(Component.CATEGORY, DISP_CATEGORY));
 		result.add(new TextPropertyDescriptor(Component.STATE, DISP_STATE));
-		for (String key : component.getPropertyKeys()) {
-			result.add(new TextPropertyDescriptor(new DynamicID("PROPERTIES", key), key));
-		}
 		return (IPropertyDescriptor[]) result
 				.toArray(new IPropertyDescriptor[result.size()]);
 	}
@@ -108,16 +105,10 @@ public class ComponentPropertySource extends AbstractPropertySource {
 						return STATE_ERROR_VIEWSTRING;
 					}
 				}
-			} else if (id instanceof DynamicID) {
-				DynamicID dynamicId = (DynamicID) id;
-				if ("PROPERTIES".equals(dynamicId.categoryId)) {
-					return component.getProperty(dynamicId.subId);
-				}
 			}
 		} catch (Exception e) {
 			return UNKNOWN;
 		}
-
 		return UNKNOWN;
 	}
 

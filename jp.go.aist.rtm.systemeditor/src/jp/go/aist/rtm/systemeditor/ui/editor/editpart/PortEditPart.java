@@ -13,6 +13,7 @@ import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.PortGraphicalNodeEditPol
 import jp.go.aist.rtm.systemeditor.ui.editor.figure.PortAnchor;
 import jp.go.aist.rtm.systemeditor.ui.editor.figure.PortFigure;
 import jp.go.aist.rtm.systemeditor.ui.util.ComponentUtil;
+import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
@@ -21,6 +22,8 @@ import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.gef.ConnectionEditPart;
@@ -28,6 +31,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.ui.PlatformUI;
 
@@ -37,6 +41,8 @@ import org.eclipse.ui.PlatformUI;
 public abstract class PortEditPart extends AbstractEditPart implements
 		NodeEditPart {
 
+	FloatingLabel portLabel;
+	
 	/**
 	 * コンストラクタ
 	 * 
@@ -48,50 +54,81 @@ public abstract class PortEditPart extends AbstractEditPart implements
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
+	protected IFigure createFigure() {
+		portLabel = new FloatingLabel(((AbstractGraphicalEditPart) getParent()
+				.getParent()).getFigure());
+		portLabel.setText(getPortBaseName());
+		portLabel.setSize(30, 10);
+		return null;
+	}
+	
+	String getPortBaseName() {
+		String name = getModel().getNameL();
+		if (name == null) {
+			return "";
+		}
+		int index = name.lastIndexOf(".");
+		if (index != -1) {
+			name = name.substring(index + 1);
+		}
+		return name;
+	}
+	
+	public void setLabelBounds(Rectangle baseRect, Rectangle rect,
+			String direction) {
+		if (portLabel == null) {
+			return;
+		}
+		Rectangle labelRect = portLabel.getTextBounds().getCopy();
+		if (Component.OUTPORT_DIRECTION_RIGHT_LITERAL.equals(direction)) {
+			Point p = rect.getTopRight();
+			labelRect.x = baseRect.x + p.x;
+			labelRect.y = baseRect.y + p.y - labelRect.height;
+		} else if (Component.OUTPORT_DIRECTION_LEFT_LITERAL.equals(direction)) {
+			Point p = rect.getTopLeft();
+			labelRect.x = baseRect.x + p.x - labelRect.width;
+			labelRect.y = baseRect.y + p.y - labelRect.height;
+		} else if (Component.OUTPORT_DIRECTION_UP_LITERAL.equals(direction)) {
+			Point p = rect.getTop();
+			labelRect.x = baseRect.x + p.x - labelRect.width / 2;
+			labelRect.y = baseRect.y + p.y - labelRect.height;
+		} else if (Component.OUTPORT_DIRECTION_DOWN_LITERAL.equals(direction)) {
+			Point p = rect.getBottom();
+			labelRect.x = baseRect.x + p.x - labelRect.width / 2;
+			labelRect.y = baseRect.y + p.y;
+		}
+		portLabel.setBounds(labelRect);
+	}
+	
+	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
 				new PortGraphicalNodeEditPolicy());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(
 			ConnectionEditPart connection) {
-//		System.out.println("getSourceConnectionAnchor on " + this);
 		return new PortAnchor(getFigure());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(
 			ConnectionEditPart connection) {
-//		System.out.println("getTargetConnectionAnchor on " + this);
 		return new PortAnchor(getFigure());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
 		return new PortAnchor(getFigure());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
 		return new PortAnchor(getFigure());
 	}
 	
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public PortFigure getFigure() {
 		if (invalid) {
 			setInvalid(false);
@@ -107,23 +144,15 @@ public abstract class PortEditPart extends AbstractEditPart implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected List getModelTargetConnections() {
 		return CompositeFilter.getModelTargetConnections(getModel());
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected List getModelSourceConnections() {
-//		debugPrint(getModel());
 		return CompositeFilter.getModelSourceConnections(getModel());
 	}
-
 
 	@Override
 	public Port getModel() {
@@ -134,16 +163,15 @@ public abstract class PortEditPart extends AbstractEditPart implements
 	 * 設定マネージャを監視するリスナ
 	 */
 	PropertyChangeListener preferenceChangeListener = new PropertyChangeListener() {
+		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			refreshVisuals();
 		}
 	};
+	
 	private boolean invalid = false;
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public void activate() {
 		super.activate();
 
@@ -155,10 +183,8 @@ public abstract class PortEditPart extends AbstractEditPart implements
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public void deactivate() {
+		portLabel.deactivate();
 		super.deactivate();
 
 		SystemEditorPreferenceManager.getInstance()
@@ -175,7 +201,6 @@ public abstract class PortEditPart extends AbstractEditPart implements
 	}
 
 	private class Adapter extends AdapterImpl {
-		@SuppressWarnings("unchecked")
 		@Override
 		public void notifyChanged(Notification msg) {
 			if (ComponentPackage.eINSTANCE.getPort_ConnectorProfiles()
@@ -214,6 +239,7 @@ public abstract class PortEditPart extends AbstractEditPart implements
 	}
 
 	// ターゲットのポートのEditPartが存在しない時に走るときがある。
+	@Override
 	protected void addSourceConnection(ConnectionEditPart connection, int index) {
 
 		// ターゲット側の設定も行う
@@ -244,6 +270,7 @@ public abstract class PortEditPart extends AbstractEditPart implements
 //		System.out.println("addSourceConnection from " + connection.getSource() + " to " + connection.getTarget());
 	}
 
+	@Override
 	protected void addTargetConnection(ConnectionEditPart connection, int index) {
 		// ソース側の設定も行う
 		PortConnector connectionModel = (PortConnector) connection.getModel();
@@ -274,6 +301,7 @@ public abstract class PortEditPart extends AbstractEditPart implements
 	}
 
 	@SuppressWarnings("unchecked")
+	@Override
 	protected void refreshSourceConnections() {
 		int i;
 		ConnectionEditPart editPart;
@@ -313,6 +341,7 @@ public abstract class PortEditPart extends AbstractEditPart implements
 	}
 
 	@SuppressWarnings("unchecked")
+	@Override
 	protected void refreshTargetConnections() {
 		int i;
 		ConnectionEditPart editPart;
@@ -350,6 +379,5 @@ public abstract class PortEditPart extends AbstractEditPart implements
 		for (i = 0; i < trash.size(); i++)
 			removeTargetConnection((ConnectionEditPart)trash.get(i));
 	}	
-	
 	
 }

@@ -221,12 +221,17 @@ class test
   
   // </rtc-template>
 
+  // Configuration variable declaration
+  // <rtc-template block="config_declare">
+
+  // </rtc-template>
+
   // DataInPort declaration
   // <rtc-template block="inport_declare">
-  TimedShort m_InP1;
+  RTC::TimedShort m_InP1;
   /*!
    */
-  InPort<TimedShort> m_InP1In;
+  InPort<RTC::TimedShort> m_InP1In;
   
   // </rtc-template>
 

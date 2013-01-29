@@ -119,6 +119,7 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 			case ComponentPackage.CORBA_CONTEXT_HANDLER: return createCorbaContextHandler();
 			case ComponentPackage.CORBA_OBSERVER: return createCorbaObserver();
 			case ComponentPackage.CORBA_STATUS_OBSERVER: return createCorbaStatusObserver();
+			case ComponentPackage.CORBA_LOG_OBSERVER: return createCorbaLogObserver();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -353,6 +354,16 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	public CorbaStatusObserver createCorbaStatusObserver() {
 		CorbaStatusObserverImpl corbaStatusObserver = new CorbaStatusObserverImpl();
 		return corbaStatusObserver;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CorbaLogObserver createCorbaLogObserver() {
+		CorbaLogObserverImpl corbaLogObserver = new CorbaLogObserverImpl();
+		return corbaLogObserver;
 	}
 
 	/**

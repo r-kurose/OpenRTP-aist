@@ -68,6 +68,9 @@ RTC::ReturnCode_t foo::onInitialize()
   
   // </rtc-template>
 
+  // <rtc-template block="bind_config">
+  // </rtc-template>
+  
   return RTC::RTC_OK;
 }
 

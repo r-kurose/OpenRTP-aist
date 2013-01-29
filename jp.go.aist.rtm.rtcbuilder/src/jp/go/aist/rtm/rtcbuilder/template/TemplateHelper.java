@@ -2,6 +2,11 @@ package jp.go.aist.rtm.rtcbuilder.template;
 
 import java.io.File;
 
+import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigParameterParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
+
 import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
 import static jp.go.aist.rtm.rtcbuilder.util.StringUtil.*;
 
@@ -51,6 +56,27 @@ public class TemplateHelper {
 		return "";
 	}
 
+	public static String getIDLFilesforIDLCMake(RtcParam source) {
+		StringBuilder builder = new StringBuilder();
+		
+		for(IdlFileParam target : source.getProviderIdlPathes() ) {
+			builder.append("${CMAKE_CURRENT_SOURCE_DIR}/");
+			builder.append(getFilenameNoExt(target.getIdlFile()));
+			builder.append(".idl ");
+		}
+		for(IdlFileParam target : source.getConsumerIdlPathes() ) {
+			builder.append("${CMAKE_CURRENT_SOURCE_DIR}/");
+			builder.append(getFilenameNoExt(target.getIdlFile()));
+			builder.append(".idl ");
+		}
+		for(IdlFileParam target : source.getIncludedIdlPathes() ) {
+			builder.append("${CMAKE_CURRENT_SOURCE_DIR}/");
+			builder.append(getFilenameNoExt(target.getIdlFile()));
+			builder.append(".idl ");
+		}
+		return builder.toString();
+	}
+	
 	public static String toSvcImpl(String fullPath) {
 		String name = getFilenameNoExt(fullPath);
 		if (name.isEmpty()) {
@@ -237,5 +263,70 @@ public class TemplateHelper {
 		String[] vers = ver.split("\\.");
 		return (vers.length > 2) ? vers[2] : "0";
 	}
-
+	
+	public static String convFormatted(String source, int len) {
+		int clen = source.length();
+		StringBuilder builder = new StringBuilder();
+		builder.append(source);
+		for(int index=0;index<(len-clen);index++) {
+			builder.append(" ");
+		}
+		return builder.toString();
+	}
+	
+	//ConfigParameterのチェック
+	public boolean checkPeriodicType(RtcParam param) {
+		for( ConfigParameterParam target : param.getConfigParameterParams() ) {
+			if( target.getConfigName().trim().equals("exec_cxt.periodic.type") ) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean checkNotPeriodicTypeParam(ConfigParameterParam param) {
+		if( param.getConfigName().trim().equals("exec_cxt.periodic.type") ) {
+			return false;
+		}
+		return true;
+	}
+	
+	public String getPeriodicTypeValue(RtcParam param) {
+		for( ConfigParameterParam target : param.getConfigParameterParams() ) {
+			if( target.getConfigName().trim().equals("exec_cxt.periodic.type") ) {
+				return target.getDefaultVal();
+			}
+		}
+		return "";
+	}
+	
+	public boolean checkNotWidget(RtcParam param) {
+		for(ConfigSetParam target : param.getConfigParams()) {
+			if( target.getWidget()!=null && 0<target.getWidget().length() ) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean checkNotConstraint(RtcParam param) {
+		for(ConfigSetParam target : param.getConfigParams()) {
+			if( target.getConstraint()!=null && 0<target.getConstraint().length() ) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean checkDetailContent(int index, RtcParam param) {
+		if(param.getDetailContent(index)==null || param.getDetailContent(index).length()==0)
+			return false;
+		return true;
+	}
+	
+	public boolean checkContents(String target) {
+		if( target==null || target.length()==0 )
+			return false;
+		return true;
+	}
 }

@@ -150,7 +150,7 @@ public class TemplateUtil {
 
 		StringWriter result = new StringWriter();
 		try {
-			ve.evaluate(vc, result, "", new InputStreamReader(in));
+			ve.evaluate(vc, result, "", new InputStreamReader(in, "UTF-8"));
 			result.close();
 		} catch (Exception e) {
 			throw new RuntimeException(e); // system error

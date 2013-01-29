@@ -348,6 +348,14 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	protected void addDefaultComboValue(){
 		basicFormPage.addDefaultComboValue();
 	}
+	
+	public void updateDataTypes() {
+		if( dataPortFormPage != null ) dataPortFormPage.updateDefaultValue();
+	}
+	
+	public void updatePages() {
+		if( activityFormPage != null ) activityFormPage.load();
+	}
 
 	public String validateParam() {
 		String result = null;
@@ -373,6 +381,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	public void doSave(IProgressMonitor monitor) {
 		boolean isRtcXml = getCurrentPage() == rtcXmlFormPage.getIndex();
 		this.allUpdates();
+		RtcBuilderPlugin.getDefault().setCanExit(true);
 
 		if (isRtcXml) {
 			try {
@@ -386,6 +395,8 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 					errMessage = e.getCause().toString();
 				}
 				MessageDialog.openError(getSite().getShell(), "XML Save Error", errMessage);
+				//例外発生時には処理中断
+				RtcBuilderPlugin.getDefault().setCanExit(false);
 				return;
 			}
 		}else{
@@ -399,9 +410,14 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 						ex.getMessage(),
     					IMessageConstants.PROFILE_VALIDATE_ERROR_MESSAGE + System.getProperty("line.separator") + ex.getCause().toString()
     				); 
-    			if( !result ) return;// 「いいえ」のときは保存しない
+    			if( !result ) {
+    				RtcBuilderPlugin.getDefault().setCanExit(false);
+    				return;// 「いいえ」のときは保存しない
+    			}
 			} catch (Exception e) {
 				MessageDialog.openError(getSite().getShell(), "XML Save Error", e.getMessage());
+				//例外発生時には処理中断
+				RtcBuilderPlugin.getDefault().setCanExit(false);
 				return;
 			}
 		}
@@ -524,7 +540,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		return isDirty;
 	}
 
-	private void setDirty(boolean isDirty) {
+	public void setDirty(boolean isDirty) {
 		this.isDirty = isDirty;
 	}
 

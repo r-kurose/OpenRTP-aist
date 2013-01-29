@@ -61,7 +61,7 @@ import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
  * RTSプロファイルの入出力を司るクラス
  * 
  */
-public class RtsProfileHandler {
+public class RtsProfileHandler extends ProfileHandlerBase {
 	
 	private boolean online;
 	private RtsProfileExt originalProfile;
@@ -366,16 +366,19 @@ public class RtsProfileHandler {
 			ComponentExt target, Component original, RtsProfileExt rtsProfile) {
 		for (jp.go.aist.rtm.toolscommon.model.component.Port ePort : eComp.getOutports()) {
 			addDataPort(ePort, target, original);
-			for(jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile eConnProf : ePort.getConnectorProfiles() ) {
+			for (jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile eConnProf : ePort.getConnectorProfiles()) {
 				addDataPortConnector(eConnProf, rtsProfile, ePort);
 			}
 		}
 		for (jp.go.aist.rtm.toolscommon.model.component.Port ePort : eComp.getInports()) {
 			addDataPort(ePort, target, original);
+			for (jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile eConnProf : ePort.getConnectorProfiles()) {
+				addDataPortConnector(eConnProf, rtsProfile, ePort);
+			}
 		}
 		for (jp.go.aist.rtm.toolscommon.model.component.Port ePort : eComp.getServiceports()) {
 			addServicePort(ePort, target, original);
-			for(jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile eConnProf : ePort.getConnectorProfiles() ) {
+			for (jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile eConnProf : ePort.getConnectorProfiles()) {
 				addServicePortConnector(eConnProf, rtsProfile, ePort);
 			}
 		}
@@ -413,22 +416,35 @@ public class RtsProfileHandler {
 		connector.setInterfaceType(eConnProf.getInterfaceType());
 		connector.setDataType(eConnProf.getDataType());
 		connector.setDataflowType(eConnProf.getDataflowType());
-		if(eConnProf.getSubscriptionType()!=null) connector.setSubscriptionType(eConnProf.getSubscriptionType());
-		if(eConnProf.getPushRate()!=null) connector.setPushInterval(eConnProf.getPushRate());
+		if (eConnProf.getSubscriptionType() != null) {
+			connector.setSubscriptionType(eConnProf.getSubscriptionType());
+		}
+		if (eConnProf.getPushRate() != null) {
+			connector.setPushInterval(eConnProf.getPushRate());
+		}
 
 		// ベンドポイントの保存
-		jp.go.aist.rtm.toolscommon.model.component.PortConnector ePortConnector = diagram.getConnectorMap().get(eConnProf.getConnectorId());
+		jp.go.aist.rtm.toolscommon.model.component.PortConnector ePortConnector = diagram
+				.getConnectorMap().get(eConnProf.getConnectorId());
 		if (ePortConnector != null) {
-			saveBendPoint(ePortConnector.getRoutingConstraint().map(), connector.getProperties());			
+			saveBendPoint(ePortConnector.getRoutingConstraint().map(),
+					connector.getProperties());
 		}
-		
-		DataportConnector original = findOrignalDataportConnector(eConnProf.getConnectorId());
 
-		connector.setSourceDataPort(createTargetPort(ePort.findPort(diagram, eConnProf.getSourceString())
-				, original == null ? null : original.getSourceDataPort()));		
-		connector.setTargetDataPort(createTargetPort(ePort.findPort(diagram, eConnProf.getTargetString())
-				, original == null ? null : original.getTargetDataPort()));
-		
+		DataportConnector original = findOrignalDataportConnector(eConnProf
+				.getConnectorId());
+
+		if (eConnProf.getSourceString() != null) {
+			connector.setSourceDataPort(createTargetPort(ePort.findPort(
+					diagram, eConnProf.getSourceString()),
+					original == null ? null : original.getSourceDataPort()));
+		}
+		if (eConnProf.getTargetString() != null) {
+			connector.setTargetDataPort(createTargetPort(ePort.findPort(
+					diagram, eConnProf.getTargetString()),
+					original == null ? null : original.getTargetDataPort()));
+		}
+
 		if (original instanceof DataportConnectorExt) {
 			DataportConnectorExt originalExt = (DataportConnectorExt) original;
 			connector.setComment(originalExt.getComment());
@@ -507,21 +523,32 @@ public class RtsProfileHandler {
 	private ServiceportConnector saveServicePortConnector(
 			jp.go.aist.rtm.toolscommon.model.component.Port ePort,
 			jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile eConnProf) {
-		ServiceportConnectorExt connector = factory.createServiceportConnectorExt();
+		ServiceportConnectorExt connector = factory
+				.createServiceportConnectorExt();
 		connector.setConnectorId(eConnProf.getConnectorId());
 		connector.setName(eConnProf.getName());
+
 		// ベンドポイントの保存
-		jp.go.aist.rtm.toolscommon.model.component.PortConnector ePortConnector = diagram.getConnectorMap().get(eConnProf.getConnectorId());
+		jp.go.aist.rtm.toolscommon.model.component.PortConnector ePortConnector = diagram
+				.getConnectorMap().get(eConnProf.getConnectorId());
 		if (ePortConnector != null) {
-			saveBendPoint(ePortConnector.getRoutingConstraint().map(), connector.getProperties());			
+			saveBendPoint(ePortConnector.getRoutingConstraint().map(),
+					connector.getProperties());
 		}
 
-		ServiceportConnector original = findOrignalServiceportConnector(eConnProf.getConnectorId());
+		ServiceportConnector original = findOrignalServiceportConnector(eConnProf
+				.getConnectorId());
 
-		connector.setSourceServicePort(createTargetPort(ePort.findPort(diagram, eConnProf.getSourceString())
-				, original == null ? null : original.getSourceServicePort()));		
-		connector.setTargetServicePort(createTargetPort(ePort.findPort(diagram, eConnProf.getTargetString())
-				, original == null ? null : original.getTargetServicePort()));
+		if (eConnProf.getSourceString() != null) {
+			connector.setSourceServicePort(createTargetPort(ePort.findPort(
+					diagram, eConnProf.getSourceString()),
+					original == null ? null : original.getSourceServicePort()));
+		}
+		if (eConnProf.getTargetString() != null) {
+			connector.setTargetServicePort(createTargetPort(ePort.findPort(
+					diagram, eConnProf.getTargetString()),
+					original == null ? null : original.getTargetServicePort()));
+		}
 
 		if (original instanceof ServiceportConnectorExt) {
 			if (original != null) {
@@ -704,6 +731,10 @@ public class RtsProfileHandler {
 			ComponentExt target, Component original) {
 		// プロパティ設定
 		for (String key : eComp.getPropertyKeys()) {
+			//デプロイ情報は除外
+			if(key.equals(KEY_DEPLOY_TYPE) || key.equals(KEY_DEPLOY_TARGET)
+					|| key.equals(KEY_DEPLOY_IOR)) continue;
+			//
 			setProperty(key, eComp.getProperty(key), target.getProperties());
 		}
 		populateIOR(target.getProperties(), eComp);
@@ -1053,9 +1084,10 @@ public class RtsProfileHandler {
 							// void
 						}
 					} else {
-						if (!KEY_BEND_POINT.equals(name)) {
-							conn.setProperty(name, value);
+						if (isIOR(value) || KEY_BEND_POINT.equals(name)) {
+							continue;
 						}
+						conn.setProperty(name, value);
 					}
 				}
 			}
@@ -1079,7 +1111,8 @@ public class RtsProfileHandler {
 			if (connBase instanceof ServiceportConnectorExt) {
 				ServiceportConnectorExt connExt = (ServiceportConnectorExt) connBase;
 				for (Property p : connExt.getProperties()) {
-					if (KEY_BEND_POINT.equals(p.getName())) {
+					if (isIOR(p.getValue())
+							|| KEY_BEND_POINT.equals(p.getName())) {
 						continue;
 					}
 					eConnProf.setProperty(p.getName(), p.getValue());
@@ -1089,6 +1122,10 @@ public class RtsProfileHandler {
 			connectPorts(eConnProf, eComp, connBase.getTargetServicePort(),
 					connBase.getSourceServicePort(), getBendPoint(connBase));
 		}
+	}
+	
+	private boolean isIOR(String value) {
+		return (value != null && value.startsWith("IOR:"));
 	}
 
 	// ベンドポイントをプロパティから復元する
@@ -1120,13 +1157,17 @@ public class RtsProfileHandler {
 		jp.go.aist.rtm.toolscommon.model.component.Component eComp = null;
 		jp.go.aist.rtm.toolscommon.model.component.Port eSource = null;
 		jp.go.aist.rtm.toolscommon.model.component.Port eTarget = null;
-		eComp = findEMFComponentByTargetComponent(source, eComps);
-		if (eComp != null) {
-			eSource = findEMFPortByTargetPort(source, eComp.getPorts());
+		if (source != null) {
+			eComp = findEMFComponentByTargetComponent(source, eComps);
+			if (eComp != null) {
+				eSource = findEMFPortByTargetPort(source, eComp.getPorts());
+			}
 		}
-		eComp = findEMFComponentByTargetComponent(target, eComps);
-		if (eComp != null) {
-			eTarget = findEMFPortByTargetPort(target, eComp.getPorts());
+		if (target != null) {
+			eComp = findEMFComponentByTargetComponent(target, eComps);
+			if (eComp != null) {
+				eTarget = findEMFPortByTargetPort(target, eComp.getPorts());
+			}
 		}
 		jp.go.aist.rtm.toolscommon.model.component.PortConnector eConnector = PortConnectorFactory
 				.createPortConnector(eSource, eTarget);

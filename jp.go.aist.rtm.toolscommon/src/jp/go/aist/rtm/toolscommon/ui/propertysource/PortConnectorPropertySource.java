@@ -7,7 +7,6 @@ import jp.go.aist.rtm.toolscommon.model.component.InPort;
 import jp.go.aist.rtm.toolscommon.model.component.OutPort;
 import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
-import jp.go.aist.rtm.toolscommon.model.component.ServicePort;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile.PROP;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
@@ -117,39 +116,7 @@ public class PortConnectorPropertySource extends AbstractPropertySource {
 				descriptors.add(new TextPropertyDescriptor(PROP.INPORT_EMPTY_POLICY, DISP_INPORT_EMPTY_POLICY));
 				descriptors.add(new TextPropertyDescriptor(PROP.INPORT_READ_TIMEOUT, DISP_INPORT_READ_TIMEOUT));
 			}
-		} else if (portConnector.getSource() instanceof ServicePort) {
-			for (String key : profile.getPropertyKeys()) {
-				if (!ConnectorProfile.InterfaceId.isValid(key)) {
-					continue;
-				}
-				descriptors.add(new TextPropertyDescriptor(key, key));
-			}
 		}
-
-		for (String key : profile.getPropertyKeys()) {
-			if (PROP.DATA_TYPE.equals(key) || PROP.INTERFACE_TYPE.equals(key)
-					|| PROP.DATAFLOW_TYPE.equals(key)
-					|| PROP.SUBSCRIPTION_TYPE.equals(key)
-					|| PROP.PUSH_RATE.equals(key)
-					|| PROP.PUSH_POLICY.equals(key)
-					|| PROP.SKIP_COUNT.equals(key)
-					|| PROP.OUTPORT_BUFF_LENGTH.equals(key)
-					|| PROP.OUTPORT_FULL_POLICY.equals(key)
-					|| PROP.OUTPORT_WRITE_TIMEOUT.equals(key)
-					|| PROP.OUTPORT_EMPTY_POLICY.equals(key)
-					|| PROP.OUTPORT_READ_TIMEOUT.equals(key)
-					|| PROP.INPORT_BUFF_LENGTH.equals(key)
-					|| PROP.INPORT_FULL_POLICY.equals(key)
-					|| PROP.INPORT_WRITE_TIMEOUT.equals(key)
-					|| PROP.INPORT_EMPTY_POLICY.equals(key)
-					|| PROP.INPORT_READ_TIMEOUT.equals(key)
-					|| ConnectorProfile.InterfaceId.isValid(key)) {
-				continue;
-			}
-			descriptors.add(new TextPropertyDescriptor(new DynamicID(
-					"PROPERTIES", key), key));
-		}
-
 		return descriptors.toArray(new TextPropertyDescriptor []{});
 	}
 
@@ -198,18 +165,6 @@ public class PortConnectorPropertySource extends AbstractPropertySource {
 				result = profile.getInportBufferEmptyPolicy();
 			} else if (PROP.INPORT_READ_TIMEOUT.equals(id)) {
 				result = profile.getInportBufferReadTimeout().toString();
-			}
-			//
-			if (id instanceof String
-					&& ConnectorProfile.InterfaceId.isValid((String) id)) {
-				result = profile.getProperty((String) id);
-			}
-			//
-			else if (id instanceof DynamicID) {
-				DynamicID dynamicId = (DynamicID) id;
-				if ("PROPERTIES".equals(dynamicId.categoryId)) {
-					return profile.getProperty(dynamicId.subId);
-				}
 			}
 		} catch (Exception e) {
 			// void

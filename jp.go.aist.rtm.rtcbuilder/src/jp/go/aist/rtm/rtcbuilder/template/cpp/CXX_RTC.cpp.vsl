@@ -132,15 +132,17 @@ RTC::ReturnCode_t ${rtcParam.name}::onInitialize()
   
   // </rtc-template>
 
-#if(${rtcParam.configParams.size()}>0)
   // <rtc-template block="bind_config">
+#if(${rtcParam.configParams.size()}>0)
   // Bind variables and configuration variable
 #foreach($configParam in ${rtcParam.configParams})  
   bindParameter("${configParam.name}", ${rtcParam.commonPrefix}${rtcParam.configurationPrefix}${configParam.tmplVarName}${rtcParam.configurationSuffix}${rtcParam.commonSuffix}, "${configParam.defaultVal}");
 #end
-  
-  // </rtc-template>
 #end
+  // </rtc-template>
+#if(${tmpltHelper.checkDetailContent(0,${rtcParam})})${rtcParam.getDetailContent(0)}
+#end
+  
   return RTC::RTC_OK;
 }
 #if(${rtcParam.configParams.size()}==0 && ${rtcParam.IsNotImplemented(0)} && ${rtcParam.inports.size()}==0 && ${rtcParam.outports.size()}==0 && ${rtcParam.servicePorts.size()}==0)*/
@@ -154,6 +156,8 @@ RTC::ReturnCode_t ${rtcParam.name}::onInitialize()
 
 RTC::ReturnCode_t ${rtcParam.name}::onFinalize()
 {
+#if(${tmpltHelper.checkDetailContent(1,${rtcParam})})${rtcParam.getDetailContent(1)}
+#end
   return RTC::RTC_OK;
 }
 #if(${rtcParam.IsNotImplemented(1)})*/
@@ -167,6 +171,8 @@ RTC::ReturnCode_t ${rtcParam.name}::onFinalize()
 
 RTC::ReturnCode_t ${rtcParam.name}::onStartup(RTC::UniqueId ec_id)
 {
+#if(${tmpltHelper.checkDetailContent(2,${rtcParam})})${rtcParam.getDetailContent(2)}
+#end
   return RTC::RTC_OK;
 }
 #if(${rtcParam.IsNotImplemented(2)})*/
@@ -180,6 +186,8 @@ RTC::ReturnCode_t ${rtcParam.name}::onStartup(RTC::UniqueId ec_id)
 
 RTC::ReturnCode_t ${rtcParam.name}::onShutdown(RTC::UniqueId ec_id)
 {
+#if(${tmpltHelper.checkDetailContent(3,${rtcParam})})${rtcParam.getDetailContent(3)}
+#end
   return RTC::RTC_OK;
 }
 #if(${rtcParam.IsNotImplemented(3)})*/
@@ -193,6 +201,8 @@ RTC::ReturnCode_t ${rtcParam.name}::onShutdown(RTC::UniqueId ec_id)
 
 RTC::ReturnCode_t ${rtcParam.name}::onActivated(RTC::UniqueId ec_id)
 {
+#if(${tmpltHelper.checkDetailContent(4,${rtcParam})})${rtcParam.getDetailContent(4)}
+#end
   return RTC::RTC_OK;
 }
 #if(${rtcParam.IsNotImplemented(4)})*/
@@ -206,6 +216,8 @@ RTC::ReturnCode_t ${rtcParam.name}::onActivated(RTC::UniqueId ec_id)
 
 RTC::ReturnCode_t ${rtcParam.name}::onDeactivated(RTC::UniqueId ec_id)
 {
+#if(${tmpltHelper.checkDetailContent(5,${rtcParam})})${rtcParam.getDetailContent(5)}
+#end
   return RTC::RTC_OK;
 }
 #if(${rtcParam.IsNotImplemented(5)})*/
@@ -219,6 +231,8 @@ RTC::ReturnCode_t ${rtcParam.name}::onDeactivated(RTC::UniqueId ec_id)
 
 RTC::ReturnCode_t ${rtcParam.name}::onExecute(RTC::UniqueId ec_id)
 {
+#if(${tmpltHelper.checkDetailContent(9,${rtcParam})})${rtcParam.getDetailContent(9)}
+#end
   return RTC::RTC_OK;
 }
 #if(${rtcParam.IsNotImplemented(9)})*/
@@ -232,6 +246,8 @@ RTC::ReturnCode_t ${rtcParam.name}::onExecute(RTC::UniqueId ec_id)
 
 RTC::ReturnCode_t ${rtcParam.name}::onAborting(RTC::UniqueId ec_id)
 {
+#if(${tmpltHelper.checkDetailContent(6,${rtcParam})})${rtcParam.getDetailContent(6)}
+#end
   return RTC::RTC_OK;
 }
 #if(${rtcParam.IsNotImplemented(6)})*/
@@ -245,6 +261,8 @@ RTC::ReturnCode_t ${rtcParam.name}::onAborting(RTC::UniqueId ec_id)
 
 RTC::ReturnCode_t ${rtcParam.name}::onError(RTC::UniqueId ec_id)
 {
+#if(${tmpltHelper.checkDetailContent(7,${rtcParam})})${rtcParam.getDetailContent(7)}
+#end
   return RTC::RTC_OK;
 }
 #if(${rtcParam.IsNotImplemented(7)})*/
@@ -258,6 +276,8 @@ RTC::ReturnCode_t ${rtcParam.name}::onError(RTC::UniqueId ec_id)
 
 RTC::ReturnCode_t ${rtcParam.name}::onReset(RTC::UniqueId ec_id)
 {
+#if(${tmpltHelper.checkDetailContent(8,${rtcParam})})${rtcParam.getDetailContent(8)}
+#end
   return RTC::RTC_OK;
 }
 #if(${rtcParam.IsNotImplemented(8)})*/
@@ -271,6 +291,8 @@ RTC::ReturnCode_t ${rtcParam.name}::onReset(RTC::UniqueId ec_id)
 
 RTC::ReturnCode_t ${rtcParam.name}::onStateUpdate(RTC::UniqueId ec_id)
 {
+#if(${tmpltHelper.checkDetailContent(10,${rtcParam})})${rtcParam.getDetailContent(10)}
+#end
   return RTC::RTC_OK;
 }
 #if(${rtcParam.IsNotImplemented(10)})*/
@@ -284,11 +306,19 @@ RTC::ReturnCode_t ${rtcParam.name}::onStateUpdate(RTC::UniqueId ec_id)
 
 RTC::ReturnCode_t ${rtcParam.name}::onRateChanged(RTC::UniqueId ec_id)
 {
+#if(${tmpltHelper.checkDetailContent(11,${rtcParam})})${rtcParam.getDetailContent(11)}
+#end
   return RTC::RTC_OK;
 }
 #if(${rtcParam.IsNotImplemented(11)})*/
 #end
 
+#if(${tmpltHelper.checkContents(${rtcParam.publicOpeSource})})${rtcParam.publicOpeSource}
+#end
+#if(${tmpltHelper.checkContents(${rtcParam.protectedOpeSource})})${rtcParam.protectedOpeSource}
+#end
+#if(${tmpltHelper.checkContents(${rtcParam.privateOpeSource})})${rtcParam.privateOpeSource}
+#end
 
 
 extern "C"

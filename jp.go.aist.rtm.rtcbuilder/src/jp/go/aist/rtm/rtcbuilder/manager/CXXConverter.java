@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
+import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigParameterParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceArgumentParam;
@@ -147,9 +148,14 @@ public class CXXConverter {
 		if( result == null ) {
 			result = typeDef.getType();
 			if( !typeDef.getType().contains("::") ) {
+//				if(typeDef.isArray() && !typeDef.isStruct()) {
 				if(typeDef.isArray()) {
 					result = result + "_slice*";
-				} else if(typeDef.isSequence() || typeDef.isString()) {
+				} else if(typeDef.isSequence() || typeDef.isString() || typeDef.isChildString()) {
+					result = result + "*";
+				}
+			} else {
+				if(typeDef.isStruct()) {
 					result = result + "*";
 				}
 			}
@@ -234,11 +240,24 @@ public class CXXConverter {
 			
 		} else {
 			if(typeDef.isStruct()) {
+				if(typeDef.getModule()!=null && typeDef.getModule().length()>0) {
+					result = typeDef.getModule() + result;
+				}
 				if(typeDef.getDirection().equals("in"))
 					result = "const " + result + "&";
+				else if(typeDef.getDirection().equals("out")) {
+					if(typeDef.isInnerArray()==false && typeDef.isChildDouble()) {
+						result = result + "&";
+					} else {
+						result = result + "_out";
+					}
+				}
+				else if(typeDef.getDirection().equals("inout"))
+					result = result + "&";
+			} else {
+				if(typeDef.getDirection().equals("out") || typeDef.getDirection().equals("inout"))
+					result = result + "&";
 			}
-			if(typeDef.getDirection().equals("out") || typeDef.getDirection().equals("inout"))
-				result = result + "&";
 		}
 
 		return result;
@@ -325,5 +344,4 @@ public class CXXConverter {
 		String dataTypeNames[] = rtcType.split("::", 0);
 		return dataTypeNames[1];
 	}
-
 }

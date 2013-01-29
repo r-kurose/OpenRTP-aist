@@ -1,9 +1,11 @@
 package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
@@ -87,7 +89,7 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		updateDefaultValue();
 	}
 
-	private void updateDefaultValue() {
+	public void updateDefaultValue() {
 		IPreferenceStore store = RtcBuilderPlugin.getDefault().getPreferenceStore();
 		defaultPortName = ComponentPreferenceManager.getInstance().getDataPort_Name();
 		defaultPortType = store.getString(ComponentPreferenceManager.Generate_DataPort_Type);
@@ -151,6 +153,10 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		//
 		typeCombo = createLabelAndCombo(toolkit, detailGroup,
 				IMessageConstants.REQUIRED + IMessageConstants.DATAPORT_TBLLBL_DATATYPE, defaultTypeList, SWT.COLOR_RED);
+		String[] items = typeCombo.getItems();
+		Arrays.sort(items);
+		typeCombo.setItems(items);
+		//
 		varNameText = createLabelAndText(toolkit, detailGroup, IMessageConstants.DATAPORT_TBLLBL_VARNAME, SWT.BORDER);
 		positionCombo = createLabelAndCombo(toolkit, detailGroup, IMessageConstants.DATAPORT_TBLLBL_POSITION, DataPortParam.COMBO_ITEM);
 		/////
@@ -188,7 +194,7 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 
 		final TableViewer portParamTableViewer = createTableViewer(toolkit,	parent, 70);
 
-		final TableViewerColumn col = super.createColumn(portParamTableViewer, columnLabel, 200);
+		final TableViewerColumn col = super.createColumn(portParamTableViewer, columnLabel, IRtcBuilderConstants.SINGLE_COLUMN_WIDTH);
 		col.setEditingSupport(new DataPortEditingSuport(portParamTableViewer));
 //		col.getColumn().setResizable(false);
 		portParamTableViewer.setLabelProvider(new DataPortParamLabelProvider());
@@ -349,6 +355,9 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		RtcParam rtcParam = editor.getRtcParam();
 		outportTableViewer.setInput(rtcParam.getOutports());
 		inportTableViewer.setInput(rtcParam.getInports());
+		//Mac版では列の幅が最小化してしまうため，再度列幅を設定
+		outportTableViewer.getTable().getColumn(0).setWidth(IRtcBuilderConstants.SINGLE_COLUMN_WIDTH);
+		inportTableViewer.getTable().getColumn(0).setWidth(IRtcBuilderConstants.SINGLE_COLUMN_WIDTH);
 		//
 		StructuredSelection selection = (StructuredSelection) outportTableViewer
 				.getSelection();

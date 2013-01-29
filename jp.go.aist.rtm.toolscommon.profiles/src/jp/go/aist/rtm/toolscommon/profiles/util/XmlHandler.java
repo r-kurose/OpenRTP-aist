@@ -30,6 +30,7 @@ import javax.xml.validation.SchemaFactory;
 
 import jp.go.aist.rtm.toolscommon.profiles.nl.Messages;
 
+import org.openrtp.namespaces.deploy.DeployProfile;
 import org.openrtp.namespaces.rtc.version02.ActionStatusDoc;
 import org.openrtp.namespaces.rtc.version02.Actions;
 import org.openrtp.namespaces.rtc.version02.And;
@@ -249,6 +250,69 @@ public class XmlHandler {
 	    return result;
 	}
 	
+	public String convertToXmlDeploy(DeployProfile profile) throws Exception {
+	    String xmlString = "";
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance("org.openrtp.namespaces.deploy");
+			Marshaller marshaller = jaxbContext.createMarshaller();
+		    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT , new Boolean(true));
+		    marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper",
+					new NamespacePrefixMapperImpl(
+							"http://www.openrtp.org/namespaces/deploy"));
+		    StringWriter xmlFileWriter = new StringWriter();
+		    marshaller.marshal(profile, xmlFileWriter);
+		    xmlString = xmlFileWriter.toString();
+		} catch (JAXBException exception) {
+			throw new Exception(Messages.getString("XmlHandler.17"), exception);
+		}
+		return xmlString;
+	}
+	
+	public DeployProfile restoreFromXmlDeploy(String targetXML) throws Exception {
+		DeployProfile result = null;
+		JAXBContext jc = JAXBContext.newInstance("org.openrtp.namespaces.deploy");
+		Unmarshaller unmarshaller = jc.createUnmarshaller();
+		unmarshaller.setEventHandler(new javax.xml.bind.helpers.DefaultValidationEventHandler());
+	    StringReader xmlReader = new StringReader(targetXML);
+		Object profile = unmarshaller.unmarshal(xmlReader);
+		//
+		result = (DeployProfile) ((JAXBElement<?>) profile).getValue();
+		return result;
+	}
+
+	public DeployProfile loadXmlDeploy(String targetFile) throws Exception {
+		
+		StringBuffer stbRet = new StringBuffer();
+		InputStreamReader isr = new InputStreamReader(new FileInputStream(targetFile), "UTF-8");
+		BufferedReader br = new BufferedReader(isr);
+
+		String str = new String();
+		while( (str = br.readLine()) != null ){
+			stbRet.append(str + "\n");
+		}
+		br.close();
+		isr.close();
+		return restoreFromXmlDeploy(stbRet.toString());
+	}
+
+	public boolean saveXmlDeploy(DeployProfile profile, String targetFile) throws Exception {
+		String xmlString = convertToXmlDeploy(profile);
+
+		String lineSeparator = System.getProperty( "line.separator" );
+		if( lineSeparator==null || lineSeparator.equals("") ) lineSeparator = "\n";
+		String xmlSplit[] = xmlString.split(lineSeparator);
+
+		BufferedWriter outputFile = new BufferedWriter(
+					new OutputStreamWriter(new FileOutputStream(targetFile), "UTF-8"));
+		for(int intIdx=0;intIdx<xmlSplit.length;intIdx++) {
+			outputFile.write(xmlSplit[intIdx]);
+			outputFile.newLine();
+		}
+		outputFile.close();
+		
+		return true;
+	}
+	
 	private class RtsXMLParser extends DefaultHandler {
 		private String version = "";
 
@@ -446,6 +510,7 @@ public class XmlHandler {
 	
 	public static ConstraintType convertToXmlConstraint(String source) throws Exception {
 		if(source==null || source.length()==0 ) throw new Exception(Messages.getString("XmlHandler.69"));
+		source = source.replace(" ", "");
 		
 		ObjectFactory factory = new ObjectFactory();
 		ConstraintType result = factory.createConstraintType();

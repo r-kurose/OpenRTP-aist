@@ -180,6 +180,8 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #foreach($configParam in ${rtcParam.configParams})  
         bindParameter("${configParam.name}", m_${configParam.tmplVarName}, "${configParam.defaultVal}");
 #end
+#if(${tmpltHelper.checkDetailContent(0,${rtcParam})})${rtcParam.getDetailContent(0)}
+#end
         return super.onInitialize();
     }
 #else
@@ -209,6 +211,8 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
      */
 #if(${rtcParam.IsNotImplemented(1)})//#end    @Override
 #if(${rtcParam.IsNotImplemented(1)})//#end    protected ReturnCode_t onFinalize() {
+#if(${tmpltHelper.checkDetailContent(1,${rtcParam})})${rtcParam.getDetailContent(1)}
+#end
 #if(${rtcParam.IsNotImplemented(1)})//#end        return super.onFinalize();
 #if(${rtcParam.IsNotImplemented(1)})//#end    }
 
@@ -231,6 +235,8 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
      */
 #if(${rtcParam.IsNotImplemented(2)})//#end    @Override
 #if(${rtcParam.IsNotImplemented(2)})//#end    protected ReturnCode_t onStartup(int ec_id) {
+#if(${tmpltHelper.checkDetailContent(2,${rtcParam})})${rtcParam.getDetailContent(2)}
+#end
 #if(${rtcParam.IsNotImplemented(2)})//#end        return super.onStartup(ec_id);
 #if(${rtcParam.IsNotImplemented(2)})//#end    }
 
@@ -253,6 +259,8 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
      */
 #if(${rtcParam.IsNotImplemented(3)})//#end    @Override
 #if(${rtcParam.IsNotImplemented(3)})//#end    protected ReturnCode_t onShutdown(int ec_id) {
+#if(${tmpltHelper.checkDetailContent(3,${rtcParam})})${rtcParam.getDetailContent(3)}
+#end
 #if(${rtcParam.IsNotImplemented(3)})//#end        return super.onShutdown(ec_id);
 #if(${rtcParam.IsNotImplemented(3)})//#end    }
 
@@ -275,6 +283,8 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
      */
 #if(${rtcParam.IsNotImplemented(4)})//#end    @Override
 #if(${rtcParam.IsNotImplemented(4)})//#end    protected ReturnCode_t onActivated(int ec_id) {
+#if(${tmpltHelper.checkDetailContent(4,${rtcParam})})${rtcParam.getDetailContent(4)}
+#end
 #if(${rtcParam.IsNotImplemented(4)})//#end        return super.onActivated(ec_id);
 #if(${rtcParam.IsNotImplemented(4)})//#end    }
 
@@ -297,6 +307,8 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
      */
 #if(${rtcParam.IsNotImplemented(5)})//#end    @Override
 #if(${rtcParam.IsNotImplemented(5)})//#end    protected ReturnCode_t onDeactivated(int ec_id) {
+#if(${tmpltHelper.checkDetailContent(5,${rtcParam})})${rtcParam.getDetailContent(5)}
+#end
 #if(${rtcParam.IsNotImplemented(5)})//#end        return super.onDeactivated(ec_id);
 #if(${rtcParam.IsNotImplemented(5)})//#end    }
 
@@ -319,6 +331,8 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
      */
 #if(${rtcParam.IsNotImplemented(9)})//#end    @Override
 #if(${rtcParam.IsNotImplemented(9)})//#end    protected ReturnCode_t onExecute(int ec_id) {
+#if(${tmpltHelper.checkDetailContent(9,${rtcParam})})${rtcParam.getDetailContent(9)}
+#end
 #if(${rtcParam.IsNotImplemented(9)})//#end        return super.onExecute(ec_id);
 #if(${rtcParam.IsNotImplemented(9)})//#end    }
 
@@ -341,6 +355,8 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
      */
 #if(${rtcParam.IsNotImplemented(6)})//#end  @Override
 #if(${rtcParam.IsNotImplemented(6)})//#end  public ReturnCode_t onAborting(int ec_id) {
+#if(${tmpltHelper.checkDetailContent(6,${rtcParam})})${rtcParam.getDetailContent(6)}
+#end
 #if(${rtcParam.IsNotImplemented(6)})//#end      return super.onAborting(ec_id);
 #if(${rtcParam.IsNotImplemented(6)})//#end  }
 
@@ -363,6 +379,8 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
      */
 #if(${rtcParam.IsNotImplemented(7)})//#end    @Override
 #if(${rtcParam.IsNotImplemented(7)})//#end    public ReturnCode_t onError(int ec_id) {
+#if(${tmpltHelper.checkDetailContent(7,${rtcParam})})${rtcParam.getDetailContent(7)}
+#end
 #if(${rtcParam.IsNotImplemented(7)})//#end        return super.onError(ec_id);
 #if(${rtcParam.IsNotImplemented(7)})//#end    }
 
@@ -385,6 +403,8 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
      */
 #if(${rtcParam.IsNotImplemented(8)})//#end    @Override
 #if(${rtcParam.IsNotImplemented(8)})//#end    protected ReturnCode_t onReset(int ec_id) {
+#if(${tmpltHelper.checkDetailContent(8,${rtcParam})})${rtcParam.getDetailContent(8)}
+#end
 #if(${rtcParam.IsNotImplemented(8)})//#end        return super.onReset(ec_id);
 #if(${rtcParam.IsNotImplemented(8)})//#end    }
 
@@ -407,6 +427,8 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
      */
 #if(${rtcParam.IsNotImplemented(10)})//#end    @Override
 #if(${rtcParam.IsNotImplemented(10)})//#end    protected ReturnCode_t onStateUpdate(int ec_id) {
+#if(${tmpltHelper.checkDetailContent(10,${rtcParam})})${rtcParam.getDetailContent(10)}
+#end
 #if(${rtcParam.IsNotImplemented(10)})//#end        return super.onStateUpdate(ec_id);
 #if(${rtcParam.IsNotImplemented(10)})//#end    }
 
@@ -429,6 +451,8 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
      */
 #if(${rtcParam.IsNotImplemented(11)})//#end    @Override
 #if(${rtcParam.IsNotImplemented(11)})//#end    protected ReturnCode_t onRateChanged(int ec_id) {
+#if(${tmpltHelper.checkDetailContent(11,${rtcParam})})${rtcParam.getDetailContent(11)}
+#end
 #if(${rtcParam.IsNotImplemented(11)})//#end        return super.onRateChanged(ec_id);
 #if(${rtcParam.IsNotImplemented(11)})//#end    }
 //
@@ -575,5 +599,29 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
     
     // </rtc-template>
 
+#foreach($privateAttribute in ${rtcParam.privateAttributes})
+  ${privateAttribute}
+#end
+#foreach($privateOperation in ${rtcParam.privateOperations})
+  ${privateOperation}
+#end
+#foreach($protectedAttribute in ${rtcParam.protectedAttributes})
+  ${protectedAttribute}
+#end
+#foreach($protectedOperation in ${rtcParam.protectedOperations})
+  ${protectedOperation}
+#end
+#foreach($publicAttribute in ${rtcParam.publicAttributes})
+  ${publicAttribute}
+#end
+#foreach($publicOperation in ${rtcParam.publicOperations})
+  ${publicOperation}
+#end
+#if(${tmpltHelper.checkContents(${rtcParam.publicOpeSource})})${rtcParam.publicOpeSource}
+#end
+#if(${tmpltHelper.checkContents(${rtcParam.protectedOpeSource})})${rtcParam.protectedOpeSource}
+#end
+#if(${tmpltHelper.checkContents(${rtcParam.privateOpeSource})})${rtcParam.privateOpeSource}
+#end
 
 }

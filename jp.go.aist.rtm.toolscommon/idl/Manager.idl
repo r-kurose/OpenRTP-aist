@@ -47,22 +47,22 @@ module RTM
 
   interface Manager
   {
-    // module ŠÖ˜A
+    // module é–¢é€£
     /*!
      * @if jp
-     * @brief ƒ‚ƒWƒ…[ƒ‹‚ðƒ[ƒh‚·‚é
+     * @brief ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
      *
-     * “–ŠYƒ}ƒl[ƒWƒƒ‚ÉŽw’è‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚ðƒ[ƒh‚µAŽw’è‚³‚ê‚½‰Šú‰»
-     * ŠÖ”‚Å‰Šú‰»‚ðs‚¤B
+     * å½“è©²ãƒžãƒãƒ¼ã‚¸ãƒ£ã«æŒ‡å®šã•ã‚ŒãŸãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‚’ãƒ­ãƒ¼ãƒ‰ã—ã€æŒ‡å®šã•ã‚ŒãŸåˆæœŸåŒ–
+     * é–¢æ•°ã§åˆæœŸåŒ–ã‚’è¡Œã†ã€‚
      *
-     * @param pathname ƒ‚ƒWƒ…[ƒ‹‚Ö‚ÌƒpƒX
-     * @param initfunc ƒ‚ƒWƒ…[ƒ‹‚Ì‰Šú‰»ŠÖ”
-     * @return ƒŠƒ^[ƒ“ƒR[ƒh
+     * @param pathname ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã¸ã®ãƒ‘ã‚¹
+     * @param initfunc ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®åˆæœŸåŒ–é–¢æ•°
+     * @return ãƒªã‚¿ãƒ¼ãƒ³ã‚³ãƒ¼ãƒ‰
      *
      * @else
      * @brief Loading a module
      *
-     * This operation loads a specified loadable moduleAand perform
+     * This operation loads a specified loadable moduleã€and perform
      * initialization with the specified function.
      *
      * @param pathname A path to a loading module.
@@ -75,12 +75,12 @@ module RTM
 
     /*!
      * @if jp
-     * @brief ƒ‚ƒWƒ…[ƒ‹‚ðƒAƒ“ƒ[ƒh‚·‚é
+     * @brief ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‚’ã‚¢ãƒ³ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
      *
-     * “–ŠYƒ}ƒl[ƒWƒƒ‚ÉŽw’è‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚ðƒAƒ“ƒ[ƒh‚·‚éB
+     * å½“è©²ãƒžãƒãƒ¼ã‚¸ãƒ£ã«æŒ‡å®šã•ã‚ŒãŸãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‚’ã‚¢ãƒ³ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã€‚
      *
-     * @param pathname ƒ‚ƒWƒ…[ƒ‹‚Ö‚ÌƒpƒX
-     * @return ƒŠƒ^[ƒ“ƒR[ƒh
+     * @param pathname ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã¸ã®ãƒ‘ã‚¹
+     * @return ãƒªã‚¿ãƒ¼ãƒ³ã‚³ãƒ¼ãƒ‰
      *
      * @else
      * @brief Unloading a module
@@ -96,11 +96,11 @@ module RTM
 
     /*!
      * @if jp
-     * @brief ƒ[ƒh‰Â”\‚Èƒ‚ƒWƒ…[ƒ‹‚Ìƒvƒƒtƒ@ƒCƒ‹‚ðŽæ“¾‚·‚é
+     * @brief ãƒ­ãƒ¼ãƒ‰å¯èƒ½ãªãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å–å¾—ã™ã‚‹
      *
-     * ƒ[ƒh‰Â”\‚Èƒ‚ƒWƒ…[ƒ‹‚Ìƒvƒƒtƒ@ƒCƒ‹‚ðŽæ“¾‚·‚éB
+     * ãƒ­ãƒ¼ãƒ‰å¯èƒ½ãªãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å–å¾—ã™ã‚‹ã€‚
      *
-     * @return ƒ‚ƒWƒ…[ƒ‹ƒvƒƒtƒ@ƒCƒ‹
+     * @return ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«
      *
      * @else
      * @brief Getting loadable module profiles
@@ -115,11 +115,11 @@ module RTM
 
     /*!
      * @if jp
-     * @brief ƒ[ƒhÏ‚Ý‚Ìƒ‚ƒWƒ…[ƒ‹‚Ìƒvƒƒtƒ@ƒCƒ‹‚ðŽæ“¾‚·‚é
+     * @brief ãƒ­ãƒ¼ãƒ‰æ¸ˆã¿ã®ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å–å¾—ã™ã‚‹
      *
-     * ƒ[ƒhÏ‚Ý‚Ìƒ‚ƒWƒ…[ƒ‹‚Ìƒvƒƒtƒ@ƒCƒ‹‚ðŽæ“¾‚·‚éB
+     * ãƒ­ãƒ¼ãƒ‰æ¸ˆã¿ã®ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å–å¾—ã™ã‚‹ã€‚
      *
-     * @return ƒ‚ƒWƒ…[ƒ‹ƒvƒƒtƒ@ƒCƒ‹
+     * @return ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«
      *
      * @else
      * @brief Getting loaded module profiles
@@ -132,15 +132,15 @@ module RTM
      */
     ModuleProfileList get_loaded_modules();
     
-    // component ŠÖ˜A
+    // component é–¢é€£
     /*!
      * @if jp
-     * @brief ƒRƒ“ƒ|[ƒlƒ“ƒgƒtƒ@ƒNƒgƒŠ‚Ìƒvƒƒtƒ@ƒCƒ‹‚ðŽæ“¾‚·‚é
+     * @brief ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãƒ•ã‚¡ã‚¯ãƒˆãƒªã®ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å–å¾—ã™ã‚‹
      *
-     * ƒ[ƒhÏ‚Ý‚Ìƒ‚ƒWƒ…[ƒ‹‚Ì‚¤‚¿ARTƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒ‚ƒWƒ…[ƒ‹‚ªŽ‚Â
-     * ƒtƒ@ƒNƒgƒŠ‚Ìƒvƒƒtƒ@ƒCƒ‹‚ÌƒŠƒXƒg‚ðŽæ“¾‚·‚éB
+     * ãƒ­ãƒ¼ãƒ‰æ¸ˆã¿ã®ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ã†ã¡ã€RTã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ãŒæŒã¤
+     * ãƒ•ã‚¡ã‚¯ãƒˆãƒªã®ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
      *
-     * @return ƒRƒ“ƒ|[ƒlƒ“ƒgƒtƒ@ƒNƒgƒŠ‚Ìƒvƒƒtƒ@ƒCƒ‹ƒŠƒXƒg
+     * @return ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãƒ•ã‚¡ã‚¯ãƒˆãƒªã®ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ãƒªã‚¹ãƒˆ
      *
      * @else
      * @brief Getting component factory profiles
@@ -156,11 +156,11 @@ module RTM
 
     /*!
      * @if jp
-     * @brief ƒRƒ“ƒ|[ƒlƒ“ƒg‚ð¶¬‚·‚é
+     * @brief ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ç”Ÿæˆã™ã‚‹
      *
-     * ˆø”‚ÉŽw’è‚³‚ê‚½ƒRƒ“ƒ|[ƒlƒ“ƒg‚ð¶¬‚·‚éB
+     * å¼•æ•°ã«æŒ‡å®šã•ã‚ŒãŸã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
      *
-     * @return ¶¬‚³‚ê‚½RTƒRƒ“ƒ|[ƒlƒ“ƒg
+     * @return ç”Ÿæˆã•ã‚ŒãŸRTã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
      *
      * @else
      * @brief Creating an RT-Component
@@ -176,11 +176,11 @@ module RTM
 
     /*!
      * @if jp
-     * @brief ƒRƒ“ƒ|[ƒlƒ“ƒg‚ðíœ‚·‚é
+     * @brief ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å‰Šé™¤ã™ã‚‹
      *
-     * ˆø”‚ÉŽw’è‚³‚ê‚½ƒRƒ“ƒ|[ƒlƒ“ƒg‚ðíœ‚·‚éB
+     * å¼•æ•°ã«æŒ‡å®šã•ã‚ŒãŸã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å‰Šé™¤ã™ã‚‹ã€‚
      *
-     * @return ƒŠƒ^[ƒ“ƒR[ƒh
+     * @return ãƒªã‚¿ãƒ¼ãƒ³ã‚³ãƒ¼ãƒ‰
      *
      * @else
      * @brief Deleting an RT-Component
@@ -196,11 +196,11 @@ module RTM
 
     /*!
      * @if jp
-     * @brief ‹N“®’†‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒŠƒXƒg‚ðŽæ“¾‚·‚é
+     * @brief èµ·å‹•ä¸­ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹
      *
-     * Œ»Ý“–ŠYƒ}ƒl[ƒWƒƒã‚Å‹N“®’†‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒŠƒXƒg‚ð•Ô‚·B
+     * ç¾åœ¨å½“è©²ãƒžãƒãƒ¼ã‚¸ãƒ£ä¸Šã§èµ·å‹•ä¸­ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚
      *
-     * @return RTƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒŠƒXƒg
+     * @return RTã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒªã‚¹ãƒˆ
      *
      * @else
      * @brief Getting RT-Component list running on this manager
@@ -215,12 +215,12 @@ module RTM
 
     /*!
      * @if jp
-     * @brief ‹N“®’†‚ÌƒRƒ“ƒ|[ƒlƒ“ƒgƒvƒƒtƒ@ƒCƒ‹‚ÌƒŠƒXƒg‚ðŽæ“¾‚·‚é
+     * @brief èµ·å‹•ä¸­ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹
      *
-     * Œ»Ý“–ŠYƒ}ƒl[ƒWƒƒã‚Å‹N“®’†‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒvƒƒtƒ@ƒCƒ‹‚ÌƒŠƒX
-     * ƒg‚ð•Ô‚·B
+     * ç¾åœ¨å½“è©²ãƒžãƒãƒ¼ã‚¸ãƒ£ä¸Šã§èµ·å‹•ä¸­ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒªã‚¹
+     * ãƒˆã‚’è¿”ã™ã€‚
      *
-     * @return RTƒRƒ“ƒ|[ƒlƒ“ƒgƒvƒƒtƒ@ƒCƒ‹‚ÌƒŠƒXƒg
+     * @return RTã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒªã‚¹ãƒˆ
      *
      * @else
      * @brief Getting RT-Component's profile list running on this manager
@@ -234,14 +234,14 @@ module RTM
      */
     RTC::ComponentProfileList get_component_profiles();
 
-    // manager Šî–{
+    // manager åŸºæœ¬
     /*!
      * @if jp
-     * @brief ƒ}ƒl[ƒWƒƒ‚Ìƒvƒƒtƒ@ƒCƒ‹‚ðŽæ“¾‚·‚é
+     * @brief ãƒžãƒãƒ¼ã‚¸ãƒ£ã®ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å–å¾—ã™ã‚‹
      *
-     * Œ»Ý“–ŠYƒ}ƒl[ƒWƒƒ‚Ìƒvƒƒtƒ@ƒCƒ‹‚ðŽæ“¾‚·‚éB
+     * ç¾åœ¨å½“è©²ãƒžãƒãƒ¼ã‚¸ãƒ£ã®ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å–å¾—ã™ã‚‹ã€‚
      *
-     * @return ƒ}ƒl[ƒWƒƒƒvƒƒtƒ@ƒCƒ‹
+     * @return ãƒžãƒãƒ¼ã‚¸ãƒ£ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«
      *
      * @else
      * @brief Getting this manager's profile.
@@ -256,11 +256,11 @@ module RTM
 
     /*!
      * @if jp
-     * @brief ƒ}ƒl[ƒWƒƒ‚ÌƒRƒ“ƒtƒBƒMƒ…ƒŒ[ƒVƒ‡ƒ“‚ðŽæ“¾‚·‚é
+     * @brief ãƒžãƒãƒ¼ã‚¸ãƒ£ã®ã‚³ãƒ³ãƒ•ã‚£ã‚®ãƒ¥ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å–å¾—ã™ã‚‹
      *
-     * Œ»Ý“–ŠYƒ}ƒl[ƒWƒƒ‚ÌƒRƒ“ƒtƒBƒMƒ…ƒŒ[ƒVƒ‡ƒ“‚ðŽæ“¾‚·‚éB
+     * ç¾åœ¨å½“è©²ãƒžãƒãƒ¼ã‚¸ãƒ£ã®ã‚³ãƒ³ãƒ•ã‚£ã‚®ãƒ¥ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å–å¾—ã™ã‚‹ã€‚
      *
-     * @return ƒ}ƒl[ƒWƒƒƒRƒ“ƒtƒBƒMƒ…ƒŒ[ƒVƒ‡ƒ“
+     * @return ãƒžãƒãƒ¼ã‚¸ãƒ£ã‚³ãƒ³ãƒ•ã‚£ã‚®ãƒ¥ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³
      *
      * @else
      * @brief Getting this manager's configuration.
@@ -275,13 +275,13 @@ module RTM
 
     /*!
      * @if jp
-     * @brief ƒ}ƒl[ƒWƒƒ‚ÌƒRƒ“ƒtƒBƒMƒ…ƒŒ[ƒVƒ‡ƒ“‚ðÝ’è‚·‚é
+     * @brief ãƒžãƒãƒ¼ã‚¸ãƒ£ã®ã‚³ãƒ³ãƒ•ã‚£ã‚®ãƒ¥ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã‚’è¨­å®šã™ã‚‹
      *
-     * Œ»Ý“–ŠYƒ}ƒl[ƒWƒƒ‚ÌƒRƒ“ƒtƒBƒMƒ…ƒŒ[ƒVƒ‡ƒ“‚ðÝ’è‚·‚éB
+     * ç¾åœ¨å½“è©²ãƒžãƒãƒ¼ã‚¸ãƒ£ã®ã‚³ãƒ³ãƒ•ã‚£ã‚®ãƒ¥ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã‚’è¨­å®šã™ã‚‹ã€‚
      *
-     * @param name ƒZƒbƒg‚·‚éƒRƒ“ƒtƒBƒMƒ…ƒŒ[ƒVƒ‡ƒ“‚ÌƒL[–¼
-     * @param value ƒZƒbƒg‚·‚éƒRƒ“ƒtƒBƒMƒ…ƒŒ[ƒVƒ‡ƒ“‚Ì’l
-     * @return ƒŠƒ^[ƒ“ƒR[ƒh
+     * @param name ã‚»ãƒƒãƒˆã™ã‚‹ã‚³ãƒ³ãƒ•ã‚£ã‚®ãƒ¥ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã®ã‚­ãƒ¼å
+     * @param value ã‚»ãƒƒãƒˆã™ã‚‹ã‚³ãƒ³ãƒ•ã‚£ã‚®ãƒ¥ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã®å€¤
+     * @return ãƒªã‚¿ãƒ¼ãƒ³ã‚³ãƒ¼ãƒ‰
      *
      * @else
      * @brief Setting manager's configuration
@@ -298,12 +298,12 @@ module RTM
 
     /*!
      * @if jp
-     * @brief ƒ}ƒl[ƒWƒƒ‚ªƒ}ƒXƒ^[‚©‚Ç‚¤‚©
+     * @brief ãƒžãƒãƒ¼ã‚¸ãƒ£ãŒãƒžã‚¹ã‚¿ãƒ¼ã‹ã©ã†ã‹
      *
-     * ‚±‚ÌŠÖ”‚Íƒ}ƒl[ƒWƒƒ‚ªƒ}ƒXƒ^[‚©‚Ç‚¤‚©‚ð•Ô‚·BTrue‚È‚ç‚ÎA“–ŠYƒ}
-     * ƒl[ƒWƒƒ‚Íƒ}ƒXƒ^[‚Å‚ ‚èA‚»‚êˆÈŠO‚Í False ‚ð•Ô‚·B
+     * ã“ã®é–¢æ•°ã¯ãƒžãƒãƒ¼ã‚¸ãƒ£ãŒãƒžã‚¹ã‚¿ãƒ¼ã‹ã©ã†ã‹ã‚’è¿”ã™ã€‚Trueãªã‚‰ã°ã€å½“è©²ãƒž
+     * ãƒãƒ¼ã‚¸ãƒ£ã¯ãƒžã‚¹ã‚¿ãƒ¼ã§ã‚ã‚Šã€ãã‚Œä»¥å¤–ã¯ False ã‚’è¿”ã™ã€‚
      *
-     * @return ƒ}ƒXƒ^[ƒ}ƒl[ƒWƒƒ‚©‚Ç‚¤‚©‚Ìbool’l
+     * @return ãƒžã‚¹ã‚¿ãƒ¼ãƒžãƒãƒ¼ã‚¸ãƒ£ã‹ã©ã†ã‹ã®boolå€¤
      *
      * @else
      * @brief Whether this manager is master or not
@@ -319,13 +319,13 @@ module RTM
 
     /*!
      * @if jp
-     * @brief ƒ}ƒXƒ^[ƒ}ƒl[ƒWƒƒ‚ÌŽæ“¾
+     * @brief ãƒžã‚¹ã‚¿ãƒ¼ãƒžãƒãƒ¼ã‚¸ãƒ£ã®å–å¾—
      *
-     * ‚±‚Ìƒ}ƒl[ƒWƒƒ‚ªƒXƒŒ[ƒuƒ}ƒl[ƒWƒƒ‚Ìê‡Aƒ}ƒXƒ^[‚Æ‚È‚Á‚Ä‚¢‚éƒ}
-     * ƒl[ƒWƒƒ‚ÌƒŠƒXƒg‚ð•Ô‚·B‚±‚Ìƒ}ƒl[ƒWƒƒ‚ªƒ}ƒXƒ^[‚Ìê‡A‹ó‚ÌƒŠƒX
-     * ƒg‚ª•Ô‚éB
+     * ã“ã®ãƒžãƒãƒ¼ã‚¸ãƒ£ãŒã‚¹ãƒ¬ãƒ¼ãƒ–ãƒžãƒãƒ¼ã‚¸ãƒ£ã®å ´åˆã€ãƒžã‚¹ã‚¿ãƒ¼ã¨ãªã£ã¦ã„ã‚‹ãƒž
+     * ãƒãƒ¼ã‚¸ãƒ£ã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚ã“ã®ãƒžãƒãƒ¼ã‚¸ãƒ£ãŒãƒžã‚¹ã‚¿ãƒ¼ã®å ´åˆã€ç©ºã®ãƒªã‚¹
+     * ãƒˆãŒè¿”ã‚‹ã€‚
      *
-     * @return ƒ}ƒXƒ^[ƒ}ƒl[ƒWƒƒ‚ÌƒŠƒXƒg
+     * @return ãƒžã‚¹ã‚¿ãƒ¼ãƒžãƒãƒ¼ã‚¸ãƒ£ã®ãƒªã‚¹ãƒˆ
      *
      * @else
      * @brief Getting master managers
@@ -342,11 +342,11 @@ module RTM
 
     /*!
      * @if jp
-     * @brief ƒ}ƒXƒ^[ƒ}ƒl[ƒWƒƒ‚Ì’Ç‰Á
+     * @brief ãƒžã‚¹ã‚¿ãƒ¼ãƒžãƒãƒ¼ã‚¸ãƒ£ã®è¿½åŠ 
      *
-     * ‚±‚Ìƒ}ƒl[ƒWƒƒ‚Ìƒ}ƒXƒ^‚Æ‚µ‚Äƒ}ƒl[ƒWƒƒ‚ðˆê‚Â’Ç‰Á‚·‚éB
+     * ã“ã®ãƒžãƒãƒ¼ã‚¸ãƒ£ã®ãƒžã‚¹ã‚¿ã¨ã—ã¦ãƒžãƒãƒ¼ã‚¸ãƒ£ã‚’ä¸€ã¤è¿½åŠ ã™ã‚‹ã€‚
      *
-     * @param mgr ƒ}ƒXƒ^[ƒ}ƒl[ƒWƒƒ
+     * @param mgr ãƒžã‚¹ã‚¿ãƒ¼ãƒžãƒãƒ¼ã‚¸ãƒ£
      * @return ReturnCode_t
      *
      * @else
@@ -363,11 +363,11 @@ module RTM
 
     /*!
      * @if jp
-     * @brief ƒ}ƒXƒ^[ƒ}ƒl[ƒWƒƒ‚Ìíœ
+     * @brief ãƒžã‚¹ã‚¿ãƒ¼ãƒžãƒãƒ¼ã‚¸ãƒ£ã®å‰Šé™¤
      *
-     * ‚±‚Ìƒ}ƒl[ƒWƒƒ‚ª•ÛŽ‚·‚éƒ}ƒXƒ^‚Ì‚¤‚¿AŽw’è‚³‚ê‚½‚à‚Ì‚ðíœ‚·‚éB
+     * ã“ã®ãƒžãƒãƒ¼ã‚¸ãƒ£ãŒä¿æŒã™ã‚‹ãƒžã‚¹ã‚¿ã®ã†ã¡ã€æŒ‡å®šã•ã‚ŒãŸã‚‚ã®ã‚’å‰Šé™¤ã™ã‚‹ã€‚
      *
-     * @param mgr ƒ}ƒXƒ^[ƒ}ƒl[ƒWƒƒ
+     * @param mgr ãƒžã‚¹ã‚¿ãƒ¼ãƒžãƒãƒ¼ã‚¸ãƒ£
      * @return ReturnCode_t
      *
      * @else
@@ -384,13 +384,13 @@ module RTM
 
     /*!
      * @if jp
-     * @brief ƒXƒŒ[ƒuƒ}ƒl[ƒWƒƒ‚ÌŽæ“¾
+     * @brief ã‚¹ãƒ¬ãƒ¼ãƒ–ãƒžãƒãƒ¼ã‚¸ãƒ£ã®å–å¾—
      *
-     * ‚±‚Ìƒ}ƒl[ƒWƒƒ‚ªƒXƒŒ[ƒuƒ}ƒl[ƒWƒƒ‚Ìê‡AƒXƒŒ[ƒu‚Æ‚È‚Á‚Ä‚¢‚éƒ}
-     * ƒl[ƒWƒƒ‚ÌƒŠƒXƒg‚ð•Ô‚·B‚±‚Ìƒ}ƒl[ƒWƒƒ‚ªƒXƒŒ[ƒu‚Ìê‡A‹ó‚ÌƒŠƒX
-     * ƒg‚ª•Ô‚éB
+     * ã“ã®ãƒžãƒãƒ¼ã‚¸ãƒ£ãŒã‚¹ãƒ¬ãƒ¼ãƒ–ãƒžãƒãƒ¼ã‚¸ãƒ£ã®å ´åˆã€ã‚¹ãƒ¬ãƒ¼ãƒ–ã¨ãªã£ã¦ã„ã‚‹ãƒž
+     * ãƒãƒ¼ã‚¸ãƒ£ã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ã€‚ã“ã®ãƒžãƒãƒ¼ã‚¸ãƒ£ãŒã‚¹ãƒ¬ãƒ¼ãƒ–ã®å ´åˆã€ç©ºã®ãƒªã‚¹
+     * ãƒˆãŒè¿”ã‚‹ã€‚
      *
-     * @return ƒXƒŒ[ƒuƒ}ƒl[ƒWƒƒ‚ÌƒŠƒXƒg
+     * @return ã‚¹ãƒ¬ãƒ¼ãƒ–ãƒžãƒãƒ¼ã‚¸ãƒ£ã®ãƒªã‚¹ãƒˆ
      *
      * @else
      * @brief Getting slave managers
@@ -406,11 +406,11 @@ module RTM
     ManagerList get_slave_managers();
     /*!
      * @if jp
-     * @brief ƒXƒŒ[ƒuƒ}ƒl[ƒWƒƒ‚Ì’Ç‰Á
+     * @brief ã‚¹ãƒ¬ãƒ¼ãƒ–ãƒžãƒãƒ¼ã‚¸ãƒ£ã®è¿½åŠ 
      *
-     * ‚±‚Ìƒ}ƒl[ƒWƒƒ‚Ìƒ}ƒXƒ^‚Æ‚µ‚Äƒ}ƒl[ƒWƒƒ‚ðˆê‚Â’Ç‰Á‚·‚éB
+     * ã“ã®ãƒžãƒãƒ¼ã‚¸ãƒ£ã®ãƒžã‚¹ã‚¿ã¨ã—ã¦ãƒžãƒãƒ¼ã‚¸ãƒ£ã‚’ä¸€ã¤è¿½åŠ ã™ã‚‹ã€‚
      *
-     * @param mgr ƒXƒŒ[ƒuƒ}ƒl[ƒWƒƒ
+     * @param mgr ã‚¹ãƒ¬ãƒ¼ãƒ–ãƒžãƒãƒ¼ã‚¸ãƒ£
      * @return ReturnCode_t
      *
      * @else
@@ -427,11 +427,11 @@ module RTM
 
     /*!
      * @if jp
-     * @brief ƒXƒŒ[ƒuƒ}ƒl[ƒWƒƒ‚Ìíœ
+     * @brief ã‚¹ãƒ¬ãƒ¼ãƒ–ãƒžãƒãƒ¼ã‚¸ãƒ£ã®å‰Šé™¤
      *
-     * ‚±‚Ìƒ}ƒl[ƒWƒƒ‚ª•ÛŽ‚·‚éƒ}ƒXƒ^‚Ì‚¤‚¿AŽw’è‚³‚ê‚½‚à‚Ì‚ðíœ‚·‚éB
+     * ã“ã®ãƒžãƒãƒ¼ã‚¸ãƒ£ãŒä¿æŒã™ã‚‹ãƒžã‚¹ã‚¿ã®ã†ã¡ã€æŒ‡å®šã•ã‚ŒãŸã‚‚ã®ã‚’å‰Šé™¤ã™ã‚‹ã€‚
      *
-     * @param mgr ƒXƒŒ[ƒuƒ}ƒl[ƒWƒƒ
+     * @param mgr ã‚¹ãƒ¬ãƒ¼ãƒ–ãƒžãƒãƒ¼ã‚¸ãƒ£
      * @return ReturnCode_t
      *
      * @else

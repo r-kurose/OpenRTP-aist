@@ -13,9 +13,9 @@ public class StringUtil {
 	public static boolean checkDigitAlphabet(String source) {
 	    for(int intIdx = 0; intIdx < source.length(); intIdx++) {
 	        char target = source.charAt(intIdx);
-	        if( (target < '0' || target > '9') &&    //”šƒ`ƒFƒbƒN
-	            (target < 'a' || target > 'z') &&    //¬•¶šƒAƒ‹ƒtƒ@ƒxƒbƒgƒ`ƒFƒbƒN
-	            (target < 'A' || target > 'Z') &&    //‘å•¶šƒAƒ‹ƒtƒ@ƒxƒbƒgƒ`ƒFƒbƒN
+	        if( (target < '0' || target > '9') &&    //æ•°å­—ãƒã‚§ãƒƒã‚¯
+	            (target < 'a' || target > 'z') &&    //å°æ–‡å­—ã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆãƒã‚§ãƒƒã‚¯
+	            (target < 'A' || target > 'Z') &&    //å¤§æ–‡å­—ã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆãƒã‚§ãƒƒã‚¯
 	            (target != '_') && (target != '-') && (target != ':')) {
 	             return false;
 	        }
@@ -29,12 +29,12 @@ public class StringUtil {
 		String sep = System.getProperty("line.separator");
 		String lines[] = source.split(IRtcBuilderConstants.NEWLINE_CODE);
 
-		// ˆê•¶š‚¸‚Â•Û
+		// ä¸€æ–‡å­—ãšã¤ä¿æŒ
 		StringBuffer strBuf = new StringBuffer();
-		// –ß‚è’l—p
+		// æˆ»ã‚Šå€¤ç”¨
 		StringBuffer result = new StringBuffer();
 		
-		// result‚É“Š“ü‚·‚é‘O‚Ìwork
+		// resultã«æŠ•å…¥ã™ã‚‹å‰ã®work
 		ArrayList<StringBuffer> workResult = new ArrayList<StringBuffer>();
 		ArrayList<StringBuffer> temp = new ArrayList<StringBuffer>();
 		
@@ -45,9 +45,9 @@ public class StringUtil {
 			source = lines[intline];
 			for( int intIdx=0; intIdx<source.length(); intIdx++ ) {
 				length += String.valueOf(source.charAt(intIdx)).getBytes().length;
-				// ˆê•¶š‚¸‚Âæ“¾‚·‚é
+				// ä¸€æ–‡å­—ãšã¤å–å¾—ã™ã‚‹
 				strBuf.append(source.charAt(intIdx));
-				// ‰üs•¶š‚Ìê‡‚ÍC‚»‚Ì‘O‚Ü‚Å‚ğ“Š“ü
+				// æ”¹è¡Œæ–‡å­—ã®å ´åˆã¯ï¼Œãã®å‰ã¾ã§ã‚’æŠ•å…¥
 				if (String.valueOf(source.charAt(intIdx)).equals(sep)) {
 					workResult.add(strBuf);
 					strBuf = new StringBuffer();
@@ -55,7 +55,7 @@ public class StringUtil {
 				}
 				
 				if (String.valueOf(source.charAt(intIdx)).equals(START_MARK)) {
-					// temp‚Ì’l‚ğwork‚É“Š“ü
+					// tempã®å€¤ã‚’workã«æŠ•å…¥
 					if (temp.size() > 0) {
 						workResult.addAll(temp);
 						temp = new ArrayList<StringBuffer>();
@@ -66,14 +66,14 @@ public class StringUtil {
 				if (String.valueOf(source.charAt(intIdx)).equals(END_MARK)) {
 					bolFlg = true;
 					if (temp.size() > 0) {
-						// I—¹•¶š‚Ü‚Å‚ğStringBuffer‚É‚½‚ßAwork‚É“Š“ü
+						// çµ‚äº†æ–‡å­—ã¾ã§ã‚’StringBufferã«ãŸã‚ã€workã«æŠ•å…¥
 						StringBuffer workBuffer = new StringBuffer();
 						for (int intIdx2=0; intIdx2 < temp.size(); intIdx2++) {
 							workBuffer.append(temp.get(intIdx2));
 						}
 						workBuffer.append(strBuf);
 						workResult.add(workBuffer);
-						// ‰Šú‰»
+						// åˆæœŸåŒ–
 						bolFlg = false;
 						temp = new ArrayList<StringBuffer>();
 						strBuf = new StringBuffer();
@@ -82,8 +82,8 @@ public class StringUtil {
 				}
 				
 				if(length >= width) {
-					// width•ª•¶š—ñ‚ğæ“¾‚µ‚½‚ÉI—¹•¶š‚ªŠÜ‚Ü‚ê‚Ä‚¢‚È‚¯‚ê‚Îtemp‚Ö
-					// ŠÜ‚Ü‚ê‚Ä‚¢‚½‚çwork‚ÖB
+					// widthåˆ†æ–‡å­—åˆ—ã‚’å–å¾—ã—ãŸæ™‚ã«çµ‚äº†æ–‡å­—ãŒå«ã¾ã‚Œã¦ã„ãªã‘ã‚Œã°tempã¸
+					// å«ã¾ã‚Œã¦ã„ãŸã‚‰workã¸ã€‚
 					if (bolFlg == false) {
 						temp.add(strBuf);
 					} else {
@@ -95,16 +95,16 @@ public class StringUtil {
 				
 			}
 	
-			// temp‚Éc‚Á‚Ä‚¢‚é•¶š—ñ‚ğwork‚Ö
+			// tempã«æ®‹ã£ã¦ã„ã‚‹æ–‡å­—åˆ—ã‚’workã¸
 			if (temp.size() > 0) workResult.addAll(temp);
-			// strBuf‚Éc‚Á‚Ä‚¢‚é•¶š—ñ‚ğwork‚Ö
+			// strBufã«æ®‹ã£ã¦ã„ã‚‹æ–‡å­—åˆ—ã‚’workã¸
 			if (strBuf.length() > 0) workResult.add(strBuf);
 			temp = new ArrayList<StringBuffer>();
 			strBuf = new StringBuffer();
 			length = 0;
 		}
 		
-		// workResult‚©‚çresult‚ğ¬Œ`‚·‚é
+		// workResultã‹ã‚‰resultã‚’æˆå½¢ã™ã‚‹
 		for (int intIdx=0; intIdx < workResult.size();intIdx++){
 			if (intIdx > 0)	result.append(prefix);
 			result.append(workResult.get(intIdx));

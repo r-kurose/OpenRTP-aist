@@ -13,7 +13,6 @@ import static jp.go.aist.rtm.toolscommon.util.ComponentUtil.*;
 public class DirectEditNameCommand extends Command {
 
 	Object model;
-
 	String text, oldText;
 
 	@Override
@@ -22,10 +21,12 @@ public class DirectEditNameCommand extends Command {
 			Component c = (Component) model;
 			oldText = c.getInstanceNameL();
 			c.setInstanceNameL(text);
-			// 設定されたインスタンス名を元にポート名を正規化
-			trimPortNames(c);
-			// ポート名の変更をコネクタプロファイルへ反映
-			trimConnectorProfiles(c);
+			if (!c.isCompositeComponent()) {
+				// 設定されたインスタンス名を元にポート名を正規化
+				trimPortNames(c);
+				// ポート名の変更をコネクタプロファイルへ反映
+				trimConnectorProfiles(c);
+			}
 		}
 	}
 
@@ -34,10 +35,12 @@ public class DirectEditNameCommand extends Command {
 		if (model instanceof Component) {
 			Component c = (Component) model;
 			c.setInstanceNameL(oldText);
-			// 設定されたインスタンス名を元にポート名を正規化
-			trimPortNames(c);
-			// ポート名の変更をコネクタプロファイルへ反映
-			trimConnectorProfiles(c);
+			if (!c.isCompositeComponent()) {
+				// 設定されたインスタンス名を元にポート名を正規化
+				trimPortNames(c);
+				// ポート名の変更をコネクタプロファイルへ反映
+				trimConnectorProfiles(c);
+			}
 		}
 		oldText = null;
 	}

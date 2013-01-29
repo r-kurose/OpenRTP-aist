@@ -11,13 +11,13 @@ import java.util.List;
 
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
+import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
 import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 import jp.go.aist.rtm.toolscommon.model.component.PortSynchronizer;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
-import jp.go.aist.rtm.toolscommon.model.component.util.IPropertyMapUtil;
 import jp.go.aist.rtm.toolscommon.model.component.util.PortConnectorFactory;
 import jp.go.aist.rtm.toolscommon.model.component.util.PropertyMap;
 
@@ -61,7 +61,7 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 	protected String originalPortString = ORIGINAL_PORT_STRING_EDEFAULT;
 	private SystemDiagram currentDiagram;
 
-	IPropertyMapUtil properties;
+	IPropertyMap properties;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -109,12 +109,61 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public void disconnectAll() {
+	@Override
+	public boolean disconnect(String conn_id) {
+		Port port = (Port) eContainer();
+		ConnectorProfile profile = findConnProfile(conn_id, port);
+		if (profile == null) {
+			return false;
+		}
+		SystemDiagram diagram = (SystemDiagram) port.eContainer().eContainer();
+		if (diagram == null) {
+			diagram = currentDiagram.getRootDiagram();
+		} else {
+			diagram = diagram.getRootDiagram();
+		}
+		PortConnector connector = PortConnectorFactory
+				.createPortConnectorSpecification();
+		connector.setConnectorProfile(profile);
+		connector.setSource(port.findPort(diagram, profile.getSourceString()));
+		connector.setTarget(port.findPort(diagram, profile.getTargetString()));
+		return connector.deleteConnectorR();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public boolean disconnect(ConnectorProfile conn_prof) {
+		if (conn_prof == null) {
+			return false;
+		}
+		return disconnect(conn_prof.getConnectorId());
+	}
+
+	ConnectorProfile findConnProfile(String conn_id, Port port) {
+		for (ConnectorProfile profile : port.getConnectorProfiles()) {
+			if (conn_id != null && conn_id.equals(profile.getConnectorId())) {
+				return profile;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public boolean disconnectAll() {
 		// ここではオフラインのポート全切断を行う
 		Port port = (Port) eContainer();
 		SystemDiagram diagram = (SystemDiagram) port.eContainer().eContainer();
 		diagram = diagram != null ? diagram.getRootDiagram() : currentDiagram.getRootDiagram();
-		
+
 		List<ConnectorProfile> profiles = new ArrayList<ConnectorProfile>(port.getConnectorProfiles());
 		for (ConnectorProfile profile : profiles) {
 			PortConnector connector = PortConnectorFactory.createPortConnectorSpecification();
@@ -123,6 +172,7 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 			connector.setTarget(port.findPort(diagram, profile.getTargetString()));
 			connector.deleteConnectorR();
 		}
+		return true;
 	}
 
 	/**
@@ -199,22 +249,22 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 		return result.toString();
 	}
 
-//	@Override
+	@Override
 	public String getDataflowType() {
 		return null;
 	}
 
-//	@Override
+	@Override
 	public String getDataType() {
 		return null;
 	}
 
-//	@Override
+	@Override
 	public String getInterfaceType() {
 		return null;
 	}
 
-//	@Override
+	@Override
 	public String getSubscriptionType() {
 		return null;
 	}
@@ -238,6 +288,7 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public String getProperty(String key) {
 		return properties.getProperty(key);
 	}
@@ -247,6 +298,7 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public void setProperty(String key, String value) {
 		properties.setProperty(key, value);
 	}
@@ -256,6 +308,7 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public String removeProperty(String key) {
 		return properties.removeProperty(key);
 	}
@@ -265,14 +318,30 @@ public class PortSynchronizerImpl extends EObjectImpl implements PortSynchronize
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public EList<String> getPropertyKeys() {
 		return properties.getPropertyKeys();
 	}
 
-	//	@Override
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public IPropertyMap getPropertyMap() {
+		return properties;
+	}
+
+	@Override
 	public void setCurrentDiagram(SystemDiagram currentDiagram) {
 		this.currentDiagram = currentDiagram;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public Object getAdapter(Class adapter) {
+		return null;
+	}
 
 } //PortSynchronizerImpl

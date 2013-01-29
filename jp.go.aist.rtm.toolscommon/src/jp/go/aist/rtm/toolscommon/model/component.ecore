@@ -196,7 +196,13 @@
   <eClassifiers xsi:type="ecore:EClass" name="OutPort" eSuperTypes="#//Port"/>
   <eClassifiers xsi:type="ecore:EClass" name="ServicePort" eSuperTypes="#//Port"/>
   <eClassifiers xsi:type="ecore:EClass" name="PortSynchronizer" eSuperTypes="#//IPropertyMap">
-    <eOperations name="disconnectAll"/>
+    <eOperations name="disconnect" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="conn_id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="disconnect" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="conn_prof" eType="#//ConnectorProfile"/>
+    </eOperations>
+    <eOperations name="disconnectAll" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="originalPortString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PortConnector" abstract="true" eSuperTypes="core.ecore#//WrapperObject">
@@ -255,7 +261,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType core.ecore#//Point"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="IPropertyMap" abstract="true" interface="true">
+  <eClassifiers xsi:type="ecore:EClass" name="IPropertyMap" abstract="true" interface="true"
+      eSuperTypes="core.ecore#//IAdaptable">
     <eOperations name="getProperty" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eParameters name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
@@ -267,6 +274,7 @@
       <eParameters name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
     <eOperations name="getPropertyKeys" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations name="getPropertyMap" eType="#//IPropertyMap"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="SDOConfiguration" instanceClassName="_SDOPackage.Configuration"/>
   <eClassifiers xsi:type="ecore:EDataType" name="SDOConfigurationSet" instanceClassName="_SDOPackage.ConfigurationSet"/>
@@ -294,6 +302,7 @@
     <eOperations name="finalizeR" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eOperations name="exitR" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eOperations name="getCorbaObjectInterface" eType="#//RTCRTObject"/>
+    <eOperations name="supportedCorbaObserver" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="executionContextState"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" transient="true"
         defaultValueLiteral="0"/>
@@ -313,6 +322,7 @@
         upperBound="-1" eType="#//RTCRTObject" transient="true" defaultValueLiteral=""/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ior" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="statusObserver" eType="#//CorbaStatusObserver"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="logObserver" eType="#//CorbaLogObserver"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CorbaPortSynchronizer" eSuperTypes="core.ecore#//CorbaWrapperObject #//PortSynchronizer">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rTCPortProfile" eType="#//RTCPortProfile"/>
@@ -360,9 +370,8 @@
     <eOperations name="attachComponent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
       <eParameters name="component" eType="#//CorbaComponent"/>
     </eOperations>
-    <eOperations name="detachComponent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
-      <eParameters name="component" eType="#//CorbaComponent"/>
-    </eOperations>
+    <eOperations name="detachComponent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="finish" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="serviceProfile" eType="#//SDOServiceProfile"
         changeable="false"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="servant" eType="#//Servant"
@@ -371,5 +380,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="CorbaStatusObserver" eSuperTypes="#//CorbaObserver">
     <eOperations name="isTimeOut" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CorbaLogObserver" eSuperTypes="#//CorbaObserver"/>
   <eClassifiers xsi:type="ecore:EDataType" name="Servant" instanceClassName="org.omg.PortableServer.Servant"/>
 </ecore:EPackage>

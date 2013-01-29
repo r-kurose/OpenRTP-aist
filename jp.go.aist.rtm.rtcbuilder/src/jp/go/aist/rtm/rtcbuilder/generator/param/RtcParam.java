@@ -91,6 +91,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	private List<String> originalConsumerIdls = new ArrayList<String>();
 	
 	private List<String> includedIdls = new ArrayList<String>();
+	private List<String> idlPathes = new ArrayList<String>();
 
 	private RecordedList<String> privateAttributes = new RecordedList<String>();
 	private RecordedList<String> protectedAttributes = new RecordedList<String>();
@@ -99,6 +100,10 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	private RecordedList<String> protectedOperations = new RecordedList<String>();
 	private RecordedList<String> publicOperations = new RecordedList<String>();
 	//
+	private String[] detailContent = new String[IRtcBuilderConstants.ACTIVITY_DUMMY];
+	private String privateOpeSource;
+	private String protectedOpeSource;
+	private String publicOpeSource;
 	//Prefix,Suffix
 	private String commonPrefix;
 	private String commonSuffix;
@@ -113,6 +118,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	
 	//
 	private String rtm_version = IRtcBuilderConstants.DEFAULT_RTM_VERSION;
+	private String rtm_java_version = IRtcBuilderConstants.DEFAULT_RTM_VERSION;
 	private boolean test_version = false;
 
 	public RtcParam(GeneratorParam parent) {
@@ -572,6 +578,9 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		}
 		return result;
 	}
+	public List<String> getIdlPathes() {
+		return idlPathes;
+	}
 	//
 	public String getCommonPrefix() {
 		if(commonPrefix==null) commonPrefix = "m_"; 
@@ -744,9 +753,25 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 					if( targetIDL!=null) {
 						idlPathes.add(targetIDL.trim());
 						consumerIdlStrings.add(targetIDL);
-						consumerIdlParams.add(new IdlFileParam(targetIDL,this));
 					}
 				}
+				boolean isHit = false;
+				for(IdlFileParam file : consumerIdlParams) {
+					if( file.getIdlPath().equals(targetIDL) ) {
+						if(file.getTargetType().contains(targetType)==false) {
+							file.getTargetType().add(targetType);
+							isHit = true;
+							break;
+						}
+					}
+				}
+				if(isHit==false) {
+					IdlFileParam target = new IdlFileParam(targetIDL,this);
+					target.setDataPort(true);
+					target.getTargetType().add(targetType);
+					consumerIdlParams.add(target);
+				}
+				
 				break;
 			}
 		}
@@ -767,19 +792,52 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		this.rtm_version = version;
 	}
 
+	public String getRtmJavaVersion() {
+		return rtm_java_version;
+	}
+	public void setRtmJavaVersion(String rtm_java_version) {
+		this.rtm_java_version = rtm_java_version;
+	}
+
 	public boolean getIsTest() {
 		return this.test_version;
 	}
 	public void setIsTest(boolean isTest) {
 		this.test_version = isTest;
 	}
-	public boolean checkConstraint() {
-		for( ConfigSetParam config : configParams ) {
-			if( config.getConstraint()!=null && config.getConstraint().length()>0) {
-				return true;
-			}
+	public boolean checkConfig() {
+		if( 0<configParams.size() || 0<configParameterParams.size() || 0.0<executionRate ) {
+			return true;
 		}
 		return false;
+	}
+	
+	public void setDetailContent(int index, String target) {
+		detailContent[index] = target;
+	}
+	public String getDetailContent(int index) {
+		return detailContent[index];
+	}
+
+	public String getPrivateOpeSource() {
+		return privateOpeSource;
+	}
+	public void setPrivateOpeSource(String privateOpeSource) {
+		this.privateOpeSource = privateOpeSource;
+	}
+
+	public String getProtectedOpeSource() {
+		return protectedOpeSource;
+	}
+	public void setProtectedOpeSource(String protectedOpeSource) {
+		this.protectedOpeSource = protectedOpeSource;
+	}
+
+	public String getPublicOpeSource() {
+		return publicOpeSource;
+	}
+	public void setPublicOpeSource(String publicOpeSource) {
+		this.publicOpeSource = publicOpeSource;
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 // -*- IDL -*-
 /*!
  * @file RTCService.idl
- * @brief RTComponent ƒT[ƒrƒXƒCƒ“ƒ^[ƒtƒF[ƒX
+ * @brief RTComponent ã‚µãƒ¼ãƒ“ã‚¹ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹
  * @date $Date: 2007/03/14 12:14:35 $
  * @author Noriaki Ando <n-ando@aist.go.jp>
  *
@@ -20,7 +20,7 @@
 /*
  * $Log: DAQService.idl,v $
  * Revision 1.1  2007/03/14 12:14:35  tsakamoto
- * ‘®«¶¬”Å
+ * å±æ€§ç”Ÿæˆç‰ˆ
  *
  * Revision 1.1  2005/09/07 05:06:13  n-ando
  * RTComponent's service management feature was added.

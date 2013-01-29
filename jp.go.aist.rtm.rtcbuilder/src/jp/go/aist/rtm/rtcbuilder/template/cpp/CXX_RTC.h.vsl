@@ -78,14 +78,14 @@ class ${rtcParam.name}
 
   // <rtc-template block="public_attribute">
 #foreach($publicAttribute in ${rtcParam.publicAttributes})
-  ${publicAttribute};
+  ${publicAttribute}
 #end
   
   // </rtc-template>
 
   // <rtc-template block="public_operation">
 #foreach($publicOperation in ${rtcParam.publicOperations})
-  ${publicOperation};
+  ${publicOperation}
 #end
   
   // </rtc-template>
@@ -318,21 +318,21 @@ class ${rtcParam.name}
  protected:
   // <rtc-template block="protected_attribute">
 #foreach($protectedAttribute in ${rtcParam.protectedAttributes})
-  ${protectedAttribute};
+  ${protectedAttribute}
 #end
   
   // </rtc-template>
 
   // <rtc-template block="protected_operation">
 #foreach($protectedOperation in ${rtcParam.protectedOperations})
-  ${protectedOperation};
+  ${protectedOperation}
 #end
   
   // </rtc-template>
 
-#if( ${rtcParam.configParams.size()} > 0 )
   // Configuration variable declaration
   // <rtc-template block="config_declare">
+#if( ${rtcParam.configParams.size()} > 0 )
 #foreach($configParam in ${rtcParam.configParams})
   /*!
    * ${tmpltHelper.convertDescDoc(${configParam.docDescription})}
@@ -347,13 +347,14 @@ class ${rtcParam.name}
    */
   ${cXXConv.convConfigSetType(${configParam.type})} ${rtcParam.commonPrefix}${rtcParam.configurationPrefix}${configParam.tmplVarName}${rtcParam.configurationSuffix}${rtcParam.commonSuffix};
 #end
+#end
+
   // </rtc-template>
 
-#end
   // DataInPort declaration
   // <rtc-template block="inport_declare">
 #foreach($port in ${rtcParam.inports})
-#if(${port.type}!="")  ${cXXConv.getDataTypeName(${port.type})} ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
+#if(${port.type}!="")  ${port.type} ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
   /*!
 #if(${port.docDescription.length()}>0)   * ${tmpltHelper.convertDescDoc(${port.docDescription})}
 #end
@@ -370,7 +371,7 @@ class ${rtcParam.name}
 #if(${port.docOperation.length()}>0)   * - Operation Cycle: ${tmpltHelper.convertCycleDoc(${port.docOperation})}
 #end
    */
-  InPort<${cXXConv.getDataTypeName(${port.type})}> ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
+  InPort<${port.type}> ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
 #end
 #end
   
@@ -380,7 +381,7 @@ class ${rtcParam.name}
   // DataOutPort declaration
   // <rtc-template block="outport_declare">
 #foreach($port in ${rtcParam.outports})
-#if(${port.type}!="")  ${cXXConv.getDataTypeName(${port.type})} ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
+#if(${port.type}!="")  ${port.type} ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
   /*!
 #if(${port.docDescription.length()}>0)   * ${tmpltHelper.convertDescDoc(${port.docDescription})}
 #end
@@ -397,7 +398,7 @@ class ${rtcParam.name}
 #if(${port.docOperation.length()}>0)   * - Operation Cycle: ${tmpltHelper.convertCycleDoc(${port.docOperation})}
 #end
    */
-  OutPort<${cXXConv.getDataTypeName(${port.type})}> ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}Out${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
+  OutPort<${port.type}> ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}Out${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
 #end
 #end
   
@@ -474,14 +475,14 @@ class ${rtcParam.name}
  private:
   // <rtc-template block="private_attribute">
 #foreach($privateAttribute in ${rtcParam.privateAttributes})
-  ${privateAttribute};
+  ${privateAttribute}
 #end
   
   // </rtc-template>
 
   // <rtc-template block="private_operation">
 #foreach($privateOperation in ${rtcParam.privateOperations})
-  ${privateOperation};
+  ${privateOperation}
 #end
   
   // </rtc-template>

@@ -35,6 +35,7 @@ import jp.go.aist.rtm.rtcbuilder.manager.CXXGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.CommonGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.ui.editors.IMessageConstants;
+import jp.go.aist.rtm.rtcbuilder.ui.preference.DataTypePreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 import jp.go.aist.rtm.rtcbuilder.util.ValidationUtil;
@@ -82,7 +83,7 @@ public class Generator {
 
 	public List<GeneratedResult> generateTemplateCode(
 			GeneratorParam generatorParam) throws Exception {
-		return generateTemplateCode(generatorParam, true);
+		return generateTemplateCode(generatorParam, null, true);
 	}
 
 	/**
@@ -95,7 +96,7 @@ public class Generator {
 	 *             IDLのパースに失敗した場合など
 	 */
 	public List<GeneratedResult> generateTemplateCode(
-			GeneratorParam generatorParam, boolean validateFlag)
+			GeneratorParam generatorParam, List<String> idlDir, boolean validateFlag)
 			throws Exception {
 
 		if( validateFlag ) {
@@ -111,15 +112,32 @@ public class Generator {
 		List<ServiceClassParam> IDLPathParams = new ArrayList<ServiceClassParam>();
 		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
 		for( RtcParam rtcParam : generatorParam.getRtcParams() ) {
+			//onImplementedフラグの修正
+			for(int index=IRtcBuilderConstants.ACTIVITY_INITIALIZE;index<IRtcBuilderConstants.ACTIVITY_DUMMY;index++) {
+				if(rtcParam.getDetailContent(index)!=null && 0<rtcParam.getDetailContent(index).length()) {
+					rtcParam.setActionImplemented(index, true);
+				}
+			}
 			rtcParam.checkAndSetParameter();
+			rtcParam.getIdlPathes().clear();
 			for( ServicePortParam serviceport : rtcParam.getServicePorts() ) {
 				for( ServicePortInterfaceParam serviceInterfaces : serviceport.getServicePortInterfaces() ) {
-					if( !IDLPathes.contains(serviceInterfaces.getIdlFullPath()) )
+					if( !IDLPathes.contains(serviceInterfaces.getIdlFullPath()) ) {
 						IDLPathes.add(serviceInterfaces.getIdlFullPath());
 						IDLPathParams.add(new ServiceClassParam(serviceInterfaces.getIdlFullPath(),
 																 serviceInterfaces.getIdlSearchPath()));
+					}
+					if( 0<serviceInterfaces.getIdlSearchPath().length() &&
+							rtcParam.getIdlPathes().contains(serviceInterfaces.getIdlSearchPath())==false) {
+						rtcParam.getIdlPathes().add(serviceInterfaces.getIdlSearchPath());
+					}
 				}
 			}
+			rtcParam.getIdlPathes().addAll(DataTypePreferenceManager.getInstance().getIdlFileDirectories());
+			if(idlDir!=null) {
+				rtcParam.getIdlPathes().addAll(idlDir);
+			}
+			
 			rtcServiceClasses.addAll(getRtcServiceClass(rtcParam, IDLPathParams));
 			checkReferencedServiceParam(rtcServiceClasses, rtcParam);
 			List<ServiceClassParam> serviceClassParamList = new ArrayList<ServiceClassParam>();
@@ -270,7 +288,29 @@ public class Generator {
 			List<String> incs = new ArrayList<String>();
 			String idl = null;
 			try {
-				String idlContent = FileUtil.readFile(sv.getName());
+				String fileName = sv.getName();
+				File file = new File(fileName);
+				if(file.exists()==false) {
+					for(String path : rtcParam.getIdlPathes()) {
+						String fullName = path + File.separator + fileName; 
+						file = new File(fullName);
+						if(file.exists()) {
+							for( IdlFileParam idlFile : rtcParam.getProviderIdlPathes() ) {
+								if( idlFile.getIdlFile().equals(fileName) ) {
+									idlFile.setIdlPath(fullName);
+								}
+							}
+							for( IdlFileParam idlFile : rtcParam.getConsumerIdlPathes() ) {
+								if( idlFile.getIdlFile().equals(fileName) ) {
+									idlFile.setIdlPath(fullName);
+								}
+							}
+							fileName = fullName;
+							break;
+						}
+					}
+				}
+				String idlContent = FileUtil.readFile(fileName);
 				if (idlContent == null) continue;
 				idl = PreProcessor.parse(idlContent, getIncludeIDLDic(sv.getIdlPath()), incs);
 			} catch (IOException e) {
@@ -280,10 +320,8 @@ public class Generator {
 
 			specification spec = parser.specification();
 
-			List<ServiceClassParam> serviceClassParams = IDLParamConverter
-					.convert(spec, sv.getName());
-			List<TypeDefParam> typedefParams = IDLParamConverter
-					.convert_typedef(spec, sv.getName());
+			List<ServiceClassParam> serviceClassParams = IDLParamConverter.convert(spec, sv.getName());
+			List<TypeDefParam> typedefParams = IDLParamConverter.convert_typedef(spec, sv.getName());
 			if (typedefParams.size() > 0) {
 				serviceClassParams = convertType(serviceClassParams, typedefParams);
 			}
@@ -358,10 +396,20 @@ public class Generator {
 		}
 	}
 	private void checkMethodType(ServiceMethodParam target, List<TypeDefParam> types) {
+		String targetFull = target.getModule() + target.getType();
+		//
 		for(TypeDefParam tdparam : types) {
-			if(target.getType().equals(tdparam.getTargetDef())) {
+			String defFull = "";
+			if( 0<tdparam.getModuleName().length() ) {
+				defFull = tdparam.getModuleName() + "::" + tdparam.getTargetDef();
+			} else {
+				defFull = tdparam.getTargetDef();
+			}
+//			if(target.getType().equals(tdparam.getTargetDef())) {
+			if(targetFull.equals(defFull)) {
 				target.setSequence(tdparam.isSequence());
 				target.setString(tdparam.isString());
+				target.setChildString(tdparam.isChildString());
 				target.setArray(tdparam.isArray());
 				target.setStruct(tdparam.isStruct() || tdparam.isEnum());
 				break;
@@ -370,13 +418,22 @@ public class Generator {
 		target.setType(checkType(target.getType(), types));
 	}
 	private void checkArgumentType(ServiceArgumentParam target, List<TypeDefParam> types) {
+		String targetFull = target.getModule() + target.getType();
 		for(TypeDefParam tdparam : types) {
-			if(target.getType().equals(tdparam.getTargetDef())) {
+			String defFull = "";
+			if( 0<tdparam.getModuleName().length() ) {
+				defFull = tdparam.getModuleName() + "::" + tdparam.getTargetDef();
+			} else {
+				defFull = tdparam.getTargetDef();
+			}
+			if(targetFull.equals(defFull)) {
 				target.setOriginalType(target.getType());
 				target.setUnbounded(tdparam.isSequence() || tdparam.isString());
 				target.setArray(tdparam.isArray());
+				target.setInnerArray(tdparam.isInnerArray());
 				target.setStruct(tdparam.isStruct());
 				target.setEnum(tdparam.isEnum());
+				target.setChildDouble(tdparam.isChildDouble());
 				target.setType(checkType(target.getType(), types));
 				return;
 			}
@@ -426,14 +483,24 @@ public class Generator {
 			}
 		}
 		for( IdlFileParam idlFile : rtcParam.getProviderIdlPathes() ) {
-			IFile idlTarget = project.getFile(idlFile.getIdlFile());
+			IFile idlTarget;
+			if(rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100) && rtcParam.enableOldBuildEnv()==false) {
+				idlTarget = project.getFile("idl" + File.separator + idlFile.getIdlFile());
+			} else {
+				idlTarget = project.getFile(idlFile.getIdlFile());
+			}
 			if( !idlTarget.getLocation().toOSString().equals(idlFile.getIdlPath()) )  {
 				idlTarget.delete(true, null);
 				idlTarget.create(new FileInputStream(idlFile.getIdlPath()), true, null);
 			}
 		}
 		for( IdlFileParam idlFile : rtcParam.getConsumerIdlPathes() ) {
-			IFile idlTarget = project.getFile(idlFile.getIdlFile());
+			IFile idlTarget;
+			if(rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100) && rtcParam.enableOldBuildEnv()==false) {
+				idlTarget = project.getFile("idl" + File.separator + idlFile.getIdlFile());
+			} else {
+				idlTarget = project.getFile(idlFile.getIdlFile());
+			}
 			if( !idlTarget.getLocation().toOSString().equals(idlFile.getIdlPath()) )  {
 				idlTarget.delete(true, null);
 				idlTarget.create(new FileInputStream(idlFile.getIdlPath()), true, null);
@@ -442,7 +509,12 @@ public class Generator {
 		//
 		for( String includedIdlFile : rtcParam.getIncludedIdls() ) {
 			File target = new File(includedIdlFile);
-			IFile idlTarget = project.getFile(target.getName());
+			IFile idlTarget;
+			if(rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100) && rtcParam.enableOldBuildEnv()==false) {
+				idlTarget = project.getFile("idl" + File.separator + target.getName());
+			} else {
+				idlTarget = project.getFile(target.getName());
+			}
 			if( !idlTarget.getLocation().toOSString().equals(includedIdlFile) )  {
 				idlTarget.delete(true, null);
 				idlTarget.create(new FileInputStream(includedIdlFile), true, null);
@@ -474,9 +546,13 @@ public class Generator {
 						}
 	
 						isOutput = true;
+					} catch (NullPointerException e) {
+						e.printStackTrace();
 					} catch (CoreException e) {
 						e.printStackTrace();
 					}
+					//バックアップファイルの整理
+					FileUtil.removeBackupFiles(outputProject, generatedResult.getName());
 				}
 			}
 		} else {
@@ -485,20 +561,22 @@ public class Generator {
 
 		if (isOutput) {
 			IFile outputFile = outputProject.getFile(generatedResult.getName());
-			//TODO 階層が深いパスへの対応は未
 			IPath relPath = outputFile.getProjectRelativePath();
 			if( relPath.segmentCount() > 1 ) {
-				IPath outPath = relPath.removeLastSegments(1);
-				IFolder folder = outputProject.getFolder(outPath);
-				if(!folder.exists()) {
-					try {
-						folder.create(false, true, null);
-					} catch (CoreException e) {
-						e.printStackTrace();
+				String[] segs = relPath.segments();
+				StringBuilder builder = new StringBuilder();
+				for(int index=0;index<relPath.segmentCount()-1;index++) {
+					builder.append(segs[index] + File.separator);
+					IFolder folder = outputProject.getFolder(builder.toString());
+					if(!folder.exists()) {
+						try {
+							folder.create(false, true, null);
+						} catch (CoreException e) {
+							e.printStackTrace();
+						}
 					}
 				}
 			}
-			//TODO
 			try {
 				outputFile.create(new ByteArrayInputStream(generatedResult.getCode().getBytes("UTF-8")), false, null);
 			} catch (CoreException e) {

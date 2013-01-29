@@ -231,32 +231,33 @@ class foo
    * - DefaultValue: 0
    */
   int p_int_param0;
+
   // </rtc-template>
 
   // DataInPort declaration
   // <rtc-template block="inport_declare">
-  TimedShort p_InP1;
+  RTC::TimedShort p_InP1;
   /*!
    */
-  InPort<TimedShort> p_InP1In;
-  TimedLong p_InP2;
+  InPort<RTC::TimedShort> p_InP1In;
+  RTC::TimedLong p_InP2;
   /*!
    */
-  InPort<TimedLong> p_InP2In;
+  InPort<RTC::TimedLong> p_InP2In;
   
   // </rtc-template>
 
 
   // DataOutPort declaration
   // <rtc-template block="outport_declare">
-  TimedOctet p_OutP1;
+  RTC::TimedOctet p_OutP1;
   /*!
    */
-  OutPort<TimedOctet> p_OutP1Out;
-  TimedFloat p_OutP2;
+  OutPort<RTC::TimedOctet> p_OutP1Out;
+  RTC::TimedFloat p_OutP2;
   /*!
    */
-  OutPort<TimedFloat> p_OutP2Out;
+  OutPort<RTC::TimedFloat> p_OutP2Out;
   
   // </rtc-template>
 

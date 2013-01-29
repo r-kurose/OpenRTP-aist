@@ -1,2 +1,2 @@
 #!/bin/sh
-omniidl -bpython MyService.idl 
+omniidl -bpython -I"%RTM_ROOT%rtm\idl" idl/MyService.idl 

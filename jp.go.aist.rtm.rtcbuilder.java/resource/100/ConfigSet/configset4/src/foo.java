@@ -32,7 +32,7 @@ public class foo implements RtcNewFunc, RtcDeleteFunc, RegisterModuleFunc {
             "conf.default.int_param0", "0",
             "conf.default.int_param1", "1",
             "conf.default.double_param0", "0.11",
-            "conf.default.str_param0", "“ú–{Œê",
+            "conf.default.str_param0", "æ—¥æœ¬èªž",
             "conf.default.str_param1", "dara",
     	    ""
             };

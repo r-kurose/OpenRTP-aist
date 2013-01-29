@@ -11,24 +11,32 @@ public class TypeDefParam implements Serializable {
 	private static final long serialVersionUID = -5166319784409856148L;
 	
 	private String originalDef;
+	private String moduleName;
 	private String targetDef;
 	private String scopedName;
 	private boolean isSequence;
 	private boolean isString;
 	private boolean isArray;
+	private boolean isInnerArray;
 	private boolean isStruct;
 	private boolean isEnum;
+	private boolean isChildString;
+	private boolean isChildDouble;
 	private List<String> childType;
 
 	public TypeDefParam() {
 		originalDef = "";
+		moduleName = "";
 		targetDef = "";
 		scopedName = "";
 		isSequence = false;
 		isString = false;
 		isArray = false;
+		isInnerArray = false;
 		isStruct = false;
 		isEnum = false;
+		isChildString = false;
+		isChildDouble = false;
 		childType = new ArrayList<String>();
 	}
 
@@ -37,6 +45,13 @@ public class TypeDefParam implements Serializable {
 	}
 	public void setOriginalDef(String originalDef) {
 		this.originalDef = originalDef;
+	}
+
+	public String getModuleName() {
+		return moduleName;
+	}
+	public void setModuleName(String moduleName) {
+		this.moduleName = moduleName;
 	}
 
 	public String getTargetDef() {
@@ -74,6 +89,13 @@ public class TypeDefParam implements Serializable {
 		this.isArray = isArray;
 	}
 
+	public boolean isInnerArray() {
+		return isInnerArray;
+	}
+	public void setInnerArray(boolean isInnerArray) {
+		this.isInnerArray = isInnerArray;
+	}
+	
 	public boolean isStruct() {
 		return isStruct;
 	}
@@ -86,6 +108,20 @@ public class TypeDefParam implements Serializable {
 	}
 	public void setEnum(boolean isEnum) {
 		this.isEnum = isEnum;
+	}
+
+	public boolean isChildString() {
+		return isChildString;
+	}
+	public void setChildString(boolean isChildString) {
+		this.isChildString = isChildString;
+	}
+
+	public boolean isChildDouble() {
+		return isChildDouble;
+	}
+	public void setChildDouble(boolean isChildDouble) {
+		this.isChildDouble = isChildDouble;
 	}
 
 	public List<String> getChildType() {

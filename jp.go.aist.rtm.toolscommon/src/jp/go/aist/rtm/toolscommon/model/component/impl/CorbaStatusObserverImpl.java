@@ -20,14 +20,23 @@ import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaStatusObserver;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.util.CorbaObjectStore;
-import jp.go.aist.rtm.toolscommon.ui.propertysource.CorbaStatusObserverPropertySource;
+import jp.go.aist.rtm.toolscommon.model.component.util.CorbaObserverStore;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.ui.views.properties.IPropertySource;
 import org.omg.PortableServer.Servant;
 
 import static jp.go.aist.rtm.toolscommon.util.RTMixin.*;
 import static jp.go.aist.rtm.toolscommon.manager.ToolsCommonPreferenceManager.*;
+
+import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_RTCComponentProfile;
+import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_RTCExecutionContexts;
+import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_RTCPortProfile;
+import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_RTCRTObjects;
+import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_EC_ComponentState;
+import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_EC_ECProfile;
+import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_EC_ECState;
+import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_ActiveConfigurationSet;
+import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_ConfigurationSets;
 
 /**
  * <!-- begin-user-doc -->
@@ -55,9 +64,9 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 
 	RTC.RTObject rtc;
 
-	static Map<RTC.RTObject, _SDOPackage.ServiceProfile> profileMap;
+	PropertyChangeListener listener;
+
 	static Map<RTC.RTObject, HeartBeat> hbMap;
-	static Map<RTC.RTObject, ComponentList> componentListMap;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -66,14 +75,8 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 	 */
 	protected CorbaStatusObserverImpl() {
 		super();
-		if (profileMap == null) {
-			profileMap = new HashMap<RTC.RTObject, _SDOPackage.ServiceProfile>();
-		}
 		if (hbMap == null) {
 			hbMap = new HashMap<RTC.RTObject, HeartBeat>();
-		}
-		if (componentListMap == null) {
-			componentListMap = new HashMap<RTC.RTObject, ComponentList>();
 		}
 	}
 
@@ -115,8 +118,6 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 		return servant;
 	}
 
-	PropertyChangeListener listener;
-
 	@Override
 	public boolean attachComponent(CorbaComponent component) {
 		RTC.RTObject ro = component.getCorbaObjectInterface();
@@ -126,9 +127,10 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 		if (!eql(rtc, ro)) {
 			return false;
 		}
-		_SDOPackage.ServiceProfile prof = profileMap.get(rtc);
-		if (prof != null) {
-			serviceProfile = prof;
+		CorbaStatusObserver obs = CorbaObserverStore.eINSTANCE
+				.findStatusObserver(ro);
+		if (obs != null) {
+			return true;
 		} else {
 			HeartBeat hb = new HeartBeat();
 			hbMap.put(rtc, hb);
@@ -151,55 +153,51 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 					.addPropertyChangeListener(listener);
 			//
 			activate();
-			boolean result = addServiceProfile(component);
-			if (!result) {
+			try {
+				boolean result = addServiceProfile(rtc.get_configuration());
+				if (!result) {
+					deactivate();
+					return false;
+				}
+			} catch (Exception e) {
 				deactivate();
 				return false;
 			}
-			profileMap.put(rtc, serviceProfile);
-		}
-		ComponentList components = getComponentList();
-		if (!components.contain(component)) {
-			components.add(component);
-			component.setStatusObserver(this);
+			CorbaObserverStore.eINSTANCE.registStatusObserver(ro, this);
 		}
 		return true;
 	}
 
 	@Override
-	public boolean detachComponent(CorbaComponent component) {
-		RTC.RTObject ro = component.getCorbaObjectInterface();
-		if (!eql(rtc, ro)) {
-			return false;
-		}
-		ComponentList components = getComponentList();
-		if (components.contain(component)) {
-			if (!isCompositeMember(component)) {
-				components.remove(component);
-				component.setStatusObserver(null);
-			}
-		}
-		if (!components.isEmpty()) {
+	public boolean detachComponent() {
+		if (rtc == null) {
 			return true;
 		}
-		boolean result = removeServiceProfile(component);
+		if (!CorbaObserverStore.eINSTANCE.isEmptyComponentReference(rtc)) {
+			return true;
+		}
+		//
+		return finish();
+	}
+
+	@Override
+	public boolean finish() {
+		if (rtc == null) {
+			return true;
+		}
+		//
+		boolean result = false;
+		try {
+			result = removeServiceProfile(rtc.get_configuration());
+		} catch (Exception e) {
+		}
 		deactivate();
-		profileMap.remove(rtc);
+		//
+		CorbaObserverStore.eINSTANCE.removeStatusObserver(rtc);
 		hbMap.remove(rtc);
 		ToolsCommonPreferenceManager.getInstance()
 				.removePropertyChangeListener(listener);
-		return result;
-	}
-
-	ComponentList getComponentList() {
-		if (rtc == null) {
-			return new ComponentList();
-		}
-		ComponentList result = componentListMap.get(rtc);
-		if (result == null) {
-			result = new ComponentList();
-			componentListMap.put(rtc, result);
-		}
+		//
 		return result;
 	}
 
@@ -214,17 +212,17 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 			return;
 		}
 
+		String profId = (serviceProfile == null) ? "" : serviceProfile.id;
 		log.info("update_status(" + TYPE_NAMES[status_kind.value()] + ", "
-				+ hint + ")");
+				+ hint + "): id=" + profId);
 
-		ComponentList components = getComponentList();
-		if (components.isEmpty()) {
+		if (CorbaObserverStore.eINSTANCE.isEmptyComponentReference(rtc)) {
 			return;
 		}
-		CorbaComponentImpl ccImpl = (CorbaComponentImpl) components.get(0);
+		//
 		if (OpenRTM.StatusKind.COMPONENT_PROFILE.equals(status_kind)) {
 			// RTC.ComponentProfileの変更通知
-			ccImpl.synchronizeRemote_RTCComponentProfile();
+			synchronizeRemote_RTCComponentProfile(rtc);
 		}
 		if (OpenRTM.StatusKind.RTC_STATUS.equals(status_kind)) {
 			// RTC状態の変更通知
@@ -253,9 +251,9 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 			}
 			//
 			RTC.ExecutionContext ec = CorbaObjectStore.eINSTANCE.findContext(
-					ccImpl.getCorbaObjectInterface(), id);
-			CorbaObjectStore.eINSTANCE.registComponentState(ec, ccImpl
-					.getCorbaObjectInterface(), stateValue);
+					rtc, id);
+			CorbaObjectStore.eINSTANCE
+					.registComponentState(ec, rtc, stateValue);
 		}
 		if (OpenRTM.StatusKind.EC_STATUS.equals(status_kind)) {
 			// EC状態の変更通知
@@ -270,24 +268,41 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 			String id = ss[1];
 			//
 			if ("ATTACHED".equals(action) || "DETACHED".equals(action)) {
-				ccImpl.synchronizeRemote_RTCExecutionContexts();
-				RTC.ExecutionContext ec = CorbaObjectStore.eINSTANCE
-						.findContext(ccImpl.getCorbaObjectInterface(), id);
+				RTC.ExecutionContext oldEc = CorbaObjectStore.eINSTANCE
+						.findContext(rtc, id);
+				//
+				synchronizeRemote_RTCExecutionContexts(rtc);
+				//
+				RTC.ExecutionContext newEc = CorbaObjectStore.eINSTANCE
+						.findContext(rtc, id);
+				//
+				RTC.ExecutionContext ec = null;
+				if ("ATTACHED".equals(action)) {
+					ec = newEc;
+				} else if ("DETACHED".equals(action)) {
+					ec = oldEc;
+				}
 				if (ec != null) {
-					ccImpl.synchronizeRemote_EC_ECProfile(ec);
-					ccImpl.synchronizeRemote_EC_ComponentState(ec);
+					synchronizeRemote_EC_ECProfile(ec);
+					synchronizeRemote_EC_ComponentState(rtc, ec);
+					// 複合RTCの子情報の変更通知がないため、ECのアタッチ/デタッチ時にECオーナーを更新
+					RTC.ExecutionContextProfile ecprof = CorbaObjectStore.eINSTANCE
+							.findECProfile(ec);
+					if (ecprof != null && ecprof.owner != null) {
+						synchronizeRemote_RTCRTObjects(ecprof.owner);
+					}
 				}
 			} else if ("RATE_CHANGED".equals(action)) {
 				RTC.ExecutionContext ec = CorbaObjectStore.eINSTANCE
-						.findContext(ccImpl.getCorbaObjectInterface(), id);
+						.findContext(rtc, id);
 				if (ec != null) {
-					ccImpl.synchronizeRemote_EC_ECProfile(ec);
+					synchronizeRemote_EC_ECProfile(ec);
 				}
 			} else if ("STARTUP".equals(action) || "SHUTDOWN".equals(action)) {
 				RTC.ExecutionContext ec = CorbaObjectStore.eINSTANCE
-						.findContext(ccImpl.getCorbaObjectInterface(), id);
+						.findContext(rtc, id);
 				if (ec != null) {
-					ccImpl.synchronizeRemote_EC_ECState(ec);
+					synchronizeRemote_EC_ECState(ec);
 				}
 			}
 		}
@@ -304,9 +319,9 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 			String port_name = ss[1];
 			//
 			if ("CONNECT".equals(action) || "DISCONNECT".equals(action)) {
-				ccImpl.synchronizeRemote_RTCPortProfile(port_name);
+				synchronizeRemote_RTCPortProfile(rtc, port_name);
 			} else if ("ADD".equals(action) || "REMOVE".equals(action)) {
-				ccImpl.synchronizeRemote_RTCComponentProfile();
+				synchronizeRemote_RTCComponentProfile(rtc);
 			}
 		}
 		if (OpenRTM.StatusKind.CONFIGURATION.equals(status_kind)) {
@@ -315,9 +330,16 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 				return;
 			}
 			if ("ACTIVATE_CONFIG_SET".equals(hint)) {
-				ccImpl.synchronizeRemote_ActiveConfigurationSet();
+				synchronizeRemote_ActiveConfigurationSet(rtc);
 			} else {
-				ccImpl.synchronizeRemote_ConfigurationSets();
+				synchronizeRemote_ConfigurationSets(rtc);
+				// 複合RTCの公開ポート変更の通知がないので、ConfigurationSetの通知時にプロファイルを更新
+				RTC.ComponentProfile prof = CorbaObjectStore.eINSTANCE
+						.findRTCProfile(rtc);
+				if (prof != null && prof.category != null
+						&& prof.category.startsWith("composite.")) {
+					synchronizeRemote_RTCComponentProfile(rtc);
+				}
 			}
 		}
 	}
@@ -340,32 +362,19 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 			return;
 		}
 		HeartBeat hb = hbMap.get(rtc);
-		serviceProfile = profileMap.get(rtc);
 		if (hb == null || serviceProfile == null) {
 			return;
 		}
-		ComponentList components = getComponentList();
-		if (components.isEmpty()) {
-			return;
-		}
-		CorbaComponent component = components.get(0);
 		//
 		hb.updatePreference();
 		setProperty("heartbeat.enable", hb.getPropEnable());
 		setProperty("heartbeat.interval", hb.getPropInterval());
 		//
-		removeServiceProfile(component);
-		addServiceProfile(component);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public Object getAdapter(Class adapter) {
-		java.lang.Object result = null;
-		if (IPropertySource.class.equals(adapter)) {
-			result = new CorbaStatusObserverPropertySource(this);
+		try {
+			removeServiceProfile(rtc.get_configuration());
+			addServiceProfile(rtc.get_configuration());
+		} catch (Exception e) {
 		}
-		return result;
 	}
 
 	static class ComponentObserverPOAImpl extends OpenRTM.ComponentObserverPOA {

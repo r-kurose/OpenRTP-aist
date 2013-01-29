@@ -101,51 +101,14 @@ public class ProfileInformationDialog extends Dialog {
 		if (inputId != null) txtVersion.setText(inputId.version);
 		txtVersion.addKeyListener(listener);
 		//
-		GridData gd;
-		Label label = new Label(mainComposite, SWT.NULL);
-		label.setText(Messages.getString("ProfileInformationDialog.3")); //$NON-NLS-1$
-		final Text txtPathLocal = new Text(mainComposite, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
-		txtPath = txtPathLocal;
-		if(inputPath!=null) txtPath.setText(inputPath);
-		txtPath.addKeyListener(listener);
-		txtPath.addModifyListener(new ModifyListener() {
-			@Override
-			public void modifyText(ModifyEvent e) {
-				doValidate();
-			}
-		});
-		gd = new GridData();
-		gd.horizontalAlignment = SWT.FILL;
-		gd.grabExcessHorizontalSpace = true;
-		txtPath.setLayoutData(gd);
-		if( isOverWrite ) txtPath.setEnabled(false);
+		txtPath = createLabelAndTextAndButton(mainComposite, Messages.getString("ProfileInformationDialog.3"),
+						inputPath, isOverWrite); //$NON-NLS-1$
 		//
-		Button checkButton = new Button(mainComposite, SWT.PUSH);
-		checkButton.setText(Messages.getString("ProfileInformationDialog.4") ); //$NON-NLS-1$
-		gd = new GridData(GridData.HORIZONTAL_ALIGN_END);
-		gd.horizontalAlignment = SWT.FILL;
-		checkButton.setLayoutData(gd);
-		checkButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				FileDialog dialog = new FileDialog(getShell());
-				dialog.setFilterExtensions(new String[] { "*.xml" }); //$NON-NLS-1$
-				if (txtPath.getText().length() > 0)
-					dialog.setFileName(txtPath.getText());
-				String newPath = dialog.open();
-				if (newPath != null) {
-					if( !newPath.endsWith(".xml") ) newPath += ".xml"; //$NON-NLS-1$ //$NON-NLS-2$
-					txtPath.setText(newPath);
-				}
-			}
-		});
-		if( isOverWrite ) checkButton.setEnabled(false);
-		//
-		label = new Label(mainComposite, SWT.LEFT);
+		Label label = new Label(mainComposite, SWT.LEFT);
 		label.setText(Messages.getString("ProfileInformationDialog.8")); //$NON-NLS-1$
 		txtUpdateLog = new Text(mainComposite, SWT.MULTI | SWT.BORDER | SWT.LEFT);
 		txtUpdateLog.addKeyListener(listener);
-		gd = new GridData();
+		GridData gd = new GridData();
 		gd.horizontalAlignment = SWT.FILL;
 		gd.grabExcessHorizontalSpace = true;
 		gd.horizontalSpan = 2;
@@ -179,16 +142,63 @@ public class ProfileInformationDialog extends Dialog {
 		return mainComposite;
 	}
 
+	private Text createLabelAndTextAndButton(Composite mainComposite,
+			String labelString, String inputPath, boolean isOverWrite) {
+		GridData gd;
+		Label label = new Label(mainComposite, SWT.NULL);
+		label.setText(labelString);
+		final Text txtPathLocal = new Text(mainComposite, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
+		if(inputPath!=null) txtPathLocal.setText(inputPath);
+		KeyListener listener = new KeyListener() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				doValidate();
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+			}
+		};
+		txtPathLocal.addKeyListener(listener);
+		txtPathLocal.addModifyListener(new ModifyListener() {
+			@Override
+			public void modifyText(ModifyEvent e) {
+				doValidate();
+			}
+		});
+		gd = new GridData();
+		gd.horizontalAlignment = SWT.FILL;
+		gd.grabExcessHorizontalSpace = true;
+		txtPathLocal.setLayoutData(gd);
+		if( isOverWrite ) txtPathLocal.setEnabled(false);
+		//
+		Button checkButton = new Button(mainComposite, SWT.PUSH);
+		checkButton.setText(Messages.getString("ProfileInformationDialog.4") ); //$NON-NLS-1$
+		gd = new GridData(GridData.HORIZONTAL_ALIGN_END);
+		gd.horizontalAlignment = SWT.FILL;
+		checkButton.setLayoutData(gd);
+		checkButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				FileDialog dialog = new FileDialog(getShell());
+				dialog.setFilterExtensions(new String[] { "*.xml" }); //$NON-NLS-1$
+				if (txtPathLocal.getText().length() > 0)
+					dialog.setFileName(txtPathLocal.getText());
+				String newPath = dialog.open();
+				if (newPath != null) {
+					if( !newPath.endsWith(".xml") ) newPath += ".xml"; //$NON-NLS-1$ //$NON-NLS-2$
+					txtPathLocal.setText(newPath);
+				}
+			}
+		});
+		if( isOverWrite ) checkButton.setEnabled(false);
+		return txtPathLocal;
+	}
+
 	@Override
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
 		shell.setText(Messages.getString("ProfileInformationDialog.9")); //$NON-NLS-1$
-		int x = 550;
-		int y = 400;
-
-		shell.setBounds(shell.getDisplay().getBounds().width / 2 - x / 2, shell
-				.getDisplay().getBounds().height
-				/ 2 - y / 2, x, y);
 	}
 
 	@Override
@@ -361,6 +371,7 @@ public class ProfileInformationDialog extends Dialog {
 		gd.grabExcessVerticalSpace = true;
 		gd.grabExcessHorizontalSpace = true;
 		gd.minimumWidth = 320;
+		gd.heightHint = 100;
 		viewer.getTable().setLayoutData(gd);
 		setViewerInput();
 		

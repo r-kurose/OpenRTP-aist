@@ -35,6 +35,7 @@ import _SDOPackage.Organization;
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getRTCRTObjects <em>RTCRT Objects</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getIor <em>Ior</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getStatusObserver <em>Status Observer</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getLogObserver <em>Log Observer</em>}</li>
  * </ul>
  * </p>
  *
@@ -288,6 +289,32 @@ public interface CorbaComponent extends Component, CorbaWrapperObject {
 	void setStatusObserver(CorbaStatusObserver value);
 
 	/**
+	 * Returns the value of the '<em><b>Log Observer</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Log Observer</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Log Observer</em>' reference.
+	 * @see #setLogObserver(CorbaLogObserver)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getCorbaComponent_LogObserver()
+	 * @model
+	 * @generated
+	 */
+	CorbaLogObserver getLogObserver();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getLogObserver <em>Log Observer</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Log Observer</em>' reference.
+	 * @see #getLogObserver()
+	 * @generated
+	 */
+	void setLogObserver(CorbaLogObserver value);
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model
@@ -350,6 +377,14 @@ public interface CorbaComponent extends Component, CorbaWrapperObject {
 	 * @generated
 	 */
 	RTObject getCorbaObjectInterface();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean supportedCorbaObserver();
 
 	RTC.ExecutionContext getPrimaryRTCExecutionContext();
 

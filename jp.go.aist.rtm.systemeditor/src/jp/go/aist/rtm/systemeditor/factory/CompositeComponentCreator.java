@@ -20,7 +20,6 @@ import jp.go.aist.rtm.systemeditor.ui.util.TimeoutWrapper;
 import jp.go.aist.rtm.toolscommon.manager.ToolsCommonPreferenceManager;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
-import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
@@ -255,7 +254,7 @@ public class CompositeComponentCreator {
 					return false;
 				}
 				if (base.editor != null && base.editor.isOnline()
-						&& base.manager == null) {
+						&& (base.compositeType.equals(Component.COMPOSITETYPE_GROUPING)==false && base.manager == null) ) {
 					return false;
 				}
 				return true;
@@ -320,13 +319,9 @@ public class CompositeComponentCreator {
 				SystemEditorWrapperFactory.getInstance()
 						.getSynchronizationManager()
 						.assignSynchonizationSupport(comp);
-				if (comp instanceof CorbaComponent) {
-					// 同期(SDOOrganization)
-					comp.synchronizeLocalAttribute(ComponentPackage.eINSTANCE
-							.getCorbaComponent_SDOOrganization());
-				}
 				comp.setComponentsR(base.components);
 				// 同期
+				comp.synchronizeRemoteAttribute(null);
 				comp.synchronizeLocalAttribute(null);
 				comp.synchronizeLocalReference();
 				// Constraintを設定する

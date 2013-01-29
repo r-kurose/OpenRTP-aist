@@ -237,6 +237,11 @@ public interface SystemDiagram extends ModelElement, IPropertyMap {
 	RtsProfileExt getProfile();
 
 	/**
+	 * ダイアグラムを終了
+	 */
+	void dispose();
+
+	/**
 	 * @return 複合RTCの内部を表現するダイアグラムでない、RTシステムそのものを表現するダイアグラム
 	 */
 	SystemDiagram getRootDiagram();
@@ -270,7 +275,7 @@ public interface SystemDiagram extends ModelElement, IPropertyMap {
 	/**
 	 * @param ｃomponents	追加するコンポーネント
 	 */
-	void addComponents(List<Component> ｃomponents);
+	void addComponents(List<Component> components);
 
 	/**
 	 * 子コンポーネントをクリアする

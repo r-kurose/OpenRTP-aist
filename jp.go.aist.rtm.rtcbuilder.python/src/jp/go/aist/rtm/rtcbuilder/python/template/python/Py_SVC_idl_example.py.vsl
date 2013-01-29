@@ -3,13 +3,13 @@
 # -*- Python -*-
 
 """
- \file ${idlFileParam.idlFileNoExt}_idl_examplefile.py
- \brief Python example implementations generated from ${idlFileParam.idlFile}
+ @file ${idlFileParam.idlFileNoExt}_idl_examplefile.py
+ @brief Python example implementations generated from ${idlFileParam.idlFile}
 #set( $Date$ = "dummy" )
- \date \$Date$
+ @date \$Date$
 
 #if( ${rtcParam.docCreator.length()} > 0 )
- \author ${tmpltHelperPy.convertAuthorDocPy(${rtcParam.docCreator})}
+ @author ${tmpltHelperPy.convertAuthorDocPy(${rtcParam.docCreator})}
 #end
 #if( ${rtcParam.docLicense.length()} > 0 )
 
@@ -26,13 +26,13 @@ ${pyConv.convModuleName(${idlFileParam})}
 
 class ${tmpltHelper.getBasename(${serviceClassParam.name})}_i (${pyConv.getModuleName(${serviceClassParam.name})}__POA.${tmpltHelper.getBasename(${serviceClassParam.name})}):
     """
-    \class ${tmpltHelper.getBasename(${serviceClassParam.name})}_i
+    @class ${tmpltHelper.getBasename(${serviceClassParam.name})}_i
     Example class implementing IDL interface ${tmpltHelper.convFormat(${serviceClassParam.name})}
     """
 
     def __init__(self):
         """
-        \brief standard constructor
+        @brief standard constructor
         Initialise member variables here
         """
         pass

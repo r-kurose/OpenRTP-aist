@@ -53,7 +53,8 @@ public class TestBase extends TestCase {
 		String result = content.replace("__ROOT_PATH__", rootPath);
 		String origPathes[] = {
 				"C:\\Tech-Arts\\EclipseRTM\\jp.go.aist.rtm.rtcbuilder\\",
-				"C:\\Tech-Arts\\EclipseRTM34\\jp.go.aist.rtm.rtcbuilder\\" };
+				"C:\\Tech-Arts\\EclipseRTM34\\jp.go.aist.rtm.rtcbuilder\\",
+				"C:\\GlobalAssist\\EclipseAISTRep\\jp.go.aist.rtm.rtcbuilder\\" };
 		for (String path : origPathes) {
 			result = result.replace(path, rootPath);
 		}

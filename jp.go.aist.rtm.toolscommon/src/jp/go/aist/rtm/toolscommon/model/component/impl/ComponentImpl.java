@@ -17,6 +17,7 @@ import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.ContextHandler;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.InPort;
 import jp.go.aist.rtm.toolscommon.model.component.NameValue;
@@ -28,13 +29,13 @@ import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
 import jp.go.aist.rtm.toolscommon.model.core.Visiter;
 import jp.go.aist.rtm.toolscommon.model.core.impl.WrapperObjectImpl;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -1139,6 +1140,17 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public IPropertyMap getPropertyMap() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -1475,34 +1487,46 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 		return getComponentId().hashCode() * 3 + getPathId().hashCode() + 5;
 	}
 
-	public void synchronizeChildComponents() {
-		for (Object content : eContents()) {
-			if (content instanceof LocalObject) {
-				LocalObject lo = (LocalObject) content;
-				if (lo.getSynchronizationSupport() != null) {
-					lo.getSynchronizationSupport().synchronizeLocal();
-				}
-			}
-		}
-		for (ExecutionContext pc : getParticipationContexts()) {
-			if (pc.getSynchronizationSupport() != null) {
-				pc.getSynchronizationSupport().synchronizeLocal();
-			}
-		}
+	@Override
+	public void synchronizeManually() {
+	}
 
+	@Override
+	public void synchronizeRemoteChildComponents() {
 		if (getComponents() == null) {
 			return;
 		}
-		for (Object obj : getComponents()) {
-			if (obj instanceof CorbaComponent) {
-				CorbaComponent c = (CorbaComponent) obj;
-				c.synchronizeLocalAttribute(null);
-				c.synchronizeLocalReference();
-				c.synchronizeChildComponents();
-			}
+		for (Component comp : getComponents()) {
+			comp.synchronizeRemoteAttribute(null);
+			comp.synchronizeRemoteChildComponents();
 		}
 	}
 
+	@Override
+	public void synchronizeRemoteAttribute(EStructuralFeature reference) {
+	}
+
+	@Override
+	public void synchronizeChildComponents() {
+		if (getComponents() == null) {
+			return;
+		}
+		for (Component comp : getComponents()) {
+			comp.synchronizeLocalAttribute(null);
+			comp.synchronizeLocalReference();
+			comp.synchronizeChildComponents();
+		}
+	}
+
+	@Override
+	public void synchronizeLocalAttribute(EStructuralFeature reference) {
+	}
+
+	@Override
+	public void synchronizeLocalReference() {
+	}
+
+	@Override
 	public synchronized void addComponent(Component component) {
 		getComponents().add(component);
 	}

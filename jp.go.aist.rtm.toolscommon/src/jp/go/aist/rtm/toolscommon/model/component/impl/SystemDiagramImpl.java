@@ -15,15 +15,16 @@ import java.util.List;
 import java.util.Map;
 
 import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
+import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaStatusObserver;
 import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
-import jp.go.aist.rtm.toolscommon.model.component.util.IPropertyMapUtil;
+import jp.go.aist.rtm.toolscommon.model.component.util.CorbaObserverStore;
 import jp.go.aist.rtm.toolscommon.model.component.util.PropertyMap;
 import jp.go.aist.rtm.toolscommon.model.core.impl.ModelElementImpl;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.RefreshThread;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSupport;
 import jp.go.aist.rtm.toolscommon.ui.propertysource.SystemDiagramPropertySource;
@@ -91,7 +92,7 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 	 */
 	protected SystemDiagramKind kind = KIND_EDEFAULT;
 
-	protected IPropertyMapUtil properties;
+	protected IPropertyMap properties;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -306,7 +307,6 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SYSTEM_DIAGRAM__COMPOSITE_COMPONENT, oldCompositeComponent, compositeComponent));
 	}
 
-	private RefreshThread refreshThread;
 	/**
 	 * The default value of the '{@link #isConnectorProcessing() <em>Connector Processing</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -407,24 +407,41 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 	 */
 	protected Component compositeComponent;
 
+	RefreshThread syncRemoteThread;
+	RefreshThread syncLocalThread;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 */
 	@Override
 	public synchronized void setSynchronizeInterval(long milliSecond) {
-		if (!SystemDiagramKind.ONLINE_LITERAL.equals(getKind())) return;
-		if (refreshThread == null) {
-			refreshThread = new RefreshThread(milliSecond){
+		if (!SystemDiagramKind.ONLINE_LITERAL.equals(getKind())) {
+			return;
+		}
+		// CORBAからの同期
+		if (syncRemoteThread == null) {
+			syncRemoteThread = new RefreshThread(milliSecond) {
+				@Override
+				protected void executeCommand() {
+					synchronizeRemote();
+				}
+			};
+			syncRemoteThread.setDaemon(true);
+			syncRemoteThread.start();
+		} else {
+			syncRemoteThread.setSynchronizeInterval(milliSecond);
+		}
+		// モデルへの同期
+		if (syncLocalThread == null) {
+			syncLocalThread = new RefreshThread(1000) {
 				@Override
 				protected void executeCommand() {
 					synchronizeLocal();
 				}
 			};
-			refreshThread.setDaemon(true);
-			refreshThread.start();
-		} else {
-			refreshThread.setSynchronizeInterval(milliSecond);
+			syncLocalThread.setDaemon(true);
+			syncLocalThread.start();
 		}
 	}
 
@@ -434,23 +451,32 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 
 	@Override
 	public synchronized void removeComponent(Component component) {
-		if (component instanceof CorbaComponentImpl) {
-			CorbaComponentImpl corbaComp = (CorbaComponentImpl) component;
-			// 状態通知オブザーバ解除
-			if (corbaComp.getStatusObserver() != null) {
-				corbaComp.getStatusObserver().detachComponent(corbaComp);
-			}
-		}
+		removeObserver(component);
 		for (Component comp : component.getComponents()) {
-			if (comp instanceof CorbaComponentImpl) {
-				CorbaComponentImpl corbaComp = (CorbaComponentImpl) comp;
-				// 状態通知オブザーバ解除
-				if (corbaComp.getStatusObserver() != null) {
-					corbaComp.getStatusObserver().detachComponent(corbaComp);
-				}
-			}
+			removeObserver(comp);
 		}
+		//
 		getComponents().remove(component);
+	}
+
+	void removeObserver(Component component) {
+		if (!(component instanceof CorbaComponentImpl)) {
+			return;
+		}
+		if (isCompositeMember(component)) {
+			return;
+		}
+		CorbaComponentImpl corbaComp = (CorbaComponentImpl) component;
+		//
+		CorbaObserverStore.eINSTANCE.removeComponentReference(corbaComp);
+		// 状態通知オブザーバ解除
+		if (corbaComp.getStatusObserver() != null) {
+			corbaComp.getStatusObserver().detachComponent();
+		}
+		// ログ通知オブザーバ解除
+		if (corbaComp.getLogObserver() != null) {
+			corbaComp.getLogObserver().detachComponent();
+		}
 	}
 
 	@Override
@@ -467,29 +493,35 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 
 	@Override
 	public synchronized void addComponent(int pos, Component component) {
-		if (component instanceof CorbaComponentImpl) {
-			CorbaComponentImpl corbaComp = (CorbaComponentImpl) component;
-			if (corbaComp.supportedCorbaObserver()) {
-				// 状態通知オブザーバ登録
-				CorbaStatusObserver ob = new CorbaStatusObserverImpl();
-				ob.attachComponent(corbaComp);
-			}
-		}
+		addObserver(component);
 		for (Component comp : component.getComponents()) {
-			if (comp instanceof CorbaComponentImpl) {
-				CorbaComponentImpl corbaComp = (CorbaComponentImpl) comp;
-				if (corbaComp.supportedCorbaObserver()) {
-					// 状態通知オブザーバ登録
-					CorbaStatusObserver ob = new CorbaStatusObserverImpl();
-					ob.attachComponent(corbaComp);
-				}
-			}
+			addObserver(comp);
 		}
+		//
 		if (pos == -1) {
 			getComponents().add(component);
 		} else {
 			getComponents().add(pos, component);
 		}
+	}
+
+	void addObserver(Component component) {
+		if (!(component instanceof CorbaComponentImpl)) {
+			return;
+		}
+		if (isCompositeMember(component)) {
+			return;
+		}
+		CorbaComponentImpl corbaComp = (CorbaComponentImpl) component;
+		if (!corbaComp.supportedCorbaObserver()) {
+			return;
+		}
+		// 状態通知オブザーバ登録
+		CorbaStatusObserver ob = ComponentFactory.eINSTANCE
+				.createCorbaStatusObserver();
+		ob.attachComponent(corbaComp);
+		//
+		CorbaObserverStore.eINSTANCE.addComponentReference(corbaComp);
 	}
 
 	@Override
@@ -504,6 +536,16 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 		for (Component c : getUnmodifiedComponents()) {
 			removeComponent(c);
 		}
+	}
+
+	public boolean isCompositeMember(Component component) {
+		if (component.eContainer() instanceof SystemDiagram) {
+			SystemDiagram sd = (SystemDiagram) component.eContainer();
+			if (sd.getCompositeComponent() != null) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -592,6 +634,16 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 	@Override
 	public EList<String> getPropertyKeys() {
 		return properties.getPropertyKeys();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public IPropertyMap getPropertyMap() {
+		return properties;
 	}
 
 	/**
@@ -794,9 +846,66 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 		return connectorMap;
 	}
 
-	private void synchronizeLocal() {
-		// リモートと同期を取る
-		synchronizeFromRemote();
+	@Override
+	public void dispose() {
+		if (syncLocalThread != null) {
+			syncLocalThread.setSynchronizeInterval(-1);
+			syncLocalThread = null;
+		}
+		if (syncRemoteThread != null) {
+			syncRemoteThread.setSynchronizeInterval(-1);
+			syncRemoteThread = null;
+		}
+	}
+
+	void synchronizeRemote() {
+		if (getParentSystemDiagram() == null) {
+			for (Component component : getUnmodifiedComponents()) {
+				if (component instanceof CorbaComponentImpl) {
+					CorbaComponentImpl corbaComp = (CorbaComponentImpl) component;
+					CorbaStatusObserver obs = corbaComp.getStatusObserver();
+					if (obs != null) {
+						continue;
+					}
+				}
+				//
+				SynchronizationSupport support = component
+						.getSynchronizationSupport();
+				if (support == null) {
+					continue;
+				}
+				support.synchronizeRemote();
+			}
+		}
+	}
+
+	void synchronizeLocal() {
+		// // リモートと同期を取る
+		for (Component component : getUnmodifiedComponents()) {
+			if (component instanceof CorbaComponentImpl) {
+				CorbaComponentImpl corbaComp = (CorbaComponentImpl) component;
+				CorbaStatusObserver obs = corbaComp.getStatusObserver();
+				if (obs != null) {
+					// 状態通知オブザーバが登録されている場合の同期
+					if (obs.isTimeOut()) {
+						// H.Bがタイムアウトしていたらダイアグラムから削除
+						if (!SynchronizationSupport.ping(corbaComp
+								.getCorbaObjectInterface())) {
+							removeComponent(corbaComp);
+						}
+						continue;
+					}
+				}
+			}
+			//
+			SynchronizationSupport support = component
+					.getSynchronizationSupport();
+			if (support == null) {
+				continue;
+			}
+			support.synchronizeLocal();
+		}
+		//
 		try {
 			closeIfExit();
 		} catch (Exception e) {
@@ -842,56 +951,12 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 		return false;
 	}
 
-	private void synchronizeFromRemote() {
-		if (getParentSystemDiagram() != null) {
-			return;
-		}
-		List<Component> components = getUnmodifiedComponents();
-		for (Component component : components) {
-			if (component instanceof CorbaComponentImpl) {
-				CorbaComponentImpl corbaComp = (CorbaComponentImpl) component;
-				CorbaStatusObserver obs = corbaComp.getStatusObserver();
-				if (obs != null) {
-					// 状態通知オブザーバが登録されている場合の同期
-					if (obs.isTimeOut()) {
-						// H.Bがタイムアウトしていたらダイアグラムから削除
-						if (!SynchronizationSupport.ping(corbaComp
-								.getCorbaObjectInterface())) {
-							removeComponent(corbaComp);
-						}
-						continue;
-					}
-					corbaComp.synchronizeLocalAttribute(null);
-					corbaComp.synchronizeLocalReference();
-					corbaComp.synchronizeChildComponents();
-					for (Object content : corbaComp.eContents()) {
-						if (content instanceof LocalObject) {
-							LocalObject lo = (LocalObject) content;
-							if (lo.getSynchronizationSupport() != null) {
-								lo.getSynchronizationSupport()
-										.synchronizeLocal();
-							}
-						}
-					}
-					continue;
-				}
-			}
-			//
-			SynchronizationSupport support = component
-					.getSynchronizationSupport();
-			if (support == null) {
-				continue;
-			}
-			support.synchronizeLocal();
-		}
-	}
-
 	@Override
 	public synchronized boolean synchronizeManually() {
 		if (!SystemDiagramKind.ONLINE_LITERAL.equals(getKind())) {
 			return false;
 		}
-		if (refreshThread != null && refreshThread.isRunning()) {
+		if (syncRemoteThread != null && syncRemoteThread.isRunning()) {
 			return false;
 		}
 		synchronizeLocal();

@@ -47,7 +47,21 @@ public class ConfigurationWidgetTest extends TestCase {
 		verifyWidget(result.get("key0"), ConfigurationWidget.SLIDER, "0.0<x<10.0");
 		verifyWidget(result.get("key1"), ConfigurationWidget.SLIDER, "0.1<x<10.0");
 	}
-	
+
+	public void testParseHashWidget3() throws Exception {
+		ConfigurationCondition cc = ConfigurationCondition.parse("{key0:(top,left,bottom,right), key1:0.0<x<10.0 }");
+		Map<String, ConfigurationWidget> result = ConfigurationWidget.parseHashWidget("{key0:checkbox, key1:spin}", cc);
+		verifyWidget(result.get("key0"), ConfigurationWidget.CHECKBOX, "(top,left,bottom,right)");
+		verifyWidget(result.get("key1"), ConfigurationWidget.SPIN, "0.0<x<10.0");
+	}
+
+	public void testParseHashWidget4() throws Exception {
+		ConfigurationCondition cc = ConfigurationCondition.parse("{key0:(top,left,bottom,right), key1:0.0<x<10.0 }");
+		Map<String, ConfigurationWidget> result = ConfigurationWidget.parseHashWidget("{key0:ordered_list, key1:spin}", cc);
+		verifyWidget(result.get("key0"), ConfigurationWidget.ORDERED_LIST, "(top,left,bottom,right)");
+		verifyWidget(result.get("key1"), ConfigurationWidget.SPIN, "0.0<x<10.0");
+	}
+
 	public void testSimpleWidget() throws Exception {
 		ConfigurationCondition cc = ConfigurationCondition.parse(" 0.0<x<10.0 ");
 		List<ConfigurationWidget> result = ConfigurationWidget.parseSimpleWidget(" slider ", cc);

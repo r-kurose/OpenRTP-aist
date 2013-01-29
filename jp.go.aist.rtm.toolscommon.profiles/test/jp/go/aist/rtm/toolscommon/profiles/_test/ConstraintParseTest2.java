@@ -11,7 +11,8 @@ public class ConstraintParseTest2 extends TestBase {
 		String resourceFile = rootPath +  "\\resource\\RTC\\Constraint\\Hash2.xml";
 		String expected = readFile(resourceFile,"\n");
 
-		ConstraintType type = XmlHandler.convertToXmlConstraint("{key0:(ichi,one),key1:0.0<x<10.0}");
+//		ConstraintType type = XmlHandler.convertToXmlConstraint("{key0:(ichi,one),key1:0.0<x<10.0}");
+		ConstraintType type = XmlHandler.convertToXmlConstraint("{el1:100<=x,el2:150}");
 		RtcProfile profile = createConstraintBase(type);
 		XmlHandler handler = new XmlHandler();
 		String result = handler.convertToXmlRtc(profile);

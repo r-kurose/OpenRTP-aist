@@ -1,0 +1,13 @@
+module AAA {
+	module BBB
+	{
+		module CCC
+		{
+			struct TimeBBB
+			{
+				unsigned long secaaa;    // sec
+				unsigned long nsecaaa;   // nano sec
+			};
+		};
+	};
+};

@@ -193,6 +193,10 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 				return createCorbaStatusObserverAdapter();
 			}
 			@Override
+			public Adapter caseCorbaLogObserver(CorbaLogObserver object) {
+				return createCorbaLogObserverAdapter();
+			}
+			@Override
 			public Adapter caseIAdaptable(IAdaptable object) {
 				return createIAdaptableAdapter();
 			}
@@ -467,6 +471,20 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCorbaStatusObserverAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaLogObserver <em>Corba Log Observer</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.CorbaLogObserver
+	 * @generated
+	 */
+	public Adapter createCorbaLogObserverAdapter() {
 		return null;
 	}
 

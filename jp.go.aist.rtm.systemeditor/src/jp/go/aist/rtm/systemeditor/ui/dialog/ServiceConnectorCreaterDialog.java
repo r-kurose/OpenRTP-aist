@@ -1,12 +1,14 @@
 package jp.go.aist.rtm.systemeditor.ui.dialog;
 
+import static jp.go.aist.rtm.systemeditor.nl.Messages.getString;
+import static jp.go.aist.rtm.systemeditor.ui.util.RTMixin.form;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
@@ -14,17 +16,18 @@ import jp.go.aist.rtm.toolscommon.model.component.PortInterfaceProfile;
 import jp.go.aist.rtm.toolscommon.model.component.ServicePort;
 
 import org.eclipse.jface.dialogs.IMessageProvider;
-import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
-import org.eclipse.jface.viewers.ICellModifier;
+import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -37,40 +40,61 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
 /**
  * サービスポート間の接続のコネクタプロファイルの選択ダイアログ
  * <P>
  * ポート名を入力する 接続しようとしているServicePort間でマッチングを行い、必要に応じて警告を表示する。
- * ここでいうマッチングは、「PortInterfaceProfile.type」が同じで、「PortInterfaceProfile.polarity」がPROVIDEDとREQUIREDで対応することをいう。
- * ・完全一致した場合 → 警告なし ・一部一致した場合 → 警告 「Port interfaces do not match completely.」
- * ・完全不一致した場合 → 警告 「No corresponding port interface.」
  * 
+ * ここでいうマッチングは、PortInterfaceProfile の type、および instance_name」が同じで polarity が
+ * PROVIDED と REQUIRED で対応することをいう。
+ * <ul>
+ * <li>完全一致した場合 → 警告なし</li>
+ * <li>一部一致した場合 → 警告「Port interfaces do not match completely.」</li>
+ * <li>完全不一致した場合 → 警告「No corresponding port interface.」</li>
+ * </ul>
+ * 
+ * また、対応するインスタンスをコネクタプロファイルのプロパティに設定する場合は以下のチェックを行います。
+ * <ul>
+ * <li>type が不一致 → エラー「Unmatch interface type consumer={0} provider={1}」</li>
+ * <li>instance_name が不一致 → 警告「Unmatch interface instance consumer={0}
+ * provider={1}」</li>
+ * </ul>
  */
-public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
+public class ServiceConnectorCreaterDialog extends ConnectorDialogBase {
 
 	static final int EXEC_BUTTON_WIDTH = 70;
 
-	static final String LABEL_PROPERTY_CONSUMER = Messages.getString("ServiceConnectorCreaterDialog.7");
-	static final String LABEL_PROPERTY_PROVIDER = Messages.getString("ServiceConnectorCreaterDialog.8");
+	static final String MSG_ERROR = getString("ServiceConnectorCreaterDialog.2");
+	static final String MSG_NOMATCH_INTERFACE = getString("ServiceConnectorCreaterDialog.3");
+	static final String MSG_UNMATCH_INTERFACE = getString("ServiceConnectorCreaterDialog.4");
 
-	static final String LABEL_BUTTON_ADD = Messages.getString("ServiceConnectorCreaterDialog.9");
-	static final String LABEL_BUTTON_DELETE = Messages.getString("ServiceConnectorCreaterDialog.10");
+	static final String MSG_UNMATCH_INTERFACE_TYPE = getString("ServiceConnectorCreaterDialog.13");
+	static final String MSG_UNMATCH_INTERFACE_INSTANCE = getString("ServiceConnectorCreaterDialog.14");
 
-	static final String LABEL_DETAIL = Messages.getString("ServiceConnectorCreaterDialog.11");
+	static final String DIALOG_TITLE = getString("ServiceConnectorCreaterDialog.6");
 
-	static final String LABEL_UNKNOWN = Messages.getString("ServiceConnectorCreaterDialog.12");
+	static final String LABEL_ENTER_PROFILE = getString("ServiceConnectorCreaterDialog.1");
+	static final String LABEL_NAME = getString("ServiceConnectorCreaterDialog.5");
 
-	static final String PROPERTY_CONSUMER = "PROPERTY_CONSUMER";
-	static final String PROPERTY_PROVIDER = "PROPERTY_PROVIDER";
+	static final String LABEL_PROPERTY_CONSUMER = getString("ServiceConnectorCreaterDialog.7");
+	static final String LABEL_PROPERTY_PROVIDER = getString("ServiceConnectorCreaterDialog.8");
 
-	private Text nameText;
+	static final String LABEL_BUTTON_ADD = getString("ServiceConnectorCreaterDialog.9");
+	static final String LABEL_BUTTON_DELETE = getString("ServiceConnectorCreaterDialog.10");
+
+	static final String LABEL_DETAIL = getString("ServiceConnectorCreaterDialog.11");
+
+	static final String LABEL_UNKNOWN = getString("ServiceConnectorCreaterDialog.12");
+
+	static final int PROPERTY_CONSUMER = 0;
+	static final int PROPERTY_PROVIDER = 1;
+
+	Text nameText;
 
 	Composite detailComposite;
 
@@ -82,12 +106,11 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 
 	Point defaultDialogSize;
 
-	private ConnectorProfile connectorProfile;
-	private ConnectorProfile dialogResult;
+	ConnectorProfile connectorProfile;
+	ConnectorProfile dialogResult;
 
-	private ServicePort first;
-
-	private ServicePort second;
+	ServicePort first;
+	ServicePort second;
 
 	List<InterfaceEntry> interfaceList;
 	InterfaceEntry selectedEntry;
@@ -98,9 +121,11 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 	Map<String, ConnectorProfile.InterfaceId> providerMap;
 	List<String> providerLabels;
 
+	String baseMessage;
+	TableViewer additionalTableViewer;
+
 	public ServiceConnectorCreaterDialog(Shell parentShell) {
 		super(parentShell);
-		setShellStyle(getShellStyle() | SWT.CENTER | SWT.RESIZE);
 	}
 
 	/**
@@ -117,13 +142,19 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 		consumerLabels = new ArrayList<String>();
 		providerMap = new HashMap<String, ConnectorProfile.InterfaceId>();
 		providerLabels = new ArrayList<String>();
-		registInterfaceMap(first);
-		registInterfaceMap(second);
+		if (first != null) {
+			registInterfaceMap(first);
+		}
+		if (second != null) {
+			registInterfaceMap(second);
+		}
 
-		this.connectorProfile = ComponentFactory.eINSTANCE
-				.createConnectorProfile();
-		this.connectorProfile.setName(first.getNameL() + "_" //$NON-NLS-1$
-				+ second.getNameL());
+		String firstName = (first != null) ? first.getNameL() : "none";
+		String secondName = (second != null) ? second.getNameL() : "none";
+
+  		connectorProfile = ComponentFactory.eINSTANCE.createConnectorProfile();
+		connectorProfile.setName(firstName + "_" + secondName);
+		this.connectorProfile.setProperty("port.connection.strictness", "strict");
 
 		open();
 
@@ -181,7 +212,7 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 		mainComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		Label label = new Label(mainComposite, SWT.NONE);
-		label.setText(Messages.getString("ServiceConnectorCreaterDialog.1")); //$NON-NLS-1$
+		label.setText(LABEL_ENTER_PROFILE);
 		GridData labelLayloutData = new GridData(
 				GridData.HORIZONTAL_ALIGN_BEGINNING);
 		label.setLayoutData(labelLayloutData);
@@ -189,26 +220,27 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 
 		createConnectorProfileComposite(mainComposite);
 
-		String message = Messages.getString("ServiceConnectorCreaterDialog.2"); //$NON-NLS-1$
+		baseMessage = MSG_ERROR;
 		try {
-			List<PortInterfaceProfile> interfaces1 = first.getInterfaces();
-			List<PortInterfaceProfile> interfaces2 = second.getInterfaces();
-
+			List<PortInterfaceProfile> interfaces1 = (first != null) ? first
+					.getInterfaces() : new ArrayList<PortInterfaceProfile>();
+			List<PortInterfaceProfile> interfaces2 = (second != null) ? second
+					.getInterfaces() : new ArrayList<PortInterfaceProfile>();
 			int countMatch = countMatch(interfaces1, interfaces2);
-			if (countMatch > 0 && countMatch == countTotal(interfaces1, interfaces2)) {
-				message = null;
+			if (countMatch > 0
+					&& countMatch == countTotal(interfaces1, interfaces2)) {
+				baseMessage = null;
 			} else {
 				if (countMatch == 0) {
-					message = Messages.getString("ServiceConnectorCreaterDialog.3"); //$NON-NLS-1$
+					baseMessage = MSG_NOMATCH_INTERFACE;
 				} else {
-					message = Messages.getString("ServiceConnectorCreaterDialog.4"); //$NON-NLS-1$
+					baseMessage = MSG_UNMATCH_INTERFACE;
 				}
 			}
-
 		} catch (Exception e) {
 		}
-		if (message != null) {
-			setMessage(message, IMessageProvider.WARNING);
+		if (baseMessage != null) {
+			setMessage(baseMessage, IMessageProvider.WARNING);
 		}
 
 		return mainComposite;
@@ -236,7 +268,7 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 		portProfileEditComposite.setLayoutData(gd);
 
 		Label name = new Label(portProfileEditComposite, SWT.NONE);
-		name.setText(Messages.getString("ServiceConnectorCreaterDialog.5")); //$NON-NLS-1$
+		name.setText(LABEL_NAME);
 		nameText = new Text(portProfileEditComposite, SWT.SINGLE | SWT.BORDER);
 		gd = new GridData();
 		gd.horizontalAlignment = GridData.FILL;
@@ -296,18 +328,6 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 		interfaceTableViewer = new TableViewer(detailComposite,
 				SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER);
 		interfaceTableViewer.setContentProvider(new ArrayContentProvider());
-		interfaceTableViewer.setColumnProperties(new String[] {
-				PROPERTY_CONSUMER, PROPERTY_PROVIDER });
-		interfaceTableViewer
-				.setLabelProvider(new InterfaceEntryLabelProvider());
-		interfaceTableViewer.setCellModifier(new InterfaceTableCellModifier(
-				interfaceTableViewer));
-		CellEditor[] editors = new CellEditor[2];
-		editors[0] = new ComboBoxCellEditor(interfaceTableViewer.getTable(),
-				consumerLabels.toArray(new String[0]), SWT.READ_ONLY);
-		editors[1] = new ComboBoxCellEditor(interfaceTableViewer.getTable(),
-				providerLabels.toArray(new String[0]), SWT.READ_ONLY);
-		interfaceTableViewer.setCellEditors(editors);
 		interfaceTableViewer
 				.addSelectionChangedListener(new ISelectionChangedListener() {
 					public void selectionChanged(SelectionChangedEvent event) {
@@ -333,13 +353,16 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 		interfaceTable.setLinesVisible(true);
 		interfaceTable.setHeaderVisible(true);
 
-		TableColumn col = new TableColumn(interfaceTable, SWT.NONE);
-		col.setText(LABEL_PROPERTY_CONSUMER);
-		col.setWidth(300);
+		TableViewerColumn col = null;
+		col = createColumn(interfaceTableViewer, LABEL_PROPERTY_CONSUMER, 300);
+		col.setEditingSupport(new InterfaceTableEdittingSupport(
+				interfaceTableViewer, PROPERTY_CONSUMER));
+		col = createColumn(interfaceTableViewer, LABEL_PROPERTY_PROVIDER, 300);
+		col.setEditingSupport(new InterfaceTableEdittingSupport(
+				interfaceTableViewer, PROPERTY_PROVIDER));
 
-		col = new TableColumn(interfaceTable, SWT.NONE);
-		col.setText(LABEL_PROPERTY_PROVIDER);
-		col.setWidth(300);
+		interfaceTableViewer
+				.setLabelProvider(new InterfaceEntryLabelProvider());
 
 		Composite buttonComposite = new Composite(detailComposite, SWT.NONE);
 		gl = new GridLayout();
@@ -358,7 +381,8 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 			public void widgetSelected(SelectionEvent e) {
 				InterfaceEntry entry = newEntry();
 				interfaceList.add(entry);
-				interfaceTableViewer.setInput(interfaceList);
+				interfaceTableViewer.refresh();
+				validateEntry();
 			}
 		});
 
@@ -375,11 +399,14 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 					return;
 				}
 				interfaceList.remove(selectedEntry);
-				interfaceTableViewer.setInput(interfaceList);
+				interfaceTableViewer.refresh();
 				deleteButton.setEnabled(false);
+				validateEntry();
 			}
 		});
 
+		additionalTableViewer = createAdditionalTableViewer(detailComposite);
+		
 		loadDetailData();
 
 		defaultDialogSize = getShell().getSize();
@@ -450,16 +477,61 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 			String provider = e.provider.toString();
 			connectorProfile.setProperty(consumer, provider);
 		}
+		
+		if (additionalTableViewer != null) {
+			List<?> additional = (List<?>) additionalTableViewer.getInput();
+			for (Object o : additional) {
+				AdditionalEntry target = (AdditionalEntry) o;
+				connectorProfile.setProperty(target.getName(), target
+						.getValue());
+			}
+		}
+	}
+
+	/** Consumer/Providerのエントリの整合性チェック */
+	void validateEntry() {
+		if (interfaceList == null) {
+			return;
+		}
+		String message = baseMessage;
+		int level = IMessageProvider.WARNING;
+		for (InterfaceEntry entry : interfaceList) {
+			if (entry.validate()) {
+				continue;
+			}
+			if (message == null) {
+				message = "";
+			}
+			if (!message.isEmpty()) {
+				message += "\n";
+			}
+			if (entry.getErrorMessage() != null) {
+				message += entry.getErrorMessage();
+				level = IMessageProvider.ERROR;
+			}
+			if (entry.getWarningMessage() != null) {
+				message += entry.getWarningMessage();
+			}
+		}
+		setMessage(message, level);
 	}
 
 	@Override
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
-		shell.setText(Messages.getString("ServiceConnectorCreaterDialog.6")); //$NON-NLS-1$
+		shell.setText(DIALOG_TITLE);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void okPressed() {
+		if (additionalTableViewer != null) {
+			// 重複チェック
+			if (!checkProperties((List<AdditionalEntry>) additionalTableViewer
+					.getInput())) {
+				return;
+			}
+		}
 		applyEntry();
 		dialogResult = connectorProfile;
 		super.okPressed();
@@ -471,12 +543,10 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 		super.cancelPressed();
 	}
 
-	@Override
 	/**
-	 * {@inheritDoc}
-	 * <p>
 	 * メッセージを設定する。
 	 */
+	@Override
 	public void setMessage(String newMessage, int newType) {
 		super.setMessage(newMessage, newType);
 	}
@@ -545,11 +615,14 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 	 */
 	private boolean isMatch(PortInterfaceProfile profile1,
 			PortInterfaceProfile profile2) {
-		
-		if (!profile1.getTypeName().equals(profile2.getTypeName())) return false;
-		if (profile1.isProvidedPolarity()) return profile2.isRequiredPolarity();
-		if (profile1.isRequiredPolarity()) return profile2.isProvidedPolarity();
-		
+		if (!profile1.getTypeName().equals(profile2.getTypeName()))
+			return false;
+		if (!profile1.getInstanceName().equals(profile2.getInstanceName()))
+			return false;
+		if (profile1.isProvidedPolarity())
+			return profile2.isRequiredPolarity();
+		if (profile1.isRequiredPolarity())
+			return profile2.isProvidedPolarity();
 		return false;
 	}
 
@@ -562,6 +635,8 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 	public static class InterfaceEntry {
 		ConnectorProfile.InterfaceId consumer;
 		ConnectorProfile.InterfaceId provider;
+		String errorMessage = null;
+		String warningMessage = null;
 
 		public String getConsumerLabel() {
 			return toLabelString(consumer);
@@ -573,6 +648,32 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 
 		public static String toLabelString(ConnectorProfile.InterfaceId id) {
 			return id.rtc_name + ":" + id.if_tname + ":" + id.if_iname;
+		}
+
+		public String getErrorMessage() {
+			return errorMessage;
+		}
+
+		public String getWarningMessage() {
+			return warningMessage;
+		}
+
+		public boolean validate() {
+			errorMessage = null;
+			warningMessage = null;
+			if (consumer.if_tname != null
+					&& !consumer.if_tname.equals(provider.if_tname)) {
+				errorMessage = form(MSG_UNMATCH_INTERFACE_TYPE,
+						consumer.if_tname, provider.if_tname);
+				return false;
+			}
+			if (consumer.if_iname != null
+					&& !consumer.if_iname.equals(provider.if_iname)) {
+				warningMessage = form(MSG_UNMATCH_INTERFACE_INSTANCE,
+						consumer.if_iname, provider.if_iname);
+				return false;
+			}
+			return true;
 		}
 	}
 
@@ -596,58 +697,99 @@ public class ServiceConnectorCreaterDialog extends TitleAreaDialog {
 		}
 	}
 
-	/** インターフェース一覧のCellModifier */
-	public class InterfaceTableCellModifier implements ICellModifier {
-		private TableViewer viewer;
+	/** インターフェース一覧のEditingSupport */
+	public class InterfaceTableEdittingSupport extends EditingSupport {
+		CellEditor editor;
+		int column;
 
-		public InterfaceTableCellModifier(TableViewer viewer) {
-			this.viewer = viewer;
+		public InterfaceTableEdittingSupport(ColumnViewer viewer, int column) {
+			super(viewer);
+
+			// Create the correct editor based on the column index
+			this.column = column;
+			switch (this.column) {
+			case PROPERTY_CONSUMER:
+			case PROPERTY_PROVIDER:
+				editor = new ComboBoxCellEditor(((TableViewer) viewer)
+						.getTable(), itemLabels().toArray(new String[0]),
+						SWT.READ_ONLY);
+				break;
+			default:
+				break;
+			}
 		}
 
 		@Override
-		public boolean canModify(Object element, String property) {
+		protected boolean canEdit(Object element) {
 			return true;
 		}
 
 		@Override
-		public Object getValue(Object element, String property) {
-			Object result = null;
-			InterfaceEntry entry = (InterfaceEntry) element;
-			if (PROPERTY_CONSUMER.equals(property)) {
-				String label = entry.getConsumerLabel();
-				int index = consumerLabels.indexOf(label);
-				result = new Integer(index);
-			} else if (PROPERTY_PROVIDER.equals(property)) {
-				String label = entry.getProviderLabel();
-				int index = providerLabels.indexOf(label);
-				result = new Integer(index);
-			}
-			return result;
+		protected CellEditor getCellEditor(Object element) {
+			return editor;
 		}
 
 		@Override
-		public void modify(Object element, String property, Object value) {
-			if (element instanceof Item) {
-				element = ((Item) element).getData();
+		protected Object getValue(Object element) {
+			InterfaceEntry entry = (InterfaceEntry) element;
+			//
+			String label = null;
+			if (column == PROPERTY_CONSUMER) {
+				label = entry.getConsumerLabel();
+			} else if (column == PROPERTY_PROVIDER) {
+				label = entry.getProviderLabel();
+			}
+			if (label == null) {
+				return null;
+			}
+			int index = itemLabels().indexOf(label);
+			return new Integer(index);
+		}
+
+		@Override
+		protected void setValue(Object element, Object value) {
+			if (!(element instanceof InterfaceEntry)) {
+				return;
 			}
 			InterfaceEntry entry = (InterfaceEntry) element;
-			if (PROPERTY_CONSUMER.equals(property)) {
+			//
+			if (column == PROPERTY_CONSUMER) {
 				Integer index = (Integer) value;
-				if (index >= 0 && index < consumerLabels.size()) {
-					ConnectorProfile.InterfaceId id = consumerMap
-							.get(consumerLabels.get(index));
+				if (index >= 0 && index < itemLabels().size()) {
+					ConnectorProfile.InterfaceId id = itemMap().get(
+							itemLabels().get(index));
 					entry.consumer = id.clone();
 				}
-			} else if (PROPERTY_PROVIDER.equals(property)) {
+			} else if (column == PROPERTY_PROVIDER) {
 				Integer index = (Integer) value;
-				if (index >= 0 && index < providerLabels.size()) {
-					ConnectorProfile.InterfaceId id = providerMap
-							.get(providerLabels.get(index));
+				if (index >= 0 && index < itemLabels().size()) {
+					ConnectorProfile.InterfaceId id = itemMap().get(
+							itemLabels().get(index));
 					entry.provider = id.clone();
 				}
 			}
-			viewer.update(element, null);
+			validateEntry();
+			getViewer().update(element, null);
 		}
+
+		Map<String, ConnectorProfile.InterfaceId> itemMap() {
+			if (column == PROPERTY_CONSUMER) {
+				return consumerMap;
+			} else if (column == PROPERTY_PROVIDER) {
+				return providerMap;
+			}
+			return new HashMap<String, ConnectorProfile.InterfaceId>();
+		}
+
+		List<String> itemLabels() {
+			if (column == PROPERTY_CONSUMER) {
+				return consumerLabels;
+			} else if (column == PROPERTY_PROVIDER) {
+				return providerLabels;
+			}
+			return new ArrayList<String>();
+		}
+
 	}
 
 }

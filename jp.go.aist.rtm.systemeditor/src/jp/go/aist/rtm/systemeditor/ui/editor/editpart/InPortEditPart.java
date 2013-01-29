@@ -11,6 +11,7 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.Panel;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.ui.actions.ActionRegistry;
@@ -33,18 +34,14 @@ public class InPortEditPart extends PortEditPart {
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public InPort getModel() {
 		return (InPort) super.getModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public void notifyChanged(Notification notification) {
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			@Override
 			public void run() {
 				if (isActive()) {
 					refresh();
@@ -56,12 +53,27 @@ public class InPortEditPart extends PortEditPart {
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected IFigure createFigure() {
-		IFigure result =  isExported() ? new ExportedInPortFigure(getModel())
-				: new InPortFigure(getModel());
+		super.createFigure();
+
+		IFigure result = null;
+		if (isExported()) {
+			result = new ExportedInPortFigure(getModel()) {
+				@Override
+				public void setBounds(Rectangle rect) {
+					super.setBounds(rect);
+					setLabelBounds(getBaseBounds(), rect, getDirection());
+				}
+			};
+		} else {
+			result = new InPortFigure(getModel()) {
+				@Override
+				public void setBounds(Rectangle rect) {
+					super.setBounds(rect);
+					setLabelBounds(getBaseBounds(), rect, getDirection());
+				}
+			};
+		}
 		result.setLocation(new Point(0, 0));
 
 		OutPortEditPart.supportAutoCreateConnectorToolMode(getViewer(), result);
@@ -70,9 +82,6 @@ public class InPortEditPart extends PortEditPart {
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	protected void refreshVisuals() {
 		Color color = SystemEditorPreferenceManager.getInstance().getColor(
 				SystemEditorPreferenceManager.COLOR_DATAPORT_NO_CONNECT);

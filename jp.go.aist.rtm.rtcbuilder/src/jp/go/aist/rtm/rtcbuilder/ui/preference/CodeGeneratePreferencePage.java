@@ -46,6 +46,7 @@ public class CodeGeneratePreferencePage extends AbstarctFieldEditorPreferencePag
 		IPreferenceStore store = RtcBuilderPlugin.getDefault().getPreferenceStore();
 		storeComponentInitialSetting(store);
 		storeConfigurationSetInitialSetting(store);
+		storeBackupInitialSetting(store);
 	}
 
 	@Override
@@ -57,8 +58,16 @@ public class CodeGeneratePreferencePage extends AbstarctFieldEditorPreferencePag
 		composite.setLayoutData(gd);
 		createComponentPart(composite);
 		createConfigurationSetParts(composite);
+		createBackupParts(composite);
 	}
 
+	private void createBackupParts(Composite composite) {
+		Composite backupGroup = createGroup(composite, IPreferenceMessageConstants.CODE_GEN_TITLE_BACKUP);
+		IntegerFieldEditor moduleMaxInstanceTextEditor = new IntegerFieldEditor(ComponentPreferenceManager.Generate_Backup_Num,
+				IMessageConstants.BACKUP_FILE_NUM, backupGroup);
+		addField(moduleMaxInstanceTextEditor);
+	}
+	
 	private void createConfigurationSetParts(Composite composite) {
 		Composite configGroup = createGroup(composite, IPreferenceMessageConstants.CODE_GEN_TITLE_CONFIG);
 		DigitAlphabetStringFieldEditor configurationNameEditor = 
@@ -154,6 +163,10 @@ public class CodeGeneratePreferencePage extends AbstarctFieldEditorPreferencePag
 		addField(commonSuffixEditor);
 	}
 	
+	private void storeBackupInitialSetting(IPreferenceStore store) {
+		store.setDefault(ComponentPreferenceManager.Generate_Backup_Num, ComponentPreferenceManager.DEFAULT_BACKUP_NUM);
+	}
+
 	private void storeConfigurationSetInitialSetting(IPreferenceStore store) {
 		store.setDefault(ComponentPreferenceManager.Generate_Configuration_Name, ComponentPreferenceManager.DEFAULT_CONFIGURATION_NAME);
 		store.setDefault(ComponentPreferenceManager.Generate_Configuration_Type, ComponentPreferenceManager.DEFAULT_CONFIGURATION_TYPE);

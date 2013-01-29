@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.go.aist.rtm.rtcbuilder.IRTCBMessageConstants;
@@ -24,12 +25,25 @@ import org.openrtp.namespaces.rtc.version02.RtcProfile;
 
 public class ProfileHandler {
 	private List<GenerateManager> managerList = null;
+	private boolean isDirect = false;
 	
 	public ProfileHandler() {
 		super();
 		managerList = RtcBuilderPlugin.getDefault().getLoader().getManagerList();
 	}
 
+	public ProfileHandler(boolean source) {
+		super();
+		isDirect = source;
+	}
+	
+	public void addManager(GenerateManager target) {
+		if( managerList==null ) {
+			managerList = new ArrayList<GenerateManager>();
+		}
+		managerList.add(target);
+	}
+	
 	public boolean validateXml(String targetString) throws Exception {
 		XmlHandler handler = new XmlHandler();
 		handler.validateXmlRtcBySchema(targetString);
@@ -42,6 +56,9 @@ public class ProfileHandler {
 	}
 
 	public GeneratorParam restorefromXMLFile(String filePath) throws Exception {
+		return restorefromXMLFile(filePath, false);
+	}
+	public GeneratorParam restorefromXMLFile(String filePath, boolean isDirect) throws Exception {
 		GeneratorParam generatorParam = null;
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), "UTF-8"));
@@ -57,7 +74,7 @@ public class ProfileHandler {
 
 			generatorParam = new GeneratorParam();
 			ParamUtil putil = new ParamUtil();
-			RtcParam rtcParam = putil.convertFromModule(profile, generatorParam, managerList);
+			RtcParam rtcParam = putil.convertFromModule(profile, generatorParam, managerList, isDirect);
 		    rtcParam.setRtcXml(tmp_sb.toString());
 			generatorParam.getRtcParams().add(rtcParam);
 		} catch (FileNotFoundException e) {
@@ -77,6 +94,21 @@ public class ProfileHandler {
 		return xmlFile;
 	}
 
+	public String convert2XML(RtcParam target) throws Exception {
+	    String xmlFile = "";
+	    ParamUtil putil = new ParamUtil();
+		RtcProfile profile = putil.convertToModule(target, managerList);
+		XmlHandler handler = new XmlHandler();
+		xmlFile = handler.convertToXmlRtc(profile);
+		return xmlFile;
+	}
+
+	public RtcProfile convert2XMLProfile(RtcParam target) throws Exception {
+	    ParamUtil putil = new ParamUtil();
+		RtcProfile profile = putil.convertToModule(target, managerList);
+		return profile;
+	}
+	
 	public 	String createInitialRtcXml(String creationDate) {
 		String result = "";
 		RtcProfile profile = ParamUtil.initialXml(creationDate);

@@ -6,6 +6,9 @@
  */
 package jp.go.aist.rtm.toolscommon.model.component.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaPortSynchronizer;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
@@ -40,17 +43,33 @@ public class CorbaPortConnectorImpl extends PortConnectorImpl implements PortCon
 			if (profile.connector_id == null) {
 				profile.connector_id = "";
 			}
-
 			profile.name = connectorProfile.getName();
-			profile.ports = new RTC.PortService[] { getCorbaObjectInterface(first),
-					getCorbaObjectInterface(second) };
-			profile.properties = CorbaConnectorProfileImpl.createProperties(connectorProfile);
+
+			List<RTC.PortService> portLists = new ArrayList<RTC.PortService>();
+			RTC.PortService firstPortService = null;
+			RTC.PortService secondPortService = null;
+			if (first != null) {
+				firstPortService = getCorbaObjectInterface(first);
+				portLists.add(firstPortService);
+			}
+			if (second != null) {
+				secondPortService = getCorbaObjectInterface(second);
+				portLists.add(secondPortService);
+			}
+			profile.ports = portLists.toArray(new RTC.PortService[0]);
+			profile.properties = CorbaConnectorProfileImpl
+					.createProperties(connectorProfile);
 
 			ConnectorProfileHolder connectorProfileHolder = new ConnectorProfileHolder(
 					profile);
-			getCorbaObjectInterface(first).connect(connectorProfileHolder);
+			RTC.ReturnCode_t ret = RTC.ReturnCode_t.BAD_PARAMETER;
+			if (firstPortService != null) {
+				ret = firstPortService.connect(connectorProfileHolder);
+			} else if (secondPortService != null) {
+				ret = secondPortService.connect(connectorProfileHolder);
+			}
+			return ret == RTC.ReturnCode_t.RTC_OK;
 
-			return true;
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 		}
@@ -59,24 +78,24 @@ public class CorbaPortConnectorImpl extends PortConnectorImpl implements PortCon
 	}
 
 	private PortService getCorbaObjectInterface(Port port) {
-		CorbaPortSynchronizer synchronizer = (CorbaPortSynchronizer) port.getSynchronizer();
+		CorbaPortSynchronizer synchronizer = (CorbaPortSynchronizer) port
+				.getSynchronizer();
 		return (PortService) synchronizer.getCorbaObjectInterface();
 	}
 
+	@Override
 	public boolean deleteConnectorR() {
 		try {
 			RTC.PortService inport = getCorbaObjectInterface(getTarget());
-
 			ReturnCode_t code = inport.disconnect(this.getConnectorProfile()
 					.getConnectorId());
-
 			if (code == ReturnCode_t.RTC_OK) {
 				return true;
 			}
 		} catch (RuntimeException e) {
 			// void
 		}
-
 		return false;
 	}
-} //CorbaPortConnectorImpl
+
+} // CorbaPortConnectorImpl

@@ -1,6 +1,10 @@
 package jp.go.aist.rtm.rtcbuilder.python.manager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 import jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython;
 import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 
@@ -86,4 +90,51 @@ public class TemplateHelperPy {
 				IRtcBuilderConstantsPython.DOC_POSTSH_PREFIX_PY, IRtcBuilderConstantsPython.DOC_POST_OFFSET_PY);
 	}
 	//
+	public boolean hasDataPortType(List<IdlFileParam> targetFiles) {
+		for(IdlFileParam target : targetFiles) {
+			if(target.isDataPort()) return true;
+		}
+		return false;
+	}
+	
+	public List<String> getDataPortTypes(List<IdlFileParam> targetFiles) {
+		List<String> result = new ArrayList<String>();
+		List<String> check = new ArrayList<String>();
+		check.add("RTC");
+		check.add("OpenRTM_aist");
+		
+		for(IdlFileParam target : targetFiles) {
+			if(target.isDataPort()==false) continue;
+			String targetType = "";
+			for(String targetTypes : target.getTargetType()) {
+				if( targetTypes.contains("::") ) {
+					String[] types = targetTypes.split("::");
+					/////
+					targetType = types[0];
+					if(check.contains(targetType)==false) {
+						check.add(targetType);
+						result.add(targetType);
+					}
+//					StringBuilder builder = new StringBuilder();
+//					for(int index=0;index<types.length-1;index++) {
+//						if(index!=0) builder.append(".");
+//						builder.append(types[index]);
+//						targetType = builder.toString();
+//						if(check.contains(targetType)==false) {
+//							check.add(targetType);
+//							result.add(targetType);
+//						}
+//					}
+				
+				} else {
+					targetType = "_GlobalIDL";
+					if(check.contains(targetType)==false) {
+						check.add(targetType);
+						result.add(targetType);
+					}
+				}
+			}
+		}
+		return result;
+	}
 }

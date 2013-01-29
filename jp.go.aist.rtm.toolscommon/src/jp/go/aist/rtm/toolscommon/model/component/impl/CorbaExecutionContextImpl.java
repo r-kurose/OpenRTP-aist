@@ -182,8 +182,13 @@ public class CorbaExecutionContextImpl extends ExecutionContextImpl implements C
 		rtcExecutionContextProfile = newRtcExecutionContextProfile;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.CORBA_EXECUTION_CONTEXT__RTC_EXECUTION_CONTEXT_PROFILE, oldRtcExecutionContextProfile, rtcExecutionContextProfile));
-		setRateL(rtcExecutionContextProfile.rate);
-		setKindL(rtcExecutionContextProfile.kind.value());
+		if (rtcExecutionContextProfile == null) {
+			setRateL(RATE_L_EDEFAULT);
+			setKindL(KIND_L_EDEFAULT);
+		} else {
+			setRateL(rtcExecutionContextProfile.rate);
+			setKindL(rtcExecutionContextProfile.kind.value());
+		}
 	}
 
 	@Override
@@ -310,9 +315,9 @@ public class CorbaExecutionContextImpl extends ExecutionContextImpl implements C
 	public String getComponentStateName(Component comp) {
 		int state = getComponentState(comp);
 		if (state == RTC.LifeCycleState.ACTIVE_STATE.value()) {
-			return "ACTIVATE";
+			return "ACTIVE";
 		} else if (state == RTC.LifeCycleState.INACTIVE_STATE.value()) {
-			return "INACTIVATE";
+			return "INACTIVE";
 		} else if (state == RTC.LifeCycleState.ERROR_STATE.value()) {
 			return "ERROR";
 		}

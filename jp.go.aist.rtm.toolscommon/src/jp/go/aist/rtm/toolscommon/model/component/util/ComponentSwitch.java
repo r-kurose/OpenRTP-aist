@@ -230,6 +230,7 @@ public class ComponentSwitch<T> {
 				PortSynchronizer portSynchronizer = (PortSynchronizer)theEObject;
 				T result = casePortSynchronizer(portSynchronizer);
 				if (result == null) result = caseIPropertyMap(portSynchronizer);
+				if (result == null) result = caseIAdaptable(portSynchronizer);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -263,6 +264,7 @@ public class ComponentSwitch<T> {
 			case ComponentPackage.IPROPERTY_MAP: {
 				IPropertyMap iPropertyMap = (IPropertyMap)theEObject;
 				T result = caseIPropertyMap(iPropertyMap);
+				if (result == null) result = caseIAdaptable(iPropertyMap);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -350,6 +352,15 @@ public class ComponentSwitch<T> {
 				if (result == null) result = caseCorbaObserver(corbaStatusObserver);
 				if (result == null) result = caseIPropertyMap(corbaStatusObserver);
 				if (result == null) result = caseIAdaptable(corbaStatusObserver);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ComponentPackage.CORBA_LOG_OBSERVER: {
+				CorbaLogObserver corbaLogObserver = (CorbaLogObserver)theEObject;
+				T result = caseCorbaLogObserver(corbaLogObserver);
+				if (result == null) result = caseCorbaObserver(corbaLogObserver);
+				if (result == null) result = caseIPropertyMap(corbaLogObserver);
+				if (result == null) result = caseIAdaptable(corbaLogObserver);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -609,6 +620,21 @@ public class ComponentSwitch<T> {
 	 * @generated
 	 */
 	public T caseCorbaStatusObserver(CorbaStatusObserver object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Corba Log Observer</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Corba Log Observer</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCorbaLogObserver(CorbaLogObserver object) {
 		return null;
 	}
 

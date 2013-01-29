@@ -23,6 +23,8 @@ import jp.go.aist.rtm.toolscommon.ui.views.propertysheetview.RtcPropertySheetPag
 import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 import jp.go.aist.rtm.toolscommon.util.SDOUtil;
 
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -249,7 +251,7 @@ public class ConfigurationView extends ViewPart {
 						copiedComponent.getActiveConfigSet());
 
 		ConfigurationSet newActiveConfigurationSet = null;
-		if (activeConfigurationIndex != -1) {
+        if (activeConfigurationIndex != -1) {
 			newActiveConfigurationSet = newConfigurationSetList
 					.get(activeConfigurationIndex);
 		}
@@ -264,16 +266,16 @@ public class ConfigurationView extends ViewPart {
 		}
 		if (targetComponent instanceof CorbaComponent) {
 			CorbaComponent c = (CorbaComponent) targetComponent;
-			c.synchronizeLocalAttribute(
-					ComponentPackage.eINSTANCE
-							.getComponent_ConfigurationSets());
-			c.synchronizeLocalAttribute(
-					ComponentPackage.eINSTANCE
-							.getComponent_ActiveConfigurationSet());
+			c.synchronizeRemoteAttribute(ComponentPackage.eINSTANCE
+					.getComponent_ConfigurationSets());
+			c.synchronizeRemoteAttribute(ComponentPackage.eINSTANCE
+					.getComponent_ActiveConfigurationSet());
+			c.synchronizeLocalAttribute(null);
 		}
 		buildData();
 
 		leftTable.setSelection(selectionIndex);
+		refreshRightData();
 	}
 
 	/** ActiveなRTCのコンフィグを変更するかを確認する */
@@ -299,36 +301,43 @@ public class ConfigurationView extends ViewPart {
 	}
 
 	/**
-	 * アクティブなコンフィグレーションを修正したかどうか
-	 * 
-	 * @return
+	 * アクティブなコンフィグレーションを切り替えたか
 	 */
-	private boolean isActiveConfigurationSetModified() {
-		if (copiedComponent.getActiveConfigSet() == null ||
-				copiedComponent.getActiveConfigSet().getConfigurationSet() == null) {
+	private boolean isActiveConfigurationSetChanged() {
+		if (copiedComponent.getActiveConfigSet() == null
+				|| copiedComponent.getActiveConfigSet().getConfigurationSet() == null) {
 			return targetComponent.getActiveConfigurationSet() != null;
 		}
-
-		if (targetComponent.getActiveConfigurationSet() == null)
-			return true;
-		if (copiedComponent.getActiveConfigSet().getConfigurationSet().getId().equals(
-				targetComponent.getActiveConfigurationSet().getId()) == false) 
-			return true;
-		if (copiedComponent.getActiveConfigSet().getNamedValueList()
-					.size() != targetComponent.getActiveConfigurationSet()
-					.getConfigurationData().size()) {
+		if (targetComponent.getActiveConfigurationSet() == null) {
 			return true;
 		}
-		for (NamedValueConfigurationWrapper namedValue : copiedComponent
-					.getActiveConfigSet().getNamedValueList()) {
-			if (namedValue.isKeyModified()
-						|| namedValue.isValueModified()) {
-					return true;
-			}
+		if (!copiedComponent.getActiveConfigSet().getConfigurationSet().getId()
+				.equals(targetComponent.getActiveConfigurationSet().getId())) {
+			return true;
 		}
 		return false;
 	}
 
+	/**
+	 * アクティブなコンフィグレーションを修正したかどうか
+	 */
+	private boolean isActiveConfigurationSetModified() {
+		if (isActiveConfigurationSetChanged()) {
+			return true;
+		}
+		if (copiedComponent.getActiveConfigSet().getNamedValueList().size() != targetComponent
+				.getActiveConfigurationSet().getConfigurationData().size()) {
+			return true;
+		}
+		for (NamedValueConfigurationWrapper namedValue : copiedComponent
+				.getActiveConfigSet().getNamedValueList()) {
+			if (namedValue.isKeyModified() || namedValue.isValueModified()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * 編集後の新しいConfigurationSetを作成する。
 	 * <p>
@@ -467,7 +476,6 @@ public class ConfigurationView extends ViewPart {
 		gd.widthHint = BUTTON_WIDTH;
 		addConfigurationSetButton.setLayoutData(gd);
 		addConfigurationSetButton.addSelectionListener(new SelectionAdapter() {
-			@SuppressWarnings("unchecked") //$NON-NLS-1$
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				ConfigurationSetConfigurationWrapper csw = new ConfigurationSetConfigurationWrapper(
@@ -572,7 +580,6 @@ public class ConfigurationView extends ViewPart {
 		gd.widthHint = BUTTON_WIDTH;
 		copyConfigurationSetButton.setLayoutData(gd);
 		copyConfigurationSetButton.addSelectionListener(new SelectionAdapter() {
-			@SuppressWarnings("unchecked") //$NON-NLS-1$
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (leftTable.getSelectionIndex() < 0) return;
@@ -842,19 +849,52 @@ public class ConfigurationView extends ViewPart {
 		return super.getAdapter(adapter);
 	}
 
+	/** CORBAの同期による変更通知を受け取るアダプタ */
+	AdapterImpl eAdapter = new AdapterImpl() {
+		@Override
+		public void notifyChanged(Notification msg) {
+			if (msg.getOldValue() == this || msg.getNewValue() == this) {
+				return;
+			}
+			boolean update = false;
+			if (ComponentPackage.eINSTANCE.getComponent_ConfigurationSets()
+					.equals(msg.getFeature())) {
+				update = true;
+			}
+			if (ComponentPackage.eINSTANCE
+					.getComponent_ActiveConfigurationSet().equals(
+							msg.getFeature())) {
+				update = true;
+			}
+			if (!update) {
+				return;
+			}
+			leftTableViewer.getControl().getDisplay().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					buildData();
+				}
+			});
+		}
+	};
+
 	/**
 	 * 選択を監視するリスナ
 	 */
 	private ISelectionListener selectionListener = new ISelectionListener() {
 		public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+			if (targetComponent != null) {
+				targetComponent.eAdapters().remove(eAdapter);
+			}
 			targetComponent = null;
 			if (selection instanceof IStructuredSelection) {
 				IStructuredSelection sSelection = (IStructuredSelection) selection;
-				Object selectedComponent = AdapterUtil.getAdapter(sSelection.getFirstElement(),
-										Component.class);
+				Object selectedComponent = AdapterUtil.getAdapter(sSelection
+						.getFirstElement(), Component.class);
 				if (selectedComponent != null) {
 					targetComponent = (Component) selectedComponent;
 					targetComponent.synchronizeManually();
+					targetComponent.eAdapters().add(eAdapter);
 				}
 			}
 			buildData();
@@ -930,18 +970,18 @@ public class ConfigurationView extends ViewPart {
 		configrationSetNameLabel.setText(""); //$NON-NLS-1$
 		addNamedValueButton.setEnabled(false);
 
-		if (copiedComponent != null) {
-			if (leftTable.getSelectionIndex() != -1) {
+		if (copiedComponent != null && leftTable.getSelectionIndex() != -1) {
+			ConfigurationSetConfigurationWrapper currentConfugurationSet = copiedComponent
+					.getConfigurationSetList().get(
+							leftTable.getSelectionIndex());
+
+			configrationSetNameLabel.setText(currentConfugurationSet.getId());
+
+			rightTableViewer.setInput(currentConfugurationSet
+					.getNamedValueList());
+			//
+			if (!(targetComponent instanceof CorbaComponent)) {
 				addNamedValueButton.setEnabled(true);
-				ConfigurationSetConfigurationWrapper currentConfugurationSet = copiedComponent
-						.getConfigurationSetList().get(
-								leftTable.getSelectionIndex());
-
-				configrationSetNameLabel.setText(currentConfugurationSet
-						.getId());
-
-				rightTableViewer.setInput(currentConfugurationSet
-						.getNamedValueList());
 			}
 		}
 
@@ -950,7 +990,9 @@ public class ConfigurationView extends ViewPart {
 
 	private void updateDeleteNamedValueButtonEnable() {
 		if (rightTable.getSelectionIndex() != -1) {
-			deleteNamedValueButton.setEnabled(true);
+			if (!(targetComponent instanceof CorbaComponent)) {
+				deleteNamedValueButton.setEnabled(true);
+			}
 		} else {
 			deleteNamedValueButton.setEnabled(false);
 		}
@@ -1190,7 +1232,7 @@ public class ConfigurationView extends ViewPart {
 
 			boolean isModify = false;
 			if (columnIndex == 0) {
-				if (isActiveConfigurationSetModified()) {
+				if (isActiveConfigurationSetChanged()) {
 					if (targetComponent.getActiveConfigurationSet() == configurationSetConfigurationWrapper
 							.getConfigurationSet()
 							|| copiedComponent.getActiveConfigSet() == configurationSetConfigurationWrapper) {

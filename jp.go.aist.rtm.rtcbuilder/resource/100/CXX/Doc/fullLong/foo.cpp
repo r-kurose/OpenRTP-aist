@@ -4,11 +4,11 @@
  * @brief MDesc
  * @date $Date$
  *
- * @author Noriaki Ando <n-ando@aist.go.jp>3456789412345678951234567896123456789
- * 7123456789812345
+ * @author Noriaki Ando <n-ando@aist.go.jp> one two three four
+ * five six seven eight nine ten
  *
- * Copyright (C) 2006-2008 ライセンス1234567890123456789012345678901234567890123
- * 4567890
+ * Copyright (C) 2006-2008
+ * ライセンス12345678901234567890123456789012345678901234567890
  *
  * $Id$
  */
@@ -69,8 +69,8 @@ foo::~foo()
 
 
 /*!
- * on_initialize概要説明12345678901234567890123456789012345678901234567890123456
- * 78901234567890
+ * on_initialize概要説明123456789012345678901234567890123456789012
+ * 3456789012345678901234567890
  */
 RTC::ReturnCode_t foo::onInitialize()
 {
@@ -103,14 +103,14 @@ RTC::ReturnCode_t foo::onInitialize()
   bindParameter("double_param0", m_double_param0, "0.11");
   bindParameter("str_param0", m_str_param0, "hoge");
   bindParameter("str_param1", m_str_param1, "dara");
-  
   // </rtc-template>
+  
   return RTC::RTC_OK;
 }
 
 /*!
- * on_finalize概要説明1234567890123456789012345678901234567890123456789012345678
- * 901234567890
+ * on_finalize概要説明12345678901234567890123456789012345678901234
+ * 56789012345678901234567890
  */
 /*
 RTC::ReturnCode_t foo::onFinalize()
@@ -120,8 +120,8 @@ RTC::ReturnCode_t foo::onFinalize()
 */
 
 /*!
- * on_startup概要説明12345678901234567890123456789012345678901234567890123456789
- * 01234567890
+ * on_startup概要説明123456789012345678901234567890123456789012345
+ * 6789012345678901234567890
  */
 /*
 RTC::ReturnCode_t foo::onStartup(RTC::UniqueId ec_id)
@@ -131,8 +131,8 @@ RTC::ReturnCode_t foo::onStartup(RTC::UniqueId ec_id)
 */
 
 /*!
- * on_shutdown概要説明1234567890123456789012345678901234567890123456789012345678
- * 901234567890
+ * on_shutdown概要説明12345678901234567890123456789012345678901234
+ * 56789012345678901234567890
  */
 /*
 RTC::ReturnCode_t foo::onShutdown(RTC::UniqueId ec_id)
@@ -142,8 +142,8 @@ RTC::ReturnCode_t foo::onShutdown(RTC::UniqueId ec_id)
 */
 
 /*!
- * on_activated概要説明123456789012345678901234567890123456789012345678901234567
- * 8901234567890
+ * on_activated概要説明1234567890123456789012345678901234567890123
+ * 456789012345678901234567890
  */
 /*
 RTC::ReturnCode_t foo::onActivated(RTC::UniqueId ec_id)
@@ -153,8 +153,8 @@ RTC::ReturnCode_t foo::onActivated(RTC::UniqueId ec_id)
 */
 
 /*!
- * on_deactivated概要説明1234567890123456789012345678901234567890123456789012345
- * 678901234567890
+ * on_deactivated概要説明12345678901234567890123456789012345678901
+ * 23456789012345678901234567890
  */
 /*
 RTC::ReturnCode_t foo::onDeactivated(RTC::UniqueId ec_id)
@@ -164,8 +164,8 @@ RTC::ReturnCode_t foo::onDeactivated(RTC::UniqueId ec_id)
 */
 
 /*!
- * on_execute概要説明12345678901234567890123456789012345678901234567890123456789
- * 01234567890
+ * on_execute概要説明123456789012345678901234567890123456789012345
+ * 6789012345678901234567890
  */
 /*
 RTC::ReturnCode_t foo::onExecute(RTC::UniqueId ec_id)
@@ -175,8 +175,8 @@ RTC::ReturnCode_t foo::onExecute(RTC::UniqueId ec_id)
 */
 
 /*!
- * on_aborting概要説明1234567890123456789012345678901234567890123456789012345678
- * 901234567890
+ * on_aborting概要説明12345678901234567890123456789012345678901234
+ * 56789012345678901234567890
  */
 /*
 RTC::ReturnCode_t foo::onAborting(RTC::UniqueId ec_id)
@@ -186,8 +186,8 @@ RTC::ReturnCode_t foo::onAborting(RTC::UniqueId ec_id)
 */
 
 /*!
- * on_error概要説明1234567890123456789012345678901234567890123456789012345678901
- * 234567890
+ * on_error概要説明12345678901234567890123456789012345678901234567
+ * 89012345678901234567890
  */
 /*
 RTC::ReturnCode_t foo::onError(RTC::UniqueId ec_id)
@@ -197,8 +197,8 @@ RTC::ReturnCode_t foo::onError(RTC::UniqueId ec_id)
 */
 
 /*!
- * on_reset概要説明1234567890123456789012345678901234567890123456789012345678901
- * 234567890
+ * on_reset概要説明12345678901234567890123456789012345678901234567
+ * 89012345678901234567890
  */
 /*
 RTC::ReturnCode_t foo::onReset(RTC::UniqueId ec_id)
@@ -208,8 +208,8 @@ RTC::ReturnCode_t foo::onReset(RTC::UniqueId ec_id)
 */
 
 /*!
- * on_state_update概要説明123456789012345678901234567890123456789012345678901234
- * 5678901234567890
+ * on_state_update概要説明1234567890123456789012345678901234567890
+ * 123456789012345678901234567890
  */
 /*
 RTC::ReturnCode_t foo::onStateUpdate(RTC::UniqueId ec_id)
@@ -219,8 +219,8 @@ RTC::ReturnCode_t foo::onStateUpdate(RTC::UniqueId ec_id)
 */
 
 /*!
- * on_rate_changed概要説明123456789012345678901234567890123456789012345678901234
- * 5678901234567890
+ * on_rate_changed概要説明1234567890123456789012345678901234567890
+ * 123456789012345678901234567890
  */
 /*
 RTC::ReturnCode_t foo::onRateChanged(RTC::UniqueId ec_id)

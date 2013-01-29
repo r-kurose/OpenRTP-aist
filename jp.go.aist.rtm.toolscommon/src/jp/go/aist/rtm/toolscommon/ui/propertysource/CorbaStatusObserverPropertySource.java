@@ -10,7 +10,7 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
 /**
- * CorbaStatusObserverÇÃIPropertySourceÉNÉâÉX
+ * CorbaStatusObserver„ÅÆIPropertySource„ÇØ„É©„Çπ
  */
 public class CorbaStatusObserverPropertySource extends AbstractPropertySource {
 

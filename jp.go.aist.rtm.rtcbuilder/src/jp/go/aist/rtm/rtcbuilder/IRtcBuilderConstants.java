@@ -8,7 +8,6 @@ public interface IRtcBuilderConstants {
      */
     public static final String NEWEDITOR_ACTION_ID = RtcBuilderPlugin.PLUGIN_ID + ".ui.actionSet";
 
-	public static final String RTM_VERSION_042 = "0.4.2";
 	public static final String RTM_VERSION_100 = "1.0.0";
 	public static final String DEFAULT_RTM_VERSION = RTM_VERSION_100;
 
@@ -123,7 +122,7 @@ public interface IRtcBuilderConstants {
 	public static final String DOC_README_PORT_DETAIL_PREFIX = "\t\t" + SPACE17; 
 	public static final String DOC_README_INTERFACE_PREFIX = "\t\t" + SPACE15; 
 	//
-	public static final int DOC_DEFAULT_WIDTH = 80; 
+	public static final int DOC_DEFAULT_WIDTH = 66; 
 	public static final int DOC_AUTHOR_OFFSET = 11; 
 	public static final int DOC_DEFAULT_OFFSET = 3; 
 	public static final int DOC_DESC_OFFSET = 5;
@@ -163,4 +162,5 @@ public interface IRtcBuilderConstants {
 	public static final int PORT_SPACE_HEIGHT = 60;
 	public static final int PORT_SPACE_WIDTH = 150;
 
+	public static final int SINGLE_COLUMN_WIDTH = 200;
 }

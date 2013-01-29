@@ -13,6 +13,7 @@ import java.util.List;
 import jp.go.aist.rtm.toolscommon.factory.CorbaWrapperFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
+import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaPortInterfaceProfile;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaPortSynchronizer;
 import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
@@ -21,7 +22,6 @@ import jp.go.aist.rtm.toolscommon.model.component.PortSynchronizer;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile.PROP;
 import jp.go.aist.rtm.toolscommon.model.component.util.CorbaPropertyMap;
-import jp.go.aist.rtm.toolscommon.model.component.util.IPropertyMapUtil;
 import jp.go.aist.rtm.toolscommon.model.core.impl.CorbaWrapperObjectImpl;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.AttributeMapping;
@@ -106,7 +106,7 @@ public class CorbaPortSynchronizerImpl extends CorbaWrapperObjectImpl implements
 	@SuppressWarnings("unused")
 	private SystemDiagram currentDiagram;
 
-	protected IPropertyMapUtil properties;
+	protected IPropertyMap properties;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -179,6 +179,41 @@ public class CorbaPortSynchronizerImpl extends CorbaWrapperObjectImpl implements
 		rTCPortProfile = newRTCPortProfile;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.CORBA_PORT_SYNCHRONIZER__RTC_PORT_PROFILE, oldRTCPortProfile, rTCPortProfile));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public boolean disconnect(String conn_id) {
+		RTC.ReturnCode_t ret = getCorbaObjectInterface().disconnect(conn_id);
+		return ret == RTC.ReturnCode_t.RTC_OK;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public boolean disconnect(ConnectorProfile conn_prof) {
+		if (conn_prof == null) {
+			return false;
+		}
+		return disconnect(conn_prof.getConnectorId());
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public boolean disconnectAll() {
+		RTC.ReturnCode_t ret = getCorbaObjectInterface().disconnect_all();
+		return ret != RTC.ReturnCode_t.RTC_OK;
 	}
 
 	/**
@@ -441,11 +476,6 @@ public class CorbaPortSynchronizerImpl extends CorbaWrapperObjectImpl implements
 	}
 
 	@Override
-	public void disconnectAll() {
-		getCorbaObjectInterface().disconnect_all();
-	}
-
-	@Override
 	public String getDataflowType() {
 		String result = getProperty(PROP.DATAFLOW_TYPE);
 		return result;
@@ -537,6 +567,16 @@ public class CorbaPortSynchronizerImpl extends CorbaWrapperObjectImpl implements
 	@Override
 	public EList<String> getPropertyKeys() {
 		return properties.getPropertyKeys();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public IPropertyMap getPropertyMap() {
+		return properties;
 	}
 
 	@Override

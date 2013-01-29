@@ -89,6 +89,14 @@ public interface CorbaObserver extends IPropertyMap, IAdaptable {
 	 * @model
 	 * @generated
 	 */
-	boolean detachComponent(CorbaComponent component);
+	boolean detachComponent();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean finish();
 
 } // CorbaObserver

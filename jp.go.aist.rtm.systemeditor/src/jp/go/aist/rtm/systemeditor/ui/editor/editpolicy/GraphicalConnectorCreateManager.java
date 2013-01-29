@@ -89,6 +89,11 @@ public class GraphicalConnectorCreateManager {
 				&& getTarget().validateSourceConnector(getSource());
 	}
 
+	public boolean validateSingle() {
+		return (getSource() != null && getTarget() == null)
+				|| (getSource() == null && getTarget() != null);
+	}
+
 	/**
 	 * ConnectorProfileを生成し、ポート接続を行います。
 	 * 
@@ -136,6 +141,18 @@ public class GraphicalConnectorCreateManager {
 			return new ServiceConnectorCreaterDialog(shell)
 					.getConnectorProfile((ServicePort) getSource(),
 							(ServicePort) getTarget());
+		} else if (getSource() instanceof OutPort && getTarget() == null) {
+			// OutPortのみ
+			return new DataConnectorCreaterDialog(shell).getConnectorProfile(
+					(OutPort) getSource(), null);
+		} else if (getSource() instanceof InPort && getTarget() == null) {
+			// InPortのみ
+			return new DataConnectorCreaterDialog(shell).getConnectorProfile(
+					null, (InPort) getSource());
+		} else if (getSource() instanceof ServicePort && getTarget() == null) {
+			// ServicePortのみ
+			return new ServiceConnectorCreaterDialog(shell)
+					.getConnectorProfile((ServicePort) getSource(), null);
 		} else {
 			return null;
 		}

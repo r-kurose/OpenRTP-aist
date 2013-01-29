@@ -81,7 +81,7 @@ public class JavaIDLInheritTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "/";
 
-		assertEquals(21, result.size());
+		assertEquals(36, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
@@ -133,7 +133,7 @@ public class JavaIDLInheritTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "/";
 
-		assertEquals(23, result.size());
+		assertEquals(38, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");

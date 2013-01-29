@@ -1,5 +1,6 @@
 package jp.go.aist.rtm.rtcbuilder.java.manager;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +32,8 @@ public class JavaGenerateManager extends GenerateManager {
 	static final String TEMPLATE_PATH = "jp/go/aist/rtm/rtcbuilder/java/template";
 
 	static final String MSG_ERROR_GENERATE_FILE = IRTCBMessageConstants.ERROR_CODE_GENERATION;
+	
+	private final String DEFAULT_VERSION = "1.1.0"; 
 
 	@Override
 	public String getTargetVersion() {
@@ -69,6 +72,34 @@ public class JavaGenerateManager extends GenerateManager {
 		if (!rtcParam.isLanguageExist(LANG_JAVA) || rtcParam.getName() == null) {
 			return result;
 		}
+		try {
+			String rootPath = System.getenv("RTM_JAVA_ROOT") + File.separator + "jar";
+			File targetDir = new File(rootPath);
+			File[] targetFiles = targetDir.listFiles();
+			long lastDate = 0;
+			File targetJar = null;
+			if( targetFiles==null) {
+				rtcParam.setRtmJavaVersion(DEFAULT_VERSION);
+			} else {
+				for(File target : targetFiles) {
+					if( target.getName().startsWith("OpenRTM-aist") ) {
+						if( lastDate<target.lastModified() ) {
+							targetJar = target;
+						}
+					}
+				}
+				//
+				if( targetJar!=null ) {
+					String javaVersion = targetJar.getName().substring(13,18);
+					rtcParam.setRtmJavaVersion(javaVersion);
+				} else {
+					rtcParam.setRtmJavaVersion(DEFAULT_VERSION);
+				}
+			}
+		} catch (NullPointerException ex) {
+			rtcParam.setRtmJavaVersion(DEFAULT_VERSION);
+		}
+		
 		Map<String, Object> contextMap = new HashMap<String, Object>();
 		contextMap.put("template", TEMPLATE_PATH);
 		contextMap.put("rtcParam", rtcParam);
@@ -84,9 +115,6 @@ public class JavaGenerateManager extends GenerateManager {
 
 		resetIDLServiceClass(rtcParam);
 
-		if (rtcParam.getRtmVersion().equals(RTM_VERSION_042)) {
-			return generateTemplateCode04(contextMap);
-		}
 		return generateTemplateCode10(contextMap);
 	}
 
@@ -119,38 +147,6 @@ public class JavaGenerateManager extends GenerateManager {
 			for (ServiceClassParam svc : idl.getServiceClassParams()) {
 				contextMap.put("serviceClassParam", svc);
 				gr = generateSVCSource(contextMap);
-				result.add(gr);
-			}
-		}
-
-		return result;
-	}
-
-	// RTM 0.4系
-	public List<GeneratedResult> generateTemplateCode04(
-			Map<String, Object> contextMap) {
-		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
-		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-
-		GeneratedResult gr;
-		gr = generateCompSource_04(contextMap);
-		result.add(gr);
-		gr = generateRTCSource_04(contextMap);
-		result.add(gr);
-		gr = generateRTCImplSource_04(contextMap);
-		result.add(gr);
-
-		gr = generateClassPath(contextMap);
-		result.add(gr);
-
-		gr = generateBuildXML_04(contextMap);
-		result.add(gr);
-
-		for (IdlFileParam idl : rtcParam.getProviderIdlPathes()) {
-			contextMap.put("idlFileParam", idl);
-			for (ServiceClassParam svc : idl.getServiceClassParams()) {
-				contextMap.put("serviceClassParam", svc);
-				gr = generateSVCSource_04(contextMap);
 				result.add(gr);
 			}
 		}
@@ -210,54 +206,12 @@ public class JavaGenerateManager extends GenerateManager {
 		return generate(infile, outfile, contextMap);
 	}
 
-	// 0.4系 (Java)
-
-	public GeneratedResult generateCompSource_04(Map<String, Object> contextMap) {
-		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		String outfile = rtcParam.getName() + "Comp.java";
-		String infile = "java/Java_Comp.java.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-
-	public GeneratedResult generateRTCSource_04(Map<String, Object> contextMap) {
-		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		String outfile = rtcParam.getName() + ".java";
-		String infile = "java_04/Java_RTC.java.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-
-	public GeneratedResult generateRTCImplSource_04(
-			Map<String, Object> contextMap) {
-		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		String outfile = rtcParam.getName() + "Impl.java";
-		String infile = "java_04/Java_RTC_Impl.java.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-
-	public GeneratedResult generateSVCSource_04(Map<String, Object> contextMap) {
-		ServiceClassParam svc = (ServiceClassParam) contextMap
-				.get("serviceClassParam");
-		String outfile = TemplateHelper.getBasename(svc.getName())
-				+ TemplateHelper.getServiceImplSuffix() + ".java";
-		String infile = "java/Java_SVC.java.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-
 	// 1.0系 (ビルド環境)
 
 	public GeneratedResult generateBuildXML(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = "build_" + rtcParam.getName() + ".xml";
 		String infile = "java/build.xml.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-
-	// 0.4系 (ビルド環境)
-
-	public GeneratedResult generateBuildXML_04(Map<String, Object> contextMap) {
-		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		String outfile = "build_" + rtcParam.getName() + ".xml";
-		String infile = "java_04/build.xml.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 

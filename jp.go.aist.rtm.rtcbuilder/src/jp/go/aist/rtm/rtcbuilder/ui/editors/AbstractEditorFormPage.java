@@ -16,6 +16,7 @@ import jp.go.aist.rtm.rtcbuilder.model.component.BuildView;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.DataTypePreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -29,6 +30,8 @@ import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Point;
@@ -213,6 +216,15 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		}
 		
 		final Text text = toolkit.createText(composite, "", style);
+		text.addTraverseListener(new TraverseListener() {
+			
+			@Override
+			public void keyTraversed(TraverseEvent e) {
+				if( e.detail == SWT.TRAVERSE_TAB_NEXT || e.detail == SWT.TRAVERSE_TAB_PREVIOUS ) {
+					e.doit = true;
+				}
+			}
+		});
 		text.addKeyListener(new KeyListener() {
 			public void keyReleased(KeyEvent e) {
 				update();
@@ -226,11 +238,9 @@ public abstract class AbstractEditorFormPage extends FormPage {
 			}
 
 			public void mouseDown(MouseEvent e) {
-				text.setSelection(0, text.getText().length());
 			}
 
 			public void mouseUp(MouseEvent e) {
-				text.setSelection(0, text.getText().length());
 			}
 
 		});
@@ -457,7 +467,12 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		List<String> sources = new ArrayList<String>(DataTypePreferenceManager
 				.getInstance().getIdlFileDirectories());
 		String defaultPath = System.getenv("RTM_ROOT");
+		int baseindex = -1;
 		if (defaultPath != null) {
+			baseindex = 0;
+			if(!defaultPath.endsWith(FS)) {
+				defaultPath += FS;
+			}
 			sources.add(0, defaultPath + "rtm" + FS + "idl");
 		}
 		List<DataTypeParam> sourceContents = new ArrayList<DataTypeParam>();
@@ -487,7 +502,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 					param.setContent(idlContent);
 					param.setFullPath(source + FS + idlName);
 					sourceContents.add(param);
-					if (intidx > 0) {
+					if( baseindex<intidx) {
 						param.setAddition(true);
 					}
 				}
@@ -498,8 +513,10 @@ public abstract class AbstractEditorFormPage extends FormPage {
 			}
 		}
 		String[] defaultTypeList = new String[0];
-		List<String> dataTypes = IDLParamConverter
-				.extractTypeDef(sourceContents);
+		List<String> dataTypes = new ArrayList<String>();
+		if( IDLParamConverter.extractTypeDef(sourceContents, dataTypes)==false ) {
+			MessageDialog.openWarning(RtcBuilderPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), "IDL Parse", IMessageConstants.IDL_PARSE_EROOR);
+		}
 		defaultTypeList = new String[dataTypes.size()];
 		defaultTypeList = dataTypes.toArray(defaultTypeList);
 		//

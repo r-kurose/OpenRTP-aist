@@ -262,7 +262,7 @@ public class PyDocTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/Doc/full/";
 
-		assertEquals(14, result.size());
+		assertEquals(29, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "idlcompile.bat");
@@ -321,7 +321,7 @@ public class PyDocTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/Doc/refer/";
 
-		assertEquals(14, result.size());
+		assertEquals(29, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "idlcompile.bat");
@@ -376,7 +376,7 @@ public class PyDocTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/Doc/authorLong/";
 
-		assertEquals(14, result.size());
+		assertEquals(29, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "idlcompile.bat");
@@ -430,7 +430,7 @@ public class PyDocTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/Doc/author/";
 
-		assertEquals(14, result.size());
+		assertEquals(29, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "idlcompile.bat");

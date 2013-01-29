@@ -705,12 +705,23 @@ public interface Component extends WrapperObject, IPropertyMap {
 	void synchronizeManually();
 
 	/**
-	 * 子コンポーネントの同期を手動で行う
+	 * 子コンポーネントのリモートからの同期を手動で行う
+	 */
+	void synchronizeRemoteChildComponents();
+
+	/**
+	 * 指定した属性（nullの場合は全属性）をリモートから同期する
+	 * @param reference
+	 */
+	void synchronizeRemoteAttribute(EStructuralFeature reference);
+
+	/**
+	 * 子コンポーネントのローカルでの同期を手動で行う
 	 */
 	void synchronizeChildComponents();
-	
+
 	/**
-	 * 指定した属性（nullの場合は全属性）の同期を実行する
+	 * 指定した属性（nullの場合は全属性）をローカルで同期する
 	 * @param reference
 	 */
 	void synchronizeLocalAttribute(EStructuralFeature reference);

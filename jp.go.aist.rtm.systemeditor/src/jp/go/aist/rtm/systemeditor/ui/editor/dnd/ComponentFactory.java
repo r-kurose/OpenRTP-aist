@@ -1,5 +1,8 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.dnd;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 
 import org.eclipse.gef.requests.CreationFactory;
@@ -8,41 +11,31 @@ import org.eclipse.gef.requests.CreationFactory;
  * ドラッグ＆ドロップ時、コンポーネントを作成するファクトリ
  */
 public class ComponentFactory implements CreationFactory {
-	private Component component;
 
-	/**
-	 * {@inheritDoc}
-	 */
+	List<Component> components;
+
+	public ComponentFactory() {
+		components = new ArrayList<Component>();
+	}
+
+	public void addComponent(Component component) {
+		if (!components.contains(component)) {
+			components.add(component);
+		}
+	}
+
+	@Override
 	public Object getObjectType() {
-		return component.getClass();
+		return components.getClass();
 	}
 
-	/**
-	 * コンポーネントのリモートオブジェクトを設定する
-	 * 
-	 * @param remoteObject
-	 *            コンポーネントのリモートオブジェクト
-	 */
-	public void setComponent(Component component) {
-		this.component = component;
-	}
-	
-	/**
-	 * コンポーネントのリモートオブジェクトを設定する
-	 * 
-	 * @param remoteObject
-	 *            コンポーネントのリモートオブジェクト
-	 */
-	protected Component getComponent() {
-		return this.component;
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@SuppressWarnings("unchecked")
+	@Override
 	public Object getNewObject() {
-		if (getComponent() != null) return getComponent().copy();
-		return null;
+		List<Component> result = new ArrayList<Component>();
+		for (Component c : components) {
+			result.add(c.copy());
+		}
+		return (result.isEmpty()) ? null : result;
 	}
+
 }
