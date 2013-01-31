@@ -26,7 +26,7 @@ public class RTSystemEditorPlugin extends AbstractUIPlugin {
 	RTSELogHandler logHandler;
 
 	/**
-	 * The constructor
+	 * The constructor 
 	 */
 	public RTSystemEditorPlugin() {
 		plugin = this;
