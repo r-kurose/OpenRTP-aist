@@ -238,7 +238,7 @@ download_eclipse()
     fi
 
     suffix=`echo $fname | sed 's/eclipse-.*\.[0-9]-//'`
-    ver=`echo $fname | sed 's/eclipse-.*-\([0-9].*[0-9]\)-.*/\1/' | sed -e 's/\.//g'`
+    ver=`echo $fname | sed 's/eclipse-.*-\([0-9\.]*\)-.*/\1/' | sed -e 's/\.//g'`
     PKG_NAME_JA="eclipse${ver}-${OPENRTP_JA_VER}-$suffix"
     PKG_NAME_EN="eclipse${ver}-${OPENRTP_EN_VER}-$suffix"
 
