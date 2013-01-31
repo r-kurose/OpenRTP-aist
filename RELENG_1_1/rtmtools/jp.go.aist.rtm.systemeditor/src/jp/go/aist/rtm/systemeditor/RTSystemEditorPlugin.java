@@ -23,7 +23,7 @@ public class RTSystemEditorPlugin extends AbstractUIPlugin {
 	// The shared instance
 	private static RTSystemEditorPlugin plugin;
 
-	RTSELogHandler logHandler;
+	RTSELogHandler logHandler = null;
 
 	/**
 	 * The constructor
@@ -44,7 +44,9 @@ public class RTSystemEditorPlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
 	 */
 	public void start(BundleContext context) throws Exception {
-		logHandler.start();
+		if(logHandler!=null) {
+			logHandler.start();
+		}
 		//
 		super.start(context);
 	}
@@ -54,7 +56,9 @@ public class RTSystemEditorPlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
-		logHandler.stop();
+		if(logHandler!=null) {
+			logHandler.stop();
+		}
 		//
 		plugin = null;
 		super.stop(context);
@@ -106,8 +110,8 @@ public class RTSystemEditorPlugin extends AbstractUIPlugin {
 		return result;
 	}
 
-	static LogManager logManager;
-	static Logger log;
+	static LogManager logManager = null;
+	static Logger log = null;
 
 	public static Logger getLogger() {
 		if (logManager == null) {
