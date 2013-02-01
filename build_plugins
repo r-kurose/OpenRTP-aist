@@ -136,11 +136,16 @@ get_version()
     export PROJECT_VERSION
 
     if test "x$DISTDIR" = "x" ; then
-        DISTDIR=openrtp-$VERSION
+        DISTDIR=openrtp-$PROJECT_VERSION
     fi
     if test "x$JARDIR" = "x" ; then
         JARDIR=$JARDIR_DEFAULT
     fi
+    if test -f version.txt ; then
+        rm -f version.txt
+    fi
+    echo "VERSION=$VERSION" >> version.txt
+    echo "PROJECT_VERSION=$PROJECT_VERSION" >> version.txt
 }
 
 #------------------------------------------------------------
