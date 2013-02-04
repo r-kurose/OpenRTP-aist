@@ -165,6 +165,9 @@ find_eclipsehome()
     fi
     echo "Environment variable ECLIPSE_HOME is not set. Seaching..."
     for d in $ECLIPSE_DIRS ; do
+        if test ! -d $d ; then
+            continue
+        fi
         tmp=`find -L $d -name .eclipseproduct`
         if test "x$tmp" = "x" ; then
             continue
