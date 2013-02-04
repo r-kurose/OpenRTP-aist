@@ -108,8 +108,8 @@ PLUGINS="org.eclipse.emf.sdk.feature.group
          org.eclipse.xsd.sdk.feature.group"
 
 # Language package information
-true ${LANGPACK_URL:="http://sourceforge.jp/frs/redir.php?m=iij&f=%2Fblancofw%2F56316%2FNLpackja-eclipse-SDK-3.8.0-blancofw20120628.zip"}
-
+true ${LANGPACK_URL:="http://sourceforge.jp/projects/mergedoc/svn/view/trunk/Pleiades/build/pleiades.zip?view=co&root=mergedoc"}
+true ${LANGPACK_FILE_NAME:="pleiades.zip"}
 # openrtp tool information
 HERE=`pwd`
 true ${OPENRTP_SITE:="file:${HERE}/sitetool/openrtp_site"}
@@ -402,12 +402,11 @@ create_package()
 download_langpack()
 {
     echo "Downloading Eclipse language pack: $LANGPACK_URL"
-    NL_FILE_NAME=`echo $LANGPACK_URL | sed -e 's/.*\(NLpackja.*\.zip\)/\1/'`
-    if test "x$NL_FILE_NAME" = "x" ; then
+    if test "x$LANGPACK_FILE_NAME" = "x" ; then
         echo "Invalid URL specified"
     fi
-    if test ! -f $NL_FILE_NAME ; then
-        curl -o $WORK_DIR/$NL_FILE_NAME $LANGPACK_URL
+    if test ! -f $WORK_DIR/$LANGPACK_FILE_NAME ; then
+        curl -o $WORK_DIR/$LANGPACK_FILE_NAME $LANGPACK_URL
     fi
     if test $? -ne 0 ; then
         echo "Downloading language pack failed. Aborting."
@@ -423,11 +422,13 @@ download_langpack()
 #------------------------------------------------------------
 apply_langpack()
 {
-    unzip $WORK_DIR/$NL_FILE_NAME -d $WORK_DIR
+    unzip -o $WORK_DIR/$LANGPACK_FILE_NAME -d $WORK_DIR/eclipse
     if test $? -ne 0 ; then
-        echo "Unzipping $NF_FILE_NAME failed. Aborting."
+        echo "Unzipping $LANGPACK_FILE_NAME failed. Aborting."
         exit 1
     fi
+    echo "-javaagent:plugins/jp.sourceforge.mergedoc.pleiades/pleiades.jar" \
+        >> $WORK_DIR/eclipse/eclipse.ini
     return 0
 }
 
