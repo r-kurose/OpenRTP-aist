@@ -144,6 +144,11 @@ get_version()
     if test "x$JARDIR" = "x" ; then
         JARDIR=$JARDIR_DEFAULT
     fi
+    if test -f version.txt ; then
+        rm -f version.txt
+    fi
+    echo "VERSION=$VERSION" >> version.txt
+    echo "PROJECT_VERSION=$PROJECT_VERSION" >> version.txt
 }
 
 #------------------------------------------------------------
