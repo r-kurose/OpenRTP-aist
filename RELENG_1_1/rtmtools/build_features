@@ -124,7 +124,12 @@ get_version()
     if test "x$VERSION" = "x" || test "x$PROJECT_VERSION" = "x" ; then
         echo "Environment variable VERSION/PROJECT_VERSION is not set."
         echo "Getting from ./version text."
-        . ./version
+        if test ! -f version.txt ; then
+            echo "version.txt not found. Plugins should be built at first."
+            echo "Aborting."
+            exit 1
+        fi
+        . ./version.txt
     fi
     export VERSION
     export PROJECT_VERSION
@@ -152,7 +157,7 @@ find_eclipsehome()
         fi
         echo "ECLIPSE_HOME $ECLIPSE_HOME does not exist."
     fi
-    echo "Environment variable ECLIPSE_HOME is not set. Seaching..."
+    echo "Environment variable ECLIPSE_HOME is not set. Searching..."
     for d in $ECLIPSE_DIRS ; do
         tmp=`find -L $d -name .eclipseproduct`
         if test "x$tmp" = "x" ; then

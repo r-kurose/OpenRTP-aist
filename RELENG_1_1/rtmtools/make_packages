@@ -153,14 +153,14 @@ echo "BIT:             $BIT"
 # ------------------------------------------------------------
 get_version()
 {
-    if test ! -f ./version ; then
-        echo "version file not found. Aborting."
+    if test ! -f ./version.txt ; then
+        echo "version.txt file not found. Aborting."
         exit 1
     fi
     if test "x$VERSION" = "x" || test "x$PROJECT_VERSION" = "x" ; then
         echo "Environment variable VERSION/PROJECT_VERSION is not set."
         echo "Getting from ./version text."
-        . ./version
+        . ./version.txt
     fi
     ver=`echo $PROJECT_VERSION | sed -e 's/\.//g'`
     # openrtp package name
@@ -549,5 +549,21 @@ done
 #
 # ** Eclipse s Client Agent name
 #  Jakarta Commons-HttpClient/3.1
+#
+# ** Mirroring eclipse site
+#
+# *** Mirroring metadata
+#
+# java -jar ~/eclipse-3.8/plugins/org.eclipse.equinox.launcher_<ver>.jar
+#      -application org.eclipse.equinox.p2.metadata.repository.mirrorApplication
+#      -source Insert Source URL
+#      -destination <mirror directory>
+#
+# *** Mirroring artifact
+#
+# java -jar ~/eclipse-3.8/plugins/org.eclipse.equinox.launcher_<ver>.jar
+#      -application org.eclipse.equinox.p2.metadata.repository.mirrorApplication
+#      -source Insert Source URL
+#      -destination <mirror directory>
 #
 #------------------------------------------------------------
