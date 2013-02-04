@@ -108,7 +108,8 @@ PLUGINS="org.eclipse.emf.sdk.feature.group
          org.eclipse.xsd.sdk.feature.group"
 
 # Language package information
-true ${LANGPACK_URL:="http://sourceforge.jp/frs/redir.php?m=iij&f=%2Fblancofw%2F56316%2FNLpackja-eclipse-SDK-3.8.0-blancofw20120628.zip"}
+true ${LANGPACK_URL:="http://sourceforge.jp/projects/mergedoc/svn/view/trunk/Pleiades/build/pleiades.zip"}
+true ${LANGPACK_FILE_NAME:="pleiades.zip"}
 
 # openrtp tool information
 HERE=`pwd`
@@ -402,12 +403,11 @@ create_package()
 download_langpack()
 {
     echo "Downloading Eclipse language pack: $LANGPACK_URL"
-    NL_FILE_NAME=`echo $LANGPACK_URL | sed -e 's/.*\(NLpackja.*\.zip\)/\1/'`
-    if test "x$NL_FILE_NAME" = "x" ; then
+    if test "x$LANGPACK_FILE_NAME" = "x" ; then
         echo "Invalid URL specified"
     fi
-    if test ! -f $NL_FILE_NAME ; then
-        curl -o $WORK_DIR/$NL_FILE_NAME $LANGPACK_URL
+    if test ! -f $WORK_DIR/$LANGPACK_FILE_NAME ; then
+        curl -o $WORK_DIR/$LANGPACK_FILE_NAME $LANGPACK_URL
     fi
     if test $? -ne 0 ; then
         echo "Downloading language pack failed. Aborting."
