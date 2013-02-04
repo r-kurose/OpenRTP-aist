@@ -247,9 +247,9 @@ download_eclipse()
         return 0
     fi
     echo "Downloading $FILE_NAME..."
-    wget -O "$FILE_NAME" "$URL"
+    curl -o "$FILE_NAME" "$URL"
     if test $? -ne 0 ; then
-        echo "wget failed. Aborting..."
+        echo "curl failed. Aborting..."
         exit 1
     fi
     file_info=`ls $FILE_NAME`
@@ -407,7 +407,7 @@ download_langpack()
         echo "Invalid URL specified"
     fi
     if test ! -f $NL_FILE_NAME ; then
-        wget -O $WORK_DIR/$NL_FILE_NAME $LANGPACK_URL
+        curl -o $WORK_DIR/$NL_FILE_NAME $LANGPACK_URL
     fi
     if test $? -ne 0 ; then
         echo "Downloading language pack failed. Aborting."
@@ -565,5 +565,8 @@ done
 #      -application org.eclipse.equinox.p2.metadata.repository.mirrorApplication
 #      -source Insert Source URL
 #      -destination <mirror directory>
+#
+# http://wiki.eclipse.org/Equinox_p2_Repository_Mirroring
+# https://github.com/adangel/custom-eclipse/blob/master/create-mirror.sh
 #
 #------------------------------------------------------------

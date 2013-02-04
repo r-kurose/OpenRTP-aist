@@ -1,0 +1,285 @@
+#!/bin/bash
+
+# Eclipse search directories
+ECLIPSE_DIRS="$HOME/eclipse $HOME ../ ../../ ../..//usr/lib/ /usr/share"
+
+true ${DOWNLOAD_DIR:=/tmp/download}
+# Local directory for the old-style update site mirror
+true ${MIRROR_DIR_OLD:=/tmp/mirror-sites/}
+# Local p2 repo
+true ${MIRROR_DIR:=file://tmp/mirror-eclipse-p2/}
+
+
+#------------------------------------------------------------
+# find_eclipsehome
+#
+# This function checks ECLIPSE_HOME env variable and if it is
+# not set, it searches an eclipse directory under ECLIPSE_DIRS,
+# and set ECLIPSE_HOME env variable.
+# ------------------------------------------------------------
+find_eclipsehome()
+{
+    if test ! "x$ECLIPSE_HOME" = "x" ; then
+        if test -d $ECLIPSE_HOME ; then
+            return 0
+        fi
+        echo "ECLIPSE_HOME $ECLIPSE_HOME does not exist."
+    fi
+    echo "Environment variable ECLIPSE_HOME is not set. Searching..."
+    for d in $ECLIPSE_DIRS ; do
+        tmp=`find -L $d -name .eclipseproduct`
+        if test "x$tmp" = "x" ; then
+            continue
+        fi
+        for e in $tmp ; do
+            edir=`dirname $e`
+            if test -f $edir/eclipse.ini && test -d $edir/plugins ; then
+                export ECLIPSE_HOME="$edir"
+                return 0
+            fi
+        done
+    done
+    echo "eclipse not found. Please install eclipse and set ECLIPSE_HOME."
+    exit 1
+}
+
+#------------------------------------------------------------
+# mirror_site <site URL> <mirror dir>
+#
+# Mirrors an old-style update site (not a p2 repository)
+# Can mirror multiple sites into one mirror. The sites are merged.
+#
+# $1: Source URL of the update site like you would enter it in Eclipse
+# $2: Target directory to store mirror 
+#------------------------------------------------------------
+function mirror_site()
+{
+java -jar $ECLIPSE_HOME/plugins/org.eclipse.equinox.launcher_*.jar \
+    -application org.eclipse.update.core.standaloneUpdate \
+    -command mirror -from $1 -to $2
+}
+
+#------------------------------------------------------------
+# convert_site <old mirror dir> <p2 repository dir>
+#
+# Converts are mirror of old-style update sites into a p2 repository.
+# Usually called once for multiple mirror_site() calls.
+# If called for an existing, non-empty local p2 repo, then the additional
+# artifacts are merged into it.
+#------------------------------------------------------------
+function convert_site()
+{
+java -jar $ECLIPSE_HOME/plugins/org.eclipse.equinox.launcher_*.jar \
+   -application org.eclipse.equinox.p2.publisher.FeaturesAndBundlesPublisher \
+   -metadataRepository $MIRROR_DIR \
+   -artifactRepository $MIRROR_DIR \
+   -source $MIRROR_DIR_OLD \
+   -append \
+   -publishArtifacts
+}
+
+#------------------------------------------------------------
+# mirror_p2 <source URL> <mirror dir>
+#
+# Mirrors a p2 repository into a local directory.
+# Can be called multiple times. All repos are merged into the local directory.
+#
+# $1: Source URL of the update site like you would enter it in Eclipse
+# $2: Target directory to store mirror
+#------------------------------------------------------------
+function mirror_p2()
+{
+	app_arti="org.eclipse.equinox.p2.artifact.repository.mirrorApplication"
+	app_meta="org.eclipse.equinox.p2.metadata.repository.mirrorApplication"
+
+	echo -n "Mirroring P2 Repo: $1..."
+	java -jar $ECLIPSE_HOME/plugins/org.eclipse.equinox.launcher_*.jar \
+		-verbose \
+		-application  $app_arti \
+		-source $1 -destination $2
+	java -jar $ECLIPSE_HOME/plugins/org.eclipse.equinox.launcher_*.jar \
+		-verbose \
+		-application  $app_meta\
+		-source $1 -destination $2
+	echo "done."
+}
+
+mirror_p2_partial()
+{
+	update_site=$1
+	shift
+	target_dir=$1
+	shift
+	ids=""
+	for id in $* ; do
+		ids="$ids
+      <iu id=\"$id\" />"
+	done
+
+	cat<<EOF > mirror.xml
+<project name="Create Mirror" default="create-mirror" basedir=".">
+  <target name="create-mirror">
+    <p2.mirror source="$update_site">
+      <destination location="$target_dir"  />$ids
+    </p2.mirror>
+  </target>
+</project>
+EOF
+
+	echo "Mirroring the following features."
+	echo "$*"
+	java -jar $ECLIPSE_HOME/plugins/org.eclipse.equinox.launcher_* \
+		-application org.eclipse.ant.core.antRunner \
+		-verbose \
+		-buildfile mirror.xml
+	echo "Done"
+}
+
+#------------------------------------------------------------
+# download_convert
+#
+# Downloads a zip file containing a eclipse plugin and adds this
+# plugin to the local p2 repo.  Note: The zip file must contain either
+# a copy of the update site (e.g. site.xml) or at least a plugins/
+# subdirectory so that it is recognized.
+#
+# $1: some unique symbolic name of the plugin. Needed, so that
+#     download_convert() can be called multiple times for different
+#     plugins without interferring each other.
+#
+# $2 - download URL, suitable for wget.
+#------------------------------------------------------------
+function download_convert()
+{
+	if [ ! -e $DOWNLOAD_DIR ]; then
+		mkdir $DOWNLOAD_DIR
+	fi
+	
+	mkdir $DOWNLOAD_DIR/$1
+	file="$DOWNLOAD_DIR/"`basename $2`
+	
+	wget -O $file $2
+	unzip -d $DOWNLOAD_DIR/$1 $file
+	
+	java -jar $ECLIPSE_HOME/plugins/org.eclipse.equinox.launcher_*.jar \
+		-application org.eclipse.equinox.p2.publisher.FeaturesAndBundlesPublisher \
+		-metadataRepository $MIRROR_DIR \
+		-artifactRepository $MIRROR_DIR \
+		-source $DOWNLOAD_DIR/$1 \
+		-append \
+		-publishArtifacts
+}
+
+#------------------------------------------------------------
+# download_convert_plugins
+#
+# Downloads a zip file containing a eclipse plugin and adds this
+# plugin to the local p2 repo.  Note: This time, the zip file contains
+# directly the plugin and not a update site structure. Therefore a
+# "plugins/" subdirectory is created.
+#
+# $1: some unique symbolic name of the plugin. Needed, so that
+#     download_convert() can be called multiple times for different
+#     plugins without interferring each other.
+#
+# $2: download URL, suitable for wget
+#------------------------------------------------------------
+function download_convert_plugins()
+{
+	if [ ! -e $DOWNLOAD_DIR ]; then
+		mkdir $DOWNLOAD_DIR
+	fi
+	
+	mkdir -p $DOWNLOAD_DIR/$1/plugins
+	file="$DOWNLOAD_DIR/"`basename $2`
+	
+	wget -O $file $2
+	unzip -d $DOWNLOAD_DIR/$1/plugins $file
+	
+	java -jar $ECLIPSE_HOME/plugins/org.eclipse.equinox.launcher_*.jar \
+		-application org.eclipse.equinox.p2.publisher.FeaturesAndBundlesPublisher \
+		-metadataRepository $MIRROR_DIR \
+		-artifactRepository $MIRROR_DIR \
+		-source $DOWNLOAD_DIR/$1/ \
+		-append \
+		-publishArtifacts
+}
+
+#------------------------------------------------------------
+# svn_site_
+#
+# Does an svn checkout of a subversion repository, which contains a ready to use
+# update site. Then adds this update site to the local p2 repo.
+#
+# $1 - some unique symbolic name of the plugin. Needed, so that svn_site_checkout() can
+#      be called multiple times for different plugins without interferring each other.
+# $2 - the svn repo url
+#
+function svn_site_checkout()
+{
+	if [ ! -e $DOWNLOAD_DIR ]; then
+		mkdir $DOWNLOAD_DIR
+	fi
+	
+	mkdir $DOWNLOAD_DIR/$1
+	svn checkout $2 $DOWNLOAD_DIR/$1
+	
+	java -jar $ECLIPSE_HOME/plugins/org.eclipse.equinox.launcher_*.jar \
+		-application \
+		org.eclipse.equinox.p2.publisher.FeaturesAndBundlesPublisher \
+		-metadataRepository $MIRROR_DIR \
+		-artifactRepository $MIRROR_DIR \
+		-source $DOWNLOAD_DIR/$1 \
+		-append \
+		-publishArtifacts
+
+}
+
+
+#mirror_site "http://findbugs.cs.umd.edu/eclipse/"
+#mirror_site "http://www.soyatec.com/update/juno/"
+#mirror_site "http://www.jutils.com/eclipse-update/"
+#mirror_site "http://andrei.gmxhome.de/eclipse/"
+#mirror_site "http://download.aptana.com/studio3/plugin/install"
+#atlassian doesn't work! This is missing: org.apache.commons.httpclient_3.1.0.v201012070820.jar
+###mirror_site "http://update.atlassian.com/atlassian-eclipse-plugin/e3.6/"
+#mirror_site "http://jautodoc.sourceforge.net/update/"
+#mirror_site "http://www.junginger.biz/eclipse/"
+#mirror_site "http://update.atlassian.com/eclipse/clover/"
+#mirror_site "http://jadclipse.sourceforge.net/update/"
+#mirror_site "http://pydev.org/updates/"
+#convert_site
+
+#mirror_p2 "http://download.eclipse.org/releases/juno"
+#mirror_p2 "http://download.eclipse.org/mylyn/releases/juno"
+#mirror_p2 "http://download.eclipse.org/eclipse/updates/4.2"
+#mirror_p2 "http://download.eclipse.org/webtools/repository/juno"
+#mirror_p2 "http://eclipse-cs.sourceforge.net/update"
+#mirror_p2 "http://dist.springsource.com/release/TOOLS/update/e4.2"
+#mirror_p2 "http://download.eclipse.org/technology/m2e/releases"
+#mirror_p2 "http://update.eclemma.org/"
+#mirror_p2 "http://sourceforge.net/projects/pmd/files/pmd-eclipse/update-site/"
+#mirror_p2 "http://download.eclipse.org/egit/updates"
+#mirror_p2 "http://subclipse.tigris.org/update_1.8.x/"
+#mirror_p2 "http://pluginbox.sourceforge.net/"
+#mirror_p2 "http://download.jboss.org/jbosstools/updates/development/juno/"
+
+#download_convert "rbe" "http://sourceforge.net/projects/eclipse-rbe/files/Eclipse%203.x/0.8.0/ResourceBundleEditor_v0.8.0.zip"
+#download_convert_plugins "jutils" "http://sourceforge.net/projects/eclipse-jutils/files/eclipse-jutils/eclipse-jutils%20plugin%20v3.1/org.adarsh.jutils_3.1.0.zip"
+#download_convert "json" "http://sourceforge.net/projects/eclipsejsonedit/files/eclipsejsonedit/Json%20Editor%20Plugin%200.9.4/JsonEditorPlugin-0.9.4.zip"
+
+#svn_site_checkout "jenkins" "http://jenkins-eclipse-plugin.googlecode.com/svn/trunk/jenkins-update/"
+#svn_site_checkout "grinderstone" "http://grinderstone.googlecode.com/svn/update/"
+
+#------------------------------------------------------------
+# main
+#------------------------------------------------------------
+
+find_eclipsehome
+if test $# -eq 2 ; then
+	mirror_p2 $1 $2
+	exit 0
+fi
+if test $# -gt 2 ; then
+	mirror_p2 $*
+fi
