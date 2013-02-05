@@ -427,8 +427,14 @@ apply_langpack()
         echo "Unzipping $LANGPACK_FILE_NAME failed. Aborting."
         exit 1
     fi
-    echo "-javaagent:plugins/jp.sourceforge.mergedoc.pleiades/pleiades.jar" \
-        >> $WORK_DIR/eclipse/eclipse.ini
+    pleiades_jar="plugins/jp.sourceforge.mergedoc.pleiades/pleiades.jar"
+    if test "x$OS" = "xMACOS" ; then
+        echo "javaagent:../../../$pleiades_jar" \
+            >> $WORK_DIR/Eclipse.app/Contents/MacOS/eclipse.ini
+    else
+        echo "-javaagent:$pleiades_jar" \
+            >> $WORK_DIR/eclipse/eclipse.ini
+    fi
     return 0
 }
 
