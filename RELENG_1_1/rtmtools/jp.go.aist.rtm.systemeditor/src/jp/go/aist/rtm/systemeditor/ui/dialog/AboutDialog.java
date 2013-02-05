@@ -25,7 +25,7 @@ public class AboutDialog extends Dialog {
 			+ "<table bgcolor=\"#ffffff\" width=\"100%\" cellspacing=\"0\"cellpadding=\"0\" border=\"1\">" //$NON-NLS-1$
 			+ "<tr>" //$NON-NLS-1$
 			+ "<td align=\"center\">" //$NON-NLS-1$
-			+ "<h1>RT System Editor v1.0.0</h1>" //$NON-NLS-1$
+			+ "<h1>RT System Editor v1.1.0.rc4</h1>" //$NON-NLS-1$
 			+ "</td>" //$NON-NLS-1$
 			+ "</tr>" //$NON-NLS-1$
 			+ "</table>" //$NON-NLS-1$
