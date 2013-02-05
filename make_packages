@@ -108,8 +108,11 @@ PLUGINS="org.eclipse.emf.sdk.feature.group
          org.eclipse.xsd.sdk.feature.group"
 
 # Language package information
-true ${LANGPACK_URL:="http://sourceforge.jp/projects/mergedoc/svn/view/trunk/Pleiades/build/pleiades.zip?view=co&root=mergedoc"}
-true ${LANGPACK_FILE_NAME:="pleiades.zip"}
+# true ${LANGPACK_URL:="http://sourceforge.jp/projects/mergedoc/svn/view/trunk/Pleiades/build/pleiades.zip?view=co&root=mergedoc"}
+true ${LANGPACK_URL:="http://jaist.dl.sourceforge.jp/blancofw/56316/NLpackja-eclipse-SDK-3.8.0-blancofw20120628.zip"}
+# true ${LANGPACK_FILE_NAME:="pleiades.zip"}
+true ${LANGPACK_FILE_NAME:="NLpackja-eclipse-SDK-3.8.0-blancofw20120628.zip"}
+#true ${PLEIADES:="YES"}
 # openrtp tool information
 HERE=`pwd`
 true ${OPENRTP_SITE:="file:${HERE}/sitetool/openrtp_site"}
@@ -422,13 +425,35 @@ download_langpack()
 #------------------------------------------------------------
 apply_langpack()
 {
-    unzip -o $WORK_DIR/$LANGPACK_FILE_NAME -d $WORK_DIR/eclipse
-    if test $? -ne 0 ; then
-        echo "Unzipping $LANGPACK_FILE_NAME failed. Aborting."
-        exit 1
+    echo "Applying language package."
+    if test "x$PLEIADES" != "x"; then
+        unzip -o $WORK_DIR/$LANGPACK_FILE_NAME -d $WORK_DIR/eclipse
+        if test $? -ne 0 ; then
+            echo "Unzipping $LANGPACK_FILE_NAME failed. Aborting."
+            exit 1
+        fi
+        echo "Applying langpack: Activating pleiades plugin."
+        pleiades_jar="plugins/jp.sourceforge.mergedoc.pleiades/pleiades.jar"
+        if test "x$OS" = "xMACOS" ; then
+            echo "javaagent:../../../$pleiades_jar" \
+                >> $WORK_DIR/Eclipse.app/Contents/MacOS/eclipse.ini
+        else
+            echo "-javaagent:$pleiades_jar" \
+                >> $WORK_DIR/eclipse/eclipse.ini
+        fi
+        echo "Applying langpack: Modifying pleiades exclude properties."
+        pleiades_pkg="jp.sourceforge.mergedoc.pleiades"
+        pleiades_conf="${WORK_DIR}/eclipse/plugins/${pleiades_pkg}/conf"
+        exclude_prop="${pleiades_conf}/translation-exclude-package.properties"
+        echo "default=jp.go.aist.rtm.systemeditor" >> $exclude_prop
+    else
+        unzip -o $WORK_DIR/$LANGPACK_FILE_NAME -d $WORK_DIR
+        if test $? -ne 0 ; then
+            echo "Unzipping $LANGPACK_FILE_NAME failed. Aborting."
+            exit 1
+        fi
     fi
-    echo "-javaagent:plugins/jp.sourceforge.mergedoc.pleiades/pleiades.jar" \
-        >> $WORK_DIR/eclipse/eclipse.ini
+    echo "done"
     return 0
 }
 
