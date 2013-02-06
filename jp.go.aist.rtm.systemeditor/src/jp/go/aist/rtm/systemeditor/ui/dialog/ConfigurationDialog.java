@@ -95,7 +95,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		}
 		this.isValueModified = false;
 		this.isApply = true;
-		this.copiedConfig = view.getComponentConfig().clone();
+		this.copiedConfig = view.getComponentConfig();
 		this.view = view;
 		this.firstApply = true;
 	}
