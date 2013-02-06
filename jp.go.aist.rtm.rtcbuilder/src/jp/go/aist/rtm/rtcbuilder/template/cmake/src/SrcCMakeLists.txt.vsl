@@ -21,7 +21,7 @@ set_source_files_properties(${dol}{ALL_IDL_SRCS} PROPERTIES GENERATED 1)
 add_dependencies(${dol}{PROJECT_NAME} ALL_IDL_TGT)
 target_link_libraries(${dol}{PROJECT_NAME} ${dol}{OPENRTM_LIBRARIES})
 
-add_executable(${dol}{PROJECT_NAME_LOWER}Comp ${dol}{standalone_srcs})
+add_executable(${dol}{PROJECT_NAME}Comp ${dol}{standalone_srcs})
 target_link_libraries(${dol}{PROJECT_NAME}Comp ${dol}{PROJECT_NAME})
 
 install(TARGETS ${dol}{PROJECT_NAME} ${dol}{PROJECT_NAME}Comp
