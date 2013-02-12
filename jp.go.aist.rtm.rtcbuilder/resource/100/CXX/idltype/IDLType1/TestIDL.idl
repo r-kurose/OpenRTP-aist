@@ -1,0 +1,61 @@
+typedef sequence<float> ValueList;
+typedef string<10> StringList;
+typedef long LongArray [100];
+typedef ValueList ValueListArray [100];
+
+enum color { RED, BLUE, YELLOW, GREEN, BLACK };
+
+struct Frame0 {
+  double mat[3][3];
+  double pos[3];
+};
+
+struct Frame1 {
+  ValueList matv;
+  ValueList posv;
+};
+
+struct Frame2 {
+  double mat[3][3];
+  double pos[3];
+  ValueList matv;
+};
+
+struct Frame3 {
+  double pos[3];
+  LongArray matv;
+};
+
+struct Frame4 {
+  double pos[3];
+  ValueListArray matv;
+};
+
+struct Frame5 {
+  double pos[3];
+  StringList matv;
+};
+
+typedef sequence<Frame1> Frame1List;
+typedef sequence<Frame2> Frame2List;
+typedef Frame1 Frame1Array [100];
+typedef Frame2 Frame2Array [100];
+
+
+interface ComFk {
+  ValueList set_value(in ValueList frm, out ValueList frmo, inout ValueList frmio);
+  StringList set_string(in StringList frm, out StringList frmo, inout StringList frmio);
+  LongArray set_longArray(in LongArray frm, out LongArray frmo, inout LongArray frmio);
+  ValueListArray set_longArrayv(in ValueListArray frm, out ValueListArray frmo, inout ValueListArray frmio);
+  color set_color(in color frm, out color frmo, inout color frmio);
+  Frame0 set_tool0(in Frame0 frm, out Frame0 frmo, inout Frame0 frmio);
+  Frame1 set_tool1(in Frame1 frm, out Frame1 frmo, inout Frame1 frmio);
+  Frame2 set_tool2(in Frame2 frm, out Frame2 frmo, inout Frame2 frmio);
+  Frame3 set_tool3(in Frame3 frm, out Frame3 frmo, inout Frame3 frmio);
+  Frame4 set_tool4(in Frame4 frm, out Frame4 frmo, inout Frame4 frmio);
+  Frame5 set_tool5(in Frame5 frm, out Frame5 frmo, inout Frame5 frmio);
+  Frame1List set_toolSeq1(in Frame1List frm, out Frame1List frmo, inout Frame1List frmio);
+  Frame2List set_toolSeq2(in Frame2List frm, out Frame2List frmo, inout Frame2List frmio);
+  Frame1Array set_toolArray1(in Frame1Array frm, out Frame1Array frmo, inout Frame1Array frmio);
+  Frame2Array set_toolArray2(in Frame2Array frm, out Frame2Array frmo, inout Frame2Array frmio);
+};

@@ -1,0 +1,23 @@
+<project name="tasktool" default="jar">
+	<property name="target.name" value="tasktool" />
+
+	<property name="dist.dir" value="jar" />
+	<property name="build.dir" value="bin" />
+	<property name="src.dir" value="src" />
+
+	<target name="clean">
+		<fileset dir="${build.dir}" includes="**/*.class" />
+	</target>
+
+	<target name="compile">
+		<javac srcdir="${src.dir}" destdir="${build.dir}" encoding="UTF-8" />
+	</target>
+
+	<target name="jar" depends="compile">
+		<mkdir dir="${dist.dir}" />
+		<jar destfile="${dist.dir}/${target.name}.jar">
+			<fileset dir="${build.dir}" />
+		</jar>
+	</target>
+
+</project>
