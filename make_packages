@@ -377,20 +377,22 @@ create_package()
     echo $tar
     if test ! "x$zip" = "x" ; then
         echo "Creating zip file..."
+        basedir=`pwd`
         cd $WORK_DIR
         find eclipse > .zip_list
         (cat .zip_list | zip -@ $pkg_name)
         rm -f .zip_list
-        cd ..
+        cd $basedir
         if test $? -ne 0 ;then
             echo "Failed to archive zip file: $pkg_name. Aborting..."
             exit 1
         fi
     elif test ! "x$tar" = "x" ; then
         echo "Creating tar.gz file..."
+        basedir=`pwd`
         cd $WORK_DIR
         tar cvzf $pkg_name eclipse
-        cd ..
+        cd $basedir
         if test $? -ne 0 ; then
             echo "Failed to archive tar.gz file: $pkg_name. Aborting..."
             exit 1
