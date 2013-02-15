@@ -1,0 +1,62 @@
+#set( $dollarStr = "$" )
+<!--
+# -*- Buildfile -*-
+# @file  build_${rtcParam.name}.xml
+# @brief RTComponent makefile for "${rtcParam.name} component"
+# @date  ${dollarStr}Date${dollarStr}
+#
+# ${dollarStr}Id${dollarStr}
+ -->
+<project name="${rtcParam.name}" default="compile">
+	<property name="source" value="." />
+	<property name="dest" value="classes" />
+	<property environment="env" />
+
+	<target name="mkdir">
+		<mkdir dir="${dollarStr}{dest}" />
+	</target>
+
+#if( ${rtcParam.providerIdlPathes.size()} > 0 || ${rtcParam.consumerIdlPathes.size()} > 0 )
+	<target name="idlcompile"  depends="mkdir">
+#foreach($idlPath in ${rtcParam.providerIdlPathes})
+		<exec executable="${dollarStr}{java.home}\..\bin\idlj">
+			<arg line="#foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall '${tmpltHelper.getFileName(${idlPath.idlFile})}'"/>
+		</exec>
+#foreach ($idl in ${idlPath.includeIdlParams})
+		<exec executable="${dollarStr}{java.home}\..\bin\idlj">
+			<arg line="#foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall '${tmpltHelper.getFileName(${idl.idlFile})}'"/>
+		</exec>
+#end
+#end
+#foreach($idlPath in ${rtcParam.consumerIdlPathes})
+		<exec executable="${dollarStr}{java.home}\..\bin\idlj">
+			<arg line="#foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall '${tmpltHelper.getFileName(${idlPath.idlFile})}'"/>
+		</exec>
+#foreach ($idl in ${idlPath.includeIdlParams})
+		<exec executable="${dollarStr}{java.home}\..\bin\idlj">
+			<arg line="#foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall '${tmpltHelper.getFileName(${idl.idlFile})}'"/>
+		</exec>
+#end
+#end
+	</target>
+#end
+
+#if( ${rtcParam.providerIdlPathes.size()} > 0 || ${rtcParam.consumerIdlPathes.size()} > 0 )
+	<target name="compile" depends="idlcompile">
+#else
+	<target name="compile" depends="mkdir">
+#end
+		<javac srcdir="${dollarStr}{source}" destdir="${dollarStr}{dest}">
+			<classpath>
+				<fileset dir="${dollarStr}{env.RTM_JAVA_ROOT}\jar">
+					<include name="*.jar"/>
+				</fileset>
+#if( ${rtcParam.libraryPathes.size()} > 0 )
+#foreach($javaRef in ${rtcParam.libraryPathes})
+				<pathelement location="'${javaRef}'"/>
+#end
+#end
+			</classpath>
+		</javac>
+	</target>
+</project>

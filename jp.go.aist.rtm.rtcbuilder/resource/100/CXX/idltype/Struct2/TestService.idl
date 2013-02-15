@@ -1,0 +1,8 @@
+struct Frame {
+  double mat[3][3];
+  double pos[3];
+};
+
+interface ComFk {
+  void set_tool(in Frame frm);
+};
