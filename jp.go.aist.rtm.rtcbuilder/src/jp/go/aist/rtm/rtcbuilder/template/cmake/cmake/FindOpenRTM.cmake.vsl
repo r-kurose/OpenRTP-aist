@@ -33,7 +33,9 @@ pkg_check_modules(PC_COIL libcoil)
 pkg_check_modules(PC_OMNIORB4 omniORB4)
 pkg_check_modules(PC_OMNITHREAD3 omnithread3)
 pkg_check_modules(PC_OMNIDYNAMIC4 omniDynamic4)
-pkg_check_modules(PC_UUID uuid)
+if ("${dol}{CMAKE_SYSTEM_NAME}" MATCHES "Linux")
+  pkg_check_modules(PC_UUID uuid)
+endif ("${dol}{CMAKE_SYSTEM_NAME}" MATCHES "Linux")
 
 find_path(OPENRTM_INCLUDE_DIR rtm/RTC.h
     HINTS ${dol}{OPENRTM_ROOT}/include ${dol}{OPENRTM_ROOT} ${dol}ENV{OPENRTM_ROOT}/include ${dol}{PC_OPENRTM_INCLUDE_DIRS})
@@ -56,8 +58,12 @@ find_library(OMNITHREAD3_LIBRARY omnithread
     HINTS ${dol}{PC_OMNITHREAD3_LIBRARY_DIRS})
 find_library(OMNIDYNAMIC4_LIBRARY omniDynamic4
     HINTS ${dol}{PC_OMNIDYNAMIC4_LIBRARY_DIRS})
-find_library(UUID_LIBRARY uuid
+if ("${dol}{CMAKE_SYSTEM_NAME}" MATCHES "Linux")
+  find_library(UUID_LIBRARY uuid
     HINTS ${dol}{PC_UUID_LIBRARY_DIRS})
+else ("${dol}{CMAKE_SYSTEM_NAME}" MATCHES "Linux")
+  set(UUID_LIBRARY "")
+endif ("${dol}{CMAKE_SYSTEM_NAME}" MATCHES "Linux")
 
 set(OPENRTM_CFLAGS ${dol}{PC_OPENRTM_CFLAGS_OTHER} ${dol}{PC_COIL_CFLAGS_OTHER} ${dol}{PC_OMNIORB4_CFLAGS_OTHER})
 set(OPENRTM_INCLUDE_DIRS ${dol}{OPENRTM_INCLUDE_DIR} ${dol}{OPENRTM_INCLUDE_DIR}/rtm/idl
@@ -74,6 +80,10 @@ set(OPENRTM_VERSION_MINOR ${dol}{CMAKE_MATCH_2})
 set(OPENRTM_VERSION_REVISION ${dol}{CMAKE_MATCH_3})
 set(OPENRTM_VERSION_CANDIDATE ${dol}{CMAKE_MATCH_4})
 
+execute_process(COMMAND rtm-config --libs-only-l OUTPUT_VARIABLE
+  OPENRTM_LIBRARIES OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(COMMAND rtm-config --libs-only-L OUTPUT_VARIABLE
+  OPENRTM_LIBRARY_DIRS OUTPUT_STRIP_TRAILING_WHITESPACE)
 execute_process(COMMAND rtm-config --idlc OUTPUT_VARIABLE OPENRTM_IDL_COMPILER
     OUTPUT_STRIP_TRAILING_WHITESPACE)
 execute_process(COMMAND rtm-config --idlflags OUTPUT_VARIABLE OPENRTM_IDL_FLAGS

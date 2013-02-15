@@ -391,15 +391,6 @@
 				tooltip="%Open_New_System_Editor_Label" 
 				class="jp.go.aist.rtm.systemeditor.ui.action.NewSystemDiagramEditorAction"> 
 			</action>
-			
-			<action
-				id="jp.go.aist.rtm.systemeditor.ui.action.AboutAction" 
-				label="%About_RT_System_Editor"
-				menubarPath="help/"
-				icon="icons/RT.png"
-				tooltip="%About_RT_System_Editor_Label" 
-				class="jp.go.aist.rtm.systemeditor.ui.action.AboutAction"> 
-			</action>
 		</actionSet>
 	</extension>
 

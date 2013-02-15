@@ -151,20 +151,6 @@
 		
 	</extension>
 
-	<extension point = "org.eclipse.ui.actionSets"> 
-		<actionSet
-			id="jp.go.aist.rtm.nameserviceview.ui.actionSet"
-			label="%RT_Name_Service_View_Actions">
-			<action
-				id="jp.go.aist.rtm.nameserviceview.ui.action.AboutAction"
-				label="%About_RT_Name_Service_View"
-				menubarPath="help/"
-				icon="icons/RT.png"
-				tooltip="%About_RT_Name_Service_View_Label"
-				class="jp.go.aist.rtm.nameserviceview.ui.action.AboutAction"> 
-			</action>
-		</actionSet>
-	</extension>
 
 	<!--	
 	<extension point="org.eclipse.ui.perspectiveExtensions">

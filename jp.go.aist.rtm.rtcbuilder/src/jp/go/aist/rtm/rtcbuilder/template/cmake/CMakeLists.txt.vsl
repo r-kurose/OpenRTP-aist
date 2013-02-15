@@ -45,10 +45,14 @@ set(SHARE_INSTALL_DIR
     "components/share/${dol}{PROJECT_NAME_LOWER}-${dol}{PROJECT_VERSION_MAJOR}")
 
 ${sharp} Get necessary dependency information
-if(NOT WIN32)
-    list(APPEND CMAKE_MODULE_PATH ${dol}{PROJECT_SOURCE_DIR}/cmake/Modules)
-endif(NOT WIN32)
-find_package(OpenRTM REQUIRED)
+find_package(OpenRTM)
+if(${dol}{OpenRTM_FOUND})
+  MESSAGE(STATUS "OpenRTM configuration Found")
+else(${dol}{OpenRTM_FOUND})
+  message(STATUS "Use cmake/Modules/FindOpenRTM.cmake in the project")
+  list(APPEND CMAKE_MODULE_PATH ${dol}{PROJECT_SOURCE_DIR}/cmake/Modules)
+  find_package(OpenRTM REQUIRED)
+endif(${dol}{OpenRTM_FOUND})
 
 ${sharp} Universal settings
 ${sharp}enable_testing()
