@@ -329,6 +329,7 @@ if test "x$TARGET" = "xclean" ; then
     # cleanup jar directories
     rm -rf $DISTDIR
     rm -rf $JARDIR
+    rm -f version.txt
     exit 0
 elif test "x$TARGET" = "xbuildAll" ; then
     check_plugins
