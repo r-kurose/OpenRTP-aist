@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # RTM_ROOT
 #
@@ -19,7 +19,12 @@
 # functions
 #============================================================
 SCRIPT_NAME=$(basename $0)
-SCRIPT_DIR=$(dirname $0)
+tmp=$(readlink $0)
+if test "x$tmp" = "x" ; then
+    SCRIPT_DIR=$(dirname $0)
+else
+    SCRIPT_DIR=$(dirname $tmp)
+fi
 DEBUG=""
 debug_echo () {
     if test "x$DEBUG" = "xTRUE"; then
@@ -53,7 +58,7 @@ set_RTM_ROOT()
             echo "Please install OpenRTM-aist (C++) and set RTM_ROOT"
             echo "  ex. export RTM_ROOT=/usr/include/openrtm-1.1/"
             echo ""
-            exit 1
+            return 1
         fi
     fi
 
@@ -67,7 +72,7 @@ set_RTM_ROOT()
         echo " If /usr/include/openrtm-1.1/rtm/idl/BasicDataType.idl exists,"
         echo " RTM_ROOT should be /usr/include/openrtm-1.1"
         echo ""
-        exit 1
+        return 1
     fi
     debug_echo "Result: RTM_ROOT = " $RTM_ROOT
     export RTM_ROOT=$RTM_ROOT
@@ -143,7 +148,7 @@ set_RTM_JAVA_ROOT ()
             echo "Please install OpenRTM-aist (Java) and set RTM_JAVA_ROOT"
             echo "  ex. export RTM_JAVA_ROOT=/usr/include/openrtm-1.1/"
             echo ""
-            exit 1
+            return 1
         fi
     fi
 
@@ -154,10 +159,11 @@ set_RTM_JAVA_ROOT ()
         echo "Please set RTM_JAVA_ROOT correctly."
         echo "  ex. export RTM_JAVA_ROOT=/usr/include/openrtm-1.1/"
         echo ""
-        exit 1
+        return 1
     fi
     debug_echo "Result: RTM_JAVA_ROOT = " $RTM_JAVA_ROOT
     export RTM_JAVA_ROOT=$RTM_JAVA_ROOT
+    return 0
 }
 
 #------------------------------------------------------------
@@ -196,14 +202,15 @@ find_RTM_JAVA_ROOT()
 
     if test "x$openrtm_jar" = "x" ; then
         debug_echo "jar file not found"
-        echo "No OpenRTM-aist installation found. Aborting."
-        exit 1
+        echo "No OpenRTM-aist (Java)installation found."
+        return 1
     fi
     debug_echo "jar file found: " $openrtm_jar
 
     RTM_JAVA_ROOT=`dirname $openrtm_jar | sed -e 's/\/jar$//'`
     debug_echo "RTM_JAVA_ROOT: " $RTM_JAVA_ROOT
-    
+    return 0
+
 }
 
 #------------------------------------------------------------
@@ -226,7 +233,7 @@ check_RTM_JAVA_ROOT()
         echo "If /usr/lib/OpenRTM-aist/1.0/jar/OpenRTM-1.0.0.jar exists,"
         echo "RTM_JAVA_ROOT should be /usr/lib/OpenRTM-aist/1.0"
         echo ""
-        exit 1
+        return 1
     fi
     return 0
 }
@@ -241,9 +248,10 @@ echo "Launching eclipse with the following environmental variables."
 echo "  RTM_ROOT     : " $RTM_ROOT
 echo "  RTM_JAVA_ROOT: " $RTM_JAVA_ROOT
 
-if test ! -x $SCRIPT_DIR/eclipse ; then
+cd $SCRIPT_DIR
+if test ! -x eclipse ; then
     echo "No eclipse executable found. Aborting."
     exit 1
 fi
 export GDK_NATIVE_WINDOWS=1
-$SCRIPT_DIR/eclipse $*
+./eclipse $*

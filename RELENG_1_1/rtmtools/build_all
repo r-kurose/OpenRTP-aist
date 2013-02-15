@@ -111,12 +111,8 @@ getopt()
             return 0
         fi
         if test "x$arg" = "xrevert" ; then
-            echo "Reverting updated MANIFEST.MF..."
-            mf=`svn status | grep '^M' | grep MANIFEST.MF | awk '{print $2;}'`
-            for m in $mf; do
-                rm $m
-                svn update $m
-            done
+            ./build_plugins revert
+            ./build_features revert
             exit 0
         fi
     fi

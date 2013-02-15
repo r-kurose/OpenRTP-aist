@@ -110,6 +110,12 @@ getopt()
             TARGET=$1
             return 0
         fi
+        if test "x$arg" = "xrevert" ; then
+            echo "Reverting updated site.xml"
+            rm sitetool/openrtp_site/site.xml
+            svn update sitetool/openrtp_site/site.xml
+            exit 0
+        fi
     fi
 }
 

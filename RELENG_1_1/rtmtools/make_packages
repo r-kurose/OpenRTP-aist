@@ -108,11 +108,11 @@ PLUGINS="org.eclipse.emf.sdk.feature.group
          org.eclipse.xsd.sdk.feature.group"
 
 # Language package information
-true ${LANGPACK_URL:="http://sourceforge.jp/projects/mergedoc/svn/view/trunk/Pleiades/build/pleiades.zip?view=co&root=mergedoc"}
-#true ${LANGPACK_URL:="http://jaist.dl.sourceforge.jp/blancofw/56316/NLpackja-eclipse-SDK-3.8.0-blancofw20120628.zip"}
-true ${LANGPACK_FILE_NAME:="pleiades.zip"}
-#true ${LANGPACK_FILE_NAME:="NLpackja-eclipse-SDK-3.8.0-blancofw20120628.zip"}
-true ${PLEIADES:="YES"}
+#true ${LANGPACK_URL:="http://sourceforge.jp/projects/mergedoc/svn/view/trunk/Pleiades/build/pleiades.zip?view=co&root=mergedoc"}
+true ${LANGPACK_URL:="http://jaist.dl.sourceforge.jp/blancofw/56316/NLpackja-eclipse-SDK-3.8.0-blancofw20120628.zip"}
+#true ${LANGPACK_FILE_NAME:="pleiades.zip"}
+true ${LANGPACK_FILE_NAME:="NLpackja-eclipse-SDK-3.8.0-blancofw20120628.zip"}
+#true ${PLEIADES:="YES"}
 # openrtp tool information
 HERE=`pwd`
 true ${OPENRTP_SITE:="file:${HERE}/sitetool/openrtp_site"}
@@ -335,6 +335,15 @@ install_rtmtools()
             return 0
         fi
     done
+
+    chmod 755 openrtp
+    if test "x$os" = "xLINUX" ; then
+        cp openrtp $WORK_DIR/eclipse/
+    elif test "x$os" = "xMACOS" ; then
+        cp openrtp $WORK_DIR/eclipse/Eclipse.app/Contents/MacOS/
+        info="$WORK_DIR/eclipse/Eclipse.app/Contents/Info.plist"
+        sed -i -e 's/<string>eclipse<\/string>/<string>openrtp<\/string>/g' $info
+    fi
 }
 
 #------------------------------------------------------------
@@ -377,20 +386,22 @@ create_package()
     echo $tar
     if test ! "x$zip" = "x" ; then
         echo "Creating zip file..."
+        basedir=`pwd`
         cd $WORK_DIR
         find eclipse > .zip_list
         (cat .zip_list | zip -@ $pkg_name)
         rm -f .zip_list
-        cd ..
+        cd $basedir
         if test $? -ne 0 ;then
             echo "Failed to archive zip file: $pkg_name. Aborting..."
             exit 1
         fi
     elif test ! "x$tar" = "x" ; then
         echo "Creating tar.gz file..."
+        basedir=`pwd`
         cd $WORK_DIR
         tar cvzf $pkg_name eclipse
-        cd ..
+        cd $basedir
         if test $? -ne 0 ; then
             echo "Failed to archive tar.gz file: $pkg_name. Aborting..."
             exit 1
@@ -445,9 +456,9 @@ apply_langpack()
 
         echo "Applying langpack: Activating pleiades plugin."
         pleiades_jar="plugins/jp.sourceforge.mergedoc.pleiades/pleiades.jar"
-        if test "x$OS" = "xMACOS" ; then
-            echo "javaagent:../../../$pleiades_jar" \
-                >> $WORK_DIR/Eclipse.app/Contents/MacOS/eclipse.ini
+        if test "x$os" = "xMACOS" ; then
+            echo "-javaagent:../../../$pleiades_jar" \
+                >> $WORK_DIR/eclipse/Eclipse.app/Contents/MacOS/eclipse.ini
         else
             echo "-javaagent:$pleiades_jar" \
                 >> $WORK_DIR/eclipse/eclipse.ini
