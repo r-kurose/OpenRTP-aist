@@ -270,12 +270,12 @@ extract_eclipse()
     tar=`echo $FILE_NAME | grep '[tT][aA][rR].[gG][zZ]'`
     if test ! "x$zip" = "x" ; then
         echo "Extracting zip file..."
-        unzip $FILE_NAME -d $WORK_DIR && return 0
+        unzip $FILE_NAME -d $WORK_DIR >/dev/null 2>&1 && return 0
         echo "Failed to extract zip file: $FILE_NAME. Aborting..."
         exit 1
     elif test ! "x$tar" = "x" ; then
         echo "Extracting tar.gz file..."
-        tar xvzf $FILE_NAME -C $WORK_DIR && return 0
+        tar xvzf $FILE_NAME -C $WORK_DIR >/dev/null 2>&1 && return 0
         echo "Failed to extract tar.gz file: $FILE_NAME. Aborting..."
         exit 1
     else
@@ -332,7 +332,7 @@ install_rtmtools()
         $cmd $app_opt $dest_opt $repo_opt -installIU $p
         if test $? -ne 0 ; then
             echo "Plugin: $p installation failed. Aborting."
-            return 0
+            return 1
         fi
     done
 
@@ -389,7 +389,7 @@ create_package()
         basedir=`pwd`
         cd $WORK_DIR
         find eclipse > .zip_list
-        (cat .zip_list | zip -@ $pkg_name)
+        (cat .zip_list | zip -@ $pkg_name >/dev/null 2>&1 )
         rm -f .zip_list
         cd $basedir
         if test $? -ne 0 ;then
@@ -400,7 +400,7 @@ create_package()
         echo "Creating tar.gz file..."
         basedir=`pwd`
         cd $WORK_DIR
-        tar cvzf $pkg_name eclipse
+        tar cvzf $pkg_name eclipse >/dev/null 2>&1
         cd $basedir
         if test $? -ne 0 ; then
             echo "Failed to archive tar.gz file: $pkg_name. Aborting..."
