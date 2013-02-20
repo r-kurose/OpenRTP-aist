@@ -7,11 +7,11 @@
       plugin="jp.go.aist.rtm.rtcbuilder">
 
    <url>
-      <update label="Open RTP tools update site" url="http://www.openrtm.org/staging/pub/OpenRTP/updates/"/>
+      <update label="OpenRTP tools update site" url="http://openrtm.org/pub/openrtp/releases/updates/"/>
    </url>
 
    <requires>
-      <import feature="org.eclipse.platform" version="3.4" match="compatible"/>
+      <import feature="org.eclipse.platform" version="3.7" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.compare"/>
