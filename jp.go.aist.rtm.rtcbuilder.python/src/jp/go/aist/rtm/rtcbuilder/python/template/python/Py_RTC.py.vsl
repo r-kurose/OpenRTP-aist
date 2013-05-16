@@ -310,7 +310,7 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #if(${rtcParam.getDocActionPostCondition(1).length()}>0)	#if(${rtcParam.IsNotImplemented(1)})${sharp}#end	${sharp} @post ${tmpltHelperPy.convertPostShDocPy(${rtcParam.getDocActionPostCondition(1)})}
 #end
 	#if(${rtcParam.IsNotImplemented(1)})${sharp}#end	${sharp} 
-	#if(${rtcParam.IsNotImplemented(1)})${sharp}#end${def} onFinalize(self, ec_id):
+	#if(${rtcParam.IsNotImplemented(1)})${sharp}#end${def} onFinalize(self):
 	#if(${rtcParam.IsNotImplemented(1)})${sharp}#end
 #if(${tmpltHelper.checkDetailContent(1,${rtcParam})})		${rtcParam.getDetailContent(1)}
 #end
