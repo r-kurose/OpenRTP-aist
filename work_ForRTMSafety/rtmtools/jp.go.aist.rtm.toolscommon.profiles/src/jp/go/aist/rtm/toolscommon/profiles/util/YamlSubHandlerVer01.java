@@ -274,6 +274,9 @@ public class YamlSubHandlerVer01 {
 					if( langInfoY.get("Ruby") != null ) {
 						language.setKind("Ruby");
 					}
+					if( langInfoY.get("Safety") != null ) {
+						language.setKind("safety");
+					}
 					profile.setLanguage(language);
 				}
 			}

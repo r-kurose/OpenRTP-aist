@@ -1,0 +1,5 @@
+set CLASSPATH=.;%RTM_JAVA_ROOT%\jar\OpenRTM-aist-${rtcParam.rtmJavaVersion}.jar;%RTM_JAVA_ROOT%\jar\commons-cli-1.1.jar
+cd /d %~dp0
+cd bin
+java ${rtcParam.name}Comp -f rtc.conf %*
+pause;

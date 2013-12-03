@@ -43,6 +43,7 @@ import javax.xml.bind.annotation.XmlType;
     "python",
     "java",
     "csharp",
+    "safety",
     "ruby"
 })
 public class Language {
@@ -57,6 +58,8 @@ public class Language {
     protected String csharp;
     @XmlElement(name = "Ruby")
     protected String ruby;
+    @XmlElement(name = "Safety")
+    protected String safety;
 
     /**
      * Gets the value of the cxx property.
@@ -178,4 +181,27 @@ public class Language {
         this.ruby = value;
     }
 
+    /**
+     * Gets the value of the safety property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getSafety() {
+        return safety;
+    }
+
+    /**
+     * Sets the value of the safety property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setSafety(String value) {
+        this.safety = value;
+    }
 }
