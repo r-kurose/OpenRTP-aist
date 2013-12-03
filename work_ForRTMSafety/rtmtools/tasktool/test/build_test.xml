@@ -1,0 +1,14 @@
+<project name="tasktool" default="test">
+	<taskdef name="manifesttask" classname="aist.ManifestTask" classpath="../bin" />
+
+	<target name="test">
+		<antcall target="step1" />
+		<echo message="[${version}] expect [$${version}]" />
+	</target>
+
+	<target name="step1">
+		<manifesttask file="MANIFEST.MF" key="Bundle-Version" property="version" />
+		<echo message="[${version}] expect [1.1.0.rc3v20120215]" />
+	</target>
+
+</project>

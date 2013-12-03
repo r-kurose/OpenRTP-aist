@@ -1,0 +1,34 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.7.1
+Created-By: 20.0-b12 (Sun Microsystems Inc.)
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: jp.go.aist.rtm.rtcbuilder; singleton:=true
+Bundle-Version: 1.1.0.rc4v20130124
+Bundle-ClassPath: .,lib/velocity-1.6.3-dep.jar
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: jp.go.aist.rtm.rtcbuilder,jp.go.aist.rtm.rtcbuilder.co
+ rba.idl.parser,jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree,
+ jp.go.aist.rtm.rtcbuilder.corba.idl.parser.visitor,jp.go.aist.rtm.rtc
+ builder.extension,jp.go.aist.rtm.rtcbuilder.generator,jp.go.aist.rtm.
+ rtcbuilder.generator.param,jp.go.aist.rtm.rtcbuilder.generator.param.
+ idl,jp.go.aist.rtm.rtcbuilder.generator.parser,jp.go.aist.rtm.rtcbuil
+ der.manager,jp.go.aist.rtm.rtcbuilder.model.component,jp.go.aist.rtm.
+ rtcbuilder.model.component.impl,jp.go.aist.rtm.rtcbuilder.model.compo
+ nent.util,jp.go.aist.rtm.rtcbuilder.template,jp.go.aist.rtm.rtcbuilde
+ r.ui,jp.go.aist.rtm.rtcbuilder.ui.Perspective,jp.go.aist.rtm.rtcbuild
+ er.ui.editors,jp.go.aist.rtm.rtcbuilder.ui.parts,jp.go.aist.rtm.rtcbu
+ ilder.ui.preference,jp.go.aist.rtm.rtcbuilder.ui.wizard,jp.go.aist.rt
+ m.rtcbuilder.util
+Require-Bundle: org.eclipse.ui,org.eclipse.core.runtime,org.eclipse.em
+ f.ecore;visibility:=reexport,org.eclipse.compare,org.eclipse.jface.te
+ xt,org.eclipse.ui.forms,org.eclipse.core.resources,org.eclipse.gef,or
+ g.eclipse.ui.ide,org.eclipse.jdt.ui,jp.go.aist.rtm.toolscommon.profil
+ es
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin
+Eclipse-BuddyPolicy: registered
+Built-By: n-ando
+Built-Date: 2013/01/25 00:47:05
+
