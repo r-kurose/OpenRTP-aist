@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="jp.go.aist.rtm.rtcbuilder.nl1.feature"
+      label="RT Component Builder Language Pack"
+      version="1.1.0"
+      provider-name="AIST">
+
+   <url>
+      <update label="OpenRTP tools update site" url="http://openrtm.org/pub/openrtp/releases/updates/"/>
+   </url>
+
+   <requires>
+      <import feature="org.eclipse.platform" version="3.7" match="greaterOrEqual"/>
+      <import feature="jp.go.aist.rtm.rtcbuilder.feature" version="1.1.0"/>
+   </requires>
+
+   <plugin
+         id="jp.go.aist.rtm.rtcbuilder.nl1"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="jp.go.aist.rtm.toolscommon.profiles.nl1"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+</feature>
