@@ -229,7 +229,7 @@ public class SafetyGenerateManager extends GenerateManager {
 			return gr;
 		} catch (Exception e) {
 			throw new RuntimeException(form(MSG_ERROR_GENERATE_FILE,
-					new String[] { "Safety", outfile }), e);
+					new String[] { "RTMSafety", outfile }), e);
 		}
 	}
 

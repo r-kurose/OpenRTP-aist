@@ -58,7 +58,7 @@ public class Language {
     protected String csharp;
     @XmlElement(name = "Ruby")
     protected String ruby;
-    @XmlElement(name = "Safety")
+    @XmlElement(name = "RTMSafety")
     protected String safety;
 
     /**

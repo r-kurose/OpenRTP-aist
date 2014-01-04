@@ -2,8 +2,8 @@ package jp.go.aist.rtm.rtcbuilder.safety;
 
 public interface IRtcBuilderConstantsSafety {
 
-	public static final String LANG_SAFETY = "Safety";
-	public static final String LANG_SAFETY_ARG = "Safety";
+	public static final String LANG_SAFETY = "RTMSafety";
+	public static final String LANG_SAFETY_ARG = "RTMSafety";
 	//
 	public static final String DOC_DESC_PREFIX_SAFETY = "     * ";
 	public static final String DOC_UNIT_PREFIX_SAFETY = "     *         "; 
