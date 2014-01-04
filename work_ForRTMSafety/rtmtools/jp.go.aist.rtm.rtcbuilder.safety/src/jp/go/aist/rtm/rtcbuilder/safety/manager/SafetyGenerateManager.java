@@ -127,6 +127,8 @@ public class SafetyGenerateManager extends GenerateManager {
 		GeneratedResult gr;
 		gr = generateCompSource(contextMap);
 		result.add(gr);
+		gr = generateRTCHeader(contextMap);
+		result.add(gr);
 		gr = generateRTCSource(contextMap);
 		result.add(gr);
 		gr = generateRTCImplSource(contextMap);
@@ -169,6 +171,20 @@ public class SafetyGenerateManager extends GenerateManager {
 		String infile = "safety/Safety_RTC.c.vsl";
 		return generate(infile, outfile, contextMap);
 	}
+
+	public GeneratedResult generateRTCHeader(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = null;
+		//if( rtcParam.enableOldBuildEnv() ) {
+		//	outfile = rtcParam.getName() + ".h";
+		//} else {
+			outfile = "include/" + rtcParam.getName() + "/" + rtcParam.getName() + ".h";
+		//}
+		String infile = "safety/Safety_RTC.h.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+
+
 
 	public GeneratedResult generateRTCImplSource(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
