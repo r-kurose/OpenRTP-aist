@@ -174,12 +174,7 @@ public class SafetyGenerateManager extends GenerateManager {
 
 	public GeneratedResult generateRTCHeader(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		String outfile = null;
-		//if( rtcParam.enableOldBuildEnv() ) {
-		//	outfile = rtcParam.getName() + ".h";
-		//} else {
-			outfile = "include/" + rtcParam.getName() + "/" + rtcParam.getName() + ".h";
-		//}
+		String outfile = "include/" + rtcParam.getName() + "/" + rtcParam.getName() + ".h";
 		String infile = "safety/Safety_RTC.h.vsl";
 		return generate(infile, outfile, contextMap);
 	}
