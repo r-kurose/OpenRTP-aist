@@ -25,7 +25,7 @@ ${sharp}include "${rtcParam.name}.h"
  * @retval
  * @retval
  */
-PUBLIC ReturnCode_t ${rtcParam.name}_create(${rtcParam.name}* pself)
+PUBLIC ReturnCode_t ${rtcParam.name}_create(${rtcParam.name}_t* pself)
 {
   ReturnCode_t retVal = RTC_OK;
     
@@ -37,51 +37,15 @@ PUBLIC ReturnCode_t ${rtcParam.name}_create(${rtcParam.name}* pself)
   if( retVal == RTC_OK )
     {
       pself->onInitialize  = ${rtcParam.name}_on_initialize;
-#if(${rtcParam.IsNotImplemented(1)})
-//      pself->onFinalize    = ${rtcParam.name}_on_finalize;
-#else 
-      pself->onFinalize    = ${rtcParam.name}_on_finalize;
-#end
-#if(${rtcParam.IsNotImplemented(2)})
-//      pself->onStartup     = ${rtcParam.name}_on_startup;
-#else
-      pself->onStartup     = ${rtcParam.name}_on_startup;
-#end
-#if(${rtcParam.IsNotImplemented(3)})
-//      pself->onShutdown    = ${rtcParam.name}_on_shutdown;
-#else
-      pself->onShutdown    = ${rtcParam.name}_on_shutdown;
-#end
-#if(${rtcParam.IsNotImplemented(4)})
-//      pself->onActivated   = ${rtcParam.name}_on_activated;
-#else
-      pself->onActivated   = ${rtcParam.name}_on_activated;
-#end
-#if(${rtcParam.IsNotImplemented(5)})
-//      pself->onDeactivated = ${rtcParam.name}_on_deactivated;
-#else
-      pself->onDeactivated = ${rtcParam.name}_on_deactivated;
-#end
-#if(${rtcParam.IsNotImplemented(6)})
-//      pself->onAborting    = ${rtcParam.name}_on_aborting;
-#else
-      pself->onAborting    = ${rtcParam.name}_on_aborting;
-#end
-#if(${rtcParam.IsNotImplemented(7)})
-//      pself->onError       = ${rtcParam.name}_on_error;
-#else
-      pself->onError       = ${rtcParam.name}_on_error;
-#end
-#if(${rtcParam.IsNotImplemented(8)})
-//      pself->onReset       = ${rtcParam.name}_on_reset;
-#else
-      pself->onReset       = ${rtcParam.name}_on_reset;
-#end
-#if(${rtcParam.IsNotImplemented(9)})
-//      pself->onExecute     = ${rtcParam.name}_on_execute;
-#else
-      pself->onExecute     = ${rtcParam.name}_on_execute;
-#end
+#if(${rtcParam.IsNotImplemented(1)})//#end pself->onFinalize    = ${rtcParam.name}_on_finalize;
+#if(${rtcParam.IsNotImplemented(2)})//#end pself->onStartup     = ${rtcParam.name}_on_startup;
+#if(${rtcParam.IsNotImplemented(3)})//#end pself->onShutdown    = ${rtcParam.name}_on_shutdown;
+#if(${rtcParam.IsNotImplemented(4)})//#end pself->onActivated   = ${rtcParam.name}_on_activated;
+#if(${rtcParam.IsNotImplemented(5)})//#end pself->onDeactivated = ${rtcParam.name}_on_deactivated;
+#if(${rtcParam.IsNotImplemented(6)})//#end pself->onAborting    = ${rtcParam.name}_on_aborting;
+#if(${rtcParam.IsNotImplemented(7)})//#end pself->onError       = ${rtcParam.name}_on_error;
+#if(${rtcParam.IsNotImplemented(8)})//#end pself->onReset       = ${rtcParam.name}_on_reset;
+#if(${rtcParam.IsNotImplemented(9)})//#end pself->onExecute     = ${rtcParam.name}_on_execute;
     }
 
   return retVal;
