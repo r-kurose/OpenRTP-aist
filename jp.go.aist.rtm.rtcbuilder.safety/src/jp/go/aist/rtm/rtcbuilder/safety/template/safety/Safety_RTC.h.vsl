@@ -3,7 +3,7 @@
  * @file  ${rtcParam.name}.h
  * @brief ${rtcParam.description}
  * @date  ${dol}Date${dol}
-#parse("${template}/cpp/_doc.vsl")
+#parse("${template}/safety/_doc.vsl")
  * ${dol}Id${dol}
  */
 
