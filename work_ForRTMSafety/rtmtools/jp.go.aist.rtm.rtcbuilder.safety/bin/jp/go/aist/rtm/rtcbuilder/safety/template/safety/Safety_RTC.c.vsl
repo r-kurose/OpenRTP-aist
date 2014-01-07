@@ -1,8 +1,9 @@
-// -*- Java -*-
+// -*- RTMSafety -*-
 /*!
- * @file ${rtcParam.name}.java
+ * @file  ${rtcParam.name}.c
+ * @brief ${rtcParam.description}
+ * @date ${dol}Date${dol}
 #set( $Date$ = "dummy" )
- * @date \$Date$
 #if( ${rtcParam.docCreator.length()} > 0 )
  *
  * @author ${tmpltHelper.convertAuthorDoc(${rtcParam.docCreator})}
@@ -16,74 +17,209 @@
  * \$Id$
  */
 
-import jp.go.aist.rtm.RTC.Manager;
-import jp.go.aist.rtm.RTC.RTObject_impl;
-import jp.go.aist.rtm.RTC.RtcDeleteFunc;
-import jp.go.aist.rtm.RTC.RtcNewFunc;
-import jp.go.aist.rtm.RTC.RegisterModuleFunc;
-import jp.go.aist.rtm.RTC.util.Properties;
+${sharp}include "${rtcParam.name}.h"
 
 /*!
- * @class ${rtcParam.name}
  * @brief ${rtcParam.description}
+ * @return
+ * @retval
+ * @retval
  */
-public class ${rtcParam.name} implements RtcNewFunc, RtcDeleteFunc, RegisterModuleFunc {
-
-//  Module specification
-//  <rtc-template block="module_spec">
-    public static String component_conf[] = {
-    	    "implementation_id", "${rtcParam.name}",
-    	    "type_name",         "${rtcParam.name}",
-    	    "description",       "${rtcParam.description}",
-    	    "version",           "${rtcParam.version}",
-    	    "vendor",            "${rtcParam.vender}",
-    	    "category",          "${rtcParam.category}",
-    	    "activity_type",     "${rtcParam.componentType}",
-    	    "max_instance",      "${rtcParam.maxInstance}",
-    	    "language",          "Java",
-    	    "lang_type",         "compile",
-#if( ${rtcParam.configParams.size()} > 0 )
-            // Configuration variables
-#foreach($configParam in ${rtcParam.configParams})  
-            "conf.default.${configParam.name}", "${configParam.defaultVal}",
-#end
-#end
-#if( ${rtcParam.configParams.size()} > 0 )
-            // Widget
-#foreach($configParam in ${rtcParam.configParams})
-#if( ${configParam.widget.length()} > 0 )
-            "conf.__widget__.${configParam.name}", "${configParam.widget}#if( ${configParam.step.length()} > 0 ).${configParam.step}#end",
-#end
-#end
-            // Constraints
-#foreach($configParam in ${rtcParam.configParams})
-#if( ${configParam.constraint.length()} > 0 )
-            "conf.__constraints__.${configParam.name}", "${configParam.constraint}",
-#end
-#end
-#end
-#if( ${rtcParam.configParameterParams.size()} > 0 )
-            // System Configuration
-#foreach($parameterParam in ${rtcParam.configParameterParams})  
-#if( ${parameterParam.isNonPeriodic()} )
-            "${parameterParam.configName}", "${parameterParam.defaultVal}",
-#end
-#end
-#end
-    	    ""
-            };
-//  </rtc-template>
-
-    public RTObject_impl createRtc(Manager mgr) {
-        return new ${rtcParam.name}Impl(mgr);
+PUBLIC ReturnCode_t ${rtcParam.name}_create(${rtcParam.name}_t* pself)
+{
+  ReturnCode_t retVal = RTC_OK;
+    
+  if( pself == NULL )
+    {
+      retVal = RTC_ERROR;
+    }
+    
+  if( retVal == RTC_OK )
+    {
+      pself->onInitialize  = ${rtcParam.name}_on_initialize;
+#if(${rtcParam.IsNotImplemented(1)})//#end pself->onFinalize    = ${rtcParam.name}_on_finalize;
+#if(${rtcParam.IsNotImplemented(2)})//#end pself->onStartup     = ${rtcParam.name}_on_startup;
+#if(${rtcParam.IsNotImplemented(3)})//#end pself->onShutdown    = ${rtcParam.name}_on_shutdown;
+#if(${rtcParam.IsNotImplemented(4)})//#end pself->onActivated   = ${rtcParam.name}_on_activated;
+#if(${rtcParam.IsNotImplemented(5)})//#end pself->onDeactivated = ${rtcParam.name}_on_deactivated;
+#if(${rtcParam.IsNotImplemented(6)})//#end pself->onAborting    = ${rtcParam.name}_on_aborting;
+#if(${rtcParam.IsNotImplemented(7)})//#end pself->onError       = ${rtcParam.name}_on_error;
+#if(${rtcParam.IsNotImplemented(8)})//#end pself->onReset       = ${rtcParam.name}_on_reset;
+#if(${rtcParam.IsNotImplemented(9)})//#end pself->onExecute     = ${rtcParam.name}_on_execute;
     }
 
-    public void deleteRtc(RTObject_impl rtcBase) {
-        rtcBase = null;
-    }
-    public void registerModule() {
-        Properties prop = new Properties(component_conf);
-        final Manager manager = Manager.instance();
-        manager.registerFactory(prop, new ${rtcParam.name}(), new ${rtcParam.name}());
-    }
+  return retVal;
 }
+
+#if(${rtcParam.getDocActionOverView(0).length()}>0)/*!
+ * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(0)})}
+ */#end
+#if(${rtcParam.configParams.size()}==0 && ${rtcParam.IsNotImplemented(0)} && ${rtcParam.inports.size()}==0 && ${rtcParam.outports.size()}==0 && ${rtcParam.servicePorts.size()}==0)/*#end
+
+PUBLIC ReturnCode_t ${rtcParam.name}_on_initialize( void )
+{
+  // Please insert your code here
+
+  return RTC_OK;
+}
+#if(${rtcParam.configParams.size()}==0 && ${rtcParam.IsNotImplemented(0)} && ${rtcParam.inports.size()}==0 && ${rtcParam.outports.size()}==0 && ${rtcParam.servicePorts.size()}==0)*/
+#end
+
+#if(${rtcParam.getDocActionOverView(1).length()}>0)/*!
+ * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(1)})}
+ */
+#end
+#if(${rtcParam.IsNotImplemented(1)})/*#end
+
+PUBLIC ReturnCode_t ${rtcParam.name}_on_finalize( void )
+{
+#if(${tmpltHelper.checkDetailContent(1,${rtcParam})})${rtcParam.getDetailContent(1)}
+#end
+  // Please insert your code here
+
+  return RTC_OK;
+}
+#if(${rtcParam.IsNotImplemented(1)})*/
+#end
+
+
+#if(${rtcParam.getDocActionOverView(2).length()}>0)/*!
+ * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(2)})}
+ */
+#end
+#if(${rtcParam.IsNotImplemented(2)})/*#end
+
+PUBLIC ReturnCode_t ${rtcParam.name}_on_startup( void )
+{
+#if(${tmpltHelper.checkDetailContent(2,${rtcParam})})${rtcParam.getDetailContent(2)}
+#end
+  // Please insert your code here
+
+  return RTC_OK;
+}
+#if(${rtcParam.IsNotImplemented(2)})*/
+#end
+
+#if(${rtcParam.getDocActionOverView(3).length()}>0)/*!
+ * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(3)})}
+ */
+#end
+#if(${rtcParam.IsNotImplemented(3)})/*#end
+
+PUBLIC ReturnCode_t ${rtcParam.name}_on_shutdown( void )
+{
+#if(${tmpltHelper.checkDetailContent(3,${rtcParam})})${rtcParam.getDetailContent(3)}
+#end
+  // Please insert your code here
+
+  return RTC_OK;
+}
+#if(${rtcParam.IsNotImplemented(3)})*/
+#end
+
+#if(${rtcParam.getDocActionOverView(4).length()}>0)/*!
+ * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(4)})}
+ */
+#end
+#if(${rtcParam.IsNotImplemented(4)})/*#end
+
+PUBLIC ReturnCode_t ${rtcParam.name}_on_activated( void )
+{
+#if(${tmpltHelper.checkDetailContent(4,${rtcParam})})${rtcParam.getDetailContent(4)}
+#end
+  // Please insert your code here
+
+  return RTC_OK;
+}
+#if(${rtcParam.IsNotImplemented(4)})*/
+#end
+
+#if(${rtcParam.getDocActionOverView(5).length()}>0)/*!
+ * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(5)})}
+ */
+#end
+#if(${rtcParam.IsNotImplemented(5)})/*#end
+
+PUBLIC ReturnCode_t ${rtcParam.name}_on_deactivated( void )
+{
+#if(${tmpltHelper.checkDetailContent(5,${rtcParam})})${rtcParam.getDetailContent(5)}
+#end
+  // Please insert your code here
+
+  return RTC_OK;
+}
+#if(${rtcParam.IsNotImplemented(5)})*/
+#end
+
+#if(${rtcParam.getDocActionOverView(6).length()}>0)/*!
+ * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(6)})}
+ */
+#end
+#if(${rtcParam.IsNotImplemented(6)})/*#end
+
+PUBLIC ReturnCode_t ${rtcParam.name}_on_aborting( void )
+{
+#if(${tmpltHelper.checkDetailContent(6,${rtcParam})})${rtcParam.getDetailContent(6)}
+#end
+  // Please insert your code here
+
+  return RTC_OK;
+
+}
+#if(${rtcParam.IsNotImplemented(6)})*/
+#end
+
+#if(${rtcParam.getDocActionOverView(7).length()}>0)/*!
+ * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(7)})}
+ */
+#end
+#if(${rtcParam.IsNotImplemented(7)})/*#end
+
+PUBLIC ReturnCode_t ${rtcParam.name}_on_error( void )
+{
+#if(${tmpltHelper.checkDetailContent(7,${rtcParam})})${rtcParam.getDetailContent(7)}
+#end
+  // Please insert your code here
+
+  return RTC_OK;
+}
+#if(${rtcParam.IsNotImplemented(7)})*/
+#end
+
+#if(${rtcParam.getDocActionOverView(8).length()}>0)/*!
+ * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(8)})}
+ */
+#end
+#if(${rtcParam.IsNotImplemented(8)})/*#end
+
+PUBLIC ReturnCode_t ${rtcParam.name}_on_reset( void )
+{
+#if(${tmpltHelper.checkDetailContent(8,${rtcParam})})${rtcParam.getDetailContent(8)}
+#end
+  // Please insert your code here
+
+  return RTC_OK;
+}
+#if(${rtcParam.IsNotImplemented(8)})*/
+#end
+
+#if(${rtcParam.getDocActionOverView(9).length()}>0)/*!
+ * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(9)})}
+ */
+#end
+#if(${rtcParam.IsNotImplemented(9)})/*#end
+
+PUBLIC ReturnCode_t ${rtcParam.name}_on_execute( void )
+{
+#if(${tmpltHelper.checkDetailContent(9,${rtcParam})})${rtcParam.getDetailContent(9)}
+#end
+  // Please insert your code here
+
+  return RTC_OK;
+}
+#if(${rtcParam.IsNotImplemented(9)})*/
+#end
+
+
+
+
