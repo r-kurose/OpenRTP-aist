@@ -125,33 +125,36 @@ public class SafetyGenerateManager extends GenerateManager {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 
 		GeneratedResult gr;
-		gr = generateCompSource(contextMap);
-		result.add(gr);
+		//gr = generateCompSource(contextMap);
+		//result.add(gr);
 		gr = generateRTCHeader(contextMap);
 		result.add(gr);
 		gr = generateRTCSource(contextMap);
 		result.add(gr);
-		gr = generateRTCImplSource(contextMap);
-		result.add(gr);
+		//gr = generateRTCImplSource(contextMap);
+		//result.add(gr);
 
-		gr = generateClassPath(contextMap);
-		result.add(gr);
-		gr = generateRunBat(contextMap);
-		result.add(gr);
-		gr = generateRunSh(contextMap);
-		result.add(gr);
+		//gr = generateClassPath(contextMap);
+		//result.add(gr);
+		//gr = generateRunBat(contextMap);
+		//result.add(gr);
+		//gr = generateRunSh(contextMap);
+		//result.add(gr);
 
-		gr = generateBuildXML(contextMap);
-		result.add(gr);
+		//gr = generateBuildXML(contextMap);
+		//result.add(gr);
 
-		for (IdlFileParam idl : rtcParam.getProviderIdlPathes()) {
-			contextMap.put("idlFileParam", idl);
-			for (ServiceClassParam svc : idl.getServiceClassParams()) {
-				contextMap.put("serviceClassParam", svc);
-				gr = generateSVCSource(contextMap);
-				result.add(gr);
-			}
-		}
+		//for (IdlFileParam idl : rtcParam.getProviderIdlPathes()) {
+		//	contextMap.put("idlFileParam", idl);
+		//	for (ServiceClassParam svc : idl.getServiceClassParams()) {
+		//		contextMap.put("serviceClassParam", svc);
+		//		gr = generateSVCSource(contextMap);
+		//		result.add(gr);
+		//	}
+		//}
+
+		gr = generateDoxygen(contextMap);
+		result.add(gr);
 
 		return result;
 	}
@@ -167,14 +170,16 @@ public class SafetyGenerateManager extends GenerateManager {
 
 	public GeneratedResult generateRTCSource(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		String outfile = "src/" + rtcParam.getName() + ".c";
+		//String outfile = "src/" + rtcParam.getName() + ".c";
+		String outfile = rtcParam.getName() + ".c";
 		String infile = "safety/Safety_RTC.c.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 
 	public GeneratedResult generateRTCHeader(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		String outfile = "include/" + rtcParam.getName() + "/" + rtcParam.getName() + ".h";
+		//String outfile = "include/" + rtcParam.getName() + "/" + rtcParam.getName() + ".h";
+		String outfile = rtcParam.getName() + ".h";
 		String infile = "safety/Safety_RTC.h.vsl";
 		return generate(infile, outfile, contextMap);
 	}
@@ -243,5 +248,11 @@ public class SafetyGenerateManager extends GenerateManager {
 					new String[] { "RTMSafety", outfile }), e);
 		}
 	}
+	public GeneratedResult generateDoxygen(Map<String, Object> contextMap) {
+		String outfile = "Doxygen.conf";
+		String infile = "safety/Doxygen.conf.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+
 
 }

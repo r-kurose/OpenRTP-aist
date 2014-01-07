@@ -1,6 +1,7 @@
 package jp.go.aist.rtm.rtcbuilder.safety.manager;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -49,11 +50,11 @@ public class SafetyCMakeGenerateManager extends CMakeGenerateManager {
 	@Override
 	public List<GeneratedResult> generateTemplateCode10(
 			Map<String, Object> contextMap) {
-		List<GeneratedResult> result = super.generateTemplateCode10(contextMap);
-
-		GeneratedResult gr;
-		gr = generateModulesSafetyCompile(contextMap);
-		result.add(gr);
+		//List<GeneratedResult> result = super.generateTemplateCode10(contextMap);
+		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
+		//GeneratedResult gr;
+		//gr = generateModulesSafetyCompile(contextMap);
+		//result.add(gr);
 
 		return result;
 	}
