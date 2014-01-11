@@ -1,5 +1,6 @@
 package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -96,6 +97,28 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		defaultPortVarName = store.getString(ComponentPreferenceManager.Generate_DataPort_VarName);
 		//
 		defaultTypeList = super.extractDataTypes();
+		for (String key : RtcBuilderPlugin.getDefault().getLoader()
+					.getManagerKeyList()) 
+		{
+			if(key.equals("RTMSafety"))
+			{
+				ArrayList<String> list 
+					= new ArrayList(Arrays.asList(defaultTypeList));
+				list.add("char");
+				list.add("octet");
+				list.add("short");
+				list.add("unsigned short");
+				list.add("long");
+				list.add("unsigned long");
+				list.add("float");
+				list.add("double");
+				list.add("boolean");
+				list.add("struct");
+				list.add("array");
+				defaultTypeList = (String[])list.toArray(new String[list.size()]);
+			}
+			
+		}
 	}
 
 	/**
