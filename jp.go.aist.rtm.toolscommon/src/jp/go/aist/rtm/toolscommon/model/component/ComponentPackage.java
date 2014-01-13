@@ -396,7 +396,9 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 23;
+	int COMPONENT__LANGUAGE_TYPE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 23;
+	//int COMPONENT_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 23;
+	int COMPONENT_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 24;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl <em>Corba Component</em>}' class.
@@ -633,6 +635,7 @@ public interface ComponentPackage extends EPackage {
 	 * @ordered
 	 */
 	int COMPONENT_SPECIFICATION__REQUIRED = COMPONENT__REQUIRED;
+	int COMPONENT_SPECIFICATION__LANGUAGE_TYPE = COMPONENT__LANGUAGE_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Alias Name</b></em>' attribute.
@@ -3272,6 +3275,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getComponent_Required();
+	EAttribute getComponent_LanguageType();
 
 	/**
 	 * Returns the meta object for the reference '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getChildSystemDiagram <em>Child System Diagram</em>}'.
@@ -4786,6 +4790,7 @@ public interface ComponentPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute COMPONENT__REQUIRED = eINSTANCE.getComponent_Required();
+		EAttribute COMPONENT__LANGUAGE_TYPE = eINSTANCE.getComponent_LanguageType();
 
 		/**
 		 * The meta object literal for the '<em><b>Child System Diagram</b></em>' reference feature.

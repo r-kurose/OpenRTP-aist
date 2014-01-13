@@ -513,6 +513,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	protected void save(IFile file, IProgressMonitor progressMonitor)
 			throws CoreException {
 		
+		System.out.println("save() entry");
 		List<AbstractSystemDiagramEditor> editors = new ArrayList<AbstractSystemDiagramEditor>();
 		editors.add(this);
 		
@@ -571,6 +572,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 			// STEP1: リソースを作成
 			progressMonitor.worked(1);
 
+			System.out.println("save 050 file="+file.getLocation().toOSString());
 			Resource resource = null;
 			ResourceSet resourceSet = new ResourceSetImpl();
 			resource = resourceSet.createResource(URI.createFileURI(file
@@ -583,13 +585,36 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 			SystemDiagram diagram = systemDiagram.getRootDiagram();
 			RtsProfileExt profile = handler.save(diagram);
 			diagram.setProfile(profile);
+			System.out.println("save 200 ");
+			//<+zxc
+			org.eclipse.emf.common.util.EList<jp.go.aist.rtm.toolscommon.model.component.Component> coms = diagram.getComponents();
+			for(jp.go.aist.rtm.toolscommon.model.component.Component com : coms)
+			{
+				System.out.print(" "+com.getTypeNameL()+" "+com.getComponentId()+" "+com.getPath());
+				System.out.print(" "+com.getInstanceNameL()+" "+com.getVenderL()+" "+com.getDescriptionL());
+				System.out.print(" "+com.getCategoryL()+" "+com.getTypeNameL()+" "+com.getVersionL());
+				System.out.println(" "+com.getOutportDirection()+" "+com.getCompositeTypeL()+" "+com.getComponentId());
+			}
+			//zxc+>
+			System.out.println("save 210 ");
 
 			// STEP3: 拡張ポイント (RTSプロファイル保存前)
 			progressMonitor.worked(3);
 
+			System.out.println("save 300");
+			System.out.println(profile);
+			//<+zxc
+   			//List<Property> props = profile.getProperties();
+			//for(Property prop : props)
+			//{
+			//	System.out.println(prop);
+			//}
+			//zxc+>
 			ProfileSaver creator = new ProfileSaver();
 			for (SaveProfileExtension.ErrorInfo info : creator.preSave(
 					diagram, profile)) {
+				System.out.println("save 310");
+				//System.out.println(info.getMessage());
 				if (info.isError()) {
 					openError(DIALOG_TITLE_ERROR, info.getMessage());
 					progressMonitor.done();
@@ -601,6 +626,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					}
 				}
 			}
+			System.out.println("save 320");
 
 			// STEP4: RTSプロファイルオブジェクトをファイルへ保存
 			progressMonitor.worked(4);
@@ -646,6 +672,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					.getClass().getName(), 0, Messages.getString("AbstractSystemDiagramEditor.28"), e); //$NON-NLS-1$
 			throw new CoreException(status);
 		}
+		System.out.println("save() return");
 	}
 
 	private Component getLocalObject(SystemDiagram systemDiagram,

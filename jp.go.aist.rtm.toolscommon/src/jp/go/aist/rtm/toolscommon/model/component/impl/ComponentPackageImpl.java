@@ -631,6 +631,10 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	public EAttribute getComponent_Required() {
 		return (EAttribute)componentEClass.getEStructuralFeatures().get(22);
 	}
+	public EAttribute getComponent_LanguageType() {
+
+		return (EAttribute)componentEClass.getEStructuralFeatures().get(23);
+	}
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1801,6 +1805,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		createEAttribute(componentEClass, COMPONENT__COMPOSITE_TYPE_L);
 		createEAttribute(componentEClass, COMPONENT__COMPONENT_ID);
 		createEAttribute(componentEClass, COMPONENT__REQUIRED);
+		createEAttribute(componentEClass, COMPONENT__LANGUAGE_TYPE);
 
 		componentSpecificationEClass = createEClass(COMPONENT_SPECIFICATION);
 		createEAttribute(componentSpecificationEClass, COMPONENT_SPECIFICATION__ALIAS_NAME);
@@ -2051,6 +2056,8 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		initEAttribute(getComponent_CompositeTypeL(), ecorePackage.getEString(), "compositeTypeL", null, 0, 1, Component.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getComponent_ComponentId(), ecorePackage.getEString(), "componentId", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getComponent_Required(), ecorePackage.getEBoolean(), "required", "false", 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getComponent_LanguageType(), ecorePackage.getEString(), "languageType", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getComponent_OutportDirection(), ecorePackage.getEString(), "outportDirection", "RIGHT", 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(componentEClass, this.getComponent(), "getAllComponents", 0, -1, IS_UNIQUE, IS_ORDERED);
 

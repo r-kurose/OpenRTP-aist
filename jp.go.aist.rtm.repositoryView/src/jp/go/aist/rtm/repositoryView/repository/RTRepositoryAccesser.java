@@ -154,17 +154,22 @@ public class RTRepositoryAccesser {
 	 * @throws Exception
 	 */
 	public ComponentSpecification getComponentProfile(ComponentSpecification component) throws Exception {
+		System.out.println("RTRepositoryAccesser.getComponentProfile() entry");
 
 		RTRepositoryClientFactory factory = RTRepositoryClientFactory.getInstance();
+		System.out.println("RTRepositoryAccesser.getComponentProfile() 010 "+component.getPathId());
 		RTRepositoryClient client = factory.create(component.getPathId());
 		ItemCategory itemCategory = ItemCategory.RTC;
 		String targetXML = client.downloadProfile(component.getComponentId(), itemCategory);
+		System.out.println("RTRepositoryAccesser.getComponentProfile() 020 targetXML="+component.getPathId());
 		RtcProfileHandler handler = new RtcProfileHandler();
     	ComponentSpecification specification  = handler.createComponentFromXML(targetXML);
 		specification.setAliasName(component.getAliasName());
 		specification.setComponentId(component.getComponentId());
 		specification.setPathId(component.getPathId());
 		
+		System.out.println("RTRepositoryAccesser.getComponentProfile() 060"+specification.getRtcType());
+		System.out.println("RTRepositoryAccesser.getComponentProfile() return");
 		return specification;
 	}
 
