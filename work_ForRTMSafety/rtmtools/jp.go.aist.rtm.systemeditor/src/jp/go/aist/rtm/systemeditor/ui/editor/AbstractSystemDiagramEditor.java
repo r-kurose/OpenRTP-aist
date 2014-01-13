@@ -593,7 +593,8 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 				System.out.print(" "+com.getTypeNameL()+" "+com.getComponentId()+" "+com.getPath());
 				System.out.print(" "+com.getInstanceNameL()+" "+com.getVenderL()+" "+com.getDescriptionL());
 				System.out.print(" "+com.getCategoryL()+" "+com.getTypeNameL()+" "+com.getVersionL());
-				System.out.println(" "+com.getOutportDirection()+" "+com.getCompositeTypeL()+" "+com.getComponentId());
+				System.out.print(" "+com.getOutportDirection()+" "+com.getCompositeTypeL()+" "+com.getComponentId());
+				System.out.println(" "+com.getLanguage());
 			}
 			//zxc+>
 			System.out.println("save 210 ");
@@ -603,13 +604,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 
 			System.out.println("save 300");
 			System.out.println(profile);
-			//<+zxc
-   			//List<Property> props = profile.getProperties();
-			//for(Property prop : props)
-			//{
-			//	System.out.println(prop);
-			//}
-			//zxc+>
 			ProfileSaver creator = new ProfileSaver();
 			for (SaveProfileExtension.ErrorInfo info : creator.preSave(
 					diagram, profile)) {
@@ -657,6 +651,27 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 				}
 			}
 
+			//<+zxc
+			{
+				//Parse
+				String languageKind = "";
+				org.eclipse.emf.common.util.EList<jp.go.aist.rtm.toolscommon.model.component.Component> comps = diagram.getComponents();
+				for(jp.go.aist.rtm.toolscommon.model.component.Component com : comps)
+				{  
+					languageKind = com.getLanguage();
+				}	
+				if(languageKind.equals("RTMSafety"))
+				{
+					System.out.println("Creates table files  for RTMSafety");
+					
+					final String TEMPLATE_PATH = "jp/go/aist/rtm/systemeditor/template";
+					String template = TEMPLATE_PATH + "/" +"DataPortContTbl.c.vsl";
+					ClassLoader cl = Thread.currentThread().getContextClassLoader();
+					System.out.println("Loads class for RTMSafety");
+					
+				}
+			}
+			//zxc+>
 			progressMonitor.worked(6);
 			progressMonitor.done();
 
