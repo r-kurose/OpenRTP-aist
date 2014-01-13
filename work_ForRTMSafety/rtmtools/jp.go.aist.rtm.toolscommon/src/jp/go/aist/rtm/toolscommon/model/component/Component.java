@@ -751,4 +751,7 @@ public interface Component extends WrapperObject, IPropertyMap {
 	 */
 	boolean isDead();
 
+	String getLanguage();
+	void setLanguage(String lang);
+
 } // Component

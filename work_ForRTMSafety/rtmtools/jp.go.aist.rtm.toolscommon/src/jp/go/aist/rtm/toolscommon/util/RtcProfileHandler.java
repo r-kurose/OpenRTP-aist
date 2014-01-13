@@ -42,25 +42,39 @@ public class RtcProfileHandler {
 	private final String CATEGORY_COMPOSITE =  "composite.";
 
 	public static boolean validateXml(String targetString) throws Exception {
+		System.out.println("validateXml entry");
 		XmlHandler handler = new XmlHandler();
 		try {
+			System.out.print("validateXml 010 "+targetString);
 			handler.restoreFromXmlRtc(targetString);
 		} catch (IOException e) {
 			throw new Exception("XML Validation Error", e);
 		}
+		System.out.println("validateXml return");
 		return true;
 	}
 
 	public ComponentSpecification createComponentFromXML(String targetXML) throws Exception {
+		System.out.println("createComponentFromXML entry");
 		XmlHandler handler = new XmlHandler();
+		System.out.println("createComponentFromXML 010 "+targetXML);
 		RtcProfile profile = handler.restoreFromXmlRtc(targetXML);
+		System.out.println("createComponentFromXML 011 ");
+		System.out.println("createComponentFromXML 012 Language="+profile.getLanguage().getKind());
 		
 		ComponentSpecification component = profile2ComponentEMF(profile, null);
+		System.out.println("createComponentFromXML 015 Language="+profile.getLanguage().getKind());
+		component.setLanguage(profile.getLanguage().getKind());
+		System.out.println("createComponentFromXML 016 Language="+component.getLanguage());
+		System.out.println("createComponentFromXML 020 "+component.getRtcType());
+		System.out.println("createComponentFromXML return");
 		return component;
 	}
 
 	public ComponentSpecification createComponent(String targetFile) throws Exception  {
 		
+		System.out.println("createComponent entry");
+		System.out.println("createComponent 010 "+targetFile);
 		//対象ファイルの読み込み
 		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(targetFile), "UTF-8"));
 		String tmp_str = null;
@@ -71,12 +85,14 @@ public class RtcProfileHandler {
 	    br.close();
 
 	    ComponentSpecification component = createComponentFromXML(tmp_sb.toString());
+		System.out.println("createComponent return");
 		return component;
 	}
 
 	@SuppressWarnings("static-access")
 	private ComponentSpecification profile2ComponentEMF(RtcProfile module,
 			ComponentSpecification specification) throws Exception {
+		System.out.println("profile2ComponentEMF entry");
 		if( !checkProfile(module) ) throw new Exception("Incorrect Profile.");
 		if (specification == null) {
 			specification = ComponentFactory.eINSTANCE.createComponentSpecification();
@@ -90,6 +106,8 @@ public class RtcProfileHandler {
 		specification.setDescriptionL(bi.getDescription());
 		specification.setRtcType(bi.getRtcType());
 		specification.getPorts().addAll(profile2PortEMF(module));
+		//<+zxc
+		//zxc+>
 
 		if (bi instanceof BasicInfoExt) {
 			BasicInfoExt biExt = (BasicInfoExt) bi;
@@ -130,6 +148,7 @@ public class RtcProfileHandler {
 				+ specification.getVersionL();
 		specification.setComponentId(moduleId);
 
+		System.out.println("profile2ComponentEMF return");
 		return specification;
 	}
 	

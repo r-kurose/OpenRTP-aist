@@ -463,10 +463,24 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 	
 	protected String[] extractDataTypes() {
+		System.out.println("AbstractEditorFormPage.extractDataTypes() entry");
 		String FS = System.getProperty("file.separator");
+		System.out.print("AbstractEditorFormPage.extractDataTypes() 010 ");
+		System.out.println(FS);
 		List<String> sources = new ArrayList<String>(DataTypePreferenceManager
 				.getInstance().getIdlFileDirectories());
+		System.out.print("AbstractEditorFormPage.extractDataTypes() 020");
+		//<+zxc
+		for(String str: sources)
+		{
+			System.out.print(str);
+			System.out.print(" ");
+		}
+		System.out.println(" ");
+		//zxc+>
 		String defaultPath = System.getenv("RTM_ROOT");
+		System.out.print("AbstractEditorFormPage.extractDataTypes() 030 ");
+		System.out.println(defaultPath);
 		int baseindex = -1;
 		if (defaultPath != null) {
 			baseindex = 0;
@@ -476,8 +490,15 @@ public abstract class AbstractEditorFormPage extends FormPage {
 			sources.add(0, defaultPath + "rtm" + FS + "idl");
 		}
 		List<DataTypeParam> sourceContents = new ArrayList<DataTypeParam>();
+		System.out.println("AbstractEditorFormPage.extractDataTypes() 040 ");
+		System.out.print("  ");
 		for (int intidx = 0; intidx < sources.size(); intidx++) {
 			String source = sources.get(intidx);
+			System.out.print("[");
+			System.out.print(intidx);
+			System.out.print("]");
+			System.out.print(source);
+			System.out.print(" ");
 			try {
 				File idlDir = new File(source);
 				String[] list = idlDir.list();
@@ -495,6 +516,8 @@ public abstract class AbstractEditorFormPage extends FormPage {
 						return a.compareTo(b);
 					}
 				});
+				System.out.println(" ");
+				System.out.print("    ");
 				for (String idlName : idlNames) {
 					String idlContent = FileUtil
 							.readFile(source + FS + idlName);
@@ -502,15 +525,19 @@ public abstract class AbstractEditorFormPage extends FormPage {
 					param.setContent(idlContent);
 					param.setFullPath(source + FS + idlName);
 					sourceContents.add(param);
+					System.out.print(param);
+					System.out.print(" ");
 					if( baseindex<intidx) {
 						param.setAddition(true);
 					}
 				}
+				System.out.println(" ");
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (java.lang.SecurityException e) {
 				e.printStackTrace();
 			}
+			System.out.println(" ");
 		}
 		String[] defaultTypeList = new String[0];
 		List<String> dataTypes = new ArrayList<String>();
@@ -524,6 +551,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		editor.getGeneratorParam().getDataTypeParams().addAll(sourceContents);
 		//
 
+		System.out.println("AbstractEditorFormPage.extractDataTypes() return");
 		return defaultTypeList;
 	}
 
