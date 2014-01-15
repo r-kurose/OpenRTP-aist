@@ -1,5 +1,10 @@
 package jp.go.aist.rtm.systemeditor.ui.editor;
 
+//<+zxc
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+//zxc+>
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.FileNotFoundException;
@@ -668,6 +673,17 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					String template = TEMPLATE_PATH + "/" +"DataPortContTbl.c.vsl";
 					ClassLoader cl = Thread.currentThread().getContextClassLoader();
 					System.out.println("Loads class for RTMSafety");
+					InputStream ins = cl.getResourceAsStream(template);
+					System.out.println("Opens file.");
+					String outfile = "src/" + "testtabel.c";
+					Map<String, Object> contextMap = new HashMap<String, Object>();
+					//GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, outfile);
+					System.out.println("Creates file.");
+					if (ins != null) {
+						System.out.println("Closes file. 1");
+						ins.close();
+						System.out.println("Closes file. 2");
+					}		
 					
 				}
 			}
