@@ -1,0 +1,31 @@
+// -*- C -*-
+/*!
+ * @file ${rtcParam.name}Comp.c
+ * @brief Standalone component
+#set( $Date$ = "dummy" )
+ * @date \$Date$
+ *
+ * @author ${tmpltHelper.convertAuthorDoc(${rtcParam.docCreator})}
+ *
+ * ${tmpltHelper.convertDoc(${rtcParam.docLicense})}
+ *
+#set( $Id$ = "dummy" )
+ * \$Id$
+ */
+
+${sharp}include "UserCommon.h"
+${sharp}include "UserConfig.h"
+${sharp}include "DataPortConctMng.h"
+${sharp}include "MyObjectKey.h"
+
+/* The connection setting table */ 
+const DataPortConctSetting_t gsDataPortConctSettingTbl[DATAPORT_CONNECT_NUM] =
+{
+    {
+        OBJECTKEY_DEMOLED_INPUT,                  /* InPortID(ObjectKey) */
+        OBJECTKEY_DEMOACCELERATION_OUTPUT,        /* OutPortID(ObjectKey) */
+        12,                                       /* Data length(byte) */
+        RESERVE_FOR_DATAPORT_CONCT_CREATE_TBL,    /* Reserve */
+    }
+};
+
