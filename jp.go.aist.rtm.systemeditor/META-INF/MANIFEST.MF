@@ -5,13 +5,13 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: jp.go.aist.rtm.systemeditor;singleton:=true
 Bundle-Version: 1.1.0.rc4v20130124
+Bundle-ClassPath: .,lib/velocity-1.6.3-dep.jar
 Bundle-Activator: jp.go.aist.rtm.systemeditor.RTSystemEditorPlugin
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.gef;visibility:=reexport,jp.go.aist.rtm.to
  olscommon,jp.go.aist.rtm.nameserviceview,jp.go.aist.rtm.toolscommon.p
  rofiles,jp.go.aist.rtm.repositoryView
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: .
 Export-Package: jp.go.aist.rtm.systemeditor,jp.go.aist.rtm.systemedito
  r._debug,jp.go.aist.rtm.systemeditor._test,jp.go.aist.rtm.systemedito
  r.adapterfactory,jp.go.aist.rtm.systemeditor.extension,jp.go.aist.rtm
