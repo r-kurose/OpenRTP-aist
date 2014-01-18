@@ -1402,8 +1402,8 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 				setRequired(REQUIRED_EDEFAULT);
 				return;
 			case ComponentPackage.COMPONENT__LANGUAGE_TYPE:
-				System.out.println("eUnSet setLanguage newValue="+(String)newValue);
-				setLanguage((String)newValue);
+				//System.out.println("eUnSet setLanguage newValue="+(String)newValue);
+				setLanguage(LANGUAGE_TYPE_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
