@@ -670,7 +670,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 				{
 					System.out.println("Creates table files  for RTMSafety");
 					final String TEMPLATE_PATH = "jp/go/aist/rtm/systemeditor/template";
-					String template = TEMPLATE_PATH + "/" +"DataPortContTbl.c.vsl";
+					String template = TEMPLATE_PATH + "/" +"DataPortConctTbl.c.vsl";
 					ClassLoader cl = Thread.currentThread().getContextClassLoader();
 					System.out.println("Loads class for RTMSafety");
 					System.out.print("template:");
