@@ -1,14 +1,10 @@
 package jp.go.aist.rtm.systemeditor.ui.editor;
 
-//<+zxc
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-//zxc+>
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
@@ -17,8 +13,10 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.EventObject;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -27,6 +25,7 @@ import jp.go.aist.rtm.systemeditor.RTSystemEditorPlugin;
 import jp.go.aist.rtm.systemeditor.extension.SaveProfileExtension;
 import jp.go.aist.rtm.systemeditor.factory.ProfileSaver;
 import jp.go.aist.rtm.systemeditor.nl.Messages;
+import jp.go.aist.rtm.systemeditor.template.TemplateUtil;
 import jp.go.aist.rtm.systemeditor.ui.action.OpenCompositeComponentAction;
 import jp.go.aist.rtm.systemeditor.ui.dialog.ProfileInformationDialog;
 import jp.go.aist.rtm.systemeditor.ui.editor.action.ChangeComponentDirectionAction;
@@ -104,6 +103,8 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.openrtp.namespaces.rts.version02.RtsProfileExt;
 
 import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
+
+import jp.go.aist.rtm.systemeditor.generator.GeneratedResult;
 
 public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 
@@ -518,7 +519,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	protected void save(IFile file, IProgressMonitor progressMonitor)
 			throws CoreException {
 		
-		System.out.println("save() entry");
+		System.out.println("AbstractSystemDiagramEditor.save() entry");
 		List<AbstractSystemDiagramEditor> editors = new ArrayList<AbstractSystemDiagramEditor>();
 		editors.add(this);
 		
@@ -668,23 +669,37 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 				if(languageKind.equals("RTMSafety"))
 				{
 					System.out.println("Creates table files  for RTMSafety");
-					
 					final String TEMPLATE_PATH = "jp/go/aist/rtm/systemeditor/template";
 					String template = TEMPLATE_PATH + "/" +"DataPortContTbl.c.vsl";
 					ClassLoader cl = Thread.currentThread().getContextClassLoader();
 					System.out.println("Loads class for RTMSafety");
+					System.out.print("template:");
+					System.out.println(template);
 					InputStream ins = cl.getResourceAsStream(template);
 					System.out.println("Opens file.");
-					String outfile = "src/" + "testtabel.c";
+					String outfile = "src/" + "testtable.c";
+					System.out.print("outfile:");
+					System.out.println(outfile);
+					System.out.println("save 430");
 					Map<String, Object> contextMap = new HashMap<String, Object>();
-					//GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, outfile);
+					System.out.println("save 440");
+					contextMap.put("template", TEMPLATE_PATH);
+					System.out.println("save 450");
+
+					//jp.go.aist.rtm.systemeditor.ui.editor.TemplateUtil2 temp = new jp.go.aist.rtm.systemeditor.ui.editor.TemplateUtil2();
+					//jp.go.aist.rtm.systemeditor.template.TemplateUtil.createGeneratedResultDM2();
+					System.out.println("save 455");
+					//TemplateUtil3.testStaticMethod1();
+					System.out.println("save 456");
+					//TemplateUtil2.createGeneratedResultDM2();
+					GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, outfile);
+					System.out.println("save 460");
 					System.out.println("Creates file.");
 					if (ins != null) {
 						System.out.println("Closes file. 1");
 						ins.close();
 						System.out.println("Closes file. 2");
 					}		
-					
 				}
 			}
 			//zxc+>
@@ -703,7 +718,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					.getClass().getName(), 0, Messages.getString("AbstractSystemDiagramEditor.28"), e); //$NON-NLS-1$
 			throw new CoreException(status);
 		}
-		System.out.println("save() return");
+		System.out.println("AbstractSystemDiagramEditor.save() return");
 	}
 
 	private Component getLocalObject(SystemDiagram systemDiagram,
