@@ -1,0 +1,73 @@
+// -*- C -*-
+/*!
+ * @file RtcCreateTbl.c
+ * @brief RTC creation table
+#set( $Date$ = "dummy" )
+ * @date \$Date$
+ *
+#set( $Id$ = "dummy" )
+ * \$Id$
+ */
+
+${sharp}include "UserCommon.h"
+${sharp}include "UserConfig.h"
+${sharp}include "RtObject.h"
+${sharp}include "OutputRTC.h"
+${sharp}include "InputRTC.h"
+${sharp}include "MyObjectKey.h"
+${sharp}include "DemoAcceleration.h"
+${sharp}include "DemoLed.h"
+
+/* RTC creation table */
+const RtcCreate_t gsRtcCreates[RTC_NUM] =
+{
+    {/* InputRTC setting */
+        DemoAcceleration_create,        /* RTC creation method(Please set up the function which performs the create event of RTC.) */
+        RTC_INDEX_DEMO_ACCELERATION,    /* RTCID(ObjectKey) */
+        RESERVE_FOR_RTC_CREATE_TBL,     /* Reserve */
+        { /* Please set up Index of DataPort which RTC has. (set up 0, when there is nothing) */
+            DATAPORT_INDEX_DEMO_ACCELERATION,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+        }/* A maximum of 16 */
+    },
+    {/* InputRTC setting */
+        DemoLed_create,                /* RTC creation method(Please set up the function which performs the create event of RTC.) */
+        RTC_INDEX_DEMO_LED,            /* RTCID(ObjectKey) */
+        RESERVE_FOR_RTC_CREATE_TBL,    /* Reserve */
+        { /* Please set up Index of DataPort which RTC has. (set up 0, when there is nothing) */
+            DATAPORT_INDEX_DEMO_LED,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+        }/* A maximum of 16 */
+    }
+};
+
+
+
