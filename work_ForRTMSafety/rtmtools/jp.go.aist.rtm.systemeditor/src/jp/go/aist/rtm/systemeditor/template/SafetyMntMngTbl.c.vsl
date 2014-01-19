@@ -1,0 +1,68 @@
+// -*- C -*-
+/*!
+ * @file SafetyMntMngTbl.c
+ * @brief Survival information surveillance setting table
+#set( $Date$ = "dummy" )
+ * @date \$Date$
+ *
+#set( $Id$ = "dummy" )
+ * \$Id$
+ */
+${sharp}include "UserCommon.h"
+${sharp}include "SafetyMntMng.h"
+${sharp}include "MyObjectKey.h"
+
+/* Survival information surveillance setting table */
+/* Please set up here the object which supervises a life cycle state. */
+const SafetyMntSetting_t gsSafetyMntSettingTbl[RTC_MNT_NUM] = 
+{
+    {
+        OBJECTKEY_DEMOACCELERATION  /* RTCID for surveillance */
+    },
+    {
+        OBJECTKEY_DEMOLED           /* RTCID for surveillance */
+    },
+    {
+        OBJECTKEY_EMPTY
+    },
+    {
+        OBJECTKEY_EMPTY
+    },
+    {
+        OBJECTKEY_EMPTY
+    },
+    {
+        OBJECTKEY_EMPTY
+    },
+    {
+        OBJECTKEY_EMPTY
+    },
+    {
+        OBJECTKEY_EMPTY
+    },
+    {
+        OBJECTKEY_EMPTY
+    },
+    {
+        OBJECTKEY_EMPTY
+    },
+    {
+        OBJECTKEY_EMPTY
+    },
+    {
+        OBJECTKEY_EMPTY
+    },
+    {
+        OBJECTKEY_EMPTY
+    },
+    {
+        OBJECTKEY_EMPTY
+    },
+    {
+        OBJECTKEY_EMPTY
+    },
+    {
+        OBJECTKEY_EMPTY
+    }
+};
+
