@@ -1,7 +1,7 @@
 // -*- C -*-
 /*!
  * @file DataPortConctTbl.c
- * @brief Standalone component
+ * @brief The connection setting table
 #set( $Date$ = "dummy" )
  * @date \$Date$
  *
