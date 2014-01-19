@@ -1,13 +1,10 @@
 // -*- C -*-
 /*!
- * @file ${rtcParam.name}Comp.c
+ * @file DataPortConctTbl.c
  * @brief Standalone component
 #set( $Date$ = "dummy" )
  * @date \$Date$
  *
- * @author ${tmpltHelper.convertAuthorDoc(${rtcParam.docCreator})}
- *
- * ${tmpltHelper.convertDoc(${rtcParam.docLicense})}
  *
 #set( $Id$ = "dummy" )
  * \$Id$

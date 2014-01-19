@@ -1,5 +1,11 @@
 package jp.go.aist.rtm.systemeditor.ui.editor;
 
+//<+zxc
+import java.io.File;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.PrintWriter;
+//zxc+>
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.FileNotFoundException;
@@ -685,13 +691,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					System.out.println("save 440");
 					contextMap.put("template", TEMPLATE_PATH);
 					System.out.println("save 450");
-
-					//jp.go.aist.rtm.systemeditor.ui.editor.TemplateUtil2 temp = new jp.go.aist.rtm.systemeditor.ui.editor.TemplateUtil2();
-					//jp.go.aist.rtm.systemeditor.template.TemplateUtil.createGeneratedResultDM2();
-					System.out.println("save 455");
-					//TemplateUtil3.testStaticMethod1();
-					System.out.println("save 456");
-					//TemplateUtil2.createGeneratedResultDM2();
 					GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, outfile);
 					System.out.println("save 460");
 					System.out.println("Creates file.");
@@ -699,8 +698,49 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 						System.out.println("Closes file. 1");
 						ins.close();
 						System.out.println("Closes file. 2");
-					}		
+					}
+					System.out.println("save 470 resource.getURI().devicePath()="+resource.getURI().devicePath());
+					System.out.println("save 471 resource.getURI().device()="+resource.getURI().device());
+					System.out.println("save 472 resource.getURI().path()="+resource.getURI().path());
+					System.out.println("save 473 resource.getURI().fileExtension()="+resource.getURI().fileExtension());
+					System.out.println("save 474 file.getLocation().lastSegment()="+file.getLocation().lastSegment());
+					System.out.println("save 475 file.getLocation().toOSString())="+file.getLocation().toOSString());
+					String tablepath = file.getLocation().toOSString();
+					int lastDotPos = tablepath.lastIndexOf('\\');
+					System.out.println("save 475 tablepath.lastIndexOf('.')="+lastDotPos);
+					if (lastDotPos == -1) 
+					{
+						;
+					} 
+					else if (lastDotPos == 0) 
+					{
+						;
+					} 
+					else 
+					{
+						tablepath = tablepath.substring(0, lastDotPos);
+					}
+					System.out.println("save 476 tablepath="+tablepath);
+					String dataPortContct = tablepath+"\\DataPortConctTbl.c";
+					System.out.println("save 476 tablepath="+dataPortContct);
+					//File targetFile = new File("DataPortConctTbl.c");
+					File targetFile = new File(dataPortContct);
+					System.out.println("save 480");
+					FileWriter filewriter = new FileWriter(targetFile);
+					System.out.println("save 490");
+					BufferedWriter bw = new BufferedWriter(filewriter);
+					System.out.println("save 495");
+					PrintWriter pw = new PrintWriter(bw);
+					System.out.println("save 500");
+					pw.println(gr.getCode());
+					System.out.println("save 600");
+					pw.close();
+					System.out.println("save 700");
+					System.out.println(gr.getCode());
+					System.out.println("save 800");
+
 				}
+
 			}
 			//zxc+>
 			progressMonitor.worked(6);
