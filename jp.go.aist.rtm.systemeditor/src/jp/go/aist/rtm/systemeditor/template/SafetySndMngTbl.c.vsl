@@ -1,0 +1,37 @@
+// -*- C -*-
+/*!
+ * @file SafetySndMngTbl.c
+ * @brief Survival information addressee setting table
+#set( $Date$ = "dummy" )
+ * @date \$Date$
+ *
+#set( $Id$ = "dummy" )
+ * \$Id$
+ */
+
+${sharp}include "UserCommon.h"
+${sharp}include "UserConfig.h"
+${sharp}include "SafetySndMng.h"
+${sharp}include "MyObjectKey.h"
+
+/* Survival information addressee setting table */
+/* Please set up the notice addressee of survival here. */
+/* Fundamentally, please set up only Bridge and RTCLifeCycleMnt (survival surveillance task). */
+const SafetySndSetting_t gsSafetySndSettingTbl =
+{
+    OBJECTKEY_EMPTY,                    /* Bridge(When not transmitting to Bridge   Or when there is no Bridge, please set up OBJECTKEY_EMPTY. */
+    {/* Addressees other than Bridge(Please set up OBJECTKEY_EMPTY, when there is nothing.) */
+        OBJECTKEY_RTC_LIFE_CYCLE_MNT,   /* RTCLifeCycleMnt(Survival surveillance task) */
+        OBJECTKEY_EMPTY,                /* Empty ObjectKey */
+        OBJECTKEY_EMPTY,
+        OBJECTKEY_EMPTY,
+        OBJECTKEY_EMPTY,
+        OBJECTKEY_EMPTY,
+        OBJECTKEY_EMPTY,
+        OBJECTKEY_EMPTY,
+        OBJECTKEY_EMPTY,
+        OBJECTKEY_EMPTY
+    }/* RTC_SND_NUM */
+};
+
+
