@@ -1,0 +1,43 @@
+// -*- C -*-
+/*!
+ * @file FaultDiagnosisMngTbl.c
+ * @brief Self-diagnosis management table 
+#set( $Date$ = "dummy" )
+ * @date \$Date$
+ *
+#set( $Id$ = "dummy" )
+ * \$Id$
+ */
+
+
+${sharp}include "UserCommon.h"
+${sharp}include "UserConfig.h"
+${sharp}include "SelfDiagnostic.h"
+${sharp}include "MyObjectKey.h"
+
+ReturnCode_t checkFunc( void );
+void errorHandler( void );
+
+/* Self-diagnosis management table */
+const FaultDiagnosisMng_t gsDiagnosisMng[RTC_SELF_DIAGNOS] =
+{
+    {
+        checkFunc,                  /* The method for self-diagnoses */
+        errorHandler                /* The method for self-diagnosis error handling */
+    }
+};
+
+/* The method for self-diagnoses */
+ReturnCode_t checkFunc(void){
+    /* Please implement processing for self-diagnoses here. */
+    /* Regards it as an error, if values other than RTC_OK are returned. */
+    return RTC_OK;
+}
+
+/* The method for self-diagnosis error handling */
+void errorHandler(void){
+    /* Please implement processing for an error of the result of self-diagnosis here. */
+    return;
+}
+
+
