@@ -753,7 +753,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					System.out.println("save 500");
 					System.out.println("save 600");
 					System.out.println("save 700");
-					System.out.println(gr.getCode());
+					//System.out.println(gr.getCode());
 					System.out.println("save 800");
 					}
 					//
@@ -783,7 +783,26 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					PrintWriter pw = new PrintWriter(bw);
 					pw.println(gr.getCode());
 					pw.close();
-					System.out.println(gr.getCode());
+					//System.out.println(gr.getCode());
+					}
+					//
+					//EcAwakingTbl.c
+					//
+					{
+					String template = TEMPLATE_PATH + "/" +"EcAwakingTbl.c.vsl";
+					ClassLoader cl = Thread.currentThread().getContextClassLoader();
+					InputStream ins = cl.getResourceAsStream(template);
+					String dataPortContct = tablepath+"\\EcAwakingTbl.c";
+					Map<String, Object> contextMap = new HashMap<String, Object>();
+					contextMap.put("template", TEMPLATE_PATH);
+					GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
+					File targetFile = new File(dataPortContct);
+					FileWriter filewriter = new FileWriter(targetFile);
+					BufferedWriter bw = new BufferedWriter(filewriter);
+					PrintWriter pw = new PrintWriter(bw);
+					pw.println(gr.getCode());
+					pw.close();
+					//System.out.println(gr.getCode());
 					}
 				}
 
