@@ -18,7 +18,6 @@ ${sharp}include "MyObjectKey.h"
 /* The connection setting table */ 
 const DataPortConctSetting_t gsDataPortConctSettingTbl[DATAPORT_CONNECT_NUM] =
 {
-$conns_num
 #foreach($key in $connectPorts.keySet())
     {
         OBJECTKEY_${key.toUpperCase()}, /* InPortID(ObjectKey) */
