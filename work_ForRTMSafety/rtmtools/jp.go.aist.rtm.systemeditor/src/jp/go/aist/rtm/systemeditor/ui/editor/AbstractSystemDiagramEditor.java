@@ -9,6 +9,7 @@ import java.io.ByteArrayInputStream;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.openrtp.namespaces.rts.version02.DataportConnector;
 import org.openrtp.namespaces.rts.version02.TargetPort;
+//import org.openrtp.namespaces.rts.version02.Component;
 //zxc+>
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -680,9 +681,26 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 				{
 					System.out.println("Creates table files  for RTMSafety");
 					final String TEMPLATE_PATH = "jp/go/aist/rtm/systemeditor/template";
+					String tablepath = file.getLocation().toOSString();
+					int lastDotPos = tablepath.lastIndexOf('\\');
+					System.out.println("save 475 tablepath.lastIndexOf('.')="+lastDotPos);
+					if (lastDotPos == -1) 
+					{
+						;
+					} 
+					else if (lastDotPos == 0) 
+					{
+						;
+					} 
+					else 
+					{
+						tablepath = tablepath.substring(0, lastDotPos);
+					}
+					System.out.println("save 476 tablepath="+tablepath);
 					//
 					//DataPortConctTbl.c
 					//
+					{
 					System.out.println("DataPortConctTbl.c");
 					String template = TEMPLATE_PATH + "/" +"DataPortConctTbl.c.vsl";
 					ClassLoader cl = Thread.currentThread().getContextClassLoader();
@@ -702,8 +720,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					Map connsMap = new HashMap();
 					for(DataportConnector conn : conns)
 					{
-						//contextMap.put("TargetDataPort", conn.getTargetDataPort().getPortName().replace(".", "_"));
-						//contextMap.put("SourceDataPort", conn.getSourceDataPort().getPortName().replace(".", "_"));
 						connsMap.put(conn.getTargetDataPort().getPortName().replace(".", "_"),conn.getSourceDataPort().getPortName().replace(".", "_"));
 					}
 					contextMap.put("connectPorts", connsMap);
@@ -722,22 +738,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					System.out.println("save 473 resource.getURI().fileExtension()="+resource.getURI().fileExtension());
 					System.out.println("save 474 file.getLocation().lastSegment()="+file.getLocation().lastSegment());
 					System.out.println("save 475 file.getLocation().toOSString())="+file.getLocation().toOSString());
-					String tablepath = file.getLocation().toOSString();
-					int lastDotPos = tablepath.lastIndexOf('\\');
-					System.out.println("save 475 tablepath.lastIndexOf('.')="+lastDotPos);
-					if (lastDotPos == -1) 
-					{
-						;
-					} 
-					else if (lastDotPos == 0) 
-					{
-						;
-					} 
-					else 
-					{
-						tablepath = tablepath.substring(0, lastDotPos);
-					}
-					System.out.println("save 476 tablepath="+tablepath);
 					String dataPortContct = tablepath+"\\DataPortConctTbl.c";
 					System.out.println("save 476 tablepath="+dataPortContct);
 					File targetFile = new File(dataPortContct);
@@ -755,10 +755,36 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					System.out.println("save 700");
 					System.out.println(gr.getCode());
 					System.out.println("save 800");
+					}
 					//
+					//DataPortCreateTbl.c.vsl
 					//
-					//
-
+					{
+					String template = TEMPLATE_PATH + "/" +"DataPortCreateTbl.c.vsl";
+					ClassLoader cl = Thread.currentThread().getContextClassLoader();
+					InputStream ins = cl.getResourceAsStream(template);
+					String dataPortContct = tablepath+"\\DataPortCreateTbl.c";
+					Map<String, Object> contextMap = new HashMap<String, Object>();
+					contextMap.put("template", TEMPLATE_PATH);
+					List<org.openrtp.namespaces.rts.version02.Component> componetns = profile.getComponents();
+					ArrayList complist = new ArrayList();
+					for(org.openrtp.namespaces.rts.version02.Component comp :componetns)
+					{
+						if(!comp.getDataPorts().isEmpty())
+						{
+							complist.add(comp.getInstanceName()); 
+						}
+					}
+					contextMap.put("ports", complist);
+					GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
+					File targetFile = new File(dataPortContct);
+					FileWriter filewriter = new FileWriter(targetFile);
+					BufferedWriter bw = new BufferedWriter(filewriter);
+					PrintWriter pw = new PrintWriter(bw);
+					pw.println(gr.getCode());
+					pw.close();
+					System.out.println(gr.getCode());
+					}
 				}
 
 			}

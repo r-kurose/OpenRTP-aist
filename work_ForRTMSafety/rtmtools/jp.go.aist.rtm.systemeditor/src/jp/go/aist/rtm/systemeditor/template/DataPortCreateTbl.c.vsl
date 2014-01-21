@@ -18,10 +18,9 @@ ${sharp}include "MyObjectKey.h"
 /* DataPort creation table */
 const DataPortCreate_t gsDataPortCreates[DATAPORT_NUM] =
 {
+#foreach($port in $ports))
     {
-        DATAPORT_INDEX_DEMO_ACCELERATION,
+        DATAPORT_INDEX_${port.toUpperCase()},
     },
-    {
-        DATAPORT_INDEX_DEMO_LED,
-    }
+#end
 };
