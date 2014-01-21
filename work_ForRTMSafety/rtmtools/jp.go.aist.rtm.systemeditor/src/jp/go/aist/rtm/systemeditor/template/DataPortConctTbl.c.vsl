@@ -18,11 +18,16 @@ ${sharp}include "MyObjectKey.h"
 /* The connection setting table */ 
 const DataPortConctSetting_t gsDataPortConctSettingTbl[DATAPORT_CONNECT_NUM] =
 {
+$conns_num
+#foreach($key in $connectPorts.keySet())
     {
-        OBJECTKEY_DEMOLED_INPUT,                  /* InPortID(ObjectKey) */
-        OBJECTKEY_DEMOACCELERATION_OUTPUT,        /* OutPortID(ObjectKey) */
+        OBJECTKEY_${key.toUpperCase()}, /* InPortID(ObjectKey) */
+        OBJECTKEY_${connectPorts.get($key).toUpperCase()}, /* OutPortID(ObjectKey) */
         12,                                       /* Data length(byte) */
         RESERVE_FOR_DATAPORT_CONCT_CREATE_TBL,    /* Reserve */
+
     }
+#end
 };
+
 

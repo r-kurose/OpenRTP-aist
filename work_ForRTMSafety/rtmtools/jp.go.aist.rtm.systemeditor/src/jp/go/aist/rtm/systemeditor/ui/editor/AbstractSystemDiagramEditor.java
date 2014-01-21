@@ -5,6 +5,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.PrintWriter;
+import java.io.ByteArrayInputStream;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.openrtp.namespaces.rts.version02.DataportConnector;
+import org.openrtp.namespaces.rts.version02.TargetPort;
 //zxc+>
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -676,11 +680,14 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 				{
 					System.out.println("Creates table files  for RTMSafety");
 					final String TEMPLATE_PATH = "jp/go/aist/rtm/systemeditor/template";
+					//
+					//DataPortConctTbl.c
+					//
+					System.out.println("DataPortConctTbl.c");
 					String template = TEMPLATE_PATH + "/" +"DataPortConctTbl.c.vsl";
 					ClassLoader cl = Thread.currentThread().getContextClassLoader();
 					System.out.println("Loads class for RTMSafety");
-					System.out.print("template:");
-					System.out.println(template);
+					System.out.println("template:"+template);
 					InputStream ins = cl.getResourceAsStream(template);
 					System.out.println("Opens file.");
 					String outfile = "src/" + "testtable.c";
@@ -690,6 +697,16 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					Map<String, Object> contextMap = new HashMap<String, Object>();
 					System.out.println("save 440");
 					contextMap.put("template", TEMPLATE_PATH);
+					List<DataportConnector> conns = profile.getDataPortConnectors();
+					int ic = 0;
+					Map connsMap = new HashMap();
+					for(DataportConnector conn : conns)
+					{
+						//contextMap.put("TargetDataPort", conn.getTargetDataPort().getPortName().replace(".", "_"));
+						//contextMap.put("SourceDataPort", conn.getSourceDataPort().getPortName().replace(".", "_"));
+						connsMap.put(conn.getTargetDataPort().getPortName().replace(".", "_"),conn.getSourceDataPort().getPortName().replace(".", "_"));
+					}
+					contextMap.put("connectPorts", connsMap);
 					System.out.println("save 450");
 					GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, outfile);
 					System.out.println("save 460");
@@ -723,21 +740,24 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					System.out.println("save 476 tablepath="+tablepath);
 					String dataPortContct = tablepath+"\\DataPortConctTbl.c";
 					System.out.println("save 476 tablepath="+dataPortContct);
-					//File targetFile = new File("DataPortConctTbl.c");
 					File targetFile = new File(dataPortContct);
-					System.out.println("save 480");
 					FileWriter filewriter = new FileWriter(targetFile);
-					System.out.println("save 490");
 					BufferedWriter bw = new BufferedWriter(filewriter);
-					System.out.println("save 495");
 					PrintWriter pw = new PrintWriter(bw);
-					System.out.println("save 500");
 					pw.println(gr.getCode());
-					System.out.println("save 600");
 					pw.close();
+					System.out.println("save 480");
+
+					System.out.println("save 490");
+					System.out.println("save 495");
+					System.out.println("save 500");
+					System.out.println("save 600");
 					System.out.println("save 700");
 					System.out.println(gr.getCode());
 					System.out.println("save 800");
+					//
+					//
+					//
 
 				}
 

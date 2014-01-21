@@ -80,15 +80,6 @@ public class TemplateUtil {
 		System.out.println("createGeneratedResult");
 		return new GeneratedResult(fileName, generate(in, contextMap));
 	}
-	public static String createGeneratedResultDM(InputStream in,
-			Map<String, Object> contextMap, String fileName) {
-		System.out.println("createGeneratedResultDM");
-		return "Test";
-	}
-	public static void createGeneratedResultDM2() {
-		System.out.println("createGeneratedResultDM");
-		return ;
-	}
 
 	/**
 	 * 設定済みのVelocityEngineを取得する
@@ -160,6 +151,7 @@ public class TemplateUtil {
 		System.out.println("Template.generate 030");
 		for (Iterator iter = contextMap.entrySet().iterator(); iter.hasNext();) {
 			Map.Entry element = (Map.Entry) iter.next();
+			System.out.println(element.getKey()+"  "+ element.getValue());
 			vc.put((String) element.getKey(), element.getValue());
 		}
 
