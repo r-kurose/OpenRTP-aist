@@ -814,6 +814,34 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					//System.out.println(gr.getCode());
 					}
 					//
+					//RtcEcCreateTbl.c
+					//
+					{
+					String template = TEMPLATE_PATH + "/" +"RtcEcCreateTbl.c.vsl";
+					ClassLoader cl = Thread.currentThread().getContextClassLoader();
+					InputStream ins = cl.getResourceAsStream(template);
+					String dataPortContct = tablepath+"\\RtcEcCreateTbl.c";
+					Map<String, Object> contextMap = new HashMap<String, Object>();
+					contextMap.put("template", TEMPLATE_PATH);
+					List<org.openrtp.namespaces.rts.version02.Component> componetns = profile.getComponents();
+					ArrayList complist = new ArrayList();
+					for(org.openrtp.namespaces.rts.version02.Component comp :componetns)
+					{
+						System.out.println(comp.getId());
+						String[] strary = comp.getId().split(":");
+						complist.add(strary[3]); 
+					}
+					contextMap.put("comps", complist);
+					GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
+					File targetFile = new File(dataPortContct);
+					FileWriter filewriter = new FileWriter(targetFile);
+					BufferedWriter bw = new BufferedWriter(filewriter);
+					PrintWriter pw = new PrintWriter(bw);
+					pw.println(gr.getCode());
+					pw.close();
+					System.out.println(gr.getCode());
+					}
+					//
 					//EcAwakingTbl.c
 					//
 					{
