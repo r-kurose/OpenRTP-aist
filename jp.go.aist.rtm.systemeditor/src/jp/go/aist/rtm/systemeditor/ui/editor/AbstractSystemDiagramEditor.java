@@ -9,7 +9,6 @@ import java.io.ByteArrayInputStream;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.openrtp.namespaces.rts.version02.DataportConnector;
 import org.openrtp.namespaces.rts.version02.TargetPort;
-//import org.openrtp.namespaces.rts.version02.Component;
 //zxc+>
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -679,7 +678,10 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 				}	
 				if(languageKind.equals("RTMSafety"))
 				{
-					System.out.println("Creates table files  for RTMSafety");
+					IWorkspace ws = ResourcesPlugin.getWorkspace();
+					IProject iproject = ws.getRoot().getProject(RTCLINK_PROJECT_NAME);
+				 	System.out.println("ws.getRoot()="+ws.getRoot());
+				 	System.out.println("Creates table files  for RTMSafety");
 					final String TEMPLATE_PATH = "jp/go/aist/rtm/systemeditor/template";
 					String tablepath = file.getLocation().toOSString();
 					int lastDotPos = tablepath.lastIndexOf('\\');
@@ -696,6 +698,13 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					{
 						tablepath = tablepath.substring(0, lastDotPos);
 					}
+					String makepath = tablepath + "\\" + "make";
+					String[] ids = profile.getId().split(":");
+					tablepath = tablepath + "\\" + ids[2];
+					File newdir = new File(tablepath);
+					newdir.mkdir();
+					File makedir = new File(makepath);
+					makedir.mkdir();
 					System.out.println("save 476 tablepath="+tablepath);
 					//
 					//DataPortConctTbl.c
@@ -940,7 +949,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					}
 					contextMap.put("comps", complist);
 					contextMap.put("build_config", "Debug");
-					String dataPortContct = tablepath+"\\"+id[2]+"_Deubg";
+					String dataPortContct = makepath+"\\"+id[2]+"_Deubg";
 					GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
 					File targetFile = new File(dataPortContct);
 					FileWriter filewriter = new FileWriter(targetFile);
@@ -952,7 +961,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					cl = Thread.currentThread().getContextClassLoader();
 					ins = cl.getResourceAsStream(template);
 					contextMap.put("build_config", "Release");
-					dataPortContct = tablepath+"\\"+id[2]+"_Release";
+					dataPortContct = makepath+"\\"+id[2]+"_Release";
 					gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
 					targetFile = new File(dataPortContct);
 					filewriter = new FileWriter(targetFile);
