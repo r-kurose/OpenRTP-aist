@@ -867,6 +867,25 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					PrintWriter pw = new PrintWriter(bw);
 					pw.println(gr.getCode());
 					pw.close();
+					//System.out.println(gr.getCode());
+					}
+					//
+					//FaultDiagnosisMngTbl.c
+					//
+					{
+					String template = TEMPLATE_PATH + "/" +"FaultDiagnosisMngTbl.c.vsl";
+					ClassLoader cl = Thread.currentThread().getContextClassLoader();
+					InputStream ins = cl.getResourceAsStream(template);
+					String dataPortContct = tablepath+"\\FaultDiagnosisMngTbl.c";
+					Map<String, Object> contextMap = new HashMap<String, Object>();
+					contextMap.put("template", TEMPLATE_PATH);
+					GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
+					File targetFile = new File(dataPortContct);
+					FileWriter filewriter = new FileWriter(targetFile);
+					BufferedWriter bw = new BufferedWriter(filewriter);
+					PrintWriter pw = new PrintWriter(bw);
+					pw.println(gr.getCode());
+					pw.close();
 					System.out.println(gr.getCode());
 					}
 				}
