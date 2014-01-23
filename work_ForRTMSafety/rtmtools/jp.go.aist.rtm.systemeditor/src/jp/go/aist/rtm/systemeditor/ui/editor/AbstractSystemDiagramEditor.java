@@ -684,7 +684,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 				 	System.out.println("Creates table files  for RTMSafety");
 					final String TEMPLATE_PATH = "jp/go/aist/rtm/systemeditor/template";
 					String tablepath = file.getLocation().toOSString();
-					int lastDotPos = tablepath.lastIndexOf('\\');
+					int lastDotPos = tablepath.lastIndexOf(File.separator);
 					System.out.println("save 475 tablepath.lastIndexOf('.')="+lastDotPos);
 					if (lastDotPos == -1) 
 					{
@@ -698,9 +698,9 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					{
 						tablepath = tablepath.substring(0, lastDotPos);
 					}
-					String makepath = tablepath + "\\" + "make";
+					String makepath = tablepath + File.separator + "make";
 					String[] ids = profile.getId().split(":");
-					tablepath = tablepath + "\\" + ids[2];
+					tablepath = tablepath + File.separator + ids[2];
 					File newdir = new File(tablepath);
 					newdir.mkdir();
 					File makedir = new File(makepath);
@@ -728,7 +728,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					if (ins != null) {
 						ins.close();
 					}
-					String dataPortContct = tablepath+"\\DataPortConctTbl.c";
+					String dataPortContct = tablepath+File.separator+"DataPortConctTbl.c";
 					File targetFile = new File(dataPortContct);
 					FileWriter filewriter = new FileWriter(targetFile);
 					BufferedWriter bw = new BufferedWriter(filewriter);
@@ -745,11 +745,11 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					String template = TEMPLATE_PATH + "/" +"DataPortCreateTbl.c.vsl";
 					ClassLoader cl = Thread.currentThread().getContextClassLoader();
 					InputStream ins = cl.getResourceAsStream(template);
-					String dataPortContct = tablepath+"\\DataPortCreateTbl.c";
+					String dataPortContct = tablepath+File.separator+"DataPortCreateTbl.c";
 					Map<String, Object> contextMap = new HashMap<String, Object>();
 					contextMap.put("template", TEMPLATE_PATH);
 					List<org.openrtp.namespaces.rts.version02.Component> componetns = profile.getComponents();
-					ArrayList complist = new ArrayList();
+					ArrayList<String> complist = new ArrayList<String>();
 					for(org.openrtp.namespaces.rts.version02.Component comp :componetns)
 					{
 						if(!comp.getDataPorts().isEmpty())
@@ -774,7 +774,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					String template = TEMPLATE_PATH + "/" +"RtcCreateTbl.c.vsl";
 					ClassLoader cl = Thread.currentThread().getContextClassLoader();
 					InputStream ins = cl.getResourceAsStream(template);
-					String dataPortContct = tablepath+"\\RtcCreateTbl.c";
+					String dataPortContct = tablepath+File.separator+"RtcCreateTbl.c";
 					Map<String, Object> contextMap = new HashMap<String, Object>();
 					contextMap.put("template", TEMPLATE_PATH);
 					List<org.openrtp.namespaces.rts.version02.Component> componetns = profile.getComponents();
@@ -802,7 +802,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					String template = TEMPLATE_PATH + "/" +"RtcEcCreateTbl.c.vsl";
 					ClassLoader cl = Thread.currentThread().getContextClassLoader();
 					InputStream ins = cl.getResourceAsStream(template);
-					String dataPortContct = tablepath+"\\RtcEcCreateTbl.c";
+					String dataPortContct = tablepath+File.separator+"RtcEcCreateTbl.c";
 					Map<String, Object> contextMap = new HashMap<String, Object>();
 					contextMap.put("template", TEMPLATE_PATH);
 					List<org.openrtp.namespaces.rts.version02.Component> componetns = profile.getComponents();
@@ -830,7 +830,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					String template = TEMPLATE_PATH + "/" +"EcAwakingTbl.c.vsl";
 					ClassLoader cl = Thread.currentThread().getContextClassLoader();
 					InputStream ins = cl.getResourceAsStream(template);
-					String dataPortContct = tablepath+"\\EcAwakingTbl.c";
+					String dataPortContct = tablepath+File.separator+"EcAwakingTbl.c";
 					Map<String, Object> contextMap = new HashMap<String, Object>();
 					contextMap.put("template", TEMPLATE_PATH);
 					List<org.openrtp.namespaces.rts.version02.Component> componetns = profile.getComponents();
@@ -858,7 +858,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					String template = TEMPLATE_PATH + "/" +"FaultDiagnosisMngTbl.c.vsl";
 					ClassLoader cl = Thread.currentThread().getContextClassLoader();
 					InputStream ins = cl.getResourceAsStream(template);
-					String dataPortContct = tablepath+"\\FaultDiagnosisMngTbl.c";
+					String dataPortContct = tablepath+File.separator+"FaultDiagnosisMngTbl.c";
 					Map<String, Object> contextMap = new HashMap<String, Object>();
 					contextMap.put("template", TEMPLATE_PATH);
 					GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
@@ -877,7 +877,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					String template = TEMPLATE_PATH + "/" +"SafetyMntMngTbl.c.vsl";
 					ClassLoader cl = Thread.currentThread().getContextClassLoader();
 					InputStream ins = cl.getResourceAsStream(template);
-					String dataPortContct = tablepath+"\\SafetyMntMngTbl.c";
+					String dataPortContct = tablepath+File.separator+"SafetyMntMngTbl.c";
 					Map<String, Object> contextMap = new HashMap<String, Object>();
 					contextMap.put("template", TEMPLATE_PATH);
 					List<org.openrtp.namespaces.rts.version02.Component> componetns = profile.getComponents();
@@ -905,7 +905,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					String template = TEMPLATE_PATH + "/" +"SafetySndMngTbl.c.vsl";
 					ClassLoader cl = Thread.currentThread().getContextClassLoader();
 					InputStream ins = cl.getResourceAsStream(template);
-					String dataPortContct = tablepath+"\\SafetySndMngTbl.c";
+					String dataPortContct = tablepath+File.separator+"SafetySndMngTbl.c";
 					Map<String, Object> contextMap = new HashMap<String, Object>();
 					contextMap.put("template", TEMPLATE_PATH);
 					List<org.openrtp.namespaces.rts.version02.Component> componetns = profile.getComponents();
@@ -949,7 +949,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					}
 					contextMap.put("comps", complist);
 					contextMap.put("build_config", "Debug");
-					String dataPortContct = makepath+"\\"+id[2]+"_Deubg";
+					String dataPortContct = makepath+File.separator+id[2]+"_Deubg";
 					GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
 					File targetFile = new File(dataPortContct);
 					FileWriter filewriter = new FileWriter(targetFile);
@@ -961,7 +961,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					cl = Thread.currentThread().getContextClassLoader();
 					ins = cl.getResourceAsStream(template);
 					contextMap.put("build_config", "Release");
-					dataPortContct = makepath+"\\"+id[2]+"_Release";
+					dataPortContct = makepath+File.separator+id[2]+"_Release";
 					gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
 					targetFile = new File(dataPortContct);
 					filewriter = new FileWriter(targetFile);
