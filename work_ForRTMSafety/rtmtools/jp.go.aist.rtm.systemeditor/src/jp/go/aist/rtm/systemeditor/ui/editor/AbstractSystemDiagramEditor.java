@@ -713,7 +713,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					String template = TEMPLATE_PATH + "/" +"DataPortConctTbl.c.vsl";
 					ClassLoader cl = Thread.currentThread().getContextClassLoader();
 					InputStream ins = cl.getResourceAsStream(template);
-					String outfile = "src/" + "testtable.c";
+					String dataPortContct = tablepath+File.separator+"DataPortConctTbl.c";
 					Map<String, Object> contextMap = new HashMap<String, Object>();
 					contextMap.put("template", TEMPLATE_PATH);
 					List<DataportConnector> conns = profile.getDataPortConnectors();
@@ -724,11 +724,10 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 						connsMap.put(conn.getTargetDataPort().getPortName().replace(".", "_"),conn.getSourceDataPort().getPortName().replace(".", "_"));
 					}
 					contextMap.put("connectPorts", connsMap);
-					GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, outfile);
+					GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
 					if (ins != null) {
 						ins.close();
 					}
-					String dataPortContct = tablepath+File.separator+"DataPortConctTbl.c";
 					File targetFile = new File(dataPortContct);
 					FileWriter filewriter = new FileWriter(targetFile);
 					BufferedWriter bw = new BufferedWriter(filewriter);
@@ -1368,6 +1367,41 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	public boolean openConfirm(String title, String message) {
 		return MessageDialog.openConfirm(getSite().getShell(), title, message);
 	}
+	/**
+	 * Creates  DataPortConctTbl.c
+	 */
+	/*
+	public generateDataPortConctTbl()
+	{
+		String template = TEMPLATE_PATH + "/" +"DataPortConctTbl.c.vsl";
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
+		InputStream ins = cl.getResourceAsStream(template);
+		String dataPortContct = tablepath+File.separator+"DataPortConctTbl.c";
+		Map<String, Object> contextMap = new HashMap<String, Object>();
+		contextMap.put("template", TEMPLATE_PATH);
+		List<DataportConnector> conns = profile.getDataPortConnectors();
+		int ic = 0;
+		Map connsMap = new HashMap();
+		for(DataportConnector conn : conns)
+		{
+			connsMap.put(conn.getTargetDataPort().getPortName().replace(".", "_"),conn.getSourceDataPort().getPortName().replace(".", "_"));
+		}
+		contextMap.put("connectPorts", connsMap);
+		GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
+		if (ins != null) 
+		{
+			ins.close();
+		}
+		File targetFile = new File(dataPortContct);
+		FileWriter filewriter = new FileWriter(targetFile);
+		BufferedWriter bw = new BufferedWriter(filewriter);
+		PrintWriter pw = new PrintWriter(bw);
+		pw.println(gr.getCode());
+		pw.close();
+
+		//System.out.println(gr.getCode());
+	}
+	*/
 
 //	private void debugPrint(EditPart part, int size) {
 //		Object model = part.getModel();
