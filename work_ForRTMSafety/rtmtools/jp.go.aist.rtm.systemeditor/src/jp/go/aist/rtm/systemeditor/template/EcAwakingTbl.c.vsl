@@ -40,19 +40,14 @@ const EcAwakingSetting_t gsEcAwakingSettingTbl[EC_AWAKE_SET_NUM] =
         3,                                 /* MinorTimeWindow number */
         1,                                 /* Share MinorTimeWindow number */
         EC_INDEX_RECEIVE_EC                /* wakesup ECIndex */
-    },
+    }#foreach($comp in $comps),
     {
         1,                                 /* Timing of MajorTimeWindow which wakes up(Wakes up at the time of the multiple of thea specification number) */
-        5,                                 /* MinorTimeWindow number */
+       #set($number = $velocityCount+4) $number,                                 /* MinorTimeWindow number */
         5,                                 /* Share MinorTimeWindow number */
-        EC_INDEX_MYRTCEC_DEMO_ACCELERATION /* wakesup ECIndex */
-    },
-    {
-        1,                                 /* Timing of MajorTimeWindow which wakes up(Wakes up at the time of the multiple of thea specification number) */
-        10,                                /* MinorTimeWindow number */
-        2,                                 /* Share MinorTimeWindow number */
-        EC_INDEX_MYRTCEC_DEMO_LED          /* wakesup ECIndex */
-    }
+        EC_INDEX_MYRTCEC_${comp.toUpperCase()} /* wakesup ECIndex */
+    }#end
+
 };
 
 
