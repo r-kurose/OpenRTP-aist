@@ -16,53 +16,11 @@ ${sharp}include "MyObjectKey.h"
 /* Please set up here the object which supervises a life cycle state. */
 const SafetyMntSetting_t gsSafetyMntSettingTbl[RTC_MNT_NUM] = 
 {
+#foreach($comp in $comps)
     {
-        OBJECTKEY_DEMOACCELERATION  /* RTCID for surveillance */
-    },
-    {
-        OBJECTKEY_DEMOLED           /* RTCID for surveillance */
-    },
-    {
-        OBJECTKEY_EMPTY
-    },
-    {
-        OBJECTKEY_EMPTY
-    },
-    {
-        OBJECTKEY_EMPTY
-    },
-    {
-        OBJECTKEY_EMPTY
-    },
-    {
-        OBJECTKEY_EMPTY
-    },
-    {
-        OBJECTKEY_EMPTY
-    },
-    {
-        OBJECTKEY_EMPTY
-    },
-    {
-        OBJECTKEY_EMPTY
-    },
-    {
-        OBJECTKEY_EMPTY
-    },
-    {
-        OBJECTKEY_EMPTY
-    },
-    {
-        OBJECTKEY_EMPTY
-    },
-    {
-        OBJECTKEY_EMPTY
-    },
-    {
-        OBJECTKEY_EMPTY
-    },
-    {
-        OBJECTKEY_EMPTY
-    }
-};
+        OBJECTKEY_${comp.toUpperCase()}  /* RTCID for surveillance */
+    }#if($velocityHasNext),
+#end
+#end
 
+};
