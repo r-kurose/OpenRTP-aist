@@ -25,8 +25,10 @@ const DataPortConctSetting_t gsDataPortConctSettingTbl[DATAPORT_CONNECT_NUM] =
         12,                                       /* Data length(byte) */
         RESERVE_FOR_DATAPORT_CONCT_CREATE_TBL,    /* Reserve */
 
-    }
+    }#if($velocityHasNext),
 #end
+#end
+
 };
 
 
