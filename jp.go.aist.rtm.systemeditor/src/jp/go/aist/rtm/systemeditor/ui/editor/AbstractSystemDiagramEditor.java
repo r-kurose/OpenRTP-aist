@@ -706,296 +706,47 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					File makedir = new File(makepath);
 					makedir.mkdir();
 					System.out.println("save 476 tablepath="+tablepath);
+					Map<String, Object> contextMap = new HashMap<String, Object>();
+					contextMap.put("tablepath", tablepath);
+					contextMap.put("makepath", makepath);
+					contextMap.put("template", TEMPLATE_PATH);
+					contextMap.put("profile", profile);
 					//
 					//DataPortConctTbl.c
 					//
-					{
-					Map<String, Object> contextMap = new HashMap<String, Object>();
-					contextMap.put("tablepath", tablepath);
-					contextMap.put("template", TEMPLATE_PATH);
-					contextMap.put("profile", profile);
 					generateDataPortConctTbl(contextMap);
-					}
-					{
-						/*
-					String template = TEMPLATE_PATH + "/" +"DataPortConctTbl.c.vsl";
-					ClassLoader cl = Thread.currentThread().getContextClassLoader();
-					InputStream ins = cl.getResourceAsStream(template);
-					String dataPortContct = tablepath+File.separator+"DataPortConctTbl.c";
-					Map<String, Object> contextMap = new HashMap<String, Object>();
-					contextMap.put("template", TEMPLATE_PATH);
-					List<DataportConnector> conns = profile.getDataPortConnectors();
-					int ic = 0;
-					Map connsMap = new HashMap();
-					for(DataportConnector conn : conns)
-					{
-						connsMap.put(conn.getTargetDataPort().getPortName().replace(".", "_"),conn.getSourceDataPort().getPortName().replace(".", "_"));
-					}
-					contextMap.put("connectPorts", connsMap);
-					GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
-					if (ins != null) {
-						ins.close();
-					}
-					File targetFile = new File(dataPortContct);
-					FileWriter filewriter = new FileWriter(targetFile);
-					BufferedWriter bw = new BufferedWriter(filewriter);
-					PrintWriter pw = new PrintWriter(bw);
-					pw.println(gr.getCode());
-					pw.close();
-
-					//System.out.println(gr.getCode());
-					*/
-					}
 					//
 					//DataPortCreateTbl.c.vsl
 					//
-					{
-					Map<String, Object> contextMap = new HashMap<String, Object>();
-					contextMap.put("tablepath", tablepath);
-					contextMap.put("template", TEMPLATE_PATH);
-					contextMap.put("profile", profile);
 					generateDataPortCreateTbl(contextMap);
-					}
-					{
-						/*
-					String template = TEMPLATE_PATH + "/" +"DataPortCreateTbl.c.vsl";
-					ClassLoader cl = Thread.currentThread().getContextClassLoader();
-					InputStream ins = cl.getResourceAsStream(template);
-					String dataPortContct = tablepath+File.separator+"DataPortCreateTbl.c";
-					Map<String, Object> contextMap = new HashMap<String, Object>();
-					contextMap.put("template", TEMPLATE_PATH);
-					List<org.openrtp.namespaces.rts.version02.Component> componetns = profile.getComponents();
-					ArrayList<String> complist = new ArrayList<String>();
-					for(org.openrtp.namespaces.rts.version02.Component comp :componetns)
-					{
-						if(!comp.getDataPorts().isEmpty())
-						{
-							complist.add(comp.getInstanceName()); 
-						}
-					}
-					contextMap.put("ports", complist);
-					GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
-					File targetFile = new File(dataPortContct);
-					FileWriter filewriter = new FileWriter(targetFile);
-					BufferedWriter bw = new BufferedWriter(filewriter);
-					PrintWriter pw = new PrintWriter(bw);
-					pw.println(gr.getCode());
-					pw.close();
-					//System.out.println(gr.getCode());
-					*/
-					}
 					//
 					//RtcCreateTbl.c
 					//
-					{
-					Map<String, Object> contextMap = new HashMap<String, Object>();
-					contextMap.put("tablepath", tablepath);
-					contextMap.put("template", TEMPLATE_PATH);
-					contextMap.put("profile", profile);
 					generateRtcCreateTbl(contextMap);
-					}
-					{
-						/*
-					String template = TEMPLATE_PATH + "/" +"RtcCreateTbl.c.vsl";
-					ClassLoader cl = Thread.currentThread().getContextClassLoader();
-					InputStream ins = cl.getResourceAsStream(template);
-					String dataPortContct = tablepath+File.separator+"RtcCreateTbl.c";
-					Map<String, Object> contextMap = new HashMap<String, Object>();
-					contextMap.put("template", TEMPLATE_PATH);
-					List<org.openrtp.namespaces.rts.version02.Component> componetns = profile.getComponents();
-					ArrayList complist = new ArrayList();
-					for(org.openrtp.namespaces.rts.version02.Component comp :componetns)
-					{
-						System.out.println(comp.getId());
-						String[] strary = comp.getId().split(":");
-						complist.add(strary[3]); 
-					}
-					contextMap.put("comps", complist);
-					GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
-					File targetFile = new File(dataPortContct);
-					FileWriter filewriter = new FileWriter(targetFile);
-					BufferedWriter bw = new BufferedWriter(filewriter);
-					PrintWriter pw = new PrintWriter(bw);
-					pw.println(gr.getCode());
-					pw.close();
-					//System.out.println(gr.getCode());
-					*/
-					}
 					//
 					//RtcEcCreateTbl.c
 					//
-					{
-					String template = TEMPLATE_PATH + "/" +"RtcEcCreateTbl.c.vsl";
-					ClassLoader cl = Thread.currentThread().getContextClassLoader();
-					InputStream ins = cl.getResourceAsStream(template);
-					String dataPortContct = tablepath+File.separator+"RtcEcCreateTbl.c";
-					Map<String, Object> contextMap = new HashMap<String, Object>();
-					contextMap.put("template", TEMPLATE_PATH);
-					List<org.openrtp.namespaces.rts.version02.Component> componetns = profile.getComponents();
-					ArrayList complist = new ArrayList();
-					for(org.openrtp.namespaces.rts.version02.Component comp :componetns)
-					{
-						System.out.println(comp.getId());
-						String[] strary = comp.getId().split(":");
-						complist.add(strary[3]); 
-					}
-					contextMap.put("comps", complist);
-					GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
-					File targetFile = new File(dataPortContct);
-					FileWriter filewriter = new FileWriter(targetFile);
-					BufferedWriter bw = new BufferedWriter(filewriter);
-					PrintWriter pw = new PrintWriter(bw);
-					pw.println(gr.getCode());
-					pw.close();
-					//System.out.println(gr.getCode());
-					}
+					generateRtcEcCreateTbl(contextMap);
 					//
 					//EcAwakingTbl.c
 					//
-					{
-					String template = TEMPLATE_PATH + "/" +"EcAwakingTbl.c.vsl";
-					ClassLoader cl = Thread.currentThread().getContextClassLoader();
-					InputStream ins = cl.getResourceAsStream(template);
-					String dataPortContct = tablepath+File.separator+"EcAwakingTbl.c";
-					Map<String, Object> contextMap = new HashMap<String, Object>();
-					contextMap.put("template", TEMPLATE_PATH);
-					List<org.openrtp.namespaces.rts.version02.Component> componetns = profile.getComponents();
-					ArrayList complist = new ArrayList();
-					for(org.openrtp.namespaces.rts.version02.Component comp :componetns)
-					{
-						System.out.println(comp.getId());
-						String[] strary = comp.getId().split(":");
-						complist.add(strary[3]); 
-					}
-					contextMap.put("comps", complist);
-					GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
-					File targetFile = new File(dataPortContct);
-					FileWriter filewriter = new FileWriter(targetFile);
-					BufferedWriter bw = new BufferedWriter(filewriter);
-					PrintWriter pw = new PrintWriter(bw);
-					pw.println(gr.getCode());
-					pw.close();
-					//System.out.println(gr.getCode());
-					}
+					generateEcAwakingTbl(contextMap);
 					//
 					//FaultDiagnosisMngTbl.c
 					//
-					{
-					String template = TEMPLATE_PATH + "/" +"FaultDiagnosisMngTbl.c.vsl";
-					ClassLoader cl = Thread.currentThread().getContextClassLoader();
-					InputStream ins = cl.getResourceAsStream(template);
-					String dataPortContct = tablepath+File.separator+"FaultDiagnosisMngTbl.c";
-					Map<String, Object> contextMap = new HashMap<String, Object>();
-					contextMap.put("template", TEMPLATE_PATH);
-					GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
-					File targetFile = new File(dataPortContct);
-					FileWriter filewriter = new FileWriter(targetFile);
-					BufferedWriter bw = new BufferedWriter(filewriter);
-					PrintWriter pw = new PrintWriter(bw);
-					pw.println(gr.getCode());
-					pw.close();
-					//System.out.println(gr.getCode());
-					}
+					generateFaultDiagnosisMngTbl(contextMap);
 					//
 					//SafetyMntMngTbl.c
 					//
-					{
-					String template = TEMPLATE_PATH + "/" +"SafetyMntMngTbl.c.vsl";
-					ClassLoader cl = Thread.currentThread().getContextClassLoader();
-					InputStream ins = cl.getResourceAsStream(template);
-					String dataPortContct = tablepath+File.separator+"SafetyMntMngTbl.c";
-					Map<String, Object> contextMap = new HashMap<String, Object>();
-					contextMap.put("template", TEMPLATE_PATH);
-					List<org.openrtp.namespaces.rts.version02.Component> componetns = profile.getComponents();
-					ArrayList complist = new ArrayList();
-					for(org.openrtp.namespaces.rts.version02.Component comp :componetns)
-					{
-						System.out.println(comp.getId());
-						String[] strary = comp.getId().split(":");
-						complist.add(strary[3]); 
-					}
-					contextMap.put("comps", complist);
-					GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
-					File targetFile = new File(dataPortContct);
-					FileWriter filewriter = new FileWriter(targetFile);
-					BufferedWriter bw = new BufferedWriter(filewriter);
-					PrintWriter pw = new PrintWriter(bw);
-					pw.println(gr.getCode());
-					pw.close();
-					//System.out.println(gr.getCode());
-					}
+					generateSafetyMntMngTbl(contextMap);
 					//
 					//SafetySndMngTbl.c
 					//
-					{
-					String template = TEMPLATE_PATH + "/" +"SafetySndMngTbl.c.vsl";
-					ClassLoader cl = Thread.currentThread().getContextClassLoader();
-					InputStream ins = cl.getResourceAsStream(template);
-					String dataPortContct = tablepath+File.separator+"SafetySndMngTbl.c";
-					Map<String, Object> contextMap = new HashMap<String, Object>();
-					contextMap.put("template", TEMPLATE_PATH);
-					List<org.openrtp.namespaces.rts.version02.Component> componetns = profile.getComponents();
-					ArrayList complist = new ArrayList();
-					for(org.openrtp.namespaces.rts.version02.Component comp :componetns)
-					{
-						System.out.println(comp.getId());
-						String[] strary = comp.getId().split(":");
-						complist.add(strary[3]); 
-					}
-					contextMap.put("comps", complist);
-					GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
-					File targetFile = new File(dataPortContct);
-					FileWriter filewriter = new FileWriter(targetFile);
-					BufferedWriter bw = new BufferedWriter(filewriter);
-					PrintWriter pw = new PrintWriter(bw);
-					pw.println(gr.getCode());
-					pw.close();
-					//System.out.println(gr.getCode());
-					}
+					generateSafetySndMngTbl(contextMap);
 					//
 					//Makefile
 					//
-					{
-					String template = TEMPLATE_PATH + "/" +"Makefile.vsl";
-					ClassLoader cl = Thread.currentThread().getContextClassLoader();
-					InputStream ins = cl.getResourceAsStream(template);
-					Map<String, Object> contextMap = new HashMap<String, Object>();
-					contextMap.put("template", TEMPLATE_PATH);
-					String[] id = profile.getId().split(":");
-
-					contextMap.put("project", id[2]);
-					System.out.println("id:"+profile.getId());
-					List<org.openrtp.namespaces.rts.version02.Component> componetns = profile.getComponents();
-					ArrayList complist = new ArrayList();
-					for(org.openrtp.namespaces.rts.version02.Component comp :componetns)
-					{
-						System.out.println(comp.getId());
-						String[] strary = comp.getId().split(":");
-						complist.add(strary[3]); 
-					}
-					contextMap.put("comps", complist);
-					contextMap.put("build_config", "Debug");
-					String dataPortContct = makepath+File.separator+id[2]+"_Deubg";
-					GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
-					File targetFile = new File(dataPortContct);
-					FileWriter filewriter = new FileWriter(targetFile);
-					BufferedWriter bw = new BufferedWriter(filewriter);
-					PrintWriter pw = new PrintWriter(bw);
-					pw.println(gr.getCode());
-					pw.close();
-					//System.out.println(gr.getCode());
-					cl = Thread.currentThread().getContextClassLoader();
-					ins = cl.getResourceAsStream(template);
-					contextMap.put("build_config", "Release");
-					dataPortContct = makepath+File.separator+id[2]+"_Release";
-					gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
-					targetFile = new File(dataPortContct);
-					filewriter = new FileWriter(targetFile);
-					bw = new BufferedWriter(filewriter);
-					pw = new PrintWriter(bw);
-					pw.println(gr.getCode());
-					pw.close();
-					}
+					generateMakefile(contextMap);
 				}
 
 			}
@@ -1408,7 +1159,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		String dataPortContct = tablepath+File.separator+"DataPortConctTbl.c";
 		RtsProfileExt profile = (RtsProfileExt)contextMap.get("profile");
 		List<DataportConnector> conns = profile.getDataPortConnectors();
-		Map<String, Object> connsMap = new HashMap();
+		Map<String, Object> connsMap = new HashMap<String, Object>();
 		for(DataportConnector conn : conns)
 		{
 			connsMap.put(conn.getTargetDataPort().getPortName().replace(".", "_"),conn.getSourceDataPort().getPortName().replace(".", "_"));
@@ -1513,8 +1264,249 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Creates RtcEcCreateTbl.c
+	 */
+	public void generateRtcEcCreateTbl(Map<String, Object> contextMap)
+	{
+		try
+		{
+		String template = contextMap.get("template") + "/" +"RtcEcCreateTbl.c.vsl";
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
+		InputStream ins = cl.getResourceAsStream(template);
+		String tablepath = (String)contextMap.get("tablepath");
+		String dataPortContct = tablepath+File.separator+"RtcEcCreateTbl.c";
+		RtsProfileExt profile = (RtsProfileExt)contextMap.get("profile");
+		List<org.openrtp.namespaces.rts.version02.Component> componetns = profile.getComponents();
+		ArrayList<String> complist = new ArrayList<String>();
+		for(org.openrtp.namespaces.rts.version02.Component comp :componetns)
+		{
+			String[] strary = comp.getId().split(":");
+			complist.add(strary[3]); 
+		}
+		contextMap.put("comps", complist);
+		GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
+		if (ins != null) 
+		{
+			ins.close();
+		}			
+		File targetFile = new File(dataPortContct);
+		FileWriter filewriter = new FileWriter(targetFile);
+		BufferedWriter bw = new BufferedWriter(filewriter);
+		PrintWriter pw = new PrintWriter(bw);
+		pw.println(gr.getCode());
+		pw.close();
+		//System.out.println(gr.getCode());
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * Creates EcAwakingTbl.c
+	 */
+	public void generateEcAwakingTbl(Map<String, Object> contextMap)
+	{
+		try
+		{
+		String template = contextMap.get("template") + "/" +"EcAwakingTbl.c.vsl";
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
+		InputStream ins = cl.getResourceAsStream(template);
+		String tablepath = (String)contextMap.get("tablepath");
+		String dataPortContct = tablepath+File.separator+"EcAwakingTbl.c";
+		RtsProfileExt profile = (RtsProfileExt)contextMap.get("profile");
+		List<org.openrtp.namespaces.rts.version02.Component> componetns = profile.getComponents();
+		ArrayList<String> complist = new ArrayList<String>();
+		for(org.openrtp.namespaces.rts.version02.Component comp :componetns)
+		{
+			String[] strary = comp.getId().split(":");
+			complist.add(strary[3]); 
+		}
+		contextMap.put("comps", complist);
+		GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
+		if (ins != null) 
+		{
+			ins.close();
+		}	
+		File targetFile = new File(dataPortContct);
+		FileWriter filewriter = new FileWriter(targetFile);
+		BufferedWriter bw = new BufferedWriter(filewriter);
+		PrintWriter pw = new PrintWriter(bw);
+		pw.println(gr.getCode());
+		pw.close();
+		//System.out.println(gr.getCode());
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * Creates FaultDiagnosisMngTbl.c
+	 */
+	public void generateFaultDiagnosisMngTbl(Map<String, Object> contextMap)
+	{
+		try
+		{
+		String template = contextMap.get("template") + "/" +"FaultDiagnosisMngTbl.c.vsl";
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
+		InputStream ins = cl.getResourceAsStream(template);
+		String tablepath = (String)contextMap.get("tablepath");
+		String dataPortContct = tablepath+File.separator+"FaultDiagnosisMngTbl.c";
+		GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
+		if (ins != null) 
+		{
+			ins.close();
+		}			
+		File targetFile = new File(dataPortContct);
+		FileWriter filewriter = new FileWriter(targetFile);
+		BufferedWriter bw = new BufferedWriter(filewriter);
+		PrintWriter pw = new PrintWriter(bw);
+		pw.println(gr.getCode());
+		pw.close();
+		//System.out.println(gr.getCode());
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * Creates SafetyMntMngTbl.c
+	 */
+	public void generateSafetyMntMngTbl(Map<String, Object> contextMap)
+	{
+		try
+		{
+		String template = contextMap.get("template") + "/" +"SafetyMntMngTbl.c.vsl";
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
+		InputStream ins = cl.getResourceAsStream(template);
+		String tablepath = (String)contextMap.get("tablepath");
+		String dataPortContct = tablepath+File.separator+"SafetyMntMngTbl.c";
+		RtsProfileExt profile = (RtsProfileExt)contextMap.get("profile");
+		List<org.openrtp.namespaces.rts.version02.Component> componetns = profile.getComponents();
+		ArrayList<String> complist = new ArrayList<String>();
+		for(org.openrtp.namespaces.rts.version02.Component comp :componetns)
+		{
+			String[] strary = comp.getId().split(":");
+			complist.add(strary[3]); 
+		}
+		contextMap.put("comps", complist);
+		GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
+		if (ins != null) 
+		{
+			ins.close();
+		}		
+		File targetFile = new File(dataPortContct);
+		FileWriter filewriter = new FileWriter(targetFile);
+		BufferedWriter bw = new BufferedWriter(filewriter);
+		PrintWriter pw = new PrintWriter(bw);
+		pw.println(gr.getCode());
+		pw.close();
+		//System.out.println(gr.getCode());
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * Creates SafetySndMngTbl.c
+	 */
+	public void generateSafetySndMngTbl(Map<String, Object> contextMap)
+	{
+		try
+		{
+		String template = contextMap.get("template") + "/" +"SafetySndMngTbl.c.vsl";
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
+		InputStream ins = cl.getResourceAsStream(template);
+		String tablepath = (String)contextMap.get("tablepath");
+		String dataPortContct = tablepath+File.separator+"SafetySndMngTbl.c";
+		RtsProfileExt profile = (RtsProfileExt)contextMap.get("profile");
+		List<org.openrtp.namespaces.rts.version02.Component> componetns = profile.getComponents();
+		ArrayList<String> complist = new ArrayList<String>();
+		for(org.openrtp.namespaces.rts.version02.Component comp :componetns)
+		{
+			String[] strary = comp.getId().split(":");
+			complist.add(strary[3]); 
+		}
+		contextMap.put("comps", complist);
+		GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
+		if (ins != null) 
+		{
+			ins.close();
+		}		
+		File targetFile = new File(dataPortContct);
+		FileWriter filewriter = new FileWriter(targetFile);
+		BufferedWriter bw = new BufferedWriter(filewriter);
+		PrintWriter pw = new PrintWriter(bw);
+		pw.println(gr.getCode());
+		pw.close();
+		//System.out.println(gr.getCode());
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * Creates Makefile
+	 */
+	public void generateMakefile(Map<String, Object> contextMap)
+	{
+		try
+		{
+		String template = contextMap.get("template") + "/" +"Makefile.vsl";
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
+		InputStream ins = cl.getResourceAsStream(template);
+		RtsProfileExt profile = (RtsProfileExt)contextMap.get("profile");
+		String[] id = profile.getId().split(":");
 
-
+		contextMap.put("project", id[2]);
+		List<org.openrtp.namespaces.rts.version02.Component> componetns = profile.getComponents();
+		ArrayList<String> complist = new ArrayList<String>();
+		for(org.openrtp.namespaces.rts.version02.Component comp :componetns)
+		{
+			String[] strary = comp.getId().split(":");
+			complist.add(strary[3]); 
+		}
+		contextMap.put("comps", complist);
+		contextMap.put("build_config", "Debug");
+		String dataPortContct = contextMap.get("makepath")+File.separator+id[2]+"_Deubg";
+		GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
+		if (ins != null) 
+		{
+			ins.close();
+		}		
+		File targetFile = new File(dataPortContct);
+		FileWriter filewriter = new FileWriter(targetFile);
+		BufferedWriter bw = new BufferedWriter(filewriter);
+		PrintWriter pw = new PrintWriter(bw);
+		pw.println(gr.getCode());
+		pw.close();
+		//System.out.println(gr.getCode());
+		cl = Thread.currentThread().getContextClassLoader();
+		ins = cl.getResourceAsStream(template);
+		contextMap.put("build_config", "Release");
+		dataPortContct = contextMap.get("makepath")+File.separator+id[2]+"_Release";
+		gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
+		if (ins != null) 
+		{
+			ins.close();
+		}		
+		targetFile = new File(dataPortContct);
+		filewriter = new FileWriter(targetFile);
+		bw = new BufferedWriter(filewriter);
+		pw = new PrintWriter(bw);
+		pw.println(gr.getCode());
+		pw.close();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
 //	private void debugPrint(EditPart part, int size) {
 //		Object model = part.getModel();
 //		if (model instanceof Port) debugPrint((Port)model);
