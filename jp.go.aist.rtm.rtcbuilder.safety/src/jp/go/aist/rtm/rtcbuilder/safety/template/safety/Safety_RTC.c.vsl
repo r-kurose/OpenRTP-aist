@@ -37,15 +37,15 @@ PUBLIC ReturnCode_t ${rtcParam.name}_create(${rtcParam.name}_t* pself)
   if( retVal == RTC_OK )
     {
       pself->onInitialize  = ${rtcParam.name}_on_initialize;
-#if(${rtcParam.IsNotImplemented(1)})//#end pself->onFinalize    = ${rtcParam.name}_on_finalize;
-#if(${rtcParam.IsNotImplemented(2)})//#end pself->onStartup     = ${rtcParam.name}_on_startup;
-#if(${rtcParam.IsNotImplemented(3)})//#end pself->onShutdown    = ${rtcParam.name}_on_shutdown;
-#if(${rtcParam.IsNotImplemented(4)})//#end pself->onActivated   = ${rtcParam.name}_on_activated;
-#if(${rtcParam.IsNotImplemented(5)})//#end pself->onDeactivated = ${rtcParam.name}_on_deactivated;
-#if(${rtcParam.IsNotImplemented(6)})//#end pself->onAborting    = ${rtcParam.name}_on_aborting;
-#if(${rtcParam.IsNotImplemented(7)})//#end pself->onError       = ${rtcParam.name}_on_error;
-#if(${rtcParam.IsNotImplemented(8)})//#end pself->onReset       = ${rtcParam.name}_on_reset;
-#if(${rtcParam.IsNotImplemented(9)})//#end pself->onExecute     = ${rtcParam.name}_on_execute;
+#if(${rtcParam.IsNotImplemented(1)})//#end      pself->onFinalize    = ${rtcParam.name}_on_finalize;
+#if(${rtcParam.IsNotImplemented(2)})//#end      pself->onStartup     = ${rtcParam.name}_on_startup;
+#if(${rtcParam.IsNotImplemented(3)})//#end      pself->onShutdown    = ${rtcParam.name}_on_shutdown;
+#if(${rtcParam.IsNotImplemented(4)})//#end      pself->onActivated   = ${rtcParam.name}_on_activated;
+#if(${rtcParam.IsNotImplemented(5)})//#end      pself->onDeactivated = ${rtcParam.name}_on_deactivated;
+#if(${rtcParam.IsNotImplemented(6)})//#end      pself->onAborting    = ${rtcParam.name}_on_aborting;
+#if(${rtcParam.IsNotImplemented(7)})//#end      pself->onError       = ${rtcParam.name}_on_error;
+#if(${rtcParam.IsNotImplemented(8)})//#end      pself->onReset       = ${rtcParam.name}_on_reset;
+#if(${rtcParam.IsNotImplemented(9)})//#end      pself->onExecute     = ${rtcParam.name}_on_execute;
     }
 
   return retVal;
