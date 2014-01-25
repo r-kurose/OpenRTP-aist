@@ -1,15 +1,12 @@
 package jp.go.aist.rtm.systemeditor.ui.editor;
 
-//<+zxc
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.PrintWriter;
-import java.io.ByteArrayInputStream;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.openrtp.namespaces.rts.version02.DataportConnector;
-import org.openrtp.namespaces.rts.version02.TargetPort;
-//zxc+>
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.FileNotFoundException;
@@ -602,7 +599,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 			RtsProfileExt profile = handler.save(diagram);
 			diagram.setProfile(profile);
 			System.out.println("save 200 ");
-			//<+zxc
+			//
 			org.eclipse.emf.common.util.EList<jp.go.aist.rtm.toolscommon.model.component.Component> coms = diagram.getComponents();
 			for(jp.go.aist.rtm.toolscommon.model.component.Component com : coms)
 			{
@@ -612,7 +609,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 				System.out.print(" "+com.getOutportDirection()+" "+com.getCompositeTypeL()+" "+com.getComponentId());
 				System.out.println(" "+com.getLanguage());
 			}
-			//zxc+>
+			//
 			System.out.println("save 210 ");
 
 			// STEP3: 拡張ポイント (RTSプロファイル保存前)
@@ -667,7 +664,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 				}
 			}
 
-			//<+zxc
+			//
 			{
 				//Parse
 				String languageKind = "";
@@ -678,10 +675,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 				}	
 				if(languageKind.equals("RTMSafety"))
 				{
-					IWorkspace ws = ResourcesPlugin.getWorkspace();
-					IProject iproject = ws.getRoot().getProject(RTCLINK_PROJECT_NAME);
-				 	System.out.println("ws.getRoot()="+ws.getRoot());
-				 	System.out.println("Creates table files  for RTMSafety");
 					final String TEMPLATE_PATH = "jp/go/aist/rtm/systemeditor/template";
 					String tablepath = file.getLocation().toOSString();
 					int lastDotPos = tablepath.lastIndexOf(File.separator);
@@ -750,7 +743,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 				}
 
 			}
-			//zxc+>
+			//
 			progressMonitor.worked(6);
 			progressMonitor.done();
 
@@ -1198,14 +1191,23 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		String dataPortContct = tablepath+File.separator+"DataPortCreateTbl.c";
 		RtsProfileExt profile = (RtsProfileExt)contextMap.get("profile");
 		List<org.openrtp.namespaces.rts.version02.Component> componetns = profile.getComponents();
+		System.out.println("componetns.size():"+componetns.size());
 		ArrayList<String> complist = new ArrayList<String>();
 		for(org.openrtp.namespaces.rts.version02.Component comp :componetns)
 		{
+			/*
+			List<org.openrtp.namespaces.rts.version02.Dataport> ports = comp.getDataPorts();
+			for(org.openrtp.namespaces.rts.version02.Dataport port :ports)
+			{
+				complist.add(port.getName()); 
+			}
+			*/
 			if(!comp.getDataPorts().isEmpty())
 			{
 				complist.add(comp.getInstanceName()); 
 			}
 		}
+		System.out.println("complist.size():"+complist.size());
 		contextMap.put("ports", complist);
 		GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
 		if (ins != null) 
