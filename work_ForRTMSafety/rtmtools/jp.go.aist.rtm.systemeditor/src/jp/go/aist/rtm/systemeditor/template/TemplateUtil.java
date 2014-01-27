@@ -1,5 +1,13 @@
 package jp.go.aist.rtm.systemeditor.template;
 
+
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
+//import org.apache.log4j.Category;
+//import org.apache.log4j.BasicConfigurator;
+
+
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -87,20 +95,24 @@ public class TemplateUtil {
 	 * @return
 	 */
 	public static VelocityEngine getEngine() {
+		System.out.println("getEngine entry");
 		VelocityEngine result = new VelocityEngine();
 		result.setProperty(VelocityEngine.RESOURCE_LOADER, "class");
 		result.setProperty(VelocityEngine.VM_LIBRARY, "");
 		result.setProperty("class.resource.loader.description",
 				"Velocity Classpath Resource Loader");
-		result
-				.setProperty("class.resource.loader.class",
+		result.setProperty("class.resource.loader.class",
 						"org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+		//result.setProperty( VelocityEngine.RUNTIME_LOG_LOGSYSTEM, this);
+		//result.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS, "org.apache.velocity.runtime.log.SimpleLog4JLogSystem" );
 		try {
+			System.out.println("init");
 			result.init();
 		} catch (Exception e) {
+			System.out.println("Exception");
 			throw new RuntimeException(e); // system error
 		}
-
+		System.out.println("getEngine return");
 		return result;
 	}
 

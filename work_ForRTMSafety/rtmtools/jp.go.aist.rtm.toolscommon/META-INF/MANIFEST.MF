@@ -5,7 +5,9 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: jp.go.aist.rtm.toolscommon; singleton:=true
 Bundle-Version: 1.1.0.rc4v20130124
-Bundle-ClassPath: .,lib/commons-lang-2.2.jar
+Bundle-ClassPath: .,
+ lib/commons-lang-2.2.jar,
+ lib/velocity-1.6.3-dep.jar
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Export-Package: OpenRTM,RTC,RTM,_SDOPackage,jp.go.aist.rtm.toolscommon
