@@ -32,7 +32,9 @@ import jp.go.aist.rtm.systemeditor.RTSystemEditorPlugin;
 import jp.go.aist.rtm.systemeditor.extension.SaveProfileExtension;
 import jp.go.aist.rtm.systemeditor.factory.ProfileSaver;
 import jp.go.aist.rtm.systemeditor.nl.Messages;
-import jp.go.aist.rtm.systemeditor.template.TemplateUtil;
+//import jp.go.aist.rtm.systemeditor.template.TemplateUtil;
+import jp.go.aist.rtm.toolscommon.util.TemplateUtil;
+//import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
 import jp.go.aist.rtm.systemeditor.ui.action.OpenCompositeComponentAction;
 import jp.go.aist.rtm.systemeditor.ui.dialog.ProfileInformationDialog;
 import jp.go.aist.rtm.systemeditor.ui.editor.action.ChangeComponentDirectionAction;
@@ -111,7 +113,10 @@ import org.openrtp.namespaces.rts.version02.RtsProfileExt;
 
 import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 
-import jp.go.aist.rtm.systemeditor.generator.GeneratedResult;
+//import jp.go.aist.rtm.toolscommon.util.TemplateUtil;
+import jp.go.aist.rtm.toolscommon.util.GeneratedResult;
+//import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
+
 
 public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 
@@ -1158,7 +1163,8 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 			connsMap.put(conn.getTargetDataPort().getPortName().replace(".", "_"),conn.getSourceDataPort().getPortName().replace(".", "_"));
 		}
 		contextMap.put("connectPorts", connsMap);
-		GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
+		System.out.println("generateDataPortConctTbl 050");
+		GeneratedResult gr = jp.go.aist.rtm.toolscommon.util.TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
 		if (ins != null) 
 		{
 			ins.close();
