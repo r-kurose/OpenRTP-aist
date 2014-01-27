@@ -6,5 +6,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/jp.go.aist.rtm.rtcbuilder"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jp.go.aist.rtm.rtcbuilder.java"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jp.go.aist.rtm.rtcbuilder.python"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jp.go.aist.rtm.toolscommon"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
