@@ -1,7 +1,8 @@
 package jp.go.aist.rtm.rtcbuilder;
 
 import jp.go.aist.rtm.rtcbuilder.Generator.MergeHandler;
-import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
+//import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
+import jp.go.aist.rtm.toolscommon.util.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.parser.MergeBlockParser;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;

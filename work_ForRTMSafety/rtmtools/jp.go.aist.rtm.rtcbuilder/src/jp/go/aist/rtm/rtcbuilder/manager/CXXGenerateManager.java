@@ -7,11 +7,13 @@ import java.util.List;
 import java.util.Map;
 
 import jp.go.aist.rtm.rtcbuilder.IRTCBMessageConstants;
-import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
+//import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
+import jp.go.aist.rtm.toolscommon.util.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateHelper;
-import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
+//import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
+import jp.go.aist.rtm.toolscommon.util.TemplateUtil;
 
 import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
 import static jp.go.aist.rtm.rtcbuilder.util.RTCUtil.*;
