@@ -91,7 +91,6 @@ public class TemplateUtil {
 	 * @return
 	 */
 	public static VelocityEngine getEngine() {
-		System.out.println("getEngine entery");
 		VelocityEngine result = new VelocityEngine();
 		result.setProperty(VelocityEngine.RESOURCE_LOADER, "class");
 		result.setProperty(VelocityEngine.VM_LIBRARY, "");
@@ -99,23 +98,15 @@ public class TemplateUtil {
 				"Velocity Classpath Resource Loader");
 		result.setProperty("class.resource.loader.class",
 						"org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-		System.out.println("current dir :"+new java.io.File(".").getAbsolutePath());
-		System.out.println("user.dir :"+System.getProperty("user.dir"));
-		//result.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS, "org.apache.velocity.runtime.log.SimpleLog4JLogSystem" );
-
-        	//result.setProperty("runtime.log.logsystem.log4j.category", CATEGORY_NAME);
 
 
-		//result.setProperty(VelocityEngine.RUNTIME_LOG_LOGSYSTEM, new org.springframework.security.saml.util.SLF4JLogChute());
+
 		try {
-			System.out.println("getEngine result.init()");
 			result.init();
 		} catch (Exception e) {
-			System.out.println("getEngine Exception");
 			throw new RuntimeException(e); // system error
 		}
 
-		System.out.println("getEngine return");
 		return result;
 	}
 
@@ -163,13 +154,10 @@ public class TemplateUtil {
 		for (Iterator iter = contextMap.entrySet().iterator(); iter.hasNext();) {
 			Map.Entry element = (Map.Entry) iter.next();
 			vc.put((String) element.getKey(), element.getValue());
-			System.out.println("    "+element.getKey()+":"+element.getValue());
 		}
 
 		StringWriter result = new StringWriter();
 		try {
-			System.out.println("generate 060 file.resource.loader.path:"+ve.getProperty("file.resource.loader.path"));
-			System.out.println("generate 061 FILE.resource.loader.path:"+ve.getProperty("FILE.resource.loader.path"));
 
 			ve.evaluate(vc, result, "", new InputStreamReader(in, "UTF-8"));
 			result.close();
