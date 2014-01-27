@@ -8,14 +8,16 @@ import java.util.List;
 import java.util.Map;
 
 import jp.go.aist.rtm.rtcbuilder.IRTCBMessageConstants;
-import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
+//import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
+import jp.go.aist.rtm.toolscommon.util.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 import jp.go.aist.rtm.rtcbuilder.safety.ui.Perspective.SafetyProperty;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateHelper;
-import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
+//import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
+import jp.go.aist.rtm.toolscommon.util.TemplateUtil;
 import jp.go.aist.rtm.rtcbuilder.ui.Perspective.LanguageProperty;
 
 import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
@@ -177,6 +179,7 @@ public class SafetyGenerateManager extends GenerateManager {
 	}
 
 	public GeneratedResult generateRTCHeader(Map<String, Object> contextMap) {
+		System.out.println("generateRTCHeader entry");
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		//String outfile = "include/" + rtcParam.getName() + "/" + rtcParam.getName() + ".h";
 		String outfile = rtcParam.getName() + ".h";
@@ -235,6 +238,7 @@ public class SafetyGenerateManager extends GenerateManager {
 			Map<String, Object> contextMap) {
 		try {
 			String template = TEMPLATE_PATH + "/" + infile;
+			System.out.println("template:"+template);
 			ClassLoader cl = Thread.currentThread().getContextClassLoader();
 			InputStream ins = cl.getResourceAsStream(template);
 			GeneratedResult gr = TemplateUtil.createGeneratedResult(ins,
@@ -244,6 +248,7 @@ public class SafetyGenerateManager extends GenerateManager {
 			}
 			return gr;
 		} catch (Exception e) {
+			System.out.println("Exception");
 			throw new RuntimeException(form(MSG_ERROR_GENERATE_FILE,
 					new String[] { "RTMSafety", outfile }), e);
 		}

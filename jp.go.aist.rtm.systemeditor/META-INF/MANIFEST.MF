@@ -30,4 +30,6 @@ Bundle-Vendor: %providerName
 Eclipse-BuddyPolicy: registered
 Built-By: n-ando
 Built-Date: 2013/01/25 00:47:28
+Import-Package: jp.go.aist.rtm.rtcbuilder.generator,
+ jp.go.aist.rtm.rtcbuilder.template
 
