@@ -12,23 +12,19 @@ public class SafetyProperty extends LanguageProperty {
 	private String PluginId = "org.eclipse.cdt.ui.CPerspective";
 
 	public String getPerspectiveId() {
-		System.out.println("getPerspectiveId entry");
 		return PerspectiveId;
 	}
 
 	public String getPerspectiveName() {
-		System.out.println("getPerspectiveName entry");
 		return PerspectiveName;
 	}
 
 	public String getPluginId() {
-		System.out.println("getPluginId entry");
 		return PluginId;
 	}
 
 	@Override
 	public List<String> getNatures() {
-		System.out.println("getNatures entry");
 		List<String> natures = new ArrayList<String>();
 		natures.add("org.eclipse.cdt.core.cnature");
 		natures.add("org.eclipse.cdt.make.core.makeNature");
