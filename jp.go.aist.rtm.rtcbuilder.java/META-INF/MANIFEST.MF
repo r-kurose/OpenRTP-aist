@@ -19,4 +19,5 @@ Eclipse-BuddyPolicy: registered
 Eclipse-RegisterBuddy: jp.go.aist.rtm.rtcbuilder
 Built-By: n-ando
 Built-Date: 2013/01/25 00:47:16
+Import-Package: jp.go.aist.rtm.toolscommon.util
 
