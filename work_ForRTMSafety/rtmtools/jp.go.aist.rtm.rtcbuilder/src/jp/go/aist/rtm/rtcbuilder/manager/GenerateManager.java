@@ -3,7 +3,8 @@ package jp.go.aist.rtm.rtcbuilder.manager;
 import java.util.List;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
-import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
+//import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
+import jp.go.aist.rtm.toolscommon.util.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
