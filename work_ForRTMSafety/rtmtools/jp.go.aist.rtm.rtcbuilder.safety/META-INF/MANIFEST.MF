@@ -7,8 +7,10 @@ Bundle-SymbolicName: jp.go.aist.rtm.rtcbuilder.safety;singleton:=true
 Bundle-Version: 1.1.0.rc4v20130124
 Bundle-Activator: jp.go.aist.rtm.rtcbuilder.safety.RtcBuilderSafetyPlugin
 Bundle-Localization: plugin
-Require-Bundle: jp.go.aist.rtm.rtcbuilder,org.eclipse.ui,org.eclipse.c
- ore.runtime
+Require-Bundle: jp.go.aist.rtm.rtcbuilder,
+ org.eclipse.ui,
+ org.eclipse.core.runtime,
+ jp.go.aist.rtm.toolscommon;bundle-version="1.1.0"
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %providerName
 Export-Package: jp.go.aist.rtm.rtcbuilder.safety,jp.go.aist.rtm.rtcbuild
@@ -19,4 +21,5 @@ Eclipse-BuddyPolicy: registered
 Eclipse-RegisterBuddy: jp.go.aist.rtm.rtcbuilder
 Built-By: n-ando
 Built-Date: 2013/01/25 00:47:16
+Import-Package: jp.go.aist.rtm.toolscommon.util
 
