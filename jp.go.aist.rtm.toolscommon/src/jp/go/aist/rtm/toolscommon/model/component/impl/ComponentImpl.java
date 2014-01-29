@@ -1170,7 +1170,6 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		System.out.println("eInverseRemove featureID="+featureID);
 		switch (featureID) {
 			case ComponentPackage.COMPONENT__CONFIGURATION_SETS:
 				return ((InternalEList<?>)getConfigurationSets()).basicRemove(otherEnd, msgs);
@@ -1193,8 +1192,6 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		System.out.println("eGet entry");
-		System.out.println("eGet featureID="+featureID);
 		switch (featureID) {
 			case ComponentPackage.COMPONENT__CONFIGURATION_SETS:
 				return getConfigurationSets();
@@ -1245,10 +1242,8 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 			case ComponentPackage.COMPONENT__REQUIRED:
 				return isRequired() ? Boolean.TRUE : Boolean.FALSE;
 			case ComponentPackage.COMPONENT__LANGUAGE_TYPE:
-				System.out.println("eGet language");
 				return getLanguage();
 		}
-		System.out.println("eGet return");
 		return super.eGet(featureID, resolve, coreType);
 	}
 
@@ -1260,8 +1255,6 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		System.out.println("eSet entry");
-		System.out.println("eSet featureID="+featureID);
 		switch (featureID) {
 			case ComponentPackage.COMPONENT__CONFIGURATION_SETS:
 				getConfigurationSets().clear();
@@ -1326,12 +1319,10 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 				setRequired(((Boolean)newValue).booleanValue());
 				return;
 			case ComponentPackage.COMPONENT__LANGUAGE_TYPE:
-				System.out.println("eSet setLanguage newValue="+(String)newValue);
 				setLanguage((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
-		System.out.println("eSet return");
 	}
 
 	/**
@@ -1341,8 +1332,6 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		System.out.println("eUnset entry");
-		System.out.println("eUnset featureID="+featureID);
 		switch (featureID) {
 			case ComponentPackage.COMPONENT__CONFIGURATION_SETS:
 				getConfigurationSets().clear();
@@ -1402,12 +1391,10 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 				setRequired(REQUIRED_EDEFAULT);
 				return;
 			case ComponentPackage.COMPONENT__LANGUAGE_TYPE:
-				//System.out.println("eUnSet setLanguage newValue="+(String)newValue);
 				setLanguage(LANGUAGE_TYPE_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
-		System.out.println("eUnset return");
 	}
 
 	/**
@@ -1417,8 +1404,6 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
-		System.out.println("eIsset entry");
-		System.out.println("eIsset featureID="+featureID);
 		switch (featureID) {
 			case ComponentPackage.COMPONENT__CONFIGURATION_SETS:
 				return configurationSets != null && !configurationSets.isEmpty();
@@ -1467,10 +1452,8 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 			case ComponentPackage.COMPONENT__REQUIRED:
 				return required != REQUIRED_EDEFAULT;
 			case ComponentPackage.COMPONENT__LANGUAGE_TYPE:
-				System.out.println("eIsset language");
 				return LANGUAGE_TYPE_EDEFAULT == null ? languageType != null : !LANGUAGE_TYPE_EDEFAULT.equals(languageType);
 		}
-		System.out.println("eIsset return");
 		return super.eIsSet(featureID);
 	}
 
@@ -1481,7 +1464,6 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 */
 	@Override
 	public String toString() {
-		System.out.println("toString entry");
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
@@ -1508,7 +1490,6 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 		result.append(", required: ");
 		result.append(required);
 		result.append(')');
-		System.out.println("toString return");
 		return result.toString();
 	}
 
