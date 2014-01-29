@@ -274,40 +274,30 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	 */
 	public RtsProfileExt save(
 			jp.go.aist.rtm.toolscommon.model.component.SystemDiagram eDiagram) {
-		System.out.println("RtsProfileHandler.save() entry");
 		this.diagram = eDiagram;
 
 		setOnline(eDiagram.getKind() == SystemDiagramKind.ONLINE_LITERAL);
 		loader.setKind(eDiagram.getKind());
-		System.out.println("RtsProfileHandler.save() 010 "+eDiagram.getKind());
 		originalProfile = eDiagram.getProfile();
 		//<org.openrtp.namespaces.rts.version01.Property> = originalProfile.getProperties()
-		//System.out.println("RtsProfileHandler.save() 015 "+originalProfile.getProperties());
-		System.out.println("RtsProfileHandler.save() 015 "+originalProfile);
 		savedConnectors = new ArrayList<String>();
 
 		factory = new ObjectFactory();
 		RtsProfileExt profile = factory.createRtsProfileExt();
 		profile.setId(eDiagram.getSystemId());
-		System.out.println("RtsProfileHandler.save() 016 getSystemId="+eDiagram.getSystemId());
 		DatatypeFactory dateFactory = new DatatypeFactoryImpl();
 		profile.setCreationDate(dateFactory.newXMLGregorianCalendar(eDiagram.getCreationDate()));
 		profile.setUpdateDate(dateFactory.newXMLGregorianCalendar(eDiagram.getUpdateDate()));
 		profile.setVersion("0.2");
-		System.out.println("RtsProfileHandler.save() 020 "+profile.getProperties());
 
 		populateComponents(eDiagram, profile);
 
 		// プロパティ設定
-		System.out.print("RtsProfileHandler.save() 030 ");
 		for (String key : eDiagram.getPropertyKeys()) {
-			System.out.println(key + " "+profile.getProperties()+" ");
 			setProperty(key, eDiagram.getProperty(key), profile.getProperties());
 		}
-		System.out.println(" ");
 
 		populateFromProfileOnly(profile);
-		System.out.println("RtsProfileHandler.save() return");
 		return profile;
 	}
 
@@ -349,15 +339,12 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	private void populateComponents(
 			jp.go.aist.rtm.toolscommon.model.component.SystemDiagram eDiagram,
 			RtsProfileExt rtsProfile) {
-		System.out.println("populateComponents entry");
 		List<Component> components = rtsProfile.getComponents();
 		for (jp.go.aist.rtm.toolscommon.model.component.Component eComp:
 				eDiagram.getRegisteredComponents()) {
 			ComponentExt target = factory.createComponentExt();
 			target.setId(eComp.getComponentId());
-			System.out.println("populateComponents eComp.getComponentId()="+eComp.getComponentId());
 			target.setPathUri(eComp.getPathId());
-			System.out.println("populateComponents eComp.getPathId()="+eComp.getPathId());
 			target.setInstanceName(eComp.getInstanceNameL());
 			target.setCompositeType(eComp.getCompositeTypeL());
 			target.setIsRequired(eComp.isRequired());
@@ -371,12 +358,10 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 			populateConfigurationSet(eComp, target);
 			populateParticipants(eComp, target, original);
 
-			System.out.println("populateComponents 050 eComp.getLanguage()="+eComp.getLanguage());
 
 			populateFromProfileOnly(target, original);
 			components.add(target);
 		}
-		System.out.println("populateComponents return");
 	}
 
 	// Save時にシステムダイアログ内に含まれるデータポートとそれらの接続をRTSプロファイル内にセットする
@@ -650,10 +635,8 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	// Save時にComponentのConfigurationSetの情報をRTSプロファイルにセットする
 	private void populateConfigurationSet(
 			jp.go.aist.rtm.toolscommon.model.component.Component eComp, ComponentExt target) {
-		System.out.println("populateConfigurationSet entry");
 		for (jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet eConfigSet : eComp.getConfigurationSets()) {
 			ConfigurationSet config = factory.createConfigurationSet();
-			System.out.println("populateConfigurationSet 010 getId()="+eConfigSet.getId());
 			config.setId(eConfigSet.getId());
 			for (jp.go.aist.rtm.toolscommon.model.component.NameValue nv : eConfigSet
 					.getConfigurationData()) {
@@ -667,7 +650,6 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 				target.setActiveConfigurationSet(eConfigSet.getId());
 			}
 		}
-		System.out.println("populateConfigurationSet return");
 	}
 
 	// Save時に子RTCの情報をRTSプロファイルにセットする
@@ -752,10 +734,8 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	private void populateComponentProperty(
 			jp.go.aist.rtm.toolscommon.model.component.Component eComp,
 			ComponentExt target, Component original) {
-		System.out.println("populateComponentProperty entry");
 		// プロパティ設定
 		for (String key : eComp.getPropertyKeys()) {
-			System.out.println("  key="+key+" eComp.getProperty(key)="+eComp.getProperty(key));
 			//デプロイ情報は除外
 			if(key.equals(KEY_DEPLOY_TYPE) || key.equals(KEY_DEPLOY_TARGET)
 					|| key.equals(KEY_DEPLOY_IOR)) continue;
@@ -763,7 +743,6 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 			setProperty(key, eComp.getProperty(key), target.getProperties());
 		}
 		populateIOR(target.getProperties(), eComp);
-		System.out.println("populateComponentProperty return");
 	}
 
 	// Save時にコンポーネントの位置情報をセットする
@@ -800,19 +779,15 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 
 	// Save時に元のファイルにあったコンポーネントの拡張属性をセットする
 	private void populateFromProfileOnly(ComponentExt target, Component original) {
-		System.out.println("populateFromProfileOnly entry");
 		if (!(original instanceof ComponentExt)) 
 		{
-			System.out.println("populateFromProfileOnly return 0");
 			return;
 		}
 		ComponentExt source = (ComponentExt) original;
-		System.out.println("populateFromProfileOnly 010 source.getComment()="+source.getComment());
 		target.setComment(source.getComment());
 		if (!source.isVisible()) {
 			target.setVisible(Boolean.valueOf(source.isVisible()));
 		}
-		System.out.println("populateFromProfileOnly return 1");
 	}
 
 	// Save時にExecutionContextの情報をRTSプロファイルにセットする
