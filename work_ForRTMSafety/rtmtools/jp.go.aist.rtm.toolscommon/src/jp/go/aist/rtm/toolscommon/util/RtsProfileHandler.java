@@ -689,7 +689,7 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 		DataportExt port = factory.createDataportExt();
 		port.setName(ePort.getNameL());
 		if (original != null) {
-			Dataport originalPort = findOriginalPort(original.getDataPorts(), port.getName());
+			Dataport originalPort = findOriginalDataPort(original.getDataPorts(), port.getName());
 			if (originalPort instanceof DataportExt) {
 				DataportExt source = (DataportExt) originalPort;
 				port.setComment(source.getComment());
@@ -713,7 +713,7 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 		ServiceportExt port = factory.createServiceportExt();
 		port.setName(ePort.getNameL());
 		if (original != null) {
-			Serviceport originalPort = findOriginalPort(original.getServicePorts(), port.getName());
+			Serviceport originalPort = findOriginalServicePort(original.getServicePorts(), port.getName());
 			if (originalPort instanceof ServiceportExt) {
 				ServiceportExt source = (ServiceportExt) originalPort;
 				port.setComment(source.getComment());
@@ -1296,6 +1296,21 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	/** OpenしたRTSプロファイルに存在したDataport要素を探し出す */
+	private Dataport findOriginalDataPort(List<Dataport> ports, String name) 
+	{
+		for (Dataport port : ports) {
+			if (port.getName().equals(name)) {
+				return port;
+			}
+		}
+		return null;
+	}
+	/*
+	The definition of a method with a different return value 
+	with the same erasure and signature becomes an error from JDK7. 
+	For the reason, Coped with it.
+	*/
+	/*
 	private Dataport findOriginalPort(List<Dataport> ports, String name) {
 		for (Dataport port : ports) {
 			if (port.getName().equals(name)) {
@@ -1304,8 +1319,24 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 		}
 		return null;
 	}
+	*/
 
 	/** OpenしたRTSプロファイルに存在したServiceport要素を探し出す */
+	private Serviceport findOriginalServicePort(List<Serviceport> ports, String name) 
+	{
+		for (Serviceport port : ports) {
+			if (port.getName().equals(name)) {
+				return port;
+			}
+		}
+		return null;
+	}
+	/*
+	The definition of a method with a different return value 
+	with the same erasure and signature becomes an error from JDK7. 
+	For the reason, Coped with it.
+	*/
+	/*
 	private Serviceport findOriginalPort(List<Serviceport> ports, String name) {
 		for (Serviceport port : ports) {
 			if (port.getName().equals(name)) {
@@ -1314,6 +1345,7 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 		}
 		return null;
 	}
+	*/
 
 	/** OpenしたRTSプロファイルに存在したComponent要素を探し出す */
 	private Component findOriginalComponent(
