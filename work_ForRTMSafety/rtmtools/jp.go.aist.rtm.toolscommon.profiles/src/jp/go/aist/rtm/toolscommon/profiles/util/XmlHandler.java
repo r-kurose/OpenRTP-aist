@@ -214,8 +214,6 @@ public class XmlHandler {
 	}
 
 	public RtcProfile restoreFromXmlRtc(String targetXML) throws Exception {
-		System.out.println("restoreFromXmlRtc entry");
-		System.out.println(targetXML);
 		RtcProfile result = null;
 	    SAXParserFactory spfactory = SAXParserFactory.newInstance();
 	    SAXParser parser = spfactory.newSAXParser();
@@ -243,17 +241,12 @@ public class XmlHandler {
 	    xmlReader = new StringReader(targetXML);
 	    Object profile = ((JAXBElement<?>)unmarshaller.unmarshal(xmlReader)).getValue();
 	    //
-		System.out.println("restoreFromXmlRtc 060");
 	    if( xmlParser.version.equals("0.1") ) {
-		System.out.println("restoreFromXmlRtc 061");
 	    	result = convertRtcProfile01to02(profile);
-		System.out.println("restoreFromXmlRtc 062");
 	    } else {
-		System.out.println("restoreFromXmlRtc 063");
 	    	result = (RtcProfile)profile;
 	    }
 
-		System.out.println("restoreFromXmlRtc return");
 	    return result;
 	}
 	
