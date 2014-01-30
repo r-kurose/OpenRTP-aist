@@ -53,39 +53,30 @@ public class SystemDiagramDropTargetListener extends
 
 	@Override
 	protected void updateTargetRequest() {
-		System.out.println("updateTargetRequest() entry");
 		((CreateRequest) getTargetRequest()).setLocation(getDropLocation());
-		System.out.println("updateTargetRequest() return");
 	}
 
 	@Override
 	protected Request createTargetRequest() {
-		System.out.println("createTargetRequest() entry");
 		ComponentFactory factory = new ComponentFactory();
 		List<Component> components = getComponents();
 		setComponents(factory, components);
 
 		CreateRequest result = new CreateRequest(); // nullObjectとして返す。
 		result.setFactory(factory);
-		System.out.println("createTargetRequest() return");
 		return result;
 	}
 
 	void setComponents(ComponentFactory factory, List<Component> components) {
-		System.out.println("setComponents() entry");
 		if (components == null || components.isEmpty()) {
-			System.out.println("setComponents() return 0");
 			return;
 		}
 		for (Component c : components) {
-			System.out.println("setComponents() c.getLanguage()="+c.getLanguage());
 			factory.addComponent(c);
 		}
-		System.out.println("setComponents() return 1");
 	}
 
 	List<Component> getComponents() {
-		System.out.println("getComponents() entry");
 		List<Component> result = new ArrayList<Component>();
 		if (getCurrentEvent().data instanceof IStructuredSelection) {
 			IStructuredSelection selection = (IStructuredSelection) getCurrentEvent().data;
@@ -100,30 +91,24 @@ public class SystemDiagramDropTargetListener extends
 				if (isOnline() && obj instanceof NamingObjectNode) {
 					result.add(comp);
 				} else if (!isOnline() && obj instanceof RTCRVLeafItem) {
-					System.out.println("getComponents() offline add");
 					result.add(comp);
 				}
 			}
 		}
-		System.out.println("getComponents() return");
 		return result;
 	}
 
 	@Override
 	protected void handleDrop() {
-		System.out.println("handleDrop() entry");
 		IStructuredSelection selection = (IStructuredSelection) LocalSelectionTransfer
 				.getInstance().getSelection();
 		getCurrentEvent().data = selection;
 		super.handleDrop();
-		System.out.println("handleDrop() return");
 	}
 
 	@Override
 	public boolean isEnabled(DropTargetEvent event) {
-		System.out.println("isEnabled() entry");
 		if (!super.isEnabled(event)) {
-			System.out.println("isEnabled() return false 0");
 			return false;
 		}
 		// オンラインエディタへは NameServiceViewから DnD可能
@@ -134,14 +119,11 @@ public class SystemDiagramDropTargetListener extends
 		while (iter.hasNext()) {
 			Object obj = iter.next();
 			if (isOnline() && obj instanceof NamingObjectNode) {
-				System.out.println("isEnabled() return true 0");
 				return true;
 			} else if (!isOnline() && obj instanceof RTCRVLeafItem) {
-				System.out.println("isEnabled() return true 1");
 				return true;
 			}
 		}
-		System.out.println("isEnabled() return false 1");
 		return false;
 	}
 

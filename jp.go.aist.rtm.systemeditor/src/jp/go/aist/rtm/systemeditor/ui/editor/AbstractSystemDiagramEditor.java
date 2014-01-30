@@ -531,7 +531,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	protected void save(IFile file, IProgressMonitor progressMonitor)
 			throws CoreException {
 		
-		System.out.println("AbstractSystemDiagramEditor.save() entry");
 		List<AbstractSystemDiagramEditor> editors = new ArrayList<AbstractSystemDiagramEditor>();
 		editors.add(this);
 		
@@ -590,7 +589,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 			// STEP1: リソースを作成
 			progressMonitor.worked(1);
 
-			System.out.println("save 050 file="+file.getLocation().toOSString());
 			Resource resource = null;
 			ResourceSet resourceSet = new ResourceSetImpl();
 			resource = resourceSet.createResource(URI.createFileURI(file
@@ -603,30 +601,16 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 			SystemDiagram diagram = systemDiagram.getRootDiagram();
 			RtsProfileExt profile = handler.save(diagram);
 			diagram.setProfile(profile);
-			System.out.println("save 200 ");
 			//
 			org.eclipse.emf.common.util.EList<jp.go.aist.rtm.toolscommon.model.component.Component> coms = diagram.getComponents();
-			for(jp.go.aist.rtm.toolscommon.model.component.Component com : coms)
-			{
-				System.out.print(" "+com.getTypeNameL()+" "+com.getComponentId()+" "+com.getPath());
-				System.out.print(" "+com.getInstanceNameL()+" "+com.getVenderL()+" "+com.getDescriptionL());
-				System.out.print(" "+com.getCategoryL()+" "+com.getTypeNameL()+" "+com.getVersionL());
-				System.out.print(" "+com.getOutportDirection()+" "+com.getCompositeTypeL()+" "+com.getComponentId());
-				System.out.println(" "+com.getLanguage());
-			}
 			//
-			System.out.println("save 210 ");
 
 			// STEP3: 拡張ポイント (RTSプロファイル保存前)
 			progressMonitor.worked(3);
 
-			System.out.println("save 300");
-			System.out.println(profile);
 			ProfileSaver creator = new ProfileSaver();
 			for (SaveProfileExtension.ErrorInfo info : creator.preSave(
 					diagram, profile)) {
-				System.out.println("save 310");
-				//System.out.println(info.getMessage());
 				if (info.isError()) {
 					openError(DIALOG_TITLE_ERROR, info.getMessage());
 					progressMonitor.done();
@@ -638,7 +622,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					}
 				}
 			}
-			System.out.println("save 320");
 
 			// STEP4: RTSプロファイルオブジェクトをファイルへ保存
 			progressMonitor.worked(4);
@@ -683,7 +666,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					final String TEMPLATE_PATH = "jp/go/aist/rtm/systemeditor/template";
 					String tablepath = file.getLocation().toOSString();
 					int lastDotPos = tablepath.lastIndexOf(File.separator);
-					System.out.println("save 475 tablepath.lastIndexOf('.')="+lastDotPos);
 					if (lastDotPos == -1) 
 					{
 						;
@@ -703,7 +685,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					newdir.mkdir();
 					File makedir = new File(makepath);
 					makedir.mkdir();
-					System.out.println("save 476 tablepath="+tablepath);
 					Map<String, Object> contextMap = new HashMap<String, Object>();
 					contextMap.put("tablepath", tablepath);
 					contextMap.put("makepath", makepath);
@@ -764,7 +745,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 					.getClass().getName(), 0, Messages.getString("AbstractSystemDiagramEditor.28"), e); //$NON-NLS-1$
 			throw new CoreException(status);
 		}
-		System.out.println("AbstractSystemDiagramEditor.save() return");
 	}
 
 	private Component getLocalObject(SystemDiagram systemDiagram,
@@ -1163,7 +1143,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 			connsMap.put(conn.getTargetDataPort().getPortName().replace(".", "_"),conn.getSourceDataPort().getPortName().replace(".", "_"));
 		}
 		contextMap.put("connectPorts", connsMap);
-		System.out.println("generateDataPortConctTbl 050");
 		GeneratedResult gr = jp.go.aist.rtm.toolscommon.util.TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
 		if (ins != null) 
 		{
@@ -1176,7 +1155,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		pw.println(gr.getCode());
 		pw.close();
 
-		//System.out.println(gr.getCode());
 		}
 		catch(Exception e)
 		{
@@ -1197,7 +1175,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		String dataPortContct = tablepath+File.separator+"DataPortCreateTbl.c";
 		RtsProfileExt profile = (RtsProfileExt)contextMap.get("profile");
 		List<org.openrtp.namespaces.rts.version02.Component> componetns = profile.getComponents();
-		System.out.println("componetns.size():"+componetns.size());
 		ArrayList<String> complist = new ArrayList<String>();
 		for(org.openrtp.namespaces.rts.version02.Component comp :componetns)
 		{
@@ -1213,7 +1190,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 				complist.add(comp.getInstanceName()); 
 			}
 		}
-		System.out.println("complist.size():"+complist.size());
 		contextMap.put("ports", complist);
 		GeneratedResult gr = TemplateUtil.createGeneratedResult(ins, contextMap, dataPortContct);
 		if (ins != null) 
@@ -1226,7 +1202,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		PrintWriter pw = new PrintWriter(bw);
 		pw.println(gr.getCode());
 		pw.close();
-		//System.out.println(gr.getCode());
 		}
 		catch(Exception e)
 		{
@@ -1265,7 +1240,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		PrintWriter pw = new PrintWriter(bw);
 		pw.println(gr.getCode());
 		pw.close();
-		//System.out.println(gr.getCode());
 		}
 		catch(Exception e)
 		{
@@ -1304,7 +1278,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		PrintWriter pw = new PrintWriter(bw);
 		pw.println(gr.getCode());
 		pw.close();
-		//System.out.println(gr.getCode());
 		}
 		catch(Exception e)
 		{
@@ -1343,7 +1316,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		PrintWriter pw = new PrintWriter(bw);
 		pw.println(gr.getCode());
 		pw.close();
-		//System.out.println(gr.getCode());
 		}
 		catch(Exception e)
 		{
@@ -1373,7 +1345,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		PrintWriter pw = new PrintWriter(bw);
 		pw.println(gr.getCode());
 		pw.close();
-		//System.out.println(gr.getCode());
 		}
 		catch(Exception e)
 		{
@@ -1412,7 +1383,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		PrintWriter pw = new PrintWriter(bw);
 		pw.println(gr.getCode());
 		pw.close();
-		//System.out.println(gr.getCode());
 		}
 		catch(Exception e)
 		{
@@ -1451,7 +1421,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		PrintWriter pw = new PrintWriter(bw);
 		pw.println(gr.getCode());
 		pw.close();
-		//System.out.println(gr.getCode());
 		}
 		catch(Exception e)
 		{
@@ -1493,7 +1462,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		PrintWriter pw = new PrintWriter(bw);
 		pw.println(gr.getCode());
 		pw.close();
-		//System.out.println(gr.getCode());
 		cl = Thread.currentThread().getContextClassLoader();
 		ins = cl.getResourceAsStream(template);
 		contextMap.put("build_config", "Release");
