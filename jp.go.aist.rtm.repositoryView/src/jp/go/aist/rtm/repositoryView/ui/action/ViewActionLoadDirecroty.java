@@ -38,7 +38,6 @@ public class ViewActionLoadDirecroty implements IViewActionDelegate  {
 
 	@SuppressWarnings("unchecked")
 	public void run(IAction action) {
-		System.out.println("ViewActionLoadDirecroty.run() entry");
 
 		DirectoryDialog directoryDialog = new DirectoryDialog(view.getSite().getShell(),SWT.NULL);
 		directoryDialog.setText(Messages.getString("ViewActionLoadDirecroty.0")); //$NON-NLS-1$
@@ -88,7 +87,6 @@ public class ViewActionLoadDirecroty implements IViewActionDelegate  {
 			RepositoryViewFactory.buildTree(itemFirst, module, RepositoryViewLeafItem.RTC_LEAF);
 		}
     	viewer.refresh();
-		System.out.println("ViewActionLoadDirecroty.run() return");
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {

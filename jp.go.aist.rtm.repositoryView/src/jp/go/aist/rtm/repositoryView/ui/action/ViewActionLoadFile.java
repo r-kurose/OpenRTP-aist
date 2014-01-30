@@ -38,7 +38,6 @@ public class ViewActionLoadFile implements IViewActionDelegate {
 
 	@SuppressWarnings("unchecked")
 	public void run(IAction action) {
-		System.out.println("ViewActionLoadFile.run() entry");
 
 		//対象ファイルの選択
 		FileDialog fileDialog = new FileDialog(view.getSite().getShell(), SWT.OPEN);
@@ -46,7 +45,6 @@ public class ViewActionLoadFile implements IViewActionDelegate {
 		fileDialog.setFilterExtensions(new String[]{"*.xml"}); //$NON-NLS-1$
 		String targetFileName = fileDialog.open();
 		if( targetFileName==null ) return;
-		System.out.println("ViewActionLoadFile.run() 005 targetFileName="+targetFileName);
 		
 		ComponentSpecification module = null;
     	RtcProfileHandler handler = new RtcProfileHandler();
@@ -84,7 +82,6 @@ public class ViewActionLoadFile implements IViewActionDelegate {
  		}
 		RepositoryViewFactory.buildTree(itemFirst, module, RepositoryViewLeafItem.RTC_LEAF);
 		viewer.refresh();
-		System.out.println("ViewActionLoadFile.run() return");
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
