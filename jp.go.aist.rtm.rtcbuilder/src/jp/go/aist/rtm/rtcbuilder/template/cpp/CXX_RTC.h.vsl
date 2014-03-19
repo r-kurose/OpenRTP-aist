@@ -10,11 +10,6 @@
 ${sharp}ifndef ${rtcParam.name.toUpperCase()}_H
 ${sharp}define ${rtcParam.name.toUpperCase()}_H
 
-${sharp}include <rtm/Manager.h>
-${sharp}include <rtm/${rtcParam.componentKind}Base.h>
-${sharp}include <rtm/CorbaPort.h>
-${sharp}include <rtm/DataInPort.h>
-${sharp}include <rtm/DataOutPort.h>
 ${sharp}include <rtm/idl/BasicDataTypeSkel.h>
 ${sharp}include <rtm/idl/ExtendedDataTypesSkel.h>
 ${sharp}include <rtm/idl/InterfaceDataTypesSkel.h>
@@ -35,10 +30,20 @@ ${sharp}include "${tmpltHelper.getFilenameNoExt(${consumerIdlFile.idlFile})}${tm
 
 // </rtc-template>
 
-using namespace RTC;
+// Service Consumer stub headers
+// <rtc-template block="port_stub_h">
 #foreach($type in ${cXXConv.getPortModules(${rtcParam})})
 ${cXXConv.getDataportUsingNamespace(${type})}
 #end
+// </rtc-template>
+
+using namespace RTC;
+
+${sharp}include <rtm/Manager.h>
+${sharp}include <rtm/${rtcParam.componentKind}Base.h>
+${sharp}include <rtm/CorbaPort.h>
+${sharp}include <rtm/DataInPort.h>
+${sharp}include <rtm/DataOutPort.h>
 
 /*!
  * @class ${rtcParam.name}
