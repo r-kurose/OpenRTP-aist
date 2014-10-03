@@ -40,6 +40,7 @@ add_library(${dol}{PROJECT_NAME} ${dol}{LIB_TYPE} ${dol}{comp_srcs}
   ${dol}{comp_headers} ${dol}{ALL_IDL_SRCS})
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "")
 set_source_files_properties(${dol}{ALL_IDL_SRCS} PROPERTIES GENERATED 1)
+add_custom_target(ALL_IDL_TGT)
 add_dependencies(${dol}{PROJECT_NAME} ALL_IDL_TGT)
 target_link_libraries(${dol}{PROJECT_NAME} ${dol}{OPENRTM_LIBRARIES})
 
