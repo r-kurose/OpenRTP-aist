@@ -1,0 +1,20 @@
+typedef sequence<string> EchoList;
+typedef sequence<float> ValueList;
+
+struct Time
+{
+  unsigned long sec;    // sec
+  unsigned long nsec;   // nano sec
+};
+
+struct TimedState
+{
+  Time tm;
+  short data;
+};
+
+interface MyService
+{
+  EchoList get_echo_history();
+  ValueList get_value_history();
+};
