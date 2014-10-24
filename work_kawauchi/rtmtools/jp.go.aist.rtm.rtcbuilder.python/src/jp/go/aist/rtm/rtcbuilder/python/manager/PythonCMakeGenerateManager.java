@@ -89,7 +89,7 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 	}
 
 	@Override
-	public GeneratedResult generateResourceDescriptionTXT(Map<String, Object> contextMap) {
+	public GeneratedResult generateResourceLicenseTXT(Map<String, Object> contextMap) {
 		String outfile = "cpack_resources/License.txt";
 		String infile = "cmake/License.txt.vsl";
 		return generatePython(infile, outfile, contextMap);
