@@ -38,7 +38,7 @@ set(EXEC_FILES ""
 #end
 )
 
-set(OTHER_SRCS CMakeLists.txt Doxyfile.in
+set(OTHER_SRCS CMakeLists.txt
                RTC.xml ${rtcParam.name}.conf rtc.conf)
 
 
@@ -74,8 +74,8 @@ endif()
 
 ${sharp} add uninstall target
 configure_file(
-    "${dol}{CMAKE_CURRENT_SOURCE_DIR}/cmake_modules/cmake_uninstall.cmake.in"
-    "${dol}{CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+    "${dol}{CMAKE_CURRENT_SOURCE_DIR}/cmake/uninstall_target.cmake.in"
+    "${dol}{CMAKE_CURRENT_BINARY_DIR}/uninstall_target.cmake"
     IMMEDIATE @ONLY)
 add_custom_target(uninstall COMMAND 
     ${dol}{CMAKE_COMMAND} -P ${dol}{CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
@@ -105,11 +105,11 @@ install(DIRECTORY ${dol}{CMAKE_CURRENT_BINARY_DIR}/bin/ DESTINATION "${dol}{INST
 
 
 ${sharp} target settings for document
-configure_file("${dol}{CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in"
-               "${dol}{CMAKE_CURRENT_BINARY_DIR}/Doxyfile")
+configure_file("${dol}{CMAKE_CURRENT_SOURCE_DIR}/doc/doxyfile.in"
+               "${dol}{CMAKE_CURRENT_BINARY_DIR}/doxyfile")
 
 add_custom_target(doxygen COMMAND
-                  ${dol}{DOXYGEN_EXECUTABLE} ${dol}{CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+                  ${dol}{DOXYGEN_EXECUTABLE} ${dol}{CMAKE_CURRENT_BINARY_DIR}/doxyfile)
 
 set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES doc)
 
