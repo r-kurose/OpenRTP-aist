@@ -48,7 +48,7 @@ set(SHARE_INSTALL_DIR
     "components/share/${dol}{PROJECT_NAME_LOWER}-${dol}{PROJECT_VERSION_MAJOR}")
 
 ${sharp} Get necessary dependency information
-find_package(OpenRTM)
+find_package(OpenRTM HINTS /usr/lib64/openrtm-1.1/cmake)
 if(${dol}{OpenRTM_FOUND})
   MESSAGE(STATUS "OpenRTM configuration Found")
 else(${dol}{OpenRTM_FOUND})
