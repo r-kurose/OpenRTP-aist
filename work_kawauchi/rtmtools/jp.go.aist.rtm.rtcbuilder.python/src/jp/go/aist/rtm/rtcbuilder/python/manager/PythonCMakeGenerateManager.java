@@ -50,6 +50,13 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 	public List<GeneratedResult> generateTemplateCode10(
 			Map<String, Object> contextMap) {
 		List<GeneratedResult> result = super.generateTemplateCode10(contextMap);
+
+		GeneratedResult gr;
+		gr = generateResourceDescriptionTXT(contextMap);
+		result.add(gr);
+		gr = generateResourceLicenseTXT(contextMap);
+		result.add(gr);
+		
 		return result;
 	}
 
