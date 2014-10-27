@@ -106,7 +106,7 @@ install(DIRECTORY ${dol}{CMAKE_CURRENT_BINARY_DIR}/bin/ DESTINATION "${dol}{INST
 
 ${sharp} target settings for document
 configure_file("${dol}{CMAKE_CURRENT_SOURCE_DIR}/doc/doxyfile.in"
-               "${dol}{CMAKE_CURRENT_BINARY_DIR}/doxyfile")
+               "${dol}{CMAKE_CURRENT_BINARY_DIR}/doc/doxyfile")
 
 add_custom_target(doxygen COMMAND
                   ${dol}{DOXYGEN_EXECUTABLE} ${dol}{CMAKE_CURRENT_BINARY_DIR}/doxyfile)
