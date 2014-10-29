@@ -50,6 +50,13 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 	public List<GeneratedResult> generateTemplateCode10(
 			Map<String, Object> contextMap) {
 		List<GeneratedResult> result = super.generateTemplateCode10(contextMap);
+
+		GeneratedResult gr;
+		gr = generateResourceDescriptionTXT(contextMap);
+		result.add(gr);
+		gr = generateResourceLicenseTXT(contextMap);
+		result.add(gr);
+		
 		return result;
 	}
 
@@ -78,6 +85,18 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 	public GeneratedResult generateResourceWixXSL(Map<String, Object> contextMap) {
 		String outfile = "cpack_resources/wix.xsl.in";
 		String infile = "cmake/wix.xsl.in.vsl";
+		return generatePython(infile, outfile, contextMap);
+	}
+
+	public GeneratedResult generateResourceDescriptionTXT(Map<String, Object> contextMap) {
+		String outfile = "cpack_resources/Description.txt";
+		String infile = "cmake/Description.txt.vsl";
+		return generatePython(infile, outfile, contextMap);
+	}
+
+	public GeneratedResult generateResourceLicenseTXT(Map<String, Object> contextMap) {
+		String outfile = "cpack_resources/License.txt";
+		String infile = "cmake/License.txt.vsl";
 		return generatePython(infile, outfile, contextMap);
 	}
 
