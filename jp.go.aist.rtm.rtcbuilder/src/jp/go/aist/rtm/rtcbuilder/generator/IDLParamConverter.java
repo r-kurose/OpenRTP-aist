@@ -174,6 +174,10 @@ public class IDLParamConverter {
 								tdparam.setScopedName(ifname);
 								tdparam.setTargetDef(node2String(n));
 							}
+							@Override
+							public void visit(array_declarator n) {
+								tdparam.setArray(true);
+							}
 						});
 						n.type_spec.accept(new DepthFirstVisitor(){
 							@Override
@@ -187,10 +191,15 @@ public class IDLParamConverter {
 									@Override
 									public void visit(base_type_spec n) {
 										tdparam.setOriginalDef(node2String(n));
+										
 									}
 									@Override
 									public void visit(scoped_name n) {
 										tdparam.setOriginalDef(node2String(n));
+									}
+									@Override
+									public void visit(array_declarator n) {
+										tdparam.setArray(true);
 									}
 								});
 								

@@ -28,6 +28,19 @@ public class CORBAParseTypeDefTest extends TestBase {
 		assertEquals(false, typedefParams.get(1).isSequence());
 	}
 	
+	public void testArrayDef() throws Exception{
+		String idlContent = FileUtil.readFile(rootPath + "\\resource\\IDL\\InterfaceSample.idl");
+		IDLParser parser = new IDLParser(new StringReader(idlContent));
+
+		specification spec = parser.specification();
+		List<TypeDefParam> typedefParams = IDLParamConverter
+				.convert_typedef(spec, "");
+		
+		assertEquals(1, typedefParams.size());
+		assertEquals("short", typedefParams.get(0).getOriginalDef());
+		assertEquals(true, typedefParams.get(0).isArray());
+	}
+	
 	public void testModule() throws Exception{
 		String idlContent = FileUtil.readFile(rootPath + "\\resource\\IDL\\MyServiceRec.idl");
 		IDLParser parser = new IDLParser(new StringReader(idlContent));
