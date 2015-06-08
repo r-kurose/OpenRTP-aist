@@ -1,0 +1,6 @@
+openrtp (1.1.0-0~ppa7precise) precise; urgency=low
+
+  * 1.1.0-0 (1.0.2-RELEASE) initial release for ppa.
+
+ -- OpenRTM-aist <openrtm@openrtm.org>  Sun, 7 Jun 2015 10:21:33 +0900
+
