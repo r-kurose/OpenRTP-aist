@@ -11,8 +11,9 @@
 
 	<property environment="env"/>
 	<property name="eclipse.home" value="${env.ECLIPSE_HOME}"/>
-
+	<!--
 	<taskdef resource="net/sf/ant4eclipse/antlib.xml" />
+-->
 	<property name="targetPlatformLocation" value="${eclipse.home}" />
 	<property name="workspace" value="${basedir}/.." />
 	<property name="project.name" value="jp.go.aist.rtm.toolscommon" />

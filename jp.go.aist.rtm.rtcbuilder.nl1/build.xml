@@ -1,4 +1,7 @@
-<project name="jp.go.aist.rtm.rtcbuilder.nl1" default="jar">
+<project name="jp.go.aist.rtm.rtcbuilder.nl1" default="jar"
+	xmlns:ant4eclipse="antlib:org.ant4eclipse"
+	xmlns:antcontrib="antlib:net.sf.antcontrib"	>
+
 	<property name="target.name" value="jp.go.aist.rtm.rtcbuilder.nl1" />
 
 	<taskdef name="manifesttask" classname="aist.ManifestTask" />
@@ -11,8 +14,9 @@
 
 	<property environment="env"/>
 	<property name="eclipse.home" value="${env.ECLIPSE_HOME}"/>
-
+	<!--
 	<taskdef resource="net/sf/ant4eclipse/antlib.xml" />
+-->
 	<property name="targetPlatformLocation" value="${eclipse.home}" />
 	<property name="workspace" value="${basedir}/.." />
 	<property name="project.name" value="jp.go.aist.rtm.toolscommon" />

@@ -1,4 +1,6 @@
-<project name="jp.go.aist.rtm.repositoryView" default="jar">
+<project name="jp.go.aist.rtm.repositoryView" default="jar"
+	xmlns:ant4eclipse="antlib:org.ant4eclipse"
+	xmlns:antcontrib="antlib:net.sf.antcontrib"	>
 	<property name="target.name" value="jp.go.aist.rtm.repositoryView" />
 
 	<taskdef name="manifesttask" classname="aist.ManifestTask" />
@@ -13,7 +15,14 @@
 	<property environment="env"/>
 	<property name="eclipse.home" value="${env.ECLIPSE_HOME}"/>
 
+<!--
 	<taskdef resource="net/sf/ant4eclipse/antlib.xml" />
+-->
+	<taskdef uri="antlib:net.sf.antcontrib"
+		resource="net/sf/antcontrib/antlib.xml" />
+	<taskdef uri="antlib:org.ant4eclipse"
+		resource="org/ant4eclipse/antlib.xml" />
+
 	<property name="targetPlatformLocation" value="${eclipse.home}" />
 	<property name="workspace" value="${basedir}/.." />
 	<property name="project.name" value="jp.go.aist.rtm.repositoryView" />
@@ -37,8 +46,28 @@
 	</target>
 
 	<target name="compile" description="ソースをコンパイルします">
-		<getEclipseClasspath pathid="build.classpath" targetplatformlocation="${targetPlatformLocation}"
-					workspace="${workspace}" projectname="${project.name}"/>
+<!--
+		<getEclipseClasspath
+			workspace="${workspace}"
+			projectname="${project.name}"
+		       	pathid="build.classpath" 
+			targetplatformlocation="${targetPlatformLocation}"
+			/>
+-->
+		<ant4eclipse:targetPlatform id="eclipse-4.4">
+		  <location dir="${targetPlatformLocation}" />
+		</ant4eclipse:targetPlatform>	
+		<ant4eclipse:jdtClassPathLibrary name="org.eclipse.jdt.junit.JUNIT_CONTAINER/4">
+			<fileset dir="${eclipse.home}/plugins/org.junit_4.11.0.v201303080030" />
+		</ant4eclipse:jdtClassPathLibrary>	
+
+		<ant4eclipse:getJdtClassPath 
+			pathid="build.classpath" 
+			workspacedirectory="${workspace}" 
+			projectname="${project.name}" >
+			<jdtclasspathcontainerargument key="target.platform" value="eclipse-4.4" />
+		</ant4eclipse:getJdtClassPath>
+
 		<javac srcdir="${source}" destdir="${build.dir}"
 			classpathref="build.classpath"  encoding="UTF-8" />
 	</target>

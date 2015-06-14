@@ -708,7 +708,7 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 		ServiceportExt port = factory.createServiceportExt();
 		port.setName(ePort.getNameL());
 		if (original != null) {
-			Serviceport originalPort = findOriginalPort(original.getServicePorts(), port.getName());
+			Serviceport originalPort = findOriginalServicePort(original.getServicePorts(), port.getName());
 			if (originalPort instanceof ServiceportExt) {
 				ServiceportExt source = (ServiceportExt) originalPort;
 				port.setComment(source.getComment());
@@ -1298,7 +1298,7 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	/** OpenしたRTSプロファイルに存在したServiceport要素を探し出す */
-	private Serviceport findOriginalPort(List<Serviceport> ports, String name) {
+	private Serviceport findOriginalServicePort(List<Serviceport> ports, String name) {
 		for (Serviceport port : ports) {
 			if (port.getName().equals(name)) {
 				return port;
