@@ -185,11 +185,12 @@ public class JavaConverter {
 	 * @return Java型
 	 */
 	public String convCORBA2Java(ServiceMethodParam typeDef, ServiceClassParam scp) {
+		boolean isBasicType = false;
 		String strType = getTypeDefs(typeDef.getType(), scp);
 		if( strType==null ) {
 			strType = typeDef.getType();
 		} else {
-			strType.replaceAll("::", ".");
+			strType = strType.replaceAll("::", ".");
 		}
 		
 		String rawType = strType.replaceAll("\\[\\]", "");
@@ -197,21 +198,38 @@ public class JavaConverter {
 		
 		String result;
 		if( convType == null ) {
-			if(typeDef.isSequence() && !typeDef.isStruct()) {
+			if(typeDef.isSequence() ) {
 				result = strType;
 				
 			} else {
-				result = typeDef.getType();
+				if(typeDef.isAlias()){
+					result = typeDef.getOriginalType();
+				}else{
+					result = typeDef.getType();
+				}
+				result = result.replaceAll(scp.getName()+"::", "");
+
+				if(typeDef.isArray()){
+					result = result+"[]";
+				}
 			}
 		} else {
+			isBasicType = true;
 			result = strType.replaceAll(rawType, convType);
 			
 		}
 		
+		result=result.replaceAll("::", ".");
+		String mdl = typeDef.getModule();
+		if(!isBasicType && mdl.length() > 0){
+			result = mdl.replaceAll("::", ".") + result;
+		}
+
 		return result;
 	}
 	private String getTypeDefs(String target, ServiceClassParam scp) {
 		String result = null;
+		target = target.replaceAll(scp.getName()+"::", "");
 		
 		TypeDefParam source = scp.getTypeDef().get(target);
 		if( source==null || source.getOriginalDef()==null || source.getOriginalDef().length()==0 ) {
@@ -219,7 +237,13 @@ public class JavaConverter {
 		} else {
 			result = getTypeDefs(source.getOriginalDef(), scp);
 			if( source!=null ) {
-				if( source.isSequence() || source.isArray() ) result += "[]";
+				if( source.isSequence()  ){
+				       	result += "[]";
+				}else if(  source.isArray() ){
+					for(int i=0; i< source.getArrayDim() ; i++){
+				       		result += "[]";
+					}
+				}
 			}
 		}
 		return result;
@@ -245,8 +269,19 @@ public class JavaConverter {
 	 */
 	public String convCORBA2JavaforArg(ServiceArgumentParam typeDef, String strDirection, ServiceClassParam scp) {
 		String result = "";
+		boolean isBasicType = false;
 		String strType = getTypeDefs(typeDef.getType(), scp);
-		if( typeDef.getType().equals(strType) ) {
+
+
+		if( mapType.get(strType) != null){
+			isBasicType = true;
+			if( strDirection.equals(dirIn) ) {
+				result = mapType.get(strType);
+			} else {
+				result = mapTypeHolder.get(strType);
+			}
+
+		}else if( typeDef.getType().equals(strType) ) {
 			if( strDirection.equals(dirIn) ) {
 				result = mapType.get(typeDef.getType());
 				if( result == null ) result = typeDef.getType();
@@ -254,6 +289,26 @@ public class JavaConverter {
 				result = mapTypeHolder.get(typeDef.getType());
 				if( result == null ) result = typeDef.getType() + "Holder";
 			}
+		}else if( typeDef.isArray() || typeDef.isSequence() ) {
+			if( !strDirection.equals(dirIn) ) {
+				result = typeDef.getType() + "Holder";
+			}else{
+				String rawType = strType.replaceAll("\\[\\]", "");
+				String convType = mapType.get(rawType);
+				if( convType != null ) {
+					isBasicType = true;
+					result = strType.replaceAll(rawType, convType);
+				}else{
+					result = strType;
+				}
+			}
+
+		}else if( typeDef.isStruct() ) {
+			result = strType;
+			if( !strDirection.equals(dirIn) ){
+			       	result = result + "Holder";
+			}
+
 		} else {
 			strType.replaceAll("::", ".");
 			String rawType = strType.replaceAll("\\[\\]", "");
@@ -266,6 +321,7 @@ public class JavaConverter {
 				}
 				if( !strDirection.equals(dirIn) ) result = result + "Holder";
 			} else {
+				isBasicType = true;
 				result = strType.replaceAll(rawType, convType);
 				
 			}
@@ -275,6 +331,12 @@ public class JavaConverter {
 				}
 			}
 		}
+		result = result.replaceAll("::", "Package.");
+		String mdl = typeDef.getModule();
+		if(!isBasicType && mdl.length() > 0){
+			result = mdl.replaceAll("::", ".") + result;
+		}
+
 		return result;
 	}
 	/**

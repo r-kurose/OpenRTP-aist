@@ -38,22 +38,22 @@ public class CXXConverter {
 	private final String idlAny = "any";
 	private final String idlVoid= "void";
 
-	private final String cppShort = "CORBA::Short";
-	private final String cppLong = "CORBA::Long";
-	private final String cppLongLong = "CORBA::LongLong";
-	private final String cppUnsignedShort = "CORBA::UShort";
-	private final String cppUnsignedLong = "CORBA::ULong";
-	private final String cppUnsignedLongLong = "CORBA::ULongLong";
-	private final String cppFloat = "CORBA::Float";
-	private final String cppDouble = "CORBA::Double";
-	private final String cppLongDouble = "CORBA::LongDouble";
-	private final String cppBoolean = "CORBA::Boolean";
-	private final String cppChar = "CORBA::Char";
-	private final String cppWchar = "CORBA::WChar";
-	private final String cppOctet = "CORBA::Octet";
+	private final String cppShort = "::CORBA::Short";
+	private final String cppLong = "::CORBA::Long";
+	private final String cppLongLong = "::CORBA::LongLong";
+	private final String cppUnsignedShort = "::CORBA::UShort";
+	private final String cppUnsignedLong = "::CORBA::ULong";
+	private final String cppUnsignedLongLong = "::CORBA::ULongLong";
+	private final String cppFloat = "::CORBA::Float";
+	private final String cppDouble = "::CORBA::Double";
+	private final String cppLongDouble = "::CORBA::LongDouble";
+	private final String cppBoolean = "::CORBA::Boolean";
+	private final String cppChar = "::CORBA::Char";
+	private final String cppWchar = "::CORBA::WChar";
+	private final String cppOctet = "::CORBA::Octet";
 	private final String cppString = "char*";
-	private final String cppWstring = "CORBA::WChar*";
-	private final String cppAny = "CORBA::Any*";
+	private final String cppWstring = "::CORBA::WChar*";
+	private final String cppAny = "::CORBA::Any*";
 	private final String cppVoid= "void";
 
 	public CXXConverter() {
@@ -147,15 +147,32 @@ public class CXXConverter {
 		String result = mapType.get(typeDef.getType());
 		if( result == null ) {
 			result = typeDef.getType();
-			if( !typeDef.getType().contains("::") ) {
-//				if(typeDef.isArray() && !typeDef.isStruct()) {
-				if(typeDef.isArray()) {
-					result = result + "_slice*";
-				} else if(typeDef.isSequence() || typeDef.isString() || typeDef.isChildString()) {
-					result = result + "*";
+
+			if(typeDef.isArray()) {
+				result = result + "_slice*";
+
+			}else if(typeDef.isSequence() ){
+				result = result + "*";
+
+			} else if(typeDef.isStruct()) {
+			   if(typeDef.isUnbounded()) {
+				result = result + "*";
+			   }
+
+			} else if(typeDef.isInterface()) {
+				if(typeDef.isAlias()) {
+					result = typeDef.getOriginalType() + "_ptr";
+				}else{
+					result = result + "_ptr";
 				}
-			} else {
-				if(typeDef.isStruct()) {
+
+			} else if(typeDef.isAlias()) {
+				if (typeDef.getOriginalType().equals("string")){
+					result = "char*";
+
+				}else if (typeDef.getOriginalType().equals("wstring")){
+					result = "::CORBA::WChar*";
+				}else if (typeDef.getOriginalType().equals("any")){
 					result = result + "*";
 				}
 			}
@@ -193,7 +210,7 @@ public class CXXConverter {
 				if(typeDef.isUnbounded()) {
 					result = typeDef.getOriginalType() + "_out";
 				} else {
-					result = "CORBA::String_out";
+					result = "::CORBA::String_out";
 				}
 			}
 			else if(typeDef.getDirection().equals("inout"))
@@ -201,61 +218,127 @@ public class CXXConverter {
 			
 		} else if(typeDef.getType().equals("wstring")) {
 			if(typeDef.getDirection().equals("in"))
-				result = "const CORBA::WChar*";
+				result = "const ::CORBA::WChar*";
 			else if(typeDef.getDirection().equals("out")) {
 				if(typeDef.isUnbounded()) {
 					result = typeDef.getOriginalType() + "_out";
 				} else {
-					result = "CORBA::WString_out";
+					result = "::CORBA::WString_out";
 				}
 			}
 			else if(typeDef.getDirection().equals("inout"))
-				result = "CORBA::WChar*&";
+				result = "::CORBA::WChar*&";
 			
 		} else if(typeDef.getType().equals("any")) {
 			if(typeDef.getDirection().equals("in"))
-				result = "const CORBA::Any&";
+				result = "const ::CORBA::Any&";
 			else if(typeDef.getDirection().equals("out"))
-				result = "CORBA::Any_OUT_arg";
+				result = "::CORBA::Any_OUT_arg";
 			else if(typeDef.getDirection().equals("inout"))
-				result = "CORBA::Any&";
-			
-		} else if(typeDef.isUnbounded() && typeDef.isArray()) {
-			if(typeDef.getDirection().equals("in"))
-				result = "const " + result;
-			else if(typeDef.getDirection().equals("out"))
-				result = result + "_out";
-			
-		} else if(typeDef.isUnbounded()) {
+				result = "::CORBA::Any&";
+
+		} else if(typeDef.isArray()) {
+			if( typeDef.getModule() != "" ){
+				result = typeDef.getModule()+result;
+			}
+			if(typeDef.isUnbounded() || typeDef.isInterface()
+			   || typeDef.getOriginalType().equals("string") 
+			   || typeDef.getOriginalType().equals("wstring") 
+			   || typeDef.getOriginalType().equals("any") 
+			){
+				if(typeDef.getDirection().equals("in"))
+					result = "const " + result;
+				else if(typeDef.getDirection().equals("out"))
+					result = result + "_out";
+		 	}else{
+				if(typeDef.getDirection().equals("in"))
+					result = "const " + result;
+		 	}
+
+		} else if(typeDef.isStruct() ) {
+			if( typeDef.getModule() != "" ){
+				result = typeDef.getModule()+result;
+			}
+			if(typeDef.getDirection().equals("in")){
+				result = "const " + result + "&";
+			}else if(typeDef.getDirection().equals("out")){
+				if( typeDef.isUnbounded() ){
+					result = result + "_out";
+				}else{
+					result = result + "&";
+				}
+			}else if(typeDef.getDirection().equals("inout")){
+				result = result + "&";
+			}
+
+		} else if(typeDef.isSequence() ) {
+			if( typeDef.getModule() != "" ){
+				result = typeDef.getModule()+result;
+			}
 			if(typeDef.getDirection().equals("in"))
 				result = "const " + result + "&";
 			else if(typeDef.getDirection().equals("out"))
 				result = result + "_out";
 			else if(typeDef.getDirection().equals("inout"))
 				result = result + "&";
-			
-		} else if(typeDef.isArray()) {
-			if(typeDef.getDirection().equals("in"))
-				result = "const " + result;
-			
-		} else {
-			if(typeDef.isStruct()) {
-				if(typeDef.getModule()!=null && typeDef.getModule().length()>0) {
-					result = typeDef.getModule() + result;
-				}
-				if(typeDef.getDirection().equals("in"))
-					result = "const " + result + "&";
-				else if(typeDef.getDirection().equals("out")) {
-					if(typeDef.isInnerArray()==false && typeDef.isChildDouble()) {
-						result = result + "&";
-					} else {
-						result = result + "_out";
-					}
-				}
+
+		} else if(typeDef.isInterface()) {
+			if(typeDef.getDirection().equals("in") || typeDef.getDirection().equals("inout") ){
+				if(typeDef.isAlias()) result = typeDef.getOriginalType();
+			 }
+
+			if(typeDef.getDirection().equals("in") ){
+				result = result + "_ptr";
+			}else if(typeDef.getDirection().equals("out"))
+				result = result + "_out";
+			else if(typeDef.getDirection().equals("inout")){
+				result = result + "_ptr&";
+			}
+
+		}else if(typeDef.isAlias()) {
+			if (typeDef.getOriginalType().equals("string")){
+				if(typeDef.getDirection().equals("in") )
+					result = "const char*";
+				else if(typeDef.getDirection().equals("out") )
+					result = result + "_out";
+				else if(typeDef.getDirection().equals("inout"))
+					result = "char*&";
+
+			}else if (typeDef.getOriginalType().equals("wstring")){
+				if(typeDef.getDirection().equals("in") )
+					result = "const ::CORBA::WChar*";
+				else if(typeDef.getDirection().equals("out") )
+					result = result + "_out";
+				else if(typeDef.getDirection().equals("inout"))
+					result = "::CORBA::WChar*&";
+
+			}else if (typeDef.getOriginalType().equals("any")){
+				if(typeDef.getDirection().equals("in") )
+					result = "const "+result+"&";
+				else if(typeDef.getDirection().equals("out") )
+					result = "::CORBA::Any_OUT_arg";
 				else if(typeDef.getDirection().equals("inout"))
 					result = result + "&";
 			} else {
-				if(typeDef.getDirection().equals("out") || typeDef.getDirection().equals("inout"))
+				if( typeDef.getModule() != "" ){
+			 		if( result.indexOf("::") < 0 ){
+						result = typeDef.getModule()+result;
+			 		}
+				}
+
+				if(typeDef.getDirection().equals("out") || typeDef.getDirection().equals("inout")){
+					result = result + "&";
+				}
+			}
+
+		} else {
+			if( typeDef.getModule() != "" ){
+			   if( result.indexOf("::") < 0 ){
+						result = typeDef.getModule()+result;
+			   }
+			}
+
+			if(typeDef.getDirection().equals("out") || typeDef.getDirection().equals("inout")) {
 					result = result + "&";
 			}
 		}

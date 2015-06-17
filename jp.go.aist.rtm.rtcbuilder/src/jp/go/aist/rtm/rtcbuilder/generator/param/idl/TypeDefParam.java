@@ -22,6 +22,13 @@ public class TypeDefParam implements Serializable {
 	private boolean isEnum;
 	private boolean isChildString;
 	private boolean isChildDouble;
+
+	private boolean isUnbounded;
+	private boolean isInterface;
+	private boolean isAlias;
+
+	private int arrayDim;
+
 	private List<String> childType;
 
 	public TypeDefParam() {
@@ -37,6 +44,12 @@ public class TypeDefParam implements Serializable {
 		isEnum = false;
 		isChildString = false;
 		isChildDouble = false;
+
+		isUnbounded = false;
+		isInterface = false;
+		isAlias = false;
+		arrayDim = 0;
+
 		childType = new ArrayList<String>();
 	}
 
@@ -126,5 +139,33 @@ public class TypeDefParam implements Serializable {
 
 	public List<String> getChildType() {
 		return childType;
+	}
+
+	/*
+	 * Append by I.Hara 2015/06
+	 */
+	public boolean isUnbounded() {
+		return isUnbounded;
+	}
+	public void setUnbounded(boolean isUnbounded) {
+		this.isUnbounded = isUnbounded;
+	}
+	public boolean isInterface() {
+		return isInterface;
+	}
+	public void setInterface(boolean isInterface) {
+		this.isInterface = isInterface;
+	}
+	public boolean isAlias() {
+		return isAlias;
+	}
+	public void setAlias(boolean isAlias) {
+		this.isAlias = isAlias;
+	}
+	public int getArrayDim() {
+		return arrayDim;
+	}
+	public void setArrayDim(int dim) {
+		this.arrayDim = dim;
 	}
 }

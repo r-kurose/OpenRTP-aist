@@ -76,8 +76,11 @@ public class PythonGenerateManager extends GenerateManager {
 		// IDLファイル内に記述されているServiceClassParamを設定する
 		for (IdlFileParam idlFileParam : allIdlFileParams) {
 			for (ServiceClassParam serviceClassParam : rtcParam.getServiceClassParams()) {
-				if (idlFileParam.getIdlPath().equals(serviceClassParam.getIdlPath()))
-					idlFileParam.addServiceClassParams(serviceClassParam);
+				if (idlFileParam.getIdlPath().equals(serviceClassParam.getIdlPath())){
+					if (!idlFileParam.getServiceClassParams().contains(serviceClassParam)){
+						idlFileParam.addServiceClassParams(serviceClassParam);
+					}
+				}
 			}
 		}
 

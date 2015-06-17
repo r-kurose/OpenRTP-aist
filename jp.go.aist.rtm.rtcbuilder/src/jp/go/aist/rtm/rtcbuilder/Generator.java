@@ -368,10 +368,36 @@ public class Generator {
 	private List<ServiceClassParam> convertType(List<ServiceClassParam> source, List<TypeDefParam> types) {
 		
 		for(int idxParent=0;idxParent<types.size();idxParent++) {
+			TypeDefParam cur = types.get(idxParent);
 			String target = types.get(idxParent).getOriginalDef();
-			checkTypeAtt(target, types.get(idxParent), types);
-			for(int idxChild=0; idxChild<types.get(idxParent).getChildType().size(); idxChild++) {
-				checkTypeAtt(types.get(idxParent).getChildType().get(idxChild), types.get(idxParent), types);
+			//// for struct...
+			if (cur.isStruct()){
+			   for(String chld : cur.getChildType()){
+				    TypeDefParam tdp2 = findTypeDefParam(chld, types);
+				    if(tdp2 != null){
+
+							if(!cur.isSequence()){ cur.setSequence(tdp2.isSequence()); }
+							if(!cur.isUnbounded()) { 
+						 	 	cur.setUnbounded( isUnboundedTypeDef(chld, types));
+
+							}
+					  }
+				 }
+			}
+			/// for typedef
+			if (cur.isAlias()){
+				TypeDefParam tdp = findTypeDefParam(target , types) ;
+				if(tdp != null){
+					////  Copy Attributs
+					if(!cur.isSequence()){ cur.setSequence(tdp.isSequence()); }
+					if(!cur.isUnbounded()) { 
+						 cur.setUnbounded( isUnboundedTypeDef(cur.getTargetDef(), types));
+					}
+					cur.setStruct(tdp.isStruct());
+					cur.setInterface(tdp.isInterface());
+					cur.setOriginalDef(tdp.getTargetDef());
+				}
+
 			}
 		}
 		
@@ -386,15 +412,38 @@ public class Generator {
 		return source;
 	}
 
-	private void checkTypeAtt(String target, TypeDefParam source, List<TypeDefParam> types) {
+	private TypeDefParam findTypeDefParam(String name, List<TypeDefParam> types) {
 		for(int index=0;index<types.size();index++) {
-			if( target.equals(types.get(index).getTargetDef()) ) {
-				source.setSequence(types.get(index).isSequence());
-				source.setString(types.get(index).isString());
-				break;
+			TypeDefParam tdp = types.get(index);
+			if( name.equals(tdp.getTargetDef()) ) {
+					return tdp;
 			}
 		}
+		return null;
 	}
+
+	private boolean isUnboundedTypeDef(String name, List<TypeDefParam> types) {
+		  TypeDefParam cur = findTypeDefParam(name, types);
+
+		  if(cur != null){
+				if(cur.isUnbounded() || cur.isSequence()) { 
+					return true;
+
+				}else{
+		  			if (cur.isAlias()){
+						return  isUnboundedTypeDef(cur.getOriginalDef(), types);
+
+					}
+		  			if (cur.isStruct()){
+			   			for(String chld : cur.getChildType()){
+							if( isUnboundedTypeDef(chld, types) ){ return true; }
+						}
+				 	}
+				}
+			}
+			return false;
+	}
+
 	private void checkMethodType(ServiceMethodParam target, List<TypeDefParam> types) {
 		String targetFull = target.getModule() + target.getType();
 		//
@@ -405,13 +454,15 @@ public class Generator {
 			} else {
 				defFull = tdparam.getTargetDef();
 			}
-//			if(target.getType().equals(tdparam.getTargetDef())) {
 			if(targetFull.equals(defFull)) {
 				target.setSequence(tdparam.isSequence());
-				target.setString(tdparam.isString());
-				target.setChildString(tdparam.isChildString());
 				target.setArray(tdparam.isArray());
-				target.setStruct(tdparam.isStruct() || tdparam.isEnum());
+				target.setArrayDim(tdparam.getArrayDim());
+				target.setStruct(tdparam.isStruct());
+				target.setOriginalType(tdparam.getOriginalDef());
+				target.setUnbounded(tdparam.isUnbounded());
+				target.setAlias(tdparam.isAlias());
+				target.setInterface(tdparam.isInterface());
 				break;
 			}
 		}
@@ -427,13 +478,14 @@ public class Generator {
 				defFull = tdparam.getTargetDef();
 			}
 			if(targetFull.equals(defFull)) {
-				target.setOriginalType(target.getType());
-				target.setUnbounded(tdparam.isSequence() || tdparam.isString());
+				target.setOriginalType(tdparam.getOriginalDef());
+				target.setUnbounded(tdparam.isSequence() || tdparam.isUnbounded());
 				target.setArray(tdparam.isArray());
-				target.setInnerArray(tdparam.isInnerArray());
+				target.setArrayDim(tdparam.getArrayDim());
 				target.setStruct(tdparam.isStruct());
-				target.setEnum(tdparam.isEnum());
-				target.setChildDouble(tdparam.isChildDouble());
+				target.setInterface(tdparam.isInterface());
+				target.setAlias(tdparam.isAlias());
+				target.setSequence(tdparam.isSequence());
 				target.setType(checkType(target.getType(), types));
 				return;
 			}

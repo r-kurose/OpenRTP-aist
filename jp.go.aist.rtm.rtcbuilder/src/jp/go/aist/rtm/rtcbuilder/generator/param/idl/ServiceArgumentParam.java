@@ -19,6 +19,10 @@ public class ServiceArgumentParam implements Serializable {
 	private boolean isStruct;
 	private boolean isEnum;
 	private boolean isChildDouble;
+	private boolean isInterface;
+	private boolean isSequence;
+	private boolean isAlias;
+	private int arrayDim;
 
 	public String getName() {
 		return name;
@@ -95,5 +99,41 @@ public class ServiceArgumentParam implements Serializable {
 	}
 	public void setEnum(boolean isEnum) {
 		this.isEnum = isEnum;
+	}
+/**
+ * Append by Hara
+ */
+	public boolean isString() {
+	  if(type.equals("string")){
+		  return true;
+	  }
+	  if(this.isAlias && this.originalType.equals("string")){
+		  return true;
+	  }
+	  return false;
+	}
+	public boolean isSequence() {
+		return isSequence;
+	}
+	public void setSequence(boolean isSequence) {
+		this.isSequence = isSequence;
+	}
+	public boolean isInterface() {
+		return isInterface;
+	}
+	public void setInterface(boolean isInterface) {
+		this.isInterface = isInterface;
+	}
+	public boolean isAlias() {
+		return isAlias;
+	}
+	public void setAlias(boolean isAlias) {
+		this.isAlias = isAlias;
+	}
+	public int getArrayDim() {
+		return arrayDim;
+	}
+	public void setArrayDim(int dim) {
+		this.arrayDim = dim;
 	}
 }

@@ -11,13 +11,13 @@ ${sharp}include "${idlFileParam.idlFileNoExt}${tmpltHelper.serviceImplSuffix}.h"
 /*
  * Example implementational code for IDL interface ${cXXConv.convertDelimiter(${serviceClassParam.name})}
  */
-${tmpltHelper.getBasename(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}::${tmpltHelper.getBasename(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}()
+${tmpltHelper.getBasename2(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}::${tmpltHelper.getBasename2(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}()
 {
   // Please add extra constructor code here.
 }
 
 
-${tmpltHelper.getBasename(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}::~${tmpltHelper.getBasename(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}()
+${tmpltHelper.getBasename2(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}::~${tmpltHelper.getBasename2(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}()
 {
   // Please add extra destructor code here.
 }
@@ -27,13 +27,13 @@ ${tmpltHelper.getBasename(${serviceClassParam.name})}${tmpltHelper.serviceImplSu
  * Methods corresponding to IDL attributes and operations
  */
 #foreach($serviceMethodParam in ${serviceClassParam.methods})
-${cXXConv.convCpp2CORBA(${serviceMethodParam})} ${tmpltHelper.getBasename(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}::${serviceMethodParam.name}(#foreach($serviceArgumentParam in ${serviceMethodParam.arguments})#if($velocityCount > 1), #end${cXXConv.convCpp2CORBAforArg(${serviceArgumentParam})} ${serviceArgumentParam.name}#end)
+${cXXConv.convCpp2CORBA(${serviceMethodParam})} ${tmpltHelper.getBasename2(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}::${serviceMethodParam.name}(#foreach($serviceArgumentParam in ${serviceMethodParam.arguments})#if($velocityCount > 1), #end${cXXConv.convCpp2CORBAforArg(${serviceArgumentParam})} ${serviceArgumentParam.name}#end)
 {
 #if(${serviceMethodParam.isResult})	${cXXConv.convCpp2CORBA(${serviceMethodParam})} result;
 #end
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <${cXXConv.convCpp2CORBA(${serviceMethodParam})} ${tmpltHelper.getBasename(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}::${serviceMethodParam.name}(#foreach($serviceArgumentParam in ${serviceMethodParam.arguments})#if($velocityCount > 1), #end${cXXConv.convCpp2CORBAforArg(${serviceArgumentParam})} ${serviceArgumentParam.name}#end)>"
+  #warning "Code missing in function <${cXXConv.convCpp2CORBA(${serviceMethodParam})} ${tmpltHelper.getBasename2(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}::${serviceMethodParam.name}(#foreach($serviceArgumentParam in ${serviceMethodParam.arguments})#if($velocityCount > 1), #end${cXXConv.convCpp2CORBAforArg(${serviceArgumentParam})} ${serviceArgumentParam.name}#end)>"
 #endif
 #if(${serviceMethodParam.isResult})  return result;
 #elseif(!${serviceMethodParam.isVoid})  return 0;

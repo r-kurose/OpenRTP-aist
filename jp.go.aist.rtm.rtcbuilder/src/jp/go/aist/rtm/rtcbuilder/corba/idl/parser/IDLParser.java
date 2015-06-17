@@ -2865,6 +2865,7 @@ public class IDLParser implements IDLParserConstants {
   private int[] jj_lasttokens = new int[100];
   private int jj_endpos;
 
+  @SuppressWarnings("unchecked")
   private void jj_add_error_token(int kind, int pos) {
     if (pos >= 100) return;
     if (pos == jj_endpos + 1) {
@@ -2893,6 +2894,7 @@ public class IDLParser implements IDLParserConstants {
     }
   }
 
+  @SuppressWarnings("unchecked")
   public ParseException generateParseException() {
     jj_expentries.removeAllElements();
     boolean[] la1tokens = new boolean[78];
@@ -2986,6 +2988,7 @@ public class IDLParser implements IDLParserConstants {
 }
 
 class JTBToolkit {
+   @SuppressWarnings("unchecked")
    static NodeToken makeNodeToken(Token t) {
       NodeToken node = new NodeToken(t.image.intern(), t.kind, t.beginLine, t.beginColumn, t.endLine, t.endColumn);
 

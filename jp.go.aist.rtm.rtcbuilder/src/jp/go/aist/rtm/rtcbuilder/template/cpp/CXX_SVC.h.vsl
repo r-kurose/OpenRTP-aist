@@ -21,7 +21,7 @@ ${sharp}define ${idlFileParam.idlFileNoExt.toUpperCase()}${tmpltHelper.serviceIm
  * @class ${tmpltHelper.getBasename(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}
  * Example class implementing IDL interface ${cXXConv.convertDelimiter(${serviceClassParam.name})}
  */
-class ${tmpltHelper.getBasename(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}
+class ${tmpltHelper.getBasename2(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}
  : public virtual POA_${cXXConv.convertDelimiter(${serviceClassParam.name})},
    public virtual PortableServer::RefCountServantBase
 {
@@ -38,7 +38,7 @@ class ${tmpltHelper.getBasename(${serviceClassParam.name})}${tmpltHelper.service
   /*!
    * @brief destructor
    */
-   virtual ~${tmpltHelper.getBasename(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}();
+   virtual ~${tmpltHelper.getBasename2(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}();
 
    // attributes and operations
 #foreach($serviceMethodParam in ${serviceClassParam.methods})

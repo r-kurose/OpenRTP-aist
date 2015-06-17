@@ -13,11 +13,19 @@ public class ServiceMethodParam implements Serializable {
 	private String type;
 	private String name;
 	private String module;
+
+	private String originalType;
+
 	private boolean isSequence;
 	private boolean isArray;
 	private boolean isStruct;
 	private boolean isString;
 	private boolean isChildString;
+
+	private boolean isUnbounded;
+	private boolean isInterface;
+	private boolean isAlias;
+	private int arrayDim;
 
 	private List<ServiceArgumentParam> arguments = new ArrayList<ServiceArgumentParam>();
 
@@ -90,5 +98,41 @@ public class ServiceMethodParam implements Serializable {
 	}
 	public void setChildString(boolean isChildString) {
 		this.isChildString = isChildString;
+	}
+/**
+ * Append by Hara 2015/06
+ */
+
+	public boolean isUnbounded() {
+		return this.isUnbounded;
+	}
+	public void setUnbounded(boolean b) {
+		this.isUnbounded = b;
+	}
+	public boolean isInterface() {
+		return this.isInterface;
+	}
+	public void setInterface(boolean b) {
+		this.isInterface = b;
+	}
+	public boolean isAlias() {
+		return this.isAlias;
+	}
+	public void setAlias(boolean b) {
+		this.isAlias = b;
+	}
+
+	public String getOriginalType() {
+		return this.originalType;
+	}
+	public void setOriginalType(String typ) {
+		this.originalType = typ;
+	}
+
+	public int getArrayDim() {
+		return this.arrayDim;
+	}
+	public void setArrayDim(int dim) {
+		this.arrayDim = dim;
 	}
 }

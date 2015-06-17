@@ -26,6 +26,12 @@ public class TemplateHelper {
 		return split[split.length - 1];
 	}
 
+	/*
+	 *  Appebd By I.Hara 2015/06
+	 **/
+	public static String getBasename2(String fullName) {
+		return fullName.replaceAll("::", "_");
+	}
 	/**
 	 * ファイル名を取得する
 	 * 

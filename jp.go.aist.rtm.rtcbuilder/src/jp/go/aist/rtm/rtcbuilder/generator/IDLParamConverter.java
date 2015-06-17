@@ -145,7 +145,7 @@ public class IDLParamConverter {
 		moduleName = new ArrayList<String>();
 		
 		spec.accept(new GJVoidDepthFirst<String>() {
-			
+
 			@Override
 			public void visit(module n, String argu) {
 				moduleName.add(node2String(n.identifier.nodeToken));
@@ -163,48 +163,22 @@ public class IDLParamConverter {
 			@Override
 			public void visit(interface_dcl n, String argu) {
 				final String ifname = n.interface_header.identifier.nodeToken.tokenImage;
+				final TypeDefParam tdparam = new TypeDefParam();
+				tdparam.setModuleName(getModuleNames());
+				tdparam.setInterface(true);
+				tdparam.setTargetDef(ifname);
+				result.add(tdparam);
+
 				n.interface_body.accept(new GJVoidDepthFirst<String>() {
 					@Override
 					public void visit(type_declarator n, String argu) {
 						final TypeDefParam tdparam = new TypeDefParam();
 						tdparam.setModuleName(getModuleNames());
-						n.declarators.accept(new DepthFirstVisitor(){
-							@Override
-							public void visit(identifier n) {
-								tdparam.setScopedName(ifname);
-								tdparam.setTargetDef(node2String(n));
-							}
-							@Override
-							public void visit(array_declarator n) {
-								tdparam.setArray(true);
-							}
-						});
-						n.type_spec.accept(new DepthFirstVisitor(){
-							@Override
-							public void visit(simple_type_spec n) {
-								n.nodeChoice.accept(new DepthFirstVisitor(){
-									@Override
-									public void visit(simple_type_spec n) {
-										tdparam.setOriginalDef(node2String(n));
-										tdparam.setSequence(true);
-									}
-									@Override
-									public void visit(base_type_spec n) {
-										tdparam.setOriginalDef(node2String(n));
-										
-									}
-									@Override
-									public void visit(scoped_name n) {
-										tdparam.setOriginalDef(node2String(n));
-									}
-									@Override
-									public void visit(array_declarator n) {
-										tdparam.setArray(true);
-									}
-								});
-								
-							}
-						});
+						tdparam.setAlias(true);
+
+						n.declarators.accept(new DepthFirstDeclaratorsVisitor(tdparam, ifname));
+						n.type_spec.accept(new DepthFirstTypeSpecVisitor(tdparam));
+
 						result.add(tdparam);
 					}
 				}, null);
@@ -220,21 +194,8 @@ public class IDLParamConverter {
 						tdparam.setTargetDef(node2String(n));
 					}
 				});
-				n.member_list.accept(new DepthFirstVisitor(){
-					@Override
-					public void visit(simple_type_spec n) {
-						tdparam.getChildType().add(node2String(n));
-						if(node2String(n).toLowerCase().equals("string") ) {
-							tdparam.setChildString(true);
-						} else if(node2String(n).toLowerCase().equals("double") ) {
-							tdparam.setChildDouble(true);
-						}
-					}
-					@Override
-					public void visit(array_declarator n) {
-						tdparam.setInnerArray(true);
-					}
-				});
+				n.member_list.accept(new DepthFirstStructMemberVisitor(tdparam));
+
 				result.add(tdparam);
 			}
 			@Override
@@ -254,58 +215,10 @@ public class IDLParamConverter {
 			public void visit(type_declarator n, String argu) {
 				final TypeDefParam tdparam = new TypeDefParam();
 				tdparam.setModuleName(getModuleNames());
-				n.declarators.accept(new DepthFirstVisitor(){
-					@Override
-					public void visit(identifier n) {
-						tdparam.setTargetDef(node2String(n));
-					}
-					@Override
-					public void visit(array_declarator n) {
-						tdparam.setArray(true);
-						n.identifier.accept(new DepthFirstVisitor(){
-							@Override
-							public void visit(identifier n) {
-								tdparam.setTargetDef(node2String(n));
-							}
-						});
-					}
-				});
-				n.type_spec.accept(new DepthFirstVisitor(){
-					@Override
-					public void visit(simple_type_spec n) {
-						n.nodeChoice.accept(new DepthFirstVisitor(){
-							@Override
-							public void visit(simple_type_spec n) {
-								tdparam.setOriginalDef(node2String(n));
-								tdparam.setSequence(true);
-							}
-							@Override
-							public void visit(base_type_spec n) {
-								tdparam.setOriginalDef(node2String(n));
-							}
-							@Override
-							public void visit(scoped_name n) {
-								tdparam.setOriginalDef(node2String(n));
-							}
-							@Override
-							public void visit(string_type n) {
-								n.nodeChoice.accept(new DepthFirstVisitor(){
-									@Override
-									public void visit(NodeToken n) {
-										if(node2String(n).toLowerCase().equals("string") ) {
-											tdparam.setOriginalDef("string");
-											tdparam.setString(true);
-										} else if(node2String(n).toLowerCase().equals("wstring") ) {
-											tdparam.setOriginalDef("wstring");
-											tdparam.setString(true);
-										}
-									}
-								});
-							}
-						});
-						
-					}
-				});
+
+				n.declarators.accept(new DepthFirstDeclaratorsVisitor(tdparam));
+				n.type_spec.accept(new DepthFirstTypeSpecVisitor(tdparam));
+
 				result.add(tdparam);
 			}
 		}, null);
@@ -377,6 +290,7 @@ public class IDLParamConverter {
 			this.results = results;
 		}
 		
+		@SuppressWarnings("unchecked")
 		@Override
 		public void visit(definition n, Object argu) {
 			n.accept(new GJVoidDepthFirst() {
@@ -444,5 +358,200 @@ public class IDLParamConverter {
 		public String name;
 
 		public List<String> superInterfaceList = new ArrayList<String>();
+	}
+
+	/*
+	 *  Custom Visitor
+	 */
+	/*
+	 * Visitor for 'declarators()'
+	 *    declarators() -> declarator() ( ',' declarator() )*
+	 *        declarator() -> complex_declarator(), simple_declarator()
+	 *            complex_declarator() -> array_declarator()
+	 *                array_declarator() -> identifier() ( fixed_array_size() )+
+	 *            simple_declarator() -> identifier()
+	 *
+	 */
+	public static class DepthFirstDeclaratorsVisitor extends  DepthFirstVisitor{
+		TypeDefParam tdparam;
+		String ifname = null;
+
+		public DepthFirstDeclaratorsVisitor() {
+		}
+
+		public DepthFirstDeclaratorsVisitor(TypeDefParam tdparam) {
+		   this.tdparam = tdparam;
+		}
+
+		public DepthFirstDeclaratorsVisitor(TypeDefParam tdparam, String ifname) {
+		   this.tdparam = tdparam;
+		   this.ifname = ifname;
+		}
+
+		public void visit(identifier n) {
+			if(ifname != null){ tdparam.setScopedName(ifname); }
+			tdparam.setTargetDef(node2String(n));
+		}
+		
+		public void visit(array_declarator n) {
+			tdparam.setArray(true);
+			if(ifname != null){ tdparam.setScopedName(ifname); }
+			tdparam.setTargetDef(n.identifier.nodeToken.toString());
+			tdparam.setArrayDim(n.nodeList.size());
+		}
+	}
+  /**
+   * Visitor for 'type_spec()' 
+   * 
+   *  'typedef' type_declarator()
+   *  type_declarator() -> type_spec() declarators()
+   *
+   *  type_spec() -> simple_type_spec(), constr_type_spec()
+   *                 constr_type_spec() -> struct_type(), union_type(), enum_type()
+   *
+   */
+	public static class DepthFirstTypeSpecVisitor extends  DepthFirstVisitor{
+		TypeDefParam tdparam;
+		boolean replaceStringFlag;
+
+		public DepthFirstTypeSpecVisitor() {
+			replaceStringFlag = false;
+		}
+		public DepthFirstTypeSpecVisitor(TypeDefParam tdparam) {
+			this.tdparam = tdparam;
+		}
+		public DepthFirstTypeSpecVisitor(TypeDefParam tdparam, boolean flag) {
+			this.tdparam = tdparam;
+			this.replaceStringFlag = flag;
+		}
+
+		////////
+		// 
+		public void visit(simple_type_spec n) {
+			n.nodeChoice.accept(new DepthFirstSimpleTypeSpecVisitor(this.tdparam, this.replaceStringFlag));
+		}
+
+		/////////////////
+		public void visit(struct_type n) {
+			tdparam.setModuleName(getModuleNames());
+			tdparam.setStruct(true);
+			n.member_list.accept(new DepthFirstStructMemberVisitor(tdparam));
+			super.visit(n);
+		}
+
+		public void visit(enum_type n) {
+			System.out.println("Call enum: "+ node2String(n.identifier));
+			super.visit(n);
+		}
+		//////////////////
+	}
+
+	/*
+	 * type_spec()
+	 *   -> simple_type_spec()
+	 *        -> base_type_spec(),
+	 * 		  	   template_type_spec(),
+	 * 			     scoped_name()
+	 *
+	 *           base_type_spec() -> floating_pt_type(),
+	 *                         		   integer_type(),
+	 *                          		 char_type(),
+	 *                           		 boolean_type(),
+	 *                           		 octet_type(),
+	 *                           		 any_type()
+	 *
+	 *           template_type_spec() -> sequence_type(),
+	 *                                   string_type()
+	 *
+	 *           scoped_name()
+	 */
+	public static class DepthFirstSimpleTypeSpecVisitor extends  DepthFirstVisitor{
+		TypeDefParam tdparam;
+		boolean replaceStringFlag;
+
+		public DepthFirstSimpleTypeSpecVisitor() {
+			replaceStringFlag = false;
+		}
+
+		public DepthFirstSimpleTypeSpecVisitor(TypeDefParam tdparam) {
+			this.tdparam = tdparam;
+		}
+
+		public DepthFirstSimpleTypeSpecVisitor(TypeDefParam tdparam, boolean flag) {
+			this.tdparam = tdparam;
+			this.replaceStringFlag = flag;
+		}
+
+		///////
+		/*
+		 * sequence_type() -> 'sequence' '<' simple_type_spec() [ ',' positive_int_const() ] '>'
+		 */
+		@Override
+		public void visit(simple_type_spec n) {
+			tdparam.setOriginalDef(node2String(n));
+			super.visit(n);
+		}
+
+		@Override
+		public void visit(sequence_type n) {
+			tdparam.setSequence(true);
+			tdparam.setUnbounded(true);
+			super.visit(n);
+		}
+
+		@Override
+		public void visit(base_type_spec n) {
+			String type = node2String(n);
+
+			tdparam.setOriginalDef(type);
+			super.visit(n);
+		}
+
+		@Override
+		public void visit(scoped_name n) {
+			String type = node2String(n);
+
+			tdparam.setOriginalDef(type);
+			tdparam.setAlias(true);
+			super.visit(n);
+		}
+
+		@Override
+		public void visit(string_type n) {
+			String type = node2String(n);
+
+			tdparam.setOriginalDef(type);
+			super.visit(n);
+		}
+	}
+/*
+ *
+ */
+	public static class DepthFirstStructMemberVisitor extends  DepthFirstVisitor{
+		TypeDefParam tdparam;
+
+		public DepthFirstStructMemberVisitor() {
+		}
+
+		public DepthFirstStructMemberVisitor(TypeDefParam tdparam) {
+			this.tdparam = tdparam;
+		}
+		@Override
+		public void visit(simple_type_spec n) {
+			tdparam.getChildType().add(node2String(n));
+			super.visit(n);
+		}
+
+		@Override
+		public void visit(sequence_type n) {
+			tdparam.setUnbounded(true);
+			super.visit(n);
+		}
+
+		@Override
+		public void visit(string_type n) {
+			tdparam.setUnbounded(true);
+			super.visit(n);
+		}
 	}
 }

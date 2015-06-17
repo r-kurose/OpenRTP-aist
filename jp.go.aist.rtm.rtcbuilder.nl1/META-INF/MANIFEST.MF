@@ -8,6 +8,6 @@ Bundle-Version: 1.1.0.rc4v20130124
 Fragment-Host: jp.go.aist.rtm.rtcbuilder;bundle-version="1.1.0"
 Bundle-Localization: plugin
 Bundle-Vendor: AIST
-Built-By: n-ando
-Built-Date: 2013/01/25 00:47:15
+Built-By: isao-hara
+Built-Date: 2015/06/17 08:32:27
 

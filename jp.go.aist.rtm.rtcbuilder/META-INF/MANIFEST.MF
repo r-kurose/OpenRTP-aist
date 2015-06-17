@@ -29,6 +29,6 @@ Require-Bundle: org.eclipse.ui,org.eclipse.core.runtime,org.eclipse.em
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin
 Eclipse-BuddyPolicy: registered
-Built-By: n-ando
-Built-Date: 2013/01/25 00:47:05
+Built-By: isao-hara
+Built-Date: 2015/06/17 08:31:26
 
