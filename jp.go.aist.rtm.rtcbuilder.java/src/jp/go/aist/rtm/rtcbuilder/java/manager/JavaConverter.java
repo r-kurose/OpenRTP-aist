@@ -185,7 +185,6 @@ public class JavaConverter {
 	 * @return Java型
 	 */
 	public String convCORBA2Java(ServiceMethodParam typeDef, ServiceClassParam scp) {
-		boolean isBasicType = false;
 		String strType = getTypeDefs(typeDef.getType(), scp);
 		if( strType==null ) {
 			strType = typeDef.getType();
@@ -210,23 +209,23 @@ public class JavaConverter {
 				result = result.replaceAll(scp.getName()+"::", "");
 
 				if(typeDef.isArray()){
-					result = result+"[]";
+					for(int i=0; i< typeDef.getArrayDim() ; i++){
+				       		result += "[]";
+					}
 				}
 			}
+			String mdl = typeDef.getModule();
+			if(mdl.length() > 0){ result = mdl + result; }
+			result=result.replaceAll("::", ".");
+
 		} else {
-			isBasicType = true;
 			result = strType.replaceAll(rawType, convType);
 			
 		}
 		
-		result=result.replaceAll("::", ".");
-		String mdl = typeDef.getModule();
-		if(!isBasicType && mdl.length() > 0){
-			result = mdl.replaceAll("::", ".") + result;
-		}
-
 		return result;
 	}
+
 	private String getTypeDefs(String target, ServiceClassParam scp) {
 		String result = null;
 		target = target.replaceAll(scp.getName()+"::", "");
@@ -269,17 +268,16 @@ public class JavaConverter {
 	 */
 	public String convCORBA2JavaforArg(ServiceArgumentParam typeDef, String strDirection, ServiceClassParam scp) {
 		String result = "";
-		boolean isBasicType = false;
 		String strType = getTypeDefs(typeDef.getType(), scp);
-
+		strType = strType.replaceAll("::", ".");
 
 		if( mapType.get(strType) != null){
-			isBasicType = true;
 			if( strDirection.equals(dirIn) ) {
 				result = mapType.get(strType);
 			} else {
 				result = mapTypeHolder.get(strType);
 			}
+			return result;
 
 		}else if( typeDef.getType().equals(strType) ) {
 			if( strDirection.equals(dirIn) ) {
@@ -289,15 +287,18 @@ public class JavaConverter {
 				result = mapTypeHolder.get(typeDef.getType());
 				if( result == null ) result = typeDef.getType() + "Holder";
 			}
+
 		}else if( typeDef.isArray() || typeDef.isSequence() ) {
+
 			if( !strDirection.equals(dirIn) ) {
 				result = typeDef.getType() + "Holder";
 			}else{
 				String rawType = strType.replaceAll("\\[\\]", "");
 				String convType = mapType.get(rawType);
+
 				if( convType != null ) {
-					isBasicType = true;
 					result = strType.replaceAll(rawType, convType);
+					return result;
 				}else{
 					result = strType;
 				}
@@ -310,31 +311,28 @@ public class JavaConverter {
 			}
 
 		} else {
-			strType.replaceAll("::", ".");
-			String rawType = strType.replaceAll("\\[\\]", "");
-			String convType = mapType.get(rawType);
-			if( convType == null ) {
-				if(typeDef.isStruct() || typeDef.isEnum()) {
-					result = typeDef.getType();
-				} else {
-					result = strType;
-				}
-				if( !strDirection.equals(dirIn) ) result = result + "Holder";
+
+			if( typeDef.isEnum()) {
+				result = typeDef.getType();
 			} else {
-				isBasicType = true;
-				result = strType.replaceAll(rawType, convType);
-				
+				result = strType;
 			}
-			if( typeDef.isUnbounded() || typeDef.isArray() ) {
-				if( !strDirection.equals(dirIn) ) {
+
+			if( !strDirection.equals(dirIn) ){
+				if( typeDef.isUnbounded() ) {
 					result = typeDef.getType() + "Holder";
+				}else{
+					result = result + "Holder";
 				}
 			}
+
 		}
-		result = result.replaceAll("::", "Package.");
-		String mdl = typeDef.getModule();
-		if(!isBasicType && mdl.length() > 0){
-			result = mdl.replaceAll("::", ".") + result;
+
+	 	if(typeDef.getModule().length() == 0){
+			result = result.replaceAll("::", "Package.");
+		}else{
+	  	result = typeDef.getModule() + result;
+			result = result.replaceAll("::", ".");
 		}
 
 		return result;
@@ -381,6 +379,41 @@ public class JavaConverter {
 			return true;
 		return false;
 	}
+	
+	public boolean isRetNumber(ServiceMethodParam srvMethod, ServiceClassParam scp) {
+		String sType = getTypeDefs(srvMethod.getType(), scp);
+		String strType=mapType.get(sType);
+
+		if( strType==null ) {
+			return false;
+		} else {
+		  if( strType.equals("boolean") || strType.equals("string") || strType.equals("String") || strType.equals("org.omg.CORBA.Any") || strType.equals("void") ) {
+			return false;
+			}
+		}
+		return true;
+	}
+
+	public boolean isRetBoolean(ServiceMethodParam srvMethod, ServiceClassParam scp) {
+		if( srvMethod.isArray() || srvMethod.isSequence() ) {
+			return false;
+		}
+		String sType = getTypeDefs(srvMethod.getType(), scp);
+		String strType=mapType.get(sType);
+
+		if( strType != null && strType.equals("boolean") ){
+			return true;
+		}
+		if( srvMethod.isAlias() ) {
+			sType = getTypeDefs(srvMethod.getOriginalType(), scp);
+			strType=mapType.get(sType);
+			if( strType != null && strType.equals("boolean") ){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	
 	/**
 	 * データポート用のデータ型import文を返す

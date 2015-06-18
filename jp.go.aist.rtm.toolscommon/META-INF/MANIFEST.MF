@@ -36,6 +36,6 @@ Require-Bundle: org.eclipse.core.runtime,org.eclipse.emf.ecore;visibil
 Bundle-ActivationPolicy: lazy
 Eclipse-BuddyPolicy: registered
 Bundle-Activator: jp.go.aist.rtm.toolscommon.ToolsCommonPlugin
-Built-By: isao-hara
-Built-Date: 2015/06/17 08:18:55
+Built-By: ngd
+Built-Date: 2015/06/18 19:34:33
 

@@ -17,6 +17,6 @@ Export-Package: jp.go.aist.rtm.repositoryView,jp.go.aist.rtm.repositor
 Bundle-ClassPath: lib/rtrepository_local-1.0.jar,.
 Bundle-Vendor: %providerName
 Eclipse-BuddyPolicy: registered
-Built-By: isao-hara
-Built-Date: 2015/06/17 08:33:28
+Built-By: ngd
+Built-Date: 2015/06/18 19:58:13
 

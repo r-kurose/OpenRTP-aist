@@ -28,6 +28,6 @@ Export-Package: jp.go.aist.rtm.systemeditor,jp.go.aist.rtm.systemedito
  r.ui.workbenchadapter,jp.go.aist.rtm.systemeditor.extension
 Bundle-Vendor: %providerName
 Eclipse-BuddyPolicy: registered
-Built-By: isao-hara
-Built-Date: 2015/06/17 08:34:38
+Built-By: ngd
+Built-Date: 2015/06/18 20:00:16
 

@@ -36,6 +36,6 @@ Export-Package: com.sun.xml.bind; uses:="javax.xml.bind.annotation.ada
  s.rts.version02;uses:="javax.xml.bind,javax.xml.datatype"
 Bundle-ActivationPolicy: lazy
 Eclipse-BuddyPolicy: registered
-Built-By: isao-hara
-Built-Date: 2015/06/17 08:18:03
+Built-By: ngd
+Built-Date: 2015/06/18 19:33:23
 

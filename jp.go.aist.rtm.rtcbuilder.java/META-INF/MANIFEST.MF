@@ -17,6 +17,6 @@ Export-Package: jp.go.aist.rtm.rtcbuilder.java,jp.go.aist.rtm.rtcbuild
  template.java_04,jp.go.aist.rtm.rtcbuilder.java.ui.Perspective
 Eclipse-BuddyPolicy: registered
 Eclipse-RegisterBuddy: jp.go.aist.rtm.rtcbuilder
-Built-By: isao-hara
-Built-Date: 2015/06/17 08:49:36
+Built-By: isao-_000
+Built-Date: 2015/06/19 07:41:16
 
