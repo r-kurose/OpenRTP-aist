@@ -17,8 +17,14 @@ import jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler;
 
 import org.openrtp.namespaces.rtc.version02.ActionStatusDoc;
 import org.openrtp.namespaces.rtc.version02.Actions;
+import org.openrtp.namespaces.rtc.version02.BasicInfo;
+import org.openrtp.namespaces.rtc.version02.BasicInfoDoc;
 import org.openrtp.namespaces.rtc.version02.BasicInfoExt;
+import org.openrtp.namespaces.rtc.version02.Configuration;
+import org.openrtp.namespaces.rtc.version02.ConfigurationDoc;
 import org.openrtp.namespaces.rtc.version02.ConfigurationExt;
+import org.openrtp.namespaces.rtc.version02.Dataport;
+import org.openrtp.namespaces.rtc.version02.DataportDoc;
 import org.openrtp.namespaces.rtc.version02.DataportExt;
 import org.openrtp.namespaces.rtc.version02.DocAction;
 import org.openrtp.namespaces.rtc.version02.DocBasic;
@@ -36,6 +42,8 @@ import org.openrtp.namespaces.rtc.version02.Property;
 import org.openrtp.namespaces.rtc.version02.RtcProfile;
 import org.openrtp.namespaces.rtc.version02.ServiceinterfaceDoc;
 import org.openrtp.namespaces.rtc.version02.ServiceinterfaceExt;
+import org.openrtp.namespaces.rtc.version02.Serviceport;
+import org.openrtp.namespaces.rtc.version02.ServiceportDoc;
 import org.openrtp.namespaces.rtc.version02.ServiceportExt;
 import org.openrtp.namespaces.rtc.version02.TargetEnvironment;
 
@@ -320,8 +328,8 @@ public class ParamUtil {
 	}
 
 	private void convertFromModuleBasic(RtcProfile profile, RtcParam rtcParam) {
-		BasicInfoExt basic = (BasicInfoExt)profile.getBasicInfo();
-		//鐃緒申{
+		BasicInfo basic = (BasicInfo)profile.getBasicInfo();
+		
 		rtcParam.setName(basic.getName());
 		rtcParam.setComponentType(basic.getComponentType());
 		rtcParam.setActivityType(basic.getActivityType());
@@ -346,26 +354,32 @@ public class ParamUtil {
 		rtcParam.setUpdateDate(updateDate.toString());
 		
 		rtcParam.getVersionUpLog().clear();
-		rtcParam.getVersionUpLog().addAll(basic.getVersionUpLogs());
 		// rtcParam.setVersionUpLog(basic.getVersionUpLogs());
 		//Doc Basic
-		DocBasic docbasic = basic.getDoc();
-		if( docbasic != null ) {
-			rtcParam.setDocDescription(docbasic.getDescription());
-			rtcParam.setDocInOut(docbasic.getInout());
-			rtcParam.setDocAlgorithm(docbasic.getAlgorithm());
-			rtcParam.setDocCreator(docbasic.getCreator());
-			rtcParam.setDocLicense(docbasic.getLicense());
-			rtcParam.setDocReference(docbasic.getReference());
+		if(profile.getBasicInfo() instanceof BasicInfoDoc) {
+			BasicInfoDoc basicDoc = (BasicInfoDoc)profile.getBasicInfo();
+			DocBasic docbasic = basicDoc.getDoc();
+			if( docbasic != null ) {
+				rtcParam.setDocDescription(docbasic.getDescription());
+				rtcParam.setDocInOut(docbasic.getInout());
+				rtcParam.setDocAlgorithm(docbasic.getAlgorithm());
+				rtcParam.setDocCreator(docbasic.getCreator());
+				rtcParam.setDocLicense(docbasic.getLicense());
+				rtcParam.setDocReference(docbasic.getReference());
+			}
 		}
 		//Ext Basic
-		rtcParam.setOutputProject(basic.getSaveProject());
-		//Basic Properties
-		for( Property prop : basic.getProperties() ) {
-			PropertyParam propParam = new PropertyParam();
-			propParam.setName(prop.getName());
-			propParam.setValue(prop.getValue());
-			rtcParam.getProperties().add(propParam);
+		if(profile.getBasicInfo() instanceof BasicInfoExt) {
+			BasicInfoExt basicExt = (BasicInfoExt)profile.getBasicInfo();
+			rtcParam.getVersionUpLog().addAll(basicExt.getVersionUpLogs());
+			rtcParam.setOutputProject(basicExt.getSaveProject());
+			//Basic Properties
+			for( Property prop : basicExt.getProperties() ) {
+				PropertyParam propParam = new PropertyParam();
+				propParam.setName(prop.getName());
+				propParam.setValue(prop.getValue());
+				rtcParam.getProperties().add(propParam);
+			}
 		}
 	}
 	
@@ -379,20 +393,23 @@ public class ParamUtil {
 	@SuppressWarnings("unchecked")
 	private void createConfigParam(List configs, RtcParam rtcParam)  throws Exception{
 		for( Object config : configs ) {
-			ConfigurationExt configDoc = (ConfigurationExt)config;
+			Configuration configBasic = (Configuration)config;
 			ConfigSetParam configp = new ConfigSetParam(
-					configDoc.getName(), configDoc.getType(), configDoc.getDefaultValue());
-			configp.setUnit(configDoc.getUnit());
-			if( configDoc.getConstraint()!=null )
-				configp.setConstraint(XmlHandler.restoreConstraint(configDoc.getConstraint()));
-			DocConfiguration docConfig = configDoc.getDoc();
-			if( docConfig!=null ) {
-				configp.setDocDataName(docConfig.getDataname());
-				configp.setDocDescription(docConfig.getDescription());
-				configp.setDocDefaultVal(docConfig.getDefaultValue());
-				configp.setDocUnit(docConfig.getUnit());
-				configp.setDocRange(docConfig.getRange());
-				configp.setDocConstraint(docConfig.getConstraint());
+					configBasic.getName(), configBasic.getType(), configBasic.getDefaultValue());
+			configp.setUnit(configBasic.getUnit());
+			if( configBasic.getConstraint()!=null )
+				configp.setConstraint(XmlHandler.restoreConstraint(configBasic.getConstraint()));
+			if( config instanceof ConfigurationDoc ) {
+				ConfigurationDoc configDoc = (ConfigurationDoc)config;
+				DocConfiguration docConfig = configDoc.getDoc();
+				if( docConfig!=null ) {
+					configp.setDocDataName(docConfig.getDataname());
+					configp.setDocDescription(docConfig.getDescription());
+					configp.setDocDefaultVal(docConfig.getDefaultValue());
+					configp.setDocUnit(docConfig.getUnit());
+					configp.setDocRange(docConfig.getRange());
+					configp.setDocConstraint(docConfig.getConstraint());
+				}
 			}
 			//Properties
 			if( config instanceof ConfigurationExt ) {
@@ -421,25 +438,31 @@ public class ParamUtil {
 	@SuppressWarnings("unchecked")
 	private void createServicePortParam(List servicePorts, List<ServicePortParam> targetPort) {
 		for( Object serviceport : servicePorts ) {
-			ServiceportExt servicePortExt = (ServiceportExt)serviceport;
+			Serviceport servicePortBasic = (Serviceport)serviceport;
 			ServicePortParam serviceportp = new ServicePortParam();
-			serviceportp.setName(servicePortExt.getName());
-			serviceportp.setPosition(servicePortExt.getPosition().toString());
-			DocServiceport doc = servicePortExt.getDoc();
-			if( doc != null ) {
-				serviceportp.setDocDescription(doc.getDescription());
-				serviceportp.setDocIfDescription(doc.getIfdescription());
+			serviceportp.setName(servicePortBasic.getName());
+			if(serviceport instanceof ServiceportDoc) {
+				ServiceportDoc servicePortDoc = (ServiceportDoc)serviceport; 
+				DocServiceport doc = servicePortDoc.getDoc();
+				if( doc != null ) {
+					serviceportp.setDocDescription(doc.getDescription());
+					serviceportp.setDocIfDescription(doc.getIfdescription());
+				}
 			}
-			//Properties
-			for( Property prop : servicePortExt.getProperties() ) {
-				PropertyParam propParam = new PropertyParam();
-				propParam.setName(prop.getName());
-				propParam.setValue(prop.getValue());
-				serviceportp.getProperties().add(propParam);
+			if(serviceport instanceof ServiceportExt) {
+				ServiceportExt servicePortExt = (ServiceportExt)serviceport; 
+				serviceportp.setPosition(servicePortExt.getPosition().toString());
+				//Properties
+				for( Property prop : servicePortExt.getProperties() ) {
+					PropertyParam propParam = new PropertyParam();
+					propParam.setName(prop.getName());
+					propParam.setValue(prop.getValue());
+					serviceportp.getProperties().add(propParam);
+				}
 			}
 
 			//Service Interface
-			for( Object serviceinterface : servicePortExt.getServiceInterface() ) {
+			for( Object serviceinterface : servicePortBasic.getServiceInterface() ) {
 				ServiceinterfaceDoc serviceIfDoc = (ServiceinterfaceDoc)serviceinterface;
 				DocServiceinterface docSrv = serviceIfDoc.getDoc();
 				ServicePortInterfaceParam serviceIF = new ServicePortInterfaceParam(serviceportp);
@@ -480,39 +503,45 @@ public class ParamUtil {
 		List<DataPortParam> InPortList = new ArrayList<DataPortParam>();
 		List<DataPortParam> OutPortList = new ArrayList<DataPortParam>();
 		for( Object dataport : dataPorts ) {
-			DataportExt dataPortExt = (DataportExt)dataport;
+			Dataport dataPortBasic = (Dataport)dataport;
 			DataPortParam dataportp = new DataPortParam();
-			dataportp.setName(dataPortExt.getName());
-			dataportp.setType(dataPortExt.getType());
-			dataportp.setVarName(dataPortExt.getVariableName());
-			dataportp.setPosition(dataPortExt.getPosition().toString());
-			dataportp.setDataFlowType(dataPortExt.getDataflowType());
-			dataportp.setInterfaceType(dataPortExt.getInterfaceType());
-			dataportp.setSubscriptionType(dataPortExt.getSubscriptionType());
-			dataportp.setIdlFile(dataPortExt.getIdlFile());
-			dataportp.setUnit(dataPortExt.getUnit());
-			if( dataPortExt.getConstraint()!=null )
-				dataportp.setConstraint(XmlHandler.restoreConstraint(dataPortExt.getConstraint()));
+			dataportp.setName(dataPortBasic.getName());
+			dataportp.setType(dataPortBasic.getType());
+			dataportp.setDataFlowType(dataPortBasic.getDataflowType());
+			dataportp.setInterfaceType(dataPortBasic.getInterfaceType());
+			dataportp.setSubscriptionType(dataPortBasic.getSubscriptionType());
+			dataportp.setIdlFile(dataPortBasic.getIdlFile());
+			dataportp.setUnit(dataPortBasic.getUnit());
+			if( dataPortBasic.getConstraint()!=null )
+				dataportp.setConstraint(XmlHandler.restoreConstraint(dataPortBasic.getConstraint()));
 			
-			DocDataport docPort = dataPortExt.getDoc();
-			if( docPort!=null ) {
-				dataportp.setDocDescription(docPort.getDescription());
-				dataportp.setDocType(docPort.getType());
-				dataportp.setDocNum(docPort.getNumber());
-				dataportp.setDocSemantics(docPort.getSemantics());
-				dataportp.setDocUnit(docPort.getUnit());
-				dataportp.setDocOccurrence(docPort.getOccerrence());
-				dataportp.setDocOperation(docPort.getOperation());
+			if(dataport instanceof DataportDoc) {
+				DataportDoc dataPortDoc = (DataportDoc)dataport;
+				DocDataport docPort = dataPortDoc.getDoc();
+				if( docPort!=null ) {
+					dataportp.setDocDescription(docPort.getDescription());
+					dataportp.setDocType(docPort.getType());
+					dataportp.setDocNum(docPort.getNumber());
+					dataportp.setDocSemantics(docPort.getSemantics());
+					dataportp.setDocUnit(docPort.getUnit());
+					dataportp.setDocOccurrence(docPort.getOccerrence());
+					dataportp.setDocOperation(docPort.getOperation());
+				}
 			}
-			//Properties
-			for( Property prop : dataPortExt.getProperties() ) {
-				PropertyParam propParam = new PropertyParam();
-				propParam.setName(prop.getName());
-				propParam.setValue(prop.getValue());
-				dataportp.getProperties().add(propParam);
+			if(dataport instanceof DataportExt) {
+				DataportExt dataPortExt = (DataportExt)dataport;
+				dataportp.setVarName(dataPortExt.getVariableName());
+				dataportp.setPosition(dataPortExt.getPosition().toString());
+				//Properties
+				for( Property prop : dataPortExt.getProperties() ) {
+					PropertyParam propParam = new PropertyParam();
+					propParam.setName(prop.getName());
+					propParam.setValue(prop.getValue());
+					dataportp.getProperties().add(propParam);
+				}
 			}
 			//
-			if(dataPortExt.getPortType().equals(IRtcBuilderConstants.SPEC_DATA_INPORT_KIND) )
+			if(dataPortBasic.getPortType().equals(IRtcBuilderConstants.SPEC_DATA_INPORT_KIND) )
 				InPortList.add(dataportp);
 			else
 				OutPortList.add(dataportp);
