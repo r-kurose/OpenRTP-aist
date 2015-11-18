@@ -118,7 +118,8 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 		OpenRTM_aist.DataFlowComponentBase.__init__(self, manager)
 
 #foreach($port in ${rtcParam.inports})
-		self._d_${port.tmplVarName} = ${pyConv.getDataportInitMethodName(${port.type})},${pyConv.convPortInit(${port.type})})
+		${port.tmplVarName}_arg = [None] * ((len(${pyConv.getTypeDefinition(${port.type})}) - 4) / 2)
+		self._d_${port.tmplVarName} = ${pyConv.getDataportInitMethodName(${port.type})}(*${port.tmplVarName}_arg)
 		"""
 #if(${port.docDescription.length()}>0)		${tmpltHelperPy.convertDescDocPy(${port.docDescription})}
 #end
@@ -138,7 +139,8 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 		self._${port.name}In = OpenRTM_aist.InPort("${port.name}", self._d_${port.tmplVarName})
 #end
 #foreach($port in ${rtcParam.outports})
-		self._d_${port.tmplVarName} = ${pyConv.getDataportInitMethodName(${port.type})},${pyConv.convPortInit(${port.type})})
+		${port.tmplVarName}_arg = [None] * ((len(${pyConv.getTypeDefinition(${port.type})}) - 4) / 2)
+		self._d_${port.tmplVarName} = ${pyConv.getDataportInitMethodName(${port.type})}(*${port.tmplVarName}_arg)
 		"""
 #if(${port.docDescription.length()}>0)		${tmpltHelperPy.convertDescDocPy(${port.docDescription})}
 #end

@@ -289,20 +289,31 @@ public class PythonConverter {
 		//文字列に()を付けてデフォルトコンストラクタ扱いにする
 		if(!rtcType.matches(".*::.*")) return rtcType + "()";
 		String methodName = rtcType.replace("::", ".");
-		
+
 		//module名が「RTC」のときは親データ型である「Time」のコンストラクタを引数に入れた
 		//コンストラクタを引数に入れコンストラクタ文字列にして返す
 		//それ以外のmodule名の場合、()を付けただけのデフォルトコンストラクタを返す
-		if(rtcType.startsWith("RTC::")) {
-			methodName = methodName + "(RTC.Time(0,0)";
-		}
-		else {
-			methodName = methodName + "()";
-		}
+//		if(rtcType.startsWith("RTC::")) {
+//			methodName = methodName + "(RTC.Time(0,0)";
+//		}
+//		else {
+//			methodName = methodName + "()";
+//		}
 		
 		return methodName;
 	}
 	
+	/**
+	 * データポート変数型定義変数を返す
+	 * 
+	 * @param rtcType ポートの型
+	 * @return 変数型定義変数
+	 */
+	public String getTypeDefinition(String rtcType) {
+		String methodName = rtcType.replace("::", "._d_");
+		return methodName;
+	}
+
 	public String convFullName(String source) {
 		if(source.contains("::")) {
 			return source.replace("::", ".");
