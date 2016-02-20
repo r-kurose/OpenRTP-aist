@@ -37,13 +37,13 @@ ${cXXConv.getDataportUsingNamespace(${type})}
 #end
 // </rtc-template>
 
-using namespace RTC;
-
 ${sharp}include <rtm/Manager.h>
 ${sharp}include <rtm/${rtcParam.componentKind}Base.h>
 ${sharp}include <rtm/CorbaPort.h>
 ${sharp}include <rtm/DataInPort.h>
 ${sharp}include <rtm/DataOutPort.h>
+
+using namespace RTC;
 
 /*!
  * @class ${rtcParam.name}
