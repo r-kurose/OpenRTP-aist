@@ -13,11 +13,16 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * コンポーネント処理に関するユーティリティ
  */
 public class ComponentUtil {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(ComponentUtil.class);
 
 	/**
 	 * ダイアグラムを表示しているエディタを探し出して返す。
@@ -61,8 +66,8 @@ public class ComponentUtil {
 										false);
 
 					} catch (Exception e) {
-						e.printStackTrace();
-						// void
+						LOGGER.error("Fail to close editor. editor=" + editor,
+								e);
 					}
 				}
 			});

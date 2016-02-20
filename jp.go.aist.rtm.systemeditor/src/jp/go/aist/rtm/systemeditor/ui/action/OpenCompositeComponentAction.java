@@ -12,11 +12,16 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 複合コンポーネントを開くアクション
  */
 public class OpenCompositeComponentAction extends Action {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(OpenCompositeComponentAction.class);
 
 	private IWorkbenchPart parentSystemDiagramEditor;
 
@@ -50,7 +55,7 @@ public class OpenCompositeComponentAction extends Action {
 			compositeComponent.setChildSystemDiagram(childDiagram);
 			compositeComponentEditor.changeFile(null);
 		} catch (PartInitException e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to activate composite component.", e);
 		}
 	}
 

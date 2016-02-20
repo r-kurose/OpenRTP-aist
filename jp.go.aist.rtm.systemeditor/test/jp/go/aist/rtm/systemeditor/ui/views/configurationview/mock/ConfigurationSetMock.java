@@ -6,12 +6,15 @@ import jp.go.aist.rtm.toolscommon.model.core.Rectangle;
 import jp.go.aist.rtm.toolscommon.model.core.Visiter;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSupport;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -127,5 +130,11 @@ public class ConfigurationSetMock implements ConfigurationSet {
 
 	public void setSynchronizationSupport(
 			SynchronizationSupport synchronizationSupport) {
+	}
+
+	@Override
+	public Object eInvoke(EOperation operation, EList<?> arguments) throws InvocationTargetException {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
 	}
 }

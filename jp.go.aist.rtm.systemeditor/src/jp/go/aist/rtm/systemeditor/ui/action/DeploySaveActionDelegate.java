@@ -22,10 +22,16 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
 import org.openrtp.namespaces.deploy.DeployProfile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 
 public class DeploySaveActionDelegate implements IEditorActionDelegate {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(DeploySaveActionDelegate.class);
+
 	private ISelection selection;
 	private AbstractSystemDiagramEditor targetEditor;
 
@@ -54,11 +60,11 @@ public class DeploySaveActionDelegate implements IEditorActionDelegate {
 		//
 		XmlHandler saver = new XmlHandler();
 		try {
-			saver.saveXmlDeploy(profile, URLDecoder.decode(selectedFileName,"UTF-8"));
+			saver.saveXmlDeploy(profile, URLDecoder.decode(selectedFileName, "UTF-8"));
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to decode url", e);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to save", e);
 		}
 	}
 

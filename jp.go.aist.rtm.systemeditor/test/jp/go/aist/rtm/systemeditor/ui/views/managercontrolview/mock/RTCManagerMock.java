@@ -6,6 +6,8 @@ import jp.go.aist.rtm.toolscommon.model.core.Visiter;
 import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSupport;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
@@ -14,6 +16,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -425,6 +428,12 @@ public class RTCManagerMock implements RTCManager {
 
 	@Override
 	public EList<ModuleProfile> getLoadedModuleProfiles() {
+		return null;
+	}
+
+	@Override
+	public java.lang.Object eInvoke(EOperation operation, EList<?> arguments) throws InvocationTargetException {
+		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 }

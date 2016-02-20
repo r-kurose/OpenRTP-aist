@@ -12,10 +12,15 @@ import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
 import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 
 import org.eclipse.emf.common.util.EList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import RTC.RTObjectHelper;
 
 public class DeployUtil {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(DeployUtil.class);
 
 	static public List<CorbaComponent> searchComponentList(EList target, List<CorbaComponent> result) {
 
@@ -30,8 +35,8 @@ public class DeployUtil {
 						component.setIor(obj.getCorbaObject().toString());
 						result.add(component);
 					}
-				} catch(Exception ex) {
-					ex.printStackTrace();
+				} catch (Exception e) {
+					LOGGER.error("Fail to search component", e);
 				}
 			} else {
 				EList nscomps = ((NamingContextNode)target.get(index)).getNodes();
@@ -58,8 +63,8 @@ public class DeployUtil {
 							return component;
 						}
 					}
-				} catch(Exception ex) {
-					ex.printStackTrace();
+				} catch (Exception e) {
+					LOGGER.error("Fail to search component", e);
 				}
 			} else {
 				EList nscomps = ((NamingContextNode)target.get(index)).getNodes();

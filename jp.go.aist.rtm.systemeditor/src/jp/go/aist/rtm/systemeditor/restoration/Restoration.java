@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.toolscommon.factory.CorbaWrapperFactory;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
@@ -17,6 +20,10 @@ import _SDOPackage.Configuration;
  * ロード時に復元を行うクラス
  */
 public class Restoration {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(Restoration.class);
+
 	/**
 	 * 実行メイン
 	 * 
@@ -71,7 +78,7 @@ public class Restoration {
 						.getConfigurationSets(), component
 						.getActiveConfigurationSet(), remoteConfigurationSets);
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOGGER.error("Fail to get configuration. (CORBA)", e);
 				// void
 			}
 			if (isOk == false) {

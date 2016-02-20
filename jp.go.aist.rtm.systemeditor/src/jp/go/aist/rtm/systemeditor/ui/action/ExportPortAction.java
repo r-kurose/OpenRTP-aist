@@ -16,12 +16,17 @@ import org.apache.commons.lang.StringUtils;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * ポートの公開・非公開を切り替えるアクション
  *
  */
 public class ExportPortAction extends Action {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(ExportPortAction.class);
 
 	private static final String ERROR_TITLE = Messages.getString("ExportPortAction.error.title"); // Error
 
@@ -65,7 +70,7 @@ public class ExportPortAction extends Action {
 			parent.addComponentsR(emptyList);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to add component", e);
 			return false;
 		}
 		return true;
@@ -96,7 +101,7 @@ public class ExportPortAction extends Action {
 			parent.getSynchronizationSupport().synchronizeLocal();
 			CompositeComponentHelper.synchronizeAll(parent);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to synchronize", e);
 			return false;
 		}
 		return true;

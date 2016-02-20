@@ -97,10 +97,15 @@ import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.openrtp.namespaces.rts.version02.RtsProfileExt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 
 public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(AbstractSystemDiagramEditor.class);
 
 	static final String DIALOG_TITLE_CONFIRM = Messages
 			.getString("Common.dialog.confirm_title");
@@ -374,7 +379,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		try {
 			save(file, monitor);
 		} catch (CoreException e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to save. file=" + file, e);
 			ErrorDialog.openError(getSite().getShell(), Messages.getString("AbstractSystemDiagramEditor.12"), //$NON-NLS-1$
 					Messages.getString("AbstractSystemDiagramEditor.13"), e.getStatus()); //$NON-NLS-1$
 		}
@@ -434,7 +439,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 						try {
 							save(newFile, monitor);
 						} catch (CoreException e) {
-							e.printStackTrace();
+							LOGGER.error("Fail to save. file=" + newFile, e);
 							MessageDialog.openError(getSite().getShell(), Messages.getString("AbstractSystemDiagramEditor.21"), //$NON-NLS-1$
 									Messages.getString("AbstractSystemDiagramEditor.22") + newFile.getName()); //$NON-NLS-1$
 						}
@@ -889,7 +894,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 				load(new FileEditorInput(createNewFile), getEditorSite(),
 						restore);
 			} catch (PartInitException e) {
-				e.printStackTrace(); // system error
+				LOGGER.error("Fail to load file. file=" + createNewFile, e);
 				if (e.getStatus().getException() != null)
 					MessageDialog.openError(getSite().getShell(), "", e //$NON-NLS-1$
 							.getStatus().getException().getMessage());
@@ -925,32 +930,28 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 				if (evt.getOldValue() instanceof Component
 						&& ((Component) evt.getOldValue())
 								.isCompositeComponent()) {
-					try {
-						page.getWorkbenchWindow().getShell().getDisplay()
-								.asyncExec(new Runnable() {
-									@Override
-									public void run() {
-										List<Component> components = new ArrayList<Component>();
-										components
-												.add((Component) changeEvent
-														.getOldValue());
-										components
-												.addAll(((Component) changeEvent
-														.getOldValue())
-														.getAllComponents());
-										for (Component tmpComponent : components) {
-											SystemDiagram childDiagram = tmpComponent.getChildSystemDiagram();
-											if (childDiagram != null) {
-												AbstractSystemDiagramEditor editor = ComponentUtil.findEditor(childDiagram);
-												if (editor != null)	page.closeEditor(editor, false);
-												tmpComponent.setChildSystemDiagram(null);
-											}
+					page.getWorkbenchWindow().getShell().getDisplay()
+							.asyncExec(new Runnable() {
+								@Override
+								public void run() {
+									List<Component> components = new ArrayList<Component>();
+									components
+											.add((Component) changeEvent
+													.getOldValue());
+									components
+											.addAll(((Component) changeEvent
+													.getOldValue())
+													.getAllComponents());
+									for (Component tmpComponent : components) {
+										SystemDiagram childDiagram = tmpComponent.getChildSystemDiagram();
+										if (childDiagram != null) {
+											AbstractSystemDiagramEditor editor = ComponentUtil.findEditor(childDiagram);
+											if (editor != null)	page.closeEditor(editor, false);
+											tmpComponent.setChildSystemDiagram(null);
 										}
 									}
-								});
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+								}
+							});
 				}
 			}
 		}

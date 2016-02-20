@@ -12,11 +12,16 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.ui.IWorkbenchPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * コマンドの実行を代理するクラス
  */
 public class ComponentActionDelegate {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(ComponentActionDelegate.class);
 
 	static final String MSG_BEGIN_TASK = Messages.getString("ComponentActionDelegate.1");
 	static final String MSG_SUB_TASK1 = Messages.getString("ComponentActionDelegate.2");
@@ -88,7 +93,7 @@ public class ComponentActionDelegate {
 		try {
 			dialog.run(false, false, runable);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error("Fail in dialog", e);
 		}
 
 		if (returnCode[0] == null) {

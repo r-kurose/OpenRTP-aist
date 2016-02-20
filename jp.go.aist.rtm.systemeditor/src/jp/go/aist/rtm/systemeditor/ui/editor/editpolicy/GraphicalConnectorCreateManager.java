@@ -21,11 +21,16 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * コネクタプロファイルを作成する責務を持ったマネージャ
  */
 public class GraphicalConnectorCreateManager {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(GraphicalConnectorCreateManager.class);
 
 	static final String ERROR_TITLE = Messages
 			.getString("GraphicalConnectorCreateManager.0");
@@ -129,7 +134,7 @@ public class GraphicalConnectorCreateManager {
 					continue;
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOGGER.error("Fail to get connection profile", e);
 				return null;
 			}
 		}

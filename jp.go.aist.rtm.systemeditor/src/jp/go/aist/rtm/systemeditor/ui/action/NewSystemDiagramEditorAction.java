@@ -8,12 +8,17 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PartInitException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 新しいシステムダイアグラムを作成するアクション
  */
 public class NewSystemDiagramEditorAction implements
 		IWorkbenchWindowActionDelegate {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(NewSystemDiagramEditorAction.class);
 
 	private IWorkbenchWindow window;
 
@@ -38,7 +43,7 @@ public class NewSystemDiagramEditorAction implements
 			window.getActivePage().openEditor(new NullEditorInput(),
 					SystemDiagramEditor.SYSTEM_DIAGRAM_EDITOR_ID);
 		} catch (PartInitException e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to open editor", e);
 		}
 	}
 

@@ -18,11 +18,16 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * AllStart,AllStopを実行するアクション
  */
 public class AllComponentActionDelegate implements IEditorActionDelegate {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(AllComponentActionDelegate.class);
 
 	/**
 	 * AllStartに使用されるID。この値が、Plugin.XMLに指定されなければならない。
@@ -120,7 +125,7 @@ public class AllComponentActionDelegate implements IEditorActionDelegate {
 				MessageDialog.openError(targetEditor.getSite().getShell(),
 						Messages.getString("AllComponentActionDelegate.13"), Messages.getString("AllComponentActionDelegate.14") + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				LOGGER.error("Fail in dialog (interrupted)", e);
 			}
 		}
 

@@ -1,21 +1,21 @@
 package jp.go.aist.rtm.systemeditor;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
+import jp.go.aist.rtm.toolscommon.profiles.util.LoggerUtil;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The activator class controls the plug-in life cycle
  */
 public class RTSystemEditorPlugin extends AbstractUIPlugin {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(RTSystemEditorPlugin.class);
 
 	// The plug-in ID
 	private static final String PLUGIN_ID = "jp.go.aist.rtm.systemeditor";
@@ -23,20 +23,14 @@ public class RTSystemEditorPlugin extends AbstractUIPlugin {
 	// The shared instance
 	private static RTSystemEditorPlugin plugin;
 
-	RTSELogHandler logHandler = null;
-
 	/**
 	 * The constructor
 	 */
 	public RTSystemEditorPlugin() {
+		LoggerUtil.setup();
+		LOGGER.trace("RTSystemEditorPlugin: START");
+
 		plugin = this;
-		//
-		getLogger();
-		try {
-			logHandler = new RTSELogHandler();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	/*
@@ -44,10 +38,6 @@ public class RTSystemEditorPlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
 	 */
 	public void start(BundleContext context) throws Exception {
-		if(logHandler!=null) {
-			logHandler.start();
-		}
-		//
 		super.start(context);
 	}
 
@@ -56,10 +46,6 @@ public class RTSystemEditorPlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
-		if(logHandler!=null) {
-			logHandler.stop();
-		}
-		//
 		plugin = null;
 		super.stop(context);
 	}
@@ -108,39 +94,6 @@ public class RTSystemEditorPlugin extends AbstractUIPlugin {
 					descriptor.toString(), result);
 		}
 		return result;
-	}
-
-	static LogManager logManager = null;
-	static Logger log = null;
-
-	public static Logger getLogger() {
-		if (logManager == null) {
-			try {
-				InputStream ins = new FileInputStream(new File(
-						"systemeditor.logging.properties"));
-				logManager = LogManager.getLogManager();
-				logManager.readConfiguration(ins);
-			} catch (IOException e) {
-				// void
-			}
-		}
-		//
-		if (log == null) {
-			log = Logger.getLogger(PLUGIN_ID);
-		}
-		return log;
-	}
-
-	public static void addLogger(Logger logger) {
-		if (plugin != null) {
-			plugin.logHandler.addLogger(logger);
-		}
-	}
-
-	public static void removeLogger(Logger logger) {
-		if (plugin != null) {
-			plugin.logHandler.removeLogger(logger);
-		}
 	}
 
 }

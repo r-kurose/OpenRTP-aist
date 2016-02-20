@@ -24,8 +24,13 @@ import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Main {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(Main.class);
 
 	/**
 	 * 指定されたXMLファイルを読み込み、XMLファイルの内容をシステムに反映する。
@@ -191,7 +196,7 @@ public class Main {
 			reader.close();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to create mapping rules", e);
 			result.setSuccess(false);
 		}
 

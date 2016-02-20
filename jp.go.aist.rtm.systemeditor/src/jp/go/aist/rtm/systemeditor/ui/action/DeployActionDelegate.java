@@ -57,10 +57,16 @@ import org.openrtp.namespaces.rts.version02.TargetComponent;
 import org.openrtp.namespaces.rts.version02.TargetComponentExt;
 import org.openrtp.namespaces.rts.version02.TargetPort;
 import org.openrtp.namespaces.rts.version02.TargetPortExt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 
 public class DeployActionDelegate implements IEditorActionDelegate {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(DeployActionDelegate.class);
+
 	private ISelection selection;
 	private AbstractSystemDiagramEditor targetEditor;
 
@@ -219,13 +225,13 @@ public class DeployActionDelegate implements IEditorActionDelegate {
 			newWindow = window.getActivePage().openEditor(new NullEditorInput(),
 					SystemDiagramEditor.SYSTEM_DIAGRAM_EDITOR_ID);
 		} catch (PartInitException e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to open editor", e);
 		}
-		SystemDiagramEditor editor = (SystemDiagramEditor)newWindow;
+		SystemDiagramEditor editor = (SystemDiagramEditor) newWindow;
 		try {
 			loadFromOffline(editor, profile);
 		} catch (PartInitException e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to load from offline", e);
 		}
 	}
 
@@ -429,7 +435,7 @@ public class DeployActionDelegate implements IEditorActionDelegate {
 						handler.restoreExecutionContext(editor.getSystemDiagram());
 						editor.doReplace(editor.getSystemDiagram(), editor.getEditorSite());
 					} catch (Exception e) {
-						e.printStackTrace();
+						LOGGER.error("Fail to replace in editor", e);
 						throw new InvocationTargetException(e, Messages.getString("SystemDiagramEditor.8")); //$NON-NLS-1$
 					}
 					//

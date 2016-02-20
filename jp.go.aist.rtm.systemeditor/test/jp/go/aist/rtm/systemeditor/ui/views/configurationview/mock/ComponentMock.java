@@ -1,5 +1,6 @@
 package jp.go.aist.rtm.systemeditor.ui.views.configurationview.mock;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import jp.go.aist.rtm.toolscommon.model.component.Component;
@@ -24,6 +25,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -637,6 +639,12 @@ public class ComponentMock implements Component {
 	@Override
 	public void synchronizeRemoteChildComponents() {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public Object eInvoke(EOperation operation, EList<?> arguments) throws InvocationTargetException {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
 	}
 
 }

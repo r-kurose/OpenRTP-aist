@@ -35,9 +35,14 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class IconPreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(IconPreferencePage.class);
 
 	static final int EXEC_BUTTON_WIDTH = 90;
 
@@ -198,7 +203,7 @@ public class IconPreferencePage extends PreferencePage implements
 					iconTableViewer.setInput(entryList);
 				} catch (Exception e1) {
 					setErrorMessage(ERROR_IMPORT_PROFILE);
-					e1.printStackTrace();
+					LOGGER.error("Fail to load profile for icon store", e1);
 				}
 			}
 		});
@@ -226,7 +231,7 @@ public class IconPreferencePage extends PreferencePage implements
 					store.saveProfile(file.getAbsolutePath());
 				} catch (Exception e1) {
 					setErrorMessage(ERROR_EXPORT_PROFILE);
-					e1.printStackTrace();
+					LOGGER.error("Fail to save profile", e1);
 				}
 			}
 		});

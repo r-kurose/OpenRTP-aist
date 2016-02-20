@@ -16,8 +16,14 @@ import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
 import org.openrtp.namespaces.deploy.Component;
 import org.openrtp.namespaces.deploy.DeployProfile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DeployLoadActionDelegate implements IEditorActionDelegate {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(DeployLoadActionDelegate.class);
+
 	private ISelection selection;
 	private AbstractSystemDiagramEditor targetEditor;
 
@@ -39,8 +45,8 @@ public class DeployLoadActionDelegate implements IEditorActionDelegate {
 		DeployProfile profile = null;
 		try {
 			profile = loader.loadXmlDeploy(selectedFileName);
-		} catch(Exception ex) {
-			ex.printStackTrace();
+		} catch (Exception e) {
+			LOGGER.error("Fail to load xml and deploy", e);
 		}
 		//
 		SystemDiagram diagram = targetEditor.getSystemDiagram();

@@ -35,11 +35,17 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.FileEditorInput;
 import org.openrtp.namespaces.rts.version02.RtsProfileExt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * SystemDiagramEditorクラス
  */
 public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(SystemDiagramEditor.class);
+
 	/**
 	 * システムダイアグラムエディタのID
 	 */
@@ -213,7 +219,7 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 							handler.restoreExecutionContext(getSystemDiagram());
 							doReplace(getSystemDiagram(), site);
 						} catch (Exception e) {
-							e.printStackTrace();
+							LOGGER.error("Fail to replace diagram", e);
 							throw new InvocationTargetException(e, Messages.getString("SystemDiagramEditor.8")); //$NON-NLS-1$
 						}
 					}
