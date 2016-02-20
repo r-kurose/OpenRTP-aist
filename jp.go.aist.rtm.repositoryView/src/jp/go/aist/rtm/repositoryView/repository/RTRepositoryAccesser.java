@@ -9,15 +9,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.zip.CRC32;
 import java.util.zip.CheckedOutputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import jp.go.aist.rtm.repositoryView.RepositoryViewPlugin;
 import jp.go.aist.rtm.repositoryView.model.RepositoryViewFactory;
 import jp.go.aist.rtm.repositoryView.model.RepositoryViewItem;
 import jp.go.aist.rtm.repositoryView.model.RepositoryViewLeafItem;
@@ -38,6 +35,8 @@ import org.openrtp.repository.ItemCategory;
 import org.openrtp.repository.RTRepositoryAccessException;
 import org.openrtp.repository.RTRepositoryClient;
 import org.openrtp.repository.RTRepositoryClientFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -46,7 +45,8 @@ import org.openrtp.repository.RTRepositoryClientFactory;
 @SuppressWarnings("restriction")
 public class RTRepositoryAccesser {
 
-	static Logger log = RepositoryViewPlugin.getLogger();
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(RTRepositoryAccesser.class);
 
 	private static final String ZIP_EXT = "ZIP"; //$NON-NLS-1$
 	private static final String TAR_EXT = "TAR"; //$NON-NLS-1$
@@ -100,7 +100,7 @@ public class RTRepositoryAccesser {
 		try {
 			numberOfItems = client.countItem(itemCategory, keywords);
 		} catch (RTRepositoryAccessException e1) {
-			log.log(Level.SEVERE, null, e1);
+			LOGGER.error("Fail to count items", e1);
 			return null;
 		}
 		if( cautionNumber<=numberOfItems ) {
@@ -115,7 +115,9 @@ public class RTRepositoryAccesser {
 		try {
 			searchResults = client.searchItem(itemCategory, keywords);
 		} catch (RTRepositoryAccessException e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to search item. category=<{}>, keywords=<{}>",
+					itemCategory, keywords);
+			LOGGER.error("", e);
 			return null;
 		}
 		RepositoryViewItem result = createRoot(address, searchResults);

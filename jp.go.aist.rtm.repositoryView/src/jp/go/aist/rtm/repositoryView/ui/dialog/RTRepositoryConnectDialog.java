@@ -23,12 +23,17 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * RTレポジトリへの接続ダイアログ
  *
  */
 public class RTRepositoryConnectDialog extends Dialog {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(RTRepositoryConnectDialog.class);
 
 	/**
 	 * 接続要求結果 接続に失敗したことを示す定数
@@ -226,9 +231,9 @@ public class RTRepositoryConnectDialog extends Dialog {
 		try {
 			dialog.run(false, false, runable);
 		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+			LOGGER.error("Fail in dialog (invocation)", e);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error("Fail in dialog (interrupted)", e);
 		}
 
 		if (runable.getResult() == CANT_CONNECT) {
@@ -295,7 +300,7 @@ public class RTRepositoryConnectDialog extends Dialog {
 					result = SUCCESS;
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOGGER.error("Fail to add repository value=" + this.value, e);
 			}
 
 			monitor.done();

@@ -8,13 +8,13 @@ import java.util.Properties;
 
 import jp.go.aist.rtm.repositoryView.model.RTCRVLeafItem;
 import jp.go.aist.rtm.repositoryView.model.RepositoryViewItem;
+import jp.go.aist.rtm.repositoryView.nl.Messages;
 import jp.go.aist.rtm.repositoryView.repository.RTRepositoryAccesser;
 import jp.go.aist.rtm.repositoryView.ui.ArrayContentProvider;
 import jp.go.aist.rtm.repositoryView.ui.RepositoryViewLabelProvider;
 import jp.go.aist.rtm.repositoryView.ui.preference.RepositoryViewPreferenceManager;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.ui.views.propertysheetview.RtcPropertySheetPage;
-import jp.go.aist.rtm.repositoryView.nl.Messages;
 
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -37,6 +37,8 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.part.DrillDownAdapter;
 import org.eclipse.ui.views.navigator.LocalSelectionTransfer;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -45,22 +47,24 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
  */
 public class RepositoryView extends org.eclipse.ui.part.ViewPart {
 
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(RepositoryView.class);
+
 	private TreeViewer viewer;
 	
 	private DrillDownAdapter drillDownAdapter;
 
-//	private static Log Logger = LogFactory.getLog(Messages.getString("RepositoryView.0")); //$NON-NLS-1$
-	
 	public RepositoryView() {
 		Properties props = System.getProperties();
 		try {
-			String propPath = RepositoryViewPreferenceManager.getInstance().getPropertyFile_Location();
-			if( !(propPath==null || propPath.equals("")) ) { //$NON-NLS-1$
+			String propPath = RepositoryViewPreferenceManager.getInstance()
+					.getPropertyFile_Location();
+			if (!(propPath == null || propPath.equals(""))) { //$NON-NLS-1$
 				props.load(new FileInputStream(propPath));
 				props.setProperty("repository.properties", propPath); //$NON-NLS-1$
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to load property", e);
 		}
 		System.setProperties(props);
 		//

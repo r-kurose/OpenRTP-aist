@@ -1,14 +1,19 @@
 package jp.go.aist.rtm.repositoryView;
 
-import java.util.logging.Logger;
+import jp.go.aist.rtm.toolscommon.profiles.util.LoggerUtil;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The activator class controls the plug-in life cycle
  */
 public class RepositoryViewPlugin extends AbstractUIPlugin {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(RepositoryViewPlugin.class);
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "jp.go.aist.rtm.repositoryView";
@@ -20,8 +25,10 @@ public class RepositoryViewPlugin extends AbstractUIPlugin {
 	 * The constructor
 	 */
 	public RepositoryViewPlugin() {
+		LoggerUtil.setup();
+		LOGGER.trace("RepositoryViewPlugin: START");
+
 		plugin = this;
-		getLogger();
 	}
 
 	/*
@@ -48,15 +55,6 @@ public class RepositoryViewPlugin extends AbstractUIPlugin {
 	 */
 	public static RepositoryViewPlugin getDefault() {
 		return plugin;
-	}
-
-	static Logger log;
-
-	public static Logger getLogger() {
-		if (log == null) {
-			log = Logger.getLogger(PLUGIN_ID);
-		}
-		return log;
 	}
 
 }
