@@ -85,6 +85,8 @@ import org.openrtp.namespaces.rts.version02.TargetComponentExt;
 import org.openrtp.namespaces.rts.version02.TargetExecutioncontext;
 import org.openrtp.namespaces.rts.version02.TargetPortExt;
 import org.openrtp.namespaces.rts.version02.Waittime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -92,8 +94,11 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class XmlHandler {
 	
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(XmlHandler.class);
+	
 	public RtsProfileExt loadXmlRts(String targetFile) throws Exception {
-		
+		LOGGER.debug("loadXmlRts: targetFile=<{}>", targetFile);
 		StringBuffer stbRet = new StringBuffer();
 		InputStreamReader isr = new InputStreamReader(new FileInputStream(targetFile), "UTF-8");
 		BufferedReader br = new BufferedReader(isr);
