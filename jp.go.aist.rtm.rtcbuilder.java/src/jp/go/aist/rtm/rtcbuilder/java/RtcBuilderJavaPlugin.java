@@ -1,16 +1,19 @@
 package jp.go.aist.rtm.rtcbuilder.java;
 
-import java.util.logging.Logger;
-
-import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
+import jp.go.aist.rtm.toolscommon.profiles.util.LoggerUtil;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The activator class controls the plug-in life cycle
  */
 public class RtcBuilderJavaPlugin extends AbstractUIPlugin {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(RtcBuilderJavaPlugin.class);
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "jp.go.aist.rtm.rtcbuilder.java";
@@ -22,8 +25,10 @@ public class RtcBuilderJavaPlugin extends AbstractUIPlugin {
 	 * The constructor
 	 */
 	public RtcBuilderJavaPlugin() {
+		LoggerUtil.setup();
+		LOGGER.trace("RtcBuilderJavaPlugin: START");
+
 		plugin = this;
-		getLogger();
 	}
 
 	/*
@@ -31,8 +36,6 @@ public class RtcBuilderJavaPlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
 	 */
 	public void start(BundleContext context) throws Exception {
-		RtcBuilderPlugin.addLogger(getLogger());
-		//
 		super.start(context);
 	}
 
@@ -41,8 +44,6 @@ public class RtcBuilderJavaPlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
-		RtcBuilderPlugin.removeLogger(getLogger());
-		//
 		plugin = null;
 		super.stop(context);
 	}
@@ -54,15 +55,6 @@ public class RtcBuilderJavaPlugin extends AbstractUIPlugin {
 	 */
 	public static RtcBuilderJavaPlugin getDefault() {
 		return plugin;
-	}
-
-	static Logger log;
-
-	public static Logger getLogger() {
-		if (log == null) {
-			log = Logger.getLogger(PLUGIN_ID);
-		}
-		return log;
 	}
 
 }
