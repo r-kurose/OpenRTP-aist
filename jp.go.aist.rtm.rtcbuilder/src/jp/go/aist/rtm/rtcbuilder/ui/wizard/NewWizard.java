@@ -28,10 +28,15 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 
 public class NewWizard extends Wizard implements INewWizard, IExecutableExtension {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(NewWizard.class);
 
 	private WizardNewProjectCreationPage newProjectPage;
 	private IConfigurationElement configElement;
@@ -79,7 +84,7 @@ public class NewWizard extends Wizard implements INewWizard, IExecutableExtensio
 			window.getActivePage().openEditor(new FileEditorInput(rtcxml),
 					RtcBuilderEditor.RTC_BUILDER_EDITOR_ID);
 		} catch (PartInitException e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to open editor", e);
 		}
 		
 		return true;

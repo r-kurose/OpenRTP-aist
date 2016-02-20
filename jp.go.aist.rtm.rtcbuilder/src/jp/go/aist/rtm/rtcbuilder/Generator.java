@@ -49,12 +49,17 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * ジェネレータクラス
  */
 public class Generator {
-	
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(Generator.class);
+
 	Map<String, GenerateManager> generateManagerList = new HashMap<String, GenerateManager>();
 
 	public Generator() {
@@ -596,12 +601,11 @@ public class Generator {
 									originalFileContents, MergeBlockParser
 											.parse(generatedResult.getCode())));
 						}
-	
 						isOutput = true;
 					} catch (NullPointerException e) {
-						e.printStackTrace();
+						LOGGER.error("Fail to move resource (null)", e);
 					} catch (CoreException e) {
-						e.printStackTrace();
+						LOGGER.error("Fail to move resource (move)", e);
 					}
 					//バックアップファイルの整理
 					FileUtil.removeBackupFiles(outputProject, generatedResult.getName());
@@ -624,7 +628,7 @@ public class Generator {
 						try {
 							folder.create(false, true, null);
 						} catch (CoreException e) {
-							e.printStackTrace();
+							LOGGER.error("Fail to create folder", e);
 						}
 					}
 				}
@@ -632,7 +636,7 @@ public class Generator {
 			try {
 				outputFile.create(new ByteArrayInputStream(generatedResult.getCode().getBytes("UTF-8")), false, null);
 			} catch (CoreException e) {
-				e.printStackTrace();
+				LOGGER.error("Fail to create file", e);
 			}
 		}
 	}

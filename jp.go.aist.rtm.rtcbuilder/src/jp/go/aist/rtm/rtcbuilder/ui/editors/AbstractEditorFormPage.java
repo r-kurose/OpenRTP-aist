@@ -50,8 +50,13 @@ import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractEditorFormPage extends FormPage {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(AbstractEditorFormPage.class);
 
 	protected RtcBuilderEditor editor;
 	protected BuildView buildview;
@@ -507,9 +512,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 					}
 				}
 			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (java.lang.SecurityException e) {
-				e.printStackTrace();
+				LOGGER.error("Fail to read idl file", e);
 			}
 		}
 		String[] defaultTypeList = new String[0];

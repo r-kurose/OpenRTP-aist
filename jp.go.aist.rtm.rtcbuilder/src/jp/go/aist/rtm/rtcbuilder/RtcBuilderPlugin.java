@@ -1,30 +1,27 @@
 package jp.go.aist.rtm.rtcbuilder;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
-
 import jp.go.aist.rtm.rtcbuilder.util.ShutdownListener;
+import jp.go.aist.rtm.toolscommon.profiles.util.LoggerUtil;
 
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The activator class controls the plug-in life cycle
  */
 public class RtcBuilderPlugin extends AbstractUIPlugin {
 
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(RtcBuilderPlugin.class);
+
 	// The plug-in ID
 	public static final String PLUGIN_ID = "jp.go.aist.rtm.rtcbuilder";
 
 	// The shared instance
 	private static RtcBuilderPlugin plugin;
-
-	RTCBLogHandler logHandler;
 
 	// 拡張ローダ
 	private ExtensionLoader loader;
@@ -40,14 +37,10 @@ public class RtcBuilderPlugin extends AbstractUIPlugin {
 	 * The constructor
 	 */
 	public RtcBuilderPlugin() {
+		LoggerUtil.setup();
+		LOGGER.trace("RtcBuilderPlugin: START");
+
 		plugin = this;
-		//
-		getLogger();
-		try {
-			logHandler = new RTCBLogHandler();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		canExit = true;
 	}
 
@@ -56,7 +49,6 @@ public class RtcBuilderPlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
 	 */
 	public void start(BundleContext context) throws Exception {
-		logHandler.start();
 		PlatformUI.getWorkbench().addWorkbenchListener(new ShutdownListener());
 		//
 		super.start(context);
@@ -81,8 +73,6 @@ public class RtcBuilderPlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
-		logHandler.stop();
-		//
 		plugin = null;
 		super.stop(context);
 	}
@@ -116,43 +106,12 @@ public class RtcBuilderPlugin extends AbstractUIPlugin {
 		return this.exportExtensionLoader;
 	}
 
-	static LogManager logManager;
-	static Logger log;
-
-	public static Logger getLogger() {
-		if (logManager == null) {
-			try {
-				InputStream ins = new FileInputStream(new File(
-						"rtcbuilder.logging.properties"));
-				logManager = LogManager.getLogManager();
-				logManager.readConfiguration(ins);
-			} catch (IOException e) {
-				// void
-			}
-		}
-		//
-		if (log == null) {
-			log = Logger.getLogger(PLUGIN_ID);
-		}
-		return log;
-	}
-
-	public static void addLogger(Logger logger) {
-		if (plugin != null) {
-			plugin.logHandler.addLogger(logger);
-		}
-	}
-
-	public static void removeLogger(Logger logger) {
-		if (plugin != null) {
-			plugin.logHandler.removeLogger(logger);
-		}
-	}
-
 	public boolean isCanExit() {
 		return canExit;
 	}
+
 	public void setCanExit(boolean canExit) {
 		this.canExit = canExit;
 	}
+
 }

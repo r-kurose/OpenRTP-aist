@@ -3,15 +3,20 @@ package jp.go.aist.rtm.rtcbuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractExtensionLoader {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(AbstractExtensionLoader.class);
+
 	// Manager
 	@SuppressWarnings("unchecked")
 	private List list = new ArrayList();
@@ -56,11 +61,11 @@ public abstract class AbstractExtensionLoader {
 				addExtension(cfgElem);
 			}
 		} catch (CoreException e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to add extension", e);
 			throw e;
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List getList() {
 		return list;

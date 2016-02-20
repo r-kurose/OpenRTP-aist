@@ -36,9 +36,14 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.dialogs.WizardExportResourcesPage;
 import org.eclipse.ui.internal.wizards.datatransfer.ArchiveFileExportOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("restriction")
 public class RtcExportWizardPage extends	WizardExportResourcesPage {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(RtcExportWizardPage.class);
 
     private final static String STORE_DESTINATION_NAMES_ID = "RtcExportWizardPage.STORE_DESTINATION_NAMES_ID"; //$NON-NLS-1$
     private final static String STORE_CREATE_STRUCTURE_ID = "RtcExportWizardPage.STORE_CREATE_STRUCTURE_ID"; //$NON-NLS-1$
@@ -297,7 +302,7 @@ public class RtcExportWizardPage extends	WizardExportResourcesPage {
 				targetProjectList.add(targetProjects[intIdx].getName());
 			}
 		} catch (CoreException e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to get resources", e);
 		}
     }
 
@@ -398,7 +403,7 @@ public class RtcExportWizardPage extends	WizardExportResourcesPage {
 			IResource[] targets = targetProject.members();
 			searchTarget(resourceList, targetExt, targetFile, targets);
 		} catch (CoreException e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to get resources", e);
 		}
     	return resourceList;
     }
@@ -423,9 +428,8 @@ public class RtcExportWizardPage extends	WizardExportResourcesPage {
 					IResource[] resources = ((IFolder)sourceRes[intIdx]).members();
 					searchTarget(resourceList, targetExt, targetFile, resources);
 				} catch (CoreException e) {
-					e.printStackTrace();
+					LOGGER.error("Fail to search resources.", e);
 				}
-				
 			}
 		}
     }

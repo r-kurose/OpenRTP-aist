@@ -22,8 +22,14 @@ import jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler;
 import jp.go.aist.rtm.toolscommon.profiles.util.YamlHandler;
 
 import org.openrtp.namespaces.rtc.version02.RtcProfile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ProfileHandler {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(ProfileHandler.class);
+
 	private List<GenerateManager> managerList = null;
 	private boolean isDirect = false;
 	
@@ -116,7 +122,7 @@ public class ProfileHandler {
 		try {
 			result = handler.convertToXmlRtc(profile);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to convert rtc-profile", e);
 		}
 		return result;
 	}

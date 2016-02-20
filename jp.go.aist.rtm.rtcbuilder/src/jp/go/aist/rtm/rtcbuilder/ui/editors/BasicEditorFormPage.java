@@ -57,11 +57,16 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Basic Profile 設定ページ
  */
 public class BasicEditorFormPage extends AbstractEditorFormPage {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(BasicEditorFormPage.class);
 
 	/**
 	 * 生成を行ったCategoryの情報を保存するワークスペース永続文字列へのキー
@@ -367,7 +372,9 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 							description.setNatureIds(newIds);
 							project.setDescription(description, null);
 						} catch (CoreException e1) {
-							e1.printStackTrace();
+							LOGGER.error(
+									"Fail to get/set description for project",
+									e1);
 						}
 					}
 					//
@@ -399,8 +406,8 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					//
 					editor.getRtcParam().resetUpdated();
 					editor.updateDirty();
-				} catch (Exception e1) {
-					e1.printStackTrace();
+				} catch (Exception e) {
+					LOGGER.error("Fail to save rtc-profile", e);
 				}
 			}
 

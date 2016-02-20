@@ -36,8 +36,13 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RtcXmlEditorFormPage extends AbstractEditorFormPage {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(RtcXmlEditorFormPage.class);
 
 	private SourceViewer RTCXmlViewer;
 	private Document rtcDocument;
@@ -230,7 +235,7 @@ public class RtcXmlEditorFormPage extends AbstractEditorFormPage {
 			if (message != null && !"".equals(message)) {
 				MessageDialog.openError(getSite().getShell(), "Error", message);
 			} else {
-				e.printStackTrace();// 今のところこちらにはこないはず
+				LOGGER.error("Fail to convert", e);
 			}
 		}
 		//

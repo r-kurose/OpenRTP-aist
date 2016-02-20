@@ -11,8 +11,14 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ExtensionLoader {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(ExtensionLoader.class);
+
 	// 拡張ポイントID
 	public static final String EXTENSION_POINT_ID = "jp.go.aist.rtm.rtcbuilder.generateManager";
 	// Manager
@@ -59,7 +65,7 @@ public class ExtensionLoader {
 				}
 			}
 		} catch (CoreException e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to create extension. ext=managerclass", e);
 			throw e;
 		}
 	}
