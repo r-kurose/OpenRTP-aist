@@ -6,9 +6,6 @@
  */
 package jp.go.aist.rtm.toolscommon.model.component.impl;
 
-import java.util.logging.Logger;
-
-import jp.go.aist.rtm.toolscommon.ToolsCommonPlugin;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaLogObserver;
@@ -17,6 +14,8 @@ import jp.go.aist.rtm.toolscommon.model.component.util.RTCLogStore;
 
 import org.eclipse.emf.ecore.EClass;
 import org.omg.PortableServer.Servant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static jp.go.aist.rtm.toolscommon.util.RTMixin.*;
 
@@ -31,7 +30,8 @@ import static jp.go.aist.rtm.toolscommon.util.RTMixin.*;
  */
 public class CorbaLogObserverImpl extends CorbaObserverImpl implements CorbaLogObserver {
 
-	static Logger log = ToolsCommonPlugin.getLogger();
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(CorbaLogObserverImpl.class);
 
 	public static final String[] LEVEL_NAMES = new String[] { "SILENT", //
 			"ERROR", //
@@ -141,8 +141,8 @@ public class CorbaLogObserverImpl extends CorbaObserverImpl implements CorbaLogO
 	}
 
 	public void save(OpenRTM.LogRecord record) {
-		log.info("publish(" + LEVEL_NAMES[record.level.value()] + ", "
-				+ record.loggername + ", " + record.message + ")");
+		LOGGER.info("publish({}, {}, {})", LEVEL_NAMES[record.level.value()],
+				record.loggername, record.message);
 		RTCLogStore.eINSTANCE.save(serviceProfile.id, rtcName, record);
 	}
 

@@ -7,6 +7,8 @@ import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
 
 import org.eclipse.emf.ecore.EObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 同期マネージャ
@@ -15,6 +17,10 @@ import org.eclipse.emf.ecore.EObject;
  * 
  */
 public class SynchronizationManager {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(SynchronizationManager.class);
+
 	private MappingRule[] mappingRules;
 
 	/**
@@ -64,7 +70,7 @@ public class SynchronizationManager {
 						narrowedRemoteObjects, link);
 				assignSynchonizationSupport(result);
 			} catch (Exception e) {
-				e.printStackTrace(); // system error
+				LOGGER.error("Fail to assign synchronization support", e);
 			}
 		}
 		//

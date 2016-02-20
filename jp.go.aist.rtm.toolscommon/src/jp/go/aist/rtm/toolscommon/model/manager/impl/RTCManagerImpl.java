@@ -6,8 +6,8 @@
  */
 package jp.go.aist.rtm.toolscommon.model.manager.impl;
 
-import RTC.ComponentProfile;
-import RTC.RTObject;
+import java.util.Collection;
+
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl;
 import jp.go.aist.rtm.toolscommon.model.core.CorePackage;
@@ -29,12 +29,15 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import RTC.ComponentProfile;
+import RTC.RTObject;
 import RTM.ManagerHelper;
 import RTM.ManagerProfile;
 import RTM.ModuleProfile;
-import java.util.Collection;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>RTC Manager</b></em>'.
@@ -56,6 +59,10 @@ import java.util.Collection;
  */
 public class RTCManagerImpl extends CorbaWrapperObjectImpl implements
 		RTCManager {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(RTCManagerImpl.class);
+
 	/**
 	 * The default value of the '{@link #getManagerProfile() <em>Manager Profile</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -852,14 +859,14 @@ public class RTCManagerImpl extends CorbaWrapperObjectImpl implements
 		return new ReferenceMapping[] {};
 	}
 
-	private  void synchronizeLocalAttribute(EReference reference) {
+	private void synchronizeLocalAttribute(EReference reference) {
 		for (AttributeMapping attibuteMapping : getAttributeMappings()) {
 			if (reference != null) {
 				if (reference.equals(attibuteMapping.getLocalFeature())) {
 					try {
 						attibuteMapping.syncronizeLocal(this);
 					} catch (Exception e) {
-						e.printStackTrace();
+						LOGGER.error("Fail to synchronize local", e);
 					}
 					return;
 				}
@@ -867,7 +874,7 @@ public class RTCManagerImpl extends CorbaWrapperObjectImpl implements
 				try {
 					attibuteMapping.syncronizeLocal(this);
 				} catch (Exception e) {
-					e.printStackTrace();
+					LOGGER.error("Fail to synchronize local", e);
 					return;
 				}
 			}
@@ -880,11 +887,11 @@ public class RTCManagerImpl extends CorbaWrapperObjectImpl implements
 			try {
 				referenceMapping.syncronizeLocal(this);
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOGGER.error("Fail to synchronize local", e);
 			}
 		}
 	}
-	
+
 	private long lastExecutedTime;
 	private static long SYNC_MANUAL_INTERVAL = 1000L;
 

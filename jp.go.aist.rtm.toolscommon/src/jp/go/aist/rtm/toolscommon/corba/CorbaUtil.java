@@ -6,8 +6,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import jp.go.aist.rtm.toolscommon.manager.ToolsCommonPreferenceManager;
 
@@ -16,11 +14,16 @@ import org.omg.CosNaming.Binding;
 import org.omg.CosNaming.BindingIteratorHolder;
 import org.omg.CosNaming.BindingListHolder;
 import org.omg.CosNaming.NamingContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * CORBAに関するユーティリティ
  */
 public class CorbaUtil {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(CorbaUtil.class);
 
 	/**
 	 * 対象のNamingContextExtから子供のBindingをListとして返す
@@ -63,11 +66,13 @@ public class CorbaUtil {
 	private static ORB orb = ORB.init(new String[] {}, createProps());
 	static {
 		try {
-			Method declaredMethod = orb.getClass().getMethod("getLogger", String.class);
-			Logger logger = (Logger) declaredMethod.invoke(orb, "");
-			logger.setLevel(Level.SEVERE);
+			Method declaredMethod = orb.getClass().getMethod("getLogger",
+					String.class);
+			java.util.logging.Logger logger = (java.util.logging.Logger) declaredMethod
+					.invoke(orb, "");
+			logger.setLevel(java.util.logging.Level.SEVERE);
 		} catch (Exception e) {
-			e.printStackTrace(); // system error
+			LOGGER.error("Fail to get logger", e);
 		}
 	}
 
@@ -98,11 +103,12 @@ public class CorbaUtil {
 	}
 
 	private static PropertyChangeListener createListner() {
-		return new PropertyChangeListener(){
-//			@Override
+		return new PropertyChangeListener() {
+			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				setConnectionTimeout();
-			}};
+			}
+		};
 	}
 
 	/**

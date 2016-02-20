@@ -18,7 +18,6 @@ import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.ContextHandler;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
-import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.InPort;
 import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 import jp.go.aist.rtm.toolscommon.model.component.OutPort;
@@ -41,6 +40,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <!-- begin-user-doc -->
@@ -78,6 +79,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * @generated
  */
 public abstract class ComponentImpl extends WrapperObjectImpl implements Component {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(ComponentImpl.class);
+
 	/**
 	 * The cached value of the '{@link #getConfigurationSets() <em>Configuration Sets</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -505,8 +510,8 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 				}
 			}
 			return result;
-		} catch (ConcurrentModificationException ex) {
-			ex.printStackTrace();
+		} catch (ConcurrentModificationException e) {
+			LOGGER.error("Fail to select ports", e);
 			// 別スレッドで更新がかかった時は、とりあえず空のリストを返しておく
 			return new BasicEList<E>();
 		}

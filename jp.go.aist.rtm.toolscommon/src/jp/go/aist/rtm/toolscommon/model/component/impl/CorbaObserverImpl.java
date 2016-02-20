@@ -7,11 +7,7 @@
 package jp.go.aist.rtm.toolscommon.model.component.impl;
 
 import java.util.UUID;
-import java.util.logging.Logger;
 
-import _SDOPackage.ServiceProfile;
-
-import jp.go.aist.rtm.toolscommon.ToolsCommonPlugin;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaObserver;
@@ -20,18 +16,19 @@ import jp.go.aist.rtm.toolscommon.model.component.util.CorbaPropertyMap;
 import jp.go.aist.rtm.toolscommon.ui.propertysource.CorbaObserverPropertySource;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.ui.views.properties.IPropertySource;
-
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.ORBPackage.InvalidName;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.POAHelper;
 import org.omg.PortableServer.Servant;
 import org.omg.PortableServer.POAManagerPackage.AdapterInactive;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import _SDOPackage.ServiceProfile;
 
 /**
  * <!-- begin-user-doc -->
@@ -48,6 +45,10 @@ import org.omg.PortableServer.POAManagerPackage.AdapterInactive;
  * @generated
  */
 public class CorbaObserverImpl extends EObjectImpl implements CorbaObserver {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(CorbaObserverImpl.class);
+
 	/**
 	 * The default value of the '{@link #getServiceProfile() <em>Service Profile</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -88,8 +89,6 @@ public class CorbaObserverImpl extends EObjectImpl implements CorbaObserver {
 	 */
 	protected Servant servant = SERVANT_EDEFAULT;
 
-	static Logger log = ToolsCommonPlugin.getLogger();
-
 	protected IPropertyMap properties;
 
 	static ORB orb = null;
@@ -106,10 +105,10 @@ public class CorbaObserverImpl extends EObjectImpl implements CorbaObserver {
 			rootpoa = POAHelper.narrow(orb
 					.resolve_initial_references("RootPOA"));
 			rootpoa.the_POAManager().activate();
-		} catch (InvalidName e1) {
-			e1.printStackTrace();
+		} catch (InvalidName e) {
+			LOGGER.error("Fail to resolve reference RootPOA", e);
 		} catch (AdapterInactive e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to activate POAManager", e);
 		}
 	}
 
@@ -210,6 +209,7 @@ public class CorbaObserverImpl extends EObjectImpl implements CorbaObserver {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean attachComponent(CorbaComponent component) {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
@@ -221,6 +221,7 @@ public class CorbaObserverImpl extends EObjectImpl implements CorbaObserver {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean detachComponent() {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
@@ -232,6 +233,7 @@ public class CorbaObserverImpl extends EObjectImpl implements CorbaObserver {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean finish() {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
@@ -244,11 +246,11 @@ public class CorbaObserverImpl extends EObjectImpl implements CorbaObserver {
 			serviceProfile.id = UUID.randomUUID().toString();
 			result = config.add_service_profile(serviceProfile);
 			//
-			if( result ) {
-				log.info("add_service_profile:    id=" + serviceProfile.id
-						+ " type=" + serviceProfile.interface_type + " ior="
-						+ serviceProfile.service + " obs="
-						+ this.getClass().getName());
+			if (result) {
+				LOGGER.info(
+						"add_service_profile:    id={} type={} ior={} obs={}",
+						serviceProfile.id, serviceProfile.interface_type,
+						serviceProfile.service, this.getClass().getName());
 			}
 		} catch (Exception e) {
 			result = false;
@@ -261,10 +263,9 @@ public class CorbaObserverImpl extends EObjectImpl implements CorbaObserver {
 		try {
 			result = config.remove_service_profile(serviceProfile.id);
 			//
-			log.info("remove_service_profile: id=" + serviceProfile.id
-					+ " type=" + serviceProfile.interface_type + " ior="
-					+ serviceProfile.service + " obs="
-					+ this.getClass().getName());
+			LOGGER.info("remove_service_profile: id={} type={} ior={} obs={}",
+					serviceProfile.id, serviceProfile.interface_type,
+					serviceProfile.service, this.getClass().getName());
 		} catch (Exception e) {
 			result = false;
 		}
@@ -316,6 +317,7 @@ public class CorbaObserverImpl extends EObjectImpl implements CorbaObserver {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public IPropertyMap getPropertyMap() {
 		return properties;
 	}
@@ -370,7 +372,7 @@ public class CorbaObserverImpl extends EObjectImpl implements CorbaObserver {
 		return result.toString();
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Object getAdapter(Class adapter) {
 		java.lang.Object result = null;

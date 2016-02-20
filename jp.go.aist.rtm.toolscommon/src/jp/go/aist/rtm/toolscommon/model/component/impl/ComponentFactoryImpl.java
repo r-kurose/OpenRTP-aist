@@ -10,19 +10,22 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.Map;
 
-import jp.go.aist.rtm.toolscommon.model.component.*;
-
-import jp.go.aist.rtm.toolscommon.model.core.Point;
 import jp.go.aist.rtm.toolscommon.corba.CorbaUtil;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
+import jp.go.aist.rtm.toolscommon.model.component.ContextHandler;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaConnectorProfile;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaContextHandler;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaLogObserver;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaObserver;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaPortSynchronizer;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaStatusObserver;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.InPort;
 import jp.go.aist.rtm.toolscommon.model.component.NameValue;
@@ -33,6 +36,7 @@ import jp.go.aist.rtm.toolscommon.model.component.PortSynchronizer;
 import jp.go.aist.rtm.toolscommon.model.component.ServicePort;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
+import jp.go.aist.rtm.toolscommon.model.core.Point;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EClass;
@@ -41,13 +45,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.omg.PortableServer.Servant;
 import org.omg.CORBA.Any;
 import org.omg.CORBA.TCKind;
+import org.omg.PortableServer.Servant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import RTC.ComponentProfile;
 import RTC.ExecutionContextProfile;
-import RTC.ExecutionContextService;
 import RTC.PortProfile;
 import RTC.RTObject;
 import _SDOPackage.Configuration;
@@ -62,6 +67,10 @@ import _SDOPackage.ServiceProfile;
  */
 public class ComponentFactoryImpl extends EFactoryImpl implements
 		ComponentFactory {
+	
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(ComponentFactoryImpl.class);
+
 	/**
 	 * Creates the default factory implementation.
 	 * <!-- begin-user-doc -->
@@ -731,7 +740,7 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();// system error
+			LOGGER.error("Fail to insert string. value=" + initialValue, e);
 		}
 
 		return any;
@@ -748,12 +757,12 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 			if (((Any) instanceValue).type().kind() == TCKind.tk_wstring) {
 				result = ((Any) instanceValue).extract_wstring();
 			} else if (((Any) instanceValue).type().kind() == TCKind.tk_string) {
-					result = ((Any) instanceValue).extract_string();
+				result = ((Any) instanceValue).extract_string();
 			} else {
 				result = ((Any) instanceValue).extract_Object().toString();
 			}
 		} catch (Exception e) {
-			e.printStackTrace(); // system error/
+			LOGGER.error("Fail to extract string. value=" + instanceValue, e);
 		}
 
 		return (result != null) ? result : "";

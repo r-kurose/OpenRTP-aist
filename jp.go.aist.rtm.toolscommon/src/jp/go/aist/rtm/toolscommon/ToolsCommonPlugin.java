@@ -1,17 +1,21 @@
 package jp.go.aist.rtm.toolscommon;
 
-import java.util.logging.Logger;
+import jp.go.aist.rtm.toolscommon.profiles.util.LoggerUtil;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The activator class controls the plug-in life cycle
  */
 public class ToolsCommonPlugin extends AbstractUIPlugin {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(ToolsCommonPlugin.class);
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "jp.go.aist.rtm.toolscommon";
@@ -23,8 +27,10 @@ public class ToolsCommonPlugin extends AbstractUIPlugin {
 	 * The constructor
 	 */
 	public ToolsCommonPlugin() {
+		LoggerUtil.setup();
+		LOGGER.trace("ToolsCommonPlugin: START");
+
 		plugin = this;
-		getLogger();
 	}
 
 	/*
@@ -88,15 +94,6 @@ public class ToolsCommonPlugin extends AbstractUIPlugin {
 		}
 
 		return result;
-	}
-
-	static Logger log;
-
-	public static Logger getLogger() {
-		if (log == null) {
-			log = Logger.getLogger(PLUGIN_ID);
-		}
-		return log;
 	}
 
 }

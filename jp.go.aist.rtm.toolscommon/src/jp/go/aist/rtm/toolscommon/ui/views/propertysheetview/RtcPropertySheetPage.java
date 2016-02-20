@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
 import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.component.util.CorbaPropertyMap;
@@ -41,6 +40,8 @@ import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.views.properties.IPropertySheetEntry;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.IPropertySourceProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Rtc専用のプロパティシートページクラス
@@ -51,6 +52,9 @@ import org.eclipse.ui.views.properties.IPropertySourceProvider;
 @SuppressWarnings("restriction")
 public class RtcPropertySheetPage implements IPropertySheetPage,
 		IPageBookViewPage {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(RtcPropertySheetPage.class);
 
 	private StackLayout stackLayout;
 
@@ -256,7 +260,7 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 				IWorkbenchPage page = window.getActivePage();
 				page.showView(viewId, null, IWorkbenchPage.VIEW_VISIBLE);
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOGGER.error("Fail to show view", e);
 			}
 		}
 	}

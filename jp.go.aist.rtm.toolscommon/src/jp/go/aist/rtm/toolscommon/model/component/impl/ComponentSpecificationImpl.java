@@ -34,6 +34,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.ui.views.properties.IPropertySource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <!-- begin-user-doc -->
@@ -51,6 +53,10 @@ import org.eclipse.ui.views.properties.IPropertySource;
  * @generated
  */
 public class ComponentSpecificationImpl extends ComponentImpl implements ComponentSpecification {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(ComponentSpecificationImpl.class);
+
 	/**
 	 * The default value of the '{@link #getAliasName() <em>Alias Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -550,7 +556,7 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 			try {
 				refMap.syncronizeLocal(this);
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOGGER.error("Fail to synchronize local", e);
 			}
 		}
 	}

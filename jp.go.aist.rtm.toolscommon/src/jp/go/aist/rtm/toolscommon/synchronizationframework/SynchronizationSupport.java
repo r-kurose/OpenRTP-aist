@@ -17,11 +17,17 @@ import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ReferenceMapp
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * ローカルオブジェクトに対して、同期機能を提供するクラス
  */
 public class SynchronizationSupport {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(SynchronizationSupport.class);
+
 	private LocalObject localObject;
 
 	private MappingRule mappingRule;
@@ -131,7 +137,7 @@ public class SynchronizationSupport {
 			try {
 				attibuteMapping.syncronizeLocal(localObject);
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOGGER.error("Fail to synchronize local", e);
 			}
 		}
 	}
@@ -147,7 +153,7 @@ public class SynchronizationSupport {
 			try {
 				referenceMapping.syncronizeLocal(localObject);
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOGGER.error("Fail to synchronize local", e);
 			}
 		}
 	}

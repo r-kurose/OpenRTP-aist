@@ -51,6 +51,8 @@ import org.openrtp.namespaces.rts.version02.TargetComponent;
 import org.openrtp.namespaces.rts.version02.TargetComponentExt;
 import org.openrtp.namespaces.rts.version02.TargetPort;
 import org.openrtp.namespaces.rts.version02.TargetPortExt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import RTC.RTObject;
 import RTC.RTObjectHelper;
@@ -62,7 +64,10 @@ import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
  * 
  */
 public class RtsProfileHandler extends ProfileHandlerBase {
-	
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(RtsProfileHandler.class);
+
 	private boolean online;
 	private RtsProfileExt originalProfile;
 	private List<String> savedConnectors;
@@ -88,6 +93,7 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	public RtsProfileExt load(String targetFile) throws Exception {
+		LOGGER.debug("load: targetFile=<{}>", targetFile);
 		XmlHandler handler = new XmlHandler();
 		RtsProfileExt profile = handler.loadXmlRts(targetFile);
 		return profile;

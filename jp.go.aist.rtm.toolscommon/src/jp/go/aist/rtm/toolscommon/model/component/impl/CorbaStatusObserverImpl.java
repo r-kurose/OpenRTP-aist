@@ -6,14 +6,26 @@
  */
 package jp.go.aist.rtm.toolscommon.model.component.impl;
 
+import static jp.go.aist.rtm.toolscommon.manager.ToolsCommonPreferenceManager.KEY_STATUS_OBSERVER_HB_ENABLE;
+import static jp.go.aist.rtm.toolscommon.manager.ToolsCommonPreferenceManager.KEY_STATUS_OBSERVER_HB_INTERVAL;
+import static jp.go.aist.rtm.toolscommon.manager.ToolsCommonPreferenceManager.KEY_STATUS_OBSERVER_HB_TRYCOUNT;
+import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_ActiveConfigurationSet;
+import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_ConfigurationSets;
+import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_EC_ComponentState;
+import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_EC_ECProfile;
+import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_EC_ECState;
+import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_RTCComponentProfile;
+import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_RTCExecutionContexts;
+import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_RTCPortProfile;
+import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_RTCRTObjects;
+import static jp.go.aist.rtm.toolscommon.util.RTMixin.eql;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
-import jp.go.aist.rtm.toolscommon.ToolsCommonPlugin;
 import jp.go.aist.rtm.toolscommon.manager.ToolsCommonPreferenceManager;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
@@ -24,19 +36,8 @@ import jp.go.aist.rtm.toolscommon.model.component.util.CorbaObserverStore;
 
 import org.eclipse.emf.ecore.EClass;
 import org.omg.PortableServer.Servant;
-
-import static jp.go.aist.rtm.toolscommon.util.RTMixin.*;
-import static jp.go.aist.rtm.toolscommon.manager.ToolsCommonPreferenceManager.*;
-
-import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_RTCComponentProfile;
-import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_RTCExecutionContexts;
-import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_RTCPortProfile;
-import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_RTCRTObjects;
-import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_EC_ComponentState;
-import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_EC_ECProfile;
-import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_EC_ECState;
-import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_ActiveConfigurationSet;
-import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_ConfigurationSets;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <!-- begin-user-doc -->
@@ -49,7 +50,8 @@ import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl
  */
 public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaStatusObserver {
 
-	static Logger log = ToolsCommonPlugin.getLogger();
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(CorbaStatusObserverImpl.class);
 
 	public static final String[] TYPE_NAMES = new String[] {
 			"COMPONENT_PROFILE", //
@@ -213,8 +215,8 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 		}
 
 		String profId = (serviceProfile == null) ? "" : serviceProfile.id;
-		log.info("update_status(" + TYPE_NAMES[status_kind.value()] + ", "
-				+ hint + "): id=" + profId);
+		LOGGER.info("update_status({}, {}): id={}",
+				TYPE_NAMES[status_kind.value()], hint, profId);
 
 		if (CorbaObserverStore.eINSTANCE.isEmptyComponentReference(rtc)) {
 			return;
@@ -350,7 +352,7 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 		}
 		String p = name.substring(name.lastIndexOf(".") + 1);
 
-		log.info("property changed: " + p);
+		LOGGER.info("property changed: {}", p);
 
 		if (!KEY_STATUS_OBSERVER_HB_ENABLE.equals(name)
 				&& !KEY_STATUS_OBSERVER_HB_INTERVAL.equals(name)

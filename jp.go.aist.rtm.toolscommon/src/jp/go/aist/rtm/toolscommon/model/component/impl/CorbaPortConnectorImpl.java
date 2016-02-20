@@ -13,6 +13,10 @@ import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaPortSynchronizer;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import RTC.ConnectorProfileHolder;
 import RTC.PortService;
 import RTC.ReturnCode_t;
@@ -27,6 +31,9 @@ import RTC.ReturnCode_t;
  * @generated
  */
 public class CorbaPortConnectorImpl extends PortConnectorImpl implements PortConnector {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(CorbaPortConnectorImpl.class);
 
 	@Override
 	public boolean createConnectorR() {
@@ -71,7 +78,7 @@ public class CorbaPortConnectorImpl extends PortConnectorImpl implements PortCon
 			return ret == RTC.ReturnCode_t.RTC_OK;
 
 		} catch (RuntimeException e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to create connector", e);
 		}
 
 		return false;

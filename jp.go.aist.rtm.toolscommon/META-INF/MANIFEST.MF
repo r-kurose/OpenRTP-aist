@@ -27,12 +27,16 @@ Export-Package: OpenRTM,RTC,RTM,_SDOPackage,jp.go.aist.rtm.toolscommon
  uilder,org.apache.commons.lang.enums,org.apache.commons.lang.exceptio
  n,org.apache.commons.lang.math,org.apache.commons.lang.mutable,org.ap
  ache.commons.lang.text,org.apache.commons.lang.time
-Require-Bundle: org.eclipse.core.runtime,org.eclipse.emf.ecore;visibil
- ity:=reexport,org.eclipse.emf.ecore.xmi;visibility:=reexport,org.ecli
- pse.ui;visibility:=reexport,org.eclipse.ui.views,org.eclipse.core.run
- time;visibility:=reexport,org.eclipse.ui.editors;visibility:=reexport
- ,org.eclipse.core.resources;visibility:=reexport,org.eclipse.ui.ide;v
- isibility:=reexport,jp.go.aist.rtm.toolscommon.profiles
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;visibility:=reexport,
+ org.eclipse.ui;visibility:=reexport,
+ org.eclipse.ui.views,
+ org.eclipse.core.runtime;visibility:=reexport,
+ org.eclipse.ui.editors;visibility:=reexport,
+ org.eclipse.core.resources;visibility:=reexport,
+ org.eclipse.ui.ide;visibility:=reexport,
+ jp.go.aist.rtm.toolscommon.profiles;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Eclipse-BuddyPolicy: registered
 Bundle-Activator: jp.go.aist.rtm.toolscommon.ToolsCommonPlugin

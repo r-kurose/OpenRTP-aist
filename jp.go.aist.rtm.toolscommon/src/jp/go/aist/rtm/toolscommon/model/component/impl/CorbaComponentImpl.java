@@ -54,6 +54,8 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.ui.views.properties.IPropertySource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import RTC.ComponentProfile;
 import RTC.RTObject;
@@ -92,6 +94,10 @@ import static jp.go.aist.rtm.toolscommon.util.RTMixin.*;
  * @generated
  */
 public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(CorbaComponentImpl.class);
+
 	/**
 	 * The default value of the '{@link #getCorbaObject() <em>Corba Object</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -1051,7 +1057,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to activate configuration-set", e);
 			return false;
 		}
 		return true;
@@ -1074,11 +1080,11 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 			}
 			return org.set_members(list.toArray(new SDO[0]));
 		} catch (NotAvailable e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to set members (not available)", e);
 		} catch (InternalError e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to set members (internal)", e);
 		} catch (InvalidParameter e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to set members (invalid parameter)", e);
 		}
 		return false;
 	}
@@ -1111,11 +1117,11 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 			}
 			return org.add_members(list.toArray(new SDO[0]));
 		} catch (NotAvailable e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to add members (not available)", e);
 		} catch (InternalError e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to add members (internal)", e);
 		} catch (InvalidParameter e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to add members (invalid parameter)", e);
 		}
 		return false;
 	}
@@ -1152,11 +1158,11 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 			return org.remove_member(corbaComponent.getCorbaObjectInterface()
 					.get_sdo_id());
 		} catch (NotAvailable e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to remove member (not available)", e);
 		} catch (InternalError e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to remove member (internal)", e);
 		} catch (InvalidParameter e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to remove member (invalid parameter)", e);
 		}
 		return false;
 	}
@@ -1200,7 +1206,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 			}
 			result = true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error("Fail to update configuration-set", e);
 			result = false;
 		}
 		return result;
@@ -1779,7 +1785,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 			try {
 				referenceMapping.syncronizeLocal(this);
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOGGER.error("Fail to synchronize local", e);
 				return;
 			}
 		}
