@@ -197,6 +197,28 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
+				RtcParam rtcParam = editor.getRtcParam();
+				int index = implChk.indexOf(e.getSource());
+				if(index==IRtcBuilderConstants.ACTIVITY_INITIALIZE) {
+					onBtn.setSelection(true);
+					offBtn.setSelection(false);
+					onBtn.setEnabled(false);
+					offBtn.setEnabled(false);
+				} else {
+					rtcParam.setActionImplemented(index, !rtcParam.getActionImplemented(index));
+					if( rtcParam.getActionImplemented(index) ) {
+						onBtn.setSelection(true);
+						offBtn.setSelection(false);
+						implChk.get(index).setBackground(new Color(PlatformUI.getWorkbench().getDisplay(), BuilderViewPreferenceManager.defaultRGBMap.get(BuilderViewPreferenceManager.COLOR_COMPONENT)));
+					} else {
+						onBtn.setSelection(false);
+						offBtn.setSelection(true);
+						implChk.get(index).setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WHITE));
+					}
+					onBtn.setEnabled(true);
+					offBtn.setEnabled(true);
+				}
+				update();
 			}
 
 			@Override
