@@ -1,12 +1,12 @@
 package jp.go.aist.rtm.systemeditor.ui.views.managercontrolview.mock;
 
+import java.lang.reflect.InvocationTargetException;
+
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.core.Rectangle;
 import jp.go.aist.rtm.toolscommon.model.core.Visiter;
 import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSupport;
-
-import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.common.notify.Adapter;
@@ -238,6 +238,12 @@ public class RTCManagerMock implements RTCManager {
 	public void eUnset(EStructuralFeature feature) {
 	}
 
+	@Override
+	public Object eInvoke(EOperation operation, EList<?> arguments)
+			throws InvocationTargetException {
+		return null;
+	}
+
 	public EList<Adapter> eAdapters() {
 		return null;
 	}
@@ -428,12 +434,6 @@ public class RTCManagerMock implements RTCManager {
 
 	@Override
 	public EList<ModuleProfile> getLoadedModuleProfiles() {
-		return null;
-	}
-
-	@Override
-	public java.lang.Object eInvoke(EOperation operation, EList<?> arguments) throws InvocationTargetException {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 }

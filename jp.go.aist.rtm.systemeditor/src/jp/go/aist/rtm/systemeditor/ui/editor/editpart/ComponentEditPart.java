@@ -65,7 +65,7 @@ import org.eclipse.ui.PlatformUI;
 public class ComponentEditPart extends AbstractEditPart {
 
 	/** コンポーネントの周りとコンポーネントのボディまでのスペース(ポートあり) */
-	public static final int PORT_SPACE = 23;
+	public static final int PORT_SPACE = 32;
 
 	/** コンポーネントの周りとコンポーネントのボディまでのスペース(ポートなし) */
 	public static final int NONE_SPACE = 7;

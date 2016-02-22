@@ -1,12 +1,12 @@
 package jp.go.aist.rtm.systemeditor.ui.views.configurationview.mock;
 
+import java.lang.reflect.InvocationTargetException;
+
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
 import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 import jp.go.aist.rtm.toolscommon.model.core.Rectangle;
 import jp.go.aist.rtm.toolscommon.model.core.Visiter;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSupport;
-
-import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicEList;
@@ -104,6 +104,12 @@ public class ConfigurationSetMock implements ConfigurationSet {
 	public void eUnset(EStructuralFeature feature) {
 	}
 
+	@Override
+	public Object eInvoke(EOperation operation, EList<?> arguments)
+			throws InvocationTargetException {
+		return null;
+	}
+
 	@SuppressWarnings("unchecked")
 	public EList eAdapters() {
 		return null;
@@ -130,11 +136,5 @@ public class ConfigurationSetMock implements ConfigurationSet {
 
 	public void setSynchronizationSupport(
 			SynchronizationSupport synchronizationSupport) {
-	}
-
-	@Override
-	public Object eInvoke(EOperation operation, EList<?> arguments) throws InvocationTargetException {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
 	}
 }

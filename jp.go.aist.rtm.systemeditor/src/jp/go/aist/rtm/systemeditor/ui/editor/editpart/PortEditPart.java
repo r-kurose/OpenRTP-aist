@@ -7,19 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
-import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
-import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.PortGraphicalNodeEditPolicy;
-import jp.go.aist.rtm.systemeditor.ui.editor.figure.PortAnchor;
-import jp.go.aist.rtm.systemeditor.ui.editor.figure.PortFigure;
-import jp.go.aist.rtm.systemeditor.ui.util.ComponentUtil;
-import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
-import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
-import jp.go.aist.rtm.toolscommon.model.component.Port;
-import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
-import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
-
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
@@ -34,12 +21,29 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.ui.PlatformUI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
+import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
+import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.PortGraphicalNodeEditPolicy;
+import jp.go.aist.rtm.systemeditor.ui.editor.figure.PortAnchor;
+import jp.go.aist.rtm.systemeditor.ui.editor.figure.PortFigure;
+import jp.go.aist.rtm.systemeditor.ui.util.ComponentUtil;
+import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
+import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
+import jp.go.aist.rtm.toolscommon.model.component.Port;
+import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 
 /**
  * ポートのEditPartクラス
  */
 public abstract class PortEditPart extends AbstractEditPart implements
 		NodeEditPart {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(PortEditPart.class);
 
 	FloatingLabel portLabel;
 	
@@ -83,11 +87,13 @@ public abstract class PortEditPart extends AbstractEditPart implements
 		if (Component.OUTPORT_DIRECTION_RIGHT_LITERAL.equals(direction)) {
 			Point p = rect.getTopRight();
 			labelRect.x = baseRect.x + p.x;
-			labelRect.y = baseRect.y + p.y - labelRect.height;
+			labelRect.y = baseRect.y + p.y - labelRect.height
+					+ (rect.height / 2);
 		} else if (Component.OUTPORT_DIRECTION_LEFT_LITERAL.equals(direction)) {
 			Point p = rect.getTopLeft();
 			labelRect.x = baseRect.x + p.x - labelRect.width;
-			labelRect.y = baseRect.y + p.y - labelRect.height;
+			labelRect.y = baseRect.y + p.y - labelRect.height
+					+ (rect.height / 2);
 		} else if (Component.OUTPORT_DIRECTION_UP_LITERAL.equals(direction)) {
 			Point p = rect.getTop();
 			labelRect.x = baseRect.x + p.x - labelRect.width / 2;
@@ -109,22 +115,26 @@ public abstract class PortEditPart extends AbstractEditPart implements
 	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(
 			ConnectionEditPart connection) {
+		LOGGER.trace("getSourceConnectionAnchor: editpart=<{}>", connection);
 		return new PortAnchor(getFigure());
 	}
 
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(
 			ConnectionEditPart connection) {
+		LOGGER.trace("getTargetConnectionAnchor: editpart=<{}>", connection);
 		return new PortAnchor(getFigure());
 	}
 
 	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
+		LOGGER.trace("getSourceConnectionAnchor: request=<{}>", request);
 		return new PortAnchor(getFigure());
 	}
 
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
+		LOGGER.trace("getTargetConnectionAnchor: request=<{}>", request);
 		return new PortAnchor(getFigure());
 	}
 	
@@ -203,8 +213,8 @@ public abstract class PortEditPart extends AbstractEditPart implements
 	private class Adapter extends AdapterImpl {
 		@Override
 		public void notifyChanged(Notification msg) {
-			if (ComponentPackage.eINSTANCE.getPort_ConnectorProfiles()
-					.equals(msg.getFeature())
+			if (ComponentPackage.eINSTANCE.getPort_ConnectorProfiles().equals(
+					msg.getFeature())
 					&& (msg.getEventType() == Notification.ADD || msg
 							.getEventType() == Notification.REMOVE)) {
 				if (getModel().eContainer().eContainer() instanceof SystemDiagram) {
@@ -212,22 +222,22 @@ public abstract class PortEditPart extends AbstractEditPart implements
 							.eContainer().eContainer();
 					SystemDiagram rootDiagram = systemDiagram.getRootDiagram();
 					if (rootDiagram.isConnectorProcessing()) {
-						//void
-					}else{
+						// void
+					} else {
 						rootDiagram.setConnectorProcessing(true);
-						AbstractSystemDiagramEditor editor = ComponentUtil.findEditor(systemDiagram);
-						if (editor != null) editor.refresh();
+						AbstractSystemDiagramEditor editor = ComponentUtil
+								.findEditor(systemDiagram);
+						if (editor != null)
+							editor.refresh();
 					}
 					rootDiagram.setConnectorProcessing(false);
 				}
 			}
 			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+				@Override
 				public void run() {
 					if (isActive()) {
 						refresh();
-//						refreshVisuals();
-//						refreshTargetConnections();
-//						refreshSourceConnections();
 					}
 				}
 			});

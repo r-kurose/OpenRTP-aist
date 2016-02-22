@@ -11,78 +11,120 @@ import org.apache.commons.lang.builder.CompareToBuilder;
 
 /**
  * NamedValueを編集するためのラッパー
- *
  */
-public class NamedValueConfigurationWrapper implements Comparable<NamedValueConfigurationWrapper> {
+public class NamedValueConfigurationWrapper implements
+		Comparable<NamedValueConfigurationWrapper> {
 
 	private String key;
-
-	private boolean isKeyModified = false;
-
 	private String value;
 
+	private boolean isKeyModified = false;
 	private boolean isValueModified = false;
 
 	private List<ConfigurationWidget> widgetList;
-
 	private Map<String, ConfigurationWidget> widgetMap;
-
 	private boolean loadedWidgetValue;
 
 	private String typeName;
 
-
-	public NamedValueConfigurationWrapper(String key, String value, String typeName) {
+	public NamedValueConfigurationWrapper(String key, String value,
+			String typeName) {
 		this.key = key;
 		this.value = value;
 		this.typeName = typeName;
 	}
 
 	public NamedValueConfigurationWrapper(String key) {
-		this(key,null,null);
+		this(key, null, null);
 	}
 
 	public NamedValueConfigurationWrapper(String key, String value) {
 		this(key, value, null);
 	}
 
+	/**
+	 * 設定値のキー名を取得します
+	 * 
+	 * @return キー名
+	 */
 	public String getKey() {
-		return key;
+		return this.key;
 	}
 
+	/**
+	 * 設定値のキー名を設定します。<br>
+	 * 現在のキー名から変更になる場合は、キー変更中状態になります。
+	 * 
+	 * @param key
+	 *            キー名
+	 */
 	public void setKey(String key) {
 		if (this.key != null && this.key.equals(key)) {
 			return;
 		}
 		this.key = key;
-		isKeyModified = true;
+		this.isKeyModified = true;
 	}
 
+	/**
+	 * 隠し設定値(キー名が「_」で始まる)を判定します
+	 * 
+	 * @return 隠し設定値の場合はtrue
+	 */
+	public boolean isSecret() {
+		return (this.key != null && this.key.startsWith("_"));
+	}
+
+	/**
+	 * 設定値の値を取得します。
+	 * 
+	 * @return 設定値
+	 */
 	public String getValue() {
-		return value;
+		return this.value;
 	}
 
+	/**
+	 * 設定値の値を設定します。<br>
+	 * 現在の設定値から変更になる場合は、値変更中状態になります。
+	 * 
+	 * @param value
+	 *            設定値
+	 */
 	public void setValue(String value) {
 		if (this.value != null && this.value.equals(value)) {
 			return;
 		}
 		this.value = value;
-		typeName = null;
-		isValueModified = true;
+		this.typeName = null;
+		this.isValueModified = true;
 	}
 
+	/**
+	 * キー変更状態を判定します。
+	 * 
+	 * @return キー変更中の場合はtrue
+	 */
 	public boolean isKeyModified() {
 		return isKeyModified;
 	}
 
+	/**
+	 * 設定値変更状態を判定します。
+	 * 
+	 * @return 設定値変更中の場合はtrue
+	 */
 	public boolean isValueModified() {
 		return isValueModified;
 	}
 
 	/**
 	 * widget種別、制約条件を設定します。
-	 * @param widgets widget種別設定 (ConfigurationSetの_widget_で設定)
-	 * @param conditions 制約条件 (ConfigurationSetの_<config名>で設定)
+	 * 
+	 * @param widgets
+	 *            widget種別設定 (ConfigurationSetの_widget_で設定)
+	 * @param conditions
+	 *            制約条件 (ConfigurationSetの_<config名>で設定)
 	 */
 	public void setWidgetAndCondition(String widgets, String conditions) {
 		ConfigurationCondition cc = ConfigurationCondition.NULL_CONDITION;
@@ -104,6 +146,7 @@ public class NamedValueConfigurationWrapper implements Comparable<NamedValueConf
 
 	/**
 	 * デフォルトのwidgetを取得します。
+	 * 
 	 * @return widgetオブジェクト
 	 */
 	public ConfigurationWidget widget() {
@@ -112,7 +155,9 @@ public class NamedValueConfigurationWrapper implements Comparable<NamedValueConf
 
 	/**
 	 * 配列の場合のwidgetを取得します。
-	 * @param index widgetのインデックス
+	 * 
+	 * @param index
+	 *            widgetのインデックス
 	 * @return widgetオブジェクト
 	 */
 	public ConfigurationWidget widget(int index) {
@@ -121,6 +166,7 @@ public class NamedValueConfigurationWrapper implements Comparable<NamedValueConf
 
 	/**
 	 * 配列の場合のwidget数を取得します。
+	 * 
 	 * @return widget数。デフォルト時は1
 	 */
 	public int widgetSize() {
@@ -131,7 +177,9 @@ public class NamedValueConfigurationWrapper implements Comparable<NamedValueConf
 
 	/**
 	 * ハッシュの場合のwidgetを取得します。
-	 * @param key widgetのキー
+	 * 
+	 * @param key
+	 *            widgetのキー
 	 * @return widgetオブジェクト
 	 */
 	public ConfigurationWidget widget(String key) {
@@ -140,6 +188,7 @@ public class NamedValueConfigurationWrapper implements Comparable<NamedValueConf
 
 	/**
 	 * ハッシュの場合のwidgetのキーセットを取得します。
+	 * 
 	 * @return widgetのキーセット
 	 */
 	public Set<String> widgetKeySet() {
@@ -175,7 +224,8 @@ public class NamedValueConfigurationWrapper implements Comparable<NamedValueConf
 		// widget種別、制約条件がない場合は空のwidgetを生成
 		if (widgetList == null) {
 			widgetList = new ArrayList<ConfigurationWidget>();
-			ConfigurationWidget w = new ConfigurationWidget(ConfigurationWidget.TEXT,
+			ConfigurationWidget w = new ConfigurationWidget(
+					ConfigurationWidget.TEXT,
 					ConfigurationCondition.NULL_CONDITION);
 			widgetList.add(w);
 		}
@@ -198,7 +248,8 @@ public class NamedValueConfigurationWrapper implements Comparable<NamedValueConf
 	}
 
 	public String getValueAsString() {
-		if (value == null) return typeName;
+		if (value == null)
+			return typeName;
 		return value;
 	}
 
@@ -280,7 +331,8 @@ public class NamedValueConfigurationWrapper implements Comparable<NamedValueConf
 
 	@Override
 	public NamedValueConfigurationWrapper clone() {
-		NamedValueConfigurationWrapper result = new NamedValueConfigurationWrapper(key);
+		NamedValueConfigurationWrapper result = new NamedValueConfigurationWrapper(
+				key);
 		result.setValue(getValueAsString());
 		result.isKeyModified = isKeyModified;
 		result.isValueModified = isValueModified;
@@ -305,8 +357,9 @@ public class NamedValueConfigurationWrapper implements Comparable<NamedValueConf
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("key=").append(key).append(" keyModify=").append(isKeyModified)
-				.append(" value=").append(getValueAsString()).append(" valueModify=")
+		buffer.append("key=").append(key).append(" keyModify=")
+				.append(isKeyModified).append(" value=")
+				.append(getValueAsString()).append(" valueModify=")
 				.append(isValueModified);
 		if (widgetList != null) {
 			buffer.append(" ").append(widgetList.toString());
@@ -321,13 +374,16 @@ public class NamedValueConfigurationWrapper implements Comparable<NamedValueConf
 	/**
 	 * @see java.lang.Comparable#compareTo(Object)
 	 */
+	@Override
 	public int compareTo(NamedValueConfigurationWrapper object) {
 		return new CompareToBuilder().append(this.key, object.key)
 				.toComparison();
 	}
 
 	public boolean canModify() {
-		if (value != null) return true;
+		if (value != null)
+			return true;
 		return typeName == null;
 	}
+
 }

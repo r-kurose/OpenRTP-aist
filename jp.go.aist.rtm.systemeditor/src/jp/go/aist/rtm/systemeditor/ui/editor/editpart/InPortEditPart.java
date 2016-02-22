@@ -1,11 +1,5 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.editpart;
 
-import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
-import jp.go.aist.rtm.systemeditor.ui.editor.figure.ExportedInPortFigure;
-import jp.go.aist.rtm.systemeditor.ui.editor.figure.InPortFigure;
-import jp.go.aist.rtm.toolscommon.model.component.InPort;
-import jp.go.aist.rtm.toolscommon.model.component.Port;
-
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.Panel;
@@ -17,6 +11,12 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.PlatformUI;
+
+import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
+import jp.go.aist.rtm.systemeditor.ui.editor.figure.ExportedInPortFigure;
+import jp.go.aist.rtm.systemeditor.ui.editor.figure.InPortFigure;
+import jp.go.aist.rtm.toolscommon.model.component.InPort;
+import jp.go.aist.rtm.toolscommon.model.component.Port;
 
 /**
  * InPortのEditPartクラス
@@ -83,11 +83,11 @@ public class InPortEditPart extends PortEditPart {
 
 	@Override
 	protected void refreshVisuals() {
-		Color color = SystemEditorPreferenceManager.getInstance().getColor(
-				SystemEditorPreferenceManager.COLOR_DATAPORT_NO_CONNECT);
+		Color color = SystemEditorPreferenceManager.getInstance()
+				.getColor(SystemEditorPreferenceManager.COLOR_DATAPORT_NO_CONNECT);
 		if (isConnected()) {
-			color = SystemEditorPreferenceManager.getInstance().getColor(
-					SystemEditorPreferenceManager.COLOR_DATAPORT_CONNECTED);
+			color = SystemEditorPreferenceManager.getInstance()
+					.getColor(SystemEditorPreferenceManager.COLOR_DATAPORT_CONNECTED);
 		}
 
 		getFigure().setBackgroundColor(color);
@@ -95,8 +95,7 @@ public class InPortEditPart extends PortEditPart {
 		getFigure().setToolTip(getDataPortToolTip(getModel()));
 
 		if (getFigure().getParent() != null)
-			((GraphicalEditPart) getParent()).setLayoutConstraint(this,
-					getFigure(), getFigure().getBounds());
+			((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), getFigure().getBounds());
 	}
 
 	/**
@@ -112,20 +111,15 @@ public class InPortEditPart extends PortEditPart {
 
 		String labelString = "";
 		try {
+			labelString = labelString + (port.getNameL() == null ? "<unknown>" : port.getNameL()) + "\r\n";
+			labelString = labelString + (port.getDataTypes() == null ? "<unknown>" : port.getDataTypes().toString())
+					+ "\r\n";
+			labelString = labelString + (port.getInterfaceTypes().size() == 0 ? "<unknown>" : port.getInterfaceTypes())
+					+ "\r\n";
+			labelString = labelString + (port.getDataflowTypes().size() == 0 ? "<unknown>" : port.getDataflowTypes())
+					+ "\r\n";
 			labelString = labelString
-					+ (port.getNameL() == null ? "<unknown>" : port.getNameL()) + "\r\n";
-			labelString = labelString
-					+ (port.getDataTypes() == null ? "<unknown>"
-							: port.getDataTypes().toString()) + "\r\n";
-			labelString = labelString
-					+ (port.getInterfaceTypes().size() == 0 ? "<unknown>"
-							: port.getInterfaceTypes()) + "\r\n";
-			labelString = labelString
-					+ (port.getDataflowTypes().size() == 0 ? "<unknown>"
-							: port.getDataflowTypes()) + "\r\n";
-			labelString = labelString
-					+ (port.getSubscriptionTypes().size() == 0 ? "<unknown>"
-							: port.getSubscriptionTypes()) + ""; // \r\nは最後はいらない
+					+ (port.getSubscriptionTypes().size() == 0 ? "<unknown>" : port.getSubscriptionTypes()) + ""; // \r\nは最後はいらない
 		} catch (RuntimeException e) {
 			// void
 		}

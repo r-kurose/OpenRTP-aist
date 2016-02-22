@@ -17,7 +17,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * コンポーネントFigureのデフォルトサイズ（ポートの数から計算）、方向やポートの位置を計算する
  */
 public class ComponentLayout extends XYLayout {
-	private static final int MIN_WIDTH = 50;
+	private static final int MIN_WIDTH = 60;
 
 	private static final int MIN_HEIGHT = 25;
 
@@ -171,7 +171,7 @@ public class ComponentLayout extends XYLayout {
 
 		int height = ComponentEditPart.NONE_SPACE * 2 + MIN_HEIGHT
 				+ MIN_Component_INTERBAL * (count - 1);
-		int width = 93;
+		int width = 111;
 
 		Dimension result = new Dimension();
 

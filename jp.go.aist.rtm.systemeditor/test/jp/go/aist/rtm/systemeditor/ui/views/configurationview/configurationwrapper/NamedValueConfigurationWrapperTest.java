@@ -1,13 +1,19 @@
 package jp.go.aist.rtm.systemeditor.ui.views.configurationview.configurationwrapper;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Map;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class NamedValueConfigurationWrapperTest extends TestCase {
+public class NamedValueConfigurationWrapperTest {
 
+	@Test
 	public void testSetWidgetAndCondition() throws Exception {
-		NamedValueConfigurationWrapper nv = new NamedValueConfigurationWrapper("key");
+		NamedValueConfigurationWrapper nv = new NamedValueConfigurationWrapper(
+				"key");
 		// 制約条件なし
 		nv.setWidgetAndCondition("text", null);
 		assertEquals(true, nv.widget().isText());
@@ -112,7 +118,6 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 		assertEquals(true, nv.widget().isText());
 		assertEquals(true, nv.widget().getCondition().isNull());
 
-
 		// TODO widgetの配列表記
 
 		// 配列表記
@@ -156,8 +161,10 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 		assertEquals(true, nv.widget("key1").getCondition().isNull());
 	}
 
+	@Test
 	public void testLoadWidgetValue() throws Exception {
-		NamedValueConfigurationWrapper nv = new NamedValueConfigurationWrapper("key", null);
+		NamedValueConfigurationWrapper nv = new NamedValueConfigurationWrapper(
+				"key", null);
 		nv.setValue("1, 2,3");
 		// 制約条件なし
 		nv.setWidgetAndCondition("text", null);
@@ -240,7 +247,8 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 		assertEquals(true, nv.widget("key1").isValueModified());
 
 		// ハッシュ (valueがwidgetより少ない)
-		nv.setWidgetAndCondition("text", "{ key0: 0<x<1, key1:1<x<2, key2: 2<x<3,key3: 3<x<4}");
+		nv.setWidgetAndCondition("text",
+				"{ key0: 0<x<1, key1:1<x<2, key2: 2<x<3,key3: 3<x<4}");
 		nv.loadWidgetValue();
 		assertEquals(4, nv.widgetKeySet().size());
 		assertEquals(true, nv.widget("key0").isText());
@@ -253,8 +261,10 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 		assertEquals("", nv.widget("key3").getValue());
 	}
 
+	@Test
 	public void testSaveWidgetValue() throws Exception {
-		NamedValueConfigurationWrapper nv = new NamedValueConfigurationWrapper("key", null);
+		NamedValueConfigurationWrapper nv = new NamedValueConfigurationWrapper(
+				"key", null);
 		// 制約条件なし
 		nv.setWidgetAndCondition("text", null);
 		nv.widget().setValue("1");
@@ -300,8 +310,10 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 		assertEquals(true, nv.widget("key1").isValueModified());
 	}
 
+	@Test
 	public void testParseMap() throws Exception {
-		NamedValueConfigurationWrapper nv = new NamedValueConfigurationWrapper("key", null);
+		NamedValueConfigurationWrapper nv = new NamedValueConfigurationWrapper(
+				"key", null);
 		Map<String, String> map;
 
 		// {key0:1, key1: 2,key2:3 }
@@ -323,9 +335,11 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 		assertEquals("2", map.get("key1"));
 	}
 
+	@Test
 	public void testClone() throws Exception {
 		String value = "hoge";
-		NamedValueConfigurationWrapper nv = new NamedValueConfigurationWrapper("key", value);
+		NamedValueConfigurationWrapper nv = new NamedValueConfigurationWrapper(
+				"key", value);
 		nv.setWidgetAndCondition("slider", "0<x<100");
 		NamedValueConfigurationWrapper clone = nv.clone();
 		assertEquals(nv.getKey(), clone.getKey());
@@ -335,4 +349,20 @@ public class NamedValueConfigurationWrapperTest extends TestCase {
 		assertEquals(nv.widgetSize(), clone.widgetSize());
 		assertEquals(nv.widgetKeySet(), clone.widgetKeySet());
 	}
+
+	@Test
+	public void testIsSecret() throws Exception {
+		NamedValueConfigurationWrapper nv;
+		nv = new NamedValueConfigurationWrapper("key", "value");
+		assertFalse(nv.isSecret());
+		nv = new NamedValueConfigurationWrapper("_key", "value");
+		assertTrue(nv.isSecret());
+		nv = new NamedValueConfigurationWrapper("key_", "value");
+		assertFalse(nv.isSecret());
+		nv = new NamedValueConfigurationWrapper("__key", "value");
+		assertTrue(nv.isSecret());
+		nv = new NamedValueConfigurationWrapper(null, "value");
+		assertFalse(nv.isSecret());
+	}
+
 }

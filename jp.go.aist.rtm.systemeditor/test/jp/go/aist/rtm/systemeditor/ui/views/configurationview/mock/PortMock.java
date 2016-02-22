@@ -108,6 +108,12 @@ public class PortMock implements Port {
 	public void eUnset(EStructuralFeature feature) {
 	}
 
+	@Override
+	public Object eInvoke(EOperation operation, EList<?> arguments)
+			throws InvocationTargetException {
+		return null;
+	}
+
 	@SuppressWarnings("unchecked")
 	public EList eAdapters() {
 		return null;
@@ -274,12 +280,6 @@ public class PortMock implements Port {
 
 //	@Override
 	public String getProperty(String name) {
-		return null;
-	}
-
-	@Override
-	public Object eInvoke(EOperation operation, EList<?> arguments) throws InvocationTargetException {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 

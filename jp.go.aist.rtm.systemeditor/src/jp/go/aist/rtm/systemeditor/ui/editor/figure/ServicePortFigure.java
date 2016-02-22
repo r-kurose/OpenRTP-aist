@@ -2,9 +2,6 @@ package jp.go.aist.rtm.systemeditor.ui.editor.figure;
 
 import jp.go.aist.rtm.toolscommon.model.component.ServicePort;
 
-import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.geometry.PointList;
-
 /**
  * ServicePortのFigure
  */
@@ -17,23 +14,14 @@ public class ServicePortFigure extends PortFigure {
 	 *            モデル
 	 */
 	public ServicePortFigure(ServicePort servicePort) {
-		setScale(1.0, 1.0);
-		setFill(true);
+		init();
 
-		PointList pointList = new PointList(5);
-		pointList.addPoint(-6, -6);
-		pointList.addPoint(-6, 6);
-		pointList.addPoint(6, 6);
-		pointList.addPoint(6, -6);
+		setTemplate(PortFigure.P_SVCPORT);
 
-		setTemplate(pointList);
-		setSize(24 + 1, 24 + 1);
-
-		setBackgroundColor(ColorConstants.lightBlue);
-		setForegroundColor(ColorConstants.red);
+		setBackgroundColor(PortFigure.S_SVCPORT.bg);
+		setForegroundColor(PortFigure.S_SVCPORT.fg);
 
 		setToolTip(getServicePortToolTip(servicePort));
-
 	}
 
 }

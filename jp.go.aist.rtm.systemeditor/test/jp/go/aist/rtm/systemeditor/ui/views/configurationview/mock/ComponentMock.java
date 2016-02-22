@@ -378,6 +378,12 @@ public class ComponentMock implements Component {
 	public void eUnset(EStructuralFeature feature) {
 	}
 
+	@Override
+	public Object eInvoke(EOperation operation, EList<?> arguments)
+			throws InvocationTargetException {
+		return null;
+	}
+
 	@SuppressWarnings("unchecked")
 	public EList eAdapters() {
 		return null;
@@ -639,12 +645,6 @@ public class ComponentMock implements Component {
 	@Override
 	public void synchronizeRemoteChildComponents() {
 		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public Object eInvoke(EOperation operation, EList<?> arguments) throws InvocationTargetException {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
 	}
 
 }
