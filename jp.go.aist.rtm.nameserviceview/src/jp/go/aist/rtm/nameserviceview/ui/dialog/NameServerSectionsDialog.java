@@ -24,6 +24,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * ネームサーバを追加するダイアログ
@@ -31,6 +33,10 @@ import org.eclipse.swt.widgets.Shell;
  * コンボボックスには、接続が成功したことのあるアドレスの一覧が表示され、最後に接続したアドレスが選択される。
  */
 public class NameServerSectionsDialog extends Dialog {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(NameServerSectionsDialog.class);
+
 	private enum AddStatus{SUCCESS, CANT_CONNECT, CANT_CREATE_OBJECT_TREE, ALREADY_CONNECT}
 
 	/**
@@ -212,9 +218,9 @@ public class NameServerSectionsDialog extends Dialog {
 		try {
 			dialog.run(false, false, runable);
 		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+			LOGGER.error("Fail in dialog (invocation)", e);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error("Fail in dialog (interrupted", e);
 		}
 
 		if (runable.getResult() == AddStatus.CANT_CONNECT) {
@@ -269,7 +275,7 @@ public class NameServerSectionsDialog extends Dialog {
 			} catch (AlreadyExistException e) {
 				result = AddStatus.ALREADY_CONNECT;
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOGGER.error("Fail to add nameserver. value=" + this.value, e);
 			}
 			monitor.done();
 		}

@@ -1,16 +1,21 @@
 package jp.go.aist.rtm.nameserviceview;
 
-import java.util.logging.Logger;
+import jp.go.aist.rtm.toolscommon.profiles.util.LoggerUtil;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The activator class controls the plug-in life cycle
  */
 public class NameServiceViewPlugin extends AbstractUIPlugin {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(NameServiceViewPlugin.class);
 
 	// The plug-in ID
 	private static final String PLUGIN_ID = "jp.go.aist.rtm.nameserviceview";
@@ -22,8 +27,10 @@ public class NameServiceViewPlugin extends AbstractUIPlugin {
 	 * The constructor
 	 */
 	public NameServiceViewPlugin() {
+		LoggerUtil.setup();
+		LOGGER.trace("NameServiceViewPlugin: START");
+
 		plugin = this;
-		getLogger();
 	}
 
 	/*
@@ -89,15 +96,6 @@ public class NameServiceViewPlugin extends AbstractUIPlugin {
 					descriptor.toString(), result);
 		}
 		return result;
-	}
-
-	static Logger log;
-
-	public static Logger getLogger() {
-		if (log == null) {
-			log = Logger.getLogger(PLUGIN_ID);
-		}
-		return log;
 	}
 
 }

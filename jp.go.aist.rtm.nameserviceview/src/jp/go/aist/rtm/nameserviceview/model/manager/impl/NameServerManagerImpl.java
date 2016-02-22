@@ -20,6 +20,8 @@ import jp.go.aist.rtm.toolscommon.synchronizationframework.RefreshThread;
 
 import org.eclipse.emf.ecore.EClass;
 import org.omg.CosNaming.NamingContextExt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,6 +33,9 @@ import org.omg.CosNaming.NamingContextExt;
  * @generated
  */
 public class NameServerManagerImpl extends NodeImpl implements NameServerManager {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(NameServerManagerImpl.class);
 
 	/**
 	 * ネームサーバのシングルトンインスタンス
@@ -182,7 +187,7 @@ public class NameServerManagerImpl extends NodeImpl implements NameServerManager
 					try {
 						synchronizeAll();
 					} catch (Exception e) {
-						e.printStackTrace();
+						LOGGER.error("Fail to synchronize all.", e);
 					}
 				}
 			};
