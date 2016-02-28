@@ -25,6 +25,9 @@ public class PreProcessor {
 	private static final Pattern COMMENT_PATTERN = Pattern
 			.compile("/\\*(.*?)(\\*/)", Pattern.DOTALL);
 
+	private static final Pattern SPACE_PATTERN = Pattern
+			.compile("^ +", Pattern.MULTILINE);
+	
 	private static final int INCLUDE_FILE_INDEX = 2;
 
 	/**
@@ -37,14 +40,21 @@ public class PreProcessor {
 	 */
 	public static String parseAlltoSpace(String target) {
 		String targetNoCmt = eraseComments(target);
-		targetNoCmt = targetNoCmt.trim();
+		//
+		StringBuffer targetNoSpace = new StringBuffer();
+		Matcher matcherSpace = SPACE_PATTERN.matcher(targetNoCmt);
+		while (matcherSpace.find()) {
+			matcherSpace.appendReplacement(targetNoSpace, Matcher.quoteReplacement(""));
+		}
+		matcherSpace.appendTail(targetNoSpace);
 		//
 		StringBuffer result = new StringBuffer();
-		Matcher matcher = PREPROSESSOR_PATTERN.matcher(targetNoCmt);
+		Matcher matcher = PREPROSESSOR_PATTERN.matcher(targetNoSpace.toString());
 		while (matcher.find()) {
 			matcher.appendReplacement(result, Matcher.quoteReplacement(""));
 		}
 		matcher.appendTail(result);
+		//
 
 		return result.toString();
 	}
