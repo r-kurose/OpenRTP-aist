@@ -37,6 +37,7 @@ public class PreProcessor {
 	 */
 	public static String parseAlltoSpace(String target) {
 		String targetNoCmt = eraseComments(target);
+		targetNoCmt = targetNoCmt.trim();
 		//
 		StringBuffer result = new StringBuffer();
 		Matcher matcher = PREPROSESSOR_PATTERN.matcher(targetNoCmt);
