@@ -633,7 +633,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 			rtcParam.setMaxInstance(maxInstance);
 		} catch (Exception e) {
 			// 例外の場合、画面の値を現在の値に戻す
-			maxInstanceText.setText(String.valueOf(rtcParam.getMaxInstance()));
+//			maxInstanceText.setText(String.valueOf(rtcParam.getMaxInstance()));
 		}
 
 		rtcParam.setExecutionType(getText(executionTypeCombo.getText()));
@@ -643,7 +643,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 			rtcParam.setExecutionRate(exec_rate);
 		} catch (Exception e) {
 			// 例外の場合、画面の値を現在の値に戻す
-			executionRateText.setText(String.valueOf(rtcParam.getExecutionRate()));
+			//executionRateText.setText(String.valueOf(rtcParam.getExecutionRate()));
 		}
 
 		editor.updateEMFModuleName(getText(nameText.getText()));
