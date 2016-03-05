@@ -128,7 +128,6 @@
 				class="jp.go.aist.rtm.nameserviceview.ui.action.AddContextAction" > 
 			</action>
 		</objectContribution>
-			
 		<objectContribution
 			id="jp.go.aist.rtm.nameserviceview.ui.action.DeleteINamingContextActionDelegate"
         	objectClass="jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode">
@@ -138,7 +137,6 @@
 				class="jp.go.aist.rtm.nameserviceview.ui.action.DeleteNodeActionDelegate">
 			</action>
 		</objectContribution>
-
 		<objectContribution
 			id="jp.go.aist.rtm.nameserviceview.ui.action.DeleteNameServiceAction"
         	objectClass="jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode">
@@ -146,6 +144,24 @@
 				label="%Delete_from_View"
 				menubarPath="namingContextObjectContribution"
 				class="jp.go.aist.rtm.nameserviceview.ui.action.DeleteNodeActionDelegate">
+			</action>
+		</objectContribution>
+		<objectContribution
+			id="jp.go.aist.rtm.nameserviceview.ui.action.ShowIORActionDelegate"
+        	objectClass="jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode">
+			<action id="jp.go.aist.rtm.nameserviceview.ui.action.ShowIORActionDelegate"
+				label="%Show_IOR"
+				menubarPath="namingContextObjectContribution"
+				class="jp.go.aist.rtm.nameserviceview.ui.action.ShowIORActionDelegate">
+			</action>
+		</objectContribution>
+		<objectContribution
+			id="jp.go.aist.rtm.nameserviceview.ui.action.ShowIORActionDelegate.context"
+        	objectClass="jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode">
+			<action id="jp.go.aist.rtm.nameserviceview.ui.action.ShowIORActionDelegate"
+				label="%Show_IOR"
+				menubarPath="namingContextObjectContribution"
+				class="jp.go.aist.rtm.nameserviceview.ui.action.ShowIORActionDelegate">
 			</action>
 		</objectContribution>
 		
