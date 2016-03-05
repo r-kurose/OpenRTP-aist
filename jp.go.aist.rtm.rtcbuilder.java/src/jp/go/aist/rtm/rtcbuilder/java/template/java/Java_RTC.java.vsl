@@ -47,8 +47,13 @@ public class ${rtcParam.name} implements RtcNewFunc, RtcDeleteFunc, RegisterModu
 #foreach($configParam in ${rtcParam.configParams})  
             "conf.default.${configParam.name}", "${configParam.defaultVal}",
 #end
+
+#foreach($configParam in ${rtcParam.configParams})
+            "conf.default.__${configParam.name}", "${configParam.type}#if( ${configParam.step.length()} > 0 ).${configParam.step}#end",
+#end
 #end
 #if( ${rtcParam.configParams.size()} > 0 )
+
             // Widget
 #foreach($configParam in ${rtcParam.configParams})
 #if( ${configParam.widget.length()} > 0 )

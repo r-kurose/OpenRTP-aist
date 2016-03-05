@@ -4,6 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 #if( ${tmpltHelperJava.notNullRTMRoot()} )
 	<classpathentry kind="lib" path="${javaRoot}/jar/OpenRTM-aist-${rtcParam.rtmJavaVersion}.jar"/>
+	<classpathentry kind="lib" path="${javaRoot}/jar/commons-cli-1.1.jar"/>
 #end
 	<classpathentry kind="output" path="bin"/>
 </classpath>
