@@ -651,12 +651,7 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 					} else {
 							clazz = loader.loadClass(field.getType().getComponentType().getName());
 					}
-					arrayValue = Array.newInstance(clazz, 1);
-					if(clazz.isPrimitive()==false) {
-						Object objArray = clazz.newInstance();
-						initializeParam(objArray);
-						Array.set(arrayValue, 0, objArray);
-					}						
+					arrayValue = Array.newInstance(clazz, 0);
 					field.set(target, arrayValue);
 					
 				} else {
