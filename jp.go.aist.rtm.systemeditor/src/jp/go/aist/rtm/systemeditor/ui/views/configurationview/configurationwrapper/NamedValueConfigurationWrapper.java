@@ -12,8 +12,7 @@ import org.apache.commons.lang.builder.CompareToBuilder;
 /**
  * NamedValueを編集するためのラッパー
  */
-public class NamedValueConfigurationWrapper implements
-		Comparable<NamedValueConfigurationWrapper> {
+public class NamedValueConfigurationWrapper implements Comparable<NamedValueConfigurationWrapper>, Secretable {
 
 	private String key;
 	private String value;
@@ -27,8 +26,7 @@ public class NamedValueConfigurationWrapper implements
 
 	private String typeName;
 
-	public NamedValueConfigurationWrapper(String key, String value,
-			String typeName) {
+	public NamedValueConfigurationWrapper(String key, String value, String typeName) {
 		this.key = key;
 		this.value = value;
 		this.typeName = typeName;
@@ -64,15 +62,6 @@ public class NamedValueConfigurationWrapper implements
 		}
 		this.key = key;
 		this.isKeyModified = true;
-	}
-
-	/**
-	 * 隠し設定値(キー名が「_」で始まる)を判定します
-	 * 
-	 * @return 隠し設定値の場合はtrue
-	 */
-	public boolean isSecret() {
-		return (this.key != null && this.key.startsWith("_"));
 	}
 
 	/**
@@ -224,8 +213,7 @@ public class NamedValueConfigurationWrapper implements
 		// widget種別、制約条件がない場合は空のwidgetを生成
 		if (widgetList == null) {
 			widgetList = new ArrayList<ConfigurationWidget>();
-			ConfigurationWidget w = new ConfigurationWidget(
-					ConfigurationWidget.TEXT,
+			ConfigurationWidget w = new ConfigurationWidget(ConfigurationWidget.TEXT,
 					ConfigurationCondition.NULL_CONDITION);
 			widgetList.add(w);
 		}
@@ -329,10 +317,19 @@ public class NamedValueConfigurationWrapper implements
 		return result;
 	}
 
+	/**
+	 * 隠し設定値(キー名が「__」で始まる)を判定します
+	 * 
+	 * @return 隠し設定値の場合はtrue
+	 */
+	@Override
+	public boolean isSecret() {
+		return (this.key != null && this.key.startsWith("__"));
+	}
+
 	@Override
 	public NamedValueConfigurationWrapper clone() {
-		NamedValueConfigurationWrapper result = new NamedValueConfigurationWrapper(
-				key);
+		NamedValueConfigurationWrapper result = new NamedValueConfigurationWrapper(key);
 		result.setValue(getValueAsString());
 		result.isKeyModified = isKeyModified;
 		result.isValueModified = isValueModified;
@@ -357,10 +354,8 @@ public class NamedValueConfigurationWrapper implements
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("key=").append(key).append(" keyModify=")
-				.append(isKeyModified).append(" value=")
-				.append(getValueAsString()).append(" valueModify=")
-				.append(isValueModified);
+		buffer.append("key=").append(key).append(" keyModify=").append(isKeyModified).append(" value=")
+				.append(getValueAsString()).append(" valueModify=").append(isValueModified);
 		if (widgetList != null) {
 			buffer.append(" ").append(widgetList.toString());
 		}
@@ -376,8 +371,7 @@ public class NamedValueConfigurationWrapper implements
 	 */
 	@Override
 	public int compareTo(NamedValueConfigurationWrapper object) {
-		return new CompareToBuilder().append(this.key, object.key)
-				.toComparison();
+		return new CompareToBuilder().append(this.key, object.key).toComparison();
 	}
 
 	public boolean canModify() {

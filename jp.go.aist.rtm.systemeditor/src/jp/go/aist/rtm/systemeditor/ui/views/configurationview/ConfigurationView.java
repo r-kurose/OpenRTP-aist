@@ -4,25 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import jp.go.aist.rtm.systemeditor.RTSystemEditorPlugin;
-import jp.go.aist.rtm.systemeditor.nl.Messages;
-import jp.go.aist.rtm.systemeditor.ui.dialog.ConfigurationDialog;
-import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
-import jp.go.aist.rtm.systemeditor.ui.util.ComponentUtil;
-import jp.go.aist.rtm.systemeditor.ui.views.configurationview.configurationwrapper.ComponentConfigurationWrapper;
-import jp.go.aist.rtm.systemeditor.ui.views.configurationview.configurationwrapper.ConfigurationSetConfigurationWrapper;
-import jp.go.aist.rtm.systemeditor.ui.views.configurationview.configurationwrapper.NamedValueConfigurationWrapper;
-import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
-import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
-import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
-import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
-import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
-import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
-import jp.go.aist.rtm.toolscommon.ui.views.propertysheetview.RtcPropertySheetPage;
-import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
-import jp.go.aist.rtm.toolscommon.util.SDOUtil;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
@@ -74,11 +55,31 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import jp.go.aist.rtm.systemeditor.RTSystemEditorPlugin;
+import jp.go.aist.rtm.systemeditor.nl.Messages;
+import jp.go.aist.rtm.systemeditor.ui.dialog.ConfigurationDialog;
+import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
+import jp.go.aist.rtm.systemeditor.ui.util.ComponentUtil;
+import jp.go.aist.rtm.systemeditor.ui.views.configurationview.configurationwrapper.ComponentConfigurationWrapper;
+import jp.go.aist.rtm.systemeditor.ui.views.configurationview.configurationwrapper.ConfigurationSetConfigurationWrapper;
+import jp.go.aist.rtm.systemeditor.ui.views.configurationview.configurationwrapper.NamedValueConfigurationWrapper;
+import jp.go.aist.rtm.systemeditor.ui.views.configurationview.configurationwrapper.Secretable;
+import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
+import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
+import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
+import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
+import jp.go.aist.rtm.toolscommon.ui.views.propertysheetview.RtcPropertySheetPage;
+import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
+import jp.go.aist.rtm.toolscommon.util.SDOUtil;
+
 /**
  * ConfigurationViewを定義するクラス
  * <p>
  * Applyボタン押下までは、修正の適用は保留され、変更された場所は色がついて表示される。
- * NameValueの値の編集ができるのはStirngクラスのみであり、それ以外のオブジェクトが含まれていた場合には、編集することはできない（削除は可能）
+ * NameValueの値の編集ができるのはStringクラスのみであり、それ以外のオブジェクトが含まれていた場合には、編集することはできない（削除は可能）
  */
 public class ConfigurationView extends ViewPart {
 
@@ -124,62 +125,42 @@ public class ConfigurationView extends ViewPart {
 
 	private static final int BUTTON_WIDTH = 70;
 
-	private static final String LABEL_COMPONENT_NAME = Messages
-			.getString("ConfigurationView.15");
+	private static final String LABEL_COMPONENT_NAME = Messages.getString("ConfigurationView.15");
 
-	private static final String LABEL_BUTTON_EDIT = Messages
-			.getString("ConfigurationView.7");
-	private static final String LABEL_BUTTON_APPLY = Messages
-			.getString("ConfigurationView.8");
-	private static final String LABEL_BUTTON_CANCEL = Messages
-			.getString("ConfigurationView.9");
-	private static final String LABEL_TOOLTIP_DETAIL = Messages
-			.getString("ConfigurationView.47");
+	private static final String LABEL_BUTTON_EDIT = Messages.getString("ConfigurationView.7");
+	private static final String LABEL_BUTTON_APPLY = Messages.getString("ConfigurationView.8");
+	private static final String LABEL_BUTTON_CANCEL = Messages.getString("ConfigurationView.9");
 
-	private static final String LABEL_COLUMN_ACTIVE = Messages
-			.getString("ConfigurationView.16");
-	private static final String LABEL_COLUMN_CONFIG = Messages
-			.getString("ConfigurationView.17");
+	private static final String LABEL_COLUMN_ACTIVE = Messages.getString("ConfigurationView.16");
+	private static final String LABEL_COLUMN_CONFIG = Messages.getString("ConfigurationView.17");
 
-	private static final String LABEL_BUTTON_ADD = Messages
-			.getString("ConfigurationView.18");
-	private static final String LABEL_BUTTON_DEL = Messages
-			.getString("ConfigurationView.22");
-	private static final String LABEL_BUTTON_COPY = Messages
-			.getString("ConfigurationView.23");
+	private static final String LABEL_BUTTON_ADD = Messages.getString("ConfigurationView.18");
+	private static final String LABEL_BUTTON_DEL = Messages.getString("ConfigurationView.22");
+	private static final String LABEL_BUTTON_COPY = Messages.getString("ConfigurationView.23");
+	private static final String LABEL_BUTTON_DETAIL = Messages.getString("ConfigurationView.48");
+	private static final String LABEL_TOOLTIP_DETAIL = Messages.getString("ConfigurationView.47");
 
-	private static final String LABE_CONFIGSET_NAME = Messages
-			.getString("ConfigurationView.26");
+	private static final String LABE_CONFIGSET_NAME = Messages.getString("ConfigurationView.26");
 
-	private static final String LABEL_COLUMN_KEY = Messages
-			.getString("ConfigurationView.27");
-	private static final String LABEL_COLUMN_VALUE = Messages
-			.getString("ConfigurationView.21");
+	private static final String LABEL_COLUMN_KEY = Messages.getString("ConfigurationView.27");
+	private static final String LABEL_COLUMN_VALUE = Messages.getString("ConfigurationView.21");
 
-	private static final String LAVEL_DEFAULT_NV_VALUE = Messages
-			.getString("ConfigurationView.21");
+	private static final String LAVEL_DEFAULT_NV_VALUE = Messages.getString("ConfigurationView.21");
 
-	private static final String LABEL_BUTTON_NV_ADD = Messages
-			.getString("ConfigurationView.29");
-	private static final String LABEL_BUTTON_NV_DEL = Messages
-			.getString("ConfigurationView.32");
+	private static final String LABEL_BUTTON_NV_ADD = Messages.getString("ConfigurationView.29");
+	private static final String LABEL_BUTTON_NV_DEL = Messages.getString("ConfigurationView.32");
+	private static final String LABEL_BUTTON_NV_DETAIL = Messages.getString("ConfigurationView.48");
+	private static final String LABEL_TOOLTIP_NV_DETAIL = Messages.getString("ConfigurationView.47");
 
-	private static final String MSG_ERROR = Messages
-			.getString("ConfigurationView.12");
-	private static final String MSG_UPDATE_FAILURE = Messages
-			.getString("ConfigurationView.13");
+	private static final String MSG_ERROR = Messages.getString("ConfigurationView.12");
+	private static final String MSG_UPDATE_FAILURE = Messages.getString("ConfigurationView.13");
 
-	private static final String MSG_CONFIRM = Messages
-			.getString("ConfigurationView.10");
-	private static final String MSG_CHECK_APPLY_CHANGE = Messages
-			.getString("ConfigurationView.11");
+	private static final String MSG_CONFIRM = Messages.getString("ConfigurationView.10");
+	private static final String MSG_CHECK_APPLY_CHANGE = Messages.getString("ConfigurationView.11");
 
-	private static final String MSG_WARNING = Messages
-			.getString("ConfigurationView.39");
-	private static final String MSG_NAME_ALREADY_EXIST = Messages
-			.getString("ConfigurationView.40");
-	private static final String MSG_KEY_ALREADY_EXIST = Messages
-			.getString("ConfigurationView.43");
+	private static final String MSG_WARNING = Messages.getString("ConfigurationView.39");
+	private static final String MSG_NAME_ALREADY_EXIST = Messages.getString("ConfigurationView.40");
+	private static final String MSG_KEY_ALREADY_EXIST = Messages.getString("ConfigurationView.43");
 
 	private Component targetComponent;
 	private ComponentConfigurationWrapper copiedComponent;
@@ -187,10 +168,11 @@ public class ConfigurationView extends ViewPart {
 
 	private Table leftTable;
 	private TableViewer leftTableViewer;
+	private DetailTableViewerFilter leftTableViewerFilter;
 
 	private Table rightTable;
 	private TableViewer rightTableViewer;
-	private RightTableViewerFilter rightTableViewerFilter;
+	private DetailTableViewerFilter rightTableViewerFilter;
 
 	private Label componentNameLabel;
 	private Label configrationSetNameLabel;
@@ -198,14 +180,15 @@ public class ConfigurationView extends ViewPart {
 	private Button addConfigurationSetButton;
 	private Button copyConfigurationSetButton;
 	private Button deleteConfigurationSetButton;
+	private Button detailConfigurationSetCheckButton;
 
 	private Button addNamedValueButton;
 	private Button deleteNamedValueButton;
+	private Button detailNamedValueCheckButton;
 
 	private Button editButton;
 	private Button applyButton;
 	private Button cancelButton;
-	private Button detailCheckButton;
 
 	private static ColorRegistry colorRegistry = null;
 
@@ -478,6 +461,8 @@ public class ConfigurationView extends ViewPart {
 		leftTableViewer.setCellEditors(new CellEditor[] {
 				new CheckboxCellEditor(leftTableViewer.getTable()),
 				new TextCellEditor(leftTableViewer.getTable()) });
+		this.leftTableViewerFilter = new DetailTableViewerFilter();
+		this.leftTableViewer.addFilter(this.leftTableViewerFilter);
 
 		leftTable = leftTableViewer.getTable();
 		leftTable.setLinesVisible(true);
@@ -518,7 +503,7 @@ public class ConfigurationView extends ViewPart {
 
 		Composite buttonCompsite = new Composite(composite, SWT.BOTTOM);
 		gl = new GridLayout();
-		gl.numColumns = 3;
+		gl.numColumns = 4;
 		buttonCompsite.setLayout(gl);
 		gd = new GridData();
 		gd.horizontalAlignment = SWT.FILL;
@@ -623,14 +608,29 @@ public class ConfigurationView extends ViewPart {
 							refreshRightData();
 						}
 					}
-				});
-		leftTableViewer
-				.addPostSelectionChangedListener(new ISelectionChangedListener() {
-					@Override
-					public void selectionChanged(SelectionChangedEvent event) {
-						updateDeleteConfigurationSetButtonEnable();
-					}
-				});
+		});
+
+		this.detailConfigurationSetCheckButton = new Button(buttonCompsite, SWT.BOTTOM | SWT.CHECK);
+		this.detailConfigurationSetCheckButton.setEnabled(false);
+		this.detailConfigurationSetCheckButton.setToolTipText(LABEL_TOOLTIP_DETAIL);
+		gd = new GridData();
+		gd.horizontalAlignment = SWT.END;
+		this.detailConfigurationSetCheckButton.setLayoutData(gd);
+		this.detailConfigurationSetCheckButton.setText(LABEL_BUTTON_DETAIL);
+		this.detailConfigurationSetCheckButton.setSelection(false);
+		this.detailConfigurationSetCheckButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				refreshLeftData();
+			}
+		});
+
+		leftTableViewer.addPostSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				updateDeleteConfigurationSetButtonEnable();
+			}
+		});
 	}
 
 	// Copyボタンの追加 2008.12.17
@@ -729,7 +729,7 @@ public class ConfigurationView extends ViewPart {
 		rightTableViewer.setCellEditors(new CellEditor[] {
 				new TextCellEditor(rightTableViewer.getTable()),
 				new TextCellEditor(rightTableViewer.getTable()) });
-		this.rightTableViewerFilter = new RightTableViewerFilter();
+		this.rightTableViewerFilter = new DetailTableViewerFilter();
 		this.rightTableViewer.addFilter(this.rightTableViewerFilter);
 
 		rightTable = rightTableViewer.getTable();
@@ -786,26 +786,11 @@ public class ConfigurationView extends ViewPart {
 		gd.horizontalAlignment = SWT.FILL;
 		buttonCompsite.setLayoutData(gd);
 
-		this.detailCheckButton = new Button(buttonCompsite, SWT.BOTTOM
-				| SWT.CHECK);
-		this.detailCheckButton.setEnabled(false);
-		this.detailCheckButton.setToolTipText(LABEL_TOOLTIP_DETAIL);
-		gd = new GridData();
-		gd.grabExcessHorizontalSpace = true;
-		gd.horizontalAlignment = SWT.END;
-		this.detailCheckButton.setLayoutData(gd);
-		this.detailCheckButton.setSelection(false);
-		this.detailCheckButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				refreshRightData();
-			}
-		});
-
 		addNamedValueButton = new Button(buttonCompsite, SWT.NONE);
 		addNamedValueButton.setText(LABEL_BUTTON_NV_ADD);
 		addNamedValueButton.setEnabled(false);
 		gd = new GridData();
+		gd.grabExcessHorizontalSpace = true;
 		gd.horizontalAlignment = SWT.END;
 		gd.widthHint = BUTTON_WIDTH;
 		addNamedValueButton.setLayoutData(gd);
@@ -869,13 +854,28 @@ public class ConfigurationView extends ViewPart {
 				}
 			}
 		});
-		rightTableViewer
-				.addPostSelectionChangedListener(new ISelectionChangedListener() {
-					@Override
-					public void selectionChanged(SelectionChangedEvent event) {
-						updateDeleteNamedValueButtonEnable();
-					}
-				});
+
+		this.detailNamedValueCheckButton = new Button(buttonCompsite, SWT.BOTTOM | SWT.CHECK);
+		this.detailNamedValueCheckButton.setEnabled(false);
+		this.detailNamedValueCheckButton.setToolTipText(LABEL_TOOLTIP_NV_DETAIL);
+		gd = new GridData();
+		gd.horizontalAlignment = SWT.END;
+		this.detailNamedValueCheckButton.setLayoutData(gd);
+		this.detailNamedValueCheckButton.setText(LABEL_BUTTON_NV_DETAIL);
+		this.detailNamedValueCheckButton.setSelection(false);
+		this.detailNamedValueCheckButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				refreshRightData();
+			}
+		});
+
+		rightTableViewer.addPostSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				updateDeleteNamedValueButtonEnable();
+			}
+		});
 	}
 
 	private String createDefaultNamedValueKey(String preString) {
@@ -1013,39 +1013,41 @@ public class ConfigurationView extends ViewPart {
 	}
 
 	private void refreshData() {
-		editButton.setEnabled(false);
-		applyButton.setEnabled(false);
-		cancelButton.setEnabled(false);
-		this.detailCheckButton.setEnabled(false);
+		this.editButton.setEnabled(false);
+		this.applyButton.setEnabled(false);
+		this.cancelButton.setEnabled(false);
 
 		refreshLeftData();
 
-		if (copiedComponent != null) {
-			leftTable.setSelection(copiedComponent.getConfigurationSetList()
-					.indexOf(copiedComponent.getActiveConfigSet()));
+		if (this.copiedComponent != null) {
+			this.leftTable.setSelection(
+					this.copiedComponent.getConfigurationSetList().indexOf(this.copiedComponent.getActiveConfigSet()));
 		}
 
 		refreshRightData();
-		if (copiedComponent != null) {
-			editButton.setEnabled(true);
-			applyButton.setEnabled(true);
-			cancelButton.setEnabled(true);
-			this.detailCheckButton.setEnabled(true);
+		if (this.copiedComponent != null) {
+			this.editButton.setEnabled(true);
+			this.applyButton.setEnabled(true);
+			this.cancelButton.setEnabled(true);
 		}
 	}
 
 	private void refreshLeftData() {
-		leftTableViewer.setInput(Collections.EMPTY_LIST);
-		componentNameLabel.setText("");
-		addConfigurationSetButton.setEnabled(false);
+		this.leftTableViewer.setInput(Collections.EMPTY_LIST);
+		this.componentNameLabel.setText("");
+		this.addConfigurationSetButton.setEnabled(false);
+		this.detailConfigurationSetCheckButton.setEnabled(false);
 
-		if (copiedComponent != null) {
-			addConfigurationSetButton.setEnabled(true);
-			componentNameLabel.setText(targetComponent.getInstanceNameL());
-			leftTableViewer.setInput(copiedComponent.getConfigurationSetList());
+		if (this.copiedComponent != null) {
+			this.addConfigurationSetButton.setEnabled(true);
+			this.detailConfigurationSetCheckButton.setEnabled(true);
+			this.componentNameLabel.setText(this.targetComponent.getInstanceNameL());
 
-			if (leftTable.getItemCount() > 0) {
-				leftTable.select(0);
+			this.leftTableViewerFilter.setDetail(this.detailConfigurationSetCheckButton.getSelection());
+			this.leftTableViewer.setInput(this.copiedComponent.getConfigurationSetList());
+
+			if (this.leftTable.getItemCount() > 0) {
+				this.leftTable.select(0);
 			}
 		}
 
@@ -1061,24 +1063,24 @@ public class ConfigurationView extends ViewPart {
 	}
 
 	private void refreshRightData() {
-		rightTableViewer.setInput(Collections.EMPTY_LIST);
-		configrationSetNameLabel.setText("");
-		addNamedValueButton.setEnabled(false);
+		this.rightTableViewer.setInput(Collections.EMPTY_LIST);
+		this.configrationSetNameLabel.setText("");
+		this.addNamedValueButton.setEnabled(false);
+		this.detailNamedValueCheckButton.setEnabled(false);
 
-		if (copiedComponent != null && leftTable.getSelectionIndex() != -1) {
-			ConfigurationSetConfigurationWrapper currentConfugurationSet = copiedComponent
-					.getConfigurationSetList().get(
-							leftTable.getSelectionIndex());
+		if (this.copiedComponent != null && this.leftTable.getSelectionIndex() != -1) {
+			if (this.leftTableViewer.getSelection() instanceof StructuredSelection) {
+				ConfigurationSetConfigurationWrapper currentConfugurationSet = (ConfigurationSetConfigurationWrapper) ((StructuredSelection) this.leftTableViewer
+						.getSelection()).getFirstElement();
+				this.configrationSetNameLabel.setText(currentConfugurationSet.getId());
 
-			configrationSetNameLabel.setText(currentConfugurationSet.getId());
+				this.rightTableViewerFilter.setDetail(this.detailNamedValueCheckButton.getSelection());
+				this.rightTableViewer.setInput(currentConfugurationSet.getNamedValueList());
 
-			this.rightTableViewerFilter.setDetail(this.detailCheckButton
-					.getSelection());
-			this.rightTableViewer.setInput(currentConfugurationSet
-					.getNamedValueList());
-
-			if (!(targetComponent instanceof CorbaComponent)) {
-				addNamedValueButton.setEnabled(true);
+				if (!(this.targetComponent instanceof CorbaComponent)) {
+					this.addNamedValueButton.setEnabled(true);
+				}
+				this.detailNamedValueCheckButton.setEnabled(true);
 			}
 		}
 		updateDeleteNamedValueButtonEnable();
@@ -1169,6 +1171,15 @@ public class ConfigurationView extends ViewPart {
 
 		@Override
 		public boolean canModify(Object element, String property) {
+			ConfigurationSetConfigurationWrapper configurationSet = null;
+			if (element instanceof ConfigurationSetConfigurationWrapper) {
+				configurationSet = (ConfigurationSetConfigurationWrapper) element;
+			}
+			if (PROPERTY_ACTIVE_CONFIGSET.equals(property)) {
+				if (configurationSet.isSecret()) {
+					return false;
+				}
+			}
 			return true;
 		}
 
@@ -1178,10 +1189,8 @@ public class ConfigurationView extends ViewPart {
 			if (PROPERTY_ACTIVE_CONFIGSET.equals(property)) {
 				result = Boolean.TRUE;
 			} else if (PROPERTY_CONFIG_SET.equals(property)) {
-				result = ((ConfigurationSetConfigurationWrapper) element)
-						.getId();
+				result = ((ConfigurationSetConfigurationWrapper) element).getId();
 			}
-
 			return result;
 		}
 
@@ -1189,38 +1198,29 @@ public class ConfigurationView extends ViewPart {
 		public void modify(Object element, String property, Object value) {
 			ConfigurationSetConfigurationWrapper configurationSet = null;
 			if (element instanceof Item) {
-				configurationSet = ((ConfigurationSetConfigurationWrapper) ((Item) element)
-						.getData());
+				configurationSet = ((ConfigurationSetConfigurationWrapper) ((Item) element).getData());
 			}
-
 			if (PROPERTY_ACTIVE_CONFIGSET.equals(property)) {
 				copiedComponent.setActiveConfigSet(configurationSet);
-
 				viewer.refresh();
 			} else if (PROPERTY_CONFIG_SET.equals(property)) {
 				boolean isDuplicate = false;
-				for (ConfigurationSetConfigurationWrapper current : copiedComponent
-						.getConfigurationSetList()) {
-					if (configurationSet != current
-							&& ((String) value).equals(current.getId())) {
+				for (ConfigurationSetConfigurationWrapper current : copiedComponent.getConfigurationSetList()) {
+					if (configurationSet != current && ((String) value).equals(current.getId())) {
 						isDuplicate = true;
 						break;
 					}
 				}
-
 				String newConfigurationSetName = (String) value;
 				if (isDuplicate) {
-					MessageDialog.openWarning(viewer.getControl().getShell(),
-							MSG_WARNING, MSG_NAME_ALREADY_EXIST);
+					MessageDialog.openWarning(viewer.getControl().getShell(), MSG_WARNING, MSG_NAME_ALREADY_EXIST);
 					newConfigurationSetName = createDefaultConfigurationSetName((String) value);
 				}
-
 				configurationSet.setId(newConfigurationSetName);
-
 				viewer.update(configurationSet, null);
 			}
-
 		}
+
 	}
 
 	/**
@@ -1417,14 +1417,14 @@ public class ConfigurationView extends ViewPart {
 	}
 
 	/**
-	 * ConfigurationSetの設定値一覧テーブルの表示フィルタ<br>
-	 * 「_」で始まる設定値は、詳細モードのときのみ表示します。
+	 * ConfigurationSet、およびNamedValueの一覧テーブルの表示フィルタ<br>
+	 * 「__」で始まる設定値は、詳細モードのときのみ表示します。
 	 */
-	private static class RightTableViewerFilter extends ViewerFilter {
+	private static class DetailTableViewerFilter extends ViewerFilter {
 
 		private boolean isDetail;
 
-		public RightTableViewerFilter() {
+		public DetailTableViewerFilter() {
 			this.isDetail = false;
 		}
 
@@ -1439,16 +1439,15 @@ public class ConfigurationView extends ViewPart {
 		}
 
 		/**
-		 * 詳細モード、かつNameValueのキーが「_」で始まっていない場合はtrue
+		 * 詳細モード、かつNameValueのキーが「__」で始まっていない場合はtrue
 		 */
 		@Override
-		public boolean select(Viewer viewer, Object parentElement,
-				Object element) {
-			if (!(element instanceof NamedValueConfigurationWrapper)) {
+		public boolean select(Viewer viewer, Object parentElement, Object element) {
+			if (!(element instanceof Secretable)) {
 				return false;
 			}
-			NamedValueConfigurationWrapper nv = (NamedValueConfigurationWrapper) element;
-			return (this.isDetail || !nv.isSecret());
+			Secretable sc = (Secretable) element;
+			return (this.isDetail || !sc.isSecret());
 		}
 
 	}

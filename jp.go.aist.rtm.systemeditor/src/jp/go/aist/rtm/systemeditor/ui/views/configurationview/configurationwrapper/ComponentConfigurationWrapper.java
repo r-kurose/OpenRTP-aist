@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -19,11 +18,9 @@ import jp.go.aist.rtm.toolscommon.model.component.NameValue;
  */
 public class ComponentConfigurationWrapper {
 
-	@SuppressWarnings("unchecked")
 	public static ComponentConfigurationWrapper create(Component target) {
 		ComponentConfigurationWrapper result = new ComponentConfigurationWrapper();
-		List<ConfigurationSetConfigurationWrapper> configurationSetList = result
-				.getConfigurationSetList();
+		List<ConfigurationSetConfigurationWrapper> configurationSetList = result.getConfigurationSetList();
 
 		// パラメータ名−widget種別
 		Map<String, String> widgets = new HashMap<String, String>();
@@ -51,68 +48,52 @@ public class ComponentConfigurationWrapper {
 		result.widgetSetting = widgets;
 		result.conditionSetting = conditions;
 
-		for (Iterator iter = target.getConfigurationSets().iterator(); iter
-				.hasNext();) {
-			ConfigurationSet configurationSet = (ConfigurationSet) iter.next();
-
-			if (configurationSet.getId().startsWith("__"))
-				continue;
-
+		for (ConfigurationSet configurationSet : target.getConfigurationSets()) {
 			ConfigurationSetConfigurationWrapper configurationSetConfigurationWrapper = new ConfigurationSetConfigurationWrapper(
 					configurationSet, configurationSet.getId());
-
 			List<NamedValueConfigurationWrapper> namedValueList = configurationSetConfigurationWrapper
 					.getNamedValueList();
 
-			// configurationSetに対応する制約条件(なければdefaultを使用)
-			Map<String, String> conds = conditions.get(configurationSet.getId());
-			if (conds == null) 
-				conds = conditions.get("constraints__");
-
-			for (Iterator iterator = configurationSet.getConfigurationData()
-					.iterator(); iterator.hasNext();) {
-
-				NameValue nameValue = (NameValue) iterator.next();
+			// configurationSetに対応する制約条件(なければデフォルトを使用)
+			Map<String, String> conds = null;
+			if (!configurationSet.getId().startsWith("__")) {
+				conds = conditions.get(configurationSet.getId());
+				if (conds == null) {
+					conds = conditions.get("constraints__");
+				}
+			}
+			for (NameValue nameValue : configurationSet.getConfigurationData()) {
 				NamedValueConfigurationWrapper namedValueConfigurationWrapper = new NamedValueConfigurationWrapper(
 						nameValue.getName(), nameValue.getValue(), nameValue.getTypeName());
-
 				if (conds != null) {
 					String type = widgets.get(nameValue.getName());
 					String cond = conds.get(nameValue.getName());
 					namedValueConfigurationWrapper.setWidgetAndCondition(type, cond);
 				}
-
 				namedValueList.add(namedValueConfigurationWrapper);
 				Collections.sort(namedValueList);
 			}
 
 			if (target.getActiveConfigurationSet() != null
-					&& target.getActiveConfigurationSet().getId().equals(
-							configurationSet.getId())) {
+					&& target.getActiveConfigurationSet().getId().equals(configurationSet.getId())) {
 				result.setActiveConfigSet(configurationSetConfigurationWrapper);
 			}
-
 			configurationSetList.add(configurationSetConfigurationWrapper);
 			Collections.sort(configurationSetList);
 		}
 		return result;
 	}
 
-
 	private List<ConfigurationSetConfigurationWrapper> configurationSetList = new ArrayList<ConfigurationSetConfigurationWrapper>();
-
 	private ConfigurationSetConfigurationWrapper activeConfigurationSet;
-
 	private Map<String, String> widgetSetting;
-
 	private Map<String, Map<String, String>> conditionSetting;
 
 	public List<ConfigurationSetConfigurationWrapper> getConfigurationSetList() {
 		return configurationSetList;
 	}
 
-	public void setActiveConfigSet(
-			ConfigurationSetConfigurationWrapper configurationSet) {
+	public void setActiveConfigSet(ConfigurationSetConfigurationWrapper configurationSet) {
 		this.activeConfigurationSet = configurationSet;
 	}
 
@@ -120,13 +101,11 @@ public class ComponentConfigurationWrapper {
 		return activeConfigurationSet;
 	}
 
-	public void addConfigurationSet(
-			ConfigurationSetConfigurationWrapper configurationSet) {
+	public void addConfigurationSet(ConfigurationSetConfigurationWrapper configurationSet) {
 		configurationSetList.add(configurationSet);
 	}
 
-	public void removeConfigurationSet(
-			ConfigurationSetConfigurationWrapper configurationSet) {
+	public void removeConfigurationSet(ConfigurationSetConfigurationWrapper configurationSet) {
 		configurationSetList.remove(configurationSet);
 	}
 
@@ -178,8 +157,7 @@ public class ComponentConfigurationWrapper {
 	@Override
 	public ComponentConfigurationWrapper clone() {
 		ComponentConfigurationWrapper result = new ComponentConfigurationWrapper();
-		List<ConfigurationSetConfigurationWrapper> configurationSetList = result
-				.getConfigurationSetList();
+		List<ConfigurationSetConfigurationWrapper> configurationSetList = result.getConfigurationSetList();
 		for (ConfigurationSetConfigurationWrapper cs : this.configurationSetList) {
 			configurationSetList.add(cs.clone());
 		}

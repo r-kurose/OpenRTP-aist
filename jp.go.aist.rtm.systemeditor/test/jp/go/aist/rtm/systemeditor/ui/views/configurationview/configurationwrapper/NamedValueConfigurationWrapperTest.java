@@ -356,11 +356,15 @@ public class NamedValueConfigurationWrapperTest {
 		nv = new NamedValueConfigurationWrapper("key", "value");
 		assertFalse(nv.isSecret());
 		nv = new NamedValueConfigurationWrapper("_key", "value");
-		assertTrue(nv.isSecret());
-		nv = new NamedValueConfigurationWrapper("key_", "value");
 		assertFalse(nv.isSecret());
 		nv = new NamedValueConfigurationWrapper("__key", "value");
 		assertTrue(nv.isSecret());
+		nv = new NamedValueConfigurationWrapper("___key", "value");
+		assertTrue(nv.isSecret());
+		nv = new NamedValueConfigurationWrapper("key_", "value");
+		assertFalse(nv.isSecret());
+		nv = new NamedValueConfigurationWrapper("key__", "value");
+		assertFalse(nv.isSecret());
 		nv = new NamedValueConfigurationWrapper(null, "value");
 		assertFalse(nv.isSecret());
 	}

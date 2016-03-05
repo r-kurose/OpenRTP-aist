@@ -14,6 +14,9 @@ public class ComponentConfigurationWrapperTest extends TestCase {
 		for (ConfigurationSetConfigurationWrapper cs : config
 				.getConfigurationSetList()) {
 			String csId = cs.getId();
+			if ("__widget__".equals(csId) || "__constraints__".equals(csId) || "__config1".equals(csId)) {
+				continue;
+			}
 			if (csId == "default") {
 				for (NamedValueConfigurationWrapper nv : cs.getNamedValueList()) {
 					if (nv.getKey() == "int_param1") {
