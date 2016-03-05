@@ -4,10 +4,13 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
 import jp.go.aist.rtm.toolscommon.manager.ToolsCommonPreferenceManager;
+import jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject;
 
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.Binding;
@@ -121,4 +124,121 @@ public class CorbaUtil {
 	public static org.omg.CORBA.Object stringToObject(String str) {
 		return orb.string_to_object(str);
 	}
+
+	/**
+	 * CORBAラッパからCORBAオブジェクトを取得します。
+	 * 
+	 * @param wrapper
+	 *            CORBAラッパ
+	 * @return CORBAオブジェクト
+	 */
+	public static org.omg.CORBA.Object getCorbaObject(CorbaWrapperObject wrapper) {
+		if (wrapper == null) {
+			return null;
+		}
+		return wrapper.getCorbaObject();
+	}
+
+	/**
+	 * CORBAオブジェクトからIORオブジェクトを取得します。
+	 * 
+	 * @param obj
+	 *            CORBAオブジェクト
+	 * @return IORオブジェクト
+	 */
+	public static com.sun.corba.se.spi.ior.IOR getIOR(org.omg.CORBA.Object obj) {
+		return com.sun.corba.se.impl.orbutil.ORBUtility.getIOR(obj);
+	}
+
+	/**
+	 * CORBAオブジェクトからIOR情報を取得します。
+	 * 
+	 * @param obj
+	 *            CORBAオブジェクト
+	 * @return IOR情報
+	 */
+	public static IORInfo getIORInfo(org.omg.CORBA.Object obj) {
+		return parseIOR(getIOR(obj));
+	}
+
+	/**
+	 * IOR情報を解析します。
+	 * 
+	 * @param ior
+	 *            IORオブジェクト
+	 * @return IOR情報
+	 */
+	public static IORInfo parseIOR(com.sun.corba.se.spi.ior.IOR ior) {
+		IORInfo ret = new IORInfo();
+		ret.ior = ior.stringify();
+		ret.typeId = ior.getTypeId();
+
+		IORInfo.TaggedProfile prof = new IORInfo.TaggedProfile();
+		ret.taggedProfiles.add(prof);
+		com.sun.corba.se.spi.ior.iiop.IIOPProfileTemplate profTmpl = (com.sun.corba.se.spi.ior.iiop.IIOPProfileTemplate) ior
+				.getProfile().getTaggedProfileTemplate();
+		prof.host = profTmpl.getPrimaryAddress().getHost().toLowerCase();
+		prof.port = Integer.toString(profTmpl.getPrimaryAddress().getPort());
+		prof.gpioVersion = profTmpl.getGIOPVersion().toString();
+
+		String objKey = "";
+		byte[] bb = ior.getProfile().getObjectKey().getId().getId();
+		for (byte b : bb) {
+			if (!objKey.isEmpty()) {
+				objKey += " ";
+			}
+			objKey += String.format("%02x", b);
+		}
+		prof.objKey = objKey;
+
+		for (Object o : profTmpl.toArray()) {
+			if (o instanceof com.sun.corba.se.spi.ior.iiop.CodeSetsComponent) {
+				prof.components.add(
+						((com.sun.corba.se.spi.ior.iiop.CodeSetsComponent) o).getCodeSetComponentInfo().toString());
+			} else if (o instanceof com.sun.corba.se.spi.ior.iiop.ORBTypeComponent) {
+				prof.components.add(((com.sun.corba.se.spi.ior.iiop.ORBTypeComponent) o).toString());
+			} else if (o instanceof com.sun.corba.se.spi.ior.iiop.AlternateIIOPAddressComponent) {
+				prof.components.add(((com.sun.corba.se.spi.ior.iiop.AlternateIIOPAddressComponent) o).toString());
+			} else if (o instanceof com.sun.corba.se.spi.ior.iiop.JavaCodebaseComponent) {
+				prof.components.add(((com.sun.corba.se.spi.ior.iiop.JavaCodebaseComponent) o).toString());
+			} else if (o instanceof com.sun.corba.se.spi.ior.iiop.MaxStreamFormatVersionComponent) {
+				prof.components.add(((com.sun.corba.se.spi.ior.iiop.MaxStreamFormatVersionComponent) o).toString());
+			} else if (o instanceof com.sun.corba.se.spi.ior.iiop.RequestPartitioningComponent) {
+				prof.components.add(((com.sun.corba.se.spi.ior.iiop.RequestPartitioningComponent) o).toString());
+			}
+		}
+		return ret;
+	}
+
+	/**
+	 * IOR情報を表します。
+	 */
+	public static class IORInfo {
+
+		public String ior;
+		public String typeId;
+		public List<TaggedProfile> taggedProfiles = new ArrayList<>();
+
+		@Override
+		public String toString() {
+			return this.getClass().getSimpleName() + "<" + this.ior + "|" + this.typeId + "|" + this.taggedProfiles
+					+ ">";
+		}
+
+		public static class TaggedProfile {
+			public String host;
+			public String port;
+			public String gpioVersion;
+			public String objKey;
+			public List<String> components = new ArrayList<>();
+
+			@Override
+			public String toString() {
+				return this.getClass().getSimpleName() + "<" + this.host + ":" + this.port + "|" + this.gpioVersion
+						+ "|" + this.objKey + "|" + this.components + ">";
+			}
+		}
+
+	}
+
 }
