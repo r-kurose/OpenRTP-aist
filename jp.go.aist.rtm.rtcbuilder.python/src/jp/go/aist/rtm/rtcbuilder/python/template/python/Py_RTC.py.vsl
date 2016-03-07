@@ -81,6 +81,11 @@ ${pyConv.convToLower(${rtcParam.name})}_spec = ["implementation_id", "${rtcParam
 		 "conf.__constraints__.${configParam.name}", "${configParam.constraint}",
 #end
 #end
+
+#foreach($configParam in ${rtcParam.configParams})
+         "conf.__type__.${configParam.name}", "${configParam.type}#if( ${configParam.step.length()} > 0 ).${configParam.step}#end",
+#end
+
 #end
 #if( ${rtcParam.configParameterParams.size()} > 0 )
 #foreach($parameterParam in ${rtcParam.configParameterParams})  
