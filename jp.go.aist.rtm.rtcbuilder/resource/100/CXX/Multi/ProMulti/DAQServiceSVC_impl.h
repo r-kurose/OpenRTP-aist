@@ -34,8 +34,8 @@ class DAQServiceSVC_impl
    virtual ~DAQServiceSVC_impl();
 
    // attributes and operations
-   CORBA::Long setCommand(CORBA::Long com, CORBA::Double par);
-   CORBA::Short getCommand();
+   ::CORBA::Long setCommand(::CORBA::Long com, ::CORBA::Double par);
+   ::CORBA::Short getCommand();
 
 };
 

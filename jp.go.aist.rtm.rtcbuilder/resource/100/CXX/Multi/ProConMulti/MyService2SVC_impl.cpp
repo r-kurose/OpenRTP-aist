@@ -25,19 +25,19 @@ MyService2SVC_impl::~MyService2SVC_impl()
 /*
  * Methods corresponding to IDL attributes and operations
  */
-void MyService2SVC_impl::setKpGain(CORBA::Float gainkp)
+void MyService2SVC_impl::setKpGain(::CORBA::Float gainkp)
 {
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <void MyService2SVC_impl::setKpGain(CORBA::Float gainkp)>"
+  #warning "Code missing in function <void MyService2SVC_impl::setKpGain(::CORBA::Float gainkp)>"
 #endif
 }
 
-CORBA::Float MyService2SVC_impl::getKpGain()
+::CORBA::Float MyService2SVC_impl::getKpGain()
 {
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <CORBA::Float MyService2SVC_impl::getKpGain()>"
+  #warning "Code missing in function <::CORBA::Float MyService2SVC_impl::getKpGain()>"
 #endif
   return 0;
 }

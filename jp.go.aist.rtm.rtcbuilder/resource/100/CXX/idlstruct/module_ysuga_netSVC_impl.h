@@ -16,7 +16,7 @@
  * @class HogeSVC_impl
  * Example class implementing IDL interface ysuga_net::Hoge
  */
-class HogeSVC_impl
+class ysuga_net_HogeSVC_impl
  : public virtual POA_ysuga_net::Hoge,
    public virtual PortableServer::RefCountServantBase
 {
@@ -33,7 +33,7 @@ class HogeSVC_impl
   /*!
    * @brief destructor
    */
-   virtual ~HogeSVC_impl();
+   virtual ~ysuga_net_HogeSVC_impl();
 
    // attributes and operations
    ysuga_net::RETVAL* foo();

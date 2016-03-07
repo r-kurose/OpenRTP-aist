@@ -14,7 +14,7 @@
  * @class MyServiceSVC_impl
  * Example class implementing IDL interface RTC::RTM::MyService
  */
-class MyServiceSVC_impl
+class RTC_RTM_MyServiceSVC_impl
  : public virtual POA_RTC::RTM::MyService,
    public virtual PortableServer::RefCountServantBase
 {
@@ -31,7 +31,7 @@ class MyServiceSVC_impl
   /*!
    * @brief destructor
    */
-   virtual ~MyServiceSVC_impl();
+   virtual ~RTC_RTM_MyServiceSVC_impl();
 
    // attributes and operations
    RTC::RTM::Time echo(const RTC::RTM::Time& msg, const char* str);

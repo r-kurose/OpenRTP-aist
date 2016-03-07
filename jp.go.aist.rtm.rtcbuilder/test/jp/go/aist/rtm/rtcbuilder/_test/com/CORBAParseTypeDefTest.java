@@ -21,11 +21,18 @@ public class CORBAParseTypeDefTest extends TestBase {
 		List<TypeDefParam> typedefParams = IDLParamConverter
 				.convert_typedef(spec, "");
 		
-		assertEquals(2, typedefParams.size());
-		assertEquals("string", typedefParams.get(0).getOriginalDef());
+		assertEquals(3, typedefParams.size());
+		assertEquals("string<1>", typedefParams.get(0).getOriginalDef());
+		assertEquals("Str1", typedefParams.get(0).getTargetDef());
 		assertEquals(false, typedefParams.get(0).isSequence());
-		assertEquals("wstring", typedefParams.get(1).getOriginalDef());
+		
+		assertEquals("wstring<1>", typedefParams.get(1).getOriginalDef());
+		assertEquals("WStr1", typedefParams.get(1).getTargetDef());
 		assertEquals(false, typedefParams.get(1).isSequence());
+		
+		assertEquals("", typedefParams.get(2).getOriginalDef());
+		assertEquals("MyService", typedefParams.get(2).getTargetDef());
+		assertEquals(false, typedefParams.get(2).isSequence());
 	}
 	
 	public void testArrayDef() throws Exception{
@@ -36,9 +43,14 @@ public class CORBAParseTypeDefTest extends TestBase {
 		List<TypeDefParam> typedefParams = IDLParamConverter
 				.convert_typedef(spec, "");
 		
-		assertEquals(1, typedefParams.size());
-		assertEquals("short", typedefParams.get(0).getOriginalDef());
-		assertEquals(true, typedefParams.get(0).isArray());
+		assertEquals(2, typedefParams.size());
+		
+		assertEquals("", typedefParams.get(0).getOriginalDef());
+		assertEquals("sample", typedefParams.get(0).getTargetDef());
+		assertEquals(false, typedefParams.get(0).isArray());
+		
+		assertEquals("short", typedefParams.get(1).getOriginalDef());
+		assertEquals(true, typedefParams.get(1).isArray());
 	}
 	
 	public void testModule() throws Exception{

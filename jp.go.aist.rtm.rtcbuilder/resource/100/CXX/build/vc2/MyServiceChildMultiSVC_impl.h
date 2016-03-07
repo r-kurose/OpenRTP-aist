@@ -66,8 +66,8 @@ class MyService2SVC_impl
    virtual ~MyService2SVC_impl();
 
    // attributes and operations
-   void setGain(CORBA::Float gain);
-   CORBA::Float getGain();
+   void setGain(::CORBA::Float gain);
+   ::CORBA::Float getGain();
 
 };
 
@@ -95,12 +95,12 @@ class MyServiceChildSVC_impl
    virtual ~MyServiceChildSVC_impl();
 
    // attributes and operations
-   void setPos(CORBA::Float pos);
+   void setPos(::CORBA::Float pos);
    EchoList1* getPos();
    EchoList1* get_echo_history();
    ValueList1* get_value_history();
-   void setGain(CORBA::Float gain);
-   CORBA::Float getGain();
+   void setGain(::CORBA::Float gain);
+   ::CORBA::Float getGain();
 
 };
 

@@ -40,8 +40,8 @@ class MyServiceSVC_impl
    virtual ~MyServiceSVC_impl();
 
    // attributes and operations
-   void setGain(CORBA::Float gain);
-   CORBA::Float getGain();
+   void setGain(::CORBA::Float gain);
+   ::CORBA::Float getGain();
 
 };
 

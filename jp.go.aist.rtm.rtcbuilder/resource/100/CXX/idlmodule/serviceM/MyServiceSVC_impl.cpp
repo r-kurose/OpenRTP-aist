@@ -10,13 +10,13 @@
 /*
  * Example implementational code for IDL interface SimpleService::MyService
  */
-MyServiceSVC_impl::MyServiceSVC_impl()
+SimpleService_MyServiceSVC_impl::SimpleService_MyServiceSVC_impl()
 {
   // Please add extra constructor code here.
 }
 
 
-MyServiceSVC_impl::~MyServiceSVC_impl()
+SimpleService_MyServiceSVC_impl::~SimpleService_MyServiceSVC_impl()
 {
   // Please add extra destructor code here.
 }
@@ -25,46 +25,46 @@ MyServiceSVC_impl::~MyServiceSVC_impl()
 /*
  * Methods corresponding to IDL attributes and operations
  */
-char* MyServiceSVC_impl::echo(const char* msg)
+char* SimpleService_MyServiceSVC_impl::echo(const char* msg)
 {
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <char* MyServiceSVC_impl::echo(const char* msg)>"
+  #warning "Code missing in function <char* SimpleService_MyServiceSVC_impl::echo(const char* msg)>"
 #endif
   return 0;
 }
 
-SimpleService::EchoList* MyServiceSVC_impl::get_echo_history()
+SimpleService::EchoList* SimpleService_MyServiceSVC_impl::get_echo_history()
 {
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <SimpleService::EchoList* MyServiceSVC_impl::get_echo_history()>"
+  #warning "Code missing in function <SimpleService::EchoList* SimpleService_MyServiceSVC_impl::get_echo_history()>"
 #endif
   return 0;
 }
 
-void MyServiceSVC_impl::set_value(CORBA::Float value)
+void SimpleService_MyServiceSVC_impl::set_value(::CORBA::Float value)
 {
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <void MyServiceSVC_impl::set_value(CORBA::Float value)>"
+  #warning "Code missing in function <void SimpleService_MyServiceSVC_impl::set_value(::CORBA::Float value)>"
 #endif
 }
 
-CORBA::Float MyServiceSVC_impl::get_value()
+::CORBA::Float SimpleService_MyServiceSVC_impl::get_value()
 {
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <CORBA::Float MyServiceSVC_impl::get_value()>"
+  #warning "Code missing in function <::CORBA::Float SimpleService_MyServiceSVC_impl::get_value()>"
 #endif
   return 0;
 }
 
-SimpleService::ValueList* MyServiceSVC_impl::get_value_history()
+SimpleService::ValueList* SimpleService_MyServiceSVC_impl::get_value_history()
 {
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <SimpleService::ValueList* MyServiceSVC_impl::get_value_history()>"
+  #warning "Code missing in function <SimpleService::ValueList* SimpleService_MyServiceSVC_impl::get_value_history()>"
 #endif
   return 0;
 }

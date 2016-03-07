@@ -65,19 +65,19 @@ MyService2SVC_impl::~MyService2SVC_impl()
 /*
  * Methods corresponding to IDL attributes and operations
  */
-void MyService2SVC_impl::setGain(CORBA::Float gain)
+void MyService2SVC_impl::setGain(::CORBA::Float gain)
 {
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <void MyService2SVC_impl::setGain(CORBA::Float gain)>"
+  #warning "Code missing in function <void MyService2SVC_impl::setGain(::CORBA::Float gain)>"
 #endif
 }
 
-CORBA::Float MyService2SVC_impl::getGain()
+::CORBA::Float MyService2SVC_impl::getGain()
 {
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <CORBA::Float MyService2SVC_impl::getGain()>"
+  #warning "Code missing in function <::CORBA::Float MyService2SVC_impl::getGain()>"
 #endif
   return 0;
 }
@@ -104,11 +104,11 @@ MyServiceChildSVC_impl::~MyServiceChildSVC_impl()
 /*
  * Methods corresponding to IDL attributes and operations
  */
-void MyServiceChildSVC_impl::setPos(CORBA::Float pos)
+void MyServiceChildSVC_impl::setPos(::CORBA::Float pos)
 {
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <void MyServiceChildSVC_impl::setPos(CORBA::Float pos)>"
+  #warning "Code missing in function <void MyServiceChildSVC_impl::setPos(::CORBA::Float pos)>"
 #endif
 }
 
@@ -139,19 +139,19 @@ ValueList1* MyServiceChildSVC_impl::get_value_history()
   return 0;
 }
 
-void MyServiceChildSVC_impl::setGain(CORBA::Float gain)
+void MyServiceChildSVC_impl::setGain(::CORBA::Float gain)
 {
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <void MyServiceChildSVC_impl::setGain(CORBA::Float gain)>"
+  #warning "Code missing in function <void MyServiceChildSVC_impl::setGain(::CORBA::Float gain)>"
 #endif
 }
 
-CORBA::Float MyServiceChildSVC_impl::getGain()
+::CORBA::Float MyServiceChildSVC_impl::getGain()
 {
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <CORBA::Float MyServiceChildSVC_impl::getGain()>"
+  #warning "Code missing in function <::CORBA::Float MyServiceChildSVC_impl::getGain()>"
 #endif
   return 0;
 }

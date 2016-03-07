@@ -25,19 +25,19 @@ MyServiceSVC_impl::~MyServiceSVC_impl()
 /*
  * Methods corresponding to IDL attributes and operations
  */
-void MyServiceSVC_impl::setGain(CORBA::Float gain)
+void MyServiceSVC_impl::setGain(::CORBA::Float gain)
 {
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <void MyServiceSVC_impl::setGain(CORBA::Float gain)>"
+  #warning "Code missing in function <void MyServiceSVC_impl::setGain(::CORBA::Float gain)>"
 #endif
 }
 
-CORBA::Float MyServiceSVC_impl::getGain()
+::CORBA::Float MyServiceSVC_impl::getGain()
 {
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <CORBA::Float MyServiceSVC_impl::getGain()>"
+  #warning "Code missing in function <::CORBA::Float MyServiceSVC_impl::getGain()>"
 #endif
   return 0;
 }

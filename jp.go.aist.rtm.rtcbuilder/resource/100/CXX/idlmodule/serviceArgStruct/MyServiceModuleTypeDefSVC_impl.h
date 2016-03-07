@@ -34,7 +34,7 @@ class MyServiceSVC_impl
    virtual ~MyServiceSVC_impl();
 
    // attributes and operations
-   Time echo(Time_out msg, const char* str);
+   Time echo(Time& msg, const char* str);
 
 };
 

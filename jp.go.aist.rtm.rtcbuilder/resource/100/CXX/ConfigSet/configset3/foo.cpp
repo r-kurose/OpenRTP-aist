@@ -30,8 +30,16 @@ static const char* foo_spec[] =
     "conf.default.double_param0", "0.11",
     "conf.default.str_param0", "hoge",
     "conf.default.str_param1", "dara",
+
     // Widget
     // Constraints
+
+    "conf.__type__.int_param0", "int",
+    "conf.__type__.int_param1", "int",
+    "conf.__type__.double_param0", "double",
+    "conf.__type__.str_param0", "std::string",
+    "conf.__type__.str_param1", "std::string",
+
     ""
   };
 // </rtc-template>

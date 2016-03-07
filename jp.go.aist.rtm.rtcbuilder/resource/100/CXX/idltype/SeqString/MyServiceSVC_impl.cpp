@@ -25,11 +25,11 @@ MyServiceSVC_impl::~MyServiceSVC_impl()
 /*
  * Methods corresponding to IDL attributes and operations
  */
-char* MyServiceSVC_impl::echo(const CORBA::WChar* msg)
+Str1 MyServiceSVC_impl::echo(WStr1 msg)
 {
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <char* MyServiceSVC_impl::echo(const CORBA::WChar* msg)>"
+  #warning "Code missing in function <Str1 MyServiceSVC_impl::echo(WStr1 msg)>"
 #endif
   return 0;
 }

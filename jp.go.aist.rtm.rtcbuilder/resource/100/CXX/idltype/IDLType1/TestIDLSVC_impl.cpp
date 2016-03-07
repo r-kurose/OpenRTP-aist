@@ -34,11 +34,11 @@ ValueList* ComFkSVC_impl::set_value(const ValueList& frm, ValueList_out frmo, Va
   return 0;
 }
 
-char* ComFkSVC_impl::set_string(const char* frm, StringList_out frmo, char*& frmio)
+StringList ComFkSVC_impl::set_string(StringList frm, StringList& frmo, StringList& frmio)
 {
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <char* ComFkSVC_impl::set_string(const char* frm, StringList_out frmo, char*& frmio)>"
+  #warning "Code missing in function <StringList ComFkSVC_impl::set_string(StringList frm, StringList& frmo, StringList& frmio)>"
 #endif
   return 0;
 }
@@ -63,20 +63,19 @@ ValueListArray_slice* ComFkSVC_impl::set_longArrayv(const ValueListArray frm, Va
 
 color ComFkSVC_impl::set_color(color frm, color& frmo, color& frmio)
 {
-	color result;
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
   #warning "Code missing in function <color ComFkSVC_impl::set_color(color frm, color& frmo, color& frmio)>"
 #endif
-  return result;
+  return 0;
 }
 
-Frame0 ComFkSVC_impl::set_tool0(const Frame0& frm, Frame0_out frmo, Frame0& frmio)
+Frame0 ComFkSVC_impl::set_tool0(const Frame0& frm, Frame0& frmo, Frame0& frmio)
 {
 	Frame0 result;
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <Frame0 ComFkSVC_impl::set_tool0(const Frame0& frm, Frame0_out frmo, Frame0& frmio)>"
+  #warning "Code missing in function <Frame0 ComFkSVC_impl::set_tool0(const Frame0& frm, Frame0& frmo, Frame0& frmio)>"
 #endif
   return result;
 }
@@ -99,12 +98,12 @@ Frame2* ComFkSVC_impl::set_tool2(const Frame2& frm, Frame2_out frmo, Frame2& frm
   return 0;
 }
 
-Frame3 ComFkSVC_impl::set_tool3(const Frame3& frm, Frame3_out frmo, Frame3& frmio)
+Frame3 ComFkSVC_impl::set_tool3(const Frame3& frm, Frame3& frmo, Frame3& frmio)
 {
 	Frame3 result;
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <Frame3 ComFkSVC_impl::set_tool3(const Frame3& frm, Frame3_out frmo, Frame3& frmio)>"
+  #warning "Code missing in function <Frame3 ComFkSVC_impl::set_tool3(const Frame3& frm, Frame3& frmo, Frame3& frmio)>"
 #endif
   return result;
 }
@@ -118,13 +117,14 @@ Frame4* ComFkSVC_impl::set_tool4(const Frame4& frm, Frame4_out frmo, Frame4& frm
   return 0;
 }
 
-Frame5* ComFkSVC_impl::set_tool5(const Frame5& frm, Frame5_out frmo, Frame5& frmio)
+Frame5 ComFkSVC_impl::set_tool5(const Frame5& frm, Frame5& frmo, Frame5& frmio)
 {
+	Frame5 result;
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <Frame5* ComFkSVC_impl::set_tool5(const Frame5& frm, Frame5_out frmo, Frame5& frmio)>"
+  #warning "Code missing in function <Frame5 ComFkSVC_impl::set_tool5(const Frame5& frm, Frame5& frmo, Frame5& frmio)>"
 #endif
-  return 0;
+  return result;
 }
 
 Frame1List* ComFkSVC_impl::set_toolSeq1(const Frame1List& frm, Frame1List_out frmo, Frame1List& frmio)

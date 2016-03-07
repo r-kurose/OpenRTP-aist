@@ -25,20 +25,20 @@ DAQServiceSVC_impl::~DAQServiceSVC_impl()
 /*
  * Methods corresponding to IDL attributes and operations
  */
-CORBA::Long DAQServiceSVC_impl::setCommand(CORBA::Long com, CORBA::Double par)
+::CORBA::Long DAQServiceSVC_impl::setCommand(::CORBA::Long com, ::CORBA::Double par)
 {
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <CORBA::Long DAQServiceSVC_impl::setCommand(CORBA::Long com, CORBA::Double par)>"
+  #warning "Code missing in function <::CORBA::Long DAQServiceSVC_impl::setCommand(::CORBA::Long com, ::CORBA::Double par)>"
 #endif
   return 0;
 }
 
-CORBA::Short DAQServiceSVC_impl::getCommand()
+::CORBA::Short DAQServiceSVC_impl::getCommand()
 {
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <CORBA::Short DAQServiceSVC_impl::getCommand()>"
+  #warning "Code missing in function <::CORBA::Short DAQServiceSVC_impl::getCommand()>"
 #endif
   return 0;
 }

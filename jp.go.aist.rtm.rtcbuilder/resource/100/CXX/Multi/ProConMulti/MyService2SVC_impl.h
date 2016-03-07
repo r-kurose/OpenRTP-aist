@@ -34,8 +34,8 @@ class MyService2SVC_impl
    virtual ~MyService2SVC_impl();
 
    // attributes and operations
-   void setKpGain(CORBA::Float gainkp);
-   CORBA::Float getKpGain();
+   void setKpGain(::CORBA::Float gainkp);
+   ::CORBA::Float getKpGain();
 
 };
 

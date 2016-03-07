@@ -10,13 +10,13 @@
 /*
  * Example implementational code for IDL interface RTC::RTM::MyService
  */
-MyServiceSVC_impl::MyServiceSVC_impl()
+RTC_RTM_MyServiceSVC_impl::RTC_RTM_MyServiceSVC_impl()
 {
   // Please add extra constructor code here.
 }
 
 
-MyServiceSVC_impl::~MyServiceSVC_impl()
+RTC_RTM_MyServiceSVC_impl::~RTC_RTM_MyServiceSVC_impl()
 {
   // Please add extra destructor code here.
 }
@@ -25,12 +25,12 @@ MyServiceSVC_impl::~MyServiceSVC_impl()
 /*
  * Methods corresponding to IDL attributes and operations
  */
-RTC::RTM::Time MyServiceSVC_impl::echo(const RTC::RTM::Time& msg, const char* str)
+RTC::RTM::Time RTC_RTM_MyServiceSVC_impl::echo(const RTC::RTM::Time& msg, const char* str)
 {
 	RTC::RTM::Time result;
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <RTC::RTM::Time MyServiceSVC_impl::echo(const RTC::RTM::Time& msg, const char* str)>"
+  #warning "Code missing in function <RTC::RTM::Time RTC_RTM_MyServiceSVC_impl::echo(const RTC::RTM::Time& msg, const char* str)>"
 #endif
   return result;
 }

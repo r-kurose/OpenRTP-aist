@@ -16,11 +16,6 @@
 #ifndef FOO_H
 #define FOO_H
 
-#include <rtm/Manager.h>
-#include <rtm/DataFlowComponentBase.h>
-#include <rtm/CorbaPort.h>
-#include <rtm/DataInPort.h>
-#include <rtm/DataOutPort.h>
 #include <rtm/idl/BasicDataTypeSkel.h>
 #include <rtm/idl/ExtendedDataTypesSkel.h>
 #include <rtm/idl/InterfaceDataTypesSkel.h>
@@ -36,6 +31,16 @@
 #include "DAQServiceStub.h"
 
 // </rtc-template>
+
+// Service Consumer stub headers
+// <rtc-template block="port_stub_h">
+// </rtc-template>
+
+#include <rtm/Manager.h>
+#include <rtm/DataFlowComponentBase.h>
+#include <rtm/CorbaPort.h>
+#include <rtm/DataInPort.h>
+#include <rtm/DataOutPort.h>
 
 using namespace RTC;
 

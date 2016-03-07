@@ -34,7 +34,7 @@ class MyServiceSVC_impl
    virtual ~MyServiceSVC_impl();
 
    // attributes and operations
-   char* echo(const CORBA::WChar* msg);
+   Str1 echo(WStr1 msg);
 
 };
 

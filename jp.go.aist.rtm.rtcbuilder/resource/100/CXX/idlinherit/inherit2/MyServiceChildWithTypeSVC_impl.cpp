@@ -65,11 +65,11 @@ MyServiceWithTypeChildSVC_impl::~MyServiceWithTypeChildSVC_impl()
 /*
  * Methods corresponding to IDL attributes and operations
  */
-void MyServiceWithTypeChildSVC_impl::setPos(CORBA::Float pos)
+void MyServiceWithTypeChildSVC_impl::setPos(::CORBA::Float pos)
 {
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <void MyServiceWithTypeChildSVC_impl::setPos(CORBA::Float pos)>"
+  #warning "Code missing in function <void MyServiceWithTypeChildSVC_impl::setPos(::CORBA::Float pos)>"
 #endif
 }
 

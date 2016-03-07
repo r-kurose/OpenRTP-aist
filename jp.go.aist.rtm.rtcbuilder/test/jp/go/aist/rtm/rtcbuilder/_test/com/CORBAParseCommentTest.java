@@ -23,7 +23,7 @@ public class CORBAParseCommentTest extends TestBase {
 		List<TypeDefParam> typedefParams = IDLParamConverter
 				.convert_typedef(spec, "");
 		
-		assertEquals(0, typedefParams.size());
+		assertEquals(1, typedefParams.size());
 	}
 	
 	public void testMultiCommentforPref() throws Exception{
@@ -36,6 +36,6 @@ public class CORBAParseCommentTest extends TestBase {
 		List<TypeDefParam> typedefParams = IDLParamConverter
 				.convert_typedef(spec, "");
 		
-		assertEquals(0, typedefParams.size());
+		assertEquals(1, typedefParams.size());
 	}
 }

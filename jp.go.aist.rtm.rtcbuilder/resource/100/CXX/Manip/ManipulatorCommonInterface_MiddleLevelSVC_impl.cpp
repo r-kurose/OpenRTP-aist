@@ -75,22 +75,22 @@ RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::getMaxSpeedJoint(RTC:
   return result;
 }
 
-RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::getMinAccelTimeCartesian(CORBA::Double& aclTime)
+RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::getMinAccelTimeCartesian(::CORBA::Double& aclTime)
 {
 	RTC::RETURN_ID* result;
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::getMinAccelTimeCartesian(CORBA::Double& aclTime)>"
+  #warning "Code missing in function <RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::getMinAccelTimeCartesian(::CORBA::Double& aclTime)>"
 #endif
   return result;
 }
 
-RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::getMinAccelTimeJoint(CORBA::Double& aclTime)
+RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::getMinAccelTimeJoint(::CORBA::Double& aclTime)
 {
 	RTC::RETURN_ID* result;
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::getMinAccelTimeJoint(CORBA::Double& aclTime)>"
+  #warning "Code missing in function <RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::getMinAccelTimeJoint(::CORBA::Double& aclTime)>"
 #endif
   return result;
 }
@@ -215,22 +215,22 @@ RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::stop()
   return result;
 }
 
-RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::setAccelTimeCartesian(CORBA::Double aclTime)
+RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::setAccelTimeCartesian(::CORBA::Double aclTime)
 {
 	RTC::RETURN_ID* result;
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::setAccelTimeCartesian(CORBA::Double aclTime)>"
+  #warning "Code missing in function <RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::setAccelTimeCartesian(::CORBA::Double aclTime)>"
 #endif
   return result;
 }
 
-RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::setAccelTimeJoint(CORBA::Double aclTime)
+RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::setAccelTimeJoint(::CORBA::Double aclTime)
 {
 	RTC::RETURN_ID* result;
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::setAccelTimeJoint(CORBA::Double aclTime)>"
+  #warning "Code missing in function <RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::setAccelTimeJoint(::CORBA::Double aclTime)>"
 #endif
   return result;
 }
@@ -275,22 +275,22 @@ RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::setMaxSpeedJoint(cons
   return result;
 }
 
-RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::setMinAccelTimeCartesian(CORBA::Double aclTime)
+RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::setMinAccelTimeCartesian(::CORBA::Double aclTime)
 {
 	RTC::RETURN_ID* result;
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::setMinAccelTimeCartesian(CORBA::Double aclTime)>"
+  #warning "Code missing in function <RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::setMinAccelTimeCartesian(::CORBA::Double aclTime)>"
 #endif
   return result;
 }
 
-RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::setMinAccelTimeJoint(CORBA::Double aclTime)
+RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::setMinAccelTimeJoint(::CORBA::Double aclTime)
 {
 	RTC::RETURN_ID* result;
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::setMinAccelTimeJoint(CORBA::Double aclTime)>"
+  #warning "Code missing in function <RTC::RETURN_ID* ManipulatorCommonInterface_MiddleSVC_impl::setMinAccelTimeJoint(::CORBA::Double aclTime)>"
 #endif
   return result;
 }

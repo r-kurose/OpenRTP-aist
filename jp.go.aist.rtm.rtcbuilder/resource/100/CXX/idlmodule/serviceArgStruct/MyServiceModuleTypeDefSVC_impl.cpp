@@ -25,12 +25,12 @@ MyServiceSVC_impl::~MyServiceSVC_impl()
 /*
  * Methods corresponding to IDL attributes and operations
  */
-Time MyServiceSVC_impl::echo(Time_out msg, const char* str)
+Time MyServiceSVC_impl::echo(Time& msg, const char* str)
 {
 	Time result;
   // Please insert your code here and remove the following warning pragma
 #ifndef WIN32
-  #warning "Code missing in function <Time MyServiceSVC_impl::echo(Time_out msg, const char* str)>"
+  #warning "Code missing in function <Time MyServiceSVC_impl::echo(Time& msg, const char* str)>"
 #endif
   return result;
 }

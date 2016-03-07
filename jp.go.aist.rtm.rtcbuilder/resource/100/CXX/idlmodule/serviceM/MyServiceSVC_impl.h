@@ -14,7 +14,7 @@
  * @class MyServiceSVC_impl
  * Example class implementing IDL interface SimpleService::MyService
  */
-class MyServiceSVC_impl
+class SimpleService_MyServiceSVC_impl
  : public virtual POA_SimpleService::MyService,
    public virtual PortableServer::RefCountServantBase
 {
@@ -31,13 +31,13 @@ class MyServiceSVC_impl
   /*!
    * @brief destructor
    */
-   virtual ~MyServiceSVC_impl();
+   virtual ~SimpleService_MyServiceSVC_impl();
 
    // attributes and operations
    char* echo(const char* msg);
    SimpleService::EchoList* get_echo_history();
-   void set_value(CORBA::Float value);
-   CORBA::Float get_value();
+   void set_value(::CORBA::Float value);
+   ::CORBA::Float get_value();
    SimpleService::ValueList* get_value_history();
 
 };

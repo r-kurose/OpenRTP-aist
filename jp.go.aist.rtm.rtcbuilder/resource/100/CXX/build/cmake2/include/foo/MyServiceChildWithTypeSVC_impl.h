@@ -65,7 +65,7 @@ class MyServiceWithTypeChildSVC_impl
    virtual ~MyServiceWithTypeChildSVC_impl();
 
    // attributes and operations
-   void setPos(CORBA::Float pos);
+   void setPos(::CORBA::Float pos);
    EchoList* getPos();
    EchoList* get_echo_history();
    ValueList* get_value_history();
