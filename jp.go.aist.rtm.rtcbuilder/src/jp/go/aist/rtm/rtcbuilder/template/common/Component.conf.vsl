@@ -24,12 +24,6 @@ ${sharp}
 ${sharp}
 ${sharp} configuration.active_config: mode0
 
-#if( ${rtcParam.configParams.size()} > 0 )
-#foreach($configParam in ${rtcParam.configParams})
-${sharp} conf.default.__${configParam.name}: ${configParam.type}
-#end
-#end
-
 ${sharp} Additional configuration-set example named "mode0"
 ${sharp}
 ${sharp} conf.mode0.int_param0: 0
@@ -131,6 +125,12 @@ ${sharp} conf.__constraints__.vector_param1: (pita,gora,switch)
 #if( ${configParam.constraint.length()} > 0 )
 ${sharp} conf.__constraints__.${configParam.name}, ${configParam.constraint}
 #end
+#end
+#end
+
+#if( ${rtcParam.configParams.size()} > 0 )
+#foreach($configParam in ${rtcParam.configParams})
+${sharp} conf.__type__.${configParam.name}: ${configParam.type}
 #end
 #end
 
