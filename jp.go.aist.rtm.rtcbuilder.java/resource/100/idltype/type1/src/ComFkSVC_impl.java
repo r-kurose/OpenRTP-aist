@@ -21,9 +21,9 @@ public class ComFkSVC_impl extends ComFkPOA{
         // TODO "Code missing in function <ValueList set_value(ValueList frm, ValueList frmo, ValueList frmio)>"
         return null;
     }
-    public String set_string(String frm, org.omg.CORBA.StringHolder frmo, org.omg.CORBA.StringHolder frmio) {
+    public StringList set_string(string<10> frm, string<10>Holder frmo, string<10>Holder frmio) {
         // Please insert your code here and remove the following warning pragma
-        // TODO "Code missing in function <String set_string(String frm, org.omg.CORBA.StringHolder frmo, org.omg.CORBA.StringHolder frmio)>"
+        // TODO "Code missing in function <StringList set_string(StringList frm, StringList frmo, StringList frmio)>"
         return null;
     }
     public int[] set_longArray(int[] frm, LongArrayHolder frmo, LongArrayHolder frmio) {

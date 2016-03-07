@@ -6,6 +6,11 @@
  *
  * $Id$
  */
+import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import RTC.TimedShort;
 import RTC.TimedLong;
 import RTC.TimedInt;
@@ -35,9 +40,11 @@ public class fooImpl extends DataFlowComponentBase {
         super(manager);
         // <rtc-template block="initializer">
         m_InP1_val = new TimedShort();
+        initializeParam(m_InP1_val);
         m_InP1 = new DataRef<TimedShort>(m_InP1_val);
         m_InP1In = new InPort<TimedShort>("InP1", m_InP1);
         m_InP2_val = new TimedLong();
+        initializeParam(m_InP2_val);
         m_InP2 = new DataRef<TimedLong>(m_InP2_val);
         m_InP2In = new InPort<TimedLong>("InP2", m_InP2);
         m_OutP1_val = new TimedInt();
@@ -308,4 +315,55 @@ public class fooImpl extends DataFlowComponentBase {
     protected DAQService m_rate;
     
     // </rtc-template>
+	private void initializeParam(Object target) {
+		Class<?> targetClass = target.getClass();
+		ClassLoader loader = target.getClass().getClassLoader();
+		//
+		Field[] fields = targetClass.getFields();
+		for(Field field : fields) {
+			if(field.getType().isPrimitive()) continue;
+			
+			try {
+				if(field.getType().isArray()) {
+					Object arrayValue = null;
+					Class<?> clazz = null;
+					if(field.getType().getComponentType().isPrimitive()) {
+						clazz = field.getType().getComponentType();
+					} else {
+							clazz = loader.loadClass(field.getType().getComponentType().getName());
+					}
+					arrayValue = Array.newInstance(clazz, 0);
+					field.set(target, arrayValue);
+					
+				} else {
+					Constructor<?>[] constList = field.getType().getConstructors();
+					if(constList.length==0) {
+						Method[] methodList = field.getType().getMethods();
+						for(Method method : methodList) {
+							if(method.getName().equals("from_int")==false) continue;
+							Object objFld = method.invoke(target, new Object[]{ new Integer(0) });
+							field.set(target, objFld);
+							break;
+						}
+						
+					} else {
+			            Class<?> classFld = Class.forName(field.getType().getName(), true, loader);
+						Object objFld = classFld.newInstance();
+						initializeParam(objFld);
+						field.set(target, objFld);
+					}
+				}
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

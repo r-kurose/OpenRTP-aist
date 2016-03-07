@@ -39,6 +39,13 @@ public class foo implements RtcNewFunc, RtcDeleteFunc, RegisterModuleFunc {
             "conf.default.str_param1", "dara",
             // Widget
             // Constraints
+            "conf.__type__.short_param", "short",
+            "conf.__type__.int_param", "int",
+            "conf.__type__.long_param", "long",
+            "conf.__type__.float_param", "float",
+            "conf.__type__.double_param", "double",
+            "conf.__type__.str_param0", "string",
+            "conf.__type__.str_param1", "string",
     	    ""
             };
 //  </rtc-template>

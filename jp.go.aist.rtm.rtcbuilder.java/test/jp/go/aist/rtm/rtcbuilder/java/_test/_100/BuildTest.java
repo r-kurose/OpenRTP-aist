@@ -183,7 +183,7 @@ public class BuildTest extends TestBase {
 //		checkCode(result, resourceDir, "cpack_resources/License.rtf");
 //		checkCode(result, resourceDir, "cpack_resources/wix.xsl.in");
 		//
-		checkCode(result, resourceDir, "build_foo.xml");
+//		checkCode(result, resourceDir, "build_foo.xml");
 	}
 
 }

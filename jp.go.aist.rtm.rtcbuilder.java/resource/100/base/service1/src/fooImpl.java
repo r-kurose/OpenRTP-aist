@@ -6,7 +6,11 @@
  *
  * $Id$
  */
-
+import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import RTC.TimedShort;
 import RTC.TimedLong;
 import RTC.TimedFloat;
@@ -20,14 +24,12 @@ import org.omg.PortableServer.POAPackage.ObjectNotActive;
 import org.omg.PortableServer.POAPackage.ServantAlreadyActive;
 import org.omg.PortableServer.POAPackage.WrongPolicy;
 import RTC.ReturnCode_t;
-
 /*!
  * @class fooImpl
  * @brief MDesc
  *
  */
 public class fooImpl extends DataFlowComponentBase {
-
   /*!
    * @brief constructor
    * @param manager Maneger Object
@@ -36,9 +38,11 @@ public class fooImpl extends DataFlowComponentBase {
         super(manager);
         // <rtc-template block="initializer">
         m_InP1_val = new TimedShort();
+        initializeParam(m_InP1_val);
         m_InP1 = new DataRef<TimedShort>(m_InP1_val);
         m_InP1In = new InPort<TimedShort>("InP1", m_InP1);
         m_InP2_val = new TimedLong();
+        initializeParam(m_InP2_val);
         m_InP2 = new DataRef<TimedLong>(m_InP2_val);
         m_InP2In = new InPort<TimedLong>("InP2", m_InP2);
         m_OutP1_val = new TimedLong();
@@ -50,7 +54,6 @@ public class fooImpl extends DataFlowComponentBase {
         m_svPortPort = new CorbaPort("svPort");
         // </rtc-template>
     }
-
     /**
      *
      * The initialize action (on CREATED->ALIVE transition)
@@ -90,7 +93,6 @@ public class fooImpl extends DataFlowComponentBase {
         // </rtc-template>
         return super.onInitialize();
     }
-
     /***
      *
      * The finalize action (on ALIVE->END transition)
@@ -104,7 +106,6 @@ public class fooImpl extends DataFlowComponentBase {
 //    protected ReturnCode_t onFinalize() {
 //        return super.onFinalize();
 //    }
-
     /***
      *
      * The startup action when ExecutionContext startup
@@ -120,7 +121,6 @@ public class fooImpl extends DataFlowComponentBase {
 //    protected ReturnCode_t onStartup(int ec_id) {
 //        return super.onStartup(ec_id);
 //    }
-
     /***
      *
      * The shutdown action when ExecutionContext stop
@@ -136,7 +136,6 @@ public class fooImpl extends DataFlowComponentBase {
 //    protected ReturnCode_t onShutdown(int ec_id) {
 //        return super.onShutdown(ec_id);
 //    }
-
     /***
      *
      * The activated action (Active state entry action)
@@ -152,7 +151,6 @@ public class fooImpl extends DataFlowComponentBase {
 //    protected ReturnCode_t onActivated(int ec_id) {
 //        return super.onActivated(ec_id);
 //    }
-
     /***
      *
      * The deactivated action (Active state exit action)
@@ -168,7 +166,6 @@ public class fooImpl extends DataFlowComponentBase {
 //    protected ReturnCode_t onDeactivated(int ec_id) {
 //        return super.onDeactivated(ec_id);
 //    }
-
     /***
      *
      * The execution action that is invoked periodically
@@ -184,7 +181,6 @@ public class fooImpl extends DataFlowComponentBase {
 //    protected ReturnCode_t onExecute(int ec_id) {
 //        return super.onExecute(ec_id);
 //    }
-
     /***
      *
      * The aborting action when main logic error occurred.
@@ -200,7 +196,6 @@ public class fooImpl extends DataFlowComponentBase {
 //  public ReturnCode_t onAborting(int ec_id) {
 //      return super.onAborting(ec_id);
 //  }
-
     /***
      *
      * The error action in ERROR state
@@ -216,7 +211,6 @@ public class fooImpl extends DataFlowComponentBase {
 //    public ReturnCode_t onError(int ec_id) {
 //        return super.onError(ec_id);
 //    }
-
     /***
      *
      * The reset action that is invoked resetting
@@ -232,7 +226,6 @@ public class fooImpl extends DataFlowComponentBase {
 //    protected ReturnCode_t onReset(int ec_id) {
 //        return super.onReset(ec_id);
 //    }
-
     /***
      *
      * The state update action that is invoked after onExecute() action
@@ -248,7 +241,6 @@ public class fooImpl extends DataFlowComponentBase {
 //    protected ReturnCode_t onStateUpdate(int ec_id) {
 //        return super.onStateUpdate(ec_id);
 //    }
-
     /***
      *
      * The action that is invoked when execution context's rate is changed
@@ -272,16 +264,13 @@ public class fooImpl extends DataFlowComponentBase {
     /*!
      */
     protected InPort<TimedShort> m_InP1In;
-
     protected TimedLong m_InP2_val;
     protected DataRef<TimedLong> m_InP2;
     /*!
      */
     protected InPort<TimedLong> m_InP2In;
-
     
     // </rtc-template>
-
     // DataOutPort declaration
     // <rtc-template block="outport_declare">
     protected TimedLong m_OutP1_val;
@@ -289,16 +278,13 @@ public class fooImpl extends DataFlowComponentBase {
     /*!
      */
     protected OutPort<TimedLong> m_OutP1Out;
-
     protected TimedFloat m_OutP2_val;
     protected DataRef<TimedFloat> m_OutP2;
     /*!
      */
     protected OutPort<TimedFloat> m_OutP2Out;
-
     
     // </rtc-template>
-
     // CORBA Port declaration
     // <rtc-template block="corbaport_declare">
     /*!
@@ -306,7 +292,6 @@ public class fooImpl extends DataFlowComponentBase {
     protected CorbaPort m_svPortPort;
     
     // </rtc-template>
-
     // Service declaration
     // <rtc-template block="service_declare">
     /*!
@@ -314,11 +299,59 @@ public class fooImpl extends DataFlowComponentBase {
     protected MyServiceSVC_impl m_acc = new MyServiceSVC_impl();
     
     // </rtc-template>
-
     // Consumer declaration
     // <rtc-template block="consumer_declare">
     
     // </rtc-template>
-
-
+	private void initializeParam(Object target) {
+		Class<?> targetClass = target.getClass();
+		ClassLoader loader = target.getClass().getClassLoader();
+		//
+		Field[] fields = targetClass.getFields();
+		for(Field field : fields) {
+			if(field.getType().isPrimitive()) continue;
+			
+			try {
+				if(field.getType().isArray()) {
+					Object arrayValue = null;
+					Class<?> clazz = null;
+					if(field.getType().getComponentType().isPrimitive()) {
+						clazz = field.getType().getComponentType();
+					} else {
+							clazz = loader.loadClass(field.getType().getComponentType().getName());
+					}
+					arrayValue = Array.newInstance(clazz, 0);
+					field.set(target, arrayValue);
+					
+				} else {
+					Constructor<?>[] constList = field.getType().getConstructors();
+					if(constList.length==0) {
+						Method[] methodList = field.getType().getMethods();
+						for(Method method : methodList) {
+							if(method.getName().equals("from_int")==false) continue;
+							Object objFld = method.invoke(target, new Object[]{ new Integer(0) });
+							field.set(target, objFld);
+							break;
+						}
+						
+					} else {
+			            Class<?> classFld = Class.forName(field.getType().getName(), true, loader);
+						Object objFld = classFld.newInstance();
+						initializeParam(objFld);
+						field.set(target, objFld);
+					}
+				}
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }
