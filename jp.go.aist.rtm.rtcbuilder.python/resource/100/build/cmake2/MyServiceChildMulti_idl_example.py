@@ -2,21 +2,21 @@
 # -*- coding: utf-8 -*-
 # -*- Python -*-
 """
- \file MyServiceChildMulti_idl_examplefile.py
- \brief Python example implementations generated from MyServiceChildMulti.idl
- \date $Date$
+ @file MyServiceChildMulti_idl_examplefile.py
+ @brief Python example implementations generated from MyServiceChildMulti.idl
+ @date $Date$
 """
 import omniORB
 from omniORB import CORBA, PortableServer
 import _GlobalIDL, _GlobalIDL__POA
 class MyService_i (_GlobalIDL__POA.MyService):
     """
-    \class MyService_i
+    @class MyService_i
     Example class implementing IDL interface MyService
     """
     def __init__(self):
         """
-        \brief standard constructor
+        @brief standard constructor
         Initialise member variables here
         """
         pass
@@ -32,12 +32,12 @@ class MyService_i (_GlobalIDL__POA.MyService):
         # Must return: result
 class MyService2_i (_GlobalIDL__POA.MyService2):
     """
-    \class MyService2_i
+    @class MyService2_i
     Example class implementing IDL interface MyService2
     """
     def __init__(self):
         """
-        \brief standard constructor
+        @brief standard constructor
         Initialise member variables here
         """
         pass
@@ -53,12 +53,12 @@ class MyService2_i (_GlobalIDL__POA.MyService2):
         # Must return: result
 class MyServiceChild_i (_GlobalIDL__POA.MyServiceChild):
     """
-    \class MyServiceChild_i
+    @class MyServiceChild_i
     Example class implementing IDL interface MyServiceChild
     """
     def __init__(self):
         """
-        \brief standard constructor
+        @brief standard constructor
         Initialise member variables here
         """
         pass

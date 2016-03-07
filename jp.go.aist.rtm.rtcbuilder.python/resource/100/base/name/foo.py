@@ -82,7 +82,7 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	#	# @return RTC::ReturnCode_t
 	#
 	#	# 
-	#def onFinalize(self, ec_id):
+	#def onFinalize(self):
 	#
 	#	return RTC.RTC_OK
 	

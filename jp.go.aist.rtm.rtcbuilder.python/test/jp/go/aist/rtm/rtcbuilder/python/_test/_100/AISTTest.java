@@ -78,7 +78,7 @@ public class AISTTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/aist/AIST6/";
 
-		assertEquals(26, result.size());
+		assertEquals(28, result.size());
 		checkCode(result, resourceDir, "test.py");
 	}
 
@@ -119,7 +119,7 @@ public class AISTTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/aist/AIST4/";
 
-		assertEquals(29, result.size());
+		assertEquals(31, result.size());
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "idlcompile.bat");
@@ -171,7 +171,7 @@ public class AISTTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/aist/AIST3/";
 
-		assertEquals(29, result.size());
+		assertEquals(31, result.size());
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "idlcompile.bat");
@@ -213,13 +213,13 @@ public class AISTTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/aist/AIST2/";
 
-		assertEquals(28, result.size());
+		assertEquals(30, result.size());
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
 	}
 
-	public void testServicePort() throws Exception {
+	public void testAIST1() throws Exception {
 		rtcParam.setName("test");
 		rtcParam.setDescription("test component");
 		rtcParam.setVersion("1.0.0");
@@ -246,7 +246,7 @@ public class AISTTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/aist/AIST1/";
 
-		assertEquals(29, result.size());
+		assertEquals(31, result.size());
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "idlcompile.bat");

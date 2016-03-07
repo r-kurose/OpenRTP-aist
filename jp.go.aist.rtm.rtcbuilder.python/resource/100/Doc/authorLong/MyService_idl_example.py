@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 # -*- Python -*-
 """
- \file MyService_idl_examplefile.py
- \brief Python example implementations generated from MyService.idl
- \date $Date$
- \author Noriaki Ando
+ @file MyService_idl_examplefile.py
+ @brief Python example implementations generated from MyService.idl
+ @date $Date$
+ @author Noriaki Ando
  <n-ando@aist.go.jp>3456789412345678951234567896123456789712345678981234
  5
 """
@@ -14,12 +14,12 @@ from omniORB import CORBA, PortableServer
 import _GlobalIDL, _GlobalIDL__POA
 class MyService_i (_GlobalIDL__POA.MyService):
     """
-    \class MyService_i
+    @class MyService_i
     Example class implementing IDL interface MyService
     """
     def __init__(self):
         """
-        \brief standard constructor
+        @brief standard constructor
         Initialise member variables here
         """
         pass
