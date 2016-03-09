@@ -1,4 +1,5 @@
-<project name="jp.go.aist.rtm.toolscommon.profiles" default="jar">
+<project name="jp.go.aist.rtm.toolscommon.profiles" default="jar"
+	xmlns:ant4eclipse="antlib:org.ant4eclipse">
 	<property name="target.name" value="jp.go.aist.rtm.toolscommon.profiles" />
 
 	<taskdef name="manifesttask" classname="aist.ManifestTask" />
