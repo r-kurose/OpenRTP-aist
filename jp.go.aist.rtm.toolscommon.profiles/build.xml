@@ -44,9 +44,22 @@
 	</target>
 
 	<target name="compile" description="ソースをコンパイルします">
-		<getEclipseClasspath pathid="build.classpath" targetplatformlocation="${targetPlatformLocation}"
-					workspace="${workspace}" projectname="${project.name}" />
-		<javac bootclasspathref="jre.libs" includeJavaRuntime="true" srcdir="${source}" destdir="${build.dir}" verbose="off"
+		<ant4eclipse:targetPlatform id="eclipse-4.4">
+		  <location dir="${targetPlatformLocation}" />
+		</ant4eclipse:targetPlatform>	
+		<ant4eclipse:jdtClassPathLibrary name="org.eclipse.jdt.junit.JUNIT_CONTAINER/4">
+			<fileset dir="${eclipse.home}/plugins/org.junit_4.11.0.v201303080030" />
+		</ant4eclipse:jdtClassPathLibrary>	
+
+		<ant4eclipse:getJdtClassPath 
+			pathid="build.classpath" 
+			workspacedirectory="${workspace}" 
+			projectname="${project.name}" >
+			<jdtclasspathcontainerargument key="target.platform" value="eclipse-4.4" />
+		</ant4eclipse:getJdtClassPath>
+
+		<javac bootclasspathref="jre.libs"
+		       	includeJavaRuntime="true" srcdir="${source}" destdir="${build.dir}" verbose="off"
 			classpathref="build.classpath"  encoding="UTF-8" />
 	</target>
 
