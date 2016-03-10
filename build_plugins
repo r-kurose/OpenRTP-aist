@@ -319,7 +319,7 @@ echo "VERSION: $VERSION"
 echo "PROJECT_VERSION: $PROJECT_VERSION"
 echo "------------------------------------------------------------"
 
-LIBS="-lib ../lib -lib ..\lib\a4e-2137 -lib ..\lib\a4e-2137\libs -lib $ECLIPSE_HOME/plugins"
+LIBS="-lib ../lib -lib ../lib/a4e-2137 -lib ../lib/a4e-2137/libs -lib $ECLIPSE_HOME/plugins"
 
 cleanup_jardir
 do_ant $TARGET
