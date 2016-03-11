@@ -1,5 +1,5 @@
 for %%A in (%1) do (
-  native2ascii.exe %%A %%A.tmp
+  "%JAVA_HOME%\bin\native2ascii.exe" %%A %%A.tmp
   del %%A
   move %%A.tmp %%A
 )
