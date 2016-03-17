@@ -11,9 +11,9 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.Platform;
 
 import jp.go.aist.rtm.systemeditor.RTSystemEditorPlugin;
+import jp.go.aist.rtm.systemeditor.corba.CORBAHelper;
 import jp.go.aist.rtm.systemeditor.extension.CreateCompositeComponentExtension;
 import jp.go.aist.rtm.systemeditor.ui.dialog.NewCompositeComponentDialog;
-import jp.go.aist.rtm.systemeditor.ui.dialog.NewCompositeComponentDialogData;
 import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
 import jp.go.aist.rtm.systemeditor.ui.util.TimeoutWrappedJob;
 import jp.go.aist.rtm.systemeditor.ui.util.TimeoutWrapper;
@@ -302,14 +302,12 @@ public class CompositeComponentCreator {
 
 					return composite;
 				} else {
-					String param = NewCompositeComponentDialogData.getParam(
-							base.compositeType, base.instanceName,
-							base.exportedPorts);
+					String param = CORBAHelper.factory().buildCreateCompositeComponentParam(base.compositeType,
+							base.instanceName, base.exportedPorts);
 					Component composite = base.manager.createComponentR(param);
 					String childPathId = base.components.get(0).getPathId();
-					composite.setPathId(childPathId.substring(0, childPathId
-							.lastIndexOf("/") + 1)
-							+ base.instanceName + ".rtc");
+					composite.setPathId(
+							childPathId.substring(0, childPathId.lastIndexOf("/") + 1) + base.instanceName + ".rtc");
 					return composite;
 				}
 			}

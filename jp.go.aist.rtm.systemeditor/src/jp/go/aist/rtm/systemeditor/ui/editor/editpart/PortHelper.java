@@ -2,7 +2,12 @@ package jp.go.aist.rtm.systemeditor.ui.editor.editpart;
 
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.graphics.Color;
 
+import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
+import jp.go.aist.rtm.systemeditor.ui.editor.figure.InPortFigure;
+import jp.go.aist.rtm.systemeditor.ui.editor.figure.OutPortFigure;
+import jp.go.aist.rtm.systemeditor.ui.editor.figure.PortFigure;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
@@ -86,12 +91,28 @@ public class PortHelper {
 	 *            接続可能な場合はtrue
 	 */
 	public static void refreshViewPortAsConnectable(PortEditPart port, boolean connectable) {
-		if (connectable) {
-			port.getFigure().setLineWidth(2);
-			port.getFigure().setScale(1.2, 1.2);
+		PortFigure figure = port.getFigure();
+		Color colorNoConnected;
+		Color colorConnected;
+		SystemEditorPreferenceManager pref = SystemEditorPreferenceManager.getInstance();
+		if (figure instanceof InPortFigure) {
+			colorNoConnected = PortFigure.S_INPORT.fg;
+			colorConnected = pref.getColor(SystemEditorPreferenceManager.COLOR_DATAPORT_CONNECTED);
+		} else if (figure instanceof OutPortFigure) {
+			colorNoConnected = PortFigure.S_OUTPORT.fg;
+			colorConnected = pref.getColor(SystemEditorPreferenceManager.COLOR_DATAPORT_CONNECTED);
 		} else {
-			port.getFigure().setLineWidth(1);
-			port.getFigure().setScale(1.0, 1.0);
+			colorNoConnected = PortFigure.S_SVCPORT.fg;
+			colorConnected = pref.getColor(SystemEditorPreferenceManager.COLOR_SERVICEPORT_CONNECTED);
+		}
+		if (connectable) {
+			figure.setLineWidth(2);
+			figure.setScale(1.2, 1.2);
+			figure.setForegroundColor(colorConnected);
+		} else {
+			figure.setLineWidth(1);
+			figure.setScale(1.0, 1.0);
+			figure.setForegroundColor(colorNoConnected);
 		}
 	}
 

@@ -881,18 +881,14 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 			save = MessageDialog.openQuestion(getSite().getShell(), "", //$NON-NLS-1$
 					Messages.getString("AbstractSystemDiagramEditor.32")); //$NON-NLS-1$
 		}
-
 		if (save) {
 			doSave(null);
 		}
-
 		title = null;
-		
 		IFile createNewFile = createNewFilebySelection(null, SWT.OPEN);
 		if (createNewFile != null) {
 			try {
-				load(new FileEditorInput(createNewFile), getEditorSite(),
-						restore);
+				load(new FileEditorInput(createNewFile), getEditorSite(), restore);
 			} catch (PartInitException e) {
 				LOGGER.error("Fail to load file. file=" + createNewFile, e);
 				if (e.getStatus().getException() != null)

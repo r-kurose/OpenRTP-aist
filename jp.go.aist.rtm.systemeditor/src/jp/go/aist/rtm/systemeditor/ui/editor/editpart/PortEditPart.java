@@ -40,13 +40,12 @@ import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 /**
  * ポートのEditPartクラス
  */
-public abstract class PortEditPart extends AbstractEditPart implements
-		NodeEditPart {
+public abstract class PortEditPart extends AbstractEditPart implements NodeEditPart {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PortEditPart.class);
 
 	FloatingLabel portLabel;
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -59,13 +58,12 @@ public abstract class PortEditPart extends AbstractEditPart implements
 
 	@Override
 	protected IFigure createFigure() {
-		portLabel = new FloatingLabel(((AbstractGraphicalEditPart) getParent()
-				.getParent()).getFigure());
+		portLabel = new FloatingLabel(((AbstractGraphicalEditPart) getParent().getParent()).getFigure());
 		portLabel.setText(getPortBaseName());
 		portLabel.setSize(30, 10);
 		return null;
 	}
-	
+
 	String getPortBaseName() {
 		String name = getModel().getNameL();
 		if (name == null) {
@@ -77,23 +75,20 @@ public abstract class PortEditPart extends AbstractEditPart implements
 		}
 		return name;
 	}
-	
-	public void setLabelBounds(Rectangle baseRect, Rectangle rect,
-			String direction) {
+
+	public void setLabelBounds(Rectangle baseRect, Rectangle rect, String direction) {
 		if (portLabel == null) {
 			return;
 		}
 		Rectangle labelRect = portLabel.getTextBounds().getCopy();
 		if (Component.OUTPORT_DIRECTION_RIGHT_LITERAL.equals(direction)) {
 			Point p = rect.getTopRight();
-			labelRect.x = baseRect.x + p.x;
-			labelRect.y = baseRect.y + p.y - labelRect.height
-					+ (rect.height / 2);
+			labelRect.x = baseRect.x + p.x + 1;
+			labelRect.y = baseRect.y + p.y - labelRect.height + (rect.height / 2) - 1;
 		} else if (Component.OUTPORT_DIRECTION_LEFT_LITERAL.equals(direction)) {
 			Point p = rect.getTopLeft();
-			labelRect.x = baseRect.x + p.x - labelRect.width;
-			labelRect.y = baseRect.y + p.y - labelRect.height
-					+ (rect.height / 2);
+			labelRect.x = baseRect.x + p.x - labelRect.width - 1;
+			labelRect.y = baseRect.y + p.y - labelRect.height + (rect.height / 2) - 1;
 		} else if (Component.OUTPORT_DIRECTION_UP_LITERAL.equals(direction)) {
 			Point p = rect.getTop();
 			labelRect.x = baseRect.x + p.x - labelRect.width / 2;
@@ -105,23 +100,20 @@ public abstract class PortEditPart extends AbstractEditPart implements
 		}
 		portLabel.setBounds(labelRect);
 	}
-	
+
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
-				new PortGraphicalNodeEditPolicy());
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new PortGraphicalNodeEditPolicy());
 	}
 
 	@Override
-	public ConnectionAnchor getSourceConnectionAnchor(
-			ConnectionEditPart connection) {
+	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
 		LOGGER.trace("getSourceConnectionAnchor: editpart=<{}>", connection);
 		return new PortAnchor(getFigure());
 	}
 
 	@Override
-	public ConnectionAnchor getTargetConnectionAnchor(
-			ConnectionEditPart connection) {
+	public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
 		LOGGER.trace("getTargetConnectionAnchor: editpart=<{}>", connection);
 		return new PortAnchor(getFigure());
 	}
@@ -137,7 +129,7 @@ public abstract class PortEditPart extends AbstractEditPart implements
 		LOGGER.trace("getTargetConnectionAnchor: request=<{}>", request);
 		return new PortAnchor(getFigure());
 	}
-	
+
 	@Override
 	public PortFigure getFigure() {
 		if (invalid) {
@@ -152,15 +144,13 @@ public abstract class PortEditPart extends AbstractEditPart implements
 		return (PortFigure) super.getFigure();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	protected List getModelTargetConnections() {
+	protected List<?> getModelTargetConnections() {
 		return CompositeFilter.getModelTargetConnections(getModel());
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	protected List getModelSourceConnections() {
+	protected List<?> getModelSourceConnections() {
 		return CompositeFilter.getModelSourceConnections(getModel());
 	}
 
@@ -178,15 +168,13 @@ public abstract class PortEditPart extends AbstractEditPart implements
 			refreshVisuals();
 		}
 	};
-	
+
 	private boolean invalid = false;
 
 	@Override
 	public void activate() {
 		super.activate();
-
-		SystemEditorPreferenceManager.getInstance().addPropertyChangeListener(
-				preferenceChangeListener);
+		SystemEditorPreferenceManager.getInstance().addPropertyChangeListener(preferenceChangeListener);
 		if (getModel().eContainer() instanceof ComponentSpecification) {
 			getModel().eAdapters().add(new Adapter());
 		}
@@ -196,16 +184,14 @@ public abstract class PortEditPart extends AbstractEditPart implements
 	public void deactivate() {
 		portLabel.deactivate();
 		super.deactivate();
-
-		SystemEditorPreferenceManager.getInstance()
-				.removePropertyChangeListener(preferenceChangeListener);
+		SystemEditorPreferenceManager.getInstance().removePropertyChangeListener(preferenceChangeListener);
 	}
-	
+
 	// ポートが公開されているかを返す
 	protected boolean isExported() {
 		return PortHelper.isExported(getModel());
 	}
-	
+
 	protected boolean isConnected() {
 		return PortHelper.isConnected(getModel());
 	}
@@ -213,20 +199,16 @@ public abstract class PortEditPart extends AbstractEditPart implements
 	private class Adapter extends AdapterImpl {
 		@Override
 		public void notifyChanged(Notification msg) {
-			if (ComponentPackage.eINSTANCE.getPort_ConnectorProfiles().equals(
-					msg.getFeature())
-					&& (msg.getEventType() == Notification.ADD || msg
-							.getEventType() == Notification.REMOVE)) {
+			if (ComponentPackage.eINSTANCE.getPort_ConnectorProfiles().equals(msg.getFeature())
+					&& (msg.getEventType() == Notification.ADD || msg.getEventType() == Notification.REMOVE)) {
 				if (getModel().eContainer().eContainer() instanceof SystemDiagram) {
-					SystemDiagram systemDiagram = (SystemDiagram) getModel()
-							.eContainer().eContainer();
+					SystemDiagram systemDiagram = (SystemDiagram) getModel().eContainer().eContainer();
 					SystemDiagram rootDiagram = systemDiagram.getRootDiagram();
 					if (rootDiagram.isConnectorProcessing()) {
 						// void
 					} else {
 						rootDiagram.setConnectorProcessing(true);
-						AbstractSystemDiagramEditor editor = ComponentUtil
-								.findEditor(systemDiagram);
+						AbstractSystemDiagramEditor editor = ComponentUtil.findEditor(systemDiagram);
 						if (editor != null)
 							editor.refresh();
 					}
@@ -251,33 +233,32 @@ public abstract class PortEditPart extends AbstractEditPart implements
 	// ターゲットのポートのEditPartが存在しない時に走るときがある。
 	@Override
 	protected void addSourceConnection(ConnectionEditPart connection, int index) {
-
 		// ターゲット側の設定も行う
 		PortConnector connectionModel = (PortConnector) connection.getModel();
 		PortEditPart targetPart = (PortEditPart) getViewer().getEditPartRegistry().get(connectionModel.getTarget());
-		if (targetPart == null) return;
+		if (targetPart == null)
+			return;
 
 		targetPart.primAddTargetConnection(connection, index);
-	    GraphicalEditPart target = (GraphicalEditPart) connection.getTarget();
-	    if (target != null)
-	    	target.getTargetConnections().remove(connection);
-	    
-	    GraphicalEditPart source = (GraphicalEditPart) connection.getSource();
-	    if (source != null)
-	        source.getSourceConnections().remove(connection);
+		GraphicalEditPart target = (GraphicalEditPart) connection.getTarget();
+		if (target != null)
+			target.getTargetConnections().remove(connection);
 
-	    connection.setSource(null);
+		GraphicalEditPart source = (GraphicalEditPart) connection.getSource();
+		if (source != null)
+			source.getSourceConnections().remove(connection);
+
+		connection.setSource(null);
 		connection.setTarget(targetPart);
 		targetPart.fireTargetConnectionAdded(connection, index);
 
 		// 元々のソース側の設定を行う
 		primAddSourceConnection(connection, index);
-	    
+
 		connection.setSource(this);
 		fireSourceConnectionAdded(connection, index);
-		
+
 		connection.activate();
-//		System.out.println("addSourceConnection from " + connection.getSource() + " to " + connection.getTarget());
 	}
 
 	@Override
@@ -285,48 +266,48 @@ public abstract class PortEditPart extends AbstractEditPart implements
 		// ソース側の設定も行う
 		PortConnector connectionModel = (PortConnector) connection.getModel();
 		PortEditPart sourcePart = (PortEditPart) getViewer().getEditPartRegistry().get(connectionModel.getSource());
-		if (sourcePart == null) return;
+		if (sourcePart == null)
+			return;
 
 		sourcePart.primAddSourceConnection(connection, index);
-	    GraphicalEditPart source = (GraphicalEditPart) connection.getSource();
-	    if (source != null)
-	        source.getSourceConnections().remove(connection);
-	        
-	    GraphicalEditPart target = (GraphicalEditPart) connection.getTarget();
-	    if (target != null)
-	    	target.getTargetConnections().remove(connection);
+		GraphicalEditPart source = (GraphicalEditPart) connection.getSource();
+		if (source != null)
+			source.getSourceConnections().remove(connection);
 
-	    connection.setTarget(null);
+		GraphicalEditPart target = (GraphicalEditPart) connection.getTarget();
+		if (target != null)
+			target.getTargetConnections().remove(connection);
+
+		connection.setTarget(null);
 		connection.setSource(sourcePart);
 		sourcePart.fireSourceConnectionAdded(connection, index);
 
 		// 元々のターゲット側の設定を行う
 		primAddTargetConnection(connection, index);
-	    
+
 		connection.setTarget(this);
 		fireTargetConnectionAdded(connection, index);
-		
+
 		connection.activate();
-//		System.out.println("addTargetConnection from " + connection.getSource() + " to " + connection.getTarget());
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void refreshSourceConnections() {
 		int i;
 		ConnectionEditPart editPart;
 		Object model;
 
-		Map modelToEditPart = new HashMap();
-		List editParts = getSourceConnections();
+		Map<Object, ConnectionEditPart> modelToEditPart = new HashMap<>();
+		List<?> editParts = getSourceConnections();
 
-		List modelObjects = getModelSourceConnections();
-		if (modelObjects == null) modelObjects = new ArrayList();
+		List<?> modelObjects = getModelSourceConnections();
+		if (modelObjects == null)
+			modelObjects = new ArrayList<>();
 
-		List trash = new ArrayList ();
+		List<ConnectionEditPart> trash = new ArrayList<>();
 
 		for (i = 0; i < editParts.size(); i++) {
-			editPart = (ConnectionEditPart)editParts.get(i);
+			editPart = (ConnectionEditPart) editParts.get(i);
 			model = editPart.getModel();
 			if (modelObjects.contains(model)) {
 				modelToEditPart.put(model, editPart);
@@ -334,39 +315,36 @@ public abstract class PortEditPart extends AbstractEditPart implements
 				trash.add(editPart);
 			}
 		}
-
 		// Add new EditParts
 		for (i = 0; i < modelObjects.size(); i++) {
 			model = modelObjects.get(i);
-			
 			if (!modelToEditPart.containsKey(model)) {
 				editPart = createOrFindConnection(model);
 				addSourceConnection(editPart, 0);
 			}
 		}
-
-		//Remove the remaining EditParts
+		// Remove the remaining EditParts
 		for (i = 0; i < trash.size(); i++)
-			removeSourceConnection((ConnectionEditPart)trash.get(i));
+			removeSourceConnection((ConnectionEditPart) trash.get(i));
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void refreshTargetConnections() {
 		int i;
 		ConnectionEditPart editPart;
 		Object model;
 
-		Map mapModelToEditPart = new HashMap();
-		List connections = getTargetConnections();
+		Map<Object, ConnectionEditPart> mapModelToEditPart = new HashMap<>();
+		List<?> connections = getTargetConnections();
 
-		List modelObjects = getModelTargetConnections();
-		if (modelObjects == null) modelObjects = new ArrayList();
+		List<?> modelObjects = getModelTargetConnections();
+		if (modelObjects == null)
+			modelObjects = new ArrayList<>();
 
-		List trash = new ArrayList ();
+		List<ConnectionEditPart> trash = new ArrayList<>();
 
 		for (i = 0; i < connections.size(); i++) {
-			editPart = (ConnectionEditPart)connections.get(i);
+			editPart = (ConnectionEditPart) connections.get(i);
 			model = editPart.getModel();
 			if (modelObjects.contains(model)) {
 				mapModelToEditPart.put(model, editPart);
@@ -374,20 +352,17 @@ public abstract class PortEditPart extends AbstractEditPart implements
 				trash.add(editPart);
 			}
 		}
-
 		// Add new EditParts
 		for (i = 0; i < modelObjects.size(); i++) {
 			model = modelObjects.get(i);
-
 			if (!mapModelToEditPart.containsKey(model)) {
 				editPart = createOrFindConnection(model);
 				addTargetConnection(editPart, 0);
 			}
 		}
-
-		//Remove the remaining Connection EditParts
+		// Remove the remaining Connection EditParts
 		for (i = 0; i < trash.size(); i++)
-			removeTargetConnection((ConnectionEditPart)trash.get(i));
-	}	
-	
+			removeTargetConnection((ConnectionEditPart) trash.get(i));
+	}
+
 }

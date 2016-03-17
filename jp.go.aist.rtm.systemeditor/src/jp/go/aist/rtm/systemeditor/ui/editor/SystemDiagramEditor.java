@@ -6,22 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.go.aist.rtm.systemeditor.extension.LoadProfileExtension;
-import jp.go.aist.rtm.systemeditor.factory.ProfileLoader;
-import jp.go.aist.rtm.systemeditor.factory.Rehabilitation;
-import jp.go.aist.rtm.systemeditor.factory.SystemEditorWrapperFactory;
-import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
-import jp.go.aist.rtm.systemeditor.nl.Messages;
-import jp.go.aist.rtm.systemeditor.restoration.Restoration;
-import jp.go.aist.rtm.systemeditor.restoration.Result;
-import jp.go.aist.rtm.systemeditor.ui.editor.action.OpenAndQuickRestoreAction;
-import jp.go.aist.rtm.systemeditor.ui.editor.action.OpenAndRestoreAction;
-import jp.go.aist.rtm.systemeditor.ui.editor.action.RestoreOption;
-import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
-import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
-import jp.go.aist.rtm.toolscommon.util.RtsProfileHandler;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.GraphicalViewer;
@@ -38,13 +22,29 @@ import org.openrtp.namespaces.rts.version02.RtsProfileExt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import jp.go.aist.rtm.systemeditor.extension.LoadProfileExtension;
+import jp.go.aist.rtm.systemeditor.factory.ProfileLoader;
+import jp.go.aist.rtm.systemeditor.factory.Rehabilitation;
+import jp.go.aist.rtm.systemeditor.factory.SystemEditorWrapperFactory;
+import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
+import jp.go.aist.rtm.systemeditor.nl.Messages;
+import jp.go.aist.rtm.systemeditor.restoration.Restoration;
+import jp.go.aist.rtm.systemeditor.restoration.Result;
+import jp.go.aist.rtm.systemeditor.ui.editor.action.OpenAndCreateRestoreAction;
+import jp.go.aist.rtm.systemeditor.ui.editor.action.OpenAndQuickRestoreAction;
+import jp.go.aist.rtm.systemeditor.ui.editor.action.OpenAndRestoreAction;
+import jp.go.aist.rtm.systemeditor.ui.editor.action.RestoreOption;
+import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
+import jp.go.aist.rtm.toolscommon.util.RtsProfileHandler;
+
 /**
  * SystemDiagramEditorクラス
  */
 public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(SystemDiagramEditor.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SystemDiagramEditor.class);
 
 	/**
 	 * システムダイアグラムエディタのID
@@ -56,7 +56,9 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 		super.createActions();
 		addAction(new OpenAndRestoreAction(this));
 		addAction(new OpenAndQuickRestoreAction(this));
+		addAction(new OpenAndCreateRestoreAction(this));
 	}
+
 	@SuppressWarnings("unchecked")
 	private void addAction(IAction action) {
 		getActionRegistry().registerAction(action);
@@ -116,22 +118,19 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 		return targetInput;
 	}
 
-	private void doLoad(final IEditorSite site, final RestoreOption restore,
-			FileEditorInput editorInput) throws PartInitException {
+	private void doLoad(final IEditorSite site, final RestoreOption restore, FileEditorInput editorInput)
+			throws PartInitException {
 		try {
-			final String strPath =editorInput.getPath().toOSString();
-			
+			final String strPath = editorInput.getPath().toOSString();
+
 			if (getSystemDiagram() != null) {
 				getSystemDiagram().setSynchronizeInterval(0);
 			}
 
-			ProgressMonitorDialog dialog = new ProgressMonitorDialog(site
-					.getShell());
+			ProgressMonitorDialog dialog = new ProgressMonitorDialog(site.getShell());
 			IRunnableWithProgress runable = new IRunnableWithProgress() {
-				public void run(IProgressMonitor monitor)
-						throws InvocationTargetException,
-						InterruptedException {
-
+				@Override
+				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 					monitor.beginTask(Messages.getString("SystemDiagramEditor.3"), 100); //$NON-NLS-1$
 					monitor.subTask(Messages.getString("SystemDiagramEditor.4")); //$NON-NLS-1$
 
@@ -147,14 +146,12 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 						monitor.internalWorked(20);
 
 						ProfileLoader creator = new ProfileLoader();
-						for (LoadProfileExtension.ErrorInfo info : creator
-								.preLoad(profile, strPath)) {
+						for (LoadProfileExtension.ErrorInfo info : creator.preLoad(profile, strPath)) {
 							if (info.isError()) {
 								openError(DIALOG_TITLE_ERROR, info.getMessage());
 								return;
 							} else {
-								if (!openConfirm(DIALOG_TITLE_CONFIRM, info
-										.getMessage())) {
+								if (!openConfirm(DIALOG_TITLE_CONFIRM, info.getMessage())) {
 									return;
 								}
 							}
@@ -163,20 +160,18 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 						// STEP3: RTSプロファイルオブジェクトからダイアグラムを作成
 						monitor.internalWorked(20);
 
-						SystemDiagram diagram = handler.load(profile,
-								SystemDiagramKind.ONLINE_LITERAL);
+						SystemDiagram diagram = handler.load(profile, SystemDiagramKind.ONLINE_LITERAL);
 
 						if (restore.doQuick()) {
 							handler.populateCorbaBaseObject(diagram);
 						}
-						SystemEditorWrapperFactory.getInstance()
-								.getSynchronizationManager()
+						SystemEditorWrapperFactory.getInstance().getSynchronizationManager()
 								.assignSynchonizationSupportToDiagram(diagram);
-						Rehabilitation.rehabilitation(diagram);
+						// リモートコンのポーネントが未起動時に、コンポーネントを生成するか指定
+						Rehabilitation.rehabilitation(diagram, restore.doCreate());
 
 						// 読み込み時に明示的に状態の同期を実行
-						List<Component> eComps = new ArrayList<Component>(
-								diagram.getComponents());
+						List<Component> eComps = new ArrayList<>(diagram.getComponents());
 						diagram.getComponents().clear();
 						for (Component c : eComps) {
 							c.synchronizeManually();
@@ -190,29 +185,27 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 						// STEP4: 拡張ポイント (ダイアグラム生成後)
 						monitor.internalWorked(20);
 
-						for (LoadProfileExtension.ErrorInfo info : creator
-								.postLoad(diagram, profile, oldDiagram)) {
+						for (LoadProfileExtension.ErrorInfo info : creator.postLoad(diagram, profile, oldDiagram)) {
 							if (info.isError()) {
 								openError(DIALOG_TITLE_ERROR, info.getMessage());
 								return;
 							} else {
-								if (!openConfirm(DIALOG_TITLE_CONFIRM, info
-										.getMessage())) {
+								if (!openConfirm(DIALOG_TITLE_CONFIRM, info.getMessage())) {
 									return;
 								}
 							}
 						}
-
 					} catch (Exception e) {
 						monitor.done();
 						throw new InvocationTargetException(e,
-								Messages.getString("SystemDiagramEditor.6")  + "\r\n" + e.getMessage()); //$NON-NLS-1$
+								Messages.getString("SystemDiagramEditor.6") + "\r\n" + e.getMessage()); //$NON-NLS-1$
 					}
+
 					monitor.internalWorked(35);
 
 					if (restore.doReplace()) {
 						monitor.subTask(Messages.getString("SystemDiagramEditor.7")); //$NON-NLS-1$
-						try{
+						try {
 							RtsProfileHandler handler = new RtsProfileHandler();
 							handler.restoreConnection(getSystemDiagram());
 							handler.restoreConfigSet(getSystemDiagram());
@@ -223,11 +216,10 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 							throw new InvocationTargetException(e, Messages.getString("SystemDiagramEditor.8")); //$NON-NLS-1$
 						}
 					}
-					//
+
 					monitor.done();
 				}
 			};
-
 			dialog.run(false, false, runable);
 		} catch (Exception e) {
 			throw new PartInitException(Messages.getString("SystemDiagramEditor.9"), e); //$NON-NLS-1$

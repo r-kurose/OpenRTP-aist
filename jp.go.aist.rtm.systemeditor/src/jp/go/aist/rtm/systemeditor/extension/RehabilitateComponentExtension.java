@@ -1,20 +1,17 @@
 package jp.go.aist.rtm.systemeditor.extension;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.openrtp.namespaces.rts.version02.ConfigurationData;
-import org.openrtp.namespaces.rts.version02.ConfigurationSet;
-
-import jp.go.aist.rtm.nameserviceview.corba.NameServerAccesser;
-import jp.go.aist.rtm.systemeditor.ui.dialog.NewCompositeComponentDialogData;
+import jp.go.aist.rtm.systemeditor.corba.CORBAHelper;
+import jp.go.aist.rtm.systemeditor.corba.CORBAHelper.CORBAException;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSupport;
-import jp.go.aist.rtm.toolscommon.util.RtsProfileHandler;
 
 public abstract class RehabilitateComponentExtension {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(RehabilitateComponentExtension.class);
 
 	protected Component component;
 	protected SystemDiagram diagram;
@@ -28,14 +25,27 @@ public abstract class RehabilitateComponentExtension {
 	}
 
 	/**
+	 * この拡張が対象の EMFコンポーネントを復元可能か判定します。
+	 * 
 	 * @return 復元可能な場合は true
 	 */
 	public abstract boolean canRehabilitate();
 
 	/**
-	 * @return 復元済みの EMFコンポーネント
+	 * EMFコンポーネントに対するリモートオブジェクトを復元します。
+	 * 
+	 * @param doCreate
+	 *            リモートオブジェクトが存在しないときに生成する場合はtrue
+	 * @return 復元された EMFコンポーネント
 	 */
-	public abstract Component rehabilitate();
+	public abstract Component rehabilitateComponent(boolean doCreate);
+
+	/**
+	 * EMFコンポーネントの構造を復元します (複合コンポーネント)。
+	 * 
+	 * @return 復元された EMFコンポーネント
+	 */
+	public abstract Component rehabilitateStructure();
 
 	/**
 	 * CORBA用ユーティリティ
@@ -50,15 +60,15 @@ public abstract class RehabilitateComponentExtension {
 		 *            ダイアグラム
 		 * @return 解決済みの CORBAオブジェクトをセットした EMFコンポーネント(CORBA)
 		 */
-		public static CorbaComponent rehabilitate(CorbaComponent comp,
-				SystemDiagram diagram) {
-			if (comp.getCorbaObject() != null
-					&& SynchronizationSupport.ping(comp.getCorbaObject())) {
+		public static CorbaComponent rehabilitate(CorbaComponent comp, SystemDiagram diagram) {
+			if (CORBAHelper.factory().isAvailable(comp)) {
 				return comp;
 			}
-			org.omg.CORBA.Object remote = resolveCorbaName(comp.getPathId());
-			RTC.RTObject narrow = RTC.RTObjectHelper.narrow(remote);
-			comp.setCorbaObject(narrow);
+			org.omg.CORBA.Object remote = CORBAHelper.ns().resolve(comp.getPathId());
+			if (remote != null) {
+				RTC.RTObject narrow = RTC.RTObjectHelper.narrow(remote);
+				comp.setCorbaObject(narrow);
+			}
 			return comp;
 		}
 
@@ -71,17 +81,19 @@ public abstract class RehabilitateComponentExtension {
 		 *            ダイアグラム
 		 * @return 生成した CORBAオブジェクトをセットした EMFコンポーネント(CORBA)
 		 */
-		public static CorbaComponent createComponent(CorbaComponent comp,
-				SystemDiagram diagram) {
-			RTM.Manager manager = findManager(comp.getPathId());
-			if (manager == null) {
-				return comp;
+		public static CorbaComponent createComponent(CorbaComponent comp, SystemDiagram diagram) {
+			try {
+				RTC.RTObject rtobj = null;
+				if (comp.isCompositeComponent()) {
+					rtobj = CORBAHelper.factory().createCompositeRTObject(comp, diagram);
+				} else {
+					rtobj = CORBAHelper.factory().createRTObject(comp, diagram);
+				}
+				comp.setCorbaObject(rtobj);
+			} catch (CORBAException e) {
+				LOGGER.error("Fail to create component: composite=<{}> comp=<{}>", comp.isCompositeComponent(), comp);
+				LOGGER.error("Fail to create component:", e);
 			}
-			String param = NewCompositeComponentDialogData.getParam(comp
-					.getCompositeTypeL(), comp.getInstanceNameL(),
-					getExportedPortString(comp, diagram));
-			RTC.RTObject remote = manager.create_component(param);
-			comp.setCorbaObject(remote);
 			return comp;
 		}
 
@@ -94,26 +106,12 @@ public abstract class RehabilitateComponentExtension {
 		 *            ダイアグラム
 		 * @return 子RTCを設定した EMFコンポーネント(CORBA)
 		 */
-		public static CorbaComponent setCompositeMembers(CorbaComponent comp,
-				SystemDiagram diagram) {
-			if (comp.getCorbaObject() == null) {
-				return comp;
-			}
-			RTC.RTObject remote = comp.getCorbaObjectInterface();
-			// 子RTCの CORBAオブジェクトリストを生成
-			List<_SDOPackage.SDO> sdolist = new ArrayList<_SDOPackage.SDO>();
-			for (Component o : comp.getComponents()) {
-				CorbaComponent c = (CorbaComponent) o;
-				rehabilitate(c, diagram);
-				sdolist.add(c.getCorbaObjectInterface());
-			}
-			sdolist.toArray(new _SDOPackage.SDO[0]);
-			//
+		public static CorbaComponent setCompositeMembers(CorbaComponent comp, SystemDiagram diagram) {
 			try {
-				remote.get_owned_organizations()[0].set_members(sdolist
-						.toArray(new _SDOPackage.SDO[0]));
-			} catch (Exception e) {
-				remote.exit();
+				CORBAHelper.factory().setCompositeMembers(comp);
+			} catch (CORBAException e) {
+				LOGGER.error("Fail to set composite members: comp=<{}>", comp);
+				LOGGER.error("Fail to set composite members:", e);
 				comp.setCorbaObject(null);
 			}
 			return comp;
@@ -128,38 +126,23 @@ public abstract class RehabilitateComponentExtension {
 		 *            ダイアグラム
 		 * @return 公開ポート情報(exported_ports)
 		 */
-		public static String getExportedPortString(CorbaComponent comp,
-				SystemDiagram diagram) {
-			org.openrtp.namespaces.rts.version02.Component orig = RtsProfileHandler
-					.findComponent(comp, diagram.getProfile().getComponents());
-			String activeId = orig.getActiveConfigurationSet();
-			for (ConfigurationSet cs : orig.getConfigurationSets()) {
-				if (!cs.getId().equals(activeId)) {
-					continue;
-				}
-				for (ConfigurationData cd : cs.getConfigurationData()) {
-					if (cd.getName().equals("exported_ports")) {
-						return cd.getData();
-					}
-				}
-			}
-			return "";
+		@Deprecated
+		public static String getExportedPortString(CorbaComponent comp, SystemDiagram diagram) {
+			return CORBAHelper.factory().findConfiguration("exported_ports", comp, diagram);
 		}
 
 		/** パスIDを元に CORBAの名前解決を行います */
+		@Deprecated
 		public static org.omg.CORBA.Object resolveCorbaName(String path) {
-			org.omg.CORBA.Object result = NameServerAccesser.getInstance()
-					.getObjectFromPathId(path);
-			return result;
+			return CORBAHelper.ns().resolve(path);
 		}
 
 		/** パスIDを元に RTM.Managerを検索します */
+		@Deprecated
 		public static RTM.Manager findManager(String path) {
-			int index = path.lastIndexOf("/");
-			String cid = path.substring(0, index);
-			return NameServerAccesser.getInstance()
-					.getManagerFromContextId(cid);
+			return CORBAHelper.ns().findManager(path);
 		}
+
 	}
 
 }

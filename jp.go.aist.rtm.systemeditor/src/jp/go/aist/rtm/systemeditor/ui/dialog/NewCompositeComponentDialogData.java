@@ -34,15 +34,4 @@ public class NewCompositeComponentDialogData {
 		return ports;
 	}
 
-	// 複合コンポーネント生成時にマネージャに渡すパラメータを返す
-	public static String getParam(String compositeType, String instanceName,
-			String exportedPortString) {
-		StringBuffer buffer = new StringBuffer();
-		buffer.append(compositeType).append("Composite?instance_name=");
-		buffer.append(instanceName);
-		buffer.append("&exported_ports=");
-		buffer.append(exportedPortString);
-		return buffer.toString();
-	}
-
 }

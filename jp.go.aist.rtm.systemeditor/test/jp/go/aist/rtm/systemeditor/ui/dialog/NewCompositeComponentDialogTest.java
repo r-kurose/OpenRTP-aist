@@ -32,13 +32,6 @@ public class NewCompositeComponentDialogTest extends TestCase {
 		assertEquals("def.out", ports.get(1));
 	}
 	
-	public void testGetParam() throws Exception {
-		String compositeType = "PeriodicECShared";
-		String instanceName = "MyCompositeComponent";
-		String exportedPortString = "SequenceOutComponent0.Short,SequenceOutComponent0.ShortSeq,ConsoleIn0.out";
-		assertEquals("PeriodicECSharedComposite?instance_name=MyCompositeComponent&exported_ports=SequenceOutComponent0.Short,SequenceOutComponent0.ShortSeq,ConsoleIn0.out"
-				, NewCompositeComponentDialogData.getParam(compositeType, instanceName, exportedPortString));
-	}
 //	public void testCreateCompositeComponentSpecification() throws Exception {
 //		NewCompositeComponentDialog dialog = new NewCompositeComponentDialog(null, true, null, null){
 //			@Override
