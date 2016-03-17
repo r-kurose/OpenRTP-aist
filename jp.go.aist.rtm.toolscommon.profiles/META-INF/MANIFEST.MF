@@ -7,12 +7,12 @@ Bundle-SymbolicName: jp.go.aist.rtm.toolscommon.profiles;singleton:=tr
  ue
 Bundle-Version: 1.1.0.rc4v20130124
 Bundle-ClassPath: .,
- schema/,
- lib/jyaml-1.3.jar,
- lib/jaxb-impl.jar,
  lib/slf4j-api-1.7.13.jar,
  lib/logback-classic-1.1.3.jar,
- lib/logback-core-1.1.3.jar
+ lib/logback-core-1.1.3.jar,
+ schema/,
+ lib/jyaml-1.3.jar,
+ lib/jaxb-impl.jar
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Export-Package: com.sun.xml.bind;
