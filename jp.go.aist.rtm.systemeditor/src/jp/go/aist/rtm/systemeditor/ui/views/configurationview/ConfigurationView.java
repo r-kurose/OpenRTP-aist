@@ -510,7 +510,41 @@ public class ConfigurationView extends ViewPart {
 		buttonCompsite.setLayoutData(gd);
 
 		// Copyボタンの追加 2008.12.17
-		createCopyConfigurationSetButton(buttonCompsite);
+		copyConfigurationSetButton = new Button(buttonCompsite, SWT.NONE);
+		copyConfigurationSetButton.setText(LABEL_BUTTON_COPY);
+		copyConfigurationSetButton.setEnabled(false);
+		gd = new GridData();
+		gd.grabExcessHorizontalSpace = true;
+		gd.horizontalAlignment = SWT.END;
+		gd.widthHint = BUTTON_WIDTH;
+		copyConfigurationSetButton.setLayoutData(gd);
+		copyConfigurationSetButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ConfigurationSetConfigurationWrapper currentConfugurationSet = getSelectedConfigurationSet();
+				if (currentConfugurationSet == null) {
+					return;
+				}
+
+				ConfigurationSetConfigurationWrapper csw = new ConfigurationSetConfigurationWrapper(null, null);
+				csw.setId(createDefaultConfigurationSetName(currentConfugurationSet.getId())); // modified_name
+
+				copiedComponent.addConfigurationSet(csw);
+
+				// 選択されているコンフィグセットの設定値をそのままコピー
+				List<NamedValueConfigurationWrapper> nvlist = csw.getNamedValueList();
+				for (NamedValueConfigurationWrapper oldNavedValue : currentConfugurationSet.getNamedValueList()) {
+					nvlist.add(oldNavedValue.clone());
+				}
+				Collections.sort(nvlist);
+
+				refreshLeftData();
+				leftTable.forceFocus();
+				leftTable.setSelection(leftTable.getItemCount() - 1);
+				updateDeleteConfigurationSetButtonEnable();
+				refreshRightData();
+			}
+		});
 
 		addConfigurationSetButton = new Button(buttonCompsite, SWT.NONE);
 		addConfigurationSetButton.setText(LABEL_BUTTON_ADD);
@@ -562,52 +596,42 @@ public class ConfigurationView extends ViewPart {
 		gd.widthHint = BUTTON_WIDTH;
 		deleteConfigurationSetButton.setLayoutData(gd);
 		deleteConfigurationSetButton.setEnabled(false);
-		deleteConfigurationSetButton
-				.addSelectionListener(new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						if (leftTable.getSelectionIndex() != -1) {
-							int selectionIndex = leftTable.getSelectionIndex();
-							int activeConfigurationIndex = copiedComponent
-									.getConfigurationSetList().indexOf(
-											copiedComponent
-													.getActiveConfigSet());
+		deleteConfigurationSetButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ConfigurationSetConfigurationWrapper currentConfugurationSet = getSelectedConfigurationSet();
+				if (currentConfugurationSet == null) {
+					return;
+				}
 
-							int newIndex = Math.min(
-									leftTable.getItemCount() - 1 - 1,
-									selectionIndex);
+				int selectionIndex = copiedComponent.getConfigurationSetList().indexOf(currentConfugurationSet);
+				int activeConfigurationIndex = copiedComponent.getConfigurationSetList()
+						.indexOf(copiedComponent.getActiveConfigSet());
 
-							copiedComponent
-									.removeConfigurationSet(copiedComponent
-											.getConfigurationSetList().get(
-													selectionIndex));
+				copiedComponent.removeConfigurationSet(currentConfugurationSet);
 
-							if (selectionIndex == activeConfigurationIndex) {
-								if (leftTable.getItemCount() >= 1) {
-									ConfigurationSetConfigurationWrapper configurationSetConfigurationWrapper = null;
-									if (leftTable.getItemCount() > 1) {
-										configurationSetConfigurationWrapper = copiedComponent
-												.getConfigurationSetList().get(
-														newIndex);
-									}
+				int count = copiedComponent.getConfigurationSetList().size();
+				int newIndex = (selectionIndex < count) ? selectionIndex : count - 1;
 
-									copiedComponent
-											.setActiveConfigSet(configurationSetConfigurationWrapper);
-								}
-							}
-
-							refreshLeftData();
-							leftTableViewer.refresh(); // ActiveなConfigurationSetを削除する場合に必要
-
-							if (leftTable.getItemCount() >= 1) {
-								leftTable.forceFocus();
-								leftTable.setSelection(newIndex);
-								updateDeleteConfigurationSetButtonEnable();
-							}
-
-							refreshRightData();
-						}
+				if (selectionIndex == activeConfigurationIndex) {
+					ConfigurationSetConfigurationWrapper configurationSetConfigurationWrapper = copiedComponent
+							.getConfigurationSetList().get(newIndex);
+					if (configurationSetConfigurationWrapper != null) {
+						copiedComponent.setActiveConfigSet(configurationSetConfigurationWrapper);
 					}
+				}
+
+				refreshLeftData();
+				leftTableViewer.refresh(); // ActiveなConfigurationSetを削除する場合に必要
+
+				if (leftTable.getItemCount() >= 1) {
+					leftTable.forceFocus();
+					leftTable.setSelection(newIndex);
+					updateDeleteConfigurationSetButtonEnable();
+				}
+
+				refreshRightData();
+			}
 		});
 
 		this.detailConfigurationSetCheckButton = new Button(buttonCompsite, SWT.BOTTOM | SWT.CHECK);
@@ -631,50 +655,6 @@ public class ConfigurationView extends ViewPart {
 				updateDeleteConfigurationSetButtonEnable();
 			}
 		});
-	}
-
-	// Copyボタンの追加 2008.12.17
-	private void createCopyConfigurationSetButton(Composite buttonCompsite) {
-		copyConfigurationSetButton = new Button(buttonCompsite, SWT.NONE);
-		copyConfigurationSetButton.setText(LABEL_BUTTON_COPY);
-		copyConfigurationSetButton.setEnabled(false);
-		GridData gd = new GridData();
-		gd.grabExcessHorizontalSpace = true;
-		gd.horizontalAlignment = SWT.END;
-		gd.widthHint = BUTTON_WIDTH;
-		copyConfigurationSetButton.setLayoutData(gd);
-		copyConfigurationSetButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if (leftTable.getSelectionIndex() < 0)
-					return;
-
-				ConfigurationSetConfigurationWrapper csw = new ConfigurationSetConfigurationWrapper(
-						null, null);
-				csw.setId(createDefaultConfigurationSetName("configSet")); // modified_name
-
-				copiedComponent.addConfigurationSet(csw);
-
-				// 選択されているコンフィグセットの設定値をそのままコピー
-				List<NamedValueConfigurationWrapper> nvlist = csw
-						.getNamedValueList();
-				ConfigurationSetConfigurationWrapper currentConfugurationSet = copiedComponent
-						.getConfigurationSetList().get(
-								leftTable.getSelectionIndex());
-				for (NamedValueConfigurationWrapper oldNavedValue : currentConfugurationSet
-						.getNamedValueList()) {
-					nvlist.add(oldNavedValue.clone());
-				}
-				Collections.sort(nvlist);
-
-				refreshLeftData();
-				leftTable.forceFocus();
-				leftTable.setSelection(leftTable.getItemCount() - 1);
-				updateDeleteConfigurationSetButtonEnable();
-				refreshRightData();
-			}
-		});
-
 	}
 
 	private void createRightControl(SashForm sashForm) {
@@ -797,18 +777,16 @@ public class ConfigurationView extends ViewPart {
 		addNamedValueButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				ConfigurationSetConfigurationWrapper currentConfugurationSet = copiedComponent
-						.getConfigurationSetList().get(
-								leftTable.getSelectionIndex());
+				ConfigurationSetConfigurationWrapper currentConfugurationSet = getSelectedConfigurationSet();
+				if (currentConfugurationSet == null) {
+					return;
+				}
 
-				NamedValueConfigurationWrapper namedValueConfigurationWrapper = new NamedValueConfigurationWrapper(
-						null, null);
-				namedValueConfigurationWrapper
-						.setKey(createDefaultNamedValueKey("name")); // modified_key
+				NamedValueConfigurationWrapper namedValueConfigurationWrapper = new NamedValueConfigurationWrapper(null,
+						null);
+				namedValueConfigurationWrapper.setKey(createDefaultNamedValueKey("name")); // modified_key
 				namedValueConfigurationWrapper.setValue(LAVEL_DEFAULT_NV_VALUE);
-
-				currentConfugurationSet
-						.addNamedValue(namedValueConfigurationWrapper);
+				currentConfugurationSet.addNamedValue(namedValueConfigurationWrapper);
 
 				refreshRightData();
 
@@ -829,28 +807,29 @@ public class ConfigurationView extends ViewPart {
 		deleteNamedValueButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (leftTable.getSelectionIndex() < 0)
+				ConfigurationSetConfigurationWrapper currentConfugurationSet = getSelectedConfigurationSet();
+				if (currentConfugurationSet == null) {
 					return;
+				}
+				NamedValueConfigurationWrapper currentNamedValueConfiguration = getSelectedNamedValue();
+				if (currentNamedValueConfiguration == null) {
+					return;
+				}
 
-				if (rightTable.getSelectionIndex() != -1) {
-					ConfigurationSetConfigurationWrapper currentConfugurationSet = copiedComponent
-							.getConfigurationSetList().get(
-									leftTable.getSelectionIndex());
+				int selectionIndex = currentConfugurationSet.getNamedValueList()
+						.indexOf(currentNamedValueConfiguration);
 
-					int selectionIndex = rightTable.getSelectionIndex();
+				currentConfugurationSet.removeNamedValue(currentNamedValueConfiguration);
 
-					currentConfugurationSet
-							.removeNamedValue(currentConfugurationSet
-									.getNamedValueList().get(selectionIndex));
+				int count = currentConfugurationSet.getNamedValueList().size();
+				int newIndex = (selectionIndex < count) ? selectionIndex : count - 1;
 
-					refreshRightData();
+				refreshRightData();
 
-					if (rightTable.getItemCount() >= 1) {
-						rightTable.forceFocus();
-						rightTable.setSelection(Math.min(
-								rightTable.getItemCount() - 1, selectionIndex));
-						updateDeleteNamedValueButtonEnable();
-					}
+				if (rightTable.getItemCount() >= 1) {
+					rightTable.forceFocus();
+					rightTable.setSelection(newIndex);
+					updateDeleteNamedValueButtonEnable();
 				}
 			}
 		});
@@ -878,51 +857,58 @@ public class ConfigurationView extends ViewPart {
 		});
 	}
 
-	private String createDefaultNamedValueKey(String preString) {
-		ConfigurationSetConfigurationWrapper currentConfugurationSet = copiedComponent
-				.getConfigurationSetList().get(leftTable.getSelectionIndex());
-
-		int number = getNumber(preString, currentConfugurationSet);
-
-		return (preString + "_" + number);
+	// 左テーブルで選択中の ConfigurationSet を取得します。未選択の場合はnull
+	private ConfigurationSetConfigurationWrapper getSelectedConfigurationSet() {
+		if (this.leftTableViewer.getSelection() instanceof StructuredSelection) {
+			ConfigurationSetConfigurationWrapper ret = (ConfigurationSetConfigurationWrapper) ((StructuredSelection) this.leftTableViewer
+					.getSelection()).getFirstElement();
+			return ret;
+		}
+		return null;
 	}
 
-	private int getNumber(String preString,
-			ConfigurationSetConfigurationWrapper currentConfugurationSet) {
-		for (int number = 1;; number++) {
+	// 右テーブルで選択中の NamedValue を取得します。未選択の場合はnull
+	private NamedValueConfigurationWrapper getSelectedNamedValue() {
+		if (this.rightTableViewer.getSelection() instanceof StructuredSelection) {
+			NamedValueConfigurationWrapper ret = (NamedValueConfigurationWrapper) ((StructuredSelection) this.rightTableViewer
+					.getSelection()).getFirstElement();
+			return ret;
+		}
+		return null;
+	}
+
+	private String createDefaultNamedValueKey(String preString) {
+		ConfigurationSetConfigurationWrapper currentConfugurationSet = getSelectedConfigurationSet();
+		int number = 1;
+		for (;; number++) {
 			boolean isExist = false;
-			for (NamedValueConfigurationWrapper current : currentConfugurationSet
-					.getNamedValueList()) {
+			for (NamedValueConfigurationWrapper current : currentConfugurationSet.getNamedValueList()) {
 				if ((preString + "_" + number).equals(current.getKey())) {
 					isExist = true;
 					break;
 				}
 			}
-
-			if (!isExist)
-				return number;
+			if (!isExist) {
+				break;
+			}
 		}
+		return (preString + "_" + number);
 	}
 
 	private String createDefaultConfigurationSetName(String preString) {
 		int number = 1;
-		for (;;) {
+		for (;; number++) {
 			boolean isExist = false;
-			for (ConfigurationSetConfigurationWrapper current : copiedComponent
-					.getConfigurationSetList()) {
+			for (ConfigurationSetConfigurationWrapper current : copiedComponent.getConfigurationSetList()) {
 				if ((preString + "_" + number).equals(current.getId())) {
 					isExist = true;
 					break;
 				}
 			}
-
-			if (isExist == false) {
+			if (!isExist) {
 				break;
 			}
-
-			++number;
 		}
-
 		return preString + "_" + number;
 	}
 
@@ -1056,7 +1042,7 @@ public class ConfigurationView extends ViewPart {
 
 	// ConfigSetのDeleteボタンとCopyボタンのenable属性は同じ 2008.12.17
 	private void updateDeleteConfigurationSetButtonEnable() {
-		boolean deleteConfigurationSetEnabled = (leftTable.getSelectionIndex() != -1);
+		boolean deleteConfigurationSetEnabled = (getSelectedConfigurationSet() != null);
 
 		deleteConfigurationSetButton.setEnabled(deleteConfigurationSetEnabled);
 		copyConfigurationSetButton.setEnabled(deleteConfigurationSetEnabled);
@@ -1068,10 +1054,9 @@ public class ConfigurationView extends ViewPart {
 		this.addNamedValueButton.setEnabled(false);
 		this.detailNamedValueCheckButton.setEnabled(false);
 
-		if (this.copiedComponent != null && this.leftTable.getSelectionIndex() != -1) {
-			if (this.leftTableViewer.getSelection() instanceof StructuredSelection) {
-				ConfigurationSetConfigurationWrapper currentConfugurationSet = (ConfigurationSetConfigurationWrapper) ((StructuredSelection) this.leftTableViewer
-						.getSelection()).getFirstElement();
+		if (this.copiedComponent != null) {
+			ConfigurationSetConfigurationWrapper currentConfugurationSet = getSelectedConfigurationSet();
+			if (currentConfugurationSet != null) {
 				this.configrationSetNameLabel.setText(currentConfugurationSet.getId());
 
 				this.rightTableViewerFilter.setDetail(this.detailNamedValueCheckButton.getSelection());
@@ -1200,6 +1185,10 @@ public class ConfigurationView extends ViewPart {
 			if (element instanceof Item) {
 				configurationSet = ((ConfigurationSetConfigurationWrapper) ((Item) element).getData());
 			}
+			if (configurationSet == null) {
+				return;
+			}
+
 			if (PROPERTY_ACTIVE_CONFIGSET.equals(property)) {
 				copiedComponent.setActiveConfigSet(configurationSet);
 				viewer.refresh();
@@ -1261,36 +1250,28 @@ public class ConfigurationView extends ViewPart {
 
 		@Override
 		public void modify(Object element, String property, Object value) {
-			if (leftTable.getSelectionIndex() < 0)
-				return;
 			if (element instanceof TableItem == false) {
 				return;
 			}
-			NamedValueConfigurationWrapper item = ((NamedValueConfigurationWrapper) ((TableItem) element)
-					.getData());
-
-			ConfigurationSetConfigurationWrapper currentConfugurationSet = copiedComponent
-					.getConfigurationSetList().get(
-							leftTable.getSelectionIndex());
+			NamedValueConfigurationWrapper item = ((NamedValueConfigurationWrapper) ((TableItem) element).getData());
+			ConfigurationSetConfigurationWrapper currentConfugurationSet = getSelectedConfigurationSet();
+			if (item == null || currentConfugurationSet == null) {
+				return;
+			}
 
 			if (PROPERTY_KEY.equals(property)) {
 				boolean isDuplicate = false;
-				for (NamedValueConfigurationWrapper current : currentConfugurationSet
-						.getNamedValueList()) {
-					if (item != current
-							&& ((String) value).equals(current.getKey())) {
+				for (NamedValueConfigurationWrapper current : currentConfugurationSet.getNamedValueList()) {
+					if (item != current && ((String) value).equals(current.getKey())) {
 						isDuplicate = true;
 						break;
 					}
 				}
-
 				String newKey = (String) value;
 				if (isDuplicate) {
-					MessageDialog.openWarning(viewer.getControl().getShell(),
-							MSG_WARNING, MSG_KEY_ALREADY_EXIST);
+					MessageDialog.openWarning(viewer.getControl().getShell(), MSG_WARNING, MSG_KEY_ALREADY_EXIST);
 					newKey = createDefaultNamedValueKey((String) value);
 				}
-
 				item.setKey(newKey);
 			} else if (PROPERTY_VALUE.equals(property)) {
 				item.setValue((String) value);
