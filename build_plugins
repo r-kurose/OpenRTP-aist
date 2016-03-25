@@ -257,6 +257,7 @@ cleanup_jardir()
 do_ant()
 {
     target=$TARGET
+    echo "Do ant target=$TARGET libs=$LIBS"
     for project in $PROJECTS; do
         if test -d $project; then
             echo "- Starting ant build of project: $project"
@@ -320,6 +321,7 @@ echo "VERSION: $VERSION"
 echo "PROJECT_VERSION: $PROJECT_VERSION"
 echo "------------------------------------------------------------"
 
+#LIBS="-lib ../lib -lib $ECLIPSE_HOME/plugins"
 LIBS="-lib ../lib -lib ../lib/a4e-2137 -lib ../lib/a4e-2137/libs -lib $ECLIPSE_HOME/plugins"
 
 cleanup_jardir

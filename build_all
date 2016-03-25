@@ -91,7 +91,7 @@ PROJECTS="jp.go.aist.rtm.toolscommon.profiles
     jp.go.aist.rtm.systemeditor.nl1"
 
 # Eclipse search directories
-ECLIPSE_DIRS="$HOME/eclipse ../ ../../ ../../ $HOME /usr/lib/ /usr/share"
+ECLIPSE_DIRS="$PWD/../eclipse $HOME/eclipse $HOME /usr/lib/ /usr/share"
 
 #============================================================
 # functions
@@ -175,6 +175,7 @@ find_eclipsehome()
             edir=`dirname $e`
             if test -f $edir/eclipse.ini && test -d $edir/plugins ; then
                 export ECLIPSE_HOME="$edir"
+                echo "eclipse found. set ECLIPSE_HOME=$ECLIPSE_HOME."
                 return 0
             fi
         done
