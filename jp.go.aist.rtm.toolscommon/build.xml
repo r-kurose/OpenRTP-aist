@@ -65,16 +65,16 @@
 			<arg line="-fall -td ${source} -i ${idl.path} -emitAll ${idl.Logger}"/>
 		</exec>
 
-		<exec executable="./n2a">
+		<exec executable="n2a">
 			<arg line="${source}\_SDOPackage\*.java"/>
 		</exec>
-		<exec executable="./n2a">
+		<exec executable="n2a">
 			<arg line="${source}\OpenRTM\*.java"/>
 		</exec>
-		<exec executable="./n2a">
+		<exec executable="n2a">
 			<arg line="${source}\RTC\*.java"/>
 		</exec>
-		<exec executable="./n2a">
+		<exec executable="n2a">
 			<arg line="${source}\RTM\*.java"/>
 		</exec>
 
