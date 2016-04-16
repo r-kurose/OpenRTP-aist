@@ -64,7 +64,7 @@
 		<exec executable="${java.home}\..\bin\idlj">
 			<arg line="-fall -td ${source} -i ${idl.path} -emitAll ${idl.Logger}"/>
 		</exec>
-<!--
+
 		<exec executable="n2a">
 			<arg line="${source}\_SDOPackage\*.java"/>
 		</exec>
@@ -77,7 +77,7 @@
 		<exec executable="n2a">
 			<arg line="${source}\RTM\*.java"/>
 		</exec>
--->
+
 	</target>
 
 	<target name="clean" description="ビルドで生成されたファイルを削除します">
