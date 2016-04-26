@@ -15,6 +15,8 @@
 #
 
 
+cd $(cd $(dirname $(readlink -f $0 || echo $0));pwd -P)
+
 debug_echo () {
     if test "x$DEBUG" = "xTRUE"; then
         echo "$*"
@@ -275,8 +277,16 @@ find_OPENRTP_DIR()
             echo "WARNING: No OpenRTP installation under OpenRTM libdir."
         fi
     fi
-    openrtp_dir=`find /usr/lib /usr/lib32 /usr/lib64 -name 'openrtp'  2>/dev/null`
-    if test "x$openrtp_dir" = "x" ; then
+    openrtp_dir=`find /usr/lib /usr/lib/i386-linux-gnu /usr/lib/x86_64-linux-gnu /usr/lib32 /usr/lib64 -name 'openrtp'  2>/dev/null`
+    eclipse_dir=`find ./ -name 'eclipse'  2>/dev/null`
+
+    if test "x$eclipse_dir" != "x" ; then
+        OPENRTP_DIR="./"
+        OPENRTP_EXECUTABLE="./eclipse"
+        debug_echo "OPENRTP_DIR: $OPENRTP_DIR"
+        debug_echo "OPENRTP_EXECUTABLE: $OPENRTP_EXECUTABLE"
+        return 0
+    elif test "x$openrtp_dir" = "x" ; then
         echo "ERROR: No OpenRTP installation found. Aborting."
         exit 1
     fi
