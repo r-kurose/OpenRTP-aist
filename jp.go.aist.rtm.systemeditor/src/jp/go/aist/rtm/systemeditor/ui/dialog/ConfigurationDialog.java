@@ -80,7 +80,9 @@ public class ConfigurationDialog extends TitleAreaDialog {
 	private boolean firstApply;
 
 	private TabItem currentTabItem;
-	
+
+	private List<String> tabbedIdList;
+
 	Text errorText;
 
 	public ConfigurationDialog(ConfigurationView view) {
@@ -202,13 +204,28 @@ public class ConfigurationDialog extends TitleAreaDialog {
 
 		tabFolder = new TabFolder(mainComposite, SWT.NONE);
 		tabFolder.setLayoutData(gd);
+		this.tabbedIdList = new ArrayList<>();
 
-		for (ConfigurationSetConfigurationWrapper cs : this.copiedConfig
-				.getConfigurationSetList()) {
-			TabItem item = new TabItem(tabFolder, SWT.NONE);
-			item.setText(cs.getId());
+		for (ConfigurationSetConfigurationWrapper cs : this.copiedConfig.getConfigurationSetList()) {
+			if (this.copiedConfig.getActiveConfigSet() != null
+					&& this.copiedConfig.getActiveConfigSet().getId().equals(cs.getId())) {
+				// Active ConfigSetは先頭タブへ追加
+				TabItem item = new TabItem(tabFolder, SWT.NONE, 0);
+				item.setText(cs.getId());
+				this.tabbedIdList.add(0, cs.getId());
+				continue;
+			}
+			if (!cs.isSecret()) {
+				// 隠しConfigSetをタブへ追加
+				TabItem item = new TabItem(tabFolder, SWT.NONE);
+				item.setText(cs.getId());
+				this.tabbedIdList.add(cs.getId());
+			}
 		}
+
 		if (tabFolder.getItemCount() > 0) {
+			// 先頭タブのActive ConfigSetを選択
+			this.tabFolder.setSelection(0);
 			this.selectConfigSet(0);
 		}
 
@@ -254,11 +271,21 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		nameText.setText(configSet.getId());
 
 		for (NamedValueConfigurationWrapper nv : configSet.getNamedValueList()) {
-			createNamedValueComposite(configSetComposite, nv);
+			if (!nv.isSecret()) {
+				createNamedValueComposite(configSetComposite, nv);
+			}
+		}
+		if (this.view.isCheckedDetailNamedValue()) {
+			// NameValueの詳細表示が有効な場合は、隠しNameValueも追加
+			for (NamedValueConfigurationWrapper nv : configSet.getNamedValueList()) {
+				if (nv.isSecret()) {
+					createNamedValueComposite(configSetComposite, nv);
+				}
+			}
 		}
 
 		// スクロールの初期サイズ
-		scroll.setMinHeight(configSetComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y + 10);
+		scroll.setMinHeight(configSetComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y + 50);
 
 		return scroll;
 	}
@@ -1015,11 +1042,11 @@ public class ConfigurationDialog extends TitleAreaDialog {
 			return;
 		}
 		currentTabItem = tabFolder.getItem(index);
+		String currentId = this.tabbedIdList.get(index);
 		// 選択タブに対応するConfigurationSetを検索
 		selectedConfigSet = null;
-		for (ConfigurationSetConfigurationWrapper cs : copiedConfig
-				.getConfigurationSetList()) {
-			if (cs.getId().equals(currentTabItem.getText())) {
+		for (ConfigurationSetConfigurationWrapper cs : copiedConfig.getConfigurationSetList()) {
+			if (cs.getId().equals(currentId)) {
 				selectedConfigSet = cs;
 				break;
 			}

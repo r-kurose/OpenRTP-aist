@@ -381,6 +381,20 @@ public class ConfigurationView extends ViewPart {
 	}
 
 	/**
+	 * @return ConfiguratoinSetの詳細表示が有効な場合はtrue
+	 */
+	public boolean isCheckedDetailConfigurationSet() {
+		return this.detailConfigurationSetCheckButton.getSelection();
+	}
+
+	/**
+	 * @return NamedValueの詳細表示が有効な場合はtrue
+	 */
+	public boolean isCheckedDetailNamedValue() {
+		return this.detailNamedValueCheckButton.getSelection();
+	}
+
+	/**
 	 * 編集後の新しいConfigurationSetを作成する。
 	 * <p>
 	 * 
@@ -1441,7 +1455,7 @@ public class ConfigurationView extends ViewPart {
 		return result;
 	}
 
-	/** 　編集用のコンフィグを返す */
+	/** 編集用のコンフィグを返す */
 	public ComponentConfigurationWrapper getComponentConfig() {
 		return copiedComponent;
 	}
