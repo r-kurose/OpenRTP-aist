@@ -20,25 +20,23 @@ public class ComponentConfigurationWrapper {
 
 	public static ComponentConfigurationWrapper create(Component target) {
 		ComponentConfigurationWrapper result = new ComponentConfigurationWrapper();
-		List<ConfigurationSetConfigurationWrapper> configurationSetList = result.getConfigurationSetList();
+		List<ConfigurationSetConfigurationWrapper> configSetList = result.getConfigurationSetList();
+		List<ConfigurationSetConfigurationWrapper> secretConfigSetList = new ArrayList<>();
 
 		// パラメータ名−widget種別
-		Map<String, String> widgets = new HashMap<String, String>();
+		Map<String, String> widgets = new HashMap<>();
 		// configurationSet名−制約条件マップ(パラメータ名−制約)
-		Map<String, Map<String, String>> conditions = new HashMap<String, Map<String, String>>();
+		Map<String, Map<String, String>> conditions = new HashMap<>();
 
-		for (Object o : target.getConfigurationSets()) {
-			ConfigurationSet cs = (ConfigurationSet) o;
+		for (ConfigurationSet cs : target.getConfigurationSets()) {
 			if (cs.getId().equals("__widget__")) {
-				for (Object o2 : cs.getConfigurationData()) {
-					NameValue nv = (NameValue) o2;
+				for (NameValue nv : cs.getConfigurationData()) {
 					widgets.put(nv.getName(), nv.getValueAsString());
 				}
 			} else if (cs.getId().startsWith("__")) {
 				String key = cs.getId().substring(2);
-				Map<String, String> kc = new HashMap<String, String>();
-				for (Object o2 : cs.getConfigurationData()) {
-					NameValue nv = (NameValue) o2;
+				Map<String, String> kc = new HashMap<>();
+				for (NameValue nv : cs.getConfigurationData()) {
 					kc.put(nv.getName(), nv.getValueAsString());
 				}
 				conditions.put(key, kc);
@@ -48,39 +46,53 @@ public class ComponentConfigurationWrapper {
 		result.widgetSetting = widgets;
 		result.conditionSetting = conditions;
 
-		for (ConfigurationSet configurationSet : target.getConfigurationSets()) {
-			ConfigurationSetConfigurationWrapper configurationSetConfigurationWrapper = new ConfigurationSetConfigurationWrapper(
-					configurationSet, configurationSet.getId());
-			List<NamedValueConfigurationWrapper> namedValueList = configurationSetConfigurationWrapper
-					.getNamedValueList();
+		for (ConfigurationSet cs : target.getConfigurationSets()) {
+			ConfigurationSetConfigurationWrapper configSetWrapper = new ConfigurationSetConfigurationWrapper(cs,
+					cs.getId());
+			List<NamedValueConfigurationWrapper> namedValueList = configSetWrapper.getNamedValueList();
+			List<NamedValueConfigurationWrapper> secretNamedValueList = new ArrayList<>();
 
 			// configurationSetに対応する制約条件(なければデフォルトを使用)
 			Map<String, String> conds = null;
-			if (!configurationSet.getId().startsWith("__")) {
-				conds = conditions.get(configurationSet.getId());
+			if (!cs.getId().startsWith("__")) {
+				conds = conditions.get(cs.getId());
 				if (conds == null) {
 					conds = conditions.get("constraints__");
 				}
 			}
-			for (NameValue nameValue : configurationSet.getConfigurationData()) {
-				NamedValueConfigurationWrapper namedValueConfigurationWrapper = new NamedValueConfigurationWrapper(
-						nameValue.getName(), nameValue.getValue(), nameValue.getTypeName());
+			for (NameValue nv : cs.getConfigurationData()) {
+				NamedValueConfigurationWrapper namedValueWrapper = new NamedValueConfigurationWrapper(nv.getName(),
+						nv.getValue(), nv.getTypeName());
 				if (conds != null) {
-					String type = widgets.get(nameValue.getName());
-					String cond = conds.get(nameValue.getName());
-					namedValueConfigurationWrapper.setWidgetAndCondition(type, cond);
+					String type = widgets.get(nv.getName());
+					String cond = conds.get(nv.getName());
+					namedValueWrapper.setWidgetAndCondition(type, cond);
 				}
-				namedValueList.add(namedValueConfigurationWrapper);
-				Collections.sort(namedValueList);
+				if (namedValueWrapper.isSecret()) {
+					secretNamedValueList.add(namedValueWrapper);
+				} else {
+					namedValueList.add(namedValueWrapper);
+				}
 			}
+			// 隠しNamedValueは後方へ整列
+			Collections.sort(namedValueList);
+			namedValueList.addAll(secretNamedValueList);
 
 			if (target.getActiveConfigurationSet() != null
-					&& target.getActiveConfigurationSet().getId().equals(configurationSet.getId())) {
-				result.setActiveConfigSet(configurationSetConfigurationWrapper);
+					&& target.getActiveConfigurationSet().getId().equals(cs.getId())) {
+				result.setActiveConfigSet(configSetWrapper);
 			}
-			configurationSetList.add(configurationSetConfigurationWrapper);
-			Collections.sort(configurationSetList);
+
+			if (configSetWrapper.isSecret()) {
+				secretConfigSetList.add(configSetWrapper);
+			} else {
+				configSetList.add(configSetWrapper);
+			}
 		}
+		// 隠しConfiguratoinSetは後方へ整列
+		Collections.sort(configSetList);
+		configSetList.addAll(secretConfigSetList);
+
 		return result;
 	}
 
