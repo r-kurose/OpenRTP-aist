@@ -79,7 +79,7 @@ ${pyConv.convToLower(${rtcParam.name})}_spec = ["implementation_id", "${rtcParam
 #end
 
 #foreach($configParam in ${rtcParam.configParams})
-         "conf.__type__.${configParam.name}", "${configParam.type}#if( ${configParam.step.length()} > 0 ).${configParam.step}#end",
+         "conf.__type__.${configParam.name}", "${configParam.type}#if( ${configParam.step.length()} > 0 )#end",
 #end
 
 #end
