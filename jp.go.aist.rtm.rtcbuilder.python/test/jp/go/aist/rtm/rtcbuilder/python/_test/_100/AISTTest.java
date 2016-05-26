@@ -6,6 +6,7 @@ import java.util.List;
 import jp.go.aist.rtm.rtcbuilder.Generator;
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
+import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
@@ -37,6 +38,32 @@ public class AISTTest extends TestBase {
 		generator.addGenerateManager(new PythonCMakeGenerateManager());
 	}
 
+	public void testAIST7() throws Exception {
+		rtcParam.setName("ModuleName");
+		rtcParam.setDescription("ModuleDescription");
+		rtcParam.setVersion("1.0.0");
+		rtcParam.setVender("VenderName");
+		rtcParam.setCategory("Category");
+		rtcParam.setComponentType("DataFlowComponent");
+		rtcParam.setActivityType("PERIODIC");
+		rtcParam.setMaxInstance(1);
+		rtcParam.setComponentKind("DataFlowComponent");
+
+		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>();
+		ConfigSetParam param01 = new ConfigSetParam("test", "double", "", "0");
+		param01.setWidget("slider");
+		param01.setStep("0.2");
+		param01.setConstraint("-1.0<x<1.0");
+		configset.add(param01);
+		rtcParam.getConfigParams().addAll(configset);
+
+		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
+
+		String resourceDir = rootPath + "/resource/100/aist/AIST7/";
+
+		checkCode(result, resourceDir, "ModuleName.py");
+	}
+	
 	public void testAIST6() throws Exception {
 		rtcParam.setName("test");
 		rtcParam.setDescription("test component");

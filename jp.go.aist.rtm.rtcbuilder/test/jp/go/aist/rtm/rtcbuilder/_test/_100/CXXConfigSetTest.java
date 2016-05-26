@@ -77,6 +77,22 @@ public class CXXConfigSetTest extends TestBase {
 		checkResults(result, resourceDir);
 	}
 
+	public void testConfigSet4() throws Exception{
+		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
+		ConfigSetParam param01 = new ConfigSetParam("test", "double", "", "0");
+		param01.setWidget("slider");
+		param01.setStep("0.2");
+		param01.setConstraint("-1.0<x<1.0");
+		configset.add(param01);
+		rtcParam.getConfigParams().addAll(configset);
+
+		Generator generator = new Generator();
+		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
+
+		String resourceDir = rootPath +  "/resource/100/CXX/ConfigSet/configset4/";
+		checkResults(result, resourceDir);
+	}
+	
 	public void testConfigSetType() throws Exception{
 		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>(); 
 		configset.add(new ConfigSetParam("short_param","short","", "0"));

@@ -32,8 +32,6 @@ foo_spec = ["implementation_id", "foo",
 		 "lang_type",         "SCRIPT",
 		 "conf.default.int_param0", "0",
 		 "conf.default.int_param1", "1",
-         "conf.default.__int_param0", "int",
-         "conf.default.__int_param1", "int",
          "conf.__type__.int_param0", "int",
          "conf.__type__.int_param1", "int",
 		 ""]

@@ -35,6 +35,37 @@ public class ConfigSetTest extends TestBase {
 		generator.addGenerateManager(new JavaCMakeGenerateManager());
 	}
 
+	public void testAIST7() throws Exception {
+		rtcParam.setName("ModuleName");
+		rtcParam.setDescription("ModuleDescription");
+		rtcParam.setVersion("1.0.0");
+		rtcParam.setVender("VenderName");
+		rtcParam.setCategory("Category");
+		rtcParam.setComponentType("DataFlowComponent");
+		rtcParam.setActivityType("PERIODIC");
+		rtcParam.setMaxInstance(1);
+		rtcParam.setComponentKind("DataFlowComponent");
+
+		List<ConfigSetParam> configset = new ArrayList<ConfigSetParam>();
+		ConfigSetParam param01 = new ConfigSetParam("test", "double", "", "0");
+		param01.setWidget("slider");
+		param01.setStep("0.2");
+		param01.setConstraint("-1.0<x<1.0");
+		configset.add(param01);
+		rtcParam.getConfigParams().addAll(configset);
+
+		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
+
+		String targetDir = rootPath + "/resource/100/ConfigSet/AIST7/";
+
+		assertEquals(33, result.size());
+		checkCode(result, targetDir, "src/ModuleNameComp.java");
+		checkCode(result, targetDir, "src/ModuleName.java");
+		checkCode(result, targetDir, "src/ModuleNameImpl.java");
+		//
+		checkCode(result, targetDir, "build_ModuleName.xml");
+	}
+	
 	public void testAIST6() throws Exception {
 		rtcParam.setName("ModuleName");
 		rtcParam.setDescription("ModuleDescription");

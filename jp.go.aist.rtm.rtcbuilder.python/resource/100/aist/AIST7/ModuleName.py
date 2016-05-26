@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 # -*- Python -*-
 """
- @file foo.py
- @brief MDesc
+ @file ModuleName.py
+ @brief ModuleDescription
  @date $Date$
 """
 import sys
@@ -20,26 +20,28 @@ import OpenRTM_aist
 # </rtc-template>
 # This module's spesification
 # <rtc-template block="module_spec">
-foo_spec = ["implementation_id", "foo", 
-		 "type_name",         "foo", 
-		 "description",       "MDesc", 
-		 "version",           "1.0.3", 
-		 "vendor",            "TA2", 
-		 "category",          "manip2", 
-		 "activity_type",     "STATIC2", 
-		 "max_instance",      "3", 
+modulename_spec = ["implementation_id", "ModuleName", 
+		 "type_name",         "ModuleName", 
+		 "description",       "ModuleDescription", 
+		 "version",           "1.0.0", 
+		 "vendor",            "VenderName", 
+		 "category",          "Category", 
+		 "activity_type",     "DataFlowComponent", 
+		 "max_instance",      "1", 
 		 "language",          "Python", 
 		 "lang_type",         "SCRIPT",
-		 "conf.default.int_param0", "0",
-         "conf.__type__.int_param0", "int",
+		 "conf.default.test", "0",
+		 "conf.__widget__.test", "slider.0.2",
+		 "conf.__constraints__.test", "-1.0<x<1.0",
+         "conf.__type__.test", "double",
 		 ""]
 # </rtc-template>
 ##
-# @class foo
-# @brief MDesc
+# @class ModuleName
+# @brief ModuleDescription
 # 
 # 
-class foo(OpenRTM_aist.DataFlowComponentBase):
+class ModuleName(OpenRTM_aist.DataFlowComponentBase):
 	
 	##
 	# @brief constructor
@@ -52,10 +54,10 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 		# <rtc-template block="init_conf_param">
 		"""
 		
-		 - Name:  int_param0
+		 - Name:  test
 		 - DefaultValue: 0
 		"""
-		self._int_param0 = [0]
+		self._test = [0]
 		
 		# </rtc-template>
 		 
@@ -69,7 +71,7 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	#
 	def onInitialize(self):
 		# Bind variables and configuration variable
-		self.bindParameter("int_param0", self._int_param0, "0")
+		self.bindParameter("test", self._test, "0")
 		
 		# Set InPort buffers
 		
@@ -235,15 +237,15 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	#
 	#	return RTC.RTC_OK
 	
-def fooInit(manager):
-    profile = OpenRTM_aist.Properties(defaults_str=foo_spec)
+def ModuleNameInit(manager):
+    profile = OpenRTM_aist.Properties(defaults_str=modulename_spec)
     manager.registerFactory(profile,
-                            foo,
+                            ModuleName,
                             OpenRTM_aist.Delete)
 def MyModuleInit(manager):
-    fooInit(manager)
+    ModuleNameInit(manager)
     # Create a component
-    comp = manager.createComponent("foo")
+    comp = manager.createComponent("ModuleName")
 def main():
 	mgr = OpenRTM_aist.Manager.init(sys.argv)
 	mgr.setModuleInitProc(MyModuleInit)
