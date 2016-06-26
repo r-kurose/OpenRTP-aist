@@ -1005,53 +1005,29 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean updateConfigurationSetListR(List localConfigurationSets,
-			ConfigurationSet localActiveConfigurationSet,
-			List originalConfigurationSets) {
-
+			ConfigurationSet localActiveConfigurationSet, List originalConfigurationSets) {
 		try {
-			_SDOPackage.Configuration configuration = getCorbaObjectInterface()
-					.get_configuration();
+			_SDOPackage.Configuration configuration = getCorbaObjectInterface().get_configuration();
 			for (Object o : localConfigurationSets) {
 				ConfigurationSet local = (ConfigurationSet) o;
-				ConfigurationSet updated = null;
-				for (Object o2 : originalConfigurationSets) {
-					ConfigurationSet original = (ConfigurationSet) o2;
-					if (local.getId().equals(original.getId())) {
-						updated = ComponentFactory.eINSTANCE
-								.createConfigurationSet();
-						updated.setId(local.getId());
-						for (int i = 0; i < local.getConfigurationData().size(); i++) {
-							NameValue lnv = (NameValue) local
-									.getConfigurationData().get(i);
-							NameValue onv = (NameValue) original
-									.getConfigurationData().get(i);
-							if (!lnv.getName().equals(onv.getName())) {
-								updated.getConfigurationData().add(lnv);
-							} else if (!lnv.getValueAsString().equals(
-									onv.getValueAsString())) {
-								updated.getConfigurationData().add(lnv);
-							}
-						}
-						break;
-					}
+				ConfigurationSet updated = ComponentFactory.eINSTANCE.createConfigurationSet();
+				updated.setId(local.getId());
+				for (int i = 0; i < local.getConfigurationData().size(); i++) {
+					NameValue lnv = (NameValue) local.getConfigurationData().get(i);
+					NameValue nv = ComponentFactory.eINSTANCE.createNameValue();
+					nv.setName(lnv.getName());
+					nv.setValue(lnv.getValue());
+					updated.getConfigurationData().add(nv);
 				}
-				if (updated != null
-						&& !updated.getConfigurationData().isEmpty()) {
-					boolean result = configuration
-							.set_configuration_set_values(SDOUtil
-									.createSdoConfigurationSet(updated));
-					if (!result) {
-						return false;
-					}
+				boolean result = configuration.set_configuration_set_values(SDOUtil.createSdoConfigurationSet(updated));
+				if (!result) {
+					return false;
 				}
 			}
 			if (localActiveConfigurationSet != null) {
-				boolean result = configuration
-						.activate_configuration_set(localActiveConfigurationSet
-								.getId());
+				boolean result = configuration.activate_configuration_set(localActiveConfigurationSet.getId());
 				if (!result) {
 					return false;
 				}
