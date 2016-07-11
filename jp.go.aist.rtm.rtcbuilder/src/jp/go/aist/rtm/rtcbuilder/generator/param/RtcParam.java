@@ -760,9 +760,9 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 					if( file.getIdlPath().equals(targetIDL) ) {
 						if(file.getTargetType().contains(targetType)==false) {
 							file.getTargetType().add(targetType);
-							isHit = true;
-							break;
 						}
+						isHit = true;
+						break;
 					}
 				}
 				if(isHit==false) {
