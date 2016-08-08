@@ -1023,6 +1023,9 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 				}
 				boolean result = configuration.set_configuration_set_values(SDOUtil.createSdoConfigurationSet(updated));
 				if (!result) {
+					result = configuration.add_configuration_set(SDOUtil.createSdoConfigurationSet(updated));
+				}
+				if (!result) {
 					return false;
 				}
 			}
