@@ -1,8 +1,0 @@
-#include "module_ysuga_net_data.idl"
-
-module ysuga_net {
-
-	interface Hoge {
-		RETVAL foo();
-	};
-};

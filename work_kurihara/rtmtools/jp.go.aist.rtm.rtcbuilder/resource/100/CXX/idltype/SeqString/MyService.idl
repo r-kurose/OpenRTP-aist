@@ -1,6 +1,0 @@
-typedef string<1> Str1;
-typedef wstring<1> WStr1;
-
-interface MyService {
-  Str1 echo(in WStr1 msg);
-};

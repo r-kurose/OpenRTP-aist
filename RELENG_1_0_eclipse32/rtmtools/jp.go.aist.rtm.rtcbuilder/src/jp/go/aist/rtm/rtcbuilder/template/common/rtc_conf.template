@@ -1,9 +1,0 @@
-#if(${rtcParam.executionRate}>0)exec_cxt.periodic.rate:${rtcParam.executionRate}
-#end
-#if( ${rtcParam.configParameterParams.size()} > 0 )
-#foreach($parameterParam in ${rtcParam.configParameterParams})  
-${parameterParam.configName}:${parameterParam.defaultVal}
-#end
-#end
-#if(${rtcParam.checkConstraint()})${rtcParam.category}.${rtcParam.name}.config_file: ${rtcParam.name}.conf
-#end

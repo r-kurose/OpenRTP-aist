@@ -1,7 +1,0 @@
-#include "MyServiceParent.idl"
-interface MyServiceChild : MyService
-{
-  void setPos(in float pos);
-  float getPos();
-};
-

@@ -1,7 +1,0 @@
-module ysuga_net {
-	struct RETVAL {
-		long id;
-		string msg;
-	};
-
-};
