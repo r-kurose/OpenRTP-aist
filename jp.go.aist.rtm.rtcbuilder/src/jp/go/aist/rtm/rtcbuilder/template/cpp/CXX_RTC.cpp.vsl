@@ -1,0 +1,341 @@
+// -*- C++ -*-
+/*!
+ * @file  ${rtcParam.name}.cpp
+ * @brief ${rtcParam.description}
+ * @date ${dol}Date${dol}
+#parse("${template}/cpp/_doc.vsl")
+ * ${dol}Id${dol}
+ */
+
+${sharp}include "${rtcParam.name}.h"
+
+// Module specification
+// <rtc-template block="module_spec">
+static const char* ${rtcParam.name.toLowerCase()}_spec[] =
+  {
+    "implementation_id", "${rtcParam.name}",
+    "type_name",         "${rtcParam.name}",
+    "description",       "${rtcParam.description}",
+    "version",           "${rtcParam.version}",
+    "vendor",            "${rtcParam.vender}",
+    "category",          "${rtcParam.category}",
+    "activity_type",     "${rtcParam.activityType}",
+    "kind",              "${rtcParam.componentKind}",
+    "max_instance",      "${rtcParam.maxInstance}",
+    "language",          "C++",
+    "lang_type",         "compile",
+#if( ${rtcParam.configParams.size()} > 0 )
+    // Configuration variables
+#foreach($configParam in ${rtcParam.configParams})  
+    "conf.default.${configParam.name}", "${configParam.defaultVal}",
+#end
+
+    // Widget
+#foreach($configParam in ${rtcParam.configParams})
+#if( ${configParam.widget.length()} > 0 )
+    "conf.__widget__.${configParam.name}", "${configParam.widget}#if( ${configParam.step.length()} > 0 ).${configParam.step}#end",
+#end
+#end
+    // Constraints
+#foreach($configParam in ${rtcParam.configParams})
+#if( ${configParam.constraint.length()} > 0 )
+    "conf.__constraints__.${configParam.name}", "${configParam.constraint}",
+#end
+#end
+
+#foreach($configParam in ${rtcParam.configParams})
+    "conf.__type__.${configParam.name}", "${configParam.type}",
+#end
+
+#end
+#if( ${rtcParam.configParameterParams.size()} > 0 )
+    // System Configuration
+#foreach($parameterParam in ${rtcParam.configParameterParams})  
+#if( ${parameterParam.isNonPeriodic()} )
+    "${parameterParam.configName}", "${parameterParam.defaultVal}",
+#end
+#end
+#end
+    ""
+  };
+// </rtc-template>
+
+/*!
+ * @brief constructor
+ * @param manager Maneger Object
+ */
+${rtcParam.name}::${rtcParam.name}(RTC::Manager* manager)
+    // <rtc-template block="initializer">
+  : RTC::${rtcParam.componentKind}Base(manager)#foreach($port in ${rtcParam.inports})#if(${port.type}!=""),
+    ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix}("${port.name}", ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix})#end#end#foreach($port in ${rtcParam.outports})#if(${port.type}!=""),
+    ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}Out${rtcParam.dataPortSuffix}${rtcParam.commonSuffix}("${port.name}", ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix})#end#end
+#if(${rtcParam.servicePorts.size()}>0)
+#foreach($servicePort in ${rtcParam.servicePorts})
+#if(${servicePort.servicePortInterfaces.size()}>0)
+,
+    ${rtcParam.commonPrefix}${rtcParam.servicePortPrefix}${servicePort.name}Port${rtcParam.servicePortSuffix}${rtcParam.commonSuffix}("${servicePort.name}")#end#end#end
+
+
+    // </rtc-template>
+{
+}
+
+/*!
+ * @brief destructor
+ */
+${rtcParam.name}::~${rtcParam.name}()
+{
+}
+
+
+#if(${rtcParam.getDocActionOverView(0).length()}>0)/*!
+ * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(0)})}
+ */#end
+#if(${rtcParam.configParams.size()}==0 && ${rtcParam.IsNotImplemented(0)} && ${rtcParam.inports.size()}==0 && ${rtcParam.outports.size()}==0 && ${rtcParam.servicePorts.size()}==0)/*#end
+
+RTC::ReturnCode_t ${rtcParam.name}::onInitialize()
+{
+  // Registration: InPort/OutPort/Service
+  // <rtc-template block="registration">
+  // Set InPort buffers
+#foreach($port in ${rtcParam.inports})
+#if(${port.type}!="")  addInPort("${port.name}", ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix});
+#end
+#end
+  
+  // Set OutPort buffer
+#foreach($port in ${rtcParam.outports})
+#if(${port.type}!="")  addOutPort("${port.name}", ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}Out${rtcParam.dataPortSuffix}${rtcParam.commonSuffix});
+#end
+#end
+  
+  // Set service provider to Ports
+#if(${rtcParam.servicePorts.size()}>0)
+#foreach($servicePort in ${rtcParam.servicePorts})
+#if(${servicePort.servicePortInterfaces.size()}>0)
+#foreach($serviceInterface in ${servicePort.servicePortInterfaces})
+#if(${serviceInterface.index}==0)
+  ${rtcParam.commonPrefix}${rtcParam.servicePortPrefix}${servicePort.name}Port${rtcParam.servicePortSuffix}${rtcParam.commonSuffix}.registerProvider("${serviceInterface.name}", "${serviceInterface.interfaceType}", ${rtcParam.commonPrefix}${rtcParam.serviceIFPrefix}${serviceInterface.tmplVarName}${rtcParam.serviceIFSuffix}${rtcParam.commonSuffix});
+#end#end#end#end#end
+  
+  // Set service consumers to Ports
+#if(${rtcParam.servicePorts.size()}>0)
+#foreach($servicePort in ${rtcParam.servicePorts})
+#if(${servicePort.servicePortInterfaces.size()}>0)
+#foreach($serviceInterface in ${servicePort.servicePortInterfaces})
+#if(${serviceInterface.index}==1)
+  ${rtcParam.commonPrefix}${rtcParam.servicePortPrefix}${servicePort.name}Port${rtcParam.servicePortSuffix}${rtcParam.commonSuffix}.registerConsumer("${serviceInterface.name}", "${serviceInterface.interfaceType}", ${rtcParam.commonPrefix}${rtcParam.serviceIFPrefix}${serviceInterface.tmplVarName}${rtcParam.serviceIFSuffix}${rtcParam.commonSuffix});
+#end#end#end#end#end
+  
+  // Set CORBA Service Ports
+#if(${rtcParam.servicePorts.size()}>0)
+#foreach($servicePort in ${rtcParam.servicePorts})
+#if(${servicePort.servicePortInterfaces.size()}>0)
+  addPort(${rtcParam.commonPrefix}${rtcParam.servicePortPrefix}${servicePort.name}Port${rtcParam.servicePortSuffix}${rtcParam.commonSuffix});
+#end#end#end
+  
+  // </rtc-template>
+
+  // <rtc-template block="bind_config">
+#if(${rtcParam.configParams.size()}>0)
+  // Bind variables and configuration variable
+#foreach($configParam in ${rtcParam.configParams})  
+  bindParameter("${configParam.name}", ${rtcParam.commonPrefix}${rtcParam.configurationPrefix}${configParam.tmplVarName}${rtcParam.configurationSuffix}${rtcParam.commonSuffix}, "${configParam.defaultVal}");
+#end
+#end
+  // </rtc-template>
+#if(${tmpltHelper.checkDetailContent(0,${rtcParam})})${rtcParam.getDetailContent(0)}
+#end
+  
+  return RTC::RTC_OK;
+}
+#if(${rtcParam.configParams.size()}==0 && ${rtcParam.IsNotImplemented(0)} && ${rtcParam.inports.size()}==0 && ${rtcParam.outports.size()}==0 && ${rtcParam.servicePorts.size()}==0)*/
+#end
+
+#if(${rtcParam.getDocActionOverView(1).length()}>0)/*!
+ * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(1)})}
+ */
+#end
+#if(${rtcParam.IsNotImplemented(1)})/*#end
+
+RTC::ReturnCode_t ${rtcParam.name}::onFinalize()
+{
+#if(${tmpltHelper.checkDetailContent(1,${rtcParam})})${rtcParam.getDetailContent(1)}
+#end
+  return RTC::RTC_OK;
+}
+#if(${rtcParam.IsNotImplemented(1)})*/
+#end
+
+#if(${rtcParam.getDocActionOverView(2).length()}>0)/*!
+ * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(2)})}
+ */
+#end
+#if(${rtcParam.IsNotImplemented(2)})/*#end
+
+RTC::ReturnCode_t ${rtcParam.name}::onStartup(RTC::UniqueId ec_id)
+{
+#if(${tmpltHelper.checkDetailContent(2,${rtcParam})})${rtcParam.getDetailContent(2)}
+#end
+  return RTC::RTC_OK;
+}
+#if(${rtcParam.IsNotImplemented(2)})*/
+#end
+
+#if(${rtcParam.getDocActionOverView(3).length()}>0)/*!
+ * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(3)})}
+ */
+#end
+#if(${rtcParam.IsNotImplemented(3)})/*#end
+
+RTC::ReturnCode_t ${rtcParam.name}::onShutdown(RTC::UniqueId ec_id)
+{
+#if(${tmpltHelper.checkDetailContent(3,${rtcParam})})${rtcParam.getDetailContent(3)}
+#end
+  return RTC::RTC_OK;
+}
+#if(${rtcParam.IsNotImplemented(3)})*/
+#end
+
+#if(${rtcParam.getDocActionOverView(4).length()}>0)/*!
+ * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(4)})}
+ */
+#end
+#if(${rtcParam.IsNotImplemented(4)})/*#end
+
+RTC::ReturnCode_t ${rtcParam.name}::onActivated(RTC::UniqueId ec_id)
+{
+#if(${tmpltHelper.checkDetailContent(4,${rtcParam})})${rtcParam.getDetailContent(4)}
+#end
+  return RTC::RTC_OK;
+}
+#if(${rtcParam.IsNotImplemented(4)})*/
+#end
+
+#if(${rtcParam.getDocActionOverView(5).length()}>0)/*!
+ * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(5)})}
+ */
+#end
+#if(${rtcParam.IsNotImplemented(5)})/*#end
+
+RTC::ReturnCode_t ${rtcParam.name}::onDeactivated(RTC::UniqueId ec_id)
+{
+#if(${tmpltHelper.checkDetailContent(5,${rtcParam})})${rtcParam.getDetailContent(5)}
+#end
+  return RTC::RTC_OK;
+}
+#if(${rtcParam.IsNotImplemented(5)})*/
+#end
+
+#if(${rtcParam.getDocActionOverView(9).length()}>0)/*!
+ * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(9)})}
+ */
+#end
+#if(${rtcParam.IsNotImplemented(9)})/*#end
+
+RTC::ReturnCode_t ${rtcParam.name}::onExecute(RTC::UniqueId ec_id)
+{
+#if(${tmpltHelper.checkDetailContent(9,${rtcParam})})${rtcParam.getDetailContent(9)}
+#end
+  return RTC::RTC_OK;
+}
+#if(${rtcParam.IsNotImplemented(9)})*/
+#end
+
+#if(${rtcParam.getDocActionOverView(6).length()}>0)/*!
+ * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(6)})}
+ */
+#end
+#if(${rtcParam.IsNotImplemented(6)})/*#end
+
+RTC::ReturnCode_t ${rtcParam.name}::onAborting(RTC::UniqueId ec_id)
+{
+#if(${tmpltHelper.checkDetailContent(6,${rtcParam})})${rtcParam.getDetailContent(6)}
+#end
+  return RTC::RTC_OK;
+}
+#if(${rtcParam.IsNotImplemented(6)})*/
+#end
+
+#if(${rtcParam.getDocActionOverView(7).length()}>0)/*!
+ * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(7)})}
+ */
+#end
+#if(${rtcParam.IsNotImplemented(7)})/*#end
+
+RTC::ReturnCode_t ${rtcParam.name}::onError(RTC::UniqueId ec_id)
+{
+#if(${tmpltHelper.checkDetailContent(7,${rtcParam})})${rtcParam.getDetailContent(7)}
+#end
+  return RTC::RTC_OK;
+}
+#if(${rtcParam.IsNotImplemented(7)})*/
+#end
+
+#if(${rtcParam.getDocActionOverView(8).length()}>0)/*!
+ * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(8)})}
+ */
+#end
+#if(${rtcParam.IsNotImplemented(8)})/*#end
+
+RTC::ReturnCode_t ${rtcParam.name}::onReset(RTC::UniqueId ec_id)
+{
+#if(${tmpltHelper.checkDetailContent(8,${rtcParam})})${rtcParam.getDetailContent(8)}
+#end
+  return RTC::RTC_OK;
+}
+#if(${rtcParam.IsNotImplemented(8)})*/
+#end
+
+#if(${rtcParam.getDocActionOverView(10).length()}>0)/*!
+ * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(10)})}
+ */
+#end
+#if(${rtcParam.IsNotImplemented(10)})/*#end
+
+RTC::ReturnCode_t ${rtcParam.name}::onStateUpdate(RTC::UniqueId ec_id)
+{
+#if(${tmpltHelper.checkDetailContent(10,${rtcParam})})${rtcParam.getDetailContent(10)}
+#end
+  return RTC::RTC_OK;
+}
+#if(${rtcParam.IsNotImplemented(10)})*/
+#end
+
+#if(${rtcParam.getDocActionOverView(11).length()}>0)/*!
+ * ${tmpltHelper.convertDoc(${rtcParam.getDocActionOverView(11)})}
+ */
+#end
+#if(${rtcParam.IsNotImplemented(11)})/*#end
+
+RTC::ReturnCode_t ${rtcParam.name}::onRateChanged(RTC::UniqueId ec_id)
+{
+#if(${tmpltHelper.checkDetailContent(11,${rtcParam})})${rtcParam.getDetailContent(11)}
+#end
+  return RTC::RTC_OK;
+}
+#if(${rtcParam.IsNotImplemented(11)})*/
+#end
+
+#if(${tmpltHelper.checkContents(${rtcParam.publicOpeSource})})${rtcParam.publicOpeSource}
+#end
+#if(${tmpltHelper.checkContents(${rtcParam.protectedOpeSource})})${rtcParam.protectedOpeSource}
+#end
+#if(${tmpltHelper.checkContents(${rtcParam.privateOpeSource})})${rtcParam.privateOpeSource}
+#end
+
+
+extern "C"
+{
+ 
+  void ${rtcParam.name}Init(RTC::Manager* manager)
+  {
+    coil::Properties profile(${rtcParam.name.toLowerCase()}_spec);
+    manager->registerFactory(profile,
+                             RTC::Create<${rtcParam.name}>,
+                             RTC::Delete<${rtcParam.name}>);
+  }
+  
+};
+
+

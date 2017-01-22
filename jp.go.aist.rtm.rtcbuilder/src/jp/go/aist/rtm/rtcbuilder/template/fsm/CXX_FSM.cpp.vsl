@@ -1,0 +1,56 @@
+// -*- C++ -*-
+/*!
+ * @file  ${rtcParam.name}FSM.cpp
+ * @date ${dol}Date${dol}
+ * ${dol}Id${dol}
+ */
+
+${sharp}include "${rtcParam.name}FSM.h"
+
+namespace ${rtcParam.name}FSM {
+
+void ${fsmParam.name}::set_component(Fsm* component) {
+  ::set_component(component);
+}
+void ${fsmParam.name}::notify_fsm_state_changed(const char* state) {
+  ::get_component()->notify_fsm_state_changed(state);
+}
+
+// Top state
+void ${fsmParam.name}::init() {
+}
+
+void ${fsmParam.name}::entry() {
+}
+
+void ${fsmParam.name}::exit() {
+}
+
+#foreach($eachTrans in ${fsmParam.getAllTransList()})
+void ${fsmParam.name}::${eachTrans.event}(RTC::TimedLong param) {
+}
+
+#end
+#foreach($eachState in ${fsmParam.getAllStateList()})
+//${eachState.name}
+void ${eachState.name}::init() {
+}
+
+#if( ${eachState.hasEntry} )
+void ${eachState.name}::entry() {
+}
+#end
+#if( ${eachState.hasExit} )
+void ${eachState.name}::exit() {
+}
+#end
+
+#foreach($eachTrans in ${eachState.getTransList()})
+void ${eachState.name}::${eachTrans.event}(RTC::TimedLong param) {
+  setState<${eachTrans.target}>();
+}
+
+#end
+
+#end
+} //end namespace '${rtcParam.name}FSM'

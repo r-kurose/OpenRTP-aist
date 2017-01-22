@@ -1,0 +1,16 @@
+module RTC {
+
+  struct MyData
+  {
+    float  value;
+    string str;
+  };
+
+  struct TimedMyData
+  {
+    Time   tm;
+    MyData data;
+  };
+
+};
+

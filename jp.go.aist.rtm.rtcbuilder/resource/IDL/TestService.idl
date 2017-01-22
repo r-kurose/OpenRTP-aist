@@ -1,0 +1,8 @@
+const unsigned long DATA_SIZE = 3145728;
+struct Data {
+	unsigned long info[DATA_SIZE];
+	unsigned long size;
+};
+interface TestService{
+	Data getData();
+};

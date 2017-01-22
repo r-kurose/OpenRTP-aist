@@ -1,0 +1,38 @@
+find_package(Doxygen)
+if(DOXYGEN_FOUND)
+    ${sharp} Search for Sphinx
+    ${sharp}set(SPHINX_PATH "" CACHE PATH
+    ${sharp}    "Path to the directory containing the sphinx-build program")
+    ${sharp}find_program(SPHINX_BUILD sphinx-build PATHS ${dol}{SPHINX_PATH})
+    ${sharp}if(NOT SPHINX_BUILD)
+    ${sharp}    message(FATAL_ERROR
+    ${sharp}        "Sphinx was not found. Set SPHINX_PATH to the directory containing the sphinx-build executable, or disable BUILD_DOCUMENTATION.")
+    ${sharp}endif(NOT SPHINX_BUILD)
+
+    set(html_dir "${dol}{CMAKE_CURRENT_BINARY_DIR}/html")
+    set(doxygen_dir "${dol}{html_dir}/doxygen")
+    file(MAKE_DIRECTORY ${dol}{html_dir})
+    file(MAKE_DIRECTORY ${dol}{doxygen_dir})
+
+    ${sharp} Doxygen part
+    set(doxyfile "${dol}{CMAKE_CURRENT_BINARY_DIR}/doxyfile")
+    configure_file(doxyfile.in ${dol}{doxyfile})
+    add_custom_target(doxygen_doc ${dol}{DOXYGEN_EXECUTABLE} ${dol}{doxyfile})
+
+    ${sharp} Sphinx part
+    ${sharp}set(conf_dir "${dol}{CMAKE_CURRENT_BINARY_DIR}/conf")
+    ${sharp}file(MAKE_DIRECTORY "${dol}{conf_dir}")
+    ${sharp}file(MAKE_DIRECTORY "${dol}{conf_dir}/_static")
+    ${sharp}set(conf_py "${dol}{conf_dir}/conf.py")
+    ${sharp}configure_file(conf.py.in ${dol}{conf_py})
+    ${sharp}add_custom_target(sphinx_doc ALL sphinx-build -b html -c ${dol}{conf_dir}
+    ${sharp}    ${dol}{CMAKE_CURRENT_SOURCE_DIR}/content ${dol}{CMAKE_CURRENT_BINARY_DIR}/html
+    ${sharp}    DEPENDS doxygen_doc)
+    ${sharp}install(DIRECTORY "${dol}{CMAKE_CURRENT_BINARY_DIR}/html" DESTINATION
+    ${sharp}    "components/share/doc/${dol}{PROJECT_NAME_LOWER}-${dol}{PROJECT_VERSION_MAJOR}"
+    ${sharp}    COMPONENT documentation)
+else(DOXYGEN_FOUND)
+    message(FATAL_ERROR
+        "Doxygen was not found. Cannot build documentation. Disable BUILD_DOCUMENTATION to continue")
+endif(DOXYGEN_FOUND)
+

@@ -1,0 +1,7 @@
+interface sample{
+
+typedef short shortArray10 [10];
+
+short hoge(out shortArray10 a, in shortArray10 b);
+
+};
