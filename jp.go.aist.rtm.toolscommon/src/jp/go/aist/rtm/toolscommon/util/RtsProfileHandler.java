@@ -17,9 +17,19 @@ import javax.xml.datatype.DatatypeFactory;
 
 import jp.go.aist.rtm.toolscommon.corba.CorbaUtil;
 import jp.go.aist.rtm.toolscommon.factory.ComponentLoader;
+import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
-import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
+import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
+import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
+import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
 import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile.PROP;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
+import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.NameValue;
+import jp.go.aist.rtm.toolscommon.model.component.Port;
+import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
 import jp.go.aist.rtm.toolscommon.model.component.util.PortConnectorFactory;
 import jp.go.aist.rtm.toolscommon.model.core.Point;
 import jp.go.aist.rtm.toolscommon.model.core.Rectangle;
@@ -27,35 +37,8 @@ import jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.common.util.EList;
-import org.openrtp.namespaces.rts.version02.Component;
-import org.openrtp.namespaces.rts.version02.ComponentExt;
-import org.openrtp.namespaces.rts.version02.ConfigurationData;
-import org.openrtp.namespaces.rts.version02.ConfigurationSet;
-import org.openrtp.namespaces.rts.version02.Dataport;
-import org.openrtp.namespaces.rts.version02.DataportConnector;
-import org.openrtp.namespaces.rts.version02.DataportConnectorExt;
-import org.openrtp.namespaces.rts.version02.DataportExt;
-import org.openrtp.namespaces.rts.version02.ExecutionContext;
-import org.openrtp.namespaces.rts.version02.ExecutionContextExt;
-import org.openrtp.namespaces.rts.version02.Location;
-import org.openrtp.namespaces.rts.version02.ObjectFactory;
-import org.openrtp.namespaces.rts.version02.Participants;
-import org.openrtp.namespaces.rts.version02.Property;
-import org.openrtp.namespaces.rts.version02.RtsProfile;
-import org.openrtp.namespaces.rts.version02.RtsProfileExt;
-import org.openrtp.namespaces.rts.version02.Serviceport;
-import org.openrtp.namespaces.rts.version02.ServiceportConnector;
-import org.openrtp.namespaces.rts.version02.ServiceportConnectorExt;
-import org.openrtp.namespaces.rts.version02.ServiceportExt;
-import org.openrtp.namespaces.rts.version02.TargetComponent;
-import org.openrtp.namespaces.rts.version02.TargetComponentExt;
-import org.openrtp.namespaces.rts.version02.TargetPort;
-import org.openrtp.namespaces.rts.version02.TargetPortExt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import RTC.RTObject;
-import RTC.RTObjectHelper;
 
 import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
 
@@ -69,10 +52,10 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 			.getLogger(RtsProfileHandler.class);
 
 	private boolean online;
-	private RtsProfileExt originalProfile;
+	private org.openrtp.namespaces.rts.version02.RtsProfileExt originalProfile;
 	private List<String> savedConnectors;
-	private ObjectFactory factory;
-	private jp.go.aist.rtm.toolscommon.model.component.SystemDiagram diagram;
+	private org.openrtp.namespaces.rts.version02.ObjectFactory factory;
+	private SystemDiagram diagram;
 	private ComponentLoader loader = new ComponentLoader();
 
 	static final String KEY_COMPONENT_PATH_ID = "COMPONENT_PATH_ID";
@@ -86,21 +69,22 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	 * @return				ロードしたシステムダイアグラム
 	 * @throws Exception
 	 */
-	public jp.go.aist.rtm.toolscommon.model.component.SystemDiagram load(
-			String targetFile, SystemDiagramKind kind) throws Exception {
-		RtsProfileExt profile = load(targetFile);
+	public SystemDiagram load(String targetFile, SystemDiagramKind kind)
+			throws Exception {
+		org.openrtp.namespaces.rts.version02.RtsProfileExt profile = load(targetFile);
 		return load(profile, kind);
 	}
 
-	public RtsProfileExt load(String targetFile) throws Exception {
+	public org.openrtp.namespaces.rts.version02.RtsProfileExt load(String targetFile) throws Exception {
 		LOGGER.debug("load: targetFile=<{}>", targetFile);
 		XmlHandler handler = new XmlHandler();
-		RtsProfileExt profile = handler.loadXmlRts(targetFile);
+		org.openrtp.namespaces.rts.version02.RtsProfileExt profile = handler.loadXmlRts(targetFile);
 		return profile;
 	}
 
-	public jp.go.aist.rtm.toolscommon.model.component.SystemDiagram load(
-			RtsProfileExt profile, SystemDiagramKind kind) throws Exception {
+	public SystemDiagram load(
+			org.openrtp.namespaces.rts.version02.RtsProfileExt profile,
+			SystemDiagramKind kind) throws Exception {
 		diagram = ComponentFactory.eINSTANCE.createSystemDiagram();
 		diagram.setProfile(profile);
 		diagram.setKind(kind);
@@ -115,20 +99,19 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	 * ダイアグラムの直下に含まれる全コンポーネントに対し、IORからCORABAオブジェクトを設定する
 	 * @param eDiagram
 	 */
-	public void populateCorbaBaseObject(
-			jp.go.aist.rtm.toolscommon.model.component.SystemDiagram eDiagram) {
+	public void populateCorbaBaseObject(SystemDiagram eDiagram) {
 		for (Object element : eDiagram.getRegisteredComponents()) {
-			if (!(element instanceof jp.go.aist.rtm.toolscommon.model.component.CorbaComponent)) continue;
-			jp.go.aist.rtm.toolscommon.model.component.CorbaComponent eCorbaComp = (jp.go.aist.rtm.toolscommon.model.component.CorbaComponent)element;
+			if (!(element instanceof CorbaComponent)) continue;
+			CorbaComponent eCorbaComp = (CorbaComponent)element;
 			String ior = eCorbaComp.getIor();
 			if (ior == null) continue;
 			eCorbaComp.setCorbaObject(getRTObject(ior));
 		}
 	}
 
-	private RTObject getRTObject(String ior) {
+	private RTC.RTObject getRTObject(String ior) {
 		try {
-			return RTObjectHelper.narrow(CorbaUtil.stringToObject(ior));
+			return RTC.RTObjectHelper.narrow(CorbaUtil.stringToObject(ior));
 		} catch (Exception e) {
 			return null;
 		}
@@ -138,15 +121,13 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	 * RTSプロファイルからダイアグラム内にあるコンポーネント間の接続を復元させる
 	 * @param eDiagram
 	 */
-	public void restoreConnection(
-			jp.go.aist.rtm.toolscommon.model.component.SystemDiagram eDiagram) {
+	public void restoreConnection(SystemDiagram eDiagram) {
 		this.diagram = eDiagram;
 		setOnline(eDiagram.getKind() == SystemDiagramKind.ONLINE_LITERAL);
 		loader.setKind(eDiagram.getKind());
 		loader.setDiagram(diagram);
-		RtsProfileExt profile = eDiagram.getProfile();
-		List<jp.go.aist.rtm.toolscommon.model.component.Component> eComps
-			= eDiagram.getRegisteredComponents();
+		org.openrtp.namespaces.rts.version02.RtsProfileExt profile = eDiagram.getProfile();
+		List<Component> eComps = eDiagram.getRegisteredComponents();
 		populateDataConnector(eComps, profile.getDataPortConnectors());
 		populateServiceConnector(eComps, profile.getServicePortConnectors());
 	}
@@ -155,21 +136,17 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	 * RTSプロファイルからダイアグラム内にあるコンポーネントのコンフィグセットを復元させる
 	 * @param eDiagram
 	 */
-	public void restoreConfigSet(
-			jp.go.aist.rtm.toolscommon.model.component.SystemDiagram eDiagram) {
-		for (jp.go.aist.rtm.toolscommon.model.component.Component eComp : eDiagram
-				.getRegisteredComponents()) {
-			Component component = findComponent(eComp, eDiagram.getProfile()
+	public void restoreConfigSet(SystemDiagram eDiagram) {
+		for (Component eComp : eDiagram.getRegisteredComponents()) {
+			org.openrtp.namespaces.rts.version02.Component component = findComponent(eComp, eDiagram.getProfile()
 					.getComponents());
 			populateConfigSets(eComp, component);
 		}
 	}
 
-	public void restoreConfigSetbyIOR(
-			jp.go.aist.rtm.toolscommon.model.component.SystemDiagram eDiagram) {
-		for (jp.go.aist.rtm.toolscommon.model.component.Component eComp : eDiagram
-				.getRegisteredComponents()) {
-			Component component = findComponentByIOR(eComp, eDiagram
+	public void restoreConfigSetbyIOR(SystemDiagram eDiagram) {
+		for (Component eComp : eDiagram.getRegisteredComponents()) {
+			org.openrtp.namespaces.rts.version02.Component component = findComponentByIOR(eComp, eDiagram
 					.getProfile().getComponents());
 			populateConfigSets(eComp, component);
 		}
@@ -179,12 +156,10 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	 * オフラインの複合コンポーネントのポートを復元させる
 	 * @param eDiagram
 	 */
-	public void restoreCompositeComponentPort(
-			jp.go.aist.rtm.toolscommon.model.component.SystemDiagram eDiagram) {
-		List<Component> source = eDiagram.getProfile().getComponents();
-		for (jp.go.aist.rtm.toolscommon.model.component.Component eComp : eDiagram
-				.getRegisteredComponents()) {
-			Component component = findComponent(eComp, source);
+	public void restoreCompositeComponentPort(SystemDiagram eDiagram) {
+		List<org.openrtp.namespaces.rts.version02.Component> source = eDiagram.getProfile().getComponents();
+		for (Component eComp : eDiagram.getRegisteredComponents()) {
+			org.openrtp.namespaces.rts.version02.Component component = findComponent(eComp, source);
 			populateCompositeComponentPort(eComp, component);
 		}
 	}
@@ -194,23 +169,20 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	 * 
 	 * @param eDiagram
 	 */
-	public void restoreExecutionContext(
-			jp.go.aist.rtm.toolscommon.model.component.SystemDiagram eDiagram) {
-		List<Component> components = eDiagram.getProfile().getComponents();
-		for (jp.go.aist.rtm.toolscommon.model.component.Component eComp : eDiagram
-				.getRegisteredComponents()) {
-			Component comp = findComponent(eComp, components);
+	public void restoreExecutionContext(SystemDiagram eDiagram) {
+		List<org.openrtp.namespaces.rts.version02.Component> components = eDiagram.getProfile().getComponents();
+		for (Component eComp : eDiagram.getRegisteredComponents()) {
+			org.openrtp.namespaces.rts.version02.Component comp = findComponent(eComp, components);
 			if (comp == null) {
 				continue;
 			}
-			if (!online
-					&& eComp instanceof jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification) {
+			if (!online && eComp instanceof ComponentSpecification) {
 				// オフラインの場合は owned ECを作成
 				// 事前にリポジトリからコピーされたECはクリアし、RTSプロファイルのものを優先
 				eComp.getExecutionContexts().clear();
 				eComp.getExecutionContextHandler().clear();
-				for (ExecutionContext ec : comp.getExecutionContexts()) {
-					jp.go.aist.rtm.toolscommon.model.component.ExecutionContext eEc = ComponentFactory.eINSTANCE
+				for (org.openrtp.namespaces.rts.version02.ExecutionContext ec : comp.getExecutionContexts()) {
+					ExecutionContext eEc = ComponentFactory.eINSTANCE
 							.createExecutionContext();
 					if ("PERIODIC".equals(ec.getKind())) {
 						eEc.setKindL(KIND_PERIODIC);
@@ -224,10 +196,10 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 					eEc.setRateR(ec.getRate());
 					eEc.setOwner(eComp);
 
-					if (ec instanceof ExecutionContextExt) {
-						ExecutionContextExt ecExt = (ExecutionContextExt) ec;
+					if (ec instanceof org.openrtp.namespaces.rts.version02.ExecutionContextExt) {
+						org.openrtp.namespaces.rts.version02.ExecutionContextExt ecExt = (org.openrtp.namespaces.rts.version02.ExecutionContextExt) ec;
 						// ECのプロパティ設定
-						for (Property prop : ecExt.getProperties()) {
+						for (org.openrtp.namespaces.rts.version02.Property prop : ecExt.getProperties()) {
 							eEc.setProperty(prop.getName(), prop.getValue());
 						}
 					}
@@ -237,9 +209,8 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 				eComp.getExecutionContextHandler().sync();
 			} else {
 				// オンラインの場合は rateを更新
-				for (jp.go.aist.rtm.toolscommon.model.component.ExecutionContext eEc : eComp
-						.getExecutionContexts()) {
-					ExecutionContext ec = findExecutionContext(eEc, eComp, comp
+				for (ExecutionContext eEc : eComp.getExecutionContexts()) {
+					org.openrtp.namespaces.rts.version02.ExecutionContext ec = findExecutionContext(eEc, eComp, comp
 							.getExecutionContexts());
 					if (ec == null) {
 						continue;
@@ -248,16 +219,15 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 				}
 			}
 			// ECのparticipantの設定
-			for (jp.go.aist.rtm.toolscommon.model.component.ExecutionContext eEc : eComp
-					.getExecutionContexts()) {
-				ExecutionContext ec = findExecutionContext(eEc, eComp, comp
+			for (ExecutionContext eEc : eComp.getExecutionContexts()) {
+				org.openrtp.namespaces.rts.version02.ExecutionContext ec = findExecutionContext(eEc, eComp, comp
 						.getExecutionContexts());
 				if (ec == null) {
 					continue;
 				}
-				for (TargetComponent tc : ec.getParticipants()) {
-					jp.go.aist.rtm.toolscommon.model.component.Component eComp2 = findEMFComponentByTargetComponent(
-							tc, eDiagram.getRegisteredComponents());
+				for (org.openrtp.namespaces.rts.version02.TargetComponent tc : ec.getParticipants()) {
+					Component eComp2 = findEMFComponentByTargetComponent(tc,
+							eDiagram.getRegisteredComponents());
 					if (eComp2 == null) {
 						continue;
 					}
@@ -275,8 +245,8 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	 * @param eDiagram
 	 * @return
 	 */
-	public RtsProfileExt save(
-			jp.go.aist.rtm.toolscommon.model.component.SystemDiagram eDiagram) {
+	public org.openrtp.namespaces.rts.version02.RtsProfileExt save(
+			SystemDiagram eDiagram) {
 		this.diagram = eDiagram;
 
 		setOnline(eDiagram.getKind() == SystemDiagramKind.ONLINE_LITERAL);
@@ -284,8 +254,8 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 		originalProfile = eDiagram.getProfile();
 		savedConnectors = new ArrayList<String>();
 
-		factory = new ObjectFactory();
-		RtsProfileExt profile = factory.createRtsProfileExt();
+		factory = new org.openrtp.namespaces.rts.version02.ObjectFactory();
+		org.openrtp.namespaces.rts.version02.RtsProfileExt profile = factory.createRtsProfileExt();
 		profile.setId(eDiagram.getSystemId());
 		DatatypeFactory dateFactory = new DatatypeFactoryImpl();
 		profile.setCreationDate(dateFactory.newXMLGregorianCalendar(eDiagram.getCreationDate()));
@@ -309,49 +279,49 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	// Open時にRTSプロファイルをシステムダイアログに変換する
-	public void populate(
-			jp.go.aist.rtm.toolscommon.model.component.SystemDiagram eDiagram,
-			RtsProfileExt profile) {
+	public void populate(SystemDiagram eDiagram,
+			org.openrtp.namespaces.rts.version02.RtsProfileExt profile) {
 		eDiagram.setSystemId(profile.getId());
 		eDiagram.setCreationDate(profile.getCreationDate().toString());
 		eDiagram.setUpdateDate(profile.getUpdateDate().toString());
 		populate(eDiagram.getComponents(), profile);
 		// ダイアグラムのプロパティ設定
-		for (Property prop : profile.getProperties()) {
+		for (org.openrtp.namespaces.rts.version02.Property prop : profile.getProperties()) {
 			eDiagram.setProperty(prop.getName(), prop.getValue());
 		}
 		// ポートはCORBAObjectまたはRTCProfileを正とするので、この段階ではまだ接続できない
-	}
 
-	// ベンドポイントの文字列表現をMap表現に変換する
-	public Map<Integer, Point> convertFromBendPointString(String bendPoint) {
-		if (StringUtils.isBlank(bendPoint)) return null;
-		String content = bendPoint.trim();
-		content = content.substring(1, content.length() - 1).trim(); // { }除去
-		
-		Map<Integer, Point> result = new HashMap<Integer, Point>();
-		while(content.length() > 0) {
-			content = populatePoint(result, content);
+		// ポート接続のベンドポイントは描画用の情報なのでダイアグラムへ格納し、モデルと分離しておく
+		// データポート接続
+		for (org.openrtp.namespaces.rts.version02.DataportConnector conn : profile
+				.getDataPortConnectors()) {
+			String connectorId = conn.getConnectorId();
+			Map<Integer, Point> bp = getBendPoint(conn);
+			eDiagram.getPortConnectorRoutingConstraint(connectorId).putAll(bp);
 		}
-		
-		return result;
+		// サービスポート接続
+		for (org.openrtp.namespaces.rts.version02.ServiceportConnector conn : profile
+				.getServicePortConnectors()) {
+			String connectorId = conn.getConnectorId();
+			Map<Integer, Point> bp = getBendPoint(conn);
+			eDiagram.getPortConnectorRoutingConstraint(connectorId).putAll(bp);
+		}
 	}
 
 	// Save時にシステムダイアログ内に含まれるコンポーネントをRTSプロファイル内にセットする
 	private void populateComponents(
-			jp.go.aist.rtm.toolscommon.model.component.SystemDiagram eDiagram,
-			RtsProfileExt rtsProfile) {
-		List<Component> components = rtsProfile.getComponents();
-		for (jp.go.aist.rtm.toolscommon.model.component.Component eComp:
-				eDiagram.getRegisteredComponents()) {
-			ComponentExt target = factory.createComponentExt();
+			SystemDiagram eDiagram,
+			org.openrtp.namespaces.rts.version02.RtsProfileExt rtsProfile) {
+		List<org.openrtp.namespaces.rts.version02.Component> components = rtsProfile.getComponents();
+		for (Component eComp : eDiagram.getRegisteredComponents()) {
+			org.openrtp.namespaces.rts.version02.ComponentExt target = factory.createComponentExt();
 			target.setId(eComp.getComponentId());
 			target.setPathUri(eComp.getPathId());
 			target.setInstanceName(eComp.getInstanceNameL());
 			target.setCompositeType(eComp.getCompositeTypeL());
 			target.setIsRequired(eComp.isRequired());
 
-			Component original = findOriginalComponent(eComp);
+			org.openrtp.namespaces.rts.version02.Component original = findOriginalComponent(eComp);
 
 			populateExecutionContext(eComp, target, original);			
 			populateComponentLocation(eComp, target);			
@@ -368,23 +338,25 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	// Save時にシステムダイアログ内に含まれるデータポートとそれらの接続をRTSプロファイル内にセットする
 	// Save時にダイアグラム内に含まれるサービスポート（とその接続）の情報をRTSプロファイル内にセットする
 	private void populatePorts(
-			jp.go.aist.rtm.toolscommon.model.component.Component eComp,
-			ComponentExt target, Component original, RtsProfileExt rtsProfile) {
-		for (jp.go.aist.rtm.toolscommon.model.component.Port ePort : eComp.getOutports()) {
+			Component eComp,
+			org.openrtp.namespaces.rts.version02.ComponentExt target,
+			org.openrtp.namespaces.rts.version02.Component original,
+			org.openrtp.namespaces.rts.version02.RtsProfileExt rtsProfile) {
+		for (Port ePort : eComp.getOutports()) {
 			addDataPort(ePort, target, original);
-			for (jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile eConnProf : ePort.getConnectorProfiles()) {
+			for (ConnectorProfile eConnProf : ePort.getConnectorProfiles()) {
 				addDataPortConnector(eConnProf, rtsProfile, ePort);
 			}
 		}
-		for (jp.go.aist.rtm.toolscommon.model.component.Port ePort : eComp.getInports()) {
+		for (Port ePort : eComp.getInports()) {
 			addDataPort(ePort, target, original);
-			for (jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile eConnProf : ePort.getConnectorProfiles()) {
+			for (ConnectorProfile eConnProf : ePort.getConnectorProfiles()) {
 				addDataPortConnector(eConnProf, rtsProfile, ePort);
 			}
 		}
-		for (jp.go.aist.rtm.toolscommon.model.component.Port ePort : eComp.getServiceports()) {
+		for (Port ePort : eComp.getServiceports()) {
 			addServicePort(ePort, target, original);
-			for (jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile eConnProf : ePort.getConnectorProfiles()) {
+			for (ConnectorProfile eConnProf : ePort.getConnectorProfiles()) {
 				addServicePortConnector(eConnProf, rtsProfile, ePort);
 			}
 		}
@@ -392,9 +364,9 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 
 	// データポートコネクタをRTSに追加する
 	private void addDataPortConnector(
-			jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile eConnProf,
-			RtsProfileExt rtsProfile,
-			jp.go.aist.rtm.toolscommon.model.component.Port ePort) {
+			ConnectorProfile eConnProf,
+			org.openrtp.namespaces.rts.version02.RtsProfileExt rtsProfile,
+			Port ePort) {
 		String connectorId = eConnProf.getConnectorId();
 		if(savedConnectors.contains(connectorId) ) return;
 		rtsProfile.getDataPortConnectors().add(saveDataPortConnector(ePort, eConnProf));
@@ -403,9 +375,9 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 
 	// サービスポートコネクタをRTSに追加する
 	private void addServicePortConnector(
-			jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile eConnProf,
-			RtsProfileExt rtsProfile,
-			jp.go.aist.rtm.toolscommon.model.component.Port ePort) {
+			ConnectorProfile eConnProf,
+			org.openrtp.namespaces.rts.version02.RtsProfileExt rtsProfile,
+			Port ePort) {
 		String connectorId = eConnProf.getConnectorId();
 		if(savedConnectors.contains(connectorId) ) return;
 		rtsProfile.getServicePortConnectors().add(saveServicePortConnector(ePort, eConnProf));
@@ -413,10 +385,9 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	// Save時にシステムダイアログ内に含まれるデータポート接続をRTSプロファイル内の該当要素に変換する
-	private DataportConnector saveDataPortConnector(
-			jp.go.aist.rtm.toolscommon.model.component.Port ePort,
-			jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile eConnProf) {
-		DataportConnectorExt connector = factory.createDataportConnectorExt();
+	private org.openrtp.namespaces.rts.version02.DataportConnector saveDataPortConnector(
+			Port ePort, ConnectorProfile eConnProf) {
+		org.openrtp.namespaces.rts.version02.DataportConnectorExt connector = factory.createDataportConnectorExt();
 		connector.setConnectorId(eConnProf.getConnectorId());
 		connector.setName(eConnProf.getName());
 		connector.setInterfaceType(eConnProf.getInterfaceType());
@@ -430,14 +401,14 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 		}
 
 		// ベンドポイントの保存
-		jp.go.aist.rtm.toolscommon.model.component.PortConnector ePortConnector = diagram
-				.getConnectorMap().get(eConnProf.getConnectorId());
+		PortConnector ePortConnector = diagram.getConnectorMap().get(
+				eConnProf.getConnectorId());
 		if (ePortConnector != null) {
 			saveBendPoint(ePortConnector.getRoutingConstraint().map(),
 					connector.getProperties());
 		}
 
-		DataportConnector original = findOrignalDataportConnector(eConnProf
+		org.openrtp.namespaces.rts.version02.DataportConnector original = findOrignalDataportConnector(eConnProf
 				.getConnectorId());
 
 		if (eConnProf.getSourceString() != null) {
@@ -451,8 +422,8 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 					original == null ? null : original.getTargetDataPort()));
 		}
 
-		if (original instanceof DataportConnectorExt) {
-			DataportConnectorExt originalExt = (DataportConnectorExt) original;
+		if (original instanceof org.openrtp.namespaces.rts.version02.DataportConnectorExt) {
+			org.openrtp.namespaces.rts.version02.DataportConnectorExt originalExt = (org.openrtp.namespaces.rts.version02.DataportConnectorExt) original;
 			connector.setComment(originalExt.getComment());
 			if (!originalExt.isVisible()) {
 				connector.setVisible(Boolean.valueOf(originalExt.isVisible()));
@@ -526,23 +497,22 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	// Save時にシステムダイアログ内に含まれるサービスポート接続をRTSプロファイル内の該当要素に変換する
-	private ServiceportConnector saveServicePortConnector(
-			jp.go.aist.rtm.toolscommon.model.component.Port ePort,
-			jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile eConnProf) {
-		ServiceportConnectorExt connector = factory
+	private org.openrtp.namespaces.rts.version02.ServiceportConnector saveServicePortConnector(
+			Port ePort, ConnectorProfile eConnProf) {
+		org.openrtp.namespaces.rts.version02.ServiceportConnectorExt connector = factory
 				.createServiceportConnectorExt();
 		connector.setConnectorId(eConnProf.getConnectorId());
 		connector.setName(eConnProf.getName());
 
 		// ベンドポイントの保存
-		jp.go.aist.rtm.toolscommon.model.component.PortConnector ePortConnector = diagram
-				.getConnectorMap().get(eConnProf.getConnectorId());
+		PortConnector ePortConnector = diagram.getConnectorMap().get(
+				eConnProf.getConnectorId());
 		if (ePortConnector != null) {
 			saveBendPoint(ePortConnector.getRoutingConstraint().map(),
 					connector.getProperties());
 		}
 
-		ServiceportConnector original = findOrignalServiceportConnector(eConnProf
+		org.openrtp.namespaces.rts.version02.ServiceportConnector original = findOrignalServiceportConnector(eConnProf
 				.getConnectorId());
 
 		if (eConnProf.getSourceString() != null) {
@@ -556,11 +526,11 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 					original == null ? null : original.getTargetServicePort()));
 		}
 
-		if (original instanceof ServiceportConnectorExt) {
+		if (original instanceof org.openrtp.namespaces.rts.version02.ServiceportConnectorExt) {
 			if (original != null) {
 				connector.setTransMethod(original.getTransMethod());
 			}
-			ServiceportConnectorExt originalExt = (ServiceportConnectorExt) original;
+			org.openrtp.namespaces.rts.version02.ServiceportConnectorExt originalExt = (org.openrtp.namespaces.rts.version02.ServiceportConnectorExt) original;
 			connector.setComment(originalExt.getComment());
 			if (!originalExt.isVisible()) {
 				connector.setVisible(Boolean.valueOf(originalExt.isVisible()));
@@ -577,29 +547,29 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	// ベンドポイントをRTSプロファイル内に保存する
-	@SuppressWarnings("unchecked")
-	private void saveBendPoint(Map map,
-			List<Property> rtsProperties) {
-		if (map == null || map.isEmpty()) return;
-		
-		Property propt = factory.createProperty();
+	private void saveBendPoint(Map<Integer, Point> map,
+			List<org.openrtp.namespaces.rts.version02.Property> rtsProperties) {
+		if (map == null || map.isEmpty()) {
+			return;
+		}
+		org.openrtp.namespaces.rts.version02.Property propt = factory
+				.createProperty();
 		propt.setName(KEY_BEND_POINT);
 		propt.setValue(convertToBendPointString(map));
 		rtsProperties.add(propt);
 	}
 
 	// ベンドポイントのMapを文字列表現に変換する
-	@SuppressWarnings("unchecked")
-	private String convertToBendPointString(Map map) {
+	private String convertToBendPointString(Map<Integer, Point> map) {
 		StringBuffer buffer = new StringBuffer();
-		for (Object key :map.keySet()) {
+		for (Object key : map.keySet()) {
 			if (buffer.length() == 0) {
 				buffer.append("{");
 			} else {
 				buffer.append(",");
 			}
 			buffer.append(key).append(":").append("(");
-			jp.go.aist.rtm.toolscommon.model.core.Point point = (Point) map.get(key);
+			Point point = (Point) map.get(key);
 			buffer.append(point.getX()).append(",").append(point.getY());
 			buffer.append(")");
 		}
@@ -608,24 +578,24 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	// プロファイルのTargetPortを生成して返す
-	private TargetPort createTargetPort(
-			jp.go.aist.rtm.toolscommon.model.component.Port ePort,
-			TargetPort original) {
-		TargetPortExt port = factory.createTargetPortExt();
-		final jp.go.aist.rtm.toolscommon.model.component.Component eComp = (jp.go.aist.rtm.toolscommon.model.component.Component) ePort.eContainer();
+	private org.openrtp.namespaces.rts.version02.TargetPort createTargetPort(
+			Port ePort,
+			org.openrtp.namespaces.rts.version02.TargetPort original) {
+		org.openrtp.namespaces.rts.version02.TargetPortExt port = factory.createTargetPortExt();
+		final Component eComp = (Component) ePort.eContainer();
 		port.setComponentId(eComp.getComponentId());
 		port.setInstanceName(eComp.getInstanceNameL());
 		port.setPortName(ePort.getNameL());
 
 		// pathIdをプロパティにセットする
-		Property propt = factory.createProperty();
+		org.openrtp.namespaces.rts.version02.Property propt = factory.createProperty();
 		propt.setName(KEY_COMPONENT_PATH_ID);
 		propt.setValue(eComp.getPathId());
 		port.getProperties().add(propt);
 
-		if (original instanceof TargetPortExt) {
-			TargetPortExt originalPort = (TargetPortExt) original;
-			for (Property property : originalPort.getProperties()) {
+		if (original instanceof org.openrtp.namespaces.rts.version02.TargetPortExt) {
+			org.openrtp.namespaces.rts.version02.TargetPortExt originalPort = (org.openrtp.namespaces.rts.version02.TargetPortExt) original;
+			for (org.openrtp.namespaces.rts.version02.Property property : originalPort.getProperties()) {
 				if (property.getName().equals(KEY_COMPONENT_PATH_ID)) continue;
 				port.getProperties().add(property);
 			}
@@ -635,13 +605,13 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 
 	// Save時にComponentのConfigurationSetの情報をRTSプロファイルにセットする
 	private void populateConfigurationSet(
-			jp.go.aist.rtm.toolscommon.model.component.Component eComp, ComponentExt target) {
-		for (jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet eConfigSet : eComp.getConfigurationSets()) {
-			ConfigurationSet config = factory.createConfigurationSet();
+			Component eComp,
+			org.openrtp.namespaces.rts.version02.ComponentExt target) {
+		for (ConfigurationSet eConfigSet : eComp.getConfigurationSets()) {
+			org.openrtp.namespaces.rts.version02.ConfigurationSet config = factory.createConfigurationSet();
 			config.setId(eConfigSet.getId());
-			for (jp.go.aist.rtm.toolscommon.model.component.NameValue nv : eConfigSet
-					.getConfigurationData()) {
-				ConfigurationData data = factory.createConfigurationData();
+			for (NameValue nv : eConfigSet.getConfigurationData()) {
+				org.openrtp.namespaces.rts.version02.ConfigurationData data = factory.createConfigurationData();
 				data.setName(nv.getName());
 				data.setData(nv.getValueAsString());
 				config.getConfigurationData().add(data);
@@ -655,11 +625,11 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 
 	// Save時に子RTCの情報をRTSプロファイルにセットする
 	private void populateParticipants(
-			jp.go.aist.rtm.toolscommon.model.component.Component eComp,
-			ComponentExt target, Component original) {
-		for (jp.go.aist.rtm.toolscommon.model.component.Component eChildComp : eComp
-				.getComponents()) {
-			Participants participants = null;
+			Component eComp,
+			org.openrtp.namespaces.rts.version02.ComponentExt target,
+			org.openrtp.namespaces.rts.version02.Component original) {
+		for (Component eChildComp : eComp.getComponents()) {
+			org.openrtp.namespaces.rts.version02.Participants participants = null;
 			if (original != null) {
 				participants = findParticipants(eChildComp, original.getParticipants());
 			}
@@ -667,12 +637,12 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 				target.getParticipants().add(participants);
 				continue;
 			}
-			TargetComponentExt child = factory.createTargetComponentExt();
+			org.openrtp.namespaces.rts.version02.TargetComponentExt child = factory.createTargetComponentExt();
 			child.setComponentId(eChildComp.getComponentId());
 			child.setInstanceName(eChildComp.getInstanceNameL());
 
 			// pathIdをプロパティにセットする
-			Property propt = factory.createProperty();
+			org.openrtp.namespaces.rts.version02.Property propt = factory.createProperty();
 			propt.setName(KEY_COMPONENT_PATH_ID);
 			propt.setValue(eChildComp.getPathId());
 			child.getProperties().add(propt);
@@ -685,14 +655,15 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 
 	// Save時にデータポートの情報をRTSプロファイルに追加する
 	private void addDataPort(
-			jp.go.aist.rtm.toolscommon.model.component.Port ePort,
-			ComponentExt target, Component original) {
-		DataportExt port = factory.createDataportExt();
+			Port ePort,
+			org.openrtp.namespaces.rts.version02.ComponentExt target,
+			org.openrtp.namespaces.rts.version02.Component original) {
+		org.openrtp.namespaces.rts.version02.DataportExt port = factory.createDataportExt();
 		port.setName(ePort.getNameL());
 		if (original != null) {
-			Dataport originalPort = findOriginalPort(original.getDataPorts(), port.getName());
-			if (originalPort instanceof DataportExt) {
-				DataportExt source = (DataportExt) originalPort;
+			org.openrtp.namespaces.rts.version02.Dataport originalPort = findOriginalPort(original.getDataPorts(), port.getName());
+			if (originalPort instanceof org.openrtp.namespaces.rts.version02.DataportExt) {
+				org.openrtp.namespaces.rts.version02.DataportExt source = (org.openrtp.namespaces.rts.version02.DataportExt) originalPort;
 				port.setComment(source.getComment());
 				if (!source.isVisible()) {
 					port.setVisible(Boolean.valueOf(source.isVisible()));
@@ -709,14 +680,15 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 
 	// Save時にサービスポートの情報をRTSプロファイルに追加する
 	private void addServicePort(
-			jp.go.aist.rtm.toolscommon.model.component.Port ePort,
-			ComponentExt target, Component original) {
-		ServiceportExt port = factory.createServiceportExt();
+			Port ePort,
+			org.openrtp.namespaces.rts.version02.ComponentExt target,
+			org.openrtp.namespaces.rts.version02.Component original) {
+		org.openrtp.namespaces.rts.version02.ServiceportExt port = factory.createServiceportExt();
 		port.setName(ePort.getNameL());
 		if (original != null) {
-			Serviceport originalPort = findOriginalServicePort(original.getServicePorts(), port.getName());
-			if (originalPort instanceof ServiceportExt) {
-				ServiceportExt source = (ServiceportExt) originalPort;
+			org.openrtp.namespaces.rts.version02.Serviceport originalPort = findOriginalServicePort(original.getServicePorts(), port.getName());
+			if (originalPort instanceof org.openrtp.namespaces.rts.version02.ServiceportExt) {
+				org.openrtp.namespaces.rts.version02.ServiceportExt source = (org.openrtp.namespaces.rts.version02.ServiceportExt) originalPort;
 				port.setComment(source.getComment());
 				if (!source.isVisible()) {
 					port.setVisible(Boolean.valueOf(source.isVisible()));
@@ -733,8 +705,9 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 
 	// Save時にコンポーネントのプロパティをセットする
 	private void populateComponentProperty(
-			jp.go.aist.rtm.toolscommon.model.component.Component eComp,
-			ComponentExt target, Component original) {
+			Component eComp,
+			org.openrtp.namespaces.rts.version02.ComponentExt target,
+			org.openrtp.namespaces.rts.version02.Component original) {
 		// プロパティ設定
 		for (String key : eComp.getPropertyKeys()) {
 			//デプロイ情報は除外
@@ -747,9 +720,10 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	// Save時にコンポーネントの位置情報をセットする
-	private void populateComponentLocation(jp.go.aist.rtm.toolscommon.model.component.Component eComp,
-			ComponentExt target) {
-		target.setLocation(new Location());
+	private void populateComponentLocation(
+			Component eComp,
+			org.openrtp.namespaces.rts.version02.ComponentExt target) {
+		target.setLocation(new org.openrtp.namespaces.rts.version02.Location());
 		target.getLocation().setX(BigInteger.valueOf(eComp.getConstraint().getX()));
 		target.getLocation().setY(BigInteger.valueOf(eComp.getConstraint().getY()));
 		target.getLocation().setHeight(BigInteger.valueOf(eComp.getConstraint().getHeight()));
@@ -758,30 +732,33 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 	
 	// IORを保存する
-	private void populateIOR(List<Property> rtsProperties,
-			jp.go.aist.rtm.toolscommon.model.component.Component eComp) {
-		if (!(eComp instanceof jp.go.aist.rtm.toolscommon.model.component.CorbaComponent)) return;
-		RTObject corbaObjectInterface = ((jp.go.aist.rtm.toolscommon.model.component.CorbaComponent) eComp).getCorbaObjectInterface();
+	private void populateIOR(
+			List<org.openrtp.namespaces.rts.version02.Property> rtsProperties,
+			Component eComp) {
+		if (!(eComp instanceof CorbaComponent)) return;
+		RTC.RTObject corbaObjectInterface = ((CorbaComponent) eComp).getCorbaObjectInterface();
 		if (corbaObjectInterface == null) return;
 		rtsProperties.add(newProperty(KEY_IOR, corbaObjectInterface.toString()));
 	}
 
 	// IORを復元する
 	private void populateIOR(
-			jp.go.aist.rtm.toolscommon.model.component.Component eComp,
-			List<Property> properties) {
-		if (!(eComp instanceof jp.go.aist.rtm.toolscommon.model.component.CorbaComponent)) return;
-		for (Property prop : properties) {
+			Component eComp,
+			List<org.openrtp.namespaces.rts.version02.Property> properties) {
+		if (!(eComp instanceof CorbaComponent)) return;
+		for (org.openrtp.namespaces.rts.version02.Property prop : properties) {
 			if (prop.getName().equals(KEY_IOR)) {
-				((jp.go.aist.rtm.toolscommon.model.component.CorbaComponent) eComp).setIor(prop.getValue());
+				((CorbaComponent) eComp).setIor(prop.getValue());
 			}
 		}
 	}
 
 	// Save時に元のファイルにあったコンポーネントの拡張属性をセットする
-	private void populateFromProfileOnly(ComponentExt target, Component original) {
-		if (!(original instanceof ComponentExt)) return;
-		ComponentExt source = (ComponentExt) original;
+	private void populateFromProfileOnly(
+			org.openrtp.namespaces.rts.version02.ComponentExt target,
+			org.openrtp.namespaces.rts.version02.Component original) {
+		if (!(original instanceof org.openrtp.namespaces.rts.version02.ComponentExt)) return;
+		org.openrtp.namespaces.rts.version02.ComponentExt source = (org.openrtp.namespaces.rts.version02.ComponentExt) original;
 		target.setComment(source.getComment());
 		if (!source.isVisible()) {
 			target.setVisible(Boolean.valueOf(source.isVisible()));
@@ -790,21 +767,20 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 
 	// Save時にExecutionContextの情報をRTSプロファイルにセットする
 	private void populateExecutionContext(
-			jp.go.aist.rtm.toolscommon.model.component.Component eComp,
-			ComponentExt target, Component original) {
-		for (jp.go.aist.rtm.toolscommon.model.component.ExecutionContext eEc : eComp
-				.getExecutionContexts()) {
+			Component eComp,
+			org.openrtp.namespaces.rts.version02.ComponentExt target,
+			org.openrtp.namespaces.rts.version02.Component original) {
+		for (ExecutionContext eEc : eComp.getExecutionContexts()) {
 			String id = eComp.getExecutionContextHandler().getId(eEc);
-			ExecutionContextExt ec = factory.createExecutionContextExt();
+			org.openrtp.namespaces.rts.version02.ExecutionContextExt ec = factory.createExecutionContextExt();
 			ec.setId((id == null) ? "" : id);
 			ec.setKind(eEc.getKindName());
 			ec.setRate(eEc.getRateL());
-			for (jp.go.aist.rtm.toolscommon.model.component.Component c : eEc
-					.getParticipants()) {
-				TargetComponentExt tc = factory.createTargetComponentExt();
+			for (Component c : eEc.getParticipants()) {
+				org.openrtp.namespaces.rts.version02.TargetComponentExt tc = factory.createTargetComponentExt();
 				tc.setComponentId(c.getComponentId());
 				tc.setInstanceName(c.getInstanceNameL());
-				Property prop = newProperty(KEY_COMPONENT_PATH_ID, c
+				org.openrtp.namespaces.rts.version02.Property prop = newProperty(KEY_COMPONENT_PATH_ID, c
 						.getPathId());
 				tc.getProperties().add(prop);
 				ec.getParticipants().add(tc);
@@ -818,7 +794,7 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	// Save時に、元のRTSプロファイル内だけに存在し、システムエディタでは使用しない要素を書き戻す
-	private void populateFromProfileOnly(RtsProfileExt target) {
+	private void populateFromProfileOnly(org.openrtp.namespaces.rts.version02.RtsProfileExt target) {
 		if (originalProfile == null) return;
 		target.setAbstract(originalProfile.getAbstract());
 		target.getGroups().addAll(originalProfile.getGroups());
@@ -852,12 +828,11 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 
 	// RTSプロファイルからEMFコンポーネントを復元する
 	private void populate(
-			EList<jp.go.aist.rtm.toolscommon.model.component.Component> target,
-			RtsProfile profile) {
-		List<jp.go.aist.rtm.toolscommon.model.component.Component> eComps = new ArrayList<jp.go.aist.rtm.toolscommon.model.component.Component>();
-		for (Component component : profile.getComponents()) {
-			jp.go.aist.rtm.toolscommon.model.component.Component eComp = loader
-					.create(component, profile);
+			EList<Component> target,
+			org.openrtp.namespaces.rts.version02.RtsProfile profile) {
+		List<Component> eComps = new ArrayList<>();
+		for (org.openrtp.namespaces.rts.version02.Component component : profile.getComponents()) {
+			Component eComp = loader.create(component, profile);
 			if (eComp == null) {
 				continue;
 			}
@@ -870,11 +845,10 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 			// portはCORBAObjectまたはRTEProfileを正とする
 			// CORBA経由で取得したコンフィグセットを正とする
 
-			if (eComp instanceof jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification) {
+			if (eComp instanceof ComponentSpecification) {
 				// オフラインの場合はポート名を正規化する
-				jp.go.aist.rtm.toolscommon.model.component.Component spec = (jp.go.aist.rtm.toolscommon.model.component.Component) eComp;
-				for (jp.go.aist.rtm.toolscommon.model.component.Port port : spec
-						.getPorts()) {
+				Component spec = (Component) eComp;
+				for (Port port : spec.getPorts()) {
 					String name = ComponentUtil.createPortName(spec
 							.getInstanceNameL(), port.getNameL());
 					port.setNameL(name);
@@ -886,55 +860,52 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 				populateConfigSets(eComp, component);
 			}
 
-			if (component instanceof ComponentExt) {
-				ComponentExt componentExt = (ComponentExt)component;
+			if (component instanceof org.openrtp.namespaces.rts.version02.ComponentExt) {
+				org.openrtp.namespaces.rts.version02.ComponentExt componentExt = (org.openrtp.namespaces.rts.version02.ComponentExt)component;
 				eComp.setConstraint(toRectangle(componentExt.getLocation()));
 				eComp.setOutportDirection(componentExt.getLocation().getDirection());
 
 				// コンポーネントのプロパティ設定
-				for (Property prop : componentExt.getProperties()) {
+				for (org.openrtp.namespaces.rts.version02.Property prop : componentExt.getProperties()) {
 					if (KEY_IOR.equals(prop.getName())) {
 						continue;
 					}
 					eComp.setProperty(prop.getName(), prop.getValue());
 				}
 				// ポートのプロパティ設定
-				for (jp.go.aist.rtm.toolscommon.model.component.Port ePort : eComp
-						.getOutports()) {
+				for (Port ePort : eComp.getOutports()) {
 					populateDataPortProperty(ePort, componentExt.getDataPorts());
 				}
-				for (jp.go.aist.rtm.toolscommon.model.component.Port ePort : eComp
-						.getInports()) {
+				for (Port ePort : eComp.getInports()) {
 					populateDataPortProperty(ePort, componentExt.getDataPorts());
 				}
-				for (jp.go.aist.rtm.toolscommon.model.component.Port ePort : eComp
-						.getServiceports()) {
-					populateServicePortProperty(ePort, componentExt
-							.getServicePorts());
+				for (Port ePort : eComp.getServiceports()) {
+					populateServicePortProperty(ePort,
+							componentExt.getServicePorts());
 				}
 
 				populateIOR(eComp, componentExt.getProperties());
 			}
 			eComps.add(eComp);
 		}
-		for (jp.go.aist.rtm.toolscommon.model.component.Component eComp : eComps) {
+		for (Component eComp : eComps) {
 			if (isShown(eComp, eComps, profile.getComponents()))
 				target.add(eComp);
 		}
 	}
 
 	void populateDataPortProperty(
-			jp.go.aist.rtm.toolscommon.model.component.Port ePort,
-			List<Dataport> ports) {
-		for (Dataport dp : ports) {
+			Port ePort,
+			List<org.openrtp.namespaces.rts.version02.Dataport> ports) {
+		for (org.openrtp.namespaces.rts.version02.Dataport dp : ports) {
 			if (!dp.getName().equals(ePort.getNameL())) {
 				continue;
 			}
-			if (!(dp instanceof DataportExt)) {
+			if (!(dp instanceof org.openrtp.namespaces.rts.version02.DataportExt)) {
 				continue;
 			}
-			DataportExt dpExt = (DataportExt) dp;
-			for (Property prop : dpExt.getProperties()) {
+			org.openrtp.namespaces.rts.version02.DataportExt dpExt = (org.openrtp.namespaces.rts.version02.DataportExt) dp;
+			for (org.openrtp.namespaces.rts.version02.Property prop : dpExt.getProperties()) {
 				ePort.getSynchronizer().setProperty(prop.getName(),
 						prop.getValue());
 			}
@@ -942,17 +913,17 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	void populateServicePortProperty(
-			jp.go.aist.rtm.toolscommon.model.component.Port ePort,
-			List<Serviceport> ports) {
-		for (Serviceport sp : ports) {
+			Port ePort,
+			List<org.openrtp.namespaces.rts.version02.Serviceport> ports) {
+		for (org.openrtp.namespaces.rts.version02.Serviceport sp : ports) {
 			if (!sp.getName().equals(ePort.getNameL())) {
 				continue;
 			}
-			if (!(sp instanceof ServiceportExt)) {
+			if (!(sp instanceof org.openrtp.namespaces.rts.version02.ServiceportExt)) {
 				continue;
 			}
-			ServiceportExt spExt = (ServiceportExt) sp;
-			for (Property prop : spExt.getProperties()) {
+			org.openrtp.namespaces.rts.version02.ServiceportExt spExt = (org.openrtp.namespaces.rts.version02.ServiceportExt) sp;
+			for (org.openrtp.namespaces.rts.version02.Property prop : spExt.getProperties()) {
 				ePort.getSynchronizer().setProperty(prop.getName(),
 						prop.getValue());
 			}
@@ -961,16 +932,15 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 
 	// ルートのシステムダイアグラムに表示されるのであれば、trueを返す
 	private boolean isShown(
-			jp.go.aist.rtm.toolscommon.model.component.Component eComp,
-			List<jp.go.aist.rtm.toolscommon.model.component.Component> eComps,
-			List<Component> source) {
+			Component eComp,
+			List<Component> eComps,
+			List<org.openrtp.namespaces.rts.version02.Component> source) {
 		// targetComponentをparentComponentの子として追加する処理をここで行う
 		for (int i = 0; i < eComps.size(); i++) {
-			jp.go.aist.rtm.toolscommon.model.component.Component eParentComponent 
-				= eComps.get(i);
-			Component component = source.get(i);
-			for (Participants participants : component.getParticipants()) {
-				TargetComponent tc = participants.getParticipant();
+			Component eParentComponent = eComps.get(i);
+			org.openrtp.namespaces.rts.version02.Component component = source.get(i);
+			for (org.openrtp.namespaces.rts.version02.Participants participants : component.getParticipants()) {
+				org.openrtp.namespaces.rts.version02.TargetComponent tc = participants.getParticipant();
 				if (eComp.getComponentId().equals(tc.getComponentId())
 						&& eComp.getInstanceNameL().equals(tc.getInstanceName())) {
 					// pathIdもチェックする
@@ -985,7 +955,7 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	// RtsプロファイルのLocationをRectangleに変換する
-	private Rectangle toRectangle(Location location) {
+	private Rectangle toRectangle(org.openrtp.namespaces.rts.version02.Location location) {
 		Rectangle result = new Rectangle();
 		result.setX(location.getX().intValue());
 		result.setY(location.getY().intValue());
@@ -996,22 +966,21 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 
 	// 複合コンポーネントのポートを復元させる（オフライン）
 	private void populateCompositeComponentPort(
-			jp.go.aist.rtm.toolscommon.model.component.Component eComp,
-			Component component) {
+			Component eComp,
+			org.openrtp.namespaces.rts.version02.Component component) {
 		if (!eComp.isCompositeComponent()) return;
 		if (!online || eComp.getCompositeTypeL().equals(COMPOSITETYPE_GROUPING)) {
-				List<jp.go.aist.rtm.toolscommon.model.component.Component> emptyList 
-					= Collections.emptyList();
-				eComp.addComponentsR(emptyList);
+			List<Component> emptyList = Collections.emptyList();
+			eComp.addComponentsR(emptyList);
 		}
 	}
 
 	// データポートの接続を復元させる
 	private void populateDataConnector(
-			List<jp.go.aist.rtm.toolscommon.model.component.Component> eComps,
-			List<DataportConnector> dataPortConnectors) {
-		for (DataportConnector connBase : dataPortConnectors) {
-			jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile conn = ComponentFactory.eINSTANCE.createConnectorProfile();
+			List<Component> eComps,
+			List<org.openrtp.namespaces.rts.version02.DataportConnector> dataPortConnectors) {
+		for (org.openrtp.namespaces.rts.version02.DataportConnector connBase : dataPortConnectors) {
+			ConnectorProfile conn = ComponentFactory.eINSTANCE.createConnectorProfile();
 			conn.setConnectorId(connBase.getConnectorId());
 			conn.setName(connBase.getName());
 			conn.setInterfaceType(connBase.getInterfaceType());
@@ -1021,9 +990,9 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 			if(connBase.getPushInterval()!=null) conn.setPushRate(connBase.getPushInterval());
 
 			// 追加プロパティの設定
-			if (connBase instanceof DataportConnectorExt) {
-				DataportConnectorExt connExt = (DataportConnectorExt) connBase;
-				for (Property p : connExt.getProperties()) {
+			if (connBase instanceof org.openrtp.namespaces.rts.version02.DataportConnectorExt) {
+				org.openrtp.namespaces.rts.version02.DataportConnectorExt connExt = (org.openrtp.namespaces.rts.version02.DataportConnectorExt) connBase;
+				for (org.openrtp.namespaces.rts.version02.Property p : connExt.getProperties()) {
 					String name = p.getName();
 					String value = p.getValue();
 					if (PROP.PUSH_POLICY.equals(name)) {
@@ -1098,25 +1067,24 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 				}
 			}
 
-			connectPorts(conn, eComps,
-					connBase.getTargetDataPort(), connBase.getSourceDataPort()
-					, getBendPoint(connBase));
+			connectPorts(conn, eComps, connBase.getTargetDataPort(),
+					connBase.getSourceDataPort());
 		}
 	}
 
 	// RTSプロファイルのサービスポート接続から接続を復元する
 	private void populateServiceConnector(
-			List<jp.go.aist.rtm.toolscommon.model.component.Component> eComp,
-			List<ServiceportConnector> servicePortConnectors) {
-		for (ServiceportConnector connBase : servicePortConnectors) {
-			jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile eConnProf = ComponentFactory.eINSTANCE.createConnectorProfile();
+			List<Component> eComp,
+			List<org.openrtp.namespaces.rts.version02.ServiceportConnector> servicePortConnectors) {
+		for (org.openrtp.namespaces.rts.version02.ServiceportConnector connBase : servicePortConnectors) {
+			ConnectorProfile eConnProf = ComponentFactory.eINSTANCE.createConnectorProfile();
 			eConnProf.setConnectorId(connBase.getConnectorId());
 			eConnProf.setName(connBase.getName());
 
 			// 追加プロパティの設定
-			if (connBase instanceof ServiceportConnectorExt) {
-				ServiceportConnectorExt connExt = (ServiceportConnectorExt) connBase;
-				for (Property p : connExt.getProperties()) {
+			if (connBase instanceof org.openrtp.namespaces.rts.version02.ServiceportConnectorExt) {
+				org.openrtp.namespaces.rts.version02.ServiceportConnectorExt connExt = (org.openrtp.namespaces.rts.version02.ServiceportConnectorExt) connBase;
+				for (org.openrtp.namespaces.rts.version02.Property p : connExt.getProperties()) {
 					if (isIOR(p.getValue())
 							|| KEY_BEND_POINT.equals(p.getName())) {
 						continue;
@@ -1126,7 +1094,7 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 			}
 
 			connectPorts(eConnProf, eComp, connBase.getTargetServicePort(),
-					connBase.getSourceServicePort(), getBendPoint(connBase));
+					connBase.getSourceServicePort());
 		}
 	}
 	
@@ -1134,35 +1102,15 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 		return (value != null && value.startsWith("IOR:"));
 	}
 
-	// ベンドポイントをプロパティから復元する
-	private Map<Integer, Point> getBendPoint(DataportConnector connBase) {
-		if (!(connBase instanceof DataportConnectorExt)) return null;
-		DataportConnectorExt connBaseExt = (DataportConnectorExt) connBase;
-		return getBendPoint(connBaseExt.getProperties());
-	}
-
-	// ベンドポイントをプロパティから復元する
-	private Map<Integer, Point> getBendPoint(ServiceportConnector connBase) {
-		if (!(connBase instanceof ServiceportConnectorExt)) return null;
-		ServiceportConnectorExt connBaseExt = (ServiceportConnectorExt) connBase;
-		return getBendPoint(connBaseExt.getProperties());
-	}
-
-	// ベンドポイントをプロパティから復元する
-	private Map<Integer, Point> getBendPoint(List<Property> properties) {
-		String bendPointString = findProperyValue(KEY_BEND_POINT, properties);
-		if (bendPointString == null) return null;
-		return convertFromBendPointString(bendPointString);
-	}
-
 	// ポート間の接続を復元する
 	private void connectPorts(
-			jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile eConnProf,
-			List<jp.go.aist.rtm.toolscommon.model.component.Component> eComps,
-			TargetPort target, TargetPort source, Map<Integer, Point> bendPoint) {
-		jp.go.aist.rtm.toolscommon.model.component.Component eComp = null;
-		jp.go.aist.rtm.toolscommon.model.component.Port eSource = null;
-		jp.go.aist.rtm.toolscommon.model.component.Port eTarget = null;
+			ConnectorProfile eConnProf,
+			List<Component> eComps,
+			org.openrtp.namespaces.rts.version02.TargetPort target,
+			org.openrtp.namespaces.rts.version02.TargetPort source) {
+		Component eComp = null;
+		Port eSource = null;
+		Port eTarget = null;
 		if (source != null) {
 			eComp = findEMFComponentByTargetComponent(source, eComps);
 			if (eComp != null) {
@@ -1175,15 +1123,28 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 				eTarget = findEMFPortByTargetPort(target, eComp.getPorts());
 			}
 		}
-		jp.go.aist.rtm.toolscommon.model.component.PortConnector eConnector = PortConnectorFactory
-				.createPortConnector(eSource, eTarget);
+		// すでにポート間が接続済みの場合は重複接続しない
+		String eSourceId = eSource.getOriginalPortString();
+		String eTargetId = eTarget.getOriginalPortString();
+		for (ConnectorProfile prof : eSource.getConnectorProfiles()) {
+			String sname = prof.getSourceString();
+			String tname = prof.getTargetString();
+			LOGGER.trace(
+					"connectPorts: verify existing connection: sourceId=<{}> targetId=<{}> prof.sourceId=<{}> prof.targetId=<{}>",
+					eSourceId, eTargetId, sname, tname);
+			if (eSourceId.equals(sname) && eTargetId.equals(tname)) {
+				LOGGER.info(
+						"connectPorts: already connected ports: source=<{}> target=<{}> sourceId=<{}> targetId=<{}>",
+						eSource.getNameL(), eTarget.getNameL(), eSourceId,
+						eTargetId);
+				return;
+			}
+		}
+		PortConnector eConnector = PortConnectorFactory.createPortConnector(
+				eSource, eTarget);
 		eConnector.setSource(eSource);
 		eConnector.setTarget(eTarget);
 		eConnector.setConnectorProfile(eConnProf);
-		if (bendPoint != null && !bendPoint.isEmpty()) {
-			eConnector.getRoutingConstraint().map().clear();
-			eConnector.getRoutingConstraint().map().putAll(bendPoint);
-		}
 		if (!online) {
 			diagram.getConnectorMap().put(eConnProf.getConnectorId(),
 					eConnector);
@@ -1193,7 +1154,7 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 
 	// RTSプロファイルからコンポジット種別を復元する
 	private void populateCompositeType(
-			jp.go.aist.rtm.toolscommon.model.component.Component eComp,
+			Component eComp,
 			String compositeType) {
 		if (compositeType.equals("None")) return;
 		eComp.setCategoryL("composite." + compositeType);
@@ -1201,19 +1162,19 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 
 	// RTSプロファイルからコンフィグセットを復元する
 	private void populateConfigSets(
-			jp.go.aist.rtm.toolscommon.model.component.Component eComp,
-			Component component) {
+			Component eComp,
+			org.openrtp.namespaces.rts.version02.Component component) {
 		if (component == null) {
 			return;
 		}
 		eComp.getConfigurationSets().clear();
 		String activeId = component.getActiveConfigurationSet();
-		for (ConfigurationSet configSet : component.getConfigurationSets()) {
-			jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet eConfigSet = ComponentFactory.eINSTANCE.createConfigurationSet();
+		for (org.openrtp.namespaces.rts.version02.ConfigurationSet configSet : component.getConfigurationSets()) {
+			ConfigurationSet eConfigSet = ComponentFactory.eINSTANCE.createConfigurationSet();
 			if (configSet.getId().equals(activeId)) eComp.setActiveConfigurationSet(eConfigSet);
 			eConfigSet.setId(configSet.getId());
-			for (ConfigurationData configData : configSet.getConfigurationData()) {
-				jp.go.aist.rtm.toolscommon.model.component.NameValue nv = ComponentFactory.eINSTANCE.createNameValue();
+			for (org.openrtp.namespaces.rts.version02.ConfigurationData configData : configSet.getConfigurationData()) {
+				NameValue nv = ComponentFactory.eINSTANCE.createNameValue();
 				nv.setName(configData.getName());
 				nv.setValue(configData.getData());
 				eConfigSet.getConfigurationData().add(nv);
@@ -1222,9 +1183,55 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 		}
 	}
 
+	// ベンドポイントをプロパティから復元する
+	private Map<Integer, Point> getBendPoint(
+			org.openrtp.namespaces.rts.version02.DataportConnector connBase) {
+		if (!(connBase instanceof org.openrtp.namespaces.rts.version02.DataportConnectorExt)) {
+			return null;
+		}
+		org.openrtp.namespaces.rts.version02.DataportConnectorExt connBaseExt = (org.openrtp.namespaces.rts.version02.DataportConnectorExt) connBase;
+		return getBendPoint(connBaseExt.getProperties());
+	}
+
+	// ベンドポイントをプロパティから復元する
+	private Map<Integer, Point> getBendPoint(
+			org.openrtp.namespaces.rts.version02.ServiceportConnector connBase) {
+		if (!(connBase instanceof org.openrtp.namespaces.rts.version02.ServiceportConnectorExt)) {
+			return null;
+		}
+		org.openrtp.namespaces.rts.version02.ServiceportConnectorExt connBaseExt = (org.openrtp.namespaces.rts.version02.ServiceportConnectorExt) connBase;
+		return getBendPoint(connBaseExt.getProperties());
+	}
+
+	// ベンドポイントをプロパティから復元する
+	private Map<Integer, Point> getBendPoint(
+			List<org.openrtp.namespaces.rts.version02.Property> properties) {
+		String bendPointString = findProperyValue(KEY_BEND_POINT, properties);
+		if (bendPointString == null) {
+			return null;
+		}
+		return convertFromBendPointString(bendPointString);
+	}
+
+	// ベンドポイントの文字列表現をMap表現に変換する
+	public Map<Integer, Point> convertFromBendPointString(String bendPoint) {
+		if (StringUtils.isBlank(bendPoint)) {
+			return null;
+		}
+		String content = bendPoint.trim();
+		content = content.substring(1, content.length() - 1).trim(); // { }除去
+		Map<Integer, Point> result = new HashMap<Integer, Point>();
+		while (content.length() > 0) {
+			content = populatePoint(result, content);
+		}
+		return result;
+	}
+
 	/** キーと値を指定してプロパティリストを更新(キーに一致する要素があれば値を上書き) */
-	void setProperty(String name, String value, List<Property> properties) {
-		Property prop = findProperty(name, properties);
+	void setProperty(String name, String value,
+			List<org.openrtp.namespaces.rts.version02.Property> properties) {
+		org.openrtp.namespaces.rts.version02.Property prop = findProperty(name,
+				properties);
 		if (prop != null) {
 			prop.setValue(value);
 		} else {
@@ -1234,8 +1241,10 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	/** キーと値を指定してプロパティ要素を作成 */
-	Property newProperty(String name, String value) {
-		Property prop = factory.createProperty();
+	org.openrtp.namespaces.rts.version02.Property newProperty(String name,
+			String value) {
+		org.openrtp.namespaces.rts.version02.Property prop = factory
+				.createProperty();
 		prop.setName(name);
 		prop.setValue(value);
 		return prop;
@@ -1243,8 +1252,8 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 
 	/** TargetComponentがPathIdを持ち、EMFコンポーネントのPathIdが等しい場合はtrue */
 	private boolean equalsPathId(
-			jp.go.aist.rtm.toolscommon.model.component.Component eComp,
-			TargetComponent tc) {
+			Component eComp,
+			org.openrtp.namespaces.rts.version02.TargetComponent tc) {
 		String pathId = getPathId(tc);
 		if (pathId == null) {
 			return true;
@@ -1253,24 +1262,24 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	/** TargetComponent、もしくはTargetPortのプロパティからPathIdを取り出す */
-	private String getPathId(TargetComponent tc) {
-		if (tc instanceof TargetPortExt) {
-			TargetPortExt saved = (TargetPortExt) tc;
+	private String getPathId(org.openrtp.namespaces.rts.version02.TargetComponent tc) {
+		if (tc instanceof org.openrtp.namespaces.rts.version02.TargetPortExt) {
+			org.openrtp.namespaces.rts.version02.TargetPortExt saved = (org.openrtp.namespaces.rts.version02.TargetPortExt) tc;
 			return findProperyValue(KEY_COMPONENT_PATH_ID, saved.getProperties());
 		}
-		if (tc instanceof TargetComponentExt) {
-			TargetComponentExt saved = (TargetComponentExt) tc;
+		if (tc instanceof org.openrtp.namespaces.rts.version02.TargetComponentExt) {
+			org.openrtp.namespaces.rts.version02.TargetComponentExt saved = (org.openrtp.namespaces.rts.version02.TargetComponentExt) tc;
 			return findProperyValue(KEY_COMPONENT_PATH_ID, saved.getProperties());
 		}
 		return null;
 	}
 
 	/** Open時に読み込んだRTSプロファイルから該当するデータポート接続を見つけ出す */
-	private DataportConnector findOrignalDataportConnector(String connectorId) {
+	private org.openrtp.namespaces.rts.version02.DataportConnector findOrignalDataportConnector(String connectorId) {
 		if (originalProfile == null) {
 			return null;
 		}
-		for (DataportConnector temp : originalProfile.getDataPortConnectors()) {
+		for (org.openrtp.namespaces.rts.version02.DataportConnector temp : originalProfile.getDataPortConnectors()) {
 			if (temp.getConnectorId().equals(connectorId)) {
 				return temp;
 			}
@@ -1279,12 +1288,12 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	/** Open時に読み込んだRTSプロファイルから該当するサービスポート接続を見つけ出す */
-	private ServiceportConnector findOrignalServiceportConnector(
+	private org.openrtp.namespaces.rts.version02.ServiceportConnector findOrignalServiceportConnector(
 			String connectorId) {
 		if (originalProfile == null) {
 			return null;
 		}
-		for (ServiceportConnector temp : originalProfile
+		for (org.openrtp.namespaces.rts.version02.ServiceportConnector temp : originalProfile
 				.getServicePortConnectors()) {
 			if (temp.getConnectorId().equals(connectorId)) {
 				return temp;
@@ -1294,8 +1303,8 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	/** OpenしたRTSプロファイルに存在したDataport要素を探し出す */
-	private Dataport findOriginalPort(List<Dataport> ports, String name) {
-		for (Dataport port : ports) {
+	private org.openrtp.namespaces.rts.version02.Dataport findOriginalPort(List<org.openrtp.namespaces.rts.version02.Dataport> ports, String name) {
+		for (org.openrtp.namespaces.rts.version02.Dataport port : ports) {
 			if (port.getName().equals(name)) {
 				return port;
 			}
@@ -1304,8 +1313,8 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	/** OpenしたRTSプロファイルに存在したServiceport要素を探し出す */
-	private Serviceport findOriginalServicePort(List<Serviceport> ports, String name) {
-		for (Serviceport port : ports) {
+	private org.openrtp.namespaces.rts.version02.Serviceport findOriginalServicePort(List<org.openrtp.namespaces.rts.version02.Serviceport> ports, String name) {
+		for (org.openrtp.namespaces.rts.version02.Serviceport port : ports) {
 			if (port.getName().equals(name)) {
 				return port;
 			}
@@ -1314,8 +1323,8 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	/** OpenしたRTSプロファイルに存在したComponent要素を探し出す */
-	private Component findOriginalComponent(
-			jp.go.aist.rtm.toolscommon.model.component.Component eComp) {
+	private org.openrtp.namespaces.rts.version02.Component findOriginalComponent(
+			Component eComp) {
 		if (originalProfile == null) {
 			return null;
 		}
@@ -1323,10 +1332,10 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	/** EMFコンポーネントに合致するRTSコンポーネントを探し出す */
-	public static Component findComponent(
-			jp.go.aist.rtm.toolscommon.model.component.Component eComp,
-			List<Component> components) {
-		for (Component component : components) {
+	public static org.openrtp.namespaces.rts.version02.Component findComponent(
+			Component eComp,
+			List<org.openrtp.namespaces.rts.version02.Component> components) {
+		for (org.openrtp.namespaces.rts.version02.Component component : components) {
 			if (component.getId().equals(eComp.getComponentId())
 					&& component.getInstanceName().equals(
 							eComp.getInstanceNameL())
@@ -1338,18 +1347,18 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	/** EMFコンポーネントのIORに合致するRTSコンポーネントを探し出す */
-	public static Component findComponentByIOR(
-			jp.go.aist.rtm.toolscommon.model.component.Component eComp,
-			List<Component> components) {
-		if (!(eComp instanceof jp.go.aist.rtm.toolscommon.model.component.CorbaComponent)) {
+	public static org.openrtp.namespaces.rts.version02.Component findComponentByIOR(
+			Component eComp,
+			List<org.openrtp.namespaces.rts.version02.Component> components) {
+		if (!(eComp instanceof CorbaComponent)) {
 			return null;
 		}
-		jp.go.aist.rtm.toolscommon.model.component.CorbaComponent eCorbaComp = (jp.go.aist.rtm.toolscommon.model.component.CorbaComponent) eComp;
-		for (Component c : components) {
-			if (!(c instanceof ComponentExt)) {
+		CorbaComponent eCorbaComp = (CorbaComponent) eComp;
+		for (org.openrtp.namespaces.rts.version02.Component c : components) {
+			if (!(c instanceof org.openrtp.namespaces.rts.version02.ComponentExt)) {
 				continue;
 			}
-			ComponentExt cx = (ComponentExt) c;
+			org.openrtp.namespaces.rts.version02.ComponentExt cx = (org.openrtp.namespaces.rts.version02.ComponentExt) c;
 			String compIor = findProperyValue(KEY_IOR, cx.getProperties());
 			if (compIor == null) {
 				continue;
@@ -1362,11 +1371,11 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	/** EMFコンポーネントに合致するParticipants要素を探し出す */
-	private Participants findParticipants(
-			jp.go.aist.rtm.toolscommon.model.component.Component eComp,
-			List<Participants> participants) {
-		for (Participants participant : participants) {
-			TargetComponent tc = participant.getParticipant();
+	private org.openrtp.namespaces.rts.version02.Participants findParticipants(
+			Component eComp,
+			List<org.openrtp.namespaces.rts.version02.Participants> participants) {
+		for (org.openrtp.namespaces.rts.version02.Participants participant : participants) {
+			org.openrtp.namespaces.rts.version02.TargetComponent tc = participant.getParticipant();
 			if (tc.getComponentId().equals(eComp.getComponentId())
 					&& tc.getInstanceName().equals(eComp.getInstanceNameL())) {
 				// pathIdもチェックする
@@ -1379,15 +1388,15 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	/** EMFコンポーネントのECに合致するECを探し出す */
-	public static ExecutionContext findExecutionContext(
-			jp.go.aist.rtm.toolscommon.model.component.ExecutionContext eEc,
-			jp.go.aist.rtm.toolscommon.model.component.Component eComp,
-			List<ExecutionContext> contexts) {
+	public static org.openrtp.namespaces.rts.version02.ExecutionContext findExecutionContext(
+			ExecutionContext eEc,
+			Component eComp,
+			List<org.openrtp.namespaces.rts.version02.ExecutionContext> contexts) {
 		String id = eComp.getExecutionContextHandler().getId(eEc);
 		if (id == null) {
 			return null;
 		}
-		for (ExecutionContext ec : contexts) {
+		for (org.openrtp.namespaces.rts.version02.ExecutionContext ec : contexts) {
 			if (id.equals(ec.getId()) && eEc.getKindName().equals(ec.getKind())) {
 				return ec;
 			}
@@ -1396,10 +1405,10 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	/** TargetComponentに合致するEMFコンポーネントを探し出す */
-	private jp.go.aist.rtm.toolscommon.model.component.Component findEMFComponentByTargetComponent(
-			TargetComponent tc,
-			List<jp.go.aist.rtm.toolscommon.model.component.Component> eComps) {
-		for (jp.go.aist.rtm.toolscommon.model.component.Component eComp : eComps) {
+	private Component findEMFComponentByTargetComponent(
+			org.openrtp.namespaces.rts.version02.TargetComponent tc,
+			List<Component> eComps) {
+		for (Component eComp : eComps) {
 			if (eComp.getComponentId().equals(tc.getComponentId())
 					&& eComp.getInstanceNameL().equals(tc.getInstanceName())) {
 				// pathIdもチェックする
@@ -1412,16 +1421,17 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	/** TargetPortに合致するEMFポートを探し出す */
-	private jp.go.aist.rtm.toolscommon.model.component.Port findEMFPortByTargetPort(
-			TargetPort tp,
-			List<jp.go.aist.rtm.toolscommon.model.component.Port> ePorts) {
+	private Port findEMFPortByTargetPort(
+			org.openrtp.namespaces.rts.version02.TargetPort tp,
+			List<Port> ePorts) {
 		String name = tp.getPortName();
-		if (name.split("\\.").length < 2 && !name.startsWith(tp.getInstanceName())) {
+		if (name.split("\\.").length < 2
+				&& !name.startsWith(tp.getInstanceName())) {
 			// オフラインの場合はポート名を正規化する
-			name = ComponentUtil.createPortName(tp.getInstanceName(), tp
-					.getPortName());
+			name = ComponentUtil.createPortName(tp.getInstanceName(),
+					tp.getPortName());
 		}
-		for (jp.go.aist.rtm.toolscommon.model.component.Port ePort : ePorts) {
+		for (Port ePort : ePorts) {
 			if (name.equals(ePort.getNameL())) {
 				return ePort;
 			}
@@ -1430,11 +1440,13 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	/** RTSプロファイルのプロパティのリストから、指定したキーのプロパティを探し出す */
-	static Property findProperty(String name, List<Property> properties) {
+	static org.openrtp.namespaces.rts.version02.Property findProperty(
+			String name,
+			List<org.openrtp.namespaces.rts.version02.Property> properties) {
 		if (name == null) {
 			return null;
 		}
-		for (Property p : properties) {
+		for (org.openrtp.namespaces.rts.version02.Property p : properties) {
 			if (name.equals(p.getName())) {
 				return p;
 			}
@@ -1443,8 +1455,10 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	}
 
 	/** RTSプロファイルのプロパティのリストから、指定したキーの値を探し出す */
-	static String findProperyValue(String name, List<Property> properties) {
-		Property p = findProperty(name, properties);
+	static String findProperyValue(String name,
+			List<org.openrtp.namespaces.rts.version02.Property> properties) {
+		org.openrtp.namespaces.rts.version02.Property p = findProperty(name,
+				properties);
 		return (p != null) ? p.getValue() : null;
 	}
 

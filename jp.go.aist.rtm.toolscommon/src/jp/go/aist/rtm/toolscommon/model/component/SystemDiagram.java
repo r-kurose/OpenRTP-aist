@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
+import jp.go.aist.rtm.toolscommon.model.core.Point;
 
 import org.eclipse.emf.common.util.EList;
 import org.openrtp.namespaces.rts.version02.RtsProfileExt;
@@ -250,6 +251,13 @@ public interface SystemDiagram extends ModelElement, IPropertyMap {
 	 * @return ダイアグラム内に含まれるコネクタをコネクタIDとConnectorのマップで返す。
 	 */
 	Map<String, PortConnector> getConnectorMap();
+
+	/**
+	 * @param connectorId
+	 *            コネクタID
+	 * @return 対象コネクタのベンドポイント設定をマップで返します。
+	 */
+	Map<Integer, Point> getPortConnectorRoutingConstraint(String connectorId);
 
 	/**
 	 * @param component	削除するコンポーネント

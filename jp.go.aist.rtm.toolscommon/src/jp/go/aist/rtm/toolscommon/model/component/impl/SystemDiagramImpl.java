@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
@@ -24,6 +25,7 @@ import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
 import jp.go.aist.rtm.toolscommon.model.component.util.CorbaObserverStore;
 import jp.go.aist.rtm.toolscommon.model.component.util.PropertyMap;
+import jp.go.aist.rtm.toolscommon.model.core.Point;
 import jp.go.aist.rtm.toolscommon.model.core.impl.ModelElementImpl;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.RefreshThread;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSupport;
@@ -816,7 +818,7 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 		return result.toString();
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	@Override
 	public java.lang.Object getAdapter(Class adapter) {
 		java.lang.Object result = null;
@@ -839,11 +841,25 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 		this.profile = profile;
 	}
 
-	private Map<String, PortConnector> connectorMap = new HashMap<String, PortConnector>();
+	private Map<String, PortConnector> connectorMap = new HashMap<>();
 
 	@Override
 	public Map<String, PortConnector> getConnectorMap() {
 		return connectorMap;
+	}
+
+	private Map<String, Map<Integer, Point>> portConnectorRoutingConstraintMap = new HashMap<>();
+
+	@Override
+	public Map<Integer, Point> getPortConnectorRoutingConstraint(
+			String connectorId) {
+		Map<Integer, Point> ret = this.portConnectorRoutingConstraintMap
+				.get(connectorId);
+		if (ret == null) {
+			ret = new TreeMap<>();
+			this.portConnectorRoutingConstraintMap.put(connectorId, ret);
+		}
+		return ret;
 	}
 
 	@Override
