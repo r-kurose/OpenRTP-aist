@@ -54,10 +54,12 @@ public abstract class PortEditPart extends AbstractEditPart implements NodeEditP
 	 */
 	public PortEditPart(ActionRegistry actionRegistry) {
 		super(actionRegistry);
+		LOGGER.trace("new: actionRegistry=<{}>", actionRegistry);
 	}
 
 	@Override
 	protected IFigure createFigure() {
+		LOGGER.trace("createFigure");
 		portLabel = new FloatingLabel(((AbstractGraphicalEditPart) getParent().getParent()).getFigure());
 		portLabel.setText(getPortBaseName());
 		portLabel.setSize(30, 10);
@@ -103,30 +105,35 @@ public abstract class PortEditPart extends AbstractEditPart implements NodeEditP
 
 	@Override
 	protected void createEditPolicies() {
+		LOGGER.trace("createEditPolicies");
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new PortGraphicalNodeEditPolicy());
 	}
 
 	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
-		LOGGER.trace("getSourceConnectionAnchor: editpart=<{}>", connection);
+		LOGGER.trace("getSourceConnectionAnchor: this=<{}> editpart=<{}>",
+				getModel().getNameL(), connection);
 		return new PortAnchor(getFigure());
 	}
 
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
-		LOGGER.trace("getTargetConnectionAnchor: editpart=<{}>", connection);
+		LOGGER.trace("getTargetConnectionAnchor: this=<{}> editpart=<{}>",
+				getModel().getNameL(), connection);
 		return new PortAnchor(getFigure());
 	}
 
 	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
-		LOGGER.trace("getSourceConnectionAnchor: request=<{}>", request);
+		LOGGER.trace("getSourceConnectionAnchor: this=<{}> request=<{}>",
+				getModel().getNameL(), request);
 		return new PortAnchor(getFigure());
 	}
 
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-		LOGGER.trace("getTargetConnectionAnchor: request=<{}>", request);
+		LOGGER.trace("getTargetConnectionAnchor: this=<{}> request=<{}>",
+				getModel().getNameL(), request);
 		return new PortAnchor(getFigure());
 	}
 
@@ -173,6 +180,7 @@ public abstract class PortEditPart extends AbstractEditPart implements NodeEditP
 
 	@Override
 	public void activate() {
+		LOGGER.trace("activate: this=<{}>", getModel().getNameL());
 		super.activate();
 		SystemEditorPreferenceManager.getInstance().addPropertyChangeListener(preferenceChangeListener);
 		if (getModel().eContainer() instanceof ComponentSpecification) {
@@ -182,6 +190,7 @@ public abstract class PortEditPart extends AbstractEditPart implements NodeEditP
 
 	@Override
 	public void deactivate() {
+		LOGGER.trace("deactivate: this=<{}>", getModel().getNameL());
 		portLabel.deactivate();
 		super.deactivate();
 		SystemEditorPreferenceManager.getInstance().removePropertyChangeListener(preferenceChangeListener);
@@ -199,6 +208,8 @@ public abstract class PortEditPart extends AbstractEditPart implements NodeEditP
 	private class Adapter extends AdapterImpl {
 		@Override
 		public void notifyChanged(Notification msg) {
+			LOGGER.trace("notifyChanged: this=<{}> msg=<{}>", getModel()
+					.getNameL(), msg);
 			if (ComponentPackage.eINSTANCE.getPort_ConnectorProfiles().equals(msg.getFeature())
 					&& (msg.getEventType() == Notification.ADD || msg.getEventType() == Notification.REMOVE)) {
 				if (getModel().eContainer().eContainer() instanceof SystemDiagram) {
@@ -233,6 +244,9 @@ public abstract class PortEditPart extends AbstractEditPart implements NodeEditP
 	// ターゲットのポートのEditPartが存在しない時に走るときがある。
 	@Override
 	protected void addSourceConnection(ConnectionEditPart connection, int index) {
+		LOGGER.trace(
+				"addSourceConnection: this=<{}> connEditpart=<{}> index=<{}>",
+				getModel().getNameL(), connection, index);
 		// ターゲット側の設定も行う
 		PortConnector connectionModel = (PortConnector) connection.getModel();
 		PortEditPart targetPart = (PortEditPart) getViewer().getEditPartRegistry().get(connectionModel.getTarget());
@@ -263,6 +277,9 @@ public abstract class PortEditPart extends AbstractEditPart implements NodeEditP
 
 	@Override
 	protected void addTargetConnection(ConnectionEditPart connection, int index) {
+		LOGGER.trace(
+				"addTargetConnection: this=<{}> connEditpart=<{}> index=<{}>",
+				getModel().getNameL(), connection, index);
 		// ソース側の設定も行う
 		PortConnector connectionModel = (PortConnector) connection.getModel();
 		PortEditPart sourcePart = (PortEditPart) getViewer().getEditPartRegistry().get(connectionModel.getSource());
@@ -293,6 +310,8 @@ public abstract class PortEditPart extends AbstractEditPart implements NodeEditP
 
 	@Override
 	protected void refreshSourceConnections() {
+		// LOGGER.trace("refreshSourceConnections: this=<{}>",
+		// getModel().getNameL());
 		int i;
 		ConnectionEditPart editPart;
 		Object model;
@@ -330,6 +349,8 @@ public abstract class PortEditPart extends AbstractEditPart implements NodeEditP
 
 	@Override
 	protected void refreshTargetConnections() {
+		// LOGGER.trace("refreshTargetConnections: this=<{}>",
+		// getModel().getNameL());
 		int i;
 		ConnectionEditPart editPart;
 		Object model;

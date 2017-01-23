@@ -1,5 +1,11 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.editpart;
 
+import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
+import jp.go.aist.rtm.systemeditor.ui.editor.figure.ExportedOutPortFigure;
+import jp.go.aist.rtm.systemeditor.ui.editor.figure.OutPortFigure;
+import jp.go.aist.rtm.toolscommon.model.component.OutPort;
+import jp.go.aist.rtm.toolscommon.model.component.impl.PortConnectorImpl;
+
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.draw2d.MouseListener;
@@ -17,18 +23,13 @@ import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
-import jp.go.aist.rtm.systemeditor.ui.editor.figure.ExportedOutPortFigure;
-import jp.go.aist.rtm.systemeditor.ui.editor.figure.OutPortFigure;
-import jp.go.aist.rtm.toolscommon.model.component.OutPort;
-import jp.go.aist.rtm.toolscommon.model.component.impl.PortConnectorImpl;
-
 /**
  * OutPortのEditPartクラス
  */
 public class OutPortEditPart extends PortEditPart {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(OutPortEditPart.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(OutPortEditPart.class);
 
 	/**
 	 * コンストラクタ
@@ -47,6 +48,8 @@ public class OutPortEditPart extends PortEditPart {
 
 	@Override
 	public void notifyChanged(Notification notification) {
+		LOGGER.trace("notifyChanged: this=<{}> notification=<{}>", getModel()
+				.getNameL(), notification);
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 			@Override
 			public void run() {

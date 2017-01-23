@@ -10,27 +10,38 @@ import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.PortConnectorBendpointEd
 import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.PortConnectorEditPolicy;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.PortConnectorEndpointEditPolicy;
 import jp.go.aist.rtm.systemeditor.ui.util.Draw2dUtil;
+import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
 import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PolylineConnection;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
-import org.eclipse.emf.common.util.EMap;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * コネクタのEditPartクラス
  */
 public class PortConnectorEditPart extends AbstractConnectionEditPart {
 
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(PortConnectorEditPart.class);
+
 	private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
 			this);
+
+	private SystemDiagram diagram;
+	private String connectorId;
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -38,6 +49,7 @@ public class PortConnectorEditPart extends AbstractConnectionEditPart {
 	 */
 	public PortConnectorEditPart(ActionRegistry actionRegistry) {
 		super();
+		LOGGER.trace("new: actionRegistry=<{}>", actionRegistry);
 	}
 
 	/**
@@ -46,10 +58,16 @@ public class PortConnectorEditPart extends AbstractConnectionEditPart {
 	protected Adapter modelListener = new AdapterImpl() {
 		@Override
 		public void notifyChanged(Notification msg) {
-			if (getParent() == null) return;
-			if (getViewer() == null) return;
-			if (getViewer().getControl() == null) return;
-			
+			if (getParent() == null || getViewer() == null
+					|| getViewer().getControl() == null) {
+				return;
+			}
+			if (!(ComponentPackage.eINSTANCE
+					.getPortConnector_RoutingConstraint().equals(msg
+					.getFeature()))) {
+				return;
+			}
+			LOGGER.trace("notifyChanged: this=<{}> msg=<{}>", connectorId, msg);
 			getViewer().getControl().getDisplay().asyncExec(new Runnable() {
 				public void run() {
 					if (isActive()) {
@@ -60,94 +78,107 @@ public class PortConnectorEditPart extends AbstractConnectionEditPart {
 		}
 	};
 
-	@Override
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected void createEditPolicies() {
+		LOGGER.trace("createEditPolicies");
 		installEditPolicy(EditPolicy.CONNECTION_ROLE,
 				new PortConnectorEditPolicy());
 		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE,
 				new PortConnectorEndpointEditPolicy());
+		//
+		this.diagram = ((SystemDiagramEditPart) getRoot().getContents())
+				.getModel();
+		this.connectorId = getModel().getConnectorProfile().getConnectorId();
+		LOGGER.trace("createEditPolicies: connectorId=<{}> diagram=<{}>",
+				this.connectorId, this.diagram);
+		PortConnectorBendpointEditPolicy bendpointEditPolicy = new PortConnectorBendpointEditPolicy();
+		bendpointEditPolicy.setDiagram(this.diagram);
 		installEditPolicy(EditPolicy.CONNECTION_BENDPOINTS_ROLE,
-				new PortConnectorBendpointEditPolicy());
+				bendpointEditPolicy);
 	}
 
-	@Override
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected IFigure createFigure() {
+		LOGGER.trace("createFigure");
 		PolylineConnection result = new PolylineConnection();
 		result.setLineWidth(1);
 		result.setConnectionRouter(new EditableManhattanConnectorRouter());
-
 		return result;
 	}
 
-	@Override
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void activate() {
+		LOGGER.trace("activate: this=<{}>", this.connectorId);
 		super.activate();
-		((ModelElement) getModel()).eAdapters().add(modelListener);
+		((ModelElement) getModel()).eAdapters().add(this.modelListener);
 	}
 
-	@Override
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void deactivate() {
+		LOGGER.trace("deactivate: this=<{}>", this.connectorId);
 		super.deactivate();
-		((ModelElement) getModel()).eAdapters().remove(modelListener);
+		((ModelElement) getModel()).eAdapters().remove(this.modelListener);
 	}
 
-	/**
-	 * ベンドポイントを再設定する
-	 */
-	@SuppressWarnings("unchecked")
-	protected void refreshBendPoint() {
-		Map routingConstraint = Draw2dUtil.toDraw2dPointMap(((EMap) getModel()
-				.getRoutingConstraint()).map());
-		if (routingConstraint == null) {
-			routingConstraint = Collections.EMPTY_MAP;
-		}
-
-		getConnectionFigure().setRoutingConstraint(routingConstraint);
-	}
-
-	@Override
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public PortConnector getModel() {
 		return (PortConnector) super.getModel();
 	}
 
-	@Override
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected void refreshVisuals() {
 		super.refreshVisuals();
 		refreshBendPoint();
 	}
-	@SuppressWarnings("unchecked")
-	@Override
+
 	/**
 	 * {@inheritDoc}
 	 * <p>
 	 * モデルのオブジェクトに委譲している
 	 */
+	@SuppressWarnings("rawtypes")
+	@Override
 	public Object getAdapter(Class key) {
 		Object result = AdapterUtil.getAdapter(getModel(), key);
 		if (result == null) {
 			result = super.getAdapter(key);
 		}
-
 		return result;
 	}
+
+	/**
+	 * ベンドポイントを再設定する
+	 */
+	protected void refreshBendPoint() {
+		Map<Integer, Point> routingConstraint = Draw2dUtil
+				.toDraw2dPointMap(this.diagram
+						.getPortConnectorRoutingConstraint(this.connectorId));
+		LOGGER.trace("refreshBendPoint: this=<{}> constraint=<{}>",
+				this.connectorId, routingConstraint);
+		if (routingConstraint == null) {
+			routingConstraint = Collections.emptyMap();
+		}
+		getConnectionFigure().setRoutingConstraint(routingConstraint);
+	}
+
 	/**
 	 * コンポーネントFigureの変更の通知を行うリスナを登録する
 	 * 
@@ -164,5 +195,6 @@ public class PortConnectorEditPart extends AbstractConnectionEditPart {
 	 */
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		propertyChangeSupport.removePropertyChangeListener(listener);
-	}	
+	}
+
 }

@@ -1,5 +1,11 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.editpart;
 
+import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
+import jp.go.aist.rtm.systemeditor.ui.editor.figure.ExportedInPortFigure;
+import jp.go.aist.rtm.systemeditor.ui.editor.figure.InPortFigure;
+import jp.go.aist.rtm.toolscommon.model.component.InPort;
+import jp.go.aist.rtm.toolscommon.model.component.Port;
+
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.Panel;
@@ -11,17 +17,16 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.PlatformUI;
-
-import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
-import jp.go.aist.rtm.systemeditor.ui.editor.figure.ExportedInPortFigure;
-import jp.go.aist.rtm.systemeditor.ui.editor.figure.InPortFigure;
-import jp.go.aist.rtm.toolscommon.model.component.InPort;
-import jp.go.aist.rtm.toolscommon.model.component.Port;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * InPortのEditPartクラス
  */
 public class InPortEditPart extends PortEditPart {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(InPortEditPart.class);
 
 	/**
 	 * コンストラクタ
@@ -40,6 +45,8 @@ public class InPortEditPart extends PortEditPart {
 
 	@Override
 	public void notifyChanged(Notification notification) {
+		LOGGER.trace("notifyChanged: this=<{}> notification=<{}>", getModel()
+				.getNameL(), notification);
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 			@Override
 			public void run() {

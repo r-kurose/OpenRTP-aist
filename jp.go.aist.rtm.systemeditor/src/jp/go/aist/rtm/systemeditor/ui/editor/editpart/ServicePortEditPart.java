@@ -13,11 +13,16 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.PlatformUI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * ServicePortのEditPartクラス
  */
 public class ServicePortEditPart extends PortEditPart {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(ServicePortEditPart.class);
 
 	/**
 	 * コンストラクタ
@@ -36,6 +41,8 @@ public class ServicePortEditPart extends PortEditPart {
 
 	@Override
 	public void notifyChanged(Notification notification) {
+		LOGGER.trace("notifyChanged: this=<{}> notification=<{}>", getModel()
+				.getNameL(), notification);
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 			@Override
 			public void run() {
