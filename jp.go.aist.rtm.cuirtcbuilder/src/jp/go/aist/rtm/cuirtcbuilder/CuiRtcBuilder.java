@@ -14,7 +14,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import jp.go.aist.rtm.rtcbuilder.Generator;
-import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.IDLParamConverter;
 import jp.go.aist.rtm.rtcbuilder.generator.ProfileHandler;
@@ -112,12 +111,7 @@ public class CuiRtcBuilder {
 			//
 			RtcParam rtcParam = generatorParam.getRtcParams().get(0);
 			for( IdlFileParam idlFile : rtcParam.getProviderIdlPathes() ) {
-				String idlTarget;
-				if(rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100) && rtcParam.enableOldBuildEnv()==false) {
-					idlTarget = targetDir + File.separator + "idl" + File.separator + idlFile.getIdlFile();
-				} else {
-					idlTarget = targetDir + File.separator + idlFile.getIdlFile();
-				}
+				String idlTarget = targetDir + File.separator + "idl" + File.separator + idlFile.getIdlFile();
 				FileChannel src = new FileInputStream(idlFile.getIdlPath()).getChannel();
 				FileChannel trg = new FileOutputStream(idlTarget).getChannel();
 				try {
@@ -130,12 +124,7 @@ public class CuiRtcBuilder {
 				}
 			}
 			for( IdlFileParam idlFile : rtcParam.getConsumerIdlPathes() ) {
-				String idlTarget;
-				if(rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100) && rtcParam.enableOldBuildEnv()==false) {
-					idlTarget = targetDir + File.separator + "idl" + File.separator + idlFile.getIdlFile();
-				} else {
-					idlTarget = targetDir + File.separator + idlFile.getIdlFile();
-				}
+				String idlTarget = targetDir + File.separator + "idl" + File.separator + idlFile.getIdlFile();
 				FileChannel src = new FileInputStream(idlFile.getIdlPath()).getChannel();
 				FileChannel trg = new FileOutputStream(idlTarget).getChannel();
 				try {
@@ -150,12 +139,7 @@ public class CuiRtcBuilder {
 			//
 			for( String includedIdlFile : rtcParam.getIncludedIdls() ) {
 				File target = new File(includedIdlFile);
-				String idlTarget;
-				if(rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100) && rtcParam.enableOldBuildEnv()==false) {
-					idlTarget = targetDir + File.separator + "idl" + File.separator + target.getName();
-				} else {
-					idlTarget = targetDir + File.separator + target.getName();
-				}
+				String idlTarget = targetDir + File.separator + "idl" + File.separator + target.getName();
 				FileChannel src = new FileInputStream(includedIdlFile).getChannel();
 				FileChannel trg = new FileOutputStream(idlTarget).getChannel();
 				try {
