@@ -63,7 +63,7 @@ public class ModuleTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/module/serviceM/";
 
-		assertEquals(34, result.size());
+		assertEquals(33, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
@@ -99,7 +99,7 @@ public class ModuleTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/module/serviceCon/";
 
-		assertEquals(33, result.size());
+		assertEquals(32, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
@@ -146,7 +146,7 @@ public class ModuleTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/module/serviceMC/";
 
-		assertEquals(34, result.size());
+		assertEquals(33, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
