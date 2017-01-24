@@ -90,9 +90,7 @@
 			<fileset dir="${source}/jp/go/aist/rtm/rtcbuilder/template">
 				<include name="cmake/**/**.vsl" />
 				<include name="common/**.vsl" />
-				<include name="common_04/**.vsl" />
 				<include name="cpp/**.vsl" />
-				<include name="cpp_04/**.vsl" />
 			</fileset>
 		</copy>
 		<mkdir dir="${dist.dir}" />
