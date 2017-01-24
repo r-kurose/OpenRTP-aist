@@ -7,7 +7,6 @@ import jp.go.aist.rtm.rtcbuilder.Generator;
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder._test.TestBase;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
-import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
@@ -26,7 +25,6 @@ public class CXXIDLStructTest extends TestBase {
 		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
 		rtcParam.setRtmVersion("1.0.0");
 		rtcParam.setIsTest(true);
-		rtcParam.setEnableOldBuildEnv(true);
 		genParam.getRtcParams().add(rtcParam);
 	}
 
@@ -58,7 +56,7 @@ public class CXXIDLStructTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/idlstruct/";
 
-		assertEquals(17, result.size());
+		assertEquals(29, result.size());
 		checkCode(result, resourceDir, "TestModuleComp.cpp");
 		checkCode(result, resourceDir, "TestModule.h");
 		checkCode(result, resourceDir, "TestModule.cpp");

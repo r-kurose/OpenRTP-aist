@@ -36,7 +36,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -46,8 +45,6 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
  * Languageページ
  */
 public class LanguageEditorFormPage extends AbstractEditorFormPage {
-
-	static final String LABEL_USE_OLD_BUILD = IMessageConstants.LANGUAGE_USE_OLD_BUILD;
 
 	private static final int LANGUAGE_VERSION = 0;
 	private static final int LANGUAGE_OS = 1;
@@ -59,9 +56,7 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 	private List<GenerateManager> managerList = null;
 	private Group LangGroup;
 	private Button cppRadio;
-	private Button rubyRadio;
 	private List<Button> buttonList = new ArrayList<Button>();
-	Button oldBuildEnvButton;
 	//
 	private Composite envSection;
 	private TableViewer langVersionViewer;
@@ -102,9 +97,6 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 				buttonList.add(extRadio);
 			}
 		}
-		rubyRadio = createRadioCheckButton(toolkit, LangGroup, "Ruby",
-				SWT.RADIO);
-		rubyRadio.setEnabled(false);
 
 		load();
 	}
@@ -173,24 +165,6 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		//
 		cppRadio = createRadioCheckButton(toolkit, LangGroup, "C++", SWT.RADIO);
 		cppRadio.addSelectionListener(createLanguageRadioListner());
-
-		// 旧バージョンのビルド環境の指定
-		Composite c = new Composite(composite, SWT.NONE);
-		GridLayout gl = new GridLayout(2, false);
-		c.setLayout(gl);
-		gd = new GridData();
-		gd.horizontalAlignment = GridData.END;
-		gd.verticalAlignment = GridData.END;
-		c.setLayoutData(gd);
-		oldBuildEnvButton = new Button(c, SWT.CHECK);
-		Label l = new Label(c, SWT.NONE);
-		l.setText(LABEL_USE_OLD_BUILD);
-		oldBuildEnvButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				update();
-			}
-		});
 	}
 
 	private void createHintSection(FormToolkit toolkit, ScrolledForm form) {
@@ -486,7 +460,6 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 			rtcParam.getLangArgList().addAll(langArgList);
 			rtcParam.setRtmVersion(rtmVersion);
 		}
-		rtcParam.setEnableOldBuildEnv(oldBuildEnvButton.getSelection());
 		//
 		StructuredSelection selection = (StructuredSelection) langVersionViewer.getSelection();
 		TargetEnvParam selectParam = (TargetEnvParam) selection.getFirstElement();
@@ -537,7 +510,6 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 				}
 			}
 		}
-		oldBuildEnvButton.setSelection(rtcParam.enableOldBuildEnv());
 		//
 		langVersionViewer.setInput(rtcParam.getTargetEnvs());
 		//

@@ -77,8 +77,6 @@ public interface IRtcBuilderConstants {
 
 	public static final String LANG_CPP = "C++";
 	public static final String LANG_CPPWIN = "C++(Windows)";
-	public static final String LANG_CSHARP = "C#";
-	public static final String LANG_RUBY = "Ruby";
 	public static final String LANG_PYTHON = "Python";
 	public static final String LANG_JAVA = "Java";
 

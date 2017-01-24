@@ -25,7 +25,6 @@ public class CXXTemplateTestAIST2 extends TestBase {
 		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
 		rtcParam.setRtmVersion("1.0.0");
 		rtcParam.setIsTest(true);
-		rtcParam.setEnableOldBuildEnv(true);
 		genParam.getRtcParams().add(rtcParam);
 	}
 
@@ -54,7 +53,7 @@ public class CXXTemplateTestAIST2 extends TestBase {
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
 		String targetDir = rootPath + "/resource/100/CXX/AIST2/";
-		assertEquals(17, result.size());
+		assertEquals(29, result.size());
 		checkCode(result, targetDir, "ModuleNameComp.cpp");
 		checkCode(result, targetDir, "ModuleName.h");
 		checkCode(result, targetDir, "ModuleName.cpp");

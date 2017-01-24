@@ -36,7 +36,6 @@ public class CXXPrefixSuffixTest extends TestBase {
 		rtcParam.setComponentKind("DataFlowComponent");
 		rtcParam.setRtmVersion("1.0.0");
 		rtcParam.setIsTest(true);
-		rtcParam.setEnableOldBuildEnv(true);
 		genParam.getRtcParams().add(rtcParam);
 		//
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
@@ -220,7 +219,7 @@ public class CXXPrefixSuffixTest extends TestBase {
 	}
 
 	private void checkResults(List<GeneratedResult> result, String resourceDir) {
-		assertEquals(17, result.size());
+		assertEquals(29, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");

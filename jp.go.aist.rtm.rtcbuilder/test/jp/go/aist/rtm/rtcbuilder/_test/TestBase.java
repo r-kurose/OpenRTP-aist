@@ -42,7 +42,7 @@ public class TestBase extends TestCase {
 		int resultindex = -1;
 		
 		for( int intIdx=0; intIdx<targetList.size(); intIdx++ ) {
-			if( targetList.get(intIdx).getName().equals(targetName) ) {
+			if( targetList.get(intIdx).getName().contains(targetName) ) {
 				return intIdx;
 			}
 		}

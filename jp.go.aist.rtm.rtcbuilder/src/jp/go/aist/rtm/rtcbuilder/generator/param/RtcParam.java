@@ -63,7 +63,6 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	private RecordedList<String> langArgList = new RecordedList<String>();
 	private RecordedList<String> libraryPath = new RecordedList<String>();
 	private String architecture = new String();
-	boolean enableOldBuildEnv= false;
 	private RecordedList<TargetEnvParam> targetEnvs = new RecordedList<TargetEnvParam>();
 	//RTC.xml
 	private String rtcxml;
@@ -347,9 +346,6 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	public String getArchitecture() {
 		return this.architecture;
 	}
-	public boolean enableOldBuildEnv() {
-		return enableOldBuildEnv;
-	}
 	public List<TargetEnvParam> getTargetEnvs() {
 		return this.targetEnvs;
 	}
@@ -383,10 +379,6 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 			}
 		}
 		return result;
-	}
-	public void setEnableOldBuildEnv(boolean b) {
-		checkUpdated(this.enableOldBuildEnv, b);
-		this.enableOldBuildEnv = b;
 	}
 
 	//ドキュメント-Component

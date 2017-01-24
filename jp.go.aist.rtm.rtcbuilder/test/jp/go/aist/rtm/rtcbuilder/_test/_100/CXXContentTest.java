@@ -1,17 +1,13 @@
 package jp.go.aist.rtm.rtcbuilder._test._100;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import jp.go.aist.rtm.rtcbuilder.Generator;
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder._test.TestBase;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
-import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
 
 public class CXXContentTest extends TestBase {
 
@@ -39,7 +35,6 @@ public class CXXContentTest extends TestBase {
 		rtcParam.setComponentKind("DataFlowComponent");
 		rtcParam.setActivityType("PERIODIC2");
 		rtcParam.setMaxInstance(5);
-		rtcParam.setEnableOldBuildEnv(true);
 		//
 		rtcParam.setDetailContent(IRtcBuilderConstants.ACTIVITY_INITIALIZE, "  init();");
 		rtcParam.setDetailContent(IRtcBuilderConstants.ACTIVITY_FINALIZE, "  fin();");
@@ -59,7 +54,7 @@ public class CXXContentTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/Content/";
 
-		assertEquals(15, result.size());
+		assertEquals(27, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");

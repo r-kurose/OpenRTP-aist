@@ -29,7 +29,6 @@ public class CXXBaseClass extends TestBase {
 		rtcParam.setMaxInstance(5);
 		rtcParam.setRtmVersion("1.0.0");
 		rtcParam.setIsTest(true);
-		rtcParam.setEnableOldBuildEnv(true);
 
 		genParam.getRtcParams().add(rtcParam);
 	}
@@ -65,7 +64,7 @@ public class CXXBaseClass extends TestBase {
 	}
 	
 	private void checkResults(List<GeneratedResult> result, String resourceDir) {
-		assertEquals(15, result.size());
+		assertEquals(27, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");

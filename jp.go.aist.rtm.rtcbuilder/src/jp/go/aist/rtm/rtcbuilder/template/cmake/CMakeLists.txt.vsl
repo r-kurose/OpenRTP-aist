@@ -51,11 +51,6 @@ ${sharp} Get necessary dependency information
 find_package(OpenRTM HINTS /usr/lib64/openrtm-1.1/cmake)
 if(${dol}{OpenRTM_FOUND})
   MESSAGE(STATUS "OpenRTM configuration Found")
-else(${dol}{OpenRTM_FOUND})
-  message(STATUS "Use cmake/Modules/FindOpenRTM.cmake in the project")
-  list(APPEND CMAKE_MODULE_PATH ${dol}{PROJECT_SOURCE_DIR}/cmake/Modules)
-  find_package(OpenRTM REQUIRED)
-endif(${dol}{OpenRTM_FOUND})
 
 ${sharp} Universal settings
 ${sharp}enable_testing()

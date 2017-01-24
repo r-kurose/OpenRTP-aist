@@ -28,7 +28,6 @@ public class CXXDocLongTest extends TestBase {
 		rtcParam.setLanguageArg(LANG_CPP_ARG);
 		rtcParam.setRtmVersion("1.0.0");
 		rtcParam.setIsTest(true);
-		rtcParam.setEnableOldBuildEnv(true);
 		genParam.getRtcParams().add(rtcParam);
 	}
 
@@ -229,7 +228,7 @@ public class CXXDocLongTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/Doc/fullLong/";
 
-		assertEquals(17, result.size());
+		assertEquals(29, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");

@@ -35,7 +35,6 @@ public class CXXMultiTest extends TestBase {
 		rtcParam.setMaxInstance(2);
 		rtcParam.setRtmVersion("1.0.0");
 		rtcParam.setIsTest(true);
-		rtcParam.setEnableOldBuildEnv(true);
 
 		genParam.getRtcParams().add(rtcParam);
 
@@ -88,7 +87,7 @@ public class CXXMultiTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/Multi/ProConMulti/";
 
-		assertEquals(19, result.size());
+		assertEquals(31, result.size());
 		checkResults(result, resourceDir);
 		checkCode(result, resourceDir, "MyServiceSVC_impl.h");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.cpp");
@@ -120,7 +119,7 @@ public class CXXMultiTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/Multi/ConMulti/";
 
-		assertEquals(15, result.size());
+		assertEquals(27, result.size());
 		checkResults(result, resourceDir);
 		nonexist(result, resourceDir, "MyServiceSVC_impl.h");
 		nonexist(result, resourceDir, "MyServiceSVC_impl.cpp");
@@ -152,7 +151,7 @@ public class CXXMultiTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/Multi/ProMulti/";
 
-		assertEquals(19, result.size());
+		assertEquals(31, result.size());
 		checkResults(result, resourceDir);
 		checkCode(result, resourceDir, "MyServiceSVC_impl.h");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.cpp");

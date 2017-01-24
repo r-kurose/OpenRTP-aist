@@ -25,7 +25,6 @@ public class CXXIDLModuleTest extends TestBase {
 		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
 		rtcParam.setRtmVersion("1.0.0");
 		rtcParam.setIsTest(true);
-		rtcParam.setEnableOldBuildEnv(true);
 		genParam.getRtcParams().add(rtcParam);
 	}
 
@@ -55,7 +54,7 @@ public class CXXIDLModuleTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/idlmodule/serviceM/";
 
-		assertEquals(17, result.size());
+		assertEquals(29, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -90,7 +89,7 @@ public class CXXIDLModuleTest extends TestBase {
 		String resourceDir = rootPath
 				+ "/resource/100/CXX/idlmodule/serviceCon/";
 
-		assertEquals(15, result.size());
+		assertEquals(27, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -125,7 +124,7 @@ public class CXXIDLModuleTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/idlmodule/serviceArg/";
 
-		assertEquals(17, result.size());
+		assertEquals(29, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -159,7 +158,7 @@ public class CXXIDLModuleTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/idlmodule/serviceArgStruct/";
 
-		assertEquals(17, result.size());
+		assertEquals(29, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");

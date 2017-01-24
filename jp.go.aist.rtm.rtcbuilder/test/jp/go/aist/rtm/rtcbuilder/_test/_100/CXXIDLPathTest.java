@@ -26,7 +26,6 @@ public class CXXIDLPathTest extends TestBase {
 		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
 		rtcParam.setRtmVersion("1.0.0");
 		rtcParam.setIsTest(true);
-		rtcParam.setEnableOldBuildEnv(true);
 		genParam.getRtcParams().add(rtcParam);
 	}
 
@@ -77,7 +76,7 @@ public class CXXIDLPathTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/idlpath/IDLPath3/";
 
-		assertEquals(17, result.size());
+		assertEquals(29, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -132,7 +131,7 @@ public class CXXIDLPathTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/idlpath/IDLPath2/";
 
-		assertEquals(17, result.size());
+		assertEquals(29, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -186,7 +185,7 @@ public class CXXIDLPathTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/idlpath/IDLPath1/";
 
-		assertEquals(17, result.size());
+		assertEquals(29, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");

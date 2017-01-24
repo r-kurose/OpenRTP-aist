@@ -54,8 +54,7 @@ public class CXXGenerateManager extends GenerateManager {
 		Map<String, Object> contextMap = new HashMap<String, Object>();
 		contextMap.put("template", TEMPLATE_PATH);
 		contextMap.put("rtcParam", rtcParam);
-		contextMap.put("cXXConv",
-				new jp.go.aist.rtm.rtcbuilder.manager.CXXConverter04());
+		contextMap.put("cXXConv", new CXXConverter());
 		contextMap.put("tmpltHelper", new TemplateHelper());
 
 		resetIDLServiceClass(rtcParam);
@@ -77,29 +76,6 @@ public class CXXGenerateManager extends GenerateManager {
 		gr = generateRTCSource(contextMap);
 		result.add(gr);
 
-		if (rtcParam.enableOldBuildEnv()) {
-			// 旧バージョンのビルド環境の生成
-			gr = generateMakefile(contextMap);
-			result.add(gr);
-
-			gr = generateVC9Sln(contextMap);
-			result.add(gr);
-			gr = generateVC8Sln(contextMap);
-			result.add(gr);
-			gr = generateVC9CompProj(contextMap);
-			result.add(gr);
-			gr = generateVC8CompProj(contextMap);
-			result.add(gr);
-			gr = generateVC9RTCProj(contextMap);
-			result.add(gr);
-			gr = generateVC8RTCProj(contextMap);
-			result.add(gr);
-			gr = generateVCCopyProps(contextMap);
-			result.add(gr);
-			gr = generateVCUserConfig(contextMap);
-			result.add(gr);
-		}
-
 		for (IdlFileParam idl : rtcParam.getProviderIdlPathes()) {
 			contextMap.put("idlFileParam", idl);
 			gr = generateSVCHeader(contextMap);
@@ -116,11 +92,7 @@ public class CXXGenerateManager extends GenerateManager {
 	public GeneratedResult generateCompSource(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = null;
-		if( rtcParam.enableOldBuildEnv() ) {
-			outfile = rtcParam.getName() + "Comp.cpp";
-		} else {
-			outfile = "src/" + rtcParam.getName() + "Comp.cpp";
-		}
+		outfile = "src/" + rtcParam.getName() + "Comp.cpp";
 		String infile = "cpp/CXX_Comp.cpp.vsl";
 		return generate(infile, outfile, contextMap);
 	}
@@ -128,11 +100,7 @@ public class CXXGenerateManager extends GenerateManager {
 	public GeneratedResult generateRTCHeader(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = null;
-		if( rtcParam.enableOldBuildEnv() ) {
-			outfile = rtcParam.getName() + ".h";
-		} else {
-			outfile = "include/" + rtcParam.getName() + "/" + rtcParam.getName() + ".h";
-		}
+		outfile = "include/" + rtcParam.getName() + "/" + rtcParam.getName() + ".h";
 		String infile = "cpp/CXX_RTC.h.vsl";
 		return generate(infile, outfile, contextMap);
 	}
@@ -140,11 +108,7 @@ public class CXXGenerateManager extends GenerateManager {
 	public GeneratedResult generateRTCSource(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = null;
-		if( rtcParam.enableOldBuildEnv() ) {
-			outfile = rtcParam.getName() + ".cpp";
-		} else {
-			outfile = "src/" + rtcParam.getName() + ".cpp";
-		}
+		outfile = "src/" + rtcParam.getName() + ".cpp";
 		String infile = "cpp/CXX_RTC.cpp.vsl";
 		return generate(infile, outfile, contextMap);
 	}
@@ -153,96 +117,22 @@ public class CXXGenerateManager extends GenerateManager {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		IdlFileParam idlParam = (IdlFileParam) contextMap.get("idlFileParam");
 		String outfile = null;
-		if( rtcParam.enableOldBuildEnv() ) {
-			outfile = TemplateHelper.getBasename(idlParam.getIdlFileNoExt())
-						+ TemplateHelper.getServiceImplSuffix() + ".h";
-		} else {
-			outfile = "include/" + rtcParam.getName() + "/" 
-					+ TemplateHelper.getBasename(idlParam.getIdlFileNoExt())
-					+ TemplateHelper.getServiceImplSuffix() + ".h";
-		}
+		outfile = "include/" + rtcParam.getName() + "/" 
+				+ TemplateHelper.getBasename(idlParam.getIdlFileNoExt())
+				+ TemplateHelper.getServiceImplSuffix() + ".h";
 		String infile = "cpp/CXX_SVC.h.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 	
 	public GeneratedResult generateSVCSource(Map<String, Object> contextMap) {
 		IdlFileParam idlParam = (IdlFileParam) contextMap.get("idlFileParam");
-		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = null;
-		if( rtcParam.enableOldBuildEnv() ) {
-			outfile = TemplateHelper.getBasename(idlParam.getIdlFileNoExt())
-						+ TemplateHelper.getServiceImplSuffix() + ".cpp";
-		} else {
-			outfile = "src/" + TemplateHelper.getBasename(idlParam.getIdlFileNoExt())
-						+ TemplateHelper.getServiceImplSuffix() + ".cpp";
-		}
+		outfile = "src/" + TemplateHelper.getBasename(idlParam.getIdlFileNoExt())
+					+ TemplateHelper.getServiceImplSuffix() + ".cpp";
 		String infile = "cpp/CXX_SVC.cpp.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 	
-	// 1.0系 (ビルド環境)
-
-	public GeneratedResult generateMakefile(Map<String, Object> contextMap) {
-		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		String outfile = "Makefile." + rtcParam.getName();
-		String infile = "cpp/Makefile.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-
-	public GeneratedResult generateVC9Sln(Map<String, Object> contextMap) {
-		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		String outfile = rtcParam.getName() + "_vc9.sln";
-		String infile = "cpp/CXX_vc9.sln.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-
-	public GeneratedResult generateVC8Sln(Map<String, Object> contextMap) {
-		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		String outfile = rtcParam.getName() + "_vc8.sln";
-		String infile = "cpp/CXX_vc8.sln.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-
-	public GeneratedResult generateVC8CompProj(Map<String, Object> contextMap) {
-		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		String outfile = rtcParam.getName() + "Comp_vc8.vcproj";
-		String infile = "cpp/CXX_Comp_vc8.vcproj.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-
-	public GeneratedResult generateVC9CompProj(Map<String, Object> contextMap) {
-		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		String outfile = rtcParam.getName() + "Comp_vc9.vcproj";
-		String infile = "cpp/CXX_Comp_vc9.vcproj.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-
-	public GeneratedResult generateVC8RTCProj(Map<String, Object> contextMap) {
-		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		String outfile = rtcParam.getName() + "_vc8.vcproj";
-		String infile = "cpp/CXX_vc8.vcproj.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-
-	public GeneratedResult generateVC9RTCProj(Map<String, Object> contextMap) {
-		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		String outfile = rtcParam.getName() + "_vc9.vcproj";
-		String infile = "cpp/CXX_vc9.vcproj.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-
-	public GeneratedResult generateVCCopyProps(Map<String, Object> contextMap) {
-		String outfile = "copyprops.bat";
-		String infile = "cpp/copyprops.bat.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-
-	public GeneratedResult generateVCUserConfig(Map<String, Object> contextMap) {
-		String outfile = "user_config.vsprops";
-		String infile = "cpp/user_config.vsprops.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-
 	public GeneratedResult generate(String infile, String outfile,
 			Map<String, Object> contextMap) {
 		try {
