@@ -75,7 +75,6 @@
 			<fileset dir="${source}/jp/go/aist/rtm/rtcbuilder/java/template">
 				<include name="cmake/**/**.vsl" />
 				<include name="java/**/**.vsl" />
-				<include name="java_04/**/**.vsl" />
 			</fileset>
 		</copy>
 		<mkdir dir="${dist.dir}" />
