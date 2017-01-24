@@ -74,7 +74,6 @@
 			<fileset dir="${source}/jp/go/aist/rtm/rtcbuilder/python/template">
 				<include name="cmake/**/**.vsl" />
 				<include name="python/**/**.vsl" />
-				<include name="python_04/**/**.vsl" />
 			</fileset>
 		</copy>
 		<mkdir dir="${dist.dir}" />
