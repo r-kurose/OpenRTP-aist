@@ -69,16 +69,6 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 		return generatePython(infile, outfile, contextMap);
 	}
 
-	// 1.0系 (CMake/cmake_modules)
-
-	@Override
-	public GeneratedResult generateModulesFindOpenRTM(
-			Map<String, Object> contextMap) {
-		String outfile = "cmake_modules/FindOpenRTMPython.cmake";
-		String infile = "cmake/FindOpenRTMPython.cmake.vsl";
-		return generatePython(infile, outfile, contextMap);
-	}
-
 	// 1.0系 (CMake/cpack_resources)
 
 	@Override
