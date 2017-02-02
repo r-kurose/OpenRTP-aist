@@ -67,16 +67,6 @@ public class JavaCMakeGenerateManager extends CMakeGenerateManager {
 		return generateJava(infile, outfile, contextMap);
 	}
 
-	// 1.0系 (CMake/cmake_modules)
-
-	@Override
-	public GeneratedResult generateModulesFindOpenRTM(
-			Map<String, Object> contextMap) {
-		String outfile = "cmake_modules/FindOpenRTMJava.cmake";
-		String infile = "cmake/FindOpenRTMJava.cmake.vsl";
-		return generateJava(infile, outfile, contextMap);
-	}
-
 	public GeneratedResult generateModulesJavaCompile(
 			Map<String, Object> contextMap) {
 		String outfile = "cmake_modules/cmake_javacompile.cmake.in";
