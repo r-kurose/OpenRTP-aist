@@ -573,24 +573,14 @@ public class Generator {
 			}
 		}
 		for( IdlFileParam idlFile : rtcParam.getProviderIdlPathes() ) {
-			IFile idlTarget;
-			if(rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100)) {
-				idlTarget = project.getFile("idl" + File.separator + idlFile.getIdlFile());
-			} else {
-				idlTarget = project.getFile(idlFile.getIdlFile());
-			}
+			IFile idlTarget = project.getFile("idl" + File.separator + idlFile.getIdlFile());
 			if( !idlTarget.getLocation().toOSString().equals(idlFile.getIdlPath()) )  {
 				idlTarget.delete(true, null);
 				idlTarget.create(new FileInputStream(idlFile.getIdlPath()), true, null);
 			}
 		}
 		for( IdlFileParam idlFile : rtcParam.getConsumerIdlPathes() ) {
-			IFile idlTarget;
-			if(rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100)) {
-				idlTarget = project.getFile("idl" + File.separator + idlFile.getIdlFile());
-			} else {
-				idlTarget = project.getFile(idlFile.getIdlFile());
-			}
+			IFile idlTarget = project.getFile("idl" + File.separator + idlFile.getIdlFile());
 			if( !idlTarget.getLocation().toOSString().equals(idlFile.getIdlPath()) )  {
 				idlTarget.delete(true, null);
 				idlTarget.create(new FileInputStream(idlFile.getIdlPath()), true, null);
@@ -599,12 +589,7 @@ public class Generator {
 		//
 		for( String includedIdlFile : rtcParam.getIncludedIdls() ) {
 			File target = new File(includedIdlFile);
-			IFile idlTarget;
-			if(rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100)) {
-				idlTarget = project.getFile("idl" + File.separator + target.getName());
-			} else {
-				idlTarget = project.getFile(target.getName());
-			}
+			IFile idlTarget = project.getFile("idl" + File.separator + target.getName());
 			if( !idlTarget.getLocation().toOSString().equals(includedIdlFile) )  {
 				idlTarget.delete(true, null);
 				idlTarget.create(new FileInputStream(includedIdlFile), true, null);

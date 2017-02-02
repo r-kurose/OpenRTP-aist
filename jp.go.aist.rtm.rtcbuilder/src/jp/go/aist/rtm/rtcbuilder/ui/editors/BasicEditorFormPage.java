@@ -2,6 +2,10 @@ package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -14,6 +18,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -682,6 +687,24 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		            		}// 通常のExceptionは外側でcatchする
 		        			handler.storeToXML(selectedFileName, editor.getGeneratorParam());
 		            	}
+		            	//FSM
+		        		PropertyParam fsm = editor.getRtcParam().getProperty(IRtcBuilderConstants.PROP_TYPE_FSM);
+		        		if(fsm!=null) {
+			        		if(Boolean.valueOf(fsm.getValue())) {
+			    				String cmpName = editor.getRtcParam().getName() + "FSM.scxml";
+			    				IWorkspace workspace = ResourcesPlugin.getWorkspace();
+			    				IWorkspaceRoot root = workspace.getRoot();
+			    				IProject project = root.getProject(editor.getRtcParam().getOutputProject());
+			    				String fsmFile  = project.getFile(cmpName).getLocation().toOSString();
+			        			if(fsmFile!=null) {
+			        				String dirName = new File(selectedFileName).getParent();
+			        				String targetFile = dirName + File.separator + cmpName;
+			        				Path inputPath = FileSystems.getDefault().getPath(fsmFile);
+			        				Path outputPath = FileSystems.getDefault().getPath(targetFile);			        				
+			        				Files.copy(inputPath, outputPath);
+			        			}
+			        		}
+		        		}
 		        		export.postExport(selectedFileName, editor);
 		        		editor.getRtcParam().resetUpdated();
 		        		editor.updateDirty();
@@ -748,6 +771,40 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 							return;
 						}
 		        	}
+		        	//FSM
+	        		PropertyParam fsm = editor.getRtcParam().getProperty(IRtcBuilderConstants.PROP_TYPE_FSM);
+	        		if(fsm!=null) {
+		        		if(Boolean.valueOf(fsm.getValue())) {
+		    				FileDialog dialogFSM = new FileDialog(getSite().getShell(),SWT.OPEN);
+		    				dialogFSM.setText("FSM Import");
+		    		        
+		    				//TODO 多言語化
+		    				String[] namesFSM = new String[] { "SCXMLファイル", "XMLファイル" };
+		    				String[] extsFSM = new String[] { "*.scxml","*.xml" };
+		    				dialogFSM.setFilterNames(namesFSM);
+		    				dialogFSM.setFilterExtensions(extsFSM);
+		    				String selectedFileNameFSM = dialogFSM.open();
+		    				if(selectedFileNameFSM == null) {
+		    					fsm.setValue("false");
+		    					editor.getRtcParam().deleteFSMPort();
+		    					
+		    				} else {
+			    				String cmpName = editor.getRtcParam().getName() + "FSM.scxml";
+			    				IWorkspace workspace = ResourcesPlugin.getWorkspace();
+			    				IWorkspaceRoot root = workspace.getRoot();
+			    				IProject project = root.getProject(editor.getRtcParam().getOutputProject());
+			    				String fsmFile  = project.getLocation().toOSString() + File.separator + cmpName;
+		        				try {
+			        				Path inputPath = FileSystems.getDefault().getPath(selectedFileNameFSM);
+			        				Path outputPath = FileSystems.getDefault().getPath(fsmFile);			        				
+									Files.copy(inputPath, outputPath);
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								}
+		    				}
+		        		}
+	        		}
+		        	
 					MessageDialog.openInformation(getSite().getShell(), "Finish",	IMessageConstants.BASIC_IMPORT_DONE);
 					//
 					editor.allPagesReLoad();

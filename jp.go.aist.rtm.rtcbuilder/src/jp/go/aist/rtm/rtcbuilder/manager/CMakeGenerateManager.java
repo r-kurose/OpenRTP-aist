@@ -141,10 +141,6 @@ public class CMakeGenerateManager extends GenerateManager {
 		result.add(gr);
 		//TODO アイコン、ビットマップのコピー
 
-//		//cmake/Modules
-//		gr = generateModulesFindOpenRTM(contextMap);
-//		result.add(gr);
-
 		//doc
 		gr = generateDocCMakeLists(contextMap);
 		result.add(gr);
@@ -258,14 +254,6 @@ public class CMakeGenerateManager extends GenerateManager {
 	public GeneratedResult generateResourceWixXSL(Map<String, Object> contextMap) {
 		String outfile = "cmake/wix.xsl.in";
 		String infile = "cmake/cmake/wix.xsl.in.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-
-	// 1.0系 (CMake/cmake/Modules)
-	public GeneratedResult generateModulesFindOpenRTM(
-			Map<String, Object> contextMap) {
-		String outfile = "cmake/Modules/FindOpenRTM.cmake";
-		String infile = "cmake/cmake/FindOpenRTM.cmake.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 

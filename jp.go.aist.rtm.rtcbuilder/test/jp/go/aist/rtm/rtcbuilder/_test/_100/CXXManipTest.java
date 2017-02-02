@@ -84,14 +84,13 @@ public class CXXManipTest extends TestBase {
 		srvports.add(service1);
 		
 		rtcParam.getServicePorts().addAll(srvports);
-		genParam.getRtcParams().add(rtcParam);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
 
 		String resourceDir = rootPath + "/resource/100/CXX/idltype/IDLType1/";
 
-		assertEquals(58, result.size());
+		assertEquals(29, result.size());
 		checkCode(result, resourceDir, "ModuleNameComp.cpp");
 		checkCode(result, resourceDir, "ModuleName.h");
 		checkCode(result, resourceDir, "ModuleName.cpp");

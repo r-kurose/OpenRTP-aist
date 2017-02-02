@@ -4,15 +4,17 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
-import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.fsm.ScXMLHandler;
 import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.PropertyParam;
-import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
+import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.toolscommon.fsm.editor.SCXMLGraphEditor;
 import jp.go.aist.rtm.toolscommon.fsm.editor.SCXMLNotifier;
 
@@ -20,7 +22,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;	
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
@@ -50,9 +52,7 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 	private Button editBtn;
 	
 	private SCXMLReceiver observer;
-	private SCXMLGraphEditor scxmlEditor;
 	//
-	
 	/**
 	 * コンストラクタ
 	 * 
@@ -159,7 +159,7 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 						observer = new SCXMLReceiver();
 					}
 					observer.setFsmName(cmpName);
-					scxmlEditor = SCXMLGraphEditor.openEditor(null, observer, false);
+					SCXMLGraphEditor scxmlEditor = SCXMLGraphEditor.openEditor(null, observer, false);
 	//				String contents = FileUtil.readFile(targetFile);
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -193,7 +193,7 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 						observer = new SCXMLReceiver();
 					}
 					observer.setFsmName(fsmName);
-					scxmlEditor = SCXMLGraphEditor.openEditor(targetFile, observer, false);
+					SCXMLGraphEditor scxmlEditor = SCXMLGraphEditor.openEditor(targetFile, observer, false);
 //					String contents = FileUtil.readFile(targetFile);
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -226,12 +226,10 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 				if (newFile == null) return;
 				/////
 				String strPath = fsmFile.getLocation().toOSString();
-				String contents;
 				try {
-					contents = FileUtil.readFile(newFile);
-					BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(strPath), "UTF-8"));
-					writer.write(contents);
-					writer.close();
+    				Path inputPath = FileSystems.getDefault().getPath(newFile);
+    				Path outputPath = FileSystems.getDefault().getPath(strPath);			        				
+					Files.copy(inputPath, outputPath);
 					MessageDialog.openInformation(getSite().getShell(), "Save", "対象データをインポートしました");
 				} catch (IOException e1) {
 					MessageDialog.openWarning(getSite().getShell(), "Save", "対象データのインポートに失敗しました");
@@ -307,6 +305,7 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 	 * データをロードする
 	 */
 	public void load() {
+		if(fsmBtn==null) return;
 		RtcParam rtcParam = editor.getRtcParam();
 
 		PropertyParam target = rtcParam.getProperty(IRtcBuilderConstants.PROP_TYPE_FSM);
