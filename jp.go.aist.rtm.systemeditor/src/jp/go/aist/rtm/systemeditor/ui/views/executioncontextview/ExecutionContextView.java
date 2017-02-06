@@ -590,7 +590,11 @@ public class ExecutionContextView extends ViewPart {
 		}
 		data.ec.setRateR(data.rate);
 		if (data.ec.getSynchronizationSupport() != null) {
-			data.ec.getSynchronizationSupport().synchronizeLocal();
+			if (data.ec.eContainer() instanceof CorbaComponent) {
+				CorbaComponent cc = (CorbaComponent) data.ec.eContainer();
+				cc.synchronizeRemoteAttribute(ComponentPackage.eINSTANCE
+						.getCorbaComponent_RTCExecutionContexts());
+			}
 		}
 
 		buildData();
