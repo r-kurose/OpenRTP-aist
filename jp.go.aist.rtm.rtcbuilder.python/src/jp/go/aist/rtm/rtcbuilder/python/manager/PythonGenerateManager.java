@@ -69,9 +69,11 @@ public class PythonGenerateManager extends GenerateManager {
 		}
 
 		List<IdlFileParam> allIdlFileParams = new ArrayList<IdlFileParam>();
-		allIdlFileParams = new ArrayList<IdlFileParam>();
 		allIdlFileParams.addAll(rtcParam.getProviderIdlPathes());
 		allIdlFileParams.addAll(rtcParam.getConsumerIdlPathes());
+		List<IdlFileParam> allIdlFileParamsForBuild = new ArrayList<IdlFileParam>();
+		allIdlFileParamsForBuild.addAll(allIdlFileParams);
+		allIdlFileParamsForBuild.addAll(rtcParam.getIncludedIdlPathes());
 
 		// IDLファイル内に記述されているServiceClassParamを設定する
 		for (IdlFileParam idlFileParam : allIdlFileParams) {
@@ -92,6 +94,7 @@ public class PythonGenerateManager extends GenerateManager {
 		contextMap.put("pyConv", new PythonConverter());
 		contextMap.put("allIdlFileParam", allIdlFileParams);
 		contextMap.put("idlPathes", rtcParam.getIdlPathes());
+		contextMap.put("allIdlFileParamBuild", allIdlFileParamsForBuild);
 
 		return generateTemplateCode10(contextMap);
 	}
