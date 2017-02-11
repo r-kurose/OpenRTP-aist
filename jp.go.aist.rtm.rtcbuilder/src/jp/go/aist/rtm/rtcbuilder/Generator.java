@@ -1,9 +1,12 @@
 package jp.go.aist.rtm.rtcbuilder;
 
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -618,9 +621,21 @@ public class Generator {
 					}
 				}
 			}
+//			try {
+//				outputFile.create(new ByteArrayInputStream(generatedResult.getCode().getBytes("UTF-8")), false, null);
+//			} catch (CoreException e) {
+//				LOGGER.error("Fail to create file", e);
+//			}
 			try {
-				outputFile.create(new ByteArrayInputStream(generatedResult.getCode().getBytes("UTF-8")), false, null);
-			} catch (CoreException e) {
+				String strFullPath = outputFile.getLocation().toOSString();
+				FileOutputStream fos = new FileOutputStream(strFullPath);
+				fos.write(0xef); fos.write(0xbb); fos.write(0xbf);				
+				OutputStreamWriter osw = new OutputStreamWriter( fos , "UTF-8");
+				BufferedWriter fp = new BufferedWriter( osw );
+				fp.write ( generatedResult.getCode());
+				fp.flush();
+				fp.close();				
+			} catch (Exception e) {
 				LOGGER.error("Fail to create file", e);
 			}
 		}
