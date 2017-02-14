@@ -4,7 +4,7 @@ Created-By: 20.0-b12 (Sun Microsystems Inc.)
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: jp.go.aist.rtm.rtcbuilder; singleton:=true
-Bundle-Version: 1.1.0.rc4v20130124
+Bundle-Version: 1.2.0.v20170213
 Bundle-ClassPath: .,
  lib/velocity-1.6.3-dep.jar
 Bundle-Vendor: %providerName

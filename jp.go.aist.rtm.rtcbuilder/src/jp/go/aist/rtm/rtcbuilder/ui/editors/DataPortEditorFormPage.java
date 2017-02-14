@@ -9,6 +9,7 @@ import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
+import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.ValidationUtil;
 
@@ -267,15 +268,15 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 					}
 					portNameText.setText(portName.toString());
 					typeCombo.setText(selectParam.getType());
-					varNameText.setText(getDisplayDocText(selectParam.getVarName()));
+					varNameText.setText(StringUtil.getDisplayDocText(selectParam.getVarName()));
 					positionCombo.setText(selectParam.getPosition());
-					descriptionText.setText(getDisplayDocText(selectParam.getDocDescription()));
-					typeText.setText(getDisplayDocText(selectParam.getDocType()));
-					numberText.setText(getDisplayDocText(selectParam.getDocNum()));
-					semanticsText.setText(getDisplayDocText(selectParam.getDocSemantics()));
-					unitText.setText(getDisplayDocText(selectParam.getDocUnit()));
-					occurrenceText.setText(getDisplayDocText(selectParam.getDocOccurrence()));
-					operationText.setText(getDisplayDocText(selectParam.getDocOperation()));
+					descriptionText.setText(StringUtil.getDisplayDocText(selectParam.getDocDescription()));
+					typeText.setText(StringUtil.getDisplayDocText(selectParam.getDocType()));
+					numberText.setText(StringUtil.getDisplayDocText(selectParam.getDocNum()));
+					semanticsText.setText(StringUtil.getDisplayDocText(selectParam.getDocSemantics()));
+					unitText.setText(StringUtil.getDisplayDocText(selectParam.getDocUnit()));
+					occurrenceText.setText(StringUtil.getDisplayDocText(selectParam.getDocOccurrence()));
+					operationText.setText(StringUtil.getDisplayDocText(selectParam.getDocOperation()));
 					preSelection = selectParam;
 				}
 			}
@@ -295,15 +296,15 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 	public void update() {
 		if (selectParam != null) {
 			selectParam.setType(typeCombo.getText());
-			selectParam.setVarName(getDocText(varNameText.getText()));
+			selectParam.setVarName(StringUtil.getDocText(varNameText.getText()));
 			selectParam.setPosition(positionCombo.getText());
-			selectParam.setDocDescription(getDocText(descriptionText.getText()));
-			selectParam.setDocType(getDocText(typeText.getText()));
-			selectParam.setDocNum(getDocText(numberText.getText()));
-			selectParam.setDocSemantics(getDocText(semanticsText.getText()));
-			selectParam.setDocUnit(getDocText(unitText.getText()));
-			selectParam.setDocOccurrence(getDocText(occurrenceText.getText()));
-			selectParam.setDocOperation(getDocText(operationText.getText()));
+			selectParam.setDocDescription(StringUtil.getDocText(descriptionText.getText()));
+			selectParam.setDocType(StringUtil.getDocText(typeText.getText()));
+			selectParam.setDocNum(StringUtil.getDocText(numberText.getText()));
+			selectParam.setDocSemantics(StringUtil.getDocText(semanticsText.getText()));
+			selectParam.setDocUnit(StringUtil.getDocText(unitText.getText()));
+			selectParam.setDocOccurrence(StringUtil.getDocText(occurrenceText.getText()));
+			selectParam.setDocOperation(StringUtil.getDocText(operationText.getText()));
 		}
 		//
 		editor.updateEMFDataPorts(
@@ -320,16 +321,16 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 	private void setDocumentContents() {
 		if( preSelection != null ) {
 			preSelection.setType(typeCombo.getText());
-			preSelection.setVarName(getDocText(varNameText.getText()));
+			preSelection.setVarName(StringUtil.getDocText(varNameText.getText()));
 			preSelection.setPosition(positionCombo.getText());
 			//
-			preSelection.setDocDescription(getDocText(descriptionText.getText()));
-			preSelection.setDocType(getDocText(typeText.getText()));
-			preSelection.setDocNum(getDocText(numberText.getText()));
-			preSelection.setDocSemantics(getDocText(semanticsText.getText()));
-			preSelection.setDocUnit(getDocText(unitText.getText()));
-			preSelection.setDocOccurrence(getDocText(occurrenceText.getText()));
-			preSelection.setDocOperation(getDocText(operationText.getText()));
+			preSelection.setDocDescription(StringUtil.getDocText(descriptionText.getText()));
+			preSelection.setDocType(StringUtil.getDocText(typeText.getText()));
+			preSelection.setDocNum(StringUtil.getDocText(numberText.getText()));
+			preSelection.setDocSemantics(StringUtil.getDocText(semanticsText.getText()));
+			preSelection.setDocUnit(StringUtil.getDocText(unitText.getText()));
+			preSelection.setDocOccurrence(StringUtil.getDocText(occurrenceText.getText()));
+			preSelection.setDocOperation(StringUtil.getDocText(operationText.getText()));
 		}
 	}
 	

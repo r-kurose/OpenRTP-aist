@@ -11,6 +11,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
+import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.DocumentPreferenceManager;
 import jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler;
@@ -184,8 +185,8 @@ public class ParamUtil {
 		basic.setUpdateDate(dateFactory.newXMLGregorianCalendar(creationDate));
 		//
 		DocBasic docBasic = factory.createDocBasic();
-		docBasic.setCreator(DocumentPreferenceManager.getCreatorValue());
-		docBasic.setLicense(DocumentPreferenceManager.getLicenseValue());
+		docBasic.setCreator(StringUtil.getDocText(DocumentPreferenceManager.getCreatorValue()));
+		docBasic.setLicense(StringUtil.getDocText(DocumentPreferenceManager.getLicenseValue()));
 		basic.setDoc(docBasic);
 
 		return basic;

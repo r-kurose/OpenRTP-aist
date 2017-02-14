@@ -9,6 +9,7 @@ import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigParameterParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
+import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ConfigPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.ValidationUtil;
@@ -254,19 +255,19 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 					updateDefaultTypeList(selectParam.getType());
 					typeCombo.setText(selectParam.getType());
 					defaultValueText.setText(selectParam.getDefaultVal());
-					variableNameText.setText(getDisplayDocText(selectParam.getVarName()));
-					unitConfigText.setText(getDisplayDocText(selectParam.getUnit()));
-					constraintConfigText.setText(getDisplayDocText(selectParam.getConstraint()));
-					widgetCombo.setText(getDisplayDocText(selectParam.getWidget()));
-					stepText.setText(getDisplayDocText(selectParam.getStep()));
+					variableNameText.setText(StringUtil.getDisplayDocText(selectParam.getVarName()));
+					unitConfigText.setText(StringUtil.getDisplayDocText(selectParam.getUnit()));
+					constraintConfigText.setText(StringUtil.getDisplayDocText(selectParam.getConstraint()));
+					widgetCombo.setText(StringUtil.getDisplayDocText(selectParam.getWidget()));
+					stepText.setText(StringUtil.getDisplayDocText(selectParam.getStep()));
 					//
 //					parametertNameText.setText(selectParam.getName());
-					datanameText.setText(getDisplayDocText(selectParam.getDocDataName()));
-					defaultValText.setText(getDisplayDocText(selectParam.getDocDefaultVal()));
-					descriptionText.setText(getDisplayDocText(selectParam.getDocDescription()));
-					unitText.setText(getDisplayDocText(selectParam.getDocUnit()));
-					rangeText.setText(getDisplayDocText(selectParam.getDocRange()));
-					constraintText.setText(getDisplayDocText(selectParam.getDocConstraint()));
+					datanameText.setText(StringUtil.getDisplayDocText(selectParam.getDocDataName()));
+					defaultValText.setText(StringUtil.getDisplayDocText(selectParam.getDocDefaultVal()));
+					descriptionText.setText(StringUtil.getDisplayDocText(selectParam.getDocDescription()));
+					unitText.setText(StringUtil.getDisplayDocText(selectParam.getDocUnit()));
+					rangeText.setText(StringUtil.getDisplayDocText(selectParam.getDocRange()));
+					constraintText.setText(StringUtil.getDisplayDocText(selectParam.getDocConstraint()));
 					preSelection = selectParam;
 				}
 			}
@@ -439,19 +440,19 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 	private void setContents(ConfigSetParam target) {
 		if( target != null ) {
 			target.setType(typeCombo.getText());
-			target.setDefaultVal(getDocText(defaultValueText.getText()));
-			target.setVarName(getDocText(variableNameText.getText()));
-			target.setUnit(getDocText(unitConfigText.getText()));
-			target.setConstraint(getDocText(constraintConfigText.getText()));
-			target.setWidget(getDocText(widgetCombo.getText()));
-			target.setStep(getDocText(stepText.getText()));
+			target.setDefaultVal(StringUtil.getDocText(defaultValueText.getText()));
+			target.setVarName(StringUtil.getDocText(variableNameText.getText()));
+			target.setUnit(StringUtil.getDocText(unitConfigText.getText()));
+			target.setConstraint(StringUtil.getDocText(constraintConfigText.getText()));
+			target.setWidget(StringUtil.getDocText(widgetCombo.getText()));
+			target.setStep(StringUtil.getDocText(stepText.getText()));
 			//
-			target.setDocDataName(getDocText(datanameText.getText()));
-			target.setDocDefaultVal(getDocText(defaultValText.getText()));
-			target.setDocDescription(getDocText(descriptionText.getText()));
-			target.setDocUnit(getDocText(unitText.getText()));
-			target.setDocRange(getDocText(rangeText.getText()));
-			target.setDocConstraint(getDocText(constraintText.getText()));
+			target.setDocDataName(StringUtil.getDocText(datanameText.getText()));
+			target.setDocDefaultVal(StringUtil.getDocText(defaultValText.getText()));
+			target.setDocDescription(StringUtil.getDocText(descriptionText.getText()));
+			target.setDocUnit(StringUtil.getDocText(unitText.getText()));
+			target.setDocRange(StringUtil.getDocText(rangeText.getText()));
+			target.setDocConstraint(StringUtil.getDocText(constraintText.getText()));
 		}
 	}
 	

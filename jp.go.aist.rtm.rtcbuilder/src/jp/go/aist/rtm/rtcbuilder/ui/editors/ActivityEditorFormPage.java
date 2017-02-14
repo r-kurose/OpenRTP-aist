@@ -5,6 +5,7 @@ import java.util.List;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
+import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.BuilderViewPreferenceManager;
 
 import org.eclipse.swt.SWT;
@@ -160,9 +161,9 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 				RtcParam rtcParam = editor.getRtcParam();
 				if (preSelection >= 0) {
 					rtcParam.setActionImplemented(preSelection, onBtn.getSelection());
-					rtcParam.setDocActionOverView(preSelection, getDocText(activityText.getText()));
-					rtcParam.setDocActionPreCondition(preSelection, getDocText(preConditionText.getText()));
-					rtcParam.setDocActionPostCondition(preSelection, getDocText(postConditionText.getText()));
+					rtcParam.setDocActionOverView(preSelection, StringUtil.getDocText(activityText.getText()));
+					rtcParam.setDocActionPreCondition(preSelection, StringUtil.getDocText(preConditionText.getText()));
+					rtcParam.setDocActionPostCondition(preSelection, StringUtil.getDocText(postConditionText.getText()));
 				}
 				int index = implChk.indexOf(e.getSource());
 				//onInitializeは常に有効
@@ -183,9 +184,9 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 					offBtn.setEnabled(true);
 				}
 				actionNameText.setText(IRtcBuilderConstants.ACTION_TYPE_ITEMS[index]);
-				activityText.setText(getDisplayDocText(rtcParam.getDocActionOverView(index)));
-				preConditionText.setText(getDisplayDocText(rtcParam.getDocActionPreCondition(index)));
-				postConditionText.setText(getDisplayDocText(rtcParam.getDocActionPostCondition(index)));
+				activityText.setText(StringUtil.getDisplayDocText(rtcParam.getDocActionOverView(index)));
+				preConditionText.setText(StringUtil.getDisplayDocText(rtcParam.getDocActionPreCondition(index)));
+				postConditionText.setText(StringUtil.getDisplayDocText(rtcParam.getDocActionPostCondition(index)));
 				preSelection = index;
 				//
 				for(Label target : implChk) {
@@ -305,9 +306,9 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 
 		if (preSelection >= 0) {
 			rtcParam.setActionImplemented(preSelection, onBtn.getSelection());
-			rtcParam.setDocActionOverView(preSelection, getDocText(activityText.getText()));
-			rtcParam.setDocActionPreCondition(preSelection, getDocText(preConditionText.getText()));
-			rtcParam.setDocActionPostCondition(preSelection, getDocText(postConditionText.getText()));
+			rtcParam.setDocActionOverView(preSelection, StringUtil.getDocText(activityText.getText()));
+			rtcParam.setDocActionPreCondition(preSelection, StringUtil.getDocText(preConditionText.getText()));
+			rtcParam.setDocActionPostCondition(preSelection, StringUtil.getDocText(postConditionText.getText()));
 		}
 
 		editor.updateDirty();

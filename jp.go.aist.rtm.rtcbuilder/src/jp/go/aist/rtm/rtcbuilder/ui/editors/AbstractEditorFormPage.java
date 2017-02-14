@@ -332,36 +332,6 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		return result;
 	}
 
-	protected String getDocText(String text) {
-		String result = text;
-		if ("".equals(result)) {
-			return "";
-		}
-		String sep = System.getProperty("line.separator");
-		String lines[] = result.split(sep);
-		StringBuffer buffer = new StringBuffer();
-		for( int index=0; index<lines.length; index++ ) {
-			buffer.append(lines[index]);
-			if(index<lines.length-1) buffer.append(IRtcBuilderConstants.NEWLINE_CODE);
-		}
-		return buffer.toString();
-	}
-
-	protected String getDisplayDocText(String text) {
-		String result = text;
-		if( text==null || "".equals(result) ) {
-			return "";
-		}
-		String sep = System.getProperty("line.separator");
-		String lines[] = result.split(IRtcBuilderConstants.NEWLINE_CODE);
-		StringBuffer buffer = new StringBuffer();
-		for( int index=0; index<lines.length; index++ ) {
-			buffer.append(lines[index]);
-			if(index<lines.length-1) buffer.append(sep);
-		}
-		return buffer.toString();
-	}
-
 	protected Combo createEditableCombo(FormToolkit toolkit, Composite composite,
 			String labelString, String key, String[] defaultValue) {
 		return createEditableCombo(toolkit, composite, labelString, key, defaultValue, 0);
