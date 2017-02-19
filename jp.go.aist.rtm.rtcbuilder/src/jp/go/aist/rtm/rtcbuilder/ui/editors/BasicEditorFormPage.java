@@ -20,7 +20,6 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.ui.Perspective.LanguageProperty;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
-import jp.go.aist.rtm.rtcbuilder.ui.wizard.RtcExportWizard;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 
@@ -37,7 +36,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -296,7 +294,6 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		createHintSpace(toolkit, composite);
 		//
 		createHintLabel(IMessageConstants.BASIC_HINT_GENERATE_TITLE, IMessageConstants.BASIC_HINT_GENERATE_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.BASIC_HINT_PACKAGE_TITLE, IMessageConstants.BASIC_HINT_PACKAGE_DESC, toolkit, composite);
 		//
 		createHintSpace(toolkit, composite);
 		//
@@ -307,20 +304,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	private void createGenerateSection(FormToolkit toolkit, ScrolledForm form) {
 		generateSection = createSectionBaseWithLabel(toolkit, form, 
 				IMessageConstants.BASIC_GENERATE_TITLE, IMessageConstants.BASIC_GENERATE_EXPL, 2);
-		//
 		createGenerateButton(toolkit);
-		createPackageButton(toolkit);
-	}
-
-	private void createPackageButton(FormToolkit toolkit) {
-		packageButton = toolkit.createButton(generateSection, IMessageConstants.BASIC_BTN_PACKAGING, SWT.NONE);
-		packageButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				WizardDialog dialog = new WizardDialog(getSite().getShell(), new RtcExportWizard());
-				dialog.open();
-			}
-		});
 	}
 
 	private void createGenerateButton(FormToolkit toolkit) {
