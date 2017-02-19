@@ -1,15 +1,5 @@
-set(comp_srcs
-    ${rtcParam.name}.cpp
-#foreach($providerIdlFile in ${rtcParam.providerIdlPathes})${tmpltHelper.getFilenameNoExt(${providerIdlFile.idlFile})}${tmpltHelper.serviceImplSuffix}.cpp
-#end
-#if( ${tmpltHelper.checkFSM(${rtcParam})} )    ${rtcParam.name}FSM.cpp
-#end
-   )
-set(standalone_srcs
-    ${rtcParam.name}Comp.cpp
-#if( ${tmpltHelper.checkFSM(${rtcParam})} )    ${rtcParam.name}FSM.cpp
-#end
-    )
+set(comp_srcs ${rtcParam.name}.cpp #foreach($providerIdlFile in ${rtcParam.providerIdlPathes})${tmpltHelper.getFilenameNoExt(${providerIdlFile.idlFile})}${tmpltHelper.serviceImplSuffix}.cpp #end)
+set(standalone_srcs ${rtcParam.name}Comp.cpp)
 
 if (DEFINED OPENRTM_INCLUDE_DIRS)
   string(REGEX REPLACE "-I" ";"
@@ -62,9 +52,6 @@ target_link_libraries(${dol}{PROJECT_NAME}Comp ${dol}{OPENRTM_LIBRARIES})
 
 install(TARGETS ${dol}{PROJECT_NAME} ${dol}{PROJECT_NAME}Comp
     EXPORT ${dol}{PROJECT_NAME}
-    RUNTIME DESTINATION ${dol}{BIN_INSTALL_DIR} COMPONENT component
-    LIBRARY DESTINATION ${dol}{LIB_INSTALL_DIR} COMPONENT component
-    ARCHIVE DESTINATION ${dol}{LIB_INSTALL_DIR} COMPONENT component)
-install(EXPORT ${dol}{PROJECT_NAME}
-    DESTINATION ${dol}{LIB_INSTALL_DIR}/${dol}{PROJECT_NAME}
-    FILE ${dol}{PROJECT_NAME}Depends.cmake)
+    RUNTIME DESTINATION ${dol}{INSTALL_DIR} COMPONENT component
+    LIBRARY DESTINATION ${dol}{INSTALL_DIR} COMPONENT component
+    ARCHIVE DESTINATION ${dol}{INSTALL_DIR} COMPONENT component)

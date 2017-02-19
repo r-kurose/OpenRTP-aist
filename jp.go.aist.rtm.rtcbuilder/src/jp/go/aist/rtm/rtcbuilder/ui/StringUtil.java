@@ -163,4 +163,35 @@ public class StringUtil {
 //		return result;
 		return connectMessageWithSepalator(ss);
 	}
+	
+	public static String getDocText(String text) {
+		String result = text;
+		if ("".equals(result)) {
+			return "";
+		}
+		String sep = System.getProperty("line.separator");
+		String lines[] = result.split(sep);
+		StringBuffer buffer = new StringBuffer();
+		for( int index=0; index<lines.length; index++ ) {
+			buffer.append(lines[index]);
+			if(index<lines.length-1) buffer.append(IRtcBuilderConstants.NEWLINE_CODE);
+		}
+		return buffer.toString();
+	}
+
+	public static String getDisplayDocText(String text) {
+		String result = text;
+		if( text==null || "".equals(result) ) {
+			return "";
+		}
+		String sep = System.getProperty("line.separator");
+		String lines[] = result.split(IRtcBuilderConstants.NEWLINE_CODE);
+		StringBuffer buffer = new StringBuffer();
+		for( int index=0; index<lines.length; index++ ) {
+			buffer.append(lines[index]);
+			if(index<lines.length-1) buffer.append(sep);
+		}
+		return buffer.toString();
+	}
+
 }

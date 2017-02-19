@@ -8,16 +8,16 @@
 ${sharp}ifndef ${rtcParam.name.toUpperCase()}_FSM_H
 ${sharp}define ${rtcParam.name.toUpperCase()}_FSM_H
 
+${sharp}include <rtm/StaticFSM.h>
 ${sharp}include <rtm/idl/BasicDataTypeSkel.h>
-${sharp}include <rtm/idl/ExtendedDataTypesSkel.h>
-${sharp}include <rtm/idl/InterfaceDataTypesSkel.h>
+${sharp}include <rtm/RTC.h>
 
-class Fsm;
+class ${rtcParam.name};
 
 namespace ${rtcParam.name}FSM {
 
 // Machine's top state
-TOPSTATE(${fsmParam.name}) {
+FSM_TOPSTATE(${fsmParam.name}) {
   // Top state variables (visible to all substates)
 #if( ${fsmParam.dataName.length()} > 0 )
   struct ${fsmParam.dataName} {
@@ -25,40 +25,36 @@ TOPSTATE(${fsmParam.name}) {
   };
 #end
   
-  STATE(${fsmParam.name})
-
-  static void set_component(Fsm* component);
-  static void notify_fsm_state_changed(const char* state);
+  FSM_STATE(${fsmParam.name})
 
   // Event handler
 #foreach($eachTrans in ${fsmParam.getAllTransList()})
-  virtual void ${eachTrans.event}(RTC::TimedLong param);
+  virtual void ${eachTrans.event}();
 #end
   
- protected:
-   void init();
-   void entry();
-   void exit();
+ private:
+   virtual RTC::ReturnCode_t onInit();
+   virtual RTC::ReturnCode_t onEntry();
+   virtual RTC::ReturnCode_t onExit();
 };
 
 #foreach($eachState in ${fsmParam.getAllStateList()})
-SUBSTATE(${eachState.name}, ${eachState.parentName}) {
+FSM_SUBSTATE(${eachState.name}, ${eachState.parentName}) {
 #if( ${eachState.dataName.length()} > 0 )
   struct ${eachState.dataName} {
     ${eachState.dataName}() {}
   };
 #end
-  STATE(${eachState.name})
+  FSM_STATE(${eachState.name})
 ${tmpltHelper.getHistory(${eachState})}
 #foreach($eachTrans in ${eachState.getTransList()})
-  void ${eachTrans.event}(RTC::TimedLong param);
+  virtual void ${eachTrans.event}();
 #end
 
 private:
-   void init();
-#if( ${eachState.hasEntry} )   void entry();
+#if( ${eachState.hasEntry} )   virtual RTC::ReturnCode_t onEntry();
 #end
-#if( ${eachState.hasExit} )   void exit();
+#if( ${eachState.hasExit} )   virtual RTC::ReturnCode_t onExit();
 #end
 };
 

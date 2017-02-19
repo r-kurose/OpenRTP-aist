@@ -1,6 +1,7 @@
 package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
+import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -157,15 +158,15 @@ public class DocumentEditorFormPage extends AbstractEditorFormPage {
 		RtcParam rtcParam = editor.getRtcParam();
 
 		if( descriptionText != null ) {
-			rtcParam.setDocDescription(getDocText(descriptionText.getText()));
-			rtcParam.setDocInOut(getDocText(inoutText.getText()));
-			rtcParam.setDocAlgorithm(getDocText(algorithmText.getText()));
+			rtcParam.setDocDescription(StringUtil.getDocText(descriptionText.getText()));
+			rtcParam.setDocInOut(StringUtil.getDocText(inoutText.getText()));
+			rtcParam.setDocAlgorithm(StringUtil.getDocText(algorithmText.getText()));
 			//
-			rtcParam.setDocCreator(getDocText(creatorText.getText()));
-			rtcParam.setDocLicense(getDocText(licenseText.getText()));
-			rtcParam.setDocReference(getDocText(referenceText.getText()));
+			rtcParam.setDocCreator(StringUtil.getDocText(creatorText.getText()));
+			rtcParam.setDocLicense(StringUtil.getDocText(licenseText.getText()));
+			rtcParam.setDocReference(StringUtil.getDocText(referenceText.getText()));
 			//
-			rtcParam.setCurrentVersionUpLog(getDocText(versionUpLogText.getText()));
+			rtcParam.setCurrentVersionUpLog(StringUtil.getDocText(versionUpLogText.getText()));
 		}
 
 		editor.updateDirty();
@@ -178,13 +179,13 @@ public class DocumentEditorFormPage extends AbstractEditorFormPage {
 		RtcParam rtcParam = editor.getRtcParam();
 
 		if( descriptionText != null ) {
-			descriptionText.setText(getDisplayDocText(getValue(rtcParam.getDocDescription())));
-			inoutText.setText(getDisplayDocText(getValue(rtcParam.getDocInOut())));
-			algorithmText.setText(getDisplayDocText(getValue(rtcParam.getDocAlgorithm())));
+			descriptionText.setText(StringUtil.getDisplayDocText(getValue(rtcParam.getDocDescription())));
+			inoutText.setText(StringUtil.getDisplayDocText(getValue(rtcParam.getDocInOut())));
+			algorithmText.setText(StringUtil.getDisplayDocText(getValue(rtcParam.getDocAlgorithm())));
 			//
-			creatorText.setText(getDisplayDocText(getValue(rtcParam.getDocCreator())));
-			licenseText.setText(getDisplayDocText(getValue(rtcParam.getDocLicense())));
-			referenceText.setText(getDisplayDocText(getValue(rtcParam.getDocReference())));
+			creatorText.setText(StringUtil.getDisplayDocText(getValue(rtcParam.getDocCreator())));
+			licenseText.setText(StringUtil.getDisplayDocText(getValue(rtcParam.getDocLicense())));
+			referenceText.setText(StringUtil.getDisplayDocText(getValue(rtcParam.getDocReference())));
 			//
 			versionUpLogList.removeAll();
 			for(String vuLog : rtcParam.getVersionUpLog() ) {

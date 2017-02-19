@@ -78,7 +78,7 @@ public class DocumentPreferenceManager {
 		return result;
 	}
 	public void setLicenseValue(String defaultLicenseValue) {
-		String oldCreatorValue = getCreatorValue();
+		String oldCreatorValue = getLicenseValue();
 		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(Document_Licence, defaultLicenseValue);
 		propertyChangeSupport.firePropertyChange(Document_Licence, oldCreatorValue, defaultLicenseValue);
 	}

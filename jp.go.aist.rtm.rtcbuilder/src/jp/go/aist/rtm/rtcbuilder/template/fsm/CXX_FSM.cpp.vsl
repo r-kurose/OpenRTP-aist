@@ -9,44 +9,43 @@ ${sharp}include "${rtcParam.name}FSM.h"
 
 namespace ${rtcParam.name}FSM {
 
-void ${fsmParam.name}::set_component(Fsm* component) {
-  ::set_component(component);
-}
-void ${fsmParam.name}::notify_fsm_state_changed(const char* state) {
-  ::get_component()->notify_fsm_state_changed(state);
-}
-
 // Top state
-void ${fsmParam.name}::init() {
+RTC::ReturnCode_t ${fsmParam.name}::onInit() {
+  return RTC::RTC_OK;
 }
 
-void ${fsmParam.name}::entry() {
+RTC::ReturnCode_t ${fsmParam.name}::onEntry() {
+  return RTC::RTC_OK;
 }
 
-void ${fsmParam.name}::exit() {
+RTC::ReturnCode_t ${fsmParam.name}::onExit() {
+  return RTC::RTC_OK;
 }
 
 #foreach($eachTrans in ${fsmParam.getAllTransList()})
-void ${fsmParam.name}::${eachTrans.event}(RTC::TimedLong param) {
+void ${fsmParam.name}::${eachTrans.event}() {
 }
 
 #end
 #foreach($eachState in ${fsmParam.getAllStateList()})
 //${eachState.name}
-void ${eachState.name}::init() {
+virtual RTC::ReturnCode_t ${eachState.name}::onInit() {
+  return RTC::RTC_OK;
 }
 
 #if( ${eachState.hasEntry} )
-void ${eachState.name}::entry() {
+virtual RTC::ReturnCode_t ${eachState.name}::onEntry() {
+  return RTC::RTC_OK;
 }
 #end
 #if( ${eachState.hasExit} )
-void ${eachState.name}::exit() {
+virtual RTC::ReturnCode_t ${eachState.name}::onExit() {
+  return RTC::RTC_OK;
 }
 #end
 
 #foreach($eachTrans in ${eachState.getTransList()})
-void ${eachState.name}::${eachTrans.event}(RTC::TimedLong param) {
+void ${eachState.name}::${eachTrans.event}() {
   setState<${eachTrans.target}>();
 }
 

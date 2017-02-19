@@ -1,6 +1,7 @@
 package jp.go.aist.rtm.rtcbuilder.ui.wizard;
 
 import java.io.ByteArrayInputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.GregorianCalendar;
 
 import javax.xml.datatype.DatatypeConstants;
@@ -70,9 +71,12 @@ public class NewWizard extends Wizard implements INewWizard, IExecutableExtensio
 			String xmlFile = handler.createInitialRtcXml(dateTime);
 			//
 			rtcxml = projectHandle.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML);
-			rtcxml.create(new ByteArrayInputStream(xmlFile.getBytes()), false, null);
+			rtcxml.create(new ByteArrayInputStream(xmlFile.getBytes("UTF-8")), false, null);
 		} catch (CoreException ex) {
 			System.out.println(ex);
+			return false;
+		} catch (UnsupportedEncodingException e) {
+			System.out.println(e);
 			return false;
 		}
 		// パースペクティブを切り替え

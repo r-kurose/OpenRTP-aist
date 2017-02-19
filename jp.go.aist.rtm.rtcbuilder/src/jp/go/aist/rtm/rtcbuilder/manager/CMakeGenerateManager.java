@@ -139,7 +139,6 @@ public class CMakeGenerateManager extends GenerateManager {
 		result.add(gr);
 		gr = generateResourceWixXSL(contextMap);
 		result.add(gr);
-		//TODO アイコン、ビットマップのコピー
 
 		//doc
 		gr = generateDocCMakeLists(contextMap);

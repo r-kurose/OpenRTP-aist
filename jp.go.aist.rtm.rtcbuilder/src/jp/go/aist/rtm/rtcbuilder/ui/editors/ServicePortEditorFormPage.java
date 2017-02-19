@@ -20,6 +20,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
+import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 import jp.go.aist.rtm.rtcbuilder.util.ValidationUtil;
@@ -218,8 +219,8 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 					}
 					((ServicePortParam)selection.getData()).setPositionByIndex(positionCombo.getSelectionIndex());
 					//
-					((ServicePortParam)selection.getData()).setDocDescription(getDocText(descriptionText.getText()));
-					((ServicePortParam)selection.getData()).setDocIfDescription(getDocText(ifoverviewText.getText()));
+					((ServicePortParam)selection.getData()).setDocDescription(StringUtil.getDocText(descriptionText.getText()));
+					((ServicePortParam)selection.getData()).setDocIfDescription(StringUtil.getDocText(ifoverviewText.getText()));
 				} else if( selection.getData() instanceof ServicePortInterfaceParam ) {
 					if( !((ServicePortInterfaceParam)selection.getData()).getIdlFile().equals(
 							idlFileText.getText()) ) {
@@ -254,12 +255,12 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 					((ServicePortInterfaceParam)selection.getData()).setInterfaceType(interfaceTypeCombo.getText());
 					((ServicePortInterfaceParam)selection.getData()).setIdlSearchPath(idlPathText.getText());
 					//
-					((ServicePortInterfaceParam)selection.getData()).setDocDescription(getDocText(ifdetailText.getText()));
-					((ServicePortInterfaceParam)selection.getData()).setDocArgument(getDocText(ifargumentText.getText()));
-					((ServicePortInterfaceParam)selection.getData()).setDocReturn(getDocText(ifreturnText.getText()));
-					((ServicePortInterfaceParam)selection.getData()).setDocException(getDocText(ifexceptionText.getText()));
-					((ServicePortInterfaceParam)selection.getData()).setDocPreCondition(getDocText(ifpreconditionText.getText()));
-					((ServicePortInterfaceParam)selection.getData()).setDocPostCondition(getDocText(ifpostconditionText.getText()));
+					((ServicePortInterfaceParam)selection.getData()).setDocDescription(StringUtil.getDocText(ifdetailText.getText()));
+					((ServicePortInterfaceParam)selection.getData()).setDocArgument(StringUtil.getDocText(ifargumentText.getText()));
+					((ServicePortInterfaceParam)selection.getData()).setDocReturn(StringUtil.getDocText(ifreturnText.getText()));
+					((ServicePortInterfaceParam)selection.getData()).setDocException(StringUtil.getDocText(ifexceptionText.getText()));
+					((ServicePortInterfaceParam)selection.getData()).setDocPreCondition(StringUtil.getDocText(ifpreconditionText.getText()));
+					((ServicePortInterfaceParam)selection.getData()).setDocPostCondition(StringUtil.getDocText(ifpostconditionText.getText()));
 					//
 				}
 			}
@@ -539,8 +540,8 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			nameText.setText(servicePort.getName());
 			positionCombo.select(servicePort.getPositionByIndex());
 			//
-			descriptionText.setText(getDisplayDocText(servicePort.getDocDescription()));
-			ifoverviewText.setText(getDisplayDocText(servicePort.getDocIfDescription()));
+			descriptionText.setText(StringUtil.getDisplayDocText(servicePort.getDocDescription()));
+			ifoverviewText.setText(StringUtil.getDisplayDocText(servicePort.getDocIfDescription()));
 		}
 	}
 	
@@ -666,12 +667,12 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			interfaceTypeCombo.setText(serviceInterface.getInterfaceType());
 			idlPathText.setText(serviceInterface.getIdlSearchPath());
 			//
-			ifdetailText.setText(getDisplayDocText(serviceInterface.getDocDescription()));
-			ifargumentText.setText(getDisplayDocText(serviceInterface.getDocArgument()));
-			ifreturnText.setText(getDisplayDocText(serviceInterface.getDocReturn()));
-			ifexceptionText.setText(getDisplayDocText(serviceInterface.getDocException()));
-			ifpreconditionText.setText(getDisplayDocText(serviceInterface.getDocPreCondition()));
-			ifpostconditionText.setText(getDisplayDocText(serviceInterface.getDocPostCondition()));
+			ifdetailText.setText(StringUtil.getDisplayDocText(serviceInterface.getDocDescription()));
+			ifargumentText.setText(StringUtil.getDisplayDocText(serviceInterface.getDocArgument()));
+			ifreturnText.setText(StringUtil.getDisplayDocText(serviceInterface.getDocReturn()));
+			ifexceptionText.setText(StringUtil.getDisplayDocText(serviceInterface.getDocException()));
+			ifpreconditionText.setText(StringUtil.getDisplayDocText(serviceInterface.getDocPreCondition()));
+			ifpostconditionText.setText(StringUtil.getDisplayDocText(serviceInterface.getDocPostCondition()));
 		}
 	}
 

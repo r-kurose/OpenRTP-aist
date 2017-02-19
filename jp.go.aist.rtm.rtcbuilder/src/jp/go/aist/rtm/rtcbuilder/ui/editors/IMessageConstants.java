@@ -89,10 +89,6 @@ public interface IMessageConstants {
 	public static final String BASIC_HINT_PROJECT_DESC = StringUtil.connectMessageWithSepalator( new String[]{BASIC_HINT_PROJECT_DESC_P1, BASIC_HINT_PROJECT_DESC_P2, BASIC_HINT_PROJECT_DESC_P3, BASIC_HINT_PROJECT_DESC_P4, BASIC_HINT_PROJECT_DESC_P5});
 	public static final String BASIC_HINT_GENERATE_TITLE = Messages.getString("IMessageConstants.BASIC_HINT_GENERATE_TITLE"); //$NON-NLS-1$
 	public static final String BASIC_HINT_GENERATE_DESC = Messages.getString("IMessageConstants.BASIC_HINT_GENERATE_DESC"); //$NON-NLS-1$
-	public static final String BASIC_HINT_PACKAGE_TITLE = Messages.getString("IMessageConstants.BASIC_HINT_PACKAGE_TITLE"); //$NON-NLS-1$
-	public static final String BASIC_HINT_PACKAGE_DESC_P1 = Messages.getString("IMessageConstants.BASIC_HINT_PACKAGE_DESC_P1"); //$NON-NLS-1$
-	public static final String BASIC_HINT_PACKAGE_DESC_P2 = Messages.getString("IMessageConstants.BASIC_HINT_PACKAGE_DESC_P2"); //$NON-NLS-1$
-	public static final String BASIC_HINT_PACKAGE_DESC = StringUtil.connectMessageWithSepalator( new String[]{BASIC_HINT_PACKAGE_DESC_P1, BASIC_HINT_PACKAGE_DESC_P2});
 	public static final String BASIC_HINT_IMPORT_TITLE = Messages.getString("IMessageConstants.BASIC_HINT_IMPORT_TITLE"); //$NON-NLS-1$
 	public static final String BASIC_HINT_IMPORT_DESC = Messages.getString("IMessageConstants.BASIC_HINT_IMPORT_DESC"); //$NON-NLS-1$
 	public static final String BASIC_HINT_EXPORT_TITLE = Messages.getString("IMessageConstants.BASIC_HINT_EXPORT_TITLE"); //$NON-NLS-1$
@@ -114,7 +110,6 @@ public interface IMessageConstants {
 
 	public static final String BASIC_BTN_REF = Messages.getString("IMessageConstants.BASIC_BTN_REF"); //$NON-NLS-1$
 	public static final String BASIC_BTN_GENERATE = Messages.getString("IMessageConstants.BASIC_BTN_GENERATE"); //$NON-NLS-1$
-	public static final String BASIC_BTN_PACKAGING = Messages.getString("IMessageConstants.BASIC_BTN_PACKAGING"); //$NON-NLS-1$
 	public static final String BASIC_BTN_IMPORT = Messages.getString("IMessageConstants.BASIC_BTN_IMPORT"); //$NON-NLS-1$
 	public static final String BASIC_BTN_EXPORT = Messages.getString("IMessageConstants.BASIC_BTN_EXPORT"); //$NON-NLS-1$
 

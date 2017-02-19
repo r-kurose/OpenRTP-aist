@@ -102,7 +102,12 @@ public class FileUtil {
 			result = new StringBuffer();
             String ch;
             String sep = System.getProperty("line.separator");
+            boolean firstLine = true;
             while ((ch = br.readLine() ) != null) {
+            	if (firstLine) {
+            		ch = removeUTF8BOM(ch);
+                    firstLine = false;
+                }            	
             	result.append(ch + sep);
             }
             br.close();
@@ -115,6 +120,13 @@ public class FileUtil {
 		return result == null ? null : result.toString();
 	}
 	
+	private static String removeUTF8BOM(String s) {
+		String UTF8_BOM = "\uFEFF";		
+        if (s.startsWith(UTF8_BOM)) {
+            s = s.substring(1);
+        }
+        return s;
+    }
 	/**
 	 * バックアップファイルの整理を行う
 	 * 
