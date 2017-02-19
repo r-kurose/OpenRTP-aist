@@ -41,7 +41,8 @@ ${cXXConv.getDataportUsingNamespace(${type})}
 // FSM headers
 // <rtc-template block="fsm_h">
 ${sharp}include <${rtcParam.name}FSM.h>
-// </rtc-template>#end
+// </rtc-template>
+#end
 
 ${sharp}include <rtm/Manager.h>
 ${sharp}include <rtm/${rtcParam.componentKind}Base.h>
@@ -365,7 +366,7 @@ class ${rtcParam.name}
   // DataInPort declaration
   // <rtc-template block="inport_declare">
 #foreach($port in ${rtcParam.inports})
-#if(${port.type}!="")  ${port.type} ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
+#if(${port.type}!="" && ${port.name}!="FSMEvent")  ${port.type} ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
   /*!
 #if(${port.docDescription.length()}>0)   * ${tmpltHelper.convertDescDoc(${port.docDescription})}
 #end
@@ -484,9 +485,14 @@ class ${rtcParam.name}
   // </rtc-template>
 
 #if( ${tmpltHelper.checkFSM(${rtcParam})} )
-  // FSM declaration
+  // State machine declaration
   // <rtc-template block="fsm_declare">
-  ${rtcParam.name}FSM::Machine<${tmpltHelper.getTopFSMName(${rtcParam})}>* machine_;
+  RTC::Machine<${rtcParam.name}FSM::${fsmParam.name}> m_fsm;
+  // </rtc-template>
+  
+  // EventPort declaration
+  // <rtc-template block="event_declare">
+  EventInPort< RTC::Machine<${rtcParam.name}FSM::${fsmParam.name}> > m_eventIn;
   // </rtc-template>
 #end
 

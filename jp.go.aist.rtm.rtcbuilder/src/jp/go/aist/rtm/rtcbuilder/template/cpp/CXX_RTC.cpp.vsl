@@ -66,7 +66,7 @@ static const char* ${rtcParam.name.toLowerCase()}_spec[] =
  */
 ${rtcParam.name}::${rtcParam.name}(RTC::Manager* manager)
     // <rtc-template block="initializer">
-  : RTC::${rtcParam.componentKind}Base(manager)#foreach($port in ${rtcParam.inports})#if(${port.type}!=""),
+  : RTC::${rtcParam.componentKind}Base(manager)#foreach($port in ${rtcParam.inports})#if(${port.type}!="" && ${port.name}!="FSMEvent"),
     ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix}("${port.name}", ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix})#end#end#foreach($port in ${rtcParam.outports})#if(${port.type}!=""),
     ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}Out${rtcParam.dataPortSuffix}${rtcParam.commonSuffix}("${port.name}", ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix})#end#end
 #if(${rtcParam.servicePorts.size()}>0)
@@ -74,6 +74,10 @@ ${rtcParam.name}::${rtcParam.name}(RTC::Manager* manager)
 #if(${servicePort.servicePortInterfaces.size()}>0)
 ,
     ${rtcParam.commonPrefix}${rtcParam.servicePortPrefix}${servicePort.name}Port${rtcParam.servicePortSuffix}${rtcParam.commonSuffix}("${servicePort.name}")#end#end#end
+#if( ${tmpltHelper.checkFSM(${rtcParam})} ),
+    m_fsm(this),
+    m_eventIn("event", m_fsm)
+#end
 
 
     // </rtc-template>
@@ -99,7 +103,7 @@ RTC::ReturnCode_t ${rtcParam.name}::onInitialize()
   // <rtc-template block="registration">
   // Set InPort buffers
 #foreach($port in ${rtcParam.inports})
-#if(${port.type}!="")  addInPort("${port.name}", ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix});
+#if(${port.type}!="" && ${port.name}!="FSMEvent")  addInPort("${port.name}", ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix});
 #end
 #end
   
@@ -145,6 +149,15 @@ RTC::ReturnCode_t ${rtcParam.name}::onInitialize()
 #end
   // </rtc-template>
 #if(${tmpltHelper.checkDetailContent(0,${rtcParam})})${rtcParam.getDetailContent(0)}
+#end
+#if( ${tmpltHelper.checkFSM(${rtcParam})} )
+  // <rtc-template block="fsm">
+  addInPort("event", m_eventIn);
+
+#foreach($eachTrans in ${fsmParam.getAllTransList()})
+  m_eventIn.bindEvent("${eachTrans.event}", &${rtcParam.name}FSM::${fsmParam.name}::${eachTrans.event});
+#end
+  // </rtc-template>
 #end
   
   return RTC::RTC_OK;

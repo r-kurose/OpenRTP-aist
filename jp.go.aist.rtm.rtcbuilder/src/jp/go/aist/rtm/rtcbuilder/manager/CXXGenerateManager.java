@@ -71,6 +71,23 @@ public class CXXGenerateManager extends GenerateManager {
 		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 
+		boolean isStaticFSM = false;
+		PropertyParam fsm = rtcParam.getProperty(IRtcBuilderConstants.PROP_TYPE_FSM);
+		if(fsm!=null) {
+			if(Boolean.valueOf(fsm.getValue())) {
+				PropertyParam fsmType = rtcParam.getProperty(IRtcBuilderConstants.PROP_TYPE_FSMTYTPE);
+				if(fsmType.getValue().equals(IRtcBuilderConstants.FSMTYTPE_STATIC)) {
+					isStaticFSM = true;
+				}
+			}
+		}
+		
+		if(isStaticFSM) {
+			StateParam stateParam = rtcParam.getFsmParam();
+			contextMap.put("fsmParam", stateParam);
+		}
+		
+
 		GeneratedResult gr;
 		gr = generateCompSource(contextMap);
 		result.add(gr);
@@ -79,17 +96,11 @@ public class CXXGenerateManager extends GenerateManager {
 		gr = generateRTCSource(contextMap);
 		result.add(gr);
 		
-		PropertyParam fsm = rtcParam.getProperty(IRtcBuilderConstants.PROP_TYPE_FSM);
-		if(fsm!=null) {
-			if(Boolean.valueOf(fsm.getValue())) {
-				PropertyParam fsmType = rtcParam.getProperty(IRtcBuilderConstants.PROP_TYPE_FSMTYTPE);
-				if(fsmType.getValue().equals(IRtcBuilderConstants.FSMTYTPE_STATIC)) {
-					gr = generateFSMHeader(contextMap);
-					result.add(gr);
-					gr = generateFSMSource(contextMap);
-					result.add(gr);
-				}
-			}
+		if(isStaticFSM) {
+			gr = generateFSMHeader(contextMap);
+			result.add(gr);
+			gr = generateFSMSource(contextMap);
+			result.add(gr);
 		}
 
 		for (IdlFileParam idl : rtcParam.getProviderIdlPathes()) {
@@ -151,9 +162,6 @@ public class CXXGenerateManager extends GenerateManager {
 	
 	public GeneratedResult generateFSMHeader(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		StateParam stateParam = rtcParam.getFsmParam();
-		contextMap.put("fsmParam", stateParam);
-		
 		String outfile = null;
 		outfile = "include/" + rtcParam.getName() + "/" + rtcParam.getName() + "FSM.h";
 		String infile = "fsm/CXX_FSM.h.vsl";
