@@ -17,7 +17,7 @@ if(DOXYGEN_FOUND)
     ${sharp} Doxygen part
     set(doxyfile "${dol}{CMAKE_CURRENT_BINARY_DIR}/doxyfile")
     configure_file(doxyfile.in ${dol}{doxyfile})
-    add_custom_target(doxygen_doc ${dol}{DOXYGEN_EXECUTABLE} ${dol}{doxyfile})
+    add_custom_target(${dol}{PROJECT_NAME}_doxygen_doc ${dol}{DOXYGEN_EXECUTABLE} ${dol}{doxyfile})
 
     ${sharp} Sphinx part
     ${sharp}set(conf_dir "${dol}{CMAKE_CURRENT_BINARY_DIR}/conf")

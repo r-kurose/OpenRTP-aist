@@ -1,10 +1,5 @@
 set(hdrs ${rtcParam.name}.h
-    PARENT_SCOPE
 #foreach($providerIdlFile in ${rtcParam.providerIdlPathes})
     ${tmpltHelper.getFilenameNoExt(${providerIdlFile.idlFile})}${tmpltHelper.serviceImplSuffix}.h
 #end
     )
-
-install(FILES ${dol}{hdrs} DESTINATION ${dol}{INC_INSTALL_DIR}/${dol}{PROJECT_NAME_LOWER}
-    COMPONENT library)
-

@@ -1,13 +1,17 @@
 package jp.go.aist.rtm.rtcbuilder;
 
 import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
+import java.net.URI;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -565,6 +569,24 @@ public class Generator {
 				idlTarget.create(new FileInputStream(includedIdlFile), true, null);
 			}
 		}
+		//
+		//アイコン、ビットマップのコピー
+		copyFigure("icons/rt_middleware_logo.ico", project, "cmake/rt_middleware_logo.ico");
+		copyFigure("icons/rt_middleware_logo.bmp", project, "cmake/rt_middleware_logo.bmp");
+	}
+	
+	private void copyFigure(String source, IProject outputProject, String dist) {
+		try {
+			URL bundleUrl = this.getClass().getClassLoader().getResource(source);
+			URL jarUrl = org.eclipse.core.runtime.FileLocator.toFileURL(bundleUrl);	
+			URI uri = URI.create(jarUrl.toString().replace(File.separator, "/"));
+			
+			File targetFile = new File(outputProject.getLocation().toOSString(), dist);
+			
+			Files.copy(Paths.get(uri), Paths.get(targetFile.toURI()), StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void writeFile(GeneratedResult generatedResult, IProject outputProject,
@@ -621,11 +643,6 @@ public class Generator {
 					}
 				}
 			}
-//			try {
-//				outputFile.create(new ByteArrayInputStream(generatedResult.getCode().getBytes("UTF-8")), false, null);
-//			} catch (CoreException e) {
-//				LOGGER.error("Fail to create file", e);
-//			}
 			try {
 				String strFullPath = outputFile.getLocation().toOSString();
 				FileOutputStream fos = new FileOutputStream(strFullPath);
