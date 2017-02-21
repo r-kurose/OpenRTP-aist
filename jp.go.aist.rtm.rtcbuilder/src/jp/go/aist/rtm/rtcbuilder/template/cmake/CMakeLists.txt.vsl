@@ -1,4 +1,8 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+cmake_policy(SET CMP0002 OLD)
+if(POLICY CMP0046)
+ cmake_policy(SET CMP0046 OLD)
+endif()
 if(POLICY CMP0048)
   cmake_policy(SET CMP0048 OLD)
 endif()
@@ -15,6 +19,58 @@ set(PROJECT_AUTHOR_SHORT "${rtcParam.vender}")
 
 set(PROJECT_MAINTAINER "unknown")
 set(PROJECT_TYPE "c++/${rtcParam.category}")
+
+function(get_dist ARG0)
+ if(NOT ${dol}{CMAKE_SYSTEM_NAME} MATCHES "Linux")
+   set(${dol}{ARG0} ${dol}{CMAKE_SYSTEM_NAME} PARENT_SCOPE)
+   return()
+ endif()
+ foreach(dist Debian Ubuntu RedHat Fedora CentOS)
+   execute_process(
+     COMMAND grep ${dol}{dist} -s /etc/issue /etc/os-release /etc/redhat-release /etc/system-release
+     OUTPUT_VARIABLE dist_name
+     )
+   if(${dol}{dist_name} MATCHES ${dol}{dist})
+     set(${dol}{ARG0} ${dol}{dist} PARENT_SCOPE)
+     return()
+   endif()
+ endforeach()
+endfunction(get_dist)
+
+function(get_pkgmgr ARG0)
+ get_dist(DIST_NAME)
+ if(${dol}{DIST_NAME} MATCHES "Debian" OR
+    ${dol}{DIST_NAME} MATCHES "Ubuntu")
+    set(${dol}{ARG0} "DEB" PARENT_SCOPE)
+    return()
+ endif()
+ if(${dol}{DIST_NAME} MATCHES "RedHat" OR
+    ${dol}{DIST_NAME} MATCHES "Fedora" OR
+    ${dol}{DIST_NAME} MATCHES "CentOS")
+    set(${dol}{ARG0} "RPM" PARENT_SCOPE)
+    return()
+ endif()
+endfunction(get_pkgmgr)
+
+get_dist(DIST_NAME)
+MESSAGE(STATUS "Distribution is ${dol}{DIST_NAME}")
+
+get_pkgmgr(PKGMGR)
+if(PKGMGR AND NOT LINUX_PACKAGE_GENERATOR)
+ set(LINUX_PACKAGE_GENERATOR ${dol}{PKGMGR})
+ if(${dol}{PKGMGR} MATCHES "DEB")
+   execute_process(COMMAND dpkg --print-architecture
+     OUTPUT_VARIABLE CPACK_DEBIAN_PACKAGE_ARCHITECTURE
+     OUTPUT_STRIP_TRAILING_WHITESPACE)
+   message(STATUS "Package manager is ${dol}{PKGMGR}. Arch is ${dol}{CPACK_DEBIAN_PACKAGE_ARCHITECTURE}.")
+ endif()
+ if(${dol}{PKGMGR} MATCHES "RPM")
+   execute_process(COMMAND uname "-m"
+     OUTPUT_VARIABLE CPACK_RPM_PACKAGE_ARCHITECTURE
+     OUTPUT_STRIP_TRAILING_WHITESPACE)
+   message(STATUS "Package manager is ${dol}{PKGMGR}. Arch is ${dol}{CPACK_RPM_PACKAGE_ARCHITECTURE}.")
+ endif()
+endif()
 
 ${sharp} Add an "uninstall" target
 CONFIGURE_FILE ("${dol}{PROJECT_SOURCE_DIR}/cmake/uninstall_target.cmake.in"

@@ -1,8 +1,5 @@
 set(idls ${tmpltHelper.getIDLFilesforIDLCMake(${rtcParam})})
 
-install(FILES ${dol}{idls} DESTINATION ${dol}{INC_INSTALL_DIR}/idl
-    COMPONENT idl)
-
 macro(_IDL_OUTPUTS _idl _dir _result)
     set(${_result} ${_dir}/${_idl}SK.cc ${_dir}/${_idl}.hh
         ${_dir}/${_idl}DynSK.cc)
@@ -50,7 +47,3 @@ endmacro(OPENRTM_COMPILE_IDL_FILES)
 OPENRTM_COMPILE_IDL_FILES(${dol}{idls})
 set(ALL_IDL_SRCS ${dol}{ALL_IDL_SRCS} PARENT_SCOPE)
 FILTER_LIST("ALL_IDL_SRCS" "hh${dol}" idl_headers)
-install(FILES ${dol}{idl_headers}
-    DESTINATION ${dol}{INC_INSTALL_DIR}/${dol}{PROJECT_NAME_LOWER}/idl
-    COMPONENT headers)
-
