@@ -13,8 +13,8 @@ set(PROJECT_VENDOR "${rtcParam.vender}")
 set(PROJECT_AUTHOR "${rtcParam.vender}")
 set(PROJECT_AUTHOR_SHORT "${rtcParam.vender}")
 
-set(PROJECT_MAINTAINER "Noriaki Ando <n-ando@aist.go.jp>")
-set(PROJECT_TYPE "c++/opencv-rtcs")
+set(PROJECT_MAINTAINER "unknown")
+set(PROJECT_TYPE "c++/${rtcParam.category}")
 
 ${sharp} Add an "uninstall" target
 CONFIGURE_FILE ("${dol}{PROJECT_SOURCE_DIR}/cmake/uninstall_target.cmake.in"
