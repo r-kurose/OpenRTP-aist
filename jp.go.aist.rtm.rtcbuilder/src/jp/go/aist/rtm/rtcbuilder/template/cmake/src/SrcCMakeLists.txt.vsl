@@ -52,31 +52,6 @@ target_link_libraries(${dol}{PROJECT_NAME}Comp ${dol}{OPENRTM_LIBRARIES})
 
 install(TARGETS ${dol}{PROJECT_NAME} ${dol}{PROJECT_NAME}Comp
     EXPORT ${dol}{PROJECT_NAME}
-    RUNTIME DESTINATION ${dol}{INSTALL_PREFIX} COMPONENT component
-    LIBRARY DESTINATION ${dol}{INSTALL_PREFIX} COMPONENT component
-    ARCHIVE DESTINATION ${dol}{INSTALL_PREFIX} COMPONENT component)
-    
-if (SolutionDir)
- if (MSVC)
-   add_custom_command(
-     TARGET ${dol}{PROJECT_NAME}
-     POST_BUILD
-     COMMAND ${dol}{CMAKE_COMMAND} -E
-       copy ${dol}{PROJECT_BINARY_DIR}/src/Release/${dol}{PROJECT_NAME}.dll ${dol}{SolutionDir}/bin
-   )
-   add_custom_command(
-     TARGET ${dol}{PROJECT_NAME}Comp
-     POST_BUILD
-     COMMAND ${dol}{CMAKE_COMMAND} -E
-       copy ${dol}{PROJECT_BINARY_DIR}/src/Release/${dol}{PROJECT_NAME}Comp.exe ${dol}{SolutionDir}/bin
-   )
-		 
- else (MSVC)
-   add_custom_command(
-     TARGET ${dol}{PROJECT_NAME}Comp
-     POST_BUILD
-     COMMAND ${dol}{CMAKE_COMMAND} -E
-       copy ${dol}{PROJECT_BINARY_DIR}/src/${dol}{PROJECT_NAME}Comp ${dol}{SolutionDir}/bin
-   )
- endif (MSVC)
-endif (SolutionDir)
+    RUNTIME DESTINATION ${dol}{INSTALL_DIR} COMPONENT component
+    LIBRARY DESTINATION ${dol}{INSTALL_DIR} COMPONENT component
+    ARCHIVE DESTINATION ${dol}{INSTALL_DIR} COMPONENT component)
