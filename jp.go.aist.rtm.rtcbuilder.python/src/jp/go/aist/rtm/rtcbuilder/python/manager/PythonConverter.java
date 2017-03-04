@@ -1,5 +1,6 @@
 package jp.go.aist.rtm.rtcbuilder.python.manager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -336,50 +337,63 @@ public class PythonConverter {
 	}
 	
 	public String convModuleName(IdlFileParam source) {
-		StringBuffer result = new StringBuffer();
+		List<String> addedList = new ArrayList<String>();
+		StringBuilder strWork;
+		StringBuilder result = new StringBuilder();
 		
 		boolean existGlobal = false;
 		for(ServiceClassParam target : source.getServiceClassParams() ) {
+			strWork = new StringBuilder();
 			if(target.getName().contains("::")) {
 				int index = target.getName().lastIndexOf("::");
-				result.append("import ");
-				result.append(target.getName().substring(0, index));
-				result.append(", ");
-				result.append(target.getName().substring(0, index));
-				result.append("__POA");
+				strWork.append("import ");
+				strWork.append(target.getName().substring(0, index));
+				strWork.append(", ");
+				strWork.append(target.getName().substring(0, index));
+				strWork.append("__POA");
 			} else {
 				if(!existGlobal) {
-					result.append("import ");
-					result.append("_GlobalIDL, _GlobalIDL__POA");
+					strWork.append("import ");
+					strWork.append("_GlobalIDL, _GlobalIDL__POA");
 					existGlobal = true;
 				}
+			}
+			//
+			if(addedList.contains(strWork.toString())==false) {
+				result.append(strWork.toString()).append(System.getProperty("line.separator"));
+				addedList.add(strWork.toString());
 			}
 		}
 		return result.toString();
 	}
 	
 	public String convModuleNameAll(List<IdlFileParam> sourceList) {
-		StringBuffer result = new StringBuffer();
+		List<String> addedList = new ArrayList<String>();
+		StringBuilder strWork;
+		StringBuilder result = new StringBuilder();
 		
 		boolean existGlobal = false;
 		for(IdlFileParam source : sourceList) {
-			
 			for(ServiceClassParam target : source.getServiceClassParams() ) {
+				strWork = new StringBuilder();
 				if(target.getName().contains("::")) {
 					int index = target.getName().lastIndexOf("::");
-					result.append("import ");
-					result.append(target.getName().substring(0, index));
-					result.append(", ");
-					result.append(target.getName().substring(0, index));
-					result.append("__POA");
+					strWork.append("import ");
+					strWork.append(target.getName().substring(0, index));
+					strWork.append(", ");
+					strWork.append(target.getName().substring(0, index));
+					strWork.append("__POA");
 				} else {
 					if(!existGlobal) {
-						result.append("import ");
-						result.append("_GlobalIDL, _GlobalIDL__POA");
+						strWork.append("import ");
+						strWork.append("_GlobalIDL, _GlobalIDL__POA");
 						existGlobal = true;
 					}
 				}
-				result.append("\r\n");
+				if(addedList.contains(strWork.toString())==false) {
+					result.append(strWork.toString()).append(System.getProperty("line.separator"));
+					addedList.add(strWork.toString());
+				}
 			}
 		}
 		return result.toString();
