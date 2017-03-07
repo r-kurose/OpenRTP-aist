@@ -75,6 +75,8 @@ public class CXXGenerateManager extends GenerateManager {
 		result.add(gr);
 		gr = generateRTCSource(contextMap);
 		result.add(gr);
+		gr = generateCITemplate(contextMap);
+		result.add(gr);
 
 		for (IdlFileParam idl : rtcParam.getProviderIdlPathes()) {
 			contextMap.put("idlFileParam", idl);
@@ -130,6 +132,13 @@ public class CXXGenerateManager extends GenerateManager {
 		outfile = "src/" + TemplateHelper.getBasename(idlParam.getIdlFileNoExt())
 					+ TemplateHelper.getServiceImplSuffix() + ".cpp";
 		String infile = "cpp/CXX_SVC.cpp.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
+	public GeneratedResult generateCITemplate(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = ".travis.yaml." + rtcParam.getName();
+		String infile = "cpp/travis.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 	
