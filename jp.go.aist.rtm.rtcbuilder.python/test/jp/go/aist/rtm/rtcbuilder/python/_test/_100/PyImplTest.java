@@ -61,7 +61,7 @@ public class PyImplTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/impl/all/";
 
-		assertEquals(27, result.size());
+		assertEquals(default_file_num, result.size());
 		checkCode(result, resourceDir, "foo.py");
 	}
 
@@ -86,7 +86,7 @@ public class PyImplTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/impl/execute/";
 
-		assertEquals(27, result.size());
+		assertEquals(default_file_num, result.size());
 		checkCode(result, resourceDir, "foo.py");
 	}
 
@@ -108,7 +108,7 @@ public class PyImplTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/impl/finalize/";
 
-		assertEquals(27, result.size());
+		assertEquals(default_file_num, result.size());
 		checkCode(result, resourceDir, "foo.py");
 	}
 
@@ -129,7 +129,7 @@ public class PyImplTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/impl/initialize/";
 
-		assertEquals(27, result.size());
+		assertEquals(default_file_num, result.size());
 		checkCode(result, resourceDir, "foo.py");
 	}
 
