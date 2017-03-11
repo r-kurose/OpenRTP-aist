@@ -83,7 +83,7 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/base/service2/";
 
-		assertEquals(33, result.size());
+		assertEquals(32, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
@@ -127,7 +127,7 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/base/service1/";
 
-		assertEquals(33, result.size());
+		assertEquals(32, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
@@ -160,7 +160,7 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/base/outport2/";
 
-		assertEquals(32, result.size());
+		assertEquals(31, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
@@ -192,7 +192,7 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/base/outport1/";
 
-		assertEquals(32, result.size());
+		assertEquals(31, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
@@ -221,7 +221,7 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/base/inport2/";
 
-		assertEquals(32, result.size());
+		assertEquals(31, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
@@ -249,7 +249,7 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/base/inport1/";
 
-		assertEquals(32, result.size());
+		assertEquals(31, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
@@ -273,7 +273,7 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/base/name/";
 
-		assertEquals(32, result.size());
+		assertEquals(31, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");

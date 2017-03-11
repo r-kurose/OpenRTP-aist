@@ -75,14 +75,6 @@ public class JavaCMakeGenerateManager extends CMakeGenerateManager {
 	}
 
 	// 1.0系 (CMake/cpack_resources)
-
-	@Override
-	public GeneratedResult generateResourceWixXSL(Map<String, Object> contextMap) {
-		String outfile = "cpack_resources/wix.xsl.in";
-		String infile = "cmake/wix.xsl.in.vsl";
-		return generateJava(infile, outfile, contextMap);
-	}
-
 	public GeneratedResult generateJava(String infile, String outfile,
 			Map<String, Object> contextMap) {
 		try {
