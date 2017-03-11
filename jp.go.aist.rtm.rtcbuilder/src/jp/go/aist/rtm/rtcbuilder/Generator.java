@@ -572,7 +572,8 @@ public class Generator {
 		//
 		//アイコン、ビットマップのコピー
 		copyFigure("icons/rt_middleware_logo.ico", project, "cmake/rt_middleware_logo.ico");
-		copyFigure("icons/rt_middleware_logo.bmp", project, "cmake/rt_middleware_logo.bmp");
+		copyFigure("icons/rt_middleware_banner.bmp", project, "cmake/rt_middleware_banner.bmp");
+		copyFigure("icons/rt_middleware_dlg.bmp", project, "cmake/rt_middleware_dlg.bmp");
 	}
 	
 	private void copyFigure(String source, IProject outputProject, String dist) {

@@ -56,7 +56,7 @@ public class CXXIDLStructTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/idlstruct/";
 
-		assertEquals(29, result.size());
+		assertEquals(28, result.size());
 		checkCode(result, resourceDir, "TestModuleComp.cpp");
 		checkCode(result, resourceDir, "TestModule.h");
 		checkCode(result, resourceDir, "TestModule.cpp");

@@ -88,22 +88,12 @@ public class CXXBuildTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "/";
 
-		assertEquals(29, result.size());
+		assertEquals(28, result.size());
 		checkCode(result, resourceDir, "src/fooComp.cpp");
 		checkCode(result, resourceDir, "include/foo/foo.h");
 		checkCode(result, resourceDir, "src/foo.cpp");
 		checkCode(result, resourceDir, "include/foo/MyServiceSVC_impl.h");
 		checkCode(result, resourceDir, "src/MyServiceSVC_impl.cpp");
-		//
-//		checkCode(result, resourceDir, "CMakeLists.txt");
-//		checkCode(result, resourceDir, "Doxyfile.in");
-//		checkCode(result, resourceDir, "cmake_modules/cmake_uninstall.cmake.in");
-//		checkCode(result, resourceDir, "cmake_modules/CPackWIX.cmake");
-//		checkCode(result, resourceDir, "cmake_modules/FindOpenRTM.cmake");
-//		checkCode(result, resourceDir, "cpack_resources/Description.txt");
-//		checkCode(result, resourceDir, "cpack_resources/License.txt");
-//		checkCode(result, resourceDir, "cpack_resources/License.rtf");
-//		checkCode(result, resourceDir, "cpack_resources/wix.xsl.in");
 		//
 		nonexist(result, resourceDir, "Makefile.foo");
 		nonexist(result, resourceDir, "foo_vc8.sln");
@@ -167,7 +157,7 @@ public class CXXBuildTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "/";
 
-		assertEquals(31, result.size());
+		assertEquals(30, result.size());
 		checkCode(result, resourceDir, "src/fooComp.cpp");
 		checkCode(result, resourceDir, "include/foo/foo.h");
 		checkCode(result, resourceDir, "src/foo.cpp");
@@ -175,16 +165,6 @@ public class CXXBuildTest extends TestBase {
 		checkCode(result, resourceDir, "src/MyServiceChildMultiSVC_impl.cpp");
 		checkCode(result, resourceDir, "include/foo/MyServiceChildWithTypeSVC_impl.h");
 		checkCode(result, resourceDir, "src/MyServiceChildWithTypeSVC_impl.cpp");
-		//
-//		checkCode(result, resourceDir, "CMakeLists.txt");
-//		checkCode(result, resourceDir, "Doxyfile.in");
-//		checkCode(result, resourceDir, "cmake_modules/cmake_uninstall.cmake.in");
-//		checkCode(result, resourceDir, "cmake_modules/CPackWIX.cmake");
-//		checkCode(result, resourceDir, "cmake_modules/FindOpenRTM.cmake");
-//		checkCode(result, resourceDir, "cpack_resources/Description.txt");
-//		checkCode(result, resourceDir, "cpack_resources/License.txt");
-//		checkCode(result, resourceDir, "cpack_resources/License.rtf");
-//		checkCode(result, resourceDir, "cpack_resources/wix.xsl.in");
 		//
 		nonexist(result, resourceDir, "Makefile.foo");
 		nonexist(result, resourceDir, "foo_vc8.sln");

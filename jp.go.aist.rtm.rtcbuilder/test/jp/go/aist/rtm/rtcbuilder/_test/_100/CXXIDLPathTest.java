@@ -76,7 +76,7 @@ public class CXXIDLPathTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/idlpath/IDLPath3/";
 
-		assertEquals(29, result.size());
+		assertEquals(28, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -131,7 +131,7 @@ public class CXXIDLPathTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/idlpath/IDLPath2/";
 
-		assertEquals(29, result.size());
+		assertEquals(28, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -185,7 +185,7 @@ public class CXXIDLPathTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/idlpath/IDLPath1/";
 
-		assertEquals(29, result.size());
+		assertEquals(28, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");

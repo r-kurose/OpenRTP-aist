@@ -54,7 +54,7 @@ public class CXXManipTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/idlmodule/serviceArgStruct/";
 
-		assertEquals(29, result.size());
+		assertEquals(28, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -90,7 +90,7 @@ public class CXXManipTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/idltype/IDLType1/";
 
-		assertEquals(29, result.size());
+		assertEquals(28, result.size());
 		checkCode(result, resourceDir, "ModuleNameComp.cpp");
 		checkCode(result, resourceDir, "ModuleName.h");
 		checkCode(result, resourceDir, "ModuleName.cpp");
@@ -126,7 +126,7 @@ public class CXXManipTest extends TestBase {
 
 		String resourceDir = rootPath +  "/resource/100/CXX/Manip/";
 
-		assertEquals(29, result.size());
+		assertEquals(28, result.size());
 		checkCode(result, resourceDir, "ModuleNameComp.cpp");
 		checkCode(result, resourceDir, "ModuleName.h");
 		checkCode(result, resourceDir, "ModuleName.cpp");

@@ -87,7 +87,7 @@ public class CXXMultiTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/Multi/ProConMulti/";
 
-		assertEquals(31, result.size());
+		assertEquals(30, result.size());
 		checkResults(result, resourceDir);
 		checkCode(result, resourceDir, "MyServiceSVC_impl.h");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.cpp");
@@ -119,7 +119,7 @@ public class CXXMultiTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/Multi/ConMulti/";
 
-		assertEquals(27, result.size());
+		assertEquals(26, result.size());
 		checkResults(result, resourceDir);
 		nonexist(result, resourceDir, "MyServiceSVC_impl.h");
 		nonexist(result, resourceDir, "MyServiceSVC_impl.cpp");
@@ -151,7 +151,7 @@ public class CXXMultiTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/Multi/ProMulti/";
 
-		assertEquals(31, result.size());
+		assertEquals(30, result.size());
 		checkResults(result, resourceDir);
 		checkCode(result, resourceDir, "MyServiceSVC_impl.h");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.cpp");

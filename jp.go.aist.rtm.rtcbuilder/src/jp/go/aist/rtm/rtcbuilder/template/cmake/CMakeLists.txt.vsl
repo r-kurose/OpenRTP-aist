@@ -100,10 +100,11 @@ endif (${dol}{CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 ${sharp} Set up installation directories
 if(WIN32)
-   set(INSTALL_PREFIX "components/${dol}{PROJECT_TYPE}")
+   set(OPENRTM_SHARE_PREFIX "OpenRTM-aist/${dol}{PROJECT_VERSION}/components/${dol}{PROJECT_TYPE}")
+   set(INSTALL_PREFIX ${dol}{PROJECT_NAME})
 else(WIN32)
    set(OPENRTM_SHARE_PREFIX "share/openrtm-${dol}{PROJECT_VERSION_MAJOR}.${dol}{PROJECT_VERSION_MINOR}")
-   set(INSTALL_PREFIX "${dol}{OPENRTM_SHARE_PREFIX}/components/${dol}{PROJECT_TYPE}")
+   set(INSTALL_PREFIX "${dol}{OPENRTM_SHARE_PREFIX}/components/${dol}{PROJECT_TYPE}/${dol}{PROJECT_NAME}")
 endif(WIN32)
        
 ${sharp} Get necessary dependency information
@@ -149,8 +150,8 @@ IF(NOT DEFINED CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS_NO_WARNINGS)
 SET(CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS_NO_WARNINGS ON)
 ENDIF()
 include(InstallRequiredSystemLibraries)
-set(PROJECT_EXECUTABLES ${dol}{PROJECT_NAME_LOWER}Comp
-    "${dol}{PROJECT_NAME_LOWER}Comp")
+set(PROJECT_EXECUTABLES ${dol}{PROJECT_NAME}Comp
+    "${dol}{PROJECT_NAME}Comp.exe")
 
 set(cpack_options "${dol}{PROJECT_BINARY_DIR}/cpack_options.cmake")
 

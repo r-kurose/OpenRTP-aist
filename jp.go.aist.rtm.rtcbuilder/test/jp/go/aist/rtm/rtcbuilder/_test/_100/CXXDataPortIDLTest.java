@@ -60,7 +60,7 @@ public class CXXDataPortIDLTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/DataPortIDL/";
 
-		assertEquals(27, result.size());
+		assertEquals(26, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
