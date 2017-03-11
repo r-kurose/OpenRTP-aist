@@ -48,6 +48,7 @@ target_link_libraries(${dol}{PROJECT_NAME} ${dol}{OPENRTM_LIBRARIES})
 
 add_executable(${dol}{PROJECT_NAME}Comp ${dol}{standalone_srcs}
   ${dol}{comp_srcs} ${dol}{comp_headers} ${dol}{ALL_IDL_SRCS})
+add_dependencies(${dol}{PROJECT_NAME}Comp ALL_IDL_TGT)
 target_link_libraries(${dol}{PROJECT_NAME}Comp ${dol}{OPENRTM_LIBRARIES})
 
 install(TARGETS ${dol}{PROJECT_NAME} ${dol}{PROJECT_NAME}Comp
