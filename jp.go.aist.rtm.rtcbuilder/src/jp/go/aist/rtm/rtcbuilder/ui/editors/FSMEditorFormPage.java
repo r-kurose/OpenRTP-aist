@@ -78,14 +78,20 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 
 	private void createHintSection(FormToolkit toolkit, ScrolledForm form) {
 		Composite composite = createHintSectionBase(toolkit, form, 3);
-		createHintLabel(IMessageConstants.DOCUMENT_HINT_COMPONENT_TITLE, IMessageConstants.DOCUMENT_HINT_COMPONENT_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.DOCUMENT_HINT_ETC_TITLE, IMessageConstants.DOCUMENT_HINT_ETC_DESC, toolkit, composite);
+		createHintLabel("FSM:", IMessageConstants.FSM_HINT_DESC, toolkit, composite);
+		createHintLabel("Static:", IMessageConstants.FSM_STATIC_HINT_DESC, toolkit, composite);
+		createHintLabel("Dynamic:", IMessageConstants.FSM_DYNAMIC_HINT_DESC, toolkit, composite);
+		createHintSpace(toolkit, composite);
+		createHintLabel("SCXML:", IMessageConstants.FSM_SCXML_HINT_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.FSM_SCXML_NEW + ":", IMessageConstants.FSM_SCXML_NEW_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.FSM_SCXML_EDIT + ":", IMessageConstants.FSM_SCXML_EDIT_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.FSM_SCXML_IMPORT + ":", IMessageConstants.FSM_SCXML_IMPORT_DESC, toolkit, composite);
 	}
 	
 	private void createFSMSection(FormToolkit toolkit, ScrolledForm form) {
 		Section sctOverView = toolkit.createSection(form.getBody(),
 				Section.TITLE_BAR | Section.EXPANDED | Section.TWISTIE);
-		sctOverView.setText(IMessageConstants.DOCUMENT_OVERVIEW_TITLE);
+		sctOverView.setText("FSM Component Profile");
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.verticalAlignment = GridData.BEGINNING;
@@ -136,7 +142,7 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 		
 		toolkit.createLabel(composite, "SCXML");
 		
-		newBtn = toolkit.createButton(composite, "New", SWT.PUSH);
+		newBtn = toolkit.createButton(composite, IMessageConstants.FSM_SCXML_NEW, SWT.PUSH);
 		gd = new GridData();
 		gd.widthHint = 100;
 		gd.horizontalAlignment = GridData.BEGINNING;
@@ -150,7 +156,7 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 				IFile fsmFile  = project.getFile(cmpName);
 				if(fsmFile.exists()) {
 					boolean confirm = MessageDialog.openConfirm(getSite().getShell(), "FSM Editor",
-									  "FSM定義が存在します．上書きしてもよろしいですか？");
+										IMessageConstants.FSM_OVERWRITE);
 					if (!confirm) return;
 				}
 				/////
@@ -167,7 +173,7 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 			}
 		});
 		
-		editBtn = toolkit.createButton(composite, "Edit", SWT.PUSH);
+		editBtn = toolkit.createButton(composite, IMessageConstants.FSM_SCXML_EDIT, SWT.PUSH);
 		gd = new GridData();
 		gd.widthHint = 100;
 		gd.horizontalAlignment = GridData.END;
@@ -184,7 +190,7 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 					targetFile = fsmFile.getLocation().toOSString();
 				} else {
 					MessageDialog.openWarning(getSite().getShell(), "FSM Editor",
-								"FSMの定義が存在しません");
+									IMessageConstants.FSM_NO_EXIST);
 					return;
 				}
 				
@@ -201,7 +207,7 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 			}
 		});
 		/////
-		importBtn = toolkit.createButton(composite, "Import", SWT.PUSH);
+		importBtn = toolkit.createButton(composite, IMessageConstants.FSM_SCXML_IMPORT, SWT.PUSH);
 		gd = new GridData();
 		gd.widthHint = 100;
 		gd.horizontalAlignment = GridData.BEGINNING;
@@ -215,12 +221,12 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 				IFile fsmFile  = project.getFile(cmpName);
 				if(fsmFile.exists()) {
 					boolean confirm = MessageDialog.openConfirm(getSite().getShell(), "FSM Editor",
-									  "FSM定義が存在します．上書きしてもよろしいですか？");
+											IMessageConstants.FSM_OVERWRITE);
 					if (!confirm) return;
 				}
 				/////
 				FileDialog dialog = new FileDialog(getEditorSite().getShell(), SWT.OPEN);
-				dialog.setFilterNames(new String[]{"SCXMLファイル", "XMLファイル"});
+				dialog.setFilterNames(new String[]{"SCXML File", "XML File"});
 				dialog.setFilterExtensions(new String[]{"*.scxml", "*.xml"});
 				String newFile = dialog.open();
 				if (newFile == null) return;
@@ -230,9 +236,9 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
     				Path inputPath = FileSystems.getDefault().getPath(newFile);
     				Path outputPath = FileSystems.getDefault().getPath(strPath);			        				
 					Files.copy(inputPath, outputPath);
-					MessageDialog.openInformation(getSite().getShell(), "Save", "対象データをインポートしました");
+					MessageDialog.openInformation(getSite().getShell(), IMessageConstants.FSM_SCXML_IMPORT, IMessageConstants.FSM_IMPORT_OK);
 				} catch (IOException e1) {
-					MessageDialog.openWarning(getSite().getShell(), "Save", "対象データのインポートに失敗しました");
+					MessageDialog.openWarning(getSite().getShell(), IMessageConstants.FSM_SCXML_IMPORT, IMessageConstants.FSM_IMPORT_NG);
 					e1.printStackTrace();
 				}
 			}
@@ -355,23 +361,23 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 		if(Boolean.valueOf(fsm.getValue())) {
 			PropertyParam fsmType = rtcParam.getProperty(IRtcBuilderConstants.PROP_TYPE_FSMTYTPE);
 			if(fsmType==null) {
-				result = "FSM型が指定されていません";
+				result = IMessageConstants.FSM_NOT_SELECTED;
 			} else {
 				String strType = fsmType.getValue();
 				if(!(strType.equals(IRtcBuilderConstants.FSMTYTPE_STATIC) || strType.equals(IRtcBuilderConstants.FSMTYTPE_DYNAMIC))) {
-					result = "FSM型が不正です";
+					result = IMessageConstants.FSM_TYPE_INVALID;
 				}
 			}
 			
 			StateParam fsmParam = rtcParam.getFsmParam();
 			if(fsmParam==null) {
-				result = "FSMコンポーネントの状態遷移図が設定されていません";
+				result = IMessageConstants.FSM_NO_SM;
 			} else {
 				List<String> stateList = new ArrayList<String>();
 				stateList.add(fsmParam.getName());
 				for(StateParam param : fsmParam.getAllStateList() ) {
 					if(stateList.contains(param.getName())) {
-						result = "状態[" + param.getName() + "]が重複しています";
+						result = IMessageConstants.FSM_STATE_DUPL1 + param.getName() + IMessageConstants.FSM_STATE_DUPL2;
 						break;
 					} else {
 						stateList.add(param.getName());

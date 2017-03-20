@@ -1,4 +1,7 @@
-set(hdrs ${rtcParam.name}.h
+set(hdrs
+    ${rtcParam.name}.h
+#if( ${tmpltHelper.checkFSM(${rtcParam})} )    ${rtcParam.name}FSM.h
+#end
 #foreach($providerIdlFile in ${rtcParam.providerIdlPathes})
     ${tmpltHelper.getFilenameNoExt(${providerIdlFile.idlFile})}${tmpltHelper.serviceImplSuffix}.h
 #end

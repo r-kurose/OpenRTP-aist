@@ -62,7 +62,7 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/basic/operation/";
 
-		assertEquals(27, result.size());
+		assertEquals(default_file_num, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -96,7 +96,7 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/basic/attribute/";
 
-		assertEquals(27, result.size());
+		assertEquals(default_file_num, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -149,7 +149,7 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/basic/service2/";
 
-		assertEquals(29, result.size());
+		assertEquals(default_file_num+2, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -193,7 +193,7 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/basic/service1/";
 
-		assertEquals(29, result.size());
+		assertEquals(default_file_num+2, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -226,7 +226,7 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/basic/outport2/";
 
-		assertEquals(27, result.size());
+		assertEquals(default_file_num, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -256,7 +256,7 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/basic/outport1/";
 
-		assertEquals(27, result.size());
+		assertEquals(default_file_num, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -283,7 +283,7 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/basic/inport2/";
 
-		assertEquals(27, result.size());
+		assertEquals(default_file_num, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -309,7 +309,7 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/basic/inport1/";
 
-		assertEquals(27, result.size());
+		assertEquals(default_file_num, result.size());
 		checkCode(result, resourceDir, "testComp.cpp");
 		checkCode(result, resourceDir, "test.h");
 		checkCode(result, resourceDir, "test.cpp");
@@ -331,7 +331,7 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/basic/name/";
 
-		assertEquals(27, result.size());
+		assertEquals(default_file_num, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");

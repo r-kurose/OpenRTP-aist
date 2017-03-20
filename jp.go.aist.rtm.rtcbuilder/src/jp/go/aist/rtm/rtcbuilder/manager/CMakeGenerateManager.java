@@ -22,12 +22,6 @@ public class CMakeGenerateManager extends GenerateManager {
 
 	protected static final String MSG_ERROR_GENERATE_FILE = IRTCBMessageConstants.ERROR_CODE_GENERATION;
 
-	protected static Map<RtcParam, String> WIX_PRODUCT_ID_MAP = null;
-	protected static Map<RtcParam, String> WIX_UPGRADECODE_MAP = null;
-
-	protected String WIX_PRODUCT_ID = null;
-	protected String WIX_UPGRADECODE = null;
-
 	protected String DOXYGEN_FILE_PATTERNS;
 
 	public CMakeGenerateManager() {
@@ -52,8 +46,6 @@ public class CMakeGenerateManager extends GenerateManager {
 			return result;
 		}
 
-		resetWIXUUID(rtcParam);
-
 		Map<String, Object> contextMap = createContextMap(rtcParam);
 		contextMap.put("tmpltHelper", new TemplateHelper());
 
@@ -72,37 +64,12 @@ public class CMakeGenerateManager extends GenerateManager {
 		return true;
 	}
 
-	public void resetWIXUUID(RtcParam rtcParam) {
-		if (WIX_PRODUCT_ID_MAP == null) {
-			WIX_PRODUCT_ID_MAP = new HashMap<RtcParam, String>();
-		}
-		if (WIX_UPGRADECODE_MAP == null) {
-			WIX_UPGRADECODE_MAP = new HashMap<RtcParam, String>();
-		}
-		if (WIX_PRODUCT_ID_MAP.get(rtcParam) == null
-				|| WIX_UPGRADECODE_MAP.get(rtcParam) == null) {
-			if (!rtcParam.getIsTest()) {
-				WIX_PRODUCT_ID_MAP.put(rtcParam, getUUID());
-				WIX_UPGRADECODE_MAP.put(rtcParam, getUUID());
-			} else {
-				WIX_PRODUCT_ID_MAP.put(rtcParam,
-						"D839647B-9EDA-4344-857D-FA5A102E5DE5");
-				WIX_UPGRADECODE_MAP.put(rtcParam,
-						"8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942");
-			}
-		}
-		WIX_PRODUCT_ID = WIX_PRODUCT_ID_MAP.get(rtcParam);
-		WIX_UPGRADECODE = WIX_UPGRADECODE_MAP.get(rtcParam);
-	}
-
 	public Map<String, Object> createContextMap(RtcParam rtcParam) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("template", TEMPLATE_PATH);
 		map.put("rtcParam", rtcParam);
 		map.put("helper", new TemplateHelper());
 		map.put("DOXYGEN_FILE_PATTERNS", DOXYGEN_FILE_PATTERNS);
-		map.put("WIX_PRODUCT_ID", WIX_PRODUCT_ID);
-		map.put("WIX_UPGRADECODE", WIX_UPGRADECODE);
 		return map;
 	}
 
@@ -136,8 +103,6 @@ public class CMakeGenerateManager extends GenerateManager {
 		gr = generateModulesUninstall(contextMap);
 		result.add(gr);
 		gr = generateUtilIn(contextMap);
-		result.add(gr);
-		gr = generateResourceWixXSL(contextMap);
 		result.add(gr);
 
 		//doc
@@ -214,7 +179,6 @@ public class CMakeGenerateManager extends GenerateManager {
 
 	public GeneratedResult generateCmakeConfigVersion(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		//TODO 暫定処理
 		String outfile = "cmake/" + rtcParam.getName().toLowerCase() + "-config-version.cmake.in";
 		String infile = "cmake/cmake/config_version.cmake.in.vsl";
 		return generate(infile, outfile, contextMap);
@@ -222,7 +186,6 @@ public class CMakeGenerateManager extends GenerateManager {
 	
 	public GeneratedResult generateCmakeConfig(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		//TODO 暫定処理
 		String outfile = "cmake/" + rtcParam.getName().toLowerCase() + "-config.cmake.in";
 		String infile = "cmake/cmake/config.cmake.in.vsl";
 		return generate(infile, outfile, contextMap);
@@ -230,7 +193,6 @@ public class CMakeGenerateManager extends GenerateManager {
 
 	public GeneratedResult generateCmakePcIn(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		//TODO 暫定処理
 		String outfile = "cmake/" + rtcParam.getName().toLowerCase() + ".pc.in";
 		String infile = "cmake/cmake/pc.in.vsl";
 		return generate(infile, outfile, contextMap);
@@ -250,12 +212,6 @@ public class CMakeGenerateManager extends GenerateManager {
 		return generate(infile, outfile, contextMap);
 	}
 	
-	public GeneratedResult generateResourceWixXSL(Map<String, Object> contextMap) {
-		String outfile = "cmake/wix.xsl.in";
-		String infile = "cmake/cmake/wix.xsl.in.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-
 	// 1.0系 (CMake/doc)
 	public GeneratedResult generateDocCMakeLists(Map<String, Object> contextMap) {
 		String outfile = "doc/CMakeLists.txt";

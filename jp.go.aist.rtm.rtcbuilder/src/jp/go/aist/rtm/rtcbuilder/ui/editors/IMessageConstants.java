@@ -437,6 +437,48 @@ public interface IMessageConstants {
 	public static final String ACTIVITY_HINT_POSTCONDITION_TITLE = Messages.getString("IMessageConstants.ACTIVITY_HINT_POSTCONDITION_TITLE"); //$NON-NLS-1$
 	public static final String ACTIVITY_HINT_POSTCONDITION_DESC = Messages.getString("IMessageConstants.ACTIVITY_HINT_POSTCONDITION_DESC"); //$NON-NLS-1$
 
+	public static final String FSM_HINT_DESC_P1 = Messages.getString("IMessageConstants.FSM_HINT_DESC_P1"); //$NON-NLS-1$
+	public static final String FSM_HINT_DESC_P2 = Messages.getString("IMessageConstants.FSM_HINT_DESC_P2"); //$NON-NLS-1$
+	public static final String FSM_HINT_DESC = StringUtil.connectMessageWithSepalator( new String[]{FSM_HINT_DESC_P1, FSM_HINT_DESC_P2});
+
+	public static final String FSM_STATIC_HINT_DESC_P1 = Messages.getString("IMessageConstants.FSM_STATIC_HINT_DESC_P1"); //$NON-NLS-1$
+	public static final String FSM_STATIC_HINT_DESC_P2 = Messages.getString("IMessageConstants.FSM_STATIC_HINT_DESC_P2"); //$NON-NLS-1$
+	public static final String FSM_STATIC_HINT_DESC_P3 = Messages.getString("IMessageConstants.FSM_STATIC_HINT_DESC_P3"); //$NON-NLS-1$
+	public static final String FSM_STATIC_HINT_DESC_P4 = Messages.getString("IMessageConstants.FSM_STATIC_HINT_DESC_P4"); //$NON-NLS-1$
+	public static final String FSM_STATIC_HINT_DESC_P5 = Messages.getString("IMessageConstants.FSM_STATIC_HINT_DESC_P5"); //$NON-NLS-1$
+	public static final String FSM_STATIC_HINT_DESC = StringUtil.connectMessageWithSepalator( new String[]{FSM_STATIC_HINT_DESC_P1, FSM_STATIC_HINT_DESC_P2, FSM_STATIC_HINT_DESC_P3, FSM_STATIC_HINT_DESC_P4, FSM_STATIC_HINT_DESC_P5});
+	
+	public static final String FSM_DYNAMIC_HINT_DESC_P1 = Messages.getString("IMessageConstants.FSM_DYNAMIC_HINT_DESC_P1"); //$NON-NLS-1$
+	public static final String FSM_DYNAMIC_HINT_DESC_P2 = Messages.getString("IMessageConstants.FSM_DYNAMIC_HINT_DESC_P2"); //$NON-NLS-1$
+	public static final String FSM_DYNAMIC_HINT_DESC_P3 = Messages.getString("IMessageConstants.FSM_DYNAMIC_HINT_DESC_P3"); //$NON-NLS-1$
+	public static final String FSM_DYNAMIC_HINT_DESC_P4 = Messages.getString("IMessageConstants.FSM_DYNAMIC_HINT_DESC_P4"); //$NON-NLS-1$
+	public static final String FSM_DYNAMIC_HINT_DESC_P5 = Messages.getString("IMessageConstants.FSM_DYNAMIC_HINT_DESC_P5"); //$NON-NLS-1$
+	public static final String FSM_DYNAMIC_HINT_DESC = StringUtil.connectMessageWithSepalator( new String[]{FSM_DYNAMIC_HINT_DESC_P1, FSM_DYNAMIC_HINT_DESC_P2, FSM_DYNAMIC_HINT_DESC_P3, FSM_DYNAMIC_HINT_DESC_P4, FSM_DYNAMIC_HINT_DESC_P5});
+	
+	public static final String FSM_SCXML_HINT_DESC = Messages.getString("IMessageConstants.FSM_SCXML_HINT_DESC"); //$NON-NLS-1$
+	public static final String FSM_SCXML_NEW = Messages.getString("IMessageConstants.FSM_SCXML_NEW"); //$NON-NLS-1$
+	public static final String FSM_SCXML_NEW_DESC_P1 = Messages.getString("IMessageConstants.FSM_SCXML_NEW_DESC_P1"); //$NON-NLS-1$
+	public static final String FSM_SCXML_NEW_DESC_P2 = Messages.getString("IMessageConstants.FSM_SCXML_NEW_DESC_P2"); //$NON-NLS-1$
+	public static final String FSM_SCXML_NEW_DESC_P3 = Messages.getString("IMessageConstants.FSM_SCXML_NEW_DESC_P3"); //$NON-NLS-1$
+	public static final String FSM_SCXML_NEW_DESC = StringUtil.connectMessageWithSepalator( new String[]{FSM_SCXML_NEW_DESC_P1, FSM_SCXML_NEW_DESC_P2, FSM_SCXML_NEW_DESC_P3});
+	public static final String FSM_SCXML_EDIT = Messages.getString("IMessageConstants.FSM_SCXML_EDIT"); //$NON-NLS-1$
+	public static final String FSM_SCXML_EDIT_DESC_P1 = Messages.getString("IMessageConstants.FSM_SCXML_EDIT_DESC_P1"); //$NON-NLS-1$
+	public static final String FSM_SCXML_EDIT_DESC_P2 = Messages.getString("IMessageConstants.FSM_SCXML_EDIT_DESC_P2"); //$NON-NLS-1$
+	public static final String FSM_SCXML_EDIT_DESC = StringUtil.connectMessageWithSepalator( new String[]{FSM_SCXML_EDIT_DESC_P1, FSM_SCXML_EDIT_DESC_P2});
+	public static final String FSM_SCXML_IMPORT = Messages.getString("IMessageConstants.FSM_SCXML_IMPORT"); //$NON-NLS-1$
+	public static final String FSM_SCXML_IMPORT_DESC_P1 = Messages.getString("IMessageConstants.FSM_SCXML_IMPORT_DESC_P1"); //$NON-NLS-1$
+	public static final String FSM_SCXML_IMPORT_DESC_P2 = Messages.getString("IMessageConstants.FSM_SCXML_IMPORT_DESC_P2"); //$NON-NLS-1$
+	public static final String FSM_SCXML_IMPORT_DESC = StringUtil.connectMessageWithSepalator( new String[]{FSM_SCXML_IMPORT_DESC_P1, FSM_SCXML_IMPORT_DESC_P2});
+
+	public static final String FSM_OVERWRITE = Messages.getString("IMessageConstants.FSM_OVERWRITE"); //$NON-NLS-1$
+	public static final String FSM_NO_EXIST = Messages.getString("IMessageConstants.FSM_NO_EXIST"); //$NON-NLS-1$
+	public static final String FSM_IMPORT_OK = Messages.getString("IMessageConstants.FSM_IMPORT_OK"); //$NON-NLS-1$
+	public static final String FSM_IMPORT_NG = Messages.getString("IMessageConstants.FSM_IMPORT_NG"); //$NON-NLS-1$
+	public static final String FSM_NOT_SELECTED = Messages.getString("IMessageConstants.FSM_NOT_SELECTED"); //$NON-NLS-1$
+	public static final String FSM_TYPE_INVALID = Messages.getString("IMessageConstants.FSM_TYPE_INVALID"); //$NON-NLS-1$
+	public static final String FSM_NO_SM = Messages.getString("IMessageConstants.FSM_NO_SM"); //$NON-NLS-1$
+	public static final String FSM_STATE_DUPL1 = Messages.getString("IMessageConstants.STATE_DUPL1"); //$NON-NLS-1$
+	public static final String FSM_STATE_DUPL2 = Messages.getString("IMessageConstants.STATE_DUPL2"); //$NON-NLS-1$
 
 	public static final String PREF_IDL_SELECTION = Messages.getString("IMessageConstants.PREF_IDL_SELECTION"); //$NON-NLS-1$
 	public static final String PREF_IDLPARSE_NOFILE = Messages.getString("IMessageConstants.PREF_IDLPARSE_NOFILE"); //$NON-NLS-1$

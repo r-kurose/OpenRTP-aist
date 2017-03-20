@@ -228,7 +228,7 @@ public class CXXDocLongTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/Doc/fullLong/";
 
-		assertEquals(29, result.size());
+		assertEquals(default_file_num+2, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
