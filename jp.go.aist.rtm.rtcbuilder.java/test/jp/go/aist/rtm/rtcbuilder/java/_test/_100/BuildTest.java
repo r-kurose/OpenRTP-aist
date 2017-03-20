@@ -89,25 +89,13 @@ public class BuildTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "/";
 
-		assertEquals(33, result.size());
+		assertEquals(default_file_num+1, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
 		checkCode(result, resourceDir, "src/MyServiceSVC_impl.java");
 		checkCode(result, resourceDir, "foo.sh");
 		checkCode(result, resourceDir, "foo.bat");
-		//
-//		checkCode(result, resourceDir, "CMakeLists.txt");
-//		checkCode(result, resourceDir, "Doxyfile.in");
-//		checkCode(result, resourceDir, "cmake_modules/cmake_uninstall.cmake.in");
-//		checkCode(result, resourceDir,
-//				"cmake_modules/cmake_javacompile.cmake.in");
-//		checkCode(result, resourceDir, "cmake_modules/CPackWIX.cmake");
-//		checkCode(result, resourceDir, "cmake_modules/FindOpenRTMJava.cmake");
-//		checkCode(result, resourceDir, "cpack_resources/Description.txt");
-//		checkCode(result, resourceDir, "cpack_resources/License.txt");
-//		checkCode(result, resourceDir, "cpack_resources/License.rtf");
-//		checkCode(result, resourceDir, "cpack_resources/wix.xsl.in");
 		//
 		checkCode(result, resourceDir, "build_foo.xml");
 	}
@@ -163,25 +151,13 @@ public class BuildTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "/";
 
-		assertEquals(37, result.size());
+		assertEquals(default_file_num+5, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
 		checkCode(result, resourceDir, "src/MyServiceSVC_impl.java");
 		checkCode(result, resourceDir, "foo.sh");
 		checkCode(result, resourceDir, "foo.bat");
-		//
-//		checkCode(result, resourceDir, "CMakeLists.txt");
-//		checkCode(result, resourceDir, "Doxyfile.in");
-//		checkCode(result, resourceDir, "cmake_modules/cmake_uninstall.cmake.in");
-//		checkCode(result, resourceDir,
-//				"cmake_modules/cmake_javacompile.cmake.in");
-//		checkCode(result, resourceDir, "cmake_modules/CPackWIX.cmake");
-//		checkCode(result, resourceDir, "cmake_modules/FindOpenRTMJava.cmake");
-//		checkCode(result, resourceDir, "cpack_resources/Description.txt");
-//		checkCode(result, resourceDir, "cpack_resources/License.txt");
-//		checkCode(result, resourceDir, "cpack_resources/License.rtf");
-//		checkCode(result, resourceDir, "cpack_resources/wix.xsl.in");
 		//
 //		checkCode(result, resourceDir, "build_foo.xml");
 	}
