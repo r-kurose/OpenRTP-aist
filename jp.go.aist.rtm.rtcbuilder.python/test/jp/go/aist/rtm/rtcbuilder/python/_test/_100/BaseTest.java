@@ -83,7 +83,7 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/base/service2/";
 
-		assertEquals(30, result.size());
+		assertEquals(default_file_num+3, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "idlcompile.bat");
@@ -125,7 +125,7 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/base/service1/";
 
-		assertEquals(30, result.size());
+		assertEquals(default_file_num+3, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "idlcompile.bat");
@@ -156,7 +156,7 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/base/outport2/";
 
-		assertEquals(27, result.size());
+		assertEquals(default_file_num, result.size());
 		checkCode(result, resourceDir, "foo.py");
 	}
 
@@ -183,7 +183,7 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/base/outport1/";
 
-		assertEquals(27, result.size());
+		assertEquals(default_file_num, result.size());
 		checkCode(result, resourceDir, "foo.py");
 	}
 
@@ -207,7 +207,7 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/base/inport2/";
 
-		assertEquals(27, result.size());
+		assertEquals(default_file_num, result.size());
 		checkCode(result, resourceDir, "foo.py");
 	}
 
@@ -230,7 +230,7 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/base/inport1/";
 
-		assertEquals(27, result.size());
+		assertEquals(default_file_num, result.size());
 		checkCode(result, resourceDir, "foo.py");
 	}
 
@@ -249,7 +249,7 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/base/name2/";
 
-		assertEquals(27, result.size());
+		assertEquals(default_file_num, result.size());
 		checkCode(result, resourceDir, "Foo.py");
 	}
 

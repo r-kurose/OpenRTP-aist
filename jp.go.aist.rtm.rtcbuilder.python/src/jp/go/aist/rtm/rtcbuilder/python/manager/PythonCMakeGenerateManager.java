@@ -70,14 +70,6 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 	}
 
 	// 1.0系 (CMake/cpack_resources)
-
-	@Override
-	public GeneratedResult generateResourceWixXSL(Map<String, Object> contextMap) {
-		String outfile = "cpack_resources/wix.xsl.in";
-		String infile = "cmake/wix.xsl.in.vsl";
-		return generatePython(infile, outfile, contextMap);
-	}
-
 	public GeneratedResult generateResourceDescriptionTXT(Map<String, Object> contextMap) {
 		String outfile = "cpack_resources/Description.txt";
 		String infile = "cmake/Description.txt.vsl";

@@ -54,7 +54,7 @@ public class ConfigSetTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/ConfigSet/configset1/";
 
-		assertEquals(27, result.size());
+		assertEquals(default_file_num, result.size());
 		checkCode(result, resourceDir, "foo.py");
 	}
 
@@ -78,7 +78,7 @@ public class ConfigSetTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/ConfigSet/configset2/";
 
-		assertEquals(27, result.size());
+		assertEquals(default_file_num, result.size());
 		checkCode(result, resourceDir, "foo.py");
 	}
 
@@ -106,7 +106,7 @@ public class ConfigSetTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/ConfigSet/configset3/";
 
-		assertEquals(27, result.size());
+		assertEquals(default_file_num, result.size());
 		checkCode(result, resourceDir, "foo.py");
 	}
 
@@ -136,7 +136,7 @@ public class ConfigSetTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/ConfigSet/configset4/";
 
-		assertEquals(27, result.size());
+		assertEquals(default_file_num, result.size());
 		checkCode(result, resourceDir, "foo.py");
 	}
 
@@ -165,7 +165,7 @@ public class ConfigSetTest extends TestBase {
 		String resourceDir = rootPath
 				+ "/resource/100/ConfigSet/ConfigSetType/";
 
-		assertEquals(27, result.size());
+		assertEquals(default_file_num, result.size());
 		checkCode(result, resourceDir, "foo.py");
 	}
 }
