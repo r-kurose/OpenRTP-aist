@@ -1,6 +1,7 @@
 package jp.go.aist.rtm.rtcbuilder;
 
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -645,14 +646,18 @@ public class Generator {
 				}
 			}
 			try {
-				String strFullPath = outputFile.getLocation().toOSString();
-				FileOutputStream fos = new FileOutputStream(strFullPath);
-				fos.write(0xef); fos.write(0xbb); fos.write(0xbf);				
-				OutputStreamWriter osw = new OutputStreamWriter( fos , "UTF-8");
-				BufferedWriter fp = new BufferedWriter( osw );
-				fp.write ( generatedResult.getCode());
-				fp.flush();
-				fp.close();				
+				if(generatedResult.getEncode().length()==0) {
+					String strFullPath = outputFile.getLocation().toOSString();
+					FileOutputStream fos = new FileOutputStream(strFullPath);
+					fos.write(0xef); fos.write(0xbb); fos.write(0xbf);				
+					OutputStreamWriter osw = new OutputStreamWriter( fos , "UTF-8");
+					BufferedWriter fp = new BufferedWriter( osw );
+					fp.write ( generatedResult.getCode());
+					fp.flush();
+					fp.close();				
+				} else {
+					outputFile.create(new ByteArrayInputStream(generatedResult.getCode().getBytes(generatedResult.getEncode())), false, null);
+				}
 			} catch (Exception e) {
 				LOGGER.error("Fail to create file", e);
 			}
