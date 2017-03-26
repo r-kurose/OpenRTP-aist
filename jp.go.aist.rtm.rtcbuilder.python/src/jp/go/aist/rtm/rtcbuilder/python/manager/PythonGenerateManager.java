@@ -159,7 +159,9 @@ public class PythonGenerateManager extends GenerateManager {
 	public GeneratedResult generateIDLCompileBat(Map<String, Object> contextMap) {
 		String outfile = "idlcompile.bat";
 		String infile = "python/idlcompile.bat.vsl";
-		return generate(infile, outfile, contextMap);
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setEncode("Shift_JIS");
+		return result;
 	}
 
 	public GeneratedResult generateIDLCompileSh(Map<String, Object> contextMap) {

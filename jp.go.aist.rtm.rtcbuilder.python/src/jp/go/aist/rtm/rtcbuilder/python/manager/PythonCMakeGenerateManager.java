@@ -52,10 +52,15 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 		List<GeneratedResult> result = super.generateTemplateCode10(contextMap);
 
 		GeneratedResult gr;
-		gr = generateResourceDescriptionTXT(contextMap);
-		result.add(gr);
-		gr = generateResourceLicenseTXT(contextMap);
-		result.add(gr);
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		if(0<rtcParam.getServicePorts().size()) {
+			gr = generatePostinstIin(contextMap);
+			result.add(gr);
+			gr = generatePrermIn(contextMap);
+			result.add(gr);
+			gr = generateCMakeWixPatchXmlIn(contextMap);
+			result.add(gr);
+		}
 		
 		return result;
 	}
@@ -70,18 +75,24 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 	}
 
 	// 1.0系 (CMake/cpack_resources)
-	public GeneratedResult generateResourceDescriptionTXT(Map<String, Object> contextMap) {
-		String outfile = "cpack_resources/Description.txt";
-		String infile = "cmake/Description.txt.vsl";
+	public GeneratedResult generatePostinstIin(Map<String, Object> contextMap) {
+		String outfile = "postinst.in";
+		String infile = "cmake/postinst.in.vsl";
 		return generatePython(infile, outfile, contextMap);
 	}
 
-	public GeneratedResult generateResourceLicenseTXT(Map<String, Object> contextMap) {
-		String outfile = "cpack_resources/License.txt";
-		String infile = "cmake/License.txt.vsl";
+	public GeneratedResult generatePrermIn(Map<String, Object> contextMap) {
+		String outfile = "prerm.in";
+		String infile = "cmake/prerm.in.vsl";
 		return generatePython(infile, outfile, contextMap);
 	}
 
+	public GeneratedResult generateCMakeWixPatchXmlIn(Map<String, Object> contextMap) {
+		String outfile = "cmake/wix_patch.xml.in";
+		String infile = "cmake/wix_patch.xml.in.vsl";
+		return generatePython(infile, outfile, contextMap);
+	}
+	
 	public GeneratedResult generatePython(String infile, String outfile,
 			Map<String, Object> contextMap) {
 		try {

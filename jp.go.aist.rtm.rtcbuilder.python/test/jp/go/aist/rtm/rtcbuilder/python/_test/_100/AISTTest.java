@@ -146,7 +146,7 @@ public class AISTTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/aist/AIST4/";
 
-		assertEquals(default_file_num+3, result.size());
+		assertEquals(default_file_num+6, result.size());
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "idlcompile.bat");
@@ -198,7 +198,7 @@ public class AISTTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/aist/AIST3/";
 
-		assertEquals(default_file_num+3, result.size());
+		assertEquals(default_file_num+6, result.size());
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "idlcompile.bat");
@@ -240,7 +240,7 @@ public class AISTTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/aist/AIST2/";
 
-		assertEquals(default_file_num+2, result.size());
+		assertEquals(default_file_num+5, result.size());
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
@@ -273,7 +273,7 @@ public class AISTTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/aist/AIST1/";
 
-		assertEquals(default_file_num+3, result.size());
+		assertEquals(default_file_num+6, result.size());
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "idlcompile.bat");

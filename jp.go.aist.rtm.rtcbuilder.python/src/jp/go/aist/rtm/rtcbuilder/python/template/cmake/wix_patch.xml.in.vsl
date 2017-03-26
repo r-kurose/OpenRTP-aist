@@ -1,0 +1,14 @@
+<CPackWiXPatch>
+	<CPackWiXFragment Id="${sharp}PRODUCT">
+		<CustomAction Id="MyCustomAction"
+			ExeCommand="idlcompile.bat"
+      Execute="deferred" Impersonate="no"
+			FileKey="CM_FP_component.@PROJECT_NAME@.idlcompile.bat"/>
+		<InstallExecuteSequence>
+			<Custom Action="MyCustomAction"
+        Before="InstallFinalize">
+				NOT Installed 
+			</Custom>
+		</InstallExecuteSequence>
+	</CPackWiXFragment>
+</CPackWiXPatch>
