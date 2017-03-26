@@ -17,7 +17,8 @@ if(DOXYGEN_FOUND)
     ${sharp} Doxygen part
     set(doxyfile "${dol}{CMAKE_CURRENT_BINARY_DIR}/doxyfile")
     configure_file(doxyfile.in ${dol}{doxyfile})
-    add_custom_target(${dol}{PROJECT_NAME}_doxygen_doc ${dol}{DOXYGEN_EXECUTABLE} ${dol}{doxyfile})
+    add_custom_target(doc 
+        COMMAND ${dol}{DOXYGEN_EXECUTABLE} ${dol}{doxyfile})
 
     ${sharp} Sphinx part
     ${sharp}set(conf_dir "${dol}{CMAKE_CURRENT_BINARY_DIR}/conf")
@@ -28,9 +29,9 @@ if(DOXYGEN_FOUND)
     ${sharp}add_custom_target(sphinx_doc ALL sphinx-build -b html -c ${dol}{conf_dir}
     ${sharp}    ${dol}{CMAKE_CURRENT_SOURCE_DIR}/content ${dol}{CMAKE_CURRENT_BINARY_DIR}/html
     ${sharp}    DEPENDS doxygen_doc)
-    ${sharp}install(DIRECTORY "${dol}{CMAKE_CURRENT_BINARY_DIR}/html" DESTINATION
-    ${sharp}    "components/share/doc/${dol}{PROJECT_NAME_LOWER}-${dol}{PROJECT_VERSION_MAJOR}"
-    ${sharp}    COMPONENT documentation)
+    install(DIRECTORY "${dol}{CMAKE_CURRENT_BINARY_DIR}/html/doxygen/html" 
+        DESTINATION "${dol}{INSTALL_PREFIX}"
+        COMPONENT documentation)
 else(DOXYGEN_FOUND)
     message(FATAL_ERROR
         "Doxygen was not found. Cannot build documentation. Disable BUILD_DOCUMENTATION to continue")
