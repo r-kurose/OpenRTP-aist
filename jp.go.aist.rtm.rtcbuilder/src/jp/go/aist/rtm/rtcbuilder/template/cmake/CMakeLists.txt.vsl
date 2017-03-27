@@ -14,6 +14,7 @@ set(PROJECT_VERSION ${rtcParam.version} CACHE STRING "${rtcParam.name} version")
 DISSECT_VERSION()
 set(PROJECT_SHORT_VER ${dol}{PROJECT_VERSION_MAJOR}${dol}{PROJECT_VERSION_MINOR}${dol}{PROJECT_VERSION_REVISION})
 set(PROJECT_DESCRIPTION "${rtcParam.description}")
+set(PROJECT_VENDOR "${rtcParam.vender}")
 set(PROJECT_MAINTAINER "unknown")
 set(PROJECT_TYPE "c++/${rtcParam.category}")
 
