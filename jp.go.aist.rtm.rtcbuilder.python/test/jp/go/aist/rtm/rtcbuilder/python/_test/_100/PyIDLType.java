@@ -96,11 +96,11 @@ public class PyIDLType extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/idltype/type2/";
 
-		assertEquals(default_file_num+6, result.size());
+		assertEquals(default_file_num+7, result.size());
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "idlcompile.bat");
-		checkCode(result, resourceDir, "idlcompile.sh");
+//		checkCode(result, resourceDir, "idlcompile.bat");
+//		checkCode(result, resourceDir, "idlcompile.sh");
 	}
 
 	public void testBaseType() throws Exception {
@@ -130,11 +130,11 @@ public class PyIDLType extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/idltype/type3/";
 
-		assertEquals(default_file_num+6, result.size());
+		assertEquals(default_file_num+service_file_num, result.size());
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "idlcompile.bat");
-		checkCode(result, resourceDir, "idlcompile.sh");
+//		checkCode(result, resourceDir, "idlcompile.bat");
+//		checkCode(result, resourceDir, "idlcompile.sh");
 	}
 
 }

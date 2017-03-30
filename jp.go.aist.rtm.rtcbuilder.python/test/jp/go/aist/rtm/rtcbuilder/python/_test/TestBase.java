@@ -17,6 +17,7 @@ public class TestBase extends TestCase {
 	protected int index;
 	protected String[] ignore_row_phrases = {"--service-idl=", "--consumer-idl"};
 	protected final int default_file_num = 24;
+	protected final int service_file_num = 7;
 
 	public TestBase () {
 		File fileCurrent = new File(".");

@@ -118,6 +118,8 @@ public class PythonGenerateManager extends GenerateManager {
 			result.add(gr);
 			gr = generateIDLCompileSh(contextMap);
 			result.add(gr);
+			gr = generateDeleteBat(contextMap);
+			result.add(gr);
 		}
 
 		for (IdlFileParam idlFileParam : rtcParam.getProviderIdlPathes()) {
@@ -170,6 +172,14 @@ public class PythonGenerateManager extends GenerateManager {
 		return generate(infile, outfile, contextMap);
 	}
 
+	public GeneratedResult generateDeleteBat(Map<String, Object> contextMap) {
+		String outfile = "delete.bat";
+		String infile = "python/delete.bat.vsl";
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setEncode("Shift_JIS");
+		return result;
+	}
+	
 	public GeneratedResult generate(String infile, String outfile,
 			Map<String, Object> contextMap) {
 		try {

@@ -146,11 +146,11 @@ public class AISTTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/aist/AIST4/";
 
-		assertEquals(default_file_num+6, result.size());
+		assertEquals(default_file_num+7, result.size());
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "idlcompile.bat");
-		checkCode(result, resourceDir, "idlcompile.sh");
+//		checkCode(result, resourceDir, "idlcompile.bat");
+//		checkCode(result, resourceDir, "idlcompile.sh");
 	}
 
 	public void testAIST3() throws Exception {
@@ -198,11 +198,11 @@ public class AISTTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/aist/AIST3/";
 
-		assertEquals(default_file_num+6, result.size());
+		assertEquals(default_file_num+service_file_num, result.size());
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "idlcompile.bat");
-		checkCode(result, resourceDir, "idlcompile.sh");
+//		checkCode(result, resourceDir, "idlcompile.bat");
+//		checkCode(result, resourceDir, "idlcompile.sh");
 	}
 
 	public void testAIST2() throws Exception {
@@ -240,10 +240,10 @@ public class AISTTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/aist/AIST2/";
 
-		assertEquals(default_file_num+5, result.size());
+		assertEquals(default_file_num+6, result.size());
 		checkCode(result, resourceDir, "test.py");
-		checkCode(result, resourceDir, "idlcompile.bat");
-		checkCode(result, resourceDir, "idlcompile.sh");
+//		checkCode(result, resourceDir, "idlcompile.bat");
+//		checkCode(result, resourceDir, "idlcompile.sh");
 	}
 
 	public void testAIST1() throws Exception {
@@ -273,11 +273,11 @@ public class AISTTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/aist/AIST1/";
 
-		assertEquals(default_file_num+6, result.size());
+		assertEquals(default_file_num+service_file_num, result.size());
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "idlcompile.bat");
-		checkCode(result, resourceDir, "idlcompile.sh");
+//		checkCode(result, resourceDir, "idlcompile.bat");
+//		checkCode(result, resourceDir, "idlcompile.sh");
 	}
 
 }

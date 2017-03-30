@@ -8,10 +8,8 @@ import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.manager.CMakeGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
-
 import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
 import static jp.go.aist.rtm.rtcbuilder.util.RTCUtil.form;
-
 import static jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython.LANG_PYTHON;
 import static jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython.LANG_PYTHON_ARG;
 
@@ -93,6 +91,20 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 		return generatePython(infile, outfile, contextMap);
 	}
 	
+	@Override
+	public GeneratedResult generateCmakeCPackOption(Map<String, Object> contextMap) {
+		String outfile = "cmake/cpack_options.cmake.in";
+		String infile = "cmake/cpack_options_cmake.in.vsl";
+		return generatePython(infile, outfile, contextMap);
+	}
+	
+	@Override
+	public GeneratedResult generateSrcCMakeLists(Map<String, Object> contextMap) {
+		String outfile = "src/CMakeLists.txt";
+		String infile = "cmake/SrcCMakeLists.txt.vsl";
+		return generatePython(infile, outfile, contextMap);
+	}
+	/////
 	public GeneratedResult generatePython(String infile, String outfile,
 			Map<String, Object> contextMap) {
 		try {

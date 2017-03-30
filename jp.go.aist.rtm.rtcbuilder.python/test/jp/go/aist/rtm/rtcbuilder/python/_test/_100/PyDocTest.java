@@ -262,11 +262,11 @@ public class PyDocTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/Doc/full/";
 
-		assertEquals(default_file_num+6, result.size());
+		assertEquals(default_file_num+service_file_num, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "idlcompile.bat");
-		checkCode(result, resourceDir, "idlcompile.sh");
+//		checkCode(result, resourceDir, "idlcompile.bat");
+//		checkCode(result, resourceDir, "idlcompile.sh");
 	}
 
 	public void testDocRefer() throws Exception {
@@ -321,11 +321,11 @@ public class PyDocTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/Doc/refer/";
 
-		assertEquals(default_file_num+6, result.size());
+		assertEquals(default_file_num+service_file_num, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "idlcompile.bat");
-		checkCode(result, resourceDir, "idlcompile.sh");
+//		checkCode(result, resourceDir, "idlcompile.bat");
+//		checkCode(result, resourceDir, "idlcompile.sh");
 	}
 
 	public void testDocAuthorLong() throws Exception {
@@ -376,11 +376,11 @@ public class PyDocTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/Doc/authorLong/";
 
-		assertEquals(default_file_num+6, result.size());
+		assertEquals(default_file_num+service_file_num, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "idlcompile.bat");
-		checkCode(result, resourceDir, "idlcompile.sh");
+//		checkCode(result, resourceDir, "idlcompile.bat");
+//		checkCode(result, resourceDir, "idlcompile.sh");
 	}
 
 	public void testDocAuthor() throws Exception {
@@ -430,11 +430,11 @@ public class PyDocTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/Doc/author/";
 
-		assertEquals(default_file_num+6, result.size());
+		assertEquals(default_file_num+service_file_num, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "idlcompile.bat");
-		checkCode(result, resourceDir, "idlcompile.sh");
+//		checkCode(result, resourceDir, "idlcompile.bat");
+//		checkCode(result, resourceDir, "idlcompile.sh");
 	}
 
 }

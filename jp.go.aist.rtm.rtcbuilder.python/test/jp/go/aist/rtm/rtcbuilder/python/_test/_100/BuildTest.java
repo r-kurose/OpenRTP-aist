@@ -89,11 +89,11 @@ public class BuildTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "/";
 
-		assertEquals(default_file_num+6, result.size());
+		assertEquals(default_file_num+service_file_num, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "idlcompile.bat");
-		checkCode(result, resourceDir, "idlcompile.sh");
+//		checkCode(result, resourceDir, "idlcompile.bat");
+//		checkCode(result, resourceDir, "idlcompile.sh");
 	}
 
 	public void testCMake2() throws Exception {
@@ -147,7 +147,7 @@ public class BuildTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "/";
 
-		assertEquals(default_file_num+7, result.size());
+		assertEquals(default_file_num+8, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyServiceChildMulti_idl_example.py");
 		checkCode(result, resourceDir, "MyServiceChildWithType_idl_example.py");
