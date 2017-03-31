@@ -9,7 +9,6 @@ package jp.go.aist.rtm.toolscommon.model.manager;
 import RTC.ComponentProfile;
 import RTC.RTObject;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.NameValue;
 import jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject;
 
 import org.eclipse.emf.common.util.EList;
@@ -32,10 +31,6 @@ import RTM.ModuleProfile;
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getLoadableModuleProfiles <em>Loadable Module Profiles</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getLoadedModuleProfiles <em>Loaded Module Profiles</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getFactoryModuleProfiles <em>Factory Module Profiles</em>}</li>
- *   <li>{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#isMaster <em>Master</em>}</li>
- *   <li>{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getMasterManagers <em>Master Managers</em>}</li>
- *   <li>{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getSlaveManagers <em>Slave Managers</em>}</li>
- *   <li>{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getConfiguratoins <em>Configuratoins</em>}</li>
  * </ul>
  * </p>
  *
@@ -176,80 +171,6 @@ public interface RTCManager extends CorbaWrapperObject {
 	EList<ModuleProfile> getFactoryModuleProfiles();
 
 	/**
-	 * Returns the value of the '<em><b>Master</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Master</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Master</em>' attribute.
-	 * @see #setMaster(boolean)
-	 * @see jp.go.aist.rtm.toolscommon.model.manager.ManagerPackage#getRTCManager_Master()
-	 * @model
-	 * @generated
-	 */
-	boolean isMaster();
-
-	/**
-	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#isMaster <em>Master</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Master</em>' attribute.
-	 * @see #isMaster()
-	 * @generated
-	 */
-	void setMaster(boolean value);
-
-	/**
-	 * Returns the value of the '<em><b>Master Managers</b></em>' reference list.
-	 * The list contents are of type {@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Master Managers</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Master Managers</em>' reference list.
-	 * @see jp.go.aist.rtm.toolscommon.model.manager.ManagerPackage#getRTCManager_MasterManagers()
-	 * @model
-	 * @generated
-	 */
-	EList<RTCManager> getMasterManagers();
-
-	/**
-	 * Returns the value of the '<em><b>Slave Managers</b></em>' reference list.
-	 * The list contents are of type {@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Slave Managers</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Slave Managers</em>' reference list.
-	 * @see jp.go.aist.rtm.toolscommon.model.manager.ManagerPackage#getRTCManager_SlaveManagers()
-	 * @model
-	 * @generated
-	 */
-	EList<RTCManager> getSlaveManagers();
-
-	/**
-	 * Returns the value of the '<em><b>Configuratoins</b></em>' reference list.
-	 * The list contents are of type {@link jp.go.aist.rtm.toolscommon.model.component.NameValue}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Configuratoins</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Configuratoins</em>' reference list.
-	 * @see jp.go.aist.rtm.toolscommon.model.manager.ManagerPackage#getRTCManager_Configuratoins()
-	 * @model
-	 * @generated
-	 */
-	EList<NameValue> getConfiguratoins();
-
-	/**
 	 * <!-- begin-user-doc -->
 	 * RTコンポーネントを新規に作成する
 	 * <!-- end-user-doc -->
@@ -349,14 +270,6 @@ public interface RTCManager extends CorbaWrapperObject {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	int restartR();
-
-	/**
-	 * <!-- begin-user-doc -->
 	 * 管理下のRTCの一覧を返す(IDL)
 	 * <!-- end-user-doc -->
 	 * @model kind="operation"
@@ -421,86 +334,6 @@ public interface RTCManager extends CorbaWrapperObject {
 	 * @generated
 	 */
 	EList<String> getFactoryTypeNames();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	boolean isMasterR();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	EList<RTCManager> getMasterManagersR();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	int addMasterManagerR(RTCManager mgr);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	int removeMasterManagerR(RTCManager mgr);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	EList<RTCManager> getSlaveManagersR();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	int addSlaveManagerR(RTCManager mgr);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	int removeSlaveManagerR(RTCManager mgr);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	EList<String> getSlaveManagerNames();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	EList<NameValue> getConfigurationR();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	int setConfigurationR(String name, String value);
 
 	/**
 	 * <!-- begin-user-doc -->
