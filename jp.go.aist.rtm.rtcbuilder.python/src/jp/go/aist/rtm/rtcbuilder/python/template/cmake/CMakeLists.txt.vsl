@@ -90,7 +90,6 @@ set(IDL_FILES ""
 #foreach($p in ${rtcParam.consumerIdlPathes})
               ${p.idlFile}
 #end)
-#end
 
 if(WIN32)
     set(SCRIPT_FILE ""
@@ -99,6 +98,7 @@ else()
     set(SCRIPT_FILE ""
                     idlcompile.sh)
 endif()
+#end
 
 set(EXEC_FILES ""
                ${rtcParam.name}.py
