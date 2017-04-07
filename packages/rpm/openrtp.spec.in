@@ -1,0 +1,84 @@
+#------------------------------------------------------------
+#
+# @file RPM spec file for OpenRTP
+# @author Noriaki Ando <n-ando@aist.go.jp>
+#
+# $Id$
+#
+
+%define pkgname OpenRTP
+%define version __VERSION__
+%define short_version __SHORT_VERSION__
+%define distname       __DISTNAME__
+%define builddir       %{_topdir}/BUILD/%{distname}
+%define pkgver         0
+%define _unpackaged_files_terminate_build   1
+%define rtm_libdir     %{_libdir}/openrtm-%{short_version}
+%global debug_package %{nil}
+
+#------------------------------------------------------------
+# Package information
+Name:    OpenRTP
+Version: %{version}
+Release: %{pkgver}.%{distname}
+Summary: OpenRTP: Open RT Platform distributed by AIST
+Group:   Tool 
+License: EPL
+URL:     http://openrtm.org/
+#Source0: %{pkgname}-%{version}-RELEASE.tar.gz
+Vendor:  AIST
+
+#------------------------------------------------------------
+# Build environment
+BuildRoot:  %{_tmppath}/%{pkgname}-%{version}-%{release}-root
+#Requires:   java
+Requires:   OpenRTM-aist-devel
+
+%description
+OpenRTP, Open RT Platform distributed by AIST
+ OpenRTP is tool package for OpenRTM-aist and its interoperable
+ RT-Middleware implementations. OpenRTP is being developed and
+ distributed by Intelligent Systems Research Institute, National
+ Institute of Advanced Industrial Science and Technology (AIST), Japan.
+ Please see http://openrtm.org/ for more detail.
+
+#------------------------------------------------------------
+# install section
+%install
+rm -rf $RPM_BUILD_ROOT
+%define install_dir_lib $RPM_BUILD_ROOT%{rtm_libdir}/openrtp
+mkdir -p %{install_dir_lib}
+cp -r %{_topdir}/../../about_files %{install_dir_lib}
+cp -r %{_topdir}/../../configuration %{install_dir_lib}
+cp -r %{_topdir}/../../dropins %{install_dir_lib}
+cp -r %{_topdir}/../../features %{install_dir_lib}
+cp -r %{_topdir}/../../p2 %{install_dir_lib}
+cp -r %{_topdir}/../../plugins %{install_dir_lib}
+cp -r %{_topdir}/../../readme %{install_dir_lib}
+cp %{_topdir}/../../about.html %{install_dir_lib}
+cp %{_topdir}/../../artifacts.xml %{install_dir_lib}
+cp %{_topdir}/../../e* %{install_dir_lib}
+cp %{_topdir}/../../icon.xpm %{install_dir_lib}
+cp %{_topdir}/../../notice.html %{install_dir_lib}
+%define install_dir_bin $RPM_BUILD_ROOT/usr/bin
+mkdir -p %{install_dir_bin} 
+cp %{_topdir}/../../openrtp %{install_dir_bin}
+  
+#------------------------------------------------------------
+# clean section
+%clean
+%{__rm} -rf %{buildroot}
+
+#------------------------------------------------------------
+# core files section
+%files
+%attr(755,root,root) %{_bindir}/openrtp
+%defattr(-,root,root,-)
+%{rtm_libdir}/openrtp/*
+
+#------------------------------------------------------------
+# changelog section
+%changelog
+* Wed Mar 8 2017 Noriaki Ando <n-ando@aist.go.jp> - 1.2.0-0._distname
+- The 1.2.0 release of OpenRTP.
+
