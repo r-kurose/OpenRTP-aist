@@ -183,7 +183,7 @@ public class RTCManagerMock implements RTCManager {
 	public void setConstraint(Rectangle rectangle) {
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public TreeIterator eAllContents() {
 		return null;
 	}
@@ -258,7 +258,7 @@ public class RTCManagerMock implements RTCManager {
 	public void eSetDeliver(boolean deliver) {
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public java.lang.Object getAdapter(Class adapter) {
 		return null;
 	}
@@ -436,4 +436,84 @@ public class RTCManagerMock implements RTCManager {
 	public EList<ModuleProfile> getLoadedModuleProfiles() {
 		return null;
 	}
+
+	@Override
+	public boolean isMaster() {
+		return false;
+	}
+
+	@Override
+	public void setMaster(boolean value) {
+	}
+
+	@Override
+	public EList<RTCManager> getMasterManagers() {
+		return null;
+	}
+
+	@Override
+	public EList<RTCManager> getSlaveManagers() {
+		return null;
+	}
+
+	@Override
+	public EList<jp.go.aist.rtm.toolscommon.model.component.NameValue> getConfiguratoins() {
+		return null;
+	}
+
+	@Override
+	public int restartR() {
+		return 0;
+	}
+
+	@Override
+	public boolean isMasterR() {
+		return false;
+	}
+
+	@Override
+	public EList<RTCManager> getMasterManagersR() {
+		return null;
+	}
+
+	@Override
+	public int addMasterManagerR(RTCManager mgr) {
+		return 0;
+	}
+
+	@Override
+	public int removeMasterManagerR(RTCManager mgr) {
+		return 0;
+	}
+
+	@Override
+	public EList<RTCManager> getSlaveManagersR() {
+		return null;
+	}
+
+	@Override
+	public int addSlaveManagerR(RTCManager mgr) {
+		return 0;
+	}
+
+	@Override
+	public int removeSlaveManagerR(RTCManager mgr) {
+		return 0;
+	}
+
+	@Override
+	public EList<jp.go.aist.rtm.toolscommon.model.component.NameValue> getConfigurationR() {
+		return null;
+	}
+
+	@Override
+	public int setConfigurationR(String name, String value) {
+		return 0;
+	}
+
+	@Override
+	public EList<String> getSlaveManagerNames() {
+		return null;
+	}
+
 }

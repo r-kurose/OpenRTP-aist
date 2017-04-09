@@ -3,11 +3,6 @@ package jp.go.aist.rtm.systemeditor.corba;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openrtp.namespaces.rts.version02.ConfigurationData;
-import org.openrtp.namespaces.rts.version02.ConfigurationSet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import jp.go.aist.rtm.nameserviceview.corba.NameServerAccesser;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
@@ -15,12 +10,16 @@ import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSupport;
 import jp.go.aist.rtm.toolscommon.util.RtsProfileHandler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * CORBA操作に関するヘルパー
  */
 public class CORBAHelper {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(CORBAHelper.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(CORBAHelper.class);
 
 	private static NS _ns = new NS();
 	private static Factory _factory = new Factory();
@@ -59,7 +58,8 @@ public class CORBAHelper {
 		 * @return CORBAオブジェクト
 		 */
 		public org.omg.CORBA.Object resolve(String path) {
-			org.omg.CORBA.Object result = NameServerAccesser.getInstance().getObjectFromPathId(path);
+			org.omg.CORBA.Object result = NameServerAccesser.getInstance()
+					.getObjectFromPathId(path);
 			return result;
 		}
 
@@ -73,7 +73,8 @@ public class CORBAHelper {
 		public RTM.Manager findManager(String path) {
 			int index = path.lastIndexOf("/");
 			String cid = path.substring(0, index);
-			return NameServerAccesser.getInstance().getManagerFromContextId(cid);
+			return NameServerAccesser.getInstance()
+					.getManagerFromContextId(cid);
 		}
 
 	}
@@ -94,7 +95,8 @@ public class CORBAHelper {
 		 * @return リモートオブジェクトが生存している場合はtrue
 		 */
 		public boolean isAvailable(CorbaComponent comp) {
-			return (comp.getCorbaObject() != null && SynchronizationSupport.ping(comp.getCorbaObject()));
+			return (comp.getCorbaObject() != null && SynchronizationSupport
+					.ping(comp.getCorbaObject()));
 		}
 
 		/**
@@ -107,13 +109,17 @@ public class CORBAHelper {
 		 * @return リモートオブジェクト
 		 * @throws CORBAException
 		 */
-		public RTC.RTObject createRTObject(CorbaComponent comp, SystemDiagram diagram) throws CORBAException {
-			LOGGER.trace("createRTObject START comp=<{}> diagram=<{}>", comp, diagram);
+		public RTC.RTObject createRTObject(CorbaComponent comp,
+				SystemDiagram diagram) throws CORBAException {
+			LOGGER.trace("createRTObject START comp=<{}> diagram=<{}>", comp,
+					diagram);
 			RTM.Manager manager = ns().findManager(comp.getPathId());
 			if (manager == null) {
-				throw new CORBAException(String.format("Fail to find manager: path=<%s>", comp.getPathId()));
+				throw new CORBAException(String.format(
+						"Fail to find manager: path=<%s>", comp.getPathId()));
 			}
 			String param = buildCreateComponentParam(comp);
+			LOGGER.info("createRTObject: cmd=<{}>", param);
 			RTC.RTObject rtobj = manager.create_component(param);
 			return rtobj;
 		}
@@ -128,14 +134,21 @@ public class CORBAHelper {
 		 * @return リモートオブジェクト
 		 * @throws CORBAException
 		 */
-		public RTC.RTObject createCompositeRTObject(CorbaComponent comp, SystemDiagram diagram) throws CORBAException {
-			LOGGER.trace("createCompositeRTObject START comp=<{}> diagram=<{}>", comp, diagram);
+		public RTC.RTObject createCompositeRTObject(CorbaComponent comp,
+				SystemDiagram diagram) throws CORBAException {
+			LOGGER.trace(
+					"createCompositeRTObject START comp=<{}> diagram=<{}>",
+					comp, diagram);
 			RTM.Manager manager = ns().findManager(comp.getPathId());
 			if (manager == null) {
-				throw new CORBAException(String.format("Fail to find manager: path=<%s>", comp.getPathId()));
+				throw new CORBAException(String.format(
+						"Fail to find manager: path=<%s>", comp.getPathId()));
 			}
-			String exportedPorts = findConfiguration("exported_ports", comp, diagram);
-			String param = buildCreateCompositeComponentParam(comp, exportedPorts);
+			String exportedPorts = findConfiguration("exported_ports", comp,
+					diagram);
+			String param = buildCreateCompositeComponentParam(comp,
+					exportedPorts);
+			LOGGER.info("createCompositeRTObject: cmd=<{}>", param);
 			RTC.RTObject rtobj = manager.create_component(param);
 			return rtobj;
 		}
@@ -148,11 +161,13 @@ public class CORBAHelper {
 		 *            CORBA 複合コンポーネント
 		 * @throws CORBAException
 		 */
-		public void setCompositeMembers(CorbaComponent comp) throws CORBAException {
+		public void setCompositeMembers(CorbaComponent comp)
+				throws CORBAException {
 			LOGGER.trace("setCompositeMembers START comp=<{}>", comp);
 			RTC.RTObject remote = comp.getCorbaObjectInterface();
 			if (remote == null) {
-				throw new CORBAException(String.format("Remote object does not loaded: comp=<{}>", comp));
+				throw new CORBAException(String.format(
+						"Remote object does not loaded: comp=<{}>", comp));
 			}
 			// 子RTCの CORBAオブジェクトリストを生成
 			List<_SDOPackage.SDO> sdolist = new ArrayList<_SDOPackage.SDO>();
@@ -160,7 +175,10 @@ public class CORBAHelper {
 				CorbaComponent c = (CorbaComponent) o;
 				RTC.RTObject rtobj = c.getCorbaObjectInterface();
 				if (rtobj == null) {
-					throw new CORBAException(String.format("Remote object of child does not loaded: comp=<{}>", c));
+					throw new CORBAException(
+							String.format(
+									"Remote object of child does not loaded: comp=<{}>",
+									c));
 				}
 				sdolist.add(rtobj);
 			}
@@ -169,7 +187,9 @@ public class CORBAHelper {
 				remote.get_owned_organizations()[0].set_members(sdos);
 			} catch (Exception e) {
 				remote.exit();
-				throw new CORBAException(String.format("Fail to set members: remote=<{}> sdos=<{}>", remote, sdos));
+				throw new CORBAException(String.format(
+						"Fail to set members: remote=<{}> sdos=<{}>", remote,
+						sdos));
 			}
 		}
 
@@ -184,15 +204,18 @@ public class CORBAHelper {
 		 *            ダイアグラム
 		 * @return 設定値、パラメータが存在しなかった場合はブランク("")
 		 */
-		public String findConfiguration(String key, CorbaComponent comp, SystemDiagram diagram) {
-			org.openrtp.namespaces.rts.version02.Component orig = RtsProfileHandler.findComponent(comp,
-					diagram.getProfile().getComponents());
+		public String findConfiguration(String key, CorbaComponent comp,
+				SystemDiagram diagram) {
+			org.openrtp.namespaces.rts.version02.Component orig = RtsProfileHandler
+					.findComponent(comp, diagram.getProfile().getComponents());
 			String activeId = orig.getActiveConfigurationSet();
-			for (ConfigurationSet cs : orig.getConfigurationSets()) {
+			for (org.openrtp.namespaces.rts.version02.ConfigurationSet cs : orig
+					.getConfigurationSets()) {
 				if (!cs.getId().equals(activeId)) {
 					continue;
 				}
-				for (ConfigurationData cd : cs.getConfigurationData()) {
+				for (org.openrtp.namespaces.rts.version02.ConfigurationData cd : cs
+						.getConfigurationData()) {
 					if (cd.getName().equals(key)) {
 						return cd.getData();
 					}
@@ -220,8 +243,12 @@ public class CORBAHelper {
 				return null;
 			}
 			StringBuffer ret = new StringBuffer();
-			ret.append(implementationId).append("?instance_name=");
-			ret.append(instanceName);
+			ret.append(implementationId);
+			ret.append("?instance_name=").append(instanceName);
+			String pg = comp.getProperty("process_group");
+			if (pg != null) {
+				ret.append("&process_group=").append(pg);
+			}
 			return ret.toString();
 		}
 
@@ -240,10 +267,20 @@ public class CORBAHelper {
 		 *            公開ポート指定
 		 * @return コンポーネント生成パラメータ (失敗時はnull)
 		 */
-		public String buildCreateCompositeComponentParam(CorbaComponent comp, String exportedPorts) {
+		public String buildCreateCompositeComponentParam(CorbaComponent comp,
+				String exportedPorts) {
 			String compositeType = comp.getCompositeTypeL();
 			String instanceName = comp.getProperty("instance_name");
-			return buildCreateCompositeComponentParam(compositeType, instanceName, exportedPorts);
+			//
+			StringBuffer ret = new StringBuffer();
+			ret.append(buildCreateCompositeComponentParam(compositeType,
+					instanceName, exportedPorts));
+			//
+			String pg = comp.getProperty("process_group");
+			if (pg != null) {
+				ret.append("&process_group=").append(pg);
+			}
+			return ret.toString();
 		}
 
 		/**
@@ -257,16 +294,16 @@ public class CORBAHelper {
 		 *            公開ポート指定
 		 * @return コンポーネント生成パラメータ (失敗時はnull)
 		 */
-		public String buildCreateCompositeComponentParam(String compositeType, String instanceName,
-				String exportedPorts) {
-			if (compositeType == null || instanceName == null || exportedPorts == null) {
+		public String buildCreateCompositeComponentParam(String compositeType,
+				String instanceName, String exportedPorts) {
+			if (compositeType == null || instanceName == null
+					|| exportedPorts == null) {
 				return null;
 			}
 			StringBuffer ret = new StringBuffer();
-			ret.append(compositeType).append("Composite?instance_name=");
-			ret.append(instanceName);
-			ret.append("&exported_ports=");
-			ret.append(exportedPorts);
+			ret.append(compositeType).append("Composite");
+			ret.append("?instance_name=").append(instanceName);
+			ret.append("&exported_ports=").append(exportedPorts);
 			return ret.toString();
 		}
 
