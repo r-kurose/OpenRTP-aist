@@ -47,13 +47,11 @@ class test(OpenRTM_aist.DataFlowComponentBase):
 	# 
 	def __init__(self, manager):
 		OpenRTM_aist.DataFlowComponentBase.__init__(self, manager)
-		in_arg = [None] * ((len(RTC._d_TimedFloatSeq) - 4) / 2)
-		self._d_in = RTC.TimedFloatSeq(*in_arg)
+		self._d_in = OpenRTM_aist.instantiateDataType(RTC.TimedFloatSeq)
 		"""
 		"""
 		self._inIn = OpenRTM_aist.InPort("in", self._d_in)
-		out_arg = [None] * ((len(RTC._d_TimedFloatSeq) - 4) / 2)
-		self._d_out = RTC.TimedFloatSeq(*out_arg)
+		self._d_out = OpenRTM_aist.instantiateDataType(RTC.TimedFloatSeq)
 		"""
 		"""
 		self._outOut = OpenRTM_aist.OutPort("out", self._d_out)

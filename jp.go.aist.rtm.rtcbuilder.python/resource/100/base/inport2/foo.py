@@ -45,13 +45,11 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	# 
 	def __init__(self, manager):
 		OpenRTM_aist.DataFlowComponentBase.__init__(self, manager)
-		InP1_arg = [None] * ((len(RTC._d_TimedShort) - 4) / 2)
-		self._d_InP1 = RTC.TimedShort(*InP1_arg)
+		self._d_InP1 = OpenRTM_aist.instantiateDataType(RTC.TimedShort)
 		"""
 		"""
 		self._InP1In = OpenRTM_aist.InPort("InP1", self._d_InP1)
-		InP2_arg = [None] * ((len(RTC._d_TimedLong) - 4) / 2)
-		self._d_InP2 = RTC.TimedLong(*InP2_arg)
+		self._d_InP2 = OpenRTM_aist.instantiateDataType(RTC.TimedLong)
 		"""
 		"""
 		self._InP2In = OpenRTM_aist.InPort("InP2", self._d_InP2)

@@ -69,8 +69,7 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	# 
 	def __init__(self, manager):
 		OpenRTM_aist.DataFlowComponentBase.__init__(self, manager)
-		InP1_arg = [None] * ((len(RTC._d_TimedShort) - 4) / 2)
-		self._d_InP1 = RTC.TimedShort(*InP1_arg)
+		self._d_InP1 = OpenRTM_aist.instantiateDataType(RTC.TimedShort)
 		"""
 		InPort1の概要
 		 - Type: InPort1のデータの型
@@ -81,8 +80,7 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 		 - Operation Cycle: InPort1のデータの処理周期
 		"""
 		self._InP1In = OpenRTM_aist.InPort("InP1", self._d_InP1)
-		InP2_arg = [None] * ((len(RTC._d_TimedLong) - 4) / 2)
-		self._d_InP2 = RTC.TimedLong(*InP2_arg)
+		self._d_InP2 = OpenRTM_aist.instantiateDataType(RTC.TimedLong)
 		"""
 		InPort2の概要
 		 - Type: InPort2のデータの型
@@ -93,8 +91,7 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 		 - Operation Cycle: InPort2のデータの処理周期
 		"""
 		self._InP2In = OpenRTM_aist.InPort("InP2", self._d_InP2)
-		OutP1_arg = [None] * ((len(RTC._d_TimedLong) - 4) / 2)
-		self._d_OutP1 = RTC.TimedLong(*OutP1_arg)
+		self._d_OutP1 = OpenRTM_aist.instantiateDataType(RTC.TimedLong)
 		"""
 		OutPort1の概要
 		 - Type: OutPort1のデータの型
@@ -105,8 +102,7 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 		 - Operation Cycle: OutPort1のデータの処理周期
 		"""
 		self._OutP1Out = OpenRTM_aist.OutPort("OutP1", self._d_OutP1)
-		OutP2_arg = [None] * ((len(RTC._d_TimedFloat) - 4) / 2)
-		self._d_OutP2 = RTC.TimedFloat(*OutP2_arg)
+		self._d_OutP2 = OpenRTM_aist.instantiateDataType(RTC.TimedFloat)
 		"""
 		OutPort2の概要
 		 - Type: OutPort2のデータの型
