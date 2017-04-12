@@ -111,7 +111,7 @@ public class CXXConfigSetTest extends TestBase {
 	}
 
 	private void checkResults(List<GeneratedResult> result, String resourceDir) {
-		assertEquals(26, result.size());
+		assertEquals(default_file_num, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");

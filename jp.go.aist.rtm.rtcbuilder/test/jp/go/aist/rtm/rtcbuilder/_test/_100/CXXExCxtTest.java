@@ -52,7 +52,7 @@ public class CXXExCxtTest extends TestBase {
 
 		String resourceDir = rootPath +  "/resource/100/CXX/ExecutionCxt/";
 
-		assertEquals(26, result.size());
+		assertEquals(default_file_num, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");

@@ -54,7 +54,7 @@ public class CXXIDLModuleTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/idlmodule/serviceM/";
 
-		assertEquals(28, result.size());
+		assertEquals(default_file_num+2, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -89,7 +89,7 @@ public class CXXIDLModuleTest extends TestBase {
 		String resourceDir = rootPath
 				+ "/resource/100/CXX/idlmodule/serviceCon/";
 
-		assertEquals(26, result.size());
+		assertEquals(default_file_num, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -124,7 +124,7 @@ public class CXXIDLModuleTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/idlmodule/serviceArg/";
 
-		assertEquals(28, result.size());
+		assertEquals(default_file_num+2, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -158,7 +158,7 @@ public class CXXIDLModuleTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/idlmodule/serviceArgStruct/";
 
-		assertEquals(28, result.size());
+		assertEquals(default_file_num+2, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");

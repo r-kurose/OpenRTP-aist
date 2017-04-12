@@ -88,7 +88,7 @@ public class CXXBuildTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "/";
 
-		assertEquals(28, result.size());
+		assertEquals(default_file_num+2, result.size());
 		checkCode(result, resourceDir, "src/fooComp.cpp");
 		checkCode(result, resourceDir, "include/foo/foo.h");
 		checkCode(result, resourceDir, "src/foo.cpp");
@@ -157,7 +157,7 @@ public class CXXBuildTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "/";
 
-		assertEquals(30, result.size());
+		assertEquals(default_file_num+4, result.size());
 		checkCode(result, resourceDir, "src/fooComp.cpp");
 		checkCode(result, resourceDir, "include/foo/foo.h");
 		checkCode(result, resourceDir, "src/foo.cpp");
