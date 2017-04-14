@@ -267,8 +267,8 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		combo.setItems(items);
 		combo.select(0);
 		combo.addKeyListener(new KeyListener() {
-			public void keyReleased(KeyEvent e) {}
-			public void keyPressed(KeyEvent e) { update();	}
+			public void keyReleased(KeyEvent e) { update(); }
+			public void keyPressed(KeyEvent e) { }
 		});
 		combo.addSelectionListener(new SelectionListener() {
 			  public void widgetDefaultSelected(SelectionEvent e){}
@@ -348,8 +348,8 @@ public abstract class AbstractEditorFormPage extends FormPage {
 
 		combo.select(0);
 		combo.addKeyListener(new KeyListener() {
-			public void keyReleased(KeyEvent e) {}
-			public void keyPressed(KeyEvent e) { update(); }
+			public void keyReleased(KeyEvent e) { update(); }
+			public void keyPressed(KeyEvent e) { }
 		});
 		combo.addSelectionListener(new SelectionListener() {
 			  public void widgetDefaultSelected(SelectionEvent e){}
