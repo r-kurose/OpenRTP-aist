@@ -1,9 +1,8 @@
 package jp.go.aist.rtm.systemeditor.rcp;
 
 import org.eclipse.jface.action.IContributionItem;
-import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.preference.PreferenceManager;
-import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
@@ -39,22 +38,23 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
 	@Override
 	public void postWindowCreate() {
-		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		MenuManager mbManager=((ApplicationWindow)page.getWorkbenchWindow()).getMenuBarManager(); 
-
-		for (IContributionItem item : mbManager.getItems()){
-	       if (item.getId().equals("file")){
-	    	   for (IContributionItem child : ((MenuManager)item).getItems() ) {
-    			   String id = child.getId();
-			       if (id!=null && 
-			    		   (id.equals("converstLineDelimitersTo") || id.equals("save.ext")
-			    				   || id.equals("org.eclipse.ui.edit.text.openExternalFile") || id.equals("new.ext")) ){
-			    	   child.setVisible(false);
-			    	   child.dispose();
-			       }
-	    	   }
-	       }
-	   }
+		IMenuManager mbManager = getWindowConfigurer().getActionBarConfigurer()
+				.getMenuManager();
+		for (IContributionItem item : mbManager.getItems()) {
+			if (item.getId().equals("file")) {
+				for (IContributionItem child : ((IMenuManager) item).getItems()) {
+					String id = child.getId();
+					if (id != null
+							&& (id.equals("converstLineDelimitersTo")
+									|| id.equals("save.ext")
+									|| id.equals("org.eclipse.ui.edit.text.openExternalFile") || id
+										.equals("new.ext"))) {
+						child.setVisible(false);
+						child.dispose();
+					}
+				}
+			}
+		}
 	}
 
 	@Override
