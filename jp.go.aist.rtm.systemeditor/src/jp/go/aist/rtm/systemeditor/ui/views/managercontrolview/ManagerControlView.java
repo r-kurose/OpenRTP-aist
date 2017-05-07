@@ -47,7 +47,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * マネージャ管理ビュー
- *
  */
 public class ManagerControlView extends ViewPart {
 
@@ -81,7 +80,7 @@ public class ManagerControlView extends ViewPart {
 	private static final String LABEL_COMPONENT_COLUMN = Messages
 			.getString("ManagerControlView.5");
 	private static final String LABEL_PROCESS_GROUP_COLUMN = Messages
-			.getString("ManagerControlView.process_group");
+			.getString("ManagerControlView.manager_name");
 
 	private static final String LABEL_URL_TEXT = Messages
 			.getString("ManagerControlView.10");
@@ -219,8 +218,9 @@ public class ManagerControlView extends ViewPart {
 				}
 				CreateComponentDialog dialog = new CreateComponentDialog(
 						getSite().getShell());
-				dialog.setTypeList(targetManager.getFactoryProfileTypeNamesR());
-				dialog.setProcessGroupList(targetManager.getSlaveManagerNames());
+				dialog.setModuleProfileList(targetManager
+						.getFactoryModuleProfilesR());
+				dialog.setManagerNameList(targetManager.getSlaveManagerNames());
 				if (dialog.open() == IDialogConstants.OK_ID) {
 					String cmd = dialog.getParameter();
 					LOGGER.info("create command: <{}>", cmd);
@@ -498,10 +498,10 @@ public class ManagerControlView extends ViewPart {
 				for (RTC.ComponentProfile prof : this.targetManager
 						.getComponentProfiles()) {
 					String name = prof.instance_name;
-					String pg = SDOUtil.findValueAsString("process_group",
+					String mn = SDOUtil.findValueAsString("manager_name",
 							prof.properties);
-					pg = (pg == null) ? "" : pg;
-					this.moduleList.add(new String[] { name, pg });
+					mn = (mn == null) ? "" : mn;
+					this.moduleList.add(new String[] { name, mn });
 				}
 				this.modulesTableViewer.setInput(this.moduleList);
 			}

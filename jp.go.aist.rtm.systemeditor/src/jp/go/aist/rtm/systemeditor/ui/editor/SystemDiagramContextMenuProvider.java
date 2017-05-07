@@ -7,6 +7,7 @@ import org.eclipse.jface.action.IMenuManager;
 import jp.go.aist.rtm.systemeditor.ui.editor.action.OpenAndCreateRestoreAction;
 import jp.go.aist.rtm.systemeditor.ui.editor.action.OpenAndQuickRestoreAction;
 import jp.go.aist.rtm.systemeditor.ui.editor.action.OpenAndRestoreAction;
+import jp.go.aist.rtm.systemeditor.ui.editor.action.OpenWithMappingRestoreAction;
 
 /**
  * システムダイアグラムのContextMenuProviderクラス
@@ -24,6 +25,7 @@ public class SystemDiagramContextMenuProvider extends AbstractSystemDiagramConte
 		appendAction(menuManager, OpenAndRestoreAction.ID, "save");
 		appendAction(menuManager, OpenAndQuickRestoreAction.ID, "save");
 		appendAction(menuManager, OpenAndCreateRestoreAction.ID, "save");
+		appendAction(menuManager, OpenWithMappingRestoreAction.ID, "save");
 	}
 
 }
