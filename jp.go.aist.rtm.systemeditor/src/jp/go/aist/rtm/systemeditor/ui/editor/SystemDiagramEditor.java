@@ -331,6 +331,19 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 						Messages.getString("SystemDiagramEditor.6") + "\r\n"
 								+ e.getMessage());
 			}
+
+			try {
+				RtsProfileHandler handler = new RtsProfileHandler();
+				handler.restoreConnection(getSystemDiagram());
+				handler.restoreConfigSet(getSystemDiagram());
+				handler.restoreExecutionContext(getSystemDiagram());
+				doReplace(getSystemDiagram(), site);
+			} catch (Exception e) {
+				LOGGER.error("Fail to replace diagram", e);
+				throw new InvocationTargetException(e,
+						Messages.getString("SystemDiagramEditor.8"));
+			}
+
 		} catch (Exception e) {
 			throw new PartInitException(
 					Messages.getString("SystemDiagramEditor.9"), e);
