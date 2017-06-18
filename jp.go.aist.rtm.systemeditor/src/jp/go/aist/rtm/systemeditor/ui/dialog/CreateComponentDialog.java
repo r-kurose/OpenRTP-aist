@@ -4,6 +4,7 @@ import static jp.go.aist.rtm.systemeditor.corba.CORBAHelper.CreateComponentParam
 import static jp.go.aist.rtm.systemeditor.corba.CORBAHelper.CreateComponentParameter.KEY_LANGUAGE;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import jp.go.aist.rtm.systemeditor.corba.CORBAHelper;
@@ -16,6 +17,7 @@ import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
+import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -26,11 +28,14 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -42,10 +47,14 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 
+import _SDOPackage.NameValue;
+
 /**
  * マネージャビューからコンポーネントを作成するダイアログ
  */
 public class CreateComponentDialog extends TitleAreaDialog {
+	private static final int PARAMETER_KEY = 0;
+	private static final int PARAMETER_VALUE = 1;
 
 	private static final String LABEL_TYPE_TITLE = Messages
 			.getString("CreateComponentDialog.2");
@@ -79,13 +88,19 @@ public class CreateComponentDialog extends TitleAreaDialog {
 	private List<String> managerNameList = new ArrayList<>();
 	private List<ParameterParam> parameterList = new ArrayList<>();
 	private ParameterParam selectedParam;
+	private String initManager;
 
 	private CORBAHelper.CreateComponentParameter parameter = null;
+	
+	private ParameterCellModifier keyModifier;
+	private String[] defaultKeyList = {"instance_name", "conf.__widget__.", "conf._constraints__."};
+	private String[] currentKeyList = {};
 
 	/** モジュール情報 */
 	static class Module {
 		String type;
 		String lang;
+		List<String> keyList = new ArrayList<String>();
 	}
 
 	public CreateComponentDialog(Shell parentShell) {
@@ -109,6 +124,9 @@ public class CreateComponentDialog extends TitleAreaDialog {
 			Module mod = new Module();
 			mod.type = type;
 			mod.lang = lang;
+			for(NameValue p : prof.properties) {
+				mod.keyList.add(p.name);
+			}
 			this.moduleList.add(mod);
 		}
 	}
@@ -124,12 +142,25 @@ public class CreateComponentDialog extends TitleAreaDialog {
 	}
 
 	/**
+	 * 画面表示時に表示するマネージャ名(プロセスグループ)を設定します。
+	 * 
+	 * @param target
+	 */
+	public void setInitManager(String target) {
+		this.initManager = target;
+	}
+	
+	/**
 	 * コンポーネント生成のコマンド列を取得します。
 	 */
 	public String getParameter() {
 		return (this.parameter == null) ? null : this.parameter.buildCommand();
 	}
 
+	protected Point getInitialSize() {
+		return new Point(500, 500);
+	}
+	
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite mainComposite = new Composite(
@@ -162,10 +193,31 @@ public class CreateComponentDialog extends TitleAreaDialog {
 				if (mod != null) {
 					langCombo.removeAll();
 					langCombo.add(mod.lang);
+					setKeyList(mod);
 				}
 				langCombo.select(0);
 				//
 				notifyModified();
+			}
+		});
+		this.typeCombo.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				int selected = typeCombo.getSelectionIndex();
+				if(selected < 0) return;
+				Module mod = moduleList.get(selected);
+				
+				if (mod != null) {
+					langCombo.removeAll();
+					langCombo.add(mod.lang);
+					setKeyList(mod);
+				}
+				langCombo.select(0);
+				//
+				notifyModified();
+			}
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
 
@@ -180,7 +232,11 @@ public class CreateComponentDialog extends TitleAreaDialog {
 		for (String mn : this.managerNameList) {
 			this.managerNameCombo.add(mn);
 		}
-		this.managerNameCombo.select(0);
+		if(initManager==null) {
+			this.managerNameCombo.select(0);
+		} else {
+			this.managerNameCombo.setText(initManager);
+		}
 		this.managerNameCombo.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				notifyModified();
@@ -215,10 +271,23 @@ public class CreateComponentDialog extends TitleAreaDialog {
 		parameterGroup.setLayoutData(gd);
 		this.parameterViewer = createParameterTableViewer(parameterGroup);
 		this.parameterViewer.setInput(this.parameterList);
+		if(0<moduleList.size()) {
+			setKeyList(moduleList.get(0));
+		}
 
 		return mainComposite;
 	}
 
+	private void setKeyList(Module target) {
+		List<String> keyList = new ArrayList<String>();
+		keyList.addAll(Arrays.asList(defaultKeyList));
+		if(target!=null) {
+			keyList.addAll(target.keyList);
+		}
+		currentKeyList = (String[])keyList.toArray(new String[keyList.size()]);
+		keyModifier.updateKeyList();
+	}
+	
 	private TableViewer createParameterTableViewer(Composite parent) {
 		TableViewer viewer = new TableViewer(parent, SWT.SINGLE | SWT.H_SCROLL
 				| SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
@@ -237,14 +306,15 @@ public class CreateComponentDialog extends TitleAreaDialog {
 		colName.getColumn().setWidth(160);
 		colName.getColumn().setResizable(true);
 		colName.getColumn().setMoveable(false);
-		colName.setEditingSupport(new ParameterCellModifier(viewer, 0));
+		keyModifier = new ParameterCellModifier(viewer, PARAMETER_KEY);
+		colName.setEditingSupport(keyModifier);
 
 		TableViewerColumn colValue = new TableViewerColumn(viewer, SWT.NONE);
 		colValue.getColumn().setText(COL_VALUE);
 		colValue.getColumn().setWidth(160);
 		colValue.getColumn().setResizable(true);
 		colValue.getColumn().setMoveable(false);
-		colValue.setEditingSupport(new ParameterCellModifier(viewer, 1));
+		colValue.setEditingSupport(new ParameterCellModifier(viewer, PARAMETER_VALUE));
 
 		viewer.setContentProvider(new ArrayContentProvider());
 		viewer.setLabelProvider(new ParameterLabelProvider());
@@ -279,7 +349,13 @@ public class CreateComponentDialog extends TitleAreaDialog {
 		this.parameterAddButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				ParameterParam newParam = new ParameterParam("Name", "Value");
+				ParameterParam newParam = null;
+				if( defaultKeyList.length > 0 ) {
+					newParam = new ParameterParam(defaultKeyList[0], "Value");
+				} else {
+					newParam = new ParameterParam("Name", "Value");
+				}
+				
 				parameterList.add(newParam);
 				parameterViewer.refresh();
 				notifyModified();
@@ -432,9 +508,21 @@ public class CreateComponentDialog extends TitleAreaDialog {
 		private CellEditor editor;
 		private int column;
 
+		public void updateKeyList() {
+			if(editor instanceof LocalComboBoxCellEditor) {
+				((LocalComboBoxCellEditor) editor).setItems(currentKeyList);
+			}
+		}
+
 		public ParameterCellModifier(ColumnViewer viewer, int column) {
 			super(viewer);
-			editor = new TextCellEditor(((TableViewer) viewer).getTable());
+			switch (column) {
+			case PARAMETER_KEY:
+				editor = new LocalComboBoxCellEditor(((TableViewer) viewer).getTable(), currentKeyList, SWT.DROP_DOWN);
+				break;
+			default:
+				editor = new TextCellEditor(((TableViewer) viewer).getTable());
+			}
 			this.column = column;
 		}
 
@@ -456,9 +544,10 @@ public class CreateComponentDialog extends TitleAreaDialog {
 			ParameterParam targetParam = (ParameterParam) element;
 
 			switch (this.column) {
-			case 0:
-				return targetParam.getName();
-			case 1:
+			case PARAMETER_KEY:
+				int index = updateDefaultKeyList(targetParam.getName());
+				return new Integer(index);
+			case PARAMETER_VALUE:
 				return targetParam.getValue();
 			default:
 				break;
@@ -474,10 +563,20 @@ public class CreateComponentDialog extends TitleAreaDialog {
 			ParameterParam targetParam = (ParameterParam) element;
 
 			switch (this.column) {
-			case 0:
-				targetParam.setName((String) value);
+			case PARAMETER_KEY:
+				if( value instanceof Integer ) {
+					targetParam.setName(currentKeyList[((Integer) value).intValue()]);
+					if(currentKeyList.length > ((Integer) value).intValue()) {
+						targetParam.setName(
+								currentKeyList[((Integer) value).intValue()]);
+					}
+				}else{
+					// 手入力された場合
+					updateDefaultKeyList((String)value);
+					targetParam.setName((String)value);
+				}
 				break;
-			case 1:
+			case PARAMETER_VALUE:
 				targetParam.setValue((String) value);
 				break;
 			default:
@@ -487,7 +586,54 @@ public class CreateComponentDialog extends TitleAreaDialog {
 			getViewer().update(element, null);
 			notifyModified();
 		}
-
+		
+		private int searchIndex(String[] sources, String target) {
+			for(int intIdx=0;intIdx<sources.length;intIdx++) {
+				if( target.equals(sources[intIdx]) )
+					return intIdx;
+			}
+			return sources.length;
+		}
+		
+		private int updateDefaultKeyList(String newValue){
+			int index = searchIndex(currentKeyList, newValue);
+			if( index == currentKeyList.length ){
+				// その値がプルダウン選択肢にない場合、選択肢にそれを追加する
+				String[] newDefaultTypeList = new String[currentKeyList.length+1];
+				for( int i=0; i<currentKeyList.length; i++ ){
+					newDefaultTypeList[i] = currentKeyList[i];
+				}
+				newDefaultTypeList[currentKeyList.length] = newValue;
+				
+				currentKeyList = newDefaultTypeList;
+				
+				((CCombo)this.editor.getControl()).setItems(currentKeyList);
+			}
+			return index;
+		}
 	}
 
+	// 選択肢以外の値が入力されている場合に対応するためのComboBoxCellEditor
+	private class LocalComboBoxCellEditor extends ComboBoxCellEditor {
+		private CCombo comboBox;
+
+		public LocalComboBoxCellEditor(Composite parent, String[] items, int style) {
+			super(parent, items, style);
+		}
+
+		@Override
+		protected Control createControl(Composite parent) {
+			comboBox = (CCombo) super.createControl(parent);
+			return comboBox;
+		}
+
+		@Override
+		protected Object doGetValue() {
+			Object value = super.doGetValue();
+			if (value.equals(Integer.valueOf(-1))) { // 選択肢以外が入力された場合
+				return comboBox.getText();
+			}
+			return value;
+		}
+	}
 }

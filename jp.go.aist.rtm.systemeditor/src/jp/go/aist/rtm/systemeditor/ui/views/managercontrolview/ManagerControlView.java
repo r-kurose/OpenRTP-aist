@@ -6,25 +6,21 @@ import java.util.List;
 
 import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.dialog.CreateComponentDialog;
+import jp.go.aist.rtm.systemeditor.ui.dialog.ManagerConfigurationDialog;
 import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
-import jp.go.aist.rtm.toolscommon.ui.views.propertysheetview.RtcPropertySheetPage;
 import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 import jp.go.aist.rtm.toolscommon.util.SDOUtil;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableColorProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -34,14 +30,16 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
+import org.eclipse.ui.views.properties.IPropertySource;
+import org.eclipse.ui.views.properties.PropertySheetPage;
+import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,25 +53,18 @@ public class ManagerControlView extends ViewPart {
 
 	private static final String LABEL_LOADABLE_MODULE_BUTTON = Messages
 			.getString("ManagerControlView.0");
-	private static final String LABEL_LOADED_MODULE_BUTTON = Messages
+	private static final String LABEL_RTC_INSTANCE_BUTTON = Messages
 			.getString("ManagerControlView.2");
-	private static final String LABEL_ACTIVE_COMPONENT_BUTTON = Messages
+	private static final String LABEL_MANAGERS_BUTTON = Messages
 			.getString("ManagerControlView.4");
 	private static final String LABEL_CREATE_BUTTON = Messages
 			.getString("ManagerControlView.6");
-	private static final String LABEL_FORK_BUTTON = Messages
+	private static final String LABEL_CONFIGURE_BUTTON = Messages
 			.getString("ManagerControlView.7");
 	private static final String LABEL_RESTART_BUTTON = Messages
 			.getString("ManagerControlView.restart");
 	private static final String LABEL_SHUTDOWN_BUTTON = Messages
 			.getString("ManagerControlView.8");
-
-	private static final String LABEL_LOAD_BUTTON = Messages
-			.getString("ManagerControlView.11");
-	private static final String LABEL_UPLOAD_BUTTON = Messages
-			.getString("ManagerControlView.13");
-	private static final String LABEL_DELETE_COMPONENT_BUTTON = Messages
-			.getString("ManagerControlView.delete_component");
 
 	private static final String LABEL_MODULE_COLUMN = Messages
 			.getString("ManagerControlView.1");
@@ -81,36 +72,33 @@ public class ManagerControlView extends ViewPart {
 			.getString("ManagerControlView.5");
 	private static final String LABEL_PROCESS_GROUP_COLUMN = Messages
 			.getString("ManagerControlView.manager_name");
+	private static final String LABEL_LANGUAGE_COLUMN = Messages
+			.getString("ManagerControlView.manager_language");
 
-	private static final String LABEL_URL_TEXT = Messages
-			.getString("ManagerControlView.10");
-
-	private static final int MENU_BUTTON_WIDTH = 160;
-	private static final int EXEC_BUTTON_WIDTH = 160;
+	private static final int MENU_BUTTON_WIDTH = 110;
+	private static final int EXEC_BUTTON_WIDTH = 110;
 
 	private Composite composite = null;
-	private Button loadedModuleButton;
 	private Button loadableModuleButton;
-	private Button activeComponentButton;
-	private Button createButton;
-	private Button forkButton;
-	private Button restartButton;
-	private Button shutdownButton;
+	private Button rtcInstanceButton;
+	private Button managersButton;
+	
 	private Table modulesTable;
 	private TableViewer modulesTableViewer;
 	private TableColumn moduleColumn1;
 	private TableColumn moduleColumn2;
-	private Button loadButton;
-	private Button unloadButton;
-	private Button deleteComponentButton;
-	private Text urlText;
+	
+	private Button createButton;
+	private Button configureButton;
+	private Button restartButton;
+	private Button shutdownButton;
 
 	private boolean isSelectedLoadableModules;
-	private boolean isSelectedLoadedModules;
-	private boolean isSelectedActiveComponents;
+	private boolean isSelectedRtcInstances;
+	private boolean isSelectedManagers;
 
 	private RTCManager targetManager;
-	private List<String[]> moduleList;
+	private List<Profile> profileList;
 
 	public ManagerControlView() {
 	}
@@ -145,137 +133,56 @@ public class ManagerControlView extends ViewPart {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				isSelectedLoadableModules = false;
-				isSelectedLoadedModules = false;
-				isSelectedActiveComponents = false;
+				isSelectedRtcInstances = false;
+				isSelectedManagers = false;
 				if (targetManager != null) {
 					moduleColumn1.setText(LABEL_MODULE_COLUMN);
 					moduleColumn2.setText("");
 					isSelectedLoadableModules = true;
-					// キャッシュ更新
-					targetManager.getLoadableModuleProfilesR();
 				}
 				refreshModuleListData();
 			}
 		});
 
-		this.loadedModuleButton = new Button(menuButtonComposite, SWT.TOP);
-		this.loadedModuleButton.setText(LABEL_LOADED_MODULE_BUTTON);
+		this.rtcInstanceButton = new Button(menuButtonComposite, SWT.TOP);
+		this.rtcInstanceButton.setText(LABEL_RTC_INSTANCE_BUTTON);
 		gd = new GridData();
 		gd.widthHint = MENU_BUTTON_WIDTH;
-		this.loadedModuleButton.setLayoutData(gd);
-		this.loadedModuleButton.setEnabled(false);
-		this.loadedModuleButton.addSelectionListener(new SelectionAdapter() {
+		this.rtcInstanceButton.setLayoutData(gd);
+		this.rtcInstanceButton.setEnabled(false);
+		this.rtcInstanceButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				isSelectedLoadableModules = false;
-				isSelectedLoadedModules = false;
-				isSelectedActiveComponents = false;
-				if (targetManager != null) {
-					moduleColumn1.setText(LABEL_MODULE_COLUMN);
-					moduleColumn2.setText("");
-					isSelectedLoadedModules = true;
-					// キャッシュ更新
-					targetManager.getLoadedModuleProfilesR();
-				}
-				refreshModuleListData();
-			}
-		});
-
-		this.activeComponentButton = new Button(menuButtonComposite, SWT.TOP);
-		this.activeComponentButton.setText(LABEL_ACTIVE_COMPONENT_BUTTON);
-		gd = new GridData();
-		gd.widthHint = MENU_BUTTON_WIDTH;
-		this.activeComponentButton.setLayoutData(gd);
-		this.activeComponentButton.setEnabled(false);
-		this.activeComponentButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				isSelectedLoadableModules = false;
-				isSelectedLoadedModules = false;
-				isSelectedActiveComponents = false;
+				isSelectedRtcInstances = false;
+				isSelectedManagers = false;
 				if (targetManager != null) {
 					moduleColumn1.setText(LABEL_COMPONENT_COLUMN);
 					moduleColumn2.setText(LABEL_PROCESS_GROUP_COLUMN);
-					isSelectedActiveComponents = true;
-					// キャッシュ更新
-					targetManager.getComponentProfilesR();
+					isSelectedRtcInstances = true;
 				}
 				refreshModuleListData();
 			}
 		});
 
-		this.createButton = new Button(menuButtonComposite, SWT.TOP);
-		this.createButton.setText(LABEL_CREATE_BUTTON);
+		this.managersButton = new Button(menuButtonComposite, SWT.TOP);
+		this.managersButton.setText(LABEL_MANAGERS_BUTTON);
 		gd = new GridData();
 		gd.widthHint = MENU_BUTTON_WIDTH;
-		this.createButton.setLayoutData(gd);
-		this.createButton.setEnabled(false);
-		this.createButton.addSelectionListener(new SelectionAdapter() {
+		this.managersButton.setLayoutData(gd);
+		this.managersButton.setEnabled(false);
+		this.managersButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (targetManager == null) {
-					return;
-				}
-				CreateComponentDialog dialog = new CreateComponentDialog(
-						getSite().getShell());
-				dialog.setModuleProfileList(targetManager
-						.getFactoryModuleProfilesR());
-				dialog.setManagerNameList(targetManager.getSlaveManagerNames());
-				if (dialog.open() == IDialogConstants.OK_ID) {
-					String cmd = dialog.getParameter();
-					LOGGER.info("create command: <{}>", cmd);
-					targetManager.createComponentR(cmd);
-				}
-			}
-		});
-
-		this.forkButton = new Button(menuButtonComposite, SWT.TOP);
-		this.forkButton.setText(LABEL_FORK_BUTTON);
-		gd = new GridData();
-		gd.widthHint = MENU_BUTTON_WIDTH;
-		this.forkButton.setLayoutData(gd);
-		this.forkButton.setEnabled(false);
-		this.forkButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
+				isSelectedLoadableModules = false;
+				isSelectedRtcInstances = false;
+				isSelectedManagers = false;
 				if (targetManager != null) {
-					targetManager.forkR();
+					moduleColumn1.setText(LABEL_PROCESS_GROUP_COLUMN);
+					moduleColumn2.setText(LABEL_LANGUAGE_COLUMN);
+					isSelectedManagers = true;
 				}
-				buildData();
-			}
-		});
-
-		this.restartButton = new Button(menuButtonComposite, SWT.TOP);
-		this.restartButton.setText(LABEL_RESTART_BUTTON);
-		gd = new GridData();
-		gd.widthHint = MENU_BUTTON_WIDTH;
-		this.restartButton.setLayoutData(gd);
-		this.restartButton.setEnabled(false);
-		this.restartButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if (targetManager != null) {
-					targetManager.restartR();
-					targetManager = null;
-				}
-				buildData();
-			}
-		});
-
-		this.shutdownButton = new Button(menuButtonComposite, SWT.TOP);
-		this.shutdownButton.setText(LABEL_SHUTDOWN_BUTTON);
-		gd = new GridData();
-		gd.widthHint = MENU_BUTTON_WIDTH;
-		this.shutdownButton.setLayoutData(gd);
-		this.shutdownButton.setEnabled(false);
-		this.shutdownButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if (targetManager != null) {
-					targetManager.shutdownR();
-					targetManager = null;
-				}
-				buildData();
+				refreshModuleListData();
 			}
 		});
 
@@ -311,11 +218,11 @@ public class ManagerControlView extends ViewPart {
 		this.modulesTable.setHeaderVisible(true);
 		this.modulesTable.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				updateEnableLoadButton();
+				updateEnableButton();
 			}
 
 			public void widgetDefaultSelected(SelectionEvent e) {
-				updateEnableLoadButton();
+				updateEnableButton();
 			}
 		});
 
@@ -326,25 +233,7 @@ public class ManagerControlView extends ViewPart {
 		this.moduleColumn2.setText("");
 		this.moduleColumn2.setWidth(300);
 
-		this.modulesTableViewer.setLabelProvider(new ModuleLabelProvider());
-
-		Label urlLabel = new Label(listComposite, SWT.NONE);
-		gd = new GridData();
-		urlLabel.setLayoutData(gd);
-		urlLabel.setText(LABEL_URL_TEXT);
-
-		this.urlText = new Text(listComposite, SWT.SINGLE | SWT.BORDER);
-		gd = new GridData();
-		gd.horizontalAlignment = SWT.FILL;
-		gd.grabExcessHorizontalSpace = true;
-		this.urlText.setLayoutData(gd);
-		this.urlText.setTextLimit(255);
-		this.urlText.setEnabled(false);
-		this.urlText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				updateEnableLoadButton();
-			}
-		});
+		this.modulesTableViewer.setLabelProvider(new ProfileLabelProvider());
 
 		final Composite execButtonComposite = new Composite(this.composite,
 				SWT.NONE);
@@ -356,78 +245,94 @@ public class ManagerControlView extends ViewPart {
 		execButtonComposite.setLayout(gl);
 		execButtonComposite.setLayoutData(gd);
 
-		this.loadButton = new Button(execButtonComposite, SWT.TOP);
-		this.loadButton.setText(LABEL_LOAD_BUTTON);
+		this.createButton = new Button(execButtonComposite, SWT.TOP);
+		this.createButton.setText(LABEL_CREATE_BUTTON);
 		gd = new GridData();
 		gd.widthHint = EXEC_BUTTON_WIDTH;
-		this.loadButton.setLayoutData(gd);
-		this.loadButton.setEnabled(false);
-		this.loadButton.addSelectionListener(new SelectionAdapter() {
+		this.createButton.setLayoutData(gd);
+		this.createButton.setEnabled(false);
+		this.createButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (targetManager != null) {
-					String module = null;
-					if (modulesTable.getSelectionIndex() != -1) {
-						if (isSelectedLoadableModules) {
-							String[] m = moduleList.get(modulesTable
-									.getSelectionIndex());
-							module = m[0];
-						}
-					} else if (urlText.getText().length() > 0) {
-						module = urlText.getText();
-					}
-					if (module != null) {
-						// TODO initfuncはどこで指定？
-						targetManager.loadModuleR(module, ""); //$NON-NLS-1$
-					}
+				if (targetManager == null) {
+					return;
 				}
-				refreshModuleListData();
+				CreateComponentDialog dialog = new CreateComponentDialog(
+						getSite().getShell());
+				dialog.setModuleProfileList(targetManager
+						.getLoadableModuleProfilesR());
+				//
+				List<String> managerList = new ArrayList<String>();
+				managerList.add(SDOUtil.findValueAsString("instance_name", targetManager.getManagerProfile().properties));
+				managerList.addAll(targetManager.getSlaveManagerNames());
+				dialog.setManagerNameList(managerList);
+				int selectedIndex = modulesTable.getSelectionIndex();
+				if (selectedIndex != -1 && isSelectedManagers) {
+					String initManager = profileList.get(selectedIndex).getManager_name();
+					dialog.setInitManager(initManager);
+				}
+				if (dialog.open() == IDialogConstants.OK_ID) {
+					String cmd = dialog.getParameter();
+					LOGGER.info("create command: <{}>", cmd);
+					targetManager.createComponentR(cmd);
+				}
 			}
 		});
 
-		this.unloadButton = new Button(execButtonComposite, SWT.TOP);
-		this.unloadButton.setText(LABEL_UPLOAD_BUTTON);
+		this.configureButton = new Button(execButtonComposite, SWT.TOP);
+		this.configureButton.setText(LABEL_CONFIGURE_BUTTON);
 		gd = new GridData();
 		gd.widthHint = EXEC_BUTTON_WIDTH;
-		this.unloadButton.setLayoutData(gd);
-		this.unloadButton.setEnabled(false);
-		this.unloadButton.addSelectionListener(new SelectionAdapter() {
+		this.configureButton.setLayoutData(gd);
+		this.configureButton.setEnabled(false);
+		this.configureButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (targetManager != null) {
-					if (isSelectedLoadedModules) {
-						if (modulesTable.getSelectionIndex() != -1) {
-							String[] m = moduleList.get(modulesTable
-									.getSelectionIndex());
-							String module = m[0];
-							targetManager.unloadModuleR(module);
-						}
-					}
+				if (targetManager == null) {
+					return;
 				}
-				refreshModuleListData();
+				ManagerConfigurationDialog dialog = new ManagerConfigurationDialog(
+						getSite().getShell());
+				dialog.setManager(targetManager);
+				if (dialog.open() == IDialogConstants.OK_ID) {
+//					String cmd = dialog.getParameter();
+//					LOGGER.info("create command: <{}>", cmd);
+//					targetManager.createComponentR(cmd);
+				}
 			}
 		});
 
-		this.deleteComponentButton = new Button(execButtonComposite, SWT.TOP);
-		this.deleteComponentButton.setText(LABEL_DELETE_COMPONENT_BUTTON);
+		this.restartButton = new Button(execButtonComposite, SWT.TOP);
+		this.restartButton.setText(LABEL_RESTART_BUTTON);
 		gd = new GridData();
 		gd.widthHint = EXEC_BUTTON_WIDTH;
-		this.deleteComponentButton.setLayoutData(gd);
-		this.deleteComponentButton.setEnabled(false);
-		this.deleteComponentButton.addSelectionListener(new SelectionAdapter() {
+		this.restartButton.setLayoutData(gd);
+		this.restartButton.setEnabled(false);
+		this.restartButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (targetManager != null) {
-					if (isSelectedActiveComponents) {
-						if (modulesTable.getSelectionIndex() != -1) {
-							String[] m = moduleList.get(modulesTable
-									.getSelectionIndex());
-							String comp = m[0];
-							targetManager.deleteComponentR(comp);
-						}
-					}
+					targetManager.restartR();
+					targetManager = null;
 				}
-				refreshModuleListData();
+				buildData();
+			}
+		});
+
+		this.shutdownButton = new Button(execButtonComposite, SWT.TOP);
+		this.shutdownButton.setText(LABEL_SHUTDOWN_BUTTON);
+		gd = new GridData();
+		gd.widthHint = EXEC_BUTTON_WIDTH;
+		this.shutdownButton.setLayoutData(gd);
+		this.shutdownButton.setEnabled(false);
+		this.shutdownButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (targetManager != null) {
+					targetManager.shutdownR();
+					targetManager = null;
+				}
+				buildData();
 			}
 		});
 
@@ -442,29 +347,26 @@ public class ManagerControlView extends ViewPart {
 
 	private void buildData() {
 		this.isSelectedLoadableModules = false;
-		this.isSelectedLoadedModules = false;
-		this.isSelectedActiveComponents = false;
+		this.isSelectedRtcInstances = false;
+		this.isSelectedManagers = false;
 		refreshData();
 	}
 
 	private void refreshData() {
 		this.loadableModuleButton.setEnabled(false);
-		this.loadedModuleButton.setEnabled(false);
-		this.activeComponentButton.setEnabled(false);
+		this.rtcInstanceButton.setEnabled(false);
+		this.managersButton.setEnabled(false);
 		this.createButton.setEnabled(false);
-		this.forkButton.setEnabled(false);
+		this.configureButton.setEnabled(false);
 		this.restartButton.setEnabled(false);
 		this.shutdownButton.setEnabled(false);
-		this.loadButton.setEnabled(false);
-		this.unloadButton.setEnabled(false);
-		this.urlText.setEnabled(false);
 
 		if (this.targetManager != null) {
 			this.loadableModuleButton.setEnabled(true);
-			this.loadedModuleButton.setEnabled(true);
-			this.activeComponentButton.setEnabled(true);
+			this.rtcInstanceButton.setEnabled(true);
+			this.managersButton.setEnabled(true);
 			this.createButton.setEnabled(true);
-			this.forkButton.setEnabled(true);
+			this.configureButton.setEnabled(true);
 			this.restartButton.setEnabled(true);
 			this.shutdownButton.setEnabled(true);
 		}
@@ -473,57 +375,45 @@ public class ManagerControlView extends ViewPart {
 
 	private void refreshModuleListData() {
 		this.modulesTableViewer.setInput(Collections.EMPTY_LIST);
-		if (this.moduleList == null) {
-			this.moduleList = new ArrayList<String[]>();
+		if (this.profileList == null) {
+			this.profileList = new ArrayList<Profile>();
 		}
-		this.moduleList.clear();
-		this.urlText.setText("");
-		this.urlText.setEnabled(false);
-		this.loadButton.setEnabled(false);
-		this.unloadButton.setEnabled(false);
-		this.deleteComponentButton.setEnabled(false);
+		this.profileList.clear();
 		if (this.targetManager != null) {
 			if (this.isSelectedLoadableModules) {
-				for (String m : this.targetManager.getLoadableModuleFileNames()) {
-					this.moduleList.add(new String[] { m });
+				for (RTM.ModuleProfile module : this.targetManager
+						.getLoadableModuleProfilesR()) {
+					this.profileList.add(new Profile(module));
 				}
-				this.modulesTableViewer.setInput(this.moduleList);
-				this.urlText.setEnabled(true);
-			} else if (this.isSelectedLoadedModules) {
-				for (String m : this.targetManager.getLoadedModuleFileNames()) {
-					this.moduleList.add(new String[] { m });
+				this.modulesTableViewer.setInput(this.profileList);
+			} else if (this.isSelectedRtcInstances) {
+				for (RTC.ComponentProfile component : this.targetManager
+						.getComponentProfilesR()) {
+					this.profileList.add(new Profile(component));
 				}
-				this.modulesTableViewer.setInput(this.moduleList);
-			} else if (this.isSelectedActiveComponents) {
-				for (RTC.ComponentProfile prof : this.targetManager
-						.getComponentProfiles()) {
-					String name = prof.instance_name;
-					String mn = SDOUtil.findValueAsString("manager_name",
-							prof.properties);
-					mn = (mn == null) ? "" : mn;
-					this.moduleList.add(new String[] { name, mn });
+				this.modulesTableViewer.setInput(this.profileList);
+			} else if (this.isSelectedManagers) {
+				this.profileList.add(new Profile(this.targetManager.getProfileR()));
+				for (RTCManager manager : this.targetManager
+						.getSlaveManagersR()) {
+					this.profileList.add(new Profile(manager.getProfileR()));
 				}
-				this.modulesTableViewer.setInput(this.moduleList);
+				this.modulesTableViewer.setInput(this.profileList);
 			}
 		}
-		updateEnableLoadButton();
+		updateEnableButton();
 	}
 
-	private void updateEnableLoadButton() {
-		this.loadButton.setEnabled(false);
-		this.unloadButton.setEnabled(false);
-		this.deleteComponentButton.setEnabled(false);
+	private void updateEnableButton() {
+		this.configureButton.setEnabled(false);
+		this.restartButton.setEnabled(false);
+		this.shutdownButton.setEnabled(false);
 		if (this.modulesTable.getSelectionIndex() != -1) {
-			if (this.isSelectedLoadableModules) {
-				this.loadButton.setEnabled(true);
-			} else if (this.isSelectedLoadedModules) {
-				this.unloadButton.setEnabled(true);
-			} else if (this.isSelectedActiveComponents) {
-				this.deleteComponentButton.setEnabled(true);
+			if (this.isSelectedManagers) {
+				this.configureButton.setEnabled(true);
+				this.restartButton.setEnabled(true);
+				this.shutdownButton.setEnabled(true);
 			}
-		} else if (this.urlText.getText().length() > 0) {
-			// URL指定の場合
-			this.loadButton.setEnabled(true);
 		}
 	}
 
@@ -531,14 +421,162 @@ public class ManagerControlView extends ViewPart {
 	@Override
 	public Object getAdapter(Class adapter) {
 		if (adapter.equals(IPropertySheetPage.class)) {
-			return new RtcPropertySheetPage();
+			return new PropertySheetPage();
 		}
 		return super.getAdapter(adapter);
 	}
 
-	/** モジュール/コンポーネント一覧表示のLabelProvider */
-	public class ModuleLabelProvider extends LabelProvider implements
+	/** 各種プロファイルを格納するラッパ */
+	public static class Profile implements IAdaptable {
+
+		private RTM.ModuleProfile module = null;
+		private RTC.ComponentProfile component = null;
+		private RTM.ManagerProfile manager = null;
+
+		Profile(RTM.ModuleProfile module) {
+			this.module = module;
+		}
+
+		Profile(RTC.ComponentProfile component) {
+			this.component = component;
+		}
+
+		Profile(RTM.ManagerProfile manager) {
+			this.manager = manager;
+		}
+
+		public boolean hasModuleProfile() {
+			return this.module != null;
+		}
+
+		public boolean hasComponentProfile() {
+			return this.component != null;
+		}
+
+		public boolean hasManagerProfile() {
+			return this.manager != null;
+		}
+
+		public RTM.ModuleProfile getModuleProfile() {
+			return this.module;
+		}
+
+		public RTC.ComponentProfile getComponentProfile() {
+			return this.component;
+		}
+
+		public RTM.ManagerProfile getManagerProfile() {
+			return this.manager;
+		}
+
+		/** モジュールプロファイル: ファイルパスを取得します */
+		public String getModule_file_path() {
+			return SDOUtil.findValueAsString("module_file_path",
+					this.module.properties);
+		}
+
+		/** コンポーネントプロファイル: インスタンス名を取得します */
+		public String getComponent_instance_name() {
+			return this.component.instance_name;
+		}
+
+		/** コンポーネントプロファイル: マネージャ名を取得します */
+		public String getComponent_manager_name() {
+			return SDOUtil.findValueAsString("manager_name",
+					this.component.properties);
+		}
+
+		/** マネージャプロファイル: マネージャ名を取得します */
+		public String getManager_name() {
+			return SDOUtil.findValueAsString("instance_name",
+					this.manager.properties);
+		}
+
+		/** マネージャプロファイル: 言語を取得します */
+		public String getManager_language() {
+			return SDOUtil.findValueAsString("language",
+					this.manager.properties);
+//			return SDOUtil.findValueAsString("supported_languages",
+//					this.manager.properties);
+		}
+
+		@SuppressWarnings("rawtypes")
+		@Override
+		public Object getAdapter(Class adapter) {
+			if (adapter.equals(IPropertySource.class)) {
+				return new ProfilePropertySource(this);
+			}
+			return null;
+		}
+
+	}
+	
+	/** 各種プロファイルのプロパティ表示のためのPropertySource */
+	public static class ProfilePropertySource implements IPropertySource {
+
+		private Profile profile;
+
+		ProfilePropertySource(Profile profile) {
+			this.profile = profile;
+		}
+
+		@Override
+		public Object getEditableValue() {
+			return null;
+		}
+
+		@Override
+		public IPropertyDescriptor[] getPropertyDescriptors() {
+			if (this.profile == null) {
+				return new IPropertyDescriptor[0];
+			}
+			_SDOPackage.NameValue[] props = new _SDOPackage.NameValue[0];
+			if (this.profile.hasModuleProfile()) {
+				props = this.profile.getModuleProfile().properties;
+			} else if (this.profile.hasComponentProfile()) {
+				props = this.profile.getComponentProfile().properties;
+			} else if (this.profile.hasManagerProfile()) {
+				props = this.profile.getManagerProfile().properties;
+			}
+			List<IPropertyDescriptor> descs = new ArrayList<>();
+			for (_SDOPackage.NameValue nv : props) {
+				descs.add(new TextPropertyDescriptor(nv.name, nv.name));
+			}
+			return descs.toArray(new IPropertyDescriptor[0]);
+		}
+
+		@Override
+		public Object getPropertyValue(Object id) {
+			_SDOPackage.NameValue[] props = new _SDOPackage.NameValue[0];
+			if (this.profile.hasModuleProfile()) {
+				props = this.profile.getModuleProfile().properties;
+			} else if (this.profile.hasComponentProfile()) {
+				props = this.profile.getComponentProfile().properties;
+			} else if (this.profile.hasManagerProfile()) {
+				props = this.profile.getManagerProfile().properties;
+			}
+			return SDOUtil.findValueAsString((String) id, props);
+		}
+
+		@Override
+		public boolean isPropertySet(Object id) {
+			return false;
+		}
+
+		@Override
+		public void resetPropertyValue(Object id) {
+		}
+
+		@Override
+		public void setPropertyValue(Object id, Object value) {
+		}
+
+	}
+	
+	/** 各種プロファイル一覧表示のLabelProvider */
+	public class ProfileLabelProvider extends LabelProvider implements
 			ITableLabelProvider, ITableColorProvider {
+
 		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
@@ -546,8 +584,32 @@ public class ManagerControlView extends ViewPart {
 
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
-			String[] entry = (String[]) element;
-			return (columnIndex < entry.length) ? entry[columnIndex] : "";
+			Profile profile = (Profile) element;
+			if (profile.hasModuleProfile()) {
+				if (columnIndex == 0) {
+					return profile.getModule_file_path();
+				} else {
+					return "";
+				}
+			} else if (profile.hasComponentProfile()) {
+				if (columnIndex == 0) {
+					return profile.getComponent_instance_name();
+				} else if (columnIndex == 1) {
+					return profile.getComponent_manager_name();
+				} else {
+					return "";
+				}
+			} else if (profile.hasManagerProfile()) {
+				if (columnIndex == 0) {
+					return profile.getManager_name();
+				} else if (columnIndex == 1) {
+					return profile.getManager_language();
+				} else {
+					return "";
+				}
+			} else {
+				return "";
+			}
 		}
 
 		@Override
@@ -559,12 +621,12 @@ public class ManagerControlView extends ViewPart {
 		public Color getForeground(Object element, int columnIndex) {
 			return null;
 		}
+
 	}
 
 	private ISelectionListener selectionListener = new ISelectionListener() {
 		@Override
 		public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-			targetManager = null;
 			if (selection instanceof IStructuredSelection) {
 				IStructuredSelection ss = (IStructuredSelection) selection;
 				Object firstElement = ss.getFirstElement();
@@ -573,9 +635,9 @@ public class ManagerControlView extends ViewPart {
 				if (adapter != null) {
 					targetManager = (RTCManager) adapter;
 					targetManager.synchronizeManually();
+					buildData();
 				}
 			}
-			buildData();
 		}
 	};
 
@@ -592,26 +654,7 @@ public class ManagerControlView extends ViewPart {
 				.addSelectionListener(this.selectionListener);
 
 		// SelectionProviderを登録(プロパティ・ビュー連携)
-		getSite().setSelectionProvider(new ISelectionProvider() {
-			public void addSelectionChangedListener(
-					ISelectionChangedListener listener) {
-			}
-
-			public ISelection getSelection() {
-				StructuredSelection result = null;
-				if (targetManager != null) {
-					result = new StructuredSelection(targetManager);
-				}
-				return result;
-			}
-
-			public void removeSelectionChangedListener(
-					ISelectionChangedListener listener) {
-			}
-
-			public void setSelection(ISelection selection) {
-			}
-		});
+		getSite().setSelectionProvider(this.modulesTableViewer);
 	}
 
 }
