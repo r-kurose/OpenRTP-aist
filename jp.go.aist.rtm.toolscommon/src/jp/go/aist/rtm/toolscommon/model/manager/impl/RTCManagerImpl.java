@@ -6,9 +6,7 @@
  */
 package jp.go.aist.rtm.toolscommon.model.manager.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
@@ -35,7 +33,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -923,7 +920,8 @@ public class RTCManagerImpl extends CorbaWrapperObjectImpl implements
 				.get_configuration()) {
 			NameValue nv = ComponentFactory.eINSTANCE.createNameValue();
 			nv.setName(n.name);
-			nv.setValue(n.value.toString());
+//			nv.setValue(n.value.toString());
+			nv.setValue(SDOUtil.toAnyString(n.value));
 			this.configuratoins.add(nv);
 		}
 		return this.configuratoins;

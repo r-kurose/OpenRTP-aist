@@ -811,19 +811,51 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 
 	// ベンドポイントの文字列表現からをMap表現のエントリを1つ取り出して、セットする
 	private String populatePoint(Map<Integer, Point> result, String content) {
-		String key = content.substring(0, content.indexOf(":"));
-		String value = content.substring(content.indexOf(":") + 1).trim();
-		String x = value.substring(1, value.indexOf(",")).trim();
-		value = value.substring(value.indexOf(",") + 1).trim();
-		String y = value.substring(0, value.indexOf(")")).trim();
+		int pos = content.indexOf(":");
+		if (pos < 0) {
+			if (content.indexOf(",") >= 0) {
+				return content.substring(content.indexOf(",") + 1).trim();
+			} else {
+				return "";
+			}
+		}
+		String key = content.substring(0, pos).trim();
+		String value = content.substring(pos + 1).trim();
+		if (key.indexOf(",") >= 0) {
+			return content.substring(content.indexOf(",") + 1).trim();
+		}
+		// インデックス部の解析
+		Integer keyi = null;
+		try {
+			keyi = new Integer(key);
+		} catch (NumberFormatException e) {
+			return content.substring(content.indexOf(",") + 1).trim();
+		}
+		// 座標部の解析
+		Integer xi, yi = null;
+		if (value.startsWith("(")) {
+			value = value.substring(1).trim();
+		}
+		pos = value.indexOf(",");
+		try {
+			xi = new Integer(value.substring(0, pos).trim());
+		} catch (NumberFormatException e) {
+			return value.substring(pos + 1).trim();
+		}
+		value = value.substring(pos + 1).trim();
+		pos = value.indexOf(")");
+		try {
+			yi = new Integer(value.substring(0, pos).trim());
+		} catch (NumberFormatException e) {
+			return value;
+		}
+		value = value.substring(pos + 1).trim();
 
 		Point point = new Point();
-		point.setX(Integer.parseInt(x));
-		point.setY(Integer.parseInt(y));
-		result.put(new Integer(key), point);
-
-		if (value.indexOf(",") < 0) return "";
-		return value.substring(value.indexOf(",") + 1).trim();
+		point.setX(xi);
+		point.setY(yi);
+		result.put(keyi, point);
+		return value;
 	}
 
 	// RTSプロファイルからEMFコンポーネントを復元する
@@ -1207,19 +1239,21 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	private Map<Integer, Point> getBendPoint(
 			List<org.openrtp.namespaces.rts.version02.Property> properties) {
 		String bendPointString = findProperyValue(KEY_BEND_POINT, properties);
-		if (bendPointString == null) {
-			return null;
-		}
 		return convertFromBendPointString(bendPointString);
 	}
 
 	// ベンドポイントの文字列表現をMap表現に変換する
 	public Map<Integer, Point> convertFromBendPointString(String bendPoint) {
 		if (StringUtils.isBlank(bendPoint)) {
-			return null;
+			return new HashMap<Integer, Point>();
 		}
 		String content = bendPoint.trim();
-		content = content.substring(1, content.length() - 1).trim(); // { }除去
+		if (content.startsWith("{")) {
+			content = content.substring(1).trim(); // "{"除去
+		}
+		if (content.endsWith("}")) {
+			content = content.substring(0, content.length() - 1).trim(); // "}"除去
+		}
 		Map<Integer, Point> result = new HashMap<Integer, Point>();
 		while (content.length() > 0) {
 			content = populatePoint(result, content);
