@@ -263,8 +263,9 @@ public class ManagerControlView extends ViewPart {
 				dialog.setModuleProfileList(targetManager
 						.getLoadableModuleProfilesR());
 				//
+				buildManagerData();
 				List<String> managerList = new ArrayList<String>();
-				for(Profile manager : profileList) {
+				for (Profile manager : profileList) {
 					managerList.add(manager.getManager_name());
 				}
 				dialog.setManagerNameList(managerList);
@@ -409,22 +410,31 @@ public class ManagerControlView extends ViewPart {
 				this.modulesTableViewer.setInput(this.profileList);
 
 			} else if (this.isSelectedManagers) {
-				if(managerList == null) {
-					managerList = new ArrayList<RTCManager>();
-				}
-				managerList.clear();
-				
-				this.profileList.add(new Profile(this.targetManager.getProfileR()));
-				managerList.add(targetManager);
-				for (RTCManager manager : this.targetManager
-						.getSlaveManagersR()) {
-					this.profileList.add(new Profile(manager.getProfileR()));
-					managerList.add(manager);
-				}
-				this.modulesTableViewer.setInput(this.profileList);
+				buildManagerData();
 			}
 		}
 		updateEnableButton();
+	}
+
+	private void buildManagerData() {
+		if(managerList == null) {
+			managerList = new ArrayList<RTCManager>();
+		}
+		managerList.clear();
+		//
+		if (this.profileList == null) {
+			this.profileList = new ArrayList<Profile>();
+		}
+		this.profileList.clear();
+		
+		this.profileList.add(new Profile(this.targetManager.getProfileR()));
+		managerList.add(targetManager);
+		for (RTCManager manager : this.targetManager
+				.getSlaveManagersR()) {
+			this.profileList.add(new Profile(manager.getProfileR()));
+			managerList.add(manager);
+		}
+		this.modulesTableViewer.setInput(this.profileList);
 	}
 
 	private void updateEnableButton() {
