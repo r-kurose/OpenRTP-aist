@@ -99,6 +99,7 @@ public class ManagerControlView extends ViewPart {
 
 	private RTCManager targetManager;
 	private List<Profile> profileList;
+	private List<RTCManager> managerList; 
 
 	public ManagerControlView() {
 	}
@@ -263,8 +264,9 @@ public class ManagerControlView extends ViewPart {
 						.getLoadableModuleProfilesR());
 				//
 				List<String> managerList = new ArrayList<String>();
-				managerList.add(SDOUtil.findValueAsString("instance_name", targetManager.getManagerProfile().properties));
-				managerList.addAll(targetManager.getSlaveManagerNames());
+				for(Profile manager : profileList) {
+					managerList.add(manager.getManager_name());
+				}
 				dialog.setManagerNameList(managerList);
 				int selectedIndex = modulesTable.getSelectionIndex();
 				if (selectedIndex != -1 && isSelectedManagers) {
@@ -288,17 +290,18 @@ public class ManagerControlView extends ViewPart {
 		this.configureButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (targetManager == null) {
+				RTCManager target = targetManager;
+				int selectedIndex = modulesTable.getSelectionIndex();
+				if(selectedIndex < 0 || selectedIndex < managerList.size()) {
+					target = managerList.get(selectedIndex);
+				}
+				if (target == null) {
 					return;
 				}
 				ManagerConfigurationDialog dialog = new ManagerConfigurationDialog(
 						getSite().getShell());
-				dialog.setManager(targetManager);
-				if (dialog.open() == IDialogConstants.OK_ID) {
-//					String cmd = dialog.getParameter();
-//					LOGGER.info("create command: <{}>", cmd);
-//					targetManager.createComponentR(cmd);
-				}
+				dialog.setManager(target);
+				dialog.open();
 			}
 		});
 
@@ -311,10 +314,15 @@ public class ManagerControlView extends ViewPart {
 		this.restartButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (targetManager != null) {
-					targetManager.restartR();
-					targetManager = null;
+				RTCManager target = targetManager;
+				int selectedIndex = modulesTable.getSelectionIndex();
+				if(selectedIndex < 0 || selectedIndex < managerList.size()) {
+					target = managerList.get(selectedIndex);
 				}
+				if (target == null) {
+					return;
+				}
+				target.restartR();
 				buildData();
 			}
 		});
@@ -328,10 +336,16 @@ public class ManagerControlView extends ViewPart {
 		this.shutdownButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (targetManager != null) {
-					targetManager.shutdownR();
-					targetManager = null;
+				RTCManager target = targetManager;
+				int selectedIndex = modulesTable.getSelectionIndex();
+				if(selectedIndex < 0 || selectedIndex < managerList.size()) {
+					target = managerList.get(selectedIndex);
 				}
+				if (target == null) {
+					return;
+				}
+				
+				target.shutdownR();
 				buildData();
 			}
 		});
@@ -386,17 +400,26 @@ public class ManagerControlView extends ViewPart {
 					this.profileList.add(new Profile(module));
 				}
 				this.modulesTableViewer.setInput(this.profileList);
+
 			} else if (this.isSelectedRtcInstances) {
 				for (RTC.ComponentProfile component : this.targetManager
 						.getComponentProfilesR()) {
 					this.profileList.add(new Profile(component));
 				}
 				this.modulesTableViewer.setInput(this.profileList);
+
 			} else if (this.isSelectedManagers) {
+				if(managerList == null) {
+					managerList = new ArrayList<RTCManager>();
+				}
+				managerList.clear();
+				
 				this.profileList.add(new Profile(this.targetManager.getProfileR()));
+				managerList.add(targetManager);
 				for (RTCManager manager : this.targetManager
 						.getSlaveManagersR()) {
 					this.profileList.add(new Profile(manager.getProfileR()));
+					managerList.add(manager);
 				}
 				this.modulesTableViewer.setInput(this.profileList);
 			}
