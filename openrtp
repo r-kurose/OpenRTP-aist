@@ -293,7 +293,7 @@ find_OPENRTP_DIR()
     for d in $openrtp_dir ; do
         if test -f $d/eclipse ; then
             OPENRTP_DIR=$d
-            OPENRTP_EXECUTABLE=$d/eclipse
+            OPENRTP_EXECUTABLE="./eclipse"
             debug_echo "OPENRTP_DIR: $OPENRTP_DIR"
             debug_echo "OPENRTP_EXECUTABLE: $OPENRTP_EXECUTABLE"
             return 0
@@ -331,4 +331,5 @@ fi
 find_OPENRTP_DIR
 
 export GDK_NATIVE_WINDOWS=1
+cd $OPENRTP_DIR
 $OPENRTP_EXECUTABLE $ECLIPSE_ARGS -vmargs -Djava.util.logging.config.file=$OPENRTP_DIR/logger.properties
