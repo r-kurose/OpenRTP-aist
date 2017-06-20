@@ -164,7 +164,7 @@ get_version()
 {
     if test ! -f ./version.txt ; then
         echo "version.txt file not found. Aborting."
-        exit 1
+        return 1 
     fi
     if test "x$VERSION" = "x" || test "x$PROJECT_VERSION" = "x" ; then
         echo "Environment variable VERSION/PROJECT_VERSION is not set."
@@ -208,7 +208,7 @@ find_eclipsehome()
         done
     done
     echo "eclipse not found. Please install eclipse and set ECLIPSE_HOME."
-    exit 1
+    return 1
 }
 
 #------------------------------------------------------------
@@ -222,7 +222,7 @@ find_equinox()
         return 0
     done
     echo "Equinox Launcher jar file not found. Aborting."
-    exit 1
+    return 1
 }
 
 #------------------------------------------------------------
@@ -232,7 +232,7 @@ download_eclipse()
 {
     if test $# -ne 1 ; then
         echo "download_eclipse should have one argument. Aborting."
-        exit 1
+        return 1
     fi
     if test ! -d $WORK_DIR ; then
         mkdir -p $WORK_DIR
@@ -243,7 +243,7 @@ download_eclipse()
     if test "x$FILE_NAME" = "x" ; then
         echo "Invalid URL has been given: $URL"
         echo "Aborting..."
-        exit 1
+        return 1
     fi
 
     suffix=`echo $fname | sed 's/eclipse-.*\.[0-9]-//'`
@@ -259,7 +259,7 @@ download_eclipse()
     curl -o "$FILE_NAME" "$URL"
     if test $? -ne 0 ; then
         echo "curl failed. Aborting..."
-        exit 1
+        return 1
     fi
     file_info=`ls $FILE_NAME`
     echo "Donwload done: $file_info"
@@ -278,15 +278,12 @@ extract_eclipse()
         echo "Extracting zip file..."
         unzip $FILE_NAME -d $WORK_DIR >/dev/null 2>&1 && return 0
         echo "Failed to extract zip file: $FILE_NAME. Aborting..."
-        exit 1
     elif test ! "x$tar" = "x" ; then
         echo "Extracting tar.gz file..."
         tar xvzf $FILE_NAME -C $WORK_DIR >/dev/null 2>&1 && return 0
         echo "Failed to extract tar.gz file: $FILE_NAME. Aborting..."
-        exit 1
     else
         echo "Unknown file extention. Aborting..."
-        exit 1
     fi
     return 1
 }
@@ -316,9 +313,10 @@ install_plugins()
         $cmd $app_opt $dest_opt $repo_opt -installIU $p
         if test $? -ne 0 ; then
             echo "Plugin: $p installation failed. Aborting."
-            return 0
+            return 1 
         fi
     done
+    return 0
 }
 
 #------------------------------------------------------------
@@ -350,10 +348,11 @@ install_rtmtools()
         info="$WORK_DIR/eclipse/Eclipse.app/Contents/Info.plist"
         sed -i -e 's/<string>eclipse<\/string>/<string>openrtp<\/string>/g' $info
     fi
+    return 0
 }
 
 #------------------------------------------------------------
-# insall_rtmtools
+# insall_rtmtools_nl
 #
 # Installing OpenRTP language packages
 #------------------------------------------------------------
@@ -369,9 +368,10 @@ install_rtmtools_nl()
         $cmd $app_opt $dest_opt $repo_opt -installIU $p
         if test $? -ne 0 ; then
             echo "Plugin: $p installation failed. Aborting."
-            return 0
+            return 1 
         fi
     done
+    return 0
 }
 
 #------------------------------------------------------------
@@ -383,7 +383,7 @@ create_package()
 {
     if test $# -ne 1 ; then
         echo "create_package needs at least one argument."
-        exit 1
+        return 1
     fi
     pkg_name=`basename $1`
     zip=`echo $pkg_name | grep '[zZ][iI][pP]'`
@@ -400,7 +400,7 @@ create_package()
         cd $basedir
         if test $? -ne 0 ;then
             echo "Failed to archive zip file: $pkg_name. Aborting..."
-            exit 1
+            return 1
         fi
     elif test ! "x$tar" = "x" ; then
         echo "Creating tar.gz file..."
@@ -410,11 +410,11 @@ create_package()
         cd $basedir
         if test $? -ne 0 ; then
             echo "Failed to archive tar.gz file: $pkg_name. Aborting..."
-            exit 1
+            return 1
         fi
     else
         echo "Unknown file extention. Aborting..."
-        exit 1
+        return 1
     fi
     if test ! -d $PKG_DIR ; then
         mkdir -p $PKG_DIR
@@ -440,7 +440,7 @@ download_langpack()
     fi
     if test $? -ne 0 ; then
         echo "Downloading language pack failed. Aborting."
-        exit 1
+        return 1
     fi
     return 0
 }
@@ -457,7 +457,7 @@ apply_langpack()
         unzip -o $WORK_DIR/$LANGPACK_FILE_NAME -d $WORK_DIR/eclipse
         if test $? -ne 0 ; then
             echo "Unzipping $LANGPACK_FILE_NAME failed. Aborting."
-            exit 1
+            return 1
         fi
 
         echo "Applying langpack: Activating pleiades plugin."
@@ -480,13 +480,13 @@ apply_langpack()
         patch $pleiades_conf/pleiades-config.xml pleiades-config.xml.patch
         if test $? -ne 0 ; then
             echo "Patching failed. Aborting."
-            exit 1
+            return 1
         fi
     else
         unzip -o $WORK_DIR/$LANGPACK_FILE_NAME -d $WORK_DIR
         if test $? -ne 0 ; then
             echo "Unzipping $LANGPACK_FILE_NAME failed. Aborting."
-            exit 1
+            return 1
         fi
     fi
     echo "done"
@@ -509,26 +509,26 @@ cleanup_workdir()
 export LC_ALL=C
 cd `dirname $0`
 
-get_version
+get_version || { exit 1 ; } 
 
-find_eclipsehome
-find_equinox
+find_eclipsehome || { exit 1 ; }
+find_equinox || { exit 1 ; }
 
 for os in $OS ; do
     for bit in $BIT ; do
         eval "url=\$ECLIPSE_${os}_${bit}"
-        download_eclipse $url
-        extract_eclipse
-        install_plugins
-        install_rtmtools
+        download_eclipse $url || { exit 1 ; }
+        extract_eclipse || { exit 1 ; }
+        install_plugins || { exit 1 ; }
+        install_rtmtools || { exit 1 ; }
         # English version
-        create_package $PKG_NAME_EN
+        create_package $PKG_NAME_EN || { exit 1 ; }
 
         # Japanese version
-        download_langpack
-        apply_langpack
-        install_rtmtools_nl
-        create_package $PKG_NAME_JA
+        download_langpack || { exit 1 ; }
+        apply_langpack || { exit 1 ; }
+        install_rtmtools_nl || { exit 1 ; }
+        create_package $PKG_NAME_JA || { exit 1 ; }
 
         cleanup_workdir
     done
