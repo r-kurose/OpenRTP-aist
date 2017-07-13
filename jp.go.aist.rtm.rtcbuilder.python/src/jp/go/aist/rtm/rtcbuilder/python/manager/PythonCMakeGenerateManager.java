@@ -18,7 +18,6 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 	static final String TEMPLATE_PATH_PYTHON = "jp/go/aist/rtm/rtcbuilder/python/template";
 
 	public PythonCMakeGenerateManager() {
-		DOXYGEN_FILE_PATTERNS = "*.py *.idl";
 	}
 
 	@Override
