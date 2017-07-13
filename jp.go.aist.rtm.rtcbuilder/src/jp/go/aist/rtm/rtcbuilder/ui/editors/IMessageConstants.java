@@ -340,7 +340,11 @@ public interface IMessageConstants {
 	public static final String DOCUMENT_HINT_COMPONENT_DESC = Messages.getString("IMessageConstants.DOCUMENT_HINT_COMPONENT_DESC"); //$NON-NLS-1$
 	public static final String DOCUMENT_HINT_ETC_TITLE = Messages.getString("IMessageConstants.DOCUMENT_HINT_ETC_TITLE"); //$NON-NLS-1$
 	public static final String DOCUMENT_HINT_ETC_DESC = Messages.getString("IMessageConstants.DOCUMENT_HINT_ETC_DESC"); //$NON-NLS-1$
-
+	public static final String DOCUMENT_HINT_CREATOR_TITLE = Messages.getString("IMessageConstants.DOCUMENT_HINT_CREATOR_TITLE"); //$NON-NLS-1$
+	public static final String DOCUMENT_HINT_CREATOR_DESC_P1 = Messages.getString("IMessageConstants.DOCUMENT_HINT_CREATOR_DESC_P1"); //$NON-NLS-1$
+	public static final String DOCUMENT_HINT_CREATOR_DESC_P2 = Messages.getString("IMessageConstants.DOCUMENT_HINT_CREATOR_DESC_P2"); //$NON-NLS-1$
+	public static final String DOCUMENT_HINT_CREATOR_DESC_P3 = Messages.getString("IMessageConstants.DOCUMENT_HINT_CREATOR_DESC_P3"); //$NON-NLS-1$
+	public static final String DOCUMENT_HINT_CREATOR_DESC = StringUtil.connectMessageWithSepalator( new String[]{DOCUMENT_HINT_CREATOR_DESC_P1, DOCUMENT_HINT_CREATOR_DESC_P2, DOCUMENT_HINT_CREATOR_DESC_P3});
 
 	public static final String LANGUAGE_SECTION = Messages.getString("IMessageConstants.LANGUAGE_SECTION"); //$NON-NLS-1$
 	public static final String LANGUAGE_LANG_TITLE = Messages.getString("IMessageConstants.LANGUAGE_LANG_TITLE"); //$NON-NLS-1$

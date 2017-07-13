@@ -1,8 +1,7 @@
-package jp.go.aist.rtm.rtcbuilder.ui.editors;
+	package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
-import jp.go.aist.rtm.rtcbuilder.ui.preference.DocumentPreferenceManager;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -60,6 +59,7 @@ public class DocumentEditorFormPage extends AbstractEditorFormPage {
 		Composite composite = createHintSectionBase(toolkit, form, 3);
 		createHintLabel(IMessageConstants.DOCUMENT_HINT_COMPONENT_TITLE, IMessageConstants.DOCUMENT_HINT_COMPONENT_DESC, toolkit, composite);
 		createHintLabel(IMessageConstants.DOCUMENT_HINT_ETC_TITLE, IMessageConstants.DOCUMENT_HINT_ETC_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.DOCUMENT_HINT_CREATOR_TITLE, IMessageConstants.DOCUMENT_HINT_CREATOR_DESC, toolkit, composite);
 	}
 	
 	private void createOverViewSection(FormToolkit toolkit, ScrolledForm form) {
