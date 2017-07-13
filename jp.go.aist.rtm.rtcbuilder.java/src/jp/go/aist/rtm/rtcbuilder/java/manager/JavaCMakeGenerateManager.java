@@ -20,7 +20,6 @@ public class JavaCMakeGenerateManager extends CMakeGenerateManager {
 	static final String TEMPLATE_PATH_JAVA = "jp/go/aist/rtm/rtcbuilder/java/template";
 
 	public JavaCMakeGenerateManager() {
-		DOXYGEN_FILE_PATTERNS = "*.java *.idl";
 	}
 
 	@Override
