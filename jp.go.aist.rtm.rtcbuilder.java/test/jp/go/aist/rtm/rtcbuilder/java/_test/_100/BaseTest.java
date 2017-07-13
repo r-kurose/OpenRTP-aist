@@ -165,7 +165,7 @@ public class BaseTest extends TestBase {
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
 		//
-		checkCode(result, resourceDir, ".classpath");
+//		checkCode(result, resourceDir, ".classpath");
 		checkCode(result, resourceDir, "build_foo.xml");
 	}
 
@@ -197,7 +197,7 @@ public class BaseTest extends TestBase {
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
 		//
-		checkCode(result, resourceDir, ".classpath");
+//		checkCode(result, resourceDir, ".classpath");
 		checkCode(result, resourceDir, "build_foo.xml");
 	}
 
@@ -226,7 +226,7 @@ public class BaseTest extends TestBase {
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
 		//
-		checkCode(result, resourceDir, ".classpath");
+//		checkCode(result, resourceDir, ".classpath");
 		checkCode(result, resourceDir, "build_foo.xml");
 	}
 
@@ -254,7 +254,7 @@ public class BaseTest extends TestBase {
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
 		//
-		checkCode(result, resourceDir, ".classpath");
+//		checkCode(result, resourceDir, ".classpath");
 		checkCode(result, resourceDir, "build_foo.xml");
 	}
 
@@ -278,7 +278,7 @@ public class BaseTest extends TestBase {
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
 		//
-		checkCode(result, resourceDir, ".classpath");
+		//checkCode(result, resourceDir, ".classpath");
 		checkCode(result, resourceDir, "build_foo.xml");
 	}
 
