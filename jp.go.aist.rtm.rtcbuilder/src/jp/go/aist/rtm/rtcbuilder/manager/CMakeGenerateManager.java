@@ -22,10 +22,7 @@ public class CMakeGenerateManager extends GenerateManager {
 
 	protected static final String MSG_ERROR_GENERATE_FILE = IRTCBMessageConstants.ERROR_CODE_GENERATION;
 
-	protected String DOXYGEN_FILE_PATTERNS;
-
 	public CMakeGenerateManager() {
-		DOXYGEN_FILE_PATTERNS = "*.cpp *.h *.idl";
 	}
 
 	@Override
@@ -69,7 +66,6 @@ public class CMakeGenerateManager extends GenerateManager {
 		map.put("template", TEMPLATE_PATH);
 		map.put("rtcParam", rtcParam);
 		map.put("helper", new TemplateHelper());
-		map.put("DOXYGEN_FILE_PATTERNS", DOXYGEN_FILE_PATTERNS);
 		return map;
 	}
 

@@ -2,11 +2,11 @@ package jp.go.aist.rtm.rtcbuilder.template;
 
 import java.io.File;
 
+import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigParameterParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
-
 import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
 import static jp.go.aist.rtm.rtcbuilder.util.StringUtil.*;
 
@@ -115,6 +115,10 @@ public class TemplateHelper {
 		return source.contains("::");
 	}
 
+	public boolean isCpp(RtcParam source) {
+		return source.getLangList().contains(IRtcBuilderConstants.LANG_CPP);
+	}
+	
 	public static String getServiceImplSuffix() {
 		return DEFAULT_SVC_IMPL_SUFFIX;
 	}
