@@ -15,7 +15,11 @@ DISSECT_VERSION()
 set(PROJECT_SHORT_VER ${dol}{PROJECT_VERSION_MAJOR}${dol}{PROJECT_VERSION_MINOR}${dol}{PROJECT_VERSION_REVISION})
 set(PROJECT_DESCRIPTION "${rtcParam.description}")
 set(PROJECT_VENDOR "${rtcParam.vender}")
+#if( ${rtcParam.docCreator.length()} > 0 )
+set(PROJECT_MAINTAINER "${rtcParam.docCreator}")
+#else
 set(PROJECT_MAINTAINER "unknown")
+#end
 set(PROJECT_TYPE "c++/${rtcParam.category}")
 
 find_package(OpenRTM)
