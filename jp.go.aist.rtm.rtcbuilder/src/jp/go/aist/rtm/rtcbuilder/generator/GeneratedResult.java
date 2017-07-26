@@ -7,6 +7,7 @@ public class GeneratedResult {
 	private String name;
 	private String code = "";
 	private String encode = "";
+	private boolean isNotBom = false;
 
 	public GeneratedResult() {
 		this.name = "";
@@ -39,4 +40,12 @@ public class GeneratedResult {
 	public void setEncode(String encode) {
 		this.encode = encode;
 	}
+
+	public boolean isNotBom() {
+		return isNotBom;
+	}
+	public void setNotBom(boolean isNotBom) {
+		this.isNotBom = isNotBom;
+	}
+	
 }

@@ -150,20 +150,26 @@ public class CMakeGenerateManager extends GenerateManager {
 	public GeneratedResult generateCMakeLists(Map<String, Object> contextMap) {
 		String outfile = "CMakeLists.txt";
 		String infile = "cmake/CMakeLists.txt.vsl";
-		return generate(infile, outfile, contextMap);
+		GeneratedResult result = generate(infile, outfile, contextMap); 
+		result.setNotBom(true);
+		return result;
 	}
 
 	// 1.0系 (CMake/cmake)
 	public GeneratedResult generateCmakeCMakeLists(Map<String, Object> contextMap) {
 		String outfile = "cmake/CMakeLists.txt";
 		String infile = "cmake/cmake/CMakeCMakeLists.txt.vsl";
-		return generate(infile, outfile, contextMap);
+		GeneratedResult result = generate(infile, outfile, contextMap); 
+		result.setNotBom(true);
+		return result;
 	}
 	
 	public GeneratedResult generateCmakeCPackOption(Map<String, Object> contextMap) {
 		String outfile = "cmake/cpack_options.cmake.in";
 		String infile = "cmake/cmake/cpack_options_cmake.in.vsl";
-		return generate(infile, outfile, contextMap);
+		GeneratedResult result = generate(infile, outfile, contextMap); 
+		result.setNotBom(true);
+		return result;
 	}
 	
 	public GeneratedResult generateResourceLicenseRTF(
@@ -177,14 +183,18 @@ public class CMakeGenerateManager extends GenerateManager {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = "cmake/" + rtcParam.getName().toLowerCase() + "-config-version.cmake.in";
 		String infile = "cmake/cmake/config_version.cmake.in.vsl";
-		return generate(infile, outfile, contextMap);
+		GeneratedResult result = generate(infile, outfile, contextMap); 
+		result.setNotBom(true);
+		return result;
 	}
 	
 	public GeneratedResult generateCmakeConfig(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = "cmake/" + rtcParam.getName().toLowerCase() + "-config.cmake.in";
 		String infile = "cmake/cmake/config.cmake.in.vsl";
-		return generate(infile, outfile, contextMap);
+		GeneratedResult result = generate(infile, outfile, contextMap); 
+		result.setNotBom(true);
+		return result;
 	}
 
 	public GeneratedResult generateCmakePcIn(Map<String, Object> contextMap) {
@@ -198,7 +208,9 @@ public class CMakeGenerateManager extends GenerateManager {
 			Map<String, Object> contextMap) {
 		String outfile = "cmake/uninstall_target.cmake.in";
 		String infile = "cmake/cmake/cmake_uninstall.cmake.in.vsl";
-		return generate(infile, outfile, contextMap);
+		GeneratedResult result = generate(infile, outfile, contextMap); 
+		result.setNotBom(true);
+		return result;
 	}
 
 	public GeneratedResult generateUtilIn(
@@ -212,7 +224,9 @@ public class CMakeGenerateManager extends GenerateManager {
 	public GeneratedResult generateDocCMakeLists(Map<String, Object> contextMap) {
 		String outfile = "doc/CMakeLists.txt";
 		String infile = "cmake/doc/DocCMakeLists.txt.vsl";
-		return generate(infile, outfile, contextMap);
+		GeneratedResult result = generate(infile, outfile, contextMap); 
+		result.setNotBom(true);
+		return result;
 	}
 
 	public GeneratedResult generateDocConfPy(Map<String, Object> contextMap) {
@@ -244,14 +258,18 @@ public class CMakeGenerateManager extends GenerateManager {
 	public GeneratedResult generateIdlCMakeLists(Map<String, Object> contextMap) {
 		String outfile = "idl/CMakeLists.txt";
 		String infile = "cmake/idl/IdlCMakeLists.txt.vsl";
-		return generate(infile, outfile, contextMap);
+		GeneratedResult result = generate(infile, outfile, contextMap); 
+		result.setNotBom(true);
+		return result;
 	}
 	
 	// 1.0系 (CMake/include)
 	public GeneratedResult generateIncludeCMakeLists(Map<String, Object> contextMap) {
 		String outfile = "include/CMakeLists.txt";
 		String infile = "cmake/include/IncludeCMakeLists.txt.vsl";
-		return generate(infile, outfile, contextMap);
+		GeneratedResult result = generate(infile, outfile, contextMap); 
+		result.setNotBom(true);
+		return result;
 	}
 	
 	// 1.0系 (CMake/include/module)
@@ -259,14 +277,18 @@ public class CMakeGenerateManager extends GenerateManager {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = "include/" + rtcParam.getName() + "/CMakeLists.txt";
 		String infile = "cmake/include/IncModuleCMakeLists.txt.vsl";
-		return generate(infile, outfile, contextMap);
+		GeneratedResult result = generate(infile, outfile, contextMap); 
+		result.setNotBom(true);
+		return result;
 	}
 	
 	// 1.0系 (CMake/src)
 	public GeneratedResult generateSrcCMakeLists(Map<String, Object> contextMap) {
 		String outfile = "src/CMakeLists.txt";
 		String infile = "cmake/src/SrcCMakeLists.txt.vsl";
-		return generate(infile, outfile, contextMap);
+		GeneratedResult result = generate(infile, outfile, contextMap); 
+		result.setNotBom(true);
+		return result;
 	}
 	
 	public GeneratedResult generate(String infile, String outfile,

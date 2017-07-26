@@ -649,7 +649,9 @@ public class Generator {
 				if(generatedResult.getEncode().length()==0) {
 					String strFullPath = outputFile.getLocation().toOSString();
 					FileOutputStream fos = new FileOutputStream(strFullPath);
-					fos.write(0xef); fos.write(0xbb); fos.write(0xbf);				
+					if(generatedResult.isNotBom()==false) {
+						fos.write(0xef); fos.write(0xbb); fos.write(0xbf);
+					}
 					OutputStreamWriter osw = new OutputStreamWriter( fos , "UTF-8");
 					BufferedWriter fp = new BufferedWriter( osw );
 					fp.write ( generatedResult.getCode());
