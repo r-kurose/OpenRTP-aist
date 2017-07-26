@@ -68,7 +68,9 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 	public GeneratedResult generateCMakeLists(Map<String, Object> contextMap) {
 		String outfile = "CMakeLists.txt";
 		String infile = "cmake/CMakeLists.txt.vsl";
-		return generatePython(infile, outfile, contextMap);
+		GeneratedResult result = generatePython(infile, outfile, contextMap); 
+		result.setNotBom(true);
+		return result;
 	}
 
 	// 1.0系 (CMake/cpack_resources)
@@ -94,14 +96,18 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 	public GeneratedResult generateCmakeCPackOption(Map<String, Object> contextMap) {
 		String outfile = "cmake/cpack_options.cmake.in";
 		String infile = "cmake/cpack_options_cmake.in.vsl";
-		return generatePython(infile, outfile, contextMap);
+		GeneratedResult result = generatePython(infile, outfile, contextMap); 
+		result.setNotBom(true);
+		return result;
 	}
 	
 	@Override
 	public GeneratedResult generateSrcCMakeLists(Map<String, Object> contextMap) {
 		String outfile = "src/CMakeLists.txt";
 		String infile = "cmake/SrcCMakeLists.txt.vsl";
-		return generatePython(infile, outfile, contextMap);
+		GeneratedResult result = generatePython(infile, outfile, contextMap); 
+		result.setNotBom(true);
+		return result;
 	}
 	/////
 	public GeneratedResult generatePython(String infile, String outfile,

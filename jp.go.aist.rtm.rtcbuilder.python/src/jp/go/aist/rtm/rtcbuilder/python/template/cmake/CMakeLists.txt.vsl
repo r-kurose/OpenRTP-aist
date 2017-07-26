@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 2.8)
 if(POLICY CMP0040)
   cmake_policy(SET CMP0040 OLD)
 endif()
@@ -163,9 +163,11 @@ configure_file(
 add_custom_target(uninstall COMMAND 
     ${dol}{CMAKE_COMMAND} -P ${dol}{CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
 
-${sharp} start menu
-set_property(INSTALL "${dol}{INSTALL_PREFIX}/${dol}{PROJECT_NAME}.py"
-    PROPERTY CPACK_START_MENU_SHORTCUTS "${dol}{PROJECT_NAME}.py")
+if(WIN32)
+    ${sharp} start menu
+    set_property(INSTALL "${dol}{INSTALL_PREFIX}/${dol}{PROJECT_NAME}.py"
+        PROPERTY CPACK_START_MENU_SHORTCUTS "${dol}{PROJECT_NAME}.py")
+endif()
 
 ${sharp} target settings for document
 if(BUILD_DOCUMENTATION)
