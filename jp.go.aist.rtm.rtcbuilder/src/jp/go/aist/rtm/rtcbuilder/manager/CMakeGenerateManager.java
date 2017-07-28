@@ -217,7 +217,9 @@ public class CMakeGenerateManager extends GenerateManager {
 			Map<String, Object> contextMap) {
 		String outfile = "cmake/utils.cmake";
 		String infile = "cmake/cmake/utils.in.vsl";
-		return generate(infile, outfile, contextMap);
+		GeneratedResult result = generate(infile, outfile, contextMap); 
+		result.setNotBom(true);
+		return result;
 	}
 	
 	// 1.0系 (CMake/doc)
