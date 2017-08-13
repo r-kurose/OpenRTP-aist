@@ -94,6 +94,7 @@ ${sharp}${sharp}   corba.args: -ORBInitialHost myhost -ORBInitialPort 8888
 ${sharp}${sharp}
 ${sharp}${sharp}
 ${sharp} corba.args:
+corba.args: -ORBgiopMaxMsgSize 4194304
 
 ${sharp}${sharp}
 ${sharp}${sharp} ORB endpoint

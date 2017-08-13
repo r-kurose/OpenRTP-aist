@@ -89,7 +89,6 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	private Text rtcTypeText;
 
 	private Button generateButton;
-	private Button packageButton;
 
 	private Button profileLoadButton;
 	private Button profileSaveButton;
@@ -747,9 +746,8 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		if (widgetInfo.matchSection("generate")) {
 			if (generateSection != null) {
 				if (widgetInfo.matchWidget("code"))    setButtonEnabled(generateButton, enabled);
-				if (widgetInfo.matchWidget("package")) setButtonEnabled(packageButton, enabled);
 				boolean genEnable = false;
-				if (generateButton.getEnabled() || packageButton.getEnabled()) {
+				if (generateButton.getEnabled()) {
 					genEnable = true;
 				}
 				generateSection.setEnabled(genEnable);
