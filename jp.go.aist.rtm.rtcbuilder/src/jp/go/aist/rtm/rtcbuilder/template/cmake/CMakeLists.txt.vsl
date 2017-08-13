@@ -31,7 +31,7 @@ function(get_dist ARG0)
    set(${dol}{ARG0} ${dol}{CMAKE_SYSTEM_NAME} PARENT_SCOPE)
    return()
  endif()
- foreach(dist Debian Ubuntu RedHat Fedora CentOS)
+ foreach(dist Debian Ubuntu RedHat Fedora CentOS Raspbian)
    execute_process(
      COMMAND grep ${dol}{dist} -s /etc/issue /etc/os-release /etc/redhat-release /etc/system-release
      OUTPUT_VARIABLE dist_name
@@ -46,7 +46,8 @@ endfunction(get_dist)
 function(get_pkgmgr ARG0)
  get_dist(DIST_NAME)
  if(${dol}{DIST_NAME} MATCHES "Debian" OR
-    ${dol}{DIST_NAME} MATCHES "Ubuntu")
+     ${dol}{DIST_NAME} MATCHES "Ubuntu" OR
+     ${dol}{DIST_NAME} MATCHES "Raspbian")
     set(${dol}{ARG0} "DEB" PARENT_SCOPE)
     return()
  endif()
