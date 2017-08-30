@@ -1,6 +1,8 @@
 package jp.go.aist.rtm.systemeditor.ui.dialog;
 
+import static jp.go.aist.rtm.systemeditor.ui.util.UIUtil.COLOR_MODIFY;
 import static jp.go.aist.rtm.systemeditor.ui.util.UIUtil.COLOR_WHITE;
+import static jp.go.aist.rtm.systemeditor.ui.util.UIUtil.COLOR_UNEDITABLE;
 import static jp.go.aist.rtm.systemeditor.ui.util.UIUtil.getColor;
 
 import java.util.ArrayList;
@@ -11,12 +13,14 @@ import java.util.Map;
 import jp.go.aist.rtm.systemeditor.corba.CORBAHelper;
 import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.manager.ManagerFactory;
 import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
 
-import org.eclipse.jface.dialogs.TitleAreaDialog;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.ITableColorProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -25,10 +29,13 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -39,10 +46,12 @@ import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import RTM.ManagerHelper;
+
 /**
  * RTシステム復元設定を行うダイアログ
  */
-public class RestoreComponentDialog extends TitleAreaDialog {
+public class RestoreComponentDialog extends Dialog {
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(RestoreComponentDialog.class);
@@ -57,32 +66,38 @@ public class RestoreComponentDialog extends TitleAreaDialog {
 	static final String MSG_STATUS_NEED_CREATE = Messages
 			.getString("RestoreComponentDialog.msg_need_create");
 
-	private static final String LABEL_COMPONENT = "component:";
-	private static final String LABEL_MANAGER = "manager:";
-	private static final String LABEL_TARGET = "target:";
-	private static final String LABEL_STATUS = "status:";
+	private static final String LABEL_COMPONENT_NAME = "Component Name:";
+	private static final String LABEL_COMPONENT_ID = "Component Id:";
+	private static final String LABEL_NODE = "Node:";
+	private static final String LABEL_CONTAINER = "Container:";
 
-	private static final String COL_COMPONENT = "component";
-	private static final String COL_TYPE = "type";
-	private static final String COL_MANAGER = "manager";
-	private static final String COL_ENDPOINT = "endpoint";
-	private static final String COL_TARGET = "target";
-	private static final String COL_STATUS = "status";
+	private static final String COL_COMPONENT_NAME = "Component Name";
+	private static final String COL_COMPONENT_ID = "Component Id";
+	private static final String COL_NODE = "Node";
+	private static final String COL_CONTAINER = "Container";
+	private static final String COL_STATUS = "Status";
 
 	static final String PROP_IMPLEMENTATION_ID = "implementation_id";
+	static final String PROP_INSTANCE_NAME = "instance_name";
+	static final String PROP_LANGUAGE = "language";
+	static final String PROP_VENDOR = "vendor";
+	static final String PROP_CATEGORY = "category";
+	static final String PROP_VERSION = "version";
 	static final String PROP_CORBA_ENDPOINTS = "corba.endpoints";
-	static final String PROP_MANAGER_NAME = "manager_name";
+	static final String PROP_MANAGER_NAME = "manager.instance_name";
 
+	static final int APPLY_ID = 998;
+	
 	private TableViewer tableViewer;
 	private Table table;
 
 	private Label componentNameLabel;
-	private Label typeNameLabel;
-	private Text managerNameText;
-	private Text endpointNameText;
-	private Combo targetCombo;
-	private Label statusLabel;
+	private Label componentIdLabel;
+	private Text nodeText;
+	private Text containerText;
 
+	private SystemDiagram diagram;
+	
 	private List<TargetInfo> targetList = new ArrayList<>();
 	private TargetInfo selectedTarget;
 
@@ -90,10 +105,13 @@ public class RestoreComponentDialog extends TitleAreaDialog {
 
 	public RestoreComponentDialog(Shell parentShell) {
 		super(parentShell);
-		setHelpAvailable(false);
 		setShellStyle(getShellStyle() | SWT.CENTER | SWT.RESIZE);
 	}
 
+	public void setSystemDiagram(SystemDiagram source) {
+		this.diagram = source;
+	}
+	
 	/**
 	 * マッピング対象となる　CORBAコンポーネントの一覧を設定します。
 	 */
@@ -103,29 +121,22 @@ public class RestoreComponentDialog extends TitleAreaDialog {
 		}
 		for (CorbaComponent comp : list) {
 			TargetInfo target = new TargetInfo(comp);
-			target.verifyStatus();
 			this.targetList.add(target);
-			String epName = target.getEndpointName();
+			String epName = target.node;
 			if (epName == null) {
 				continue;
 			}
-			Endpoint ep = this.endpoints.get(epName);
-			RTC.RTObject rtc = ep.getComponent(target.getName());
+			String[] epList = epName.split(",");
+			Endpoint ep = null;
+			for(String each : epList) {
+				ep = this.endpoints.get(each);
+				if(ep!=EndpointCache.NULL_ENDPOINT) break;
+			}
+			RTC.RTObject rtc = ep.getComponent(target.compName);
 			if (rtc != null) {
 				target.setTarget(rtc);
 			}
 		}
-	}
-
-	/**
-	 * マッピングの設定結果一覧を取得します。
-	 */
-	public List<MappingResult> getMappingResultList() {
-		List<MappingResult> ret = new ArrayList<>();
-		for (TargetInfo target : this.targetList) {
-			ret.add(target.getMappingResult());
-		}
-		return ret;
 	}
 
 	@Override
@@ -157,9 +168,8 @@ public class RestoreComponentDialog extends TitleAreaDialog {
 					SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER);
 			this.tableViewer.setContentProvider(new ArrayContentProvider());
 			this.tableViewer
-					.setColumnProperties(new String[] { COL_COMPONENT,
-							COL_TYPE, COL_MANAGER, COL_ENDPOINT, COL_TARGET,
-							COL_STATUS });
+					.setColumnProperties(new String[] { COL_COMPONENT_NAME,
+							COL_COMPONENT_ID, COL_NODE, COL_CONTAINER, COL_STATUS });
 			this.tableViewer.setLabelProvider(new TargetLabelProvider());
 			this.tableViewer
 					.addSelectionChangedListener(new ISelectionChangedListener() {
@@ -191,56 +201,76 @@ public class RestoreComponentDialog extends TitleAreaDialog {
 			this.table.setHeaderVisible(true);
 
 			TableColumn col = new TableColumn(this.table, SWT.NONE);
-			col.setText(COL_COMPONENT);
+			col.setText(COL_COMPONENT_NAME);
 			col.setWidth(150);
 			col = new TableColumn(this.table, SWT.NONE);
-			col.setText(COL_TYPE);
-			col.setWidth(150);
+			col.setText(COL_COMPONENT_ID);
+			col.setWidth(300);
 			col = new TableColumn(this.table, SWT.NONE);
-			col.setText(COL_MANAGER);
+			col.setText(COL_NODE);
 			col.setWidth(100);
 			col = new TableColumn(this.table, SWT.NONE);
-			col.setText(COL_ENDPOINT);
+			col.setText(COL_CONTAINER);
 			col.setWidth(120);
 			col = new TableColumn(this.table, SWT.NONE);
-			col.setText(COL_TARGET);
-			col.setWidth(150);
-			col = new TableColumn(this.table, SWT.NONE);
 			col.setText(COL_STATUS);
-			col.setWidth(200);
+			col.setWidth(400);
 		}
 		{
 			gl = new GridLayout();
-			gl.numColumns = 3;
+			gl.numColumns = 4;
 			detailComposite.setLayout(gl);
 
 			Label compLabel = new Label(detailComposite, SWT.NONE);
-			compLabel.setText(LABEL_COMPONENT);
+			compLabel.setText(LABEL_COMPONENT_NAME);
 
 			this.componentNameLabel = new Label(detailComposite, SWT.BORDER);
 			gd = new GridData();
 			gd.horizontalAlignment = SWT.FILL;
 			gd.grabExcessHorizontalSpace = true;
 			this.componentNameLabel.setLayoutData(gd);
-			this.componentNameLabel.setBackground(getColor(COLOR_WHITE));
-
-			this.typeNameLabel = new Label(detailComposite, SWT.BORDER);
+			this.componentNameLabel.setBackground(getColor(COLOR_UNEDITABLE));
+			///
+			Label compIdLabel = new Label(detailComposite, SWT.NONE);
+			compIdLabel.setText(LABEL_COMPONENT_ID);
+			
+			this.componentIdLabel = new Label(detailComposite, SWT.BORDER);
 			gd = new GridData();
 			gd.horizontalAlignment = SWT.FILL;
 			gd.grabExcessHorizontalSpace = true;
-			this.typeNameLabel.setLayoutData(gd);
-			this.typeNameLabel.setBackground(getColor(COLOR_WHITE));
+			this.componentIdLabel.setLayoutData(gd);
+			this.componentIdLabel.setBackground(getColor(COLOR_UNEDITABLE));
+			/////
+			Label nodeLabel = new Label(detailComposite, SWT.NONE);
+			nodeLabel.setText(LABEL_NODE);
 
-			Label mgrLabel = new Label(detailComposite, SWT.NONE);
-			mgrLabel.setText(LABEL_MANAGER);
-
-			this.managerNameText = new Text(detailComposite, SWT.SINGLE
+			this.nodeText = new Text(detailComposite, SWT.SINGLE
 					| SWT.BORDER);
 			gd = new GridData();
 			gd.horizontalAlignment = SWT.FILL;
 			gd.grabExcessHorizontalSpace = true;
-			this.managerNameText.setLayoutData(gd);
-			this.managerNameText.addFocusListener(new FocusListener() {
+			this.nodeText.setLayoutData(gd);
+			this.nodeText.addFocusListener(new FocusListener() {
+				@Override
+				public void focusLost(FocusEvent e) {
+					notifyModified();
+				}
+
+				@Override
+				public void focusGained(FocusEvent e) {
+				}
+			});
+			/////
+			Label mgrLabel = new Label(detailComposite, SWT.NONE);
+			mgrLabel.setText(LABEL_CONTAINER);
+
+			this.containerText = new Text(detailComposite, SWT.SINGLE
+					| SWT.BORDER);
+			gd = new GridData();
+			gd.horizontalAlignment = SWT.FILL;
+			gd.grabExcessHorizontalSpace = true;
+			this.containerText.setLayoutData(gd);
+			this.containerText.addFocusListener(new FocusListener() {
 				@Override
 				public void focusLost(FocusEvent e) {
 					LOGGER.trace("Restore: managerName.focusLost: event=<{}>",
@@ -252,66 +282,6 @@ public class RestoreComponentDialog extends TitleAreaDialog {
 				public void focusGained(FocusEvent e) {
 				}
 			});
-
-			this.endpointNameText = new Text(detailComposite, SWT.SINGLE
-					| SWT.BORDER);
-			gd = new GridData();
-			gd.horizontalAlignment = SWT.FILL;
-			gd.grabExcessHorizontalSpace = true;
-			this.endpointNameText.setLayoutData(gd);
-			this.endpointNameText.addFocusListener(new FocusListener() {
-				@Override
-				public void focusLost(FocusEvent e) {
-					LOGGER.trace("Restore: endpointName.focusLost: event=<{}>",
-							e);
-					String epName = endpointNameText.getText();
-					Endpoint ep = endpoints.get(epName);
-					targetCombo.removeAll();
-					for (String comp : ep.getComponentNames()) {
-						targetCombo.add(comp);
-					}
-					notifyModified();
-				}
-
-				@Override
-				public void focusGained(FocusEvent e) {
-				}
-			});
-
-			Label tgtLabel = new Label(detailComposite, SWT.NONE);
-			tgtLabel.setText(LABEL_TARGET);
-
-			this.targetCombo = new Combo(detailComposite, SWT.DROP_DOWN);
-			gd = new GridData();
-			gd.horizontalSpan = 2;
-			gd.horizontalAlignment = SWT.FILL;
-			gd.grabExcessHorizontalSpace = true;
-			this.targetCombo.setLayoutData(gd);
-
-			this.targetCombo.select(0);
-			this.targetCombo.addFocusListener(new FocusListener() {
-				@Override
-				public void focusLost(FocusEvent e) {
-					LOGGER.trace("Restore: targetCombo.focusLost: event=<{}>",
-							e);
-					notifyModified();
-				}
-
-				@Override
-				public void focusGained(FocusEvent e) {
-				}
-			});
-
-			Label stLabel = new Label(detailComposite, SWT.NONE);
-			stLabel.setText(LABEL_STATUS);
-
-			this.statusLabel = new Label(detailComposite, SWT.BORDER);
-			gd = new GridData();
-			gd.horizontalSpan = 2;
-			gd.horizontalAlignment = SWT.FILL;
-			gd.grabExcessHorizontalSpace = true;
-			this.statusLabel.setLayoutData(gd);
-			this.statusLabel.setBackground(getColor(COLOR_WHITE));
 		}
 
 		buildData();
@@ -321,7 +291,89 @@ public class RestoreComponentDialog extends TitleAreaDialog {
 
 	@Override
 	protected Control createButtonBar(Composite parent) {
-		Control composite = super.createButtonBar(parent);
+		Composite composite = new Composite(parent, SWT.NONE);
+		GridLayout gl = new GridLayout(2, false);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		composite.setLayout(gl);
+		composite.setLayoutData(gd);
+		
+		Button btnApply = createButton(composite, APPLY_ID, "Restore", false);
+		btnApply.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				refreshData();
+				for(TargetInfo target : targetList) {
+					if(target.node==null || target.node.length()==0) {
+						target.status = MSG_STATUS_EP_UNREACHABLE;
+						target.isError = true;
+						continue;
+					}
+					Endpoint ep = null;
+					String[] nodes = target.node.split(",");
+					if(nodes.length==0) {
+						target.status = MSG_STATUS_EP_UNREACHABLE;
+						target.isError = true;
+						continue;
+					}
+					for(String node : nodes) {
+						ep = endpoints.get(node);
+						if(ep!=null) break;
+					}
+					if(ep==null) {
+						target.status = MSG_STATUS_EP_UNREACHABLE;
+						target.isError = true;
+						continue;
+					}
+					//
+					RTCManager manager = ep.getManager();
+					if(manager==null) {
+						target.status = String.format("No manager, it can not create component: comp=<%s>", target.compId);
+						target.isError = true;
+						continue;
+					}
+					try {
+						RTC.RTObject rtobj = null;
+						if (target.component.isCompositeComponent()) {
+							rtobj = CORBAHelper.factory().createCompositeRTObject(
+									manager, target.component, diagram);
+						} else {
+							rtobj = CORBAHelper.factory().createRTObject(
+									manager, target.component, diagram);
+						}
+						if (rtobj == null) {
+							target.status = String.format("Fail to create rtobject: comp=<%s>", target.compId);
+							target.isError = true;
+							continue;
+						}
+						target.component.setCorbaObject(rtobj);
+					} catch (Exception e1) {
+					}
+					target.status = String.format("Created: comp=<%s>", target.compId);
+					target.isError = false;
+				}
+				tableViewer.refresh();
+			}
+		});
+		
+		Label lblDummy = new Label(composite, SWT.NONE);
+		gd = new GridData();
+		gd.grabExcessHorizontalSpace = true;
+		lblDummy.setLayoutData(gd);
+		
+		Button btnClose = createButton(composite, OK, "OK", false);
+		btnClose.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				close();
+			}
+		});
+		Button btnCancel = createButton(composite, CANCEL, "Cancel", true);
+		btnCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				close();
+			}
+		});
 		return composite;
 	}
 
@@ -336,22 +388,11 @@ public class RestoreComponentDialog extends TitleAreaDialog {
 			return;
 		}
 
-		String managerName = this.managerNameText.getText();
-		String epName = this.endpointNameText.getText();
-		String targetName = this.targetCombo.getText();
-		Endpoint ep = this.endpoints.get(epName);
-		RTC.RTObject rtc = ep.getComponent(targetName);
+		String managerName = this.containerText.getText();
+		String epName = this.nodeText.getText();
 
-		this.selectedTarget.setManagerName(managerName);
-		this.selectedTarget.setEndpointName(epName);
-		this.selectedTarget.setTargetName(targetName);
-		this.selectedTarget.setEndpoint(ep);
-		this.selectedTarget.setTarget(rtc);
-
-		this.selectedTarget.verifyStatus();
-		if (this.selectedTarget.getStatus() != null) {
-			this.statusLabel.setText(this.selectedTarget.getStatus());
-		}
+		this.selectedTarget.containerName = managerName;
+		this.selectedTarget.node = epName;
 
 		this.tableViewer.refresh();
 	}
@@ -360,31 +401,21 @@ public class RestoreComponentDialog extends TitleAreaDialog {
 	void refreshData() {
 		if (this.selectedTarget == null) {
 			this.componentNameLabel.setText("");
-			this.typeNameLabel.setText("");
-			this.managerNameText.setText("");
-			this.endpointNameText.setText("");
-			this.targetCombo.select(0);
-			this.statusLabel.setText("");
+			this.componentIdLabel.setText("");
+			this.containerText.setText("");
+			this.nodeText.setText("");
 		} else {
-			if (this.selectedTarget.getName() != null) {
-				this.componentNameLabel.setText(this.selectedTarget.getName());
+			if (this.selectedTarget.compName != null) {
+				this.componentNameLabel.setText(this.selectedTarget.compName);
 			}
-			if (this.selectedTarget.getType() != null) {
-				this.typeNameLabel.setText(this.selectedTarget.getType());
+			if (this.selectedTarget.compId != null) {
+				this.componentIdLabel.setText(this.selectedTarget.compId);
 			}
-			if (this.selectedTarget.getManagerName() != null) {
-				this.managerNameText.setText(this.selectedTarget
-						.getManagerName());
+			if (this.selectedTarget.containerName != null) {
+				this.containerText.setText(this.selectedTarget.containerName);
 			}
-			if (this.selectedTarget.getEndpointName() != null) {
-				this.endpointNameText.setText(this.selectedTarget
-						.getEndpointName());
-			}
-			if (this.selectedTarget.getTargetName() != null) {
-				this.targetCombo.setText(this.selectedTarget.getTargetName());
-			}
-			if (this.selectedTarget.getStatus() != null) {
-				this.statusLabel.setText(this.selectedTarget.getStatus());
+			if (this.selectedTarget.node != null) {
+				this.nodeText.setText(this.selectedTarget.node);
 			}
 		}
 	}
@@ -396,67 +427,46 @@ public class RestoreComponentDialog extends TitleAreaDialog {
 	 */
 	public static class TargetInfo {
 
-		private String name;
-		private String type;
-		private String managerName;
-		private String endpointName;
-		private String targetName;
+		private String compName;
+		private String compId;
+		private String node;
+		private String containerName;
 		private String status;
+		private boolean isError;
 
-		private Endpoint endpoint;
 		private CorbaComponent component;
 
 		public TargetInfo(CorbaComponent component) {
 			this.component = component;
-			this.name = component.getInstanceNameL();
-			this.type = component.getProperty(PROP_IMPLEMENTATION_ID);
-			this.managerName = component.getProperty(PROP_MANAGER_NAME);
-			this.endpointName = component.getProperty(PROP_CORBA_ENDPOINTS);
+			this.compName = component.getInstanceNameL();
+			String type = component.getProperty(PROP_IMPLEMENTATION_ID);
+			String lang = component.getProperty(PROP_LANGUAGE);
+			String vendor = component.getProperty(PROP_VENDOR);
+			String category = component.getProperty(PROP_CATEGORY);
+			String version = component.getProperty(PROP_VERSION);
+			this.compId = "RTC:" + vendor + ":" + category + ":" + type + ":" + lang + ":" + version;
+			
+			String endPoints = component.getProperty(PROP_CORBA_ENDPOINTS);
+			String[] epList = endPoints.split(",");
+			StringBuilder builder = new StringBuilder();
+			for(String each : epList) {
+				if(0<builder.length()) {
+					builder.append(",");
+				}
+				builder.append(getHostName(each));
+			}
+			this.node = builder.toString();
+			
+			this.containerName = component.getProperty(PROP_MANAGER_NAME);
 			//
-			if (this.endpointName == null) {
+			if (this.node == null) {
 				// エンドポイントのプロパティ設定がない場合は、パスURIから取得(既存互換)
 				String path = component.getPathId();
 				if (path != null && !path.isEmpty()) {
 					path = path.substring(0, path.indexOf("/"));
-					this.endpointName = path;
+					this.node = path;
 				}
 			}
-		}
-
-		public String getName() {
-			return this.name;
-		}
-
-		public String getType() {
-			return this.type;
-		}
-
-		public String getManagerName() {
-			return this.managerName;
-		}
-
-		public void setManagerName(String managerName) {
-			this.managerName = managerName;
-		}
-
-		public String getEndpointName() {
-			return this.endpointName;
-		}
-
-		public void setEndpointName(String endpointName) {
-			this.endpointName = endpointName;
-		}
-
-		public void setEndpoint(Endpoint endpoint) {
-			this.endpoint = endpoint;
-		}
-
-		public String getTargetName() {
-			return this.targetName;
-		}
-
-		public void setTargetName(String targetName) {
-			this.targetName = targetName;
 		}
 
 		public void setTarget(RTC.RTObject rtc) {
@@ -465,90 +475,21 @@ public class RestoreComponentDialog extends TitleAreaDialog {
 			}
 		}
 
-		public MappingResult getMappingResult() {
-			if (this.component != null) {
-				this.component.setProperty(PROP_CORBA_ENDPOINTS,
-						this.endpointName);
-				this.component.setProperty(PROP_MANAGER_NAME, this.managerName);
-			}
-			RTCManager manager = null;
-			if (this.endpoint != null) {
-				manager = this.endpoint.getManager();
-			}
-			MappingResult ret = new MappingResult(this.component, manager);
-			return ret;
-		}
-
-		public String getStatus() {
-			return this.status;
-		}
-
-		public void verifyStatus() {
-			this.status = "";
-			if (this.endpointName == null || this.endpointName.isEmpty()) {
-				// エンドポイント名が未設定
-				this.status = MSG_STATUS_NO_EP_NAME;
-				return;
-			}
-			if (this.endpoint == null
-					|| EndpointCache.NULL_ENDPOINT.equals(this.endpoint)) {
-				// エンドポイントへアクセス不可
-				this.status = MSG_STATUS_EP_UNREACHABLE;
-				return;
-			}
-			if (this.targetName == null || this.targetName.isEmpty()) {
-				// コンポーネント生成が必要
-				this.status = MSG_STATUS_NEED_CREATE;
-				return;
-			}
-		}
-
 		@Override
 		public String toString() {
-			return getClass().getSimpleName() + "<" + this.name + "|"
-					+ this.type + "|" + this.managerName + "|"
-					+ this.endpointName + "|" + this.targetName + "|"
-					+ this.status + ">";
+			return getClass().getSimpleName() + "<" + this.compName + "|"
+					+ this.compId + "|" + this.containerName + "|"
+					+ this.node + "|"  + this.status + ">";
 		}
-
-	}
-
-	/**
-	 * コンポーネントのマッピング結果を表します。
-	 */
-	public static class MappingResult {
-
-		private CorbaComponent component;
-		private RTCManager manager;
-
-		public MappingResult(CorbaComponent component, RTCManager manager) {
-			this.component = component;
-			this.manager = manager;
+		
+		private String getHostName(String source) {
+			String hostName = source;
+			if(hostName.contains(":")) {
+				String[] elems = source.split(":");
+				hostName = elems[0];
+			}
+			return hostName;
 		}
-
-		public CorbaComponent getComponent() {
-			return this.component;
-		}
-
-		public RTCManager getManager() {
-			return this.manager;
-		}
-
-		public boolean isMapped() {
-			return (this.component != null && this.component
-					.getCorbaObjectInterface() != null);
-		}
-
-		public boolean hasManager() {
-			return (this.manager != null);
-		}
-
-		@Override
-		public String toString() {
-			return getClass().getSimpleName() + "<" + this.component + "|"
-					+ this.manager + ">";
-		}
-
 	}
 
 	/**
@@ -569,7 +510,9 @@ public class RestoreComponentDialog extends TitleAreaDialog {
 			RTM.Manager remote = null;
 			if (endpoint != null) {
 				try {
-					remote = CORBAHelper.ns().findManager(endpoint);
+					org.omg.CORBA.Object managerObj = CORBAHelper.ORBUtil.getOrb()
+							.string_to_object("corbaloc::" + endpoint + ":" + CORBAHelper.MANAGER_PORT + "/manager");
+					remote = ManagerHelper.narrow(managerObj);
 				} catch (RuntimeException e) {
 					remote = null;
 				}
@@ -584,7 +527,6 @@ public class RestoreComponentDialog extends TitleAreaDialog {
 			this.cache.put(endpoint, ret);
 			return ret;
 		}
-
 	}
 
 	/**
@@ -593,8 +535,6 @@ public class RestoreComponentDialog extends TitleAreaDialog {
 	public static class Endpoint {
 
 		private RTCManager remote;
-		private List<String> managers = null;
-		private List<String> components = null;
 		private Map<String, RTC.RTObject> objects = null;
 
 		Endpoint(RTCManager remote) {
@@ -606,26 +546,6 @@ public class RestoreComponentDialog extends TitleAreaDialog {
 		}
 
 		/**
-		 * エンドポイントに属する起動中のコンポーネント名一覧を取得します。
-		 */
-		public List<String> getComponentNames() {
-			if (this.components != null) {
-				return this.components;
-			}
-			this.components = new ArrayList<>();
-			this.objects = new HashMap<>();
-			if (this.remote == null) {
-				return this.components;
-			}
-			for (RTC.RTObject rtc : this.remote.getComponentsR()) {
-				RTC.ComponentProfile prof = rtc.get_component_profile();
-				this.components.add(prof.instance_name);
-				this.objects.put(prof.instance_name, rtc);
-			}
-			return this.components;
-		}
-
-		/**
 		 * コンポーネント名に対する CORBAオブジェクトを取得します。
 		 */
 		public RTC.RTObject getComponent(String name) {
@@ -634,29 +554,10 @@ public class RestoreComponentDialog extends TitleAreaDialog {
 			}
 			return null;
 		}
-
-		/**
-		 * エンドポイントのマネージャに属するスレーブマネージャ名一覧を取得します。
-		 */
-		public List<String> getManagerNames() {
-			if (this.managers != null) {
-				return this.managers;
-			}
-			this.managers = new ArrayList<>();
-			if (this.remote == null) {
-				return this.managers;
-			}
-			this.remote.getSlaveManagersR();
-			for (String name : this.remote.getSlaveManagerNames()) {
-				this.managers.add(name);
-			}
-			return this.managers;
-		}
-
 	}
 
 	public class TargetLabelProvider extends LabelProvider implements
-			ITableLabelProvider {
+			ITableLabelProvider, ITableColorProvider {
 
 		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
@@ -667,21 +568,38 @@ public class RestoreComponentDialog extends TitleAreaDialog {
 		public String getColumnText(Object element, int columnIndex) {
 			TargetInfo entry = (TargetInfo) element;
 			if (columnIndex == 0) {
-				return entry.getName();
+				return entry.compName;
 			} else if (columnIndex == 1) {
-				return entry.getType();
+				return entry.compId;
 			} else if (columnIndex == 2) {
-				return entry.getManagerName();
+				return entry.node;
 			} else if (columnIndex == 3) {
-				return entry.getEndpointName();
+				return entry.containerName;
 			} else if (columnIndex == 4) {
-				return entry.getTargetName();
-			} else if (columnIndex == 5) {
-				return entry.getStatus();
+				return entry.status;
 			}
 			return "";
 		}
 
+		@Override
+		public Color getForeground(Object element, int columnIndex) {
+			return null;
+		}
+		
+		@Override
+		public Color getBackground(Object element, int columnIndex) {
+			TargetInfo entry = (TargetInfo) element;
+			
+			if (columnIndex == 4) {
+				if(entry.isError) {
+					return getColor(COLOR_MODIFY);
+				} else {
+					return getColor(COLOR_WHITE);
+				}
+			}
+
+			return null;
+		}
 	}
 
 }

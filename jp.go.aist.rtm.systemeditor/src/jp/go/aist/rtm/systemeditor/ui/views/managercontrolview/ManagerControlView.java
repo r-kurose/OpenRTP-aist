@@ -7,12 +7,14 @@ import java.util.List;
 import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.dialog.CreateComponentDialog;
 import jp.go.aist.rtm.systemeditor.ui.dialog.ManagerConfigurationDialog;
+import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
 import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 import jp.go.aist.rtm.toolscommon.util.SDOUtil;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -34,6 +36,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
@@ -277,7 +280,12 @@ public class ManagerControlView extends ViewPart {
 				if (dialog.open() == IDialogConstants.OK_ID) {
 					String cmd = dialog.getParameter();
 					LOGGER.info("create command: <{}>", cmd);
-					targetManager.createComponentR(cmd);
+					Component result = targetManager.createComponentR(cmd);
+					if(result==null) {
+						MessageDialog.openError(PlatformUI.getWorkbench()
+								.getDisplay().getActiveShell(), "Error",
+								"FAILED to create of target RTC.");
+					}
 				}
 			}
 		});
@@ -515,7 +523,7 @@ public class ManagerControlView extends ViewPart {
 
 		/** コンポーネントプロファイル: マネージャ名を取得します */
 		public String getComponent_manager_name() {
-			return SDOUtil.findValueAsString("manager_name",
+			return SDOUtil.findValueAsString("manager.instance_name",
 					this.component.properties);
 		}
 
@@ -529,8 +537,6 @@ public class ManagerControlView extends ViewPart {
 		public String getManager_language() {
 			return SDOUtil.findValueAsString("language",
 					this.manager.properties);
-//			return SDOUtil.findValueAsString("supported_languages",
-//					this.manager.properties);
 		}
 
 		@SuppressWarnings("rawtypes")

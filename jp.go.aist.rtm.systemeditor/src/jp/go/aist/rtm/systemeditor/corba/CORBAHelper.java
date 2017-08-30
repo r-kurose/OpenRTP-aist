@@ -9,7 +9,9 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
+import java.util.logging.Level;
 
 import jp.go.aist.rtm.nameserviceview.corba.NameServerAccesser;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
@@ -19,6 +21,7 @@ import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSupport;
 import jp.go.aist.rtm.toolscommon.util.RtsProfileHandler;
 
+import org.omg.CORBA.ORB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +35,7 @@ public class CORBAHelper {
 
 	private static NS _ns = new NS();
 	private static Factory _factory = new Factory();
+	public static final int MANAGER_PORT = 2810;
 
 	/**
 	 * CORBA ネーミングサービスに関するヘルパーを取得します (Singleton)。
@@ -398,6 +402,72 @@ public class CORBAHelper {
 	}
 
 	/**
+	 * ORBオブジェクトを生成、管理するヘルパー
+	 */
+	public static class ORBUtil {
+
+	    private static ORB orb = null;
+
+	    /**
+	     * ORBオブジェクトを取得する
+	     * 
+	     * @return ORBオブジェクト
+	     */
+	    public static ORB getOrb() {
+	        return getOrb(null);
+	    }
+
+	    /**
+	     * 管理しているORBオブジェクトをクリアする
+	     * 
+	     */
+	    public static void clearOrb() {
+	        orb = null;        
+	    }
+
+	    /**
+	     * ORBオブジェクトを取得する
+	     *
+	     * @param args 
+	     *   アプリケーションの main メソッドのコマンド行引数
+	     * 
+	     * @return ORBオブジェクト
+	     */
+	    public static ORB getOrb(String[] args) {
+	        return getOrb(args, null);
+	    }
+	    
+	    /**
+	     * 指定された引数に基づいてORBオブジェクトを生成後、取得する
+	     * <p>
+	     * すでにORBオブジェクトが生成済みの場合は、それが取得される
+	     * 
+	     * @param args 
+	     *   ORBオブジェクト生成時の引数
+	     * @return ORBオブジェクト
+	     */
+	    public static ORB getOrb(String[] args, Properties prop) {
+	        
+	        if (orb == null) {
+	            orb = ORB.init(args, prop);
+	            try {
+	                if (orb instanceof com.sun.corba.se.spi.orb.ORB) {
+	                    java.util.logging.Logger logger = ((com.sun.corba.se.spi.orb.ORB) orb).getLogger("");
+	                    logger.setLevel(Level.SEVERE); // log 
+	                }
+	            } catch (Exception e) {
+	                e.printStackTrace(); // system error
+
+	            } catch (NoClassDefFoundError e) {
+	                e.printStackTrace(); // system error
+	            }
+	        }
+	        
+	        return orb;
+	    }
+	}
+	
+	/**
 	 * コンポーネントの生成コマンドのパラメータを表します。
 	 */
 	public static class CreateComponentParameter {
@@ -407,6 +477,9 @@ public class CORBAHelper {
 		public static final String KEY_EXPORTED_PORTS = "exported_ports";
 		public static final String KEY_MANAGER_NAME = "manager_name";
 		public static final String KEY_LANGUAGE = "language";
+		public static final String KEY_VENDOR = "vendor";
+		public static final String KEY_CATEGORY = "category";
+		public static final String KEY_VERSION = "version";
 
 		private String implementation_id;
 		private String instance_name;

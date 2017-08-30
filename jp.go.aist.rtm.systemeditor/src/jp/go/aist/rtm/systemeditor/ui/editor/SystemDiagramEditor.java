@@ -276,36 +276,9 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 				RestoreComponentDialog dialog = new RestoreComponentDialog(
 						getSite().getShell());
 				dialog.setCorbaComponents(corbaComponents);
+				dialog.setSystemDiagram(diagram);
 				if (dialog.open() != IDialogConstants.OK_ID) {
 					return;
-				}
-
-				// マッピング結果を元にコンポーネント生成
-				for (RestoreComponentDialog.MappingResult mapping : dialog
-						.getMappingResultList()) {
-					if (mapping.isMapped()) {
-						continue;
-					}
-					if (!mapping.hasManager()) {
-						throw new Exception(
-								String.format(
-										"No manager, it can not create component: comp=<%s>",
-										mapping));
-					}
-					CorbaComponent comp = mapping.getComponent();
-					RTC.RTObject rtobj = null;
-					if (comp.isCompositeComponent()) {
-						rtobj = CORBAHelper.factory().createCompositeRTObject(
-								mapping.getManager(), comp, diagram);
-					} else {
-						rtobj = CORBAHelper.factory().createRTObject(
-								mapping.getManager(), comp, diagram);
-					}
-					if (rtobj == null) {
-						throw new Exception(String.format(
-								"Fail to create rtobject: comp=<%s>", mapping));
-					}
-					comp.setCorbaObject(rtobj);
 				}
 
 				// 同期サポート割当
@@ -350,6 +323,36 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 		}
 	}
 
+	public void updateWithMapping(IEditorSite site, SystemDiagram diagram, RtsProfileHandler handler) {
+		// 同期サポート割当
+		SystemEditorWrapperFactory.getInstance()
+				.getSynchronizationManager()
+				.assignSynchonizationSupportToDiagram(diagram);
+
+		// 読み込み時に明示的に状態の同期を実行
+		List<Component> eComps = new ArrayList<>(
+				diagram.getComponents());
+		diagram.getComponents().clear();
+		for (Component c : eComps) {
+			c.synchronizeManually();
+			diagram.addComponent(c);
+		}
+
+		handler.restoreCompositeComponentPort(diagram);
+
+		setSystemDiagram(diagram);
+		
+		try {
+			RtsProfileHandler handlerProf = new RtsProfileHandler();
+			handlerProf.restoreConnection(getSystemDiagram());
+			handlerProf.restoreConfigSet(getSystemDiagram());
+			handlerProf.restoreExecutionContext(getSystemDiagram());
+			doReplace(getSystemDiagram(), site);
+		} catch (Exception e) {
+			LOGGER.error("Fail to replace diagram", e);
+		}
+	}
+	
 	/**
 	 * ロード時の復元を行います。
 	 */

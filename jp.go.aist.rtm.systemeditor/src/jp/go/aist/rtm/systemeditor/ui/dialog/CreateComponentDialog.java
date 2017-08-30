@@ -1,7 +1,10 @@
 package jp.go.aist.rtm.systemeditor.ui.dialog;
 
+import static jp.go.aist.rtm.systemeditor.corba.CORBAHelper.CreateComponentParameter.KEY_CATEGORY;
 import static jp.go.aist.rtm.systemeditor.corba.CORBAHelper.CreateComponentParameter.KEY_IMPLEMENTATION_ID;
 import static jp.go.aist.rtm.systemeditor.corba.CORBAHelper.CreateComponentParameter.KEY_LANGUAGE;
+import static jp.go.aist.rtm.systemeditor.corba.CORBAHelper.CreateComponentParameter.KEY_VENDOR;
+import static jp.go.aist.rtm.systemeditor.corba.CORBAHelper.CreateComponentParameter.KEY_VERSION;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,8 +63,6 @@ public class CreateComponentDialog extends TitleAreaDialog {
 			.getString("CreateComponentDialog.2");
 	private static final String LABEL_MANAGER_NAME_TITLE = Messages
 			.getString("CreateComponentDialog.manager_name.title");
-	private static final String LABEL_LANGUAGE_TITLE = Messages
-			.getString("CreateComponentDialog.lang.title");
 	private static final String LABEL_PARAMETER_TITLE = Messages
 			.getString("CreateComponentDialog.3");
 	private static final String ERR_INVALID_PARAM = Messages
@@ -79,7 +80,6 @@ public class CreateComponentDialog extends TitleAreaDialog {
 
 	private Combo typeCombo;
 	private Combo managerNameCombo;
-	private Combo langCombo;
 	private TableViewer parameterViewer;
 	private Button parameterAddButton;
 	private Button parameterDeleteButton;
@@ -95,11 +95,11 @@ public class CreateComponentDialog extends TitleAreaDialog {
 	private ParameterCellModifier keyModifier;
 	private String[] defaultKeyList = {"instance_name", "conf.__widget__.", "conf._constraints__."};
 	private String[] currentKeyList = {};
+	private List<String> exclusionList;
 
 	/** モジュール情報 */
 	static class Module {
 		String type;
-		String lang;
 		List<String> keyList = new ArrayList<String>();
 	}
 
@@ -107,6 +107,13 @@ public class CreateComponentDialog extends TitleAreaDialog {
 		super(parentShell);
 		setHelpAvailable(false);
 		setShellStyle(getShellStyle() | SWT.CENTER | SWT.RESIZE);
+		
+		exclusionList = new ArrayList<String>();
+		exclusionList.add("vendor");
+		exclusionList.add("category");
+		exclusionList.add("implementation_id");
+		exclusionList.add("language");
+		exclusionList.add("version");
 	}
 
 	/**
@@ -117,14 +124,16 @@ public class CreateComponentDialog extends TitleAreaDialog {
 	public void setModuleProfileList(List<RTM.ModuleProfile> moduleProfileList) {
 		this.moduleList.clear();
 		for (RTM.ModuleProfile prof : moduleProfileList) {
-			String type = SDOUtil.findValueAsString(KEY_IMPLEMENTATION_ID,
-					prof.properties);
-			String lang = SDOUtil.findValueAsString(KEY_LANGUAGE,
-					prof.properties);
+			String type = SDOUtil.findValueAsString(KEY_IMPLEMENTATION_ID, prof.properties);
+			String lang = SDOUtil.findValueAsString(KEY_LANGUAGE, prof.properties);
+			String vendor = SDOUtil.findValueAsString(KEY_VENDOR, prof.properties);
+			String category = SDOUtil.findValueAsString(KEY_CATEGORY, prof.properties);
+			String version = SDOUtil.findValueAsString(KEY_VERSION, prof.properties);
+			
 			Module mod = new Module();
-			mod.type = type;
-			mod.lang = lang;
+			mod.type = "RTC:" + vendor + ":" + category + ":" + type + ":" + lang + ":" + version;
 			for(NameValue p : prof.properties) {
+				if(exclusionList.contains(p.name) ) continue;
 				mod.keyList.add(p.name);
 			}
 			this.moduleList.add(mod);
@@ -174,7 +183,7 @@ public class CreateComponentDialog extends TitleAreaDialog {
 
 		Label typeLabel = new Label(mainComposite, SWT.NONE);
 		typeLabel.setText(LABEL_TYPE_TITLE);
-		this.typeCombo = new Combo(mainComposite, SWT.NONE);
+		this.typeCombo = new Combo(mainComposite, SWT.READ_ONLY);
 		GridData gd = new GridData(GridData.GRAB_HORIZONTAL);
 		gd.minimumWidth = 180;
 		gd.horizontalAlignment = GridData.FILL;
@@ -188,32 +197,12 @@ public class CreateComponentDialog extends TitleAreaDialog {
 		this.typeCombo.select(0);
 		this.typeCombo.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
-				String type = typeCombo.getText();
-				Module mod = findModuleByType(type);
-				if (mod != null) {
-					langCombo.removeAll();
-					langCombo.add(mod.lang);
-					setKeyList(mod);
-				}
-				langCombo.select(0);
-				//
 				notifyModified();
 			}
 		});
 		this.typeCombo.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				int selected = typeCombo.getSelectionIndex();
-				if(selected < 0) return;
-				Module mod = moduleList.get(selected);
-				
-				if (mod != null) {
-					langCombo.removeAll();
-					langCombo.add(mod.lang);
-					setKeyList(mod);
-				}
-				langCombo.select(0);
-				//
 				notifyModified();
 			}
 			@Override
@@ -223,7 +212,7 @@ public class CreateComponentDialog extends TitleAreaDialog {
 
 		Label mnLabel = new Label(mainComposite, SWT.NONE);
 		mnLabel.setText(LABEL_MANAGER_NAME_TITLE);
-		this.managerNameCombo = new Combo(mainComposite, SWT.NONE);
+		this.managerNameCombo = new Combo(mainComposite, SWT.READ_ONLY);
 		gd = new GridData(GridData.GRAB_HORIZONTAL);
 		gd.minimumWidth = 180;
 		gd.horizontalAlignment = GridData.FILL;
@@ -238,25 +227,6 @@ public class CreateComponentDialog extends TitleAreaDialog {
 			this.managerNameCombo.setText(initManager);
 		}
 		this.managerNameCombo.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				notifyModified();
-			}
-		});
-
-		Label langLabel = new Label(mainComposite, SWT.NONE);
-		langLabel.setText(LABEL_LANGUAGE_TITLE);
-		this.langCombo = new Combo(mainComposite, SWT.NONE);
-		gd = new GridData(GridData.GRAB_HORIZONTAL);
-		gd.minimumWidth = 180;
-		gd.horizontalAlignment = GridData.FILL;
-		gd.grabExcessHorizontalSpace = true;
-		this.langCombo.setLayoutData(gd);
-		Module mod = findModuleByType(this.typeCombo.getText());
-		if (mod != null) {
-			this.langCombo.add(mod.lang);
-		}
-		this.langCombo.select(0);
-		this.langCombo.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				notifyModified();
 			}
@@ -407,25 +377,11 @@ public class CreateComponentDialog extends TitleAreaDialog {
 		return composite;
 	}
 
-	/** コンポーネント型名からモジュール情報を検索します。 */
-	private Module findModuleByType(String type) {
-		if (type == null || type.isEmpty()) {
-			return null;
-		}
-		for (Module mod : this.moduleList) {
-			if (type.equals(mod.type)) {
-				return mod;
-			}
-		}
-		return null;
-	}
-
 	/** 変更を通知します。 */
 	private void notifyModified() {
 		this.parameter = new CORBAHelper.CreateComponentParameter(
 				this.typeCombo.getText());
 		this.parameter.setManagerName(this.managerNameCombo.getText());
-		this.parameter.setLanguage(this.langCombo.getText());
 		this.parameter.setParams(buildParameter());
 		//
 		if (!validateInput()) {
@@ -518,7 +474,7 @@ public class CreateComponentDialog extends TitleAreaDialog {
 			super(viewer);
 			switch (column) {
 			case PARAMETER_KEY:
-				editor = new LocalComboBoxCellEditor(((TableViewer) viewer).getTable(), currentKeyList, SWT.DROP_DOWN);
+				editor = new LocalComboBoxCellEditor(((TableViewer) viewer).getTable(), currentKeyList, SWT.READ_ONLY);
 				break;
 			default:
 				editor = new TextCellEditor(((TableViewer) viewer).getTable());
@@ -564,16 +520,10 @@ public class CreateComponentDialog extends TitleAreaDialog {
 
 			switch (this.column) {
 			case PARAMETER_KEY:
-				if( value instanceof Integer ) {
-					targetParam.setName(currentKeyList[((Integer) value).intValue()]);
-					if(currentKeyList.length > ((Integer) value).intValue()) {
-						targetParam.setName(
-								currentKeyList[((Integer) value).intValue()]);
-					}
-				}else{
-					// 手入力された場合
-					updateDefaultKeyList((String)value);
-					targetParam.setName((String)value);
+				targetParam.setName(currentKeyList[((Integer) value).intValue()]);
+				if(currentKeyList.length > ((Integer) value).intValue()) {
+					targetParam.setName(
+							currentKeyList[((Integer) value).intValue()]);
 				}
 				break;
 			case PARAMETER_VALUE:
