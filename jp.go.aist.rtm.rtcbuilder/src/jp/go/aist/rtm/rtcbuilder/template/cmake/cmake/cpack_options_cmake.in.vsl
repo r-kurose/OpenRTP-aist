@@ -69,6 +69,7 @@ IF (WIN32)
     ${sharp} Windows WiX package settings
     if(${dol}{CPACK_GENERATOR} MATCHES "WIX")
       set(CPACK_WIX_CULTURES "ja-jp")
+      set(CPACK_WIX_UPGRADE_GUID @UPGRADE_GUID@)
       set(CPACK_WIX_PRODUCT_ICON "@PROJECT_SOURCE_DIR@/cmake\\rt_middleware_logo.ico")
       set(CPACK_WIX_UI_BANNER "@PROJECT_SOURCE_DIR@/cmake/rt_middleware_banner.bmp")
       set(CPACK_WIX_UI_DIALOG "@PROJECT_SOURCE_DIR@/cmake/rt_middleware_dlg.bmp")
