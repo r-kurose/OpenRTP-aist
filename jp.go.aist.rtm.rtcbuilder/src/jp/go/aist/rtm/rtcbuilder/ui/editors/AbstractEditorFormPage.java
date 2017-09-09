@@ -8,7 +8,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
 import jp.go.aist.rtm.rtcbuilder.generator.IDLParamConverter;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
@@ -16,6 +15,10 @@ import jp.go.aist.rtm.rtcbuilder.model.component.BuildView;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.DataTypePreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
@@ -437,10 +440,23 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		return 0;
 	}
 	
-	protected String[] extractDataTypes() {
-		String FS = System.getProperty("file.separator");
-		List<String> sources = new ArrayList<String>(DataTypePreferenceManager
+	protected List<String> getIDLDirectoriesForData() {
+		List<String> result = new ArrayList<String>(DataTypePreferenceManager
 				.getInstance().getIdlFileDirectories());
+		if(editor!=null && editor.getRtcParam()!=null && editor.getRtcParam().getOutputProject()!=null && 0<editor.getRtcParam().getOutputProject().length()) {
+			IWorkspaceRoot workspaceHandle = ResourcesPlugin.getWorkspace().getRoot();
+			IProject project = workspaceHandle.getProject(editor.getRtcParam().getOutputProject());
+			IFolder path = project.getFolder("idl");
+			if(path!=null && path.exists()) {
+				result.add(path.getLocation().toOSString());
+			}
+		}
+		return result;
+	}
+	
+	protected String[] extractDataTypes() {
+		List<String> sources = getIDLDirectoriesForData();
+		String FS = System.getProperty("file.separator");
 		String defaultPath = System.getenv("RTM_ROOT");
 		int baseindex = -1;
 		if (defaultPath != null) {

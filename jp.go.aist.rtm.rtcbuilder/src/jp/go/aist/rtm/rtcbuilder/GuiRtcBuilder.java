@@ -1,5 +1,7 @@
 package jp.go.aist.rtm.rtcbuilder;
 
+import java.util.List;
+
 import jp.go.aist.rtm.rtcbuilder.Generator.MergeHandler;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
@@ -40,8 +42,9 @@ public class GuiRtcBuilder {
 	 * @param generatorParam
 	 *            パラメータ
 	 */
+	@Deprecated
 	public boolean doGenerateWrite(GeneratorParam generatorParam) {
-		return this.doGenerateWrite(generatorParam, true);
+		return this.doGenerateWrite(generatorParam, null, true);
 	}
 	/**
 	 * ジェネレートを行い、ファイル出力を行う
@@ -49,10 +52,10 @@ public class GuiRtcBuilder {
 	 * @param generatorParam   パラメータ
 	 * @param isShowDialog     完了時にダイアログを表示するか
 	 */
-	public boolean doGenerateWrite(GeneratorParam generatorParam, boolean isShowDialog) {
+	public boolean doGenerateWrite(GeneratorParam generatorParam, List<String> idlDirs, boolean isShowDialog) {
 
 		try {
-			generator.doGenerateWrite(generatorParam, new MergeHandler() {
+			generator.doGenerateWrite(generatorParam, idlDirs, new MergeHandler() {
 				public int getSelectedProcess(GeneratedResult generatedResult,
 						String originalFileContents) {
 					return compareByDialog(generatedResult,

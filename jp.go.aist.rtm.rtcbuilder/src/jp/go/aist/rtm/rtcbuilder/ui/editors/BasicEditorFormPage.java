@@ -341,7 +341,8 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 				//TODO 複数コンポーネント対応版とする場合には複数設定
 				generatorParam.getRtcParams().get(0).getServiceClassParams().clear();
 				setPrefixSuffix(generatorParam.getRtcParams().get(0));
-				if (rtcBuilder.doGenerateWrite(generatorParam)) {
+				List<String> idlDirs = getIDLDirectoriesForData();
+				if (rtcBuilder.doGenerateWrite(generatorParam, idlDirs, true)) {
 					LanguageProperty langProp = LanguageProperty.checkPlugin(editor.getRtcParam());
 					if(langProp != null) {
 						try {

@@ -43,7 +43,6 @@ import jp.go.aist.rtm.rtcbuilder.manager.CXXGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.CommonGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.ui.editors.IMessageConstants;
-import jp.go.aist.rtm.rtcbuilder.ui.preference.DataTypePreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 import jp.go.aist.rtm.rtcbuilder.util.ValidationUtil;
@@ -146,7 +145,6 @@ public class Generator {
 					}
 				}
 			}
-			rtcParam.getIdlPathes().addAll(DataTypePreferenceManager.getInstance().getIdlFileDirectories());
 			if(idlDir!=null) {
 				rtcParam.getIdlPathes().addAll(idlDir);
 			}
@@ -676,11 +674,11 @@ public class Generator {
 	 * @throws ParseException
 	 * @throws IOException
 	 */
-	public void doGenerateWrite(GeneratorParam generatorParam,
+	public void doGenerateWrite(GeneratorParam generatorParam, List<String> idlDirs,
 			MergeHandler handler) throws Exception {
 		
 		for( RtcParam rtcParam : generatorParam.getRtcParams() ) {
-			List<GeneratedResult> generatedResult = generateTemplateCode(generatorParam);
+			List<GeneratedResult> generatedResult = generateTemplateCode(generatorParam, idlDirs, true);
 			writeFile(generatedResult, rtcParam, handler);
 		}
 	}
