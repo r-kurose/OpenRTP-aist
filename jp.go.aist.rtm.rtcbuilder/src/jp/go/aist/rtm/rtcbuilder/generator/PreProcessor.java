@@ -78,7 +78,7 @@ public class PreProcessor {
 	 * @return 実行後文字列
 	 * @throws IOException 
 	 */
-	public static String parse(String target, File includeBaseDir, List<String> includeFiles) throws IOException {
+	public static String parse(String target, File includeBaseDir, List<String> includeFiles, boolean isCheck) throws IOException, HeaderException {
 		String targetNoCmt = eraseComments(target);
 		/////
 		StringBuffer result = new StringBuffer();
@@ -86,7 +86,7 @@ public class PreProcessor {
 		while (matcher.find()) {
 			String replateString = "";
 			String includeFileContent = getIncludeFileContentThoroughgoing(
-					matcher.group(), includeBaseDir, includeFiles);
+					matcher.group(), includeBaseDir, includeFiles, isCheck);
 			if (includeFileContent != null) {
 				replateString = includeFileContent;
 			}
@@ -100,10 +100,10 @@ public class PreProcessor {
 	}
 
 	public static String getIncludeFileContentThoroughgoing(String directive,
-			File includeBaseDir, List<String> includeFiles) throws IOException {
-		String result = getIncludeFileContent(directive, includeBaseDir, includeFiles);
+			File includeBaseDir, List<String> includeFiles, boolean isCheck) throws IOException, HeaderException {
+		String result = getIncludeFileContent(directive, includeBaseDir, includeFiles, isCheck);
 		if (result != null) {
-			result = parse(result, includeBaseDir, includeFiles);
+			result = parse(result, includeBaseDir, includeFiles, isCheck);
 		}
 
 		return result;
@@ -118,7 +118,7 @@ public class PreProcessor {
 	 * @throws IOException 
 	 */
 	public static String getIncludeFileContent(String directive,
-			File includeBaseDir, List<String> includeFiles) throws IOException {
+			File includeBaseDir, List<String> includeFiles, boolean isCheck) throws IOException, HeaderException {
 		String result = null;
 		
 		Matcher matcher = INCLUDE_PATTERN.matcher(directive);
@@ -130,12 +130,13 @@ public class PreProcessor {
 			String includeFilePath = new File(includeBaseDir, filePath).getAbsolutePath();
 			File target = new File(includeFilePath);
 			if(target.exists()==false) {
-				throw new RuntimeException("Include of IDL '" + filePath + "' cannot be solved");
-			}
-			result = FileUtil.readFile(includeFilePath);
-			if(includeFiles!=null) {
-				if( !includeFiles.contains(includeFilePath) ) {
-					includeFiles.add(includeFilePath);
+				if(isCheck) throw new HeaderException(filePath);
+			} else {
+				result = FileUtil.readFile(includeFilePath);
+				if(includeFiles!=null) {
+					if( !includeFiles.contains(includeFilePath) ) {
+						includeFiles.add(includeFilePath);
+					}
 				}
 			}
 		}

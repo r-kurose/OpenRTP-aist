@@ -36,7 +36,7 @@ public class CXXPrefixSuffixTest extends TestBase {
 		rtcParam.setComponentKind("DataFlowComponent");
 		rtcParam.setRtmVersion("1.0.0");
 		rtcParam.setIsTest(true);
-		genParam.getRtcParams().add(rtcParam);
+		genParam.setRtcParam(rtcParam);
 		//
 		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
 		dataport.add(new DataPortParam("InP1", "RTC::TimedShort", "", 0));

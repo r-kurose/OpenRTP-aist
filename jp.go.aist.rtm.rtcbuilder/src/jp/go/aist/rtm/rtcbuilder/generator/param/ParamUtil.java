@@ -557,7 +557,7 @@ public class ParamUtil {
 
 	public RtcProfile convertToModule(GeneratorParam generatorParam,
 										List<GenerateManager> managerList) throws Exception {
-		RtcParam rtcParam = generatorParam.getRtcParams().get(0);
+		RtcParam rtcParam = generatorParam.getRtcParam();
 		return convertToModule(rtcParam, managerList);
 	}
 

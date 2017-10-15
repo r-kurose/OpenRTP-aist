@@ -32,7 +32,7 @@ public class CXXConstraint extends TestBase {
 		rtcParam.setMaxInstance(3);
 		rtcParam.setRtmVersion("1.0.0");
 		rtcParam.setIsTest(true);
-		genParam.getRtcParams().add(rtcParam);
+		genParam.setRtcParam(rtcParam);
 	}
 
 	public void testConstraint3() throws Exception{

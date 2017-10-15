@@ -281,8 +281,8 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 	 */
 	public void load() {
 		GeneratorParam generator = editor.getGeneratorParam();
-		if( generator.getRtcParams().size() > 0 ) {
-			RtcParam rtcParam = generator.getRtcParams().get(0);
+		if( generator.getRtcParam()!=null) {
+			RtcParam rtcParam = generator.getRtcParam();
 			if( servicePortViewer != null )
 				servicePortViewer.setInput(rtcParam.getServicePorts());
 			editor.updateEMFDataPorts(

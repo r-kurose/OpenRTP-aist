@@ -12,11 +12,15 @@ public class GeneratorParam implements Serializable {
 
 	private static final long serialVersionUID = -935608504783590375L;
 	
-	List<RtcParam> rtcParams = new ArrayList<RtcParam>();
+	RtcParam rtcParam;
 	List<DataTypeParam> dataTypeParams = new ArrayList<DataTypeParam>();
 
-	public List<RtcParam> getRtcParams() {
-		return rtcParams;
+	public RtcParam getRtcParam() {
+		return rtcParam;
+	}
+
+	public void setRtcParam(RtcParam rtcParam) {
+		this.rtcParam = rtcParam;
 	}
 
 	public List<DataTypeParam> getDataTypeParams() {

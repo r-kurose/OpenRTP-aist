@@ -31,7 +31,7 @@ public class CXXBuildTest extends TestBase {
 		rtcParam.setLanguageArg(LANG_CPP_ARG);
 		rtcParam.setRtmVersion(RTM_VERSION_100);
 		rtcParam.setIsTest(true);
-		genParam.getRtcParams().add(rtcParam);
+		genParam.setRtcParam(rtcParam);
 
 		generator = new Generator();
 	}

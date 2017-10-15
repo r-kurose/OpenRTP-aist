@@ -20,7 +20,7 @@ public class CORBAParseInheritTest extends TestBase {
 		List<String> includeFiles = new ArrayList<String>();
 		
 		String idlContent = FileUtil.readFile(rootPath + "\\resource\\IDL\\MyServiceChild.idl");
-		String idl = PreProcessor.parse(idlContent, getIncludeIDLDic(rootPath + "\\resource\\IDL"), includeFiles);
+		String idl = PreProcessor.parse(idlContent, getIncludeIDLDic(rootPath + "\\resource\\IDL"), includeFiles, true);
 		IDLParser parser = new IDLParser(new StringReader(idl));
 
 		specification spec = parser.specification();
@@ -45,7 +45,7 @@ public class CORBAParseInheritTest extends TestBase {
 		List<String> includeFiles = new ArrayList<String>();
 		
 		String idlContent = FileUtil.readFile(rootPath + "\\resource\\IDL\\MyServiceChildWithType.idl");
-		String idl = PreProcessor.parse(idlContent, getIncludeIDLDic(rootPath + "\\resource\\IDL"), includeFiles);
+		String idl = PreProcessor.parse(idlContent, getIncludeIDLDic(rootPath + "\\resource\\IDL"), includeFiles, true);
 		IDLParser parser = new IDLParser(new StringReader(idl));
 
 		specification spec = parser.specification();
@@ -69,7 +69,7 @@ public class CORBAParseInheritTest extends TestBase {
 		List<String> includeFiles = new ArrayList<String>();
 		
 		String idlContent = FileUtil.readFile(rootPath + "\\resource\\IDL\\MyServiceChildMulti.idl");
-		String idl = PreProcessor.parse(idlContent, getIncludeIDLDic(rootPath + "\\resource\\IDL"), includeFiles);
+		String idl = PreProcessor.parse(idlContent, getIncludeIDLDic(rootPath + "\\resource\\IDL"), includeFiles, true);
 		IDLParser parser = new IDLParser(new StringReader(idl));
 
 		specification spec = parser.specification();

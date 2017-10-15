@@ -36,7 +36,7 @@ public class CXXMultiTest extends TestBase {
 		rtcParam.setRtmVersion("1.0.0");
 		rtcParam.setIsTest(true);
 
-		genParam.getRtcParams().add(rtcParam);
+		genParam.setRtcParam(rtcParam);
 
 		List<DataPortParam> dataInport = new ArrayList<DataPortParam>();
 		dataInport.add(new DataPortParam("in1", "TimedShort", "", 0));

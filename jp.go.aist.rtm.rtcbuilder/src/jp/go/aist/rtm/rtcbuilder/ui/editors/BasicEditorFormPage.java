@@ -149,23 +149,22 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	
 	private void switchPerspective() {
 
-		for(RtcParam rtcParam : editor.getGeneratorParam().getRtcParams() ) {
-			//Pluginの存在確認
-			LanguageProperty langProp = LanguageProperty.checkPlugin(rtcParam);
-			String currentPerspectiveId = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-	            							.getActivePage().getPerspective().getId();
-			if( langProp != null && !langProp.getPerspectiveId().equals(currentPerspectiveId) ) {
-				MessageBox message = new MessageBox(getSite().getShell(), 
-						SWT.ICON_QUESTION | SWT.YES | SWT.NO);
-				message.setText(IMessageConstants.BASIC_PERSPECTIVE_TEXT);
-				message.setMessage(IMessageConstants.BASIC_PERSPECTIVE_MSG1 + langProp.getPerspectiveName() 
-						+ IMessageConstants.BASIC_PERSPECTIVE_MSG2);
-				if( message.open() == SWT.YES) {
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().setPerspective(
-							PlatformUI.getWorkbench().getPerspectiveRegistry().findPerspectiveWithId(
-									langProp.getPerspectiveId()));
-					}
-			}
+		RtcParam rtcParam = editor.getGeneratorParam().getRtcParam();
+		//Pluginの存在確認
+		LanguageProperty langProp = LanguageProperty.checkPlugin(rtcParam);
+		String currentPerspectiveId = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+            							.getActivePage().getPerspective().getId();
+		if( langProp != null && !langProp.getPerspectiveId().equals(currentPerspectiveId) ) {
+			MessageBox message = new MessageBox(getSite().getShell(), 
+					SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+			message.setText(IMessageConstants.BASIC_PERSPECTIVE_TEXT);
+			message.setMessage(IMessageConstants.BASIC_PERSPECTIVE_MSG1 + langProp.getPerspectiveName() 
+					+ IMessageConstants.BASIC_PERSPECTIVE_MSG2);
+			if( message.open() == SWT.YES) {
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().setPerspective(
+						PlatformUI.getWorkbench().getPerspectiveRegistry().findPerspectiveWithId(
+								langProp.getPerspectiveId()));
+				}
 		}
 	}
 
@@ -339,8 +338,8 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 				}
 				GeneratorParam generatorParam = editor.getGeneratorParam();
 				//TODO 複数コンポーネント対応版とする場合には複数設定
-				generatorParam.getRtcParams().get(0).getServiceClassParams().clear();
-				setPrefixSuffix(generatorParam.getRtcParams().get(0));
+				generatorParam.getRtcParam().getServiceClassParams().clear();
+				setPrefixSuffix(generatorParam.getRtcParam());
 				List<String> idlDirs = getIDLDirectoriesForData();
 				if (rtcBuilder.doGenerateWrite(generatorParam, idlDirs, true)) {
 					LanguageProperty langProp = LanguageProperty.checkPlugin(editor.getRtcParam());

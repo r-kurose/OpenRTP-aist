@@ -16,7 +16,7 @@ public class CORBAParseCommentTest extends TestBase {
 	public void testMultiComment() throws Exception{
 		String idlContent = FileUtil.readFile(rootPath + "\\resource\\IDL\\WalkGeneratorService.idl");
 
-		String idl = PreProcessor.parse(idlContent, null, null);
+		String idl = PreProcessor.parse(idlContent, null, null, true);
 		IDLParser parser = new IDLParser(new StringReader(idl));
 
 		specification spec = parser.specification();

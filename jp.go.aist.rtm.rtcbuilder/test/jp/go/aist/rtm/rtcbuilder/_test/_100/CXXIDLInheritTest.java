@@ -38,7 +38,7 @@ public class CXXIDLInheritTest extends TestBase {
 		rtcParam.setMaxInstance(2);
 		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
 		rtcParam.setIsTest(true);
-		genParam.getRtcParams().add(rtcParam);
+		genParam.setRtcParam(rtcParam);
 
 		generator = new Generator();
 	}

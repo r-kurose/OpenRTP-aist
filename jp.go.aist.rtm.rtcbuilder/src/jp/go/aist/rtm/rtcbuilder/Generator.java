@@ -24,6 +24,7 @@ import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.IDLParser;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.ParseException;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.specification;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
+import jp.go.aist.rtm.rtcbuilder.generator.HeaderException;
 import jp.go.aist.rtm.rtcbuilder.generator.IDLParamConverter;
 import jp.go.aist.rtm.rtcbuilder.generator.PreProcessor;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
@@ -66,6 +67,7 @@ public class Generator {
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(Generator.class);
+	private String warningMessage = "";
 
 	Map<String, GenerateManager> generateManagerList = new HashMap<String, GenerateManager>();
 
@@ -73,6 +75,10 @@ public class Generator {
 		this.addGenerateManager(new CommonGenerateManager());
 		this.addGenerateManager(new CXXGenerateManager());
 		this.addGenerateManager(new CMakeGenerateManager());
+	}
+
+	public String getWarningMessage() {
+		return warningMessage;
 	}
 
 	/**
@@ -93,11 +99,37 @@ public class Generator {
 		generateManagerList.clear();
 	}
 
-	public List<GeneratedResult> generateTemplateCode(
-			GeneratorParam generatorParam) throws Exception {
-		return generateTemplateCode(generatorParam, null, true);
+	public List<GeneratedResult> generateTemplateCode(GeneratorParam generatorParam) throws Exception {
+		validate(generatorParam.getRtcParam());
+		return generateTemplateCode(generatorParam, null);
 	}
 
+	public void validateIDLDef(GeneratorParam generatorParam, List<String> idlDir) throws Exception {
+		List<String> IDLPathes = new ArrayList<String>();
+		List<ServiceClassParam> IDLPathParams = new ArrayList<ServiceClassParam>();
+		
+		RtcParam rtcParam  = generatorParam.getRtcParam();
+		rtcParam.checkAndSetParameter();
+		rtcParam.getIdlPathes().clear();
+		for( ServicePortParam serviceport : rtcParam.getServicePorts() ) {
+			for( ServicePortInterfaceParam serviceInterfaces : serviceport.getServicePortInterfaces() ) {
+				if( !IDLPathes.contains(serviceInterfaces.getIdlFullPath()) ) {
+					IDLPathes.add(serviceInterfaces.getIdlFullPath());
+					IDLPathParams.add(new ServiceClassParam(serviceInterfaces.getIdlFullPath(),
+															 serviceInterfaces.getIdlSearchPath()));
+				}
+				if( 0<serviceInterfaces.getIdlSearchPath().length() &&
+						rtcParam.getIdlPathes().contains(serviceInterfaces.getIdlSearchPath())==false) {
+					rtcParam.getIdlPathes().add(serviceInterfaces.getIdlSearchPath());
+				}
+			}
+		}
+		if(idlDir!=null) {
+			rtcParam.getIdlPathes().addAll(idlDir);
+		}
+		checkRtcServiceClass(rtcParam, IDLPathParams);
+	}
+	
 	/**
 	 * ジェネレートする
 	 * 
@@ -108,14 +140,7 @@ public class Generator {
 	 *             IDLのパースに失敗した場合など
 	 */
 	public List<GeneratedResult> generateTemplateCode(
-			GeneratorParam generatorParam, List<String> idlDir, boolean validateFlag)
-			throws Exception {
-
-		if( validateFlag ) {
-			for( RtcParam rtcParam : generatorParam.getRtcParams() ) {
-				validate(rtcParam);
-			}
-		}
+			GeneratorParam generatorParam, List<String> idlDir) throws Exception {
 
 		List<ServiceClassParam> rtcServiceClasses = new ArrayList<ServiceClassParam>();
 		//IDL重複チェック用
@@ -123,59 +148,58 @@ public class Generator {
 		//IDL読み込み用
 		List<ServiceClassParam> IDLPathParams = new ArrayList<ServiceClassParam>();
 		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
-		for( RtcParam rtcParam : generatorParam.getRtcParams() ) {
-			//onImplementedフラグの修正
-			for(int index=IRtcBuilderConstants.ACTIVITY_INITIALIZE;index<IRtcBuilderConstants.ACTIVITY_DUMMY;index++) {
-				if(rtcParam.getDetailContent(index)!=null && 0<rtcParam.getDetailContent(index).length()) {
-					rtcParam.setActionImplemented(index, true);
+		
+		RtcParam rtcParam =  generatorParam.getRtcParam();
+		//onImplementedフラグの修正
+		for(int index=IRtcBuilderConstants.ACTIVITY_INITIALIZE;index<IRtcBuilderConstants.ACTIVITY_DUMMY;index++) {
+			if(rtcParam.getDetailContent(index)!=null && 0<rtcParam.getDetailContent(index).length()) {
+				rtcParam.setActionImplemented(index, true);
+			}
+		}
+		rtcParam.checkAndSetParameter();
+		rtcParam.getIdlPathes().clear();
+		for( ServicePortParam serviceport : rtcParam.getServicePorts() ) {
+			for( ServicePortInterfaceParam serviceInterfaces : serviceport.getServicePortInterfaces() ) {
+				if( !IDLPathes.contains(serviceInterfaces.getIdlFullPath()) ) {
+					IDLPathes.add(serviceInterfaces.getIdlFullPath());
+					IDLPathParams.add(new ServiceClassParam(serviceInterfaces.getIdlFullPath(),
+															 serviceInterfaces.getIdlSearchPath()));
+				}
+				if( 0<serviceInterfaces.getIdlSearchPath().length() &&
+						rtcParam.getIdlPathes().contains(serviceInterfaces.getIdlSearchPath())==false) {
+					rtcParam.getIdlPathes().add(serviceInterfaces.getIdlSearchPath());
 				}
 			}
-			rtcParam.checkAndSetParameter();
-			rtcParam.getIdlPathes().clear();
-			for( ServicePortParam serviceport : rtcParam.getServicePorts() ) {
-				for( ServicePortInterfaceParam serviceInterfaces : serviceport.getServicePortInterfaces() ) {
-					if( !IDLPathes.contains(serviceInterfaces.getIdlFullPath()) ) {
-						IDLPathes.add(serviceInterfaces.getIdlFullPath());
-						IDLPathParams.add(new ServiceClassParam(serviceInterfaces.getIdlFullPath(),
-																 serviceInterfaces.getIdlSearchPath()));
-					}
-					if( 0<serviceInterfaces.getIdlSearchPath().length() &&
-							rtcParam.getIdlPathes().contains(serviceInterfaces.getIdlSearchPath())==false) {
-						rtcParam.getIdlPathes().add(serviceInterfaces.getIdlSearchPath());
-					}
-				}
+		}
+		if(idlDir!=null) {
+			rtcParam.getIdlPathes().addAll(idlDir);
+		}
+		
+		rtcServiceClasses.addAll(getRtcServiceClass(rtcParam, IDLPathParams));
+		checkReferencedServiceParam(rtcServiceClasses, rtcParam);
+		
+		List<ServiceClassParam> serviceClassParamList = new ArrayList<ServiceClassParam>();
+		List<String> serviceClassNameList = new ArrayList<String>();
+		for( ServiceClassParam serviceClassParam : rtcServiceClasses ) {
+			if( !serviceClassNameList.contains(serviceClassParam.getName()) ) {
+				serviceClassNameList.add(serviceClassParam.getName());
+				serviceClassParamList.add(serviceClassParam);
 			}
-			if(idlDir!=null) {
-				rtcParam.getIdlPathes().addAll(idlDir);
+		}
+		rtcParam.getServiceClassParams().clear();
+
+		for( ServiceClassParam param : serviceClassParamList ) {
+			param.setParent(rtcParam);
+			rtcParam.getServiceClassParams().add(param);
+		}
+		for (String key : generateManagerList.keySet()) {
+			GenerateManager manager = generateManagerList.get(key);
+			if (!"Common".equals(manager.getManagerKey())
+					&& !rtcParam.getLangList().contains(
+							manager.getManagerKey())) {
+				continue;
 			}
-			
-			rtcServiceClasses.addAll(getRtcServiceClass(rtcParam, IDLPathParams));
-			checkReferencedServiceParam(rtcServiceClasses, rtcParam);
-			List<ServiceClassParam> serviceClassParamList = new ArrayList<ServiceClassParam>();
-			List<String> serviceClassNameList = new ArrayList<String>();
-			for( ServiceClassParam serviceClassParam : rtcServiceClasses ) {
-				if( !serviceClassNameList.contains(serviceClassParam.getName()) ) {
-					serviceClassNameList.add(serviceClassParam.getName());
-					serviceClassParamList.add(serviceClassParam);
-				}
-			}
-			rtcParam.getServiceClassParams().clear();
-	
-			for( ServiceClassParam param : serviceClassParamList ) {
-				param.setParent(rtcParam);
-				rtcParam.getServiceClassParams().add(param);
-			}
-			List<GeneratedResult> resultEach = new ArrayList<GeneratedResult>();
-			for (String key : generateManagerList.keySet()) {
-				GenerateManager manager = generateManagerList.get(key);
-				if (!"Common".equals(manager.getManagerKey())
-						&& !rtcParam.getLangList().contains(
-								manager.getManagerKey())) {
-					continue;
-				}
-				resultEach.addAll(manager.generateTemplateCode(rtcParam));
-			}
-			result.addAll(resultEach);
+			result.addAll(manager.generateTemplateCode(rtcParam));
 		}
 
 		return result;
@@ -186,7 +210,7 @@ public class Generator {
 	 * 
 	 * @param generatorParam
 	 */
-	private void validate(RtcParam rtcParam) {
+	public void validate(RtcParam rtcParam) {
 
 		if( rtcParam.getOutputProject() == null ) {
 			throw new RuntimeException(IRTCBMessageConstants.VALIDATE_ERROR_OUTPUTPROJECT);
@@ -289,7 +313,7 @@ public class Generator {
 	 * @throws ParseException
 	 */
 	private List<ServiceClassParam> getRtcServiceClass(RtcParam rtcParam,
-			List<ServiceClassParam> IDLPathes) throws ParseException {
+			List<ServiceClassParam> IDLPathes) throws ParseException, HeaderException {
 		List<ServiceClassParam> result = new ArrayList<ServiceClassParam>();
 		List<String> includeFiles = new ArrayList<String>();
 
@@ -323,7 +347,7 @@ public class Generator {
 				}
 				String idlContent = FileUtil.readFile(fileName);
 				if (idlContent == null) continue;
-				idl = PreProcessor.parse(idlContent, getIncludeIDLDic(sv.getIdlPath()), incs);
+				idl = PreProcessor.parse(idlContent, getIncludeIDLDic(sv.getIdlPath()), incs, false);
 			} catch (IOException e) {
 				continue;
 			}
@@ -332,6 +356,9 @@ public class Generator {
 			specification spec = parser.specification();
 
 			List<ServiceClassParam> serviceClassParams = IDLParamConverter.convert(spec, sv.getName());
+			if(IDLParamConverter.checkSuperInterface(serviceClassParams)==false) {
+				warningMessage = "No parent interface definition found. Please check the IDL and included IDL files. ";
+			}
 			List<TypeDefParam> typedefParams = IDLParamConverter.convert_typedef(spec, sv.getName());
 			if (typedefParams.size() > 0) {
 				serviceClassParams = convertType(serviceClassParams, typedefParams);
@@ -374,6 +401,43 @@ public class Generator {
 		}
 
 		return result;
+	}
+	
+	private void checkRtcServiceClass(RtcParam rtcParam, List<ServiceClassParam> IDLPathes) throws Exception {
+		for (int intIdx = 0; intIdx < IDLPathes.size(); intIdx++) {
+			ServiceClassParam sv = IDLPathes.get(intIdx);
+			if (sv == null) continue;
+			List<String> incs = new ArrayList<String>();
+			try {
+				String fileName = sv.getName();
+				File file = new File(fileName);
+				if(file.exists()==false) {
+					for(String path : rtcParam.getIdlPathes()) {
+						String fullName = path + File.separator + fileName; 
+						file = new File(fullName);
+						if(file.exists()) {
+							for( IdlFileParam idlFile : rtcParam.getProviderIdlPathes() ) {
+								if( idlFile.getIdlFile().equals(fileName) ) {
+									idlFile.setIdlPath(fullName);
+								}
+							}
+							for( IdlFileParam idlFile : rtcParam.getConsumerIdlPathes() ) {
+								if( idlFile.getIdlFile().equals(fileName) ) {
+									idlFile.setIdlPath(fullName);
+								}
+							}
+							fileName = fullName;
+							break;
+						}
+					}
+				}
+				String idlContent = FileUtil.readFile(fileName);
+				if (idlContent == null) continue;
+				PreProcessor.parse(idlContent, getIncludeIDLDic(sv.getIdlPath()), incs, true);
+			} catch (IOException e) {
+				continue;
+			}
+		}
 	}
 	
 	private List<ServiceClassParam> convertType(List<ServiceClassParam> source, List<TypeDefParam> types) {
@@ -676,11 +740,11 @@ public class Generator {
 	 */
 	public void doGenerateWrite(GeneratorParam generatorParam, List<String> idlDirs,
 			MergeHandler handler) throws Exception {
-		
-		for( RtcParam rtcParam : generatorParam.getRtcParams() ) {
-			List<GeneratedResult> generatedResult = generateTemplateCode(generatorParam, idlDirs, true);
-			writeFile(generatedResult, rtcParam, handler);
-		}
+		warningMessage = "";
+		RtcParam rtcParam =  generatorParam.getRtcParam();
+		validate(rtcParam);
+		List<GeneratedResult> generatedResult = generateTemplateCode(generatorParam, idlDirs);
+		writeFile(generatedResult, rtcParam, handler);
 	}
 
 	/**

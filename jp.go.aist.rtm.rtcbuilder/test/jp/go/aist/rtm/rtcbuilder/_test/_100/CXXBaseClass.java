@@ -30,7 +30,7 @@ public class CXXBaseClass extends TestBase {
 		rtcParam.setRtmVersion("1.0.0");
 		rtcParam.setIsTest(true);
 
-		genParam.getRtcParams().add(rtcParam);
+		genParam.setRtcParam(rtcParam);
 	}
 
 	public void testDFFSMMM() throws Exception{

@@ -126,10 +126,10 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		String[] target = ((FileEditorInput) result).getPath().segments();
 		if( target.length>1 ) {
 			title = target[target.length-2];
-			generatorParam.getRtcParams().get(0).setOutputProject(title);
+			generatorParam.getRtcParam().setOutputProject(title);
 		} else {
 			title = ((FileEditorInput) result).getPath().lastSegment();
-			generatorParam.getRtcParams().get(0).setOutputProject(title);
+			generatorParam.getRtcParam().setOutputProject(title);
 		}
 		//on_initializeは常にON
 		setOnInitialize();
@@ -146,13 +146,12 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	}
 	
 	private void setOnInitialize() {
-		for( RtcParam param : generatorParam.getRtcParams() ) {
-			param.setActionImplemented(IRtcBuilderConstants.ACTIVITY_INITIALIZE, true);
-		}
+		RtcParam param  = generatorParam.getRtcParam();
+		param.setActionImplemented(IRtcBuilderConstants.ACTIVITY_INITIALIZE, true);
 	}
 	
 	public void loadNewData(RtcParam param) {
-		this.generatorParam.getRtcParams().set(0, param);
+		this.generatorParam.setRtcParam(param);
 		
 		title = "RtcBuilder";
 		if( buildview==null ) buildview = ComponentFactory.eINSTANCE.createBuildView();
@@ -194,7 +193,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		rtcParam.setDocCreator(DocumentPreferenceManager.getCreatorValue());
 		//
 		rtcParam.resetUpdated();
-		generatorParam.getRtcParams().add(rtcParam);
+		generatorParam.setRtcParam(rtcParam);
 		buildview = ComponentFactory.eINSTANCE.createBuildView();
 	}
 	
@@ -457,9 +456,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		} else {
 			DatatypeFactory dateFactory = new DatatypeFactoryImpl();
 			String dateTime = dateFactory.newXMLGregorianCalendar(new GregorianCalendar()).toString();
-			for(RtcParam rtcParam : generatorParam.getRtcParams() ) {
-				rtcParam.setUpdateDate(dateTime);
-			}
+			generatorParam.getRtcParam().setUpdateDate(dateTime);
 			ProfileHandler handler = new ProfileHandler();
 			xmlFile = handler.convert2XML(generatorParam);
 		}
@@ -508,8 +505,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		ProfileHandler handler = new ProfileHandler();
 		RtcProfile module = handler.restorefromXML(xmlFile);
 		ParamUtil putil = new ParamUtil();
-		getGeneratorParam().getRtcParams().set(0,
-				putil.convertFromModule(module, generatorParam, managerList));
+		getGeneratorParam().setRtcParam(putil.convertFromModule(module, generatorParam, managerList));
 		getRtcParam().setRtcXml(xmlFile);
 		//
 		if (basicFormPage != null) basicFormPage.load();
@@ -582,7 +578,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	 * RtcParamを取得する
 	 */
 	public RtcParam getRtcParam() {
-		return generatorParam.getRtcParams().get(0);
+		return generatorParam.getRtcParam();
 	}
 
 	/**

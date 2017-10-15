@@ -49,7 +49,7 @@ public class CXXIDLType extends TestBase {
 		srvports.add(service1);
 		
 		rtcParam.getServicePorts().addAll(srvports);
-		genParam.getRtcParams().add(rtcParam);
+		genParam.setRtcParam(rtcParam);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
@@ -85,7 +85,7 @@ public class CXXIDLType extends TestBase {
 		srvports.add(service1);
 		
 		rtcParam.getServicePorts().addAll(srvports);
-		genParam.getRtcParams().add(rtcParam);
+		genParam.setRtcParam(rtcParam);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
@@ -120,7 +120,7 @@ public class CXXIDLType extends TestBase {
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 		rtcParam.getServicePorts().addAll(srvports);
-		genParam.getRtcParams().add(rtcParam);
+		genParam.setRtcParam(rtcParam);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
@@ -156,7 +156,7 @@ public class CXXIDLType extends TestBase {
 		srvports.add(service1);
 		
 		rtcParam.getServicePorts().addAll(srvports);
-		genParam.getRtcParams().add(rtcParam);
+		genParam.setRtcParam(rtcParam);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
@@ -193,7 +193,7 @@ public class CXXIDLType extends TestBase {
 		srvports.add(service1);
 		
 		rtcParam.getServicePorts().addAll(srvports);
-		genParam.getRtcParams().add(rtcParam);
+		genParam.setRtcParam(rtcParam);
 
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam);

@@ -14,11 +14,11 @@ public class PreProcessorTest extends TestBase {
 	public void testIsInclude() throws Exception {
 		String result;
 
-		result = PreProcessor.getIncludeFileContent("#include <test.txt>", new File(rootPath + "\\resource"), null);
+		result = PreProcessor.getIncludeFileContent("#include <test.txt>", new File(rootPath + "\\resource"), null, true);
 		assertEquals("testTextContents\r\n", result);
 
 		result = PreProcessor.getIncludeFileContent("#include  \"test.txt\"",
-				new File(rootPath + "\\resource"), null);
+				new File(rootPath + "\\resource"), null, true);
 		assertEquals("testTextContents\r\n", result);
 
 	}
@@ -26,17 +26,17 @@ public class PreProcessorTest extends TestBase {
 	public void testDefault() throws Exception {
 		String result;
 
-		result = PreProcessor.parse("", null, null);
+		result = PreProcessor.parse("", null, null, true);
 		assertEquals("", result);
 
 		result = PreProcessor.parse(
 				"\n#IFDEF \n#IFDEF HOGE_TYPE \nhoge\n// #comment#\n#ENDIF",
-				null, null);
+				null, null, true);
 		assertEquals("\n\n\nhoge\n// #comment#\n", result);
 
 		result = PreProcessor.parse(
 				"\n#IFDEF \n#IFDEF HOGE_TYPE \nhoge\n// #comment#\n#ENDIF",
-				null, null);
+				null, null, true);
 		assertEquals("\n\n\nhoge\n// #comment#\n", result);
 
 	}
