@@ -39,7 +39,7 @@ public class JavaIDLInheritTest extends TestBase {
 		rtcParam.setComponentKind("DataFlowComponent");
 		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
 		rtcParam.setIsTest(true);
-		genParam.getRtcParams().add(rtcParam);
+		genParam.setRtcParam(rtcParam);
 
 		generator = new Generator();
 		generator.addGenerateManager(new JavaGenerateManager());
