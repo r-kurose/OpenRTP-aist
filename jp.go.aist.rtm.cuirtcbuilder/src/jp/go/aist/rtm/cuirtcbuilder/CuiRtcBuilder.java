@@ -103,13 +103,14 @@ public class CuiRtcBuilder {
 		generator.addGenerateManager(PyCmanager);
 		generator.addGenerateManager(Pymanager);
 		try {
-			List<GeneratedResult> results = generator.generateTemplateCode(generatorParam, idlDirs, true);
+			generator.validate(generatorParam.getRtcParam());
+			List<GeneratedResult> results = generator.generateTemplateCode(generatorParam, idlDirs);
 			for(GeneratedResult target : results) {
 				String fileName = targetDir + File.separator + target.getName().replace("/", File.separator);
 				writeFile(fileName, target.getCode(), "UTF-8");
 			}
 			//
-			RtcParam rtcParam = generatorParam.getRtcParams().get(0);
+			RtcParam rtcParam = generatorParam.getRtcParam();
 			for( IdlFileParam idlFile : rtcParam.getProviderIdlPathes() ) {
 				String idlTarget = targetDir + File.separator + "idl" + File.separator + idlFile.getIdlFile();
 				FileChannel src = new FileInputStream(idlFile.getIdlPath()).getChannel();
