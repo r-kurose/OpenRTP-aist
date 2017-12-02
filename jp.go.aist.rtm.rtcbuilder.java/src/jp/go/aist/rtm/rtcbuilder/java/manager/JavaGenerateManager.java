@@ -154,27 +154,33 @@ public class JavaGenerateManager extends GenerateManager {
 		return result;
 	}
 
-	// 1.0系 (Java)
+	// ソースコード
 
 	public GeneratedResult generateCompSource(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = "src/" + rtcParam.getName() + "Comp.java";
 		String infile = "java/Java_Comp.java.vsl";
-		return generate(infile, outfile, contextMap);
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setNotBom(true);
+		return result;
 	}
 
 	public GeneratedResult generateRTCSource(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = "src/" + rtcParam.getName() + ".java";
 		String infile = "java/Java_RTC.java.vsl";
-		return generate(infile, outfile, contextMap);
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setNotBom(true);
+		return result;
 	}
 
 	public GeneratedResult generateRTCImplSource(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = "src/" + rtcParam.getName() + "Impl.java";
 		String infile = "java/Java_RTC_Impl.java.vsl";
-		return generate(infile, outfile, contextMap);
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setNotBom(true);
+		return result;
 	}
 
 	public GeneratedResult generateSVCSource(Map<String, Object> contextMap) {
@@ -183,7 +189,9 @@ public class JavaGenerateManager extends GenerateManager {
 		String outfile = "src/" + TemplateHelper.getBasename(svc.getName())
 				+ TemplateHelper.getServiceImplSuffix() + ".java";
 		String infile = "java/Java_SVC.java.vsl";
-		return generate(infile, outfile, contextMap);
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setNotBom(true);
+		return result;
 	}
 
 	public GeneratedResult generateClassPath(Map<String, Object> contextMap) {
@@ -196,14 +204,18 @@ public class JavaGenerateManager extends GenerateManager {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = rtcParam.getName() + ".bat";
 		String infile = "java/run.bat.vsl";
-		return generate(infile, outfile, contextMap);
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setNotBom(true);
+		return result;
 	}
 
 	public GeneratedResult generateRunSh(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = rtcParam.getName() + ".sh";
 		String infile = "java/run.sh.vsl";
-		return generate(infile, outfile, contextMap);
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setNotBom(true);
+		return result;
 	}
 
 	// 1.0系 (ビルド環境)
