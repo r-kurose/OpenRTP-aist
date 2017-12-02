@@ -138,6 +138,8 @@ public class JavaGenerateManager extends GenerateManager {
 		result.add(gr);
 		gr = generateRunSh(contextMap);
 		result.add(gr);
+		gr = generateRunXML(contextMap);
+		result.add(gr);
 
 		gr = generateBuildXML(contextMap);
 		result.add(gr);
@@ -218,6 +220,15 @@ public class JavaGenerateManager extends GenerateManager {
 		return result;
 	}
 
+	public GeneratedResult generateRunXML(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = "run_" + rtcParam.getName() + ".xml";
+		String infile = "java/runRTC.xml.vsl";
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setNotBom(true);
+		return result;
+	}
+	
 	// 1.0系 (ビルド環境)
 
 	public GeneratedResult generateBuildXML(Map<String, Object> contextMap) {

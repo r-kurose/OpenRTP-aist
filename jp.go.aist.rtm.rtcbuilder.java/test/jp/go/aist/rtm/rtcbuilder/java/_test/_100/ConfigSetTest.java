@@ -58,7 +58,7 @@ public class ConfigSetTest extends TestBase {
 
 		String targetDir = rootPath + "/resource/100/ConfigSet/AIST7/";
 
-		assertEquals(31, result.size());
+		assertEquals(32, result.size());
 		checkCode(result, targetDir, "src/ModuleNameComp.java");
 		checkCode(result, targetDir, "src/ModuleName.java");
 		checkCode(result, targetDir, "src/ModuleNameImpl.java");
@@ -87,7 +87,7 @@ public class ConfigSetTest extends TestBase {
 
 		String targetDir = rootPath + "/resource/100/ConfigSet/AIST6/";
 
-		assertEquals(31, result.size());
+		assertEquals(32, result.size());
 		checkCode(result, targetDir, "src/ModuleNameComp.java");
 		checkCode(result, targetDir, "src/ModuleName.java");
 		checkCode(result, targetDir, "src/ModuleNameImpl.java");
@@ -114,7 +114,7 @@ public class ConfigSetTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/ConfigSet/configset1/";
 
-		assertEquals(31, result.size());
+		assertEquals(32, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
@@ -143,7 +143,7 @@ public class ConfigSetTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/ConfigSet/configset2/";
 
-		assertEquals(31, result.size());
+		assertEquals(32, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
@@ -175,7 +175,7 @@ public class ConfigSetTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/ConfigSet/configset3/";
 
-		assertEquals(31, result.size());
+		assertEquals(32, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
@@ -209,7 +209,7 @@ public class ConfigSetTest extends TestBase {
 		String resourceDir = rootPath
 				+ "/resource/100/ConfigSet/ConfigSetType/";
 
-		assertEquals(31, result.size());
+		assertEquals(32, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
