@@ -356,7 +356,7 @@ public class Generator {
 			specification spec = parser.specification();
 
 			List<ServiceClassParam> serviceClassParams = IDLParamConverter.convert(spec, sv.getName());
-			if(IDLParamConverter.checkSuperInterface(serviceClassParams)==false) {
+			if(IDLParamConverter.checkSuperInterface(serviceClassParams, false)==false) {
 				warningMessage = "No parent interface definition found. Please check the IDL and included IDL files. ";
 			}
 			List<TypeDefParam> typedefParams = IDLParamConverter.convert_typedef(spec, sv.getName());

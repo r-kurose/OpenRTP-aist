@@ -11,7 +11,7 @@
 #define MYSERVICESVC_IMPL_H
  
 /*!
- * @class MyServiceSVC_impl
+ * @class Test_MyServiceSVC_impl
  * Example class implementing IDL interface Test::MyService
  */
 class Test_MyServiceSVC_impl
@@ -21,13 +21,13 @@ class Test_MyServiceSVC_impl
  private:
    // Make sure all instances are built on the heap by making the
    // destructor non-public
-   //virtual ~MyServiceSVC_impl();
+   //virtual ~Test_MyServiceSVC_impl();
 
  public:
   /*!
    * @brief standard constructor
    */
-   MyServiceSVC_impl();
+   Test_MyServiceSVC_impl();
   /*!
    * @brief destructor
    */

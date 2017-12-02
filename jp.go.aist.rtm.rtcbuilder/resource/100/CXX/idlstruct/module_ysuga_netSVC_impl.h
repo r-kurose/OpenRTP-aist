@@ -13,7 +13,7 @@
 #define MODULE_YSUGA_NETSVC_IMPL_H
  
 /*!
- * @class HogeSVC_impl
+ * @class ysuga_net_HogeSVC_impl
  * Example class implementing IDL interface ysuga_net::Hoge
  */
 class ysuga_net_HogeSVC_impl
@@ -23,13 +23,13 @@ class ysuga_net_HogeSVC_impl
  private:
    // Make sure all instances are built on the heap by making the
    // destructor non-public
-   //virtual ~HogeSVC_impl();
+   //virtual ~ysuga_net_HogeSVC_impl();
 
  public:
   /*!
    * @brief standard constructor
    */
-   HogeSVC_impl();
+   ysuga_net_HogeSVC_impl();
   /*!
    * @brief destructor
    */

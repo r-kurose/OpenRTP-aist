@@ -11,7 +11,7 @@
 #define MYSERVICEMODULETYPEDEFSVC_IMPL_H
  
 /*!
- * @class MyServiceSVC_impl
+ * @class RTC_RTM_MyServiceSVC_impl
  * Example class implementing IDL interface RTC::RTM::MyService
  */
 class RTC_RTM_MyServiceSVC_impl
@@ -21,13 +21,13 @@ class RTC_RTM_MyServiceSVC_impl
  private:
    // Make sure all instances are built on the heap by making the
    // destructor non-public
-   //virtual ~MyServiceSVC_impl();
+   //virtual ~RTC_RTM_MyServiceSVC_impl();
 
  public:
   /*!
    * @brief standard constructor
    */
-   MyServiceSVC_impl();
+   RTC_RTM_MyServiceSVC_impl();
   /*!
    * @brief destructor
    */
