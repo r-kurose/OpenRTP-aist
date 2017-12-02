@@ -46,7 +46,7 @@
 #else
 	<target name="compile" depends="mkdir">
 #end
-		<javac srcdir="${dollarStr}{source}" destdir="${dollarStr}{dest}">
+		<javac includeantruntime="false" srcdir="${dollarStr}{source}" destdir="${dollarStr}{dest}">
 			<classpath>
 				<fileset dir="${dollarStr}{env.RTM_JAVA_ROOT}/jar">
 					<include name="*.jar"/>
