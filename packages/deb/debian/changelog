@@ -1,3 +1,10 @@
+openrtp (1.2.0-1) experimental; urgency=low
+
+  * The character code was modified.
+  * Modified the shell script, batch file and Ant build file.
+
+ -- Noriaki Ando <n-ando@aist.go.jp>  Wed, 06 Dec 2017 11:34:42 +0900
+
 openrtp (1.2.0-0) experimental; urgency=low
 
   * 1.2.0-0 (1.2.0-RELEASE). OpenRTP-1.2.0-RELEASE
