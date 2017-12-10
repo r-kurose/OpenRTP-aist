@@ -102,6 +102,7 @@ endif(STATIC_LIBS)
 if (${dol}{CMAKE_SYSTEM_NAME} MATCHES "Darwin")
    ${sharp} Mac OS X specific code
    SET(CMAKE_CXX_COMPILER "g++")
+   SET(CMAKE_MACOSX_RPATH 1)
 endif (${dol}{CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 
