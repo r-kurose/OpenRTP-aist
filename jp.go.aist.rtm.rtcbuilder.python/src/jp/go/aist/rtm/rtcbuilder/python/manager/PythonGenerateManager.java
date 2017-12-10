@@ -169,7 +169,9 @@ public class PythonGenerateManager extends GenerateManager {
 	public GeneratedResult generateIDLCompileSh(Map<String, Object> contextMap) {
 		String outfile = "idlcompile.sh";
 		String infile = "python/idlcompile.sh.vsl";
-		return generate(infile, outfile, contextMap);
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setNotBom(true);
+		return result;
 	}
 
 	public GeneratedResult generateDeleteBat(Map<String, Object> contextMap) {
