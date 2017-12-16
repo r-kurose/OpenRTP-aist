@@ -71,7 +71,12 @@ public class CommonGenerateManager extends GenerateManager {
 	public GeneratedResult generateREADME(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = "README." + rtcParam.getName();
-		String infile = "common/README.vsl";
+		String infile = "";
+		if(rtcParam.isChoreonoid()) {
+			infile = "common/README_Choreonoid.vsl";
+		} else {
+			infile = "common/README.vsl";
+		}
 		return generate(infile, outfile, contextMap);
 	}
 

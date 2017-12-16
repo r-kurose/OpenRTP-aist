@@ -535,6 +535,12 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 			result = IMessageConstants.LANGUAGE_SELECTION_CAUTION;
 			return result;
 		}
+		
+		if(rtcParam.isChoreonoid() && rtcParam.getLangList().contains(IRtcBuilderConstants.LANG_CPP)==false ) {
+			result = IMessageConstants.LANGUAGE_CHOREONOID_CAUTION;
+			return result;
+		}
+		
 		return null;
 	}
 

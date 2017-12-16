@@ -119,6 +119,8 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	private String rtm_version = IRtcBuilderConstants.DEFAULT_RTM_VERSION;
 	private String rtm_java_version = IRtcBuilderConstants.DEFAULT_RTM_VERSION;
 	private boolean test_version = false;
+	
+	private boolean isChoreonoid = false;
 
 	public RtcParam(GeneratorParam parent) {
 		this(parent, false);
@@ -138,7 +140,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		}
 		//
 		actions = new RecordedList<ActionsParam>();
-		for (int intidx = IRtcBuilderConstants.ACTIVITY_INITIALIZE; intidx < IRtcBuilderConstants.ACTIVITY_MODE_CHANGED + 1; intidx++) {
+		for (int intidx = IRtcBuilderConstants.ACTIVITY_INITIALIZE; intidx < IRtcBuilderConstants.ACTIVITY_DUMMY; intidx++) {
 			actions.add(new ActionsParam());
 		}
 		//
@@ -654,6 +656,12 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		this.configurationSuffix = configurationSuffix;
 	}
 
+	public boolean isChoreonoid() {
+		return isChoreonoid;
+	}
+	public void setChoreonoid(boolean value) {
+		isChoreonoid = value;
+	}
 	//
 	public void checkAndSetParameter() {
 

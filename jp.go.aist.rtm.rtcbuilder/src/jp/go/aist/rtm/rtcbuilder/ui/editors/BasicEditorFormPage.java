@@ -71,6 +71,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	 */
 	private static final String CATEGORY_INDEX_KEY = BasicEditorFormPage.class.getName() + ".category.name";
 	private final String CATEGORY_COMPOSITE =  "composite.";
+	private final String KIND_CHOREONOID =  "BodyIoRTC";
 
 	private Text nameText;
 	private Combo categoryCombo;
@@ -86,6 +87,9 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	private Button dataFlowBtn;
 	private Button fsmBtn;
 	private Button multiModeBtn;
+	private Group compGroup;
+	private Button choreonoidBtn;
+
 	private Text rtcTypeText;
 
 	private Button generateButton;
@@ -218,7 +222,8 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		//Component Kind
 		if( !dataFlowBtn.getSelection() && 
 				!fsmBtn.getSelection() &&
-				!multiModeBtn.getSelection() ) {
+				!multiModeBtn.getSelection() &&
+				!choreonoidBtn.getSelection() ) {
 			result = "Please Select Component Kind.";
 		}
 		//Composite Component
@@ -233,43 +238,47 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 
 	private void createModuleSection(FormToolkit toolkit, ScrolledForm form) {
 		Composite composite = createSectionBaseWithLabel(toolkit, form, 
-				IMessageConstants.BASIC_COMPONENT_TITLE, IMessageConstants.BASIC_COMPONENT_EXPL, 2);
+				IMessageConstants.BASIC_COMPONENT_TITLE, IMessageConstants.BASIC_COMPONENT_EXPL, 3);
 		//
 		nameText = createLabelAndText(toolkit, composite, 
-				IMessageConstants.REQUIRED + IMessageConstants.BASIC_LBL_MODULENAME, SWT.NONE, SWT.COLOR_RED);
-		descriptionText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_DESCRIPTION);
+				IMessageConstants.REQUIRED + IMessageConstants.BASIC_LBL_MODULENAME, SWT.NONE, SWT.COLOR_RED, 2);
+		descriptionText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_DESCRIPTION, SWT.NONE, SWT.COLOR_BLACK, 2);
 		versionText = createLabelAndText(toolkit, composite,
-				IMessageConstants.REQUIRED + IMessageConstants.BASIC_LBL_VERSION, SWT.NONE, SWT.COLOR_RED);
+				IMessageConstants.REQUIRED + IMessageConstants.BASIC_LBL_VERSION, SWT.NONE, SWT.COLOR_RED, 2);
 		venderText = createLabelAndText(toolkit, composite,
-				IMessageConstants.REQUIRED + IMessageConstants.BASIC_LBL_VENDOR, SWT.NONE, SWT.COLOR_RED);
+				IMessageConstants.REQUIRED + IMessageConstants.BASIC_LBL_VENDOR, SWT.NONE, SWT.COLOR_RED, 2);
 		String[] defaultCategory = {};
 		categoryCombo = createEditableCombo(toolkit, composite,
 				IMessageConstants.REQUIRED + IMessageConstants.BASIC_LBL_CATEGORY,
-				CATEGORY_INDEX_KEY, defaultCategory, SWT.COLOR_RED);
+				CATEGORY_INDEX_KEY, defaultCategory, SWT.COLOR_RED, 2);
 		typeCombo = createLabelAndCombo(toolkit, composite, IMessageConstants.BASIC_LBL_COMPONENT_TYPE,
-				IRtcBuilderConstants.COMPONENT_TYPE_ITEMS);
+				IRtcBuilderConstants.COMPONENT_TYPE_ITEMS, SWT.COLOR_BLACK, 2);
 		activityTypeCombo = createLabelAndCombo(toolkit, composite, IMessageConstants.BASIC_LBL_ACTIVITY_TYPE,
-				IRtcBuilderConstants.ACTIVITY_TYPE_ITEMS);
+				IRtcBuilderConstants.ACTIVITY_TYPE_ITEMS, SWT.COLOR_BLACK, 2);
 		//
 		toolkit.createLabel(composite, IMessageConstants.BASIC_LBL_COMPONENT_KIND);
-		Group compGroup = new Group(composite, SWT.NONE);
+		
+		compGroup = new Group(composite, SWT.NONE);
 		compGroup.setLayout(new GridLayout(3, false));
 		GridData gd = new GridData();
 		compGroup.setLayoutData(gd);
 		dataFlowBtn = createRadioCheckButton(toolkit, compGroup, "DataFlow", SWT.CHECK);
 		fsmBtn = createRadioCheckButton(toolkit, compGroup, "FSM", SWT.CHECK);
 		multiModeBtn = createRadioCheckButton(toolkit, compGroup, "MultiMode", SWT.CHECK);
+		
+		choreonoidBtn = createRadioCheckButton(toolkit, composite, "Choreonoid", SWT.CHECK);
 		//
-		maxInstanceText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_MAX_INSTANCES);
+		maxInstanceText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_MAX_INSTANCES, SWT.NONE, SWT.COLOR_BLACK, 2);
 		executionTypeCombo = createLabelAndCombo(toolkit, composite, IMessageConstants.BASIC_LBL_EXECUTION_TYPE,
-				IRtcBuilderConstants.EXECUTIONCONTEXT_TYPE_ITEMS);
-		executionRateText = createLabelAndText(toolkit,	composite, IMessageConstants.BASIC_LBL_EXECUTION_RATE);
+				IRtcBuilderConstants.EXECUTIONCONTEXT_TYPE_ITEMS, SWT.COLOR_BLACK, 2);
+		executionRateText = createLabelAndText(toolkit,	composite, IMessageConstants.BASIC_LBL_EXECUTION_RATE, SWT.NONE, SWT.COLOR_BLACK, 2);
 		abstractText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_ABSTRACT, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.heightHint = 50;
 		gridData.widthHint = 100;
+		gridData.horizontalSpan = 2;
 		abstractText.setLayoutData(gridData);
-		rtcTypeText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_RTCTYPE);
+		rtcTypeText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_RTCTYPE, SWT.NONE, SWT.COLOR_BLACK, 2);
 	}
 
 	private void createHintSection(FormToolkit toolkit, ScrolledForm form) {
@@ -606,9 +615,15 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		rtcParam.setCategory(getText(categoryCombo.getText()));
 		rtcParam.setActivityType(getText(activityTypeCombo.getText()));
 		rtcParam.setComponentType(getText(typeCombo.getText()));
-		rtcParam.setComponentKind(getSelectedCompKind());
+		if(choreonoidBtn.getSelection()) {
+			rtcParam.setComponentKind(KIND_CHOREONOID);
+		} else {
+			rtcParam.setComponentKind(getSelectedCompKind());
+		}
 		rtcParam.setAbstract(getText(abstractText.getText()));
 		rtcParam.setRtcType(getText(rtcTypeText.getText()));
+		
+		rtcParam.setChoreonoid(choreonoidBtn.getSelection());
 
 		try {
 			int maxInstance = Integer.parseInt(getText(maxInstanceText
@@ -629,6 +644,18 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 			//executionRateText.setText(String.valueOf(rtcParam.getExecutionRate()));
 		}
 
+		if(choreonoidBtn.getSelection()) {
+			dataFlowBtn.setEnabled(false);
+			fsmBtn.setEnabled(false);
+			multiModeBtn.setEnabled(false);
+			compGroup.setEnabled(false);
+		} else {
+			dataFlowBtn.setEnabled(true);
+			fsmBtn.setEnabled(true);
+			multiModeBtn.setEnabled(true);
+			compGroup.setEnabled(true);
+		}
+		
 		editor.updateEMFModuleName(getText(nameText.getText()));
 		editor.updateDirty();
 	}
@@ -664,6 +691,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		if( type.contains("DataFlow") )           dataFlowBtn.setSelection(true);
 		if( type.contains("FiniteStateMachine") ) fsmBtn.setSelection(true);
 		if( type.contains("MultiMode") )          multiModeBtn.setSelection(true);
+		if( type.contains(KIND_CHOREONOID) )      choreonoidBtn.setSelection(true);
 	}
 	private String getSelectedCompKind() {
 		StringBuffer result = new StringBuffer();
@@ -685,8 +713,8 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	@Override
-	protected Combo createEditableCombo(FormToolkit toolkit, Composite composite, String labelString, String key, String[] defaultValue, int color) {
-		Combo combo = super.createEditableCombo(toolkit, composite, labelString, key, defaultValue, color); 
+	protected Combo createEditableCombo(FormToolkit toolkit, Composite composite, String labelString, String key, String[] defaultValue, int color, int hspan) {
+		Combo combo = super.createEditableCombo(toolkit, composite, labelString, key, defaultValue, color, hspan); 
 		GridData gd = (GridData)combo.getLayoutData();
 		gd.widthHint = 100;
 		return combo;

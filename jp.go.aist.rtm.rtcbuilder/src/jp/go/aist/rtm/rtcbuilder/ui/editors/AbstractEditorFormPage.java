@@ -218,6 +218,10 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 	protected Text createLabelAndText(FormToolkit toolkit, Composite composite,
 			String labelString, int style, int color) {
+		return createLabelAndText(toolkit, composite, labelString, style, color, 1);
+	}
+	protected Text createLabelAndText(FormToolkit toolkit, Composite composite,
+			String labelString, int style, int color, int hspan) {
 		if( labelString!=null && labelString.length()>0 ) {
 			Label label = toolkit.createLabel(composite, labelString);
 			if(color>0 ) label.setForeground(getSite().getShell().getDisplay().getSystemColor(color));
@@ -253,6 +257,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 
 		});
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.horizontalSpan = hspan;
 		text.setLayoutData(gridData);
 		return text;
 	}
@@ -264,6 +269,10 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	
 	protected Combo createLabelAndCombo(FormToolkit toolkit, Composite composite,
 			String labelString, String[] items, int color) {
+		return createLabelAndCombo(toolkit, composite, labelString, items, color, 1);
+	}
+	protected Combo createLabelAndCombo(FormToolkit toolkit, Composite composite,
+			String labelString, String[] items, int color, int hspan) {
 		Label label = toolkit.createLabel(composite, labelString);
 		if(color>0 ) label.setForeground(getSite().getShell().getDisplay().getSystemColor(color));
 		Combo combo = new Combo(composite, SWT.DROP_DOWN | SWT.READ_ONLY);
@@ -278,6 +287,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 			  public void widgetSelected(SelectionEvent e){ update();}
 			});
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.horizontalSpan = hspan;
 		combo.setLayoutData(gridData);
 
 		return combo;
@@ -341,6 +351,10 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 	protected Combo createEditableCombo(FormToolkit toolkit, Composite composite,
 			String labelString, String key, String[] defaultValue, int color) {
+		return createEditableCombo(toolkit, composite, labelString, key, defaultValue, color, 1);
+	}
+	protected Combo createEditableCombo(FormToolkit toolkit, Composite composite,
+			String labelString, String key, String[] defaultValue, int color, int hspan) {
 		Label label = toolkit.createLabel(composite, labelString);
 		if(color>0) label.setForeground(getSite().getShell().getDisplay().getSystemColor(color));
 		Combo combo = new Combo(composite, SWT.DROP_DOWN);
@@ -359,6 +373,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 			  public void widgetSelected(SelectionEvent e){ update(); }
 			});
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.horizontalSpan = hspan;
 		combo.setLayoutData(gridData);
 
 		return combo;

@@ -59,7 +59,8 @@ public interface IMessageConstants {
 	public static final String BASIC_HINT_COMPKIND_DESC_P2 = Messages.getString("IMessageConstants.BASIC_HINT_COMPKIND_DESC_P2"); //$NON-NLS-1$
 	public static final String BASIC_HINT_COMPKIND_DESC_P3 = Messages.getString("IMessageConstants.BASIC_HINT_COMPKIND_DESC_P3"); //$NON-NLS-1$
 	public static final String BASIC_HINT_COMPKIND_DESC_P4 = Messages.getString("IMessageConstants.BASIC_HINT_COMPKIND_DESC_P4"); //$NON-NLS-1$
-	public static final String BASIC_HINT_COMPKIND_DESC = StringUtil.connectMessageWithSepalator( new String[]{BASIC_HINT_COMPKIND_DESC_P1, BASIC_HINT_COMPKIND_DESC_P2, BASIC_HINT_COMPKIND_DESC_P3, BASIC_HINT_COMPKIND_DESC_P4});
+	public static final String BASIC_HINT_COMPKIND_DESC_P5 = Messages.getString("IMessageConstants.BASIC_HINT_COMPKIND_DESC_P5"); //$NON-NLS-1$
+	public static final String BASIC_HINT_COMPKIND_DESC = StringUtil.connectMessageWithSepalator( new String[]{BASIC_HINT_COMPKIND_DESC_P1, BASIC_HINT_COMPKIND_DESC_P2, BASIC_HINT_COMPKIND_DESC_P3, BASIC_HINT_COMPKIND_DESC_P4, BASIC_HINT_COMPKIND_DESC_P5});
 	public static final String BASIC_HINT_MAXINST_TITLE_P1 = Messages.getString("IMessageConstants.BASIC_HINT_MAXINST_TITLE_P1"); //$NON-NLS-1$
 	public static final String BASIC_HINT_MAXINST_TITLE_P2 = Messages.getString("IMessageConstants.BASIC_HINT_MAXINST_TITLE_P2"); //$NON-NLS-1$
 	public static final String BASIC_HINT_MAXINST_TITLE = StringUtil.connectMessageWithSepalator( new String[]{BASIC_HINT_MAXINST_TITLE_P1, BASIC_HINT_MAXINST_TITLE_P2});
@@ -367,8 +368,7 @@ public interface IMessageConstants {
 	public static final String LANGUAGE_LBL_LIBRARY = Messages.getString("IMessageConstants.LANGUAGE_LBL_LIBRARY"); //$NON-NLS-1$
 
 	public static final String LANGUAGE_SELECTION_CAUTION = Messages.getString("IMessageConstants.LANGUAGE_SELECTION_CAUTION"); //$NON-NLS-1$
-	public static final String LANGUAGE_USE_OLD_BUILD = Messages.getString("IMessageConstants.LANGUAGE_USE_OLD_BUILD");
-
+	public static final String LANGUAGE_CHOREONOID_CAUTION = Messages.getString("IMessageConstants.LANGUAGE_CHOREONOID_CAUTION"); //$NON-NLS-1$
 
 	public static final String RTCXML_SECTION = Messages.getString("IMessageConstants.RTCXML_SECTION"); //$NON-NLS-1$
 	public static final String RTCXML_CAUTION_P1 = Messages.getString("IMessageConstants.RTCXML_CAUTION_P1"); //$NON-NLS-1$
@@ -433,6 +433,12 @@ public interface IMessageConstants {
 	public static final String ACTIVITY_HINT_ONRATECHANGED_DESC = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONRATECHANGED_DESC"); //$NON-NLS-1$
 	public static final String ACTIVITY_HINT_ONACTION_DESC = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONACTION_DESC"); //$NON-NLS-1$
 	public static final String ACTIVITY_HINT_ONMODECHANGED_DESC = Messages.getString("IMessageConstants.ACTIVITY_HINT_ONMODECHANGED_DESC"); //$NON-NLS-1$
+	public static final String ACTIVITY_HINT_INITIALIZE_IO_DESC = Messages.getString("IMessageConstants.ACTIVITY_HINT_INITIALIZE_IO_DESC"); //$NON-NLS-1$
+	public static final String ACTIVITY_HINT_INITIALIZE_SIMULATION_DESC = Messages.getString("IMessageConstants.ACTIVITY_HINT_INITIALIZE_SIMULATION_DESC"); //$NON-NLS-1$
+	public static final String ACTIVITY_HINT_START_SIMULATION_DESC = Messages.getString("IMessageConstants.ACTIVITY_HINT_START_SIMULATION_DESC"); //$NON-NLS-1$
+	public static final String ACTIVITY_HINT_INPUT_SIMULATION_DESC = Messages.getString("IMessageConstants.ACTIVITY_HINT_INPUT_SIMULATION_DESC"); //$NON-NLS-1$
+	public static final String ACTIVITY_HINT_OUTPUT_SIMULATION_DESC = Messages.getString("IMessageConstants.ACTIVITY_HINT_OUTPUT_SIMULATION_DESC"); //$NON-NLS-1$
+	public static final String ACTIVITY_HINT_STOP_SIMULATION_DESC = Messages.getString("IMessageConstants.ACTIVITY_HINT_STOP_SIMULATION_DESC"); //$NON-NLS-1$
 
 	public static final String ACTIVITY_HINT_DESCRIPTION_TITLE = Messages.getString("IMessageConstants.ACTIVITY_HINT_DESCRIPTION_TITLE"); //$NON-NLS-1$
 	public static final String ACTIVITY_HINT_DESCRIPTION_DESC = Messages.getString("IMessageConstants.ACTIVITY_HINT_DESCRIPTION_DESC"); //$NON-NLS-1$

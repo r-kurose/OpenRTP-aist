@@ -103,7 +103,12 @@ public class CXXGenerateManager extends GenerateManager {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = null;
 		outfile = "include/" + rtcParam.getName() + "/" + rtcParam.getName() + ".h";
-		String infile = "cpp/CXX_RTC.h.vsl";
+		String infile = "";
+		if(rtcParam.isChoreonoid()) {
+			infile = "choreonoid/CXX_RTC.h.vsl";
+		} else {
+			infile = "cpp/CXX_RTC.h.vsl";
+		}
 		return generate(infile, outfile, contextMap);
 	}
 
@@ -111,7 +116,12 @@ public class CXXGenerateManager extends GenerateManager {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = null;
 		outfile = "src/" + rtcParam.getName() + ".cpp";
-		String infile = "cpp/CXX_RTC.cpp.vsl";
+		String infile = "";
+		if(rtcParam.isChoreonoid()) {
+			infile = "choreonoid/CXX_RTC.cpp.vsl";
+		} else {
+			infile = "cpp/CXX_RTC.cpp.vsl";
+		}
 		return generate(infile, outfile, contextMap);
 	}
 
