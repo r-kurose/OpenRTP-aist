@@ -8,11 +8,11 @@ import java.util.Map;
 
 import jp.go.aist.rtm.rtcbuilder.IRTCBMessageConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
+import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateHelper;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
-
 import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
 import static jp.go.aist.rtm.rtcbuilder.util.RTCUtil.*;
 
@@ -85,6 +85,22 @@ public class CXXGenerateManager extends GenerateManager {
 			gr = generateSVCSource(contextMap);
 			result.add(gr);
 		}
+		//
+		if(rtcParam.isChoreonoid()==false) {
+			gr = generateTestCompSource(contextMap);
+			result.add(gr);
+			gr = generateTestHeader(contextMap);
+			result.add(gr);
+			gr = generateTestSource(contextMap);
+			result.add(gr);
+			for (IdlFileParam idl : rtcParam.getConsumerIdlPathes()) {
+				contextMap.put("idlFileParam", idl);
+				gr = generateTestSVCHeader(contextMap);
+				result.add(gr);
+				gr = generateTestSVCSource(contextMap);
+				result.add(gr);
+			}
+		}
 
 		return result;
 	}
@@ -151,7 +167,51 @@ public class CXXGenerateManager extends GenerateManager {
 		String infile = "cpp/travis.vsl";
 		return generate(infile, outfile, contextMap);
 	}
+	/////
+	public GeneratedResult generateTestCompSource(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = null;
+		outfile = "test/src/" + rtcParam.getName() + "TestComp.cpp";
+		String infile = "cpp/test/CXX_Test_Comp.cpp.vsl";
+		return generate(infile, outfile, contextMap);
+	}
 	
+	public GeneratedResult generateTestHeader(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = null;
+		outfile = "test/include/" + rtcParam.getName() + "Test/" + rtcParam.getName() + "Test.h";
+		String infile = "cpp/test/CXX_Test_RTC.h.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
+	public GeneratedResult generateTestSource(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = null;
+		outfile = "test/src/" + rtcParam.getName() + "Test.cpp";
+		String infile = "cpp/test/CXX_Test_RTC.cpp.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
+	public GeneratedResult generateTestSVCHeader(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		IdlFileParam idlParam = (IdlFileParam) contextMap.get("idlFileParam");
+		String outfile = null;
+		outfile = "test/include/" + rtcParam.getName() + "Test/" 
+				+ TemplateHelper.getBasename(idlParam.getIdlFileNoExt())
+				+ TemplateHelper.getServiceImplSuffix() + ".h";
+		String infile = "cpp/test/CXX_Test_SVC.h.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
+	public GeneratedResult generateTestSVCSource(Map<String, Object> contextMap) {
+		IdlFileParam idlParam = (IdlFileParam) contextMap.get("idlFileParam");
+		String outfile = null;
+		outfile = "test/src/" + TemplateHelper.getBasename(idlParam.getIdlFileNoExt())
+					+ TemplateHelper.getServiceImplSuffix() + ".cpp";
+		String infile = "cpp/test/CXX_Test_SVC.cpp.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	/////
 	public GeneratedResult generate(String infile, String outfile,
 			Map<String, Object> contextMap) {
 		try {
