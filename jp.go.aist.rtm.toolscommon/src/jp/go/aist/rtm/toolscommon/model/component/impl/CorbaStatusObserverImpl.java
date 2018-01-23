@@ -141,9 +141,9 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 			serviceProfile.interface_type = OpenRTM.ComponentObserverHelper
 					.id();
 			//
-			setProperty("observed_status", "ALL");
-			setProperty("heartbeat.enable", hb.getPropEnable());
-			setProperty("heartbeat.interval", hb.getPropInterval());
+//			setProperty("observed_status", "ALL");
+//			setProperty("heartbeat.enable", hb.getPropEnable());
+//			setProperty("heartbeat.interval", hb.getPropInterval());
 			//
 			listener = new PropertyChangeListener() {
 				@Override

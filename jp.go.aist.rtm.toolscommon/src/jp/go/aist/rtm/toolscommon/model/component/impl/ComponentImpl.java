@@ -1228,7 +1228,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 			case ComponentPackage.COMPONENT__COMPONENT_ID:
 				return getComponentId();
 			case ComponentPackage.COMPONENT__REQUIRED:
-				return isRequired() ? Boolean.TRUE : Boolean.FALSE;
+				return isRequired();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -1302,7 +1302,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 				setComponentId((String)newValue);
 				return;
 			case ComponentPackage.COMPONENT__REQUIRED:
-				setRequired(((Boolean)newValue).booleanValue());
+				setRequired((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);

@@ -439,6 +439,10 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 			setProperty(PROP.SKIP_COUNT, eConnProf.getSkipCount().toString(),
 					connector.getProperties());
 		}
+		if (eConnProf.getTimestampPolicy() != null) {
+			setProperty(PROP.TIMESTAMP_POLICY, eConnProf.getTimestampPolicy(),
+					connector.getProperties());
+		}
 		//
 		if (eConnProf.getOutportBufferLength() != null) {
 			setProperty(PROP.OUTPORT_BUFF_LENGTH, eConnProf
@@ -1036,6 +1040,8 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 						} catch (Exception e) {
 							// void
 						}
+					} else if (PROP.TIMESTAMP_POLICY.equals(name)) {
+						conn.setTimestampPolicy(value);
 					}
 					//
 					else if (PROP.OUTPORT_BUFF_LENGTH.equals(name)) {

@@ -49,6 +49,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EDataTypeEList;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
@@ -771,9 +772,9 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 			case ComponentPackage.CORBA_COMPONENT__CORBA_OBJECT:
 				return getCorbaObject();
 			case ComponentPackage.CORBA_COMPONENT__EXECUTION_CONTEXT_STATE:
-				return new Integer(getExecutionContextState());
+				return getExecutionContextState();
 			case ComponentPackage.CORBA_COMPONENT__COMPONENT_STATE:
-				return new Integer(getComponentState());
+				return getComponentState();
 			case ComponentPackage.CORBA_COMPONENT__RTC_COMPONENT_PROFILE:
 				return getRTCComponentProfile();
 			case ComponentPackage.CORBA_COMPONENT__RTC_EXECUTION_CONTEXTS:
@@ -811,10 +812,10 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 				setCorbaObject((org.omg.CORBA.Object)newValue);
 				return;
 			case ComponentPackage.CORBA_COMPONENT__EXECUTION_CONTEXT_STATE:
-				setExecutionContextState(((Integer)newValue).intValue());
+				setExecutionContextState((Integer)newValue);
 				return;
 			case ComponentPackage.CORBA_COMPONENT__COMPONENT_STATE:
-				setComponentState(((Integer)newValue).intValue());
+				setComponentState((Integer)newValue);
 				return;
 			case ComponentPackage.CORBA_COMPONENT__RTC_COMPONENT_PROFILE:
 				setRTCComponentProfile((ComponentProfile)newValue);

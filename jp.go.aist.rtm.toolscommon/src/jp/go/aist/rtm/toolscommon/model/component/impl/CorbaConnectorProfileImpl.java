@@ -243,6 +243,9 @@ public class CorbaConnectorProfileImpl extends ConnectorProfileImpl implements C
 		addProperty(result, profile.getPushRate(), PROP.PUSH_RATE);
 		addProperty(result, profile.getPushPolicy(), PROP.PUSH_POLICY);
 		addProperty(result, profile.getSkipCount(), PROP.SKIP_COUNT);
+		if(profile.getTimestampPolicy()!=null && 0<profile.getTimestampPolicy().length()) {
+			addProperty(result, profile.getTimestampPolicy(), PROP.TIMESTAMP_POLICY);
+		}
 		//
 		addProperty(result, profile.getOutportBufferLength(),
 				PROP.OUTPORT_BUFF_LENGTH);
@@ -372,6 +375,16 @@ public class CorbaConnectorProfileImpl extends ConnectorProfileImpl implements C
 	@Override
 	public void setSkipCount(Integer newSkipCount) {
 		setProperty(PROP.SKIP_COUNT, newSkipCount.toString());
+	}
+	
+	@Override
+	public void setTimestampPolicy(String value) {
+		setProperty(PROP.TIMESTAMP_POLICY, value);
+	}
+
+	@Override
+	public String getTimestampPolicy() {
+		return getProperty(PROP.TIMESTAMP_POLICY);
 	}
 
 	@Override

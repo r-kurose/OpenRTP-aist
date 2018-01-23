@@ -17,6 +17,14 @@
 	<extension-point id="portconnectorfactory" name="PortConnectorFactory" schema="schema/portconnectorfactory.exsd"/>
 	<extension-point id="loadcomponent" name="LoadComponent" schema="schema/loadcomponent.exsd"/>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated toolscommon -->
+      <package
+            uri="http:///jp/go/aist/rtm/toolscommon/model/manager.ecore"
+            class="jp.go.aist.rtm.toolscommon.model.manager.ManagerPackage"
+            genModel="src/jp/go/aist/rtm/toolscommon/model/toolscommon.genmodel"/>
+   </extension>
+
 	<extension point="org.eclipse.emf.ecore.generated_package">
    		<package uri = "http://rtm.aist.go.jp/toolscommon/model/core" 
    			class = "jp.go.aist.rtm.toolscommon.model.core.CorePackage" /> 
@@ -25,6 +33,14 @@
    		<package uri = "http://rtm.aist.go.jp/toolscommon/model/manager" 
    			class="jp.go.aist.rtm.toolscommon.model.manager.ManagerPackage"/>
 	</extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated toolscommon -->
+      <package
+            uri="http:///jp/go/aist/rtm/toolscommon/model/component.ecore"
+            class="jp.go.aist.rtm.toolscommon.model.component.ComponentPackage"
+            genModel="src/jp/go/aist/rtm/toolscommon/model/toolscommon.genmodel"/>
+   </extension>
 	<extension point="jp.go.aist.rtm.toolscommon.wrapperfactory">
 		<mappingrule seq="200"  mappingrule="jp.go.aist.rtm.toolscommon.model.component.impl.CorbaConnectorProfileImpl.MAPPING_RULE"/>
 		<mappingrule seq="300"  mappingrule="jp.go.aist.rtm.toolscommon.model.component.impl.CorbaPortSynchronizerImpl.MAPPING_RULE"/>

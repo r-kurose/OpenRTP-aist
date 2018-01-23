@@ -1809,13 +1809,22 @@ public interface ComponentPackage extends EPackage {
 	int CONNECTOR_PROFILE__INPORT_BUFFER_READ_TIMEOUT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 24;
 
 	/**
+	 * The feature id for the '<em><b>Timestamp Policy</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_PROFILE__TIMESTAMP_POLICY = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 25;
+
+	/**
 	 * The number of structural features of the '<em>Connector Profile</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTOR_PROFILE_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 25;
+	int CONNECTOR_PROFILE_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 26;
 
 	/**
 	 * The feature id for the '<em><b>Key</b></em>' attribute.
@@ -2475,6 +2484,15 @@ public interface ComponentPackage extends EPackage {
 	 * @ordered
 	 */
 	int CORBA_CONNECTOR_PROFILE__INPORT_BUFFER_READ_TIMEOUT = CONNECTOR_PROFILE__INPORT_BUFFER_READ_TIMEOUT;
+
+	/**
+	 * The feature id for the '<em><b>Timestamp Policy</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_CONNECTOR_PROFILE__TIMESTAMP_POLICY = CONNECTOR_PROFILE__TIMESTAMP_POLICY;
 
 	/**
 	 * The feature id for the '<em><b>Rtc Connector Profile</b></em>' attribute.
@@ -4099,6 +4117,17 @@ public interface ComponentPackage extends EPackage {
 	EAttribute getConnectorProfile_InportBufferReadTimeout();
 
 	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getTimestampPolicy <em>Timestamp Policy</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Timestamp Policy</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getTimestampPolicy()
+	 * @see #getConnectorProfile()
+	 * @generated
+	 */
+	EAttribute getConnectorProfile_TimestampPolicy();
+
+	/**
 	 * Returns the meta object for class '{@link jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet <em>Configuration Set</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5416,6 +5445,14 @@ public interface ComponentPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute CONNECTOR_PROFILE__INPORT_BUFFER_READ_TIMEOUT = eINSTANCE.getConnectorProfile_InportBufferReadTimeout();
+
+		/**
+		 * The meta object literal for the '<em><b>Timestamp Policy</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONNECTOR_PROFILE__TIMESTAMP_POLICY = eINSTANCE.getConnectorProfile_TimestampPolicy();
 
 		/**
 		 * The meta object literal for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.ConfigurationSetImpl <em>Configuration Set</em>}' class.

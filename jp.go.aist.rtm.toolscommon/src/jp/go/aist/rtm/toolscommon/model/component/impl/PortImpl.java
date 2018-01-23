@@ -649,13 +649,13 @@ public class PortImpl extends WrapperObjectImpl implements Port {
 			case ComponentPackage.PORT__NAME_L:
 				return getNameL();
 			case ComponentPackage.PORT__ALLOW_ANY_DATA_TYPE:
-				return isAllowAnyDataType() ? Boolean.TRUE : Boolean.FALSE;
+				return isAllowAnyDataType();
 			case ComponentPackage.PORT__ALLOW_ANY_INTERFACE_TYPE:
-				return isAllowAnyInterfaceType() ? Boolean.TRUE : Boolean.FALSE;
+				return isAllowAnyInterfaceType();
 			case ComponentPackage.PORT__ALLOW_ANY_DATAFLOW_TYPE:
-				return isAllowAnyDataflowType() ? Boolean.TRUE : Boolean.FALSE;
+				return isAllowAnyDataflowType();
 			case ComponentPackage.PORT__ALLOW_ANY_SUBSCRIPTION_TYPE:
-				return isAllowAnySubscriptionType() ? Boolean.TRUE : Boolean.FALSE;
+				return isAllowAnySubscriptionType();
 			case ComponentPackage.PORT__CONNECTOR_PROFILES:
 				return getConnectorProfiles();
 			case ComponentPackage.PORT__INTERFACES:

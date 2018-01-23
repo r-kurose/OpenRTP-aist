@@ -675,7 +675,7 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 			case ComponentPackage.SYSTEM_DIAGRAM__KIND:
 				return getKind();
 			case ComponentPackage.SYSTEM_DIAGRAM__CONNECTOR_PROCESSING:
-				return isConnectorProcessing() ? Boolean.TRUE : Boolean.FALSE;
+				return isConnectorProcessing();
 			case ComponentPackage.SYSTEM_DIAGRAM__SYSTEM_ID:
 				return getSystemId();
 			case ComponentPackage.SYSTEM_DIAGRAM__CREATION_DATE:
@@ -709,7 +709,7 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 				setKind((SystemDiagramKind)newValue);
 				return;
 			case ComponentPackage.SYSTEM_DIAGRAM__CONNECTOR_PROCESSING:
-				setConnectorProcessing(((Boolean)newValue).booleanValue());
+				setConnectorProcessing((Boolean)newValue);
 				return;
 			case ComponentPackage.SYSTEM_DIAGRAM__SYSTEM_ID:
 				setSystemId((String)newValue);

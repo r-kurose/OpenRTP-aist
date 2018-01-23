@@ -397,11 +397,11 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ComponentPackage.EXECUTION_CONTEXT__KIND_L:
-				return new Integer(getKindL());
+				return getKindL();
 			case ComponentPackage.EXECUTION_CONTEXT__RATE_L:
 				return getRateL();
 			case ComponentPackage.EXECUTION_CONTEXT__STATE_L:
-				return new Integer(getStateL());
+				return getStateL();
 			case ComponentPackage.EXECUTION_CONTEXT__OWNER:
 				if (resolve) return getOwner();
 				return basicGetOwner();
@@ -421,13 +421,13 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ComponentPackage.EXECUTION_CONTEXT__KIND_L:
-				setKindL(((Integer)newValue).intValue());
+				setKindL((Integer)newValue);
 				return;
 			case ComponentPackage.EXECUTION_CONTEXT__RATE_L:
 				setRateL((Double)newValue);
 				return;
 			case ComponentPackage.EXECUTION_CONTEXT__STATE_L:
-				setStateL(((Integer)newValue).intValue());
+				setStateL((Integer)newValue);
 				return;
 			case ComponentPackage.EXECUTION_CONTEXT__OWNER:
 				setOwner((Component)newValue);

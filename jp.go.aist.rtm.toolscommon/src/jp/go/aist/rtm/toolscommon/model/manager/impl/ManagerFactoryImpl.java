@@ -35,7 +35,7 @@ public class ManagerFactoryImpl extends EFactoryImpl implements ManagerFactory {
 	 */
 	public static ManagerFactory init() {
 		try {
-			ManagerFactory theManagerFactory = (ManagerFactory)EPackage.Registry.INSTANCE.getEFactory("http:///jp/go/aist/rtm/toolscommon/model/manager.ecore"); 
+			ManagerFactory theManagerFactory = (ManagerFactory)EPackage.Registry.INSTANCE.getEFactory(ManagerPackage.eNS_URI);
 			if (theManagerFactory != null) {
 				return theManagerFactory;
 			}

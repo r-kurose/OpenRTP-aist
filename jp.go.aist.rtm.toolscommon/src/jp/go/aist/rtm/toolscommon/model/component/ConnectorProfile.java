@@ -41,6 +41,7 @@ public interface ConnectorProfile extends WrapperObject, IPropertyMap{
 		static final String PUSH_RATE = "dataport.push_rate";
 		static final String PUSH_POLICY = "dataport.publisher.push_policy";
 		static final String SKIP_COUNT = "dataport.publisher.skip_count";
+		static final String TIMESTAMP_POLICY = "dataport.timestamp_policy";
 		//
 		static final String OUTPORT_BUFF_LENGTH = "dataport.outport.buffer.length";
 		static final String OUTPORT_FULL_POLICY = "dataport.outport.buffer.write.full_policy";
@@ -604,6 +605,32 @@ public interface ConnectorProfile extends WrapperObject, IPropertyMap{
 	 * @generated
 	 */
 	void setInportBufferReadTimeout(Double value);
+
+	/**
+	 * Returns the value of the '<em><b>Timestamp Policy</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Timestamp Policy</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Timestamp Policy</em>' attribute.
+	 * @see #setTimestampPolicy(String)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getConnectorProfile_TimestampPolicy()
+	 * @model
+	 * @generated
+	 */
+	String getTimestampPolicy();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#getTimestampPolicy <em>Timestamp Policy</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Timestamp Policy</em>' attribute.
+	 * @see #getTimestampPolicy()
+	 * @generated
+	 */
+	void setTimestampPolicy(String value);
 
 	/**
 	 * @model

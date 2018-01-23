@@ -35,6 +35,8 @@ public class PortConnectorPropertySource extends AbstractPropertySource {
 
 	static final String DISP_SKIP_COUNT = "Skip Count";
 
+	static final String DISP_TIMESTAMP_POLICY = "Timestamp Policy";
+	
 	static final String DISP_OUTPORT_BUFF_LENGTH = "Outport Buffer length";
 
 	static final String DISP_OUTPORT_FULL_POLICY = "Outport Buffer full policy";
@@ -98,6 +100,9 @@ public class PortConnectorPropertySource extends AbstractPropertySource {
 			if (profile.isSkipCountAvailable()) {
 				descriptors.add(new TextPropertyDescriptor(PROP.SKIP_COUNT, DISP_SKIP_COUNT));
 			}
+			if (profile.getTimestampPolicy()!=null && 0<profile.getTimestampPolicy().length()) {
+				descriptors.add(new TextPropertyDescriptor(PROP.TIMESTAMP_POLICY, DISP_TIMESTAMP_POLICY));
+			}
 			//
 			if (profile.getOutportBufferFullPolicy() != null
 					|| profile.getOutportBufferEmptyPolicy() != null) {
@@ -143,6 +148,8 @@ public class PortConnectorPropertySource extends AbstractPropertySource {
 				result = profile.getPushPolicy();
 			} else if (PROP.SKIP_COUNT.equals(id)) {
 				result = profile.getSkipCount().toString();
+			} else if (PROP.TIMESTAMP_POLICY.equals(id)) {
+				result = profile.getTimestampPolicy().toString();
 
 			} else if (PROP.OUTPORT_BUFF_LENGTH.equals(id)) {
 				result = profile.getOutportBufferLength().toString();

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import jp.go.aist.rtm.toolscommon.corba.CorbaUtil;
+import jp.go.aist.rtm.toolscommon.model.component.*;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
@@ -79,7 +80,7 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	 */
 	public static ComponentFactory init() {
 		try {
-			ComponentFactory theComponentFactory = (ComponentFactory)EPackage.Registry.INSTANCE.getEFactory("http:///jp/go/aist/rtm/toolscommon/model/component.ecore"); 
+			ComponentFactory theComponentFactory = (ComponentFactory)EPackage.Registry.INSTANCE.getEFactory(ComponentPackage.eNS_URI);
 			if (theComponentFactory != null) {
 				return theComponentFactory;
 			}

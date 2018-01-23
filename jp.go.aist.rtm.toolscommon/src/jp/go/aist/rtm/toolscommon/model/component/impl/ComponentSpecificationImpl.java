@@ -213,7 +213,7 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 			case ComponentPackage.COMPONENT_SPECIFICATION__ALIAS_NAME:
 				return getAliasName();
 			case ComponentPackage.COMPONENT_SPECIFICATION__SPEC_UN_LOAD:
-				return isSpecUnLoad() ? Boolean.TRUE : Boolean.FALSE;
+				return isSpecUnLoad();
 			case ComponentPackage.COMPONENT_SPECIFICATION__RTC_TYPE:
 				return getRtcType();
 		}
@@ -232,7 +232,7 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 				setAliasName((String)newValue);
 				return;
 			case ComponentPackage.COMPONENT_SPECIFICATION__SPEC_UN_LOAD:
-				setSpecUnLoad(((Boolean)newValue).booleanValue());
+				setSpecUnLoad((Boolean)newValue);
 				return;
 			case ComponentPackage.COMPONENT_SPECIFICATION__RTC_TYPE:
 				setRtcType((String)newValue);
