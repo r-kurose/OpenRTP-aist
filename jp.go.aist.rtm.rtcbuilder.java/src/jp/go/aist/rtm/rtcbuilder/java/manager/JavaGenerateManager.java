@@ -152,6 +152,22 @@ public class JavaGenerateManager extends GenerateManager {
 				result.add(gr);
 			}
 		}
+		/////
+		gr = generateTestCompSource(contextMap);
+		result.add(gr);
+		gr = generateTestRTCSource(contextMap);
+		result.add(gr);
+		gr = generateTestRTCImplSource(contextMap);
+		result.add(gr);
+		for (IdlFileParam idl : rtcParam.getConsumerIdlPathes()) {
+			contextMap.put("idlFileParam", idl);
+			for (ServiceClassParam svc : idl.getTestServiceClassParams()) {
+				contextMap.put("serviceClassParam", svc);
+				gr = generateTestSVCSource(contextMap);
+				result.add(gr);
+			}
+		}
+
 
 		return result;
 	}
@@ -237,7 +253,46 @@ public class JavaGenerateManager extends GenerateManager {
 		String infile = "java/build.xml.vsl";
 		return generate(infile, outfile, contextMap);
 	}
+	
+	//////////
+	public GeneratedResult generateTestCompSource(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = "test/src/" + rtcParam.getName() + "TestComp.java";
+		String infile = "java/test/Java_Test_Comp.java.vsl";
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setNotBom(true);
+		return result;
+	}
 
+	public GeneratedResult generateTestRTCSource(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = "test/src/" + rtcParam.getName() + "Test.java";
+		String infile = "java/test/Java_Test_RTC.java.vsl";
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setNotBom(true);
+		return result;
+	}
+	
+	public GeneratedResult generateTestRTCImplSource(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = "test/src/" + rtcParam.getName() + "TestImpl.java";
+		String infile = "java/test/Java_Test_RTC_Impl.java.vsl";
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setNotBom(true);
+		return result;
+	}
+	
+	public GeneratedResult generateTestSVCSource(Map<String, Object> contextMap) {
+		ServiceClassParam svc = (ServiceClassParam) contextMap
+				.get("serviceClassParam");
+		String outfile = "test/src/" + TemplateHelper.getBasename(svc.getName())
+				+ TemplateHelper.getServiceImplSuffix() + ".java";
+		String infile = "java/Java_SVC.java.vsl";
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setNotBom(true);
+		return result;
+	}
+	
 	public GeneratedResult generate(String infile, String outfile,
 			Map<String, Object> contextMap) {
 		try {
