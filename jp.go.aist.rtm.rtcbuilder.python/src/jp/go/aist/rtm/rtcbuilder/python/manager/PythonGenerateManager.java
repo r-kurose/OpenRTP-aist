@@ -112,7 +112,6 @@ public class PythonGenerateManager extends GenerateManager {
 		gr = generatePythonSource(contextMap);
 		result.add(gr);
 
-//		if ( 0<allIdlFileParams.size() || 0<rtcParam.getIdlPathes().size()) {
 		if ( 0<allIdlFileParams.size() ) {
 			gr = generateIDLCompileBat(contextMap);
 			result.add(gr);
@@ -127,6 +126,14 @@ public class PythonGenerateManager extends GenerateManager {
 			gr = generateSVCIDLExampleSource(contextMap);
 			result.add(gr);
 		}
+		//////////
+		gr = generatePythonTestSource(contextMap);
+		result.add(gr);
+		for (IdlFileParam idlFileParam : rtcParam.getConsumerIdlPathes()) {
+			contextMap.put("idlFileParam", idlFileParam);
+			gr = generateTestSVCIDLExampleSource(contextMap);
+			result.add(gr);
+		}
 
 		return result;
 	}
@@ -137,14 +144,6 @@ public class PythonGenerateManager extends GenerateManager {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = rtcParam.getName() + ".py";
 		String infile = "python/Py_RTC.py.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-
-	public GeneratedResult generateSVCIDLSource(Map<String, Object> contextMap) {
-		IdlFileParam idlParam = (IdlFileParam) contextMap.get("idlFileParam");
-		String outfile = TemplateHelper.getFilenameNoExt(idlParam.getIdlPath())
-				+ "_idl.py";
-		String infile = "python/Py_SVC_idl.py.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 
@@ -181,7 +180,22 @@ public class PythonGenerateManager extends GenerateManager {
 		result.setEncode("Shift_JIS");
 		return result;
 	}
+	//////////
+	public GeneratedResult generatePythonTestSource(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = "test/" + rtcParam.getName() + "Test.py";
+		String infile = "python/test/Py_Test_RTC.py.vsl";
+		return generate(infile, outfile, contextMap);
+	}
 	
+	public GeneratedResult generateTestSVCIDLExampleSource(
+			Map<String, Object> contextMap) {
+		IdlFileParam idlParam = (IdlFileParam) contextMap.get("idlFileParam");
+		String outfile = "test/" + idlParam.getIdlFileNoExt() + "_idl_example.py";
+		String infile = "python/Py_SVC_idl_example.py.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	//////////
 	public GeneratedResult generate(String infile, String outfile,
 			Map<String, Object> contextMap) {
 		try {
