@@ -29,7 +29,7 @@ public class AllDisconnectPopupMenuActionDelegate implements
 	public void run(IAction action) {
 		if (port == null) return;
 		boolean isOk = MessageDialog.openConfirm(targetPart.getSite()
-				.getShell(), Messages.getString("AllDisconnectPopupMenuActionDelegate.0"), Messages.getString("AllDisconnectPopupMenuActionDelegate.1")); //$NON-NLS-1$ //$NON-NLS-2$
+				.getShell(), Messages.getString("Common.dialog.confirm_title"), Messages.getString("AllDisconnectPopupMenuActionDelegate.1")); //$NON-NLS-1$ //$NON-NLS-2$
 		if (!isOk) return;
 		AllDisconnectAction allDisconnectAction = new AllDisconnectAction();
 		allDisconnectAction.setTarget(port);

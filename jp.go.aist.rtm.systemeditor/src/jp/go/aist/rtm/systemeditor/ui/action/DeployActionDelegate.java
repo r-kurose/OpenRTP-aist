@@ -423,7 +423,7 @@ public class DeployActionDelegate implements IEditorActionDelegate {
 					} catch (Exception e) {	 
 						monitor.done();
 						throw new InvocationTargetException(e,
-								Messages.getString("SystemDiagramEditor.6")  + "\r\n" + e.getMessage()); //$NON-NLS-1$
+								Messages.getString("SystemDiagramEditor.5")  + "\r\n" + e.getMessage()); //$NON-NLS-1$
 					}
 					monitor.internalWorked(35);
 

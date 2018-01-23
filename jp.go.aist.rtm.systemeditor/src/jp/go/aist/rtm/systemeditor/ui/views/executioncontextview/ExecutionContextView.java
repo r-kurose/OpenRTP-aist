@@ -63,14 +63,7 @@ public class ExecutionContextView extends ViewPart {
 	static final String PROPERTY_NAME = "PROPERTY_NAME";
 	static final String PROPERTY_VALUE = "PROPERTY_VALUE";
 
-	static final String LABEL_COMPONENT = Messages.getString("ExecutionContextView.1");
-	static final String LABEL_RATE = Messages.getString("ExecutionContextView.2");
-
-	static final String LABEL_COLUMN_EC = Messages.getString("ExecutionContextView.3");
-	static final String LABEL_COLUMN_NAME = Messages.getString("ExecutionContextView.4");
-	static final String LABEL_COLUMN_VALUE = Messages.getString("ExecutionContextView.5");
-
-	static final String LABEL_BUTTON_APPLY = Messages.getString("ExecutionContextView.6");
+	static final String LABEL_BUTTON_APPLY = Messages.getString("Common.button.apply");
 	static final String LABEL_BUTTON_START = Messages.getString("ExecutionContextView.7");
 	static final String LABEL_BUTTON_STOP = Messages.getString("ExecutionContextView.8");
 	static final String LABEL_BUTTON_ACTIVATE = Messages.getString("ExecutionContextView.9");
@@ -133,7 +126,7 @@ public class ExecutionContextView extends ViewPart {
 		Label nameLabel = new Label(parent, SWT.NONE);
 		gd = new GridData();
 		nameLabel.setLayoutData(gd);
-		nameLabel.setText(LABEL_COMPONENT);
+		nameLabel.setText("component:");
 
 		componentNameLabel = new Label(parent, SWT.BORDER);
 		gd = new GridData();
@@ -194,7 +187,7 @@ public class ExecutionContextView extends ViewPart {
 		eclistTable.setLayout(gl);
 
 		TableColumn col = new TableColumn(eclistTable, SWT.RIGHT);
-		col.setText(LABEL_COLUMN_EC);
+		col.setText("Execution Context");
 		col.setWidth(120);
 
 		return composite;
@@ -212,7 +205,7 @@ public class ExecutionContextView extends ViewPart {
 		composite.setLayout(gl);
 
 		Label rateLabel = new Label(composite, SWT.NONE);
-		rateLabel.setText(LABEL_RATE);
+		rateLabel.setText("rate:");
 
 		rateText = new Text(composite, SWT.SINGLE | SWT.BORDER);
 		gd = new GridData();
@@ -275,11 +268,11 @@ public class ExecutionContextView extends ViewPart {
 		ecdetailTable.setHeaderVisible(true);
 
 		TableColumn col = new TableColumn(ecdetailTable, SWT.LEFT);
-		col.setText(LABEL_COLUMN_NAME);
+		col.setText("Name");
 		col.setWidth(120);
 
 		col = new TableColumn(ecdetailTable, SWT.LEFT);
-		col.setText(LABEL_COLUMN_VALUE);
+		col.setText("Value");
 		col.setWidth(180);
 
 		return composite;

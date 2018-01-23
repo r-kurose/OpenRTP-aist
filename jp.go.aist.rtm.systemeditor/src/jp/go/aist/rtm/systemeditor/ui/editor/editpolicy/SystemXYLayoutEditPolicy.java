@@ -49,8 +49,7 @@ public class SystemXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
 		if (result.getCommandPairs().isEmpty()) {
 			MessageDialog.openInformation(PlatformUI.getWorkbench()
-					.getActiveWorkbenchWindow().getShell(), Messages
-					.getString("SystemXYLayoutEditPolicy.6"), creator
+					.getActiveWorkbenchWindow().getShell(), "Information", creator
 					.getMessage());
 			return null;
 		}

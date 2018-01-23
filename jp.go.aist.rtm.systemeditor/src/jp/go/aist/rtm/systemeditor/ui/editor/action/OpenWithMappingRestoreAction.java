@@ -1,6 +1,5 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.action;
 
-import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
 
 import org.eclipse.gef.ui.actions.EditorPartAction;
@@ -20,8 +19,8 @@ public class OpenWithMappingRestoreAction extends EditorPartAction {
 	@Override
 	protected void init() {
 		setId(ID);
-		setText(Messages.getString("OpenWithMappingRestoreAction.0"));
-		setToolTipText(Messages.getString("OpenWithMappingRestoreAction.1"));
+		setText("Open with Mapping Restore...");
+		setToolTipText("Open with Mapping Restore...");
 	}
 
 	@Override

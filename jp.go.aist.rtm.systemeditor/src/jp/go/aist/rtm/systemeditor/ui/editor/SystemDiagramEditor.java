@@ -103,8 +103,7 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 	protected IEditorInput load(IEditorInput input, final IEditorSite site,
 			final RestoreOption restore) throws PartInitException {
 
-		IEditorInput targetInput = getTargetInput(input,
-				Messages.getString("SystemDiagramEditor.10"));
+		IEditorInput targetInput = getTargetInput(input, "System Diagram");
 
 		if (getSystemDiagram() != null) {
 			getSystemDiagram().setSynchronizeInterval(0);
@@ -220,7 +219,7 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 						monitor.done();
 						throw new InvocationTargetException(
 								e,
-								Messages.getString("SystemDiagramEditor.6") + "\r\n" + e.getMessage()); //$NON-NLS-1$
+								Messages.getString("SystemDiagramEditor.5") + "\r\n" + e.getMessage()); //$NON-NLS-1$
 					}
 
 					monitor.internalWorked(35);
@@ -301,7 +300,7 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 
 			} catch (Exception e) {
 				throw new InvocationTargetException(e,
-						Messages.getString("SystemDiagramEditor.6") + "\r\n"
+						Messages.getString("SystemDiagramEditor.5") + "\r\n"
 								+ e.getMessage());
 			}
 
@@ -377,7 +376,7 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 		Restoration.processAllRestoreConfigurationSet(resultHolder, systemDiagram );
 		if (resultHolder.isSuccess() == false) {
 			Dialog dialog = new jp.go.aist.rtm.toolscommon.ui.dialog.ErrorDialog(
-					site.getShell(), Messages.getString("SystemDiagramEditor.12"), null, Messages.getString("SystemDiagramEditor.13"), buffer //$NON-NLS-1$ //$NON-NLS-2$
+					site.getShell(), Messages.getString("Common.dialog.error_title"), null, Messages.getString("SystemDiagramEditor.13"), buffer //$NON-NLS-1$ //$NON-NLS-2$
 							.toString(), MessageDialog.ERROR);
 			dialog.open();
 		}

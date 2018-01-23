@@ -59,19 +59,13 @@ public class CreateComponentDialog extends TitleAreaDialog {
 	private static final int PARAMETER_KEY = 0;
 	private static final int PARAMETER_VALUE = 1;
 
-	private static final String LABEL_TYPE_TITLE = Messages
-			.getString("CreateComponentDialog.2");
-	private static final String LABEL_MANAGER_NAME_TITLE = Messages
-			.getString("CreateComponentDialog.manager_name.title");
-	private static final String LABEL_PARAMETER_TITLE = Messages
-			.getString("CreateComponentDialog.3");
 	private static final String ERR_INVALID_PARAM = Messages
 			.getString("CreateComponentDialog.6");
 
 	private static final String LABEL_BUTTON_ADD = Messages
-			.getString("CreateComponentDialog.add_button");
+			.getString("Common.button.add");
 	private static final String LABEL_BUTTON_DEL = Messages
-			.getString("CreateComponentDialog.del_button");
+			.getString("Common.button.delete");
 
 	private static final int BUTTON_WIDTH = 70;
 
@@ -182,7 +176,7 @@ public class CreateComponentDialog extends TitleAreaDialog {
 		mainComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		Label typeLabel = new Label(mainComposite, SWT.NONE);
-		typeLabel.setText(LABEL_TYPE_TITLE);
+		typeLabel.setText("Type :");
 		this.typeCombo = new Combo(mainComposite, SWT.READ_ONLY);
 		GridData gd = new GridData(GridData.GRAB_HORIZONTAL);
 		gd.minimumWidth = 180;
@@ -211,7 +205,7 @@ public class CreateComponentDialog extends TitleAreaDialog {
 		});
 
 		Label mnLabel = new Label(mainComposite, SWT.NONE);
-		mnLabel.setText(LABEL_MANAGER_NAME_TITLE);
+		mnLabel.setText("Manager Name :");
 		this.managerNameCombo = new Combo(mainComposite, SWT.READ_ONLY);
 		gd = new GridData(GridData.GRAB_HORIZONTAL);
 		gd.minimumWidth = 180;
@@ -233,7 +227,7 @@ public class CreateComponentDialog extends TitleAreaDialog {
 		});
 
 		Group parameterGroup = new Group(mainComposite, SWT.SHADOW_IN);
-		parameterGroup.setText(LABEL_PARAMETER_TITLE);
+		parameterGroup.setText("Parameter :");
 		gl = new GridLayout(2, false);
 		parameterGroup.setLayout(gl);
 		gd = new GridData(GridData.FILL_BOTH);

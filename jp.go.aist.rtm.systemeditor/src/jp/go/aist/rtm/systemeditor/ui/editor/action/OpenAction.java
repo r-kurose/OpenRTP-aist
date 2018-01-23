@@ -19,8 +19,8 @@ public class OpenAction extends EditorPartAction {
 	@Override
 	protected void init() {
 		setId(ID);
-		setText(Messages.getString("OpenAction.0")); //$NON-NLS-1$
-		setToolTipText(Messages.getString("OpenAction.1")); //$NON-NLS-1$
+		setText("Open...");
+		setToolTipText("Open...");
 	}
 
 	@Override

@@ -28,7 +28,7 @@ public class ExportPortAction extends Action {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ExportPortAction.class);
 
-	private static final String ERROR_TITLE = Messages.getString("ExportPortAction.error.title"); // Error
+	private static final String ERROR_TITLE = Messages.getString("Common.dialog.error_title"); // Error
 
 	private static final String ERROR_UPDATE_FAIL = Messages.getString("ExportPortAction.error.update_fail"); // Update failure.
 

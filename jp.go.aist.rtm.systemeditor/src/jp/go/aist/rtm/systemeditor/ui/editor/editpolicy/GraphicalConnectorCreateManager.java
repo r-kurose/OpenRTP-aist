@@ -33,7 +33,7 @@ public class GraphicalConnectorCreateManager {
 			.getLogger(GraphicalConnectorCreateManager.class);
 
 	static final String ERROR_TITLE = Messages
-			.getString("GraphicalConnectorCreateManager.0");
+			.getString("Common.dialog.error_title");
 
 	static final String ERROR_CONNECT_FAILED = Messages
 			.getString("GraphicalConnectorCreateManager.1");

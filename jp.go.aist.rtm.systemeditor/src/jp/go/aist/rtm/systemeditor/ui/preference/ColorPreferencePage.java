@@ -63,15 +63,15 @@ public class ColorPreferencePage extends PreferencePage implements
 
 		stateGroup.setText(Messages.getString("ColorPreferencePage.0")); //$NON-NLS-1$
 
-		stateCreatedColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.1"), stateGroup, //$NON-NLS-1$
+		stateCreatedColorSelector = createColorSetting("Created:", stateGroup,
 				SystemEditorPreferenceManager.COLOR_RTC_STATE_CREATED);
-		stateInactiveColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.2"), //$NON-NLS-1$
+		stateInactiveColorSelector = createColorSetting("Inactive:",
 				stateGroup, SystemEditorPreferenceManager.COLOR_RTC_STATE_INACTIVE);
-		stateActiveColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.3"), stateGroup, //$NON-NLS-1$
+		stateActiveColorSelector = createColorSetting("Active:", stateGroup,
 				SystemEditorPreferenceManager.COLOR_RTC_STATE_ACTIVE);
-		stateErrorColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.4"), stateGroup, //$NON-NLS-1$
+		stateErrorColorSelector = createColorSetting("Error:", stateGroup,
 				SystemEditorPreferenceManager.COLOR_RTC_STATE_ERROR);
-		stateUnknownColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.5"), stateGroup, //$NON-NLS-1$
+		stateUnknownColorSelector = createColorSetting("Unknown:", stateGroup,
 				SystemEditorPreferenceManager.COLOR_RTC_STATE_UNKNOWN);
 
 		Group executionContextGroup = new Group(composite, SWT.NONE);
@@ -83,10 +83,10 @@ public class ColorPreferencePage extends PreferencePage implements
 
 		executionContextGroup.setText(Messages.getString("ColorPreferencePage.6")); //$NON-NLS-1$
 
-		executionRunningColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.7"), //$NON-NLS-1$
+		executionRunningColorSelector = createColorSetting("Running:",
 				executionContextGroup,
 				SystemEditorPreferenceManager.COLOR_RTC_EXECUTION_CONTEXT_RUNNING);
-		executionStoppedColorSelector = createColorSetting(Messages.getString("ColorPreferencePage.8"), //$NON-NLS-1$
+		executionStoppedColorSelector = createColorSetting("Stopped:",
 				executionContextGroup,
 				SystemEditorPreferenceManager.COLOR_RTC_EXECUTION_CONTEXT_STOPPED);
 

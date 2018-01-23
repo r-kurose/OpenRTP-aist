@@ -27,7 +27,7 @@ public class ComponentActionDelegate {
 	static final String MSG_SUB_TASK1 = Messages.getString("ComponentActionDelegate.2");
 	static final String MSG_SUB_TASK2 = Messages.getString("ComponentActionDelegate.3");
 
-	static final String ERROR_TITLE = Messages.getString("ComponentActionDelegate.4");
+	static final String ERROR_TITLE = Messages.getString("Common.dialog.error_title");
 
 	static final String ERROR_DEFAULT =Messages.getString("ComponentActionDelegate.5"); 
 	static final String ERROR_INVALID_PARAM = Messages.getString("ComponentActionDelegate.6");

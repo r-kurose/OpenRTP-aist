@@ -48,11 +48,11 @@ public class ManagerConfigurationDialog extends TitleAreaDialog {
 	private static final String WHITE_COLOR = "WHITE_COLOR";
 	
 	private static final String LABEL_BUTTON_ADD = Messages
-			.getString("CreateComponentDialog.add_button");
+			.getString("Common.button.add");
 	private static final String LABEL_BUTTON_DEL = Messages
-			.getString("CreateComponentDialog.del_button");
+			.getString("Common.button.delete");
 	private static final String LABEL_BUTTON_APPLY = Messages
-			.getString("CreateComponentDialog.apply_button");
+			.getString("Common.button.apply");
 
 	private static final int BUTTON_WIDTH = 70;
 

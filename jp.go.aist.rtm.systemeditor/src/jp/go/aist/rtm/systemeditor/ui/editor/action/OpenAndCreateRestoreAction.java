@@ -19,8 +19,8 @@ public class OpenAndCreateRestoreAction extends EditorPartAction {
 	@Override
 	protected void init() {
 		setId(ID);
-		setText(Messages.getString("OpenAndCreateRestoreAction.0"));
-		setToolTipText(Messages.getString("OpenAndCreateRestoreAction.1"));
+		setText("Open and Create Restore...");
+		setToolTipText("Open and Create Restore...");
 	}
 
 	@Override

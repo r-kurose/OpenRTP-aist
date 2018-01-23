@@ -69,27 +69,18 @@ public class ServiceConnectorCreaterDialog extends ConnectorDialogBase {
 
 	static final int EXEC_BUTTON_WIDTH = 70;
 
-	static final String MSG_ERROR = getString("ServiceConnectorCreaterDialog.2");
 	static final String MSG_NOMATCH_INTERFACE = getString("ServiceConnectorCreaterDialog.3");
 	static final String MSG_UNMATCH_INTERFACE = getString("ServiceConnectorCreaterDialog.4");
 
 	static final String MSG_UNMATCH_INTERFACE_TYPE = getString("ServiceConnectorCreaterDialog.13");
 	static final String MSG_UNMATCH_INTERFACE_INSTANCE = getString("ServiceConnectorCreaterDialog.14");
 
-	static final String DIALOG_TITLE = getString("ServiceConnectorCreaterDialog.6");
-
 	static final String LABEL_ENTER_PROFILE = getString("ServiceConnectorCreaterDialog.1");
-	static final String LABEL_NAME = getString("ServiceConnectorCreaterDialog.5");
 
-	static final String LABEL_PROPERTY_CONSUMER = getString("ServiceConnectorCreaterDialog.7");
-	static final String LABEL_PROPERTY_PROVIDER = getString("ServiceConnectorCreaterDialog.8");
-
-	static final String LABEL_BUTTON_ADD = getString("ServiceConnectorCreaterDialog.9");
-	static final String LABEL_BUTTON_DELETE = getString("ServiceConnectorCreaterDialog.10");
+	static final String LABEL_BUTTON_ADD = getString("Common.button.add");
+	static final String LABEL_BUTTON_DELETE = getString("Common.button.delete");
 
 	static final String LABEL_DETAIL = getString("ServiceConnectorCreaterDialog.11");
-
-	static final String LABEL_UNKNOWN = getString("ServiceConnectorCreaterDialog.12");
 
 	static final int PROPERTY_CONSUMER = 0;
 	static final int PROPERTY_PROVIDER = 1;
@@ -166,8 +157,8 @@ public class ServiceConnectorCreaterDialog extends ConnectorDialogBase {
 		if (port == null) {
 			return;
 		}
-		String compName = LABEL_UNKNOWN;
-		String portName = LABEL_UNKNOWN;
+		String compName = "unknown";
+		String portName = "unknown";
 		//
 		String name = port.getNameL();
 		if (name != null) {
@@ -220,7 +211,7 @@ public class ServiceConnectorCreaterDialog extends ConnectorDialogBase {
 
 		createConnectorProfileComposite(mainComposite);
 
-		baseMessage = MSG_ERROR;
+		baseMessage = "Error";
 		try {
 			List<PortInterfaceProfile> interfaces1 = (first != null) ? first
 					.getInterfaces() : new ArrayList<PortInterfaceProfile>();
@@ -268,7 +259,7 @@ public class ServiceConnectorCreaterDialog extends ConnectorDialogBase {
 		portProfileEditComposite.setLayoutData(gd);
 
 		Label name = new Label(portProfileEditComposite, SWT.NONE);
-		name.setText(LABEL_NAME);
+		name.setText("Name :");
 		nameText = new Text(portProfileEditComposite, SWT.SINGLE | SWT.BORDER);
 		gd = new GridData();
 		gd.horizontalAlignment = GridData.FILL;
@@ -354,10 +345,10 @@ public class ServiceConnectorCreaterDialog extends ConnectorDialogBase {
 		interfaceTable.setHeaderVisible(true);
 
 		TableViewerColumn col = null;
-		col = createColumn(interfaceTableViewer, LABEL_PROPERTY_CONSUMER, 300);
+		col = createColumn(interfaceTableViewer, "Consumer", 300);
 		col.setEditingSupport(new InterfaceTableEdittingSupport(
 				interfaceTableViewer, PROPERTY_CONSUMER));
-		col = createColumn(interfaceTableViewer, LABEL_PROPERTY_PROVIDER, 300);
+		col = createColumn(interfaceTableViewer, "Provider", 300);
 		col.setEditingSupport(new InterfaceTableEdittingSupport(
 				interfaceTableViewer, PROPERTY_PROVIDER));
 
@@ -519,7 +510,7 @@ public class ServiceConnectorCreaterDialog extends ConnectorDialogBase {
 	@Override
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
-		shell.setText(DIALOG_TITLE);
+		shell.setText("Port Profile");
 	}
 
 	@SuppressWarnings("unchecked")

@@ -132,7 +132,7 @@ public class NewCompositeComponentDialog extends TitleAreaDialog {
 		if (creator.isOnline()) {
 			// オンラインの場合はコンポーネントを生成するマネージャを選択
 			Label mgr = new Label(portProfileEditComposite, SWT.NONE);
-			mgr.setText(Messages.getString("NewCompositeComponentDialog.2")); //$NON-NLS-1$
+			mgr.setText("Manager :"); //$NON-NLS-1$
 			mgrList = NameServerManager.eInstance.getRTCManagerList();
 			mgrCombo = new Combo(portProfileEditComposite, SWT.NONE
 					| SWT.READ_ONLY);
@@ -159,7 +159,7 @@ public class NewCompositeComponentDialog extends TitleAreaDialog {
 		}
 
 		Label name = new Label(portProfileEditComposite, SWT.NONE);
-		name.setText(Messages.getString("NewCompositeComponentDialog.3")); //$NON-NLS-1$
+		name.setText("Name :"); //$NON-NLS-1$
 		nameText = new Text(portProfileEditComposite, SWT.SINGLE | SWT.BORDER);
 		gd = new GridData(GridData.GRAB_HORIZONTAL);
 		gd.minimumWidth = 180;
@@ -169,7 +169,7 @@ public class NewCompositeComponentDialog extends TitleAreaDialog {
 		nameText.setLayoutData(gd);
 
 		Label type = new Label(portProfileEditComposite, SWT.NONE);
-		type.setText(Messages.getString("NewCompositeComponentDialog.4")); //$NON-NLS-1$
+		type.setText("Type :"); //$NON-NLS-1$
 		typeCombo = new Combo(portProfileEditComposite, SWT.NONE
 				| SWT.READ_ONLY);
 		gd = new GridData(GridData.GRAB_HORIZONTAL);
@@ -192,7 +192,7 @@ public class NewCompositeComponentDialog extends TitleAreaDialog {
 		});
 
 		Label pathLabel = new Label(portProfileEditComposite, SWT.NONE);
-		pathLabel.setText(Messages.getString("NewCompositeComponentDialog.8")); //$NON-NLS-1$
+		pathLabel.setText("Path :"); //$NON-NLS-1$
 		pathCombo = new Combo(portProfileEditComposite, SWT.NONE);
 		gd = new GridData(GridData.GRAB_HORIZONTAL);
 		gd.minimumWidth = 180;
@@ -224,7 +224,7 @@ public class NewCompositeComponentDialog extends TitleAreaDialog {
 	 */
 	private void createPortArea(Composite portProfileEditComposite) {
 		Label pathLabel = new Label(portProfileEditComposite, SWT.NONE);
-		pathLabel.setText(Messages.getString("NewCompositeComponentDialog.9")); //$NON-NLS-1$
+		pathLabel.setText("Port :"); //$NON-NLS-1$
 		final CheckboxTableViewer viewer = CheckboxTableViewer.newCheckList(
 				portProfileEditComposite, SWT.BORDER);
 		viewer.setContentProvider(new ArrayContentProvider());
@@ -300,7 +300,7 @@ public class NewCompositeComponentDialog extends TitleAreaDialog {
 	@Override
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
-		shell.setText(Messages.getString("NewCompositeComponentDialog.13")); //$NON-NLS-1$
+		shell.setText("New Composite Component"); //$NON-NLS-1$
 	}
 
 	@Override

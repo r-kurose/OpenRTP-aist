@@ -125,37 +125,25 @@ public class ConfigurationView extends ViewPart {
 
 	private static final int BUTTON_WIDTH = 70;
 
-	private static final String LABEL_COMPONENT_NAME = Messages.getString("ConfigurationView.15");
+	private static final String LABEL_BUTTON_EDIT = Messages.getString("Common.button.edit");
+	private static final String LABEL_BUTTON_APPLY = Messages.getString("Common.button.apply");
+	private static final String LABEL_BUTTON_CANCEL = Messages.getString("Common.button.cancel");
 
-	private static final String LABEL_BUTTON_EDIT = Messages.getString("ConfigurationView.7");
-	private static final String LABEL_BUTTON_APPLY = Messages.getString("ConfigurationView.8");
-	private static final String LABEL_BUTTON_CANCEL = Messages.getString("ConfigurationView.9");
-
-	private static final String LABEL_COLUMN_ACTIVE = Messages.getString("ConfigurationView.16");
-	private static final String LABEL_COLUMN_CONFIG = Messages.getString("ConfigurationView.17");
-
-	private static final String LABEL_BUTTON_ADD = Messages.getString("ConfigurationView.18");
-	private static final String LABEL_BUTTON_DEL = Messages.getString("ConfigurationView.22");
+	private static final String LABEL_BUTTON_ADD = Messages.getString("Common.button.add");
+	private static final String LABEL_BUTTON_DEL = Messages.getString("Common.button.delete");
 	private static final String LABEL_BUTTON_COPY = Messages.getString("ConfigurationView.23");
 	private static final String LABEL_BUTTON_DETAIL = Messages.getString("ConfigurationView.48");
 	private static final String LABEL_TOOLTIP_DETAIL = Messages.getString("ConfigurationView.47");
 
-	private static final String LABE_CONFIGSET_NAME = Messages.getString("ConfigurationView.26");
-
-	private static final String LABEL_COLUMN_KEY = Messages.getString("ConfigurationView.27");
-	private static final String LABEL_COLUMN_VALUE = Messages.getString("ConfigurationView.21");
-
-	private static final String LAVEL_DEFAULT_NV_VALUE = Messages.getString("ConfigurationView.21");
-
-	private static final String LABEL_BUTTON_NV_ADD = Messages.getString("ConfigurationView.29");
-	private static final String LABEL_BUTTON_NV_DEL = Messages.getString("ConfigurationView.32");
+	private static final String LABEL_BUTTON_NV_ADD = Messages.getString("Common.button.add");
+	private static final String LABEL_BUTTON_NV_DEL = Messages.getString("Common.button.delete");
 	private static final String LABEL_BUTTON_NV_DETAIL = Messages.getString("ConfigurationView.48");
 	private static final String LABEL_TOOLTIP_NV_DETAIL = Messages.getString("ConfigurationView.47");
 
-	private static final String MSG_ERROR = Messages.getString("ConfigurationView.12");
+	private static final String MSG_ERROR = Messages.getString("Common.dialog.error_title");
 	private static final String MSG_UPDATE_FAILURE = Messages.getString("ConfigurationView.13");
 
-	private static final String MSG_CONFIRM = Messages.getString("ConfigurationView.10");
+	private static final String MSG_CONFIRM = Messages.getString("Common.dialog.confirm_title");
 	private static final String MSG_CHECK_APPLY_CHANGE = Messages.getString("ConfigurationView.11");
 
 	private static final String MSG_WARNING = Messages.getString("ConfigurationView.39");
@@ -452,7 +440,7 @@ public class ConfigurationView extends ViewPart {
 		gd.horizontalSpan = 0;
 		gd.verticalSpan = 0;
 		componentNameLabelConst.setLayoutData(gd);
-		componentNameLabelConst.setText(LABEL_COMPONENT_NAME);
+		componentNameLabelConst.setText("ComponentName:");
 
 		componentNameLabel = new Label(componentNameComposite, SWT.BORDER);
 		gd = new GridData();
@@ -495,11 +483,11 @@ public class ConfigurationView extends ViewPart {
 		leftTable.setLayout(gl);
 
 		final TableColumn activeCol = new TableColumn(leftTable, SWT.RIGHT);
-		activeCol.setText(LABEL_COLUMN_ACTIVE);
+		activeCol.setText("active");
 		activeCol.setWidth(50);
 
 		final TableColumn configCol = new TableColumn(leftTable, SWT.LEFT);
-		configCol.setText(LABEL_COLUMN_CONFIG);
+		configCol.setText("config");
 		activeCol.setWidth(50);
 
 		ControlAdapter controlAdapter = new ControlAdapter() {
@@ -586,7 +574,7 @@ public class ConfigurationView extends ViewPart {
 						.getNamedValueList();
 				for (String key : copiedComponent.getDefaultNameSet()) {
 					NamedValueConfigurationWrapper nvw = new NamedValueConfigurationWrapper(
-							key, LAVEL_DEFAULT_NV_VALUE);
+							key, "value");
 					String type = copiedComponent.getWidgetSetting().get(key);
 					String cond = copiedComponent.getDefaultConditionSetting()
 							.get(key);
@@ -700,7 +688,7 @@ public class ConfigurationView extends ViewPart {
 		gd.horizontalSpan = 0;
 		gd.verticalSpan = 0;
 		configurationNameLabelConst.setLayoutData(gd);
-		configurationNameLabelConst.setText(LABE_CONFIGSET_NAME);
+		configurationNameLabelConst.setText("ConfigurationSet:");
 
 		configrationSetNameLabel = new Label(configurationNameComposite,
 				SWT.BORDER);
@@ -752,11 +740,11 @@ public class ConfigurationView extends ViewPart {
 		rightTable.setHeaderVisible(true);
 
 		final TableColumn keyCol = new TableColumn(rightTable, SWT.LEFT);
-		keyCol.setText(LABEL_COLUMN_KEY);
+		keyCol.setText("name");
 		keyCol.setWidth(150);
 
 		final TableColumn valueCol = new TableColumn(rightTable, SWT.LEFT);
-		valueCol.setText(LABEL_COLUMN_VALUE);
+		valueCol.setText("value");
 		valueCol.setWidth(300);
 
 		ControlAdapter controlAdapter = new ControlAdapter() {
@@ -799,7 +787,7 @@ public class ConfigurationView extends ViewPart {
 				NamedValueConfigurationWrapper namedValueConfigurationWrapper = new NamedValueConfigurationWrapper(null,
 						null);
 				namedValueConfigurationWrapper.setKey(createDefaultNamedValueKey("name")); // modified_key
-				namedValueConfigurationWrapper.setValue(LAVEL_DEFAULT_NV_VALUE);
+				namedValueConfigurationWrapper.setValue("value");
 				currentConfugurationSet.addNamedValue(namedValueConfigurationWrapper);
 
 				refreshRightData();

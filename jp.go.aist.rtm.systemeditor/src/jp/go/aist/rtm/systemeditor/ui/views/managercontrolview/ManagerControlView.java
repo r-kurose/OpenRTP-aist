@@ -54,30 +54,6 @@ public class ManagerControlView extends ViewPart {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ManagerControlView.class);
 
-	private static final String LABEL_LOADABLE_MODULE_BUTTON = Messages
-			.getString("ManagerControlView.0");
-	private static final String LABEL_RTC_INSTANCE_BUTTON = Messages
-			.getString("ManagerControlView.2");
-	private static final String LABEL_MANAGERS_BUTTON = Messages
-			.getString("ManagerControlView.4");
-	private static final String LABEL_CREATE_BUTTON = Messages
-			.getString("ManagerControlView.6");
-	private static final String LABEL_CONFIGURE_BUTTON = Messages
-			.getString("ManagerControlView.7");
-	private static final String LABEL_RESTART_BUTTON = Messages
-			.getString("ManagerControlView.restart");
-	private static final String LABEL_SHUTDOWN_BUTTON = Messages
-			.getString("ManagerControlView.8");
-
-	private static final String LABEL_MODULE_COLUMN = Messages
-			.getString("ManagerControlView.1");
-	private static final String LABEL_COMPONENT_COLUMN = Messages
-			.getString("ManagerControlView.5");
-	private static final String LABEL_PROCESS_GROUP_COLUMN = Messages
-			.getString("ManagerControlView.manager_name");
-	private static final String LABEL_LANGUAGE_COLUMN = Messages
-			.getString("ManagerControlView.manager_language");
-
 	private static final int MENU_BUTTON_WIDTH = 110;
 	private static final int EXEC_BUTTON_WIDTH = 110;
 
@@ -128,7 +104,7 @@ public class ManagerControlView extends ViewPart {
 		menuButtonComposite.setLayoutData(gd);
 
 		this.loadableModuleButton = new Button(menuButtonComposite, SWT.TOP);
-		this.loadableModuleButton.setText(LABEL_LOADABLE_MODULE_BUTTON);
+		this.loadableModuleButton.setText("Loadable Modules");
 		gd = new GridData();
 		gd.widthHint = MENU_BUTTON_WIDTH;
 		this.loadableModuleButton.setLayoutData(gd);
@@ -140,7 +116,7 @@ public class ManagerControlView extends ViewPart {
 				isSelectedRtcInstances = false;
 				isSelectedManagers = false;
 				if (targetManager != null) {
-					moduleColumn1.setText(LABEL_MODULE_COLUMN);
+					moduleColumn1.setText("module");
 					moduleColumn2.setText("");
 					isSelectedLoadableModules = true;
 				}
@@ -149,7 +125,7 @@ public class ManagerControlView extends ViewPart {
 		});
 
 		this.rtcInstanceButton = new Button(menuButtonComposite, SWT.TOP);
-		this.rtcInstanceButton.setText(LABEL_RTC_INSTANCE_BUTTON);
+		this.rtcInstanceButton.setText("RTC Instances");
 		gd = new GridData();
 		gd.widthHint = MENU_BUTTON_WIDTH;
 		this.rtcInstanceButton.setLayoutData(gd);
@@ -161,8 +137,8 @@ public class ManagerControlView extends ViewPart {
 				isSelectedRtcInstances = false;
 				isSelectedManagers = false;
 				if (targetManager != null) {
-					moduleColumn1.setText(LABEL_COMPONENT_COLUMN);
-					moduleColumn2.setText(LABEL_PROCESS_GROUP_COLUMN);
+					moduleColumn1.setText("component");
+					moduleColumn2.setText("manager name");
 					isSelectedRtcInstances = true;
 				}
 				refreshModuleListData();
@@ -170,7 +146,7 @@ public class ManagerControlView extends ViewPart {
 		});
 
 		this.managersButton = new Button(menuButtonComposite, SWT.TOP);
-		this.managersButton.setText(LABEL_MANAGERS_BUTTON);
+		this.managersButton.setText("Managers");
 		gd = new GridData();
 		gd.widthHint = MENU_BUTTON_WIDTH;
 		this.managersButton.setLayoutData(gd);
@@ -182,8 +158,8 @@ public class ManagerControlView extends ViewPart {
 				isSelectedRtcInstances = false;
 				isSelectedManagers = false;
 				if (targetManager != null) {
-					moduleColumn1.setText(LABEL_PROCESS_GROUP_COLUMN);
-					moduleColumn2.setText(LABEL_LANGUAGE_COLUMN);
+					moduleColumn1.setText("manager name");
+					moduleColumn2.setText("manager language");
 					isSelectedManagers = true;
 				}
 				refreshModuleListData();
@@ -231,7 +207,7 @@ public class ManagerControlView extends ViewPart {
 		});
 
 		this.moduleColumn1 = new TableColumn(this.modulesTable, SWT.NONE);
-		this.moduleColumn1.setText(LABEL_MODULE_COLUMN);
+		this.moduleColumn1.setText("module");
 		this.moduleColumn1.setWidth(300);
 		this.moduleColumn2 = new TableColumn(this.modulesTable, SWT.NONE);
 		this.moduleColumn2.setText("");
@@ -250,7 +226,7 @@ public class ManagerControlView extends ViewPart {
 		execButtonComposite.setLayoutData(gd);
 
 		this.createButton = new Button(execButtonComposite, SWT.TOP);
-		this.createButton.setText(LABEL_CREATE_BUTTON);
+		this.createButton.setText("Create");
 		gd = new GridData();
 		gd.widthHint = EXEC_BUTTON_WIDTH;
 		this.createButton.setLayoutData(gd);
@@ -291,7 +267,7 @@ public class ManagerControlView extends ViewPart {
 		});
 
 		this.configureButton = new Button(execButtonComposite, SWT.TOP);
-		this.configureButton.setText(LABEL_CONFIGURE_BUTTON);
+		this.configureButton.setText("Configure");
 		gd = new GridData();
 		gd.widthHint = EXEC_BUTTON_WIDTH;
 		this.configureButton.setLayoutData(gd);
@@ -315,7 +291,7 @@ public class ManagerControlView extends ViewPart {
 		});
 
 		this.restartButton = new Button(execButtonComposite, SWT.TOP);
-		this.restartButton.setText(LABEL_RESTART_BUTTON);
+		this.restartButton.setText("Restart");
 		gd = new GridData();
 		gd.widthHint = EXEC_BUTTON_WIDTH;
 		this.restartButton.setLayoutData(gd);
@@ -337,7 +313,7 @@ public class ManagerControlView extends ViewPart {
 		});
 
 		this.shutdownButton = new Button(execButtonComposite, SWT.TOP);
-		this.shutdownButton.setText(LABEL_SHUTDOWN_BUTTON);
+		this.shutdownButton.setText("Shutdown");
 		gd = new GridData();
 		gd.widthHint = EXEC_BUTTON_WIDTH;
 		this.shutdownButton.setLayoutData(gd);

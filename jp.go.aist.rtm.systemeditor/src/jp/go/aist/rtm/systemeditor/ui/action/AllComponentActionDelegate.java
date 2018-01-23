@@ -82,7 +82,7 @@ public class AllComponentActionDelegate implements IEditorActionDelegate {
 		if (SystemEditorPreferenceManager.getInstance()
 				.isConfirmComponentAction()) {
 			isOk = MessageDialog.openConfirm(targetEditor.getSite()
-				.getShell(), Messages.getString("AllComponentActionDelegate.9"), comfirmMessage); //$NON-NLS-1$
+				.getShell(), Messages.getString("Common.dialog.confirm_title"), comfirmMessage); //$NON-NLS-1$
 		}
 
 		if (isOk) {
@@ -123,7 +123,7 @@ public class AllComponentActionDelegate implements IEditorActionDelegate {
 				dialog.run(false, false, runable);
 			} catch (InvocationTargetException e) {
 				MessageDialog.openError(targetEditor.getSite().getShell(),
-						Messages.getString("AllComponentActionDelegate.13"), Messages.getString("AllComponentActionDelegate.14") + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
+						Messages.getString("Common.dialog.error_title"), Messages.getString("AllComponentActionDelegate.14") + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
 			} catch (InterruptedException e) {
 				LOGGER.error("Fail in dialog (interrupted)", e);
 			}

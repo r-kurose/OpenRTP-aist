@@ -88,7 +88,8 @@ public class MoveComponentAction extends SelectionAction {
 	public MoveComponentAction(IWorkbenchPart part, String id) {
 		super(part);
 		setId(id);
-		setText(Messages.getString("MoveComponentAction.8")); //$NON-NLS-1$
+		setText("Move");
+		setToolTipText("Move");
 	}
 
 	/**

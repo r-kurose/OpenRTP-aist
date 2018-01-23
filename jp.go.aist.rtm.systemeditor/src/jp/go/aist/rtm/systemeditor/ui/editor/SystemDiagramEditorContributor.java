@@ -128,9 +128,9 @@ public class SystemDiagramEditorContributor extends ActionBarContributor {
 								IFigure figure = componentEditPart.getFigure();
 
 								Rectangle bounds = figure.getBounds();
-								message = Messages.getString("SystemDiagramEditorContributor.1") + bounds.x + "," + bounds.y //$NON-NLS-1$ //$NON-NLS-2$
-										+ Messages.getString("SystemDiagramEditorContributor.3") + bounds.width + "," //$NON-NLS-1$ //$NON-NLS-2$
-										+ bounds.height + ")"; //$NON-NLS-1$
+								message = "Pos: (" + bounds.x + "," + bounds.y
+										+ ") Size: (" + bounds.width + ","
+										+ bounds.height + ")";
 							}
 
 							manager.setMessage(message);

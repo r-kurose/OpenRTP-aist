@@ -44,18 +44,7 @@ import org.eclipse.swt.widgets.Text;
  */
 public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 
-	static final String LABEL_PUSH_POLICY = Messages.getString("DataConnectorCreaterDialog.20");
-	static final String LABEL_SKIP_COUNT = Messages.getString("DataConnectorCreaterDialog.21");
 	static final String LABEL_DETAIL = Messages.getString("DataConnectorCreaterDialog.22");
-
-	static final String LABEL_OUTPORT_BUFFER = Messages.getString("DataConnectorCreaterDialog.23");
-	static final String LABEL_INPORT_BUFFER = Messages.getString("DataConnectorCreaterDialog.24");
-
-	static final String LABEL_BUFFER_LENGTH = Messages.getString("DataConnectorCreaterDialog.25");
-	static final String LABEL_BUFFER_FULL_POLICY = Messages.getString("DataConnectorCreaterDialog.26");
-	static final String LABEL_BUFFER_WRITE_TIMEOUT = Messages.getString("DataConnectorCreaterDialog.27");
-	static final String LABEL_BUFFER_EMPTY_POLICY = Messages.getString("DataConnectorCreaterDialog.28");
-	static final String LABEL_BUFFER_READ_TIMEOUT = Messages.getString("DataConnectorCreaterDialog.29");
 
 	static final String MSG_ERROR_PUSH_RATE_NOT_NUMERIC = Messages.getString("DataConnectorCreaterDialog.19");
 	static final String MSG_ERROR_SKIP_COUNT_NOT_INTEGER = Messages.getString("DataConnectorCreaterDialog.30");
@@ -74,6 +63,7 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 	private Text pushRateText;
 	private Combo pushPolicyCombo;
 	private Text skipCountText;
+	private Combo timePolicyCombo;
 
 	Composite detailComposite;
 	Point defaultDialogSize;
@@ -174,7 +164,7 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 		int style;
 
 		Label name = new Label(portProfileEditComposite, SWT.NONE);
-		name.setText(Messages.getString("DataConnectorCreaterDialog.2")); //$NON-NLS-1$
+		name.setText("Name :"); //$NON-NLS-1$
 		nameText = new Text(portProfileEditComposite, SWT.SINGLE | SWT.BORDER);
 		gd = new GridData();
 		gd.horizontalAlignment = GridData.FILL;
@@ -190,7 +180,7 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 		createLabel(portProfileEditComposite, "");
 
 		Label dataTypeLabel = new Label(portProfileEditComposite, SWT.NONE);
-		dataTypeLabel.setText(Messages.getString("DataConnectorCreaterDialog.3")); //$NON-NLS-1$
+		dataTypeLabel.setText("Data Type :"); //$NON-NLS-1$
 		style = ConnectorUtil.isAllowAnyDataType(outport, inport) ? SWT.DROP_DOWN
 				: SWT.DROP_DOWN | SWT.READ_ONLY;
 		dataTypeCombo = new Combo(portProfileEditComposite, style);
@@ -207,10 +197,10 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 		Label dataTypeFooterLabel = new Label(portProfileEditComposite,
 				SWT.NONE);
 		dataTypeFooterLabel.setText(ConnectorUtil.isAllowAnyDataType(
-				outport, inport) ? Messages.getString("DataConnectorCreaterDialog.4") : ""); //$NON-NLS-1$ //$NON-NLS-2$
+				outport, inport) ? Messages.getString("DataConnectorCreaterDialog.2") : ""); //$NON-NLS-1$ //$NON-NLS-2$
 
 		Label interfaceTypeLabel = new Label(portProfileEditComposite, SWT.NONE);
-		interfaceTypeLabel.setText(Messages.getString("DataConnectorCreaterDialog.6")); //$NON-NLS-1$
+		interfaceTypeLabel.setText("Interface Type :"); //$NON-NLS-1$
 		style = ConnectorUtil.isAllowAnyInterfaceType(outport, inport) ? SWT.DROP_DOWN
 				: SWT.DROP_DOWN | SWT.READ_ONLY;
 		interfaceTypeCombo = new Combo(portProfileEditComposite, style);
@@ -227,10 +217,10 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 		Label interfaceTypeFooterLabel = new Label(portProfileEditComposite,
 				SWT.NONE);
 		interfaceTypeFooterLabel.setText(ConnectorUtil
-				.isAllowAnyInterfaceType(outport, inport) ? Messages.getString("DataConnectorCreaterDialog.7") : ""); //$NON-NLS-1$ //$NON-NLS-2$
+				.isAllowAnyInterfaceType(outport, inport) ? Messages.getString("DataConnectorCreaterDialog.2") : ""); //$NON-NLS-1$ //$NON-NLS-2$
 
 		Label dataflowTypeLabel = new Label(portProfileEditComposite, SWT.NONE);
-		dataflowTypeLabel.setText(Messages.getString("DataConnectorCreaterDialog.9")); //$NON-NLS-1$
+		dataflowTypeLabel.setText("Dataflow Type :"); //$NON-NLS-1$
 		style = ConnectorUtil.isAllowAnyDataflowType(outport, inport) ? SWT.DROP_DOWN
 				: SWT.DROP_DOWN | SWT.READ_ONLY;
 		dataflowTypeCombo = new Combo(portProfileEditComposite, style);
@@ -250,11 +240,11 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 		Label dataflowTypeFooterLabel = new Label(portProfileEditComposite,
 				SWT.NONE);
 		dataflowTypeFooterLabel.setText(ConnectorUtil
-				.isAllowAnyDataflowType(outport, inport) ? Messages.getString("DataConnectorCreaterDialog.10") : ""); //$NON-NLS-1$ //$NON-NLS-2$
+				.isAllowAnyDataflowType(outport, inport) ? Messages.getString("DataConnectorCreaterDialog.2") : ""); //$NON-NLS-1$ //$NON-NLS-2$
 
 		Label subscriptionTypeLabel = new Label(portProfileEditComposite,
 				SWT.NONE);
-		subscriptionTypeLabel.setText(Messages.getString("DataConnectorCreaterDialog.12")); //$NON-NLS-1$
+		subscriptionTypeLabel.setText("Subscription Type :"); //$NON-NLS-1$
 		style = ConnectorUtil.isAllowAnySubscriptionType(outport, inport) ? SWT.DROP_DOWN
 				: SWT.DROP_DOWN | SWT.READ_ONLY;
 		subscriptionTypeCombo = new Combo(portProfileEditComposite, style);
@@ -282,11 +272,11 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 		Label subscriptionTypeFooterLabel = new Label(portProfileEditComposite,
 				SWT.NONE);
 		subscriptionTypeFooterLabel.setText(ConnectorUtil
-				.isAllowAnySubscriptionType(outport, inport) ? Messages.getString("DataConnectorCreaterDialog.13") : ""); //$NON-NLS-1$ //$NON-NLS-2$
+				.isAllowAnySubscriptionType(outport, inport) ? Messages.getString("DataConnectorCreaterDialog.2") : ""); //$NON-NLS-1$ //$NON-NLS-2$
 		subscriptionTypeCombo.setEnabled(false);
 
 		Label pushRate = new Label(portProfileEditComposite, SWT.NONE);
-		pushRate.setText(Messages.getString("DataConnectorCreaterDialog.15")); //$NON-NLS-1$
+		pushRate.setText("Push Rate(Hz) :"); //$NON-NLS-1$
 		pushRateText = new Text(portProfileEditComposite, SWT.SINGLE
 				| SWT.BORDER);
 		pushRateText.setEnabled(false);
@@ -318,7 +308,7 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 		footerLabel.setText("");
 
 		// Push Policy
-		createLabel(portProfileEditComposite, LABEL_PUSH_POLICY);
+		createLabel(portProfileEditComposite, "Push Policy :");
 		style = SWT.DROP_DOWN | SWT.READ_ONLY;
 		pushPolicyCombo = new Combo(portProfileEditComposite, style);
 		gd = new GridData();
@@ -342,7 +332,7 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 		createLabel(portProfileEditComposite, "");
 
 		// Skip Count
-		createLabel(portProfileEditComposite, LABEL_SKIP_COUNT);
+		createLabel(portProfileEditComposite, "Skip Count :");
 		skipCountText = new Text(portProfileEditComposite, SWT.SINGLE
 				| SWT.BORDER);
 		skipCountText.setEnabled(false);
@@ -365,6 +355,27 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 		});
 		createLabel(portProfileEditComposite, "");
 
+		// TimeStamp Policy
+		createLabel(portProfileEditComposite, "TimeStamp Policy :");
+		style = SWT.DROP_DOWN | SWT.READ_ONLY;
+		timePolicyCombo = new Combo(portProfileEditComposite, style);
+		gd = new GridData();
+		gd.horizontalAlignment = GridData.FILL;
+		gd.grabExcessHorizontalSpace = true;
+		timePolicyCombo.setLayoutData(gd);
+		timePolicyCombo.add("");
+		timePolicyCombo.add("on_write");
+		timePolicyCombo.add("on_send");
+		timePolicyCombo.add("on_received");
+		timePolicyCombo.add("on_read");
+		timePolicyCombo.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				connectorProfile.setTimestampPolicy(timePolicyCombo.getText());
+				notifyModified();
+			}
+		});
+		createLabel(portProfileEditComposite, "");
+		
 		final Button detailCheck = new Button(portProfileEditComposite,
 				SWT.CHECK);
 		detailCheck.setText(LABEL_DETAIL);
@@ -410,10 +421,10 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 		detailComposite.setVisible(false);
 
 		ob = new BufferPackage();
-		createBufferComposite(detailComposite, LABEL_OUTPORT_BUFFER, ob);
+		createBufferComposite(detailComposite, "Buffer (Outport)", ob);
 
 		ib = new BufferPackage();
-		createBufferComposite(detailComposite, LABEL_INPORT_BUFFER, ib);
+		createBufferComposite(detailComposite, "Buffer (Inport)", ib);
 		
 		additionalTableViewer = createAdditionalTableViewer(detailComposite);
 		
@@ -445,7 +456,7 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 		final boolean isOutport = (pkg == ob);
 
 		// Buffer length
-		createLabel(composite, LABEL_BUFFER_LENGTH);
+		createLabel(composite, "Buffer length :");
 		pkg.lengthText = new Text(composite, SWT.SINGLE | SWT.BORDER);
 		gd = new GridData();
 		gd.horizontalAlignment = GridData.FILL;
@@ -471,7 +482,7 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 		createLabel(composite, "");
 
 		// Buffer full policy
-		createLabel(composite, LABEL_BUFFER_FULL_POLICY);
+		createLabel(composite, "Buffer full policy :");
 		pkg.fullPolicyCombo = new Combo(composite, SWT.DROP_DOWN
 				| SWT.READ_ONLY);
 		gd = new GridData();
@@ -493,7 +504,7 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 		createLabel(composite, "");
 
 		// Buffer write timeout
-		createLabel(composite, LABEL_BUFFER_WRITE_TIMEOUT);
+		createLabel(composite, "Buffer write timeout :");
 		pkg.writeTimeoutText = new Text(composite, SWT.SINGLE | SWT.BORDER);
 		gd = new GridData();
 		gd.horizontalAlignment = GridData.FILL;
@@ -519,7 +530,7 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 		createLabel(composite, "");
 
 		// Buffer empty policy
-		createLabel(composite, LABEL_BUFFER_EMPTY_POLICY);
+		createLabel(composite, "Buffer empty policy :");
 		pkg.emptyPolicyCombo = new Combo(composite, SWT.DROP_DOWN
 				| SWT.READ_ONLY);
 		gd = new GridData();
@@ -541,7 +552,7 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 		createLabel(composite, "");
 
 		// Buffer read timeout
-		createLabel(composite, LABEL_BUFFER_READ_TIMEOUT);
+		createLabel(composite, "Buffer read timeout :");
 		pkg.readTimeoutText = new Text(composite, SWT.SINGLE | SWT.BORDER);
 		gd = new GridData();
 		gd.horizontalAlignment = GridData.FILL;
@@ -771,7 +782,7 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 	@Override
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
-		shell.setText(Messages.getString("DataConnectorCreaterDialog.16")); //$NON-NLS-1$
+		shell.setText("Connector Profile"); //$NON-NLS-1$
 	}
 
 	@SuppressWarnings("unchecked")
@@ -944,13 +955,9 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 			}
 		}
 
-		subscriptionTypeCombo.setEnabled(connectorProfile
-				.isSubscriptionTypeAvailable());
-
+		subscriptionTypeCombo.setEnabled(connectorProfile.isSubscriptionTypeAvailable());
 		pushRateText.setEnabled(connectorProfile.isPushIntervalAvailable());
-
 		pushPolicyCombo.setEnabled(connectorProfile.isPushPolicyAvailable());
-
 		skipCountText.setEnabled(connectorProfile.isSkipCountAvailable());
 	}
 

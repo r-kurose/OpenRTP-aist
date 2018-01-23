@@ -61,7 +61,7 @@ public class IComponentActionDelegate implements IObjectActionDelegate {
 			+ ".Exit"; //$NON-NLS-1$
 
 	static final String TITLE_CONFIRM_DIALOG = Messages
-			.getString("IComponentActionDelegate.15");
+			.getString("Common.dialog.confirm_title");
 
 	static final String MSG_CONFIRM_START = Messages.getString("IComponentActionDelegate.7");
 	static final String MSG_CONFIRM_STOP = Messages.getString("IComponentActionDelegate.8");

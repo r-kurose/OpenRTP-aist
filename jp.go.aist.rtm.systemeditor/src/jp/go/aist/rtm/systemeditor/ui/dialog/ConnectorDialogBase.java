@@ -93,7 +93,7 @@ public class ConnectorDialogBase extends TitleAreaDialog {
 		buttonComposite.setLayoutData(gd);
 
 		Button addButton = new Button(buttonComposite, SWT.TOP);
-		addButton.setText(getString("ServiceConnectorCreaterDialog.9"));
+		addButton.setText(getString("Common.button.add"));
 		gd = new GridData();
 		gd.widthHint = EXEC_BUTTON_WIDTH;
 		addButton.setLayoutData(gd);
@@ -108,7 +108,7 @@ public class ConnectorDialogBase extends TitleAreaDialog {
 		});
 
 		Button deleteButton = new Button(buttonComposite, SWT.TOP);
-		deleteButton.setText(getString("ServiceConnectorCreaterDialog.10"));
+		deleteButton.setText(getString("Common.button.delete"));
 		gd = new GridData();
 		gd.widthHint = EXEC_BUTTON_WIDTH;
 		deleteButton.setLayoutData(gd);

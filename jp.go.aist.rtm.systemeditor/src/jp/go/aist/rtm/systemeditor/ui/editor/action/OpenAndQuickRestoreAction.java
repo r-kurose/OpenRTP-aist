@@ -20,8 +20,8 @@ public class OpenAndQuickRestoreAction extends EditorPartAction {
 	@Override
 	protected void init() {
 		setId(ID);
-		setText(Messages.getString("OpenAndQuickRestoreAction.0")); //$NON-NLS-1$
-		setToolTipText(Messages.getString("OpenAndQuickRestoreAction.1")); //$NON-NLS-1$
+		setText("Open and Quick Restore...");
+		setToolTipText("Open and Quick Restore...");
 	}
 
 	@Override

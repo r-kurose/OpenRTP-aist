@@ -212,8 +212,8 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 			@Override
 			protected void init() {
 				setId(ActionFactory.SAVE_AS.getId());
-				setText(Messages.getString("AbstractSystemDiagramEditor.3")); //$NON-NLS-1$
-				setToolTipText(Messages.getString("AbstractSystemDiagramEditor.4")); //$NON-NLS-1$
+				setText("Save As...");
+				setToolTipText("Save As...");
 			}
 
 			@Override
@@ -380,8 +380,8 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 			save(file, monitor);
 		} catch (CoreException e) {
 			LOGGER.error("Fail to save. file=" + file, e);
-			ErrorDialog.openError(getSite().getShell(), Messages.getString("AbstractSystemDiagramEditor.12"), //$NON-NLS-1$
-					Messages.getString("AbstractSystemDiagramEditor.13"), e.getStatus()); //$NON-NLS-1$
+			ErrorDialog.openError(getSite().getShell(), "Error During Save",
+					"The current model could not be saved.", e.getStatus());
 		}
 	}
 
@@ -481,7 +481,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 			try {
 				newPath.toFile().createNewFile();
 			} catch (IOException e) {
-				MessageDialog.openError(getSite().getShell(), Messages.getString("AbstractSystemDiagramEditor.23"), //$NON-NLS-1$
+				MessageDialog.openError(getSite().getShell(), Messages.getString("AbstractSystemDiagramEditor.21"), //$NON-NLS-1$
 						Messages.getString("AbstractSystemDiagramEditor.24") + newPath.toOSString()); //$NON-NLS-1$
 			}
 		}
@@ -568,9 +568,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		if (progressMonitor == null) {
 			progressMonitor = new NullProgressMonitor();
 		}
-		progressMonitor.beginTask(Messages
-				.getString("AbstractSystemDiagramEditor.26")
-				+ file.getLocation().toOSString(), 6);
+		progressMonitor.beginTask("Saving" + file.getLocation().toOSString(), 6);
 
 		try {
 			// STEP1: リソースを作成
@@ -642,13 +640,13 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		} catch (FileNotFoundException e) {
 			progressMonitor.done();
 			IStatus status = new Status(IStatus.ERROR, RTSystemEditorPlugin.getDefault()
-					.getClass().getName(), 0, Messages.getString("AbstractSystemDiagramEditor.27"), e); //$NON-NLS-1$
+					.getClass().getName(), 0, "Error writing file.", e);
 			throw new CoreException(status);
 
 		} catch (Exception e) {
 			progressMonitor.done();
 			IStatus status = new Status(IStatus.ERROR, RTSystemEditorPlugin.getDefault()
-					.getClass().getName(), 0, Messages.getString("AbstractSystemDiagramEditor.28"), e); //$NON-NLS-1$
+					.getClass().getName(), 0, "Error writing file.", e);
 			throw new CoreException(status);
 		}
 	}
@@ -742,8 +740,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 			final IEditorSite site, final RestoreOption doReplace)
 			throws PartInitException;
 
-	private SimpleDateFormat formater = new SimpleDateFormat(
-			Messages.getString("AbstractSystemDiagramEditor.29")); //$NON-NLS-1$
+	private SimpleDateFormat formater = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss_SSS");
 
 	protected IEditorInput getTargetInput(IEditorInput input, String windowName) {
 		if (input instanceof NullEditorInput) {

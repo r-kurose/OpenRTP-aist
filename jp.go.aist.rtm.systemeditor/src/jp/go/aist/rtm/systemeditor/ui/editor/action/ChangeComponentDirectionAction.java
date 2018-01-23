@@ -41,7 +41,8 @@ public class ChangeComponentDirectionAction extends SelectionAction {
 	public ChangeComponentDirectionAction(IWorkbenchPart part, String id) {
 		super(part);
 		setId(id);
-		setText(Messages.getString("ChangeComponentDirectionAction.2")); //$NON-NLS-1$
+		setText("Change Direction");
+		setToolTipText("Change Direction");
 	}
 
 	protected boolean calculateEnabled() {

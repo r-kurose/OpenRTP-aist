@@ -46,8 +46,7 @@ public class IconPreferencePage extends PreferencePage implements
 
 	static final int EXEC_BUTTON_WIDTH = 90;
 
-	static final String ERROR_IMPORT_PROFILE = getString("IconPreferencePage.error.import");
-	static final String ERROR_EXPORT_PROFILE = getString("IconPreferencePage.error.export");
+	static final String ERROR_PROFILE = getString("IconPreferencePage.error");
 
 	static final String BUTTON_LABEL_ADD = getString("Common.button.add");
 	static final String BUTTON_LABEL_EDIT = getString("Common.button.edit");
@@ -202,7 +201,7 @@ public class IconPreferencePage extends PreferencePage implements
 					entryList = store.toEntries();
 					iconTableViewer.setInput(entryList);
 				} catch (Exception e1) {
-					setErrorMessage(ERROR_IMPORT_PROFILE);
+					setErrorMessage(ERROR_PROFILE);
 					LOGGER.error("Fail to load profile for icon store", e1);
 				}
 			}
@@ -230,7 +229,7 @@ public class IconPreferencePage extends PreferencePage implements
 					File file = new File(s);
 					store.saveProfile(file.getAbsolutePath());
 				} catch (Exception e1) {
-					setErrorMessage(ERROR_EXPORT_PROFILE);
+					setErrorMessage(ERROR_PROFILE);
 					LOGGER.error("Fail to save profile", e1);
 				}
 			}

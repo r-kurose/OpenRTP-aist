@@ -33,7 +33,6 @@ import static jp.go.aist.rtm.systemeditor.nl.Messages.*;
 
 public class DisconnectDialog extends TitleAreaDialog {
 
-	static final String DIALOG_TITLE = getString("DisconnectDialog.title");
 	static final String DIALOG_EXPLAN = getString("DisconnectDialog.explain");
 
 	static final String PROPERTY_CONN_ID = "PROPERTY_CONN_ID";
@@ -171,7 +170,7 @@ public class DisconnectDialog extends TitleAreaDialog {
 	@Override
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
-		shell.setText(DIALOG_TITLE);
+		shell.setText("Disconnect Profile");
 	}
 
 	/** 表示内容を構築 */
