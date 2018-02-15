@@ -98,6 +98,14 @@
 		<editorContribution
 			targetID="jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor"
 			id="jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor.editorActions">
+			<action id="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate.AllExit" 
+				label="%All_Exit" 
+				toolbarPath="additions" 
+				icon="icons/Exit.png" 
+				tooltip="%All_Exit" 
+				helpContextId=""
+				class="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate"> 
+			</action>
 			<action id="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate.AllStop" 
 				label="%All_Stop" 
 				toolbarPath="additions" 
@@ -159,6 +167,14 @@
 		<viewerContribution
 			id="jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor.contribution" 
 			targetID="jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor">
+			<action id="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate.AllExit" 
+				label="%All_Exit" 
+				menubarPath="all"
+				icon="icons/Exit.png" 
+				tooltip="%All_Exit"
+				helpContextId=""
+				class="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate"> 
+			</action>
 			<action id="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate.AllStop" 
 				label="%All_Stop" 
 				menubarPath="all"

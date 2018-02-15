@@ -57,6 +57,13 @@ public class AllComponentActionDelegate implements IEditorActionDelegate {
 			.getName()
 			+ ".AllDeactivate"; //$NON-NLS-1$
 
+	/**
+	 * AllExitに使用されるID。この値が、Plugin.XMLに指定されなければならない。
+	 */
+	public static final String ALL_EXIT_ACTION_ID = AllComponentActionDelegate.class
+			.getName()
+			+ ".AllExit"; //$NON-NLS-1$
+	
 	private SystemDiagramEditor targetEditor;
 
 	/**
@@ -76,11 +83,12 @@ public class AllComponentActionDelegate implements IEditorActionDelegate {
 			comfirmMessage = Messages.getString("AllComponentActionDelegate.7"); //$NON-NLS-1$
 		} else if (ALL_DEACTIVATE_ACTION_ID.equals(action.getId())) {
 			comfirmMessage = Messages.getString("AllComponentActionDelegate.8"); //$NON-NLS-1$
+		} else if (ALL_EXIT_ACTION_ID.equals(action.getId())) {
+			comfirmMessage = Messages.getString("AllComponentActionDelegate.9"); //$NON-NLS-1$
 		}
 
 		boolean isOk = true;
-		if (SystemEditorPreferenceManager.getInstance()
-				.isConfirmComponentAction()) {
+		if (SystemEditorPreferenceManager.getInstance().isConfirmComponentAction() || ALL_EXIT_ACTION_ID.equals(action.getId()) ) {
 			isOk = MessageDialog.openConfirm(targetEditor.getSite()
 				.getShell(), Messages.getString("Common.dialog.confirm_title"), comfirmMessage); //$NON-NLS-1$
 		}
@@ -108,6 +116,9 @@ public class AllComponentActionDelegate implements IEditorActionDelegate {
 						} else if (ALL_DEACTIVATE_ACTION_ID.equals(action
 								.getId())) {
 							doAllDectivate(systemDiagram);
+						} else if (ALL_EXIT_ACTION_ID.equals(action
+								.getId())) {
+							doAllExit(systemDiagram);
 						}
 					} catch (Exception e) {
 						throw new InvocationTargetException(e);
@@ -175,6 +186,17 @@ public class AllComponentActionDelegate implements IEditorActionDelegate {
 		});
 	}
 
+	private void doAllExit(SystemDiagram systemDiagram) {
+		systemDiagram.accept(new Visiter() {
+			@SuppressWarnings("unchecked")
+			public void visit(ModelElement element) {
+				if (element instanceof CorbaComponent) {
+					((CorbaComponent) element).exitR();
+				}
+			}
+		});
+	}
+	
 	public void setActiveEditor(IAction action, IEditorPart targetEditor) {
 		this.targetEditor = (SystemDiagramEditor) targetEditor;
 	}
