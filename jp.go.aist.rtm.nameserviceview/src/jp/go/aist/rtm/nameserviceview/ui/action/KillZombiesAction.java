@@ -6,6 +6,7 @@ import java.util.List;
 
 import jp.go.aist.rtm.nameserviceview.model.manager.NameServerManager;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode;
+import jp.go.aist.rtm.nameserviceview.nl.Messages;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -21,21 +22,25 @@ import org.eclipse.ui.IViewPart;
  *
  */
 public class KillZombiesAction implements IViewActionDelegate {
+	private static final String KILL_ZOMLIES_TITLE = Messages.getString("KillZombiesAction.title");
+	private static final String KILL_ZOMLIES_START = Messages.getString("KillZombiesAction.start");
+	private static final String KILL_ZOMLIES_PROCESS = Messages.getString("KillZombiesAction.process");
+	private static final String KILL_ZOMLIES_FINISH = Messages.getString("KillZombiesAction.finish");
 
 //	@Override
 	public void init(IViewPart view) {
 	}
 
 	public void run(IAction action) {
-		Job job = new Job("ゾンビ削除処理") {
+		Job job = new Job(KILL_ZOMLIES_TITLE) {
 			@SuppressWarnings("unchecked")
 			protected IStatus run(IProgressMonitor monitor) {
 
-				monitor.beginTask("すべてのゾンビエントリを削除します", 100);
+				monitor.beginTask(KILL_ZOMLIES_START, 100);
 
 				monitor.internalWorked(30);
 
-				monitor.subTask("ゾンビのエントリを削除しています...");
+				monitor.subTask(KILL_ZOMLIES_PROCESS);
 
 				List<NamingObjectNode> deleteList = new ArrayList<NamingObjectNode>();
 				for (Iterator iter = NameServerManager.eInstance
@@ -57,7 +62,7 @@ public class KillZombiesAction implements IViewActionDelegate {
 					}
 				}
 
-				monitor.subTask("ゾンビのエントリの削除を終了しました。");
+				monitor.subTask(KILL_ZOMLIES_FINISH);
 				monitor.done();
 
 				return org.eclipse.core.runtime.Status.OK_STATUS;

@@ -31,6 +31,15 @@
 		<viewContribution 
 			id="jp.go.aist.rtm.nameserviceview.ui.views.nameserviceview.NameServiceView.contribution" 
 			targetID="jp.go.aist.rtm.nameserviceview.ui.views.nameserviceview.NameServiceView">        
+			<action
+				class="jp.go.aist.rtm.nameserviceview.ui.action.StartNameServiceAction"
+				icon="icons/StartNS.png"
+				id="jp.go.aist.rtm.nameserviceview.ui.action.StartNameservice"
+				label="%Start_NameService"
+				menubarPath="additions"
+				toolbarPath="additions"
+				tooltip="%Start_NameService">
+			</action>
 			<action id="jp.go.aist.rtm.nameserviceview.ui.action.AddNameServiceAction" 
 				label="%Add_Name_Server" 
 				menubarPath="additions"
