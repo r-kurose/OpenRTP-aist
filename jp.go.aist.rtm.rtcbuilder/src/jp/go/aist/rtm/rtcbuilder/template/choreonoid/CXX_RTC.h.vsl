@@ -319,78 +319,69 @@ class ${rtcParam.name} : public BodyIoRTC {
 
   /***
    *
-   * The action that is invoked when execution context's rate is changed
-   * no corresponding operation exists in OpenRTm-aist-0.2.0
+   * This action is called when the BodyIoRTC is created by a BodyIoRTCItem.
+   * If there is an associated BodyItem, its body object can be obtained from the io object
+   * and a set of ports corresponding to the body model can dynamically be created in
+   * this action.
    *
-   * @param ec_id target ExecutionContext Id
+   * @note The io object is dedicated to this function and must not be sotred and used
+   * in other virtual functions called by the system.
    *
-   * @return RTC::ReturnCode_t
-   * 
+   * @param io
+   *
+   * @return bool
    * 
    */
    virtual bool initializeIO(ControllerIO* io) override;
 
   /***
    *
-   * The action that is invoked when execution context's rate is changed
-   * no corresponding operation exists in OpenRTm-aist-0.2.0
-   *
-   * @param ec_id target ExecutionContext Id
-   *
-   * @return RTC::ReturnCode_t
+   * This action is called when the simulation is initialized.
    * 
+   * @note The io object given to this function is the object managed by a simulator item.
+   * It is different from the object given to the initializeIO function, which is not
+   * managed by the simulator item.
+   *
+   * @param io
+   *
+   * @return bool
    * 
    */
    virtual bool initializeSimulation(ControllerIO* io) override;
 
   /***
    *
-   * The action that is invoked when execution context's rate is changed
-   * no corresponding operation exists in OpenRTm-aist-0.2.0
+   * This action is called when the simulation is started.
    *
-   * @param ec_id target ExecutionContext Id
+   * @note The simulation is first initialized, and then
+   * it is started if the initialization is successfull.
    *
-   * @return RTC::ReturnCode_t
-   * 
+   * @return bool
    * 
    */
    virtual bool startSimulation() override;
 
   /***
    *
-   * The action that is invoked when execution context's rate is changed
-   * no corresponding operation exists in OpenRTm-aist-0.2.0
-   *
-   * @param ec_id target ExecutionContext Id
-   *
-   * @return RTC::ReturnCode_t
-   * 
+   * This action is called just before every step of the simulation.
+   * The process of outputting the states corresponding to the out-ports
+   * is implemented in this function.
    * 
    */
    virtual void inputFromSimulator() override;
 
   /***
    *
-   * The action that is invoked when execution context's rate is changed
-   * no corresponding operation exists in OpenRTm-aist-0.2.0
-   *
-   * @param ec_id target ExecutionContext Id
-   *
-   * @return RTC::ReturnCode_t
-   * 
+   * This action is called just after every step of the simulation.
+   * The process of applying the commands that are input from the in-ports
+   * is implemented in this function.
    * 
    */
    virtual void outputToSimulator() override;
 
   /***
    *
-   * The action that is invoked when execution context's rate is changed
-   * no corresponding operation exists in OpenRTm-aist-0.2.0
-   *
-   * @param ec_id target ExecutionContext Id
-   *
-   * @return RTC::ReturnCode_t
-   * 
+   * This action is called when the simulation is stopped.
    * 
    */
    virtual void stopSimulation() override;
