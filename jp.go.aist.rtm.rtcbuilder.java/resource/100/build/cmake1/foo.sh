@@ -5,7 +5,7 @@ get_classpath()
   FILE2=`ls ${RTM_JAVA_ROOT}/jar/commons-cli*`
   FILE3=`ls ${RTM_JAVA_ROOT}/jar/jna-?.?.?.jar`
   FILE4=`ls ${RTM_JAVA_ROOT}/jar/jna-platform-*.jar`
-  CLASSPATH=.:$FILE1:$FILE2:$FILE3:$FILE4:${RTM_JAVA_ROOT}/bin:`dirname $0`/bin
+  CLASSPATH=.:$FILE1:$FILE2:$FILE3:$FILE4:${RTM_JAVA_ROOT}/bin:`dirname $0`/bin:`dirname $0`
   echo ${CLASSPATH}
 }
 if test "x$RTM_JAVA_ROOT" = "x" ; then

@@ -8,10 +8,8 @@ import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.manager.CMakeGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
-
 import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
 import static jp.go.aist.rtm.rtcbuilder.util.RTCUtil.form;
-
 import static jp.go.aist.rtm.rtcbuilder.java.IRtcBuilderConstantsJava.LANG_JAVA;
 import static jp.go.aist.rtm.rtcbuilder.java.IRtcBuilderConstantsJava.LANG_JAVA_ARG;
 
@@ -73,6 +71,15 @@ public class JavaCMakeGenerateManager extends CMakeGenerateManager {
 		return generateJava(infile, outfile, contextMap);
 	}
 
+	// 1.0系 (CMake/doc)
+	public GeneratedResult generateDocCMakeLists(Map<String, Object> contextMap) {
+		String outfile = "doc/CMakeLists.txt";
+		String infile = "cmake/doc/DocCMakeLists.txt.vsl";
+		GeneratedResult result = generateJava(infile, outfile, contextMap); 
+		result.setNotBom(true);
+		return result;
+	}
+	
 	// 1.0系 (CMake/cpack_resources)
 	public GeneratedResult generateJava(String infile, String outfile,
 			Map<String, Object> contextMap) {

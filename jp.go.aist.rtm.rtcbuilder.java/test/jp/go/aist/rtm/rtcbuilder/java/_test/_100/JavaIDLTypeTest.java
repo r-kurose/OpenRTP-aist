@@ -66,8 +66,6 @@ public class JavaIDLTypeTest extends TestBase {
 		checkCode(result, resourceDir, "src/test.java");
 		checkCode(result, resourceDir, "src/testImpl.java");
 		checkCode(result, resourceDir, "src/ComFkSVC_impl.java");
-		//
-		checkCode(result, resourceDir, "build_test.xml");
 	}
 
 	public void testBasicType() throws Exception {
@@ -100,8 +98,6 @@ public class JavaIDLTypeTest extends TestBase {
 		checkCode(result, resourceDir, "src/test.java");
 		checkCode(result, resourceDir, "src/testImpl.java");
 		checkCode(result, resourceDir, "src/MyServiceSVC_impl.java");
-		//
-		checkCode(result, resourceDir, "build_test.xml");
 	}
 
 }
