@@ -140,7 +140,7 @@ public class PyModuleTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/module/serviceMC/";
 
-		assertEquals(default_file_num+6, result.size());
+		assertEquals(default_file_num+7, result.size());
 		checkCode(result, resourceDir, "foo.py");
 	}
 
@@ -177,7 +177,7 @@ public class PyModuleTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/module/serviceMC2/";
 
-		assertEquals(default_file_num+6, result.size());
+		assertEquals(default_file_num+8, result.size());
 		checkCode(result, resourceDir, "foo.py");
 	}
 

@@ -83,7 +83,7 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/base/service2/";
 
-		assertEquals(default_file_num+service_file_num, result.size());
+		assertEquals(default_file_num+service_file_num+1, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 //		checkCode(result, resourceDir, "idlcompile.bat");
@@ -271,7 +271,7 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/base/name/";
 
-		assertEquals(4, result.size());
+		assertEquals(5, result.size());
 		checkCode(result, resourceDir, "foo.py");
 	}
 

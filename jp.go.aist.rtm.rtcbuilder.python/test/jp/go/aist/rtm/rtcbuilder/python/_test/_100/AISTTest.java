@@ -240,7 +240,7 @@ public class AISTTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/aist/AIST2/";
 
-		assertEquals(default_file_num+6, result.size());
+		assertEquals(default_file_num+7, result.size());
 		checkCode(result, resourceDir, "test.py");
 //		checkCode(result, resourceDir, "idlcompile.bat");
 //		checkCode(result, resourceDir, "idlcompile.sh");

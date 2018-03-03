@@ -89,7 +89,7 @@ public class BuildTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "/";
 
-		assertEquals(default_file_num+service_file_num, result.size());
+		assertEquals(default_file_num+service_file_num+1, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 //		checkCode(result, resourceDir, "idlcompile.bat");
