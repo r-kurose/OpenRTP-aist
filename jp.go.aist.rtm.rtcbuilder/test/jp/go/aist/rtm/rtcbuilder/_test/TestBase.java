@@ -15,7 +15,7 @@ public class TestBase extends TestCase {
 	protected String expPath;
 	protected String expContent;
 	protected int index;
-	protected final int default_file_num = 27;
+	protected final int default_file_num = 30;
 
 	public TestBase () {
 		File fileCurrent = new File(".");

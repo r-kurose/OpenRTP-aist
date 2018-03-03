@@ -89,13 +89,14 @@ public class CXXIDLModuleTest extends TestBase {
 		String resourceDir = rootPath
 				+ "/resource/100/CXX/idlmodule/serviceCon/";
 
-		assertEquals(default_file_num, result.size());
+		assertEquals(default_file_num + 2, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
 		//
-		nonexist(result, resourceDir, "MyServiceSVC_impl.h");
-		nonexist(result, resourceDir, "MyServiceSVC_impl.cpp");
+		//Test Code
+//		nonexist(result, resourceDir, "MyServiceSVC_impl.h");
+//		nonexist(result, resourceDir, "MyServiceSVC_impl.cpp");
 	}
 
 	public void testArgModule() throws Exception {

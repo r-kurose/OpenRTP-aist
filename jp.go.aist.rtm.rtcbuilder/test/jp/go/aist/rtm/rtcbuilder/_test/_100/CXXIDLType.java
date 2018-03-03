@@ -56,7 +56,7 @@ public class CXXIDLType extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/idltype/Struct/";
 
-		assertEquals(default_file_num+2, result.size());
+		assertEquals(default_file_num + 2, result.size());
 		checkCode(result, resourceDir, "ModuleNameComp.cpp");
 		checkCode(result, resourceDir, "ModuleName.h");
 		checkCode(result, resourceDir, "ModuleName.cpp");
@@ -92,7 +92,7 @@ public class CXXIDLType extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/idltype/SeqString/";
 
-		assertEquals(default_file_num+2, result.size());
+		assertEquals(default_file_num + 2, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
@@ -163,7 +163,7 @@ public class CXXIDLType extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/idltype/Struct2/";
 
-		assertEquals(default_file_num+2, result.size());
+		assertEquals(default_file_num + 2, result.size());
 		checkCode(result, resourceDir, "ModuleNameComp.cpp");
 		checkCode(result, resourceDir, "ModuleName.h");
 		checkCode(result, resourceDir, "ModuleName.cpp");
@@ -200,7 +200,7 @@ public class CXXIDLType extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/idltype/IDLType1/";
 
-		assertEquals(default_file_num+2, result.size());
+		assertEquals(default_file_num + 2, result.size());
 		checkCode(result, resourceDir, "ModuleNameComp.cpp");
 		checkCode(result, resourceDir, "ModuleName.h");
 		checkCode(result, resourceDir, "ModuleName.cpp");
