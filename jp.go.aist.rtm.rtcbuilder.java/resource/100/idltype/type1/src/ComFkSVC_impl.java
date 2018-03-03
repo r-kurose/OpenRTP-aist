@@ -4,8 +4,9 @@
  * @brief Service implementation code of TestIDL.idl
  *
  */
-/*!
- * @class ComFkSVC_impl
+/**
+ * ComFkSVC_impl
+ * <p>
  * Example class implementing IDL interface ComFk
  */
 public class ComFkSVC_impl extends ComFkPOA{

@@ -11,24 +11,25 @@ import jp.go.aist.rtm.RTC.RtcDeleteFunc;
 import jp.go.aist.rtm.RTC.RtcNewFunc;
 import jp.go.aist.rtm.RTC.RegisterModuleFunc;
 import jp.go.aist.rtm.RTC.util.Properties;
-/*!
- * @class test
- * @brief test component
+/**
+ * test
+ * <p> 
+ * test component
  */
 public class test implements RtcNewFunc, RtcDeleteFunc, RegisterModuleFunc {
 //  Module specification
 //  <rtc-template block="module_spec">
     public static String component_conf[] = {
-    	    "implementation_id", "test",
-    	    "type_name",         "test",
-    	    "description",       "test component",
-    	    "version",           "1.0.0",
-    	    "vendor",            "S.Kurihara",
-    	    "category",          "exmple",
-    	    "activity_type",     "STATIC",
-    	    "max_instance",      "1",
-    	    "language",          "Java",
-    	    "lang_type",         "compile",
+            "implementation_id", "test",
+            "type_name",         "test",
+            "description",       "test component",
+            "version",           "1.0.0",
+            "vendor",            "S.Kurihara",
+            "category",          "exmple",
+            "activity_type",     "STATIC",
+            "max_instance",      "1",
+            "language",          "Java",
+            "lang_type",         "compile",
     	    ""
             };
 //  </rtc-template>

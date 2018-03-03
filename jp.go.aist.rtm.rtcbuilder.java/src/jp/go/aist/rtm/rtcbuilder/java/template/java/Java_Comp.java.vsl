@@ -22,9 +22,10 @@ import jp.go.aist.rtm.RTC.ModuleInitProc;
 import jp.go.aist.rtm.RTC.RTObject_impl;
 import jp.go.aist.rtm.RTC.util.Properties;
 
-/*!
- * @class ${rtcParam.name}Comp
- * @brief Standalone component Class
+/**
+ * ${rtcParam.name}Comp
+ * <p>
+ * Standalone component Class
  *
  */
 public class ${rtcParam.name}Comp implements ModuleInitProc {
@@ -36,8 +37,8 @@ public class ${rtcParam.name}Comp implements ModuleInitProc {
       // Create a component
       RTObject_impl comp = mgr.createComponent("${rtcParam.name}");
       if( comp==null ) {
-    	  System.err.println("Component create failed.");
-    	  System.exit(0);
+          System.err.println("Component create failed.");
+          System.exit(0);
       }
       
       // Example

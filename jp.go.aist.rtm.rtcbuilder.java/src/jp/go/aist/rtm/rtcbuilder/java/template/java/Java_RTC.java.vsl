@@ -23,25 +23,26 @@ import jp.go.aist.rtm.RTC.RtcNewFunc;
 import jp.go.aist.rtm.RTC.RegisterModuleFunc;
 import jp.go.aist.rtm.RTC.util.Properties;
 
-/*!
- * @class ${rtcParam.name}
- * @brief ${rtcParam.description}
+/**
+ * ${rtcParam.name}
+ * <p> 
+ * ${rtcParam.description}
  */
 public class ${rtcParam.name} implements RtcNewFunc, RtcDeleteFunc, RegisterModuleFunc {
 
 //  Module specification
 //  <rtc-template block="module_spec">
     public static String component_conf[] = {
-    	    "implementation_id", "${rtcParam.name}",
-    	    "type_name",         "${rtcParam.name}",
-    	    "description",       "${rtcParam.description}",
-    	    "version",           "${rtcParam.version}",
-    	    "vendor",            "${rtcParam.vender}",
-    	    "category",          "${rtcParam.category}",
-    	    "activity_type",     "${rtcParam.componentType}",
-    	    "max_instance",      "${rtcParam.maxInstance}",
-    	    "language",          "Java",
-    	    "lang_type",         "compile",
+            "implementation_id", "${rtcParam.name}",
+            "type_name",         "${rtcParam.name}",
+            "description",       "${rtcParam.description}",
+            "version",           "${rtcParam.version}",
+            "vendor",            "${rtcParam.vender}",
+            "category",          "${rtcParam.category}",
+            "activity_type",     "${rtcParam.componentType}",
+            "max_instance",      "${rtcParam.maxInstance}",
+            "language",          "Java",
+            "lang_type",         "compile",
 #if( ${rtcParam.configParams.size()} > 0 )
             // Configuration variables
 #foreach($configParam in ${rtcParam.configParams})  

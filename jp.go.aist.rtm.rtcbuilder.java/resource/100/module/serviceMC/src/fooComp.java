@@ -6,34 +6,30 @@
  *
  * $Id$
  */
-
 import jp.go.aist.rtm.RTC.Manager;
 import jp.go.aist.rtm.RTC.ModuleInitProc;
 import jp.go.aist.rtm.RTC.RTObject_impl;
 import jp.go.aist.rtm.RTC.util.Properties;
-
-/*!
- * @class fooComp
- * @brief Standalone component Class
+/**
+ * fooComp
+ * <p>
+ * Standalone component Class
  *
  */
 public class fooComp implements ModuleInitProc {
-
     public void myModuleInit(Manager mgr) {
       Properties prop = new Properties(foo.component_conf);
       mgr.registerFactory(prop, new foo(), new foo());
-
       // Create a component
       RTObject_impl comp = mgr.createComponent("foo");
       if( comp==null ) {
-    	  System.err.println("Component create failed.");
-    	  System.exit(0);
+          System.err.println("Component create failed.");
+          System.exit(0);
       }
       
       // Example
       // The following procedure is examples how handle RT-Components.
       // These should not be in this function.
-
 //      // Get the component's object reference
 //      Manager manager = Manager.instance();
 //      RTObject rtobj = null;
@@ -76,25 +72,19 @@ public class fooComp implements ModuleInitProc {
 //          System.out.println( "----------------" );
 //      }
     }
-
     public static void main(String[] args) {
         // Initialize manager
         final Manager manager = Manager.init(args);
-
         // Set module initialization proceduer
         // This procedure will be invoked in activateManager() function.
         fooComp init = new fooComp();
         manager.setModuleInitProc(init);
-
         // Activate manager and register to naming service
         manager.activateManager();
-
         // run the manager in blocking mode
         // runManager(false) is the default.
         manager.runManager();
-
         // If you want to run the manager in non-blocking mode, do like this
         // manager.runManager(true);
     }
-
 }
