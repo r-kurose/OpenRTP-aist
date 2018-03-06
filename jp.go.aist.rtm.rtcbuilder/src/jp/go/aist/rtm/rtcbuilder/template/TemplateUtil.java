@@ -108,6 +108,9 @@ public class TemplateUtil {
 		result.put("dol", "$");
 		result.put("def", "def");
 		result.put("yen", "\\");
+		result.put("function", "function");
+		result.put("minusminus", "--");
+		result.put("end", "end");
 
 		return result;
 	}
