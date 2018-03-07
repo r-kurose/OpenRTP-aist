@@ -7,12 +7,15 @@ import jp.go.aist.rtm.nameserviceview.NameServiceViewPlugin;
 import jp.go.aist.rtm.nameserviceview.manager.NameServiceViewPreferenceManager;
 import jp.go.aist.rtm.nameserviceview.model.manager.NameServerContext;
 import jp.go.aist.rtm.nameserviceview.model.manager.NameServerManager;
+import jp.go.aist.rtm.nameserviceview.model.manager.Node;
 import jp.go.aist.rtm.nameserviceview.model.manager.impl.NameServerManagerImpl;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
 import jp.go.aist.rtm.toolscommon.ui.views.propertysheetview.RtcPropertySheetPage;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -221,13 +224,14 @@ public class NameServiceView extends ViewPart {
 			lastNameServiceAddress = "127.0.0.1";
 		}
 		
-		final String nameServerAddress = lastNameServiceAddress;
+		final String[] nameServerAddressList = lastNameServiceAddress.split("\\|");
 
 		try {
 			new Thread(new Runnable() {
 				public void run() {
-			NameServerManagerImpl.getInstance().addNameServer(
-					nameServerAddress);
+					for(String nameServerAddress : nameServerAddressList) {
+						NameServerManagerImpl.getInstance().addNameServer(nameServerAddress);
+					}
 			}}).start();
 		} catch (Exception e) {
 			// void エラーは無視する
@@ -239,6 +243,18 @@ public class NameServiceView extends ViewPart {
 	 * {@inheritDoc}
 	 */
 	public void dispose() {
+		EList<Node> nodes = NameServerManagerImpl.getInstance().getNodes();
+		StringBuilder nsList = new StringBuilder();
+		for(Node node : nodes) {
+			try {
+				String nsName = ((NamingContextNode)node).getNameServiceReference().getNameServerName();
+				if(0<nsList.length()) nsList.append("|");
+				nsList.append(nsName);
+			} catch (Exception e) {
+			}
+		}
+		setLastNameServiceAddress(nsList.toString());
+		
 		NameServerManagerImpl.getInstance().eAdapters().remove(
 				nameServerManagerListener);
 
