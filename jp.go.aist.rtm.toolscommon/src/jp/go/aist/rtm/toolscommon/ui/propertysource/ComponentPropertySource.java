@@ -5,7 +5,6 @@ import java.util.List;
 
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
-import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 import jp.go.aist.rtm.toolscommon.nl.Messages;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
@@ -93,17 +92,7 @@ public class ComponentPropertySource extends AbstractPropertySource {
 			} else if (Component.STATE.equals(id)) {
 				if (component instanceof CorbaComponent) {
 					CorbaComponent c = (CorbaComponent) component;
-					if (c.getComponentState() == ExecutionContext.RTC_UNKNOWN) {
-						return STATE_UNKNOWN_VIEWSTRING;
-					} else if (c.getComponentState() == ExecutionContext.RTC_CREATED) {
-						return STATE_CREATED_VIEWSTRING;
-					} else if (c.getComponentState() == ExecutionContext.RTC_INACTIVE) {
-						return STATE_INACTIVE_VIEWSTRING;
-					} else if (c.getComponentState() == ExecutionContext.RTC_ACTIVE) {
-						return STATE_ACTIVE_VIEWSTRING;
-					} else if (c.getComponentState() == ExecutionContext.RTC_ERROR) {
-						return STATE_ERROR_VIEWSTRING;
-					}
+					return c.getComponentStateName();
 				}
 			}
 		} catch (Exception e) {

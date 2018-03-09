@@ -78,23 +78,7 @@ public interface CorbaExecutionContext extends ExecutionContext, CorbaWrapperObj
 	 * @model
 	 * @generated
 	 */
-	int getComponentStateR(Component comp);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
 	int getComponentState(Component comp);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	void setComponentState(Component comp, int state);
 
 	/**
 	 * <!-- begin-user-doc -->

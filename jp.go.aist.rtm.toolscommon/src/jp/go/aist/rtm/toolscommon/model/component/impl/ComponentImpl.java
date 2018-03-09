@@ -57,6 +57,7 @@ import org.slf4j.LoggerFactory;
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getOutports <em>Outports</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getServiceports <em>Serviceports</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getComponents <em>Components</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getPrimaryExecutionContext <em>Primary Execution Context</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getExecutionContexts <em>Execution Contexts</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getParticipationContexts <em>Participation Contexts</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getExecutionContextHandler <em>Execution Context Handler</em>}</li>
@@ -73,6 +74,13 @@ import org.slf4j.LoggerFactory;
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getCompositeTypeL <em>Composite Type L</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getComponentId <em>Component Id</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#isRequired <em>Required</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getStartUp <em>Start Up</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getShutDown <em>Shut Down</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getActivation <em>Activation</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getDeActivation <em>De Activation</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getResetting <em>Resetting</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getInitialize <em>Initialize</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ComponentImpl#getFinalize <em>Finalize</em>}</li>
  * </ul>
  * </p>
  *
@@ -122,6 +130,16 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * @ordered
 	 */
 	protected EList<Component> components;
+
+	/**
+	 * The cached value of the '{@link #getPrimaryExecutionContext() <em>Primary Execution Context</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPrimaryExecutionContext()
+	 * @generated
+	 * @ordered
+	 */
+	protected ExecutionContext primaryExecutionContext;
 
 	/**
 	 * The cached value of the '{@link #getExecutionContexts() <em>Execution Contexts</em>}' containment reference list.
@@ -392,6 +410,146 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * @ordered
 	 */
 	protected boolean required = REQUIRED_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getStartUp() <em>Start Up</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStartUp()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String START_UP_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getStartUp() <em>Start Up</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStartUp()
+	 * @generated
+	 * @ordered
+	 */
+	protected String startUp = START_UP_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getShutDown() <em>Shut Down</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getShutDown()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String SHUT_DOWN_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getShutDown() <em>Shut Down</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getShutDown()
+	 * @generated
+	 * @ordered
+	 */
+	protected String shutDown = SHUT_DOWN_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getActivation() <em>Activation</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getActivation()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String ACTIVATION_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getActivation() <em>Activation</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getActivation()
+	 * @generated
+	 * @ordered
+	 */
+	protected String activation = ACTIVATION_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getDeActivation() <em>De Activation</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDeActivation()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String DE_ACTIVATION_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getDeActivation() <em>De Activation</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDeActivation()
+	 * @generated
+	 * @ordered
+	 */
+	protected String deActivation = DE_ACTIVATION_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getResetting() <em>Resetting</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getResetting()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String RESETTING_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getResetting() <em>Resetting</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getResetting()
+	 * @generated
+	 * @ordered
+	 */
+	protected String resetting = RESETTING_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getInitialize() <em>Initialize</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInitialize()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String INITIALIZE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getInitialize() <em>Initialize</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInitialize()
+	 * @generated
+	 * @ordered
+	 */
+	protected String initialize = INITIALIZE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getFinalize() <em>Finalize</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFinalize()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String FINALIZE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getFinalize() <em>Finalize</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFinalize()
+	 * @generated
+	 * @ordered
+	 */
+	protected String finalize = FINALIZE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -844,6 +1002,49 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public ExecutionContext getPrimaryExecutionContext() {
+		return primaryExecutionContext;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetPrimaryExecutionContext(ExecutionContext newPrimaryExecutionContext, NotificationChain msgs) {
+		ExecutionContext oldPrimaryExecutionContext = primaryExecutionContext;
+		primaryExecutionContext = newPrimaryExecutionContext;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__PRIMARY_EXECUTION_CONTEXT, oldPrimaryExecutionContext, newPrimaryExecutionContext);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPrimaryExecutionContext(ExecutionContext newPrimaryExecutionContext) {
+		if (newPrimaryExecutionContext != primaryExecutionContext) {
+			NotificationChain msgs = null;
+			if (primaryExecutionContext != null)
+				msgs = ((InternalEObject)primaryExecutionContext).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.COMPONENT__PRIMARY_EXECUTION_CONTEXT, null, msgs);
+			if (newPrimaryExecutionContext != null)
+				msgs = ((InternalEObject)newPrimaryExecutionContext).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.COMPONENT__PRIMARY_EXECUTION_CONTEXT, null, msgs);
+			msgs = basicSetPrimaryExecutionContext(newPrimaryExecutionContext, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__PRIMARY_EXECUTION_CONTEXT, newPrimaryExecutionContext, newPrimaryExecutionContext));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getComponentId() {
 		return componentId;
 	}
@@ -879,6 +1080,153 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 		required = newRequired;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__REQUIRED, oldRequired, required));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getStartUp() {
+		return startUp;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setStartUp(String newStartUp) {
+		String oldStartUp = startUp;
+		startUp = newStartUp;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__START_UP, oldStartUp, startUp));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getShutDown() {
+		return shutDown;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setShutDown(String newShutDown) {
+		String oldShutDown = shutDown;
+		shutDown = newShutDown;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__SHUT_DOWN, oldShutDown, shutDown));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getActivation() {
+		return activation;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setActivation(String newActivation) {
+		String oldActivation = activation;
+		activation = newActivation;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__ACTIVATION, oldActivation, activation));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getDeActivation() {
+		return deActivation;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDeActivation(String newDeActivation) {
+		String oldDeActivation = deActivation;
+		deActivation = newDeActivation;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__DE_ACTIVATION, oldDeActivation, deActivation));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getResetting() {
+		return resetting;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setResetting(String newResetting) {
+		String oldResetting = resetting;
+		resetting = newResetting;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__RESETTING, oldResetting, resetting));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getInitialize() {
+		return initialize;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setInitialize(String newInitialize) {
+		String oldInitialize = initialize;
+		initialize = newInitialize;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__INITIALIZE, oldInitialize, initialize));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getFinalize() {
+		return finalize;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFinalize(String newFinalize) {
+		String oldFinalize = finalize;
+		finalize = newFinalize;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.COMPONENT__FINALIZE, oldFinalize, finalize));
 	}
 
 	/**
@@ -1163,6 +1511,8 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 				return ((InternalEList<?>)getConfigurationSets()).basicRemove(otherEnd, msgs);
 			case ComponentPackage.COMPONENT__PORTS:
 				return ((InternalEList<?>)getPorts()).basicRemove(otherEnd, msgs);
+			case ComponentPackage.COMPONENT__PRIMARY_EXECUTION_CONTEXT:
+				return basicSetPrimaryExecutionContext(null, msgs);
 			case ComponentPackage.COMPONENT__EXECUTION_CONTEXTS:
 				return ((InternalEList<?>)getExecutionContexts()).basicRemove(otherEnd, msgs);
 			case ComponentPackage.COMPONENT__EXECUTION_CONTEXT_HANDLER:
@@ -1196,6 +1546,8 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 				return getServiceports();
 			case ComponentPackage.COMPONENT__COMPONENTS:
 				return getComponents();
+			case ComponentPackage.COMPONENT__PRIMARY_EXECUTION_CONTEXT:
+				return getPrimaryExecutionContext();
 			case ComponentPackage.COMPONENT__EXECUTION_CONTEXTS:
 				return getExecutionContexts();
 			case ComponentPackage.COMPONENT__PARTICIPATION_CONTEXTS:
@@ -1229,6 +1581,20 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 				return getComponentId();
 			case ComponentPackage.COMPONENT__REQUIRED:
 				return isRequired();
+			case ComponentPackage.COMPONENT__START_UP:
+				return getStartUp();
+			case ComponentPackage.COMPONENT__SHUT_DOWN:
+				return getShutDown();
+			case ComponentPackage.COMPONENT__ACTIVATION:
+				return getActivation();
+			case ComponentPackage.COMPONENT__DE_ACTIVATION:
+				return getDeActivation();
+			case ComponentPackage.COMPONENT__RESETTING:
+				return getResetting();
+			case ComponentPackage.COMPONENT__INITIALIZE:
+				return getInitialize();
+			case ComponentPackage.COMPONENT__FINALIZE:
+				return getFinalize();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -1256,6 +1622,9 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 			case ComponentPackage.COMPONENT__COMPONENTS:
 				getComponents().clear();
 				getComponents().addAll((Collection<? extends Component>)newValue);
+				return;
+			case ComponentPackage.COMPONENT__PRIMARY_EXECUTION_CONTEXT:
+				setPrimaryExecutionContext((ExecutionContext)newValue);
 				return;
 			case ComponentPackage.COMPONENT__EXECUTION_CONTEXTS:
 				getExecutionContexts().clear();
@@ -1304,6 +1673,27 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 			case ComponentPackage.COMPONENT__REQUIRED:
 				setRequired((Boolean)newValue);
 				return;
+			case ComponentPackage.COMPONENT__START_UP:
+				setStartUp((String)newValue);
+				return;
+			case ComponentPackage.COMPONENT__SHUT_DOWN:
+				setShutDown((String)newValue);
+				return;
+			case ComponentPackage.COMPONENT__ACTIVATION:
+				setActivation((String)newValue);
+				return;
+			case ComponentPackage.COMPONENT__DE_ACTIVATION:
+				setDeActivation((String)newValue);
+				return;
+			case ComponentPackage.COMPONENT__RESETTING:
+				setResetting((String)newValue);
+				return;
+			case ComponentPackage.COMPONENT__INITIALIZE:
+				setInitialize((String)newValue);
+				return;
+			case ComponentPackage.COMPONENT__FINALIZE:
+				setFinalize((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -1327,6 +1717,9 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 				return;
 			case ComponentPackage.COMPONENT__COMPONENTS:
 				getComponents().clear();
+				return;
+			case ComponentPackage.COMPONENT__PRIMARY_EXECUTION_CONTEXT:
+				setPrimaryExecutionContext((ExecutionContext)null);
 				return;
 			case ComponentPackage.COMPONENT__EXECUTION_CONTEXTS:
 				getExecutionContexts().clear();
@@ -1373,6 +1766,27 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 			case ComponentPackage.COMPONENT__REQUIRED:
 				setRequired(REQUIRED_EDEFAULT);
 				return;
+			case ComponentPackage.COMPONENT__START_UP:
+				setStartUp(START_UP_EDEFAULT);
+				return;
+			case ComponentPackage.COMPONENT__SHUT_DOWN:
+				setShutDown(SHUT_DOWN_EDEFAULT);
+				return;
+			case ComponentPackage.COMPONENT__ACTIVATION:
+				setActivation(ACTIVATION_EDEFAULT);
+				return;
+			case ComponentPackage.COMPONENT__DE_ACTIVATION:
+				setDeActivation(DE_ACTIVATION_EDEFAULT);
+				return;
+			case ComponentPackage.COMPONENT__RESETTING:
+				setResetting(RESETTING_EDEFAULT);
+				return;
+			case ComponentPackage.COMPONENT__INITIALIZE:
+				setInitialize(INITIALIZE_EDEFAULT);
+				return;
+			case ComponentPackage.COMPONENT__FINALIZE:
+				setFinalize(FINALIZE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -1399,6 +1813,8 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 				return !getServiceports().isEmpty();
 			case ComponentPackage.COMPONENT__COMPONENTS:
 				return components != null && !components.isEmpty();
+			case ComponentPackage.COMPONENT__PRIMARY_EXECUTION_CONTEXT:
+				return primaryExecutionContext != null;
 			case ComponentPackage.COMPONENT__EXECUTION_CONTEXTS:
 				return executionContexts != null && !executionContexts.isEmpty();
 			case ComponentPackage.COMPONENT__PARTICIPATION_CONTEXTS:
@@ -1431,6 +1847,20 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 				return COMPONENT_ID_EDEFAULT == null ? componentId != null : !COMPONENT_ID_EDEFAULT.equals(componentId);
 			case ComponentPackage.COMPONENT__REQUIRED:
 				return required != REQUIRED_EDEFAULT;
+			case ComponentPackage.COMPONENT__START_UP:
+				return START_UP_EDEFAULT == null ? startUp != null : !START_UP_EDEFAULT.equals(startUp);
+			case ComponentPackage.COMPONENT__SHUT_DOWN:
+				return SHUT_DOWN_EDEFAULT == null ? shutDown != null : !SHUT_DOWN_EDEFAULT.equals(shutDown);
+			case ComponentPackage.COMPONENT__ACTIVATION:
+				return ACTIVATION_EDEFAULT == null ? activation != null : !ACTIVATION_EDEFAULT.equals(activation);
+			case ComponentPackage.COMPONENT__DE_ACTIVATION:
+				return DE_ACTIVATION_EDEFAULT == null ? deActivation != null : !DE_ACTIVATION_EDEFAULT.equals(deActivation);
+			case ComponentPackage.COMPONENT__RESETTING:
+				return RESETTING_EDEFAULT == null ? resetting != null : !RESETTING_EDEFAULT.equals(resetting);
+			case ComponentPackage.COMPONENT__INITIALIZE:
+				return INITIALIZE_EDEFAULT == null ? initialize != null : !INITIALIZE_EDEFAULT.equals(initialize);
+			case ComponentPackage.COMPONENT__FINALIZE:
+				return FINALIZE_EDEFAULT == null ? finalize != null : !FINALIZE_EDEFAULT.equals(finalize);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -1467,6 +1897,20 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 		result.append(componentId);
 		result.append(", required: ");
 		result.append(required);
+		result.append(", startUp: ");
+		result.append(startUp);
+		result.append(", shutDown: ");
+		result.append(shutDown);
+		result.append(", activation: ");
+		result.append(activation);
+		result.append(", deActivation: ");
+		result.append(deActivation);
+		result.append(", resetting: ");
+		result.append(resetting);
+		result.append(", initialize: ");
+		result.append(initialize);
+		result.append(", finalize: ");
+		result.append(finalize);
 		result.append(')');
 		return result.toString();
 	}

@@ -246,13 +246,22 @@ public interface ComponentPackage extends EPackage {
 	int COMPONENT__COMPONENTS = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 6;
 
 	/**
+	 * The feature id for the '<em><b>Primary Execution Context</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT__PRIMARY_EXECUTION_CONTEXT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 7;
+
+	/**
 	 * The feature id for the '<em><b>Execution Contexts</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__EXECUTION_CONTEXTS = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 7;
+	int COMPONENT__EXECUTION_CONTEXTS = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Participation Contexts</b></em>' reference list.
@@ -261,7 +270,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__PARTICIPATION_CONTEXTS = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 8;
+	int COMPONENT__PARTICIPATION_CONTEXTS = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Execution Context Handler</b></em>' containment reference.
@@ -270,7 +279,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__EXECUTION_CONTEXT_HANDLER = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 9;
+	int COMPONENT__EXECUTION_CONTEXT_HANDLER = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 10;
 
 	/**
 	 * The feature id for the '<em><b>Participation Context Handler</b></em>' containment reference.
@@ -279,7 +288,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__PARTICIPATION_CONTEXT_HANDLER = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 10;
+	int COMPONENT__PARTICIPATION_CONTEXT_HANDLER = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 11;
 
 	/**
 	 * The feature id for the '<em><b>Child System Diagram</b></em>' reference.
@@ -288,7 +297,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__CHILD_SYSTEM_DIAGRAM = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 11;
+	int COMPONENT__CHILD_SYSTEM_DIAGRAM = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 12;
 
 	/**
 	 * The feature id for the '<em><b>Instance Name L</b></em>' attribute.
@@ -297,7 +306,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__INSTANCE_NAME_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 12;
+	int COMPONENT__INSTANCE_NAME_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 13;
 
 	/**
 	 * The feature id for the '<em><b>Vender L</b></em>' attribute.
@@ -306,7 +315,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__VENDER_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 13;
+	int COMPONENT__VENDER_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 14;
 
 	/**
 	 * The feature id for the '<em><b>Description L</b></em>' attribute.
@@ -315,7 +324,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__DESCRIPTION_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 14;
+	int COMPONENT__DESCRIPTION_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 15;
 
 	/**
 	 * The feature id for the '<em><b>Category L</b></em>' attribute.
@@ -324,7 +333,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__CATEGORY_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 15;
+	int COMPONENT__CATEGORY_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 16;
 
 	/**
 	 * The feature id for the '<em><b>Type Name L</b></em>' attribute.
@@ -333,7 +342,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__TYPE_NAME_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 16;
+	int COMPONENT__TYPE_NAME_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 17;
 
 	/**
 	 * The feature id for the '<em><b>Version L</b></em>' attribute.
@@ -342,7 +351,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__VERSION_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 17;
+	int COMPONENT__VERSION_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 18;
 
 	/**
 	 * The feature id for the '<em><b>Path Id</b></em>' attribute.
@@ -351,7 +360,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__PATH_ID = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 18;
+	int COMPONENT__PATH_ID = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 19;
 
 	/**
 	 * The feature id for the '<em><b>Outport Direction</b></em>' attribute.
@@ -360,7 +369,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__OUTPORT_DIRECTION = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 19;
+	int COMPONENT__OUTPORT_DIRECTION = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 20;
 
 	/**
 	 * The feature id for the '<em><b>Composite Type L</b></em>' attribute.
@@ -369,7 +378,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__COMPOSITE_TYPE_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 20;
+	int COMPONENT__COMPOSITE_TYPE_L = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 21;
 
 	/**
 	 * The feature id for the '<em><b>Component Id</b></em>' attribute.
@@ -378,7 +387,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__COMPONENT_ID = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 21;
+	int COMPONENT__COMPONENT_ID = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 22;
 
 	/**
 	 * The feature id for the '<em><b>Required</b></em>' attribute.
@@ -387,7 +396,70 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__REQUIRED = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 22;
+	int COMPONENT__REQUIRED = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 23;
+
+	/**
+	 * The feature id for the '<em><b>Start Up</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT__START_UP = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 24;
+
+	/**
+	 * The feature id for the '<em><b>Shut Down</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT__SHUT_DOWN = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 25;
+
+	/**
+	 * The feature id for the '<em><b>Activation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT__ACTIVATION = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 26;
+
+	/**
+	 * The feature id for the '<em><b>De Activation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT__DE_ACTIVATION = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 27;
+
+	/**
+	 * The feature id for the '<em><b>Resetting</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT__RESETTING = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 28;
+
+	/**
+	 * The feature id for the '<em><b>Initialize</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT__INITIALIZE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 29;
+
+	/**
+	 * The feature id for the '<em><b>Finalize</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT__FINALIZE = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 30;
 
 	/**
 	 * The number of structural features of the '<em>Component</em>' class.
@@ -396,7 +468,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 23;
+	int COMPONENT_FEATURE_COUNT = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 31;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl <em>Corba Component</em>}' class.
@@ -489,6 +561,15 @@ public interface ComponentPackage extends EPackage {
 	 * @ordered
 	 */
 	int COMPONENT_SPECIFICATION__COMPONENTS = COMPONENT__COMPONENTS;
+
+	/**
+	 * The feature id for the '<em><b>Primary Execution Context</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__PRIMARY_EXECUTION_CONTEXT = COMPONENT__PRIMARY_EXECUTION_CONTEXT;
 
 	/**
 	 * The feature id for the '<em><b>Execution Contexts</b></em>' containment reference list.
@@ -633,6 +714,69 @@ public interface ComponentPackage extends EPackage {
 	 * @ordered
 	 */
 	int COMPONENT_SPECIFICATION__REQUIRED = COMPONENT__REQUIRED;
+
+	/**
+	 * The feature id for the '<em><b>Start Up</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__START_UP = COMPONENT__START_UP;
+
+	/**
+	 * The feature id for the '<em><b>Shut Down</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__SHUT_DOWN = COMPONENT__SHUT_DOWN;
+
+	/**
+	 * The feature id for the '<em><b>Activation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__ACTIVATION = COMPONENT__ACTIVATION;
+
+	/**
+	 * The feature id for the '<em><b>De Activation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__DE_ACTIVATION = COMPONENT__DE_ACTIVATION;
+
+	/**
+	 * The feature id for the '<em><b>Resetting</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__RESETTING = COMPONENT__RESETTING;
+
+	/**
+	 * The feature id for the '<em><b>Initialize</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__INITIALIZE = COMPONENT__INITIALIZE;
+
+	/**
+	 * The feature id for the '<em><b>Finalize</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_SPECIFICATION__FINALIZE = COMPONENT__FINALIZE;
 
 	/**
 	 * The feature id for the '<em><b>Alias Name</b></em>' attribute.
@@ -1926,6 +2070,15 @@ public interface ComponentPackage extends EPackage {
 	int CORBA_COMPONENT__COMPONENTS = COMPONENT__COMPONENTS;
 
 	/**
+	 * The feature id for the '<em><b>Primary Execution Context</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_COMPONENT__PRIMARY_EXECUTION_CONTEXT = COMPONENT__PRIMARY_EXECUTION_CONTEXT;
+
+	/**
 	 * The feature id for the '<em><b>Execution Contexts</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2070,6 +2223,69 @@ public interface ComponentPackage extends EPackage {
 	int CORBA_COMPONENT__REQUIRED = COMPONENT__REQUIRED;
 
 	/**
+	 * The feature id for the '<em><b>Start Up</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_COMPONENT__START_UP = COMPONENT__START_UP;
+
+	/**
+	 * The feature id for the '<em><b>Shut Down</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_COMPONENT__SHUT_DOWN = COMPONENT__SHUT_DOWN;
+
+	/**
+	 * The feature id for the '<em><b>Activation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_COMPONENT__ACTIVATION = COMPONENT__ACTIVATION;
+
+	/**
+	 * The feature id for the '<em><b>De Activation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_COMPONENT__DE_ACTIVATION = COMPONENT__DE_ACTIVATION;
+
+	/**
+	 * The feature id for the '<em><b>Resetting</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_COMPONENT__RESETTING = COMPONENT__RESETTING;
+
+	/**
+	 * The feature id for the '<em><b>Initialize</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_COMPONENT__INITIALIZE = COMPONENT__INITIALIZE;
+
+	/**
+	 * The feature id for the '<em><b>Finalize</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_COMPONENT__FINALIZE = COMPONENT__FINALIZE;
+
+	/**
 	 * The feature id for the '<em><b>Corba Object</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2079,31 +2295,13 @@ public interface ComponentPackage extends EPackage {
 	int CORBA_COMPONENT__CORBA_OBJECT = COMPONENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Execution Context State</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CORBA_COMPONENT__EXECUTION_CONTEXT_STATE = COMPONENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Component State</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CORBA_COMPONENT__COMPONENT_STATE = COMPONENT_FEATURE_COUNT + 2;
-
-	/**
 	 * The feature id for the '<em><b>RTC Component Profile</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CORBA_COMPONENT__RTC_COMPONENT_PROFILE = COMPONENT_FEATURE_COUNT + 3;
+	int CORBA_COMPONENT__RTC_COMPONENT_PROFILE = COMPONENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>RTC Execution Contexts</b></em>' attribute list.
@@ -2112,7 +2310,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CORBA_COMPONENT__RTC_EXECUTION_CONTEXTS = COMPONENT_FEATURE_COUNT + 4;
+	int CORBA_COMPONENT__RTC_EXECUTION_CONTEXTS = COMPONENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>RTC Participation Contexts</b></em>' attribute list.
@@ -2121,7 +2319,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CORBA_COMPONENT__RTC_PARTICIPATION_CONTEXTS = COMPONENT_FEATURE_COUNT + 5;
+	int CORBA_COMPONENT__RTC_PARTICIPATION_CONTEXTS = COMPONENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>SDO Configuration</b></em>' attribute.
@@ -2130,7 +2328,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CORBA_COMPONENT__SDO_CONFIGURATION = COMPONENT_FEATURE_COUNT + 6;
+	int CORBA_COMPONENT__SDO_CONFIGURATION = COMPONENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>SDO Organization</b></em>' attribute.
@@ -2139,7 +2337,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CORBA_COMPONENT__SDO_ORGANIZATION = COMPONENT_FEATURE_COUNT + 7;
+	int CORBA_COMPONENT__SDO_ORGANIZATION = COMPONENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>RTCRT Objects</b></em>' attribute list.
@@ -2148,7 +2346,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CORBA_COMPONENT__RTCRT_OBJECTS = COMPONENT_FEATURE_COUNT + 8;
+	int CORBA_COMPONENT__RTCRT_OBJECTS = COMPONENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Ior</b></em>' attribute.
@@ -2157,7 +2355,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CORBA_COMPONENT__IOR = COMPONENT_FEATURE_COUNT + 9;
+	int CORBA_COMPONENT__IOR = COMPONENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Status Observer</b></em>' reference.
@@ -2166,7 +2364,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CORBA_COMPONENT__STATUS_OBSERVER = COMPONENT_FEATURE_COUNT + 10;
+	int CORBA_COMPONENT__STATUS_OBSERVER = COMPONENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Log Observer</b></em>' reference.
@@ -2175,7 +2373,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CORBA_COMPONENT__LOG_OBSERVER = COMPONENT_FEATURE_COUNT + 11;
+	int CORBA_COMPONENT__LOG_OBSERVER = COMPONENT_FEATURE_COUNT + 9;
 
 	/**
 	 * The number of structural features of the '<em>Corba Component</em>' class.
@@ -2184,7 +2382,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CORBA_COMPONENT_FEATURE_COUNT = COMPONENT_FEATURE_COUNT + 12;
+	int CORBA_COMPONENT_FEATURE_COUNT = COMPONENT_FEATURE_COUNT + 10;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaPortSynchronizerImpl <em>Corba Port Synchronizer</em>}' class.
@@ -3270,6 +3468,17 @@ public interface ComponentPackage extends EPackage {
 	EReference getComponent_Components();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getPrimaryExecutionContext <em>Primary Execution Context</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Primary Execution Context</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.Component#getPrimaryExecutionContext()
+	 * @see #getComponent()
+	 * @generated
+	 */
+	EReference getComponent_PrimaryExecutionContext();
+
+	/**
 	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getComponentId <em>Component Id</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3292,6 +3501,83 @@ public interface ComponentPackage extends EPackage {
 	EAttribute getComponent_Required();
 
 	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getStartUp <em>Start Up</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Start Up</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.Component#getStartUp()
+	 * @see #getComponent()
+	 * @generated
+	 */
+	EAttribute getComponent_StartUp();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getShutDown <em>Shut Down</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Shut Down</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.Component#getShutDown()
+	 * @see #getComponent()
+	 * @generated
+	 */
+	EAttribute getComponent_ShutDown();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getActivation <em>Activation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Activation</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.Component#getActivation()
+	 * @see #getComponent()
+	 * @generated
+	 */
+	EAttribute getComponent_Activation();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getDeActivation <em>De Activation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>De Activation</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.Component#getDeActivation()
+	 * @see #getComponent()
+	 * @generated
+	 */
+	EAttribute getComponent_DeActivation();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getResetting <em>Resetting</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Resetting</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.Component#getResetting()
+	 * @see #getComponent()
+	 * @generated
+	 */
+	EAttribute getComponent_Resetting();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getInitialize <em>Initialize</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Initialize</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.Component#getInitialize()
+	 * @see #getComponent()
+	 * @generated
+	 */
+	EAttribute getComponent_Initialize();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getFinalize <em>Finalize</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Finalize</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.Component#getFinalize()
+	 * @see #getComponent()
+	 * @generated
+	 */
+	EAttribute getComponent_Finalize();
+
+	/**
 	 * Returns the meta object for the reference '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getChildSystemDiagram <em>Child System Diagram</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3311,28 +3597,6 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getCorbaComponent();
-
-	/**
-	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getExecutionContextState <em>Execution Context State</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Execution Context State</em>'.
-	 * @see jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getExecutionContextState()
-	 * @see #getCorbaComponent()
-	 * @generated
-	 */
-	EAttribute getCorbaComponent_ExecutionContextState();
-
-	/**
-	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getComponentState <em>Component State</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Component State</em>'.
-	 * @see jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getComponentState()
-	 * @see #getCorbaComponent()
-	 * @generated
-	 */
-	EAttribute getCorbaComponent_ComponentState();
 
 	/**
 	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getSDOConfiguration <em>SDO Configuration</em>}'.
@@ -4801,6 +5065,14 @@ public interface ComponentPackage extends EPackage {
 		EReference COMPONENT__COMPONENTS = eINSTANCE.getComponent_Components();
 
 		/**
+		 * The meta object literal for the '<em><b>Primary Execution Context</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COMPONENT__PRIMARY_EXECUTION_CONTEXT = eINSTANCE.getComponent_PrimaryExecutionContext();
+
+		/**
 		 * The meta object literal for the '<em><b>Component Id</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -4815,6 +5087,62 @@ public interface ComponentPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute COMPONENT__REQUIRED = eINSTANCE.getComponent_Required();
+
+		/**
+		 * The meta object literal for the '<em><b>Start Up</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMPONENT__START_UP = eINSTANCE.getComponent_StartUp();
+
+		/**
+		 * The meta object literal for the '<em><b>Shut Down</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMPONENT__SHUT_DOWN = eINSTANCE.getComponent_ShutDown();
+
+		/**
+		 * The meta object literal for the '<em><b>Activation</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMPONENT__ACTIVATION = eINSTANCE.getComponent_Activation();
+
+		/**
+		 * The meta object literal for the '<em><b>De Activation</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMPONENT__DE_ACTIVATION = eINSTANCE.getComponent_DeActivation();
+
+		/**
+		 * The meta object literal for the '<em><b>Resetting</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMPONENT__RESETTING = eINSTANCE.getComponent_Resetting();
+
+		/**
+		 * The meta object literal for the '<em><b>Initialize</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMPONENT__INITIALIZE = eINSTANCE.getComponent_Initialize();
+
+		/**
+		 * The meta object literal for the '<em><b>Finalize</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMPONENT__FINALIZE = eINSTANCE.getComponent_Finalize();
 
 		/**
 		 * The meta object literal for the '<em><b>Child System Diagram</b></em>' reference feature.
@@ -4833,22 +5161,6 @@ public interface ComponentPackage extends EPackage {
 		 * @generated
 		 */
 		EClass CORBA_COMPONENT = eINSTANCE.getCorbaComponent();
-
-		/**
-		 * The meta object literal for the '<em><b>Execution Context State</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CORBA_COMPONENT__EXECUTION_CONTEXT_STATE = eINSTANCE.getCorbaComponent_ExecutionContextState();
-
-		/**
-		 * The meta object literal for the '<em><b>Component State</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CORBA_COMPONENT__COMPONENT_STATE = eINSTANCE.getCorbaComponent_ComponentState();
 
 		/**
 		 * The meta object literal for the '<em><b>SDO Configuration</b></em>' attribute feature.

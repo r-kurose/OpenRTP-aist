@@ -4,8 +4,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -42,7 +40,8 @@ public class CorbaUtil {
 		try {
 			target.list(9999, bindingListHolder, bindingIteratorHolder);
 		} catch (Exception e) {
-			// void 
+			LOGGER.error("Fail to get binding list: nc={}", target);
+			LOGGER.error("ERROR:", e);
 		}
 
 		List<Binding> result = new ArrayList<Binding>();

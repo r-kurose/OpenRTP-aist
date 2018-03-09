@@ -10,6 +10,7 @@ import RTC.ExecutionKind;
  * @model
  */
 public interface ExecutionContext extends WrapperObject, IPropertyMap {
+
 	public static final int STATE_UNKNOWN = (0);
 	public static final int STATE_STOPPED = (1);
 	public static final int STATE_RUNNING = (2);
@@ -19,7 +20,7 @@ public interface ExecutionContext extends WrapperObject, IPropertyMap {
 	public static final int KIND_EVENT_DRIVEN = ExecutionKind.EVENT_DRIVEN
 			.value();
 	public static final int KIND_OTHER = ExecutionKind.OTHER.value();
-	
+
 	public static final int RTC_UNCERTAIN = -2;
 	public static final int RTC_UNKNOWN = -1;
 	public static final int RTC_CREATED = RTC.LifeCycleState._CREATED_STATE;
@@ -114,6 +115,14 @@ public interface ExecutionContext extends WrapperObject, IPropertyMap {
 	 * @generated
 	 */
 	EList<Component> getParticipants();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	String getId();
 
 	/**
 	 * <!-- begin-user-doc -->

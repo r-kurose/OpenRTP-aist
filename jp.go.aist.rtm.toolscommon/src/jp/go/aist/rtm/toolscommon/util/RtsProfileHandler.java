@@ -37,6 +37,17 @@ import jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.common.util.EList;
+import org.openrtp.namespaces.rts.version02.Activation;
+import org.openrtp.namespaces.rts.version02.Condition;
+import org.openrtp.namespaces.rts.version02.Deactivation;
+import org.openrtp.namespaces.rts.version02.Finalize;
+import org.openrtp.namespaces.rts.version02.Initialize;
+import org.openrtp.namespaces.rts.version02.MessageSending;
+import org.openrtp.namespaces.rts.version02.Resetting;
+import org.openrtp.namespaces.rts.version02.Shutdown;
+import org.openrtp.namespaces.rts.version02.Startup;
+import org.openrtp.namespaces.rts.version02.TargetComponent;
+import org.openrtp.namespaces.rts.version02.TargetComponentExt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -313,6 +324,15 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 			SystemDiagram eDiagram,
 			org.openrtp.namespaces.rts.version02.RtsProfileExt rtsProfile) {
 		List<org.openrtp.namespaces.rts.version02.Component> components = rtsProfile.getComponents();
+		/////
+		org.openrtp.namespaces.rts.version02.Startup startUp = factory.createStartup();
+		org.openrtp.namespaces.rts.version02.Shutdown shutDown = factory.createShutdown();
+		org.openrtp.namespaces.rts.version02.Activation activation = factory.createActivation();
+		org.openrtp.namespaces.rts.version02.Deactivation deActivation = factory.createDeactivation();
+		org.openrtp.namespaces.rts.version02.Resetting resetting = factory.createResetting();
+		org.openrtp.namespaces.rts.version02.Initialize initialize = factory.createInitialize();
+		org.openrtp.namespaces.rts.version02.Finalize finalize = factory.createFinalize();
+		/////
 		for (Component eComp : eDiagram.getRegisteredComponents()) {
 			org.openrtp.namespaces.rts.version02.ComponentExt target = factory.createComponentExt();
 			target.setId(eComp.getComponentId());
@@ -320,7 +340,29 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 			target.setInstanceName(eComp.getInstanceNameL());
 			target.setCompositeType(eComp.getCompositeTypeL());
 			target.setIsRequired(eComp.isRequired());
-
+			/////
+			if( eComp.getStartUp() !=null && 0 < eComp.getStartUp().length() ) {
+				startUp.getTargets().add(createTargets(target, eComp.getStartUp()));
+			}
+			if( eComp.getShutDown() !=null && 0 < eComp.getShutDown().length() ) {
+				shutDown.getTargets().add(createTargets(target, eComp.getShutDown()));
+			}
+			if( eComp.getActivation() != null && 0 < eComp.getActivation().length() ) {
+				activation.getTargets().add(createTargets(target, eComp.getActivation()));
+			}
+			if( eComp.getDeActivation() != null && 0 < eComp.getDeActivation().length() ) {
+				deActivation.getTargets().add(createTargets(target, eComp.getDeActivation()));
+			}
+			if( eComp.getResetting() != null && 0 < eComp.getResetting().length() ) {
+				resetting.getTargets().add(createTargets(target, eComp.getResetting()));
+			}
+			if( eComp.getInitialize() != null && 0 < eComp.getInitialize().length() ) {
+				initialize.getTargets().add(createTargets(target, eComp.getInitialize()));
+			}
+			if( eComp.getFinalize() != null && 0 < eComp.getFinalize().length() ) {
+				finalize.getTargets().add(createTargets(target, eComp.getFinalize()));
+			}
+			/////
 			org.openrtp.namespaces.rts.version02.Component original = findOriginalComponent(eComp);
 
 			populateExecutionContext(eComp, target, original);			
@@ -333,6 +375,41 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 			populateFromProfileOnly(target, original);
 			components.add(target);
 		}
+		//
+		if( 0 < startUp.getTargets().size() ) {
+			rtsProfile.setStartUp(startUp);
+		}
+		if( 0 < shutDown.getTargets().size()) {
+			rtsProfile.setShutDown(shutDown);
+		}
+		if( 0 < activation.getTargets().size() ) {
+			rtsProfile.setActivation(activation);
+		}
+		if( 0 < deActivation.getTargets().size() ) {
+			rtsProfile.setDeactivation(deActivation);
+		}
+		if( 0 < resetting.getTargets().size() ) {
+			rtsProfile.setResetting(resetting);
+		}
+		if( 0 < initialize.getTargets().size() ) {
+			rtsProfile.setInitializing(initialize);
+		}
+		if( 0 < finalize.getTargets().size() ) {
+			rtsProfile.setFinalizing(finalize);
+		}
+	}
+
+	private org.openrtp.namespaces.rts.version02.Condition createTargets(
+			org.openrtp.namespaces.rts.version02.ComponentExt target, String strSeq) {
+		org.openrtp.namespaces.rts.version02.TargetExecutioncontext targetComp = factory.createTargetExecutioncontext();
+		targetComp.setComponentId(target.getId());
+		targetComp.setInstanceName(target.getInstanceName());
+		//
+		org.openrtp.namespaces.rts.version02.Condition targetCond = factory.createCondition();
+		targetCond.setSequence(BigInteger.valueOf(Integer.parseInt(strSeq)));
+		targetCond.setTargetComponent(targetComp);
+		return targetCond;
+		
 	}
 
 	// Save時にシステムダイアログ内に含まれるデータポートとそれらの接続をRTSプロファイル内にセットする
@@ -802,13 +879,6 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 		if (originalProfile == null) return;
 		target.setAbstract(originalProfile.getAbstract());
 		target.getGroups().addAll(originalProfile.getGroups());
-		target.setStartUp(originalProfile.getStartUp());
-		target.setShutDown(originalProfile.getShutDown());
-		target.setActivation(originalProfile.getActivation());
-		target.setDeactivation(originalProfile.getDeactivation());
-		target.setResetting(originalProfile.getResetting());
-		target.setInitializing(originalProfile.getInitializing());
-		target.setFinalizing(originalProfile.getFinalizing());
 		target.setComment(originalProfile.getComment());
 		target.getVersionUpLogs().addAll(originalProfile.getVersionUpLogs());
 	}
@@ -924,10 +994,56 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 			}
 			eComps.add(eComp);
 		}
+		//
+		populateOrder(eComps, profile.getStartUp());
+		populateOrder(eComps, profile.getShutDown());
+		populateOrder(eComps, profile.getActivation());
+		populateOrder(eComps, profile.getDeactivation());
+		populateOrder(eComps, profile.getResetting());
+		populateOrder(eComps, profile.getInitializing());
+		populateOrder(eComps, profile.getFinalizing());
+		//
 		for (Component eComp : eComps) {
 			if (isShown(eComp, eComps, profile.getComponents()))
 				target.add(eComp);
 		}
+	}
+
+	private void populateOrder(List<Component> eComps, MessageSending ordering) {
+		if(ordering == null || ordering.getTargets().size()==0 ) return;
+		for(Condition targetCond : ordering.getTargets() ) {
+			TargetComponent targetComp = targetCond.getTargetComponent();
+			if(targetComp == null ) continue;
+			String id = targetComp.getComponentId();
+			String instName = targetComp.getInstanceName();
+			Component comp = getTargetComp(id, instName, eComps);
+			if(comp != null) {
+				if(ordering instanceof Startup) {
+					comp.setStartUp(targetCond.getSequence().toString());
+				} else if(ordering instanceof Shutdown) {
+					comp.setShutDown(targetCond.getSequence().toString());
+				} else if(ordering instanceof Activation) {
+					comp.setActivation(targetCond.getSequence().toString());
+				} else if(ordering instanceof Deactivation) {
+					comp.setDeActivation(targetCond.getSequence().toString());
+				} else if(ordering instanceof Resetting) {
+					comp.setResetting(targetCond.getSequence().toString());
+				} else if(ordering instanceof Initialize) {
+					comp.setInitialize(targetCond.getSequence().toString());
+				} else if(ordering instanceof Finalize) {
+					comp.setFinalize(targetCond.getSequence().toString());
+				}
+			}
+		}
+	}
+	
+	private Component getTargetComp(String id, String instName, List<Component> compList) {
+		for(Component target : compList) {
+			if(target.getComponentId().equals(id) && target.getInstanceNameL().equals(instName)) {
+				return target;
+			}
+		}
+		return null;
 	}
 
 	void populateDataPortProperty(

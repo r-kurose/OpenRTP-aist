@@ -7,14 +7,13 @@
 package jp.go.aist.rtm.toolscommon.model.component.impl;
 
 import java.util.Collection;
+
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
-
 import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
 import jp.go.aist.rtm.toolscommon.model.component.util.PropertyMap;
 import jp.go.aist.rtm.toolscommon.model.core.impl.WrapperObjectImpl;
-
 import jp.go.aist.rtm.toolscommon.ui.propertysource.ExecutionContextPropertySource;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -43,6 +42,54 @@ import org.eclipse.ui.views.properties.IPropertySource;
  */
 public class ExecutionContextImpl extends WrapperObjectImpl implements
 		ExecutionContext {
+
+	/** RTC.LifeCycleStateを内部値へ変換します。 */
+	public static int RTC_STATUS(RTC.LifeCycleState state) {
+		if (state == null) {
+			return RTC_UNKNOWN;
+		}
+		if (state == RTC.LifeCycleState.ACTIVE_STATE
+				|| state == RTC.LifeCycleState.INACTIVE_STATE
+				|| state == RTC.LifeCycleState.ERROR_STATE) {
+			return state.value();
+		}
+		return RTC_UNKNOWN;
+	}
+
+	/** EC種別をラベルへ変換します。 */
+	public static String EC_KIND_LABEL(int kind) {
+		if (kind == KIND_PERIODIC) {
+			return "PERIODIC";
+		} else if (kind == KIND_EVENT_DRIVEN) {
+			return "EVENT_DRIVEN";
+		} else if (kind == KIND_OTHER) {
+			return "OTHER";
+		}
+		return "UNKNOWN";
+	}
+
+	/** EC状態をラベルへ変換します。 */
+	public static String EC_STATUS_LABEL(int state) {
+		if (state == STATE_STOPPED) {
+			return "STOPPED";
+		} else if (state == STATE_RUNNING) {
+			return "RUNNING";
+		}
+		return "UNKNOWN";
+	}
+
+	/** コンポーネント状態をラベルへ変換します。 */
+	public static String RTC_STATUS_LABEL(int state) {
+		if (state == RTC_ACTIVE) {
+			return "ACTIVE";
+		} else if (state == RTC_INACTIVE) {
+			return "INACTIVE";
+		} else if (state == RTC_ERROR) {
+			return "ERROR";
+		}
+		return "UNKNOWN";
+	}
+
 	/**
 	 * The default value of the '{@link #getKindL() <em>Kind L</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -272,16 +319,27 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public String getKindName() {
-		if (kindL == KIND_PERIODIC) {
-			return "PERIODIC";
-		} else if (kindL == KIND_EVENT_DRIVEN) {
-			return "EVENT_DRIVEN";
-		} else if (kindL == KIND_OTHER) {
-			return "OTHER";
-		} else {
-			return "UNKNOWN";
+	public String getId() {
+		Component comp = (Component) eContainer();
+		if (comp != null) {
+			String id = comp.getExecutionContextHandler().getId(this);
+			if (id == null) {
+				id = comp.getParticipationContextHandler().getId(this);
+			}
+			if (id != null) {
+				return id;
+			}
 		}
+		return "";
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public String getKindName() {
+		return EC_KIND_LABEL(this.kindL);
 	}
 
 	/**
@@ -290,13 +348,7 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	 * @generated NOT
 	 */
 	public String getStateName() {
-		if (stateL == STATE_STOPPED) {
-			return "STOPPED";
-		} else if (stateL == STATE_RUNNING) {
-			return "RUNNING";
-		} else {
-			return "UNKNOWN";
-		}
+		return EC_STATUS_LABEL(this.stateL);
 	}
 
 	/**

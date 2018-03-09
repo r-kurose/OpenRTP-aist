@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getOutports <em>Outports</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getServiceports <em>Serviceports</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getComponents <em>Components</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getPrimaryExecutionContext <em>Primary Execution Context</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getExecutionContexts <em>Execution Contexts</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getParticipationContexts <em>Participation Contexts</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getExecutionContextHandler <em>Execution Context Handler</em>}</li>
@@ -44,6 +45,13 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getCompositeTypeL <em>Composite Type L</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getComponentId <em>Component Id</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#isRequired <em>Required</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getStartUp <em>Start Up</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getShutDown <em>Shut Down</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getActivation <em>Activation</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getDeActivation <em>De Activation</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getResetting <em>Resetting</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getInitialize <em>Initialize</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.Component#getFinalize <em>Finalize</em>}</li>
  * </ul>
  * </p>
  *
@@ -504,6 +512,32 @@ public interface Component extends WrapperObject, IPropertyMap {
 	EList<Component> getComponents();
 
 	/**
+	 * Returns the value of the '<em><b>Primary Execution Context</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Primary Execution Context</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Primary Execution Context</em>' containment reference.
+	 * @see #setPrimaryExecutionContext(ExecutionContext)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_PrimaryExecutionContext()
+	 * @model containment="true"
+	 * @generated
+	 */
+	ExecutionContext getPrimaryExecutionContext();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getPrimaryExecutionContext <em>Primary Execution Context</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Primary Execution Context</em>' containment reference.
+	 * @see #getPrimaryExecutionContext()
+	 * @generated
+	 */
+	void setPrimaryExecutionContext(ExecutionContext value);
+
+	/**
 	 * Returns the value of the '<em><b>Component Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -557,6 +591,188 @@ public interface Component extends WrapperObject, IPropertyMap {
 	 * @generated
 	 */
 	void setRequired(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Start Up</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Start Up</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Start Up</em>' attribute.
+	 * @see #setStartUp(String)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_StartUp()
+	 * @model
+	 * @generated
+	 */
+	String getStartUp();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getStartUp <em>Start Up</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Start Up</em>' attribute.
+	 * @see #getStartUp()
+	 * @generated
+	 */
+	void setStartUp(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Shut Down</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Shut Down</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Shut Down</em>' attribute.
+	 * @see #setShutDown(String)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_ShutDown()
+	 * @model
+	 * @generated
+	 */
+	String getShutDown();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getShutDown <em>Shut Down</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Shut Down</em>' attribute.
+	 * @see #getShutDown()
+	 * @generated
+	 */
+	void setShutDown(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Activation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Activation</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Activation</em>' attribute.
+	 * @see #setActivation(String)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_Activation()
+	 * @model
+	 * @generated
+	 */
+	String getActivation();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getActivation <em>Activation</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Activation</em>' attribute.
+	 * @see #getActivation()
+	 * @generated
+	 */
+	void setActivation(String value);
+
+	/**
+	 * Returns the value of the '<em><b>De Activation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>De Activation</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>De Activation</em>' attribute.
+	 * @see #setDeActivation(String)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_DeActivation()
+	 * @model
+	 * @generated
+	 */
+	String getDeActivation();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getDeActivation <em>De Activation</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>De Activation</em>' attribute.
+	 * @see #getDeActivation()
+	 * @generated
+	 */
+	void setDeActivation(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Resetting</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Resetting</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Resetting</em>' attribute.
+	 * @see #setResetting(String)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_Resetting()
+	 * @model
+	 * @generated
+	 */
+	String getResetting();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getResetting <em>Resetting</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Resetting</em>' attribute.
+	 * @see #getResetting()
+	 * @generated
+	 */
+	void setResetting(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Initialize</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Initialize</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Initialize</em>' attribute.
+	 * @see #setInitialize(String)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_Initialize()
+	 * @model
+	 * @generated
+	 */
+	String getInitialize();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getInitialize <em>Initialize</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Initialize</em>' attribute.
+	 * @see #getInitialize()
+	 * @generated
+	 */
+	void setInitialize(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Finalize</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Finalize</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Finalize</em>' attribute.
+	 * @see #setFinalize(String)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_Finalize()
+	 * @model
+	 * @generated
+	 */
+	String getFinalize();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getFinalize <em>Finalize</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Finalize</em>' attribute.
+	 * @see #getFinalize()
+	 * @generated
+	 */
+	void setFinalize(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Child System Diagram</b></em>' reference.
