@@ -948,36 +948,45 @@ public class ExecutionContextView extends ViewPart {
 
 	ISelectionListener selectionListener = new ISelectionListener() {
 		public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-			if (targetComponent != null) {
-				targetComponent.eAdapters().remove(eAdapter);
-				for (ExecutionContext ec : targetComponent
-						.getExecutionContexts()) {
-					ec.eAdapters().remove(eAdapter);
-				}
-				for (ExecutionContext ec : targetComponent
-						.getParticipationContexts()) {
-					ec.eAdapters().remove(eAdapter);
-				}
+			if (!(selection instanceof IStructuredSelection)) {
+				return;
 			}
-			targetComponent = null;
-			if (selection instanceof IStructuredSelection) {
-				IStructuredSelection ss = (IStructuredSelection) selection;
-				Object firstElement = ss.getFirstElement();
-				Object adapter = AdapterUtil.getAdapter(firstElement,
-						Component.class);
-				if (adapter != null) {
-					targetComponent = (Component) adapter;
-					targetComponent.synchronizeManually();
-					targetComponent.eAdapters().add(eAdapter);
-					for (ExecutionContext ec : targetComponent
-							.getExecutionContexts()) {
-						ec.eAdapters().add(eAdapter);
-					}
-					for (ExecutionContext ec : targetComponent
-							.getParticipationContexts()) {
-						ec.eAdapters().add(eAdapter);
-					}
-				}
+			IStructuredSelection ss = (IStructuredSelection) selection;
+			Object firstElement = ss.getFirstElement();
+			Object compObj = AdapterUtil.getAdapter(firstElement,
+					Component.class);
+			Object ctxtObj = AdapterUtil.getAdapter(firstElement,
+					ExecutionContext.class);
+			Component comp = null;
+			ExecutionContext ctxt = null;
+			if (compObj != null) {
+				comp = (Component) compObj;
+				ctxt = null;
+			} else if (ctxtObj != null) {
+				ctxt = (ExecutionContext) ctxtObj;
+				comp = (Component) ctxt.eContainer();
+			}
+			if (comp == null || comp == targetComponent) {
+				return;
+			}
+			targetComponent = comp;
+			ExecutionContext targetEc = ctxt;
+			//
+			targetComponent.eAdapters().remove(eAdapter);
+			for (ExecutionContext ec : targetComponent.getExecutionContexts()) {
+				ec.eAdapters().remove(eAdapter);
+			}
+			for (ExecutionContext ec : targetComponent
+					.getParticipationContexts()) {
+				ec.eAdapters().remove(eAdapter);
+			}
+			targetComponent.eAdapters().add(eAdapter);
+			for (ExecutionContext ec : targetComponent.getExecutionContexts()) {
+				ec.eAdapters().add(eAdapter);
+			}
+			for (ExecutionContext ec : targetComponent
+					.getParticipationContexts()) {
+				ec.eAdapters().add(eAdapter);
 			}
 			if (part instanceof AbstractSystemDiagramEditor) {
 				targetEditor = (AbstractSystemDiagramEditor) part;

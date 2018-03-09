@@ -1,22 +1,18 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.figure;
 
+import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.toolscommon.model.component.Port;
+
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.Panel;
-import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.StackLayout;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
-import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.graphics.Color;
-
-import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.Port;
 
 /**
  * PortのFigure
  */
-public class PortFigure extends PolygonDecoration {
+public class PortFigure extends ComponentChildFigure {
 
 	/** 出力ポートの描画テンプレート */
 	public static final PointList P_OUTPORT;
@@ -33,11 +29,11 @@ public class PortFigure extends PolygonDecoration {
 	public static final PointList P_SVCPORT_EXPORTED;
 
 	/** 出力ポートのスタイル */
-	public static final PortFigureStyle S_OUTPORT;
+	public static final FigureStyle S_OUTPORT;
 	/** 入力ポートのスタイル */
-	public static final PortFigureStyle S_INPORT;
+	public static final FigureStyle S_INPORT;
 	/** サービスポートのスタイル */
-	public static final PortFigureStyle S_SVCPORT;
+	public static final FigureStyle S_SVCPORT;
 
 	static {
 		PointList p = new PointList(5);
@@ -110,49 +106,25 @@ public class PortFigure extends PolygonDecoration {
 		p.addPoint(12, 0);
 		P_SVCPORT_EXPORTED = p;
 
-		S_OUTPORT = new PortFigureStyle(ColorConstants.darkGreen, ColorConstants.red);
-		S_INPORT = new PortFigureStyle(ColorConstants.darkBlue, ColorConstants.red);
-		S_SVCPORT = new PortFigureStyle(ColorConstants.lightBlue, ColorConstants.red);
+		S_OUTPORT = new FigureStyle(ColorConstants.darkGreen,
+				ColorConstants.red);
+		S_INPORT = new FigureStyle(ColorConstants.darkBlue, ColorConstants.red);
+		S_SVCPORT = new FigureStyle(ColorConstants.lightBlue,
+				ColorConstants.red);
 	}
 
-	private String direction;
-
-	protected void init() {
-		setScale(1.0, 1.0);
-		setFill(true);
-	}
-
-	/**
-	 * 方向を設定する
-	 * 
-	 * @param direction
-	 *            方向
-	 */
-	public void setDirection(String direction) {
-		this.direction = direction;
-		setRotation(getRotation(direction));
-	}
-
-	private double getRotation(String direction) {
+	@Override
+	protected double getRotation(String direction) {
 		if (direction.equals(Component.OUTPORT_DIRECTION_RIGHT_LITERAL)) {
 			return 0;
+		} else if (direction.equals(Component.OUTPORT_DIRECTION_DOWN_LITERAL)) {
+			return Math.PI / 2;
 		} else if (direction.equals(Component.OUTPORT_DIRECTION_LEFT_LITERAL)) {
 			return Math.PI;
 		} else if (direction.equals(Component.OUTPORT_DIRECTION_UP_LITERAL)) {
 			return Math.PI * 3 / 2;
-		} else if (direction.equals(Component.OUTPORT_DIRECTION_DOWN_LITERAL)) {
-			return Math.PI / 2;
 		}
 		return 0;
-	}
-
-	/**
-	 * 方向を取得する
-	 * 
-	 * @return 方向
-	 */
-	public String getDirection() {
-		return direction;
 	}
 
 	/**
@@ -168,7 +140,9 @@ public class PortFigure extends PolygonDecoration {
 
 		String labelString = "";
 		try {
-			labelString = labelString + (port.getNameL() == null ? "<unknown>" : port.getNameL()) + ""; // \r\nは最後はいらない
+			labelString = labelString
+					+ (port.getNameL() == null ? "<unknown>" : port.getNameL())
+					+ ""; // \r\nは最後はいらない
 		} catch (RuntimeException e) {
 			// void
 		}
@@ -176,29 +150,6 @@ public class PortFigure extends PolygonDecoration {
 		Label label1 = new Label(labelString);
 		tooltip.add(label1);
 		return tooltip;
-	}
-
-	@Override
-	public void setLocation(Point p) {
-		super.setLocation(p);
-		fireFigureMoved();
-	}
-
-	public Rectangle getBaseBounds() {
-		return (getParent() != null) ? getParent().getBounds() : new Rectangle();
-	}
-
-	/**
-	 * ポートのスタイル定義を表します。
-	 */
-	public static class PortFigureStyle {
-		public final Color bg;
-		public final Color fg;
-
-		PortFigureStyle(Color bg, Color fg) {
-			this.bg = bg;
-			this.fg = fg;
-		}
 	}
 
 }

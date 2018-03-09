@@ -6,7 +6,6 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,6 +15,8 @@ import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
 import jp.go.aist.rtm.systemeditor.ui.action.OpenCompositeComponentAction;
 import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
 import jp.go.aist.rtm.systemeditor.ui.editor.action.ChangeComponentDirectionAction;
+import jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECEditPart.OwnEC;
+import jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECEditPart.PartEC;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpart.direct.NameCellEditorLocator;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpart.direct.NameDirectEditManager;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.ChangeDirectionEditPolicy;
@@ -52,23 +53,30 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.PlatformUI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * コンポーネントのEditPart
  * <p>
  * GEFの仕様では子供のEditPartは親のEditPartに含まれなければならないが、ポートをコンポーネントからはみ出して表示しなければならない。
- * これを満たしながら、一見コンポーネントの外にポートが出ているように見せるために、コンポーネントのボディのドローイングの範囲を狭めることで実現しているため、特殊な実装になっている。
+ * これを満たしながら、一見コンポーネントの外にポートが出ているように見せるために、コンポーネントのボディのドローイングの範囲を狭めることで実現しているため、
+ * 特殊な実装になっている。
  */
 public class ComponentEditPart extends AbstractEditPart {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(ComponentEditPart.class);
 
 	/** コンポーネントの周りとコンポーネントのボディまでのスペース(ポートあり) */
 	public static final int PORT_SPACE = 32;
 
 	/** コンポーネントの周りとコンポーネントのボディまでのスペース(ポートなし) */
-	public static final int NONE_SPACE = 7;
+	public static final int NONE_SPACE = 16;
 
 	/** コンポーネントアイコンのサイズ */
 	public static final int ICON_SIZE = 16;
@@ -94,6 +102,8 @@ public class ComponentEditPart extends AbstractEditPart {
 
 	@Override
 	protected IFigure createFigure() {
+//		LOGGER.trace("createFigure");
+
 		iconImage = ComponentIconStore.eINSTANCE.findImageByComp(getModel());
 
 		Figure result = new Panel() {
@@ -108,14 +118,18 @@ public class ComponentEditPart extends AbstractEditPart {
 			 */
 			@Override
 			protected void paintFigure(Graphics graphics) {
+//				LOGGER.trace("paintFigure");
 				if (isOpaque()) {
-					ComponentLayout cl = (ComponentLayout)this.getLayoutManager();
+					ComponentLayout cl = (ComponentLayout) this
+							.getLayoutManager();
 					Rectangle bound = new Rectangle(getBounds());
 					// ポートのある側のスペースを広くとる 2009.2.2
 					if (cl.isVerticalDirection()) {
-						graphics.fillRectangle(bound.expand(-NONE_SPACE, -PORT_SPACE));
+						graphics.fillRectangle(bound.expand(-NONE_SPACE,
+								-PORT_SPACE));
 					} else {
-						graphics.fillRectangle(bound.expand(-PORT_SPACE, -NONE_SPACE));
+						graphics.fillRectangle(bound.expand(-PORT_SPACE,
+								-NONE_SPACE));
 					}
 
 					Color saveForegroundColor = graphics.getForegroundColor();
@@ -171,17 +185,18 @@ public class ComponentEditPart extends AbstractEditPart {
 			public void mousePressed(MouseEvent me) {
 				if (me.button == 3) { // right click
 					IAction action = null;
-					if (me.getState() == MouseEvent.SHIFT) {
+					if (me.getState() == SWT.SHIFT) {
 						action = getActionRegistry()
 								.getAction(
 										ChangeComponentDirectionAction.VERTICAL_DIRECTION_ACTION_ID);
-					} else if (me.getState() == MouseEvent.CONTROL){
+					} else if (me.getState() == SWT.CONTROL) {
 						action = getActionRegistry()
 								.getAction(
 										ChangeComponentDirectionAction.HORIZON_DIRECTION_ACTION_ID);
 					}
 
-					if (action != null) action.run();
+					if (action != null)
+						action.run();
 				}
 			}
 		});
@@ -198,7 +213,7 @@ public class ComponentEditPart extends AbstractEditPart {
 		componentLabel.setSize(30, 10);
 
 		getRoot().refresh();
-		
+
 		return result;
 	}
 
@@ -211,14 +226,12 @@ public class ComponentEditPart extends AbstractEditPart {
 		}
 	};
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void activate() {
+		LOGGER.trace("activate");
 		super.activate();
 		if (getModel().isCompositeComponent()) {
-			for (Iterator iterator = getModel().getAllComponents().iterator(); iterator
-					.hasNext();) {
-				Component component = (Component) iterator.next();
+			for (Component component : getModel().getAllComponents()) {
 				component.eAdapters().add(this);
 			}
 		}
@@ -226,15 +239,13 @@ public class ComponentEditPart extends AbstractEditPart {
 				preferenceChangeListener);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void deactivate() {
+		LOGGER.trace("deactivate");
 		componentLabel.deactivate();
 		super.deactivate();
 		if (getModel().isCompositeComponent()) {
-			for (Iterator iterator = getModel().getAllComponents().iterator(); iterator
-					.hasNext();) {
-				Component component = (Component) iterator.next();
+			for (Component component : getModel().getAllComponents()) {
 				component.eAdapters().remove(this);
 			}
 		}
@@ -254,14 +265,16 @@ public class ComponentEditPart extends AbstractEditPart {
 
 	@Override
 	protected void refreshVisuals() {
-		getFigure().setBackgroundColor(getNewBodyColor());
+		LOGGER.trace("refreshVisuals");
 
+		getFigure().setBackgroundColor(getNewBodyColor());
 		getFigure().setForegroundColor(getNewBorderColor());
 
 		jp.go.aist.rtm.toolscommon.model.core.Rectangle constraint = getModel()
 				.getConstraint();
-		if (constraint == null) return;
-		
+		if (constraint == null)
+			return;
+
 		Rectangle modelRec = Draw2dUtil.toDraw2dRectangle(constraint);
 
 		Rectangle newRectangle = modelRec.getCopy();
@@ -315,7 +328,7 @@ public class ComponentEditPart extends AbstractEditPart {
 
 			stateColor = this.getStateColor(component.getComponentState());
 
-		} else if (getModel() instanceof ComponentSpecification){
+		} else if (getModel() instanceof ComponentSpecification) {
 			ComponentSpecification component = (ComponentSpecification) getModel();
 
 			if (component.inOnlineSystemDiagram()
@@ -342,8 +355,10 @@ public class ComponentEditPart extends AbstractEditPart {
 				stateColor = this.getStateColor(state);
 
 			} else {
-				stateColor = SystemEditorPreferenceManager.getInstance().getColor(
-						SystemEditorPreferenceManager.COLOR_RTC_STATE_INACTIVE);
+				stateColor = SystemEditorPreferenceManager
+						.getInstance()
+						.getColor(
+								SystemEditorPreferenceManager.COLOR_RTC_STATE_INACTIVE);
 			}
 		}
 		return stateColor;
@@ -379,49 +394,58 @@ public class ComponentEditPart extends AbstractEditPart {
 		return (Component) super.getModel();
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override
 	public void notifyChanged(Notification notification) {
+//		LOGGER.trace("notifyChanged: feature=<{}>", notification.getFeature());
 		if (ComponentPackage.eINSTANCE.getComponent_Components().equals(
-						notification.getFeature())) {
+				notification.getFeature())) {
 			if (notification.getEventType() == Notification.ADD) {
-				Component component = (Component)notification.getNewValue();
+				Component component = (Component) notification.getNewValue();
 				component.eAdapters().add(this);
 				if (component.isCompositeComponent()) {
-					for (Iterator iterator = component.getAllComponents()
-							.iterator(); iterator.hasNext();) {
-						((Component) iterator.next()).eAdapters().add(this);
+					for (Component comp : component.getAllComponents()) {
+						comp.eAdapters().add(this);
 					}
 				}
-			}else if (notification.getEventType() == Notification.REMOVE) {
-				((Component)notification.getOldValue()).eAdapters().remove(this);
+			} else if (notification.getEventType() == Notification.REMOVE) {
+				((Component) notification.getOldValue()).eAdapters().remove(
+						this);
 			}
 			refreshComponent();
-			((SystemDiagramEditPart)getParent()).refreshSystemDiagram();
+			((SystemDiagramEditPart) getParent()).refreshSystemDiagram();
+		} else if (ComponentPackage.eINSTANCE
+				.getCorbaComponent_RTCComponentProfile().equals(
+						notification.getFeature())) {
+			// コンポーネントの状態通知 (featureは仮)
+			refreshComponent();
 		} else if (CorePackage.eINSTANCE.getModelElement_Constraint().equals(
-						notification.getFeature())
-				|| ComponentPackage.eINSTANCE.getCorbaComponent_ComponentState()
+				notification.getFeature())
+				|| ComponentPackage.eINSTANCE
+						.getComponent_PrimaryExecutionContext().equals(
+								notification.getFeature())
+				|| ComponentPackage.eINSTANCE.getComponent_ExecutionContexts()
 						.equals(notification.getFeature())
 				|| ComponentPackage.eINSTANCE
-						.getCorbaComponent_ExecutionContextState().equals(
+						.getComponent_ParticipationContexts().equals(
 								notification.getFeature())
-				|| ComponentPackage.eINSTANCE
-						.getComponent_OutportDirection().equals(
-								notification.getFeature())){
-			refreshComponent();			
-		} else if (ComponentPackage.eINSTANCE.getComponent_Ports()
+				|| ComponentPackage.eINSTANCE.getComponent_OutportDirection()
 						.equals(notification.getFeature())) {
+			refreshComponent();
+		} else if (ComponentPackage.eINSTANCE.getComponent_Ports().equals(
+				notification.getFeature())) {
 			refreshComponent2();
 		} else if (ComponentPackage.eINSTANCE.getComponent_InstanceNameL()
 				.equals(notification.getFeature())) {
 			if (notification.getEventType() == Notification.SET) {
 				componentLabel.setText(notification.getNewStringValue());
 			}
-		}else if (getModel() instanceof ComponentSpecification) {
+		} else if (getModel() instanceof ComponentSpecification) {
 			refreshComponent();
 		}
 	}
 
 	private void refreshComponent() {
+		LOGGER.trace("refreshComponent");
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 			@Override
 			public void run() {
@@ -435,6 +459,7 @@ public class ComponentEditPart extends AbstractEditPart {
 	}
 
 	private void refreshComponent2() {
+		LOGGER.trace("refreshComponent2");
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 			@Override
 			public void run() {
@@ -446,69 +471,64 @@ public class ComponentEditPart extends AbstractEditPart {
 				}
 			}
 
-			@SuppressWarnings("unchecked")
 			private void refreshChildren2() {
-				int i;
-				EditPart editPart;
-				Object model;
+				LOGGER.trace("refreshChildren2");
+				Map<Object, EditPart> modelToEditPart = new HashMap<>();
+				List<?> children = getChildren();
 
-				Map modelToEditPart = new HashMap();
-				List children = getChildren();
-
-				for (i = 0; i < children.size(); i++) {
-					editPart = (EditPart)children.get(i);
+				for (Object o : children) {
+					EditPart editPart = (EditPart) o;
 					modelToEditPart.put(editPart.getModel(), editPart);
 				}
 
-				List modelObjects = getModelChildren();
-
+				List<?> modelObjects = getModelChildren();
+				int i;
 				for (i = 0; i < modelObjects.size(); i++) {
-					model = modelObjects.get(i);
+					Object model = modelObjects.get(i);
 					EditPart ep = (EditPart) children.get(i);
-					//Do a quick check to see if editPart[i] == model[i]
-					if (i < children.size()
-						&& ep.getModel() == model) {
+					// Do a quick check to see if editPart[i] == model[i]
+					if (i < children.size() && ep.getModel() == model) {
 						ep.refresh();
-						continue;						
+						continue;
 					}
+					// Look to see if the EditPart is already around but in the
+					// wrong location
+					EditPart editPart = (EditPart) modelToEditPart.get(model);
 
-					//Look to see if the EditPart is already around but in the wrong location
-					editPart = (EditPart)modelToEditPart.get(model);
-
-					if (editPart != null)
-						reorderChild (editPart, i);
-					else {
-						//An editpart for this model doesn't exist yet.  Create and insert one.
+					if (editPart != null) {
+						reorderChild(editPart, i);
+					} else {
+						// An editpart for this model doesn't exist yet. Create
+						// and insert one.
 						editPart = createChild(model);
 						addChild(editPart, i);
 					}
 				}
-				List trash = new ArrayList();
-				for (; i < children.size(); i++)
-					trash.add(children.get(i));
-				for (i = 0; i < trash.size(); i++) {
-					EditPart ep = (EditPart)trash.get(i);
+				List<EditPart> trash = new ArrayList<>();
+				for (; i < children.size(); i++) {
+					trash.add((EditPart) children.get(i));
+				}
+				for (EditPart ep : trash) {
 					removeChild(ep);
 				}
 			}
-			
-			@SuppressWarnings("unchecked")
+
 			private void refreshChildDiagram() {
 				// 複合RTCエディタ内の子RTCのポート再描画
 				SystemDiagram diagram = getModel().getChildSystemDiagram();
 				if (diagram != null) {
 					AbstractSystemDiagramEditor editor = ComponentUtil
 							.findEditor(diagram);
-					if (editor == null) return;
-					for (Object o : editor.getSystemDiagram().getComponents()) {
-						if (!(o instanceof Component))
-							continue;
-						Component ac = (Component) o;
+					if (editor == null)
+						return;
+					for (Component ac : editor.getSystemDiagram()
+							.getComponents()) {
 						EditPart ep = editor.findEditPart(ac);
 						if (!(ep instanceof ComponentEditPart))
 							continue;
 						ComponentEditPart cep = (ComponentEditPart) ep;
-						List childList = new ArrayList(cep.getChildren());
+						@SuppressWarnings("unchecked")
+						List<?> childList = new ArrayList<>(cep.getChildren());
 						for (Object o2 : childList) {
 							if (!(o2 instanceof PortEditPart))
 								continue;
@@ -522,10 +542,10 @@ public class ComponentEditPart extends AbstractEditPart {
 	}
 
 	/** ポート公開/非公開時にPortEditPartを更新します */
-	@SuppressWarnings("unchecked")
 	public void refreshPortEditPart(final PortEditPart portPart) {
+		LOGGER.trace("refreshPortEditPart: port={}", portPart);
 		Object model = portPart.getModel();
-		List children = getModelChildren();
+		List<?> children = getModelChildren();
 		int index = children.indexOf(model);
 
 		setFocus(false);
@@ -543,15 +563,22 @@ public class ComponentEditPart extends AbstractEditPart {
 		});
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	protected List getModelChildren() {
-		List result = new ArrayList();
+	protected List<?> getModelChildren() {
+		List<Object> result = new ArrayList<>();
 		// 複合コンポーネントに直接属するポートだけを表示させる 2008.11.26
-		result.addAll(getModel().getInports());
 		result.addAll(getModel().getOutports());
+		//
+		result.addAll(getModel().getInports());
 		result.addAll(getModel().getServiceports());
-
+		//
+		for (ExecutionContext ec : getModel().getExecutionContexts()) {
+			result.add(new OwnEC(ec));
+		}
+		//
+		for (ExecutionContext ec : getModel().getParticipationContexts()) {
+			result.add(new PartEC(ec));
+		}
 		return result;
 	}
 
@@ -580,8 +607,8 @@ public class ComponentEditPart extends AbstractEditPart {
 				IAction action = getActionRegistry().getAction(
 						OpenCompositeComponentAction.ACTION_ID);
 				OpenCompositeComponentAction openAction = new OpenCompositeComponentAction(
-							((OpenCompositeComponentAction) action)
-									.getParentSystemDiagramEditor());
+						((OpenCompositeComponentAction) action)
+								.getParentSystemDiagramEditor());
 				openAction.setCompositeComponent(getModel());
 				openAction.run();
 			}

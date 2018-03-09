@@ -1,14 +1,18 @@
 package jp.go.aist.rtm.systemeditor.ui.action;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
 import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor;
+import jp.go.aist.rtm.systemeditor.ui.util.ComponentComparator;
+import jp.go.aist.rtm.systemeditor.ui.views.actionorderview.ActionOrderView.ActionName;
+import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
-import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
-import jp.go.aist.rtm.toolscommon.model.core.Visiter;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.IAction;
@@ -143,58 +147,54 @@ public class AllComponentActionDelegate implements IEditorActionDelegate {
 	}
 
 	private void doAllStop(SystemDiagram systemDiagram) {
-		systemDiagram.accept(new Visiter() {
-			@SuppressWarnings("unchecked")
-			public void visit(ModelElement element) {
-				if (element instanceof CorbaComponent) {
-					((CorbaComponent) element).stopAll();
-				}
-			}
-		});
+		List<Component> targetComps = getTargetComps(systemDiagram);
+		Collections.sort(targetComps, new ComponentComparator(ActionName.ACTION_SHUT_DOWN));
+		for(int index=0; index<targetComps.size(); index++) {
+			((CorbaComponent)targetComps.get(index)).stopAll();
+		}
 	}
 
 	private void doAllStart(SystemDiagram systemDiagram) {
-		systemDiagram.accept(new Visiter() {
-			@SuppressWarnings("unchecked")
-			public void visit(ModelElement element) {
-				if (element instanceof CorbaComponent) {
-					((CorbaComponent) element).startAll();
-				}
-			}
-		});
+		List<Component> targetComps = getTargetComps(systemDiagram);
+		Collections.sort(targetComps, new ComponentComparator(ActionName.ACTION_START_UP));
+		for(int index=0; index<targetComps.size(); index++) {
+			((CorbaComponent)targetComps.get(index)).startAll();
+		}
 	}
 
 	private void doAllActivate(SystemDiagram systemDiagram) {
-		systemDiagram.accept(new Visiter() {
-			@SuppressWarnings("unchecked")
-			public void visit(ModelElement element) {
-				if (element instanceof CorbaComponent) {
-					((CorbaComponent) element).activateAll();
-				}
-			}
-		});
+		List<Component> targetComps = getTargetComps(systemDiagram);
+		Collections.sort(targetComps, new ComponentComparator(ActionName.ACTION_ACTIVATION));
+		for(int index=0; index<targetComps.size(); index++) {
+			((CorbaComponent)targetComps.get(index)).activateAll();
+		}
 	}
 
 	private void doAllDectivate(SystemDiagram systemDiagram) {
-		systemDiagram.accept(new Visiter() {
-			@SuppressWarnings("unchecked")
-			public void visit(ModelElement element) {
-				if (element instanceof CorbaComponent) {
-					((CorbaComponent) element).deactivateAll();
-				}
-			}
-		});
+		List<Component> targetComps = getTargetComps(systemDiagram);
+		Collections.sort(targetComps, new ComponentComparator(ActionName.ACTION_DEACTIVATION));
+		for(int index=0; index<targetComps.size(); index++) {
+			((CorbaComponent)targetComps.get(index)).deactivateAll();
+		}
 	}
 
 	private void doAllExit(SystemDiagram systemDiagram) {
-		systemDiagram.accept(new Visiter() {
-			@SuppressWarnings("unchecked")
-			public void visit(ModelElement element) {
-				if (element instanceof CorbaComponent) {
-					((CorbaComponent) element).exitR();
-				}
+		List<Component> targetComps = getTargetComps(systemDiagram);
+		Collections.sort(targetComps, new ComponentComparator(ActionName.ACTION_FINALIZE));
+		for(int index=0; index<targetComps.size(); index++) {
+			((CorbaComponent)targetComps.get(index)).exitR();
+		}
+	}
+	
+	private List<Component> getTargetComps(SystemDiagram systemDiagram) {
+		List<Component> targetComps = new ArrayList<Component>(); 
+		for (Component comp : systemDiagram.getRegisteredComponents()) {
+			if (!(comp instanceof CorbaComponent)) {
+				continue;
 			}
-		});
+			targetComps.add(comp);
+		}
+		return targetComps;
 	}
 	
 	public void setActiveEditor(IAction action, IEditorPart targetEditor) {

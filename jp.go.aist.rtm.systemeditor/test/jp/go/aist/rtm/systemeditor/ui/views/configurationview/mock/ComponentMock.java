@@ -647,4 +647,100 @@ public class ComponentMock implements Component {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
+	public ExecutionContext getPrimaryExecutionContext() {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
+	}
+
+	@Override
+	public void setPrimaryExecutionContext(ExecutionContext value) {
+		// TODO 自動生成されたメソッド・スタブ
+		
+	}
+
+	@Override
+	public String getStartUp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setStartUp(String value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getShutDown() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setShutDown(String value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getActivation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setActivation(String value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getDeActivation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setDeActivation(String value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getResetting() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setResetting(String value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getInitialize() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setInitialize(String value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getFinalize() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setFinalize(String value) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

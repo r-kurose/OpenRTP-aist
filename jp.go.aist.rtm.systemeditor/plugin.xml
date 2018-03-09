@@ -18,8 +18,10 @@
 		<editpart seq="200" targetclass="jp.go.aist.rtm.toolscommon.model.component.OutPort" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.OutPortEditPart" />
 		<editpart seq="300" targetclass="jp.go.aist.rtm.toolscommon.model.component.ServicePort" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ServicePortEditPart" />
 		<editpart seq="400" targetclass="jp.go.aist.rtm.toolscommon.model.component.PortConnector" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.PortConnectorEditPart" />
-		<editpart seq="500" targetclass="jp.go.aist.rtm.toolscommon.model.component.Component" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart" />
-		<editpart seq="600" targetclass="jp.go.aist.rtm.toolscommon.model.component.SystemDiagram" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.SystemDiagramEditPart" />
+		<editpart seq="600" targetclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECEditPart$OwnEC" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECEditPart$OwnECEditPart" />
+		<editpart seq="610" targetclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECEditPart$PartEC" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECEditPart$PartECEditPart" />
+		<editpart seq="1000" targetclass="jp.go.aist.rtm.toolscommon.model.component.Component" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart" />
+		<editpart seq="1500" targetclass="jp.go.aist.rtm.toolscommon.model.component.SystemDiagram" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.SystemDiagramEditPart" />
 	</extension>
 
     <extension point="org.eclipse.ui.perspectives">
@@ -84,12 +86,19 @@
 			class="jp.go.aist.rtm.systemeditor.ui.views.executioncontextview.ExecutionContextView"
 			id="jp.go.aist.rtm.systemeditor.ui.views.executioncontextview.ExecutionContextView">
 		</view>
-		<view
+<!--		<view
 			name="%RT_Log_View"
 			icon="icons/RT_icon.png"
 			category="rtse"
 			class="jp.go.aist.rtm.systemeditor.ui.views.logview.LogView"
 			id="jp.go.aist.rtm.systemeditor.ui.views.logview.LogView">
+		</view>-->
+		<view
+			name="%Action_Order_View"
+			icon="icons/RT_icon.png"
+			category="rtse"
+			class="jp.go.aist.rtm.systemeditor.ui.views.actionorderview.ActionOrderView"
+			id="jp.go.aist.rtm.systemeditor.ui.views.actionorderview.ActionOrderView">
 		</view>
 	</extension>
 	
@@ -500,8 +509,13 @@
 				relationship="stack"
 				relative="jp.go.aist.rtm.systemeditor.ui.views.configurationview.ConfigurationView">
 			</view>
-			<view
+<!--			<view
 				id="jp.go.aist.rtm.systemeditor.ui.views.logview.LogView"
+				relationship="stack"
+				relative="jp.go.aist.rtm.systemeditor.ui.views.configurationview.ConfigurationView">
+			</view>-->
+			<view
+				id="jp.go.aist.rtm.systemeditor.ui.views.actionorderview.ActionOrderView"
 				relationship="stack"
 				relative="jp.go.aist.rtm.systemeditor.ui.views.configurationview.ConfigurationView">
 			</view>
@@ -510,7 +524,8 @@
 			<viewShortcut id="jp.go.aist.rtm.systemeditor.ui.views.managercontrolview.ManagerControlView"/>
 			<viewShortcut id="jp.go.aist.rtm.systemeditor.ui.views.compositecomponentview.CompositeComponentView"/>
 			<viewShortcut id="jp.go.aist.rtm.systemeditor.ui.views.executioncontextview.ExecutionContextView"/>
-			<viewShortcut id="jp.go.aist.rtm.systemeditor.ui.views.logview.LogView"/>
+			<!--<viewShortcut id="jp.go.aist.rtm.systemeditor.ui.views.logview.LogView"/>-->
+			<viewShortcut id="jp.go.aist.rtm.systemeditor.ui.views.actionorderview.ActionOrderView"/>
 		</perspectiveExtension>
 	</extension>
 	
