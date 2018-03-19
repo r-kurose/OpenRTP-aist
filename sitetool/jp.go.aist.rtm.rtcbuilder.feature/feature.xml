@@ -45,6 +45,14 @@
          version="0.0.0"
          unpack="false"/>
 
+
+   <plugin
+         id="jp.go.aist.rtm.rtcbuilder.lua"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
    <plugin
          id="jp.go.aist.rtm.toolscommon.profiles"
          download-size="0"
