@@ -264,7 +264,7 @@ public interface ComponentPackage extends EPackage {
 	int COMPONENT__EXECUTION_CONTEXTS = CorePackage.WRAPPER_OBJECT_FEATURE_COUNT + 8;
 
 	/**
-	 * The feature id for the '<em><b>Participation Contexts</b></em>' reference list.
+	 * The feature id for the '<em><b>Participation Contexts</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -581,7 +581,7 @@ public interface ComponentPackage extends EPackage {
 	int COMPONENT_SPECIFICATION__EXECUTION_CONTEXTS = COMPONENT__EXECUTION_CONTEXTS;
 
 	/**
-	 * The feature id for the '<em><b>Participation Contexts</b></em>' reference list.
+	 * The feature id for the '<em><b>Participation Contexts</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2088,7 +2088,7 @@ public interface ComponentPackage extends EPackage {
 	int CORBA_COMPONENT__EXECUTION_CONTEXTS = COMPONENT__EXECUTION_CONTEXTS;
 
 	/**
-	 * The feature id for the '<em><b>Participation Contexts</b></em>' reference list.
+	 * The feature id for the '<em><b>Participation Contexts</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2349,13 +2349,22 @@ public interface ComponentPackage extends EPackage {
 	int CORBA_COMPONENT__RTCRT_OBJECTS = COMPONENT_FEATURE_COUNT + 6;
 
 	/**
+	 * The feature id for the '<em><b>Component State</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CORBA_COMPONENT__COMPONENT_STATE = COMPONENT_FEATURE_COUNT + 7;
+
+	/**
 	 * The feature id for the '<em><b>Ior</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CORBA_COMPONENT__IOR = COMPONENT_FEATURE_COUNT + 7;
+	int CORBA_COMPONENT__IOR = COMPONENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Status Observer</b></em>' reference.
@@ -2364,7 +2373,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CORBA_COMPONENT__STATUS_OBSERVER = COMPONENT_FEATURE_COUNT + 8;
+	int CORBA_COMPONENT__STATUS_OBSERVER = COMPONENT_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Log Observer</b></em>' reference.
@@ -2373,7 +2382,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CORBA_COMPONENT__LOG_OBSERVER = COMPONENT_FEATURE_COUNT + 9;
+	int CORBA_COMPONENT__LOG_OBSERVER = COMPONENT_FEATURE_COUNT + 10;
 
 	/**
 	 * The number of structural features of the '<em>Corba Component</em>' class.
@@ -2382,7 +2391,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CORBA_COMPONENT_FEATURE_COUNT = COMPONENT_FEATURE_COUNT + 10;
+	int CORBA_COMPONENT_FEATURE_COUNT = COMPONENT_FEATURE_COUNT + 11;
 
 	/**
 	 * The meta object id for the '{@link jp.go.aist.rtm.toolscommon.model.component.impl.CorbaPortSynchronizerImpl <em>Corba Port Synchronizer</em>}' class.
@@ -3325,10 +3334,10 @@ public interface ComponentPackage extends EPackage {
 	EReference getComponent_ExecutionContexts();
 
 	/**
-	 * Returns the meta object for the reference list '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getParticipationContexts <em>Participation Contexts</em>}'.
+	 * Returns the meta object for the containment reference list '{@link jp.go.aist.rtm.toolscommon.model.component.Component#getParticipationContexts <em>Participation Contexts</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Participation Contexts</em>'.
+	 * @return the meta object for the containment reference list '<em>Participation Contexts</em>'.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.Component#getParticipationContexts()
 	 * @see #getComponent()
 	 * @generated
@@ -3663,6 +3672,17 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getCorbaComponent_RTCRTObjects();
+
+	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getComponentState <em>Component State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Component State</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getComponentState()
+	 * @see #getCorbaComponent()
+	 * @generated
+	 */
+	EAttribute getCorbaComponent_ComponentState();
 
 	/**
 	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getIor <em>Ior</em>}'.
@@ -4961,7 +4981,7 @@ public interface ComponentPackage extends EPackage {
 		EReference COMPONENT__EXECUTION_CONTEXTS = eINSTANCE.getComponent_ExecutionContexts();
 
 		/**
-		 * The meta object literal for the '<em><b>Participation Contexts</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Participation Contexts</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -5209,6 +5229,14 @@ public interface ComponentPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute CORBA_COMPONENT__RTCRT_OBJECTS = eINSTANCE.getCorbaComponent_RTCRTObjects();
+
+		/**
+		 * The meta object literal for the '<em><b>Component State</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CORBA_COMPONENT__COMPONENT_STATE = eINSTANCE.getCorbaComponent_ComponentState();
 
 		/**
 		 * The meta object literal for the '<em><b>Ior</b></em>' attribute feature.

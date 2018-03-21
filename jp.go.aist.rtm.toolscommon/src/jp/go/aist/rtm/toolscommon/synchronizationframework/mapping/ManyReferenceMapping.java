@@ -20,7 +20,7 @@ public abstract class ManyReferenceMapping extends ReferenceMapping {
 		@SuppressWarnings("unchecked")
 		private List addRemoteLinkList;
 	}
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -49,53 +49,45 @@ public abstract class ManyReferenceMapping extends ReferenceMapping {
 	 * {@inheritDoc}
 	 */
 	public void syncronizeLocal(LocalObject localObject) {
-		LinkHolder holder = setupTargetList(getNewRemoteLinkList(localObject),
-				getOldRemoteLinkList(localObject));
+		LinkHolder holder = setupTargetList(localObject, getNewRemoteLinkList(localObject), getOldRemoteLinkList(localObject));
 
 		boolean updated = false;
 
 		for (Object remoteLink : holder.deleteRemoteLinkList) {
-			((EList) localObject.eGet(getLocalFeature()))
-					.remove(getLocalObjectByRemoteLink(localObject, remoteLink));
+			((EList) localObject.eGet(getLocalFeature())).remove(getLocalObjectByRemoteLink(localObject, remoteLink));
 			updated = true;
 		}
 
 		for (java.lang.Object link : holder.addRemoteLinkList) {
-			Object[] remoteObjectByRemoteLink = getRemoteObjectByRemoteLink(
-					localObject, getRemoteObjects(localObject), link);
+			Object[] remoteObjectByRemoteLink = getRemoteObjectByRemoteLink(localObject, getRemoteObjects(localObject), link);
 			if (remoteObjectByRemoteLink != null) {
-				if (isAllowZombie()
-						|| SynchronizationSupport
-								.ping(remoteObjectByRemoteLink)) {
-					LocalObject childNC = loadLocalObjectByRemoteObject(
-							localObject, localObject
-									.getSynchronizationSupport()
-									.getSynchronizationManager(), link,
-							remoteObjectByRemoteLink);
+				if (isAllowZombie() || SynchronizationSupport.ping(remoteObjectByRemoteLink)) {
+					LocalObject childNC = loadLocalObjectByRemoteObject(localObject, localObject.getSynchronizationSupport()
+							.getSynchronizationManager(), link, remoteObjectByRemoteLink);
 					dumpLoadResultForPort(localObject, childNC);
 					if (childNC != null) {
-						((EList) localObject.eGet(getLocalFeature()))
-								.add(childNC);
+						((EList) localObject.eGet(getLocalFeature())).add(childNC);
 						updated = true;
 					}
 				}
 			}
 		}
 
-		if (updated) {
-			// 変更があった場合の事後処理
-			postSynchronizeLocal(localObject);
-		}
+		// 変更があった場合の事後処理
+		postSynchronizeLocal(localObject, updated);
 	}
 
 	@SuppressWarnings("unchecked")
-	private LinkHolder setupTargetList(List newRemoteLinkList, List oldRemoteLinkList) {
+	private LinkHolder setupTargetList(LocalObject localObject,
+			List newRemoteLinkList, List oldRemoteLinkList) {
 		LinkHolder holder = new LinkHolder();
 		holder.deleteRemoteLinkList = new ArrayList(oldRemoteLinkList);
 		holder.addRemoteLinkList = new ArrayList(newRemoteLinkList);
-		
+
 		for (int i = 0; i < holder.addRemoteLinkList.size();) {
-			int existIndex = findExistLisk(holder.addRemoteLinkList.get(i), holder.deleteRemoteLinkList);
+			int existIndex = findExistLisk(localObject,
+					holder.addRemoteLinkList.get(i),
+					holder.deleteRemoteLinkList);
 			if (existIndex < 0) {
 				i++;
 			} else {
@@ -107,9 +99,11 @@ public abstract class ManyReferenceMapping extends ReferenceMapping {
 	}
 
 	@SuppressWarnings("unchecked")
-	private int findExistLisk(Object newLink, List deleteRemoteLinkList) {
+	private int findExistLisk(LocalObject localObject, Object newLink,
+			List deleteRemoteLinkList) {
 		for (int i = 0; i < deleteRemoteLinkList.size(); i++) {
-			if (isLinkEquals(newLink, deleteRemoteLinkList.get(i))) return i;
+			if (isLinkEquals(localObject, newLink, deleteRemoteLinkList.get(i)))
+				return i;
 		}
 		return -1;
 	}
@@ -118,8 +112,7 @@ public abstract class ManyReferenceMapping extends ReferenceMapping {
 	}
 
 	protected Object[] getRemoteObjects(LocalObject localObject) {
-		return localObject
-				.getSynchronizationSupport().getRemoteObjects();
+		return localObject.getSynchronizationSupport().getRemoteObjects();
 	}
 
 	private void dumpLoadResultForPort(LocalObject localObject,
@@ -134,8 +127,9 @@ public abstract class ManyReferenceMapping extends ReferenceMapping {
 	 * @return 最新のリモートオブジェクトのリンク
 	 */
 	@SuppressWarnings("unchecked")
-	protected List getNewRemoteLinkList(Object[] parentRemoteObjects){return null;};
-
+	protected List getNewRemoteLinkList(Object[] parentRemoteObjects) {
+		return null;
+	};
 
 	@SuppressWarnings("unchecked")
 	protected List getNewRemoteLinkList(LocalObject localObject) {
@@ -216,7 +210,22 @@ public abstract class ManyReferenceMapping extends ReferenceMapping {
 	 * 
 	 * @param lo
 	 *            同期対象のローカルオブジェクト
+	 * @param updated
+	 *            更新有無
+	 */
+	public void postSynchronizeLocal(LocalObject lo, boolean updated) {
+		if (updated) {
+			postSynchronizeLocal(lo);
+		}
+	}
+
+	/**
+	 * 同期後の事後処理を定義します。
+	 * 
+	 * @param lo
+	 *            同期対象のローカルオブジェクト
 	 */
 	public void postSynchronizeLocal(LocalObject lo) {
 	}
+
 }

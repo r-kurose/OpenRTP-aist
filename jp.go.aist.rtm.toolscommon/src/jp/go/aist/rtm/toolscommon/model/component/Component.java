@@ -200,7 +200,7 @@ public interface Component extends WrapperObject, IPropertyMap {
 	EList<ExecutionContext> getExecutionContexts();
 
 	/**
-	 * Returns the value of the '<em><b>Participation Contexts</b></em>' reference list.
+	 * Returns the value of the '<em><b>Participation Contexts</b></em>' containment reference list.
 	 * The list contents are of type {@link jp.go.aist.rtm.toolscommon.model.component.ExecutionContext}.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -208,9 +208,9 @@ public interface Component extends WrapperObject, IPropertyMap {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Participation Contexts</em>' reference list.
+	 * @return the value of the '<em>Participation Contexts</em>' containment reference list.
 	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getComponent_ParticipationContexts()
-	 * @model
+	 * @model containment="true"
 	 * @generated
 	 */
 	EList<ExecutionContext> getParticipationContexts();

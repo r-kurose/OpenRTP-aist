@@ -69,7 +69,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="executionContexts" upperBound="-1"
         eType="#//ExecutionContext" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="participationContexts"
-        unique="false" upperBound="-1" eType="#//ExecutionContext"/>
+        upperBound="-1" eType="#//ExecutionContext" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="executionContextHandler"
         eType="#//ContextHandler" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="participationContextHandler"
@@ -319,7 +319,6 @@
     <eOperations name="getExecutionContextStateName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eParameters name="ec" eType="#//ExecutionContext"/>
     </eOperations>
-    <eOperations name="getComponentState" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eOperations name="getComponentStateName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eOperations name="getCorbaObjectInterface" eType="#//RTCRTObject"/>
     <eOperations name="supportedCorbaObserver" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
@@ -339,6 +338,7 @@
         defaultValueLiteral=""/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rTCRTObjects" unique="false"
         upperBound="-1" eType="#//RTCRTObject" transient="true" defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="componentState" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ior" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="statusObserver" eType="#//CorbaStatusObserver"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="logObserver" eType="#//CorbaLogObserver"/>

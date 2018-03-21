@@ -31,6 +31,7 @@ import _SDOPackage.Organization;
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getSDOConfiguration <em>SDO Configuration</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getSDOOrganization <em>SDO Organization</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getRTCRTObjects <em>RTCRT Objects</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getComponentState <em>Component State</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getIor <em>Ior</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getStatusObserver <em>Status Observer</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getLogObserver <em>Log Observer</em>}</li>
@@ -347,12 +348,26 @@ public interface CorbaComponent extends Component, CorbaWrapperObject {
 	String getExecutionContextStateName(jp.go.aist.rtm.toolscommon.model.component.ExecutionContext ec);
 
 	/**
+	 * Returns the value of the '<em><b>Component State</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @model kind="operation"
+	 * @return the value of the '<em>Component State</em>' attribute.
+	 * @see #setComponentState(int)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getCorbaComponent_ComponentState()
+	 * @model
 	 * @generated
 	 */
 	int getComponentState();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getComponentState <em>Component State</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Component State</em>' attribute.
+	 * @see #getComponentState()
+	 * @generated
+	 */
+	void setComponentState(int value);
 
 	/**
 	 * <!-- begin-user-doc -->

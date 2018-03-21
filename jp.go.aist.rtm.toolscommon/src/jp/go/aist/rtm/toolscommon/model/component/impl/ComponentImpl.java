@@ -152,7 +152,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	protected EList<ExecutionContext> executionContexts;
 
 	/**
-	 * The cached value of the '{@link #getParticipationContexts() <em>Participation Contexts</em>}' reference list.
+	 * The cached value of the '{@link #getParticipationContexts() <em>Participation Contexts</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getParticipationContexts()
@@ -697,7 +697,8 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 		if (participationContexts == null) {
 			// EReferenceの重複が許容されないのでisUnique()を変更
 			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=89325
-			participationContexts = new EObjectResolvingEList<ExecutionContext>(ExecutionContext.class, this, ComponentPackage.COMPONENT__PARTICIPATION_CONTEXTS) {
+//			participationContexts = new EObjectResolvingEList<ExecutionContext>(ExecutionContext.class, this, ComponentPackage.COMPONENT__PARTICIPATION_CONTEXTS) {
+			participationContexts = new EObjectContainmentEList<ExecutionContext>(ExecutionContext.class, this, ComponentPackage.COMPONENT__PARTICIPATION_CONTEXTS) {
 				@Override
 				protected boolean isUnique() {
 					return false;
@@ -1024,15 +1025,15 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public void setPrimaryExecutionContext(ExecutionContext newPrimaryExecutionContext) {
 		if (newPrimaryExecutionContext != primaryExecutionContext) {
 			NotificationChain msgs = null;
-			if (primaryExecutionContext != null)
-				msgs = ((InternalEObject)primaryExecutionContext).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.COMPONENT__PRIMARY_EXECUTION_CONTEXT, null, msgs);
-			if (newPrimaryExecutionContext != null)
-				msgs = ((InternalEObject)newPrimaryExecutionContext).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.COMPONENT__PRIMARY_EXECUTION_CONTEXT, null, msgs);
+//			if (primaryExecutionContext != null)
+//				msgs = ((InternalEObject)primaryExecutionContext).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.COMPONENT__PRIMARY_EXECUTION_CONTEXT, null, msgs);
+//			if (newPrimaryExecutionContext != null)
+//				msgs = ((InternalEObject)newPrimaryExecutionContext).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.COMPONENT__PRIMARY_EXECUTION_CONTEXT, null, msgs);
 			msgs = basicSetPrimaryExecutionContext(newPrimaryExecutionContext, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -1515,6 +1516,8 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 				return basicSetPrimaryExecutionContext(null, msgs);
 			case ComponentPackage.COMPONENT__EXECUTION_CONTEXTS:
 				return ((InternalEList<?>)getExecutionContexts()).basicRemove(otherEnd, msgs);
+			case ComponentPackage.COMPONENT__PARTICIPATION_CONTEXTS:
+				return ((InternalEList<?>)getParticipationContexts()).basicRemove(otherEnd, msgs);
 			case ComponentPackage.COMPONENT__EXECUTION_CONTEXT_HANDLER:
 				return basicSetExecutionContextHandler(null, msgs);
 			case ComponentPackage.COMPONENT__PARTICIPATION_CONTEXT_HANDLER:

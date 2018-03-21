@@ -37,13 +37,13 @@ public abstract class OneReferenceMapping extends ReferenceMapping {
 	 * {@inheritDoc}
 	 */
 	public void syncronizeLocal(LocalObject localObject) {
-//		long start = System.currentTimeMillis();
-		
+		// long start = System.currentTimeMillis();
+
 		Object remoteLink = getNewRemoteLink(localObject, localObject
 				.getSynchronizationSupport().getRemoteObjects());
 		Object localLink = getOldRemoteLink(localObject);
 
-		if (isLinkEquals(remoteLink, localLink) == false) {
+		if (!isLinkEquals(localObject, remoteLink, localLink)) {
 			Object[] remoteObjectByRemoteLink = null;
 			if (remoteLink != null) {
 				remoteObjectByRemoteLink = getRemoteObjectByRemoteLink(
@@ -65,12 +65,12 @@ public abstract class OneReferenceMapping extends ReferenceMapping {
 			}
 
 			if ((localObject.eGet(getLocalFeature()) == null && loadLocalObjectByRemoteObject != null)
-					|| (localObject.eGet(getLocalFeature()) != null && loadLocalObjectByRemoteObject == null)) { //高速化
+					|| (localObject.eGet(getLocalFeature()) != null && loadLocalObjectByRemoteObject == null)) { // 高速化
 				localObject.eSet(getLocalFeature(),
 						loadLocalObjectByRemoteObject);
 			}
 		}
-//		System.out.println(System.currentTimeMillis() -start);
+		// System.out.println(System.currentTimeMillis() -start);
 	}
 
 	/**
@@ -99,7 +99,7 @@ public abstract class OneReferenceMapping extends ReferenceMapping {
 		LocalObject elem = ((LocalObject) localObject.eGet(getLocalFeature()));
 
 		Object result = null;
-		if (elem != null) {
+		if (elem != null && elem.getSynchronizationSupport() != null) {
 			if (elem.getSynchronizationSupport().getRemoteObjects().length != 1) {
 				throw new UnsupportedOperationException();
 			}
