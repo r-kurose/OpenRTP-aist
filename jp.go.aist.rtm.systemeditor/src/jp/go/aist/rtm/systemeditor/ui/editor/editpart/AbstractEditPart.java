@@ -69,14 +69,13 @@ public abstract class AbstractEditPart extends AbstractGraphicalEditPart
 	/**
 	 * モデルのオブジェクトに委譲している
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Object getAdapter(Class key) {
 		Object result = AdapterUtil.getAdapter(getModel(), key);
 		if (result == null) {
 			result = super.getAdapter(key);
 		}
-
 		return result;
 	}
 	

@@ -117,8 +117,8 @@ public class ConnectorDialogBase extends TitleAreaDialog {
 			public void widgetSelected(SelectionEvent e) {
 				int selectionIndex = additionalTableViewer.getTable().getSelectionIndex();
 				if (selectionIndex >= 0
-						&& ((List) additionalTableViewer.getInput()).size() >= selectionIndex + 1) {
-						((List) additionalTableViewer.getInput()).remove(selectionIndex);
+						&& ((List<?>) additionalTableViewer.getInput()).size() >= selectionIndex + 1) {
+						((List<?>) additionalTableViewer.getInput()).remove(selectionIndex);
 				additionalTableViewer.refresh();
 				}
 			}

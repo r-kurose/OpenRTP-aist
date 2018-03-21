@@ -414,9 +414,8 @@ public class ComponentEditPart extends AbstractEditPart {
 			refreshComponent();
 			((SystemDiagramEditPart) getParent()).refreshSystemDiagram();
 		} else if (ComponentPackage.eINSTANCE
-				.getCorbaComponent_RTCComponentProfile().equals(
+				.getCorbaComponent_ComponentState().equals(
 						notification.getFeature())) {
-			// コンポーネントの状態通知 (featureは仮)
 			refreshComponent();
 		} else if (CorePackage.eINSTANCE.getModelElement_Constraint().equals(
 				notification.getFeature())

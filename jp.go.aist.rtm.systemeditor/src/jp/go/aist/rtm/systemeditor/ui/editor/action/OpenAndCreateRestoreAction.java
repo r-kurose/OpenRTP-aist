@@ -1,9 +1,8 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.action;
 
-import org.eclipse.gef.ui.actions.EditorPartAction;
-
-import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
+
+import org.eclipse.gef.ui.actions.EditorPartAction;
 
 /**
  * RTSプロファイルを読み込んで、コンポーネント生成まで行うアクション

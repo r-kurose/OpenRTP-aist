@@ -20,7 +20,6 @@ public class CombineCommand extends Command {
 	// 複合RTC
 	private Component target;
 
-	@SuppressWarnings("unchecked")
 	@Override
 	/**
 	 * {@inheritDoc}
@@ -39,8 +38,7 @@ public class CombineCommand extends Command {
 		parent.addComponent(target);
 	}
 
-	@SuppressWarnings("unchecked")
-	private void removeConnections(EList components) {
+	private void removeConnections(EList<?> components) {
 		for (Object o : components) {
 			Component c = (Component)o;
 			for (Object o2 :c.getPorts()) {
@@ -53,7 +51,6 @@ public class CombineCommand extends Command {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void adjustParentDiagram(List<Component> selectedComponents) {
 		Component parentCompositeComponent = parent.getCompositeComponent();
 		if (parentCompositeComponent == null) return;

@@ -34,7 +34,6 @@ public class ExportPortPopupMenuActionDelegate implements IObjectActionDelegate 
 
 	private PortEditPart portPart;
 
-	@SuppressWarnings("unchecked")
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
 		compositeComponent = null;
 		if (targetPart instanceof AbstractSystemDiagramEditor) {

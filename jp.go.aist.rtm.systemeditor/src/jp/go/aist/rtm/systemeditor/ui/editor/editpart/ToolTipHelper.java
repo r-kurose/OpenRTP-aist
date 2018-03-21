@@ -15,8 +15,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ToolTipHelper {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(ToolTipHelper.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ToolTipHelper.class);
 
 	private static final String CRLF = "\r\n";
 
@@ -36,8 +35,12 @@ public class ToolTipHelper {
 			CorbaComponent comp = (CorbaComponent) ec.eContainer();
 			if (comp != null) {
 				sb.append(CRLF);
-				sb.append("component state: ").append(
-						nv(cec.getComponentStateName(comp)));
+				sb.append("component state: ").append(nv(cec.getComponentStateName(comp)));
+			}
+			String type = cec.getProperty("type");
+			if (type != null && !type.isEmpty()) {
+				sb.append(CRLF);
+				sb.append("type: ").append(type);
 			}
 		}
 		return buildPanel(sb.toString());

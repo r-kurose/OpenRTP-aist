@@ -26,7 +26,6 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 public class IComponentActionHandler extends AbstractHandler {
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IWorkbenchPart part = HandlerUtil.getActivePartChecked(event);
@@ -34,7 +33,7 @@ public class IComponentActionHandler extends AbstractHandler {
 
 		List<CorbaComponent> components = new ArrayList<CorbaComponent>();
 		if (selection instanceof IStructuredSelection) {
-			for (Iterator iter = ((IStructuredSelection) selection).iterator(); iter
+			for (Iterator<?> iter = ((IStructuredSelection) selection).iterator(); iter
 					.hasNext();) {
 				Object o = AdapterUtil.getAdapter(iter.next(), Component.class);
 				if (!(o instanceof CorbaComponent)) {

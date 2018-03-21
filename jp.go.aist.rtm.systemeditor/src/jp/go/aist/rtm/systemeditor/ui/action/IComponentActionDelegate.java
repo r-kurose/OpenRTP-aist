@@ -94,10 +94,9 @@ public class IComponentActionDelegate implements IObjectActionDelegate {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public void run(final IAction action) {
 
-		for (Iterator iter = ((IStructuredSelection) selection).iterator(); iter
+		for (Iterator<?> iter = ((IStructuredSelection) selection).iterator(); iter
 				.hasNext();) {
 
 			final CorbaComponent component = (CorbaComponent) iter.next();

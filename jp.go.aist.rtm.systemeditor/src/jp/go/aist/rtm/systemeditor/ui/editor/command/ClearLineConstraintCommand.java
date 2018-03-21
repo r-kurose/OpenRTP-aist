@@ -19,7 +19,6 @@ import org.eclipse.gef.commands.Command;
 public class ClearLineConstraintCommand extends Command {
 	private ModelElement model;
 
-	@SuppressWarnings("unchecked")
 	private Map<PortConnector, Map> oldRoutingConstraint = new IdentityHashMap<PortConnector, Map>();
 
 	/**

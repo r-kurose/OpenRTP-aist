@@ -20,6 +20,7 @@
 		<editpart seq="400" targetclass="jp.go.aist.rtm.toolscommon.model.component.PortConnector" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.PortConnectorEditPart" />
 		<editpart seq="600" targetclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECEditPart$OwnEC" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECEditPart$OwnECEditPart" />
 		<editpart seq="610" targetclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECEditPart$PartEC" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECEditPart$PartECEditPart" />
+		<editpart seq="620" targetclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECConnectionEditPart" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECConnectionEditPart$ECConnection" />
 		<editpart seq="1000" targetclass="jp.go.aist.rtm.toolscommon.model.component.Component" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart" />
 		<editpart seq="1500" targetclass="jp.go.aist.rtm.toolscommon.model.component.SystemDiagram" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.SystemDiagramEditPart" />
 	</extension>

@@ -120,9 +120,8 @@ public class SystemDiagramEditPartFactory implements EditPartFactory {
         return result;
     }
 
-    @SuppressWarnings("unchecked")
 	private EditPart newEditPart(Object object) {
-        Class clazz = getMappingEditPartClass(object.getClass());
+        Class<?> clazz = getMappingEditPartClass(object.getClass());
 
         EditPart result = null;
         if (clazz != null) {

@@ -1,6 +1,5 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.action;
 
-import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
 
 import org.eclipse.gef.ui.actions.EditorPartAction;

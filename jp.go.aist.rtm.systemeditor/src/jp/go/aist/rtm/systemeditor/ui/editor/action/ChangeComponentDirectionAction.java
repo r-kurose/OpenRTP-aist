@@ -3,7 +3,6 @@ package jp.go.aist.rtm.systemeditor.ui.editor.action;
 import java.util.HashMap;
 import java.util.List;
 
-import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.EditPolicyConstraint;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 
@@ -52,8 +51,7 @@ public class ChangeComponentDirectionAction extends SelectionAction {
 		return cmd.canExecute();
 	}
 
-	@SuppressWarnings("unchecked")
-	protected Command createCommand(List selectedEditParts) {
+	protected Command createCommand(List<?> selectedEditParts) {
 		if (selectedEditParts.isEmpty())
 			return null;
 		if (!(selectedEditParts.get(0) instanceof EditPart))
