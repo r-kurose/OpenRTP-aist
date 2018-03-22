@@ -98,7 +98,7 @@ ${sharp} @class ${rtcParam.name}
 ${sharp} @brief ${rtcParam.description}
 #if( ${rtcParam.docDescription.length()} > 0 )
 ${sharp} 
-${sharp} ${tmpltHelperPy.convertModuleDocPy(${rtcParam.docDescription})}
+# ${tmpltHelperPy.convertModuleDocPy(${rtcParam.docDescription})}
 #end
 #if( ${rtcParam.docInOut.length()} > 0 )
 ${sharp} 
@@ -243,7 +243,7 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 
 		 
 	${sharp}${sharp}
-#if(${rtcParam.getDocActionOverView(0).length()}>0)	${sharp} ${tmpltHelperPy.convertDescDocPy(${rtcParam.getDocActionOverView(0)})}
+#if(${rtcParam.getDocActionOverView(0).length()}>0)	${sharp} ${tmpltHelperPy.convertActivityDocPy(${rtcParam.getDocActionOverView(0)})}
 #end
 	${sharp}
 	${sharp} The initialize action (on CREATED->ALIVE transition)
