@@ -466,9 +466,11 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #if(${rtcParam.IsNotImplemented(11)})//#end        return super.onRateChanged(ec_id);
 #if(${rtcParam.IsNotImplemented(11)})//#end    }
 //
+    /**
+     */
 #if( ${rtcParam.configParams.size()} > 0 )
-	// Configuration variable declaration
-	// <rtc-template block="config_declare">
+    // Configuration variable declaration
+    // <rtc-template block="config_declare">
 #foreach($configParam in ${rtcParam.configParams})  
     /*!
      * ${tmpltHelperJava.convertDescDocJava(${configParam.docDescription})}
@@ -483,7 +485,7 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
      */
     protected ${javaConv.convJava2ParamHolder(${configParam.type},true)} m_${configParam.tmplVarName} = new ${javaConv.convJava2ParamHolder(${configParam.type},true)}();
 #end
-	// </rtc-template>
+    // </rtc-template>
 
 #end
 
