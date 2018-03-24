@@ -64,6 +64,21 @@ public class JavaCMakeGenerateManager extends CMakeGenerateManager {
 		return generateJava(infile, outfile, contextMap);
 	}
 
+	@Override
+	public GeneratedResult generateSrcCMakeLists(Map<String, Object> contextMap) {
+		return new GeneratedResult();
+	}
+
+	@Override
+	public GeneratedResult generateIncludeCMakeLists(Map<String, Object> contextMap) {
+		return new GeneratedResult();
+	}
+	
+	@Override
+	public GeneratedResult generateIncModuleCMakeLists(Map<String, Object> contextMap) {
+		return new GeneratedResult();
+	}
+	
 	public GeneratedResult generateModulesJavaCompile(
 			Map<String, Object> contextMap) {
 		String outfile = "cmake_modules/cmake_javacompile.cmake.in";
