@@ -278,7 +278,7 @@ public class CorbaExecutionContextImpl extends ExecutionContextImpl implements C
 
 	private Map<RTC.RTObject, Integer> componentStateMap = new HashMap<>();
 
-	// TODO コンポーネント状態の設定(仮)
+	// コンポーネント状態の設定
 	void setComponentState(Component comp, Integer state) {
 		if (comp == null || !(comp instanceof CorbaComponent)) {
 			return;
@@ -321,23 +321,6 @@ public class CorbaExecutionContextImpl extends ExecutionContextImpl implements C
 	public String getComponentStateName(Component comp) {
 		return RTC_STATUS_LABEL(getComponentState(comp));
 	}
-
-//	CorbaComponent toCorbaComponent(RTC.RTObject ro) {
-//		CorbaComponent c = ComponentFactory.eINSTANCE.createCorbaComponent();
-//		c.setCorbaObject(ro);
-//		// CorbaComponentを作成し、RTC.ComponentProfileのキャッシュを設定
-//		// キャッシュが存在しない場合は同期させる
-//		RTC.ComponentProfile profile = CorbaObjectStore.eINSTANCE
-//				.findRTCProfile(ro);
-//		if (profile != null) {
-//			c.setRTCComponentProfile(profile);
-//		} else {
-//			getSynchronizationSupport().getSynchronizationManager()
-//					.assignSynchonizationSupport(c);
-//			c.synchronizeManually();
-//		}
-//		return c;
-//	}
 
 	@Override
 	public boolean addComponentR(Component comp) {
@@ -550,11 +533,11 @@ public class CorbaExecutionContextImpl extends ExecutionContextImpl implements C
 								cec.setStateL(state);
 							}
 							//
-							Component owner = cec.getOwner();
-							if (owner != null && owner instanceof CorbaComponent) {
-								RTC.RTObject ro = ((CorbaComponent) owner).getCorbaObjectInterface();
+							if (cec.eContainer() != null && cec.eContainer() instanceof CorbaComponent) {
+								CorbaComponent comp = (CorbaComponent) cec.eContainer();
+								RTC.RTObject ro = comp.getCorbaObjectInterface();
 								Integer compState = CorbaObjectStore.eINSTANCE.findComponentState(ec, ro);
-								((CorbaExecutionContextImpl) cec).setComponentState(owner, compState);
+								((CorbaExecutionContextImpl) cec).setComponentState(comp, compState);
 							}
 						}
 					} },

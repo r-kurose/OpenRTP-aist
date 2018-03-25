@@ -1613,13 +1613,12 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		synchronizeRemote_EC_ComponentState(ro, ec);
 	}
 
-	public static void synchronizeRemote_EC_ComponentState(RTC.RTObject ro,
-			RTC.ExecutionContext ec) {
+	public static void synchronizeRemote_EC_ComponentState(RTC.RTObject ro, RTC.ExecutionContext ec) {
 		// LOGGER.debug("synchronizeRemote_EC_ComponentState: ro={}", ro);
 		try {
 			RTC.LifeCycleState state = ec.get_component_state(ro);
 			int stateValue = RTC_STATUS(state);
-			CorbaObjectStore.eINSTANCE.registComponentState(ec, ro, stateValue);
+			CorbaObjectStore.eINSTANCE.registComponentState(ec, ro, new Integer(stateValue));
 		} catch (Exception e) {
 			CorbaObjectStore.eINSTANCE.removeComponentStateMap(ec);
 			LOGGER.error("Fail to sync RTC status: ec={} rtc={}", ec, ro);
@@ -1705,10 +1704,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		if (priEc != null) {
 			RTC.ExecutionContext ec = priEc.getCorbaObjectInterface();
 			Integer newState = CorbaObjectStore.eINSTANCE.findComponentState(ec, ro);
-			Integer oldState = getComponentState();
-			if (!eql(oldState, newState)) {
-				setComponentState(newState);
-			}
+			setComponentState(newState);
 		}
 	}
 
