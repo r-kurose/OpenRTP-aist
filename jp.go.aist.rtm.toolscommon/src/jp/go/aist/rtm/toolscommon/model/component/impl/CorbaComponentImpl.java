@@ -1704,7 +1704,10 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		if (priEc != null) {
 			RTC.ExecutionContext ec = priEc.getCorbaObjectInterface();
 			Integer newState = CorbaObjectStore.eINSTANCE.findComponentState(ec, ro);
-			setComponentState(newState);
+			Integer oldState = getComponentState();
+			if (!eql(oldState, newState)) {
+				setComponentState(newState);
+			}
 		}
 	}
 
