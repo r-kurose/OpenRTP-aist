@@ -88,9 +88,10 @@
 		</copy>
 		<copy todir="${build.dir}/jp/go/aist/rtm/rtcbuilder/template">
 			<fileset dir="${source}/jp/go/aist/rtm/rtcbuilder/template">
+				<include name="choreonoid/**.vsl" />
 				<include name="cmake/**/**.vsl" />
 				<include name="common/**.vsl" />
-				<include name="cpp/**.vsl" />
+				<include name="cpp/**/**.vsl" />
 			</fileset>
 		</copy>
 		<mkdir dir="${dist.dir}" />
