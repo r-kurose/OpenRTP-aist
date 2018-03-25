@@ -11,6 +11,7 @@ import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.ECSelectionEditPolicy;
 import jp.go.aist.rtm.systemeditor.ui.editor.figure.ECFigure;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
@@ -368,6 +369,16 @@ public abstract class ECEditPart<F extends IFigure> extends AbstractEditPart imp
 
 		@Override
 		public void notifyChanged(Notification notification) {
+			if (ComponentPackage.eINSTANCE.getExecutionContext_StateL().equals(notification.getFeature())) {
+				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+						if (isActive()) {
+							refreshVisuals();
+						}
+					}
+				});
+			}
 		}
 
 	}
@@ -431,6 +442,16 @@ public abstract class ECEditPart<F extends IFigure> extends AbstractEditPart imp
 
 		@Override
 		public void notifyChanged(Notification notification) {
+			if (ComponentPackage.eINSTANCE.getExecutionContext_StateL().equals(notification.getFeature())) {
+				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+						if (isActive()) {
+							refreshVisuals();
+						}
+					}
+				});
+			}
 		}
 
 	}
