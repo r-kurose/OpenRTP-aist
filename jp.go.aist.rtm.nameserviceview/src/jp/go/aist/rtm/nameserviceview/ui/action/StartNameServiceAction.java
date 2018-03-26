@@ -2,6 +2,7 @@ package jp.go.aist.rtm.nameserviceview.ui.action;
 
 import java.io.IOException;
 
+import jp.go.aist.rtm.nameserviceview.model.manager.NameServerContext;
 import jp.go.aist.rtm.nameserviceview.model.manager.NameServerManager;
 import jp.go.aist.rtm.nameserviceview.ui.dialog.PasswordDialog;
 import jp.go.aist.rtm.nameserviceview.ui.views.nameserviceview.NameServiceView;
@@ -52,7 +53,16 @@ public class StartNameServiceAction implements IViewActionDelegate {
 			}
 		}
 		/////
-		NameServerManager.eInstance.addNameServer("localhost");
+		//ネームサーバーの登録を複数回試行
+		for(int index=0; index<10; index++) {
+			NameServerContext server = NameServerManager.eInstance.addNameServer("localhost");
+			if(server!=null) break;
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		NameServerManager.eInstance.refreshAll();
 	}
 
