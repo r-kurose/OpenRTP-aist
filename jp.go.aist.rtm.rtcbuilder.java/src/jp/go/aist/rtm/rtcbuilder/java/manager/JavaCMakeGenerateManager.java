@@ -63,6 +63,33 @@ public class JavaCMakeGenerateManager extends CMakeGenerateManager {
 		String infile = "cmake/CMakeLists.txt.vsl";
 		return generateJava(infile, outfile, contextMap);
 	}
+	
+	public GeneratedResult generateModulesJavaCompile(
+			Map<String, Object> contextMap) {
+		String outfile = "cmake_modules/cmake_javacompile.cmake.in";
+		String infile = "cmake/cmake_javacompile.cmake.in.vsl";
+		return generateJava(infile, outfile, contextMap);
+	}
+
+	// 1.0系 (CMake/doc)
+	public GeneratedResult generateDocCMakeLists(Map<String, Object> contextMap) {
+//		String outfile = "doc/CMakeLists.txt";
+//		String infile = "cmake/doc/DocCMakeLists.txt.vsl";
+//		GeneratedResult result = generateJava(infile, outfile, contextMap); 
+//		result.setNotBom(true);
+//		return result;
+		return new GeneratedResult();
+	}
+	
+	@Override
+	public GeneratedResult generateDocConfPy(Map<String, Object> contextMap) {
+		return new GeneratedResult();
+	}
+
+	@Override
+	public GeneratedResult generateDoxyfile(Map<String, Object> contextMap) {
+		return new GeneratedResult();
+	}
 
 	@Override
 	public GeneratedResult generateSrcCMakeLists(Map<String, Object> contextMap) {
@@ -79,22 +106,16 @@ public class JavaCMakeGenerateManager extends CMakeGenerateManager {
 		return new GeneratedResult();
 	}
 	
-	public GeneratedResult generateModulesJavaCompile(
-			Map<String, Object> contextMap) {
-		String outfile = "cmake_modules/cmake_javacompile.cmake.in";
-		String infile = "cmake/cmake_javacompile.cmake.in.vsl";
-		return generateJava(infile, outfile, contextMap);
+	@Override
+	public GeneratedResult generateDocIndex(Map<String, Object> contextMap) {
+		return new GeneratedResult();
+	}
+	@Override
+	public GeneratedResult generateDocIndexJ(Map<String, Object> contextMap) {
+		return new GeneratedResult();
 	}
 
-	// 1.0系 (CMake/doc)
-	public GeneratedResult generateDocCMakeLists(Map<String, Object> contextMap) {
-		String outfile = "doc/CMakeLists.txt";
-		String infile = "cmake/doc/DocCMakeLists.txt.vsl";
-		GeneratedResult result = generateJava(infile, outfile, contextMap); 
-		result.setNotBom(true);
-		return result;
-	}
-	
+
 	// 1.0系 (CMake/cpack_resources)
 	public GeneratedResult generateJava(String infile, String outfile,
 			Map<String, Object> contextMap) {
