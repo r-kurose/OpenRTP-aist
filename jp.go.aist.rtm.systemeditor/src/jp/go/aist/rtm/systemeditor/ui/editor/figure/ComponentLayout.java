@@ -400,15 +400,13 @@ public class ComponentLayout extends XYLayout {
 
 	@Override
 	public Dimension getMinimumSize(IFigure container, int wHint, int hHint) {
-		int portCount = Math.max(this.outportLayouter.getChildCount(container),
-				this.inportLayouter.getChildCount(container));
-		int ecCount = Math.max(this.ownEcLayouter.getChildCount(container),
-				this.partEcLayouter.getChildCount(container));
+		int portCount = Math.max(this.outportLayouter.getChildCount(container), this.inportLayouter.getChildCount(container));
+		int ecCount = Math.max(this.ownEcLayouter.getChildCount(container), this.partEcLayouter.getChildCount(container));
+		portCount = Math.max(portCount, 1);
+		ecCount = Math.max(ecCount, 1);
 
-		int height = ComponentEditPart.NONE_SPACE * 2 + MIN_HEIGHT
-				+ MIN_Component_INTERVAL * (portCount - 1);
-		int width = ComponentEditPart.PORT_SPACE * 2 + MIN_WIDTH
-				+ MIN_Component_INTERVAL * (ecCount - 1);
+		int height = ComponentEditPart.NONE_SPACE * 2 + MIN_HEIGHT + MIN_Component_INTERVAL * (portCount - 1);
+		int width = ComponentEditPart.PORT_SPACE * 2 + MIN_WIDTH + MIN_Component_INTERVAL * (ecCount - 1);
 
 		width = Math.max(width, 111);
 
