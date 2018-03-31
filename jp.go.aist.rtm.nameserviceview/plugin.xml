@@ -33,7 +33,7 @@
 			targetID="jp.go.aist.rtm.nameserviceview.ui.views.nameserviceview.NameServiceView">        
 			<action
 				class="jp.go.aist.rtm.nameserviceview.ui.action.StartManagerAction"
-				icon="icons/StartNS.png"
+				icon="icons/StartManager.png"
 				id="jp.go.aist.rtm.nameserviceview.ui.action.StartManager"
 				label="%Start_Manager"
 				menubarPath="additions"
