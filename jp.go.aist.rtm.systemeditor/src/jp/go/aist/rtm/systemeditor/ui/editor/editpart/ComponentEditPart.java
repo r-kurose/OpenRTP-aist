@@ -14,9 +14,8 @@ import jp.go.aist.rtm.systemeditor.manager.ComponentIconStore;
 import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
 import jp.go.aist.rtm.systemeditor.ui.action.OpenCompositeComponentAction;
 import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
+import jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramStore;
 import jp.go.aist.rtm.systemeditor.ui.editor.action.ChangeComponentDirectionAction;
-import jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECEditPart.OwnEC;
-import jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECEditPart.PartEC;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpart.direct.NameCellEditorLocator;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpart.direct.NameDirectEditManager;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.ChangeDirectionEditPolicy;
@@ -235,8 +234,10 @@ public class ComponentEditPart extends AbstractEditPart {
 				component.eAdapters().add(this);
 			}
 		}
-		SystemEditorPreferenceManager.getInstance().addPropertyChangeListener(
-				preferenceChangeListener);
+		SystemEditorPreferenceManager.getInstance().addPropertyChangeListener(preferenceChangeListener);
+		//
+		SystemDiagramStore store = SystemDiagramStore.instance((SystemDiagram) getParent().getModel());
+		store.eAdapters().add(this);
 	}
 
 	@Override
@@ -249,8 +250,10 @@ public class ComponentEditPart extends AbstractEditPart {
 				component.eAdapters().remove(this);
 			}
 		}
-		SystemEditorPreferenceManager.getInstance()
-				.removePropertyChangeListener(preferenceChangeListener);
+		SystemEditorPreferenceManager.getInstance().removePropertyChangeListener(preferenceChangeListener);
+		//
+		SystemDiagramStore store = SystemDiagramStore.instance((SystemDiagram) getParent().getModel());
+		store.eAdapters().remove(this);
 	}
 
 	@Override
@@ -396,9 +399,8 @@ public class ComponentEditPart extends AbstractEditPart {
 
 	@Override
 	public void notifyChanged(Notification notification) {
-//		LOGGER.trace("notifyChanged: feature=<{}>", notification.getFeature());
-		if (ComponentPackage.eINSTANCE.getComponent_Components().equals(
-				notification.getFeature())) {
+		// LOGGER.trace("notifyChanged: feature=<{}>", notification.getFeature());
+		if (ComponentPackage.eINSTANCE.getComponent_Components().equals(notification.getFeature())) {
 			if (notification.getEventType() == Notification.ADD) {
 				Component component = (Component) notification.getNewValue();
 				component.eAdapters().add(this);
@@ -408,33 +410,24 @@ public class ComponentEditPart extends AbstractEditPart {
 					}
 				}
 			} else if (notification.getEventType() == Notification.REMOVE) {
-				((Component) notification.getOldValue()).eAdapters().remove(
-						this);
+				((Component) notification.getOldValue()).eAdapters().remove(this);
 			}
 			refreshComponent();
 			((SystemDiagramEditPart) getParent()).refreshSystemDiagram();
-		} else if (ComponentPackage.eINSTANCE
-				.getCorbaComponent_ComponentState().equals(
-						notification.getFeature())) {
+		} else if (ComponentPackage.eINSTANCE.getCorbaComponent_ComponentState().equals(notification.getFeature())) {
 			refreshComponent();
-		} else if (CorePackage.eINSTANCE.getModelElement_Constraint().equals(
-				notification.getFeature())
-				|| ComponentPackage.eINSTANCE
-						.getComponent_PrimaryExecutionContext().equals(
-								notification.getFeature())
-				|| ComponentPackage.eINSTANCE.getComponent_ExecutionContexts()
-						.equals(notification.getFeature())
-				|| ComponentPackage.eINSTANCE
-						.getComponent_ParticipationContexts().equals(
-								notification.getFeature())
-				|| ComponentPackage.eINSTANCE.getComponent_OutportDirection()
-						.equals(notification.getFeature())) {
+		} else if (CorePackage.eINSTANCE.getModelElement_Constraint().equals(notification.getFeature())
+				|| ComponentPackage.eINSTANCE.getComponent_OutportDirection().equals(notification.getFeature())) {
 			refreshComponent();
-		} else if (ComponentPackage.eINSTANCE.getComponent_Ports().equals(
-				notification.getFeature())) {
+		} else if (((notification.getNotifier() instanceof SystemDiagramStore) && SystemDiagramStore.F_DISPLAY_EC_TAB
+				.equals(notification.getFeature()))
+				|| ComponentPackage.eINSTANCE.getComponent_PrimaryExecutionContext().equals(notification.getFeature())
+				|| ComponentPackage.eINSTANCE.getComponent_ExecutionContexts().equals(notification.getFeature())
+				|| ComponentPackage.eINSTANCE.getComponent_ParticipationContexts().equals(notification.getFeature())) {
+			refreshComponentWithEC();
+		} else if (ComponentPackage.eINSTANCE.getComponent_Ports().equals(notification.getFeature())) {
 			refreshComponent2();
-		} else if (ComponentPackage.eINSTANCE.getComponent_InstanceNameL()
-				.equals(notification.getFeature())) {
+		} else if (ComponentPackage.eINSTANCE.getComponent_InstanceNameL().equals(notification.getFeature())) {
 			if (notification.getEventType() == Notification.SET) {
 				componentLabel.setText(notification.getNewStringValue());
 			}
@@ -450,7 +443,29 @@ public class ComponentEditPart extends AbstractEditPart {
 			public void run() {
 				if (isActive()) {
 					refresh();
-					refreshChildren();
+					getFigure().invalidate();
+				}
+			}
+		});
+	}
+
+	private void refreshComponentWithEC() {
+		LOGGER.trace("refreshComponent");
+		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				if (isActive()) {
+					refresh();
+					@SuppressWarnings("unchecked")
+					List<?> childList = new ArrayList<>(getChildren());
+					for (Object o : childList) {
+						if (o instanceof ECEditPart.OwnECEditPart) {
+							refreshECEditPart((ECEditPart.OwnECEditPart) o);
+						}
+						if (o instanceof ECEditPart.PartECEditPart) {
+							refreshECEditPart((ECEditPart.PartECEditPart) o);
+						}
+					}
 					getFigure().invalidate();
 				}
 			}
@@ -562,6 +577,35 @@ public class ComponentEditPart extends AbstractEditPart {
 		});
 	}
 
+	/**
+	 * ECタブの表示を更新します。
+	 * 
+	 * @param part
+	 */
+	public void refreshECEditPart(final ECEditPart<?, ?> part) {
+		LOGGER.trace("refreshECEditPart: part={}", part);
+		Object model = part.getModel();
+		List<?> children = getModelChildren();
+		int index = children.indexOf(model);
+
+		setFocus(false);
+		removeChild(part);
+		if (index != -1) {
+			EditPart editPart = createChild(model);
+			addChild(editPart, index);
+			setFocus(true);
+		}
+		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				setFocus(false);
+			}
+		});
+	}
+
+	private Map<ExecutionContext, ECEditPart.OwnEC> ownEcMap = new HashMap<>();
+	private Map<ExecutionContext, ECEditPart.PartEC> partEcMap = new HashMap<>();
+
 	@Override
 	protected List<?> getModelChildren() {
 		List<Object> result = new ArrayList<>();
@@ -571,12 +615,36 @@ public class ComponentEditPart extends AbstractEditPart {
 		result.addAll(getModel().getInports());
 		result.addAll(getModel().getServiceports());
 		//
-		for (ExecutionContext ec : getModel().getExecutionContexts()) {
-			result.add(new OwnEC(ec));
+		{
+			List<ExecutionContext> trash = new ArrayList<>(this.ownEcMap.keySet());
+			for (ExecutionContext ec : getModel().getExecutionContexts()) {
+				ECEditPart.OwnEC part = this.ownEcMap.get(ec);
+				if (part == null) {
+					part = new ECEditPart.OwnEC(ec);
+					this.ownEcMap.put(ec, part);
+				}
+				result.add(part);
+				trash.remove(ec);
+			}
+			for (ExecutionContext ec : trash) {
+				this.ownEcMap.remove(ec);
+			}
 		}
 		//
-		for (ExecutionContext ec : getModel().getParticipationContexts()) {
-			result.add(new PartEC(ec));
+		{
+			List<ExecutionContext> trash = new ArrayList<>(this.partEcMap.keySet());
+			for (ExecutionContext ec : getModel().getParticipationContexts()) {
+				ECEditPart.PartEC part = this.partEcMap.get(ec);
+				if (part == null) {
+					part = new ECEditPart.PartEC(ec);
+					this.partEcMap.put(ec, part);
+				}
+				result.add(part);
+				trash.remove(ec);
+			}
+			for (ExecutionContext ec : trash) {
+				this.partEcMap.remove(ec);
+			}
 		}
 		return result;
 	}

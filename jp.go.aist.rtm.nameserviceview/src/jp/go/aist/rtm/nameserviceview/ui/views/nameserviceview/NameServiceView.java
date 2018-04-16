@@ -10,7 +10,9 @@ import jp.go.aist.rtm.nameserviceview.model.manager.NameServerManager;
 import jp.go.aist.rtm.nameserviceview.model.manager.Node;
 import jp.go.aist.rtm.nameserviceview.model.manager.impl.NameServerManagerImpl;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
+import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
 import jp.go.aist.rtm.toolscommon.ui.views.propertysheetview.RtcPropertySheetPage;
+import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;

@@ -174,8 +174,7 @@ public class ComponentLayout extends XYLayout {
 		 * @return
 		 */
 		public Rectangle getLocation(IFigure parent, IFigure child) {
-			LOGGER.trace("getLocation: parent={} child={}", parent.getClass(),
-					child.getClass());
+			// LOGGER.trace("getLocation: parent={} child={}", parent.getClass(), child.getClass());
 
 			Rectangle bounds = child.getBounds().getCopy();
 			Point offset = this.layout.getOrigin(parent);
@@ -186,10 +185,8 @@ public class ComponentLayout extends XYLayout {
 			int childIndex = getChildIndex(parent, child);
 
 			Spec spec = getSpec();
-			LOGGER.trace(
-					"getLocation: bounds={} offset={} client={} childDirection={} h_spase={} v_space={}",
-					bounds, offset, clientArea, direction, spec.h_space,
-					spec.v_space);
+			// LOGGER.trace("getLocation: bounds={} offset={} client={} childDirection={} h_spase={} v_space={}", bounds, offset,
+			// clientArea, direction, spec.h_space, spec.v_space);
 
 			if (direction.equals(OUTPORT_DIRECTION_LEFT_LITERAL)) {
 				// 子要素:左向き

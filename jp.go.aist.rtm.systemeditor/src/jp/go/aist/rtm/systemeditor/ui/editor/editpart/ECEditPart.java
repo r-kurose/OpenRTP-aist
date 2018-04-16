@@ -1,5 +1,7 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.editpart;
 
+import static jp.go.aist.rtm.systemeditor.ui.util.RTMixin.to_cid;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -8,14 +10,13 @@ import java.util.List;
 import java.util.Map;
 
 import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
+import jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramStore;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.ECSelectionEditPolicy;
 import jp.go.aist.rtm.systemeditor.ui.editor.figure.ECFigure;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
-import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
@@ -34,22 +35,23 @@ import org.slf4j.LoggerFactory;
 /**
  * ECの EditPartを表します。
  * 
+ * @param <M>
  * @param <F>
  */
-public abstract class ECEditPart<F extends IFigure> extends AbstractEditPart implements NodeEditPart {
+public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFigure> extends AbstractEditPart implements
+		NodeEditPart {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ECEditPart.class);
 
 	public ECEditPart(ActionRegistry actionRegistry) {
 		super(actionRegistry);
-		LOGGER.trace("new: actionRegistry=<{}>", actionRegistry);
+		LOGGER.trace("new: actionRegistry=<{}>", to_cid(actionRegistry));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public abstract ExecutionContext getModel();
-
-	protected Object getWrappedModel() {
-		return super.getModel();
+	public M getModel() {
+		return (M) super.getModel();
 	}
 
 	@Override
@@ -74,9 +76,10 @@ public abstract class ECEditPart<F extends IFigure> extends AbstractEditPart imp
 
 	@Override
 	protected void refreshVisuals() {
-		getFigure().setBackgroundColor(ColorHelper.getECBodyColor(getModel()));
-		getFigure().setForegroundColor(ColorHelper.getECBorderColor(getModel()));
-		getFigure().setToolTip(ToolTipHelper.getECToolTip(getModel()));
+		LOGGER.trace("refreshVisuals: this=<{}> model=<{}>", to_cid(this), to_cid(getModel()));
+		getFigure().setBackgroundColor(ColorHelper.getECBodyColor(getModel().getModel()));
+		getFigure().setForegroundColor(ColorHelper.getECBorderColor(getModel().getModel()));
+		getFigure().setToolTip(ToolTipHelper.getECToolTip(getModel().getModel()));
 	}
 
 	private boolean invalid = false;
@@ -99,6 +102,7 @@ public abstract class ECEditPart<F extends IFigure> extends AbstractEditPart imp
 	public void activate() {
 		LOGGER.trace("activate");
 		super.activate();
+		getModel().getModel().eAdapters().add(this);
 		SystemEditorPreferenceManager.getInstance().addPropertyChangeListener(preferenceChangeListener);
 	}
 
@@ -106,6 +110,7 @@ public abstract class ECEditPart<F extends IFigure> extends AbstractEditPart imp
 	public void deactivate() {
 		LOGGER.trace("deactivate");
 		super.deactivate();
+		getModel().getModel().eAdapters().remove(this);
 		SystemEditorPreferenceManager.getInstance().removePropertyChangeListener(preferenceChangeListener);
 	}
 
@@ -124,123 +129,88 @@ public abstract class ECEditPart<F extends IFigure> extends AbstractEditPart imp
 		}
 	}
 
+	/**
+	 * 関連ECをダイアグラムから検索します。
+	 */
 	public static class ECFinder {
 
-		private ExecutionContext ec;
-		private Component comp;
-		private SystemDiagram diagram;
+		private OwnEC ownEc;
+		private OwnECEditPart ownPart;
+		private PartEC partEc;
+		private PartECEditPart partPart;
 
-		public ECFinder(ExecutionContext ec) {
-			this.ec = ec;
-			getDiagram();
+		ECFinder(OwnEC ec, OwnECEditPart part) {
+			this.ownEc = ec;
+			this.ownPart = part;
 		}
 
-		public Component getComponent() {
-			if (this.comp != null) {
-				return this.comp;
-			}
-			if (this.ec == null || !(this.ec.eContainer() instanceof Component)) {
+		ECFinder(PartEC ec, PartECEditPart part) {
+			this.partEc = ec;
+			this.partPart = part;
+		}
+
+		public OwnEC getOwnedEC() {
+			if (this.partEc == null || this.partPart == null) {
 				return null;
-			}
-			this.comp = (Component) this.ec.eContainer();
-			return this.comp;
-		}
-
-		public SystemDiagram getDiagram() {
-			if (this.diagram != null) {
-				return this.diagram;
-			}
-			Component comp = getComponent();
-			if (comp == null) {
-				return null;
-			}
-			if (comp == null || !(comp.eContainer() instanceof SystemDiagram)) {
-				return null;
-			}
-			this.diagram = (SystemDiagram) comp.eContainer();
-			return this.diagram;
-		}
-
-		public boolean isOwnedEC() {
-			Component comp = getComponent();
-			if (comp == null) {
-				return false;
-			}
-			return comp.getExecutionContextHandler().getId(this.ec) != null;
-		}
-
-		public boolean isPartEC() {
-			Component comp = getComponent();
-			if (comp == null) {
-				return false;
-			}
-			return comp.getParticipationContextHandler().getId(this.ec) != null;
-		}
-
-		public List<ExecutionContext> getPartECList() {
-			List<ExecutionContext> ret = new ArrayList<>();
-			if (!isOwnedEC()) {
-				return ret;
-			}
-			for (Component c : this.ec.getParticipants()) {
-				if (!this.diagram.getComponents().contains(c)) {
-					continue;
-				}
-				for (ExecutionContext pe : c.getParticipationContexts()) {
-					if (this.comp.equals(pe.getOwner())) {
-						ret.add(pe);
-					}
-				}
-			}
-			return ret;
-		}
-
-		public ExecutionContext getOwnedEC() {
-			if (!isPartEC()) {
-				return null;
-			}
-			Component oc = this.ec.getOwner();
-			if (!this.diagram.getComponents().contains(oc)) {
-				return null;
-			}
-			for (ExecutionContext oe : oc.getExecutionContexts()) {
-				if (oe.getParticipants().contains(this.comp)) {
-					return oe;
-				}
 			}
 			return null;
 		}
 
+		public List<PartEC> getPartECList() {
+			List<PartEC> ret = new ArrayList<PartEC>();
+			if (this.ownEc == null || this.ownPart == null) {
+				return ret;
+			}
+			return ret;
+		}
+
+		boolean eqlByRemote(Component c1, Component c2) {
+			if (c1 == null || !(c1 instanceof CorbaComponent)) {
+				return false;
+			}
+			if (c2 == null || !(c2 instanceof CorbaComponent)) {
+				return false;
+			}
+			CorbaComponent cc1 = (CorbaComponent) c1;
+			CorbaComponent cc2 = (CorbaComponent) c2;
+			return (cc1.getCorbaObjectInterface() != null && cc1.getCorbaObjectInterface().equals(cc2.getCorbaObjectInterface()));
+		}
 	}
 
 	@Override
 	protected List<?> getModelTargetConnections() {
 		List<ECConnectionEditPart.ECConnection> ret = new ArrayList<>();
-
-		ECFinder finder = new ECFinder(getModel());
-		ExecutionContext oe = finder.getOwnedEC();
-		if (oe != null) {
-			ret.add(new ECConnectionEditPart.ECConnection(oe, getModel()));
+		if (!(getModel() instanceof PartEC)) {
+			return ret;
 		}
-
+		LOGGER.trace("getModelTargetConnections: this=<{}> model=<{}>", to_cid(this), to_cid(getModel()));
+		ECFinder finder = new ECFinder((PartEC) getModel(), (PartECEditPart) this);
+		OwnEC oe = finder.getOwnedEC();
+		if (oe != null) {
+			LOGGER.trace("getModelTargetConnections:  source=<{}>", to_cid(oe));
+			ret.add(new ECConnectionEditPart.ECConnection(oe, (PartEC) getModel()));
+		}
 		return ret;
 	}
 
 	@Override
 	protected List<?> getModelSourceConnections() {
 		List<ECConnectionEditPart.ECConnection> ret = new ArrayList<>();
-
-		ECFinder finder = new ECFinder(getModel());
-		for (ExecutionContext pe : finder.getPartECList()) {
-			ret.add(new ECConnectionEditPart.ECConnection(getModel(), pe));
+		if (!(getModel() instanceof OwnEC)) {
+			return ret;
 		}
-
+		LOGGER.trace("getModelSourceConnections: this=<{}> model=<{}>", to_cid(this), to_cid(getModel()));
+		ECFinder finder = new ECFinder((OwnEC) getModel(), (OwnECEditPart) this);
+		for (PartEC pe : finder.getPartECList()) {
+			LOGGER.trace("getModelSourceConnections:  target=<{}>", to_cid(pe));
+			ret.add(new ECConnectionEditPart.ECConnection((OwnEC) getModel(), pe));
+		}
 		return ret;
 	}
 
 	@Override
 	protected void refreshSourceConnections() {
-		LOGGER.trace("refreshSourceConnections: this=<{}>", getModel());
+		LOGGER.trace("refreshSourceConnections: this=<{}> model=<{}>", to_cid(this), to_cid(getModel()));
 
 		Map<Object, ConnectionEditPart> modelToEditPart = new HashMap<>();
 		List<?> editParts = getSourceConnections();
@@ -276,7 +246,7 @@ public abstract class ECEditPart<F extends IFigure> extends AbstractEditPart imp
 
 	@Override
 	protected void refreshTargetConnections() {
-		LOGGER.trace("refreshTargetConnections: this=<{}>", getModel());
+		LOGGER.trace("refreshTargetConnections: this=<{}> model=<{}>", to_cid(this), to_cid(getModel()));
 
 		Map<Object, ConnectionEditPart> mapModelToEditPart = new HashMap<>();
 		List<?> connections = getTargetConnections();
@@ -309,37 +279,48 @@ public abstract class ECEditPart<F extends IFigure> extends AbstractEditPart imp
 		}
 	}
 
+	/** 選択中の ECの場合は true */
+	public boolean isPrimary() {
+		CorbaComponent comp = (CorbaComponent) getModel().getModel().eContainer();
+		if (comp == null) {
+			return false;
+		}
+		CorbaExecutionContext cec = (CorbaExecutionContext) getModel().getModel();
+		return cec == comp.getPrimaryExecutionContext();
+	}
+
+	/** ECタブの表示が有効の場合は true */
+	public boolean showECTab() {
+		SystemDiagramEditPart diagram = (SystemDiagramEditPart) this.getParent().getParent();
+		SystemDiagramStore store = SystemDiagramStore.instance(diagram.getModel());
+		String value = store.get(SystemDiagramStore.ID_DISPLAY_EC_TAB);
+		return "true".equals(value);
+	}
+
 	/**
 	 * Owned EC の EditPart
 	 */
-	public static class OwnECEditPart extends ECEditPart<ECFigure.OwnECFigure> {
+	public static class OwnECEditPart extends ECEditPart<OwnEC, ECFigure.OwnECFigure> {
 
 		public OwnECEditPart(ActionRegistry actionRegistry) {
 			super(actionRegistry);
 		}
 
 		@Override
-		public ExecutionContext getModel() {
-			return (ExecutionContext) ((ECEditPart.OwnEC) super.getWrappedModel()).getModel();
+		public OwnEC getModel() {
+			return (OwnEC) super.getModel();
 		}
 
 		@Override
 		protected IFigure createFigure() {
 			LOGGER.trace("createFigure");
-
 			IFigure result = new ECFigure.OwnECFigure(getModel());
-
-			// 代表EC の場合は選択中として描画
-			CorbaComponent comp = (CorbaComponent) getModel().eContainer();
-			if (comp != null) {
-				CorbaExecutionContext cec = (CorbaExecutionContext) getModel();
-				if (cec == comp.getPrimaryExecutionContext()) {
-					result = new ECFigure.SelectedOwnECFigure(getModel());
-				}
+			if (!showECTab()) {
+				result = new ECFigure.HiddenOwnECFigure(getModel());
+			} else if (isPrimary()) {
+				result = new ECFigure.SelectedOwnECFigure(getModel());
 			}
-
 			result.setLocation(new Point(0, 0));
-
 			return result;
 		}
 
@@ -369,16 +350,14 @@ public abstract class ECEditPart<F extends IFigure> extends AbstractEditPart imp
 
 		@Override
 		public void notifyChanged(Notification notification) {
-			if (ComponentPackage.eINSTANCE.getExecutionContext_StateL().equals(notification.getFeature())) {
-				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-					@Override
-					public void run() {
-						if (isActive()) {
-							refreshVisuals();
-						}
+			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					if (isActive()) {
+						refresh();
 					}
-				});
-			}
+				}
+			});
 		}
 
 	}
@@ -386,32 +365,26 @@ public abstract class ECEditPart<F extends IFigure> extends AbstractEditPart imp
 	/**
 	 * Participant ECの EditPartを表します。
 	 */
-	public static class PartECEditPart extends ECEditPart<ECFigure.PartECFigure> {
+	public static class PartECEditPart extends ECEditPart<PartEC, ECFigure.PartECFigure> {
 
 		public PartECEditPart(ActionRegistry actionRegistry) {
 			super(actionRegistry);
 		}
 
 		@Override
-		public ExecutionContext getModel() {
-			return (ExecutionContext) ((ECEditPart.PartEC) super.getWrappedModel()).getModel();
+		public PartEC getModel() {
+			return (PartEC) super.getModel();
 		}
 
 		@Override
 		protected IFigure createFigure() {
 			LOGGER.trace("createFigure");
-
 			IFigure result = new ECFigure.PartECFigure(getModel());
-
-			// 代表EC の場合は選択中として描画
-			CorbaComponent comp = (CorbaComponent) getModel().eContainer();
-			if (comp != null) {
-				CorbaExecutionContext cec = (CorbaExecutionContext) getModel();
-				if (cec == comp.getPrimaryExecutionContext()) {
-					result = new ECFigure.SelectedPartECFigure(getModel());
-				}
+			if (!showECTab()) {
+				result = new ECFigure.HiddenPartECFigure(getModel());
+			} else if (isPrimary()) {
+				result = new ECFigure.SelectedPartECFigure(getModel());
 			}
-
 			result.setLocation(new Point(0, 0));
 			return result;
 		}
@@ -442,16 +415,26 @@ public abstract class ECEditPart<F extends IFigure> extends AbstractEditPart imp
 
 		@Override
 		public void notifyChanged(Notification notification) {
-			if (ComponentPackage.eINSTANCE.getExecutionContext_StateL().equals(notification.getFeature())) {
-				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-					@Override
-					public void run() {
-						if (isActive()) {
-							refreshVisuals();
-						}
+			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					if (isActive()) {
+						refresh();
+						refreshVisuals();
+						refreshTargetConnections();
 					}
-				});
-			}
+				}
+			});
+		}
+
+	}
+
+	public static class AbstractEC {
+
+		protected ExecutionContext ec;
+
+		public ExecutionContext getModel() {
+			return this.ec;
 		}
 
 	}
@@ -460,16 +443,10 @@ public abstract class ECEditPart<F extends IFigure> extends AbstractEditPart imp
 	 * Owned ECのモデルのラッパを表します。<br>
 	 * ※モデル上は Owned/Participantの ECに違いはなく、Componentの関連によって決まるが、 モデルと EditPartの対応付けで別クラスにする必要があり、ここでラップクラスを設けます。
 	 */
-	public static class OwnEC {
-
-		private ExecutionContext ec;
+	public static class OwnEC extends AbstractEC {
 
 		public OwnEC(ExecutionContext ec) {
 			this.ec = ec;
-		}
-
-		public ExecutionContext getModel() {
-			return this.ec;
 		}
 
 	}
@@ -478,16 +455,10 @@ public abstract class ECEditPart<F extends IFigure> extends AbstractEditPart imp
 	 * Participant ECのモデルのラッパを表します。<br>
 	 * ※モデル上は Owned/Participantの ECに違いはなく、Componentの関連によって決まるが、 モデルと EditPartの対応付けで別クラスにする必要があり、ここでラップクラスを設けます。
 	 */
-	public static class PartEC {
-
-		private ExecutionContext ec;
+	public static class PartEC extends AbstractEC {
 
 		public PartEC(ExecutionContext ec) {
 			this.ec = ec;
-		}
-
-		public ExecutionContext getModel() {
-			return this.ec;
 		}
 
 	}

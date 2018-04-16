@@ -1,5 +1,7 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.editpolicy;
 
+import static jp.go.aist.rtm.systemeditor.ui.util.RTMixin.to_cid;
+import jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECEditPart;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 
@@ -21,19 +23,20 @@ public class ECSelectionEditPolicy extends SelectionEditPolicy {
 
 	@Override
 	protected void hideSelection() {
-		LOGGER.debug("hideSelection: host={} model={}", getHost(), getHost().getModel());
+		LOGGER.debug("hideSelection: host={} model={}", to_cid(getHost()), to_cid(getHost().getModel()));
 	}
 
 	@Override
 	protected void showSelection() {
-		LOGGER.debug("showSelection: host={} model={}", getHost(), getHost().getModel());
+		LOGGER.debug("showSelection: host={} model={}", to_cid(getHost()), to_cid(getHost().getModel()));
 
 		if (this.selectionRequest != null) {
 			this.selectionRequest = null;
 			return;
 		}
 
-		ExecutionContext ec = (ExecutionContext) getHost().getModel();
+		ECEditPart.AbstractEC ecWrap = (ECEditPart.AbstractEC) getHost().getModel();
+		ExecutionContext ec = (ExecutionContext) ecWrap.getModel();
 		Component comp = (Component) ec.eContainer();
 
 		if (comp != null) {

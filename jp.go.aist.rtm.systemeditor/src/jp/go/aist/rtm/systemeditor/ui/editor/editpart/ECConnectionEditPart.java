@@ -1,7 +1,7 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.editpart;
 
+import static jp.go.aist.rtm.systemeditor.ui.util.RTMixin.to_cid;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpart.router.EditableManhattanConnectorRouter;
-import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 
 import org.eclipse.draw2d.IFigure;
@@ -13,19 +13,17 @@ import org.slf4j.LoggerFactory;
 
 public class ECConnectionEditPart extends AbstractConnectionEditPart {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(ECConnectionEditPart.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ECConnectionEditPart.class);
 
 	public ECConnectionEditPart(ActionRegistry actionRegistry) {
 		super();
-		LOGGER.trace("new: actionRegistry=<{}>", actionRegistry);
+		LOGGER.trace("new: actionRegistry=<{}>", to_cid(actionRegistry));
 	}
 
 	@Override
 	protected void createEditPolicies() {
 		LOGGER.trace("createEditPolicies");
 		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	@Override
@@ -33,7 +31,7 @@ public class ECConnectionEditPart extends AbstractConnectionEditPart {
 		LOGGER.trace("createFigure");
 		PolylineConnection result = new PolylineConnection();
 		result.setLineWidth(1);
-		result.setLineDash(new float[] { 0.5f, 0.3f });
+		// result.setLineDash(new float[] { 0.5f, 0.3f });
 		result.setConnectionRouter(new EditableManhattanConnectorRouter());
 		return result;
 	}
@@ -42,14 +40,12 @@ public class ECConnectionEditPart extends AbstractConnectionEditPart {
 	public void activate() {
 		LOGGER.trace("activate:");
 		super.activate();
-		// ((ModelElement) getModel()).eAdapters().add(this.modelListener);
 	}
 
 	@Override
 	public void deactivate() {
 		LOGGER.trace("deactivate:");
 		super.deactivate();
-		// ((ModelElement) getModel()).eAdapters().remove(this.modelListener);
 	}
 
 	@Override
@@ -78,27 +74,27 @@ public class ECConnectionEditPart extends AbstractConnectionEditPart {
 	 */
 	public static class ECConnection {
 
-		private ExecutionContext source;
-		private ExecutionContext target;
+		private ECEditPart.OwnEC source;
+		private ECEditPart.PartEC target;
 
-		public ECConnection(ExecutionContext source, ExecutionContext target) {
+		public ECConnection(ECEditPart.OwnEC source, ECEditPart.PartEC target) {
 			this.source = source;
 			this.target = target;
 		}
 
-		public ExecutionContext getSource() {
+		public ECEditPart.OwnEC getSource() {
 			return this.source;
 		}
 
-		public void setSource(ExecutionContext source) {
+		public void setSource(ECEditPart.OwnEC source) {
 			this.source = source;
 		}
 
-		public ExecutionContext getTarget() {
+		public ECEditPart.PartEC getTarget() {
 			return this.target;
 		}
 
-		public void setTarget(ExecutionContext target) {
+		public void setTarget(ECEditPart.PartEC target) {
 			this.target = target;
 		}
 	}

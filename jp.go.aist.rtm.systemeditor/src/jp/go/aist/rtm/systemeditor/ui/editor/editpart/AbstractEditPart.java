@@ -57,13 +57,17 @@ public abstract class AbstractEditPart extends AbstractGraphicalEditPart
 	@Override
 	public void activate() {
 		super.activate();
-		((ModelElement) getModel()).eAdapters().add(this);
+		if (getModel() instanceof ModelElement) {
+			((ModelElement) getModel()).eAdapters().add(this);
+		}
 	}
 
 	@Override
 	public void deactivate() {
 		super.deactivate();
-		((ModelElement) getModel()).eAdapters().remove(this);
+		if (getModel() instanceof ModelElement) {
+			((ModelElement) getModel()).eAdapters().remove(this);
+		}
 	}
 
 	/**

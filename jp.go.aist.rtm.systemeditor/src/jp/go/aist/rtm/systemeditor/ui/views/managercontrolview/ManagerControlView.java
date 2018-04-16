@@ -415,8 +415,11 @@ public class ManagerControlView extends ViewPart {
 		managerList.add(targetManager);
 		for (RTCManager manager : this.targetManager
 				.getSlaveManagersR()) {
-			this.profileList.add(new Profile(manager.getProfileR()));
-			managerList.add(manager);
+			try {
+				this.profileList.add(new Profile(manager.getProfileR()));
+				managerList.add(manager);
+			} catch (Exception ex) {
+			}
 		}
 		this.modulesTableViewer.setInput(this.profileList);
 	}

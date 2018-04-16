@@ -20,7 +20,7 @@
 		<editpart seq="400" targetclass="jp.go.aist.rtm.toolscommon.model.component.PortConnector" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.PortConnectorEditPart" />
 		<editpart seq="600" targetclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECEditPart$OwnEC" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECEditPart$OwnECEditPart" />
 		<editpart seq="610" targetclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECEditPart$PartEC" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECEditPart$PartECEditPart" />
-		<editpart seq="620" targetclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECConnectionEditPart" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECConnectionEditPart$ECConnection" />
+		<editpart seq="620" targetclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECConnectionEditPart$ECConnection" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECConnectionEditPart" />
 		<editpart seq="1000" targetclass="jp.go.aist.rtm.toolscommon.model.component.Component" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart" />
 		<editpart seq="1500" targetclass="jp.go.aist.rtm.toolscommon.model.component.SystemDiagram" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.SystemDiagramEditPart" />
 	</extension>
@@ -108,6 +108,22 @@
 		<editorContribution
 			targetID="jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor"
 			id="jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor.editorActions">
+			<action id="jp.go.aist.rtm.systemeditor.ui.action.ECAction.HideECTab" 
+				label="%Hide_ECTab" 
+				toolbarPath="additionsDisp" 
+				icon="icons/hide_ec_tab.png" 
+				tooltip="%Hide_ECTab" 
+				helpContextId=""
+				class="jp.go.aist.rtm.systemeditor.ui.action.ECActionDelegate"> 
+			</action>	         
+			<action id="jp.go.aist.rtm.systemeditor.ui.action.ECAction.ShowECTab" 
+				label="%Show_ECTab" 
+				toolbarPath="additionsDisp" 
+				icon="icons/show_ec_tab.png" 
+				tooltip="%Show_ECTab" 
+				helpContextId=""
+				class="jp.go.aist.rtm.systemeditor.ui.action.ECActionDelegate"> 
+			</action>	         
 			<action id="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate.AllExit" 
 				label="%All_Exit" 
 				toolbarPath="additions" 
