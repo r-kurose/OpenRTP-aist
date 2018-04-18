@@ -91,7 +91,7 @@ ECLIPSE_DIRS="$HOME/eclipse $HOME ../ ../../ ../..//usr/lib/ /usr/share"
 # Eclipse SDK package information
 #ECLIPSE_VERSION="R-3.8-201206081200"
 #true ${ECLIPSE_VERSION:="R-4.4.2-201502041700"}
-true ${ECLIPSE_VERSION:="R-4.7.2-201711300510"}
+true ${ECLIPSE_VERSION:="R-4.7.3-201803010715"}
 #true ${DOWNLOAD_SITE:="http://ftp.jaist.ac.jp/pub/eclipse/eclipse/downloads/drops/${ECLIPSE_VERSION}"}
 true ${DOWNLOAD_SITE:="file:///home/openrtm/public_html/pub/eclipse/packages/"}
 ECLIPSE_SHORTVER=`echo $ECLIPSE_VERSION | awk 'BEGIN{FS="-";}{print $2;}'`
