@@ -12,11 +12,13 @@ import java.util.Map;
 import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
 import jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramStore;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.ECSelectionEditPolicy;
+import jp.go.aist.rtm.systemeditor.ui.editor.figure.ECAnchor;
 import jp.go.aist.rtm.systemeditor.ui.editor.figure.ECFigure;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
@@ -61,7 +63,7 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 	}
 
 	@Override
-	public IFigure getFigure() {
+	public ECFigure getFigure() {
 		if (this.invalid) {
 			setInvalid(false);
 			IFigure newFig = createFigure();
@@ -69,9 +71,9 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 				newFig.setParent(this.figure.getParent());
 			}
 			setFigure(newFig);
-			return this.figure;
+			return (ECFigure) this.figure;
 		}
-		return super.getFigure();
+		return (ECFigure) super.getFigure();
 	}
 
 	@Override
@@ -138,32 +140,118 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 		private OwnECEditPart ownPart;
 		private PartEC partEc;
 		private PartECEditPart partPart;
+		//
+		private ComponentEditPart compPart;
+		private SystemDiagramEditPart diagramPart;
+		private Map<String, ECConnectionEditPart.ECConnection> connMap = null;
 
+		// OwnEC を起点とする場合
 		ECFinder(OwnEC ec, OwnECEditPart part) {
 			this.ownEc = ec;
 			this.ownPart = part;
+			//
+			this.compPart = (ComponentEditPart) this.ownPart.getParent();
+			initConnMap();
 		}
 
+		// PartEC を起点とする場合
 		ECFinder(PartEC ec, PartECEditPart part) {
 			this.partEc = ec;
 			this.partPart = part;
+			//
+			this.compPart = (ComponentEditPart) this.partPart.getParent();
+			initConnMap();
 		}
 
-		public OwnEC getOwnedEC() {
+		@SuppressWarnings("unchecked")
+		void initConnMap() {
+			this.diagramPart = (SystemDiagramEditPart) this.compPart.getParent();
+			SystemDiagram diagram = this.diagramPart.getModel();
+			SystemDiagramStore store = SystemDiagramStore.instance(diagram);
+			this.connMap = (Map<String, ECConnectionEditPart.ECConnection>) store.getResource(SystemDiagramStore.KEY_EC_CONN_MAP);
+			if (this.connMap == null) {
+				this.connMap = new HashMap<>();
+				store.putResource(SystemDiagramStore.KEY_EC_CONN_MAP, this.connMap);
+			}
+		}
+
+		/**
+		 * ダイアグラムから PartEC に対する OwnEC を検索します。
+		 * 
+		 * @return
+		 */
+		public OwnEC findOwnedEC() {
 			if (this.partEc == null || this.partPart == null) {
 				return null;
+			}
+			if (this.diagramPart == null) {
+				return null;
+			}
+			for (Object o1 : this.diagramPart.getChildren()) {
+				if (o1 instanceof ComponentEditPart) {
+					ComponentEditPart c = (ComponentEditPart) o1;
+					for (Object o2 : c.getChildren()) {
+						if (o2 instanceof ECEditPart.OwnECEditPart) {
+							ECEditPart.OwnECEditPart pp = (ECEditPart.OwnECEditPart) o2;
+							ECEditPart.OwnEC oec = pp.getModel();
+							if (eqlByRemote(oec.getModel(), this.partEc.getModel())) {
+								return oec;
+							}
+						}
+					}
+				}
 			}
 			return null;
 		}
 
-		public List<PartEC> getPartECList() {
+		/**
+		 * ダイアグラムから OwnEC に対する PartEC のリストを検索します。
+		 * 
+		 * @return
+		 */
+		public List<PartEC> findPartECList() {
 			List<PartEC> ret = new ArrayList<PartEC>();
 			if (this.ownEc == null || this.ownPart == null) {
 				return ret;
 			}
+			if (this.diagramPart == null) {
+				return ret;
+			}
+			for (Object o1 : this.diagramPart.getChildren()) {
+				if (o1 instanceof ComponentEditPart) {
+					ComponentEditPart c = (ComponentEditPart) o1;
+					for (Object o2 : c.getChildren()) {
+						if (o2 instanceof ECEditPart.PartECEditPart) {
+							ECEditPart.PartECEditPart pp = (ECEditPart.PartECEditPart) o2;
+							ECEditPart.PartEC pec = pp.getModel();
+							if (eqlByRemote(pec.getModel(), this.ownEc.getModel())) {
+								ret.add(pec);
+							}
+						}
+					}
+				}
+			}
 			return ret;
 		}
 
+		/**
+		 * ダイアグラム内から OwnEC、PartECによる EC関連を検索します。既存で EC関連を検索できなかった場合は EC関連オブジェクトを生成します。
+		 * 
+		 * @param oe
+		 * @param pe
+		 * @return
+		 */
+		public ECConnectionEditPart.ECConnection findOrCreateConn(OwnEC oe, PartEC pe) {
+			String connId = ECConnectionEditPart.ECConnection.buildId(oe, pe);
+			ECConnectionEditPart.ECConnection conn = this.connMap.get(connId);
+			if (conn == null) {
+				conn = new ECConnectionEditPart.ECConnection(oe, pe);
+				this.connMap.put(connId, conn);
+			}
+			return conn;
+		}
+
+		// CORBAオブジェクトで CorbaComponent の等価チェック
 		boolean eqlByRemote(Component c1, Component c2) {
 			if (c1 == null || !(c1 instanceof CorbaComponent)) {
 				return false;
@@ -175,20 +263,46 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 			CorbaComponent cc2 = (CorbaComponent) c2;
 			return (cc1.getCorbaObjectInterface() != null && cc1.getCorbaObjectInterface().equals(cc2.getCorbaObjectInterface()));
 		}
+
+		// CORBAオブジェクトで CorbaExecutionComponent の等価チェック
+		boolean eqlByRemote(ExecutionContext ec1, ExecutionContext ec2) {
+			if (ec1 == null || !(ec1 instanceof CorbaExecutionContext)) {
+				return false;
+			}
+			if (ec2 == null || !(ec2 instanceof CorbaExecutionContext)) {
+				return false;
+			}
+			CorbaExecutionContext cec1 = (CorbaExecutionContext) ec1;
+			CorbaExecutionContext cec2 = (CorbaExecutionContext) ec2;
+			return (cec1.getCorbaObjectInterface() != null && cec1.getCorbaObjectInterface().equals(
+					cec2.getCorbaObjectInterface()));
+		}
 	}
 
 	@Override
 	protected List<?> getModelTargetConnections() {
 		List<ECConnectionEditPart.ECConnection> ret = new ArrayList<>();
+		if (!showECTab() || !showECConn()) {
+			// ECタブ表示、EC関連表示ともに有効な場合に EC関連モデルを返します
+			return ret;
+		}
 		if (!(getModel() instanceof PartEC)) {
 			return ret;
 		}
 		LOGGER.trace("getModelTargetConnections: this=<{}> model=<{}>", to_cid(this), to_cid(getModel()));
+		LOGGER.trace("getModelTargetConnections:　　owner=<{}>", to_cid(getModel().getModel().getOwner()));
+		for (Component c : getModel().getModel().getParticipants()) {
+			LOGGER.trace("getModelTargetConnections:  parts=<{}>", to_cid(c));
+		}
 		ECFinder finder = new ECFinder((PartEC) getModel(), (PartECEditPart) this);
-		OwnEC oe = finder.getOwnedEC();
+		OwnEC oe = finder.findOwnedEC();
 		if (oe != null) {
 			LOGGER.trace("getModelTargetConnections:  source=<{}>", to_cid(oe));
-			ret.add(new ECConnectionEditPart.ECConnection(oe, (PartEC) getModel()));
+			ECConnectionEditPart.ECConnection conn = finder.findOrCreateConn(oe, (PartEC) getModel());
+			ret.add(conn);
+		}
+		for (ECConnectionEditPart.ECConnection conn : ret) {
+			LOGGER.trace("getModelTargetConnections:  conn=<{}> <{}>", to_cid(conn), conn);
 		}
 		return ret;
 	}
@@ -196,14 +310,26 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 	@Override
 	protected List<?> getModelSourceConnections() {
 		List<ECConnectionEditPart.ECConnection> ret = new ArrayList<>();
+		if (!showECTab() || !showECConn()) {
+			// ECタブ表示、EC関連表示ともに有効な場合に EC関連モデルを返します
+			return ret;
+		}
 		if (!(getModel() instanceof OwnEC)) {
 			return ret;
 		}
 		LOGGER.trace("getModelSourceConnections: this=<{}> model=<{}>", to_cid(this), to_cid(getModel()));
+		LOGGER.trace("getModelSourceConnections:  owner=<{}>", to_cid(getModel().getModel().getOwner()));
+		for (Component c : getModel().getModel().getParticipants()) {
+			LOGGER.trace("getModelSourceConnections:  parts=<{}>", to_cid(c));
+		}
 		ECFinder finder = new ECFinder((OwnEC) getModel(), (OwnECEditPart) this);
-		for (PartEC pe : finder.getPartECList()) {
+		for (PartEC pe : finder.findPartECList()) {
 			LOGGER.trace("getModelSourceConnections:  target=<{}>", to_cid(pe));
-			ret.add(new ECConnectionEditPart.ECConnection((OwnEC) getModel(), pe));
+			ECConnectionEditPart.ECConnection conn = finder.findOrCreateConn((OwnEC) getModel(), pe);
+			ret.add(conn);
+		}
+		for (ECConnectionEditPart.ECConnection conn : ret) {
+			LOGGER.trace("getModelSourceConnections:  conn=<{}> <{}>", to_cid(conn), conn);
 		}
 		return ret;
 	}
@@ -279,6 +405,30 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 		}
 	}
 
+	@Override
+	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
+		LOGGER.trace("getSourceConnectionAnchor: this=<{}> connection=<{}>", to_cid(getModel()), to_cid(connection));
+		return new ECAnchor(getFigure());
+	}
+
+	@Override
+	public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
+		LOGGER.trace("getTargetConnectionAnchor: this=<{}> connection=<{}>", to_cid(getModel()), to_cid(connection));
+		return new ECAnchor(getFigure());
+	}
+
+	@Override
+	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
+		LOGGER.trace("getSourceConnectionAnchor: this=<{}> request=<{}>", to_cid(getModel()), request);
+		return new ECAnchor(getFigure());
+	}
+
+	@Override
+	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
+		LOGGER.trace("getTargetConnectionAnchor: this=<{}> request=<{}>", to_cid(getModel()), request);
+		return new ECAnchor(getFigure());
+	}
+
 	/** 選択中の ECの場合は true */
 	public boolean isPrimary() {
 		CorbaComponent comp = (CorbaComponent) getModel().getModel().eContainer();
@@ -294,6 +444,14 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 		SystemDiagramEditPart diagram = (SystemDiagramEditPart) this.getParent().getParent();
 		SystemDiagramStore store = SystemDiagramStore.instance(diagram.getModel());
 		String value = store.get(SystemDiagramStore.ID_DISPLAY_EC_TAB);
+		return "true".equals(value);
+	}
+
+	/** ECコネクションの表示が有効の場合は true */
+	public boolean showECConn() {
+		SystemDiagramEditPart diagram = (SystemDiagramEditPart) this.getParent().getParent();
+		SystemDiagramStore store = SystemDiagramStore.instance(diagram.getModel());
+		String value = store.get(SystemDiagramStore.ID_DISPLAY_EC_CONN);
 		return "true".equals(value);
 	}
 
@@ -322,30 +480,6 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 			}
 			result.setLocation(new Point(0, 0));
 			return result;
-		}
-
-		@Override
-		public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
-			// TODO 自動生成されたメソッド・スタブ
-			return null;
-		}
-
-		@Override
-		public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
-			// TODO 自動生成されたメソッド・スタブ
-			return null;
-		}
-
-		@Override
-		public ConnectionAnchor getSourceConnectionAnchor(Request request) {
-			// TODO 自動生成されたメソッド・スタブ
-			return null;
-		}
-
-		@Override
-		public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-			// TODO 自動生成されたメソッド・スタブ
-			return null;
 		}
 
 		@Override
@@ -387,30 +521,6 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 			}
 			result.setLocation(new Point(0, 0));
 			return result;
-		}
-
-		@Override
-		public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
-			// TODO 自動生成されたメソッド・スタブ
-			return null;
-		}
-
-		@Override
-		public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
-			// TODO 自動生成されたメソッド・スタブ
-			return null;
-		}
-
-		@Override
-		public ConnectionAnchor getSourceConnectionAnchor(Request request) {
-			// TODO 自動生成されたメソッド・スタブ
-			return null;
-		}
-
-		@Override
-		public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-			// TODO 自動生成されたメソッド・スタブ
-			return null;
 		}
 
 		@Override

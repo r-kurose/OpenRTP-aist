@@ -6,23 +6,15 @@ import org.eclipse.draw2d.geometry.PrecisionPoint;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
- * ポートアンカークラス
+ * ECコネクションのアンカーを表します。
  */
-public class PortAnchor extends ChopboxAnchor implements DirectionableConnectionAnchor {
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param figure
-	 *            アンカー対象のポートFigure
-	 */
-	public PortAnchor(PortFigure figure) {
+public class ECAnchor extends ChopboxAnchor implements DirectionableConnectionAnchor {
+
+	public ECAnchor(ECFigure figure) {
 		super(figure);
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public Point getLocation(Point reference) {
 		Rectangle r = Rectangle.SINGLETON;
 		r.setBounds(getBox());
@@ -36,22 +28,14 @@ public class PortAnchor extends ChopboxAnchor implements DirectionableConnection
 		return new PrecisionPoint(centerX, centerY);
 	}
 
-	/**
-	 * 方向を取得する
-	 * 
-	 * @return 方向
-	 */
 	@Override
-	public String getDirection() {
-		return getOwner().getDirection();
+	public ECFigure getOwner() {
+		return (ECFigure) super.getOwner();
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
-	public PortFigure getOwner() {
-		return (PortFigure) super.getOwner();
+	public String getDirection() {
+		return getOwner().getDirection();
 	}
 
 }

@@ -25,6 +25,17 @@
 		<editpart seq="1500" targetclass="jp.go.aist.rtm.toolscommon.model.component.SystemDiagram" editpartclass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.SystemDiagramEditPart" />
 	</extension>
 
+	<extension
+		point="org.eclipse.core.runtime.adapters">
+		<factory
+			adaptableType="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart"
+			class="jp.go.aist.rtm.systemeditor.adapterfactory.AdapterFactory">
+			<adapter
+				type="jp.go.aist.rtm.toolscommon.model.component.Component">
+			</adapter>
+		</factory>
+	</extension>
+
     <extension point="org.eclipse.ui.perspectives">
         <perspective 
             id="jp.go.aist.rtm.systemeditor.ui.perspective.RtcLinkPerspective" 
@@ -32,7 +43,8 @@
             class="jp.go.aist.rtm.toolscommon.ui.perspective.RtcLinkPerspective" 
             icon="icons/RT.png"> 
         </perspective> 
-    </extension> 
+    </extension>
+
 	<extension
 		point="org.eclipse.ui.editors">
 		<editor
@@ -102,91 +114,6 @@
 			id="jp.go.aist.rtm.systemeditor.ui.views.actionorderview.ActionOrderView">
 		</view>
 	</extension>
-	
-	<extension
-		point="org.eclipse.ui.editorActions">
-		<editorContribution
-			targetID="jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor"
-			id="jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor.editorActions">
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.ECAction.HideECTab" 
-				label="%Hide_ECTab" 
-				toolbarPath="additionsDisp" 
-				icon="icons/hide_ec_tab.png" 
-				tooltip="%Hide_ECTab" 
-				helpContextId=""
-				class="jp.go.aist.rtm.systemeditor.ui.action.ECActionDelegate"> 
-			</action>	         
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.ECAction.ShowECTab" 
-				label="%Show_ECTab" 
-				toolbarPath="additionsDisp" 
-				icon="icons/show_ec_tab.png" 
-				tooltip="%Show_ECTab" 
-				helpContextId=""
-				class="jp.go.aist.rtm.systemeditor.ui.action.ECActionDelegate"> 
-			</action>	         
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate.AllExit" 
-				label="%All_Exit" 
-				toolbarPath="additions" 
-				icon="icons/Exit.png" 
-				tooltip="%All_Exit" 
-				helpContextId=""
-				class="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate"> 
-			</action>
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate.AllStop" 
-				label="%All_Stop" 
-				toolbarPath="additions" 
-				icon="icons/AllStop.gif" 
-				tooltip="%All_Stop" 
-				helpContextId=""
-				class="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate"> 
-			</action>
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate.AllStart" 
-				label="%All_Start" 
-				toolbarPath="additions" 
-				icon="icons/AllStart.gif" 
-				tooltip="%All_Start" 
-				helpContextId=""
-				class="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate"> 
-			</action>
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate.AllDeactivate" 
-				label="%All_Deactivate" 
-				toolbarPath="additions" 
-				icon="icons/AllDeactivate.gif" 
-				tooltip="%All_Deactivate" 
-				helpContextId=""
-				class="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate"> 
-			</action>
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate.AllActivate" 
-				label="%All_Activate" 
-				toolbarPath="additions" 
-				icon="icons/AllActivate.gif" 
-				tooltip="%All_Activate" 
-				helpContextId=""
-				class="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate"> 
-			</action>	         
-		</editorContribution>
-		<!--
-		<editorContribution
-			targetID="jp.go.aist.rtm.systemeditor.ui.editor.OfflineSystemDiagramEditor"
-			id="jp.go.aist.rtm.systemeditor.ui.editor.OfflineSystemDiagramEditor.editorActions">
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate.AllStop" 
-				label="Refresh Offline System Editor" 
-				toolbarPath="additions" 
-				icon="icons/Refresh.png"
-				tooltip="Refresh Offline System Editor"
-				class="jp.go.aist.rtm.systemeditor.ui.editor.action.RefreshOfflineSystemDiagramEditorAction"> 
-			</action>
-		</editorContribution>
-		-->
-	</extension>
-	
-    <extension  point="org.eclipse.core.runtime.adapters">
-        <factory    
-            class="jp.go.aist.rtm.systemeditor.adapterfactory.AdapterFactory"
-            adaptableType="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart">
-                <adapter type="jp.go.aist.rtm.toolscommon.model.component.Component"/>
-        </factory>
-    </extension>
 
 	<extension
 		point="org.eclipse.ui.popupMenus">
@@ -452,6 +379,54 @@
 			id="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Deactivate"
 			name="%Deactivate">
 		</command>
+
+		<command
+			categoryId="jp.go.aist.rtm.systemeditor.command.category"
+			id="rtse.command.ectab.Show"
+			name="%ECTab_Show">
+		</command>
+		<command
+			categoryId="jp.go.aist.rtm.systemeditor.command.category"
+			id="rtse.command.ectab.Hide"
+			name="%ECTab_Hide">
+		</command>
+
+		<command
+			categoryId="jp.go.aist.rtm.systemeditor.command.category"
+			id="rtse.command.ecconn.Show"
+			name="%ECConn_Show">
+		</command>
+		<command
+			categoryId="jp.go.aist.rtm.systemeditor.command.category"
+			id="rtse.command.ecconn.Hide"
+			name="%ECConn_Show">
+		</command>
+
+		<command
+			categoryId="jp.go.aist.rtm.systemeditor.command.category"
+			id="rtse.command.allcomponent.AllActivate"
+			name="%All_Activate">
+		</command>
+		<command
+			categoryId="jp.go.aist.rtm.systemeditor.command.category"
+			id="rtse.command.allcomponent.AllDeactivate"
+			name="%All_Deactivate">
+		</command>
+		<command
+			categoryId="jp.go.aist.rtm.systemeditor.command.category"
+			id="rtse.command.allcomponent.AllStart"
+			name="%All_Start">
+		</command>
+		<command
+			categoryId="jp.go.aist.rtm.systemeditor.command.category"
+			id="rtse.command.allcomponent.AllStop"
+			name="%All_Stop">
+		</command>
+		<command
+			categoryId="jp.go.aist.rtm.systemeditor.command.category"
+			id="rtse.command.allcomponent.AllExit"
+			name="%All_Exit">
+		</command>
 	</extension>
 
 	<extension
@@ -480,6 +455,169 @@
 			class="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionHandler"
 			commandId="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Deactivate">
 		</handler>
+
+		<handler
+			class="jp.go.aist.rtm.systemeditor.ui.handler.ECCommandHandler"
+			commandId="rtse.command.ectab.Show">
+			<activeWhen>
+				<reference definitionId="rtse.definition.activeSystemDiagramEditor"/>
+			</activeWhen>
+		</handler>
+		<handler
+			class="jp.go.aist.rtm.systemeditor.ui.handler.ECCommandHandler"
+			commandId="rtse.command.ectab.Hide">
+			<activeWhen>
+				<reference definitionId="rtse.definition.activeSystemDiagramEditor"/>
+			</activeWhen>
+		</handler>
+
+		<handler
+			class="jp.go.aist.rtm.systemeditor.ui.handler.ECConnectionCommandHandler"
+			commandId="rtse.command.ecconn.Show">
+			<activeWhen>
+				<reference definitionId="rtse.definition.activeSystemDiagramEditor"/>
+			</activeWhen>
+		</handler>
+		<handler
+			class="jp.go.aist.rtm.systemeditor.ui.handler.ECConnectionCommandHandler"
+			commandId="rtse.command.ecconn.Hide">
+			<activeWhen>
+				<reference definitionId="rtse.definition.activeSystemDiagramEditor"/>
+			</activeWhen>
+		</handler>
+
+		<handler
+			class="jp.go.aist.rtm.systemeditor.ui.handler.AllComponentCommandHandler"
+			commandId="rtse.command.allcomponent.AllActivate">
+			<activeWhen>
+				<reference definitionId="rtse.definition.activeSystemDiagramEditor"/>
+			</activeWhen>
+		</handler>
+		<handler
+			class="jp.go.aist.rtm.systemeditor.ui.handler.AllComponentCommandHandler"
+			commandId="rtse.command.allcomponent.AllDeactivate">
+			<activeWhen>
+				<reference definitionId="rtse.definition.activeSystemDiagramEditor"/>
+			</activeWhen>
+		</handler>
+		<handler
+			class="jp.go.aist.rtm.systemeditor.ui.handler.AllComponentCommandHandler"
+			commandId="rtse.command.allcomponent.AllStart">
+			<activeWhen>
+				<reference definitionId="rtse.definition.activeSystemDiagramEditor"/>
+			</activeWhen>
+		</handler>
+		<handler
+			class="jp.go.aist.rtm.systemeditor.ui.handler.AllComponentCommandHandler"
+			commandId="rtse.command.allcomponent.AllStop">
+			<activeWhen>
+				<reference definitionId="rtse.definition.activeSystemDiagramEditor"/>
+			</activeWhen>
+		</handler>
+		<handler
+			class="jp.go.aist.rtm.systemeditor.ui.handler.AllComponentCommandHandler"
+			commandId="rtse.command.allcomponent.AllExit">
+			<activeWhen>
+				<reference definitionId="rtse.definition.activeSystemDiagramEditor"/>
+			</activeWhen>
+		</handler>
+	</extension>
+
+	<extension
+		point="org.eclipse.core.expressions.definitions">
+		<definition
+			id="rtse.definition.activeSystemDiagramEditor">
+			<with variable="activeEditorId">
+				<equals value="jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor"/>
+			</with>
+		</definition>
+	</extension>
+
+	<extension
+		point="org.eclipse.ui.menus">
+		<menuContribution
+			allPopups="false"
+			locationURI="toolbar:org.eclipse.ui.main.toolbar?after=jp.go.aist.rtm.systemeditor.ui.actionSet">
+			<toolbar
+				id="rtse.menus.toolbar.ec"
+				label="EC">
+				<command
+					commandId="rtse.command.ectab.Show"
+					id="rtse.menus.toolbar.Show_ECTab"
+					label="%ECTab_Show"
+					icon="icons/ec_tab_show.png"
+					style="push">
+				</command>
+				<command
+					commandId="rtse.command.ectab.Hide"
+					id="rtse.menus.toolbar.ec.Hide_ECTab"
+					label="%ECTab_Hide"
+					icon="icons/ec_tab_hide.png"
+					style="push">
+				</command>
+				<command
+					commandId="rtse.command.ecconn.Show"
+					id="rtse.menus.toolbar.Show_ECConn"
+					label="%ECConn_Show"
+					icon="icons/ec_conn_show.png"
+					style="push">
+				</command>
+				<command
+					commandId="rtse.command.ecconn.Hide"
+					id="rtse.menus.toolbar.ec.Hide_ECConn"
+					label="%ECConn_Hide"
+					icon="icons/ec_conn_hide.png"
+					style="push">
+				</command>
+				<separator
+					name="rtse.menus.toolbar.ec.additions"
+					visible="true">
+				</separator>
+			</toolbar>
+			<toolbar
+				id="rtse.menus.toolbar.allcomponent"
+				label="AllComponent">
+				<command
+					commandId="rtse.command.allcomponent.AllActivate"
+					id="rtse.menus.toolbar.allcomponent.AllActivate"
+					label="%All_Activate"
+					icon="icons/AllActivate.gif"
+					style="push">
+				</command>
+				<command
+					commandId="rtse.command.allcomponent.AllDeactivate"
+					id="rtse.menus.toolbar.allcomponent.AllDeactivate"
+					label="%All_Deactivate"
+					icon="icons/AllDeactivate.gif"
+					style="push">
+				</command>
+				<command
+					commandId="rtse.command.allcomponent.AllStart"
+					id="rtse.menus.toolbar.allcomponent.AllStart"
+					label="%All_Start"
+					icon="icons/AllStart.gif"
+					style="push">
+				</command>
+				<command
+					commandId="rtse.command.allcomponent.AllStop"
+					id="rtse.menus.toolbar.allcomponent.AllStop"
+					label="%All_Stop"
+					icon="icons/AllStop.gif"
+					style="push">
+				</command>
+				<command
+					commandId="rtse.command.allcomponent.AllExit"
+					id="rtse.menus.toolbar.allcomponent.AllExit"
+					label="%All_Exit"
+					icon="icons/Exit.png"
+					style="push">
+				</command>
+				<separator
+					name="rtse.menus.toolbar.allcomponent.additions"
+					visible="true">
+				</separator>
+			</toolbar>
+		</menuContribution>
 	</extension>
 
 	<extension

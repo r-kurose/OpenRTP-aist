@@ -419,8 +419,9 @@ public class ComponentEditPart extends AbstractEditPart {
 		} else if (CorePackage.eINSTANCE.getModelElement_Constraint().equals(notification.getFeature())
 				|| ComponentPackage.eINSTANCE.getComponent_OutportDirection().equals(notification.getFeature())) {
 			refreshComponent();
-		} else if (((notification.getNotifier() instanceof SystemDiagramStore) && SystemDiagramStore.F_DISPLAY_EC_TAB
-				.equals(notification.getFeature()))
+		} else if (((notification.getNotifier() instanceof SystemDiagramStore) //
+		&& (SystemDiagramStore.F_DISPLAY_EC_TAB.equals(notification.getFeature()) //
+		|| SystemDiagramStore.F_DISPLAY_EC_CONN.equals(notification.getFeature())))
 				|| ComponentPackage.eINSTANCE.getComponent_PrimaryExecutionContext().equals(notification.getFeature())
 				|| ComponentPackage.eINSTANCE.getComponent_ExecutionContexts().equals(notification.getFeature())
 				|| ComponentPackage.eINSTANCE.getComponent_ParticipationContexts().equals(notification.getFeature())) {

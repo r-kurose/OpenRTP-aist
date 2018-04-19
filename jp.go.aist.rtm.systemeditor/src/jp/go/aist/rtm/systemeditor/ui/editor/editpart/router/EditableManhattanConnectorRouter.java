@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jp.go.aist.rtm.systemeditor.ui.editor.figure.PortAnchor;
+import jp.go.aist.rtm.systemeditor.ui.editor.figure.DirectionableConnectionAnchor;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 
 import org.eclipse.draw2d.AbstractRouter;
@@ -14,9 +14,9 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.PrecisionPoint;
-import org.eclipse.draw2d.geometry.Ray;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.geometry.Transform;
+import org.eclipse.draw2d.geometry.Vector;
 
 /**
  * マンハッタン型のライン表示を行う
@@ -24,34 +24,35 @@ import org.eclipse.draw2d.geometry.Transform;
 public class EditableManhattanConnectorRouter extends AbstractRouter {
 	private static final int BUF = 20;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	private Map rowsUsed = new HashMap();
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	private Map colsUsed = new HashMap();
 
-	@SuppressWarnings("unchecked")
-	private Map reservedInfo = new HashMap();
+	private Map<Connection, ReservedInfo> reservedInfo = new HashMap<>();
 
-	private Map<Connection, Object> constraints = new HashMap<Connection, Object>(
-			11);
+	private Map<Connection, Object> constraints = new HashMap<>(11);
 
 	@SuppressWarnings("unused")
 	private static final PrecisionPoint A_POINT = new PrecisionPoint();
 
 	private class ReservedInfo {
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings("rawtypes")
 		public List reservedRows = new ArrayList(2);
 
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings("rawtypes")
 		public List reservedCols = new ArrayList(2);
 	}
 
 	/**
 	 * 方向を定義する
 	 */
-	public static Ray UP = new Ray(0, -1), DOWN = new Ray(0, 1),
-			LEFT = new Ray(-1, 0), RIGHT = new Ray(1, 0);
+	public static Vector UP = new Vector(0, -1), //
+			DOWN = new Vector(0, 1),//
+			LEFT = new Vector(-1, 0), //
+			RIGHT = new Vector(1, 0) //
+			;
 
 	/**
 	 * {@inheritDoc}
@@ -69,9 +70,9 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 	 *            Point
 	 * @return 方向
 	 */
-	protected Ray getDirection(Rectangle r, Point p) {
+	protected Vector getDirection(Rectangle r, Point p) {
 		int i, distance = Math.abs(r.x - p.x);
-		Ray direction;
+		Vector direction;
 
 		direction = LEFT;
 
@@ -105,13 +106,12 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 	 *            デフォルトの方向
 	 * @return 方向
 	 */
-	protected Ray getEndDirection(Connection conn, Ray dafaultDirection) {
+	protected Vector getEndDirection(Connection conn, Vector dafaultDirection) {
 		ConnectionAnchor anchor = conn.getTargetAnchor();
 		if (anchor.getOwner() == null) {
 			return dafaultDirection;
 		}
-
-		String direction = ((PortAnchor) anchor).getDirection();
+		String direction = ((DirectionableConnectionAnchor) anchor).getDirection();
 		return directionToRay(direction);
 	}
 
@@ -124,13 +124,12 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 	 *            デフォルトの方向
 	 * @return 方向
 	 */
-	protected Ray getStartDirection(Connection conn, Ray dafaultDirection) {
+	protected Vector getStartDirection(Connection conn, Vector dafaultDirection) {
 		ConnectionAnchor anchor = conn.getSourceAnchor();
 		if (anchor.getOwner() == null) {
 			return dafaultDirection;
 		}
-
-		String direction = ((PortAnchor) anchor).getDirection();
+		String direction = ((DirectionableConnectionAnchor) anchor).getDirection();
 		return directionToRay(direction);
 	}
 
@@ -141,7 +140,7 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 	 *            方向
 	 * @return Ray
 	 */
-	private Ray directionToRay(String direction) {
+	private Vector directionToRay(String direction) {
 		if (direction.equals(Component.OUTPORT_DIRECTION_RIGHT_LITERAL)) {
 			return RIGHT;
 		} else if (direction.equals(Component.OUTPORT_DIRECTION_LEFT_LITERAL)) {
@@ -163,7 +162,7 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 	}
 
 	protected void removeReservedLines(Connection connection) {
-		ReservedInfo rInfo = (ReservedInfo) reservedInfo.get(connection);
+		ReservedInfo rInfo = reservedInfo.get(connection);
 		if (rInfo == null)
 			return;
 
@@ -180,8 +179,7 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 	 * {@inheritDoc}
 	 */
 	public void route(Connection conn) {
-		if ((conn.getSourceAnchor().getOwner() == null)
-				|| (conn.getTargetAnchor().getOwner() == null))
+		if ((conn.getSourceAnchor().getOwner() == null) || (conn.getTargetAnchor().getOwner() == null))
 			return;
 
 		Point startPoint = getStartPoint(conn);
@@ -190,14 +188,14 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 		Point endPoint = getEndPoint(conn);
 		conn.translateToRelative(endPoint);
 
-		Ray direction = new Ray(new Ray(startPoint), new Ray(endPoint));
-		Ray orthogonalDirection = getOrthogonalDirection(direction);
+		Vector direction = new Vector(new Vector(new PrecisionPoint(startPoint)), new Vector(new PrecisionPoint(endPoint)));
+		Vector orthogonalDirection = getOrthogonalDirection(direction);
 
-		Ray startNormal = getStartDirection(conn, orthogonalDirection);
+		Vector startNormal = getStartDirection(conn, orthogonalDirection);
 
 		PointNormal startPointNormal = new PointNormal(startPoint, startNormal);
 
-		Ray endNormal = getEndDirection(conn, reverseRay(orthogonalDirection));
+		Vector endNormal = getEndDirection(conn, reverseRay(orthogonalDirection));
 
 		PointNormal endPointNormal = new PointNormal(endPoint, endNormal);
 
@@ -206,31 +204,29 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 		points.addPoint(startPointNormal.point);
 		points.addAll(getManhattanPointList(startPointNormal, endPointNormal));
 		points.addPoint(endPointNormal.point);
-		
-		if (conn.getSourceAnchor().getOwner() != null
-				&& conn.getTargetAnchor().getOwner() != null) {
+
+		if (conn.getSourceAnchor().getOwner() != null && conn.getTargetAnchor().getOwner() != null) {
 			convertPointListByConstraint(conn, points);
 		}
 
-//		dumpPoints(points);
-		
+		// dumpPoints(points);
+
 		conn.setPoints(points);
 
 	}
 
-//	private void dumpPoints(PointList points) {
-//		int[] ps = points.toIntArray();
-//		for (int p :ps){
-//			System.out.print(p);
-//			System.out.print(" ");
-//		}
-//		System.out.println();
-//	}
+	// private void dumpPoints(PointList points) {
+	// int[] ps = points.toIntArray();
+	// for (int p :ps){
+	// System.out.print(p);
+	// System.out.print(" ");
+	// }
+	// System.out.println();
+	// }
 
 	@SuppressWarnings("unchecked")
 	private void convertPointListByConstraint(Connection conn, PointList points) {
-		Map<Integer, Point> routingConstraint = (Map<Integer, Point>) conn
-				.getRoutingConstraint();
+		Map<Integer, Point> routingConstraint = (Map<Integer, Point>) conn.getRoutingConstraint();
 
 		if (routingConstraint == null) {
 			return;
@@ -240,21 +236,22 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 
 		for (Integer index : routingConstraint.keySet()) {
 			Point constPoint = routingConstraint.get(index);
-//			System.out.print(index);
-//			System.out.print(" ");
-//			System.out.print(constPoint.x);
-//			System.out.print(" ");
-//			System.out.print(constPoint.y);
-//			System.out.println();
-			
-			if (index < 0 || index > size - 2) continue;
-			
+			// System.out.print(index);
+			// System.out.print(" ");
+			// System.out.print(constPoint.x);
+			// System.out.print(" ");
+			// System.out.print(constPoint.y);
+			// System.out.println();
+
+			if (index < 0 || index > size - 2)
+				continue;
+
 			Point startPoint = points.getPoint(index);
 			Point endPoint = points.getPoint(index + 1);
 
-//			System.out.println(startPoint);
-//			System.out.println(endPoint);
-			
+			// System.out.println(startPoint);
+			// System.out.println(endPoint);
+
 			if (startPoint.x == endPoint.x) {
 				points.setPoint(new Point(constPoint.x, startPoint.y), index);
 				points.setPoint(new Point(constPoint.x, endPoint.y), index + 1);
@@ -279,8 +276,7 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 		}
 	}
 
-	private PointList getManhattanPointListWithTransfrom(PointNormal from,
-			PointNormal to, double rotation) {
+	private PointList getManhattanPointListWithTransfrom(PointNormal from, PointNormal to, double rotation) {
 		Transform forwardTransform = new Transform();
 		forwardTransform.setRotation(rotation);
 
@@ -288,43 +284,40 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 		backTransform.setRotation(-rotation);
 
 		PointNormal rigthFrom = from.copy();
-		rigthFrom.normal = new Ray(forwardTransform.getTransformed(new Point(
-				from.normal.x, from.normal.y)));
+		rigthFrom.normal = new Vector(new PrecisionPoint(forwardTransform.getTransformed(new PrecisionPoint(from.normal.x,
+				from.normal.y))));
 		rigthFrom.point = forwardTransform.getTransformed(from.point);
 
 		PointNormal rigthTo = to.copy();
-		rigthTo.normal = new Ray(forwardTransform.getTransformed(new Point(
-				to.normal.x, to.normal.y)));
+		rigthTo.normal = new Vector(new PrecisionPoint(forwardTransform.getTransformed(new PrecisionPoint(to.normal.x,
+				to.normal.y))));
 		rigthTo.point = forwardTransform.getTransformed(to.point);
 
-		PointList rightPointList = getManhattanPointListProcessOnlyRight(
-				rigthFrom, rigthTo);
+		PointList rightPointList = getManhattanPointListProcessOnlyRight(rigthFrom, rigthTo);
 
 		PointList result = new PointList();
 		for (int i = 0; i < rightPointList.size(); i++) {
-			result.addPoint(backTransform.getTransformed(rightPointList
-					.getPoint(i)));
+			result.addPoint(backTransform.getTransformed(rightPointList.getPoint(i)));
 		}
 
 		return result;
 	}
 
-	private PointList getManhattanPointListProcessOnlyRight(PointNormal from,
-			PointNormal to) { // fromが右向きの時にだけ処理することが可能
+	private PointList getManhattanPointListProcessOnlyRight(PointNormal from, PointNormal to) { // fromが右向きの時にだけ処理することが可能
 
 		PointList points = new PointList();
 
-//		Ray direction = new Ray(new Ray(from.point), new Ray(to.point));
-//		Ray orthogonalDirection = getOrthogonalDirection(direction);
+		// Ray direction = new Ray(new Ray(from.point), new Ray(to.point));
+		// Ray orthogonalDirection = getOrthogonalDirection(direction);
 
-		Ray verticalRay = DOWN;
+		Vector verticalRay = DOWN;
 		if (from.point.y > to.point.y) {
 			verticalRay = UP;
 		} else if (from.point.y < to.point.y) {
 			verticalRay = DOWN;
 		}
 
-		Ray horizonalRay = LEFT;
+		Vector horizonalRay = LEFT;
 		if (from.point.x < to.point.x) {
 			horizonalRay = RIGHT;
 		} else if (from.point.x > to.point.x) {
@@ -334,26 +327,21 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 		if ((from.point.x == to.point.x && from.point.y == to.point.y) == false) {
 			if (to.normal.equals(UP) || to.normal.equals(DOWN)) { // 垂直かどうか
 				if (from.point.x <= to.point.x
-						&& ((from.point.y >= to.point.y && to.normal
-								.equals(DOWN)) || (from.point.y <= to.point.y && to.normal
+						&& ((from.point.y >= to.point.y && to.normal.equals(DOWN)) || (from.point.y <= to.point.y && to.normal
 								.equals(UP)))) {
 					points.addPoint(to.point.x, from.point.y);
 				} else {
 					PointNormal nextFrom = from;
 					if (from.point.x >= to.point.x) {
-						nextFrom = new PointNormal(new Point(
-								from.point.x + BUF, from.point.y), verticalRay);
+						nextFrom = new PointNormal(new Point(from.point.x + BUF, from.point.y), verticalRay);
 					}
 
 					PointNormal nextTo = to;
 					if ((from.point.y >= to.point.y && to.normal.equals(UP))
-							|| (from.point.y <= to.point.y && to.normal
-									.equals(DOWN))) {
-						nextTo = new PointNormal(new Point(to.point.x,
-								to.point.y + BUF), reverseRay(horizonalRay)); // LEFTは、fromの方向
+							|| (from.point.y <= to.point.y && to.normal.equals(DOWN))) {
+						nextTo = new PointNormal(new Point(to.point.x, to.point.y + BUF), reverseRay(horizonalRay)); // LEFTは、fromの方向
 						if (to.normal.equals(UP)) {
-							nextTo = new PointNormal(new Point(to.point.x,
-									to.point.y - BUF), reverseRay(horizonalRay));// LEFTは、fromの方向
+							nextTo = new PointNormal(new Point(to.point.x, to.point.y - BUF), reverseRay(horizonalRay));// LEFTは、fromの方向
 						}
 					}
 
@@ -367,34 +355,27 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 				}
 			} else if (to.normal.equals(LEFT)) { // 向かい合っている
 				if (from.point.x > to.point.x) {
-					Point newFromPoint = new Point(from.point.x + BUF,
-							from.point.y);
+					Point newFromPoint = new Point(from.point.x + BUF, from.point.y);
 					Point newToPoint = new Point(to.point.x - BUF, to.point.y);
 
 					points.addPoint(newFromPoint);
-					points.addAll(getManhattanPointList(new PointNormal(
-							newFromPoint, verticalRay), new PointNormal(
-							newToPoint, reverseRay(verticalRay))));
+					points.addAll(getManhattanPointList(new PointNormal(newFromPoint, verticalRay), new PointNormal(newToPoint,
+							reverseRay(verticalRay))));
 					points.addPoint(newToPoint);
 				} else {
-					points.addPoint((from.point.x + to.point.x) / 2,
-							from.point.y);
-					points
-							.addPoint((from.point.x + to.point.x) / 2,
-									to.point.y);
+					points.addPoint((from.point.x + to.point.x) / 2, from.point.y);
+					points.addPoint((from.point.x + to.point.x) / 2, to.point.y);
 				}
 			} else if (to.normal.equals(RIGHT)) { // 同じ方向
 
 				PointNormal nextFrom = from;
 				if (from.point.x >= to.point.x) {
-					nextFrom = new PointNormal(new Point(from.point.x + BUF,
-							from.point.y), verticalRay);
+					nextFrom = new PointNormal(new Point(from.point.x + BUF, from.point.y), verticalRay);
 				}
 
 				PointNormal nextTo = to;
 				if (from.point.x < to.point.x) {
-					nextTo = new PointNormal(new Point(to.point.x + BUF,
-							to.point.y), reverseRay(verticalRay));
+					nextTo = new PointNormal(new Point(to.point.x + BUF, to.point.y), reverseRay(verticalRay));
 				}
 
 				if (from != nextFrom) {
@@ -410,12 +391,12 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 		return points;
 	}
 
-	private Ray reverseRay(Ray ray) {
-		return new Ray(-ray.x, -ray.y);
+	private Vector reverseRay(Vector ray) {
+		return new Vector(-ray.x, -ray.y);
 	}
 
-	public static Ray getOrthogonalDirection(Ray direction) {
-		Ray result = null;
+	public static Vector getOrthogonalDirection(Vector direction) {
+		Vector result = null;
 		if (direction.x > 0 && direction.x - Math.abs(direction.y) >= 0) {
 			result = RIGHT;
 		} else if (direction.x < 0 && -direction.x - Math.abs(direction.y) >= 0) {
@@ -427,7 +408,6 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 		} else {
 			result = RIGHT;
 		}
-
 		return result;
 	}
 
@@ -435,26 +415,30 @@ public class EditableManhattanConnectorRouter extends AbstractRouter {
 	 * ベクトルを定義するクラス
 	 */
 	public static class PointNormal {
-		public Point point;
 
-		public Ray normal;
+		public Point point;
+		public Vector normal;
 
 		/**
 		 * コンストラクタ
-		 * @param point 位置
-		 * @param normal 方向
+		 * 
+		 * @param point
+		 *            位置
+		 * @param normal
+		 *            方向
 		 */
-		public PointNormal(Point point, Ray normal) {
+		public PointNormal(Point point, Vector normal) {
 			this.point = point;
 			this.normal = normal;
 		}
 
 		/**
 		 * コピーする
+		 * 
 		 * @return コピーされたベクトル
 		 */
 		public PointNormal copy() {
-			return new PointNormal(point.getCopy(), new Ray(normal.x, normal.y));
+			return new PointNormal(point.getCopy(), new Vector(normal.x, normal.y));
 		}
 	}
 

@@ -331,7 +331,8 @@ public class ManagerControlView extends ViewPart {
 				}
 				
 				target.shutdownR();
-				buildData();
+				isSelectedManagers = true;
+				refreshData();
 			}
 		});
 

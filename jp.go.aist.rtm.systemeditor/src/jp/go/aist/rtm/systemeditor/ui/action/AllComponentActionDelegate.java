@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 /**
  * AllStart,AllStopを実行するアクション
  */
+@Deprecated
 public class AllComponentActionDelegate implements IEditorActionDelegate {
 
 	private static final Logger LOGGER = LoggerFactory

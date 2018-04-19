@@ -46,23 +46,17 @@ public class StartManagerAction implements IViewActionDelegate {
 			isWindows = true;
 		}
 		
+		String target = "";
 		if(isWindows) {
-			String target = System.getenv("RTM_ROOT") + "bin" + Path.SEPARATOR + System.getenv("RTM_VC_VERSION") + Path.SEPARATOR + "rtcd.exe"; 
-			try {
-				ProcessBuilder pb = new ProcessBuilder(target);
-				Process process = pb.start();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
+			target = System.getenv("RTM_ROOT") + "bin" + Path.SEPARATOR + System.getenv("RTM_VC_VERSION") + Path.SEPARATOR + "rtcd.exe"; 
 		} else {
-			String target = "/usr/bin/rtcd"; 
-			try {
-				ProcessBuilder pb = new ProcessBuilder(target);
-				Process process = pb.start();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			target = "/usr/bin/rtcd"; 
+		}
+		try {
+			ProcessBuilder pb = new ProcessBuilder(target, "-d");
+			Process process = pb.start();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
