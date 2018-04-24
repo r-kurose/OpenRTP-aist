@@ -331,6 +331,15 @@ public class ManagerControlView extends ViewPart {
 				}
 				
 				target.shutdownR();
+				if(target==targetManager) {
+					targetManager = null;
+				} else {
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException ex) {
+					}
+					target.synchronizeManually();
+				}
 				isSelectedManagers = true;
 				refreshData();
 			}
