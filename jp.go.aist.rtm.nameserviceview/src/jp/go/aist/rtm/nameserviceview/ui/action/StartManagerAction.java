@@ -1,5 +1,6 @@
 package jp.go.aist.rtm.nameserviceview.ui.action;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +52,8 @@ public class StartManagerAction implements IViewActionDelegate {
 			target = System.getenv("RTM_ROOT") + "bin" + Path.SEPARATOR + "rtcd-cxx-daemon.bat"; 
 			try {
 				ProcessBuilder pb = new ProcessBuilder(target);
+				File dir = new File(System.getenv("RTM_ROOT") + "bin");
+				pb.directory(dir);
 				Process process = pb.start();
 			} catch (IOException e) {
 				e.printStackTrace();
