@@ -553,6 +553,16 @@ public class CorbaExecutionContextImpl extends ExecutionContextImpl implements C
 						}
 
 						@Override
+						public Object getOldRemoteLink(LocalObject localObject) {
+							CorbaExecutionContext cec = (CorbaExecutionContext) localObject;
+							if (cec.getOwner() != null && cec.getOwner().getInstanceNameL() == null) {
+								cec.setOwner(null);
+								return null;
+							}
+							return super.getOldRemoteLink(localObject);
+						}
+
+						@Override
 						public LocalObject loadLocalObjectByRemoteObject(LocalObject localObject,
 								SynchronizationManager synchronizationManager, Object link, Object[] remoteObject) {
 							if (localObject.eContainer() != null

@@ -244,15 +244,19 @@ public class CorbaObserverImpl extends EObjectImpl implements CorbaObserver {
 		boolean result;
 		try {
 			serviceProfile.id = UUID.randomUUID().toString();
+			if (serviceProfile.properties == null) {
+				serviceProfile.properties = new _SDOPackage.NameValue[0];
+			}
 			result = config.add_service_profile(serviceProfile);
 			//
 			if (result) {
-				LOGGER.info(
-						"add_service_profile:    id={} type={} ior={} obs={}",
-						serviceProfile.id, serviceProfile.interface_type,
-						serviceProfile.service, this.getClass().getName());
+				LOGGER.info("add_service_profile:    id={} type={} ior={} obs={}", serviceProfile.id,
+						serviceProfile.interface_type, serviceProfile.service, this.getClass().getName());
 			}
 		} catch (Exception e) {
+			LOGGER.error("Fail to add service profile: id={} type={} ior={} obs={}", serviceProfile.id,
+					serviceProfile.interface_type, serviceProfile.service, this.getClass().getName());
+			LOGGER.error("ERROR:", e);
 			result = false;
 		}
 		return result;

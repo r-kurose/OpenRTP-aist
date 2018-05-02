@@ -9,7 +9,6 @@ import java.util.List;
 
 import jp.go.aist.rtm.systemeditor.ui.editor.editpart.router.EditableManhattanConnectorRouter;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
-import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
 import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 
 import org.eclipse.draw2d.IFigure;
@@ -126,21 +125,9 @@ public class ECConnectionEditPart extends AbstractConnectionEditPart {
 		private ECEditPart.PartEC target;
 
 		public static String buildId(ECEditPart.OwnEC own, ECEditPart.PartEC part) {
-			Object source = null;
-			Object target = null;
-			if (own != null) {
-				source = own.getModel();
-				if (source instanceof CorbaExecutionContext) {
-					source = ((CorbaExecutionContext) source).getCorbaObjectInterface();
-				}
-			}
-			if (part != null) {
-				target = part.getModel();
-				if (part.getModel() instanceof CorbaExecutionContext) {
-					target = ((CorbaExecutionContext) target).getCorbaObjectInterface();
-				}
-			}
-			return String.format("%s-%s", source, target);
+			Object source = own;
+			Object target = part;
+			return String.format("%s-%s", to_cid(source), to_cid(target));
 		}
 
 		public ECConnection(ECEditPart.OwnEC source, ECEditPart.PartEC target) {

@@ -68,20 +68,12 @@ import org.slf4j.LoggerFactory;
  */
 public class ComponentEditPart extends AbstractEditPart {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(ComponentEditPart.class);
-
-	/** コンポーネントの周りとコンポーネントのボディまでのスペース(ポートあり) */
-	public static final int PORT_SPACE = 32;
-
-	/** コンポーネントの周りとコンポーネントのボディまでのスペース(ポートなし) */
-	public static final int NONE_SPACE = 16;
+	private static final Logger LOGGER = LoggerFactory.getLogger(ComponentEditPart.class);
 
 	/** コンポーネントアイコンのサイズ */
 	public static final int ICON_SIZE = 16;
 
-	private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
-			this);
+	private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
 	FloatingLabel componentLabel;
 
@@ -101,8 +93,6 @@ public class ComponentEditPart extends AbstractEditPart {
 
 	@Override
 	protected IFigure createFigure() {
-//		LOGGER.trace("createFigure");
-
 		iconImage = ComponentIconStore.eINSTANCE.findImageByComp(getModel());
 
 		Figure result = new Panel() {
@@ -117,32 +107,22 @@ public class ComponentEditPart extends AbstractEditPart {
 			 */
 			@Override
 			protected void paintFigure(Graphics graphics) {
-//				LOGGER.trace("paintFigure");
+				// LOGGER.trace("paintFigure");
 				if (isOpaque()) {
-					ComponentLayout cl = (ComponentLayout) this
-							.getLayoutManager();
 					Rectangle bound = new Rectangle(getBounds());
 					// ポートのある側のスペースを広くとる 2009.2.2
-					if (cl.isVerticalDirection()) {
-						graphics.fillRectangle(bound.expand(-NONE_SPACE,
-								-PORT_SPACE));
-					} else {
-						graphics.fillRectangle(bound.expand(-PORT_SPACE,
-								-NONE_SPACE));
-					}
+					Rectangle newBound = calcBodyBounds(bound);
+					graphics.fillRectangle(newBound);
+					graphics.drawRectangle(newBound);
 
 					Color saveForegroundColor = graphics.getForegroundColor();
-					graphics.drawRectangle(bound);
 					graphics.setForegroundColor(saveForegroundColor);
 
 					if (iconImage != null) {
-						org.eclipse.swt.graphics.Rectangle ir = iconImage
-								.getBounds();
-						Rectangle sr = new Rectangle(ir.x, ir.y, ir.width,
-								ir.height);
-						Rectangle dr = new Rectangle(bound.getCenter().x
-								- ICON_SIZE / 2, bound.getCenter().y
-								- ICON_SIZE / 2, ICON_SIZE, ICON_SIZE);
+						org.eclipse.swt.graphics.Rectangle ir = iconImage.getBounds();
+						Rectangle sr = new Rectangle(ir.x, ir.y, ir.width, ir.height);
+						Rectangle dr = new Rectangle(bound.getCenter().x - ICON_SIZE / 2, bound.getCenter().y - ICON_SIZE / 2,
+								ICON_SIZE, ICON_SIZE);
 						graphics.drawImage(iconImage, sr, dr);
 					}
 				}
@@ -214,6 +194,31 @@ public class ComponentEditPart extends AbstractEditPart {
 		getRoot().refresh();
 
 		return result;
+	}
+
+	/**
+	 * RTCのボディ部分の制約を取得します。
+	 */
+	public Rectangle getBodyBounds() {
+		IFigure figure = getFigure();
+		return (figure != null) ? calcBodyBounds(figure.getBounds()) : null;
+	}
+
+	/**
+	 * RTCのボディ部分の制約を算出します。
+	 * 
+	 * @param bound
+	 * @return
+	 */
+	Rectangle calcBodyBounds(Rectangle bound) {
+		ComponentLayout cl = (ComponentLayout) getFigure().getLayoutManager();
+		Rectangle newBound = new Rectangle(bound);
+		if (cl.isVerticalDirection()) {
+			newBound.expand(-ComponentLayout.EC_SPACE, -ComponentLayout.PORT_SPACE);
+		} else {
+			newBound.expand(-ComponentLayout.PORT_SPACE, -ComponentLayout.EC_SPACE);
+		}
+		return newBound;
 	}
 
 	/**
@@ -451,7 +456,7 @@ public class ComponentEditPart extends AbstractEditPart {
 	}
 
 	private void refreshComponentWithEC() {
-		LOGGER.trace("refreshComponent");
+		LOGGER.trace("refreshComponentWithEC");
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 			@Override
 			public void run() {
@@ -648,6 +653,29 @@ public class ComponentEditPart extends AbstractEditPart {
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * 選択中 ECの種別を取得します。
+	 * 
+	 * @return owned / participation / unknown
+	 */
+	public String getPrimaryExecutionContextType() {
+		ExecutionContext pri = getModel().getPrimaryExecutionContext();
+		if (pri == null) {
+			return "unknown";
+		}
+		for (ExecutionContext ec : getModel().getExecutionContexts()) {
+			if (pri == ec) {
+				return "owned";
+			}
+		}
+		for (ExecutionContext ec : getModel().getParticipationContexts()) {
+			if (pri == ec) {
+				return "participation";
+			}
+		}
+		return "unknown";
 	}
 
 	/**

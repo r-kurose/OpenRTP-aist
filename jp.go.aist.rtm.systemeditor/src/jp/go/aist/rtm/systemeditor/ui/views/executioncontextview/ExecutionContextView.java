@@ -665,13 +665,22 @@ public class ExecutionContextView extends ViewPart {
 			props.add(prop);
 		}
 		// ec owner
-		String owner = (ec.getOwner() == null) ? UNKNOWN : ec.getOwner()
-				.getInstanceNameL();
+		String owner = (ec.getOwner() == null) ? UNKNOWN : ec.getOwner().getInstanceNameL();
 		prop = new ECData.ECProperty(EC_PROPERTY_OWNER, owner);
 		props.add(prop);
 		// ec participants
-		prop = new ECData.ECProperty(EC_PROPERTY_PARTICIPANTS, Integer
-				.toString(ec.getParticipants().size()));
+		String parts = "";
+		if (ec.getParticipants() == null || ec.getParticipants().isEmpty()) {
+			parts = "None";
+		} else {
+			for (Component c : ec.getParticipants()) {
+				if (!parts.isEmpty()) {
+					parts += ",";
+				}
+				parts += (c.getInstanceNameL() == null) ? "Unresolved" : c.getInstanceNameL();
+			}
+		}
+		prop = new ECData.ECProperty(EC_PROPERTY_PARTICIPANTS, parts);
 		props.add(prop);
 		// properties
 		for (String key : ec.getPropertyKeys()) {

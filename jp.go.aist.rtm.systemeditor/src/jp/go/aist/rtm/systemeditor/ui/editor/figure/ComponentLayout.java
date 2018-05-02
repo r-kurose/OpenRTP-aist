@@ -4,7 +4,6 @@ import static jp.go.aist.rtm.toolscommon.model.component.Component.OUTPORT_DIREC
 import static jp.go.aist.rtm.toolscommon.model.component.Component.OUTPORT_DIRECTION_LEFT_LITERAL;
 import static jp.go.aist.rtm.toolscommon.model.component.Component.OUTPORT_DIRECTION_RIGHT_LITERAL;
 import static jp.go.aist.rtm.toolscommon.model.component.Component.OUTPORT_DIRECTION_UP_LITERAL;
-import jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 
 import org.eclipse.draw2d.IFigure;
@@ -22,12 +21,20 @@ import org.slf4j.LoggerFactory;
  */
 public class ComponentLayout extends XYLayout {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(ComponentLayout.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ComponentLayout.class);
+
+	/** コンポーネントの周りとコンポーネントのボディまでのスペース(ポート側) */
+	public static final int PORT_SPACE = 32;
+	/** コンポーネントの周りとコンポーネントのボディまでのスペース(EC側) */
+	public static final int EC_SPACE = 16;
+
+	/** ポートの描画間隔 */
+	public static final int PORT_INTERVAL = 22;
+	/** ECの描画間隔 */
+	public static final int EC_INTERVAL = 17;
 
 	private static final int MIN_WIDTH = 25;
 	private static final int MIN_HEIGHT = 25;
-	private static final int MIN_Component_INTERVAL = 22;
 
 	private OutPortLayouter outportLayouter;
 	private InPortLayouter inportLayouter;
@@ -191,22 +198,18 @@ public class ComponentLayout extends XYLayout {
 			if (direction.equals(OUTPORT_DIRECTION_LEFT_LITERAL)) {
 				// 子要素:左向き
 				bounds.x = clientArea.x + spec.h_space;
-				bounds.y = clientArea.y + spec.v_space + (MIN_HEIGHT / 2)
-						+ MIN_Component_INTERVAL * (childIndex - 1);
+				bounds.y = clientArea.y + spec.v_space + spec.offset + spec.interval * (childIndex - 1);
 			} else if (direction.equals(OUTPORT_DIRECTION_RIGHT_LITERAL)) {
 				// 子要素:右向き
 				bounds.x = clientArea.x + clientArea.width - spec.h_space;
-				bounds.y = clientArea.y + spec.v_space + (MIN_HEIGHT / 2)
-						+ MIN_Component_INTERVAL * (childIndex - 1);
+				bounds.y = clientArea.y + spec.v_space + spec.offset + spec.interval * (childIndex - 1);
 			} else if (direction.equals(OUTPORT_DIRECTION_UP_LITERAL)) {
 				// 子要素:上向き
-				bounds.x = clientArea.x + spec.v_space + (MIN_HEIGHT / 2)
-						+ MIN_Component_INTERVAL * (childIndex - 1);
+				bounds.x = clientArea.x + spec.v_space + spec.offset + spec.interval * (childIndex - 1);
 				bounds.y = clientArea.y + spec.h_space;
 			} else if (direction.equals(OUTPORT_DIRECTION_DOWN_LITERAL)) {
 				// 子要素:下向き
-				bounds.x = clientArea.x + spec.v_space + (MIN_HEIGHT / 2)
-						+ MIN_Component_INTERVAL * (childIndex - 1);
+				bounds.x = clientArea.x + spec.v_space + spec.offset + spec.interval * (childIndex - 1);
 				bounds.y = clientArea.y + clientArea.height - spec.h_space;
 			}
 
@@ -236,6 +239,8 @@ public class ComponentLayout extends XYLayout {
 		public static class Spec {
 			int h_space;
 			int v_space;
+			int offset;
+			int interval;
 		}
 
 	}
@@ -265,8 +270,10 @@ public class ComponentLayout extends XYLayout {
 		@Override
 		public Spec getSpec() {
 			Spec ret = new Spec();
-			ret.h_space = ComponentEditPart.PORT_SPACE - 2;
-			ret.v_space = ComponentEditPart.NONE_SPACE;
+			ret.h_space = PORT_SPACE - 2;
+			ret.v_space = EC_SPACE;
+			ret.offset = MIN_HEIGHT / 2;
+			ret.interval = PORT_INTERVAL;
 			return ret;
 		}
 
@@ -306,8 +313,10 @@ public class ComponentLayout extends XYLayout {
 		@Override
 		public Spec getSpec() {
 			Spec ret = new Spec();
-			ret.h_space = ComponentEditPart.PORT_SPACE - 2;
-			ret.v_space = ComponentEditPart.NONE_SPACE;
+			ret.h_space = PORT_SPACE - 2;
+			ret.v_space = EC_SPACE;
+			ret.offset = MIN_HEIGHT / 2;
+			ret.interval = PORT_INTERVAL;
 			return ret;
 		}
 
@@ -347,8 +356,10 @@ public class ComponentLayout extends XYLayout {
 		@Override
 		public Spec getSpec() {
 			Spec ret = new Spec();
-			ret.h_space = ComponentEditPart.NONE_SPACE;
-			ret.v_space = ComponentEditPart.PORT_SPACE;
+			ret.h_space = EC_SPACE;
+			ret.v_space = PORT_SPACE;
+			ret.offset = 8;
+			ret.interval = EC_INTERVAL;
 			return ret;
 		}
 
@@ -388,8 +399,10 @@ public class ComponentLayout extends XYLayout {
 		@Override
 		public Spec getSpec() {
 			Spec ret = new Spec();
-			ret.h_space = ComponentEditPart.NONE_SPACE;
-			ret.v_space = ComponentEditPart.PORT_SPACE;
+			ret.h_space = EC_SPACE;
+			ret.v_space = PORT_SPACE;
+			ret.offset = 8;
+			ret.interval = EC_INTERVAL;
 			return ret;
 		}
 
@@ -402,8 +415,8 @@ public class ComponentLayout extends XYLayout {
 		portCount = Math.max(portCount, 1);
 		ecCount = Math.max(ecCount, 1);
 
-		int height = ComponentEditPart.NONE_SPACE * 2 + MIN_HEIGHT + MIN_Component_INTERVAL * (portCount - 1);
-		int width = ComponentEditPart.PORT_SPACE * 2 + MIN_WIDTH + MIN_Component_INTERVAL * (ecCount - 1);
+		int height = EC_SPACE * 2 + MIN_HEIGHT + PORT_INTERVAL * (portCount - 1);
+		int width = PORT_SPACE * 2 + MIN_WIDTH + EC_INTERVAL * (ecCount - 1);
 
 		width = Math.max(width, 111);
 

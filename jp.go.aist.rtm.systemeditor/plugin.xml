@@ -256,17 +256,34 @@
 				definitionId="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Activate"
 				class="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate">
 			</action>
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.executioncontext.Stop"
+		</objectContribution>
+
+		<objectContribution
+			id="jp.go.aist.rtm.systemeditor.ui.objectContribution.ExecutionContext"
+			objectClass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart"
+			adaptable="true">
+			<action id="jp.go.aist.rtm.systemeditor.ui.action.IECActionDelegate.executioncontext.DeactivateRTCs"
+				label="%DeactivateRTCs"
+				menubarPath="executionContext"
+				class="jp.go.aist.rtm.systemeditor.ui.action.IECActionDelegate">
+			</action>
+			<action id="jp.go.aist.rtm.systemeditor.ui.action.IECActionDelegate.executioncontext.ActivateRTCs"
+				label="%ActivateRTCs"
+				menubarPath="executionContext"
+				class="jp.go.aist.rtm.systemeditor.ui.action.IECActionDelegate">
+			</action>
+			<action id="jp.go.aist.rtm.systemeditor.ui.action.IECActionDelegate.executioncontext.Stop"
 				label="%Stop"
 				menubarPath="executionContext"
-				class="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate">
+				class="jp.go.aist.rtm.systemeditor.ui.action.IECActionDelegate">
 			</action>
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.executioncontext.Start"
+			<action id="jp.go.aist.rtm.systemeditor.ui.action.IECActionDelegate.executioncontext.Start"
 				label="%Start"
 				menubarPath="executionContext"
-				class="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate">
+				class="jp.go.aist.rtm.systemeditor.ui.action.IECActionDelegate">
 			</action>
 		</objectContribution>
+
 		<objectContribution
 			id="jp.go.aist.rtm.systemeditor.ui.objectContribution.Component"
         	objectClass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart"

@@ -21,15 +21,24 @@ import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 
 import org.eclipse.draw2d.ConnectionAnchor;
+import org.eclipse.draw2d.Cursors;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.gef.ConnectionEditPart;
+import org.eclipse.gef.DragTracker;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.requests.SelectionRequest;
+import org.eclipse.gef.tools.DragEditPartsTracker;
 import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -243,6 +252,7 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 		 */
 		public ECConnectionEditPart.ECConnection findOrCreateConn(OwnEC oe, PartEC pe) {
 			String connId = ECConnectionEditPart.ECConnection.buildId(oe, pe);
+			LOGGER.trace("findOrCreateConn: oe=<{}> pe=<{}> id=<{}>", to_cid(oe), to_cid(pe), connId);
 			ECConnectionEditPart.ECConnection conn = this.connMap.get(connId);
 			if (conn == null) {
 				conn = new ECConnectionEditPart.ECConnection(oe, pe);
@@ -290,7 +300,7 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 			return ret;
 		}
 		LOGGER.trace("getModelTargetConnections: this=<{}> model=<{}>", to_cid(this), to_cid(getModel()));
-		LOGGER.trace("getModelTargetConnections:　　owner=<{}>", to_cid(getModel().getModel().getOwner()));
+		LOGGER.trace("getModelTargetConnections:  owner=<{}>", to_cid(getModel().getModel().getOwner()));
 		for (Component c : getModel().getModel().getParticipants()) {
 			LOGGER.trace("getModelTargetConnections:  parts=<{}>", to_cid(c));
 		}
@@ -406,6 +416,70 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 	}
 
 	@Override
+	protected void addSourceConnection(ConnectionEditPart connection, int index) {
+		LOGGER.trace("addSourceConnection: this=<{}> model=<{}> conn=<{}> index=<{}>", to_cid(this), to_cid(getModel()),
+				to_cid(connection), index);
+		// ターゲット側の設定も行う
+		ECConnectionEditPart.ECConnection connectionModel = (ECConnectionEditPart.ECConnection) connection.getModel();
+		PartECEditPart targetPart = (PartECEditPart) getViewer().getEditPartRegistry().get(connectionModel.getTarget());
+		if (targetPart == null) {
+			return;
+		}
+		targetPart.primAddTargetConnection(connection, index);
+		GraphicalEditPart target = (GraphicalEditPart) connection.getTarget();
+		if (target != null) {
+			target.getTargetConnections().remove(connection);
+		}
+		GraphicalEditPart source = (GraphicalEditPart) connection.getSource();
+		if (source != null) {
+			source.getSourceConnections().remove(connection);
+		}
+		connection.setSource(null);
+		connection.setTarget(targetPart);
+		targetPart.fireTargetConnectionAdded(connection, index);
+
+		// 元々のソース側の設定を行う
+		primAddSourceConnection(connection, index);
+
+		connection.setSource(this);
+		fireSourceConnectionAdded(connection, index);
+
+		connection.activate();
+	}
+
+	@Override
+	protected void addTargetConnection(ConnectionEditPart connection, int index) {
+		LOGGER.trace("addTargetConnection: this=<{}> model=<{}> conn=<{}> index=<{}>", to_cid(this), to_cid(getModel()),
+				to_cid(connection), index);
+		// ソース側の設定も行う
+		ECConnectionEditPart.ECConnection connectionModel = (ECConnectionEditPart.ECConnection) connection.getModel();
+		OwnECEditPart sourcePart = (OwnECEditPart) getViewer().getEditPartRegistry().get(connectionModel.getSource());
+		if (sourcePart == null) {
+			return;
+		}
+		sourcePart.primAddSourceConnection(connection, index);
+		GraphicalEditPart source = (GraphicalEditPart) connection.getSource();
+		if (source != null) {
+			source.getSourceConnections().remove(connection);
+		}
+		GraphicalEditPart target = (GraphicalEditPart) connection.getTarget();
+		if (target != null) {
+			target.getTargetConnections().remove(connection);
+		}
+		connection.setTarget(null);
+		connection.setSource(sourcePart);
+		sourcePart.fireSourceConnectionAdded(connection, index);
+
+		// 元々のターゲット側の設定を行う
+		primAddTargetConnection(connection, index);
+
+		connection.setTarget(this);
+		fireTargetConnectionAdded(connection, index);
+
+		connection.activate();
+	}
+
+	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
 		LOGGER.trace("getSourceConnectionAnchor: this=<{}> connection=<{}>", to_cid(getModel()), to_cid(connection));
 		return new ECAnchor(getFigure());
@@ -494,6 +568,51 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 			});
 		}
 
+		@Override
+		public DragTracker getDragTracker(Request request) {
+			LOGGER.debug("getDragTracker: request=<{}>", request);
+			if (request instanceof SelectionRequest) {
+				return new DragEditPartsTracker(this) {
+
+					private AttachECCommand command = new AttachECCommand();
+
+					@Override
+					protected boolean handleDragStarted() {
+						this.command.setOwnECTarget((OwnECEditPart) this.getSourceEditPart());
+						return super.handleDragStarted();
+					}
+
+					@Override
+					protected boolean handleDragInProgress() {
+						this.command.setTargetPart(this.getTargetEditPart());
+						this.command.setLocation(this.getLocation());
+						return super.handleDragInProgress();
+					}
+
+					@Override
+					protected void performDrag() {
+						if (this.command.canExecute()) {
+							this.command.execute();
+							this.command.setOwnECTarget(null);
+						}
+						super.performDrag();
+					}
+
+					@Override
+					protected Cursor calculateCursor() {
+						Cursor ret = null;
+						if (this.command.canExecute()) {
+							ret = Cursors.UPARROW;
+						} else {
+							ret = Cursors.CROSS;
+						}
+						return ret;
+					}
+				};
+			}
+			return super.getDragTracker(request);
+		}
+
 	}
 
 	/**
@@ -569,6 +688,55 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 
 		public PartEC(ExecutionContext ec) {
 			this.ec = ec;
+		}
+
+	}
+
+	/**
+	 * ECへ RTCをアタッチするコマンド (DnD用)
+	 */
+	public static class AttachECCommand extends Command {
+
+		private OwnECEditPart ownECPart;
+		private EditPart targetPart;
+		private Point location;
+
+		public void setOwnECTarget(OwnECEditPart ownECPart) {
+			this.ownECPart = ownECPart;
+		}
+
+		public void setTargetPart(EditPart editPart) {
+			this.targetPart = editPart;
+		}
+
+		public void setLocation(Point location) {
+			this.location = location;
+		}
+
+		@Override
+		public boolean canExecute() {
+			if (this.ownECPart == null || this.targetPart == null || this.location == null) {
+				return false;
+			}
+			if (!(this.targetPart instanceof ComponentEditPart)) {
+				return false;
+			}
+			ComponentEditPart compPart = (ComponentEditPart) this.targetPart;
+			Rectangle bound = compPart.getBodyBounds();
+			if (bound != null && bound.contains(this.location)) {
+				return true;
+			}
+			return false;
+		}
+
+		@Override
+		public void execute() {
+			LOGGER.debug("AttachECCommand.execute");
+			ComponentEditPart compPart = (ComponentEditPart) this.targetPart;
+			Component comp = compPart.getModel();
+			ExecutionContext ec = this.ownECPart.getModel().getModel();
+			ec.addComponentR(comp);
+
 		}
 
 	}

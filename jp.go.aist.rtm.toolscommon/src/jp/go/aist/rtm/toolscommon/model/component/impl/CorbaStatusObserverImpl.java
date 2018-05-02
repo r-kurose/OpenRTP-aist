@@ -129,8 +129,7 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 		if (!eql(rtc, ro)) {
 			return false;
 		}
-		CorbaStatusObserver obs = CorbaObserverStore.eINSTANCE
-				.findStatusObserver(ro);
+		CorbaStatusObserver obs = CorbaObserverStore.eINSTANCE.findStatusObserver(ro);
 		if (obs != null) {
 			return true;
 		} else {
@@ -138,12 +137,14 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 			hbMap.put(rtc, hb);
 			//
 			serviceProfile = new _SDOPackage.ServiceProfile();
-			serviceProfile.interface_type = OpenRTM.ComponentObserverHelper
-					.id();
+			serviceProfile.interface_type = OpenRTM.ComponentObserverHelper.id();
 			//
-//			setProperty("observed_status", "ALL");
-//			setProperty("heartbeat.enable", hb.getPropEnable());
-//			setProperty("heartbeat.interval", hb.getPropInterval());
+			setProperty("observed_status", "ALL");
+			setProperty("heartbeat.enable", hb.getPropEnable());
+			setProperty("heartbeat.interval", hb.getPropInterval());
+			//
+			setProperty("dataport.send_event.min_interval", "1");
+			setProperty("dataport.receive_event.min_interval", "1");
 			//
 			listener = new PropertyChangeListener() {
 				@Override
@@ -151,8 +152,7 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 					propertyChanged(evt.getPropertyName());
 				}
 			};
-			ToolsCommonPreferenceManager.getInstance()
-					.addPropertyChangeListener(listener);
+			ToolsCommonPreferenceManager.getInstance().addPropertyChangeListener(listener);
 			//
 			activate();
 			try {
@@ -270,13 +270,12 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 			String id = ss[1];
 			//
 			if ("ATTACHED".equals(action) || "DETACHED".equals(action)) {
-				RTC.ExecutionContext oldEc = CorbaObjectStore.eINSTANCE
-						.findContext(rtc, id);
+				RTC.ExecutionContext oldEc = CorbaObjectStore.eINSTANCE.findContext(rtc, id);
 				//
+				LOGGER.trace("  sync RTC rtc=<{}>", rtc);
 				synchronizeRemote_RTCExecutionContexts(rtc);
 				//
-				RTC.ExecutionContext newEc = CorbaObjectStore.eINSTANCE
-						.findContext(rtc, id);
+				RTC.ExecutionContext newEc = CorbaObjectStore.eINSTANCE.findContext(rtc, id);
 				//
 				RTC.ExecutionContext ec = null;
 				if ("ATTACHED".equals(action)) {
@@ -285,24 +284,27 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 					ec = oldEc;
 				}
 				if (ec != null) {
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						LOGGER.error("Fail to intarvel.", e);
+					}
+					LOGGER.trace("  sync EC: ec=<{}>", ec);
 					synchronizeRemote_EC_ECProfile(ec);
 					synchronizeRemote_EC_ComponentState(rtc, ec);
 					// 複合RTCの子情報の変更通知がないため、ECのアタッチ/デタッチ時にECオーナーを更新
-					RTC.ExecutionContextProfile ecprof = CorbaObjectStore.eINSTANCE
-							.findECProfile(ec);
+					RTC.ExecutionContextProfile ecprof = CorbaObjectStore.eINSTANCE.findECProfile(ec);
 					if (ecprof != null && ecprof.owner != null) {
 						synchronizeRemote_RTCRTObjects(ecprof.owner);
 					}
 				}
 			} else if ("RATE_CHANGED".equals(action)) {
-				RTC.ExecutionContext ec = CorbaObjectStore.eINSTANCE
-						.findContext(rtc, id);
+				RTC.ExecutionContext ec = CorbaObjectStore.eINSTANCE.findContext(rtc, id);
 				if (ec != null) {
 					synchronizeRemote_EC_ECProfile(ec);
 				}
 			} else if ("STARTUP".equals(action) || "SHUTDOWN".equals(action)) {
-				RTC.ExecutionContext ec = CorbaObjectStore.eINSTANCE
-						.findContext(rtc, id);
+				RTC.ExecutionContext ec = CorbaObjectStore.eINSTANCE.findContext(rtc, id);
 				if (ec != null) {
 					synchronizeRemote_EC_ECState(ec);
 				}

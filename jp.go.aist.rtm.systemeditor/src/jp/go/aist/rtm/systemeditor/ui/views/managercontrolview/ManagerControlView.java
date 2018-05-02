@@ -330,15 +330,34 @@ public class ManagerControlView extends ViewPart {
 					return;
 				}
 				
+				String managerName = SDOUtil.findValueAsString("instance_name", target.getProfileR().properties);
 				target.shutdownR();
+				
 				if(target==targetManager) {
 					targetManager = null;
 				} else {
 					try {
-						Thread.sleep(2000);
-					} catch (InterruptedException ex) {
+						Thread.sleep(500);
+						for(int index=0; index<5; index++) {
+							boolean isHit = false;
+							for (RTCManager manager : targetManager.getSlaveManagersR()) {
+								try {
+									String mngName = SDOUtil.findValueAsString("instance_name", manager.getProfileR().properties);
+									if(mngName.equals(managerName)) {
+										isHit = true;
+										break;
+									}
+								} catch (Exception ex) {
+								}
+							}
+							if(isHit) {
+								Thread.sleep(200);
+							} else {
+								break;
+							}
+						}
+					} catch (Exception ex) {
 					}
-					target.synchronizeManually();
 				}
 				isSelectedManagers = true;
 				refreshData();
