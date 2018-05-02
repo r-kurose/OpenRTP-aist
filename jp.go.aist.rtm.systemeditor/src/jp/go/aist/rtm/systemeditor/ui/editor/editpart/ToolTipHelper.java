@@ -1,5 +1,6 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.editpart;
 
+import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
@@ -43,6 +44,9 @@ public class ToolTipHelper {
 				sb.append("type: ").append(type);
 			}
 		}
+		Component owner = ec.getOwner();
+		sb.append(CRLF);
+		sb.append("owner: ").append((owner == null) ? null : owner.getInstanceNameL());
 		return buildPanel(sb.toString());
 	}
 

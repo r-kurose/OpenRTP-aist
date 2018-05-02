@@ -65,9 +65,7 @@ public interface IRtcBuilderConstants {
 		"onInitialize", "onFinalize", "onStartup", "onShutdown", "onActivated",
 		"onDeactivated", "onAborting", "onError", "onReset",
 		"onExecute", "onStateUpdate", "onRateChanged",
-		"onAction", "onModeChanged",
-		"initializeIO", "initializeSimulation", "startSimulation",
-		"inputFromSimulator", "outputToSimulator", "stopSimulation"};
+		"onAction", "onModeChanged"};
 	
 	public static final String TAG_BACKEND = "backend";
 	public static final String TAG_SVC_IDL = "svc-idl";
