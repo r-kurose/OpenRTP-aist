@@ -16,6 +16,7 @@ import RTC.RTObject;
 import RTC.ReturnCode_t;
 import _SDOPackage.Configuration;
 import _SDOPackage.Organization;
+import jp.go.aist.rtm.toolscommon.model.component.util.ICorbaPortEventObserver;
 
 /**
  * <!-- begin-user-doc -->
@@ -424,5 +425,21 @@ public interface CorbaComponent extends Component, CorbaWrapperObject {
 	 * @generated
 	 */
 	void stopAll();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model observerDataType="jp.go.aist.rtm.toolscommon.model.component.ICorbaPortEventObserver"
+	 * @generated
+	 */
+	void attachPortEventObserver(ICorbaPortEventObserver observer);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model observerDataType="jp.go.aist.rtm.toolscommon.model.component.ICorbaPortEventObserver"
+	 * @generated
+	 */
+	void detatchPortEventObserver(ICorbaPortEventObserver observer);
 
 } // CorbaComponent

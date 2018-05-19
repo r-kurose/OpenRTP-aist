@@ -19,11 +19,14 @@ public class CorbaObserverStore {
 	Map<RTC.RTObject, CorbaStatusObserver> statusObserverMap;
 	// RTC.RTObj => CorbaLogObserver
 	Map<RTC.RTObject, CorbaLogObserver> logObserverMap;
+	// RTC.RTObj => CorbaPortEventObserver
+	Map<RTC.RTObject, List<ICorbaPortEventObserver>> portEventObserverMap;
 
 	public CorbaObserverStore() {
-		this.compReferenceMap = new HashMap<RTC.RTObject, ComponentList>();
-		this.statusObserverMap = new HashMap<RTC.RTObject, CorbaStatusObserver>();
-		this.logObserverMap = new HashMap<RTC.RTObject, CorbaLogObserver>();
+		this.compReferenceMap = new HashMap<>();
+		this.statusObserverMap = new HashMap<>();
+		this.logObserverMap = new HashMap<>();
+		this.portEventObserverMap = new HashMap<>();
 	}
 
 	/**
@@ -89,8 +92,7 @@ public class CorbaObserverStore {
 	/**
 	 * RTC.RTObjectをキーに CorbaStatusObserverを保存します。
 	 */
-	public synchronized CorbaStatusObserver registStatusObserver(
-			RTC.RTObject ro, CorbaStatusObserver observer) {
+	public synchronized CorbaStatusObserver registStatusObserver(RTC.RTObject ro, CorbaStatusObserver observer) {
 		return statusObserverMap.put(ro, observer);
 	}
 
@@ -111,8 +113,7 @@ public class CorbaObserverStore {
 	/**
 	 * RTC.RTObjectをキーに CorbaLogObserverを保存します。
 	 */
-	public synchronized CorbaLogObserver registLogObserver(RTC.RTObject ro,
-			CorbaLogObserver observer) {
+	public synchronized CorbaLogObserver registLogObserver(RTC.RTObject ro, CorbaLogObserver observer) {
 		return logObserverMap.put(ro, observer);
 	}
 
@@ -121,6 +122,43 @@ public class CorbaObserverStore {
 	 */
 	public synchronized CorbaLogObserver removeLogObserver(RTC.RTObject ro) {
 		return logObserverMap.remove(ro);
+	}
+
+	/**
+	 * RTC.RTObjectをキーに ICorbaPortEventObserverのリストを検索します。
+	 */
+	public List<ICorbaPortEventObserver> findPortEventObserver(RTC.RTObject ro) {
+		if (!this.portEventObserverMap.containsKey(ro)) {
+			return new ArrayList<>();
+		}
+		return this.portEventObserverMap.get(ro);
+	}
+
+	/**
+	 * RTC.RTObjectをキーに ICorbaPortEventObserverを保存します。
+	 */
+	public synchronized ICorbaPortEventObserver registPortEventObserver(RTC.RTObject ro, ICorbaPortEventObserver observer) {
+		List<ICorbaPortEventObserver> list = this.portEventObserverMap.get(ro);
+		if (list == null) {
+			list = new ArrayList<>();
+			this.portEventObserverMap.put(ro, list);
+		}
+		list.add(observer);
+		return observer;
+	}
+
+	/**
+	 * RTC.RTObjectをキーに CorbaPortEventObserverを削除します。
+	 */
+	public synchronized ICorbaPortEventObserver removePortEventObserver(RTC.RTObject ro, ICorbaPortEventObserver observer) {
+		List<ICorbaPortEventObserver> list = this.portEventObserverMap.get(ro);
+		if (list != null) {
+			list.remove(observer);
+		}
+		if (list == null || list.isEmpty()) {
+			this.portEventObserverMap.remove(ro);
+		}
+		return observer;
 	}
 
 	public static class ComponentList {

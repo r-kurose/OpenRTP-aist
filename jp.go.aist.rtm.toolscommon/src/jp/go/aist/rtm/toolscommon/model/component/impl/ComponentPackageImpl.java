@@ -38,6 +38,7 @@ import jp.go.aist.rtm.toolscommon.model.component.PortSynchronizer;
 import jp.go.aist.rtm.toolscommon.model.component.ServicePort;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
+import jp.go.aist.rtm.toolscommon.model.component.util.ICorbaPortEventObserver;
 import jp.go.aist.rtm.toolscommon.model.core.CorePackage;
 import jp.go.aist.rtm.toolscommon.model.core.impl.CorePackageImpl;
 import jp.go.aist.rtm.toolscommon.model.manager.ManagerPackage;
@@ -264,6 +265,13 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * @generated
 	 */
 	private EDataType servantEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType iCorbaPortEventObserverEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1701,6 +1709,15 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EDataType getICorbaPortEventObserver() {
+		return iCorbaPortEventObserverEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EDataType getRTCComponentProfile() {
 		return rtcComponentProfileEDataType;
 	}
@@ -2014,6 +2031,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		portInterfaceProfileEDataType = createEDataType(PORT_INTERFACE_PROFILE);
 		listEDataType = createEDataType(LIST);
 		servantEDataType = createEDataType(SERVANT);
+		iCorbaPortEventObserverEDataType = createEDataType(ICORBA_PORT_EVENT_OBSERVER);
 	}
 
 	/**
@@ -2384,6 +2402,12 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 		addEOperation(corbaComponentEClass, null, "stopAll", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+		op = addEOperation(corbaComponentEClass, null, "attachPortEventObserver", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getICorbaPortEventObserver(), "observer", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(corbaComponentEClass, null, "detatchPortEventObserver", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getICorbaPortEventObserver(), "observer", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		initEClass(corbaPortSynchronizerEClass, CorbaPortSynchronizer.class, "CorbaPortSynchronizer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCorbaPortSynchronizer_RTCPortProfile(), this.getRTCPortProfile(), "rTCPortProfile", null, 0, 1, CorbaPortSynchronizer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -2458,6 +2482,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		initEDataType(portInterfaceProfileEDataType, PortInterfaceProfile.class, "PortInterfaceProfile", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(listEDataType, List.class, "List", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(servantEDataType, Servant.class, "Servant", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(iCorbaPortEventObserverEDataType, ICorbaPortEventObserver.class, "ICorbaPortEventObserver", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

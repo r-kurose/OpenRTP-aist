@@ -326,6 +326,12 @@
     <eOperations name="deactivateAll"/>
     <eOperations name="startAll"/>
     <eOperations name="stopAll"/>
+    <eOperations name="attachPortEventObserver">
+      <eParameters name="observer" eType="#//ICorbaPortEventObserver"/>
+    </eOperations>
+    <eOperations name="detatchPortEventObserver">
+      <eParameters name="observer" eType="#//ICorbaPortEventObserver"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rTCComponentProfile" eType="#//RTCComponentProfile"
         transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rTCExecutionContexts" upperBound="-1"
@@ -394,4 +400,5 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CorbaLogObserver" eSuperTypes="#//CorbaObserver"/>
   <eClassifiers xsi:type="ecore:EDataType" name="Servant" instanceClassName="org.omg.PortableServer.Servant"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="ICorbaPortEventObserver" instanceClassName="jp.go.aist.rtm.toolscommon.model.component.util.ICorbaPortEventObserver"/>
 </ecore:EPackage>

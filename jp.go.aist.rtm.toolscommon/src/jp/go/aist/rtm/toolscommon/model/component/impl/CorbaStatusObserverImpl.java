@@ -9,6 +9,8 @@ package jp.go.aist.rtm.toolscommon.model.component.impl;
 import static jp.go.aist.rtm.toolscommon.manager.ToolsCommonPreferenceManager.KEY_STATUS_OBSERVER_HB_ENABLE;
 import static jp.go.aist.rtm.toolscommon.manager.ToolsCommonPreferenceManager.KEY_STATUS_OBSERVER_HB_INTERVAL;
 import static jp.go.aist.rtm.toolscommon.manager.ToolsCommonPreferenceManager.KEY_STATUS_OBSERVER_HB_TRYCOUNT;
+import static jp.go.aist.rtm.toolscommon.manager.ToolsCommonPreferenceManager.KEY_STATUS_OBSERVER_PORT_EVENT_RECV_MIN_INTERVAL;
+import static jp.go.aist.rtm.toolscommon.manager.ToolsCommonPreferenceManager.KEY_STATUS_OBSERVER_PORT_EVENT_SEND_MIN_INTERVAL;
 import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_ActiveConfigurationSet;
 import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_ConfigurationSets;
 import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_EC_ComponentState;
@@ -33,6 +35,7 @@ import jp.go.aist.rtm.toolscommon.model.component.CorbaStatusObserver;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.util.CorbaObjectStore;
 import jp.go.aist.rtm.toolscommon.model.component.util.CorbaObserverStore;
+import jp.go.aist.rtm.toolscommon.model.component.util.ICorbaPortEventObserver;
 
 import org.eclipse.emf.ecore.EClass;
 import org.omg.PortableServer.Servant;
@@ -143,8 +146,10 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 			setProperty("heartbeat.enable", hb.getPropEnable());
 			setProperty("heartbeat.interval", hb.getPropInterval());
 			//
-			setProperty("dataport.send_event.min_interval", "1");
-			setProperty("dataport.receive_event.min_interval", "1");
+			// port_profile.send_event.min_interval x [s] (最低送信イベント間隔)
+			setProperty("port_profile.send_event.min_interval", getPropPortSendMinInterval());
+			// port_profile.receive_event.min_interval: x [s] (最低受信イベント間隔))
+			setProperty("port_profile.receive_event.min_interval", getPropPortRecvMinInterval());
 			//
 			listener = new PropertyChangeListener() {
 				@Override
@@ -197,8 +202,7 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 		//
 		CorbaObserverStore.eINSTANCE.removeStatusObserver(rtc);
 		hbMap.remove(rtc);
-		ToolsCommonPreferenceManager.getInstance()
-				.removePropertyChangeListener(listener);
+		ToolsCommonPreferenceManager.getInstance().removePropertyChangeListener(listener);
 		//
 		return result;
 	}
@@ -315,17 +319,21 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 			if (hint == null) {
 				return;
 			}
-			String[] ss = hint.split(":");
-			if (ss.length != 2) {
+			int p = hint.indexOf(":");
+			if (p == -1) {
 				return;
 			}
-			String action = ss[0];
-			String port_name = ss[1];
+			String action = hint.substring(0, p);
+			String port_name = hint.substring(p + 1);
 			//
 			if ("CONNECT".equals(action) || "DISCONNECT".equals(action)) {
 				synchronizeRemote_RTCPortProfile(rtc, port_name);
 			} else if ("ADD".equals(action) || "REMOVE".equals(action)) {
 				synchronizeRemote_RTCComponentProfile(rtc);
+			} else if ("SEND".equals(action) || "RECEIVE".equals(action)) {
+				for (ICorbaPortEventObserver obs : CorbaObserverStore.eINSTANCE.findPortEventObserver(this.rtc)) {
+					obs.notifyEvent(action, port_name);
+				}
 			}
 		}
 		if (OpenRTM.StatusKind.CONFIGURATION.equals(status_kind)) {
@@ -340,8 +348,7 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 				// 複合RTCの公開ポート変更の通知がないので、ConfigurationSetの通知時にプロファイルを更新
 				RTC.ComponentProfile prof = CorbaObjectStore.eINSTANCE
 						.findRTCProfile(rtc);
-				if (prof != null && prof.category != null
-						&& prof.category.startsWith("composite.")) {
+				if (prof != null && prof.category != null && prof.category.startsWith("composite.")) {
 					synchronizeRemote_RTCComponentProfile(rtc);
 				}
 			}
@@ -356,9 +363,12 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 
 		LOGGER.info("property changed: {}", p);
 
-		if (!KEY_STATUS_OBSERVER_HB_ENABLE.equals(name)
-				&& !KEY_STATUS_OBSERVER_HB_INTERVAL.equals(name)
-				&& !KEY_STATUS_OBSERVER_HB_TRYCOUNT.equals(name)) {
+		if (!KEY_STATUS_OBSERVER_HB_ENABLE.equals(name) //
+				&& !KEY_STATUS_OBSERVER_HB_INTERVAL.equals(name) //
+				&& !KEY_STATUS_OBSERVER_HB_TRYCOUNT.equals(name) //
+				&& !KEY_STATUS_OBSERVER_PORT_EVENT_SEND_MIN_INTERVAL.equals(name) //
+				&& !KEY_STATUS_OBSERVER_PORT_EVENT_RECV_MIN_INTERVAL.equals(name) //
+		) {
 			return;
 		}
 		//
@@ -374,11 +384,23 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 		setProperty("heartbeat.enable", hb.getPropEnable());
 		setProperty("heartbeat.interval", hb.getPropInterval());
 		//
+		setProperty("port_profile.send_event.min_interval", getPropPortSendMinInterval());
+		setProperty("port_profile.receive_event.min_interval", getPropPortRecvMinInterval());
+		//
 		try {
 			removeServiceProfile(rtc.get_configuration());
 			addServiceProfile(rtc.get_configuration());
 		} catch (Exception e) {
+			LOGGER.error("Fail to reset service profile.", e);
 		}
+	}
+
+	String getPropPortSendMinInterval() {
+		return Double.toString(ToolsCommonPreferenceManager.getInstance().getSTATUS_OBSERVER_PORT_EVENT_SEND_MIN_INTERVAL());
+	}
+
+	String getPropPortRecvMinInterval() {
+		return Double.toString(ToolsCommonPreferenceManager.getInstance().getSTATUS_OBSERVER_PORT_EVENT_RECV_MIN_INTERVAL());
 	}
 
 	static class ComponentObserverPOAImpl extends OpenRTM.ComponentObserverPOA {
@@ -479,4 +501,4 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 		}
 	}
 
-} //CorbaStatusObserverImpl
+} // CorbaStatusObserverImpl

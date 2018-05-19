@@ -3046,6 +3046,16 @@ public interface ComponentPackage extends EPackage {
 	int SERVANT = 39;
 
 	/**
+	 * The meta object id for the '<em>ICorba Port Event Observer</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see jp.go.aist.rtm.toolscommon.model.component.util.ICorbaPortEventObserver
+	 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getICorbaPortEventObserver()
+	 * @generated
+	 */
+	int ICORBA_PORT_EVENT_OBSERVER = 40;
+
+	/**
 	 * The meta object id for the '<em>SDO Configuration</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4709,6 +4719,17 @@ public interface ComponentPackage extends EPackage {
 	EDataType getServant();
 
 	/**
+	 * Returns the meta object for data type '{@link jp.go.aist.rtm.toolscommon.model.component.util.ICorbaPortEventObserver <em>ICorba Port Event Observer</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>ICorba Port Event Observer</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.component.util.ICorbaPortEventObserver
+	 * @model instanceClass="jp.go.aist.rtm.toolscommon.model.component.util.ICorbaPortEventObserver"
+	 * @generated
+	 */
+	EDataType getICorbaPortEventObserver();
+
+	/**
 	 * Returns the meta object for data type '{@link _SDOPackage.Configuration <em>SDO Configuration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6051,6 +6072,16 @@ public interface ComponentPackage extends EPackage {
 		 * @generated
 		 */
 		EDataType SERVANT = eINSTANCE.getServant();
+
+		/**
+		 * The meta object literal for the '<em>ICorba Port Event Observer</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see jp.go.aist.rtm.toolscommon.model.component.util.ICorbaPortEventObserver
+		 * @see jp.go.aist.rtm.toolscommon.model.component.impl.ComponentPackageImpl#getICorbaPortEventObserver()
+		 * @generated
+		 */
+		EDataType ICORBA_PORT_EVENT_OBSERVER = eINSTANCE.getICorbaPortEventObserver();
 
 		/**
 		 * The meta object literal for the '<em>SDO Configuration</em>' data type.

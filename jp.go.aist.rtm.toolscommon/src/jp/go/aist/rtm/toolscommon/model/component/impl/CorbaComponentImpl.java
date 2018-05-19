@@ -36,6 +36,7 @@ import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.component.util.CorbaObjectStore;
 import jp.go.aist.rtm.toolscommon.model.component.util.CorbaObserverStore;
 import jp.go.aist.rtm.toolscommon.model.component.util.CorbaPropertyMap;
+import jp.go.aist.rtm.toolscommon.model.component.util.ICorbaPortEventObserver;
 import jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject;
 import jp.go.aist.rtm.toolscommon.model.core.CorePackage;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
@@ -683,6 +684,32 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		for (RTC.ExecutionContext ec : getRTCExecutionContexts()) {
 			ReturnCode_t ret = ec.stop();
 			LOG_ACTION("stopAll", ret, ec);
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void attachPortEventObserver(ICorbaPortEventObserver observer) {
+		List<ICorbaPortEventObserver> list = CorbaObserverStore.eINSTANCE.findPortEventObserver(this.getCorbaObjectInterface());
+		if (!list.contains(observer)) {
+			LOGGER.info("attachPortEventObserver: regist obs=<{}> rtc=<{}>", observer, this.getCorbaObject());
+			CorbaObserverStore.eINSTANCE.registPortEventObserver(this.getCorbaObjectInterface(), observer);
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void detatchPortEventObserver(ICorbaPortEventObserver observer) {
+		List<ICorbaPortEventObserver> list = CorbaObserverStore.eINSTANCE.findPortEventObserver(this.getCorbaObjectInterface());
+		if (list.contains(observer)) {
+			LOGGER.info("detatchPortEventObserver: regist obs=<{}> rtc=<{}>", observer, this.getCorbaObject());
+			CorbaObserverStore.eINSTANCE.removePortEventObserver(this.getCorbaObjectInterface(), observer);
 		}
 	}
 
