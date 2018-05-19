@@ -31,7 +31,7 @@ public class ComponentLayout extends XYLayout {
 	/** ポートの描画間隔 */
 	public static final int PORT_INTERVAL = 22;
 	/** ECの描画間隔 */
-	public static final int EC_INTERVAL = 17;
+	public static final int EC_INTERVAL = 13;
 
 	private static final int MIN_WIDTH = 25;
 	private static final int MIN_HEIGHT = 25;
@@ -250,8 +250,7 @@ public class ComponentLayout extends XYLayout {
 	 */
 	public static class OutPortLayouter extends ChildLayouter {
 
-		public static final Class<?>[] CLASSES = new Class[] {
-				OutPortFigure.class, ServicePortFigure.class };
+		public static final Class<?>[] CLASSES = new Class[] { OutPortFigure.class, ServicePortFigure.class };
 
 		public OutPortLayouter(ComponentLayout layout) {
 			super(layout);
@@ -358,7 +357,7 @@ public class ComponentLayout extends XYLayout {
 			Spec ret = new Spec();
 			ret.h_space = EC_SPACE;
 			ret.v_space = PORT_SPACE;
-			ret.offset = 8;
+			ret.offset = EC_INTERVAL / 2;
 			ret.interval = EC_INTERVAL;
 			return ret;
 		}
@@ -401,7 +400,7 @@ public class ComponentLayout extends XYLayout {
 			Spec ret = new Spec();
 			ret.h_space = EC_SPACE;
 			ret.v_space = PORT_SPACE;
-			ret.offset = 8;
+			ret.offset = EC_INTERVAL / 2;
 			ret.interval = EC_INTERVAL;
 			return ret;
 		}

@@ -15,7 +15,6 @@ import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
 import jp.go.aist.rtm.systemeditor.ui.action.OpenCompositeComponentAction;
 import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
 import jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramStore;
-import jp.go.aist.rtm.systemeditor.ui.editor.action.ChangeComponentDirectionAction;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpart.direct.NameCellEditorLocator;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpart.direct.NameDirectEditManager;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.ChangeDirectionEditPolicy;
@@ -23,6 +22,8 @@ import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.ComponentComponentEditPo
 import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.EditPolicyConstraint;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.NameDirectEditPolicy;
 import jp.go.aist.rtm.systemeditor.ui.editor.figure.ComponentLayout;
+import jp.go.aist.rtm.systemeditor.ui.editor.figure.PortFigure;
+import jp.go.aist.rtm.systemeditor.ui.handler.ChangeDirectionCommandHandler;
 import jp.go.aist.rtm.systemeditor.ui.util.ComponentUtil;
 import jp.go.aist.rtm.systemeditor.ui.util.Draw2dUtil;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
@@ -32,6 +33,7 @@ import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
+import jp.go.aist.rtm.toolscommon.model.component.util.ICorbaPortEventObserver;
 import jp.go.aist.rtm.toolscommon.model.core.CorePackage;
 
 import org.eclipse.draw2d.ColorConstants;
@@ -80,6 +82,8 @@ public class ComponentEditPart extends AbstractEditPart {
 	NameDirectEditManager directManager = null;
 
 	Image iconImage;
+
+	private PortEventObserver portEventObserver;
 
 	/**
 	 * コンストラクタ
@@ -156,29 +160,7 @@ public class ComponentEditPart extends AbstractEditPart {
 			}
 		};
 
-		result.addMouseListener(new MouseListener.Stub() {
-			/**
-			 * コンポーネントを右クリック（+Shift）して、方向を変換する機能の実装
-			 */
-			@Override
-			public void mousePressed(MouseEvent me) {
-				if (me.button == 3) { // right click
-					IAction action = null;
-					if (me.getState() == SWT.SHIFT) {
-						action = getActionRegistry()
-								.getAction(
-										ChangeComponentDirectionAction.VERTICAL_DIRECTION_ACTION_ID);
-					} else if (me.getState() == SWT.CONTROL) {
-						action = getActionRegistry()
-								.getAction(
-										ChangeComponentDirectionAction.HORIZON_DIRECTION_ACTION_ID);
-					}
-
-					if (action != null)
-						action.run();
-				}
-			}
-		});
+		result.addMouseListener(new ComponentMouseListener(this));
 
 		ComponentLayout layout = new ComponentLayout(getModel());
 		result.setLayoutManager(layout);
@@ -196,6 +178,42 @@ public class ComponentEditPart extends AbstractEditPart {
 		return result;
 	}
 
+	/**
+	 * コンポーネントへのマウス操作のリスナを表します。
+	 */
+	public static class ComponentMouseListener extends MouseListener.Stub {
+
+		private ComponentEditPart editPart;
+
+		public ComponentMouseListener(ComponentEditPart editPart) {
+			this.editPart = editPart;
+		}
+
+		/**
+		 * コンポーネントを右クリック（+Shift）して、方向を変換する機能の実装
+		 */
+		@Override
+		public void mousePressed(MouseEvent me) {
+			if (me.button == 3) { // right click
+				ChangeDirectionCommandHandler.Delegate delegate = new ChangeDirectionCommandHandler.Delegate();
+				delegate.setTargetEditPart(this.editPart);
+				if (me.getState() == SWT.SHIFT) {
+					delegate.setId(ChangeDirectionCommandHandler.VERTICAL_DIRECTION_ID);
+				} else if (me.getState() == SWT.CONTROL) {
+					delegate.setId(ChangeDirectionCommandHandler.HORIZONTAL_DIRECTION_ID);
+				} else {
+					return;
+				}
+				try {
+					delegate.run();
+				} catch (Exception e) {
+					LOGGER.error("Fail to execute command handler", e);
+				}
+			}
+		}
+
+	}
+	
 	/**
 	 * RTCのボディ部分の制約を取得します。
 	 */
@@ -241,6 +259,14 @@ public class ComponentEditPart extends AbstractEditPart {
 		}
 		SystemEditorPreferenceManager.getInstance().addPropertyChangeListener(preferenceChangeListener);
 		//
+		if (getModel() instanceof CorbaComponent) {
+			if (this.portEventObserver == null) {
+				this.portEventObserver = new PortEventObserver(this);
+			}
+			CorbaComponent comp = (CorbaComponent) getModel();
+			comp.attachPortEventObserver(this.portEventObserver);
+		}
+		//
 		SystemDiagramStore store = SystemDiagramStore.instance((SystemDiagram) getParent().getModel());
 		store.eAdapters().add(this);
 	}
@@ -256,6 +282,11 @@ public class ComponentEditPart extends AbstractEditPart {
 			}
 		}
 		SystemEditorPreferenceManager.getInstance().removePropertyChangeListener(preferenceChangeListener);
+		//
+		if (getModel() instanceof CorbaComponent) {
+			CorbaComponent comp = (CorbaComponent) getModel();
+			comp.detatchPortEventObserver(this.portEventObserver);
+		}
 		//
 		SystemDiagramStore store = SystemDiagramStore.instance((SystemDiagram) getParent().getModel());
 		store.eAdapters().remove(this);
@@ -726,6 +757,121 @@ public class ComponentEditPart extends AbstractEditPart {
 			return;
 		}
 		super.performRequest(req);
+	}
+
+	/**
+	 * ポートモニタが有効かどうか判定します。(CorbaComponentの場合)
+	 * 
+	 * @return ポートモニタが有効な場合はtrue
+	 */
+	public boolean isEnablePortMonitor() {
+		return (getModel() instanceof CorbaComponent) && (this.portEventObserver != null);
+	}
+
+	/**
+	 * ポートモニタが実行中かどうか判定します。
+	 * 
+	 * @return ポートモニタが実行中の場合はtrue
+	 */
+	public boolean isActivePortMonitor() {
+		return isEnablePortMonitor() && this.portEventObserver.isActive();
+	}
+
+	/**
+	 * ポートモニタを開始/終了します。
+	 * 
+	 * @param b
+	 *            ポートモニタを開始する場合はtrue
+	 */
+	public void setActivePortMonitor(boolean b) {
+		if (isEnablePortMonitor()) {
+			this.portEventObserver.setActive(b);
+		}
+	}
+
+	/**
+	 * ポートのイベントを監視します。
+	 */
+	public static class PortEventObserver implements ICorbaPortEventObserver {
+
+		private ComponentEditPart editPart;
+		private boolean active;
+
+		PortEventObserver(ComponentEditPart editPart) {
+			this.editPart = editPart;
+			this.active = false;
+		}
+
+		public boolean isActive() {
+			return this.active;
+		}
+
+		public void setActive(boolean b) {
+			this.active = b;
+		}
+
+		@Override
+		public boolean notifyEvent(String action, String port) {
+			if (!isActive()) {
+				return true;
+			}
+			LOGGER.info("PortEventObserver#notifyEvent: action=<{}> port=<{}>", action, port);
+			if ("SEND".equals(action) || "RECEIVE".equals(action)) {
+				PortEditPart portPart = findPort(port);
+				if (portPart != null) {
+					blinkPort(portPart);
+					return true;
+				}
+			}
+			return false;
+		}
+
+		/** 対象のポートを検索します。 検索文字列の形式は「種別:ポート名」 (ex. OutPort:ConsoleIn1.in) */
+		PortEditPart findPort(String port) {
+			String[] ss = port.split(":");
+			if (ss.length != 2) {
+				return null;
+			}
+			String name = ss[1];
+			@SuppressWarnings("unchecked")
+			List<?> children = new ArrayList<>(this.editPart.getChildren());
+			for (Object o : children) {
+				if (!(o instanceof PortEditPart)) {
+					continue;
+				}
+				PortEditPart part = (PortEditPart) o;
+				String pn = part.getModel().getNameL();
+				if (name.equals(pn)) {
+					return part;
+				}
+			}
+			return null;
+		}
+
+		/** ポートを点滅表示します。 */
+		void blinkPort(PortEditPart portPart) {
+			final PortFigure figure = portPart.getFigure();
+			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					figure.setLineWidth(2);
+					figure.setScale(1.2, 1.2);
+				}
+			});
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				LOGGER.warn("Fail to sleep on blinkPort", e);
+			}
+			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					figure.setLineWidth(1);
+					figure.setScale(1.0, 1.0);
+				}
+			});
+		}
+
 	}
 
 }

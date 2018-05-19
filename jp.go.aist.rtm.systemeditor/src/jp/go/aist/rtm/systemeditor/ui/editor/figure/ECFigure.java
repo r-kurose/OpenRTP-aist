@@ -32,79 +32,55 @@ public class ECFigure extends ComponentChildFigure {
 
 	static {
 		{
-			PointList p = new PointList(12);
-			p.addPoint(1, -8);
-			p.addPoint(16, -8);
+			PointList p = new PointList(8);
+			p.addPoint(1, -6);
+			p.addPoint(12, -6);
+			p.addPoint(10, -4);
+			p.addPoint(9, -1);
 			//
-			p.addPoint(14, -7);
-			p.addPoint(13, -6);
-			p.addPoint(12, -4);
-			p.addPoint(11, -1);
-			//
-			p.addPoint(11, 1);
-			p.addPoint(12, 4);
-			p.addPoint(13, 6);
-			p.addPoint(14, 7);
-			//
-			p.addPoint(16, 8);
-			p.addPoint(1, 8);
+			p.addPoint(9, 1);
+			p.addPoint(10, 4);
+			p.addPoint(12, 6);
+			p.addPoint(1, 6);
 			P_OWN_EC = p;
 		}
 		{
-			PointList p = new PointList(12);
-			p.addPoint(0, -8);
-			p.addPoint(16, -8);
+			PointList p = new PointList(8);
+			p.addPoint(0, -6);
+			p.addPoint(12, -6);
+			p.addPoint(10, -4);
+			p.addPoint(9, -1);
 			//
-			p.addPoint(14, -7);
-			p.addPoint(13, -6);
-			p.addPoint(12, -4);
-			p.addPoint(11, -1);
-			//
-			p.addPoint(11, 1);
-			p.addPoint(12, 4);
-			p.addPoint(13, 6);
-			p.addPoint(14, 7);
-			//
-			p.addPoint(16, 8);
-			p.addPoint(0, 8);
+			p.addPoint(9, 1);
+			p.addPoint(10, 4);
+			p.addPoint(12, 6);
+			p.addPoint(0, 6);
 			P_OWN_EC_SELECTED = p;
 		}
 		{
-			PointList p = new PointList(12);
-			p.addPoint(1, -8);
-			p.addPoint(11, -8);
+			PointList p = new PointList(8);
+			p.addPoint(1, -6);
+			p.addPoint(9, -6);
+			p.addPoint(11, -4);
+			p.addPoint(12, -1);
 			//
-			p.addPoint(13, -7);
-			p.addPoint(14, -6);
-			p.addPoint(15, -4);
-			p.addPoint(16, -1);
-			//
-			p.addPoint(16, 1);
-			p.addPoint(15, 4);
-			p.addPoint(14, 6);
-			p.addPoint(13, 7);
-			//
-			p.addPoint(11, 8);
-			p.addPoint(1, 8);
+			p.addPoint(12, 1);
+			p.addPoint(11, 4);
+			p.addPoint(9, 6);
+			p.addPoint(1, 6);
 			P_PART_EC = p;
 		}
 		{
-			PointList p = new PointList(12);
-			p.addPoint(0, -8);
-			p.addPoint(11, -8);
+			PointList p = new PointList(8);
+			p.addPoint(0, -6);
+			p.addPoint(11, -6);
+			p.addPoint(11, -4);
+			p.addPoint(12, -1);
 			//
-			p.addPoint(13, -7);
-			p.addPoint(14, -6);
-			p.addPoint(15, -4);
-			p.addPoint(16, -1);
-			//
-			p.addPoint(16, 1);
-			p.addPoint(15, 4);
-			p.addPoint(14, 6);
-			p.addPoint(13, 7);
-			//
-			p.addPoint(11, 8);
-			p.addPoint(0, 8);
+			p.addPoint(12, 1);
+			p.addPoint(11, 4);
+			p.addPoint(9, 6);
+			p.addPoint(0, 6);
 			P_PART_EC_SELECTED = p;
 		}
 		{

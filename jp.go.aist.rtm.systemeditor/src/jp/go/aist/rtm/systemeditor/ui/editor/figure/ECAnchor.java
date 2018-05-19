@@ -29,7 +29,7 @@ public class ECAnchor extends ChopboxAnchor implements DirectionableConnectionAn
 
 		float offset = 0.0f;
 		if (getOwner() instanceof ECFigure.OwnECFigure) {
-			offset = 0.3f;
+			offset = 0.2f;
 		}
 		String direction = getDirection();
 		if (direction.equals(Component.OUTPORT_DIRECTION_RIGHT_LITERAL)) {

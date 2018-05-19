@@ -341,6 +341,21 @@
 		<objectContribution
 			adaptable="true"
 			id="jp.go.aist.rtm.systemeditor.ui.objectContribution.Component"
+			objectClass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart">
+			<action
+				class="jp.go.aist.rtm.systemeditor.ui.action.MonitorPortActionDelegate"
+				id="jp.go.aist.rtm.systemeditor.ui.action.MonitorPortActionDelegate.Stop"
+				label="%MonitorPort_Stop">
+			</action>
+			<action
+				class="jp.go.aist.rtm.systemeditor.ui.action.MonitorPortActionDelegate"
+				id="jp.go.aist.rtm.systemeditor.ui.action.MonitorPortActionDelegate.Start"
+				label="%MonitorPort_Start">
+			</action>
+		</objectContribution>
+		<objectContribution
+			adaptable="true"
+			id="jp.go.aist.rtm.systemeditor.ui.objectContribution.Port"
 			objectClass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.PortEditPart">
 			<action
 				class="jp.go.aist.rtm.systemeditor.ui.action.ConnectPortActionDelegate"
@@ -416,7 +431,7 @@
 		<command
 			categoryId="jp.go.aist.rtm.systemeditor.command.category"
 			id="rtse.command.ecconn.Hide"
-			name="%ECConn_Show">
+			name="%ECConn_Hide">
 		</command>
 
 		<command
@@ -443,6 +458,17 @@
 			categoryId="jp.go.aist.rtm.systemeditor.command.category"
 			id="rtse.command.allcomponent.AllExit"
 			name="%All_Exit">
+		</command>
+
+		<command
+			categoryId="jp.go.aist.rtm.systemeditor.command.category"
+			id="rtse.command.direction.Horizontal"
+			name="%Direction_Horizontal">
+		</command>
+		<command
+			categoryId="jp.go.aist.rtm.systemeditor.command.category"
+			id="rtse.command.direction.Vertical"
+			name="%Direction_Vertical">
 		</command>
 	</extension>
 
@@ -538,6 +564,41 @@
 				<reference definitionId="rtse.definition.activeSystemDiagramEditor"/>
 			</activeWhen>
 		</handler>
+
+		<handler
+			class="jp.go.aist.rtm.systemeditor.ui.handler.ChangeDirectionCommandHandler"
+			commandId="rtse.command.direction.Horizontal">
+			<activeWhen>
+				<and>
+					<or>
+						<reference definitionId="rtse.definition.activeSystemDiagramEditor"/>
+						<reference definitionId="rtse.definition.activeOfflineSystemDiagramEditor"/>
+					</or>
+					<with variable="selection">
+						<iterate operator="or">
+							<instanceof value="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart"/>
+						</iterate>
+					</with>
+				</and>
+			</activeWhen>
+		</handler>
+		<handler
+			class="jp.go.aist.rtm.systemeditor.ui.handler.ChangeDirectionCommandHandler"
+			commandId="rtse.command.direction.Vertical">
+			<activeWhen>
+				<and>
+					<or>
+						<reference definitionId="rtse.definition.activeSystemDiagramEditor"/>
+						<reference definitionId="rtse.definition.activeOfflineSystemDiagramEditor"/>
+					</or>
+					<with variable="selection">
+						<iterate operator="or">
+							<instanceof value="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart"/>
+						</iterate>
+					</with>
+				</and>
+			</activeWhen>
+		</handler>
 	</extension>
 
 	<extension
@@ -546,6 +607,12 @@
 			id="rtse.definition.activeSystemDiagramEditor">
 			<with variable="activeEditorId">
 				<equals value="jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor"/>
+			</with>
+		</definition>
+		<definition
+			id="rtse.definition.activeOfflineSystemDiagramEditor">
+			<with variable="activeEditorId">
+				<equals value="jp.go.aist.rtm.systemeditor.ui.editor.OfflineSystemDiagramEditor"/>
 			</with>
 		</definition>
 	</extension>
@@ -631,6 +698,28 @@
 				</command>
 				<separator
 					name="rtse.menus.toolbar.allcomponent.additions"
+					visible="true">
+				</separator>
+			</toolbar>
+			<toolbar
+				id="rtse.menus.toolbar.direction"
+				label="Direction">
+				<command
+					commandId="rtse.command.direction.Horizontal"
+					id="rtse.menus.toolbar.Direction_Horizontal"
+					label="%Direction_Horizontal"
+					icon="icons/direction_hirizontal.png"
+					style="push">
+				</command>
+				<command
+					commandId="rtse.command.direction.Vertical"
+					id="rtse.menus.toolbar.Direction_Vertical"
+					label="%Direction_Vertical"
+					icon="icons/direction_vertical.png"
+					style="push">
+				</command>
+				<separator
+					name="rtse.menus.toolbar.direction.additions"
 					visible="true">
 				</separator>
 			</toolbar>

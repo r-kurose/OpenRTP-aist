@@ -24,7 +24,6 @@ import jp.go.aist.rtm.systemeditor.factory.ProfileSaver;
 import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.action.OpenCompositeComponentAction;
 import jp.go.aist.rtm.systemeditor.ui.dialog.ProfileInformationDialog;
-import jp.go.aist.rtm.systemeditor.ui.editor.action.ChangeComponentDirectionAction;
 import jp.go.aist.rtm.systemeditor.ui.editor.action.MoveComponentAction;
 import jp.go.aist.rtm.systemeditor.ui.editor.action.OpenAction;
 import jp.go.aist.rtm.systemeditor.ui.editor.action.RestoreOption;
@@ -186,16 +185,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 
 		action = new MoveComponentAction(this,
 				MoveComponentAction.MOVE_LEFT_L_ACTION_ID);
-		getActionRegistry().registerAction(action);
-		getSelectionActions().add(action.getId());
-
-		action = new ChangeComponentDirectionAction(this,
-				ChangeComponentDirectionAction.HORIZON_DIRECTION_ACTION_ID);
-		getActionRegistry().registerAction(action);
-		getSelectionActions().add(action.getId());
-
-		action = new ChangeComponentDirectionAction(this,
-				ChangeComponentDirectionAction.VERTICAL_DIRECTION_ACTION_ID);
 		getActionRegistry().registerAction(action);
 		getSelectionActions().add(action.getId());
 
