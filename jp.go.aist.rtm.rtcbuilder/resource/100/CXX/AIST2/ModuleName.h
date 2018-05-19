@@ -255,7 +255,7 @@ class ModuleName
   // <rtc-template block="service_declare">
   /*!
    */
-  MyServiceSVC_impl m_name;
+  Test_MyServiceSVC_impl m_name;
   
   // </rtc-template>
 

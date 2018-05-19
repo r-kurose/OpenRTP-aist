@@ -255,7 +255,7 @@ class TestModule
   // <rtc-template block="service_declare">
   /*!
    */
-  HogeSVC_impl m_inf0;
+  ysuga_net_HogeSVC_impl m_inf0;
   
   // </rtc-template>
 

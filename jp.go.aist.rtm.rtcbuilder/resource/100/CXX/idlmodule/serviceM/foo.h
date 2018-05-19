@@ -255,7 +255,7 @@ class foo
   // <rtc-template block="service_declare">
   /*!
    */
-  MyServiceSVC_impl m_if_name;
+  SimpleService_MyServiceSVC_impl m_if_name;
   
   // </rtc-template>
 

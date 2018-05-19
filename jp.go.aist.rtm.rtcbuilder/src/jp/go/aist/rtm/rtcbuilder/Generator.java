@@ -552,7 +552,10 @@ public class Generator {
 			} else {
 				defFull = tdparam.getTargetDef();
 			}
-			if(targetFull.equals(defFull)) {
+			if(targetFull.equals(defFull) || target.getType().equals(defFull)) {
+				if(target.getType().equals(defFull)) {
+					target.setModule("");
+				}
 				target.setOriginalType(tdparam.getOriginalDef());
 				target.setUnbounded(tdparam.isSequence() || tdparam.isUnbounded());
 				target.setArray(tdparam.isArray());
