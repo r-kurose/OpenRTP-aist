@@ -54,7 +54,7 @@ public class ManagerControlView extends ViewPart {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ManagerControlView.class);
 
-	private static final int MENU_BUTTON_WIDTH = 110;
+	private static final int MENU_BUTTON_WIDTH = 120;
 	private static final int EXEC_BUTTON_WIDTH = 110;
 
 	private Composite composite = null;
