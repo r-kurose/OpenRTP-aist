@@ -31,6 +31,42 @@
 		<viewContribution 
 			id="jp.go.aist.rtm.nameserviceview.ui.views.nameserviceview.NameServiceView.contribution" 
 			targetID="jp.go.aist.rtm.nameserviceview.ui.views.nameserviceview.NameServiceView">        
+			<action id="jp.go.aist.rtm.nameserviceview.ui.action.FilterAction" 
+				label="%Filter" 
+				menubarPath="additions"
+				toolbarPath="additions" 
+				icon="icons/filter_ps.gif" 
+				tooltip="%Name_Serviceview_Filter" 
+				helpContextId=""
+				class="jp.go.aist.rtm.nameserviceview.ui.action.FilterAction" > 
+			</action>
+			<action
+				class="jp.go.aist.rtm.nameserviceview.ui.action.KillZombiesAction"
+				icon="icons/KillZombie.gif"
+				id="jp.go.aist.rtm.nameserviceview.ui.action.KillZombies"
+				label="%Kill_Zombies"
+				menubarPath="additions"
+				toolbarPath="additions"
+				tooltip="%Kill_All_Zombies">
+			</action>
+			<action id="jp.go.aist.rtm.nameserviceview.ui.action.RefreshNameServerAction" 
+				label="%Refresh" 
+				menubarPath="additions"
+				toolbarPath="additions" 
+				icon="icons/Refresh.png" 
+				tooltip="%Refresh_Name_Service" 
+				helpContextId=""
+				class="jp.go.aist.rtm.nameserviceview.ui.action.RefreshNameServerAction" > 
+			</action>
+<!--			<action
+				class="jp.go.aist.rtm.nameserviceview.ui.action.StopNameServiceAction"
+				icon="icons/StartNS.png"
+				id="jp.go.aist.rtm.nameserviceview.ui.action.StopNameservice"
+				label="%Stop_NameService"
+				menubarPath="additions"
+				toolbarPath="additions"
+				tooltip="%Stop_NameService">
+			</action>-->
 			<action
 				class="jp.go.aist.rtm.nameserviceview.ui.action.StartManagerAction"
 				icon="icons/StartManager.png"
@@ -57,33 +93,6 @@
 				tooltip="%Add_Name_Server" 
 				helpContextId=""
 				class="jp.go.aist.rtm.nameserviceview.ui.action.AddNameServiceAction" > 
-			</action>
-			<action id="jp.go.aist.rtm.nameserviceview.ui.action.RefreshNameServerAction" 
-				label="%Refresh" 
-				menubarPath="additions"
-				toolbarPath="additions" 
-				icon="icons/Refresh.png" 
-				tooltip="%Refresh_Name_Service" 
-				helpContextId=""
-				class="jp.go.aist.rtm.nameserviceview.ui.action.RefreshNameServerAction" > 
-			</action>
-			<action id="jp.go.aist.rtm.nameserviceview.ui.action.FilterAction" 
-				label="%Filter" 
-				menubarPath="additions"
-				toolbarPath="additions" 
-				icon="icons/filter_ps.gif" 
-				tooltip="%Name_Serviceview_Filter" 
-				helpContextId=""
-				class="jp.go.aist.rtm.nameserviceview.ui.action.FilterAction" > 
-			</action>
-			<action
-				class="jp.go.aist.rtm.nameserviceview.ui.action.KillZombiesAction"
-				icon="icons/KillZombie.gif"
-				id="jp.go.aist.rtm.nameserviceview.ui.action.KillZombies"
-				label="%Kill_Zombies"
-				menubarPath="additions"
-				toolbarPath="additions"
-				tooltip="%Kill_All_Zombies">
 			</action>
 		</viewContribution>
 	</extension>

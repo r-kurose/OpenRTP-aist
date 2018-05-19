@@ -58,7 +58,7 @@ public class StartNameServiceAction implements IViewActionDelegate {
 			NameServerContext server = NameServerManager.eInstance.addNameServer("localhost");
 			if(server!=null) break;
 			try {
-				Thread.sleep(500);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
