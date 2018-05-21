@@ -5,14 +5,20 @@ import static jp.go.aist.rtm.systemeditor.ui.util.RTMixin.to_cid;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramStore;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpart.router.EditableManhattanConnectorRouter;
-import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
+import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.ECConnectionBendpointEditPolicy;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PolylineConnection;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
@@ -27,6 +33,8 @@ public class ECConnectionEditPart extends AbstractConnectionEditPart {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ECConnectionEditPart.class);
 
+	private SystemDiagram diagram;
+
 	private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
 	public ECConnectionEditPart(ActionRegistry actionRegistry) {
@@ -40,14 +48,15 @@ public class ECConnectionEditPart extends AbstractConnectionEditPart {
 			if (getParent() == null || getViewer() == null || getViewer().getControl() == null) {
 				return;
 			}
-			if (!(ComponentPackage.eINSTANCE.getPortConnector_RoutingConstraint().equals(msg.getFeature()))) {
+			if (!(msg.getNotifier() instanceof SystemDiagramStore.Target) //
+					|| !SystemDiagramStore.F_BENDPOINT_EC_CONN.equals(msg.getFeature())) {
 				return;
 			}
 			LOGGER.trace("notifyChanged: this=<{}> msg=<{}>", to_cid(getModel()), msg);
 			getViewer().getControl().getDisplay().asyncExec(new Runnable() {
 				public void run() {
 					if (isActive()) {
-						refreshVisuals();
+						refreshBendPoint();
 					}
 				}
 			});
@@ -56,8 +65,14 @@ public class ECConnectionEditPart extends AbstractConnectionEditPart {
 
 	@Override
 	protected void createEditPolicies() {
-		LOGGER.trace("createEditPolicies");
+		LOGGER.trace("createEditPolicies(endpoint)");
 		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, new ConnectionEndpointEditPolicy());
+		//
+		this.diagram = ((SystemDiagramEditPart) getRoot().getContents()).getModel();
+		LOGGER.trace("createEditPolicies(bendpoint): diagram=<{}>", to_cid(this.diagram));
+		ECConnectionBendpointEditPolicy bendpointEditPolicy = new ECConnectionBendpointEditPolicy();
+		bendpointEditPolicy.setDiagram(this.diagram);
+		installEditPolicy(EditPolicy.CONNECTION_BENDPOINTS_ROLE, bendpointEditPolicy);
 	}
 
 	@Override
@@ -92,7 +107,23 @@ public class ECConnectionEditPart extends AbstractConnectionEditPart {
 	@Override
 	protected void refreshVisuals() {
 		super.refreshVisuals();
-		// refreshBendPoint();
+		refreshBendPoint();
+	}
+
+	/**
+	 * ベンドポイントを再設定
+	 */
+	protected void refreshBendPoint() {
+		LOGGER.trace("refreshBendPoint: this=<{}>", to_cid(this));
+		//
+		SystemDiagramStore store = SystemDiagramStore.instance(this.diagram);
+		@SuppressWarnings("unchecked")
+		Map<Integer, Point> routingConstraint = (Map<Integer, Point>) store.getTarget("ECConnection", getModel().getId())
+				.getResource(SystemDiagramStore.KEY_EC_CONN_BENDPOINT_MAP);
+		if (routingConstraint == null) {
+			routingConstraint = Collections.emptyMap();
+		}
+		getConnectionFigure().setRoutingConstraint(routingConstraint);
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -114,7 +145,7 @@ public class ECConnectionEditPart extends AbstractConnectionEditPart {
 	}
 
 	/**
-	 * 
+	 * EC関連を表す
 	 */
 	public static class ECConnection {
 
@@ -123,11 +154,10 @@ public class ECConnectionEditPart extends AbstractConnectionEditPart {
 		private String id;
 		private ECEditPart.OwnEC source;
 		private ECEditPart.PartEC target;
+		private Map<Integer, Point> routingConstraint = new HashMap<>();
 
 		public static String buildId(ECEditPart.OwnEC own, ECEditPart.PartEC part) {
-			Object source = own;
-			Object target = part;
-			return String.format("%s-%s", to_cid(source), to_cid(target));
+			return String.format("%s-%s", own.getEcId(), part.getEcId());
 		}
 
 		public ECConnection(ECEditPart.OwnEC source, ECEditPart.PartEC target) {
@@ -136,26 +166,40 @@ public class ECConnectionEditPart extends AbstractConnectionEditPart {
 			this.id = buildId(this.source, this.target);
 		}
 
+		/**
+		 * EC関連を特定するIDを取得します。
+		 * 
+		 * @return
+		 */
 		public String getId() {
 			return this.id;
 		}
 
+		/**
+		 * OwnECを取得します。(EC関連コネクションのソース)
+		 * 
+		 * @return
+		 */
 		public ECEditPart.OwnEC getSource() {
 			return this.source;
 		}
 
-		public void setSource(ECEditPart.OwnEC source) {
-			this.source = source;
-			this.id = buildId(this.source, this.target);
-		}
-
+		/**
+		 * PartECを取得します。(EC関連コネクションのソース)
+		 * 
+		 * @return
+		 */
 		public ECEditPart.PartEC getTarget() {
 			return this.target;
 		}
 
-		public void setTarget(ECEditPart.PartEC target) {
-			this.target = target;
-			this.id = buildId(this.source, this.target);
+		/**
+		 * ベンドポイントの一覧を取得します。
+		 * 
+		 * @return
+		 */
+		public Map<Integer, Point> getRoutingConstraint() {
+			return this.routingConstraint;
 		}
 
 		public List<Adapter> eAdapters() {
@@ -164,13 +208,13 @@ public class ECConnectionEditPart extends AbstractConnectionEditPart {
 
 		// public void eNotify(Notification notification) {
 		// // TODO 自動生成されたメソッド・スタブ
-		//
 		// }
 
 		@Override
 		public String toString() {
-			return String.format("%s<{%s} -> {%s}>", getClass().getSimpleName(), to_cid(this.source), to_cid(this.target));
+			return String.format("%s<{%s}>", getClass().getSimpleName(), getId());
 		}
+
 	}
 
 }

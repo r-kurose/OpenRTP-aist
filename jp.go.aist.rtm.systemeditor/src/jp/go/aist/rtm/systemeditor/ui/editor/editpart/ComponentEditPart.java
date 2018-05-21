@@ -65,8 +65,7 @@ import org.slf4j.LoggerFactory;
  * コンポーネントのEditPart
  * <p>
  * GEFの仕様では子供のEditPartは親のEditPartに含まれなければならないが、ポートをコンポーネントからはみ出して表示しなければならない。
- * これを満たしながら、一見コンポーネントの外にポートが出ているように見せるために、コンポーネントのボディのドローイングの範囲を狭めることで実現しているため、
- * 特殊な実装になっている。
+ * これを満たしながら、一見コンポーネントの外にポートが出ているように見せるために、コンポーネントのボディのドローイングの範囲を狭めることで実現しているため、 特殊な実装になっている。
  */
 public class ComponentEditPart extends AbstractEditPart {
 
@@ -141,17 +140,14 @@ public class ComponentEditPart extends AbstractEditPart {
 			}
 
 			/**
-			 * コンポーネントの制約が変更されるたびに、ラベルも移動させる。
-			 * （責務の分離からすればあまりよくないが、ファイル内に閉じているのでここに実装にした）
+			 * コンポーネントの制約が変更されるたびに、ラベルも移動させる。 （責務の分離からすればあまりよくないが、ファイル内に閉じているのでここに実装にした）
 			 */
 			@Override
 			public void setBounds(Rectangle rect) {
 				super.setBounds(rect);
 
-				Rectangle newComponentLabelRectangle = componentLabel
-						.getTextBounds().getCopy();
-				newComponentLabelRectangle.x = rect.getCenter().x
-						- componentLabel.getTextBounds().width / 2;
+				Rectangle newComponentLabelRectangle = componentLabel.getTextBounds().getCopy();
+				newComponentLabelRectangle.x = rect.getCenter().x - componentLabel.getTextBounds().width / 2;
 				newComponentLabelRectangle.y = rect.getBottom().y;
 
 				componentLabel.setBounds(newComponentLabelRectangle);
@@ -168,8 +164,7 @@ public class ComponentEditPart extends AbstractEditPart {
 		result.setBackgroundColor(ColorConstants.orange);
 
 		// 注意：ComponentLabelの親はSystemDiagram
-		componentLabel = new FloatingLabel(
-				((AbstractGraphicalEditPart) getParent()).getFigure());
+		componentLabel = new FloatingLabel(((AbstractGraphicalEditPart) getParent()).getFigure());
 		componentLabel.setText(getModel().getInstanceNameL());
 		componentLabel.setSize(30, 10);
 
@@ -213,7 +208,7 @@ public class ComponentEditPart extends AbstractEditPart {
 		}
 
 	}
-	
+
 	/**
 	 * RTCのボディ部分の制約を取得します。
 	 */
@@ -268,7 +263,7 @@ public class ComponentEditPart extends AbstractEditPart {
 		}
 		//
 		SystemDiagramStore store = SystemDiagramStore.instance((SystemDiagram) getParent().getModel());
-		store.eAdapters().add(this);
+		store.getTarget().eAdapters().add(this);
 	}
 
 	@Override
@@ -289,17 +284,14 @@ public class ComponentEditPart extends AbstractEditPart {
 		}
 		//
 		SystemDiagramStore store = SystemDiagramStore.instance((SystemDiagram) getParent().getModel());
-		store.eAdapters().remove(this);
+		store.getTarget().eAdapters().remove(this);
 	}
 
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE,
-				new ComponentComponentEditPolicy());
-		installEditPolicy(EditPolicyConstraint.CHANGE_DIRECTION_ROLE,
-				new ChangeDirectionEditPolicy());
-		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
-				new NameDirectEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentComponentEditPolicy());
+		installEditPolicy(EditPolicyConstraint.CHANGE_DIRECTION_ROLE, new ChangeDirectionEditPolicy());
+		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new NameDirectEditPolicy());
 	}
 
 	@Override
@@ -309,8 +301,7 @@ public class ComponentEditPart extends AbstractEditPart {
 		getFigure().setBackgroundColor(getNewBodyColor());
 		getFigure().setForegroundColor(getNewBorderColor());
 
-		jp.go.aist.rtm.toolscommon.model.core.Rectangle constraint = getModel()
-				.getConstraint();
+		jp.go.aist.rtm.toolscommon.model.core.Rectangle constraint = getModel().getConstraint();
 		if (constraint == null)
 			return;
 
@@ -318,8 +309,7 @@ public class ComponentEditPart extends AbstractEditPart {
 
 		Rectangle newRectangle = modelRec.getCopy();
 
-		((GraphicalEditPart) getParent()).setLayoutConstraint(this,
-				getFigure(), newRectangle);
+		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), newRectangle);
 	}
 
 	/**
@@ -328,26 +318,19 @@ public class ComponentEditPart extends AbstractEditPart {
 	 * @return
 	 */
 	public Color getNewBorderColor() {
-		Color exexucitonContextColor = SystemEditorPreferenceManager
-				.getInstance().getColor(
-						SystemEditorPreferenceManager.COLOR_RTC_STATE_UNKNOWN);
+		Color exexucitonContextColor = SystemEditorPreferenceManager.getInstance().getColor(
+				SystemEditorPreferenceManager.COLOR_RTC_STATE_UNKNOWN);
 		if (getModel() instanceof CorbaComponent) {
 			CorbaComponent component = (CorbaComponent) getModel();
 			if (component.getExecutionContextState() == ExecutionContext.STATE_RUNNING) {
-				exexucitonContextColor = SystemEditorPreferenceManager
-						.getInstance()
-						.getColor(
-								SystemEditorPreferenceManager.COLOR_RTC_EXECUTION_CONTEXT_RUNNING);
+				exexucitonContextColor = SystemEditorPreferenceManager.getInstance().getColor(
+						SystemEditorPreferenceManager.COLOR_RTC_EXECUTION_CONTEXT_RUNNING);
 			} else if (component.getExecutionContextState() == ExecutionContext.STATE_STOPPED) {
-				exexucitonContextColor = SystemEditorPreferenceManager
-						.getInstance()
-						.getColor(
-								SystemEditorPreferenceManager.COLOR_RTC_EXECUTION_CONTEXT_STOPPED);
+				exexucitonContextColor = SystemEditorPreferenceManager.getInstance().getColor(
+						SystemEditorPreferenceManager.COLOR_RTC_EXECUTION_CONTEXT_STOPPED);
 			} else if (component.getExecutionContextState() == ExecutionContext.STATE_UNKNOWN) {
-				exexucitonContextColor = SystemEditorPreferenceManager
-						.getInstance()
-						.getColor(
-								SystemEditorPreferenceManager.COLOR_RTC_STATE_UNKNOWN);
+				exexucitonContextColor = SystemEditorPreferenceManager.getInstance().getColor(
+						SystemEditorPreferenceManager.COLOR_RTC_STATE_UNKNOWN);
 			}
 		}
 		return exexucitonContextColor;
@@ -359,9 +342,8 @@ public class ComponentEditPart extends AbstractEditPart {
 	 * @return
 	 */
 	public Color getNewBodyColor() {
-		Color stateColor = SystemEditorPreferenceManager
-				.getInstance()
-				.getColor(SystemEditorPreferenceManager.COLOR_RTC_STATE_UNKNOWN);
+		Color stateColor = SystemEditorPreferenceManager.getInstance().getColor(
+				SystemEditorPreferenceManager.COLOR_RTC_STATE_UNKNOWN);
 		if (getModel() instanceof CorbaComponent) {
 			CorbaComponent component = (CorbaComponent) getModel();
 
@@ -370,8 +352,7 @@ public class ComponentEditPart extends AbstractEditPart {
 		} else if (getModel() instanceof ComponentSpecification) {
 			ComponentSpecification component = (ComponentSpecification) getModel();
 
-			if (component.inOnlineSystemDiagram()
-					&& component.isGroupingCompositeComponent()) {
+			if (component.inOnlineSystemDiagram() && component.isGroupingCompositeComponent()) {
 				// オンラインGrouping複合RTCの場合は、子RTCの状態から色を設定
 				Set<Integer> sts = new HashSet<Integer>();
 				for (Object o : component.getComponents()) {
@@ -394,10 +375,8 @@ public class ComponentEditPart extends AbstractEditPart {
 				stateColor = this.getStateColor(state);
 
 			} else {
-				stateColor = SystemEditorPreferenceManager
-						.getInstance()
-						.getColor(
-								SystemEditorPreferenceManager.COLOR_RTC_STATE_INACTIVE);
+				stateColor = SystemEditorPreferenceManager.getInstance().getColor(
+						SystemEditorPreferenceManager.COLOR_RTC_STATE_INACTIVE);
 			}
 		}
 		return stateColor;
@@ -406,26 +385,19 @@ public class ComponentEditPart extends AbstractEditPart {
 	Color getStateColor(int status) {
 		// コンポーネントの状態色を判定
 		if (status == ExecutionContext.RTC_ACTIVE) {
-			return SystemEditorPreferenceManager.getInstance().getColor(
-					SystemEditorPreferenceManager.COLOR_RTC_STATE_ACTIVE);
+			return SystemEditorPreferenceManager.getInstance().getColor(SystemEditorPreferenceManager.COLOR_RTC_STATE_ACTIVE);
 		} else if (status == ExecutionContext.RTC_CREATED) {
-			return SystemEditorPreferenceManager.getInstance().getColor(
-					SystemEditorPreferenceManager.COLOR_RTC_STATE_CREATED);
+			return SystemEditorPreferenceManager.getInstance().getColor(SystemEditorPreferenceManager.COLOR_RTC_STATE_CREATED);
 		} else if (status == ExecutionContext.RTC_ERROR) {
-			return SystemEditorPreferenceManager.getInstance().getColor(
-					SystemEditorPreferenceManager.COLOR_RTC_STATE_ERROR);
+			return SystemEditorPreferenceManager.getInstance().getColor(SystemEditorPreferenceManager.COLOR_RTC_STATE_ERROR);
 		} else if (status == ExecutionContext.RTC_INACTIVE) {
-			return SystemEditorPreferenceManager.getInstance().getColor(
-					SystemEditorPreferenceManager.COLOR_RTC_STATE_INACTIVE);
+			return SystemEditorPreferenceManager.getInstance().getColor(SystemEditorPreferenceManager.COLOR_RTC_STATE_INACTIVE);
 		} else if (status == ExecutionContext.RTC_UNKNOWN) {
-			return SystemEditorPreferenceManager.getInstance().getColor(
-					SystemEditorPreferenceManager.COLOR_RTC_STATE_UNKNOWN);
+			return SystemEditorPreferenceManager.getInstance().getColor(SystemEditorPreferenceManager.COLOR_RTC_STATE_UNKNOWN);
 		} else if (status == ExecutionContext.RTC_UNCERTAIN) {
-			return SystemEditorPreferenceManager.getInstance().getColor(
-					SystemEditorPreferenceManager.COLOR_RTC_STATE_UNCERTAIN);
+			return SystemEditorPreferenceManager.getInstance().getColor(SystemEditorPreferenceManager.COLOR_RTC_STATE_UNCERTAIN);
 		}
-		return SystemEditorPreferenceManager.getInstance().getColor(
-				SystemEditorPreferenceManager.COLOR_RTC_STATE_UNKNOWN);
+		return SystemEditorPreferenceManager.getInstance().getColor(SystemEditorPreferenceManager.COLOR_RTC_STATE_UNKNOWN);
 	}
 
 	@Override
@@ -455,7 +427,7 @@ public class ComponentEditPart extends AbstractEditPart {
 		} else if (CorePackage.eINSTANCE.getModelElement_Constraint().equals(notification.getFeature())
 				|| ComponentPackage.eINSTANCE.getComponent_OutportDirection().equals(notification.getFeature())) {
 			refreshComponent();
-		} else if (((notification.getNotifier() instanceof SystemDiagramStore) //
+		} else if (((notification.getNotifier() instanceof SystemDiagramStore.Target) //
 		&& (SystemDiagramStore.F_DISPLAY_EC_TAB.equals(notification.getFeature()) //
 		|| SystemDiagramStore.F_DISPLAY_EC_CONN.equals(notification.getFeature())))
 				|| ComponentPackage.eINSTANCE.getComponent_PrimaryExecutionContext().equals(notification.getFeature())
@@ -568,12 +540,10 @@ public class ComponentEditPart extends AbstractEditPart {
 				// 複合RTCエディタ内の子RTCのポート再描画
 				SystemDiagram diagram = getModel().getChildSystemDiagram();
 				if (diagram != null) {
-					AbstractSystemDiagramEditor editor = ComponentUtil
-							.findEditor(diagram);
+					AbstractSystemDiagramEditor editor = ComponentUtil.findEditor(diagram);
 					if (editor == null)
 						return;
-					for (Component ac : editor.getSystemDiagram()
-							.getComponents()) {
+					for (Component ac : editor.getSystemDiagram().getComponents()) {
 						EditPart ep = editor.findEditPart(ac);
 						if (!(ep instanceof ComponentEditPart))
 							continue;
@@ -657,7 +627,8 @@ public class ComponentEditPart extends AbstractEditPart {
 			for (ExecutionContext ec : getModel().getExecutionContexts()) {
 				ECEditPart.OwnEC part = this.ownEcMap.get(ec);
 				if (part == null) {
-					part = new ECEditPart.OwnEC(ec);
+					String ecId = getModel().getExecutionContextHandler().getId(ec);
+					part = new ECEditPart.OwnEC(ec, ecId, getModel());
 					this.ownEcMap.put(ec, part);
 				}
 				result.add(part);
@@ -673,7 +644,8 @@ public class ComponentEditPart extends AbstractEditPart {
 			for (ExecutionContext ec : getModel().getParticipationContexts()) {
 				ECEditPart.PartEC part = this.partEcMap.get(ec);
 				if (part == null) {
-					part = new ECEditPart.PartEC(ec);
+					String ecId = getModel().getParticipationContextHandler().getId(ec);
+					part = new ECEditPart.PartEC(ec, ecId, getModel());
 					this.partEcMap.put(ec, part);
 				}
 				result.add(part);
@@ -731,27 +703,22 @@ public class ComponentEditPart extends AbstractEditPart {
 	public void performRequest(Request req) {
 		if (req.getType().equals(RequestConstants.REQ_OPEN)) {
 			if (getModel().isCompositeComponent()) {
-				IAction action = getActionRegistry().getAction(
-						OpenCompositeComponentAction.ACTION_ID);
+				IAction action = getActionRegistry().getAction(OpenCompositeComponentAction.ACTION_ID);
 				OpenCompositeComponentAction openAction = new OpenCompositeComponentAction(
-						((OpenCompositeComponentAction) action)
-								.getParentSystemDiagramEditor());
+						((OpenCompositeComponentAction) action).getParentSystemDiagramEditor());
 				openAction.setCompositeComponent(getModel());
 				openAction.run();
 			}
 		}
 		// オフラインエディタの場合はインスタンス名の直接編集可
 		boolean offline = false;
-		if (getParent() != null
-				&& getParent().getModel() instanceof SystemDiagram) {
+		if (getParent() != null && getParent().getModel() instanceof SystemDiagram) {
 			SystemDiagram sd = (SystemDiagram) getParent().getModel();
 			offline = SystemDiagramKind.OFFLINE_LITERAL.equals(sd.getKind());
 		}
 		if (offline && req.getType().equals(RequestConstants.REQ_DIRECT_EDIT)) {
 			if (directManager == null) {
-				directManager = new NameDirectEditManager(this,
-						TextCellEditor.class, new NameCellEditorLocator(
-								getFigure()));
+				directManager = new NameDirectEditManager(this, TextCellEditor.class, new NameCellEditorLocator(getFigure()));
 			}
 			directManager.show();
 			return;

@@ -177,10 +177,11 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 			this.diagramPart = (SystemDiagramEditPart) this.compPart.getParent();
 			SystemDiagram diagram = this.diagramPart.getModel();
 			SystemDiagramStore store = SystemDiagramStore.instance(diagram);
-			this.connMap = (Map<String, ECConnectionEditPart.ECConnection>) store.getResource(SystemDiagramStore.KEY_EC_CONN_MAP);
+			this.connMap = (Map<String, ECConnectionEditPart.ECConnection>) store.getTarget().getResource(
+					SystemDiagramStore.KEY_EC_CONN_MAP);
 			if (this.connMap == null) {
 				this.connMap = new HashMap<>();
-				store.putResource(SystemDiagramStore.KEY_EC_CONN_MAP, this.connMap);
+				store.getTarget().putResource(SystemDiagramStore.KEY_EC_CONN_MAP, this.connMap);
 			}
 		}
 
@@ -517,7 +518,7 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 	public boolean showECTab() {
 		SystemDiagramEditPart diagram = (SystemDiagramEditPart) this.getParent().getParent();
 		SystemDiagramStore store = SystemDiagramStore.instance(diagram.getModel());
-		String value = store.get(SystemDiagramStore.ID_DISPLAY_EC_TAB);
+		String value = store.getTarget().get(SystemDiagramStore.ID_DISPLAY_EC_TAB);
 		return "true".equals(value);
 	}
 
@@ -525,7 +526,7 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 	public boolean showECConn() {
 		SystemDiagramEditPart diagram = (SystemDiagramEditPart) this.getParent().getParent();
 		SystemDiagramStore store = SystemDiagramStore.instance(diagram.getModel());
-		String value = store.get(SystemDiagramStore.ID_DISPLAY_EC_CONN);
+		String value = store.getTarget().get(SystemDiagramStore.ID_DISPLAY_EC_CONN);
 		return "true".equals(value);
 	}
 
@@ -658,12 +659,57 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 
 	}
 
-	public static class AbstractEC {
+	/**
+	 * ECモデルの抽象的なラッパを表します。
+	 */
+	public static abstract class AbstractEC {
 
 		protected ExecutionContext ec;
+		protected String id;
+		protected Component comp;
 
+		/**
+		 * ECモデルを取得します。
+		 * 
+		 * @return
+		 */
 		public ExecutionContext getModel() {
 			return this.ec;
+		}
+
+		/**
+		 * ECの種別を表します。(own|part)
+		 * 
+		 * @return
+		 */
+		abstract public String getType();
+
+		/**
+		 * RTC上の EC関連IDを取得します。
+		 * 
+		 * @return
+		 */
+		public String getId() {
+			return this.id;
+		}
+
+		/**
+		 * RTCモデルを取得します。
+		 * 
+		 * @return
+		 */
+		public Component getComponent() {
+			return this.comp;
+		}
+
+		/**
+		 * ECを特定するIDを取得します。({RTC名}.{種別}.{EC関連ID} 形式)
+		 * 
+		 * @return
+		 */
+		public String getEcId() {
+			String compName = (this.comp != null) ? this.comp.getInstanceNameL() : "";
+			return String.format("%s.%s.%s", compName, getType(), getId());
 		}
 
 	}
@@ -674,8 +720,15 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 	 */
 	public static class OwnEC extends AbstractEC {
 
-		public OwnEC(ExecutionContext ec) {
+		public OwnEC(ExecutionContext ec, String id, Component comp) {
 			this.ec = ec;
+			this.id = id;
+			this.comp = comp;
+		}
+
+		@Override
+		public String getType() {
+			return "own";
 		}
 
 	}
@@ -686,8 +739,15 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 	 */
 	public static class PartEC extends AbstractEC {
 
-		public PartEC(ExecutionContext ec) {
+		public PartEC(ExecutionContext ec, String id, Component comp) {
 			this.ec = ec;
+			this.id = id;
+			this.comp = comp;
+		}
+
+		@Override
+		public String getType() {
+			return "part";
 		}
 
 	}

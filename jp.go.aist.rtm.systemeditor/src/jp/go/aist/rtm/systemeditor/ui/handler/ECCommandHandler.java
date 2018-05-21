@@ -46,7 +46,7 @@ public class ECCommandHandler extends AbstractHandler {
 		}
 		SystemDiagram diagram = editor.getSystemDiagram();
 		SystemDiagramStore store = SystemDiagramStore.instance(diagram);
-		store.set(SystemDiagramStore.ID_DISPLAY_EC_TAB, dispEc);
+		store.getTarget().set(SystemDiagramStore.ID_DISPLAY_EC_TAB, dispEc);
 
 		return null;
 	}
