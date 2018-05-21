@@ -60,7 +60,7 @@
 			</action>
 <!--			<action
 				class="jp.go.aist.rtm.nameserviceview.ui.action.StopNameServiceAction"
-				icon="icons/StartNS.png"
+				icon="icons/StopNS.png"
 				id="jp.go.aist.rtm.nameserviceview.ui.action.StopNameservice"
 				label="%Stop_NameService"
 				menubarPath="additions"
