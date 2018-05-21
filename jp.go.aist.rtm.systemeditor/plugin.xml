@@ -147,7 +147,7 @@
 			<action id="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate.AllDeactivate" 
 				label="%All_Deactivate" 
 				menubarPath="all"
-				icon="icons/AllDeactivate.gif" 
+				icon="icons/AllDeactivate.png" 
 				tooltip="%All_Deactivate" 
 				helpContextId=""
 				class="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate"> 
@@ -155,7 +155,7 @@
 			<action id="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate.AllActivate" 
 				label="%All_Activate" 
 				menubarPath="all"
-				icon="icons/AllActivate.gif" 
+				icon="icons/AllActivate.png" 
 				tooltip="%All_Activate" 
 				helpContextId=""
 				class="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate"> 
@@ -265,11 +265,13 @@
 			<action id="jp.go.aist.rtm.systemeditor.ui.action.IECActionDelegate.executioncontext.DeactivateRTCs"
 				label="%DeactivateRTCs"
 				menubarPath="executionContext"
+				icon="icons/AllDeactivateEC.png" 
 				class="jp.go.aist.rtm.systemeditor.ui.action.IECActionDelegate">
 			</action>
 			<action id="jp.go.aist.rtm.systemeditor.ui.action.IECActionDelegate.executioncontext.ActivateRTCs"
 				label="%ActivateRTCs"
 				menubarPath="executionContext"
+				icon="icons/AllActivateEC.png" 
 				class="jp.go.aist.rtm.systemeditor.ui.action.IECActionDelegate">
 			</action>
 			<action id="jp.go.aist.rtm.systemeditor.ui.action.IECActionDelegate.executioncontext.Stop"
@@ -665,14 +667,14 @@
 					commandId="rtse.command.allcomponent.AllActivate"
 					id="rtse.menus.toolbar.allcomponent.AllActivate"
 					label="%All_Activate"
-					icon="icons/AllActivate.gif"
+					icon="icons/AllActivate.png"
 					style="push">
 				</command>
 				<command
 					commandId="rtse.command.allcomponent.AllDeactivate"
 					id="rtse.menus.toolbar.allcomponent.AllDeactivate"
 					label="%All_Deactivate"
-					icon="icons/AllDeactivate.gif"
+					icon="icons/AllDeactivate.png"
 					style="push">
 				</command>
 				<command
@@ -708,14 +710,14 @@
 					commandId="rtse.command.direction.Horizontal"
 					id="rtse.menus.toolbar.Direction_Horizontal"
 					label="%Direction_Horizontal"
-					icon="icons/direction_hirizontal.png"
+					icon="icons/direction_vertical.png"
 					style="push">
 				</command>
 				<command
 					commandId="rtse.command.direction.Vertical"
 					id="rtse.menus.toolbar.Direction_Vertical"
 					label="%Direction_Vertical"
-					icon="icons/direction_vertical.png"
+					icon="icons/direction_hirizontal.png"
 					style="push">
 				</command>
 				<separator
