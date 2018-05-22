@@ -10,9 +10,7 @@ import jp.go.aist.rtm.nameserviceview.model.manager.NameServerManager;
 import jp.go.aist.rtm.nameserviceview.model.manager.Node;
 import jp.go.aist.rtm.nameserviceview.model.manager.impl.NameServerManagerImpl;
 import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
-import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
 import jp.go.aist.rtm.toolscommon.ui.views.propertysheetview.RtcPropertySheetPage;
-import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
@@ -50,8 +48,6 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
  * 最後にアクセスしたネームサービスが存在しない場合には、ローカル(127.0.0.1)にアクセスする
  */
 public class NameServiceView extends ViewPart {
-	private static final String LAST_NAMESERVICE_ADDRESS = "ui.views.NameServiceView.lastNameServiceAddress";
-
 	private TreeViewer viewer;
 
 	private DrillDownAdapter drillDownAdapter;
@@ -150,11 +146,6 @@ public class NameServiceView extends ViewPart {
 		return viewer;
 	}
 
-	private void setLastNameServiceAddress(String address) {
-		NameServiceViewPlugin.getDefault().getPreferenceStore().setValue(
-				LAST_NAMESERVICE_ADDRESS, address);
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	/**
@@ -189,8 +180,6 @@ public class NameServiceView extends ViewPart {
 				public void run() {
 					if (msg.getOldValue() == null
 							&& msg.getNewValue() instanceof NameServerContext) {
-						setLastNameServiceAddress(((NameServerContext) msg
-								.getNewValue()).getNameServerName());
 						viewer.refresh();
 					}
 				}
@@ -220,13 +209,9 @@ public class NameServiceView extends ViewPart {
 
 	private void addDefaultNameServer() {
 		// 初期表示時に、最後にアクセスしたネームサービスをツリーに表示する
-		String lastNameServiceAddress = NameServiceViewPlugin.getDefault()
-				.getPreferenceStore().getString(LAST_NAMESERVICE_ADDRESS);
-		if ("".equals(lastNameServiceAddress)) {
-			lastNameServiceAddress = "127.0.0.1";
-		}
-		
-		final String[] nameServerAddressList = lastNameServiceAddress.split("\\|");
+		String lastNameServiceAddress = NameServiceViewPlugin.getDefault().getPreferenceStore()
+				.getString(NameServiceViewPlugin.COMBO_ITEMS_KEY);
+		final String[] nameServerAddressList = lastNameServiceAddress.split(",");
 
 		try {
 			new Thread(new Runnable() {
@@ -255,7 +240,6 @@ public class NameServiceView extends ViewPart {
 			} catch (Exception e) {
 			}
 		}
-		setLastNameServiceAddress(nsList.toString());
 		
 		NameServerManagerImpl.getInstance().eAdapters().remove(
 				nameServerManagerListener);

@@ -1,8 +1,6 @@
 package jp.go.aist.rtm.nameserviceview.ui.dialog;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.StringTokenizer;
 
 import jp.go.aist.rtm.nameserviceview.NameServiceViewPlugin;
@@ -38,13 +36,6 @@ public class NameServerSectionsDialog extends Dialog {
 			.getLogger(NameServerSectionsDialog.class);
 
 	private enum AddStatus{SUCCESS, CANT_CONNECT, CANT_CREATE_OBJECT_TREE, ALREADY_CONNECT}
-
-	/**
-	 * 接続が成功したことのあるアドレスの一覧を保存する、ワークスペース永続文字列へのキー
-	 */
-	public static final String COMBO_ITEMS_KEY = NameServerSectionsDialog.class
-			.getName()
-			+ ".combo.items"; //$NON-NLS-1$
 
 	/**
 	 * 最後に接続が成功したアドレスのインデックスを保存する、ワークスペース永続文字列へのキー
@@ -121,7 +112,7 @@ public class NameServerSectionsDialog extends Dialog {
 	 */
 	private void loadDefaultComboValue(Combo combo) {
 		String defaultString = NameServiceViewPlugin.getDefault().getPreferenceStore()
-				.getString(COMBO_ITEMS_KEY);
+				.getString(NameServiceViewPlugin.COMBO_ITEMS_KEY);
 		StringTokenizer tokenize = new StringTokenizer(defaultString, ","); //$NON-NLS-1$
 		while (tokenize.hasMoreTokens()) {
 			combo.add(tokenize.nextToken());
@@ -129,38 +120,6 @@ public class NameServerSectionsDialog extends Dialog {
 
 		combo.select(NameServiceViewPlugin.getDefault().getPreferenceStore().getInt(
 				COMBO_SELECTION_INDEX_KEY));
-	}
-
-	/**
-	 * 成功したアドレスおよび選択インデックスを、永続情報に設定する
-	 * 
-	 * @param combo
-	 */
-	private void addDefaultComboValue(Combo combo) {
-		String value = combo.getText(); // local
-
-		List<String> valueList = Arrays.asList(combo.getItems());
-		if (valueList.contains(value) == false) {
-			String defaultString = NameServiceViewPlugin.getDefault().getPreferenceStore()
-					.getString(COMBO_ITEMS_KEY);
-
-			String newString = ""; //$NON-NLS-1$
-			if ("".equals(defaultString)) { //$NON-NLS-1$
-				newString = value;
-			} else {
-				newString = value + "," + defaultString; //$NON-NLS-1$
-			}
-
-			NameServiceViewPlugin.getDefault().getPreferenceStore().setValue(
-					COMBO_ITEMS_KEY, newString);
-		}
-
-		int selectionIndex = valueList.indexOf(value);
-		if (selectionIndex == -1) { // 新しい入力を行った場合
-			selectionIndex = 0;
-		}
-		NameServiceViewPlugin.getDefault().getPreferenceStore().setValue(
-				COMBO_SELECTION_INDEX_KEY, selectionIndex);
 	}
 
 	@Override
@@ -181,7 +140,6 @@ public class NameServerSectionsDialog extends Dialog {
 	protected void okPressed() {
 		value = combo.getText();
 		if (execute(value)) {
-			addDefaultComboValue(combo);
 			super.okPressed();
 		} else {
 			combo.setFocus();
