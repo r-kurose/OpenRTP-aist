@@ -57,6 +57,9 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -646,7 +649,7 @@ public class Generator {
 		try {
 			URL bundleUrl = this.getClass().getClassLoader().getResource(source);
 			URL jarUrl = org.eclipse.core.runtime.FileLocator.toFileURL(bundleUrl);	
-			URI uri = URI.create(jarUrl.toString().replace(File.separator, "/"));
+			URI uri = URI.create(jarUrl.toString().replace(" ", "%20").replace(File.separator, "/"));
 			
 			File targetFile = new File(outputProject.getLocation().toOSString(), dist);
 			
@@ -655,7 +658,7 @@ public class Generator {
 			e.printStackTrace();
 		}
 	}
-
+	
 	private void writeFile(GeneratedResult generatedResult, IProject outputProject,
 			MergeHandler handler) throws IOException {
 		
