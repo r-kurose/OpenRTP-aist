@@ -206,7 +206,7 @@ public class CreateComponentDialog extends TitleAreaDialog {
 
 		Label mnLabel = new Label(mainComposite, SWT.NONE);
 		mnLabel.setText("Manager Name :");
-		this.managerNameCombo = new Combo(mainComposite, SWT.READ_ONLY);
+		this.managerNameCombo = new Combo(mainComposite, SWT.DROP_DOWN);
 		gd = new GridData(GridData.GRAB_HORIZONTAL);
 		gd.minimumWidth = 180;
 		gd.horizontalAlignment = GridData.FILL;
@@ -391,6 +391,11 @@ public class CreateComponentDialog extends TitleAreaDialog {
 		if (type == null || type.isEmpty()) {
 			return false;
 		}
+		String manager = this.managerNameCombo.getText();
+		if (manager == null || manager.isEmpty()) {
+			return false;
+		}
+		
 		String errmsg = ERR_INVALID_PARAM;
 		if (type.indexOf("&") != -1) {
 			// component_nameに&が入っている
