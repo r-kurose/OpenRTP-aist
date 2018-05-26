@@ -398,32 +398,6 @@ ${sharp}${sharp}
 ${sharp} timer.tick: 0.1
 
 ${sharp}${sharp}============================================================
-${sharp}${sharp} Execution context settings
-${sharp}${sharp}============================================================
-${sharp}${sharp}
-${sharp}${sharp} Periodic type ExecutionContext
-${sharp}${sharp}
-${sharp}${sharp} Other availabilities in OpenRTM-aist
-${sharp}${sharp}
-${sharp}${sharp} - ExtTrigExecutionContext: External triggered EC. It is embedded in
-${sharp}${sharp}                            OpenRTM library.
-${sharp}${sharp} - OpenHRPExecutionContext: External triggred paralell execution
-${sharp}${sharp}                            EC. It is embedded in OpenRTM
-${sharp}${sharp}                            library. This is usually used with
-${sharp}${sharp}                            OpenHRP3.
-${sharp}${sharp} - RTPreemptEC:             Real-time execution context for Linux
-${sharp}${sharp}                            RT-preemptive pathed kernel.
-${sharp}${sharp} - ArtExecutionContext:     Real-time execution context for ARTLinux
-${sharp}${sharp}                            (http://sourceforge.net/projects/art-linux/)
-${sharp}${sharp}
-${sharp} exec_cxt.periodic.type: PeriodicExecutionContext
-
-${sharp}${sharp}
-${sharp}${sharp} The execution cycle of ExecutionContext
-${sharp}${sharp}
-${sharp} exec_cxt.periodic.rate: 1000
-
-${sharp}${sharp}============================================================
 ${sharp}${sharp} SDO service settings
 ${sharp}${sharp}============================================================
 ${sharp}${sharp}
