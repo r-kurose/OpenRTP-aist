@@ -258,6 +258,25 @@
 			</action>
 		</objectContribution>
 
+ 		<objectContribution
+			id="jp.go.aist.rtm.systemeditor.ui.objectContribution.Manager"
+        	objectClass="jp.go.aist.rtm.toolscommon.model.manager.RTCManager"
+        	adaptable="true">
+        	<visibility>
+				<objectClass name="jp.go.aist.rtm.toolscommon.model.manager.RTCManager"/>
+			</visibility>
+			<action id="jp.go.aist.rtm.systemeditor.ui.action.IManagerActionDelegate.Shutdown"
+				label="Shutdown"
+				menubarPath="manager"
+				class="jp.go.aist.rtm.systemeditor.ui.action.IManagerActionDelegate">
+			</action>
+			<action id="jp.go.aist.rtm.systemeditor.ui.action.IManagerActionDelegate.Restart"
+				label="Restart"
+				menubarPath="manager"
+				class="jp.go.aist.rtm.systemeditor.ui.action.IManagerActionDelegate">
+			</action>
+		</objectContribution>
+		
 		<objectContribution
 			id="jp.go.aist.rtm.systemeditor.ui.objectContribution.ExecutionContext"
 			objectClass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart"
