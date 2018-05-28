@@ -569,8 +569,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		return index;
 	}
 	
-	@Override
-	protected int searchIndex(String[] sources, String target) {
+	private int searchIndex(String[] sources, String target) {
 		for(int intIdx=0;intIdx<sources.length;intIdx++) {
 			if( target.equals(sources[intIdx]) )
 				return intIdx;

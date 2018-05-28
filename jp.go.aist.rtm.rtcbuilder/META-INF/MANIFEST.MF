@@ -28,7 +28,6 @@ Export-Package: jp.go.aist.rtm.rtcbuilder,
  jp.go.aist.rtm.rtcbuilder.ui.editors,
  jp.go.aist.rtm.rtcbuilder.ui.parts,
  jp.go.aist.rtm.rtcbuilder.ui.preference,
- jp.go.aist.rtm.rtcbuilder.ui.wizard,
  jp.go.aist.rtm.rtcbuilder.util
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

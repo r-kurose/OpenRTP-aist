@@ -2,9 +2,11 @@ package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
 import java.io.ByteArrayInputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.xml.bind.JAXBException;
 
@@ -21,6 +23,7 @@ import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.ui.Perspective.LanguageProperty;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
+import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
 import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 
 import org.eclipse.core.resources.IFile;
@@ -349,7 +352,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 				//TODO 複数コンポーネント対応版とする場合には複数設定
 				generatorParam.getRtcParam().getServiceClassParams().clear();
 				setPrefixSuffix(generatorParam.getRtcParam());
-				List<String> idlDirs = getIDLDirectoriesForData();
+				List<String> idlDirs = RTCUtil.getIDLPathes(editor.getRtcParam());
 				if (rtcBuilder.doGenerateWrite(generatorParam, idlDirs, true)) {
 					LanguageProperty langProp = LanguageProperty.checkPlugin(editor.getRtcParam());
 					if(langProp != null) {
@@ -683,8 +686,31 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		editor.updateEMFModuleName(rtcParam.getName());
 	}
 
+	/**
+	 * 入力したカテゴリを永続情報に設定する
+	 */
 	protected void addDefaultComboValue(){
-		addDefaultComboValue(categoryCombo, CATEGORY_INDEX_KEY);
+		String value = categoryCombo.getText(); // local
+		String storedString = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(CATEGORY_INDEX_KEY);
+		StringTokenizer tokenize = new StringTokenizer(storedString, ",");
+		ArrayList<String> storedList = new ArrayList<String>();
+		while (tokenize.hasMoreTokens()) {
+			storedList.add(tokenize.nextToken());
+		}
+		if (storedList.contains(value) == false) {
+			String defaultString = RtcBuilderPlugin.getDefault()
+					.getPreferenceStore().getString(CATEGORY_INDEX_KEY);
+
+			String newString = "";
+			if ("".equals(defaultString)) {
+				newString = value;
+			} else {
+				newString = value + "," + defaultString;
+			}
+
+			RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(CATEGORY_INDEX_KEY, newString);
+			categoryCombo.add(value);
+		}
 	}
 	
 	private void loadSelectedCompKind(String type) {

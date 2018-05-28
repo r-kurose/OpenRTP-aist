@@ -1,0 +1,41 @@
+#ifndef Test_idl
+#define Test_idl
+
+#include "BasicDataType.idl"
+#include "ExtendedDataTypes.idl"
+
+module MyModule
+{
+  struct MyStruct
+  {
+    short x;
+    short y;
+    long a;
+    long b;
+    double dval;
+    float fval;
+    string strval;
+  };
+
+  typedef sequence<double> DvalueList;
+  typedef sequence<MyStruct> MyStructList;
+
+  interface MyInterface
+  {
+    void op1();
+
+    short op2(in MyStruct mydata);
+
+    oneway void op3();
+
+    void op4(in short inshort, out short outshort, inout short ioshort);
+
+    void op5(in RTC::Point3D inpoint3d);
+
+    void op6(out RTC::Point3D outpoint3d);
+
+  };
+
+};
+
+#endif /* Test_idl */

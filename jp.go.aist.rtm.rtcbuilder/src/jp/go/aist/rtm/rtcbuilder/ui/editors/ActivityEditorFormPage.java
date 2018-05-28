@@ -6,7 +6,7 @@ import java.util.List;
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
-import jp.go.aist.rtm.rtcbuilder.ui.preference.BuilderViewPreferenceManager;
+import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
@@ -86,7 +86,6 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	private void createActivitySection(FormToolkit toolkit, ScrolledForm form) {
-
 		Composite composite = createSectionBaseWithLabel(toolkit, form, 
 				IMessageConstants.ACTIVITY_ACTIVITY_TITLE, IMessageConstants.ACTIVITY_ACTIVITY_EXPL, 3);
 		//
@@ -210,7 +209,7 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 					if( rtcParam.getActionImplemented(index) ) {
 						onBtn.setSelection(true);
 						offBtn.setSelection(false);
-						implChk.get(index).setBackground(new Color(PlatformUI.getWorkbench().getDisplay(), BuilderViewPreferenceManager.defaultRGBMap.get(BuilderViewPreferenceManager.COLOR_COMPONENT)));
+						implChk.get(index).setBackground(new Color(PlatformUI.getWorkbench().getDisplay(), RTCUtil.defaultRGBMap.get(RTCUtil.COLOR_COMPONENT)));
 					} else {
 						onBtn.setSelection(false);
 						offBtn.setSelection(true);
@@ -276,7 +275,7 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 		onBtn.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if(preSelection>=0) {
-					implChk.get(preSelection).setBackground(new Color(PlatformUI.getWorkbench().getDisplay(), BuilderViewPreferenceManager.defaultRGBMap.get(BuilderViewPreferenceManager.COLOR_COMPONENT)));
+					implChk.get(preSelection).setBackground(new Color(PlatformUI.getWorkbench().getDisplay(), RTCUtil.defaultRGBMap.get(RTCUtil.COLOR_COMPONENT)));
 				}
 			}
 		});
@@ -323,7 +322,7 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 		if( activityText != null ) {
 			for( int intidx=IRtcBuilderConstants.ACTIVITY_INITIALIZE; intidx<IRtcBuilderConstants.ACTIVITY_DUMMY; intidx++) {
 				if( rtcParam.getActionImplemented(intidx) ) {
-					implChk.get(intidx).setBackground(new Color(PlatformUI.getWorkbench().getDisplay(), BuilderViewPreferenceManager.defaultRGBMap.get(BuilderViewPreferenceManager.COLOR_COMPONENT)));
+					implChk.get(intidx).setBackground(new Color(PlatformUI.getWorkbench().getDisplay(), RTCUtil.defaultRGBMap.get(RTCUtil.COLOR_COMPONENT)));
 				} else {
 					implChk.get(intidx).setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WHITE));
 				}

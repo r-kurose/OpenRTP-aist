@@ -12,13 +12,9 @@ import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
 import jp.go.aist.rtm.rtcbuilder.generator.IDLParamConverter;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
 import jp.go.aist.rtm.rtcbuilder.model.component.BuildView;
-import jp.go.aist.rtm.rtcbuilder.ui.preference.DataTypePreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
+import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
 
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
@@ -44,9 +40,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormPage;
@@ -293,41 +287,6 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		return combo;
 	}
 
-	protected Text createLabelAndDirectory(FormToolkit toolkit,
-								Composite composite, String labelString) {
-		GridData gd;
-
-		if(!labelString.equals("")) {
-			toolkit.createLabel(composite, labelString);
-		}
-		final Text text = toolkit.createText(composite, "");
-		text.addKeyListener(new KeyListener() {
-			public void keyReleased(KeyEvent e) { update(); }
-			public void keyPressed(KeyEvent e) {}
-		});
-
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-
-		text.setLayoutData(gd);
-
-		Button checkButton = toolkit.createButton(composite, "Browse...",
-				SWT.PUSH);
-		checkButton.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				DirectoryDialog dialog = new DirectoryDialog(getEditorSite().getShell());
-				if (text.getText().length() > 0)
-					dialog.setFilterPath(text.getText());
-				String newPath = dialog.open();
-				if (newPath != null) {
-					text.setText(newPath);
-					update();
-				}
-			}
-		});
-
-		return text;
-	}
-
 	protected String getValue(String value) {
 		String result = value;
 		if (result == null) {
@@ -345,10 +304,6 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		return result;
 	}
 
-	protected Combo createEditableCombo(FormToolkit toolkit, Composite composite,
-			String labelString, String key, String[] defaultValue) {
-		return createEditableCombo(toolkit, composite, labelString, key, defaultValue, 0);
-	}
 	protected Combo createEditableCombo(FormToolkit toolkit, Composite composite,
 			String labelString, String key, String[] defaultValue, int color) {
 		return createEditableCombo(toolkit, composite, labelString, key, defaultValue, color, 1);
@@ -389,11 +344,6 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		return radio;
 	}
 	
-	protected void createColumnToTableViewer(TableViewer tv, String title, int width){
-		TableColumn col = new TableColumn(tv.getTable(),SWT.NONE);
-		col.setText(title);
-		col.setWidth(width);
-	}
 	protected TableViewerColumn createColumn(TableViewer tv, String title, int width){
 		TableViewerColumn col = new TableViewerColumn(tv, SWT.NONE);
 		col.getColumn().setText(title);
@@ -408,7 +358,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	 * 
 	 * @param combo
 	 */
-	protected void loadDefaultComboValue(Combo combo, String key) {
+	private void loadDefaultComboValue(Combo combo, String key) {
 		String defaultString = RtcBuilderPlugin.getDefault().getPreferenceStore()
 				.getString(key);
 		StringTokenizer tokenize = new StringTokenizer(defaultString, ",");
@@ -417,70 +367,10 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		}
 	}
 
-	/**
-	 * 入力したカテゴリを永続情報に設定する
-	 * 
-	 * @param combo
-	 */
-	protected void addDefaultComboValue(Combo combo, String key) {
-		String value = combo.getText(); // local
-
-		String storedString = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(key);
-		StringTokenizer tokenize = new StringTokenizer(storedString, ",");
-		ArrayList<String> storedList = new ArrayList<String>();
-		while (tokenize.hasMoreTokens()) {
-			storedList.add(tokenize.nextToken());
-		}
-		if (storedList.contains(value) == false) {
-			String defaultString = RtcBuilderPlugin.getDefault()
-					.getPreferenceStore().getString(key);
-
-			String newString = "";
-			if ("".equals(defaultString)) {
-				newString = value;
-			} else {
-				newString = value + "," + defaultString;
-			}
-
-			RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(key, newString);
-			combo.add(value);
-		}
-	}
-	
-	protected int searchIndex(String[] sources, String target) {
-		for(int intIdx=0;intIdx<sources.length;intIdx++) {
-			if( target.equals(sources[intIdx]) )
-				return intIdx;
-		}
-		return 0;
-	}
-	
-	protected List<String> getIDLDirectoriesForData() {
-		List<String> result = new ArrayList<String>(DataTypePreferenceManager
-				.getInstance().getIdlFileDirectories());
-		if(editor!=null && editor.getRtcParam()!=null && editor.getRtcParam().getOutputProject()!=null && 0<editor.getRtcParam().getOutputProject().length()) {
-			IWorkspaceRoot workspaceHandle = ResourcesPlugin.getWorkspace().getRoot();
-			IProject project = workspaceHandle.getProject(editor.getRtcParam().getOutputProject());
-			IFolder path = project.getFolder("idl");
-			if(path!=null && path.exists()) {
-				result.add(path.getLocation().toOSString());
-			}
-		}
-		return result;
-	}
-	
 	protected String[] extractDataTypes() {
-		List<String> sources = getIDLDirectoriesForData();
+		List<String> sources = RTCUtil.getIDLPathes(editor.getRtcParam());
 		String FS = System.getProperty("file.separator");
-		String defaultPath = System.getenv("RTM_ROOT");
 		int baseindex = -1;
-		if (defaultPath != null) {
-			baseindex = 0;
-			if(!defaultPath.endsWith(FS)) {
-				defaultPath += FS;
-			}
-			sources.add(0, defaultPath + "rtm" + FS + "idl");
-		}
 		List<DataTypeParam> sourceContents = new ArrayList<DataTypeParam>();
 		for (int intidx = 0; intidx < sources.size(); intidx++) {
 			String source = sources.get(intidx);

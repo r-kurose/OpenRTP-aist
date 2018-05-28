@@ -78,7 +78,7 @@ public class PreProcessor {
 	 * @return 実行後文字列
 	 * @throws IOException 
 	 */
-	public static String parse(String target, File includeBaseDir, List<String> includeFiles, boolean isCheck) throws IOException, HeaderException {
+	public static String parse(String target, List<String> includeBaseDirs, List<String> includeFilesOut, boolean isCheck) throws IOException, HeaderException {
 		String targetNoCmt = eraseComments(target);
 		/////
 		StringBuffer result = new StringBuffer();
@@ -86,7 +86,7 @@ public class PreProcessor {
 		while (matcher.find()) {
 			String replateString = "";
 			String includeFileContent = getIncludeFileContentThoroughgoing(
-					matcher.group(), includeBaseDir, includeFiles, isCheck);
+					matcher.group(), includeBaseDirs, includeFilesOut, isCheck);
 			if (includeFileContent != null) {
 				replateString = includeFileContent;
 			}
@@ -99,11 +99,11 @@ public class PreProcessor {
 		return result.toString();
 	}
 
-	public static String getIncludeFileContentThoroughgoing(String directive,
-			File includeBaseDir, List<String> includeFiles, boolean isCheck) throws IOException, HeaderException {
-		String result = getIncludeFileContent(directive, includeBaseDir, includeFiles, isCheck);
+	public static String getIncludeFileContentThoroughgoing(String directive, List<String> includeBaseDirs,
+			List<String> includeFilesOut, boolean isCheck) throws IOException, HeaderException {
+		String result = getIncludeFileContent(directive, includeBaseDirs, includeFilesOut, isCheck);
 		if (result != null) {
-			result = parse(result, includeBaseDir, includeFiles, isCheck);
+			result = parse(result, includeBaseDirs, includeFilesOut, isCheck);
 		}
 
 		return result;
@@ -117,27 +117,36 @@ public class PreProcessor {
 	 * @return
 	 * @throws IOException 
 	 */
-	public static String getIncludeFileContent(String directive,
-			File includeBaseDir, List<String> includeFiles, boolean isCheck) throws IOException, HeaderException {
+	public static String getIncludeFileContent(String directive, List<String> includeBaseDirs,
+			List<String> includeFilesOut, boolean isCheck) throws IOException, HeaderException {
 		String result = null;
 		
 		Matcher matcher = INCLUDE_PATTERN.matcher(directive);
 		if (matcher.find()) {
 			String filePath = matcher.group(INCLUDE_FILE_INDEX);
-			if (includeBaseDir == null) {
+			if (includeBaseDirs == null) {
 				throw new RuntimeException(IRTCBMessageConstants.ERROR_PREPROCESSOR + filePath);
 			}
-			String includeFilePath = new File(includeBaseDir, filePath).getAbsolutePath();
-			File target = new File(includeFilePath);
-			if(target.exists()==false) {
-				if(isCheck) throw new HeaderException(filePath);
-			} else {
-				result = FileUtil.readFile(includeFilePath);
-				if(includeFiles!=null) {
-					if( !includeFiles.contains(includeFilePath) ) {
-						includeFiles.add(includeFilePath);
+			boolean isExist = false;
+			for(String includeBaseDir : includeBaseDirs) {
+				String includeFilePath = new File(includeBaseDir, filePath).getAbsolutePath();
+				File target = new File(includeFilePath);
+//				if(target.exists()==false) {
+//					if(isCheck) throw new HeaderException(filePath);
+//				} else {
+				if(target.exists()) {
+					isExist = true;
+					result = FileUtil.readFile(includeFilePath);
+					if(includeFilesOut!=null) {
+						if( !includeFilesOut.contains(includeFilePath) ) {
+							includeFilesOut.add(includeFilePath);
+						}
 					}
+					break;
 				}
+			}
+			if(isCheck && isExist==false) {
+				throw new HeaderException(filePath);
 			}
 		}
 

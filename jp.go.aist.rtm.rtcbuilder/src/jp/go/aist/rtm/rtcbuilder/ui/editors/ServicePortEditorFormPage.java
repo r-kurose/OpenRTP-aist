@@ -25,7 +25,6 @@ import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 import jp.go.aist.rtm.rtcbuilder.util.ValidationUtil;
 
-import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -38,7 +37,6 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -51,6 +49,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -751,6 +750,39 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			ifexceptionText.setText(StringUtil.getDisplayDocText(serviceInterface.getDocException()));
 			ifpreconditionText.setText(StringUtil.getDisplayDocText(serviceInterface.getDocPreCondition()));
 			ifpostconditionText.setText(StringUtil.getDisplayDocText(serviceInterface.getDocPostCondition()));
+		}
+		
+		private Text createLabelAndDirectory(FormToolkit toolkit, Composite composite, String labelString) {
+			GridData gd;
+
+			if(!labelString.equals("")) {
+				toolkit.createLabel(composite, labelString);
+			}
+			final Text text = toolkit.createText(composite, "");
+			text.addKeyListener(new KeyListener() {
+				public void keyReleased(KeyEvent e) { update(); }
+				public void keyPressed(KeyEvent e) {}
+			});
+			
+			gd = new GridData(GridData.FILL_HORIZONTAL);
+			
+			text.setLayoutData(gd);
+			
+			Button checkButton = toolkit.createButton(composite, "Browse...", SWT.PUSH);
+			checkButton.addSelectionListener(new SelectionAdapter() {
+				public void widgetSelected(SelectionEvent e) {
+					DirectoryDialog dialog = new DirectoryDialog(getEditorSite().getShell());
+					if (text.getText().length() > 0)
+						dialog.setFilterPath(text.getText());
+					String newPath = dialog.open();
+					if (newPath != null) {
+						text.setText(newPath);
+						update();
+					}
+				}
+			});
+			
+			return text;
 		}
 	}
 

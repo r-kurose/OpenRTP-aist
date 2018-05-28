@@ -664,7 +664,6 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	}
 	//
 	public void checkAndSetParameter() {
-
 		List<String> providerIdlStrings = new ArrayList<String>();
 		List<String> consumerIdlStrings = new ArrayList<String>();
 		List<String> idlPathes = new ArrayList<String>();

@@ -1,6 +1,6 @@
 package jp.go.aist.rtm.rtcbuilder.ui.action;
 
-import jp.go.aist.rtm.rtcbuilder.ui.wizard.NewWizard;
+import jp.go.aist.rtm.rtcbuilder.ui.NewWizard;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;

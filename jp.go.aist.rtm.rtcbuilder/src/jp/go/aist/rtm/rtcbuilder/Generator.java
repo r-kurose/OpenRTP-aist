@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -57,9 +58,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -108,29 +106,29 @@ public class Generator {
 	}
 
 	public void validateIDLDef(GeneratorParam generatorParam, List<String> idlDir) throws Exception {
-		List<String> IDLPathes = new ArrayList<String>();
-		List<ServiceClassParam> IDLPathParams = new ArrayList<ServiceClassParam>();
-		
 		RtcParam rtcParam  = generatorParam.getRtcParam();
-		rtcParam.checkAndSetParameter();
-		rtcParam.getIdlPathes().clear();
+		
+		List<String> checkedIDL = new ArrayList<String>();
+		List<String> dummy = new ArrayList<String>();
+		
 		for( ServicePortParam serviceport : rtcParam.getServicePorts() ) {
 			for( ServicePortInterfaceParam serviceInterfaces : serviceport.getServicePortInterfaces() ) {
-				if( !IDLPathes.contains(serviceInterfaces.getIdlFullPath()) ) {
-					IDLPathes.add(serviceInterfaces.getIdlFullPath());
-					IDLPathParams.add(new ServiceClassParam(serviceInterfaces.getIdlFullPath(),
-															 serviceInterfaces.getIdlSearchPath()));
+				String targetIDL = serviceInterfaces.getIdlFullPath();
+				if(checkedIDL.contains(targetIDL)) continue;
+				checkedIDL.add(targetIDL);
+				//
+				File file = new File(targetIDL);
+				if(file.exists()==false) {
+					throw new FileNotFoundException("Target IDL File [" + targetIDL + "] NOT EXists.");
 				}
-				if( 0<serviceInterfaces.getIdlSearchPath().length() &&
-						rtcParam.getIdlPathes().contains(serviceInterfaces.getIdlSearchPath())==false) {
-					rtcParam.getIdlPathes().add(serviceInterfaces.getIdlSearchPath());
-				}
+				String idlContent = FileUtil.readFile(targetIDL);
+				if (idlContent == null) continue;
+				List<String> idlSearchDirs = new ArrayList<String>();
+				idlSearchDirs.add(serviceInterfaces.getIdlSearchPath());
+				if(idlDir!=null) idlSearchDirs.addAll(idlDir);
+				PreProcessor.parse(idlContent, idlSearchDirs, dummy, true);
 			}
 		}
-		if(idlDir!=null) {
-			rtcParam.getIdlPathes().addAll(idlDir);
-		}
-		checkRtcServiceClass(rtcParam, IDLPathParams);
 	}
 	
 	/**
@@ -178,7 +176,7 @@ public class Generator {
 			rtcParam.getIdlPathes().addAll(idlDir);
 		}
 		
-		rtcServiceClasses.addAll(getRtcServiceClass(rtcParam, IDLPathParams));
+		rtcServiceClasses.addAll(getRtcServiceClass(rtcParam, IDLPathParams, idlDir));
 		checkReferencedServiceParam(rtcServiceClasses, rtcParam);
 		
 		List<ServiceClassParam> serviceClassParamList = new ArrayList<ServiceClassParam>();
@@ -316,7 +314,7 @@ public class Generator {
 	 * @throws ParseException
 	 */
 	private List<ServiceClassParam> getRtcServiceClass(RtcParam rtcParam,
-			List<ServiceClassParam> IDLPathes) throws ParseException, HeaderException {
+			List<ServiceClassParam> IDLPathes, List<String> idlDir) throws ParseException, HeaderException {
 		List<ServiceClassParam> result = new ArrayList<ServiceClassParam>();
 		List<String> includeFiles = new ArrayList<String>();
 
@@ -326,31 +324,12 @@ public class Generator {
 			List<String> incs = new ArrayList<String>();
 			String idl = null;
 			try {
-				String fileName = sv.getName();
-				File file = new File(fileName);
-				if(file.exists()==false) {
-					for(String path : rtcParam.getIdlPathes()) {
-						String fullName = path + File.separator + fileName; 
-						file = new File(fullName);
-						if(file.exists()) {
-							for( IdlFileParam idlFile : rtcParam.getProviderIdlPathes() ) {
-								if( idlFile.getIdlFile().equals(fileName) ) {
-									idlFile.setIdlPath(fullName);
-								}
-							}
-							for( IdlFileParam idlFile : rtcParam.getConsumerIdlPathes() ) {
-								if( idlFile.getIdlFile().equals(fileName) ) {
-									idlFile.setIdlPath(fullName);
-								}
-							}
-							fileName = fullName;
-							break;
-						}
-					}
-				}
-				String idlContent = FileUtil.readFile(fileName);
+				String idlContent = FileUtil.readFile(sv.getName());
 				if (idlContent == null) continue;
-				idl = PreProcessor.parse(idlContent, getIncludeIDLDic(sv.getIdlPath()), incs, false);
+				List<String> pathList = new ArrayList<String>();
+				pathList.add(sv.getIdlPath());
+				if(idlDir!=null) pathList.addAll(idlDir);
+				idl = PreProcessor.parse(idlContent, pathList, incs, false);
 			} catch (IOException e) {
 				continue;
 			}
@@ -404,43 +383,6 @@ public class Generator {
 		}
 
 		return result;
-	}
-	
-	private void checkRtcServiceClass(RtcParam rtcParam, List<ServiceClassParam> IDLPathes) throws Exception {
-		for (int intIdx = 0; intIdx < IDLPathes.size(); intIdx++) {
-			ServiceClassParam sv = IDLPathes.get(intIdx);
-			if (sv == null) continue;
-			List<String> incs = new ArrayList<String>();
-			try {
-				String fileName = sv.getName();
-				File file = new File(fileName);
-				if(file.exists()==false) {
-					for(String path : rtcParam.getIdlPathes()) {
-						String fullName = path + File.separator + fileName; 
-						file = new File(fullName);
-						if(file.exists()) {
-							for( IdlFileParam idlFile : rtcParam.getProviderIdlPathes() ) {
-								if( idlFile.getIdlFile().equals(fileName) ) {
-									idlFile.setIdlPath(fullName);
-								}
-							}
-							for( IdlFileParam idlFile : rtcParam.getConsumerIdlPathes() ) {
-								if( idlFile.getIdlFile().equals(fileName) ) {
-									idlFile.setIdlPath(fullName);
-								}
-							}
-							fileName = fullName;
-							break;
-						}
-					}
-				}
-				String idlContent = FileUtil.readFile(fileName);
-				if (idlContent == null) continue;
-				PreProcessor.parse(idlContent, getIncludeIDLDic(sv.getIdlPath()), incs, true);
-			} catch (IOException e) {
-				continue;
-			}
-		}
 	}
 	
 	private List<ServiceClassParam> convertType(List<ServiceClassParam> source, List<TypeDefParam> types) {
@@ -583,19 +525,6 @@ public class Generator {
 			}
 		}
 		return target;
-	}
-
-	private File getIncludeIDLDic(String targetDir) {
-		File result = null;
-		if( targetDir!=null && targetDir.length()>0 ) {
-			File file = new File(targetDir);
-			if (file.exists()) {
-				result = file;
-			} else {
-				throw new RuntimeException(IRTCBMessageConstants.ERROR_IDL_DIRECTORY_NOT_FOUND);
-			}
-		}
-		return result;
 	}
 
 	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(

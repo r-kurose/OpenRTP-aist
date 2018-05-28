@@ -4,9 +4,11 @@ import jp.go.aist.rtm.rtcbuilder.model.component.DataInPort;
 import jp.go.aist.rtm.rtcbuilder.ui.figure.ComponentFigure;
 import jp.go.aist.rtm.rtcbuilder.ui.figure.InPortFigure;
 import jp.go.aist.rtm.rtcbuilder.ui.figure.PortFigureBase;
-import jp.go.aist.rtm.rtcbuilder.ui.preference.BuilderViewPreferenceManager;
+import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * InPortのEditPartクラス
@@ -21,7 +23,7 @@ public class InPortEditPart extends PortEditPartBase {
 		ComponentFigure parentFigure = (ComponentFigure)((ComponentEditPart)this.getParent()).getFigure();
 		int direction = this.getModel().getDirection().getValue();
 		PortFigureBase result = new InPortFigure(getModel(), direction,
-				BuilderViewPreferenceManager.getInstance().getColor(BuilderViewPreferenceManager.COLOR_DATAINPORT));
+				new Color(PlatformUI.getWorkbench().getDisplay(), RTCUtil.defaultRGBMap.get(RTCUtil.COLOR_DATAPORT)));
 
 		int index = this.getModel().getIndex();
 

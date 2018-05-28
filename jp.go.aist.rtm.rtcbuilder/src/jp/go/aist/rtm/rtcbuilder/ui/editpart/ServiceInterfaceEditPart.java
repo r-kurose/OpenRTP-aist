@@ -6,11 +6,13 @@ import jp.go.aist.rtm.rtcbuilder.model.component.ServicePort;
 import jp.go.aist.rtm.rtcbuilder.ui.figure.PortFigureBase;
 import jp.go.aist.rtm.rtcbuilder.ui.figure.ServiceInterfaceFigure;
 import jp.go.aist.rtm.rtcbuilder.ui.figure.ServicePortBaseFigure;
-import jp.go.aist.rtm.rtcbuilder.ui.preference.BuilderViewPreferenceManager;
+import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.ui.PlatformUI;
 
 public class ServiceInterfaceEditPart extends PortEditPartBase {
 
@@ -33,7 +35,7 @@ public class ServiceInterfaceEditPart extends PortEditPartBase {
 		int ifDirection = this.getModel().getDirection().getValue();
 		int parentDirection = this.getModel().getParentDirection().getValue();
 		PortFigureBase result = new ServiceInterfaceFigure(getModel(), parentDirection, ifDirection,
-				BuilderViewPreferenceManager.getInstance().getColor(BuilderViewPreferenceManager.COLOR_SERVICEIF));
+				new Color(PlatformUI.getWorkbench().getDisplay(), RTCUtil.defaultRGBMap.get(RTCUtil.COLOR_SERVICEIF)));
 		int index = this.getModel().getIndex();
 
 		int posX, posY;

@@ -6,7 +6,7 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
-import jp.go.aist.rtm.rtcbuilder.ui.views.ComponentBuildView;
+import jp.go.aist.rtm.rtcbuilder.ui.ComponentBuildView;
 
 public class RtcBuilderPerspectiveFactory implements IPerspectiveFactory {
 
