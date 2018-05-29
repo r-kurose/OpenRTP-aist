@@ -18,9 +18,11 @@ import org.eclipse.ui.IViewActionDelegate;
 import org.eclipse.ui.IViewPart;
 
 public class StartManagerAction implements IViewActionDelegate {
-	private boolean isWindows = false; 
 	private NameServiceView view;
 	
+	private static String SCRIPT_WINDOWS = System.getenv("RTM_ROOT") + "bin" + Path.SEPARATOR + "rtcd-cxx-daemon.bat";
+	private static String SCRIPT_LINUX = "/usr/bin/rtcd";
+
 	public void init(IViewPart view) {
 		this.view = (NameServiceView) view;
 	}
@@ -42,6 +44,7 @@ public class StartManagerAction implements IViewActionDelegate {
 			targetManager.shutdownR();
 		}
 		/////
+		boolean isWindows = false; 
 		String targetOS = System.getProperty("os.name").toLowerCase();
 		if(targetOS.toLowerCase().startsWith("windows")) {
 			isWindows = true;
@@ -49,9 +52,8 @@ public class StartManagerAction implements IViewActionDelegate {
 		
 		String target = "";
 		if(isWindows) {
-			target = System.getenv("RTM_ROOT") + "bin" + Path.SEPARATOR + "rtcd-cxx-daemon.bat"; 
 			try {
-				ProcessBuilder pb = new ProcessBuilder(target);
+				ProcessBuilder pb = new ProcessBuilder(SCRIPT_WINDOWS);
 				File dir = new File(System.getenv("RTM_ROOT") + "bin");
 				pb.directory(dir);
 				Process process = pb.start();
@@ -59,9 +61,8 @@ public class StartManagerAction implements IViewActionDelegate {
 				e.printStackTrace();
 			}
 		} else {
-			target = "/usr/bin/rtcd"; 
 			try {
-				ProcessBuilder pb = new ProcessBuilder(target, "-d");
+				ProcessBuilder pb = new ProcessBuilder(SCRIPT_LINUX, "-d");
 				Process process = pb.start();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -70,6 +71,17 @@ public class StartManagerAction implements IViewActionDelegate {
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
+		String target = "";
+		String targetOS = System.getProperty("os.name").toLowerCase();
+		if(targetOS.toLowerCase().startsWith("windows")) {
+			target = SCRIPT_WINDOWS; 
+		} else {
+			target = SCRIPT_LINUX; 
+		}
+		File targetFile = new File(target);
+		if(targetFile.exists()==false) {
+			action.setEnabled(false);
+		}
 	}
 	
 	private void getAllItems(Tree tree, List<TreeItem> allItems) {
