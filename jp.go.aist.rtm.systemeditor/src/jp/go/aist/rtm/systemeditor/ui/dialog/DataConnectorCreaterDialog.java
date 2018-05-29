@@ -99,7 +99,7 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 	 * <p>
 	 * ConnectorProfileとなる候補が複数ある場合には、ダイアログを表示し、ConnectorProfileを作成する。
 	 */
-	public ConnectorProfile getConnectorProfile(OutPort outport, InPort inport) {
+	public ConnectorProfile getConnectorProfile(OutPort outport, InPort inport, boolean isReverse) {
 		this.outport = outport;
 		this.inport = inport;
 
@@ -107,7 +107,13 @@ public class DataConnectorCreaterDialog extends ConnectorDialogBase {
 		String inName = (inport != null) ? inport.getNameL() : "none";
 
 		connectorProfile = ComponentFactory.eINSTANCE.createConnectorProfile();
-		connectorProfile.setName(outName + "_" + inName);
+		if(isReverse) {
+			connectorProfile.setName(inName + "_" + outName);
+		} else {
+			connectorProfile.setName(outName + "_" + inName);
+		}
+		connectorProfile.setIsReverse(isReverse);
+		
 
 		setShellStyle(this.getShellStyle() | SWT.RESIZE);
 		open();
