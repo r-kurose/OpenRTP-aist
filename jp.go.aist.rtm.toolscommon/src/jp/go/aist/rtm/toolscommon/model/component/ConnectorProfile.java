@@ -633,6 +633,32 @@ public interface ConnectorProfile extends WrapperObject, IPropertyMap{
 	void setTimestampPolicy(String value);
 
 	/**
+	 * Returns the value of the '<em><b>Is Reverse</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Is Reverse</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Is Reverse</em>' attribute.
+	 * @see #setIsReverse(boolean)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getConnectorProfile_IsReverse()
+	 * @model
+	 * @generated
+	 */
+	boolean isIsReverse();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile#isIsReverse <em>Is Reverse</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Is Reverse</em>' attribute.
+	 * @see #isIsReverse()
+	 * @generated
+	 */
+	void setIsReverse(boolean value);
+
+	/**
 	 * @model
 	 * @return	接続情報の名称
 	 */
