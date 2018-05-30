@@ -62,7 +62,7 @@
      <view
            allowMultiple="false"
            category="OpenRTP"
-           class="jp.go.aist.rtm.rtcbuilder.ui.ComponentBuildView"
+           class="jp.go.aist.rtm.rtcbuilder.ui.views.ComponentBuildView"
            icon="icons/buildView.png"
            id="jp.go.aist.rtm.rtcbuilder.buildeview"
            name="%buildeviewName"/>

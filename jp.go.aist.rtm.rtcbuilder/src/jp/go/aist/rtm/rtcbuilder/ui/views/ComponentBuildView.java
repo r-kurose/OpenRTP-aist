@@ -1,4 +1,4 @@
-package jp.go.aist.rtm.rtcbuilder.ui;
+package jp.go.aist.rtm.rtcbuilder.ui.views;
 
 import java.util.Iterator;
 
