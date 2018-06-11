@@ -327,8 +327,12 @@ public class CorbaExecutionContextImpl extends ExecutionContextImpl implements C
 		if (!(comp instanceof CorbaComponent)) {
 			return false;
 		}
+		// 同一RTCのアタッチを非許容
 		RTC.RTObject ro = ((CorbaComponent) comp).getCorbaObjectInterface();
-		// 同一RTCのアタッチを許容
+		if (containsComponent(comp)) {
+			LOGGER.warn("Disallow add duplicate component: ro={}", ro);
+			return false;
+		}
 		RTC.ExecutionContext ec = getCorbaObjectInterface();
 		ReturnCode_t ret = ReturnCode_t.RTC_ERROR;
 		try {
@@ -361,6 +365,17 @@ public class CorbaExecutionContextImpl extends ExecutionContextImpl implements C
 			LOGGER.error("ERROR:", e);
 		}
 		return (ret == ReturnCode_t.RTC_OK);
+	}
+
+	@Override
+	public boolean containsComponent(Component comp) {
+		RTC.RTObject ro = ((CorbaComponent) comp).getCorbaObjectInterface();
+		for (RTC.RTObject po : getRtcExecutionContextProfile().participants) {
+			if (eql(ro, po)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

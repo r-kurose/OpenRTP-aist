@@ -166,4 +166,12 @@ public interface ExecutionContext extends WrapperObject, IPropertyMap {
 	 */
 	boolean removeComponentR(Component comp);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean containsComponent(Component comp);
+
 }

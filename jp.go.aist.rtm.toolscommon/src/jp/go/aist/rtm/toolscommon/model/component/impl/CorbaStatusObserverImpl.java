@@ -284,6 +284,21 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 				RTC.ExecutionContext ec = null;
 				if ("ATTACHED".equals(action)) {
 					ec = newEc;
+					//
+					if (ec == null) {
+						// 自RTCが所有する ECに対して自RTCをアタッチした場合、RTC-ECの関連のコンテキストIDが 2つになる
+						// 1. RTC--<0>----->EC
+						// 2. RTC--<1000>-->EC
+						// このとき、ECから逆引きで 1つしかコンテキストIDが取得できないため、ローカルですべてのコンテキストIDを取得できない
+						// そのため、オブザーバ通知で受け取ったID値によるECの検索で、暫定的に補完しておく
+						try {
+							ec = rtc.get_context(Integer.parseInt(id));
+							CorbaObjectStore.eINSTANCE.registContext(rtc, id, ec);
+						} catch (Exception e) {
+							LOGGER.error("Fail to get RTC.ExecutionContext: rtc={} id={}", rtc, id);
+							LOGGER.error("ERROR:", e);
+						}
+					}
 				} else if ("DETACHED".equals(action)) {
 					ec = oldEc;
 				}

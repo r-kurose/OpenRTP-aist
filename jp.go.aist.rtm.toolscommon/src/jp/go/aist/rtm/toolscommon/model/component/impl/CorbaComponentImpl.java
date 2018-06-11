@@ -2008,6 +2008,14 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 						super.postSynchronizeLocal(localObject, updated);
 						//
 						CorbaComponent component = (CorbaComponent) localObject;
+						//
+						for (Object obj : component.getExecutionContexts()) {
+							CorbaExecutionContext ec = (CorbaExecutionContext) obj;
+							if (ec != null) {
+								ec.getSynchronizationSupport().synchronizeLocal();
+							}
+						}
+						//
 						CorbaExecutionContext cec = (CorbaExecutionContext) component.getPrimaryExecutionContext();
 						if (cec == null
 								|| (!component.getExecutionContexts().contains(cec) && !component.getParticipationContexts()

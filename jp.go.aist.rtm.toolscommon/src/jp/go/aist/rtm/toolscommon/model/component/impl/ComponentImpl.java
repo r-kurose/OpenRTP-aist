@@ -690,20 +690,11 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
-	@SuppressWarnings("serial")
 	public EList<ExecutionContext> getParticipationContexts() {
 		if (participationContexts == null) {
-			// EReferenceの重複が許容されないのでisUnique()を変更
-			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=89325
-//			participationContexts = new EObjectResolvingEList<ExecutionContext>(ExecutionContext.class, this, ComponentPackage.COMPONENT__PARTICIPATION_CONTEXTS) {
-			participationContexts = new EObjectContainmentEList<ExecutionContext>(ExecutionContext.class, this, ComponentPackage.COMPONENT__PARTICIPATION_CONTEXTS) {
-				@Override
-				protected boolean isUnique() {
-					return false;
-				}
-			};
+			participationContexts = new EObjectContainmentEList<ExecutionContext>(ExecutionContext.class, this, ComponentPackage.COMPONENT__PARTICIPATION_CONTEXTS);
 		}
 		return participationContexts;
 	}

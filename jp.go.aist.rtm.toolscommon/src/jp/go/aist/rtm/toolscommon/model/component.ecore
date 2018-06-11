@@ -122,13 +122,16 @@
     <eOperations name="removeComponentR" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
       <eParameters name="comp" eType="#//Component"/>
     </eOperations>
+    <eOperations name="containsComponent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="comp" eType="#//Component"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kindL" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="-1"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rateL" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDoubleObject"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="stateL" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="owner" eType="#//Component"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="participants" unique="false"
-        upperBound="-1" eType="#//Component" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participants" upperBound="-1"
+        eType="#//Component" resolveProxies="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ContextHandler" eSuperTypes="core.ecore#//IAdaptable">
     <eOperations name="setContext" eType="#//ExecutionContext">

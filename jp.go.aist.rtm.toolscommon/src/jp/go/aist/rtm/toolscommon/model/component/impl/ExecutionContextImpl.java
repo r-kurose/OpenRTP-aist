@@ -297,19 +297,11 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
-	@SuppressWarnings("serial")
 	public EList<Component> getParticipants() {
 		if (participants == null) {
-			// EReferenceの重複が許容されないのでisUnique()を変更
-			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=89325
-			participants = new EObjectEList<Component>(Component.class, this, ComponentPackage.EXECUTION_CONTEXT__PARTICIPANTS) {
-				@Override
-				protected boolean isUnique() {
-					return false;
-				}
-			};
+			participants = new EObjectEList<Component>(Component.class, this, ComponentPackage.EXECUTION_CONTEXT__PARTICIPANTS);
 		}
 		return participants;
 	}
@@ -367,7 +359,10 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	 * @generated NOT
 	 */
 	public boolean addComponentR(Component comp) {
-		// 同一RTCのアタッチを許容
+		// 同一RTCのアタッチを非許容
+		if (containsComponent(comp)) {
+			return false;
+		}
 		getParticipants().add(comp);
 		comp.getParticipationContexts().add(this);
 		comp.getParticipationContextHandler().sync();
@@ -380,7 +375,7 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	 * @generated NOT
 	 */
 	public boolean removeComponentR(Component comp) {
-		if (getParticipants().contains(comp)) {
+		if (containsComponent(comp)) {
 			getParticipants().remove(comp);
 		}
 		if (comp.getParticipationContexts().contains(this)) {
@@ -388,6 +383,15 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 		}
 		comp.getParticipationContextHandler().sync();
 		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean containsComponent(Component comp) {
+		return getParticipants().contains(comp);
 	}
 
 	/**
