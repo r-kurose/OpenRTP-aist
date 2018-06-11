@@ -6,10 +6,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
+import jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramStore;
+import jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart;
+import jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECConnectionEditPart;
+import jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECEditPart;
+import jp.go.aist.rtm.systemeditor.ui.util.ComponentUtil;
+import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
 import jp.go.aist.rtm.toolscommon.model.core.Visiter;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.gef.commands.Command;
 
@@ -58,6 +67,34 @@ public class ClearLineConstraintCommand extends Command {
 				}
 			}
 		});
+
+		Component comp = (Component) this.model;
+		SystemDiagram diagram = (SystemDiagram) comp.eContainer();
+		if (diagram != null) {
+			AbstractSystemDiagramEditor editor = ComponentUtil.findEditor(diagram);
+			ComponentEditPart c = (ComponentEditPart) editor.findEditPart(comp);
+			List<ECConnectionEditPart> conns = new ArrayList<>();
+			for (Object o1 : c.getChildren()) {
+				if (o1 instanceof ECEditPart.OwnECEditPart) {
+					ECEditPart.OwnECEditPart part = (ECEditPart.OwnECEditPart) o1;
+					for (Object o2 : part.getSourceConnections()) {
+						conns.add((ECConnectionEditPart) o2);
+					}
+				} else if (o1 instanceof ECEditPart.PartECEditPart) {
+					ECEditPart.PartECEditPart part = (ECEditPart.PartECEditPart) o1;
+					for (Object o2 : part.getTargetConnections()) {
+						conns.add((ECConnectionEditPart) o2);
+					}
+				}
+			}
+			SystemDiagramStore store = SystemDiagramStore.instance(diagram);
+			for (ECConnectionEditPart conn : conns) {
+				@SuppressWarnings("unchecked")
+				Map<Integer, Point> routingConstraint = (Map<Integer, Point>) store.getTarget("ECConnection",
+						conn.getModel().getId()).getResource(SystemDiagramStore.KEY_EC_CONN_BENDPOINT_MAP);
+				routingConstraint.clear();
+			}
+		}
 	}
 
 	@SuppressWarnings("unchecked")

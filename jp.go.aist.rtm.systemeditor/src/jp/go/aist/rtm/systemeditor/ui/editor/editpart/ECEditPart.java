@@ -10,11 +10,14 @@ import java.util.List;
 import java.util.Map;
 
 import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
+import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
 import jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramStore;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.ECSelectionEditPolicy;
 import jp.go.aist.rtm.systemeditor.ui.editor.figure.ECAnchor;
 import jp.go.aist.rtm.systemeditor.ui.editor.figure.ECFigure;
+import jp.go.aist.rtm.systemeditor.ui.util.ComponentUtil;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
@@ -150,16 +153,16 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 		private PartEC partEc;
 		private PartECEditPart partPart;
 		//
-		private ComponentEditPart compPart;
-		private SystemDiagramEditPart diagramPart;
-		private Map<String, ECConnectionEditPart.ECConnection> connMap = null;
+		private Component comp;
+		private SystemDiagram diagram;
+		private Map<String, ECConnectionEditPart.ECConnection> connMap = new HashMap<>();
 
 		// OwnEC を起点とする場合
 		ECFinder(OwnEC ec, OwnECEditPart part) {
 			this.ownEc = ec;
 			this.ownPart = part;
 			//
-			this.compPart = (ComponentEditPart) this.ownPart.getParent();
+			this.comp = (Component) this.ownEc.getModel().eContainer();
 			initConnMap();
 		}
 
@@ -168,21 +171,27 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 			this.partEc = ec;
 			this.partPart = part;
 			//
-			this.compPart = (ComponentEditPart) this.partPart.getParent();
+			this.comp = (Component) this.partEc.getModel().eContainer();
 			initConnMap();
 		}
 
 		@SuppressWarnings("unchecked")
 		void initConnMap() {
-			this.diagramPart = (SystemDiagramEditPart) this.compPart.getParent();
-			SystemDiagram diagram = this.diagramPart.getModel();
-			SystemDiagramStore store = SystemDiagramStore.instance(diagram);
-			this.connMap = (Map<String, ECConnectionEditPart.ECConnection>) store.getTarget().getResource(
-					SystemDiagramStore.KEY_EC_CONN_MAP);
-			if (this.connMap == null) {
-				this.connMap = new HashMap<>();
-				store.getTarget().putResource(SystemDiagramStore.KEY_EC_CONN_MAP, this.connMap);
+			if (this.comp == null) {
+				return;
 			}
+			this.diagram = (SystemDiagram) this.comp.eContainer();
+			if (this.diagram == null) {
+				return;
+			}
+			SystemDiagramStore store = SystemDiagramStore.instance(this.diagram);
+			Map<String, ECConnectionEditPart.ECConnection> connMap = (Map<String, ECConnectionEditPart.ECConnection>) store
+					.getTarget().getResource(SystemDiagramStore.KEY_EC_CONN_MAP);
+			if (connMap == null) {
+				connMap = new HashMap<>();
+				store.getTarget().putResource(SystemDiagramStore.KEY_EC_CONN_MAP, connMap);
+			}
+			this.connMap = connMap;
 		}
 
 		/**
@@ -194,12 +203,16 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 			if (this.partEc == null || this.partPart == null) {
 				return null;
 			}
-			if (this.diagramPart == null) {
+			if (this.diagram == null) {
 				return null;
 			}
-			for (Object o1 : this.diagramPart.getChildren()) {
-				if (o1 instanceof ComponentEditPart) {
-					ComponentEditPart c = (ComponentEditPart) o1;
+			AbstractSystemDiagramEditor editor = ComponentUtil.findEditor(this.diagram);
+			if (editor == null) {
+				return null;
+			}
+			for (Component o1 : this.diagram.getComponents()) {
+				ComponentEditPart c = (ComponentEditPart) editor.findEditPart(o1);
+				if (c != null) {
 					for (Object o2 : c.getChildren()) {
 						if (o2 instanceof ECEditPart.OwnECEditPart) {
 							ECEditPart.OwnECEditPart pp = (ECEditPart.OwnECEditPart) o2;
@@ -224,12 +237,16 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 			if (this.ownEc == null || this.ownPart == null) {
 				return ret;
 			}
-			if (this.diagramPart == null) {
+			if (this.diagram == null) {
 				return ret;
 			}
-			for (Object o1 : this.diagramPart.getChildren()) {
-				if (o1 instanceof ComponentEditPart) {
-					ComponentEditPart c = (ComponentEditPart) o1;
+			AbstractSystemDiagramEditor editor = ComponentUtil.findEditor(this.diagram);
+			if (editor == null) {
+				return null;
+			}
+			for (Component o1 : this.diagram.getComponents()) {
+				ComponentEditPart c = (ComponentEditPart) editor.findEditPart(o1);
+				if (c != null) {
 					for (Object o2 : c.getChildren()) {
 						if (o2 instanceof ECEditPart.PartECEditPart) {
 							ECEditPart.PartECEditPart pp = (ECEditPart.PartECEditPart) o2;
@@ -255,7 +272,7 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 			String connId = ECConnectionEditPart.ECConnection.buildId(oe, pe);
 			LOGGER.trace("findOrCreateConn: oe=<{}> pe=<{}> id=<{}>", to_cid(oe), to_cid(pe), connId);
 			ECConnectionEditPart.ECConnection conn = this.connMap.get(connId);
-			if (conn == null) {
+			if (conn == null || !conn.getSource().equals(oe) || !conn.getTarget().equals(pe)) {
 				conn = new ECConnectionEditPart.ECConnection(oe, pe);
 				this.connMap.put(connId, conn);
 			}
@@ -559,6 +576,7 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 
 		@Override
 		public void notifyChanged(Notification notification) {
+			LOGGER.trace("notifyChanged: this={} msg={}", to_cid(this), notification);
 			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 				@Override
 				public void run() {
@@ -645,6 +663,12 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 
 		@Override
 		public void notifyChanged(Notification notification) {
+			if (ComponentPackage.eINSTANCE.getExecutionContext_Owner().equals(notification.getFeature())) {
+				if (notification.getNewValue() == null || ((Component) notification.getNewValue()).getInstanceNameL() == null) {
+					return;
+				}
+			}
+			LOGGER.trace("notifyChanged: this={} msg={}", to_cid(this), notification);
 			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 				@Override
 				public void run() {
@@ -783,10 +807,16 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 			}
 			ComponentEditPart compPart = (ComponentEditPart) this.targetPart;
 			Rectangle bound = compPart.getBodyBounds();
-			if (bound != null && bound.contains(this.location)) {
-				return true;
+			if (bound == null || !bound.contains(this.location)) {
+				return false;
 			}
-			return false;
+			Component comp = compPart.getModel();
+			ExecutionContext ec = this.ownECPart.getModel().getModel();
+			if (ec.containsComponent(comp)) {
+				// 同一RTCのアタッチを非許容
+				return false;
+			}
+			return true;
 		}
 
 		@Override
@@ -796,7 +826,6 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 			Component comp = compPart.getModel();
 			ExecutionContext ec = this.ownECPart.getModel().getModel();
 			ec.addComponentR(comp);
-
 		}
 
 	}

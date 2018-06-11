@@ -729,14 +729,14 @@
 					commandId="rtse.command.direction.Horizontal"
 					id="rtse.menus.toolbar.Direction_Horizontal"
 					label="%Direction_Horizontal"
-					icon="icons/direction_vertical.png"
+					icon="icons/direction_horizontal.png"
 					style="push">
 				</command>
 				<command
 					commandId="rtse.command.direction.Vertical"
 					id="rtse.menus.toolbar.Direction_Vertical"
 					label="%Direction_Vertical"
-					icon="icons/direction_hirizontal.png"
+					icon="icons/direction_vertical.png"
 					style="push">
 				</command>
 				<separator
@@ -868,5 +868,14 @@
 		<loadComponent extensionclass="jp.go.aist.rtm.systemeditor.extension.RTSELoadComponentExtension"/>
 	</extension>
 
-</plugin>
+	<extension
+		point="jp.go.aist.rtm.systemeditor.saveprofile">
+		<saveProfile extensionclass="jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramStore$SaveProfile"/>
+	</extension>
 
+	<extension
+		point="jp.go.aist.rtm.systemeditor.loadprofile">
+		<loadProfile extensionclass="jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramStore$LoadProfile"/>
+	</extension>
+
+</plugin>
