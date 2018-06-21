@@ -32,13 +32,9 @@ public class StartNameServiceAction implements IViewActionDelegate {
 			isWindows = true;
 		}
 		
+		ProcessBuilder pb = null;
 		if(isWindows) {
-			try {
-				ProcessBuilder pb = new ProcessBuilder(SCRIPT_WINDOWS);
-				Process process = pb.start();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			pb = new ProcessBuilder(SCRIPT_WINDOWS);
 			
 		} else {
 			String passWord = "";
@@ -46,13 +42,14 @@ public class StartNameServiceAction implements IViewActionDelegate {
 			if(passwdDialog.open()!=Dialog.OK) return;
 			
 			passWord = passwdDialog.getPassWord();
-			try {
-				ProcessBuilder pb = new ProcessBuilder(SCRIPT_LINUX, "-f", "-w " + passWord);
-				Process process = pb.start();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			pb = new ProcessBuilder(SCRIPT_LINUX, "-f", "-w " + passWord);
 		}
+		try {
+			pb.start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		/////
 		//ネームサーバーの登録を複数回試行
 		for(int index=0; index<10; index++) {

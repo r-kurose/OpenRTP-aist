@@ -58,7 +58,7 @@
 				helpContextId=""
 				class="jp.go.aist.rtm.nameserviceview.ui.action.RefreshNameServerAction" > 
 			</action>
-<!--			<action
+			<action
 				class="jp.go.aist.rtm.nameserviceview.ui.action.StopNameServiceAction"
 				icon="icons/StopNS.png"
 				id="jp.go.aist.rtm.nameserviceview.ui.action.StopNameservice"
@@ -66,7 +66,7 @@
 				menubarPath="additions"
 				toolbarPath="additions"
 				tooltip="%Stop_NameService">
-			</action>-->
+			</action>
 			<action
 				class="jp.go.aist.rtm.nameserviceview.ui.action.StartManagerAction"
 				icon="icons/StartManager.png"
