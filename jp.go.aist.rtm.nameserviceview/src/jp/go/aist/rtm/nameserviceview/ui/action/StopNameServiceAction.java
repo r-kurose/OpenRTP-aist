@@ -18,7 +18,7 @@ public class StopNameServiceAction implements IViewActionDelegate {
 	private NameServiceView view;
 	
 	private static String SCRIPT_WINDOWS = System.getenv("RTM_ROOT") + "bin" + Path.SEPARATOR + "kill-rtm-naming.bat";
-	private static String SCRIPT_LINUX = "kill-rtm-naming";
+	private static String SCRIPT_LINUX = "/usr/bin/kill-rtm-naming";
 	
 //	@Override
 	public void init(IViewPart view) {

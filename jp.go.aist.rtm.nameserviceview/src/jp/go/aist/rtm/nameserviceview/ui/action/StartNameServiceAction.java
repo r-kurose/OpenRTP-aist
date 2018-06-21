@@ -19,7 +19,7 @@ public class StartNameServiceAction implements IViewActionDelegate {
 	private NameServiceView view;
 	
 	private static String SCRIPT_WINDOWS = System.getenv("RTM_ROOT") + "bin" + Path.SEPARATOR + "rtm-naming.bat";
-	private static String SCRIPT_LINUX = "rtm-naming";
+	private static String SCRIPT_LINUX = "/usr/bin/rtm-naming";
 	
 	public void init(IViewPart view) {
 		this.view = (NameServiceView) view;
