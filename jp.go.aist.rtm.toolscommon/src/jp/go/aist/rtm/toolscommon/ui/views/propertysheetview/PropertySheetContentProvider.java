@@ -109,7 +109,6 @@ public class PropertySheetContentProvider extends AdapterImpl implements
 			RTCManagerWrapper w = new RTCManagerWrapper((RTCManager) parent);
 			result.add(w.getComponentsChild());
 			result.add(w.getLoadableModulesChild());
-			result.add(w.getLoadedModulesChild());
 
 			return result.toArray();
 

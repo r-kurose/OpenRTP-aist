@@ -321,9 +321,7 @@ public class RTCManagerImpl extends CorbaWrapperObjectImpl implements
 	 */
 	@Override
 	public EList<ModuleProfile> getLoadableModuleProfiles() {
-		if (loadableModuleProfiles == null) {
-			getLoadableModuleProfilesR();
-		}
+		getLoadableModuleProfilesR();
 		return loadableModuleProfiles;
 	}
 

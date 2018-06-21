@@ -293,8 +293,12 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 	public void populate(SystemDiagram eDiagram,
 			org.openrtp.namespaces.rts.version02.RtsProfileExt profile) {
 		eDiagram.setSystemId(profile.getId());
-		eDiagram.setCreationDate(profile.getCreationDate().toString());
-		eDiagram.setUpdateDate(profile.getUpdateDate().toString());
+		if(profile.getCreationDate()!=null) {
+			eDiagram.setCreationDate(profile.getCreationDate().toString());
+		}
+		if(profile.getUpdateDate()!=null) {
+			eDiagram.setUpdateDate(profile.getUpdateDate().toString());
+		}
 		populate(eDiagram.getComponents(), profile);
 		// ダイアグラムのプロパティ設定
 		for (org.openrtp.namespaces.rts.version02.Property prop : profile.getProperties()) {
