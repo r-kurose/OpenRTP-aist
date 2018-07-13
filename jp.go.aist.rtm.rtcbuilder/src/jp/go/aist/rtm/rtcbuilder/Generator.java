@@ -544,27 +544,29 @@ public class Generator {
 				writeFile(generatedResult, project, handler);
 			}
 		}
-		for( IdlFileParam idlFile : rtcParam.getProviderIdlPathes() ) {
-			IFile idlTarget = project.getFile("idl" + File.separator + idlFile.getIdlFile());
-			if( !idlTarget.getLocation().toOSString().equals(idlFile.getIdlPath()) )  {
-				idlTarget.delete(true, null);
-				idlTarget.create(new FileInputStream(idlFile.getIdlPath()), true, null);
+		if( 0< rtcParam.getServicePorts().size() ) {
+			for( IdlFileParam idlFile : rtcParam.getProviderIdlPathes() ) {
+				IFile idlTarget = project.getFile("idl" + File.separator + idlFile.getIdlFile());
+				if( !idlTarget.getLocation().toOSString().equals(idlFile.getIdlPath()) )  {
+					idlTarget.delete(true, null);
+					idlTarget.create(new FileInputStream(idlFile.getIdlPath()), true, null);
+				}
 			}
-		}
-		for( IdlFileParam idlFile : rtcParam.getConsumerIdlPathes() ) {
-			IFile idlTarget = project.getFile("idl" + File.separator + idlFile.getIdlFile());
-			if( !idlTarget.getLocation().toOSString().equals(idlFile.getIdlPath()) )  {
-				idlTarget.delete(true, null);
-				idlTarget.create(new FileInputStream(idlFile.getIdlPath()), true, null);
+			for( IdlFileParam idlFile : rtcParam.getConsumerIdlPathes() ) {
+				IFile idlTarget = project.getFile("idl" + File.separator + idlFile.getIdlFile());
+				if( !idlTarget.getLocation().toOSString().equals(idlFile.getIdlPath()) )  {
+					idlTarget.delete(true, null);
+					idlTarget.create(new FileInputStream(idlFile.getIdlPath()), true, null);
+				}
 			}
-		}
-		//
-		for( String includedIdlFile : rtcParam.getIncludedIdls() ) {
-			File target = new File(includedIdlFile);
-			IFile idlTarget = project.getFile("idl" + File.separator + target.getName());
-			if( !idlTarget.getLocation().toOSString().equals(includedIdlFile) )  {
-				idlTarget.delete(true, null);
-				idlTarget.create(new FileInputStream(includedIdlFile), true, null);
+			//
+			for( String includedIdlFile : rtcParam.getIncludedIdls() ) {
+				File target = new File(includedIdlFile);
+				IFile idlTarget = project.getFile("idl" + File.separator + target.getName());
+				if( !idlTarget.getLocation().toOSString().equals(includedIdlFile) )  {
+					idlTarget.delete(true, null);
+					idlTarget.create(new FileInputStream(includedIdlFile), true, null);
+				}
 			}
 		}
 		//

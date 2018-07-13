@@ -377,6 +377,12 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					switchPerspective();
 	        		editor.getRtcParam().resetUpdated();
 	        		editor.updateDirty();
+	        		//
+					try {
+						project.refreshLocal(IResource.DEPTH_INFINITE, null);
+					} catch (CoreException e1) {
+						throw new RuntimeException(IRTCBMessageConstants.ERROR_GENERATE_FAILED);
+					}
 				}
 			}
 
