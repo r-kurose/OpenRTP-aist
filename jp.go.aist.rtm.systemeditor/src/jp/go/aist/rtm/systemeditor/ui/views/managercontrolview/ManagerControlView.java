@@ -32,6 +32,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.ISelectionListener;
@@ -50,6 +51,13 @@ import org.slf4j.LoggerFactory;
  * マネージャ管理ビュー
  */
 public class ManagerControlView extends ViewPart {
+	private enum DispMode {
+		None,
+		Managers,
+		LoadableModules,
+		LoadedModules,
+		RTCInstances
+	}
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ManagerControlView.class);
@@ -59,6 +67,7 @@ public class ManagerControlView extends ViewPart {
 
 	private Composite composite = null;
 	private Button loadableModuleButton;
+	private Button loadedeModuleButton;
 	private Button rtcInstanceButton;
 	private Button managersButton;
 	
@@ -71,10 +80,8 @@ public class ManagerControlView extends ViewPart {
 	private Button configureButton;
 	private Button restartButton;
 	private Button shutdownButton;
-
-	private boolean isSelectedLoadableModules;
-	private boolean isSelectedRtcInstances;
-	private boolean isSelectedManagers;
+	
+	private DispMode mode;
 
 	private RTCManager targetManager;
 	private List<Profile> profileList;
@@ -102,49 +109,7 @@ public class ManagerControlView extends ViewPart {
 		gd.grabExcessVerticalSpace = true;
 		menuButtonComposite.setLayout(gl);
 		menuButtonComposite.setLayoutData(gd);
-
-		this.loadableModuleButton = new Button(menuButtonComposite, SWT.TOP);
-		this.loadableModuleButton.setText("Loadable Modules");
-		gd = new GridData();
-		gd.widthHint = MENU_BUTTON_WIDTH;
-		this.loadableModuleButton.setLayoutData(gd);
-		this.loadableModuleButton.setEnabled(false);
-		this.loadableModuleButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				isSelectedLoadableModules = false;
-				isSelectedRtcInstances = false;
-				isSelectedManagers = false;
-				if (targetManager != null) {
-					moduleColumn1.setText("module");
-					moduleColumn2.setText("");
-					isSelectedLoadableModules = true;
-				}
-				refreshModuleListData();
-			}
-		});
-
-		this.rtcInstanceButton = new Button(menuButtonComposite, SWT.TOP);
-		this.rtcInstanceButton.setText("RTC Instances");
-		gd = new GridData();
-		gd.widthHint = MENU_BUTTON_WIDTH;
-		this.rtcInstanceButton.setLayoutData(gd);
-		this.rtcInstanceButton.setEnabled(false);
-		this.rtcInstanceButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				isSelectedLoadableModules = false;
-				isSelectedRtcInstances = false;
-				isSelectedManagers = false;
-				if (targetManager != null) {
-					moduleColumn1.setText("component");
-					moduleColumn2.setText("manager name");
-					isSelectedRtcInstances = true;
-				}
-				refreshModuleListData();
-			}
-		});
-
+		/////
 		this.managersButton = new Button(menuButtonComposite, SWT.TOP);
 		this.managersButton.setText("Managers");
 		gd = new GridData();
@@ -154,13 +119,65 @@ public class ManagerControlView extends ViewPart {
 		this.managersButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				isSelectedLoadableModules = false;
-				isSelectedRtcInstances = false;
-				isSelectedManagers = false;
+				mode = DispMode.None;
 				if (targetManager != null) {
 					moduleColumn1.setText("manager name");
 					moduleColumn2.setText("manager language");
-					isSelectedManagers = true;
+					mode = DispMode.Managers;
+				}
+				refreshModuleListData();
+			}
+		});
+		//
+		this.loadableModuleButton = new Button(menuButtonComposite, SWT.TOP);
+		this.loadableModuleButton.setText("Loadable Modules");
+		gd = new GridData();
+		gd.widthHint = MENU_BUTTON_WIDTH;
+		this.loadableModuleButton.setLayoutData(gd);
+		this.loadableModuleButton.setEnabled(false);
+		this.loadableModuleButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (targetManager != null) {
+					moduleColumn1.setText("module");
+					moduleColumn2.setText("");
+					mode = DispMode.LoadableModules;
+				}
+				refreshModuleListData();
+			}
+		});
+		//
+		this.loadedeModuleButton = new Button(menuButtonComposite, SWT.TOP);
+		this.loadedeModuleButton.setText("Loaded Modules");
+		gd = new GridData();
+		gd.widthHint = MENU_BUTTON_WIDTH;
+		this.loadedeModuleButton.setLayoutData(gd);
+		this.loadedeModuleButton.setEnabled(false);
+		this.loadedeModuleButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (targetManager != null) {
+					moduleColumn1.setText("module");
+					moduleColumn2.setText("manager");
+					mode = DispMode.LoadedModules;
+				}
+				refreshModuleListData();
+			}
+		});
+		//
+		this.rtcInstanceButton = new Button(menuButtonComposite, SWT.TOP);
+		this.rtcInstanceButton.setText("RTC Instances");
+		gd = new GridData();
+		gd.widthHint = MENU_BUTTON_WIDTH;
+		this.rtcInstanceButton.setLayoutData(gd);
+		this.rtcInstanceButton.setEnabled(false);
+		this.rtcInstanceButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (targetManager != null) {
+					moduleColumn1.setText("component");
+					moduleColumn2.setText("manager name");
+					mode = DispMode.RTCInstances;
 				}
 				refreshModuleListData();
 			}
@@ -249,7 +266,7 @@ public class ManagerControlView extends ViewPart {
 				}
 				dialog.setManagerNameList(managerList);
 				int selectedIndex = modulesTable.getSelectionIndex();
-				if (selectedIndex != -1 && isSelectedManagers) {
+				if (selectedIndex != -1 && mode == DispMode.Managers) {
 					String initManager = profileList.get(selectedIndex).getManager_name();
 					dialog.setInitManager(initManager);
 				}
@@ -289,7 +306,12 @@ public class ManagerControlView extends ViewPart {
 				dialog.open();
 			}
 		});
-
+		//
+		Label dummy01 = new Label(execButtonComposite, SWT.NONE);
+		gd = new GridData();
+		gd.grabExcessVerticalSpace = true;
+		dummy01.setLayoutData(gd);
+		//
 		this.restartButton = new Button(execButtonComposite, SWT.TOP);
 		this.restartButton.setText("Restart");
 		gd = new GridData();
@@ -359,7 +381,7 @@ public class ManagerControlView extends ViewPart {
 					} catch (Exception ex) {
 					}
 				}
-				isSelectedManagers = true;
+				mode = DispMode.Managers;
 				refreshData();
 			}
 		});
@@ -369,19 +391,16 @@ public class ManagerControlView extends ViewPart {
 
 	@Override
 	public void setFocus() {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	private void buildData() {
-		this.isSelectedLoadableModules = false;
-		this.isSelectedRtcInstances = false;
-		this.isSelectedManagers = false;
+		this.mode = DispMode.None;
 		refreshData();
 	}
 
 	private void refreshData() {
 		this.loadableModuleButton.setEnabled(false);
+		this.loadedeModuleButton.setEnabled(false);
 		this.rtcInstanceButton.setEnabled(false);
 		this.managersButton.setEnabled(false);
 		this.createButton.setEnabled(false);
@@ -391,6 +410,7 @@ public class ManagerControlView extends ViewPart {
 
 		if (this.targetManager != null) {
 			this.loadableModuleButton.setEnabled(true);
+			this.loadedeModuleButton.setEnabled(true);
 			this.rtcInstanceButton.setEnabled(true);
 			this.managersButton.setEnabled(true);
 			this.createButton.setEnabled(true);
@@ -408,21 +428,28 @@ public class ManagerControlView extends ViewPart {
 		}
 		this.profileList.clear();
 		if (this.targetManager != null) {
-			if (this.isSelectedLoadableModules) {
+			if (this.mode==DispMode.LoadableModules) {
 				for (RTM.ModuleProfile module : this.targetManager
 						.getLoadableModuleProfilesR()) {
-					this.profileList.add(new Profile(module));
+					this.profileList.add(new Profile(module, false));
 				}
 				this.modulesTableViewer.setInput(this.profileList);
 
-			} else if (this.isSelectedRtcInstances) {
+			} else if (this.mode==DispMode.LoadedModules) {
+				for (RTM.ModuleProfile module : this.targetManager
+						.getLoadedModuleProfilesR()) {
+					this.profileList.add(new Profile(module, true));
+				}
+				this.modulesTableViewer.setInput(this.profileList);
+				
+			} else if (this.mode == DispMode.RTCInstances) {
 				for (RTC.ComponentProfile component : this.targetManager
 						.getComponentProfilesR()) {
 					this.profileList.add(new Profile(component));
 				}
 				this.modulesTableViewer.setInput(this.profileList);
 
-			} else if (this.isSelectedManagers) {
+			} else if (this.mode == DispMode.Managers) {
 				buildManagerData();
 			}
 		}
@@ -458,7 +485,7 @@ public class ManagerControlView extends ViewPart {
 		this.restartButton.setEnabled(false);
 		this.shutdownButton.setEnabled(false);
 		if (this.modulesTable.getSelectionIndex() != -1) {
-			if (this.isSelectedManagers) {
+			if (this.mode==DispMode.Managers) {
 				this.configureButton.setEnabled(true);
 				this.restartButton.setEnabled(true);
 				this.shutdownButton.setEnabled(true);
@@ -481,9 +508,11 @@ public class ManagerControlView extends ViewPart {
 		private RTM.ModuleProfile module = null;
 		private RTC.ComponentProfile component = null;
 		private RTM.ManagerProfile manager = null;
+		private boolean isLoaded = false;
 
-		Profile(RTM.ModuleProfile module) {
+		Profile(RTM.ModuleProfile module, boolean value) {
 			this.module = module;
+			this.isLoaded = value;
 		}
 
 		Profile(RTC.ComponentProfile component) {
@@ -493,7 +522,7 @@ public class ManagerControlView extends ViewPart {
 		Profile(RTM.ManagerProfile manager) {
 			this.manager = manager;
 		}
-
+		
 		public boolean hasModuleProfile() {
 			return this.module != null;
 		}
@@ -504,6 +533,10 @@ public class ManagerControlView extends ViewPart {
 
 		public boolean hasManagerProfile() {
 			return this.manager != null;
+		}
+
+		public boolean isLoaded() {
+			return isLoaded;
 		}
 
 		public RTM.ModuleProfile getModuleProfile() {
@@ -523,12 +556,20 @@ public class ManagerControlView extends ViewPart {
 			return SDOUtil.findValueAsString("module_file_path",
 					this.module.properties);
 		}
+		public String getModule_type_name() {
+			return SDOUtil.findValueAsString("type_name",
+					this.module.properties);
+		}
+		public String getModule_manager_name() {
+			return SDOUtil.findValueAsString("manager.instance_name",
+					this.module.properties);
+		}
 
 		/** コンポーネントプロファイル: インスタンス名を取得します */
 		public String getComponent_instance_name() {
 			return this.component.instance_name;
 		}
-
+		
 		/** コンポーネントプロファイル: マネージャ名を取得します */
 		public String getComponent_manager_name() {
 			return SDOUtil.findValueAsString("manager.instance_name",
@@ -633,10 +674,20 @@ public class ManagerControlView extends ViewPart {
 		public String getColumnText(Object element, int columnIndex) {
 			Profile profile = (Profile) element;
 			if (profile.hasModuleProfile()) {
-				if (columnIndex == 0) {
-					return profile.getModule_file_path();
+				if(profile.isLoaded()) {
+					if (columnIndex == 0) {
+						return profile.getModule_type_name();
+					} else if (columnIndex == 1) {
+						return profile.getModule_manager_name();
+					} else {
+						return "";
+					}
 				} else {
-					return "";
+					if (columnIndex == 0) {
+						return profile.getModule_file_path();
+					} else {
+						return "";
+					}
 				}
 			} else if (profile.hasComponentProfile()) {
 				if (columnIndex == 0) {

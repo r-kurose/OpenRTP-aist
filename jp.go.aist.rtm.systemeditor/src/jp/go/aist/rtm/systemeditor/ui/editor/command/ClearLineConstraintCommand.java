@@ -68,6 +68,9 @@ public class ClearLineConstraintCommand extends Command {
 			}
 		});
 
+		if (!(this.model instanceof Component)) {
+			return;
+		}
 		Component comp = (Component) this.model;
 		SystemDiagram diagram = (SystemDiagram) comp.eContainer();
 		if (diagram != null) {

@@ -1,23 +1,19 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.editpolicy;
 
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
-import org.eclipse.gef.requests.CreateConnectionRequest;
-import org.eclipse.gef.requests.ReconnectRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import jp.go.aist.rtm.systemeditor.ui.editor.command.CreateConnectorCommand;
 import jp.go.aist.rtm.systemeditor.ui.editor.command.ReconnectConnectorCommand;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
+import org.eclipse.gef.requests.CreateConnectionRequest;
+import org.eclipse.gef.requests.ReconnectRequest;
+
 /**
  * コネクタの作成や付け替えに関するEditPolicyクラス
  */
 public class PortGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(PortGraphicalNodeEditPolicy.class);
 
 	/**
 	 * {@inheritDoc}
@@ -47,7 +43,6 @@ public class PortGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 		CreateConnectorCommand command = new CreateConnectorCommand(manager);
 		command.setViewer(getHost().getViewer());
 		request.setStartCommand(command);
-
 		return command;
 	}
 
@@ -60,9 +55,10 @@ public class PortGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 				|| ((PortConnector) request.getConnectionEditPart().getModel()).getSource() == getHost().getModel()) {
 			return null;
 		}
-		ReconnectConnectorCommand command = new ReconnectConnectorCommand(
-				(PortConnector) request.getConnectionEditPart().getModel(),
-				new GraphicalConnectorCreateManager(getHost().getViewer().getControl().getShell()));
+		GraphicalConnectorCreateManager manager = new GraphicalConnectorCreateManager(getHost().getViewer().getControl()
+				.getShell());
+		ReconnectConnectorCommand command = new ReconnectConnectorCommand((PortConnector) request.getConnectionEditPart()
+				.getModel(), manager);
 		command.setNewTarget((Port) getHost().getModel());
 		return command;
 	}
@@ -76,10 +72,10 @@ public class PortGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 				|| ((PortConnector) request.getConnectionEditPart().getModel()).getTarget() == getHost().getModel()) {
 			return null;
 		}
-		GraphicalConnectorCreateManager graphicalConnectorCreateManager = new GraphicalConnectorCreateManager(
-				getHost().getViewer().getControl().getShell());
-		ReconnectConnectorCommand command = new ReconnectConnectorCommand(
-				(PortConnector) request.getConnectionEditPart().getModel(), graphicalConnectorCreateManager);
+		GraphicalConnectorCreateManager manager = new GraphicalConnectorCreateManager(getHost().getViewer().getControl()
+				.getShell());
+		ReconnectConnectorCommand command = new ReconnectConnectorCommand((PortConnector) request.getConnectionEditPart()
+				.getModel(), manager);
 		command.setNewSource((Port) getHost().getModel());
 		return command;
 	}

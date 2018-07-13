@@ -812,8 +812,8 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 			}
 			Component comp = compPart.getModel();
 			ExecutionContext ec = this.ownECPart.getModel().getModel();
-			if (ec.containsComponent(comp)) {
-				// 同一RTCのアタッチを非許容
+			if (ec.isOwner(comp) || ec.containsComponent(comp)) {
+				// 所有元のRTC、もしくは同一RTCのアタッチは非許容
 				return false;
 			}
 			return true;

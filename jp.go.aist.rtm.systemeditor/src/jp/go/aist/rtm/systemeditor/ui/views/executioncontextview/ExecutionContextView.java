@@ -540,7 +540,7 @@ public class ExecutionContextView extends ViewPart {
 
 	/** attachするコンポーネントの候補リストを作成 */
 	List<Component> buildAttachComponents(ExecutionContext ec) {
-		List<Component> result = new ArrayList<Component>();
+		List<Component> result = new ArrayList<>();
 		if (getDiagram() == null) {
 			return result;
 		}
@@ -560,7 +560,10 @@ public class ExecutionContextView extends ViewPart {
 				// Grouping複合RTCはECを持たないので選択不可
 				continue;
 			}
-			// ownerのRTC、attach済みのRTCも選択可能
+			if (ec.isOwner(c) || ec.containsComponent(c)) {
+				// ownerのRTC、attach済みのRTCは選択不可
+				continue;
+			}
 			result.add(c);
 		}
 		return result;
@@ -751,7 +754,10 @@ public class ExecutionContextView extends ViewPart {
 				//
 				ecdetailTableViewer.setInput(data.properties);
 
-				attachButton.setEnabled(true);
+				if (!targetComponent.getParticipationContexts().contains(data.ec)) {
+					// 選択中のコンポーネントが participantでなければ attach可
+					attachButton.setEnabled(true);
+				}
 				if (!targetComponent.getExecutionContexts().contains(data.ec)) {
 					// 選択中のコンポーネントが ownerでなければ detach可
 					detachButton.setEnabled(true);
