@@ -6,7 +6,10 @@
  */
 package jp.go.aist.rtm.toolscommon.model.manager.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
@@ -564,12 +567,29 @@ public class RTCManagerImpl extends CorbaWrapperObjectImpl implements
 		} else {
 			loadedModuleProfiles.clear();
 		}
-
 		
-		ModuleProfile[] profs = this.getCorbaObjectInterface()
-				.get_loaded_modules();
-		for (int i = 0; i < profs.length; i++) {
-			loadedModuleProfiles.add(profs[i]);
+		RTM.Manager[] managers = this.getCorbaObjectInterface().get_slave_managers();
+		for(RTM.Manager targetMng : managers) {
+			String managerName = SDOUtil.findValueAsString("instance_name", targetMng.get_profile().properties);
+			ModuleProfile[] profs = targetMng.get_loaded_modules();
+			ModuleProfile[] loadableProfs = this.getCorbaObjectInterface().get_loadable_modules();
+			for (int i = 0; i < profs.length; i++) {
+				String file_path = SDOUtil.findValueAsString("file_path", profs[i].properties);
+				ModuleProfile targetProf = null;
+				for(ModuleProfile lprop : loadableProfs) {
+					String path = SDOUtil.findValueAsString("module_file_path", lprop.properties);
+					if(file_path.equals(path)) {
+						targetProf = lprop;
+						break;
+					}
+				}
+				if(targetProf==null) continue;
+				//
+				List<NameValue> propList = SDOUtil.createNameValueList(targetProf.properties);
+				propList.add(SDOUtil.createNameValue("manager.instance_name", managerName));
+				targetProf.properties = SDOUtil.createNameValueArray(propList);
+				loadedModuleProfiles.add(targetProf);
+			}
 		}
 		return loadedModuleProfiles;
 	}

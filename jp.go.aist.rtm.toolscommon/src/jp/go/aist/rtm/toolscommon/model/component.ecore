@@ -125,6 +125,9 @@
     <eOperations name="containsComponent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
       <eParameters name="comp" eType="#//Component"/>
     </eOperations>
+    <eOperations name="isOwner" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="comp" eType="#//Component"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kindL" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="-1"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rateL" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDoubleObject"/>

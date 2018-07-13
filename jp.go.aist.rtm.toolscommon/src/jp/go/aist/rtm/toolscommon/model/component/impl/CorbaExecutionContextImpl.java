@@ -369,6 +369,9 @@ public class CorbaExecutionContextImpl extends ExecutionContextImpl implements C
 
 	@Override
 	public boolean containsComponent(Component comp) {
+		if (comp == null) {
+			return false;
+		}
 		RTC.RTObject ro = ((CorbaComponent) comp).getCorbaObjectInterface();
 		for (RTC.RTObject po : getRtcExecutionContextProfile().participants) {
 			if (eql(ro, po)) {
@@ -376,6 +379,15 @@ public class CorbaExecutionContextImpl extends ExecutionContextImpl implements C
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public boolean isOwner(Component comp) {
+		if (comp == null) {
+			return false;
+		}
+		RTC.RTObject ro = ((CorbaComponent) comp).getCorbaObjectInterface();
+		return eql(getRtcExecutionContextProfile().owner, ro);
 	}
 
 	/**

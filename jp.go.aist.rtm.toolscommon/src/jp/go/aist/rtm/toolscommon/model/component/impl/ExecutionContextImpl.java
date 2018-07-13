@@ -399,6 +399,18 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	public boolean isOwner(Component comp) {
+		if (this.getOwner() != null && this.getOwner().equals(comp)) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
 	@Override
 	public String getProperty(String key) {
 		return properties.getProperty(key);

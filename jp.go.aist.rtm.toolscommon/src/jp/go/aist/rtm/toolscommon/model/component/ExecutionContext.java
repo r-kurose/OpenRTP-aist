@@ -174,4 +174,12 @@ public interface ExecutionContext extends WrapperObject, IPropertyMap {
 	 */
 	boolean containsComponent(Component comp);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean isOwner(Component comp);
+
 }

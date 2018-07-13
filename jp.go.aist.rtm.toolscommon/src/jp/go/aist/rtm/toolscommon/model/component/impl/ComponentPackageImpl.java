@@ -2224,6 +2224,9 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		op = addEOperation(executionContextEClass, ecorePackage.getEBoolean(), "containsComponent", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getComponent(), "comp", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+		op = addEOperation(executionContextEClass, ecorePackage.getEBoolean(), "isOwner", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getComponent(), "comp", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		initEClass(contextHandlerEClass, ContextHandler.class, "ContextHandler", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		op = addEOperation(contextHandlerEClass, this.getExecutionContext(), "setContext", 0, 1, IS_UNIQUE, IS_ORDERED);
