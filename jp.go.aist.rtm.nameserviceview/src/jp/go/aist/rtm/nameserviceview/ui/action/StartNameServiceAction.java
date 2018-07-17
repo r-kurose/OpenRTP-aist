@@ -5,12 +5,14 @@ import java.io.IOException;
 
 import jp.go.aist.rtm.nameserviceview.model.manager.NameServerContext;
 import jp.go.aist.rtm.nameserviceview.model.manager.NameServerManager;
+import jp.go.aist.rtm.nameserviceview.nl.Messages;
 import jp.go.aist.rtm.nameserviceview.ui.dialog.PasswordDialog;
 import jp.go.aist.rtm.nameserviceview.ui.views.nameserviceview.NameServiceView;
 
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IViewActionDelegate;
 import org.eclipse.ui.IViewPart;
@@ -52,16 +54,25 @@ public class StartNameServiceAction implements IViewActionDelegate {
 
 		/////
 		//ネームサーバーの登録を複数回試行
+		boolean isStarted = false;
 		for(int index=0; index<10; index++) {
 			NameServerContext server = NameServerManager.eInstance.addNameServer("localhost");
-			if(server!=null) break;
+			if(server!=null) {
+				isStarted = true;
+				break;
+			}
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		NameServerManager.eInstance.refreshAll();
+		if(isStarted) {
+			NameServerManager.eInstance.refreshAll();
+		} else {
+			MessageDialog.openWarning(view.getSite().getShell(), "Warning", 
+					Messages.getString("StartNameServiceAction.1")); //$NON-NLS-1$
+		}
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
@@ -78,3 +89,4 @@ public class StartNameServiceAction implements IViewActionDelegate {
 		}
 	}
 }
+ 
