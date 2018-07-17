@@ -21,6 +21,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.java.manager.JavaCMakeGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.java.manager.JavaGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.python.manager.PythonCMakeGenerateManager;
@@ -74,9 +75,12 @@ public class CuiRtcBuilder {
 		if(cmd.hasOption("i")) {
 			idlDir = cmd.getOptionValues("i");
 		}
-		List<String> idlDirs = null;
+		List<IdlPathParam> idlDirs = null;
 		if(idlDir!=null) {
-			idlDirs = Arrays.asList(idlDir);
+			List<String> idlDirList = Arrays.asList(idlDir);
+			for(String each : idlDirList) {
+				idlDirs.add(new IdlPathParam(each, false));
+			}
 		}
 		//
 		JavaCMakeGenerateManager JavaCmanager = new JavaCMakeGenerateManager();
@@ -158,9 +162,9 @@ public class CuiRtcBuilder {
 		}
 	}
 	
-	private static String[] extractDataTypes(List<String> target, GeneratorParam generatorParam) {
+	private static String[] extractDataTypes(List<IdlPathParam> target, GeneratorParam generatorParam) {
 		String FS = System.getProperty("file.separator");
-		List<String> sources = new ArrayList<String>();
+		List<IdlPathParam> sources = new ArrayList<IdlPathParam>();
 		sources.addAll(target);
 		String defaultPath = System.getenv("RTM_ROOT");
 		int baseindex = -1;
@@ -169,13 +173,13 @@ public class CuiRtcBuilder {
 			if(!defaultPath.endsWith(FS)) {
 				defaultPath += FS;
 			}
-			sources.add(0, defaultPath + "rtm" + FS + "idl");
+			sources.add(0, new IdlPathParam(defaultPath + "rtm" + FS + "idl", false));
 		}
 		List<DataTypeParam> sourceContents = new ArrayList<DataTypeParam>();
 		for (int intidx = 0; intidx < sources.size(); intidx++) {
-			String source = sources.get(intidx);
+			IdlPathParam source = sources.get(intidx);
 			try {
-				File idlDir = new File(source);
+				File idlDir = new File(source.getPath());
 				String[] list = idlDir.list();
 				if (list == null) {
 					continue;
