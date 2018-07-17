@@ -6,6 +6,7 @@ import jp.go.aist.rtm.rtcbuilder.Generator.MergeHandler;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.HeaderException;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.generator.parser.MergeBlockParser;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.ui.compare.CompareResultDialog;
@@ -58,7 +59,7 @@ public class GuiRtcBuilder {
 	 * @param generatorParam   パラメータ
 	 * @param isShowDialog     完了時にダイアログを表示するか
 	 */
-	public boolean doGenerateWrite(GeneratorParam generatorParam, List<String> idlDirs, boolean isShowDialog) {
+	public boolean doGenerateWrite(GeneratorParam generatorParam, List<IdlPathParam> idlDirs, boolean isShowDialog) {
 
 		try {
 			//設定されたパラメータのチェック

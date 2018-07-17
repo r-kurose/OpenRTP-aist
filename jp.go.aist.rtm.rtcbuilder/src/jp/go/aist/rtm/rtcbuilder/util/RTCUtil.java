@@ -14,7 +14,9 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.swt.graphics.RGB;
 
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
+import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.DataTypePreferenceManager;
 
 public class RTCUtil {
@@ -60,8 +62,9 @@ public class RTCUtil {
 		return result;
 	}
 	
-	public static List<String> getIDLPathes(RtcParam target) {
-		List<String> result = new ArrayList<String>();
+	public static List<IdlPathParam> getIDLPathes(RtcParam target) {
+		List<IdlPathParam> result = new ArrayList<IdlPathParam>();
+		List<String> added = new ArrayList<String>();
 		
 		String FS = System.getProperty("file.separator");
 
@@ -70,7 +73,8 @@ public class RTCUtil {
 			if(!defaultPath.endsWith(FS)) {
 				defaultPath += FS;
 			}
-			result.add(defaultPath + "rtm" + FS + "idl");
+			result.add(new IdlPathParam(defaultPath + "rtm" + FS + "idl", true));
+			added.add(defaultPath + "rtm" + FS + "idl");
 		}
 		//
 		if(RtcBuilderPlugin.getDefault()!=null) {
@@ -78,7 +82,11 @@ public class RTCUtil {
 			RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(DataTypePreferenceManager.IDLFILE_DIRECTORIES, "");
 			String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(DataTypePreferenceManager.IDLFILE_DIRECTORIES);
 			resultsetting = Arrays.asList(resultTemp.split(File.pathSeparator));
-			result.addAll(resultsetting);
+			for(String each : resultsetting) {
+				if(added.contains(each)) continue;
+				result.add(new IdlPathParam(each, false));
+				added.add(each);
+			}
 		}
 		//
 		if(target!=null && target.getOutputProject()!=null && 0<target.getOutputProject().length()) {
@@ -86,10 +94,22 @@ public class RTCUtil {
 			IProject project = workspaceHandle.getProject(target.getOutputProject());
 			IFolder path = project.getFolder("idl");
 			if(path!=null && path.exists()) {
-				result.add(path.getLocation().toOSString());
+				if(added.contains(path.getLocation().toOSString())==false) {
+					result.add(new IdlPathParam(path.getLocation().toOSString(), false));
+					added.add(path.getLocation().toOSString());
+				}
 			}
 		}
 		return result;
+	}
+	
+	public static boolean checkDefault(String target, List<DataTypeParam> typeList) {
+		for(DataTypeParam type : typeList) {
+			if(type.isDefault()) { 	
+				if(target.trim().equals(type.getFullPath().trim())) return true;
+			}
+		}
+		return false;
 	}
 	
 	/**

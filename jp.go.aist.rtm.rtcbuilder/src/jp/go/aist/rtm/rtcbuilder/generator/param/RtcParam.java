@@ -14,7 +14,9 @@ import javax.xml.datatype.DatatypeFactory;
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.ProfileHandler;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
+import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
 
 import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
 
@@ -90,7 +92,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	private List<String> originalConsumerIdls = new ArrayList<String>();
 	
 	private List<String> includedIdls = new ArrayList<String>();
-	private List<String> idlPathes = new ArrayList<String>();
+	private List<IdlPathParam> idlPathes = new ArrayList<IdlPathParam>();
 
 	private RecordedList<String> privateAttributes = new RecordedList<String>();
 	private RecordedList<String> protectedAttributes = new RecordedList<String>();
@@ -572,7 +574,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		}
 		return result;
 	}
-	public List<String> getIdlPathes() {
+	public List<IdlPathParam> getIdlPathes() {
 		return idlPathes;
 	}
 	//

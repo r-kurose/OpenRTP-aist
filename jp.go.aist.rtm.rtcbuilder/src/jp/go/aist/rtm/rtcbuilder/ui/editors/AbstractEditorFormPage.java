@@ -11,6 +11,7 @@ import java.util.StringTokenizer;
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
 import jp.go.aist.rtm.rtcbuilder.generator.IDLParamConverter;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.model.component.BuildView;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
@@ -368,14 +369,14 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 
 	protected String[] extractDataTypes() {
-		List<String> sources = RTCUtil.getIDLPathes(editor.getRtcParam());
+		List<IdlPathParam> sources = RTCUtil.getIDLPathes(editor.getRtcParam());
 		String FS = System.getProperty("file.separator");
 		int baseindex = -1;
 		List<DataTypeParam> sourceContents = new ArrayList<DataTypeParam>();
 		for (int intidx = 0; intidx < sources.size(); intidx++) {
-			String source = sources.get(intidx);
+			IdlPathParam source = sources.get(intidx);
 			try {
-				File idlDir = new File(source);
+				File idlDir = new File(source.getPath());
 				String[] list = idlDir.list();
 				if (list == null) {
 					continue;
@@ -392,11 +393,11 @@ public abstract class AbstractEditorFormPage extends FormPage {
 					}
 				});
 				for (String idlName : idlNames) {
-					String idlContent = FileUtil
-							.readFile(source + FS + idlName);
+					String idlContent = FileUtil.readFile(source.getPath() + FS + idlName);
 					DataTypeParam param = new DataTypeParam();
 					param.setContent(idlContent);
-					param.setFullPath(source + FS + idlName);
+					param.setFullPath(source.getPath() + FS + idlName);
+					param.setDefault(source.isDefault());
 					sourceContents.add(param);
 					if( baseindex<intidx) {
 						param.setAddition(true);

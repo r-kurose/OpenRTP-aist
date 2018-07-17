@@ -14,6 +14,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 
 public class CheckIDLTest extends TestBase {
 
@@ -54,7 +55,7 @@ public class CheckIDLTest extends TestBase {
 		srvports.add(service1);
 		rtcParam.getServicePorts().addAll(srvports);
 
-		List<String> idlDirs = new ArrayList<String>();
+		List<IdlPathParam> idlDirs = new ArrayList<IdlPathParam>();
 		Generator generator = new Generator();
 		try {
 			generator.validateIDLDef(genParam, idlDirs);
@@ -77,7 +78,7 @@ public class CheckIDLTest extends TestBase {
 		srvports.add(service1);
 		rtcParam.getServicePorts().addAll(srvports);
 
-		List<String> idlDirs = new ArrayList<String>();
+		List<IdlPathParam> idlDirs = new ArrayList<IdlPathParam>();
 		Generator generator = new Generator();
 		try {
 			generator.validateIDLDef(genParam, idlDirs);
@@ -98,7 +99,7 @@ public class CheckIDLTest extends TestBase {
 		srvports.add(service1);
 		rtcParam.getServicePorts().addAll(srvports);
 
-		List<String> idlDirs = new ArrayList<String>();
+		List<IdlPathParam> idlDirs = new ArrayList<IdlPathParam>();
 		Generator generator = new Generator();
 		try {
 			generator.validateIDLDef(genParam, idlDirs);
@@ -119,7 +120,7 @@ public class CheckIDLTest extends TestBase {
 		srvports.add(service1);
 		rtcParam.getServicePorts().addAll(srvports);
 
-		List<String> idlDirs = new ArrayList<String>();
+		List<IdlPathParam> idlDirs = new ArrayList<IdlPathParam>();
 		Generator generator = new Generator();
 		try {
 			generator.validateIDLDef(genParam, idlDirs);
@@ -140,8 +141,8 @@ public class CheckIDLTest extends TestBase {
 		srvports.add(service1);
 		rtcParam.getServicePorts().addAll(srvports);
 
-		List<String> idlDirs = new ArrayList<String>();
-		idlDirs.add("C:/Program Files/OpenRTM-aist/1.2.0/rtm/idl");
+		List<IdlPathParam> idlDirs = new ArrayList<IdlPathParam>();
+		idlDirs.add(new IdlPathParam("C:/Program Files/OpenRTM-aist/1.2.0/rtm/idl",true));
 		Generator generator = new Generator();
 		try {
 			generator.validateIDLDef(genParam, idlDirs);
@@ -167,7 +168,7 @@ public class CheckIDLTest extends TestBase {
 		rtcParam.setActionImplemented(5, true);
 		rtcParam.setActionImplemented(9, true);
 		
-		List<String> idlDirs = new ArrayList<String>();
+		List<IdlPathParam> idlDirs = new ArrayList<IdlPathParam>();
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam, idlDirs);
 
@@ -197,8 +198,8 @@ public class CheckIDLTest extends TestBase {
 		rtcParam.setActionImplemented(5, true);
 		rtcParam.setActionImplemented(9, true);
 		
-		List<String> idlDirs = new ArrayList<String>();
-		idlDirs.add("C:/Program Files/OpenRTM-aist/1.2.0/rtm/idl");
+		List<IdlPathParam> idlDirs = new ArrayList<IdlPathParam>();
+		idlDirs.add(new IdlPathParam("C:/Program Files/OpenRTM-aist/1.2.0/rtm/idl", true));
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam, idlDirs);
 

@@ -19,6 +19,7 @@ import jp.go.aist.rtm.rtcbuilder.factory.ExportCreator;
 import jp.go.aist.rtm.rtcbuilder.generator.ProfileHandler;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.ui.Perspective.LanguageProperty;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
@@ -352,7 +353,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 				//TODO 複数コンポーネント対応版とする場合には複数設定
 				generatorParam.getRtcParam().getServiceClassParams().clear();
 				setPrefixSuffix(generatorParam.getRtcParam());
-				List<String> idlDirs = RTCUtil.getIDLPathes(editor.getRtcParam());
+				List<IdlPathParam> idlDirs = RTCUtil.getIDLPathes(editor.getRtcParam());
 				if (rtcBuilder.doGenerateWrite(generatorParam, idlDirs, true)) {
 					LanguageProperty langProp = LanguageProperty.checkPlugin(editor.getRtcParam());
 					if(langProp != null) {

@@ -35,6 +35,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceArgumentParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceMethodParam;
@@ -46,6 +47,7 @@ import jp.go.aist.rtm.rtcbuilder.manager.CommonGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.ui.editors.IMessageConstants;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
+import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
 import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 import jp.go.aist.rtm.rtcbuilder.util.ValidationUtil;
 
@@ -105,7 +107,7 @@ public class Generator {
 		return generateTemplateCode(generatorParam, null);
 	}
 
-	public void validateIDLDef(GeneratorParam generatorParam, List<String> idlDir) throws Exception {
+	public void validateIDLDef(GeneratorParam generatorParam, List<IdlPathParam> idlDir) throws Exception {
 		RtcParam rtcParam  = generatorParam.getRtcParam();
 		
 		List<String> checkedIDL = new ArrayList<String>();
@@ -125,7 +127,11 @@ public class Generator {
 				if (idlContent == null) continue;
 				List<String> idlSearchDirs = new ArrayList<String>();
 				idlSearchDirs.add(serviceInterfaces.getIdlSearchPath());
-				if(idlDir!=null) idlSearchDirs.addAll(idlDir);
+				if(idlDir!=null){
+					for(IdlPathParam each : idlDir) {
+						idlSearchDirs.add(each.getPath());
+					}
+				}
 				PreProcessor.parse(idlContent, idlSearchDirs, dummy, true);
 			}
 		}
@@ -141,7 +147,7 @@ public class Generator {
 	 *             IDLのパースに失敗した場合など
 	 */
 	public List<GeneratedResult> generateTemplateCode(
-			GeneratorParam generatorParam, List<String> idlDir) throws Exception {
+			GeneratorParam generatorParam, List<IdlPathParam> idlDir) throws Exception {
 
 		List<ServiceClassParam> rtcServiceClasses = new ArrayList<ServiceClassParam>();
 		//IDL重複チェック用
@@ -168,7 +174,7 @@ public class Generator {
 				}
 				if( 0<serviceInterfaces.getIdlSearchPath().length() &&
 						rtcParam.getIdlPathes().contains(serviceInterfaces.getIdlSearchPath())==false) {
-					rtcParam.getIdlPathes().add(serviceInterfaces.getIdlSearchPath());
+					rtcParam.getIdlPathes().add(new IdlPathParam(serviceInterfaces.getIdlSearchPath(), false));
 				}
 			}
 		}
@@ -314,7 +320,7 @@ public class Generator {
 	 * @throws ParseException
 	 */
 	private List<ServiceClassParam> getRtcServiceClass(RtcParam rtcParam,
-			List<ServiceClassParam> IDLPathes, List<String> idlDir) throws ParseException, HeaderException {
+			List<ServiceClassParam> IDLPathes, List<IdlPathParam> idlDir) throws ParseException, HeaderException {
 		List<ServiceClassParam> result = new ArrayList<ServiceClassParam>();
 		List<String> includeFiles = new ArrayList<String>();
 
@@ -328,7 +334,11 @@ public class Generator {
 				if (idlContent == null) continue;
 				List<String> pathList = new ArrayList<String>();
 				pathList.add(sv.getIdlPath());
-				if(idlDir!=null) pathList.addAll(idlDir);
+				if(idlDir!=null) {
+					for(IdlPathParam each : idlDir) {
+						pathList.add(each.getPath());
+					}
+				}
 				idl = PreProcessor.parse(idlContent, pathList, incs, false);
 			} catch (IOException e) {
 				continue;
@@ -544,29 +554,30 @@ public class Generator {
 				writeFile(generatedResult, project, handler);
 			}
 		}
-		if( 0< rtcParam.getServicePorts().size() ) {
-			for( IdlFileParam idlFile : rtcParam.getProviderIdlPathes() ) {
-				IFile idlTarget = project.getFile("idl" + File.separator + idlFile.getIdlFile());
-				if( !idlTarget.getLocation().toOSString().equals(idlFile.getIdlPath()) )  {
-					idlTarget.delete(true, null);
-					idlTarget.create(new FileInputStream(idlFile.getIdlPath()), true, null);
-				}
+		for( IdlFileParam idlFile : rtcParam.getProviderIdlPathes() ) {
+			if(RTCUtil.checkDefault(idlFile.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
+			IFile idlTarget = project.getFile("idl" + File.separator + idlFile.getIdlFile());
+			if( !idlTarget.getLocation().toOSString().equals(idlFile.getIdlPath()) )  {
+				idlTarget.delete(true, null);
+				idlTarget.create(new FileInputStream(idlFile.getIdlPath()), true, null);
 			}
-			for( IdlFileParam idlFile : rtcParam.getConsumerIdlPathes() ) {
-				IFile idlTarget = project.getFile("idl" + File.separator + idlFile.getIdlFile());
-				if( !idlTarget.getLocation().toOSString().equals(idlFile.getIdlPath()) )  {
-					idlTarget.delete(true, null);
-					idlTarget.create(new FileInputStream(idlFile.getIdlPath()), true, null);
-				}
+		}
+		for( IdlFileParam idlFile : rtcParam.getConsumerIdlPathes() ) {
+			if(RTCUtil.checkDefault(idlFile.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
+			IFile idlTarget = project.getFile("idl" + File.separator + idlFile.getIdlFile());
+			if( !idlTarget.getLocation().toOSString().equals(idlFile.getIdlPath()) )  {
+				idlTarget.delete(true, null);
+				idlTarget.create(new FileInputStream(idlFile.getIdlPath()), true, null);
 			}
-			//
-			for( String includedIdlFile : rtcParam.getIncludedIdls() ) {
-				File target = new File(includedIdlFile);
-				IFile idlTarget = project.getFile("idl" + File.separator + target.getName());
-				if( !idlTarget.getLocation().toOSString().equals(includedIdlFile) )  {
-					idlTarget.delete(true, null);
-					idlTarget.create(new FileInputStream(includedIdlFile), true, null);
-				}
+		}
+		//
+		for( String includedIdlFile : rtcParam.getIncludedIdls() ) {
+			if(RTCUtil.checkDefault(includedIdlFile, rtcParam.getParent().getDataTypeParams())) continue;
+			File target = new File(includedIdlFile);
+			IFile idlTarget = project.getFile("idl" + File.separator + target.getName());
+			if( !idlTarget.getLocation().toOSString().equals(includedIdlFile) )  {
+				idlTarget.delete(true, null);
+				idlTarget.create(new FileInputStream(includedIdlFile), true, null);
 			}
 		}
 		//
@@ -675,7 +686,7 @@ public class Generator {
 	 * @throws ParseException
 	 * @throws IOException
 	 */
-	public void doGenerateWrite(GeneratorParam generatorParam, List<String> idlDirs,
+	public void doGenerateWrite(GeneratorParam generatorParam, List<IdlPathParam> idlDirs,
 			MergeHandler handler) throws Exception {
 		warningMessage = "";
 		RtcParam rtcParam =  generatorParam.getRtcParam();

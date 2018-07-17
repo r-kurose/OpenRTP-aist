@@ -8,12 +8,14 @@ public class DataTypeParam {
 	private String fullPath;
 	private String content;
 	private List<String> definedTypes;
+	private boolean isDefault;
 	
 	public DataTypeParam() {
 		addition = false;
 		fullPath = "";
 		content = "";
 		definedTypes = new ArrayList<String>();
+		isDefault = false;
 	}
 
 	public DataTypeParam(String idlPath) {
@@ -21,6 +23,7 @@ public class DataTypeParam {
 		fullPath = idlPath;
 		content = "";
 		definedTypes = new ArrayList<String>();
+		isDefault = false;
 	}
 	
 	public boolean isAddition() {
@@ -49,5 +52,13 @@ public class DataTypeParam {
 
 	public List<String> getDefinedTypes() {
 		return definedTypes;
+	}
+
+	public boolean isDefault() {
+		return isDefault;
+	}
+
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
 	}
 }
