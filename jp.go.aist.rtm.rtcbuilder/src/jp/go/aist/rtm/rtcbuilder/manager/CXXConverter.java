@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
-import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigParameterParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceArgumentParam;
@@ -176,7 +175,7 @@ public class CXXConverter {
 					result = result + "*";
 				}
 			}
-			if(typeDef.getModule()!=null && typeDef.getModule().length()>0) {
+			if(typeDef.getModule()!=null && typeDef.getModule().length()>0 && typeDef.isDefault()==false) {
 				result = typeDef.getModule() + result;
 			}
 		}

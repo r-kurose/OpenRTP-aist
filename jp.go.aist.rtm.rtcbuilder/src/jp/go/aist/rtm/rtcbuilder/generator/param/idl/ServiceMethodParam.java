@@ -26,6 +26,7 @@ public class ServiceMethodParam implements Serializable {
 	private boolean isInterface;
 	private boolean isAlias;
 	private int arrayDim;
+	private boolean isDefault;
 
 	private List<ServiceArgumentParam> arguments = new ArrayList<ServiceArgumentParam>();
 
@@ -134,5 +135,12 @@ public class ServiceMethodParam implements Serializable {
 	}
 	public void setArrayDim(int dim) {
 		this.arrayDim = dim;
+	}
+	
+	public boolean isDefault() {
+		return isDefault;
+	}
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
 	}
 }

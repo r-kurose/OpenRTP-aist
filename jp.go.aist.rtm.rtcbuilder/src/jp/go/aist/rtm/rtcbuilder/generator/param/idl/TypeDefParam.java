@@ -22,6 +22,7 @@ public class TypeDefParam implements Serializable {
 	private boolean isUnbounded;
 	private boolean isInterface;
 	private boolean isAlias;
+	private boolean isDefault;
 
 	private int arrayDim;
 
@@ -131,5 +132,12 @@ public class TypeDefParam implements Serializable {
 	}
 	public void setArrayDim(int dim) {
 		this.arrayDim = dim;
+	}
+
+	public boolean isDefault() {
+		return isDefault;
+	}
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
 	}
 }

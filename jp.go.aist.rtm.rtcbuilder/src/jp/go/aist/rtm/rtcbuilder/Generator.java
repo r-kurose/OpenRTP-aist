@@ -30,6 +30,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.IDLParamConverter;
 import jp.go.aist.rtm.rtcbuilder.generator.PreProcessor;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
@@ -182,7 +183,7 @@ public class Generator {
 			rtcParam.getIdlPathes().addAll(idlDir);
 		}
 		
-		rtcServiceClasses.addAll(getRtcServiceClass(rtcParam, IDLPathParams, idlDir));
+		rtcServiceClasses.addAll(getRtcServiceClass(rtcParam, IDLPathParams, idlDir, generatorParam.getDataTypeParams()));
 		checkReferencedServiceParam(rtcServiceClasses, rtcParam);
 		
 		List<ServiceClassParam> serviceClassParamList = new ArrayList<ServiceClassParam>();
@@ -320,7 +321,7 @@ public class Generator {
 	 * @throws ParseException
 	 */
 	private List<ServiceClassParam> getRtcServiceClass(RtcParam rtcParam,
-			List<ServiceClassParam> IDLPathes, List<IdlPathParam> idlDir) throws ParseException, HeaderException {
+			List<ServiceClassParam> IDLPathes, List<IdlPathParam> idlDir, List<DataTypeParam> dataList) throws ParseException, HeaderException {
 		List<ServiceClassParam> result = new ArrayList<ServiceClassParam>();
 		List<String> includeFiles = new ArrayList<String>();
 
@@ -352,6 +353,21 @@ public class Generator {
 				warningMessage = "No parent interface definition found. Please check the IDL and included IDL files. ";
 			}
 			List<TypeDefParam> typedefParams = IDLParamConverter.convert_typedef(spec, sv.getName());
+			for(TypeDefParam param : typedefParams) {
+				String defFull = "";
+				if( 0<param.getModuleName().length() ) {
+					defFull = param.getModuleName() + "::" + param.getTargetDef();
+				} else {
+					defFull = param.getTargetDef();
+				}
+				for(DataTypeParam dataParam : dataList) {
+					if(dataParam.isDefault()==false) continue;
+					if(dataParam.getDefinedTypes().contains(defFull)) {
+						param.setDefault(true);
+						break;
+					}
+				}
+			}
 			if (typedefParams.size() > 0) {
 				serviceClassParams = convertType(serviceClassParams, typedefParams);
 			}
@@ -476,6 +492,7 @@ public class Generator {
 
 	private void checkMethodType(ServiceMethodParam target, List<TypeDefParam> types) {
 		String targetFull = target.getModule() + target.getType();
+		String targetType = target.getType();
 		//
 		for(TypeDefParam tdparam : types) {
 			String defFull = "";
@@ -484,7 +501,17 @@ public class Generator {
 			} else {
 				defFull = tdparam.getTargetDef();
 			}
-			if(targetFull.equals(defFull)) {
+			boolean isHit = false;
+			if(tdparam.isDefault()) {
+				if(targetType.equals(defFull)) {
+					isHit = true;
+				}
+			} else {
+				if(targetFull.equals(defFull)) {
+					isHit = true;
+				}
+			}
+			if(isHit) {
 				target.setSequence(tdparam.isSequence());
 				target.setArray(tdparam.isArray());
 				target.setArrayDim(tdparam.getArrayDim());
@@ -493,6 +520,7 @@ public class Generator {
 				target.setUnbounded(tdparam.isUnbounded());
 				target.setAlias(tdparam.isAlias());
 				target.setInterface(tdparam.isInterface());
+				target.setDefault(tdparam.isDefault());
 				break;
 			}
 		}
