@@ -18,7 +18,7 @@ public class StopNameServiceAction implements IViewActionDelegate {
 	private NameServiceView view;
 	
 	private static String SCRIPT_WINDOWS = System.getenv("RTM_ROOT") + "bin" + Path.SEPARATOR + "kill-rtm-naming.bat";
-	private static String SCRIPT_LINUX = "/usr/bin/kill-rtm-naming";
+	private static String SCRIPT_LINUX = "/usr/bin/rtm-naming";
 	
 //	@Override
 	public void init(IViewPart view) {
@@ -42,7 +42,7 @@ public class StopNameServiceAction implements IViewActionDelegate {
 			if(passwdDialog.open()!=Dialog.OK) return;
 			
 			passWord = passwdDialog.getPassWord();
-			pb = new ProcessBuilder(SCRIPT_LINUX, "-f", "-w " + passWord);
+			pb = new ProcessBuilder(SCRIPT_LINUX, "-k", "-f", "-w " + passWord);
 		}
 		try {
 			pb.start();
