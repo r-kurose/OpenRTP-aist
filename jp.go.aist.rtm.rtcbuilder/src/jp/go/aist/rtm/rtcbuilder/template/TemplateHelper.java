@@ -67,11 +67,13 @@ public class TemplateHelper {
 		StringBuilder builder = new StringBuilder();
 		
 		for(IdlFileParam target : source.getProviderIdlPathes() ) {
+			if(RTCUtil.checkDefault(target.getIdlPath(), source.getParent().getDataTypeParams())) continue;
 			builder.append("${CMAKE_CURRENT_SOURCE_DIR}/");
 			builder.append(getFilenameNoExt(target.getIdlFile()));
 			builder.append(".idl ");
 		}
 		for(IdlFileParam target : source.getConsumerIdlPathes() ) {
+			if(RTCUtil.checkDefault(target.getIdlPath(), source.getParent().getDataTypeParams())) continue;
 			builder.append("${CMAKE_CURRENT_SOURCE_DIR}/");
 			builder.append(getFilenameNoExt(target.getIdlFile()));
 			builder.append(".idl ");
