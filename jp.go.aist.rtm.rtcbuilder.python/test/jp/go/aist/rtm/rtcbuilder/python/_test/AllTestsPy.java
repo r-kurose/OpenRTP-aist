@@ -1,5 +1,14 @@
-package jp.go.aist.rtm.rtcbuilder.python._test._100;
+package jp.go.aist.rtm.rtcbuilder.python._test;
 
+import jp.go.aist.rtm.rtcbuilder.python._test._100.AISTTest;
+import jp.go.aist.rtm.rtcbuilder.python._test._100.BaseTest;
+import jp.go.aist.rtm.rtcbuilder.python._test._100.BuildTest;
+import jp.go.aist.rtm.rtcbuilder.python._test._100.ConfigSetTest;
+import jp.go.aist.rtm.rtcbuilder.python._test._100.PyDocTest;
+import jp.go.aist.rtm.rtcbuilder.python._test._100.PyIDLInheritTest;
+import jp.go.aist.rtm.rtcbuilder.python._test._100.PyIDLType;
+import jp.go.aist.rtm.rtcbuilder.python._test._100.PyImplTest;
+import jp.go.aist.rtm.rtcbuilder.python._test._100.PyModuleTest;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 

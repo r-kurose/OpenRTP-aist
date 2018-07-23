@@ -15,10 +15,9 @@ import jp.go.aist.rtm.rtcbuilder.python.ui.Perspective.PythonProperty;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateHelper;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
 import jp.go.aist.rtm.rtcbuilder.ui.Perspective.LanguageProperty;
-
+import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
 import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
 import static jp.go.aist.rtm.rtcbuilder.util.RTCUtil.form;
-
 import static jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython.LANG_PYTHON;
 import static jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython.LANG_PYTHON_ARG;
 
@@ -122,6 +121,7 @@ public class PythonGenerateManager extends GenerateManager {
 		}
 
 		for (IdlFileParam idlFileParam : rtcParam.getProviderIdlPathes()) {
+			if(RTCUtil.checkDefault(idlFileParam.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
 			contextMap.put("idlFileParam", idlFileParam);
 			gr = generateSVCIDLExampleSource(contextMap);
 			result.add(gr);
@@ -130,6 +130,7 @@ public class PythonGenerateManager extends GenerateManager {
 		gr = generatePythonTestSource(contextMap);
 		result.add(gr);
 		for (IdlFileParam idlFileParam : rtcParam.getConsumerIdlPathes()) {
+			if(RTCUtil.checkDefault(idlFileParam.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
 			contextMap.put("idlFileParam", idlFileParam);
 			gr = generateTestSVCIDLExampleSource(contextMap);
 			result.add(gr);
