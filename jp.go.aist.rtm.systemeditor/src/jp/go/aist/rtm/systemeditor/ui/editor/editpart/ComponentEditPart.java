@@ -429,11 +429,12 @@ public class ComponentEditPart extends AbstractEditPart {
 			refreshComponent();
 		} else if (((notification.getNotifier() instanceof SystemDiagramStore.Target) //
 		&& (SystemDiagramStore.F_DISPLAY_EC_TAB.equals(notification.getFeature()) //
-		|| SystemDiagramStore.F_DISPLAY_EC_CONN.equals(notification.getFeature())))
-				|| ComponentPackage.eINSTANCE.getComponent_PrimaryExecutionContext().equals(notification.getFeature())
+		|| SystemDiagramStore.F_DISPLAY_EC_CONN.equals(notification.getFeature())))) {
+			refreshComponent2();
+		} else if (ComponentPackage.eINSTANCE.getComponent_PrimaryExecutionContext().equals(notification.getFeature())
 				|| ComponentPackage.eINSTANCE.getComponent_ExecutionContexts().equals(notification.getFeature())
 				|| ComponentPackage.eINSTANCE.getComponent_ParticipationContexts().equals(notification.getFeature())) {
-			refreshComponentWithEC();
+			refreshComponent2();
 		} else if (ComponentPackage.eINSTANCE.getComponent_Ports().equals(notification.getFeature())) {
 			refreshComponent2();
 		} else if (ComponentPackage.eINSTANCE.getComponent_InstanceNameL().equals(notification.getFeature())) {
@@ -452,29 +453,6 @@ public class ComponentEditPart extends AbstractEditPart {
 			public void run() {
 				if (isActive()) {
 					refresh();
-					getFigure().invalidate();
-				}
-			}
-		});
-	}
-
-	private void refreshComponentWithEC() {
-		LOGGER.trace("refreshComponentWithEC");
-		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-			@Override
-			public void run() {
-				if (isActive()) {
-					refresh();
-					@SuppressWarnings("unchecked")
-					List<?> childList = new ArrayList<>(getChildren());
-					for (Object o : childList) {
-						if (o instanceof ECEditPart.OwnECEditPart) {
-							refreshECEditPart((ECEditPart.OwnECEditPart) o);
-						}
-						if (o instanceof ECEditPart.PartECEditPart) {
-							refreshECEditPart((ECEditPart.PartECEditPart) o);
-						}
-					}
 					getFigure().invalidate();
 				}
 			}

@@ -454,6 +454,11 @@
 			id="rtse.command.ecconn.Hide"
 			name="%ECConn_Hide">
 		</command>
+		<command
+			categoryId="jp.go.aist.rtm.systemeditor.command.category"
+			id="rtse.command.ecconn.Disconnect"
+			name="%ECConn_Disconnect">
+		</command>
 
 		<command
 			categoryId="jp.go.aist.rtm.systemeditor.command.category"
@@ -549,6 +554,13 @@
 				<reference definitionId="rtse.definition.activeSystemDiagramEditor"/>
 			</activeWhen>
 		</handler>
+		<handler
+			class="jp.go.aist.rtm.systemeditor.ui.handler.ECConnectionCommandHandler"
+			commandId="rtse.command.ecconn.Disconnect">
+			<activeWhen>
+				<reference definitionId="rtse.definition.selectPartEC"/>
+			</activeWhen>
+		</handler>
 
 		<handler
 			class="jp.go.aist.rtm.systemeditor.ui.handler.AllComponentCommandHandler"
@@ -595,11 +607,7 @@
 						<reference definitionId="rtse.definition.activeSystemDiagramEditor"/>
 						<reference definitionId="rtse.definition.activeOfflineSystemDiagramEditor"/>
 					</or>
-					<with variable="selection">
-						<iterate operator="or">
-							<instanceof value="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart"/>
-						</iterate>
-					</with>
+					<reference definitionId="rtse.definition.selectComponent"/>
 				</and>
 			</activeWhen>
 		</handler>
@@ -612,11 +620,7 @@
 						<reference definitionId="rtse.definition.activeSystemDiagramEditor"/>
 						<reference definitionId="rtse.definition.activeOfflineSystemDiagramEditor"/>
 					</or>
-					<with variable="selection">
-						<iterate operator="or">
-							<instanceof value="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart"/>
-						</iterate>
-					</with>
+					<reference definitionId="rtse.definition.selectComponent"/>
 				</and>
 			</activeWhen>
 		</handler>
@@ -634,6 +638,38 @@
 			id="rtse.definition.activeOfflineSystemDiagramEditor">
 			<with variable="activeEditorId">
 				<equals value="jp.go.aist.rtm.systemeditor.ui.editor.OfflineSystemDiagramEditor"/>
+			</with>
+		</definition>
+		<definition
+			id="rtse.definition.selectComponent">
+			<with variable="selection">
+				<iterate ifEmpty="false" operator="or">
+					<instanceof value="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart"/>
+				</iterate>
+			</with>
+		</definition>
+		<definition
+			id="rtse.definition.selectEC">
+			<with variable="selection">
+				<iterate ifEmpty="false" operator="or">
+					<instanceof value="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECEditPart"/>
+				</iterate>
+			</with>
+		</definition>
+		<definition
+			id="rtse.definition.selectOwnEC">
+			<with variable="selection">
+				<iterate ifEmpty="false" operator="or">
+					<instanceof value="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECEditPart$OwnECEditPart"/>
+				</iterate>
+			</with>
+		</definition>
+		<definition
+			id="rtse.definition.selectPartEC">
+			<with variable="selection">
+				<iterate ifEmpty="false" operator="or">
+					<instanceof value="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECEditPart$PartECEditPart"/>
+				</iterate>
 			</with>
 		</definition>
 	</extension>
@@ -744,6 +780,28 @@
 					visible="true">
 				</separator>
 			</toolbar>
+		</menuContribution>
+		<menuContribution
+			allPopups="false"
+			locationURI="popup:jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor?after=additions">
+			<separator
+				name="rtse.menus.popup.systemeditor.ec">
+				<visibleWhen
+					checkEnabled="false">
+					<reference definitionId="rtse.definition.selectEC"/>
+				</visibleWhen>
+			</separator>
+			<command
+				commandId="rtse.command.ecconn.Disconnect"
+				icon="icons/ec_conn_hide.png"
+				id="rtse.menus.popup.ec.Disconnect_ECConn"
+				label="%ECConn_Disconnect"
+				style="push">
+				<visibleWhen
+					checkEnabled="false">
+					<reference definitionId="rtse.definition.selectEC"/>
+				</visibleWhen>
+			</command>
 		</menuContribution>
 	</extension>
 

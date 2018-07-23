@@ -13,6 +13,7 @@ import java.util.Map;
 import jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramStore;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpart.router.EditableManhattanConnectorRouter;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.ECConnectionBendpointEditPolicy;
+import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.ECConnectionEditPolicy;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 
@@ -66,6 +67,7 @@ public class ECConnectionEditPart extends AbstractConnectionEditPart {
 	@Override
 	protected void createEditPolicies() {
 		LOGGER.trace("createEditPolicies(endpoint)");
+		installEditPolicy(EditPolicy.CONNECTION_ROLE, new ECConnectionEditPolicy());
 		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, new ConnectionEndpointEditPolicy());
 		//
 		this.diagram = ((SystemDiagramEditPart) getRoot().getContents()).getModel();

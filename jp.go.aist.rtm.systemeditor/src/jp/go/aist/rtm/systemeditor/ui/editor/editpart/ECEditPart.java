@@ -12,6 +12,7 @@ import java.util.Map;
 import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
 import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
 import jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramStore;
+import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.ECComponentEditPolicy;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.ECSelectionEditPolicy;
 import jp.go.aist.rtm.systemeditor.ui.editor.figure.ECAnchor;
 import jp.go.aist.rtm.systemeditor.ui.editor.figure.ECFigure;
@@ -72,6 +73,7 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 	protected void createEditPolicies() {
 		LOGGER.trace("createEditPolicies");
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new ECSelectionEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ECComponentEditPolicy());
 	}
 
 	@Override
@@ -91,9 +93,18 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 	@Override
 	protected void refreshVisuals() {
 		LOGGER.trace("refreshVisuals: this=<{}> model=<{}>", to_cid(this), to_cid(getModel()));
-		getFigure().setBackgroundColor(ColorHelper.getECBodyColor(getModel().getModel()));
-		getFigure().setForegroundColor(ColorHelper.getECBorderColor(getModel().getModel()));
-		getFigure().setToolTip(ToolTipHelper.getECToolTip(getModel().getModel()));
+		ExecutionContext ec = getModel().getModel();
+		getFigure().setBackgroundColor(ColorHelper.getECBodyColor(ec));
+		getFigure().setForegroundColor(ColorHelper.getECBorderColor(ec));
+		getFigure().setToolTip(ToolTipHelper.getECToolTip(ec));
+
+		if (!showECTab()) {
+			getFigure().drawAsHidden();
+		} else if (isPrimary()) {
+			getFigure().drawAsSelected();
+		} else {
+			getFigure().drawAsDeselected();
+		}
 	}
 
 	private boolean invalid = false;
@@ -565,11 +576,6 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 		protected IFigure createFigure() {
 			LOGGER.trace("createFigure");
 			IFigure result = new ECFigure.OwnECFigure(getModel());
-			if (!showECTab()) {
-				result = new ECFigure.HiddenOwnECFigure(getModel());
-			} else if (isPrimary()) {
-				result = new ECFigure.SelectedOwnECFigure(getModel());
-			}
 			result.setLocation(new Point(0, 0));
 			return result;
 		}
@@ -652,11 +658,6 @@ public abstract class ECEditPart<M extends ECEditPart.AbstractEC, F extends IFig
 		protected IFigure createFigure() {
 			LOGGER.trace("createFigure");
 			IFigure result = new ECFigure.PartECFigure(getModel());
-			if (!showECTab()) {
-				result = new ECFigure.HiddenPartECFigure(getModel());
-			} else if (isPrimary()) {
-				result = new ECFigure.SelectedPartECFigure(getModel());
-			}
 			result.setLocation(new Point(0, 0));
 			return result;
 		}
