@@ -7,6 +7,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigParameterParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
+import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
 import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
 import static jp.go.aist.rtm.rtcbuilder.util.StringUtil.*;
 
@@ -76,6 +77,7 @@ public class TemplateHelper {
 			builder.append(".idl ");
 		}
 		for(IdlFileParam target : source.getIncludedIdlPathes() ) {
+			if(RTCUtil.checkDefault(target.getIdlPath(), source.getParent().getDataTypeParams())) continue;
 			builder.append("${CMAKE_CURRENT_SOURCE_DIR}/");
 			builder.append(getFilenameNoExt(target.getIdlFile()));
 			builder.append(".idl ");

@@ -13,6 +13,7 @@ import jp.go.aist.rtm.rtcbuilder._test.generateCode.ImplTest;
 import jp.go.aist.rtm.rtcbuilder._test.generateCode.LibraryTest;
 import jp.go.aist.rtm.rtcbuilder._test.generateCode.ManipTest;
 import jp.go.aist.rtm.rtcbuilder._test.generateCode.MultiTest;
+import jp.go.aist.rtm.rtcbuilder._test.generateCode.ServicePortTest;
 import jp.go.aist.rtm.rtcbuilder._test.generateCode.SystemConfigTest;
 import jp.go.aist.rtm.rtcbuilder._test.generateCode.VariableTest;
 import jp.go.aist.rtm.rtcbuilder._test.generateCode.IDLPathTest;
@@ -107,6 +108,8 @@ public class AllTests {
 		suite.addTestSuite(RecordedListTest.class);
 		suite.addTestSuite(ConfigParameterParamTest.class);
 		suite.addTestSuite(ParamActionsTest.class);
+		//
+		suite.addTestSuite(ServicePortTest.class);
 		//$JUnit-END$
 		return suite;
 	}
