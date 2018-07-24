@@ -103,11 +103,17 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 	
 	@Override
 	public GeneratedResult generateSrcCMakeLists(Map<String, Object> contextMap) {
-		String outfile = "src/CMakeLists.txt";
-		String infile = "cmake/SrcCMakeLists.txt.vsl";
-		GeneratedResult result = generatePython(infile, outfile, contextMap); 
-		result.setNotBom(true);
-		return result;
+		return new GeneratedResult();
+	}
+	
+	@Override
+	public GeneratedResult generateIncludeCMakeLists(Map<String, Object> contextMap) {
+		return new GeneratedResult();
+	}
+	
+	@Override
+	public GeneratedResult generateIncModuleCMakeLists(Map<String, Object> contextMap) {
+		return new GeneratedResult();
 	}
 	/////
 	public GeneratedResult generatePython(String infile, String outfile,
