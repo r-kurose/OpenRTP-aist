@@ -217,6 +217,8 @@ public class fooImpl extends DataFlowComponentBase {
 //
     /**
      */
+    /**
+     */
     // DataInPort declaration
     // <rtc-template block="inport_declare">
     

@@ -208,8 +208,10 @@ public class fooImpl extends DataFlowComponentBase {
 //        return super.onRateChanged(ec_id);
 //    }
 //
-	// Configuration variable declaration
-	// <rtc-template block="config_declare">
+    /**
+     */
+    // Configuration variable declaration
+    // <rtc-template block="config_declare">
     /*!
      * 
      * - Name:  int_param0
@@ -222,7 +224,7 @@ public class fooImpl extends DataFlowComponentBase {
      * - DefaultValue: 1
      */
     protected IntegerHolder m_int_param1 = new IntegerHolder();
-	// </rtc-template>
+    // </rtc-template>
     /**
      */
     // DataInPort declaration

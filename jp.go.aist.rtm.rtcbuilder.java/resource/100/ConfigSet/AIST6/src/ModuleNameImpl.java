@@ -208,8 +208,10 @@ public class ModuleNameImpl extends DataFlowComponentBase {
 //        return super.onRateChanged(ec_id);
 //    }
 //
-	// Configuration variable declaration
-	// <rtc-template block="config_declare">
+    /**
+     */
+    // Configuration variable declaration
+    // <rtc-template block="config_declare">
     /*!
      * 
      * - Name:  int_param0
@@ -222,7 +224,7 @@ public class ModuleNameImpl extends DataFlowComponentBase {
      * - DefaultValue: 1.0,2.0,3.0
      */
     protected VectorHolder m_vector_param = new VectorHolder();
-	// </rtc-template>
+    // </rtc-template>
     /**
      */
     // DataInPort declaration

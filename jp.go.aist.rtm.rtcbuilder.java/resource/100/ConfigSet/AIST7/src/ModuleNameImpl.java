@@ -207,15 +207,17 @@ public class ModuleNameImpl extends DataFlowComponentBase {
 //        return super.onRateChanged(ec_id);
 //    }
 //
-	// Configuration variable declaration
-	// <rtc-template block="config_declare">
+    /**
+     */
+    // Configuration variable declaration
+    // <rtc-template block="config_declare">
     /*!
      * 
      * - Name:  test
      * - DefaultValue: 0
      */
     protected DoubleHolder m_test = new DoubleHolder();
-	// </rtc-template>
+    // </rtc-template>
     /**
      */
     // DataInPort declaration

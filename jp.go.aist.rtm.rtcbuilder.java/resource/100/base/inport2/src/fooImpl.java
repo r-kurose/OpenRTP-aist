@@ -227,6 +227,8 @@ public class fooImpl extends DataFlowComponentBase {
 //
     /**
      */
+    /**
+     */
     // DataInPort declaration
     // <rtc-template block="inport_declare">
     protected TimedShort m_InP1_val;

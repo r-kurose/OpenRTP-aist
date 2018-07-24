@@ -228,6 +228,8 @@ public class testImpl extends DataFlowComponentBase {
 //
     /**
      */
+    /**
+     */
     // DataInPort declaration
     // <rtc-template block="inport_declare">
     

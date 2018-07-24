@@ -213,8 +213,10 @@ public class fooImpl extends DataFlowComponentBase {
 //        return super.onRateChanged(ec_id);
 //    }
 //
-	// Configuration variable declaration
-	// <rtc-template block="config_declare">
+    /**
+     */
+    // Configuration variable declaration
+    // <rtc-template block="config_declare">
     /*!
      * 
      * - Name:  int_param0
@@ -245,7 +247,7 @@ public class fooImpl extends DataFlowComponentBase {
      * - DefaultValue: dara
      */
     protected StringHolder m_str_param1 = new StringHolder();
-	// </rtc-template>
+    // </rtc-template>
     /**
      */
     // DataInPort declaration

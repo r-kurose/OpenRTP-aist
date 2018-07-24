@@ -1,3 +1,0 @@
-install(DIRECTORY "." 
-    DESTINATION "${dol}{INSTALL_PREFIX}/html" 
-    COMPONENT documentation)

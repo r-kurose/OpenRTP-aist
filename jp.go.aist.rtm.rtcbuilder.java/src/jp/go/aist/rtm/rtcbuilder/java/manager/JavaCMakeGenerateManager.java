@@ -73,11 +73,6 @@ public class JavaCMakeGenerateManager extends CMakeGenerateManager {
 
 	// 1.0系 (CMake/doc)
 	public GeneratedResult generateDocCMakeLists(Map<String, Object> contextMap) {
-//		String outfile = "doc/CMakeLists.txt";
-//		String infile = "cmake/doc/DocCMakeLists.txt.vsl";
-//		GeneratedResult result = generateJava(infile, outfile, contextMap); 
-//		result.setNotBom(true);
-//		return result;
 		return new GeneratedResult();
 	}
 	
