@@ -83,6 +83,7 @@ public class RTCUtil {
 			String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(DataTypePreferenceManager.IDLFILE_DIRECTORIES);
 			resultsetting = Arrays.asList(resultTemp.split(File.pathSeparator));
 			for(String each : resultsetting) {
+				if(each.length()==0) continue;
 				if(added.contains(each)) continue;
 				result.add(new IdlPathParam(each, false));
 				added.add(each);
@@ -90,14 +91,17 @@ public class RTCUtil {
 		}
 		//
 		if(target!=null && target.getOutputProject()!=null && 0<target.getOutputProject().length()) {
-			IWorkspaceRoot workspaceHandle = ResourcesPlugin.getWorkspace().getRoot();
-			IProject project = workspaceHandle.getProject(target.getOutputProject());
-			IFolder path = project.getFolder("idl");
-			if(path!=null && path.exists()) {
-				if(added.contains(path.getLocation().toOSString())==false) {
-					result.add(new IdlPathParam(path.getLocation().toOSString(), false));
-					added.add(path.getLocation().toOSString());
+			try {
+				IWorkspaceRoot workspaceHandle = ResourcesPlugin.getWorkspace().getRoot();
+				IProject project = workspaceHandle.getProject(target.getOutputProject());
+				IFolder path = project.getFolder("idl");
+				if(path!=null && path.exists()) {
+					if(added.contains(path.getLocation().toOSString())==false) {
+						result.add(new IdlPathParam(path.getLocation().toOSString(), false));
+						added.add(path.getLocation().toOSString());
+					}
 				}
+			} catch (Exception ex) {
 			}
 		}
 		return result;
