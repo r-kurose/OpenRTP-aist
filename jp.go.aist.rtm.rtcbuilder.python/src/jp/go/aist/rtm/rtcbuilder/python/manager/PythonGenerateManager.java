@@ -68,11 +68,27 @@ public class PythonGenerateManager extends GenerateManager {
 		}
 
 		List<IdlFileParam> allIdlFileParams = new ArrayList<IdlFileParam>();
-		allIdlFileParams.addAll(rtcParam.getProviderIdlPathes());
-		allIdlFileParams.addAll(rtcParam.getConsumerIdlPathes());
+		for(IdlFileParam target : rtcParam.getProviderIdlPathes()) {
+			if(RTCUtil.checkDefault(target.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
+			allIdlFileParams.add(target);
+		}
+//		allIdlFileParams.addAll(rtcParam.getProviderIdlPathes());
+		for(IdlFileParam target : rtcParam.getConsumerIdlPathes()) {
+			if(RTCUtil.checkDefault(target.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
+			allIdlFileParams.add(target);
+		}
+//		allIdlFileParams.addAll(rtcParam.getConsumerIdlPathes());
 		List<IdlFileParam> allIdlFileParamsForBuild = new ArrayList<IdlFileParam>();
-		allIdlFileParamsForBuild.addAll(allIdlFileParams);
-		allIdlFileParamsForBuild.addAll(rtcParam.getIncludedIdlPathes());
+		for(IdlFileParam target : allIdlFileParams) {
+			if(RTCUtil.checkDefault(target.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
+			allIdlFileParamsForBuild.add(target);
+		}
+//		allIdlFileParamsForBuild.addAll(allIdlFileParams);
+		for(IdlFileParam target : rtcParam.getIncludedIdlPathes()) {
+			if(RTCUtil.checkDefault(target.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
+			allIdlFileParamsForBuild.add(target);
+		}
+//		allIdlFileParamsForBuild.addAll(rtcParam.getIncludedIdlPathes());
 
 		// IDLファイル内に記述されているServiceClassParamを設定する
 		for (IdlFileParam idlFileParam : allIdlFileParams) {

@@ -11,10 +11,12 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython;
 import jp.go.aist.rtm.rtcbuilder.python._test.TestBase;
 import jp.go.aist.rtm.rtcbuilder.python.manager.PythonCMakeGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.python.manager.PythonGenerateManager;
+import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
 
 public class BuildTest extends TestBase {
 
@@ -85,15 +87,16 @@ public class BuildTest extends TestBase {
 
 		rtcParam.getServicePorts().addAll(srvports);
 
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
+		List<IdlPathParam> idlDirs = RTCUtil.getIDLPathes(rtcParam);
+		List<GeneratedResult> result = generator.generateTemplateCode(genParam, idlDirs);
 
 		String resourceDir = fixturePath(name) + "/";
 
 		assertEquals(default_file_num+service_file_num+1, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-//		checkCode(result, resourceDir, "idlcompile.bat");
-//		checkCode(result, resourceDir, "idlcompile.sh");
+		checkCode(result, resourceDir, "idlcompile.bat");
+		checkCode(result, resourceDir, "idlcompile.sh");
 	}
 
 	public void testCMake2() throws Exception {
