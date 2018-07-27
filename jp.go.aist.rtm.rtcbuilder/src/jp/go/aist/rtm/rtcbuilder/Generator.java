@@ -173,14 +173,35 @@ public class Generator {
 					IDLPathParams.add(new ServiceClassParam(serviceInterfaces.getIdlFullPath(),
 															 serviceInterfaces.getIdlSearchPath()));
 				}
-				if( 0<serviceInterfaces.getIdlSearchPath().length() &&
-						rtcParam.getIdlPathes().contains(serviceInterfaces.getIdlSearchPath())==false) {
-					rtcParam.getIdlPathes().add(new IdlPathParam(serviceInterfaces.getIdlSearchPath(), false));
+				if( 0<serviceInterfaces.getIdlSearchPath().length()) {
+					boolean existed = false;
+					for(IdlPathParam exist : rtcParam.getIdlPathes()) {
+						if(exist.getPath().equals(serviceInterfaces.getIdlSearchPath())) {
+							existed = true;
+							break;
+						}
+					}
+					if(existed==false) {
+						rtcParam.getIdlPathes().add(new IdlPathParam(serviceInterfaces.getIdlSearchPath(), false));
+					}
 				}
 			}
 		}
 		if(idlDir!=null) {
-			rtcParam.getIdlPathes().addAll(idlDir);
+			for(IdlPathParam param : idlDir) {
+				if( 0< param.getPath().length() ) {
+					boolean existed = false;
+					for(IdlPathParam exist : rtcParam.getIdlPathes()) {
+						if(exist.getPath().equals(param.getPath())) {
+							existed = true;
+							break;
+						}
+					}
+					if(existed==false) {
+						rtcParam.getIdlPathes().add(new IdlPathParam(param.getPath(), false));
+					}
+				}
+			}
 		}
 		
 		rtcServiceClasses.addAll(getRtcServiceClass(rtcParam, IDLPathParams, idlDir, generatorParam.getDataTypeParams()));
