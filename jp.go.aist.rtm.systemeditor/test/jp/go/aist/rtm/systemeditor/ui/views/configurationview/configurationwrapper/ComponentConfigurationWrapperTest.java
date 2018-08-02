@@ -9,7 +9,7 @@ public class ComponentConfigurationWrapperTest extends TestCase {
 
 	public void testCreate() {
 		ComponentConfigurationWrapper config = ComponentConfigurationWrapper
-				.create(ComponentMock.mock1);
+				.create(ComponentMock.mock1, true);
 
 		for (ConfigurationSetConfigurationWrapper cs : config
 				.getConfigurationSetList()) {
@@ -169,7 +169,7 @@ public class ComponentConfigurationWrapperTest extends TestCase {
 
 	public void testGetDefaultNameSet() throws Exception {
 		ComponentConfigurationWrapper config = ComponentConfigurationWrapper
-				.create(ComponentMock.mock1);
+				.create(ComponentMock.mock1, true);
 		Set<String> names = config.getDefaultNameSet();
 		assertEquals(true, names.contains("int_param1"));
 		assertEquals(true, names.contains("double_param1"));

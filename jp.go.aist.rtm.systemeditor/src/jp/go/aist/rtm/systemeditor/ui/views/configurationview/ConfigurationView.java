@@ -41,8 +41,10 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -137,6 +139,8 @@ public class ConfigurationView extends ViewPart {
 
 	private static final String LABEL_BUTTON_NV_ADD = Messages.getString("Common.button.add");
 	private static final String LABEL_BUTTON_NV_DEL = Messages.getString("Common.button.delete");
+	private static final String LABEL_BUTTON_NV_SORT = Messages.getString("ConfigurationView.49");
+	private static final String LABEL_TOOLTIP_NV_SORT = Messages.getString("ConfigurationView.50");
 	private static final String LABEL_BUTTON_NV_DETAIL = Messages.getString("ConfigurationView.48");
 	private static final String LABEL_TOOLTIP_NV_DETAIL = Messages.getString("ConfigurationView.47");
 
@@ -170,6 +174,8 @@ public class ConfigurationView extends ViewPart {
 	private Button deleteConfigurationSetButton;
 	private Button detailConfigurationSetCheckButton;
 
+	private Button sortCheckButton;
+	
 	private Button addNamedValueButton;
 	private Button deleteNamedValueButton;
 	private Button detailNamedValueCheckButton;
@@ -713,7 +719,7 @@ public class ConfigurationView extends ViewPart {
 				new TextCellEditor(rightTableViewer.getTable()) });
 		this.rightTableViewerFilter = new DetailTableViewerFilter();
 		this.rightTableViewer.addFilter(this.rightTableViewerFilter);
-
+		
 		rightTable = rightTableViewer.getTable();
 		rightTable.setLinesVisible(true);
 		leftTable.addSelectionListener(new SelectionListener() {
@@ -727,7 +733,7 @@ public class ConfigurationView extends ViewPart {
 				refreshRightData();
 			}
 		});
-
+		
 		gd = new GridData();
 		gd.verticalAlignment = SWT.FILL;
 		gd.horizontalAlignment = SWT.FILL;
@@ -759,10 +765,10 @@ public class ConfigurationView extends ViewPart {
 
 		keyCol.addControlListener(controlAdapter);
 		composite.addControlListener(controlAdapter);
-
+		
 		Composite buttonCompsite = new Composite(composite, SWT.BOTTOM);
 		gl = new GridLayout();
-		gl.numColumns = 3;
+		gl.numColumns = 4;
 		buttonCompsite.setLayout(gl);
 		gd = new GridData();
 		gd.horizontalAlignment = SWT.FILL;
@@ -833,6 +839,22 @@ public class ConfigurationView extends ViewPart {
 					rightTable.setSelection(newIndex);
 					updateDeleteNamedValueButtonEnable();
 				}
+			}
+		});
+
+		this.sortCheckButton = new Button(buttonCompsite, SWT.BOTTOM | SWT.CHECK);
+		this.sortCheckButton.setEnabled(false);
+		this.sortCheckButton.setToolTipText(LABEL_TOOLTIP_NV_SORT);
+		gd = new GridData();
+		gd.horizontalAlignment = SWT.END;
+		this.sortCheckButton.setLayoutData(gd);
+		this.sortCheckButton.setText(LABEL_BUTTON_NV_SORT);
+		this.sortCheckButton.setSelection(false);
+		this.sortCheckButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				buildData();
+				refreshRightData();
 			}
 		});
 
@@ -1054,6 +1076,7 @@ public class ConfigurationView extends ViewPart {
 		this.rightTableViewer.setInput(Collections.EMPTY_LIST);
 		this.configrationSetNameLabel.setText("");
 		this.addNamedValueButton.setEnabled(false);
+		this.sortCheckButton.setEnabled(false);
 		this.detailNamedValueCheckButton.setEnabled(false);
 
 		if (this.copiedComponent != null) {
@@ -1067,6 +1090,7 @@ public class ConfigurationView extends ViewPart {
 				if (!(this.targetComponent instanceof CorbaComponent)) {
 					this.addNamedValueButton.setEnabled(true);
 				}
+				this.sortCheckButton.setEnabled(true);
 				this.detailNamedValueCheckButton.setEnabled(true);
 			}
 		}
@@ -1105,7 +1129,7 @@ public class ConfigurationView extends ViewPart {
 	 */
 	public ComponentConfigurationWrapper createConfigurationWrapper(
 			Component target) {
-		return ComponentConfigurationWrapper.create(target);
+		return ComponentConfigurationWrapper.create(target, sortCheckButton.getSelection());
 	}
 
 	private void setSiteSelection() {

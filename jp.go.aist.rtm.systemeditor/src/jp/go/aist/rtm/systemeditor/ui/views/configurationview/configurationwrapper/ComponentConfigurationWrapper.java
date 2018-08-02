@@ -18,7 +18,7 @@ import jp.go.aist.rtm.toolscommon.model.component.NameValue;
  */
 public class ComponentConfigurationWrapper {
 
-	public static ComponentConfigurationWrapper create(Component target) {
+	public static ComponentConfigurationWrapper create(Component target, boolean isSort) {
 		ComponentConfigurationWrapper result = new ComponentConfigurationWrapper();
 		List<ConfigurationSetConfigurationWrapper> configSetList = result.getConfigurationSetList();
 		List<ConfigurationSetConfigurationWrapper> secretConfigSetList = new ArrayList<>();
@@ -74,8 +74,10 @@ public class ComponentConfigurationWrapper {
 					namedValueList.add(namedValueWrapper);
 				}
 			}
-			// 隠しNamedValueは後方へ整列
-			Collections.sort(namedValueList);
+			if(isSort) {
+				// 隠しNamedValueは後方へ整列
+				Collections.sort(namedValueList);
+			}
 			namedValueList.addAll(secretNamedValueList);
 
 			if (target.getActiveConfigurationSet() != null
