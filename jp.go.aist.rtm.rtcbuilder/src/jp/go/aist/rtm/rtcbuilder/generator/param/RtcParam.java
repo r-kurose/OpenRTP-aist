@@ -697,13 +697,28 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		}
 		/////
 		for( DataPortParam target : inports ) {
-			checkAndAddIDLPath(target.getType(), idlPathes, consumerIdlStrings, consumerIdlParams);
+			List<String> localIdlPathes = new ArrayList<String>();
+			checkAndAddIDLPath(target.getType(), localIdlPathes, consumerIdlStrings, consumerIdlParams);
+			if(0<localIdlPathes.size()) {
+				idlPathes.addAll(localIdlPathes);
+				target.setIdlFile(localIdlPathes.get(0));
+			}
 		}
 		for( DataPortParam target : outports ) {
-			checkAndAddIDLPath(target.getType(), idlPathes, consumerIdlStrings, consumerIdlParams);
+			List<String> localIdlPathes = new ArrayList<String>();
+			checkAndAddIDLPath(target.getType(), localIdlPathes, consumerIdlStrings, consumerIdlParams);
+			if(0<localIdlPathes.size()) {
+				idlPathes.addAll(localIdlPathes);
+				target.setIdlFile(localIdlPathes.get(0));
+			}
 		}
 		for( ConfigSetParam target : configParams ) {
-			checkAndAddIDLPath(target.getType(), idlPathes, consumerIdlStrings, consumerIdlParams);
+			List<String> localIdlPathes = new ArrayList<String>();
+			checkAndAddIDLPath(target.getType(), localIdlPathes, consumerIdlStrings, consumerIdlParams);
+			if(0<localIdlPathes.size()) {
+				idlPathes.addAll(localIdlPathes);
+				target.setIdlFile(localIdlPathes.get(0));
+			}
 		}
 		/////
 		for( ServicePortInterfaceParam serviceInterface : serviceIFs ) {

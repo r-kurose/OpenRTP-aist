@@ -2,8 +2,6 @@ package jp.go.aist.rtm.rtcbuilder.generator.param.idl;
 
 import java.io.Serializable;
 
-import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
-
 public class IdlPathParam implements Serializable {
 
 	private static final long serialVersionUID = 2531043621817335163L;

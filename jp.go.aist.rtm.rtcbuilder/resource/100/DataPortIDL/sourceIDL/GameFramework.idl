@@ -1,0 +1,34 @@
+#ifndef GameFramework_IDL
+#define GameFramework_IDL
+
+#include <BasicDataType.idl>
+
+
+module GameFramework {
+
+  struct pixelPoint2D
+  {
+    long x;
+    long y;
+  };
+  
+  struct CenterPosition
+  {
+    RTC::Time tm;
+
+    sequence<long> ids;
+    sequence<pixelPoint2D> positions;
+  };
+
+  
+  struct Gain
+  {
+    RTC::Time tm;
+
+    sequence<long> ids;
+    sequence<long> gains;
+  };
+
+};
+
+#endif
