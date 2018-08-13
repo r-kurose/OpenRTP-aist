@@ -48,18 +48,10 @@ OpenRTP, Open RT Platform distributed by AIST
 rm -rf $RPM_BUILD_ROOT
 %define install_dir_lib $RPM_BUILD_ROOT%{rtm_libdir}/openrtp
 mkdir -p %{install_dir_lib}
-cp -r %{_topdir}/../../about_files %{install_dir_lib}
-cp -r %{_topdir}/../../configuration %{install_dir_lib}
-cp -r %{_topdir}/../../dropins %{install_dir_lib}
-cp -r %{_topdir}/../../features %{install_dir_lib}
+cp -R %{_topdir}/../../[a-o]* %{install_dir_lib}
+cp -R %{_topdir}/../../[q-z]* %{install_dir_lib}
 cp -r %{_topdir}/../../p2 %{install_dir_lib}
 cp -r %{_topdir}/../../plugins %{install_dir_lib}
-cp -r %{_topdir}/../../readme %{install_dir_lib}
-cp %{_topdir}/../../about.html %{install_dir_lib}
-cp %{_topdir}/../../artifacts.xml %{install_dir_lib}
-cp %{_topdir}/../../e* %{install_dir_lib}
-cp %{_topdir}/../../icon.xpm %{install_dir_lib}
-cp %{_topdir}/../../notice.html %{install_dir_lib}
 %define install_dir_bin $RPM_BUILD_ROOT/usr/bin
 mkdir -p %{install_dir_bin} 
 cp %{_topdir}/../../openrtp %{install_dir_bin}
