@@ -21,7 +21,7 @@ public interface IRtcBuilderConstantsPython {
 	public static final int DOC_ACTIVITY_OFFSET_PY = 4;
 	//
 	public static final String DOC_DEFAULT_PREFIX_PY = " ";
-	public static final String DOC_MODULE_PREFIX_PY = "\t";
+	public static final String DOC_MODULE_PREFIX_PY = "# ";
 	public static final String DOC_DESC_PREFIX_PY = "\t\t";
 	public static final String DOC_UNIT_PREFIX_PY = "\t\t         ";
 	public static final String DOC_NUMBER_PREFIX_PY = "\t\t           ";
@@ -31,9 +31,9 @@ public interface IRtcBuilderConstantsPython {
 	public static final String DOC_DETAIL_PREFIX_PY = "\t\t                  ";
 	public static final String DOC_RANGE_PREFIX_PY = "\t\t          ";
 	public static final String DOC_CONSTRAINT_PREFIX_PY = "\t\t               ";
-	public static final String DOC_PRE_PREFIX_PY = "\t\t     ";
-	public static final String DOC_POST_PREFIX_PY = "\t\t      ";
-	public static final String DOC_ACTIVITY_PREFIX_PY = "\t#\t";
+	public static final String DOC_PRE_PREFIX_PY = "\t#      ";
+	public static final String DOC_POST_PREFIX_PY = "\t#       ";
+	public static final String DOC_ACTIVITY_PREFIX_PY = "\t# ";
 	public static final String DOC_PRESH_PREFIX_PY = "\t#\t     ";
 	public static final String DOC_POSTSH_PREFIX_PY = "\t#\t      ";
 	//

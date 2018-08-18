@@ -39,7 +39,7 @@ public class PyIDLInheritTest extends TestBase {
 		rtcParam.setComponentKind("DataFlowComponent");
 		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
 		rtcParam.setIsTest(true);
-		genParam.getRtcParams().add(rtcParam);
+		genParam.setRtcParam(rtcParam);
 
 		generator = new Generator();
 		generator.addGenerateManager(new PythonGenerateManager());
@@ -81,7 +81,7 @@ public class PyIDLInheritTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "/";
 
-		assertEquals(default_file_num+3, result.size());
+		assertEquals(default_file_num+service_file_num, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyServiceChildMulti_idl_example.py");
 //		checkCode(result, resourceDir, "idlcompile.bat");
@@ -129,7 +129,7 @@ public class PyIDLInheritTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "/";
 
-		assertEquals(default_file_num+4, result.size());
+		assertEquals(default_file_num+8, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyServiceChildMulti_idl_example.py");
 		checkCode(result, resourceDir, "MyServiceChildWithType_idl_example.py");

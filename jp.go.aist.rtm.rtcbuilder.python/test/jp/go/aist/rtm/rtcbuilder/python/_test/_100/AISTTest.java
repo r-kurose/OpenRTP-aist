@@ -12,10 +12,12 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython;
 import jp.go.aist.rtm.rtcbuilder.python._test.TestBase;
 import jp.go.aist.rtm.rtcbuilder.python.manager.PythonCMakeGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.python.manager.PythonGenerateManager;
+import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
 
 public class AISTTest extends TestBase {
 
@@ -31,7 +33,7 @@ public class AISTTest extends TestBase {
 		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
 		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
 		rtcParam.setIsTest(true);
-		genParam.getRtcParams().add(rtcParam);
+		genParam.setRtcParam(rtcParam);
 
 		generator = new Generator();
 		generator.addGenerateManager(new PythonGenerateManager());
@@ -142,11 +144,12 @@ public class AISTTest extends TestBase {
 		srvports.add(service2);
 		rtcParam.getServicePorts().addAll(srvports);
 
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
+		List<IdlPathParam> idlDirs = RTCUtil.getIDLPathes(rtcParam);
+		List<GeneratedResult> result = generator.generateTemplateCode(genParam, idlDirs);
 
 		String resourceDir = rootPath + "/resource/100/aist/AIST4/";
 
-		assertEquals(default_file_num+3, result.size());
+		assertEquals(default_file_num+7, result.size());
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "idlcompile.bat");
@@ -194,11 +197,12 @@ public class AISTTest extends TestBase {
 		srvports.add(service2);
 		rtcParam.getServicePorts().addAll(srvports);
 
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
+		List<IdlPathParam> idlDirs = RTCUtil.getIDLPathes(rtcParam);
+		List<GeneratedResult> result = generator.generateTemplateCode(genParam, idlDirs);
 
 		String resourceDir = rootPath + "/resource/100/aist/AIST3/";
 
-		assertEquals(default_file_num+3, result.size());
+		assertEquals(default_file_num+service_file_num, result.size());
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "idlcompile.bat");
@@ -236,11 +240,12 @@ public class AISTTest extends TestBase {
 		srvports.add(service1);
 		rtcParam.getServicePorts().addAll(srvports);
 
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
+		List<IdlPathParam> idlDirs = RTCUtil.getIDLPathes(rtcParam);
+		List<GeneratedResult> result = generator.generateTemplateCode(genParam, idlDirs);
 
 		String resourceDir = rootPath + "/resource/100/aist/AIST2/";
 
-		assertEquals(default_file_num+2, result.size());
+		assertEquals(default_file_num+7, result.size());
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "idlcompile.bat");
 		checkCode(result, resourceDir, "idlcompile.sh");
@@ -268,12 +273,13 @@ public class AISTTest extends TestBase {
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
 		srvports.add(service1);
 		rtcParam.getServicePorts().addAll(srvports);
-
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
+		
+		List<IdlPathParam> idlDirs = RTCUtil.getIDLPathes(rtcParam);
+		List<GeneratedResult> result = generator.generateTemplateCode(genParam, idlDirs);
 
 		String resourceDir = rootPath + "/resource/100/aist/AIST1/";
 
-		assertEquals(default_file_num+3, result.size());
+		assertEquals(default_file_num+service_file_num, result.size());
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "idlcompile.bat");

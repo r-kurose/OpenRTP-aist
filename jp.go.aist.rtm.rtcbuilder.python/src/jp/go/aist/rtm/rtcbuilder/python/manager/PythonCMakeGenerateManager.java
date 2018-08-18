@@ -8,10 +8,8 @@ import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.manager.CMakeGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
-
 import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
 import static jp.go.aist.rtm.rtcbuilder.util.RTCUtil.form;
-
 import static jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython.LANG_PYTHON;
 import static jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython.LANG_PYTHON_ARG;
 
@@ -20,7 +18,6 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 	static final String TEMPLATE_PATH_PYTHON = "jp/go/aist/rtm/rtcbuilder/python/template";
 
 	public PythonCMakeGenerateManager() {
-		DOXYGEN_FILE_PATTERNS = "*.py *.idl";
 	}
 
 	@Override
@@ -52,10 +49,15 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 		List<GeneratedResult> result = super.generateTemplateCode10(contextMap);
 
 		GeneratedResult gr;
-		gr = generateResourceDescriptionTXT(contextMap);
-		result.add(gr);
-		gr = generateResourceLicenseTXT(contextMap);
-		result.add(gr);
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		if(0<rtcParam.getServicePorts().size()) {
+			gr = generatePostinstIin(contextMap);
+			result.add(gr);
+			gr = generatePrermIn(contextMap);
+			result.add(gr);
+			gr = generateCMakeWixPatchXmlIn(contextMap);
+			result.add(gr);
+		}
 		
 		return result;
 	}
@@ -66,22 +68,54 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 	public GeneratedResult generateCMakeLists(Map<String, Object> contextMap) {
 		String outfile = "CMakeLists.txt";
 		String infile = "cmake/CMakeLists.txt.vsl";
-		return generatePython(infile, outfile, contextMap);
+		GeneratedResult result = generatePython(infile, outfile, contextMap); 
+		result.setNotBom(true);
+		return result;
 	}
 
 	// 1.0系 (CMake/cpack_resources)
-	public GeneratedResult generateResourceDescriptionTXT(Map<String, Object> contextMap) {
-		String outfile = "cpack_resources/Description.txt";
-		String infile = "cmake/Description.txt.vsl";
+	public GeneratedResult generatePostinstIin(Map<String, Object> contextMap) {
+		String outfile = "postinst.in";
+		String infile = "cmake/postinst.in.vsl";
 		return generatePython(infile, outfile, contextMap);
 	}
 
-	public GeneratedResult generateResourceLicenseTXT(Map<String, Object> contextMap) {
-		String outfile = "cpack_resources/License.txt";
-		String infile = "cmake/License.txt.vsl";
+	public GeneratedResult generatePrermIn(Map<String, Object> contextMap) {
+		String outfile = "prerm.in";
+		String infile = "cmake/prerm.in.vsl";
 		return generatePython(infile, outfile, contextMap);
 	}
 
+	public GeneratedResult generateCMakeWixPatchXmlIn(Map<String, Object> contextMap) {
+		String outfile = "cmake/wix_patch.xml.in";
+		String infile = "cmake/wix_patch.xml.in.vsl";
+		return generatePython(infile, outfile, contextMap);
+	}
+	
+	@Override
+	public GeneratedResult generateCmakeCPackOption(Map<String, Object> contextMap) {
+		String outfile = "cmake/cpack_options.cmake.in";
+		String infile = "cmake/cpack_options_cmake.in.vsl";
+		GeneratedResult result = generatePython(infile, outfile, contextMap); 
+		result.setNotBom(true);
+		return result;
+	}
+	
+	@Override
+	public GeneratedResult generateSrcCMakeLists(Map<String, Object> contextMap) {
+		return new GeneratedResult();
+	}
+	
+	@Override
+	public GeneratedResult generateIncludeCMakeLists(Map<String, Object> contextMap) {
+		return new GeneratedResult();
+	}
+	
+	@Override
+	public GeneratedResult generateIncModuleCMakeLists(Map<String, Object> contextMap) {
+		return new GeneratedResult();
+	}
+	/////
 	public GeneratedResult generatePython(String infile, String outfile,
 			Map<String, Object> contextMap) {
 		try {

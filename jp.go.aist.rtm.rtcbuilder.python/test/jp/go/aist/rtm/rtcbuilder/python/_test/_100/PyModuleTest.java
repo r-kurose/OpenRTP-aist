@@ -29,7 +29,7 @@ public class PyModuleTest extends TestBase {
 		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
 		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
 		rtcParam.setIsTest(true);
-		genParam.getRtcParams().add(rtcParam);
+		genParam.setRtcParam(rtcParam);
 
 		generator = new Generator();
 		generator.addGenerateManager(new PythonGenerateManager());
@@ -64,11 +64,11 @@ public class PyModuleTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/module/serviceM/";
 
-		assertEquals(default_file_num+3, result.size());
+		assertEquals(default_file_num+service_file_num, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
-		checkCode(result, resourceDir, "idlcompile.bat");
-		checkCode(result, resourceDir, "idlcompile.sh");
+//		checkCode(result, resourceDir, "idlcompile.bat");
+//		checkCode(result, resourceDir, "idlcompile.sh");
 	}
 
 	public void testServicePortProv2() throws Exception {
@@ -104,12 +104,12 @@ public class PyModuleTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/module/serviceM2/";
 
-		assertEquals(default_file_num+4, result.size());
+		assertEquals(default_file_num+8, result.size());
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "DAQService_idl_example.py");
-		checkCode(result, resourceDir, "idlcompile.bat");
-		checkCode(result, resourceDir, "idlcompile.sh");
+//		checkCode(result, resourceDir, "idlcompile.bat");
+//		checkCode(result, resourceDir, "idlcompile.sh");
 	}
 
 	public void testServicePortCon() throws Exception {
@@ -140,7 +140,7 @@ public class PyModuleTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/module/serviceMC/";
 
-		assertEquals(default_file_num+2, result.size());
+		assertEquals(default_file_num+7, result.size());
 		checkCode(result, resourceDir, "foo.py");
 	}
 
@@ -177,7 +177,7 @@ public class PyModuleTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/module/serviceMC2/";
 
-		assertEquals(default_file_num+2, result.size());
+		assertEquals(default_file_num+8, result.size());
 		checkCode(result, resourceDir, "foo.py");
 	}
 

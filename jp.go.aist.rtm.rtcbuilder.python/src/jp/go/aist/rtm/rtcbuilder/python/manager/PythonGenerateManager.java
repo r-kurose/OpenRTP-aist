@@ -15,10 +15,9 @@ import jp.go.aist.rtm.rtcbuilder.python.ui.Perspective.PythonProperty;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateHelper;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
 import jp.go.aist.rtm.rtcbuilder.ui.Perspective.LanguageProperty;
-
+import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
 import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
 import static jp.go.aist.rtm.rtcbuilder.util.RTCUtil.form;
-
 import static jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython.LANG_PYTHON;
 import static jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython.LANG_PYTHON_ARG;
 
@@ -69,11 +68,27 @@ public class PythonGenerateManager extends GenerateManager {
 		}
 
 		List<IdlFileParam> allIdlFileParams = new ArrayList<IdlFileParam>();
-		allIdlFileParams.addAll(rtcParam.getProviderIdlPathes());
-		allIdlFileParams.addAll(rtcParam.getConsumerIdlPathes());
+		for(IdlFileParam target : rtcParam.getProviderIdlPathes()) {
+			if(RTCUtil.checkDefault(target.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
+			allIdlFileParams.add(target);
+		}
+//		allIdlFileParams.addAll(rtcParam.getProviderIdlPathes());
+		for(IdlFileParam target : rtcParam.getConsumerIdlPathes()) {
+			if(RTCUtil.checkDefault(target.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
+			allIdlFileParams.add(target);
+		}
+//		allIdlFileParams.addAll(rtcParam.getConsumerIdlPathes());
 		List<IdlFileParam> allIdlFileParamsForBuild = new ArrayList<IdlFileParam>();
-		allIdlFileParamsForBuild.addAll(allIdlFileParams);
-		allIdlFileParamsForBuild.addAll(rtcParam.getIncludedIdlPathes());
+		for(IdlFileParam target : allIdlFileParams) {
+			if(RTCUtil.checkDefault(target.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
+			allIdlFileParamsForBuild.add(target);
+		}
+//		allIdlFileParamsForBuild.addAll(allIdlFileParams);
+		for(IdlFileParam target : rtcParam.getIncludedIdlPathes()) {
+			if(RTCUtil.checkDefault(target.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
+			allIdlFileParamsForBuild.add(target);
+		}
+//		allIdlFileParamsForBuild.addAll(rtcParam.getIncludedIdlPathes());
 
 		// IDLファイル内に記述されているServiceClassParamを設定する
 		for (IdlFileParam idlFileParam : allIdlFileParams) {
@@ -112,17 +127,28 @@ public class PythonGenerateManager extends GenerateManager {
 		gr = generatePythonSource(contextMap);
 		result.add(gr);
 
-//		if ( 0<allIdlFileParams.size() || 0<rtcParam.getIdlPathes().size()) {
 		if ( 0<allIdlFileParams.size() ) {
 			gr = generateIDLCompileBat(contextMap);
 			result.add(gr);
 			gr = generateIDLCompileSh(contextMap);
 			result.add(gr);
+			gr = generateDeleteBat(contextMap);
+			result.add(gr);
 		}
 
 		for (IdlFileParam idlFileParam : rtcParam.getProviderIdlPathes()) {
+			if(RTCUtil.checkDefault(idlFileParam.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
 			contextMap.put("idlFileParam", idlFileParam);
 			gr = generateSVCIDLExampleSource(contextMap);
+			result.add(gr);
+		}
+		//////////
+		gr = generatePythonTestSource(contextMap);
+		result.add(gr);
+		for (IdlFileParam idlFileParam : rtcParam.getConsumerIdlPathes()) {
+			if(RTCUtil.checkDefault(idlFileParam.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
+			contextMap.put("idlFileParam", idlFileParam);
+			gr = generateTestSVCIDLExampleSource(contextMap);
 			result.add(gr);
 		}
 
@@ -135,14 +161,6 @@ public class PythonGenerateManager extends GenerateManager {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = rtcParam.getName() + ".py";
 		String infile = "python/Py_RTC.py.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-
-	public GeneratedResult generateSVCIDLSource(Map<String, Object> contextMap) {
-		IdlFileParam idlParam = (IdlFileParam) contextMap.get("idlFileParam");
-		String outfile = TemplateHelper.getFilenameNoExt(idlParam.getIdlPath())
-				+ "_idl.py";
-		String infile = "python/Py_SVC_idl.py.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 
@@ -159,15 +177,42 @@ public class PythonGenerateManager extends GenerateManager {
 	public GeneratedResult generateIDLCompileBat(Map<String, Object> contextMap) {
 		String outfile = "idlcompile.bat";
 		String infile = "python/idlcompile.bat.vsl";
-		return generate(infile, outfile, contextMap);
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setEncode("Shift_JIS");
+		return result;
 	}
 
 	public GeneratedResult generateIDLCompileSh(Map<String, Object> contextMap) {
 		String outfile = "idlcompile.sh";
 		String infile = "python/idlcompile.sh.vsl";
-		return generate(infile, outfile, contextMap);
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setNotBom(true);
+		return result;
 	}
 
+	public GeneratedResult generateDeleteBat(Map<String, Object> contextMap) {
+		String outfile = "delete.bat";
+		String infile = "python/delete.bat.vsl";
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setEncode("Shift_JIS");
+		return result;
+	}
+	//////////
+	public GeneratedResult generatePythonTestSource(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = "test/" + rtcParam.getName() + "Test.py";
+		String infile = "python/test/Py_Test_RTC.py.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
+	public GeneratedResult generateTestSVCIDLExampleSource(
+			Map<String, Object> contextMap) {
+		IdlFileParam idlParam = (IdlFileParam) contextMap.get("idlFileParam");
+		String outfile = "test/" + idlParam.getIdlFileNoExt() + "_idl_example.py";
+		String infile = "python/Py_SVC_idl_example.py.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	//////////
 	public GeneratedResult generate(String infile, String outfile,
 			Map<String, Object> contextMap) {
 		try {
