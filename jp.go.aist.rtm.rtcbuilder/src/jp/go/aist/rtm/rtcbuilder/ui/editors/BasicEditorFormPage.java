@@ -1,16 +1,12 @@
 package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.xml.bind.JAXBException;
 
@@ -20,23 +16,21 @@ import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
 import jp.go.aist.rtm.rtcbuilder.extension.ImportExtension;
 import jp.go.aist.rtm.rtcbuilder.factory.ExportCreator;
-import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
 import jp.go.aist.rtm.rtcbuilder.generator.ProfileHandler;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.PropertyParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.ui.Perspective.LanguageProperty;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
-import jp.go.aist.rtm.rtcbuilder.ui.preference.DocumentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
+import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
 import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -81,6 +75,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	 */
 	private static final String CATEGORY_INDEX_KEY = BasicEditorFormPage.class.getName() + ".category.name";
 	private final String CATEGORY_COMPOSITE =  "composite.";
+	private final String KIND_CHOREONOID =  "BodyIoRTC";
 
 	private Text nameText;
 	private Combo categoryCombo;
@@ -96,10 +91,12 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	private Button dataFlowBtn;
 	private Button fsmBtn;
 	private Button multiModeBtn;
+	private Group compGroup;
+	private Button choreonoidBtn;
+
 	private Text rtcTypeText;
 
 	private Button generateButton;
-	private Button packageButton;
 
 	private Button profileLoadButton;
 	private Button profileSaveButton;
@@ -160,23 +157,22 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	
 	private void switchPerspective() {
 
-		for(RtcParam rtcParam : editor.getGeneratorParam().getRtcParams() ) {
-			//Pluginの存在確認
-			LanguageProperty langProp = LanguageProperty.checkPlugin(rtcParam);
-			String currentPerspectiveId = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-	            							.getActivePage().getPerspective().getId();
-			if( langProp != null && !langProp.getPerspectiveId().equals(currentPerspectiveId) ) {
-				MessageBox message = new MessageBox(getSite().getShell(), 
-						SWT.ICON_QUESTION | SWT.YES | SWT.NO);
-				message.setText(IMessageConstants.BASIC_PERSPECTIVE_TEXT);
-				message.setMessage(IMessageConstants.BASIC_PERSPECTIVE_MSG1 + langProp.getPerspectiveName() 
-						+ IMessageConstants.BASIC_PERSPECTIVE_MSG2);
-				if( message.open() == SWT.YES) {
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().setPerspective(
-							PlatformUI.getWorkbench().getPerspectiveRegistry().findPerspectiveWithId(
-									langProp.getPerspectiveId()));
-					}
-			}
+		RtcParam rtcParam = editor.getGeneratorParam().getRtcParam();
+		//Pluginの存在確認
+		LanguageProperty langProp = LanguageProperty.checkPlugin(rtcParam);
+		String currentPerspectiveId = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+            							.getActivePage().getPerspective().getId();
+		if( langProp != null && !langProp.getPerspectiveId().equals(currentPerspectiveId) ) {
+			MessageBox message = new MessageBox(getSite().getShell(), 
+					SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+			message.setText(IMessageConstants.BASIC_PERSPECTIVE_TEXT);
+			message.setMessage(IMessageConstants.BASIC_PERSPECTIVE_MSG1 + langProp.getPerspectiveName() 
+					+ IMessageConstants.BASIC_PERSPECTIVE_MSG2);
+			if( message.open() == SWT.YES) {
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().setPerspective(
+						PlatformUI.getWorkbench().getPerspectiveRegistry().findPerspectiveWithId(
+								langProp.getPerspectiveId()));
+				}
 		}
 	}
 
@@ -230,7 +226,8 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		//Component Kind
 		if( !dataFlowBtn.getSelection() && 
 				!fsmBtn.getSelection() &&
-				!multiModeBtn.getSelection() ) {
+				!multiModeBtn.getSelection() &&
+				!choreonoidBtn.getSelection() ) {
 			result = "Please Select Component Kind.";
 		}
 		//Composite Component
@@ -245,43 +242,47 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 
 	private void createModuleSection(FormToolkit toolkit, ScrolledForm form) {
 		Composite composite = createSectionBaseWithLabel(toolkit, form, 
-				IMessageConstants.BASIC_COMPONENT_TITLE, IMessageConstants.BASIC_COMPONENT_EXPL, 2);
+				IMessageConstants.BASIC_COMPONENT_TITLE, IMessageConstants.BASIC_COMPONENT_EXPL, 3);
 		//
 		nameText = createLabelAndText(toolkit, composite, 
-				IMessageConstants.REQUIRED + IMessageConstants.BASIC_LBL_MODULENAME, SWT.NONE, SWT.COLOR_RED);
-		descriptionText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_DESCRIPTION);
+				IMessageConstants.REQUIRED + IMessageConstants.BASIC_LBL_MODULENAME, SWT.NONE, SWT.COLOR_RED, 2);
+		descriptionText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_DESCRIPTION, SWT.NONE, SWT.COLOR_BLACK, 2);
 		versionText = createLabelAndText(toolkit, composite,
-				IMessageConstants.REQUIRED + IMessageConstants.BASIC_LBL_VERSION, SWT.NONE, SWT.COLOR_RED);
+				IMessageConstants.REQUIRED + IMessageConstants.BASIC_LBL_VERSION, SWT.NONE, SWT.COLOR_RED, 2);
 		venderText = createLabelAndText(toolkit, composite,
-				IMessageConstants.REQUIRED + IMessageConstants.BASIC_LBL_VENDOR, SWT.NONE, SWT.COLOR_RED);
+				IMessageConstants.REQUIRED + IMessageConstants.BASIC_LBL_VENDOR, SWT.NONE, SWT.COLOR_RED, 2);
 		String[] defaultCategory = {};
 		categoryCombo = createEditableCombo(toolkit, composite,
 				IMessageConstants.REQUIRED + IMessageConstants.BASIC_LBL_CATEGORY,
-				CATEGORY_INDEX_KEY, defaultCategory, SWT.COLOR_RED);
+				CATEGORY_INDEX_KEY, defaultCategory, SWT.COLOR_RED, 2);
 		typeCombo = createLabelAndCombo(toolkit, composite, IMessageConstants.BASIC_LBL_COMPONENT_TYPE,
-				IRtcBuilderConstants.COMPONENT_TYPE_ITEMS);
+				IRtcBuilderConstants.COMPONENT_TYPE_ITEMS, SWT.COLOR_BLACK, 2);
 		activityTypeCombo = createLabelAndCombo(toolkit, composite, IMessageConstants.BASIC_LBL_ACTIVITY_TYPE,
-				IRtcBuilderConstants.ACTIVITY_TYPE_ITEMS);
+				IRtcBuilderConstants.ACTIVITY_TYPE_ITEMS, SWT.COLOR_BLACK, 2);
 		//
 		toolkit.createLabel(composite, IMessageConstants.BASIC_LBL_COMPONENT_KIND);
-		Group compGroup = new Group(composite, SWT.NONE);
+		
+		compGroup = new Group(composite, SWT.NONE);
 		compGroup.setLayout(new GridLayout(3, false));
 		GridData gd = new GridData();
 		compGroup.setLayoutData(gd);
 		dataFlowBtn = createRadioCheckButton(toolkit, compGroup, "DataFlow", SWT.CHECK);
 		fsmBtn = createRadioCheckButton(toolkit, compGroup, "FSM", SWT.CHECK);
 		multiModeBtn = createRadioCheckButton(toolkit, compGroup, "MultiMode", SWT.CHECK);
+		
+		choreonoidBtn = createRadioCheckButton(toolkit, composite, "Choreonoid", SWT.CHECK);
 		//
-		maxInstanceText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_MAX_INSTANCES);
+		maxInstanceText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_MAX_INSTANCES, SWT.NONE, SWT.COLOR_BLACK, 2);
 		executionTypeCombo = createLabelAndCombo(toolkit, composite, IMessageConstants.BASIC_LBL_EXECUTION_TYPE,
-				IRtcBuilderConstants.EXECUTIONCONTEXT_TYPE_ITEMS);
-		executionRateText = createLabelAndText(toolkit,	composite, IMessageConstants.BASIC_LBL_EXECUTION_RATE);
+				IRtcBuilderConstants.EXECUTIONCONTEXT_TYPE_ITEMS, SWT.COLOR_BLACK, 2);
+		executionRateText = createLabelAndText(toolkit,	composite, IMessageConstants.BASIC_LBL_EXECUTION_RATE, SWT.NONE, SWT.COLOR_BLACK, 2);
 		abstractText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_ABSTRACT, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.heightHint = 50;
 		gridData.widthHint = 100;
+		gridData.horizontalSpan = 2;
 		abstractText.setLayoutData(gridData);
-		rtcTypeText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_RTCTYPE);
+		rtcTypeText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_RTCTYPE, SWT.NONE, SWT.COLOR_BLACK, 2);
 	}
 
 	private void createHintSection(FormToolkit toolkit, ScrolledForm form) {
@@ -312,11 +313,8 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	private void createGenerateSection(FormToolkit toolkit, ScrolledForm form) {
-//		generateSection = createSectionBaseWithLabel(toolkit, form, 
-//				IMessageConstants.BASIC_GENERATE_TITLE, IMessageConstants.BASIC_GENERATE_EXPL, 2);
 		generateSection = createSectionBaseWithLabel(toolkit, form, 
-				IMessageConstants.BASIC_GENERATE_TITLE, IMessageConstants.BASIC_GENERATE_EXPL, 4);
-		//
+				IMessageConstants.BASIC_GENERATE_TITLE, IMessageConstants.BASIC_GENERATE_EXPL, 2);
 		createGenerateButton(toolkit);
 	}
 
@@ -331,20 +329,8 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					MessageDialog.openError(getSite().getShell(), "Error", validateRtcParam);
 					return;
 				}
-				//動的FSMの場合
-				boolean isDynamicFSM = false;
-				RtcParam rtcParam = editor.getRtcParam();
-				PropertyParam fsm = rtcParam.getProperty(IRtcBuilderConstants.PROP_TYPE_FSM);
-				if(fsm!=null) {
-					if(Boolean.valueOf(fsm.getValue())) {
-						PropertyParam fsmType = rtcParam.getProperty(IRtcBuilderConstants.PROP_TYPE_FSMTYTPE);
-						if(fsmType!=null && fsmType.getValue().equals(IRtcBuilderConstants.FSMTYTPE_DYNAMIC)) {
-							isDynamicFSM = true;
-						}
-					}
-				}
 				//対象プロジェクトの確認
-				IProject project = checkTargetProject(editor.getRtcParam().getOutputProject(), true);
+				IProject project = checkTargetProject();
 				if( project==null) return;
 				// 裏からファイルを削除されている可能性があるため、
 				// プロジェクトとファイルシステムの同期を取る
@@ -365,9 +351,10 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 				}
 				GeneratorParam generatorParam = editor.getGeneratorParam();
 				//TODO 複数コンポーネント対応版とする場合には複数設定
-				generatorParam.getRtcParams().get(0).getServiceClassParams().clear();
-				setPrefixSuffix(generatorParam.getRtcParams().get(0));
-				if (rtcBuilder.doGenerateWrite(generatorParam, !isDynamicFSM)) {
+				generatorParam.getRtcParam().getServiceClassParams().clear();
+				setPrefixSuffix(generatorParam.getRtcParam());
+				List<IdlPathParam> idlDirs = RTCUtil.getIDLPathes(editor.getRtcParam());
+				if (rtcBuilder.doGenerateWrite(generatorParam, idlDirs, true)) {
 					LanguageProperty langProp = LanguageProperty.checkPlugin(editor.getRtcParam());
 					if(langProp != null) {
 						try {
@@ -391,110 +378,13 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					switchPerspective();
 	        		editor.getRtcParam().resetUpdated();
 	        		editor.updateDirty();
-				}
-				if(isDynamicFSM) {
-					generateDynamicFSM();
-					return;
-				}
-			}
-
-			private void generateDynamicFSM() {
-				RtcParam rtcParam = editor.getRtcParam();
-				StateParam stateParam = rtcParam.getFsmParam();
-				
-				List<RtcParam> stateList = new ArrayList<RtcParam>();
-				
-				RtcParam stateRtc = createDefaultRTC(stateParam);
-				stateList.add(stateRtc);
-				for(StateParam subState : stateParam.getAllStateList()) {
-					RtcParam subRtc = createDefaultRTC(subState);
-					stateList.add(subRtc);
-				}
-				//
-				editor.addDefaultComboValue();
-				GuiRtcBuilder rtcBuilder = new GuiRtcBuilder();
-				List<GenerateManager> managerList = RtcBuilderPlugin.getDefault().getLoader().getManagerList();
-				if (managerList != null) {
-					for (GenerateManager manager : managerList) {
-						rtcBuilder.addGenerateManager(manager);
-					}
-				}
-				GeneratorParam generatorParam = editor.getGeneratorParam();
-				RtcParam orgRtc = generatorParam.getRtcParams().get(0);
-				
-				for(RtcParam targetFsm : stateList) {
-					IProject project = checkTargetProject(targetFsm.getOutputProject(), false);
-					if( project==null) continue;
+	        		//
 					try {
 						project.refreshLocal(IResource.DEPTH_INFINITE, null);
 					} catch (CoreException e1) {
 						throw new RuntimeException(IRTCBMessageConstants.ERROR_GENERATE_FAILED);
 					}
-					//
-					targetFsm.getServiceClassParams().clear();
-					setPrefixSuffix(targetFsm);
-					generatorParam.getRtcParams().set(0, targetFsm);
-					//
-					if (rtcBuilder.doGenerateWrite(generatorParam, false)) {
-						LanguageProperty langProp = LanguageProperty.checkPlugin(editor.getRtcParam());
-						if(langProp != null) {
-							try {
-								IProjectDescription description = project.getDescription();
-								String[] ids = description.getNatureIds();
-								String[] newIds = new String[ids.length + langProp.getNatures().size()];
-								System.arraycopy(ids, 0, newIds, 0, ids.length);
-								for( int intIdx=0; intIdx<langProp.getNatures().size(); intIdx++ ) {
-									newIds[ids.length+intIdx] = langProp.getNatures().get(intIdx);
-								}
-								description.setNatureIds(newIds);
-								project.setDescription(description, null);
-							} catch (CoreException e1) {
-								LOGGER.error(
-										"Fail to get/set description for project",
-										e1);
-							}
-						}
-					}
-					saveRtcProfile(project);
 				}
-        		editor.getRtcParam().resetUpdated();
-        		editor.updateDirty();
-				generatorParam.getRtcParams().set(0, orgRtc);
-				MessageDialog.openInformation(getSite().getShell(), "Information", "Generate success.");
-			}
-
-			private RtcParam createDefaultRTC(StateParam stateParam) {
-				List<String> langList = new ArrayList<String>();
-				List<String> langArgList = new ArrayList<String>();
-				String rtmVersion = IRtcBuilderConstants.RTM_VERSION_100;
-				langList.add(IRtcBuilderConstants.LANG_CPP);
-				langArgList.add(IRtcBuilderConstants.LANG_CPP_ARG);
-				
-				RtcParam targetRtc = new RtcParam(null, false);
-				targetRtc.setName(stateParam.getName());
-				targetRtc.setSchemaVersion(IRtcBuilderConstants.SCHEMA_VERSION);
-				targetRtc.setDescription(ComponentPreferenceManager.getInstance().getBasic_Description());
-				targetRtc.setCategory(ComponentPreferenceManager.getInstance().getBasic_Category());
-				targetRtc.setVersion(ComponentPreferenceManager.getInstance().getBasic_Version());
-				targetRtc.setVender(ComponentPreferenceManager.getInstance().getBasic_VendorName());
-				targetRtc.setComponentType(ComponentPreferenceManager.getInstance().getBasic_ComponentType());
-				targetRtc.setActivityType(ComponentPreferenceManager.getInstance().getBasic_ActivityType());
-				targetRtc.setComponentKind(ComponentPreferenceManager.getInstance().getBasic_ComponentKind());
-				targetRtc.setMaxInstance(ComponentPreferenceManager.getInstance().getBasic_MaxInstances());
-				targetRtc.setExecutionType(ComponentPreferenceManager.getInstance().getBasic_ExecutionType());
-				targetRtc.setExecutionRate(ComponentPreferenceManager.getInstance().getBasic_ExecutionRate());
-				ArrayList<String> docs = DocumentPreferenceManager.getDocumentValue();
-				for( int intidx=IRtcBuilderConstants.ACTIVITY_INITIALIZE; intidx<IRtcBuilderConstants.ACTIVITY_DUMMY; intidx++) {
-					targetRtc.setActionImplemented(intidx, docs.get(intidx));
-				}
-				targetRtc.setDocLicense(DocumentPreferenceManager.getLicenseValue());
-				targetRtc.setDocCreator(DocumentPreferenceManager.getCreatorValue());
-				//
-				targetRtc.setOutputProject(stateParam.getName());
-				targetRtc.getLangList().addAll(langList);
-				targetRtc.getLangArgList().addAll(langArgList);
-				targetRtc.setRtmVersion(rtmVersion);
-				return targetRtc;
 			}
 
 			// Profileを保存
@@ -503,35 +393,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 				try {
 					ExportCreator export = new ExportCreator();
 					export.preExport(editor);
-					//
-					List<PropertyParam> properties = editor.getRtcParam().getProperties();
-					PropertyParam fsmTarget = null;
-					for(PropertyParam param : properties) {
-						if( param.getName().equals("FSMPath")) {
-							fsmTarget = param;
-							break;
-						}
-					}
-					if(fsmTarget!=null) {
-						String orgPath = fsmTarget.getValue();
-						IFile orgFsmFile  = project.getFile(orgPath);
-						String contents = "";
-						IFile fsmFile  = null;
-						if(orgFsmFile.exists()) {
-							contents = FileUtil.readFile(orgFsmFile.getRawLocation().toOSString());
-							fsmFile = orgFsmFile;
-						} else {
-							contents = FileUtil.readFile(orgPath);
-							String fileName = new File(orgPath).getName();
-							fsmFile  = project.getFile(fileName);
-						}
-						if(fsmFile.exists()) {
-							fsmFile.delete(true, null);
-						}
-						fsmFile.create(new ByteArrayInputStream(contents.getBytes("UTF-8")), true, null);
-						fsmTarget.setValue(fsmFile.getName());
-					}
-					//
+
 					String strXml = handler.convert2XML(editor.getGeneratorParam());
 
 					IFile orgRtcxml = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML);
@@ -541,7 +403,6 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 						//バックアップ最大数以上のファイルは削除
 						FileUtil.removeBackupFiles(project, IRtcBuilderConstants.DEFAULT_RTC_XML);
 					}
-					//
 					IFile saveRtcxml = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML);
 					saveRtcxml.create(new ByteArrayInputStream(strXml.getBytes("UTF-8")), true, null);
 					//
@@ -552,23 +413,21 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 				}
 			}
 
-			private IProject checkTargetProject(String targetProject, boolean isConfirmNew) {
-				if( targetProject==null || "".equals(targetProject) ){
+			private IProject checkTargetProject() {
+				if( editor.getRtcParam().getOutputProject()==null || "".equals(editor.getRtcParam().getOutputProject()) ){
 					MessageDialog.openError(getSite().getShell(), "Error", IRTCBMessageConstants.VALIDATE_ERROR_OUTPUTPROJECT);
 					return null;
 				}
 				IWorkspaceRoot workspaceHandle = ResourcesPlugin.getWorkspace().getRoot();
-				IProject project = workspaceHandle.getProject(targetProject);
+				IProject project = workspaceHandle.getProject(editor.getRtcParam().getOutputProject());
 				if(!project.exists()) {
-					if(isConfirmNew) {
-						IWorkbench workbench = PlatformUI.getWorkbench();
-						IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-						Shell shell = window.getShell();
-						MessageBox message = new MessageBox(shell, SWT.ICON_QUESTION | SWT.YES | SWT.NO);
-						message.setText(IRTCBMessageConstants.CONFIRM_PROJECT_GENERATE_TITLE);
-						message.setMessage(IRTCBMessageConstants.CONFIRM_PROJECT_GENERATE);
-						if( message.open() != SWT.YES) return null;
-					}
+					IWorkbench workbench = PlatformUI.getWorkbench();
+					IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+					Shell shell = window.getShell();
+					MessageBox message = new MessageBox(shell, SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+					message.setText(IRTCBMessageConstants.CONFIRM_PROJECT_GENERATE_TITLE);
+					message.setMessage(IRTCBMessageConstants.CONFIRM_PROJECT_GENERATE);
+					if( message.open() != SWT.YES) return null;
 					try {
 						project.create(null);
 						project.open(null);
@@ -672,24 +531,6 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		            		}// 通常のExceptionは外側でcatchする
 		        			handler.storeToXML(selectedFileName, editor.getGeneratorParam());
 		            	}
-		            	//FSM
-		        		PropertyParam fsm = editor.getRtcParam().getProperty(IRtcBuilderConstants.PROP_TYPE_FSM);
-		        		if(fsm!=null) {
-			        		if(Boolean.valueOf(fsm.getValue())) {
-			    				String cmpName = editor.getRtcParam().getName() + "FSM.scxml";
-			    				IWorkspace workspace = ResourcesPlugin.getWorkspace();
-			    				IWorkspaceRoot root = workspace.getRoot();
-			    				IProject project = root.getProject(editor.getRtcParam().getOutputProject());
-			    				String fsmFile  = project.getFile(cmpName).getLocation().toOSString();
-			        			if(fsmFile!=null) {
-			        				String dirName = new File(selectedFileName).getParent();
-			        				String targetFile = dirName + File.separator + cmpName;
-			        				Path inputPath = FileSystems.getDefault().getPath(fsmFile);
-			        				Path outputPath = FileSystems.getDefault().getPath(targetFile);			        				
-			        				Files.copy(inputPath, outputPath);
-			        			}
-			        		}
-		        		}
 		        		export.postExport(selectedFileName, editor);
 		        		editor.getRtcParam().resetUpdated();
 		        		editor.updateDirty();
@@ -756,40 +597,6 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 							return;
 						}
 		        	}
-		        	//FSM
-	        		PropertyParam fsm = editor.getRtcParam().getProperty(IRtcBuilderConstants.PROP_TYPE_FSM);
-	        		if(fsm!=null) {
-		        		if(Boolean.valueOf(fsm.getValue())) {
-		    				FileDialog dialogFSM = new FileDialog(getSite().getShell(),SWT.OPEN);
-		    				dialogFSM.setText("FSM Import");
-		    		        
-		    				//TODO 多言語化
-		    				String[] namesFSM = new String[] { "SCXMLファイル", "XMLファイル" };
-		    				String[] extsFSM = new String[] { "*.scxml","*.xml" };
-		    				dialogFSM.setFilterNames(namesFSM);
-		    				dialogFSM.setFilterExtensions(extsFSM);
-		    				String selectedFileNameFSM = dialogFSM.open();
-		    				if(selectedFileNameFSM == null) {
-		    					fsm.setValue("false");
-		    					editor.getRtcParam().deleteFSMPort();
-		    					
-		    				} else {
-			    				String cmpName = editor.getRtcParam().getName() + "FSM.scxml";
-			    				IWorkspace workspace = ResourcesPlugin.getWorkspace();
-			    				IWorkspaceRoot root = workspace.getRoot();
-			    				IProject project = root.getProject(editor.getRtcParam().getOutputProject());
-			    				String fsmFile  = project.getLocation().toOSString() + File.separator + cmpName;
-		        				try {
-			        				Path inputPath = FileSystems.getDefault().getPath(selectedFileNameFSM);
-			        				Path outputPath = FileSystems.getDefault().getPath(fsmFile);			        				
-									Files.copy(inputPath, outputPath);
-								} catch (IOException e1) {
-									e1.printStackTrace();
-								}
-		    				}
-		        		}
-	        		}
-		        	
 					MessageDialog.openInformation(getSite().getShell(), "Finish",	IMessageConstants.BASIC_IMPORT_DONE);
 					//
 					editor.allPagesReLoad();
@@ -818,9 +625,15 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		rtcParam.setCategory(getText(categoryCombo.getText()));
 		rtcParam.setActivityType(getText(activityTypeCombo.getText()));
 		rtcParam.setComponentType(getText(typeCombo.getText()));
-		rtcParam.setComponentKind(getSelectedCompKind());
+		if(choreonoidBtn.getSelection()) {
+			rtcParam.setComponentKind(KIND_CHOREONOID);
+		} else {
+			rtcParam.setComponentKind(getSelectedCompKind());
+		}
 		rtcParam.setAbstract(getText(abstractText.getText()));
 		rtcParam.setRtcType(getText(rtcTypeText.getText()));
+		
+		rtcParam.setChoreonoid(choreonoidBtn.getSelection());
 
 		try {
 			int maxInstance = Integer.parseInt(getText(maxInstanceText
@@ -841,6 +654,18 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 			//executionRateText.setText(String.valueOf(rtcParam.getExecutionRate()));
 		}
 
+		if(choreonoidBtn.getSelection()) {
+			dataFlowBtn.setEnabled(false);
+			fsmBtn.setEnabled(false);
+			multiModeBtn.setEnabled(false);
+			compGroup.setEnabled(false);
+		} else {
+			dataFlowBtn.setEnabled(true);
+			fsmBtn.setEnabled(true);
+			multiModeBtn.setEnabled(true);
+			compGroup.setEnabled(true);
+		}
+		
 		editor.updateEMFModuleName(getText(nameText.getText()));
 		editor.updateDirty();
 	}
@@ -868,14 +693,38 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		editor.updateEMFModuleName(rtcParam.getName());
 	}
 
+	/**
+	 * 入力したカテゴリを永続情報に設定する
+	 */
 	protected void addDefaultComboValue(){
-		addDefaultComboValue(categoryCombo, CATEGORY_INDEX_KEY);
+		String value = categoryCombo.getText(); // local
+		String storedString = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(CATEGORY_INDEX_KEY);
+		StringTokenizer tokenize = new StringTokenizer(storedString, ",");
+		ArrayList<String> storedList = new ArrayList<String>();
+		while (tokenize.hasMoreTokens()) {
+			storedList.add(tokenize.nextToken());
+		}
+		if (storedList.contains(value) == false) {
+			String defaultString = RtcBuilderPlugin.getDefault()
+					.getPreferenceStore().getString(CATEGORY_INDEX_KEY);
+
+			String newString = "";
+			if ("".equals(defaultString)) {
+				newString = value;
+			} else {
+				newString = value + "," + defaultString;
+			}
+
+			RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(CATEGORY_INDEX_KEY, newString);
+			categoryCombo.add(value);
+		}
 	}
 	
 	private void loadSelectedCompKind(String type) {
 		if( type.contains("DataFlow") )           dataFlowBtn.setSelection(true);
 		if( type.contains("FiniteStateMachine") ) fsmBtn.setSelection(true);
 		if( type.contains("MultiMode") )          multiModeBtn.setSelection(true);
+		if( type.contains(KIND_CHOREONOID) )      choreonoidBtn.setSelection(true);
 	}
 	private String getSelectedCompKind() {
 		StringBuffer result = new StringBuffer();
@@ -897,8 +746,8 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	@Override
-	protected Combo createEditableCombo(FormToolkit toolkit, Composite composite, String labelString, String key, String[] defaultValue, int color) {
-		Combo combo = super.createEditableCombo(toolkit, composite, labelString, key, defaultValue, color); 
+	protected Combo createEditableCombo(FormToolkit toolkit, Composite composite, String labelString, String key, String[] defaultValue, int color, int hspan) {
+		Combo combo = super.createEditableCombo(toolkit, composite, labelString, key, defaultValue, color, hspan); 
 		GridData gd = (GridData)combo.getLayoutData();
 		gd.widthHint = 100;
 		return combo;
@@ -958,9 +807,8 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		if (widgetInfo.matchSection("generate")) {
 			if (generateSection != null) {
 				if (widgetInfo.matchWidget("code"))    setButtonEnabled(generateButton, enabled);
-				if (widgetInfo.matchWidget("package")) setButtonEnabled(packageButton, enabled);
 				boolean genEnable = false;
-				if (generateButton.getEnabled() || packageButton.getEnabled()) {
+				if (generateButton.getEnabled()) {
 					genEnable = true;
 				}
 				generateSection.setEnabled(genEnable);

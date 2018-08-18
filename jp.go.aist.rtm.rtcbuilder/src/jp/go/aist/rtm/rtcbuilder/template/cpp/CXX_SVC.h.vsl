@@ -1,6 +1,6 @@
 // -*-C++-*-
 /*!
- * @file  ${tmpltHelper.getBasename(${idlFileParam.idlFileNoExt})}${tmpltHelper.serviceImplSuffix}.h
+ * @file  ${tmpltHelper.getBasename2(${idlFileParam.idlFileNoExt})}${tmpltHelper.serviceImplSuffix}.h
  * @brief Service implementation header of ${idlFileParam.idlFile}
 #parse("${template}/cpp/_doc.vsl")
  */
@@ -18,7 +18,7 @@ ${sharp}define ${idlFileParam.idlFileNoExt.toUpperCase()}${tmpltHelper.serviceIm
  
 #foreach($serviceClassParam in ${idlFileParam.serviceClassParams})
 /*!
- * @class ${tmpltHelper.getBasename(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}
+ * @class ${tmpltHelper.getBasename2(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}
  * Example class implementing IDL interface ${cXXConv.convertDelimiter(${serviceClassParam.name})}
  */
 class ${tmpltHelper.getBasename2(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}
@@ -28,13 +28,13 @@ class ${tmpltHelper.getBasename2(${serviceClassParam.name})}${tmpltHelper.servic
  private:
    // Make sure all instances are built on the heap by making the
    // destructor non-public
-   //virtual ~${tmpltHelper.getBasename(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}();
+   //virtual ~${tmpltHelper.getBasename2(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}();
 
  public:
   /*!
    * @brief standard constructor
    */
-   ${tmpltHelper.getBasename(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}();
+   ${tmpltHelper.getBasename2(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}();
   /*!
    * @brief destructor
    */

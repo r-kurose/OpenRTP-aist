@@ -1,8 +1,10 @@
 package jp.go.aist.rtm.rtcbuilder;
 
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -24,16 +26,19 @@ import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.ParseException;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.specification;
 import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
+import jp.go.aist.rtm.rtcbuilder.generator.HeaderException;
 import jp.go.aist.rtm.rtcbuilder.generator.IDLParamConverter;
 import jp.go.aist.rtm.rtcbuilder.generator.PreProcessor;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.PropertyParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceArgumentParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceMethodParam;
@@ -44,8 +49,8 @@ import jp.go.aist.rtm.rtcbuilder.manager.CXXGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.CommonGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.ui.editors.IMessageConstants;
-import jp.go.aist.rtm.rtcbuilder.ui.preference.DataTypePreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
+import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
 import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 import jp.go.aist.rtm.rtcbuilder.util.ValidationUtil;
 
@@ -68,6 +73,7 @@ public class Generator {
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(Generator.class);
+	private String warningMessage = "";
 
 	Map<String, GenerateManager> generateManagerList = new HashMap<String, GenerateManager>();
 
@@ -75,6 +81,10 @@ public class Generator {
 		this.addGenerateManager(new CommonGenerateManager());
 		this.addGenerateManager(new CXXGenerateManager());
 		this.addGenerateManager(new CMakeGenerateManager());
+	}
+
+	public String getWarningMessage() {
+		return warningMessage;
 	}
 
 	/**
@@ -95,11 +105,41 @@ public class Generator {
 		generateManagerList.clear();
 	}
 
-	public List<GeneratedResult> generateTemplateCode(
-			GeneratorParam generatorParam) throws Exception {
-		return generateTemplateCode(generatorParam, null, true);
+	public List<GeneratedResult> generateTemplateCode(GeneratorParam generatorParam) throws Exception {
+		validate(generatorParam.getRtcParam());
+		return generateTemplateCode(generatorParam, null);
 	}
 
+	public void validateIDLDef(GeneratorParam generatorParam, List<IdlPathParam> idlDir) throws Exception {
+		RtcParam rtcParam  = generatorParam.getRtcParam();
+		
+		List<String> checkedIDL = new ArrayList<String>();
+		List<String> dummy = new ArrayList<String>();
+		
+		for( ServicePortParam serviceport : rtcParam.getServicePorts() ) {
+			for( ServicePortInterfaceParam serviceInterfaces : serviceport.getServicePortInterfaces() ) {
+				String targetIDL = serviceInterfaces.getIdlFullPath();
+				if(checkedIDL.contains(targetIDL)) continue;
+				checkedIDL.add(targetIDL);
+				//
+				File file = new File(targetIDL);
+				if(file.exists()==false) {
+					throw new FileNotFoundException("Target IDL File [" + targetIDL + "] NOT EXists.");
+				}
+				String idlContent = FileUtil.readFile(targetIDL);
+				if (idlContent == null) continue;
+				List<String> idlSearchDirs = new ArrayList<String>();
+				idlSearchDirs.add(serviceInterfaces.getIdlSearchPath());
+				if(idlDir!=null){
+					for(IdlPathParam each : idlDir) {
+						idlSearchDirs.add(each.getPath());
+					}
+				}
+				PreProcessor.parse(idlContent, idlSearchDirs, dummy, true);
+			}
+		}
+	}
+	
 	/**
 	 * ジェネレートする
 	 * 
@@ -110,14 +150,7 @@ public class Generator {
 	 *             IDLのパースに失敗した場合など
 	 */
 	public List<GeneratedResult> generateTemplateCode(
-			GeneratorParam generatorParam, List<String> idlDir, boolean validateFlag)
-			throws Exception {
-
-		if( validateFlag ) {
-			for( RtcParam rtcParam : generatorParam.getRtcParams() ) {
-				validate(rtcParam);
-			}
-		}
+			GeneratorParam generatorParam, List<IdlPathParam> idlDir) throws Exception {
 
 		List<ServiceClassParam> rtcServiceClasses = new ArrayList<ServiceClassParam>();
 		//IDL重複チェック用
@@ -125,60 +158,99 @@ public class Generator {
 		//IDL読み込み用
 		List<ServiceClassParam> IDLPathParams = new ArrayList<ServiceClassParam>();
 		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
-		for( RtcParam rtcParam : generatorParam.getRtcParams() ) {
-			//onImplementedフラグの修正
-			for(int index=IRtcBuilderConstants.ACTIVITY_INITIALIZE;index<IRtcBuilderConstants.ACTIVITY_DUMMY;index++) {
-				if(rtcParam.getDetailContent(index)!=null && 0<rtcParam.getDetailContent(index).length()) {
-					rtcParam.setActionImplemented(index, true);
-				}
+		
+		RtcParam rtcParam =  generatorParam.getRtcParam();
+		//onImplementedフラグの修正
+		for(int index=IRtcBuilderConstants.ACTIVITY_INITIALIZE;index<IRtcBuilderConstants.ACTIVITY_DUMMY;index++) {
+			if(rtcParam.getDetailContent(index)!=null && 0<rtcParam.getDetailContent(index).length()) {
+				rtcParam.setActionImplemented(index, true);
 			}
-			rtcParam.checkAndSetParameter();
-			rtcParam.getIdlPathes().clear();
-			for( ServicePortParam serviceport : rtcParam.getServicePorts() ) {
-				for( ServicePortInterfaceParam serviceInterfaces : serviceport.getServicePortInterfaces() ) {
-					if( !IDLPathes.contains(serviceInterfaces.getIdlFullPath()) ) {
-						IDLPathes.add(serviceInterfaces.getIdlFullPath());
-						IDLPathParams.add(new ServiceClassParam(serviceInterfaces.getIdlFullPath(),
-																 serviceInterfaces.getIdlSearchPath()));
+		}
+		rtcParam.checkAndSetParameter();
+		rtcParam.getIdlPathes().clear();
+		//
+		for( DataPortParam outport : rtcParam.getOutports() ) {
+			if(0<outport.getIdlFile().length()) {
+				IDLPathes.add(outport.getIdlFile());
+				IDLPathParams.add(new ServiceClassParam(outport.getIdlFile(), ""));
+			}
+		}
+		for( DataPortParam inport : rtcParam.getInports() ) {
+			if(0<inport.getIdlFile().length()) {
+				IDLPathes.add(inport.getIdlFile());
+				IDLPathParams.add(new ServiceClassParam(inport.getIdlFile(), ""));
+			}
+		}
+		for( ConfigSetParam config : rtcParam.getConfigParams() ) {
+			if(0<config.getIdlFile().length()) {
+				IDLPathes.add(config.getIdlFile());
+				IDLPathParams.add(new ServiceClassParam(config.getIdlFile(), ""));
+			}
+		}
+		//
+		for( ServicePortParam serviceport : rtcParam.getServicePorts() ) {
+			for( ServicePortInterfaceParam serviceInterfaces : serviceport.getServicePortInterfaces() ) {
+				if( !IDLPathes.contains(serviceInterfaces.getIdlFullPath()) ) {
+					IDLPathes.add(serviceInterfaces.getIdlFullPath());
+					IDLPathParams.add(new ServiceClassParam(serviceInterfaces.getIdlFullPath(),
+															 serviceInterfaces.getIdlSearchPath()));
+				}
+				if( 0<serviceInterfaces.getIdlSearchPath().length()) {
+					boolean existed = false;
+					for(IdlPathParam exist : rtcParam.getIdlPathes()) {
+						if(exist.getPath().equals(serviceInterfaces.getIdlSearchPath())) {
+							existed = true;
+							break;
+						}
 					}
-					if( 0<serviceInterfaces.getIdlSearchPath().length() &&
-							rtcParam.getIdlPathes().contains(serviceInterfaces.getIdlSearchPath())==false) {
-						rtcParam.getIdlPathes().add(serviceInterfaces.getIdlSearchPath());
+					if(existed==false) {
+						rtcParam.getIdlPathes().add(new IdlPathParam(serviceInterfaces.getIdlSearchPath(), false));
 					}
 				}
 			}
-			rtcParam.getIdlPathes().addAll(DataTypePreferenceManager.getInstance().getIdlFileDirectories());
-			if(idlDir!=null) {
-				rtcParam.getIdlPathes().addAll(idlDir);
-			}
-			
-			rtcServiceClasses.addAll(getRtcServiceClass(rtcParam, IDLPathParams));
-			checkReferencedServiceParam(rtcServiceClasses, rtcParam);
-			List<ServiceClassParam> serviceClassParamList = new ArrayList<ServiceClassParam>();
-			List<String> serviceClassNameList = new ArrayList<String>();
-			for( ServiceClassParam serviceClassParam : rtcServiceClasses ) {
-				if( !serviceClassNameList.contains(serviceClassParam.getName()) ) {
-					serviceClassNameList.add(serviceClassParam.getName());
-					serviceClassParamList.add(serviceClassParam);
+		}
+		if(idlDir!=null) {
+			for(IdlPathParam param : idlDir) {
+				if( 0< param.getPath().length() ) {
+					boolean existed = false;
+					for(IdlPathParam exist : rtcParam.getIdlPathes()) {
+						if(exist.getPath().equals(param.getPath())) {
+							existed = true;
+							break;
+						}
+					}
+					if(existed==false) {
+						rtcParam.getIdlPathes().add(new IdlPathParam(param.getPath(), false));
+					}
 				}
 			}
-			rtcParam.getServiceClassParams().clear();
-	
-			for( ServiceClassParam param : serviceClassParamList ) {
-				param.setParent(rtcParam);
-				rtcParam.getServiceClassParams().add(param);
+		}
+		
+		rtcServiceClasses.addAll(getRtcServiceClass(rtcParam, IDLPathParams, idlDir, generatorParam.getDataTypeParams()));
+		checkReferencedServiceParam(rtcServiceClasses, rtcParam);
+		
+		List<ServiceClassParam> serviceClassParamList = new ArrayList<ServiceClassParam>();
+		List<String> serviceClassNameList = new ArrayList<String>();
+		for( ServiceClassParam serviceClassParam : rtcServiceClasses ) {
+			if( !serviceClassNameList.contains(serviceClassParam.getName()) ) {
+				serviceClassNameList.add(serviceClassParam.getName());
+				serviceClassParamList.add(serviceClassParam);
 			}
-			List<GeneratedResult> resultEach = new ArrayList<GeneratedResult>();
-			for (String key : generateManagerList.keySet()) {
-				GenerateManager manager = generateManagerList.get(key);
-				if (!"Common".equals(manager.getManagerKey())
-						&& !rtcParam.getLangList().contains(
-								manager.getManagerKey())) {
-					continue;
-				}
-				resultEach.addAll(manager.generateTemplateCode(rtcParam));
+		}
+		rtcParam.getServiceClassParams().clear();
+
+		for( ServiceClassParam param : serviceClassParamList ) {
+			param.setParent(rtcParam);
+			rtcParam.getServiceClassParams().add(param);
+		}
+		for (String key : generateManagerList.keySet()) {
+			GenerateManager manager = generateManagerList.get(key);
+			if (!"Common".equals(manager.getManagerKey())
+					&& !rtcParam.getLangList().contains(
+							manager.getManagerKey())) {
+				continue;
 			}
-			result.addAll(resultEach);
+			result.addAll(manager.generateTemplateCode(rtcParam));
 		}
 
 		return result;
@@ -189,7 +261,7 @@ public class Generator {
 	 * 
 	 * @param generatorParam
 	 */
-	private void validate(RtcParam rtcParam) {
+	public void validate(RtcParam rtcParam) {
 
 		if( rtcParam.getOutputProject() == null ) {
 			throw new RuntimeException(IRTCBMessageConstants.VALIDATE_ERROR_OUTPUTPROJECT);
@@ -323,7 +395,7 @@ public class Generator {
 	 * @throws ParseException
 	 */
 	private List<ServiceClassParam> getRtcServiceClass(RtcParam rtcParam,
-			List<ServiceClassParam> IDLPathes) throws ParseException {
+			List<ServiceClassParam> IDLPathes, List<IdlPathParam> idlDir, List<DataTypeParam> dataList) throws ParseException, HeaderException {
 		List<ServiceClassParam> result = new ArrayList<ServiceClassParam>();
 		List<String> includeFiles = new ArrayList<String>();
 
@@ -333,31 +405,16 @@ public class Generator {
 			List<String> incs = new ArrayList<String>();
 			String idl = null;
 			try {
-				String fileName = sv.getName();
-				File file = new File(fileName);
-				if(file.exists()==false) {
-					for(String path : rtcParam.getIdlPathes()) {
-						String fullName = path + File.separator + fileName; 
-						file = new File(fullName);
-						if(file.exists()) {
-							for( IdlFileParam idlFile : rtcParam.getProviderIdlPathes() ) {
-								if( idlFile.getIdlFile().equals(fileName) ) {
-									idlFile.setIdlPath(fullName);
-								}
-							}
-							for( IdlFileParam idlFile : rtcParam.getConsumerIdlPathes() ) {
-								if( idlFile.getIdlFile().equals(fileName) ) {
-									idlFile.setIdlPath(fullName);
-								}
-							}
-							fileName = fullName;
-							break;
-						}
+				String idlContent = FileUtil.readFile(sv.getName());
+				if (idlContent == null) continue;
+				List<String> pathList = new ArrayList<String>();
+				pathList.add(sv.getIdlPath());
+				if(idlDir!=null) {
+					for(IdlPathParam each : idlDir) {
+						pathList.add(each.getPath());
 					}
 				}
-				String idlContent = FileUtil.readFile(fileName);
-				if (idlContent == null) continue;
-				idl = PreProcessor.parse(idlContent, getIncludeIDLDic(sv.getIdlPath()), incs);
+				idl = PreProcessor.parse(idlContent, pathList, incs, false);
 			} catch (IOException e) {
 				continue;
 			}
@@ -366,7 +423,25 @@ public class Generator {
 			specification spec = parser.specification();
 
 			List<ServiceClassParam> serviceClassParams = IDLParamConverter.convert(spec, sv.getName());
+			if(IDLParamConverter.checkSuperInterface(serviceClassParams, false)==false) {
+				warningMessage = "No parent interface definition found. Please check the IDL and included IDL files. ";
+			}
 			List<TypeDefParam> typedefParams = IDLParamConverter.convert_typedef(spec, sv.getName());
+			for(TypeDefParam param : typedefParams) {
+				String defFull = "";
+				if( 0<param.getModuleName().length() ) {
+					defFull = param.getModuleName() + "::" + param.getTargetDef();
+				} else {
+					defFull = param.getTargetDef();
+				}
+				for(DataTypeParam dataParam : dataList) {
+					if(dataParam.isDefault()==false) continue;
+					if(dataParam.getDefinedTypes().contains(defFull)) {
+						param.setDefault(true);
+						break;
+					}
+				}
+			}
 			if (typedefParams.size() > 0) {
 				serviceClassParams = convertType(serviceClassParams, typedefParams);
 			}
@@ -491,6 +566,7 @@ public class Generator {
 
 	private void checkMethodType(ServiceMethodParam target, List<TypeDefParam> types) {
 		String targetFull = target.getModule() + target.getType();
+		String targetType = target.getType();
 		//
 		for(TypeDefParam tdparam : types) {
 			String defFull = "";
@@ -499,7 +575,17 @@ public class Generator {
 			} else {
 				defFull = tdparam.getTargetDef();
 			}
-			if(targetFull.equals(defFull)) {
+			boolean isHit = false;
+			if(tdparam.isDefault()) {
+				if(targetType.equals(defFull)) {
+					isHit = true;
+				}
+			} else {
+				if(targetFull.equals(defFull)) {
+					isHit = true;
+				}
+			}
+			if(isHit) {
 				target.setSequence(tdparam.isSequence());
 				target.setArray(tdparam.isArray());
 				target.setArrayDim(tdparam.getArrayDim());
@@ -508,6 +594,7 @@ public class Generator {
 				target.setUnbounded(tdparam.isUnbounded());
 				target.setAlias(tdparam.isAlias());
 				target.setInterface(tdparam.isInterface());
+				target.setDefault(tdparam.isDefault());
 				break;
 			}
 		}
@@ -522,7 +609,10 @@ public class Generator {
 			} else {
 				defFull = tdparam.getTargetDef();
 			}
-			if(targetFull.equals(defFull)) {
+			if(targetFull.equals(defFull) || target.getType().equals(defFull)) {
+				if(target.getType().equals(defFull)) {
+					target.setModule("");
+				}
 				target.setOriginalType(tdparam.getOriginalDef());
 				target.setUnbounded(tdparam.isSequence() || tdparam.isUnbounded());
 				target.setArray(tdparam.isArray());
@@ -549,19 +639,6 @@ public class Generator {
 		return target;
 	}
 
-	private File getIncludeIDLDic(String targetDir) {
-		File result = null;
-		if( targetDir!=null && targetDir.length()>0 ) {
-			File file = new File(targetDir);
-			if (file.exists()) {
-				result = file;
-			} else {
-				throw new RuntimeException(IRTCBMessageConstants.ERROR_IDL_DIRECTORY_NOT_FOUND);
-			}
-		}
-		return result;
-	}
-
 	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(
 			"yyyyMMddHHmmss");
 
@@ -580,6 +657,7 @@ public class Generator {
 			}
 		}
 		for( IdlFileParam idlFile : rtcParam.getProviderIdlPathes() ) {
+			if(RTCUtil.checkDefault(idlFile.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
 			IFile idlTarget = project.getFile("idl" + File.separator + idlFile.getIdlFile());
 			if( !idlTarget.getLocation().toOSString().equals(idlFile.getIdlPath()) )  {
 				idlTarget.delete(true, null);
@@ -587,6 +665,7 @@ public class Generator {
 			}
 		}
 		for( IdlFileParam idlFile : rtcParam.getConsumerIdlPathes() ) {
+			if(RTCUtil.checkDefault(idlFile.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
 			IFile idlTarget = project.getFile("idl" + File.separator + idlFile.getIdlFile());
 			if( !idlTarget.getLocation().toOSString().equals(idlFile.getIdlPath()) )  {
 				idlTarget.delete(true, null);
@@ -595,6 +674,7 @@ public class Generator {
 		}
 		//
 		for( String includedIdlFile : rtcParam.getIncludedIdls() ) {
+			if(RTCUtil.checkDefault(includedIdlFile, rtcParam.getParent().getDataTypeParams())) continue;
 			File target = new File(includedIdlFile);
 			IFile idlTarget = project.getFile("idl" + File.separator + target.getName());
 			if( !idlTarget.getLocation().toOSString().equals(includedIdlFile) )  {
@@ -608,12 +688,12 @@ public class Generator {
 		copyFigure("icons/rt_middleware_banner.bmp", project, "cmake/rt_middleware_banner.bmp");
 		copyFigure("icons/rt_middleware_dlg.bmp", project, "cmake/rt_middleware_dlg.bmp");
 	}
-
+	
 	private void copyFigure(String source, IProject outputProject, String dist) {
 		try {
 			URL bundleUrl = this.getClass().getClassLoader().getResource(source);
 			URL jarUrl = org.eclipse.core.runtime.FileLocator.toFileURL(bundleUrl);	
-			URI uri = URI.create(jarUrl.toString().replace(File.separator, "/"));
+			URI uri = URI.create(jarUrl.toString().replace(" ", "%20").replace(File.separator, "/"));
 			
 			File targetFile = new File(outputProject.getLocation().toOSString(), dist);
 			
@@ -677,20 +757,21 @@ public class Generator {
 					}
 				}
 			}
-//			try {
-//				outputFile.create(new ByteArrayInputStream(generatedResult.getCode().getBytes("UTF-8")), false, null);
-//			} catch (CoreException e) {
-//				LOGGER.error("Fail to create file", e);
-//			}
 			try {
-				String strFullPath = outputFile.getLocation().toOSString();
-				FileOutputStream fos = new FileOutputStream(strFullPath);
-				fos.write(0xef); fos.write(0xbb); fos.write(0xbf);				
-				OutputStreamWriter osw = new OutputStreamWriter( fos , "UTF-8");
-				BufferedWriter fp = new BufferedWriter( osw );
-				fp.write ( generatedResult.getCode());
-				fp.flush();
-				fp.close();				
+				if(generatedResult.getEncode().length()==0) {
+					String strFullPath = outputFile.getLocation().toOSString();
+					FileOutputStream fos = new FileOutputStream(strFullPath);
+					if(generatedResult.isNotBom()==false) {
+						fos.write(0xef); fos.write(0xbb); fos.write(0xbf);
+					}
+					OutputStreamWriter osw = new OutputStreamWriter( fos , "UTF-8");
+					BufferedWriter fp = new BufferedWriter( osw );
+					fp.write ( generatedResult.getCode());
+					fp.flush();
+					fp.close();				
+				} else {
+					outputFile.create(new ByteArrayInputStream(generatedResult.getCode().getBytes(generatedResult.getEncode())), false, null);
+				}
 			} catch (Exception e) {
 				LOGGER.error("Fail to create file", e);
 			}
@@ -707,13 +788,13 @@ public class Generator {
 	 * @throws ParseException
 	 * @throws IOException
 	 */
-	public void doGenerateWrite(GeneratorParam generatorParam,
+	public void doGenerateWrite(GeneratorParam generatorParam, List<IdlPathParam> idlDirs,
 			MergeHandler handler) throws Exception {
-		
-		for( RtcParam rtcParam : generatorParam.getRtcParams() ) {
-			List<GeneratedResult> generatedResult = generateTemplateCode(generatorParam);
-			writeFile(generatedResult, rtcParam, handler);
-		}
+		warningMessage = "";
+		RtcParam rtcParam =  generatorParam.getRtcParam();
+		validate(rtcParam);
+		List<GeneratedResult> generatedResult = generateTemplateCode(generatorParam, idlDirs);
+		writeFile(generatedResult, rtcParam, handler);
 	}
 
 	/**

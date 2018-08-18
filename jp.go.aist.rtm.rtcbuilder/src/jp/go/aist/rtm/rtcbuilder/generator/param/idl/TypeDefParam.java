@@ -17,15 +17,12 @@ public class TypeDefParam implements Serializable {
 	private boolean isSequence;
 	private boolean isString;
 	private boolean isArray;
-	private boolean isInnerArray;
 	private boolean isStruct;
-	private boolean isEnum;
-	private boolean isChildString;
-	private boolean isChildDouble;
 
 	private boolean isUnbounded;
 	private boolean isInterface;
 	private boolean isAlias;
+	private boolean isDefault;
 
 	private int arrayDim;
 
@@ -39,11 +36,7 @@ public class TypeDefParam implements Serializable {
 		isSequence = false;
 		isString = false;
 		isArray = false;
-		isInnerArray = false;
 		isStruct = false;
-		isEnum = false;
-		isChildString = false;
-		isChildDouble = false;
 
 		isUnbounded = false;
 		isInterface = false;
@@ -102,39 +95,11 @@ public class TypeDefParam implements Serializable {
 		this.isArray = isArray;
 	}
 
-	public boolean isInnerArray() {
-		return isInnerArray;
-	}
-	public void setInnerArray(boolean isInnerArray) {
-		this.isInnerArray = isInnerArray;
-	}
-	
 	public boolean isStruct() {
 		return isStruct;
 	}
 	public void setStruct(boolean isStruct) {
 		this.isStruct = isStruct;
-	}
-
-	public boolean isEnum() {
-		return isEnum;
-	}
-	public void setEnum(boolean isEnum) {
-		this.isEnum = isEnum;
-	}
-
-	public boolean isChildString() {
-		return isChildString;
-	}
-	public void setChildString(boolean isChildString) {
-		this.isChildString = isChildString;
-	}
-
-	public boolean isChildDouble() {
-		return isChildDouble;
-	}
-	public void setChildDouble(boolean isChildDouble) {
-		this.isChildDouble = isChildDouble;
 	}
 
 	public List<String> getChildType() {
@@ -167,5 +132,12 @@ public class TypeDefParam implements Serializable {
 	}
 	public void setArrayDim(int dim) {
 		this.arrayDim = dim;
+	}
+
+	public boolean isDefault() {
+		return isDefault;
+	}
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
 	}
 }

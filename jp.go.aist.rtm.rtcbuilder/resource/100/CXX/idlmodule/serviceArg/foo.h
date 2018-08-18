@@ -29,7 +29,6 @@
 // <rtc-template block="port_stub_h">
 // </rtc-template>
 
-
 #include <rtm/Manager.h>
 #include <rtm/DataFlowComponentBase.h>
 #include <rtm/CorbaPort.h>
@@ -256,7 +255,7 @@ class foo
   // <rtc-template block="service_declare">
   /*!
    */
-  MyServiceSVC_impl m_if_name;
+  RTC_RTM_MyServiceSVC_impl m_if_name;
   
   // </rtc-template>
 
@@ -264,7 +263,6 @@ class foo
   // <rtc-template block="consumer_declare">
   
   // </rtc-template>
-
 
  private:
   // <rtc-template block="private_attribute">

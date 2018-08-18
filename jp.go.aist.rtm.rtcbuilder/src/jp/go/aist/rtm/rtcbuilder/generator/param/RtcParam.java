@@ -15,7 +15,9 @@ import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
 import jp.go.aist.rtm.rtcbuilder.generator.ProfileHandler;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
+import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
 
 import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
 
@@ -93,7 +95,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	private List<String> originalConsumerIdls = new ArrayList<String>();
 	
 	private List<String> includedIdls = new ArrayList<String>();
-	private List<String> idlPathes = new ArrayList<String>();
+	private List<IdlPathParam> idlPathes = new ArrayList<IdlPathParam>();
 
 	private RecordedList<String> privateAttributes = new RecordedList<String>();
 	private RecordedList<String> protectedAttributes = new RecordedList<String>();
@@ -122,6 +124,8 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	private String rtm_version = IRtcBuilderConstants.DEFAULT_RTM_VERSION;
 	private String rtm_java_version = IRtcBuilderConstants.DEFAULT_RTM_VERSION;
 	private boolean test_version = false;
+	
+	private boolean isChoreonoid = false;
 
 	public RtcParam(GeneratorParam parent) {
 		this(parent, false);
@@ -141,13 +145,13 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		}
 		//
 		actions = new RecordedList<ActionsParam>();
-		for (int intidx = IRtcBuilderConstants.ACTIVITY_INITIALIZE; intidx < IRtcBuilderConstants.ACTIVITY_MODE_CHANGED + 1; intidx++) {
+		for (int intidx = IRtcBuilderConstants.ACTIVITY_INITIALIZE; intidx < IRtcBuilderConstants.ACTIVITY_DUMMY; intidx++) {
 			actions.add(new ActionsParam());
 		}
 		//
 		setUpdated(false);
 	}
-	/////
+
 	public List<String> getPrivateOperations() {
 		return privateOperations;
 	}
@@ -573,7 +577,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		}
 		return result;
 	}
-	public List<String> getIdlPathes() {
+	public List<IdlPathParam> getIdlPathes() {
 		return idlPathes;
 	}
 	//
@@ -657,9 +661,14 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		this.configurationSuffix = configurationSuffix;
 	}
 
+	public boolean isChoreonoid() {
+		return isChoreonoid;
+	}
+	public void setChoreonoid(boolean value) {
+		isChoreonoid = value;
+	}
 	//
 	public void checkAndSetParameter() {
-
 		List<String> providerIdlStrings = new ArrayList<String>();
 		List<String> consumerIdlStrings = new ArrayList<String>();
 		List<String> idlPathes = new ArrayList<String>();
@@ -691,13 +700,28 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		}
 		/////
 		for( DataPortParam target : inports ) {
-			checkAndAddIDLPath(target.getType(), idlPathes, consumerIdlStrings, consumerIdlParams);
+			List<String> localIdlPathes = new ArrayList<String>();
+			checkAndAddIDLPath(target.getType(), localIdlPathes, consumerIdlStrings, consumerIdlParams);
+			if(0<localIdlPathes.size()) {
+				idlPathes.addAll(localIdlPathes);
+				target.setIdlFile(localIdlPathes.get(0));
+			}
 		}
 		for( DataPortParam target : outports ) {
-			checkAndAddIDLPath(target.getType(), idlPathes, consumerIdlStrings, consumerIdlParams);
+			List<String> localIdlPathes = new ArrayList<String>();
+			checkAndAddIDLPath(target.getType(), localIdlPathes, consumerIdlStrings, consumerIdlParams);
+			if(0<localIdlPathes.size()) {
+				idlPathes.addAll(localIdlPathes);
+				target.setIdlFile(localIdlPathes.get(0));
+			}
 		}
 		for( ConfigSetParam target : configParams ) {
-			checkAndAddIDLPath(target.getType(), idlPathes, consumerIdlStrings, consumerIdlParams);
+			List<String> localIdlPathes = new ArrayList<String>();
+			checkAndAddIDLPath(target.getType(), localIdlPathes, consumerIdlStrings, consumerIdlParams);
+			if(0<localIdlPathes.size()) {
+				idlPathes.addAll(localIdlPathes);
+				target.setIdlFile(localIdlPathes.get(0));
+			}
 		}
 		/////
 		for( ServicePortInterfaceParam serviceInterface : serviceIFs ) {
@@ -834,14 +858,14 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	public void setPublicOpeSource(String publicOpeSource) {
 		this.publicOpeSource = publicOpeSource;
 	}
-	
+
 	public StateParam getFsmParam() {
 		return fsmParam;
 	}
 	public void setFsmParam(StateParam fsmParam) {
 		this.fsmParam = fsmParam;
 	}
-
+	
 	@Override
 	public boolean isUpdated() {
 		if (super.isUpdated()) {
@@ -888,6 +912,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		//
 		this.targetEnvs.resetUpdated();
 	}
+	
 	/////
 	public void addFSMPort() {
 		boolean isExist = false;

@@ -30,7 +30,6 @@
 using namespace MyType;
 // </rtc-template>
 
-
 #include <rtm/Manager.h>
 #include <rtm/DataFlowComponentBase.h>
 #include <rtm/CorbaPort.h>
@@ -271,7 +270,6 @@ class foo
   // <rtc-template block="consumer_declare">
   
   // </rtc-template>
-
 
  private:
   // <rtc-template block="private_attribute">

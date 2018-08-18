@@ -1,8 +1,4 @@
-set(comp_srcs
-    ${rtcParam.name}.cpp
-#if( ${tmpltHelper.checkFSM(${rtcParam})} )    ${rtcParam.name}FSM.cpp
-#end
-    #foreach($providerIdlFile in ${rtcParam.providerIdlPathes})${tmpltHelper.getFilenameNoExt(${providerIdlFile.idlFile})}${tmpltHelper.serviceImplSuffix}.cpp #end)
+set(comp_srcs ${rtcParam.name}.cpp #foreach($providerIdlFile in ${rtcParam.providerIdlPathes})${tmpltHelper.getFilenameNoExt(${providerIdlFile.idlFile})}${tmpltHelper.serviceImplSuffix}.cpp #end)
 set(standalone_srcs ${rtcParam.name}Comp.cpp)
 
 if (DEFINED OPENRTM_INCLUDE_DIRS)
@@ -45,7 +41,7 @@ add_library(${dol}{PROJECT_NAME} ${dol}{LIB_TYPE} ${dol}{comp_srcs}
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "")
 set_source_files_properties(${dol}{ALL_IDL_SRCS} PROPERTIES GENERATED 1)
 if(NOT TARGET ALL_IDL_TGT)
-  add_custom_target(ALL_IDL_TGT)
+ add_custom_target(ALL_IDL_TGT)
 endif(NOT TARGET ALL_IDL_TGT)
 add_dependencies(${dol}{PROJECT_NAME} ALL_IDL_TGT)
 target_link_libraries(${dol}{PROJECT_NAME} ${dol}{OPENRTM_LIBRARIES})

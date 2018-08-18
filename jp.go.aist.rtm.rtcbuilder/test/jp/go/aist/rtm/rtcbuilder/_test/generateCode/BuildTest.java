@@ -1,4 +1,4 @@
-package jp.go.aist.rtm.rtcbuilder._test._100;
+package jp.go.aist.rtm.rtcbuilder._test.generateCode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +12,9 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
-
 import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
 
-public class CXXBuildTest extends TestBase {
+public class BuildTest extends TestBase {
 
 	GeneratorParam genParam;
 	RtcParam rtcParam;
@@ -31,7 +30,7 @@ public class CXXBuildTest extends TestBase {
 		rtcParam.setLanguageArg(LANG_CPP_ARG);
 		rtcParam.setRtmVersion(RTM_VERSION_100);
 		rtcParam.setIsTest(true);
-		genParam.getRtcParams().add(rtcParam);
+		genParam.setRtcParam(rtcParam);
 
 		generator = new Generator();
 	}
@@ -88,7 +87,7 @@ public class CXXBuildTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "/";
 
-		assertEquals(default_file_num+2, result.size());
+		assertEquals(default_file_num+4, result.size());
 		checkCode(result, resourceDir, "src/fooComp.cpp");
 		checkCode(result, resourceDir, "include/foo/foo.h");
 		checkCode(result, resourceDir, "src/foo.cpp");

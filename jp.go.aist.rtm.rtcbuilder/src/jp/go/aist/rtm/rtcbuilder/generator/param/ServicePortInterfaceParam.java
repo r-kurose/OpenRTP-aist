@@ -140,8 +140,6 @@ public class ServicePortInterfaceParam extends AbstractRecordedParam implements
 		return selection;
 	}
 	public String getIdlFullPath() {
-//		if( idlSearchPath != null && idlSearchPath.length()>0 )
-//			return idlSearchPath + File.separator + idlfile;
 		return idlfile;
 	}
 	//

@@ -36,7 +36,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -511,6 +510,7 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 				}
 			}
 		}
+		//
 		langVersionViewer.setInput(rtcParam.getTargetEnvs());
 		//
 		StructuredSelection selection = (StructuredSelection) langVersionViewer
@@ -535,6 +535,12 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 			result = IMessageConstants.LANGUAGE_SELECTION_CAUTION;
 			return result;
 		}
+		
+		if(rtcParam.isChoreonoid() && rtcParam.getLangList().contains(IRtcBuilderConstants.LANG_CPP)==false ) {
+			result = IMessageConstants.LANGUAGE_CHOREONOID_CAUTION;
+			return result;
+		}
+		
 		return null;
 	}
 

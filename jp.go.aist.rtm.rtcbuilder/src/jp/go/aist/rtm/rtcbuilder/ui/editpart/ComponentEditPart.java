@@ -6,12 +6,13 @@ import java.util.List;
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.model.component.Component;
 import jp.go.aist.rtm.rtcbuilder.ui.figure.ComponentFigure;
-import jp.go.aist.rtm.rtcbuilder.ui.preference.BuilderViewPreferenceManager;
+import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.PlatformUI;
 
 public class ComponentEditPart extends AbstractEditPart {
@@ -20,8 +21,7 @@ public class ComponentEditPart extends AbstractEditPart {
 	protected IFigure createFigure() {
 		String componentName = getModel().getComponent_Name();
 		
-		ComponentFigure component = new ComponentFigure(componentName,
-				BuilderViewPreferenceManager.getInstance().getColor(BuilderViewPreferenceManager.COLOR_COMPONENT));
+		ComponentFigure component = new ComponentFigure(componentName, new Color(PlatformUI.getWorkbench().getDisplay(), RTCUtil.defaultRGBMap.get(RTCUtil.COLOR_COMPONENT)));
 		
 		int width = ((FreeformGraphicalRootEditPart)getRoot()).getFigure().getBounds().width;
 		int height = ((FreeformGraphicalRootEditPart)getRoot()).getFigure().getBounds().height;

@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 
 /**
@@ -16,6 +15,7 @@ public class IdlFileParam implements Serializable {
 	
 	private String idlPath;
 	private List<ServiceClassParam> serviceClass = new ArrayList<ServiceClassParam>();
+	private List<ServiceClassParam> testServiceClass = new ArrayList<ServiceClassParam>();
 	private RtcParam parent;
 	private List<String> idlSearchPathes = new ArrayList<String>();
 	private List<String> includeIdlPathes = new ArrayList<String>();
@@ -50,6 +50,14 @@ public class IdlFileParam implements Serializable {
 		this.serviceClass = serviceClassParamList;
 	}
 
+	public List<ServiceClassParam> getTestServiceClassParams() {
+		return testServiceClass;
+	}
+
+	public void addTestServiceClassParams(	ServiceClassParam serviceClassParam) {
+		this.testServiceClass.add(serviceClassParam);
+	}
+	
 	public String getIdlFile() {
 		File file = new File( idlPath);
 		return file.getName();

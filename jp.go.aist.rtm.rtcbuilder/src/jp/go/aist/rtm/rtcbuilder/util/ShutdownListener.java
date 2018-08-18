@@ -31,7 +31,7 @@ public class ShutdownListener implements IWorkbenchListener {
 				int result = dialog.open();
 				switch (result) {
 					case RETURN_YES:
-						editor.doSave(new NullProgressMonitor());
+						editor.doSave(new NullProgressMonitor());	
 						break;
 					case RETURN_NO: // no
 						editor.setDirty(false);

@@ -94,6 +94,7 @@ ${sharp}${sharp}   corba.args: -ORBInitialHost myhost -ORBInitialPort 8888
 ${sharp}${sharp}
 ${sharp}${sharp}
 ${sharp} corba.args:
+corba.args: -ORBgiopMaxMsgSize 4194304
 
 ${sharp}${sharp}
 ${sharp}${sharp} ORB endpoint
@@ -364,24 +365,24 @@ ${sharp}${sharp}
 ${sharp}${sharp} Log level (default = NORMAL)
 ${sharp}${sharp}
 ${sharp}${sharp} The following LogLevels are allowed.
-${sharp}${sharp} SILENT, ERROR, WARN, NORMAL, INFO, DEBUG, TRACE, VERBOSE, PARANOID
+${sharp}${sharp} SILENT, FATAL, ERROR, WARN, INFO, DEBUG, TRACE, VERBOSE, PARANOID
 ${sharp}${sharp}
 ${sharp}${sharp}
 ${sharp}${sharp} SILENT  : completely silent
-${sharp}${sharp} ERROR   : includes (ERROR)
-${sharp}${sharp} WARN    : includes (ERROR, WARN)
-${sharp}${sharp} INFO    : includes (ERROR, WARN, INFO)
-${sharp}${sharp} NORMAL  : includes (ERROR, WARN, INFO, NORMAL)
-${sharp}${sharp} DEBUG   : includes (ERROR, WARN, INFO, NORMAL, DEBUG)
-${sharp}${sharp} TRACE   : includes (ERROR, WARN, INFO, NORMAL, DEBUG, TRACE)
-${sharp}${sharp} VERBOSE : includes (ERROR, WARN, INFO, NORMAL, DEBUG, TRACE, VERBOSE)
-${sharp}${sharp} PARANOID: includes (ERROR, WARN, INFO, NORMAL, DEBUG, TRACE, VERBOSE, PARA)
+${sharp}${sharp} FATAL   : includes (FATAL)
+${sharp}${sharp} ERROR   : includes (FATAL, ERROR)
+${sharp}${sharp} WARN    : includes (FATAL, ERROR, WARN)
+${sharp}${sharp} INFO    : includes (FATAL, ERROR, WARN, INFO)
+${sharp}${sharp} DEBUG   : includes (FATAL, ERROR, WARN, INFO, DEBUG)
+${sharp}${sharp} TRACE   : includes (FATAL, ERROR, WARN, INFO, DEBUG, TRACE)
+${sharp}${sharp} VERBOSE : includes (FATAL, ERROR, WARN, INFO, DEBUG, TRACE, VERBOSE)
+${sharp}${sharp} PARANOID: includes (FATAL, ERROR, WARN, INFO, DEBUG, TRACE, VERBOSE, PARA)
 ${sharp}${sharp}
 ${sharp}${sharp} Warning!!!
 ${sharp}${sharp} "TRACE", "VERBOSE", "PARANOID" logging level will create a huge log file!!
 ${sharp}${sharp} "PARANOID" log level will tangle the log file.
 ${sharp}${sharp}
-${sharp} logger.log_level: NORMAL
+${sharp} logger.log_level: INFO
 
 ${sharp}${sharp}============================================================
 ${sharp}${sharp} Timer configuration
@@ -395,32 +396,6 @@ ${sharp}${sharp}
 ${sharp}${sharp} Timer clock tick setting [s]
 ${sharp}${sharp}
 ${sharp} timer.tick: 0.1
-
-${sharp}${sharp}============================================================
-${sharp}${sharp} Execution context settings
-${sharp}${sharp}============================================================
-${sharp}${sharp}
-${sharp}${sharp} Periodic type ExecutionContext
-${sharp}${sharp}
-${sharp}${sharp} Other availabilities in OpenRTM-aist
-${sharp}${sharp}
-${sharp}${sharp} - ExtTrigExecutionContext: External triggered EC. It is embedded in
-${sharp}${sharp}                            OpenRTM library.
-${sharp}${sharp} - OpenHRPExecutionContext: External triggred paralell execution
-${sharp}${sharp}                            EC. It is embedded in OpenRTM
-${sharp}${sharp}                            library. This is usually used with
-${sharp}${sharp}                            OpenHRP3.
-${sharp}${sharp} - RTPreemptEC:             Real-time execution context for Linux
-${sharp}${sharp}                            RT-preemptive pathed kernel.
-${sharp}${sharp} - ArtExecutionContext:     Real-time execution context for ARTLinux
-${sharp}${sharp}                            (http://sourceforge.net/projects/art-linux/)
-${sharp}${sharp}
-${sharp} exec_cxt.periodic.type: PeriodicExecutionContext
-
-${sharp}${sharp}
-${sharp}${sharp} The execution cycle of ExecutionContext
-${sharp}${sharp}
-${sharp} exec_cxt.periodic.rate: 1000
 
 ${sharp}${sharp}============================================================
 ${sharp}${sharp} SDO service settings

@@ -82,7 +82,7 @@ public class ProfileHandler {
 			ParamUtil putil = new ParamUtil();
 			RtcParam rtcParam = putil.convertFromModule(profile, generatorParam, managerList, isDirect);
 		    rtcParam.setRtcXml(tmp_sb.toString());
-			generatorParam.getRtcParams().add(rtcParam);
+			generatorParam.setRtcParam(rtcParam);
 		} catch (FileNotFoundException e) {
 			throw new Exception(IRTCBMessageConstants.ERROR_PROFILE_RESTORE, e);
 		} catch (IOException e) {
@@ -173,7 +173,7 @@ public class ProfileHandler {
 		GeneratorParam generatorParam = new GeneratorParam();
 		ParamUtil util = new ParamUtil();
 		RtcParam rtcParam = util.convertFromModule(profile, generatorParam, managerList);
-		generatorParam.getRtcParams().add(rtcParam);
+		generatorParam.setRtcParam(rtcParam);
 		return generatorParam;
 		
 	}

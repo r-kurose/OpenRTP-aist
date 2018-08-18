@@ -267,7 +267,6 @@ class foo
   
   // </rtc-template>
 
-
  private:
   // <rtc-template block="private_attribute">
   

@@ -1,5 +1,4 @@
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
-cmake_policy(SET CMP0002 OLD)
+cmake_minimum_required(VERSION 2.8)
 if(POLICY CMP0046)
  cmake_policy(SET CMP0046 OLD)
 endif()
@@ -11,21 +10,28 @@ project(${rtcParam.name})
 string(TOLOWER ${dol}{PROJECT_NAME} PROJECT_NAME_LOWER)
 include("${dol}{PROJECT_SOURCE_DIR}/cmake/utils.cmake")
 set(PROJECT_VERSION ${rtcParam.version} CACHE STRING "${rtcParam.name} version")
+set(UPGRADE_GUID "")
 DISSECT_VERSION()
+set(PROJECT_SHORT_VER ${dol}{PROJECT_VERSION_MAJOR}${dol}{PROJECT_VERSION_MINOR}${dol}{PROJECT_VERSION_REVISION})
 set(PROJECT_DESCRIPTION "${rtcParam.description}")
 set(PROJECT_VENDOR "${rtcParam.vender}")
-set(PROJECT_AUTHOR "${rtcParam.vender}")
-set(PROJECT_AUTHOR_SHORT "${rtcParam.vender}")
-
+#if( ${rtcParam.docCreator.length()} > 0 )
+set(PROJECT_MAINTAINER "${rtcParam.docCreator}")
+#else
 set(PROJECT_MAINTAINER "unknown")
+#end
 set(PROJECT_TYPE "c++/${rtcParam.category}")
+
+find_package(OpenRTM)
+set(RTM_VER ${dol}{OPENRTM_VERSION})
+set(RTM_SHORT_VER ${dol}{OPENRTM_VERSION_MAJOR}${dol}{OPENRTM_VERSION_MINOR}${dol}{OPENRTM_VERSION_PATCH})
 
 function(get_dist ARG0)
  if(NOT ${dol}{CMAKE_SYSTEM_NAME} MATCHES "Linux")
    set(${dol}{ARG0} ${dol}{CMAKE_SYSTEM_NAME} PARENT_SCOPE)
    return()
  endif()
- foreach(dist Debian Ubuntu RedHat Fedora CentOS)
+ foreach(dist Debian Ubuntu RedHat Fedora CentOS Raspbian)
    execute_process(
      COMMAND grep ${dol}{dist} -s /etc/issue /etc/os-release /etc/redhat-release /etc/system-release
      OUTPUT_VARIABLE dist_name
@@ -40,7 +46,8 @@ endfunction(get_dist)
 function(get_pkgmgr ARG0)
  get_dist(DIST_NAME)
  if(${dol}{DIST_NAME} MATCHES "Debian" OR
-    ${dol}{DIST_NAME} MATCHES "Ubuntu")
+     ${dol}{DIST_NAME} MATCHES "Ubuntu" OR
+     ${dol}{DIST_NAME} MATCHES "Raspbian")
     set(${dol}{ARG0} "DEB" PARENT_SCOPE)
     return()
  endif()
@@ -95,21 +102,22 @@ endif(STATIC_LIBS)
 if (${dol}{CMAKE_SYSTEM_NAME} MATCHES "Darwin")
    ${sharp} Mac OS X specific code
    SET(CMAKE_CXX_COMPILER "g++")
+   SET(CMAKE_MACOSX_RPATH 1)
 endif (${dol}{CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 
 ${sharp} Set up installation directories
 if(WIN32)
-   set(OPENRTM_SHARE_PREFIX "OpenRTM-aist/${dol}{PROJECT_VERSION}/components/${dol}{PROJECT_TYPE}")
+   set(OPENRTM_SHARE_PREFIX "OpenRTM-aist/${dol}{RTM_VER}/Components/${dol}{PROJECT_TYPE}")
    set(INSTALL_PREFIX ${dol}{PROJECT_NAME})
+   if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+      set(CMAKE_INSTALL_PREFIX "${dol}{OPENRTM_DIR}Components/${dol}{PROJECT_TYPE}/${dol}{PROJECT_NAME}" CACHE PATH "..." FORCE)
+   endif()
 else(WIN32)
-   set(OPENRTM_SHARE_PREFIX "share/openrtm-${dol}{PROJECT_VERSION_MAJOR}.${dol}{PROJECT_VERSION_MINOR}")
+   set(OPENRTM_SHARE_PREFIX "share/openrtm-${dol}{OPENRTM_VERSION_MAJOR}.${dol}{OPENRTM_VERSION_MINOR}")
    set(INSTALL_PREFIX "${dol}{OPENRTM_SHARE_PREFIX}/components/${dol}{PROJECT_TYPE}/${dol}{PROJECT_NAME}")
 endif(WIN32)
        
-${sharp} Get necessary dependency information
-find_package(OpenRTM)
-
 ${sharp} Universal settings
 ${sharp}enable_testing()
 

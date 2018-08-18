@@ -54,6 +54,15 @@ public abstract class GenerateManager {
 				}
 			}
 		}
+		for (IdlFileParam idl : rtcParam.getConsumerIdlPathes()) {
+			for (ServiceClassParam svc : rtcParam.getServiceClassParams()) {
+				if (idl.getIdlPath().equals(svc.getIdlPath())) {
+					if (!idl.getTestServiceClassParams().contains(svc)) {
+						idl.addTestServiceClassParams(svc);
+					}
+				}
+			}
+		}
 	}
 
 }

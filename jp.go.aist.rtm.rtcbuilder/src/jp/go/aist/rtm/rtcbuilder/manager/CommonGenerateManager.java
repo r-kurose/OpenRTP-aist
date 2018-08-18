@@ -51,8 +51,7 @@ public class CommonGenerateManager extends GenerateManager {
 	public List<GeneratedResult> generateTemplateCode10(
 			Map<String, Object> contextMap) {
 		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
-		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-
+		
 		GeneratedResult gr;
 
 		gr = generateREADME(contextMap);
@@ -72,27 +71,30 @@ public class CommonGenerateManager extends GenerateManager {
 	public GeneratedResult generateREADME(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = "README." + rtcParam.getName();
-		String infile = "common/README.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-
-	public GeneratedResult generateRTCConf(Map<String, Object> contextMap) {
-		String outfile = "rtc.conf";
-		String infile = "common/rtc.conf.vsl";
+		String infile = "";
+		if(rtcParam.isChoreonoid()) {
+			infile = "common/README_Choreonoid.vsl";
+		} else {
+			infile = "common/README.vsl";
+		}
 		return generate(infile, outfile, contextMap);
 	}
 
 	public GeneratedResult generateRTCConf10(Map<String, Object> contextMap) {
 		String outfile = "rtc.conf";
 		String infile = "common/rtc.conf.vsl";
-		return generate(infile, outfile, contextMap);
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setNotBom(true);
+		return result;
 	}
 
 	public GeneratedResult generateComponentConf(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = rtcParam.getName() + ".conf";
 		String infile = "common/Component.conf.vsl";
-		return generate(infile, outfile, contextMap);
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setNotBom(true);
+		return result;
 	}
 
 	public GeneratedResult generate(String infile, String outfile,

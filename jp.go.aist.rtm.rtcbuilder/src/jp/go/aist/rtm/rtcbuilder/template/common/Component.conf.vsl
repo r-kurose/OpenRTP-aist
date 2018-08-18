@@ -24,6 +24,25 @@ ${sharp}
 ${sharp}
 ${sharp} configuration.active_config: mode0
 
+${sharp} Configuration-set example
+${sharp}
+#if( ${rtcParam.configParams.size()} > 0 )
+#foreach($configParam in ${rtcParam.configParams})  
+${sharp} conf.default.${configParam.name}: ${configParam.defaultVal}
+#end
+${sharp}
+${sharp} Additional configuration-set example named "mode0"
+${sharp}
+#foreach($configParam in ${rtcParam.configParams})  
+${sharp} conf.mode0.${configParam.name}: ${configParam.defaultVal}
+#end
+${sharp}
+${sharp} Other configuration set named "mode1"
+${sharp}
+#foreach($configParam in ${rtcParam.configParams})  
+${sharp} conf.mode1.${configParam.name}: ${configParam.defaultVal}
+#end
+#else
 ${sharp} Additional configuration-set example named "mode0"
 ${sharp}
 ${sharp} conf.mode0.int_param0: 0
@@ -43,10 +62,7 @@ ${sharp} conf.mode1.double_param1: -0.99
 ${sharp} conf.mode1.str_param0: default
 ${sharp} conf.mode1.str_param1: default set in conf file
 ${sharp} conf.mode1.vector_param0: 0.0,0.1,0.2,0.3,0.4,0.5,0.6
-
-
-
-
+#end
 
 ${sharp}${sharp}============================================================
 ${sharp}${sharp} Component configuration reference

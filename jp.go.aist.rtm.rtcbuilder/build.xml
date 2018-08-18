@@ -59,7 +59,7 @@
 		  <location dir="${targetPlatformLocation}" />
 		</ant4eclipse:targetPlatform>	
 		<ant4eclipse:jdtClassPathLibrary name="org.eclipse.jdt.junit.JUNIT_CONTAINER/4">
-			<fileset dir="${eclipse.home}/plugins/org.junit_4.10.0.v4_10_0_v20120426-0900" />
+			<fileset dir="${eclipse.home}/plugins/" includes="**/*junit4*.jar" />
 		</ant4eclipse:jdtClassPathLibrary>	
 
 		<ant4eclipse:getJdtClassPath 
@@ -88,11 +88,10 @@
 		</copy>
 		<copy todir="${build.dir}/jp/go/aist/rtm/rtcbuilder/template">
 			<fileset dir="${source}/jp/go/aist/rtm/rtcbuilder/template">
+				<include name="choreonoid/**.vsl" />
 				<include name="cmake/**/**.vsl" />
 				<include name="common/**.vsl" />
-				<include name="common_04/**.vsl" />
-				<include name="cpp/**.vsl" />
-				<include name="cpp_04/**.vsl" />
+				<include name="cpp/**/**.vsl" />
 			</fileset>
 		</copy>
 		<mkdir dir="${dist.dir}" />

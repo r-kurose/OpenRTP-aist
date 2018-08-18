@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.go.aist.rtm.rtcbuilder.IRTCBMessageConstants;
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.fsm.ScXMLHandler;
 import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
@@ -20,6 +21,7 @@ import jp.go.aist.rtm.toolscommon.fsm.editor.SCXMLNotifier;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -236,10 +238,12 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
     				Path inputPath = FileSystems.getDefault().getPath(newFile);
     				Path outputPath = FileSystems.getDefault().getPath(strPath);			        				
 					Files.copy(inputPath, outputPath);
+					project.refreshLocal(IResource.DEPTH_INFINITE, null);
 					MessageDialog.openInformation(getSite().getShell(), IMessageConstants.FSM_SCXML_IMPORT, IMessageConstants.FSM_IMPORT_OK);
 				} catch (IOException e1) {
 					MessageDialog.openWarning(getSite().getShell(), IMessageConstants.FSM_SCXML_IMPORT, IMessageConstants.FSM_IMPORT_NG);
 					e1.printStackTrace();
+				} catch (CoreException e1) {
 				}
 			}
 		});

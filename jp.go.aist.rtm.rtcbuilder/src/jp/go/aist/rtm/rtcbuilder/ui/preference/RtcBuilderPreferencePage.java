@@ -32,7 +32,7 @@ public class RtcBuilderPreferencePage extends FieldEditorPreferencePage implemen
 		composite.setLayoutData(gd);
 		
 		PathEditor editor = new PathEditor(DataTypePreferenceManager.IDLFILE_DIRECTORIES,
-				IMessageConstants.DATAPORT_HINT_DATATYPE_TITLE + IPreferenceMessageConstants.DATA_TYPE_LBL_DIRS,	"",	composite);
+				IPreferenceMessageConstants.LBL_IDL_SEARCH_DIRS,	"",	composite);
 		editor.getListControl(composite).setLayoutData(gd);
 		addField(editor);
 	}

@@ -29,7 +29,6 @@
 // <rtc-template block="port_stub_h">
 // </rtc-template>
 
-
 #include <rtm/Manager.h>
 #include <rtm/DataFlowComponentBase.h>
 #include <rtm/CorbaPort.h>
@@ -270,7 +269,6 @@ class foo
   RTC::CorbaConsumer<MyServiceChild> m_MyServiceRequire;
   
   // </rtc-template>
-
 
  private:
   // <rtc-template block="private_attribute">

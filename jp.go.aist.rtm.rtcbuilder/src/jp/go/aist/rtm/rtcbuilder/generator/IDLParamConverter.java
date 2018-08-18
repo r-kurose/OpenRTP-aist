@@ -112,25 +112,32 @@ public class IDLParamConverter {
 			}
 
 		}, null);
-		checkSuperInterface(result);
+		checkSuperInterface(result, true);
 
 		return result;
 	}
 	
-	public static void checkSuperInterface(List<ServiceClassParam> targetList) {
+	public static boolean checkSuperInterface(List<ServiceClassParam> targetList, boolean isAdd) {
 		for(ServiceClassParam target : targetList) {
 			if( target.getSuperInterfaceList().size()==0 ) continue;
+			boolean isHit = false;
 			for(String targetIF : target.getSuperInterfaceList()) {
 				for(ServiceClassParam source : targetList) {
 					if(targetIF.equals(source.getName())) {
-						target.getMethods().addAll(source.getMethods());
+						if(isAdd) {
+							target.getMethods().addAll(source.getMethods());
+						}
 						target.setTypeDef(source.getTypeDefList());
+						isHit = true;
 						break;
 					}
 				}
+				if(isHit==false) {
+					return false;
+				}
 			}
 		}
-		
+		return true;
 	}
 
 	/**
@@ -202,7 +209,7 @@ public class IDLParamConverter {
 			public void visit(enum_type n, String argu) {
 				final TypeDefParam tdparam = new TypeDefParam();
 				tdparam.setModuleName(getModuleNames());
-				tdparam.setEnum(true);
+//				tdparam.setEnum(true);
 				n.identifier.accept(new DepthFirstVisitor(){
 					@Override
 					public void visit(identifier n) {

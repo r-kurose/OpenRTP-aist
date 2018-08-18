@@ -29,7 +29,6 @@
 // <rtc-template block="port_stub_h">
 // </rtc-template>
 
-
 #include <rtm/Manager.h>
 #include <rtm/DataFlowComponentBase.h>
 #include <rtm/CorbaPort.h>
@@ -256,7 +255,7 @@ class TestModule
   // <rtc-template block="service_declare">
   /*!
    */
-  HogeSVC_impl m_inf0;
+  ysuga_net_HogeSVC_impl m_inf0;
   
   // </rtc-template>
 
@@ -264,7 +263,6 @@ class TestModule
   // <rtc-template block="consumer_declare">
   
   // </rtc-template>
-
 
  private:
   // <rtc-template block="private_attribute">

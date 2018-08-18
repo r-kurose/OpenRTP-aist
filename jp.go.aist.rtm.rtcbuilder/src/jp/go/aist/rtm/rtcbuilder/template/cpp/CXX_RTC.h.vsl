@@ -37,13 +37,6 @@ ${cXXConv.getDataportUsingNamespace(${type})}
 #end
 // </rtc-template>
 
-#if( ${tmpltHelper.checkFSM(${rtcParam})} )
-// FSM headers
-// <rtc-template block="fsm_h">
-${sharp}include <${rtcParam.name}FSM.h>
-// </rtc-template>
-#end
-
 ${sharp}include <rtm/Manager.h>
 ${sharp}include <rtm/${rtcParam.componentKind}Base.h>
 ${sharp}include <rtm/CorbaPort.h>
@@ -366,7 +359,7 @@ class ${rtcParam.name}
   // DataInPort declaration
   // <rtc-template block="inport_declare">
 #foreach($port in ${rtcParam.inports})
-#if(${port.type}!="" && ${port.name}!="FSMEvent")  ${port.type} ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
+#if(${port.type}!="")  ${port.type} ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
   /*!
 #if(${port.docDescription.length()}>0)   * ${tmpltHelper.convertDescDoc(${port.docDescription})}
 #end
@@ -453,7 +446,7 @@ class ${rtcParam.name}
 #if(${serviceInterface.docPostCondition.length()}>0)   * - PostCondition: ${tmpltHelper.convertInterfaceDetailDoc(${serviceInterface.docPostCondition})}
 #end
    */
-  ${serviceInterface.interfaceRawType}${tmpltHelper.serviceImplSuffix} ${rtcParam.commonPrefix}${rtcParam.serviceIFPrefix}${serviceInterface.tmplVarName}${rtcParam.serviceIFSuffix}${rtcParam.commonSuffix};
+  ${tmpltHelper.getBasename2(${serviceInterface.interfaceType})}${tmpltHelper.serviceImplSuffix} ${rtcParam.commonPrefix}${rtcParam.serviceIFPrefix}${serviceInterface.tmplVarName}${rtcParam.serviceIFSuffix}${rtcParam.commonSuffix};
 #end#end#end#end#end
   
   // </rtc-template>
@@ -483,18 +476,6 @@ class ${rtcParam.name}
 #end#end#end#end#end
   
   // </rtc-template>
-
-#if( ${tmpltHelper.checkFSM(${rtcParam})} )
-  // State machine declaration
-  // <rtc-template block="fsm_declare">
-  RTC::Machine<${rtcParam.name}FSM::${fsmParam.name}> m_fsm;
-  // </rtc-template>
-  
-  // EventPort declaration
-  // <rtc-template block="event_declare">
-  EventInPort< RTC::Machine<${rtcParam.name}FSM::${fsmParam.name}> > m_eventIn;
-  // </rtc-template>
-#end
 
  private:
   // <rtc-template block="private_attribute">

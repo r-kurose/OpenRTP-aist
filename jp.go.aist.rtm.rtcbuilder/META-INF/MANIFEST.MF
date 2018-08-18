@@ -4,7 +4,7 @@ Created-By: 20.0-b12 (Sun Microsystems Inc.)
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: jp.go.aist.rtm.rtcbuilder; singleton:=true
-Bundle-Version: 1.1.0.rc4v20130124
+Bundle-Version: 1.2.0
 Bundle-ClassPath: .,
  lib/velocity-1.6.3-dep.jar,
  lib/commons-collections-3.2.2.jar,
@@ -33,7 +33,6 @@ Export-Package: jp.go.aist.rtm.rtcbuilder,
  jp.go.aist.rtm.rtcbuilder.ui.editors,
  jp.go.aist.rtm.rtcbuilder.ui.parts,
  jp.go.aist.rtm.rtcbuilder.ui.preference,
- jp.go.aist.rtm.rtcbuilder.ui.wizard,
  jp.go.aist.rtm.rtcbuilder.util
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -46,10 +45,11 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide,
  org.eclipse.jdt.ui,
  jp.go.aist.rtm.toolscommon.profiles;visibility:=reexport,
- jp.go.aist.rtm.toolscommon;bundle-version="1.1.0"
+ jp.go.aist.rtm.toolscommon
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin
 Eclipse-BuddyPolicy: registered
 Built-By: ngd
 Built-Date: 2015/06/18 19:54:59
+Import-Package: jp.go.aist.rtm.toolscommon.fsm.editor
 

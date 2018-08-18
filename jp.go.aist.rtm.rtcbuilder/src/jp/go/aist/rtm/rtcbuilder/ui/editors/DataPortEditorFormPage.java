@@ -147,7 +147,7 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		portNameText.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
 		//
 		Group detailGroup = new Group(composite, SWT.SHADOW_ETCHED_IN);
-		detailGroup.setLayout(new GridLayout(2, false));
+		detailGroup.setLayout(new GridLayout(3, false));
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
 		detailGroup.setLayoutData(gd);
@@ -157,9 +157,27 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		String[] items = typeCombo.getItems();
 		Arrays.sort(items);
 		typeCombo.setItems(items);
+		
+		Button reloadButton = toolkit.createButton(detailGroup, "ReLoad", SWT.PUSH);
+		reloadButton.addSelectionListener(new SelectionAdapter() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				defaultTypeList = extractDataTypes();
+				Arrays.sort(defaultTypeList);
+				typeCombo.removeAll();
+				typeCombo.setItems(defaultTypeList);
+			}
+		});
 		//
 		varNameText = createLabelAndText(toolkit, detailGroup, IMessageConstants.DATAPORT_TBLLBL_VARNAME, SWT.BORDER);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
+		varNameText.setLayoutData(gd);
 		positionCombo = createLabelAndCombo(toolkit, detailGroup, IMessageConstants.DATAPORT_TBLLBL_POSITION, DataPortParam.COMBO_ITEM);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
+		positionCombo.setLayoutData(gd);
 		/////
 		Group documentGroup = new Group(composite, SWT.SHADOW_ETCHED_IN);
 		documentGroup.setLayout(new GridLayout(2, false));

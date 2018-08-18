@@ -73,7 +73,7 @@
            id="jp.go.aist.rtm.rtcbuilder.ui.wizard"
            name="%wizardCategoryName"/>
      <wizard
-           class="jp.go.aist.rtm.rtcbuilder.ui.wizard.NewWizard"
+           class="jp.go.aist.rtm.rtcbuilder.ui.NewWizard"
            finalPerspective="jp.go.aist.rtm.rtcbuilder.ui.perspective"
            icon="icons/RTCBuilder.png"
            id="jp.go.aist.rtm.rtcbuilder.ui.wizard"
@@ -94,16 +94,6 @@
            class="jp.go.aist.rtm.rtcbuilder.ui.preference.RtcBuilderPreferencePage"
            id="jp.go.aist.rtm.rtcbuilder.ui.preferencePage"
            name="%preferecePagesName"/>
-     <page
-           category="jp.go.aist.rtm.rtcbuilder.ui.preferencePage"
-           class="jp.go.aist.rtm.rtcbuilder.ui.preference.BuilderViewPreferencePage"
-           id="jp.go.aist.rtm.rtcbuilder.ui.preferencePage.buildView"
-           name="%preferecePagesBuildViewName"/>
-     <page
-           category="jp.go.aist.rtm.rtcbuilder.ui.preferencePage"
-           class="jp.go.aist.rtm.rtcbuilder.ui.preference.ExportPreferencePage"
-           id="jp.go.aist.rtm.rtcbuilder.ui.preferencePage.export"
-           name="%preferecePagesExportName"/>
      <page
            category="jp.go.aist.rtm.rtcbuilder.ui.preferencePage"
            class="jp.go.aist.rtm.rtcbuilder.ui.preference.CodeGeneratePreferencePage"

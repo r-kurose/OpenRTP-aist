@@ -6,6 +6,8 @@ package jp.go.aist.rtm.rtcbuilder.generator;
 public class GeneratedResult {
 	private String name;
 	private String code = "";
+	private String encode = "";
+	private boolean isNotBom = false;
 
 	public GeneratedResult() {
 		this.name = "";
@@ -21,7 +23,6 @@ public class GeneratedResult {
 	public String getCode() {
 		return code;
 	}
-
 	public void setCode(String code) {
 		this.code = code;
 	}
@@ -29,8 +30,22 @@ public class GeneratedResult {
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public String getEncode() {
+		return encode;
+	}
+	public void setEncode(String encode) {
+		this.encode = encode;
+	}
+
+	public boolean isNotBom() {
+		return isNotBom;
+	}
+	public void setNotBom(boolean isNotBom) {
+		this.isNotBom = isNotBom;
+	}
+	
 }

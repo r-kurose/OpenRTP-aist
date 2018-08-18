@@ -1,13 +1,20 @@
 package jp.go.aist.rtm.rtcbuilder;
 
+import java.util.List;
+
 import jp.go.aist.rtm.rtcbuilder.Generator.MergeHandler;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
+import jp.go.aist.rtm.rtcbuilder.generator.HeaderException;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.generator.parser.MergeBlockParser;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.ui.compare.CompareResultDialog;
 import jp.go.aist.rtm.rtcbuilder.ui.compare.CompareTarget;
+import jp.go.aist.rtm.rtcbuilder.ui.editors.IMessageConstants;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
@@ -18,6 +25,8 @@ import org.eclipse.ui.PlatformUI;
  * GUIのRtcBuilderを実行する際のメインとなるクラス
  */
 public class GuiRtcBuilder {
+	private final int RETURN_YES = 0;
+	private final int RETURN_NO = 1;
 
 	Generator generator = new Generator();
 	/**
@@ -40,8 +49,9 @@ public class GuiRtcBuilder {
 	 * @param generatorParam
 	 *            パラメータ
 	 */
+	@Deprecated
 	public boolean doGenerateWrite(GeneratorParam generatorParam) {
-		return this.doGenerateWrite(generatorParam, true);
+		return this.doGenerateWrite(generatorParam, null, true);
 	}
 	/**
 	 * ジェネレートを行い、ファイル出力を行う
@@ -49,10 +59,23 @@ public class GuiRtcBuilder {
 	 * @param generatorParam   パラメータ
 	 * @param isShowDialog     完了時にダイアログを表示するか
 	 */
-	public boolean doGenerateWrite(GeneratorParam generatorParam, boolean isShowDialog) {
+	public boolean doGenerateWrite(GeneratorParam generatorParam, List<IdlPathParam> idlDirs, boolean isShowDialog) {
 
 		try {
-			generator.doGenerateWrite(generatorParam, new MergeHandler() {
+			//設定されたパラメータのチェック
+			generator.validate(generatorParam.getRtcParam());
+			//IDLファイルのチェック
+			try {
+				generator.validateIDLDef(generatorParam, idlDirs);
+			} catch (HeaderException ex1) {
+				String[] buttons = new String[] { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL };
+				MessageDialog dialog = new MessageDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+						"IDL Error", null, "Warning: Included IDL [" + ex1.getMessage() + "] not found. Generated code might be incomplete. Continue?",
+						MessageDialog.QUESTION, buttons, 0);
+					if(dialog.open() == RETURN_NO) return false;
+			}
+			//
+			generator.doGenerateWrite(generatorParam, idlDirs, new MergeHandler() {
 				public int getSelectedProcess(GeneratedResult generatedResult,
 						String originalFileContents) {
 					return compareByDialog(generatedResult,
@@ -61,9 +84,15 @@ public class GuiRtcBuilder {
 			});
 
 			if( isShowDialog ) {
-				MessageDialog.openInformation(PlatformUI.getWorkbench()
-						.getDisplay().getActiveShell(), "Information",
-						"Generate success.");
+				if(0<generator.getWarningMessage().length()) {
+					MessageDialog.openWarning(PlatformUI.getWorkbench()
+							.getDisplay().getActiveShell(), "Warning",
+							generator.getWarningMessage());
+				} else {
+					MessageDialog.openInformation(PlatformUI.getWorkbench()
+							.getDisplay().getActiveShell(), "Information",
+							"Generate success.");
+				}
 			}
 			return true;
 		} catch (Exception e) {

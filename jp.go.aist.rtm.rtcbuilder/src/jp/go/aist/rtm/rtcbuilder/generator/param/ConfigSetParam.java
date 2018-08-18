@@ -20,6 +20,7 @@ public class ConfigSetParam extends AbstractRecordedParam implements
 	private String defaultValue;
 	private String constraint;
 	private String unit;
+	private String idlFile;
 	//
 	private String doc_dataname;
 	private String doc_default;
@@ -72,6 +73,8 @@ public class ConfigSetParam extends AbstractRecordedParam implements
 		this.doc_unit = doc_unit;
 		this.doc_range = doc_range;
 		this.doc_constraint = doc_constraint;
+		
+		this.idlFile = "";
 		//
 		setUpdated(false);
 	}
@@ -125,6 +128,9 @@ public class ConfigSetParam extends AbstractRecordedParam implements
 		if( varname==null || varname.equals(""))
 			return this.name;
 		return this.varname;
+	}
+	public String getIdlFile() {
+		return idlFile;
 	}
 
 	public void setName(String name) {
@@ -185,6 +191,11 @@ public class ConfigSetParam extends AbstractRecordedParam implements
 				return;
 			}
 		}
+	}
+	
+	public void setIdlFile(String file) {
+		checkUpdated(this.idlFile, file);
+		this.idlFile = file;
 	}
 	//
 	//

@@ -1,4 +1,4 @@
-package jp.go.aist.rtm.rtcbuilder._test._100;
+package jp.go.aist.rtm.rtcbuilder._test.generateCode;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 
-public class CXXBaseClass extends TestBase {
+public class BaseClass extends TestBase {
 	private GeneratorParam genParam;
 	private RtcParam rtcParam;
 
@@ -30,7 +30,7 @@ public class CXXBaseClass extends TestBase {
 		rtcParam.setRtmVersion("1.0.0");
 		rtcParam.setIsTest(true);
 
-		genParam.getRtcParams().add(rtcParam);
+		genParam.setRtcParam(rtcParam);
 	}
 
 	public void testDFFSMMM() throws Exception{

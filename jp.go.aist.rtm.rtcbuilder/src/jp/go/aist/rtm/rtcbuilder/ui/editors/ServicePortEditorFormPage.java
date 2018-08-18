@@ -49,6 +49,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -58,9 +59,11 @@ import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
+import org.eclipse.ui.forms.ManagedForm;
 import org.eclipse.ui.forms.MasterDetailsBlock;
 import org.eclipse.ui.forms.SectionPart;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
 /**
@@ -88,7 +91,6 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 	private Text instanceNameText;
 	private Text varNameText;
 	private Text idlFileText;
-//	private Text interfaceTypeText;
 	private Combo interfaceTypeCombo;
 	private Text idlPathText;
 	//
@@ -129,9 +131,37 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 	 * {@inheritDoc}
 	 */
 	protected void createFormContent(IManagedForm managedForm) {
-		createServiceBase(managedForm);
+		FormToolkit toolkit = managedForm.getToolkit();
+		
+		GridLayout gl = new GridLayout();
+		gl.numColumns = 1;
+		managedForm.getForm().getBody().setLayout(gl);
+		managedForm.getForm().setShowFocusedControl(true);
+		
+		Composite composite = toolkit.createComposite(managedForm.getForm().getBody(), SWT.NULL);
+		gl = new GridLayout(2, true);
+		composite.setLayout(gl);
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		composite.setLayoutData(gd);
+		//
+		ScrolledForm form = toolkit.createScrolledForm(composite);
+		gd = new GridData(GridData.FILL_BOTH);
+		form.setLayoutData(gd);
+		ManagedForm mform = new ManagedForm(toolkit, form);
+		
+		createServiceBase(mform);
 		ServicePortMasterBlock block = new ServicePortMasterBlock();
-		block.createContent(managedForm);
+		block.createContent(mform);
+		
+		Composite compositeHint = toolkit.createComposite(composite, SWT.NULL);
+		gl = new GridLayout();
+		gl.numColumns = 1;
+		compositeHint.setLayout(gl);
+		gd = new GridData(GridData.FILL_BOTH);
+		compositeHint.setLayoutData(gd);
+		
+		createHintSectionPort(toolkit, compositeHint);
+		createHintSectionInterface(toolkit, compositeHint);
 		
 		// 言語・環境ページより先にこのページが表示された場合、ここで言語を判断する
 		editor.setEnabledInfoByLang();
@@ -146,7 +176,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 	private void createServiceBase(IManagedForm managedForm) {
 		FormToolkit toolkit = managedForm.getToolkit();
 		Composite composite = toolkit.createComposite(managedForm.getForm().getBody(), SWT.NULL);
-		GridLayout gl = new GridLayout(1, true);
+		GridLayout gl = new GridLayout(2, true);
 		composite.setLayout(gl);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		composite.setLayoutData(gd);
@@ -158,6 +188,52 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		title.setFont(titleFont);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		title.setLayoutData(gd);
+	}
+	
+	private void createHintSectionPort(FormToolkit toolkit, Composite parent) {
+		Composite composite = createHintSectionComp(toolkit, parent, IMessageConstants.SERVIVEPORT_HINT_PORT_TITLE);
+		//
+		createHintLabel(IMessageConstants.SERVICEPORT_LBL_PORTNAME, IMessageConstants.SERVIVEPORT_HINT_PORT_NAME_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.SERVICEPORT_LBL_POSITION, IMessageConstants.SERVIVEPORT_HINT_PORT_POSITION_DESC, toolkit, composite);
+		createHintSpace(toolkit, composite);
+		createHintLabel(IMessageConstants.SERVICEPORT_LBL_DESCRIPTION, IMessageConstants.SERVIVEPORT_HINT_PORT_DESCRIPTION_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.SERVICEPORT_LBL_IFDESCRIPTION, IMessageConstants.SERVIVEPORT_HINT_PORT_IFDESCRIPTION_DESC, toolkit, composite);
+	}
+	
+	private void createHintSectionInterface(FormToolkit toolkit, Composite parent) {
+		Composite composite = createHintSectionComp(toolkit, parent, IMessageConstants.SERVIVEPORT_HINT_INTERFACE_TITLE);
+		//
+		createHintLabel(IMessageConstants.SERVICEPORT_LBL_IFNAME, IMessageConstants.SERVIVEPORT_HINT_IF_NAME_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.SERVICEPORT_LBL_IFDIRECTION, IMessageConstants.SERVIVEPORT_HINT_IF_DIRECTION_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.SERVICEPORT_LBL_IFINSTNAME, IMessageConstants.SERVIVEPORT_HINT_IF_INSTANCE_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.SERVICEPORT_LBL_IFVARNAME, IMessageConstants.SERVIVEPORT_HINT_IF_VARNAME_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.SERVICEPORT_LBL_IDLFILE, IMessageConstants.SERVIVEPORT_HINT_IDLFILE_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.SERVICEPORT_LBL_IFTYPE, IMessageConstants.SERVIVEPORT_HINT_IFTYPE_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.SERVICEPORT_LBL_IDLPATH, IMessageConstants.SERVIVEPORT_HINT_ILDPATH_DESC, toolkit, composite);
+		createHintSpace(toolkit, composite);
+		createHintLabel(IMessageConstants.SERVICEPORT_LBL_IFDESCRIPTION, IMessageConstants.SERVIVEPORT_HINT_IFDESC_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.SERVICEPORT_LBL_ARGUMENT, IMessageConstants.SERVIVEPORT_HINT_ARGUMENT_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.SERVICEPORT_LBL_RETURN, IMessageConstants.SERVIVEPORT_HINT_RETURN_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.SERVICEPORT_LBL_EXCEPTION, IMessageConstants.SERVIVEPORT_HINT_EXCEPTION_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.SERVICEPORT_LBL_PRE_CONDITION, IMessageConstants.SERVIVEPORT_HINT_PRE_CONDITION_DESC, toolkit, composite);
+		createHintLabel(IMessageConstants.SERVICEPORT_LBL_POST_CONDITION, IMessageConstants.SERVIVEPORT_HINT_POST_CONDITION_DESC, toolkit, composite);
+	}
+	
+	private Composite createHintSectionComp(FormToolkit toolkit, Composite form, String title) {
+		Section sctHint = toolkit.createSection(form, Section.TITLE_BAR | Section.EXPANDED | Section.TWISTIE);
+		sctHint.setText(title);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		sctHint.setLayoutData(gd);
+		//
+		Composite composite = toolkit.createComposite(sctHint, SWT.NULL);
+		composite.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
+		toolkit.paintBordersFor(composite);
+		GridLayout gl = new GridLayout(2, false);
+		composite.setLayout(gl);
+		gd = new GridData(GridData.FILL_BOTH);
+		composite.setLayoutData(gd);
+		sctHint.setClient(composite);
+		return composite;
 	}
 	
 	private void setButtonEnabled(ISelection selection){
@@ -281,8 +357,8 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 	 */
 	public void load() {
 		GeneratorParam generator = editor.getGeneratorParam();
-		if( generator.getRtcParams().size() > 0 ) {
-			RtcParam rtcParam = generator.getRtcParams().get(0);
+		if( generator.getRtcParam()!=null) {
+			RtcParam rtcParam = generator.getRtcParam();
 			if( servicePortViewer != null )
 				servicePortViewer.setInput(rtcParam.getServicePorts());
 			editor.updateEMFDataPorts(
@@ -326,6 +402,8 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 
 		@Override
 		protected void createMasterPart(final IManagedForm managedForm, Composite parent) {
+			sashForm.setOrientation(SWT.VERTICAL);
+			
 			FormToolkit toolkit = managedForm.getToolkit();
 			servicePortMasterBlockSection = toolkit.createSection(parent, Section.TITLE_BAR);
 			servicePortMasterBlockSection.setText(IMessageConstants.SERVICEPORT_MAIN_TITLE);
@@ -447,6 +525,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		protected void registerPages(DetailsPart detailsPart) {
 			detailsPart.registerPage(ServicePortParam.class, new ServicePortDetailsPage());
 			detailsPart.registerPage(ServicePortInterfaceParam.class, new ServicePortInterfaceDetailsPage());
+			sashForm.setWeights(new int[] { 1, 3});
 		}
 	}
 
@@ -576,7 +655,6 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			toolkit.createLabel(client, "");
 			idlFileText = createLabelAndFile(toolkit, client, IDL_EXTENTION,
 					IMessageConstants.REQUIRED + IMessageConstants.SERVICEPORT_LBL_IDLFILE, SWT.COLOR_RED);
-//			interfaceTypeText = createLabelAndText(toolkit, client, IMessageConstants.SERVICEPORT_LBL_IFTYPE);
 			String[] defaultVal = new String[0];
 			interfaceTypeCombo = createEditableCombo(toolkit, client,
 					IMessageConstants.REQUIRED + IMessageConstants.SERVICEPORT_LBL_IFTYPE, "", defaultVal, SWT.COLOR_RED);
@@ -663,7 +741,6 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			instanceNameText.setText(serviceInterface.getInstanceName());
 			varNameText.setText(serviceInterface.getVarName());
 			idlFileText.setText(serviceInterface.getIdlFile());
-//			interfaceTypeText.setText(serviceInterface.getInterfaceType());
 			interfaceTypeCombo.setText(serviceInterface.getInterfaceType());
 			idlPathText.setText(serviceInterface.getIdlSearchPath());
 			//
@@ -673,6 +750,39 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			ifexceptionText.setText(StringUtil.getDisplayDocText(serviceInterface.getDocException()));
 			ifpreconditionText.setText(StringUtil.getDisplayDocText(serviceInterface.getDocPreCondition()));
 			ifpostconditionText.setText(StringUtil.getDisplayDocText(serviceInterface.getDocPostCondition()));
+		}
+		
+		private Text createLabelAndDirectory(FormToolkit toolkit, Composite composite, String labelString) {
+			GridData gd;
+
+			if(!labelString.equals("")) {
+				toolkit.createLabel(composite, labelString);
+			}
+			final Text text = toolkit.createText(composite, "");
+			text.addKeyListener(new KeyListener() {
+				public void keyReleased(KeyEvent e) { update(); }
+				public void keyPressed(KeyEvent e) {}
+			});
+			
+			gd = new GridData(GridData.FILL_HORIZONTAL);
+			
+			text.setLayoutData(gd);
+			
+			Button checkButton = toolkit.createButton(composite, "Browse...", SWT.PUSH);
+			checkButton.addSelectionListener(new SelectionAdapter() {
+				public void widgetSelected(SelectionEvent e) {
+					DirectoryDialog dialog = new DirectoryDialog(getEditorSite().getShell());
+					if (text.getText().length() > 0)
+						dialog.setFilterPath(text.getText());
+					String newPath = dialog.open();
+					if (newPath != null) {
+						text.setText(newPath);
+						update();
+					}
+				}
+			});
+			
+			return text;
 		}
 	}
 

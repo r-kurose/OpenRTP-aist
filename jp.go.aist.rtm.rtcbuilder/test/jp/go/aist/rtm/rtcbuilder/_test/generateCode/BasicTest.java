@@ -1,4 +1,4 @@
-package jp.go.aist.rtm.rtcbuilder._test._100;
+package jp.go.aist.rtm.rtcbuilder._test.generateCode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
 
-public class CXXBasicTest extends TestBase {
+public class BasicTest extends TestBase {
 
 	RtcParam rtcParam;
 	GeneratorParam genParam;
@@ -26,7 +26,7 @@ public class CXXBasicTest extends TestBase {
 		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
 		rtcParam.setRtmVersion("1.0.0");
 		rtcParam.setIsTest(true);
-		genParam.getRtcParams().add(rtcParam);
+		genParam.setRtcParam(rtcParam);
 	}
 
 	public void testOperation() throws Exception {
@@ -149,7 +149,7 @@ public class CXXBasicTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/CXX/basic/service2/";
 
-		assertEquals(default_file_num+2, result.size());
+		assertEquals(default_file_num+4, result.size());
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
