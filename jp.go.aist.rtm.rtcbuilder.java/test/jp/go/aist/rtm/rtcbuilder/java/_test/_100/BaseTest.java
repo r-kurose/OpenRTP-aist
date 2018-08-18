@@ -30,7 +30,7 @@ public class BaseTest extends TestBase {
 		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
 		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
 		rtcParam.setIsTest(true);
-		genParam.getRtcParams().add(rtcParam);
+		genParam.setRtcParam(rtcParam);
 
 		generator = new Generator();
 		generator.addGenerateManager(new JavaGenerateManager());
@@ -83,7 +83,7 @@ public class BaseTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/base/service2/";
 
-		assertEquals(default_file_num+1, result.size());
+		assertEquals(default_file_num+2, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
@@ -165,7 +165,6 @@ public class BaseTest extends TestBase {
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
 		//
-		checkCode(result, resourceDir, ".classpath");
 		checkCode(result, resourceDir, "build_foo.xml");
 	}
 
@@ -197,7 +196,6 @@ public class BaseTest extends TestBase {
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
 		//
-		checkCode(result, resourceDir, ".classpath");
 		checkCode(result, resourceDir, "build_foo.xml");
 	}
 
@@ -226,7 +224,6 @@ public class BaseTest extends TestBase {
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
 		//
-		checkCode(result, resourceDir, ".classpath");
 		checkCode(result, resourceDir, "build_foo.xml");
 	}
 
@@ -254,7 +251,6 @@ public class BaseTest extends TestBase {
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
 		//
-		checkCode(result, resourceDir, ".classpath");
 		checkCode(result, resourceDir, "build_foo.xml");
 	}
 
@@ -278,7 +274,6 @@ public class BaseTest extends TestBase {
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
 		//
-		checkCode(result, resourceDir, ".classpath");
 		checkCode(result, resourceDir, "build_foo.xml");
 	}
 

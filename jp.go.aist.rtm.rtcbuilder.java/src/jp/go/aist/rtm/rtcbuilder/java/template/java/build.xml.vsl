@@ -7,9 +7,10 @@
 #
 # ${dollarStr}Id${dollarStr}
  -->
-<project name="${rtcParam.name}" default="compile">
+<project name="${rtcParam.name}" default="generatedoc">
 	<property name="source" value="src" />
 	<property name="dest" value="bin" />
+	<property name="doc" value="doc" />
 	<property environment="env" />
 
 	<target name="mkdir">
@@ -46,7 +47,7 @@
 #else
 	<target name="compile" depends="mkdir">
 #end
-		<javac srcdir="${dollarStr}{source}" destdir="${dollarStr}{dest}">
+		<javac includeantruntime="false" srcdir="${dollarStr}{source}" destdir="${dollarStr}{dest}">
 			<classpath>
 				<fileset dir="${dollarStr}{env.RTM_JAVA_ROOT}/jar">
 					<include name="*.jar"/>
@@ -58,5 +59,28 @@
 #end
 			</classpath>
 		</javac>
+	</target>
+	<target name="generatedoc" depends="compile">
+		<javadoc 
+                        Locale="ja_JP"
+                        destdir="${dollarStr}{doc}"
+                        docencoding="UTF-8"
+			author="true" doctitle="${rtcParam.name}" 
+			nodeprecated="false" nodeprecatedlist="false" 
+                        noindex="false" nonavbar="false" notree="false" 
+			package="yes" splitindex="true" 
+                        use="true" version="true" charset="UTF-8" 
+                        >
+			<classpath>
+				<fileset dir="${dollarStr}{env.RTM_JAVA_ROOT}/jar">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>
+			<sourcefiles>
+				<fileset dir="${dollarStr}{source}">
+					<include name="**/*.java"/>
+				</fileset>
+                	</sourcefiles>
+                </javadoc>
 	</target>
 </project>

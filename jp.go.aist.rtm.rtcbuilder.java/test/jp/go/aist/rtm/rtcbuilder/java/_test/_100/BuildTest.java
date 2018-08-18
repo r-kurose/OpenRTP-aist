@@ -30,7 +30,7 @@ public class BuildTest extends TestBase {
 		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
 		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
 		rtcParam.setIsTest(true);
-		genParam.getRtcParams().add(rtcParam);
+		genParam.setRtcParam(rtcParam);
 
 		generator = new Generator();
 		generator.addGenerateManager(new JavaGenerateManager());
@@ -89,7 +89,7 @@ public class BuildTest extends TestBase {
 
 		String resourceDir = fixturePath(name) + "/";
 
-		assertEquals(default_file_num+1, result.size());
+		assertEquals(default_file_num+2, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");

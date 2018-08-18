@@ -66,9 +66,10 @@ import RTC.ReturnCode_t;
 #if(${tmpltHelper.isModule(${serviceInterface.interfaceType})})import ${tmpltHelper.convFormat(${serviceInterface.interfaceType})};
 #end#end#end#end#end#end
 
-/*!
- * @class ${rtcParam.name}Impl
- * @brief ${rtcParam.description}
+/**
+ * ${rtcParam.name}Impl
+ * <p>
+ * ${rtcParam.description}
 #if( ${rtcParam.docDescription.length()} > 0 )
  *
  * ${tmpltHelper.convertDoc(${rtcParam.docDescription})}
@@ -89,11 +90,11 @@ import RTC.ReturnCode_t;
  */
 public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 
-  /*!
-   * @brief constructor
-   * @param manager Maneger Object
+  /**
+   * constructor
+   * @param manager Manager Object
    */
-	public ${rtcParam.name}Impl(Manager manager) {  
+    public ${rtcParam.name}Impl(Manager manager) {  
         super(manager);
         // <rtc-template block="initializer">
 #foreach($port in ${rtcParam.inports})  
@@ -121,8 +122,8 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #if(${rtcParam.getDocActionOverView(0).length()}>0)     * ${tmpltHelperJava.convertDescDocJava(${rtcParam.getDocActionOverView(0)})}
 #end
      *
-     * The initialize action (on CREATED->ALIVE transition)
-     * formaer rtc_init_entry() 
+     * The initialize action (on CREATED-&gt;ALIVE transition)
+     * former rtc_init_entry() 
      *
      * @return RTC::ReturnCode_t
      * 
@@ -159,7 +160,7 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #if(${servicePort.servicePortInterfaces.size()}>0)
 #foreach($serviceInterface in ${servicePort.servicePortInterfaces})
 #if(${serviceInterface.index}==0)
-        	m_${servicePort.name}Port.registerProvider("${serviceInterface.name}", "${tmpltHelper.convFormat(${serviceInterface.interfaceType})}", m_${serviceInterface.tmplVarName});
+            m_${servicePort.name}Port.registerProvider("${serviceInterface.name}", "${tmpltHelper.convFormat(${serviceInterface.interfaceType})}", m_${serviceInterface.tmplVarName});
 #end#end#end#end#end
         } catch (ServantAlreadyActive e) {
             e.printStackTrace();
@@ -203,12 +204,12 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 //    }
 #end
 
-    /***
+    /**
 #if(${rtcParam.getDocActionOverView(1).length()}>0)     * ${tmpltHelperJava.convertDescDocJava(${rtcParam.getDocActionOverView(1)})}
 #end
      *
-     * The finalize action (on ALIVE->END transition)
-     * formaer rtc_exiting_entry()
+     * The finalize action (on ALIVE-&gt;END transition)
+     * former rtc_exiting_entry()
      *
      * @return RTC::ReturnCode_t
      * 
@@ -225,7 +226,7 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #if(${rtcParam.IsNotImplemented(1)})//#end        return super.onFinalize();
 #if(${rtcParam.IsNotImplemented(1)})//#end    }
 
-    /***
+    /**
 #if(${rtcParam.getDocActionOverView(2).length()}>0)     * ${tmpltHelperJava.convertDescDocJava(${rtcParam.getDocActionOverView(2)})}
 #end
      *
@@ -249,7 +250,7 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #if(${rtcParam.IsNotImplemented(2)})//#end        return super.onStartup(ec_id);
 #if(${rtcParam.IsNotImplemented(2)})//#end    }
 
-    /***
+    /**
 #if(${rtcParam.getDocActionOverView(3).length()}>0)     * ${tmpltHelperJava.convertDescDocJava(${rtcParam.getDocActionOverView(3)})}
 #end
      *
@@ -273,7 +274,7 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #if(${rtcParam.IsNotImplemented(3)})//#end        return super.onShutdown(ec_id);
 #if(${rtcParam.IsNotImplemented(3)})//#end    }
 
-    /***
+    /**
 #if(${rtcParam.getDocActionOverView(4).length()}>0)     * ${tmpltHelperJava.convertDescDocJava(${rtcParam.getDocActionOverView(4)})}
 #end
      *
@@ -297,7 +298,7 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #if(${rtcParam.IsNotImplemented(4)})//#end        return super.onActivated(ec_id);
 #if(${rtcParam.IsNotImplemented(4)})//#end    }
 
-    /***
+    /**
 #if(${rtcParam.getDocActionOverView(5).length()}>0)     * ${tmpltHelperJava.convertDescDocJava(${rtcParam.getDocActionOverView(5)})}
 #end
      *
@@ -321,7 +322,7 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #if(${rtcParam.IsNotImplemented(5)})//#end        return super.onDeactivated(ec_id);
 #if(${rtcParam.IsNotImplemented(5)})//#end    }
 
-    /***
+    /**
 #if(${rtcParam.getDocActionOverView(9).length()}>0)     * ${tmpltHelperJava.convertDescDocJava(${rtcParam.getDocActionOverView(9)})}
 #end
      *
@@ -345,7 +346,7 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #if(${rtcParam.IsNotImplemented(9)})//#end        return super.onExecute(ec_id);
 #if(${rtcParam.IsNotImplemented(9)})//#end    }
 
-    /***
+    /**
 #if(${rtcParam.getDocActionOverView(6).length()}>0)     * ${tmpltHelperJava.convertDescDocJava(${rtcParam.getDocActionOverView(6)})}
 #end
      *
@@ -369,7 +370,7 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #if(${rtcParam.IsNotImplemented(6)})//#end      return super.onAborting(ec_id);
 #if(${rtcParam.IsNotImplemented(6)})//#end  }
 
-    /***
+    /**
 #if(${rtcParam.getDocActionOverView(7).length()}>0)     * ${tmpltHelperJava.convertDescDocJava(${rtcParam.getDocActionOverView(7)})}
 #end
      *
@@ -393,7 +394,7 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #if(${rtcParam.IsNotImplemented(7)})//#end        return super.onError(ec_id);
 #if(${rtcParam.IsNotImplemented(7)})//#end    }
 
-    /***
+    /**
 #if(${rtcParam.getDocActionOverView(8).length()}>0)     * ${tmpltHelperJava.convertDescDocJava(${rtcParam.getDocActionOverView(8)})}
 #end
      *
@@ -417,7 +418,7 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #if(${rtcParam.IsNotImplemented(8)})//#end        return super.onReset(ec_id);
 #if(${rtcParam.IsNotImplemented(8)})//#end    }
 
-    /***
+    /**
 #if(${rtcParam.getDocActionOverView(10).length()}>0)     * ${tmpltHelperJava.convertDescDocJava(${rtcParam.getDocActionOverView(10)})}
 #end
      *
@@ -441,7 +442,7 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #if(${rtcParam.IsNotImplemented(10)})//#end        return super.onStateUpdate(ec_id);
 #if(${rtcParam.IsNotImplemented(10)})//#end    }
 
-    /***
+    /**
 #if(${rtcParam.getDocActionOverView(11).length()}>0)     * ${tmpltHelperJava.convertDescDocJava(${rtcParam.getDocActionOverView(11)})}
 #end
      *
@@ -465,9 +466,11 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #if(${rtcParam.IsNotImplemented(11)})//#end        return super.onRateChanged(ec_id);
 #if(${rtcParam.IsNotImplemented(11)})//#end    }
 //
+    /**
+     */
 #if( ${rtcParam.configParams.size()} > 0 )
-	// Configuration variable declaration
-	// <rtc-template block="config_declare">
+    // Configuration variable declaration
+    // <rtc-template block="config_declare">
 #foreach($configParam in ${rtcParam.configParams})  
     /*!
      * ${tmpltHelperJava.convertDescDocJava(${configParam.docDescription})}
@@ -482,9 +485,12 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
      */
     protected ${javaConv.convJava2ParamHolder(${configParam.type},true)} m_${configParam.tmplVarName} = new ${javaConv.convJava2ParamHolder(${configParam.type},true)}();
 #end
-	// </rtc-template>
+    // </rtc-template>
 
 #end
+
+    /**
+     */
     // DataInPort declaration
     // <rtc-template block="inport_declare">
 #foreach($port in ${rtcParam.inports})  
@@ -634,56 +640,56 @@ public class ${rtcParam.name}Impl extends DataFlowComponentBase {
 #end
 
 #if( ${rtcParam.inports.size()} > 0 || ${rtcParam.outports.size()} > 0 )
-	private void initializeParam(Object target) {
-		Class<?> targetClass = target.getClass();
-		ClassLoader loader = target.getClass().getClassLoader();
-		//
-		Field[] fields = targetClass.getFields();
-		for(Field field : fields) {
-			if(field.getType().isPrimitive()) continue;
-			
-			try {
-				if(field.getType().isArray()) {
-					Object arrayValue = null;
-					Class<?> clazz = null;
-					if(field.getType().getComponentType().isPrimitive()) {
-						clazz = field.getType().getComponentType();
-					} else {
-							clazz = loader.loadClass(field.getType().getComponentType().getName());
-					}
-					arrayValue = Array.newInstance(clazz, 0);
-					field.set(target, arrayValue);
-					
-				} else {
-					Constructor<?>[] constList = field.getType().getConstructors();
-					if(constList.length==0) {
-						Method[] methodList = field.getType().getMethods();
-						for(Method method : methodList) {
-							if(method.getName().equals("from_int")==false) continue;
-							Object objFld = method.invoke(target, new Object[]{ new Integer(0) });
-							field.set(target, objFld);
-							break;
-						}
-						
-					} else {
-			            Class<?> classFld = Class.forName(field.getType().getName(), true, loader);
-						Object objFld = classFld.newInstance();
-						initializeParam(objFld);
-						field.set(target, objFld);
-					}
-				}
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+    private void initializeParam(Object target) {
+        Class<?> targetClass = target.getClass();
+        ClassLoader loader = target.getClass().getClassLoader();
+        //
+        Field[] fields = targetClass.getFields();
+        for(Field field : fields) {
+            if(field.getType().isPrimitive()) continue;
+            
+            try {
+                if(field.getType().isArray()) {
+                    Object arrayValue = null;
+                    Class<?> clazz = null;
+                    if(field.getType().getComponentType().isPrimitive()) {
+                        clazz = field.getType().getComponentType();
+                    } else {
+                            clazz = loader.loadClass(field.getType().getComponentType().getName());
+                    }
+                    arrayValue = Array.newInstance(clazz, 0);
+                    field.set(target, arrayValue);
+                    
+                } else {
+                    Constructor<?>[] constList = field.getType().getConstructors();
+                    if(constList.length==0) {
+                        Method[] methodList = field.getType().getMethods();
+                        for(Method method : methodList) {
+                            if(method.getName().equals("from_int")==false) continue;
+                            Object objFld = method.invoke(target, new Object[]{ new Integer(0) });
+                            field.set(target, objFld);
+                            break;
+                        }
+                        
+                    } else {
+                        Class<?> classFld = Class.forName(field.getType().getName(), true, loader);
+                        Object objFld = classFld.newInstance();
+                        initializeParam(objFld);
+                        field.set(target, objFld);
+                    }
+                }
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 #end
 }

@@ -29,7 +29,7 @@ public class JavaIDLTypeTest extends TestBase {
 		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
 		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
 		rtcParam.setIsTest(true);
-		genParam.getRtcParams().add(rtcParam);
+		genParam.setRtcParam(rtcParam);
 
 		generator = new Generator();
 		generator.addGenerateManager(new JavaGenerateManager());
@@ -66,8 +66,6 @@ public class JavaIDLTypeTest extends TestBase {
 		checkCode(result, resourceDir, "src/test.java");
 		checkCode(result, resourceDir, "src/testImpl.java");
 		checkCode(result, resourceDir, "src/ComFkSVC_impl.java");
-		//
-		checkCode(result, resourceDir, "build_test.xml");
 	}
 
 	public void testBasicType() throws Exception {
@@ -100,8 +98,6 @@ public class JavaIDLTypeTest extends TestBase {
 		checkCode(result, resourceDir, "src/test.java");
 		checkCode(result, resourceDir, "src/testImpl.java");
 		checkCode(result, resourceDir, "src/MyServiceSVC_impl.java");
-		//
-		checkCode(result, resourceDir, "build_test.xml");
 	}
 
 }

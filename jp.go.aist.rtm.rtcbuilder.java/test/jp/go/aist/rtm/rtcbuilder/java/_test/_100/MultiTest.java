@@ -30,7 +30,7 @@ public class MultiTest extends TestBase {
 		rtcParam.setLanguageArg(IRtcBuilderConstantsJava.LANG_JAVA_ARG);
 		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
 		rtcParam.setIsTest(true);
-		genParam.getRtcParams().add(rtcParam);
+		genParam.setRtcParam(rtcParam);
 
 		generator = new Generator();
 		generator.addGenerateManager(new JavaGenerateManager());
@@ -102,7 +102,7 @@ public class MultiTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/Multi/ProConMulti/";
 
-		assertEquals(default_file_num+2, result.size());
+		assertEquals(default_file_num+3, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");
@@ -157,7 +157,7 @@ public class MultiTest extends TestBase {
 
 		String resourceDir = rootPath + "/resource/100/Multi/ConMulti/";
 
-		assertEquals(default_file_num, result.size());
+		assertEquals(default_file_num+2, result.size());
 		checkCode(result, resourceDir, "src/fooComp.java");
 		checkCode(result, resourceDir, "src/foo.java");
 		checkCode(result, resourceDir, "src/fooImpl.java");

@@ -14,8 +14,9 @@
  */
 #if(${tmpltHelper.isModule(${serviceClassParam.name})})import ${tmpltHelper.convFormat(${serviceClassParam.name})}POA;
 #end
-/*!
- * @class ${tmpltHelper.getBasename(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}
+/**
+ * ${tmpltHelper.getBasename(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix}
+ * <p>
  * Example class implementing IDL interface ${serviceClassParam.name}
  */
 public class ${tmpltHelper.getBasename(${serviceClassParam.name})}${tmpltHelper.serviceImplSuffix} extends ${tmpltHelper.getBasename(${serviceClassParam.name})}POA{

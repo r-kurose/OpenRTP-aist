@@ -4,8 +4,9 @@
  * @brief Service implementation code of MyService.idl
  *
  */
-/*!
- * @class MyServiceSVC_impl
+/**
+ * MyServiceSVC_impl
+ * <p>
  * Example class implementing IDL interface MyService
  */
 public class MyServiceSVC_impl extends MyServicePOA{

@@ -8,10 +8,8 @@ import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.manager.CMakeGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
-
 import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
 import static jp.go.aist.rtm.rtcbuilder.util.RTCUtil.form;
-
 import static jp.go.aist.rtm.rtcbuilder.java.IRtcBuilderConstantsJava.LANG_JAVA;
 import static jp.go.aist.rtm.rtcbuilder.java.IRtcBuilderConstantsJava.LANG_JAVA_ARG;
 
@@ -20,7 +18,6 @@ public class JavaCMakeGenerateManager extends CMakeGenerateManager {
 	static final String TEMPLATE_PATH_JAVA = "jp/go/aist/rtm/rtcbuilder/java/template";
 
 	public JavaCMakeGenerateManager() {
-		DOXYGEN_FILE_PATTERNS = "*.java *.idl";
 	}
 
 	@Override
@@ -66,13 +63,53 @@ public class JavaCMakeGenerateManager extends CMakeGenerateManager {
 		String infile = "cmake/CMakeLists.txt.vsl";
 		return generateJava(infile, outfile, contextMap);
 	}
-
+	
 	public GeneratedResult generateModulesJavaCompile(
 			Map<String, Object> contextMap) {
 		String outfile = "cmake_modules/cmake_javacompile.cmake.in";
 		String infile = "cmake/cmake_javacompile.cmake.in.vsl";
 		return generateJava(infile, outfile, contextMap);
 	}
+
+	// 1.0系 (CMake/doc)
+	public GeneratedResult generateDocCMakeLists(Map<String, Object> contextMap) {
+		return new GeneratedResult();
+	}
+	
+	@Override
+	public GeneratedResult generateDocConfPy(Map<String, Object> contextMap) {
+		return new GeneratedResult();
+	}
+
+	@Override
+	public GeneratedResult generateDoxyfile(Map<String, Object> contextMap) {
+		return new GeneratedResult();
+	}
+
+	@Override
+	public GeneratedResult generateSrcCMakeLists(Map<String, Object> contextMap) {
+		return new GeneratedResult();
+	}
+
+	@Override
+	public GeneratedResult generateIncludeCMakeLists(Map<String, Object> contextMap) {
+		return new GeneratedResult();
+	}
+	
+	@Override
+	public GeneratedResult generateIncModuleCMakeLists(Map<String, Object> contextMap) {
+		return new GeneratedResult();
+	}
+	
+	@Override
+	public GeneratedResult generateDocIndex(Map<String, Object> contextMap) {
+		return new GeneratedResult();
+	}
+	@Override
+	public GeneratedResult generateDocIndexJ(Map<String, Object> contextMap) {
+		return new GeneratedResult();
+	}
+
 
 	// 1.0系 (CMake/cpack_resources)
 	public GeneratedResult generateJava(String infile, String outfile,
