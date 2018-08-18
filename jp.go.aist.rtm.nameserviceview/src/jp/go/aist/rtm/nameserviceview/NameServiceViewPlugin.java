@@ -1,9 +1,11 @@
 package jp.go.aist.rtm.nameserviceview;
 
+import jp.go.aist.rtm.nameserviceview.util.ShutdownListener;
 import jp.go.aist.rtm.toolscommon.profiles.util.LoggerUtil;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.slf4j.Logger;
@@ -24,6 +26,13 @@ public class NameServiceViewPlugin extends AbstractUIPlugin {
 	private static NameServiceViewPlugin plugin;
 
 	/**
+	 * 接続が成功したことのあるアドレスの一覧を保存する、ワークスペース永続文字列へのキー
+	 */
+	public static final String COMBO_ITEMS_KEY = NameServiceViewPlugin.class
+			.getName()
+			+ ".sever.items"; //$NON-NLS-1$
+
+	/**
 	 * The constructor
 	 */
 	public NameServiceViewPlugin() {
@@ -39,6 +48,8 @@ public class NameServiceViewPlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
 	 */
 	public void start(BundleContext context) throws Exception {
+		PlatformUI.getWorkbench().addWorkbenchListener(new ShutdownListener());
+		//
 		super.start(context);
 	}
 

@@ -7,12 +7,15 @@ import jp.go.aist.rtm.nameserviceview.NameServiceViewPlugin;
 import jp.go.aist.rtm.nameserviceview.manager.NameServiceViewPreferenceManager;
 import jp.go.aist.rtm.nameserviceview.model.manager.NameServerContext;
 import jp.go.aist.rtm.nameserviceview.model.manager.NameServerManager;
+import jp.go.aist.rtm.nameserviceview.model.manager.Node;
 import jp.go.aist.rtm.nameserviceview.model.manager.impl.NameServerManagerImpl;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
 import jp.go.aist.rtm.toolscommon.ui.views.propertysheetview.RtcPropertySheetPage;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -45,8 +48,6 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
  * 最後にアクセスしたネームサービスが存在しない場合には、ローカル(127.0.0.1)にアクセスする
  */
 public class NameServiceView extends ViewPart {
-	private static final String LAST_NAMESERVICE_ADDRESS = "ui.views.NameServiceView.lastNameServiceAddress";
-
 	private TreeViewer viewer;
 
 	private DrillDownAdapter drillDownAdapter;
@@ -145,11 +146,6 @@ public class NameServiceView extends ViewPart {
 		return viewer;
 	}
 
-	private void setLastNameServiceAddress(String address) {
-		NameServiceViewPlugin.getDefault().getPreferenceStore().setValue(
-				LAST_NAMESERVICE_ADDRESS, address);
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	/**
@@ -184,8 +180,6 @@ public class NameServiceView extends ViewPart {
 				public void run() {
 					if (msg.getOldValue() == null
 							&& msg.getNewValue() instanceof NameServerContext) {
-						setLastNameServiceAddress(((NameServerContext) msg
-								.getNewValue()).getNameServerName());
 						viewer.refresh();
 					}
 				}
@@ -215,19 +209,16 @@ public class NameServiceView extends ViewPart {
 
 	private void addDefaultNameServer() {
 		// 初期表示時に、最後にアクセスしたネームサービスをツリーに表示する
-		String lastNameServiceAddress = NameServiceViewPlugin.getDefault()
-				.getPreferenceStore().getString(LAST_NAMESERVICE_ADDRESS);
-		if ("".equals(lastNameServiceAddress)) {
-			lastNameServiceAddress = "127.0.0.1";
-		}
-		
-		final String nameServerAddress = lastNameServiceAddress;
+		String lastNameServiceAddress = NameServiceViewPlugin.getDefault().getPreferenceStore()
+				.getString(NameServiceViewPlugin.COMBO_ITEMS_KEY);
+		final String[] nameServerAddressList = lastNameServiceAddress.split(",");
 
 		try {
 			new Thread(new Runnable() {
 				public void run() {
-			NameServerManagerImpl.getInstance().addNameServer(
-					nameServerAddress);
+					for(String nameServerAddress : nameServerAddressList) {
+						NameServerManagerImpl.getInstance().addNameServer(nameServerAddress);
+					}
 			}}).start();
 		} catch (Exception e) {
 			// void エラーは無視する
@@ -239,6 +230,17 @@ public class NameServiceView extends ViewPart {
 	 * {@inheritDoc}
 	 */
 	public void dispose() {
+		EList<Node> nodes = NameServerManagerImpl.getInstance().getNodes();
+		StringBuilder nsList = new StringBuilder();
+		for(Node node : nodes) {
+			try {
+				String nsName = ((NamingContextNode)node).getNameServiceReference().getNameServerName();
+				if(0<nsList.length()) nsList.append("|");
+				nsList.append(nsName);
+			} catch (Exception e) {
+			}
+		}
+		
 		NameServerManagerImpl.getInstance().eAdapters().remove(
 				nameServerManagerListener);
 

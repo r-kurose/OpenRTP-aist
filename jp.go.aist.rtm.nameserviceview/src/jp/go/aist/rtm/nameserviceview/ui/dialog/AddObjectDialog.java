@@ -76,7 +76,7 @@ public class AddObjectDialog extends TitleAreaDialog {
 		portProfileEditComposite
 				.setLayoutData(new GridData(GridData.FILL_BOTH));
 		Label name = new Label(portProfileEditComposite, SWT.NONE);
-		name.setText(Messages.getString("AddObjectDialog.15")); //$NON-NLS-1$
+		name.setText("Name :");
 		nameText = new Text(portProfileEditComposite, SWT.SINGLE | SWT.BORDER);
 		gd = new GridData(GridData.GRAB_HORIZONTAL);
 		gd.minimumWidth = 180;
@@ -92,7 +92,7 @@ public class AddObjectDialog extends TitleAreaDialog {
 			}
 		});
 		Label kind = new Label(portProfileEditComposite, SWT.NONE);
-		kind.setText(Messages.getString("AddObjectDialog.16")); //$NON-NLS-1$
+		kind.setText("Kind :");
 		kindText = new Text(portProfileEditComposite, SWT.SINGLE | SWT.BORDER);
 		gd = new GridData(GridData.GRAB_HORIZONTAL);
 		gd.minimumWidth = 180;
@@ -166,7 +166,7 @@ public class AddObjectDialog extends TitleAreaDialog {
 		try {
 			object = CorbaUtil.stringToObject(ior);
 		} catch (Exception e) {
-			MessageDialog.openWarning(getShell(), Messages.getString("AddObjectDialog.18"), Messages.getString("AddObjectDialog.7")); //$NON-NLS-1$ //$NON-NLS-2$
+			MessageDialog.openWarning(getShell(), "Warning", Messages.getString("AddObjectDialog.7")); //$NON-NLS-1$ //$NON-NLS-2$
 			iorText.setFocus();
 			return false;
 		}
@@ -174,8 +174,7 @@ public class AddObjectDialog extends TitleAreaDialog {
 		try {
 			parentContext.createNamingObjectR(path, object);
 		} catch (AlreadyBound e) {
-			MessageDialog.openWarning(getShell(), Messages.getString("AddObjectDialog.19"), //$NON-NLS-1$
-					Messages.getString("AddObjectDialog.9")); //$NON-NLS-1$
+			MessageDialog.openWarning(getShell(), "Warning", Messages.getString("AddObjectDialog.9")); //$NON-NLS-1$
 			nameText.setFocus();
 			return false;
 		} catch (Exception e) {

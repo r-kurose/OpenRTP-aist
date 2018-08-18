@@ -73,7 +73,7 @@ public class AddContextDialog extends TitleAreaDialog {
 				.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
 		Label name = new Label(portProfileEditComposite, SWT.NONE);
-		name.setText(Messages.getString("AddContextDialog.12")); //$NON-NLS-1$
+		name.setText("Name :");
 		nameText = new Text(portProfileEditComposite, SWT.SINGLE | SWT.BORDER);
 		gd = new GridData(GridData.GRAB_HORIZONTAL);
 		gd.minimumWidth = 180;
@@ -89,7 +89,7 @@ public class AddContextDialog extends TitleAreaDialog {
 			}
 		});
 		Label kind = new Label(portProfileEditComposite, SWT.NONE);
-		kind.setText(Messages.getString("AddContextDialog.13")); //$NON-NLS-1$
+		kind.setText("Kind :");
 		kindCombo = new Combo(portProfileEditComposite, SWT.NONE);
 		gd = new GridData(GridData.GRAB_HORIZONTAL);
 		gd.minimumWidth = 180;
@@ -143,12 +143,10 @@ public class AddContextDialog extends TitleAreaDialog {
 		try {
 			parentContext.createContextR(path);
 		} catch (AlreadyBound e) {
-			MessageDialog.openWarning(getShell(), Messages.getString("AddContextDialog.15"), //$NON-NLS-1$
-					Messages.getString("AddContextDialog.6")); //$NON-NLS-1$
+			MessageDialog.openWarning(getShell(), "Warning", Messages.getString("AddContextDialog.6")); //$NON-NLS-1$
 			return false;
 		} catch (Exception e) {
-			MessageDialog.openWarning(getShell(), Messages.getString("AddContextDialog.16"), //$NON-NLS-1$
-			Messages.getString("AddContextDialog.8")); //$NON-NLS-1$
+			MessageDialog.openWarning(getShell(), "Warning", Messages.getString("AddContextDialog.8")); //$NON-NLS-1$
 		} finally {
 			
 		}
