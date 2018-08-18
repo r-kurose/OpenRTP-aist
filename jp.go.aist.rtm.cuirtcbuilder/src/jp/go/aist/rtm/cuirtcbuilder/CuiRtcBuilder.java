@@ -14,7 +14,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import jp.go.aist.rtm.rtcbuilder.Generator;
-import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.IDLParamConverter;
 import jp.go.aist.rtm.rtcbuilder.generator.ProfileHandler;
@@ -22,6 +21,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.java.manager.JavaCMakeGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.java.manager.JavaGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.python.manager.PythonCMakeGenerateManager;
@@ -75,9 +75,12 @@ public class CuiRtcBuilder {
 		if(cmd.hasOption("i")) {
 			idlDir = cmd.getOptionValues("i");
 		}
-		List<String> idlDirs = null;
+		List<IdlPathParam> idlDirs = null;
 		if(idlDir!=null) {
-			idlDirs = Arrays.asList(idlDir);
+			List<String> idlDirList = Arrays.asList(idlDir);
+			for(String each : idlDirList) {
+				idlDirs.add(new IdlPathParam(each, false));
+			}
 		}
 		//
 		JavaCMakeGenerateManager JavaCmanager = new JavaCMakeGenerateManager();
@@ -104,20 +107,16 @@ public class CuiRtcBuilder {
 		generator.addGenerateManager(PyCmanager);
 		generator.addGenerateManager(Pymanager);
 		try {
-			List<GeneratedResult> results = generator.generateTemplateCode(generatorParam, idlDirs, true);
+			generator.validate(generatorParam.getRtcParam());
+			List<GeneratedResult> results = generator.generateTemplateCode(generatorParam, idlDirs);
 			for(GeneratedResult target : results) {
 				String fileName = targetDir + File.separator + target.getName().replace("/", File.separator);
 				writeFile(fileName, target.getCode(), "UTF-8");
 			}
 			//
-			RtcParam rtcParam = generatorParam.getRtcParams().get(0);
+			RtcParam rtcParam = generatorParam.getRtcParam();
 			for( IdlFileParam idlFile : rtcParam.getProviderIdlPathes() ) {
-				String idlTarget;
-				if(rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100)) {
-					idlTarget = targetDir + File.separator + "idl" + File.separator + idlFile.getIdlFile();
-				} else {
-					idlTarget = targetDir + File.separator + idlFile.getIdlFile();
-				}
+				String idlTarget = targetDir + File.separator + "idl" + File.separator + idlFile.getIdlFile();
 				FileChannel src = new FileInputStream(idlFile.getIdlPath()).getChannel();
 				FileChannel trg = new FileOutputStream(idlTarget).getChannel();
 				try {
@@ -130,12 +129,7 @@ public class CuiRtcBuilder {
 				}
 			}
 			for( IdlFileParam idlFile : rtcParam.getConsumerIdlPathes() ) {
-				String idlTarget;
-				if(rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100)) {
-					idlTarget = targetDir + File.separator + "idl" + File.separator + idlFile.getIdlFile();
-				} else {
-					idlTarget = targetDir + File.separator + idlFile.getIdlFile();
-				}
+				String idlTarget = targetDir + File.separator + "idl" + File.separator + idlFile.getIdlFile();
 				FileChannel src = new FileInputStream(idlFile.getIdlPath()).getChannel();
 				FileChannel trg = new FileOutputStream(idlTarget).getChannel();
 				try {
@@ -150,12 +144,7 @@ public class CuiRtcBuilder {
 			//
 			for( String includedIdlFile : rtcParam.getIncludedIdls() ) {
 				File target = new File(includedIdlFile);
-				String idlTarget;
-				if(rtcParam.getRtmVersion().equals(IRtcBuilderConstants.RTM_VERSION_100)) {
-					idlTarget = targetDir + File.separator + "idl" + File.separator + target.getName();
-				} else {
-					idlTarget = targetDir + File.separator + target.getName();
-				}
+				String idlTarget = targetDir + File.separator + "idl" + File.separator + target.getName();
 				FileChannel src = new FileInputStream(includedIdlFile).getChannel();
 				FileChannel trg = new FileOutputStream(idlTarget).getChannel();
 				try {
@@ -173,9 +162,9 @@ public class CuiRtcBuilder {
 		}
 	}
 	
-	private static String[] extractDataTypes(List<String> target, GeneratorParam generatorParam) {
+	private static String[] extractDataTypes(List<IdlPathParam> target, GeneratorParam generatorParam) {
 		String FS = System.getProperty("file.separator");
-		List<String> sources = new ArrayList<String>();
+		List<IdlPathParam> sources = new ArrayList<IdlPathParam>();
 		sources.addAll(target);
 		String defaultPath = System.getenv("RTM_ROOT");
 		int baseindex = -1;
@@ -184,13 +173,13 @@ public class CuiRtcBuilder {
 			if(!defaultPath.endsWith(FS)) {
 				defaultPath += FS;
 			}
-			sources.add(0, defaultPath + "rtm" + FS + "idl");
+			sources.add(0, new IdlPathParam(defaultPath + "rtm" + FS + "idl", false));
 		}
 		List<DataTypeParam> sourceContents = new ArrayList<DataTypeParam>();
 		for (int intidx = 0; intidx < sources.size(); intidx++) {
-			String source = sources.get(intidx);
+			IdlPathParam source = sources.get(intidx);
 			try {
-				File idlDir = new File(source);
+				File idlDir = new File(source.getPath());
 				String[] list = idlDir.list();
 				if (list == null) {
 					continue;
