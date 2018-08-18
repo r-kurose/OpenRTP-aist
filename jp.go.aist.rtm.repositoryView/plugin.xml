@@ -57,12 +57,12 @@
                id="jp.go.aist.rtm.repositoryView.LoadFileAction"
                label="%Load_File"
                menubarPath="locals"/>
-         <action
+<!--         <action
                class="jp.go.aist.rtm.repositoryView.ui.action.ConnectRTRepositoryAction"
                icon="icon/Connect.gif"
                id="jp.go.aist.rtm.repositoryView.ConnectRTRepositoryAction"
                label="%Connect_RT_Repository"
-               menubarPath="servers"/>
+               menubarPath="servers"/>-->
       </viewerContribution>
       <objectContribution
             adaptable="true"
@@ -83,7 +83,7 @@
       <viewContribution
             id="jp.go.aist.rtm.repositoryView.ui.views.repositoryView.contribution"
             targetID="jp.go.aist.rtm.repositoryView.view">
-         <action
+<!--         <action
                class="jp.go.aist.rtm.repositoryView.ui.action.ConnectRTRepositoryAction"
                icon="icon/Connect.gif"
                id="jp.go.aist.rtm.repositoryView.ui.action.ConnectRTRepositoryAction"
@@ -91,7 +91,7 @@
                menubarPath="additions"
                style="push"
                toolbarPath="additions"
-               tooltip="%Connect_RT_Repository"/>
+               tooltip="%Connect_RT_Repository"/>-->
          <action
                class="jp.go.aist.rtm.repositoryView.ui.action.ViewActionLoadFile"
                icon="icon/file_with_arrow.gif"
