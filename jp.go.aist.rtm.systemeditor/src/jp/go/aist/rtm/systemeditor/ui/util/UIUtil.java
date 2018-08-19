@@ -25,7 +25,7 @@ public class UIUtil {
 			colorRegistry.put(COLOR_ERROR, new RGB(255, 0, 0));
 			colorRegistry.put(COLOR_UNEXIST, new RGB(128, 128, 128));
 			colorRegistry.put(COLOR_MODIFY, new RGB(255, 192, 192));
-			colorRegistry.put(COLOR_UNEDITABLE, new RGB(240, 240, 240));
+			colorRegistry.put(COLOR_UNEDITABLE, new RGB(230, 230, 230));
 		}
 		return colorRegistry.get(name);
 	}

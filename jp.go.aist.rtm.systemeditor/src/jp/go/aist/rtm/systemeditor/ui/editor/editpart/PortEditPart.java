@@ -7,23 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.draw2d.ConnectionAnchor;
-import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
-import org.eclipse.gef.ConnectionEditPart;
-import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.GraphicalEditPart;
-import org.eclipse.gef.NodeEditPart;
-import org.eclipse.gef.Request;
-import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
-import org.eclipse.gef.ui.actions.ActionRegistry;
-import org.eclipse.ui.PlatformUI;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
 import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.PortGraphicalNodeEditPolicy;
@@ -36,6 +19,27 @@ import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
 import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
+
+import org.eclipse.draw2d.ConnectionAnchor;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.gef.ConnectionEditPart;
+import org.eclipse.gef.DragTracker;
+import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.NodeEditPart;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.eclipse.gef.requests.SelectionRequest;
+import org.eclipse.gef.tools.ConnectionEndpointTracker;
+import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.ui.PlatformUI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * ポートのEditPartクラス
@@ -149,6 +153,29 @@ public abstract class PortEditPart extends AbstractEditPart implements NodeEditP
 			return (PortFigure) figure;
 		}
 		return (PortFigure) super.getFigure();
+	}
+
+	/**
+	 * ポートの DragTrackerを取得します。<br>
+	 * リクエストが SelectoinRequestで、自ポートにつながるポートコネクタが選択中の場合は再接続用のトラッカを返します。
+	 */
+	@Override
+	public DragTracker getDragTracker(Request request) {
+		if (request instanceof SelectionRequest) {
+			PortConnectorEditPart connPart = AutoConnectorCreationTool.findSelectedPortConnectorEditPart(this);
+			if (connPart != null) {
+				ConnectionEndpointTracker tracker = new ConnectionEndpointTracker(connPart);
+				if (this == connPart.getSource()) {
+					tracker.setCommandName(RequestConstants.REQ_RECONNECT_SOURCE);
+				} else {
+					tracker.setCommandName(RequestConstants.REQ_RECONNECT_TARGET);
+				}
+				tracker.setEditDomain(getViewer().getEditDomain());
+				tracker.setDefaultCursor(getFigure().getCursor());
+				return tracker;
+			}
+		}
+		return super.getDragTracker(request);
 	}
 
 	@Override

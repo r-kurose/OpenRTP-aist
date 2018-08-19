@@ -4,19 +4,12 @@ import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
 import jp.go.aist.rtm.systemeditor.ui.editor.figure.ExportedOutPortFigure;
 import jp.go.aist.rtm.systemeditor.ui.editor.figure.OutPortFigure;
 import jp.go.aist.rtm.toolscommon.model.component.OutPort;
-import jp.go.aist.rtm.toolscommon.model.component.impl.PortConnectorImpl;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.MouseEvent;
-import org.eclipse.draw2d.MouseListener;
-import org.eclipse.draw2d.MouseMotionListener;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.gef.EditDomain;
-import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalEditPart;
-import org.eclipse.gef.requests.SimpleFactory;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.PlatformUI;
@@ -84,57 +77,9 @@ public class OutPortEditPart extends PortEditPart {
 		}
 		result.setLocation(new Point(0, 0));
 
-		supportAutoCreateConnectorToolMode(getViewer(), result);
+		AutoConnectorCreationTool.fetchTool(this, result);
 
 		return result;
-	}
-
-	/**
-	 * ポート上で、自動的にコネクタを作成するモードに変更する機能を付加するメソッド
-	 */
-	public static void supportAutoCreateConnectorToolMode(final EditPartViewer viewer, IFigure figure) {
-
-		final EditDomain domain = viewer.getEditDomain();
-		final AutoConnectorCreationTool connectionCreationTool = new AutoConnectorCreationTool();
-
-		figure.addMouseMotionListener(new MouseMotionListener() {
-
-			@Override
-			public void mouseDragged(MouseEvent me) {
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent me) {
-				connectionCreationTool.setFactory(new SimpleFactory(PortConnectorImpl.class));
-				domain.setActiveTool(connectionCreationTool);
-			}
-
-			@Override
-			public void mouseExited(MouseEvent me) {
-				if (domain.getActiveTool() == connectionCreationTool
-						&& connectionCreationTool.isStartedState() == false) {
-					domain.setActiveTool(domain.getDefaultTool());
-				}
-			}
-
-			@Override
-			public void mouseHover(MouseEvent me) {
-			}
-
-			@Override
-			public void mouseMoved(MouseEvent me) {
-			}
-		});
-
-		figure.addMouseListener(new MouseListener.Stub() {
-			@Override
-			public void mousePressed(MouseEvent me) {
-				// right click
-				if (me.button == 3) {
-					domain.setActiveTool(domain.getDefaultTool());
-				}
-			}
-		});
 	}
 
 	@Override

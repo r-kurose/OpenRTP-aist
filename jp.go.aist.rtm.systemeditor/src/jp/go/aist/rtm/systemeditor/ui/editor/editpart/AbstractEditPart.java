@@ -57,26 +57,29 @@ public abstract class AbstractEditPart extends AbstractGraphicalEditPart
 	@Override
 	public void activate() {
 		super.activate();
-		((ModelElement) getModel()).eAdapters().add(this);
+		if (getModel() instanceof ModelElement) {
+			((ModelElement) getModel()).eAdapters().add(this);
+		}
 	}
 
 	@Override
 	public void deactivate() {
 		super.deactivate();
-		((ModelElement) getModel()).eAdapters().remove(this);
+		if (getModel() instanceof ModelElement) {
+			((ModelElement) getModel()).eAdapters().remove(this);
+		}
 	}
 
 	/**
 	 * モデルのオブジェクトに委譲している
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Object getAdapter(Class key) {
 		Object result = AdapterUtil.getAdapter(getModel(), key);
 		if (result == null) {
 			result = super.getAdapter(key);
 		}
-
 		return result;
 	}
 	

@@ -42,13 +42,12 @@ public class CreateCommand extends Command {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void setComponentsConstraint(Component component) {
 		List<Integer> counts = new ArrayList<Integer>();
 		int count = 0;
 		counts.add(count);
 		Integer temp = counts.get(counts.size() - 1);
-		for (Iterator iterator = component.getAllComponents().iterator(); iterator
+		for (Iterator<?> iterator = component.getAllComponents().iterator(); iterator
 				.hasNext();) {
 			Component tempComponent = (Component) iterator.next();
 			if (tempComponent.getConstraint() == null) {

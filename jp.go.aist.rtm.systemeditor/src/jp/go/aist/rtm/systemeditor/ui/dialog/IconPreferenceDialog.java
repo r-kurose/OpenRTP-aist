@@ -33,11 +33,6 @@ public class IconPreferenceDialog extends TitleAreaDialog {
 
 	static final int EXEC_BUTTON_WIDTH = 70;
 
-	static final String DIALOG_TITLE = getString("IconPreferenceDialog.title");
-
-	static final String LABEL_PATTERN = getString("IconPreferenceDialog.label.pattern");
-	static final String LABEL_ICON_PATH = getString("IconPreferenceDialog.label.path");
-
 	static final String BUTTON_LABEL_BROWSE = getString("Common.button.browse");
 
 	static final String ICON_EXTENSION = "*.ico;*.bmp;*.png;*.gif;*.jpg";
@@ -85,7 +80,7 @@ public class IconPreferenceDialog extends TitleAreaDialog {
 		mainComposite.setFont(parent.getFont());
 
 		Label label = new Label(mainComposite, SWT.NONE);
-		label.setText(LABEL_PATTERN);
+		label.setText("Pattern:");
 		gd = new GridData();
 		label.setLayoutData(gd);
 
@@ -119,7 +114,7 @@ public class IconPreferenceDialog extends TitleAreaDialog {
 		});
 
 		label = new Label(mainComposite, SWT.NONE);
-		label.setText(LABEL_ICON_PATH);
+		label.setText("Icon path:");
 		gd = new GridData();
 		label.setLayoutData(gd);
 
@@ -213,7 +208,7 @@ public class IconPreferenceDialog extends TitleAreaDialog {
 	@Override
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
-		shell.setText(DIALOG_TITLE);
+		shell.setText("Icon Preference");
 	}
 
 	/** 表示内容を構築 */

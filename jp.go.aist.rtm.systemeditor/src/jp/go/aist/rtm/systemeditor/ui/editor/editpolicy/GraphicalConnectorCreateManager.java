@@ -33,7 +33,7 @@ public class GraphicalConnectorCreateManager {
 			.getLogger(GraphicalConnectorCreateManager.class);
 
 	static final String ERROR_TITLE = Messages
-			.getString("GraphicalConnectorCreateManager.0");
+			.getString("Common.dialog.error_title");
 
 	static final String ERROR_CONNECT_FAILED = Messages
 			.getString("GraphicalConnectorCreateManager.1");
@@ -47,6 +47,8 @@ public class GraphicalConnectorCreateManager {
 
 	private Port second;
 
+	private boolean isReverse = false;
+	
 	public GraphicalConnectorCreateManager(Shell shell) {
 		this.shell = shell;
 	}
@@ -105,6 +107,11 @@ public class GraphicalConnectorCreateManager {
 	 * @return ポート接続成功の場合はtrue
 	 */
 	public boolean createProfileAndConnector() {
+		if(first instanceof OutPort || second instanceof InPort) {
+			isReverse = false;
+		} else {
+			isReverse = true;
+		}
 		ConnectorProfile connectorProfile = getConnectorProfile();
 		if (connectorProfile == null) {
 			return false;
@@ -140,7 +147,7 @@ public class GraphicalConnectorCreateManager {
 		}
 		if (getSource() instanceof OutPort && getTarget() instanceof InPort) {
 			return new DataConnectorCreaterDialog(shell).getConnectorProfile(
-					(OutPort) getSource(), (InPort) getTarget());
+					(OutPort) getSource(), (InPort) getTarget(), isReverse);
 		} else if (getSource() instanceof ServicePort
 				&& getTarget() instanceof ServicePort) {
 			return new ServiceConnectorCreaterDialog(shell)
@@ -149,11 +156,11 @@ public class GraphicalConnectorCreateManager {
 		} else if (getSource() instanceof OutPort && getTarget() == null) {
 			// OutPortのみ
 			return new DataConnectorCreaterDialog(shell).getConnectorProfile(
-					(OutPort) getSource(), null);
+					(OutPort) getSource(), null, false);
 		} else if (getSource() instanceof InPort && getTarget() == null) {
 			// InPortのみ
 			return new DataConnectorCreaterDialog(shell).getConnectorProfile(
-					null, (InPort) getSource());
+					null, (InPort) getSource(), false);
 		} else if (getSource() instanceof ServicePort && getTarget() == null) {
 			// ServicePortのみ
 			return new ServiceConnectorCreaterDialog(shell)

@@ -2,8 +2,6 @@ package jp.go.aist.rtm.systemeditor.ui.editor.action;
 
 import java.util.List;
 
-import jp.go.aist.rtm.systemeditor.nl.Messages;
-
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.RequestConstants;
@@ -88,7 +86,8 @@ public class MoveComponentAction extends SelectionAction {
 	public MoveComponentAction(IWorkbenchPart part, String id) {
 		super(part);
 		setId(id);
-		setText(Messages.getString("MoveComponentAction.8")); //$NON-NLS-1$
+		setText("Move");
+		setToolTipText("Move");
 	}
 
 	/**
@@ -106,8 +105,7 @@ public class MoveComponentAction extends SelectionAction {
 	 * @param selectedEditParts 対象のEditPart
 	 * @return 作成したコマンド
 	 */
-	@SuppressWarnings("unchecked")
-	protected Command createMoveCommand(List selectedEditParts) {
+	protected Command createMoveCommand(List<?> selectedEditParts) {
 		if (selectedEditParts.isEmpty())
 			return null;
 		if (!(selectedEditParts.get(0) instanceof EditPart))

@@ -63,14 +63,7 @@ public class ExecutionContextView extends ViewPart {
 	static final String PROPERTY_NAME = "PROPERTY_NAME";
 	static final String PROPERTY_VALUE = "PROPERTY_VALUE";
 
-	static final String LABEL_COMPONENT = Messages.getString("ExecutionContextView.1");
-	static final String LABEL_RATE = Messages.getString("ExecutionContextView.2");
-
-	static final String LABEL_COLUMN_EC = Messages.getString("ExecutionContextView.3");
-	static final String LABEL_COLUMN_NAME = Messages.getString("ExecutionContextView.4");
-	static final String LABEL_COLUMN_VALUE = Messages.getString("ExecutionContextView.5");
-
-	static final String LABEL_BUTTON_APPLY = Messages.getString("ExecutionContextView.6");
+	static final String LABEL_BUTTON_APPLY = Messages.getString("Common.button.apply");
 	static final String LABEL_BUTTON_START = Messages.getString("ExecutionContextView.7");
 	static final String LABEL_BUTTON_STOP = Messages.getString("ExecutionContextView.8");
 	static final String LABEL_BUTTON_ACTIVATE = Messages.getString("ExecutionContextView.9");
@@ -133,7 +126,7 @@ public class ExecutionContextView extends ViewPart {
 		Label nameLabel = new Label(parent, SWT.NONE);
 		gd = new GridData();
 		nameLabel.setLayoutData(gd);
-		nameLabel.setText(LABEL_COMPONENT);
+		nameLabel.setText("component:");
 
 		componentNameLabel = new Label(parent, SWT.BORDER);
 		gd = new GridData();
@@ -194,7 +187,7 @@ public class ExecutionContextView extends ViewPart {
 		eclistTable.setLayout(gl);
 
 		TableColumn col = new TableColumn(eclistTable, SWT.RIGHT);
-		col.setText(LABEL_COLUMN_EC);
+		col.setText("Execution Context");
 		col.setWidth(120);
 
 		return composite;
@@ -212,7 +205,7 @@ public class ExecutionContextView extends ViewPart {
 		composite.setLayout(gl);
 
 		Label rateLabel = new Label(composite, SWT.NONE);
-		rateLabel.setText(LABEL_RATE);
+		rateLabel.setText("rate:");
 
 		rateText = new Text(composite, SWT.SINGLE | SWT.BORDER);
 		gd = new GridData();
@@ -275,11 +268,11 @@ public class ExecutionContextView extends ViewPart {
 		ecdetailTable.setHeaderVisible(true);
 
 		TableColumn col = new TableColumn(ecdetailTable, SWT.LEFT);
-		col.setText(LABEL_COLUMN_NAME);
+		col.setText("Name");
 		col.setWidth(120);
 
 		col = new TableColumn(ecdetailTable, SWT.LEFT);
-		col.setText(LABEL_COLUMN_VALUE);
+		col.setText("Value");
 		col.setWidth(180);
 
 		return composite;
@@ -547,7 +540,7 @@ public class ExecutionContextView extends ViewPart {
 
 	/** attachするコンポーネントの候補リストを作成 */
 	List<Component> buildAttachComponents(ExecutionContext ec) {
-		List<Component> result = new ArrayList<Component>();
+		List<Component> result = new ArrayList<>();
 		if (getDiagram() == null) {
 			return result;
 		}
@@ -567,7 +560,10 @@ public class ExecutionContextView extends ViewPart {
 				// Grouping複合RTCはECを持たないので選択不可
 				continue;
 			}
-			// ownerのRTC、attach済みのRTCも選択可能
+			if (ec.isOwner(c) || ec.containsComponent(c)) {
+				// ownerのRTC、attach済みのRTCは選択不可
+				continue;
+			}
 			result.add(c);
 		}
 		return result;
@@ -672,13 +668,22 @@ public class ExecutionContextView extends ViewPart {
 			props.add(prop);
 		}
 		// ec owner
-		String owner = (ec.getOwner() == null) ? UNKNOWN : ec.getOwner()
-				.getInstanceNameL();
+		String owner = (ec.getOwner() == null) ? UNKNOWN : ec.getOwner().getInstanceNameL();
 		prop = new ECData.ECProperty(EC_PROPERTY_OWNER, owner);
 		props.add(prop);
 		// ec participants
-		prop = new ECData.ECProperty(EC_PROPERTY_PARTICIPANTS, Integer
-				.toString(ec.getParticipants().size()));
+		String parts = "";
+		if (ec.getParticipants() == null || ec.getParticipants().isEmpty()) {
+			parts = "None";
+		} else {
+			for (Component c : ec.getParticipants()) {
+				if (!parts.isEmpty()) {
+					parts += ",";
+				}
+				parts += (c.getInstanceNameL() == null) ? "Unresolved" : c.getInstanceNameL();
+			}
+		}
+		prop = new ECData.ECProperty(EC_PROPERTY_PARTICIPANTS, parts);
 		props.add(prop);
 		// properties
 		for (String key : ec.getPropertyKeys()) {
@@ -749,7 +754,10 @@ public class ExecutionContextView extends ViewPart {
 				//
 				ecdetailTableViewer.setInput(data.properties);
 
-				attachButton.setEnabled(true);
+				if (!targetComponent.getParticipationContexts().contains(data.ec)) {
+					// 選択中のコンポーネントが participantでなければ attach可
+					attachButton.setEnabled(true);
+				}
 				if (!targetComponent.getExecutionContexts().contains(data.ec)) {
 					// 選択中のコンポーネントが ownerでなければ detach可
 					detachButton.setEnabled(true);
@@ -955,36 +963,45 @@ public class ExecutionContextView extends ViewPart {
 
 	ISelectionListener selectionListener = new ISelectionListener() {
 		public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-			if (targetComponent != null) {
-				targetComponent.eAdapters().remove(eAdapter);
-				for (ExecutionContext ec : targetComponent
-						.getExecutionContexts()) {
-					ec.eAdapters().remove(eAdapter);
-				}
-				for (ExecutionContext ec : targetComponent
-						.getParticipationContexts()) {
-					ec.eAdapters().remove(eAdapter);
-				}
+			if (!(selection instanceof IStructuredSelection)) {
+				return;
 			}
-			targetComponent = null;
-			if (selection instanceof IStructuredSelection) {
-				IStructuredSelection ss = (IStructuredSelection) selection;
-				Object firstElement = ss.getFirstElement();
-				Object adapter = AdapterUtil.getAdapter(firstElement,
-						Component.class);
-				if (adapter != null) {
-					targetComponent = (Component) adapter;
-					targetComponent.synchronizeManually();
-					targetComponent.eAdapters().add(eAdapter);
-					for (ExecutionContext ec : targetComponent
-							.getExecutionContexts()) {
-						ec.eAdapters().add(eAdapter);
-					}
-					for (ExecutionContext ec : targetComponent
-							.getParticipationContexts()) {
-						ec.eAdapters().add(eAdapter);
-					}
-				}
+			IStructuredSelection ss = (IStructuredSelection) selection;
+			Object firstElement = ss.getFirstElement();
+			Object compObj = AdapterUtil.getAdapter(firstElement,
+					Component.class);
+			Object ctxtObj = AdapterUtil.getAdapter(firstElement,
+					ExecutionContext.class);
+			Component comp = null;
+			ExecutionContext ctxt = null;
+			if (compObj != null) {
+				comp = (Component) compObj;
+				ctxt = null;
+			} else if (ctxtObj != null) {
+				ctxt = (ExecutionContext) ctxtObj;
+				comp = (Component) ctxt.eContainer();
+			}
+			if (comp == null || comp == targetComponent) {
+				return;
+			}
+			targetComponent = comp;
+			ExecutionContext targetEc = ctxt;
+			//
+			targetComponent.eAdapters().remove(eAdapter);
+			for (ExecutionContext ec : targetComponent.getExecutionContexts()) {
+				ec.eAdapters().remove(eAdapter);
+			}
+			for (ExecutionContext ec : targetComponent
+					.getParticipationContexts()) {
+				ec.eAdapters().remove(eAdapter);
+			}
+			targetComponent.eAdapters().add(eAdapter);
+			for (ExecutionContext ec : targetComponent.getExecutionContexts()) {
+				ec.eAdapters().add(eAdapter);
+			}
+			for (ExecutionContext ec : targetComponent
+					.getParticipationContexts()) {
+				ec.eAdapters().add(eAdapter);
 			}
 			if (part instanceof AbstractSystemDiagramEditor) {
 				targetEditor = (AbstractSystemDiagramEditor) part;

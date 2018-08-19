@@ -1,6 +1,5 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.action;
 
-import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
 
 import org.eclipse.gef.ui.actions.EditorPartAction;
@@ -19,8 +18,8 @@ public class OpenAndRestoreAction extends EditorPartAction {
 	@Override
 	protected void init() {
 		setId(ID);
-		setText(Messages.getString("OpenAndRestoreAction.0")); //$NON-NLS-1$
-		setToolTipText(Messages.getString("OpenAndRestoreAction.1")); //$NON-NLS-1$
+		setText("Open and Restore...");
+		setToolTipText("Open and Restore...");
 	}
 
 	@Override

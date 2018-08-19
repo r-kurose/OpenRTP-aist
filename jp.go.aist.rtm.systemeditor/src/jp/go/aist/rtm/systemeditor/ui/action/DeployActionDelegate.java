@@ -90,7 +90,7 @@ public class DeployActionDelegate implements IEditorActionDelegate {
 		prepareProfile(profile, factory);
 		//候補コンポーネントの取得
 		NameServerManager ns = NameServerManagerImpl.getInstance();
-		EList nscomps = ns.getNodes();
+		EList<?> nscomps = ns.getNodes();
 		List<CorbaComponent> componentCandidates = new ArrayList<CorbaComponent>(); 
 		componentCandidates = DeployUtil.searchComponentList(nscomps, componentCandidates);
 		
@@ -309,7 +309,7 @@ public class DeployActionDelegate implements IEditorActionDelegate {
 	private CorbaComponent searchActiveCompByManager(NameServerManager ns, ObjectFactory factory,
 			Component target, org.openrtp.namespaces.rts.version02.Component propTarget) {
 		CorbaComponent result = null;
-		EList nscomps;
+		EList<?> nscomps;
 		//設定したManager情報を検索
 		java.util.List<RTCManager> managerCandidates = DeployUtil.searchManager(target);
 		String refId = target.getProperty(DeploymentSettingDialog.KEY_DEPLOY_TARGET);
@@ -323,7 +323,7 @@ public class DeployActionDelegate implements IEditorActionDelegate {
 		}
 		if(propTarget==null ) return result;
 		//
-		EList createds = actManager.getComponentInstanceNamesR();
+		EList<?> createds = actManager.getComponentInstanceNamesR();
 		jp.go.aist.rtm.toolscommon.model.component.Component created = null;
 		Property prop = factory.createProperty();
 		for(int index=0;index<createds.size();index++) {
@@ -423,7 +423,7 @@ public class DeployActionDelegate implements IEditorActionDelegate {
 					} catch (Exception e) {	 
 						monitor.done();
 						throw new InvocationTargetException(e,
-								Messages.getString("SystemDiagramEditor.6")  + "\r\n" + e.getMessage()); //$NON-NLS-1$
+								Messages.getString("SystemDiagramEditor.5")  + "\r\n" + e.getMessage()); //$NON-NLS-1$
 					}
 					monitor.internalWorked(35);
 
@@ -598,7 +598,6 @@ public class DeployActionDelegate implements IEditorActionDelegate {
 		action.setEnabled(isEnable());
 	}
 	
-	@SuppressWarnings("unchecked")
 	private boolean isEnable() {
 		if (selection instanceof IStructuredSelection) {
 			if( ((IStructuredSelection) selection).getFirstElement() instanceof SystemDiagramEditPart) {

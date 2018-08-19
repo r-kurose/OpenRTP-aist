@@ -96,10 +96,9 @@ public class Restoration {
 	 * @param result
 	 * @param systemDiagram
 	 */
-	@SuppressWarnings("unchecked")
 	private static void processAllPing(Result result,
 			SystemDiagram systemDiagram) {
-		for (Iterator iter = systemDiagram.eAllContents(); iter.hasNext();) {
+		for (Iterator<?> iter = systemDiagram.eAllContents(); iter.hasNext();) {
 			Object obj = iter.next();
 			if (obj instanceof CorbaComponent) {
 				CorbaComponent c = (CorbaComponent) obj;

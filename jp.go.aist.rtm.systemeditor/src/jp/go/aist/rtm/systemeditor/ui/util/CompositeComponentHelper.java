@@ -14,7 +14,7 @@ import org.eclipse.ui.IEditorPart;
  */
 public class CompositeComponentHelper {
 
-	private static final String CONFIRM_TITLE = Messages.getString("CompositeComponentHelper.confirm.title"); // Confirm
+	private static final String CONFIRM_TITLE = Messages.getString("Common.dialog.confirm_title"); // Confirm
 
 	/**
 	 * 子ウィンドウが開いているときに削除または解除を行うかを確認する

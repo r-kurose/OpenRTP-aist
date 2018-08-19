@@ -1,6 +1,5 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.action;
 
-import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
 
 import org.eclipse.gef.ui.actions.EditorPartAction;
@@ -19,8 +18,8 @@ public class OpenAction extends EditorPartAction {
 	@Override
 	protected void init() {
 		setId(ID);
-		setText(Messages.getString("OpenAction.0")); //$NON-NLS-1$
-		setToolTipText(Messages.getString("OpenAction.1")); //$NON-NLS-1$
+		setText("Open...");
+		setToolTipText("Open...");
 	}
 
 	@Override

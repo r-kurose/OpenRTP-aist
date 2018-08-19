@@ -74,7 +74,6 @@ public class DeploySaveActionDelegate implements IEditorActionDelegate {
 		action.setEnabled(isEnable());
 	}
 	
-	@SuppressWarnings("unchecked")
 	private boolean isEnable() {
 		if (selection instanceof IStructuredSelection) {
 			if( ((IStructuredSelection) selection).getFirstElement() instanceof SystemDiagramEditPart) {

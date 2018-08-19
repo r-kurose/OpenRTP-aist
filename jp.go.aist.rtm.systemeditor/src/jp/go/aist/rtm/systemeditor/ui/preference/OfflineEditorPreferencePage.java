@@ -220,7 +220,7 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 
 		//////////
 		Button addButton = new Button(composite, SWT.PUSH);
-		addButton.setText(Messages.getString("OfflineEditorPreferencePage.5")); //$NON-NLS-1$
+		addButton.setText(Messages.getString("Common.button.add")); //$NON-NLS-1$
 		addButton.addSelectionListener(new SelectionAdapter() {
 			@SuppressWarnings("unchecked")
 			@Override
@@ -234,7 +234,7 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 		/////
 		Button deleteButton = new Button(composite, SWT.PUSH);
 		//
-		deleteButton.setText(Messages.getString("OfflineEditorPreferencePage.7")); //$NON-NLS-1$
+		deleteButton.setText(Messages.getString("Common.button.delete")); //$NON-NLS-1$
 		deleteButton.addSelectionListener(new SelectionAdapter() {
 			@SuppressWarnings("unchecked")
 			@Override

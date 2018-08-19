@@ -208,6 +208,8 @@ public class ComponentIconStore {
 			}
 			xmlString += s;
 		}
+		reader.close();
+		
 		IconProfileHandler handler = new IconProfileHandler();
 		ComponentIconStore result = handler.parse(xmlString);
 		return result;

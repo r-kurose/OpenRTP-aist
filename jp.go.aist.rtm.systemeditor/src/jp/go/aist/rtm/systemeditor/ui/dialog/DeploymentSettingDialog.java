@@ -67,7 +67,7 @@ public class DeploymentSettingDialog extends Dialog {
 			tabComponent.setText("Component");
 			//
 			NameServerManager ns = NameServerManagerImpl.getInstance();
-			EList nscomps = ns.getNodes();
+			EList<?> nscomps = ns.getNodes();
 			componentCandidates = DeployUtil.searchComponentList(nscomps, componentCandidates);
 			listComp = new List(tabFolder,SWT.SINGLE|SWT.BORDER|SWT.V_SCROLL);
 			for(int index=0;index<componentCandidates.size();index++) {

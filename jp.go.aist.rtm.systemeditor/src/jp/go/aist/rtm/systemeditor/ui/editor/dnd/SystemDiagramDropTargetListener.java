@@ -17,7 +17,7 @@ import org.eclipse.gef.dnd.AbstractTransferDropTargetListener;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.dnd.DropTargetEvent;
-import org.eclipse.ui.views.navigator.LocalSelectionTransfer;
+import org.eclipse.jface.util.LocalSelectionTransfer;
 
 /**
  * システムダイアグラムのDropTargetListener
@@ -34,7 +34,7 @@ public class SystemDiagramDropTargetListener extends
 	 *            EditPartViewer
 	 */
 	public SystemDiagramDropTargetListener(EditPartViewer viewer) {
-		super(viewer, LocalSelectionTransfer.getInstance());
+		super(viewer, LocalSelectionTransfer.getTransfer());
 	}
 
 	public boolean isOnline() {
@@ -101,7 +101,7 @@ public class SystemDiagramDropTargetListener extends
 	@Override
 	protected void handleDrop() {
 		IStructuredSelection selection = (IStructuredSelection) LocalSelectionTransfer
-				.getInstance().getSelection();
+				.getTransfer().getSelection();
 		getCurrentEvent().data = selection;
 		super.handleDrop();
 	}
@@ -114,7 +114,7 @@ public class SystemDiagramDropTargetListener extends
 		// オンラインエディタへは NameServiceViewから DnD可能
 		// オフラインエディタへは RepositoryViewから DnD可能
 		IStructuredSelection selection = (IStructuredSelection) LocalSelectionTransfer
-				.getInstance().getSelection();
+				.getTransfer().getSelection();
 		Iterator<?> iter = selection.iterator();
 		while (iter.hasNext()) {
 			Object obj = iter.next();

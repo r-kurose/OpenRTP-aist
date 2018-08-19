@@ -20,7 +20,7 @@ public class CreateComponentDialogTest extends TestCase {
 	    shell.open();
 	    EList typeList = setupTypeList();
 	    CreateComponentDialog dialog = new CreateComponentDialog(shell);
-	    dialog.setTypeList(typeList);
+//	    dialog.setTypeList(typeList);
 		dialog.open();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {

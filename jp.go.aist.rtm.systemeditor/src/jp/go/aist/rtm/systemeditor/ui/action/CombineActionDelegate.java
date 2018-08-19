@@ -85,11 +85,10 @@ public class CombineActionDelegate implements IEditorActionDelegate {
 		action.setEnabled(isEnable());
 	}
 
-	@SuppressWarnings("unchecked")
 	private boolean isEnable() {
 		selectedComponents = new ArrayList<Component>();
 		if (selection instanceof IStructuredSelection) {
-			for (Iterator iterator = ((IStructuredSelection) selection)
+			for (Iterator<?> iterator = ((IStructuredSelection) selection)
 					.iterator(); iterator.hasNext();) {
 				Object part = iterator.next();
 				if (part instanceof ComponentEditPart) {

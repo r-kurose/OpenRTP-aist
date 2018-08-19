@@ -75,21 +75,13 @@ public class CompositeComponentView extends ViewPart {
 
 	private static final String PROPERTY_PORT_NAME = "PROPERTY_PORT_NAME";
 
-	private static final String LABEL_COMPONENT_NAME = Messages.getString("CompositeComponentView.label.component_name"); //　component:
-
-	private static final String LABEL_COMPONENT_TYPE = Messages.getString("CompositeComponentView.label.component_type"); // type:
-
 	private static final String COLUMN_CHECK_LABEL = "";
 
-	private static final String COLUMN_COMPONENT_LABEL = Messages.getString("CompositeComponentView.column.component.label"); // component
+	private static final String BUTTON_APPLY_LABEL = Messages.getString("Common.button.apply"); // Apply
 
-	private static final String COLUMN_PORT_LABEL = Messages.getString("CompositeComponentView.column.port.label"); // port
+	private static final String BUTTON_CANCEL_LABEL = Messages.getString("Common.button.cancel"); // Cancel
 
-	private static final String BUTTON_APPLY_LABEL = Messages.getString("CompositeComponentView.button.apply.label"); // Apply
-
-	private static final String BUTTON_CANCEL_LABEL = Messages.getString("CompositeComponentView.button.cancel.label"); // Cancel
-
-	private static final String CONFIRM_APPLY_TITLE = Messages.getString("CompositeComponentView.confirm.apply_title"); // Confirm
+	private static final String CONFIRM_APPLY_TITLE = Messages.getString("Common.dialog.confirm_title"); // Confirm
 
 	private static final String CONFIRM_APPLY_MESSAGE = Messages.getString("CompositeComponentView.confirm.apply_message"); // Apply changes?
 
@@ -143,7 +135,7 @@ public class CompositeComponentView extends ViewPart {
 		gd.horizontalSpan = 0;
 		gd.verticalSpan = 0;
 		nameLabel.setLayoutData(gd);
-		nameLabel.setText(LABEL_COMPONENT_NAME);
+		nameLabel.setText("component:");
 
 		nameText = new Text(composite, SWT.BORDER);
 		gd = new GridData();
@@ -160,7 +152,7 @@ public class CompositeComponentView extends ViewPart {
 		gd.horizontalSpan = 0;
 		gd.verticalSpan = 0;
 		typeLabel.setLayoutData(gd);
-		typeLabel.setText(LABEL_COMPONENT_TYPE);
+		typeLabel.setText("type:");
 
 		typeText = new Text(composite, SWT.BORDER);
 		gd = new GridData();
@@ -218,10 +210,10 @@ public class CompositeComponentView extends ViewPart {
 		checkCol.setText(COLUMN_CHECK_LABEL);
 		checkCol.setWidth(40);
 		final TableColumn compCol = new TableColumn(portTable, SWT.NONE);
-		compCol.setText(COLUMN_COMPONENT_LABEL);
+		compCol.setText("component");
 		compCol.setWidth(200);
 		final TableColumn portCol = new TableColumn(portTable, SWT.NONE);
-		portCol.setText(COLUMN_PORT_LABEL);
+		portCol.setText("port");
 		portCol.setWidth(200);
 	
 		final Composite execButtonComposite = new Composite(composite, SWT.NONE);

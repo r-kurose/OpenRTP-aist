@@ -22,7 +22,6 @@ public class AbstractPolygon extends Shape {
 		this.points = points;
 	}
 
-	@SuppressWarnings("unchecked")
 	public boolean containsPoint(int x, int y) {
 		if (!getBounds().contains(x, y))
 			return false;
@@ -48,7 +47,7 @@ public class AbstractPolygon extends Shape {
 				return true;
 		}
 
-		List children = getChildren();
+		List<?> children = getChildren();
 		for (int i = 0; i < children.size(); i++)
 			if (((IFigure) children.get(i)).containsPoint(x, y))
 				return true;

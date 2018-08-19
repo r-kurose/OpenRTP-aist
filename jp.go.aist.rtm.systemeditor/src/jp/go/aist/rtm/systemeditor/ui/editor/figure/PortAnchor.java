@@ -2,12 +2,13 @@ package jp.go.aist.rtm.systemeditor.ui.editor.figure;
 
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PrecisionPoint;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
  * ポートアンカークラス
  */
-public class PortAnchor extends ChopboxAnchor {
+public class PortAnchor extends ChopboxAnchor implements DirectionableConnectionAnchor {
 	/**
 	 * コンストラクタ
 	 * 
@@ -32,7 +33,7 @@ public class PortAnchor extends ChopboxAnchor {
 		float centerX = r.x + 0.5f * r.width;
 		float centerY = r.y + 0.5f * r.height;
 
-		return new Point(centerX, centerY);
+		return new PrecisionPoint(centerX, centerY);
 	}
 
 	/**
@@ -40,6 +41,7 @@ public class PortAnchor extends ChopboxAnchor {
 	 * 
 	 * @return 方向
 	 */
+	@Override
 	public String getDirection() {
 		return getOwner().getDirection();
 	}

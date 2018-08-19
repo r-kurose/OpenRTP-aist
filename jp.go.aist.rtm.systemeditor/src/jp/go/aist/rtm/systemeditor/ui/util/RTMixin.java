@@ -28,4 +28,11 @@ public class RTMixin {
 		return (s1 != null && s1.equals(s2));
 	}
 
+	public static String to_cid(Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.getClass().getSimpleName() + "@" + Integer.toHexString(o.hashCode());
+	}
+
 }

@@ -136,7 +136,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 
 		Button applyCheckBox = new Button(mainComposite, SWT.CHECK);
 		applyCheckBox.setLayoutData(gd);
-		applyCheckBox.setText(Messages.getString("ConfigurationDialog.3")); //$NON-NLS-1$
+		applyCheckBox.setText("Apply"); //$NON-NLS-1$
 		applyCheckBox.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
@@ -265,7 +265,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 		gd.grabExcessHorizontalSpace = true;
 
 		Label nameLabel = new Label(configSetComposite, SWT.NONE);
-		nameLabel.setText(Messages.getString("ConfigurationDialog.4")); //$NON-NLS-1$
+		nameLabel.setText("ConfigurationSet :"); //$NON-NLS-1$
 		Label nameText = new Label(configSetComposite, SWT.SINGLE);
 		nameText.setLayoutData(gd);
 		nameText.setText(configSet.getId());
@@ -887,7 +887,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 				String value = valueText.getText();
 				ConfigurationCondition condition = wd.getCondition();
 				if (!condition.validate(value)) {
-					valueText.setToolTipText(Messages.getString("ConfigurationDialog.12") + condition + Messages.getString("ConfigurationDialog.13")); //$NON-NLS-1$ //$NON-NLS-2$
+					valueText.setToolTipText(Messages.getString("ConfigurationDialog.6") + condition + Messages.getString("ConfigurationDialog.7")); //$NON-NLS-1$ //$NON-NLS-2$
 					valueText.setBackground(colorRegistry.get(ERROR_COLOR));
 				} else {
 					valueText.setToolTipText(null);
@@ -944,7 +944,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 				String value = valueSpinner.getText();
 				ConfigurationCondition condition = wd.getCondition();
 				if (!condition.validate(value)) {
-					valueSpinner.setToolTipText(Messages.getString("ConfigurationDialog.9") + condition + Messages.getString("ConfigurationDialog.10")); //$NON-NLS-1$ //$NON-NLS-2$
+					valueSpinner.setToolTipText(Messages.getString("ConfigurationDialog.6") + condition + Messages.getString("ConfigurationDialog.7")); //$NON-NLS-1$ //$NON-NLS-2$
 					// 最小/最大値を超える値を丸める
 					wd.setValue(condition.adjustMinMaxValue(value));
 					if (wd.isValueModified()) {
@@ -1200,7 +1200,7 @@ public class ConfigurationDialog extends TitleAreaDialog {
 	@Override
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
-		shell.setText(Messages.getString("ConfigurationDialog.25")); //$NON-NLS-1$
+		shell.setText("Configuration"); //$NON-NLS-1$
 	}
 
 	@Override

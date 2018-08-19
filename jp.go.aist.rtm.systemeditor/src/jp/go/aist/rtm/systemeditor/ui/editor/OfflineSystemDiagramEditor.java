@@ -55,8 +55,7 @@ public class OfflineSystemDiagramEditor extends AbstractSystemDiagramEditor {
 	protected IEditorInput load(IEditorInput input, final IEditorSite site,
 			final RestoreOption restore) throws PartInitException {
 		
-		IEditorInput targetInput = getTargetInput(input
-				, Messages.getString("OfflineSystemDiagramEditor.7"));
+		IEditorInput targetInput = getTargetInput(input, "Offline System Diagram");
 
 		if (targetInput instanceof FileEditorInput)	 {
 			// RTSプロファイルをファイルからロードする

@@ -11,8 +11,7 @@ public class NameDirectEditManager extends DirectEditManager {
 
 	Object model;
 
-	@SuppressWarnings("unchecked")
-	public NameDirectEditManager(GraphicalEditPart source, Class editorType,
+	public NameDirectEditManager(GraphicalEditPart source, Class<?> editorType,
 			CellEditorLocator locator) {
 		super(source, editorType, locator);
 		this.model = source.getModel();

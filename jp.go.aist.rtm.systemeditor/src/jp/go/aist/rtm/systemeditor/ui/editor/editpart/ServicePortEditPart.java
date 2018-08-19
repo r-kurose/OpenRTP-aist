@@ -78,7 +78,7 @@ public class ServicePortEditPart extends PortEditPart {
 		}
 		result.setLocation(new Point(0, 0));
 
-		OutPortEditPart.supportAutoCreateConnectorToolMode(getViewer(), result);
+		AutoConnectorCreationTool.fetchTool(this, result);
 
 		return result;
 	}

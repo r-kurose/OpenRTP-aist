@@ -4,11 +4,11 @@ Created-By: 20.0-b12 (Sun Microsystems Inc.)
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: jp.go.aist.rtm.systemeditor;singleton:=true
-Bundle-Version: 1.1.0.rc4v20130124
+Bundle-Version: 1.2.0
 Bundle-Activator: jp.go.aist.rtm.systemeditor.RTSystemEditorPlugin
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.gef;visibility:=reexport,
- jp.go.aist.rtm.toolscommon,
+ jp.go.aist.rtm.toolscommon;bundle-version="1.2.0",
  jp.go.aist.rtm.nameserviceview,
  jp.go.aist.rtm.toolscommon.profiles,
  jp.go.aist.rtm.repositoryView

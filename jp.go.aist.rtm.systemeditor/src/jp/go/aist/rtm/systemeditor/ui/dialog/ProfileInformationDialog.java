@@ -91,21 +91,20 @@ public class ProfileInformationDialog extends Dialog {
 			}
 		};
 
-		txtVendor = createLabelAndText(mainComposite, Messages.getString("ProfileInformationDialog.0")); //$NON-NLS-1$
+		txtVendor = createLabelAndText(mainComposite, "Vendor:"); //$NON-NLS-1$
 		if (inputId != null) txtVendor.setText(inputId.vendor);
 		txtVendor.addKeyListener(listener);
-		txtSystemName = createLabelAndText(mainComposite, Messages.getString("ProfileInformationDialog.1")); //$NON-NLS-1$
+		txtSystemName = createLabelAndText(mainComposite, "System Name:"); //$NON-NLS-1$
 		if (inputId != null) txtSystemName.setText(inputId.name);
 		txtSystemName.addKeyListener(listener);
-		txtVersion = createLabelAndText(mainComposite, Messages.getString("ProfileInformationDialog.2")); //$NON-NLS-1$
+		txtVersion = createLabelAndText(mainComposite, "Version:"); //$NON-NLS-1$
 		if (inputId != null) txtVersion.setText(inputId.version);
 		txtVersion.addKeyListener(listener);
 		//
-		txtPath = createLabelAndTextAndButton(mainComposite, Messages.getString("ProfileInformationDialog.3"),
-						inputPath, isOverWrite); //$NON-NLS-1$
+		txtPath = createLabelAndTextAndButton(mainComposite, "Path:", inputPath, isOverWrite); //$NON-NLS-1$
 		//
 		Label label = new Label(mainComposite, SWT.LEFT);
-		label.setText(Messages.getString("ProfileInformationDialog.8")); //$NON-NLS-1$
+		label.setText("Update Log:"); //$NON-NLS-1$
 		txtUpdateLog = new Text(mainComposite, SWT.MULTI | SWT.BORDER | SWT.LEFT);
 		txtUpdateLog.addKeyListener(listener);
 		GridData gd = new GridData();
@@ -198,7 +197,7 @@ public class ProfileInformationDialog extends Dialog {
 	@Override
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
-		shell.setText(Messages.getString("ProfileInformationDialog.9")); //$NON-NLS-1$
+		shell.setText("Profile Information"); //$NON-NLS-1$
 	}
 
 	@Override
@@ -333,7 +332,7 @@ public class ProfileInformationDialog extends Dialog {
 	// 必須コンポーネント選択エリア 2008.12.11
 	private void createRequiedComponentsArea(Composite mainComposite) {
 		Label pathLabel = new Label(mainComposite, SWT.LEFT);
-		pathLabel.setText(Messages.getString("ProfileInformationDialog.16")); //$NON-NLS-1$
+		pathLabel.setText("Required:"); //$NON-NLS-1$
 		viewer = CheckboxTableViewer.newCheckList(mainComposite, SWT.BORDER);
 		viewer.setContentProvider(new ArrayContentProvider());
 		viewer.setLabelProvider(new ITableLabelProvider() {
