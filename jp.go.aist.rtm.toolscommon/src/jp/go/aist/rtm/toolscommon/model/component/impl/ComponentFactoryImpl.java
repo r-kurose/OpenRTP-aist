@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 import jp.go.aist.rtm.toolscommon.corba.CorbaUtil;
+import jp.go.aist.rtm.toolscommon.model.component.*;
+import jp.go.aist.rtm.toolscommon.model.component.util.ICorbaPortEventObserver;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
@@ -79,7 +81,7 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	 */
 	public static ComponentFactory init() {
 		try {
-			ComponentFactory theComponentFactory = (ComponentFactory)EPackage.Registry.INSTANCE.getEFactory("http:///jp/go/aist/rtm/toolscommon/model/component.ecore"); 
+			ComponentFactory theComponentFactory = (ComponentFactory)EPackage.Registry.INSTANCE.getEFactory(ComponentPackage.eNS_URI);
 			if (theComponentFactory != null) {
 				return theComponentFactory;
 			}
@@ -172,6 +174,8 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 				return createListFromString(eDataType, initialValue);
 			case ComponentPackage.SERVANT:
 				return createServantFromString(eDataType, initialValue);
+			case ComponentPackage.ICORBA_PORT_EVENT_OBSERVER:
+				return createICorbaPortEventObserverFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -215,6 +219,8 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 				return convertListToString(eDataType, instanceValue);
 			case ComponentPackage.SERVANT:
 				return convertServantToString(eDataType, instanceValue);
+			case ComponentPackage.ICORBA_PORT_EVENT_OBSERVER:
+				return convertICorbaPortEventObserverToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -482,6 +488,24 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	 * @generated
 	 */
 	public String convertServantToString(EDataType eDataType, Object instanceValue) {
+		return super.convertToString(eDataType, instanceValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ICorbaPortEventObserver createICorbaPortEventObserverFromString(EDataType eDataType, String initialValue) {
+		return (ICorbaPortEventObserver)super.createFromString(eDataType, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertICorbaPortEventObserverToString(EDataType eDataType, Object instanceValue) {
 		return super.convertToString(eDataType, instanceValue);
 	}
 

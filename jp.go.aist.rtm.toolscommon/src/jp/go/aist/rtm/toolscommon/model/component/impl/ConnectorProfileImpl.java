@@ -49,6 +49,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ConnectorProfileImpl#getInportBufferWriteTimeout <em>Inport Buffer Write Timeout</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ConnectorProfileImpl#getInportBufferEmptyPolicy <em>Inport Buffer Empty Policy</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ConnectorProfileImpl#getInportBufferReadTimeout <em>Inport Buffer Read Timeout</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ConnectorProfileImpl#getTimestampPolicy <em>Timestamp Policy</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.impl.ConnectorProfileImpl#isIsReverse <em>Is Reverse</em>}</li>
  * </ul>
  * </p>
  *
@@ -504,6 +506,46 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 	 * @ordered
 	 */
 	protected Double inportBufferReadTimeout = INPORT_BUFFER_READ_TIMEOUT_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getTimestampPolicy() <em>Timestamp Policy</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTimestampPolicy()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String TIMESTAMP_POLICY_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getTimestampPolicy() <em>Timestamp Policy</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTimestampPolicy()
+	 * @generated
+	 * @ordered
+	 */
+	protected String timestampPolicy = TIMESTAMP_POLICY_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isIsReverse() <em>Is Reverse</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isIsReverse()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean IS_REVERSE_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isIsReverse() <em>Is Reverse</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isIsReverse()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean isReverse = IS_REVERSE_EDEFAULT;
 
 	IPropertyMap properties;
 
@@ -1017,6 +1059,48 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getTimestampPolicy() {
+		return timestampPolicy;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTimestampPolicy(String newTimestampPolicy) {
+		String oldTimestampPolicy = timestampPolicy;
+		timestampPolicy = newTimestampPolicy;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.CONNECTOR_PROFILE__TIMESTAMP_POLICY, oldTimestampPolicy, timestampPolicy));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isIsReverse() {
+		return isReverse;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setIsReverse(boolean newIsReverse) {
+		boolean oldIsReverse = isReverse;
+		isReverse = newIsReverse;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.CONNECTOR_PROFILE__IS_REVERSE, oldIsReverse, isReverse));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public String getProperty(String key) {
@@ -1072,9 +1156,9 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 			case ComponentPackage.CONNECTOR_PROFILE__SUBSCRIPTION_TYPE:
 				return getSubscriptionType();
 			case ComponentPackage.CONNECTOR_PROFILE__SUBSCRIPTION_TYPE_AVAILABLE:
-				return isSubscriptionTypeAvailable() ? Boolean.TRUE : Boolean.FALSE;
+				return isSubscriptionTypeAvailable();
 			case ComponentPackage.CONNECTOR_PROFILE__PUSH_INTERVAL_AVAILABLE:
-				return isPushIntervalAvailable() ? Boolean.TRUE : Boolean.FALSE;
+				return isPushIntervalAvailable();
 			case ComponentPackage.CONNECTOR_PROFILE__NAME:
 				return getName();
 			case ComponentPackage.CONNECTOR_PROFILE__CONNECTOR_ID:
@@ -1090,9 +1174,9 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 			case ComponentPackage.CONNECTOR_PROFILE__SKIP_COUNT:
 				return getSkipCount();
 			case ComponentPackage.CONNECTOR_PROFILE__PUSH_POLICY_AVAILABLE:
-				return isPushPolicyAvailable() ? Boolean.TRUE : Boolean.FALSE;
+				return isPushPolicyAvailable();
 			case ComponentPackage.CONNECTOR_PROFILE__SKIP_COUNT_AVAILABLE:
-				return isSkipCountAvailable() ? Boolean.TRUE : Boolean.FALSE;
+				return isSkipCountAvailable();
 			case ComponentPackage.CONNECTOR_PROFILE__SOURCE_STRING:
 				return getSourceString();
 			case ComponentPackage.CONNECTOR_PROFILE__TARGET_STRING:
@@ -1117,6 +1201,10 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 				return getInportBufferEmptyPolicy();
 			case ComponentPackage.CONNECTOR_PROFILE__INPORT_BUFFER_READ_TIMEOUT:
 				return getInportBufferReadTimeout();
+			case ComponentPackage.CONNECTOR_PROFILE__TIMESTAMP_POLICY:
+				return getTimestampPolicy();
+			case ComponentPackage.CONNECTOR_PROFILE__IS_REVERSE:
+				return isIsReverse();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -1191,6 +1279,12 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 				return;
 			case ComponentPackage.CONNECTOR_PROFILE__INPORT_BUFFER_READ_TIMEOUT:
 				setInportBufferReadTimeout((Double)newValue);
+				return;
+			case ComponentPackage.CONNECTOR_PROFILE__TIMESTAMP_POLICY:
+				setTimestampPolicy((String)newValue);
+				return;
+			case ComponentPackage.CONNECTOR_PROFILE__IS_REVERSE:
+				setIsReverse((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -1267,6 +1361,12 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 			case ComponentPackage.CONNECTOR_PROFILE__INPORT_BUFFER_READ_TIMEOUT:
 				setInportBufferReadTimeout(INPORT_BUFFER_READ_TIMEOUT_EDEFAULT);
 				return;
+			case ComponentPackage.CONNECTOR_PROFILE__TIMESTAMP_POLICY:
+				setTimestampPolicy(TIMESTAMP_POLICY_EDEFAULT);
+				return;
+			case ComponentPackage.CONNECTOR_PROFILE__IS_REVERSE:
+				setIsReverse(IS_REVERSE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -1329,6 +1429,10 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 				return INPORT_BUFFER_EMPTY_POLICY_EDEFAULT == null ? inportBufferEmptyPolicy != null : !INPORT_BUFFER_EMPTY_POLICY_EDEFAULT.equals(inportBufferEmptyPolicy);
 			case ComponentPackage.CONNECTOR_PROFILE__INPORT_BUFFER_READ_TIMEOUT:
 				return INPORT_BUFFER_READ_TIMEOUT_EDEFAULT == null ? inportBufferReadTimeout != null : !INPORT_BUFFER_READ_TIMEOUT_EDEFAULT.equals(inportBufferReadTimeout);
+			case ComponentPackage.CONNECTOR_PROFILE__TIMESTAMP_POLICY:
+				return TIMESTAMP_POLICY_EDEFAULT == null ? timestampPolicy != null : !TIMESTAMP_POLICY_EDEFAULT.equals(timestampPolicy);
+			case ComponentPackage.CONNECTOR_PROFILE__IS_REVERSE:
+				return isReverse != IS_REVERSE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -1384,6 +1488,10 @@ public class ConnectorProfileImpl extends WrapperObjectImpl implements
 		result.append(inportBufferEmptyPolicy);
 		result.append(", inportBufferReadTimeout: ");
 		result.append(inportBufferReadTimeout);
+		result.append(", timestampPolicy: ");
+		result.append(timestampPolicy);
+		result.append(", isReverse: ");
+		result.append(isReverse);
 		result.append(')');
 		return result.toString();
 	}

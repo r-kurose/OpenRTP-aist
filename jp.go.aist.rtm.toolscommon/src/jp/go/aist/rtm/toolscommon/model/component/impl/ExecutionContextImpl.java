@@ -7,14 +7,13 @@
 package jp.go.aist.rtm.toolscommon.model.component.impl;
 
 import java.util.Collection;
+
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
-
 import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
 import jp.go.aist.rtm.toolscommon.model.component.util.PropertyMap;
 import jp.go.aist.rtm.toolscommon.model.core.impl.WrapperObjectImpl;
-
 import jp.go.aist.rtm.toolscommon.ui.propertysource.ExecutionContextPropertySource;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -43,6 +42,54 @@ import org.eclipse.ui.views.properties.IPropertySource;
  */
 public class ExecutionContextImpl extends WrapperObjectImpl implements
 		ExecutionContext {
+
+	/** RTC.LifeCycleStateを内部値へ変換します。 */
+	public static int RTC_STATUS(RTC.LifeCycleState state) {
+		if (state == null) {
+			return RTC_UNKNOWN;
+		}
+		if (state == RTC.LifeCycleState.ACTIVE_STATE
+				|| state == RTC.LifeCycleState.INACTIVE_STATE
+				|| state == RTC.LifeCycleState.ERROR_STATE) {
+			return state.value();
+		}
+		return RTC_UNKNOWN;
+	}
+
+	/** EC種別をラベルへ変換します。 */
+	public static String EC_KIND_LABEL(int kind) {
+		if (kind == KIND_PERIODIC) {
+			return "PERIODIC";
+		} else if (kind == KIND_EVENT_DRIVEN) {
+			return "EVENT_DRIVEN";
+		} else if (kind == KIND_OTHER) {
+			return "OTHER";
+		}
+		return "UNKNOWN";
+	}
+
+	/** EC状態をラベルへ変換します。 */
+	public static String EC_STATUS_LABEL(int state) {
+		if (state == STATE_STOPPED) {
+			return "STOPPED";
+		} else if (state == STATE_RUNNING) {
+			return "RUNNING";
+		}
+		return "UNKNOWN";
+	}
+
+	/** コンポーネント状態をラベルへ変換します。 */
+	public static String RTC_STATUS_LABEL(int state) {
+		if (state == RTC_ACTIVE) {
+			return "ACTIVE";
+		} else if (state == RTC_INACTIVE) {
+			return "INACTIVE";
+		} else if (state == RTC_ERROR) {
+			return "ERROR";
+		}
+		return "UNKNOWN";
+	}
+
 	/**
 	 * The default value of the '{@link #getKindL() <em>Kind L</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -250,19 +297,11 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
-	@SuppressWarnings("serial")
 	public EList<Component> getParticipants() {
 		if (participants == null) {
-			// EReferenceの重複が許容されないのでisUnique()を変更
-			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=89325
-			participants = new EObjectEList<Component>(Component.class, this, ComponentPackage.EXECUTION_CONTEXT__PARTICIPANTS) {
-				@Override
-				protected boolean isUnique() {
-					return false;
-				}
-			};
+			participants = new EObjectEList<Component>(Component.class, this, ComponentPackage.EXECUTION_CONTEXT__PARTICIPANTS);
 		}
 		return participants;
 	}
@@ -272,16 +311,27 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public String getKindName() {
-		if (kindL == KIND_PERIODIC) {
-			return "PERIODIC";
-		} else if (kindL == KIND_EVENT_DRIVEN) {
-			return "EVENT_DRIVEN";
-		} else if (kindL == KIND_OTHER) {
-			return "OTHER";
-		} else {
-			return "UNKNOWN";
+	public String getId() {
+		Component comp = (Component) eContainer();
+		if (comp != null) {
+			String id = comp.getExecutionContextHandler().getId(this);
+			if (id == null) {
+				id = comp.getParticipationContextHandler().getId(this);
+			}
+			if (id != null) {
+				return id;
+			}
 		}
+		return "";
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public String getKindName() {
+		return EC_KIND_LABEL(this.kindL);
 	}
 
 	/**
@@ -290,13 +340,7 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	 * @generated NOT
 	 */
 	public String getStateName() {
-		if (stateL == STATE_STOPPED) {
-			return "STOPPED";
-		} else if (stateL == STATE_RUNNING) {
-			return "RUNNING";
-		} else {
-			return "UNKNOWN";
-		}
+		return EC_STATUS_LABEL(this.stateL);
 	}
 
 	/**
@@ -315,7 +359,10 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	 * @generated NOT
 	 */
 	public boolean addComponentR(Component comp) {
-		// 同一RTCのアタッチを許容
+		// 同一RTCのアタッチを非許容
+		if (containsComponent(comp)) {
+			return false;
+		}
 		getParticipants().add(comp);
 		comp.getParticipationContexts().add(this);
 		comp.getParticipationContextHandler().sync();
@@ -328,7 +375,7 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	 * @generated NOT
 	 */
 	public boolean removeComponentR(Component comp) {
-		if (getParticipants().contains(comp)) {
+		if (containsComponent(comp)) {
 			getParticipants().remove(comp);
 		}
 		if (comp.getParticipationContexts().contains(this)) {
@@ -336,6 +383,27 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 		}
 		comp.getParticipationContextHandler().sync();
 		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean containsComponent(Component comp) {
+		return getParticipants().contains(comp);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean isOwner(Component comp) {
+		if (this.getOwner() != null && this.getOwner().equals(comp)) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -397,11 +465,11 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ComponentPackage.EXECUTION_CONTEXT__KIND_L:
-				return new Integer(getKindL());
+				return getKindL();
 			case ComponentPackage.EXECUTION_CONTEXT__RATE_L:
 				return getRateL();
 			case ComponentPackage.EXECUTION_CONTEXT__STATE_L:
-				return new Integer(getStateL());
+				return getStateL();
 			case ComponentPackage.EXECUTION_CONTEXT__OWNER:
 				if (resolve) return getOwner();
 				return basicGetOwner();
@@ -421,13 +489,13 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ComponentPackage.EXECUTION_CONTEXT__KIND_L:
-				setKindL(((Integer)newValue).intValue());
+				setKindL((Integer)newValue);
 				return;
 			case ComponentPackage.EXECUTION_CONTEXT__RATE_L:
 				setRateL((Double)newValue);
 				return;
 			case ComponentPackage.EXECUTION_CONTEXT__STATE_L:
-				setStateL(((Integer)newValue).intValue());
+				setStateL((Integer)newValue);
 				return;
 			case ComponentPackage.EXECUTION_CONTEXT__OWNER:
 				setOwner((Component)newValue);

@@ -43,6 +43,10 @@ public abstract class ReferenceMapping {
 	/**
 	 * リンクが同じものかどうか
 	 */
+	public boolean isLinkEquals(LocalObject localObject, java.lang.Object link1, java.lang.Object link2) {
+		return isLinkEquals(link1, link2);
+	}
+
 	public boolean isLinkEquals(java.lang.Object link1, java.lang.Object link2) {
 		boolean result = false;
 		if (link1 == null) {
@@ -50,7 +54,6 @@ public abstract class ReferenceMapping {
 		} else {
 			result = link1.equals(link2);
 		}
-
 		return result;
 	}
 

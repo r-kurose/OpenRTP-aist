@@ -1,11 +1,11 @@
 package jp.go.aist.rtm.toolscommon.model.component.util;
 
+import static jp.go.aist.rtm.toolscommon.util.RTMixin.eql;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static jp.go.aist.rtm.toolscommon.util.RTMixin.*;
 
 public class CorbaObjectStore {
 
@@ -19,6 +19,8 @@ public class CorbaObjectStore {
 	Map<RTC.RTObject, RTC.ExecutionContext[]> eOwnedContextCache;
 	// RTC.RTObj => RTC.EC(participating)[]
 	Map<RTC.RTObject, RTC.ExecutionContext[]> eParticipatingContextCache;
+	// RTC.RTObj => RTC.EC
+	Map<RTC.RTObject, RTC.ExecutionContext> ePrimaryContextCache;
 	// RTC.RTObj => SDO.ConfigurationSet[]
 	Map<RTC.RTObject, _SDOPackage.ConfigurationSet[]> configSetCache;
 	// RTC.RTObj => SDO.ConfigurationSet(active)
@@ -32,6 +34,8 @@ public class CorbaObjectStore {
 	Map<RTC.ExecutionContext, Integer> eContextStateCache;
 	// RTC.EC => { RTC.RTObj => State }
 	Map<RTC.ExecutionContext, Map<RTC.RTObject, Integer>> eContextCompStateMap;
+	// RTC.EC => RTC.RTObj
+	Map<RTC.ExecutionContext, RTC.RTObject> eContextOwnerCache;
 
 	public CorbaObjectStore() {
 		//
@@ -39,6 +43,7 @@ public class CorbaObjectStore {
 		this.eContextIdMap = new HashMap<RTC.RTObject, Map<String, RTC.ExecutionContext>>();
 		this.eOwnedContextCache = new HashMap<RTC.RTObject, RTC.ExecutionContext[]>();
 		this.eParticipatingContextCache = new HashMap<RTC.RTObject, RTC.ExecutionContext[]>();
+		this.ePrimaryContextCache = new HashMap<>();
 		this.configSetCache = new HashMap<RTC.RTObject, _SDOPackage.ConfigurationSet[]>();
 		this.activeConfigSetCache = new HashMap<RTC.RTObject, _SDOPackage.ConfigurationSet>();
 		this.compositeMemberList = new HashMap<RTC.RTObject, List<RTC.RTObject>>();
@@ -46,6 +51,7 @@ public class CorbaObjectStore {
 		this.eContextProfileCache = new HashMap<RTC.ExecutionContext, RTC.ExecutionContextProfile>();
 		this.eContextStateCache = new HashMap<RTC.ExecutionContext, Integer>();
 		this.eContextCompStateMap = new HashMap<RTC.ExecutionContext, Map<RTC.RTObject, Integer>>();
+		this.eContextOwnerCache = new HashMap<>();
 	}
 
 	/**
@@ -166,10 +172,22 @@ public class CorbaObjectStore {
 	}
 
 	/**
+	 * RTC.ExecutionContextをキーに RTC.RTObject(owner)を検索します。
+	 */
+	public RTC.RTObject findContextOwner(RTC.ExecutionContext ec) {
+		return eContextOwnerCache.get(ec);
+	}
+
+	/**
 	 * RTC.RTObjectをキーに RTC.ExecutionContextの一覧(owned)を保存します。
 	 */
 	public synchronized RTC.ExecutionContext[] registOwnedContexts(
 			RTC.RTObject ro, RTC.ExecutionContext[] ec) {
+		if (ec != null) {
+			for (RTC.ExecutionContext re : ec) {
+				this.eContextOwnerCache.put(re, ro);
+			}
+		}
 		return eOwnedContextCache.put(ro, ec);
 	}
 
@@ -178,7 +196,13 @@ public class CorbaObjectStore {
 	 */
 	public synchronized RTC.ExecutionContext[] removeOwnedContexts(
 			RTC.RTObject ro) {
-		return eOwnedContextCache.remove(ro);
+		RTC.ExecutionContext[] removed = eOwnedContextCache.remove(ro);
+		if (removed != null) {
+			for (RTC.ExecutionContext ec : removed) {
+				this.eContextOwnerCache.remove(ec);
+			}
+		}
+		return removed;
 	}
 
 	/**
@@ -202,6 +226,29 @@ public class CorbaObjectStore {
 	public synchronized RTC.ExecutionContext[] removeParticipatingContexts(
 			RTC.RTObject ro) {
 		return eParticipatingContextCache.remove(ro);
+	}
+
+	/**
+	 * RTC.RTObjectをキーにプライマリ RTC.ExecutionContextを検索します。
+	 */
+	public RTC.ExecutionContext findPrimaryContext(RTC.RTObject ro) {
+		return ePrimaryContextCache.get(ro);
+	}
+
+	/**
+	 * RTC.RTObjectをキーにプライマリ RTC.ExecutionContextを保存します。
+	 */
+	public synchronized RTC.ExecutionContext registPrimaryContext(
+			RTC.RTObject ro, RTC.ExecutionContext ec) {
+		return ePrimaryContextCache.put(ro, ec);
+	}
+
+	/**
+	 * RTC.RTObjectをキーにプライマリ RTC.ExecutionContextを削除します。
+	 */
+	public synchronized RTC.ExecutionContext removePrimaryContext(
+			RTC.RTObject ro) {
+		return ePrimaryContextCache.remove(ro);
 	}
 
 	/**

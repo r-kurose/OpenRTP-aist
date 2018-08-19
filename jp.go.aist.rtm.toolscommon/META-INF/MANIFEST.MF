@@ -4,13 +4,11 @@ Created-By: 20.0-b12 (Sun Microsystems Inc.)
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: jp.go.aist.rtm.toolscommon; singleton:=true
-Bundle-Version: 1.1.0.rc4v20130124
+Bundle-Version: 1.2.0
 Bundle-ClassPath: .,
  lib/commons-lang-2.2.jar,
  lib/jgraphx.jar,
  lib/rsyntaxtextarea.jar
-Bundle-Vendor: %providerName
-Bundle-Localization: plugin
 Export-Package: OpenRTM,
  RTC,
  RTM,

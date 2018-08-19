@@ -107,6 +107,18 @@ public class CoreSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case CorePackage.IADAPTABLE: {
+				IAdaptable iAdaptable = (IAdaptable)theEObject;
+				T result = caseIAdaptable(iAdaptable);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case CorePackage.LOCAL_OBJECT: {
+				LocalObject localObject = (LocalObject)theEObject;
+				T result = caseLocalObject(localObject);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case CorePackage.WRAPPER_OBJECT: {
 				WrapperObject wrapperObject = (WrapperObject)theEObject;
 				T result = caseWrapperObject(wrapperObject);

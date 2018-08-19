@@ -42,7 +42,8 @@ public class CorbaUtil {
 		try {
 			target.list(9999, bindingListHolder, bindingIteratorHolder);
 		} catch (Exception e) {
-			// void 
+			LOGGER.error("Fail to get binding list: nc={}", target);
+			LOGGER.error("ERROR:", e);
 		}
 
 		List<Binding> result = new ArrayList<Binding>();

@@ -55,14 +55,31 @@ public class CorbaPortConnectorImpl extends PortConnectorImpl implements PortCon
 			List<RTC.PortService> portLists = new ArrayList<RTC.PortService>();
 			RTC.PortService firstPortService = null;
 			RTC.PortService secondPortService = null;
-			if (first != null) {
-				firstPortService = getCorbaObjectInterface(first);
+			
+			if(connectorProfile.isIsReverse()) {
+				if (second != null) {
+					firstPortService = getCorbaObjectInterface(second);
+				}
+				if (first != null) {
+					secondPortService = getCorbaObjectInterface(first);
+				}
+				
+			} else {
+				if (first != null) {
+					firstPortService = getCorbaObjectInterface(first);
+				}
+				if (second != null) {
+					secondPortService = getCorbaObjectInterface(second);
+				}
+			}
+			
+			if (firstPortService!=null) {
 				portLists.add(firstPortService);
 			}
-			if (second != null) {
-				secondPortService = getCorbaObjectInterface(second);
+			if (secondPortService!=null) {
 				portLists.add(secondPortService);
 			}
+			
 			profile.ports = portLists.toArray(new RTC.PortService[0]);
 			profile.properties = CorbaConnectorProfileImpl
 					.createProperties(connectorProfile);
@@ -70,6 +87,7 @@ public class CorbaPortConnectorImpl extends PortConnectorImpl implements PortCon
 			ConnectorProfileHolder connectorProfileHolder = new ConnectorProfileHolder(
 					profile);
 			RTC.ReturnCode_t ret = RTC.ReturnCode_t.BAD_PARAMETER;
+			
 			if (firstPortService != null) {
 				ret = firstPortService.connect(connectorProfileHolder);
 			} else if (secondPortService != null) {

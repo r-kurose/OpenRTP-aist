@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
@@ -84,20 +85,10 @@ public class ManagerPackageImpl extends EPackageImpl implements ManagerPackage {
 	private static boolean isInited = false;
 
 	/**
-	 * Creates, registers, and initializes the <b>Package</b> for this
-	 * model, and for any others upon which it depends.  Simple
-	 * dependencies are satisfied by calling this method on all
-	 * dependent packages before doing anything else.  This method drives
-	 * initialization for interdependent packages directly, in parallel
-	 * with this package, itself.
-	 * <p>Of this package and its interdependencies, all packages which
-	 * have not yet been registered by their URI values are first created
-	 * and registered.  The packages are then initialized in two steps:
-	 * meta-model objects for all of the packages are created before any
-	 * are initialized, since one package's meta-model objects may refer to
-	 * those of another.
-	 * <p>Invocation of this method will not affect any packages that have
-	 * already been initialized.
+	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
+	 * 
+	 * <p>This method is used to initialize {@link ManagerPackage#eINSTANCE} when that field is accessed.
+	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #eNS_URI
@@ -109,7 +100,7 @@ public class ManagerPackageImpl extends EPackageImpl implements ManagerPackage {
 		if (isInited) return (ManagerPackage)EPackage.Registry.INSTANCE.getEPackage(ManagerPackage.eNS_URI);
 
 		// Obtain or create and register package
-		ManagerPackageImpl theManagerPackage = (ManagerPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof ManagerPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new ManagerPackageImpl());
+		ManagerPackageImpl theManagerPackage = (ManagerPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ManagerPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ManagerPackageImpl());
 
 		isInited = true;
 
@@ -130,6 +121,9 @@ public class ManagerPackageImpl extends EPackageImpl implements ManagerPackage {
 		// Mark meta-data to indicate it can't be changed
 		theManagerPackage.freeze();
 
+  
+		// Update the registry and return the package
+		EPackage.Registry.INSTANCE.put(ManagerPackage.eNS_URI, theManagerPackage);
 		return theManagerPackage;
 	}
 
@@ -210,6 +204,42 @@ public class ManagerPackageImpl extends EPackageImpl implements ManagerPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getRTCManager_Master() {
+		return (EAttribute)rtcManagerEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRTCManager_MasterManagers() {
+		return (EReference)rtcManagerEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRTCManager_SlaveManagers() {
+		return (EReference)rtcManagerEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRTCManager_Configuratoins() {
+		return (EReference)rtcManagerEClass.getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EDataType getRTMManagerProfile() {
 		return rtmManagerProfileEDataType;
 	}
@@ -259,6 +289,10 @@ public class ManagerPackageImpl extends EPackageImpl implements ManagerPackage {
 		createEAttribute(rtcManagerEClass, RTC_MANAGER__LOADABLE_MODULE_PROFILES);
 		createEAttribute(rtcManagerEClass, RTC_MANAGER__LOADED_MODULE_PROFILES);
 		createEAttribute(rtcManagerEClass, RTC_MANAGER__FACTORY_MODULE_PROFILES);
+		createEAttribute(rtcManagerEClass, RTC_MANAGER__MASTER);
+		createEReference(rtcManagerEClass, RTC_MANAGER__MASTER_MANAGERS);
+		createEReference(rtcManagerEClass, RTC_MANAGER__SLAVE_MANAGERS);
+		createEReference(rtcManagerEClass, RTC_MANAGER__CONFIGURATOINS);
 
 		// Create data types
 		rtmManagerProfileEDataType = createEDataType(RTM_MANAGER_PROFILE);
@@ -308,6 +342,10 @@ public class ManagerPackageImpl extends EPackageImpl implements ManagerPackage {
 		initEAttribute(getRTCManager_LoadableModuleProfiles(), this.getRTMModuleProfile(), "loadableModuleProfiles", null, 0, -1, RTCManager.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRTCManager_LoadedModuleProfiles(), this.getRTMModuleProfile(), "loadedModuleProfiles", null, 0, -1, RTCManager.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRTCManager_FactoryModuleProfiles(), this.getRTMModuleProfile(), "factoryModuleProfiles", null, 0, -1, RTCManager.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRTCManager_Master(), ecorePackage.getEBoolean(), "master", null, 0, 1, RTCManager.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRTCManager_MasterManagers(), this.getRTCManager(), null, "masterManagers", null, 0, -1, RTCManager.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRTCManager_SlaveManagers(), this.getRTCManager(), null, "slaveManagers", null, 0, -1, RTCManager.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRTCManager_Configuratoins(), theComponentPackage.getNameValue(), null, "configuratoins", null, 0, -1, RTCManager.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(rtcManagerEClass, this.getRTMManagerProfile(), "getProfileR", 0, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -338,6 +376,8 @@ public class ManagerPackageImpl extends EPackageImpl implements ManagerPackage {
 
 		addEOperation(rtcManagerEClass, ecorePackage.getEInt(), "shutdownR", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+		addEOperation(rtcManagerEClass, ecorePackage.getEInt(), "restartR", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		addEOperation(rtcManagerEClass, ecorePackage.getEString(), "getComponentInstanceNamesR", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		addEOperation(rtcManagerEClass, ecorePackage.getEString(), "getLoadableModuleFileNamesR", 0, -1, IS_UNIQUE, IS_ORDERED);
@@ -353,6 +393,32 @@ public class ManagerPackageImpl extends EPackageImpl implements ManagerPackage {
 		addEOperation(rtcManagerEClass, ecorePackage.getEString(), "getLoadedModuleFileNames", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		addEOperation(rtcManagerEClass, ecorePackage.getEString(), "getFactoryTypeNames", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(rtcManagerEClass, ecorePackage.getEBoolean(), "isMasterR", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(rtcManagerEClass, this.getRTCManager(), "getMasterManagersR", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(rtcManagerEClass, ecorePackage.getEInt(), "addMasterManagerR", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getRTCManager(), "mgr", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(rtcManagerEClass, ecorePackage.getEInt(), "removeMasterManagerR", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getRTCManager(), "mgr", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(rtcManagerEClass, this.getRTCManager(), "getSlaveManagersR", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(rtcManagerEClass, ecorePackage.getEInt(), "addSlaveManagerR", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getRTCManager(), "mgr", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(rtcManagerEClass, ecorePackage.getEInt(), "removeSlaveManagerR", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getRTCManager(), "mgr", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(rtcManagerEClass, ecorePackage.getEString(), "getSlaveManagerNames", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(rtcManagerEClass, theComponentPackage.getNameValue(), "getConfigurationR", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(rtcManagerEClass, ecorePackage.getEInt(), "setConfigurationR", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "name", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "value", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(rtmManagerProfileEDataType, ManagerProfile.class, "RTMManagerProfile", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

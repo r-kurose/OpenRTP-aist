@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -153,13 +154,49 @@ public interface ManagerPackage extends EPackage {
 	int RTC_MANAGER__FACTORY_MODULE_PROFILES = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 6;
 
 	/**
+	 * The feature id for the '<em><b>Master</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RTC_MANAGER__MASTER = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 7;
+
+	/**
+	 * The feature id for the '<em><b>Master Managers</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RTC_MANAGER__MASTER_MANAGERS = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 8;
+
+	/**
+	 * The feature id for the '<em><b>Slave Managers</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RTC_MANAGER__SLAVE_MANAGERS = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 9;
+
+	/**
+	 * The feature id for the '<em><b>Configuratoins</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RTC_MANAGER__CONFIGURATOINS = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 10;
+
+	/**
 	 * The number of structural features of the '<em>RTC Manager</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RTC_MANAGER_FEATURE_COUNT = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 7;
+	int RTC_MANAGER_FEATURE_COUNT = CorePackage.CORBA_WRAPPER_OBJECT_FEATURE_COUNT + 11;
 
 	/**
 	 * The meta object id for the '<em>RTM Manager Profile</em>' data type.
@@ -270,6 +307,50 @@ public interface ManagerPackage extends EPackage {
 	EAttribute getRTCManager_FactoryModuleProfiles();
 
 	/**
+	 * Returns the meta object for the attribute '{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#isMaster <em>Master</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Master</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.manager.RTCManager#isMaster()
+	 * @see #getRTCManager()
+	 * @generated
+	 */
+	EAttribute getRTCManager_Master();
+
+	/**
+	 * Returns the meta object for the reference list '{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getMasterManagers <em>Master Managers</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Master Managers</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getMasterManagers()
+	 * @see #getRTCManager()
+	 * @generated
+	 */
+	EReference getRTCManager_MasterManagers();
+
+	/**
+	 * Returns the meta object for the reference list '{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getSlaveManagers <em>Slave Managers</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Slave Managers</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getSlaveManagers()
+	 * @see #getRTCManager()
+	 * @generated
+	 */
+	EReference getRTCManager_SlaveManagers();
+
+	/**
+	 * Returns the meta object for the reference list '{@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getConfiguratoins <em>Configuratoins</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Configuratoins</em>'.
+	 * @see jp.go.aist.rtm.toolscommon.model.manager.RTCManager#getConfiguratoins()
+	 * @see #getRTCManager()
+	 * @generated
+	 */
+	EReference getRTCManager_Configuratoins();
+
+	/**
 	 * Returns the meta object for data type '{@link RTM.ManagerProfile <em>RTM Manager Profile</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -378,6 +459,38 @@ public interface ManagerPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute RTC_MANAGER__FACTORY_MODULE_PROFILES = eINSTANCE.getRTCManager_FactoryModuleProfiles();
+
+		/**
+		 * The meta object literal for the '<em><b>Master</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RTC_MANAGER__MASTER = eINSTANCE.getRTCManager_Master();
+
+		/**
+		 * The meta object literal for the '<em><b>Master Managers</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RTC_MANAGER__MASTER_MANAGERS = eINSTANCE.getRTCManager_MasterManagers();
+
+		/**
+		 * The meta object literal for the '<em><b>Slave Managers</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RTC_MANAGER__SLAVE_MANAGERS = eINSTANCE.getRTCManager_SlaveManagers();
+
+		/**
+		 * The meta object literal for the '<em><b>Configuratoins</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RTC_MANAGER__CONFIGURATOINS = eINSTANCE.getRTCManager_Configuratoins();
 
 		/**
 		 * The meta object literal for the '<em>RTM Manager Profile</em>' data type.

@@ -16,6 +16,7 @@ import RTC.RTObject;
 import RTC.ReturnCode_t;
 import _SDOPackage.Configuration;
 import _SDOPackage.Organization;
+import jp.go.aist.rtm.toolscommon.model.component.util.ICorbaPortEventObserver;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,14 +26,13 @@ import _SDOPackage.Organization;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getExecutionContextState <em>Execution Context State</em>}</li>
- *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getComponentState <em>Component State</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getRTCComponentProfile <em>RTC Component Profile</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getRTCExecutionContexts <em>RTC Execution Contexts</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getRTCParticipationContexts <em>RTC Participation Contexts</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getSDOConfiguration <em>SDO Configuration</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getSDOOrganization <em>SDO Organization</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getRTCRTObjects <em>RTCRT Objects</em>}</li>
+ *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getComponentState <em>Component State</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getIor <em>Ior</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getStatusObserver <em>Status Observer</em>}</li>
  *   <li>{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getLogObserver <em>Log Observer</em>}</li>
@@ -55,60 +55,6 @@ public interface CorbaComponent extends Component, CorbaWrapperObject {
 	public static final int RETURNCODE_OUT_OF_RESOURCES = ReturnCode_t.OUT_OF_RESOURCES.value();
 	public static final int RETURNCODE_PRECONDITION_NOT_MET = ReturnCode_t.PRECONDITION_NOT_MET.value();
 	
-	/**
-	 * Returns the value of the '<em><b>Execution Context State</b></em>' attribute.
-	 * The default value is <code>"0"</code>.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Execution Context State</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Execution Context State</em>' attribute.
-	 * @see #setExecutionContextState(int)
-	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getCorbaComponent_ExecutionContextState()
-	 * @model default="0" transient="true"
-	 * @generated
-	 */
-	int getExecutionContextState();
-
-	/**
-	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getExecutionContextState <em>Execution Context State</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Execution Context State</em>' attribute.
-	 * @see #getExecutionContextState()
-	 * @generated
-	 */
-	void setExecutionContextState(int value);
-
-	/**
-	 * Returns the value of the '<em><b>Component State</b></em>' attribute.
-	 * The default value is <code>"1"</code>.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Component State</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Component State</em>' attribute.
-	 * @see #setComponentState(int)
-	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getCorbaComponent_ComponentState()
-	 * @model default="1" transient="true"
-	 * @generated
-	 */
-	int getComponentState();
-
-	/**
-	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getComponentState <em>Component State</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Component State</em>' attribute.
-	 * @see #getComponentState()
-	 * @generated
-	 */
-	void setComponentState(int value);
-
 	/**
 	 * Returns the value of the '<em><b>SDO Configuration</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -373,6 +319,68 @@ public interface CorbaComponent extends Component, CorbaWrapperObject {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	int getExecutionContextState();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	int getExecutionContextState(jp.go.aist.rtm.toolscommon.model.component.ExecutionContext ec);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	String getExecutionContextStateName();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	String getExecutionContextStateName(jp.go.aist.rtm.toolscommon.model.component.ExecutionContext ec);
+
+	/**
+	 * Returns the value of the '<em><b>Component State</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Component State</em>' attribute.
+	 * @see #setComponentState(int)
+	 * @see jp.go.aist.rtm.toolscommon.model.component.ComponentPackage#getCorbaComponent_ComponentState()
+	 * @model
+	 * @generated
+	 */
+	int getComponentState();
+
+	/**
+	 * Sets the value of the '{@link jp.go.aist.rtm.toolscommon.model.component.CorbaComponent#getComponentState <em>Component State</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Component State</em>' attribute.
+	 * @see #getComponentState()
+	 * @generated
+	 */
+	void setComponentState(int value);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	String getComponentStateName();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @model kind="operation" dataType="jp.go.aist.rtm.toolscommon.model.component.RTCRTObject"
 	 * @generated
 	 */
@@ -386,11 +394,52 @@ public interface CorbaComponent extends Component, CorbaWrapperObject {
 	 */
 	boolean supportedCorbaObserver();
 
-	RTC.ExecutionContext getPrimaryRTCExecutionContext();
-
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
 	void activateAll();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
 	void deactivateAll();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
 	void startAll();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
 	void stopAll();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model observerDataType="jp.go.aist.rtm.toolscommon.model.component.ICorbaPortEventObserver"
+	 * @generated
+	 */
+	void attachPortEventObserver(ICorbaPortEventObserver observer);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model observerDataType="jp.go.aist.rtm.toolscommon.model.component.ICorbaPortEventObserver"
+	 * @generated
+	 */
+	void detatchPortEventObserver(ICorbaPortEventObserver observer);
 
 } // CorbaComponent
