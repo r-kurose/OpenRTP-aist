@@ -257,6 +257,7 @@ cleanup_jardir()
 #------------------------------------------------------------
 do_ant()
 {
+    git clone https://github.com/Nobu19800/jp.go.aist.rtm.rtcbuilder.lua
     target=$TARGET
     echo "Do ant target=$TARGET libs=$LIBS"
     for project in $PROJECTS; do

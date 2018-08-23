@@ -29,6 +29,7 @@ set TARGETS=^
 )
 mkdir %JARDIR%
 
+git clone https://github.com/Nobu19800/jp.go.aist.rtm.rtcbuilder.lua
 for /D %%p in ( %TARGETS% ) do (
     @set target=%%p
     echo %%p
