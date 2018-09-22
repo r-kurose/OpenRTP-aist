@@ -20,14 +20,8 @@ public class IdlPathParam implements Serializable {
 	public String getPath() {
 		return path;
 	}
-	public void setPath(String path) {
-		this.path = path;
-	}
 	
 	public boolean isDefault() {
 		return isDefault;
-	}
-	public void setDefault(boolean isDefault) {
-		this.isDefault = isDefault;
 	}
 }

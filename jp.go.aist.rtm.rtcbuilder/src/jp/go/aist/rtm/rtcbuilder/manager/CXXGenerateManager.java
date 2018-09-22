@@ -94,6 +94,7 @@ public class CXXGenerateManager extends GenerateManager {
 			gr = generateTestSource(contextMap);
 			result.add(gr);
 			for (IdlFileParam idl : rtcParam.getConsumerIdlPathes()) {
+				if(idl.isDataPort()) continue;
 				contextMap.put("idlFileParam", idl);
 				gr = generateTestSVCHeader(contextMap);
 				result.add(gr);
