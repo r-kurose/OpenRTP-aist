@@ -121,6 +121,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	 * {@inheritDoc}
 	 */
 	protected void createFormContent(final IManagedForm managedForm) {
+		RTCUtil.setDefaultUserDir();
 		ScrolledForm form = super.createBase(managedForm, IMessageConstants.BASIC_SECTION);
 		FormToolkit toolkit = managedForm.getToolkit();
 		createModuleSection(toolkit, form);

@@ -246,40 +246,6 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		}
 	}
 	
-	private Text createLabelAndFile(FormToolkit toolkit, Composite composite,
-			final String extention, String labelString, int color) {
-		Label label = toolkit.createLabel(composite, labelString);
-		if(color>0) label.setForeground(getSite().getShell().getDisplay().getSystemColor(color));
-		final Text text = toolkit.createText(composite, "");
-		text.addKeyListener(new KeyListener() {
-			public void keyReleased(KeyEvent e) {
-				update();
-			}
-			public void keyPressed(KeyEvent e) {
-			}
-		});
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		text.setLayoutData(gd);
-
-		Button checkButton = toolkit.createButton(composite, "Browse...", SWT.PUSH);
-		gd = new GridData(GridData.HORIZONTAL_ALIGN_END);
-		checkButton.setLayoutData(gd);
-		checkButton.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				FileDialog dialog = new FileDialog(getEditorSite().getShell());
-				dialog.setFilterExtensions(new String[] { "*." + extention });
-				if (text.getText().length() > 0)
-					dialog.setFileName(text.getText());
-				String newPath = dialog.open();
-				if (newPath != null) {
-					text.setText(newPath);
-					update();
-				}
-			}
-		});
-
-		return text;
-	}
 
 	public void update() {
 		if(servicePortViewer != null ) {
@@ -654,7 +620,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			varNameText = createLabelAndText(toolkit, client, IMessageConstants.SERVICEPORT_LBL_IFVARNAME);
 			toolkit.createLabel(client, "");
 			idlFileText = createLabelAndFile(toolkit, client, IDL_EXTENTION,
-					IMessageConstants.REQUIRED + IMessageConstants.SERVICEPORT_LBL_IDLFILE, SWT.COLOR_RED);
+					IMessageConstants.REQUIRED + IMessageConstants.SERVICEPORT_LBL_IDLFILE, SWT.COLOR_RED, SWT.NONE);
 			String[] defaultVal = new String[0];
 			interfaceTypeCombo = createEditableCombo(toolkit, client,
 					IMessageConstants.REQUIRED + IMessageConstants.SERVICEPORT_LBL_IFTYPE, "", defaultVal, SWT.COLOR_RED);
@@ -889,5 +855,4 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			}
 		}
 	}
-
 }

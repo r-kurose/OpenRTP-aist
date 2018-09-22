@@ -17,7 +17,7 @@ import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
-import jp.go.aist.rtm.rtcbuilder.ui.preference.DataTypePreferenceManager;
+import jp.go.aist.rtm.rtcbuilder.ui.preference.RTCBuilderPreferenceManager;
 
 public class RTCUtil {
 
@@ -62,6 +62,34 @@ public class RTCUtil {
 		return result;
 	}
 	
+	public static void setDefaultUserDir() {
+		if(RtcBuilderPlugin.getDefault()!=null) {
+			String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(RTCBuilderPreferenceManager.HOME_DIRECTORY);
+			if(resultTemp==null || resultTemp.isEmpty()) {
+				boolean isWindows = false; 
+				String targetOS = System.getProperty("os.name").toLowerCase();
+				if(targetOS.toLowerCase().startsWith("windows")) {
+					isWindows = true;
+				}
+				String dirName = "";
+				String FS = System.getProperty("file.separator");
+				if(isWindows) {
+					dirName = System.getenv("APPDATA");
+				} else {
+					dirName = System.getProperty("user.home");
+				}
+				String userHome = dirName + FS + ".openrtp";
+				dirName += FS + ".openrtp" + FS + "idl";
+				File newdir = new File(dirName);
+				try {
+					newdir.mkdirs();
+				} catch (Exception ex) {
+				}
+				RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(RTCBuilderPreferenceManager.HOME_DIRECTORY, userHome);
+			}
+		}
+	}
+	
 	public static List<IdlPathParam> getIDLPathes(RtcParam target) {
 		List<IdlPathParam> result = new ArrayList<IdlPathParam>();
 		List<String> added = new ArrayList<String>();
@@ -79,14 +107,22 @@ public class RTCUtil {
 		//
 		if(RtcBuilderPlugin.getDefault()!=null) {
 			List<String> resultsetting = new ArrayList<String>();
-			RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(DataTypePreferenceManager.IDLFILE_DIRECTORIES, "");
-			String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(DataTypePreferenceManager.IDLFILE_DIRECTORIES);
+			RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(RTCBuilderPreferenceManager.IDLFILE_DIRECTORIES, "");
+			String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(RTCBuilderPreferenceManager.IDLFILE_DIRECTORIES);
 			resultsetting = Arrays.asList(resultTemp.split(File.pathSeparator));
 			for(String each : resultsetting) {
 				if(each.length()==0) continue;
 				if(added.contains(each)) continue;
 				result.add(new IdlPathParam(each, false));
 				added.add(each);
+			}
+			//
+			RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(RTCBuilderPreferenceManager.HOME_DIRECTORY, "");
+			String userHome = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(RTCBuilderPreferenceManager.HOME_DIRECTORY);
+			String userDir = userHome + FS + "idl"; 
+			if(added.contains(userDir)==false) {
+				result.add(new IdlPathParam(userDir, false));
+				added.add(userDir);
 			}
 		}
 		//

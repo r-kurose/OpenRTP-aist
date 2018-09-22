@@ -1,5 +1,10 @@
 package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -11,6 +16,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
+import jp.go.aist.rtm.rtcbuilder.ui.preference.RTCBuilderPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.ValidationUtil;
 
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -28,6 +34,8 @@ import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -37,7 +45,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
@@ -59,6 +69,7 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 	//
 	private Text portNameText;
 	private Combo typeCombo;
+	private Text idlFileText;
 	private Text varNameText;
 	private Combo positionCombo;
 	private Text descriptionText;
@@ -169,6 +180,10 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 				typeCombo.setItems(defaultTypeList);
 			}
 		});
+		//
+		idlFileText = createLabelAndFile(toolkit, detailGroup, "idl",
+				IMessageConstants.SERVICEPORT_LBL_IDLFILE, SWT.COLOR_BLACK, SWT.BORDER);
+		
 		//
 		varNameText = createLabelAndText(toolkit, detailGroup, IMessageConstants.DATAPORT_TBLLBL_VARNAME, SWT.BORDER);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -312,6 +327,8 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	public void update() {
+		updateIDLFile();
+		
 		if (selectParam != null) {
 			selectParam.setType(typeCombo.getText());
 			selectParam.setVarName(StringUtil.getDocText(varNameText.getText()));
@@ -329,6 +346,31 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 				editor.getRtcParam().getInports(), editor.getRtcParam().getOutports(),
 				editor.getRtcParam().getServicePorts());
 		editor.updateDirty();
+	}
+
+	private void updateIDLFile() {
+		String localIDL = idlFileText.getText();
+		if(localIDL!=null && localIDL.isEmpty()==false) {
+			String FS = System.getProperty("file.separator");
+			RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(RTCBuilderPreferenceManager.HOME_DIRECTORY, "");
+			String userHome = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(RTCBuilderPreferenceManager.HOME_DIRECTORY);
+			String userDir = userHome + FS + "idl";
+			
+			Path sourcePath = Paths.get(localIDL);
+			File targetFile = new File(userDir + FS + sourcePath.getFileName());
+			if(targetFile.exists()==false) {
+		        Path destinationPath = Paths.get(userDir + FS + sourcePath.getFileName());
+		        try {
+		            Files.copy(sourcePath,destinationPath);
+					defaultTypeList = extractDataTypes();
+					Arrays.sort(defaultTypeList);
+					typeCombo.removeAll();
+					typeCombo.setItems(defaultTypeList);
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		        }
+			}
+		}
 	}
 
 	public void updateForOutput() {

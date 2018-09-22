@@ -41,6 +41,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
@@ -354,6 +355,41 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		return col;
 	}
 
+	protected Text createLabelAndFile(FormToolkit toolkit, Composite composite,
+			final String extention, String labelString, int color, int style) {
+		Label label = toolkit.createLabel(composite, labelString);
+		if(color>0) label.setForeground(getSite().getShell().getDisplay().getSystemColor(color));
+		final Text text = toolkit.createText(composite, "", style);
+		text.addKeyListener(new KeyListener() {
+			public void keyReleased(KeyEvent e) {
+				update();
+			}
+			public void keyPressed(KeyEvent e) {
+			}
+		});
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		text.setLayoutData(gd);
+
+		Button checkButton = toolkit.createButton(composite, "Browse...", SWT.PUSH);
+		gd = new GridData(GridData.HORIZONTAL_ALIGN_END);
+		checkButton.setLayoutData(gd);
+		checkButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				FileDialog dialog = new FileDialog(getEditorSite().getShell());
+				dialog.setFilterExtensions(new String[] { "*." + extention });
+				if (text.getText().length() > 0)
+					dialog.setFileName(text.getText());
+				String newPath = dialog.open();
+				if (newPath != null) {
+					text.setText(newPath);
+					update();
+				}
+			}
+		});
+
+		return text;
+	}
+	
 	/**
 	 * ワークスペースの永続情報から、コンボのリストと選択インデックスをロードする
 	 * 
