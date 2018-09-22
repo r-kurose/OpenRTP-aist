@@ -160,6 +160,7 @@ public class JavaGenerateManager extends GenerateManager {
 		gr = generateTestRTCImplSource(contextMap);
 		result.add(gr);
 		for (IdlFileParam idl : rtcParam.getConsumerIdlPathes()) {
+			if(idl.isDataPort()) continue;
 			contextMap.put("idlFileParam", idl);
 			for (ServiceClassParam svc : idl.getTestServiceClassParams()) {
 				contextMap.put("serviceClassParam", svc);
