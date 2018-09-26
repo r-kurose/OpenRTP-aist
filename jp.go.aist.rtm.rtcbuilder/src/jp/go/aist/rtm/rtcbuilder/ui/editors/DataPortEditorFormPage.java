@@ -349,26 +349,28 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	private void updateIDLFile() {
-		String localIDL = idlFileText.getText();
-		if(localIDL!=null && localIDL.isEmpty()==false) {
-			String FS = System.getProperty("file.separator");
-			RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(RTCBuilderPreferenceManager.HOME_DIRECTORY, "");
-			String userHome = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(RTCBuilderPreferenceManager.HOME_DIRECTORY);
-			String userDir = userHome + FS + "idl";
-			
-			Path sourcePath = Paths.get(localIDL);
-			File targetFile = new File(userDir + FS + sourcePath.getFileName());
-			if(targetFile.exists()==false) {
-		        Path destinationPath = Paths.get(userDir + FS + sourcePath.getFileName());
-		        try {
-		            Files.copy(sourcePath,destinationPath);
-					defaultTypeList = extractDataTypes();
-					Arrays.sort(defaultTypeList);
-					typeCombo.removeAll();
-					typeCombo.setItems(defaultTypeList);
-		        } catch (IOException e) {
-		            e.printStackTrace();
-		        }
+		if(idlFileText !=null ) {
+			String localIDL = idlFileText.getText();
+			if(localIDL!=null && localIDL.isEmpty()==false) {
+				String FS = System.getProperty("file.separator");
+				RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(RTCBuilderPreferenceManager.HOME_DIRECTORY, "");
+				String userHome = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(RTCBuilderPreferenceManager.HOME_DIRECTORY);
+				String userDir = userHome + FS + "idl";
+				
+				Path sourcePath = Paths.get(localIDL);
+				File targetFile = new File(userDir + FS + sourcePath.getFileName());
+				if(targetFile.exists()==false) {
+			        Path destinationPath = Paths.get(userDir + FS + sourcePath.getFileName());
+			        try {
+			            Files.copy(sourcePath,destinationPath);
+						defaultTypeList = extractDataTypes();
+						Arrays.sort(defaultTypeList);
+						typeCombo.removeAll();
+						typeCombo.setItems(defaultTypeList);
+			        } catch (IOException e) {
+			            e.printStackTrace();
+			        }
+				}
 			}
 		}
 	}

@@ -16,6 +16,7 @@ import org.eclipse.swt.graphics.RGB;
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.RTCBuilderPreferenceManager;
 
@@ -150,6 +151,21 @@ public class RTCUtil {
 			}
 		}
 		return false;
+	}
+	
+	public static String getRTMRootIdlPath() {
+		String result = "";
+		
+		String FS = System.getProperty("file.separator");
+
+		String defaultPath = System.getenv("RTM_ROOT");
+		if (defaultPath != null) {
+			if(!defaultPath.endsWith(FS)) {
+				defaultPath += FS;
+			}
+			result = defaultPath + "rtm" + FS + "idl";
+		}
+		return result;
 	}
 	
 	/**
