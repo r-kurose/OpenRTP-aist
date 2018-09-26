@@ -9,6 +9,7 @@ import java.util.Map;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.python.ui.Perspective.PythonProperty;
@@ -72,23 +73,19 @@ public class PythonGenerateManager extends GenerateManager {
 			if(RTCUtil.checkDefault(target.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
 			allIdlFileParams.add(target);
 		}
-//		allIdlFileParams.addAll(rtcParam.getProviderIdlPathes());
 		for(IdlFileParam target : rtcParam.getConsumerIdlPathes()) {
 			if(RTCUtil.checkDefault(target.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
 			allIdlFileParams.add(target);
 		}
-//		allIdlFileParams.addAll(rtcParam.getConsumerIdlPathes());
 		List<IdlFileParam> allIdlFileParamsForBuild = new ArrayList<IdlFileParam>();
 		for(IdlFileParam target : allIdlFileParams) {
 			if(RTCUtil.checkDefault(target.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
 			allIdlFileParamsForBuild.add(target);
 		}
-//		allIdlFileParamsForBuild.addAll(allIdlFileParams);
 		for(IdlFileParam target : rtcParam.getIncludedIdlPathes()) {
 			if(RTCUtil.checkDefault(target.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
 			allIdlFileParamsForBuild.add(target);
 		}
-//		allIdlFileParamsForBuild.addAll(rtcParam.getIncludedIdlPathes());
 
 		// IDLファイル内に記述されているServiceClassParamを設定する
 		for (IdlFileParam idlFileParam : allIdlFileParams) {
@@ -110,6 +107,7 @@ public class PythonGenerateManager extends GenerateManager {
 		contextMap.put("allIdlFileParam", allIdlFileParams);
 		contextMap.put("idlPathes", rtcParam.getIdlPathes());
 		contextMap.put("allIdlFileParamBuild", allIdlFileParamsForBuild);
+		contextMap.put("rtmRootIdlDir", RTCUtil.getRTMRootIdlPath());
 
 		return generateTemplateCode10(contextMap);
 	}
