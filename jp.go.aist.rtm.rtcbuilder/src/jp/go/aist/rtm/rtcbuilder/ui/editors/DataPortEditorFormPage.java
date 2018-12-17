@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -38,6 +39,7 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
@@ -163,8 +165,45 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		gd.horizontalSpan = 2;
 		detailGroup.setLayoutData(gd);
 		//
-		typeCombo = createLabelAndCombo(toolkit, detailGroup,
-				IMessageConstants.REQUIRED + IMessageConstants.DATAPORT_TBLLBL_DATATYPE, defaultTypeList, SWT.COLOR_RED);
+		Label label = toolkit.createLabel(detailGroup, IMessageConstants.REQUIRED + IMessageConstants.DATAPORT_TBLLBL_DATATYPE);
+		label.setForeground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_RED));
+		typeCombo = new Combo(detailGroup, SWT.DROP_DOWN);
+		typeCombo.setItems(defaultTypeList);
+		typeCombo.select(0);
+		typeCombo.addKeyListener(new KeyListener() {
+			public void keyReleased(KeyEvent e) {
+				String target = typeCombo.getText();
+				String[] keyList = target.split(" ");
+				List<String> filtered = new ArrayList<String>();
+				for (String each : defaultTypeList) {
+					boolean isHit = true;
+					for(String itemKey: keyList) {
+					  if (each.contains(itemKey)==false) {
+						  isHit = false;
+						  break; 
+					  }
+					}
+					if (isHit) {
+						filtered.add(each);
+					}
+				}
+				String[] newItems = filtered.toArray(new String[filtered.size()]);
+				Arrays.sort(newItems);
+				typeCombo.setItems(newItems);
+				typeCombo.setText(target);
+				typeCombo.setSelection(new Point(typeCombo.getText().length(), typeCombo.getText().length()) );
+			}
+			public void keyPressed(KeyEvent e) { }
+		});
+		typeCombo.addSelectionListener(new SelectionListener() {
+			  public void widgetDefaultSelected(SelectionEvent e){}
+			  public void widgetSelected(SelectionEvent e){ update();}
+			});
+		GridData gdcombo = new GridData(GridData.FILL_HORIZONTAL);
+		typeCombo.setLayoutData(gdcombo);
+		
+//		typeCombo = createLabelAndCombo(toolkit, detailGroup,
+//				IMessageConstants.REQUIRED + IMessageConstants.DATAPORT_TBLLBL_DATATYPE, defaultTypeList, SWT.COLOR_RED);
 		String[] items = typeCombo.getItems();
 		Arrays.sort(items);
 		typeCombo.setItems(items);

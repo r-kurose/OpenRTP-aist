@@ -2,7 +2,7 @@
 	xmlns:ant4eclipse="antlib:org.ant4eclipse"
 	xmlns:antcontrib="antlib:net.sf.antcontrib"	>
 
-	<property name="target.name" value="jp.go.aist.rtm.rtcbuilder" />
+	<property name="target.name" value="jp.go.aist.rtm.rtcbuilder"  />
 
 	<taskdef name="manifesttask" classname="aist.ManifestTask" />
 
