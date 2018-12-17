@@ -269,7 +269,9 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 		org.openrtp.namespaces.rts.version02.RtsProfileExt profile = factory.createRtsProfileExt();
 		profile.setId(eDiagram.getSystemId());
 		DatatypeFactory dateFactory = new DatatypeFactoryImpl();
-		profile.setCreationDate(dateFactory.newXMLGregorianCalendar(eDiagram.getCreationDate()));
+		if(eDiagram.getCreationDate() != null) {
+			profile.setCreationDate(dateFactory.newXMLGregorianCalendar(eDiagram.getCreationDate()));
+		}
 		profile.setUpdateDate(dateFactory.newXMLGregorianCalendar(eDiagram.getUpdateDate()));
 		profile.setVersion("0.2");
 
