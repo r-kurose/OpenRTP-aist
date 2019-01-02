@@ -1,11 +1,10 @@
 package jp.go.aist.rtm.rtcbuilder.ui;
 
+import static jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler.createXMLGregorianCalendar;
+
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.GregorianCalendar;
-
-import javax.xml.datatype.DatatypeConstants;
-import javax.xml.datatype.XMLGregorianCalendar;
+import java.util.Date;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.ProfileHandler;
@@ -31,8 +30,6 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 
 public class NewWizard extends Wizard implements INewWizard, IExecutableExtension {
 
@@ -64,9 +61,7 @@ public class NewWizard extends Wizard implements INewWizard, IExecutableExtensio
 			}
 			projectHandle.open(null);
 			//
-			XMLGregorianCalendar calendar = new XMLGregorianCalendarImpl(new GregorianCalendar());
-			calendar.setMillisecond(DatatypeConstants.FIELD_UNDEFINED);
-			String dateTime = calendar.toString();
+			String dateTime = createXMLGregorianCalendar(new Date()).toString();
 			ProfileHandler handler = new ProfileHandler();
 			String xmlFile = handler.createInitialRtcXml(dateTime);
 			//
