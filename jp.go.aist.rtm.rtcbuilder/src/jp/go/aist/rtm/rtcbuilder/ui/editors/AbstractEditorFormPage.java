@@ -54,7 +54,7 @@ import org.slf4j.LoggerFactory;
 
 public abstract class AbstractEditorFormPage extends FormPage {
 
-	private static final Logger LOGGER = LoggerFactory
+	protected static final Logger LOGGER = LoggerFactory
 			.getLogger(AbstractEditorFormPage.class);
 
 	protected RtcBuilderEditor editor;

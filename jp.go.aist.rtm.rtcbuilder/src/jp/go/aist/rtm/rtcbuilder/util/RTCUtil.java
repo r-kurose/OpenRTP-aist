@@ -144,6 +144,19 @@ public class RTCUtil {
 		return result;
 	}
 	
+	public static IdlPathParam getHomePath() {
+		IdlPathParam result = null;
+		String FS = System.getProperty("file.separator");
+		
+		if(RtcBuilderPlugin.getDefault()!=null) {
+			RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(RTCBuilderPreferenceManager.HOME_DIRECTORY, "");
+			String userHome = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(RTCBuilderPreferenceManager.HOME_DIRECTORY);
+			String userDir = userHome + FS + "idl"; 
+			result = new IdlPathParam(userDir, false);
+		}
+		return result;
+	}
+	
 	public static boolean checkDefault(String target, List<DataTypeParam> typeList) {
 		for(DataTypeParam type : typeList) {
 			if(type.isDefault()) { 	
