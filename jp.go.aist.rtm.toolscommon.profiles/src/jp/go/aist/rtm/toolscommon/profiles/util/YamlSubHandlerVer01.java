@@ -1,10 +1,10 @@
 package jp.go.aist.rtm.toolscommon.profiles.util;
 
+import static jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler.createXMLGregorianCalendar;
+
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
-
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.openrtp.namespaces.rtc.version02.ActionStatusDoc;
 import org.openrtp.namespaces.rtc.version02.Actions;
@@ -29,8 +29,6 @@ import org.openrtp.namespaces.rtc.version02.ServiceinterfaceExt;
 import org.openrtp.namespaces.rtc.version02.ServiceportExt;
 import org.openrtp.namespaces.rtc.version02.TargetEnvironment;
 
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
-
 public class YamlSubHandlerVer01 {
 
 	@SuppressWarnings("unchecked")
@@ -53,13 +51,13 @@ public class YamlSubHandlerVer01 {
 					basic.setCategory((String)basicY.get("category"));
 					basic.setComponentKind((String)basicY.get("componentKind"));
 					basic.setComponentType((String)basicY.get("componentType"));
-					basic.setCreationDate(createDateTimeFromYaml((Map)basicY.get("creationDate")));
+					basic.setCreationDate(createXMLGregorianCalendar((Map<String, Integer>)basicY.get("creationDate")));
 					basic.setDescription((String)basicY.get("description"));
 					basic.setExecutionRate((Double)basicY.get("executionRate"));
 					basic.setExecutionType((String)basicY.get("executionType"));
 					if(basicY.get("maxInstances")!=null) basic.setMaxInstances(BigInteger.valueOf((Integer)basicY.get("maxInstances")));
 					basic.setName((String)basicY.get("name"));
-					basic.setUpdateDate(createDateTimeFromYaml((Map)basicY.get("updateDate")));
+					basic.setUpdateDate(createXMLGregorianCalendar((Map<String, Integer>)basicY.get("updateDate")));
 					basic.setVendor((String)basicY.get("vendor"));
 					basic.setVersion((String)basicY.get("version"));
 					//Basic Doc
@@ -297,17 +295,6 @@ public class YamlSubHandlerVer01 {
 		language.getTargets().add(env);
 	}
 
-	@SuppressWarnings("unchecked")
-	private XMLGregorianCalendar createDateTimeFromYaml(Map dateY) {
-		return XMLGregorianCalendarImpl.createDateTime(
-				((Integer)dateY.get("year")).intValue(),
-				((Integer)dateY.get("month")).intValue(),
-				((Integer)dateY.get("day")).intValue(),
-				((Integer)dateY.get("hour")).intValue(),
-				((Integer)dateY.get("minute")).intValue(),
-				((Integer)dateY.get("second")).intValue() );
-	}
-	
 	@SuppressWarnings("unchecked")
 	private ActionStatusDoc createActionFromYaml(Map actionY) {
 		ObjectFactory factory = new ObjectFactory();

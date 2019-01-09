@@ -7,8 +7,7 @@
 	<taskdef name="manifesttask" classname="aist.ManifestTask" />
 
 	<property name="source" value="src"/>
-	<property name="source.sdo" value="src/_SDOPackage"/>
-	<property name="source.rtc" value="src/RTC"/>
+	<property name="generated" value="generated"/>
 
 	<property name="dist.dir" value="jar" />
 	<property name="build.dir" value="bin"/>
@@ -18,13 +17,15 @@
 	<property environment="env"/>
 	<property name="eclipse.home" value="${env.ECLIPSE_HOME}"/>
 
-	<property name="idl.path" value="idl" />
-	<property name="idl.SDOPackage" value="${idl.path}/SDOPackage11.idl" />
-	<property name="idl.RTC" value="${idl.path}/RTC10.idl" />
-	<property name="idl.Manager" value="${idl.path}/Manager.idl" />
-	<property name="idl.ComponentObserver" value="${idl.path}/ComponentObserver.idl" />
-	<property name="idl.Logger" value="${idl.path}/Logger.idl" />
-	
+	<property name="idlj" value="${java.home}\..\bin\idlj" />
+	<property name="idl.dir" value="idl" />
+	<property name="idl.BasicDataType" value="BasicDataType.idl" />
+	<property name="idl.SDOPackage" value="SDOPackage11.idl" />
+	<property name="idl.RTC" value="RTC10.idl" />
+	<property name="idl.Manager" value="Manager.idl" />
+	<property name="idl.ComponentObserver" value="ComponentObserver.idl" />
+	<property name="idl.Logger" value="Logger.idl" />
+
 
 	<taskdef uri="antlib:net.sf.antcontrib"
 		resource="net/sf/antcontrib/antlib.xml" />
@@ -47,36 +48,57 @@
 	</target>
 
 	<target name="idlCompile" description="IDLファイルをコンパイルします">
-		<delete dir="${source.sdo}" />
-		<delete dir="${source.rtc}" />
-		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-fall -td ${source} -i ${idl.path} -emitAll ${idl.SDOPackage}"/>
-		</exec>
-		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-fall -td ${source} -i ${idl.path} -emitAll ${idl.RTC}"/>
-		</exec>
-		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-fall -td ${source} -i ${idl.path} -emitAll ${idl.Manager}"/>
-		</exec>
-		<exec executable="${java.home}\..\bin\idlj" >
-			<arg line="-fall -td ${source} -i ${idl.path} -emitAll ${idl.ComponentObserver}" />
-		</exec>
-		<exec executable="${java.home}\..\bin\idlj">
-			<arg line="-fall -td ${source} -i ${idl.path} -emitAll ${idl.Logger}"/>
-		</exec>
+		<delete dir="${generated}" quiet="true"/>
+		<property name="gen1.dir" value="${generated}_1"/>
+		<property name="gen2.dir" value="${generated}_2"/>
+		<property name="gen3.dir" value="${generated}_3"/>
+		<delete dir="${gen1.dir}" quiet="true"/>
+		<delete dir="${gen2.dir}" quiet="true"/>
+		<delete dir="${gen3.dir}" quiet="true"/>
 
-		<exec executable="./n2a">
-			<arg line="${source}/_SDOPackage/*.java"/>
+		<!--IDL(UTF-8)をAscii化-->
+		<native2ascii dest="${gen1.dir}" src="${idl.dir}" encoding="UTF-8">
+			<include name="${idl.BasicDataType}" />
+			<include name="${idl.SDOPackage}" />
+			<include name="${idl.RTC}" />
+			<include name="${idl.Manager}" />
+			<include name="${idl.ComponentObserver}" />
+			<include name="${idl.Logger}" />
+		</native2ascii>
+		<!--IDLコンパイルを実行-->
+		<exec executable="${idlj}">
+			<arg line="-fall -td ${gen1.dir} -i ${gen1.dir} -emitAll ${gen1.dir}/${idl.SDOPackage}"/>
 		</exec>
-		<exec executable="./n2a">
-			<arg line="${source}/OpenRTM/*.java"/>
+		<exec executable="${idlj}">
+			<arg line="-fall -td ${gen1.dir} -i ${gen1.dir} -emitAll ${gen1.dir}/${idl.RTC}"/>
 		</exec>
-		<exec executable="./n2a">
-			<arg line="${source}/RTC/*.java"/>
+		<exec executable="${idlj}">
+			<arg line="-fall -td ${gen1.dir} -i ${gen1.dir} -emitAll ${gen1.dir}/${idl.Manager}"/>
 		</exec>
-		<exec executable="./n2a">
-			<arg line="${source}/RTM/*.java"/>
+		<exec executable="${idlj}">
+			<arg line="-fall -td ${gen1.dir} -i ${gen1.dir} -emitAll ${gen1.dir}/${idl.ComponentObserver}" />
 		</exec>
+		<exec executable="${idlj}">
+			<arg line="-fall -td ${gen1.dir} -i ${gen1.dir} -emitAll ${gen1.dir}/${idl.Logger}"/>
+		</exec>
+		<!--自動生成コードへ付与されたSJISコメントをUTF-8化-->
+		<copy todir="${gen2.dir}" outputEncoding="UTF-8" overwrite="yes">
+			<fileset dir="${gen1.dir}">
+				<include name="**/*.java" />
+			</fileset>
+		</copy>
+		<!--自動生成コードをAscii化-->
+		<native2ascii src="${gen2.dir}" dest="${gen3.dir}">
+			<include name="**/*.java" />
+		</native2ascii>
+		<!--Ascii化されたコードを逆変換(UTF-8)-->
+		<native2ascii src="${gen3.dir}" dest="${generated}" reverse="true">
+			<include name="**/*.java" />
+		</native2ascii>
+
+		<delete dir="${gen1.dir}" quiet="true"/>
+		<delete dir="${gen2.dir}" quiet="true"/>
+		<delete dir="${gen3.dir}" quiet="true"/>
 	</target>
 
 	<target name="clean" description="ビルドで生成されたファイルを削除します">
@@ -89,14 +111,15 @@
 		<delete dir="${build.dir}/RTM" quiet="true"/>
 		<delete dir="${build.dir}/RTC" quiet="true"/>
 		<delete dir="${build.dir}/jp" quiet="true"/>
-		<delete dir="${source}/_SDOPackage" quiet="true"/>
-		<delete dir="${source}/OpenRTM" quiet="true"/>
-		<delete dir="${source}/RTM" quiet="true"/>
-		<delete dir="${source}/RTC" quiet="true"/>
+		<delete dir="${generated}/_SDOPackage" quiet="true"/>
+		<delete dir="${generated}/OpenRTM" quiet="true"/>
+		<delete dir="${generated}/RTM" quiet="true"/>
+		<delete dir="${generated}/RTC" quiet="true"/>
 		<delete dir="${dist.dir}" quiet="true"/>
 	</target>
 
 	<target name="compile" description="ソースをコンパイルします">
+		<mkdir dir="${build.dir}" />
 
 		<ant4eclipse:targetPlatform id="eclipse-3.8">
 		  <location dir="${targetPlatformLocation}" />
@@ -111,8 +134,11 @@
 			projectname="${project.name}" >
 			<jdtclasspathcontainerargument key="target.platform" value="eclipse-3.8" />
 		</ant4eclipse:getJdtClassPath>
-		<javac srcdir="${source}" destdir="${build.dir}"
-			classpathref="build.classpath" classpath="lib/commons-lang-2.2.jar" encoding="UTF-8" />
+		<javac destdir="${build.dir}" encoding="UTF-8" includeantruntime="false"
+			classpathref="build.classpath" classpath="lib/commons-lang-2.2.jar">
+			<src path="${generated}" />
+			<src path="${source}" />
+		</javac>
 	</target>
 
 	<target name="jar" description="jarファイルを作成します">

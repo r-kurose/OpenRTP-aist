@@ -1,29 +1,20 @@
 package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
-import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.IDLParser;
-import jp.go.aist.rtm.rtcbuilder.generator.IDLParamConverter;
-import jp.go.aist.rtm.rtcbuilder.generator.PreProcessor;
-import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
-import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
-import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
-import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
-import jp.go.aist.rtm.rtcbuilder.util.ValidationUtil;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -50,7 +41,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
@@ -65,6 +55,25 @@ import org.eclipse.ui.forms.SectionPart;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
+
+import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
+import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.IDLParser;
+import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.ParseException;
+import jp.go.aist.rtm.rtcbuilder.generator.IDLParamConverter;
+import jp.go.aist.rtm.rtcbuilder.generator.PreProcessor;
+import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
+import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
+import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
+import jp.go.aist.rtm.rtcbuilder.ui.preference.RTCBuilderPreferenceManager;
+import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
+import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
+import jp.go.aist.rtm.rtcbuilder.util.ValidationUtil;
 
 /**
  * ServicePortページ
@@ -107,6 +116,9 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 	private String defaultIFInstanceName;
 	private String defaultIFVarName;
 	
+	private List<ServiceClassParam> defaultIFList = new ArrayList<ServiceClassParam>();
+	private List<ServiceClassParam> currentIFList = new ArrayList<ServiceClassParam>();
+	
 	/**
 	 * コンストラクタ
 	 * 
@@ -125,6 +137,8 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		defaultIFName = ComponentPreferenceManager.getInstance().getServiceIF_Name();
 		defaultIFInstanceName = store.getString(ComponentPreferenceManager.Generate_ServiceIF_InstanceName);
 		defaultIFVarName = store.getString(ComponentPreferenceManager.Generate_ServiceIF_VarName);
+		
+		extractServiceInterface();
 	}
 
 	/**
@@ -248,6 +262,8 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 	
 
 	public void update() {
+		updateIDLFile();
+		
 		if(servicePortViewer != null ) {
 			servicePortViewer.getTree().setRedraw(false);
 			TreeItem[] selections = servicePortViewer.getTree().getSelection();
@@ -263,6 +279,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 					//
 					((ServicePortParam)selection.getData()).setDocDescription(StringUtil.getDocText(descriptionText.getText()));
 					((ServicePortParam)selection.getData()).setDocIfDescription(StringUtil.getDocText(ifoverviewText.getText()));
+					
 				} else if( selection.getData() instanceof ServicePortInterfaceParam ) {
 					if( !((ServicePortInterfaceParam)selection.getData()).getIdlFile().equals(
 							idlFileText.getText()) ) {
@@ -272,9 +289,20 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 								IDLParser parser = new IDLParser(new StringReader(targetContent));
 								List<ServiceClassParam> serviceClassParams = IDLParamConverter.convert(parser.specification(), "");
 								if( serviceClassParams!=null && serviceClassParams.size()>0 ) {
+									int selected = interfaceTypeCombo.getSelectionIndex();
 									interfaceTypeCombo.removeAll();
+									currentIFList.clear();
+									for(ServiceClassParam target : defaultIFList) {
+										interfaceTypeCombo.add(target.getName());
+										currentIFList.add(target);
+									}
 									for(ServiceClassParam target : serviceClassParams) {
 										interfaceTypeCombo.add(target.getName());
+										target.setIdlFile(idlFileText.getText());
+										currentIFList.add(target);
+									}
+									if(0<=selected) {
+										interfaceTypeCombo.select(selected);
 									}
 								}
 							} catch (Exception e) {
@@ -293,7 +321,13 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 					((ServicePortInterfaceParam)selection.getData()).setIndex(directionCombo.getSelectionIndex());
 					((ServicePortInterfaceParam)selection.getData()).setInstanceName(instanceNameText.getText());
 					((ServicePortInterfaceParam)selection.getData()).setVarName(varNameText.getText());
-					((ServicePortInterfaceParam)selection.getData()).setIdlFile(idlFileText.getText());
+					int selected = interfaceTypeCombo.getSelectionIndex();
+					if(0<=selected) {
+						ServiceClassParam selectedIF = currentIFList.get(selected);
+						((ServicePortInterfaceParam)selection.getData()).setIdlFile(selectedIF.getIdlFile());
+					} else {
+						((ServicePortInterfaceParam)selection.getData()).setIdlFile(idlFileText.getText());
+					}
 					((ServicePortInterfaceParam)selection.getData()).setInterfaceType(interfaceTypeCombo.getText());
 					((ServicePortInterfaceParam)selection.getData()).setIdlSearchPath(idlPathText.getText());
 					//
@@ -318,6 +352,28 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		}
 	}
 
+	private void updateIDLFile() {
+		if(idlFileText !=null ) {
+			String localIDL = idlFileText.getText();
+			if(localIDL!=null && localIDL.isEmpty()==false) {
+				String FS = System.getProperty("file.separator");
+				RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(RTCBuilderPreferenceManager.HOME_DIRECTORY, "");
+				String userHome = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(RTCBuilderPreferenceManager.HOME_DIRECTORY);
+				String userDir = userHome + FS + "idl";
+				
+				Path sourcePath = Paths.get(localIDL);
+				File targetFile = new File(userDir + FS + sourcePath.getFileName());
+				if(targetFile.exists()==false) {
+			        Path destinationPath = Paths.get(userDir + FS + sourcePath.getFileName());
+			        try {
+			            Files.copy(sourcePath,destinationPath);
+			        } catch (IOException e) {
+			            e.printStackTrace();
+			        }
+				}
+			}
+		}
+	}
 	/**
 	 * データをロードする
 	 */
@@ -620,10 +676,17 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			varNameText = createLabelAndText(toolkit, client, IMessageConstants.SERVICEPORT_LBL_IFVARNAME);
 			toolkit.createLabel(client, "");
 			idlFileText = createLabelAndFile(toolkit, client, IDL_EXTENTION,
-					IMessageConstants.REQUIRED + IMessageConstants.SERVICEPORT_LBL_IDLFILE, SWT.COLOR_RED, SWT.NONE);
-			String[] defaultVal = new String[0];
-			interfaceTypeCombo = createEditableCombo(toolkit, client,
-					IMessageConstants.REQUIRED + IMessageConstants.SERVICEPORT_LBL_IFTYPE, "", defaultVal, SWT.COLOR_RED);
+					IMessageConstants.SERVICEPORT_LBL_IDLFILE, SWT.COLOR_BLACK, SWT.NONE);
+			
+			List<String> ifTypes = new ArrayList<String>();
+			for(ServiceClassParam target : defaultIFList) {
+				ifTypes.add(target.getName());
+			}
+			String[] defaultVal = new String[ifTypes.size()];
+			defaultVal = ifTypes.toArray(defaultVal);
+			interfaceTypeCombo = createLabelAndCombo(toolkit, client,
+					IMessageConstants.REQUIRED + IMessageConstants.SERVICEPORT_LBL_IFTYPE, defaultVal, SWT.COLOR_RED);
+
 			toolkit.createLabel(client, "");
 			idlPathText = createLabelAndDirectory(toolkit, client, IMessageConstants.SERVICEPORT_LBL_IDLPATH);
 			
@@ -853,6 +916,45 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 				if (widgetInfo.matchWidget("table"))     setViewerEnabled(servicePortViewer, enabled);
 				if (widgetInfo.matchWidget("addButton")) setButtonEnabled(addButton, enabled);
 			}
+		}
+	}
+	
+	private void extractServiceInterface() {
+		IdlPathParam homeDir = RTCUtil.getHomePath();
+		String FS = System.getProperty("file.separator");
+		defaultIFList.clear();
+		
+		try {
+			File idlDir = new File(homeDir.getPath());
+			String[] list = idlDir.list();
+			if (list == null) return;
+			List<String> idlNames = new ArrayList<String>();
+			for (String name : list) {
+				if (name.toLowerCase().endsWith(".idl")) {
+					idlNames.add(name);
+				}
+			}
+			Collections.sort(idlNames, new Comparator<String>() {
+				public int compare(String a, String b) {
+					return a.compareTo(b);
+				}
+			});
+			for (String idlName : idlNames) {
+				String targetFile = homeDir.getPath() + FS + idlName;
+				String idlContent = FileUtil.readFile(targetFile);
+				String targetContent = PreProcessor.parseAlltoSpace(idlContent);
+				IDLParser parser = new IDLParser(new StringReader(targetContent));
+				List<ServiceClassParam> serviceClassParams = IDLParamConverter.convert(parser.specification(), "");
+				for(ServiceClassParam param : serviceClassParams) {
+					param.setIdlFile(targetFile);
+					defaultIFList.add(param);
+					currentIFList.add(param);
+				}
+			}
+		} catch (IOException e) {
+			LOGGER.error("Fail to read idl file", e);
+		} catch (ParseException e) {
+			LOGGER.error("Fail to parse idl file", e);
 		}
 	}
 }

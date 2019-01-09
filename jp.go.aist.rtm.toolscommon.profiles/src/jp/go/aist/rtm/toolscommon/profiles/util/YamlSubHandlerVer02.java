@@ -1,12 +1,10 @@
 package jp.go.aist.rtm.toolscommon.profiles.util;
 
+import static jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler.createXMLGregorianCalendar;
+
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
-
-import javax.xml.datatype.XMLGregorianCalendar;
-
-import jp.go.aist.rtm.toolscommon.profiles.nl.Messages;
 
 import org.openrtp.namespaces.rtc.version02.ActionStatusDoc;
 import org.openrtp.namespaces.rtc.version02.Actions;
@@ -44,7 +42,7 @@ import org.openrtp.namespaces.rtc.version02.ServiceportExt;
 import org.openrtp.namespaces.rtc.version02.TargetEnvironment;
 import org.openrtp.namespaces.rtc.version02.TransmissionMethod;
 
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
+import jp.go.aist.rtm.toolscommon.profiles.nl.Messages;
 
 public class YamlSubHandlerVer02 {
 
@@ -77,8 +75,8 @@ public class YamlSubHandlerVer02 {
 					basic.setVersion((String)basicY.get("version"));
 					basic.setAbstract((String)basicY.get("abstract"));
 					basic.setHardwareProfile((String)basicY.get("hardwareProfile"));
-					basic.setCreationDate(createDateTimeFromYaml((Map)basicY.get("creationDate")));
-					basic.setUpdateDate(createDateTimeFromYaml((Map)basicY.get("updateDate")));
+					basic.setCreationDate(createXMLGregorianCalendar((Map<String, Integer>) basicY.get("creationDate")));
+					basic.setUpdateDate(createXMLGregorianCalendar((Map<String, Integer>) basicY.get("updateDate")));
 					//Basic Doc
 					Map docbasicY = (Map)basicY.get("rtcDoc::doc");
 					if( docbasicY != null ) {
@@ -345,17 +343,6 @@ public class YamlSubHandlerVer02 {
 		return profile;
 	}
 
-	@SuppressWarnings("unchecked")
-	private XMLGregorianCalendar createDateTimeFromYaml(Map dateY) {
-		return XMLGregorianCalendarImpl.createDateTime(
-				((Integer)dateY.get("year")).intValue(),
-				((Integer)dateY.get("month")).intValue(),
-				((Integer)dateY.get("day")).intValue(),
-				((Integer)dateY.get("hour")).intValue(),
-				((Integer)dateY.get("minute")).intValue(),
-				((Integer)dateY.get("second")).intValue() );
-	}
-	
 	@SuppressWarnings("unchecked")
 	private ActionStatusDoc createActionFromYaml(Map actionY) {
 		ObjectFactory factory = new ObjectFactory();

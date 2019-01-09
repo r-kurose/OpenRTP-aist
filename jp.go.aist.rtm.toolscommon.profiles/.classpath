@@ -3,7 +3,10 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="schema"/>
 	<classpathentry kind="src" path="test"/>
-	<classpathentry exported="true" kind="lib" path="lib/jaxb-impl.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/javax.activation-api-1.2.0.jar" sourcepath="lib/javax.activation-api-1.2.0-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jaxb-api-2.3.0.jar" sourcepath="lib/jaxb-api-2.3.0-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jaxb-core-2.3.0.1.jar" sourcepath="lib/jaxb-core-2.3.0.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jaxb-impl-2.3.0.1.jar" sourcepath="lib/jaxb-impl-2.3.0.1-sources.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="lib" path="lib/jyaml-1.3.jar"/>
