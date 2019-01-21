@@ -6,17 +6,6 @@
  */
 package jp.go.aist.rtm.nameserviceview.model.nameservice.impl;
 
-import OpenRTMNaming.NamingNotifier;
-import OpenRTMNaming.ObserverProfile;
-import OpenRTMNaming.NamingObserver;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.*;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NameserviceFactory;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NameservicePackage;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -28,6 +17,15 @@ import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextPackage.CannotProceed;
 import org.omg.CosNaming.NamingContextPackage.InvalidName;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
+
+import OpenRTMNaming.NamingNotifier;
+import OpenRTMNaming.ObserverProfile;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.CorbaNode;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.NameserviceFactory;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.NameservicePackage;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode;
 
 /**
  * <!-- begin-user-doc -->
@@ -44,7 +42,7 @@ public class NameserviceFactoryImpl extends EFactoryImpl implements NameserviceF
 	 */
 	public static NameserviceFactory init() {
 		try {
-			NameserviceFactory theNameserviceFactory = (NameserviceFactory)EPackage.Registry.INSTANCE.getEFactory("http:///jp/go/aist/rtm/nameserviceview/model/nameserviceview.ecore"); 
+			NameserviceFactory theNameserviceFactory = (NameserviceFactory)EPackage.Registry.INSTANCE.getEFactory("http:///jp/go/aist/rtm/nameserviceview/model/nameserviceview.ecore");
 			if (theNameserviceFactory != null) {
 				return theNameserviceFactory;
 			}
