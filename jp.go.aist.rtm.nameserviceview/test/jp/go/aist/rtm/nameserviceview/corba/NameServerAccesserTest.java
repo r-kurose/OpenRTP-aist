@@ -11,18 +11,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameServiceReferenceImpl;
-import jp.go.aist.rtm.toolscommon.corba.CorbaUtil;
-import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
-import jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl;
-import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
-import jp.go.aist.rtm.toolscommon.model.manager.impl.RTCManagerImpl;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationManager;
-import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
-
 import org.eclipse.emf.common.util.TreeIterator;
 import org.junit.Test;
 import org.omg.CORBA.Any;
@@ -52,6 +40,17 @@ import _SDOPackage.NameValue;
 import _SDOPackage.NotAvailable;
 import _SDOPackage.Organization;
 import _SDOPackage.SDO;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.NameServiceReference;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.impl.NameServiceReferenceImpl;
+import jp.go.aist.rtm.toolscommon.corba.CorbaUtil;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
+import jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl;
+import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
+import jp.go.aist.rtm.toolscommon.model.manager.impl.RTCManagerImpl;
+import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationManager;
+import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
 
 
 public class NameServerAccesserTest {
@@ -70,7 +69,7 @@ public class NameServerAccesserTest {
 					for (int i = 0; i < profiles.length; i++) {
 						for(int j = 0; j < profiles[i].properties.length; j++) {
 							NameValue nameValue = profiles[i].properties[j];
-							System.out.println(nameValue.name + ":" + nameValue.value.extract_string());						
+							System.out.println(nameValue.name + ":" + nameValue.value.extract_string());
 						}
 					}
 				}
@@ -109,16 +108,16 @@ public class NameServerAccesserTest {
 		RTC.PortService[] inPorts = consoleOut.getCorbaObjectInterface().get_ports();
 		RTCManagerImpl manager = findManager();
 		assertNotNull(manager);
-		
+
 		String comp1Name = "PeriodicECSharedComposite?instance_name=comp1&exported_ports=ConsoleIn0.out";
-		RTC.RTObject comp1 = manager.getCorbaObjectInterface().create_component(comp1Name); 
+		RTC.RTObject comp1 = manager.getCorbaObjectInterface().create_component(comp1Name);
 		Organization[] orgs = comp1.get_owned_organizations();
 		orgs[0].set_members(new SDO[]{consoleIn.getCorbaObjectInterface()});
 		RTC.PortService[] ports = comp1.get_ports();
 		assertEquals(outPorts[0], ports[0]);
-		
+
 		String comp2Name = "PeriodicECSharedComposite?instance_name=comp2&exported_ports=ConsoleOut0.in";
-		RTC.RTObject comp2 = manager.getCorbaObjectInterface().create_component(comp2Name); 
+		RTC.RTObject comp2 = manager.getCorbaObjectInterface().create_component(comp2Name);
 		Organization[] orgs2 = comp2.get_owned_organizations();
 		orgs2[0].set_members(new SDO[]{consoleOut.getCorbaObjectInterface()});
 		RTC.PortService[] ports2 = comp2.get_ports();
@@ -134,10 +133,10 @@ public class NameServerAccesserTest {
 		RTC.ConnectorProfile[]  connectorProfiles = ports[0].get_connector_profiles();
 		ports[0].disconnect_all();
 //		for(int i=0; i<connectorProfiles.length; i++) {
-//			ports[0].disconnect(connectorProfiles[i].connector_id);			
+//			ports[0].disconnect(connectorProfiles[i].connector_id);
 //		}
 		ports[0].connect(connectorProfileHolder);
-		
+
 		connectorProfiles = ports[0].get_connector_profiles();
 		assertEquals(1, connectorProfiles.length);
 		assertEquals(ports[0], connectorProfiles[0].ports[0]);
@@ -149,7 +148,7 @@ public class NameServerAccesserTest {
 		assertEquals(ports2[0], connectorProfiles2[0].ports[1]);
 
 	}
-	
+
 	private NameValue[] setupConnectorProperties() {
 		List<NameValue> result = new ArrayList<NameValue>();
 		result.add(new NameValue("dataport.dataflow_type"
@@ -206,9 +205,9 @@ public class NameServerAccesserTest {
 	public void connect() throws Exception {
 		NamingContextNode result = getNamingContext();
 		assertNotNull(result);
-		
+
 	}
-	
+
 //	@Test
 	public void nonExistent() throws Exception {
 		String address = "192.168.1.164:2809";
@@ -217,7 +216,7 @@ public class NameServerAccesserTest {
 						"corbaloc:iiop:1.2@" + address + "/NameService"));
 		List<Binding> bindingList = CorbaUtil.getBindingList(namingContext);
 		System.out.println("namingContext has " + bindingList.size() + " nodes");
-		
+
 		Binding binding = bindingList.get(0);
 		NamingContextExt hostContext = (NamingContextExt) namingContext.resolve(binding.binding_name);
 
@@ -235,7 +234,7 @@ public class NameServerAccesserTest {
 			}
 		}
 	}
-	
+
 //	@Test
 	public void comp1() throws Exception {
 		String address = "192.168.1.164:2809";
@@ -244,13 +243,13 @@ public class NameServerAccesserTest {
 						"corbaloc:iiop:1.2@" + address + "/NameService"));
 		List<Binding> bindingList = CorbaUtil.getBindingList(namingContext);
 		System.out.println("namingContext has " + bindingList.size() + " nodes");
-		
+
 		Binding binding = bindingList.get(0);
 		NamingContextExt hostContext = (NamingContextExt) namingContext.resolve(binding.binding_name);
 
 		bindingList = CorbaUtil.getBindingList(hostContext);
 		System.out.println("host_cxt has " + bindingList.size() + " nodes");
-		
+
 		for (Binding b : bindingList) {
 			org.omg.CORBA.Object resolve = hostContext.resolve(b.binding_name);
 			if (!resolve._is_a(RTObjectHelper.id())) continue;
@@ -261,16 +260,16 @@ public class NameServerAccesserTest {
 				System.out.println(port.port_ref);
 			}
 		}
-		
+
 	}
-	
+
 //	@Test
 	public void getManagerFromPathId() throws Exception {
 		String pathId = "192.168.1.212/localhost.localdomain.host_cxt";
 		assertEquals("192.168.1.212", pathId.split("/")[0]);
 		assertEquals("192.168.1.212", "192.168.1.212".split("/")[0]);
 		pathId = "192.168.1.212";
-			
+
 		NameServerAccesser instance = NameServerAccesser.getInstance();
 		NamingContext context = (NamingContext) instance.getObjectFromPathId(pathId);
 		context = instance.getNameServerRootContext(pathId);
@@ -284,13 +283,13 @@ public class NameServerAccesserTest {
 						"corbaloc:iiop:1.2@" + address + "/NameService"));
 		List<Binding> bindingList = CorbaUtil.getBindingList(namingContext);
 		System.out.println("namingContext has " + bindingList.size() + " nodes");
-		
+
 		Binding binding = bindingList.get(0);
 		NamingContextExt hostContext = (NamingContextExt) namingContext.resolve(binding.binding_name);
 
 		bindingList = CorbaUtil.getBindingList(hostContext);
 		System.out.println("host_cxt has " + bindingList.size() + " nodes");
-		
+
 		for (Binding b : bindingList) {
 			for (NameComponent nc : b.binding_name) {
 				System.out.print(nc.id);
@@ -316,20 +315,20 @@ public class NameServerAccesserTest {
 		assertFalse(BindingType.nobject == binding.binding_type);
 		assertFalse(hostContext._is_a(RTObjectHelper.id()));
 		assertEquals("host_cxt", binding.binding_name[0].kind);
-		
+
 		bindingList = CorbaUtil.getBindingList(hostContext);
 		System.out.println("host_cxt has " + bindingList.size() + " nodes");
 
 		binding = bindingList.get(0);
 		assertTrue(BindingType.nobject == binding.binding_type);
 		org.omg.CORBA.Object resolve = hostContext.resolve(binding.binding_name);
-		assertFalse(resolve._is_a(RTObjectHelper.id())); 
+		assertFalse(resolve._is_a(RTObjectHelper.id()));
 		assertTrue(resolve._is_a(ManagerHelper.id()));
-		
+
 		binding = bindingList.get(1);
 		assertTrue(BindingType.nobject == binding.binding_type);
 		resolve = hostContext.resolve(binding.binding_name);
-		assertTrue(resolve._is_a(RTObjectHelper.id())); 
+		assertTrue(resolve._is_a(RTObjectHelper.id()));
 		assertFalse(resolve._is_a(ManagerHelper.id()));
 		RTObject narrow = RTObjectHelper.narrow(resolve);
 		RTC.ExecutionContext[] executionContexts = narrow.get_owned_contexts();
@@ -341,7 +340,7 @@ public class NameServerAccesserTest {
 		assertEquals(RTC.LifeCycleState.INACTIVE_STATE.value(), ec[0].get_component_state(narrow).value());
 		assertEquals(RTC.LifeCycleState.INACTIVE_STATE.value(), ec[1].get_component_state(narrow).value());
 	}
-	
+
 //	@Test
 	public void exportPort() throws Exception {
 		String address = "192.168.1.164:2809";
@@ -355,7 +354,7 @@ public class NameServerAccesserTest {
 		assertFalse(BindingType.nobject == binding.binding_type);
 		assertFalse(hostContext._is_a(RTObjectHelper.id()));
 		assertEquals("host_cxt", binding.binding_name[0].kind);
-		
+
 		List<Binding> bindingList = CorbaUtil.getBindingList(hostContext);
 		System.out.println("host_cxt has " + bindingList.size() + " nodes");
 
@@ -363,19 +362,19 @@ public class NameServerAccesserTest {
 		binding = bindingList.get(0);
 		assertTrue(BindingType.nobject == binding.binding_type);
 		org.omg.CORBA.Object resolve = hostContext.resolve(binding.binding_name);
-		assertFalse(resolve._is_a(RTObjectHelper.id())); 
+		assertFalse(resolve._is_a(RTObjectHelper.id()));
 		RTM.Manager manager = ManagerHelper.narrow(resolve);
 
 		// 2つめはComponent
 		binding = bindingList.get(1);
 		assertTrue(BindingType.nobject == binding.binding_type);
 		resolve = hostContext.resolve(binding.binding_name);
-		assertTrue(resolve._is_a(RTObjectHelper.id())); 
+		assertTrue(resolve._is_a(RTObjectHelper.id()));
 		RTObject child = RTObjectHelper.narrow(resolve);
 		ComponentProfile childProfile = child.get_component_profile();
 		assertEquals("ConsoleIn0", childProfile.instance_name);
 		assertEquals("out", childProfile.port_profiles[0].name);
-		
+
 		// 複合RTCを作る
 		RTC.RTObject composite = manager.create_component("PeriodicECSharedComposite?instance_name=comp1&exported_ports=");
 		Organization org = composite.get_owned_organizations()[0];
@@ -388,15 +387,15 @@ public class NameServerAccesserTest {
 		assertEquals("", activeConfigurationSet.configuration_data[0].value.extract_string());
 		assertEquals("exported_ports", activeConfigurationSet.configuration_data[1].name);
 		assertEquals("", activeConfigurationSet.configuration_data[1].value.extract_string());
-		
+
 		// ポートはすべて非公開
 		ComponentProfile compositeProfile = composite.get_component_profile();
 		assertEquals(0, compositeProfile.port_profiles.length);
-		
+
 		// ポートを公開する
 		configuration.set_configuration_set_values(createSdoConfigurationSet("ConsoleIn0.out"));
 		configuration.activate_configuration_set("default");
-		
+
 		// 公開後のコンフィグセット
 		activeConfigurationSet = configuration.get_active_configuration_set();
 		assertEquals("default", activeConfigurationSet.id);
@@ -405,15 +404,15 @@ public class NameServerAccesserTest {
 		assertEquals("", activeConfigurationSet.configuration_data[0].value.extract_string());
 		assertEquals("exported_ports", activeConfigurationSet.configuration_data[1].name);
 		assertEquals("ConsoleIn0.out", activeConfigurationSet.configuration_data[1].value.extract_string());
-		
+
 		// 公開後のポート
 		compositeProfile = composite.get_component_profile();
 		assertEquals(1, compositeProfile.port_profiles.length);
-		
+
 		// 複合RTCを消しておく
 		composite.exit();
 	}
-	
+
 //	@Test
 	public void addMembers() throws Exception {
 		String address = "192.168.1.164:2809";
@@ -427,7 +426,7 @@ public class NameServerAccesserTest {
 		assertFalse(BindingType.nobject == binding.binding_type);
 		assertFalse(hostContext._is_a(RTObjectHelper.id()));
 		assertEquals("host_cxt", binding.binding_name[0].kind);
-		
+
 		List<Binding> bindingList = CorbaUtil.getBindingList(hostContext);
 		System.out.println("host_cxt has " + bindingList.size() + " nodes");
 
@@ -435,14 +434,14 @@ public class NameServerAccesserTest {
 		binding = bindingList.get(0);
 		assertTrue(BindingType.nobject == binding.binding_type);
 		org.omg.CORBA.Object resolve = hostContext.resolve(binding.binding_name);
-		assertFalse(resolve._is_a(RTObjectHelper.id())); 
+		assertFalse(resolve._is_a(RTObjectHelper.id()));
 		RTM.Manager manager = ManagerHelper.narrow(resolve);
 
 		// 2つめはComponent
 		binding = bindingList.get(1);
 		assertTrue(BindingType.nobject == binding.binding_type);
 		resolve = hostContext.resolve(binding.binding_name);
-		assertTrue(resolve._is_a(RTObjectHelper.id())); 
+		assertTrue(resolve._is_a(RTObjectHelper.id()));
 		RTObject child = RTObjectHelper.narrow(resolve);
 		ComponentProfile childProfile = child.get_component_profile();
 		assertEquals("ConsoleIn0", childProfile.instance_name);
@@ -452,7 +451,7 @@ public class NameServerAccesserTest {
 		binding = bindingList.get(2);
 		assertTrue(BindingType.nobject == binding.binding_type);
 		resolve = hostContext.resolve(binding.binding_name);
-		assertTrue(resolve._is_a(RTObjectHelper.id())); 
+		assertTrue(resolve._is_a(RTObjectHelper.id()));
 		RTObject anotherChild = RTObjectHelper.narrow(resolve);
 		childProfile = anotherChild.get_component_profile();
 		assertEquals("ConsoleOut0", childProfile.instance_name);
@@ -471,19 +470,19 @@ public class NameServerAccesserTest {
 
 		// ConsoleOut0を追加する
 		org.add_members(new SDO[]{anotherChild});
-		
+
 		verifyExportedConfig(configuration, "ConsoleIn0.out");
 		compositeProfile = composite.get_component_profile();
 		assertEquals(1, compositeProfile.port_profiles.length);
-					
+
 		// ConsoleOut0.inを公開
 		configuration.set_configuration_set_values(createSdoConfigurationSet("ConsoleIn0.out,ConsoleOut0.in"));
 		configuration.activate_configuration_set("default");
-		
+
 		verifyExportedConfig(configuration, "ConsoleIn0.out,ConsoleOut0.in");
 		compositeProfile = composite.get_component_profile();
 		assertEquals(2, compositeProfile.port_profiles.length);
-		
+
 		// 複合RTCを消しておく
 		composite.exit();
 	}
@@ -501,7 +500,7 @@ public class NameServerAccesserTest {
 		System.out.println("host_cxt has " + bindingList.size() + " nodes");
 		for (Binding b : bindingList) {
 			org.omg.CORBA.Object resolve = hostContext.resolve(b.binding_name);
-			if (!resolve._is_a(RTObjectHelper.id())) continue; 
+			if (!resolve._is_a(RTObjectHelper.id())) continue;
 			RTObject ro = RTObjectHelper.narrow(resolve);
 			ComponentProfile profile = ro.get_component_profile();
 			System.out.println(profile.instance_name);
@@ -516,7 +515,7 @@ public class NameServerAccesserTest {
 		if (ec == null) return "";
 		if (ec.length == 0) return "";
 		return String.valueOf(ec[0].get_component_state(ro).value());
-		
+
 	}
 	private void verifyExportedConfig(Configuration configuration, String expected)
 			throws NotAvailable, InternalError {
@@ -528,7 +527,7 @@ public class NameServerAccesserTest {
 		assertEquals("exported_ports", activeConfigurationSet.configuration_data[1].name);
 		assertEquals(expected, activeConfigurationSet.configuration_data[1].value.extract_string());
 	}
-	
+
 	private ConfigurationSet createSdoConfigurationSet(String exportedPorts) {
 		ConfigurationSet result = new ConfigurationSet();
 		result.id = "default";
@@ -536,7 +535,7 @@ public class NameServerAccesserTest {
 		result.configuration_data = createConfigurationData(exportedPorts);
 		return result;
 	}
-	
+
 	private NameValue[] createConfigurationData(String exportedPorts) {
 		NameValue[] result = new NameValue[2];
 		result[0] = new NameValue();
@@ -559,33 +558,33 @@ public class NameServerAccesserTest {
 		List<Binding> bindingList = CorbaUtil.getBindingList(namingContext);
 		assertFalse(bindingList.isEmpty());
 		System.out.println("namingContext has " + bindingList.size() + " nodes");
-		
-		
+
+
 		Binding binding = bindingList.get(0);
 		assertFalse(BindingType.nobject == binding.binding_type);
 		assertEquals("host_cxt", binding.binding_name[0].kind);
 		NamingContext hostContext = (NamingContext) namingContext.resolve(binding.binding_name);
 		bindingList = CorbaUtil.getBindingList(hostContext);
 		System.out.println("host_cxt has " + bindingList.size() + " nodes");
-		
+
 		binding = bindingList.get(0);
 		assertTrue(BindingType.nobject == binding.binding_type);
 		org.omg.CORBA.Object resolve = hostContext.resolve(binding.binding_name);
-		assertFalse(resolve._is_a(RTObjectHelper.id())); 
-		assertTrue(resolve._is_a(ManagerHelper.id())); 
-		
-		verifyComponent(bindingList.get(1), hostContext); 
-		verifyComponent(bindingList.get(2), hostContext); 
-		verifyComponent(bindingList.get(3), hostContext); 
-		verifyComponent(bindingList.get(4), hostContext); 
-		verifyComponent(bindingList.get(5), hostContext); 
-		verifyComponent(bindingList.get(6), hostContext); 
+		assertFalse(resolve._is_a(RTObjectHelper.id()));
+		assertTrue(resolve._is_a(ManagerHelper.id()));
 
-//		
+		verifyComponent(bindingList.get(1), hostContext);
+		verifyComponent(bindingList.get(2), hostContext);
+		verifyComponent(bindingList.get(3), hostContext);
+		verifyComponent(bindingList.get(4), hostContext);
+		verifyComponent(bindingList.get(5), hostContext);
+		verifyComponent(bindingList.get(6), hostContext);
+
+//
 //		org.omg.CORBA.Object resolve = namingContext.resolve(binding.binding_name);
 
 //		namingContext.unbind(binding.binding_name);
-		
+
 //		assertFalse(resolve._is_a(RTObjectHelper.id()));
 	}
 	private void verifyComponent(Binding binding, NamingContext hostContext)
@@ -610,10 +609,10 @@ public class NameServerAccesserTest {
 		assertFalse(BindingType.nobject == binding.binding_type);
 		assertFalse(hostContext._is_a(RTObjectHelper.id()));
 		assertEquals("host_cxt", binding.binding_name[0].kind);
-		
+
 		bindingList = CorbaUtil.getBindingList(hostContext);
 		System.out.println("host_cxt has " + bindingList.size() + " nodes");
-		
+
 		binding = bindingList.get(0);
 		assertTrue(BindingType.nobject == binding.binding_type);
 		org.omg.CORBA.Object resolve = hostContext.resolve(binding.binding_name);
@@ -654,10 +653,10 @@ public class NameServerAccesserTest {
 //		assertTrue(instance.validateNameServerAddress(address));
 		NamingContextExt namingContext = instance.getNameServerRootContext(address);
 		assertNotNull(namingContext);
-		
+
         NameServiceReference nameServiceReference = createNameServerReference(address, namingContext);
         SynchronizationManager synchronizationManager = new SynchronizationManager(setupMappingRule());
-        
+
         return (NamingContextNode) synchronizationManager.createLocalObject(
                 new Object[]{namingContext, nameServiceReference});
 	}
