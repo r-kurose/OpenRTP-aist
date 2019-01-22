@@ -1,28 +1,24 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.editpart;
 
+import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.Panel;
+import org.eclipse.draw2d.StackLayout;
+
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
-
-import org.eclipse.draw2d.Label;
-import org.eclipse.draw2d.Panel;
-import org.eclipse.draw2d.StackLayout;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * ツールチップ作成ヘルパー
  */
 public class ToolTipHelper {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ToolTipHelper.class);
-
 	private static final String CRLF = "\r\n";
 
 	/**
 	 * ECのツールチップを取得します。
-	 * 
+	 *
 	 * @param ec
 	 * @return
 	 */

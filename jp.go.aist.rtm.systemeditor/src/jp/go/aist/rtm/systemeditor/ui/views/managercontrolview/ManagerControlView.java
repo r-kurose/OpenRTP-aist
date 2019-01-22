@@ -4,14 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import jp.go.aist.rtm.systemeditor.nl.Messages;
-import jp.go.aist.rtm.systemeditor.ui.dialog.CreateComponentDialog;
-import jp.go.aist.rtm.systemeditor.ui.dialog.ManagerConfigurationDialog;
-import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
-import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
-import jp.go.aist.rtm.toolscommon.util.SDOUtil;
-
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -47,6 +39,13 @@ import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import jp.go.aist.rtm.systemeditor.ui.dialog.CreateComponentDialog;
+import jp.go.aist.rtm.systemeditor.ui.dialog.ManagerConfigurationDialog;
+import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
+import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
+import jp.go.aist.rtm.toolscommon.util.SDOUtil;
+
 /**
  * マネージャ管理ビュー
  */
@@ -70,22 +69,22 @@ public class ManagerControlView extends ViewPart {
 	private Button loadedeModuleButton;
 	private Button rtcInstanceButton;
 	private Button managersButton;
-	
+
 	private Table modulesTable;
 	private TableViewer modulesTableViewer;
 	private TableColumn moduleColumn1;
 	private TableColumn moduleColumn2;
-	
+
 	private Button createButton;
 	private Button configureButton;
 	private Button restartButton;
 	private Button shutdownButton;
-	
+
 	private DispMode mode;
 
 	private RTCManager targetManager;
 	private List<Profile> profileList;
-	private List<RTCManager> managerList; 
+	private List<RTCManager> managerList;
 
 	public ManagerControlView() {
 	}
@@ -351,10 +350,10 @@ public class ManagerControlView extends ViewPart {
 				if (target == null) {
 					return;
 				}
-				
+
 				String managerName = SDOUtil.findValueAsString("instance_name", target.getProfileR().properties);
 				target.shutdownR();
-				
+
 				if(target==targetManager) {
 					targetManager = null;
 				} else {
@@ -441,7 +440,7 @@ public class ManagerControlView extends ViewPart {
 					this.profileList.add(new Profile(module, true));
 				}
 				this.modulesTableViewer.setInput(this.profileList);
-				
+
 			} else if (this.mode == DispMode.RTCInstances) {
 				for (RTC.ComponentProfile component : this.targetManager
 						.getComponentProfilesR()) {
@@ -466,7 +465,7 @@ public class ManagerControlView extends ViewPart {
 			this.profileList = new ArrayList<Profile>();
 		}
 		this.profileList.clear();
-		
+
 		this.profileList.add(new Profile(this.targetManager.getProfileR()));
 		managerList.add(targetManager);
 		for (RTCManager manager : this.targetManager
@@ -522,7 +521,7 @@ public class ManagerControlView extends ViewPart {
 		Profile(RTM.ManagerProfile manager) {
 			this.manager = manager;
 		}
-		
+
 		public boolean hasModuleProfile() {
 			return this.module != null;
 		}
@@ -569,7 +568,7 @@ public class ManagerControlView extends ViewPart {
 		public String getComponent_instance_name() {
 			return this.component.instance_name;
 		}
-		
+
 		/** コンポーネントプロファイル: マネージャ名を取得します */
 		public String getComponent_manager_name() {
 			return SDOUtil.findValueAsString("manager.instance_name",
@@ -598,7 +597,7 @@ public class ManagerControlView extends ViewPart {
 		}
 
 	}
-	
+
 	/** 各種プロファイルのプロパティ表示のためのPropertySource */
 	public static class ProfilePropertySource implements IPropertySource {
 
@@ -660,7 +659,7 @@ public class ManagerControlView extends ViewPart {
 		}
 
 	}
-	
+
 	/** 各種プロファイル一覧表示のLabelProvider */
 	public class ProfileLabelProvider extends LabelProvider implements
 			ITableLabelProvider, ITableColorProvider {

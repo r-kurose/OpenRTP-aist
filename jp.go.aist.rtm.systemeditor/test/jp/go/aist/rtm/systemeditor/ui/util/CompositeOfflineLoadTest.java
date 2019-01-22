@@ -1,24 +1,9 @@
 package jp.go.aist.rtm.systemeditor.ui.util;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.datatype.DatatypeFactory;
-
-import jp.go.aist.rtm.nameserviceview.corba.NameServerAccesserTest;
-import jp.go.aist.rtm.repositoryView.model.RepositoryViewItem;
-import jp.go.aist.rtm.repositoryView.model.RepositoryViewLeafItem;
-import jp.go.aist.rtm.systemeditor.factory.SystemEditorWrapperFactory;
-import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
-import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
-import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
-import jp.go.aist.rtm.toolscommon.model.component.NameValue;
-import jp.go.aist.rtm.toolscommon.model.component.Port;
-import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
-import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
-import jp.go.aist.rtm.toolscommon.util.RtsProfileHandler;
-import junit.framework.TestCase;
 
 import org.eclipse.emf.common.util.EList;
 import org.openrtp.namespaces.rts.version02.Component;
@@ -36,6 +21,18 @@ import org.openrtp.namespaces.rts.version02.TargetComponent;
 import org.openrtp.namespaces.rts.version02.TargetPort;
 
 import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
+
+import jp.go.aist.rtm.nameserviceview.corba.NameServerAccesserTest;
+import jp.go.aist.rtm.systemeditor.factory.SystemEditorWrapperFactory;
+import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
+import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
+import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
+import jp.go.aist.rtm.toolscommon.model.component.NameValue;
+import jp.go.aist.rtm.toolscommon.model.component.Port;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
+import jp.go.aist.rtm.toolscommon.util.RtsProfileHandler;
+import junit.framework.TestCase;
 
 public class CompositeOfflineLoadTest extends TestCase {
 	private ObjectFactory objectFactory;
@@ -58,22 +55,22 @@ public class CompositeOfflineLoadTest extends TestCase {
 		handler.restoreConfigSet(diagram);
 		handler.restoreCompositeComponentPort(diagram);
 		handler.restoreConnection(diagram);
-		
+
 		assertEquals("2009-03-06T10:15:43.349+09:00", diagram.getUpdateDate());
 		assertEquals("2009-03-06T10:15:43.349+09:00", diagram.getCreationDate());
 		assertEquals("RTSystem:d.d:d", diagram.getSystemId());
-		
+
 		assertEquals(2, diagram.getComponents().size());
 		verfifyComponentS1((ComponentSpecification) diagram.getComponents().get(0));
 //		verfifyComponentCameraComponent((ComponentSpecification) diagram.getComponents().get(1));
 //		verfifyComponentImageProcess((ComponentSpecification) diagram.getComponents().get(2));
 		verfifyComponentImageViewer((ComponentSpecification) diagram.getComponents().get(1));
-		
+
 		RtsProfileExt savedProfile = handler.save(diagram);
 		assertEquals(rtsProfile.getUpdateDate(), savedProfile.getUpdateDate());
 		assertEquals(rtsProfile.getCreationDate(), savedProfile.getCreationDate());
 		assertEquals(rtsProfile.getId(), savedProfile.getId());
-		
+
 		verifyComponents(rtsProfile.getComponents(), savedProfile.getComponents());
 		verifyServicePortConnectors(rtsProfile.getServicePortConnectors(), savedProfile.getServicePortConnectors());
 	}
@@ -179,7 +176,6 @@ public class CompositeOfflineLoadTest extends TestCase {
 		assertEquals(p1.getPortName(), p2.getPortName());
 	}
 
-	@SuppressWarnings("unchecked")
 	private void verfifyComponentS1(ComponentSpecification component) {
 		assertTrue(component.isRequired());
 		assertEquals("PeriodicECShared", component.getCompositeTypeL());
@@ -217,51 +213,51 @@ public class CompositeOfflineLoadTest extends TestCase {
 		verifyLocation("RIGHT", 255, 131, component);
 	}
 
-	private void verfifyComponentCameraComponent(
-			ComponentSpecification component) {
-		assertTrue(component.isRequired());
-		assertEquals("None", component.getCompositeTypeL());
-		assertNull(component.getActiveConfigurationSet());
-		assertEquals("CameraComponent_1", component.getInstanceNameL());
-		assertEquals("file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.CameraComponent_1.0.0.xml:1", component.getPathId());
-		assertEquals("RTC:Sample Vender.example.CameraComponent:1.0.0", component.getComponentId());
-		assertEquals(2, component.getPorts().size());
-		verifyPort("CameraComponent_1.ImageData"
-				, "{componentId:RTC:Sample Vender.example.CameraComponent:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.CameraComponent_1.0.0.xml:1,instanceName:CameraComponent_1,portName:CameraComponent_1.ImageData}"
-				, (Port) component.getPorts().get(0)
-				, new String[]{});
-		verifyPort("CameraComponent_1.CapPORT"
-				, "{componentId:RTC:Sample Vender.example.CameraComponent:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.CameraComponent_1.0.0.xml:1,instanceName:CameraComponent_1,portName:CameraComponent_1.CapPORT}"
-				, (Port) component.getPorts().get(1)
-				, new String[]{"9b4074b4-29b5-4a22-9956-22070915ef25"});
-		assertEquals(0, component.getConfigurationSets().size());
-		verifyLocation("RIGHT", 255, 131, component);
-	}
+//	private void verfifyComponentCameraComponent(
+//			ComponentSpecification component) {
+//		assertTrue(component.isRequired());
+//		assertEquals("None", component.getCompositeTypeL());
+//		assertNull(component.getActiveConfigurationSet());
+//		assertEquals("CameraComponent_1", component.getInstanceNameL());
+//		assertEquals("file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.CameraComponent_1.0.0.xml:1", component.getPathId());
+//		assertEquals("RTC:Sample Vender.example.CameraComponent:1.0.0", component.getComponentId());
+//		assertEquals(2, component.getPorts().size());
+//		verifyPort("CameraComponent_1.ImageData"
+//				, "{componentId:RTC:Sample Vender.example.CameraComponent:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.CameraComponent_1.0.0.xml:1,instanceName:CameraComponent_1,portName:CameraComponent_1.ImageData}"
+//				, (Port) component.getPorts().get(0)
+//				, new String[]{});
+//		verifyPort("CameraComponent_1.CapPORT"
+//				, "{componentId:RTC:Sample Vender.example.CameraComponent:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.CameraComponent_1.0.0.xml:1,instanceName:CameraComponent_1,portName:CameraComponent_1.CapPORT}"
+//				, (Port) component.getPorts().get(1)
+//				, new String[]{"9b4074b4-29b5-4a22-9956-22070915ef25"});
+//		assertEquals(0, component.getConfigurationSets().size());
+//		verifyLocation("RIGHT", 255, 131, component);
+//	}
 
-	private void verfifyComponentImageProcess(
-			ComponentSpecification component) {
-		assertTrue(component.isRequired());
-		assertEquals("None", component.getCompositeTypeL());
-		assertNull(component.getActiveConfigurationSet());
-		assertEquals("ImageProcess_1", component.getInstanceNameL());
-		assertEquals("file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageProcess_1.0.0.xml:1", component.getPathId());
-		assertEquals("RTC:Sample Vender.example.ImageProcess:1.0.0", component.getComponentId());
-		assertEquals(3, component.getPorts().size());
-		verifyPort("ImageProcess_1.In"
-				, "{componentId:RTC:Sample Vender.example.ImageProcess:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageProcess_1.0.0.xml:1,instanceName:ImageProcess_1,portName:ImageProcess_1.In}"
-				, (Port) component.getPorts().get(0)
-				, new String[]{});
-		verifyPort("ImageProcess_1.Out"
-				, "{componentId:RTC:Sample Vender.example.ImageProcess:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageProcess_1.0.0.xml:1,instanceName:ImageProcess_1,portName:ImageProcess_1.Out}"
-				, (Port) component.getPorts().get(1)
-				, new String[]{});
-		verifyPort("ImageProcess_1.CapPORT"
-				, "{componentId:RTC:Sample Vender.example.ImageProcess:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageProcess_1.0.0.xml:1,instanceName:ImageProcess_1,portName:ImageProcess_1.CapPORT}"
-				, (Port) component.getPorts().get(2)
-				, new String[]{});
-		assertEquals(0, component.getConfigurationSets().size());
-		verifyLocation("RIGHT", 474, 113, component);
-	}
+//	private void verfifyComponentImageProcess(
+//			ComponentSpecification component) {
+//		assertTrue(component.isRequired());
+//		assertEquals("None", component.getCompositeTypeL());
+//		assertNull(component.getActiveConfigurationSet());
+//		assertEquals("ImageProcess_1", component.getInstanceNameL());
+//		assertEquals("file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageProcess_1.0.0.xml:1", component.getPathId());
+//		assertEquals("RTC:Sample Vender.example.ImageProcess:1.0.0", component.getComponentId());
+//		assertEquals(3, component.getPorts().size());
+//		verifyPort("ImageProcess_1.In"
+//				, "{componentId:RTC:Sample Vender.example.ImageProcess:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageProcess_1.0.0.xml:1,instanceName:ImageProcess_1,portName:ImageProcess_1.In}"
+//				, (Port) component.getPorts().get(0)
+//				, new String[]{});
+//		verifyPort("ImageProcess_1.Out"
+//				, "{componentId:RTC:Sample Vender.example.ImageProcess:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageProcess_1.0.0.xml:1,instanceName:ImageProcess_1,portName:ImageProcess_1.Out}"
+//				, (Port) component.getPorts().get(1)
+//				, new String[]{});
+//		verifyPort("ImageProcess_1.CapPORT"
+//				, "{componentId:RTC:Sample Vender.example.ImageProcess:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageProcess_1.0.0.xml:1,instanceName:ImageProcess_1,portName:ImageProcess_1.CapPORT}"
+//				, (Port) component.getPorts().get(2)
+//				, new String[]{});
+//		assertEquals(0, component.getConfigurationSets().size());
+//		verifyLocation("RIGHT", 474, 113, component);
+//	}
 
 	private void verfifyComponentImageViewer(
 			ComponentSpecification component) {
@@ -433,7 +429,7 @@ public class CompositeOfflineLoadTest extends TestCase {
 		location.setY(BigInteger.valueOf(y));
 		return location;
 	}
-	
+
 
 	private ServiceportConnector createServiceportConnector() {
 		ServiceportConnector connector = objectFactory.createServiceportConnectorExt();
@@ -454,66 +450,66 @@ public class CompositeOfflineLoadTest extends TestCase {
 	}
 
 
-	private List<RepositoryViewItem> createRepositoryModel() {
-		List<RepositoryViewItem> repositoryModel = new ArrayList<RepositoryViewItem>();
-		repositoryModel.add(createEofComponentCameraComponent());
-		repositoryModel.add(createEofComponentImageProcess());
-		repositoryModel.add(createEofComponentImageViewer());
-		return repositoryModel;
-	}
+//	private List<RepositoryViewItem> createRepositoryModel() {
+//		List<RepositoryViewItem> repositoryModel = new ArrayList<RepositoryViewItem>();
+//		repositoryModel.add(createEofComponentCameraComponent());
+//		repositoryModel.add(createEofComponentImageProcess());
+//		repositoryModel.add(createEofComponentImageViewer());
+//		return repositoryModel;
+//	}
 
-	private RepositoryViewItem createEofComponentCameraComponent() {
-		RepositoryViewLeafItem item = new RepositoryViewLeafItem("CameraComponent");
-		ComponentSpecification component = ComponentFactory.eINSTANCE.createComponentSpecification();
-		component.setCategoryL("None");
-		component.setInstanceNameL("CameraComponent");
-		component.setPathId("file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.CameraComponent_1.0.0.xml:1");
-		component.setComponentId("RTC:Sample Vender.example.CameraComponent:1.0.0");
-		component.getPorts().add(createEofPort("ImageData", "out"));
-		component.getPorts().add(createEofPort("CapPORT", "service"));		
-		item.setComponent(component);
-		return item;
-	}
+//	private RepositoryViewItem createEofComponentCameraComponent() {
+//		RepositoryViewLeafItem item = new RepositoryViewLeafItem("CameraComponent");
+//		ComponentSpecification component = ComponentFactory.eINSTANCE.createComponentSpecification();
+//		component.setCategoryL("None");
+//		component.setInstanceNameL("CameraComponent");
+//		component.setPathId("file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.CameraComponent_1.0.0.xml:1");
+//		component.setComponentId("RTC:Sample Vender.example.CameraComponent:1.0.0");
+//		component.getPorts().add(createEofPort("ImageData", "out"));
+//		component.getPorts().add(createEofPort("CapPORT", "service"));
+//		item.setComponent(component);
+//		return item;
+//	}
 
-	private RepositoryViewItem createEofComponentImageProcess() {
-		RepositoryViewLeafItem item = new RepositoryViewLeafItem("ImageProcess");
-		ComponentSpecification component = ComponentFactory.eINSTANCE.createComponentSpecification();
-		component.setCategoryL("None");
-		component.setInstanceNameL("ImageProcess");
-		component.setPathId("file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageProcess_1.0.0.xml:1");
-		component.setComponentId("RTC:Sample Vender.example.ImageProcess:1.0.0");
-		component.getPorts().add(createEofPort("In", "in"));
-		component.getPorts().add(createEofPort("Out", "out"));
-		component.getPorts().add(createEofPort("CapPORT", "service"));		
-		item.setComponent(component);
-		return item;
-	}
+//	private RepositoryViewItem createEofComponentImageProcess() {
+//		RepositoryViewLeafItem item = new RepositoryViewLeafItem("ImageProcess");
+//		ComponentSpecification component = ComponentFactory.eINSTANCE.createComponentSpecification();
+//		component.setCategoryL("None");
+//		component.setInstanceNameL("ImageProcess");
+//		component.setPathId("file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageProcess_1.0.0.xml:1");
+//		component.setComponentId("RTC:Sample Vender.example.ImageProcess:1.0.0");
+//		component.getPorts().add(createEofPort("In", "in"));
+//		component.getPorts().add(createEofPort("Out", "out"));
+//		component.getPorts().add(createEofPort("CapPORT", "service"));
+//		item.setComponent(component);
+//		return item;
+//	}
 
-	private RepositoryViewItem createEofComponentImageViewer() {
-		RepositoryViewLeafItem item = new RepositoryViewLeafItem("ImageViewer");
-		ComponentSpecification component = ComponentFactory.eINSTANCE.createComponentSpecification();
-		component.setCategoryL("None");
-		component.setInstanceNameL("ImageViewer");
-		component.setPathId("file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageViewer_1.0.0.xml:1");
-		component.setComponentId("RTC:Sample Vender.example.ImageViewer:1.0.0");
-		component.getPorts().add(createEofPort("ImageDataIn", "in"));
-		component.getPorts().add(createEofPort("CapPORT", "service"));		
-		item.setComponent(component);
-		return item;
-	}
+//	private RepositoryViewItem createEofComponentImageViewer() {
+//		RepositoryViewLeafItem item = new RepositoryViewLeafItem("ImageViewer");
+//		ComponentSpecification component = ComponentFactory.eINSTANCE.createComponentSpecification();
+//		component.setCategoryL("None");
+//		component.setInstanceNameL("ImageViewer");
+//		component.setPathId("file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageViewer_1.0.0.xml:1");
+//		component.setComponentId("RTC:Sample Vender.example.ImageViewer:1.0.0");
+//		component.getPorts().add(createEofPort("ImageDataIn", "in"));
+//		component.getPorts().add(createEofPort("CapPORT", "service"));
+//		item.setComponent(component);
+//		return item;
+//	}
 
-	private Port createEofPort(String portName, String kind) {
-		Port port = createEofPort(kind);
-		port.setSynchronizer(ComponentFactory.eINSTANCE.createPortSynchronizer());
-		port.setNameL(portName);
-		return port;
-	}
+//	private Port createEofPort(String portName, String kind) {
+//		Port port = createEofPort(kind);
+//		port.setSynchronizer(ComponentFactory.eINSTANCE.createPortSynchronizer());
+//		port.setNameL(portName);
+//		return port;
+//	}
 
-	private Port createEofPort(String kind) {
-		if (kind.equals("in")) return ComponentFactory.eINSTANCE.createInPort();
-		if (kind.equals("out")) return ComponentFactory.eINSTANCE.createOutPort();
-		if (kind.equals("service")) return ComponentFactory.eINSTANCE.createServicePort();
-		return null;
-	}
+//	private Port createEofPort(String kind) {
+//		if (kind.equals("in")) return ComponentFactory.eINSTANCE.createInPort();
+//		if (kind.equals("out")) return ComponentFactory.eINSTANCE.createOutPort();
+//		if (kind.equals("service")) return ComponentFactory.eINSTANCE.createServicePort();
+//		return null;
+//	}
 
 }

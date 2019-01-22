@@ -6,11 +6,24 @@
  */
 package jp.go.aist.rtm.toolscommon.model.manager.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import RTC.ComponentProfile;
+import RTC.RTObject;
+import RTM.ManagerHelper;
+import RTM.ManagerProfile;
+import RTM.ModuleProfile;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.NameValue;
@@ -28,23 +41,6 @@ import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ConstructorPa
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ReferenceMapping;
 import jp.go.aist.rtm.toolscommon.util.SDOUtil;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import RTC.ComponentProfile;
-import RTC.RTObject;
-import RTM.ManagerHelper;
-import RTM.ManagerProfile;
-import RTM.ModuleProfile;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>RTC Manager</b></em>'.
@@ -567,7 +563,7 @@ public class RTCManagerImpl extends CorbaWrapperObjectImpl implements
 		} else {
 			loadedModuleProfiles.clear();
 		}
-		
+
 		RTM.Manager[] managers = this.getCorbaObjectInterface().get_slave_managers();
 		for(RTM.Manager targetMng : managers) {
 			String managerName = SDOUtil.findValueAsString("instance_name", targetMng.get_profile().properties);

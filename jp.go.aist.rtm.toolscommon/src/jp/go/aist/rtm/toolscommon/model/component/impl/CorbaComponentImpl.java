@@ -16,6 +16,27 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EDataTypeEList;
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.ui.views.properties.IPropertySource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import RTC.ComponentProfile;
+import RTC.RTObject;
+import RTC.ReturnCode_t;
+import _SDOPackage.Configuration;
+import _SDOPackage.InternalError;
+import _SDOPackage.InvalidParameter;
+import _SDOPackage.NotAvailable;
+import _SDOPackage.Organization;
+import _SDOPackage.SDO;
 import jp.go.aist.rtm.toolscommon.factory.CorbaWrapperFactory;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
@@ -50,29 +71,6 @@ import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ReferenceMapping;
 import jp.go.aist.rtm.toolscommon.ui.propertysource.ComponentPropertySource;
 import jp.go.aist.rtm.toolscommon.util.SDOUtil;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EDataTypeEList;
-import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.ui.views.properties.IPropertySource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import RTC.ComponentProfile;
-import RTC.RTObject;
-import RTC.ReturnCode_t;
-import _SDOPackage.Configuration;
-import _SDOPackage.InternalError;
-import _SDOPackage.InvalidParameter;
-import _SDOPackage.NotAvailable;
-import _SDOPackage.Organization;
-import _SDOPackage.SDO;
 
 /**
  * <!-- begin-user-doc -->
@@ -315,7 +313,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		this.properties = new CorbaPropertyMap() {
 			@Override
 			public _SDOPackage.NameValue[] getNameValues() {
-				if (getRTCComponentProfile().properties == null) {
+				if (getRTCComponentProfile() == null || getRTCComponentProfile().properties == null) {
 					return new _SDOPackage.NameValue[0];
 				}
 				return getRTCComponentProfile().properties;
@@ -1175,7 +1173,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		try {
 			Organization org = getSDOOrganization();
 			if (org == null) return false;
-			
+
 			List<SDO> list = new ArrayList<SDO>();
 			for (Object obj : componentList) {
 				if (!(obj instanceof CorbaComponent)) {
@@ -1287,7 +1285,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		}
 		return result;
 	}
-	
+
 	@Override
 	public boolean updateConfigurationSetR(ConfigurationSet configSet, boolean isActive) {
 		boolean result = false;
@@ -1301,7 +1299,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 				}
 			}
 			Configuration configuration = getSDOConfiguration();
-			_SDOPackage.ConfigurationSet sdoConfigurationSet = 
+			_SDOPackage.ConfigurationSet sdoConfigurationSet =
 				SDOUtil.createSdoConfigurationSet(configSet);
 			if (!exist) {
 				configuration.add_configuration_set(sdoConfigurationSet);
@@ -1326,7 +1324,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	@Override
 	public String getComponentId() {
 		if (componentId != null) return componentId;
-		return "RTC:" + getVenderL() + ":" 
+		return "RTC:" + getVenderL() + ":"
 		+ getCategoryL() + ":"
 		+ getTypeNameL() + ":"
 		+ getVersionL();
@@ -1334,74 +1332,78 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 
 	@Override
 	public String getCategoryL() {
-		return getRTCComponentProfile() == null ? null
-				: getRTCComponentProfile().category;
+		return nvl((nvl(getRTCComponentProfile(), new ComponentProfile())).category, "");
 	}
 
 	@Override
 	public String getDescriptionL() {
-		return getRTCComponentProfile() == null ? null
-				: getRTCComponentProfile().description;
+		return nvl((nvl(getRTCComponentProfile(), new ComponentProfile())).description, "");
 	}
 
 	@Override
 	public String getInstanceNameL() {
-		return getRTCComponentProfile() == null ? null
-				: getRTCComponentProfile().instance_name;
+		return nvl((nvl(getRTCComponentProfile(), new ComponentProfile())).instance_name, "");
 	}
 
 	@Override
 	public String getTypeNameL() {
-		return getRTCComponentProfile() == null ? null
-				: getRTCComponentProfile().type_name;
+		return nvl((nvl(getRTCComponentProfile(), new ComponentProfile())).type_name, "");
 	}
 
 	@Override
 	public String getVenderL() {
-		return getRTCComponentProfile() == null ? null
-				: getRTCComponentProfile().vendor;
+		return nvl((nvl(getRTCComponentProfile(), new ComponentProfile())).vendor, "");
 	}
 
 	@Override
 	public String getVersionL() {
-		return getRTCComponentProfile() == null ? null
-				: getRTCComponentProfile().version;
+		return nvl((nvl(getRTCComponentProfile(), new ComponentProfile())).version, "");
 	}
 
 	@Override
 	public void setCategoryL(String newCategoryL) {
-		if (getRTCComponentProfile() == null) setRTCComponentProfile(new ComponentProfile());
+		initRTCComponentProfile();
 		getRTCComponentProfile().category = newCategoryL;
 	}
 
 	@Override
 	public void setDescriptionL(String newDescriptionL) {
-		if (getRTCComponentProfile() == null) setRTCComponentProfile(new ComponentProfile());
+		initRTCComponentProfile();
 		getRTCComponentProfile().description = newDescriptionL;
 	}
 
 	@Override
 	public void setInstanceNameL(String newInstanceNameL) {
-		if (getRTCComponentProfile() == null) setRTCComponentProfile(new ComponentProfile());
+		initRTCComponentProfile();
 		getRTCComponentProfile().instance_name = newInstanceNameL;
 	}
 
 	@Override
 	public void setTypeNameL(String newTypeNameL) {
-		if (getRTCComponentProfile() == null) setRTCComponentProfile(new ComponentProfile());
+		initRTCComponentProfile();
 		getRTCComponentProfile().type_name = newTypeNameL;
 	}
 
 	@Override
 	public void setVenderL(String newVenderL) {
-		if (getRTCComponentProfile() == null) setRTCComponentProfile(new ComponentProfile());
+		initRTCComponentProfile();
 		getRTCComponentProfile().vendor = newVenderL;
 	}
 
 	@Override
 	public void setVersionL(String newVersionL) {
-		if (getRTCComponentProfile() == null) setRTCComponentProfile(new ComponentProfile());
+		initRTCComponentProfile();
 		getRTCComponentProfile().version = newVersionL;
+	}
+
+	<T> T nvl(T t, T default_t) {
+		return (t != null) ? t : default_t;
+	}
+
+	void initRTCComponentProfile() {
+		if (getRTCComponentProfile() == null) {
+			setRTCComponentProfile(new ComponentProfile());
+		}
 	}
 
 	@Override

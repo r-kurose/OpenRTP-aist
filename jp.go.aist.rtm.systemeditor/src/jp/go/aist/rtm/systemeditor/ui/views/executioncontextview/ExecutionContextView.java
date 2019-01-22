@@ -985,7 +985,6 @@ public class ExecutionContextView extends ViewPart {
 				return;
 			}
 			targetComponent = comp;
-			ExecutionContext targetEc = ctxt;
 			//
 			targetComponent.eAdapters().remove(eAdapter);
 			for (ExecutionContext ec : targetComponent.getExecutionContexts()) {

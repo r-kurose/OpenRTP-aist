@@ -44,10 +44,16 @@ public class ComponentCommandCreator {
 		MultiCreateCommand result = new MultiCreateCommand();
 
 		if (!List.class.isAssignableFrom((Class<?>) request.getNewObjectType())) {
+			this.message = "生成対象が正しく指定されませんでした";
 			return result;
 		}
 
 		List<?> components = (List<?>) request.getNewObject();
+		if (components == null) {
+			// RTCの瞬断などでネームサーバ上のリフレッシュが遅れ、ドラッグ～ドロップの間に RTC選択が空になってしまうことがあるのでスキップ
+			this.message = "生成対象がありません";
+			return result;
+		}
 		List<Component> childComponents = new ArrayList<Component>();
 		for (Object o : components) {
 			Component c = (Component) o;

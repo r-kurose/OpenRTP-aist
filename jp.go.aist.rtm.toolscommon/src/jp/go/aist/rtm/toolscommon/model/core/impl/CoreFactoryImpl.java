@@ -6,9 +6,14 @@
  */
 package jp.go.aist.rtm.toolscommon.model.core.impl;
 
-import jp.go.aist.rtm.toolscommon.model.core.*;
-
 import java.util.StringTokenizer;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.impl.EFactoryImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import jp.go.aist.rtm.toolscommon.corba.CorbaUtil;
 import jp.go.aist.rtm.toolscommon.model.core.CoreFactory;
@@ -18,13 +23,6 @@ import jp.go.aist.rtm.toolscommon.model.core.Point;
 import jp.go.aist.rtm.toolscommon.model.core.Rectangle;
 import jp.go.aist.rtm.toolscommon.model.core.Visiter;
 import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.impl.EFactoryImpl;
-import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!--
@@ -178,7 +176,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated NOT
 	 */
 	public org.omg.CORBA.Object createObjectFromString(EDataType eDataType,
@@ -209,7 +207,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 */
 	public String convertPointToString(EDataType eDataType, Object instanceValue) {
 		Point point = ((Point) instanceValue);

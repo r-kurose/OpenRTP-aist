@@ -2,15 +2,7 @@ package jp.go.aist.rtm.systemeditor.ui.views.actionorderview;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-
-import jp.go.aist.rtm.systemeditor.ui.util.ComponentComparator;
-import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
-import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
-import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
-import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelection;
@@ -50,12 +42,19 @@ import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 
+import jp.go.aist.rtm.systemeditor.ui.util.ComponentComparator;
+import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
+import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
+
 public class ActionOrderView extends ViewPart {
 	private static final int BUTTON_WIDTH = 40;
-	
+
 	private TableViewer orderTableViewer;
 	private List<TableViewer> actionOrderlistTableViewer;
-	
+
 	private SystemDiagram targetDiagram;
 //	private RTCStore rtcStore;
 	private ActionOrder actionOrder = new ActionOrder();
@@ -116,7 +115,7 @@ public class ActionOrderView extends ViewPart {
 		orderTableViewer = new TableViewer(composite, SWT.FULL_SELECTION | SWT.HIDE_SELECTION
 				| SWT.SINGLE | SWT.BORDER);
 		orderTableViewer.setContentProvider(new ArrayContentProvider());
-		
+
 		Table orderTable = orderTableViewer.getTable();
 		orderTable.setLinesVisible(true);
 		orderTable.setHeaderVisible(true);
@@ -132,7 +131,7 @@ public class ActionOrderView extends ViewPart {
 
 		TableViewerColumn noColumn = createColumn(orderTableViewer, "No.", 40);
 		noColumn.getColumn().setResizable(false);
-		
+
 		orderTableViewer.setLabelProvider(new OrderLabelProvider());
 		orderTableViewer.getTable().addFocusListener(new FocusAdapter() {
 			@Override
@@ -157,12 +156,12 @@ public class ActionOrderView extends ViewPart {
 		gd.verticalAlignment = SWT.FILL;
 		gd.grabExcessVerticalSpace = true;
 		buttonCompsite.setLayoutData(gd);
-		
+
 		Label dummy01 = new Label(buttonCompsite, SWT.NONE);
 		gd = new GridData();
 		gd.grabExcessVerticalSpace = true;
 		dummy01.setLayoutData(gd);
-		
+
 		Button upButton = new Button(buttonCompsite, SWT.NONE);
 		upButton.setText("▲");
 		upButton.setEnabled(true);
@@ -179,12 +178,12 @@ public class ActionOrderView extends ViewPart {
 				actionOrder.upElement(selectedTable, rowIndex);
 			}
 		});
-		
+
 		Label dummy02 = new Label(buttonCompsite, SWT.NONE);
 		gd = new GridData();
 		gd.grabExcessVerticalSpace = true;
 		dummy02.setLayoutData(gd);
-		
+
 		Button downButton = new Button(buttonCompsite, SWT.NONE);
 		downButton.setText("▼");
 		downButton.setEnabled(true);
@@ -206,7 +205,7 @@ public class ActionOrderView extends ViewPart {
 		gd = new GridData();
 		gd.grabExcessVerticalSpace = true;
 		dummy03.setLayoutData(gd);
-		
+
 		return composite;
 	}
 
@@ -216,7 +215,7 @@ public class ActionOrderView extends ViewPart {
 		TableViewer actionTableViewer = new TableViewer(composite, SWT.FULL_SELECTION
 				| SWT.SINGLE | SWT.BORDER);
 		actionTableViewer.setContentProvider(new ArrayContentProvider());
-		
+
 		final Table actionTable = actionTableViewer.getTable();
 		actionTable.setLinesVisible(true);
 		actionTable.setHeaderVisible(true);
@@ -256,7 +255,7 @@ public class ActionOrderView extends ViewPart {
 		}
 
 		actionTableViewer.setLabelProvider(new ActionOrderLabelProvider());
-		
+
 		actionTableViewer.getTable().addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
@@ -268,14 +267,14 @@ public class ActionOrderView extends ViewPart {
 		Transfer[] types = new Transfer[] { TextTransfer.getInstance() };
 	    DragSource source = new DragSource(actionTable, DND.DROP_MOVE);
 	    source.setTransfer(types);
-	    
+
 	    source.addDragListener(new DragSourceAdapter() {
 	      public void dragSetData(DragSourceEvent event) {
 			int rowIndex = actionTable.getSelectionIndex();
 			event.data = actionOrder.getElement(selectedTable, rowIndex);
 	      }
 	    });
-	    
+
 	    DropTarget dragTarget = new DropTarget(actionTable, DND.DROP_MOVE);
 	    dragTarget.setTransfer(types);
 	    dragTarget.addDropListener(new DropTargetAdapter() {
@@ -321,7 +320,7 @@ public class ActionOrderView extends ViewPart {
 	/** 内部モデル(RTC一覧)から表示 */
 	void refreshData() {
 		if(targetDiagram==null) return;
-		List<Component> targetComps = new ArrayList<Component>(); 
+		List<Component> targetComps = new ArrayList<Component>();
 		for (Component comp : targetDiagram.getRegisteredComponents()) {
 			if (!(comp instanceof CorbaComponent)) {
 				continue;
@@ -390,7 +389,7 @@ public class ActionOrderView extends ViewPart {
 //			}
 //		}
 //	}
-	
+
 	private class ActionOrder {
 		private List<Component> startupOrder = new ArrayList<Component>();
 		private List<Component> shutdownOrder = new ArrayList<Component>();
@@ -459,26 +458,26 @@ public class ActionOrderView extends ViewPart {
 				actionOrderlistTableViewer.get(index).refresh();
 			}
 		}
-		
+
 		public String getElement(int colIndex, int rowIndex) {
 			switch(colIndex) {
 			case 0:
 				return startupOrder.get(rowIndex).getInstanceNameL();
-			case 1: 
+			case 1:
 				return shutdownOrder.get(rowIndex).getInstanceNameL();
-			case 2: 
+			case 2:
 				return activationOrder.get(rowIndex).getInstanceNameL();
-			case 3: 
+			case 3:
 				return deactivationOrder.get(rowIndex).getInstanceNameL();
 			case 4:
 				return resettingOrder.get(rowIndex).getInstanceNameL();
-			case 5: 
+			case 5:
 				return initializeOrder.get(rowIndex).getInstanceNameL();
-			default: 
+			default:
 				return finalizeOrder.get(rowIndex).getInstanceNameL();
 			}
 		}
-		
+
 		public void swapElement(int tableIndex, String source, String target) {
 			if(tableIndex<0 || source==null || source.length()<=0 || target==null || target.length()<=0) return;
 			List<Component> targetData;
@@ -491,7 +490,7 @@ public class ActionOrderView extends ViewPart {
 			actionOrderlistTableViewer.get(tableIndex).refresh();
 			actionOrderlistTableViewer.get(tableIndex).getTable().setSelection(trgIndex);
 		}
-		
+
 		public void moveBackElement(int tableIndex, String source) {
 			if(tableIndex<0 || source==null || source.length()<=0) return;
 			List<Component> targetData;
@@ -504,7 +503,7 @@ public class ActionOrderView extends ViewPart {
 			actionOrderlistTableViewer.get(tableIndex).refresh();
 			actionOrderlistTableViewer.get(tableIndex).getTable().setSelection(targetData.size()-1);
 		}
-		
+
 		public void upElement(int tableIndex, int rowIndex) {
 			if(tableIndex<0 || rowIndex<=0) return;
 			List<Component> targetData;
@@ -516,7 +515,7 @@ public class ActionOrderView extends ViewPart {
 			actionOrderlistTableViewer.get(tableIndex).refresh();
 			actionOrderlistTableViewer.get(tableIndex).getTable().setSelection(rowIndex-1);
 		}
-		
+
 		public void downElement(int tableIndex, int rowIndex) {
 			if(tableIndex<0 || startupOrder.size()-1<=rowIndex) return;
 			List<Component> targetData;
@@ -528,7 +527,7 @@ public class ActionOrderView extends ViewPart {
 			actionOrderlistTableViewer.get(tableIndex).refresh();
 			actionOrderlistTableViewer.get(tableIndex).getTable().setSelection(rowIndex+1);
 		}
-		
+
 		public void update() {
 			orderTableViewer.setInput(startupOrder);
 			actionOrderlistTableViewer.get(ActionName.ACTION_START_UP.ordinal()).setInput(startupOrder);
@@ -539,7 +538,7 @@ public class ActionOrderView extends ViewPart {
 			actionOrderlistTableViewer.get(ActionName.ACTION_INITIALIZE.ordinal()).setInput(initializeOrder);
 			actionOrderlistTableViewer.get(ActionName.ACTION_FINALIZE.ordinal()).setInput(finalizeOrder);
 		}
-		
+
 		private List<Component> getTargetData(int tableIndex) {
 			List<Component> targetData;
 			switch(tableIndex) {
@@ -553,7 +552,7 @@ public class ActionOrderView extends ViewPart {
 			}
 			return targetData;
 		}
-		
+
 		private int getIndex(String source, List<Component> targetData) {
 			for(int index=0; index<targetData.size(); index++) {
 				Component target = targetData.get(index);

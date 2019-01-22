@@ -10,8 +10,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.ui.PlatformUI;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.GraphicalConnectorCreateManager;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpolicy.SystemXYLayoutEditPolicy;
@@ -22,14 +20,12 @@ import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
  */
 public class SystemDiagramEditPart extends AbstractEditPart {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(SystemDiagramEditPart.class);
-
 	private GraphicalConnectorCreateManager connectingPortManager;
 	private PortEditPart connectingPortEditPart;
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param actionRegistry
 	 *            ActionRegistry
 	 */
@@ -93,7 +89,7 @@ public class SystemDiagramEditPart extends AbstractEditPart {
 	/**
 	 * 接続先選択中となっているポートを設定します。<br>
 	 * 選択状態を解除する場合はnullを指定します。
-	 * 
+	 *
 	 * @param connectingPortEditPart
 	 *            接続先選択中のポート
 	 */
@@ -110,7 +106,7 @@ public class SystemDiagramEditPart extends AbstractEditPart {
 
 	/**
 	 * 接続先選択中のポートを取得します。
-	 * 
+	 *
 	 * @return 接続先選択中のポート
 	 */
 	public PortEditPart getConnectingPortEditPart() {
@@ -119,7 +115,7 @@ public class SystemDiagramEditPart extends AbstractEditPart {
 
 	/**
 	 * 現在、接続先選択中のポートと接続可能か判定します。
-	 * 
+	 *
 	 * @param part
 	 *            対象ポート
 	 * @return 接続先選択中のポートと接続可能な場合はtrue
