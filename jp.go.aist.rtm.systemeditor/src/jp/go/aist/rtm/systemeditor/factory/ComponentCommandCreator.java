@@ -44,14 +44,14 @@ public class ComponentCommandCreator {
 		MultiCreateCommand result = new MultiCreateCommand();
 
 		if (!List.class.isAssignableFrom((Class<?>) request.getNewObjectType())) {
-			this.message = "生成対象が正しく指定されませんでした";
+			this.message = "Target RTC is not correctly specified.";
 			return result;
 		}
 
 		List<?> components = (List<?>) request.getNewObject();
 		if (components == null) {
-			// RTCの瞬断などでネームサーバ上のリフレッシュが遅れ、ドラッグ～ドロップの間に RTC選択が空になってしまうことがあるのでスキップ
-			this.message = "生成対象がありません";
+			// Skip when RTC in the list disappear during DnD because of refreshing on NS.
+			this.message = "No target RTC exist.";
 			return result;
 		}
 		List<Component> childComponents = new ArrayList<Component>();
