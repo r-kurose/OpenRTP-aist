@@ -10,13 +10,21 @@ import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl
 import static jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl.synchronizeRemote_EC_ComponentState;
 import static jp.go.aist.rtm.toolscommon.util.RTMixin.eql;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import RTC.ExecutionContextProfile;
+import RTC.ReturnCode_t;
+import _SDOPackage.NameValue;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
@@ -36,17 +44,6 @@ import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ManyReference
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.OneReferenceMapping;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ReferenceMapping;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import RTC.ExecutionContextProfile;
-import RTC.ReturnCode_t;
-import _SDOPackage.NameValue;
 
 /**
  * <!-- begin-user-doc -->

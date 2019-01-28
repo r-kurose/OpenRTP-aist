@@ -10,6 +10,23 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.omg.PortableServer.Servant;
+
+import RTC.ComponentProfile;
+import RTC.ExecutionContextProfile;
+import RTC.PortProfile;
+import RTC.RTObject;
+import _SDOPackage.Configuration;
+import _SDOPackage.Organization;
+import _SDOPackage.ServiceProfile;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
@@ -43,25 +60,6 @@ import jp.go.aist.rtm.toolscommon.model.core.CorePackage;
 import jp.go.aist.rtm.toolscommon.model.core.impl.CorePackageImpl;
 import jp.go.aist.rtm.toolscommon.model.manager.ManagerPackage;
 import jp.go.aist.rtm.toolscommon.model.manager.impl.ManagerPackageImpl;
-
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EOperation;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.impl.EPackageImpl;
-
-import org.omg.PortableServer.Servant;
-import RTC.ComponentProfile;
-import RTC.ExecutionContextProfile;
-import RTC.ExecutionContextService;
-import RTC.PortProfile;
-import RTC.RTObject;
-import _SDOPackage.Configuration;
-import _SDOPackage.Organization;
-import _SDOPackage.ServiceProfile;
 
 /**
  * <!-- begin-user-doc -->
@@ -385,7 +383,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link ComponentPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -420,7 +418,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		// Mark meta-data to indicate it can't be changed
 		theComponentPackage.freeze();
 
-  
+
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(ComponentPackage.eNS_URI, theComponentPackage);
 		return theComponentPackage;

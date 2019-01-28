@@ -15,6 +15,23 @@ import java.util.Map;
 
 import javax.xml.datatype.DatatypeFactory;
 
+import org.apache.commons.lang.StringUtils;
+import org.eclipse.emf.common.util.EList;
+import org.openrtp.namespaces.rts.version02.Activation;
+import org.openrtp.namespaces.rts.version02.Condition;
+import org.openrtp.namespaces.rts.version02.Deactivation;
+import org.openrtp.namespaces.rts.version02.Finalize;
+import org.openrtp.namespaces.rts.version02.Initialize;
+import org.openrtp.namespaces.rts.version02.MessageSending;
+import org.openrtp.namespaces.rts.version02.Resetting;
+import org.openrtp.namespaces.rts.version02.Shutdown;
+import org.openrtp.namespaces.rts.version02.Startup;
+import org.openrtp.namespaces.rts.version02.TargetComponent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
+
 import jp.go.aist.rtm.toolscommon.corba.CorbaUtil;
 import jp.go.aist.rtm.toolscommon.factory.ComponentLoader;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
@@ -35,27 +52,9 @@ import jp.go.aist.rtm.toolscommon.model.core.Point;
 import jp.go.aist.rtm.toolscommon.model.core.Rectangle;
 import jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler;
 
-import org.apache.commons.lang.StringUtils;
-import org.eclipse.emf.common.util.EList;
-import org.openrtp.namespaces.rts.version02.Activation;
-import org.openrtp.namespaces.rts.version02.Condition;
-import org.openrtp.namespaces.rts.version02.Deactivation;
-import org.openrtp.namespaces.rts.version02.Finalize;
-import org.openrtp.namespaces.rts.version02.Initialize;
-import org.openrtp.namespaces.rts.version02.MessageSending;
-import org.openrtp.namespaces.rts.version02.Resetting;
-import org.openrtp.namespaces.rts.version02.Shutdown;
-import org.openrtp.namespaces.rts.version02.Startup;
-import org.openrtp.namespaces.rts.version02.TargetComponent;
-import org.openrtp.namespaces.rts.version02.TargetComponentExt;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
-
 /**
  * RTSプロファイルの入出力を司るクラス
- * 
+ *
  */
 public class RtsProfileHandler extends ProfileHandlerBase {
 
@@ -177,7 +176,7 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 
     /**
 	 * ECを復元させる
-	 * 
+	 *
 	 * @param eDiagram
 	 */
 	public void restoreExecutionContext(SystemDiagram eDiagram) {
@@ -252,7 +251,7 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 
 	/**
 	 * RTSプロファイルを保存する
-	 * 
+	 *
 	 * @param eDiagram
 	 * @return
 	 */
@@ -371,8 +370,8 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 			/////
 			org.openrtp.namespaces.rts.version02.Component original = findOriginalComponent(eComp);
 
-			populateExecutionContext(eComp, target, original);			
-			populateComponentLocation(eComp, target);			
+			populateExecutionContext(eComp, target, original);
+			populateComponentLocation(eComp, target);
 			populateComponentProperty(eComp, target, original);
 			populatePorts(eComp, target, original, rtsProfile);
 			populateConfigurationSet(eComp, target);
@@ -415,7 +414,7 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 		targetCond.setSequence(BigInteger.valueOf(Integer.parseInt(strSeq)));
 		targetCond.setTargetComponent(targetComp);
 		return targetCond;
-		
+
 	}
 
 	// Save時にシステムダイアログ内に含まれるデータポートとそれらの接続をRTSプロファイル内にセットする
@@ -453,7 +452,7 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 		String connectorId = eConnProf.getConnectorId();
 		if(savedConnectors.contains(connectorId) ) return;
 		rtsProfile.getDataPortConnectors().add(saveDataPortConnector(ePort, eConnProf));
-		savedConnectors.add(connectorId);		
+		savedConnectors.add(connectorId);
 	}
 
 	// サービスポートコネクタをRTSに追加する
@@ -464,7 +463,7 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 		String connectorId = eConnProf.getConnectorId();
 		if(savedConnectors.contains(connectorId) ) return;
 		rtsProfile.getServicePortConnectors().add(saveServicePortConnector(ePort, eConnProf));
-		savedConnectors.add(connectorId);		
+		savedConnectors.add(connectorId);
 	}
 
 	// Save時にシステムダイアログ内に含まれるデータポート接続をRTSプロファイル内の該当要素に変換する
@@ -817,7 +816,7 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 		target.getLocation().setWidth(BigInteger.valueOf(eComp.getConstraint().getWidth()));
 		target.getLocation().setDirection(eComp.getOutportDirection());
 	}
-	
+
 	// IORを保存する
 	private void populateIOR(
 			List<org.openrtp.namespaces.rts.version02.Property> rtsProperties,
@@ -1042,7 +1041,7 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 			}
 		}
 	}
-	
+
 	private Component getTargetComp(String id, String instName, List<Component> compList) {
 		for(Component target : compList) {
 			if(target.getComponentId().equals(id) && target.getInstanceNameL().equals(instName)) {
@@ -1105,7 +1104,7 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 					if (equalsPathId(eComp, tc)) {
 						eParentComponent.getComponents().add(eComp);
 						return false;
-					}	
+					}
 				}
 			}
 		}
@@ -1257,7 +1256,7 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 					connBase.getSourceServicePort());
 		}
 	}
-	
+
 	private boolean isIOR(String value) {
 		return (value != null && value.startsWith("IOR:"));
 	}

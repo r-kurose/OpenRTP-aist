@@ -41,10 +41,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -175,7 +173,7 @@ public class ConfigurationView extends ViewPart {
 	private Button detailConfigurationSetCheckButton;
 
 	private Button sortCheckButton;
-	
+
 	private Button addNamedValueButton;
 	private Button deleteNamedValueButton;
 	private Button detailNamedValueCheckButton;
@@ -391,7 +389,7 @@ public class ConfigurationView extends ViewPart {
 	/**
 	 * 編集後の新しいConfigurationSetを作成する。
 	 * <p>
-	 * 
+	 *
 	 * @param copiedComponent
 	 * @return
 	 */
@@ -719,7 +717,7 @@ public class ConfigurationView extends ViewPart {
 				new TextCellEditor(rightTableViewer.getTable()) });
 		this.rightTableViewerFilter = new DetailTableViewerFilter();
 		this.rightTableViewer.addFilter(this.rightTableViewerFilter);
-		
+
 		rightTable = rightTableViewer.getTable();
 		rightTable.setLinesVisible(true);
 		leftTable.addSelectionListener(new SelectionListener() {
@@ -733,7 +731,7 @@ public class ConfigurationView extends ViewPart {
 				refreshRightData();
 			}
 		});
-		
+
 		gd = new GridData();
 		gd.verticalAlignment = SWT.FILL;
 		gd.horizontalAlignment = SWT.FILL;
@@ -765,7 +763,7 @@ public class ConfigurationView extends ViewPart {
 
 		keyCol.addControlListener(controlAdapter);
 		composite.addControlListener(controlAdapter);
-		
+
 		Composite buttonCompsite = new Composite(composite, SWT.BOTTOM);
 		gl = new GridLayout();
 		gl.numColumns = 4;
@@ -1437,7 +1435,7 @@ public class ConfigurationView extends ViewPart {
 
 		/**
 		 * 詳細モードを設定します。
-		 * 
+		 *
 		 * @param isDetail
 		 *            詳細モードの場合はtrue
 		 */
