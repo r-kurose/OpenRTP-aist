@@ -1,5 +1,9 @@
 package jp.go.aist.rtm.rtcbuilder.manager;
 
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.LANG_CPP;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.LANG_CPP_ARG;
+import static jp.go.aist.rtm.rtcbuilder.util.RTCUtil.form;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,13 +12,10 @@ import java.util.Map;
 
 import jp.go.aist.rtm.rtcbuilder.IRTCBMessageConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
-import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateHelper;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
-import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
-import static jp.go.aist.rtm.rtcbuilder.util.RTCUtil.*;
 
 /**
  * CXXファイルの出力を制御するマネージャ
@@ -37,7 +38,7 @@ public class CXXGenerateManager extends GenerateManager {
 
 	/**
 	 * ファイルを出力する
-	 * 
+	 *
 	 * @param generatorParam
 	 *            生成用パラメータ
 	 * @return 出力結果のリスト
@@ -146,13 +147,13 @@ public class CXXGenerateManager extends GenerateManager {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		IdlFileParam idlParam = (IdlFileParam) contextMap.get("idlFileParam");
 		String outfile = null;
-		outfile = "include/" + rtcParam.getName() + "/" 
+		outfile = "include/" + rtcParam.getName() + "/"
 				+ TemplateHelper.getBasename(idlParam.getIdlFileNoExt())
 				+ TemplateHelper.getServiceImplSuffix() + ".h";
 		String infile = "cpp/CXX_SVC.h.vsl";
 		return generate(infile, outfile, contextMap);
 	}
-	
+
 	public GeneratedResult generateSVCSource(Map<String, Object> contextMap) {
 		IdlFileParam idlParam = (IdlFileParam) contextMap.get("idlFileParam");
 		String outfile = null;
@@ -161,7 +162,7 @@ public class CXXGenerateManager extends GenerateManager {
 		String infile = "cpp/CXX_SVC.cpp.vsl";
 		return generate(infile, outfile, contextMap);
 	}
-	
+
 	public GeneratedResult generateCITemplate(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = ".travis.yaml." + rtcParam.getName();
@@ -176,7 +177,7 @@ public class CXXGenerateManager extends GenerateManager {
 		String infile = "cpp/test/CXX_Test_Comp.cpp.vsl";
 		return generate(infile, outfile, contextMap);
 	}
-	
+
 	public GeneratedResult generateTestHeader(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = null;
@@ -184,7 +185,7 @@ public class CXXGenerateManager extends GenerateManager {
 		String infile = "cpp/test/CXX_Test_RTC.h.vsl";
 		return generate(infile, outfile, contextMap);
 	}
-	
+
 	public GeneratedResult generateTestSource(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = null;
@@ -192,18 +193,18 @@ public class CXXGenerateManager extends GenerateManager {
 		String infile = "cpp/test/CXX_Test_RTC.cpp.vsl";
 		return generate(infile, outfile, contextMap);
 	}
-	
+
 	public GeneratedResult generateTestSVCHeader(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		IdlFileParam idlParam = (IdlFileParam) contextMap.get("idlFileParam");
 		String outfile = null;
-		outfile = "test/include/" + rtcParam.getName() + "Test/" 
+		outfile = "test/include/" + rtcParam.getName() + "Test/"
 				+ TemplateHelper.getBasename(idlParam.getIdlFileNoExt())
 				+ TemplateHelper.getServiceImplSuffix() + ".h";
 		String infile = "cpp/test/CXX_Test_SVC.h.vsl";
 		return generate(infile, outfile, contextMap);
 	}
-	
+
 	public GeneratedResult generateTestSVCSource(Map<String, Object> contextMap) {
 		IdlFileParam idlParam = (IdlFileParam) contextMap.get("idlFileParam");
 		String outfile = null;

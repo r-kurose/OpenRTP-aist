@@ -6,7 +6,13 @@
  */
 package jp.go.aist.rtm.rtcbuilder.model.component.impl;
 
-import jp.go.aist.rtm.rtcbuilder.model.component.*;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.impl.EFactoryImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
 import jp.go.aist.rtm.rtcbuilder.model.component.BuildView;
 import jp.go.aist.rtm.rtcbuilder.model.component.Component;
 import jp.go.aist.rtm.rtcbuilder.model.component.ComponentFactory;
@@ -18,13 +24,6 @@ import jp.go.aist.rtm.rtcbuilder.model.component.PortBase;
 import jp.go.aist.rtm.rtcbuilder.model.component.PortDirection;
 import jp.go.aist.rtm.rtcbuilder.model.component.ServiceInterface;
 import jp.go.aist.rtm.rtcbuilder.model.component.ServicePort;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.impl.EFactoryImpl;
-import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
  * <!-- begin-user-doc -->
@@ -41,7 +40,7 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 	 */
 	public static ComponentFactory init() {
 		try {
-			ComponentFactory theComponentFactory = (ComponentFactory)EPackage.Registry.INSTANCE.getEFactory("http:///jp/go/aist/rtm/rtcbuilder/model/component.ecore"); 
+			ComponentFactory theComponentFactory = (ComponentFactory)EPackage.Registry.INSTANCE.getEFactory("http:///jp/go/aist/rtm/rtcbuilder/model/component.ecore");
 			if (theComponentFactory != null) {
 				return theComponentFactory;
 			}

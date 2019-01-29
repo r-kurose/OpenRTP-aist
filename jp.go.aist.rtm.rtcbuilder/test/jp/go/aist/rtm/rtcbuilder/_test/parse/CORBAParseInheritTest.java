@@ -1,11 +1,9 @@
 package jp.go.aist.rtm.rtcbuilder._test.parse;
 
-import java.io.File;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.go.aist.rtm.rtcbuilder.IRTCBMessageConstants;
 import jp.go.aist.rtm.rtcbuilder._test.TestBase;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.IDLParser;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.specification;
@@ -18,7 +16,7 @@ public class CORBAParseInheritTest extends TestBase {
 
 	public void testInherit() throws Exception{
 		List<String> includeFiles = new ArrayList<String>();
-		
+
 		String idlContent = FileUtil.readFile(rootPath + "\\resource\\IDL\\MyServiceChild.idl");
 		List<String> pathList = new ArrayList<String>();
 		pathList.add(rootPath + "\\resource\\IDL");
@@ -45,7 +43,7 @@ public class CORBAParseInheritTest extends TestBase {
 
 	public void testInheritWithType() throws Exception{
 		List<String> includeFiles = new ArrayList<String>();
-		
+
 		String idlContent = FileUtil.readFile(rootPath + "\\resource\\IDL\\MyServiceChildWithType.idl");
 		List<String> pathList = new ArrayList<String>();
 		pathList.add(rootPath + "\\resource\\IDL");
@@ -71,7 +69,7 @@ public class CORBAParseInheritTest extends TestBase {
 
 	public void testInheritMulti() throws Exception{
 		List<String> includeFiles = new ArrayList<String>();
-		
+
 		String idlContent = FileUtil.readFile(rootPath + "\\resource\\IDL\\MyServiceChildMulti.idl");
 		List<String> pathList = new ArrayList<String>();
 		pathList.add(rootPath + "\\resource\\IDL");

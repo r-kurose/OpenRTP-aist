@@ -2,6 +2,13 @@ package jp.go.aist.rtm.rtcbuilder;
 
 import java.util.List;
 
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
+
 import jp.go.aist.rtm.rtcbuilder.Generator.MergeHandler;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.HeaderException;
@@ -11,15 +18,6 @@ import jp.go.aist.rtm.rtcbuilder.generator.parser.MergeBlockParser;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.ui.compare.CompareResultDialog;
 import jp.go.aist.rtm.rtcbuilder.ui.compare.CompareTarget;
-import jp.go.aist.rtm.rtcbuilder.ui.editors.IMessageConstants;
-
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * GUIのRtcBuilderを実行する際のメインとなるクラス
@@ -31,7 +29,7 @@ public class GuiRtcBuilder {
 	Generator generator = new Generator();
 	/**
 	 * ジェネレート・マネージャを追加する
-	 * 
+	 *
 	 * @param genManager　生成対象のジェネレート・マネージャ
 	 */
 	public void addGenerateManager(GenerateManager genManager) {
@@ -45,7 +43,7 @@ public class GuiRtcBuilder {
 	}
 	/**
 	 * ジェネレートを行い、ファイル出力を行う
-	 * 
+	 *
 	 * @param generatorParam
 	 *            パラメータ
 	 */
@@ -55,7 +53,7 @@ public class GuiRtcBuilder {
 	}
 	/**
 	 * ジェネレートを行い、ファイル出力を行う
-	 * 
+	 *
 	 * @param generatorParam   パラメータ
 	 * @param isShowDialog     完了時にダイアログを表示するか
 	 */

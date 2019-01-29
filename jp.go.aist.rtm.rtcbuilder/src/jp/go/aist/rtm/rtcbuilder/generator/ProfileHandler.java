@@ -32,7 +32,7 @@ public class ProfileHandler {
 
 	private List<GenerateManager> managerList = null;
 	private boolean isDirect = false;
-	
+
 	public ProfileHandler() {
 		super();
 		managerList = RtcBuilderPlugin.getDefault().getLoader().getManagerList();
@@ -42,14 +42,14 @@ public class ProfileHandler {
 		super();
 		isDirect = source;
 	}
-	
+
 	public void addManager(GenerateManager target) {
 		if( managerList==null ) {
 			managerList = new ArrayList<GenerateManager>();
 		}
 		managerList.add(target);
 	}
-	
+
 	public boolean validateXml(String targetString) throws Exception {
 		XmlHandler handler = new XmlHandler();
 		handler.validateXmlRtcBySchema(targetString);
@@ -90,7 +90,7 @@ public class ProfileHandler {
 		}
 		return generatorParam;
 	}
-	
+
 	public String convert2XML(GeneratorParam generatorParam) throws Exception {
 	    String xmlFile = "";
 	    ParamUtil putil = new ParamUtil();
@@ -114,7 +114,7 @@ public class ProfileHandler {
 		RtcProfile profile = putil.convertToModule(target, managerList);
 		return profile;
 	}
-	
+
 	public 	String createInitialRtcXml(String creationDate) {
 		String result = "";
 		RtcProfile profile = ParamUtil.initialXml(creationDate);
@@ -132,7 +132,7 @@ public class ProfileHandler {
 	    ParamUtil putil = new ParamUtil();
 		RtcProfile profile = putil.convertToModule(generatorParam, managerList);
 		XmlHandler handler = new XmlHandler();
-		
+
 		String xmlString = handler.convertToXmlRtc(profile);
 		BufferedWriter outputFile = new BufferedWriter(
 				new OutputStreamWriter(new FileOutputStream(filePath), "UTF-8"));
@@ -145,7 +145,7 @@ public class ProfileHandler {
 		}
 		outputFile.close();
 	}
-	
+
 	//YAML
 	public void createYaml(String targetFile, GeneratorParam targetRtc) throws Exception {
 	    ParamUtil putil = new ParamUtil();
@@ -175,6 +175,6 @@ public class ProfileHandler {
 		RtcParam rtcParam = util.convertFromModule(profile, generatorParam, managerList);
 		generatorParam.setRtcParam(rtcParam);
 		return generatorParam;
-		
+
 	}
 }
