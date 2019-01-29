@@ -1,6 +1,5 @@
 package jp.go.aist.rtm.rtcbuilder._test.param;
 
-import jp.go.aist.rtm.rtcbuilder._test.param.ParamTestCase.UpdateChecker;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
 
 public class ConfigSetParamTest extends ParamTestCase<ConfigSetParam> {

@@ -16,7 +16,6 @@ import org.eclipse.swt.graphics.RGB;
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.RTCBuilderPreferenceManager;
 
@@ -62,12 +61,12 @@ public class RTCUtil {
 		}
 		return result;
 	}
-	
+
 	public static void setDefaultUserDir() {
 		if(RtcBuilderPlugin.getDefault()!=null) {
 			String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(RTCBuilderPreferenceManager.HOME_DIRECTORY);
 			if(resultTemp==null || resultTemp.isEmpty()) {
-				boolean isWindows = false; 
+				boolean isWindows = false;
 				String targetOS = System.getProperty("os.name").toLowerCase();
 				if(targetOS.toLowerCase().startsWith("windows")) {
 					isWindows = true;
@@ -90,11 +89,11 @@ public class RTCUtil {
 			}
 		}
 	}
-	
+
 	public static List<IdlPathParam> getIDLPathes(RtcParam target) {
 		List<IdlPathParam> result = new ArrayList<IdlPathParam>();
 		List<String> added = new ArrayList<String>();
-		
+
 		String FS = System.getProperty("file.separator");
 
 		String defaultPath = System.getenv("RTM_ROOT");
@@ -120,7 +119,7 @@ public class RTCUtil {
 			//
 			RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(RTCBuilderPreferenceManager.HOME_DIRECTORY, "");
 			String userHome = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(RTCBuilderPreferenceManager.HOME_DIRECTORY);
-			String userDir = userHome + FS + "idl"; 
+			String userDir = userHome + FS + "idl";
 			if(added.contains(userDir)==false) {
 				result.add(new IdlPathParam(userDir, false));
 				added.add(userDir);
@@ -143,19 +142,19 @@ public class RTCUtil {
 		}
 		return result;
 	}
-	
+
 	public static boolean checkDefault(String target, List<DataTypeParam> typeList) {
 		for(DataTypeParam type : typeList) {
-			if(type.isDefault()) { 	
+			if(type.isDefault()) {
 				if(target.trim().equals(type.getFullPath().trim())) return true;
 			}
 		}
 		return false;
 	}
-	
+
 	public static String getRTMRootIdlPath() {
 		String result = "";
-		
+
 		String FS = System.getProperty("file.separator");
 
 		String defaultPath = System.getenv("RTM_ROOT");
@@ -167,7 +166,7 @@ public class RTCUtil {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Component Colorのキー
 	 */

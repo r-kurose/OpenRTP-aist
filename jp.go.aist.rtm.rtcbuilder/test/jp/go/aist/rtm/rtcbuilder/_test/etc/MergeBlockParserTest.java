@@ -8,7 +8,6 @@ import junit.framework.TestCase;
 
 public class MergeBlockParserTest extends TestCase {
 
-	@SuppressWarnings("unchecked")
 	public void testSingleLineParse() throws Exception {
 //		MergeBlockParser target = new MergeBlockParser();
 		String string;
@@ -19,7 +18,6 @@ public class MergeBlockParserTest extends TestCase {
 		assertEquals(" hoge ", result.get("module"));
 	}
 
-	@SuppressWarnings("unchecked")
 	public void testMultiLineParse() throws Exception {
 //		MergeBlockParser target = new MergeBlockParser();
 		String string;
