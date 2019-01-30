@@ -96,7 +96,7 @@ public class CorbaLogObserverImpl extends CorbaObserverImpl implements CorbaLogO
 			//
 			activate();
 			try {
-				boolean result = addServiceProfile(rtc.get_configuration());
+				boolean result = addServiceProfile(rtc);
 				if (!result) {
 					deactivate();
 					return false;
@@ -129,7 +129,7 @@ public class CorbaLogObserverImpl extends CorbaObserverImpl implements CorbaLogO
 		//
 		boolean result = false;
 		try {
-			result = removeServiceProfile(rtc.get_configuration());
+			result = removeServiceProfile(rtc);
 		} catch (Exception e) {
 		}
 		deactivate();

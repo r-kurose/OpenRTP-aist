@@ -52,7 +52,11 @@ public class CorbaObserverPropertySource extends AbstractPropertySource {
 		} else if (INTERFACE_TYPE.equals(id)) {
 			result = observer.getServiceProfile().interface_type;
 		} else if (SERVICE.equals(id)) {
-			result = observer.getServiceProfile().service.toString();
+			if (observer.getServiceProfile().service != null) {
+				result = observer.getServiceProfile().service.toString();
+			} else {
+				result = "null";
+			}
 		}
 		return result;
 	}
