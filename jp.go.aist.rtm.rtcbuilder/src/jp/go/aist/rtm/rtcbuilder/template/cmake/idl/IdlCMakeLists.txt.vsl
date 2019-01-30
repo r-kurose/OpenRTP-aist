@@ -1,8 +1,7 @@
 set(idls ${tmpltHelper.getIDLFilesforIDLCMake(${rtcParam})})
 
 macro(_IDL_OUTPUTS _idl _dir _result)
-    set(${_result} ${_dir}/${_idl}SK.cc ${_dir}/${_idl}.hh
-        ${_dir}/${_idl}DynSK.cc)
+    set(${dol}{_result} ${dol}{_dir}/${dol}{_idl}Skel.cpp ${dol}{_dir}/${dol}{_idl}Skel.h)
 endmacro(_IDL_OUTPUTS)
 
 macro(_COMPILE_IDL _idl_file)
