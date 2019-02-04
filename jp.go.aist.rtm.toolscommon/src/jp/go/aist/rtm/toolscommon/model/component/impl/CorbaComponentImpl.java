@@ -16,27 +16,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EDataTypeEList;
-import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.ui.views.properties.IPropertySource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import RTC.ComponentProfile;
-import RTC.RTObject;
-import RTC.ReturnCode_t;
-import _SDOPackage.Configuration;
-import _SDOPackage.InternalError;
-import _SDOPackage.InvalidParameter;
-import _SDOPackage.NotAvailable;
-import _SDOPackage.Organization;
-import _SDOPackage.SDO;
 import jp.go.aist.rtm.toolscommon.factory.CorbaWrapperFactory;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
@@ -71,6 +50,29 @@ import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ReferenceMapping;
 import jp.go.aist.rtm.toolscommon.ui.propertysource.ComponentPropertySource;
 import jp.go.aist.rtm.toolscommon.util.SDOUtil;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EDataTypeEList;
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.ui.views.properties.IPropertySource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import RTC.ComponentProfile;
+import RTC.RTObject;
+import RTC.ReturnCode_t;
+import _SDOPackage.Configuration;
+import _SDOPackage.InternalError;
+import _SDOPackage.InvalidParameter;
+import _SDOPackage.NotAvailable;
+import _SDOPackage.Organization;
+import _SDOPackage.SDO;
 
 /**
  * <!-- begin-user-doc -->
@@ -1172,17 +1174,25 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	public boolean setComponentsR(List<Component> componentList) {
 		try {
 			Organization org = getSDOOrganization();
-			if (org == null) return false;
-
+			if (org == null) {
+				return false;
+			}
 			List<SDO> list = new ArrayList<SDO>();
 			for (Object obj : componentList) {
 				if (!(obj instanceof CorbaComponent)) {
 					continue;
 				}
 				CorbaComponent comp = (CorbaComponent) obj;
-				list.add(comp.getCorbaObjectInterface());
-				if (!getComponents().contains(comp)) addComponent(comp);
+				RTObject ro = comp.getCorbaObjectInterface();
+				if (list.contains(ro)) {
+					continue; // 重複除外
+				}
+				list.add(ro);
+				if (!getComponents().contains(comp)) {
+					addComponent(comp);
+				}
 			}
+			LOGGER.trace("setComponentsR: members=<{}>", list);
 			return org.set_members(list.toArray(new SDO[0]));
 		} catch (NotAvailable e) {
 			LOGGER.error("Fail to set members (not available)", e);
@@ -1203,8 +1213,9 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	public boolean addComponentsR(List<Component> componentList) {
 		try {
 			Organization org = getSDOOrganization();
-			if (org == null) return false;
-
+			if (org == null) {
+				return false;
+			}
 			List<SDO> list = new ArrayList<SDO>();
 			EList<Component> components = getComponents();
 			for (Component c : componentList) {
@@ -1212,14 +1223,15 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 					continue;
 				}
 				CorbaComponent comp = (CorbaComponent) c;
+				RTObject ro = comp.getCorbaObjectInterface();
 				// リモートオブジェクトが一致するコンポーネントがなければ、
 				// 自身を追加する(同期処理で子コンポーネントを複製防止)
-				if (this._findChildComponentByRemoteObject(comp
-						.getCorbaObject()) == null) {
-					list.add(comp.getCorbaObjectInterface());
+				if (this._findChildComponentByRemoteObject(ro) == null) {
+					list.add(ro);
 					components.add(comp);
 				}
 			}
+			LOGGER.trace("addComponentsR: members=<{}>", list);
 			return org.add_members(list.toArray(new SDO[0]));
 		} catch (NotAvailable e) {
 			LOGGER.error("Fail to add members (not available)", e);
@@ -1258,10 +1270,19 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	public boolean removeComponentR(Component component) {
 		try {
 			Organization org = getSDOOrganization();
-			if (org == null) return false;
+			if (org == null) {
+				return false;
+			}
 			CorbaComponent corbaComponent = (CorbaComponent) component;
-			return org.remove_member(corbaComponent.getCorbaObjectInterface()
-					.get_sdo_id());
+			if (corbaComponent == null) {
+				return false;
+			}
+			RTObject ro = corbaComponent.getCorbaObjectInterface();
+			LOGGER.trace("removeComponentR: member=<{}>", ro);
+			if (ro == null) {
+				return false;
+			}
+			return org.remove_member(ro.get_sdo_id());
 		} catch (NotAvailable e) {
 			LOGGER.error("Fail to remove member (not available)", e);
 		} catch (InternalError e) {
@@ -1285,7 +1306,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		}
 		return result;
 	}
-
+	
 	@Override
 	public boolean updateConfigurationSetR(ConfigurationSet configSet, boolean isActive) {
 		boolean result = false;
@@ -1299,7 +1320,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 				}
 			}
 			Configuration configuration = getSDOConfiguration();
-			_SDOPackage.ConfigurationSet sdoConfigurationSet =
+			_SDOPackage.ConfigurationSet sdoConfigurationSet = 
 				SDOUtil.createSdoConfigurationSet(configSet);
 			if (!exist) {
 				configuration.add_configuration_set(sdoConfigurationSet);
@@ -1324,7 +1345,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	@Override
 	public String getComponentId() {
 		if (componentId != null) return componentId;
-		return "RTC:" + getVenderL() + ":"
+		return "RTC:" + getVenderL() + ":" 
 		+ getCategoryL() + ":"
 		+ getTypeNameL() + ":"
 		+ getVersionL();
@@ -1548,13 +1569,15 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	}
 
 	public static void synchronizeRemote_RTCComponentProfile(RTC.RTObject ro) {
-		try {
-			RTC.ComponentProfile prof = ro.get_component_profile();
-			CorbaObjectStore.eINSTANCE.registRTCProfile(ro, prof);
-		} catch (Exception e) {
-			CorbaObjectStore.eINSTANCE.removeRTCProfile(ro);
-			LOGGER.error("Fail to sync RTC.ComponentProfile: rtc={}", ro);
-			LOGGER.error("ERROR:", e);
+		synchronized (CorbaObjectStore.eINSTANCE) {
+			try {
+				RTC.ComponentProfile prof = ro.get_component_profile();
+				CorbaObjectStore.eINSTANCE.registRTCProfile(ro, prof);
+			} catch (Exception e) {
+				CorbaObjectStore.eINSTANCE.removeRTCProfile(ro);
+				LOGGER.error("Fail to sync RTC.ComponentProfile: rtc={}", ro);
+				LOGGER.error("ERROR:", e);
+			}
 		}
 	}
 
@@ -1565,15 +1588,17 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	}
 
 	public static void synchronizeRemote_RTCPortProfile(RTC.RTObject ro, String name) {
-		// LOGGER.debug("synchronizeRemote_RTCPortProfile: name={} ro={}", name,ro);
-		RTC.PortProfile prof = CorbaObjectStore.eINSTANCE.findRTCPortProfile(ro, name);
-		if (prof != null) {
-			try {
-				RTC.PortProfile pprof = prof.port_ref.get_port_profile();
-				CorbaObjectStore.eINSTANCE.registRTCPortProfile(ro, name, pprof);
-			} catch (Exception e) {
-				LOGGER.error("Fail to sync RTC.PortProfile: name={} rtc={}", name, ro);
-				LOGGER.error("ERROR:", e);
+		synchronized (CorbaObjectStore.eINSTANCE) {
+			// LOGGER.debug("synchronizeRemote_RTCPortProfile: name={} ro={}", name,ro);
+			RTC.PortProfile prof = CorbaObjectStore.eINSTANCE.findRTCPortProfile(ro, name);
+			if (prof != null) {
+				try {
+					RTC.PortProfile pprof = prof.port_ref.get_port_profile();
+					CorbaObjectStore.eINSTANCE.registRTCPortProfile(ro, name, pprof);
+				} catch (Exception e) {
+					LOGGER.error("Fail to sync RTC.PortProfile: name={} rtc={}", name, ro);
+					LOGGER.error("ERROR:", e);
+				}
 			}
 		}
 	}
@@ -1595,45 +1620,43 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	}
 
 	public static void synchronizeRemote_RTCExecutionContexts(RTC.RTObject ro) {
-		// LOGGER.debug("synchronizeRemote_RTCExecutionContexts: ro={}", ro);
-		boolean update = false;
-		try {
-			// owned context
-			RTC.ExecutionContext[] oec = ro.get_owned_contexts();
-			RTC.ExecutionContext[] oecOld = CorbaObjectStore.eINSTANCE
-					.findOwnedContexts(ro);
-			if (!eql(oec, oecOld)) {
-				CorbaObjectStore.eINSTANCE.registOwnedContexts(ro, oec);
-				update = true;
-			}
-			// participating context
-			RTC.ExecutionContext[] pec = ro.get_participating_contexts();
-			RTC.ExecutionContext[] pecOld = CorbaObjectStore.eINSTANCE
-					.findParticipatingContexts(ro);
-			if (!eql(pec, pecOld)) {
-				CorbaObjectStore.eINSTANCE.registParticipatingContexts(ro, pec);
-				update = true;
-			}
-			//
-			if (update) {
+		synchronized (CorbaObjectStore.eINSTANCE) {
+			// LOGGER.debug("synchronizeRemote_RTCExecutionContexts: ro={}", ro);
+			boolean update = false;
+			try {
+				// owned context
+				RTC.ExecutionContext[] oec = ro.get_owned_contexts();
+				RTC.ExecutionContext[] oecOld = CorbaObjectStore.eINSTANCE.findOwnedContexts(ro);
+				if (!eql(oec, oecOld)) {
+					CorbaObjectStore.eINSTANCE.registOwnedContexts(ro, oec);
+					update = true;
+				}
+				// participating context
+				RTC.ExecutionContext[] pec = ro.get_participating_contexts();
+				RTC.ExecutionContext[] pecOld = CorbaObjectStore.eINSTANCE.findParticipatingContexts(ro);
+				if (!eql(pec, pecOld)) {
+					CorbaObjectStore.eINSTANCE.registParticipatingContexts(ro, pec);
+					update = true;
+				}
+				//
+				if (update) {
+					CorbaObjectStore.eINSTANCE.clearContext(ro);
+					for (RTC.ExecutionContext ec : oec) {
+						int handle = ro.get_context_handle(ec);
+						CorbaObjectStore.eINSTANCE.registContext(ro, Integer.toString(handle), ec);
+					}
+					for (RTC.ExecutionContext ec : pec) {
+						int handle = ro.get_context_handle(ec);
+						CorbaObjectStore.eINSTANCE.registContext(ro, Integer.toString(handle), ec);
+					}
+				}
+			} catch (Exception e) {
+				CorbaObjectStore.eINSTANCE.removeOwnedContexts(ro);
+				CorbaObjectStore.eINSTANCE.removeParticipatingContexts(ro);
 				CorbaObjectStore.eINSTANCE.clearContext(ro);
-				for (RTC.ExecutionContext ec : oec) {
-					int handle = ro.get_context_handle(ec);
-					CorbaObjectStore.eINSTANCE.registContext(ro,
-							Integer.toString(handle), ec);
-				}
-				for (RTC.ExecutionContext ec : pec) {
-					int handle = ro.get_context_handle(ec);
-					CorbaObjectStore.eINSTANCE.registContext(ro,
-							Integer.toString(handle), ec);
-				}
+				LOGGER.error("Fail to sync RTC.ExecutionContext: rtc={}", ro);
+				LOGGER.error("ERROR:", e);
 			}
-		} catch (Exception e) {
-			CorbaObjectStore.eINSTANCE.removeOwnedContexts(ro);
-			CorbaObjectStore.eINSTANCE.removeParticipatingContexts(ro);
-			CorbaObjectStore.eINSTANCE.clearContext(ro);
-			LOGGER.error("Fail to sync RTC.ExecutionContext: rtc={}", ro);
-			LOGGER.error("ERROR:", e);
 		}
 	}
 
@@ -1644,61 +1667,66 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	}
 
 	public static void synchronizeRemote_EC_ComponentState(RTC.RTObject ro, RTC.ExecutionContext ec) {
-		// LOGGER.debug("synchronizeRemote_EC_ComponentState: ro={}", ro);
-		try {
-			RTC.LifeCycleState state = ec.get_component_state(ro);
-			int stateValue = RTC_STATUS(state);
-			CorbaObjectStore.eINSTANCE.registComponentState(ec, ro, new Integer(stateValue));
-		} catch (Exception e) {
-			CorbaObjectStore.eINSTANCE.removeComponentStateMap(ec);
-			LOGGER.error("Fail to sync RTC status: ec={} rtc={}", ec, ro);
-			LOGGER.error("ERROR:", e);
+		synchronized (CorbaObjectStore.eINSTANCE) {
+			// LOGGER.debug("synchronizeRemote_EC_ComponentState: ro={}", ro);
+			try {
+				RTC.LifeCycleState state = ec.get_component_state(ro);
+				int stateValue = RTC_STATUS(state);
+				CorbaObjectStore.eINSTANCE.registComponentState(ec, ro, new Integer(stateValue));
+			} catch (Exception e) {
+				CorbaObjectStore.eINSTANCE.removeComponentStateMap(ec);
+				LOGGER.error("Fail to sync RTC status: ec={} rtc={}", ec, ro);
+				LOGGER.error("ERROR:", e);
+			}
 		}
 	}
 
 	/** RTC.ExecutionContextの同期(ec_state) (CORBA=>オブジェクトDB) */
 	public static void synchronizeRemote_EC_ECState(RTC.ExecutionContext ec) {
-		// LOGGER.debug("synchronizeRemote_EC_ECState: ec={}", ec);
-		try {
-			int ecStateValue = ExecutionContext.STATE_UNKNOWN;
-			if (ec.is_running()) {
-				ecStateValue = ExecutionContext.STATE_RUNNING;
-			} else {
-				ecStateValue = ExecutionContext.STATE_STOPPED;
+		synchronized (CorbaObjectStore.eINSTANCE) {
+			// LOGGER.debug("synchronizeRemote_EC_ECState: ec={}", ec);
+			try {
+				int ecStateValue = ExecutionContext.STATE_UNKNOWN;
+				if (ec.is_running()) {
+					ecStateValue = ExecutionContext.STATE_RUNNING;
+				} else {
+					ecStateValue = ExecutionContext.STATE_STOPPED;
+				}
+				CorbaObjectStore.eINSTANCE.registECState(ec, ecStateValue);
+			} catch (Exception e) {
+				CorbaObjectStore.eINSTANCE.removeECState(ec);
+				LOGGER.error("Fail to sync EC status: ec={}", ec);
+				LOGGER.error("ERROR:", e);
 			}
-			CorbaObjectStore.eINSTANCE.registECState(ec, ecStateValue);
-		} catch (Exception e) {
-			CorbaObjectStore.eINSTANCE.removeECState(ec);
-			LOGGER.error("Fail to sync EC status: ec={}", ec);
-			LOGGER.error("ERROR:", e);
 		}
 	}
 
 	/** RTC.ExecutionContextの同期(ec_profile) (CORBA=>オブジェクトDB) */
 	public static void synchronizeRemote_EC_ECProfile(RTC.ExecutionContext ec) {
-		// LOGGER.debug("synchronizeRemote_EC_ECProfile: ec={}", ec);
-		try {
-			RTC.ExecutionContextProfile prof;
-			if (ec._is_a(RTC.ExecutionContextServiceHelper.id())) {
-				RTC.ExecutionContextService ecs = RTC.ExecutionContextServiceHelper
-						.narrow(ec);
-				prof = ecs.get_profile();
-			} else {
-				prof = new RTC.ExecutionContextProfile();
-				prof.rate = ec.get_rate();
-				prof.kind = ec.get_kind();
-			}
-			if (prof.owner == null) {
-				RTObject owner = CorbaObjectStore.eINSTANCE.findContextOwner(ec);
-				if (owner != null) {
-					prof.owner = owner;
+		synchronized (CorbaObjectStore.eINSTANCE) {
+			// LOGGER.debug("synchronizeRemote_EC_ECProfile: ec={}", ec);
+			try {
+				RTC.ExecutionContextProfile prof;
+				if (ec._is_a(RTC.ExecutionContextServiceHelper.id())) {
+					RTC.ExecutionContextService ecs = RTC.ExecutionContextServiceHelper.narrow(ec);
+					prof = ecs.get_profile();
+				} else {
+					prof = new RTC.ExecutionContextProfile();
+					prof.rate = ec.get_rate();
+					prof.kind = ec.get_kind();
 				}
+				if (prof.owner == null) {
+					RTObject owner = CorbaObjectStore.eINSTANCE.findContextOwner(ec);
+					if (owner != null) {
+						prof.owner = owner;
+					}
+				}
+				CorbaObjectStore.eINSTANCE.registECProfile(ec, prof);
+			} catch (Exception e) {
+				CorbaObjectStore.eINSTANCE.removeECProfile(ec);
+				LOGGER.error("Fail to sync RTC.ExecutionContextProfile: ec={}", ec);
+				LOGGER.error("ERROR:", e);
 			}
-			CorbaObjectStore.eINSTANCE.registECProfile(ec, prof);
-		} catch (Exception e) {
-			CorbaObjectStore.eINSTANCE.removeECProfile(ec);
-			LOGGER.error("Fail to sync RTC.ExecutionContextProfile: ec={}", ec);
-			LOGGER.error("ERROR:", e);
 		}
 	}
 
@@ -1748,15 +1776,17 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	}
 
 	public static void synchronizeRemote_ConfigurationSets(RTC.RTObject ro) {
-		// LOGGER.debug("synchronizeRemote_ConfigurationSets: ro={}", ro);
-		try {
-			_SDOPackage.Configuration conf = ro.get_configuration();
-			_SDOPackage.ConfigurationSet[] cs = conf.get_configuration_sets();
-			CorbaObjectStore.eINSTANCE.registConfigSet(ro, cs);
-		} catch (Exception e) {
-			CorbaObjectStore.eINSTANCE.removeConfigSet(ro);
-			LOGGER.error("Fail to sync SDO.ConfigurationSet: rtc={}", ro);
-			LOGGER.error("ERROR:", e);
+		synchronized (CorbaObjectStore.eINSTANCE) {
+			// LOGGER.debug("synchronizeRemote_ConfigurationSets: ro={}", ro);
+			try {
+				_SDOPackage.Configuration conf = ro.get_configuration();
+				_SDOPackage.ConfigurationSet[] cs = conf.get_configuration_sets();
+				CorbaObjectStore.eINSTANCE.registConfigSet(ro, cs);
+			} catch (Exception e) {
+				CorbaObjectStore.eINSTANCE.removeConfigSet(ro);
+				LOGGER.error("Fail to sync SDO.ConfigurationSet: rtc={}", ro);
+				LOGGER.error("ERROR:", e);
+			}
 		}
 	}
 
@@ -1803,16 +1833,17 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	}
 
 	public static void synchronizeRemote_ActiveConfigurationSet(RTC.RTObject ro) {
-		// LOGGER.debug("synchronizeRemote_ActiveConfigurationSet: ro={}", ro);
-		try {
-			_SDOPackage.Configuration conf = ro.get_configuration();
-			_SDOPackage.ConfigurationSet cs = conf
-					.get_active_configuration_set();
-			CorbaObjectStore.eINSTANCE.registActiveConfigSet(ro, cs);
-		} catch (Exception e) {
-			CorbaObjectStore.eINSTANCE.removeActiveConfigSet(ro);
-			LOGGER.error("Fail to sync active SDO.ConfigurationSet: rtc={}", ro);
-			LOGGER.error("ERROR:", e);
+		synchronized (CorbaObjectStore.eINSTANCE) {
+			// LOGGER.debug("synchronizeRemote_ActiveConfigurationSet: ro={}", ro);
+			try {
+				_SDOPackage.Configuration conf = ro.get_configuration();
+				_SDOPackage.ConfigurationSet cs = conf.get_active_configuration_set();
+				CorbaObjectStore.eINSTANCE.registActiveConfigSet(ro, cs);
+			} catch (Exception e) {
+				CorbaObjectStore.eINSTANCE.removeActiveConfigSet(ro);
+				LOGGER.error("Fail to sync active SDO.ConfigurationSet: rtc={}", ro);
+				LOGGER.error("ERROR:", e);
+			}
 		}
 	}
 
@@ -1856,29 +1887,34 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	}
 
 	public static void synchronizeRemote_RTCRTObjects(RTC.RTObject ro) {
-		// LOGGER.debug("synchronizeRemote_RTCRTObjects: ro={}", ro);
-		List<RTC.RTObject> list = CorbaObjectStore.eINSTANCE
-				.getCompositeMemberList(ro);
-		try {
-			Organization[] orgs = ro.get_owned_organizations();
-			if (orgs.length == 0) {
-				return;
-			}
-			_SDOPackage.SDO[] sdo_list = orgs[0].get_members();
-			if (sdo_list == null) {
-				return;
-			}
-			list.clear();
-			for (SDO sdo : sdo_list) {
-				RTC.RTObject r = RTC.RTObjectHelper.narrow(sdo);
-				if (r != null) {
-					list.add(r);
+		synchronized (CorbaObjectStore.eINSTANCE) {
+			// LOGGER.debug("synchronizeRemote_RTCRTObjects: ro={}", ro);
+			List<RTC.RTObject> list = CorbaObjectStore.eINSTANCE.getCompositeMemberList(ro);
+			LOGGER.debug("synchronizeRemote_RTCRTObjects: comp.members=<{}>", list);
+			try {
+				Organization[] orgs = ro.get_owned_organizations();
+				LOGGER.debug("synchronizeRemote_RTCRTObjects: organizations=<{}>", java.util.Arrays.asList(orgs));
+				if (orgs.length == 0) {
+					return;
 				}
+				_SDOPackage.SDO[] sdo_list = orgs[0].get_members();
+				LOGGER.debug("synchronizeRemote_RTCRTObjects: members=<{}>", java.util.Arrays.asList(sdo_list));
+				if (sdo_list == null) {
+					return;
+				}
+				list.clear();
+				for (SDO sdo : sdo_list) {
+					RTC.RTObject r = RTC.RTObjectHelper.narrow(sdo);
+					if (r != null) {
+						list.add(r);
+						LOGGER.debug("synchronizeRemote_RTCRTObjects: add member=<{}>", r);
+					}
+				}
+			} catch (Exception e) {
+				CorbaObjectStore.eINSTANCE.removeCompositeMemberList(ro);
+				LOGGER.error("Fail to sync RTC members: rtc={}", ro);
+				LOGGER.error("ERROR:", e);
 			}
-		} catch (Exception e) {
-			CorbaObjectStore.eINSTANCE.removeCompositeMemberList(ro);
-			LOGGER.error("Fail to sync RTC members: rtc={}", ro);
-			LOGGER.error("ERROR:", e);
 		}
 	}
 
@@ -2019,12 +2055,17 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 						}
 						//
 						CorbaExecutionContext cec = (CorbaExecutionContext) component.getPrimaryExecutionContext();
-						if (cec == null
-								|| (!component.getExecutionContexts().contains(cec) && !component.getParticipationContexts()
-										.contains(cec))) {
+						if (cec == null || (!component.getExecutionContexts().contains(cec)
+								&& !component.getParticipationContexts().contains(cec))) {
 							// プライマリEC が未設定/無効な場合は１つ目の ECを割り当てる
-							component.setPrimaryExecutionContext(component.getExecutionContexts().get(0));
-							LOGGER.info("postSynchronizeLocal: set primary ec={}", component.getPrimaryExecutionContext());
+							if (component.getExecutionContexts().isEmpty()) {
+								LOGGER.info("postSynchronizeLocal: set primary ec is empty. ec={}",
+										component.getPrimaryExecutionContext());
+							} else {
+								component.setPrimaryExecutionContext(component.getExecutionContexts().get(0));
+								LOGGER.info("postSynchronizeLocal: set primary ec={}",
+										component.getPrimaryExecutionContext());
+							}
 						}
 					}
 

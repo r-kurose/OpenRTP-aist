@@ -52,10 +52,15 @@ import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import static jp.go.aist.rtm.systemeditor.ui.util.RTMixin.LOG_R;
 import static jp.go.aist.rtm.systemeditor.ui.util.UIUtil.*;
 
 public class ExecutionContextView extends ViewPart {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(ExecutionContextView.class);
 
 	static final int EXEC_BUTTON_WIDTH = 80;
 
@@ -331,7 +336,9 @@ public class ExecutionContextView extends ViewPart {
 
 					@Override
 					public int run() {
-						return ec.startR();
+						return LOG_R(LOGGER, "start()", ec, () -> {
+							return ec.startR();
+						});
 					}
 				};
 				if (!command.isValid()) {
@@ -361,7 +368,9 @@ public class ExecutionContextView extends ViewPart {
 
 					@Override
 					public int run() {
-						return ec.stopR();
+						return LOG_R(LOGGER, "stop()", ec, () -> {
+							return ec.stopR();
+						});
 					}
 				};
 				if (!command.isValid()) {
@@ -393,7 +402,9 @@ public class ExecutionContextView extends ViewPart {
 
 					@Override
 					public int run() {
-						return ec.activateR(comp);
+						return LOG_R(LOGGER, "activate()", comp, () -> {
+							return ec.activateR(comp);
+						});
 					}
 				};
 				if (!command.isValid()) {
@@ -425,7 +436,9 @@ public class ExecutionContextView extends ViewPart {
 
 					@Override
 					public int run() {
-						return ec.deactivateR(comp);
+						return LOG_R(LOGGER, "deactivate()", comp, () -> {
+							return ec.deactivateR(comp);
+						});
 					}
 				};
 				if (!command.isValid()) {
@@ -457,7 +470,9 @@ public class ExecutionContextView extends ViewPart {
 
 					@Override
 					public int run() {
-						return ec.resetR(comp);
+						return LOG_R(LOGGER, "reset()", comp, () -> {
+							return ec.resetR(comp);
+						});
 					}
 				};
 				if (!command.isValid()) {
@@ -488,7 +503,9 @@ public class ExecutionContextView extends ViewPart {
 
 					@Override
 					public int run() {
-						return (ec.removeComponentR(comp)) ? 0 : 1;
+						return LOG_R(LOGGER, "removeComponent()", ec, () -> {
+							return (ec.removeComponentR(comp)) ? 0 : 1;
+						});
 					}
 				};
 				if (!command.isValid()) {
@@ -525,7 +542,9 @@ public class ExecutionContextView extends ViewPart {
 
 					@Override
 					public int run() {
-						return (ec.addComponentR(comp)) ? 0 : 1;
+						return LOG_R(LOGGER, "addComponent()", ec, () -> {
+							return (ec.addComponentR(comp)) ? 0 : 1;
+						});
 					}
 				};
 				if (!command.isValid()) {
@@ -985,6 +1004,7 @@ public class ExecutionContextView extends ViewPart {
 				return;
 			}
 			targetComponent = comp;
+			ExecutionContext targetEc = ctxt;
 			//
 			targetComponent.eAdapters().remove(eAdapter);
 			for (ExecutionContext ec : targetComponent.getExecutionContexts()) {

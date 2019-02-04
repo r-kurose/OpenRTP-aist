@@ -1,11 +1,8 @@
 package jp.go.aist.rtm.systemeditor.ui.action;
 
-import java.util.Iterator;
+import static jp.go.aist.rtm.systemeditor.ui.util.RTMixin.LOG_R;
 
-import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
-import jp.go.aist.rtm.systemeditor.nl.Messages;
-import jp.go.aist.rtm.systemeditor.ui.util.ComponentActionDelegate;
-import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
+import java.util.Iterator;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -13,11 +10,20 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
+import jp.go.aist.rtm.systemeditor.nl.Messages;
+import jp.go.aist.rtm.systemeditor.ui.util.ComponentActionDelegate;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 
 /**
  * RtcLinkの個々のコンポーネントそれぞれに対するアクション
  */
 public class IComponentActionDelegate implements IObjectActionDelegate {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(IComponentActionDelegate.class);
 
 	/**
 	 * Activateに使用されるID。この値が、Plugin.xmlに指定されなければならない。
@@ -60,90 +66,60 @@ public class IComponentActionDelegate implements IObjectActionDelegate {
 		actionDelegate.setActivePart(null, this.targetPart);
 	}
 
-	/** コンポーネントアクションのコマンド */
-	static abstract class ComponentCommand extends ComponentActionDelegate.Command {
-		protected CorbaComponent comp;
-
-		public ComponentCommand(CorbaComponent comp) {
-			this.comp = comp;
-		}
-	}
-
 	public void run(final IAction action) {
-
 		for (Iterator<?> iter = ((IStructuredSelection) selection).iterator(); iter.hasNext();) {
 
-			final CorbaComponent component = (CorbaComponent) iter.next();
+			CorbaComponent component = (CorbaComponent) iter.next();
+			ComponentActionDelegate.Command command = null;
 
-			ComponentCommand command = null;
 			if (ACTIVATE_ACTION_ID.equals(action.getId())) {
-				command = new ComponentCommand(component) {
-					@Override
-					public String getConfirmMessage() {
-						return MSG_CONFIRM_ACTIVATE;
-					}
+				command = ComponentActionDelegate.Command.of(MSG_CONFIRM_ACTIVATE, //
+						() -> {
+							return LOG_R(LOGGER, "activate()", component, () -> {
+								return component.activateR();
+							});
+						}, //
+						() -> {
+							component.synchronizeManually();
+							return 1;
+						});
 
-					@Override
-					public int run() {
-						return component.activateR();
-					}
-
-					@Override
-					public void done() {
-						comp.synchronizeManually();
-					}
-				};
 			} else if (DEACTIVATE_ACTION_ID.equals(action.getId())) {
-				command = new ComponentCommand(component) {
-					@Override
-					public String getConfirmMessage() {
-						return MSG_CONFIRM_DEACTIVATE;
-					}
+				command = ComponentActionDelegate.Command.of(MSG_CONFIRM_DEACTIVATE, //
+						() -> {
+							return LOG_R(LOGGER, "deactivate()", component, () -> {
+								return component.deactivateR();
+							});
+						}, //
+						() -> {
+							component.synchronizeManually();
+							return 1;
+						});
 
-					@Override
-					public int run() {
-						return component.deactivateR();
-					}
-
-					@Override
-					public void done() {
-						comp.synchronizeManually();
-					}
-				};
 			} else if (RESET_ACTION_ID.equals(action.getId())) {
-				command = new ComponentCommand(component) {
-					@Override
-					public String getConfirmMessage() {
-						return MSG_CONFIRM_RESET;
-					}
+				command = ComponentActionDelegate.Command.of(MSG_CONFIRM_RESET, //
+						() -> {
+							return LOG_R(LOGGER, "reset()", component, () -> {
+								return component.resetR();
+							});
+						}, //
+						() -> {
+							component.synchronizeManually();
+							return 1;
+						});
 
-					@Override
-					public int run() {
-						return component.resetR();
-					}
-
-					@Override
-					public void done() {
-						comp.synchronizeManually();
-					}
-				};
 			} else if (EXIT_ACTION_ID.equals(action.getId())) {
-				command = new ComponentCommand(component) {
-					@Override
-					public String getConfirmMessage() {
-						return MSG_CONFIRM_EXIT;
-					}
+				command = ComponentActionDelegate.Command.of(MSG_CONFIRM_EXIT, //
+						() -> {
+							return LOG_R(LOGGER, "exit()", component, () -> {
+								return component.exitR();
+							});
+						}, //
+						() -> {
+							component.synchronizeManually();
+							return 1;
+						});
 
-					@Override
-					public int run() {
-						return component.exitR();
-					}
-
-					@Override
-					public void done() {
-						comp.synchronizeManually();
-					}
-				};
 			} else {
 				throw new RuntimeException(ERROR_UNKNOWN_COMMAND);
 			}

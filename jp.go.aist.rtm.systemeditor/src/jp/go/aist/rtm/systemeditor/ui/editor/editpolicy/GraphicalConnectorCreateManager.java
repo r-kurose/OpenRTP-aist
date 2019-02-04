@@ -2,19 +2,7 @@ package jp.go.aist.rtm.systemeditor.ui.editor.editpolicy;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import jp.go.aist.rtm.systemeditor.RTSystemEditorPlugin;
-import jp.go.aist.rtm.systemeditor.nl.Messages;
-import jp.go.aist.rtm.systemeditor.ui.dialog.DataConnectorCreaterDialog;
-import jp.go.aist.rtm.systemeditor.ui.dialog.ServiceConnectorCreaterDialog;
-import jp.go.aist.rtm.systemeditor.ui.util.CompositeComponentHelper;
-import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
-import jp.go.aist.rtm.toolscommon.model.component.InPort;
-import jp.go.aist.rtm.toolscommon.model.component.OutPort;
-import jp.go.aist.rtm.toolscommon.model.component.Port;
-import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
-import jp.go.aist.rtm.toolscommon.model.component.ServicePort;
-import jp.go.aist.rtm.toolscommon.model.component.util.PortConnectorFactory;
+import java.util.concurrent.Callable;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
@@ -24,21 +12,33 @@ import org.eclipse.swt.widgets.Shell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import jp.go.aist.rtm.systemeditor.RTSystemEditorPlugin;
+import jp.go.aist.rtm.systemeditor.nl.Messages;
+import jp.go.aist.rtm.systemeditor.ui.dialog.DataConnectorCreaterDialog;
+import jp.go.aist.rtm.systemeditor.ui.dialog.ServiceConnectorCreaterDialog;
+import jp.go.aist.rtm.systemeditor.ui.util.CompositeComponentHelper;
+import jp.go.aist.rtm.systemeditor.ui.util.TimeoutWrapper;
+import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
+import jp.go.aist.rtm.toolscommon.model.component.InPort;
+import jp.go.aist.rtm.toolscommon.model.component.OutPort;
+import jp.go.aist.rtm.toolscommon.model.component.Port;
+import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
+import jp.go.aist.rtm.toolscommon.model.component.ServicePort;
+import jp.go.aist.rtm.toolscommon.model.component.util.PortConnectorFactory;
+
 /**
  * コネクタプロファイルを作成する責務を持ったマネージャ
  */
 public class GraphicalConnectorCreateManager {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(GraphicalConnectorCreateManager.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(GraphicalConnectorCreateManager.class);
 
-	static final String ERROR_TITLE = Messages
-			.getString("Common.dialog.error_title");
+	static final String ERROR_TITLE = Messages.getString("Common.dialog.error_title");
 
-	static final String ERROR_CONNECT_FAILED = Messages
-			.getString("GraphicalConnectorCreateManager.1");
+	static final String ERROR_CONNECT_FAILED = Messages.getString("GraphicalConnectorCreateManager.1");
 
 	static final String EXTENTION_POINT_NAME = "createconnectorprofile";
+
 	private static List<ConnectorProfileCreater> connectorProfileCreators;
 
 	private Shell shell;
@@ -194,17 +194,22 @@ public class GraphicalConnectorCreateManager {
 	/**
 	 * ConnectorProfileを元に、ポート接続を行います。
 	 * 
-	 * @param connectorProfile
-	 *            接続情報
+	 * @param connectorProfile 接続情報
 	 * @return ポート接続成功の場合はtrue
 	 */
 	public boolean connectR(ConnectorProfile connectorProfile) {
-		PortConnector connector = PortConnectorFactory.createPortConnector(
-				getSource(), getTarget());
+		PortConnector connector = PortConnectorFactory.createPortConnector(getSource(), getTarget());
 		connector.setConnectorProfile(connectorProfile);
 
-		boolean result = connector.createConnectorR();
-		if (!result) {
+		TimeoutWrapper wrapper = TimeoutWrapper.asDefault();
+
+		Boolean result = wrapper.start(new Callable<Boolean>() {
+			@Override
+			public Boolean call() throws Exception {
+				return connector.createConnectorR();
+			}
+		});
+		if (result == null || !result) {
 			MessageDialog.openError(shell, ERROR_TITLE, ERROR_CONNECT_FAILED);
 			return false;
 		}

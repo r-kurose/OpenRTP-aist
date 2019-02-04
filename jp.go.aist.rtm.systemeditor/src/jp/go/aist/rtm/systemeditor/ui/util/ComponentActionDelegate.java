@@ -1,10 +1,7 @@
 package jp.go.aist.rtm.systemeditor.ui.util;
 
 import java.lang.reflect.InvocationTargetException;
-
-import jp.go.aist.rtm.systemeditor.nl.Messages;
-import jp.go.aist.rtm.toolscommon.manager.ToolsCommonPreferenceManager;
-import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
+import java.util.concurrent.Callable;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.IAction;
@@ -15,13 +12,15 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import jp.go.aist.rtm.systemeditor.nl.Messages;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
+
 /**
  * コマンドの実行を代理するクラス
  */
 public class ComponentActionDelegate {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(ComponentActionDelegate.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ComponentActionDelegate.class);
 
 	static final String MSG_BEGIN_TASK = Messages.getString("ComponentActionDelegate.1");
 	static final String MSG_SUB_TASK1 = Messages.getString("ComponentActionDelegate.2");
@@ -29,7 +28,7 @@ public class ComponentActionDelegate {
 
 	static final String ERROR_TITLE = Messages.getString("Common.dialog.error_title");
 
-	static final String ERROR_DEFAULT =Messages.getString("ComponentActionDelegate.5"); 
+	static final String ERROR_DEFAULT = Messages.getString("ComponentActionDelegate.5");
 	static final String ERROR_INVALID_PARAM = Messages.getString("ComponentActionDelegate.6");
 	static final String ERROR_UNSUPPORTED = Messages.getString("ComponentActionDelegate.7");
 	static final String ERROR_OUT_OF_RESOURCE = Messages.getString("ComponentActionDelegate.8");
@@ -45,6 +44,7 @@ public class ComponentActionDelegate {
 	 * コマンド実行の基本クラス
 	 */
 	public static abstract class Command {
+
 		public String getConfirmMessage() {
 			return null;
 		}
@@ -53,37 +53,49 @@ public class ComponentActionDelegate {
 			return getConfirmMessage() != null;
 		}
 
-		public abstract int run();
+		public abstract int run() throws Exception;
 
 		public abstract void done();
+
+		public static Command of(String confirm, Callable<Integer> run, Callable<Integer> done) {
+			return new Command() {
+				@Override
+				public int run() throws Exception {
+					return run.call();
+				}
+
+				@Override
+				public void done() {
+					try {
+						done.call();
+					} catch (Exception e) {
+						LOGGER.error("Fail to done command.", e);
+					}
+				}
+			};
+		}
+
 	};
 
 	public void run(final Command command) {
-		ProgressMonitorDialog dialog = new ProgressMonitorDialog(targetPart
-				.getSite().getShell());
-
-		final int defaultTimeout = ToolsCommonPreferenceManager.getInstance()
-				.getDefaultTimeout(
-						ToolsCommonPreferenceManager.DEFAULT_TIMEOUT_PERIOD);
+		ProgressMonitorDialog dialog = new ProgressMonitorDialog(targetPart.getSite().getShell());
 
 		final Integer[] returnCode = new Integer[1];
 
 		IRunnableWithProgress runable = new IRunnableWithProgress() {
-			public void run(IProgressMonitor monitor)
-					throws InvocationTargetException, InterruptedException {
+			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 
 				monitor.beginTask(MSG_BEGIN_TASK, 100);
 				monitor.worked(20);
 				monitor.subTask(MSG_SUB_TASK1);
 
-				TimeoutWrapper wrapper = new TimeoutWrapper(defaultTimeout);
-				wrapper.setJob(new TimeoutWrappedJob() {
+				TimeoutWrapper wrapper = TimeoutWrapper.asDefault();
+				returnCode[0] = wrapper.start(new Callable<Integer>() {
 					@Override
-					protected Object executeCommand() {
+					public Integer call() throws Exception {
 						return command.run();
 					}
 				});
-				returnCode[0] = (Integer) wrapper.start();
 
 				monitor.subTask(MSG_SUB_TASK2);
 				monitor.done();
@@ -97,6 +109,7 @@ public class ComponentActionDelegate {
 		}
 
 		if (returnCode[0] == null) {
+			LOGGER.error("Fail to run command.");
 			return;
 		}
 
@@ -116,8 +129,7 @@ public class ComponentActionDelegate {
 	}
 
 	void openError(String message) {
-		MessageDialog.openError(targetPart.getSite().getShell(), ERROR_TITLE,
-				message);
+		MessageDialog.openError(targetPart.getSite().getShell(), ERROR_TITLE, message);
 	}
 
 }

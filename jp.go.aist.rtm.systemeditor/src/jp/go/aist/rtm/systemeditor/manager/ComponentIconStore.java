@@ -198,18 +198,17 @@ public class ComponentIconStore {
 		if (!path.toFile().exists()) {
 			return null;
 		}
-		BufferedReader reader = new BufferedReader(new InputStreamReader(
-				new FileInputStream(path.toOSString()), "UTF-8"));
 		String xmlString = "";
-		while (true) {
-			String s = reader.readLine();
-			if (s == null) {
-				break;
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+				new FileInputStream(path.toOSString()), "UTF-8")) ) {
+			while (true) {
+				String s = reader.readLine();
+				if (s == null) {
+					break;
+				}
+				xmlString += s;
 			}
-			xmlString += s;
 		}
-		reader.close();
-		
 		IconProfileHandler handler = new IconProfileHandler();
 		ComponentIconStore result = handler.parse(xmlString);
 		return result;

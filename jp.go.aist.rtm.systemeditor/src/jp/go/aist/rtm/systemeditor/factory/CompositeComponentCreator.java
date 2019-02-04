@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
@@ -15,9 +16,7 @@ import jp.go.aist.rtm.systemeditor.corba.CORBAHelper;
 import jp.go.aist.rtm.systemeditor.extension.CreateCompositeComponentExtension;
 import jp.go.aist.rtm.systemeditor.ui.dialog.NewCompositeComponentDialog;
 import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
-import jp.go.aist.rtm.systemeditor.ui.util.TimeoutWrappedJob;
 import jp.go.aist.rtm.systemeditor.ui.util.TimeoutWrapper;
-import jp.go.aist.rtm.toolscommon.manager.ToolsCommonPreferenceManager;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
@@ -164,42 +163,37 @@ public class CompositeComponentCreator {
 	 * @return 生成された複合RTCのオブジェクト
 	 */
 	public Component create() {
-		int defaultTimeout = ToolsCommonPreferenceManager.getInstance()
-				.getDefaultTimeout(
-						ToolsCommonPreferenceManager.DEFAULT_TIMEOUT_PERIOD);
-		TimeoutWrapper wrapper = new TimeoutWrapper(defaultTimeout);
+		TimeoutWrapper wrapper = TimeoutWrapper.asDefault();
 		//
 		final CreateCompositeComponentExtension creator = findCreator();
 		if (creator == null) {
 			return null;
 		}
 		//
-		wrapper.setJob(new TimeoutWrappedJob() {
+		final Component comp = wrapper.start(new Callable<Component>() {
 			@Override
-			protected Object executeCommand() {
+			public Component call() throws Exception {
 				return creator.createComponent(base);
 			}
 		});
-		final Component comp = (Component) wrapper.start();
 		if (comp == null) {
 			return null;
 		}
 		//
-		wrapper.setJob(new TimeoutWrappedJob() {
+		final Component comp2 = wrapper.start(new Callable<Component>() {
 			@Override
-			protected Object executeCommand() {
+			public Component call() throws Exception {
 				return creator.setCompositeMembers(base, comp);
 			}
 		});
-		if (wrapper.start() == null && comp instanceof CorbaComponent) {
+		if (comp2 == null && comp instanceof CorbaComponent) {
 			final CorbaComponent corbaComp = (CorbaComponent) comp;
-			wrapper.setJob(new TimeoutWrappedJob() {
+			wrapper.start(new Callable<Integer>() {
 				@Override
-				protected Object executeCommand() {
+				public Integer call() throws Exception {
 					return corbaComp.exitR();
 				}
 			});
-			wrapper.start();
 		}
 		return comp;
 	}

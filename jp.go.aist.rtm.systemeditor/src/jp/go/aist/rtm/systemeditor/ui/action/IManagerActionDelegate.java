@@ -1,11 +1,8 @@
 package jp.go.aist.rtm.systemeditor.ui.action;
 
-import java.util.Iterator;
+import static jp.go.aist.rtm.systemeditor.ui.util.RTMixin.LOG_R;
 
-import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
-import jp.go.aist.rtm.systemeditor.nl.Messages;
-import jp.go.aist.rtm.systemeditor.ui.util.ComponentActionDelegate;
-import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
+import java.util.Iterator;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -13,16 +10,26 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
+import jp.go.aist.rtm.systemeditor.nl.Messages;
+import jp.go.aist.rtm.systemeditor.ui.util.ComponentActionDelegate;
+import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
 
 /**
  * Managerに対するアクション
  */
 public class IManagerActionDelegate implements IObjectActionDelegate {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(IManagerActionDelegate.class);
+
 	/**
 	 * Shutdownに使用されるID。この値が、Plugin.xmlに指定されなければならない。
 	 */
 	public static final String SHUTDOWN_ACTION_ID = IManagerActionDelegate.class.getName() + ".Shutdown"; //$NON-NLS-1$
-	
+
 	/**
 	 * Shutdownに使用されるID。この値が、Plugin.xmlに指定されなければならない。
 	 */
@@ -43,54 +50,37 @@ public class IManagerActionDelegate implements IObjectActionDelegate {
 		actionDelegate = new ComponentActionDelegate();
 		actionDelegate.setActivePart(null, this.targetPart);
 	}
-	
-	static abstract class ManagerCommand extends ComponentActionDelegate.Command {
-		protected RTCManager target;
 
-		public ManagerCommand(RTCManager manager) {
-			this.target = manager;
-		}
-	}
-	
 	@Override
 	public void run(IAction action) {
 		for (Iterator<?> iter = ((IStructuredSelection) selection).iterator(); iter.hasNext();) {
 
 			final RTCManager manager = (RTCManager) iter.next();
 
-			ManagerCommand command = null;
+			ComponentActionDelegate.Command command = null;
+
 			if (SHUTDOWN_ACTION_ID.equals(action.getId())) {
-				command = new ManagerCommand(manager) {
-					@Override
-					public String getConfirmMessage() {
-						return MSG_CONFIRM_SHUTDOWN;
-					}
+				command = ComponentActionDelegate.Command.of(MSG_CONFIRM_SHUTDOWN, //
+						() -> {
+							return LOG_R(LOGGER, "shutdown()", manager, () -> {
+								return manager.shutdownR();
+							});
+						}, //
+						() -> {
+							return 1;
+						});
 
-					@Override
-					public int run() {
-						return manager.shutdownR();
-					}
-
-					@Override
-					public void done() {
-					}
-				};
 			} else if (RESTART_ACTION_ID.equals(action.getId())) {
-				command = new ManagerCommand(manager) {
-					@Override
-					public String getConfirmMessage() {
-						return MSG_CONFIRM_RESTART;
-					}
+				command = ComponentActionDelegate.Command.of(MSG_CONFIRM_RESTART, //
+						() -> {
+							return LOG_R(LOGGER, "restart()", manager, () -> {
+								return manager.restartR();
+							});
+						}, //
+						() -> {
+							return 1;
+						});
 
-					@Override
-					public int run() {
-						return manager.restartR();
-					}
-
-					@Override
-					public void done() {
-					}
-				};
 			} else {
 				throw new RuntimeException(ERROR_UNKNOWN_COMMAND);
 			}

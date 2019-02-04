@@ -1,16 +1,10 @@
 package jp.go.aist.rtm.systemeditor.ui.action;
 
+import static jp.go.aist.rtm.systemeditor.ui.util.RTMixin.LOG_R;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
-import jp.go.aist.rtm.systemeditor.nl.Messages;
-import jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart;
-import jp.go.aist.rtm.systemeditor.ui.util.ComponentActionDelegate;
-import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
-import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -20,6 +14,14 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
+import jp.go.aist.rtm.systemeditor.nl.Messages;
+import jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart;
+import jp.go.aist.rtm.systemeditor.ui.util.ComponentActionDelegate;
+import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
 
 /**
  * ECに対するアクション (TODO menu化)
@@ -41,12 +43,14 @@ public class IECActionDelegate implements IObjectActionDelegate {
 	/**
 	 * ActivateRTCs に使用されるID。この値が、Plugin.xmlに指定されなければならない。
 	 */
-	public static final String ACTIVATE_RTCS_ACTION_ID = IECActionDelegate.class.getName() + ".executioncontext.ActivateRTCs";
+	public static final String ACTIVATE_RTCS_ACTION_ID = IECActionDelegate.class.getName()
+			+ ".executioncontext.ActivateRTCs";
 
 	/**
 	 * DeactivateRTCs に使用されるID。この値が、Plugin.xmlに指定されなければならない。
 	 */
-	public static final String DEACTIVATE_RTCS_ACTION_ID = IECActionDelegate.class.getName() + ".executioncontext.DeactivateRTCs";
+	public static final String DEACTIVATE_RTCS_ACTION_ID = IECActionDelegate.class.getName()
+			+ ".executioncontext.DeactivateRTCs";
 
 	static final String TITLE_CONFIRM_DIALOG = Messages.getString("Common.dialog.confirm_title");
 
@@ -69,15 +73,6 @@ public class IECActionDelegate implements IObjectActionDelegate {
 		actionDelegate.setActivePart(null, this.targetPart);
 	}
 
-	/** コンポーネントアクションのコマンド */
-	static abstract class ComponentCommand extends ComponentActionDelegate.Command {
-		protected CorbaComponent comp;
-
-		public ComponentCommand(CorbaComponent comp) {
-			this.comp = comp;
-		}
-	}
-
 	public void run(final IAction action) {
 
 		for (Iterator<?> iter = ((IStructuredSelection) selection).iterator(); iter.hasNext();) {
@@ -88,101 +83,81 @@ public class IECActionDelegate implements IObjectActionDelegate {
 			}
 			final CorbaComponent component = (CorbaComponent) part.getModel();
 
-			ComponentCommand command = null;
+			ComponentActionDelegate.Command command = null;
 			if ((START_ACTION_ID).equals(action.getId())) {
-				command = new ComponentCommand(component) {
-					@Override
-					public String getConfirmMessage() {
-						return MSG_CONFIRM_START;
-					}
+				command = ComponentActionDelegate.Command.of(MSG_CONFIRM_START, //
+						() -> {
+							return LOG_R(LOGGER, "start()", component, () -> {
+								return component.startR();
+							});
+						}, //
+						() -> {
+							component.synchronizeManually();
+							return 1;
+						});
 
-					@Override
-					public int run() {
-						return comp.startR();
-					}
-
-					@Override
-					public void done() {
-						comp.synchronizeManually();
-					}
-				};
 			} else if (STOP_ACTION_ID.equals(action.getId())) {
-				command = new ComponentCommand(component) {
-					@Override
-					public String getConfirmMessage() {
-						return MSG_CONFIRM_STOP;
-					}
+				command = ComponentActionDelegate.Command.of(MSG_CONFIRM_STOP, //
+						() -> {
+							return LOG_R(LOGGER, "stop()", component, () -> {
+								return component.stopR();
+							});
+						}, //
+						() -> {
+							component.synchronizeManually();
+							return 1;
+						});
 
-					@Override
-					public int run() {
-						return component.stopR();
-					}
-
-					@Override
-					public void done() {
-						comp.synchronizeManually();
-					}
-				};
 			} else if (ACTIVATE_RTCS_ACTION_ID.equals(action.getId())) {
-				command = new ComponentCommand(component) {
-					@Override
-					public String getConfirmMessage() {
-						return MSG_CONFIRM_ACTIVATE_RTCS;
-					}
-
-					@Override
-					public int run() {
-						CorbaExecutionContext pec = (CorbaExecutionContext) component.getPrimaryExecutionContext();
-						if (pec == null) {
-							LOGGER.warn("Primary EC is null or is not CorbaExecutionContext. pec={}", pec);
-							return -1;
-						}
-						int ret = 0;
-						List<CorbaComponent> comps = findComponents(pec);
-						for (CorbaComponent comp : comps) {
-							int r = pec.activateR(comp);
-							if (r != 0) {
-								ret = r;
+				command = ComponentActionDelegate.Command.of(MSG_CONFIRM_ACTIVATE_RTCS, //
+						() -> {
+							CorbaExecutionContext pec = (CorbaExecutionContext) component.getPrimaryExecutionContext();
+							if (pec == null) {
+								LOGGER.warn("Primary EC is null or is not CorbaExecutionContext. pec={}", pec);
+								return -1;
 							}
-						}
-						return ret;
-					}
+							int ret = 0;
+							List<CorbaComponent> comps = findComponents(pec);
+							for (CorbaComponent comp : comps) {
+								int r = LOG_R(LOGGER, "activate()", pec, () -> {
+									return pec.activateR(comp);
+								});
+								if (r != 0) {
+									ret = r;
+								}
+							}
+							return ret;
+						}, //
+						() -> {
+							component.synchronizeManually();
+							return 1;
+						});
 
-					@Override
-					public void done() {
-						comp.synchronizeManually();
-					}
-				};
 			} else if (DEACTIVATE_RTCS_ACTION_ID.equals(action.getId())) {
-				command = new ComponentCommand(component) {
-					@Override
-					public String getConfirmMessage() {
-						return MSG_CONFIRM_DEACTIVATE_RTCS;
-					}
-
-					@Override
-					public int run() {
-						CorbaExecutionContext pec = (CorbaExecutionContext) component.getPrimaryExecutionContext();
-						if (pec == null) {
-							LOGGER.warn("Primary EC is null or is not CorbaExecutionContext. pec={}", pec);
-							return -1;
-						}
-						int ret = 0;
-						List<CorbaComponent> comps = findComponents(pec);
-						for (CorbaComponent comp : comps) {
-							int r = pec.deactivateR(comp);
-							if (r != 0) {
-								ret = r;
+				command = ComponentActionDelegate.Command.of(MSG_CONFIRM_DEACTIVATE_RTCS, //
+						() -> {
+							CorbaExecutionContext pec = (CorbaExecutionContext) component.getPrimaryExecutionContext();
+							if (pec == null) {
+								LOGGER.warn("Primary EC is null or is not CorbaExecutionContext. pec={}", pec);
+								return -1;
 							}
-						}
-						return ret;
-					}
+							int ret = 0;
+							List<CorbaComponent> comps = findComponents(pec);
+							for (CorbaComponent comp : comps) {
+								int r = LOG_R(LOGGER, "deactivate()", pec, () -> {
+									return pec.deactivateR(comp);
+								});
+								if (r != 0) {
+									ret = r;
+								}
+							}
+							return ret;
+						}, //
+						() -> {
+							component.synchronizeManually();
+							return 1;
+						});
 
-					@Override
-					public void done() {
-						comp.synchronizeManually();
-					}
-				};
 			} else {
 				throw new RuntimeException(ERROR_UNKNOWN_COMMAND);
 			}
