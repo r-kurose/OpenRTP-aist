@@ -454,9 +454,9 @@ ${sharp}${sharp} target components should be created previously by
 ${sharp}${sharp} manager.components.precreate optinos.
 ${sharp}${sharp}
 ${sharp}${sharp} Example:
-${sharp}${sharp} manager.components.preactivate: ConsoleIn0, ConsoleOut0
+${sharp}${sharp} manager.components.preactivation: ConsoleIn0, ConsoleOut0
 ${sharp}${sharp}
-${sharp} manager.components.preactivate:
+${sharp} manager.components.preactivation:
 
 ${sharp}${sharp}
 ${sharp}${sharp} Loading local service modules
