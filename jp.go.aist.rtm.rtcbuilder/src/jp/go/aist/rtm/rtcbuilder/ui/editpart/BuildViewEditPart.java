@@ -26,7 +26,6 @@ public class BuildViewEditPart extends AbstractEditPart {
 	protected void createEditPolicies() {
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected List getModelChildren() {
 		return getModel().eContents();

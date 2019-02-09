@@ -407,7 +407,6 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			GridData gridData;
 			deleteButton = managedForm.getToolkit().createButton(client, IMessageConstants.SERVICEPORT_BTN_DELETE, SWT.PUSH);
 			deleteButton.addSelectionListener(new SelectionAdapter() {
-				@SuppressWarnings("unchecked")
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					TreeItem[] selections = servicePortViewer.getTree().getSelection();
@@ -752,8 +751,6 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	private class ServiceParamContentProvider implements ITreeContentProvider {
-
-		@SuppressWarnings("unchecked")
 		public Object[] getChildren(Object parentElement) {
 			if(parentElement instanceof ServicePortParam) {
 				ServicePortParam servicePort = (ServicePortParam)parentElement;

@@ -107,7 +107,6 @@ public class ComponentBuildView extends ViewPart {
 		}
 	};
 
-	@SuppressWarnings("unchecked")
 	private void attachListener(EObject targetOld, EObject targetNew) {
 		if( targetOld != null ) {
 			for( Iterator iter = targetOld.eAllContents(); iter.hasNext();) {
@@ -121,10 +120,10 @@ public class ComponentBuildView extends ViewPart {
 			element.eAdapters().add(modelListener);
 		}
 	}
-	
+
 	/**
 	 * Sets the EditDomain for this ViewPart.
-	 * 
+	 *
 	 * @param anEditDomain
 	 *            the EditDomain for this ViewPart.
 	 */
@@ -134,16 +133,16 @@ public class ComponentBuildView extends ViewPart {
 
 	/**
 	 * Get the EditDomain for this ViewPart.
-	 * 
+	 *
 	 * @return the EditDomain for this ViewPart.
 	 */
 	protected DefaultEditDomain getEditDomain() {
 		return this.editDomain;
-	} 
+	}
 
 	/**
 	 * Sets the graphicalViewer for this EditorPart.
-	 * 
+	 *
 	 * @param viewer
 	 *            the graphical viewer
 	 */
@@ -154,7 +153,7 @@ public class ComponentBuildView extends ViewPart {
 
 	/**
 	 * Returns the graphical viewer.
-	 * 
+	 *
 	 * @return the graphical viewer
 	 */
 	protected GraphicalViewer getGraphicalViewer() {

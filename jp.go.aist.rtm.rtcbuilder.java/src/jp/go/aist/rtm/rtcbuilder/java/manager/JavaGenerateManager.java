@@ -32,8 +32,8 @@ public class JavaGenerateManager extends GenerateManager {
 	static final String TEMPLATE_PATH = "jp/go/aist/rtm/rtcbuilder/java/template";
 
 	static final String MSG_ERROR_GENERATE_FILE = IRTCBMessageConstants.ERROR_CODE_GENERATION;
-	
-	private final String DEFAULT_VERSION = "1.1.0"; 
+
+	private final String DEFAULT_VERSION = "1.1.0";
 
 	@Override
 	public String getTargetVersion() {
@@ -61,7 +61,7 @@ public class JavaGenerateManager extends GenerateManager {
 
 	/**
 	 * ファイルを出力する
-	 * 
+	 *
 	 * @param generatorParam
 	 *            生成用パラメータ
 	 * @return 出力結果のリスト
@@ -99,7 +99,7 @@ public class JavaGenerateManager extends GenerateManager {
 		} catch (NullPointerException ex) {
 			rtcParam.setRtmJavaVersion(DEFAULT_VERSION);
 		}
-		
+
 		Map<String, Object> contextMap = new HashMap<String, Object>();
 		contextMap.put("template", TEMPLATE_PATH);
 		contextMap.put("rtcParam", rtcParam);
@@ -245,7 +245,7 @@ public class JavaGenerateManager extends GenerateManager {
 		result.setNotBom(true);
 		return result;
 	}
-	
+
 	// 1.0系 (ビルド環境)
 
 	public GeneratedResult generateBuildXML(Map<String, Object> contextMap) {
@@ -254,7 +254,7 @@ public class JavaGenerateManager extends GenerateManager {
 		String infile = "java/build.xml.vsl";
 		return generate(infile, outfile, contextMap);
 	}
-	
+
 	//////////
 	public GeneratedResult generateTestCompSource(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
@@ -273,7 +273,7 @@ public class JavaGenerateManager extends GenerateManager {
 		result.setNotBom(true);
 		return result;
 	}
-	
+
 	public GeneratedResult generateTestRTCImplSource(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = "test/src/" + rtcParam.getName() + "TestImpl.java";
@@ -282,7 +282,7 @@ public class JavaGenerateManager extends GenerateManager {
 		result.setNotBom(true);
 		return result;
 	}
-	
+
 	public GeneratedResult generateTestSVCSource(Map<String, Object> contextMap) {
 		ServiceClassParam svc = (ServiceClassParam) contextMap
 				.get("serviceClassParam");
@@ -293,17 +293,15 @@ public class JavaGenerateManager extends GenerateManager {
 		result.setNotBom(true);
 		return result;
 	}
-	
+
 	public GeneratedResult generate(String infile, String outfile,
 			Map<String, Object> contextMap) {
 		try {
 			String template = TEMPLATE_PATH + "/" + infile;
 			ClassLoader cl = Thread.currentThread().getContextClassLoader();
-			InputStream ins = cl.getResourceAsStream(template);
-			GeneratedResult gr = TemplateUtil.createGeneratedResult(ins,
-					contextMap, outfile);
-			if (ins != null) {
-				ins.close();
+			GeneratedResult gr = null;
+			try (InputStream ins = cl.getResourceAsStream(template) ) {
+				gr = TemplateUtil.createGeneratedResult(ins, contextMap, outfile);
 			}
 			return gr;
 		} catch (Exception e) {

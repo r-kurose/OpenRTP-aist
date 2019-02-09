@@ -23,7 +23,6 @@ import jp.go.aist.rtm.rtcbuilder.ui.compare.CompareTarget;
  * GUIのRtcBuilderを実行する際のメインとなるクラス
  */
 public class GuiRtcBuilder {
-	private final int RETURN_YES = 0;
 	private final int RETURN_NO = 1;
 
 	Generator generator = new Generator();

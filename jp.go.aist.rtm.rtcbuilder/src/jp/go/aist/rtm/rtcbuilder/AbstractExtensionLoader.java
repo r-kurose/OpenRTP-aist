@@ -18,23 +18,22 @@ public abstract class AbstractExtensionLoader {
 			.getLogger(AbstractExtensionLoader.class);
 
 	// Manager
-	@SuppressWarnings("unchecked")
 	private List list = new ArrayList();
-	
+
 	abstract String getPointId();
 	abstract String getExtensionName();
 	abstract void addExtension(IConfigurationElement element) throws CoreException;
-	
+
 	/**
 	 * 拡張オブジェクトをロードしてリストに格納する。
-	 * @throws CoreException 
+	 * @throws CoreException
 	 */
 	public void loadExtensions() throws CoreException {
 		// 拡張ポイントの取得
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
-		IExtensionPoint point = registry.getExtensionPoint( getPointId() );		
-		if( point == null ) return;		
-		
+		IExtensionPoint point = registry.getExtensionPoint( getPointId() );
+		if( point == null ) return;
+
 		// 拡張宣言のロード
 		IExtension[] extensions = point.getExtensions();
 		for( int index = 0; index < extensions.length; index++ ) {
@@ -42,7 +41,7 @@ public abstract class AbstractExtensionLoader {
 			IConfigurationElement[] cfgElems = extensions[index].getConfigurationElements();
 			for(int intext = 0; intext < cfgElems.length; intext++) {
 				IConfigurationElement cfgElem = cfgElems[intext];
-				
+
 				if ( getExtensionName().equals( cfgElem.getName() ) ) {
 					processManager( cfgElem );
 				}
@@ -66,7 +65,6 @@ public abstract class AbstractExtensionLoader {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public List getList() {
 		return list;
 	}

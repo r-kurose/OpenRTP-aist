@@ -24,16 +24,11 @@ public class TestBase extends TestCase {
 	}
 	protected String readFile(String fileName) {
 		StringBuffer stbRet = new StringBuffer();
-		try{
-			FileReader fr = new FileReader(fileName);
-			BufferedReader br = new BufferedReader(fr);
-	
+		try( FileReader fr = new FileReader(fileName); BufferedReader br = new BufferedReader(fr) ) {
 			String str = new String();
 			while( (str = br.readLine()) != null ){
 				stbRet.append(str + "\r\n");
 			}
-			br.close();
-			fr.close();
 		} catch (IOException e){
 			e.printStackTrace();
 		}
@@ -41,7 +36,7 @@ public class TestBase extends TestCase {
 	}
 	protected int getFileIndex(String targetName, List<GeneratedResult> targetList) {
 		int resultindex = -1;
-		
+
 		for( int intIdx=0; intIdx<targetList.size(); intIdx++ ) {
 			if( targetList.get(intIdx).getName().contains(targetName) ) {
 				return intIdx;

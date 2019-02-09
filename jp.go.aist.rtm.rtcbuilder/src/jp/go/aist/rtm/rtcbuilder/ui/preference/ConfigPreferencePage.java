@@ -31,10 +31,10 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 
-public class ConfigPreferencePage extends AbstractPreferencePage implements 
+public class ConfigPreferencePage extends AbstractPreferencePage implements
 		IWorkbenchPreferencePage {
 	private TableViewer configSetTable;
-	
+
 	private static final int CONFIGPROFILE_PROPERTY_CONFIGURATION = 0;
 	private static final int CONFIGPROFILE_PROPERTY_DEFAULT = 1;
 	private List<ConfigParameterParam> paramArray = new ArrayList<ConfigParameterParam>();
@@ -54,26 +54,26 @@ public class ConfigPreferencePage extends AbstractPreferencePage implements
 	@Override
 	protected Control createContents(Composite parent) {
 		GridData gd;
-		
+
 		Composite composite = new Composite(parent, SWT.NULL);
 		composite.setLayout(new GridLayout(1,true));
-		
+
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.grabExcessHorizontalSpace = true;
 		gd.verticalAlignment = GridData.BEGINNING;
 		composite.setLayoutData(gd);
-		
+
 		Group group = createGroup(composite, "");
-		
+
 		configSetTable = new TableViewer(group,SWT.SINGLE | SWT.FULL_SELECTION | SWT.BORDER);
 		configSetTable = createTableViewer(group, configSetTable);
-		
+
 		return composite;
 	}
 
 	private TableViewer createTableViewer(Group group, final TableViewer targetViewer) {
 		GridData gd;
-		
+
 		GridLayout layout = new GridLayout(2,false);
 		layout.horizontalSpacing = 2;
 	    layout.marginWidth = 3;
@@ -91,20 +91,20 @@ public class ConfigPreferencePage extends AbstractPreferencePage implements
 		table.setLayoutData(gd);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-		
+
 		createConfigProfileColumn(targetViewer, IPreferenceMessageConstants.CONFIG_CLMN_CONFIGURATION, 200, CONFIGPROFILE_PROPERTY_CONFIGURATION);
 		createConfigProfileColumn(targetViewer, IPreferenceMessageConstants.CONFIG_CLMN_DEFAUT_VALUE, 200, CONFIGPROFILE_PROPERTY_DEFAULT);
-			
+
 		targetViewer.setContentProvider(new ArrayContentProvider());
         targetViewer.setLabelProvider(new ConfigParamLabelProvider());
-		
+
 		// ボタン生成
 		gd = new GridData();
 		Button addButton = new Button(group, SWT.PUSH);
 		addButton.setText(IPreferenceMessageConstants.CONFIG_BTN_ADD);
 		gd.widthHint = 70;
 		addButton.setLayoutData(gd);
-		
+
 		addButton.addSelectionListener(new SelectionAdapter() {
 			@SuppressWarnings("unchecked")
 			@Override
@@ -121,19 +121,18 @@ public class ConfigPreferencePage extends AbstractPreferencePage implements
 		gd.widthHint = 70;
 		delButton.setLayoutData(gd);
 		delButton.addSelectionListener(new SelectionAdapter() {
-			@SuppressWarnings("unchecked")
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int selectionIndex = targetViewer.getTable().getSelectionIndex();
 				if (selectionIndex >= 0
 						&& ((java.util.List) targetViewer.getInput()).size() >= selectionIndex + 1) {
 					((java.util.List) targetViewer.getInput()).remove(selectionIndex);
-					
+
 					targetViewer.refresh();
 				}
 			}
 		});
-		
+
 		paramArray = new ArrayList<ConfigParameterParam>();
 		paramArray = ConfigPreferenceManager.getConfigNameValue();
 		configSetTable.setInput(paramArray);
@@ -147,7 +146,7 @@ public class ConfigPreferencePage extends AbstractPreferencePage implements
 		TableViewerColumn col = super.createColumn(tv, title, width);
 		col.setEditingSupport(new ConfigProfileCellModifier(tv, no));
 	}
-	
+
 	public void init(IWorkbench workbench) {
 	}
 
@@ -160,7 +159,7 @@ public class ConfigPreferencePage extends AbstractPreferencePage implements
 
 		super.performDefaults();
 	}
-	
+
 	private class ConfigParamLabelProvider extends LabelProvider implements	ITableLabelProvider {
 
 		public Image getColumnImage(Object element, int columnIndex) {
@@ -172,26 +171,26 @@ public class ConfigPreferencePage extends AbstractPreferencePage implements
 				return null;
 			}
 			ConfigParameterParam configProfileParam = (ConfigParameterParam) element;
-		
+
 			String result = null;
 			if (columnIndex == 0) {
 				result = configProfileParam.getConfigName();
 			} else if (columnIndex == 1) {
 				result = configProfileParam.getDefaultVal();
 			}
-		
+
 			return result;
 		}
 	}
 
 	private class ConfigProfileCellModifier extends EditingSupport {
-		
-		private CellEditor editor;  
+
+		private CellEditor editor;
 		private int column;
 
-		public ConfigProfileCellModifier(ColumnViewer viewer, int column) { 
+		public ConfigProfileCellModifier(ColumnViewer viewer, int column) {
 			super(viewer);
-			editor = new TextCellEditor(((TableViewer) viewer).getTable());  
+			editor = new TextCellEditor(((TableViewer) viewer).getTable());
 			this.column = column;
 		}
 
@@ -199,23 +198,23 @@ public class ConfigPreferencePage extends AbstractPreferencePage implements
 		protected boolean canEdit(Object element) {
 			return true;
 		}
-		
+
 		@Override
 		protected CellEditor getCellEditor(Object element) {
 			return editor;
 		}
 
-		@Override  
+		@Override
 		protected Object getValue(Object element) {
 			if (element instanceof ConfigParameterParam == false) return null;
-			
+
 			ConfigParameterParam configProfileParam = (ConfigParameterParam) element;
 
-			switch (this.column) {  
+			switch (this.column) {
 			case CONFIGPROFILE_PROPERTY_CONFIGURATION:
-				return configProfileParam.getConfigName();  
-			case CONFIGPROFILE_PROPERTY_DEFAULT:  
-				return configProfileParam.getDefaultVal();  
+				return configProfileParam.getConfigName();
+			case CONFIGPROFILE_PROPERTY_DEFAULT:
+				return configProfileParam.getDefaultVal();
 			default:
 				break;
 			}
@@ -226,12 +225,12 @@ public class ConfigPreferencePage extends AbstractPreferencePage implements
 		protected void setValue(Object element, Object value) {
 			if (element instanceof ConfigParameterParam == false) return;
 			ConfigParameterParam configProfileParam = (ConfigParameterParam)element;
-		
+
 			switch (this.column) {
 			case CONFIGPROFILE_PROPERTY_CONFIGURATION:
 				configProfileParam.setConfigName((String) value);
 				break;
-			case CONFIGPROFILE_PROPERTY_DEFAULT:  
+			case CONFIGPROFILE_PROPERTY_DEFAULT:
 				configProfileParam.setDefaultVal((String) value);
 				break;
 			default:
@@ -250,9 +249,9 @@ public class ConfigPreferencePage extends AbstractPreferencePage implements
 		}
 		return false;
 	}
-	
+
 	public boolean validate() {
-		
+
 		int intRow = configSetTable.getTable().getItemCount();
 		String result1 = null;
 		String result2 = null;

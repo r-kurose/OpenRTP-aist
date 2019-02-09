@@ -16,8 +16,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.ui.PlatformUI;
 
 public abstract class PortEditPartBase extends AbstractEditPart {
-	
-	@SuppressWarnings("unchecked")
+
 	protected List originalChildren = null;
 
 	protected IFigure modifyPosition(ComponentFigure parentFigure, int direction, int index, PortFigureBase result) {
@@ -73,7 +72,7 @@ public abstract class PortEditPartBase extends AbstractEditPart {
 	protected void refreshVisuals() {
 		List reOrderedItems = new ArrayList(2);
 		List reOrderedTemp = new ArrayList();
-		
+
 		for( int intIdx=0; intIdx<originalChildren.size();intIdx++ ) {
 			Object item = originalChildren.get(intIdx);
 			if( item instanceof RectangleFigure ) {
