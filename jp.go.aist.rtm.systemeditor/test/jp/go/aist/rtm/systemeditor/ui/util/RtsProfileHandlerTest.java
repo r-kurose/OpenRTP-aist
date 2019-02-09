@@ -122,7 +122,7 @@ public class RtsProfileHandlerTest extends TestCase {
 //		assertEquals("value1", property.getValue());
 
 		assertEquals(1, diagram.getComponents().size());
-		jp.go.aist.rtm.toolscommon.model.component.Component component = (jp.go.aist.rtm.toolscommon.model.component.Component) diagram.getComponents().get(0);
+		jp.go.aist.rtm.toolscommon.model.component.Component component = diagram.getComponents().get(0);
 		assertTrue(component instanceof CorbaComponent);
 		assertEquals("id3", component.getComponentId());
 		assertEquals("192.168.1.164/client164.local.tech-arts.co.jp.host_cxt/Composite0.rtc", component.getPathId());
@@ -146,12 +146,12 @@ public class RtsProfileHandlerTest extends TestCase {
 		// XMLのロードを行った段階ではコンフィグの情報はセットしない
 		assertTrue(component.getConfigurationSets().isEmpty());
 
-		jp.go.aist.rtm.toolscommon.model.component.Component component2 = (jp.go.aist.rtm.toolscommon.model.component.Component) component.getComponents().get(0);
+		jp.go.aist.rtm.toolscommon.model.component.Component component2 = component.getComponents().get(0);
 		assertNull(component2.getCategoryL());
 		assertFalse(component2.isRequired());
 		assertEquals(0, component2.getComponents().size());
 
-		jp.go.aist.rtm.toolscommon.model.component.Component component3 = (jp.go.aist.rtm.toolscommon.model.component.Component) component.getComponents().get(1);
+		jp.go.aist.rtm.toolscommon.model.component.Component component3 = component.getComponents().get(1);
 		assertEquals(0, component3.getComponents().size());
 	}
 
@@ -164,27 +164,27 @@ public class RtsProfileHandlerTest extends TestCase {
 		handler.populate(diagram, profile);
 		diagram.setProfile(profile);
 
-		jp.go.aist.rtm.toolscommon.model.component.Component component = (jp.go.aist.rtm.toolscommon.model.component.Component) diagram.getComponents().get(0);
+		jp.go.aist.rtm.toolscommon.model.component.Component component = diagram.getComponents().get(0);
 		assertTrue(component instanceof ComponentSpecification);
 
 		handler.restoreConfigSet(diagram);
 		handler.restoreCompositeComponentPort(diagram);
 
-		Port port = (Port) component.getPorts().get(0);
+		Port port = component.getPorts().get(0);
 		assertEquals("ConsoleIn0.out", port.getNameL());
-		port = (Port) component.getPorts().get(1);
+		port = component.getPorts().get(1);
 		assertEquals("ConsoleIn0.client", port.getNameL());
 		assertEquals("{componentId:id2,pathId:192.168.1.164/client164.local.tech-arts.co.jp.host_cxt/ConsoleIn0.rtc,instanceName:ConsoleIn0,portName:ConsoleIn0.client}", port.getOriginalPortString());
-		port = (Port) component.getPorts().get(2);
+		port = component.getPorts().get(2);
 		assertEquals("ConsoleOut0.in", port.getNameL());
-		port = (Port) component.getPorts().get(3);
+		port = component.getPorts().get(3);
 		assertEquals("ConsoleOut0.server", port.getNameL());
 
 		handler.restoreConnection(diagram);
-		port = (Port) component.getPorts().get(0);
+		port = component.getPorts().get(0);
 		assertEquals("ConsoleIn0.out", port.getNameL());
 		assertEquals("{componentId:id2,pathId:192.168.1.164/client164.local.tech-arts.co.jp.host_cxt/ConsoleIn0.rtc,instanceName:ConsoleIn0,portName:ConsoleIn0.out}", port.getOriginalPortString());
-		ConnectorProfile connector1 = (ConnectorProfile) port.getConnectorProfiles().get(0);
+		ConnectorProfile connector1 = port.getConnectorProfiles().get(0);
 		assertEquals("connector1", connector1.getConnectorId());
 		assertEquals("conectorName1", connector1.getName());
 		assertEquals("TimedOctetSeq", connector1.getDataType());
@@ -194,34 +194,34 @@ public class RtsProfileHandlerTest extends TestCase {
 		assertNull(connector1.getPushRate());
 		// ベンディングポイントの復元
 		PortConnector portConnector = diagram.getConnectorMap().get("connector1");
-		Point point = (Point) portConnector.getRoutingConstraint().map().get(1);
+		Point point = portConnector.getRoutingConstraint().map().get(1);
 		assertEquals(392, point.getX());
 		assertEquals(110, point.getY());
 
-		port = (Port) component.getPorts().get(1);
-		ConnectorProfile connector2 = (ConnectorProfile) port.getConnectorProfiles().get(0);
+		port = component.getPorts().get(1);
+		ConnectorProfile connector2 = port.getConnectorProfiles().get(0);
 		assertEquals("connector2", connector2.getConnectorId());
 		assertEquals("conectorName2", connector2.getName());
 		// ベンディングポイントの復元
 		portConnector = diagram.getConnectorMap().get("connector2");
 		assertTrue(portConnector.getRoutingConstraint().map().isEmpty());
 
-		port = (Port) component.getPorts().get(1);
+		port = component.getPorts().get(1);
 		assertEquals("ConsoleIn0.client", port.getNameL());
 
-		jp.go.aist.rtm.toolscommon.model.component.Component component3 = (jp.go.aist.rtm.toolscommon.model.component.Component) component.getComponents().get(1);
-		port = (Port) component3.getPorts().get(0);
+		jp.go.aist.rtm.toolscommon.model.component.Component component3 = component.getComponents().get(1);
+		port = component3.getPorts().get(0);
 		assertEquals(connector1, port.getConnectorProfiles().get(0));
 		assertEquals(port.getOriginalPortString(), connector1.getTargetString());
-		port = (Port) component3.getPorts().get(1);
+		port = component3.getPorts().get(1);
 		assertEquals(connector2, port.getConnectorProfiles().get(0));
 		assertEquals(port.getOriginalPortString(), connector2.getTargetString());
 
-		jp.go.aist.rtm.toolscommon.model.component.Component component2 = (jp.go.aist.rtm.toolscommon.model.component.Component) component.getComponents().get(0);
-		jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet configSet = (jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet) component2.getConfigurationSets().get(0);
+		jp.go.aist.rtm.toolscommon.model.component.Component component2 = component.getComponents().get(0);
+		jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet configSet = component2.getConfigurationSets().get(0);
 		assertEquals(component2.getActiveConfigurationSet(), configSet);
 		assertEquals("config1", configSet.getId());
-		NameValue configData = (NameValue) configSet.getConfigurationData().get(0);
+		NameValue configData = configSet.getConfigurationData().get(0);
 		assertEquals("name1", configData.getName());
 		assertEquals("value1", configData.getValueAsString());
 	}

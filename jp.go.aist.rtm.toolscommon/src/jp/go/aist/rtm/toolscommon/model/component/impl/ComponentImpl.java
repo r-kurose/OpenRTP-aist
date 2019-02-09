@@ -1983,7 +1983,7 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 			}
 		}
 	}
-	
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1997,7 +1997,6 @@ public abstract class ComponentImpl extends WrapperObjectImpl implements Compone
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void removeDeadChild() {
 		for (Iterator iterate = getComponents().iterator(); iterate.hasNext();) {

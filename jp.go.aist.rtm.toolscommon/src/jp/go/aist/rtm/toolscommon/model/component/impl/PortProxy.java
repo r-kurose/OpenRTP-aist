@@ -36,21 +36,18 @@ public abstract class PortProxy extends EObjectImpl implements Port {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
 	private static class InPortProxy extends PortProxy implements InPort {
 		private InPortProxy(Port substance){
 			super(substance);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private static class OutPortProxy extends PortProxy implements OutPort {
 		private OutPortProxy(Port substance){
 			super(substance);
 		}
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	private static class ServicePortProxy extends PortProxy implements ServicePort {
 		private ServicePortProxy(Port substance){
 			super(substance);
@@ -339,7 +336,7 @@ public abstract class PortProxy extends EObjectImpl implements Port {
 	public List<NameValue> getProperties() {
 		return substance.getProperties();
 	}
-	
+
 	public String getProperty(String name) {
 		return substance.getProperty(name);
 	}

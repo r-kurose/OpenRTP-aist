@@ -18,12 +18,12 @@ public class RestoreConnectionTest extends TestCase {
 	private Port port1;
 	private Port port2;
 	private Port port3;
-	
+
 	private Component component1;
 	private Component component2;
 	private Component component3;
 	private Component component4;
-	
+
 	private SystemDiagram diagram;
 	private RtsProfileExt profile;
 	private ObjectFactory factory;
@@ -34,14 +34,14 @@ public class RestoreConnectionTest extends TestCase {
 		verifyConnectorCount(port1, 1);
 		verifyConnectorCount(port2, 0);
 		verifyConnectorCount(port3, 1);
-		ConnectorProfile connector1 = (ConnectorProfile) port1.getConnectorProfiles().get(0);
+		ConnectorProfile connector1 = port1.getConnectorProfiles().get(0);
 //		assertEquals(port3, connector1.getTarget());
 		assertEquals(port3.getOriginalPortString(), connector1.getTargetString());
-		ConnectorProfile connector2 = (ConnectorProfile) port3.getConnectorProfiles().get(0);
+		ConnectorProfile connector2 = port3.getConnectorProfiles().get(0);
 //		assertEquals(port1, connector2.getSource());
 		assertEquals(port1.getOriginalPortString(), connector2.getSourceString());
 	}
-	
+
 	private void verifyConnectorCount(Port port, int profileCount) {
 		assertEquals(profileCount, port.getConnectorProfiles().size());
 	}
@@ -51,12 +51,12 @@ public class RestoreConnectionTest extends TestCase {
 		setupPort1();
 		setupPort2();
 		setupPort3();
-		
+
 		setupComponent1();
 		setupComponent2();
 		setupComponent3();
 		setupComponent4();
-		
+
 		setupProfile();
 		setupDiagram();
 	}

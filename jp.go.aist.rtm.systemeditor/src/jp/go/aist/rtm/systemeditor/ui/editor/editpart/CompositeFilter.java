@@ -26,7 +26,6 @@ public class CompositeFilter {
 		return getConnections(null, port);
 	}
 
-	@SuppressWarnings("unchecked")
 	private static Port findPort(List components, String originalString) {
 		for (Object obj: components) {
 			for(Object element : ((Component)obj).getPorts()) {
@@ -54,7 +53,6 @@ public class CompositeFilter {
 		return getConnections(port, null);
 	}
 
-	@SuppressWarnings("unchecked")
 	private static List<PortConnector> getConnections(Port first, Port second) {
 		Port port = first != null ? first : second;
 
@@ -62,7 +60,7 @@ public class CompositeFilter {
 
 		SystemDiagram diagram = getDiagram(port);
 		if (diagram == null) return result;
-		
+
 		List components = diagram.getComponents();
 		if (!(components.contains(port.eContainer())))return result;
 
@@ -72,17 +70,17 @@ public class CompositeFilter {
 			String tmpString = (first != null ? profile.getSourceString() : profile.getTargetString());
 			if (tmpString == null) continue;
 			if (!(tmpString.equals(originalPortString))) continue;
-			
+
 			String anotherString = (first != null ? profile.getTargetString() : profile.getSourceString());
 			Port anotherPort = findPort(components, anotherString);
 			if (anotherPort == null) continue;
-			
+
 			PortConnector connector = findOrCreateConnector(port, anotherPort, profile);
 			if (connector == null) continue;
-			
+
 			connector.setSource(first != null ? port : anotherPort);
 			connector.setTarget(first != null ? anotherPort : port);
-			
+
 			result.add(connector);
 		}
 		return result;

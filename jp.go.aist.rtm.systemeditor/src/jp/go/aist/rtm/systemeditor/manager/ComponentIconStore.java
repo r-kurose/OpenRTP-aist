@@ -182,13 +182,12 @@ public class ComponentIconStore {
 			path.toFile().createNewFile();
 		}
 		String xmlSplit[] = xml.split("\n");
-		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-				new FileOutputStream(path.toOSString()), "UTF-8"));
-		for (String s : xmlSplit) {
-			writer.write(s);
-			writer.newLine();
+		try( BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path.toOSString()), "UTF-8")) ) {
+			for (String s : xmlSplit) {
+				writer.write(s);
+				writer.newLine();
+			}
 		}
-		writer.close();
 	}
 
 	/** アイコン設定をプロファイル(XML)から読込 */

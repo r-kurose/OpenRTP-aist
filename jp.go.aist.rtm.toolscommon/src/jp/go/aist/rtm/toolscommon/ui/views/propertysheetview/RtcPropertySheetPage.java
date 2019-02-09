@@ -144,7 +144,7 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 
 	/**
 	 * 委譲
-	 * 
+	 *
 	 * @param selection
 	 */
 	public void handleEntrySelection(ISelection selection) {
@@ -153,7 +153,7 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 
 	/**
 	 * 委譲
-	 * 
+	 *
 	 * @param pageSite
 	 */
 	public void init(IPageSite pageSite) {
@@ -162,7 +162,7 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 
 	/**
 	 * 委譲
-	 * 
+	 *
 	 * @param menuManager
 	 * @param toolBarManager
 	 * @param statusLineManager
@@ -179,9 +179,9 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 	public void refresh() {
 		// defaultDelegate.refresh();
 	}
-	
+
 	private EObject prevComponent;
-	
+
 	/**
 	 * Rtcの場合だけ、特殊なページを表示するようにする
 	 * また、このページでは、RTC以外オブジェクトを触っても、それがIPropertySouceを持っていない場合には（Propertyiesページを表示できない場合には）RTCを表示し続ける。（これは、selectionChangedを無視することで実現している）
@@ -294,7 +294,6 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private EObject getDisplayObject(Object firstElement) {
 		for (Class displayClass : PropertysheetpageExtentionpoint
 				.getDisplayclassList()) {
@@ -308,7 +307,7 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 
 	/**
 	 * 委譲
-	 * 
+	 *
 	 * @param actionBars
 	 */
 	public void setActionBars(IActionBars actionBars) {
@@ -323,7 +322,7 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 
 	/**
 	 * 委譲
-	 * 
+	 *
 	 * @param newProvider
 	 */
 	public void setPropertySourceProvider(IPropertySourceProvider newProvider) {
@@ -331,7 +330,7 @@ public class RtcPropertySheetPage implements IPropertySheetPage,
 
 	/**
 	 * 委譲
-	 * 
+	 *
 	 * @param entry
 	 */
 	public void setRootEntry(IPropertySheetEntry entry) {

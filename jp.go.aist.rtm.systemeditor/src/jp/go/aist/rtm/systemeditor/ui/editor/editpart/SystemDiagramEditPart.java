@@ -52,7 +52,6 @@ public class SystemDiagramEditPart extends AbstractEditPart {
 				new SystemXYLayoutEditPolicy());
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	/**
 	 * {@inheritDoc}

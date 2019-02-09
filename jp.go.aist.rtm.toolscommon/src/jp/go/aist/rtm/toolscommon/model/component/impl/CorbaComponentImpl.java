@@ -16,6 +16,27 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EDataTypeEList;
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.ui.views.properties.IPropertySource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import RTC.ComponentProfile;
+import RTC.RTObject;
+import RTC.ReturnCode_t;
+import _SDOPackage.Configuration;
+import _SDOPackage.InternalError;
+import _SDOPackage.InvalidParameter;
+import _SDOPackage.NotAvailable;
+import _SDOPackage.Organization;
+import _SDOPackage.SDO;
 import jp.go.aist.rtm.toolscommon.factory.CorbaWrapperFactory;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
@@ -50,29 +71,6 @@ import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ReferenceMapping;
 import jp.go.aist.rtm.toolscommon.ui.propertysource.ComponentPropertySource;
 import jp.go.aist.rtm.toolscommon.util.SDOUtil;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EDataTypeEList;
-import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.ui.views.properties.IPropertySource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import RTC.ComponentProfile;
-import RTC.RTObject;
-import RTC.ReturnCode_t;
-import _SDOPackage.Configuration;
-import _SDOPackage.InternalError;
-import _SDOPackage.InvalidParameter;
-import _SDOPackage.NotAvailable;
-import _SDOPackage.Organization;
-import _SDOPackage.SDO;
 
 /**
  * <!-- begin-user-doc -->
@@ -1293,7 +1291,6 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		return false;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public java.lang.Object getAdapter(Class adapter) {
 		java.lang.Object result = null;
@@ -1306,7 +1303,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		}
 		return result;
 	}
-	
+
 	@Override
 	public boolean updateConfigurationSetR(ConfigurationSet configSet, boolean isActive) {
 		boolean result = false;
@@ -1320,7 +1317,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 				}
 			}
 			Configuration configuration = getSDOConfiguration();
-			_SDOPackage.ConfigurationSet sdoConfigurationSet = 
+			_SDOPackage.ConfigurationSet sdoConfigurationSet =
 				SDOUtil.createSdoConfigurationSet(configSet);
 			if (!exist) {
 				configuration.add_configuration_set(sdoConfigurationSet);
@@ -1345,7 +1342,7 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 	@Override
 	public String getComponentId() {
 		if (componentId != null) return componentId;
-		return "RTC:" + getVenderL() + ":" 
+		return "RTC:" + getVenderL() + ":"
 		+ getCategoryL() + ":"
 		+ getTypeNameL() + ":"
 		+ getVersionL();
@@ -2020,14 +2017,12 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 				},
 				new ManyReferenceMapping(ComponentPackage.eINSTANCE
 						.getComponent_ExecutionContexts()) {
-					@SuppressWarnings("unchecked")
 					@Override
 					public List getNewRemoteLinkList(LocalObject localObject) {
 						CorbaComponent component = (CorbaComponent) localObject;
 						return component.getRTCExecutionContexts();
 					}
 
-					@SuppressWarnings("unchecked")
 					@Override
 					public List getOldRemoteLinkList(LocalObject localObject) {
 						List<org.omg.CORBA.Object> result = new ArrayList<>();
@@ -2077,14 +2072,12 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 				},
 				new ManyReferenceMapping(ComponentPackage.eINSTANCE
 						.getComponent_ParticipationContexts()) {
-					@SuppressWarnings("unchecked")
 					@Override
 					public List getNewRemoteLinkList(LocalObject localObject) {
 						CorbaComponent component = (CorbaComponent) localObject;
 						return component.getRTCParticipationContexts();
 					}
 
-					@SuppressWarnings("unchecked")
 					@Override
 					public List getOldRemoteLinkList(LocalObject localObject) {
 						List<org.omg.CORBA.Object> result = new ArrayList<org.omg.CORBA.Object>();
@@ -2106,7 +2099,6 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 				},
 				new ManyReferenceMapping(ComponentPackage.eINSTANCE
 						.getComponent_Components()) {
-					@SuppressWarnings("unchecked")
 					@Override
 					public List getNewRemoteLinkList(LocalObject localObject) {
 						CorbaComponent component = (CorbaComponent) localObject;

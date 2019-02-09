@@ -194,7 +194,6 @@ public class CorbaConfigurationSetImpl extends ConfigurationSetImpl implements C
                                     .getCorbaConfigurationSet_SDOConfigurationSet()) }) {
             }, new AttributeMapping[] {new AttributeMapping(ComponentPackage.eINSTANCE
                     .getConfigurationSet_ConfigurationData(), true) {
-                @SuppressWarnings("unchecked")
 				@Override
                 public Object getRemoteAttributeValue(
                         LocalObject localObject, Object[] remoteObjects) {

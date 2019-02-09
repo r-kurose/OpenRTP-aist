@@ -19,7 +19,7 @@ import org.eclipse.ui.IViewPart;
 
 public class StartManagerAction implements IViewActionDelegate {
 	private NameServiceView view;
-	
+
 	private static String SCRIPT_WINDOWS = System.getenv("RTM_ROOT") + "bin" + Path.SEPARATOR + "rtcd-cxx-daemon.bat";
 	private static String SCRIPT_LINUX = "/usr/bin/rtcd";
 
@@ -44,26 +44,25 @@ public class StartManagerAction implements IViewActionDelegate {
 			targetManager.shutdownR();
 		}
 		/////
-		boolean isWindows = false; 
+		boolean isWindows = false;
 		String targetOS = System.getProperty("os.name").toLowerCase();
 		if(targetOS.toLowerCase().startsWith("windows")) {
 			isWindows = true;
 		}
-		
-		String target = "";
+
 		if(isWindows) {
 			try {
 				ProcessBuilder pb = new ProcessBuilder(SCRIPT_WINDOWS);
 				File dir = new File(System.getenv("RTM_ROOT") + "bin");
 				pb.directory(dir);
-				Process process = pb.start();
+				pb.start();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else {
 			try {
 				ProcessBuilder pb = new ProcessBuilder(SCRIPT_LINUX, "-d");
-				Process process = pb.start();
+				pb.start();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -74,16 +73,16 @@ public class StartManagerAction implements IViewActionDelegate {
 		String target = "";
 		String targetOS = System.getProperty("os.name").toLowerCase();
 		if(targetOS.toLowerCase().startsWith("windows")) {
-			target = SCRIPT_WINDOWS; 
+			target = SCRIPT_WINDOWS;
 		} else {
-			target = SCRIPT_LINUX; 
+			target = SCRIPT_LINUX;
 		}
 		File targetFile = new File(target);
 		if(targetFile.exists()==false) {
 			action.setEnabled(false);
 		}
 	}
-	
+
 	private void getAllItems(Tree tree, List<TreeItem> allItems) {
 	    for(TreeItem item : tree.getItems()) {
 	    	item.setExpanded(true);
@@ -98,5 +97,5 @@ public class StartManagerAction implements IViewActionDelegate {
 	        allItems.add(children[index]);
 	        getAllItems(children[index], allItems);
 	    }
-	}	
+	}
 }

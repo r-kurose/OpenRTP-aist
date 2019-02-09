@@ -54,8 +54,6 @@ import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
 
 
 public class NameServerAccesserTest {
-	@SuppressWarnings("unchecked")
-//	@Test
 	public void getFactoryProfiles() throws Exception {
 		NamingContextNode context = getNamingContext();
 		TreeIterator allContents = context.eAllContents();
@@ -76,8 +74,6 @@ public class NameServerAccesserTest {
 			}
 		}
 	}
-	@SuppressWarnings("unchecked")
-//	@Test
 	public void getComponentState() throws Exception {
 		NamingContextNode context = getNamingContext();
 		TreeIterator allContents = context.eAllContents();
@@ -100,7 +96,6 @@ public class NameServerAccesserTest {
 			}
 		}
 	}
-//	@Test
 	public void getConnectCompositeComponents() throws Exception {
 		CorbaComponentImpl consoleIn = findComponent("ConsoleIn0");
 		RTC.PortService[] outPorts = consoleIn.getCorbaObjectInterface().get_ports();
@@ -168,7 +163,6 @@ public class NameServerAccesserTest {
 		any.insert_string(value);
 		return any;
 	}
-	@SuppressWarnings("unchecked")
 	private RTCManagerImpl findManager() throws Exception {
 		NamingContextNode context = getNamingContext();
 		TreeIterator allContents = context.eAllContents();
@@ -183,7 +177,6 @@ public class NameServerAccesserTest {
 		}
 		return null;
 	}
-	@SuppressWarnings("unchecked")
 	private CorbaComponentImpl findComponent(String name) throws Exception{
 		NamingContextNode context = getNamingContext();
 		TreeIterator allContents = context.eAllContents();
@@ -675,7 +668,6 @@ public class NameServerAccesserTest {
 		return mappingRuleList.toArray(new MappingRule[mappingRuleList.size()]);
 	}
 
-	@SuppressWarnings("unchecked")
 	private static MappingRule createMappingRule(String mappingRuleValue) throws Exception {
 		int lastIndexOf = mappingRuleValue.lastIndexOf(".");
 

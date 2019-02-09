@@ -31,7 +31,7 @@ public class RTCManagerWrapper {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param manager
 	 *            ドメインモデル
 	 */
@@ -41,7 +41,7 @@ public class RTCManagerWrapper {
 
 	/**
 	 * マネージャを取得する
-	 * 
+	 *
 	 * @return マネージャのオブジェクト
 	 */
 	public EObject getManager() {
@@ -50,7 +50,7 @@ public class RTCManagerWrapper {
 
 	/**
 	 * マネージャを設定する
-	 * 
+	 *
 	 * @param manager
 	 *            マネージャのオブジェクト
 	 */
@@ -60,7 +60,7 @@ public class RTCManagerWrapper {
 
 	/**
 	 * 起動中コンポーネント名一覧の子オブジェクトを取得します。
-	 * 
+	 *
 	 * @return コンポーネント名一覧の子オブジェクト
 	 */
 	public Child getComponentsChild() {
@@ -69,7 +69,7 @@ public class RTCManagerWrapper {
 
 	/**
 	 * ロード可能モジュール名一覧の子オブジェクトを取得します。
-	 * 
+	 *
 	 * @return ロード可能モジュール名一覧の子オブジェクト
 	 */
 	public Child getLoadableModulesChild() {
@@ -78,7 +78,7 @@ public class RTCManagerWrapper {
 
 	/**
 	 * ロード済みモジュール名一覧の子オブジェクトを取得します。
-	 * 
+	 *
 	 * @return ロード済みモジュール名一覧の子オブジェクト
 	 */
 	public Child getLoadedModulesChild() {
@@ -98,7 +98,7 @@ public class RTCManagerWrapper {
 
 		/**
 		 * プロパティを追加します。
-		 * 
+		 *
 		 * @param id
 		 *            プロパティID
 		 * @param name
@@ -199,7 +199,7 @@ public class RTCManagerWrapper {
 
 		/**
 		 * この子オブジェクトの表示名を返します。
-		 * 
+		 *
 		 * @return 子オブジェクトの表示名(Components/Loadable Modules/Loaded Modules)
 		 */
 		public String getLabel() {
@@ -215,10 +215,9 @@ public class RTCManagerWrapper {
 
 		/**
 		 * この子オブジェクトのプロパティ・ソースを返します。
-		 * 
+		 *
 		 * @return プロパティ・ソース
 		 */
-		@SuppressWarnings("unchecked")
 		public IPropertySource getPropertySource() {
 			if (this.source != null) {
 				return this.source;
