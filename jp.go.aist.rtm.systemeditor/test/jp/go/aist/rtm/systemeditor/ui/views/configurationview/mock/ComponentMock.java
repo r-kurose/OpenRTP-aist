@@ -466,7 +466,7 @@ public class ComponentMock implements Component {
 			if (result.length() > 0) {
 				result += ",";
 			}
-			result += (String) values.get(i);
+			result += values.get(i);
 		}
 		nv.setValue(result);
 		return true;

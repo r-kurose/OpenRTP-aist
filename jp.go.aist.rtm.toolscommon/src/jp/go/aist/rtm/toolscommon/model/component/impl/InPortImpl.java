@@ -50,7 +50,6 @@ public class InPortImpl extends PortImpl implements InPort {
 		return false;
 	}
 
-	@SuppressWarnings("unchecked")
 	public java.lang.Object getAdapter(Class adapter) {
 		java.lang.Object result = null;
 		if (IPropertySource.class.equals(adapter)) {

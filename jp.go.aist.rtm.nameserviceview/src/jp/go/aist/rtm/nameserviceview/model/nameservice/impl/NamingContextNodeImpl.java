@@ -311,7 +311,6 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 				private NamingContext context;
 				private LocalObject localObject;
 
-				@SuppressWarnings("unchecked")
 				@Override
 				public List getNewRemoteLinkList(Object[] remoteObjects) {
 					context = (NamingContext) remoteObjects[0];
@@ -358,7 +357,6 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 					}
 				}
 
-				@SuppressWarnings("unchecked")
 				@Override
 				public List getOldRemoteLinkList(LocalObject localObject) {
 					this.localObject = localObject;
@@ -374,7 +372,6 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 					return result;
 				}
 
-				@SuppressWarnings("unchecked")
 				@Override
 				public LocalObject getLocalObjectByRemoteLink(
 						LocalObject parent, Object link) {

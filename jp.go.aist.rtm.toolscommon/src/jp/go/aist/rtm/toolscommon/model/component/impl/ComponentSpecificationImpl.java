@@ -347,13 +347,13 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 
 	@Override
 	public boolean addComponentsR(List<Component> componentList) {
-		return doAddComponents(componentList);			
+		return doAddComponents(componentList);
 	}
 
 	@Override
 	public boolean setComponentsR(List<Component> componentList) {
 		getComponents().clear();
-		return doAddComponents(componentList);			
+		return doAddComponents(componentList);
 	}
 
 	private boolean doAddComponents(List<Component> componentList) {
@@ -400,7 +400,6 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
 	private void removeByEqual(EList components, Component component) {
 		for (Iterator iterate = components.iterator(); iterate.hasNext();) {
 			if (iterate.next().equals(component)) iterate.remove();
@@ -440,7 +439,6 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 				Component.COMPOSITETYPE_GROUPING)) ;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public java.lang.Object getAdapter(Class adapter) {
 		java.lang.Object result = null;
@@ -494,7 +492,6 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 	private static ReferenceMapping[] getReferenceMappings() {
 		return new ReferenceMapping[] { new ManyReferenceMapping(
 				ComponentPackage.eINSTANCE.getComponent_Ports()) {
-			@SuppressWarnings("unchecked")
 			@Override
 			public void syncronizeLocal(LocalObject localObject) {
 				if (!(localObject instanceof ComponentSpecificationImpl)) {
@@ -504,10 +501,10 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 				if (!comp.inOnlineSystemDiagram() || !comp.isGroupingCompositeComponent()) {
 					return;
 				}
-				
+
 				// 子コンポーネントの生存確認を行う
 				comp.removeDeadChild();
-				
+
 				// ポートの更新を行う
 				// 新しいポートのリンクリスト
 				List<Port> newPorts = comp._getWrappedPorts();
@@ -543,7 +540,7 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 	public void synchronizeLocalReference() {
 		if (!inOnlineSystemDiagram()) return;
 		if (!isGroupingCompositeComponent()) return;
-		
+
 		for (ReferenceMapping refMap : getReferenceMappings()) {
 			try {
 				refMap.syncronizeLocal(this);

@@ -50,7 +50,6 @@ public class ServicePortImpl extends PortImpl implements ServicePort {
 		return target instanceof ServicePort;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public java.lang.Object getAdapter(Class adapter) {
 		java.lang.Object result = null;

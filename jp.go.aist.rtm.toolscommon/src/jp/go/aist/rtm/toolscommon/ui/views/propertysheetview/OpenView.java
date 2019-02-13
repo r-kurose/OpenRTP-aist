@@ -15,12 +15,11 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * 選択されたノードに適したビューに切り替えるためのクラス
- * 
+ *
  */
 public class OpenView {
 	private static final String EXTENTION_POINT_NAME = "openViews";
 
-	@SuppressWarnings("unchecked")
 	private static Map<Class, Map<String, String>> viewMap;
 
 	public static String getViewId(Object obj) {
@@ -34,7 +33,6 @@ public class OpenView {
 	 *            選択されたオブジェクト用のビューが複数ある場合の識別子
 	 * @return 選択されたオブジェクトの情報を表示させるビューのID
 	 */
-	@SuppressWarnings("unchecked")
 	public static String getViewId(Object obj, String kind) {
 		if (viewMap == null) {
 			buildViewMap();
@@ -71,7 +69,6 @@ public class OpenView {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
 	private static void buildViewMap() {
 		// 拡張ポイントがNULLとなったときは、「-clean」オプションで起動，
 		// もしくはworkspaceを切り替えて起動を行うことで対処する　2009.01.24

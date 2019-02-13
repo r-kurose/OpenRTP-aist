@@ -8,7 +8,6 @@ import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
  * ConstructorParamMappingsにマップ可能なリモートオブジェクトと対応する
  */
 public class ClassMapping {
-	@SuppressWarnings("unchecked")
 	private Class localClass;
 
 	private ConstructorParamMapping[] constructorParamMappings;
@@ -17,15 +16,14 @@ public class ClassMapping {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param localClass
 	 *            ローカルオブジェクトのクラス
 	 * @param remoteClass
 	 *            リモートオブジェクトのクラス
 	 * @param allowZombie ゾンビ（リモートオブジェクトが死んだ状態）でも存在させるか
-	 * 			
+	 *
 	 */
-	@SuppressWarnings("unchecked")
 	public ClassMapping(Class localClass,
 			ConstructorParamMapping[] constructorParamMappings,boolean allowZombie) {
 		this.localClass = localClass;
@@ -35,13 +33,12 @@ public class ClassMapping {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param localClass
 	 *            ローカルオブジェクトのクラス
 	 * @param remoteClass
 	 *            リモートオブジェクトのクラス
 	 */
-	@SuppressWarnings("unchecked")
 	public ClassMapping(Class localClass,
 			ConstructorParamMapping[] constructorParamMappings) {
 		this(localClass,constructorParamMappings,false);
@@ -52,7 +49,7 @@ public class ClassMapping {
 	 * <p>
 	 * リモートオブジェクトと親ローカルオブジェクト、およびリンクから、 このクラスマッピングが関連づいたマッピングであるかどうか判断する。<br>
 	 * CORBAオブジェクトの場合、narrowして比較する必要があるため、オーバーライドすること。
-	 * 
+	 *
 	 * @param parent
 	 *            親のローカルオブジェクト
 	 * @param remoteObjects
@@ -60,7 +57,6 @@ public class ClassMapping {
 	 *            関連をあらわすリンク(リモートオブジェクト自体であることが多い)
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public boolean isTarget(LocalObject parent, Object[] remoteObjects,
 			java.lang.Object link) {
 		for (int i = 0; i < remoteObjects.length; i++) {
@@ -74,7 +70,7 @@ public class ClassMapping {
 
 	/**
 	 * リモートオブジェクトから、ローカルオブジェクトを作成する。
-	 * 
+	 *
 	 * @param parent
 	 *            親のローカルオブジェクト
 	 * @param remoteObjects
@@ -102,7 +98,7 @@ public class ClassMapping {
 
 	/**
 	 * ローカルオブジェクトのクラス
-	 * 
+	 *
 	 * @return ローカルオブジェクトのクラス
 	 */
 	public Class<?> getLocalClass() {
@@ -111,7 +107,7 @@ public class ClassMapping {
 
 	/**
 	 * narrowする
-	 * 
+	 *
 	 * @param remoteObjects
 	 * @return
 	 */
@@ -121,7 +117,7 @@ public class ClassMapping {
 
 	/**
 	 * ConstructorParamMappingを取得する
-	 * 
+	 *
 	 * @return
 	 */
 	public ConstructorParamMapping[] getConstructorParamMappings() {

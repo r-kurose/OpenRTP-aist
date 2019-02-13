@@ -33,7 +33,6 @@ public class ComponentTest {
 		assertEquals("ConsoleIn0.out", exportedPorts.get(0));
 		assertEquals("MyServiceConsumer0.service", exportedPorts.get(1));
 	}
-	@SuppressWarnings("unchecked")
 	private ConfigurationSet createConfigutationSet() {
 		ConfigurationSet result = ComponentFactory.eINSTANCE.createConfigurationSet();
 		result.getConfigurationData().add(createNameValue());

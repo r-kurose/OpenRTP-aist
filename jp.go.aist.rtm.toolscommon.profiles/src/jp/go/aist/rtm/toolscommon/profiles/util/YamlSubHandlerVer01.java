@@ -168,7 +168,7 @@ public class YamlSubHandlerVer01 {
 					}
 					if( isActionAdded ) profile.setActions(actions);
 				}
-			
+
 				//Data Ports
 				List dataPortListY = (List)profileY.get("dataPorts");
 				if( dataPortListY != null ) {
@@ -216,7 +216,7 @@ public class YamlSubHandlerVer01 {
 									docconfig.setDescription((String)configDocY.get("description"));
 									docconfig.setRange((String)configDocY.get("range"));
 									docconfig.setUnit((String)configDocY.get("unit"));
-									
+
 									config.setDoc(docconfig);
 								}
 								//Properties
@@ -237,7 +237,7 @@ public class YamlSubHandlerVer01 {
 						profile.setConfigurationSet(configset);
 					}
 				}
-					
+
 				//Parameter
 				List paramsInfoY = (List)profileY.get("parameters");
 				if( paramsInfoY != null ) {
@@ -281,7 +281,6 @@ public class YamlSubHandlerVer01 {
 		return profile;
 	}
 
-	@SuppressWarnings("unchecked")
 	private void createTargetEnv(ObjectFactory factory, LanguageExt language, Map langInfoY) {
 		TargetEnvironment env = factory.createTargetEnvironment();
 		env.setOs((String)langInfoY.get("os"));
@@ -297,7 +296,6 @@ public class YamlSubHandlerVer01 {
 		language.getTargets().add(env);
 	}
 
-	@SuppressWarnings("unchecked")
 	private XMLGregorianCalendar createDateTimeFromYaml(Map dateY) {
 		return XMLGregorianCalendarImpl.createDateTime(
 				((Integer)dateY.get("year")).intValue(),
@@ -307,8 +305,7 @@ public class YamlSubHandlerVer01 {
 				((Integer)dateY.get("minute")).intValue(),
 				((Integer)dateY.get("second")).intValue() );
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	private ActionStatusDoc createActionFromYaml(Map actionY) {
 		ObjectFactory factory = new ObjectFactory();
 		ActionStatusDoc actionStatus = factory.createActionStatusDoc();
@@ -330,7 +327,6 @@ public class YamlSubHandlerVer01 {
 		return actionStatus;
 	}
 
-	@SuppressWarnings("unchecked")
 	private DataportExt createDataPortFromYaml(Map yamlMap) {
 		ObjectFactory factory = new ObjectFactory();
 		DataportExt dataport = factory.createDataportExt();
@@ -373,8 +369,7 @@ public class YamlSubHandlerVer01 {
 		//
 		return dataport;
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	private ServiceportExt createServicePortFromYaml(Map yamlMap) {
 		ObjectFactory factory = new ObjectFactory();
 		ServiceportExt serviceport = factory.createServiceportExt();
@@ -403,7 +398,7 @@ public class YamlSubHandlerVer01 {
 				}
 			}
 		}
-		
+
 		//Service Interface
 		List interfacesY = (List)yamlMap.get("serviceInterface");
 		if( interfacesY != null ) {

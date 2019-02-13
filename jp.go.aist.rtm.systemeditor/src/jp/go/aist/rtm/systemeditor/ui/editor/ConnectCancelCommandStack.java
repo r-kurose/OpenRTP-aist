@@ -18,12 +18,10 @@ import org.eclipse.gef.commands.CommandStackListener;
  *
  */
 public class ConnectCancelCommandStack extends CommandStack {
-	@SuppressWarnings("unchecked")
 	private Stack undoable = new Stack();
 
 	private int saveLocation = 0;
 
-	@SuppressWarnings("unchecked")
 	private Stack redoable = new Stack();
 
 	/**
@@ -36,7 +34,7 @@ public class ConnectCancelCommandStack extends CommandStack {
 	}
 	/**
 	 * Executes the specified Command if possible. Prior to executing the command, a
-	 * CommandStackEvent for {@link #PRE_EXECUTE} will be fired to event listeners. 
+	 * CommandStackEvent for {@link #PRE_EXECUTE} will be fired to event listeners.
 	 * Similarly, after attempting to execute the command, an event for {@link #POST_EXECUTE}
 	 * will be fired.  If the execution of the command completely normally,  stack listeners
 	 * will receive {@link CommandStackListener#commandStackChanged(EventObject) stackChanged}
@@ -81,7 +79,7 @@ public class ConnectCancelCommandStack extends CommandStack {
 			ReconnectConnectorCommand connectCommand = (ReconnectConnectorCommand) command;
 			if (!connectCommand.getResult()) return;
 		}
-		
+
 		undoable.push(command);
 	}
 
@@ -117,7 +115,7 @@ public class ConnectCancelCommandStack extends CommandStack {
 	public Command getRedoCommand() {
 		return redoable.isEmpty() ? null : (Command)redoable.peek();
 	}
-	
+
 	/**
 	 * Peeks at the top of the <i>undo</i> stack. This is useful for describing to the User
 	 * what will be undone. The returned <code>Command</code> has a label describing it.
@@ -187,7 +185,7 @@ public class ConnectCancelCommandStack extends CommandStack {
 	/**
 	 * Returns true if the stack is dirty. The stack is dirty whenever the last executed or
 	 * redone command is different than the command that was at the top of the undo stack when
-	 * {@link #markSaveLocation()} was last called. 
+	 * {@link #markSaveLocation()} was last called.
 	 * @return <code>true</code> if the stack is dirty
 	 */
 	public boolean isDirty() {

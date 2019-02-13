@@ -186,26 +186,26 @@ public class CompositeOfflineLoadTest extends TestCase {
 		assertEquals(5, component.getPorts().size());
 		verifyPort("CameraComponent_1.ImageData"
 				, "{componentId:RTC:Sample Vender.example.CameraComponent:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.CameraComponent_1.0.0.xml:1,instanceName:CameraComponent_1,portName:CameraComponent_1.ImageData}"
-				, (Port) component.getPorts().get(0)
+				, component.getPorts().get(0)
 				, new String[]{});
 		verifyPort("CameraComponent_1.CapPORT"
 				, "{componentId:RTC:Sample Vender.example.CameraComponent:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.CameraComponent_1.0.0.xml:1,instanceName:CameraComponent_1,portName:CameraComponent_1.CapPORT}"
-				, (Port) component.getPorts().get(1)
+				, component.getPorts().get(1)
 				, new String[]{"9b4074b4-29b5-4a22-9956-22070915ef25"});
 		verifyPort("ImageProcess_1.Out"
 				, "{componentId:RTC:Sample Vender.example.ImageProcess:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageProcess_1.0.0.xml:1,instanceName:ImageProcess_1,portName:ImageProcess_1.Out}"
-				, (Port) component.getPorts().get(2)
+				, component.getPorts().get(2)
 				, new String[]{});
 		verifyPort("ImageProcess_1.In"
 				, "{componentId:RTC:Sample Vender.example.ImageProcess:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageProcess_1.0.0.xml:1,instanceName:ImageProcess_1,portName:ImageProcess_1.In}"
-				, (Port) component.getPorts().get(3)
+				, component.getPorts().get(3)
 				, new String[]{});
 		verifyPort("ImageProcess_1.CapPORT"
 				, "{componentId:RTC:Sample Vender.example.ImageProcess:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageProcess_1.0.0.xml:1,instanceName:ImageProcess_1,portName:ImageProcess_1.CapPORT}"
-				, (Port) component.getPorts().get(4)
+				, component.getPorts().get(4)
 				, new String[]{});
 		assertEquals(1, component.getConfigurationSets().size());
-		verifyConfigSet((jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet) component.getConfigurationSets().get(0));
+		verifyConfigSet(component.getConfigurationSets().get(0));
 		EList components = component.getComponents();
 		assertEquals(2, components.size());
 //		assertEquals(diagram.getComponents().get(0), components.get(0));
@@ -270,11 +270,11 @@ public class CompositeOfflineLoadTest extends TestCase {
 		assertEquals(2, component.getPorts().size());
 		verifyPort("ImageViewer_1.ImageDataIn"
 				, "{componentId:RTC:Sample Vender.example.ImageViewer:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageViewer_1.0.0.xml:1,instanceName:ImageViewer_1,portName:ImageViewer_1.ImageDataIn}"
-				, (Port) component.getPorts().get(0)
+				, component.getPorts().get(0)
 				, new String[]{});
 		verifyPort("ImageViewer_1.CapPORT"
 				, "{componentId:RTC:Sample Vender.example.ImageViewer:1.0.0,pathId:file://localhost/C:\\RTSystemEditor\\rsmtj\\RTC_Sample Vender.example.ImageViewer_1.0.0.xml:1,instanceName:ImageViewer_1,portName:ImageViewer_1.CapPORT}"
-				, (Port) component.getPorts().get(1)
+				, component.getPorts().get(1)
 				, new String[]{"9b4074b4-29b5-4a22-9956-22070915ef25"});
 		assertEquals(0, component.getConfigurationSets().size());
 		verifyLocation("LEFT", 495, 160, component);
@@ -285,7 +285,7 @@ public class CompositeOfflineLoadTest extends TestCase {
 		assertEquals(originalPortString, port.getOriginalPortString());
 		assertEquals(connectorIds.length, port.getConnectorProfiles().size());
 		for (int i = 0; i < connectorIds.length; i++) {
-			ConnectorProfile connectorProfile = (ConnectorProfile) port.getConnectorProfiles().get(i);
+			ConnectorProfile connectorProfile = port.getConnectorProfiles().get(i);
 			assertEquals(connectorIds[i], connectorProfile.getConnectorId());
 		}
 	}
@@ -293,7 +293,7 @@ public class CompositeOfflineLoadTest extends TestCase {
 	private void verifyConfigSet(jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet configSet) {
 		assertEquals("default", configSet.getId());
 		assertEquals(1, configSet.getConfigurationData().size());
-		NameValue nv = (NameValue) configSet.getConfigurationData().get(0);
+		NameValue nv = configSet.getConfigurationData().get(0);
 		assertEquals("CameraComponent_1.ImageData,CameraComponent_1.CapPORT,ImageProcess_1.In,ImageProcess_1.Out,ImageProcess_1.CapPORT"
 				, nv.getValueAsString());
 		assertEquals("exported_ports", nv.getName());

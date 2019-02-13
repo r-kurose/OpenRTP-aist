@@ -163,7 +163,7 @@ public class CompositeComponentView extends ViewPart {
 		typeText.setLayoutData(gd);
 		typeText.setEditable(false);
 		typeText.setBackground(colorRegistry.get(COLOR_WHITE));
-	
+
 		final Composite listComposite = new Composite(composite, SWT.FILL);
 		gl = new GridLayout();
 		gl.marginWidth = 0;
@@ -215,7 +215,7 @@ public class CompositeComponentView extends ViewPart {
 		final TableColumn portCol = new TableColumn(portTable, SWT.NONE);
 		portCol.setText("port");
 		portCol.setWidth(200);
-	
+
 		final Composite execButtonComposite = new Composite(composite, SWT.NONE);
 		gl = new GridLayout();
 		gd = new GridData();
@@ -343,7 +343,6 @@ public class CompositeComponentView extends ViewPart {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void refreshData() {
 		nameText.setText("");
 		typeText.setText("");
@@ -411,7 +410,7 @@ public class CompositeComponentView extends ViewPart {
 		boolean isTarget = false;
 
 		boolean isModified = false;
-		
+
 		boolean isRequired() {
 			return requiredExportedPorts.contains(toConfigString());
 		}
@@ -529,7 +528,6 @@ public class CompositeComponentView extends ViewPart {
 	}
 
 	private ISelectionListener selectionListener = new ISelectionListener() {
-		@SuppressWarnings("unchecked")
 		public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 			targetComponent = null;
 			targetPort = null;

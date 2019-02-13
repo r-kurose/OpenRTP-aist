@@ -14,7 +14,6 @@ import org.eclipse.jface.viewers.Viewer;
  */
 public class ArrayContentProvider implements ITreeContentProvider {
 
-	@SuppressWarnings("unchecked")
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof List) {
 			List list = (List)parentElement;
@@ -28,7 +27,7 @@ public class ArrayContentProvider implements ITreeContentProvider {
 
 		return ((RepositoryViewItem)element).getParent();
 	}
-	
+
 	public boolean hasChildren(Object element) {
 	    //(自分内にディレクトリがあるかどうか)
 	    return getChildren(element).length > 0;
@@ -39,11 +38,11 @@ public class ArrayContentProvider implements ITreeContentProvider {
 	}
 
 	public void dispose() {
-		
+
 	}
 
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		
+
 	}
 
 }

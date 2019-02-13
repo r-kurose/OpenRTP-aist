@@ -33,7 +33,6 @@ public class KillZombiesAction implements IViewActionDelegate {
 
 	public void run(IAction action) {
 		Job job = new Job(KILL_ZOMLIES_TITLE) {
-			@SuppressWarnings("unchecked")
 			protected IStatus run(IProgressMonitor monitor) {
 
 				monitor.beginTask(KILL_ZOMLIES_START, 100);

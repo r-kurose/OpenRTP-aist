@@ -87,7 +87,6 @@ public class ModelElementImpl extends EObjectImpl implements ModelElement {
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 */
-	@SuppressWarnings("unchecked")
 	public void accept(Visiter visiter) {
 		visiter.visit(this);
 		for (Object obj : eContents()) {
