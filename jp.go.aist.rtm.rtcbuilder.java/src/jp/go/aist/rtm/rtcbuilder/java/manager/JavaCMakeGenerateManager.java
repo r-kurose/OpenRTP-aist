@@ -63,7 +63,7 @@ public class JavaCMakeGenerateManager extends CMakeGenerateManager {
 		String infile = "cmake/CMakeLists.txt.vsl";
 		return generateJava(infile, outfile, contextMap);
 	}
-	
+
 	public GeneratedResult generateModulesJavaCompile(
 			Map<String, Object> contextMap) {
 		String outfile = "cmake_modules/cmake_javacompile.cmake.in";
@@ -75,7 +75,7 @@ public class JavaCMakeGenerateManager extends CMakeGenerateManager {
 	public GeneratedResult generateDocCMakeLists(Map<String, Object> contextMap) {
 		return new GeneratedResult();
 	}
-	
+
 	@Override
 	public GeneratedResult generateDocConfPy(Map<String, Object> contextMap) {
 		return new GeneratedResult();
@@ -95,12 +95,12 @@ public class JavaCMakeGenerateManager extends CMakeGenerateManager {
 	public GeneratedResult generateIncludeCMakeLists(Map<String, Object> contextMap) {
 		return new GeneratedResult();
 	}
-	
+
 	@Override
 	public GeneratedResult generateIncModuleCMakeLists(Map<String, Object> contextMap) {
 		return new GeneratedResult();
 	}
-	
+
 	@Override
 	public GeneratedResult generateDocIndex(Map<String, Object> contextMap) {
 		return new GeneratedResult();
@@ -117,11 +117,9 @@ public class JavaCMakeGenerateManager extends CMakeGenerateManager {
 		try {
 			String template = TEMPLATE_PATH_JAVA + "/" + infile;
 			ClassLoader cl = Thread.currentThread().getContextClassLoader();
-			InputStream ins = cl.getResourceAsStream(template);
-			GeneratedResult gr = TemplateUtil.createGeneratedResult(ins,
-					contextMap, outfile);
-			if (ins != null) {
-				ins.close();
+			GeneratedResult gr = null;
+			try(InputStream ins = cl.getResourceAsStream(template) ) {
+				gr = TemplateUtil.createGeneratedResult(ins, contextMap, outfile);
 			}
 			return gr;
 		} catch (Exception e) {

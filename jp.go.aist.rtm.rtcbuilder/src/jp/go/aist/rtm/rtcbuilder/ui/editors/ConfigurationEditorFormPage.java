@@ -94,12 +94,12 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 	private String[] defaultTypeList = {"short", "int", "long", "float", "double", "string"};
 	private String[] defaultParamNameList;
 	private String[] defaultParamDefaultList;
-	
+
 	private Composite configurationParameterSectionComposite;
-	
+
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param editor
 	 *            親のエディタ
 	 */
@@ -136,7 +136,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		createHintSection(toolkit, form);
 		createDetailSection(toolkit, form);
 		configurationProfileTableViewer = createConfigurationParameterSection(toolkit, form);
-		
+
 		// 言語・環境ページより先にこのページが表示された場合、ここで言語を判断する
 		editor.setEnabledInfoByLang();
 
@@ -144,9 +144,9 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	private void createDetailSection(FormToolkit toolkit, ScrolledForm form) {
-		Composite composite = createSectionBaseWithLabel(toolkit, form, 
+		Composite composite = createSectionBaseWithLabel(toolkit, form,
 				"Detail", IMessageConstants.CONFIGURATION_DETAIL_EXPL, 2);
-		
+
 		parametertNameDetailText = createLabelAndText(toolkit, composite,
 				IMessageConstants.CONFIGURATION_LBL_PARAMNAME, SWT.BORDER);
 		parametertNameDetailText.setEditable(false);
@@ -173,7 +173,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 				widgetItems);
 		stepText = createLabelAndText(toolkit, detailGroup,
 				IMessageConstants.CONFIGURATION_LBL_STEP, SWT.BORDER);
-		
+
 		widgetCombo.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
@@ -214,7 +214,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	private TableViewer createConfigurationSetSection(FormToolkit toolkit, ScrolledForm form) {
-		Composite composite = createSectionBaseWithLabel(toolkit, form, 
+		Composite composite = createSectionBaseWithLabel(toolkit, form,
 				IMessageConstants.CONFIGURATION_SET_TITLE, IMessageConstants.CONFIGURATION_SET_EXPL, 3);
 		//
 		final TableViewer configSetTableViewer = createTableViewer(toolkit,	composite);
@@ -278,7 +278,6 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 	private Button createConfigDeleteButton(FormToolkit toolkit, final TableViewer configSetTableViewer, Composite buttonComposite) {
 		Button deleteButton = toolkit.createButton(buttonComposite, "Delete", SWT.PUSH);
 		deleteButton.addSelectionListener(new SelectionAdapter() {
-			@SuppressWarnings("unchecked")
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int selectionIndex = configSetTableViewer.getTable()
@@ -332,9 +331,9 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		createHintLabel(IMessageConstants.CONFIGURATION_HINT_WIDGET_TITLE, IMessageConstants.CONFIGURATION_HINT_WIDGET_DESC, toolkit, composite);
 		createHintLabel(IMessageConstants.CONFIGURATION_HINT_STEP_TITLE, IMessageConstants.CONFIGURATION_HINT_STEP_DESC, toolkit, composite);
 	}
-	
+
 	private TableViewer createConfigurationParameterSection(FormToolkit toolkit, ScrolledForm form) {
-		configurationParameterSectionComposite = createSectionBaseWithLabel(toolkit, form, 
+		configurationParameterSectionComposite = createSectionBaseWithLabel(toolkit, form,
 				IMessageConstants.CONFIGURATION_PARAMETER_TITLE, IMessageConstants.CONFIGURATION_PARAMETER_EXPL, 3);
 		//
 		final TableViewer configParameterTableViewer = createTableViewer(toolkit,	configurationParameterSectionComposite);
@@ -374,7 +373,6 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		Button deleteButton = toolkit.createButton(
 				buttonComposite, "Delete", SWT.PUSH);
 		deleteButton.addSelectionListener(new SelectionAdapter() {
-			@SuppressWarnings("unchecked")
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int selectionIndex = configParameterTableViewer.getTable()
@@ -431,7 +429,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 	private void setDocumentContents() {
 		setContents(preSelection);
 	}
-	
+
 	public void update() {
 		setContents(selectParam);
 		editor.updateDirty();
@@ -455,7 +453,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 			target.setDocConstraint(StringUtil.getDocText(constraintText.getText()));
 		}
 	}
-	
+
 	private void clearText() {
 		//
 		parametertNameDetailText.setText("");
@@ -497,9 +495,9 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		String result = null;
 
 		RtcParam rtcParam = editor.getRtcParam();
-		Set<String> checkSet = new HashSet<String>(); 
-		Set<String> checkVarSet = new HashSet<String>(); 
-		
+		Set<String> checkSet = new HashSet<String>();
+		Set<String> checkVarSet = new HashSet<String>();
+
 		for(ConfigSetParam config : rtcParam.getConfigParams()) {
 			result = ValidationUtil.validateConfigurationSet(config);
 			if( result!=null ) return result;
@@ -525,15 +523,15 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
-		
+
 		/**
 		 * {@inheritDoc}
 		 */
 		public String getColumnText(Object element, int columnIndex) {
 			if (element instanceof ConfigSetParam == false) return null;
-		
+
 			ConfigSetParam configSetParam = (ConfigSetParam) element;
-		
+
 			String result = null;
 			if (columnIndex == 0) {
 				result = configSetParam.getName();
@@ -542,7 +540,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 			} else if (columnIndex == 2) {
 				result = configSetParam.getDefaultVal();
 			}
-		
+
 			return result;
 		}
 	}
@@ -561,14 +559,14 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 				newDefaultTypeList[defaultTypeList.length-1] = newValue;
 				newDefaultTypeList[defaultTypeList.length] = "";
 			}
-			
+
 			defaultTypeList = newDefaultTypeList;
-			
+
 			typeCombo.setItems(defaultTypeList);
 		}
 		return index;
 	}
-	
+
 	private int searchIndex(String[] sources, String target) {
 		for(int intIdx=0;intIdx<sources.length;intIdx++) {
 			if( target.equals(sources[intIdx]) )
@@ -615,7 +613,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 			update();
 		}
 	}
-	
+
 	private class ConfigParamLabelProvider extends LabelProvider implements
 			ITableLabelProvider {
 
@@ -632,14 +630,14 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 			clearText();
 
 			ConfigParameterParam configProfileParam = (ConfigParameterParam) element;
-		
+
 			String result = null;
 			if (columnIndex == 0) {
 				result = configProfileParam.getConfigName();
 			} else if (columnIndex == 1) {
 				result = configProfileParam.getDefaultVal();
 			}
-		
+
 			return result;
 		}
 	}
@@ -660,7 +658,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 				editor = new TextCellEditor(((TableViewer) viewer).getTable());
 			}
 			this.column = column;
-			
+
 		}
 
 		@Override
@@ -719,7 +717,7 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 			getViewer().update(element, null);
 			getEditor().editorDirtyStateChanged();
 		}
-		
+
 		private int updateDefaultConfigNameList(String newValue){
 			int index = searchIndex(defaultParamNameList, newValue);
 			if( index == defaultParamNameList.length ){
@@ -729,15 +727,15 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 					newDefaultTypeList[i] = defaultParamNameList[i];
 				}
 				newDefaultTypeList[defaultParamNameList.length] = newValue;
-				
+
 				defaultParamNameList = newDefaultTypeList;
-				
+
 				((CCombo)this.editor.getControl()).setItems(defaultParamNameList);
 			}
 			return index;
 		}
 	}
-	
+
 	/**
 	 * Configurationフォーム内の要素の有効/無効を設定します。
 	 * <ul>
@@ -802,5 +800,5 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 			return value;
 		}
 	}
-	
+
 }

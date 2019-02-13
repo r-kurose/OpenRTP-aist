@@ -82,7 +82,6 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	//
 	private String outputProject = null;
 
-	@SuppressWarnings("unchecked")
 	private Map extentionData = new HashMap();
 
 	private List<IdlFileParam> providerIdlPathes = new ArrayList<IdlFileParam>();
@@ -500,7 +499,6 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		this.doc_reference = reference;
 	}
 
-	@SuppressWarnings("unchecked")
 	public String getLangageListArgString() {
 		StringBuffer result = new StringBuffer();
 		for (Iterator iter = langArgList.iterator(); iter.hasNext();) {
@@ -513,7 +511,6 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		return result.toString();
 	}
 
-	@SuppressWarnings("unchecked")
 	public static String getLangageListString(List langList) {
 		StringBuffer result = new StringBuffer();
 		for (Iterator iter = langList.iterator(); iter.hasNext();) {
@@ -535,7 +532,6 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		this.outputProject = outputDirectory;
 	}
 
-	@SuppressWarnings("unchecked")
 	public Map getExtentionData() {
 		return extentionData;
 	}

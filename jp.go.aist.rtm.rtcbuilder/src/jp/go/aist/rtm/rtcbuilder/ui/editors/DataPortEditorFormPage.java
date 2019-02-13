@@ -209,7 +209,6 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 
 		Button reloadButton = toolkit.createButton(detailGroup, "ReLoad", SWT.PUSH);
 		reloadButton.addSelectionListener(new SelectionAdapter() {
-			@SuppressWarnings("unchecked")
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				defaultTypeList = extractDataTypes();
@@ -306,7 +305,6 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		//
 		Button deleteButton = toolkit.createButton(buttonComposite, "Delete", SWT.PUSH);
 		deleteButton.addSelectionListener(new SelectionAdapter() {
-			@SuppressWarnings("unchecked")
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int selectionIndex = portParamTableViewer.getTable()

@@ -12,7 +12,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 public class ServiceReferenceParam implements Serializable {
 
 	private static final long serialVersionUID = 1332906915261506985L;
-	
+
 	private String interfaceName;
 	private String name;
 	private String type;
@@ -58,7 +58,6 @@ public class ServiceReferenceParam implements Serializable {
 		this.parent = rtcParam;
 	}
 
-	@SuppressWarnings("unchecked")
 	public ServiceClassParam getServiceClassParam() {
 		ServiceClassParam result = null;
 		for (Iterator iter = getParent().getServiceClassParams()

@@ -86,9 +86,9 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	private RtcXmlEditorFormPage rtcXmlFormPage;
 	private DocumentEditorFormPage documentFormPage;
 	private ActivityEditorFormPage activityFormPage;
-	
+
 	private Map<Integer, AbstractCustomFormPage> customFormPages;
-	
+
 	//
 	private List<GenerateManager> managerList = null;
 
@@ -101,20 +101,19 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 			}
 		}
 	};
-	
+
 	public RtcBuilderEditor() {
 	}
 
-	private IEditorInput load(IEditorInput input, IEditorSite site)
-			throws PartInitException {
+	private IEditorInput load(IEditorInput input, IEditorSite site) {
 
 		IEditorInput result = input;
-		
+
 		FileEditorInput fileEditorInput = ((FileEditorInput) result);
 		try {
 			ProfileHandler handler = new ProfileHandler();
 			generatorParam = handler.restorefromXMLFile(fileEditorInput.getPath().toOSString());
-			
+
 			if( buildview==null ) buildview = ComponentFactory.eINSTANCE.createBuildView();
 			updateEMFModuleName(this.getRtcParam().getName());
 			updateEMFDataPorts(
@@ -144,15 +143,15 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 
 		return result;
 	}
-	
+
 	private void setOnInitialize() {
 		RtcParam param  = generatorParam.getRtcParam();
 		param.setActionImplemented(IRtcBuilderConstants.ACTIVITY_INITIALIZE, true);
 	}
-	
+
 	public void loadNewData(RtcParam param) {
 		this.generatorParam.setRtcParam(param);
-		
+
 		title = "RtcBuilder";
 		if( buildview==null ) buildview = ComponentFactory.eINSTANCE.createBuildView();
 		updateEMFModuleName(this.getRtcParam().getName());
@@ -163,7 +162,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		if( basicFormPage != null )	 basicFormPage.load();
 		allPagesReLoad();
 //		dataPortFormPage.reDraw();
-		
+
 		updateDirty();
 	}
 
@@ -196,7 +195,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		generatorParam.setRtcParam(rtcParam);
 		buildview = ComponentFactory.eINSTANCE.createBuildView();
 	}
-	
+
 	@Override
 	/**
 	 * {@inheritDoc}
@@ -217,7 +216,6 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		return new FormToolkit(getSite().getShell().getDisplay());
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void addPages() {
 		try {
@@ -331,7 +329,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		//
 		customPagesOperation("load");
 	}
-	
+
 	protected void allUpdates(){
 		basicFormPage.update();
 		dataPortFormPage.updateForOutput();
@@ -347,11 +345,11 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	protected void addDefaultComboValue(){
 		basicFormPage.addDefaultComboValue();
 	}
-	
+
 	public void updateDataTypes() {
 		if( dataPortFormPage != null ) dataPortFormPage.updateDefaultValue();
 	}
-	
+
 	public void updatePages() {
 		if( activityFormPage != null ) activityFormPage.load();
 	}
@@ -408,7 +406,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 						getSite().getShell(),
 						ex.getMessage(),
     					IMessageConstants.PROFILE_VALIDATE_ERROR_MESSAGE + System.getProperty("line.separator") + ex.getCause().toString()
-    				); 
+    				);
     			if( !result ) {
     				RtcBuilderPlugin.getDefault().setCanExit(false);
     				return;// 「いいえ」のときは保存しない
@@ -433,7 +431,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 					"The current model could not be saved.");
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -442,7 +440,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 
 	/**
 	 * {@inheritDoc}
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	private void save(IFile file, IProgressMonitor progressMonitor, boolean blnRtcXml)
 			throws Exception {
@@ -462,7 +460,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		}
 		progressMonitor.worked(15);
 		//
-		
+
 		IProject projectHandle = file.getProject();
 		try {
 			IFile rtcxml = projectHandle.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML);
@@ -587,7 +585,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	public BuildView getEMFmodel() {
 		return buildview;
 	}
-	
+
 	public void updateEMFModuleName(String name) {
 		((Component)buildview.getComponents().get(0)).setComponent_Name(name);
 	}
@@ -599,7 +597,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		updateEMFDataOutPorts(dataOutPorts);
 		updateEMFServiceOutPorts(servicePorts);
 	}
-	
+
 	private void updateEMFDataInPorts(List<DataPortParam> dataInPorts) {
 		((Component)buildview.getComponents().get(0)).clearDataInports();
 		for(int intIdx=0; intIdx<dataInPorts.size();intIdx++ ) {

@@ -219,11 +219,9 @@ public class CXXGenerateManager extends GenerateManager {
 		try {
 			String template = TEMPLATE_PATH + "/" + infile;
 			ClassLoader cl = Thread.currentThread().getContextClassLoader();
-			InputStream ins = cl.getResourceAsStream(template);
-			GeneratedResult gr = TemplateUtil.createGeneratedResult(ins,
-					contextMap, outfile);
-			if (ins != null) {
-				ins.close();
+			GeneratedResult gr = null;
+			try( InputStream ins = cl.getResourceAsStream(template) ) {
+				gr = TemplateUtil.createGeneratedResult(ins, contextMap, outfile);
 			}
 			return gr;
 		} catch (Exception e) {

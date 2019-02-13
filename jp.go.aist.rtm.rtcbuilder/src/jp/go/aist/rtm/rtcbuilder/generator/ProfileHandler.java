@@ -67,14 +67,13 @@ public class ProfileHandler {
 	public GeneratorParam restorefromXMLFile(String filePath, boolean isDirect) throws Exception {
 		GeneratorParam generatorParam = null;
 		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), "UTF-8"));
-			String tmp_str = null;
 			StringBuffer tmp_sb = new StringBuffer();
-		    while((tmp_str = br.readLine()) != null){
-		    	tmp_sb.append(tmp_str + "\r\n");
-		    }
-		    br.close();
-
+			try( BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), "UTF-8")) ) {
+				String tmp_str = null;
+			    while((tmp_str = br.readLine()) != null){
+			    	tmp_sb.append(tmp_str + "\r\n");
+			    }
+			}
 		    XmlHandler handler = new XmlHandler();
 		    RtcProfile profile = handler.restoreFromXmlRtc(tmp_sb.toString());
 
@@ -134,16 +133,15 @@ public class ProfileHandler {
 		XmlHandler handler = new XmlHandler();
 
 		String xmlString = handler.convertToXmlRtc(profile);
-		BufferedWriter outputFile = new BufferedWriter(
-				new OutputStreamWriter(new FileOutputStream(filePath), "UTF-8"));
-		String lineSeparator = System.getProperty( "line.separator" );
-		if( lineSeparator==null || lineSeparator.equals("") ) lineSeparator = "\n";
-		String splitStr[] = xmlString.split(lineSeparator);
-		for(int intIdx=0;intIdx<splitStr.length;intIdx++) {
-			outputFile.write(splitStr[intIdx]);
-			outputFile.newLine();
+		try( BufferedWriter outputFile = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath), "UTF-8")) ) {
+			String lineSeparator = System.getProperty( "line.separator" );
+			if( lineSeparator==null || lineSeparator.equals("") ) lineSeparator = "\n";
+			String splitStr[] = xmlString.split(lineSeparator);
+			for(int intIdx=0;intIdx<splitStr.length;intIdx++) {
+				outputFile.write(splitStr[intIdx]);
+				outputFile.newLine();
+			}
 		}
-		outputFile.close();
 	}
 
 	//YAML
@@ -156,13 +154,12 @@ public class ProfileHandler {
 		if( lineSeparator==null || lineSeparator.equals("") ) lineSeparator = "\n";
 		String[] yamlSplt = yamlText.split(lineSeparator);
 		if( yamlSplt.length > 0 ) {
-			BufferedWriter outputFile = new BufferedWriter(
-					new OutputStreamWriter(new FileOutputStream(targetFile), "UTF-8"));
-			for(int intIdx=0;intIdx<yamlSplt.length;intIdx++) {
-				outputFile.write(yamlSplt[intIdx]);
-				outputFile.newLine();
+			try( BufferedWriter outputFile = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(targetFile), "UTF-8")) ) {
+				for(int intIdx=0;intIdx<yamlSplt.length;intIdx++) {
+					outputFile.write(yamlSplt[intIdx]);
+					outputFile.newLine();
+				}
 			}
-			outputFile.close();
 		}
 	}
 	public GeneratorParam readYaml(String targetFile) throws Exception {

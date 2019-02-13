@@ -6,7 +6,6 @@ import java.util.List;
 import jp.go.aist.rtm.rtcbuilder.Generator;
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
-import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
@@ -33,7 +32,7 @@ public class IDLPathTest extends TestBase {
 		rtcParam.setLanguageArg(IRtcBuilderConstantsPython.LANG_PYTHON_ARG);
 		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
 		rtcParam.setIsTest(true);
-		
+
 		rtcParam.setName("ModuleName");
 		rtcParam.setDescription("ModuleDescription");
 		rtcParam.setVersion("1.0.0");
@@ -43,7 +42,7 @@ public class IDLPathTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setComponentKind("DataFlowComponent");
 		rtcParam.setMaxInstance(1);
-		
+
 		genParam.setRtcParam(rtcParam);
 
 		generator = new Generator();
@@ -56,22 +55,22 @@ public class IDLPathTest extends TestBase {
 		param1.setFullPath("C:\\Program Files\\OpenRTM-aist\\1.2.0\\rtm\\idl\\CameraCommonInterface.idl");
 		param1.setDefault(true);
 		genParam.getDataTypeParams().add(param1);
-		
+
 		DataTypeParam param2 = new DataTypeParam();
 		param2.setFullPath("C:\\Program Files\\OpenRTM-aist\\1.2.0\\rtm\\idl\\InterfaceDataTypes.idl");
 		param2.setDefault(true);
 		genParam.getDataTypeParams().add(param2);
-		
+
 		DataTypeParam param3 = new DataTypeParam();
 		param3.setFullPath("C:\\Program Files\\OpenRTM-aist\\1.2.0\\rtm\\idl\\BasicDataType.idl");
 		param3.setDefault(true);
 		genParam.getDataTypeParams().add(param3);
-		
+
 		DataTypeParam param4 = new DataTypeParam();
 		param4.setFullPath("C:\\Program Files\\OpenRTM-aist\\1.2.0\\rtm\\idl\\ExtendedDataTypes.idl");
 		param4.setDefault(true);
 		genParam.getDataTypeParams().add(param4);
-		
+
 		ServicePortParam service1 = new ServicePortParam("sv_name", 0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>();
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(

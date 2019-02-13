@@ -63,7 +63,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 */
 	public AbstractEditorFormPage(RtcBuilderEditor editor, String id, String name) {
 		super(editor, id, name);
@@ -102,7 +102,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 				} else if( newLocation < margin ) {
 					newLocation = margin;
 				}
-				
+
 				int selection = managedForm.getForm().getVerticalBar().getSelection();
 				int newBarVal = selection - delta;
 				point.y = newLocation;
@@ -122,7 +122,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 
 		return form;
 	}
-	
+
 	protected Composite createSectionBaseWithLabel(FormToolkit toolkit, ScrolledForm form,
 			String title, String explain, int colnum) {
 		Section sctBasic = toolkit.createSection(form.getBody(),
@@ -222,10 +222,10 @@ public abstract class AbstractEditorFormPage extends FormPage {
 			Label label = toolkit.createLabel(composite, labelString);
 			if(color>0 ) label.setForeground(getSite().getShell().getDisplay().getSystemColor(color));
 		}
-		
+
 		final Text text = toolkit.createText(composite, "", style);
 		text.addTraverseListener(new TraverseListener() {
-			
+
 			@Override
 			public void keyTraversed(TraverseEvent e) {
 				if( e.detail == SWT.TRAVERSE_TAB_NEXT || e.detail == SWT.TRAVERSE_TAB_PREVIOUS ) {
@@ -257,12 +257,12 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		text.setLayoutData(gridData);
 		return text;
 	}
-	
+
 	protected Combo createLabelAndCombo(FormToolkit toolkit, Composite composite,
 			String labelString, String[] items) {
 		return createLabelAndCombo(toolkit, composite, labelString, items, 0);
 	}
-	
+
 	protected Combo createLabelAndCombo(FormToolkit toolkit, Composite composite,
 			String labelString, String[] items, int color) {
 		return createLabelAndCombo(toolkit, composite, labelString, items, color, 1);
@@ -345,7 +345,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		radio.setText(labelString);
 		return radio;
 	}
-	
+
 	protected TableViewerColumn createColumn(TableViewer tv, String title, int width){
 		TableViewerColumn col = new TableViewerColumn(tv, SWT.NONE);
 		col.getColumn().setText(title);
@@ -389,10 +389,10 @@ public abstract class AbstractEditorFormPage extends FormPage {
 
 		return text;
 	}
-	
+
 	/**
 	 * ワークスペースの永続情報から、コンボのリストと選択インデックスをロードする
-	 * 
+	 *
 	 * @param combo
 	 */
 	private void loadDefaultComboValue(Combo combo, String key) {
@@ -477,7 +477,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		if( titleFont!=null ) titleFont.dispose();
 		super.dispose();
 	}
-	
+
 	public void pageSelected(){
 		// ページが選択されたときに処理が必要な場合は、これをオーバーライドする
 	}
@@ -487,7 +487,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	 * Compositeが子を持つ場合には子のBackgroundColorも指定する。
 	 * 子がCompositeの場合には再起呼び出しを行う。
 	 * 指定したCompositeの下にあるControlすべてが同じBackgroundColorになる。
-	 * 
+	 *
 	 * @param composit
 	 * @param color
 	 */
@@ -544,7 +544,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 
 	/**
 	 * フォーム内の要素の有効/無効を設定します。
-	 * 
+	 *
 	 * @param widgetInfo
 	 *            フォーム内の要素のアドレス情報
 	 * @param enabled
@@ -555,7 +555,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 
 	/**
 	 * 有効/無効時の背景色を取得します。
-	 * 
+	 *
 	 * @param enabled
 	 *            有効の場合は true
 	 * @return 有効の場合は SWT.COLOR_LIST_BACKGROUND、無効の場合は
@@ -569,7 +569,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 
 	/**
 	 * Viewerの有効/無効を設定します。
-	 * 
+	 *
 	 * @param viewer
 	 *            Viewerオブジェクト
 	 * @param enabled
@@ -586,7 +586,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 
 	/**
 	 * Controlの有効/無効を設定します。
-	 * 
+	 *
 	 * @param control
 	 *            Controlオブジェクト
 	 * @param enabled
@@ -603,7 +603,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 
 	/**
 	 * Buttonの有効/無効を設定します。
-	 * 
+	 *
 	 * @param button
 	 *            Buttonオブジェクト
 	 * @param enabled

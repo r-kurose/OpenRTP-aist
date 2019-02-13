@@ -45,7 +45,7 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 	private static final String ACTIVITY_RATE_CHANGED = "onRateChanged";
 	private static final String ACTIVITY_ACTION = "onAction";
 	private static final String ACTIVITY_MODE_CHANGED = "onModeChanged";
-	
+
 	private List<Label> implChk;
 	private Text actionNameText;
 	private Button onBtn;
@@ -58,7 +58,7 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param editor
 	 *            親のエディタ
 	 */
@@ -86,7 +86,7 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	private void createActivitySection(FormToolkit toolkit, ScrolledForm form) {
-		Composite composite = createSectionBaseWithLabel(toolkit, form, 
+		Composite composite = createSectionBaseWithLabel(toolkit, form,
 				IMessageConstants.ACTIVITY_ACTIVITY_TITLE, IMessageConstants.ACTIVITY_ACTIVITY_EXPL, 3);
 		//
 		createInitFinalSection(toolkit, composite);
@@ -255,11 +255,11 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 		createHintLabel(IMessageConstants.ACTIVITY_HINT_PRECONDITION_TITLE, IMessageConstants.ACTIVITY_HINT_PRECONDITION_DESC, toolkit, composite);
 		createHintLabel(IMessageConstants.ACTIVITY_HINT_POSTCONDITION_TITLE, IMessageConstants.ACTIVITY_HINT_POSTCONDITION_DESC, toolkit, composite);
 	}
-	
+
 	private void createDocumentSection(FormToolkit toolkit, ScrolledForm form) {
-		Composite composite = createSectionBaseWithLabel(toolkit, form, 
+		Composite composite = createSectionBaseWithLabel(toolkit, form,
 				"Documentation", IMessageConstants.ACTIVITY_DOCUMENT_EXPL, 3);
-		
+
 		actionNameText = createLabelAndText(toolkit, composite,
 				IMessageConstants.ACTIVITY_LBL_ACTIVITYNAME, SWT.BORDER);
 		actionNameText.setEditable(false);
@@ -299,7 +299,7 @@ public class ActivityEditorFormPage extends AbstractEditorFormPage {
 				IMessageConstants.ACTIVITY_LBL_POSTCONDITION, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 		postConditionText.setLayoutData(gridData);
 	}
-	
+
 	public void update() {
 		RtcParam rtcParam = editor.getRtcParam();
 

@@ -32,7 +32,7 @@ public class FileUtil {
 
 	/**
 	 * ダイアログによって、ディレクトリのパスを取得する
-	 * 
+	 *
 	 * @param defaultValue
 	 *            デフォルト値
 	 * @return ディレクトリのパス
@@ -42,21 +42,21 @@ public class FileUtil {
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 		Shell shell = window.getShell();
 		DirectoryDialog dialog = new DirectoryDialog(shell, SWT.OPEN);
-		
+
 		if (defaultPath != null) {
 			dialog.setFilterPath(defaultPath.toOSString());
 		}
 		String pathString = dialog.open();
 		if (pathString == null) return null;
-		
+
 		IPath result = new Path(pathString + File.separator + IRtcBuilderConstants.DEFAULT_RTC_XML);
-		
+
 		return result;
 	}
 
 	/**
 	 * ダイアログによって、IDLファイルのパスを取得する
-	 * 
+	 *
 	 * @param defaultValue
 	 *            デフォルト値
 	 * @return IDLファイルのパス
@@ -86,19 +86,17 @@ public class FileUtil {
 
 	/**
 	 * ファイルを読み込み、内容を返す
-	 * 
+	 *
 	 * @param path
 	 *            パス
 	 * @return ファイル内容
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public static String readFile(String path) throws IOException {
 		StringBuffer result = null;
-		try {
-			FileInputStream fis = new FileInputStream(path);
-            InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
-            BufferedReader br = new BufferedReader(isr); 
-
+		try( FileInputStream fis = new FileInputStream(path);
+             InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
+			 BufferedReader br = new BufferedReader(isr) ) {
 			result = new StringBuffer();
             String ch;
             String sep = System.getProperty("line.separator");
@@ -107,30 +105,27 @@ public class FileUtil {
             	if (firstLine) {
             		ch = removeUTF8BOM(ch);
                     firstLine = false;
-                }            	
+                }
             	result.append(ch + sep);
             }
-            br.close();
-            isr.close();
-            fis.close();
 		} catch (IOException e) {
 			throw new IOException(Messages.getString("IRTCBMessageConstants.ERROR_PROFILE_RESTORE_P1") + " path:" + path);  //$NON-NLS-1$
 		}
 
 		return result == null ? null : result.toString();
 	}
-	
+
 	private static String removeUTF8BOM(String s) {
-		String UTF8_BOM = "\uFEFF";		
+		String UTF8_BOM = "\uFEFF";
         if (s.startsWith(UTF8_BOM)) {
             s = s.substring(1);
         }
         return s;
     }
-	
+
 	/**
 	 * バックアップファイルの整理を行う
-	 * 
+	 *
 	 * @param project 対象プロジェクト
 	 * @param targetFile 対象ファイル名
 	 */
@@ -141,14 +136,14 @@ public class FileUtil {
 		if(targetFile.contains("\\")) {
 			//ファイル名にパスが含まれる場合
 			String paths[] = targetFile.split("\\\\");
-			
+
 			for(int index=0;index<paths.length;index++) {
 				targetRealFile = targetRealFile + File.separator + paths[index];
 				if(index<paths.length-1) {
 					targetPath = targetPath + File.separator + paths[index];
 				}
 			}
-		
+
 			File dir = new File(targetPath);
 			File[] files = dir.listFiles();
 			List<String> targets = new ArrayList<String>();
