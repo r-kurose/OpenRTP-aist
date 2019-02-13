@@ -440,7 +440,7 @@ ${sharp}${sharp} connector profile is specified in the following parentheses "()
 ${sharp}${sharp} "key=falue" format with "&" delimiter.
 ${sharp}${sharp}
 ${sharp}${sharp} Example:
-${sharp}${sharp} manager.components.preconnect: ConsoleIn.out:ConsoleOut.in(dataflow_type=push&interface_type=corba_cdr), SeqIn.octet:SeqOut.octet(dataflow_type=push&&interface_type=direct)
+${sharp}${sharp} manager.components.preconnect: ConsoleIn.out?port=ConsoleOut.in&dataflow_type=push&interface_type=corba_cdr, SeqIn.octet?port=SeqOut.octet&dataflow_type=push&interface_type=direct
 ${sharp}${sharp} if no parenthis parts are included, dataflow_type=push, interface_type=corba_cdr
 ${sharp}${sharp}
 ${sharp} manager.components.preconnect:
@@ -454,9 +454,9 @@ ${sharp}${sharp} target components should be created previously by
 ${sharp}${sharp} manager.components.precreate optinos.
 ${sharp}${sharp}
 ${sharp}${sharp} Example:
-${sharp}${sharp} manager.components.preactivate: ConsoleIn0, ConsoleOut0
+${sharp}${sharp} manager.components.preactivation: ConsoleIn0, ConsoleOut0
 ${sharp}${sharp}
-${sharp} manager.components.preactivate:
+${sharp} manager.components.preactivation:
 
 ${sharp}${sharp}
 ${sharp}${sharp} Loading local service modules
