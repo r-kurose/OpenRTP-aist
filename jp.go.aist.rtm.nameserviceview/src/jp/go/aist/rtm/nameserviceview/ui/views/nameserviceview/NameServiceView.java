@@ -123,6 +123,9 @@ public class NameServiceView extends ViewPart {
 		drillDownAdapter.addNavigationActions(manager);
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+		manager.add(new Separator("namingContextObjectContribution"));
+		//
+		manager.add(new Separator("additions_ext"));
 	}
 
 	private void fillLocalToolBar(IToolBarManager manager) {
