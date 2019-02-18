@@ -356,7 +356,12 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 			if (hint == null) {
 				return;
 			}
-			if ("ACTIVATE_CONFIG_SET".equals(hint)) {
+			int p = hint.indexOf(":");
+			if (p == -1) {
+				return;
+			}
+			String action = hint.substring(0, p);
+			if ("ACTIVATE_CONFIG_SET".equals(action)) {
 				synchronizeRemote_ActiveConfigurationSet(rtc);
 			} else {
 				synchronizeRemote_ConfigurationSets(rtc);

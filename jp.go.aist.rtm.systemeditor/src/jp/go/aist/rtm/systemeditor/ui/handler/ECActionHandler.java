@@ -1,5 +1,7 @@
 package jp.go.aist.rtm.systemeditor.ui.handler;
 
+import static jp.go.aist.rtm.systemeditor.ui.handler.ComponentActionHandler.getTargetComponentList;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -57,10 +59,9 @@ public class ECActionHandler extends AbstractHandler {
 		if (selection instanceof IStructuredSelection) {
 			for (Iterator<?> iter = ((IStructuredSelection) selection).iterator(); iter.hasNext();) {
 				Object o = AdapterUtil.getAdapter(iter.next(), Component.class);
-				if (!(o instanceof CorbaComponent)) {
-					continue;
+				if (o instanceof Component) {
+					components.addAll(getTargetComponentList((Component) o));
 				}
-				components.add((CorbaComponent) o);
 			}
 		}
 		LOGGER.trace("ECActionHandler: command=<{}> components=<{}>", command.getId(), components);

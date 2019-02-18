@@ -163,7 +163,7 @@ public class CompositeComponentView extends ViewPart {
 		typeText.setLayoutData(gd);
 		typeText.setEditable(false);
 		typeText.setBackground(colorRegistry.get(COLOR_WHITE));
-
+	
 		final Composite listComposite = new Composite(composite, SWT.FILL);
 		gl = new GridLayout();
 		gl.marginWidth = 0;
@@ -215,7 +215,7 @@ public class CompositeComponentView extends ViewPart {
 		final TableColumn portCol = new TableColumn(portTable, SWT.NONE);
 		portCol.setText("port");
 		portCol.setWidth(200);
-
+	
 		final Composite execButtonComposite = new Composite(composite, SWT.NONE);
 		gl = new GridLayout();
 		gd = new GridData();
@@ -314,6 +314,7 @@ public class CompositeComponentView extends ViewPart {
 		}
 		this.targetComponent.updateConfigurationSetR(csc, true);
 		if (targetComponent.inOnlineSystemDiagram()) {
+			waitSynchronize();
 			targetComponent.getSynchronizationSupport().synchronizeLocal();
 		} else {
 			// オフラインの場合はexported_portsから公開ポートを設定
@@ -343,6 +344,7 @@ public class CompositeComponentView extends ViewPart {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void refreshData() {
 		nameText.setText("");
 		typeText.setText("");
@@ -399,6 +401,14 @@ public class CompositeComponentView extends ViewPart {
 		return false;
 	}
 
+	void waitSynchronize() {
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// void
+		}
+	}
+
 	/** ポート一覧のエントリ */
 	public class PortEntry {
 		boolean checked = false;
@@ -410,7 +420,7 @@ public class CompositeComponentView extends ViewPart {
 		boolean isTarget = false;
 
 		boolean isModified = false;
-
+		
 		boolean isRequired() {
 			return requiredExportedPorts.contains(toConfigString());
 		}
@@ -528,6 +538,7 @@ public class CompositeComponentView extends ViewPart {
 	}
 
 	private ISelectionListener selectionListener = new ISelectionListener() {
+		@SuppressWarnings("unchecked")
 		public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 			targetComponent = null;
 			targetPort = null;

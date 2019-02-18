@@ -1,5 +1,7 @@
 package jp.go.aist.rtm.systemeditor.ui.handler;
 
+import static jp.go.aist.rtm.systemeditor.ui.handler.ComponentActionHandler.getTargetComponentList;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -76,27 +78,32 @@ public class AllComponentCommandHandler extends AbstractHandler {
 
 		if (ALL_START_ID.equals(command.getId())) {
 			confirmMessage = MSG_CONFIRM_START;
-			List<CorbaComponent> comps = getTargetComps(systemDiagram, ActionName.ACTION_START_UP);
+			List<CorbaComponent> comps = getTargetComps(systemDiagram,
+					new ComponentComparator(ActionName.ACTION_START_UP));
 			commands = ComponentActionDelegate.commandOf_START(LOGGER, comps);
 
 		} else if (ALL_STOP_ID.equals(command.getId())) {
 			confirmMessage = MSG_CONFIRM_STOP;
-			List<CorbaComponent> comps = getTargetComps(systemDiagram, ActionName.ACTION_SHUT_DOWN);
+			List<CorbaComponent> comps = getTargetComps(systemDiagram,
+					new ComponentComparator(ActionName.ACTION_SHUT_DOWN));
 			commands = ComponentActionDelegate.commandOf_STOP(LOGGER, comps);
 
 		} else if (ALL_ACTIVATE_ID.equals(command.getId())) {
 			confirmMessage = MSG_CONFIRM_ACTIVATE;
-			List<CorbaComponent> comps = getTargetComps(systemDiagram, ActionName.ACTION_ACTIVATION);
+			List<CorbaComponent> comps = getTargetComps(systemDiagram,
+					new ComponentComparator(ActionName.ACTION_ACTIVATION));
 			commands = ComponentActionDelegate.commandOf_ACTIVATE(LOGGER, comps);
 
 		} else if (ALL_DEACTIVATE_ID.equals(command.getId())) {
 			confirmMessage = MSG_CONFIRM_DEACTIVATE;
-			List<CorbaComponent> comps = getTargetComps(systemDiagram, ActionName.ACTION_DEACTIVATION);
+			List<CorbaComponent> comps = getTargetComps(systemDiagram,
+					new ComponentComparator(ActionName.ACTION_DEACTIVATION));
 			commands = ComponentActionDelegate.commandOf_DEACTIVATE(LOGGER, comps);
 
 		} else if (ALL_EXIT_ID.equals(command.getId())) {
 			confirmMessage = MSG_CONFIRM_EXIT;
-			List<CorbaComponent> comps = getTargetComps(systemDiagram, ActionName.ACTION_FINALIZE);
+			List<CorbaComponent> comps = getTargetComps(systemDiagram,
+					new ComponentComparator(ActionName.ACTION_FINALIZE));
 			commands = ComponentActionDelegate.commandOf_EXIT(LOGGER, comps);
 
 		}
@@ -115,17 +122,11 @@ public class AllComponentCommandHandler extends AbstractHandler {
 		return null;
 	}
 
-	private List<CorbaComponent> getTargetComps(SystemDiagram systemDiagram, ActionName actionName) {
+	private List<CorbaComponent> getTargetComps(SystemDiagram systemDiagram, ComponentComparator comparator) {
 		List<CorbaComponent> targetComps = new ArrayList<>();
-		// 子RTCは親への操作時にミドルウェア側で処理されるよう変更されたので
-		// ダイアグラム上のRTCのみ対象とする
 		for (Component comp : systemDiagram.getComponents()) {
-			if (!(comp instanceof CorbaComponent)) {
-				continue;
-			}
-			targetComps.add((CorbaComponent) comp);
+			targetComps.addAll(getTargetComponentList(comp));
 		}
-		ComponentComparator comparator = new ComponentComparator(actionName);
 		Collections.sort(targetComps, comparator);
 		return targetComps;
 	}

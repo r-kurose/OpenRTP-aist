@@ -56,10 +56,9 @@ public class ComponentActionHandler extends AbstractHandler {
 		if (selection instanceof IStructuredSelection) {
 			for (Iterator<?> iter = ((IStructuredSelection) selection).iterator(); iter.hasNext();) {
 				Object o = AdapterUtil.getAdapter(iter.next(), Component.class);
-				if (!(o instanceof CorbaComponent)) {
-					continue;
+				if (o instanceof Component) {
+					components.addAll(getTargetComponentList((Component) o));
 				}
-				components.add((CorbaComponent) o);
 			}
 		}
 		LOGGER.trace("ComponentActionHandler: command=<{}> components=<{}>", command.getId(), components);
@@ -102,6 +101,23 @@ public class ComponentActionHandler extends AbstractHandler {
 		actionDelegate.run(commands);
 
 		return null;
+	}
+
+	/** 指定RTCを起点にアクション実行の対象となるRTCリストを取得します */
+	public static List<CorbaComponent> getTargetComponentList(Component comp) {
+		List<CorbaComponent> ret = new ArrayList<>();
+		if (comp instanceof CorbaComponent) {
+			// 子RTCは親への操作時にミドルウェア側で処理されるよう変更されたので
+			// ダイアグラム上のRTCのみ対象とする
+			ret.add((CorbaComponent) comp);
+		} else if (comp.isCompositeComponent() && comp.isGroupingCompositeComponent()) {
+			// Grouping複合RTCの場合は子RTCを対象とする
+			for (Component c : comp.getComponents()) {
+				List<CorbaComponent> children = getTargetComponentList(c);
+				ret.addAll(children);
+			}
+		}
+		return ret;
 	}
 
 }
