@@ -320,19 +320,11 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 				}
 
 				@Override
-				public boolean isLinkEquals(java.lang.Object o1,
-						java.lang.Object o2) {
+				public boolean isLinkEquals(java.lang.Object o1, java.lang.Object o2) {
 					Binding o12 = (Binding) o1;
 					Binding o22 = (Binding) o2;
-					boolean result = CorbaNodeImpl.COMARATOR.compare(o12,o22) == 0;
-					if (!result) return false;
-					try {
-						org.omg.CORBA.Object newObj = context.resolve(o12.binding_name);
-						CorbaNode oldLocal = (CorbaNode) getLocalObjectByRemoteLink(localObject, o12);
-						return newObj._is_equivalent(oldLocal.getCorbaObject());
-					} catch (Exception e) {
-						return true;
-					}
+					boolean result = CorbaNodeImpl.COMARATOR.compare(o12, o22) == 0;
+					return result;
 				}
 
 				@Override

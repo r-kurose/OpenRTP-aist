@@ -53,8 +53,7 @@ import org.slf4j.LoggerFactory;
  */
 public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaStatusObserver {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(CorbaStatusObserverImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CorbaStatusObserverImpl.class);
 
 	public static final String[] TYPE_NAMES = new String[] {
 			"COMPONENT_PROFILE", //
@@ -197,6 +196,8 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 		try {
 			result = removeServiceProfile(rtc);
 		} catch (Exception e) {
+			LOGGER.warn("Fail to remove service profile. rtc={} exp=<{}:{}>", rtc, e.getClass().getSimpleName(),
+					e.getMessage());
 		}
 		deactivate();
 		//
@@ -356,7 +357,12 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 			if (hint == null) {
 				return;
 			}
-			if ("ACTIVATE_CONFIG_SET".equals(hint)) {
+			int p = hint.indexOf(":");
+			if (p == -1) {
+				return;
+			}
+			String action = hint.substring(0, p);
+			if ("ACTIVATE_CONFIG_SET".equals(action)) {
 				synchronizeRemote_ActiveConfigurationSet(rtc);
 			} else {
 				synchronizeRemote_ConfigurationSets(rtc);

@@ -39,36 +39,24 @@ public abstract class OneReferenceMapping extends ReferenceMapping {
 	public void syncronizeLocal(LocalObject localObject) {
 		// long start = System.currentTimeMillis();
 
-		Object remoteLink = getNewRemoteLink(localObject, localObject
-				.getSynchronizationSupport().getRemoteObjects());
+		Object remoteLink = getNewRemoteLink(localObject, localObject.getSynchronizationSupport().getRemoteObjects());
 		Object localLink = getOldRemoteLink(localObject);
 
 		if (!isLinkEquals(localObject, remoteLink, localLink)) {
 			Object[] remoteObjectByRemoteLink = null;
 			if (remoteLink != null) {
-				remoteObjectByRemoteLink = getRemoteObjectByRemoteLink(
-						localObject, localObject.getSynchronizationSupport()
-								.getRemoteObjects(), remoteLink);
+				remoteObjectByRemoteLink = getRemoteObjectByRemoteLink(localObject,
+						localObject.getSynchronizationSupport().getRemoteObjects(), remoteLink);
 			}
-
 			LocalObject loadLocalObjectByRemoteObject = null;
 			if (remoteObjectByRemoteLink != null) {
-				if (isAllowZombie()
-						|| SynchronizationSupport
-								.ping(remoteObjectByRemoteLink)) {
-					loadLocalObjectByRemoteObject = loadLocalObjectByRemoteObject(
-							localObject, localObject
-									.getSynchronizationSupport()
-									.getSynchronizationManager(), remoteLink,
+				if (isAllowZombie() || SynchronizationSupport.ping(remoteObjectByRemoteLink)) {
+					loadLocalObjectByRemoteObject = loadLocalObjectByRemoteObject(localObject,
+							localObject.getSynchronizationSupport().getSynchronizationManager(), remoteLink,
 							remoteObjectByRemoteLink);
 				}
 			}
-
-			if ((localObject.eGet(getLocalFeature()) == null && loadLocalObjectByRemoteObject != null)
-					|| (localObject.eGet(getLocalFeature()) != null && loadLocalObjectByRemoteObject == null)) { // 高速化
-				localObject.eSet(getLocalFeature(),
-						loadLocalObjectByRemoteObject);
-			}
+			localObject.eSet(getLocalFeature(), loadLocalObjectByRemoteObject);
 		}
 		// System.out.println(System.currentTimeMillis() -start);
 	}

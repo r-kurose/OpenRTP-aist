@@ -23,6 +23,7 @@ import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
 import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationManager;
+import jp.go.aist.rtm.toolscommon.synchronizationframework.SynchronizationSupport;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.AttributeMapping;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ClassMapping;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ConstructorParamMapping;
@@ -36,9 +37,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.omg.CosNaming.Binding;
 import org.omg.CosNaming.BindingType;
 import org.omg.CosNaming.NameComponent;
-import org.omg.CosNaming.NamingContextPackage.CannotProceed;
-import org.omg.CosNaming.NamingContextPackage.InvalidName;
-import org.omg.CosNaming.NamingContextPackage.NotFound;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Naming Object Node</b></em>'.
@@ -53,6 +53,9 @@ import org.omg.CosNaming.NamingContextPackage.NotFound;
  * @generated
  */
 public class NamingObjectNodeImpl extends CorbaNodeImpl implements NamingObjectNode {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(NamingObjectNodeImpl.class);
+
 	/**
 	 * The cached value of the '{@link #getEntry() <em>Entry</em>}' reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -234,8 +237,8 @@ public class NamingObjectNodeImpl extends CorbaNodeImpl implements NamingObjectN
 					return result;
 				}
 
-			}, new AttributeMapping[] { new AttributeMapping(
-					CorePackage.eINSTANCE.getCorbaWrapperObject_CorbaObject()) {
+			},
+			new AttributeMapping[] { new AttributeMapping(CorePackage.eINSTANCE.getCorbaWrapperObject_CorbaObject()) {
 				// ゾンビの場合に、新たなオブジェクトに更新されても検出できるようにするための同期。
 				// ここで実装するのはあまりきれいではない設計
 				// 本来ならば、NamingContextExtで検出するべきだが、
@@ -243,69 +246,57 @@ public class NamingObjectNodeImpl extends CorbaNodeImpl implements NamingObjectN
 				// 違うNamingObjectであると判断されないため、ここに実装することにした。
 
 				@Override
-				public Object getRemoteAttributeValue(LocalObject localObject,
-						Object[] remoteObjects) {
-
+				public Object getRemoteAttributeValue(LocalObject localObject, Object[] remoteObjects) {
 					NamingObjectNode namingObjectNode = ((NamingObjectNode) localObject);
-
 					Object result = null;
 					if (namingObjectNode.eContainer() != null) {
-						Binding binding = namingObjectNode
-								.getNameServiceReference().getBinding();
+						Binding binding = namingObjectNode.getNameServiceReference().getBinding();
 						try {
-							result = ((NamingContextNode)namingObjectNode
-									.eContainer())
-									.getCorbaObjectInterface()
-									.resolve(
-											new NameComponent[] { binding.binding_name[binding.binding_name.length - 1] });
-						} catch (NotFound e) {
-						} catch (CannotProceed e) {
-						} catch (InvalidName e) {
+							result = ((NamingContextNode) namingObjectNode.eContainer()).getCorbaObjectInterface()
+									.resolve(new NameComponent[] {
+											binding.binding_name[binding.binding_name.length - 1] });
+							if (result != null && !SynchronizationSupport.ping(result)) {
+								LOGGER.debug("getRemoteAttributeValue: ping lost for result=<{}>", result);
+								result = null;
+							}
+						} catch (Exception e) {
+							LOGGER.debug("getRemoteAttributeValue: Fail to resolve corba object. exception=<{}>", e);
 						}
 					} else {
 						result = namingObjectNode.getCorbaObject();
 					}
-
 					return result;
 				}
 			}
 
-			},// null
-			new ReferenceMapping[] {
-					new OneReferenceMapping(NameservicePackage.eINSTANCE
-							.getNamingObjectNode_Entry()) {
-						@Override
-						public Object getNewRemoteLink(LocalObject localObject,
-								Object[] remoteObjects) {
-							return ((NamingObjectNode) localObject)
-									.getCorbaObject();
-							// return null;
-						}
+			}, // null
+			new ReferenceMapping[] { new OneReferenceMapping(NameservicePackage.eINSTANCE.getNamingObjectNode_Entry()) {
+				@Override
+				public Object getNewRemoteLink(LocalObject localObject, Object[] remoteObjects) {
+					return ((NamingObjectNode) localObject).getCorbaObject();
+				}
 
-						@Override
-						public boolean isLinkEquals(Object link1, Object link2) {
-							return false;
-						}
-
-						@Override
-						public LocalObject loadLocalObjectByRemoteObject(
-								LocalObject localObject,
-								SynchronizationManager synchronizationManager,
-								java.lang.Object link, Object[] remoteObject) {
-							LocalObject result = super.loadLocalObjectByRemoteObject(
-									localObject, synchronizationManager, link,
-									remoteObject);
-
-							if (result instanceof Component) {
-								String pathId = ((NamingObjectNode) localObject)
-										.getNameServiceReference().getPathId();
-								((Component) result)
-										.setPathId(pathId);
-							}
-							return result;
-						}
+				@Override
+				public boolean isLinkEquals(LocalObject localObject, Object link1, Object link2) {
+					if (link1 == null) {
+						return (link2 == null);
 					}
-			});
+					return link1.equals(link2);
+				}
+
+				@Override
+				public LocalObject loadLocalObjectByRemoteObject(LocalObject localObject,
+						SynchronizationManager synchronizationManager, java.lang.Object link, Object[] remoteObject) {
+					LocalObject result = super.loadLocalObjectByRemoteObject(localObject, synchronizationManager, link,
+							remoteObject);
+
+					if (result instanceof Component) {
+						String pathId = ((NamingObjectNode) localObject).getNameServiceReference().getPathId();
+						((Component) result).setPathId(pathId);
+					}
+					return result;
+				}
+			} });
 
 	/**
 	 * エントリの同期 (一括更新)
