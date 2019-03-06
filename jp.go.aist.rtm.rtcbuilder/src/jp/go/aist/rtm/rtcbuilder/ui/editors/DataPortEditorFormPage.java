@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -53,6 +54,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.RTCBuilderPreferenceManager;
+import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 import jp.go.aist.rtm.rtcbuilder.util.ValidationUtil;
 
 /**
@@ -201,8 +203,6 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		GridData gdcombo = new GridData(GridData.FILL_HORIZONTAL);
 		typeCombo.setLayoutData(gdcombo);
 
-//		typeCombo = createLabelAndCombo(toolkit, detailGroup,
-//				IMessageConstants.REQUIRED + IMessageConstants.DATAPORT_TBLLBL_DATATYPE, defaultTypeList, SWT.COLOR_RED);
 		String[] items = typeCombo.getItems();
 		Arrays.sort(items);
 		typeCombo.setItems(items);
@@ -395,7 +395,19 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 
 				Path sourcePath = Paths.get(localIDL);
 				File targetFile = new File(userDir + FS + sourcePath.getFileName());
-				if(targetFile.exists()==false) {
+                boolean isCopy = true;
+
+				if(targetFile.exists()) {
+                	if(FileUtil.fileCompare(localIDL, targetFile)) {
+                		isCopy = false;
+                	} else {
+						File renameFile = new File(targetFile.getAbsolutePath() + DATE_FORMAT.format(new GregorianCalendar().getTime()));
+						targetFile.renameTo(renameFile);
+						FileUtil.removeBackupFiles(targetFile.getParent(), targetFile.getName());
+                	}
+				}
+
+				if(isCopy) {
 			        Path destinationPath = Paths.get(userDir + FS + sourcePath.getFileName());
 			        try {
 			            Files.copy(sourcePath,destinationPath);

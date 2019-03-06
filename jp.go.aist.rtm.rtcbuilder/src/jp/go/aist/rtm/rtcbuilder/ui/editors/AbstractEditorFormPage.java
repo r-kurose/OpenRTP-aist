@@ -2,6 +2,7 @@ package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -54,8 +55,9 @@ import org.slf4j.LoggerFactory;
 
 public abstract class AbstractEditorFormPage extends FormPage {
 
-	private static final Logger LOGGER = LoggerFactory
+	protected static final Logger LOGGER = LoggerFactory
 			.getLogger(AbstractEditorFormPage.class);
+	protected static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
 
 	protected RtcBuilderEditor editor;
 	protected BuildView buildview;

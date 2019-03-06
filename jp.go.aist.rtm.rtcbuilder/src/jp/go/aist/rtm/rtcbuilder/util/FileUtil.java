@@ -5,7 +5,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -126,11 +129,10 @@ public class FileUtil {
 	/**
 	 * バックアップファイルの整理を行う
 	 *
-	 * @param project 対象プロジェクト
+	 * @param project 対象パス名
 	 * @param targetFile 対象ファイル名
 	 */
-	public static void removeBackupFiles(IProject project, String targetFile) {
-		String targetPath = project.getLocation().toOSString();
+	public static void removeBackupFiles(String targetPath, String targetFile) {
 		String targetRealFile = targetPath;
 		//
 		if(targetFile.contains("\\")) {
@@ -161,7 +163,7 @@ public class FileUtil {
 			}
 		} else {
 			//ファイル名のみの場合
-			File dir = new File(project.getLocation().toOSString());
+			File dir = new File(targetPath);
 			File[] files = dir.listFiles();
 			List<String> targets = new ArrayList<String>();
 			for(File target : files) {
@@ -172,10 +174,26 @@ public class FileUtil {
 			if(ComponentPreferenceManager.getInstance().getBackup_Num() < targets.size()) {
 				Collections.sort(targets);
 				for(int index=0;index<targets.size()-ComponentPreferenceManager.getInstance().getBackup_Num();index++) {
-					File remTarget = new File(project.getLocation().toOSString() + File.separator + targets.get(index));
+					File remTarget = new File(targetPath + File.separator + targets.get(index));
 					remTarget.delete();
 				}
 			}
 		}
 	}
+
+    public static boolean fileCompare(String fileA, File fileB) {
+        boolean result = false;
+        try {
+            if( new File(fileA).length() != fileB.length() ){
+                return result;
+            }
+            byte[] byteA = Files.readAllBytes(Paths.get(fileA));
+            byte[] byteB = Files.readAllBytes(fileB.toPath());
+            result = Arrays.equals(byteA, byteB);
+        } catch (IOException e) {
+        }
+        return result;
+    }
+
+
 }
