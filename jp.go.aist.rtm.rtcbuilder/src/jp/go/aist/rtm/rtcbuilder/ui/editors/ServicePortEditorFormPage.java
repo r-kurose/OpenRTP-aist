@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -943,6 +944,12 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
         String FS = System.getProperty("file.separator");
         defaultIFList.clear();
 
+        List<String> exclusionList = Arrays.asList(
+        		"basicdatatype.idl", "componentobserver.idl", "dataport.idl",
+        		"extendeddatatypes.idl", "interfacedatatypes.idl", "manager.idl",
+        		"openrtm.idl", "rtc.idl", "sdopackage.idl",
+        		"sharedmemory.idl");
+
         for(IdlPathParam source : sources) {
 	        try {
 	            File idlDir = new File(source.getPath());
@@ -951,6 +958,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 	            List<String> idlNames = new ArrayList<String>();
 	            for (String name : list) {
 	                if (name.toLowerCase().endsWith(".idl")) {
+	                	if(source.isDefault() && exclusionList.contains(name.toLowerCase()) ) continue;
 	                    idlNames.add(name);
 	                }
 	            }
