@@ -53,8 +53,7 @@ import org.slf4j.LoggerFactory;
  */
 public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaStatusObserver {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(CorbaStatusObserverImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CorbaStatusObserverImpl.class);
 
 	public static final String[] TYPE_NAMES = new String[] {
 			"COMPONENT_PROFILE", //
@@ -197,6 +196,8 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 		try {
 			result = removeServiceProfile(rtc);
 		} catch (Exception e) {
+			LOGGER.warn("Fail to remove service profile. rtc={} exp=<{}:{}>", rtc, e.getClass().getSimpleName(),
+					e.getMessage());
 		}
 		deactivate();
 		//

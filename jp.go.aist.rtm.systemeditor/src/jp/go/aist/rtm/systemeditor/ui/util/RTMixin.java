@@ -1,6 +1,9 @@
 package jp.go.aist.rtm.systemeditor.ui.util;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.function.Function;
 
 import org.slf4j.Logger;
 
@@ -42,6 +45,14 @@ public class RTMixin {
 			return "null";
 		}
 		return o.getClass().getSimpleName() + "@" + Integer.toHexString(o.hashCode());
+	}
+
+	public static <T> List<String> to_dump_list(List<T> objs, Function<T, String> func) {
+		List<String> ret = new ArrayList<>();
+		for (T o : objs) {
+			ret.add(func.apply(o));
+		}
+		return ret;
 	}
 
 	public static <T> T nvl(T t, T defaultValue) {

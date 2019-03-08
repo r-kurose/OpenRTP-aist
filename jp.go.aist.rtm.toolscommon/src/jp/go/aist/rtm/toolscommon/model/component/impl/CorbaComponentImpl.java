@@ -2197,4 +2197,12 @@ public class CorbaComponentImpl extends ComponentImpl implements CorbaComponent 
 		return !SynchronizationSupport.ping(getCorbaObject());
 	}
 
+	@Override
+	public int hashCode() {
+		if (getCorbaObjectInterface() == null) {
+			return super.hashCode();
+		}
+		return super.hashCode() + getCorbaObjectInterface().hashCode();
+	}
+
 } // CorbaComponentImpl

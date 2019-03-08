@@ -270,6 +270,9 @@ public class CorbaObserverImpl extends EObjectImpl implements CorbaObserver {
 			LOGGER.info("remove_service_profile: id={} type={} ior={} obs={} rtc=<{}>", serviceProfile.id,
 					serviceProfile.interface_type, serviceProfile.service, this.getClass().getName(), ro);
 		} catch (Exception e) {
+			LOGGER.warn("Fail to remove service profile: id={} type={} ior={} obs={} rtc=<{}> exp=<{}:{}>",
+					serviceProfile.id, serviceProfile.interface_type, serviceProfile.service, this.getClass().getName(),
+					ro, e.getClass().getSimpleName(), e.getMessage());
 			result = false;
 		}
 		return result;
