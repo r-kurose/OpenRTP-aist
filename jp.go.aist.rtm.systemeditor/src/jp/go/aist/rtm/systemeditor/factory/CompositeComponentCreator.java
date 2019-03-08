@@ -10,6 +10,8 @@ import java.util.concurrent.Callable;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.Platform;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import jp.go.aist.rtm.systemeditor.RTSystemEditorPlugin;
 import jp.go.aist.rtm.systemeditor.corba.CORBAHelper;
@@ -28,6 +30,8 @@ import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
 import jp.go.aist.rtm.toolscommon.profiles.util.IDUtil;
 
 public class CompositeComponentCreator {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(CompositeComponentCreator.class);
 
 	static final String EXTENTION_POINT_NAME = "createcompositecomponent";
 	static List<CreateCompositeComponentExtension> creators;
@@ -308,9 +312,8 @@ public class CompositeComponentCreator {
 
 			@Override
 			public Component setCompositeMembers(Base base, Component comp) {
-				SystemEditorWrapperFactory.getInstance()
-						.getSynchronizationManager()
-						.assignSynchonizationSupport(comp);
+				assignSynchronizer(comp, base.components);
+
 				comp.setComponentsR(base.components);
 				// 同期
 				comp.synchronizeRemoteAttribute(null);
@@ -327,6 +330,18 @@ public class CompositeComponentCreator {
 					comp.setConstraint(rectangle);
 				}
 				return comp;
+			}
+
+			private void assignSynchronizer(Component comp, List<Component> comps) {
+				if (comp instanceof CorbaComponent) {
+					// CorbaComponentでオブザーバ設定がある場合は同期不要
+					CorbaComponent cc = (CorbaComponent) comp;
+					if (cc.getStatusObserver() != null) {
+						return;
+					}
+				}
+				SystemEditorWrapperFactory.getInstance().getSynchronizationManager().assignSynchonizationSupport(comp);
+				LOGGER.trace("assignSynchronizer: assigned synchronization for comp=<{}>", comp);
 			}
 		};
 		creators.add(0, ext);

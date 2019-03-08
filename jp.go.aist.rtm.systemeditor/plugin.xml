@@ -118,51 +118,6 @@
 	<extension
 		point="org.eclipse.ui.popupMenus">
 		<viewerContribution
-			id="jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor.contribution" 
-			targetID="jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor">
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate.AllExit" 
-				label="%All_Exit" 
-				menubarPath="all"
-				icon="icons/Exit.png" 
-				tooltip="%All_Exit"
-				helpContextId=""
-				class="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate"> 
-			</action>
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate.AllStop" 
-				label="%All_Stop" 
-				menubarPath="all"
-				icon="icons/AllStop.gif" 
-				tooltip="%All_Stop"
-				helpContextId=""
-				class="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate"> 
-			</action>
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate.AllStart" 
-				label="%All_Start" 
-				menubarPath="all"
-				icon="icons/AllStart.gif" 
-				tooltip="%All_Start" 
-				helpContextId=""
-				class="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate"> 
-			</action>
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate.AllDeactivate" 
-				label="%All_Deactivate" 
-				menubarPath="all"
-				icon="icons/AllDeactivate.png" 
-				tooltip="%All_Deactivate" 
-				helpContextId=""
-				class="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate"> 
-			</action>
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate.AllActivate" 
-				label="%All_Activate" 
-				menubarPath="all"
-				icon="icons/AllActivate.png" 
-				tooltip="%All_Activate" 
-				helpContextId=""
-				class="jp.go.aist.rtm.systemeditor.ui.action.AllComponentActionDelegate"> 
-			</action>	
-		</viewerContribution>
-		
-		<viewerContribution
 			id="jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor.combine" 
 			targetID="jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor">
 			<visibility>
@@ -226,84 +181,6 @@
 			</action>
 		</viewerContribution>
 		-->
-	  
- 		<objectContribution
-			id="jp.go.aist.rtm.systemeditor.ui.objectContribution.Component"
-        	objectClass="jp.go.aist.rtm.toolscommon.model.component.Component"
-        	adaptable="true">
-        	<visibility>
-				<objectClass name="jp.go.aist.rtm.toolscommon.model.component.CorbaComponent"/>
-			</visibility>
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Exit"
-				label="%Exit"
-				menubarPath="component"
-				class="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate">
-			</action>
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Reset"
-				label="%Reset"
-				menubarPath="component"
-				class="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate">
-			</action>
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Deactivate"
-				label="%Deactivate"
-				menubarPath="component"
-				definitionId="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Deactivate"
-				class="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate">
-			</action>
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Activate"
-				label="%Activate"
-				menubarPath="component"
-				definitionId="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Activate"
-				class="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate">
-			</action>
-		</objectContribution>
-
- 		<objectContribution
-			id="jp.go.aist.rtm.systemeditor.ui.objectContribution.Manager"
-        	objectClass="jp.go.aist.rtm.toolscommon.model.manager.RTCManager"
-        	adaptable="true">
-        	<visibility>
-				<objectClass name="jp.go.aist.rtm.toolscommon.model.manager.RTCManager"/>
-			</visibility>
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.IManagerActionDelegate.Shutdown"
-				label="Shutdown"
-				menubarPath="manager"
-				class="jp.go.aist.rtm.systemeditor.ui.action.IManagerActionDelegate">
-			</action>
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.IManagerActionDelegate.Restart"
-				label="Restart"
-				menubarPath="manager"
-				class="jp.go.aist.rtm.systemeditor.ui.action.IManagerActionDelegate">
-			</action>
-		</objectContribution>
-		
-		<objectContribution
-			id="jp.go.aist.rtm.systemeditor.ui.objectContribution.ExecutionContext"
-			objectClass="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart"
-			adaptable="true">
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.IECActionDelegate.executioncontext.DeactivateRTCs"
-				label="%DeactivateRTCs"
-				menubarPath="executionContext"
-				icon="icons/AllDeactivateEC.png" 
-				class="jp.go.aist.rtm.systemeditor.ui.action.IECActionDelegate">
-			</action>
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.IECActionDelegate.executioncontext.ActivateRTCs"
-				label="%ActivateRTCs"
-				menubarPath="executionContext"
-				icon="icons/AllActivateEC.png" 
-				class="jp.go.aist.rtm.systemeditor.ui.action.IECActionDelegate">
-			</action>
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.IECActionDelegate.executioncontext.Stop"
-				label="%Stop"
-				menubarPath="executionContext"
-				class="jp.go.aist.rtm.systemeditor.ui.action.IECActionDelegate">
-			</action>
-			<action id="jp.go.aist.rtm.systemeditor.ui.action.IECActionDelegate.executioncontext.Start"
-				label="%Start"
-				menubarPath="executionContext"
-				class="jp.go.aist.rtm.systemeditor.ui.action.IECActionDelegate">
-			</action>
-		</objectContribution>
 
 		<objectContribution
 			id="jp.go.aist.rtm.systemeditor.ui.objectContribution.Component"
@@ -422,15 +299,58 @@
 			id="jp.go.aist.rtm.systemeditor.command.category"
 			name="%RT_System_Editor">
 		</category>
+
 		<command
 			categoryId="jp.go.aist.rtm.systemeditor.command.category"
-			id="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Activate"
+			id="rtse.command.component.Activate"
 			name="%Activate">
 		</command>
 		<command
 			categoryId="jp.go.aist.rtm.systemeditor.command.category"
-			id="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Deactivate"
+			id="rtse.command.component.Deactivate"
 			name="%Deactivate">
+		</command>
+		<command
+			categoryId="jp.go.aist.rtm.systemeditor.command.category"
+			id="rtse.command.component.Reset"
+			name="%Reset">
+		</command>
+		<command
+			categoryId="jp.go.aist.rtm.systemeditor.command.category"
+			id="rtse.command.component.Exit"
+			name="%Exit">
+		</command>
+
+		<command
+			categoryId="jp.go.aist.rtm.systemeditor.command.category"
+			id="rtse.command.ec.Start"
+			name="%Start">
+		</command>
+		<command
+			categoryId="jp.go.aist.rtm.systemeditor.command.category"
+			id="rtse.command.ec.Stop"
+			name="%Stop">
+		</command>
+		<command
+			categoryId="jp.go.aist.rtm.systemeditor.command.category"
+			id="rtse.command.ec.ActivateRTCs"
+			name="%ActivateRTCs">
+		</command>
+		<command
+			categoryId="jp.go.aist.rtm.systemeditor.command.category"
+			id="rtse.command.ec.DeactivateRTCs"
+			name="%DeactivateRTCs">
+		</command>
+
+		<command
+			categoryId="jp.go.aist.rtm.systemeditor.command.category"
+			id="rtse.command.manager.Shutdown"
+			name="Shutdown">
+		</command>
+		<command
+			categoryId="jp.go.aist.rtm.systemeditor.command.category"
+			id="rtse.command.manager.Restart"
+			name="Restart">
 		</command>
 
 		<command
@@ -501,13 +421,13 @@
 	<extension
 		point="org.eclipse.ui.bindings">
 		<key
-			commandId="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Activate"
+			commandId="rtse.command.component.Activate"
 			contextId="org.eclipse.ui.contexts.window"
 			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
 			sequence="M1+M3+A">
 		</key>
 		<key
-			commandId="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Deactivate"
+			commandId="rtse.command.component.Deactivate"
 			contextId="org.eclipse.ui.contexts.window"
 			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
 			sequence="M1+M3+D">
@@ -517,12 +437,46 @@
 	<extension
 		point="org.eclipse.ui.handlers">
 		<handler
-			class="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionHandler"
-			commandId="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Activate">
+			class="jp.go.aist.rtm.systemeditor.ui.handler.ComponentActionHandler"
+			commandId="rtse.command.component.Activate">
 		</handler>
 		<handler
-			class="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionHandler"
-			commandId="jp.go.aist.rtm.systemeditor.ui.action.IComponentActionDelegate.Deactivate">
+			class="jp.go.aist.rtm.systemeditor.ui.handler.ComponentActionHandler"
+			commandId="rtse.command.component.Deactivate">
+		</handler>
+		<handler
+			class="jp.go.aist.rtm.systemeditor.ui.handler.ComponentActionHandler"
+			commandId="rtse.command.component.Reset">
+		</handler>
+		<handler
+			class="jp.go.aist.rtm.systemeditor.ui.handler.ComponentActionHandler"
+			commandId="rtse.command.component.Exit">
+		</handler>
+
+		<handler
+			class="jp.go.aist.rtm.systemeditor.ui.handler.ECActionHandler"
+			commandId="rtse.command.ec.Start">
+		</handler>
+		<handler
+			class="jp.go.aist.rtm.systemeditor.ui.handler.ECActionHandler"
+			commandId="rtse.command.ec.Stop">
+		</handler>
+		<handler
+			class="jp.go.aist.rtm.systemeditor.ui.handler.ECActionHandler"
+			commandId="rtse.command.ec.ActivateRTCs">
+		</handler>
+		<handler
+			class="jp.go.aist.rtm.systemeditor.ui.handler.ECActionHandler"
+			commandId="rtse.command.ec.DeactivateRTCs">
+		</handler>
+
+		<handler
+			class="jp.go.aist.rtm.systemeditor.ui.handler.ManagerActionHandler"
+			commandId="rtse.command.manager.Shutdown">
+		</handler>
+		<handler
+			class="jp.go.aist.rtm.systemeditor.ui.handler.ManagerActionHandler"
+			commandId="rtse.command.manager.Restart">
 		</handler>
 
 		<handler
@@ -641,10 +595,43 @@
 			</with>
 		</definition>
 		<definition
+			id="rtse.definition.selectNamingObjectCorbaComponent">
+			<with variable="selection">
+				<iterate ifEmpty="false" operator="or">
+					<and>
+						<instanceof value="jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode"/>
+						<test property="jp.go.aist.rtm.systemeditor.ns.hasCorbaComponent"/>
+					</and>
+				</iterate>
+			</with>
+		</definition>
+		<definition
+			id="rtse.definition.selectNamingObjectManager">
+			<with variable="selection">
+				<iterate ifEmpty="false" operator="or">
+					<and>
+						<instanceof value="jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode"/>
+						<test property="jp.go.aist.rtm.systemeditor.ns.hasManager"/>
+					</and>
+				</iterate>
+			</with>
+		</definition>
+		<definition
 			id="rtse.definition.selectComponent">
 			<with variable="selection">
 				<iterate ifEmpty="false" operator="or">
 					<instanceof value="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart"/>
+				</iterate>
+			</with>
+		</definition>
+		<definition
+			id="rtse.definition.selectCorbaComponent">
+			<with variable="selection">
+				<iterate ifEmpty="false" operator="or">
+					<and>
+						<instanceof value="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart"/>
+						<test property="jp.go.aist.rtm.systemeditor.hasCorbaComponent"/>
+					</and>
 				</iterate>
 			</with>
 		</definition>
@@ -672,6 +659,24 @@
 				</iterate>
 			</with>
 		</definition>
+	</extension>
+
+	<extension
+		point="org.eclipse.core.expressions.propertyTesters">
+		<propertyTester
+			id="rtse.propertytester.ComponentEditPartPropertyTester"
+			type="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart"
+			namespace="jp.go.aist.rtm.systemeditor"
+			properties="hasCorbaComponent"
+			class="jp.go.aist.rtm.systemeditor.ui.propertyTester.ComponentEditPartPropertyTester">
+		</propertyTester>
+		<propertyTester
+			id="rtse.propertytester.NamingObjectPropertyTester"
+			type="jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode"
+			namespace="jp.go.aist.rtm.systemeditor.ns"
+			properties="hasCorbaComponent,hasManager"
+			class="jp.go.aist.rtm.systemeditor.ui.propertyTester.NamingObjectPropertyTester">
+		</propertyTester>
 	</extension>
 
 	<extension
@@ -781,20 +786,260 @@
 				</separator>
 			</toolbar>
 		</menuContribution>
+
+		<menuContribution
+			allPopups="false"
+			locationURI="popup:jp.go.aist.rtm.nameserviceview.ui.views.nameserviceview.NameServiceView?after=additions_ext">
+			<separator
+				name="rtse.menus.popup.nameserviceview.rtc"
+				visible="true">
+			</separator>
+			<command
+				commandId="rtse.command.component.Activate"
+				id="rtse.menus.popup.nameserviceview.rtc.Activate"
+				label="%Activate"
+				style="push">
+				<visibleWhen
+					checkEnabled="false">
+					<reference definitionId="rtse.definition.selectNamingObjectCorbaComponent"/>
+				</visibleWhen>
+			</command>
+			<command
+				commandId="rtse.command.component.Deactivate"
+				id="rtse.menus.popup.nameserviceview.rtc.Deactivate"
+				label="%Deactivate"
+				style="push">
+				<visibleWhen
+					checkEnabled="false">
+					<reference definitionId="rtse.definition.selectNamingObjectCorbaComponent"/>
+				</visibleWhen>
+			</command>
+			<command
+				commandId="rtse.command.component.Reset"
+				id="rtse.menus.popup.nameserviceview.rtc.Reset"
+				label="%Reset"
+				style="push">
+				<visibleWhen
+					checkEnabled="false">
+					<reference definitionId="rtse.definition.selectNamingObjectCorbaComponent"/>
+				</visibleWhen>
+			</command>
+			<command
+				commandId="rtse.command.component.Exit"
+				id="rtse.menus.popup.nameserviceview.rtc.Exit"
+				label="%Exit"
+				style="push">
+				<visibleWhen
+					checkEnabled="false">
+					<reference definitionId="rtse.definition.selectNamingObjectCorbaComponent"/>
+				</visibleWhen>
+			</command>
+		</menuContribution>
+
+		<menuContribution
+			allPopups="false"
+			locationURI="popup:jp.go.aist.rtm.nameserviceview.ui.views.nameserviceview.NameServiceView?after=additions_ext">
+			<separator
+				name="rtse.menus.popup.nameserviceview.manager"
+				visible="true">
+			</separator>
+			<command
+				commandId="rtse.command.manager.Shutdown"
+				id="rtse.menus.popup.nameserviceview.manager.Shutdown"
+				label="Shutdown"
+				style="push">
+				<visibleWhen
+					checkEnabled="false">
+					<reference definitionId="rtse.definition.selectNamingObjectManager"/>
+				</visibleWhen>
+			</command>
+			<command
+				commandId="rtse.command.manager.Restart"
+				id="rtse.menus.popup.nameserviceview.manager.Restart"
+				label="Restart"
+				style="push">
+				<visibleWhen
+					checkEnabled="false">
+					<reference definitionId="rtse.definition.selectNamingObjectManager"/>
+				</visibleWhen>
+			</command>
+		</menuContribution>
+
+		<menuContribution
+			allPopups="false"
+			locationURI="popup:jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor?after=all">
+			<separator
+				name="rtse.menus.popup.systemeditor.allrtc"
+				visible="true">
+			</separator>
+			<command
+				commandId="rtse.command.allcomponent.AllActivate"
+				icon="icons/AllActivate.png"
+				id="rtse.menus.popup.systemeditor.allrtc.Activate"
+				label="%All_Activate"
+				style="push">
+				<visibleWhen
+					checkEnabled="false">
+					<reference definitionId="rtse.definition.activeSystemDiagramEditor"/>
+				</visibleWhen>
+			</command>
+			<command
+				commandId="rtse.command.allcomponent.AllDeactivate"
+				icon="icons/AllDeactivate.png"
+				id="rtse.menus.popup.systemeditor.allrtc.AllDeactivate"
+				label="%All_Deactivate"
+				style="push">
+				<visibleWhen
+					checkEnabled="false">
+					<reference definitionId="rtse.definition.activeSystemDiagramEditor"/>
+				</visibleWhen>
+			</command>
+			<command
+				commandId="rtse.command.allcomponent.AllStart"
+				icon="icons/AllStart.gif"
+				id="rtse.menus.popup.systemeditor.allrtc.AllStart"
+				label="%All_Start"
+				style="push">
+				<visibleWhen
+					checkEnabled="false">
+					<reference definitionId="rtse.definition.activeSystemDiagramEditor"/>
+				</visibleWhen>
+			</command>
+			<command
+				commandId="rtse.command.allcomponent.AllStop"
+				icon="icons/AllStop.gif"
+				id="rtse.menus.popup.systemeditor.allrtc.AllStop"
+				label="%All_Stop"
+				style="push">
+				<visibleWhen
+					checkEnabled="false">
+					<reference definitionId="rtse.definition.activeSystemDiagramEditor"/>
+				</visibleWhen>
+			</command>
+			<command
+				commandId="rtse.command.allcomponent.AllExit"
+				icon="icons/Exit.png"
+				id="rtse.menus.popup.systemeditor.allrtc.AllExit"
+				label="%All_Exit"
+				style="push">
+				<visibleWhen
+					checkEnabled="false">
+					<reference definitionId="rtse.definition.activeSystemDiagramEditor"/>
+				</visibleWhen>
+			</command>
+		</menuContribution>
+
+		<menuContribution
+			allPopups="false"
+			locationURI="popup:jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor?after=component">
+			<separator
+				name="rtse.menus.popup.systemeditor.rtc"
+				visible="true">
+			</separator>
+			<command
+				commandId="rtse.command.component.Activate"
+				id="rtse.menus.popup.systemeditor.rtc.Activate"
+				label="%Activate"
+				style="push">
+				<visibleWhen
+					checkEnabled="false">
+					<reference definitionId="rtse.definition.selectCorbaComponent"/>
+				</visibleWhen>
+			</command>
+			<command
+				commandId="rtse.command.component.Deactivate"
+				id="rtse.menus.popup.systemeditor.rtc.Deactivate"
+				label="%Deactivate"
+				style="push">
+				<visibleWhen
+					checkEnabled="false">
+					<reference definitionId="rtse.definition.selectCorbaComponent"/>
+				</visibleWhen>
+			</command>
+			<command
+				commandId="rtse.command.component.Reset"
+				id="rtse.menus.popup.systemeditor.rtc.Reset"
+				label="%Reset"
+				style="push">
+				<visibleWhen
+					checkEnabled="false">
+					<reference definitionId="rtse.definition.selectCorbaComponent"/>
+				</visibleWhen>
+			</command>
+			<command
+				commandId="rtse.command.component.Exit"
+				id="rtse.menus.popup.systemeditor.rtc.Exit"
+				label="%Exit"
+				style="push">
+				<visibleWhen
+					checkEnabled="false">
+					<reference definitionId="rtse.definition.selectCorbaComponent"/>
+				</visibleWhen>
+			</command>
+		</menuContribution>
+
+		<menuContribution
+			allPopups="false"
+			locationURI="popup:jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor?after=executionContext">
+			<separator
+				name="rtse.menus.popup.systemeditor.ec"
+				visible="true">
+			</separator>
+			<command
+				commandId="rtse.command.ec.Start"
+				id="rtse.menus.popup.systemeditor.ec.Start"
+				label="%Start"
+				style="push">
+				<visibleWhen
+					checkEnabled="false">
+					<reference definitionId="rtse.definition.selectCorbaComponent"/>
+				</visibleWhen>
+			</command>
+			<command
+				commandId="rtse.command.ec.Stop"
+				id="rtse.menus.popup.systemeditor.ec.Stop"
+				label="%Stop"
+				style="push">
+				<visibleWhen
+					checkEnabled="false">
+					<reference definitionId="rtse.definition.selectCorbaComponent"/>
+				</visibleWhen>
+			</command>
+			<command
+				commandId="rtse.command.ec.ActivateRTCs"
+				icon="icons/AllActivateEC.png"
+				id="rtse.menus.popup.systemeditor.ec.ActivateRTCs"
+				label="%ActivateRTCs"
+				style="push">
+				<visibleWhen
+					checkEnabled="false">
+					<reference definitionId="rtse.definition.selectCorbaComponent"/>
+				</visibleWhen>
+			</command>
+			<command
+				commandId="rtse.command.ec.DeactivateRTCs"
+				icon="icons/AllDeactivateEC.png"
+				id="rtse.menus.popup.systemeditor.ec.DeactivateRTCs"
+				label="%DeactivateRTCs"
+				style="push">
+				<visibleWhen
+					checkEnabled="false">
+					<reference definitionId="rtse.definition.selectCorbaComponent"/>
+				</visibleWhen>
+			</command>
+		</menuContribution>
+
 		<menuContribution
 			allPopups="false"
 			locationURI="popup:jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor?after=additions">
 			<separator
-				name="rtse.menus.popup.systemeditor.ec">
-				<visibleWhen
-					checkEnabled="false">
-					<reference definitionId="rtse.definition.selectEC"/>
-				</visibleWhen>
+				name="rtse.menus.popup.systemeditor.ec"
+				visible="true">
 			</separator>
 			<command
 				commandId="rtse.command.ecconn.Disconnect"
 				icon="icons/ec_conn_hide.png"
-				id="rtse.menus.popup.ec.Disconnect_ECConn"
+				id="rtse.menus.popup.systemeditor.ec.Disconnect_ECConn"
 				label="%ECConn_Disconnect"
 				style="push">
 				<visibleWhen

@@ -1,24 +1,15 @@
 package jp.go.aist.rtm.systemeditor.ui.views.executioncontextview;
 
+import static jp.go.aist.rtm.systemeditor.ui.util.UIUtil.COLOR_ERROR;
+import static jp.go.aist.rtm.systemeditor.ui.util.UIUtil.COLOR_MODIFY;
+import static jp.go.aist.rtm.systemeditor.ui.util.UIUtil.COLOR_WHITE;
+import static jp.go.aist.rtm.systemeditor.ui.util.UIUtil.getColor;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import jp.go.aist.rtm.systemeditor.nl.Messages;
-import jp.go.aist.rtm.systemeditor.ui.dialog.SelectAttachComponentDialog;
-import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
-import jp.go.aist.rtm.systemeditor.ui.util.ComponentActionDelegate;
-import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
-import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
-import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
-import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
-import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
-import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
-import jp.go.aist.rtm.toolscommon.ui.views.propertysheetview.RtcPropertySheetPage;
-import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
@@ -55,8 +46,19 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static jp.go.aist.rtm.systemeditor.ui.util.RTMixin.LOG_R;
-import static jp.go.aist.rtm.systemeditor.ui.util.UIUtil.*;
+import jp.go.aist.rtm.systemeditor.nl.Messages;
+import jp.go.aist.rtm.systemeditor.ui.dialog.SelectAttachComponentDialog;
+import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
+import jp.go.aist.rtm.systemeditor.ui.util.ComponentActionDelegate;
+import jp.go.aist.rtm.toolscommon.model.component.Component;
+import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
+import jp.go.aist.rtm.toolscommon.ui.views.propertysheetview.RtcPropertySheetPage;
+import jp.go.aist.rtm.toolscommon.util.AdapterUtil;
 
 public class ExecutionContextView extends ViewPart {
 
@@ -327,24 +329,19 @@ public class ExecutionContextView extends ViewPart {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				ECData data = eclist.datas.get(selectedECName);
-				ContextCommand command = new ContextCommand(data) {
-					@Override
-					public void done() {
-						ec.getSynchronizationSupport().synchronizeLocal();
-						buildData();
-					}
 
-					@Override
-					public int run() {
-						return LOG_R(LOGGER, "start()", ec, () -> {
-							return ec.startR();
-						});
-					}
-				};
-				if (!command.isValid()) {
-					return;
+				CorbaExecutionContext ec = null;
+				if (data != null && data.ec instanceof CorbaExecutionContext) {
+					ec = (CorbaExecutionContext) data.ec;
 				}
-				actionDelegate.run(command);
+				if (ec != null) {
+					List<ComponentActionDelegate.Command> commands = ComponentActionDelegate.commandOf_START(LOGGER, ec,
+							() -> {
+								buildData();
+								return 1;
+							});
+					actionDelegate.run(commands);
+				}
 			}
 		});
 
@@ -359,24 +356,19 @@ public class ExecutionContextView extends ViewPart {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				ECData data = eclist.datas.get(selectedECName);
-				ContextCommand command = new ContextCommand(data) {
-					@Override
-					public void done() {
-						ec.getSynchronizationSupport().synchronizeLocal();
-						buildData();
-					}
 
-					@Override
-					public int run() {
-						return LOG_R(LOGGER, "stop()", ec, () -> {
-							return ec.stopR();
-						});
-					}
-				};
-				if (!command.isValid()) {
-					return;
+				CorbaExecutionContext ec = null;
+				if (data != null && data.ec instanceof CorbaExecutionContext) {
+					ec = (CorbaExecutionContext) data.ec;
 				}
-				actionDelegate.run(command);
+				if (ec != null) {
+					List<ComponentActionDelegate.Command> commands = ComponentActionDelegate.commandOf_STOP(LOGGER, ec,
+							() -> {
+								buildData();
+								return 1;
+							});
+					actionDelegate.run(commands);
+				}
 			}
 		});
 
@@ -391,26 +383,24 @@ public class ExecutionContextView extends ViewPart {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				ECData data = eclist.datas.get(selectedECName);
-				ComponentCommand command = new ComponentCommand(data,
-						targetComponent) {
-					@Override
-					public void done() {
-						comp.synchronizeManually();
-						waitSynchronize();
-						buildData();
-					}
 
-					@Override
-					public int run() {
-						return LOG_R(LOGGER, "activate()", comp, () -> {
-							return ec.activateR(comp);
-						});
-					}
-				};
-				if (!command.isValid()) {
-					return;
+				CorbaExecutionContext ec = null;
+				List<CorbaComponent> comps = new ArrayList<>();
+				if (data != null && data.ec instanceof CorbaExecutionContext) {
+					ec = (CorbaExecutionContext) data.ec;
 				}
-				actionDelegate.run(command);
+				if (targetComponent != null && targetComponent instanceof CorbaComponent) {
+					comps.add((CorbaComponent) targetComponent);
+				}
+				if (ec != null) {
+					List<ComponentActionDelegate.Command> commands = ComponentActionDelegate.commandOf_ACTIVATE(LOGGER,
+							ec, comps, () -> {
+								waitSynchronize();
+								buildData();
+								return 1;
+							});
+					actionDelegate.run(commands);
+				}
 			}
 		});
 
@@ -425,26 +415,24 @@ public class ExecutionContextView extends ViewPart {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				ECData data = eclist.datas.get(selectedECName);
-				ComponentCommand command = new ComponentCommand(data,
-						targetComponent) {
-					@Override
-					public void done() {
-						comp.synchronizeManually();
-						waitSynchronize();
-						buildData();
-					}
 
-					@Override
-					public int run() {
-						return LOG_R(LOGGER, "deactivate()", comp, () -> {
-							return ec.deactivateR(comp);
-						});
-					}
-				};
-				if (!command.isValid()) {
-					return;
+				CorbaExecutionContext ec = null;
+				List<CorbaComponent> comps = new ArrayList<>();
+				if (data != null && data.ec instanceof CorbaExecutionContext) {
+					ec = (CorbaExecutionContext) data.ec;
 				}
-				actionDelegate.run(command);
+				if (targetComponent != null && targetComponent instanceof CorbaComponent) {
+					comps.add((CorbaComponent) targetComponent);
+				}
+				if (ec != null) {
+					List<ComponentActionDelegate.Command> commands = ComponentActionDelegate
+							.commandOf_DEACTIVATE(LOGGER, ec, comps, () -> {
+								waitSynchronize();
+								buildData();
+								return 1;
+							});
+					actionDelegate.run(commands);
+				}
 			}
 		});
 
@@ -459,26 +447,24 @@ public class ExecutionContextView extends ViewPart {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				ECData data = eclist.datas.get(selectedECName);
-				ComponentCommand command = new ComponentCommand(data,
-						targetComponent) {
-					@Override
-					public void done() {
-						comp.synchronizeManually();
-						waitSynchronize();
-						buildData();
-					}
 
-					@Override
-					public int run() {
-						return LOG_R(LOGGER, "reset()", comp, () -> {
-							return ec.resetR(comp);
-						});
-					}
-				};
-				if (!command.isValid()) {
-					return;
+				CorbaExecutionContext ec = null;
+				List<CorbaComponent> comps = new ArrayList<>();
+				if (data != null && data.ec instanceof CorbaExecutionContext) {
+					ec = (CorbaExecutionContext) data.ec;
 				}
-				actionDelegate.run(command);
+				if (targetComponent != null && targetComponent instanceof CorbaComponent) {
+					comps.add((CorbaComponent) targetComponent);
+				}
+				if (ec != null) {
+					List<ComponentActionDelegate.Command> commands = ComponentActionDelegate.commandOf_RESET(LOGGER, ec,
+							comps, () -> {
+								waitSynchronize();
+								buildData();
+								return 1;
+							});
+					actionDelegate.run(commands);
+				}
 			}
 		});
 
@@ -493,25 +479,23 @@ public class ExecutionContextView extends ViewPart {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				ECData data = eclist.datas.get(selectedECName);
-				ParticipateCommand command = new ParticipateCommand(data,
-						targetComponent) {
-					@Override
-					public void done() {
-						comp.synchronizeManually();
-						buildData();
-					}
 
-					@Override
-					public int run() {
-						return LOG_R(LOGGER, "removeComponent()", ec, () -> {
-							return (ec.removeComponentR(comp)) ? 0 : 1;
-						});
-					}
-				};
-				if (!command.isValid()) {
-					return;
+				CorbaExecutionContext ec = null;
+				List<CorbaComponent> comps = new ArrayList<>();
+				if (data != null && data.ec instanceof CorbaExecutionContext) {
+					ec = (CorbaExecutionContext) data.ec;
 				}
-				actionDelegate.run(command);
+				if (targetComponent != null && targetComponent instanceof CorbaComponent) {
+					comps.add((CorbaComponent) targetComponent);
+				}
+				if (ec != null) {
+					List<ComponentActionDelegate.Command> commands = ComponentActionDelegate.commandOf_EC_DETACH(LOGGER,
+							ec, comps, () -> {
+								buildData();
+								return 1;
+							});
+					actionDelegate.run(commands);
+				}
 			}
 		});
 
@@ -526,31 +510,28 @@ public class ExecutionContextView extends ViewPart {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				ECData data = eclist.datas.get(selectedECName);
-				SelectAttachComponentDialog dialog = new SelectAttachComponentDialog(
-						getSite().getShell());
+				SelectAttachComponentDialog dialog = new SelectAttachComponentDialog(getSite().getShell());
 				dialog.setComponents(buildAttachComponents(data.ec));
 				if (dialog.open() != IDialogConstants.OK_ID) {
 					return;
 				}
-				ParticipateCommand command = new ParticipateCommand(data,
-						dialog.getSelectedComponent()) {
-					@Override
-					public void done() {
-						comp.synchronizeManually();
-						buildData();
-					}
 
-					@Override
-					public int run() {
-						return LOG_R(LOGGER, "addComponent()", ec, () -> {
-							return (ec.addComponentR(comp)) ? 0 : 1;
-						});
-					}
-				};
-				if (!command.isValid()) {
-					return;
+				CorbaExecutionContext ec = null;
+				List<CorbaComponent> comps = new ArrayList<>();
+				if (data != null && data.ec instanceof CorbaExecutionContext) {
+					ec = (CorbaExecutionContext) data.ec;
 				}
-				actionDelegate.run(command);
+				if (dialog.getSelectedComponent() != null && dialog.getSelectedComponent() instanceof CorbaComponent) {
+					comps.add((CorbaComponent) dialog.getSelectedComponent());
+				}
+				if (ec != null) {
+					List<ComponentActionDelegate.Command> commands = ComponentActionDelegate.commandOf_EC_ATTACH(LOGGER,
+							ec, comps, () -> {
+								buildData();
+								return 1;
+							});
+					actionDelegate.run(commands);
+				}
 			}
 		});
 
@@ -879,62 +860,6 @@ public class ExecutionContextView extends ViewPart {
 				return entry.value;
 			}
 			return null;
-		}
-	}
-
-	/** コンポーネントアクションのコマンド */
-	static abstract class ComponentCommand extends
-			ComponentActionDelegate.Command {
-		protected CorbaExecutionContext ec;
-		protected CorbaComponent comp;
-
-		public ComponentCommand(ECData data, Component comp) {
-			if (data != null && data.ec instanceof CorbaExecutionContext) {
-				this.ec = (CorbaExecutionContext) data.ec;
-			}
-			if (comp instanceof CorbaComponent) {
-				this.comp = (CorbaComponent) comp;
-			}
-		}
-
-		public boolean isValid() {
-			return (this.ec != null && this.comp != null);
-		}
-	}
-
-	/** ECアクションのコマンド */
-	static abstract class ContextCommand extends
-			ComponentActionDelegate.Command {
-		protected CorbaExecutionContext ec;
-
-		public ContextCommand(ECData data) {
-			if (data != null && data.ec instanceof CorbaExecutionContext) {
-				this.ec = (CorbaExecutionContext) data.ec;
-			}
-		}
-
-		public boolean isValid() {
-			return (this.ec != null);
-		}
-	}
-
-	/** ECの attach/detachコマンド */
-	static abstract class ParticipateCommand extends
-			ComponentActionDelegate.Command {
-		protected ExecutionContext ec;
-		protected Component comp;
-
-		public ParticipateCommand(ECData data, Component comp) {
-			if (data != null && data.ec instanceof ExecutionContext) {
-				this.ec = (ExecutionContext) data.ec;
-			}
-			if (comp instanceof Component) {
-				this.comp = (Component) comp;
-			}
-		}
-
-		public boolean isValid() {
-			return (this.ec != null && this.comp != null);
 		}
 	}
 
