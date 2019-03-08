@@ -2,7 +2,9 @@ package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -54,8 +56,9 @@ import org.slf4j.LoggerFactory;
 
 public abstract class AbstractEditorFormPage extends FormPage {
 
-	private static final Logger LOGGER = LoggerFactory
+	protected static final Logger LOGGER = LoggerFactory
 			.getLogger(AbstractEditorFormPage.class);
+	protected static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
 
 	protected RtcBuilderEditor editor;
 	protected BuildView buildview;
@@ -409,6 +412,12 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		String FS = System.getProperty("file.separator");
 		int baseindex = -1;
 		List<DataTypeParam> sourceContents = new ArrayList<DataTypeParam>();
+		
+        List<String> exclusionList = Arrays.asList(
+        		"componentobserver.idl", "dataport.idl", "manager.idl",
+        		"openrtm.idl", "rtc.idl", "sdopackage.idl",
+        		"sharedmemory.idl");
+		
 		for (int intidx = 0; intidx < sources.size(); intidx++) {
 			IdlPathParam source = sources.get(intidx);
 			try {
@@ -420,6 +429,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 				List<String> idlNames = new ArrayList<String>();
 				for (String name : list) {
 					if (name.toLowerCase().endsWith(".idl")) {
+	                	if(source.isDefault() && exclusionList.contains(name.toLowerCase()) ) continue;
 						idlNames.add(name);
 					}
 				}

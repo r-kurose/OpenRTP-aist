@@ -105,8 +105,6 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	private Composite outputProjectSection;
 	private Composite profileSection;
 
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
-
 	/**
 	 * コンストラクタ
 	 *
@@ -402,7 +400,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 						IFile renameFile = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML + DATE_FORMAT.format(new GregorianCalendar().getTime()) );
 						orgRtcxml.move(renameFile.getFullPath(), true, null);
 						//バックアップ最大数以上のファイルは削除
-						FileUtil.removeBackupFiles(project, IRtcBuilderConstants.DEFAULT_RTC_XML);
+						FileUtil.removeBackupFiles(project.getLocation().toOSString(), IRtcBuilderConstants.DEFAULT_RTC_XML);
 					}
 					IFile saveRtcxml = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML);
 					saveRtcxml.create(new ByteArrayInputStream(strXml.getBytes("UTF-8")), true, null);
