@@ -170,19 +170,19 @@ public class Generator {
 		for( DataPortParam outport : rtcParam.getOutports() ) {
 			if(0<outport.getIdlFile().length()) {
 				IDLPathes.add(outport.getIdlFile());
-				IDLPathParams.add(new ServiceClassParam(outport.getIdlFile(), outport.getIdlFile(), ""));
+				IDLPathParams.add(new ServiceClassParam(outport.getIdlFile(), ""));
 			}
 		}
 		for( DataPortParam inport : rtcParam.getInports() ) {
 			if(0<inport.getIdlFile().length()) {
 				IDLPathes.add(inport.getIdlFile());
-				IDLPathParams.add(new ServiceClassParam(inport.getIdlFile(), inport.getIdlFile(), ""));
+				IDLPathParams.add(new ServiceClassParam(inport.getIdlFile(), ""));
 			}
 		}
 		for( ConfigSetParam config : rtcParam.getConfigParams() ) {
 			if(0<config.getIdlFile().length()) {
 				IDLPathes.add(config.getIdlFile());
-				IDLPathParams.add(new ServiceClassParam(config.getIdlFile(), config.getIdlFile(), ""));
+				IDLPathParams.add(new ServiceClassParam(config.getIdlFile(), ""));
 			}
 		}
 		//
@@ -190,8 +190,7 @@ public class Generator {
 			for( ServicePortInterfaceParam serviceInterfaces : serviceport.getServicePortInterfaces() ) {
 				if( !IDLPathes.contains(serviceInterfaces.getIdlFullPath()) ) {
 					IDLPathes.add(serviceInterfaces.getIdlFullPath());
-					IDLPathParams.add(
-							new ServiceClassParam(serviceInterfaces.getIdlFullPath(), serviceInterfaces.getIdlFullPath(),
+					IDLPathParams.add(new ServiceClassParam(serviceInterfaces.getIdlFullPath(),
 															 serviceInterfaces.getIdlSearchPath()));
 				}
 				if( 0<serviceInterfaces.getIdlSearchPath().length()) {
