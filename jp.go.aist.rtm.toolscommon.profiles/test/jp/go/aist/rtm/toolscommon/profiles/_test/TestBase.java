@@ -350,8 +350,8 @@ public class TestBase extends TestCase {
 		assertEquals("1.0.0", basic.getVersion());
 		assertEquals("SampleAbstract", basic.getAbstract());
 		assertEquals("SampleProfile", basic.getHardwareProfile());
-		assertEquals("2008-04-18T14:00:00.000+09:00", basic.getCreationDate().toString());
-		assertEquals("2008-04-18T14:00:00.000+09:00", basic.getUpdateDate().toString());
+		assertEquals("2008-04-18T14:00:00", basic.getCreationDate().toString());
+		assertEquals("2008-04-18T14:00:00", basic.getUpdateDate().toString());
 		assertEquals("Output Project", basic.getSaveProject());
 		//
 		DocBasic docbasic = basic.getDoc();

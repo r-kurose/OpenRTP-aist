@@ -12,12 +12,8 @@ import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.math.BigInteger;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,8 +22,6 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.stream.StreamSource;
@@ -207,16 +201,17 @@ public class XmlHandler {
 	//
 	//
 	public String convertToXmlRtc(RtcProfile profile) throws Exception {
-		String xmlString = "";
+	    String xmlString = "";
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance("org.openrtp.namespaces.rtc.version02");
 			Marshaller marshaller = jaxbContext.createMarshaller();
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT , new Boolean(true));
 			marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper",
-					new NamespacePrefixMapperImpl("http://www.openrtp.org/namespaces/rtc"));
-			StringWriter xmlFileWriter = new StringWriter();
-			marshaller.marshal(profile, xmlFileWriter);
-			xmlString = xmlFileWriter.toString();
+					new NamespacePrefixMapperImpl(
+							"http://www.openrtp.org/namespaces/rtc"));
+		    StringWriter xmlFileWriter = new StringWriter();
+		    marshaller.marshal(profile, xmlFileWriter);
+		    xmlString = xmlFileWriter.toString();
 		} catch (JAXBException exception) {
 			throw new Exception(Messages.getString("XmlHandler.25"), exception);
 		}
@@ -1454,55 +1449,5 @@ public class XmlHandler {
 		return true;
 	}
 
-	/**
-	 * XMLGregorianCalendar を任意の日付で生成します。(Map指定)
-	 */
-	public static XMLGregorianCalendar createXMLGregorianCalendar(Map<String, Integer> dateY) {
-		return createXMLGregorianCalendar((dateY.get("year")).intValue(), (dateY.get("month")).intValue(),
-				(dateY.get("day")).intValue(), (dateY.get("hour")).intValue(), (dateY.get("minute")).intValue(),
-				(dateY.get("second")).intValue());
-	}
-
-	/**
-	 * XMLGregorianCalendar を任意の日付で生成します。(年、月、日、時、分、秒指定)
-	 */
-	public static XMLGregorianCalendar createXMLGregorianCalendar(int year, int month, int day, int hourOfDay,
-			int minute, int second) {
-		GregorianCalendar c = new GregorianCalendar();
-		c.set(year, month - 1, day, hourOfDay, minute, second);
-		c.set(GregorianCalendar.MILLISECOND, 0);
-		return createXMLGregorianCalendar(c);
-	}
-
-	/**
-	 * XMLGregorianCalendar を任意の日付で生成します。(文字列指定 yyyy-MM-ddTHH:mm:ss)
-	 */
-	public static XMLGregorianCalendar createXMLGregorianCalendar(String date) {
-		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-			sdf.setLenient(false);
-			return createXMLGregorianCalendar(sdf.parse(date));
-		} catch (Exception e) {
-			throw new RuntimeException("Fail to create xml date.", e);
-		}
-	}
-
-	/**
-	 * XMLGregorianCalendar を任意の日付で生成します。(日付指定)
-	 */
-	public static XMLGregorianCalendar createXMLGregorianCalendar(Date date) {
-		GregorianCalendar c = new GregorianCalendar();
-		c.setTime(date);
-		return createXMLGregorianCalendar(c);
-	}
-
-	public static XMLGregorianCalendar createXMLGregorianCalendar(GregorianCalendar cal) {
-		try {
-			XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(cal);
-			return xmlDate;
-		} catch (Exception e) {
-			throw new RuntimeException("Fail to create xml date.", e);
-		}
-	}
 
 }

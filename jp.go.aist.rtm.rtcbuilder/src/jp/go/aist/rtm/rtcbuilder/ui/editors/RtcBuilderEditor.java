@@ -1,16 +1,15 @@
 package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
-import static jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler.createXMLGregorianCalendar;
-
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.datatype.DatatypeFactory;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
@@ -59,6 +58,8 @@ import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.part.FileEditorInput;
 import org.openrtp.namespaces.rtc.version02.RtcProfile;
+
+import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
 
 /**
  * RtcBuilderエディタ
@@ -453,7 +454,8 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		if( blnRtcXml ) {
 	        xmlFile = this.getRtcParam().getRtcXml();
 		} else {
-			String dateTime = createXMLGregorianCalendar(new Date()).toString();
+			DatatypeFactory dateFactory = new DatatypeFactoryImpl();
+			String dateTime = dateFactory.newXMLGregorianCalendar(new GregorianCalendar()).toString();
 			generatorParam.getRtcParam().setUpdateDate(dateTime);
 			ProfileHandler handler = new ProfileHandler();
 			xmlFile = handler.convert2XML(generatorParam);
