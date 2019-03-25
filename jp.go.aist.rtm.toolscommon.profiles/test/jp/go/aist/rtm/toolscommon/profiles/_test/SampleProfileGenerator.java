@@ -1,8 +1,8 @@
 package jp.go.aist.rtm.toolscommon.profiles._test;
 
-import static jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler.createXMLGregorianCalendar;
-
 import java.math.BigInteger;
+
+import jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler;
 
 import org.openrtp.namespaces.rtc.version02.ActionStatusDoc;
 import org.openrtp.namespaces.rtc.version02.Actions;
@@ -31,7 +31,7 @@ import org.openrtp.namespaces.rtc.version02.TransmissionMethod;
 import org.openrtp.namespaces.rts.version02.Component;
 import org.openrtp.namespaces.rts.version02.RtsProfileExt;
 
-import jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler;
+import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 
 public class SampleProfileGenerator {
 
@@ -40,8 +40,8 @@ public class SampleProfileGenerator {
 		RtsProfileExt profile = factory.createRtsProfileExt();
 		profile.setId("RTSystem:jp.go.aist:SampleRTS:1.0.0");
 		profile.setVersion("0.2");
-		profile.setCreationDate(createXMLGregorianCalendar(2008, 4, 18, 14, 0, 0));
-		profile.setUpdateDate(createXMLGregorianCalendar("2008-04-18T14:00:00"));
+		profile.setCreationDate(XMLGregorianCalendarImpl.createDateTime(2008, 4, 18, 14, 0, 0));
+		profile.setUpdateDate(XMLGregorianCalendarImpl.parse("2008-04-18T14:00:00"));
 		profile.setComment("Sample Comment");
 		profile.getVersionUpLogs().add("Version0.1");
 		profile.getVersionUpLogs().add("Version0.2");
@@ -80,8 +80,9 @@ public class SampleProfileGenerator {
 		basic.setAbstract("SampleAbstract");
 		basic.setHardwareProfile("SampleProfile");
 		basic.setRtcType("Normal");
-		basic.setCreationDate(createXMLGregorianCalendar(2008, 4, 18, 14, 0, 0));
-		basic.setUpdateDate(createXMLGregorianCalendar("2008-04-18T14:00:00"));
+		basic.setCreationDate(XMLGregorianCalendarImpl.createDateTime(2008, 4, 18, 14, 0, 0));
+//		basic.setUpdateDate(XMLGregorianCalendarImpl.createDateTime(2008, 4, 17, 14, 0, 0));
+		basic.setUpdateDate(XMLGregorianCalendarImpl.parse("2008-04-18T14:00:00"));
 		basic.setSaveProject("Output Project");
 		profile.setBasicInfo(basic);
 		//
@@ -414,8 +415,8 @@ public class SampleProfileGenerator {
 		basic.setAbstract("SampleAbstract");
 		basic.setVersion("1.0.0");
 		basic.setHardwareProfile("hdProfile");
-		basic.setCreationDate(createXMLGregorianCalendar(2008, 4, 18, 14, 0, 0));
-		basic.setUpdateDate(createXMLGregorianCalendar("2008-04-18T14:00:00"));
+		basic.setCreationDate(XMLGregorianCalendarImpl.createDateTime(2008, 4, 18, 14, 0, 0));
+		basic.setUpdateDate(XMLGregorianCalendarImpl.parse("2008-04-18T14:00:00"));
 		profile.setBasicInfo(basic);
 		////Doc
 		DocBasic docbasic = factory.createDocBasic();

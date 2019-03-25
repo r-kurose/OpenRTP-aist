@@ -1,0 +1,9 @@
+#!/bin/bash 
+
+#pwd
+for var in $* ; do
+  echo $var
+  $JAVA_HOME/bin/native2ascii $var $var.tmp
+  rm $var
+  mv $var.tmp $var
+done

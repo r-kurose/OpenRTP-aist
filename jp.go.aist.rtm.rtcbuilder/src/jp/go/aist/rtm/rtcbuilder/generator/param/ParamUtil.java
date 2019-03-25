@@ -1,13 +1,12 @@
 package jp.go.aist.rtm.rtcbuilder.generator.param;
 
-import static jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler.createXMLGregorianCalendar;
-
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.datatype.DatatypeConstants;
+import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
@@ -48,6 +47,9 @@ import org.openrtp.namespaces.rtc.version02.Serviceport;
 import org.openrtp.namespaces.rtc.version02.ServiceportDoc;
 import org.openrtp.namespaces.rtc.version02.ServiceportExt;
 import org.openrtp.namespaces.rtc.version02.TargetEnvironment;
+
+import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
+import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 
 public class ParamUtil {
 	
@@ -178,8 +180,9 @@ public class ParamUtil {
 		basic.setExecutionType(ComponentPreferenceManager.getInstance().getBasic_ExecutionType());
 		basic.setExecutionRate(Double.valueOf(ComponentPreferenceManager.getInstance().getBasic_ExecutionRate()));
 		//
-		basic.setCreationDate(createXMLGregorianCalendar(creationDate));
-		basic.setUpdateDate(createXMLGregorianCalendar(creationDate));
+		DatatypeFactory dateFactory = new DatatypeFactoryImpl();
+		basic.setCreationDate(dateFactory.newXMLGregorianCalendar(creationDate));
+		basic.setUpdateDate(dateFactory.newXMLGregorianCalendar(creationDate));
 		//
 		DocBasic docBasic = factory.createDocBasic();
 		docBasic.setCreator(StringUtil.getDocText(DocumentPreferenceManager.getCreatorValue()));
@@ -719,8 +722,8 @@ public class ParamUtil {
 		//
 		basic.setAbstract(rtcParam.getAbstract());
 		basic.setRtcType(rtcParam.getRtcType());
-		if(rtcParam.getCreationDate()!=null) basic.setCreationDate(createXMLGregorianCalendar(rtcParam.getCreationDate()));
-		if(rtcParam.getUpdateDate()!=null) basic.setUpdateDate(createXMLGregorianCalendar(rtcParam.getUpdateDate()));
+		if(rtcParam.getCreationDate()!=null) basic.setCreationDate(XMLGregorianCalendarImpl.parse(rtcParam.getCreationDate()));
+		if(rtcParam.getUpdateDate()!=null) basic.setUpdateDate(XMLGregorianCalendarImpl.parse(rtcParam.getUpdateDate()));
 		if(rtcParam.getVersionUpLog()!=null)basic.getVersionUpLogs().addAll(rtcParam.getVersionUpLog());
 		if(rtcParam.getCurrentVersionUpLog()!=null)basic.getVersionUpLogs().add(rtcParam.getCurrentVersionUpLog());
 		//Doc Basic
