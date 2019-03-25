@@ -6,7 +6,23 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.go.aist.rtm.systemeditor.corba.CORBAHelper;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.gef.ContextMenuProvider;
+import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.part.FileEditorInput;
+import org.openrtp.namespaces.rts.version02.RtsProfileExt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import jp.go.aist.rtm.systemeditor.extension.LoadProfileExtension;
 import jp.go.aist.rtm.systemeditor.factory.ProfileLoader;
 import jp.go.aist.rtm.systemeditor.factory.Rehabilitation;
@@ -26,23 +42,6 @@ import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
 import jp.go.aist.rtm.toolscommon.util.RtsProfileHandler;
-
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.gef.ContextMenuProvider;
-import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.part.FileEditorInput;
-import org.openrtp.namespaces.rts.version02.RtsProfileExt;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * SystemDiagramEditorクラス
@@ -340,7 +339,7 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 		handler.restoreCompositeComponentPort(diagram);
 
 		setSystemDiagram(diagram);
-		
+
 		try {
 			RtsProfileHandler handlerProf = new RtsProfileHandler();
 			handlerProf.restoreConnection(getSystemDiagram());
@@ -351,7 +350,7 @@ public class SystemDiagramEditor extends AbstractSystemDiagramEditor {
 			LOGGER.error("Fail to replace diagram", e);
 		}
 	}
-	
+
 	/**
 	 * ロード時の復元を行います。
 	 */

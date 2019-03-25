@@ -135,7 +135,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		setEditDomain(new DefaultEditDomain(this));
 		getEditDomain().setCommandStack(new ConnectCancelCommandStack());
 	}
-	
+
 	/**
 	 * @return openEditorの引数として渡される（オンラインまたはオフラインの）エディタID
 	 */
@@ -223,7 +223,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	protected void createGraphicalViewer(Composite parent) {
 		GraphicalViewer viewer = new ScrollingGraphicalViewer() {
 
-			@SuppressWarnings("unchecked")
 			@Override
 			public EditPart findObjectAtExcluding(Point pt, Collection exclude,
 					Conditional condition) {
@@ -250,7 +249,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 
 		GraphicalViewer viewer = getGraphicalViewer();
 		viewer.setRootEditPart(new ScalableRootEditPart() {
-			@SuppressWarnings("unchecked")
 			@Override
 			public Object getAdapter(Class adapter) {
 				if (adapter == AutoexposeHelper.class) {
@@ -271,7 +269,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 						}
 						return handleButtonDown;
 					}
-					
+
 				};
 			}
 		});
@@ -441,9 +439,9 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 
 	/**
 	 * ダイアグラムの整合性をチェックします。
-	 * 
+	 *
 	 * 拡張ポイント: jp.go.aist.rtm.toolscommon.validations
-	 * 
+	 *
 	 * @return 不整合の場合はfalse
 	 */
 	public boolean validateDiagram() {
@@ -503,13 +501,12 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void save(IFile file, IProgressMonitor progressMonitor)
 			throws CoreException {
-		
+
 		List<AbstractSystemDiagramEditor> editors = new ArrayList<AbstractSystemDiagramEditor>();
 		editors.add(this);
-		
+
 		// 子エディタを取得
 		for (Iterator iterator = systemDiagram.getComponents().iterator(); iterator
 				.hasNext();) {
@@ -648,7 +645,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 				return (Component) SynchronizationSupport
 				.findLocalObjectByRemoteObject(
 						new Object[] { obj },
-						systemDiagram);				
+						systemDiagram);
 			}
 		}
 		return findComponentByPathId(
@@ -747,7 +744,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 
 	protected FileEditorInput createEditorInput(IEditorInput input) {
 		if (input instanceof FileEditorInput) return (FileEditorInput) input;
-		
+
 		IPath path = ((IPathEditorInput) input).getPath();
 		IFile file = getOutsideIFileLink(path);
 		return new FileEditorInput(file);
@@ -767,9 +764,9 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		IProject project = ensureProjectOpen();
 
 		IFile fileLink = getFileLinkByRawLocation(path, project);
-		
+
 		if (fileLink != null) return fileLink;
-		
+
 
 		fileLink = project.getFile(formater.format(new Date()) + "__" //$NON-NLS-1$
 				+ path.lastSegment());
@@ -846,7 +843,6 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		systemDiagram = null;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Object getAdapter(Class type) {
 		if (type.equals(IPropertySheetPage.class)) {
@@ -886,7 +882,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 
 	/**
 	 * SystemDiagramを取得する
-	 * 
+	 *
 	 * @return
 	 */
 	public SystemDiagram getSystemDiagram() {
@@ -894,7 +890,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected final class SystemDiagramPropertyChangeListener implements
 			PropertyChangeListener {
@@ -997,7 +993,7 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		}
 		AbstractSystemDiagramEditor parent = ComponentUtil.findEditor(getSystemDiagram().getParentSystemDiagram());
 		if (parent != null) parent.refresh();
-		
+
 	}
 
 	public void openError(String title, String message) {

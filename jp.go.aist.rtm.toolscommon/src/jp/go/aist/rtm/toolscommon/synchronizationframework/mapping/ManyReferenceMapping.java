@@ -15,15 +15,13 @@ import org.eclipse.emf.ecore.EReference;
  */
 public abstract class ManyReferenceMapping extends ReferenceMapping {
 	private static class LinkHolder {
-		@SuppressWarnings("unchecked")
 		private List deleteRemoteLinkList;
-		@SuppressWarnings("unchecked")
 		private List addRemoteLinkList;
 	}
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param localFeature
 	 *            ローカルオブジェクトのフィーチャ
 	 */
@@ -33,7 +31,7 @@ public abstract class ManyReferenceMapping extends ReferenceMapping {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param localFeature
 	 *            ローカルオブジェクトのフィーチャ
 	 * @param allowZombie
@@ -98,7 +96,6 @@ public abstract class ManyReferenceMapping extends ReferenceMapping {
 		return holder;
 	}
 
-	@SuppressWarnings("unchecked")
 	private int findExistLisk(LocalObject localObject, Object newLink,
 			List deleteRemoteLinkList) {
 		for (int i = 0; i < deleteRemoteLinkList.size(); i++) {
@@ -121,17 +118,15 @@ public abstract class ManyReferenceMapping extends ReferenceMapping {
 
 	/**
 	 * 最新のリモートオブジェクトのリンクを返すように、オーバーライドされることが意図される
-	 * 
+	 *
 	 * @param parentRemoteObjects
 	 *            リモートオブジェクト
 	 * @return 最新のリモートオブジェクトのリンク
 	 */
-	@SuppressWarnings("unchecked")
 	protected List getNewRemoteLinkList(Object[] parentRemoteObjects) {
 		return null;
 	};
 
-	@SuppressWarnings("unchecked")
 	protected List getNewRemoteLinkList(LocalObject localObject) {
 		return getNewRemoteLinkList(getRemoteObjects(localObject));
 	}
@@ -141,7 +136,7 @@ public abstract class ManyReferenceMapping extends ReferenceMapping {
 	 * <p>
 	 * 必要に応じて、オーバーライドすること デフォルト実装は、ローカルオブジェクトに対して、リモートオブジェクトが１つである場合の実装。 // *
 	 * 関連オブジェクトなどの複数のリモートオブジェクトが存在する場合には、オーバーライドしなければならない。
-	 * 
+	 *
 	 * @param localObject
 	 *            ローカルオブジェクト
 	 * @return 現在使用している、リモートオブジェクトのリンク
@@ -166,14 +161,13 @@ public abstract class ManyReferenceMapping extends ReferenceMapping {
 
 	/**
 	 * リモートオブジェクトのリンクから、ローカルオブジェクトを取得する
-	 * 
+	 *
 	 * @param parent
 	 *            親のローカルオブジェクト
 	 * @param link
 	 *            リモートオブジェクトのリンク
 	 * @return ローカルオブジェクト
 	 */
-	@SuppressWarnings("unchecked")
 	public LocalObject getLocalObjectByRemoteLink(LocalObject parent,
 			java.lang.Object link) {
 		LocalObject result = null;
@@ -207,7 +201,7 @@ public abstract class ManyReferenceMapping extends ReferenceMapping {
 
 	/**
 	 * 同期後の事後処理を定義します。
-	 * 
+	 *
 	 * @param lo
 	 *            同期対象のローカルオブジェクト
 	 * @param updated
@@ -221,7 +215,7 @@ public abstract class ManyReferenceMapping extends ReferenceMapping {
 
 	/**
 	 * 同期後の事後処理を定義します。
-	 * 
+	 *
 	 * @param lo
 	 *            同期対象のローカルオブジェクト
 	 */

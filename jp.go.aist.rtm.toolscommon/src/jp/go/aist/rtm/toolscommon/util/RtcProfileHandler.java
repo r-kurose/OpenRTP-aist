@@ -35,7 +35,7 @@ public class RtcProfileHandler {
 	private static final String SPEC_SUFFIX = "RTC";
 	private static final String SPEC_MAJOR_SEPARATOR = ":";
 	// private static final String SPEC_MINOR_SEPARATOR = ".";
-	
+
 	private static final String INTERFACE_DIRECTION_PROVIDED = "Provided";
 	private static final String INTERFACE_DIRECTION_REQUIRED = "Required";
 
@@ -54,22 +54,20 @@ public class RtcProfileHandler {
 	public ComponentSpecification createComponentFromXML(String targetXML) throws Exception {
 		XmlHandler handler = new XmlHandler();
 		RtcProfile profile = handler.restoreFromXmlRtc(targetXML);
-		
+
 		ComponentSpecification component = profile2ComponentEMF(profile, null);
 		return component;
 	}
 
 	public ComponentSpecification createComponent(String targetFile) throws Exception  {
-		
 		//対象ファイルの読み込み
-		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(targetFile), "UTF-8"));
-		String tmp_str = null;
 		StringBuffer tmp_sb = new StringBuffer();
-	    while((tmp_str = br.readLine()) != null){
-	    	tmp_sb.append(tmp_str + "\r\n");
-	    }
-	    br.close();
-
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(targetFile), "UTF-8")) ) {
+			String tmp_str = null;
+		    while((tmp_str = br.readLine()) != null){
+		    	tmp_sb.append(tmp_str + "\r\n");
+		    }
+		}
 	    ComponentSpecification component = createComponentFromXML(tmp_sb.toString());
 		return component;
 	}
@@ -132,12 +130,12 @@ public class RtcProfileHandler {
 
 		return specification;
 	}
-	
+
 	private boolean checkProfile(RtcProfile module) {
 		if( !module.getBasicInfo().getCategory().startsWith(CATEGORY_COMPOSITE) ) return true;
 		if( module.getDataPorts().size()>0 ) return false;
 		if( module.getServicePorts().size()>0 ) return false;
-			
+
 		return true;
 	}
 

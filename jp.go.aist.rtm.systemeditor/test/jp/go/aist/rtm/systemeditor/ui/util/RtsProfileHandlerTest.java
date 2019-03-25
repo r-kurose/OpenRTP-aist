@@ -8,35 +8,6 @@ import java.util.Map;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import jp.go.aist.rtm.nameserviceview.corba.NameServerAccesserTest;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode;
-import jp.go.aist.rtm.repositoryView.model.RepositoryViewItem;
-import jp.go.aist.rtm.repositoryView.model.RepositoryViewLeafItem;
-import jp.go.aist.rtm.systemeditor.factory.SystemEditorWrapperFactory;
-import jp.go.aist.rtm.toolscommon.corba.CorbaObjectMock;
-import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
-import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
-import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
-import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
-import jp.go.aist.rtm.toolscommon.model.component.InPort;
-import jp.go.aist.rtm.toolscommon.model.component.NameValue;
-import jp.go.aist.rtm.toolscommon.model.component.OutPort;
-import jp.go.aist.rtm.toolscommon.model.component.Port;
-import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
-import jp.go.aist.rtm.toolscommon.model.component.PortSynchronizer;
-import jp.go.aist.rtm.toolscommon.model.component.ServicePort;
-import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
-import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
-import jp.go.aist.rtm.toolscommon.model.component.impl.ConfigurationSetImpl;
-import jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl;
-import jp.go.aist.rtm.toolscommon.model.component.impl.ExecutionContextImpl;
-import jp.go.aist.rtm.toolscommon.model.component.util.PortConnectorFactory;
-import jp.go.aist.rtm.toolscommon.model.core.Point;
-import jp.go.aist.rtm.toolscommon.model.core.Rectangle;
-import jp.go.aist.rtm.toolscommon.util.RtsProfileHandler;
-import junit.framework.TestCase;
-
 import org.eclipse.emf.common.util.TreeIterator;
 import org.openrtp.namespaces.rts.version02.Activation;
 import org.openrtp.namespaces.rts.version02.Component;
@@ -46,7 +17,6 @@ import org.openrtp.namespaces.rts.version02.Condition;
 import org.openrtp.namespaces.rts.version02.ConditionExt;
 import org.openrtp.namespaces.rts.version02.ConfigurationData;
 import org.openrtp.namespaces.rts.version02.ConfigurationSet;
-import org.openrtp.namespaces.rts.version02.Dataport;
 import org.openrtp.namespaces.rts.version02.DataportConnector;
 import org.openrtp.namespaces.rts.version02.DataportConnectorExt;
 import org.openrtp.namespaces.rts.version02.DataportExt;
@@ -75,9 +45,32 @@ import org.openrtp.namespaces.rts.version02.TargetPort;
 import org.openrtp.namespaces.rts.version02.TargetPortExt;
 import org.openrtp.namespaces.rts.version02.Waittime;
 
-import RTC.ComponentProfile;
-
 import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
+
+import RTC.ComponentProfile;
+import jp.go.aist.rtm.nameserviceview.corba.NameServerAccesserTest;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingObjectNode;
+import jp.go.aist.rtm.systemeditor.factory.SystemEditorWrapperFactory;
+import jp.go.aist.rtm.toolscommon.corba.CorbaObjectMock;
+import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
+import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
+import jp.go.aist.rtm.toolscommon.model.component.ConnectorProfile;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
+import jp.go.aist.rtm.toolscommon.model.component.NameValue;
+import jp.go.aist.rtm.toolscommon.model.component.Port;
+import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
+import jp.go.aist.rtm.toolscommon.model.component.PortSynchronizer;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
+import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
+import jp.go.aist.rtm.toolscommon.model.component.impl.ConfigurationSetImpl;
+import jp.go.aist.rtm.toolscommon.model.component.impl.CorbaComponentImpl;
+import jp.go.aist.rtm.toolscommon.model.component.impl.ExecutionContextImpl;
+import jp.go.aist.rtm.toolscommon.model.component.util.PortConnectorFactory;
+import jp.go.aist.rtm.toolscommon.model.core.Point;
+import jp.go.aist.rtm.toolscommon.model.core.Rectangle;
+import jp.go.aist.rtm.toolscommon.util.RtsProfileHandler;
+import junit.framework.TestCase;
 
 public class RtsProfileHandlerTest extends TestCase {
 	private RtsProfileHandler handler;
@@ -119,17 +112,17 @@ public class RtsProfileHandlerTest extends TestCase {
 //		diagram.setKind(SystemDiagramKind.ONLINE_LITERAL);
 		handler.setOnline(true);
 		handler.populate(diagram, setupProfile());
-		
+
 		assertEquals("id1", diagram.getSystemId());
 		assertEquals("2009-01-14T18:49:18.892+09:00", diagram.getCreationDate());
 		assertEquals("2009-01-15T18:49:18.892+09:00", diagram.getUpdateDate());
-//		jp.go.aist.rtm.toolscommon.model.component.Property property = 
+//		jp.go.aist.rtm.toolscommon.model.component.Property property =
 //			(jp.go.aist.rtm.toolscommon.model.component.Property) diagram.getProperties().get(0);
 //		assertEquals("property1", property.getName());
 //		assertEquals("value1", property.getValue());
-		
+
 		assertEquals(1, diagram.getComponents().size());
-		jp.go.aist.rtm.toolscommon.model.component.Component component = (jp.go.aist.rtm.toolscommon.model.component.Component) diagram.getComponents().get(0);
+		jp.go.aist.rtm.toolscommon.model.component.Component component = diagram.getComponents().get(0);
 		assertTrue(component instanceof CorbaComponent);
 		assertEquals("id3", component.getComponentId());
 		assertEquals("192.168.1.164/client164.local.tech-arts.co.jp.host_cxt/Composite0.rtc", component.getPathId());
@@ -142,23 +135,23 @@ public class RtsProfileHandlerTest extends TestCase {
 		assertEquals(30, constraint.getWidth());
 		assertEquals(40, constraint.getHeight());
 		assertEquals("RIGHT", component.getOutportDirection());
-//		jp.go.aist.rtm.toolscommon.model.component.Property property = 
+//		jp.go.aist.rtm.toolscommon.model.component.Property property =
 //			(jp.go.aist.rtm.toolscommon.model.component.Property) component.getProperties().get(0);
 //		assertEquals("property2", property.getName());
 //		assertEquals("value2", property.getValue());
-		
+
 		// XMLのロードを行った段階ではポートの情報はセットできない
 		assertTrue(component.getPorts().isEmpty());
 
 		// XMLのロードを行った段階ではコンフィグの情報はセットしない
 		assertTrue(component.getConfigurationSets().isEmpty());
 
-		jp.go.aist.rtm.toolscommon.model.component.Component component2 = (jp.go.aist.rtm.toolscommon.model.component.Component) component.getComponents().get(0);
+		jp.go.aist.rtm.toolscommon.model.component.Component component2 = component.getComponents().get(0);
 		assertNull(component2.getCategoryL());
 		assertFalse(component2.isRequired());
 		assertEquals(0, component2.getComponents().size());
 
-		jp.go.aist.rtm.toolscommon.model.component.Component component3 = (jp.go.aist.rtm.toolscommon.model.component.Component) component.getComponents().get(1);
+		jp.go.aist.rtm.toolscommon.model.component.Component component3 = component.getComponents().get(1);
 		assertEquals(0, component3.getComponents().size());
 	}
 
@@ -170,28 +163,28 @@ public class RtsProfileHandlerTest extends TestCase {
 		RtsProfileExt profile = setupProfile();
 		handler.populate(diagram, profile);
 		diagram.setProfile(profile);
-		
-		jp.go.aist.rtm.toolscommon.model.component.Component component = (jp.go.aist.rtm.toolscommon.model.component.Component) diagram.getComponents().get(0);
+
+		jp.go.aist.rtm.toolscommon.model.component.Component component = diagram.getComponents().get(0);
 		assertTrue(component instanceof ComponentSpecification);
 
 		handler.restoreConfigSet(diagram);
 		handler.restoreCompositeComponentPort(diagram);
-		
-		Port port = (Port) component.getPorts().get(0);
+
+		Port port = component.getPorts().get(0);
 		assertEquals("ConsoleIn0.out", port.getNameL());
-		port = (Port) component.getPorts().get(1);
+		port = component.getPorts().get(1);
 		assertEquals("ConsoleIn0.client", port.getNameL());
 		assertEquals("{componentId:id2,pathId:192.168.1.164/client164.local.tech-arts.co.jp.host_cxt/ConsoleIn0.rtc,instanceName:ConsoleIn0,portName:ConsoleIn0.client}", port.getOriginalPortString());
-		port = (Port) component.getPorts().get(2);
+		port = component.getPorts().get(2);
 		assertEquals("ConsoleOut0.in", port.getNameL());
-		port = (Port) component.getPorts().get(3);
+		port = component.getPorts().get(3);
 		assertEquals("ConsoleOut0.server", port.getNameL());
 
 		handler.restoreConnection(diagram);
-		port = (Port) component.getPorts().get(0);
+		port = component.getPorts().get(0);
 		assertEquals("ConsoleIn0.out", port.getNameL());
 		assertEquals("{componentId:id2,pathId:192.168.1.164/client164.local.tech-arts.co.jp.host_cxt/ConsoleIn0.rtc,instanceName:ConsoleIn0,portName:ConsoleIn0.out}", port.getOriginalPortString());
-		ConnectorProfile connector1 = (ConnectorProfile) port.getConnectorProfiles().get(0);
+		ConnectorProfile connector1 = port.getConnectorProfiles().get(0);
 		assertEquals("connector1", connector1.getConnectorId());
 		assertEquals("conectorName1", connector1.getName());
 		assertEquals("TimedOctetSeq", connector1.getDataType());
@@ -201,41 +194,40 @@ public class RtsProfileHandlerTest extends TestCase {
 		assertNull(connector1.getPushRate());
 		// ベンディングポイントの復元
 		PortConnector portConnector = diagram.getConnectorMap().get("connector1");
-		Point point = (Point) portConnector.getRoutingConstraint().map().get(1);
+		Point point = portConnector.getRoutingConstraint().map().get(1);
 		assertEquals(392, point.getX());
 		assertEquals(110, point.getY());
-		
-		port = (Port) component.getPorts().get(1);
-		ConnectorProfile connector2 = (ConnectorProfile) port.getConnectorProfiles().get(0);
+
+		port = component.getPorts().get(1);
+		ConnectorProfile connector2 = port.getConnectorProfiles().get(0);
 		assertEquals("connector2", connector2.getConnectorId());
 		assertEquals("conectorName2", connector2.getName());
 		// ベンディングポイントの復元
 		portConnector = diagram.getConnectorMap().get("connector2");
 		assertTrue(portConnector.getRoutingConstraint().map().isEmpty());
 
-		port = (Port) component.getPorts().get(1);
+		port = component.getPorts().get(1);
 		assertEquals("ConsoleIn0.client", port.getNameL());
 
-		jp.go.aist.rtm.toolscommon.model.component.Component component3 = (jp.go.aist.rtm.toolscommon.model.component.Component) component.getComponents().get(1);
-		port = (Port) component3.getPorts().get(0);
+		jp.go.aist.rtm.toolscommon.model.component.Component component3 = component.getComponents().get(1);
+		port = component3.getPorts().get(0);
 		assertEquals(connector1, port.getConnectorProfiles().get(0));
 		assertEquals(port.getOriginalPortString(), connector1.getTargetString());
-		port = (Port) component3.getPorts().get(1);
+		port = component3.getPorts().get(1);
 		assertEquals(connector2, port.getConnectorProfiles().get(0));
 		assertEquals(port.getOriginalPortString(), connector2.getTargetString());
-		
-		jp.go.aist.rtm.toolscommon.model.component.Component component2 = (jp.go.aist.rtm.toolscommon.model.component.Component) component.getComponents().get(0);
-		jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet configSet = (jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet) component2.getConfigurationSets().get(0);
+
+		jp.go.aist.rtm.toolscommon.model.component.Component component2 = component.getComponents().get(0);
+		jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet configSet = component2.getConfigurationSets().get(0);
 		assertEquals(component2.getActiveConfigurationSet(), configSet);
 		assertEquals("config1", configSet.getId());
-		NameValue configData = (NameValue) configSet.getConfigurationData().get(0);
+		NameValue configData = configSet.getConfigurationData().get(0);
 		assertEquals("name1", configData.getName());
 		assertEquals("value1", configData.getValueAsString());
 	}
 
 	// IORの復元を行うテスト
 	// 192.168.1.164にネームサーバとrtcdが起動しているという前提
-	@SuppressWarnings("unchecked")
 	public void _testLoadIOR() throws Exception {
 		NamingContextNode context = NameServerAccesserTest.getNamingContext();
 		TreeIterator allContents = context.eAllContents();
@@ -267,7 +259,7 @@ public class RtsProfileHandlerTest extends TestCase {
 
 	// ベンドポイントを復元するテスト
 	public void testConvertFromBendPointString() throws Exception {
-		Map<Integer, jp.go.aist.rtm.toolscommon.model.core.Point> result 
+		Map<Integer, jp.go.aist.rtm.toolscommon.model.core.Point> result
 			= handler.convertFromBendPointString("{1:(392,110)}");
 		assertEquals(1, result.keySet().size());
 		jp.go.aist.rtm.toolscommon.model.core.Point point = result.get(1);
@@ -276,7 +268,7 @@ public class RtsProfileHandlerTest extends TestCase {
 	}
 
 	public void testConvertFromBendPointString2() throws Exception {
-		Map<Integer, jp.go.aist.rtm.toolscommon.model.core.Point> result 
+		Map<Integer, jp.go.aist.rtm.toolscommon.model.core.Point> result
 			= handler.convertFromBendPointString("{1:(392,110), 2:(23,45)}");
 		assertEquals(2, result.keySet().size());
 		jp.go.aist.rtm.toolscommon.model.core.Point point = result.get(1);
@@ -295,7 +287,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		RtsProfileExt result = handler.save(diagram);
 
 		ComponentExt component = (ComponentExt) result.getComponents().get(1);
-		
+
 		// コンポーネント1のEC
 		ExecutionContextExt executionContext = (ExecutionContextExt) component.getExecutionContexts().get(0);
 		assertEquals("default", executionContext.getId());
@@ -305,7 +297,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		Property property4 = executionContext.getProperties().get(0);
 		assertEquals("property5", property4.getName());
 		assertEquals("value5", property4.getValue());
-		
+
 		assertEquals("default2", component.getExecutionContexts().get(1).getId());
 	}
 
@@ -316,7 +308,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		setupConnectors();
 
 		RtsProfileExt result = handler.save(diagram);
-		
+
 		// プロファイル直下の属性
 		assertEquals("id1", result.getId());
 		assertEquals("abstract1", result.getAbstract());
@@ -332,7 +324,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		Property property1 = result.getProperties().get(0);
 		assertEquals("property1", property1.getName());
 		assertEquals("value1", property1.getValue());
-		
+
 		// コンポーネント１：通常オブジェクト
 		assertEquals(3, result.getComponents().size());
 		ComponentExt component = (ComponentExt) result.getComponents().get(1);
@@ -342,7 +334,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		assertEquals("ConsoleIn0", component.getInstanceName());
 		assertEquals("None", component.getCompositeType());
 		assertTrue(component.isIsRequired());
-		
+
 		// コンポーネント1のデータポート
 		DataportExt dataport = (DataportExt) component.getDataPorts().get(0);
 		assertEquals("out", dataport.getName());
@@ -360,14 +352,14 @@ public class RtsProfileHandlerTest extends TestCase {
 		Property property8 = serviceport.getProperties().get(0);
 		assertEquals("property4", property8.getName());
 		assertEquals("value4", property8.getValue());
-		
+
 		// コンポーネント1のコンフィグセット
 		ConfigurationSet configurationSet = component.getConfigurationSets().get(0);
 		assertEquals("config1", configurationSet.getId());
 		ConfigurationData configurationData = configurationSet.getConfigurationData().get(0);
 		assertEquals("name1", configurationData.getName());
 		assertEquals("value1", configurationData.getData());
-				
+
 		// コンポーネント1の追加属性
 		assertEquals("comment2", component.getComment());
 		assertTrue(component.isVisible());
@@ -383,7 +375,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		Property property6 = component.getProperties().get(1);
 		assertEquals("IOR", property6.getName());
 		assertEquals("newIOR", property6.getValue());
-		
+
 		// コンポーネントグループ
 		ComponentGroup componentGroup = result.getGroups().get(0);
 		assertEquals("groupId1", componentGroup.getGroupId());
@@ -393,7 +385,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		Property property = targetComponent.getProperties().get(0);
 		assertEquals("property8", property.getName());
 		assertEquals("value8", property.getValue());
-		
+
 		// コンポーネント2：複合コンポーネント
 		ComponentExt component2 = (ComponentExt) result.getComponents().get(0);
 		assertEquals("id3", component2.getId());
@@ -416,7 +408,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		TargetComponentExt participant2 = (TargetComponentExt) component2.getParticipants().get(1).getParticipant();
 		assertEquals("id4", participant2.getComponentId());
 		assertEquals("ConsoleOut0", participant2.getInstanceName());
-		
+
 		// DataportConnectors
 		assertEquals(2, result.getDataPortConnectors().size());
 		DataportConnectorExt connector1 = (DataportConnectorExt) result.getDataPortConnectors().get(0);
@@ -452,7 +444,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		assertEquals("id4", targetDataPort.getComponentId());
 		assertEquals("ConsoleOut0", targetDataPort.getInstanceName());
 		assertEquals("in", targetDataPort.getPortName());
-		
+
 		DataportConnectorExt connector1N = (DataportConnectorExt) result.getDataPortConnectors().get(1);
 		assertEquals("connector1N", connector1N.getConnectorId());
 		sourceDataPort = (TargetPortExt) connector1N.getSourceDataPort();
@@ -463,14 +455,14 @@ public class RtsProfileHandlerTest extends TestCase {
 		assertEquals("id2", targetDataPort.getComponentId());
 		assertEquals("ConsoleIn0", targetDataPort.getInstanceName());
 		assertEquals("out2", targetDataPort.getPortName());
-		
+
 		// ServiceportConnectors
 		assertEquals(1, result.getServicePortConnectors().size());
 		ServiceportConnectorExt connector2 = (ServiceportConnectorExt) result.getServicePortConnectors().get(0);
 		assertEquals("connector2", connector2.getConnectorId());
 		assertEquals("conectorName2", connector2.getName());
 		assertEquals("trans1", connector2.getTransMethod());
-		
+
 		// Condition
 		ConditionExt condition = (ConditionExt) result.getStartUp().getTargets().get(0);
 		assertEquals(BigInteger.ONE, condition.getSequence());
@@ -494,7 +486,7 @@ public class RtsProfileHandlerTest extends TestCase {
 		assertEquals(BigInteger.ONE, result.getResetting().getTargets().get(0).getSequence());
 		assertEquals(BigInteger.ONE, result.getInitializing().getTargets().get(0).getSequence());
 		assertEquals(BigInteger.ONE, result.getFinalizing().getTargets().get(0).getSequence());
-		
+
 	}
 
 	private SystemDiagram setupDiagram() {
@@ -556,65 +548,65 @@ public class RtsProfileHandlerTest extends TestCase {
 		return profile;
 	}
 
-	private List<RepositoryViewItem> setupRepositoryModel() {
-		List<RepositoryViewItem> result = new ArrayList<RepositoryViewItem>();
-		result.add(setupRepositoryViewItem1());
-		result.add(setupRepositoryViewItem2());
-		return result;
-	}
+//	private List<RepositoryViewItem> setupRepositoryModel() {
+//		List<RepositoryViewItem> result = new ArrayList<RepositoryViewItem>();
+//		result.add(setupRepositoryViewItem1());
+//		result.add(setupRepositoryViewItem2());
+//		return result;
+//	}
 
-	private RepositoryViewItem setupRepositoryViewItem1() {
-		RepositoryViewLeafItem result = new RepositoryViewLeafItem("name1");
-		result.setComponent(setupComponentSpecification1());
-		return result;
-	}
+//	private RepositoryViewItem setupRepositoryViewItem1() {
+//		RepositoryViewLeafItem result = new RepositoryViewLeafItem("name1");
+//		result.setComponent(setupComponentSpecification1());
+//		return result;
+//	}
 
-	private RepositoryViewItem setupRepositoryViewItem2() {
-		RepositoryViewLeafItem result = new RepositoryViewLeafItem("name2");
-		result.setComponent(setupComponentSpecification2());
-		return result;
-	}
+//	private RepositoryViewItem setupRepositoryViewItem2() {
+//		RepositoryViewLeafItem result = new RepositoryViewLeafItem("name2");
+//		result.setComponent(setupComponentSpecification2());
+//		return result;
+//	}
 
-	private ComponentSpecification setupComponentSpecification1() {
-		ComponentSpecification result = ComponentFactory.eINSTANCE.createComponentSpecification();
-		result.setComponentId("id2");
-		result.setPathId("192.168.1.164/client164.local.tech-arts.co.jp.host_cxt/ConsoleIn0.rtc");
-		result.setInstanceNameL("ConsoleIn0");
-		result.getPorts().add(setupOutport1());
-		result.getPorts().add(createServiceport("client"));
-		return result;
-	}
+//	private ComponentSpecification setupComponentSpecification1() {
+//		ComponentSpecification result = ComponentFactory.eINSTANCE.createComponentSpecification();
+//		result.setComponentId("id2");
+//		result.setPathId("192.168.1.164/client164.local.tech-arts.co.jp.host_cxt/ConsoleIn0.rtc");
+//		result.setInstanceNameL("ConsoleIn0");
+//		result.getPorts().add(setupOutport1());
+//		result.getPorts().add(createServiceport("client"));
+//		return result;
+//	}
 
-	private ServicePort createServiceport(String name) {
-		ServicePort result = ComponentFactory.eINSTANCE.createServicePort();
-		result.setSynchronizer(ComponentFactory.eINSTANCE.createPortSynchronizer());
-		result.setNameL(name);
-		return result;
-	}
+//	private ServicePort createServiceport(String name) {
+//		ServicePort result = ComponentFactory.eINSTANCE.createServicePort();
+//		result.setSynchronizer(ComponentFactory.eINSTANCE.createPortSynchronizer());
+//		result.setNameL(name);
+//		return result;
+//	}
 
-	private ComponentSpecification setupComponentSpecification2() {
-		ComponentSpecification result = ComponentFactory.eINSTANCE.createComponentSpecification();
-		result.setComponentId("id4");
-		result.setPathId("192.168.1.164/client164.local.tech-arts.co.jp.host_cxt/ConsoleOut0.rtc");
-		result.setInstanceNameL("ConsoleOut0");
-		result.getPorts().add(setupInport1());
-		result.getPorts().add(createServiceport("server"));
-		return result;
-	}
+//	private ComponentSpecification setupComponentSpecification2() {
+//		ComponentSpecification result = ComponentFactory.eINSTANCE.createComponentSpecification();
+//		result.setComponentId("id4");
+//		result.setPathId("192.168.1.164/client164.local.tech-arts.co.jp.host_cxt/ConsoleOut0.rtc");
+//		result.setInstanceNameL("ConsoleOut0");
+//		result.getPorts().add(setupInport1());
+//		result.getPorts().add(createServiceport("server"));
+//		return result;
+//	}
 
-	private OutPort setupOutport1() {
-		OutPort result = ComponentFactory.eINSTANCE.createOutPort();
-		result.setSynchronizer(ComponentFactory.eINSTANCE.createPortSynchronizer());
-		result.setNameL("out");
-		return result;
-	}
+//	private OutPort setupOutport1() {
+//		OutPort result = ComponentFactory.eINSTANCE.createOutPort();
+//		result.setSynchronizer(ComponentFactory.eINSTANCE.createPortSynchronizer());
+//		result.setNameL("out");
+//		return result;
+//	}
 
-	private InPort setupInport1() {
-		InPort result = ComponentFactory.eINSTANCE.createInPort();
-		result.setSynchronizer(ComponentFactory.eINSTANCE.createPortSynchronizer());
-		result.setNameL("in");
-		return result;
-	}
+//	private InPort setupInport1() {
+//		InPort result = ComponentFactory.eINSTANCE.createInPort();
+//		result.setSynchronizer(ComponentFactory.eINSTANCE.createPortSynchronizer());
+//		result.setNameL("in");
+//		return result;
+//	}
 
 	private Property createPropery(String name, String value) {
 		Property result = new Property();

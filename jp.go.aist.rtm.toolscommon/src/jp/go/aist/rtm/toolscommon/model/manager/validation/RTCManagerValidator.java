@@ -6,11 +6,9 @@
  */
 package jp.go.aist.rtm.toolscommon.model.manager.validation;
 
-import RTC.ComponentProfile;
-import RTM.ManagerProfile;
-
-import RTM.ModuleProfile;
 import org.eclipse.emf.common.util.EList;
+
+import RTM.ManagerProfile;
 
 /**
  * A sample validator interface for {@link jp.go.aist.rtm.toolscommon.model.manager.RTCManager}.

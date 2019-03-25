@@ -10,9 +10,28 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.impl.EFactoryImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.omg.CORBA.Any;
+import org.omg.CORBA.TCKind;
+import org.omg.PortableServer.Servant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import RTC.ComponentProfile;
+import RTC.ExecutionContextProfile;
+import RTC.PortProfile;
+import RTC.RTObject;
+import _SDOPackage.Configuration;
+import _SDOPackage.ConfigurationHelper;
+import _SDOPackage.Organization;
+import _SDOPackage.ServiceProfile;
 import jp.go.aist.rtm.toolscommon.corba.CorbaUtil;
-import jp.go.aist.rtm.toolscommon.model.component.*;
-import jp.go.aist.rtm.toolscommon.model.component.util.ICorbaPortEventObserver;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
@@ -38,29 +57,8 @@ import jp.go.aist.rtm.toolscommon.model.component.PortSynchronizer;
 import jp.go.aist.rtm.toolscommon.model.component.ServicePort;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
+import jp.go.aist.rtm.toolscommon.model.component.util.ICorbaPortEventObserver;
 import jp.go.aist.rtm.toolscommon.model.core.Point;
-
-import org.apache.commons.lang.StringUtils;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.impl.EFactoryImpl;
-import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.omg.CORBA.Any;
-import org.omg.CORBA.TCKind;
-import org.omg.PortableServer.Servant;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import RTC.ComponentProfile;
-import RTC.ExecutionContextProfile;
-import RTC.PortProfile;
-import RTC.RTObject;
-import _SDOPackage.Configuration;
-import _SDOPackage.ConfigurationHelper;
-import _SDOPackage.Organization;
-import _SDOPackage.ServiceProfile;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!--
@@ -69,7 +67,7 @@ import _SDOPackage.ServiceProfile;
  */
 public class ComponentFactoryImpl extends EFactoryImpl implements
 		ComponentFactory {
-	
+
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ComponentFactoryImpl.class);
 
@@ -728,7 +726,7 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated NOT
 	 */
 	public Configuration createConfigurationFromString(EDataType eDataType,
@@ -739,21 +737,21 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated NOT
 	 */
 	public Any createAnyFromString(EDataType eDataType, String initialValue) {
 		Any any = null;
 		try {
 			any = CorbaUtil.getOrb().create_any();
-			
+
 			org.omg.CORBA.Object remote = null;
 			try {
 				remote = CorbaUtil.stringToObject(initialValue);
 			} catch (Exception e) {
 				// void
 			}
-			
+
 			if (remote != null) {
 				any.insert_Object(remote);
 			} else {
@@ -772,7 +770,7 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated NOT
 	 */
 	public String convertAnyToString(EDataType eDataType, Object instanceValue) {

@@ -58,7 +58,7 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 			gr = generateCMakeWixPatchXmlIn(contextMap);
 			result.add(gr);
 		}
-		
+
 		return result;
 	}
 
@@ -68,7 +68,7 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 	public GeneratedResult generateCMakeLists(Map<String, Object> contextMap) {
 		String outfile = "CMakeLists.txt";
 		String infile = "cmake/CMakeLists.txt.vsl";
-		GeneratedResult result = generatePython(infile, outfile, contextMap); 
+		GeneratedResult result = generatePython(infile, outfile, contextMap);
 		result.setNotBom(true);
 		return result;
 	}
@@ -91,26 +91,26 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 		String infile = "cmake/wix_patch.xml.in.vsl";
 		return generatePython(infile, outfile, contextMap);
 	}
-	
+
 	@Override
 	public GeneratedResult generateCmakeCPackOption(Map<String, Object> contextMap) {
 		String outfile = "cmake/cpack_options.cmake.in";
 		String infile = "cmake/cpack_options_cmake.in.vsl";
-		GeneratedResult result = generatePython(infile, outfile, contextMap); 
+		GeneratedResult result = generatePython(infile, outfile, contextMap);
 		result.setNotBom(true);
 		return result;
 	}
-	
+
 	@Override
 	public GeneratedResult generateSrcCMakeLists(Map<String, Object> contextMap) {
 		return new GeneratedResult();
 	}
-	
+
 	@Override
 	public GeneratedResult generateIncludeCMakeLists(Map<String, Object> contextMap) {
 		return new GeneratedResult();
 	}
-	
+
 	@Override
 	public GeneratedResult generateIncModuleCMakeLists(Map<String, Object> contextMap) {
 		return new GeneratedResult();
@@ -121,11 +121,9 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 		try {
 			String template = TEMPLATE_PATH_PYTHON + "/" + infile;
 			ClassLoader cl = Thread.currentThread().getContextClassLoader();
-			InputStream ins = cl.getResourceAsStream(template);
-			GeneratedResult gr = TemplateUtil.createGeneratedResult(ins,
-					contextMap, outfile);
-			if (ins != null) {
-				ins.close();
+			GeneratedResult gr = null;
+			try (InputStream ins = cl.getResourceAsStream(template)) {
+				gr = TemplateUtil.createGeneratedResult(ins, contextMap, outfile);
 			}
 			return gr;
 		} catch (Exception e) {

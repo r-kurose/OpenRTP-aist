@@ -37,15 +37,15 @@ public class Main {
 	 * XMLファイルの場所は、ファイルパスもしくはURI(Webサーバ等可能)で指定する。
 	 * <p>
 	 * [重要]マッピングルールは、実行ファイル直下に、別途作成したファイル(MAPPING_RULES)に指定する
-	 * 
+	 *
 	 * コンソールからRtcLinkのXMLファイルを読み込み、XMLファイルの内容に沿って以下を行う。
 	 * <LI>１．RtcLinkのXMLに含まれるすべてのRTCにアクセス可能であるか確認する。</LI>
 	 * <LI>２．RtcLinkのXMLに含まれるすべてのコンフィグレーション情報を復元する</LI>
 	 * <LI>３．RtcLinkのXMLに含まれるすべてのコネクションを接続する</LI>
 	 * <LI>４・RtcLinkのXMLに含まれるすべてのRTCに対して、Start要求を送信する。</LI>
-	 * 
+	 *
 	 * ３．では、既に同じコネクションIDが存在すれば、接続は行われない <br>
-	 * 
+	 *
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -103,7 +103,7 @@ public class Main {
 
 	/**
 	 * 実行メイン
-	 * 
+	 *
 	 * @param xmlUri
 	 * @param result
 	 */
@@ -159,7 +159,7 @@ public class Main {
 
 	/**
 	 * ファイルからマッピングルールを作成する
-	 * 
+	 *
 	 * @return
 	 * @throws ClassNotFoundException
 	 * @throws NoSuchFieldException
@@ -169,10 +169,7 @@ public class Main {
 
 		List<MappingRule> mappingRule = new ArrayList<MappingRule>();
 
-		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					new FileInputStream("./MAPPING_RULES"))); //$NON-NLS-1$
-
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("./MAPPING_RULES"))) ) { //$NON-NLS-1$
 			while (reader.ready()) {
 				String value = reader.readLine();
 
@@ -192,9 +189,6 @@ public class Main {
 
 				mappingRule.add((MappingRule) field.get(clazz.newInstance()));
 			}
-
-			reader.close();
-
 		} catch (Exception e) {
 			LOGGER.error("Fail to create mapping rules", e);
 			result.setSuccess(false);

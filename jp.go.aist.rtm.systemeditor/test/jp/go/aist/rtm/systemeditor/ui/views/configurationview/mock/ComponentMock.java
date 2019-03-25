@@ -305,7 +305,6 @@ public class ComponentMock implements Component {
 	public void setPathId(String value) {
 	}
 
-	@SuppressWarnings("unchecked")
 	public boolean updateConfigurationSetListR(List list,
 			ConfigurationSet activeConfigurationSet, List originallist) {
 		return false;
@@ -467,7 +466,7 @@ public class ComponentMock implements Component {
 			if (result.length() > 0) {
 				result += ",";
 			}
-			result += (String) values.get(i);
+			result += values.get(i);
 		}
 		nv.setValue(result);
 		return true;
@@ -656,7 +655,7 @@ public class ComponentMock implements Component {
 	@Override
 	public void setPrimaryExecutionContext(ExecutionContext value) {
 		// TODO 自動生成されたメソッド・スタブ
-		
+
 	}
 
 	@Override
@@ -668,7 +667,7 @@ public class ComponentMock implements Component {
 	@Override
 	public void setStartUp(String value) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -680,7 +679,7 @@ public class ComponentMock implements Component {
 	@Override
 	public void setShutDown(String value) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -692,7 +691,7 @@ public class ComponentMock implements Component {
 	@Override
 	public void setActivation(String value) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -704,7 +703,7 @@ public class ComponentMock implements Component {
 	@Override
 	public void setDeActivation(String value) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -716,7 +715,7 @@ public class ComponentMock implements Component {
 	@Override
 	public void setResetting(String value) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -728,7 +727,7 @@ public class ComponentMock implements Component {
 	@Override
 	public void setInitialize(String value) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -740,7 +739,7 @@ public class ComponentMock implements Component {
 	@Override
 	public void setFinalize(String value) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

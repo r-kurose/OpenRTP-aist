@@ -469,7 +469,7 @@ public class ConfigurationCondition {
 	 * @return 小数値
 	 */
 	public Double getDecimalByDigits(int ivalue) {
-		Double d = Double.valueOf((double) ivalue);
+		Double d = Double.valueOf(ivalue);
 		d /= Math.pow(10.0, this.getDigits());
 		return d;
 	}
@@ -523,7 +523,7 @@ public class ConfigurationCondition {
 			return 0;
 		if (dvalue > dmax)
 			return widget.getSliderMaxStep();
-		Double step = (dmax - dmin) / (double) widget.getSliderMaxStep();
+		Double step = (dmax - dmin) / widget.getSliderMaxStep();
 //		int result = (int) ((dvalue - dmin) / step );
 		int result = (int) ((dvalue - dmin) / step + 0.5);
 		return result;
@@ -533,7 +533,7 @@ public class ConfigurationCondition {
 	 * maxStep内のstepをmin〜max内の値に変換します
 	 * @param step ステップ位置
 	 * @param widget Widgetオブジェクト
-	 * @param previousValue 
+	 * @param previousValue
 	 * @return 換算した値
 	 */
 	public String getValueByStep(int step, ConfigurationWidget widget,
@@ -549,7 +549,7 @@ public class ConfigurationCondition {
 		double dmin = Double.valueOf(this.min);
 		double dmax = Double.valueOf(this.max);
 		double dprev = Double.valueOf(previousValue);
-		double dvalue = dmin + (widget.getSliderStep() * (double) step);
+		double dvalue = dmin + (widget.getSliderStep() * step);
 		dvalue = (dvalue > dmax) ? dmax : dvalue;
 		if (isInt()) {
 			if (dvalue > dprev && dvalue < dprev + 1) {

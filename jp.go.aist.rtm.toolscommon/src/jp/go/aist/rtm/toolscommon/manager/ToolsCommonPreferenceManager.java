@@ -58,7 +58,7 @@ public class ToolsCommonPreferenceManager {
 	/**
 	 * デフォルトタイムアウト判定時間
 	 */
-	public static final int defaultTimeoutPeriod = 1000;
+	public static final int defaultTimeoutPeriod = 10000;
 
 	/** 状態通知オブザーバ (デフォルト 有効) */
 	public static final Boolean DEFAULT_STATUS_OBSERVER_HB_ENABLE = true;

@@ -12,7 +12,6 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
-import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
 
 public class DataPortIDLTest extends TestBase {
 	private RtcParam rtcParam;
@@ -27,7 +26,7 @@ public class DataPortIDLTest extends TestBase {
 		rtcParam.setRtmVersion("1.0.0");
 		rtcParam.setIsTest(true);
 		genParam.setRtcParam(rtcParam);
-		
+
 		rtcParam.setName("foo");
 		rtcParam.setDescription("MDesc");
 		rtcParam.setVersion("1.0.1");
@@ -38,7 +37,7 @@ public class DataPortIDLTest extends TestBase {
 		rtcParam.setMaxInstance(5);
 		rtcParam.setComponentKind("DataFlowComponent");
 
-		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
+		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
 		DataPortParam dport1 = new DataPortParam("InP1", "MyType::Frame1", "", 0);
 		dport1.setIdlFile("TestIDL.idl");
 		dataport.add(dport1);
@@ -75,7 +74,7 @@ public class DataPortIDLTest extends TestBase {
 		rtcParam.setRtmVersion("1.0.0");
 		rtcParam.setIsTest(true);
 		genParam.setRtcParam(rtcParam);
-		
+
 		rtcParam.setName("MarkerPosition");
 		rtcParam.setDescription("ModuleDescription");
 		rtcParam.setVersion("1.0.0");
@@ -85,7 +84,7 @@ public class DataPortIDLTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(1);
 		rtcParam.setComponentKind("DataFlowComponent");
-		
+
 		rtcParam.setActionImplemented(IRtcBuilderConstants.ACTIVITY_ACTIVATED, true);
 		rtcParam.setActionImplemented(IRtcBuilderConstants.ACTIVITY_DEACTIVATED, true);
 		rtcParam.setActionImplemented(IRtcBuilderConstants.ACTIVITY_EXECUTE, true);
@@ -96,7 +95,7 @@ public class DataPortIDLTest extends TestBase {
 		param1.setDefault(false);
 		param1.setAddition(true);
 		genParam.getDataTypeParams().add(param1);
-		
+
 		DataTypeParam param2 = new DataTypeParam();
 		param2.setFullPath(rootPath + "/resource/100/DataPortIDL/sourceIDL/GameFramework.idl");
 		param2.getDefinedTypes().add("GameFramework::CenterPosition");
@@ -104,12 +103,12 @@ public class DataPortIDLTest extends TestBase {
 		param2.setAddition(true);
 		genParam.getDataTypeParams().add(param2);
 		/////
-		
-		List<DataPortParam> dataport = new ArrayList<DataPortParam>(); 
+
+		List<DataPortParam> dataport = new ArrayList<DataPortParam>();
 		DataPortParam dport1 = new DataPortParam("arUcoPoint2D", "arUco::arUcoPoint2D", "", 0);
 		dataport.add(dport1);
 		rtcParam.getInports().addAll(dataport);
-		
+
 		List<DataPortParam> outport = new ArrayList<DataPortParam>();
 		outport.add(new DataPortParam("CenterPosition", "GameFramework::CenterPosition", "", 0));
 		rtcParam.getOutports().addAll(outport);

@@ -105,11 +105,9 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	private Composite outputProjectSection;
 	private Composite profileSection;
 
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
-	
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param editor
 	 *            親のエディタ
 	 */
@@ -146,7 +144,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		//
 		// 言語・環境ページより先にこのページが表示された場合、ここで言語を判断する
 		editor.setEnabledInfoByLang();
-		
+
 		load();
 	}
 
@@ -155,7 +153,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		if( index > -1 ) return filename.substring(index + 1);
 		return "";
 	}
-	
+
 	private void switchPerspective() {
 
 		RtcParam rtcParam = editor.getGeneratorParam().getRtcParam();
@@ -164,10 +162,10 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		String currentPerspectiveId = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
             							.getActivePage().getPerspective().getId();
 		if( langProp != null && !langProp.getPerspectiveId().equals(currentPerspectiveId) ) {
-			MessageBox message = new MessageBox(getSite().getShell(), 
+			MessageBox message = new MessageBox(getSite().getShell(),
 					SWT.ICON_QUESTION | SWT.YES | SWT.NO);
 			message.setText(IMessageConstants.BASIC_PERSPECTIVE_TEXT);
-			message.setMessage(IMessageConstants.BASIC_PERSPECTIVE_MSG1 + langProp.getPerspectiveName() 
+			message.setMessage(IMessageConstants.BASIC_PERSPECTIVE_MSG1 + langProp.getPerspectiveName()
 					+ IMessageConstants.BASIC_PERSPECTIVE_MSG2);
 			if( message.open() == SWT.YES) {
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().setPerspective(
@@ -179,7 +177,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 
 	/**
 	 * バリデートを行う。エラーがない場合にはnullを返し、エラーがある場合にはメッセージを返す。
-	 * 
+	 *
 	 * @return
 	 */
 	public String validateParam() {
@@ -225,14 +223,14 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 			result = IMessageConstants.BASIC_VALIDATE_ECRATE2;
 		}
 		//Component Kind
-		if( !dataFlowBtn.getSelection() && 
+		if( !dataFlowBtn.getSelection() &&
 				!fsmBtn.getSelection() &&
 				!multiModeBtn.getSelection() &&
 				!choreonoidBtn.getSelection() ) {
 			result = "Please Select Component Kind.";
 		}
 		//Composite Component
-		if( categoryCombo.getText().startsWith(CATEGORY_COMPOSITE) && 
+		if( categoryCombo.getText().startsWith(CATEGORY_COMPOSITE) &&
 				(editor.getRtcParam().getInports().size()>0 || editor.getRtcParam().getOutports().size()>0 ||
 				 editor.getRtcParam().getServicePorts().size()>0) ) {
 			result = "Cannot add any Ports to Composite Component.";
@@ -242,10 +240,10 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	private void createModuleSection(FormToolkit toolkit, ScrolledForm form) {
-		Composite composite = createSectionBaseWithLabel(toolkit, form, 
+		Composite composite = createSectionBaseWithLabel(toolkit, form,
 				IMessageConstants.BASIC_COMPONENT_TITLE, IMessageConstants.BASIC_COMPONENT_EXPL, 3);
 		//
-		nameText = createLabelAndText(toolkit, composite, 
+		nameText = createLabelAndText(toolkit, composite,
 				IMessageConstants.REQUIRED + IMessageConstants.BASIC_LBL_MODULENAME, SWT.NONE, SWT.COLOR_RED, 2);
 		descriptionText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_DESCRIPTION, SWT.NONE, SWT.COLOR_BLACK, 2);
 		versionText = createLabelAndText(toolkit, composite,
@@ -262,7 +260,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 				IRtcBuilderConstants.ACTIVITY_TYPE_ITEMS, SWT.COLOR_BLACK, 2);
 		//
 		toolkit.createLabel(composite, IMessageConstants.BASIC_LBL_COMPONENT_KIND);
-		
+
 		compGroup = new Group(composite, SWT.NONE);
 		compGroup.setLayout(new GridLayout(3, false));
 		GridData gd = new GridData();
@@ -270,7 +268,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		dataFlowBtn = createRadioCheckButton(toolkit, compGroup, "DataFlow", SWT.CHECK);
 		fsmBtn = createRadioCheckButton(toolkit, compGroup, "FSM", SWT.CHECK);
 		multiModeBtn = createRadioCheckButton(toolkit, compGroup, "MultiMode", SWT.CHECK);
-		
+
 		choreonoidBtn = createRadioCheckButton(toolkit, composite, "Choreonoid", SWT.CHECK);
 		//
 		maxInstanceText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_MAX_INSTANCES, SWT.NONE, SWT.COLOR_BLACK, 2);
@@ -314,7 +312,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	private void createGenerateSection(FormToolkit toolkit, ScrolledForm form) {
-		generateSection = createSectionBaseWithLabel(toolkit, form, 
+		generateSection = createSectionBaseWithLabel(toolkit, form,
 				IMessageConstants.BASIC_GENERATE_TITLE, IMessageConstants.BASIC_GENERATE_EXPL, 2);
 		createGenerateButton(toolkit);
 	}
@@ -402,7 +400,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 						IFile renameFile = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML + DATE_FORMAT.format(new GregorianCalendar().getTime()) );
 						orgRtcxml.move(renameFile.getFullPath(), true, null);
 						//バックアップ最大数以上のファイルは削除
-						FileUtil.removeBackupFiles(project, IRtcBuilderConstants.DEFAULT_RTC_XML);
+						FileUtil.removeBackupFiles(project.getLocation().toOSString(), IRtcBuilderConstants.DEFAULT_RTC_XML);
 					}
 					IFile saveRtcxml = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML);
 					saveRtcxml.create(new ByteArrayInputStream(strXml.getBytes("UTF-8")), true, null);
@@ -452,7 +450,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 			}
 		});
 	}
-	
+
 	private void setPrefixSuffix(RtcParam param) {
 		IPreferenceStore store = RtcBuilderPlugin.getDefault().getPreferenceStore();
 		param.setCommonPrefix(ComponentPreferenceManager.getInstance().getBasic_Prefix());
@@ -468,7 +466,6 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		param.setServiceIFSuffix(store.getString(ComponentPreferenceManager.Generate_ServiceIF_Suffix));
 	}
 
-	@SuppressWarnings("unchecked")
 	private ImportExtension getTargetImportExtension() {
 		List list = RtcBuilderPlugin.getDefault().getImportExtensionLoader().getList();
 		if( list != null ) {
@@ -482,9 +479,9 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		}
 		return null;
 	}
-	
+
 	private void createExportImportSection(FormToolkit toolkit, ScrolledForm form) {
-		profileSection = createSectionBaseWithLabel(toolkit, form, 
+		profileSection = createSectionBaseWithLabel(toolkit, form,
 				IMessageConstants.BASIC_EXPORT_IMPORT_TITLE, IMessageConstants.BASIC_EXPORT_IMPORT_EXPL, 2);
 		createProfileLoadButton(toolkit);
 		createProfileSaveButton(toolkit);
@@ -502,7 +499,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					return;
 				}
 
-				String selectedFileName; 
+				String selectedFileName;
         		ExportCreator export = new ExportCreator();
         		if(!export.canCreateProfileName(editor)) {
         			FileDialog dialog = new FileDialog(getSite().getShell(),SWT.SAVE);
@@ -513,7 +510,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
         		} else {
         			selectedFileName = export.createProfileName(editor);
         		}
-        		
+
 		        if (selectedFileName != null) {
 		        	try {
 		        		export.preExport(editor);
@@ -535,7 +532,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		        		export.postExport(selectedFileName, editor);
 		        		editor.getRtcParam().resetUpdated();
 		        		editor.updateDirty();
-		            	
+
 					} catch (Exception e1) {
 						String msg = e1.getMessage();
 						if (msg == null || msg.equals("")) {
@@ -558,7 +555,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 				ImportExtension extension = getTargetImportExtension();
 				FileDialog dialog = new FileDialog(getSite().getShell(),SWT.OPEN);
 		        dialog.setText(IMessageConstants.BASIC_BTN_IMPORT);
-		        
+
 				String[] names = extension == null ? new String[] { IMessageConstants.FILETYPE_XML,IMessageConstants.FILETYPE_YAML }
 				  					: extension.getFileDialogFilterNames();
 				String[] exts = extension == null ? new String[] { "*.xml","*.yaml" }
@@ -633,7 +630,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		}
 		rtcParam.setAbstract(getText(abstractText.getText()));
 		rtcParam.setRtcType(getText(rtcTypeText.getText()));
-		
+
 		rtcParam.setChoreonoid(choreonoidBtn.getSelection());
 
 		try {
@@ -666,7 +663,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 			multiModeBtn.setEnabled(true);
 			compGroup.setEnabled(true);
 		}
-		
+
 		editor.updateEMFModuleName(getText(nameText.getText()));
 		editor.updateDirty();
 	}
@@ -720,7 +717,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 			categoryCombo.add(value);
 		}
 	}
-	
+
 	private void loadSelectedCompKind(String type) {
 		if( type.contains("DataFlow") )           dataFlowBtn.setSelection(true);
 		if( type.contains("FiniteStateMachine") ) fsmBtn.setSelection(true);
@@ -729,12 +726,12 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	}
 	private String getSelectedCompKind() {
 		StringBuffer result = new StringBuffer();
-		
+
 		if(dataFlowBtn.getSelection())  result.append("DataFlow");
 		if(fsmBtn.getSelection())       result.append("FiniteStateMachine");
 		if(multiModeBtn.getSelection()) result.append("MultiMode");
 		if( result.length() > 0 ) result.append("Component");
-		
+
 		return result.toString();
 	}
 
@@ -748,7 +745,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 
 	@Override
 	protected Combo createEditableCombo(FormToolkit toolkit, Composite composite, String labelString, String key, String[] defaultValue, int color, int hspan) {
-		Combo combo = super.createEditableCombo(toolkit, composite, labelString, key, defaultValue, color, hspan); 
+		Combo combo = super.createEditableCombo(toolkit, composite, labelString, key, defaultValue, color, hspan);
 		GridData gd = (GridData)combo.getLayoutData();
 		gd.widthHint = 100;
 		return combo;

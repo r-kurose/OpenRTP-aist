@@ -52,7 +52,7 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 	private static final int LIBRARY_NAME = 0;
 	private static final int LIBRARY_VERSION = 1;
 	private static final int LIBRARY_OTHER = 2;
-	
+
 	private List<GenerateManager> managerList = null;
 	private Group LangGroup;
 	private Button cppRadio;
@@ -69,7 +69,7 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param editor
 	 *            親のエディタ
 	 */
@@ -102,7 +102,7 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	private void creatEnvSection(FormToolkit toolkit, ScrolledForm form) {
-		envSection = createSectionBaseWithLabel(toolkit, form, 
+		envSection = createSectionBaseWithLabel(toolkit, form,
 				IMessageConstants.LANGUAGE_ENV_TITLE, IMessageConstants.LANGUAGE_ENV_EXPL, 2);
 		//
 		langVersionViewer = createVersionTableViewer(toolkit, envSection);
@@ -155,7 +155,7 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	private void createLanguageSection(FormToolkit toolkit, ScrolledForm form) {
-		Composite composite = createSectionBaseWithLabel(toolkit, form, 
+		Composite composite = createSectionBaseWithLabel(toolkit, form,
 				IMessageConstants.LANGUAGE_LANG_TITLE, IMessageConstants.LANGUAGE_LANG_EXPL, 2);
 		//
 		LangGroup = new Group(composite, SWT.NONE);
@@ -192,7 +192,7 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		buttonComposite.setLayoutData(gd);
 		createLibraryAddButton(targetTableViewer, buttonComposite);
 		createLibraryDeleteButton(targetTableViewer, buttonComposite);
-		
+
 		return targetTableViewer;
 	}
 
@@ -202,7 +202,6 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		Button deleteButton = new Button(buttonComposite, SWT.PUSH);
 		deleteButton.setText("Delete");
 		deleteButton.addSelectionListener(new SelectionAdapter() {
-			@SuppressWarnings("unchecked")
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int selectionIndex = targetTableViewer.getTable()
@@ -267,7 +266,6 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		Button deleteButton = new Button(buttonComposite, SWT.PUSH);
 		deleteButton.setText("Delete");
 		deleteButton.addSelectionListener(new SelectionAdapter() {
-			@SuppressWarnings("unchecked")
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int selectionIndex = targetTableViewer.getTable()
@@ -354,7 +352,6 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		Button deleteButton = new Button(buttonComposite, SWT.PUSH);
 		deleteButton.setText("Delete");
 		deleteButton.addSelectionListener(new SelectionAdapter() {
-			@SuppressWarnings("unchecked")
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int selectionIndex = targetTableViewer.getTable()
@@ -364,7 +361,7 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 					((List) targetTableViewer.getInput())
 							.remove(selectionIndex);
 					targetTableViewer.refresh();
-					
+
 					osVersionViewer.setInput(null);
 					cpuTypesViewer.setInput(null);
 					osOther.setText("");
@@ -410,12 +407,12 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		TableViewerColumn col = super.createColumn(tv, title, width);
 		col.setEditingSupport(new LibraryCellModifier(tv, no));
 	}
-	
+
 	private void createLangColumn(TableViewer tv, String title, int width){
 		TableViewerColumn col = super.createColumn(tv, title, width);
 		col.setEditingSupport(new LangCellModifier(tv));
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public void update() {
 		if (cppRadio == null) {
@@ -530,17 +527,17 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		String result = null;
 
 		RtcParam rtcParam = editor.getRtcParam();
-		
+
 		if( rtcParam.getLangList()==null || rtcParam.getLangList().size()==0 ) {
 			result = IMessageConstants.LANGUAGE_SELECTION_CAUTION;
 			return result;
 		}
-		
+
 		if(rtcParam.isChoreonoid() && rtcParam.getLangList().contains(IRtcBuilderConstants.LANG_CPP)==false ) {
 			result = IMessageConstants.LANGUAGE_CHOREONOID_CAUTION;
 			return result;
 		}
-		
+
 		return null;
 	}
 
@@ -625,7 +622,7 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 			} else if (columnIndex == 1) {
 				result = targetEnvParam.getOs();
 			}
-		
+
 			return result;
 		}
 	}
@@ -698,7 +695,7 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		 */
 		public String getColumnText(Object element, int columnIndex) {
 			if (element instanceof LibraryParam == false) return null;
-		
+
 			LibraryParam libraryParam = (LibraryParam) element;
 			String result = null;
 			if (columnIndex == 0) {
@@ -708,7 +705,7 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 			} else if (columnIndex == 2) {
 				result = libraryParam.getOther();
 			}
-		
+
 			return result;
 		}
 	}
@@ -774,7 +771,7 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 			update();
 		}
 	}
-	
+
 	private org.eclipse.swt.events.SelectionAdapter createLanguageRadioListner(){
 		return new org.eclipse.swt.events.SelectionAdapter(){
 			@Override
@@ -788,5 +785,5 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 			}
 		};
 	}
-	
+
 }

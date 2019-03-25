@@ -1,8 +1,7 @@
 set(idls ${CMAKE_CURRENT_SOURCE_DIR}/ArUco.idl ${CMAKE_CURRENT_SOURCE_DIR}/GameFramework.idl ${CMAKE_CURRENT_SOURCE_DIR}/Img.idl )
 
 macro(_IDL_OUTPUTS _idl _dir _result)
-    set(${_result} ${_dir}/${_idl}SK.cc ${_dir}/${_idl}.hh
-        ${_dir}/${_idl}DynSK.cc)
+    set(${_result} ${_dir}/${_idl}Skel.cpp ${_dir}/${_idl}Skel.h)
 endmacro(_IDL_OUTPUTS)
 
 macro(_COMPILE_IDL _idl_file)

@@ -3,15 +3,6 @@ package jp.go.aist.rtm.nameserviceview.ui.views.nameserviceview;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import jp.go.aist.rtm.nameserviceview.NameServiceViewPlugin;
-import jp.go.aist.rtm.nameserviceview.manager.NameServiceViewPreferenceManager;
-import jp.go.aist.rtm.nameserviceview.model.manager.NameServerContext;
-import jp.go.aist.rtm.nameserviceview.model.manager.NameServerManager;
-import jp.go.aist.rtm.nameserviceview.model.manager.Node;
-import jp.go.aist.rtm.nameserviceview.model.manager.impl.NameServerManagerImpl;
-import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
-import jp.go.aist.rtm.toolscommon.ui.views.propertysheetview.RtcPropertySheetPage;
-
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
@@ -40,6 +31,15 @@ import org.eclipse.ui.part.DrillDownAdapter;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.views.navigator.LocalSelectionTransfer;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
+
+import jp.go.aist.rtm.nameserviceview.NameServiceViewPlugin;
+import jp.go.aist.rtm.nameserviceview.manager.NameServiceViewPreferenceManager;
+import jp.go.aist.rtm.nameserviceview.model.manager.NameServerContext;
+import jp.go.aist.rtm.nameserviceview.model.manager.NameServerManager;
+import jp.go.aist.rtm.nameserviceview.model.manager.Node;
+import jp.go.aist.rtm.nameserviceview.model.manager.impl.NameServerManagerImpl;
+import jp.go.aist.rtm.nameserviceview.model.nameservice.NamingContextNode;
+import jp.go.aist.rtm.toolscommon.ui.views.propertysheetview.RtcPropertySheetPage;
 
 /**
  * NameServiceViewを定義するクラス
@@ -123,6 +123,9 @@ public class NameServiceView extends ViewPart {
 		drillDownAdapter.addNavigationActions(manager);
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+		manager.add(new Separator("namingContextObjectContribution"));
+		//
+		manager.add(new Separator("additions_ext"));
 	}
 
 	private void fillLocalToolBar(IToolBarManager manager) {
@@ -139,7 +142,7 @@ public class NameServiceView extends ViewPart {
 
 	/**
 	 * ビューワを取得する
-	 * 
+	 *
 	 * @return ビューワ
 	 */
 	public TreeViewer getViewer() {
@@ -199,7 +202,7 @@ public class NameServiceView extends ViewPart {
 
 		NameServerManagerImpl.getInstance().eAdapters().add(
 				nameServerManagerListener);
-				
+
 		NameServerManagerImpl.getInstance().setSynchronizeInterval(
 				NameServiceViewPreferenceManager.getInstance().getInterval(
 						NameServiceViewPreferenceManager.SYNC_NAMESERVER_INTERVAL));
@@ -240,7 +243,7 @@ public class NameServiceView extends ViewPart {
 			} catch (Exception e) {
 			}
 		}
-		
+
 		NameServerManagerImpl.getInstance().eAdapters().remove(
 				nameServerManagerListener);
 

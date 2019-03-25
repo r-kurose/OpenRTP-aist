@@ -42,7 +42,7 @@ public class ConfigurationSetImpl extends WrapperObjectImpl implements
     /**
      * The default value of the '{@link #getId() <em>Id</em>}' attribute. <!--
      * begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @see #getId()
      * @generated
      * @ordered
@@ -52,7 +52,7 @@ public class ConfigurationSetImpl extends WrapperObjectImpl implements
     /**
      * The cached value of the '{@link #getId() <em>Id</em>}' attribute. <!--
      * begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @see #getId()
      * @generated
      * @ordered
@@ -70,7 +70,7 @@ public class ConfigurationSetImpl extends WrapperObjectImpl implements
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated NOT
      */
     public ConfigurationSetImpl() {
@@ -230,7 +230,6 @@ public class ConfigurationSetImpl extends WrapperObjectImpl implements
                 p.getConfigurationData().toArray()).isEquals();
     }
 
-    @SuppressWarnings("unchecked")
 	public static ConfigurationSet findConfigurationSetByID(String id,
             EList configurationSets) {
         ConfigurationSet result = null;

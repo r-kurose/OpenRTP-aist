@@ -13,14 +13,12 @@ import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.array_declarator;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.base_type_spec;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.definition;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.enum_type;
-import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.fixed_array_size;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.identifier;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.interface_dcl;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.interface_header;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.module;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.op_dcl;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.param_dcl;
-import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.primary_expr;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.scoped_name;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.sequence_type;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.simple_type_spec;
@@ -42,12 +40,12 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.idl.TypeDefParam;
  * <p>
  */
 public class IDLParamConverter {
-	
+
 	static private List<String> moduleName;
 
 	/**
 	 * IDLの構文解析木から、ジェネレータのインプットとなるServiceParamに変換する
-	 * 
+	 *
 	 * @param spec
 	 * @return ServiceParam
 	 */
@@ -116,7 +114,7 @@ public class IDLParamConverter {
 
 		return result;
 	}
-	
+
 	public static boolean checkSuperInterface(List<ServiceClassParam> targetList, boolean isAdd) {
 		for(ServiceClassParam target : targetList) {
 			if( target.getSuperInterfaceList().size()==0 ) continue;
@@ -142,7 +140,7 @@ public class IDLParamConverter {
 
 	/**
 	 * IDLの構文解析木から、sequence型のtypedefを探索する
-	 * 
+	 *
 	 * @param spec
 	 * @return HashMap
 	 */
@@ -150,7 +148,7 @@ public class IDLParamConverter {
 			final String idlPath) {
 		final List<TypeDefParam> result = new ArrayList<TypeDefParam>();
 		moduleName = new ArrayList<String>();
-		
+
 		spec.accept(new GJVoidDepthFirst<String>() {
 
 			@Override
@@ -158,7 +156,7 @@ public class IDLParamConverter {
 				moduleName.add(node2String(n.identifier.nodeToken));
 				super.visit(n, argu);
 			}
-			
+
 			@Override
 			public void visit(NodeToken n, String argu) {
 				if( node2String(n).equals("}")) {
@@ -231,7 +229,7 @@ public class IDLParamConverter {
 		}, null);
 		return result;
 	}
-	
+
 	private static String getModuleNames() {
 		StringBuilder builder = new StringBuilder();
 		for(int index=0;index<moduleName.size();index++) {
@@ -240,7 +238,7 @@ public class IDLParamConverter {
 		}
 		return builder.toString();
 	}
-	
+
 	public static boolean extractTypeDef(List<DataTypeParam> sources, List<String> result) {
 		boolean ret = true;
 		for( Iterator<DataTypeParam> iter = sources.iterator(); iter.hasNext(); ) {
@@ -267,10 +265,10 @@ public class IDLParamConverter {
 		}
 		return ret;
 	}
-	
+
 	private static List<String> parseForTypeDef(specification spec) {
 		final List<String> results = new ArrayList<String>();
-		
+
 		spec.accept(new GJVoidDepthFirst<String>() {
 			@SuppressWarnings("unchecked")
 			@Override
@@ -292,11 +290,11 @@ public class IDLParamConverter {
 	}
 	private static final class ExtractModule extends GJVoidDepthFirst {
 		private List<String> results;
-		
+
 		public ExtractModule(List<String> results) {
 			this.results = results;
 		}
-		
+
 		@SuppressWarnings("unchecked")
 		@Override
 		public void visit(definition n, Object argu) {
@@ -318,7 +316,7 @@ public class IDLParamConverter {
 
 	/**
 	 * インタフェースのモジュール名を取得する
-	 * 
+	 *
 	 * @param n
 	 * @return
 	 */
@@ -338,7 +336,7 @@ public class IDLParamConverter {
 
 	/**
 	 * ノードを文字列に変換する
-	 * 
+	 *
 	 * @param n
 	 *            ノード
 	 * @return 変換結果の文字列
@@ -399,7 +397,7 @@ public class IDLParamConverter {
 			if(ifname != null){ tdparam.setScopedName(ifname); }
 			tdparam.setTargetDef(node2String(n));
 		}
-		
+
 		public void visit(array_declarator n) {
 			tdparam.setArray(true);
 			if(ifname != null){ tdparam.setScopedName(ifname); }
@@ -408,8 +406,8 @@ public class IDLParamConverter {
 		}
 	}
   /**
-   * Visitor for 'type_spec()' 
-   * 
+   * Visitor for 'type_spec()'
+   *
    *  'typedef' type_declarator()
    *  type_declarator() -> type_spec() declarators()
    *
@@ -433,7 +431,7 @@ public class IDLParamConverter {
 		}
 
 		////////
-		// 
+		//
 		public void visit(simple_type_spec n) {
 			n.nodeChoice.accept(new DepthFirstSimpleTypeSpecVisitor(this.tdparam, this.replaceStringFlag));
 		}

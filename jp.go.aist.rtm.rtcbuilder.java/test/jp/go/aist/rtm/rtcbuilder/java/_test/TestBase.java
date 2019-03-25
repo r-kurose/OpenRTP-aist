@@ -25,10 +25,7 @@ public class TestBase extends TestCase {
 	}
 	protected String readFile(String fileName) {
 		StringBuffer stbRet = new StringBuffer();
-		try{
-			FileReader fr = new FileReader(fileName);
-			BufferedReader br = new BufferedReader(fr);
-	
+		try (FileReader fr = new FileReader(fileName); BufferedReader br = new BufferedReader(fr) ) {
 			String str = new String();
 			while( (str = br.readLine()) != null ){
 				boolean isIgnore = false;
@@ -40,17 +37,15 @@ public class TestBase extends TestCase {
 				}
 				if(!isIgnore) stbRet.append(str + "\r\n");
 			}
-			br.close();
-			fr.close();
 		} catch (IOException e){
 			e.printStackTrace();
 		}
 		return stbRet.toString();
 	}
-	
+
 	protected int getFileIndex(String targetName, List<GeneratedResult> targetList) {
 		int resultindex = -1;
-		
+
 		for( int intIdx=0; intIdx<targetList.size(); intIdx++ ) {
 			if( targetList.get(intIdx).getName().equals(targetName) ) {
 				return intIdx;
@@ -58,12 +53,12 @@ public class TestBase extends TestCase {
 		}
 		return resultindex;
 	}
-	
+
 	protected String getGeneratedString(String source) {
 		String sep = System.getProperty( "line.separator" );
 		String[] target = source.split(sep);
 		StringBuffer stbRet = new StringBuffer();
-		
+
 		for( int index=0; index<target.length; index++ ) {
 			boolean isIgnore = false;
 			for(int indexi=0;indexi<ignore_row_phrases.length;indexi++) {

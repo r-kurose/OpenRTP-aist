@@ -240,37 +240,39 @@ public class CorbaObserverImpl extends EObjectImpl implements CorbaObserver {
 		throw new UnsupportedOperationException();
 	}
 
-	protected boolean addServiceProfile(_SDOPackage.Configuration config) {
+	protected boolean addServiceProfile(RTC.RTObject ro) {
 		boolean result;
 		try {
 			serviceProfile.id = UUID.randomUUID().toString();
 			if (serviceProfile.properties == null) {
 				serviceProfile.properties = new _SDOPackage.NameValue[0];
 			}
-			result = config.add_service_profile(serviceProfile);
+			result = ro.get_configuration().add_service_profile(serviceProfile);
 			//
 			if (result) {
-				LOGGER.info("add_service_profile:    id={} type={} ior={} obs={}", serviceProfile.id,
-						serviceProfile.interface_type, serviceProfile.service, this.getClass().getName());
+				LOGGER.info("add_service_profile:    id={} type={} ior={} obs={} rtc=<{}>", serviceProfile.id,
+						serviceProfile.interface_type, serviceProfile.service, this.getClass().getName(), ro);
 			}
 		} catch (Exception e) {
-			LOGGER.error("Fail to add service profile: id={} type={} ior={} obs={}", serviceProfile.id,
-					serviceProfile.interface_type, serviceProfile.service, this.getClass().getName());
+			LOGGER.error("Fail to add service profile: id={} type={} ior={} obs={} rtc=<{}>", serviceProfile.id,
+					serviceProfile.interface_type, serviceProfile.service, this.getClass().getName(), ro);
 			LOGGER.error("ERROR:", e);
 			result = false;
 		}
 		return result;
 	}
 
-	protected boolean removeServiceProfile(_SDOPackage.Configuration config) {
+	protected boolean removeServiceProfile(RTC.RTObject ro) {
 		boolean result;
 		try {
-			result = config.remove_service_profile(serviceProfile.id);
+			result = ro.get_configuration().remove_service_profile(serviceProfile.id);
 			//
-			LOGGER.info("remove_service_profile: id={} type={} ior={} obs={}",
-					serviceProfile.id, serviceProfile.interface_type,
-					serviceProfile.service, this.getClass().getName());
+			LOGGER.info("remove_service_profile: id={} type={} ior={} obs={} rtc=<{}>", serviceProfile.id,
+					serviceProfile.interface_type, serviceProfile.service, this.getClass().getName(), ro);
 		} catch (Exception e) {
+			LOGGER.warn("Fail to remove service profile: id={} type={} ior={} obs={} rtc=<{}> exp=<{}:{}>",
+					serviceProfile.id, serviceProfile.interface_type, serviceProfile.service, this.getClass().getName(),
+					ro, e.getClass().getSimpleName(), e.getMessage());
 			result = false;
 		}
 		return result;

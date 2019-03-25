@@ -6,19 +6,17 @@
  */
 package jp.go.aist.rtm.toolscommon.model.core.util;
 
-import jp.go.aist.rtm.toolscommon.model.core.*;
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+import org.eclipse.emf.ecore.EObject;
 
 import jp.go.aist.rtm.toolscommon.model.core.CorbaWrapperObject;
 import jp.go.aist.rtm.toolscommon.model.core.CorePackage;
 import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
 import jp.go.aist.rtm.toolscommon.model.core.WrapperObject;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.LocalObject;
-
-import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->

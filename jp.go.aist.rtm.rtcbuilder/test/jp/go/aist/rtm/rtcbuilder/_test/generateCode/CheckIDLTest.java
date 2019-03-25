@@ -9,7 +9,6 @@ import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder._test.TestBase;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.HeaderException;
-import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
@@ -24,7 +23,7 @@ public class CheckIDLTest extends TestBase {
 	protected void setUp() throws Exception {
 		genParam = new GeneratorParam();
 		rtcParam = new RtcParam(genParam, true);
-		
+
 		rtcParam.setName("Sample");
 		rtcParam.setDescription("Sample Comp");
 		rtcParam.setVersion("1.0.0");
@@ -34,7 +33,7 @@ public class CheckIDLTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setMaxInstance(1);
 		rtcParam.setComponentKind("DataFlowComponent");
-		
+
 		rtcParam.setOutputProject(rootPath + "/resource/work");
 		rtcParam.setLanguage(IRtcBuilderConstants.LANG_CPP);
 		rtcParam.setLanguageArg(IRtcBuilderConstants.LANG_CPP_ARG);
@@ -65,7 +64,7 @@ public class CheckIDLTest extends TestBase {
 			assertTrue(ex.getMessage().endsWith("NOT EXists."));
 		}
 	}
-	
+
 	public void testServicePort02() throws Exception {
 		ServicePortParam service1 = new ServicePortParam("svPort", 0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>();
@@ -86,7 +85,7 @@ public class CheckIDLTest extends TestBase {
 		} catch (HeaderException ex) {
 		}
 	}
-	
+
 	public void testServicePort03() throws Exception {
 		ServicePortParam service1 = new ServicePortParam("svPort", 0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>();
@@ -107,7 +106,7 @@ public class CheckIDLTest extends TestBase {
 			assertTrue(false);
 		}
 	}
-	
+
 	public void testServicePort04() throws Exception {
 		ServicePortParam service1 = new ServicePortParam("svPort", 0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>();
@@ -128,7 +127,7 @@ public class CheckIDLTest extends TestBase {
 		} catch (HeaderException ex) {
 		}
 	}
-	
+
 	public void testServicePort05() throws Exception {
 		ServicePortParam service1 = new ServicePortParam("svPort", 0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>();
@@ -150,7 +149,7 @@ public class CheckIDLTest extends TestBase {
 		} catch (HeaderException ex) {
 		}
 	}
-	
+
 	public void testGenerate01() throws Exception {
 		ServicePortParam service1 = new ServicePortParam("Sample", 0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>();
@@ -167,7 +166,7 @@ public class CheckIDLTest extends TestBase {
 		rtcParam.setActionImplemented(4, true);
 		rtcParam.setActionImplemented(5, true);
 		rtcParam.setActionImplemented(9, true);
-		
+
 		List<IdlPathParam> idlDirs = new ArrayList<IdlPathParam>();
 		Generator generator = new Generator();
 		List<GeneratedResult> result = generator.generateTemplateCode(genParam, idlDirs);
@@ -180,7 +179,7 @@ public class CheckIDLTest extends TestBase {
 		checkCode(result, resourceDir, "TestSVC_impl.h");
 		checkCode(result, resourceDir, "TestSVC_impl.cpp");
 	}
-	
+
 	public void testGenerate02() throws Exception {
 		ServicePortParam service1 = new ServicePortParam("Sample", 0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>();
@@ -197,7 +196,7 @@ public class CheckIDLTest extends TestBase {
 		rtcParam.setActionImplemented(4, true);
 		rtcParam.setActionImplemented(5, true);
 		rtcParam.setActionImplemented(9, true);
-		
+
 		List<IdlPathParam> idlDirs = new ArrayList<IdlPathParam>();
 		idlDirs.add(new IdlPathParam("C:/Program Files/OpenRTM-aist/1.2.0/rtm/idl", true));
 		Generator generator = new Generator();

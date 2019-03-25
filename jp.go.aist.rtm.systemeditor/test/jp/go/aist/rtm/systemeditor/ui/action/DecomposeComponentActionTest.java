@@ -16,7 +16,6 @@ public class DecomposeComponentActionTest extends TestCase {
 	private CorbaComponent component3;
 	private StringBuffer buffer;
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void setUp() throws Exception {
 		diagram =  ComponentFactory.eINSTANCE.createSystemDiagram();
@@ -42,7 +41,7 @@ public class DecomposeComponentActionTest extends TestCase {
 		assertEquals(component2, diagram.getComponents().get(1));
 		assertEquals("exit ", buffer.toString());
 	}
-	
+
 	public void testDelete() throws Exception {
 		DeleteCommand command = new DeleteCommand();
 		command.setTarget(component3);

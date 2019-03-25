@@ -19,74 +19,106 @@ import org.eclipse.ui.IViewPart;
 
 public class StartNameServiceAction implements IViewActionDelegate {
 	private NameServiceView view;
-	
+
 	private static String SCRIPT_WINDOWS = System.getenv("RTM_ROOT") + "bin" + Path.SEPARATOR + "rtm-naming.bat";
+	private static String SCRIPT_WINDOWS_STOP = System.getenv("RTM_ROOT") + "bin" + Path.SEPARATOR + "kill-rtm-naming.bat";
+
 	private static String SCRIPT_LINUX = "/usr/bin/rtm-naming";
-	
+
+
 	public void init(IViewPart view) {
 		this.view = (NameServiceView) view;
 	}
 
 	public void run(IAction action) {
 		String targetOS = System.getProperty("os.name").toLowerCase();
-		boolean isWindows = false; 
+		boolean isWindows = false;
 		if(targetOS.toLowerCase().startsWith("windows")) {
 			isWindows = true;
 		}
-		
-		ProcessBuilder pb = null;
-		if(isWindows) {
-			pb = new ProcessBuilder(SCRIPT_WINDOWS);
-			
-		} else {
-			String passWord = "";
-			PasswordDialog  passwdDialog = new PasswordDialog(view.getSite().getShell());
-			if(passwdDialog.open()!=Dialog.OK) return;
-			
-			passWord = passwdDialog.getPassWord();
-			pb = new ProcessBuilder(SCRIPT_LINUX, "-f", "-w " + passWord);
-		}
-		try {
-			pb.start();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		String passWord = "";
+		//Stop NameService
+		{
+			ProcessBuilder pb = null;
+			if(isWindows) {
+				pb = new ProcessBuilder(SCRIPT_WINDOWS_STOP);
 
-		/////
-		//ネームサーバーの登録を複数回試行
-		boolean isStarted = false;
-		for(int index=0; index<10; index++) {
-			NameServerContext server = NameServerManager.eInstance.addNameServer("localhost");
-			if(server!=null) {
-				isStarted = true;
-				break;
+			} else {
+				PasswordDialog  passwdDialog = new PasswordDialog(view.getSite().getShell());
+				if(passwdDialog.open()!=Dialog.OK) return;
+
+				passWord = passwdDialog.getPassWord();
+				pb = new ProcessBuilder(SCRIPT_LINUX, "-k", "-f", "-w " + passWord);
 			}
+			try {
+				pb.start();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			//
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		}
-		if(isStarted) {
 			NameServerManager.eInstance.refreshAll();
-		} else {
-			MessageDialog.openWarning(view.getSite().getShell(), "Warning", 
-					Messages.getString("StartNameServiceAction.1")); //$NON-NLS-1$
+		}
+		//Start NameServer
+		{
+			ProcessBuilder pb = null;
+			if(isWindows) {
+				pb = new ProcessBuilder(SCRIPT_WINDOWS);
+
+			} else {
+				pb = new ProcessBuilder(SCRIPT_LINUX, "-f", "-w " + passWord);
+			}
+			try {
+				pb.start();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			/////
+			//　ネームサーバーの登録を複数回試行
+			boolean isStarted = false;
+			for(int index=0; index<10; index++) {
+				NameServerContext server = NameServerManager.eInstance.addNameServer("localhost");
+				if(server!=null) {
+					isStarted = true;
+					break;
+				}
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			if(isStarted) {
+				NameServerManager.eInstance.refreshAll();
+			} else {
+				MessageDialog.openWarning(view.getSite().getShell(), "Warning",
+						Messages.getString("StartNameServiceAction.1")); //$NON-NLS-1$
+			}
 		}
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
-		String target = "";
 		String targetOS = System.getProperty("os.name").toLowerCase();
 		if(targetOS.toLowerCase().startsWith("windows")) {
-			target = SCRIPT_WINDOWS; 
+			File targetFile = new File(SCRIPT_WINDOWS);
+			if(targetFile.exists()==false) {
+				action.setEnabled(false);
+			}
+			targetFile = new File(SCRIPT_WINDOWS_STOP);
+			if(targetFile.exists()==false) {
+				action.setEnabled(false);
+			}
+
 		} else {
-			target = SCRIPT_LINUX;
-		}
-		File targetFile = new File(target);
-		if(targetFile.exists()==false) {
-			action.setEnabled(false);
+			File targetFile = new File(SCRIPT_LINUX);
+			if(targetFile.exists()==false) {
+				action.setEnabled(false);
+			}
 		}
 	}
 }
- 

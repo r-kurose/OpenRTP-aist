@@ -15,6 +15,7 @@ import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentSpecification;
 import jp.go.aist.rtm.toolscommon.model.component.ConfigurationSet;
+import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
 import jp.go.aist.rtm.toolscommon.model.component.Port;
@@ -367,8 +368,10 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 		// オフラインの場合はここでポート設定
 		_setWrappingPorts(_getWrappedPorts());
 		// 複合RTCのECを、子RTCのparticipateに追加
+		// EListでリスト走査時の排他チェックに問題があり、複合RTC作成時のFuture内で例外となるのでArrayListに詰め替え
+		List<ExecutionContext> ecList = new ArrayList<>(getExecutionContexts());
 		for (Component c : componentList) {
-			for (ExecutionContext ec : getExecutionContexts()) {
+			for (ExecutionContext ec : ecList) {
 				ec.addComponentR(c);
 			}
 			c.getParticipationContextHandler().sync();
@@ -551,6 +554,55 @@ public class ComponentSpecificationImpl extends ComponentImpl implements Compone
 				LOGGER.error("Fail to synchronize local", e);
 			}
 		}
+	}
+
+	@Override
+	public void synchronizeRemoteChildComponents() {
+		if (!inOnlineSystemDiagram() || !isGroupingCompositeComponent()) {
+			super.synchronizeRemoteChildComponents();
+			return;
+		}
+		// Grouping複合RTCで、子RTCがCorbaComponent、かつオブザーバありの場合は子の同期を再帰しない
+		if (getComponents() == null) {
+			return;
+		}
+		for (Component comp : getComponents()) {
+			if (hasStatusObserver(comp)) {
+				continue;
+			}
+			comp.synchronizeRemoteAttribute(null);
+			comp.synchronizeRemoteChildComponents();
+		}
+	}
+
+	@Override
+	public void synchronizeChildComponents() {
+		if (!inOnlineSystemDiagram() || !isGroupingCompositeComponent()) {
+			super.synchronizeRemoteChildComponents();
+			return;
+		}
+		// Grouping複合RTCで、子RTCがCorbaComponent、かつオブザーバありの場合は子の同期を再帰しない
+		if (getComponents() == null) {
+			return;
+		}
+		for (Component comp : getComponents()) {
+			if (hasStatusObserver(comp)) {
+				continue;
+			}
+			comp.synchronizeLocalAttribute(null);
+			comp.synchronizeLocalReference();
+			comp.synchronizeChildComponents();
+		}
+	}
+
+	private boolean hasStatusObserver(Component comp) {
+		if (comp instanceof CorbaComponent) {
+			CorbaComponent c = (CorbaComponent) comp;
+			if (c.getStatusObserver() != null) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

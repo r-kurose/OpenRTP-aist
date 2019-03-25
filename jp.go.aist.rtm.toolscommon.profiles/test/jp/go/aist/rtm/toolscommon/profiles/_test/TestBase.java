@@ -40,51 +40,46 @@ public class TestBase extends TestCase {
 	}
 	protected String readFile(String fileName, String splitter) {
 		StringBuffer stbRet = new StringBuffer();
-		try{
-			FileReader fr = new FileReader(fileName);
-			BufferedReader br = new BufferedReader(fr);
-	
+		try (FileReader fr = new FileReader(fileName); BufferedReader br = new BufferedReader(fr) ) {
 			String str = new String();
 			while( (str = br.readLine()) != null ){
 				stbRet.append(str + splitter);
 			}
-			br.close();
-			fr.close();
 		} catch (IOException e){
 			e.printStackTrace();
 		}
 		return stbRet.toString();
 	}
-	
+
 	protected RtcProfile createConstraintBase(ConstraintType source) {
 		ObjectFactory factory = new ObjectFactory();
-		
+
 		RtcProfile profile = factory.createRtcProfile();
 		profile.setVersion("0.2");
 		ConfigurationSet configset = factory.createConfigurationSet();
 		Configuration config = factory.createConfiguration();
 		configset.getConfiguration().add(config);
 		profile.setConfigurationSet(configset);
-		
+
 		config.setConstraint(source);
-		
+
 		return profile;
 	}
-	
+
 	protected void checkDetailXml(RtcProfile profile){
 		assertEquals("RTC:SampleVendor:SampleCategory:SampleComponent:1.0.0",profile.getId());
 		assertEquals("0.2", profile.getVersion());
 		//
 		checkDetailCommon(profile);
 	}
-	
+
 	protected void checkDetailYaml01(RtcProfile profile){
 		assertEquals("RTC:SampleVendor.SampleCategory.SampleComponent:1.0.0",profile.getId());
 		assertEquals("0.1", profile.getVersion());
 		//
 		checkDetailCommon(profile);
 	}
-	
+
 	protected void checkDetailCommon(RtcProfile profile){
 		BasicInfoExt basic = (BasicInfoExt)profile.getBasicInfo();
 		assertEquals("SampleComponent", basic.getName());
@@ -204,7 +199,7 @@ public class TestBase extends TestCase {
 		assertEquals("int", config.getType());
 		assertEquals("var1", config.getVariableName());
 		assertEquals("1", config.getDefaultValue());
-		DocConfiguration docconfig = config.getDoc(); 
+		DocConfiguration docconfig = config.getDoc();
 		assertEquals("dataname1", docconfig.getDataname());
 		assertEquals("default1", docconfig.getDefaultValue());
 		assertEquals("config_Desc1", docconfig.getDescription());
@@ -329,9 +324,9 @@ public class TestBase extends TestCase {
 		assertEquals("Java", lang.getKind());
 		assertEquals("library1", lang.getTargets().get(0).getLibraries().get(0).getName());
 	}
-	
+
 	protected void checkDetailVer02(RtcProfile profile){
-		
+
 		assertEquals("RTC:SampleVender:SampleCategory:SampleComponent:1.0.0",profile.getId());
 		assertEquals("0.2", profile.getVersion());
 		//
@@ -345,7 +340,7 @@ public class TestBase extends TestCase {
 		assertEquals("SampleDescription", basic.getDescription());
 		assertEquals(1000.0, basic.getExecutionRate());
 		assertEquals("PeriodicExecutionContext", basic.getExecutionType());
-		assertEquals((long)1, basic.getMaxInstances().longValue());
+		assertEquals(1, basic.getMaxInstances().longValue());
 		assertEquals("SampleVendor", basic.getVendor());
 		assertEquals("1.0.0", basic.getVersion());
 		assertEquals("SampleAbstract", basic.getAbstract());
@@ -459,7 +454,7 @@ public class TestBase extends TestCase {
 //		assertEquals("100", config.getConstraint().getConstraintUnitType().getPropertyIsLessThan().getLiteral());
 		assertEquals("Sample", config.getComment());
 		assertEquals("var1", config.getVariableName());
-		DocConfiguration docconfig = config.getDoc(); 
+		DocConfiguration docconfig = config.getDoc();
 		assertEquals("config_Desc1", docconfig.getDescription());
 		assertEquals("dataname1", docconfig.getDataname());
 		assertEquals("default1", docconfig.getDefaultValue());

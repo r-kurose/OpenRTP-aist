@@ -1,5 +1,10 @@
 package jp.go.aist.rtm.rtcbuilder.python.manager;
 
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.RTM_VERSION_100;
+import static jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython.LANG_PYTHON;
+import static jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython.LANG_PYTHON_ARG;
+import static jp.go.aist.rtm.rtcbuilder.util.RTCUtil.form;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +14,6 @@ import java.util.Map;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.python.ui.Perspective.PythonProperty;
@@ -17,10 +21,6 @@ import jp.go.aist.rtm.rtcbuilder.template.TemplateHelper;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
 import jp.go.aist.rtm.rtcbuilder.ui.Perspective.LanguageProperty;
 import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
-import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
-import static jp.go.aist.rtm.rtcbuilder.util.RTCUtil.form;
-import static jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython.LANG_PYTHON;
-import static jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython.LANG_PYTHON_ARG;
 
 /**
  * Pythonファイルの出力を制御するマネージャ
@@ -57,7 +57,7 @@ public class PythonGenerateManager extends GenerateManager {
 
 	/**
 	 * ファイルを出力する
-	 * 
+	 *
 	 * @param generatorParam
 	 * @return 出力結果のリスト
 	 */
@@ -203,7 +203,7 @@ public class PythonGenerateManager extends GenerateManager {
 		String infile = "python/test/Py_Test_RTC.py.vsl";
 		return generate(infile, outfile, contextMap);
 	}
-	
+
 	public GeneratedResult generateTestSVCIDLExampleSource(
 			Map<String, Object> contextMap) {
 		IdlFileParam idlParam = (IdlFileParam) contextMap.get("idlFileParam");
@@ -216,12 +216,9 @@ public class PythonGenerateManager extends GenerateManager {
 			Map<String, Object> contextMap) {
 		try {
 			String template = TEMPLATE_PATH + "/" + infile;
-			InputStream ins = getClass().getClassLoader().getResourceAsStream(
-					template);
-			GeneratedResult gr = TemplateUtil.createGeneratedResult(ins,
-					contextMap, outfile);
-			if (ins != null) {
-				ins.close();
+			GeneratedResult gr = null;
+			try (InputStream ins = getClass().getClassLoader().getResourceAsStream(template) ) {
+				gr = TemplateUtil.createGeneratedResult(ins, contextMap, outfile);
 			}
 			return gr;
 		} catch (Exception e) {

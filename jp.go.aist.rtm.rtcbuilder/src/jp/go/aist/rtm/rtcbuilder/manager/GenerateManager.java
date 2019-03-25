@@ -41,6 +41,7 @@ public abstract class GenerateManager {
 
 	// Profileデータ変換用
 	public void convertProfile(Object profile) {
+		//
 	}
 
 	// IDLファイル内に記述されているServiceClassParamを設定する

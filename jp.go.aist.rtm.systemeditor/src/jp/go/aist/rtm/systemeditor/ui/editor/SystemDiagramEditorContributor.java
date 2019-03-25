@@ -3,9 +3,6 @@ package jp.go.aist.rtm.systemeditor.ui.editor;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import jp.go.aist.rtm.systemeditor.nl.Messages;
-import jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart;
-
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ui.actions.ActionBarContributor;
@@ -17,6 +14,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+
+import jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart;
 
 /**
  * システムダイアグラムのActionBarContributorクラス
@@ -80,7 +79,7 @@ public class SystemDiagramEditorContributor extends ActionBarContributor {
 		private final IStatusLineManager manager;
 
 		private ComponentEditPart componentEditPart;
-		
+
 		private IWorkbenchPage page;
 
 		private StatusLineDrawer(IWorkbenchPage page, IStatusLineManager manager) {
@@ -115,7 +114,7 @@ public class SystemDiagramEditorContributor extends ActionBarContributor {
 			if (componentEditPart != null) {
 				componentEditPart.addPropertyChangeListener(this);
 			}
-			
+
 			drawMessage();
 		}
 

@@ -53,8 +53,7 @@ import org.slf4j.LoggerFactory;
  */
 public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaStatusObserver {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(CorbaStatusObserverImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CorbaStatusObserverImpl.class);
 
 	public static final String[] TYPE_NAMES = new String[] {
 			"COMPONENT_PROFILE", //
@@ -161,7 +160,7 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 			//
 			activate();
 			try {
-				boolean result = addServiceProfile(rtc.get_configuration());
+				boolean result = addServiceProfile(rtc);
 				if (!result) {
 					deactivate();
 					return false;
@@ -195,8 +194,10 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 		//
 		boolean result = false;
 		try {
-			result = removeServiceProfile(rtc.get_configuration());
+			result = removeServiceProfile(rtc);
 		} catch (Exception e) {
+			LOGGER.warn("Fail to remove service profile. rtc={} exp=<{}:{}>", rtc, e.getClass().getSimpleName(),
+					e.getMessage());
 		}
 		deactivate();
 		//
@@ -356,7 +357,12 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 			if (hint == null) {
 				return;
 			}
-			if ("ACTIVATE_CONFIG_SET".equals(hint)) {
+			int p = hint.indexOf(":");
+			if (p == -1) {
+				return;
+			}
+			String action = hint.substring(0, p);
+			if ("ACTIVATE_CONFIG_SET".equals(action)) {
 				synchronizeRemote_ActiveConfigurationSet(rtc);
 			} else {
 				synchronizeRemote_ConfigurationSets(rtc);
@@ -403,8 +409,8 @@ public class CorbaStatusObserverImpl extends CorbaObserverImpl implements CorbaS
 		setProperty("port_profile.receive_event.min_interval", getPropPortRecvMinInterval());
 		//
 		try {
-			removeServiceProfile(rtc.get_configuration());
-			addServiceProfile(rtc.get_configuration());
+			removeServiceProfile(rtc);
+			addServiceProfile(rtc);
 		} catch (Exception e) {
 			LOGGER.error("Fail to reset service profile.", e);
 		}

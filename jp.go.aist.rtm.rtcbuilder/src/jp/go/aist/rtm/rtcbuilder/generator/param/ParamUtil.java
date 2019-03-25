@@ -52,7 +52,7 @@ import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
 import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 
 public class ParamUtil {
-	
+
 	public static RtcProfile initialXml(String creationDate) {
 		ObjectFactory factory = new ObjectFactory();
 		RtcProfile profileType = factory.createRtcProfile();
@@ -63,13 +63,13 @@ public class ParamUtil {
 				ComponentPreferenceManager.getInstance().getBasic_Version();
 		profileType.setId(moduleId);
 		profileType.setVersion(IRtcBuilderConstants.SCHEMA_VERSION);
-		
+
 		BasicInfoExt basic = initBasicInfo(creationDate, factory);
 		profileType.setBasicInfo(basic);
 		//
 		Actions actionType = initActions(factory);
 		profileType.setActions(actionType);
-		
+
 		return profileType;
 	}
 
@@ -201,13 +201,13 @@ public class ParamUtil {
 	public RtcParam convertFromModule(RtcProfile profile, GeneratorParam generatorParam,
 			List<GenerateManager> managerList) throws Exception {
 		return convertFromModule(profile, generatorParam, managerList, false);
-		
+
 	}
-	
+
 	public RtcParam convertFromModule(RtcProfile profile, GeneratorParam generatorParam,
 										List<GenerateManager> managerList, boolean isDirect) throws Exception {
 		RtcParam rtcParam = new RtcParam(generatorParam, isDirect);
-		
+
 		rtcParam.setSchemaVersion(profile.getVersion());
 
 		convertFromModuleBasic(profile, rtcParam);
@@ -329,8 +329,8 @@ public class ParamUtil {
 	}
 
 	private void convertFromModuleBasic(RtcProfile profile, RtcParam rtcParam) {
-		BasicInfo basic = (BasicInfo)profile.getBasicInfo();
-		
+		BasicInfo basic = profile.getBasicInfo();
+
 		rtcParam.setName(basic.getName());
 		rtcParam.setComponentType(basic.getComponentType());
 		rtcParam.setActivityType(basic.getActivityType());
@@ -353,7 +353,7 @@ public class ParamUtil {
 		XMLGregorianCalendar updateDate = basic.getUpdateDate();
 		updateDate.setMillisecond(DatatypeConstants.FIELD_UNDEFINED);
 		rtcParam.setUpdateDate(updateDate.toString());
-		
+
 		rtcParam.getVersionUpLog().clear();
 		// rtcParam.setVersionUpLog(basic.getVersionUpLogs());
 		//Doc Basic
@@ -383,7 +383,7 @@ public class ParamUtil {
 			}
 		}
 	}
-	
+
 	private boolean isCxx(String target) {
 		if( target.toUpperCase().equals(IRtcBuilderConstants.LANG_CPPWIN) ||
 				target.equals(IRtcBuilderConstants.LANG_CPP) )
@@ -391,7 +391,6 @@ public class ParamUtil {
 		return false;
 	}
 
-	@SuppressWarnings("unchecked")
 	private void createConfigParam(List configs, RtcParam rtcParam)  throws Exception{
 		for( Object config : configs ) {
 			Configuration configBasic = (Configuration)config;
@@ -426,24 +425,23 @@ public class ParamUtil {
 			rtcParam.getConfigParams().add(configp);
 		}
 	}
-	
+
 	private void setActions(RtcParam rtcParam, int actionId, ActionStatusDoc actionStatus) {
 		rtcParam.setActionImplemented( actionId, actionStatus.getImplemented());
 		if( actionStatus.getDoc() != null ) {
-			rtcParam.setDocActionOverView( actionId, actionStatus.getDoc().getDescription()); 
-			rtcParam.setDocActionPreCondition( actionId, actionStatus.getDoc().getPreCondition()); 
-			rtcParam.setDocActionPostCondition( actionId, actionStatus.getDoc().getPostCondition()); 
+			rtcParam.setDocActionOverView( actionId, actionStatus.getDoc().getDescription());
+			rtcParam.setDocActionPreCondition( actionId, actionStatus.getDoc().getPreCondition());
+			rtcParam.setDocActionPostCondition( actionId, actionStatus.getDoc().getPostCondition());
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void createServicePortParam(List servicePorts, List<ServicePortParam> targetPort) {
 		for( Object serviceport : servicePorts ) {
 			Serviceport servicePortBasic = (Serviceport)serviceport;
 			ServicePortParam serviceportp = new ServicePortParam();
 			serviceportp.setName(servicePortBasic.getName());
 			if(serviceport instanceof ServiceportDoc) {
-				ServiceportDoc servicePortDoc = (ServiceportDoc)serviceport; 
+				ServiceportDoc servicePortDoc = (ServiceportDoc)serviceport;
 				DocServiceport doc = servicePortDoc.getDoc();
 				if( doc != null ) {
 					serviceportp.setDocDescription(doc.getDescription());
@@ -451,7 +449,7 @@ public class ParamUtil {
 				}
 			}
 			if(serviceport instanceof ServiceportExt) {
-				ServiceportExt servicePortExt = (ServiceportExt)serviceport; 
+				ServiceportExt servicePortExt = (ServiceportExt)serviceport;
 				serviceportp.setPosition(servicePortExt.getPosition().toString());
 				//Properties
 				for( Property prop : servicePortExt.getProperties() ) {
@@ -499,7 +497,6 @@ public class ParamUtil {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void createDataPortParam(List dataPorts, RtcParam rtcParam) throws Exception {
 		List<DataPortParam> InPortList = new ArrayList<DataPortParam>();
 		List<DataPortParam> OutPortList = new ArrayList<DataPortParam>();
@@ -515,7 +512,7 @@ public class ParamUtil {
 			dataportp.setUnit(dataPortBasic.getUnit());
 			if( dataPortBasic.getConstraint()!=null )
 				dataportp.setConstraint(XmlHandler.restoreConstraint(dataPortBasic.getConstraint()));
-			
+
 			if(dataport instanceof DataportDoc) {
 				DataportDoc dataPortDoc = (DataportDoc)dataport;
 				DocDataport docPort = dataPortDoc.getDoc();
@@ -587,9 +584,9 @@ public class ParamUtil {
 		convertToModuleConfiguration(target, factory, profile);
 		convertToModuleParameter(target, factory, profile);
 		convertToModuleLanguage(managerList, target, factory, profile);
-		
+
 		deleteInapplicableItem(profile, managerList);
-		
+
 		return profile;
 	}
 
@@ -847,7 +844,7 @@ public class ParamUtil {
 				ifProp.setValue(prop.getValue());
 				serviceIF.getProperties().add(ifProp);
 			}
-			
+
 			serviceport.getServiceInterface().add(serviceIF);
 		}
 		return serviceport;
@@ -861,7 +858,7 @@ public class ParamUtil {
 		docAction.setDescription(rtcParam.getDocActionOverView(actionId));
 		docAction.setPreCondition(rtcParam.getDocActionPreCondition(actionId));
 		docAction.setPostCondition(rtcParam.getDocActionPostCondition(actionId));
-		if( checkNotNull(docAction.getDescription()) || 
+		if( checkNotNull(docAction.getDescription()) ||
 			 checkNotNull(docAction.getPreCondition()) ||
 			 checkNotNull(docAction.getPostCondition()) ) {
 				status.setDoc(docAction);
@@ -871,7 +868,7 @@ public class ParamUtil {
 		//
 		return status;
 	}
-	
+
 	private void deleteInapplicableItem(RtcProfile profile, List<GenerateManager> managerList){
 		if( profile.getLanguage()==null ) return;
 		String langName = profile.getLanguage().getKind();

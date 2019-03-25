@@ -2,21 +2,17 @@ package jp.go.aist.rtm.systemeditor.ui.editor.command;
 
 import java.util.Map;
 
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.gef.commands.Command;
+
 import jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramStore;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpart.ECConnectionEditPart;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
-
-import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.gef.commands.Command;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * EC関連のラインを移動するコマンド
  */
 public class ECMoveLineCommand extends Command {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(ECMoveLineCommand.class);
 
 	private Integer index;
 	private Point point;

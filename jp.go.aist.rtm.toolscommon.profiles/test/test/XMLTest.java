@@ -42,7 +42,7 @@ public class XMLTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 //	private static void YAMLinputSample() {
 ////		BufferedInputStream inputFile = null;
 ////		try {
@@ -68,7 +68,7 @@ public class XMLTest {
 ////		test.put("org.openrtp.namespaces.rtc.impl.ActionsImpl", "aaa");
 ////		config.setTransfers(test);
 ////		config.dump(holder);
-//		
+//
 //		System.out.println(yamlText);
 //		String[] yamlSplt = removeClassInfo(yamlText);
 //		if( yamlSplt.length > 0 ) {
@@ -101,11 +101,11 @@ public class XMLTest {
 //		for( int intidx=0;intidx<splitStr.length;intidx++ ) {
 //			strWork = splitStr[intidx];
 //			if(strWork.trim().contains(prefixClass)) {
-//				int end = strWork.indexOf(prefixClass); 
+//				int end = strWork.indexOf(prefixClass);
 //				splitStr[intidx] = strWork.substring(0,end+1);
 //			}
 //			if(strWork.trim().startsWith(prefixClass2)) {
-//				int end = strWork.indexOf(prefixClass2); 
+//				int end = strWork.indexOf(prefixClass2);
 //				splitStr[intidx] = strWork.substring(0,end+1);
 //			}
 //		}
@@ -154,14 +154,14 @@ public class XMLTest {
 			e.printStackTrace();
 		}
 	}
-		
+
 	public static boolean validateXml(String targetString) throws Exception {
 		try {
 			JAXBContext jc = JAXBContext.newInstance("org.openrtp.namespaces.rtc");
 			Unmarshaller unmarshaller = jc.createUnmarshaller();
 
-			SchemaFactory sf = SchemaFactory.newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);  
-			Schema schema = sf.newSchema(new File("schema/RtcProfile_ext.xsd")); 
+			SchemaFactory sf = SchemaFactory.newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
+			Schema schema = sf.newSchema(new File("schema/RtcProfile_ext.xsd"));
 			unmarshaller.setSchema(schema);
 
 			((JAXBElement<?>)unmarshaller.unmarshal(new StreamSource(new FileReader(targetString)))).getValue();
@@ -186,23 +186,18 @@ public class XMLTest {
 //		}
 //		System.out.println("aaa");
 //	}
-	
+
 	protected static String readFile(String fileName) {
 		StringBuffer stbRet = new StringBuffer();
-		try{
-			FileReader fr = new FileReader(fileName);
-			BufferedReader br = new BufferedReader(fr);
-	
+		try( FileReader fr = new FileReader(fileName); BufferedReader br = new BufferedReader(fr) ) {
 			String str = new String();
 			while( (str = br.readLine()) != null ){
 				stbRet.append(str + "\n");
 			}
-			br.close();
-			fr.close();
 		} catch (IOException e){
 			e.printStackTrace();
 		}
 		return stbRet.toString();
 	}
-	
+
 }

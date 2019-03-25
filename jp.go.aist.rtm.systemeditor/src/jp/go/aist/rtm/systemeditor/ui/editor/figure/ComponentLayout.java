@@ -4,15 +4,14 @@ import static jp.go.aist.rtm.toolscommon.model.component.Component.OUTPORT_DIREC
 import static jp.go.aist.rtm.toolscommon.model.component.Component.OUTPORT_DIRECTION_LEFT_LITERAL;
 import static jp.go.aist.rtm.toolscommon.model.component.Component.OUTPORT_DIRECTION_RIGHT_LITERAL;
 import static jp.go.aist.rtm.toolscommon.model.component.Component.OUTPORT_DIRECTION_UP_LITERAL;
-import jp.go.aist.rtm.toolscommon.model.component.Component;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import jp.go.aist.rtm.toolscommon.model.component.Component;
 
 /**
  * コンポーネントFigureの内部で使用されるレイアウト
@@ -20,8 +19,6 @@ import org.slf4j.LoggerFactory;
  * コンポーネントFigureのデフォルトサイズ（ポートの数から計算）、方向やポートの位置を計算する
  */
 public class ComponentLayout extends XYLayout {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(ComponentLayout.class);
 
 	/** コンポーネントの周りとコンポーネントのボディまでのスペース(ポート側) */
 	public static final int PORT_SPACE = 32;
@@ -45,7 +42,7 @@ public class ComponentLayout extends XYLayout {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param Component
 	 *            モデル
 	 */
@@ -110,28 +107,28 @@ public class ComponentLayout extends XYLayout {
 
 		/**
 		 * 対象の子要素のクラスを取得します。
-		 * 
+		 *
 		 * @return
 		 */
 		public abstract Class<?>[] getTargetClasses();
 
 		/**
 		 * 子要素の向きを取得します。
-		 * 
+		 *
 		 * @return
 		 */
 		public abstract String getChildDirection();
 
 		/**
 		 * 子要素の配置スペックを取得します。
-		 * 
+		 *
 		 * @return
 		 */
 		public abstract Spec getSpec();
 
 		/**
 		 * ベースとなる親要素の向きを表します。
-		 * 
+		 *
 		 * @return
 		 */
 		public String getParentDirection() {
@@ -158,7 +155,7 @@ public class ComponentLayout extends XYLayout {
 
 		/**
 		 * 子要素の数を取得します。
-		 * 
+		 *
 		 * @param parent
 		 * @return
 		 */
@@ -175,7 +172,7 @@ public class ComponentLayout extends XYLayout {
 
 		/**
 		 * 子要素の配置を算出します。
-		 * 
+		 *
 		 * @param parent
 		 * @param child
 		 * @return
@@ -220,7 +217,7 @@ public class ComponentLayout extends XYLayout {
 
 		/**
 		 * 対象の子要素かを判定します。
-		 * 
+		 *
 		 * @param target
 		 * @return
 		 */

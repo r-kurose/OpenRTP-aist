@@ -54,8 +54,8 @@ public class NewWizard extends Wizard implements INewWizard, IExecutableExtensio
 			if( !newProjectPage.useDefaults() ) {
 				IPath newPath = newProjectPage.getLocationPath();
 				IWorkspace workspace = projectHandle.getWorkspace();
-		
-		        final IProjectDescription description = 
+
+		        final IProjectDescription description =
 		        			workspace.newProjectDescription(projectHandle.getName());
 		        description.setLocation(newPath);
 				projectHandle.create(description, null);
@@ -81,7 +81,7 @@ public class NewWizard extends Wizard implements INewWizard, IExecutableExtensio
 		}
 		// パースペクティブを切り替え
 		BasicNewProjectResourceWizard.updatePerspective(configElement);
-		
+
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 		try {
@@ -90,16 +90,17 @@ public class NewWizard extends Wizard implements INewWizard, IExecutableExtensio
 		} catch (PartInitException e) {
 			LOGGER.error("Fail to open editor", e);
 		}
-		
+
 		return true;
 	}
-	
+
     public void setInitializationData(
 		IConfigurationElement cfig, String propertyName, Object data) {
         configElement = cfig;
     }
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
+		//
 	}
 
 	public void addPages() {

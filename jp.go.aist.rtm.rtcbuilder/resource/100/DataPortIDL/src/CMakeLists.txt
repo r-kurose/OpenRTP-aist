@@ -1,6 +1,12 @@
 set(comp_srcs MarkerPosition.cpp )
 set(standalone_srcs MarkerPositionComp.cpp)
 
+if(${OPENRTM_VERSION_MAJOR} LESS 2)
+  set(OPENRTM_CFLAGS ${OPENRTM_CFLAGS} ${OMNIORB_CFLAGS})
+  set(OPENRTM_INCLUDE_DIRS ${OPENRTM_INCLUDE_DIRS} ${OMNIORB_INCLUDE_DIRS})
+  set(OPENRTM_LIBRARY_DIRS ${OPENRTM_LIBRARY_DIRS} ${OMNIORB_LIBRARY_DIRS})
+endif()
+
 if (DEFINED OPENRTM_INCLUDE_DIRS)
   string(REGEX REPLACE "-I" ";"
     OPENRTM_INCLUDE_DIRS "${OPENRTM_INCLUDE_DIRS}")
@@ -27,14 +33,11 @@ include_directories(${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME})
 include_directories(${PROJECT_BINARY_DIR})
 include_directories(${PROJECT_BINARY_DIR}/idl)
 include_directories(${OPENRTM_INCLUDE_DIRS})
-include_directories(${OMNIORB_INCLUDE_DIRS})
 add_definitions(${OPENRTM_CFLAGS})
-add_definitions(${OMNIORB_CFLAGS})
 
 MAP_ADD_STR(comp_hdrs "../" comp_headers)
 
 link_directories(${OPENRTM_LIBRARY_DIRS})
-link_directories(${OMNIORB_LIBRARY_DIRS})
 
 add_library(${PROJECT_NAME} ${LIB_TYPE} ${comp_srcs}
   ${comp_headers} ${ALL_IDL_SRCS})

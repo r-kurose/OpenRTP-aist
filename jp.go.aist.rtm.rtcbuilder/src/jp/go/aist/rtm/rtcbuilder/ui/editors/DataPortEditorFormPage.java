@@ -7,18 +7,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
-import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
-import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
-import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
-import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
-import jp.go.aist.rtm.rtcbuilder.ui.preference.RTCBuilderPreferenceManager;
-import jp.go.aist.rtm.rtcbuilder.util.ValidationUtil;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.CellEditor;
@@ -47,7 +39,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ScrollBar;
@@ -55,6 +46,16 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
+
+import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
+import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
+import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
+import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
+import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
+import jp.go.aist.rtm.rtcbuilder.ui.preference.RTCBuilderPreferenceManager;
+import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
+import jp.go.aist.rtm.rtcbuilder.util.ValidationUtil;
 
 /**
  * DataPortページ
@@ -89,10 +90,10 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 	private String defaultPortType;
 	private String defaultPortVarName;
 	private String[] defaultTypeList;
-	
+
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param editor
 	 *            親のエディタ
 	 */
@@ -119,7 +120,7 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		ScrolledForm form = super.createBase(managedForm, IMessageConstants.DATAPORT_SECTION);
 		FormToolkit toolkit = managedForm.getToolkit();
 		//
-		final Composite composite = createSectionBaseWithLabel(toolkit, form, 
+		final Composite composite = createSectionBaseWithLabel(toolkit, form,
 				IMessageConstants.DATAPORT_TITLE, IMessageConstants.DATAPORT_EXPL, 4);
 		inportTableViewer = createPortSection(toolkit, composite,
 				IMessageConstants.REQUIRED + IMessageConstants.DATAPORT_TBLLBL_INPORTNAME, 0, true);
@@ -148,10 +149,10 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		//
 		createHintLabel(IMessageConstants.DATAPORT_HINT_DOCUMENT_TITLE, IMessageConstants.DATAPORT_HINT_DOCUMENT_DESC, toolkit, composite);
 	}
-	
+
 	private void createDetailSection(FormToolkit toolkit, ScrolledForm form) {
 
-		Composite composite = createSectionBaseWithLabel(toolkit, form, 
+		Composite composite = createSectionBaseWithLabel(toolkit, form,
 				"Detail", IMessageConstants.DATAPORT_DOCUMENT_EXPL, 2);
 		//
 		portNameText = createLabelAndText(toolkit, composite,
@@ -180,7 +181,7 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 					for(String itemKey: keyList) {
 					  if (each.contains(itemKey)==false) {
 						  isHit = false;
-						  break; 
+						  break;
 					  }
 					}
 					if (isHit) {
@@ -201,16 +202,13 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 			});
 		GridData gdcombo = new GridData(GridData.FILL_HORIZONTAL);
 		typeCombo.setLayoutData(gdcombo);
-		
-//		typeCombo = createLabelAndCombo(toolkit, detailGroup,
-//				IMessageConstants.REQUIRED + IMessageConstants.DATAPORT_TBLLBL_DATATYPE, defaultTypeList, SWT.COLOR_RED);
+
 		String[] items = typeCombo.getItems();
 		Arrays.sort(items);
 		typeCombo.setItems(items);
-		
+
 		Button reloadButton = toolkit.createButton(detailGroup, "ReLoad", SWT.PUSH);
 		reloadButton.addSelectionListener(new SelectionAdapter() {
-			@SuppressWarnings("unchecked")
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				defaultTypeList = extractDataTypes();
@@ -222,7 +220,7 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		//
 		idlFileText = createLabelAndFile(toolkit, detailGroup, "idl",
 				IMessageConstants.SERVICEPORT_LBL_IDLFILE, SWT.COLOR_BLACK, SWT.BORDER);
-		
+
 		//
 		varNameText = createLabelAndText(toolkit, detailGroup, IMessageConstants.DATAPORT_TBLLBL_VARNAME, SWT.BORDER);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -247,7 +245,7 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		descriptionText.setLayoutData(gridData);
 		typeText = createLabelAndText(toolkit, documentGroup,
 				IMessageConstants.DATAPORT_LBL_PORTTYPE, SWT.BORDER);
-		numberText = createLabelAndText(toolkit, documentGroup,	
+		numberText = createLabelAndText(toolkit, documentGroup,
 				IMessageConstants.DATAPORT_LBL_DATANUM, SWT.BORDER);
 		semanticsText = createLabelAndText(toolkit, documentGroup,
 				IMessageConstants.DATAPORT_LBL_SEMANTICS, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
@@ -307,7 +305,6 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		//
 		Button deleteButton = toolkit.createButton(buttonComposite, "Delete", SWT.PUSH);
 		deleteButton.addSelectionListener(new SelectionAdapter() {
-			@SuppressWarnings("unchecked")
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int selectionIndex = portParamTableViewer.getTable()
@@ -367,7 +364,7 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 
 	public void update() {
 		updateIDLFile();
-		
+
 		if (selectParam != null) {
 			selectParam.setType(typeCombo.getText());
 			selectParam.setVarName(StringUtil.getDocText(varNameText.getText()));
@@ -395,10 +392,22 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 				RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(RTCBuilderPreferenceManager.HOME_DIRECTORY, "");
 				String userHome = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(RTCBuilderPreferenceManager.HOME_DIRECTORY);
 				String userDir = userHome + FS + "idl";
-				
+
 				Path sourcePath = Paths.get(localIDL);
 				File targetFile = new File(userDir + FS + sourcePath.getFileName());
-				if(targetFile.exists()==false) {
+                boolean isCopy = true;
+
+				if(targetFile.exists()) {
+                	if(FileUtil.fileCompare(localIDL, targetFile)) {
+                		isCopy = false;
+                	} else {
+						File renameFile = new File(targetFile.getAbsolutePath() + DATE_FORMAT.format(new GregorianCalendar().getTime()));
+						targetFile.renameTo(renameFile);
+						FileUtil.removeBackupFiles(targetFile.getParent(), targetFile.getName());
+                	}
+				}
+
+				if(isCopy) {
 			        Path destinationPath = Paths.get(userDir + FS + sourcePath.getFileName());
 			        try {
 			            Files.copy(sourcePath,destinationPath);
@@ -434,7 +443,7 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 			preSelection.setDocOperation(StringUtil.getDocText(operationText.getText()));
 		}
 	}
-	
+
 	private void clearText() {
 		portNameText.setText("");
 		typeCombo.select(0);
@@ -477,9 +486,9 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		String result = null;
 
 		RtcParam rtcParam = editor.getRtcParam();
-		Set<String> checkSet = new HashSet<String>(); 
-		Set<String> checkVarSet = new HashSet<String>(); 
-		
+		Set<String> checkSet = new HashSet<String>();
+		Set<String> checkVarSet = new HashSet<String>();
+
 		for(DataPortParam dataport : rtcParam.getInports()) {
 			result = checkDataPort(dataport, checkSet, checkVarSet);
 			if( result != null) return result;
@@ -489,10 +498,10 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 			result = checkDataPort(dataport, checkSet, checkVarSet);
 			if( result != null) return result;
 		}
-		
+
 		return null;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private String checkDataPort(DataPortParam dataport, Set checkSet, Set checkVarSet) {
 		String result = ValidationUtil.validateDataPort(dataport);

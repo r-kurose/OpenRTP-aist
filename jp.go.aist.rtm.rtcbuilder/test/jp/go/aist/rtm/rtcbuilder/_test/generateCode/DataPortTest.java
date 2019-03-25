@@ -1,6 +1,5 @@
 package jp.go.aist.rtm.rtcbuilder._test.generateCode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import jp.go.aist.rtm.rtcbuilder.Generator;
@@ -11,8 +10,6 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
 
 public class DataPortTest extends TestBase {
 	RtcParam rtcParam;
@@ -35,28 +32,28 @@ public class DataPortTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setComponentKind("DataFlowComponent");
 		rtcParam.setMaxInstance(1);
-		
+
 		DataTypeParam param1 = new DataTypeParam();
 		param1.setFullPath("C:\\Program Files\\OpenRTM-aist\\1.2.0\\rtm\\idl\\CameraCommonInterface.idl");
 		param1.getDefinedTypes().add("Img::TimedCameraImage");
 		param1.setDefault(true);
 		genParam.getDataTypeParams().add(param1);
-		
+
 		DataTypeParam param2 = new DataTypeParam();
 		param2.setFullPath("C:\\Program Files\\OpenRTM-aist\\1.2.0\\rtm\\idl\\InterfaceDataTypes.idl");
 		param2.setDefault(true);
 		genParam.getDataTypeParams().add(param2);
-		
+
 		DataTypeParam param3 = new DataTypeParam();
 		param3.setFullPath("C:\\Program Files\\OpenRTM-aist\\1.2.0\\rtm\\idl\\BasicDataType.idl");
 		param3.setDefault(true);
 		genParam.getDataTypeParams().add(param3);
-		
+
 		DataTypeParam param4 = new DataTypeParam();
 		param4.setFullPath("C:\\Program Files\\OpenRTM-aist\\1.2.0\\rtm\\idl\\ExtendedDataTypes.idl");
 		param4.setDefault(true);
 		genParam.getDataTypeParams().add(param4);
-		
+
 		genParam.setRtcParam(rtcParam);
 	}
 

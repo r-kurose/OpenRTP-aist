@@ -175,7 +175,7 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated NOT
 	 */
 	public ExecutionContextImpl() {
@@ -577,7 +577,6 @@ public class ExecutionContextImpl extends WrapperObjectImpl implements
 		return result.toString();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public java.lang.Object getAdapter(Class adapter) {
 		java.lang.Object result = null;

@@ -11,7 +11,8 @@ Require-Bundle: org.eclipse.gef;visibility:=reexport,
  jp.go.aist.rtm.toolscommon,
  jp.go.aist.rtm.nameserviceview,
  jp.go.aist.rtm.toolscommon.profiles,
- jp.go.aist.rtm.repositoryView
+ jp.go.aist.rtm.repositoryView,
+ org.eclipse.core.expressions
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
 Export-Package: jp.go.aist.rtm.systemeditor,
