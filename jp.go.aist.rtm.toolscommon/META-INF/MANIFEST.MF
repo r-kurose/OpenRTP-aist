@@ -6,7 +6,9 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: jp.go.aist.rtm.toolscommon;singleton:=true
 Bundle-Version: 1.2.0
 Bundle-ClassPath: .,
- lib/commons-lang-2.2.jar
+ lib/commons-lang-2.2.jar,
+ lib/jgraphx.jar,
+ lib/rsyntaxtextarea.jar
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
@@ -19,6 +21,7 @@ Export-Package: OpenRTM,
  jp.go.aist.rtm.toolscommon.corba,
  jp.go.aist.rtm.toolscommon.extension,
  jp.go.aist.rtm.toolscommon.factory,
+ jp.go.aist.rtm.toolscommon.fsm.editor,
  jp.go.aist.rtm.toolscommon.manager,
  jp.go.aist.rtm.toolscommon.model.component,
  jp.go.aist.rtm.toolscommon.model.component.impl,

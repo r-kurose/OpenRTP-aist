@@ -1,0 +1,144 @@
+package jp.go.aist.rtm.rtcbuilder.fsm;
+
+import java.io.BufferedReader;
+import java.io.CharArrayReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.List;
+import java.util.Set;
+
+import org.apache.commons.scxml.io.SCXMLParser;
+import org.apache.commons.scxml.model.Data;
+import org.apache.commons.scxml.model.Datamodel;
+import org.apache.commons.scxml.model.Executable;
+import org.apache.commons.scxml.model.History;
+import org.apache.commons.scxml.model.Log;
+import org.apache.commons.scxml.model.SCXML;
+import org.apache.commons.scxml.model.State;
+import org.apache.commons.scxml.model.Transition;
+import org.apache.commons.scxml.model.TransitionTarget;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+public class ScXMLHandler {
+	public StateParam parseSCXML(String source) {
+		StateParam result = null;
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(source), "UTF-8"));
+			String tmp_str = null;
+			String topTag = null;
+			StringBuffer tmp_sb = new StringBuffer();
+		    while((tmp_str = br.readLine()) != null){
+		    	tmp_sb.append(tmp_str + "\r\n");
+		    	if(topTag==null && tmp_str.trim().startsWith("<scxml")) {
+		    		topTag = tmp_str;
+		    	}
+		    }
+		    br.close();
+		    
+		    SCXML scxml = null;
+		    try {
+		    	scxml =  (SCXML)SCXMLParser.newInstance().parse(new InputSource(new CharArrayReader((tmp_sb.toString()).toCharArray())));
+			} catch (IOException | SAXException e1) {
+				e1.printStackTrace();
+			}
+		    //最上位要素のname属性を取得できないので
+		    String topName = "";
+		    if(topTag!=null) {
+		    	String[] elems = topTag.split(" ");
+		    	for(String elem : elems) {
+		    		if(elem.startsWith("name=")) {
+		    			topName = elem.substring(6, elem.length()-1);
+		    			break;
+		    		}
+		    	}
+		    }
+		    //
+		    result = new StateParam();
+		    result.setName(topName);
+			Datamodel model = scxml.getDatamodel();
+			if(model!=null) {
+				List dataList = model.getData();
+				if(0<dataList.size()) {
+					Data data = (Data)dataList.get(0);
+					if(data.getNode()!=null) {
+						result.setDataName(data.getNode().getFirstChild().getTextContent());
+					}
+				}
+			}
+		    
+		    Set<String> keysState = scxml.getChildren().keySet();
+		    for(String key : keysState) {
+		    	parseState(result, (State)scxml.getChildren().get(key), "Top", result.getAllStateList(), result.getAllTransList());
+		    }
+
+		} catch (FileNotFoundException ex1) {
+		} catch (IOException ex) {
+		}
+		return result;
+	}
+
+	private void parseState(StateParam parentParam, State state, String parentName, List<StateParam> stateList, List<TransitionParam> transList) {
+		StateParam child = new StateParam();
+		parentParam.getStateList().add(child);
+		stateList.add(child);
+
+		String strId = state.getId();
+		child.setName(strId);
+		child.setParentName(parentName);
+		parseDataModel(state, child);
+		child.setHasEntry(parseEntryExit(state.getOnEntry()));
+		child.setHasExit(parseEntryExit(state.getOnExit()));
+		
+		List<Transition> trans = state.getTransitionsList();
+		for(Transition tran : trans) {
+			TransitionParam tranParam = new TransitionParam();
+			child.getTransList().add(tranParam);
+			tranParam.setEvent(tran.getEvent());
+			tranParam.setCondition(tran.getCond());
+			tranParam.setTarget(tran.getNext());
+			transList.add(tranParam);
+		}
+		
+		for(Object param : state.getHistory()) {
+			History history = (History)param;
+	    	if( history.isDeep() ) {
+	    		child.setHistory(2);
+	    	} else {
+	    		child.setHistory(1);
+	    	}
+		}
+		//
+		Set<String> keysState = state.getChildren().keySet();
+	    for(String key : keysState) {
+	    	parseState(child, (State)state.getChildren().get(key), strId, stateList, transList);
+	    }
+	}
+
+	private void parseDataModel(TransitionTarget targetState, StateParam targetParam) {
+		Datamodel model = targetState.getDatamodel();
+		if(model==null) return;
+		List dataList = model.getData();
+		if(dataList.size()==0) return;
+		Data data = (Data)dataList.get(0);
+		if(data.getNode()!=null) {
+			targetParam.setDataName(data.getNode().getFirstChild().getTextContent());
+		}
+	}
+	
+	private boolean parseEntryExit(Executable target) {
+		List actionList = target.getActions();
+		if(actionList.size()==0) return false;
+		Object action = actionList.get(0);
+		if(action instanceof Log) {
+			Log log = (Log)action;
+			String strON = log.getLabel();
+			if(strON.equals("ON")) {
+				return true;
+			}
+		}
+		return false;
+	}
+}

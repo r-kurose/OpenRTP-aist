@@ -24,6 +24,7 @@ import java.util.Map;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.IDLParser;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.ParseException;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.specification;
+import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.HeaderException;
 import jp.go.aist.rtm.rtcbuilder.generator.IDLParamConverter;
@@ -32,6 +33,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.PropertyParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
@@ -321,6 +323,37 @@ public class Generator {
 			if (configNames.contains(config.getName()))
 				throw new RuntimeException(IMessageConstants.CONFIGURATION_VALIDATE_DUPLICATE + rtcParam.getName());
 			configNames.add(config.getName());
+		}
+		/////FSM
+		//TODO 国際化
+		PropertyParam fsm = rtcParam.getProperty(IRtcBuilderConstants.PROP_TYPE_FSM);
+		if(fsm!=null) {
+			if(Boolean.valueOf(fsm.getValue())) {
+				PropertyParam fsmType = rtcParam.getProperty(IRtcBuilderConstants.PROP_TYPE_FSMTYTPE);
+				if(fsmType==null) {
+					throw new RuntimeException(IMessageConstants.FSM_NOT_SELECTED + rtcParam.getName());
+				} else {
+					String strType = fsmType.getValue();
+					if(!(strType.equals(IRtcBuilderConstants.FSMTYTPE_STATIC) || strType.equals(IRtcBuilderConstants.FSMTYTPE_DYNAMIC))) {
+						throw new RuntimeException(IMessageConstants.FSM_TYPE_INVALID + rtcParam.getName());
+					}
+				}
+				
+				StateParam fsmParam = rtcParam.getFsmParam();
+				if(fsmParam==null) {
+					throw new RuntimeException(IMessageConstants.FSM_NO_SM + rtcParam.getName());
+				} else {
+					List<String> stateList = new ArrayList<String>();
+					stateList.add(fsmParam.getName());
+					for(StateParam param : fsmParam.getAllStateList() ) {
+						if(stateList.contains(param.getName())) {
+							throw new RuntimeException(IMessageConstants.FSM_STATE_DUPL1 + param.getName() + IMessageConstants.FSM_STATE_DUPL2 + rtcParam.getName());
+						} else {
+							stateList.add(param.getName());
+						}
+					}
+				}
+			}
 		}
 	}
 

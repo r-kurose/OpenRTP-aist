@@ -161,4 +161,9 @@ public interface IRtcBuilderConstants {
 	public static final int PORT_SPACE_WIDTH = 150;
 
 	public static final int SINGLE_COLUMN_WIDTH = 200;
+	//FSM
+	public static final String PROP_TYPE_FSM =  "FSM";
+	public static final String PROP_TYPE_FSMTYTPE =  "FSMType";
+	public static final String FSMTYTPE_STATIC =  "StaticFSM";
+	public static final String FSMTYTPE_DYNAMIC =  "DynamicFSM";
 }

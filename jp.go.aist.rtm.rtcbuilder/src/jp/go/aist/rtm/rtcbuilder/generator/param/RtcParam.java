@@ -14,6 +14,7 @@ import javax.xml.datatype.DatatypeFactory;
 import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
+import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
 import jp.go.aist.rtm.rtcbuilder.generator.ProfileHandler;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
@@ -73,6 +74,8 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	private String doc_algorithm;
 	//
 	private RecordedList<ActionsParam> actions;
+	//FSM
+	private StateParam fsmParam;
 	//
 	private String doc_creator;
 	private String doc_license;
@@ -851,6 +854,14 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		this.publicOpeSource = publicOpeSource;
 	}
 
+	public StateParam getFsmParam() {
+		return fsmParam;
+	}
+
+	public void setFsmParam(StateParam fsmParam) {
+		this.fsmParam = fsmParam;
+	}
+
 	@Override
 	public boolean isUpdated() {
 		if (super.isUpdated()) {
@@ -896,5 +907,59 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		this.actions.resetUpdated();
 		//
 		this.targetEnvs.resetUpdated();
+	}
+	/////
+	public void addFSMPort() {
+		boolean isExist = false;
+		for(DataPortParam port : inports) {
+			if(port.getName().equals("FSMEvent")) {
+				isExist = true;
+				break;
+			}
+		}
+		if(isExist) return;
+		//
+		DataPortParam fsmParam = new DataPortParam("FSMEvent", "RTC::TimedLong", "FSMEvent", 0);
+		inports.add(fsmParam);
+	}
+	
+	public void deleteFSMPort() {
+		DataPortParam target = null;
+		for(DataPortParam port : inports) {
+			if(port.getName().equals("FSMEvent")) {
+				target = port;
+				break;
+			}
+		}
+		if(target==null) return;
+		//
+		inports.remove(target);
+	}
+	
+	public PropertyParam getProperty(String target) {
+		PropertyParam result = null;
+		for(PropertyParam param : properties) {
+			if( param.getName().equals(target)) {
+				result = param;
+				break;
+			}
+		}
+		return result;
+	}
+	
+	public void setProperty(String target, String value) {
+		PropertyParam prop = null;
+		for(PropertyParam param : properties) {
+			if( param.getName().equals(target)) {
+				prop = param;
+				break;
+			}
+		}
+		if(prop==null) {
+			prop = new PropertyParam();
+			prop.setName(target);
+			getProperties().add(prop);
+		}
+		prop.setValue(value);
 	}
 }
