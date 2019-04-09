@@ -1,12 +1,10 @@
 package jp.go.aist.rtm.toolscommon.util;
 
-import javax.xml.datatype.DatatypeFactory;
+import static jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler.createXMLGregorianCalendar;
 
 import org.openrtp.namespaces.deploy.Component;
 import org.openrtp.namespaces.deploy.DeployProfile;
 import org.openrtp.namespaces.deploy.ObjectFactory;
-
-import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
 
 public class DeployProfileHandler extends ProfileHandlerBase {
 	
@@ -16,9 +14,8 @@ public class DeployProfileHandler extends ProfileHandlerBase {
 		ObjectFactory factory = new ObjectFactory();
 		DeployProfile profile = factory.createDeployProfile();
 		profile.setId(eDiagram.getSystemId());
-		DatatypeFactory dateFactory = new DatatypeFactoryImpl();
-		profile.setCreationDate(dateFactory.newXMLGregorianCalendar(eDiagram.getCreationDate()));
-		profile.setUpdateDate(dateFactory.newXMLGregorianCalendar(eDiagram.getUpdateDate()));
+		profile.setCreationDate(createXMLGregorianCalendar(eDiagram.getCreationDate()));
+		profile.setUpdateDate(createXMLGregorianCalendar(eDiagram.getUpdateDate()));
 		profile.setVersion("0.1");
 		//
 		for (jp.go.aist.rtm.toolscommon.model.component.Component eComp:

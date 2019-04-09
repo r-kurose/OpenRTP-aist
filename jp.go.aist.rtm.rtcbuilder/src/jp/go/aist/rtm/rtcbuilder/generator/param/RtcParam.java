@@ -1,17 +1,15 @@
 package jp.go.aist.rtm.rtcbuilder.generator.param;
 
+import static jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler.createXMLGregorianCalendar;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.GregorianCalendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import javax.xml.datatype.DatatypeFactory;
-
-import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
@@ -133,9 +131,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		this.parent = parent;
 		//
 		if (!isTest) {
-			DatatypeFactory dateFactory = new DatatypeFactoryImpl();
-			String dateTime = dateFactory.newXMLGregorianCalendar(
-					new GregorianCalendar()).toString();
+			String dateTime = createXMLGregorianCalendar(new Date()).toString();
 			ProfileHandler handler = new ProfileHandler();
 			rtcxml = handler.createInitialRtcXml(dateTime);
 			this.creationDate = dateTime;

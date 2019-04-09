@@ -5,6 +5,7 @@ import static jp.go.aist.rtm.toolscommon.model.component.ExecutionContext.KIND_E
 import static jp.go.aist.rtm.toolscommon.model.component.ExecutionContext.KIND_OTHER;
 import static jp.go.aist.rtm.toolscommon.model.component.ExecutionContext.KIND_PERIODIC;
 import static jp.go.aist.rtm.toolscommon.model.component.ExecutionContext.KIND_UNKNOWN;
+import static jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler.createXMLGregorianCalendar;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -12,8 +13,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.xml.datatype.DatatypeFactory;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.common.util.EList;
@@ -29,8 +28,6 @@ import org.openrtp.namespaces.rts.version02.Startup;
 import org.openrtp.namespaces.rts.version02.TargetComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
 
 import jp.go.aist.rtm.toolscommon.corba.CorbaUtil;
 import jp.go.aist.rtm.toolscommon.factory.ComponentLoader;
@@ -267,11 +264,10 @@ public class RtsProfileHandler extends ProfileHandlerBase {
 		factory = new org.openrtp.namespaces.rts.version02.ObjectFactory();
 		org.openrtp.namespaces.rts.version02.RtsProfileExt profile = factory.createRtsProfileExt();
 		profile.setId(eDiagram.getSystemId());
-		DatatypeFactory dateFactory = new DatatypeFactoryImpl();
 		if(eDiagram.getCreationDate() != null) {
-			profile.setCreationDate(dateFactory.newXMLGregorianCalendar(eDiagram.getCreationDate()));
+			profile.setCreationDate(createXMLGregorianCalendar(eDiagram.getCreationDate()));
 		}
-		profile.setUpdateDate(dateFactory.newXMLGregorianCalendar(eDiagram.getUpdateDate()));
+		profile.setUpdateDate(createXMLGregorianCalendar(eDiagram.getUpdateDate()));
 		profile.setVersion("0.2");
 
 		populateComponents(eDiagram, profile);
