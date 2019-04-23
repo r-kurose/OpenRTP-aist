@@ -3,6 +3,7 @@ package jp.go.aist.rtm.rtcbuilder.template;
 import java.io.File;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
+import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigParameterParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
@@ -342,5 +343,14 @@ public class TemplateHelper {
 		if( target==null || target.length()==0 )
 			return false;
 		return true;
+	}
+	
+	public String getHistory(StateParam param) {
+		if(param.getHistory()==2) {
+			return "  DEEPHISTORY()";
+		} else if(param.getHistory()==1) {
+			return "  HISTORY()";
+		}
+		return "  ";
 	}
 }

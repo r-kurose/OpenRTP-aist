@@ -29,7 +29,9 @@ FSM_TOPSTATE(${fsmParam.name}) {
 
   // Event handler
 #foreach($eachTrans in ${fsmParam.getAllTransList()})
+#if( ${eachTrans.event.length()} > 0 )
   virtual void ${eachTrans.event}();
+#end
 #end
   
  private:
@@ -48,7 +50,9 @@ FSM_SUBSTATE(${eachState.name}, ${eachState.parentName}) {
   FSM_STATE(${eachState.name})
 ${tmpltHelper.getHistory(${eachState})}
 #foreach($eachTrans in ${eachState.getTransList()})
+#if( ${eachTrans.event.length()} > 0 )
   virtual void ${eachTrans.event}();
+#end
 #end
 
 private:

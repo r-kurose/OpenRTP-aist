@@ -23,9 +23,11 @@ RTC::ReturnCode_t ${fsmParam.name}::onExit() {
 }
 
 #foreach($eachTrans in ${fsmParam.getAllTransList()})
+#if( ${eachTrans.event.length()} > 0 )
 void ${fsmParam.name}::${eachTrans.event}() {
 }
 
+#end
 #end
 #foreach($eachState in ${fsmParam.getAllStateList()})
 //${eachState.name}
@@ -45,10 +47,12 @@ virtual RTC::ReturnCode_t ${eachState.name}::onExit() {
 #end
 
 #foreach($eachTrans in ${eachState.getTransList()})
+#if( ${eachTrans.event.length()} > 0 )
 void ${eachState.name}::${eachTrans.event}() {
   setState<${eachTrans.target}>();
 }
 
+#end
 #end
 
 #end

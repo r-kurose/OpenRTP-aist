@@ -1,6 +1,11 @@
 package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -16,13 +21,16 @@ import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
 import jp.go.aist.rtm.rtcbuilder.extension.ImportExtension;
 import jp.go.aist.rtm.rtcbuilder.factory.ExportCreator;
+import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
 import jp.go.aist.rtm.rtcbuilder.generator.ProfileHandler;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.PropertyParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.ui.Perspective.LanguageProperty;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
+import jp.go.aist.rtm.rtcbuilder.ui.preference.DocumentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
 import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
@@ -31,6 +39,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -328,8 +337,20 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					MessageDialog.openError(getSite().getShell(), "Error", validateRtcParam);
 					return;
 				}
+				//動的FSMの場合
+				boolean isDynamicFSM = false;
+				RtcParam rtcParam = editor.getRtcParam();
+				PropertyParam fsm = rtcParam.getProperty(IRtcBuilderConstants.PROP_TYPE_FSM);
+				if(fsm!=null) {
+					if(Boolean.valueOf(fsm.getValue())) {
+						PropertyParam fsmType = rtcParam.getProperty(IRtcBuilderConstants.PROP_TYPE_FSMTYTPE);
+						if(fsmType!=null && fsmType.getValue().equals(IRtcBuilderConstants.FSMTYTPE_DYNAMIC)) {
+							isDynamicFSM = true;
+						}
+					}
+				}
 				//対象プロジェクトの確認
-				IProject project = checkTargetProject();
+				IProject project = checkTargetProject(editor.getRtcParam().getOutputProject(), true);
 				if( project==null) return;
 				// 裏からファイルを削除されている可能性があるため、
 				// プロジェクトとファイルシステムの同期を取る
@@ -353,7 +374,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 				generatorParam.getRtcParam().getServiceClassParams().clear();
 				setPrefixSuffix(generatorParam.getRtcParam());
 				List<IdlPathParam> idlDirs = RTCUtil.getIDLPathes(editor.getRtcParam());
-				if (rtcBuilder.doGenerateWrite(generatorParam, idlDirs, true)) {
+				if (rtcBuilder.doGenerateWrite(generatorParam, idlDirs, !isDynamicFSM)) {
 					LanguageProperty langProp = LanguageProperty.checkPlugin(editor.getRtcParam());
 					if(langProp != null) {
 						try {
@@ -377,22 +398,154 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					switchPerspective();
 	        		editor.getRtcParam().resetUpdated();
 	        		editor.updateDirty();
-	        		//
+					//
 					try {
 						project.refreshLocal(IResource.DEPTH_INFINITE, null);
 					} catch (CoreException e1) {
 						throw new RuntimeException(IRTCBMessageConstants.ERROR_GENERATE_FAILED);
 					}
 				}
+        		//
+				if(isDynamicFSM) {
+					generateDynamicFSM();
+					return;
+				}
 			}
 
+			private void generateDynamicFSM() {
+				RtcParam rtcParam = editor.getRtcParam();
+				StateParam stateParam = rtcParam.getFsmParam();
+				
+				List<RtcParam> stateList = new ArrayList<RtcParam>();
+				
+				RtcParam stateRtc = createDefaultRTC(stateParam);
+				stateList.add(stateRtc);
+				for(StateParam subState : stateParam.getAllStateList()) {
+					RtcParam subRtc = createDefaultRTC(subState);
+					stateList.add(subRtc);
+				}
+				//
+				editor.addDefaultComboValue();
+				GuiRtcBuilder rtcBuilder = new GuiRtcBuilder();
+				List<GenerateManager> managerList = RtcBuilderPlugin.getDefault().getLoader().getManagerList();
+				if (managerList != null) {
+					for (GenerateManager manager : managerList) {
+						rtcBuilder.addGenerateManager(manager);
+					}
+				}
+				GeneratorParam generatorParam = editor.getGeneratorParam();
+				RtcParam orgRtc = generatorParam.getRtcParam();
+				
+				for(RtcParam targetFsm : stateList) {
+					IProject project = checkTargetProject(targetFsm.getOutputProject(), false);
+					if( project==null) continue;
+					try {
+						project.refreshLocal(IResource.DEPTH_INFINITE, null);
+					} catch (CoreException e1) {
+						throw new RuntimeException(IRTCBMessageConstants.ERROR_GENERATE_FAILED);
+					}
+					//
+					targetFsm.getServiceClassParams().clear();
+					setPrefixSuffix(targetFsm);
+					generatorParam.setRtcParam(targetFsm);
+					//
+					List<IdlPathParam> idlDirs = RTCUtil.getIDLPathes(editor.getRtcParam());
+					if (rtcBuilder.doGenerateWrite(generatorParam, idlDirs, false)) {
+						LanguageProperty langProp = LanguageProperty.checkPlugin(editor.getRtcParam());
+						if(langProp != null) {
+							try {
+								IProjectDescription description = project.getDescription();
+								String[] ids = description.getNatureIds();
+								String[] newIds = new String[ids.length + langProp.getNatures().size()];
+								System.arraycopy(ids, 0, newIds, 0, ids.length);
+								for( int intIdx=0; intIdx<langProp.getNatures().size(); intIdx++ ) {
+									newIds[ids.length+intIdx] = langProp.getNatures().get(intIdx);
+								}
+								description.setNatureIds(newIds);
+								project.setDescription(description, null);
+							} catch (CoreException e1) {
+								LOGGER.error(
+										"Fail to get/set description for project",
+										e1);
+							}
+						}
+					}
+					saveRtcProfile(project);
+				}
+        		editor.getRtcParam().resetUpdated();
+        		editor.updateDirty();
+				generatorParam.setRtcParam(orgRtc);
+				MessageDialog.openInformation(getSite().getShell(), "Information", "Generate success.");
+			}
+			
+			private RtcParam createDefaultRTC(StateParam stateParam) {
+				List<String> langList = new ArrayList<String>();
+				List<String> langArgList = new ArrayList<String>();
+				String rtmVersion = IRtcBuilderConstants.RTM_VERSION_100;
+				langList.add(IRtcBuilderConstants.LANG_CPP);
+				langArgList.add(IRtcBuilderConstants.LANG_CPP_ARG);
+				
+				RtcParam targetRtc = new RtcParam(null, false);
+				targetRtc.setName(stateParam.getName());
+				targetRtc.setSchemaVersion(IRtcBuilderConstants.SCHEMA_VERSION);
+				targetRtc.setDescription(ComponentPreferenceManager.getInstance().getBasic_Description());
+				targetRtc.setCategory(ComponentPreferenceManager.getInstance().getBasic_Category());
+				targetRtc.setVersion(ComponentPreferenceManager.getInstance().getBasic_Version());
+				targetRtc.setVender(ComponentPreferenceManager.getInstance().getBasic_VendorName());
+				targetRtc.setComponentType(ComponentPreferenceManager.getInstance().getBasic_ComponentType());
+				targetRtc.setActivityType(ComponentPreferenceManager.getInstance().getBasic_ActivityType());
+				targetRtc.setComponentKind(ComponentPreferenceManager.getInstance().getBasic_ComponentKind());
+				targetRtc.setMaxInstance(ComponentPreferenceManager.getInstance().getBasic_MaxInstances());
+				targetRtc.setExecutionType(ComponentPreferenceManager.getInstance().getBasic_ExecutionType());
+				targetRtc.setExecutionRate(ComponentPreferenceManager.getInstance().getBasic_ExecutionRate());
+				ArrayList<String> docs = DocumentPreferenceManager.getDocumentValue();
+				for( int intidx=IRtcBuilderConstants.ACTIVITY_INITIALIZE; intidx<IRtcBuilderConstants.ACTIVITY_DUMMY; intidx++) {
+					targetRtc.setActionImplemented(intidx, docs.get(intidx));
+				}
+				targetRtc.setDocLicense(DocumentPreferenceManager.getLicenseValue());
+				targetRtc.setDocCreator(DocumentPreferenceManager.getCreatorValue());
+				//
+				targetRtc.setOutputProject(stateParam.getName());
+				targetRtc.getLangList().addAll(langList);
+				targetRtc.getLangArgList().addAll(langArgList);
+				targetRtc.setRtmVersion(rtmVersion);
+				return targetRtc;
+			}
 			// Profileを保存
 			private void saveRtcProfile(IProject project) {
 				ProfileHandler handler = new ProfileHandler();
 				try {
 					ExportCreator export = new ExportCreator();
 					export.preExport(editor);
-
+					//
+					List<PropertyParam> properties = editor.getRtcParam().getProperties();
+					PropertyParam fsmTarget = null;
+					for(PropertyParam param : properties) {
+						if( param.getName().equals("FSMPath")) {
+							fsmTarget = param;
+							break;
+						}
+					}
+					if(fsmTarget!=null) {
+						String orgPath = fsmTarget.getValue();
+						IFile orgFsmFile  = project.getFile(orgPath);
+						String contents = "";
+						IFile fsmFile  = null;
+						if(orgFsmFile.exists()) {
+							contents = FileUtil.readFile(orgFsmFile.getRawLocation().toOSString());
+							fsmFile = orgFsmFile;
+						} else {
+							contents = FileUtil.readFile(orgPath);
+							String fileName = new File(orgPath).getName();
+							fsmFile  = project.getFile(fileName);
+						}
+						if(fsmFile.exists()) {
+							fsmFile.delete(true, null);
+						}
+						fsmFile.create(new ByteArrayInputStream(contents.getBytes("UTF-8")), true, null);
+						fsmTarget.setValue(fsmFile.getName());
+					}
+					//
 					String strXml = handler.convert2XML(editor.getGeneratorParam());
 
 					IFile orgRtcxml = project.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML);
@@ -412,21 +565,23 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 				}
 			}
 
-			private IProject checkTargetProject() {
-				if( editor.getRtcParam().getOutputProject()==null || "".equals(editor.getRtcParam().getOutputProject()) ){
+			private IProject checkTargetProject(String targetProject, boolean isConfirmNew) {
+				if( targetProject==null || "".equals(targetProject) ){
 					MessageDialog.openError(getSite().getShell(), "Error", IRTCBMessageConstants.VALIDATE_ERROR_OUTPUTPROJECT);
 					return null;
 				}
 				IWorkspaceRoot workspaceHandle = ResourcesPlugin.getWorkspace().getRoot();
-				IProject project = workspaceHandle.getProject(editor.getRtcParam().getOutputProject());
+				IProject project = workspaceHandle.getProject(targetProject);
 				if(!project.exists()) {
-					IWorkbench workbench = PlatformUI.getWorkbench();
-					IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-					Shell shell = window.getShell();
-					MessageBox message = new MessageBox(shell, SWT.ICON_QUESTION | SWT.YES | SWT.NO);
-					message.setText(IRTCBMessageConstants.CONFIRM_PROJECT_GENERATE_TITLE);
-					message.setMessage(IRTCBMessageConstants.CONFIRM_PROJECT_GENERATE);
-					if( message.open() != SWT.YES) return null;
+					if(isConfirmNew) {
+						IWorkbench workbench = PlatformUI.getWorkbench();
+						IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+						Shell shell = window.getShell();
+						MessageBox message = new MessageBox(shell, SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+						message.setText(IRTCBMessageConstants.CONFIRM_PROJECT_GENERATE_TITLE);
+						message.setMessage(IRTCBMessageConstants.CONFIRM_PROJECT_GENERATE);
+						if( message.open() != SWT.YES) return null;
+					}
 					try {
 						project.create(null);
 						project.open(null);
@@ -529,6 +684,24 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		            		}// 通常のExceptionは外側でcatchする
 		        			handler.storeToXML(selectedFileName, editor.getGeneratorParam());
 		            	}
+		            	//FSM
+		        		PropertyParam fsm = editor.getRtcParam().getProperty(IRtcBuilderConstants.PROP_TYPE_FSM);
+		        		if(fsm!=null) {
+			        		if(Boolean.valueOf(fsm.getValue())) {
+			    				String cmpName = editor.getRtcParam().getName() + "FSM.scxml";
+			    				IWorkspace workspace = ResourcesPlugin.getWorkspace();
+			    				IWorkspaceRoot root = workspace.getRoot();
+			    				IProject project = root.getProject(editor.getRtcParam().getOutputProject());
+			    				String fsmFile  = project.getFile(cmpName).getLocation().toOSString();
+			        			if(fsmFile!=null) {
+			        				String dirName = new File(selectedFileName).getParent();
+			        				String targetFile = dirName + File.separator + cmpName;
+			        				Path inputPath = FileSystems.getDefault().getPath(fsmFile);
+			        				Path outputPath = FileSystems.getDefault().getPath(targetFile);			        				
+			        				Files.copy(inputPath, outputPath);
+			        			}
+			        		}
+		        		}
 		        		export.postExport(selectedFileName, editor);
 		        		editor.getRtcParam().resetUpdated();
 		        		editor.updateDirty();
@@ -595,6 +768,40 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 							return;
 						}
 		        	}
+		        	//FSM
+	        		PropertyParam fsm = editor.getRtcParam().getProperty(IRtcBuilderConstants.PROP_TYPE_FSM);
+	        		if(fsm!=null) {
+		        		if(Boolean.valueOf(fsm.getValue())) {
+		    				FileDialog dialogFSM = new FileDialog(getSite().getShell(),SWT.OPEN);
+		    				dialogFSM.setText("FSM Import");
+		    		        
+		    				//TODO 多言語化
+		    				String[] namesFSM = new String[] { "SCXMLファイル", "XMLファイル" };
+		    				String[] extsFSM = new String[] { "*.scxml","*.xml" };
+		    				dialogFSM.setFilterNames(namesFSM);
+		    				dialogFSM.setFilterExtensions(extsFSM);
+		    				String selectedFileNameFSM = dialogFSM.open();
+		    				if(selectedFileNameFSM == null) {
+		    					fsm.setValue("false");
+		    					editor.getRtcParam().deleteFSMPort();
+		    					
+		    				} else {
+			    				String cmpName = editor.getRtcParam().getName() + "FSM.scxml";
+			    				IWorkspace workspace = ResourcesPlugin.getWorkspace();
+			    				IWorkspaceRoot root = workspace.getRoot();
+			    				IProject project = root.getProject(editor.getRtcParam().getOutputProject());
+			    				String fsmFile  = project.getLocation().toOSString() + File.separator + cmpName;
+		        				try {
+			        				Path inputPath = FileSystems.getDefault().getPath(selectedFileNameFSM);
+			        				Path outputPath = FileSystems.getDefault().getPath(fsmFile);			        				
+									Files.copy(inputPath, outputPath);
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								}
+		    				}
+		        		}
+	        		}
+	        		
 					MessageDialog.openInformation(getSite().getShell(), "Finish",	IMessageConstants.BASIC_IMPORT_DONE);
 					//
 					editor.allPagesReLoad();
