@@ -182,13 +182,12 @@ public class ComponentIconStore {
 			path.toFile().createNewFile();
 		}
 		String xmlSplit[] = xml.split("\n");
-		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-				new FileOutputStream(path.toOSString()), "UTF-8"));
-		for (String s : xmlSplit) {
-			writer.write(s);
-			writer.newLine();
+		try( BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path.toOSString()), "UTF-8")) ) {
+			for (String s : xmlSplit) {
+				writer.write(s);
+				writer.newLine();
+			}
 		}
-		writer.close();
 	}
 
 	/** アイコン設定をプロファイル(XML)から読込 */
@@ -198,18 +197,17 @@ public class ComponentIconStore {
 		if (!path.toFile().exists()) {
 			return null;
 		}
-		BufferedReader reader = new BufferedReader(new InputStreamReader(
-				new FileInputStream(path.toOSString()), "UTF-8"));
 		String xmlString = "";
-		while (true) {
-			String s = reader.readLine();
-			if (s == null) {
-				break;
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+				new FileInputStream(path.toOSString()), "UTF-8")) ) {
+			while (true) {
+				String s = reader.readLine();
+				if (s == null) {
+					break;
+				}
+				xmlString += s;
 			}
-			xmlString += s;
 		}
-		reader.close();
-		
 		IconProfileHandler handler = new IconProfileHandler();
 		ComponentIconStore result = handler.parse(xmlString);
 		return result;

@@ -171,10 +171,9 @@ public abstract class PortConnectorImpl extends WrapperObjectImpl implements Por
 	/**
 	 * <!-- begin-user-doc --> TODO:コネクタが接続元（先）から削除された場合には、接続先（元）からも削除を行う<!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated NOT
 	 */
-	@SuppressWarnings("unchecked")
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, Class baseClass, NotificationChain msgs) {
 		switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
@@ -375,7 +374,6 @@ public abstract class PortConnectorImpl extends WrapperObjectImpl implements Por
 		throw new UnsupportedOperationException();
 	}
 
-	@SuppressWarnings("unchecked")
 	public java.lang.Object getAdapter(Class adapter) {
 		java.lang.Object result = null;
 		if (IPropertySource.class.equals(adapter)) {
@@ -387,6 +385,6 @@ public abstract class PortConnectorImpl extends WrapperObjectImpl implements Por
 		}
 
 		return result;
-	}	
+	}
 
 } // PortConnectorImpl

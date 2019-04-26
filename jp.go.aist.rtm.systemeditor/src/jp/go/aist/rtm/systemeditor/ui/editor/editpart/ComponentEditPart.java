@@ -86,7 +86,7 @@ public class ComponentEditPart extends AbstractEditPart {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param actionRegistry
 	 *            ActionRegistry
 	 */
@@ -219,7 +219,7 @@ public class ComponentEditPart extends AbstractEditPart {
 
 	/**
 	 * RTCのボディ部分の制約を算出します。
-	 * 
+	 *
 	 * @param bound
 	 * @return
 	 */
@@ -314,7 +314,7 @@ public class ComponentEditPart extends AbstractEditPart {
 
 	/**
 	 * 最新のボーダー部の色を取得する
-	 * 
+	 *
 	 * @return
 	 */
 	public Color getNewBorderColor() {
@@ -338,7 +338,7 @@ public class ComponentEditPart extends AbstractEditPart {
 
 	/**
 	 * 最新のボディ部の色を取得する
-	 * 
+	 *
 	 * @return
 	 */
 	public Color getNewBodyColor() {
@@ -564,7 +564,7 @@ public class ComponentEditPart extends AbstractEditPart {
 
 	/**
 	 * ECタブの表示を更新します。
-	 * 
+	 *
 	 * @param part
 	 */
 	public void refreshECEditPart(final ECEditPart<?, ?> part) {
@@ -638,7 +638,7 @@ public class ComponentEditPart extends AbstractEditPart {
 
 	/**
 	 * 選択中 ECの種別を取得します。
-	 * 
+	 *
 	 * @return owned / participation / unknown
 	 */
 	public String getPrimaryExecutionContextType() {
@@ -661,7 +661,7 @@ public class ComponentEditPart extends AbstractEditPart {
 
 	/**
 	 * コンポーネントFigureの変更の通知を行うリスナを登録する
-	 * 
+	 *
 	 * @param listener
 	 */
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -670,7 +670,7 @@ public class ComponentEditPart extends AbstractEditPart {
 
 	/**
 	 * コンポーネントFigureの変更の通知を行うリスナを削除する
-	 * 
+	 *
 	 * @param listener
 	 */
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
@@ -706,7 +706,7 @@ public class ComponentEditPart extends AbstractEditPart {
 
 	/**
 	 * ポートモニタが有効かどうか判定します。(CorbaComponentの場合)
-	 * 
+	 *
 	 * @return ポートモニタが有効な場合はtrue
 	 */
 	public boolean isEnablePortMonitor() {
@@ -715,7 +715,7 @@ public class ComponentEditPart extends AbstractEditPart {
 
 	/**
 	 * ポートモニタが実行中かどうか判定します。
-	 * 
+	 *
 	 * @return ポートモニタが実行中の場合はtrue
 	 */
 	public boolean isActivePortMonitor() {
@@ -724,7 +724,7 @@ public class ComponentEditPart extends AbstractEditPart {
 
 	/**
 	 * ポートモニタを開始/終了します。
-	 * 
+	 *
 	 * @param b
 	 *            ポートモニタを開始する場合はtrue
 	 */

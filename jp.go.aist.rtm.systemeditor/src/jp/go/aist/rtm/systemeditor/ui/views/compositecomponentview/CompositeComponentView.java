@@ -314,6 +314,7 @@ public class CompositeComponentView extends ViewPart {
 		}
 		this.targetComponent.updateConfigurationSetR(csc, true);
 		if (targetComponent.inOnlineSystemDiagram()) {
+			waitSynchronize();
 			targetComponent.getSynchronizationSupport().synchronizeLocal();
 		} else {
 			// オフラインの場合はexported_portsから公開ポートを設定
@@ -398,6 +399,14 @@ public class CompositeComponentView extends ViewPart {
 			return true;
 		}
 		return false;
+	}
+
+	void waitSynchronize() {
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// void
+		}
 	}
 
 	/** ポート一覧のエントリ */

@@ -85,7 +85,6 @@ public class OutPortImpl extends PortImpl implements OutPort {
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
 	public java.lang.Object getAdapter(Class adapter) {
 		java.lang.Object result = null;
 		if (IPropertySource.class.equals(adapter)) {

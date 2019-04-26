@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  * 同期マネージャ
  * <p>
  * マッピングルールのリストを保持する（同期機能のコンテクストともいえる）
- * 
+ *
  */
 public class SynchronizationManager {
 
@@ -25,7 +25,7 @@ public class SynchronizationManager {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param mappingRules
 	 *            マッピングルールのリスト
 	 */
@@ -35,7 +35,7 @@ public class SynchronizationManager {
 
 	/**
 	 * リモートオブジェクトツリーから、ローカルオブジェクトツリーを作成する。
-	 * 
+	 *
 	 * @param remoteObject
 	 *            リモートオブジェクトルート
 	 * @return 作成したローカルオブジェクト
@@ -46,14 +46,14 @@ public class SynchronizationManager {
 
 	/**
 	 * 親のローカルオブジェクト、リモートオブジェクトルートおよびリモートオブジェクトのリンクから、ローカルオブジェクトツリーを作成する
-	 * 
+	 *
 	 * @param parent
 	 *            親のローカルオブジェクト
 	 * @param remoteObject
 	 *            リモートオブジェクトルート
 	 * @param link
 	 *            リモートオブジェクトのリンク
-	 * @param needSynchronize 同期が必要か          
+	 * @param needSynchronize 同期が必要か
 	 * @return 作成したローカルオブジェクト
 	 */
 	public LocalObject createLocalObject(LocalObject parent,
@@ -87,7 +87,7 @@ public class SynchronizationManager {
 		boolean ping = true;
 		for (MappingRule temp : mappingRules) {
 			try {
-				if (temp.getClassMapping().getConstructorParamMappings().length == remoteObjects.length 
+				if (temp.getClassMapping().getConstructorParamMappings().length == remoteObjects.length
 						&& canTarget(ping, temp.getClassMapping().needsPing())
 						&& temp.getClassMapping().isTarget(parent,remoteObjects, link)) {
 					if (temp.getClassMapping().allowZombie()) return temp;
@@ -109,7 +109,7 @@ public class SynchronizationManager {
 
 	/**
 	 * 同期サポートを作成する
-	 * 
+	 *
 	 * @param localObject
 	 *            ローカルオブジェクト
 	 * @param remoteObject
@@ -125,11 +125,10 @@ public class SynchronizationManager {
 
 	/**
 	 * 包含参照をたどり、すべてのローカルオブジェクトに対して、同期サポートを復元する
-	 * 
+	 *
 	 * @param eobj
 	 *            EObject
 	 */
-	@SuppressWarnings("unchecked")
 	public void assignSynchonizationSupport(EObject eobj) {
 		if (eobj instanceof LocalObject) {
 			LocalObject localObject = (LocalObject) eobj;

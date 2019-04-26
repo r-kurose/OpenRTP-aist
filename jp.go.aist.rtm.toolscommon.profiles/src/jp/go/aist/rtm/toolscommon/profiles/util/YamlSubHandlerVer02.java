@@ -1,10 +1,12 @@
 package jp.go.aist.rtm.toolscommon.profiles.util;
 
-import static jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler.createXMLGregorianCalendar;
-
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.datatype.XMLGregorianCalendar;
+
+import jp.go.aist.rtm.toolscommon.profiles.nl.Messages;
 
 import org.openrtp.namespaces.rtc.version02.ActionStatusDoc;
 import org.openrtp.namespaces.rtc.version02.Actions;
@@ -42,7 +44,7 @@ import org.openrtp.namespaces.rtc.version02.ServiceportExt;
 import org.openrtp.namespaces.rtc.version02.TargetEnvironment;
 import org.openrtp.namespaces.rtc.version02.TransmissionMethod;
 
-import jp.go.aist.rtm.toolscommon.profiles.nl.Messages;
+import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 
 public class YamlSubHandlerVer02 {
 
@@ -75,8 +77,8 @@ public class YamlSubHandlerVer02 {
 					basic.setVersion((String)basicY.get("version"));
 					basic.setAbstract((String)basicY.get("abstract"));
 					basic.setHardwareProfile((String)basicY.get("hardwareProfile"));
-					basic.setCreationDate(createXMLGregorianCalendar((Map<String, Integer>) basicY.get("creationDate")));
-					basic.setUpdateDate(createXMLGregorianCalendar((Map<String, Integer>) basicY.get("updateDate")));
+					basic.setCreationDate(createDateTimeFromYaml((Map)basicY.get("creationDate")));
+					basic.setUpdateDate(createDateTimeFromYaml((Map)basicY.get("updateDate")));
 					//Basic Doc
 					Map docbasicY = (Map)basicY.get("rtcDoc::doc");
 					if( docbasicY != null ) {
@@ -198,7 +200,7 @@ public class YamlSubHandlerVer02 {
 					//
 					if( isActionAdded ) profile.setActions(actions);
 				}
-			
+
 				//Data Ports
 				List dataPortListY = (List)profileY.get("dataPorts");
 				if( dataPortListY != null ) {
@@ -249,7 +251,7 @@ public class YamlSubHandlerVer02 {
 									docconfig.setUnit((String)configDocY.get("unit"));
 									docconfig.setRange((String)configDocY.get("range"));
 									docconfig.setConstraint((String)configDocY.get("constraint"));
-									
+
 									config.setDoc(docconfig);
 								}
 								//Ext
@@ -272,7 +274,7 @@ public class YamlSubHandlerVer02 {
 						profile.setConfigurationSet(configset);
 					}
 				}
-					
+
 				//Parameter
 				List paramsInfoY = (List)profileY.get("parameters");
 				if( paramsInfoY != null ) {
@@ -343,7 +345,16 @@ public class YamlSubHandlerVer02 {
 		return profile;
 	}
 
-	@SuppressWarnings("unchecked")
+	private XMLGregorianCalendar createDateTimeFromYaml(Map dateY) {
+		return XMLGregorianCalendarImpl.createDateTime(
+				((Integer)dateY.get("year")).intValue(),
+				((Integer)dateY.get("month")).intValue(),
+				((Integer)dateY.get("day")).intValue(),
+				((Integer)dateY.get("hour")).intValue(),
+				((Integer)dateY.get("minute")).intValue(),
+				((Integer)dateY.get("second")).intValue() );
+	}
+
 	private ActionStatusDoc createActionFromYaml(Map actionY) {
 		ObjectFactory factory = new ObjectFactory();
 		ActionStatusDoc actionStatus = factory.createActionStatusDoc();
@@ -365,7 +376,6 @@ public class YamlSubHandlerVer02 {
 		return actionStatus;
 	}
 
-	@SuppressWarnings("unchecked")
 	private DataportExt createDataPortFromYaml(Map yamlMap) throws Exception {
 		ObjectFactory factory = new ObjectFactory();
 		DataportExt dataport = factory.createDataportExt();
@@ -413,8 +423,7 @@ public class YamlSubHandlerVer02 {
 		//
 		return dataport;
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	private ConstraintType convertConstraint(ObjectFactory factory, Map constY) throws Exception {
 		ConstraintType result = null;
 		if( constY!=null ) {
@@ -442,7 +451,7 @@ public class YamlSubHandlerVer02 {
 					unitP.setPropertyIsEqualTo(equalP);
 					equalP.setLiteral(literal);
 					return result;
-					
+
 				} else if( unitY.get("propertyIsGreaterThan")!=null ) {
 					targetY = (Map)unitY.get("propertyIsGreaterThan");
 					literal = (String)targetY.get("literal");
@@ -452,7 +461,7 @@ public class YamlSubHandlerVer02 {
 					unitP.setPropertyIsGreaterThan(greaterP);
 					greaterP.setLiteral(literal);
 					return result;
-					
+
 				} else if( unitY.get("propertyIsGreaterThanOrEqualTo")!=null ) {
 					targetY = (Map)unitY.get("propertyIsGreaterThanOrEqualTo");
 					literal = (String)targetY.get("literal");
@@ -462,7 +471,7 @@ public class YamlSubHandlerVer02 {
 					unitP.setPropertyIsGreaterThanOrEqualTo(greaterEqualP);
 					greaterEqualP.setLiteral(literal);
 					return result;
-					
+
 				} else 	if( unitY.get("propertyIsLessThan")!=null ) {
 					targetY = (Map)unitY.get("propertyIsLessThan");
 					literal = (String)targetY.get("literal");
@@ -472,7 +481,7 @@ public class YamlSubHandlerVer02 {
 					unitP.setPropertyIsLessThan(lessP);
 					lessP.setLiteral(literal);
 					return result;
-					
+
 				} else 	if( unitY.get("propertyIsLessThanOrEqualTo")!=null ) {
 					targetY = (Map)unitY.get("propertyIsLessThanOrEqualTo");
 					literal = (String)targetY.get("literal");
@@ -482,22 +491,22 @@ public class YamlSubHandlerVer02 {
 					unitP.setPropertyIsLessThanOrEqualTo(lessEqualP);
 					lessEqualP.setLiteral(literal);
 					return result;
-					
+
 				} else 	if( unitY.get("propertyIsBetween")!=null ) {
 					targetY = (Map)unitY.get("propertyIsBetween");
 					String lower = (String)targetY.get("lowerBoundary");
-					if( lower==null || lower.length()<=0 )	
+					if( lower==null || lower.length()<=0 )
 						throw new Exception(Messages.getString("YamlSubHandlerVer02.150"));
 					String upper = (String)targetY.get("upperBoundary");
-					if( upper==null || upper.length()<=0 )	
+					if( upper==null || upper.length()<=0 )
 						throw new Exception(Messages.getString("YamlSubHandlerVer02.152"));
-					
+
 					PropertyIsBetween betweenP = factory.createPropertyIsBetween();
 					unitP.setPropertyIsBetween(betweenP);
 					betweenP.setLowerBoundary(lower);
 					betweenP.setUpperBoundary(upper);
 					return result;
-					
+
 				} else 	if( unitY.get("and")!=null ) {
 					targetY = (Map)unitY.get("and");
 					List constraintListY = (List)targetY.get("constraint");
@@ -507,7 +516,7 @@ public class YamlSubHandlerVer02 {
 						andP.getConstraint().add(convertConstraint(factory, (Map)constraintListY.get(index)));
 					}
 					return result;
-					
+
 				} else if( unitY.get("or")!=null ) {
 					targetY = (Map)unitY.get("or");
 					List constraintListY = (List)targetY.get("constraint");
@@ -518,7 +527,7 @@ public class YamlSubHandlerVer02 {
 					}
 					return result;
 				}
-				
+
 			} else if( constY.get("constraintListType")!=null ) {
 				Map listY = (Map)constY.get("constraintListType");
 				ConstraintListType listP = factory.createConstraintListType();
@@ -528,7 +537,7 @@ public class YamlSubHandlerVer02 {
 					listP.getConstraint().add(convertConstraint(factory, (Map)constraintListY.get(index)));
 				}
 				return result;
-				
+
 			} else if( constY.get("constraintHashType")!=null ) {
 				Map hashY = (Map)constY.get("constraintHashType");
 				ConstraintHashType hashP = factory.createConstraintHashType();
@@ -542,7 +551,7 @@ public class YamlSubHandlerVer02 {
 		}
 		return result;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private ServiceportExt createServicePortFromYaml(Map yamlMap) {
 		ObjectFactory factory = new ObjectFactory();
@@ -585,7 +594,7 @@ public class YamlSubHandlerVer02 {
 				}
 			}
 		}
-		
+
 		//Service Interface
 		List interfacesY = (List)yamlMap.get("serviceInterface");
 		if( interfacesY != null ) {

@@ -296,7 +296,11 @@ install_plugins()
 {
     cmd="java -jar $EQUINOX_LAUNCHER"
     app_opt="-application org.eclipse.equinox.p2.director"
-    dest_opt="-destination $WORK_DIR/eclipse"
+    if test "x$os" = "xMACOS" ; then
+        dest_opt="-destination $WORK_DIR/Eclipse.app/Contents/Eclipse/"
+    else
+        dest_opt="-destination $WORK_DIR/eclipse"
+    fi
 
     scheme=`echo $REPOSITORY | egrep '^(http|https|ftp|file):\/\/'`
     if test "x$scheme" = "x" ; then
@@ -329,7 +333,11 @@ install_rtmtools()
 {
     cmd="java -jar $EQUINOX_LAUNCHER"
     app_opt="-application org.eclipse.equinox.p2.director"
-    dest_opt="-destination $WORK_DIR/eclipse"
+    if test "x$os" = "xMACOS" ; then
+        dest_opt="-destination $WORK_DIR/Eclipse.app/Contents/Eclipse/"
+    else
+        dest_opt="-destination $WORK_DIR/eclipse"
+    fi
     repo_opt="-repository $OPENRTP_SITE"
 
     for p in $OPENRTP_PLUGINS ; do
@@ -345,8 +353,8 @@ install_rtmtools()
     if test "x$os" = "xLINUX" ; then
         cp openrtp $WORK_DIR/eclipse/
     elif test "x$os" = "xMACOS" ; then
-        cp openrtp $WORK_DIR/eclipse/Eclipse.app/Contents/MacOS/
-        info="$WORK_DIR/eclipse/Eclipse.app/Contents/Info.plist"
+        cp openrtp $WORK_DIR/Eclipse.app/Contents/MacOS/
+        info="$WORK_DIR/Eclipse.app/Contents/Info.plist"
         sed -i -e 's/<string>eclipse<\/string>/<string>openrtp<\/string>/g' $info
     fi
     return 0
@@ -361,7 +369,11 @@ install_rtmtools_nl()
 {
     cmd="java -jar $EQUINOX_LAUNCHER"
     app_opt="-application org.eclipse.equinox.p2.director"
-    dest_opt="-destination $WORK_DIR/eclipse"
+    if test "x$os" = "xMACOS" ; then
+        dest_opt="-destination $WORK_DIR/Eclipse.app/Contents/Eclipse/"
+    else
+        dest_opt="-destination $WORK_DIR/eclipse"
+    fi
     repo_opt="-repository $OPENRTP_SITE"
 
     for p in $OPENRTP_PLUGINS_NL ; do
@@ -395,7 +407,11 @@ create_package()
         echo "Creating zip file..."
         basedir=`pwd`
         cd $WORK_DIR
-        find eclipse > .zip_list
+        if test "x$os" = "xMACOS" ; then
+            find Eclipse.app > .zip_list
+        else
+            find eclipse > .zip_list
+        fi
         (cat .zip_list | zip -@ $pkg_name >/dev/null 2>&1 )
         rm -f .zip_list
         cd $basedir
@@ -407,7 +423,11 @@ create_package()
         echo "Creating tar.gz file..."
         basedir=`pwd`
         cd $WORK_DIR
-        tar cvzf $pkg_name eclipse >/dev/null 2>&1
+        if test "x$os" = "xMACOS" ; then
+            tar cvzf $pkg_name Eclipse.app >/dev/null 2>&1
+        else
+            tar cvzf $pkg_name eclipse >/dev/null 2>&1
+        fi
         cd $basedir
         if test $? -ne 0 ; then
             echo "Failed to archive tar.gz file: $pkg_name. Aborting..."
@@ -460,12 +480,15 @@ apply_langpack()
             echo "Unzipping $LANGPACK_FILE_NAME failed. Aborting."
             return 1
         fi
+        if test "x$os" = "xMACOS" ; then
+            cp -rf ${WORK_DIR}/eclipse/* ${WORK_DIR}/Eclipse.app/Contents/Eclipse/
+        fi
 
         echo "Applying langpack: Activating pleiades plugin."
         pleiades_jar="plugins/jp.sourceforge.mergedoc.pleiades/pleiades.jar"
         if test "x$os" = "xMACOS" ; then
             echo "-javaagent:../../../$pleiades_jar" \
-                >> $WORK_DIR/eclipse/Eclipse.app/Contents/MacOS/eclipse.ini
+                >> $WORK_DIR/Eclipse.app/Contents/Eclipse/eclipse.ini
         else
             echo "-javaagent:$pleiades_jar" \
                 >> $WORK_DIR/eclipse/eclipse.ini
@@ -473,7 +496,11 @@ apply_langpack()
 
         echo "Applying langpack: Modifying pleiades exclude properties."
         pleiades_pkg="jp.sourceforge.mergedoc.pleiades"
-        pleiades_conf="${WORK_DIR}/eclipse/plugins/${pleiades_pkg}/conf"
+        if test "x$os" = "xMACOS" ; then
+            pleiades_conf="${WORK_DIR}/Eclipse.app/Contents/Eclipse/plugins/${pleiades_pkg}/conf"
+        else
+            pleiades_conf="${WORK_DIR}/eclipse/plugins/${pleiades_pkg}/conf"
+        fi
         exclude_prop="${pleiades_conf}/translation-exclude-package.properties"
         echo "default=jp.go.aist.rtm.systemeditor" >> $exclude_prop
 
@@ -489,19 +516,23 @@ apply_langpack()
             echo "Unzipping $LANGPACK_FILE_NAME failed. Aborting."
             return 1
         fi
+        if test "x$os" = "xMACOS" ; then
+            cp -rf ${WORK_DIR}/eclipse/* ${WORK_DIR}/Eclipse.app/Contents/Eclipse/
+        fi
     fi
     echo "done"
     return 0
 }
 
-#------------------------------------------------------------
-# cleanup_workdir
 #
 # Cleanup working directory
 #------------------------------------------------------------
 cleanup_workdir()
 {
     rm -rf $WORK_DIR/eclipse
+    if test "x$os" = "xMACOS" ; then
+        rm -rf $WORK_DIR/Eclipse.app
+    fi
 }
 
 #------------------------------

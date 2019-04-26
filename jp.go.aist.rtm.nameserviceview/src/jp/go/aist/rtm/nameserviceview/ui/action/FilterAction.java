@@ -61,7 +61,7 @@ public class FilterAction implements IViewActionDelegate {
 			filters.add(new ViewerFilter() {
 					@Override
 					public boolean select(Viewer viewer, Object parent, Object e) {
-						return patternFileter(e);
+						return patternFilter(e);
 					}
 				});
 		}
@@ -75,7 +75,7 @@ public class FilterAction implements IViewActionDelegate {
 		// void
 		
 	}
-	private boolean patternFileter(Object element) {
+	private boolean patternFilter(Object element) {
 		
 		String pattern = FiltersDialog.loadDefaultPattern();
 		if ("".equals(pattern)) {

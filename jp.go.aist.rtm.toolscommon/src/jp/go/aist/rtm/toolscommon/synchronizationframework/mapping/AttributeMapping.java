@@ -43,23 +43,14 @@ public abstract class AttributeMapping {
 	/**
 	 * ローカルを同期する主となるメソッド
 	 * 
-	 * @param localObject
-	 *            ローカルオブジェクト
-	 * @param synchronizationManager
-	 *            同期マネージャ
+	 * @param localObject            ローカルオブジェクト
+	 * @param synchronizationManager 同期マネージャ
 	 */
 	public void syncronizeLocal(LocalObject localObject) {
-		if (once == false
-				|| (once && localObject.eIsSet(localFeature) == false)) {
+		if (once == false || (once && localObject.eIsSet(localFeature) == false)) {
 			Object oldValue = getLocalAttributeValue(localObject);
-			Object newValue = convert2LocalValue(localObject,
-					getRemoteAttributeValue(localObject));
-
-			if (newValue == null)
-				return; // EMFでNullPointerExceptionが起きないようにしておく 2008.12.11
-
+			Object newValue = convert2LocalValue(localObject, getRemoteAttributeValue(localObject));
 			boolean updated = false;
-
 			if (!isEquals(newValue, oldValue)) {
 				localObject.eSet(getLocalFeature(), newValue);
 				updated = true;

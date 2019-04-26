@@ -15,7 +15,6 @@ import org.junit.Test;
 
 public class ComponentCommonUtilTest {
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void getConnectedPorts_Corba() throws Exception {
 		RTC.mock.PortServiceImpl c_in1 = _createRtcPortService("in1");
@@ -68,7 +67,6 @@ public class ComponentCommonUtilTest {
 //		assertEquals("in2", result.get(0).getPortProfile().getNameL());
 //	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void getRequiredExportedPortsString_Corba() throws Exception {
 		RTC.mock.PortServiceImpl c_in1 = _createRtcPortService("in1");
@@ -173,7 +171,6 @@ public class ComponentCommonUtilTest {
 
 	private static int CONNECTOR_PROFILE_SEQ = 1;
 
-	@SuppressWarnings("unchecked")
 	private void _connectCorbaPorts(Port source, Port target) {
 		RTC.ConnectorProfile conn_prof = new RTC.ConnectorProfile();
 		conn_prof.connector_id = "conn-" + CONNECTOR_PROFILE_SEQ++;

@@ -36,7 +36,7 @@ public class SynchronizationSupport {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param localObject
 	 *            ローカルオブジェクト
 	 * @param mappingRule
@@ -54,7 +54,7 @@ public class SynchronizationSupport {
 
 	/**
 	 * 同期マネージャを取得する
-	 * 
+	 *
 	 * @return 同期マネージャ
 	 */
 	public SynchronizationManager getSynchronizationManager() {
@@ -160,7 +160,7 @@ public class SynchronizationSupport {
 
 	/**
 	 * オブジェクトに対して接続できるか確認する
-	 * 
+	 *
 	 * @param remoteObject
 	 * @return 接続できるかどうか
 	 */
@@ -177,7 +177,7 @@ public class SynchronizationSupport {
 
 	/**
 	 * オブジェクトに対して接続できるか確認する
-	 * 
+	 *
 	 * @param remoteObject
 	 * @return 接続できるかどうか
 	 */
@@ -195,12 +195,11 @@ public class SynchronizationSupport {
 
 	/**
 	 * オブジェクトグラフ内から、ローカルをリモートオブジェクトによって検索します。
-	 * 
+	 *
 	 * @param remoteObjects
 	 * @param graphPart
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public static LocalObject findLocalObjectByRemoteObject(
 			Object[] remoteObjects, EObject graphPart) {
 		EObject graphRoot = EcoreUtil.getRootContainer(graphPart);
@@ -213,7 +212,7 @@ public class SynchronizationSupport {
 
 		return null;
 	}
-	
+
 	private static LocalObject findLocalObject(Object obj, Object[] remoteObjects){
 		if (!(obj instanceof LocalObject)) return null;
 		LocalObject result = (LocalObject) obj;
@@ -230,7 +229,6 @@ public class SynchronizationSupport {
 		}
 		return result;
 	}
-	@SuppressWarnings("unchecked")
 	public static Collection<LocalObject> findLocalObjectByRemoteObjects(
 			Object[] remoteObjects, LocalObject graphPart) {
 		Collection<LocalObject> result = new ArrayList<LocalObject>();
@@ -258,7 +256,7 @@ public class SynchronizationSupport {
 
 	/**
 	 * リモートオブジェクトを取得する
-	 * 
+	 *
 	 * @return リモートオブジェクト
 	 */
 	public Object[] getRemoteObjects() {

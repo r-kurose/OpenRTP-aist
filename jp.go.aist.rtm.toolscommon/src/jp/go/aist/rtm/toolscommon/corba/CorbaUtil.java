@@ -29,28 +29,28 @@ public class CorbaUtil {
 	/**
 	 * 対象のNamingContextExtから子供のBindingをListとして返す
 	 * 
-	 * @param target
-	 *            対象のNamingContextExt
+	 * @param target 対象のNamingContextExt
 	 * @return 子供のBindingのList
 	 */
 	public static List<Binding> getBindingList(NamingContext target) {
 		BindingListHolder bindingListHolder = new BindingListHolder();
 		BindingIteratorHolder bindingIteratorHolder = new BindingIteratorHolder();
+		List<Binding> result = new ArrayList<>();
 
 		try {
 			target.list(9999, bindingListHolder, bindingIteratorHolder);
+		} catch (org.omg.CORBA.COMM_FAILURE | org.omg.CORBA.OBJECT_NOT_EXIST e) {
+			LOGGER.trace("getBindingList: CORBA unreachable: {} {}", e.getClass().getName(), e.getMessage());
+			return result;
 		} catch (Exception e) {
 			LOGGER.error("Fail to get binding list: nc={}", target);
 			LOGGER.error("ERROR:", e);
+			return result;
 		}
-
-		List<Binding> result = new ArrayList<Binding>();
 		for (int i = 0; i < bindingListHolder.value.length; i++) {
 			Binding binding = bindingListHolder.value[i];
-
 			result.add(binding);
 		}
-
 		return result;
 	}
 

@@ -22,7 +22,7 @@ public class TemplateUtil {
 
 	/**
 	 * クラスパスリソースから内容を手に入れる
-	 * 
+	 *
 	 * @param path
 	 *            パス
 	 * @return 内容
@@ -49,7 +49,7 @@ public class TemplateUtil {
 
 	/**
 	 * テンプレートからGeneratedResultを作成する
-	 * 
+	 *
 	 * @param templatePath　テンプレートのパス
 	 * @param contextRootName コンテクストのルートとなる名前
 	 * @param contextRoot コンテクストのルート
@@ -66,14 +66,13 @@ public class TemplateUtil {
 
 	/**
 	 * テンプレートからGeneratedResultを作成する
-	 * 
+	 *
 	 * @param templatePath　テンプレートのパス
 	 * @param contextMap コンテクストのマップ
 	 * @param fileName 出力ファイル名
-	 * 
+	 *
 	 * @return GeneratedResult
 	 */
-	@SuppressWarnings("unchecked")
 	public static GeneratedResult createGeneratedResult(InputStream in,
 			Map contextMap, String fileName) {
 		return new GeneratedResult(fileName, generate(in, contextMap));
@@ -81,7 +80,7 @@ public class TemplateUtil {
 
 	/**
 	 * 設定済みのVelocityEngineを取得する
-	 * 
+	 *
 	 * @return
 	 */
 	public static VelocityEngine getEngine() {
@@ -117,7 +116,7 @@ public class TemplateUtil {
 
 	/**
 	 * マージを行い結果を返す
-	 * 
+	 *
 	 * @param template
 	 * @param vc
 	 * @return
@@ -135,13 +134,12 @@ public class TemplateUtil {
 
 	/**
 	 * 生成を行う
-	 * 
+	 *
 	 * @param contextRoot
 	 * @param templatePath
 	 * @param contextRootName
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public static String generate(InputStream in, Map contextMap) {
 		VelocityEngine ve = TemplateUtil.getEngine();
 		ve.setProperty(VelocityEngine.RUNTIME_LOG_LOGSYSTEM_CLASS, "org.apache.velocity.runtime.log.NullLogSystem");
@@ -151,15 +149,15 @@ public class TemplateUtil {
 			vc.put((String) element.getKey(), element.getValue());
 		}
 
-		StringWriter result = new StringWriter();
-		try {
-			ve.evaluate(vc, result, "", new InputStreamReader(in, "UTF-8"));
-			result.close();
+		String result = "";
+
+		try( StringWriter writer = new StringWriter() ) {
+			ve.evaluate(vc, writer, "", new InputStreamReader(in, "UTF-8"));
+			result = writer.toString().replace("\r\n", System.getProperty( "line.separator" ));
 		} catch (Exception e) {
 			throw new RuntimeException(e); // system error
 		}
-
-		return result.toString().replace("\r\n", System.getProperty( "line.separator" ));
+		return result;
 	}
 
 }

@@ -14,16 +14,16 @@ public class CommonDocHandler extends DefaultBeanWrapper {
 	@SuppressWarnings("unchecked")
 	public Collection<?> keys() {
     	Collection<?> result = super.keys();
-    	
+
     	for( int intIdx=0; intIdx<result.size(); intIdx++) {
     		String target = ((List<String>)result).get(intIdx);
-    		if( ((String)target).equals("doc") ) {
+    		if( target.equals("doc") ) {
     			((List<String>)result).set(intIdx, "rtcDoc::doc");
     		}
     	}
     	return result;
     }
-	
+
     public Object getProperty(Object obj, String name) {
     	if(name.equals("rtcDoc::doc")) {
     		name = "doc";

@@ -34,7 +34,7 @@ public class CommonGenerateManager extends GenerateManager {
 
 	/**
 	 * ファイルを出力する
-	 * 
+	 *
 	 * @param generatorParam
 	 * @return 出力結果のリスト
 	 */
@@ -51,7 +51,7 @@ public class CommonGenerateManager extends GenerateManager {
 	public List<GeneratedResult> generateTemplateCode10(
 			Map<String, Object> contextMap) {
 		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
-		
+
 		GeneratedResult gr;
 
 		gr = generateREADME(contextMap);
@@ -102,11 +102,9 @@ public class CommonGenerateManager extends GenerateManager {
 		try {
 			String template = TEMPLATE_PATH + "/" + infile;
 			ClassLoader cl = Thread.currentThread().getContextClassLoader();
-			InputStream ins = cl.getResourceAsStream(template);
-			GeneratedResult gr = TemplateUtil.createGeneratedResult(ins,
-					contextMap, outfile);
-			if (ins != null) {
-				ins.close();
+			GeneratedResult gr = null;
+			try( InputStream ins = cl.getResourceAsStream(template) ) {
+				gr = TemplateUtil.createGeneratedResult(ins, contextMap, outfile);
 			}
 			return gr;
 		} catch (Exception e) {

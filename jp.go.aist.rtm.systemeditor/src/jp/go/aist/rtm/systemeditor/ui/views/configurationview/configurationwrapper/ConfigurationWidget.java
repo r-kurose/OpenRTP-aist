@@ -64,7 +64,7 @@ public class ConfigurationWidget {
 
 		String s = widgets.trim();
 		if (s.charAt(0) != '{')  return s;
-		
+
 		s = s.substring(1, s.length() - 1).trim();	// { }除去
 
 		String[] tokens = s.split(",");
@@ -253,7 +253,7 @@ public class ConfigurationWidget {
 	public int getSpinIncrement() {
 		double step = 1.0;
 		if (hasCondition() && condition.getDigits() > 0) {
-			step = 1.0 / Math.pow(10.0, (double) condition.getDigits());
+			step = 1.0 / Math.pow(10.0, condition.getDigits());
 		}
 		int inc = (int) (spinStep / step);
 		return (inc == 0) ? 1 : inc;

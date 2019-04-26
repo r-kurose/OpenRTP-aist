@@ -1,15 +1,17 @@
 package jp.go.aist.rtm.rtcbuilder.generator.param;
 
-import static jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler.createXMLGregorianCalendar;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.datatype.DatatypeFactory;
+
+import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.ProfileHandler;
@@ -80,14 +82,13 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	//
 	private String outputProject = null;
 
-	@SuppressWarnings("unchecked")
 	private Map extentionData = new HashMap();
 
 	private List<IdlFileParam> providerIdlPathes = new ArrayList<IdlFileParam>();
 	private List<IdlFileParam> consumerIdlPathes = new ArrayList<IdlFileParam>();
 	private List<String> originalProviderIdls = new ArrayList<String>();
 	private List<String> originalConsumerIdls = new ArrayList<String>();
-	
+
 	private List<String> includedIdls = new ArrayList<String>();
 	private List<IdlPathParam> idlPathes = new ArrayList<IdlPathParam>();
 
@@ -113,12 +114,12 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	private String serviceIFSuffix;
 	private String configurationPrefix;
 	private String configurationSuffix;
-	
+
 	//
 	private String rtm_version = IRtcBuilderConstants.DEFAULT_RTM_VERSION;
 	private String rtm_java_version = IRtcBuilderConstants.DEFAULT_RTM_VERSION;
 	private boolean test_version = false;
-	
+
 	private boolean isChoreonoid = false;
 
 	public RtcParam(GeneratorParam parent) {
@@ -129,7 +130,9 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		this.parent = parent;
 		//
 		if (!isTest) {
-			String dateTime = createXMLGregorianCalendar(new Date()).toString();
+			DatatypeFactory dateFactory = new DatatypeFactoryImpl();
+			String dateTime = dateFactory.newXMLGregorianCalendar(
+					new GregorianCalendar()).toString();
 			ProfileHandler handler = new ProfileHandler();
 			rtcxml = handler.createInitialRtcXml(dateTime);
 			this.creationDate = dateTime;
@@ -383,24 +386,24 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	//ドキュメント-Component
 	public boolean isDocExist() {
 		if( (doc_description==null || doc_description.equals("")) &&
-			(doc_in_out==null || doc_in_out.equals("")) && 
-			(doc_algorithm==null || doc_algorithm.equals("")) && 
-			(doc_creator==null || doc_creator.equals("")) && 
-			(doc_license==null || doc_license.equals("")) && 
+			(doc_in_out==null || doc_in_out.equals("")) &&
+			(doc_algorithm==null || doc_algorithm.equals("")) &&
+			(doc_creator==null || doc_creator.equals("")) &&
+			(doc_license==null || doc_license.equals("")) &&
 			(doc_reference==null || doc_reference.equals("")) )
 				return false;
 		return true;
 	}
 	public String getDocDescription() {
-		if(doc_description==null) doc_description = ""; 
+		if(doc_description==null) doc_description = "";
 		return doc_description;
 	}
 	public String getDocInOut() {
-		if(doc_in_out==null) doc_in_out = ""; 
+		if(doc_in_out==null) doc_in_out = "";
 		return doc_in_out;
 	}
 	public String getDocAlgorithm() {
-		if(doc_algorithm==null) doc_algorithm = ""; 
+		if(doc_algorithm==null) doc_algorithm = "";
 		return doc_algorithm;
 	}
 	//
@@ -422,11 +425,11 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 			return false;
 		if( actions.get(actionsId) == null )
 			return false;
-		if( actions.get(actionsId).getOverView() == null || 
+		if( actions.get(actionsId).getOverView() == null ||
 				actions.get(actionsId).getPreCondition() == null ||
 				actions.get(actionsId).getPostCondition() == null )
 					return false;
-		if( actions.get(actionsId).getOverView().equals("") && 
+		if( actions.get(actionsId).getOverView().equals("") &&
 				actions.get(actionsId).getPreCondition().equals("") &&
 				actions.get(actionsId).getPostCondition().equals("") )
 					return false;
@@ -471,15 +474,15 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	}
 	//ドキュメント-その他
 	public String getDocCreator() {
-		if(doc_creator==null) doc_creator = ""; 
+		if(doc_creator==null) doc_creator = "";
 		return doc_creator;
 	}
 	public String getDocLicense() {
-		if(doc_license==null) doc_license = ""; 
+		if(doc_license==null) doc_license = "";
 		return doc_license;
 	}
 	public String getDocReference() {
-		if(doc_reference==null) doc_reference = ""; 
+		if(doc_reference==null) doc_reference = "";
 		return doc_reference;
 	}
 	//
@@ -496,7 +499,6 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		this.doc_reference = reference;
 	}
 
-	@SuppressWarnings("unchecked")
 	public String getLangageListArgString() {
 		StringBuffer result = new StringBuffer();
 		for (Iterator iter = langArgList.iterator(); iter.hasNext();) {
@@ -509,7 +511,6 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		return result.toString();
 	}
 
-	@SuppressWarnings("unchecked")
 	public static String getLangageListString(List langList) {
 		StringBuffer result = new StringBuffer();
 		for (Iterator iter = langList.iterator(); iter.hasNext();) {
@@ -531,7 +532,6 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		this.outputProject = outputDirectory;
 	}
 
-	@SuppressWarnings("unchecked")
 	public Map getExtentionData() {
 		return extentionData;
 	}
@@ -574,7 +574,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	}
 	//
 	public String getCommonPrefix() {
-		if(commonPrefix==null) commonPrefix = "m_"; 
+		if(commonPrefix==null) commonPrefix = "m_";
 		return commonPrefix;
 	}
 	public void setCommonPrefix(String commonPrefix) {
@@ -582,7 +582,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	}
 
 	public String getCommonSuffix() {
-		if(commonSuffix==null) commonSuffix = ""; 
+		if(commonSuffix==null) commonSuffix = "";
 		return commonSuffix;
 	}
 	public void setCommonSuffix(String commonSuffix) {
@@ -590,7 +590,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	}
 
 	public String getDataPortPrefix() {
-		if(dataPortPrefix==null) dataPortPrefix = ""; 
+		if(dataPortPrefix==null) dataPortPrefix = "";
 		return dataPortPrefix;
 	}
 	public void setDataPortPrefix(String dataPortPrefix) {
@@ -598,7 +598,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	}
 
 	public String getDataPortSuffix() {
-		if(dataPortSuffix==null) dataPortSuffix = ""; 
+		if(dataPortSuffix==null) dataPortSuffix = "";
 		return dataPortSuffix;
 	}
 	public void setDataPortSuffix(String dataPortSuffix) {
@@ -606,7 +606,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	}
 
 	public String getServicePortPrefix() {
-		if(servicePortPrefix==null) servicePortPrefix = ""; 
+		if(servicePortPrefix==null) servicePortPrefix = "";
 		return servicePortPrefix;
 	}
 	public void setServicePortPrefix(String servicePortPrefix) {
@@ -614,7 +614,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	}
 
 	public String getServicePortSuffix() {
-		if(servicePortSuffix==null) servicePortSuffix = ""; 
+		if(servicePortSuffix==null) servicePortSuffix = "";
 		return servicePortSuffix;
 	}
 	public void setServicePortSuffix(String servicePortSuffix) {
@@ -622,7 +622,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	}
 
 	public String getServiceIFPrefix() {
-		if(serviceIFPrefix==null) serviceIFPrefix = ""; 
+		if(serviceIFPrefix==null) serviceIFPrefix = "";
 		return serviceIFPrefix;
 	}
 	public void setServiceIFPrefix(String serviceIFPrefix) {
@@ -630,7 +630,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	}
 
 	public String getServiceIFSuffix() {
-		if(serviceIFSuffix==null) serviceIFSuffix = ""; 
+		if(serviceIFSuffix==null) serviceIFSuffix = "";
 		return serviceIFSuffix;
 	}
 	public void setServiceIFSuffix(String serviceIFSuffix) {
@@ -638,7 +638,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	}
 
 	public String getConfigurationPrefix() {
-		if(configurationPrefix==null) configurationPrefix = ""; 
+		if(configurationPrefix==null) configurationPrefix = "";
 		return configurationPrefix;
 	}
 	public void setConfigurationPrefix(String configurationPrefix) {
@@ -646,7 +646,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	}
 
 	public String getConfigurationSuffix() {
-		if(configurationSuffix==null) configurationSuffix = ""; 
+		if(configurationSuffix==null) configurationSuffix = "";
 		return configurationSuffix;
 	}
 	public void setConfigurationSuffix(String configurationSuffix) {
@@ -667,7 +667,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		List<IdlFileParam> providerIdlParams = new ArrayList<IdlFileParam>();
 		List<IdlFileParam> consumerIdlParams = new ArrayList<IdlFileParam>();
 		List<String> originalConsumerIdlPathList = new ArrayList<String>();
-		
+
 		List<ServicePortInterfaceParam> serviceIFs = getServiceInterfaceList();
 
 		//IDLパス，IDLサーチパスの確認
@@ -782,12 +782,12 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 					target.getTargetType().add(targetType);
 					consumerIdlParams.add(target);
 				}
-				
+
 				break;
 			}
 		}
 	}
-	
+
 	private List<ServicePortInterfaceParam> getServiceInterfaceList() {
 		List<ServicePortInterfaceParam> result = new ArrayList<ServicePortInterfaceParam>();
 		for( ServicePortParam servicePort : this.getServicePorts() ) {
@@ -822,7 +822,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		}
 		return false;
 	}
-	
+
 	public void setDetailContent(int index, String target) {
 		detailContent[index] = target;
 	}

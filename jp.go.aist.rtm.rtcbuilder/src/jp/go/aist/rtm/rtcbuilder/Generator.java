@@ -87,7 +87,7 @@ public class Generator {
 
 	/**
 	 * ジェネレート・マネージャを追加する
-	 * 
+	 *
 	 * @param genManager
 	 *            　生成対象のジェネレート・マネージャ
 	 */
@@ -110,10 +110,10 @@ public class Generator {
 
 	public void validateIDLDef(GeneratorParam generatorParam, List<IdlPathParam> idlDir) throws Exception {
 		RtcParam rtcParam  = generatorParam.getRtcParam();
-		
+
 		List<String> checkedIDL = new ArrayList<String>();
 		List<String> dummy = new ArrayList<String>();
-		
+
 		for( ServicePortParam serviceport : rtcParam.getServicePorts() ) {
 			for( ServicePortInterfaceParam serviceInterfaces : serviceport.getServicePortInterfaces() ) {
 				String targetIDL = serviceInterfaces.getIdlFullPath();
@@ -137,10 +137,10 @@ public class Generator {
 			}
 		}
 	}
-	
+
 	/**
 	 * ジェネレートする
-	 * 
+	 *
 	 * @param generatorParam
 	 *            パラメータ
 	 * @return GeneratedResultのリスト
@@ -156,7 +156,7 @@ public class Generator {
 		//IDL読み込み用
 		List<ServiceClassParam> IDLPathParams = new ArrayList<ServiceClassParam>();
 		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
-		
+
 		RtcParam rtcParam =  generatorParam.getRtcParam();
 		//onImplementedフラグの修正
 		for(int index=IRtcBuilderConstants.ACTIVITY_INITIALIZE;index<IRtcBuilderConstants.ACTIVITY_DUMMY;index++) {
@@ -170,19 +170,19 @@ public class Generator {
 		for( DataPortParam outport : rtcParam.getOutports() ) {
 			if(0<outport.getIdlFile().length()) {
 				IDLPathes.add(outport.getIdlFile());
-				IDLPathParams.add(new ServiceClassParam(outport.getIdlFile(), outport.getIdlFile(), ""));
+                IDLPathParams.add(new ServiceClassParam(outport.getIdlFile(), outport.getIdlFile(), ""));
 			}
 		}
 		for( DataPortParam inport : rtcParam.getInports() ) {
 			if(0<inport.getIdlFile().length()) {
 				IDLPathes.add(inport.getIdlFile());
-				IDLPathParams.add(new ServiceClassParam(inport.getIdlFile(), inport.getIdlFile(), ""));
+                IDLPathParams.add(new ServiceClassParam(inport.getIdlFile(), inport.getIdlFile(), ""));
 			}
 		}
 		for( ConfigSetParam config : rtcParam.getConfigParams() ) {
 			if(0<config.getIdlFile().length()) {
 				IDLPathes.add(config.getIdlFile());
-				IDLPathParams.add(new ServiceClassParam(config.getIdlFile(), config.getIdlFile(), ""));
+                IDLPathParams.add(new ServiceClassParam(config.getIdlFile(), config.getIdlFile(), ""));
 			}
 		}
 		//
@@ -190,8 +190,8 @@ public class Generator {
 			for( ServicePortInterfaceParam serviceInterfaces : serviceport.getServicePortInterfaces() ) {
 				if( !IDLPathes.contains(serviceInterfaces.getIdlFullPath()) ) {
 					IDLPathes.add(serviceInterfaces.getIdlFullPath());
-					IDLPathParams.add(
-							new ServiceClassParam(serviceInterfaces.getIdlFullPath(), serviceInterfaces.getIdlFullPath(),
+                    IDLPathParams.add(
+                            new ServiceClassParam(serviceInterfaces.getIdlFullPath(), serviceInterfaces.getIdlFullPath(),
 															 serviceInterfaces.getIdlSearchPath()));
 				}
 				if( 0<serviceInterfaces.getIdlSearchPath().length()) {
@@ -224,10 +224,10 @@ public class Generator {
 				}
 			}
 		}
-		
+
 		rtcServiceClasses.addAll(getRtcServiceClass(rtcParam, IDLPathParams, idlDir, generatorParam.getDataTypeParams()));
 		checkReferencedServiceParam(rtcServiceClasses, rtcParam);
-		
+
 		List<ServiceClassParam> serviceClassParamList = new ArrayList<ServiceClassParam>();
 		List<String> serviceClassNameList = new ArrayList<String>();
 		for( ServiceClassParam serviceClassParam : rtcServiceClasses ) {
@@ -257,7 +257,7 @@ public class Generator {
 
 	/**
 	 * バリデートを行う
-	 * 
+	 *
 	 * @param generatorParam
 	 */
 	public void validate(RtcParam rtcParam) {
@@ -326,7 +326,7 @@ public class Generator {
 
 	/**
 	 * 参照されているServiceが存在するか確認する
-	 * 
+	 *
 	 * @param rtcServiceClasses
 	 * @param generatorParam
 	 * @return
@@ -356,7 +356,7 @@ public class Generator {
 
 	/**
 	 * サービスクラス,型定義を取得する
-	 * 
+	 *
 	 * @param generatorParam
 	 * @param IDLPathes
 	 * @return
@@ -452,9 +452,9 @@ public class Generator {
 
 		return result;
 	}
-	
+
 	private List<ServiceClassParam> convertType(List<ServiceClassParam> source, List<TypeDefParam> types) {
-		
+
 		for(int idxParent=0;idxParent<types.size();idxParent++) {
 			TypeDefParam cur = types.get(idxParent);
 			String target = types.get(idxParent).getOriginalDef();
@@ -465,7 +465,7 @@ public class Generator {
 				    if(tdp2 != null){
 
 							if(!cur.isSequence()){ cur.setSequence(tdp2.isSequence()); }
-							if(!cur.isUnbounded()) { 
+							if(!cur.isUnbounded()) {
 						 	 	cur.setUnbounded( isUnboundedTypeDef(chld, types));
 
 							}
@@ -478,7 +478,7 @@ public class Generator {
 				if(tdp != null){
 					////  Copy Attributs
 					if(!cur.isSequence()){ cur.setSequence(tdp.isSequence()); }
-					if(!cur.isUnbounded()) { 
+					if(!cur.isUnbounded()) {
 						 cur.setUnbounded( isUnboundedTypeDef(cur.getTargetDef(), types));
 					}
 					cur.setStruct(tdp.isStruct());
@@ -488,7 +488,7 @@ public class Generator {
 
 			}
 		}
-		
+
 		for( ServiceClassParam target : source) {
 			for( ServiceMethodParam method : target.getMethods() ) {
 				checkMethodType(method, types);
@@ -514,7 +514,7 @@ public class Generator {
 		  TypeDefParam cur = findTypeDefParam(name, types);
 
 		  if(cur != null){
-				if(cur.isUnbounded() || cur.isSequence()) { 
+				if(cur.isUnbounded() || cur.isSequence()) {
 					return true;
 
 				}else{
@@ -618,7 +618,7 @@ public class Generator {
 		if(!project.exists()) {
 			return;
 		}
-		
+
 		for (GeneratedResult generatedResult : generatedResultList) {
 			if (generatedResult.getName().equals("") == false) {
 				writeFile(generatedResult, project, handler);
@@ -656,24 +656,24 @@ public class Generator {
 		copyFigure("icons/rt_middleware_banner.bmp", project, "cmake/rt_middleware_banner.bmp");
 		copyFigure("icons/rt_middleware_dlg.bmp", project, "cmake/rt_middleware_dlg.bmp");
 	}
-	
+
 	private void copyFigure(String source, IProject outputProject, String dist) {
 		try {
 			URL bundleUrl = this.getClass().getClassLoader().getResource(source);
-			URL jarUrl = org.eclipse.core.runtime.FileLocator.toFileURL(bundleUrl);	
+			URL jarUrl = org.eclipse.core.runtime.FileLocator.toFileURL(bundleUrl);
 			URI uri = URI.create(jarUrl.toString().replace(" ", "%20").replace(File.separator, "/"));
-			
+
 			File targetFile = new File(outputProject.getLocation().toOSString(), dist);
-			
+
 			Files.copy(Paths.get(uri), Paths.get(targetFile.toURI()), StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void writeFile(GeneratedResult generatedResult, IProject outputProject,
 			MergeHandler handler) throws IOException {
-		
+
 		File targetFile = new File(outputProject.getLocation().toOSString(), generatedResult.getName());
 
 		boolean isOutput = false;
@@ -700,7 +700,7 @@ public class Generator {
 						LOGGER.error("Fail to move resource (move)", e);
 					}
 					//バックアップファイルの整理
-					FileUtil.removeBackupFiles(outputProject, generatedResult.getName());
+					FileUtil.removeBackupFiles(outputProject.getLocation().toOSString(), generatedResult.getName());
 				}
 			}
 		} else {
@@ -728,15 +728,15 @@ public class Generator {
 			try {
 				if(generatedResult.getEncode().length()==0) {
 					String strFullPath = outputFile.getLocation().toOSString();
-					FileOutputStream fos = new FileOutputStream(strFullPath);
-					if(generatedResult.isNotBom()==false) {
-						fos.write(0xef); fos.write(0xbb); fos.write(0xbf);
+					try( FileOutputStream fos = new FileOutputStream(strFullPath) ) {
+						if(generatedResult.isNotBom()==false) {
+							fos.write(0xef); fos.write(0xbb); fos.write(0xbf);
+						}
+						OutputStreamWriter osw = new OutputStreamWriter( fos , "UTF-8");
+						BufferedWriter fp = new BufferedWriter( osw );
+						fp.write ( generatedResult.getCode());
+						fp.flush();
 					}
-					OutputStreamWriter osw = new OutputStreamWriter( fos , "UTF-8");
-					BufferedWriter fp = new BufferedWriter( osw );
-					fp.write ( generatedResult.getCode());
-					fp.flush();
-					fp.close();				
 				} else {
 					outputFile.create(new ByteArrayInputStream(generatedResult.getCode().getBytes(generatedResult.getEncode())), false, null);
 				}
@@ -748,7 +748,7 @@ public class Generator {
 
 	/**
 	 * ジェネレートし、ファイル出力を行う
-	 * 
+	 *
 	 * @param generatorParam
 	 *            パラメータ
 	 * @param handler
@@ -786,7 +786,7 @@ public class Generator {
 
 		/**
 		 * プロセスを選択する
-		 * 
+		 *
 		 * @param generatedResult
 		 *            生成結果
 		 * @param originalFileContents

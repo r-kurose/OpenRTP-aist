@@ -12,7 +12,6 @@ import org.eclipse.draw2d.geometry.Point;
 
 public class ServicePortEditPart extends PortEditPartBase {
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected List getModelChildren() {
 		return getModel().getServiceInterfaces();
@@ -35,9 +34,9 @@ public class ServicePortEditPart extends PortEditPartBase {
 		int direction = this.getModel().getDirection().getValue();
 		ServicePortBaseFigure result = new ServicePortBaseFigure(getModel(), direction);
 		int index = this.getModel().getIndex();
-		result.setSize(Integer.MAX_VALUE, Integer.MAX_VALUE); 
+		result.setSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
 		result.setLocation(new Point(0,0));
-		
+
 		ServicePortFigure innerFigure = (ServicePortFigure)modifyPosition(parentFigure, direction, index, result.getInnerFigure());
 		result.setInnerFigure(innerFigure);
 

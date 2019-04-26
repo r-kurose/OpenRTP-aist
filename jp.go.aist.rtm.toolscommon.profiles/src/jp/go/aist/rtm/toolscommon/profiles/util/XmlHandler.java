@@ -12,12 +12,8 @@ import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.math.BigInteger;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,8 +22,6 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.stream.StreamSource;
@@ -99,22 +93,20 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class XmlHandler {
-	
+
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(XmlHandler.class);
-	
+
 	public RtsProfileExt loadXmlRts(String targetFile) throws Exception {
 		LOGGER.debug("loadXmlRts: targetFile=<{}>", targetFile);
 		StringBuffer stbRet = new StringBuffer();
-		InputStreamReader isr = new InputStreamReader(new FileInputStream(targetFile), "UTF-8");
-		BufferedReader br = new BufferedReader(isr);
-
-		String str = new String();
-		while( (str = br.readLine()) != null ){
-			stbRet.append(str + "\n");
+		try( InputStreamReader isr = new InputStreamReader(new FileInputStream(targetFile), "UTF-8");
+				BufferedReader br = new BufferedReader(isr) ) {
+			String str = new String();
+			while( (str = br.readLine()) != null ){
+				stbRet.append(str + "\n");
+			}
 		}
-		br.close();
-		isr.close();
 		return restoreFromXmlRts(stbRet.toString());
 	}
 
@@ -158,17 +150,16 @@ public class XmlHandler {
 		if( lineSeparator==null || lineSeparator.equals("") ) lineSeparator = "\n";
 		String xmlSplit[] = xmlString.split(lineSeparator);
 
-		BufferedWriter outputFile = new BufferedWriter(
-					new OutputStreamWriter(new FileOutputStream(targetFile), "UTF-8"));
-		for(int intIdx=0;intIdx<xmlSplit.length;intIdx++) {
-			outputFile.write(xmlSplit[intIdx]);
-			outputFile.newLine();
+		try(BufferedWriter outputFile = new BufferedWriter(
+					new OutputStreamWriter(new FileOutputStream(targetFile), "UTF-8")) ) {
+			for(int intIdx=0;intIdx<xmlSplit.length;intIdx++) {
+				outputFile.write(xmlSplit[intIdx]);
+				outputFile.newLine();
+			}
 		}
-		outputFile.close();
-		
 		return true;
 	}
-	
+
 	public String convertToXmlRts(RtsProfile profile) throws Exception {
 	    String xmlString = "";
 		try {
@@ -192,7 +183,7 @@ public class XmlHandler {
 			JAXBContext jc = JAXBContext.newInstance(RtcProfile.class);
 			Unmarshaller unmarshaller = jc.createUnmarshaller();
 
-			SchemaFactory sf = SchemaFactory.newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);  
+			SchemaFactory sf = SchemaFactory.newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
 			Schema schema = sf.newSchema(new File("schema/RtcProfile_ext.xsd"));
 			unmarshaller.setSchema(schema);
 
@@ -207,16 +198,17 @@ public class XmlHandler {
 	//
 	//
 	public String convertToXmlRtc(RtcProfile profile) throws Exception {
-		String xmlString = "";
+	    String xmlString = "";
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance("org.openrtp.namespaces.rtc.version02");
 			Marshaller marshaller = jaxbContext.createMarshaller();
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT , new Boolean(true));
 			marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper",
-					new NamespacePrefixMapperImpl("http://www.openrtp.org/namespaces/rtc"));
-			StringWriter xmlFileWriter = new StringWriter();
-			marshaller.marshal(profile, xmlFileWriter);
-			xmlString = xmlFileWriter.toString();
+					new NamespacePrefixMapperImpl(
+							"http://www.openrtp.org/namespaces/rtc"));
+		    StringWriter xmlFileWriter = new StringWriter();
+		    marshaller.marshal(profile, xmlFileWriter);
+		    xmlString = xmlFileWriter.toString();
 		} catch (JAXBException exception) {
 			throw new Exception(Messages.getString("XmlHandler.25"), exception);
 		}
@@ -239,11 +231,11 @@ public class XmlHandler {
 	    if( targetClass==null ) {
 	    	throw new Exception(Messages.getString("XmlHandler.30"));
 	    }
-	    
+
 	    if( !xmlParser.version.equals("0.1") ) {
 	    	targetXML = replacePositionValue(targetXML);
 	    }
-	    
+
 		JAXBContext jc = JAXBContext.newInstance(targetClass);
 		Unmarshaller unmarshaller = jc.createUnmarshaller();
 		unmarshaller.setEventHandler(new javax.xml.bind.helpers.DefaultValidationEventHandler());
@@ -259,7 +251,7 @@ public class XmlHandler {
 
 	    return result;
 	}
-	
+
 	public String convertToXmlDeploy(DeployProfile profile) throws Exception {
 	    String xmlString = "";
 		try {
@@ -277,7 +269,7 @@ public class XmlHandler {
 		}
 		return xmlString;
 	}
-	
+
 	public DeployProfile restoreFromXmlDeploy(String targetXML) throws Exception {
 		DeployProfile result = null;
 		JAXBContext jc = JAXBContext.newInstance("org.openrtp.namespaces.deploy");
@@ -291,17 +283,15 @@ public class XmlHandler {
 	}
 
 	public DeployProfile loadXmlDeploy(String targetFile) throws Exception {
-		
-		StringBuffer stbRet = new StringBuffer();
-		InputStreamReader isr = new InputStreamReader(new FileInputStream(targetFile), "UTF-8");
-		BufferedReader br = new BufferedReader(isr);
 
-		String str = new String();
-		while( (str = br.readLine()) != null ){
-			stbRet.append(str + "\n");
+		StringBuffer stbRet = new StringBuffer();
+		try( InputStreamReader isr = new InputStreamReader(new FileInputStream(targetFile), "UTF-8");
+				BufferedReader br = new BufferedReader(isr) ) {
+			String str = new String();
+			while( (str = br.readLine()) != null ){
+				stbRet.append(str + "\n");
+			}
 		}
-		br.close();
-		isr.close();
 		return restoreFromXmlDeploy(stbRet.toString());
 	}
 
@@ -312,17 +302,16 @@ public class XmlHandler {
 		if( lineSeparator==null || lineSeparator.equals("") ) lineSeparator = "\n";
 		String xmlSplit[] = xmlString.split(lineSeparator);
 
-		BufferedWriter outputFile = new BufferedWriter(
-					new OutputStreamWriter(new FileOutputStream(targetFile), "UTF-8"));
-		for(int intIdx=0;intIdx<xmlSplit.length;intIdx++) {
-			outputFile.write(xmlSplit[intIdx]);
-			outputFile.newLine();
+		try( BufferedWriter outputFile = new BufferedWriter(
+					new OutputStreamWriter(new FileOutputStream(targetFile), "UTF-8")) ) {
+			for(int intIdx=0;intIdx<xmlSplit.length;intIdx++) {
+				outputFile.write(xmlSplit[intIdx]);
+				outputFile.newLine();
+			}
 		}
-		outputFile.close();
-		
 		return true;
 	}
-	
+
 	private class RtsXMLParser extends DefaultHandler {
 		private String version = "";
 
@@ -338,9 +327,9 @@ public class XmlHandler {
 			}
 			super.startElement(uri, localName, qName, attributes);
 		}
-		
+
 	}
-	
+
 	private class RtcXMLParser extends DefaultHandler {
 		private String version = "";
 
@@ -356,30 +345,30 @@ public class XmlHandler {
 			}
 			super.startElement(uri, localName, qName, attributes);
 		}
-		
+
 	}
-	
+
 	private String replacePositionValue(String targetXML) {
 		// 旧version02から新version02の差分を吸収するための置換
 		Pattern patternLeft = Pattern.compile("rtcExt:position=\"left\"");
 		Matcher matcherLeft = patternLeft.matcher(targetXML);
 		targetXML = matcherLeft.replaceAll("rtcExt:position=\"LEFT\"");
-		
+
 		Pattern patternRight = Pattern.compile("rtcExt:position=\"right\"");
 		Matcher matcherRight = patternRight.matcher(targetXML);
 		targetXML = matcherRight.replaceAll("rtcExt:position=\"RIGHT\"");
-	
+
 		Pattern patternTop = Pattern.compile("rtcExt:position=\"top\"");
 		Matcher matcherTop = patternTop.matcher(targetXML);
 		targetXML = matcherTop.replaceAll("rtcExt:position=\"TOP\"");
-	
+
 		Pattern patternBottom = Pattern.compile("rtcExt:position=\"bottom\"");
 		Matcher matcherBottom = patternBottom.matcher(targetXML);
 		targetXML = matcherBottom.replaceAll("rtcExt:position=\"BOTTOM\"");
-		
+
 		return targetXML;
 	}
-	
+
 	public static String restoreConstraint(ConstraintType source) throws Exception {
 		if( source==null ) 	throw new Exception(Messages.getString("XmlHandler.38"));
 
@@ -417,28 +406,28 @@ public class XmlHandler {
 		////
 		PropertyIsEqualTo equal = unit.getPropertyIsEqualTo();
 		if( equal!=null ) {
-			if( equal.getLiteral()==null || equal.getLiteral().length()<=0 ) 
+			if( equal.getLiteral()==null || equal.getLiteral().length()<=0 )
 				throw new Exception(Messages.getString("XmlHandler.45"));
 			result.append(equal.getLiteral());
 		}
 		////
 		PropertyIsGreaterThanOrEqualTo greaterEq = unit.getPropertyIsGreaterThanOrEqualTo();
 		if( greaterEq!=null ) {
-			if( greaterEq.getLiteral()==null || greaterEq.getLiteral().length()<=0 ) 
+			if( greaterEq.getLiteral()==null || greaterEq.getLiteral().length()<=0 )
 				throw new Exception(Messages.getString("XmlHandler.46"));
 			result.append("x>=" + greaterEq.getLiteral());
 		}
 		////
 		PropertyIsLessThanOrEqualTo lessEq = unit.getPropertyIsLessThanOrEqualTo();
 		if( lessEq!=null ) {
-			if( lessEq.getLiteral()==null || lessEq.getLiteral().length()<=0 ) 
+			if( lessEq.getLiteral()==null || lessEq.getLiteral().length()<=0 )
 				throw new Exception(Messages.getString("XmlHandler.48"));
 			result.append("x<=" + lessEq.getLiteral());
 		}
 		////
 		PropertyIsGreaterThan greater = unit.getPropertyIsGreaterThan();
 		if( greater!=null ) {
-			if( greater.getLiteral()==null || greater.getLiteral().length()<=0 ) 
+			if( greater.getLiteral()==null || greater.getLiteral().length()<=0 )
 				throw new Exception(Messages.getString("XmlHandler.50"));
 			result.append("x>" + greater.getLiteral());
 		}
@@ -476,7 +465,7 @@ public class XmlHandler {
 		if( and!=null ) {
 			//And条件で３つ以上の要素はない
 			if( and.getConstraint().size() > 2 ) throw new Exception(Messages.getString("XmlHandler.60"));
-			
+
 			ConstraintUnitType former = and.getConstraint().get(0).getConstraintUnitType();
 			ConstraintUnitType latter = and.getConstraint().get(1).getConstraintUnitType();
 
@@ -517,16 +506,16 @@ public class XmlHandler {
 
 		return result.toString();
 	}
-	
+
 	public static ConstraintType convertToXmlConstraint(String source) throws Exception {
 		if(source==null || source.length()==0 ) throw new Exception(Messages.getString("XmlHandler.69"));
 		source = source.replace(" ", "");
-		
+
 		ObjectFactory factory = new ObjectFactory();
 		ConstraintType result = factory.createConstraintType();
-		
+
 		ConstraintUnitType unit = factory.createConstraintUnitType();
-		
+
 		if(source.trim().startsWith("(") && source.trim().endsWith(")")) {
 			String body = source.trim().substring(1,source.trim().length()-1);
 			String[] elem = body.trim().split(",");
@@ -554,7 +543,7 @@ public class XmlHandler {
 			}
 			result.setConstraintHashType(list);
 			return result;
-			
+
 		} else 	if( source.contains(",") ) {
 			String[] elem = source.trim().split(",");
 			if( elem.length<=0 ) throw new Exception(Messages.getString("XmlHandler.82"));
@@ -564,7 +553,7 @@ public class XmlHandler {
 			}
 			result.setConstraintListType(list);
 			return result;
-			
+
 		} else 	if( source.contains("=") || source.contains("<") || source.contains(">") ) {
 			if(source.trim().startsWith("x") || source.trim().endsWith("x")) {
 				String body = "";
@@ -579,7 +568,7 @@ public class XmlHandler {
 					PropertyIsGreaterThanOrEqualTo prop = factory.createPropertyIsGreaterThanOrEqualTo();
 					prop.setLiteral(body);
 					unit.setPropertyIsGreaterThanOrEqualTo(prop);
-					
+
 				} else if( source.trim().startsWith("x>") || source.trim().endsWith("<x") ) {
 					if(source.trim().startsWith("x>")) {
 						body = source.trim().substring("x>".length());
@@ -591,7 +580,7 @@ public class XmlHandler {
 					PropertyIsGreaterThan prop = factory.createPropertyIsGreaterThan();
 					prop.setLiteral(body);
 					unit.setPropertyIsGreaterThan(prop);
-					
+
 				} else if( source.trim().startsWith("x<=") || source.trim().endsWith("=>x") ) {
 					if(source.trim().startsWith("x<=")) {
 						body = source.trim().substring("x<=".length());
@@ -640,7 +629,7 @@ public class XmlHandler {
 				prop.setLowerBoundary(lower);
 				prop.setUpperBoundary(upper);
 				unit.setPropertyIsBetween(prop);
-					
+
 			} else	if( source.trim().contains("x") ) {
 				int index = source.trim().indexOf("x");
 				String former = source.trim().substring(0,index+1);
@@ -649,7 +638,7 @@ public class XmlHandler {
 				prop.getConstraint().add(convertToXmlConstraint(former));
 				prop.getConstraint().add(convertToXmlConstraint(latter));
 				unit.setAnd(prop);
-				
+
 			} else {
 				throw new Exception(Messages.getString("XmlHandler.137"));
 			}
@@ -661,10 +650,10 @@ public class XmlHandler {
 			unit.setPropertyIsEqualTo(equal);
 		}
 		result.setConstraintUnitType(unit);
-		
+
 		return result;
 	}
-	
+
 	private RtsProfileExt convertRtsProfile01to02(Object source) {
 		RtsProfileExt result02 = null;
 		org.openrtp.namespaces.rts.version01.RtsProfile profile01 = (org.openrtp.namespaces.rts.version01.RtsProfile)source;
@@ -805,7 +794,7 @@ public class XmlHandler {
 									if( portProperties01!=null ) {
 										connector02.getProperties().addAll(convertRtsProperty01to02(factory, portProperties01));
 									}
-								}									
+								}
 							}
 						}
 					}
@@ -853,7 +842,7 @@ public class XmlHandler {
 									if( portProperties01!=null ) {
 										connector02.getProperties().addAll(convertRtsProperty01to02(factory, portProperties01));
 									}
-								}									
+								}
 							}
 						}
 					}
@@ -986,14 +975,14 @@ public class XmlHandler {
 		}
 		return cond02;
 	}
-	
+
 	private String getPropertyValue(String targetKey, List<org.openrtp.namespaces.rts.version01.Property> propList) {
 		for(org.openrtp.namespaces.rts.version01.Property prop : propList) {
 			if( prop.getName().equals(targetKey) )
 				return prop.getValue();
 		}
 		return null;
-		
+
 	}
 	//
 	private RtcProfile convertRtcProfile01to02(Object source) {
@@ -1166,7 +1155,7 @@ public class XmlHandler {
 				dataPort02.setSubscriptionType(dataport01.getSubscriprionType());
 				//Doc Profile
 				if( dataport01 instanceof org.openrtp.namespaces.rtc.version01.DataportDoc) {
-					org.openrtp.namespaces.rtc.version01.DocDataport docDataPort01 = ((org.openrtp.namespaces.rtc.version01.DataportDoc)dataport01).getDoc(); 
+					org.openrtp.namespaces.rtc.version01.DocDataport docDataPort01 = ((org.openrtp.namespaces.rtc.version01.DataportDoc)dataport01).getDoc();
 					if( docDataPort01!=null ) {
 						DocDataport docDataPort02 = factory.createDocDataport();
 						docDataPort02.setDescription(docDataPort01.getDescription());
@@ -1202,7 +1191,7 @@ public class XmlHandler {
 				servicePort02.setName(serviceport01.getName());
 				//Doc Profile
 				if( serviceport01 instanceof org.openrtp.namespaces.rtc.version01.ServiceportDoc) {
-					org.openrtp.namespaces.rtc.version01.DocServiceport docServicePort01 = ((org.openrtp.namespaces.rtc.version01.ServiceportDoc)serviceport01).getDoc(); 
+					org.openrtp.namespaces.rtc.version01.DocServiceport docServicePort01 = ((org.openrtp.namespaces.rtc.version01.ServiceportDoc)serviceport01).getDoc();
 					if( docServicePort01!=null ) {
 						DocServiceport docServicePort02 = factory.createDocServiceport();
 						docServicePort02.setDescription(docServicePort01.getDescription());
@@ -1235,7 +1224,7 @@ public class XmlHandler {
 						serviceIF02.setPath(serviceIF01.getPath());
 						//Doc Profile
 						if( serviceIF01 instanceof org.openrtp.namespaces.rtc.version01.ServiceinterfaceDoc) {
-							org.openrtp.namespaces.rtc.version01.DocServiceinterface docServiceIF01 = ((org.openrtp.namespaces.rtc.version01.ServiceinterfaceDoc)serviceIF01).getDoc(); 
+							org.openrtp.namespaces.rtc.version01.DocServiceinterface docServiceIF01 = ((org.openrtp.namespaces.rtc.version01.ServiceinterfaceDoc)serviceIF01).getDoc();
 							if( docServiceIF01!=null ) {
 								DocServiceinterface docServiceIF02 = factory.createDocServiceinterface();
 								docServiceIF02.setDescription(docServiceIF01.getDescription());
@@ -1324,7 +1313,7 @@ public class XmlHandler {
 				result02.setLanguage(lang);
 			}
 		}
-		
+
 		return result02;
 	}
 
@@ -1370,7 +1359,7 @@ public class XmlHandler {
 		}
 		return result;
 	}
-	
+
 	private ActionStatusDoc convertAction01to02(ObjectFactory factory, Actions actions02, org.openrtp.namespaces.rtc.version01.ActionStatus action01) {
 		ActionStatusDoc action02 = null;
 		if( action01!=null ) {
@@ -1387,9 +1376,9 @@ public class XmlHandler {
 				}
 			}
 		}
-		return action02; 
+		return action02;
 	}
-	
+
 	public boolean validateXmlRtcBySchema(String targetString) throws Exception {
 		try {
 		    SAXParserFactory spfactory = SAXParserFactory.newInstance();
@@ -1406,7 +1395,7 @@ public class XmlHandler {
 		    if( targetClass==null ) {
 		    	throw new Exception("XML Parse Error");
 		    }
-			
+
 			JAXBContext jc = JAXBContext.newInstance(targetClass);
 			Unmarshaller unmarshaller = jc.createUnmarshaller();
 
@@ -1421,7 +1410,7 @@ public class XmlHandler {
 		}
 		return true;
 	}
-	
+
 	public boolean validateXmlRtsBySchema(String targetString) throws Exception {
 		try {
 		    SAXParserFactory spfactory = SAXParserFactory.newInstance();
@@ -1438,7 +1427,7 @@ public class XmlHandler {
 		    if( targetClass==null ) {
 		    	throw new Exception("XML Parse Error");
 		    }
-			
+
 			JAXBContext jc = JAXBContext.newInstance(targetClass);
 			Unmarshaller unmarshaller = jc.createUnmarshaller();
 
@@ -1454,55 +1443,5 @@ public class XmlHandler {
 		return true;
 	}
 
-	/**
-	 * XMLGregorianCalendar を任意の日付で生成します。(Map指定)
-	 */
-	public static XMLGregorianCalendar createXMLGregorianCalendar(Map<String, Integer> dateY) {
-		return createXMLGregorianCalendar((dateY.get("year")).intValue(), (dateY.get("month")).intValue(),
-				(dateY.get("day")).intValue(), (dateY.get("hour")).intValue(), (dateY.get("minute")).intValue(),
-				(dateY.get("second")).intValue());
-	}
-
-	/**
-	 * XMLGregorianCalendar を任意の日付で生成します。(年、月、日、時、分、秒指定)
-	 */
-	public static XMLGregorianCalendar createXMLGregorianCalendar(int year, int month, int day, int hourOfDay,
-			int minute, int second) {
-		GregorianCalendar c = new GregorianCalendar();
-		c.set(year, month - 1, day, hourOfDay, minute, second);
-		c.set(GregorianCalendar.MILLISECOND, 0);
-		return createXMLGregorianCalendar(c);
-	}
-
-	/**
-	 * XMLGregorianCalendar を任意の日付で生成します。(文字列指定 yyyy-MM-ddTHH:mm:ss)
-	 */
-	public static XMLGregorianCalendar createXMLGregorianCalendar(String date) {
-		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-			sdf.setLenient(false);
-			return createXMLGregorianCalendar(sdf.parse(date));
-		} catch (Exception e) {
-			throw new RuntimeException("Fail to create xml date.", e);
-		}
-	}
-
-	/**
-	 * XMLGregorianCalendar を任意の日付で生成します。(日付指定)
-	 */
-	public static XMLGregorianCalendar createXMLGregorianCalendar(Date date) {
-		GregorianCalendar c = new GregorianCalendar();
-		c.setTime(date);
-		return createXMLGregorianCalendar(c);
-	}
-
-	public static XMLGregorianCalendar createXMLGregorianCalendar(GregorianCalendar cal) {
-		try {
-			XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(cal);
-			return xmlDate;
-		} catch (Exception e) {
-			throw new RuntimeException("Fail to create xml date.", e);
-		}
-	}
 
 }

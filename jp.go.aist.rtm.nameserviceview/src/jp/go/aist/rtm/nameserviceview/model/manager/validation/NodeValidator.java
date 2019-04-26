@@ -6,8 +6,6 @@
  */
 package jp.go.aist.rtm.nameserviceview.model.manager.validation;
 
-import jp.go.aist.rtm.nameserviceview.model.manager.Node;
-
 import org.eclipse.emf.common.util.EList;
 
 /**

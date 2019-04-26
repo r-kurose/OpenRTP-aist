@@ -18,7 +18,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 /**
  * ネームサービスをビューから削除するアクション または ネームサービスからコンテキストを削除するアクション
- * 
+ *
  */
 public class DeleteNodeActionDelegate implements IObjectActionDelegate {
 	private IWorkbenchPart targetPart;
@@ -49,7 +49,6 @@ public class DeleteNodeActionDelegate implements IObjectActionDelegate {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void runServer() {
 		for (Iterator iter = ((IStructuredSelection) selection).iterator(); iter
 				.hasNext();) {
@@ -58,12 +57,11 @@ public class DeleteNodeActionDelegate implements IObjectActionDelegate {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void runContext() {
 		boolean confirm = MessageDialog.openConfirm(targetPart.getSite()
 				.getShell(), Messages.getString("DeleteINamingContextActionDelegate.0"), Messages.getString("DeleteINamingContextActionDelegate.1")); //$NON-NLS-1$ //$NON-NLS-2$
 		if (!confirm) return;
-		
+
 		try {
 			for (Iterator iter = selection.iterator(); iter.hasNext();) {
 				CorbaNode binding = (CorbaNode) iter.next();
@@ -96,7 +94,6 @@ public class DeleteNodeActionDelegate implements IObjectActionDelegate {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private SelectedNode getCurrentState() {
 		boolean hasServer = false;
 		boolean hasContext = false;

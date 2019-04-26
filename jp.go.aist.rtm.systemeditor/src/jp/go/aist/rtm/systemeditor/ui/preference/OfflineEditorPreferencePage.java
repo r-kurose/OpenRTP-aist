@@ -91,7 +91,7 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 		dataFlowTypeViewer.setInput(selectedDataFlowType);
 		convertStrings2SingleItems(SystemEditorPreferenceManager.getInstance().getDataFlowTypes(), selectedDataFlowType);
 		dataFlowTypeViewer.refresh();
-		
+
 		//Subscription Type
 		Group subscriptionTypeGroup = createGroup(composite, Messages.getString("OfflineEditorPreferencePage.10")); //$NON-NLS-1$
 		subscriptionTypeViewer = new TableViewer(subscriptionTypeGroup, SWT.BORDER | SWT.FULL_SELECTION);
@@ -100,7 +100,7 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 		subscriptionTypeViewer.setInput(selectedSubscriptionType);
 		convertStrings2SingleItems(SystemEditorPreferenceManager.getInstance().getSubscriptionTypes(), selectedSubscriptionType);
 		subscriptionTypeViewer.refresh();
-		
+
 		//Push Policy
 		Group pushPolicyGroup = createGroup(composite, Messages.getString("OfflineEditorPreferencePage.11")); //$NON-NLS-1$
 		pushPolicyViewer = new TableViewer(pushPolicyGroup, SWT.BORDER | SWT.FULL_SELECTION);
@@ -109,7 +109,7 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 		pushPolicyViewer.setInput(selectedPushPolicy);
 		convertStrings2SingleItems(SystemEditorPreferenceManager.getInstance().getPushPolicies(), selectedPushPolicy);
 		pushPolicyViewer.refresh();
-		
+
 		//Buffer Full Policy
 		Group bufferFullPolicyGroup = createGroup(composite, Messages.getString("OfflineEditorPreferencePage.12")); //$NON-NLS-1$
 		bufferFullPolicyViewer = new TableViewer(bufferFullPolicyGroup, SWT.BORDER | SWT.FULL_SELECTION);
@@ -118,7 +118,7 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 		bufferFullPolicyViewer.setInput(selectedBufferFullPolicy);
 		convertStrings2SingleItems(SystemEditorPreferenceManager.getInstance().getBufferFullPolicies(), selectedBufferFullPolicy);
 		bufferFullPolicyViewer.refresh();
-		
+
 		//Buffer Empty Policy
 		Group bufferEmptyPolicyGroup = createGroup(composite, Messages.getString("OfflineEditorPreferencePage.13")); //$NON-NLS-1$
 		bufferEmptyPolicyViewer = new TableViewer(bufferEmptyPolicyGroup, SWT.BORDER | SWT.FULL_SELECTION);
@@ -130,7 +130,7 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 
 		return composite;
 	}
-	
+
 	public void init(IWorkbench workbench) {
 	}
 
@@ -163,12 +163,12 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 
 		return super.performOk();
 	}
-		
+
 	private void setDefault() {
 		String[] prefInterfaceType = SystemEditorPreferenceManager.defaultConnectInterfaceType;
 		convertStrings2SingleItems(prefInterfaceType, selectedInterfaceType);
 		interfaceTypeViewer.refresh();
-		
+
 		String[] prefDataFlowType = SystemEditorPreferenceManager.defaultConnectDataFlowType;
 		convertStrings2SingleItems(prefDataFlowType, selectedDataFlowType);
 		dataFlowTypeViewer.refresh();
@@ -180,27 +180,27 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 		String[] prefPushPolicies = SystemEditorPreferenceManager.defaultConnectPushPolicy;
 		convertStrings2SingleItems(prefPushPolicies, selectedPushPolicy);
 		pushPolicyViewer.refresh();
-		
+
 		String[] prefBufferFullPolicies = SystemEditorPreferenceManager.defaultConnectBufferFullPolicy;
 		convertStrings2SingleItems(prefBufferFullPolicies, selectedBufferFullPolicy);
 		bufferFullPolicyViewer.refresh();
-		
+
 		String[] prefBufferEmptyPolicies = SystemEditorPreferenceManager.defaultConnectBufferEmptyPolicy;
 		convertStrings2SingleItems(prefBufferEmptyPolicies, selectedBufferEmptyPolicy);
 		bufferEmptyPolicyViewer.refresh();
 	}
-		
+
 	private TableViewer createTableViewer(Composite parent, final TableViewer targetViewer) {
 
 		Table table = targetViewer.getTable();
         table.setLinesVisible(false);
         table.setHeaderVisible(false);
-        
+
         GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.grabExcessHorizontalSpace = true;
 		gd.heightHint = 50;
 		table.setLayoutData(gd);
-        
+
         targetViewer.setContentProvider(new ArrayContentProvider());
         targetViewer.setLabelProvider(new SingleLabelProvider());
 		TableColumn nameColumn = new TableColumn(targetViewer.getTable(), SWT.NONE);
@@ -236,7 +236,6 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 		//
 		deleteButton.setText(Messages.getString("Common.button.delete")); //$NON-NLS-1$
 		deleteButton.addSelectionListener(new SelectionAdapter() {
-			@SuppressWarnings("unchecked")
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int selectionIndex = targetViewer.getTable()
@@ -251,7 +250,7 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 		});
 		gd = new GridData();
 		deleteButton.setLayoutData(gd);
-		
+
 		return targetViewer;
 	}
 
@@ -264,10 +263,10 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 		gd.grabExcessHorizontalSpace = true;
 		targetGroup.setLayoutData(gd);
 		targetGroup.setText(title);
-		
+
 		return targetGroup;
 	}
-		
+
 	private void convertSingleItems2Strings(List<SingleLabelItem> sources, List<String> targets) {
 		targets.clear();
 		for( SingleLabelItem target : sources) {
@@ -284,14 +283,14 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 
 	private class SingleLabelItem {
 		private String labeltext = ""; //$NON-NLS-1$
-	
+
 		public SingleLabelItem(String name) {
 			this.labeltext = name;
 		}
 		public String getLabeltext() {
 			return this.labeltext;
 		}
-	
+
 		public void setLabeltext(String contents) {
 			this.labeltext = contents;
 		}
@@ -348,7 +347,7 @@ public class OfflineEditorPreferencePage extends PreferencePage implements
 
 			SingleLabelItem selectedItem = (SingleLabelItem) ((TableItem) element)
 					.getData();
-			
+
 			selectedItem.setLabeltext((String) value);
 
 			viewer.refresh();

@@ -8,26 +8,22 @@ import static jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager.
 import static jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager.COLOR_RTC_STATE_INACTIVE;
 import static jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager.COLOR_RTC_STATE_UNCERTAIN;
 import static jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager.COLOR_RTC_STATE_UNKNOWN;
+
+import org.eclipse.swt.graphics.Color;
+
 import jp.go.aist.rtm.systemeditor.manager.SystemEditorPreferenceManager;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
-
-import org.eclipse.swt.graphics.Color;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * システムの色設定から色を取得します。
  */
 public class ColorHelper {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(ColorHelper.class);
-
 	/**
 	 * システム設定から ECの枠色を取得します。
-	 * 
+	 *
 	 * @param ec
 	 * @return
 	 */
@@ -51,7 +47,7 @@ public class ColorHelper {
 
 	/**
 	 * システム設定から ECの本体色を取得します。
-	 * 
+	 *
 	 * @param ec
 	 * @return
 	 */

@@ -6,9 +6,25 @@
  */
 package jp.go.aist.rtm.nameserviceview.model.nameservice.impl;
 
+import static jp.go.aist.rtm.nameserviceview.model.nameservice.util.NSUtil.eql;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.omg.CosNaming.Binding;
+import org.omg.CosNaming.BindingType;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
+import org.omg.CosNaming.NamingContextPackage.AlreadyBound;
+import org.omg.CosNaming.NamingContextPackage.CannotProceed;
+import org.omg.CosNaming.NamingContextPackage.InvalidName;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import jp.go.aist.rtm.nameserviceview.model.manager.ManagerPackage;
 import jp.go.aist.rtm.nameserviceview.model.manager.NameServerContext;
@@ -27,22 +43,6 @@ import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ConstructorPa
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ManyReferenceMapping;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.MappingRule;
 import jp.go.aist.rtm.toolscommon.synchronizationframework.mapping.ReferenceMapping;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.omg.CosNaming.Binding;
-import org.omg.CosNaming.BindingType;
-import org.omg.CosNaming.NameComponent;
-import org.omg.CosNaming.NamingContext;
-import org.omg.CosNaming.NamingContextHelper;
-import org.omg.CosNaming.NamingContextPackage.AlreadyBound;
-import org.omg.CosNaming.NamingContextPackage.CannotProceed;
-import org.omg.CosNaming.NamingContextPackage.InvalidName;
-import org.omg.CosNaming.NamingContextPackage.NotFound;
-
-import static jp.go.aist.rtm.nameserviceview.model.nameservice.util.NSUtil.*;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Naming Context Node</b></em>'.
@@ -310,8 +310,7 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 					true) {
 				private NamingContext context;
 				private LocalObject localObject;
-				
-				@SuppressWarnings("unchecked")
+
 				@Override
 				public List getNewRemoteLinkList(Object[] remoteObjects) {
 					context = (NamingContext) remoteObjects[0];
@@ -321,19 +320,11 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 				}
 
 				@Override
-				public boolean isLinkEquals(java.lang.Object o1,
-						java.lang.Object o2) {
+				public boolean isLinkEquals(java.lang.Object o1, java.lang.Object o2) {
 					Binding o12 = (Binding) o1;
 					Binding o22 = (Binding) o2;
-					boolean result = CorbaNodeImpl.COMARATOR.compare(o12,o22) == 0;
-					if (!result) return false;
-					try {
-						org.omg.CORBA.Object newObj = context.resolve(o12.binding_name);
-						CorbaNode oldLocal = (CorbaNode) getLocalObjectByRemoteLink(localObject, o12);
-						return newObj._is_equivalent(oldLocal.getCorbaObject());
-					} catch (Exception e) {
-						return true;
-					}
+					boolean result = CorbaNodeImpl.COMARATOR.compare(o12, o22) == 0;
+					return result;
 				}
 
 				@Override
@@ -358,7 +349,6 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 					}
 				}
 
-				@SuppressWarnings("unchecked")
 				@Override
 				public List getOldRemoteLinkList(LocalObject localObject) {
 					this.localObject = localObject;
@@ -374,7 +364,6 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 					return result;
 				}
 
-				@SuppressWarnings("unchecked")
 				@Override
 				public LocalObject getLocalObjectByRemoteLink(
 						LocalObject parent, Object link) {
@@ -467,12 +456,12 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 			CannotProceed, InvalidName {
 		getCorbaObjectInterface().bind(path, object);
 	}
-	
+
 	public static final MappingRule MAPPING_RULE_NAMESERVER = new MappingRule(
 			NamingContextNodeImpl.MAPPING_RULE,
 			new ClassMapping(
 					NamingContextNodeImpl.class,
-					new ConstructorParamMapping[] { 
+					new ConstructorParamMapping[] {
 						new ConstructorParamMapping(
 							NamingContext.class,
 							CorePackage.eINSTANCE.getCorbaWrapperObject_CorbaObject())
@@ -505,7 +494,7 @@ public class NamingContextNodeImpl extends CorbaNodeImpl implements
 
 	/**
 	 * ノードリストの同期 (一括更新)
-	 * 
+	 *
 	 * @param binding_list
 	 */
 	void synchronizeNodes(OpenRTMNaming.TreeBinding[] binding_list) {

@@ -15,10 +15,10 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
  */
 public class ServiceClassParam implements Serializable {
 	private static final long serialVersionUID = 6794300037580191558L;
-	
+
 	private String name;
 	private String idlPath;
-	private String idlFile;
+    private String idlFile;
 	private String module;
 	private List<ServiceMethodParam> methods = new ArrayList<ServiceMethodParam>();
 	private RtcParam parent;
@@ -28,10 +28,10 @@ public class ServiceClassParam implements Serializable {
 	public ServiceClassParam() {
 	}
 
-	public ServiceClassParam(String name, String filePath, String searchPath) {
+    public ServiceClassParam(String name, String filePath, String searchPath) {
 		this.name = name;
-		this.idlFile = filePath;
-		this.idlPath = searchPath;
+        this.idlFile = filePath;
+        this.idlPath = searchPath;
 	}
 
 	public List<ServiceMethodParam> getMethods() {
@@ -49,11 +49,11 @@ public class ServiceClassParam implements Serializable {
 	public String getModule() {
 		return module;
 	}
-	
+
 	public void setModule(String module) {
 		this.module = module;
 	}
-	
+
 	public RtcParam getParent() {
 		return parent;
 	}
@@ -70,13 +70,13 @@ public class ServiceClassParam implements Serializable {
 		this.idlPath = idlPath;
 	}
 
-	public String getIdlFile() {
-		return idlFile;
-	}
+    public String getIdlFile() {
+        return idlFile;
+    }
 
-	public void setIdlFile(String idlFile) {
-		this.idlFile = idlFile;
-	}
+    public void setIdlFile(String idlFile) {
+        this.idlFile = idlFile;
+    }
 
 	public Map<String,TypeDefParam> getTypeDef() {
 		return this.typeDef;
@@ -107,7 +107,7 @@ public class ServiceClassParam implements Serializable {
 		}
 		return typeDefList;
 	}
-	
+
 	public List<String> getSuperInterfaceList() {
 		return superInterfaceList;
 	}

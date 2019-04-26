@@ -4,14 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import jp.go.aist.rtm.systemeditor.factory.CompositeComponentCreator;
-import jp.go.aist.rtm.systemeditor.nl.Messages;
-import jp.go.aist.rtm.systemeditor.ui.dialog.NewCompositeComponentDialog;
-import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
-import jp.go.aist.rtm.systemeditor.ui.editor.command.CombineCommand;
-import jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart;
-import jp.go.aist.rtm.toolscommon.model.component.Component;
-
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -22,13 +14,20 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
 
+import jp.go.aist.rtm.systemeditor.factory.CompositeComponentCreator;
+import jp.go.aist.rtm.systemeditor.nl.Messages;
+import jp.go.aist.rtm.systemeditor.ui.dialog.NewCompositeComponentDialog;
+import jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor;
+import jp.go.aist.rtm.systemeditor.ui.editor.command.CombineCommand;
+import jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart;
+import jp.go.aist.rtm.toolscommon.model.component.Component;
+
 /**
  * 複合コンポーネントを作成するアクション
  */
 public class CombineActionDelegate implements IEditorActionDelegate {
 
-	static final String DIALOG_TITLE_ERROR = Messages
-			.getString("Common.dialog.error_title");
+	static final String DIALOG_TITLE_ERROR = Messages.getString("Common.dialog.error_title");
 
 	private ISelection selection;
 	private AbstractSystemDiagramEditor targetEditor;
@@ -36,7 +35,6 @@ public class CombineActionDelegate implements IEditorActionDelegate {
 
 	/**
 	 * アクションのメインの実行メソッド
-	 * 
 	 */
 	public void run(final IAction action) {
 		if (selectedComponents.size() == 0) {
@@ -48,19 +46,20 @@ public class CombineActionDelegate implements IEditorActionDelegate {
 		creator.setTargetEditor(targetEditor);
 		creator.setComponents(selectedComponents);
 		if (!creator.canCreate()) {
-			MessageDialog.openError(shell, DIALOG_TITLE_ERROR, creator
-					.getMessage());
+			MessageDialog.openError(shell, DIALOG_TITLE_ERROR, creator.getMessage());
 			return;
 		}
 
-		NewCompositeComponentDialog dialog = new NewCompositeComponentDialog(
-				shell, creator, selectedComponents, targetEditor
-						.getSystemDiagram().getComponents());
+		NewCompositeComponentDialog dialog = new NewCompositeComponentDialog(shell, creator, selectedComponents,
+				targetEditor.getSystemDiagram().getComponents());
 		int open = dialog.open();
 		if (open != IDialogConstants.OK_ID) {
 			return;
 		}
 		Component compositeComponent = creator.create();
+		if (compositeComponent == null) {
+			return;
+		}
 
 		// ダイアグラムへの登録はCombineCommandで行う
 		CombineCommand command = new CombineCommand();
@@ -68,8 +67,7 @@ public class CombineActionDelegate implements IEditorActionDelegate {
 		command.setTarget(compositeComponent);
 		targetEditor.deselectAll();
 		if (targetEditor.getAdapter(CommandStack.class) != null) {
-			((CommandStack) targetEditor.getAdapter(CommandStack.class))
-					.execute(command);
+			((CommandStack) targetEditor.getAdapter(CommandStack.class)).execute(command);
 		} else {
 			throw new RuntimeException();
 		}
@@ -88,12 +86,10 @@ public class CombineActionDelegate implements IEditorActionDelegate {
 	private boolean isEnable() {
 		selectedComponents = new ArrayList<Component>();
 		if (selection instanceof IStructuredSelection) {
-			for (Iterator<?> iterator = ((IStructuredSelection) selection)
-					.iterator(); iterator.hasNext();) {
+			for (Iterator<?> iterator = ((IStructuredSelection) selection).iterator(); iterator.hasNext();) {
 				Object part = iterator.next();
 				if (part instanceof ComponentEditPart) {
-					selectedComponents.add(((ComponentEditPart) part)
-							.getModel());
+					selectedComponents.add(((ComponentEditPart) part).getModel());
 				}
 			}
 		}

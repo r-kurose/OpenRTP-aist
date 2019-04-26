@@ -1,12 +1,5 @@
 package jp.go.aist.rtm.systemeditor.ui.editor.editpolicy;
 
-import jp.go.aist.rtm.systemeditor.factory.ComponentCommandCreator;
-import jp.go.aist.rtm.systemeditor.nl.Messages;
-import jp.go.aist.rtm.systemeditor.ui.editor.command.ChangeConstraintCommand;
-import jp.go.aist.rtm.systemeditor.ui.editor.editpart.SystemDiagramEditPart;
-import jp.go.aist.rtm.systemeditor.ui.util.Draw2dUtil;
-import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
-
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
@@ -15,6 +8,12 @@ import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
+
+import jp.go.aist.rtm.systemeditor.factory.ComponentCommandCreator;
+import jp.go.aist.rtm.systemeditor.ui.editor.command.ChangeConstraintCommand;
+import jp.go.aist.rtm.systemeditor.ui.editor.editpart.SystemDiagramEditPart;
+import jp.go.aist.rtm.systemeditor.ui.util.Draw2dUtil;
+import jp.go.aist.rtm.toolscommon.model.core.ModelElement;
 
 /**
  * システムダイアグラムに関するEditPolicyクラス

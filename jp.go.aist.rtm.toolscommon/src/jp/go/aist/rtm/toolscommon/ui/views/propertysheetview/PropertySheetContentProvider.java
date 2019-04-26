@@ -37,7 +37,6 @@ public class PropertySheetContentProvider extends AdapterImpl implements
 		addListener(oldInput, newInput);
 	}
 
-	@SuppressWarnings("unchecked")
 	private void addListener(Object oldInput, Object newInput) {
 		final PropertySheetContentProvider provider = this;
 

@@ -94,7 +94,7 @@ public class CompareResultDialog extends Dialog {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param parentShell
 	 *            親のシェル
 	 * @param target
@@ -109,13 +109,13 @@ public class CompareResultDialog extends Dialog {
 		this.mOriginal = target.getOriginalSrc();
 		this.mGenerate = target.getGenerateSrc();
 		this.canMerge = target.canMerge();
-		this.isOkCancel = isOkCancel; 
+		this.isOkCancel = isOkCancel;
 		this.rightLabel = rightLbl;
 		computePrefixSuffix();
 	}
 	public CompareResultDialog(Shell parentShell, CompareTarget target) {
 		this(parentShell, target, false, "Generate");
-		
+
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class CompareResultDialog extends Dialog {
 	protected void createButtonsForButtonBar(Composite parent) {
 		if( isOkCancel ) {
 			createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, false);
-			
+
 		} else {
 			createButton(parent, MergeHandler.PROCESS_ORIGINAL_ID, ORIGINAL_LABEL, false);
 			if (canMerge) {
@@ -176,7 +176,7 @@ public class CompareResultDialog extends Dialog {
 
 	/**
 	 * プレビュー部を作成する
-	 * 
+	 *
 	 * @param parent
 	 *            親のコントロール
 	 * @return 作成したプレビュー部
@@ -307,7 +307,7 @@ public class CompareResultDialog extends Dialog {
 	private static class CompareResultMergeViewer extends TextMergeViewer {
 		/**
 		 * コンストラクタ
-		 * 
+		 *
 		 * @param parent
 		 *            親コントロール
 		 * @param style
@@ -397,7 +397,7 @@ public class CompareResultDialog extends Dialog {
 
 		/**
 		 * コンストラクタ
-		 * 
+		 *
 		 * @param content
 		 *            内容
 		 */

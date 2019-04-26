@@ -53,7 +53,7 @@ public class ChangeDirectionCommandHandler extends AbstractHandler {
 	}
 
 	// コマンド実行本体
-	Object executeInternal(String id, ComponentEditPart... editParts) throws ExecutionException {
+	Object executeInternal(String id, ComponentEditPart... editParts) {
 		LOGGER.debug("ChangeDirectionCommandHandler: command=<{}> comps=<{}>", id, editParts);
 
 		org.eclipse.gef.requests.ChangeBoundsRequest request = new org.eclipse.gef.requests.ChangeBoundsRequest();

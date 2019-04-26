@@ -82,7 +82,7 @@ public class CorbaTest {
 				break;
 			}
 			LocalObject local = getLocalObject(name);
-		
+
 			if (local == null) {
 				System.out.println("オブジェクトが見つかりません");
 				continue;
@@ -151,7 +151,6 @@ public class CorbaTest {
 	}
 
 	/** コンポーネントアクション */
-	@SuppressWarnings("unchecked")
 	void actionComponent(CorbaComponent c) {
 		c.synchronizeLocalAttribute(null);
 		c.synchronizeLocalReference();
@@ -234,7 +233,7 @@ public class CorbaTest {
 				System.out.print("設定パラメータ[name=value,...]> ");
 				String p = readLine();
 				String[] nvs = p.split(",");
-				List nvlist = new ArrayList();
+				List<NameValue> nvlist = new ArrayList<NameValue>();
 				for (int i = 0; i < nvs.length; i++) {
 					String nva[] = nvs[i].split("=");
 					if (nva.length < 2) {
