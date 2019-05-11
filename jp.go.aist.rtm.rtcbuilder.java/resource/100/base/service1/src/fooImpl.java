@@ -47,9 +47,11 @@ public class fooImpl extends DataFlowComponentBase {
         m_InP2 = new DataRef<TimedLong>(m_InP2_val);
         m_InP2In = new InPort<TimedLong>("InP2", m_InP2);
         m_OutP1_val = new TimedLong();
+        initializeParam(m_OutP1_val);
         m_OutP1 = new DataRef<TimedLong>(m_OutP1_val);
         m_OutP1Out = new OutPort<TimedLong>("OutP1", m_OutP1);
         m_OutP2_val = new TimedFloat();
+        initializeParam(m_OutP2_val);
         m_OutP2 = new DataRef<TimedFloat>(m_OutP2_val);
         m_OutP2Out = new OutPort<TimedFloat>("OutP2", m_OutP2);
         m_svPortPort = new CorbaPort("svPort");
