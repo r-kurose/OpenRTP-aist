@@ -359,7 +359,10 @@ public class SCXMLGraph extends mxGraph {
 
 				// check if the source node is final
 				if (source.isFinal()) {
-					warnings += "Outgoing edge from a final node!\n";
+					warnings += "There is a transition out of the Final State!\n";
+				}
+				if (target.isInitial()) {
+					warnings += "There is a transition going into from the Initial Pseudostate!\n";
 				}
 			}
 		}
@@ -723,7 +726,11 @@ public class SCXMLGraph extends mxGraph {
 				return node.getID();
 		} else if (v instanceof SCXMLEdge) {
 			SCXMLEdge edge = ((SCXMLEdge) v);
-			return edge.getEvent();
+			if(edge.getCondition()!=null && 0<edge.getCondition().length()) {
+				return edge.getEvent() + "[" + edge.getCondition() + "]";
+			} else {
+				return edge.getEvent();
+			}
 		} else {
 			return "";
 		}

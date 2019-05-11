@@ -150,14 +150,14 @@ public class SCXMLEdge implements Serializable {
 
 	public String getEvent() {
 		String ret = null;
-		Document dmd = getEventDoc();
-		if (dmd != null) {
-			try {
-				ret = dmd.getText(0, dmd.getLength());
-			} catch (BadLocationException e) {
-				ret = (String) edge.get(EVENT);
-			}
-		} else
+//		Document dmd = getEventDoc();
+//		if (dmd != null) {
+//			try {
+//				ret = dmd.getText(0, dmd.getLength());
+//			} catch (BadLocationException e) {
+//				ret = (String) edge.get(EVENT);
+//			}
+//		} else
 			ret = (String) edge.get(EVENT);
 		return (ret == null) ? "" : ret;
 	}
@@ -168,14 +168,14 @@ public class SCXMLEdge implements Serializable {
 
 	public String getCondition() {
 		String ret = null;
-		Document dmd = getConditionDoc();
-		if (dmd != null) {
-			try {
-				ret = dmd.getText(0, dmd.getLength());
-			} catch (BadLocationException e) {
-				ret = (String) edge.get(CONDITION);
-			}
-		} else
+//		Document dmd = getConditionDoc();
+//		if (dmd != null) {
+//			try {
+//				ret = dmd.getText(0, dmd.getLength());
+//			} catch (BadLocationException e) {
+//				ret = (String) edge.get(CONDITION);
+//			}
+//		} else
 			ret = (String) edge.get(CONDITION);
 		return (ret == null) ? "" : ret;
 	}
@@ -186,14 +186,14 @@ public class SCXMLEdge implements Serializable {
 
 	public String getExe() {
 		String ret = null;
-		Document dmd = getExeDoc();
-		if (dmd != null) {
-			try {
-				ret = dmd.getText(0, dmd.getLength());
-			} catch (BadLocationException e) {
-				ret = (String) edge.get(EDGEEXE);
-			}
-		} else
+//		Document dmd = getExeDoc();
+//		if (dmd != null) {
+//			try {
+//				ret = dmd.getText(0, dmd.getLength());
+//			} catch (BadLocationException e) {
+//				ret = (String) edge.get(EDGEEXE);
+//			}
+//		} else
 			ret = (String) edge.get(EDGEEXE);
 		return (ret == null) ? "" : ret;
 	}
@@ -239,79 +239,79 @@ public class SCXMLEdge implements Serializable {
 	}
 
 	// getter and setter for document and undomanager for editing event
-	public MyUndoManager getEventUndoManager() {
-		return (MyUndoManager) edge.get(EVENTUNDO);
-	}
-
-	public MyUndoManager setEventUndoManager(MyUndoManager um) {
-		edge.put(EVENTUNDO, um);
-		return um;
-	}
-
-	public Document getEventDoc() {
-		return (Document) edge.get(EVENTDOC);
-	}
-
-	public Document setEventDoc(Document doc) {
-		edge.put(EVENTDOC, doc);
-		return doc;
-	}
-
-	// getter and setter for document and undomanager for editing condition
-	public MyUndoManager getConditionUndoManager() {
-		return (MyUndoManager) edge.get(CONDITIONUNDO);
-	}
-
-	public MyUndoManager setConditionUndoManager(MyUndoManager um) {
-		edge.put(CONDITIONUNDO, um);
-		return um;
-	}
-
-	public Document getConditionDoc() {
-		return (Document) edge.get(CONDITIONDOC);
-	}
-
-	public Document setConditionDoc(Document doc) {
-		edge.put(CONDITIONDOC, doc);
-		return doc;
-	}
-
-	// getter and setter for document and undomanager for editing executable
-	// content
-	public MyUndoManager getExeUndoManager() {
-		return (MyUndoManager) edge.get(EXEUNDO);
-	}
-
-	public MyUndoManager setExeUndoManager(MyUndoManager um) {
-		edge.put(EXEUNDO, um);
-		return um;
-	}
-
-	public Document getExeDoc() {
-		return (Document) edge.get(EXEDOC);
-	}
-
-	public Document setExeDoc(Document doc) {
-		edge.put(EXEDOC, doc);
-		return doc;
-	}
+//	public MyUndoManager getEventUndoManager() {
+//		return (MyUndoManager) edge.get(EVENTUNDO);
+//	}
+//
+//	public MyUndoManager setEventUndoManager(MyUndoManager um) {
+//		edge.put(EVENTUNDO, um);
+//		return um;
+//	}
+//
+//	public Document getEventDoc() {
+//		return (Document) edge.get(EVENTDOC);
+//	}
+//
+//	public Document setEventDoc(Document doc) {
+//		edge.put(EVENTDOC, doc);
+//		return doc;
+//	}
+//
+//	// getter and setter for document and undomanager for editing condition
+//	public MyUndoManager getConditionUndoManager() {
+//		return (MyUndoManager) edge.get(CONDITIONUNDO);
+//	}
+//
+//	public MyUndoManager setConditionUndoManager(MyUndoManager um) {
+//		edge.put(CONDITIONUNDO, um);
+//		return um;
+//	}
+//
+//	public Document getConditionDoc() {
+//		return (Document) edge.get(CONDITIONDOC);
+//	}
+//
+//	public Document setConditionDoc(Document doc) {
+//		edge.put(CONDITIONDOC, doc);
+//		return doc;
+//	}
+//
+//	// getter and setter for document and undomanager for editing executable
+//	// content
+//	public MyUndoManager getExeUndoManager() {
+//		return (MyUndoManager) edge.get(EXEUNDO);
+//	}
+//
+//	public MyUndoManager setExeUndoManager(MyUndoManager um) {
+//		edge.put(EXEUNDO, um);
+//		return um;
+//	}
+//
+//	public Document getExeDoc() {
+//		return (Document) edge.get(EXEDOC);
+//	}
+//
+//	public Document setExeDoc(Document doc) {
+//		edge.put(EXEDOC, doc);
+//		return doc;
+//	}
 
 	public SCXMLEdge cloneEdge() {
 		SCXMLEdge e = new SCXMLEdge();
 		e.edge = (HashMap<String, Object>) this.edge.clone();
 		// as for the node, set all documents to null, but gets the values they
 		// contain because it's the most updated.
-		e.setConditionDoc(null);
-		e.setConditionUndoManager(null);
+//		e.setConditionDoc(null);
+//		e.setConditionUndoManager(null);
 		e.setCondition(getCondition());
 		e.setCommentsDoc(null);
 		e.setCommentsUndoManager(null);
 		e.setComments(getComments());
-		e.setEventDoc(null);
-		e.setEventUndoManager(null);
+//		e.setEventDoc(null);
+//		e.setEventUndoManager(null);
 		e.setEvent(getEvent());
-		e.setExeDoc(null);
-		e.setExeUndoManager(null);
+//		e.setExeDoc(null);
+//		e.setExeUndoManager(null);
 		e.setExe(getExe());
 		e.setSCXMLTargets(new ArrayList<String>(getSCXMLTargets()));
 		return e;

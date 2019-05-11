@@ -7,6 +7,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -34,7 +35,9 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.InputMap;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -47,6 +50,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
+import javax.swing.KeyStroke;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
@@ -969,6 +973,7 @@ public class SCXMLGraphEditor extends JPanel {
 			list.addListSelectionListener(this);
 			list.setVisibleRowCount(10);
 			list.setCellRenderer((ListCellRenderer) new WarningRenderer());
+			list.setForeground(Color.red);
 			return list;
 		}
 
@@ -1074,13 +1079,13 @@ public class SCXMLGraphEditor extends JPanel {
 		graphOutline = new mxGraphOutline(graphComponent, 200, 200);
 
 		JPanel inner = new JPanel();
-		inner.setLayout(new BoxLayout(inner, BoxLayout.Y_AXIS));
+		inner.setLayout(new BoxLayout(inner, BoxLayout.X_AXIS));
 		validationStatus = new ValidationWarningStatusPane();
 		inner.add(validationStatus);
 		inner.add(graphOutline);
 
-		JSplitPane outer = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, inner, graphComponent);
-		outer.setDividerLocation(200);
+		JSplitPane outer = new JSplitPane(JSplitPane.VERTICAL_SPLIT, graphComponent, inner);
+		outer.setDividerLocation(400);
 		outer.setDividerSize(6);
 		outer.setBorder(null);
 

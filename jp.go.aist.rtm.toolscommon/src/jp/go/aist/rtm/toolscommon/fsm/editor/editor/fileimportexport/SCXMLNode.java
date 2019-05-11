@@ -269,14 +269,14 @@ public class SCXMLNode implements Serializable {
 
 	public String getID() {
 		String ret = null;
-		Document dmd = getIDDoc();
-		if (dmd != null) {
-			try {
-				ret = dmd.getText(0, dmd.getLength());
-			} catch (BadLocationException e) {
-				ret = (String) node.get(ID);
-			}
-		} else
+//		Document dmd = getIDDoc();
+//		if (dmd != null) {
+//			try {
+//				ret = dmd.getText(0, dmd.getLength());
+//			} catch (BadLocationException e) {
+//				ret = (String) node.get(ID);
+//			}
+//		} else
 			ret = (String) node.get(ID);
 		return (ret == null) ? "" : ret;
 	}
@@ -287,14 +287,14 @@ public class SCXMLNode implements Serializable {
 
 	public String getName() {
 		String ret = null;
-		Document dmd = getNameDoc();
-		if (dmd != null) {
-			try {
-				ret = dmd.getText(0, dmd.getLength());
-			} catch (BadLocationException e) {
-				ret = (String) node.get(NAME);
-			}
-		} else
+//		Document dmd = getNameDoc();
+//		if (dmd != null) {
+//			try {
+//				ret = dmd.getText(0, dmd.getLength());
+//			} catch (BadLocationException e) {
+//				ret = (String) node.get(NAME);
+//			}
+//		} else
 			ret = (String) node.get(NAME);
 		return (ret == null) ? "" : ret;
 	}
@@ -305,56 +305,56 @@ public class SCXMLNode implements Serializable {
 
 	public String getOnEntry() {
 		String ret = null;
-		Document dmd = getOnEntryDoc();
-		if (dmd != null) {
-			try {
-				ret = dmd.getText(0, dmd.getLength());
-			} catch (BadLocationException e) {
-				ret = (String) node.get(ONENTRYEXE);
-			}
-		} else
+//		Document dmd = getOnEntryDoc();
+//		if (dmd != null) {
+//			try {
+//				ret = dmd.getText(0, dmd.getLength());
+//			} catch (BadLocationException e) {
+//				ret = (String) node.get(ONENTRYEXE);
+//			}
+//		} else
 			ret = (String) node.get(ONENTRYEXE);
 		return (ret == null) ? "" : ret;
 	}
 
 	public String getOnExit() {
 		String ret = null;
-		Document dmd = getOnExitDoc();
-		if (dmd != null) {
-			try {
-				ret = dmd.getText(0, dmd.getLength());
-			} catch (BadLocationException e) {
-				ret = (String) node.get(ONEXITEXE);
-			}
-		} else
+//		Document dmd = getOnExitDoc();
+//		if (dmd != null) {
+//			try {
+//				ret = dmd.getText(0, dmd.getLength());
+//			} catch (BadLocationException e) {
+//				ret = (String) node.get(ONEXITEXE);
+//			}
+//		} else
 			ret = (String) node.get(ONEXITEXE);
 		return (ret == null) ? "" : ret;
 	}
 
 	public String getOnInitialEntry() {
 		String ret = null;
-		Document dmd = getOnInitialEntryDoc();
-		if (dmd != null) {
-			try {
-				ret = dmd.getText(0, dmd.getLength());
-			} catch (BadLocationException e) {
-				ret = (String) node.get(INITEXE);
-			}
-		} else
+//		Document dmd = getOnInitialEntryDoc();
+//		if (dmd != null) {
+//			try {
+//				ret = dmd.getText(0, dmd.getLength());
+//			} catch (BadLocationException e) {
+//				ret = (String) node.get(INITEXE);
+//			}
+//		} else
 			ret = (String) node.get(INITEXE);
 		return (ret == null) ? "" : ret;
 	}
 
 	public String getScript() {
 		String ret = null;
-		Document dmd = getScriptDoc();
-		if (dmd != null) {
-			try {
-				ret = dmd.getText(0, dmd.getLength());
-			} catch (BadLocationException e) {
-				ret = (String) node.get(SCRIPT);
-			}
-		} else
+//		Document dmd = getScriptDoc();
+//		if (dmd != null) {
+//			try {
+//				ret = dmd.getText(0, dmd.getLength());
+//			} catch (BadLocationException e) {
+//				ret = (String) node.get(SCRIPT);
+//			}
+//		} else
 			ret = (String) node.get(SCRIPT);
 		return (ret == null) ? "" : ret;
 	}
@@ -386,14 +386,14 @@ public class SCXMLNode implements Serializable {
 
 	public String getDoneData() {
 		String ret = null;
-		Document dmd = getDoneDataDoc();
-		if (dmd != null) {
-			try {
-				ret = dmd.getText(0, dmd.getLength());
-			} catch (BadLocationException e) {
-				ret = (String) node.get(DONEDATA);
-			}
-		} else
+//		Document dmd = getDoneDataDoc();
+//		if (dmd != null) {
+//			try {
+//				ret = dmd.getText(0, dmd.getLength());
+//			} catch (BadLocationException e) {
+//				ret = (String) node.get(DONEDATA);
+//			}
+//		} else
 			ret = (String) node.get(DONEDATA);
 		return (ret == null) ? "" : ret;
 	}
@@ -409,14 +409,14 @@ public class SCXMLNode implements Serializable {
 
 	public String getDatamodel() {
 		String ret = null;
-		Document dmd = getDatamodelDoc();
-		if (dmd != null) {
-			try {
-				ret = dmd.getText(0, dmd.getLength());
-			} catch (BadLocationException e) {
-				ret = (String) node.get(DATAMODEL);
-			}
-		} else
+//		Document dmd = getDatamodelDoc();
+//		if (dmd != null) {
+//			try {
+//				ret = dmd.getText(0, dmd.getLength());
+//			} catch (BadLocationException e) {
+//				ret = (String) node.get(DATAMODEL);
+//			}
+//		} else
 			ret = (String) node.get(DATAMODEL);
 		return (ret == null) ? "" : ret;
 	}
@@ -716,159 +716,159 @@ public class SCXMLNode implements Serializable {
 	}
 
 	// getter and setter for document and undomanager for the datamodel editor
-	public MyUndoManager getDatamodelUndoManager() {
-		return (MyUndoManager) node.get(DATAMODELUNDO);
-	}
-
-	public MyUndoManager setDatamodelUndoManager(MyUndoManager um) {
-		node.put(DATAMODELUNDO, um);
-		return um;
-	}
-
-	public Document getDatamodelDoc() {
-		return (Document) node.get(DATAMODELDOC);
-	}
-
-	public Document setDatamodelDoc(Document doc) {
-		node.put(DATAMODELDOC, doc);
-		return doc;
-	}
-
-	// getter and setter for document and undomanager for the onentry editor
-	public MyUndoManager getOnEntryUndoManager() {
-		return (MyUndoManager) node.get(ONENTRYUNDO);
-	}
-
-	public MyUndoManager setOnEntryUndoManager(MyUndoManager um) {
-		node.put(ONENTRYUNDO, um);
-		return um;
-	}
-
-	public Document getOnEntryDoc() {
-		return (Document) node.get(ONENTRYDOC);
-	}
-
-	public Document setOnEntryDoc(Document doc) {
-		node.put(ONENTRYDOC, doc);
-		return doc;
-	}
-
-	// getter and setter for document and undomanager for the onexit editor
-	public MyUndoManager getOnExitUndoManager() {
-		return (MyUndoManager) node.get(ONEXITUNDO);
-	}
-
-	public MyUndoManager setOnExitUndoManager(MyUndoManager um) {
-		node.put(ONEXITUNDO, um);
-		return um;
-	}
-
-	public Document getOnExitDoc() {
-		return (Document) node.get(ONEXITDOC);
-	}
-
-	public Document setOnExitDoc(Document doc) {
-		node.put(ONEXITDOC, doc);
-		return doc;
-	}
-
-	// getter and setter for document and undomanager for the executable content
-	// for the the editor for the initial entry in an initial node
-	public MyUndoManager getOnInitialEntryUndoManager() {
-		return (MyUndoManager) node.get(ONINITIALENTRYUNDO);
-	}
-
-	public MyUndoManager setOnInitialEntryUndoManager(MyUndoManager um) {
-		node.put(ONINITIALENTRYUNDO, um);
-		return um;
-	}
-
-	public Document getOnInitialEntryDoc() {
-		return (Document) node.get(ONINITIALENTRYDOC);
-	}
-
-	public Document setOnInitialEntryDoc(Document doc) {
-		node.put(ONINITIALENTRYDOC, doc);
-		return doc;
-	}
-
-	// getter and setter for document and undomanager for extra unknown content
-	// (including script)
-	public MyUndoManager getScriptUndoManager() {
-		return (MyUndoManager) node.get(SCRIPTUNDO);
-	}
-
-	public MyUndoManager setScriptUndoManager(MyUndoManager um) {
-		node.put(SCRIPTUNDO, um);
-		return um;
-	}
-
-	public Document getScriptDoc() {
-		return (Document) node.get(SCRIPTDOC);
-	}
-
-	public Document setScriptDoc(Document doc) {
-		node.put(SCRIPTDOC, doc);
-		return doc;
-	}
-
-	// getter and setter for document and undomanager for the donedata field of
-	// a final node
-	public MyUndoManager getDoneDataUndoManager() {
-		return (MyUndoManager) node.get(FINALDONEDATAUNDO);
-	}
-
-	public MyUndoManager setDoneDataUndoManager(MyUndoManager um) {
-		node.put(FINALDONEDATAUNDO, um);
-		return um;
-	}
-
-	public Document getDoneDataDoc() {
-		return (Document) node.get(FINALDONEDATADOC);
-	}
-
-	public Document setDoneDataDoc(Document doc) {
-		node.put(FINALDONEDATADOC, doc);
-		return doc;
-	}
-
-	// getter and setter for document and undomanager for the SCXML ID field of
-	// a node
-	public MyUndoManager getIDUndoManager() {
-		return (MyUndoManager) node.get(SCXMLIDUNDO);
-	}
-
-	public MyUndoManager setIDUndoManager(MyUndoManager um) {
-		node.put(SCXMLIDUNDO, um);
-		return um;
-	}
-
-	public Document getIDDoc() {
-		return (Document) node.get(SCXMLIDDOC);
-	}
-
-	public Document setIDDoc(Document doc) {
-		node.put(SCXMLIDDOC, doc);
-		return doc;
-	}
-
-	public MyUndoManager getNameUndoManager() {
-		return (MyUndoManager) node.get(NAMEUNDO);
-	}
-
-	public MyUndoManager setNameUndoManager(MyUndoManager um) {
-		node.put(NAMEUNDO, um);
-		return um;
-	}
-
-	public Document getNameDoc() {
-		return (Document) node.get(NAMEDOC);
-	}
-
-	public Document setNameDoc(Document doc) {
-		node.put(NAMEDOC, doc);
-		return doc;
-	}
+//	public MyUndoManager getDatamodelUndoManager() {
+//		return (MyUndoManager) node.get(DATAMODELUNDO);
+//	}
+//
+//	public MyUndoManager setDatamodelUndoManager(MyUndoManager um) {
+//		node.put(DATAMODELUNDO, um);
+//		return um;
+//	}
+//
+//	public Document getDatamodelDoc() {
+//		return (Document) node.get(DATAMODELDOC);
+//	}
+//
+//	public Document setDatamodelDoc(Document doc) {
+//		node.put(DATAMODELDOC, doc);
+//		return doc;
+//	}
+//
+//	// getter and setter for document and undomanager for the onentry editor
+//	public MyUndoManager getOnEntryUndoManager() {
+//		return (MyUndoManager) node.get(ONENTRYUNDO);
+//	}
+//
+//	public MyUndoManager setOnEntryUndoManager(MyUndoManager um) {
+//		node.put(ONENTRYUNDO, um);
+//		return um;
+//	}
+//
+//	public Document getOnEntryDoc() {
+//		return (Document) node.get(ONENTRYDOC);
+//	}
+//
+//	public Document setOnEntryDoc(Document doc) {
+//		node.put(ONENTRYDOC, doc);
+//		return doc;
+//	}
+//
+//	// getter and setter for document and undomanager for the onexit editor
+//	public MyUndoManager getOnExitUndoManager() {
+//		return (MyUndoManager) node.get(ONEXITUNDO);
+//	}
+//
+//	public MyUndoManager setOnExitUndoManager(MyUndoManager um) {
+//		node.put(ONEXITUNDO, um);
+//		return um;
+//	}
+//
+//	public Document getOnExitDoc() {
+//		return (Document) node.get(ONEXITDOC);
+//	}
+//
+//	public Document setOnExitDoc(Document doc) {
+//		node.put(ONEXITDOC, doc);
+//		return doc;
+//	}
+//
+//	// getter and setter for document and undomanager for the executable content
+//	// for the the editor for the initial entry in an initial node
+//	public MyUndoManager getOnInitialEntryUndoManager() {
+//		return (MyUndoManager) node.get(ONINITIALENTRYUNDO);
+//	}
+//
+//	public MyUndoManager setOnInitialEntryUndoManager(MyUndoManager um) {
+//		node.put(ONINITIALENTRYUNDO, um);
+//		return um;
+//	}
+//
+//	public Document getOnInitialEntryDoc() {
+//		return (Document) node.get(ONINITIALENTRYDOC);
+//	}
+//
+//	public Document setOnInitialEntryDoc(Document doc) {
+//		node.put(ONINITIALENTRYDOC, doc);
+//		return doc;
+//	}
+//
+//	// getter and setter for document and undomanager for extra unknown content
+//	// (including script)
+//	public MyUndoManager getScriptUndoManager() {
+//		return (MyUndoManager) node.get(SCRIPTUNDO);
+//	}
+//
+//	public MyUndoManager setScriptUndoManager(MyUndoManager um) {
+//		node.put(SCRIPTUNDO, um);
+//		return um;
+//	}
+//
+//	public Document getScriptDoc() {
+//		return (Document) node.get(SCRIPTDOC);
+//	}
+//
+//	public Document setScriptDoc(Document doc) {
+//		node.put(SCRIPTDOC, doc);
+//		return doc;
+//	}
+//
+//	// getter and setter for document and undomanager for the donedata field of
+//	// a final node
+//	public MyUndoManager getDoneDataUndoManager() {
+//		return (MyUndoManager) node.get(FINALDONEDATAUNDO);
+//	}
+//
+//	public MyUndoManager setDoneDataUndoManager(MyUndoManager um) {
+//		node.put(FINALDONEDATAUNDO, um);
+//		return um;
+//	}
+//
+//	public Document getDoneDataDoc() {
+//		return (Document) node.get(FINALDONEDATADOC);
+//	}
+//
+//	public Document setDoneDataDoc(Document doc) {
+//		node.put(FINALDONEDATADOC, doc);
+//		return doc;
+//	}
+//
+//	// getter and setter for document and undomanager for the SCXML ID field of
+//	// a node
+//	public MyUndoManager getIDUndoManager() {
+//		return (MyUndoManager) node.get(SCXMLIDUNDO);
+//	}
+//
+//	public MyUndoManager setIDUndoManager(MyUndoManager um) {
+//		node.put(SCXMLIDUNDO, um);
+//		return um;
+//	}
+//
+//	public Document getIDDoc() {
+//		return (Document) node.get(SCXMLIDDOC);
+//	}
+//
+//	public Document setIDDoc(Document doc) {
+//		node.put(SCXMLIDDOC, doc);
+//		return doc;
+//	}
+//
+//	public MyUndoManager getNameUndoManager() {
+//		return (MyUndoManager) node.get(NAMEUNDO);
+//	}
+//
+//	public MyUndoManager setNameUndoManager(MyUndoManager um) {
+//		node.put(NAMEUNDO, um);
+//		return um;
+//	}
+//
+//	public Document getNameDoc() {
+//		return (Document) node.get(NAMEDOC);
+//	}
+//
+//	public Document setNameDoc(Document doc) {
+//		node.put(NAMEDOC, doc);
+//		return doc;
+//	}
 
 	public SCXMLNode cloneNode() {
 		SCXMLNode n = new SCXMLNode();
@@ -876,31 +876,31 @@ public class SCXMLNode implements Serializable {
 		// removes the documents in the original value (if there). But get their
 		// values (because if there they have the
 		// real value of the property they represent (the document)
-		n.setDatamodelDoc(null);
-		n.setDatamodelUndoManager(null);
+//		n.setDatamodelDoc(null);
+//		n.setDatamodelUndoManager(null);
 		n.setDatamodel(getDatamodel());
 		n.setCommentsDoc(null);
 		n.setCommentsUndoManager(null);
 		n.setComments(getComments());
-		n.setDoneDataDoc(null);
-		n.setDoneDataUndoManager(null);
+//		n.setDoneDataDoc(null);
+//		n.setDoneDataUndoManager(null);
 		n.setDoneData(getDoneData());
-		n.setOnInitialEntryDoc(null);
-		n.setOnInitialEntryUndoManager(null);
+//		n.setOnInitialEntryDoc(null);
+//		n.setOnInitialEntryUndoManager(null);
 		n.setOnInitialEntry(getOnInitialEntry());
-		n.setOnEntryDoc(null);
-		n.setOnEntryUndoManager(null);
+//		n.setOnEntryDoc(null);
+//		n.setOnEntryUndoManager(null);
 		n.setOnEntry(getOnEntry());
-		n.setOnExitDoc(null);
-		n.setOnExitUndoManager(null);
+//		n.setOnExitDoc(null);
+//		n.setOnExitUndoManager(null);
 		n.setOnExit(getOnExit());
-		n.setScriptDoc(null);
-		n.setScriptUndoManager(null);
+//		n.setScriptDoc(null);
+//		n.setScriptUndoManager(null);
 		n.setScript(getScript());
-		n.setIDDoc(null);
-		n.setIDUndoManager(null);
-		n.setNameUndoManager(null);
-		n.setNameDoc(null);
+//		n.setIDDoc(null);
+//		n.setIDUndoManager(null);
+//		n.setNameUndoManager(null);
+//		n.setNameDoc(null);
 		n.setSRC(getSRC());
 		n.setSRCDoc(null);
 		n.setSRCUndoManager(null);

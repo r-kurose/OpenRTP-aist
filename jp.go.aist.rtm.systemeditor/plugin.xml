@@ -99,13 +99,13 @@
 			class="jp.go.aist.rtm.systemeditor.ui.views.executioncontextview.ExecutionContextView"
 			id="jp.go.aist.rtm.systemeditor.ui.views.executioncontextview.ExecutionContextView">
 		</view>
-<!--		<view
+		<view
 			name="%RT_Log_View"
 			icon="icons/RT_icon.png"
 			category="rtse"
 			class="jp.go.aist.rtm.systemeditor.ui.views.logview.LogView"
 			id="jp.go.aist.rtm.systemeditor.ui.views.logview.LogView">
-		</view>-->
+		</view>
 		<view
 			name="%Action_Order_View"
 			icon="icons/RT_icon.png"
