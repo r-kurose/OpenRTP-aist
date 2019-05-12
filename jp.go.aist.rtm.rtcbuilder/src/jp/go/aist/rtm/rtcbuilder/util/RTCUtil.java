@@ -153,18 +153,16 @@ public class RTCUtil {
 	}
 
 	public static String getRTMRootIdlPath() {
-		String result = "";
-
 		String FS = System.getProperty("file.separator");
-
-		String defaultPath = System.getenv("RTM_ROOT");
-		if (defaultPath != null) {
-			if(!defaultPath.endsWith(FS)) {
-				defaultPath += FS;
-			}
-			result = defaultPath + "rtm" + FS + "idl";
-		}
-		return result;
+		
+		StringBuilder builder = new StringBuilder();
+		builder.append("%RTM_ROOT%");
+		builder.append(FS);
+		builder.append("rtm");
+		builder.append(FS);
+		builder.append("idl");
+		
+		return builder.toString();
 	}
 
 	/**
