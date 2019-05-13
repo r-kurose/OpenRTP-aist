@@ -767,10 +767,8 @@ public class SCXMLGraph extends mxGraph {
 			if (((mxCell) cell).isEdge()) {
 				tip = "<html>";
 				SCXMLEdge v = (SCXMLEdge) ((mxCell) cell).getValue();
-				tip += "order: " + v.getOrder() + "<br>";
 				tip += "event: " + v.getEvent() + "<br>";
-				tip += "condition: <pre>" + XMLUtils.escapeStringForXML(v.getCondition()) + "</pre><br>";
-				tip += "exe: <pre>" + XMLUtils.escapeStringForXML(v.getExe()) + "</pre><br>";
+				tip += "condition: " + v.getCondition() + "<br>";
 				tip += "</html>";
 			} else if (((mxCell) cell).isVertex()) {
 				SCXMLNode v = (SCXMLNode) ((mxCell) cell).getValue();
@@ -789,19 +787,25 @@ public class SCXMLGraph extends mxGraph {
 						}
 						tipBody += "</pre><br>";
 					}
-					if (v.isInitial())
-						tipBody += "onInitialEntry: <pre>" + XMLUtils.escapeStringForXML(v.getOnInitialEntry())
-								+ "</pre><br>";
-					String onEntry = v.getOnEntry();
-					if ((onEntry != null) && (!(onEntry.isEmpty()))) {
-						tipBody += "onEntry:<br><pre>" + XMLUtils.escapeStringForXML(onEntry) + "</pre><br>";
+					if (v.isInitial() || v.isFinal()) {
+					} else {
+						String onEntry = v.getOnEntry();
+						if ((onEntry != null) && (!(onEntry.isEmpty()))) {
+							tipBody += "onEntry : ON<br>";
+						} else {
+							tipBody += "onEntry : OFF<br>";
+						}
+						String onExit = v.getOnExit();
+						if ((onExit != null) && (!(onExit.isEmpty()))) {
+							tipBody += "onExit: ON<br>";
+						} else {
+							tipBody += "onExit: OFF<br>";
+						}
+						String dataStr = v.getDatamodel();
+						if ((dataStr != null) && (!(dataStr.isEmpty()))) {
+							tipBody += "Data: " + dataStr + "<br>";
+						}
 					}
-					String onExit = v.getOnExit();
-					if ((onExit != null) && (!(onExit.isEmpty()))) {
-						tipBody += "onExit:<br><pre>" + XMLUtils.escapeStringForXML(onExit) + "</pre><br>";
-					}
-					if (v.isFinal())
-						tipBody += "exitData: " + v.getDoneData() + "<br>";
 					if (!tipBody.isEmpty()) {
 						tip = "<html>";
 						tip += tipBody;

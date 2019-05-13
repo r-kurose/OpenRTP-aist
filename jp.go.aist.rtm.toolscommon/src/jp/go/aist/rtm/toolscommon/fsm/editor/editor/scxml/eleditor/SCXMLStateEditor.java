@@ -117,7 +117,9 @@ public class SCXMLStateEditor extends SCXMLEditorRoot {
 //		}
 //		docData.addDocumentListener(changeListener);
 		//
-		if (nn==rootOfGraph || node.isInitial() || node.isFinal()) {
+		if (nn==rootOfGraph) {
+			txtData.setEnabled(false);
+		} else if (node.isInitial() || node.isFinal()) {
 			chkEntry.setEnabled(false);
 			chkExit.setEnabled(false);
 			txtData.setEnabled(false);
