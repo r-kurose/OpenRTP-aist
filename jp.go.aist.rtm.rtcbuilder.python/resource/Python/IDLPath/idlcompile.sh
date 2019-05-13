@@ -1,2 +1,3 @@
 #!/bin/sh
-omniidl -bpython -I"%RTM_ROOT%\rtm\idl" idl/CalibrationService.idl 
+IDL_PATH=`rtm-config --rtm-idldir`
+omniidl -bpython -I$IDL_PATH idl/CalibrationService.idl 

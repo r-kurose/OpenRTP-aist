@@ -107,7 +107,6 @@ public class PythonGenerateManager extends GenerateManager {
 		contextMap.put("allIdlFileParam", allIdlFileParams);
 		contextMap.put("idlPathes", rtcParam.getIdlPathes());
 		contextMap.put("allIdlFileParamBuild", allIdlFileParamsForBuild);
-		contextMap.put("rtmRootIdlDir", RTCUtil.getRTMRootIdlPath());
 
 		return generateTemplateCode10(contextMap);
 	}
@@ -185,7 +184,8 @@ public class PythonGenerateManager extends GenerateManager {
 		String outfile = "idlcompile.sh";
 		String infile = "python/idlcompile.sh.vsl";
 		GeneratedResult result = generate(infile, outfile, contextMap);
-		result.setNotBom(true);
+		result.setCode(result.getCode().replaceAll("\r\n", "\n"));
+		result.setEncode("EUC_JP");
 		return result;
 	}
 

@@ -96,7 +96,7 @@ public class BuildTest extends TestBase {
 		checkCode(result, resourceDir, "foo.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "idlcompile.bat");
-		checkCode(result, resourceDir, "idlcompile.sh");
+//		checkCode(result, resourceDir, "idlcompile.sh");
 	}
 
 	public void testCMake2() throws Exception {
