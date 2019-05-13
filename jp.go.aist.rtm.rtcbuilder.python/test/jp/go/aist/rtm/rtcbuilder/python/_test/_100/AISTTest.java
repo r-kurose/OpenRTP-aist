@@ -153,7 +153,7 @@ public class AISTTest extends TestBase {
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "idlcompile.bat");
-		checkCode(result, resourceDir, "idlcompile.sh");
+		checkCode(result, resourceDir, "idlcompile.sh", "\n");
 	}
 
 	public void testAIST3() throws Exception {
@@ -206,7 +206,7 @@ public class AISTTest extends TestBase {
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "idlcompile.bat");
-		checkCode(result, resourceDir, "idlcompile.sh");
+		checkCode(result, resourceDir, "idlcompile.sh", "\n");
 	}
 
 	public void testAIST2() throws Exception {
@@ -248,7 +248,7 @@ public class AISTTest extends TestBase {
 		assertEquals(default_file_num+7, result.size());
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "idlcompile.bat");
-		checkCode(result, resourceDir, "idlcompile.sh");
+		checkCode(result, resourceDir, "idlcompile.sh", "\n");
 	}
 
 	public void testAIST1() throws Exception {
@@ -283,7 +283,7 @@ public class AISTTest extends TestBase {
 		checkCode(result, resourceDir, "test.py");
 		checkCode(result, resourceDir, "MyService_idl_example.py");
 		checkCode(result, resourceDir, "idlcompile.bat");
-		checkCode(result, resourceDir, "idlcompile.sh");
+		checkCode(result, resourceDir, "idlcompile.sh", "\n");
 	}
 
 }
