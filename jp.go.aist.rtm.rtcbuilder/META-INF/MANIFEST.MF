@@ -6,7 +6,12 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: jp.go.aist.rtm.rtcbuilder; singleton:=true
 Bundle-Version: 1.2.0.v20171108
 Bundle-ClassPath: .,
- lib/velocity-1.6.3-dep.jar
+ lib/velocity-1.6.3-dep.jar,
+ lib/commons-beanutils-1.9.3.jar,
+ lib/commons-collections-3.2.2.jar,
+ lib/commons-digester-2.1.jar,
+ lib/commons-logging-1.2.jar,
+ lib/commons-scxml-0.9.jar
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Export-Package: jp.go.aist.rtm.rtcbuilder,
@@ -39,7 +44,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.gef,
  org.eclipse.ui.ide,
  org.eclipse.jdt.ui,
- jp.go.aist.rtm.toolscommon.profiles;visibility:=reexport
+ jp.go.aist.rtm.toolscommon.profiles;visibility:=reexport,
+ jp.go.aist.rtm.toolscommon;bundle-version="1.2.0"
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin
 Eclipse-BuddyPolicy: registered

@@ -1,0 +1,69 @@
+// -*- C++ -*-
+/*!
+ * @file  ${rtcParam.name}FSM.h
+ * @date  ${dol}Date${dol}
+ * ${dol}Id${dol}
+ */
+
+${sharp}ifndef ${rtcParam.name.toUpperCase()}_FSM_H
+${sharp}define ${rtcParam.name.toUpperCase()}_FSM_H
+
+${sharp}include <rtm/StaticFSM.h>
+${sharp}include <rtm/idl/BasicDataTypeSkel.h>
+${sharp}include <rtm/RTC.h>
+
+class ${rtcParam.name};
+
+namespace ${rtcParam.name}FSM {
+
+// Machine's top state
+FSM_TOPSTATE(${fsmParam.name}) {
+  // Top state variables (visible to all substates)
+#if( ${fsmParam.dataName.length()} > 0 )
+  struct ${fsmParam.dataName} {
+    ${fsmParam.dataName}() {}
+  };
+#end
+  
+  FSM_STATE(${fsmParam.name})
+
+  // Event handler
+#foreach($eachTrans in ${fsmParam.getAllTransList()})
+#if( ${eachTrans.event.length()} > 0 )
+  virtual void ${eachTrans.event}();
+#end
+#end
+  
+ private:
+   virtual RTC::ReturnCode_t onInit();
+   virtual RTC::ReturnCode_t onEntry();
+   virtual RTC::ReturnCode_t onExit();
+};
+
+#foreach($eachState in ${fsmParam.getAllStateList()})
+FSM_SUBSTATE(${eachState.name}, ${eachState.parentName}) {
+#if( ${eachState.dataName.length()} > 0 )
+  struct ${eachState.dataName} {
+    ${eachState.dataName}() {}
+  };
+#end
+  FSM_STATE(${eachState.name})
+${tmpltHelper.getHistory(${eachState})}
+#foreach($eachTrans in ${eachState.getTransList()})
+#if( ${eachTrans.event.length()} > 0 )
+  virtual void ${eachTrans.event}();
+#end
+#end
+
+private:
+#if( ${eachState.hasEntry} )   virtual RTC::ReturnCode_t onEntry();
+#end
+#if( ${eachState.hasExit} )   virtual RTC::ReturnCode_t onExit();
+#end
+};
+
+#end
+
+} //end namespace '${rtcParam.name}FSM'
+
+#endif // ${rtcParam.name.toUpperCase()}_FSM_H

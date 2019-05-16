@@ -11,7 +11,10 @@ import java.util.List;
 import java.util.Map;
 
 import jp.go.aist.rtm.rtcbuilder.IRTCBMessageConstants;
+import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
+import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
+import jp.go.aist.rtm.rtcbuilder.generator.param.PropertyParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateHelper;
@@ -69,6 +72,22 @@ public class CXXGenerateManager extends GenerateManager {
 		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 
+		boolean isStaticFSM = false;
+		PropertyParam fsm = rtcParam.getProperty(IRtcBuilderConstants.PROP_TYPE_FSM);
+		if(fsm!=null) {
+			if(Boolean.valueOf(fsm.getValue())) {
+				PropertyParam fsmType = rtcParam.getProperty(IRtcBuilderConstants.PROP_TYPE_FSMTYTPE);
+				if(fsmType.getValue().equals(IRtcBuilderConstants.FSMTYTPE_STATIC)) {
+					isStaticFSM = true;
+				}
+			}
+		}
+		
+		if(isStaticFSM) {
+			StateParam stateParam = rtcParam.getFsmParam();
+			contextMap.put("fsmParam", stateParam);
+		}
+		
 		GeneratedResult gr;
 		gr = generateCompSource(contextMap);
 		result.add(gr);
@@ -78,6 +97,13 @@ public class CXXGenerateManager extends GenerateManager {
 		result.add(gr);
 		gr = generateCITemplate(contextMap);
 		result.add(gr);
+		
+		if(isStaticFSM) {
+			gr = generateFSMHeader(contextMap);
+			result.add(gr);
+			gr = generateFSMSource(contextMap);
+			result.add(gr);
+		}
 
 		for (IdlFileParam idl : rtcParam.getProviderIdlPathes()) {
 			contextMap.put("idlFileParam", idl);
@@ -167,6 +193,22 @@ public class CXXGenerateManager extends GenerateManager {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = ".travis.yaml." + rtcParam.getName();
 		String infile = "cpp/travis.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
+	public GeneratedResult generateFSMHeader(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = null;
+		outfile = "include/" + rtcParam.getName() + "/" + rtcParam.getName() + "FSM.h";
+		String infile = "fsm/CXX_FSM.h.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
+	public GeneratedResult generateFSMSource(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = null;
+		outfile = "src/" + rtcParam.getName() + "FSM.cpp";
+		String infile = "fsm/CXX_FSM.cpp.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 	/////

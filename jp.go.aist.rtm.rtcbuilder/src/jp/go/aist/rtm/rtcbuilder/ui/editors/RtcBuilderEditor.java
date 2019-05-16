@@ -1,43 +1,22 @@
 package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
+import static jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler.createXMLGregorianCalendar;
+
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.JAXBException;
-import javax.xml.datatype.DatatypeFactory;
-
-import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
-import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
-import jp.go.aist.rtm.rtcbuilder.extension.AddFormPageExtension;
-import jp.go.aist.rtm.rtcbuilder.extension.EditorExtension;
-import jp.go.aist.rtm.rtcbuilder.generator.ProfileHandler;
-import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.ParamUtil;
-import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
-import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
-import jp.go.aist.rtm.rtcbuilder.model.component.BuildView;
-import jp.go.aist.rtm.rtcbuilder.model.component.Component;
-import jp.go.aist.rtm.rtcbuilder.model.component.ComponentFactory;
-import jp.go.aist.rtm.rtcbuilder.model.component.DataInPort;
-import jp.go.aist.rtm.rtcbuilder.model.component.DataOutPort;
-import jp.go.aist.rtm.rtcbuilder.model.component.InterfaceDirection;
-import jp.go.aist.rtm.rtcbuilder.model.component.PortDirection;
-import jp.go.aist.rtm.rtcbuilder.model.component.ServiceInterface;
-import jp.go.aist.rtm.rtcbuilder.model.component.ServicePort;
-import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
-import jp.go.aist.rtm.rtcbuilder.ui.preference.DocumentPreferenceManager;
-import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -59,7 +38,32 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.part.FileEditorInput;
 import org.openrtp.namespaces.rtc.version02.RtcProfile;
 
-import com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl;
+import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
+import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
+import jp.go.aist.rtm.rtcbuilder.extension.AddFormPageExtension;
+import jp.go.aist.rtm.rtcbuilder.extension.EditorExtension;
+import jp.go.aist.rtm.rtcbuilder.fsm.ScXMLHandler;
+import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
+import jp.go.aist.rtm.rtcbuilder.generator.ProfileHandler;
+import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.ParamUtil;
+import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
+import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
+import jp.go.aist.rtm.rtcbuilder.model.component.BuildView;
+import jp.go.aist.rtm.rtcbuilder.model.component.Component;
+import jp.go.aist.rtm.rtcbuilder.model.component.ComponentFactory;
+import jp.go.aist.rtm.rtcbuilder.model.component.DataInPort;
+import jp.go.aist.rtm.rtcbuilder.model.component.DataOutPort;
+import jp.go.aist.rtm.rtcbuilder.model.component.InterfaceDirection;
+import jp.go.aist.rtm.rtcbuilder.model.component.PortDirection;
+import jp.go.aist.rtm.rtcbuilder.model.component.ServiceInterface;
+import jp.go.aist.rtm.rtcbuilder.model.component.ServicePort;
+import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
+import jp.go.aist.rtm.rtcbuilder.ui.preference.DocumentPreferenceManager;
+import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 
 /**
  * RtcBuilderエディタ
@@ -86,6 +90,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	private RtcXmlEditorFormPage rtcXmlFormPage;
 	private DocumentEditorFormPage documentFormPage;
 	private ActivityEditorFormPage activityFormPage;
+	private FSMEditorFormPage fsmFormPage;
 
 	private Map<Integer, AbstractCustomFormPage> customFormPages;
 
@@ -113,7 +118,21 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		try {
 			ProfileHandler handler = new ProfileHandler();
 			generatorParam = handler.restorefromXMLFile(fileEditorInput.getPath().toOSString());
-
+			//
+			String targetFile = this.getRtcParam().getName() + "FSM.scxml";
+			IWorkspace workspace = ResourcesPlugin.getWorkspace();
+			IWorkspaceRoot root = workspace.getRoot();
+			IProject project = root.getProject(this.getRtcParam().getOutputProject());
+			IFile fsmFile  = project.getFile(targetFile);
+			if(fsmFile.exists()) {
+				targetFile = fsmFile.getLocation().toOSString();
+				ScXMLHandler scHandler = new ScXMLHandler();
+				StateParam rootState = scHandler.parseSCXML(targetFile);
+				if(rootState!=null) {
+					this.getRtcParam().setFsmParam(rootState);
+				}
+			}
+			//
 			if( buildview==null ) buildview = ComponentFactory.eINSTANCE.createBuildView();
 			updateEMFModuleName(this.getRtcParam().getName());
 			updateEMFDataPorts(
@@ -219,24 +238,26 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 	@Override
 	protected void addPages() {
 		try {
-			AbstractEditorFormPage[] defaultPages = new AbstractEditorFormPage[8];
+			AbstractEditorFormPage[] defaultPages = new AbstractEditorFormPage[9];
 			//
 			basicFormPage = new BasicEditorFormPage(this);
 			defaultPages[0] = basicFormPage;
 			activityFormPage = new ActivityEditorFormPage(this);
 			defaultPages[1] = activityFormPage;
+			fsmFormPage = new FSMEditorFormPage(this);
+			defaultPages[2] = fsmFormPage;
 			dataPortFormPage = new DataPortEditorFormPage(this);
-			defaultPages[2] = dataPortFormPage;
+			defaultPages[3] = dataPortFormPage;
 			servicePortFormPage = new ServicePortEditorFormPage(this);
-			defaultPages[3] = servicePortFormPage;
+			defaultPages[4] = servicePortFormPage;
 			configurationFormPage = new ConfigurationEditorFormPage(this);
-			defaultPages[4] = configurationFormPage;
+			defaultPages[5] = configurationFormPage;
 			documentFormPage = new DocumentEditorFormPage(this);
-			defaultPages[5] = documentFormPage;
+			defaultPages[6] = documentFormPage;
 			languageFormPage = new LanguageEditorFormPage(this);
-			defaultPages[6] = languageFormPage;
+			defaultPages[7] = languageFormPage;
 			rtcXmlFormPage = new RtcXmlEditorFormPage(this);
-			defaultPages[7] = rtcXmlFormPage;
+			defaultPages[8] = rtcXmlFormPage;
 			//
 			List<List<AbstractEditorFormPage>> forms = new ArrayList<List<AbstractEditorFormPage>>();
 			forms.add(new ArrayList<AbstractEditorFormPage>());
@@ -326,6 +347,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		if( rtcXmlFormPage != null ) rtcXmlFormPage.load();
 		if( documentFormPage != null ) documentFormPage.load();
 		if( activityFormPage != null ) activityFormPage.load();
+		if( fsmFormPage != null ) fsmFormPage.load();
 		//
 		customPagesOperation("load");
 	}
@@ -338,6 +360,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		languageFormPage.update();
 		documentFormPage.update();
 		activityFormPage.update();
+		fsmFormPage.update();
 		//
 		customPagesOperation("update");
 	}
@@ -452,8 +475,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		if( blnRtcXml ) {
 	        xmlFile = this.getRtcParam().getRtcXml();
 		} else {
-			DatatypeFactory dateFactory = new DatatypeFactoryImpl();
-			String dateTime = dateFactory.newXMLGregorianCalendar(new GregorianCalendar()).toString();
+			String dateTime = createXMLGregorianCalendar(new Date()).toString();
 			generatorParam.getRtcParam().setUpdateDate(dateTime);
 			ProfileHandler handler = new ProfileHandler();
 			xmlFile = handler.convert2XML(generatorParam);
@@ -513,6 +535,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		if (languageFormPage != null) languageFormPage.load();
 		if (documentFormPage != null) documentFormPage.load();
 		if (activityFormPage != null) activityFormPage.load();
+		if (fsmFormPage != null) fsmFormPage.load();
 		//
 		customPagesOperation("load");
 		//
@@ -689,6 +712,8 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		basicFormPage.setEnabledInfo(widgetInfo, true);
 		widgetInfo = createWidgetInfo("activity.*.*");
 		activityFormPage.setEnabledInfo(widgetInfo, true);
+		widgetInfo = createWidgetInfo("fsm.*.*");
+		fsmFormPage.setEnabledInfo(widgetInfo, true);
 		widgetInfo = createWidgetInfo("dataport.*.*");
 		dataPortFormPage.setEnabledInfo(widgetInfo, true);
 		widgetInfo = createWidgetInfo("serviceport.*.*");
@@ -704,6 +729,8 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 				basicFormPage.setEnabledInfo(widgetInfo, false);
 			} else if (widgetInfo.matchForm("activity")) {
 				activityFormPage.setEnabledInfo(widgetInfo, false);
+			} else if (widgetInfo.matchForm("fsm")) {
+				fsmFormPage.setEnabledInfo(widgetInfo, false);
 			} else if (widgetInfo.matchForm("dataport")) {
 				dataPortFormPage.setEnabledInfo(widgetInfo, false);
 			} else if (widgetInfo.matchForm("serviceport")) {
@@ -722,22 +749,18 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		if (infos.contains(EditorExtension.RTC_PROFILE_PARAMETERS_INAPPLICABLE)) {
 			widgetInfo = createWidgetInfo("config.configParam.*");
 			configurationFormPage.setEnabledInfo(widgetInfo, false);
-			// configurationFormPage.setConfigurationParameterSectionCompositeEnabled(false);
 		} else {
 			widgetInfo = createWidgetInfo("config.*.*");
 			configurationFormPage.setEnabledInfo(widgetInfo, true);
-			// configurationFormPage.setConfigurationParameterSectionCompositeEnabled(true);
 		}
 		//
 		if (infos
 				.contains(EditorExtension.RTC_PROFILE_SERVICE_PORTS_INAPPLICABLE)) {
 			widgetInfo = createWidgetInfo("serviceport.servicePort.*");
 			servicePortFormPage.setEnabledInfo(widgetInfo, false);
-			// servicePortFormPage.setServicePortFormPageEnabled(false);
 		} else {
 			widgetInfo = createWidgetInfo("serviceport.*.*");
 			servicePortFormPage.setEnabledInfo(widgetInfo, true);
-			// servicePortFormPage.setServicePortFormPageEnabled(true);
 		}
 		//
 		if (infos.contains(EditorExtension.RTC_PROFILE_DATA_PORTS_INAPPLICABLE)) {
@@ -745,11 +768,9 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 			dataPortFormPage.setEnabledInfo(widgetInfo, false);
 			widgetInfo = createWidgetInfo("dataport.outPort.*");
 			dataPortFormPage.setEnabledInfo(widgetInfo, false);
-			// dataPortFormPage.setDataPortFormPageEnabled(false);
 		} else {
 			widgetInfo = createWidgetInfo("dataport.*.*");
 			dataPortFormPage.setEnabledInfo(widgetInfo, true);
-			// dataPortFormPage.setDataPortFormPageEnabled(true);
 		}
 		//
 		if (infos
@@ -758,11 +779,9 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 			basicFormPage.setEnabledInfo(widgetInfo, false);
 			widgetInfo = createWidgetInfo("basic.generate.*");
 			basicFormPage.setEnabledInfo(widgetInfo, false);
-			// basicFormPage.setEnableGenerateSection(false);
 		} else {
 			widgetInfo = createWidgetInfo("basic.*.*");
 			basicFormPage.setEnabledInfo(widgetInfo, true);
-			// basicFormPage.setEnableGenerateSection(true);
 		}
 	}
 
