@@ -12,27 +12,22 @@ import jp.go.aist.rtm.rtcbuilder.ui.editors.IMessageConstants;
 public class ValidationUtil {
 	
 	public static String validateDataPort(DataPortParam dataport) {
-		String result = null;
 		//DataPort Name
 		if( dataport.getName()==null || dataport.getName().length()==0 ) {
-			result = IMessageConstants.DATAPORT_VALIDATE_PORTNAME1;
-			return result;
+			return IMessageConstants.DATAPORT_VALIDATE_PORTNAME1;
 		}
 		if( !StringUtil.checkDigitAlphabet(dataport.getName()) ) {
-			result = IMessageConstants.DATAPORT_VALIDATE_PORTNAME2;
-			return result;
+			return IMessageConstants.DATAPORT_VALIDATE_PORTNAME2;
 		}
 		//DataPort type
 		if( dataport.getType()==null || dataport.getType().length()==0 ) {
-			result = IMessageConstants.DATAPORT_VALIDATE_PORTTYPE;
-			return result;
+			return IMessageConstants.DATAPORT_VALIDATE_PORTTYPE;
 		}
 		//DataPort VarName
 		if( !StringUtil.checkDigitAlphabet(dataport.getVarName()) ) {
-			result = IMessageConstants.DATAPORT_VALIDATE_PORTVARNAME;
-			return result;
+			return IMessageConstants.DATAPORT_VALIDATE_PORTVARNAME;
 		}
-		return result;
+		return null;
 	}
 	
 	public static String validateServicePort(ServicePortParam serviceport) {
