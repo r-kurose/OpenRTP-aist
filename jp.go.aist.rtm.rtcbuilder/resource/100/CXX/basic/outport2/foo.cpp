@@ -39,7 +39,6 @@ foo::foo(RTC::Manager* manager)
     m_InP2In("InP2", m_InP2),
     m_OutP1Out("OutP1", m_OutP1),
     m_OutP2Out("OutP2", m_OutP2)
-
     // </rtc-template>
 {
 }
@@ -64,6 +63,7 @@ RTC::ReturnCode_t foo::onInitialize()
   // Set OutPort buffer
   addOutPort("OutP1", m_OutP1Out);
   addOutPort("OutP2", m_OutP2Out);
+
   
   // Set service provider to Ports
   
@@ -75,6 +75,7 @@ RTC::ReturnCode_t foo::onInitialize()
 
   // <rtc-template block="bind_config">
   // </rtc-template>
+
   
   return RTC::RTC_OK;
 }

@@ -6,6 +6,7 @@ import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigParameterParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.PropertyParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
@@ -347,10 +348,29 @@ public class TemplateHelper {
 	
 	public String getHistory(StateParam param) {
 		if(param.getHistory()==2) {
-			return "  DEEPHISTORY()";
+			return "    DEEPHISTORY()";
 		} else if(param.getHistory()==1) {
-			return "  HISTORY()";
+			return "    HISTORY()";
 		}
 		return "  ";
+	}
+	
+	public boolean checkFSM(RtcParam param) {
+		PropertyParam fsm = param.getProperty(IRtcBuilderConstants.PROP_TYPE_FSM);
+		if(fsm==null) return false;
+		
+		if(Boolean.valueOf(fsm.getValue())) {
+			PropertyParam fsmType = param.getProperty(IRtcBuilderConstants.PROP_TYPE_FSMTYTPE);
+			if(fsmType==null) return false;
+			String strType = fsmType.getValue();
+			if(strType.equals(IRtcBuilderConstants.FSMTYTPE_STATIC)) return true;
+		}
+		return false;
+	}
+	
+	public String getTopFSMName(RtcParam param) {
+		StateParam state = param.getFsmParam();
+		if(state==null) return "";
+		return state.getName();
 	}
 }

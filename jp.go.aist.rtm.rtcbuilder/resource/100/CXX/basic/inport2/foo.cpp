@@ -37,7 +37,6 @@ foo::foo(RTC::Manager* manager)
   : RTC::DataFlowComponentBase(manager),
     m_InP1In("InP1", m_InP1),
     m_InP2In("InP2", m_InP2)
-
     // </rtc-template>
 {
 }
@@ -60,6 +59,7 @@ RTC::ReturnCode_t foo::onInitialize()
   addInPort("InP2", m_InP2In);
   
   // Set OutPort buffer
+
   
   // Set service provider to Ports
   
@@ -71,6 +71,7 @@ RTC::ReturnCode_t foo::onInitialize()
 
   // <rtc-template block="bind_config">
   // </rtc-template>
+
   
   return RTC::RTC_OK;
 }
