@@ -43,6 +43,7 @@ ${sharp}include <rtm/CorbaPort.h>
 ${sharp}include <rtm/DataInPort.h>
 ${sharp}include <rtm/DataOutPort.h>
 #if( ${tmpltHelper.checkFSM(${rtcParam})} )
+
 // FSM headers
 
 #if( ${tmpltHelper.checkFSM(${rtcParam})})${sharp}include <rtm/EventPort.h>#end
