@@ -46,13 +46,11 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	private double executionRate;
 	private String rtcType;
 	private String currentVULog;
-	//データポート
+	//
 	private RecordedList<DataPortParam> inports = new RecordedList<DataPortParam>();
 	private RecordedList<DataPortParam> outports = new RecordedList<DataPortParam>();
-	//サービスポート
+	//
 	private RecordedList<ServicePortParam> serviceports = new RecordedList<ServicePortParam>();
-//	private List<String> idlSearchPathes = new RecordedList<String>();
-//	private String includeIDLPath = null;
 	//
 	private RecordedList<ServiceClassParam> serviceClassParams = new RecordedList<ServiceClassParam>();
 	//コンフィギュレーション
@@ -297,14 +295,14 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		checkUpdated(this.currentVULog, cvulog);
 		this.currentVULog = cvulog;
 	}
-	//データポート
+	//
 	public List<DataPortParam> getInports() {
 		return inports;
 	}
 	public List<DataPortParam> getOutports() {
 		return outports;
 	}
-	//サービスポート
+	//
 	public List<ServicePortParam> getServicePorts() {
 		return serviceports;
 	}
@@ -313,7 +311,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		return serviceClassParams;
 	}
 
-	//コンフィギュレーション
+	//
 	public List<ConfigSetParam> getConfigParams() {
 		return configParams;
 	}
@@ -328,7 +326,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		checkUpdated(this.rtcxml, rtcXml);
 		this.rtcxml = rtcXml;
 	}
-	//言語・環境
+	//
 	public String getLanguage() {
 		return getLangageListString(langList);
 	}
@@ -382,7 +380,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		return result;
 	}
 
-	//ドキュメント-Component
+	//
 	public boolean isDocExist() {
 		if( (doc_description==null || doc_description.equals("")) &&
 			(doc_in_out==null || doc_in_out.equals("")) &&
@@ -471,7 +469,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		actions.get(actionId).setPreCondition(precond);
 		actions.get(actionId).setPostCondition(postcond);
 	}
-	//ドキュメント-その他
+	//
 	public String getDocCreator() {
 		if(doc_creator==null) doc_creator = "";
 		return doc_creator;
