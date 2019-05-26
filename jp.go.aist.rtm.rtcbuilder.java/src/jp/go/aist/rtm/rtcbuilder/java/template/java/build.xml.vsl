@@ -21,21 +21,21 @@
 	<target name="idlcompile"  depends="mkdir">
 #foreach($idlPath in ${rtcParam.providerIdlPathes})
 		<exec executable="${dollarStr}{java.home}/../bin/idlj">
-			<arg line="-td 'src' #foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall 'idl/${tmpltHelper.getFileName(${idlPath.idlFile})}'"/>
+			<arg line="-td 'src' -i '${env.RTM_JAVA_ROOT}/rtm/idl' #foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall 'idl/${tmpltHelper.getFileName(${idlPath.idlFile})}'"/>
 		</exec>
 #foreach ($idl in ${idlPath.includeIdlParams})
 		<exec executable="${dollarStr}{java.home}/../bin/idlj">
-			<arg line="-td 'src' #foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall 'idl/${tmpltHelper.getFileName(${idl.idlFile})}'"/>
+			<arg line="-td 'src' -i '${env.RTM_JAVA_ROOT}/rtm/idl' #foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall 'idl/${tmpltHelper.getFileName(${idl.idlFile})}'"/>
 		</exec>
 #end
 #end
 #foreach($idlPath in ${rtcParam.consumerIdlPathes})
 		<exec executable="${dollarStr}{java.home}/../bin/idlj">
-			<arg line="-td 'src' #foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall 'idl/${tmpltHelper.getFileName(${idlPath.idlFile})}'"/>
+			<arg line="-td 'src' -i '${env.RTM_JAVA_ROOT}/rtm/idl' #foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall 'idl/${tmpltHelper.getFileName(${idlPath.idlFile})}'"/>
 		</exec>
 #foreach ($idl in ${idlPath.includeIdlParams})
 		<exec executable="${dollarStr}{java.home}/../bin/idlj">
-			<arg line="-td 'src' #foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall 'idl/${tmpltHelper.getFileName(${idl.idlFile})}'"/>
+			<arg line="-td 'src' -i '${env.RTM_JAVA_ROOT}/rtm/idl' #foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall 'idl/${tmpltHelper.getFileName(${idl.idlFile})}'"/>
 		</exec>
 #end
 #end
@@ -61,15 +61,15 @@
 		</javac>
 	</target>
 	<target name="generatedoc" depends="compile">
-		<javadoc 
+		<javadoc
                         Locale="ja_JP"
                         destdir="${dollarStr}{doc}"
                         docencoding="UTF-8"
-			author="true" doctitle="${rtcParam.name}" 
-			nodeprecated="false" nodeprecatedlist="false" 
-                        noindex="false" nonavbar="false" notree="false" 
-			package="yes" splitindex="true" 
-                        use="true" version="true" charset="UTF-8" 
+			author="true" doctitle="${rtcParam.name}"
+			nodeprecated="false" nodeprecatedlist="false"
+                        noindex="false" nonavbar="false" notree="false"
+			package="yes" splitindex="true"
+                        use="true" version="true" charset="UTF-8"
                         >
 			<classpath>
 				<fileset dir="${dollarStr}{env.RTM_JAVA_ROOT}/jar">
