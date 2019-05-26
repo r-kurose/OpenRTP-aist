@@ -92,6 +92,6 @@ public class IDLPathTest extends TestBase {
 
 		assertEquals(default_file_num+service_file_num, result.size());
 		checkCode(result, resourceDir, "idlcompile.bat");
-		checkCode(result, resourceDir, "idlcompile.sh");
+		checkCode(result, resourceDir, "idlcompile.sh", "\n");
 	}
 }

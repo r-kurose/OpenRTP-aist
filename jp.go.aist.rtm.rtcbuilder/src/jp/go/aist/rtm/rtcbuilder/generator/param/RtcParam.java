@@ -551,6 +551,20 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	public List<IdlFileParam> getConsumerIdlPathes() {
 		return consumerIdlPathes;
 	}
+	
+	public boolean checkWithoutDefaultPathes() {
+		if(0<providerIdlPathes.size()) {
+			for(IdlFileParam e : providerIdlPathes) {
+				if(e.checkDefault()==false) return true;
+			}
+		}
+		if(0<consumerIdlPathes.size() ) {
+			for(IdlFileParam e : consumerIdlPathes) {
+				if(e.checkDefault()==false) return true;
+			}
+		}
+		return false;
+	}
 
 	public List<String> getOriginalProviderIdls() {
 		return originalProviderIdls;
