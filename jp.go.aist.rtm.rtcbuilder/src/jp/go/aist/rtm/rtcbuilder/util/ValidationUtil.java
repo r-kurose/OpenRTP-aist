@@ -10,31 +10,26 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
 import jp.go.aist.rtm.rtcbuilder.ui.editors.IMessageConstants;
 
 public class ValidationUtil {
-	
+
 	public static String validateDataPort(DataPortParam dataport) {
-		String result = null;
 		//DataPort Name
 		if( dataport.getName()==null || dataport.getName().length()==0 ) {
-			result = IMessageConstants.DATAPORT_VALIDATE_PORTNAME1;
-			return result;
+			return IMessageConstants.DATAPORT_VALIDATE_PORTNAME1;
 		}
 		if( !StringUtil.checkDigitAlphabet(dataport.getName()) ) {
-			result = IMessageConstants.DATAPORT_VALIDATE_PORTNAME2;
-			return result;
+			return IMessageConstants.DATAPORT_VALIDATE_PORTNAME2;
 		}
 		//DataPort type
 		if( dataport.getType()==null || dataport.getType().length()==0 ) {
-			result = IMessageConstants.DATAPORT_VALIDATE_PORTTYPE;
-			return result;
+			return IMessageConstants.DATAPORT_VALIDATE_PORTTYPE;
 		}
 		//DataPort VarName
 		if( !StringUtil.checkDigitAlphabet(dataport.getVarName()) ) {
-			result = IMessageConstants.DATAPORT_VALIDATE_PORTVARNAME;
-			return result;
+			return IMessageConstants.DATAPORT_VALIDATE_PORTVARNAME;
 		}
-		return result;
+		return null;
 	}
-	
+
 	public static String validateServicePort(ServicePortParam serviceport) {
 		String result = null;
 		//ServicePort name
@@ -48,7 +43,7 @@ public class ValidationUtil {
 		}
 		return result;
 	}
-	
+
 	public static String validateServiceInterface(ServicePortInterfaceParam ifparam) {
 		String result = null;
 		//ServiceInterface name
@@ -114,11 +109,11 @@ public class ValidationUtil {
 				return result;
 			}
 		}
-		
+
 		//制約
 		//radioは列挙型のみ
 		if( config.getWidget().equals("radio") ) {
-			if(config.getConstraint().trim().startsWith("(") 
+			if(config.getConstraint().trim().startsWith("(")
 					&& config.getConstraint().trim().endsWith(")") ) {
 				//値の重複不可
 				String[] enumVal = config.getConstraint().trim().substring(1, config.getConstraint().trim().length()-1).split(",");
@@ -148,5 +143,5 @@ public class ValidationUtil {
 //		}
 		return result;
 	}
-	
+
 }

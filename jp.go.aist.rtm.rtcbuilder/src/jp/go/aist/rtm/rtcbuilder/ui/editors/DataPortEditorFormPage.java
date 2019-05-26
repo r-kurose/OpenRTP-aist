@@ -508,17 +508,18 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		if( result!=null ) return result;
 		//名称重複
 		if( checkSet.contains(dataport.getName()) ) {
-			result = IMessageConstants.DATAPORT_VALIDATE_DUPLICATE;
-			return result;
+			return IMessageConstants.DATAPORT_VALIDATE_DUPLICATE;
 		}
 		checkSet.add(dataport.getName());
 		//変数名重複
 		if( checkVarSet.contains(dataport.getTmplVarName()) ) {
-			result = IMessageConstants.DATAPORT_VALIDATE_VAR_DUPLICATE;
-			return result;
+			return IMessageConstants.DATAPORT_VALIDATE_VAR_DUPLICATE;
 		}
 		checkVarSet.add(dataport.getTmplVarName());
-
+		//型存在チェック
+		if(Arrays.asList(defaultTypeList).contains(dataport.getType())==false) {
+			return IMessageConstants.DATAPORT_VALIDATE_PORTTYPE_INVALID;
+		}
 		return null;
 	}
 
