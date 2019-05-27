@@ -12,9 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 import com.mxgraph.model.mxCell;
@@ -31,7 +29,6 @@ public class SCXMLStateEditor extends SCXMLEditorRoot {
 	private JTextField txtName;
 	private JCheckBox chkEntry;
 	private JCheckBox chkExit;
-	private JTextField txtData;
 	private boolean isRoot = false;
 	private Shell shell;
 
@@ -48,8 +45,6 @@ public class SCXMLStateEditor extends SCXMLEditorRoot {
 		node = (SCXMLNode) nn.getValue();
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
-//		DocumentChangeListener changeListener = new DocumentChangeListener(editor);
-		
 		JPanel panel = new JPanel();
 		getContentPane().add(panel);
 		GridBagLayout gbl = new GridBagLayout();
@@ -57,19 +52,12 @@ public class SCXMLStateEditor extends SCXMLEditorRoot {
 		editor.toString();
 		
         addUIParts(panel, new JLabel("State Name"), gbl, 0, 0, 1, 1);
-//        JTextField txtName = null;
-//        Document docName = null;
 		if (nn!=rootOfGraph) {
 	        txtName = new JTextField(node.getID());
-//	        docName = txtName.getDocument();
-//			node.setIDDoc(docName);
 		} else {
 	        txtName = new JTextField(node.getName());
 	        isRoot = true;
-//	        docName = txtName.getDocument();
-//			node.setNameDoc(docName);
 		}
-		//docName.addDocumentListener(changeListener);
 		
         txtName.setPreferredSize(new Dimension(300, 20));
         addUIParts(panel, txtName, gbl, 1, 0, 2, 1);
@@ -80,50 +68,12 @@ public class SCXMLStateEditor extends SCXMLEditorRoot {
         if(node.getOnEntry().equals(STR_ON)) {
         	chkEntry.setSelected(true);
         }
-//        chkEntry.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				if(chkEntry.isSelected()) {
-//					node.setOnEntry(STR_ON);	
-//				} else {
-//					node.setOnEntry("");	
-//				}
-//			}
-//		});
         //
         chkExit = new JCheckBox("On Exit");
         addUIParts(panel, chkExit, gbl, 2, 1, 1, 1);
         if(node.getOnExit().equals(STR_ON)) {
         	chkExit.setSelected(true);
         }
-//        chkExit.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				if(chkExit.isSelected()) {
-//					node.setOnExit(STR_ON);	
-//				} else {
-//					node.setOnExit("");	
-//				}
-//			}
-//		});
-		//
-        addUIParts(panel, new JLabel("Data"), gbl, 0, 2, 1, 1);
-        txtData = new JTextField(node.getDatamodel());
-        txtData.setPreferredSize(new Dimension(300, 20));
-        addUIParts(panel, txtData, gbl, 1, 2, 2, 1);
-//        Document docData = node.getDatamodelDoc();
-//		if (docData == null) {
-//			node.setDatamodelDoc(docData = txtData.getDocument());
-//		}
-//		docData.addDocumentListener(changeListener);
-		//
-		if (nn==rootOfGraph) {
-			txtData.setEnabled(false);
-		} else if (node.isInitial() || node.isFinal()) {
-			chkEntry.setEnabled(false);
-			chkExit.setEnabled(false);
-			txtData.setEnabled(false);
-		}
 		
 		pack();
 		setVisible(true);
@@ -160,7 +110,6 @@ public class SCXMLStateEditor extends SCXMLEditorRoot {
 		} else {
 			node.setOnExit("");	
 		}
-		node.setDatamodel(txtData.getText());
 		
 		return true;
 	}

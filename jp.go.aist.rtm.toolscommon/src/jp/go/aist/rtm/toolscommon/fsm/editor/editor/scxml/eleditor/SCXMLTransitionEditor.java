@@ -31,8 +31,6 @@ public class SCXMLTransitionEditor extends SCXMLEditorRoot {
 		edge = (SCXMLEdge) en.getValue();
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
-//		DocumentChangeListener changeListener = new DocumentChangeListener(editor);
-		
 		JPanel panel = new JPanel();
 		getContentPane().add(panel);
 		GridBagLayout gbl = new GridBagLayout();
@@ -42,23 +40,11 @@ public class SCXMLTransitionEditor extends SCXMLEditorRoot {
         txtEvent = new JTextField(edge.getEvent());
         txtEvent.setPreferredSize(new Dimension(300, 20));
         addUIParts(panel, txtEvent, gbl, 1, 0, 2, 1);
-//        Document docEvent = edge.getEventDoc();
-//		if (docEvent == null) {
-//			edge.setEventDoc(docEvent = txtEvent.getDocument());
-//		}
-//		edge.setEventDoc(txtEvent.getDocument());
-		//docEvent.addDocumentListener(changeListener);
 		//
         addUIParts(panel, new JLabel("Condition"), gbl, 0, 1, 1, 1);
         txtCondition = new JTextField(edge.getCondition());
         txtCondition.setPreferredSize(new Dimension(300, 20));
         addUIParts(panel, txtCondition, gbl, 1, 1, 2, 1);
-//        Document docCondition = edge.getConditionDoc();
-//		if (docCondition == null) {
-//			edge.setConditionDoc(docCondition = txtCondition.getDocument());
-//		}
-//		edge.setConditionDoc(txtCondition.getDocument());
-//		docCondition.addDocumentListener(changeListener);
 		
 		pack();
 		setVisible(true);
