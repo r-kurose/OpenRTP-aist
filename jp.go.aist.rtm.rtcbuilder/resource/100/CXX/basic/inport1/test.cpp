@@ -36,7 +36,6 @@ test::test(RTC::Manager* manager)
     // <rtc-template block="initializer">
   : RTC::DataFlowComponentBase(manager),
     m_InP1In("InP1", m_InP1)
-
     // </rtc-template>
 {
 }
@@ -58,6 +57,7 @@ RTC::ReturnCode_t test::onInitialize()
   addInPort("InP1", m_InP1In);
   
   // Set OutPort buffer
+
   
   // Set service provider to Ports
   
@@ -69,6 +69,7 @@ RTC::ReturnCode_t test::onInitialize()
 
   // <rtc-template block="bind_config">
   // </rtc-template>
+
   
   return RTC::RTC_OK;
 }

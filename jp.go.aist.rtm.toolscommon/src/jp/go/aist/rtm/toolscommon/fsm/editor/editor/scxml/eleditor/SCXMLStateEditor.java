@@ -104,7 +104,6 @@ public class SCXMLStateEditor extends SCXMLEditorRoot {
 		if (nn==rootOfGraph) {
 			chkEntry.setEnabled(false);
 			chkExit.setEnabled(false);
-			txtData.setEnabled(false);
 		}
 		
 		pack();

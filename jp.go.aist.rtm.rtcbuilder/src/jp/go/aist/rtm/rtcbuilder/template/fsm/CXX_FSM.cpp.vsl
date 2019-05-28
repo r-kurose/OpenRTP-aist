@@ -7,7 +7,7 @@
 
 ${sharp}include "${rtcParam.name}FSM.h"
 
-namespace ${rtcParam.name}FSM {
+namespace ${rtcParam.name}Fsm {
 
 // Top state
 RTC::ReturnCode_t ${fsmParam.name}::onInit() {
@@ -22,26 +22,16 @@ RTC::ReturnCode_t ${fsmParam.name}::onExit() {
   return RTC::RTC_OK;
 }
 
-#foreach($eachTrans in ${fsmParam.getAllTransList()})
-#if( ${eachTrans.event.length()} > 0 )
-void ${fsmParam.name}::${eachTrans.event}() {
-}
-
-#end
-#end
-#foreach($eachState in ${fsmParam.getAllStateList()})
-//${eachState.name}
-virtual RTC::ReturnCode_t ${eachState.name}::onInit() {
-  return RTC::RTC_OK;
-}
-
+#foreach($eachState in ${fsmParam.getAllValidStateList()})
+//============================================================
+// State ${eachState.name}
 #if( ${eachState.hasEntry} )
-virtual RTC::ReturnCode_t ${eachState.name}::onEntry() {
+RTC::ReturnCode_t ${eachState.name}::onEntry() {
   return RTC::RTC_OK;
 }
 #end
 #if( ${eachState.hasExit} )
-virtual RTC::ReturnCode_t ${eachState.name}::onExit() {
+RTC::ReturnCode_t ${eachState.name}::onExit() {
   return RTC::RTC_OK;
 }
 #end

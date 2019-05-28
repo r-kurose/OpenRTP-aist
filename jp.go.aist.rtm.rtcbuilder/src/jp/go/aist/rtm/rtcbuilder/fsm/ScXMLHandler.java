@@ -14,6 +14,7 @@ import org.apache.commons.scxml.model.Data;
 import org.apache.commons.scxml.model.Datamodel;
 import org.apache.commons.scxml.model.Executable;
 import org.apache.commons.scxml.model.History;
+import org.apache.commons.scxml.model.Initial;
 import org.apache.commons.scxml.model.Log;
 import org.apache.commons.scxml.model.SCXML;
 import org.apache.commons.scxml.model.State;
@@ -44,7 +45,6 @@ public class ScXMLHandler {
 			} catch (IOException | SAXException e1) {
 				e1.printStackTrace();
 			}
-		    //最上位要素のname属性を取得できないので
 		    String topName = "";
 		    if(topTag!=null) {
 		    	String[] elems = topTag.split(" ");
@@ -58,6 +58,7 @@ public class ScXMLHandler {
 		    //
 		    result = new StateParam();
 		    result.setName(topName);
+		    result.setInitialState(scxml.getInitial());
 			Datamodel model = scxml.getDatamodel();
 			if(model!=null) {
 				List dataList = model.getData();
@@ -73,11 +74,26 @@ public class ScXMLHandler {
 		    for(String key : keysState) {
 		    	parseState(result, (State)scxml.getChildren().get(key), "Top", result.getAllStateList(), result.getAllTransList());
 		    }
+		    for(TransitionParam trans : result.getAllTransList()) {
+		    	String nextState = trans.getTarget();
+		    	trans.setTarget(findStateName(nextState, result.getAllStateList()));
+		    }
 
 		} catch (FileNotFoundException ex1) {
 		} catch (IOException ex) {
 		}
 		return result;
+	}
+	
+	private String findStateName(String target, List<StateParam> source) {
+		for(StateParam each : source) {
+			if(each.getHistory() != 0) {
+				if(each.getHistoryNodeName().equals(target)) {
+					return each.getName();
+				}
+			}
+		}
+		return target;
 	}
 
 	private void parseState(StateParam parentParam, State state, String parentName, List<StateParam> stateList, List<TransitionParam> transList) {
@@ -91,6 +107,9 @@ public class ScXMLHandler {
 		parseDataModel(state, child);
 		child.setHasEntry(parseEntryExit(state.getOnEntry()));
 		child.setHasExit(parseEntryExit(state.getOnExit()));
+		if(strId!=null && strId.equals(parentParam.getInitialState())) {
+			child.setInitial(true);
+		}
 		
 		List<Transition> trans = state.getTransitionsList();
 		for(Transition tran : trans) {
@@ -109,8 +128,14 @@ public class ScXMLHandler {
 	    	} else {
 	    		child.setHistory(1);
 	    	}
+	    	child.setHistoryNodeName(history.getId());
 		}
 		//
+		Initial initNode = state.getInitial();
+		if(initNode!=null) {
+			Transition tran = initNode.getTransition();
+			child.setInitialState(tran.getNext());
+		}
 		Set<String> keysState = state.getChildren().keySet();
 	    for(String key : keysState) {
 	    	parseState(child, (State)state.getChildren().get(key), strId, stateList, transList);

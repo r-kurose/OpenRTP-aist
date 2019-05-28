@@ -63,7 +63,7 @@ public class TestBase extends TestCase {
 		expPath = resourceDir + fileName;
 		expContent = readFile(expPath);
 		expContent = replaceRootPath(expContent);
-		assertEquals(expContent, result.get(index).getCode());
+		assertEquals(replaceBlank(expContent) , replaceBlank(result.get(index).getCode()));
 	}
 
 	protected void nonexist(List<GeneratedResult> result, String resourceDir,
@@ -73,6 +73,13 @@ public class TestBase extends TestCase {
 			fail();
 		}
 		assertTrue(true);
+	}
+	
+	private String replaceBlank(String source) {
+		String result;
+		result = source.replaceAll("(\n|\r|\n\r|\r\n){2,}", "\n");
+		result = result.replaceAll("[ \t\\x0B\f]+(\n|\r|\n\r|\r\n)", "");
+		return result;
 	}
 
 }

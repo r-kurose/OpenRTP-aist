@@ -299,6 +299,21 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	public List<DataPortParam> getInports() {
 		return inports;
 	}
+	public List<DataPortParam> getRawInports() {
+		List<DataPortParam> result = new ArrayList<DataPortParam>();
+		for(DataPortParam target : inports) {
+			boolean isEvent = false;
+			for(PropertyParam prop : target.getProperties()) {
+				if(prop.getName().equals("type") && prop.getValue().equals("FSMEvent")) {
+					isEvent = true;
+					break;
+				}
+			}
+			if(isEvent) continue;
+			result.add(target);
+		}
+		return result;
+	}
 	public List<DataPortParam> getOutports() {
 		return outports;
 	}
@@ -702,7 +717,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 			}
 		}
 		/////
-		for( DataPortParam target : inports ) {
+		for( DataPortParam target : getRawInports() ) {
 			List<String> localIdlPathes = new ArrayList<String>();
 			checkAndAddIDLPath(target.getType(), localIdlPathes, consumerIdlStrings, consumerIdlParams);
 			if(0<localIdlPathes.size()) {
@@ -928,6 +943,8 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		if(isExist) return;
 		//
 		DataPortParam fsmParam = new DataPortParam("FSMEvent", "RTC::TimedLong", "FSMEvent", 0);
+		PropertyParam prop = new PropertyParam("type", "FSMEvent");
+		fsmParam.getProperties().add(prop);
 		inports.add(fsmParam);
 	}
 	
@@ -969,5 +986,16 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 			getProperties().add(prop);
 		}
 		prop.setValue(value);
+	}
+	
+	public DataPortParam getFSMport() {
+		for(DataPortParam target : inports) {
+			for(PropertyParam prop : target.getProperties()) {
+				if(prop.getName().equals("type") && prop.getValue().equals("FSMEvent")) {
+					return target;
+				}
+			}
+		}
+		return null;
 	}
 }
