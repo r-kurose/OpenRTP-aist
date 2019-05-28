@@ -52,8 +52,6 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	private RecordedList<DataPortParam> outports = new RecordedList<DataPortParam>();
 	//サービスポート
 	private RecordedList<ServicePortParam> serviceports = new RecordedList<ServicePortParam>();
-//	private List<String> idlSearchPathes = new RecordedList<String>();
-//	private String includeIDLPath = null;
 	//
 	private RecordedList<ServiceClassParam> serviceClassParams = new RecordedList<ServiceClassParam>();
 	//コンフィギュレーション

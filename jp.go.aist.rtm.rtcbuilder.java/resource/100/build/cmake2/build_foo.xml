@@ -6,28 +6,20 @@
 #
 # $Id$
  -->
-<project name="foo" default="compile">
+<project name="foo" default="generatedoc">
 	<property name="source" value="src" />
 	<property name="dest" value="bin" />
+	<property name="doc" value="doc" />
 	<property environment="env" />
 	<target name="mkdir">
 		<mkdir dir="${dest}" />
 	</target>
 	<target name="idlcompile"  depends="mkdir">
 		<exec executable="${java.home}/../bin/idlj">
-			<arg line="-td 'src' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/build/cmake2' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/build/cmake2' -fall 'idl/MyServiceChildMulti.idl'"/>
+			<arg line="-td 'src' -i '${env.RTM_JAVA_ROOT}/rtm/idl' -fall 'idl/MyService.idl'"/>
 		</exec>
 		<exec executable="${java.home}/../bin/idlj">
-			<arg line="-td 'src' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/build/cmake2' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/build/cmake2' -fall 'idl/MyServiceParent1.idl'"/>
-		</exec>
-		<exec executable="${java.home}/../bin/idlj">
-			<arg line="-td 'src' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/build/cmake2' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/build/cmake2' -fall 'idl/MyServiceParent2.idl'"/>
-		</exec>
-		<exec executable="${java.home}/../bin/idlj">
-			<arg line="-td 'src' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/build/cmake2' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/build/cmake2' -fall 'idl/MyServiceChildWithType.idl'"/>
-		</exec>
-		<exec executable="${java.home}/../bin/idlj">
-			<arg line="-td 'src' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/build/cmake2' -i 'D:\GlobalAssist\EclipseAISTRep\jp.go.aist.rtm.rtcbuilder.java\resource/100/build/cmake2' -fall 'idl/MyServiceParentWithType.idl'"/>
+			<arg line="-td 'src' -i '${env.RTM_JAVA_ROOT}/rtm/idl' -fall 'idl/DAQService.idl'"/>
 		</exec>
 	</target>
 	<target name="compile" depends="idlcompile">
@@ -38,5 +30,28 @@
 				</fileset>
 			</classpath>
 		</javac>
+	</target>
+	<target name="generatedoc" depends="compile">
+		<javadoc
+                        Locale="ja_JP"
+                        destdir="${doc}"
+                        docencoding="UTF-8"
+			author="true" doctitle="foo"
+			nodeprecated="false" nodeprecatedlist="false"
+                        noindex="false" nonavbar="false" notree="false"
+			package="yes" splitindex="true"
+                        use="true" version="true" charset="UTF-8"
+                        >
+			<classpath>
+				<fileset dir="${env.RTM_JAVA_ROOT}/jar">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>
+			<sourcefiles>
+				<fileset dir="${source}">
+					<include name="**/*.java"/>
+				</fileset>
+                	</sourcefiles>
+                </javadoc>
 	</target>
 </project>
