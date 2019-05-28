@@ -16,8 +16,10 @@ ${sharp}include <rtm/idl/InterfaceDataTypesSkel.h>
 
 // Service implementation headers
 // <rtc-template block="service_impl_h">
+#if( ${rtcParam.checkWithoutDefaultPathes()} == true )
 #foreach($consumerIdlFile in ${rtcParam.consumerIdlPathes})
 ${sharp}include "${tmpltHelper.getFilenameNoExt(${consumerIdlFile.idlFile})}${tmpltHelper.serviceImplSuffix}.h"
+#end
 #end
 
 // </rtc-template>
@@ -319,6 +321,7 @@ class ${rtcParam.name}Test
    */
   #if(${rtcParam.IsNotImplemented(11)})//#end virtual RTC::ReturnCode_t onRateChanged(RTC::UniqueId ec_id);
 
+  bool runTest();
 
  protected:
   // <rtc-template block="protected_attribute">

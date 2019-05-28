@@ -72,17 +72,7 @@ public class CXXGenerateManager extends GenerateManager {
 		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 
-		boolean isStaticFSM = false;
-		PropertyParam fsm = rtcParam.getProperty(IRtcBuilderConstants.PROP_TYPE_FSM);
-		if(fsm!=null) {
-			if(Boolean.valueOf(fsm.getValue())) {
-				PropertyParam fsmType = rtcParam.getProperty(IRtcBuilderConstants.PROP_TYPE_FSMTYTPE);
-				if(fsmType.getValue().equals(IRtcBuilderConstants.FSMTYTPE_STATIC)) {
-					isStaticFSM = true;
-				}
-			}
-		}
-		
+		boolean isStaticFSM = rtcParam.isStaticFSM();
 		if(isStaticFSM) {
 			StateParam stateParam = rtcParam.getFsmParam();
 			contextMap.put("fsmParam", stateParam);
