@@ -47,7 +47,6 @@ static const char* foo_spec[] =
 foo::foo(RTC::Manager* manager)
     // <rtc-template block="initializer">
   : RTC::DataFlowComponentBase(manager)
-
     // </rtc-template>
 {
 }
@@ -68,6 +67,7 @@ RTC::ReturnCode_t foo::onInitialize()
   // Set InPort buffers
   
   // Set OutPort buffer
+
   
   // Set service provider to Ports
   
@@ -82,6 +82,7 @@ RTC::ReturnCode_t foo::onInitialize()
   bindParameter("int_param0", m_int_param0, "0");
   bindParameter("str_param0", m_str_param0, "up");
   // </rtc-template>
+
   
   return RTC::RTC_OK;
 }

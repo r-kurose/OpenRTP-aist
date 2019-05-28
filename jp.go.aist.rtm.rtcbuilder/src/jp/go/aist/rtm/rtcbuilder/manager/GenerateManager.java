@@ -29,7 +29,7 @@ public abstract class GenerateManager {
 
 	// 生成対象言語名称(引数用)
 	public String getTargetVersion() {
-		return IRtcBuilderConstants.RTM_VERSION_100;
+		return IRtcBuilderConstants.DEFAULT_RTM_VERSION;
 	}
 
 	// 特定のタグを適用対象外とするか否か

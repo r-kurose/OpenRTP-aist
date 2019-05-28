@@ -37,7 +37,6 @@ foo::foo(RTC::Manager* manager)
   : RTC::DataFlowComponentBase(manager),
     m_MyServiceProviderPort("MyServiceProvider"),
     m_MyServiceRequirePort("MyServiceRequire")
-
     // </rtc-template>
 {
 }
@@ -58,6 +57,7 @@ RTC::ReturnCode_t foo::onInitialize()
   // Set InPort buffers
   
   // Set OutPort buffer
+
   
   // Set service provider to Ports
   m_MyServiceProviderPort.registerProvider("MyServiceProvider", "MyServiceChild", m_MyServiceProvider);
@@ -73,6 +73,7 @@ RTC::ReturnCode_t foo::onInitialize()
 
   // <rtc-template block="bind_config">
   // </rtc-template>
+
   
   return RTC::RTC_OK;
 }

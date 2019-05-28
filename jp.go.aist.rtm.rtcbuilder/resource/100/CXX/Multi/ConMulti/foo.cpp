@@ -39,7 +39,6 @@ foo::foo(RTC::Manager* manager)
     m_out1Out("out1", m_out1),
     m_MyConProPort("MyConPro"),
     m_MyConPro2Port("MyConPro2")
-
     // </rtc-template>
 {
 }
@@ -62,6 +61,7 @@ RTC::ReturnCode_t foo::onInitialize()
   
   // Set OutPort buffer
   addOutPort("out1", m_out1Out);
+
   
   // Set service provider to Ports
   
@@ -77,6 +77,7 @@ RTC::ReturnCode_t foo::onInitialize()
 
   // <rtc-template block="bind_config">
   // </rtc-template>
+
   
   return RTC::RTC_OK;
 }

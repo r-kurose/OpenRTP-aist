@@ -55,7 +55,7 @@ class foo
   /*!
    * @brief destructor
    */
-  ~foo();
+  ~foo() override;
 
   // <rtc-template block="public_attribute">
   boolean pubbol1
@@ -78,7 +78,7 @@ class foo
    * 
    * 
    */
-  // virtual RTC::ReturnCode_t onInitialize();
+  // RTC::ReturnCode_t onInitialize() override;
 
   /***
    *
@@ -89,7 +89,7 @@ class foo
    * 
    * 
    */
-  // virtual RTC::ReturnCode_t onFinalize();
+  // RTC::ReturnCode_t onFinalize() override;
 
   /***
    *
@@ -102,7 +102,7 @@ class foo
    * 
    * 
    */
-  // virtual RTC::ReturnCode_t onStartup(RTC::UniqueId ec_id);
+  // RTC::ReturnCode_t onStartup(RTC::UniqueId ec_id) override;
 
   /***
    *
@@ -115,7 +115,7 @@ class foo
    * 
    * 
    */
-  // virtual RTC::ReturnCode_t onShutdown(RTC::UniqueId ec_id);
+  // RTC::ReturnCode_t onShutdown(RTC::UniqueId ec_id) override;
 
   /***
    *
@@ -128,7 +128,7 @@ class foo
    * 
    * 
    */
-  // virtual RTC::ReturnCode_t onActivated(RTC::UniqueId ec_id);
+  // RTC::ReturnCode_t onActivated(RTC::UniqueId ec_id) override;
 
   /***
    *
@@ -141,7 +141,7 @@ class foo
    * 
    * 
    */
-  // virtual RTC::ReturnCode_t onDeactivated(RTC::UniqueId ec_id);
+  // RTC::ReturnCode_t onDeactivated(RTC::UniqueId ec_id) override;
 
   /***
    *
@@ -154,7 +154,7 @@ class foo
    * 
    * 
    */
-  // virtual RTC::ReturnCode_t onExecute(RTC::UniqueId ec_id);
+  // RTC::ReturnCode_t onExecute(RTC::UniqueId ec_id) override;
 
   /***
    *
@@ -167,7 +167,7 @@ class foo
    * 
    * 
    */
-  // virtual RTC::ReturnCode_t onAborting(RTC::UniqueId ec_id);
+  // RTC::ReturnCode_t onAborting(RTC::UniqueId ec_id) override;
 
   /***
    *
@@ -180,7 +180,7 @@ class foo
    * 
    * 
    */
-  // virtual RTC::ReturnCode_t onError(RTC::UniqueId ec_id);
+  // RTC::ReturnCode_t onError(RTC::UniqueId ec_id) override;
 
   /***
    *
@@ -193,7 +193,7 @@ class foo
    * 
    * 
    */
-  // virtual RTC::ReturnCode_t onReset(RTC::UniqueId ec_id);
+  // RTC::ReturnCode_t onReset(RTC::UniqueId ec_id) override;
   
   /***
    *
@@ -206,7 +206,7 @@ class foo
    * 
    * 
    */
-  // virtual RTC::ReturnCode_t onStateUpdate(RTC::UniqueId ec_id);
+  // RTC::ReturnCode_t onStateUpdate(RTC::UniqueId ec_id) override;
 
   /***
    *
@@ -219,7 +219,7 @@ class foo
    * 
    * 
    */
-  // virtual RTC::ReturnCode_t onRateChanged(RTC::UniqueId ec_id);
+  // RTC::ReturnCode_t onRateChanged(RTC::UniqueId ec_id) override;
 
 
  protected:

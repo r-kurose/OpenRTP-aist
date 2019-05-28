@@ -28,7 +28,7 @@ public class BuildTest extends TestBase {
 		rtcParam.setOutputProject(rootPath + "/resource/work");
 		rtcParam.setLanguage(LANG_CPP);
 		rtcParam.setLanguageArg(LANG_CPP_ARG);
-		rtcParam.setRtmVersion(RTM_VERSION_100);
+		rtcParam.setRtmVersion(DEFAULT_RTM_VERSION);
 		rtcParam.setIsTest(true);
 		genParam.setRtcParam(rtcParam);
 

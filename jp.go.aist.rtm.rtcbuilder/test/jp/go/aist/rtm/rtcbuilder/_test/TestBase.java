@@ -63,7 +63,8 @@ public class TestBase extends TestCase {
 		expPath = resourceDir + fileName;
 		expContent = readFile(expPath);
 		expContent = replaceRootPath(expContent);
-		assertEquals(replaceBlank(expContent) , replaceBlank(result.get(index).getCode()));
+//		assertEquals(replaceBlank(expContent) , replaceBlank(result.get(index).getCode()));
+		assertEquals(expContent , result.get(index).getCode());
 	}
 
 	protected void nonexist(List<GeneratedResult> result, String resourceDir,

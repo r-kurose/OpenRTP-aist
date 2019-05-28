@@ -1,6 +1,6 @@
 package jp.go.aist.rtm.rtcbuilder.python.manager;
 
-import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.RTM_VERSION_100;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DEFAULT_RTM_VERSION;
 import static jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython.LANG_PYTHON;
 import static jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython.LANG_PYTHON_ARG;
 import static jp.go.aist.rtm.rtcbuilder.util.RTCUtil.form;
@@ -33,7 +33,7 @@ public class PythonGenerateManager extends GenerateManager {
 
 	@Override
 	public String getTargetVersion() {
-		return RTM_VERSION_100;
+		return DEFAULT_RTM_VERSION;
 	}
 
 	@Override

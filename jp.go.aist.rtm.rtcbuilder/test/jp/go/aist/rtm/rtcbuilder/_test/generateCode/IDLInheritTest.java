@@ -36,7 +36,7 @@ public class IDLInheritTest extends TestBase {
 		rtcParam.setActivityType("PERIODIC");
 		rtcParam.setComponentKind("DataFlowComponent");
 		rtcParam.setMaxInstance(2);
-		rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
+		rtcParam.setRtmVersion(IRtcBuilderConstants.DEFAULT_RTM_VERSION);
 		rtcParam.setIsTest(true);
 		genParam.setRtcParam(rtcParam);
 

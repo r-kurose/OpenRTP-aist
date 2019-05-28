@@ -37,7 +37,7 @@ public class JavaGenerateManager extends GenerateManager {
 
 	@Override
 	public String getTargetVersion() {
-		return RTM_VERSION_100;
+		return DEFAULT_RTM_VERSION;
 	}
 
 	@Override
