@@ -16,10 +16,8 @@ ${sharp}include <rtm/idl/InterfaceDataTypesSkel.h>
 
 // Service implementation headers
 // <rtc-template block="service_impl_h">
-#if( ${rtcParam.checkWithoutDefaultPathes()} == true )
-#foreach($consumerIdlFile in ${rtcParam.consumerIdlPathes})
+#foreach($consumerIdlFile in ${rtcParam.consumerIdlPathesAdded})
 ${sharp}include "${tmpltHelper.getFilenameNoExt(${consumerIdlFile.idlFile})}${tmpltHelper.serviceImplSuffix}.h"
-#end
 #end
 
 // </rtc-template>
