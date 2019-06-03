@@ -57,6 +57,10 @@ public class TestBase extends TestCase {
 
 	protected String getGeneratedString(String source) {
 		String sep = System.getProperty( "line.separator" );
+		return getGeneratedString(source, sep);
+	}
+	
+	protected String getGeneratedString(String source, String sep) {
 		String[] target = source.split(sep);
 		StringBuffer stbRet = new StringBuffer();
 
@@ -68,7 +72,7 @@ public class TestBase extends TestCase {
 					break;
 				}
 			}
-			if(!isIgnore) stbRet.append(target[index] + sep);
+			if(!isIgnore) stbRet.append(target[index] + System.getProperty( "line.separator" ));
 		}
 		return stbRet.toString();
 	}
@@ -80,8 +84,16 @@ public class TestBase extends TestCase {
 		return result;
 	}
 
-	protected void checkCode(List<GeneratedResult> result, String resourceDir,
-			String fileName) {
+	protected void checkCode(List<GeneratedResult> result, String resourceDir, String fileName, String sep) {
+		index = getFileIndex(fileName, result);
+		expPath = resourceDir + fileName;
+		expContent = readFile(expPath);
+		expContent = replaceRootPath(expContent);
+		assertEquals(expContent,
+				getGeneratedString(result.get(index).getCode(), sep));
+	}
+	
+	protected void checkCode(List<GeneratedResult> result, String resourceDir, String fileName) {
 		index = getFileIndex(fileName, result);
 		expPath = resourceDir + fileName;
 		expContent = readFile(expPath);

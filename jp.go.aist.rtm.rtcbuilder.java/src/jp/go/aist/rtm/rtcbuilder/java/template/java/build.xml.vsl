@@ -17,32 +17,36 @@
 		<mkdir dir="${dollarStr}{dest}" />
 	</target>
 
-#if( ${rtcParam.providerIdlPathes.size()} > 0 || ${rtcParam.consumerIdlPathes.size()} > 0 )
+#if( ${rtcParam.checkWithoutDefaultPathes()} == true )
 	<target name="idlcompile"  depends="mkdir">
 #foreach($idlPath in ${rtcParam.providerIdlPathes})
+#if( ${idlPath.checkDefault()} == false )
 		<exec executable="${dollarStr}{java.home}/../bin/idlj">
-			<arg line="-td 'src' #foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall 'idl/${tmpltHelper.getFileName(${idlPath.idlFile})}'"/>
+			<arg line="-td 'src' -i '${env.RTM_JAVA_ROOT}/rtm/idl' #foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall 'idl/${tmpltHelper.getFileName(${idlPath.idlFile})}'"/>
 		</exec>
-#foreach ($idl in ${idlPath.includeIdlParams})
+#foreach ($idl in ${idlPath.includeIdlParamsWithoutDefault})
 		<exec executable="${dollarStr}{java.home}/../bin/idlj">
-			<arg line="-td 'src' #foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall 'idl/${tmpltHelper.getFileName(${idl.idlFile})}'"/>
+			<arg line="-td 'src' -i '${env.RTM_JAVA_ROOT}/rtm/idl' #foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall 'idl/${tmpltHelper.getFileName(${idl.idlFile})}'"/>
 		</exec>
+#end
 #end
 #end
 #foreach($idlPath in ${rtcParam.consumerIdlPathes})
+#if( ${idlPath.checkDefault()} == false )
 		<exec executable="${dollarStr}{java.home}/../bin/idlj">
-			<arg line="-td 'src' #foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall 'idl/${tmpltHelper.getFileName(${idlPath.idlFile})}'"/>
+			<arg line="-td 'src' -i '${env.RTM_JAVA_ROOT}/rtm/idl' #foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall 'idl/${tmpltHelper.getFileName(${idlPath.idlFile})}'"/>
 		</exec>
-#foreach ($idl in ${idlPath.includeIdlParams})
+#foreach ($idl in ${idlPath.includeIdlParamsWithoutDefault})
 		<exec executable="${dollarStr}{java.home}/../bin/idlj">
-			<arg line="-td 'src' #foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall 'idl/${tmpltHelper.getFileName(${idl.idlFile})}'"/>
+			<arg line="-td 'src' -i '${env.RTM_JAVA_ROOT}/rtm/idl' #foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall 'idl/${tmpltHelper.getFileName(${idl.idlFile})}'"/>
 		</exec>
+#end
 #end
 #end
 	</target>
 #end
 
-#if( ${rtcParam.providerIdlPathes.size()} > 0 || ${rtcParam.consumerIdlPathes.size()} > 0 )
+#if( ${rtcParam.checkWithoutDefaultPathes()} == true )
 	<target name="compile" depends="idlcompile">
 #else
 	<target name="compile" depends="mkdir">

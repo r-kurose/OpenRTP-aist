@@ -36,7 +36,6 @@ Sample::Sample(RTC::Manager* manager)
     // <rtc-template block="initializer">
   : RTC::DataFlowComponentBase(manager),
     m_SamplePort("Sample")
-
     // </rtc-template>
 {
 }
@@ -57,6 +56,7 @@ RTC::ReturnCode_t Sample::onInitialize()
   // Set InPort buffers
   
   // Set OutPort buffer
+
   
   // Set service provider to Ports
   m_SamplePort.registerProvider("SampleIF", "MyModule::MyInterface", m_SampleIF);
@@ -70,6 +70,7 @@ RTC::ReturnCode_t Sample::onInitialize()
 
   // <rtc-template block="bind_config">
   // </rtc-template>
+
   
   return RTC::RTC_OK;
 }

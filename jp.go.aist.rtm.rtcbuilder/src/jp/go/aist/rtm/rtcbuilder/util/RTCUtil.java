@@ -151,22 +151,7 @@ public class RTCUtil {
 		}
 		return false;
 	}
-
-	public static String getRTMRootIdlPath() {
-		String result = "";
-
-		String FS = System.getProperty("file.separator");
-
-		String defaultPath = System.getenv("RTM_ROOT");
-		if (defaultPath != null) {
-			if(!defaultPath.endsWith(FS)) {
-				defaultPath += FS;
-			}
-			result = defaultPath + "rtm" + FS + "idl";
-		}
-		return result;
-	}
-
+	
 	/**
 	 * Component Colorのキー
 	 */

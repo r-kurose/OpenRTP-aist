@@ -34,6 +34,7 @@
 #include <rtm/DataInPort.h>
 #include <rtm/DataOutPort.h>
 
+
 using namespace RTC;
 
 /*!
@@ -268,6 +269,7 @@ class foo
   // <rtc-template block="consumer_declare">
   
   // </rtc-template>
+
 
  private:
   // <rtc-template block="private_attribute">

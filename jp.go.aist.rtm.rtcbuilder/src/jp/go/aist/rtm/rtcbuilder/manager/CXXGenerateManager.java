@@ -72,17 +72,7 @@ public class CXXGenerateManager extends GenerateManager {
 		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 
-		boolean isStaticFSM = false;
-		PropertyParam fsm = rtcParam.getProperty(IRtcBuilderConstants.PROP_TYPE_FSM);
-		if(fsm!=null) {
-			if(Boolean.valueOf(fsm.getValue())) {
-				PropertyParam fsmType = rtcParam.getProperty(IRtcBuilderConstants.PROP_TYPE_FSMTYTPE);
-				if(fsmType.getValue().equals(IRtcBuilderConstants.FSMTYTPE_STATIC)) {
-					isStaticFSM = true;
-				}
-			}
-		}
-		
+		boolean isStaticFSM = rtcParam.isStaticFSM();
 		if(isStaticFSM) {
 			StateParam stateParam = rtcParam.getFsmParam();
 			contextMap.put("fsmParam", stateParam);
@@ -103,6 +93,13 @@ public class CXXGenerateManager extends GenerateManager {
 			result.add(gr);
 			gr = generateFSMSource(contextMap);
 			result.add(gr);
+			//
+			gr = generateTestCompSource(contextMap);
+			result.add(gr);
+			gr = generateFSMTestHeader(contextMap);
+			result.add(gr);
+			gr = generateFSMTestSource(contextMap);
+			result.add(gr);
 		}
 
 		for (IdlFileParam idl : rtcParam.getProviderIdlPathes()) {
@@ -113,7 +110,7 @@ public class CXXGenerateManager extends GenerateManager {
 			result.add(gr);
 		}
 		//
-		if(rtcParam.isChoreonoid()==false) {
+		if(rtcParam.isChoreonoid()==false && isStaticFSM==false) {
 			gr = generateTestCompSource(contextMap);
 			result.add(gr);
 			gr = generateTestHeader(contextMap);
@@ -209,6 +206,22 @@ public class CXXGenerateManager extends GenerateManager {
 		String outfile = null;
 		outfile = "src/" + rtcParam.getName() + "FSM.cpp";
 		String infile = "fsm/CXX_FSM.cpp.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
+	public GeneratedResult generateFSMTestHeader(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = null;
+		outfile = "test/include/" + rtcParam.getName() + "Test/" + rtcParam.getName() + "FSMTest.h";
+		String infile = "fsm/CXX_FSM_Test_RTC.h.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
+	public GeneratedResult generateFSMTestSource(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = null;
+		outfile = "test/src/" + rtcParam.getName() + "FSMTest.cpp";
+		String infile = "fsm/CXX_FSM_Test_RTC.cpp.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 	/////

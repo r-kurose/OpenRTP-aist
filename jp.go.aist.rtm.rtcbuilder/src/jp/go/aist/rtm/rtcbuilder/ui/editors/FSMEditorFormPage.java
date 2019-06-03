@@ -10,15 +10,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.go.aist.rtm.rtcbuilder.IRTCBMessageConstants;
-import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
-import jp.go.aist.rtm.rtcbuilder.fsm.ScXMLHandler;
-import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.PropertyParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
-import jp.go.aist.rtm.toolscommon.fsm.editor.SCXMLGraphEditor;
-import jp.go.aist.rtm.toolscommon.fsm.editor.SCXMLNotifier;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -40,6 +31,14 @@ import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
+
+import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
+import jp.go.aist.rtm.rtcbuilder.fsm.ScXMLHandler;
+import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.PropertyParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
+import jp.go.aist.rtm.toolscommon.fsm.editor.SCXMLGraphEditor;
+import jp.go.aist.rtm.toolscommon.fsm.editor.SCXMLNotifier;
 
 /**
  * FSMページ

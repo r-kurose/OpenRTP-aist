@@ -40,6 +40,7 @@ public class fooImpl extends DataFlowComponentBase {
         m_in1 = new DataRef<TimedShort>(m_in1_val);
         m_in1In = new InPort<TimedShort>("in1", m_in1);
         m_out1_val = new TimedLong();
+        initializeParam(m_out1_val);
         m_out1 = new DataRef<TimedLong>(m_out1_val);
         m_out1Out = new OutPort<TimedLong>("out1", m_out1);
         m_MyConProPort = new CorbaPort("MyConPro");

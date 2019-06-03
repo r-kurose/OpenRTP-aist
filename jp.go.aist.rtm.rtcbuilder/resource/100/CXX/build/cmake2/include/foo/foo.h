@@ -36,6 +36,7 @@
 #include <rtm/DataInPort.h>
 #include <rtm/DataOutPort.h>
 
+
 using namespace RTC;
 
 /*!
@@ -276,6 +277,7 @@ class foo
   RTC::CorbaConsumer<MyServiceWithTypeChild> m_MyServiceRequire2;
   
   // </rtc-template>
+
 
  private:
   // <rtc-template block="private_attribute">

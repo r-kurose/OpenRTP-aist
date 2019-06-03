@@ -37,7 +37,6 @@ MarkerPosition::MarkerPosition(RTC::Manager* manager)
   : RTC::DataFlowComponentBase(manager),
     m_arUcoPoint2DIn("arUcoPoint2D", m_arUcoPoint2D),
     m_CenterPositionOut("CenterPosition", m_CenterPosition)
-
     // </rtc-template>
 {
 }
@@ -60,6 +59,7 @@ RTC::ReturnCode_t MarkerPosition::onInitialize()
   
   // Set OutPort buffer
   addOutPort("CenterPosition", m_CenterPositionOut);
+
   
   // Set service provider to Ports
   
@@ -71,6 +71,7 @@ RTC::ReturnCode_t MarkerPosition::onInitialize()
 
   // <rtc-template block="bind_config">
   // </rtc-template>
+
   
   return RTC::RTC_OK;
 }

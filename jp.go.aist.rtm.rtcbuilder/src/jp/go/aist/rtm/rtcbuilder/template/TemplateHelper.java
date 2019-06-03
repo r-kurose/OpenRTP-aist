@@ -1,16 +1,58 @@
 package jp.go.aist.rtm.rtcbuilder.template;
 
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DEFAULT_SVC_IMPL_SUFFIX;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DEFAULT_SVC_SKEL_SUFFIX;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DEFAULT_SVC_STUB_SUFFIX;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_AUTHOR_OFFSET;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_CONSTRAINT_OFFSET;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_CONSTRAINT_PREFIX;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_CYCLE_OFFSET;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_CYCLE_PREFIX;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_DEFAULT_OFFSET;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_DEFAULT_PREFIX;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_DEFAULT_WIDTH;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_DESC_OFFSET;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_DESC_PREFIX;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_INTERFACE_DETAIL_OFFSET;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_INTERFACE_DETAIL_PREFIX;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_INTERFACE_OFFSET;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_INTERFACE_PREFIX;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_NUMBER_OFFSET;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_NUMBER_PREFIX;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_POST_OFFSET;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_PRE_OFFSET;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_RANGE_OFFSET;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_RANGE_PREFIX;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_README_ACTIVITY_OFFSET;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_README_ACTIVITY_PREFIX;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_README_COPYRIGHT_PREFIX;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_README_INTERFACE_OFFSET;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_README_INTERFACE_PREFIX;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_README_MODULE_OFFSET;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_README_MODULE_PREFIX;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_README_PORT_DETAIL_OFFSET;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_README_PORT_DETAIL_PREFIX;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_README_PORT_OFFSET;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_README_PORT_PREFIX;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_README_PREFIX;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_SEMANTICS_OFFSET;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_SEMANTICS_PREFIX;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_UNIT_OFFSET;
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_UNIT_PREFIX;
+import static jp.go.aist.rtm.rtcbuilder.util.StringUtil.splitString;
+
 import java.io.File;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigParameterParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.PropertyParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
-import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
-import static jp.go.aist.rtm.rtcbuilder.util.StringUtil.*;
 
 /**
  * テンプレートを出力する際に使用されるヘルパー
@@ -347,10 +389,53 @@ public class TemplateHelper {
 	
 	public String getHistory(StateParam param) {
 		if(param.getHistory()==2) {
-			return "  DEEPHISTORY()";
+			return "    DEEPHISTORY()";
 		} else if(param.getHistory()==1) {
-			return "  HISTORY()";
+			return "    HISTORY()";
 		}
 		return "  ";
+	}
+	
+	public boolean checkFSM(RtcParam param) {
+		PropertyParam fsm = param.getProperty(IRtcBuilderConstants.PROP_TYPE_FSM);
+		if(fsm==null) return false;
+		
+		if(Boolean.valueOf(fsm.getValue())) {
+			PropertyParam fsmType = param.getProperty(IRtcBuilderConstants.PROP_TYPE_FSMTYTPE);
+			if(fsmType==null) return false;
+			String strType = fsmType.getValue();
+			if(strType.equals(IRtcBuilderConstants.FSMTYTPE_STATIC)) return true;
+		}
+		return false;
+	}
+	
+	public String getTopFSMName(RtcParam param) {
+		StateParam state = param.getFsmParam();
+		if(state==null) return "";
+		return state.getName();
+	}
+	
+	public String getConnectorString(RtcParam param) {
+		StringBuilder builder = new StringBuilder();
+		
+		for(DataPortParam port : param.getRawInports() ) {
+			if(port.getType().length()==0) continue;
+			if(0<builder.length()) builder.append(",");
+			builder.append("${PROJECT_NAME}0.").append(port.getName());
+			builder.append("?port=${PROJECT_NAME}Test0.").append(port.getName());
+		}
+		for(DataPortParam port : param.getOutports() ) {
+			if(port.getType().length()==0) continue;
+			if(0<builder.length()) builder.append(",");
+			builder.append("${PROJECT_NAME}0.").append(port.getName());
+			builder.append("?port=${PROJECT_NAME}Test0.").append(port.getName());
+		}
+		//
+		for(ServicePortParam port : param.getServicePorts() ) {
+			if(0<builder.length()) builder.append(",");
+			builder.append("${PROJECT_NAME}0.").append(port.getName());
+			builder.append("?port=${PROJECT_NAME}Test0.").append(port.getName());
+		}
+		return builder.toString();
 	}
 }

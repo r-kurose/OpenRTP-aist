@@ -42,6 +42,17 @@ ${sharp}include <rtm/${rtcParam.componentKind}Base.h>
 ${sharp}include <rtm/CorbaPort.h>
 ${sharp}include <rtm/DataInPort.h>
 ${sharp}include <rtm/DataOutPort.h>
+#if( ${tmpltHelper.checkFSM(${rtcParam})} )
+
+// FSM headers
+
+#if( ${tmpltHelper.checkFSM(${rtcParam})})${sharp}include <rtm/EventPort.h>#end
+
+// <rtc-template block="fsm_h">
+${sharp}include "${rtcParam.name}FSM.h"
+// </rtc-template>
+#end
+
 
 using namespace RTC;
 
@@ -358,7 +369,7 @@ class ${rtcParam.name}
 
   // DataInPort declaration
   // <rtc-template block="inport_declare">
-#foreach($port in ${rtcParam.inports})
+#foreach($port in ${rtcParam.rawInports})
 #if(${port.type}!="")  ${port.type} ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
   /*!
 #if(${port.docDescription.length()}>0)   * ${tmpltHelper.convertDescDoc(${port.docDescription})}
@@ -476,6 +487,19 @@ class ${rtcParam.name}
 #end#end#end#end#end
   
   // </rtc-template>
+
+#if( ${tmpltHelper.checkFSM(${rtcParam})} )
+  // State machine declaration
+  // <rtc-template block="fsm_declare">
+  RTC::Machine<${rtcParam.name}Fsm::${tmpltHelper.getTopFSMName(${rtcParam})}> m_fsm;
+  // </rtc-template>
+  
+  // EventPort declaration
+  // <rtc-template block="event_declare">
+  
+  EventInPort< RTC::Machine<${rtcParam.name}Fsm::${tmpltHelper.getTopFSMName(${rtcParam})}> > ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${rtcParam.getFSMport().tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
+  // </rtc-template>
+#end
 
  private:
   // <rtc-template block="private_attribute">
