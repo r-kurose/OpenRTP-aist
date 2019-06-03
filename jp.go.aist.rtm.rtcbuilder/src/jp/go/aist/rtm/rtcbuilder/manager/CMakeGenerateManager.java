@@ -100,6 +100,20 @@ public class CMakeGenerateManager extends GenerateManager {
 		result.add(gr);
 		gr = generateUtilIn(contextMap);
 		result.add(gr);
+		
+		//test cmake
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		boolean isStaticFSM = rtcParam.isStaticFSM();
+		if(rtcParam.isChoreonoid()==false && isStaticFSM==false) {
+			gr = generateTestCMakeLists(contextMap);
+			result.add(gr);
+			gr = generateTestIncludeCMakeLists(contextMap);
+			result.add(gr);
+			gr = generateTestIncModuleCMakeLists(contextMap);
+			result.add(gr);
+			gr = generateTestSrcCMakeLists(contextMap);
+			result.add(gr);
+		}
 
 		//doc
 		gr = generateDocCMakeLists(contextMap);
@@ -292,7 +306,40 @@ public class CMakeGenerateManager extends GenerateManager {
 		result.setNotBom(true);
 		return result;
 	}
-
+	/////
+	public GeneratedResult generateTestCMakeLists(Map<String, Object> contextMap) {
+		String outfile = "test/CMakeLists.txt";
+		String infile = "cmake/test/CMakeLists.txt.vsl";
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setNotBom(true);
+		return result;
+	}
+	
+	public GeneratedResult generateTestIncludeCMakeLists(Map<String, Object> contextMap) {
+		String outfile = "test/include/CMakeLists.txt";
+		String infile = "cmake/test/include/IncludeCMakeLists.txt.vsl";
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setNotBom(true);
+		return result;
+	}
+	
+	public GeneratedResult generateTestIncModuleCMakeLists(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = "test/include/" + rtcParam.getName() + "Test/CMakeLists.txt";
+		String infile = "cmake/test/include/IncModuleCMakeLists.txt.vsl";
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setNotBom(true);
+		return result;
+	}
+	
+	public GeneratedResult generateTestSrcCMakeLists(Map<String, Object> contextMap) {
+		String outfile = "test/src/CMakeLists.txt";
+		String infile = "cmake/test/src/SrcCMakeLists.txt.vsl";
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setNotBom(true);
+		return result;
+	}
+	/////
 	public GeneratedResult generate(String infile, String outfile,
 			Map<String, Object> contextMap) {
 		try {

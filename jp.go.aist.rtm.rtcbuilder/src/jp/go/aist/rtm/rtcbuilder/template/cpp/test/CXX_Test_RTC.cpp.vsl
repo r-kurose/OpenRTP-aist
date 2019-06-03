@@ -66,9 +66,9 @@ static const char* ${rtcParam.name.toLowerCase()}_spec[] =
  */
 ${rtcParam.name}Test::${rtcParam.name}Test(RTC::Manager* manager)
     // <rtc-template block="initializer">
-  : RTC::${rtcParam.componentKind}Base(manager)#foreach($port in ${rtcParam.inports})#if(${port.type}!=""),
-    ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix}("${port.name}", ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix})#end#end#foreach($port in ${rtcParam.outports})#if(${port.type}!=""),
-    ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}Out${rtcParam.dataPortSuffix}${rtcParam.commonSuffix}("${port.name}", ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix})#end#end
+  : RTC::${rtcParam.componentKind}Base(manager)#foreach($port in ${rtcParam.rawInports})#if(${port.type}!=""),
+    ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}Out${rtcParam.dataPortSuffix}${rtcParam.commonSuffix}("${port.name}", ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix})#end#end#foreach($port in ${rtcParam.outports})#if(${port.type}!=""),
+    ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix}("${port.name}", ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix})#end#end
 #if(${rtcParam.servicePorts.size()}>0)
 #foreach($servicePort in ${rtcParam.servicePorts})
 #if(${servicePort.servicePortInterfaces.size()}>0)
@@ -323,6 +323,11 @@ RTC::ReturnCode_t ${rtcParam.name}Test::onRateChanged(RTC::UniqueId ec_id)
 #end
 #if(${tmpltHelper.checkContents(${rtcParam.privateOpeSource})})${rtcParam.privateOpeSource}
 #end
+
+bool ${rtcParam.name}Test::runTest()
+{
+    return true;
+}
 
 
 extern "C"

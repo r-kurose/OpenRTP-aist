@@ -564,6 +564,15 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		return consumerIdlPathes;
 	}
 	
+	public List<IdlFileParam> getConsumerIdlPathesAdded() {
+		List<IdlFileParam> result = new ArrayList<IdlFileParam>();
+		for(IdlFileParam target : consumerIdlPathes) {
+			if(target.checkDefault()) continue;
+			result.add(target);
+		}
+		return result;
+	}
+	
 	public boolean checkWithoutDefaultPathes() {
 		if(0<providerIdlPathes.size()) {
 			for(IdlFileParam e : providerIdlPathes) {
@@ -997,5 +1006,18 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 			}
 		}
 		return null;
+	}
+	
+	public boolean isStaticFSM() {
+		PropertyParam fsm = getProperty(IRtcBuilderConstants.PROP_TYPE_FSM);
+		if(fsm!=null) {
+			if(Boolean.valueOf(fsm.getValue())) {
+				PropertyParam fsmType = getProperty(IRtcBuilderConstants.PROP_TYPE_FSMTYTPE);
+				if(fsmType.getValue().equals(IRtcBuilderConstants.FSMTYTPE_STATIC)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

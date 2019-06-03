@@ -16,6 +16,9 @@ ${sharp}include <rtm/idl/InterfaceDataTypesSkel.h>
 
 // Service implementation headers
 // <rtc-template block="service_impl_h">
+#foreach($consumerIdlFile in ${rtcParam.consumerIdlPathesAdded})
+${sharp}include "${tmpltHelper.getFilenameNoExt(${consumerIdlFile.idlFile})}${tmpltHelper.serviceImplSuffix}.h"
+#end
 
 // </rtc-template>
 
@@ -316,6 +319,7 @@ class ${rtcParam.name}Test
    */
   #if(${rtcParam.IsNotImplemented(11)})//#end RTC::ReturnCode_t onRateChanged(RTC::UniqueId ec_id) override;
 
+  bool runTest();
 
  protected:
   // <rtc-template block="protected_attribute">
@@ -443,7 +447,7 @@ class ${rtcParam.name}Test
 #if(${serviceInterface.docPostCondition.length()}>0)   * - PostCondition: ${tmpltHelper.convertInterfaceDetailDoc(${serviceInterface.docPostCondition})}
 #end
    */
-  ${serviceInterface.interfaceRawType}${tmpltHelper.serviceImplSuffix} ${rtcParam.commonPrefix}${rtcParam.serviceIFPrefix}${serviceInterface.tmplVarName}${rtcParam.serviceIFSuffix}${rtcParam.commonSuffix};
+  ${tmpltHelper.getBasename2(${serviceInterface.interfaceType})}${tmpltHelper.serviceImplSuffix} ${rtcParam.commonPrefix}${rtcParam.serviceIFPrefix}${serviceInterface.tmplVarName}${rtcParam.serviceIFSuffix}${rtcParam.commonSuffix};
 #end#end#end#end#end
   
   // </rtc-template>

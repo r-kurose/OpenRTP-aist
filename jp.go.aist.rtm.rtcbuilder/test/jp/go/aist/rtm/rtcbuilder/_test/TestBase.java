@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
@@ -15,7 +16,7 @@ public class TestBase extends TestCase {
 	protected String expPath;
 	protected String expContent;
 	protected int index;
-	protected final int default_file_num = 30;
+	protected final int default_file_num = 34;
 
 	public TestBase () {
 		File fileCurrent = new File(".");
@@ -35,14 +36,22 @@ public class TestBase extends TestCase {
 		return stbRet.toString();
 	}
 	protected int getFileIndex(String targetName, List<GeneratedResult> targetList) {
-		int resultindex = -1;
-
+		List<Integer> indexList = new ArrayList<Integer>();
 		for( int intIdx=0; intIdx<targetList.size(); intIdx++ ) {
 			if( targetList.get(intIdx).getName().contains(targetName) ) {
-				return intIdx;
+				indexList.add(intIdx);
 			}
 		}
-		return resultindex;
+		if(indexList.size()==0) return -1;
+		else if(indexList.size()==1) return indexList.get(0);
+		else {
+			for(Integer index : indexList) {
+				if( targetList.get(index).getName().startsWith(targetName) ) {
+					return index;
+				}
+			}
+		}
+		return -1;
 	}
 
 	protected String replaceRootPath(String content) {
