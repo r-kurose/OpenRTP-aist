@@ -39,7 +39,6 @@ foo::foo(RTC::Manager* manager)
     m_out1Out("out1", m_out1),
     m_MySVProPort("MySVPro"),
     m_MySVPro2Port("MySVPro2")
-
     // </rtc-template>
 {
 }
@@ -62,6 +61,7 @@ RTC::ReturnCode_t foo::onInitialize()
   
   // Set OutPort buffer
   addOutPort("out1", m_out1Out);
+
   
   // Set service provider to Ports
   m_MySVProPort.registerProvider("myservice0", "MyService", m_myservice0);
@@ -77,6 +77,7 @@ RTC::ReturnCode_t foo::onInitialize()
 
   // <rtc-template block="bind_config">
   // </rtc-template>
+
   
   return RTC::RTC_OK;
 }

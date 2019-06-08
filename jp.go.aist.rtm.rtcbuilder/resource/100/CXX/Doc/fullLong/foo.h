@@ -75,7 +75,7 @@ class foo
   /*!
    * @brief destructor
    */
-  ~foo();
+  ~foo() override;
 
   // <rtc-template block="public_attribute">
   
@@ -100,7 +100,7 @@ class foo
    * 567890123456789012345678901234567890
    * 
    */
-   virtual RTC::ReturnCode_t onInitialize();
+   RTC::ReturnCode_t onInitialize() override;
 
   /***
    * on_finalize概要説明123456789012345678901234567890123456789012
@@ -117,7 +117,7 @@ class foo
    * 7890123456789012345678901234567890
    * 
    */
-  // virtual RTC::ReturnCode_t onFinalize();
+  // RTC::ReturnCode_t onFinalize() override;
 
   /***
    * on_startup概要説明1234567890123456789012345678901234567890123
@@ -136,7 +136,7 @@ class foo
    * 890123456789012345678901234567890
    * 
    */
-  // virtual RTC::ReturnCode_t onStartup(RTC::UniqueId ec_id);
+  // RTC::ReturnCode_t onStartup(RTC::UniqueId ec_id) override;
 
   /***
    * on_shutdown概要説明123456789012345678901234567890123456789012
@@ -155,7 +155,7 @@ class foo
    * 7890123456789012345678901234567890
    * 
    */
-  // virtual RTC::ReturnCode_t onShutdown(RTC::UniqueId ec_id);
+  // RTC::ReturnCode_t onShutdown(RTC::UniqueId ec_id) override;
 
   /***
    * on_activated概要説明12345678901234567890123456789012345678901
@@ -174,7 +174,7 @@ class foo
    * 67890123456789012345678901234567890
    * 
    */
-  // virtual RTC::ReturnCode_t onActivated(RTC::UniqueId ec_id);
+  // RTC::ReturnCode_t onActivated(RTC::UniqueId ec_id) override;
 
   /***
    * on_deactivated概要説明123456789012345678901234567890123456789
@@ -193,7 +193,7 @@ class foo
    * 4567890123456789012345678901234567890
    * 
    */
-  // virtual RTC::ReturnCode_t onDeactivated(RTC::UniqueId ec_id);
+  // RTC::ReturnCode_t onDeactivated(RTC::UniqueId ec_id) override;
 
   /***
    * on_execute概要説明1234567890123456789012345678901234567890123
@@ -212,7 +212,7 @@ class foo
    * 890123456789012345678901234567890
    * 
    */
-  // virtual RTC::ReturnCode_t onExecute(RTC::UniqueId ec_id);
+  // RTC::ReturnCode_t onExecute(RTC::UniqueId ec_id) override;
 
   /***
    * on_aborting概要説明123456789012345678901234567890123456789012
@@ -231,7 +231,7 @@ class foo
    * 7890123456789012345678901234567890
    * 
    */
-  // virtual RTC::ReturnCode_t onAborting(RTC::UniqueId ec_id);
+  // RTC::ReturnCode_t onAborting(RTC::UniqueId ec_id) override;
 
   /***
    * on_error概要説明123456789012345678901234567890123456789012345
@@ -250,7 +250,7 @@ class foo
    * 0123456789012345678901234567890
    * 
    */
-  // virtual RTC::ReturnCode_t onError(RTC::UniqueId ec_id);
+  // RTC::ReturnCode_t onError(RTC::UniqueId ec_id) override;
 
   /***
    * on_reset概要説明123456789012345678901234567890123456789012345
@@ -269,7 +269,7 @@ class foo
    * 0123456789012345678901234567890
    * 
    */
-  // virtual RTC::ReturnCode_t onReset(RTC::UniqueId ec_id);
+  // RTC::ReturnCode_t onReset(RTC::UniqueId ec_id) override;
   
   /***
    * on_state_update概要説明12345678901234567890123456789012345678
@@ -288,7 +288,7 @@ class foo
    * 34567890123456789012345678901234567890
    * 
    */
-  // virtual RTC::ReturnCode_t onStateUpdate(RTC::UniqueId ec_id);
+  // RTC::ReturnCode_t onStateUpdate(RTC::UniqueId ec_id) override;
 
   /***
    * on_rate_changed概要説明12345678901234567890123456789012345678
@@ -307,7 +307,7 @@ class foo
    * 34567890123456789012345678901234567890
    * 
    */
-  // virtual RTC::ReturnCode_t onRateChanged(RTC::UniqueId ec_id);
+  // RTC::ReturnCode_t onRateChanged(RTC::UniqueId ec_id) override;
 
 
  protected:

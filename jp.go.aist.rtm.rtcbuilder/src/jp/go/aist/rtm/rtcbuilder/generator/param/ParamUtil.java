@@ -267,7 +267,7 @@ public class ParamUtil {
 				rtcParam.getLangList().add(IRtcBuilderConstants.LANG_CPP);
 				rtcParam.getLangArgList().clear();
 				rtcParam.getLangArgList().add(IRtcBuilderConstants.LANG_CPP_ARG);
-				rtcParam.setRtmVersion(IRtcBuilderConstants.RTM_VERSION_100);
+				rtcParam.setRtmVersion(IRtcBuilderConstants.DEFAULT_RTM_VERSION);
 			} else {
 				if (managerList != null) {
 					for (GenerateManager manager : managerList) {

@@ -49,7 +49,6 @@ foo::foo(RTC::Manager* manager)
     p_OutP2Out_s("OutP2", p_OutP2_s),
     p_svPortPort_s("svPort"),
     p_cmPortPort_s("cmPort")
-
     // </rtc-template>
 {
 }
@@ -74,6 +73,7 @@ RTC::ReturnCode_t foo::onInitialize()
   // Set OutPort buffer
   addOutPort("OutP1", p_OutP1Out_s);
   addOutPort("OutP2", p_OutP2Out_s);
+
   
   // Set service provider to Ports
   p_svPortPort_s.registerProvider("acc", "MyService", p_acc_s);
@@ -91,6 +91,7 @@ RTC::ReturnCode_t foo::onInitialize()
   // Bind variables and configuration variable
   bindParameter("int_param0", p_int_param0_s, "0");
   // </rtc-template>
+
   
   return RTC::RTC_OK;
 }

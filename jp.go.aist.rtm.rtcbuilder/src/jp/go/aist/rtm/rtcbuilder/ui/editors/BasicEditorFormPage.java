@@ -480,7 +480,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 			private RtcParam createDefaultRTC(StateParam stateParam) {
 				List<String> langList = new ArrayList<String>();
 				List<String> langArgList = new ArrayList<String>();
-				String rtmVersion = IRtcBuilderConstants.RTM_VERSION_100;
+				String rtmVersion = IRtcBuilderConstants.DEFAULT_RTM_VERSION;
 				langList.add(IRtcBuilderConstants.LANG_CPP);
 				langArgList.add(IRtcBuilderConstants.LANG_CPP_ARG);
 				

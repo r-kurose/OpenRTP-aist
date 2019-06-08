@@ -36,7 +36,6 @@ TestModule::TestModule(RTC::Manager* manager)
     // <rtc-template block="initializer">
   : RTC::DataFlowComponentBase(manager),
     m_svcPortPort("svcPort")
-
     // </rtc-template>
 {
 }
@@ -57,6 +56,7 @@ RTC::ReturnCode_t TestModule::onInitialize()
   // Set InPort buffers
   
   // Set OutPort buffer
+
   
   // Set service provider to Ports
   m_svcPortPort.registerProvider("inf0", "ysuga_net::Hoge", m_inf0);
@@ -70,6 +70,7 @@ RTC::ReturnCode_t TestModule::onInitialize()
 
   // <rtc-template block="bind_config">
   // </rtc-template>
+
   
   return RTC::RTC_OK;
 }

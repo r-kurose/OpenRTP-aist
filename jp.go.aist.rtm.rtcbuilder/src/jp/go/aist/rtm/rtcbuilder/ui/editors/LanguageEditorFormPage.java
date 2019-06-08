@@ -430,7 +430,7 @@ public class LanguageEditorFormPage extends AbstractEditorFormPage {
 		if (cppRadio.getSelection()) {
 			langList.add(IRtcBuilderConstants.LANG_CPP);
 			langArgList.add(IRtcBuilderConstants.LANG_CPP_ARG);
-			rtmVersion = IRtcBuilderConstants.RTM_VERSION_100;
+			rtmVersion = IRtcBuilderConstants.DEFAULT_RTM_VERSION;
 		}
 		if (buttonList != null) {
 			for (Button extButton : buttonList) {

@@ -77,7 +77,7 @@ class ${rtcParam.name} : public BodyIoRTC {
   /*!
    * @brief destructor
    */
-  ~${rtcParam.name}();
+  ~${rtcParam.name}() override;
 
   // <rtc-template block="public_attribute">
 #foreach($publicAttribute in ${rtcParam.publicAttributes})
@@ -108,7 +108,7 @@ class ${rtcParam.name} : public BodyIoRTC {
 #end
    * 
    */
-  #if(${rtcParam.configParams.size()}==0 && ${rtcParam.IsNotImplemented(0)} && ${rtcParam.inports.size()}==0 && ${rtcParam.outports.size()}==0 && ${rtcParam.servicePorts.size()}==0)//#end virtual RTC::ReturnCode_t onInitialize();
+  #if(${rtcParam.configParams.size()}==0 && ${rtcParam.IsNotImplemented(0)} && ${rtcParam.inports.size()}==0 && ${rtcParam.outports.size()}==0 && ${rtcParam.servicePorts.size()}==0)//#end RTC::ReturnCode_t onInitialize() override;
 
   /***
 #if(${rtcParam.getDocActionOverView(0).length()}>0)   * ${tmpltHelper.convertDescDoc(${rtcParam.getDocActionOverView(1)})}
@@ -125,7 +125,7 @@ class ${rtcParam.name} : public BodyIoRTC {
 #end
    * 
    */
-  #if(${rtcParam.IsNotImplemented(1)})//#end virtual RTC::ReturnCode_t onFinalize();
+  #if(${rtcParam.IsNotImplemented(1)})//#end RTC::ReturnCode_t onFinalize() override;
 
   /***
 #if(${rtcParam.getDocActionOverView(2).length()}>0)   * ${tmpltHelper.convertDescDoc(${rtcParam.getDocActionOverView(2)})}
@@ -144,7 +144,7 @@ class ${rtcParam.name} : public BodyIoRTC {
 #end
    * 
    */
-  #if(${rtcParam.IsNotImplemented(2)})//#end virtual RTC::ReturnCode_t onStartup(RTC::UniqueId ec_id);
+  #if(${rtcParam.IsNotImplemented(2)})//#end RTC::ReturnCode_t onStartup(RTC::UniqueId ec_id) override;
 
   /***
 #if(${rtcParam.getDocActionOverView(3).length()}>0)   * ${tmpltHelper.convertDescDoc(${rtcParam.getDocActionOverView(3)})}
@@ -163,7 +163,7 @@ class ${rtcParam.name} : public BodyIoRTC {
 #end
    * 
    */
-  #if(${rtcParam.IsNotImplemented(3)})//#end virtual RTC::ReturnCode_t onShutdown(RTC::UniqueId ec_id);
+  #if(${rtcParam.IsNotImplemented(3)})//#end RTC::ReturnCode_t onShutdown(RTC::UniqueId ec_id) override;
 
   /***
 #if(${rtcParam.getDocActionOverView(4).length()}>0)   * ${tmpltHelper.convertDescDoc(${rtcParam.getDocActionOverView(4)})}
@@ -182,7 +182,7 @@ class ${rtcParam.name} : public BodyIoRTC {
 #end
    * 
    */
-  #if(${rtcParam.IsNotImplemented(4)})//#end virtual RTC::ReturnCode_t onActivated(RTC::UniqueId ec_id);
+  #if(${rtcParam.IsNotImplemented(4)})//#end RTC::ReturnCode_t onActivated(RTC::UniqueId ec_id) override;
 
   /***
 #if(${rtcParam.getDocActionOverView(5).length()}>0)   * ${tmpltHelper.convertDescDoc(${rtcParam.getDocActionOverView(5)})}
@@ -201,7 +201,7 @@ class ${rtcParam.name} : public BodyIoRTC {
 #end
    * 
    */
-  #if(${rtcParam.IsNotImplemented(5)})//#end virtual RTC::ReturnCode_t onDeactivated(RTC::UniqueId ec_id);
+  #if(${rtcParam.IsNotImplemented(5)})//#end RTC::ReturnCode_t onDeactivated(RTC::UniqueId ec_id) override;
 
   /***
 #if(${rtcParam.getDocActionOverView(9).length()}>0)   * ${tmpltHelper.convertDescDoc(${rtcParam.getDocActionOverView(9)})}
@@ -220,7 +220,7 @@ class ${rtcParam.name} : public BodyIoRTC {
 #end
    * 
    */
-  #if(${rtcParam.IsNotImplemented(9)})//#end virtual RTC::ReturnCode_t onExecute(RTC::UniqueId ec_id);
+  #if(${rtcParam.IsNotImplemented(9)})//#end RTC::ReturnCode_t onExecute(RTC::UniqueId ec_id) override;
 
   /***
 #if(${rtcParam.getDocActionOverView(6).length()}>0)   * ${tmpltHelper.convertDescDoc(${rtcParam.getDocActionOverView(6)})}
@@ -239,7 +239,7 @@ class ${rtcParam.name} : public BodyIoRTC {
 #end
    * 
    */
-  #if(${rtcParam.IsNotImplemented(6)})//#end virtual RTC::ReturnCode_t onAborting(RTC::UniqueId ec_id);
+  #if(${rtcParam.IsNotImplemented(6)})//#end RTC::ReturnCode_t onAborting(RTC::UniqueId ec_id) override;
 
   /***
 #if(${rtcParam.getDocActionOverView(7).length()}>0)   * ${tmpltHelper.convertDescDoc(${rtcParam.getDocActionOverView(7)})}
@@ -258,7 +258,7 @@ class ${rtcParam.name} : public BodyIoRTC {
 #end
    * 
    */
-  #if(${rtcParam.IsNotImplemented(7)})//#end virtual RTC::ReturnCode_t onError(RTC::UniqueId ec_id);
+  #if(${rtcParam.IsNotImplemented(7)})//#end RTC::ReturnCode_t onError(RTC::UniqueId ec_id) override;
 
   /***
 #if(${rtcParam.getDocActionOverView(8).length()}>0)   * ${tmpltHelper.convertDescDoc(${rtcParam.getDocActionOverView(8)})}
@@ -277,7 +277,7 @@ class ${rtcParam.name} : public BodyIoRTC {
 #end
    * 
    */
-  #if(${rtcParam.IsNotImplemented(8)})//#end virtual RTC::ReturnCode_t onReset(RTC::UniqueId ec_id);
+  #if(${rtcParam.IsNotImplemented(8)})//#end RTC::ReturnCode_t onReset(RTC::UniqueId ec_id) override;
   
   /***
 #if(${rtcParam.getDocActionOverView(10).length()}>0)   * ${tmpltHelper.convertDescDoc(${rtcParam.getDocActionOverView(10)})}
@@ -296,7 +296,7 @@ class ${rtcParam.name} : public BodyIoRTC {
 #end
    * 
    */
-  #if(${rtcParam.IsNotImplemented(10)})//#end virtual RTC::ReturnCode_t onStateUpdate(RTC::UniqueId ec_id);
+  #if(${rtcParam.IsNotImplemented(10)})//#end RTC::ReturnCode_t onStateUpdate(RTC::UniqueId ec_id) override;
 
   /***
 #if(${rtcParam.getDocActionOverView(11).length()}>0)   * ${tmpltHelper.convertDescDoc(${rtcParam.getDocActionOverView(11)})}
@@ -315,7 +315,7 @@ class ${rtcParam.name} : public BodyIoRTC {
 #end
    * 
    */
-  #if(${rtcParam.IsNotImplemented(11)})//#end virtual RTC::ReturnCode_t onRateChanged(RTC::UniqueId ec_id);
+  #if(${rtcParam.IsNotImplemented(11)})//#end RTC::ReturnCode_t onRateChanged(RTC::UniqueId ec_id) override;
 
   /***
    *

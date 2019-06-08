@@ -9,7 +9,7 @@ public interface IRtcBuilderConstants {
     public static final String NEWEDITOR_ACTION_ID = RtcBuilderPlugin.PLUGIN_ID + ".ui.actionSet";
 
 	public static final String RTM_VERSION_100 = "1.0.0";
-	public static final String DEFAULT_RTM_VERSION = RTM_VERSION_100;
+	public static final String DEFAULT_RTM_VERSION = "1.2.0";
 
 	/**
 	 * サービス実装のデフォルトサフィックス

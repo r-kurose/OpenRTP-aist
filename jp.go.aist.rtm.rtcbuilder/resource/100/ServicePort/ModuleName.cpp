@@ -36,7 +36,6 @@ ModuleName::ModuleName(RTC::Manager* manager)
     // <rtc-template block="initializer">
   : RTC::DataFlowComponentBase(manager),
     m_sv_namePort("sv_name")
-
     // </rtc-template>
 {
 }
@@ -57,6 +56,7 @@ RTC::ReturnCode_t ModuleName::onInitialize()
   // Set InPort buffers
   
   // Set OutPort buffer
+
   
   // Set service provider to Ports
   m_sv_namePort.registerProvider("if_name", "ImageCalibService::CalibrationService", m_if_name);
@@ -70,6 +70,7 @@ RTC::ReturnCode_t ModuleName::onInitialize()
 
   // <rtc-template block="bind_config">
   // </rtc-template>
+
   
   return RTC::RTC_OK;
 }
