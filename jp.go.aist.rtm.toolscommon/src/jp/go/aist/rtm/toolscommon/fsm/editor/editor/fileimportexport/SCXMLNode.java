@@ -269,15 +269,7 @@ public class SCXMLNode implements Serializable {
 
 	public String getID() {
 		String ret = null;
-		Document dmd = getIDDoc();
-		if (dmd != null) {
-			try {
-				ret = dmd.getText(0, dmd.getLength());
-			} catch (BadLocationException e) {
-				ret = (String) node.get(ID);
-			}
-		} else
-			ret = (String) node.get(ID);
+		ret = (String) node.get(ID);
 		return (ret == null) ? "" : ret;
 	}
 
@@ -287,15 +279,7 @@ public class SCXMLNode implements Serializable {
 
 	public String getName() {
 		String ret = null;
-		Document dmd = getNameDoc();
-		if (dmd != null) {
-			try {
-				ret = dmd.getText(0, dmd.getLength());
-			} catch (BadLocationException e) {
-				ret = (String) node.get(NAME);
-			}
-		} else
-			ret = (String) node.get(NAME);
+		ret = (String) node.get(NAME);
 		return (ret == null) ? "" : ret;
 	}
 
@@ -305,57 +289,25 @@ public class SCXMLNode implements Serializable {
 
 	public String getOnEntry() {
 		String ret = null;
-		Document dmd = getOnEntryDoc();
-		if (dmd != null) {
-			try {
-				ret = dmd.getText(0, dmd.getLength());
-			} catch (BadLocationException e) {
-				ret = (String) node.get(ONENTRYEXE);
-			}
-		} else
-			ret = (String) node.get(ONENTRYEXE);
+		ret = (String) node.get(ONENTRYEXE);
 		return (ret == null) ? "" : ret;
 	}
 
 	public String getOnExit() {
 		String ret = null;
-		Document dmd = getOnExitDoc();
-		if (dmd != null) {
-			try {
-				ret = dmd.getText(0, dmd.getLength());
-			} catch (BadLocationException e) {
-				ret = (String) node.get(ONEXITEXE);
-			}
-		} else
-			ret = (String) node.get(ONEXITEXE);
+		ret = (String) node.get(ONEXITEXE);
 		return (ret == null) ? "" : ret;
 	}
 
 	public String getOnInitialEntry() {
 		String ret = null;
-		Document dmd = getOnInitialEntryDoc();
-		if (dmd != null) {
-			try {
-				ret = dmd.getText(0, dmd.getLength());
-			} catch (BadLocationException e) {
-				ret = (String) node.get(INITEXE);
-			}
-		} else
-			ret = (String) node.get(INITEXE);
+		ret = (String) node.get(INITEXE);
 		return (ret == null) ? "" : ret;
 	}
 
 	public String getScript() {
 		String ret = null;
-		Document dmd = getScriptDoc();
-		if (dmd != null) {
-			try {
-				ret = dmd.getText(0, dmd.getLength());
-			} catch (BadLocationException e) {
-				ret = (String) node.get(SCRIPT);
-			}
-		} else
-			ret = (String) node.get(SCRIPT);
+		ret = (String) node.get(SCRIPT);
 		return (ret == null) ? "" : ret;
 	}
 
@@ -386,15 +338,7 @@ public class SCXMLNode implements Serializable {
 
 	public String getDoneData() {
 		String ret = null;
-		Document dmd = getDoneDataDoc();
-		if (dmd != null) {
-			try {
-				ret = dmd.getText(0, dmd.getLength());
-			} catch (BadLocationException e) {
-				ret = (String) node.get(DONEDATA);
-			}
-		} else
-			ret = (String) node.get(DONEDATA);
+		ret = (String) node.get(DONEDATA);
 		return (ret == null) ? "" : ret;
 	}
 
@@ -885,22 +829,10 @@ public class SCXMLNode implements Serializable {
 		n.setDoneDataDoc(null);
 		n.setDoneDataUndoManager(null);
 		n.setDoneData(getDoneData());
-		n.setOnInitialEntryDoc(null);
-		n.setOnInitialEntryUndoManager(null);
 		n.setOnInitialEntry(getOnInitialEntry());
-		n.setOnEntryDoc(null);
-		n.setOnEntryUndoManager(null);
 		n.setOnEntry(getOnEntry());
-		n.setOnExitDoc(null);
-		n.setOnExitUndoManager(null);
 		n.setOnExit(getOnExit());
-		n.setScriptDoc(null);
-		n.setScriptUndoManager(null);
 		n.setScript(getScript());
-		n.setIDDoc(null);
-		n.setIDUndoManager(null);
-		n.setNameUndoManager(null);
-		n.setNameDoc(null);
 		n.setSRC(getSRC());
 		n.setSRCDoc(null);
 		n.setSRCUndoManager(null);
