@@ -13,6 +13,7 @@
 	<property environment="env" />
 	<target name="mkdir">
 		<mkdir dir="${dest}" />
+		<mkdir dir="src/temp" />
 	</target>
 	<target name="idlcompile"  depends="mkdir">
 		<exec executable="${java.home}/../bin/idlj">
@@ -21,6 +22,8 @@
 		<exec executable="${java.home}/../bin/idlj">
 			<arg line="-td 'src' -i '${env.RTM_JAVA_ROOT}/rtm/idl' -fall 'idl/DAQService.idl'"/>
 		</exec>
+		<native2ascii src="src/temp" dest="src"/>
+		<delete dir="src/temp"/>
 	</target>
 	<target name="compile" depends="idlcompile">
 		<javac includeantruntime="false" srcdir="${source}" destdir="${dest}">
