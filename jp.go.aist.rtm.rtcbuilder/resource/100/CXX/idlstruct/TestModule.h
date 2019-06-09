@@ -35,7 +35,6 @@
 #include <rtm/DataInPort.h>
 #include <rtm/DataOutPort.h>
 
-using namespace RTC;
 
 /*!
  * @class TestModule
