@@ -39,8 +39,6 @@ using namespace GameFramework;
 #include <rtm/DataOutPort.h>
 
 
-using namespace RTC;
-
 /*!
  * @class MarkerPosition
  * @brief ModuleDescription
@@ -241,7 +239,7 @@ class MarkerPosition
   arUco::arUcoPoint2D m_arUcoPoint2D;
   /*!
    */
-  InPort<arUco::arUcoPoint2D> m_arUcoPoint2DIn;
+  RTC::InPort<arUco::arUcoPoint2D> m_arUcoPoint2DIn;
   
   // </rtc-template>
 
@@ -251,7 +249,7 @@ class MarkerPosition
   GameFramework::CenterPosition m_CenterPosition;
   /*!
    */
-  OutPort<GameFramework::CenterPosition> m_CenterPositionOut;
+  RTC::OutPort<GameFramework::CenterPosition> m_CenterPositionOut;
   
   // </rtc-template>
 

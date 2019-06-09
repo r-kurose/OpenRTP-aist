@@ -35,8 +35,6 @@
 #include <rtm/DataOutPort.h>
 
 
-using namespace RTC;
-
 /*!
  * @class test
  * @brief MDesc
@@ -237,7 +235,7 @@ class test
   RTC::TimedShort m_InP1;
   /*!
    */
-  InPort<RTC::TimedShort> m_InP1In;
+  RTC::InPort<RTC::TimedShort> m_InP1In;
   
   // </rtc-template>
 
