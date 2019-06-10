@@ -36,8 +36,6 @@
 #include <rtm/DataOutPort.h>
 
 
-using namespace RTC;
-
 /*!
  * @class foo
  * @brief ModuleDescription

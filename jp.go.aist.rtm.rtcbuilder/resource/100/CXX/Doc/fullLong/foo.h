@@ -43,8 +43,6 @@
 #include <rtm/DataOutPort.h>
 
 
-using namespace RTC;
-
 /*!
  * @class foo
  * @brief MDesc
@@ -410,7 +408,7 @@ class foo
    *                    890123456789012345678901234567890123456789
    *                    01234567890
    */
-  InPort<RTC::TimedShort> m_InName1In;
+  RTC::InPort<RTC::TimedShort> m_InName1In;
   RTC::TimedLong m_InNm2;
   /*!
    * InPort2の概要123456789012345678901234567890123456789012345678
@@ -429,7 +427,7 @@ class foo
    *                    890123456789012345678901234567890123456789
    *                    01234567890
    */
-  InPort<RTC::TimedLong> m_InNm2In;
+  RTC::InPort<RTC::TimedLong> m_InNm2In;
   
   // </rtc-template>
 
@@ -454,7 +452,7 @@ class foo
    *                    789012345678901234567890123456789012345678
    *                    901234567890
    */
-  OutPort<RTC::TimedLong> m_OutName1Out;
+  RTC::OutPort<RTC::TimedLong> m_OutName1Out;
   RTC::TimedFloat m_OutNme2;
   /*!
    * OutPort2の概要12345678901234567890123456789012345678901234567
@@ -473,7 +471,7 @@ class foo
    *                    789012345678901234567890123456789012345678
    *                    901234567890
    */
-  OutPort<RTC::TimedFloat> m_OutNme2Out;
+  RTC::OutPort<RTC::TimedFloat> m_OutNme2Out;
   
   // </rtc-template>
 

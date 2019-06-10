@@ -43,8 +43,6 @@ ${sharp}include <rtm/CorbaPort.h>
 ${sharp}include <rtm/DataInPort.h>
 ${sharp}include <rtm/DataOutPort.h>
 
-using namespace RTC;
-
 /*!
  * @class ${rtcParam.name}Test
  * @brief ${rtcParam.description}
@@ -377,7 +375,7 @@ class ${rtcParam.name}Test
 #if(${port.docOperation.length()}>0)   * - Operation Cycle: ${tmpltHelper.convertCycleDoc(${port.docOperation})}
 #end
    */
-  InPort<${port.type}> ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
+  RTC::InPort<${port.type}> ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
 #end
 #end
   
@@ -404,7 +402,7 @@ class ${rtcParam.name}Test
 #if(${port.docOperation.length()}>0)   * - Operation Cycle: ${tmpltHelper.convertCycleDoc(${port.docOperation})}
 #end
    */
-  OutPort<${port.type}> ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}Out${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
+  RTC::OutPort<${port.type}> ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}Out${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
 #end
 #end
   
