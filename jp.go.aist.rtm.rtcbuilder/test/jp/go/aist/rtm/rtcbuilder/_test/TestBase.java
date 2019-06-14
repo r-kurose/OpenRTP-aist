@@ -72,6 +72,7 @@ public class TestBase extends TestCase {
 		expPath = resourceDir + fileName;
 		expContent = readFile(expPath);
 		expContent = replaceRootPath(expContent);
+		expContent = expContent.replace("\uFEFF", "");
 //		assertEquals(replaceBlank(expContent) , replaceBlank(result.get(index).getCode()));
 		assertEquals(expContent , result.get(index).getCode());
 	}

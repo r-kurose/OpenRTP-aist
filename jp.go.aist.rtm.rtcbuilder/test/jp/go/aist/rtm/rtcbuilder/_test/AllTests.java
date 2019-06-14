@@ -21,6 +21,7 @@ import jp.go.aist.rtm.rtcbuilder._test.generateCode.IDLInheritTest;
 import jp.go.aist.rtm.rtcbuilder._test.generateCode.IDLModuleTest;
 import jp.go.aist.rtm.rtcbuilder._test.generateCode.PrefixSuffixTest;
 import jp.go.aist.rtm.rtcbuilder._test.generateCode.TemplateTestAIST2;
+import jp.go.aist.rtm.rtcbuilder._test.generateCode.TestComp;
 import jp.go.aist.rtm.rtcbuilder._test.generateCode.LuckTest;
 import jp.go.aist.rtm.rtcbuilder._test.generateCode.ExCxtTest;
 import jp.go.aist.rtm.rtcbuilder._test.generateCode.DocLongTest;
@@ -110,6 +111,8 @@ public class AllTests {
 		suite.addTestSuite(ParamActionsTest.class);
 		//
 		suite.addTestSuite(ServicePortTest.class);
+		//
+		suite.addTestSuite(TestComp.class);
 		//$JUnit-END$
 		return suite;
 	}
