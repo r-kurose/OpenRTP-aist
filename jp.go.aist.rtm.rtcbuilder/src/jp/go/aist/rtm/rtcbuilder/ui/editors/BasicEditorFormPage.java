@@ -618,6 +618,8 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		param.setServicePortSuffix(store.getString(ComponentPreferenceManager.Generate_ServicePort_Prefix));
 		param.setServiceIFPrefix(store.getString(ComponentPreferenceManager.Generate_ServiceIF_Prefix));
 		param.setServiceIFSuffix(store.getString(ComponentPreferenceManager.Generate_ServiceIF_Suffix));
+		param.setEventPortPrefix(store.getString(ComponentPreferenceManager.Generate_EventPort_Prefix));
+		param.setEventPortSuffix(store.getString(ComponentPreferenceManager.Generate_EventPort_Suffix));
 	}
 
 	private ImportExtension getTargetImportExtension() {

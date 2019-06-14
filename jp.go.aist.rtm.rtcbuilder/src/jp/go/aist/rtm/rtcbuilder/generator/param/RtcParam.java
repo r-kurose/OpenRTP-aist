@@ -113,6 +113,8 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	private String serviceIFSuffix;
 	private String configurationPrefix;
 	private String configurationSuffix;
+	private String eventPortPrefix;
+	private String eventPortSuffix;
 
 	//
 	private String rtm_version = IRtcBuilderConstants.DEFAULT_RTM_VERSION;
@@ -686,6 +688,24 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	}
 	public void setConfigurationSuffix(String configurationSuffix) {
 		this.configurationSuffix = configurationSuffix;
+	}
+
+	public String getEventPortPrefix() {
+		if(eventPortPrefix==null) eventPortPrefix = "";
+		return eventPortPrefix;
+	}
+
+	public void setEventPortPrefix(String eventPortPrefix) {
+		this.eventPortPrefix = eventPortPrefix;
+	}
+
+	public String getEventPortSuffix() {
+		if(eventPortSuffix==null) eventPortSuffix = "";
+		return eventPortSuffix;
+	}
+
+	public void setEventPortSuffix(String eventPortSuffix) {
+		this.eventPortSuffix = eventPortSuffix;
 	}
 
 	public boolean isChoreonoid() {

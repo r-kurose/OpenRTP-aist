@@ -561,4 +561,6 @@ public interface IMessageConstants {
 	public static final String FSM_NO_SM = Messages.getString("IMessageConstants.FSM_NO_SM"); //$NON-NLS-1$
 	public static final String FSM_STATE_DUPL1 = Messages.getString("IMessageConstants.STATE_DUPL1"); //$NON-NLS-1$
 	public static final String FSM_STATE_DUPL2 = Messages.getString("IMessageConstants.STATE_DUPL2"); //$NON-NLS-1$
+	
+	public static final String EVENTPORT_LBL_VARNAME = Messages.getString("IMessageConstants.EVENTPORT_LBL_VARNAME"); //$NON-NLS-1$
 }
