@@ -1,3 +1,9 @@
+openrtp (1.2.1-0) experimental; urgency=low
+
+  * 1.2.1-0 (1.2.1-RELEASE). OpenRTP-1.2.1-RELEASE 
+
+ -- Noriaki Ando <n-ando@aist.go.jp>  Wed, 12 Jun 2019 15:16:31 +0900
+
 openrtp (1.2.0-1) experimental; urgency=low
 
   * The character code was modified.

@@ -5,7 +5,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: RepositoryView Nl1 Fragment
 Bundle-SymbolicName: jp.go.aist.rtm.repositoryView.nl1
 Bundle-Version: 1.2.0
-Fragment-Host: jp.go.aist.rtm.repositoryView;bundle-version="1.2.0"
+Fragment-Host: jp.go.aist.rtm.repositoryView;bundle-version="1.2.1"
 Bundle-Vendor: AIST
 Built-By: ngd
 Built-Date: 2015/06/18 19:59:11
