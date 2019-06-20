@@ -34,9 +34,10 @@ public interface IPreferenceMessageConstants {
 	public static final String PORT_TITLE_DATA_PORT = Messages.getString("IPreferenceMessageConstants.PORT_TITLE_DATA_PORT"); //$NON-NLS-1$
 	public static final String PORT_TITLE_SERVICE_PORT = Messages.getString("IPreferenceMessageConstants.PORT_TITLE_SERVICE_PORT"); //$NON-NLS-1$
 	public static final String PORT_TITLE_SERVICE_INTERFACE = Messages.getString("IPreferenceMessageConstants.PORT_TITLE_SERVICE_INTERFACE"); //$NON-NLS-1$
+	public static final String PORT_TITLE_EVENT_PORT = Messages.getString("IPreferenceMessageConstants.PORT_TITLE_EVENT_PORT"); //$NON-NLS-1$
 	//
-	public static final String PORT_LBL_PREFIX = "Prefix";
-	public static final String PORT_LBL_SUFFIX = "Suffix";
+	public static final String PORT_LBL_PREFIX = Messages.getString("IPreferenceMessageConstants.PREFIX"); //$NON-NLS-1$
+	public static final String PORT_LBL_SUFFIX = Messages.getString("IPreferenceMessageConstants.SUFFIX"); //$NON-NLS-1$
 
 
 

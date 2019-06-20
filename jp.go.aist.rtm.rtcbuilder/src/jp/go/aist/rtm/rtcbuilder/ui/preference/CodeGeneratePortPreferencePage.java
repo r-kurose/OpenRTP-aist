@@ -23,7 +23,8 @@ public class CodeGeneratePortPreferencePage extends AbstarctFieldEditorPreferenc
 		IPreferenceStore store = RtcBuilderPlugin.getDefault().getPreferenceStore();
 		storeDataPortInitialSetting(store);
 		storeServicePortInitialSetting(store);
-		storeServiceINterfaceInitialSetting(store);
+		storeServiceInterfaceInitialSetting(store);
+		storeEventPortInitialSetting(store);
 	}
 	
 	@Override
@@ -37,8 +38,24 @@ public class CodeGeneratePortPreferencePage extends AbstarctFieldEditorPreferenc
 		createDataPortPart(composite);
 		createServicePortPart(composite);
 		createServiceInterfacePart(composite);
+		createEventPortPart(composite);
 	}
 	
+	private void createEventPortPart(Composite composite) {
+		Composite eventportGroup = createGroup(composite, IPreferenceMessageConstants.PORT_TITLE_EVENT_PORT);
+		DigitAlphabetStringFieldEditor eventPortNameEditor = 
+			new DigitAlphabetStringFieldEditor(ComponentPreferenceManager.Generate_EventPort_VarName,
+					IMessageConstants.EVENTPORT_LBL_VARNAME, eventportGroup);
+		addField(eventPortNameEditor);
+		StringFieldEditor eventPortPrefixEditor = 
+			new StringFieldEditor(ComponentPreferenceManager.Generate_EventPort_Prefix,
+				IPreferenceMessageConstants.PORT_LBL_PREFIX, eventportGroup);
+		addField(eventPortPrefixEditor);
+		StringFieldEditor eventPortSuffixEditor = 
+			new StringFieldEditor(ComponentPreferenceManager.Generate_EventPort_Suffix,
+				IPreferenceMessageConstants.PORT_LBL_SUFFIX, eventportGroup);
+		addField(eventPortSuffixEditor);
+	}
 	private void createServiceInterfacePart(Composite composite) {
 		Composite serviceIFGroup = createGroup(composite, IPreferenceMessageConstants.PORT_TITLE_SERVICE_INTERFACE);
 		DigitAlphabetStringFieldEditor serviceIFNameEditor = 
@@ -101,7 +118,12 @@ public class CodeGeneratePortPreferencePage extends AbstarctFieldEditorPreferenc
 		addField(dataPortSuffixEditor);
 	}
 	
-	private void storeServiceINterfaceInitialSetting(IPreferenceStore store) {
+	private void storeEventPortInitialSetting(IPreferenceStore store) {
+		store.setDefault(ComponentPreferenceManager.Generate_EventPort_VarName, ComponentPreferenceManager.DEFAULT_EVENTPORT_VARNAME);
+		store.setDefault(ComponentPreferenceManager.Generate_EventPort_Prefix, ComponentPreferenceManager.DEFAULT_EVENTPORT_PREFIX);
+		store.setDefault(ComponentPreferenceManager.Generate_EventPort_Suffix, ComponentPreferenceManager.DEFAULT_EVENTPORT_SUFFIX);
+	}
+	private void storeServiceInterfaceInitialSetting(IPreferenceStore store) {
 		store.setDefault(ComponentPreferenceManager.Generate_ServiceIF_Name, ComponentPreferenceManager.DEFAULT_SERVICEIF_NAME);
 		store.setDefault(ComponentPreferenceManager.Generate_ServiceIF_InstanceName, ComponentPreferenceManager.DEFAULT_SERVICEIF_INSTANCENAME);
 		store.setDefault(ComponentPreferenceManager.Generate_ServiceIF_VarName, ComponentPreferenceManager.DEFAULT_SERVICEIF_VARNAME);

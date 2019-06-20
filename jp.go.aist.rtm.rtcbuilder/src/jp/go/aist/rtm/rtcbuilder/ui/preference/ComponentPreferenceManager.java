@@ -155,6 +155,18 @@ public class ComponentPreferenceManager {
 	public static final String Generate_ServiceIF_Suffix = getClassName() + "GENERATE_SERVICEIF_SUFFIX";
 	//
 	/**
+	 * EventPort 変数名のキー
+	 */
+	public static final String Generate_EventPort_VarName = getClassName() + "GENERATE_EVENTPORT_VARNAME";
+	/**
+	 * EventPort 接頭語のキー
+	 */
+	public static final String Generate_EventPort_Prefix = getClassName() + "GENERATE_EVENTPORT_PREFIX";
+	/**
+	 * EventPort 接尾語のキー
+	 */
+	public static final String Generate_EventPort_Suffix = getClassName() + "GENERATE_EVENTPORT_SUFFIX";
+	/**
 	 * バックアップファイル設定数のキー
 	 */
 	public static final String Generate_Backup_Num = getClassName() + "GENERATE_BACKUP_NUM";
@@ -200,6 +212,10 @@ public class ComponentPreferenceManager {
 	public static final String DEFAULT_SERVICEIF_VARNAME = "";
 	public static final String DEFAULT_SERVICEIF_PREFIX = "";
 	public static final String DEFAULT_SERVICEIF_SUFFIX = "";
+	//
+	public static final String DEFAULT_EVENTPORT_VARNAME = "event_name";
+	public static final String DEFAULT_EVENTPORT_PREFIX = "";
+	public static final String DEFAULT_EVENTPORT_SUFFIX = "";
 	//
 	public static final int DEFAULT_BACKUP_NUM = 3;
 	
