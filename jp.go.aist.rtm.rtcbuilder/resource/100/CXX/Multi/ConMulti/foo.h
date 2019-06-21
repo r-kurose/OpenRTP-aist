@@ -36,8 +36,6 @@
 #include <rtm/DataInPort.h>
 #include <rtm/DataOutPort.h>
 
-using namespace RTC;
-
 /*!
  * @class foo
  * @brief test module
@@ -238,7 +236,7 @@ class foo
   TimedShort m_in1;
   /*!
    */
-  InPort<TimedShort> m_in1In;
+  RTC::InPort<TimedShort> m_in1In;
   
   // </rtc-template>
 
@@ -248,7 +246,7 @@ class foo
   TimedLong m_out1;
   /*!
    */
-  OutPort<TimedLong> m_out1Out;
+  RTC::OutPort<TimedLong> m_out1Out;
   
   // </rtc-template>
 

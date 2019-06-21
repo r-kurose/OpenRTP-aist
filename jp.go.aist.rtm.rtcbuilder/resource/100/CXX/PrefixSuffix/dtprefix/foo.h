@@ -36,8 +36,6 @@
 #include <rtm/DataInPort.h>
 #include <rtm/DataOutPort.h>
 
-using namespace RTC;
-
 /*!
  * @class foo
  * @brief MDesc
@@ -244,11 +242,11 @@ class foo
   RTC::TimedShort p_dtInP1_s;
   /*!
    */
-  InPort<RTC::TimedShort> p_dtInP1In_s;
+  RTC::InPort<RTC::TimedShort> p_dtInP1In_s;
   RTC::TimedLong p_dtInP2_s;
   /*!
    */
-  InPort<RTC::TimedLong> p_dtInP2In_s;
+  RTC::InPort<RTC::TimedLong> p_dtInP2In_s;
   
   // </rtc-template>
 
@@ -258,11 +256,11 @@ class foo
   RTC::TimedOctet p_dtOutP1_s;
   /*!
    */
-  OutPort<RTC::TimedOctet> p_dtOutP1Out_s;
+  RTC::OutPort<RTC::TimedOctet> p_dtOutP1Out_s;
   RTC::TimedFloat p_dtOutP2_s;
   /*!
    */
-  OutPort<RTC::TimedFloat> p_dtOutP2Out_s;
+  RTC::OutPort<RTC::TimedFloat> p_dtOutP2Out_s;
   
   // </rtc-template>
 
