@@ -318,13 +318,8 @@ ${sharp}${sharp} The name format of components that is bound to naming services.
 ${sharp}${sharp} The delimiter between names is "/".
 ${sharp}${sharp} The delimiter between name and kind is ".".
 ${sharp}${sharp}
-${sharp}${sharp} example: (OpenRTM-aist-0.2.0 style)
-${sharp}${sharp}       %h.host_cxt/%M.mgr_cxt/%c.cat_cxt/%m.mod_cxt/%n.rtc
-${sharp}${sharp} This is formatted according to the following replacement rules.
-${sharp}${sharp}
 ${sharp}${sharp} %n: The instance name of the component.
 ${sharp}${sharp} %t: The type name of the component.
-${sharp}${sharp} %m: The module name of the component.
 ${sharp}${sharp} %v: The version of the component.
 ${sharp}${sharp} %V: The component vendor.
 ${sharp}${sharp} %c: The category of the component.
