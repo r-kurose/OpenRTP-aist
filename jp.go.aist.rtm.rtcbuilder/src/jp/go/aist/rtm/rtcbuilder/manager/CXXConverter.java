@@ -175,7 +175,7 @@ public class CXXConverter {
 					result = result + "*";
 				}
 			}
-			if(typeDef.getModule()!=null && typeDef.getModule().length()>0 && typeDef.isDefault()==false) {
+			if(typeDef.getModule()!=null && typeDef.getModule().length()>0 && result.startsWith("RTC")==false) {
 				result = typeDef.getModule() + result;
 			}
 		}
