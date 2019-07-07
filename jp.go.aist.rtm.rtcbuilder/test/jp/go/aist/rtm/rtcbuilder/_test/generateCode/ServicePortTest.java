@@ -57,6 +57,11 @@ public class ServicePortTest extends TestBase {
 		param4.setDefault(true);
 		genParam.getDataTypeParams().add(param4);
 
+		DataTypeParam param5 = new DataTypeParam();
+		param5.setFullPath("C:\\Program Files\\OpenRTM-aist\\1.2.0\\rtm\\idl\\ManipulatorCommonInterface_Common.idl");
+		param5.setDefault(true);
+		genParam.getDataTypeParams().add(param5);
+		
 		genParam.setRtcParam(rtcParam);
 	}
 
@@ -86,4 +91,28 @@ public class ServicePortTest extends TestBase {
 		checkCode(result, targetDir, "idl/CMakeLists.txt");
 	}
 
+	public void testServicePortJARA() throws Exception {
+		ServicePortParam service1 = new ServicePortParam("sv_name",0);
+		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>();
+		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "if_name", "", "",
+				"C:\\Program Files\\OpenRTM-aist\\1.2.0\\rtm\\idl\\ManipulatorCommonInterface_Common.idl",
+				"JARA_ARM::ManipulatorCommonInterface_Common",
+				"C:\\Program Files\\OpenRTM-aist\\1.2.0\\rtm\\idl",
+				0);
+		srvinterts.add(int1);
+		service1.getServicePortInterfaces().addAll(srvinterts);
+		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
+		srvports.add(service1);
+		rtcParam.getServicePorts().addAll(srvports);
+
+		Generator generator = new Generator();
+		List<GeneratedResult> result = generator.generateTemplateCode(genParam);
+
+		String targetDir = rootPath + "/resource/100/ServicePortJARA/";
+		checkCode(result, targetDir, "ModuleNameComp.cpp");
+		checkCode(result, targetDir, "ModuleName.h");
+		checkCode(result, targetDir, "ModuleName.cpp");
+		checkCode(result, targetDir, "ManipulatorCommonInterface_CommonSVC_impl.h");
+		checkCode(result, targetDir, "ManipulatorCommonInterface_CommonSVC_impl.cpp");
+	}
 }
