@@ -5,7 +5,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Nl1 Fragment
 Bundle-SymbolicName: jp.go.aist.rtm.toolscommon.nl1
 Bundle-Version: 1.2.0
-Fragment-Host: jp.go.aist.rtm.toolscommon;bundle-version="1.2.0"
+Fragment-Host: jp.go.aist.rtm.toolscommon;bundle-version="2.0.0"
 Built-By: ngd
 Built-Date: 2015/06/18 19:54:52
 
