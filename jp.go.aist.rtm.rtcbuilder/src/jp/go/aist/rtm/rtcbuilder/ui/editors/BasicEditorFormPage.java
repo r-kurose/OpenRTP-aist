@@ -277,7 +277,9 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		fsmBtn = createRadioCheckButton(toolkit, compGroup, "FSM", SWT.CHECK);
 		multiModeBtn = createRadioCheckButton(toolkit, compGroup, "MultiMode", SWT.CHECK);
 
-		choreonoidBtn = createRadioCheckButton(toolkit, composite, "Choreonoid", SWT.CHECK);
+		Group dummyGroup = new Group(composite, SWT.SHADOW_NONE);
+		dummyGroup.setLayout(new GridLayout(1, false));
+		choreonoidBtn = createRadioCheckButton(toolkit, dummyGroup, "Choreonoid", SWT.CHECK);
 		//
 		maxInstanceText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_MAX_INSTANCES, SWT.NONE, SWT.COLOR_BLACK, 2);
 		executionTypeCombo = createLabelAndCombo(toolkit, composite, IMessageConstants.BASIC_LBL_EXECUTION_TYPE,
