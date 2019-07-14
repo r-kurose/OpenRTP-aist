@@ -253,9 +253,15 @@ def testInit(manager):
                             OpenRTM_aist.Delete)
 def MyModuleInit(manager):
     testInit(manager)
+    # create instance_name option for createComponent()
+    args = [i for i in sys.argv if "--instance_name=" in i][0].replace("--", "?")
+  
     # Create a component
     comp = manager.createComponent("test")
 def main():
+    # remove --instance_name= option
+    argv = [i for i in sys.argv if not "--instance_name=" in i]
+    # Initialize manager
 	mgr = OpenRTM_aist.Manager.init(sys.argv)
 	mgr.setModuleInitProc(MyModuleInit)
 	mgr.activateManager()

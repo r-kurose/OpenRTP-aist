@@ -566,10 +566,16 @@ def ${rtcParam.name}Init(manager):
 def MyModuleInit(manager):
     ${rtcParam.name}Init(manager)
 
-    # Create a component
+    ${sharp} create instance_name option for createComponent()
+    args = [i for i in sys.argv if "--instance_name=" in i][0].replace("--", "?")
+  
+    ${sharp} Create a component
     comp = manager.createComponent("${rtcParam.name}")
 
 def main():
+    ${sharp} remove --instance_name= option
+    argv = [i for i in sys.argv if not "--instance_name=" in i]
+    ${sharp} Initialize manager
 	mgr = OpenRTM_aist.Manager.init(sys.argv)
 	mgr.setModuleInitProc(MyModuleInit)
 	mgr.activateManager()
