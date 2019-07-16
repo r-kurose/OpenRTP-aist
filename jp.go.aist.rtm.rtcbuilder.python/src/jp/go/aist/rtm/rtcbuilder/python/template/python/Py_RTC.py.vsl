@@ -567,10 +567,14 @@ def MyModuleInit(manager):
     ${rtcParam.name}Init(manager)
 
     ${sharp} create instance_name option for createComponent()
-    args = [i for i in sys.argv if "--instance_name=" in i][0].replace("--", "?")
+    instance_name = [i for i in sys.argv if "--instance_name=" in i]
+    if instance_name:
+        args = instance_name[0].replace("--", "?")
+    else:
+        args = ""
   
     ${sharp} Create a component
-    comp = manager.createComponent("${rtcParam.name}")
+    comp = manager.createComponent("${rtcParam.name}" + args)
 
 def main():
     ${sharp} remove --instance_name= option
