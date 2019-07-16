@@ -234,10 +234,14 @@ def FooInit(manager):
 def MyModuleInit(manager):
     FooInit(manager)
     # create instance_name option for createComponent()
-    args = [i for i in sys.argv if "--instance_name=" in i][0].replace("--", "?")
+    instance_name = [i for i in sys.argv if "--instance_name=" in i]
+    if instance_name:
+        args = instance_name[0].replace("--", "?")
+    else:
+        args = ""
   
     # Create a component
-    comp = manager.createComponent("Foo")
+    comp = manager.createComponent("Foo" + args)
 def main():
     # remove --instance_name= option
     argv = [i for i in sys.argv if not "--instance_name=" in i]
