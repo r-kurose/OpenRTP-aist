@@ -30,7 +30,7 @@ public class AutoConnectorCreationTool extends ConnectionDragCreationTool {
 
 	private static AutoConnectorCreationTool instance = null;
 
-	/** コネクションツールのインスタンスを初期化、取得 (singleton) */
+	/** connection toolのインスタンスを初期化、取得 (singleton) */
 	public static AutoConnectorCreationTool getInstance() {
 		if (instance == null) {
 			instance = new AutoConnectorCreationTool();
@@ -69,6 +69,7 @@ public class AutoConnectorCreationTool extends ConnectionDragCreationTool {
 
 			@Override
 			public void mouseExited(MouseEvent me) {
+				domain.setActiveTool(domain.getDefaultTool());
 			}
 
 			@Override
@@ -209,7 +210,7 @@ public class AutoConnectorCreationTool extends ConnectionDragCreationTool {
 	protected boolean handleDragStarted() {
 		LOGGER.trace("handleDragStarted: currViewer={} currCommand={} target={}", to_cid(getCurrentViewer()),
 				to_cid(getCurrentCommand()), to_cid(getTargetEditPart()));
-		// ポート接続モード開始
+		// Port接続モード開始
 		SystemDiagramEditPart sd = findSystemDiagramEditPart(getCurrentViewer());
 		PortEditPart port = (PortEditPart) getTargetEditPart();
 		showAllConnectablePort(sd, port);
@@ -221,7 +222,7 @@ public class AutoConnectorCreationTool extends ConnectionDragCreationTool {
 	protected boolean handleCreateConnection() {
 		LOGGER.trace("handleCreateConnection: currViewer={} currCommand={} target={}", to_cid(getCurrentViewer()),
 				to_cid(getCurrentCommand()), to_cid(getTargetEditPart()));
-		// ポート接続モード終了
+		// Port接続モード終了
 		SystemDiagramEditPart sd = findSystemDiagramEditPart(getCurrentViewer());
 		hideAllConnectablePort(sd);
 
