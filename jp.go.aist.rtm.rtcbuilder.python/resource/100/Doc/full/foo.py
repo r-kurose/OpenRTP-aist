@@ -196,7 +196,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
     # on_initialize概要説明
     #
     # The initialize action (on CREATED->ALIVE transition)
-    # formaer rtc_init_entry() 
     # 
     # @return RTC::ReturnCode_t
     # 
@@ -235,7 +234,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
     ## on_finalize概要説明
     ## 
     ## The finalize action (on ALIVE->END transition)
-    ## formaer rtc_exiting_entry()
     ## 
     ## @return RTC::ReturnCode_t
     #
@@ -250,7 +248,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
     ## on_startup概要説明
     ##
     ## The startup action when ExecutionContext startup
-    ## former rtc_starting_entry()
     ## 
     ## @param ec_id target ExecutionContext Id
     ##
@@ -267,7 +264,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
     ## on_shutdown概要説明
     ##
     ## The shutdown action when ExecutionContext stop
-    ## former rtc_stopping_entry()
     ##
     ## @param ec_id target ExecutionContext Id
     ##
@@ -284,7 +280,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
     ## on_activated概要説明
     ##
     ## The activated action (Active state entry action)
-    ## former rtc_active_entry()
     ##
     ## @param ec_id target ExecutionContext Id
     ## 
@@ -301,7 +296,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
     ## on_deactivated概要説明
     ##
     ## The deactivated action (Active state exit action)
-    ## former rtc_active_exit()
     ##
     ## @param ec_id target ExecutionContext Id
     ##
@@ -318,7 +312,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
     ## on_execute概要説明
     ##
     ## The execution action that is invoked periodically
-    ## former rtc_active_do()
     ##
     ## @param ec_id target ExecutionContext Id
     ##
@@ -335,7 +328,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
     ## on_aborting概要説明
     ##
     ## The aborting action when main logic error occurred.
-    ## former rtc_aborting_entry()
     ##
     ## @param ec_id target ExecutionContext Id
     ##
@@ -352,7 +344,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
     ## on_error概要説明
     ##
     ## The error action in ERROR state
-    ## former rtc_error_do()
     ##
     ## @param ec_id target ExecutionContext Id
     ##
@@ -369,7 +360,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
     ## on_reset概要説明
     ##
     ## The reset action that is invoked resetting
-    ## This is same but different the former rtc_init_entry()
     ##
     ## @param ec_id target ExecutionContext Id
     ##
@@ -386,7 +376,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
     ## on_state_update概要説明
     ##
     ## The state update action that is invoked after onExecute() action
-    ## no corresponding operation exists in OpenRTm-aist-0.2.0
     ##
     ## @param ec_id target ExecutionContext Id
     ##
@@ -403,7 +392,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
     ## on_rate_changed概要説明
     ##
     ## The action that is invoked when execution context's rate is changed
-    ## no corresponding operation exists in OpenRTm-aist-0.2.0
     ##
     ## @param ec_id target ExecutionContext Id
     ##
