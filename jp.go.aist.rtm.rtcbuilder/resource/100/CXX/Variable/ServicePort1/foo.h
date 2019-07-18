@@ -36,7 +36,6 @@
 #include <rtm/DataInPort.h>
 #include <rtm/DataOutPort.h>
 
-
 /*!
  * @class foo
  * @brief MDesc
