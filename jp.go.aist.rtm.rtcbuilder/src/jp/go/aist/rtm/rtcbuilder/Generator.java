@@ -545,7 +545,7 @@ public class Generator {
 			}
 			boolean isHit = false;
 			if(tdparam.isDefault()) {
-				if(targetType.equals(defFull)) {
+                if(targetType.equals(defFull) || targetFull.equals(defFull)) {
 					isHit = true;
 				}
 			} else {
