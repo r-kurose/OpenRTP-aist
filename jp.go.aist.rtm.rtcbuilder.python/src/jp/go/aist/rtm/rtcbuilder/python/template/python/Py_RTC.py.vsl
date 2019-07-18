@@ -247,7 +247,6 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
     ${sharp}
     ${sharp} The initialize action (on CREATED->ALIVE transition)
-    ${sharp} formaer rtc_init_entry() 
     ${sharp} 
     ${sharp} @return RTC::ReturnCode_t
     ${sharp} 
@@ -306,7 +305,6 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
     #if(${rtcParam.IsNotImplemented(1)})${sharp}#end${sharp} 
     #if(${rtcParam.IsNotImplemented(1)})${sharp}#end${sharp} The finalize action (on ALIVE->END transition)
-    #if(${rtcParam.IsNotImplemented(1)})${sharp}#end${sharp} formaer rtc_exiting_entry()
     #if(${rtcParam.IsNotImplemented(1)})${sharp}#end${sharp} 
     #if(${rtcParam.IsNotImplemented(1)})${sharp}#end${sharp} @return RTC::ReturnCode_t
     #if(${rtcParam.IsNotImplemented(1)})${sharp}#end
@@ -328,7 +326,6 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
     #if(${rtcParam.IsNotImplemented(2)})${sharp}#end${sharp}
     #if(${rtcParam.IsNotImplemented(2)})${sharp}#end${sharp} The startup action when ExecutionContext startup
-    #if(${rtcParam.IsNotImplemented(2)})${sharp}#end${sharp} former rtc_starting_entry()
     #if(${rtcParam.IsNotImplemented(2)})${sharp}#end${sharp} 
     #if(${rtcParam.IsNotImplemented(2)})${sharp}#end${sharp} @param ec_id target ExecutionContext Id
     #if(${rtcParam.IsNotImplemented(2)})${sharp}#end${sharp}
@@ -351,7 +348,6 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
     #if(${rtcParam.IsNotImplemented(3)})${sharp}#end${sharp}
     #if(${rtcParam.IsNotImplemented(3)})${sharp}#end${sharp} The shutdown action when ExecutionContext stop
-    #if(${rtcParam.IsNotImplemented(3)})${sharp}#end${sharp} former rtc_stopping_entry()
     #if(${rtcParam.IsNotImplemented(3)})${sharp}#end${sharp}
     #if(${rtcParam.IsNotImplemented(3)})${sharp}#end${sharp} @param ec_id target ExecutionContext Id
     #if(${rtcParam.IsNotImplemented(3)})${sharp}#end${sharp}
@@ -374,7 +370,6 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
     #if(${rtcParam.IsNotImplemented(4)})${sharp}#end${sharp}
     #if(${rtcParam.IsNotImplemented(4)})${sharp}#end${sharp} The activated action (Active state entry action)
-    #if(${rtcParam.IsNotImplemented(4)})${sharp}#end${sharp} former rtc_active_entry()
     #if(${rtcParam.IsNotImplemented(4)})${sharp}#end${sharp}
     #if(${rtcParam.IsNotImplemented(4)})${sharp}#end${sharp} @param ec_id target ExecutionContext Id
     #if(${rtcParam.IsNotImplemented(4)})${sharp}#end${sharp} 
@@ -397,7 +392,6 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
     #if(${rtcParam.IsNotImplemented(5)})${sharp}#end${sharp}
     #if(${rtcParam.IsNotImplemented(5)})${sharp}#end${sharp} The deactivated action (Active state exit action)
-    #if(${rtcParam.IsNotImplemented(5)})${sharp}#end${sharp} former rtc_active_exit()
     #if(${rtcParam.IsNotImplemented(5)})${sharp}#end${sharp}
     #if(${rtcParam.IsNotImplemented(5)})${sharp}#end${sharp} @param ec_id target ExecutionContext Id
     #if(${rtcParam.IsNotImplemented(5)})${sharp}#end${sharp}
@@ -420,7 +414,6 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
     #if(${rtcParam.IsNotImplemented(9)})${sharp}#end${sharp}
     #if(${rtcParam.IsNotImplemented(9)})${sharp}#end${sharp} The execution action that is invoked periodically
-    #if(${rtcParam.IsNotImplemented(9)})${sharp}#end${sharp} former rtc_active_do()
     #if(${rtcParam.IsNotImplemented(9)})${sharp}#end${sharp}
     #if(${rtcParam.IsNotImplemented(9)})${sharp}#end${sharp} @param ec_id target ExecutionContext Id
     #if(${rtcParam.IsNotImplemented(9)})${sharp}#end${sharp}
@@ -443,7 +436,6 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
     #if(${rtcParam.IsNotImplemented(6)})${sharp}#end${sharp}
     #if(${rtcParam.IsNotImplemented(6)})${sharp}#end${sharp} The aborting action when main logic error occurred.
-    #if(${rtcParam.IsNotImplemented(6)})${sharp}#end${sharp} former rtc_aborting_entry()
     #if(${rtcParam.IsNotImplemented(6)})${sharp}#end${sharp}
     #if(${rtcParam.IsNotImplemented(6)})${sharp}#end${sharp} @param ec_id target ExecutionContext Id
     #if(${rtcParam.IsNotImplemented(6)})${sharp}#end${sharp}
@@ -466,7 +458,6 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
     #if(${rtcParam.IsNotImplemented(7)})${sharp}#end${sharp}
     #if(${rtcParam.IsNotImplemented(7)})${sharp}#end${sharp} The error action in ERROR state
-    #if(${rtcParam.IsNotImplemented(7)})${sharp}#end${sharp} former rtc_error_do()
     #if(${rtcParam.IsNotImplemented(7)})${sharp}#end${sharp}
     #if(${rtcParam.IsNotImplemented(7)})${sharp}#end${sharp} @param ec_id target ExecutionContext Id
     #if(${rtcParam.IsNotImplemented(7)})${sharp}#end${sharp}
@@ -489,7 +480,6 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
     #if(${rtcParam.IsNotImplemented(8)})${sharp}#end${sharp}
     #if(${rtcParam.IsNotImplemented(8)})${sharp}#end${sharp} The reset action that is invoked resetting
-    #if(${rtcParam.IsNotImplemented(8)})${sharp}#end${sharp} This is same but different the former rtc_init_entry()
     #if(${rtcParam.IsNotImplemented(8)})${sharp}#end${sharp}
     #if(${rtcParam.IsNotImplemented(8)})${sharp}#end${sharp} @param ec_id target ExecutionContext Id
     #if(${rtcParam.IsNotImplemented(8)})${sharp}#end${sharp}
@@ -512,7 +502,6 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
     #if(${rtcParam.IsNotImplemented(10)})${sharp}#end${sharp}
     #if(${rtcParam.IsNotImplemented(10)})${sharp}#end${sharp} The state update action that is invoked after onExecute() action
-    #if(${rtcParam.IsNotImplemented(10)})${sharp}#end${sharp} no corresponding operation exists in OpenRTm-aist-0.2.0
     #if(${rtcParam.IsNotImplemented(10)})${sharp}#end${sharp}
     #if(${rtcParam.IsNotImplemented(10)})${sharp}#end${sharp} @param ec_id target ExecutionContext Id
     #if(${rtcParam.IsNotImplemented(10)})${sharp}#end${sharp}
@@ -536,7 +525,6 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
     #if(${rtcParam.IsNotImplemented(11)})${sharp}#end${sharp}
     #if(${rtcParam.IsNotImplemented(11)})${sharp}#end${sharp} The action that is invoked when execution context's rate is changed
-    #if(${rtcParam.IsNotImplemented(11)})${sharp}#end${sharp} no corresponding operation exists in OpenRTm-aist-0.2.0
     #if(${rtcParam.IsNotImplemented(11)})${sharp}#end${sharp}
     #if(${rtcParam.IsNotImplemented(11)})${sharp}#end${sharp} @param ec_id target ExecutionContext Id
     #if(${rtcParam.IsNotImplemented(11)})${sharp}#end${sharp}
