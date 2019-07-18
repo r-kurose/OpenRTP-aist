@@ -38,7 +38,6 @@ using namespace GameFramework;
 #include <rtm/DataInPort.h>
 #include <rtm/DataOutPort.h>
 
-
 /*!
  * @class MarkerPosition
  * @brief ModuleDescription

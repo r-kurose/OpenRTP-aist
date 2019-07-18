@@ -1,14 +1,14 @@
 // -*- C++ -*-
 /*!
- * @file  foo.h
- * @brief test module
+ * @file  ModuleName.h
+ * @brief ModuleDescription
  * @date  $Date$
  *
  * $Id$
  */
 
-#ifndef FOO_H
-#define FOO_H
+#ifndef MODULENAME_H
+#define MODULENAME_H
 
 #include <rtm/idl/BasicDataTypeSkel.h>
 #include <rtm/idl/ExtendedDataTypesSkel.h>
@@ -16,13 +16,12 @@
 
 // Service implementation headers
 // <rtc-template block="service_impl_h">
-#include "MyServiceSVC_impl.h"
+#include "ManipulatorCommonInterface_CommonSVC_impl.h"
 
 // </rtc-template>
 
 // Service Consumer stub headers
 // <rtc-template block="consumer_stub_h">
-#include "DAQServiceStub.h"
 
 // </rtc-template>
 
@@ -37,11 +36,11 @@
 #include <rtm/DataOutPort.h>
 
 /*!
- * @class foo
- * @brief test module
+ * @class ModuleName
+ * @brief ModuleDescription
  *
  */
-class foo
+class ModuleName
   : public RTC::DataFlowComponentBase
 {
  public:
@@ -49,12 +48,12 @@ class foo
    * @brief constructor
    * @param manager Maneger Object
    */
-  foo(RTC::Manager* manager);
+  ModuleName(RTC::Manager* manager);
 
   /*!
    * @brief destructor
    */
-  ~foo();
+  ~ModuleName();
 
   // <rtc-template block="public_attribute">
   
@@ -233,28 +232,12 @@ class foo
 
   // DataInPort declaration
   // <rtc-template block="inport_declare">
-  RTC::TimedShort m_InP1;
-  /*!
-   */
-  RTC::InPort<RTC::TimedShort> m_InP1In;
-  RTC::TimedLong m_InP2;
-  /*!
-   */
-  RTC::InPort<RTC::TimedLong> m_InP2In;
   
   // </rtc-template>
 
 
   // DataOutPort declaration
   // <rtc-template block="outport_declare">
-  RTC::TimedInt m_OutP1;
-  /*!
-   */
-  RTC::OutPort<RTC::TimedInt> m_OutP1Out;
-  RTC::TimedFloat m_OutP2;
-  /*!
-   */
-  RTC::OutPort<RTC::TimedFloat> m_OutP2Out;
   
   // </rtc-template>
 
@@ -262,10 +245,7 @@ class foo
   // <rtc-template block="corbaport_declare">
   /*!
    */
-  RTC::CorbaPort m_svPortPort;
-  /*!
-   */
-  RTC::CorbaPort m_cmPortPort;
+  RTC::CorbaPort m_sv_namePort;
   
   // </rtc-template>
 
@@ -273,15 +253,12 @@ class foo
   // <rtc-template block="service_declare">
   /*!
    */
-  MyServiceSVC_impl m_acc;
+  JARA_ARM_ManipulatorCommonInterface_CommonSVC_impl m_if_name;
   
   // </rtc-template>
 
   // Consumer declaration
   // <rtc-template block="consumer_declare">
-  /*!
-   */
-  RTC::CorbaConsumer<DAQService> m_rate;
   
   // </rtc-template>
 
@@ -299,7 +276,7 @@ class foo
 
 extern "C"
 {
-  DLL_EXPORT void fooInit(RTC::Manager* manager);
+  DLL_EXPORT void ModuleNameInit(RTC::Manager* manager);
 };
 
-#endif // FOO_H
+#endif // MODULENAME_H
