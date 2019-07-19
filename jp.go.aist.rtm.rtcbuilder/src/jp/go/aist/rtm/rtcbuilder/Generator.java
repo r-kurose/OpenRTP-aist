@@ -712,7 +712,8 @@ public class Generator {
 		boolean isOutput = false;
 		if (targetFile.exists()) {
 			String originalFileContents = FileUtil.readFile(targetFile.getAbsolutePath());
-			if (originalFileContents.equals(generatedResult.getCode()) == false) {
+			if (StringUtil.removeLastNewLine(originalFileContents).equals(
+					StringUtil.removeLastNewLine(generatedResult.getCode())) == false) {
 				int selectedProcess = handler.getSelectedProcess(generatedResult, originalFileContents);
 				if (selectedProcess != MergeHandler.PROCESS_ORIGINAL_ID
 						&& selectedProcess != IDialogConstants.CANCEL_ID) {
