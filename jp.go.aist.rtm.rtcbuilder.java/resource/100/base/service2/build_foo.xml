@@ -17,10 +17,10 @@
 	</target>
 	<target name="idlcompile"  depends="mkdir">
 		<exec executable="${java.home}/../bin/idlj">
-			<arg line="-td 'src/temp' -i '${env.RTM_JAVA_ROOT}/rtm/idl' -fall 'idl/MyService.idl'"/>
+			<arg line="-td 'src/temp' -i '${env.RTM_IDL_DIR}' -fall 'idl/MyService.idl'"/>
 		</exec>
 		<exec executable="${java.home}/../bin/idlj">
-			<arg line="-td 'src' -i '${env.RTM_JAVA_ROOT}/rtm/idl' -fall 'idl/DAQService.idl'"/>
+			<arg line="-td 'src' -i '${env.RTM_IDL_DIR}' -fall 'idl/DAQService.idl'"/>
 		</exec>
 		<native2ascii src="src/temp" dest="src"/>
 		<delete dir="src/temp"/>
