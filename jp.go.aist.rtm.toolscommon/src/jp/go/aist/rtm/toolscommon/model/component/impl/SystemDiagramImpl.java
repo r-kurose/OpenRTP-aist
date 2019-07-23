@@ -41,6 +41,8 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.openrtp.namespaces.rts.version02.RtsProfileExt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>System Diagram</b></em>'.
@@ -61,8 +63,9 @@ import org.openrtp.namespaces.rts.version02.RtsProfileExt;
  *
  * @generated
  */
-public class SystemDiagramImpl extends ModelElementImpl implements
-		SystemDiagram {
+public class SystemDiagramImpl extends ModelElementImpl implements SystemDiagram {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(SystemDiagramImpl.class);
 
 	/**
 	 * The cached value of the '{@link #getComponents() <em>Components</em>}' containment reference list.
@@ -885,8 +888,7 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 					}
 				}
 				//
-				SynchronizationSupport support = component
-						.getSynchronizationSupport();
+				SynchronizationSupport support = component.getSynchronizationSupport();
 				if (support == null) {
 					continue;
 				}
@@ -905,8 +907,7 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 					// 状態通知オブザーバが登録されている場合の同期
 					if (obs.isTimeOut()) {
 						// H.Bがタイムアウトしていたらダイアグラムから削除
-						if (!SynchronizationSupport.ping(corbaComp
-								.getCorbaObjectInterface())) {
+						if (!SynchronizationSupport.ping(corbaComp.getCorbaObjectInterface())) {
 							removeComponent(corbaComp);
 						}
 						continue;
@@ -914,10 +915,13 @@ public class SystemDiagramImpl extends ModelElementImpl implements
 				}
 			}
 			//
-			SynchronizationSupport support = component
-					.getSynchronizationSupport();
+			SynchronizationSupport support = component.getSynchronizationSupport();
 			if (support == null) {
 				continue;
+			}
+			if (support.failSynchronizeRemote()) {
+				LOGGER.error("Fail to sync remote, so remove component in diagram. comp=<{}>", component);
+				removeComponent(component);
 			}
 			support.synchronizeLocal();
 		}

@@ -29,6 +29,7 @@ import jp.go.aist.rtm.systemeditor.ui.editor.action.OpenAction;
 import jp.go.aist.rtm.systemeditor.ui.editor.action.RestoreOption;
 import jp.go.aist.rtm.systemeditor.ui.editor.dnd.SystemDiagramDropTargetListener;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpart.AutoScrollAutoexposeHelper;
+import jp.go.aist.rtm.systemeditor.ui.editor.editpart.SystemDiagramEditPart;
 import jp.go.aist.rtm.systemeditor.ui.editor.editpart.factory.SystemDiagramEditPartFactory;
 import jp.go.aist.rtm.systemeditor.ui.util.ComponentUtil;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
@@ -964,10 +965,19 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 		return super.isSaveOnCloseNeeded();
 	}
 
-	public EditPart findEditPart(Object model) {
-		if (model == null)
-			return null;
+	public SystemDiagramEditPart getSystemDiagramEditPart() {
 		EditPart part = getGraphicalViewer().getContents();
+		if (part == null || !(part instanceof SystemDiagramEditPart)) {
+			return null;
+		}
+		return (SystemDiagramEditPart) part;
+	}
+
+	public EditPart findEditPart(Object model) {
+		SystemDiagramEditPart part = getSystemDiagramEditPart();
+		if (part == null) {
+			return null;
+		}
 		for (Object o : part.getChildren()) {
 			EditPart child = (EditPart) o;
 			if (model.equals(child.getModel())) {
@@ -981,19 +991,16 @@ public abstract class AbstractSystemDiagramEditor extends GraphicalEditor {
 	 * エディタ内のコンポーネントを再描画する
 	 */
 	public void refresh() {
-		for (Object model : getSystemDiagram().getComponents()) {
-			EditPart ep = findEditPart(model);
-			if (ep != null) {
-//				debugPrint(ep, ep.getChildren().size());
-				for (Object obj :ep.getChildren()) {
-//					debugPrint((EditPart)obj, 0);
-					((EditPart)obj).refresh();
-				}
-			}
+		SystemDiagramEditPart part = getSystemDiagramEditPart();
+		if (part == null) {
+			return;
 		}
+		LOGGER.debug("refresh: part=<{}>", part);
+		part.refreshSystemDiagram();
 		AbstractSystemDiagramEditor parent = ComponentUtil.findEditor(getSystemDiagram().getParentSystemDiagram());
-		if (parent != null) parent.refresh();
-
+		if (parent != null) {
+			parent.refresh();
+		}
 	}
 
 	public void openError(String title, String message) {
