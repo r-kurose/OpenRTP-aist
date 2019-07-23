@@ -25,11 +25,11 @@
 #foreach($idlPath in ${rtcParam.providerIdlPathes})
 #if( ${idlPath.checkDefault()} == false )
 		<exec executable="${dollarStr}{java.home}/../bin/idlj">
-			<arg line="-td 'src/temp' -i '${env.RTM_JAVA_ROOT}/rtm/idl' #foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall 'idl/${tmpltHelper.getFileName(${idlPath.idlFile})}'"/>
+			<arg line="-td 'src/temp' -i '${env.RTM_IDL_DIR}' #foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall 'idl/${tmpltHelper.getFileName(${idlPath.idlFile})}'"/>
 		</exec>
 #foreach ($idl in ${idlPath.includeIdlParamsWithoutDefault})
 		<exec executable="${dollarStr}{java.home}/../bin/idlj">
-			<arg line="-td 'src/temp' -i '${env.RTM_JAVA_ROOT}/rtm/idl' #foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall 'idl/${tmpltHelper.getFileName(${idl.idlFile})}'"/>
+			<arg line="-td 'src/temp' -i '${env.RTM_IDL_DIR}' #foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall 'idl/${tmpltHelper.getFileName(${idl.idlFile})}'"/>
 		</exec>
 #end
 #end
@@ -37,11 +37,11 @@
 #foreach($idlPath in ${rtcParam.consumerIdlPathes})
 #if( ${idlPath.checkDefault()} == false )
 		<exec executable="${dollarStr}{java.home}/../bin/idlj">
-			<arg line="-td 'src' -i '${env.RTM_JAVA_ROOT}/rtm/idl' #foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall 'idl/${tmpltHelper.getFileName(${idlPath.idlFile})}'"/>
+			<arg line="-td 'src' -i '${env.RTM_IDL_DIR}' #foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall 'idl/${tmpltHelper.getFileName(${idlPath.idlFile})}'"/>
 		</exec>
 #foreach ($idl in ${idlPath.includeIdlParamsWithoutDefault})
 		<exec executable="${dollarStr}{java.home}/../bin/idlj">
-			<arg line="-td 'src' -i '${env.RTM_JAVA_ROOT}/rtm/idl' #foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall 'idl/${tmpltHelper.getFileName(${idl.idlFile})}'"/>
+			<arg line="-td 'src' -i '${env.RTM_IDL_DIR}' #foreach($idlSearchPath in ${idlPath.idlSearchPathes})-i '${idlSearchPath}' #end-fall 'idl/${tmpltHelper.getFileName(${idl.idlFile})}'"/>
 		</exec>
 #end
 #end
