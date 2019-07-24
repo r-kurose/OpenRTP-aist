@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.bind.DatatypeConverter;
+
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.IDLParser;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.ParseException;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.specification;
@@ -63,6 +65,9 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -714,6 +719,17 @@ public class Generator {
 			String originalFileContents = FileUtil.readFile(targetFile.getAbsolutePath());
 			if (StringUtil.removeLastNewLine(originalFileContents).equals(
 					StringUtil.removeLastNewLine(generatedResult.getCode())) == false) {
+				
+				byte[] sourceb = StringUtil.removeLastNewLine(originalFileContents).getBytes();
+				String hexStringS = DatatypeConverter.printHexBinary(sourceb);
+				byte[] targetb = StringUtil.removeLastNewLine(generatedResult.getCode()).getBytes();
+				String hexStringT = DatatypeConverter.printHexBinary(targetb);
+				
+//				MessageDialog.openInformation(PlatformUI.getWorkbench().getDisplay().getActiveShell(), "Info",
+//						"source:" + hexStringS + " target:" + hexStringT);
+				generatedResult.setCode(hexStringT);
+				originalFileContents = hexStringS;
+				
 				int selectedProcess = handler.getSelectedProcess(generatedResult, originalFileContents);
 				if (selectedProcess != MergeHandler.PROCESS_ORIGINAL_ID
 						&& selectedProcess != IDialogConstants.CANCEL_ID) {
