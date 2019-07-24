@@ -717,19 +717,8 @@ public class Generator {
 		boolean isOutput = false;
 		if (targetFile.exists()) {
 			String originalFileContents = FileUtil.readFile(targetFile.getAbsolutePath());
-			if (StringUtil.removeLastNewLine(originalFileContents).equals(
-					StringUtil.removeLastNewLine(generatedResult.getCode())) == false) {
-				
-				byte[] sourceb = StringUtil.removeLastNewLine(originalFileContents).getBytes();
-				String hexStringS = DatatypeConverter.printHexBinary(sourceb);
-				byte[] targetb = StringUtil.removeLastNewLine(generatedResult.getCode()).getBytes();
-				String hexStringT = DatatypeConverter.printHexBinary(targetb);
-				
-//				MessageDialog.openInformation(PlatformUI.getWorkbench().getDisplay().getActiveShell(), "Info",
-//						"source:" + hexStringS + " target:" + hexStringT);
-				generatedResult.setCode(hexStringT);
-				originalFileContents = hexStringS;
-				
+			if (StringUtil.removeNewLine(originalFileContents).equals(
+					StringUtil.removeNewLine(generatedResult.getCode())) == false) {
 				int selectedProcess = handler.getSelectedProcess(generatedResult, originalFileContents);
 				if (selectedProcess != MergeHandler.PROCESS_ORIGINAL_ID
 						&& selectedProcess != IDialogConstants.CANCEL_ID) {
