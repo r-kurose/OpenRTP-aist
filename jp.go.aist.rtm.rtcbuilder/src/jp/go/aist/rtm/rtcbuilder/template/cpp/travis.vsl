@@ -8,7 +8,7 @@ sudo: required
 #    on_success: change # default: change
 #    on_failure: always # default: change
 
-matrix:
+matrix: 
   include:
     # Ubuntu14.04 + Stable OpenRTM-aist
     - os: linux
