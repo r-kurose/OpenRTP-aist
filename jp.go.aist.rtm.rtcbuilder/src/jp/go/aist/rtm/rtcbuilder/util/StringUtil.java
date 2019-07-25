@@ -200,4 +200,54 @@ public class StringUtil {
 		
 		return false;
 	}
+	
+	public static String getDocText(String text) {
+		String result = text;
+		if ("".equals(result)) {
+			return "";
+		}
+		String sep = System.getProperty("line.separator");
+		String lines[] = result.split(sep);
+		StringBuffer buffer = new StringBuffer();
+		for( int index=0; index<lines.length; index++ ) {
+			buffer.append(lines[index]);
+			if(index<lines.length-1) buffer.append(IRtcBuilderConstants.NEWLINE_CODE);
+		}
+		return buffer.toString();
+	}
+
+	public static String getDisplayDocText(String text) {
+		String result = text;
+		if( text==null || "".equals(result) ) {
+			return "";
+		}
+		String sep = System.getProperty("line.separator");
+		String lines[] = result.split(IRtcBuilderConstants.NEWLINE_CODE);
+		StringBuffer buffer = new StringBuffer();
+		for( int index=0; index<lines.length; index++ ) {
+			buffer.append(lines[index]);
+			if(index<lines.length-1) buffer.append(sep);
+		}
+		return buffer.toString();
+	}
+	
+	public static String removeLastNewLine(String source) {
+        String sep = System.getProperty("line.separator");
+        if(source.endsWith(sep)==false) return source;
+        //
+        StringBuilder builder = new StringBuilder(source);
+        int n = sep.length();
+        int size = builder.length();        
+        builder.delete(size-n, size);
+        
+        return builder.toString();
+	}
+	
+	public static String removeNewLine(String source) {
+		source = source.replace("\r\n ","");
+		source = source.replace("\r","");
+		source = source.replace("\n","");
+        
+        return source;
+	}
 }

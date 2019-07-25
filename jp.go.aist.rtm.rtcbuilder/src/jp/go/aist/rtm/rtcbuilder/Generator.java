@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.bind.DatatypeConverter;
+
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.IDLParser;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.ParseException;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.syntaxtree.specification;
@@ -63,6 +65,9 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -712,7 +717,8 @@ public class Generator {
 		boolean isOutput = false;
 		if (targetFile.exists()) {
 			String originalFileContents = FileUtil.readFile(targetFile.getAbsolutePath());
-			if (originalFileContents.equals(generatedResult.getCode()) == false) {
+			if (StringUtil.removeNewLine(originalFileContents).equals(
+					StringUtil.removeNewLine(generatedResult.getCode())) == false) {
 				int selectedProcess = handler.getSelectedProcess(generatedResult, originalFileContents);
 				if (selectedProcess != MergeHandler.PROCESS_ORIGINAL_ID
 						&& selectedProcess != IDialogConstants.CANCEL_ID) {

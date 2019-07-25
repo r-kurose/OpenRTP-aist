@@ -9,7 +9,7 @@ import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigParameterParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
-import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
+import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ConfigPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.ValidationUtil;

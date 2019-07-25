@@ -51,7 +51,7 @@ import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
-import jp.go.aist.rtm.rtcbuilder.ui.StringUtil;
+import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.RTCBuilderPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
