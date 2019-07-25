@@ -78,52 +78,38 @@ public class CXXGenerateManager extends GenerateManager {
 			contextMap.put("fsmParam", stateParam);
 		}
 		
-		GeneratedResult gr;
-		gr = generateCompSource(contextMap);
-		result.add(gr);
-		gr = generateRTCHeader(contextMap);
-		result.add(gr);
-		gr = generateRTCSource(contextMap);
-		result.add(gr);
-		gr = generateCITemplate(contextMap);
-		result.add(gr);
+		result.add(generateCompSource(contextMap));
+		result.add(generateRTCHeader(contextMap));
+		result.add(generateRTCSource(contextMap));
+		
+		result.add(generateCITemplate(contextMap));
+		result.add(generateScript1604(contextMap));
+		result.add(generateScript1804(contextMap));
 		
 		if(isStaticFSM) {
-			gr = generateFSMHeader(contextMap);
-			result.add(gr);
-			gr = generateFSMSource(contextMap);
-			result.add(gr);
+			result.add(generateFSMHeader(contextMap));
+			result.add(generateFSMSource(contextMap));
 			//
-			gr = generateTestCompSource(contextMap);
-			result.add(gr);
-			gr = generateFSMTestHeader(contextMap);
-			result.add(gr);
-			gr = generateFSMTestSource(contextMap);
-			result.add(gr);
+			result.add(generateTestCompSource(contextMap));
+			result.add(generateFSMTestHeader(contextMap));
+			result.add(generateFSMTestSource(contextMap));
 		}
 
 		for (IdlFileParam idl : rtcParam.getProviderIdlPathes()) {
 			contextMap.put("idlFileParam", idl);
-			gr = generateSVCHeader(contextMap);
-			result.add(gr);
-			gr = generateSVCSource(contextMap);
-			result.add(gr);
+			result.add(generateSVCHeader(contextMap));
+			result.add(generateSVCSource(contextMap));
 		}
 		//
 		if(rtcParam.isChoreonoid()==false && isStaticFSM==false) {
-			gr = generateTestCompSource(contextMap);
-			result.add(gr);
-			gr = generateTestHeader(contextMap);
-			result.add(gr);
-			gr = generateTestSource(contextMap);
-			result.add(gr);
+			result.add(generateTestCompSource(contextMap));
+			result.add(generateTestHeader(contextMap));
+			result.add(generateTestSource(contextMap));
 			for (IdlFileParam idl : rtcParam.getConsumerIdlPathes()) {
 				if(idl.isDataPort()) continue;
 				contextMap.put("idlFileParam", idl);
-				gr = generateTestSVCHeader(contextMap);
-				result.add(gr);
-				gr = generateTestSVCSource(contextMap);
-				result.add(gr);
+				result.add(generateTestSVCHeader(contextMap));
+				result.add(generateTestSVCSource(contextMap));
 			}
 		}
 
@@ -187,9 +173,20 @@ public class CXXGenerateManager extends GenerateManager {
 	}
 
 	public GeneratedResult generateCITemplate(Map<String, Object> contextMap) {
-		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		String outfile = ".travis.yaml." + rtcParam.getName();
+		String outfile = ".travis.yml";
 		String infile = "cpp/travis.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
+	public GeneratedResult generateScript1604(Map<String, Object> contextMap) {
+		String outfile = "scripts/ubuntu_1604/Dockerfile";
+		String infile = "cpp/scripts/Dockerfile_ubuntu_1604.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
+	public GeneratedResult generateScript1804(Map<String, Object> contextMap) {
+		String outfile = "scripts/ubuntu_1804/Dockerfile";
+		String infile = "cpp/scripts/Dockerfile_ubuntu_1804.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 	
