@@ -1,4 +1,4 @@
-dist: xenial
+﻿dist: xenial
 language: minimal
 sudo: required
 
@@ -28,7 +28,7 @@ env:
 script:
   - mkdir ../workdir
   - cd ../workdir
-  - mv ../${rtcParam.name} .
+  - mv ../XXX .
 
   - export IMAGE_NAME=openrtm:${TARGET_DIST}-${TARGET_VER}
-  - docker build -f ${rtcParam.name}/scripts/${TARGET_DIST}_${TARGET_VER}/Dockerfile . -t ${IMAGE_NAME}
+  - docker build -f XXX/scripts/${TARGET_DIST}_${TARGET_VER}/Dockerfile . -t ${IMAGE_NAME}
