@@ -120,34 +120,29 @@ public class PythonGenerateManager extends GenerateManager {
 		List<IdlFileParam> allIdlFileParams = (List<IdlFileParam>) contextMap
 				.get("allIdlFileParam");
 
-		GeneratedResult gr;
-		gr = generatePythonSource(contextMap);
-		result.add(gr);
+		result.add(generatePythonSource(contextMap));
+		
+		result.add(generateScript1604(contextMap));
+		result.add(generateScript1804(contextMap));
 
 		if ( 0<allIdlFileParams.size() ) {
-			gr = generateIDLCompileBat(contextMap);
-			result.add(gr);
-			gr = generateIDLCompileSh(contextMap);
-			result.add(gr);
-			gr = generateDeleteBat(contextMap);
-			result.add(gr);
+			result.add(generateIDLCompileBat(contextMap));
+			result.add(generateIDLCompileSh(contextMap));
+			result.add(generateDeleteBat(contextMap));
 		}
 
 		for (IdlFileParam idlFileParam : rtcParam.getProviderIdlPathes()) {
 			if(RTCUtil.checkDefault(idlFileParam.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
 			contextMap.put("idlFileParam", idlFileParam);
-			gr = generateSVCIDLExampleSource(contextMap);
-			result.add(gr);
+			result.add(generateSVCIDLExampleSource(contextMap));
 		}
 		//////////
-		gr = generatePythonTestSource(contextMap);
-		result.add(gr);
+		result.add(generatePythonTestSource(contextMap));
 		for (IdlFileParam idlFileParam : rtcParam.getConsumerIdlPathes()) {
 			if(idlFileParam.isDataPort()) continue;
 			if(RTCUtil.checkDefault(idlFileParam.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
 			contextMap.put("idlFileParam", idlFileParam);
-			gr = generateTestSVCIDLExampleSource(contextMap);
-			result.add(gr);
+			result.add(generateTestSVCIDLExampleSource(contextMap));
 		}
 
 		return result;
@@ -209,6 +204,18 @@ public class PythonGenerateManager extends GenerateManager {
 		IdlFileParam idlParam = (IdlFileParam) contextMap.get("idlFileParam");
 		String outfile = "test/" + idlParam.getIdlFileNoExt() + "_idl_example.py";
 		String infile = "python/Py_SVC_idl_example.py.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
+	public GeneratedResult generateScript1604(Map<String, Object> contextMap) {
+		String outfile = "scripts/ubuntu_1604/Dockerfile";
+		String infile = "python/scripts/Dockerfile_ubuntu_1604.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
+	public GeneratedResult generateScript1804(Map<String, Object> contextMap) {
+		String outfile = "scripts/ubuntu_1804/Dockerfile";
+		String infile = "python/scripts/Dockerfile_ubuntu_1804.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 	//////////

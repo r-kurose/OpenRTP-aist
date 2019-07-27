@@ -80,28 +80,11 @@ if(PKGMGR AND NOT LINUX_PACKAGE_GENERATOR)
 endif()
 
 option(BUILD_DOCUMENTATION "Build the documentation" OFF)
-
-#if(${rtcParam.servicePorts.size()}>0)
-set(IDL_FILES ""
-#foreach($p in ${rtcParam.providerIdlPathes})
-              ${p.idlFile}
-#end
-#foreach($p in ${rtcParam.consumerIdlPathes})
-              ${p.idlFile}
-#end)
-
-if(WIN32)
-    set(SCRIPT_FILE ""
-                    idlcompile.bat delete.bat)
-else()
-    set(SCRIPT_FILE ""
-                    idlcompile.sh)
-endif()
-#end
+option(BUILD_TESTS "Build the tests" OFF)
+option(BUILD_IDL "Build and install idl" ON)
 
 set(EXEC_FILES ""
                ${rtcParam.name}.py
-#if(${rtcParam.servicePorts.size()}>0)               ${dol}{SCRIPT_FILE}#end
 )
 
 set(OTHER_SRCS CMakeLists.txt
@@ -152,11 +135,6 @@ install(PROGRAMS ${dol}{EXEC_FILES} DESTINATION "${dol}{INSTALL_PREFIX}"
 install(FILES ${dol}{PROJECT_SOURCE_DIR}/RTC.xml DESTINATION ${dol}{INSTALL_PREFIX}
         COMPONENT component)
 
-#if(${rtcParam.servicePorts.size()}>0)
-install(DIRECTORY idl DESTINATION "${dol}{INSTALL_PREFIX}"
-        COMPONENT component)
-#end
-
 ${sharp} add uninstall target
 configure_file(
     "${dol}{CMAKE_CURRENT_SOURCE_DIR}/cmake/uninstall_target.cmake.in"
@@ -175,6 +153,16 @@ ${sharp} target settings for document
 if(BUILD_DOCUMENTATION)
     add_subdirectory(doc)
 endif(BUILD_DOCUMENTATION)
+
+if(BUILD_TESTS)
+    ${sharp} Universal settings
+    enable_testing()
+    add_subdirectory(test)
+endif(BUILD_TESTS)
+
+if(BUILD_IDL)
+    add_subdirectory(idl)
+endif(BUILD_IDL)
 
 #if(${rtcParam.servicePorts.size()}>0)
 if(UNIX)
