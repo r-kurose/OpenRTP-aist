@@ -267,8 +267,8 @@ public interface IMessageConstants {
 	public static final String SERVIVEPORT_HINT_IF_INSTANCE_DESC_P1 = Messages.getString("IMessageConstants.SERVIVEPORT_HINT_IF_INSTANCE_DESC_P1"); //$NON-NLS-1$
 	public static final String SERVIVEPORT_HINT_IF_INSTANCE_DESC_P2 = Messages.getString("IMessageConstants.SERVIVEPORT_HINT_IF_INSTANCE_DESC_P2"); //$NON-NLS-1$
 	public static final String SERVIVEPORT_HINT_IF_INSTANCE_DESC = StringUtil.connectMessageWithSepalator( new String[]{SERVIVEPORT_HINT_IF_INSTANCE_DESC_P1, SERVIVEPORT_HINT_IF_INSTANCE_DESC_P2});
-	public static final String SERVIVEPORT_HINT_IF_VARNAME_DESC_P1 = Messages.getString("IMessageConstants.SERVIVEPORT_HINT_IF_INSTANCE_DESC_P1"); //$NON-NLS-1$
-	public static final String SERVIVEPORT_HINT_IF_VARNAME_DESC_P2 = Messages.getString("IMessageConstants.SERVIVEPORT_HINT_IF_INSTANCE_DESC_P2"); //$NON-NLS-1$
+	public static final String SERVIVEPORT_HINT_IF_VARNAME_DESC_P1 = Messages.getString("IMessageConstants.SERVIVEPORT_HINT_IF_VARNAME_DESC_P1"); //$NON-NLS-1$
+	public static final String SERVIVEPORT_HINT_IF_VARNAME_DESC_P2 = Messages.getString("IMessageConstants.SERVIVEPORT_HINT_IF_VARNAME_DESC_P2"); //$NON-NLS-1$
 	public static final String SERVIVEPORT_HINT_IF_VARNAME_DESC = StringUtil.connectMessageWithSepalator( new String[]{SERVIVEPORT_HINT_IF_VARNAME_DESC_P1, SERVIVEPORT_HINT_IF_VARNAME_DESC_P2});
 	public static final String SERVIVEPORT_HINT_IDLFILE_DESC = Messages.getString("IMessageConstants.SERVIVEPORT_HINT_IDLFILE_DESC"); //$NON-NLS-1$
 	public static final String SERVIVEPORT_HINT_IFTYPE_DESC_P1 = Messages.getString("IMessageConstants.SERVIVEPORT_HINT_IFTYPE_DESC_P1"); //$NON-NLS-1$
