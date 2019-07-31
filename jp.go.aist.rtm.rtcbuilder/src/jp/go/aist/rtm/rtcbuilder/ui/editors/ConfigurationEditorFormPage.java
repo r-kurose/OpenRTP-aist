@@ -310,6 +310,14 @@ public class ConfigurationEditorFormPage extends AbstractEditorFormPage {
 		createHintLabel(Messages.getString("IMC.CONFIGURATION_HINT_CONSTRAINT_TITLE"), IMessageConstants.CONFIGURATION_HINT_CONSTRAINT_DESC, toolkit, composite);
 		createHintLabel(Messages.getString("IMC.CONFIGURATION_HINT_WIDGET_TITLE"), IMessageConstants.CONFIGURATION_HINT_WIDGET_DESC, toolkit, composite);
 		createHintLabel(Messages.getString("IMC.CONFIGURATION_HINT_STEP_TITLE"), IMessageConstants.CONFIGURATION_HINT_STEP_DESC, toolkit, composite);
+		createHintSpace(toolkit, composite);
+		createHintLabel(Messages.getString("IMC.HINT_DOCUMENT_TITLE"), "", toolkit, composite);
+		createHintLabel(Messages.getString("IMC.CONFIGURATION_LBL_DATANAME"), Messages.getString("IMC.CONFIGURATION_HINT_DOC_NAME_DESC"), toolkit, composite);
+		createHintLabel(Messages.getString("IMC.CONFIGURATION_LBL_DEFAULT"), Messages.getString("IMC.CONFIGURATION_HINT_DOC_DEFAULT_DESC"), toolkit, composite);
+		createHintLabel(Messages.getString("IMC.CONFIGURATION_LBL_DESCRIPTION"), Messages.getString("IMC.CONFIGURATION_HINT_DOC_DESCRIPTION_DESC"), toolkit, composite);
+		createHintLabel(Messages.getString("IMC.CONFIGURATION_LBL_UNIT"), Messages.getString("IMC.CONFIGURATION_HINT_DOC_UNIT_DESC"), toolkit, composite);
+		createHintLabel(Messages.getString("IMC.CONFIGURATION_LBL_RANGE"), IMessageConstants.CONFIGURATION_HINT_DOC_RANGE, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.CONFIGURATION_LBL_CONSTRAINT"), IMessageConstants.CONFIGURATION_HINT_DOC_CONSTRAINT, toolkit, composite);
 	}
 
 	public void updateForOutput() {

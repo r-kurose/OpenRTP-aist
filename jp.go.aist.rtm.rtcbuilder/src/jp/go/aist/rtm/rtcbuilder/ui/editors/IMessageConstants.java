@@ -327,11 +327,20 @@ public interface IMessageConstants {
 	});
 	public static final String CONFIGURATION_HINT_WIDGET_DESC = StringUtil.connectMessageWithSepalator( new String[]{
 		Messages.getString("IMC.CONFIGURATION_HINT_WIDGET_DESC_P1"),
-		Messages.getString("IMC.CONFIGURATION_HINT_WIDGET_DESC_P2")
+		Messages.getString("IMC.CONFIGURATION_HINT_WIDGET_DESC_P2"),
+		Messages.getString("IMC.CONFIGURATION_HINT_WIDGET_DESC_P3")
 	});
 	public static final String CONFIGURATION_HINT_STEP_DESC = StringUtil.connectMessageWithSepalator( new String[]{
 			Messages.getString("IMC.CONFIGURATION_HINT_STEP_DESC_P1"),
 			Messages.getString("IMC.CONFIGURATION_HINT_STEP_DESC_P2")
+	});
+	public static final String CONFIGURATION_HINT_DOC_RANGE = StringUtil.connectMessageWithSepalator( new String[]{
+			Messages.getString("IMC.CONFIGURATION_HINT_DOC_RANGE_DESC_P1"),
+			Messages.getString("IMC.CONFIGURATION_HINT_DOC_RANGE_DESC_P2")
+	});
+	public static final String CONFIGURATION_HINT_DOC_CONSTRAINT = StringUtil.connectMessageWithSepalator( new String[]{
+			Messages.getString("IMC.CONFIGURATION_HINT_DOC_CONTRAINT_DESC_P1"),
+			Messages.getString("IMC.CONFIGURATION_HINT_DOC_CONTRAINT_DESC_P2")
 	});
 
 	public static final String CONFIGURATION_VALIDATE_NAME1 = Messages.getString("IMessageConstants.CONFIGURATION_VALIDATE_NAME1"); //$NON-NLS-1$
