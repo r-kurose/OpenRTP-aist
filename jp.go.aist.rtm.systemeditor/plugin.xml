@@ -416,6 +416,16 @@
 			id="rtse.command.direction.Vertical"
 			name="%Direction_Vertical">
 		</command>
+
+		<command
+			categoryId="jp.go.aist.rtm.systemeditor.command.category"
+			id="rtse.command.observer.status.Attach"
+			name="%Observer_Status_Attach">
+			<state
+				class="org.eclipse.ui.handlers.RegistryToggleState:false"
+				id="org.eclipse.ui.commands.toggleState">
+			</state>
+		</command>
 	</extension>
 
 	<extension
@@ -578,6 +588,17 @@
 				</and>
 			</activeWhen>
 		</handler>
+
+		<handler
+			class="jp.go.aist.rtm.systemeditor.ui.handler.AttachStatusObserverCommandHandler"
+			commandId="rtse.command.observer.status.Attach">
+			<activeWhen>
+				<and>
+					<reference definitionId="rtse.definition.activeSystemDiagramEditor"/>
+					<reference definitionId="rtse.definition.checkCorbaStatusObserver"/>
+				</and>
+			</activeWhen>
+		</handler>
 	</extension>
 
 	<extension
@@ -636,6 +657,18 @@
 			</with>
 		</definition>
 		<definition
+			id="rtse.definition.checkCorbaStatusObserver">
+			<with variable="selection">
+				<iterate ifEmpty="false" operator="or">
+					<and>
+						<instanceof value="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart"/>
+						<test property="jp.go.aist.rtm.systemeditor.checkCorbaStatusObserver"
+							args="rtse.command.observer.status.Attach"/>
+					</and>
+				</iterate>
+			</with>
+		</definition>
+		<definition
 			id="rtse.definition.selectEC">
 			<with variable="selection">
 				<iterate ifEmpty="false" operator="or">
@@ -667,7 +700,7 @@
 			id="rtse.propertytester.ComponentEditPartPropertyTester"
 			type="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart"
 			namespace="jp.go.aist.rtm.systemeditor"
-			properties="hasCorbaComponent"
+			properties="hasCorbaComponent, checkCorbaStatusObserver"
 			class="jp.go.aist.rtm.systemeditor.ui.propertyTester.ComponentEditPartPropertyTester">
 		</propertyTester>
 		<propertyTester
@@ -782,6 +815,21 @@
 				</command>
 				<separator
 					name="rtse.menus.toolbar.direction.additions"
+					visible="true">
+				</separator>
+			</toolbar>
+			<toolbar
+				id="rtse.menus.toolbar.observer.status"
+				label="Observer">
+				<command
+					commandId="rtse.command.observer.status.Attach"
+					id="rtse.menus.toolbar.Observer_Status_Attach"
+					label="%Observer_Status_Attach"
+					icon="icons/observer_status_attach.png"
+					style="toggle">
+				</command>
+				<separator
+					name="rtse.menus.toolbar.observer.status.additions"
 					visible="true">
 				</separator>
 			</toolbar>
