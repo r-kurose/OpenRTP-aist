@@ -84,7 +84,7 @@ public class TestComp extends TestBase {
 		checkCode(result, resourceDir, "CMakeLists.txt");
 		checkCode(result, resourceDir, "COPYING");
 		checkCode(result, resourceDir, "COPYING.LESSER");
-		checkCode(result, resourceDir, "README.XXX");
+		checkCode(result, resourceDir, "README.md");
 		checkCode(result, resourceDir, "rtc.conf");
 		checkCode(result, resourceDir, "XXX.conf");
 		
@@ -161,7 +161,7 @@ public class TestComp extends TestBase {
 		checkCode(result, resourceDir, "CMakeLists.txt");
 		checkCode(result, resourceDir, "COPYING");
 		checkCode(result, resourceDir, "COPYING.LESSER");
-		checkCode(result, resourceDir, "README.YYY");
+		checkCode(result, resourceDir, "README.md");
 		checkCode(result, resourceDir, "rtc.conf");
 		checkCode(result, resourceDir, "YYY.conf");
 		

@@ -233,6 +233,7 @@ public class DocLongTest extends TestBase {
 		checkCode(result, resourceDir, "foo.cpp");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.h");
 		checkCode(result, resourceDir, "MyServiceSVC_impl.cpp");
+		checkCode(result, resourceDir, "README.md");
 	}
 
 }
