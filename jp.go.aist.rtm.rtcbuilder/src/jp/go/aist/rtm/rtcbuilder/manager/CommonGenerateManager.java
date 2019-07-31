@@ -52,16 +52,9 @@ public class CommonGenerateManager extends GenerateManager {
 			Map<String, Object> contextMap) {
 		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
 
-		GeneratedResult gr;
-
-		gr = generateREADME(contextMap);
-		result.add(gr);
-
-		gr = generateRTCConf10(contextMap);
-		result.add(gr);
-
-		gr = generateComponentConf(contextMap);
-		result.add(gr);
+		result.add(generateREADME(contextMap));
+		result.add(generateRTCConf10(contextMap));
+		result.add(generateComponentConf(contextMap));
 
 		return result;
 	}
@@ -70,7 +63,7 @@ public class CommonGenerateManager extends GenerateManager {
 
 	public GeneratedResult generateREADME(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		String outfile = "README." + rtcParam.getName();
+		String outfile = "README.md" + rtcParam.getName();
 		String infile = "";
 		if(rtcParam.isChoreonoid()) {
 			infile = "common/README_Choreonoid.vsl";

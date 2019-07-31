@@ -9,7 +9,7 @@ public interface IRtcBuilderConstants {
     public static final String NEWEDITOR_ACTION_ID = RtcBuilderPlugin.PLUGIN_ID + ".ui.actionSet";
 
 	public static final String RTM_VERSION_100 = "1.0.0";
-	public static final String DEFAULT_RTM_VERSION = "1.2.0";
+	public static final String DEFAULT_RTM_VERSION = "2.0.0";
 
 	/**
 	 * サービス実装のデフォルトサフィックス
@@ -112,13 +112,7 @@ public interface IRtcBuilderConstants {
 	public static final String DOC_INTERFACE_PREFIX = SPACE3 + "*" + SPACE12;
 	public static final String DOC_INTERFACE_DETAIL_PREFIX = SPACE3 + "*" + SPACE18; 
 	//
-	public static final String DOC_README_PREFIX = SPACE3; 
-	public static final String DOC_README_COPYRIGHT_PREFIX = SPACE2; 
-	public static final String DOC_README_MODULE_PREFIX = SPACE13; 
 	public static final String DOC_README_ACTIVITY_PREFIX = "\t" + SPACE15; 
-	public static final String DOC_README_PORT_PREFIX = "\t" + SPACE13; 
-	public static final String DOC_README_PORT_DETAIL_PREFIX = "\t\t" + SPACE17; 
-	public static final String DOC_README_INTERFACE_PREFIX = "\t\t" + SPACE15; 
 	//
 	public static final int DOC_DEFAULT_WIDTH = 66; 
 	public static final int DOC_AUTHOR_OFFSET = 11; 
@@ -135,11 +129,7 @@ public interface IRtcBuilderConstants {
 	public static final int DOC_INTERFACE_OFFSET = 16;
 	public static final int DOC_INTERFACE_DETAIL_OFFSET = 22;
 	//
-	public static final int DOC_README_MODULE_OFFSET = 13; 
 	public static final int DOC_README_ACTIVITY_OFFSET = 17;
-	public static final int DOC_README_PORT_OFFSET = 15;
-	public static final int DOC_README_PORT_DETAIL_OFFSET = 21;
-	public static final int DOC_README_INTERFACE_OFFSET = 19;
 	//
 	public static final int ACTIVITY_INITIALIZE = 0; 
 	public static final int ACTIVITY_FINALIZE = 1;
