@@ -292,12 +292,14 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 			@SuppressWarnings("unchecked")
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				String selected = typeCombo.getText();
 				updateDefaultValue();
 				DataPortParam selectParam = new DataPortParam(defaultPortName, defaultPortType, defaultPortVarName, initSel);
 				((List) portParamTableViewer.getInput()).add(selectParam);
 				portParamTableViewer.refresh();
 				update();
 				portParamTableViewer.setSelection(new StructuredSelection(selectParam), true);
+				typeCombo.setText(selected);
 			}
 		});
 		gd = new GridData(GridData.FILL_HORIZONTAL);
