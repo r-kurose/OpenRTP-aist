@@ -334,7 +334,7 @@ ${port.docDescription}
   </tr>
   <tr>
     <td>Semantics</td>
-    <td colspan="2">${port.docSemantics})</td>
+    <td colspan="2">${port.docSemantics}</td>
   </tr>
   <tr>
     <td>Unit</td>
@@ -406,7 +406,7 @@ ${servicePort.docDescription}
     <td colspan="2">${servicePort.docIfDescription}</td>
   </tr>
   <tr>
-    <td colspan="3">(Interface)</td>
+    <td colspan="3">Interface</td>
   </tr>
 #foreach($serviceInterface in ${servicePort.servicePortInterfaces})
   <tr>
@@ -415,8 +415,11 @@ ${servicePort.docDescription}
     <td>${serviceInterface.interfaceType}</td>
     <tr>
       <td>Direction</td>
-      <td>#if(${serviceInterface.index}==0)Provider#elseConsumer#end
-    </td>
+#if(${serviceInterface.index}==0)
+      <td>Provider</td>
+#else
+      <td>Consumer</td>
+#end
     </tr>
     <tr>
       <td>Description</td>
