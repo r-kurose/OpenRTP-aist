@@ -153,7 +153,7 @@ ModuleDescription
   </tr>
   <tr>
     <td>Semantics</td>
-    <td colspan="2">)</td>
+    <td colspan="2"></td>
   </tr>
   <tr>
     <td>Unit</td>
@@ -221,7 +221,7 @@ ModuleDescription
     <td colspan="2"></td>
   </tr>
   <tr>
-    <td colspan="3">(Interface)</td>
+    <td colspan="3">Interface</td>
   </tr>
   <tr>
     <td rowspan="9">myservice0</td>
@@ -229,7 +229,7 @@ ModuleDescription
     <td>SimpleService::MyService</td>
     <tr>
       <td>Direction</td>
-      <td>Provider#elseConsumer    </td>
+      <td>Provider</td>
     </tr>
     <tr>
       <td>Description</td>
