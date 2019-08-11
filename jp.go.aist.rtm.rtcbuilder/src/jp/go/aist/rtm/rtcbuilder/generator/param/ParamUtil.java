@@ -10,43 +10,42 @@ import java.util.List;
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.openrtp.namespaces.rtc.version02.ActionStatusDoc;
-import org.openrtp.namespaces.rtc.version02.Actions;
-import org.openrtp.namespaces.rtc.version02.BasicInfo;
-import org.openrtp.namespaces.rtc.version02.BasicInfoDoc;
-import org.openrtp.namespaces.rtc.version02.BasicInfoExt;
-import org.openrtp.namespaces.rtc.version02.Configuration;
-import org.openrtp.namespaces.rtc.version02.ConfigurationDoc;
-import org.openrtp.namespaces.rtc.version02.ConfigurationExt;
-import org.openrtp.namespaces.rtc.version02.Dataport;
-import org.openrtp.namespaces.rtc.version02.DataportDoc;
-import org.openrtp.namespaces.rtc.version02.DataportExt;
-import org.openrtp.namespaces.rtc.version02.DocAction;
-import org.openrtp.namespaces.rtc.version02.DocBasic;
-import org.openrtp.namespaces.rtc.version02.DocConfiguration;
-import org.openrtp.namespaces.rtc.version02.DocDataport;
-import org.openrtp.namespaces.rtc.version02.DocServiceinterface;
-import org.openrtp.namespaces.rtc.version02.DocServiceport;
-import org.openrtp.namespaces.rtc.version02.Language;
-import org.openrtp.namespaces.rtc.version02.LanguageExt;
-import org.openrtp.namespaces.rtc.version02.Library;
-import org.openrtp.namespaces.rtc.version02.ObjectFactory;
-import org.openrtp.namespaces.rtc.version02.Parameter;
-import org.openrtp.namespaces.rtc.version02.Position;
-import org.openrtp.namespaces.rtc.version02.Property;
-import org.openrtp.namespaces.rtc.version02.RtcProfile;
-import org.openrtp.namespaces.rtc.version02.ServiceinterfaceDoc;
-import org.openrtp.namespaces.rtc.version02.ServiceinterfaceExt;
-import org.openrtp.namespaces.rtc.version02.Serviceport;
-import org.openrtp.namespaces.rtc.version02.ServiceportDoc;
-import org.openrtp.namespaces.rtc.version02.ServiceportExt;
-import org.openrtp.namespaces.rtc.version02.TargetEnvironment;
+import org.openrtp.namespaces.rtc.version03.ActionStatusDoc;
+import org.openrtp.namespaces.rtc.version03.Actions;
+import org.openrtp.namespaces.rtc.version03.BasicInfo;
+import org.openrtp.namespaces.rtc.version03.BasicInfoDoc;
+import org.openrtp.namespaces.rtc.version03.BasicInfoExt;
+import org.openrtp.namespaces.rtc.version03.Configuration;
+import org.openrtp.namespaces.rtc.version03.ConfigurationDoc;
+import org.openrtp.namespaces.rtc.version03.ConfigurationExt;
+import org.openrtp.namespaces.rtc.version03.Dataport;
+import org.openrtp.namespaces.rtc.version03.DataportDoc;
+import org.openrtp.namespaces.rtc.version03.DataportExt;
+import org.openrtp.namespaces.rtc.version03.DocAction;
+import org.openrtp.namespaces.rtc.version03.DocBasic;
+import org.openrtp.namespaces.rtc.version03.DocConfiguration;
+import org.openrtp.namespaces.rtc.version03.DocDataport;
+import org.openrtp.namespaces.rtc.version03.DocServiceinterface;
+import org.openrtp.namespaces.rtc.version03.DocServiceport;
+import org.openrtp.namespaces.rtc.version03.Language;
+import org.openrtp.namespaces.rtc.version03.LanguageExt;
+import org.openrtp.namespaces.rtc.version03.Library;
+import org.openrtp.namespaces.rtc.version03.ObjectFactory;
+import org.openrtp.namespaces.rtc.version03.Position;
+import org.openrtp.namespaces.rtc.version03.Property;
+import org.openrtp.namespaces.rtc.version03.RtcProfile;
+import org.openrtp.namespaces.rtc.version03.ServiceinterfaceDoc;
+import org.openrtp.namespaces.rtc.version03.ServiceinterfaceExt;
+import org.openrtp.namespaces.rtc.version03.Serviceport;
+import org.openrtp.namespaces.rtc.version03.ServiceportDoc;
+import org.openrtp.namespaces.rtc.version03.ServiceportExt;
+import org.openrtp.namespaces.rtc.version03.TargetEnvironment;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
-import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.DocumentPreferenceManager;
+import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 import jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler;
 
 public class ParamUtil {
@@ -217,7 +216,6 @@ public class ParamUtil {
 		if( profile.getConfigurationSet() != null ) {
 			createConfigParam(profile.getConfigurationSet().getConfiguration(), rtcParam);
 		}
-		convertFromModuleParameter(profile, rtcParam);
 		convertFromModuleLanguage(profile, managerList, rtcParam);
 		convertFromModuleLanguage(profile, rtcParam);
 		//
@@ -312,16 +310,6 @@ public class ParamUtil {
 					rtcParam.getTargetEnvs().add(env);
 				}
 			}
-		}
-	}
-
-	private void convertFromModuleParameter(RtcProfile profile, RtcParam rtcParam) {
-		for( Object paramObj : profile.getParameters() ) {
-			Parameter param = (Parameter)paramObj;
-			ConfigParameterParam paramp = new ConfigParameterParam();
-			paramp.setConfigName(param.getName());
-			paramp.setDefaultVal(param.getDefaultValue());
-			rtcParam.getConfigParameterParams().add(paramp);
 		}
 	}
 
@@ -579,7 +567,6 @@ public class ParamUtil {
 			profile.getServicePorts().add(serviceport);
 		}
 		convertToModuleConfiguration(target, factory, profile);
-		convertToModuleParameter(target, factory, profile);
 		convertToModuleLanguage(managerList, target, factory, profile);
 
 		deleteInapplicableItem(profile, managerList);
@@ -629,15 +616,6 @@ public class ParamUtil {
 				language.getTargets().add(env);
 			}
 			profile.setLanguage(language);
-		}
-	}
-
-	private void convertToModuleParameter(RtcParam rtcParam, ObjectFactory factory, RtcProfile profile) {
-		for( ConfigParameterParam configp : rtcParam.getConfigParameterParams() ) {
-			Parameter param = factory.createParameter();
-			param.setName(configp.getConfigName());
-			param.setDefaultValue(configp.getDefaultVal());
-			profile.getParameters().add(param);
 		}
 	}
 
@@ -873,8 +851,6 @@ public class ParamUtil {
 			if( manager.getManagerKey().endsWith(langName) ){
 				List<String> infos = manager.getInapplicables();
 				if( infos!=null ){
-					if( infos.contains(GenerateManager.RTC_PROFILE_PARAMETERS_INAPPLICABLE) )
-						profile.getParameters().clear();
 					if( infos.contains(GenerateManager.RTC_PROFILE_SERVICE_PORTS_INAPPLICABLE) )
 						profile.getServicePorts().clear();
 				}

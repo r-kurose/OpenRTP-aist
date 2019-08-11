@@ -37,7 +37,7 @@ public interface IRtcBuilderConstants {
 	public static final String YAML_EXTENSION = "yaml";
 	public static final String XML_EXTENSION = "xml";
 	//
-	public static final String SCHEMA_VERSION = "0.2";
+	public static final String SCHEMA_VERSION = "0.3";
 
 	public static final String NEWLINE_CODE = "<br/>";
 

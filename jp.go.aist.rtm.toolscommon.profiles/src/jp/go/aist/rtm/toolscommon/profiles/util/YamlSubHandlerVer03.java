@@ -44,7 +44,7 @@ import org.openrtp.namespaces.rtc.version03.TransmissionMethod;
 
 import jp.go.aist.rtm.toolscommon.profiles.nl.Messages;
 
-public class YamlSubHandlerVer02 {
+public class YamlSubHandlerVer03 {
 
 	@SuppressWarnings("unchecked")
 	public RtcProfile mapToRtc(Map profileYOrg) throws Exception {
