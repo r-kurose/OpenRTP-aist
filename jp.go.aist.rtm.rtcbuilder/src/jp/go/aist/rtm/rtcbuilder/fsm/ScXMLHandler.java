@@ -24,15 +24,14 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public class ScXMLHandler {
-	public StateParam parseSCXML(String source) {
+	public StateParam parseSCXML(String source, StringBuffer buffer) {
 		StateParam result = null;
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(source), "UTF-8"));
 			String tmp_str = null;
 			String topTag = null;
-			StringBuffer tmp_sb = new StringBuffer();
 		    while((tmp_str = br.readLine()) != null){
-		    	tmp_sb.append(tmp_str + "\r\n");
+		    	buffer.append(tmp_str + "\r\n");
 		    	if(topTag==null && tmp_str.trim().startsWith("<scxml")) {
 		    		topTag = tmp_str;
 		    	}
@@ -41,7 +40,7 @@ public class ScXMLHandler {
 		    
 		    SCXML scxml = null;
 		    try {
-		    	scxml =  (SCXML)SCXMLParser.newInstance().parse(new InputSource(new CharArrayReader((tmp_sb.toString()).toCharArray())));
+		    	scxml =  (SCXML)SCXMLParser.newInstance().parse(new InputSource(new CharArrayReader((buffer.toString()).toCharArray())));
 			} catch (IOException | SAXException e1) {
 				e1.printStackTrace();
 			}
@@ -82,6 +81,62 @@ public class ScXMLHandler {
 		} catch (FileNotFoundException ex1) {
 		} catch (IOException ex) {
 		}
+		return result;
+	}
+	
+	public StateParam parseSCXMLStr(String source) {
+		StateParam result = null;
+		String topTag = null;
+	    
+		String[] eachLines = source.split("\r\n");
+		StringBuffer tmp_sb = new StringBuffer();
+		for(String eachLine : eachLines) {
+	    	tmp_sb.append(eachLine + "\r\n");
+	    	if(topTag==null && eachLine.trim().startsWith("<scxml")) {
+	    		topTag = eachLine;
+	    	}
+	    }
+	    
+	    SCXML scxml = null;
+	    try {
+	    	scxml =  (SCXML)SCXMLParser.newInstance().parse(new InputSource(new CharArrayReader(source.toCharArray())));
+		} catch (IOException | SAXException e1) {
+			e1.printStackTrace();
+		}
+	    String topName = "";
+	    if(topTag!=null) {
+	    	String[] elems = topTag.split(" ");
+	    	for(String elem : elems) {
+	    		if(elem.startsWith("name=")) {
+	    			topName = elem.substring(6, elem.length()-1);
+	    			break;
+	    		}
+	    	}
+	    }
+	    //
+	    result = new StateParam();
+	    result.setName(topName);
+	    result.setInitialState(scxml.getInitial());
+		Datamodel model = scxml.getDatamodel();
+		if(model!=null) {
+			List dataList = model.getData();
+			if(0<dataList.size()) {
+				Data data = (Data)dataList.get(0);
+				if(data.getNode()!=null) {
+					result.setDataName(data.getNode().getFirstChild().getTextContent());
+				}
+			}
+		}
+	    
+	    Set<String> keysState = scxml.getChildren().keySet();
+	    for(String key : keysState) {
+	    	parseState(result, (State)scxml.getChildren().get(key), "Top", result.getAllStateList(), result.getAllTransList());
+	    }
+	    for(TransitionParam trans : result.getAllTransList()) {
+	    	String nextState = trans.getTarget();
+	    	trans.setTarget(findStateName(nextState, result.getAllStateList()));
+	    }
+
 		return result;
 	}
 	

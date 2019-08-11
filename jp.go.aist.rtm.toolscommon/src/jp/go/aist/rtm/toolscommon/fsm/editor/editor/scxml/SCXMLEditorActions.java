@@ -675,6 +675,7 @@ public class SCXMLEditorActions {
 		}
 		
 		private void openSelectedContents(String contents, SCXMLGraphEditor editor, boolean isReadOnly) {
+			File selectedFile = file;
 			SCXMLGraph graph = editor.getGraphComponent().getGraph();
 			if ((graph != null) && (contents != null)) {
 				try {
@@ -682,12 +683,14 @@ public class SCXMLEditorActions {
 					mxGraphComponent graphComponent = editor.getGraphComponent();
 					SCXMLImportExport io = new SCXMLImportExport();
 					io.parse(contents, graphComponent, editor.getRestrictedStatesConfig());
+					SCXMLImportExport fie = new SCXMLImportExport();
 
 					// apply layout to each cluster from the leaves up:
 					mxClusterLayout clusterLayout = new mxClusterLayout(graph);
 					clusterLayout.execute(graph.getDefaultParent());
 
 					editor.setModified(false);
+					editor.setCurrentFile(selectedFile, fie);
 					editor.getUndoManager().clear();
 					editor.getUndoManager().resetUnmodifiedState();
 					editor.updateUndoRedoActionState();

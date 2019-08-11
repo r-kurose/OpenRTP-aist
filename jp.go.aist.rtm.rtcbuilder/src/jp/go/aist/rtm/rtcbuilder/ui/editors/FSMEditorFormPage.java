@@ -35,6 +35,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
+import jp.go.aist.rtm.rtcbuilder.IRTCBMessageConstants;
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.fsm.ScXMLHandler;
 import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
@@ -120,7 +121,7 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 				staticBtn.setEnabled(fsmBtn.getSelection());
 				dynamicBtn.setEnabled(fsmBtn.getSelection());
 				newBtn.setEnabled(fsmBtn.getSelection());
-				editBtn.setEnabled(fsmBtn.getSelection());
+				editBtn.setEnabled(fsmBtn.getSelection() && editor.getRtcParam().getFsmParam()!=null);
 				importBtn.setEnabled(fsmBtn.getSelection());
 				if(fsmBtn.getSelection()) {
 					editor.getRtcParam().addFSMPort();
@@ -158,9 +159,8 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 					if(scxmlEditor==null) {
 						String cmpName = editor.getRtcParam().getName() + "FSM.scxml";
 						if(observer==null) {
-							observer = new SCXMLReceiver();
+							observer = new SCXMLReceiver(editor.getRtcParam());
 						}
-						observer.setFsmName(cmpName);
 						IWorkspace workspace = ResourcesPlugin.getWorkspace();
 						IWorkspaceRoot root = workspace.getRoot();
 						IProject project = root.getProject(editor.getRtcParam().getOutputProject());
@@ -176,7 +176,6 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 						frame.setAlwaysOnTop(true);
 						frame.setAlwaysOnTop(false);
 					}
-	//				String contents = FileUtil.readFile(targetFile);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -206,21 +205,49 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 							return;
 						}
 						if(observer==null) {
-							observer = new SCXMLReceiver();
+							observer = new SCXMLReceiver(editor.getRtcParam());
 						}
-						observer.setFsmName(fsmName);
-						scxmlEditor = SCXMLGraphEditor.openEditor(targetFile, observer, false);
+						//
+						String dummyName = ".Dummy.scxml";
+						IFile dummyFile  = project.getFile(dummyName);
+						if(dummyFile.exists()==false) {
+							try {
+								dummyFile.create(null, true, null);
+							} catch (CoreException ex) {
+								ex.printStackTrace();
+							}
+						}
+						String strPath = dummyFile.getLocation().toOSString();
+						String xmlSplit[] = editor.getRtcParam().getFsmContents().split(System.lineSeparator());
+						try {
+							BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(strPath), "UTF-8"));
+							for (String s : xmlSplit) {
+								if(s.length()==0) continue;
+								writer.write(s);
+								writer.newLine();
+							}
+							writer.close();
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+						try {
+							project.refreshLocal(IResource.DEPTH_INFINITE, null);
+						} catch (CoreException e1) {
+							throw new RuntimeException(IRTCBMessageConstants.ERROR_GENERATE_FAILED);
+						}
+						
+						scxmlEditor = SCXMLGraphEditor.openEditor(dummyFile.getLocation().toOSString(), observer, false);
 					} else {
 						JFrame frame = (JFrame) SwingUtilities.windowForComponent(scxmlEditor);
 						frame.setAlwaysOnTop(true);
 						frame.setAlwaysOnTop(false);
 					}
-//					String contents = FileUtil.readFile(targetFile);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
 			}
 		});
+		editBtn.setEnabled(editor.getRtcParam().getFsmParam()!=null);
 		/////
 		importBtn = toolkit.createButton(composite, IMessageConstants.FSM_SCXML_IMPORT, SWT.PUSH);
 		gd = new GridData();
@@ -248,10 +275,20 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 				/////
 				String strPath = fsmFile.getLocation().toOSString();
 				try {
+					fsmFile.delete(true, null);
     				Path inputPath = FileSystems.getDefault().getPath(newFile);
     				Path outputPath = FileSystems.getDefault().getPath(strPath);			        				
 					Files.copy(inputPath, outputPath);
 					project.refreshLocal(IResource.DEPTH_INFINITE, null);
+					//インポートしたファイルの読み込み
+					ScXMLHandler scHandler = new ScXMLHandler();
+					StringBuffer buffer = new StringBuffer();
+					StateParam rootState = scHandler.parseSCXML(strPath, buffer);
+					if(rootState!=null) {
+						editor.getRtcParam().setFsmParam(rootState);
+						editor.getRtcParam().setFsmContents(buffer.toString());
+					}
+					
 					MessageDialog.openInformation(getSite().getShell(), IMessageConstants.FSM_SCXML_IMPORT, IMessageConstants.FSM_IMPORT_OK);
 				} catch (IOException e1) {
 					MessageDialog.openWarning(getSite().getShell(), IMessageConstants.FSM_SCXML_IMPORT, IMessageConstants.FSM_IMPORT_NG);
@@ -293,22 +330,24 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 		RtcParam rtcParam = editor.getRtcParam();
 
 		if( fsmBtn != null ) {
-			String targetFile = editor.getRtcParam().getName() + "FSM.scxml";
-			if(targetFile!=null && targetFile.length()!=0) {
-				IWorkspace workspace = ResourcesPlugin.getWorkspace();
-				IWorkspaceRoot root = workspace.getRoot();
-				IProject project = root.getProject(editor.getRtcParam().getOutputProject());
-				IFile fsmFile  = project.getFile(targetFile);
-				if(fsmFile.exists()) {
-					targetFile = fsmFile.getLocation().toOSString();
-				}
-				
-				ScXMLHandler handler = new ScXMLHandler();
-				StateParam rootState = handler.parseSCXML(targetFile);
-				if(rootState!=null) {
-					rtcParam.setFsmParam(rootState);
-				}
-			}
+//			String targetFile = editor.getRtcParam().getName() + "FSM.scxml";
+//			if(targetFile!=null && targetFile.length()!=0) {
+//				IWorkspace workspace = ResourcesPlugin.getWorkspace();
+//				IWorkspaceRoot root = workspace.getRoot();
+//				IProject project = root.getProject(editor.getRtcParam().getOutputProject());
+//				IFile fsmFile  = project.getFile(targetFile);
+//				if(fsmFile.exists()) {
+//					targetFile = fsmFile.getLocation().toOSString();
+//				}
+//				
+//				ScXMLHandler handler = new ScXMLHandler();
+//				StringBuffer buffer = new StringBuffer();
+//				StateParam rootState = handler.parseSCXML(targetFile, buffer);
+//				if(rootState!=null) {
+//					rtcParam.setFsmParam(rootState);
+//					rtcParam.setFsmContents(buffer.toString());
+//				}
+//			}
 			
 			rtcParam.setProperty(IRtcBuilderConstants.PROP_TYPE_FSM, Boolean.valueOf(fsmBtn.getSelection()).toString());
 			//
@@ -337,7 +376,7 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 			staticBtn.setEnabled(fsmBtn.getSelection());
 			dynamicBtn.setEnabled(fsmBtn.getSelection());
 			newBtn.setEnabled(fsmBtn.getSelection());
-			editBtn.setEnabled(fsmBtn.getSelection());
+			editBtn.setEnabled(fsmBtn.getSelection() && editor.getRtcParam().getFsmParam()!=null);
 			importBtn.setEnabled(fsmBtn.getSelection());
 		}
 		//
@@ -361,9 +400,11 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 		if(fsmFile.exists()) {
 			targetFile = fsmFile.getLocation().toOSString();
 			ScXMLHandler handler = new ScXMLHandler();
-			StateParam rootState = handler.parseSCXML(targetFile);
+			StringBuffer buffer = new StringBuffer();
+			StateParam rootState = handler.parseSCXML(targetFile, buffer);
 			if(rootState!=null) {
 				rtcParam.setFsmParam(rootState);
+				rtcParam.setFsmContents(buffer.toString());
 			}
 		}
 	}
@@ -406,47 +447,21 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 	}
 	
 	class SCXMLReceiver implements SCXMLNotifier {
-		private String fsmName; 
-		private String scXmlContents;
+		private RtcParam rtcParam;
 		
-		public void setFsmName(String fsmName) {
-			this.fsmName = fsmName;
+		public SCXMLReceiver(RtcParam param) {
+			this.rtcParam = param;
 		}
-
+		
 		@Override
 		public void notifyContents(String contents) {
-			scXmlContents = contents;
-			//
-			IWorkspace workspace = ResourcesPlugin.getWorkspace();
-			IWorkspaceRoot root = workspace.getRoot();
-			IProject project = root.getProject(editor.getRtcParam().getOutputProject());
-			IFile fsmFile  = project.getFile(fsmName);
-			if(contents.trim().length()==0) {
-				try {
-					fsmFile.delete(true, null);
-				} catch (CoreException e) {
-					e.printStackTrace();
-				}
-			} else {
-				if(fsmFile.exists()==false) {
-					try {
-						fsmFile.create(null, true, null);
-					} catch (CoreException e) {
-						e.printStackTrace();
-					}
-				}
-				String strPath = fsmFile.getLocation().toOSString();
-				String xmlSplit[] = scXmlContents.split("\n");
-				try {
-					BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(strPath), "UTF-8"));
-					for (String s : xmlSplit) {
-						writer.write(s);
-						writer.newLine();
-					}
-					writer.close();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+    		editor.updateDirty();
+			ScXMLHandler handler = new ScXMLHandler();
+			StateParam rootState = handler.parseSCXMLStr(contents);
+			if(rootState!=null) {
+				rtcParam.setFsmParam(rootState);
+				rtcParam.setFsmContents(contents);
+				editor.updateDirty();
 			}
 			scxmlEditor = null;
 		}

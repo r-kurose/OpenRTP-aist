@@ -73,6 +73,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	private RecordedList<ActionsParam> actions;
 	//FSM
 	private StateParam fsmParam;
+	private String fsmContents;
 	//
 	private String doc_creator;
 	private String doc_license;
@@ -918,6 +919,15 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		this.fsmParam = fsmParam;
 	}
 
+	
+	public String getFsmContents() {
+		return fsmContents;
+	}
+	public void setFsmContents(String fsmContents) {
+		checkUpdated(this.fsmContents, fsmContents);
+		this.fsmContents = fsmContents;
+	}
+
 	@Override
 	public boolean isUpdated() {
 		if (super.isUpdated()) {
@@ -927,6 +937,9 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 			return true;
 		}
 		if (this.inports.isUpdated() || this.outports.isUpdated()) {
+			return true;
+		}
+		if (this.eventports.isUpdated()) {
 			return true;
 		}
 		if (this.serviceports.isUpdated()) {
@@ -954,6 +967,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		//
 		this.inports.resetUpdated();
 		this.outports.resetUpdated();
+		this.eventports.resetUpdated();
 		//
 		this.serviceports.resetUpdated();
 		//

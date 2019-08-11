@@ -2,7 +2,11 @@ package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
 import static jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler.createXMLGregorianCalendar;
 
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -127,9 +131,11 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 			if(fsmFile.exists()) {
 				targetFile = fsmFile.getLocation().toOSString();
 				ScXMLHandler scHandler = new ScXMLHandler();
-				StateParam rootState = scHandler.parseSCXML(targetFile);
+				StringBuffer buffer = new StringBuffer();
+				StateParam rootState = scHandler.parseSCXML(targetFile, buffer);
 				if(rootState!=null) {
 					this.getRtcParam().setFsmParam(rootState);
+					this.getRtcParam().setFsmContents(buffer.toString());
 				}
 			}
 			//
@@ -488,6 +494,50 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 			IFile rtcxml = projectHandle.getFile(IRtcBuilderConstants.DEFAULT_RTC_XML);
 			if( rtcxml.exists()) rtcxml.delete(true, null);
 			rtcxml.create(new ByteArrayInputStream(xmlFile.getBytes("UTF-8")), true, null);
+			//
+			////FSM
+			if(this.getRtcParam().getFsmParam()!=null) {
+				String fsmName = this.getRtcParam().getName() + "FSM.scxml";
+				IFile fsmFile  = projectHandle.getFile(fsmName);
+				if(this.getRtcParam().getFsmContents().trim().length()==0) {
+					try {
+						fsmFile.delete(true, null);
+					} catch (CoreException e) {
+						e.printStackTrace();
+					}
+				} else {
+					if(fsmFile.exists()==false) {
+						try {
+							fsmFile.create(null, true, null);
+						} catch (CoreException e) {
+							e.printStackTrace();
+						}
+					}
+					String strPath = fsmFile.getLocation().toOSString();
+					String xmlSplit[] = this.getRtcParam().getFsmContents().split(System.lineSeparator());
+					try {
+						BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(strPath), "UTF-8"));
+						for (String s : xmlSplit) {
+							if(s.length()==0) continue;
+							writer.write(s);
+							writer.newLine();
+						}
+						writer.close();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+				String dummyName = ".Dummy.scxml";
+				IFile dummyFile  = projectHandle.getFile(dummyName);
+				if(dummyFile.exists()) {
+					try {
+						dummyFile.delete(true, null);
+					} catch (CoreException ex) {
+						ex.printStackTrace();
+					}
+				}
+			}
+			/////////
 			//
 			setInput(new FileEditorInput(rtcxml));
 			this.getRtcParam().setRtcXml(xmlFile);
