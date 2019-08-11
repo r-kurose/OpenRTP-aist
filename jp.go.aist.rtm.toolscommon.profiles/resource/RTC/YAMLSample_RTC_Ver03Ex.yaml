@@ -94,10 +94,13 @@ rtcProfile:
     componentType: STATIC
     creationDate:
       day: 18
+      fractionalSecond: 0.000
       hour: 14
+      millisecond: 0
       minute: 0
       month: 4
       second: 0
+      timezone: 540
       year: 2008
     description: SampleDescription
     "rtcDoc::doc":
@@ -123,10 +126,13 @@ rtcProfile:
     "rtcExt::saveProject": Output Project
     updateDate:
       day: 18
+      fractionalSecond: 0.000
       hour: 14
+      millisecond: 0
       minute: 0
       month: 4
       second: 0
+      timezone: 540
       year: 2008
     vendor: SampleVendor
     version: 1.0.0
@@ -256,13 +262,6 @@ rtcProfile:
         osVersions: 
           - "2.4"
           - "2.6"
-  parameters: 
-    -
-      defaultValue: param_def1
-      name: param1
-    -
-      defaultValue: param_def2
-      name: param2
   servicePorts: 
     -
       "rtcExt::comment": srv1_comment
@@ -321,4 +320,4 @@ rtcProfile:
         ifdescription: ServicePort2 I/F description
       name: SrvPort2
       "rtcExt::position": RIGHT
-  version: "0.2"
+  version: "0.3"

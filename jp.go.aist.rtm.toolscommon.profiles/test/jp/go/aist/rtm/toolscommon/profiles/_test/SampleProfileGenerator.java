@@ -4,30 +4,29 @@ import static jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler.createXMLGrego
 
 import java.math.BigInteger;
 
-import org.openrtp.namespaces.rtc.version02.ActionStatusDoc;
-import org.openrtp.namespaces.rtc.version02.Actions;
-import org.openrtp.namespaces.rtc.version02.BasicInfoExt;
-import org.openrtp.namespaces.rtc.version02.ConfigurationDoc;
-import org.openrtp.namespaces.rtc.version02.ConfigurationExt;
-import org.openrtp.namespaces.rtc.version02.ConfigurationSet;
-import org.openrtp.namespaces.rtc.version02.DataportExt;
-import org.openrtp.namespaces.rtc.version02.DocAction;
-import org.openrtp.namespaces.rtc.version02.DocBasic;
-import org.openrtp.namespaces.rtc.version02.DocConfiguration;
-import org.openrtp.namespaces.rtc.version02.DocDataport;
-import org.openrtp.namespaces.rtc.version02.DocServiceinterface;
-import org.openrtp.namespaces.rtc.version02.DocServiceport;
-import org.openrtp.namespaces.rtc.version02.LanguageExt;
-import org.openrtp.namespaces.rtc.version02.Library;
-import org.openrtp.namespaces.rtc.version02.ObjectFactory;
-import org.openrtp.namespaces.rtc.version02.Parameter;
-import org.openrtp.namespaces.rtc.version02.Position;
-import org.openrtp.namespaces.rtc.version02.Property;
-import org.openrtp.namespaces.rtc.version02.RtcProfile;
-import org.openrtp.namespaces.rtc.version02.ServiceinterfaceExt;
-import org.openrtp.namespaces.rtc.version02.ServiceportExt;
-import org.openrtp.namespaces.rtc.version02.TargetEnvironment;
-import org.openrtp.namespaces.rtc.version02.TransmissionMethod;
+import org.openrtp.namespaces.rtc.version03.ActionStatusDoc;
+import org.openrtp.namespaces.rtc.version03.Actions;
+import org.openrtp.namespaces.rtc.version03.BasicInfoExt;
+import org.openrtp.namespaces.rtc.version03.ConfigurationDoc;
+import org.openrtp.namespaces.rtc.version03.ConfigurationExt;
+import org.openrtp.namespaces.rtc.version03.ConfigurationSet;
+import org.openrtp.namespaces.rtc.version03.DataportExt;
+import org.openrtp.namespaces.rtc.version03.DocAction;
+import org.openrtp.namespaces.rtc.version03.DocBasic;
+import org.openrtp.namespaces.rtc.version03.DocConfiguration;
+import org.openrtp.namespaces.rtc.version03.DocDataport;
+import org.openrtp.namespaces.rtc.version03.DocServiceinterface;
+import org.openrtp.namespaces.rtc.version03.DocServiceport;
+import org.openrtp.namespaces.rtc.version03.LanguageExt;
+import org.openrtp.namespaces.rtc.version03.Library;
+import org.openrtp.namespaces.rtc.version03.ObjectFactory;
+import org.openrtp.namespaces.rtc.version03.Position;
+import org.openrtp.namespaces.rtc.version03.Property;
+import org.openrtp.namespaces.rtc.version03.RtcProfile;
+import org.openrtp.namespaces.rtc.version03.ServiceinterfaceExt;
+import org.openrtp.namespaces.rtc.version03.ServiceportExt;
+import org.openrtp.namespaces.rtc.version03.TargetEnvironment;
+import org.openrtp.namespaces.rtc.version03.TransmissionMethod;
 import org.openrtp.namespaces.rts.version02.Component;
 import org.openrtp.namespaces.rts.version02.RtsProfileExt;
 
@@ -356,16 +355,6 @@ public class SampleProfileGenerator {
 		service2.setDoc(serviceDoc2);
 		profile.getServicePorts().add(service2);
 		//
-		Parameter param1 = factory.createParameter();
-		param1.setName("param1");
-		param1.setDefaultValue("param_def1");
-		profile.getParameters().add(param1);
-		//
-		Parameter param2 = factory.createParameter();
-		param2.setName("param2");
-		param2.setDefaultValue("param_def2");
-		profile.getParameters().add(param2);
-		//
 		LanguageExt lang = factory.createLanguageExt();
 		lang.setKind("Java");
 		TargetEnvironment target = factory.createTargetEnvironment();
@@ -396,7 +385,7 @@ public class SampleProfileGenerator {
 		ObjectFactory factory = new ObjectFactory();
 		RtcProfile profile =  factory.createRtcProfile();
 		profile.setId("RTC:SampleVender:SampleCategory:SampleComponent:1.0.0");
-		profile.setVersion("0.2");
+		profile.setVersion("0.3");
 		//Component
 		////Basic
 		BasicInfoExt basic = factory.createBasicInfoExt();
@@ -777,16 +766,6 @@ public class SampleProfileGenerator {
 		configset.getConfiguration().add(config2);
 		//
 		profile.setConfigurationSet(configset);
-		//
-		Parameter param1 = factory.createParameter();
-		param1.setName("param1");
-		param1.setDefaultValue("param_def1");
-		profile.getParameters().add(param1);
-		//
-		Parameter param2 = factory.createParameter();
-		param2.setName("param2");
-		param2.setDefaultValue("param_def2");
-		profile.getParameters().add(param2);
 		//
 		LanguageExt lang = factory.createLanguageExt();
 		lang.setKind("Java");
