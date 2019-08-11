@@ -25,8 +25,11 @@ import org.openrtp.namespaces.rtc.version03.DocAction;
 import org.openrtp.namespaces.rtc.version03.DocBasic;
 import org.openrtp.namespaces.rtc.version03.DocConfiguration;
 import org.openrtp.namespaces.rtc.version03.DocDataport;
+import org.openrtp.namespaces.rtc.version03.DocEventport;
 import org.openrtp.namespaces.rtc.version03.DocServiceinterface;
 import org.openrtp.namespaces.rtc.version03.DocServiceport;
+import org.openrtp.namespaces.rtc.version03.Event;
+import org.openrtp.namespaces.rtc.version03.EventDoc;
 import org.openrtp.namespaces.rtc.version03.Language;
 import org.openrtp.namespaces.rtc.version03.LanguageExt;
 import org.openrtp.namespaces.rtc.version03.Library;
@@ -485,56 +488,90 @@ public class ParamUtil {
 	private void createDataPortParam(List dataPorts, RtcParam rtcParam) throws Exception {
 		List<DataPortParam> InPortList = new ArrayList<DataPortParam>();
 		List<DataPortParam> OutPortList = new ArrayList<DataPortParam>();
+		List<EventPortParam> EventPortList = new ArrayList<EventPortParam>();
+		
 		for( Object dataport : dataPorts ) {
 			Dataport dataPortBasic = (Dataport)dataport;
-			DataPortParam dataportp = new DataPortParam();
-			dataportp.setName(dataPortBasic.getName());
-			dataportp.setType(dataPortBasic.getType());
-			dataportp.setDataFlowType(dataPortBasic.getDataflowType());
-			dataportp.setInterfaceType(dataPortBasic.getInterfaceType());
-			dataportp.setSubscriptionType(dataPortBasic.getSubscriptionType());
-			dataportp.setIdlFile(dataPortBasic.getIdlFile());
-			dataportp.setUnit(dataPortBasic.getUnit());
-			if( dataPortBasic.getConstraint()!=null )
-				dataportp.setConstraint(XmlHandler.restoreConstraint(dataPortBasic.getConstraint()));
-
-			if(dataport instanceof DataportDoc) {
-				DataportDoc dataPortDoc = (DataportDoc)dataport;
-				DocDataport docPort = dataPortDoc.getDoc();
-				if( docPort!=null ) {
-					dataportp.setDocDescription(docPort.getDescription());
-					dataportp.setDocType(docPort.getType());
-					dataportp.setDocNum(docPort.getNumber());
-					dataportp.setDocSemantics(docPort.getSemantics());
-					dataportp.setDocUnit(docPort.getUnit());
-					dataportp.setDocOccurrence(docPort.getOccerrence());
-					dataportp.setDocOperation(docPort.getOperation());
+			if(dataPortBasic.getPortType().equals(IRtcBuilderConstants.SPEC_EVENTPORT_KIND) ) {
+				EventPortParam eventportp = new EventPortParam();
+				eventportp.setName(dataPortBasic.getName());
+				if(dataport instanceof DataportExt) {
+					DataportExt dataPortExt = (DataportExt)dataport;
+					eventportp.setVarname(dataPortExt.getVariableName());
+					eventportp.setPosition(dataPortExt.getPosition().toString());
 				}
-			}
-			if(dataport instanceof DataportExt) {
-				DataportExt dataPortExt = (DataportExt)dataport;
-				dataportp.setVarName(dataPortExt.getVariableName());
-				dataportp.setPosition(dataPortExt.getPosition().toString());
-				//Properties
-				for( Property prop : dataPortExt.getProperties() ) {
-					PropertyParam propParam = new PropertyParam();
-					propParam.setName(prop.getName());
-					propParam.setValue(prop.getValue());
-					dataportp.getProperties().add(propParam);
+				for(Object eachEvent : dataPortBasic.getEvent()) {
+					Event event = (Event)eachEvent;
+					EventParam eventp = new EventParam();
+					eventp.setDataType(event.getType());
+					if(event instanceof EventDoc) {
+						EventDoc docEvent = (EventDoc)event;
+						DocEventport docPort = docEvent.getDoc();
+						if( docPort!=null ) {
+							eventp.setDoc_description(docPort.getDescription());
+							eventp.setDoc_type(docPort.getType());
+							eventp.setDoc_num(docPort.getNumber());
+							eventp.setDoc_unit(docPort.getUnit());
+							eventp.setDoc_semantics(docPort.getSemantics());
+							eventp.setDoc_occurrence(docPort.getOccerrence());
+							eventp.setDoc_operation(docPort.getOperation());
+						}
+					}
+					eventportp.getEvents().add(eventp);
 				}
+				EventPortList.add(eventportp);
+				
+				
+			} else {
+				DataPortParam dataportp = new DataPortParam();
+				dataportp.setName(dataPortBasic.getName());
+				dataportp.setType(dataPortBasic.getType());
+				dataportp.setDataFlowType(dataPortBasic.getDataflowType());
+				dataportp.setInterfaceType(dataPortBasic.getInterfaceType());
+				dataportp.setSubscriptionType(dataPortBasic.getSubscriptionType());
+				dataportp.setIdlFile(dataPortBasic.getIdlFile());
+				dataportp.setUnit(dataPortBasic.getUnit());
+				if( dataPortBasic.getConstraint()!=null )
+					dataportp.setConstraint(XmlHandler.restoreConstraint(dataPortBasic.getConstraint()));
+	
+				if(dataport instanceof DataportDoc) {
+					DataportDoc dataPortDoc = (DataportDoc)dataport;
+					DocDataport docPort = dataPortDoc.getDoc();
+					if( docPort!=null ) {
+						dataportp.setDocDescription(docPort.getDescription());
+						dataportp.setDocType(docPort.getType());
+						dataportp.setDocNum(docPort.getNumber());
+						dataportp.setDocSemantics(docPort.getSemantics());
+						dataportp.setDocUnit(docPort.getUnit());
+						dataportp.setDocOccurrence(docPort.getOccerrence());
+						dataportp.setDocOperation(docPort.getOperation());
+					}
+				}
+				if(dataport instanceof DataportExt) {
+					DataportExt dataPortExt = (DataportExt)dataport;
+					dataportp.setVarName(dataPortExt.getVariableName());
+					dataportp.setPosition(dataPortExt.getPosition().toString());
+					//Properties
+					for( Property prop : dataPortExt.getProperties() ) {
+						PropertyParam propParam = new PropertyParam();
+						propParam.setName(prop.getName());
+						propParam.setValue(prop.getValue());
+						dataportp.getProperties().add(propParam);
+					}
+				}
+				//
+				if(dataPortBasic.getPortType().equals(IRtcBuilderConstants.SPEC_DATA_INPORT_KIND) )
+					InPortList.add(dataportp);
+				else
+					OutPortList.add(dataportp);
 			}
-			//
-			if(dataPortBasic.getPortType().equals(IRtcBuilderConstants.SPEC_DATA_INPORT_KIND) )
-				InPortList.add(dataportp);
-			else
-				OutPortList.add(dataportp);
 		}
 		rtcParam.getInports().clear();
 		rtcParam.getInports().addAll(InPortList);
 		rtcParam.getOutports().clear();
 		rtcParam.getOutports().addAll(OutPortList);
-		// rtcParam.setInports(InPortList);
-		// rtcParam.setOutports(OutPortList);
+		rtcParam.getEventports().clear();
+		rtcParam.getEventports().addAll(EventPortList);
 	}
 
 	public RtcProfile convertToModule(GeneratorParam generatorParam,
@@ -561,6 +598,9 @@ public class ParamUtil {
 		}
 		for( DataPortParam dataportp : target.getOutports() ) {
 			profile.getDataPorts().add(createDataPort(dataportp, IRtcBuilderConstants.SPEC_DATA_OUTPORT_KIND));
+		}
+		for( EventPortParam eventp : target.getEventports() ) {
+			profile.getDataPorts().add(createEventPort(eventp));
 		}
 		for( ServicePortParam serviceportp : target.getServicePorts() ) {
 			ServiceportExt serviceport = createServicePort(serviceportp);
@@ -766,6 +806,32 @@ public class ParamUtil {
 		return dataport;
 	}
 
+	private DataportExt createEventPort(EventPortParam eventportp) throws Exception {
+		ObjectFactory factory = new ObjectFactory();
+		DataportExt dataport = factory.createDataportExt();
+		dataport.setPortType(IRtcBuilderConstants.SPEC_EVENTPORT_KIND);
+		dataport.setName(eventportp.getName());
+		dataport.setVariableName(eventportp.getVarname());
+		dataport.setPosition(Position.fromValue(eventportp.getPosition().toUpperCase()));
+		//
+		for(EventParam eventp : eventportp.getEvents()) {
+			EventDoc event = factory.createEventDoc();
+			event.setType(eventp.getDataType());
+			//
+			DocEventport docEvent = factory.createDocEventport();
+			docEvent.setDescription(eventp.getDoc_description());
+			docEvent.setType(eventp.getDoc_type());
+			docEvent.setNumber(eventp.getDoc_num());
+			docEvent.setSemantics(eventp.getDoc_semantics());
+			docEvent.setUnit(eventp.getDoc_unit());
+			docEvent.setOccerrence(eventp.getDoc_occurrence());
+			docEvent.setOperation(eventp.getDoc_operation());
+			event.setDoc(docEvent);
+		}
+		//
+		return dataport;
+	}
+	
 	private ServiceportExt createServicePort(ServicePortParam serviceportp) {
 		ObjectFactory factory = new ObjectFactory();
 		ServiceportExt serviceport = factory.createServiceportExt();

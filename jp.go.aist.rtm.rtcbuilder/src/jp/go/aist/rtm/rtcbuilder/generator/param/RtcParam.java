@@ -49,6 +49,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	//
 	private RecordedList<DataPortParam> inports = new RecordedList<DataPortParam>();
 	private RecordedList<DataPortParam> outports = new RecordedList<DataPortParam>();
+	private RecordedList<EventPortParam> eventports = new RecordedList<EventPortParam>();
 	//
 	private RecordedList<ServicePortParam> serviceports = new RecordedList<ServicePortParam>();
 	//
@@ -301,23 +302,26 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	public List<DataPortParam> getInports() {
 		return inports;
 	}
-	public List<DataPortParam> getRawInports() {
-		List<DataPortParam> result = new ArrayList<DataPortParam>();
-		for(DataPortParam target : inports) {
-			boolean isEvent = false;
-			for(PropertyParam prop : target.getProperties()) {
-				if(prop.getName().equals("type") && prop.getValue().equals("FSMEvent")) {
-					isEvent = true;
-					break;
-				}
-			}
-			if(isEvent) continue;
-			result.add(target);
-		}
-		return result;
-	}
+//	public List<DataPortParam> getRawInports() {
+//		List<DataPortParam> result = new ArrayList<DataPortParam>();
+//		for(DataPortParam target : inports) {
+//			boolean isEvent = false;
+//			for(PropertyParam prop : target.getProperties()) {
+//				if(prop.getName().equals("type") && prop.getValue().equals("FSMEvent")) {
+//					isEvent = true;
+//					break;
+//				}
+//			}
+//			if(isEvent) continue;
+//			result.add(target);
+//		}
+//		return result;
+//	}
 	public List<DataPortParam> getOutports() {
 		return outports;
+	}
+	public List<EventPortParam> getEventports() {
+		return eventports;
 	}
 	//
 	public List<ServicePortParam> getServicePorts() {
@@ -746,7 +750,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 			}
 		}
 		/////
-		for( DataPortParam target : getRawInports() ) {
+		for( DataPortParam target : getInports() ) {
 			List<String> localIdlPathes = new ArrayList<String>();
 			checkAndAddIDLPath(target.getType(), localIdlPathes, consumerIdlStrings, consumerIdlParams);
 			if(0<localIdlPathes.size()) {

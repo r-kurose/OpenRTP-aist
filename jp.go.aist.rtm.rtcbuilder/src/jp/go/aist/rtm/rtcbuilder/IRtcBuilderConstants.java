@@ -32,6 +32,7 @@ public interface IRtcBuilderConstants {
 	//
 	public static final String SPEC_DATA_INPORT_KIND = "DataInPort";
 	public static final String SPEC_DATA_OUTPORT_KIND = "DataOutPort";
+	public static final String SPEC_EVENTPORT_KIND = "EventPort";
 
 	public static final String DEFAULT_RTC_XML = "RTC.xml";
 	public static final String YAML_EXTENSION = "yaml";

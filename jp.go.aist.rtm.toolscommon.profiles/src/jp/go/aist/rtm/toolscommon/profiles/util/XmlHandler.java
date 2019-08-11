@@ -31,12 +31,12 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
+import org.openrtp.namespaces.deploy.DeployProfile;
 import org.openrtp.namespaces.rtc.version02.And;
 import org.openrtp.namespaces.rtc.version02.ConstraintHashType;
 import org.openrtp.namespaces.rtc.version02.ConstraintListType;
 import org.openrtp.namespaces.rtc.version02.ConstraintType;
 import org.openrtp.namespaces.rtc.version02.ConstraintUnitType;
-import org.openrtp.namespaces.rtc.version02.Not;
 import org.openrtp.namespaces.rtc.version02.Or;
 import org.openrtp.namespaces.rtc.version02.PropertyIsBetween;
 import org.openrtp.namespaces.rtc.version02.PropertyIsEqualTo;
@@ -44,13 +44,6 @@ import org.openrtp.namespaces.rtc.version02.PropertyIsGreaterThan;
 import org.openrtp.namespaces.rtc.version02.PropertyIsGreaterThanOrEqualTo;
 import org.openrtp.namespaces.rtc.version02.PropertyIsLessThan;
 import org.openrtp.namespaces.rtc.version02.PropertyIsLessThanOrEqualTo;
-import org.openrtp.namespaces.rtc.version02.PropertyIsLike;
-import org.openrtp.namespaces.rtc.version02.PropertyIsNotEqualTo;
-import org.openrtp.namespaces.rtc.version02.PropertyIsNullType;
-import org.openrtp.namespaces.rts.version02.RtsProfile;
-import org.openrtp.namespaces.rts.version02.RtsProfileExt;
-
-import org.openrtp.namespaces.deploy.DeployProfile;
 import org.openrtp.namespaces.rtc.version03.ActionStatusDoc;
 import org.openrtp.namespaces.rtc.version03.Actions;
 import org.openrtp.namespaces.rtc.version03.BasicInfoExt;
@@ -74,6 +67,8 @@ import org.openrtp.namespaces.rtc.version03.ServiceinterfaceExt;
 import org.openrtp.namespaces.rtc.version03.Serviceport;
 import org.openrtp.namespaces.rtc.version03.ServiceportExt;
 import org.openrtp.namespaces.rtc.version03.TargetEnvironment;
+import org.openrtp.namespaces.rts.version02.RtsProfile;
+import org.openrtp.namespaces.rts.version02.RtsProfileExt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
@@ -613,153 +608,6 @@ public class XmlHandler {
 		return result;
 	}
 
-//	public static org.openrtp.namespaces.rtc.version02.ConstraintType convertToXmlConstraintV2(String source) throws Exception {
-//		if(source==null || source.length()==0 ) throw new Exception(Messages.getString("XmlHandler.69"));
-//		source = source.replace(" ", "");
-//
-//		org.openrtp.namespaces.rtc.version02.ObjectFactory factory = new org.openrtp.namespaces.rtc.version02.ObjectFactory();
-//		org.openrtp.namespaces.rtc.version02.ConstraintType result = factory.createConstraintType();
-//
-//		org.openrtp.namespaces.rtc.version02.ConstraintUnitType unit = factory.createConstraintUnitType();
-//
-//		if(source.trim().startsWith("(") && source.trim().endsWith(")")) {
-//			String body = source.trim().substring(1,source.trim().length()-1);
-//			String[] elem = body.trim().split(",");
-//			if( elem.length<=0 ) throw new Exception(Messages.getString("XmlHandler.73"));
-//			org.openrtp.namespaces.rtc.version02.Or prop = factory.createOr();
-//			for(int index=0;index<elem.length;index++) {
-//				prop.getConstraint().add(convertToXmlConstraintV2(elem[index]));
-//			}
-//			unit.setOr(prop);
-//
-//		} else 	if(source.trim().startsWith("{") && source.trim().endsWith("}")) {
-//			String body = source.trim().substring(1,source.trim().length()-1);
-//			String[] elem = body.trim().split(",");
-//			if( elem.length<=0 ) throw new Exception(Messages.getString("XmlHandler.77"));
-//			org.openrtp.namespaces.rtc.version02.ConstraintHashType list = factory.createConstraintHashType();
-//			for(int index=0;index<elem.length;index++) {
-//				int indsep = elem[index].trim().indexOf(":");
-//				if(indsep<0) throw new Exception(Messages.getString("XmlHandler.79"));
-//				String key = elem[index].trim().substring(0,indsep);
-//				if(key.length()<=0) throw new Exception(Messages.getString("XmlHandler.79"));
-//				String value = elem[index].trim().substring(indsep+1);
-//				org.openrtp.namespaces.rtc.version02.ConstraintType hashConst = convertToXmlConstraintV2(value);
-//				hashConst.getConstraintUnitType().setKey(key);
-//				list.getConstraint().add(hashConst);
-//			}
-//			result.setConstraintHashType(list);
-//			return result;
-//
-//		} else 	if( source.contains(",") ) {
-//			String[] elem = source.trim().split(",");
-//			if( elem.length<=0 ) throw new Exception(Messages.getString("XmlHandler.82"));
-//			org.openrtp.namespaces.rtc.version02.ConstraintListType list = factory.createConstraintListType();
-//			for(int index=0;index<elem.length;index++) {
-//				list.getConstraint().add(convertToXmlConstraintV2(elem[index]));
-//			}
-//			result.setConstraintListType(list);
-//			return result;
-//
-//		} else 	if( source.contains("=") || source.contains("<") || source.contains(">") ) {
-//			if(source.trim().startsWith("x") || source.trim().endsWith("x")) {
-//				String body = "";
-//				if( source.trim().startsWith("x>=") || source.trim().endsWith("<=x") ) {
-//					if(source.trim().startsWith("x>=")) {
-//						body = source.trim().substring("x>=".length());
-//					} else if(source.trim().endsWith("<=x")) {
-//						body = source.trim().substring(0,source.trim().length()-"x>=".length());
-//					}
-//					if(body.length()==0 || !body.matches("^[-,+]?[0-9.]*"))
-//						throw new Exception(Messages.getString("XmlHandler.96"));
-//					org.openrtp.namespaces.rtc.version02.PropertyIsGreaterThanOrEqualTo prop = factory.createPropertyIsGreaterThanOrEqualTo();
-//					prop.setLiteral(body);
-//					unit.setPropertyIsGreaterThanOrEqualTo(prop);
-//
-//				} else if( source.trim().startsWith("x>") || source.trim().endsWith("<x") ) {
-//					if(source.trim().startsWith("x>")) {
-//						body = source.trim().substring("x>".length());
-//					} else if(source.trim().endsWith("<x")) {
-//						body = source.trim().substring(0,source.trim().length()-"<x".length());
-//					}
-//					if(body.length()==0 || !body.matches("^[-,+]?[0-9.]*"))
-//						throw new Exception(Messages.getString("XmlHandler.104"));
-//					org.openrtp.namespaces.rtc.version02.PropertyIsGreaterThan prop = factory.createPropertyIsGreaterThan();
-//					prop.setLiteral(body);
-//					unit.setPropertyIsGreaterThan(prop);
-//
-//				} else if( source.trim().startsWith("x<=") || source.trim().endsWith("=>x") ) {
-//					if(source.trim().startsWith("x<=")) {
-//						body = source.trim().substring("x<=".length());
-//					} else if(source.trim().endsWith("=>x")) {
-//						body = source.trim().substring(0,source.trim().length()-"=>x".length());
-//					}
-//					if(body.length()==0 || !body.matches("^[-,+]?[0-9.]*"))
-//						throw new Exception(Messages.getString("XmlHandler.112"));
-//					org.openrtp.namespaces.rtc.version02.PropertyIsLessThanOrEqualTo prop = factory.createPropertyIsLessThanOrEqualTo();
-//					prop.setLiteral(body);
-//					unit.setPropertyIsLessThanOrEqualTo(prop);
-//
-//				} else if( source.trim().startsWith("x<") || source.trim().endsWith(">x") ) {
-//					if(source.trim().startsWith("x<")) {
-//						body = source.trim().substring("x<".length());
-//					} else if(source.trim().endsWith(">x")) {
-//						body = source.trim().substring(0,source.trim().length()-">x".length());
-//					}
-//					if(body.length()==0 || !body.matches("^[-,+]?[0-9.]*"))
-//						throw new Exception(Messages.getString("XmlHandler.120"));
-//					org.openrtp.namespaces.rtc.version02.PropertyIsLessThan prop = factory.createPropertyIsLessThan();
-//					prop.setLiteral(body);
-//					unit.setPropertyIsLessThan(prop);
-//				} else {
-//					throw new Exception(Messages.getString("XmlHandler.121"));
-//				}
-//			} else	if( source.trim().contains("<=x<=") || source.trim().contains("=>x=>") ) {
-//				int index = -1;
-//				String lower = "";
-//				String upper = "";
-//				if( source.trim().contains("<=x<=") ) {
-//					index = source.trim().indexOf("<=x<=");
-//					lower = source.trim().substring(0,index);
-//					upper = source.trim().substring(index+"<=x<=".length());
-//				} else 	if( source.trim().contains("=>x=>") ) {
-//					index = source.trim().indexOf("=>x=>");
-//					upper = source.trim().substring(0,index);
-//					lower = source.trim().substring(index+"=>x=>".length());
-//				}
-//				if(lower.length()==0 || !lower.matches("^[-,+]?[0-9.]*") ||
-//						upper.length()==0 || !upper.matches("^[-,+]?[0-9.]*") ||
-//						Double.valueOf(lower).doubleValue() > Double.valueOf(upper).doubleValue()) {
-//					throw new Exception(Messages.getString("XmlHandler.134"));
-//				}
-//				org.openrtp.namespaces.rtc.version02.PropertyIsBetween prop = factory.createPropertyIsBetween();
-//				prop.setLowerBoundary(lower);
-//				prop.setUpperBoundary(upper);
-//				unit.setPropertyIsBetween(prop);
-//
-//			} else	if( source.trim().contains("x") ) {
-//				int index = source.trim().indexOf("x");
-//				String former = source.trim().substring(0,index+1);
-//				String latter = source.trim().substring(index);
-//				org.openrtp.namespaces.rtc.version02.And prop = factory.createAnd();
-//				prop.getConstraint().add(convertToXmlConstraintV2(former));
-//				prop.getConstraint().add(convertToXmlConstraintV2(latter));
-//				unit.setAnd(prop);
-//
-//			} else {
-//				throw new Exception(Messages.getString("XmlHandler.137"));
-//			}
-//
-//		} else {
-//			//=
-//			org.openrtp.namespaces.rtc.version02.PropertyIsEqualTo equal = factory.createPropertyIsEqualTo();
-//			equal.setLiteral(source);
-//			unit.setPropertyIsEqualTo(equal);
-//		}
-//		result.setConstraintUnitType(unit);
-//
-//		return result;
-//	}
-	
 	public boolean validateXmlRtcBySchema(String targetString) throws Exception {
 		try {
 		    SAXParserFactory spfactory = SAXParserFactory.newInstance();
@@ -1220,195 +1068,4 @@ public class XmlHandler {
 		if (serviceport02.getPosition().name() == null) return null;
 		return Position.fromValue(serviceport02.getPosition().name().toUpperCase());
 	}
-	/////
-//	private ConstraintType convertConstraint02to03(ObjectFactory factory, org.openrtp.namespaces.rtc.version02.ConstraintType constraint02) {
-//		ConstraintType constraint03 = factory.createConstraintType();
-//		
-//		if(constraint02.getConstraintUnitType()!=null) {
-//			org.openrtp.namespaces.rtc.version02.ConstraintUnitType unit02 = constraint02.getConstraintUnitType();
-//			constraint03.setConstraintUnitType(getConstraintUnitType(factory, unit02));
-//		}
-//		
-//		if(constraint02.getConstraintHashType()!=null) {
-//			org.openrtp.namespaces.rtc.version02.ConstraintHashType hash02 = constraint02.getConstraintHashType();
-//			constraint03.setConstraintHashType(getConstraintHashType(factory, hash02));
-//		}
-//		
-//		if(constraint02.getConstraintListType()!=null) {
-//			org.openrtp.namespaces.rtc.version02.ConstraintListType list02 = constraint02.getConstraintListType();
-//			constraint03.setConstraintListType(getConstraintListType(factory, list02));
-//		}
-//		return constraint03;
-//	}
-//	
-//	private ConstraintHashType getConstraintHashType(ObjectFactory factory, 
-//			org.openrtp.namespaces.rtc.version02.ConstraintHashType hash02) {
-//		ConstraintHashType hash03 = factory.createConstraintHashType();
-//		List<ConstraintType> elemList = new ArrayList<ConstraintType>();
-//		for(org.openrtp.namespaces.rtc.version02.ConstraintType each : hash02.getConstraint()) {
-//			elemList.add(convertConstraint02to03(factory, each));
-//		}
-//		hash03.getConstraint().addAll(elemList);
-//		return hash03;
-//	}
-//	
-//	private ConstraintListType getConstraintListType(ObjectFactory factory, 
-//			org.openrtp.namespaces.rtc.version02.ConstraintListType hash02) {
-//		ConstraintListType hash03 = factory.createConstraintListType();
-//		List<ConstraintType> elemList = new ArrayList<ConstraintType>();
-//		for(org.openrtp.namespaces.rtc.version02.ConstraintType each : hash02.getConstraint()) {
-//			elemList.add(convertConstraint02to03(factory, each));
-//		}
-//		hash03.getConstraint().addAll(elemList);
-//		return hash03;
-//	}
-//	
-//	private ConstraintUnitType getConstraintUnitType(ObjectFactory factory, 
-//			org.openrtp.namespaces.rtc.version02.ConstraintUnitType unit02) {
-//		ConstraintUnitType unit03 = factory.createConstraintUnitType();
-//		
-//		unit03.setKey(unit02.getKey());
-//		
-//		if(unit02.getPropertyIsNullType()!=null) {
-//			unit03.setPropertyIsNullType(getPropertyIsNullType(factory, unit02));
-//		}
-//		if(unit02.getPropertyIsEqualTo()!=null) {
-//			unit03.setPropertyIsEqualTo(getPropertyIsEqualTo(factory, unit02));
-//		}
-//		if(unit02.getPropertyIsNotEqualTo()!=null) {
-//			unit03.setPropertyIsNotEqualTo(getPropertyIsNotEqualTo(factory, unit02));
-//		}
-//		if(unit02.getPropertyIsLessThan()!=null) {
-//			unit03.setPropertyIsLessThan(getPropertyIsLessThan(factory, unit02));
-//		}
-//		if(unit02.getPropertyIsGreaterThan()!=null) {
-//			unit03.setPropertyIsGreaterThan(getPropertyIsGreaterThan(factory, unit02));
-//		}
-//		if(unit02.getPropertyIsLessThanOrEqualTo()!=null) {
-//			unit03.setPropertyIsLessThanOrEqualTo(getPropertyIsLessThanOrEqualTo(factory, unit02));
-//		}
-//		if(unit02.getPropertyIsGreaterThanOrEqualTo()!=null) {
-//			unit03.setPropertyIsGreaterThanOrEqualTo(getPropertyIsGreaterThanOrEqualTo(factory, unit02));
-//		}
-//		if(unit02.getPropertyIsLike()!=null) {
-//			unit03.setPropertyIsLike(getPropertyIsLike(factory, unit02));
-//		}
-//		if(unit02.getPropertyIsBetween()!=null) {
-//			unit03.setPropertyIsBetween(getPropertyIsBetween(factory, unit02));
-//		}
-//		//
-//		if(unit02.getNot()!=null) {
-//			unit03.setNot(getNot(factory, unit02));
-//		}
-//		if(unit02.getAnd()!=null) {
-//			unit03.setAnd(getAnd(factory, unit02));
-//		}
-//		if(unit02.getOr()!=null) {
-//			unit03.setOr(getOr(factory, unit02));
-//		}
-//		
-//		return unit03;
-//	}
-//	
-//	private PropertyIsNullType getPropertyIsNullType(ObjectFactory factory, 
-//			org.openrtp.namespaces.rtc.version02.ConstraintUnitType unit02) {
-//		PropertyIsNullType elem03 = factory.createPropertyIsNullType();
-//		elem03.setPropertyIsNull(unit02.getPropertyIsNullType().getPropertyIsNull());
-//		return elem03;
-//	}
-//	
-//	private PropertyIsEqualTo getPropertyIsEqualTo(ObjectFactory factory, 
-//			org.openrtp.namespaces.rtc.version02.ConstraintUnitType unit02) {
-//		PropertyIsEqualTo elem03 = factory.createPropertyIsEqualTo();
-//		elem03.setLiteral(unit02.getPropertyIsEqualTo().getLiteral());
-//		elem03.setMatchCase(unit02.getPropertyIsEqualTo().isMatchCase());
-//		return elem03;
-//	}
-//	
-//	private PropertyIsNotEqualTo getPropertyIsNotEqualTo(ObjectFactory factory, 
-//			org.openrtp.namespaces.rtc.version02.ConstraintUnitType unit02) {
-//		PropertyIsNotEqualTo elem03 = factory.createPropertyIsNotEqualTo();
-//		elem03.setLiteral(unit02.getPropertyIsNotEqualTo().getLiteral());
-//		elem03.setMatchCase(unit02.getPropertyIsNotEqualTo().isMatchCase());
-//		return elem03;
-//	}
-//	
-//	private PropertyIsLessThan getPropertyIsLessThan(ObjectFactory factory, 
-//			org.openrtp.namespaces.rtc.version02.ConstraintUnitType unit02) {
-//		PropertyIsLessThan elem03 = factory.createPropertyIsLessThan();
-//		elem03.setLiteral(unit02.getPropertyIsLessThan().getLiteral());
-//		elem03.setMatchCase(unit02.getPropertyIsLessThan().isMatchCase());
-//		return elem03;
-//	}
-//	
-//	private PropertyIsGreaterThan getPropertyIsGreaterThan(ObjectFactory factory, 
-//			org.openrtp.namespaces.rtc.version02.ConstraintUnitType unit02) {
-//		PropertyIsGreaterThan elem03 = factory.createPropertyIsGreaterThan();
-//		elem03.setLiteral(unit02.getPropertyIsGreaterThan().getLiteral());
-//		elem03.setMatchCase(unit02.getPropertyIsGreaterThan().isMatchCase());
-//		return elem03;
-//	}
-//	
-//	private PropertyIsLessThanOrEqualTo getPropertyIsLessThanOrEqualTo(ObjectFactory factory, 
-//			org.openrtp.namespaces.rtc.version02.ConstraintUnitType unit02) {
-//		PropertyIsLessThanOrEqualTo elem03 = factory.createPropertyIsLessThanOrEqualTo();
-//		elem03.setLiteral(unit02.getPropertyIsLessThanOrEqualTo().getLiteral());
-//		elem03.setMatchCase(unit02.getPropertyIsLessThanOrEqualTo().isMatchCase());
-//		return elem03;
-//	}
-//	
-//	private PropertyIsGreaterThanOrEqualTo getPropertyIsGreaterThanOrEqualTo(ObjectFactory factory, 
-//			org.openrtp.namespaces.rtc.version02.ConstraintUnitType unit02) {
-//		PropertyIsGreaterThanOrEqualTo elem03 = factory.createPropertyIsGreaterThanOrEqualTo();
-//		elem03.setLiteral(unit02.getPropertyIsGreaterThanOrEqualTo().getLiteral());
-//		elem03.setMatchCase(unit02.getPropertyIsGreaterThanOrEqualTo().isMatchCase());
-//		return elem03;
-//	}
-//	
-//	private PropertyIsLike getPropertyIsLike(ObjectFactory factory, 
-//			org.openrtp.namespaces.rtc.version02.ConstraintUnitType unit02) {
-//		PropertyIsLike elem03 = factory.createPropertyIsLike();
-//		elem03.setLiteral(unit02.getPropertyIsLike().getLiteral());
-//		elem03.setWildCard(unit02.getPropertyIsLike().getWildCard());
-//		elem03.setSingleChar(unit02.getPropertyIsLike().getSingleChar());
-//		elem03.setEscapeChar(unit02.getPropertyIsLike().getEscapeChar());
-//		return elem03;
-//	}
-//	
-//	private PropertyIsBetween getPropertyIsBetween(ObjectFactory factory, 
-//			org.openrtp.namespaces.rtc.version02.ConstraintUnitType unit02) {
-//		PropertyIsBetween elem03 = factory.createPropertyIsBetween();
-//		elem03.setLowerBoundary(unit02.getPropertyIsBetween().getLowerBoundary());
-//		elem03.setUpperBoundary(unit02.getPropertyIsBetween().getUpperBoundary());
-//		return elem03;
-//	}
-//	
-//	private Not getNot(ObjectFactory factory, 
-//			org.openrtp.namespaces.rtc.version02.ConstraintUnitType unit02) {
-//		Not elem03 = factory.createNot();
-//		elem03.setConstraint(convertConstraint02to03(factory, unit02.getNot().getConstraint()));
-//		return elem03;
-//	}
-//	
-//	private And getAnd(ObjectFactory factory, 
-//			org.openrtp.namespaces.rtc.version02.ConstraintUnitType unit02) {
-//		And elem03 = factory.createAnd();
-//		List<ConstraintType> elemList = new ArrayList<ConstraintType>();
-//		for(org.openrtp.namespaces.rtc.version02.ConstraintType each : unit02.getAnd().getConstraint()) {
-//			elemList.add(convertConstraint02to03(factory, each));
-//		}
-//		elem03.getConstraint().addAll(elemList);
-//		return elem03;
-//	}
-//	
-//	private Or getOr(ObjectFactory factory, 
-//			org.openrtp.namespaces.rtc.version02.ConstraintUnitType unit02) {
-//		Or elem03 = factory.createOr();
-//		List<ConstraintType> elemList = new ArrayList<ConstraintType>();
-//		for(org.openrtp.namespaces.rtc.version02.ConstraintType each : unit02.getAnd().getConstraint()) {
-//			elemList.add(convertConstraint02to03(factory, each));
-//		}
-//		elem03.getConstraint().addAll(elemList);
-//		return elem03;
-//	}
 }

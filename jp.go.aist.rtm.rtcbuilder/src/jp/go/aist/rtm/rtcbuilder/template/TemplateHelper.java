@@ -418,7 +418,7 @@ public class TemplateHelper {
 	public String getConnectorString(RtcParam param) {
 		StringBuilder builder = new StringBuilder();
 		
-		for(DataPortParam port : param.getRawInports() ) {
+		for(DataPortParam port : param.getInports() ) {
 			if(port.getType().length()==0) continue;
 			if(0<builder.length()) builder.append(",");
 			builder.append("${PROJECT_NAME}0.").append(port.getName());
