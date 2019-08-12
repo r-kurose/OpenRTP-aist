@@ -1,6 +1,7 @@
 package jp.go.aist.rtm.rtcbuilder.ui.preference;
 
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
+import jp.go.aist.rtm.rtcbuilder.nl.Messages;
 import jp.go.aist.rtm.rtcbuilder.ui.editors.IMessageConstants;
 
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -98,15 +99,15 @@ public class CodeGeneratePortPreferencePage extends AbstarctFieldEditorPreferenc
 		Composite dataportGroup = createGroup(composite, IPreferenceMessageConstants.PORT_TITLE_DATA_PORT);
 		DigitAlphabetStringFieldEditor dataPortNameEditor = 
 			new DigitAlphabetStringFieldEditor(ComponentPreferenceManager.Generate_DataPort_Name,
-					IMessageConstants.DATAPORT_LBL_PORTNAME, dataportGroup);
+					Messages.getString("IMC.DATAPORT_LBL_DESCRIPTION"), dataportGroup);
 		addField(dataPortNameEditor);
 		StringFieldEditor dataPortTypeEditor = 
 			new StringFieldEditor(ComponentPreferenceManager.Generate_DataPort_Type,
-					IMessageConstants.DATAPORT_LBL_PORTTYPE, dataportGroup);
+					Messages.getString("IMC.DATAPORT_LBL_PORTTYPE"), dataportGroup);
 		addField(dataPortTypeEditor);
 		DigitAlphabetStringFieldEditor dataPortVarNameEditor = 
 			new DigitAlphabetStringFieldEditor(ComponentPreferenceManager.Generate_DataPort_VarName,
-					IMessageConstants.DATAPORT_TBLLBL_VARNAME, dataportGroup);
+					Messages.getString("IMC.DATAPORT_TBLLBL_VARNAME"), dataportGroup);
 		addField(dataPortVarNameEditor);
 		StringFieldEditor dataPortPrefixEditor = 
 			new StringFieldEditor(ComponentPreferenceManager.Generate_DataPort_Prefix,
