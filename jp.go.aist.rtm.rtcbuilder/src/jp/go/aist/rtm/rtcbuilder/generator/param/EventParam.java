@@ -9,6 +9,7 @@ public class EventParam  extends AbstractRecordedParam implements Serializable {
 
 	private static final long serialVersionUID = 4150725663790259830L;
 
+	private String name;
 	private String dataType;
 	//
 	private String doc_description;
@@ -19,10 +20,18 @@ public class EventParam  extends AbstractRecordedParam implements Serializable {
 	private String doc_occurrence;
 	private String doc_operation;
 	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	public String getDataType() {
 		return dataType;
 	}
 	public void setDataType(String dataType) {
+		checkUpdated(this.dataType, dataType);
 		this.dataType = dataType;
 	}
 	/////
@@ -30,6 +39,7 @@ public class EventParam  extends AbstractRecordedParam implements Serializable {
 		return doc_description;
 	}
 	public void setDoc_description(String doc_description) {
+		checkUpdated(this.doc_description, doc_description);
 		this.doc_description = doc_description;
 	}
 	
@@ -37,6 +47,7 @@ public class EventParam  extends AbstractRecordedParam implements Serializable {
 		return doc_type;
 	}
 	public void setDoc_type(String doc_type) {
+		checkUpdated(this.doc_type, doc_type);
 		this.doc_type = doc_type;
 	}
 	
@@ -44,6 +55,7 @@ public class EventParam  extends AbstractRecordedParam implements Serializable {
 		return doc_num;
 	}
 	public void setDoc_num(String doc_num) {
+		checkUpdated(this.doc_num, doc_num);
 		this.doc_num = doc_num;
 	}
 	
@@ -51,6 +63,7 @@ public class EventParam  extends AbstractRecordedParam implements Serializable {
 		return doc_semantics;
 	}
 	public void setDoc_semantics(String doc_semantics) {
+		checkUpdated(this.doc_semantics, doc_semantics);
 		this.doc_semantics = doc_semantics;
 	}
 	
@@ -58,6 +71,7 @@ public class EventParam  extends AbstractRecordedParam implements Serializable {
 		return doc_unit;
 	}
 	public void setDoc_unit(String doc_unit) {
+		checkUpdated(this.doc_unit, doc_unit);
 		this.doc_unit = doc_unit;
 	}
 	
@@ -65,6 +79,7 @@ public class EventParam  extends AbstractRecordedParam implements Serializable {
 		return doc_occurrence;
 	}
 	public void setDoc_occurrence(String doc_occurrence) {
+		checkUpdated(this.doc_occurrence, doc_occurrence);
 		this.doc_occurrence = doc_occurrence;
 	}
 	
@@ -72,6 +87,7 @@ public class EventParam  extends AbstractRecordedParam implements Serializable {
 		return doc_operation;
 	}
 	public void setDoc_operation(String doc_operation) {
+		checkUpdated(this.doc_operation, doc_operation);
 		this.doc_operation = doc_operation;
 	}
 }

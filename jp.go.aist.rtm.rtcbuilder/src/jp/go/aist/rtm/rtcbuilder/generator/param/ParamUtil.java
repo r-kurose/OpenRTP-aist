@@ -503,6 +503,7 @@ public class ParamUtil {
 				for(Object eachEvent : dataPortBasic.getEvent()) {
 					Event event = (Event)eachEvent;
 					EventParam eventp = new EventParam();
+					eventp.setName(event.getName());
 					eventp.setDataType(event.getType());
 					if(event instanceof EventDoc) {
 						EventDoc docEvent = (EventDoc)event;
@@ -811,11 +812,13 @@ public class ParamUtil {
 		DataportExt dataport = factory.createDataportExt();
 		dataport.setPortType(IRtcBuilderConstants.SPEC_EVENTPORT_KIND);
 		dataport.setName(eventportp.getName());
+		dataport.setType("RTC::TimedLong");
 		dataport.setVariableName(eventportp.getVarname());
 		dataport.setPosition(Position.fromValue(eventportp.getPosition().toUpperCase()));
 		//
 		for(EventParam eventp : eventportp.getEvents()) {
 			EventDoc event = factory.createEventDoc();
+			event.setName(eventp.getName());
 			event.setType(eventp.getDataType());
 			//
 			DocEventport docEvent = factory.createDocEventport();
@@ -827,6 +830,8 @@ public class ParamUtil {
 			docEvent.setOccerrence(eventp.getDoc_occurrence());
 			docEvent.setOperation(eventp.getDoc_operation());
 			event.setDoc(docEvent);
+			
+			dataport.getEvent().add(event);
 		}
 		//
 		return dataport;

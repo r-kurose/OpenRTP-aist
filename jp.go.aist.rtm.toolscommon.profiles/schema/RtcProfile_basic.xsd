@@ -117,7 +117,8 @@
 	</xsd:complexType>
 
 	<xsd:complexType name="event">
-		<xsd:attribute name="type" type="xsd:string" use="required"/>
+		<xsd:attribute name="name" type="xsd:string" use="required"/>
+		<xsd:attribute name="type" type="xsd:string" use="optional"/>
 	</xsd:complexType>
 
 	<xsd:complexType name="serviceport">

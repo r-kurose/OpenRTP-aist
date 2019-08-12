@@ -13,6 +13,7 @@ import java.util.Map;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
+import jp.go.aist.rtm.rtcbuilder.fsm.TransitionParam;
 import jp.go.aist.rtm.rtcbuilder.generator.ProfileHandler;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
@@ -917,6 +918,17 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 
 	public void setFsmParam(StateParam fsmParam) {
 		this.fsmParam = fsmParam;
+		if(0<this.eventports.size()) {
+			EventPortParam eport = this.eventports.get(0);
+			eport.getEvents().clear();
+			for(TransitionParam trans : fsmParam.getAllTransList()) {
+				String event = trans.getEvent();
+				if(event==null || event.length()==0) continue;
+				EventParam eventp = new EventParam();
+				eventp.setName(event);
+				eport.getEvents().add(eventp);
+			}
+		}
 	}
 
 	
@@ -941,6 +953,11 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		}
 		if (this.eventports.isUpdated()) {
 			return true;
+		}
+		for(EventPortParam event : this.eventports) {
+			if(event.getEvents().isUpdated()) {
+				return true;
+			}
 		}
 		if (this.serviceports.isUpdated()) {
 			return true;
@@ -968,6 +985,9 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		this.inports.resetUpdated();
 		this.outports.resetUpdated();
 		this.eventports.resetUpdated();
+		for(EventPortParam event : this.eventports) {
+			event.getEvents().resetUpdated();
+		}
 		//
 		this.serviceports.resetUpdated();
 		//
@@ -980,32 +1000,12 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	}
 	/////
 	public void addFSMPort() {
-		boolean isExist = false;
-		for(DataPortParam port : inports) {
-			if(port.getName().equals("FSMEvent")) {
-				isExist = true;
-				break;
-			}
-		}
-		if(isExist) return;
-		//
-		DataPortParam fsmParam = new DataPortParam("FSMEvent", "RTC::TimedLong", "FSMEvent", 0);
-		PropertyParam prop = new PropertyParam("type", "FSMEvent");
-		fsmParam.getProperties().add(prop);
-		inports.add(fsmParam);
+		if(0<eventports.size()) return;
+		eventports.add(new EventPortParam("FSMEvent", "FSMEvent", 0));
 	}
 	
 	public void deleteFSMPort() {
-		DataPortParam target = null;
-		for(DataPortParam port : inports) {
-			if(port.getName().equals("FSMEvent")) {
-				target = port;
-				break;
-			}
-		}
-		if(target==null) return;
-		//
-		inports.remove(target);
+		eventports.clear();
 	}
 	
 	public PropertyParam getProperty(String target) {
@@ -1033,17 +1033,6 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 			getProperties().add(prop);
 		}
 		prop.setValue(value);
-	}
-	
-	public DataPortParam getFSMport() {
-		for(DataPortParam target : inports) {
-			for(PropertyParam prop : target.getProperties()) {
-				if(prop.getName().equals("type") && prop.getValue().equals("FSMEvent")) {
-					return target;
-				}
-			}
-		}
-		return null;
 	}
 	
 	public boolean isStaticFSM() {

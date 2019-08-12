@@ -17,7 +17,8 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;complexType name="event">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;attribute name="type" use="required" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *       &lt;attribute name="name" use="required" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *       &lt;attribute name="type" type="{http://www.w3.org/2001/XMLSchema}string" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -32,8 +33,34 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class Event {
 
-    @XmlAttribute(name = "type", namespace = "http://www.openrtp.org/namespaces/rtc", required = true)
+    @XmlAttribute(name = "name", namespace = "http://www.openrtp.org/namespaces/rtc", required = true)
+    protected String name;
+    @XmlAttribute(name = "type", namespace = "http://www.openrtp.org/namespaces/rtc")
     protected String type;
+
+    /**
+     * nameプロパティの値を取得します。
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * nameプロパティの値を設定します。
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setName(String value) {
+        this.name = value;
+    }
 
     /**
      * typeプロパティの値を取得します。

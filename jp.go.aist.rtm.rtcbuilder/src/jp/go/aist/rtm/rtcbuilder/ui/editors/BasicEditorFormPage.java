@@ -66,6 +66,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.PropertyParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
+import jp.go.aist.rtm.rtcbuilder.nl.Messages;
 import jp.go.aist.rtm.rtcbuilder.ui.Perspective.LanguageProperty;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.DocumentPreferenceManager;
@@ -813,8 +814,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		    				FileDialog dialogFSM = new FileDialog(getSite().getShell(),SWT.OPEN);
 		    				dialogFSM.setText("FSM Import");
 		    		        
-		    				//TODO 多言語化
-		    				String[] namesFSM = new String[] { "SCXMLファイル", "XMLファイル" };
+		    				String[] namesFSM = new String[] { Messages.getString("IMC.FILE_SCXML"), Messages.getString("IMC.FILE_XML") };
 		    				String[] extsFSM = new String[] { "*.scxml","*.xml" };
 		    				dialogFSM.setFilterNames(namesFSM);
 		    				dialogFSM.setFilterExtensions(extsFSM);

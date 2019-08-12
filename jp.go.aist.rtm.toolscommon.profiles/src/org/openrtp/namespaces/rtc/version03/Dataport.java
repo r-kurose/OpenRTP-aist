@@ -324,5 +324,8 @@ public class Dataport {
     public void setUnit(String value) {
         this.unit = value;
     }
+    
+    public void setEvent(List<Event> list) {
+    }
 
 }

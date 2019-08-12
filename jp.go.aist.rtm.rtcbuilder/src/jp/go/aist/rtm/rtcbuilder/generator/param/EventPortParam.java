@@ -14,8 +14,20 @@ public class EventPortParam extends PortBaseParam implements Serializable {
 	private String name;
 	private String varname;
 	
-	private List<EventParam> events = new ArrayList<EventParam>();
+	private RecordedList<EventParam> events = new RecordedList<EventParam>();
 
+	public EventPortParam() {
+		this.name = "";
+		this.varname = "";
+	}
+	
+	public EventPortParam(String name, String varname, int selection) {
+		this.name = name;
+		this.varname = varname;
+		this.selection = selection;
+		this.position = DataPortParam.COMBO_ITEM[selection];
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -30,7 +42,7 @@ public class EventPortParam extends PortBaseParam implements Serializable {
 		this.varname = varname;
 	}
 
-	public List<EventParam> getEvents() {
+	public RecordedList<EventParam> getEvents() {
 		return events;
 	}
 }
