@@ -309,6 +309,104 @@ ${sharp}${sharp}${sharp} Activity definition
     <td colspan="2"></td>
   </tr>
 #end
+#if(${rtcParam.Choreonoid})
+  <tr>
+    <td rowspan="4">initializeIO</td>
+    <td colspan="2">implemented</td>
+    <tr>
+      <td>Description</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>PreCondition</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>PostCondition</td>
+      <td></td>
+    </tr>
+  </tr>
+  <tr>
+    <td rowspan="4">initializeSimulation</td>
+    <td colspan="2">implemented</td>
+    <tr>
+      <td>Description</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>PreCondition</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>PostCondition</td>
+      <td></td>
+    </tr>
+  </tr>
+  <tr>
+    <td rowspan="4">startSimulation</td>
+    <td colspan="2">implemented</td>
+    <tr>
+      <td>Description</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>PreCondition</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>PostCondition</td>
+      <td></td>
+    </tr>
+  </tr>
+  <tr>
+    <td rowspan="4">inputFromSimulator</td>
+    <td colspan="2">implemented</td>
+    <tr>
+      <td>Description</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>PreCondition</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>PostCondition</td>
+      <td></td>
+    </tr>
+  </tr>
+  <tr>
+    <td rowspan="4">outputToSimulator</td>
+    <td colspan="2">implemented</td>
+    <tr>
+      <td>Description</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>PreCondition</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>PostCondition</td>
+      <td></td>
+    </tr>
+  </tr>
+  <tr>
+    <td rowspan="4">stopSimulation</td>
+    <td colspan="2">implemented</td>
+    <tr>
+      <td>Description</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>PreCondition</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>PostCondition</td>
+      <td></td>
+    </tr>
+  </tr>
+#end
 </table>
 
 ${sharp}${sharp}${sharp} InPorts definition
