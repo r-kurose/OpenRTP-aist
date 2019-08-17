@@ -88,6 +88,17 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 		return result;
 	}
 	
+	public GeneratedResult generateTestIncludeCMakeLists(Map<String, Object> contextMap) {
+		return null;
+	}
+	
+	public GeneratedResult generateTestIncModuleCMakeLists(Map<String, Object> contextMap) {
+		return null;
+	}
+	public GeneratedResult generateTestSrcCMakeLists(Map<String, Object> contextMap) {
+		return null;
+	}
+	
 	// 1.0系 (CMake/cpack_resources)
 	public GeneratedResult generatePostinstIin(Map<String, Object> contextMap) {
 		String outfile = "postinst.in";
