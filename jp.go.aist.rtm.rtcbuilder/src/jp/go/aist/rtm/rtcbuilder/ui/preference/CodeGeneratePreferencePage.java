@@ -111,47 +111,47 @@ public class CodeGeneratePreferencePage extends AbstarctFieldEditorPreferencePag
 		Composite basicGroup = createGroup(composite, IPreferenceMessageConstants.CODE_GEN_TITLE_BASIC);
 		DigitAlphabetStringFieldEditor moduleNameEditor = 
 			new DigitAlphabetStringFieldEditor(ComponentPreferenceManager.Generate_Basic_Name,
-					IMessageConstants.BASIC_LBL_MODULENAME, basicGroup);
+					Messages.getString("IMC.BASIC_LBL_MODULENAME"), basicGroup);
 		addField(moduleNameEditor);
 		StringFieldEditor moduleDescriptionEditor = 
 			new StringFieldEditor(ComponentPreferenceManager.Generate_Basic_Description,
-				IMessageConstants.BASIC_LBL_DESCRIPTION, basicGroup);
+					Messages.getString("IMC.BASIC_LBL_DESCRIPTION"), basicGroup);
 		addField(moduleDescriptionEditor);
 		StringFieldEditor moduleVersionEditor = 
 			new StringFieldEditor(ComponentPreferenceManager.Generate_Basic_Version,
-					IMessageConstants.BASIC_LBL_VERSION, basicGroup);
+					Messages.getString("IMC.BASIC_LBL_VERSION"), basicGroup);
 		addField(moduleVersionEditor);
 		StringFieldEditor moduleVendorEditor = 
 			new StringFieldEditor(ComponentPreferenceManager.Generate_Basic_Vendor_Name,
-					IMessageConstants.BASIC_LBL_VENDOR, basicGroup);
+					Messages.getString("IMC.BASIC_LBL_VENDOR"), basicGroup);
 		addField(moduleVendorEditor);
 		StringFieldEditor moduleCategoryEditor = 
 			new StringFieldEditor(ComponentPreferenceManager.Generate_Basic_Category,
-					IMessageConstants.BASIC_LBL_CATEGORY, basicGroup);
+					Messages.getString("IMC.BASIC_LBL_CATEGORY"), basicGroup);
 		addField(moduleCategoryEditor);
 		//
 		ComboFieldEditor componentTypeComboEditor = new ComboFieldEditor(ComponentPreferenceManager.Generate_Basic_ComponentType,
-				IMessageConstants.BASIC_LBL_COMPONENT_TYPE, componentTypeItems, basicGroup);
+				Messages.getString("IMC.BASIC_LBL_COMPONENT_TYPE"), componentTypeItems, basicGroup);
 		addField(componentTypeComboEditor);
 		ComboFieldEditor activityTypeComboEditor = new ComboFieldEditor(ComponentPreferenceManager.Generate_Basic_ActivityType,
-				IMessageConstants.BASIC_LBL_ACTIVITY_TYPE, activityTypeItems, basicGroup);
+				Messages.getString("IMC.BASIC_LBL_ACTIVITY_TYPE"), activityTypeItems, basicGroup);
 		addField(activityTypeComboEditor);
 		//
 		ComboFieldEditor componentKindCombo = new ComboFieldEditor(ComponentPreferenceManager.Generate_Basic_ComponentKind,
-				IMessageConstants.BASIC_LBL_COMPONENT_KIND, componentKindItems, basicGroup);
+				Messages.getString("IMC.BASIC_LBL_COMPONENT_KIND"), componentKindItems, basicGroup);
 		addField(componentKindCombo);
 		//
 		IntegerFieldEditor moduleMaxInstanceTextEditor = new IntegerFieldEditor(ComponentPreferenceManager.Generate_Basic_Max_Instance,
-				IMessageConstants.BASIC_LBL_MAX_INSTANCES, basicGroup);
+				Messages.getString("IMC.BASIC_LBL_MAX_INSTANCES"), basicGroup);
 		addField(moduleMaxInstanceTextEditor);
 		//
 		ComboFieldEditor executionTypeCombo = new ComboFieldEditor(ComponentPreferenceManager.Generate_Basic_ExecutionType,
-				IMessageConstants.BASIC_LBL_EXECUTION_TYPE, executionContextTypeItems, basicGroup);
+				Messages.getString("IMC.BASIC_LBL_EXECUTION_TYPE"), executionContextTypeItems, basicGroup);
 		addField(executionTypeCombo);
 		//
 		DoubleStringFieldEditor moduleExecutionRateTextEditor = 
 			new DoubleStringFieldEditor(ComponentPreferenceManager.Generate_Basic_Execution_Rate,
-					IMessageConstants.BASIC_LBL_EXECUTION_RATE, basicGroup);
+					Messages.getString("IMC.BASIC_LBL_EXECUTION_RATE"), basicGroup);
 		addField(moduleExecutionRateTextEditor);
 		//
 		StringFieldEditor commonPrefixEditor = 

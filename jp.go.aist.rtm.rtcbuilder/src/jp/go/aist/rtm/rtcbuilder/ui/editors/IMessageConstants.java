@@ -8,128 +8,57 @@ public interface IMessageConstants {
 	
 	public static final String HINT_TITLE = Messages.getString("IMessageConstants.HINT_TITLE"); //$NON-NLS-1$
 
-	public static final String BASIC_SECTION = Messages.getString("IMessageConstants.BASIC_SECTION"); //$NON-NLS-1$
-	public static final String BASIC_COMPONENT_TITLE = Messages.getString("IMessageConstants.BASIC_COMPONENT_TITLE"); //$NON-NLS-1$
-	public static final String BASIC_PROJECT_TITLE = Messages.getString("IMessageConstants.BASIC_PROJECT_TITLE"); //$NON-NLS-1$
-	public static final String BASIC_GENERATE_TITLE = Messages.getString("IMessageConstants.BASIC_GENERATE_TITLE"); //$NON-NLS-1$
-	public static final String BASIC_EXPORT_IMPORT_TITLE = Messages.getString("IMessageConstants.BASIC_EXPORT_IMPORT_TITLE"); //$NON-NLS-1$
-
-	public static final String BASIC_COMPONENT_EXPL = Messages.getString("IMessageConstants.BASIC_COMPONENT_EXPL"); //$NON-NLS-1$
-	public static final String BASIC_PROJECT_EXPL = Messages.getString("IMessageConstants.BASIC_PROJECT_EXPL"); //$NON-NLS-1$
-	public static final String BASIC_GENERATE_EXPL = Messages.getString("IMessageConstants.BASIC_GENERATE_EXPL"); //$NON-NLS-1$
-	public static final String BASIC_EXPORT_IMPORT_EXPL = Messages.getString("IMessageConstants.BASIC_EXPORT_IMPORT_EXPL"); //$NON-NLS-1$
-
-	public static final String BASIC_HINT_MODULENAME_TITLE = Messages.getString("IMessageConstants.BASIC_HINT_MODULENAME_TITLE"); //$NON-NLS-1$
-	public static final String BASIC_HINT_MODULENAME_DESC_P1 = Messages.getString("IMessageConstants.BASIC_HINT_MODULENAME_DESC_P1"); //$NON-NLS-1$
-	public static final String BASIC_HINT_MODULENAME_DESC_P2 = Messages.getString("IMessageConstants.BASIC_HINT_MODULENAME_DESC_P2"); //$NON-NLS-1$
-	public static final String BASIC_HINT_MODULENAME_DESC_P3 = Messages.getString("IMessageConstants.BASIC_HINT_MODULENAME_DESC_P3"); //$NON-NLS-1$
-	public static final String BASIC_HINT_MODULENAME_DESC_P4 = Messages.getString("IMessageConstants.BASIC_HINT_MODULENAME_DESC_P4"); //$NON-NLS-1$
-	public static final String BASIC_HINT_MODULENAME_DESC = StringUtil.connectMessageWithSepalator( new String[]{BASIC_HINT_MODULENAME_DESC_P1, BASIC_HINT_MODULENAME_DESC_P2, BASIC_HINT_MODULENAME_DESC_P3, BASIC_HINT_MODULENAME_DESC_P4});
-	public static final String BASIC_HINT_DESCRIPTION_TITLE = Messages.getString("IMessageConstants.BASIC_HINT_DESCRIPTION_TITLE"); //$NON-NLS-1$
-	public static final String BASIC_HINT_DESCRIPTION_DESC_P1 = Messages.getString("IMessageConstants.BASIC_HINT_DESCRIPTION_DESC_P1"); //$NON-NLS-1$
-	public static final String BASIC_HINT_DESCRIPTION_DESC_P2 = Messages.getString("IMessageConstants.BASIC_HINT_DESCRIPTION_DESC_P2"); //$NON-NLS-1$
-	public static final String BASIC_HINT_DESCRIPTION_DESC = StringUtil.connectMessageWithSepalator( new String[]{BASIC_HINT_DESCRIPTION_DESC_P1, BASIC_HINT_DESCRIPTION_DESC_P2});
-	public static final String BASIC_HINT_VERSION_TITLE = Messages.getString("IMessageConstants.BASIC_HINT_VERSION_TITLE"); //$NON-NLS-1$
-	public static final String BASIC_HINT_VERSION_DESC_P1 = Messages.getString("IMessageConstants.BASIC_HINT_VERSION_DESC_P1"); //$NON-NLS-1$
-	public static final String BASIC_HINT_VERSION_DESC_P2 = Messages.getString("IMessageConstants.BASIC_HINT_VERSION_DESC_P2"); //$NON-NLS-1$
-	public static final String BASIC_HINT_VERSION_DESC = StringUtil.connectMessageWithSepalator( new String[]{BASIC_HINT_VERSION_DESC_P1, BASIC_HINT_VERSION_DESC_P2});
-	public static final String BASIC_HINT_VENDOR_TITLE = Messages.getString("IMessageConstants.BASIC_HINT_VENDOR_TITLE"); //$NON-NLS-1$
-	public static final String BASIC_HINT_VENDOR_DESC_P1 = Messages.getString("IMessageConstants.BASIC_HINT_VENDOR_DESC_P1"); //$NON-NLS-1$
-	public static final String BASIC_HINT_VENDOR_DESC_P2 = Messages.getString("IMessageConstants.BASIC_HINT_VENDOR_DESC_P2"); //$NON-NLS-1$
-	public static final String BASIC_HINT_VENDOR_DESC = StringUtil.connectMessageWithSepalator( new String[]{BASIC_HINT_VENDOR_DESC_P1, BASIC_HINT_VENDOR_DESC_P2});
-	public static final String BASIC_HINT_CATEGORY_TITLE = Messages.getString("IMessageConstants.BASIC_HINT_CATEGORY_TITLE"); //$NON-NLS-1$
-	public static final String BASIC_HINT_CATEGORY_DESC_P1 = Messages.getString("IMessageConstants.BASIC_HINT_CATEGORY_DESC_P1"); //$NON-NLS-1$
-	public static final String BASIC_HINT_CATEGORY_DESC_P2 = Messages.getString("IMessageConstants.BASIC_HINT_CATEGORY_DESC_P2"); //$NON-NLS-1$
-	public static final String BASIC_HINT_CATEGORY_DESC_P3 = Messages.getString("IMessageConstants.BASIC_HINT_CATEGORY_DESC_P3"); //$NON-NLS-1$
-	public static final String BASIC_HINT_CATEGORY_DESC = StringUtil.connectMessageWithSepalator( new String[]{BASIC_HINT_CATEGORY_DESC_P1, BASIC_HINT_CATEGORY_DESC_P2, BASIC_HINT_CATEGORY_DESC_P3});
-	public static final String BASIC_HINT_COMPTYPE_TITLE = Messages.getString("IMessageConstants.BASIC_HINT_COMPTYPE_TITLE"); //$NON-NLS-1$
-	public static final String BASIC_HINT_COMPTYPE_DESC_P1 = Messages.getString("IMessageConstants.BASIC_HINT_COMPTYPE_DESC_P1"); //$NON-NLS-1$
-	public static final String BASIC_HINT_COMPTYPE_DESC_P2 = " " + Messages.getString("IMessageConstants.BASIC_HINT_COMPTYPE_DESC_P2"); //$NON-NLS-1$
-	public static final String BASIC_HINT_COMPTYPE_DESC_P3 = " " + Messages.getString("IMessageConstants.BASIC_HINT_COMPTYPE_DESC_P3"); //$NON-NLS-1$
-	public static final String BASIC_HINT_COMPTYPE_DESC_P4 = " " + Messages.getString("IMessageConstants.BASIC_HINT_COMPTYPE_DESC_P4"); //$NON-NLS-1$
-	public static final String BASIC_HINT_COMPTYPE_DESC = StringUtil.connectMessageWithSepalator( new String[]{BASIC_HINT_COMPTYPE_DESC_P1, BASIC_HINT_COMPTYPE_DESC_P2, BASIC_HINT_COMPTYPE_DESC_P3, BASIC_HINT_COMPTYPE_DESC_P4});
-	public static final String BASIC_HINT_ACTIVITYTYPE_TITLE = Messages.getString("IMessageConstants.BASIC_HINT_ACTIVITYTYPE_TITLE"); //$NON-NLS-1$
-	public static final String BASIC_HINT_ACTIVITYTYPE_DESC_P1 = Messages.getString("IMessageConstants.BASIC_HINT_ACTIVITYTYPE_DESC_P1"); //$NON-NLS-1$
-	public static final String BASIC_HINT_ACTIVITYTYPE_DESC_P2 = Messages.getString("IMessageConstants.BASIC_HINT_ACTIVITYTYPE_DESC_P2"); //$NON-NLS-1$
-	public static final String BASIC_HINT_ACTIVITYTYPE_DESC_P3 = Messages.getString("IMessageConstants.BASIC_HINT_ACTIVITYTYPE_DESC_P3"); //$NON-NLS-1$
-	public static final String BASIC_HINT_ACTIVITYTYPE_DESC_P4 = Messages.getString("IMessageConstants.BASIC_HINT_ACTIVITYTYPE_DESC_P4"); //$NON-NLS-1$
-	public static final String BASIC_HINT_ACTIVITYTYPE_DESC = StringUtil.connectMessageWithSepalator( new String[]{BASIC_HINT_ACTIVITYTYPE_DESC_P1, BASIC_HINT_ACTIVITYTYPE_DESC_P2, BASIC_HINT_ACTIVITYTYPE_DESC_P3, BASIC_HINT_ACTIVITYTYPE_DESC_P4});
-	public static final String BASIC_HINT_COMPKIND_TITLE = Messages.getString("IMessageConstants.BASIC_HINT_COMPKIND_TITLE"); //$NON-NLS-1$
-	public static final String BASIC_HINT_COMPKIND_DESC_P1 = Messages.getString("IMessageConstants.BASIC_HINT_COMPKIND_DESC_P1"); //$NON-NLS-1$
-	public static final String BASIC_HINT_COMPKIND_DESC_P2 = Messages.getString("IMessageConstants.BASIC_HINT_COMPKIND_DESC_P2"); //$NON-NLS-1$
-	public static final String BASIC_HINT_COMPKIND_DESC_P3 = Messages.getString("IMessageConstants.BASIC_HINT_COMPKIND_DESC_P3"); //$NON-NLS-1$
-	public static final String BASIC_HINT_COMPKIND_DESC_P4 = Messages.getString("IMessageConstants.BASIC_HINT_COMPKIND_DESC_P4"); //$NON-NLS-1$
-	public static final String BASIC_HINT_COMPKIND_DESC_P5 = Messages.getString("IMessageConstants.BASIC_HINT_COMPKIND_DESC_P5"); //$NON-NLS-1$
-	public static final String BASIC_HINT_COMPKIND_DESC = StringUtil.connectMessageWithSepalator( new String[]{BASIC_HINT_COMPKIND_DESC_P1, BASIC_HINT_COMPKIND_DESC_P2, BASIC_HINT_COMPKIND_DESC_P3, BASIC_HINT_COMPKIND_DESC_P4, BASIC_HINT_COMPKIND_DESC_P5});
-	public static final String BASIC_HINT_MAXINST_TITLE_P1 = Messages.getString("IMessageConstants.BASIC_HINT_MAXINST_TITLE_P1"); //$NON-NLS-1$
-	public static final String BASIC_HINT_MAXINST_TITLE_P2 = Messages.getString("IMessageConstants.BASIC_HINT_MAXINST_TITLE_P2"); //$NON-NLS-1$
-	public static final String BASIC_HINT_MAXINST_TITLE = StringUtil.connectMessageWithSepalator( new String[]{BASIC_HINT_MAXINST_TITLE_P1, BASIC_HINT_MAXINST_TITLE_P2});
-	public static final String BASIC_HINT_MAXINST_DESC_P1 = Messages.getString("IMessageConstants.BASIC_HINT_MAXINST_DESC_P1"); //$NON-NLS-1$
-	public static final String BASIC_HINT_MAXINST_DESC_P2 = Messages.getString("IMessageConstants.BASIC_HINT_MAXINST_DESC_P2"); //$NON-NLS-1$
-	public static final String BASIC_HINT_MAXINST_DESC = StringUtil.connectMessageWithSepalator( new String[]{BASIC_HINT_MAXINST_DESC_P1, BASIC_HINT_MAXINST_DESC_P2});
-	public static final String BASIC_HINT_EXECUTIONTYPE_TITLE = Messages.getString("IMessageConstants.BASIC_HINT_EXECUTIONTYPE_TITLE"); //$NON-NLS-1$
-	public static final String BASIC_HINT_EXECUTIONTYPE_DESC = Messages.getString("IMessageConstants.BASIC_HINT_EXECUTIONTYPE_DESC"); //$NON-NLS-1$
-	public static final String BASIC_HINT_EXECUTIONRATE_TITLE = Messages.getString("IMessageConstants.BASIC_HINT_EXECUTIONRATE_TITLE"); //$NON-NLS-1$
-	public static final String BASIC_HINT_EXECUTIONRATE_DESC_P1 = Messages.getString("IMessageConstants.BASIC_HINT_EXECUTIONRATE_DESC_P1"); //$NON-NLS-1$
-	public static final String BASIC_HINT_EXECUTIONRATE_DESC_P2 = Messages.getString("IMessageConstants.BASIC_HINT_EXECUTIONRATE_DESC_P2"); //$NON-NLS-1$
-	public static final String BASIC_HINT_EXECUTIONRATE_DESC_P3 = Messages.getString("IMessageConstants.BASIC_HINT_EXECUTIONRATE_DESC_P3"); //$NON-NLS-1$
-	public static final String BASIC_HINT_EXECUTIONRATE_DESC = StringUtil.connectMessageWithSepalator( new String[]{BASIC_HINT_EXECUTIONRATE_DESC_P1, BASIC_HINT_EXECUTIONRATE_DESC_P2, BASIC_HINT_EXECUTIONRATE_DESC_P3});
-	public static final String BASIC_HINT_ABSTRACT_TITLE = Messages.getString("IMessageConstants.BASIC_HINT_ABSTRACT_TITLE"); //$NON-NLS-1$
-	public static final String BASIC_HINT_ABSTRACT_DESC = Messages.getString("IMessageConstants.BASIC_HINT_ABSTRACT_DESC"); //$NON-NLS-1$
-	public static final String BASIC_HINT_RTCTYPE_TITLE = Messages.getString("IMessageConstants.BASIC_HINT_RTCTYPE_TITLE"); //$NON-NLS-1$
-	public static final String BASIC_HINT_RTCTYPE_DESC_P1 = Messages.getString("IMessageConstants.BASIC_HINT_RTCTYPE_DESC_P1"); //$NON-NLS-1$
-	public static final String BASIC_HINT_RTCTYPE_DESC_P2 = Messages.getString("IMessageConstants.BASIC_HINT_RTCTYPE_DESC_P2"); //$NON-NLS-1$
-	public static final String BASIC_HINT_RTCTYPE_DESC_P3 = Messages.getString("IMessageConstants.BASIC_HINT_RTCTYPE_DESC_P3"); //$NON-NLS-1$
-	public static final String BASIC_HINT_RTCTYPE_DESC = StringUtil.connectMessageWithSepalator( new String[]{BASIC_HINT_RTCTYPE_DESC_P1, BASIC_HINT_RTCTYPE_DESC_P2, BASIC_HINT_RTCTYPE_DESC_P3});
-	public static final String BASIC_HINT_PROJECT_TITLE = Messages.getString("IMessageConstants.BASIC_HINT_PROJECT_TITLE"); //$NON-NLS-1$
-	public static final String BASIC_HINT_PROJECT_DESC_P1 = Messages.getString("IMessageConstants.BASIC_HINT_PROJECT_DESC_P1"); //$NON-NLS-1$
-	public static final String BASIC_HINT_PROJECT_DESC_P2 = Messages.getString("IMessageConstants.BASIC_HINT_PROJECT_DESC_P2"); //$NON-NLS-1$
-	public static final String BASIC_HINT_PROJECT_DESC_P3 = Messages.getString("IMessageConstants.BASIC_HINT_PROJECT_DESC_P3"); //$NON-NLS-1$
-	public static final String BASIC_HINT_PROJECT_DESC_P4 = Messages.getString("IMessageConstants.BASIC_HINT_PROJECT_DESC_P4"); //$NON-NLS-1$
-	public static final String BASIC_HINT_PROJECT_DESC_P5 = Messages.getString("IMessageConstants.BASIC_HINT_PROJECT_DESC_P5"); //$NON-NLS-1$
-	public static final String BASIC_HINT_PROJECT_DESC = StringUtil.connectMessageWithSepalator( new String[]{BASIC_HINT_PROJECT_DESC_P1, BASIC_HINT_PROJECT_DESC_P2, BASIC_HINT_PROJECT_DESC_P3, BASIC_HINT_PROJECT_DESC_P4, BASIC_HINT_PROJECT_DESC_P5});
-	public static final String BASIC_HINT_GENERATE_TITLE = Messages.getString("IMessageConstants.BASIC_HINT_GENERATE_TITLE"); //$NON-NLS-1$
-	public static final String BASIC_HINT_GENERATE_DESC = Messages.getString("IMessageConstants.BASIC_HINT_GENERATE_DESC"); //$NON-NLS-1$
-	public static final String BASIC_HINT_IMPORT_TITLE = Messages.getString("IMessageConstants.BASIC_HINT_IMPORT_TITLE"); //$NON-NLS-1$
-	public static final String BASIC_HINT_IMPORT_DESC = Messages.getString("IMessageConstants.BASIC_HINT_IMPORT_DESC"); //$NON-NLS-1$
-	public static final String BASIC_HINT_EXPORT_TITLE = Messages.getString("IMessageConstants.BASIC_HINT_EXPORT_TITLE"); //$NON-NLS-1$
-	public static final String BASIC_HINT_EXPORT_DESC = Messages.getString("IMessageConstants.BASIC_HINT_EXPORT_DESC"); //$NON-NLS-1$
-
-	public static final String BASIC_LBL_MODULENAME = Messages.getString("IMessageConstants.BASIC_LBL_MODULENAME"); //$NON-NLS-1$
-	public static final String BASIC_LBL_DESCRIPTION = Messages.getString("IMessageConstants.BASIC_LBL_DESCRIPTION"); //$NON-NLS-1$
-	public static final String BASIC_LBL_VERSION = Messages.getString("IMessageConstants.BASIC_LBL_VERSION"); //$NON-NLS-1$
-	public static final String BASIC_LBL_VENDOR = Messages.getString("IMessageConstants.BASIC_LBL_VENDOR"); //$NON-NLS-1$
-	public static final String BASIC_LBL_CATEGORY = Messages.getString("IMessageConstants.BASIC_LBL_CATEGORY"); //$NON-NLS-1$
-	public static final String BASIC_LBL_COMPONENT_TYPE = Messages.getString("IMessageConstants.BASIC_LBL_COMPONENT_TYPE"); //$NON-NLS-1$
-	public static final String BASIC_LBL_ACTIVITY_TYPE = Messages.getString("IMessageConstants.BASIC_LBL_ACTIVITY_TYPE"); //$NON-NLS-1$
-	public static final String BASIC_LBL_COMPONENT_KIND = Messages.getString("IMessageConstants.BASIC_LBL_COMPONENT_KIND"); //$NON-NLS-1$
-	public static final String BASIC_LBL_MAX_INSTANCES = Messages.getString("IMessageConstants.BASIC_LBL_MAX_INSTANCES"); //$NON-NLS-1$
-	public static final String BASIC_LBL_EXECUTION_TYPE = Messages.getString("IMessageConstants.BASIC_LBL_EXECUTION_TYPE"); //$NON-NLS-1$
-	public static final String BASIC_LBL_EXECUTION_RATE = Messages.getString("IMessageConstants.BASIC_LBL_EXECUTION_RATE"); //$NON-NLS-1$
-	public static final String BASIC_LBL_ABSTRACT = Messages.getString("IMessageConstants.BASIC_LBL_ABSTRACT"); //$NON-NLS-1$
-	public static final String BASIC_LBL_RTCTYPE = Messages.getString("IMessageConstants.BASIC_LBL_RTCTYPE"); //$NON-NLS-1$
-
-	public static final String BASIC_BTN_REF = Messages.getString("IMessageConstants.BASIC_BTN_REF"); //$NON-NLS-1$
-	public static final String BASIC_BTN_GENERATE = Messages.getString("IMessageConstants.BASIC_BTN_GENERATE"); //$NON-NLS-1$
-	public static final String BASIC_BTN_IMPORT = Messages.getString("IMessageConstants.BASIC_BTN_IMPORT"); //$NON-NLS-1$
-	public static final String BASIC_BTN_EXPORT = Messages.getString("IMessageConstants.BASIC_BTN_EXPORT"); //$NON-NLS-1$
-
-	public static final String BASIC_IMPORT_ERROR = Messages.getString("IMessageConstants.BASIC_IMPORT_ERROR"); //$NON-NLS-1$
-	public static final String BASIC_IMPORT_DONE = Messages.getString("IMessageConstants.BASIC_IMPORT_DONE"); //$NON-NLS-1$
-	public static final String BASIC_EXPORT_ERROR = Messages.getString("IMessageConstants.BASIC_EXPORT_ERROR"); //$NON-NLS-1$
-	public static final String BASIC_EXPORT_DONE = Messages.getString("IMessageConstants.BASIC_EXPORT_DONE"); //$NON-NLS-1$
-	public static final String BASIC_PERSPECTIVE_TEXT = Messages.getString("IMessageConstants.BASIC_PERSPECTIVE_TEXT"); //$NON-NLS-1$
-	public static final String BASIC_PERSPECTIVE_MSG1 = Messages.getString("IMessageConstants.BASIC_PERSPECTIVE_MSG1"); //$NON-NLS-1$
-	public static final String BASIC_PERSPECTIVE_MSG2 = " " + Messages.getString("IMessageConstants.BASIC_PERSPECTIVE_MSG2"); //$NON-NLS-1$
-
-	public static final String BASIC_VALIDATE_NAME1 = Messages.getString("IMessageConstants.BASIC_VALIDATE_NAME1"); //$NON-NLS-1$
+	public static final String BASIC_HINT_MODULENAME_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+			Messages.getString("IMC.BASIC_HINT_MODULENAME_DESC_P1"),
+			Messages.getString("IMC.BASIC_HINT_MODULENAME_DESC_P2"),
+			Messages.getString("IMC.BASIC_HINT_MODULENAME_DESC_P3"),
+			Messages.getString("IMC.BASIC_HINT_MODULENAME_DESC_P4")});
+	public static final String BASIC_HINT_DESCRIPTION_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+			Messages.getString("IMC.BASIC_HINT_DESCRIPTION_DESC_P1"),
+			Messages.getString("IMC.BASIC_HINT_DESCRIPTION_DESC_P2")});
+	public static final String BASIC_HINT_VERSION_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+			Messages.getString("IMC.BASIC_HINT_VERSION_DESC_P1"),
+			Messages.getString("IMC.BASIC_HINT_VERSION_DESC_P2")});
+	public static final String BASIC_HINT_VENDOR_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+			Messages.getString("IMC.BASIC_HINT_VENDOR_DESC_P1"),
+			Messages.getString("IMC.BASIC_HINT_VENDOR_DESC_P2")});
+	public static final String BASIC_HINT_CATEGORY_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+			Messages.getString("IMC.BASIC_HINT_CATEGORY_DESC_P1"),
+			Messages.getString("IMC.BASIC_HINT_CATEGORY_DESC_P2"),
+			Messages.getString("IMC.BASIC_HINT_CATEGORY_DESC_P3")});
+	public static final String BASIC_HINT_COMPTYPE_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+			Messages.getString("IMC.BASIC_HINT_COMPTYPE_DESC_P1"),
+			" " + Messages.getString("IMC.BASIC_HINT_COMPTYPE_DESC_P2"),
+			" " + Messages.getString("IMC.BASIC_HINT_COMPTYPE_DESC_P3"),
+			" " + Messages.getString("IMC.BASIC_HINT_COMPTYPE_DESC_P4")});
+	public static final String BASIC_HINT_ACTIVITYTYPE_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+			Messages.getString("IMC.BASIC_HINT_ACTIVITYTYPE_DESC_P1"),
+			Messages.getString("IMC.BASIC_HINT_ACTIVITYTYPE_DESC_P2"),
+			Messages.getString("IMC.BASIC_HINT_ACTIVITYTYPE_DESC_P3"),
+			Messages.getString("IMC.BASIC_HINT_ACTIVITYTYPE_DESC_P4")});
+	public static final String BASIC_HINT_COMPKIND_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+			Messages.getString("IMC.BASIC_HINT_COMPKIND_DESC_P1"),
+			Messages.getString("IMC.BASIC_HINT_COMPKIND_DESC_P2"),
+			Messages.getString("IMC.BASIC_HINT_COMPKIND_DESC_P3"),
+			Messages.getString("IMC.BASIC_HINT_COMPKIND_DESC_P4"),
+			Messages.getString("IMC.BASIC_HINT_COMPKIND_DESC_P5")});
+	public static final String BASIC_HINT_MAXINST_TITLE = StringUtil.connectMessageWithSepalator( new String[]{
+			Messages.getString("IMC.BASIC_HINT_MAXINST_TITLE_P1"),
+			Messages.getString("IMC.BASIC_HINT_MAXINST_TITLE_P2")});
+	public static final String BASIC_HINT_MAXINST_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+			Messages.getString("IMC.BASIC_HINT_MAXINST_DESC_P1"),
+			Messages.getString("IMC.BASIC_HINT_MAXINST_DESC_P2")});
+	public static final String BASIC_HINT_EXECUTIONRATE_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+			Messages.getString("IMC.BASIC_HINT_EXECUTIONRATE_DESC_P1"),
+			Messages.getString("IMC.BASIC_HINT_EXECUTIONRATE_DESC_P2"),
+			Messages.getString("IMC.BASIC_HINT_EXECUTIONRATE_DESC_P3")});
+	public static final String BASIC_HINT_RTCTYPE_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+			Messages.getString("IMC.BASIC_HINT_RTCTYPE_DESC_P1"),
+			Messages.getString("IMC.BASIC_HINT_RTCTYPE_DESC_P2"),
+			Messages.getString("IMC.BASIC_HINT_RTCTYPE_DESC_P3")});
+	
 	public static final String BASIC_VALIDATE_NAME2 = Messages.getString("IMessageConstants.BASIC_VALIDATE_NAME2"); //$NON-NLS-1$
 	public static final String BASIC_VALIDATE_CATEGORY = Messages.getString("IMessageConstants.BASIC_VALIDATE_CATEGORY"); //$NON-NLS-1$
-	public static final String BASIC_VALIDATE_MAXINST1 = Messages.getString("IMessageConstants.BASIC_VALIDATE_MAXINST1"); //$NON-NLS-1$
-	public static final String BASIC_VALIDATE_MAXINST2 = Messages.getString("IMessageConstants.BASIC_VALIDATE_MAXINST2"); //$NON-NLS-1$
-	public static final String BASIC_VALIDATE_ECRATE1 = Messages.getString("IMessageConstants.BASIC_VALIDATE_ECRATE1"); //$NON-NLS-1$
-	public static final String BASIC_VALIDATE_ECRATE2 = Messages.getString("IMessageConstants.BASIC_VALIDATE_ECRATE2"); //$NON-NLS-1$
-
 
 	public static final String DATAPORT_DOCUMENT_EXPL = StringUtil.connectMessageWithSepalator( new String[]{
 			Messages.getString("IMC.DATAPORT_DOCUMENT_EXPL_P1"),
