@@ -59,6 +59,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.EventParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.EventPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.PropertyParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
+import jp.go.aist.rtm.rtcbuilder.nl.Messages;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.IPreferenceMessageConstants;
 import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 import jp.go.aist.rtm.toolscommon.fsm.editor.SCXMLGraphEditor;
@@ -354,9 +355,9 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 		portGroup.setLayoutData(gd);
 		
 		portNameText = createLabelAndText(toolkit, portGroup,
-				IMessageConstants.DATAPORT_LBL_PORTNAME, SWT.BORDER);
+				Messages.getString("IMC.DATAPORT_LBL_PORTNAME"), SWT.BORDER);
 		variableNameText = createLabelAndText(toolkit, portGroup,
-				IMessageConstants.CONFIGURATION_LBL_VARNAME, SWT.BORDER);
+				Messages.getString("IMC.CONFIGURATION_LBL_VARNAME"), SWT.BORDER);
 		/////
 		Group eventGroup = new Group(composite, SWT.NONE);
 		eventGroup.setText(IMessageConstants.EVENTLIST_NAME);
@@ -372,7 +373,8 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 		gd.grabExcessHorizontalSpace = true;
 		eventTableViewer.getTable().setLayoutData(gd);
 		super.createColumn(eventTableViewer, IMessageConstants.EVENT_NAME, 200);
-		super.createColumn(eventTableViewer, IMessageConstants.DATAPORT_TBLLBL_DATATYPE, 200);
+		super.createColumn(eventTableViewer,
+				Messages.getString("IMC.DATAPORT_TBLLBL_DATATYPE"), 200);
 		eventTableViewer.setLabelProvider(new EventParamLabelProvider());
 		//
 		eventTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
@@ -405,7 +407,7 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 		eventNameDetailText.setEditable(false);
 		eventNameDetailText.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
 		
-		Label label = toolkit.createLabel(eventGroup, IMessageConstants.DATAPORT_TBLLBL_DATATYPE);
+		Label label = toolkit.createLabel(eventGroup, Messages.getString("IMC.DATAPORT_TBLLBL_DATATYPE"));
 		typeCombo = new Combo(eventGroup, SWT.DROP_DOWN);
 		typeCombo.setItems(defaultTypeList);
 		typeCombo.select(0);
@@ -453,24 +455,24 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 		documentGroup.setLayoutData(gd);
 		//
 		descriptionText = createLabelAndText(toolkit, documentGroup,
-				IMessageConstants.DATAPORT_LBL_DESCRIPTION, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
+				Messages.getString("IMC.DATAPORT_LBL_DESCRIPTION"), SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.heightHint = 50;
 		descriptionText.setLayoutData(gridData);
 		typeText = createLabelAndText(toolkit, documentGroup,
-				IMessageConstants.DATAPORT_LBL_PORTTYPE, SWT.BORDER);
+				Messages.getString("IMC.DATAPORT_LBL_PORTTYPE"), SWT.BORDER);
 		numberText = createLabelAndText(toolkit, documentGroup,
-				IMessageConstants.DATAPORT_LBL_DATANUM, SWT.BORDER);
+				Messages.getString("IMC.DATAPORT_LBL_DATANUM"), SWT.BORDER);
 		semanticsText = createLabelAndText(toolkit, documentGroup,
-				IMessageConstants.DATAPORT_LBL_SEMANTICS, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
+				Messages.getString("IMC.DATAPORT_LBL_SEMANTICS"), SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
 		semanticsText.setLayoutData(gridData);
 		unitText = createLabelAndText(toolkit, documentGroup,
-				IMessageConstants.DATAPORT_LBL_UNIT, SWT.BORDER);
+				Messages.getString("IMC.DATAPORT_LBL_UNIT"), SWT.BORDER);
 		occurrenceText = createLabelAndText(toolkit, documentGroup,
-				IMessageConstants.DATAPORT_LBL_OCCUR, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
+				Messages.getString("IMC.DATAPORT_LBL_OCCUR"), SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
 		occurrenceText.setLayoutData(gridData);
 		operationText = createLabelAndText(toolkit, documentGroup,
-				IMessageConstants.DATAPORT_LBL_OPERAT, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
+				Messages.getString("IMC.DATAPORT_LBL_OPERAT"), SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
 		operationText.setLayoutData(gridData);
 	}
 

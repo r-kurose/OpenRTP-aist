@@ -45,7 +45,6 @@ import java.io.File;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigParameterParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.PropertyParam;
@@ -329,32 +328,6 @@ public class TemplateHelper {
 			builder.append(" ");
 		}
 		return builder.toString();
-	}
-	
-	//ConfigParameterのチェック
-	public boolean checkPeriodicType(RtcParam param) {
-		for( ConfigParameterParam target : param.getConfigParameterParams() ) {
-			if( target.getConfigName().trim().equals("exec_cxt.periodic.type") ) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public boolean checkNotPeriodicTypeParam(ConfigParameterParam param) {
-		if( param.getConfigName().trim().equals("exec_cxt.periodic.type") ) {
-			return false;
-		}
-		return true;
-	}
-	
-	public String getPeriodicTypeValue(RtcParam param) {
-		for( ConfigParameterParam target : param.getConfigParameterParams() ) {
-			if( target.getConfigName().trim().equals("exec_cxt.periodic.type") ) {
-				return target.getDefaultVal();
-			}
-		}
-		return "";
 	}
 	
 	public boolean checkNotWidget(RtcParam param) {

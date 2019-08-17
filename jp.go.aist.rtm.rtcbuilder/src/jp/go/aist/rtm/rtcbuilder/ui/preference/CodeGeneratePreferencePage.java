@@ -1,6 +1,7 @@
 package jp.go.aist.rtm.rtcbuilder.ui.preference;
 
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
+import jp.go.aist.rtm.rtcbuilder.nl.Messages;
 import jp.go.aist.rtm.rtcbuilder.ui.editors.IMessageConstants;
 
 import org.eclipse.jface.preference.ComboFieldEditor;
@@ -72,27 +73,27 @@ public class CodeGeneratePreferencePage extends AbstarctFieldEditorPreferencePag
 		Composite configGroup = createGroup(composite, IPreferenceMessageConstants.CODE_GEN_TITLE_CONFIG);
 		DigitAlphabetStringFieldEditor configurationNameEditor = 
 			new DigitAlphabetStringFieldEditor(ComponentPreferenceManager.Generate_Configuration_Name,
-					IMessageConstants.CONFIGURATION_TBLLBL_NAME, configGroup);
+					Messages.getString("IMC.CONFIGURATION_TBLLBL_NAME"), configGroup);
 		addField(configurationNameEditor);
 		StringFieldEditor configurationTypeEditor = 
 			new StringFieldEditor(ComponentPreferenceManager.Generate_Configuration_Type,
-					IMessageConstants.CONFIGURATION_TBLLBL_TYPE, configGroup);
+					Messages.getString("IMC.CONFIGURATION_TBLLBL_TYPE"), configGroup);
 		addField(configurationTypeEditor);
 		StringFieldEditor configurationVarNameEditor = 
 			new StringFieldEditor(ComponentPreferenceManager.Generate_Configuration_VarName,
-					IMessageConstants.CONFIGURATION_LBL_VARNAME, configGroup);
+					Messages.getString("IMC.CONFIGURATION_LBL_VARNAME"), configGroup);
 		addField(configurationVarNameEditor);
 		DigitAlphabetStringFieldEditor configurationDefaultEditor = 
 			new DigitAlphabetStringFieldEditor(ComponentPreferenceManager.Generate_Configuration_Default,
-					IMessageConstants.CONFIGURATION_TBLLBL_DEFAULTVAL, configGroup);
+					Messages.getString("IMC.CONFIGURATION_TBLLBL_DEFAULTVAL"), configGroup);
 		addField(configurationDefaultEditor);
 		StringFieldEditor configurationConstraintEditor = 
 			new StringFieldEditor(ComponentPreferenceManager.Generate_Configuration_Constraint,
-					IMessageConstants.CONFIGURATION_LBL_CONSTRAINT, configGroup);
+					Messages.getString("IMC.CONFIGURATION_LBL_CONSTRAINT"), configGroup);
 		addField(configurationConstraintEditor);
 		StringFieldEditor configurationUnitEditor = 
 			new StringFieldEditor(ComponentPreferenceManager.Generate_Configuration_Unit,
-					IMessageConstants.CONFIGURATION_LBL_UNIT, configGroup);
+					Messages.getString("IMC.CONFIGURATION_LBL_UNIT"), configGroup);
 		addField(configurationUnitEditor);
 		//
 		StringFieldEditor configurationPrefixEditor = 
