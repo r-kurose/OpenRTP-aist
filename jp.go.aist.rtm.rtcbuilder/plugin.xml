@@ -101,11 +101,6 @@
            name="%preferecePagesCodeGenerateName"/>
      <page
            category="jp.go.aist.rtm.rtcbuilder.ui.preferencePage.codeGenerate"
-           class="jp.go.aist.rtm.rtcbuilder.ui.preference.ConfigPreferencePage"
-           id="jp.go.aist.rtm.rtcbuilder.ui.preferencePage.codeGenerate.Configuration"
-           name="%preferecePagesConfigurationName"/>
-     <page
-           category="jp.go.aist.rtm.rtcbuilder.ui.preferencePage.codeGenerate"
            class="jp.go.aist.rtm.rtcbuilder.ui.preference.CodeGeneratePortPreferencePage"
            id="jp.go.aist.rtm.rtcbuilder.ui.preferencePage.codeGenerate.Ports"
            name="%preferecePagesPortsName"/>

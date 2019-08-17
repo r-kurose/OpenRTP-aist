@@ -55,7 +55,6 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	private RecordedList<ServiceClassParam> serviceClassParams = new RecordedList<ServiceClassParam>();
 	//コンフィギュレーション
 	private RecordedList<ConfigSetParam> configParams = new RecordedList<ConfigSetParam>();
-	private RecordedList<ConfigParameterParam> configParameterParams = new RecordedList<ConfigParameterParam>();
 	//言語・環境
 	private RecordedList<String> langList = new RecordedList<String>();
 	private RecordedList<String> langArgList = new RecordedList<String>();
@@ -332,9 +331,6 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	public List<ConfigSetParam> getConfigParams() {
 		return configParams;
 	}
-	public List<ConfigParameterParam> getConfigParameterParams() {
-		return configParameterParams;
-	}
 	//RTC.xml
 	public String getRtcXml() {
 		return rtcxml;
@@ -368,14 +364,12 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	//
 	public void setLanguage(String lang) {
 		if (lang != null) {
-			// this.langList = Arrays.asList(lang.split(","));
 			getLangList().clear();
 			getLangList().addAll(Arrays.asList(lang.split(",")));
 		}
 	}
 	public void setLanguageArg(String lang) {
 		if (lang != null) {
-			// this.langArgList = Arrays.asList(lang.split(","));
 			getLangArgList().clear();
 			getLangArgList().addAll(Arrays.asList(lang.split(",")));
 		}
@@ -806,7 +800,6 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		}
 		getLibraryPathes().clear();
 		getLibraryPathes().addAll(libraries);
-		// this.setLibraryPathes(libraries);
 	}
 
 	private void checkAndAddIDLPath(String targetType, List<String> idlPathes,
@@ -872,7 +865,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		this.test_version = isTest;
 	}
 	public boolean checkConfig() {
-		if( 0<configParams.size() || 0<configParameterParams.size() || 0.0<executionRate ) {
+		if( 0<configParams.size() || 0.0<executionRate ) {
 			return true;
 		}
 		return false;
@@ -928,8 +921,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		if (this.serviceports.isUpdated()) {
 			return true;
 		}
-		if (this.configParams.isUpdated()
-				|| this.configParameterParams.isUpdated()) {
+		if (this.configParams.isUpdated()) {
 			return true;
 		}
 		if (this.actions.isUpdated()) {
@@ -954,7 +946,6 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		this.serviceports.resetUpdated();
 		//
 		this.configParams.resetUpdated();
-		this.configParameterParams.resetUpdated();
 		//
 		this.actions.resetUpdated();
 		//
