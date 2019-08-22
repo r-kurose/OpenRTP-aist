@@ -4,6 +4,7 @@ public class TransitionParam {
 	private String event;
 	private String condition;
 	private String target;
+	private String source;
 	
 	public String getEvent() {
 		return event;
@@ -17,6 +18,13 @@ public class TransitionParam {
 	}
 	public void setCondition(String condition) {
 		this.condition = condition;
+	}
+	
+	public String getSource() {
+		return source;
+	}
+	public void setSource(String source) {
+		this.source = source;
 	}
 	
 	public String getTarget() {

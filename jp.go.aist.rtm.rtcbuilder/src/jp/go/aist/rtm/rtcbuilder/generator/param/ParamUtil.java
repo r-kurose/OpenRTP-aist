@@ -45,6 +45,7 @@ import org.openrtp.namespaces.rtc.version03.ServiceportExt;
 import org.openrtp.namespaces.rtc.version03.TargetEnvironment;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
+import jp.go.aist.rtm.rtcbuilder.fsm.EventParam;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.DocumentPreferenceManager;
@@ -504,6 +505,9 @@ public class ParamUtil {
 					Event event = (Event)eachEvent;
 					EventParam eventp = new EventParam();
 					eventp.setName(event.getName());
+					eventp.setCondition(event.getCondition());
+					eventp.setSource(event.getSource());
+					eventp.setTarget(event.getTarget());
 					eventp.setDataType(event.getType());
 					if(event instanceof EventDoc) {
 						EventDoc docEvent = (EventDoc)event;
@@ -812,13 +816,16 @@ public class ParamUtil {
 		DataportExt dataport = factory.createDataportExt();
 		dataport.setPortType(IRtcBuilderConstants.SPEC_EVENTPORT_KIND);
 		dataport.setName(eventportp.getName());
-		dataport.setType("RTC::TimedLong");
+		dataport.setType("Any");
 		dataport.setVariableName(eventportp.getVarname());
 		dataport.setPosition(Position.fromValue(eventportp.getPosition().toUpperCase()));
 		//
 		for(EventParam eventp : eventportp.getEvents()) {
 			EventDoc event = factory.createEventDoc();
 			event.setName(eventp.getName());
+			event.setCondition(eventp.getCondition());
+			event.setSource(eventp.getSource());
+			event.setTarget(eventp.getTarget());
 			event.setType(eventp.getDataType());
 			//
 			DocEventport docEvent = factory.createDocEventport();

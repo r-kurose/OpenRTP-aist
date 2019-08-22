@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
+import jp.go.aist.rtm.rtcbuilder.fsm.EventParam;
 import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
 import jp.go.aist.rtm.rtcbuilder.fsm.TransitionParam;
 import jp.go.aist.rtm.rtcbuilder.generator.ProfileHandler;
@@ -303,26 +304,17 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	public List<DataPortParam> getInports() {
 		return inports;
 	}
-//	public List<DataPortParam> getRawInports() {
-//		List<DataPortParam> result = new ArrayList<DataPortParam>();
-//		for(DataPortParam target : inports) {
-//			boolean isEvent = false;
-//			for(PropertyParam prop : target.getProperties()) {
-//				if(prop.getName().equals("type") && prop.getValue().equals("FSMEvent")) {
-//					isEvent = true;
-//					break;
-//				}
-//			}
-//			if(isEvent) continue;
-//			result.add(target);
-//		}
-//		return result;
-//	}
+	
 	public List<DataPortParam> getOutports() {
 		return outports;
 	}
 	public List<EventPortParam> getEventports() {
 		return eventports;
+	}
+	
+	public EventPortParam getEventport() {
+		if(eventports == null || eventports.size()==0) return null;
+		return eventports.get(0); 
 	}
 	//
 	public List<ServicePortParam> getServicePorts() {
@@ -911,19 +903,32 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 
 	public void setFsmParam(StateParam fsmParam) {
 		this.fsmParam = fsmParam;
-		if(0<this.eventports.size()) {
-			EventPortParam eport = this.eventports.get(0);
-			eport.getEvents().clear();
-			for(TransitionParam trans : fsmParam.getAllTransList()) {
-				String event = trans.getEvent();
-				if(event==null || event.length()==0) continue;
-				EventParam eventp = new EventParam();
-				eventp.setName(event);
-				eport.getEvents().add(eventp);
+	}
+	
+	public void parseEvent() {
+		if(this.fsmParam == null ) return;
+		
+		List<EventParam> eventList = getEventport().getEvents();
+		
+		for(TransitionParam trans : fsmParam.getAllTransList()) {
+			boolean isExist = false;
+			EventParam eventp = new EventParam();
+			eventp.setName(trans.getEvent());
+			eventp.setCondition(trans.getCondition());
+			eventp.setSource(trans.getSource());
+			eventp.setTarget(trans.getTarget());
+			
+			for(EventParam orgEv : eventList) {
+				if(orgEv.checkSame(eventp)) {
+					isExist = true;
+					break;
+				}
+			}
+			if(isExist==false) {
+				eventList.add(eventp);
 			}
 		}
 	}
-
 	
 	public String getFsmContents() {
 		return fsmContents;
@@ -946,11 +951,6 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		}
 		if (this.eventports.isUpdated()) {
 			return true;
-		}
-		for(EventPortParam event : this.eventports) {
-			if(event.getEvents().isUpdated()) {
-				return true;
-			}
 		}
 		if (this.serviceports.isUpdated()) {
 			return true;
@@ -977,9 +977,6 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		this.inports.resetUpdated();
 		this.outports.resetUpdated();
 		this.eventports.resetUpdated();
-		for(EventPortParam event : this.eventports) {
-			event.getEvents().resetUpdated();
-		}
 		//
 		this.serviceports.resetUpdated();
 		//

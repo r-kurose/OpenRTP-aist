@@ -53,17 +53,17 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import jp.go.aist.rtm.rtcbuilder.IRTCBMessageConstants;
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
+import jp.go.aist.rtm.rtcbuilder.fsm.EventParam;
 import jp.go.aist.rtm.rtcbuilder.fsm.ScXMLHandler;
 import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.EventParam;
+import jp.go.aist.rtm.rtcbuilder.fsm.editor.SCXMLNotifier;
 import jp.go.aist.rtm.rtcbuilder.generator.param.EventPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.PropertyParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.nl.Messages;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.IPreferenceMessageConstants;
 import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
-import jp.go.aist.rtm.toolscommon.fsm.editor.SCXMLGraphEditor;
-import jp.go.aist.rtm.toolscommon.fsm.editor.SCXMLNotifier;
+import jp.go.aist.rtm.rtcbuilder.fsm.editor.SCXMLGraphEditor;
 
 /**
  * FSMページ
@@ -213,7 +213,8 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 												IMessageConstants.FSM_OVERWRITE);
 							if (!confirm) return;
 						}
-						scxmlEditor = SCXMLGraphEditor.openEditor(null, observer, false);
+						List<EventParam> eventList = editor.getRtcParam().getEventports().get(0).getEvents();
+						scxmlEditor = SCXMLGraphEditor.openEditor(null, observer, defaultTypeList, eventList, false);
 					} else {
 						JFrame frame = (JFrame) SwingUtilities.windowForComponent(scxmlEditor);
 						frame.setAlwaysOnTop(true);
@@ -279,7 +280,8 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 							throw new RuntimeException(IRTCBMessageConstants.ERROR_GENERATE_FAILED);
 						}
 						
-						scxmlEditor = SCXMLGraphEditor.openEditor(dummyFile.getLocation().toOSString(), observer, false);
+						List<EventParam> eventList = editor.getRtcParam().getEventports().get(0).getEvents();
+						scxmlEditor = SCXMLGraphEditor.openEditor(dummyFile.getLocation().toOSString(), observer, defaultTypeList, eventList, false);
 //					} else {
 //						JFrame frame = (JFrame) SwingUtilities.windowForComponent(scxmlEditor);
 //						frame.setAlwaysOnTop(true);
@@ -330,6 +332,7 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 					if(rootState!=null) {
 						editor.getRtcParam().setFsmParam(rootState);
 						editor.getRtcParam().setFsmContents(buffer.toString());
+						editor.getRtcParam().parseEvent();
 					}
 					editBtn.setEnabled(editor.getRtcParam().getFsmParam()!=null);
 					
@@ -455,12 +458,12 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 		documentGroup.setLayoutData(gd);
 		//
 		descriptionText = createLabelAndText(toolkit, documentGroup,
-				Messages.getString("IMC.DATAPORT_LBL_DESCRIPTION"), SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
+				Messages.getString("IMC.EVENT_DOC_DESCRIPTION"), SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.heightHint = 50;
 		descriptionText.setLayoutData(gridData);
 		typeText = createLabelAndText(toolkit, documentGroup,
-				Messages.getString("IMC.DATAPORT_LBL_PORTTYPE"), SWT.BORDER);
+				Messages.getString("IMC.EVENT_DOC_TYPE"), SWT.BORDER);
 		numberText = createLabelAndText(toolkit, documentGroup,
 				Messages.getString("IMC.DATAPORT_LBL_DATANUM"), SWT.BORDER);
 		semanticsText = createLabelAndText(toolkit, documentGroup,
@@ -622,13 +625,15 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 		}
 		
 		@Override
-		public void notifyContents(String contents) {
+		public void notifyContents(String contents, List<EventParam> eventList) {
     		editor.updateDirty();
 			ScXMLHandler handler = new ScXMLHandler();
 			StateParam rootState = handler.parseSCXMLStr(contents);
 			if(rootState!=null) {
 				rtcParam.setFsmParam(rootState);
 				rtcParam.setFsmContents(contents);
+				rtcParam.getEventports().get(0).getEvents().clear();
+				rtcParam.getEventports().get(0).getEvents().addAll(eventList);
 				editor.updateDirty();
 				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 					public void run() {

@@ -136,6 +136,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 				if(rootState!=null) {
 					this.getRtcParam().setFsmParam(rootState);
 					this.getRtcParam().setFsmContents(buffer.toString());
+					this.getRtcParam().parseEvent();
 				}
 			}
 			//

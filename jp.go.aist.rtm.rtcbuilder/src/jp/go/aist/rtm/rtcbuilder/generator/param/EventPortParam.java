@@ -1,8 +1,9 @@
 package jp.go.aist.rtm.rtcbuilder.generator.param;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
+
+import jp.go.aist.rtm.rtcbuilder.fsm.EventParam;
 
 /**
  * FSMのイベントポートを表すクラス
@@ -42,7 +43,7 @@ public class EventPortParam extends PortBaseParam implements Serializable {
 		this.varname = varname;
 	}
 
-	public RecordedList<EventParam> getEvents() {
+	public List<EventParam> getEvents() {
 		return events;
 	}
 }

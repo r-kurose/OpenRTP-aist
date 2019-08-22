@@ -172,6 +172,7 @@ public class ScXMLHandler {
 			child.getTransList().add(tranParam);
 			tranParam.setEvent(tran.getEvent());
 			tranParam.setCondition(tran.getCond());
+			tranParam.setSource(strId);
 			tranParam.setTarget(tran.getNext());
 			transList.add(tranParam);
 		}
