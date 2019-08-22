@@ -8,7 +8,6 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -29,21 +28,15 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IManagedForm;
@@ -56,6 +49,7 @@ import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.fsm.EventParam;
 import jp.go.aist.rtm.rtcbuilder.fsm.ScXMLHandler;
 import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
+import jp.go.aist.rtm.rtcbuilder.fsm.editor.SCXMLGraphEditor;
 import jp.go.aist.rtm.rtcbuilder.fsm.editor.SCXMLNotifier;
 import jp.go.aist.rtm.rtcbuilder.generator.param.EventPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.PropertyParam;
@@ -63,7 +57,6 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.nl.Messages;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.IPreferenceMessageConstants;
 import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
-import jp.go.aist.rtm.rtcbuilder.fsm.editor.SCXMLGraphEditor;
 
 /**
  * FSMページ
@@ -82,8 +75,9 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 	private TableViewer eventTableViewer;
 	
 	private Text eventNameDetailText;
-	private Combo typeCombo;
-	private Combo positionCombo;
+	private Text sourceText;
+	private Text targetText;
+	private Text dataTypeText;
 	private Text descriptionText;
 	private Text typeText;
 	private Text numberText;
@@ -95,7 +89,6 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 	private SCXMLGraphEditor scxmlEditor;
 	private SCXMLReceiver observer;
 	
-	private EventParam preSelection;
 	private EventParam selectParam;
 	private String[] defaultTypeList;
 	//
@@ -107,8 +100,6 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 	 */
 	public FSMEditorFormPage(RtcBuilderEditor editor) {
 		super(editor, "id", "FSM");
-		//
-		preSelection = null;
 		defaultTypeList = super.extractDataTypes();
 	}
 
@@ -131,10 +122,13 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 		createHintLabel("Static:", IMessageConstants.FSM_STATIC_HINT_DESC, toolkit, composite);
 		createHintLabel("Dynamic:", IMessageConstants.FSM_DYNAMIC_HINT_DESC, toolkit, composite);
 		createHintSpace(toolkit, composite);
-		createHintLabel("SCXML:", IMessageConstants.FSM_SCXML_HINT_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.FSM_SCXML_NEW + ":", IMessageConstants.FSM_SCXML_NEW_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.FSM_SCXML_EDIT + ":", IMessageConstants.FSM_SCXML_EDIT_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.FSM_SCXML_IMPORT + ":", IMessageConstants.FSM_SCXML_IMPORT_DESC, toolkit, composite);
+		createHintLabel("SCXML:", Messages.getString("IMC.FSM_SCXML_HINT_DESC"), toolkit, composite);
+		createHintLabel(Messages.getString("IMC.FSM_SCXML_NEW")
+				+ ":", IMessageConstants.FSM_SCXML_NEW_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.FSM_SCXML_EDIT")
+				+ ":", IMessageConstants.FSM_SCXML_EDIT_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.FSM_SCXML_IMPORT")
+				+ ":", IMessageConstants.FSM_SCXML_IMPORT_DESC, toolkit, composite);
 	}
 	
 	private void createFSMSection(FormToolkit toolkit, ScrolledForm form) {
@@ -171,6 +165,22 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 				} else {
 					editor.getRtcParam().deleteFSMPort();
 				}
+				//
+				portNameText.setEnabled(fsmBtn.getSelection());
+				variableNameText.setEnabled(fsmBtn.getSelection());
+				eventTableViewer.getTable().setEnabled(fsmBtn.getSelection());
+				eventNameDetailText.setEnabled(fsmBtn.getSelection());
+				sourceText.setEnabled(fsmBtn.getSelection());
+				targetText.setEnabled(fsmBtn.getSelection());
+				dataTypeText.setEnabled(fsmBtn.getSelection());
+				descriptionText.setEnabled(fsmBtn.getSelection());
+				typeText.setEnabled(fsmBtn.getSelection());
+				numberText.setEnabled(fsmBtn.getSelection());
+				semanticsText.setEnabled(fsmBtn.getSelection());
+				unitText.setEnabled(fsmBtn.getSelection());
+				occurrenceText.setEnabled(fsmBtn.getSelection());
+				operationText.setEnabled(fsmBtn.getSelection());
+				
 				editor.updateEMFDataPorts(
 						editor.getRtcParam().getInports(), editor.getRtcParam().getOutports(),
 						editor.getRtcParam().getServicePorts());
@@ -191,7 +201,7 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 		
 		toolkit.createLabel(composite, "SCXML");
 		
-		newBtn = toolkit.createButton(composite, IMessageConstants.FSM_SCXML_NEW, SWT.PUSH);
+		newBtn = toolkit.createButton(composite, Messages.getString("IMC.FSM_SCXML_NEW"), SWT.PUSH);
 		gd = new GridData();
 		gd.widthHint = 100;
 		gd.horizontalAlignment = GridData.BEGINNING;
@@ -210,7 +220,7 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 						IFile fsmFile  = project.getFile(cmpName);
 						if(fsmFile.exists()) {
 							boolean confirm = MessageDialog.openConfirm(getSite().getShell(), "FSM Editor",
-												IMessageConstants.FSM_OVERWRITE);
+									Messages.getString("IMC.FSM_OVERWRITE"));
 							if (!confirm) return;
 						}
 						List<EventParam> eventList = editor.getRtcParam().getEventports().get(0).getEvents();
@@ -226,7 +236,7 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 			}
 		});
 		
-		editBtn = toolkit.createButton(composite, IMessageConstants.FSM_SCXML_EDIT, SWT.PUSH);
+		editBtn = toolkit.createButton(composite, Messages.getString("IMC.FSM_SCXML_EDIT"), SWT.PUSH);
 		gd = new GridData();
 		gd.widthHint = 100;
 		gd.horizontalAlignment = GridData.END;
@@ -245,7 +255,7 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 							targetFile = fsmFile.getLocation().toOSString();
 						} else {
 							MessageDialog.openWarning(getSite().getShell(), "FSM Editor",
-											IMessageConstants.FSM_NO_EXIST);
+									Messages.getString("IMC.FSM_NO_EXIST"));
 							return;
 						}
 						if(observer==null) {
@@ -294,7 +304,7 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 		});
 		editBtn.setEnabled(editor.getRtcParam().getFsmParam()!=null);
 		/////
-		importBtn = toolkit.createButton(composite, IMessageConstants.FSM_SCXML_IMPORT, SWT.PUSH);
+		importBtn = toolkit.createButton(composite, Messages.getString("IMC.FSM_SCXML_IMPORT"), SWT.PUSH);
 		gd = new GridData();
 		gd.widthHint = 100;
 		gd.horizontalAlignment = GridData.BEGINNING;
@@ -308,7 +318,7 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 				IFile fsmFile  = project.getFile(cmpName);
 				if(fsmFile.exists()) {
 					boolean confirm = MessageDialog.openConfirm(getSite().getShell(), "FSM Editor",
-											IMessageConstants.FSM_OVERWRITE);
+							Messages.getString("IMC.FSM_OVERWRITE"));
 					if (!confirm) return;
 				}
 				/////
@@ -333,12 +343,13 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 						editor.getRtcParam().setFsmParam(rootState);
 						editor.getRtcParam().setFsmContents(buffer.toString());
 						editor.getRtcParam().parseEvent();
+						eventTableViewer.refresh();
 					}
 					editBtn.setEnabled(editor.getRtcParam().getFsmParam()!=null);
 					
-					MessageDialog.openInformation(getSite().getShell(), IMessageConstants.FSM_SCXML_IMPORT, IMessageConstants.FSM_IMPORT_OK);
+					MessageDialog.openInformation(getSite().getShell(), Messages.getString("IMC.FSM_SCXML_IMPORT"), Messages.getString("IMC.FSM_IMPORT_OK"));
 				} catch (IOException e1) {
-					MessageDialog.openWarning(getSite().getShell(), IMessageConstants.FSM_SCXML_IMPORT, IMessageConstants.FSM_IMPORT_NG);
+					MessageDialog.openWarning(getSite().getShell(), Messages.getString("IMC.FSM_SCXML_IMPORT"), Messages.getString("IMC.FSM_IMPORT_NG"));
 					e1.printStackTrace();
 				} catch (CoreException e1) {
 				}
@@ -363,7 +374,7 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 				Messages.getString("IMC.CONFIGURATION_LBL_VARNAME"), SWT.BORDER);
 		/////
 		Group eventGroup = new Group(composite, SWT.NONE);
-		eventGroup.setText(IMessageConstants.EVENTLIST_NAME);
+		eventGroup.setText(Messages.getString("IMC.EVENT_LIST"));
 		eventGroup.setLayout(new GridLayout(2, false));
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 4;
@@ -375,23 +386,25 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 		gd.heightHint = 70;
 		gd.grabExcessHorizontalSpace = true;
 		eventTableViewer.getTable().setLayoutData(gd);
-		super.createColumn(eventTableViewer, IMessageConstants.EVENT_NAME, 200);
-		super.createColumn(eventTableViewer,
-				Messages.getString("IMC.DATAPORT_TBLLBL_DATATYPE"), 200);
+		super.createColumn(eventTableViewer, Messages.getString("IMC.EVENT_NAME"), 100);
+		super.createColumn(eventTableViewer, Messages.getString("IMC.EVENT_SOURCE"), 100);
+		super.createColumn(eventTableViewer, Messages.getString("IMC.EVENT_TARGET"), 100);
+		super.createColumn(eventTableViewer, Messages.getString("IMC.DATAPORT_TBLLBL_DATATYPE"), 100);
 		eventTableViewer.setLabelProvider(new EventParamLabelProvider());
 		//
 		eventTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
-				setDocumentContents();
 				StructuredSelection selection = (StructuredSelection)event.getSelection();
 				selectParam = (EventParam)selection.getFirstElement();
 				if( selectParam != null ) {
 					StringBuffer portName = new StringBuffer(selectParam.getName());
 					eventNameDetailText.setText(portName.toString());
+					sourceText.setText(selectParam.getSource());
+					targetText.setText(selectParam.getTarget());
 					if(selectParam.getDataType()!=null && 0<selectParam.getDataType().length()) {
-						typeCombo.setText(selectParam.getDataType());
+						dataTypeText.setText(selectParam.getDataType());
 					} else {
-						typeCombo.setText("");
+						dataTypeText.setText("");
 					}
 					descriptionText.setText(StringUtil.getDisplayDocText(selectParam.getDoc_description()));
 					typeText.setText(StringUtil.getDisplayDocText(selectParam.getDoc_type()));
@@ -400,59 +413,33 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 					unitText.setText(StringUtil.getDisplayDocText(selectParam.getDoc_unit()));
 					occurrenceText.setText(StringUtil.getDisplayDocText(selectParam.getDoc_occurrence()));
 					operationText.setText(StringUtil.getDisplayDocText(selectParam.getDoc_operation()));
-					preSelection = selectParam;
 				}
 			}
 		});
 		
 		eventNameDetailText = createLabelAndText(toolkit, eventGroup,
-				IMessageConstants.EVENT_NAME, SWT.BORDER);
+				Messages.getString("IMC.EVENT_NAME"), SWT.BORDER);
 		eventNameDetailText.setEditable(false);
 		eventNameDetailText.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
 		
-		Label label = toolkit.createLabel(eventGroup, Messages.getString("IMC.DATAPORT_TBLLBL_DATATYPE"));
-		typeCombo = new Combo(eventGroup, SWT.DROP_DOWN);
-		typeCombo.setItems(defaultTypeList);
-		typeCombo.select(0);
-		typeCombo.addKeyListener(new KeyListener() {
-			public void keyReleased(KeyEvent e) {
-				String target = typeCombo.getText();
-				String[] keyList = target.split(" ");
-				List<String> filtered = new ArrayList<String>();
-				for (String each : defaultTypeList) {
-					boolean isHit = true;
-					for(String itemKey: keyList) {
-					  if (each.contains(itemKey)==false) {
-						  isHit = false;
-						  break;
-					  }
-					}
-					if (isHit) {
-						filtered.add(each);
-					}
-				}
-				String[] newItems = filtered.toArray(new String[filtered.size()]);
-				Arrays.sort(newItems);
-				typeCombo.setItems(newItems);
-				typeCombo.setText(target);
-				typeCombo.setSelection(new Point(typeCombo.getText().length(), typeCombo.getText().length()) );
-			}
-			public void keyPressed(KeyEvent e) { }
-		});
-		typeCombo.addSelectionListener(new SelectionListener() {
-			  public void widgetDefaultSelected(SelectionEvent e){}
-			  public void widgetSelected(SelectionEvent e){ update();}
-			});
-		GridData gdcombo = new GridData(GridData.FILL_HORIZONTAL);
-		typeCombo.setLayoutData(gdcombo);
-
-		String[] items = typeCombo.getItems();
-		Arrays.sort(items);
-		typeCombo.setItems(items);
+		sourceText = createLabelAndText(toolkit, eventGroup,
+				Messages.getString("IMC.EVENT_SOURCE"), SWT.BORDER);
+		sourceText.setEditable(false);
+		sourceText.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		
+		targetText = createLabelAndText(toolkit, eventGroup,
+				Messages.getString("IMC.EVENT_TARGET"), SWT.BORDER);
+		targetText.setEditable(false);
+		targetText.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		
+		dataTypeText = createLabelAndText(toolkit, eventGroup,
+				Messages.getString("IMC.DATAPORT_TBLLBL_DATATYPE"), SWT.BORDER);
+		dataTypeText.setEditable(false);
+		dataTypeText.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
 		/////
 		Group documentGroup = new Group(eventGroup, SWT.SHADOW_ETCHED_IN);
 		documentGroup.setLayout(new GridLayout(2, false));
-		documentGroup.setText("Documentation");
+		documentGroup.setText(Messages.getString("IMC.HINT_DOCUMENT_TITLE"));
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 4;
 		documentGroup.setLayoutData(gd);
@@ -462,26 +449,44 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.heightHint = 50;
 		descriptionText.setLayoutData(gridData);
+		descriptionText.setEditable(false);
+		descriptionText.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		
 		typeText = createLabelAndText(toolkit, documentGroup,
 				Messages.getString("IMC.EVENT_DOC_TYPE"), SWT.BORDER);
+		typeText.setEditable(false);
+		typeText.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		
 		numberText = createLabelAndText(toolkit, documentGroup,
 				Messages.getString("IMC.DATAPORT_LBL_DATANUM"), SWT.BORDER);
+		numberText.setEditable(false);
+		numberText.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		
 		semanticsText = createLabelAndText(toolkit, documentGroup,
 				Messages.getString("IMC.DATAPORT_LBL_SEMANTICS"), SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
 		semanticsText.setLayoutData(gridData);
+		semanticsText.setEditable(false);
+		semanticsText.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		
 		unitText = createLabelAndText(toolkit, documentGroup,
 				Messages.getString("IMC.DATAPORT_LBL_UNIT"), SWT.BORDER);
+		unitText.setEditable(false);
+		unitText.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+
 		occurrenceText = createLabelAndText(toolkit, documentGroup,
 				Messages.getString("IMC.DATAPORT_LBL_OCCUR"), SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
 		occurrenceText.setLayoutData(gridData);
+		occurrenceText.setEditable(false);
+		occurrenceText.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		
 		operationText = createLabelAndText(toolkit, documentGroup,
 				Messages.getString("IMC.DATAPORT_LBL_OPERAT"), SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
 		operationText.setLayoutData(gridData);
+		operationText.setEditable(false);
+		operationText.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
 	}
 
 	public void update() {
-		setDocumentContents();
-		
 		RtcParam rtcParam = editor.getRtcParam();
 		if( fsmBtn != null ) {
 			rtcParam.setProperty(IRtcBuilderConstants.PROP_TYPE_FSM, Boolean.valueOf(fsmBtn.getSelection()).toString());
@@ -506,14 +511,31 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 		RtcParam rtcParam = editor.getRtcParam();
 
 		PropertyParam target = rtcParam.getProperty(IRtcBuilderConstants.PROP_TYPE_FSM);
-		if(target!=null) {
+		if(target==null) {
+			fsmBtn.setSelection(false);
+		} else {
 			fsmBtn.setSelection(Boolean.valueOf(target.getValue()));
-			staticBtn.setEnabled(fsmBtn.getSelection());
-			dynamicBtn.setEnabled(fsmBtn.getSelection());
-			newBtn.setEnabled(fsmBtn.getSelection());
-			editBtn.setEnabled(fsmBtn.getSelection() && editor.getRtcParam().getFsmParam()!=null);
-			importBtn.setEnabled(fsmBtn.getSelection());
 		}
+		staticBtn.setEnabled(fsmBtn.getSelection());
+		dynamicBtn.setEnabled(fsmBtn.getSelection());
+		newBtn.setEnabled(fsmBtn.getSelection());
+		editBtn.setEnabled(fsmBtn.getSelection() && editor.getRtcParam().getFsmParam()!=null);
+		importBtn.setEnabled(fsmBtn.getSelection());
+		//
+		portNameText.setEnabled(fsmBtn.getSelection());
+		variableNameText.setEnabled(fsmBtn.getSelection());
+		eventTableViewer.getTable().setEnabled(fsmBtn.getSelection());
+		eventNameDetailText.setEnabled(fsmBtn.getSelection());
+		sourceText.setEnabled(fsmBtn.getSelection());
+		targetText.setEnabled(fsmBtn.getSelection());
+		dataTypeText.setEnabled(fsmBtn.getSelection());
+		descriptionText.setEnabled(fsmBtn.getSelection());
+		typeText.setEnabled(fsmBtn.getSelection());
+		numberText.setEnabled(fsmBtn.getSelection());
+		semanticsText.setEnabled(fsmBtn.getSelection());
+		unitText.setEnabled(fsmBtn.getSelection());
+		occurrenceText.setEnabled(fsmBtn.getSelection());
+		operationText.setEnabled(fsmBtn.getSelection());
 		//
 		PropertyParam fsmType = rtcParam.getProperty(IRtcBuilderConstants.PROP_TYPE_FSMTYTPE);
 		if(fsmType!=null) {
@@ -562,23 +584,23 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 		if(Boolean.valueOf(fsm.getValue())) {
 			PropertyParam fsmType = rtcParam.getProperty(IRtcBuilderConstants.PROP_TYPE_FSMTYTPE);
 			if(fsmType==null) {
-				result = IMessageConstants.FSM_NOT_SELECTED;
+				result = Messages.getString("IMC.FSM_NOT_SELECTED");
 			} else {
 				String strType = fsmType.getValue();
 				if(!(strType.equals(IRtcBuilderConstants.FSMTYTPE_STATIC) || strType.equals(IRtcBuilderConstants.FSMTYTPE_DYNAMIC))) {
-					result = IMessageConstants.FSM_TYPE_INVALID;
+					result = Messages.getString("IMC.FSM_TYPE_INVALID");
 				}
 			}
 			
 			StateParam fsmParam = rtcParam.getFsmParam();
 			if(fsmParam==null) {
-				result = IMessageConstants.FSM_NO_SM;
+				result = Messages.getString("IMC.FSM_NO_SM");
 			} else {
 				List<String> stateList = new ArrayList<String>();
 				stateList.add(fsmParam.getName());
 				for(StateParam param : fsmParam.getAllStateList() ) {
 					if(stateList.contains(param.getName())) {
-						result = IMessageConstants.FSM_STATE_DUPL1 + param.getName() + IMessageConstants.FSM_STATE_DUPL2;
+						result = Messages.getString("IMC.STATE_DUPL1") + param.getName() + Messages.getString("IMC.STATE_DUPL2");
 						break;
 					} else {
 						stateList.add(param.getName());
@@ -589,25 +611,9 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 		return result;
 	}
 	
-	private void setDocumentContents() {
-		if( preSelection != null ) {
-			preSelection.setDataType(typeCombo.getText());
-			//
-			preSelection.setDoc_description(StringUtil.getDocText(descriptionText.getText()));
-			preSelection.setDoc_type(StringUtil.getDocText(typeText.getText()));
-			preSelection.setDoc_num(StringUtil.getDocText(numberText.getText()));
-			preSelection.setDoc_semantics(StringUtil.getDocText(semanticsText.getText()));
-			preSelection.setDoc_unit(StringUtil.getDocText(unitText.getText()));
-			preSelection.setDoc_occurrence(StringUtil.getDocText(occurrenceText.getText()));
-			preSelection.setDoc_operation(StringUtil.getDocText(operationText.getText()));
-			
-			editor.updateDirty();
-		}
-	}
-	
 	private void clearText() {
 		eventNameDetailText.setText("");
-		typeCombo.select(0);
+		dataTypeText.setText("");
 		descriptionText.setText("");
 		typeText.setText("");
 		numberText.setText("");
@@ -657,6 +663,10 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 			if (columnIndex == 0) {
 				result = param.getName();
 			} else if (columnIndex == 1) {
+				result = param.getSource();
+			} else if (columnIndex == 2) {
+				result = param.getTarget();
+			} else if (columnIndex == 3) {
 				result = param.getDataType();
 			}
 

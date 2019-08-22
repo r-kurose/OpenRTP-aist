@@ -46,7 +46,7 @@ public class CodeGeneratePortPreferencePage extends AbstarctFieldEditorPreferenc
 		Composite eventportGroup = createGroup(composite, IPreferenceMessageConstants.PORT_TITLE_EVENT_PORT);
 		DigitAlphabetStringFieldEditor eventPortNameEditor = 
 			new DigitAlphabetStringFieldEditor(ComponentPreferenceManager.Generate_EventPort_VarName,
-					IMessageConstants.EVENTPORT_LBL_VARNAME, eventportGroup);
+					Messages.getString("IMC.EVENTPORT_LBL_VARNAME"), eventportGroup);
 		addField(eventPortNameEditor);
 		StringFieldEditor eventPortPrefixEditor = 
 			new StringFieldEditor(ComponentPreferenceManager.Generate_EventPort_Prefix,
