@@ -508,4 +508,20 @@ public interface IMessageConstants {
 	public static final String FSM_SCXML_IMPORT_DESC = StringUtil.connectMessageWithSepalator( new String[]{
 			Messages.getString("IMC.FSM_SCXML_IMPORT_DESC_P1"),
 			Messages.getString("IMC.FSM_SCXML_IMPORT_DESC_P2")});
+	
+	public static final String FSM_PORT_NAME_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+			Messages.getString("IMC.FSM_HINT_PORT_NAME_DESC_1"),
+			Messages.getString("IMC.FSM_HINT_PORT_NAME_DESC_2")});
+	
+	public static final String FSM_SORCE_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+			Messages.getString("IMC.FSM_HINT_SOURCE_DESC_1"),
+			Messages.getString("IMC.FSM_HINT_SOURCE_DESC_2")});
+	
+	public static final String FSM_TARGET_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+			Messages.getString("IMC.FSM_HINT_TARGET_DESC_1"),
+			Messages.getString("IMC.FSM_HINT_TARGET_DESC_2")});
+	
+	public static final String FSM_DOC_DETAIL_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+			Messages.getString("IMC.FSM_HINT_DOC_DETAIL_DESC_1"),
+			Messages.getString("IMC.FSM_HINT_DOC_DETAIL_DESC_2")});
 }

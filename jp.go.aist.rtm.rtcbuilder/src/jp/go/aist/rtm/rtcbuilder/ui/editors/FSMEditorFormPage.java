@@ -118,6 +118,18 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 
 	private void createHintSection(FormToolkit toolkit, ScrolledForm form) {
 		Composite composite = createHintSectionBase(toolkit, form, 3);
+		createHintLabel(Messages.getString("IMC.FSM_HINT_PROC"), toolkit, composite);
+		createHintLabel("  " + Messages.getString("IMC.FSM_HINT_PROC_1"), toolkit, composite);
+		createHintLabel("  " + Messages.getString("IMC.FSM_HINT_PROC_2"), toolkit, composite);
+		createHintLabel("    " + Messages.getString("IMC.FSM_HINT_PROC_2_1"), toolkit, composite);
+		createHintLabel("    " + Messages.getString("IMC.FSM_HINT_PROC_2_2"), toolkit, composite);
+		createHintLabel("    " + Messages.getString("IMC.FSM_HINT_PROC_2_3"), toolkit, composite);
+		createHintLabel("  " + Messages.getString("IMC.FSM_HINT_PROC_3"), toolkit, composite);
+		createHintLabel("    " + Messages.getString("IMC.FSM_HINT_PROC_3_1"), toolkit, composite);
+		createHintLabel("    " + Messages.getString("IMC.FSM_HINT_PROC_3_2"), toolkit, composite);
+		createHintLabel("    " + Messages.getString("IMC.FSM_HINT_PROC_3_3"), toolkit, composite);
+		createHintLabel("    " + Messages.getString("IMC.FSM_HINT_PROC_3_4"), toolkit, composite);
+		createHintSpace(toolkit, composite);
 		createHintLabel("FSM:", IMessageConstants.FSM_HINT_DESC, toolkit, composite);
 		createHintLabel("Static:", IMessageConstants.FSM_STATIC_HINT_DESC, toolkit, composite);
 		createHintLabel("Dynamic:", IMessageConstants.FSM_DYNAMIC_HINT_DESC, toolkit, composite);
@@ -129,6 +141,25 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 				+ ":", IMessageConstants.FSM_SCXML_EDIT_DESC, toolkit, composite);
 		createHintLabel(Messages.getString("IMC.FSM_SCXML_IMPORT")
 				+ ":", IMessageConstants.FSM_SCXML_IMPORT_DESC, toolkit, composite);
+		createHintSpace(toolkit, composite);
+		createHintLabel(Messages.getString("IMC.FSM_HINT_EVENT_PORT"), toolkit, composite);
+		createHintLabel(Messages.getString("IMC.FSM_HINT_PORT_NAME_TITLE"), IMessageConstants.FSM_PORT_NAME_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.FSM_HINT_VAR_NAME_TITLE"), Messages.getString("IMC.FSM_HINT_VAR_NAME_DESC"), toolkit, composite);
+		createHintSpace(toolkit, composite);
+		createHintLabel(Messages.getString("IMC.FSM_HINT_EVENT_LIST"), toolkit, composite);
+		createHintLabel(Messages.getString("IMC.FSM_HINT_EVENT_NAME_TITLE"), Messages.getString("IMC.FSM_HINT_EVENT_NAME_DESC"), toolkit, composite);
+		createHintLabel(Messages.getString("IMC.FSM_HINT_SOURCE_TITLE"), IMessageConstants.FSM_SORCE_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.FSM_HINT_TARGET_TITLE"), IMessageConstants.FSM_TARGET_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.FSM_HINT_DATA_TYPE_TITLE"), Messages.getString("IMC.FSM_HINT_DATA_TYPE_DESC"), toolkit, composite);
+		createHintSpace(toolkit, composite);
+		createHintLabel(Messages.getString("IMC.HINT_DOCUMENT_TITLE"), toolkit, composite);
+		createHintLabel(Messages.getString("IMC.EVENT_DOC_DESCRIPTION"), Messages.getString("IMC.FSM_HINT_DOC_DESC_DESC"), toolkit, composite);
+		createHintLabel(Messages.getString("IMC.EVENT_DOC_TYPE"), Messages.getString("IMC.FSM_HINT_DOC_TYPE_DESC"), toolkit, composite);
+		createHintLabel(Messages.getString("IMC.DATAPORT_LBL_DATANUM"), Messages.getString("IMC.FSM_HINT_DOC_NUM_DESC"), toolkit, composite);
+		createHintLabel(Messages.getString("IMC.DATAPORT_LBL_SEMANTICS"), IMessageConstants.FSM_DOC_DETAIL_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.DATAPORT_LBL_UNIT"), Messages.getString("IMC.FSM_HINT_DOC_UNIT_DESC"), toolkit, composite);
+		createHintLabel(Messages.getString("IMC.DATAPORT_LBL_OCCUR"), Messages.getString("IMC.FSM_HINT_DOC_FREQ_DESC"), toolkit, composite);
+		createHintLabel(Messages.getString("IMC.DATAPORT_LBL_OPERAT"), Messages.getString("IMC.FSM_HINT_DOC_OPE_DESC"), toolkit, composite);
 	}
 	
 	private void createFSMSection(FormToolkit toolkit, ScrolledForm form) {
