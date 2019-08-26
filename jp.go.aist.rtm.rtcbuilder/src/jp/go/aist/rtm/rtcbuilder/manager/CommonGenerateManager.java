@@ -52,16 +52,10 @@ public class CommonGenerateManager extends GenerateManager {
 			Map<String, Object> contextMap) {
 		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
 
-		GeneratedResult gr;
-
-		gr = generateREADME(contextMap);
-		result.add(gr);
-
-		gr = generateRTCConf10(contextMap);
-		result.add(gr);
-
-		gr = generateComponentConf(contextMap);
-		result.add(gr);
+		result.add(generateREADME(contextMap));
+		result.add(generateRTCConf10(contextMap));
+		result.add(generateComponentConf(contextMap));
+		result.add(generateCITemplate(contextMap));
 
 		return result;
 	}
@@ -97,6 +91,12 @@ public class CommonGenerateManager extends GenerateManager {
 		return result;
 	}
 
+	public GeneratedResult generateCITemplate(Map<String, Object> contextMap) {
+		String outfile = ".travis.yml";
+		String infile = "common/travis.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
 	public GeneratedResult generate(String infile, String outfile,
 			Map<String, Object> contextMap) {
 		try {

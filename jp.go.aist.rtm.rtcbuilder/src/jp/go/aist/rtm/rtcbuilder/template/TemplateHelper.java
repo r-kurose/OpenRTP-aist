@@ -129,6 +129,27 @@ public class TemplateHelper {
 		return builder.toString();
 	}
 	
+	public static String getIDLFiles(RtcParam source) {
+		StringBuilder builder = new StringBuilder();
+		
+		for(IdlFileParam target : source.getProviderIdlPathes() ) {
+			if(RTCUtil.checkDefault(target.getIdlPath(), source.getParent().getDataTypeParams())) continue;
+			builder.append(getFilenameNoExt(target.getIdlFile()));
+			builder.append(".idl ");
+		}
+		for(IdlFileParam target : source.getConsumerIdlPathes() ) {
+			if(RTCUtil.checkDefault(target.getIdlPath(), source.getParent().getDataTypeParams())) continue;
+			builder.append(getFilenameNoExt(target.getIdlFile()));
+			builder.append(".idl ");
+		}
+		for(IdlFileParam target : source.getIncludedIdlPathes() ) {
+			if(RTCUtil.checkDefault(target.getIdlPath(), source.getParent().getDataTypeParams())) continue;
+			builder.append(getFilenameNoExt(target.getIdlFile()));
+			builder.append(".idl ");
+		}
+		return builder.toString();
+	}
+	
 	public static String toSvcImpl(String fullPath) {
 		String name = getFilenameNoExt(fullPath);
 		if (name.isEmpty()) {

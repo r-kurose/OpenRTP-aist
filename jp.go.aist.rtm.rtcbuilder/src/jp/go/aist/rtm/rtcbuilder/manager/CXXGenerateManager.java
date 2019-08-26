@@ -11,10 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 import jp.go.aist.rtm.rtcbuilder.IRTCBMessageConstants;
-import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
-import jp.go.aist.rtm.rtcbuilder.generator.param.PropertyParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateHelper;
@@ -82,7 +80,6 @@ public class CXXGenerateManager extends GenerateManager {
 		result.add(generateRTCHeader(contextMap));
 		result.add(generateRTCSource(contextMap));
 		
-		result.add(generateCITemplate(contextMap));
 		result.add(generateScript1604(contextMap));
 		result.add(generateScript1804(contextMap));
 		
@@ -172,12 +169,6 @@ public class CXXGenerateManager extends GenerateManager {
 		return generate(infile, outfile, contextMap);
 	}
 
-	public GeneratedResult generateCITemplate(Map<String, Object> contextMap) {
-		String outfile = ".travis.yml";
-		String infile = "cpp/travis.vsl";
-		return generate(infile, outfile, contextMap);
-	}
-	
 	public GeneratedResult generateScript1604(Map<String, Object> contextMap) {
 		String outfile = "scripts/ubuntu_1604/Dockerfile";
 		String infile = "cpp/scripts/Dockerfile_ubuntu_1604.vsl";
