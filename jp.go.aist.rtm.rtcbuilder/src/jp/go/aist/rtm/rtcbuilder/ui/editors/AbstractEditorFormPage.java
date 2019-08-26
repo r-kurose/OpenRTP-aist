@@ -402,8 +402,14 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		String defaultString = RtcBuilderPlugin.getDefault().getPreferenceStore()
 				.getString(key);
 		StringTokenizer tokenize = new StringTokenizer(defaultString, ",");
+		String[] items = combo.getItems();
+		List<String> baseList = Arrays.asList(items);
+		List<String> itemList = new ArrayList<>(baseList);
 		while (tokenize.hasMoreTokens()) {
-			combo.add(tokenize.nextToken());
+			String item = tokenize.nextToken();
+			if(itemList.contains(item)) continue;
+			combo.add(item);
+			itemList.add(item);
 		}
 	}
 

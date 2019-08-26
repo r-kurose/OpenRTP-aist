@@ -1,5 +1,10 @@
 package jp.go.aist.rtm.rtcbuilder.python.manager;
 
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DEFAULT_RTM_VERSION;
+import static jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython.LANG_PYTHON;
+import static jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython.LANG_PYTHON_ARG;
+import static jp.go.aist.rtm.rtcbuilder.util.RTCUtil.form;
+
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
@@ -8,10 +13,6 @@ import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.manager.CMakeGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
-import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
-import static jp.go.aist.rtm.rtcbuilder.util.RTCUtil.form;
-import static jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython.LANG_PYTHON;
-import static jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython.LANG_PYTHON_ARG;
 
 public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 
@@ -48,15 +49,11 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 			Map<String, Object> contextMap) {
 		List<GeneratedResult> result = super.generateTemplateCode10(contextMap);
 
-		GeneratedResult gr;
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		if(0<rtcParam.getServicePorts().size()) {
-			gr = generatePostinstIin(contextMap);
-			result.add(gr);
-			gr = generatePrermIn(contextMap);
-			result.add(gr);
-			gr = generateCMakeWixPatchXmlIn(contextMap);
-			result.add(gr);
+			result.add(generatePostinstIin(contextMap));
+			result.add(generatePrermIn(contextMap));
+			result.add(generateCMakeWixPatchXmlIn(contextMap));
 		}
 
 		return result;
@@ -73,6 +70,35 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 		return result;
 	}
 
+	@Override
+	public GeneratedResult generateIdlCMakeLists(Map<String, Object> contextMap) {
+		String outfile = "idl/CMakeLists.txt";
+		String infile = "cmake/idl/IdlCMakeLists.txt.vsl";
+		GeneratedResult result = generatePython(infile, outfile, contextMap);
+		result.setNotBom(true);
+		return result;
+	}
+	
+	@Override
+	public GeneratedResult generateTestCMakeLists(Map<String, Object> contextMap) {
+		String outfile = "test/CMakeLists.txt";
+		String infile = "cmake/test/CMakeLists.txt.vsl";
+		GeneratedResult result = generatePython(infile, outfile, contextMap);
+		result.setNotBom(true);
+		return result;
+	}
+	
+	public GeneratedResult generateTestIncludeCMakeLists(Map<String, Object> contextMap) {
+		return null;
+	}
+	
+	public GeneratedResult generateTestIncModuleCMakeLists(Map<String, Object> contextMap) {
+		return null;
+	}
+	public GeneratedResult generateTestSrcCMakeLists(Map<String, Object> contextMap) {
+		return null;
+	}
+	
 	// 1.0系 (CMake/cpack_resources)
 	public GeneratedResult generatePostinstIin(Map<String, Object> contextMap) {
 		String outfile = "postinst.in";

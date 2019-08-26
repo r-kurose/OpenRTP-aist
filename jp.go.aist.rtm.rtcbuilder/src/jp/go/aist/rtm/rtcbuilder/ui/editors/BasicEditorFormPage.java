@@ -63,6 +63,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.PropertyParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
+import jp.go.aist.rtm.rtcbuilder.nl.Messages;
 import jp.go.aist.rtm.rtcbuilder.ui.Perspective.LanguageProperty;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.DocumentPreferenceManager;
@@ -120,7 +121,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	 *            親のエディタ
 	 */
 	public BasicEditorFormPage(RtcBuilderEditor editor) {
-		super(editor, "id", IMessageConstants.BASIC_SECTION);
+		super(editor, "id", Messages.getString("IMC.BASIC_SECTION"));
 	}
 
 	/**
@@ -128,7 +129,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	 */
 	protected void createFormContent(final IManagedForm managedForm) {
 		RTCUtil.setDefaultUserDir();
-		ScrolledForm form = super.createBase(managedForm, IMessageConstants.BASIC_SECTION);
+		ScrolledForm form = super.createBase(managedForm, Messages.getString("IMC.BASIC_COMPONENT_TITLE"));
 		FormToolkit toolkit = managedForm.getToolkit();
 		createModuleSection(toolkit, form);
 		//
@@ -172,9 +173,10 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		if( langProp != null && !langProp.getPerspectiveId().equals(currentPerspectiveId) ) {
 			MessageBox message = new MessageBox(getSite().getShell(),
 					SWT.ICON_QUESTION | SWT.YES | SWT.NO);
-			message.setText(IMessageConstants.BASIC_PERSPECTIVE_TEXT);
-			message.setMessage(IMessageConstants.BASIC_PERSPECTIVE_MSG1 + langProp.getPerspectiveName()
-					+ IMessageConstants.BASIC_PERSPECTIVE_MSG2);
+			message.setText(Messages.getString("IMC.BASIC_PERSPECTIVE_TEXT"));
+			message.setMessage(Messages.getString("IMC.BASIC_PERSPECTIVE_MSG1")
+					+ langProp.getPerspectiveName()
+					+ Messages.getString("IMC.BASIC_PERSPECTIVE_MSG2"));
 			if( message.open() == SWT.YES) {
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().setPerspective(
 						PlatformUI.getWorkbench().getPerspectiveRegistry().findPerspectiveWithId(
@@ -192,7 +194,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		String result = null;
 		//Module Name
 		if (result == null && nameText.getText().length() == 0) {
-			result = IMessageConstants.BASIC_VALIDATE_NAME1;
+			result = Messages.getString("IMC.BASIC_VALIDATE_NAME1");
 		}
 		if( !StringUtil.checkDigitAlphabet(nameText.getText()) ) {
 			result = IMessageConstants.BASIC_VALIDATE_NAME2;
@@ -211,10 +213,10 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 				// void
 			}
 			if (parseInt == null) {
-				result = IMessageConstants.BASIC_VALIDATE_MAXINST1;
+				result = Messages.getString("IMC.BASIC_VALIDATE_MAXINST1");
 			}
 			if (parseInt != null && parseInt.intValue() < 0) {
-				result = IMessageConstants.BASIC_VALIDATE_MAXINST2;
+				result = Messages.getString("IMC.BASIC_VALIDATE_MAXINST2");
 			}
 		}
 		//Execution Rate
@@ -225,10 +227,10 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 			// void
 		}
 		if (parseDbl == null) {
-			result = IMessageConstants.BASIC_VALIDATE_ECRATE1;
+			result = Messages.getString("IMC.BASIC_VALIDATE_ECRATE1");
 		}
 		if (parseDbl != null && parseDbl.intValue() < 0) {
-			result = IMessageConstants.BASIC_VALIDATE_ECRATE2;
+			result = Messages.getString("IMC.BASIC_VALIDATE_ECRATE2");
 		}
 		//Component Kind
 		if( !dataFlowBtn.getSelection() &&
@@ -249,26 +251,33 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 
 	private void createModuleSection(FormToolkit toolkit, ScrolledForm form) {
 		Composite composite = createSectionBaseWithLabel(toolkit, form,
-				IMessageConstants.BASIC_COMPONENT_TITLE, IMessageConstants.BASIC_COMPONENT_EXPL, 3);
+				Messages.getString("IMC.BASIC_COMPONENT_TITLE"), Messages.getString("IMC.BASIC_COMPONENT_EXPL"), 3);
 		//
 		nameText = createLabelAndText(toolkit, composite,
-				IMessageConstants.REQUIRED + IMessageConstants.BASIC_LBL_MODULENAME, SWT.NONE, SWT.COLOR_RED, 2);
-		descriptionText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_DESCRIPTION, SWT.NONE, SWT.COLOR_BLACK, 2);
+				IMessageConstants.REQUIRED + Messages.getString("IMC.BASIC_LBL_MODULENAME"), SWT.NONE, SWT.COLOR_RED, 2);
+		descriptionText = createLabelAndText(toolkit, composite, Messages.getString("IMC.BASIC_LBL_DESCRIPTION"), SWT.NONE, SWT.COLOR_BLACK, 2);
 		versionText = createLabelAndText(toolkit, composite,
-				IMessageConstants.REQUIRED + IMessageConstants.BASIC_LBL_VERSION, SWT.NONE, SWT.COLOR_RED, 2);
+				IMessageConstants.REQUIRED + Messages.getString("IMC.BASIC_LBL_VERSION"), SWT.NONE, SWT.COLOR_RED, 2);
 		venderText = createLabelAndText(toolkit, composite,
-				IMessageConstants.REQUIRED + IMessageConstants.BASIC_LBL_VENDOR, SWT.NONE, SWT.COLOR_RED, 2);
-		String[] defaultCategory = {};
+				IMessageConstants.REQUIRED + Messages.getString("IMC.BASIC_LBL_VENDOR"), SWT.NONE, SWT.COLOR_RED, 2);
+		String[] defaultCategory = { "Actuator", "Animation", "Autonomous Decentralized System", "Chatbot", "Computer Algebra System",
+									 "Controller", "Converter", "Database", "Educational Tool", "Game",
+									 "ImageProcessiong", "Machine Learning", "Manipulator", "Manufacturing System", "Master-Slave",
+									 "Mobile Robot", "Motion Capture", "Navigation", "Nonholonomic System", "Office Suite",
+									 "Robot", "Sample", "Script Engine", "Sensor", "Simulator",
+									 "Speech Processing", "Streaming", "Test", "Transport System", "User Interface",
+									 "Vehicle", "Web Application Server"};
 		categoryCombo = createEditableCombo(toolkit, composite,
-				IMessageConstants.REQUIRED + IMessageConstants.BASIC_LBL_CATEGORY,
+				IMessageConstants.REQUIRED + Messages.getString("IMC.BASIC_LBL_CATEGORY"),
 				CATEGORY_INDEX_KEY, defaultCategory, SWT.COLOR_RED, 2);
-		typeCombo = createLabelAndCombo(toolkit, composite, IMessageConstants.BASIC_LBL_COMPONENT_TYPE,
+		typeCombo = createLabelAndCombo(toolkit, composite,
+				Messages.getString("IMC.BASIC_LBL_COMPONENT_TYPE"),
 				IRtcBuilderConstants.COMPONENT_TYPE_ITEMS, SWT.COLOR_BLACK, 2);
-		activityTypeCombo = createLabelAndCombo(toolkit, composite, IMessageConstants.BASIC_LBL_ACTIVITY_TYPE,
+		activityTypeCombo = createLabelAndCombo(toolkit, composite,
+				Messages.getString("IMC.BASIC_LBL_ACTIVITY_TYPE"),
 				IRtcBuilderConstants.ACTIVITY_TYPE_ITEMS, SWT.COLOR_BLACK, 2);
 		//
-		toolkit.createLabel(composite, IMessageConstants.BASIC_LBL_COMPONENT_KIND);
-
+		toolkit.createLabel(composite, Messages.getString("IMC.BASIC_LBL_COMPONENT_KIND"));
 		compGroup = new Group(composite, SWT.NONE);
 		compGroup.setLayout(new GridLayout(3, false));
 		GridData gd = new GridData();
@@ -281,54 +290,64 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		dummyGroup.setLayout(new GridLayout(1, false));
 		choreonoidBtn = createRadioCheckButton(toolkit, dummyGroup, "Choreonoid", SWT.CHECK);
 		//
-		maxInstanceText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_MAX_INSTANCES, SWT.NONE, SWT.COLOR_BLACK, 2);
-		executionTypeCombo = createLabelAndCombo(toolkit, composite, IMessageConstants.BASIC_LBL_EXECUTION_TYPE,
+		maxInstanceText = createLabelAndText(toolkit, composite,
+				Messages.getString("IMC.BASIC_LBL_MAX_INSTANCES"),
+				SWT.NONE, SWT.COLOR_BLACK, 2);
+		executionTypeCombo = createLabelAndCombo(toolkit, composite,
+				Messages.getString("IMC.BASIC_LBL_EXECUTION_TYPE"),
 				IRtcBuilderConstants.EXECUTIONCONTEXT_TYPE_ITEMS, SWT.COLOR_BLACK, 2);
-		executionRateText = createLabelAndText(toolkit,	composite, IMessageConstants.BASIC_LBL_EXECUTION_RATE, SWT.NONE, SWT.COLOR_BLACK, 2);
-		abstractText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_ABSTRACT, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+		executionRateText = createLabelAndText(toolkit,	composite,
+				Messages.getString("IMC.BASIC_LBL_EXECUTION_RATE"),
+				SWT.NONE, SWT.COLOR_BLACK, 2);
+		abstractText = createLabelAndText(toolkit, composite,
+				Messages.getString("IMC.BASIC_LBL_ABSTRACT"),
+				SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.heightHint = 50;
 		gridData.widthHint = 100;
 		gridData.horizontalSpan = 2;
 		abstractText.setLayoutData(gridData);
-		rtcTypeText = createLabelAndText(toolkit, composite, IMessageConstants.BASIC_LBL_RTCTYPE, SWT.NONE, SWT.COLOR_BLACK, 2);
+		rtcTypeText = createLabelAndText(toolkit, composite,
+				Messages.getString("IMC.BASIC_LBL_RTCTYPE"),
+				SWT.NONE, SWT.COLOR_BLACK, 2);
 	}
 
 	private void createHintSection(FormToolkit toolkit, ScrolledForm form) {
 		Composite composite = createHintSectionBase(toolkit, form, 4);
 		//
-		createHintLabel(IMessageConstants.BASIC_HINT_MODULENAME_TITLE, IMessageConstants.BASIC_HINT_MODULENAME_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.BASIC_HINT_DESCRIPTION_TITLE, IMessageConstants.BASIC_HINT_DESCRIPTION_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.BASIC_HINT_VERSION_TITLE, IMessageConstants.BASIC_HINT_VERSION_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.BASIC_HINT_VENDOR_TITLE, IMessageConstants.BASIC_HINT_VENDOR_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.BASIC_HINT_CATEGORY_TITLE, IMessageConstants.BASIC_HINT_CATEGORY_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.BASIC_HINT_COMPTYPE_TITLE, IMessageConstants.BASIC_HINT_COMPTYPE_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.BASIC_HINT_ACTIVITYTYPE_TITLE, IMessageConstants.BASIC_HINT_ACTIVITYTYPE_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.BASIC_HINT_COMPKIND_TITLE, IMessageConstants.BASIC_HINT_COMPKIND_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.BASIC_HINT_MODULENAME_TITLE"), IMessageConstants.BASIC_HINT_MODULENAME_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.BASIC_HINT_DESCRIPTION_TITLE"), IMessageConstants.BASIC_HINT_DESCRIPTION_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.BASIC_HINT_VERSION_TITLE"), IMessageConstants.BASIC_HINT_VERSION_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.BASIC_HINT_VENDOR_TITLE"), IMessageConstants.BASIC_HINT_VENDOR_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.BASIC_HINT_CATEGORY_TITLE"), IMessageConstants.BASIC_HINT_CATEGORY_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.BASIC_HINT_COMPTYPE_TITLE"), IMessageConstants.BASIC_HINT_COMPTYPE_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.BASIC_HINT_ACTIVITYTYPE_TITLE"), IMessageConstants.BASIC_HINT_ACTIVITYTYPE_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.BASIC_HINT_COMPKIND_TITLE"), IMessageConstants.BASIC_HINT_COMPKIND_DESC, toolkit, composite);
 		createHintLabel(IMessageConstants.BASIC_HINT_MAXINST_TITLE, IMessageConstants.BASIC_HINT_MAXINST_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.BASIC_HINT_EXECUTIONTYPE_TITLE, IMessageConstants.BASIC_HINT_EXECUTIONTYPE_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.BASIC_HINT_EXECUTIONRATE_TITLE, IMessageConstants.BASIC_HINT_EXECUTIONRATE_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.BASIC_HINT_ABSTRACT_TITLE, IMessageConstants.BASIC_HINT_ABSTRACT_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.BASIC_HINT_RTCTYPE_TITLE, IMessageConstants.BASIC_HINT_RTCTYPE_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.BASIC_HINT_EXECUTIONTYPE_TITLE"), Messages.getString("IMC.BASIC_HINT_EXECUTIONTYPE_DESC"), toolkit, composite);
+		createHintLabel(Messages.getString("IMC.BASIC_HINT_EXECUTIONRATE_TITLE"), IMessageConstants.BASIC_HINT_EXECUTIONRATE_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.BASIC_HINT_ABSTRACT_TITLE"), Messages.getString("IMC.BASIC_HINT_ABSTRACT_DESC"), toolkit, composite);
+		createHintLabel(Messages.getString("IMC.BASIC_HINT_RTCTYPE_TITLE"), IMessageConstants.BASIC_HINT_RTCTYPE_DESC, toolkit, composite);
 		//
 		createHintSpace(toolkit, composite);
 		//
-		createHintLabel(IMessageConstants.BASIC_HINT_GENERATE_TITLE, IMessageConstants.BASIC_HINT_GENERATE_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.BASIC_HINT_GENERATE_TITLE"), Messages.getString("IMC.BASIC_HINT_GENERATE_DESC"), toolkit, composite);
 		//
 		createHintSpace(toolkit, composite);
 		//
-		createHintLabel(IMessageConstants.BASIC_HINT_IMPORT_TITLE, IMessageConstants.BASIC_HINT_IMPORT_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.BASIC_HINT_EXPORT_TITLE, IMessageConstants.BASIC_HINT_EXPORT_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.BASIC_HINT_IMPORT_TITLE"), Messages.getString("IMC.BASIC_HINT_IMPORT_DESC"), toolkit, composite);
+		createHintLabel(Messages.getString("IMC.BASIC_HINT_EXPORT_TITLE"), Messages.getString("IMC.BASIC_HINT_EXPORT_DESC"), toolkit, composite);
 	}
 
 	private void createGenerateSection(FormToolkit toolkit, ScrolledForm form) {
 		generateSection = createSectionBaseWithLabel(toolkit, form,
-				IMessageConstants.BASIC_GENERATE_TITLE, IMessageConstants.BASIC_GENERATE_EXPL, 2);
+				Messages.getString("IMC.BASIC_GENERATE_TITLE"), Messages.getString("IMC.BASIC_GENERATE_EXPL"), 2);
 		createGenerateButton(toolkit);
 	}
 
 	private void createGenerateButton(FormToolkit toolkit) {
-		generateButton = toolkit.createButton(generateSection, IMessageConstants.BASIC_BTN_GENERATE, SWT.NONE);
+		generateButton = toolkit.createButton(generateSection,
+				Messages.getString("IMC.BASIC_BTN_GENERATE"), SWT.NONE);
 		generateButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -640,13 +659,14 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 
 	private void createExportImportSection(FormToolkit toolkit, ScrolledForm form) {
 		profileSection = createSectionBaseWithLabel(toolkit, form,
-				IMessageConstants.BASIC_EXPORT_IMPORT_TITLE, IMessageConstants.BASIC_EXPORT_IMPORT_EXPL, 2);
+				Messages.getString("IMC.BASIC_EXPORT_IMPORT_TITLE"), Messages.getString("IMC.BASIC_EXPORT_IMPORT_EXPL"), 2);
 		createProfileLoadButton(toolkit);
 		createProfileSaveButton(toolkit);
 	}
 
 	private void createProfileSaveButton(FormToolkit toolkit) {
-		profileSaveButton = toolkit.createButton(profileSection, IMessageConstants.BASIC_BTN_EXPORT, SWT.NONE);
+		profileSaveButton = toolkit.createButton(profileSection,
+				Messages.getString("IMC.BASIC_BTN_EXPORT"), SWT.NONE);
 		profileSaveButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -661,7 +681,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
         		ExportCreator export = new ExportCreator();
         		if(!export.canCreateProfileName(editor)) {
         			FileDialog dialog = new FileDialog(getSite().getShell(),SWT.SAVE);
-    		        dialog.setText(IMessageConstants.BASIC_BTN_EXPORT);
+    		        dialog.setText(Messages.getString("IMC.BASIC_BTN_EXPORT"));
     				dialog.setFilterNames(new String[] {IMessageConstants.FILETYPE_XML,IMessageConstants.FILETYPE_YAML});
     				dialog.setFilterExtensions(new String[] { "*.xml","*.yaml" });
     				selectedFileName = dialog.open();
@@ -712,25 +732,27 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					} catch (Exception e1) {
 						String msg = e1.getMessage();
 						if (msg == null || msg.equals("")) {
-							msg = IMessageConstants.BASIC_EXPORT_ERROR;
+							msg = Messages.getString("IMC.BASIC_EXPORT_ERROR");
 						}
 						MessageDialog.openError(getSite().getShell(), "Error", msg);
 						return;
 					}
-					MessageDialog.openInformation(getSite().getShell(), "Finish", IMessageConstants.BASIC_EXPORT_DONE);
+					MessageDialog.openInformation(getSite().getShell(), "Finish",
+							Messages.getString("IMC.BASIC_EXPORT_DONE"));
 		        }
 			}
 		});
 	}
 
 	private void createProfileLoadButton(FormToolkit toolkit) {
-		profileLoadButton = toolkit.createButton(profileSection, IMessageConstants.BASIC_BTN_IMPORT, SWT.NONE);
+		profileLoadButton = toolkit.createButton(profileSection,
+				Messages.getString("IMC.BASIC_BTN_IMPORT"), SWT.NONE);
 		profileLoadButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				ImportExtension extension = getTargetImportExtension();
 				FileDialog dialog = new FileDialog(getSite().getShell(),SWT.OPEN);
-		        dialog.setText(IMessageConstants.BASIC_BTN_IMPORT);
+		        dialog.setText(Messages.getString("IMC.BASIC_BTN_IMPORT"));
 
 				String[] names = extension == null ? new String[] { IMessageConstants.FILETYPE_XML,IMessageConstants.FILETYPE_YAML }
 				  					: extension.getFileDialogFilterNames();
@@ -756,7 +778,8 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 							}
 							editor.getRtcParam().setOutputProject(origProject);
 						} catch (Exception e1) {
-							MessageDialog.openError(getSite().getShell(), "Error", IMessageConstants.BASIC_IMPORT_ERROR);
+							MessageDialog.openError(getSite().getShell(), "Error",
+									Messages.getString("IMC.BASIC_IMPORT_ERROR"));
 							return;
 						}
 		        	} else {
@@ -765,7 +788,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 						} catch (Exception e1) {
 							String msg = e1.getMessage();
 							if (msg == null || msg.equals("")) {
-								msg = IMessageConstants.BASIC_IMPORT_ERROR;
+								msg = Messages.getString("IMC.BASIC_IMPORT_ERROR");
 							}
 							MessageDialog.openError(getSite().getShell(), "Error", msg);
 							return;
@@ -805,7 +828,8 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		        		}
 	        		}
 	        		
-					MessageDialog.openInformation(getSite().getShell(), "Finish",	IMessageConstants.BASIC_IMPORT_DONE);
+					MessageDialog.openInformation(getSite().getShell(), "Finish",
+							Messages.getString("IMC.BASIC_IMPORT_DONE"));
 					//
 					editor.allPagesReLoad();
 					editor.updateEMFModuleName(editor.getRtcParam().getName());

@@ -66,14 +66,6 @@ public class ${rtcParam.name}Test implements RtcNewFunc, RtcDeleteFunc, Register
 #end
 
 #end
-#if( ${rtcParam.configParameterParams.size()} > 0 )
-            // System Configuration
-#foreach($parameterParam in ${rtcParam.configParameterParams})  
-#if( ${parameterParam.isNonPeriodic()} )
-            "${parameterParam.configName}", "${parameterParam.defaultVal}",
-#end
-#end
-#end
     	    ""
             };
 //  </rtc-template>

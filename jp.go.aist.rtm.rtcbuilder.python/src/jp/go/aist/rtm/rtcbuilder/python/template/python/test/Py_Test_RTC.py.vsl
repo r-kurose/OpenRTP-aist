@@ -17,13 +17,14 @@
 #end
 
 """
+from __future__ import print_function
 import sys
 import time
 sys.path.append(".")
 
 # Import RTM module
-import RTC
 import OpenRTM_aist
+import RTC
 
 #foreach($IdlFile in ${allIdlFileParam})#if(!${IdlFile.dataPort})import ${tmpltHelper.getFilenameNoExt(${IdlFile.IdlFile})}_idl
 #end
@@ -38,6 +39,8 @@ import OpenRTM_aist
 #foreach($providerIdlFile in ${rtcParam.providerIdlPathes})
 from ${tmpltHelper.getFilenameNoExt(${providerIdlFile.idlFile})}_idl_example import *
 #end
+
+import ${rtcParam.name}
 
 # </rtc-template>
 
@@ -82,13 +85,6 @@ ${pyConv.convToLower(${rtcParam.name})}test_spec = ["implementation_id", "${rtcP
          "conf.__type__.${configParam.name}", "${configParam.type}",
 #end
 
-#end
-#if( ${rtcParam.configParameterParams.size()} > 0 )
-#foreach($parameterParam in ${rtcParam.configParameterParams})  
-#if( ${parameterParam.isNonPeriodic()} )
-		 "${parameterParam.configName}", "${parameterParam.defaultVal}",
-#end
-#end
 #end
 		 ""]
 # </rtc-template>
@@ -554,8 +550,15 @@ class ${rtcParam.name}Test(OpenRTM_aist.DataFlowComponentBase):
 
 	#if(${rtcParam.IsNotImplemented(11)})${sharp}#end	return RTC.RTC_OK
 	
+	def runTest(self):
+		return True
 
-
+def RunTest():
+	manager = OpenRTM_aist.Manager.instance()
+	comp = manager.getComponent("${rtcParam.name}Test0")
+	if comp is None:
+		print('Component get failed.', file=sys.stderr)
+	return comp.runTest()
 
 def ${rtcParam.name}TestInit(manager):
     profile = OpenRTM_aist.Properties(defaults_str=${pyConv.convToLower(${rtcParam.name})}test_spec)
@@ -565,6 +568,7 @@ def ${rtcParam.name}TestInit(manager):
 
 def MyModuleInit(manager):
     ${rtcParam.name}TestInit(manager)
+    ${rtcParam.name}.${rtcParam.name}Init(manager)
 
     # Create a component
     comp = manager.createComponent("${rtcParam.name}Test")
@@ -573,7 +577,15 @@ def main():
 	mgr = OpenRTM_aist.Manager.init(sys.argv)
 	mgr.setModuleInitProc(MyModuleInit)
 	mgr.activateManager()
-	mgr.runManager()
+	mgr.runManager(True)
+
+	ret = RunTest()
+	mgr.shutdown()
+
+	if ret:
+		sys.exit(0)
+	else:
+		sys.exit(1)
 
 if __name__ == "__main__":
 	main()

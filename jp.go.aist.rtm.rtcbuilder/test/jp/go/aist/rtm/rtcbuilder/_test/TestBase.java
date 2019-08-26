@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
+import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 import junit.framework.TestCase;
 
 public class TestBase extends TestCase {
@@ -74,7 +75,7 @@ public class TestBase extends TestCase {
 		expContent = replaceRootPath(expContent);
 		expContent = expContent.replace("\uFEFF", "");
 //		assertEquals(replaceBlank(expContent) , replaceBlank(result.get(index).getCode()));
-		assertEquals(expContent , result.get(index).getCode());
+		assertEquals(StringUtil.removeLastNewLine(expContent) , StringUtil.removeLastNewLine(result.get(index).getCode()));
 	}
 
 	protected void nonexist(List<GeneratedResult> result, String resourceDir,

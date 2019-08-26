@@ -108,11 +108,11 @@ public class CMakeGenerateManager extends GenerateManager {
 			gr = generateTestCMakeLists(contextMap);
 			result.add(gr);
 			gr = generateTestIncludeCMakeLists(contextMap);
-			result.add(gr);
+			if(gr!=null) result.add(gr);
 			gr = generateTestIncModuleCMakeLists(contextMap);
-			result.add(gr);
+			if(gr!=null) result.add(gr);
 			gr = generateTestSrcCMakeLists(contextMap);
-			result.add(gr);
+			if(gr!=null) result.add(gr);
 		}
 
 		//doc
