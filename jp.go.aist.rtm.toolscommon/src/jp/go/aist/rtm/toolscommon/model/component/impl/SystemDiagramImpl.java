@@ -16,14 +16,13 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import jp.go.aist.rtm.toolscommon.model.component.Component;
-import jp.go.aist.rtm.toolscommon.model.component.ComponentFactory;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaStatusObserver;
 import jp.go.aist.rtm.toolscommon.model.component.PortConnector;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagram;
 import jp.go.aist.rtm.toolscommon.model.component.SystemDiagramKind;
-import jp.go.aist.rtm.toolscommon.model.component.util.CorbaObserverStore;
+import jp.go.aist.rtm.toolscommon.model.component.util.CorbaObserverHandler;
 import jp.go.aist.rtm.toolscommon.model.component.util.PropertyMap;
 import jp.go.aist.rtm.toolscommon.model.core.Point;
 import jp.go.aist.rtm.toolscommon.model.core.impl.ModelElementImpl;
@@ -456,32 +455,12 @@ public class SystemDiagramImpl extends ModelElementImpl implements SystemDiagram
 
 	@Override
 	public synchronized void removeComponent(Component component) {
-		removeObserver(component);
+		CorbaObserverHandler.eINSTANCE.detachStatusObserver(component);
 		for (Component comp : component.getComponents()) {
-			removeObserver(comp);
+			CorbaObserverHandler.eINSTANCE.detachStatusObserver(comp);
 		}
 		//
 		getComponents().remove(component);
-	}
-
-	void removeObserver(Component component) {
-		if (!(component instanceof CorbaComponentImpl)) {
-			return;
-		}
-		if (isCompositeMember(component)) {
-			return;
-		}
-		CorbaComponentImpl corbaComp = (CorbaComponentImpl) component;
-		//
-		CorbaObserverStore.eINSTANCE.removeComponentReference(corbaComp);
-		// 状態通知オブザーバ解除
-		if (corbaComp.getStatusObserver() != null) {
-			corbaComp.getStatusObserver().detachComponent();
-		}
-		// ログ通知オブザーバ解除
-		if (corbaComp.getLogObserver() != null) {
-			corbaComp.getLogObserver().detachComponent();
-		}
 	}
 
 	@Override
@@ -498,9 +477,9 @@ public class SystemDiagramImpl extends ModelElementImpl implements SystemDiagram
 
 	@Override
 	public synchronized void addComponent(int pos, Component component) {
-		addObserver(component);
+		CorbaObserverHandler.eINSTANCE.attachStatusObserver(component);
 		for (Component comp : component.getComponents()) {
-			addObserver(comp);
+			CorbaObserverHandler.eINSTANCE.attachStatusObserver(comp);
 		}
 		//
 		if (pos == -1) {
@@ -508,25 +487,6 @@ public class SystemDiagramImpl extends ModelElementImpl implements SystemDiagram
 		} else {
 			getComponents().add(pos, component);
 		}
-	}
-
-	void addObserver(Component component) {
-		if (!(component instanceof CorbaComponentImpl)) {
-			return;
-		}
-		if (isCompositeMember(component)) {
-			return;
-		}
-		CorbaComponentImpl corbaComp = (CorbaComponentImpl) component;
-		if (!corbaComp.supportedCorbaObserver()) {
-			return;
-		}
-		// 状態通知オブザーバ登録
-		CorbaStatusObserver ob = ComponentFactory.eINSTANCE
-				.createCorbaStatusObserver();
-		ob.attachComponent(corbaComp);
-		//
-		CorbaObserverStore.eINSTANCE.addComponentReference(corbaComp);
 	}
 
 	@Override
@@ -541,16 +501,6 @@ public class SystemDiagramImpl extends ModelElementImpl implements SystemDiagram
 		for (Component c : getUnmodifiedComponents()) {
 			removeComponent(c);
 		}
-	}
-
-	public boolean isCompositeMember(Component component) {
-		if (component.eContainer() instanceof SystemDiagram) {
-			SystemDiagram sd = (SystemDiagram) component.eContainer();
-			if (sd.getCompositeComponent() != null) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	@Override
