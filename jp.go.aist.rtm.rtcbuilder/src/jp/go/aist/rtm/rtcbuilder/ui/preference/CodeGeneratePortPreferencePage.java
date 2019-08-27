@@ -61,15 +61,15 @@ public class CodeGeneratePortPreferencePage extends AbstarctFieldEditorPreferenc
 		Composite serviceIFGroup = createGroup(composite, IPreferenceMessageConstants.PORT_TITLE_SERVICE_INTERFACE);
 		DigitAlphabetStringFieldEditor serviceIFNameEditor = 
 			new DigitAlphabetStringFieldEditor(ComponentPreferenceManager.Generate_ServiceIF_Name,
-					IMessageConstants.SERVICEPORT_LBL_IFNAME, serviceIFGroup);
+					Messages.getString("IMC.SERVICEPORT_LBL_IFNAME"), serviceIFGroup);
 		addField(serviceIFNameEditor);
 		DigitAlphabetStringFieldEditor serviceIFInstanceNameEditor = 
 			new DigitAlphabetStringFieldEditor(ComponentPreferenceManager.Generate_ServiceIF_InstanceName,
-					IMessageConstants.SERVICEPORT_LBL_IFINSTNAME, serviceIFGroup);
+					Messages.getString("IMC.SERVICEPORT_LBL_IFINSTNAME"), serviceIFGroup);
 		addField(serviceIFInstanceNameEditor);
 		DigitAlphabetStringFieldEditor serviceIFVarNameEditor = 
 			new DigitAlphabetStringFieldEditor(ComponentPreferenceManager.Generate_ServiceIF_VarName,
-					IMessageConstants.SERVICEPORT_LBL_IFVARNAME, serviceIFGroup);
+					Messages.getString("IMC.SERVICEPORT_LBL_IFVARNAME"), serviceIFGroup);
 		addField(serviceIFVarNameEditor);
 		StringFieldEditor serviceIFPrefixEditor = 
 			new StringFieldEditor(ComponentPreferenceManager.Generate_ServiceIF_Prefix,
@@ -84,7 +84,7 @@ public class CodeGeneratePortPreferencePage extends AbstarctFieldEditorPreferenc
 		Composite serviceportGroup = createGroup(composite, IPreferenceMessageConstants.PORT_TITLE_SERVICE_PORT);
 		DigitAlphabetStringFieldEditor servicePortNameEditor = 
 			new DigitAlphabetStringFieldEditor(ComponentPreferenceManager.Generate_ServicePort_Name,
-					IMessageConstants.SERVICEPORT_LBL_PORTNAME, serviceportGroup);
+					Messages.getString("IMC.SERVICEPORT_LBL_PORTNAME"), serviceportGroup);
 		addField(servicePortNameEditor);
 		StringFieldEditor servicePortPrefixEditor = 
 			new StringFieldEditor(ComponentPreferenceManager.Generate_ServicePort_Prefix,
