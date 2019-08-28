@@ -129,59 +129,60 @@ public interface IMessageConstants {
 	public static final String SERVICEPORT_VALIDATE_IFTYPE2 = Messages.getString("IMessageConstants.SERVICEPORT_VALIDATE_IFTYPE2"); //$NON-NLS-1$
 	public static final String SERVICEPORT_VALIDATE_VARNAME = Messages.getString("IMessageConstants.SERVICEPORT_VALIDATE_VARNAME"); //$NON-NLS-1$
 
-	public static final String SERVIVEPORT_HINT_PORT_NAME_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+	public static final String SERVICEPORT_HINT_PORT_NAME_DESC = StringUtil.connectMessageWithSepalator( new String[]{
 			Messages.getString("IMC.SERVIVEPORT_HINT_PORT_NAME_DESC_P1"),
 			Messages.getString("IMC.SERVIVEPORT_HINT_PORT_NAME_DESC_P2"),
 			Messages.getString("IMC.SERVIVEPORT_HINT_PORT_NAME_DESC_P3"),
 			Messages.getString("IMC.SERVIVEPORT_HINT_PORT_NAME_DESC_P4"),
 			Messages.getString("IMC.SERVIVEPORT_HINT_PORT_NAME_DESC_P5")});
 	
-	public static final String SERVIVEPORT_HINT_IF_NAME_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+	public static final String SERVICEPORT_HINT_IF_NAME_DESC = StringUtil.connectMessageWithSepalator( new String[]{
 			Messages.getString("IMC.SERVIVEPORT_HINT_IF_NAME_DESC_P1"),
 			Messages.getString("IMC.SERVIVEPORT_HINT_IF_NAME_DESC_P2"),
 			Messages.getString("IMC.SERVIVEPORT_HINT_IF_NAME_DESC_P3")});
 	
-	public static final String SERVIVEPORT_HINT_IF_DIRECTION_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+	public static final String SERVICEPORT_HINT_IF_DIRECTION_DESC = StringUtil.connectMessageWithSepalator( new String[]{
 			Messages.getString("IMC.SERVIVEPORT_HINT_IF_DIRECTION_DESC_P1"),
 			Messages.getString("IMC.SERVIVEPORT_HINT_IF_DIRECTION_DESC_P2"),
 			Messages.getString("IMC.SERVIVEPORT_HINT_IF_DIRECTION_DESC_P3")});
 	
-	public static final String SERVIVEPORT_HINT_IF_INSTANCE_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+	public static final String SERVICEPORT_HINT_IF_INSTANCE_DESC = StringUtil.connectMessageWithSepalator( new String[]{
 			Messages.getString("IMC.SERVIVEPORT_HINT_IF_INSTANCE_DESC_P1"),
 			Messages.getString("IMC.SERVIVEPORT_HINT_IF_INSTANCE_DESC_P2")});
 	
-	public static final String SERVIVEPORT_HINT_IF_VARNAME_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+	public static final String SERVICEPORT_HINT_IF_VARNAME_DESC = StringUtil.connectMessageWithSepalator( new String[]{
 			Messages.getString("IMC.SERVIVEPORT_HINT_IF_VARNAME_DESC_P1"),
 			Messages.getString("IMC.SERVIVEPORT_HINT_IF_VARNAME_DESC_P2")});
 	
-	public static final String SERVIVEPORT_HINT_IFTYPE_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+	public static final String SERVICEPORT_HINT_IFTYPE_DESC = StringUtil.connectMessageWithSepalator( new String[]{
 			Messages.getString("IMC.SERVIVEPORT_HINT_IFTYPE_DESC_P1"),
 			Messages.getString("IMC.SERVIVEPORT_HINT_IFTYPE_DESC_P2"),
 			Messages.getString("IMC.SERVIVEPORT_HINT_IFTYPE_DESC_P3")});
 	
-	public static final String SERVIVEPORT_HINT_ILDPATH_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+	public static final String SERVICEPORT_HINT_ILDPATH_DESC = StringUtil.connectMessageWithSepalator( new String[]{
 			Messages.getString("IMC.SERVIVEPORT_HINT_IFTYPE_DESC_P1"),
 			Messages.getString("IMC.SERVIVEPORT_HINT_IFTYPE_DESC_P2")});
 	
-	public static final String SERVIVEPORT_HINT_ARGUMENT_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+	public static final String SERVICEPORT_HINT_ARGUMENT_DESC = StringUtil.connectMessageWithSepalator( new String[]{
 			Messages.getString("IMC.SERVIVEPORT_HINT_ARGUMEN_DESC_P1"),
 			Messages.getString("IMC.SERVIVEPORT_HINT_ARGUMEN_DESC_P2"),
 			Messages.getString("IMC.SERVIVEPORT_HINT_ARGUMEN_DESC_P3")});
 	
-	public static final String SERVIVEPORT_HINT_RETURN_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+	public static final String SERVICEPORT_HINT_RETURN_DESC = StringUtil.connectMessageWithSepalator( new String[]{
 			Messages.getString("IMC.SERVIVEPORT_HINT_RETURN_DESC_P1"),
 			Messages.getString("IMC.SERVIVEPORT_HINT_RETURN_DESC_P2"),
 			Messages.getString("IMC.SERVIVEPORT_HINT_RETURN_DESC_P3")});
 	
-	public static final String SERVIVEPORT_HINT_EXCEPTION_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+	public static final String SERVICEPORT_HINT_EXCEPTION_DESC = StringUtil.connectMessageWithSepalator( new String[]{
 			Messages.getString("IMC.SERVIVEPORT_HINT_EXCEPTION_DESC_P1"),
-			Messages.getString("IMC.SERVIVEPORT_HINT_EXCEPTION_DESC_P2")});
+			Messages.getString("IMC.SERVIVEPORT_HINT_EXCEPTION_DESC_P2"),
+			Messages.getString("IMC.SERVIVEPORT_HINT_EXCEPTION_DESC_P3")});
 	
-	public static final String SERVIVEPORT_HINT_PRE_CONDITION_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+	public static final String SERVICEPORT_HINT_PRE_CONDITION_DESC = StringUtil.connectMessageWithSepalator( new String[]{
 			Messages.getString("IMC.SERVIVEPORT_HINT_PRE_CONDITION_DESC_P1"),
 			Messages.getString("IMC.SERVIVEPORT_HINT_PRE_CONDITION_DESC_P2")});
 	
-	public static final String SERVIVEPORT_HINT_POST_CONDITION_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+	public static final String SERVICEPORT_HINT_POST_CONDITION_DESC = StringUtil.connectMessageWithSepalator( new String[]{
 			Messages.getString("IMC.SERVIVEPORT_HINT_POST_CONDITION_DESC_P1"),
 			Messages.getString("IMC.SERVIVEPORT_HINT_POST_CONDITION_DESC_P2")});
 		

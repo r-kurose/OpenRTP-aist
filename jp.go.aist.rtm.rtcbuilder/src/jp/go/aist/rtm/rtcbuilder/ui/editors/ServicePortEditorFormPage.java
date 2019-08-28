@@ -211,7 +211,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 	private void createHintSectionPort(FormToolkit toolkit, Composite parent) {
 		Composite composite = createHintSectionComp(toolkit, parent, Messages.getString("IMC.SERVICEPORT_HINT_PORT_TITLE"));
 		//
-		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_PORTNAME"), IMessageConstants.SERVIVEPORT_HINT_PORT_NAME_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_PORTNAME"), IMessageConstants.SERVICEPORT_HINT_PORT_NAME_DESC, toolkit, composite);
 		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_POSITION"), Messages.getString("IMC.SERVIVEPORT_HINT_PORT_POSITION_DESC"), toolkit, composite);
 		createHintSpace(toolkit, composite);
 		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_DESCRIPTION"), Messages.getString("IMC.SERVIVEPORT_HINT_PORT_DESCRIPTION_DESC"), toolkit, composite);
@@ -221,20 +221,20 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 	private void createHintSectionInterface(FormToolkit toolkit, Composite parent) {
 		Composite composite = createHintSectionComp(toolkit, parent, Messages.getString("IMC.SERVICEPORT_HINT_INTERFACE_TITLE"));
 		//
-		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFNAME"), IMessageConstants.SERVIVEPORT_HINT_IF_NAME_DESC, toolkit, composite);
-		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFDIRECTION"), IMessageConstants.SERVIVEPORT_HINT_IF_DIRECTION_DESC, toolkit, composite);
-		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFINSTNAME"), IMessageConstants.SERVIVEPORT_HINT_IF_INSTANCE_DESC, toolkit, composite);
-		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFVARNAME"), IMessageConstants.SERVIVEPORT_HINT_IF_VARNAME_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFNAME"), IMessageConstants.SERVICEPORT_HINT_IF_NAME_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFDIRECTION"), IMessageConstants.SERVICEPORT_HINT_IF_DIRECTION_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFINSTNAME"), IMessageConstants.SERVICEPORT_HINT_IF_INSTANCE_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFVARNAME"), IMessageConstants.SERVICEPORT_HINT_IF_VARNAME_DESC, toolkit, composite);
 		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IDLFILE"), Messages.getString("IMC.SERVIVEPORT_HINT_IDLFILE_DESC"), toolkit, composite);
-		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFTYPE"), IMessageConstants.SERVIVEPORT_HINT_IFTYPE_DESC, toolkit, composite);
-		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IDLPATH"), IMessageConstants.SERVIVEPORT_HINT_ILDPATH_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFTYPE"), IMessageConstants.SERVICEPORT_HINT_IFTYPE_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IDLPATH"), IMessageConstants.SERVICEPORT_HINT_ILDPATH_DESC, toolkit, composite);
 		createHintSpace(toolkit, composite);
 		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFDESCRIPTION"), Messages.getString("IMC.SERVIVEPORT_HINT_IFDESC_DESC"), toolkit, composite);
-		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_ARGUMENT"), IMessageConstants.SERVIVEPORT_HINT_ARGUMENT_DESC, toolkit, composite);
-		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_RETURN"), IMessageConstants.SERVIVEPORT_HINT_RETURN_DESC, toolkit, composite);
-		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_EXCEPTION"), Messages.getString("IMC.SERVIVEPORT_HINT_EXCEPTION_DESC"), toolkit, composite);
-		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_PRE_CONDITION"), IMessageConstants.SERVIVEPORT_HINT_PRE_CONDITION_DESC, toolkit, composite);
-		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_POST_CONDITION"), IMessageConstants.SERVIVEPORT_HINT_POST_CONDITION_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_ARGUMENT"), IMessageConstants.SERVICEPORT_HINT_ARGUMENT_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_RETURN"), IMessageConstants.SERVICEPORT_HINT_RETURN_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_EXCEPTION"), IMessageConstants.SERVICEPORT_HINT_EXCEPTION_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_PRE_CONDITION"), IMessageConstants.SERVICEPORT_HINT_PRE_CONDITION_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_POST_CONDITION"), IMessageConstants.SERVICEPORT_HINT_POST_CONDITION_DESC, toolkit, composite);
 	}
 
 	private Composite createHintSectionComp(FormToolkit toolkit, Composite form, String title) {
