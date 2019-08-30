@@ -214,7 +214,7 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 				
 				editor.updateEMFDataPorts(
 						editor.getRtcParam().getInports(), editor.getRtcParam().getOutports(),
-						editor.getRtcParam().getServicePorts());
+						editor.getRtcParam().getEventports(), editor.getRtcParam().getServicePorts());
 				update();
 			}
 		});

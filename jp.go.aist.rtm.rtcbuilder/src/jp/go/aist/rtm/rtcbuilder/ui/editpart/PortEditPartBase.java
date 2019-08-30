@@ -3,10 +3,6 @@ package jp.go.aist.rtm.rtcbuilder.ui.editpart;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.go.aist.rtm.rtcbuilder.model.component.PortDirection;
-import jp.go.aist.rtm.rtcbuilder.ui.figure.ComponentFigure;
-import jp.go.aist.rtm.rtcbuilder.ui.figure.PortFigureBase;
-
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.RectangleFigure;
@@ -14,6 +10,10 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.ui.PlatformUI;
+
+import jp.go.aist.rtm.rtcbuilder.model.component.PortDirection;
+import jp.go.aist.rtm.rtcbuilder.ui.figure.ComponentFigure;
+import jp.go.aist.rtm.rtcbuilder.ui.figure.PortFigureBase;
 
 public abstract class PortEditPartBase extends AbstractEditPart {
 

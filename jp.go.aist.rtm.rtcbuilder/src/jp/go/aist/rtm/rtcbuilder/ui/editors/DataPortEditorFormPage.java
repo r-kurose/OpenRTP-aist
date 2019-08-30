@@ -391,7 +391,7 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		//
 		editor.updateEMFDataPorts(
 				editor.getRtcParam().getInports(), editor.getRtcParam().getOutports(),
-				editor.getRtcParam().getServicePorts());
+				editor.getRtcParam().getEventports(), editor.getRtcParam().getServicePorts());
 		editor.updateDirty();
 	}
 
@@ -490,7 +490,7 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		//
 		editor.updateEMFDataPorts(
 				editor.getRtcParam().getInports(), editor.getRtcParam().getOutports(),
-				editor.getRtcParam().getServicePorts());
+				editor.getRtcParam().getEventports(), editor.getRtcParam().getServicePorts());
 	}
 
 	public String validateParam() {

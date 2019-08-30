@@ -50,6 +50,7 @@ import jp.go.aist.rtm.rtcbuilder.fsm.ScXMLHandler;
 import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
 import jp.go.aist.rtm.rtcbuilder.generator.ProfileHandler;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.EventPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ParamUtil;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
@@ -144,7 +145,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 			updateEMFModuleName(this.getRtcParam().getName());
 			updateEMFDataPorts(
 					this.getRtcParam().getInports(), this.getRtcParam().getOutports(),
-					this.getRtcParam().getServicePorts());
+					this.getRtcParam().getEventports(),this.getRtcParam().getServicePorts());
 		} catch (Exception e) {
 			createGeneratorParam();
 		}
@@ -182,7 +183,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		if( buildview==null ) buildview = ComponentFactory.eINSTANCE.createBuildView();
 		updateEMFModuleName(this.getRtcParam().getName());
 		updateEMFDataPorts(this.getRtcParam().getInports(), this.getRtcParam().getOutports(),
-				this.getRtcParam().getServicePorts());
+				this.getRtcParam().getEventports(), this.getRtcParam().getServicePorts());
 		//
 
 		if( basicFormPage != null )	 basicFormPage.load();
@@ -666,20 +667,33 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 
 	public void updateEMFDataPorts(
 			List<DataPortParam> dataInPorts, List<DataPortParam> dataOutPorts,
-			List<ServicePortParam> servicePorts) {
-		updateEMFDataInPorts(dataInPorts);
+			List<EventPortParam> eventPorts, List<ServicePortParam> servicePorts) {
+		updateEMFDataInPorts(eventPorts, dataInPorts);
 		updateEMFDataOutPorts(dataOutPorts);
 		updateEMFServiceOutPorts(servicePorts);
 	}
 
-	private void updateEMFDataInPorts(List<DataPortParam> dataInPorts) {
+	private void updateEMFDataInPorts(List<EventPortParam> eventPorts, List<DataPortParam> dataInPorts) {
 		((Component)buildview.getComponents().get(0)).clearDataInports();
+		int portIndex = 0;
 		for(int intIdx=0; intIdx<dataInPorts.size();intIdx++ ) {
 			DataInPort dataInport= ComponentFactory.eINSTANCE.createDataInPort();
 			dataInport.setInPort_Name(dataInPorts.get(intIdx).getName());
-			dataInport.setIndex(intIdx);
+			dataInport.setIndex(portIndex);
+			portIndex++;
 			dataInport.setDirection(PortDirection.get(dataInPorts.get(intIdx).getPositionByIndex()));
 			((Component)buildview.getComponents().get(0)).addDataInport(dataInport);
+		}
+		//
+		if(0<eventPorts.size() ) {
+			DataInPort dataInport= ComponentFactory.eINSTANCE.createDataInPort();
+			dataInport.setInPort_Name(eventPorts.get(0).getName());
+			dataInport.setIndex(portIndex);
+			dataInport.setPort_Type(IRtcBuilderConstants.Type_Event);
+			portIndex++;
+			dataInport.setDirection(PortDirection.get(eventPorts.get(0).getPositionByIndex()));
+			((Component)buildview.getComponents().get(0)).addDataInport(dataInport);
+			
 		}
 	}
 

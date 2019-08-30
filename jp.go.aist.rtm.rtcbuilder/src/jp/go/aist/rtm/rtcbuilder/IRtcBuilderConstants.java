@@ -167,4 +167,6 @@ public interface IRtcBuilderConstants {
 	public static final String PROP_TYPE_FSMTYTPE =  "FSMType";
 	public static final String FSMTYTPE_STATIC =  "StaticFSM";
 	public static final String FSMTYTPE_DYNAMIC =  "DynamicFSM";
+	
+	public static final int Type_Event = 1;
 }
