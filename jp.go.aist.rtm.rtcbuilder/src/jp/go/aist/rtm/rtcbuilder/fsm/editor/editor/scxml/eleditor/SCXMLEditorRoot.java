@@ -196,11 +196,16 @@ public abstract class SCXMLEditorRoot extends JDialog implements ActionListener,
 			if(this instanceof SCXMLTransitionEditor) {
 				EventParam param = ((SCXMLTransitionEditor)this).getEventParam();
 				List<EventParam> eventList = editor.getEventList();
+				boolean isExist = false;
 				for(EventParam item : eventList) {
 					if(item.checkSame(param)) {
 						item.replaceContents(param);
+						isExist = true;
 						break;
 					}
+				}
+				if(isExist==false) {
+					eventList.add(param);
 				}
 			}
 			List<mxUndoableChange> changes = new ArrayList<mxUndoableEdit.mxUndoableChange>();

@@ -1366,6 +1366,8 @@ public class SCXMLGraphEditor extends JPanel {
 				}
 				if(targetParam == null ) {
 					targetParam= new EventParam();
+					targetParam.setSource(source.getSource());
+					targetParam.setTarget(source.getTarget());
 				}
 				((SCXMLTransitionEditor)ee).setStatus(defaultTypeList, true, targetParam);
 				((SCXMLTransitionEditor)ee).buildDialog();
