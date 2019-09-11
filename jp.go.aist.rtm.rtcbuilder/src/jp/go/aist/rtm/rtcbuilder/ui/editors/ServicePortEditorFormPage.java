@@ -71,6 +71,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
+import jp.go.aist.rtm.rtcbuilder.nl.Messages;
 import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.RTCBuilderPreferenceManager;
@@ -129,7 +130,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 	 *            親のエディタ
 	 */
 	public ServicePortEditorFormPage(RtcBuilderEditor editor) {
-		super(editor, "id", IMessageConstants.SERVICEPORT_SECTION);
+		super(editor, "id", Messages.getString("IMC.SERVICEPORT_SECTION"));
 		updateDefaultValue();
 	}
 
@@ -198,7 +199,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		composite.setLayoutData(gd);
 
-		Label title = toolkit.createLabel(composite, IMessageConstants.SERVICEPORT_SECTION);
+		Label title = toolkit.createLabel(composite, Messages.getString("IMC.SERVICEPORT_SECTION"));
 		if( titleFont==null ) {
 			titleFont = new Font(managedForm.getForm().getDisplay(), IMessageConstants.TITLE_FONT, 16, SWT.BOLD);
 		}
@@ -208,32 +209,32 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	private void createHintSectionPort(FormToolkit toolkit, Composite parent) {
-		Composite composite = createHintSectionComp(toolkit, parent, IMessageConstants.SERVIVEPORT_HINT_PORT_TITLE);
+		Composite composite = createHintSectionComp(toolkit, parent, Messages.getString("IMC.SERVICEPORT_HINT_PORT_TITLE"));
 		//
-		createHintLabel(IMessageConstants.SERVICEPORT_LBL_PORTNAME, IMessageConstants.SERVIVEPORT_HINT_PORT_NAME_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.SERVICEPORT_LBL_POSITION, IMessageConstants.SERVIVEPORT_HINT_PORT_POSITION_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_PORTNAME"), IMessageConstants.SERVICEPORT_HINT_PORT_NAME_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_POSITION"), Messages.getString("IMC.SERVIVEPORT_HINT_PORT_POSITION_DESC"), toolkit, composite);
 		createHintSpace(toolkit, composite);
-		createHintLabel(IMessageConstants.SERVICEPORT_LBL_DESCRIPTION, IMessageConstants.SERVIVEPORT_HINT_PORT_DESCRIPTION_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.SERVICEPORT_LBL_IFDESCRIPTION, IMessageConstants.SERVIVEPORT_HINT_PORT_IFDESCRIPTION_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_DESCRIPTION"), Messages.getString("IMC.SERVIVEPORT_HINT_PORT_DESCRIPTION_DESC"), toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFDESCRIPTION"), Messages.getString("IMC.SERVIVEPORT_HINT_PORT_IFDESCRIPTION_DESC"), toolkit, composite);
 	}
 
 	private void createHintSectionInterface(FormToolkit toolkit, Composite parent) {
-		Composite composite = createHintSectionComp(toolkit, parent, IMessageConstants.SERVIVEPORT_HINT_INTERFACE_TITLE);
+		Composite composite = createHintSectionComp(toolkit, parent, Messages.getString("IMC.SERVICEPORT_HINT_INTERFACE_TITLE"));
 		//
-		createHintLabel(IMessageConstants.SERVICEPORT_LBL_IFNAME, IMessageConstants.SERVIVEPORT_HINT_IF_NAME_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.SERVICEPORT_LBL_IFDIRECTION, IMessageConstants.SERVIVEPORT_HINT_IF_DIRECTION_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.SERVICEPORT_LBL_IFINSTNAME, IMessageConstants.SERVIVEPORT_HINT_IF_INSTANCE_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.SERVICEPORT_LBL_IFVARNAME, IMessageConstants.SERVIVEPORT_HINT_IF_VARNAME_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.SERVICEPORT_LBL_IDLFILE, IMessageConstants.SERVIVEPORT_HINT_IDLFILE_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.SERVICEPORT_LBL_IFTYPE, IMessageConstants.SERVIVEPORT_HINT_IFTYPE_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.SERVICEPORT_LBL_IDLPATH, IMessageConstants.SERVIVEPORT_HINT_ILDPATH_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFNAME"), IMessageConstants.SERVICEPORT_HINT_IF_NAME_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFDIRECTION"), IMessageConstants.SERVICEPORT_HINT_IF_DIRECTION_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFINSTNAME"), IMessageConstants.SERVICEPORT_HINT_IF_INSTANCE_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFVARNAME"), IMessageConstants.SERVICEPORT_HINT_IF_VARNAME_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IDLFILE"), Messages.getString("IMC.SERVIVEPORT_HINT_IDLFILE_DESC"), toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFTYPE"), IMessageConstants.SERVICEPORT_HINT_IFTYPE_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IDLPATH"), IMessageConstants.SERVICEPORT_HINT_ILDPATH_DESC, toolkit, composite);
 		createHintSpace(toolkit, composite);
-		createHintLabel(IMessageConstants.SERVICEPORT_LBL_IFDESCRIPTION, IMessageConstants.SERVIVEPORT_HINT_IFDESC_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.SERVICEPORT_LBL_ARGUMENT, IMessageConstants.SERVIVEPORT_HINT_ARGUMENT_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.SERVICEPORT_LBL_RETURN, IMessageConstants.SERVIVEPORT_HINT_RETURN_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.SERVICEPORT_LBL_EXCEPTION, IMessageConstants.SERVIVEPORT_HINT_EXCEPTION_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.SERVICEPORT_LBL_PRE_CONDITION, IMessageConstants.SERVIVEPORT_HINT_PRE_CONDITION_DESC, toolkit, composite);
-		createHintLabel(IMessageConstants.SERVICEPORT_LBL_POST_CONDITION, IMessageConstants.SERVIVEPORT_HINT_POST_CONDITION_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFDESCRIPTION"), Messages.getString("IMC.SERVIVEPORT_HINT_IFDESC_DESC"), toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_ARGUMENT"), IMessageConstants.SERVICEPORT_HINT_ARGUMENT_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_RETURN"), IMessageConstants.SERVICEPORT_HINT_RETURN_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_EXCEPTION"), IMessageConstants.SERVICEPORT_HINT_EXCEPTION_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_PRE_CONDITION"), IMessageConstants.SERVICEPORT_HINT_PRE_CONDITION_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_POST_CONDITION"), IMessageConstants.SERVICEPORT_HINT_POST_CONDITION_DESC, toolkit, composite);
 	}
 
 	private Composite createHintSectionComp(FormToolkit toolkit, Composite form, String title) {
@@ -443,7 +444,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 
 			FormToolkit toolkit = managedForm.getToolkit();
 			servicePortMasterBlockSection = toolkit.createSection(parent, Section.TITLE_BAR);
-			servicePortMasterBlockSection.setText(IMessageConstants.SERVICEPORT_MAIN_TITLE);
+			servicePortMasterBlockSection.setText(Messages.getString("IMC.SERVICEPORT_MAIN_TITLE"));
 			Composite client = toolkit.createComposite(servicePortMasterBlockSection);
 			client.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
 			client.setLayout(new GridLayout(2, false));
@@ -477,7 +478,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		private void createDeleteButton(final IManagedForm managedForm,
 				Composite client) {
 			GridData gridData;
-			deleteButton = managedForm.getToolkit().createButton(client, IMessageConstants.SERVICEPORT_BTN_DELETE, SWT.PUSH);
+			deleteButton = managedForm.getToolkit().createButton(client, "   Delete", SWT.PUSH);
 			deleteButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -503,7 +504,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		private void createIFAddButton(final IManagedForm managedForm,
 				Composite client) {
 			GridData gridData;
-			addinterfaceButton = managedForm.getToolkit().createButton(client, IMessageConstants.SERVICEPORT_BTN_ADDIF, SWT.PUSH);
+			addinterfaceButton = managedForm.getToolkit().createButton(client, "  Add Interface", SWT.PUSH);
 			addinterfaceButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -537,7 +538,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		private void createPortAddButton(final IManagedForm managedForm,
 				Composite client) {
 			GridData gridData;
-			addButton = managedForm.getToolkit().createButton(client, IMessageConstants.SERVICEPORT_BTN_ADDPORT, SWT.PUSH);
+			addButton = managedForm.getToolkit().createButton(client, "  Add Port", SWT.PUSH);
 			addButton.addSelectionListener(new SelectionAdapter() {
 				@SuppressWarnings("unchecked")
 				@Override
@@ -573,20 +574,20 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			parent.setLayout(new FillLayout());
 			FormToolkit toolkit = form.getToolkit();
 			Section section = toolkit.createSection(parent, Section.TITLE_BAR);
-			section.setText(IMessageConstants.SERVICEPORT_PORT_TITLE);
+			section.setText(Messages.getString("IMC.SERVICEPORT_PORT_TITLE"));
 			Composite client = toolkit.createComposite(section, SWT.NULL);
 			client.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
 			form.getToolkit().paintBordersFor(client);
 			client.setLayout(new GridLayout(2, false));
-			Label exp = toolkit.createLabel(client, IMessageConstants.SERVICEPORT_PORT_EXPL);
+			Label exp = toolkit.createLabel(client, Messages.getString("IMC.SERVICEPORT_PORT_EXPL"));
 			GridData gd = new GridData();
 			gd.horizontalSpan = 2;
 			exp.setLayoutData(gd);
 			//
 			nameText = createLabelAndText(toolkit, client,
-					IMessageConstants.REQUIRED + IMessageConstants.SERVICEPORT_LBL_PORTNAME, SWT.NONE, SWT.COLOR_RED);
+					IMessageConstants.REQUIRED + Messages.getString("IMC.SERVICEPORT_LBL_PORTNAME"), SWT.NONE, SWT.COLOR_RED);
 			positionCombo = createLabelAndCombo(toolkit, client,
-					IMessageConstants.SERVICEPORT_LBL_POSITION, DataPortParam.COMBO_ITEM);
+					Messages.getString("IMC.SERVICEPORT_LBL_POSITION"), DataPortParam.COMBO_ITEM);
 
 			createSrvPortDocumentSection(form, client);
 			section.setClient(client);
@@ -597,7 +598,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			Section section = managedForm.getToolkit().createSection(
 					parent,
 					Section.TITLE_BAR | Section.EXPANDED | Section.TWISTIE);
-			section.setText(IMessageConstants.SERVICEPORT_DOCUMENT_TITLE);
+			section.setText(Messages.getString("IMC.SERVICEPORT_DOCUMENT_TITLE"));
 			GridData gridData = new GridData();
 			gridData.grabExcessHorizontalSpace = true;
 			gridData.horizontalAlignment = GridData.FILL;
@@ -612,12 +613,12 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			section.setClient(composite);
 
 			descriptionText = createLabelAndText(managedForm.getToolkit(), composite,
-					IMessageConstants.SERVICEPORT_LBL_DESCRIPTION, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+					Messages.getString("IMC.SERVICEPORT_LBL_DESCRIPTION"), SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 			gridData = new GridData(GridData.FILL_HORIZONTAL);
 			gridData.heightHint = 70;
 			descriptionText.setLayoutData(gridData);
 			ifoverviewText = createLabelAndText(managedForm.getToolkit(), composite,
-					IMessageConstants.SERVICEPORT_LBL_IFDESCRIPTION, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+					Messages.getString("IMC.SERVICEPORT_LBL_IFDESCRIPTION"), SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 			ifoverviewText.setLayoutData(gridData);
 		}
 
@@ -668,29 +669,29 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			parent.setLayout(new FillLayout());
 			FormToolkit toolkit = form.getToolkit();
 			Section section = toolkit.createSection(parent, Section.TITLE_BAR);
-			section.setText(IMessageConstants.SERVICEPORT_IF_TITLE);
+			section.setText(Messages.getString("IMC.SERVICEPORT_IF_TITLE"));
 			Composite client = toolkit.createComposite(section, SWT.NULL);
 			client.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
 			form.getToolkit().paintBordersFor(client);
 			client.setLayout(new GridLayout(3, false));
 			//
-			Label exp = toolkit.createLabel(client, IMessageConstants.SERVICEPORT_IF_EXPL);
+			Label exp = toolkit.createLabel(client, Messages.getString("IMC.SERVICEPORT_IF_EXPL"));
 			GridData gd = new GridData();
 			gd.horizontalSpan = 3;
 			exp.setLayoutData(gd);
 			//
 			interfaceNameText = createLabelAndText(toolkit, client,
-					IMessageConstants.REQUIRED + IMessageConstants.SERVICEPORT_LBL_IFNAME, SWT.NONE, SWT.COLOR_RED);
+					IMessageConstants.REQUIRED + Messages.getString("IMC.SERVICEPORT_LBL_IFNAME"), SWT.NONE, SWT.COLOR_RED);
 			toolkit.createLabel(client, "");
 			directionCombo = createLabelAndCombo(toolkit, client,
-					IMessageConstants.SERVICEPORT_LBL_IFDIRECTION, ServicePortInterfaceParam.COMBO_ITEM);
+					Messages.getString("IMC.SERVICEPORT_LBL_IFDIRECTION"), ServicePortInterfaceParam.COMBO_ITEM);
 			toolkit.createLabel(client, "");
-			instanceNameText = createLabelAndText(toolkit, client, IMessageConstants.SERVICEPORT_LBL_IFINSTNAME);
+			instanceNameText = createLabelAndText(toolkit, client, Messages.getString("IMC.SERVICEPORT_LBL_IFINSTNAME"));
 			toolkit.createLabel(client, "");
-			varNameText = createLabelAndText(toolkit, client, IMessageConstants.SERVICEPORT_LBL_IFVARNAME);
+			varNameText = createLabelAndText(toolkit, client, Messages.getString("IMC.SERVICEPORT_LBL_IFVARNAME"));
 			toolkit.createLabel(client, "");
 			idlFileText = createLabelAndFile(toolkit, client, IDL_EXTENTION,
-                    IMessageConstants.SERVICEPORT_LBL_IDLFILE, SWT.COLOR_BLACK, SWT.NONE);
+					Messages.getString("IMC.SERVICEPORT_LBL_IDLFILE"), SWT.COLOR_BLACK, SWT.NONE);
 
             List<String> ifTypes = new ArrayList<String>();
             for(ServiceClassParam target : defaultIFList) {
@@ -699,7 +700,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
             String[] defaultVal = new String[ifTypes.size()];
             defaultVal = ifTypes.toArray(defaultVal);
             interfaceTypeCombo = createLabelAndCombo(toolkit, client,
-                    IMessageConstants.REQUIRED + IMessageConstants.SERVICEPORT_LBL_IFTYPE, defaultVal, SWT.COLOR_RED);
+                    IMessageConstants.REQUIRED + Messages.getString("IMC.SERVICEPORT_LBL_IFTYPE"), defaultVal, SWT.COLOR_RED);
             interfaceTypeCombo.addSelectionListener(new SelectionListener() {
   			  public void widgetDefaultSelected(SelectionEvent e){}
   			  public void widgetSelected(SelectionEvent e){
@@ -710,7 +711,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
   			});
 
 			toolkit.createLabel(client, "");
-			idlPathText = createLabelAndDirectory(toolkit, client, IMessageConstants.SERVICEPORT_LBL_IDLPATH);
+			idlPathText = createLabelAndDirectory(toolkit, client, Messages.getString("IMC.SERVICEPORT_LBL_IDLPATH"));
 
 			createSrvPortIfDocumentSection(form, client);
 			section.setClient(client);
@@ -735,24 +736,24 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			section.setClient(composite);
 
 			ifdetailText = createLabelAndText(managedForm.getToolkit(), composite,
-					IMessageConstants.SERVICEPORT_LBL_DESCRIPTION, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+					Messages.getString("IMC.SERVICEPORT_LBL_DESCRIPTION"), SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 			gridData = new GridData(GridData.FILL_HORIZONTAL);
 			gridData.heightHint = 70;
 			ifdetailText.setLayoutData(gridData);
 			ifargumentText = createLabelAndText(managedForm.getToolkit(), composite,
-					IMessageConstants.SERVICEPORT_LBL_ARGUMENT, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+					Messages.getString("IMC.SERVICEPORT_LBL_ARGUMENT"), SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 			ifargumentText.setLayoutData(gridData);
 			ifreturnText = createLabelAndText(managedForm.getToolkit(), composite,
-					IMessageConstants.SERVICEPORT_LBL_RETURN, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+					Messages.getString("IMC.SERVICEPORT_LBL_RETURN"), SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 			ifreturnText.setLayoutData(gridData);
 			ifexceptionText = createLabelAndText(managedForm.getToolkit(), composite,
-					IMessageConstants.SERVICEPORT_LBL_EXCEPTION, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+					Messages.getString("IMC.SERVICEPORT_LBL_EXCEPTION"), SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 			ifexceptionText.setLayoutData(gridData);
 			ifpreconditionText = createLabelAndText(managedForm.getToolkit(), composite,
-					IMessageConstants.SERVICEPORT_LBL_PRE_CONDITION, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+					Messages.getString("IMC.SERVICEPORT_LBL_PRE_CONDITION"), SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 			ifpreconditionText.setLayoutData(gridData);
 			ifpostconditionText = createLabelAndText(managedForm.getToolkit(), composite,
-					IMessageConstants.SERVICEPORT_LBL_POST_CONDITION, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+					Messages.getString("IMC.SERVICEPORT_LBL_POST_CONDITION"), SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 			ifpostconditionText.setLayoutData(gridData);
 		}
 
