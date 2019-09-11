@@ -476,7 +476,7 @@ class ${rtcParam.name}
   // EventPort declaration
   // <rtc-template block="event_declare">
   
-  EventInPort< RTC::Machine<${rtcParam.name}Fsm::${tmpltHelper.getTopFSMName(${rtcParam})}> > ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${rtcParam.getFSMport().tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
+  RTC::EventInPort< RTC::Machine<${rtcParam.name}Fsm::${tmpltHelper.getTopFSMName(${rtcParam})}> > ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${rtcParam.getFSMport().tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
   // </rtc-template>
 #end
 
