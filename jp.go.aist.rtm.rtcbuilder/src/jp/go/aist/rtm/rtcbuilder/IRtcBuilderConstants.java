@@ -32,12 +32,13 @@ public interface IRtcBuilderConstants {
 	//
 	public static final String SPEC_DATA_INPORT_KIND = "DataInPort";
 	public static final String SPEC_DATA_OUTPORT_KIND = "DataOutPort";
+	public static final String SPEC_EVENTPORT_KIND = "EventPort";
 
 	public static final String DEFAULT_RTC_XML = "RTC.xml";
 	public static final String YAML_EXTENSION = "yaml";
 	public static final String XML_EXTENSION = "xml";
 	//
-	public static final String SCHEMA_VERSION = "0.2";
+	public static final String SCHEMA_VERSION = "0.3";
 
 	public static final String NEWLINE_CODE = "<br/>";
 
@@ -156,4 +157,6 @@ public interface IRtcBuilderConstants {
 	public static final String PROP_TYPE_FSMTYTPE =  "FSMType";
 	public static final String FSMTYTPE_STATIC =  "StaticFSM";
 	public static final String FSMTYTPE_DYNAMIC =  "DynamicFSM";
+	
+	public static final int Type_Event = 1;
 }

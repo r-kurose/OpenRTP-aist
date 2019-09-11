@@ -60,6 +60,7 @@ import jp.go.aist.rtm.rtcbuilder.manager.CMakeGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.CXXGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.CommonGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
+import jp.go.aist.rtm.rtcbuilder.nl.Messages;
 import jp.go.aist.rtm.rtcbuilder.ui.editors.IMessageConstants;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
@@ -331,23 +332,23 @@ public class Generator {
 			if(Boolean.valueOf(fsm.getValue())) {
 				PropertyParam fsmType = rtcParam.getProperty(IRtcBuilderConstants.PROP_TYPE_FSMTYTPE);
 				if(fsmType==null) {
-					throw new RuntimeException(IMessageConstants.FSM_NOT_SELECTED + rtcParam.getName());
+					throw new RuntimeException(Messages.getString("IMC.FSM_NOT_SELECTED") + rtcParam.getName());
 				} else {
 					String strType = fsmType.getValue();
 					if(!(strType.equals(IRtcBuilderConstants.FSMTYTPE_STATIC) || strType.equals(IRtcBuilderConstants.FSMTYTPE_DYNAMIC))) {
-						throw new RuntimeException(IMessageConstants.FSM_TYPE_INVALID + rtcParam.getName());
+						throw new RuntimeException(Messages.getString("IMC.FSM_TYPE_INVALID") + rtcParam.getName());
 					}
 				}
 				
 				StateParam fsmParam = rtcParam.getFsmParam();
 				if(fsmParam==null) {
-					throw new RuntimeException(IMessageConstants.FSM_NO_SM + rtcParam.getName());
+					throw new RuntimeException(Messages.getString("IMC.FSM_NO_SM") + rtcParam.getName());
 				} else {
 					List<String> stateList = new ArrayList<String>();
 					stateList.add(fsmParam.getName());
 					for(StateParam param : fsmParam.getAllStateList() ) {
 						if(stateList.contains(param.getName())) {
-							throw new RuntimeException(IMessageConstants.FSM_STATE_DUPL1 + param.getName() + IMessageConstants.FSM_STATE_DUPL2 + rtcParam.getName());
+							throw new RuntimeException(Messages.getString("IMC.STATE_DUPL1") + param.getName() + Messages.getString("IMC.STATE_DUPL2") + rtcParam.getName());
 						} else {
 							stateList.add(param.getName());
 						}

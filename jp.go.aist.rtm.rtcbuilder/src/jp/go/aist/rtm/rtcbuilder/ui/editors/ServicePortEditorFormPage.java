@@ -350,7 +350,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			//
 			editor.updateEMFDataPorts(
 					editor.getRtcParam().getInports(), editor.getRtcParam().getOutports(),
-					editor.getRtcParam().getServicePorts());
+					editor.getRtcParam().getEventports(), editor.getRtcParam().getServicePorts());
 			editor.updateDirty();
 		}
 	}
@@ -400,7 +400,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 				servicePortViewer.setInput(rtcParam.getServicePorts());
 			editor.updateEMFDataPorts(
 					editor.getRtcParam().getInports(), editor.getRtcParam().getOutports(),
-					editor.getRtcParam().getServicePorts());
+					editor.getRtcParam().getEventports(), editor.getRtcParam().getServicePorts());
 		}
 	}
 

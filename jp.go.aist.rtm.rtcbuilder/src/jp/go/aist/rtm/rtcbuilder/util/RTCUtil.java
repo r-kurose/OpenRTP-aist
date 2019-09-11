@@ -163,6 +163,8 @@ public class RTCUtil {
 	public static final String COLOR_DATAPORT = RTCUtil.class.getName()
 			+ "DATA_PORT_COLOR";
 
+	public static final String COLOR_EVENTPORT = RTCUtil.class.getName()
+			+ "EVENT_PORT_COLOR";
 	/**
 	 * ServicePort Colorのキー
 	 */
@@ -181,6 +183,7 @@ public class RTCUtil {
 	static {
 		defaultRGBMap.put(COLOR_COMPONENT, new RGB(136, 190, 240));
 		defaultRGBMap.put(COLOR_DATAPORT, new RGB(55, 97, 217));
+		defaultRGBMap.put(COLOR_EVENTPORT, new RGB(255, 153, 0));
 		defaultRGBMap.put(COLOR_SERVICEPORT, new RGB(192, 192, 192));
 		defaultRGBMap.put(COLOR_SERVICEIF, new RGB(101, 136, 22));
 	}

@@ -58,7 +58,7 @@ static const char* ${rtcParam.name.toLowerCase()}_spec[] =
  */
 ${rtcParam.name}::${rtcParam.name}(RTC::Manager* manager)
     // <rtc-template block="initializer">
-  : RTC::${rtcParam.componentKind}Base(manager)#foreach($port in ${rtcParam.rawInports})#if(${port.type}!=""),
+  : RTC::${rtcParam.componentKind}Base(manager)#foreach($port in ${rtcParam.inports})#if(${port.type}!=""),
     ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix}("${port.name}", ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix})#end#end#foreach($port in ${rtcParam.outports})#if(${port.type}!=""),
     ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}Out${rtcParam.dataPortSuffix}${rtcParam.commonSuffix}("${port.name}", ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix})#end#end
 #if(${rtcParam.servicePorts.size()}>0)
@@ -94,7 +94,7 @@ RTC::ReturnCode_t ${rtcParam.name}::onInitialize()
   // Registration: InPort/OutPort/Service
   // <rtc-template block="registration">
   // Set InPort buffers
-#foreach($port in ${rtcParam.rawInports})
+#foreach($port in ${rtcParam.inports})
 #if(${port.type}!="")  addInPort("${port.name}", ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix});
 #end
 #end
