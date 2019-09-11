@@ -358,6 +358,9 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 						editor.getRtcParam().setFsmParam(rootState);
 						editor.getRtcParam().setFsmContents(buffer.toString());
 						editor.getRtcParam().parseEvent();
+						if(eventTableViewer.getInput()==null) {
+							eventTableViewer.setInput(editor.getRtcParam().getEventports().get(0).getEvents());
+						}
 						eventTableViewer.refresh();
 					}
 					editBtn.setEnabled(editor.getRtcParam().getFsmParam()!=null);
