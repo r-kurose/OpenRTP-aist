@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.scxml.io.SCXMLParser;
-import org.apache.commons.scxml.model.Data;
-import org.apache.commons.scxml.model.Datamodel;
 import org.apache.commons.scxml.model.Executable;
 import org.apache.commons.scxml.model.History;
 import org.apache.commons.scxml.model.Initial;
@@ -19,7 +17,6 @@ import org.apache.commons.scxml.model.Log;
 import org.apache.commons.scxml.model.SCXML;
 import org.apache.commons.scxml.model.State;
 import org.apache.commons.scxml.model.Transition;
-import org.apache.commons.scxml.model.TransitionTarget;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -58,16 +55,6 @@ public class ScXMLHandler {
 		    result = new StateParam();
 		    result.setName(topName);
 		    result.setInitialState(scxml.getInitial());
-			Datamodel model = scxml.getDatamodel();
-			if(model!=null) {
-				List dataList = model.getData();
-				if(0<dataList.size()) {
-					Data data = (Data)dataList.get(0);
-					if(data.getNode()!=null) {
-						result.setDataName(data.getNode().getFirstChild().getTextContent());
-					}
-				}
-			}
 		    
 		    Set<String> keysState = scxml.getChildren().keySet();
 		    for(String key : keysState) {
@@ -117,16 +104,6 @@ public class ScXMLHandler {
 	    result = new StateParam();
 	    result.setName(topName);
 	    result.setInitialState(scxml.getInitial());
-		Datamodel model = scxml.getDatamodel();
-		if(model!=null) {
-			List dataList = model.getData();
-			if(0<dataList.size()) {
-				Data data = (Data)dataList.get(0);
-				if(data.getNode()!=null) {
-					result.setDataName(data.getNode().getFirstChild().getTextContent());
-				}
-			}
-		}
 	    
 	    Set<String> keysState = scxml.getChildren().keySet();
 	    for(String key : keysState) {
@@ -159,7 +136,6 @@ public class ScXMLHandler {
 		String strId = state.getId();
 		child.setName(strId);
 		child.setParentName(parentName);
-		parseDataModel(state, child);
 		child.setHasEntry(parseEntryExit(state.getOnEntry()));
 		child.setHasExit(parseEntryExit(state.getOnExit()));
 		if(strId!=null && strId.equals(parentParam.getInitialState())) {
@@ -198,17 +174,6 @@ public class ScXMLHandler {
 	    }
 	}
 
-	private void parseDataModel(TransitionTarget targetState, StateParam targetParam) {
-		Datamodel model = targetState.getDatamodel();
-		if(model==null) return;
-		List dataList = model.getData();
-		if(dataList.size()==0) return;
-		Data data = (Data)dataList.get(0);
-		if(data.getNode()!=null) {
-			targetParam.setDataName(data.getNode().getFirstChild().getTextContent());
-		}
-	}
-	
 	private boolean parseEntryExit(Executable target) {
 		List actionList = target.getActions();
 		if(actionList.size()==0) return false;
