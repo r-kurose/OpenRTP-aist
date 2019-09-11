@@ -55,7 +55,7 @@ public class CommonGenerateManager extends GenerateManager {
 		result.add(generateREADME(contextMap));
 		result.add(generateRTCConf10(contextMap));
 		result.add(generateComponentConf(contextMap));
-		result.add(generateCITemplate(contextMap));
+		result.add(generateTravisTemplate(contextMap));
 
 		return result;
 	}
@@ -63,14 +63,9 @@ public class CommonGenerateManager extends GenerateManager {
 	// RTM 1.0
 
 	public GeneratedResult generateREADME(Map<String, Object> contextMap) {
-		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		String outfile = "README." + rtcParam.getName();
+		String outfile = "README.md";
 		String infile = "";
-		if(rtcParam.isChoreonoid()) {
-			infile = "common/README_Choreonoid.vsl";
-		} else {
-			infile = "common/README.vsl";
-		}
+		infile = "common/README.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 
@@ -91,7 +86,7 @@ public class CommonGenerateManager extends GenerateManager {
 		return result;
 	}
 
-	public GeneratedResult generateCITemplate(Map<String, Object> contextMap) {
+	public GeneratedResult generateTravisTemplate(Map<String, Object> contextMap) {
 		String outfile = ".travis.yml";
 		String infile = "common/travis.vsl";
 		return generate(infile, outfile, contextMap);

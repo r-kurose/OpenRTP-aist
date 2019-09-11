@@ -1,8 +1,11 @@
 package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -538,33 +541,65 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					ExportCreator export = new ExportCreator();
 					export.preExport(editor);
 					//
-					List<PropertyParam> properties = editor.getRtcParam().getProperties();
-					PropertyParam fsmTarget = null;
-					for(PropertyParam param : properties) {
-						if( param.getName().equals("FSMPath")) {
-							fsmTarget = param;
-							break;
-						}
-					}
-					if(fsmTarget!=null) {
-						String orgPath = fsmTarget.getValue();
-						IFile orgFsmFile  = project.getFile(orgPath);
-						String contents = "";
-						IFile fsmFile  = null;
-						if(orgFsmFile.exists()) {
-							contents = FileUtil.readFile(orgFsmFile.getRawLocation().toOSString());
-							fsmFile = orgFsmFile;
+					////FSM
+					if(editor.getRtcParam().getFsmParam()!=null) {
+						String fsmName = editor.getRtcParam().getName() + "FSM.scxml";
+						IFile fsmFile  = project.getFile(fsmName);
+						if(editor.getRtcParam().getFsmContents().trim().length()==0) {
+							try {
+								fsmFile.delete(true, null);
+							} catch (CoreException e) {
+								e.printStackTrace();
+							}
 						} else {
-							contents = FileUtil.readFile(orgPath);
-							String fileName = new File(orgPath).getName();
-							fsmFile  = project.getFile(fileName);
+							if(fsmFile.exists()==false) {
+								try {
+									fsmFile.create(null, true, null);
+								} catch (CoreException e) {
+									e.printStackTrace();
+								}
+							}
+							String strPath = fsmFile.getLocation().toOSString();
+							String xmlSplit[] = editor.getRtcParam().getFsmContents().split("\n");
+							try {
+								BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(strPath), "UTF-8"));
+								for (String s : xmlSplit) {
+									writer.write(s);
+									writer.newLine();
+								}
+								writer.close();
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
 						}
-						if(fsmFile.exists()) {
-							fsmFile.delete(true, null);
-						}
-						fsmFile.create(new ByteArrayInputStream(contents.getBytes("UTF-8")), true, null);
-						fsmTarget.setValue(fsmFile.getName());
 					}
+//					List<PropertyParam> properties = editor.getRtcParam().getProperties();
+//					PropertyParam fsmTarget = null;
+//					for(PropertyParam param : properties) {
+//						if( param.getName().equals("FSMPath")) {
+//							fsmTarget = param;
+//							break;
+//						}
+//					}
+//					if(fsmTarget!=null) {
+//						String orgPath = fsmTarget.getValue();
+//						IFile orgFsmFile  = project.getFile(orgPath);
+//						String contents = "";
+//						IFile fsmFile  = null;
+//						if(orgFsmFile.exists()) {
+//							contents = FileUtil.readFile(orgFsmFile.getRawLocation().toOSString());
+//							fsmFile = orgFsmFile;
+//						} else {
+//							contents = FileUtil.readFile(orgPath);
+//							String fileName = new File(orgPath).getName();
+//							fsmFile  = project.getFile(fileName);
+//						}
+//						if(fsmFile.exists()) {
+//							fsmFile.delete(true, null);
+//						}
+//						fsmFile.create(new ByteArrayInputStream(contents.getBytes("UTF-8")), true, null);
+//						fsmTarget.setValue(fsmFile.getName());
+//					}
 					//
 					String strXml = handler.convert2XML(editor.getGeneratorParam());
 
@@ -801,8 +836,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 		    				FileDialog dialogFSM = new FileDialog(getSite().getShell(),SWT.OPEN);
 		    				dialogFSM.setText("FSM Import");
 		    		        
-		    				//TODO 多言語化
-		    				String[] namesFSM = new String[] { "SCXMLファイル", "XMLファイル" };
+		    				String[] namesFSM = new String[] { Messages.getString("IMC.FILE_SCXML"), Messages.getString("IMC.FILE_XML") };
 		    				String[] extsFSM = new String[] { "*.scxml","*.xml" };
 		    				dialogFSM.setFilterNames(namesFSM);
 		    				dialogFSM.setFilterExtensions(extsFSM);
@@ -835,7 +869,7 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					editor.updateEMFModuleName(editor.getRtcParam().getName());
 					editor.updateEMFDataPorts(
 							editor.getRtcParam().getInports(), editor.getRtcParam().getOutports(),
-							editor.getRtcParam().getServicePorts());
+							editor.getRtcParam().getEventports(), editor.getRtcParam().getServicePorts());
 					editor.setEnabledInfoByLang();
 					extractDataTypes();
 					load();

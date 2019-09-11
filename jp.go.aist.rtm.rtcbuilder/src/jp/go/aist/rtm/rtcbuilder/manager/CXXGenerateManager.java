@@ -82,6 +82,7 @@ public class CXXGenerateManager extends GenerateManager {
 		
 		result.add(generateScript1604(contextMap));
 		result.add(generateScript1804(contextMap));
+		result.add(generateAppVeyorTemplate(contextMap));
 		
 		if(isStaticFSM) {
 			result.add(generateFSMHeader(contextMap));
@@ -254,6 +255,12 @@ public class CXXGenerateManager extends GenerateManager {
 		outfile = "test/src/" + TemplateHelper.getBasename(idlParam.getIdlFileNoExt())
 					+ TemplateHelper.getServiceImplSuffix() + ".cpp";
 		String infile = "cpp/test/CXX_Test_SVC.cpp.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
+	public GeneratedResult generateAppVeyorTemplate(Map<String, Object> contextMap) {
+		String outfile = ".appveyor.yml";
+		String infile = "cpp/appveyor.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 	/////

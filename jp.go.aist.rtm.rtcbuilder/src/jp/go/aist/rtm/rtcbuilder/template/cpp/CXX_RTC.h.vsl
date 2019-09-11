@@ -348,7 +348,7 @@ class ${rtcParam.name}
 
   // DataInPort declaration
   // <rtc-template block="inport_declare">
-#foreach($port in ${rtcParam.rawInports})
+#foreach($port in ${rtcParam.inports})
 #if(${port.type}!="")  ${port.type} ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
   /*!
 #if(${port.docDescription.length()}>0)   * ${tmpltHelper.convertDescDoc(${port.docDescription})}

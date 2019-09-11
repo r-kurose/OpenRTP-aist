@@ -124,6 +124,7 @@ public class PythonGenerateManager extends GenerateManager {
 		
 		result.add(generateScript1604(contextMap));
 		result.add(generateScript1804(contextMap));
+		result.add(generateAppVeyorTemplate(contextMap));
 
 		if ( 0<allIdlFileParams.size() ) {
 			result.add(generateIDLCompileBat(contextMap));
@@ -216,6 +217,12 @@ public class PythonGenerateManager extends GenerateManager {
 	public GeneratedResult generateScript1804(Map<String, Object> contextMap) {
 		String outfile = "scripts/ubuntu_1804/Dockerfile";
 		String infile = "python/scripts/Dockerfile_ubuntu_1804.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
+	public GeneratedResult generateAppVeyorTemplate(Map<String, Object> contextMap) {
+		String outfile = ".appveyor.yml";
+		String infile = "python/appveyor.vsl";
 		return generate(infile, outfile, contextMap);
 	}
 	//////////

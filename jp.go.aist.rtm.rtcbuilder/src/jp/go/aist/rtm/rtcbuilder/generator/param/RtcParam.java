@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
+import jp.go.aist.rtm.rtcbuilder.fsm.EventParam;
 import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
+import jp.go.aist.rtm.rtcbuilder.fsm.TransitionParam;
 import jp.go.aist.rtm.rtcbuilder.generator.ProfileHandler;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
@@ -49,6 +51,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	//
 	private RecordedList<DataPortParam> inports = new RecordedList<DataPortParam>();
 	private RecordedList<DataPortParam> outports = new RecordedList<DataPortParam>();
+	private RecordedList<EventPortParam> eventports = new RecordedList<EventPortParam>();
 	//
 	private RecordedList<ServicePortParam> serviceports = new RecordedList<ServicePortParam>();
 	//
@@ -71,6 +74,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	private RecordedList<ActionsParam> actions;
 	//FSM
 	private StateParam fsmParam;
+	private String fsmContents;
 	//
 	private String doc_creator;
 	private String doc_license;
@@ -300,23 +304,17 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	public List<DataPortParam> getInports() {
 		return inports;
 	}
-	public List<DataPortParam> getRawInports() {
-		List<DataPortParam> result = new ArrayList<DataPortParam>();
-		for(DataPortParam target : inports) {
-			boolean isEvent = false;
-			for(PropertyParam prop : target.getProperties()) {
-				if(prop.getName().equals("type") && prop.getValue().equals("FSMEvent")) {
-					isEvent = true;
-					break;
-				}
-			}
-			if(isEvent) continue;
-			result.add(target);
-		}
-		return result;
-	}
+	
 	public List<DataPortParam> getOutports() {
 		return outports;
+	}
+	public List<EventPortParam> getEventports() {
+		return eventports;
+	}
+	
+	public EventPortParam getEventport() {
+		if(eventports == null || eventports.size()==0) return null;
+		return eventports.get(0); 
 	}
 	//
 	public List<ServicePortParam> getServicePorts() {
@@ -740,9 +738,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 			}
 		}
 		/////
-		for( DataPortParam target : getRawInports() ) {
-			if(checkExistIDL(providerIdlParams, consumerIdlParams, target)) continue;
-			
+		for( DataPortParam target : getInports() ) {
 			List<String> localIdlPathes = new ArrayList<String>();
 			checkAndAddIDLPath(target.getType(), localIdlPathes, consumerIdlStrings, consumerIdlParams);
 			if(0<localIdlPathes.size()) {
@@ -928,6 +924,39 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	public void setFsmParam(StateParam fsmParam) {
 		this.fsmParam = fsmParam;
 	}
+	
+	public void parseEvent() {
+		if(this.fsmParam == null ) return;
+		
+		List<EventParam> eventList = getEventport().getEvents();
+		
+		for(TransitionParam trans : fsmParam.getAllTransList()) {
+			boolean isExist = false;
+			EventParam eventp = new EventParam();
+			eventp.setName(trans.getEvent());
+			eventp.setCondition(trans.getCondition());
+			eventp.setSource(trans.getSource());
+			eventp.setTarget(trans.getTarget());
+			
+			for(EventParam orgEv : eventList) {
+				if(orgEv.checkSame(eventp)) {
+					isExist = true;
+					break;
+				}
+			}
+			if(isExist==false) {
+				eventList.add(eventp);
+			}
+		}
+	}
+	
+	public String getFsmContents() {
+		return fsmContents;
+	}
+	public void setFsmContents(String fsmContents) {
+		checkUpdated(this.fsmContents, fsmContents);
+		this.fsmContents = fsmContents;
+	}
 
 	@Override
 	public boolean isUpdated() {
@@ -938,6 +967,9 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 			return true;
 		}
 		if (this.inports.isUpdated() || this.outports.isUpdated()) {
+			return true;
+		}
+		if (this.eventports.isUpdated()) {
 			return true;
 		}
 		if (this.serviceports.isUpdated()) {
@@ -964,6 +996,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		//
 		this.inports.resetUpdated();
 		this.outports.resetUpdated();
+		this.eventports.resetUpdated();
 		//
 		this.serviceports.resetUpdated();
 		//
@@ -975,32 +1008,12 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	}
 	/////
 	public void addFSMPort() {
-		boolean isExist = false;
-		for(DataPortParam port : inports) {
-			if(port.getName().equals("FSMEvent")) {
-				isExist = true;
-				break;
-			}
-		}
-		if(isExist) return;
-		//
-		DataPortParam fsmParam = new DataPortParam("FSMEvent", "RTC::TimedLong", "FSMEvent", 0);
-		PropertyParam prop = new PropertyParam("type", "FSMEvent");
-		fsmParam.getProperties().add(prop);
-		inports.add(fsmParam);
+		if(0<eventports.size()) return;
+		eventports.add(new EventPortParam("FSMEvent", "FSMEvent", 0));
 	}
 	
 	public void deleteFSMPort() {
-		DataPortParam target = null;
-		for(DataPortParam port : inports) {
-			if(port.getName().equals("FSMEvent")) {
-				target = port;
-				break;
-			}
-		}
-		if(target==null) return;
-		//
-		inports.remove(target);
+		eventports.clear();
 	}
 	
 	public PropertyParam getProperty(String target) {
@@ -1028,17 +1041,6 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 			getProperties().add(prop);
 		}
 		prop.setValue(value);
-	}
-	
-	public DataPortParam getFSMport() {
-		for(DataPortParam target : inports) {
-			for(PropertyParam prop : target.getProperties()) {
-				if(prop.getName().equals("type") && prop.getValue().equals("FSMEvent")) {
-					return target;
-				}
-			}
-		}
-		return null;
 	}
 	
 	public boolean isStaticFSM() {

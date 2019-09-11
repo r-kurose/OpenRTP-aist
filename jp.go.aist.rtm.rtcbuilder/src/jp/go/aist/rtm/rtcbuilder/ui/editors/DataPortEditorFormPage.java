@@ -153,10 +153,10 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		createHintLabel(Messages.getString("IMC.DATAPORT_LBL_DESCRIPTION"), Messages.getString("IMC.DATAPORT_HINT_DOC_OVERVIEW"), toolkit, composite);
 		createHintLabel(Messages.getString("IMC.DATAPORT_LBL_SEMANTICS"), Messages.getString("IMC.DATAPORT_HINT_DOC_DETAIL"), toolkit, composite);
 		createHintLabel(Messages.getString("IMC.DATAPORT_LBL_PORTTYPE"), Messages.getString("IMC.DATAPORT_HINT_DOC_DATATYPE"), toolkit, composite);
-		createHintLabel(Messages.getString("IMC.DATAPORT_LBL_DATANUM"), IMessageConstants.DATAPORT_HINT_DOC_DATANUM, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.DATAPORT_LBL_DATANUM"), Messages.getString("IMC.DATAPORT_HINT_DOC_DATANUM"), toolkit, composite);
 		createHintLabel(Messages.getString("IMC.DATAPORT_LBL_UNIT"), Messages.getString("IMC.DATAPORT_HINT_DOC_UNIT"), toolkit, composite);
-		createHintLabel(Messages.getString("IMC.DATAPORT_LBL_OCCUR"), Messages.getString("IMC.DATAPORT_HINT_DOC_OCCUR"), toolkit, composite);
-		createHintLabel(Messages.getString("IMC.DATAPORT_LBL_OPERAT"), Messages.getString("IMC.DATAPORT_HINT_DOC_OPERAT"), toolkit, composite);
+		createHintLabel(Messages.getString("IMC.DATAPORT_LBL_OCCUR"), IMessageConstants.DATAPORT_HINT_OCCUR_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.DATAPORT_LBL_OPERAT"), IMessageConstants.DATAPORT_HINT_OPERAT_DESC, toolkit, composite);
 	}
 
 	private void createDetailSection(FormToolkit toolkit, ScrolledForm form) {
@@ -228,7 +228,7 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		});
 		//
 		idlFileText = createLabelAndFile(toolkit, detailGroup, "idl",
-				IMessageConstants.SERVICEPORT_LBL_IDLFILE, SWT.COLOR_BLACK, SWT.BORDER);
+				Messages.getString("IMC.SERVICEPORT_LBL_IDLFILE"), SWT.COLOR_BLACK, SWT.BORDER);
 
 		//
 		varNameText = createLabelAndText(toolkit, detailGroup, Messages.getString("IMC.DATAPORT_TBLLBL_VARNAME"), SWT.BORDER);
@@ -391,7 +391,7 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		//
 		editor.updateEMFDataPorts(
 				editor.getRtcParam().getInports(), editor.getRtcParam().getOutports(),
-				editor.getRtcParam().getServicePorts());
+				editor.getRtcParam().getEventports(), editor.getRtcParam().getServicePorts());
 		editor.updateDirty();
 	}
 
@@ -490,7 +490,7 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		//
 		editor.updateEMFDataPorts(
 				editor.getRtcParam().getInports(), editor.getRtcParam().getOutports(),
-				editor.getRtcParam().getServicePorts());
+				editor.getRtcParam().getEventports(), editor.getRtcParam().getServicePorts());
 	}
 
 	public String validateParam() {

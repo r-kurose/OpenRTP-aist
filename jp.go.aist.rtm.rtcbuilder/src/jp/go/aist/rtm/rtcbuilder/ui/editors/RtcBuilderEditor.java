@@ -2,7 +2,11 @@ package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
 import static jp.go.aist.rtm.toolscommon.profiles.util.XmlHandler.createXMLGregorianCalendar;
 
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,7 +40,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.part.FileEditorInput;
-import org.openrtp.namespaces.rtc.version02.RtcProfile;
+import org.openrtp.namespaces.rtc.version03.RtcProfile;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
@@ -46,6 +50,7 @@ import jp.go.aist.rtm.rtcbuilder.fsm.ScXMLHandler;
 import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
 import jp.go.aist.rtm.rtcbuilder.generator.ProfileHandler;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.EventPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ParamUtil;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
@@ -127,9 +132,12 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 			if(fsmFile.exists()) {
 				targetFile = fsmFile.getLocation().toOSString();
 				ScXMLHandler scHandler = new ScXMLHandler();
-				StateParam rootState = scHandler.parseSCXML(targetFile);
+				StringBuffer buffer = new StringBuffer();
+				StateParam rootState = scHandler.parseSCXML(targetFile, buffer);
 				if(rootState!=null) {
 					this.getRtcParam().setFsmParam(rootState);
+					this.getRtcParam().setFsmContents(buffer.toString());
+					this.getRtcParam().parseEvent();
 				}
 			}
 			//
@@ -137,7 +145,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 			updateEMFModuleName(this.getRtcParam().getName());
 			updateEMFDataPorts(
 					this.getRtcParam().getInports(), this.getRtcParam().getOutports(),
-					this.getRtcParam().getServicePorts());
+					this.getRtcParam().getEventports(),this.getRtcParam().getServicePorts());
 		} catch (Exception e) {
 			createGeneratorParam();
 		}
@@ -175,7 +183,7 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		if( buildview==null ) buildview = ComponentFactory.eINSTANCE.createBuildView();
 		updateEMFModuleName(this.getRtcParam().getName());
 		updateEMFDataPorts(this.getRtcParam().getInports(), this.getRtcParam().getOutports(),
-				this.getRtcParam().getServicePorts());
+				this.getRtcParam().getEventports(), this.getRtcParam().getServicePorts());
 		//
 
 		if( basicFormPage != null )	 basicFormPage.load();
@@ -489,6 +497,50 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 			if( rtcxml.exists()) rtcxml.delete(true, null);
 			rtcxml.create(new ByteArrayInputStream(xmlFile.getBytes("UTF-8")), true, null);
 			//
+			////FSM
+			if(this.getRtcParam().getFsmParam()!=null) {
+				String fsmName = this.getRtcParam().getName() + "FSM.scxml";
+				IFile fsmFile  = projectHandle.getFile(fsmName);
+				if(this.getRtcParam().getFsmContents().trim().length()==0) {
+					try {
+						fsmFile.delete(true, null);
+					} catch (CoreException e) {
+						e.printStackTrace();
+					}
+				} else {
+					if(fsmFile.exists()==false) {
+						try {
+							fsmFile.create(null, true, null);
+						} catch (CoreException e) {
+							e.printStackTrace();
+						}
+					}
+					String strPath = fsmFile.getLocation().toOSString();
+					String xmlSplit[] = this.getRtcParam().getFsmContents().split(System.lineSeparator());
+					try {
+						BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(strPath), "UTF-8"));
+						for (String s : xmlSplit) {
+							if(s.length()==0) continue;
+							writer.write(s);
+							writer.newLine();
+						}
+						writer.close();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+				String dummyName = ".Dummy.scxml";
+				IFile dummyFile  = projectHandle.getFile(dummyName);
+				if(dummyFile.exists()) {
+					try {
+						dummyFile.delete(true, null);
+					} catch (CoreException ex) {
+						ex.printStackTrace();
+					}
+				}
+			}
+			/////////
+			//
 			setInput(new FileEditorInput(rtcxml));
 			this.getRtcParam().setRtcXml(xmlFile);
 			//
@@ -615,20 +667,33 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 
 	public void updateEMFDataPorts(
 			List<DataPortParam> dataInPorts, List<DataPortParam> dataOutPorts,
-			List<ServicePortParam> servicePorts) {
-		updateEMFDataInPorts(dataInPorts);
+			List<EventPortParam> eventPorts, List<ServicePortParam> servicePorts) {
+		updateEMFDataInPorts(eventPorts, dataInPorts);
 		updateEMFDataOutPorts(dataOutPorts);
 		updateEMFServiceOutPorts(servicePorts);
 	}
 
-	private void updateEMFDataInPorts(List<DataPortParam> dataInPorts) {
+	private void updateEMFDataInPorts(List<EventPortParam> eventPorts, List<DataPortParam> dataInPorts) {
 		((Component)buildview.getComponents().get(0)).clearDataInports();
+		int portIndex = 0;
 		for(int intIdx=0; intIdx<dataInPorts.size();intIdx++ ) {
 			DataInPort dataInport= ComponentFactory.eINSTANCE.createDataInPort();
 			dataInport.setInPort_Name(dataInPorts.get(intIdx).getName());
-			dataInport.setIndex(intIdx);
+			dataInport.setIndex(portIndex);
+			portIndex++;
 			dataInport.setDirection(PortDirection.get(dataInPorts.get(intIdx).getPositionByIndex()));
 			((Component)buildview.getComponents().get(0)).addDataInport(dataInport);
+		}
+		//
+		if(0<eventPorts.size() ) {
+			DataInPort dataInport= ComponentFactory.eINSTANCE.createDataInPort();
+			dataInport.setInPort_Name(eventPorts.get(0).getName());
+			dataInport.setIndex(portIndex);
+			dataInport.setPort_Type(IRtcBuilderConstants.Type_Event);
+			portIndex++;
+			dataInport.setDirection(PortDirection.get(eventPorts.get(0).getPositionByIndex()));
+			((Component)buildview.getComponents().get(0)).addDataInport(dataInport);
+			
 		}
 	}
 

@@ -23,18 +23,6 @@ import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_POST_OFFSET;
 import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_PRE_OFFSET;
 import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_RANGE_OFFSET;
 import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_RANGE_PREFIX;
-import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_README_ACTIVITY_OFFSET;
-import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_README_ACTIVITY_PREFIX;
-import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_README_COPYRIGHT_PREFIX;
-import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_README_INTERFACE_OFFSET;
-import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_README_INTERFACE_PREFIX;
-import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_README_MODULE_OFFSET;
-import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_README_MODULE_PREFIX;
-import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_README_PORT_DETAIL_OFFSET;
-import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_README_PORT_DETAIL_PREFIX;
-import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_README_PORT_OFFSET;
-import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_README_PORT_PREFIX;
-import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_README_PREFIX;
 import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_SEMANTICS_OFFSET;
 import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_SEMANTICS_PREFIX;
 import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.DOC_UNIT_OFFSET;
@@ -268,46 +256,6 @@ public class TemplateHelper {
 				DOC_INTERFACE_DETAIL_PREFIX, DOC_INTERFACE_DETAIL_OFFSET);
 	}
 
-	public String convertReadMePortDoc(String source) {
-		return splitString(source, DOC_DEFAULT_WIDTH, DOC_README_PORT_PREFIX,
-				DOC_README_PORT_OFFSET);
-	}
-
-	public String convertReadMePortDetailDoc(String source) {
-		return splitString(source, DOC_DEFAULT_WIDTH,
-				DOC_README_PORT_DETAIL_PREFIX, DOC_README_PORT_DETAIL_OFFSET);
-	}
-
-	public String convertReadMeInterfaceDoc(String source) {
-		return splitString(source, DOC_DEFAULT_WIDTH,
-				DOC_README_INTERFACE_PREFIX, DOC_README_INTERFACE_OFFSET);
-	}
-
-	public String convertReadMeConfigDoc(String source) {
-		return splitString(source, DOC_DEFAULT_WIDTH,
-				DOC_README_PORT_DETAIL_PREFIX, DOC_README_PORT_DETAIL_OFFSET);
-	}
-
-	public String convertReadMeModuleDoc(String source) {
-		return splitString(source, DOC_DEFAULT_WIDTH, DOC_README_MODULE_PREFIX,
-				DOC_README_MODULE_OFFSET);
-	}
-
-	public String convertReadMeActivityDoc(String source) {
-		return splitString(source, DOC_DEFAULT_WIDTH,
-				DOC_README_ACTIVITY_PREFIX, DOC_README_ACTIVITY_OFFSET);
-	}
-
-	public String convertReadMeAuthorDoc(String source) {
-		return splitString(source, DOC_DEFAULT_WIDTH, DOC_README_PREFIX,
-				DOC_AUTHOR_OFFSET);
-	}
-
-	public String convertReadMeCopyRightDoc(String source) {
-		return splitString(source, DOC_DEFAULT_WIDTH,
-				DOC_README_COPYRIGHT_PREFIX, DOC_DEFAULT_OFFSET);
-	}
-
 	public String convertAuthorDoc(String source) {
 		return splitString(source, DOC_DEFAULT_WIDTH, DOC_DEFAULT_PREFIX,
 				DOC_AUTHOR_OFFSET);
@@ -412,7 +360,7 @@ public class TemplateHelper {
 	public String getConnectorString(RtcParam param) {
 		StringBuilder builder = new StringBuilder();
 		
-		for(DataPortParam port : param.getRawInports() ) {
+		for(DataPortParam port : param.getInports() ) {
 			if(port.getType().length()==0) continue;
 			if(0<builder.length()) builder.append(",");
 			builder.append("${PROJECT_NAME}0.").append(port.getName());

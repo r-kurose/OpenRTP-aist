@@ -173,6 +173,12 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		return composite;
 	}
 
+	protected void createHintLabel(String desc, FormToolkit toolkit, Composite composite) {
+		Label lblDesc = toolkit.createLabel(composite, desc);
+		GridData gd = new GridData();
+		gd.horizontalSpan = 3;
+		lblDesc.setLayoutData(gd);
+	}
 	protected void createHintLabel(String title, String desc, FormToolkit toolkit, Composite composite) {
 		Label lblt1 = toolkit.createLabel(composite, title);
 		GridData gd = new GridData();

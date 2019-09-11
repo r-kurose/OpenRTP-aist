@@ -21,7 +21,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.bind.DatatypeConverter;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.IDLParser;
 import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.ParseException;
@@ -50,26 +60,12 @@ import jp.go.aist.rtm.rtcbuilder.manager.CMakeGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.CXXGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.CommonGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
+import jp.go.aist.rtm.rtcbuilder.nl.Messages;
 import jp.go.aist.rtm.rtcbuilder.ui.editors.IMessageConstants;
 import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
 import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
 import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 import jp.go.aist.rtm.rtcbuilder.util.ValidationUtil;
-
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.ui.PlatformUI;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * ジェネレータクラス
@@ -337,23 +333,23 @@ public class Generator {
 			if(Boolean.valueOf(fsm.getValue())) {
 				PropertyParam fsmType = rtcParam.getProperty(IRtcBuilderConstants.PROP_TYPE_FSMTYTPE);
 				if(fsmType==null) {
-					throw new RuntimeException(IMessageConstants.FSM_NOT_SELECTED + rtcParam.getName());
+					throw new RuntimeException(Messages.getString("IMC.FSM_NOT_SELECTED") + rtcParam.getName());
 				} else {
 					String strType = fsmType.getValue();
 					if(!(strType.equals(IRtcBuilderConstants.FSMTYTPE_STATIC) || strType.equals(IRtcBuilderConstants.FSMTYTPE_DYNAMIC))) {
-						throw new RuntimeException(IMessageConstants.FSM_TYPE_INVALID + rtcParam.getName());
+						throw new RuntimeException(Messages.getString("IMC.FSM_TYPE_INVALID") + rtcParam.getName());
 					}
 				}
 				
 				StateParam fsmParam = rtcParam.getFsmParam();
 				if(fsmParam==null) {
-					throw new RuntimeException(IMessageConstants.FSM_NO_SM + rtcParam.getName());
+					throw new RuntimeException(Messages.getString("IMC.FSM_NO_SM") + rtcParam.getName());
 				} else {
 					List<String> stateList = new ArrayList<String>();
 					stateList.add(fsmParam.getName());
 					for(StateParam param : fsmParam.getAllStateList() ) {
 						if(stateList.contains(param.getName())) {
-							throw new RuntimeException(IMessageConstants.FSM_STATE_DUPL1 + param.getName() + IMessageConstants.FSM_STATE_DUPL2 + rtcParam.getName());
+							throw new RuntimeException(Messages.getString("IMC.STATE_DUPL1") + param.getName() + Messages.getString("IMC.STATE_DUPL2") + rtcParam.getName());
 						} else {
 							stateList.add(param.getName());
 						}
