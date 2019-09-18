@@ -31,6 +31,7 @@ public class EventParam {
 	}
 	
 	public String getDataType() {
+		if(dataType==null) return "";
 		return dataType;
 	}
 	public void setDataType(String dataType) {

@@ -46,4 +46,10 @@ public class EventPortParam extends PortBaseParam implements Serializable {
 	public List<EventParam> getEvents() {
 		return events;
 	}
+	
+	public String getTmplVarName() {
+		if( varname==null || varname.equals(""))
+			return this.name;
+		return this.varname;
+	}
 }

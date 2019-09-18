@@ -3,6 +3,8 @@ package jp.go.aist.rtm.rtcbuilder.fsm;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
+
 public class StateParam {
 	private String initialState; //SubStateの開始ノード
 	private int history;
@@ -11,7 +13,6 @@ public class StateParam {
 	private String parentName;
 	private boolean hasEntry;
 	private boolean hasExit;
-	private String dataName;
 	private boolean initial;	//対象ノードがinitialノードか？
 	
 	private List<StateParam> stateList = new ArrayList<StateParam>(); 
@@ -69,13 +70,6 @@ public class StateParam {
 		this.hasExit = hasExit;
 	}
 	
-	public String getDataName() {
-		return dataName;
-	}
-	public void setDataName(String dataName) {
-		this.dataName = dataName;
-	}
-	
 	public boolean isInitial() {
 		return initial;
 	}
@@ -104,5 +98,11 @@ public class StateParam {
 	}
 	public List<TransitionParam> getAllTransList() {
 		return allTransList;
+	}
+	
+	public void setEventParam(RtcParam rtcParam) {
+		for(TransitionParam each : allTransList) {
+			each.searchEventParam(rtcParam);
+		}
 	}
 }
