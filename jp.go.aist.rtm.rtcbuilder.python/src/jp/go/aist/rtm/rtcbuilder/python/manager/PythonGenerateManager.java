@@ -17,6 +17,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.python.ui.Perspective.PythonProperty;
+import jp.go.aist.rtm.rtcbuilder.python.util.RTCUtilPy;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateHelper;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
 import jp.go.aist.rtm.rtcbuilder.ui.Perspective.LanguageProperty;
@@ -100,7 +101,7 @@ public class PythonGenerateManager extends GenerateManager {
 		List<IdlFileParam> allFileParams = new ArrayList<IdlFileParam>();
 		allFileParams.addAll(rtcParam.getProviderIdlPathes());
 		allFileParams.addAll(rtcParam.getConsumerIdlPathes());
-		List<String> moduleList = TemplateHelperPy.checkDefaultModuile(allFileParams, rtcParam.getParent().getDataTypeParams());
+		List<String> moduleList = RTCUtilPy.checkDefaultModuile(allFileParams, rtcParam.getParent().getDataTypeParams());
 
 		Map<String, Object> contextMap = new HashMap<String, Object>();
 		contextMap.put("template", TEMPLATE_PATH);
