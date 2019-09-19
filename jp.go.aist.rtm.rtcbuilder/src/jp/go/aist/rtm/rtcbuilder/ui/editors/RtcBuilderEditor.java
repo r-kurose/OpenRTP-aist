@@ -185,10 +185,8 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		updateEMFDataPorts(this.getRtcParam().getInports(), this.getRtcParam().getOutports(),
 				this.getRtcParam().getEventports(), this.getRtcParam().getServicePorts());
 		//
-
 		if( basicFormPage != null )	 basicFormPage.load();
 		allPagesReLoad();
-//		dataPortFormPage.reDraw();
 
 		updateDirty();
 	}
