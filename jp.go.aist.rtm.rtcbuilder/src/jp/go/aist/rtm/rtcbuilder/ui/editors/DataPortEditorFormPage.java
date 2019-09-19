@@ -1,13 +1,7 @@
 package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -50,12 +44,11 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.nl.Messages;
-import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
-import jp.go.aist.rtm.rtcbuilder.ui.preference.RTCBuilderPreferenceManager;
-import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
+import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 import jp.go.aist.rtm.rtcbuilder.util.ValidationUtil;
 
 /**
@@ -73,7 +66,7 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 	//
 	private Text portNameText;
 	private Combo typeCombo;
-	private Text idlFileText;
+	private Label idlFileLabel;
 	private Text varNameText;
 	private Combo positionCombo;
 	private Text descriptionText;
@@ -91,6 +84,9 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 	private String defaultPortType;
 	private String defaultPortVarName;
 	private String[] defaultTypeList;
+	
+	private List<String> typeIDLList = new ArrayList<String>();
+	private List<String> typeList = new ArrayList<String>();
 
 	/**
 	 * コンストラクタ
@@ -178,14 +174,27 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		Label label = toolkit.createLabel(detailGroup, IMessageConstants.REQUIRED + Messages.getString("IMC.DATAPORT_TBLLBL_DATATYPE"));
 		label.setForeground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_RED));
 		typeCombo = new Combo(detailGroup, SWT.DROP_DOWN);
-		typeCombo.setItems(defaultTypeList);
+		/////
+		List<DataTypeParam> dataTypes = editor.getGeneratorParam().getDataTypeParams();
+		typeIDLList.clear();
+		typeList.clear();
+		for(DataTypeParam each : dataTypes) {
+			for(String eachType : each.getDefinedTypes()) {
+				typeList.add(eachType);
+				typeIDLList.add(each.getFullPath());
+			}
+		}
+		typeCombo.setItems(typeList.toArray(new String[typeList.size()]));
+//		typeCombo.setItems(defaultTypeList);
+		/////
 		typeCombo.select(0);
 		typeCombo.addKeyListener(new KeyListener() {
 			public void keyReleased(KeyEvent e) {
 				String target = typeCombo.getText();
 				String[] keyList = target.split(" ");
 				List<String> filtered = new ArrayList<String>();
-				for (String each : defaultTypeList) {
+//				for (String each : defaultTypeList) {
+				for (String each : typeList) {
 					boolean isHit = true;
 					for(String itemKey: keyList) {
 					  if (each.contains(itemKey)==false) {
@@ -207,28 +216,49 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		});
 		typeCombo.addSelectionListener(new SelectionListener() {
 			  public void widgetDefaultSelected(SelectionEvent e){}
-			  public void widgetSelected(SelectionEvent e){ update();}
+			  public void widgetSelected(SelectionEvent e){
+				  idlFileLabel.setText(typeIDLList.get(typeCombo.getSelectionIndex()));
+				  update();
+			  }
 			});
 		GridData gdcombo = new GridData(GridData.FILL_HORIZONTAL);
 		typeCombo.setLayoutData(gdcombo);
 
-		String[] items = typeCombo.getItems();
-		Arrays.sort(items);
-		typeCombo.setItems(items);
+//		String[] items = typeCombo.getItems();
+//		Arrays.sort(items);
+//		typeCombo.setItems(items);
 
 		Button reloadButton = toolkit.createButton(detailGroup, "ReLoad", SWT.PUSH);
 		reloadButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				defaultTypeList = extractDataTypes();
-				Arrays.sort(defaultTypeList);
+				/////
+				List<DataTypeParam> dataTypes = editor.getGeneratorParam().getDataTypeParams();
+				typeIDLList.clear();
+				typeList.clear();
 				typeCombo.removeAll();
-				typeCombo.setItems(defaultTypeList);
+				for(DataTypeParam each : dataTypes) {
+					for(String eachType : each.getDefinedTypes()) {
+						typeList.add(eachType);
+						typeIDLList.add(each.getFullPath());
+					}
+				}
+				typeCombo.setItems(typeList.toArray(new String[typeList.size()]));
+//				Arrays.sort(defaultTypeList);
+//				typeCombo.removeAll();
+//				typeCombo.setItems(defaultTypeList);
 			}
 		});
 		//
-		idlFileText = createLabelAndFile(toolkit, detailGroup, "idl",
-				Messages.getString("IMC.SERVICEPORT_LBL_IDLFILE"), SWT.COLOR_BLACK, SWT.BORDER);
+		toolkit.createLabel(detailGroup, Messages.getString("IMC.SERVICEPORT_LBL_IDLFILE"));
+		idlFileLabel = toolkit.createLabel(detailGroup, "", SWT.BORDER);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
+		idlFileLabel.setLayoutData(gd);
+		
+//		idlFileLabel = createLabelAndFile(toolkit, detailGroup, "idl",
+//				Messages.getString("IMC.SERVICEPORT_LBL_IDLFILE"), SWT.COLOR_BLACK, SWT.BORDER);
 
 		//
 		varNameText = createLabelAndText(toolkit, detailGroup, Messages.getString("IMC.DATAPORT_TBLLBL_VARNAME"), SWT.BORDER);
@@ -374,7 +404,7 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	public void update() {
-		updateIDLFile();
+//		updateIDLFile();
 
 		if (selectParam != null) {
 			selectParam.setType(typeCombo.getText());
@@ -395,44 +425,44 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		editor.updateDirty();
 	}
 
-	private void updateIDLFile() {
-		if(idlFileText !=null ) {
-			String localIDL = idlFileText.getText();
-			if(localIDL!=null && localIDL.isEmpty()==false) {
-				String FS = System.getProperty("file.separator");
-				RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(RTCBuilderPreferenceManager.HOME_DIRECTORY, "");
-				String userHome = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(RTCBuilderPreferenceManager.HOME_DIRECTORY);
-				String userDir = userHome + FS + "idl";
-
-				Path sourcePath = Paths.get(localIDL);
-				File targetFile = new File(userDir + FS + sourcePath.getFileName());
-                boolean isCopy = true;
-
-				if(targetFile.exists()) {
-                	if(FileUtil.fileCompare(localIDL, targetFile)) {
-                		isCopy = false;
-                	} else {
-						File renameFile = new File(targetFile.getAbsolutePath() + DATE_FORMAT.format(new GregorianCalendar().getTime()));
-						targetFile.renameTo(renameFile);
-						FileUtil.removeBackupFiles(targetFile.getParent(), targetFile.getName());
-                	}
-				}
-
-				if(isCopy) {
-			        Path destinationPath = Paths.get(userDir + FS + sourcePath.getFileName());
-			        try {
-			            Files.copy(sourcePath,destinationPath);
-						defaultTypeList = extractDataTypes();
-						Arrays.sort(defaultTypeList);
-						typeCombo.removeAll();
-						typeCombo.setItems(defaultTypeList);
-			        } catch (IOException e) {
-			            e.printStackTrace();
-			        }
-				}
-			}
-		}
-	}
+//	private void updateIDLFile() {
+//		if(idlFileLabel !=null ) {
+//			String localIDL = idlFileLabel.getText();
+//			if(localIDL!=null && localIDL.isEmpty()==false) {
+//				String FS = System.getProperty("file.separator");
+//				RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(RTCBuilderPreferenceManager.HOME_DIRECTORY, "");
+//				String userHome = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(RTCBuilderPreferenceManager.HOME_DIRECTORY);
+//				String userDir = userHome + FS + "idl";
+//
+//				Path sourcePath = Paths.get(localIDL);
+//				File targetFile = new File(userDir + FS + sourcePath.getFileName());
+//                boolean isCopy = true;
+//
+//				if(targetFile.exists()) {
+//                	if(FileUtil.fileCompare(localIDL, targetFile)) {
+//                		isCopy = false;
+//                	} else {
+//						File renameFile = new File(targetFile.getAbsolutePath() + DATE_FORMAT.format(new GregorianCalendar().getTime()));
+//						targetFile.renameTo(renameFile);
+//						FileUtil.removeBackupFiles(targetFile.getParent(), targetFile.getName());
+//                	}
+//				}
+//
+//				if(isCopy) {
+//			        Path destinationPath = Paths.get(userDir + FS + sourcePath.getFileName());
+//			        try {
+//			            Files.copy(sourcePath,destinationPath);
+//						defaultTypeList = extractDataTypes();
+//						Arrays.sort(defaultTypeList);
+//						typeCombo.removeAll();
+//						typeCombo.setItems(defaultTypeList);
+//			        } catch (IOException e) {
+//			            e.printStackTrace();
+//			        }
+//				}
+//			}
+//		}
+//	}
 
 	public void updateForOutput() {
 		update();

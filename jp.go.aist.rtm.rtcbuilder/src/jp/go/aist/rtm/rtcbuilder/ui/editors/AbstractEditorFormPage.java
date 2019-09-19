@@ -476,7 +476,6 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		editor.getGeneratorParam().getDataTypeParams().clear();
 		editor.getGeneratorParam().getDataTypeParams().addAll(sourceContents);
 		//
-
 		return defaultTypeList;
 	}
 
