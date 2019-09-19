@@ -65,6 +65,7 @@ import jp.go.aist.rtm.rtcbuilder.corba.idl.parser.ParseException;
 import jp.go.aist.rtm.rtcbuilder.generator.IDLParamConverter;
 import jp.go.aist.rtm.rtcbuilder.generator.PreProcessor;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
@@ -103,9 +104,10 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 	private Combo directionCombo;
 	private Text instanceNameText;
 	private Text varNameText;
-	private Text idlFileText;
+//	private Text idlFileText;
+	private Label idlFileText;
 	private Combo interfaceTypeCombo;
-	private Text idlPathText;
+//	private Text idlPathText;
 	//
 	private Text ifdetailText;
 	private Text ifargumentText;
@@ -266,7 +268,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 
 
 	public void update() {
-        updateIDLFile();
+//        updateIDLFile();
 
 		if(servicePortViewer != null ) {
 			servicePortViewer.getTree().setRedraw(false);
@@ -333,7 +335,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
                         ((ServicePortInterfaceParam)selection.getData()).setIdlFile(idlFileText.getText());
                     }
 					((ServicePortInterfaceParam)selection.getData()).setInterfaceType(interfaceTypeCombo.getText());
-					((ServicePortInterfaceParam)selection.getData()).setIdlSearchPath(idlPathText.getText());
+//					((ServicePortInterfaceParam)selection.getData()).setIdlSearchPath(idlPathText.getText());
 					//
 					((ServicePortInterfaceParam)selection.getData()).setDocDescription(StringUtil.getDocText(ifdetailText.getText()));
 					((ServicePortInterfaceParam)selection.getData()).setDocArgument(StringUtil.getDocText(ifargumentText.getText()));
@@ -356,39 +358,39 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		}
 	}
 
-    private void updateIDLFile() {
-        if(idlFileText !=null ) {
-            String localIDL = idlFileText.getText();
-            if(localIDL!=null && localIDL.isEmpty()==false) {
-                String FS = System.getProperty("file.separator");
-                RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(RTCBuilderPreferenceManager.HOME_DIRECTORY, "");
-                String userHome = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(RTCBuilderPreferenceManager.HOME_DIRECTORY);
-                String userDir = userHome + FS + "idl";
-
-                Path sourcePath = Paths.get(localIDL);
-                File targetFile = new File(userDir + FS + sourcePath.getFileName());
-                boolean isCopy = true;
-                if(targetFile.exists()) {
-                	if(FileUtil.fileCompare(localIDL, targetFile)) {
-                		isCopy = false;
-                	} else {
-						File renameFile = new File(targetFile.getAbsolutePath() + DATE_FORMAT.format(new GregorianCalendar().getTime()));
-						targetFile.renameTo(renameFile);
-						FileUtil.removeBackupFiles(targetFile.getParent(), targetFile.getName());
-                	}
-                }
-
-                if(isCopy) {
-                    Path destinationPath = Paths.get(userDir + FS + sourcePath.getFileName());
-                    try {
-                        Files.copy(sourcePath,destinationPath);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-    }
+//    private void updateIDLFile() {
+//        if(idlFileText !=null ) {
+//            String localIDL = idlFileText.getText();
+//            if(localIDL!=null && localIDL.isEmpty()==false) {
+//                String FS = System.getProperty("file.separator");
+//                RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(RTCBuilderPreferenceManager.HOME_DIRECTORY, "");
+//                String userHome = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(RTCBuilderPreferenceManager.HOME_DIRECTORY);
+//                String userDir = userHome + FS + "idl";
+//
+//                Path sourcePath = Paths.get(localIDL);
+//                File targetFile = new File(userDir + FS + sourcePath.getFileName());
+//                boolean isCopy = true;
+//                if(targetFile.exists()) {
+//                	if(FileUtil.fileCompare(localIDL, targetFile)) {
+//                		isCopy = false;
+//                	} else {
+//						File renameFile = new File(targetFile.getAbsolutePath() + DATE_FORMAT.format(new GregorianCalendar().getTime()));
+//						targetFile.renameTo(renameFile);
+//						FileUtil.removeBackupFiles(targetFile.getParent(), targetFile.getName());
+//                	}
+//                }
+//
+//                if(isCopy) {
+//                    Path destinationPath = Paths.get(userDir + FS + sourcePath.getFileName());
+//                    try {
+//                        Files.copy(sourcePath,destinationPath);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     /**
 	 * データをロードする
@@ -681,18 +683,16 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			exp.setLayoutData(gd);
 			//
 			interfaceNameText = createLabelAndText(toolkit, client,
-					IMessageConstants.REQUIRED + Messages.getString("IMC.SERVICEPORT_LBL_IFNAME"), SWT.NONE, SWT.COLOR_RED);
-			toolkit.createLabel(client, "");
+					IMessageConstants.REQUIRED + Messages.getString("IMC.SERVICEPORT_LBL_IFNAME"), SWT.NONE, SWT.COLOR_RED, 2);
+//			toolkit.createLabel(client, "");
 			directionCombo = createLabelAndCombo(toolkit, client,
-					Messages.getString("IMC.SERVICEPORT_LBL_IFDIRECTION"), ServicePortInterfaceParam.COMBO_ITEM);
-			toolkit.createLabel(client, "");
-			instanceNameText = createLabelAndText(toolkit, client, Messages.getString("IMC.SERVICEPORT_LBL_IFINSTNAME"));
-			toolkit.createLabel(client, "");
-			varNameText = createLabelAndText(toolkit, client, Messages.getString("IMC.SERVICEPORT_LBL_IFVARNAME"));
-			toolkit.createLabel(client, "");
-			idlFileText = createLabelAndFile(toolkit, client, IDL_EXTENTION,
-					Messages.getString("IMC.SERVICEPORT_LBL_IDLFILE"), SWT.COLOR_BLACK, SWT.NONE);
-
+					Messages.getString("IMC.SERVICEPORT_LBL_IFDIRECTION"), ServicePortInterfaceParam.COMBO_ITEM, 0, 2);
+//			toolkit.createLabel(client, "");
+			instanceNameText = createLabelAndText(toolkit, client, Messages.getString("IMC.SERVICEPORT_LBL_IFINSTNAME"), 0, 0, 2);
+//			toolkit.createLabel(client, "");
+			varNameText = createLabelAndText(toolkit, client, Messages.getString("IMC.SERVICEPORT_LBL_IFVARNAME"), 0, 0, 2);
+//			toolkit.createLabel(client, "");
+			
             List<String> ifTypes = new ArrayList<String>();
             for(ServiceClassParam target : defaultIFList) {
                 ifTypes.add(target.getName());
@@ -709,9 +709,24 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
   				idlFileText.setText(selectedCalsss.getIdlFile());
 			  }
   			});
+    		Button reloadButton = toolkit.createButton(client, "ReLoad", SWT.PUSH);
+    		reloadButton.addSelectionListener(new SelectionAdapter() {
+    			@Override
+    			public void widgetSelected(SelectionEvent e) {
+    			}
+    		});
+//			toolkit.createLabel(client, "");
+    		
+    		toolkit.createLabel(client, Messages.getString("IMC.SERVICEPORT_LBL_IDLFILE"));
+    		idlFileText = toolkit.createLabel(client, "", SWT.BORDER);
+    		gd = new GridData(GridData.FILL_HORIZONTAL);
+    		gd.horizontalSpan = 2;
+    		idlFileText.setLayoutData(gd);
+			
+//			idlFileText = createLabelAndFile(toolkit, client, IDL_EXTENTION,
+//					Messages.getString("IMC.SERVICEPORT_LBL_IDLFILE"), SWT.COLOR_BLACK, SWT.NONE);
 
-			toolkit.createLabel(client, "");
-			idlPathText = createLabelAndDirectory(toolkit, client, Messages.getString("IMC.SERVICEPORT_LBL_IDLPATH"));
+//			idlPathText = createLabelAndDirectory(toolkit, client, Messages.getString("IMC.SERVICEPORT_LBL_IDLPATH"));
 
 			createSrvPortIfDocumentSection(form, client);
 			section.setClient(client);
@@ -725,7 +740,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			GridData gridData = new GridData();
 			gridData.grabExcessHorizontalSpace = true;
 			gridData.horizontalAlignment = GridData.FILL;
-			gridData.horizontalSpan = 2;
+			gridData.horizontalSpan = 3;
 			section.setLayoutData(gridData);
 			Composite composite = managedForm.getToolkit().createComposite(section,
 					SWT.NULL);
@@ -794,7 +809,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			varNameText.setText(serviceInterface.getVarName());
 			idlFileText.setText(serviceInterface.getIdlFile());
 			interfaceTypeCombo.setText(serviceInterface.getInterfaceType());
-			idlPathText.setText(serviceInterface.getIdlSearchPath());
+//			idlPathText.setText(serviceInterface.getIdlSearchPath());
 			//
 			ifdetailText.setText(StringUtil.getDisplayDocText(serviceInterface.getDocDescription()));
 			ifargumentText.setText(StringUtil.getDisplayDocText(serviceInterface.getDocArgument()));
