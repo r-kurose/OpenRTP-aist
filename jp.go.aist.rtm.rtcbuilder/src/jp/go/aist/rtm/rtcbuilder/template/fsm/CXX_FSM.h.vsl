@@ -46,8 +46,6 @@ namespace ${rtcParam.name}Fsm {
 #end
 #if(${eachTrans.eventParam.doc_unit.length()}>0)     * - Unit: ${tmpltHelper.convertUnitDoc(${eachTrans.eventParam.doc_unit})}
 #end
-#if(${eachTrans.eventParam.doc_occurrence.length()}>0)     * - Frequency: ${tmpltHelper.convertFrequencyDoc(${eachTrans.eventParam.doc_occurrence})}
-#end
 #if(${eachTrans.eventParam.doc_operation.length()}>0)     * - Operation Cycle: ${tmpltHelper.convertCycleDoc(${eachTrans.eventParam.doc_operation})}
 #end
      */

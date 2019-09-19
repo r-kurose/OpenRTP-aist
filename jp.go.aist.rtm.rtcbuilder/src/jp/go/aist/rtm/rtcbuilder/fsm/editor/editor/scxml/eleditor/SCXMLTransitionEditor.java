@@ -36,7 +36,6 @@ public class SCXMLTransitionEditor extends SCXMLEditorRoot {
 	private JTextField txtNumber;
 	private JTextField txtSemantics;
 	private JTextField txtUnit;
-	private JTextField txtOccurrence;
 	private JTextField txtOperation;
 	
 	private EventParam targetParam;
@@ -156,25 +155,15 @@ public class SCXMLTransitionEditor extends SCXMLEditorRoot {
 	        txtUnit.setPreferredSize(new Dimension(300, 20));
 	        addUIParts(docPanel, txtUnit, gbl, 1, 4, 1, 1);
 	        
-	        JLabel lblOccur = new JLabel(Messages.getString("IMC.DATAPORT_LBL_OCCUR"));
-	        lblOccur.setHorizontalAlignment(JLabel.RIGHT);
-	        addUIParts(docPanel, lblOccur, gbl, 0, 5, 1, 1);
-	        txtOccurrence = new JTextField();
-	        if(targetParam!=null && targetParam.getDoc_occurrence()!=null) {
-	        	txtOccurrence.setText(targetParam.getDoc_occurrence());
-	        }
-	        txtOccurrence.setPreferredSize(new Dimension(300, 20));
-	        addUIParts(docPanel, txtOccurrence, gbl, 1, 5, 1, 1);
-	        
 	        JLabel lblOpe = new JLabel(Messages.getString("IMC.DATAPORT_LBL_OPERAT"));
 	        lblOpe.setHorizontalAlignment(JLabel.RIGHT);
-	        addUIParts(docPanel, lblOpe, gbl, 0, 6, 1, 1);
+	        addUIParts(docPanel, lblOpe, gbl, 0, 5, 1, 1);
 	        txtOperation = new JTextField();
 	        if(targetParam!=null && targetParam.getDoc_operation()!=null) {
 	        	txtOperation.setText(targetParam.getDoc_operation());
 	        }
 	        txtOperation.setPreferredSize(new Dimension(300, 20));
-	        addUIParts(docPanel, txtOperation, gbl, 1, 6, 1, 1);
+	        addUIParts(docPanel, txtOperation, gbl, 1, 5, 1, 1);
         }
 		
 		pack();
@@ -192,7 +181,6 @@ public class SCXMLTransitionEditor extends SCXMLEditorRoot {
 		targetParam.setDoc_num(txtNumber.getText());
 		targetParam.setDoc_semantics(txtSemantics.getText());
 		targetParam.setDoc_unit(txtUnit.getText());
-		targetParam.setDoc_occurrence(txtOccurrence.getText());
 		targetParam.setDoc_operation(txtOperation.getText());
 		
 		return true;
