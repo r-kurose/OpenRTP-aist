@@ -2,7 +2,6 @@ package jp.go.aist.rtm.rtcbuilder.util;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -106,17 +105,6 @@ public class RTCUtil {
 		}
 		//
 		if(RtcBuilderPlugin.getDefault()!=null) {
-			List<String> resultsetting = new ArrayList<String>();
-			RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(RTCBuilderPreferenceManager.IDLFILE_DIRECTORIES, "");
-			String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(RTCBuilderPreferenceManager.IDLFILE_DIRECTORIES);
-			resultsetting = Arrays.asList(resultTemp.split(File.pathSeparator));
-			for(String each : resultsetting) {
-				if(each.length()==0) continue;
-				if(added.contains(each)) continue;
-				result.add(new IdlPathParam(each, false));
-				added.add(each);
-			}
-			//
 			RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(RTCBuilderPreferenceManager.HOME_DIRECTORY, "");
 			String userHome = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(RTCBuilderPreferenceManager.HOME_DIRECTORY);
 			String userDir = userHome + FS + "idl";

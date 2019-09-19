@@ -30,11 +30,6 @@ public class RtcBuilderPreferencePage extends FieldEditorPreferencePage implemen
 		
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		composite.setLayoutData(gd);
-		
-		PathEditor editor = new PathEditor(RTCBuilderPreferenceManager.IDLFILE_DIRECTORIES,
-				IPreferenceMessageConstants.LBL_IDL_SEARCH_DIRS,	"",	composite);
-		editor.getListControl(composite).setLayoutData(gd);
-		addField(editor);
 		//
 		DirectoryFieldEditor dirEditor = new DirectoryFieldEditor(RTCBuilderPreferenceManager.HOME_DIRECTORY,
 				IPreferenceMessageConstants.LBL_HOME_DIR, composite);
