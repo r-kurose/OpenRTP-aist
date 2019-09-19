@@ -5,6 +5,7 @@ import java.util.List;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 import jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython;
 import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 
@@ -125,6 +126,40 @@ public class TemplateHelperPy {
 				}
 			}
 		}
+		return result;
+	}
+	
+	public static List<String> checkDefaultModuile(List<IdlFileParam> targetFiles) {
+		List<String> result = new ArrayList<String>();
+		boolean existImg = false;
+		boolean existJARAARM = false;
+		
+		for(IdlFileParam target : targetFiles) {
+			if(target.isDataPort()) {
+				String targetType = "";
+				for(String targetTypes : target.getTargetType()) {
+					if( targetTypes.contains("::") ) {
+						String[] types = targetTypes.split("::");
+						/////
+						targetType = types[0];
+						if(targetType.equals("Img")) existImg = true;
+						if(targetType.equals("JARA_ARM")) existJARAARM = true;
+					}
+				}
+			} else {
+				String targetType = "";
+				for(ServiceClassParam targetTypes : target.getServiceClassParams()) {
+					targetType = targetTypes.getModule();
+					targetType = targetType.replace("::", "");
+					if(targetType.equals("Img")) existImg = true;
+					if(targetType.equals("JARA_ARM")) existJARAARM = true;
+				}
+			}
+		}
+		
+		if(existImg) result.add("Img");
+		if(existJARAARM) result.add("JARA_ARM");
+		
 		return result;
 	}
 }

@@ -97,9 +97,10 @@ public class PythonGenerateManager extends GenerateManager {
 				}
 			}
 		}
-		List<IdlFileParam> importFileParams = new ArrayList<IdlFileParam>();
-		importFileParams.addAll(rtcParam.getProviderIdlPathes());
-		importFileParams.addAll(rtcParam.getConsumerIdlPathes());
+		List<IdlFileParam> allFileParams = new ArrayList<IdlFileParam>();
+		allFileParams.addAll(rtcParam.getProviderIdlPathes());
+		allFileParams.addAll(rtcParam.getConsumerIdlPathes());
+		List<String> moduleList = TemplateHelperPy.checkDefaultModuile(allFileParams);
 
 		Map<String, Object> contextMap = new HashMap<String, Object>();
 		contextMap.put("template", TEMPLATE_PATH);
@@ -110,7 +111,7 @@ public class PythonGenerateManager extends GenerateManager {
 		contextMap.put("allIdlFileParam", allIdlFileParams);
 		contextMap.put("idlPathes", rtcParam.getIdlPathes());
 		contextMap.put("allIdlFileParamBuild", allIdlFileParamsForBuild);
-		contextMap.put("importFileParams", importFileParams);
+		contextMap.put("defaultModule", moduleList);
 
 		return generateTemplateCode10(contextMap);
 	}
