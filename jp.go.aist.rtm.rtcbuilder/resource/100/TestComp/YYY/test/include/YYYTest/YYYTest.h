@@ -59,6 +59,7 @@ class YYYTest
   
   // </rtc-template>
 
+  // <rtc-template block="activity">
   /***
    *
    * The initialize action (on CREATED->ALIVE transition)
@@ -198,6 +199,7 @@ class YYYTest
    * 
    */
   // RTC::ReturnCode_t onRateChanged(RTC::UniqueId ec_id) override;
+  // </rtc-template>
 
   bool runTest();
 
