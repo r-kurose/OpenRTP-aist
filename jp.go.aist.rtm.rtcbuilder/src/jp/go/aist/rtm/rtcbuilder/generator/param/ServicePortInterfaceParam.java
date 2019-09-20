@@ -25,7 +25,7 @@ public class ServicePortInterfaceParam extends AbstractRecordedParam implements
 	private String varname;
 	private String idlfile;
 	private String interfacetype;
-	private String idlSearchPath;
+	private String idlSearchPath;	//TODO 削除候補
 	//
 	private String doc_description;
 	private String doc_argument;
