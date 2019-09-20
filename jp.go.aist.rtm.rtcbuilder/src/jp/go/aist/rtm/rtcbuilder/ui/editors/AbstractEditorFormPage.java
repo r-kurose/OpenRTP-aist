@@ -420,7 +420,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 
 	protected String[] extractDataTypes() {
-		List<IdlPathParam> sources = RTCUtil.getIDLPathes(editor.getRtcParam());
+		RTCUtil.getIDLPathes(editor.getRtcParam());
 		String FS = System.getProperty("file.separator");
 		int baseindex = -1;
 		List<DataTypeParam> sourceContents = new ArrayList<DataTypeParam>();
@@ -430,8 +430,8 @@ public abstract class AbstractEditorFormPage extends FormPage {
         		"openrtm.idl", "rtc.idl", "sdopackage.idl",
         		"sharedmemory.idl");
 		
-		for (int intidx = 0; intidx < sources.size(); intidx++) {
-			IdlPathParam source = sources.get(intidx);
+		for (int intidx = 0; intidx < editor.getRtcParam().getIdlSearchPathList().size(); intidx++) {
+			IdlPathParam source = editor.getRtcParam().getIdlSearchPathList().get(intidx);
 			try {
 				File idlDir = new File(source.getPath());
 				String[] list = idlDir.list();

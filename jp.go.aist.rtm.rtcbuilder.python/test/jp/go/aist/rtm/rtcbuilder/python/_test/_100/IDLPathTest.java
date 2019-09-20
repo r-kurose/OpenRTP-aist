@@ -11,7 +11,6 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython;
 import jp.go.aist.rtm.rtcbuilder.python._test.TestBase;
 import jp.go.aist.rtm.rtcbuilder.python.manager.PythonCMakeGenerateManager;
@@ -85,8 +84,8 @@ public class IDLPathTest extends TestBase {
 		srvports.add(service1);
 		rtcParam.getServicePorts().addAll(srvports);
 
-		List<IdlPathParam> idlDirs = RTCUtil.getIDLPathes(rtcParam);
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam, idlDirs);
+		RTCUtil.getIDLPathes(rtcParam);
+		List<GeneratedResult> result = generator.generateTemplateCode(genParam, rtcParam.getIdlSearchPathList());
 
 		String resourceDir = rootPath + "/resource/Python/IDLPath/";
 

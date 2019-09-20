@@ -67,7 +67,7 @@ public class TestComp extends TestBase {
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>();
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(
 				service1, "myservice0", "", "", rootPath + "/resource/MyServiceTest.idl",
-				"SimpleService::MyService", "", 0);
+				"SimpleService::MyService", 0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
@@ -144,7 +144,7 @@ public class TestComp extends TestBase {
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>();
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(
 				service1, "myservice0", "", "", rootPath + "/resource/MyServiceTest.idl",
-				"SimpleService::MyService", "", 1);
+				"SimpleService::MyService", 1);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();

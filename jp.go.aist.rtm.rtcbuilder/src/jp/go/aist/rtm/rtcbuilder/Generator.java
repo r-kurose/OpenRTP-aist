@@ -130,7 +130,9 @@ public class Generator {
 				String idlContent = FileUtil.readFile(targetIDL);
 				if (idlContent == null) continue;
 				List<String> idlSearchDirs = new ArrayList<String>();
-				idlSearchDirs.add(serviceInterfaces.getIdlSearchPath());
+				for(IdlPathParam path : rtcParam.getIdlSearchPathList()) {
+					idlSearchDirs.add(path.getPath());
+				}
 				if(idlDir!=null){
 					for(IdlPathParam each : idlDir) {
 						idlSearchDirs.add(each.getPath());
@@ -169,6 +171,7 @@ public class Generator {
 		}
 		rtcParam.checkAndSetParameter();
 		rtcParam.getIdlPathes().clear();
+		rtcParam.getIdlPathes().addAll(rtcParam.getIdlSearchPathList());
 		//
 		for( DataPortParam outport : rtcParam.getOutports() ) {
 			if(0<outport.getIdlFile().length()) {
@@ -194,20 +197,7 @@ public class Generator {
 				if( !IDLPathes.contains(serviceInterfaces.getIdlFullPath()) ) {
 					IDLPathes.add(serviceInterfaces.getIdlFullPath());
                     IDLPathParams.add(
-                            new ServiceClassParam(serviceInterfaces.getIdlFullPath(), serviceInterfaces.getIdlFullPath(),
-															 serviceInterfaces.getIdlSearchPath()));
-				}
-				if( 0<serviceInterfaces.getIdlSearchPath().length()) {
-					boolean existed = false;
-					for(IdlPathParam exist : rtcParam.getIdlPathes()) {
-						if(exist.getPath().equals(serviceInterfaces.getIdlSearchPath())) {
-							existed = true;
-							break;
-						}
-					}
-					if(existed==false) {
-						rtcParam.getIdlPathes().add(new IdlPathParam(serviceInterfaces.getIdlSearchPath(), false));
-					}
+                            new ServiceClassParam(serviceInterfaces.getIdlFullPath(), serviceInterfaces.getIdlFullPath(), ""));
 				}
 			}
 		}

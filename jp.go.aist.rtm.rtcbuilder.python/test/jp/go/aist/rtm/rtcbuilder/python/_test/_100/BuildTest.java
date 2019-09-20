@@ -11,7 +11,6 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython;
 import jp.go.aist.rtm.rtcbuilder.python._test.TestBase;
 import jp.go.aist.rtm.rtcbuilder.python.manager.PythonCMakeGenerateManager;
@@ -70,7 +69,7 @@ public class BuildTest extends TestBase {
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>();
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(
 				service1, "acc", "", "", rootPath + "/resource/MyService.idl",
-				"MyService", "", 0);
+				"MyService", 0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
@@ -80,15 +79,15 @@ public class BuildTest extends TestBase {
 		List<ServicePortInterfaceParam> srvinterts2 = new ArrayList<ServicePortInterfaceParam>();
 		ServicePortInterfaceParam int2 = new ServicePortInterfaceParam(
 				service2, "rate", "", "",
-				rootPath + "/resource/DAQService.idl", "DAQService", "", 1);
+				rootPath + "/resource/DAQService.idl", "DAQService", 1);
 		srvinterts2.add(int2);
 		service2.getServicePortInterfaces().addAll(srvinterts2);
 		srvports.add(service2);
 
 		rtcParam.getServicePorts().addAll(srvports);
 
-		List<IdlPathParam> idlDirs = RTCUtil.getIDLPathes(rtcParam);
-		List<GeneratedResult> result = generator.generateTemplateCode(genParam, idlDirs);
+		RTCUtil.getIDLPathes(rtcParam);
+		List<GeneratedResult> result = generator.generateTemplateCode(genParam, rtcParam.getIdlSearchPathList());
 
 		String resourceDir = fixturePath(name) + "/";
 

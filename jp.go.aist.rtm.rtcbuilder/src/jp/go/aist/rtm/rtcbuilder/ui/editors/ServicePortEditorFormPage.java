@@ -429,7 +429,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 					if( selection.getData() instanceof ServicePortParam ) {
 						servicePortViewer.getTree().setRedraw(false);
 						ServicePortInterfaceParam selectParam = new ServicePortInterfaceParam((ServicePortParam)selection.getData() ,
-								defaultIFName, defaultIFInstanceName, defaultIFVarName, "", "", "", 0);
+								defaultIFName, defaultIFInstanceName, defaultIFVarName, "", "", 0);
 						((ServicePortParam)selection.getData()).getServicePortInterfaces().add(selectParam);
 						Object[] expanded = servicePortViewer.getExpandedElements();
 						List<Object> expanding = new ArrayList<Object>();
@@ -835,7 +835,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 	}
 
     private void extractServiceInterface() {
-		List<IdlPathParam> sources = RTCUtil.getIDLPathes(editor.getRtcParam());
+		RTCUtil.getIDLPathes(editor.getRtcParam());
         String FS = System.getProperty("file.separator");
         defaultIFList.clear();
 
@@ -845,7 +845,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
         		"openrtm.idl", "rtc.idl", "sdopackage.idl",
         		"sharedmemory.idl");
 
-        for(IdlPathParam source : sources) {
+        for(IdlPathParam source : editor.getRtcParam().getIdlSearchPathList()) {
 	        try {
 	            File idlDir = new File(source.getPath());
 	            String[] list = idlDir.list();

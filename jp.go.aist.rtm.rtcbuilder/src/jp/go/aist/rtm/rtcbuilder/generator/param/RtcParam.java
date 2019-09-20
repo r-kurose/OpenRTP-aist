@@ -125,6 +125,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	private boolean test_version = false;
 
 	private boolean isChoreonoid = false;
+	private List<IdlPathParam> idlSearchPathList = new ArrayList<IdlPathParam>();
 
 	public RtcParam(GeneratorParam parent) {
 		this(parent, false);
@@ -706,6 +707,10 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	public void setChoreonoid(boolean value) {
 		isChoreonoid = value;
 	}
+	
+	public List<IdlPathParam> getIdlSearchPathList() {
+		return idlSearchPathList;
+	}
 	//
 	public void checkAndSetParameter() {
 		List<String> providerIdlStrings = new ArrayList<String>();
@@ -764,18 +769,20 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		}
 		/////
 		for( ServicePortInterfaceParam serviceInterface : serviceIFs ) {
-			if( serviceInterface.getIdlSearchPath()!=null && !serviceInterface.getIdlSearchPath().equals("") ){
-				for( IdlFileParam idlParam : providerIdlParams ) {
-					if( serviceInterface.getIdlFullPath().trim().equals(idlParam.getIdlPath().trim()) ) {
-						idlParam.getIdlSearchPathes().add(serviceInterface.getIdlSearchPath());
-						break;
+			for( IdlFileParam idlParam : providerIdlParams ) {
+				if( serviceInterface.getIdlFullPath().trim().equals(idlParam.getIdlPath().trim()) ) {
+					for(IdlPathParam path : this.idlSearchPathList) {
+						idlParam.getIdlSearchPathes().add(path.getPath());
 					}
+					break;
 				}
-				for( IdlFileParam idlParam : consumerIdlParams ) {
-					if( serviceInterface.getIdlFullPath().trim().equals(idlParam.getIdlPath().trim()) ) {
-						idlParam.getIdlSearchPathes().add(serviceInterface.getIdlSearchPath());
-						break;
+			}
+			for( IdlFileParam idlParam : consumerIdlParams ) {
+				if( serviceInterface.getIdlFullPath().trim().equals(idlParam.getIdlPath().trim()) ) {
+					for(IdlPathParam path : this.idlSearchPathList) {
+						idlParam.getIdlSearchPathes().add(path.getPath());
 					}
+					break;
 				}
 			}
 		}
