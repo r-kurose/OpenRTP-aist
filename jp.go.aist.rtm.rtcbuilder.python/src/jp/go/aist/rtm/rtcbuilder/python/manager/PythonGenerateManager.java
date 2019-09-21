@@ -139,7 +139,6 @@ public class PythonGenerateManager extends GenerateManager {
 		}
 
 		for (IdlFileParam idlFileParam : rtcParam.getProviderIdlPathes()) {
-			if(RTCUtil.checkDefault(idlFileParam.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
 			contextMap.put("idlFileParam", idlFileParam);
 			result.add(generateSVCIDLExampleSource(contextMap));
 		}
