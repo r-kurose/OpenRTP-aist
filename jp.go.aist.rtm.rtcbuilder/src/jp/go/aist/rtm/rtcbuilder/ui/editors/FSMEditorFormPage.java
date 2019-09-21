@@ -83,7 +83,6 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 	private Text numberText;
 	private Text semanticsText;
 	private Text unitText;
-	private Text occurrenceText;
 	private Text operationText;
 	
 	private SCXMLGraphEditor scxmlEditor;
@@ -158,7 +157,6 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 		createHintLabel(Messages.getString("IMC.DATAPORT_LBL_DATANUM"), Messages.getString("IMC.FSM_HINT_DOC_NUM_DESC"), toolkit, composite);
 		createHintLabel(Messages.getString("IMC.DATAPORT_LBL_SEMANTICS"), IMessageConstants.FSM_DOC_DETAIL_DESC, toolkit, composite);
 		createHintLabel(Messages.getString("IMC.DATAPORT_LBL_UNIT"), Messages.getString("IMC.FSM_HINT_DOC_UNIT_DESC"), toolkit, composite);
-		createHintLabel(Messages.getString("IMC.DATAPORT_LBL_OCCUR"), Messages.getString("IMC.FSM_HINT_DOC_FREQ_DESC"), toolkit, composite);
 		createHintLabel(Messages.getString("IMC.DATAPORT_LBL_OPERAT"), Messages.getString("IMC.FSM_HINT_DOC_OPE_DESC"), toolkit, composite);
 	}
 	
@@ -209,7 +207,6 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 				numberText.setEnabled(fsmBtn.getSelection());
 				semanticsText.setEnabled(fsmBtn.getSelection());
 				unitText.setEnabled(fsmBtn.getSelection());
-				occurrenceText.setEnabled(fsmBtn.getSelection());
 				operationText.setEnabled(fsmBtn.getSelection());
 				
 				editor.updateEMFDataPorts(
@@ -429,7 +426,6 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 					numberText.setText(StringUtil.getDisplayDocText(selectParam.getDoc_num()));
 					semanticsText.setText(StringUtil.getDisplayDocText(selectParam.getDoc_semantics()));
 					unitText.setText(StringUtil.getDisplayDocText(selectParam.getDoc_unit()));
-					occurrenceText.setText(StringUtil.getDisplayDocText(selectParam.getDoc_occurrence()));
 					operationText.setText(StringUtil.getDisplayDocText(selectParam.getDoc_operation()));
 				}
 			}
@@ -491,12 +487,6 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 		unitText.setEditable(false);
 		unitText.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
 
-		occurrenceText = createLabelAndText(toolkit, documentGroup,
-				Messages.getString("IMC.DATAPORT_LBL_OCCUR"), SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
-		occurrenceText.setLayoutData(gridData);
-		occurrenceText.setEditable(false);
-		occurrenceText.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
-		
 		operationText = createLabelAndText(toolkit, documentGroup,
 				Messages.getString("IMC.DATAPORT_LBL_OPERAT"), SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
 		operationText.setLayoutData(gridData);
@@ -552,7 +542,6 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 		numberText.setEnabled(fsmBtn.getSelection());
 		semanticsText.setEnabled(fsmBtn.getSelection());
 		unitText.setEnabled(fsmBtn.getSelection());
-		occurrenceText.setEnabled(fsmBtn.getSelection());
 		operationText.setEnabled(fsmBtn.getSelection());
 		//
 		PropertyParam fsmType = rtcParam.getProperty(IRtcBuilderConstants.PROP_TYPE_FSMTYTPE);
@@ -637,7 +626,6 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 		numberText.setText("");
 		semanticsText.setText("");
 		unitText.setText("");
-		occurrenceText.setText("");
 		operationText.setText("");
 	}
 	

@@ -21,7 +21,6 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;attribute name="number" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       &lt;attribute name="semantics" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       &lt;attribute name="unit" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       &lt;attribute name="occerrence" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       &lt;attribute name="operation" type="{http://www.w3.org/2001/XMLSchema}string" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -44,8 +43,6 @@ public class DocEventport {
     protected String semantics;
     @XmlAttribute(name = "unit", namespace = "http://www.openrtp.org/namespaces/rtc_doc")
     protected String unit;
-    @XmlAttribute(name = "occerrence", namespace = "http://www.openrtp.org/namespaces/rtc_doc")
-    protected String occerrence;
     @XmlAttribute(name = "operation", namespace = "http://www.openrtp.org/namespaces/rtc_doc")
     protected String operation;
 
@@ -167,30 +164,6 @@ public class DocEventport {
      */
     public void setUnit(String value) {
         this.unit = value;
-    }
-
-    /**
-     * occerrenceプロパティの値を取得します。
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getOccerrence() {
-        return occerrence;
-    }
-
-    /**
-     * occerrenceプロパティの値を設定します。
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setOccerrence(String value) {
-        this.occerrence = value;
     }
 
     /**
