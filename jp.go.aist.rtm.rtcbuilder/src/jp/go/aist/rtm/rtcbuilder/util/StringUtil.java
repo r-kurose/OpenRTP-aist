@@ -244,7 +244,6 @@ public class StringUtil {
 	}
 	
 	public static String removeNewLine(String source) {
-		source = source.replace("\r\n ","");
 		source = source.replace("\r","");
 		source = source.replace("\n","");
         
