@@ -49,6 +49,7 @@ import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.fsm.EventParam;
 import jp.go.aist.rtm.rtcbuilder.fsm.ScXMLHandler;
 import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
+import jp.go.aist.rtm.rtcbuilder.fsm.TransitionParam;
 import jp.go.aist.rtm.rtcbuilder.fsm.editor.SCXMLGraphEditor;
 import jp.go.aist.rtm.rtcbuilder.fsm.editor.SCXMLNotifier;
 import jp.go.aist.rtm.rtcbuilder.generator.param.EventPortParam;
@@ -644,8 +645,25 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 			if(rootState!=null) {
 				rtcParam.setFsmParam(rootState);
 				rtcParam.setFsmContents(contents);
+				
+				List<EventParam> newEventList = new ArrayList<EventParam>();
+				List<TransitionParam> transList = rootState.getAllTransList();
+				for(TransitionParam trans : transList) {
+					EventParam newParam = new EventParam();
+					newParam.setName(trans.getEvent());
+					newParam.setCondition(trans.getCondition());
+					newParam.setSource(trans.getSource());
+					newParam.setTarget(trans.getTarget());
+					for(EventParam event : eventList) {
+						if(newParam.checkSame(event)) {
+							newParam.replaceContents(event);
+							break;
+						}
+					}
+					newEventList.add(newParam);
+				}
 				rtcParam.getEventports().get(0).getEvents().clear();
-				rtcParam.getEventports().get(0).getEvents().addAll(eventList);
+				rtcParam.getEventports().get(0).getEvents().addAll(newEventList);
 				editor.updateDirty();
 				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 					public void run() {
