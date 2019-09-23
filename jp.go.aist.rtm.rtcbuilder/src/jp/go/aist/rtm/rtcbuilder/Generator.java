@@ -400,7 +400,9 @@ public class Generator {
 				String idlContent = FileUtil.readFile(sv.getName());
 				if (idlContent == null) continue;
 				List<String> pathList = new ArrayList<String>();
-				pathList.add(sv.getIdlPath());
+				for(IdlPathParam path : rtcParam.getIdlSearchPathList()) {
+					pathList.add(path.getPath());
+				}
 				if(idlDir!=null) {
 					for(IdlPathParam each : idlDir) {
 						pathList.add(each.getPath());
