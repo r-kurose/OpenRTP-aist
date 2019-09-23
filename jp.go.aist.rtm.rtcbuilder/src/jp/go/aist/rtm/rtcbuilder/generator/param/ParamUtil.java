@@ -873,7 +873,6 @@ public class ParamUtil {
 			serviceIF.setVariableName(serviceinterfacep.getVarName());
 			serviceIF.setIdlFile(serviceinterfacep.getIdlFile());
 			serviceIF.setType(serviceinterfacep.getInterfaceType());
-			serviceIF.setPath(serviceinterfacep.getIdlSearchPath());
 			//
 			DocServiceinterface docserviceIF = factory.createDocServiceinterface();
 			docserviceIF.setDescription(serviceinterfacep.getDocDescription());

@@ -25,7 +25,6 @@ public class ServicePortInterfaceParam extends AbstractRecordedParam implements
 	private String varname;
 	private String idlfile;
 	private String interfacetype;
-	private String idlSearchPath;
 	//
 	private String doc_description;
 	private String doc_argument;
@@ -43,7 +42,6 @@ public class ServicePortInterfaceParam extends AbstractRecordedParam implements
 		this.varname = "";
 		this.idlfile = "";
 		this.interfacetype = "";
-		this.idlSearchPath = "";
 		this.selection = 0;
 		this.direction = "";
 		//
@@ -66,30 +64,6 @@ public class ServicePortInterfaceParam extends AbstractRecordedParam implements
 		this.varname = varname;
 		this.idlfile = idlfile;
 		this.interfacetype = interfacetype;
-		this.idlSearchPath = "";
-		this.selection = selection;
-		this.direction = ServicePortInterfaceParam.COMBO_ITEM[selection];
-		//
-		this.doc_description = "";
-		this.doc_argument = "";
-		this.doc_return = "";
-		this.doc_exception = "";
-		this.doc_pre_condition = "";
-		this.doc_post_condition = "";
-		//
-		setUpdated(false);
-	}
-
-	public ServicePortInterfaceParam(ServicePortParam parent, String name,
-			String instancename, String varname, String idlfile,
-			String interfacetype, String idlpath, int selection) {
-		this.parent = parent;
-		this.name = name;
-		this.instancename = instancename;
-		this.varname = varname;
-		this.idlfile = idlfile;
-		this.interfacetype = interfacetype;
-		this.idlSearchPath = idlpath;
 		this.selection = selection;
 		this.direction = ServicePortInterfaceParam.COMBO_ITEM[selection];
 		//
@@ -130,9 +104,6 @@ public class ServicePortInterfaceParam extends AbstractRecordedParam implements
 			return elem[elem.length-1];
 		}
 		return interfacetype;
-	}
-	public String getIdlSearchPath() {
-		return idlSearchPath;
 	}
 	public int getIndex() {
 		return selection;
