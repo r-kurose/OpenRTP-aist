@@ -76,7 +76,6 @@ public class IDLPathTest extends TestBase {
 				service1, "if_name", "", "",
 				rootPath + "/resource/CalibrationService.idl",
 				"ImageCalibService::CalibrationService",
-				"C:\\Program Files\\OpenRTM-aist\\1.2.0\\rtm\\idl",
 				0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);

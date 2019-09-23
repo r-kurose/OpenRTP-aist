@@ -92,7 +92,7 @@ public class CheckIDLTest extends TestBase {
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>();
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(
 				service1, "acc", "", "", rootPath + "/resource/Test.idl",
-				"MyModule::MyInterface", "C:/Program Files/OpenRTM-aist/1.2.0/rtm/idl", 0);
+				"MyModule::MyInterface", 0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
@@ -115,7 +115,7 @@ public class CheckIDLTest extends TestBase {
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>();
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(
 				service1, "acc", "", "", rootPath + "/resource/Test2.idl",
-				"MyModule::MyInterface", "C:/Program Files/OpenRTM-aist/1.2.0/rtm/idl", 0);
+				"MyModule::MyInterface", 0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
