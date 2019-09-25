@@ -60,6 +60,7 @@ class ModuleName
   
   // </rtc-template>
 
+  // <rtc-template block="activity">
   /***
    *
    * The initialize action (on CREATED->ALIVE transition)
@@ -199,6 +200,7 @@ class ModuleName
    * 
    */
   // RTC::ReturnCode_t onRateChanged(RTC::UniqueId ec_id) override;
+  // </rtc-template>
 
 
  protected:
