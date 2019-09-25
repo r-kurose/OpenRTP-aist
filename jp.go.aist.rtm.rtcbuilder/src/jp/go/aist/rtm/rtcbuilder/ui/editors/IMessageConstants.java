@@ -160,8 +160,8 @@ public interface IMessageConstants {
 			Messages.getString("IMC.SERVIVEPORT_HINT_IFTYPE_DESC_P3")});
 	
 	public static final String SERVICEPORT_HINT_ILDPATH_DESC = StringUtil.connectMessageWithSepalator( new String[]{
-			Messages.getString("IMC.SERVIVEPORT_HINT_IFTYPE_DESC_P1"),
-			Messages.getString("IMC.SERVIVEPORT_HINT_IFTYPE_DESC_P2")});
+			Messages.getString("IMC.SERVIVEPORT_HINT_IFPATH_DESC_P1"),
+			Messages.getString("IMC.SERVIVEPORT_HINT_IFPATH_DESC_P2")});
 	
 	public static final String SERVICEPORT_HINT_ARGUMENT_DESC = StringUtil.connectMessageWithSepalator( new String[]{
 			Messages.getString("IMC.SERVIVEPORT_HINT_ARGUMEN_DESC_P1"),
