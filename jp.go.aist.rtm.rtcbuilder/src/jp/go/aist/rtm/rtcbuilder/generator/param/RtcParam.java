@@ -549,7 +549,7 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	public List<IdlFileParam> getConsumerIdlPathes() {
 		return consumerIdlPathes;
 	}
-	
+
 	public boolean checkWithoutDefaultPathes() {
 		if(0<providerIdlPathes.size()) {
 			for(IdlFileParam e : providerIdlPathes) {
@@ -704,6 +704,8 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		}
 		/////
 		for( DataPortParam target : inports ) {
+			if(checkExistIDL(providerIdlParams, consumerIdlParams, target)) continue;
+
 			List<String> localIdlPathes = new ArrayList<String>();
 			checkAndAddIDLPath(target.getType(), localIdlPathes, consumerIdlStrings, consumerIdlParams);
 			if(0<localIdlPathes.size()) {
@@ -712,6 +714,8 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 			}
 		}
 		for( DataPortParam target : outports ) {
+			if(checkExistIDL(providerIdlParams, consumerIdlParams, target)) continue;
+
 			List<String> localIdlPathes = new ArrayList<String>();
 			checkAndAddIDLPath(target.getType(), localIdlPathes, consumerIdlStrings, consumerIdlParams);
 			if(0<localIdlPathes.size()) {
@@ -764,6 +768,24 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 		getLibraryPathes().clear();
 		getLibraryPathes().addAll(libraries);
 		// this.setLibraryPathes(libraries);
+	}
+
+	private boolean checkExistIDL(List<IdlFileParam> providerIdlParams, List<IdlFileParam> consumerIdlParams,
+			DataPortParam target) {
+		boolean isExist = false;
+		for(IdlFileParam param : consumerIdlParams) {
+			if(param.getIdlFile().equals(target.getIdlFile())) {
+				isExist = true;
+				break;
+			}
+		}
+		for(IdlFileParam param : providerIdlParams) {
+			if(param.getIdlPath().equals(target.getIdlFile())) {
+				isExist = true;
+				break;
+			}
+		}
+		return isExist;
 	}
 
 	private void checkAndAddIDLPath(String targetType, List<String> idlPathes,
