@@ -151,12 +151,6 @@
 				<include name="**.genmodel" />
 			</fileset>
 		</copy>
-		<copy todir="${build.dir}/jp/go/aist/rtm/toolscommon/fsm/editor">
-			<fileset dir="${source}/jp/go/aist/rtm/toolscommon/fsm/editor">
-				<include name="images/**.**" />
-				<include name="resources/**.**" />
-			</fileset>
-		</copy>
 		<mkdir dir="${dist.dir}" />
 		<delete>
 			<fileset dir="${dist.dir}" includes="${target.name}_*.jar" />
