@@ -95,8 +95,8 @@
 				<include name="fsm/**.vsl" />
 			</fileset>
 		</copy>
-		<copy todir="${build.dir}/jp/go/aist/rtm/toolscommon/fsm/editor">
-			<fileset dir="${source}/jp/go/aist/rtm/toolscommon/fsm/editor">
+		<copy todir="${build.dir}/jp/go/aist/rtm/rtcbuilder/fsm/editor">
+			<fileset dir="${source}/jp/go/aist/rtm/rtcbuilder/fsm/editor">
 				<include name="images/**.**" />
 				<include name="resources/**.**" />
 			</fileset>
