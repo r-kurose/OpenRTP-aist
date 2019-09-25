@@ -10,9 +10,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>configuration_set complex type��Java�N���X�B
+ * <p>Java class for configuration_set complex type.
  * 
- * <p>���̃X�L�[�}�E�t���O�����g�́A���̃N���X���Ɋ܂܂��\�������R���e���c���w�肵�܂��B
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="configuration_set">
@@ -65,7 +65,7 @@ public class ConfigurationSet {
         }
         return this.configuration;
     }
+
     public void setConfiguration(List<Configuration> list) {
     }
-
 }

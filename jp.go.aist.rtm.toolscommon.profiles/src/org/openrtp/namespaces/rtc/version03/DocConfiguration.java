@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>doc_configuration complex typeのJavaクラス。
+ * <p>Java class for doc_configuration complex type.
  * 
- * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="doc_configuration">
@@ -47,7 +47,7 @@ public class DocConfiguration {
     protected String constraint;
 
     /**
-     * datanameプロパティの値を取得します。
+     * Gets the value of the dataname property.
      * 
      * @return
      *     possible object is
@@ -59,7 +59,7 @@ public class DocConfiguration {
     }
 
     /**
-     * datanameプロパティの値を設定します。
+     * Sets the value of the dataname property.
      * 
      * @param value
      *     allowed object is
@@ -71,7 +71,7 @@ public class DocConfiguration {
     }
 
     /**
-     * defaultValueプロパティの値を取得します。
+     * Gets the value of the defaultValue property.
      * 
      * @return
      *     possible object is
@@ -83,7 +83,7 @@ public class DocConfiguration {
     }
 
     /**
-     * defaultValueプロパティの値を設定します。
+     * Sets the value of the defaultValue property.
      * 
      * @param value
      *     allowed object is
@@ -95,7 +95,7 @@ public class DocConfiguration {
     }
 
     /**
-     * descriptionプロパティの値を取得します。
+     * Gets the value of the description property.
      * 
      * @return
      *     possible object is
@@ -107,7 +107,7 @@ public class DocConfiguration {
     }
 
     /**
-     * descriptionプロパティの値を設定します。
+     * Sets the value of the description property.
      * 
      * @param value
      *     allowed object is
@@ -119,7 +119,7 @@ public class DocConfiguration {
     }
 
     /**
-     * unitプロパティの値を取得します。
+     * Gets the value of the unit property.
      * 
      * @return
      *     possible object is
@@ -131,7 +131,7 @@ public class DocConfiguration {
     }
 
     /**
-     * unitプロパティの値を設定します。
+     * Sets the value of the unit property.
      * 
      * @param value
      *     allowed object is
@@ -143,7 +143,7 @@ public class DocConfiguration {
     }
 
     /**
-     * rangeプロパティの値を取得します。
+     * Gets the value of the range property.
      * 
      * @return
      *     possible object is
@@ -155,7 +155,7 @@ public class DocConfiguration {
     }
 
     /**
-     * rangeプロパティの値を設定します。
+     * Sets the value of the range property.
      * 
      * @param value
      *     allowed object is
@@ -167,7 +167,7 @@ public class DocConfiguration {
     }
 
     /**
-     * constraintプロパティの値を取得します。
+     * Gets the value of the constraint property.
      * 
      * @return
      *     possible object is
@@ -179,7 +179,7 @@ public class DocConfiguration {
     }
 
     /**
-     * constraintプロパティの値を設定します。
+     * Sets the value of the constraint property.
      * 
      * @param value
      *     allowed object is

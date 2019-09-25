@@ -9,9 +9,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>basic_info_doc complex typeのJavaクラス。
+ * <p>Java class for basic_info_doc complex type.
  * 
- * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="basic_info_doc">
@@ -42,7 +42,7 @@ public class BasicInfoDoc
     protected DocBasic doc;
 
     /**
-     * docプロパティの値を取得します。
+     * Gets the value of the doc property.
      * 
      * @return
      *     possible object is
@@ -54,7 +54,7 @@ public class BasicInfoDoc
     }
 
     /**
-     * docプロパティの値を設定します。
+     * Sets the value of the doc property.
      * 
      * @param value
      *     allowed object is

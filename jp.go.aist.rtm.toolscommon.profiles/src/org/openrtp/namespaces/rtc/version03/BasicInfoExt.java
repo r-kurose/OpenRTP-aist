@@ -9,10 +9,11 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * <p>basic_info_ext complex type��Java�N���X�B
+ * <p>Java class for basic_info_ext complex type.
  * 
- * <p>���̃X�L�[�}�E�t���O�����g�́A���̃N���X���Ɋ܂܂��\�������R���e���c���w�肵�܂��B
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="basic_info_ext">
@@ -108,7 +109,7 @@ public class BasicInfoExt
     }
 
     /**
-     * comment�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the comment property.
      * 
      * @return
      *     possible object is
@@ -120,7 +121,7 @@ public class BasicInfoExt
     }
 
     /**
-     * comment�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the comment property.
      * 
      * @param value
      *     allowed object is
@@ -132,7 +133,7 @@ public class BasicInfoExt
     }
 
     /**
-     * saveProject�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the saveProject property.
      * 
      * @return
      *     possible object is
@@ -144,7 +145,7 @@ public class BasicInfoExt
     }
 
     /**
-     * saveProject�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the saveProject property.
      * 
      * @param value
      *     allowed object is
@@ -154,6 +155,7 @@ public class BasicInfoExt
     public void setSaveProject(String value) {
         this.saveProject = value;
     }
+    
     public void setVersionUpLogs(List<String> list) {
     }
     public void setProperties(List<Property> list) {

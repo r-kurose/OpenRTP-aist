@@ -3,6 +3,7 @@ package org.openrtp.namespaces.rtc.version03;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -12,11 +13,10 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.openrtp.namespaces.rtc.version02.ConstraintType;
 
-
 /**
- * <p>dataport complex type��Java�N���X�B
+ * <p>Java class for dataport complex type.
  * 
- * <p>���̃X�L�[�}�E�t���O�����g�́A���̃N���X���Ɋ܂܂��\�������R���e���c���w�肵�܂��B
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="dataport">
@@ -81,7 +81,7 @@ public class Dataport {
     protected String unit;
 
     /**
-     * constraint�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the constraint property.
      * 
      * @return
      *     possible object is
@@ -93,7 +93,7 @@ public class Dataport {
     }
 
     /**
-     * constraint�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the constraint property.
      * 
      * @param value
      *     allowed object is
@@ -134,7 +134,7 @@ public class Dataport {
     }
 
     /**
-     * portType�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the portType property.
      * 
      * @return
      *     possible object is
@@ -146,7 +146,7 @@ public class Dataport {
     }
 
     /**
-     * portType�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the portType property.
      * 
      * @param value
      *     allowed object is
@@ -158,7 +158,7 @@ public class Dataport {
     }
 
     /**
-     * name�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the name property.
      * 
      * @return
      *     possible object is
@@ -170,7 +170,7 @@ public class Dataport {
     }
 
     /**
-     * name�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the name property.
      * 
      * @param value
      *     allowed object is
@@ -182,7 +182,7 @@ public class Dataport {
     }
 
     /**
-     * type�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the type property.
      * 
      * @return
      *     possible object is
@@ -194,7 +194,7 @@ public class Dataport {
     }
 
     /**
-     * type�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the type property.
      * 
      * @param value
      *     allowed object is
@@ -206,7 +206,7 @@ public class Dataport {
     }
 
     /**
-     * idlFile�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the idlFile property.
      * 
      * @return
      *     possible object is
@@ -218,7 +218,7 @@ public class Dataport {
     }
 
     /**
-     * idlFile�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the idlFile property.
      * 
      * @param value
      *     allowed object is
@@ -230,7 +230,7 @@ public class Dataport {
     }
 
     /**
-     * interfaceType�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the interfaceType property.
      * 
      * @return
      *     possible object is
@@ -242,7 +242,7 @@ public class Dataport {
     }
 
     /**
-     * interfaceType�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the interfaceType property.
      * 
      * @param value
      *     allowed object is
@@ -254,7 +254,7 @@ public class Dataport {
     }
 
     /**
-     * dataflowType�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the dataflowType property.
      * 
      * @return
      *     possible object is
@@ -266,7 +266,7 @@ public class Dataport {
     }
 
     /**
-     * dataflowType�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the dataflowType property.
      * 
      * @param value
      *     allowed object is
@@ -278,7 +278,7 @@ public class Dataport {
     }
 
     /**
-     * subscriptionType�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the subscriptionType property.
      * 
      * @return
      *     possible object is
@@ -290,7 +290,7 @@ public class Dataport {
     }
 
     /**
-     * subscriptionType�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the subscriptionType property.
      * 
      * @param value
      *     allowed object is
@@ -302,7 +302,7 @@ public class Dataport {
     }
 
     /**
-     * unit�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the unit property.
      * 
      * @return
      *     possible object is
@@ -314,7 +314,7 @@ public class Dataport {
     }
 
     /**
-     * unit�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the unit property.
      * 
      * @param value
      *     allowed object is
@@ -324,8 +324,7 @@ public class Dataport {
     public void setUnit(String value) {
         this.unit = value;
     }
-    
+
     public void setEvent(List<Event> list) {
     }
-
 }

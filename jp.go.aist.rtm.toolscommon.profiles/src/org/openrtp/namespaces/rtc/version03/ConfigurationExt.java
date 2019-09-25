@@ -11,9 +11,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>configuration_ext complex type��Java�N���X�B
+ * <p>Java class for configuration_ext complex type.
  * 
- * <p>���̃X�L�[�}�E�t���O�����g�́A���̃N���X���Ɋ܂܂��\�������R���e���c���w�肵�܂��B
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="configuration_ext">
@@ -76,7 +76,7 @@ public class ConfigurationExt
     }
 
     /**
-     * comment�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the comment property.
      * 
      * @return
      *     possible object is
@@ -88,7 +88,7 @@ public class ConfigurationExt
     }
 
     /**
-     * comment�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the comment property.
      * 
      * @param value
      *     allowed object is
@@ -100,7 +100,7 @@ public class ConfigurationExt
     }
 
     /**
-     * variableName�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the variableName property.
      * 
      * @return
      *     possible object is
@@ -112,7 +112,7 @@ public class ConfigurationExt
     }
 
     /**
-     * variableName�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the variableName property.
      * 
      * @param value
      *     allowed object is
@@ -122,7 +122,7 @@ public class ConfigurationExt
     public void setVariableName(String value) {
         this.variableName = value;
     }
+
     public void setProperties(List<Property> list) {
     }
-
 }

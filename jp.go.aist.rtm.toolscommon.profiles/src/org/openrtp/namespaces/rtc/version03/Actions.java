@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>actions complex typeのJavaクラス。
+ * <p>Java class for actions complex type.
  * 
- * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="actions">
@@ -88,7 +88,7 @@ public class Actions {
     protected ActionStatus onModeChanged;
 
     /**
-     * onInitializeプロパティの値を取得します。
+     * Gets the value of the onInitialize property.
      * 
      * @return
      *     possible object is
@@ -100,7 +100,7 @@ public class Actions {
     }
 
     /**
-     * onInitializeプロパティの値を設定します。
+     * Sets the value of the onInitialize property.
      * 
      * @param value
      *     allowed object is
@@ -112,7 +112,7 @@ public class Actions {
     }
 
     /**
-     * onFinalizeプロパティの値を取得します。
+     * Gets the value of the onFinalize property.
      * 
      * @return
      *     possible object is
@@ -124,7 +124,7 @@ public class Actions {
     }
 
     /**
-     * onFinalizeプロパティの値を設定します。
+     * Sets the value of the onFinalize property.
      * 
      * @param value
      *     allowed object is
@@ -136,7 +136,7 @@ public class Actions {
     }
 
     /**
-     * onStartupプロパティの値を取得します。
+     * Gets the value of the onStartup property.
      * 
      * @return
      *     possible object is
@@ -148,7 +148,7 @@ public class Actions {
     }
 
     /**
-     * onStartupプロパティの値を設定します。
+     * Sets the value of the onStartup property.
      * 
      * @param value
      *     allowed object is
@@ -160,7 +160,7 @@ public class Actions {
     }
 
     /**
-     * onShutdownプロパティの値を取得します。
+     * Gets the value of the onShutdown property.
      * 
      * @return
      *     possible object is
@@ -172,7 +172,7 @@ public class Actions {
     }
 
     /**
-     * onShutdownプロパティの値を設定します。
+     * Sets the value of the onShutdown property.
      * 
      * @param value
      *     allowed object is
@@ -184,7 +184,7 @@ public class Actions {
     }
 
     /**
-     * onActivatedプロパティの値を取得します。
+     * Gets the value of the onActivated property.
      * 
      * @return
      *     possible object is
@@ -196,7 +196,7 @@ public class Actions {
     }
 
     /**
-     * onActivatedプロパティの値を設定します。
+     * Sets the value of the onActivated property.
      * 
      * @param value
      *     allowed object is
@@ -208,7 +208,7 @@ public class Actions {
     }
 
     /**
-     * onDeactivatedプロパティの値を取得します。
+     * Gets the value of the onDeactivated property.
      * 
      * @return
      *     possible object is
@@ -220,7 +220,7 @@ public class Actions {
     }
 
     /**
-     * onDeactivatedプロパティの値を設定します。
+     * Sets the value of the onDeactivated property.
      * 
      * @param value
      *     allowed object is
@@ -232,7 +232,7 @@ public class Actions {
     }
 
     /**
-     * onAbortingプロパティの値を取得します。
+     * Gets the value of the onAborting property.
      * 
      * @return
      *     possible object is
@@ -244,7 +244,7 @@ public class Actions {
     }
 
     /**
-     * onAbortingプロパティの値を設定します。
+     * Sets the value of the onAborting property.
      * 
      * @param value
      *     allowed object is
@@ -256,7 +256,7 @@ public class Actions {
     }
 
     /**
-     * onErrorプロパティの値を取得します。
+     * Gets the value of the onError property.
      * 
      * @return
      *     possible object is
@@ -268,7 +268,7 @@ public class Actions {
     }
 
     /**
-     * onErrorプロパティの値を設定します。
+     * Sets the value of the onError property.
      * 
      * @param value
      *     allowed object is
@@ -280,7 +280,7 @@ public class Actions {
     }
 
     /**
-     * onResetプロパティの値を取得します。
+     * Gets the value of the onReset property.
      * 
      * @return
      *     possible object is
@@ -292,7 +292,7 @@ public class Actions {
     }
 
     /**
-     * onResetプロパティの値を設定します。
+     * Sets the value of the onReset property.
      * 
      * @param value
      *     allowed object is
@@ -304,7 +304,7 @@ public class Actions {
     }
 
     /**
-     * onExecuteプロパティの値を取得します。
+     * Gets the value of the onExecute property.
      * 
      * @return
      *     possible object is
@@ -316,7 +316,7 @@ public class Actions {
     }
 
     /**
-     * onExecuteプロパティの値を設定します。
+     * Sets the value of the onExecute property.
      * 
      * @param value
      *     allowed object is
@@ -328,7 +328,7 @@ public class Actions {
     }
 
     /**
-     * onStateUpdateプロパティの値を取得します。
+     * Gets the value of the onStateUpdate property.
      * 
      * @return
      *     possible object is
@@ -340,7 +340,7 @@ public class Actions {
     }
 
     /**
-     * onStateUpdateプロパティの値を設定します。
+     * Sets the value of the onStateUpdate property.
      * 
      * @param value
      *     allowed object is
@@ -352,7 +352,7 @@ public class Actions {
     }
 
     /**
-     * onRateChangedプロパティの値を取得します。
+     * Gets the value of the onRateChanged property.
      * 
      * @return
      *     possible object is
@@ -364,7 +364,7 @@ public class Actions {
     }
 
     /**
-     * onRateChangedプロパティの値を設定します。
+     * Sets the value of the onRateChanged property.
      * 
      * @param value
      *     allowed object is
@@ -376,7 +376,7 @@ public class Actions {
     }
 
     /**
-     * onActionプロパティの値を取得します。
+     * Gets the value of the onAction property.
      * 
      * @return
      *     possible object is
@@ -388,7 +388,7 @@ public class Actions {
     }
 
     /**
-     * onActionプロパティの値を設定します。
+     * Sets the value of the onAction property.
      * 
      * @param value
      *     allowed object is
@@ -400,7 +400,7 @@ public class Actions {
     }
 
     /**
-     * onModeChangedプロパティの値を取得します。
+     * Gets the value of the onModeChanged property.
      * 
      * @return
      *     possible object is
@@ -412,7 +412,7 @@ public class Actions {
     }
 
     /**
-     * onModeChangedプロパティの値を設定します。
+     * Sets the value of the onModeChanged property.
      * 
      * @param value
      *     allowed object is
