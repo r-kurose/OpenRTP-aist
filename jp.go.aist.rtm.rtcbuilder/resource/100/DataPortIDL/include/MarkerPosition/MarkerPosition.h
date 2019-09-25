@@ -61,6 +61,7 @@ class MarkerPosition
   
   // </rtc-template>
 
+  // <rtc-template block="activity">
   /***
    *
    * The initialize action (on CREATED->ALIVE transition)
@@ -200,6 +201,7 @@ class MarkerPosition
    * 
    */
   // RTC::ReturnCode_t onRateChanged(RTC::UniqueId ec_id) override;
+  // </rtc-template>
 
 
  protected:

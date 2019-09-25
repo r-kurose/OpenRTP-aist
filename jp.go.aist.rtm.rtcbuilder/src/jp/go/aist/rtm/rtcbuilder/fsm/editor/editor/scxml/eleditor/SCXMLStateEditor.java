@@ -31,6 +31,11 @@ public class SCXMLStateEditor extends SCXMLEditorRoot {
 	private JCheckBox chkExit;
 	private boolean isRoot = false;
 	private Shell shell;
+	private String orgName;
+
+	public String getOrgName() {
+		return orgName;
+	}
 
 	public SCXMLStateEditor(JFrame parent, mxCell nn, mxCell rootOfGraph, SCXMLGraphEditor editor, Point pos) {
 		super(parent, editor, nn);
@@ -58,6 +63,7 @@ public class SCXMLStateEditor extends SCXMLEditorRoot {
 	        txtName = new JTextField(node.getName());
 	        isRoot = true;
 		}
+		orgName = txtName.getText();
 		
         txtName.setPreferredSize(new Dimension(300, 20));
         addUIParts(panel, txtName, gbl, 1, 0, 2, 1);

@@ -38,6 +38,7 @@ import com.mxgraph.util.mxUndoableEdit.mxUndoableChange;
 
 import jp.go.aist.rtm.rtcbuilder.fsm.EventParam;
 import jp.go.aist.rtm.rtcbuilder.fsm.editor.SCXMLGraphEditor;
+import jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.fileimportexport.SCXMLNode;
 	
 public abstract class SCXMLEditorRoot extends JDialog implements ActionListener, WindowListener {
 	private static final long serialVersionUID = -3257633395118679718L;
@@ -207,6 +208,22 @@ public abstract class SCXMLEditorRoot extends JDialog implements ActionListener,
 				if(isExist==false) {
 					eventList.add(param);
 				}
+			} else if(this instanceof SCXMLStateEditor) {
+				String orgName = ((SCXMLStateEditor)this).getOrgName();
+				SCXMLNode newNode = (SCXMLNode) this.cell.getValue();
+				String newName = newNode.getID();
+				if(orgName.equals(newName)==false) {
+					List<EventParam> eventList = editor.getEventList();
+					for(EventParam item : eventList) {
+						if(item.getSource().equals(orgName)) {
+							item.setSource(newName);
+						}
+						if(item.getTarget().equals(orgName)) {
+							item.setTarget(newName);
+						}
+					}
+				}
+				
 			}
 			List<mxUndoableChange> changes = new ArrayList<mxUndoableEdit.mxUndoableChange>();
 			mxGraphModel model = (mxGraphModel) editor.getGraphComponent().getGraph().getModel();

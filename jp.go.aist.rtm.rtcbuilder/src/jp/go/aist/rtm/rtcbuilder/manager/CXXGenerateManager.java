@@ -73,6 +73,7 @@ public class CXXGenerateManager extends GenerateManager {
 		boolean isStaticFSM = rtcParam.isStaticFSM();
 		if(isStaticFSM) {
 			StateParam stateParam = rtcParam.getFsmParam();
+			stateParam.setEventParam(rtcParam);
 			contextMap.put("fsmParam", stateParam);
 		}
 		

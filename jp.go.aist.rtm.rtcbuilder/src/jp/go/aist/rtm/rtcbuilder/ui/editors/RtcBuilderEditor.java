@@ -17,6 +17,7 @@ import java.util.Map;
 import javax.xml.bind.JAXBException;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -120,13 +121,14 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		IEditorInput result = input;
 
 		FileEditorInput fileEditorInput = ((FileEditorInput) result);
+		
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		IWorkspaceRoot root = workspace.getRoot();
 		try {
 			ProfileHandler handler = new ProfileHandler();
 			generatorParam = handler.restorefromXMLFile(fileEditorInput.getPath().toOSString());
 			//
 			String targetFile = this.getRtcParam().getName() + "FSM.scxml";
-			IWorkspace workspace = ResourcesPlugin.getWorkspace();
-			IWorkspaceRoot root = workspace.getRoot();
 			IProject project = root.getProject(this.getRtcParam().getOutputProject());
 			IFile fsmFile  = project.getFile(targetFile);
 			if(fsmFile.exists()) {
@@ -157,6 +159,17 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 			title = ((FileEditorInput) result).getPath().lastSegment();
 			generatorParam.getRtcParam().setOutputProject(title);
 		}
+		//
+		try {
+			IProject project = root.getProject(this.getRtcParam().getOutputProject());
+			IFolder idlDir  = project.getFolder("idl");
+			if (!idlDir.exists()) {
+				idlDir.create(true, true, null);
+			}			
+		} catch (Exception e) {
+			createGeneratorParam();
+		}
+		
 		//on_initializeは常にON
 		setOnInitialize();
 		//
@@ -185,10 +198,8 @@ public class RtcBuilderEditor extends FormEditor implements IActionFilter {
 		updateEMFDataPorts(this.getRtcParam().getInports(), this.getRtcParam().getOutports(),
 				this.getRtcParam().getEventports(), this.getRtcParam().getServicePorts());
 		//
-
 		if( basicFormPage != null )	 basicFormPage.load();
 		allPagesReLoad();
-//		dataPortFormPage.reDraw();
 
 		updateDirty();
 	}

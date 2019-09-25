@@ -91,6 +91,11 @@ ${rtcParam.name}::~${rtcParam.name}()
 
 RTC::ReturnCode_t ${rtcParam.name}::onInitialize()
 {
+#if( ${tmpltHelper.checkFSM(${rtcParam})} )
+${sharp}ifdef ORB_IS_TAO
+  ::CORBA_Util::toRepositoryIdOfStruct<TimedLong>();
+${sharp}endif
+#end
   // Registration: InPort/OutPort/Service
   // <rtc-template block="registration">
   // Set InPort buffers
@@ -107,7 +112,7 @@ RTC::ReturnCode_t ${rtcParam.name}::onInitialize()
 
 #if( ${tmpltHelper.checkFSM(${rtcParam})} )
   // Set EventPort buffer
-  addInPort("event", ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${rtcParam.getFSMport().tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix});
+  addInPort("event", ${rtcParam.commonPrefix}${rtcParam.eventPortPrefix}${rtcParam.getEventport().tmplVarName}In${rtcParam.eventPortSuffix}${rtcParam.commonSuffix});
 #end
   
   // Set service provider to Ports
@@ -151,7 +156,7 @@ RTC::ReturnCode_t ${rtcParam.name}::onInitialize()
   // <rtc-template block="bind_event">
 #foreach($eachTrans in ${fsmParam.getAllTransList()})
 #if( ${eachTrans.event.length()} > 0 )
-  ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${rtcParam.getFSMport().tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix}.bindEvent("${eachTrans.event}", &${rtcParam.name}Fsm::${tmpltHelper.getTopFSMName(${rtcParam})}::${eachTrans.event});
+  ${rtcParam.commonPrefix}${rtcParam.eventPortPrefix}${rtcParam.getEventport().tmplVarName}In${rtcParam.eventPortSuffix}${rtcParam.commonSuffix}.bindEvent("${eachTrans.event}", &${rtcParam.name}Fsm::${tmpltHelper.getTopFSMName(${rtcParam})}::${eachTrans.event});
 #end
 #end
   // </rtc-template>

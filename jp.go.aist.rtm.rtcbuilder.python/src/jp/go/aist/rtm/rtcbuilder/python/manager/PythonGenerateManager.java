@@ -17,6 +17,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.python.ui.Perspective.PythonProperty;
+import jp.go.aist.rtm.rtcbuilder.python.util.RTCUtilPy;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateHelper;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
 import jp.go.aist.rtm.rtcbuilder.ui.Perspective.LanguageProperty;
@@ -97,6 +98,10 @@ public class PythonGenerateManager extends GenerateManager {
 				}
 			}
 		}
+		List<IdlFileParam> allFileParams = new ArrayList<IdlFileParam>();
+		allFileParams.addAll(rtcParam.getProviderIdlPathes());
+		allFileParams.addAll(rtcParam.getConsumerIdlPathes());
+		List<String> moduleList = RTCUtilPy.checkDefaultModuile(allFileParams, rtcParam.getParent().getDataTypeParams());
 
 		Map<String, Object> contextMap = new HashMap<String, Object>();
 		contextMap.put("template", TEMPLATE_PATH);
@@ -107,6 +112,7 @@ public class PythonGenerateManager extends GenerateManager {
 		contextMap.put("allIdlFileParam", allIdlFileParams);
 		contextMap.put("idlPathes", rtcParam.getIdlPathes());
 		contextMap.put("allIdlFileParamBuild", allIdlFileParamsForBuild);
+		contextMap.put("defaultModule", moduleList);
 
 		return generateTemplateCode10(contextMap);
 	}
@@ -133,7 +139,6 @@ public class PythonGenerateManager extends GenerateManager {
 		}
 
 		for (IdlFileParam idlFileParam : rtcParam.getProviderIdlPathes()) {
-			if(RTCUtil.checkDefault(idlFileParam.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
 			contextMap.put("idlFileParam", idlFileParam);
 			result.add(generateSVCIDLExampleSource(contextMap));
 		}

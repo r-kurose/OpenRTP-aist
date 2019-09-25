@@ -116,6 +116,10 @@ ${tmpltHelper.convFormatted(${configParam.name},16)} ${tmpltHelper.convFormatted
 #foreach($port in ${rtcParam.inports})
 ${tmpltHelper.convFormatted(${port.name},15)} InPort      ${tmpltHelper.convFormatted(${port.type},30)} ${port.docDescription}
 #end#end
+#if( ${rtcParam.eventports.size()} > 0 )
+#foreach($port in ${rtcParam.eventports})
+${tmpltHelper.convFormatted(${port.name},15)} EventPort    
+#end#end
 #if( ${rtcParam.outports.size()} > 0 )
 #foreach($port in ${rtcParam.outports})
 ${tmpltHelper.convFormatted(${port.name},15)} OutPort     ${tmpltHelper.convFormatted(${port.type},30)} ${port.docDescription}
