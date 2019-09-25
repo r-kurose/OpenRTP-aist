@@ -324,10 +324,11 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		Label label = toolkit.createLabel(composite, labelString);
 		if(color>0) label.setForeground(getSite().getShell().getDisplay().getSystemColor(color));
 		Combo combo = new Combo(composite, SWT.DROP_DOWN);
+		loadDefaultComboValue(combo, key);
+		combo.add("");
 		for(int index=0;index<defaultValue.length;index++) {
 			combo.add(defaultValue[index]);
 		}
-		loadDefaultComboValue(combo, key);
 
 		combo.select(0);
 		combo.addKeyListener(new KeyListener() {

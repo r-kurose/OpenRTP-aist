@@ -518,7 +518,6 @@ public class ParamUtil {
 							eventp.setDoc_num(docPort.getNumber());
 							eventp.setDoc_unit(docPort.getUnit());
 							eventp.setDoc_semantics(docPort.getSemantics());
-							eventp.setDoc_occurrence(docPort.getOccerrence());
 							eventp.setDoc_operation(docPort.getOperation());
 						}
 					}
@@ -834,7 +833,6 @@ public class ParamUtil {
 			docEvent.setNumber(eventp.getDoc_num());
 			docEvent.setSemantics(eventp.getDoc_semantics());
 			docEvent.setUnit(eventp.getDoc_unit());
-			docEvent.setOccerrence(eventp.getDoc_occurrence());
 			docEvent.setOperation(eventp.getDoc_operation());
 			event.setDoc(docEvent);
 			

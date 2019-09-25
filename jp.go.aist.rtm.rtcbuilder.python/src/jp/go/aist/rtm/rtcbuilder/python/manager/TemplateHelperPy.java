@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
+import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 import jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython;
+import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
 import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 
 /**
@@ -115,16 +118,6 @@ public class TemplateHelperPy {
 						check.add(targetType);
 						result.add(targetType);
 					}
-//					StringBuilder builder = new StringBuilder();
-//					for(int index=0;index<types.length-1;index++) {
-//						if(index!=0) builder.append(".");
-//						builder.append(types[index]);
-//						targetType = builder.toString();
-//						if(check.contains(targetType)==false) {
-//							check.add(targetType);
-//							result.add(targetType);
-//						}
-//					}
 				
 				} else {
 					targetType = "_GlobalIDL";

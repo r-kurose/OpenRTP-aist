@@ -79,6 +79,7 @@ class foo
   
   // </rtc-template>
 
+  // <rtc-template block="activity">
   /***
    * on_initialize概要説明1234567890123456789012345678901234567890
    * 123456789012345678901234567890
@@ -290,6 +291,7 @@ class foo
    * 
    */
   // RTC::ReturnCode_t onRateChanged(RTC::UniqueId ec_id) override;
+  // </rtc-template>
 
 
  protected:

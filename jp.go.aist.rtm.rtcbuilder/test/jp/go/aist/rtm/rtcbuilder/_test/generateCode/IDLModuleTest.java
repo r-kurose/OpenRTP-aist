@@ -93,10 +93,6 @@ public class IDLModuleTest extends TestBase {
 		checkCode(result, resourceDir, "fooComp.cpp");
 		checkCode(result, resourceDir, "foo.h");
 		checkCode(result, resourceDir, "foo.cpp");
-		//
-		//Test Code
-//		nonexist(result, resourceDir, "MyServiceSVC_impl.h");
-//		nonexist(result, resourceDir, "MyServiceSVC_impl.cpp");
 	}
 
 	public void testArgModule() throws Exception {

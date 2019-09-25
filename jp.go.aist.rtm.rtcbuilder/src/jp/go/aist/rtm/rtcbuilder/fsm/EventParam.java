@@ -12,7 +12,6 @@ public class EventParam {
 	private String doc_num;
 	private String doc_semantics;
 	private String doc_unit;
-	private String doc_occurrence;
 	private String doc_operation;
 	
 	public EventParam() {
@@ -98,13 +97,6 @@ public class EventParam {
 		this.doc_unit = doc_unit;
 	}
 	
-	public String getDoc_occurrence() {
-		return doc_occurrence;
-	}
-	public void setDoc_occurrence(String doc_occurrence) {
-		this.doc_occurrence = doc_occurrence;
-	}
-	
 	public String getDoc_operation() {
 		return doc_operation;
 	}
@@ -131,7 +123,6 @@ public class EventParam {
 		this.doc_num = source.doc_num;
 		this.doc_semantics = source.doc_semantics;
 		this.doc_unit = source.doc_unit;
-		this.doc_occurrence = source.doc_occurrence;
 		this.doc_operation = source.doc_operation;
 	}
 }

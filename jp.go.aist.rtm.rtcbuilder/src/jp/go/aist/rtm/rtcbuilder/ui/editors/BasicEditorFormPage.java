@@ -10,10 +10,11 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import javax.xml.bind.JAXBException;
 
@@ -115,6 +116,14 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	private Composite generateSection;
 	private Composite outputProjectSection;
 	private Composite profileSection;
+	
+	private String[] defaultCategory = { "Actuator", "Animation", "Autonomous Decentralized System", "Chatbot", "Computer Algebra System",
+			 "Controller", "Converter", "Database", "Educational Tool", "Game",
+			 "ImageProcessiong", "Machine Learning", "Manipulator", "Manufacturing System", "Master-Slave",
+			 "Mobile Robot", "Motion Capture", "Navigation", "Nonholonomic System", "Office Suite",
+			 "Robot", "Sample", "Script Engine", "Sensor", "Simulator",
+			 "Speech Processing", "Streaming", "Test", "Transport System", "User Interface",
+			 "Vehicle", "Web Application Server"};
 
 	/**
 	 * コンストラクタ
@@ -262,13 +271,6 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 				IMessageConstants.REQUIRED + Messages.getString("IMC.BASIC_LBL_VERSION"), SWT.NONE, SWT.COLOR_RED, 2);
 		venderText = createLabelAndText(toolkit, composite,
 				IMessageConstants.REQUIRED + Messages.getString("IMC.BASIC_LBL_VENDOR"), SWT.NONE, SWT.COLOR_RED, 2);
-		String[] defaultCategory = { "Actuator", "Animation", "Autonomous Decentralized System", "Chatbot", "Computer Algebra System",
-									 "Controller", "Converter", "Database", "Educational Tool", "Game",
-									 "ImageProcessiong", "Machine Learning", "Manipulator", "Manufacturing System", "Master-Slave",
-									 "Mobile Robot", "Motion Capture", "Navigation", "Nonholonomic System", "Office Suite",
-									 "Robot", "Sample", "Script Engine", "Sensor", "Simulator",
-									 "Speech Processing", "Streaming", "Test", "Transport System", "User Interface",
-									 "Vehicle", "Web Application Server"};
 		categoryCombo = createEditableCombo(toolkit, composite,
 				IMessageConstants.REQUIRED + Messages.getString("IMC.BASIC_LBL_CATEGORY"),
 				CATEGORY_INDEX_KEY, defaultCategory, SWT.COLOR_RED, 2);
@@ -572,33 +574,6 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 							}
 						}
 					}
-//					List<PropertyParam> properties = editor.getRtcParam().getProperties();
-//					PropertyParam fsmTarget = null;
-//					for(PropertyParam param : properties) {
-//						if( param.getName().equals("FSMPath")) {
-//							fsmTarget = param;
-//							break;
-//						}
-//					}
-//					if(fsmTarget!=null) {
-//						String orgPath = fsmTarget.getValue();
-//						IFile orgFsmFile  = project.getFile(orgPath);
-//						String contents = "";
-//						IFile fsmFile  = null;
-//						if(orgFsmFile.exists()) {
-//							contents = FileUtil.readFile(orgFsmFile.getRawLocation().toOSString());
-//							fsmFile = orgFsmFile;
-//						} else {
-//							contents = FileUtil.readFile(orgPath);
-//							String fileName = new File(orgPath).getName();
-//							fsmFile  = project.getFile(fileName);
-//						}
-//						if(fsmFile.exists()) {
-//							fsmFile.delete(true, null);
-//						}
-//						fsmFile.create(new ByteArrayInputStream(contents.getBytes("UTF-8")), true, null);
-//						fsmTarget.setValue(fsmFile.getName());
-//					}
 					//
 					String strXml = handler.convert2XML(editor.getGeneratorParam());
 
@@ -905,8 +880,6 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					.getText()));
 			rtcParam.setMaxInstance(maxInstance);
 		} catch (Exception e) {
-			// 例外の場合、画面の値を現在の値に戻す
-//			maxInstanceText.setText(String.valueOf(rtcParam.getMaxInstance()));
 		}
 
 		rtcParam.setExecutionType(getText(executionTypeCombo.getText()));
@@ -915,8 +888,6 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					.getText()));
 			rtcParam.setExecutionRate(exec_rate);
 		} catch (Exception e) {
-			// 例外の場合、画面の値を現在の値に戻す
-			//executionRateText.setText(String.valueOf(rtcParam.getExecutionRate()));
 		}
 
 		if(choreonoidBtn.getSelection()) {
@@ -963,26 +934,30 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 	 */
 	protected void addDefaultComboValue(){
 		String value = categoryCombo.getText(); // local
+		List<String> defaultList = Arrays.asList(defaultCategory);
+		if(defaultList.contains(value)) return;
+		
 		String storedString = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(CATEGORY_INDEX_KEY);
-		StringTokenizer tokenize = new StringTokenizer(storedString, ",");
-		ArrayList<String> storedList = new ArrayList<String>();
-		while (tokenize.hasMoreTokens()) {
-			storedList.add(tokenize.nextToken());
-		}
-		if (storedList.contains(value) == false) {
-			String defaultString = RtcBuilderPlugin.getDefault()
-					.getPreferenceStore().getString(CATEGORY_INDEX_KEY);
-
-			String newString = "";
-			if ("".equals(defaultString)) {
-				newString = value;
-			} else {
-				newString = value + "," + defaultString;
+		String[] savedValues = storedString.split(",");
+		LinkedList<String> storedList = new LinkedList<String>(Arrays.asList(savedValues));
+		
+		StringBuilder newString = new StringBuilder();
+		if (storedList.contains(value)) {
+			storedList.remove(storedList.indexOf(value));
+			
+			newString.append(value);
+			for(int index=0; index<storedList.size(); index++) {
+				newString.append(",").append(storedList.get(index));
 			}
-
-			RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(CATEGORY_INDEX_KEY, newString);
-			categoryCombo.add(value);
+		} else {
+			if ("".equals(storedString)) {
+				newString.append(value);
+			} else {
+				newString.append(value).append(",").append(storedString);
+			}
 		}
+		RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(CATEGORY_INDEX_KEY, newString.toString());
+		categoryCombo.add(value);
 	}
 
 	private void loadSelectedCompKind(String type) {
