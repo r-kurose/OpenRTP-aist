@@ -9,9 +9,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>language complex typeのJavaクラス。
+ * <p>Java class for language complex type.
  * 
- * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="language">
@@ -36,7 +36,7 @@ public class Language {
     protected String kind;
 
     /**
-     * kindプロパティの値を取得します。
+     * Gets the value of the kind property.
      * 
      * @return
      *     possible object is
@@ -48,7 +48,7 @@ public class Language {
     }
 
     /**
-     * kindプロパティの値を設定します。
+     * Sets the value of the kind property.
      * 
      * @param value
      *     allowed object is

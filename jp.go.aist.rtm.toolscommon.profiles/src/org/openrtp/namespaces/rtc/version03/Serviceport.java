@@ -3,6 +3,7 @@ package org.openrtp.namespaces.rtc.version03;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -12,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>serviceport complex type��Java�N���X�B
+ * <p>Java class for serviceport complex type.
  * 
- * <p>���̃X�L�[�}�E�t���O�����g�́A���̃N���X���Ɋ܂܂��\�������R���e���c���w�肵�܂��B
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="serviceport">
@@ -108,7 +109,7 @@ public class Serviceport {
     }
 
     /**
-     * name�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the name property.
      * 
      * @return
      *     possible object is
@@ -120,7 +121,7 @@ public class Serviceport {
     }
 
     /**
-     * name�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the name property.
      * 
      * @param value
      *     allowed object is
@@ -130,9 +131,9 @@ public class Serviceport {
     public void setName(String value) {
         this.name = value;
     }
+
     public void setServiceInterface(List<Serviceinterface> list) {
     }
     public void setTransMethods(List<TransmissionMethod> list) {
     }
-
 }

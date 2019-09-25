@@ -3,6 +3,7 @@ package org.openrtp.namespaces.rtc.version03;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -12,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>rtc_profile complex type��Java�N���X�B
+ * <p>Java class for rtc_profile complex type.
  * 
- * <p>���̃X�L�[�}�E�t���O�����g�́A���̃N���X���Ɋ܂܂��\�������R���e���c���w�肵�܂��B
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="rtc_profile">
@@ -67,7 +68,7 @@ public class RtcProfile {
     protected String version;
 
     /**
-     * basicInfo�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the basicInfo property.
      * 
      * @return
      *     possible object is
@@ -79,7 +80,7 @@ public class RtcProfile {
     }
 
     /**
-     * basicInfo�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the basicInfo property.
      * 
      * @param value
      *     allowed object is
@@ -91,7 +92,7 @@ public class RtcProfile {
     }
 
     /**
-     * actions�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the actions property.
      * 
      * @return
      *     possible object is
@@ -103,7 +104,7 @@ public class RtcProfile {
     }
 
     /**
-     * actions�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the actions property.
      * 
      * @param value
      *     allowed object is
@@ -115,7 +116,7 @@ public class RtcProfile {
     }
 
     /**
-     * configurationSet�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the configurationSet property.
      * 
      * @return
      *     possible object is
@@ -127,7 +128,7 @@ public class RtcProfile {
     }
 
     /**
-     * configurationSet�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the configurationSet property.
      * 
      * @param value
      *     allowed object is
@@ -197,7 +198,7 @@ public class RtcProfile {
     }
 
     /**
-     * language�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the language property.
      * 
      * @return
      *     possible object is
@@ -209,7 +210,7 @@ public class RtcProfile {
     }
 
     /**
-     * language�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the language property.
      * 
      * @param value
      *     allowed object is
@@ -221,7 +222,7 @@ public class RtcProfile {
     }
 
     /**
-     * id�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the id property.
      * 
      * @return
      *     possible object is
@@ -233,7 +234,7 @@ public class RtcProfile {
     }
 
     /**
-     * id�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the id property.
      * 
      * @param value
      *     allowed object is
@@ -245,7 +246,7 @@ public class RtcProfile {
     }
 
     /**
-     * version�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the version property.
      * 
      * @return
      *     possible object is
@@ -257,7 +258,7 @@ public class RtcProfile {
     }
 
     /**
-     * version�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the version property.
      * 
      * @param value
      *     allowed object is
@@ -267,6 +268,7 @@ public class RtcProfile {
     public void setVersion(String value) {
         this.version = value;
     }
+
     public void setDataPorts(List<Dataport> list) {
     }
     public void setServicePorts(List<Serviceport> list) {

@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>library complex typeのJavaクラス。
+ * <p>Java class for library complex type.
  * 
- * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="library">
@@ -38,7 +38,7 @@ public class Library {
     protected String other;
 
     /**
-     * nameプロパティの値を取得します。
+     * Gets the value of the name property.
      * 
      * @return
      *     possible object is
@@ -50,7 +50,7 @@ public class Library {
     }
 
     /**
-     * nameプロパティの値を設定します。
+     * Sets the value of the name property.
      * 
      * @param value
      *     allowed object is
@@ -62,7 +62,7 @@ public class Library {
     }
 
     /**
-     * versionプロパティの値を取得します。
+     * Gets the value of the version property.
      * 
      * @return
      *     possible object is
@@ -74,7 +74,7 @@ public class Library {
     }
 
     /**
-     * versionプロパティの値を設定します。
+     * Sets the value of the version property.
      * 
      * @param value
      *     allowed object is
@@ -86,7 +86,7 @@ public class Library {
     }
 
     /**
-     * otherプロパティの値を取得します。
+     * Gets the value of the other property.
      * 
      * @return
      *     possible object is
@@ -98,7 +98,7 @@ public class Library {
     }
 
     /**
-     * otherプロパティの値を設定します。
+     * Sets the value of the other property.
      * 
      * @param value
      *     allowed object is

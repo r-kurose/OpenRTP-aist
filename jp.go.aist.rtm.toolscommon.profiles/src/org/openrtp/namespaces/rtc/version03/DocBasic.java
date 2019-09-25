@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>doc_basic complex typeのJavaクラス。
+ * <p>Java class for doc_basic complex type.
  * 
- * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="doc_basic">
@@ -47,7 +47,7 @@ public class DocBasic {
     protected String reference;
 
     /**
-     * descriptionプロパティの値を取得します。
+     * Gets the value of the description property.
      * 
      * @return
      *     possible object is
@@ -59,7 +59,7 @@ public class DocBasic {
     }
 
     /**
-     * descriptionプロパティの値を設定します。
+     * Sets the value of the description property.
      * 
      * @param value
      *     allowed object is
@@ -71,7 +71,7 @@ public class DocBasic {
     }
 
     /**
-     * inoutプロパティの値を取得します。
+     * Gets the value of the inout property.
      * 
      * @return
      *     possible object is
@@ -83,7 +83,7 @@ public class DocBasic {
     }
 
     /**
-     * inoutプロパティの値を設定します。
+     * Sets the value of the inout property.
      * 
      * @param value
      *     allowed object is
@@ -95,7 +95,7 @@ public class DocBasic {
     }
 
     /**
-     * algorithmプロパティの値を取得します。
+     * Gets the value of the algorithm property.
      * 
      * @return
      *     possible object is
@@ -107,7 +107,7 @@ public class DocBasic {
     }
 
     /**
-     * algorithmプロパティの値を設定します。
+     * Sets the value of the algorithm property.
      * 
      * @param value
      *     allowed object is
@@ -119,7 +119,7 @@ public class DocBasic {
     }
 
     /**
-     * creatorプロパティの値を取得します。
+     * Gets the value of the creator property.
      * 
      * @return
      *     possible object is
@@ -131,7 +131,7 @@ public class DocBasic {
     }
 
     /**
-     * creatorプロパティの値を設定します。
+     * Sets the value of the creator property.
      * 
      * @param value
      *     allowed object is
@@ -143,7 +143,7 @@ public class DocBasic {
     }
 
     /**
-     * licenseプロパティの値を取得します。
+     * Gets the value of the license property.
      * 
      * @return
      *     possible object is
@@ -155,7 +155,7 @@ public class DocBasic {
     }
 
     /**
-     * licenseプロパティの値を設定します。
+     * Sets the value of the license property.
      * 
      * @param value
      *     allowed object is
@@ -167,7 +167,7 @@ public class DocBasic {
     }
 
     /**
-     * referenceプロパティの値を取得します。
+     * Gets the value of the reference property.
      * 
      * @return
      *     possible object is
@@ -179,7 +179,7 @@ public class DocBasic {
     }
 
     /**
-     * referenceプロパティの値を設定します。
+     * Sets the value of the reference property.
      * 
      * @param value
      *     allowed object is

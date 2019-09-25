@@ -9,9 +9,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>event complex typeのJavaクラス。
+ * <p>Java class for event complex type.
  * 
- * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="event">
@@ -48,7 +48,7 @@ public class Event {
     protected String type;
 
     /**
-     * nameプロパティの値を取得します。
+     * Gets the value of the name property.
      * 
      * @return
      *     possible object is
@@ -60,7 +60,7 @@ public class Event {
     }
 
     /**
-     * nameプロパティの値を設定します。
+     * Sets the value of the name property.
      * 
      * @param value
      *     allowed object is
@@ -72,7 +72,7 @@ public class Event {
     }
 
     /**
-     * conditionプロパティの値を取得します。
+     * Gets the value of the condition property.
      * 
      * @return
      *     possible object is
@@ -84,7 +84,7 @@ public class Event {
     }
 
     /**
-     * conditionプロパティの値を設定します。
+     * Sets the value of the condition property.
      * 
      * @param value
      *     allowed object is
@@ -96,7 +96,7 @@ public class Event {
     }
 
     /**
-     * sourceプロパティの値を取得します。
+     * Gets the value of the source property.
      * 
      * @return
      *     possible object is
@@ -108,7 +108,7 @@ public class Event {
     }
 
     /**
-     * sourceプロパティの値を設定します。
+     * Sets the value of the source property.
      * 
      * @param value
      *     allowed object is
@@ -120,7 +120,7 @@ public class Event {
     }
 
     /**
-     * targetプロパティの値を取得します。
+     * Gets the value of the target property.
      * 
      * @return
      *     possible object is
@@ -132,7 +132,7 @@ public class Event {
     }
 
     /**
-     * targetプロパティの値を設定します。
+     * Sets the value of the target property.
      * 
      * @param value
      *     allowed object is
@@ -144,7 +144,7 @@ public class Event {
     }
 
     /**
-     * typeプロパティの値を取得します。
+     * Gets the value of the type property.
      * 
      * @return
      *     possible object is
@@ -156,7 +156,7 @@ public class Event {
     }
 
     /**
-     * typeプロパティの値を設定します。
+     * Sets the value of the type property.
      * 
      * @param value
      *     allowed object is

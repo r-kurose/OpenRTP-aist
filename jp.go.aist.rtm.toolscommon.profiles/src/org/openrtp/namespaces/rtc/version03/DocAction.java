@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>doc_action complex typeのJavaクラス。
+ * <p>Java class for doc_action complex type.
  * 
- * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="doc_action">
@@ -38,7 +38,7 @@ public class DocAction {
     protected String postCondition;
 
     /**
-     * descriptionプロパティの値を取得します。
+     * Gets the value of the description property.
      * 
      * @return
      *     possible object is
@@ -50,7 +50,7 @@ public class DocAction {
     }
 
     /**
-     * descriptionプロパティの値を設定します。
+     * Sets the value of the description property.
      * 
      * @param value
      *     allowed object is
@@ -62,7 +62,7 @@ public class DocAction {
     }
 
     /**
-     * preConditionプロパティの値を取得します。
+     * Gets the value of the preCondition property.
      * 
      * @return
      *     possible object is
@@ -74,7 +74,7 @@ public class DocAction {
     }
 
     /**
-     * preConditionプロパティの値を設定します。
+     * Sets the value of the preCondition property.
      * 
      * @param value
      *     allowed object is
@@ -86,7 +86,7 @@ public class DocAction {
     }
 
     /**
-     * postConditionプロパティの値を取得します。
+     * Gets the value of the postCondition property.
      * 
      * @return
      *     possible object is
@@ -98,7 +98,7 @@ public class DocAction {
     }
 
     /**
-     * postConditionプロパティの値を設定します。
+     * Sets the value of the postCondition property.
      * 
      * @param value
      *     allowed object is

@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>property complex typeのJavaクラス。
+ * <p>Java class for property complex type.
  * 
- * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="property">
@@ -35,7 +35,7 @@ public class Property {
     protected String value;
 
     /**
-     * nameプロパティの値を取得します。
+     * Gets the value of the name property.
      * 
      * @return
      *     possible object is
@@ -47,7 +47,7 @@ public class Property {
     }
 
     /**
-     * nameプロパティの値を設定します。
+     * Sets the value of the name property.
      * 
      * @param value
      *     allowed object is
@@ -59,7 +59,7 @@ public class Property {
     }
 
     /**
-     * valueプロパティの値を取得します。
+     * Gets the value of the value property.
      * 
      * @return
      *     possible object is
@@ -71,7 +71,7 @@ public class Property {
     }
 
     /**
-     * valueプロパティの値を設定します。
+     * Sets the value of the value property.
      * 
      * @param value
      *     allowed object is

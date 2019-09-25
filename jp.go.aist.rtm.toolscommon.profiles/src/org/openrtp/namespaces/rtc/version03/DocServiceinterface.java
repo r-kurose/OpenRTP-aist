@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>doc_serviceinterface complex typeのJavaクラス。
+ * <p>Java class for doc_serviceinterface complex type.
  * 
- * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="doc_serviceinterface">
@@ -47,7 +47,7 @@ public class DocServiceinterface {
     protected String docPostCondition;
 
     /**
-     * descriptionプロパティの値を取得します。
+     * Gets the value of the description property.
      * 
      * @return
      *     possible object is
@@ -59,7 +59,7 @@ public class DocServiceinterface {
     }
 
     /**
-     * descriptionプロパティの値を設定します。
+     * Sets the value of the description property.
      * 
      * @param value
      *     allowed object is
@@ -71,7 +71,7 @@ public class DocServiceinterface {
     }
 
     /**
-     * docArgumentプロパティの値を取得します。
+     * Gets the value of the docArgument property.
      * 
      * @return
      *     possible object is
@@ -83,7 +83,7 @@ public class DocServiceinterface {
     }
 
     /**
-     * docArgumentプロパティの値を設定します。
+     * Sets the value of the docArgument property.
      * 
      * @param value
      *     allowed object is
@@ -95,7 +95,7 @@ public class DocServiceinterface {
     }
 
     /**
-     * docReturnプロパティの値を取得します。
+     * Gets the value of the docReturn property.
      * 
      * @return
      *     possible object is
@@ -107,7 +107,7 @@ public class DocServiceinterface {
     }
 
     /**
-     * docReturnプロパティの値を設定します。
+     * Sets the value of the docReturn property.
      * 
      * @param value
      *     allowed object is
@@ -119,7 +119,7 @@ public class DocServiceinterface {
     }
 
     /**
-     * docExceptionプロパティの値を取得します。
+     * Gets the value of the docException property.
      * 
      * @return
      *     possible object is
@@ -131,7 +131,7 @@ public class DocServiceinterface {
     }
 
     /**
-     * docExceptionプロパティの値を設定します。
+     * Sets the value of the docException property.
      * 
      * @param value
      *     allowed object is
@@ -143,7 +143,7 @@ public class DocServiceinterface {
     }
 
     /**
-     * docPreConditionプロパティの値を取得します。
+     * Gets the value of the docPreCondition property.
      * 
      * @return
      *     possible object is
@@ -155,7 +155,7 @@ public class DocServiceinterface {
     }
 
     /**
-     * docPreConditionプロパティの値を設定します。
+     * Sets the value of the docPreCondition property.
      * 
      * @param value
      *     allowed object is
@@ -167,7 +167,7 @@ public class DocServiceinterface {
     }
 
     /**
-     * docPostConditionプロパティの値を取得します。
+     * Gets the value of the docPostCondition property.
      * 
      * @return
      *     possible object is
@@ -179,7 +179,7 @@ public class DocServiceinterface {
     }
 
     /**
-     * docPostConditionプロパティの値を設定します。
+     * Sets the value of the docPostCondition property.
      * 
      * @param value
      *     allowed object is

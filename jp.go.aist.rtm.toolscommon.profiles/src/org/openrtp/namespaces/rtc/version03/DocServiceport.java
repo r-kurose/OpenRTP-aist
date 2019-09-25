@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>doc_serviceport complex typeのJavaクラス。
+ * <p>Java class for doc_serviceport complex type.
  * 
- * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="doc_serviceport">
@@ -35,7 +35,7 @@ public class DocServiceport {
     protected String ifdescription;
 
     /**
-     * descriptionプロパティの値を取得します。
+     * Gets the value of the description property.
      * 
      * @return
      *     possible object is
@@ -47,7 +47,7 @@ public class DocServiceport {
     }
 
     /**
-     * descriptionプロパティの値を設定します。
+     * Sets the value of the description property.
      * 
      * @param value
      *     allowed object is
@@ -59,7 +59,7 @@ public class DocServiceport {
     }
 
     /**
-     * ifdescriptionプロパティの値を取得します。
+     * Gets the value of the ifdescription property.
      * 
      * @return
      *     possible object is
@@ -71,7 +71,7 @@ public class DocServiceport {
     }
 
     /**
-     * ifdescriptionプロパティの値を設定します。
+     * Sets the value of the ifdescription property.
      * 
      * @param value
      *     allowed object is
