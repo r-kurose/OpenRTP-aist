@@ -60,6 +60,7 @@ import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
 import jp.go.aist.rtm.rtcbuilder.extension.ImportExtension;
 import jp.go.aist.rtm.rtcbuilder.factory.ExportCreator;
+import jp.go.aist.rtm.rtcbuilder.fsm.ScXMLHandler;
 import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
 import jp.go.aist.rtm.rtcbuilder.generator.ProfileHandler;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
@@ -830,7 +831,20 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 			        				Path inputPath = FileSystems.getDefault().getPath(selectedFileNameFSM);
 			        				Path outputPath = FileSystems.getDefault().getPath(fsmFile);			        				
 									Files.copy(inputPath, outputPath);
+									
+									project.refreshLocal(IResource.DEPTH_INFINITE, null);
+									//インポートしたファイルの読み込み
+									ScXMLHandler scHandler = new ScXMLHandler();
+									StringBuffer buffer = new StringBuffer();
+									StateParam rootState = scHandler.parseSCXML(outputPath.toAbsolutePath().toString(), buffer);
+									if(rootState!=null) {
+										editor.getRtcParam().setFsmParam(rootState);
+										editor.getRtcParam().setFsmContents(buffer.toString());
+										editor.getRtcParam().parseEvent();
+									}
 								} catch (IOException e1) {
+									e1.printStackTrace();
+								} catch (CoreException e1) {
 									e1.printStackTrace();
 								}
 		    				}
