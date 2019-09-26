@@ -69,7 +69,7 @@ ${rtcParam.name}Test::${rtcParam.name}Test(RTC::Manager* manager)
 #foreach($eachTrans in ${fsmParam.getAllTransList()})
 #if( ${eachTrans.event.length()} > 0 )
 ,
-    m_${eachTrans.event}Out("${eachTrans.event}", m_${eachTrans.event})#end#end
+    ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${eachTrans.event}Out${rtcParam.dataPortSuffix}${rtcParam.commonSuffix}("${eachTrans.event}", ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${eachTrans.event}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix})#end#end
 
 
     // </rtc-template>

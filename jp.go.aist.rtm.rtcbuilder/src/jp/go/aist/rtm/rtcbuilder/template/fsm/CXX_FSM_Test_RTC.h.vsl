@@ -387,8 +387,8 @@ class ${rtcParam.name}Test
 #end
 #foreach($eachTrans in ${fsmParam.getAllTransList()})
 #if( ${eachTrans.event.length()} > 0 )
-    RTC::TimedLong m_${eachTrans.event};
-    RTC::OutPort<RTC::TimedLong> m_${eachTrans.event}Out;
+    ${eachTrans.dataType} ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${eachTrans.event}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
+    RTC::OutPort<${eachTrans.dataType}> ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${eachTrans.event}Out${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
     
 #end
 #end

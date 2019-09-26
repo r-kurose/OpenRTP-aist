@@ -32,9 +32,11 @@ import static jp.go.aist.rtm.rtcbuilder.util.StringUtil.splitString;
 import java.io.File;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
+import jp.go.aist.rtm.rtcbuilder.fsm.EventParam;
 import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.EventPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.PropertyParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
@@ -363,21 +365,62 @@ public class TemplateHelper {
 		for(DataPortParam port : param.getInports() ) {
 			if(port.getType().length()==0) continue;
 			if(0<builder.length()) builder.append(",");
-			builder.append("${PROJECT_NAME}0.").append(port.getName());
-			builder.append("?port=${PROJECT_NAME}Test0.").append(port.getName());
+			
+			builder.append("${PROJECT_NAME}0.");
+			//${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
+			builder.append(param.getCommonPrefix()).append(param.getDataPortPrefix()).append(port.getTmplVarName()).append("In");
+			builder.append(param.getDataPortSuffix()).append(param.getCommonSuffix());
+			
+			builder.append("?port=${PROJECT_NAME}Test0.");
+			//${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}Out${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
+			builder.append(param.getCommonPrefix()).append(param.getDataPortPrefix()).append(port.getTmplVarName()).append("Out");
+			builder.append(param.getDataPortSuffix()).append(param.getCommonSuffix());
 		}
 		for(DataPortParam port : param.getOutports() ) {
 			if(port.getType().length()==0) continue;
 			if(0<builder.length()) builder.append(",");
-			builder.append("${PROJECT_NAME}0.").append(port.getName());
-			builder.append("?port=${PROJECT_NAME}Test0.").append(port.getName());
+			
+			builder.append("${PROJECT_NAME}0.");
+			//${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}Out${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
+			builder.append(param.getCommonPrefix()).append(param.getDataPortPrefix()).append(port.getTmplVarName()).append("Out");
+			builder.append(param.getDataPortSuffix()).append(param.getCommonSuffix());
+			
+			builder.append("?port=${PROJECT_NAME}Test0.");
+			//${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
+			builder.append(param.getCommonPrefix()).append(param.getDataPortPrefix()).append(port.getTmplVarName()).append("In");
+			builder.append(param.getDataPortSuffix()).append(param.getCommonSuffix());
 		}
 		//
 		for(ServicePortParam port : param.getServicePorts() ) {
 			if(0<builder.length()) builder.append(",");
-			builder.append("${PROJECT_NAME}0.").append(port.getName());
-			builder.append("?port=${PROJECT_NAME}Test0.").append(port.getName());
+			
+			builder.append("${PROJECT_NAME}0.");
+			//${rtcParam.commonPrefix}${rtcParam.servicePortPrefix}${servicePort.name}Port${rtcParam.servicePortSuffix}${rtcParam.commonSuffix};
+			builder.append(param.getCommonPrefix()).append(param.getServiceIFPrefix()).append(port.getName()).append("Port");
+			builder.append(param.getServicePortSuffix()).append(param.getCommonSuffix());
+			
+			//${rtcParam.commonPrefix}${rtcParam.servicePortPrefix}${servicePort.name}Port${rtcParam.servicePortSuffix}${rtcParam.commonSuffix};
+			builder.append("?port=${PROJECT_NAME}Test0.");
+			builder.append(param.getCommonPrefix()).append(param.getServiceIFPrefix()).append(port.getName()).append("Port");
+			builder.append(param.getServicePortSuffix()).append(param.getCommonSuffix());
 		}
+		
+		EventPortParam evPort = param.getEventport();
+		if(evPort!=null) {
+			for(EventParam event : evPort.getEvents() ) {
+				if(0<builder.length()) builder.append(",");
+				
+				builder.append("${PROJECT_NAME}0.");
+				//${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${rtcParam.getEventport().tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};				
+				builder.append(param.getCommonPrefix()).append(param.getDataPortPrefix()).append(evPort.getTmplVarName()).append("In");
+				builder.append(param.getDataPortSuffix()).append(param.getCommonSuffix());
+				
+				builder.append("?port=${PROJECT_NAME}Test0.");
+				builder.append(param.getCommonPrefix()).append(param.getDataPortPrefix()).append(event.getName()).append("Out");
+				builder.append(param.getDataPortSuffix()).append(param.getCommonSuffix());
+			}
+		}
+		
 		return builder.toString();
 	}
 }
