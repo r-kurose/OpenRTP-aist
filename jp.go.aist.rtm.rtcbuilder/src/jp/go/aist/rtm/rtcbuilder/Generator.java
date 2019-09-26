@@ -224,8 +224,9 @@ public class Generator {
 		List<ServiceClassParam> serviceClassParamList = new ArrayList<ServiceClassParam>();
 		List<String> serviceClassNameList = new ArrayList<String>();
 		for( ServiceClassParam serviceClassParam : rtcServiceClasses ) {
-			if( !serviceClassNameList.contains(serviceClassParam.getName()) ) {
-				serviceClassNameList.add(serviceClassParam.getName());
+			String checkKey = serviceClassParam.getName() + "::" + serviceClassParam.getIdlPath();
+			if( !serviceClassNameList.contains(checkKey) ) {
+				serviceClassNameList.add(checkKey);
 				serviceClassParamList.add(serviceClassParam);
 			}
 		}
