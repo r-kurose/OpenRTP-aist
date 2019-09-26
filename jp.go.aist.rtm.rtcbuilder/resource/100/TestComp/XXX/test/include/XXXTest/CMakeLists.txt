@@ -1,3 +1,4 @@
-set(hdrs XXXTest.h
+set(hdrs
+    XXXTest.h
     PARENT_SCOPE
     )
