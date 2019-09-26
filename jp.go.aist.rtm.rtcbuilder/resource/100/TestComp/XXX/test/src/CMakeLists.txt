@@ -52,4 +52,4 @@ add_dependencies(${PROJECT_NAME}Test ${PROJECT_NAME})
 target_link_libraries(${PROJECT_NAME}Test ${OPENRTM_LIBRARIES} ${PROJECT_NAME})
 set_property(TARGET ${PROJECT_NAME}Test PROPERTY CXX_STANDARD 11)
 
-add_test(NAME ${PROJECT_NAME}_test COMMAND $<TARGET_FILE:${PROJECT_NAME}Test> -o "manager.components.precreate:${PROJECT_NAME}" -o "manager.components.preconnect:${PROJECT_NAME}0.in?port=${PROJECT_NAME}Test0.in,${PROJECT_NAME}0.out?port=${PROJECT_NAME}Test0.out,${PROJECT_NAME}0.MyServide?port=${PROJECT_NAME}Test0.MyServide" -o "manager.components.preactivation:${PROJECT_NAME}0,${PROJECT_NAME}Test0" WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+add_test(NAME ${PROJECT_NAME}_test COMMAND $<TARGET_FILE:${PROJECT_NAME}Test> -o "manager.components.precreate:${PROJECT_NAME}" -o "manager.components.preconnect:${PROJECT_NAME}0.m_inIn?port=${PROJECT_NAME}Test0.m_inOut,${PROJECT_NAME}0.m_outOut?port=${PROJECT_NAME}Test0.m_outIn,${PROJECT_NAME}0.m_MyServidePort?port=${PROJECT_NAME}Test0.m_MyServidePort" -o "manager.components.preactivation:${PROJECT_NAME}0,${PROJECT_NAME}Test0" WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
