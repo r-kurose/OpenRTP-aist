@@ -12,9 +12,9 @@ import org.openrtp.namespaces.rtc.version02.ConstraintType;
 
 
 /**
- * <p>configuration complex type��Java�N���X�B
+ * <p>Java class for configuration complex type.
  * 
- * <p>���̃X�L�[�}�E�t���O�����g�́A���̃N���X���Ɋ܂܂��\�������R���e���c���w�肵�܂��B
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="configuration">
@@ -55,7 +55,7 @@ public class Configuration {
     protected String unit;
 
     /**
-     * constraint�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the constraint property.
      * 
      * @return
      *     possible object is
@@ -67,7 +67,7 @@ public class Configuration {
     }
 
     /**
-     * constraint�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the constraint property.
      * 
      * @param value
      *     allowed object is
@@ -79,7 +79,7 @@ public class Configuration {
     }
 
     /**
-     * name�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the name property.
      * 
      * @return
      *     possible object is
@@ -91,7 +91,7 @@ public class Configuration {
     }
 
     /**
-     * name�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the name property.
      * 
      * @param value
      *     allowed object is
@@ -103,7 +103,7 @@ public class Configuration {
     }
 
     /**
-     * type�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the type property.
      * 
      * @return
      *     possible object is
@@ -115,7 +115,7 @@ public class Configuration {
     }
 
     /**
-     * type�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the type property.
      * 
      * @param value
      *     allowed object is
@@ -127,7 +127,7 @@ public class Configuration {
     }
 
     /**
-     * defaultValue�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the defaultValue property.
      * 
      * @return
      *     possible object is
@@ -139,7 +139,7 @@ public class Configuration {
     }
 
     /**
-     * defaultValue�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the defaultValue property.
      * 
      * @param value
      *     allowed object is
@@ -151,7 +151,7 @@ public class Configuration {
     }
 
     /**
-     * unit�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the unit property.
      * 
      * @return
      *     possible object is
@@ -163,7 +163,7 @@ public class Configuration {
     }
 
     /**
-     * unit�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the unit property.
      * 
      * @param value
      *     allowed object is

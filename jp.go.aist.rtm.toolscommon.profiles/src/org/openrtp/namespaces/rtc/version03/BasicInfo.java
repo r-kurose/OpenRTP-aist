@@ -12,9 +12,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
- * <p>basic_info complex typeのJavaクラス。
+ * <p>Java class for basic_info complex type.
  * 
- * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="basic_info">
@@ -102,7 +102,7 @@ public class BasicInfo {
     protected XMLGregorianCalendar updateDate;
 
     /**
-     * nameプロパティの値を取得します。
+     * Gets the value of the name property.
      * 
      * @return
      *     possible object is
@@ -114,7 +114,7 @@ public class BasicInfo {
     }
 
     /**
-     * nameプロパティの値を設定します。
+     * Sets the value of the name property.
      * 
      * @param value
      *     allowed object is
@@ -126,7 +126,7 @@ public class BasicInfo {
     }
 
     /**
-     * componentTypeプロパティの値を取得します。
+     * Gets the value of the componentType property.
      * 
      * @return
      *     possible object is
@@ -138,7 +138,7 @@ public class BasicInfo {
     }
 
     /**
-     * componentTypeプロパティの値を設定します。
+     * Sets the value of the componentType property.
      * 
      * @param value
      *     allowed object is
@@ -150,7 +150,7 @@ public class BasicInfo {
     }
 
     /**
-     * activityTypeプロパティの値を取得します。
+     * Gets the value of the activityType property.
      * 
      * @return
      *     possible object is
@@ -162,7 +162,7 @@ public class BasicInfo {
     }
 
     /**
-     * activityTypeプロパティの値を設定します。
+     * Sets the value of the activityType property.
      * 
      * @param value
      *     allowed object is
@@ -174,7 +174,7 @@ public class BasicInfo {
     }
 
     /**
-     * componentKindプロパティの値を取得します。
+     * Gets the value of the componentKind property.
      * 
      * @return
      *     possible object is
@@ -186,7 +186,7 @@ public class BasicInfo {
     }
 
     /**
-     * componentKindプロパティの値を設定します。
+     * Sets the value of the componentKind property.
      * 
      * @param value
      *     allowed object is
@@ -198,7 +198,7 @@ public class BasicInfo {
     }
 
     /**
-     * rtcTypeプロパティの値を取得します。
+     * Gets the value of the rtcType property.
      * 
      * @return
      *     possible object is
@@ -210,7 +210,7 @@ public class BasicInfo {
     }
 
     /**
-     * rtcTypeプロパティの値を設定します。
+     * Sets the value of the rtcType property.
      * 
      * @param value
      *     allowed object is
@@ -222,7 +222,7 @@ public class BasicInfo {
     }
 
     /**
-     * categoryプロパティの値を取得します。
+     * Gets the value of the category property.
      * 
      * @return
      *     possible object is
@@ -234,7 +234,7 @@ public class BasicInfo {
     }
 
     /**
-     * categoryプロパティの値を設定します。
+     * Sets the value of the category property.
      * 
      * @param value
      *     allowed object is
@@ -246,7 +246,7 @@ public class BasicInfo {
     }
 
     /**
-     * descriptionプロパティの値を取得します。
+     * Gets the value of the description property.
      * 
      * @return
      *     possible object is
@@ -258,7 +258,7 @@ public class BasicInfo {
     }
 
     /**
-     * descriptionプロパティの値を設定します。
+     * Sets the value of the description property.
      * 
      * @param value
      *     allowed object is
@@ -270,7 +270,7 @@ public class BasicInfo {
     }
 
     /**
-     * executionRateプロパティの値を取得します。
+     * Gets the value of the executionRate property.
      * 
      * @return
      *     possible object is
@@ -282,7 +282,7 @@ public class BasicInfo {
     }
 
     /**
-     * executionRateプロパティの値を設定します。
+     * Sets the value of the executionRate property.
      * 
      * @param value
      *     allowed object is
@@ -294,7 +294,7 @@ public class BasicInfo {
     }
 
     /**
-     * executionTypeプロパティの値を取得します。
+     * Gets the value of the executionType property.
      * 
      * @return
      *     possible object is
@@ -306,7 +306,7 @@ public class BasicInfo {
     }
 
     /**
-     * executionTypeプロパティの値を設定します。
+     * Sets the value of the executionType property.
      * 
      * @param value
      *     allowed object is
@@ -318,7 +318,7 @@ public class BasicInfo {
     }
 
     /**
-     * maxInstancesプロパティの値を取得します。
+     * Gets the value of the maxInstances property.
      * 
      * @return
      *     possible object is
@@ -330,7 +330,7 @@ public class BasicInfo {
     }
 
     /**
-     * maxInstancesプロパティの値を設定します。
+     * Sets the value of the maxInstances property.
      * 
      * @param value
      *     allowed object is
@@ -342,7 +342,7 @@ public class BasicInfo {
     }
 
     /**
-     * vendorプロパティの値を取得します。
+     * Gets the value of the vendor property.
      * 
      * @return
      *     possible object is
@@ -354,7 +354,7 @@ public class BasicInfo {
     }
 
     /**
-     * vendorプロパティの値を設定します。
+     * Sets the value of the vendor property.
      * 
      * @param value
      *     allowed object is
@@ -366,7 +366,7 @@ public class BasicInfo {
     }
 
     /**
-     * versionプロパティの値を取得します。
+     * Gets the value of the version property.
      * 
      * @return
      *     possible object is
@@ -378,7 +378,7 @@ public class BasicInfo {
     }
 
     /**
-     * versionプロパティの値を設定します。
+     * Sets the value of the version property.
      * 
      * @param value
      *     allowed object is
@@ -390,7 +390,7 @@ public class BasicInfo {
     }
 
     /**
-     * abstractプロパティの値を取得します。
+     * Gets the value of the abstract property.
      * 
      * @return
      *     possible object is
@@ -402,7 +402,7 @@ public class BasicInfo {
     }
 
     /**
-     * abstractプロパティの値を設定します。
+     * Sets the value of the abstract property.
      * 
      * @param value
      *     allowed object is
@@ -414,7 +414,7 @@ public class BasicInfo {
     }
 
     /**
-     * hardwareProfileプロパティの値を取得します。
+     * Gets the value of the hardwareProfile property.
      * 
      * @return
      *     possible object is
@@ -426,7 +426,7 @@ public class BasicInfo {
     }
 
     /**
-     * hardwareProfileプロパティの値を設定します。
+     * Sets the value of the hardwareProfile property.
      * 
      * @param value
      *     allowed object is
@@ -438,7 +438,7 @@ public class BasicInfo {
     }
 
     /**
-     * creationDateプロパティの値を取得します。
+     * Gets the value of the creationDate property.
      * 
      * @return
      *     possible object is
@@ -450,7 +450,7 @@ public class BasicInfo {
     }
 
     /**
-     * creationDateプロパティの値を設定します。
+     * Sets the value of the creationDate property.
      * 
      * @param value
      *     allowed object is
@@ -462,7 +462,7 @@ public class BasicInfo {
     }
 
     /**
-     * updateDateプロパティの値を取得します。
+     * Gets the value of the updateDate property.
      * 
      * @return
      *     possible object is
@@ -474,7 +474,7 @@ public class BasicInfo {
     }
 
     /**
-     * updateDateプロパティの値を設定します。
+     * Sets the value of the updateDate property.
      * 
      * @param value
      *     allowed object is

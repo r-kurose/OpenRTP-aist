@@ -9,9 +9,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>serviceinterface complex typeのJavaクラス。
+ * <p>Java class for serviceinterface complex type.
  * 
- * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="serviceinterface">
@@ -58,7 +58,7 @@ public class Serviceinterface {
     protected String path;
 
     /**
-     * nameプロパティの値を取得します。
+     * Gets the value of the name property.
      * 
      * @return
      *     possible object is
@@ -70,7 +70,7 @@ public class Serviceinterface {
     }
 
     /**
-     * nameプロパティの値を設定します。
+     * Sets the value of the name property.
      * 
      * @param value
      *     allowed object is
@@ -82,7 +82,7 @@ public class Serviceinterface {
     }
 
     /**
-     * directionプロパティの値を取得します。
+     * Gets the value of the direction property.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class Serviceinterface {
     }
 
     /**
-     * directionプロパティの値を設定します。
+     * Sets the value of the direction property.
      * 
      * @param value
      *     allowed object is
@@ -106,7 +106,7 @@ public class Serviceinterface {
     }
 
     /**
-     * instanceNameプロパティの値を取得します。
+     * Gets the value of the instanceName property.
      * 
      * @return
      *     possible object is
@@ -118,7 +118,7 @@ public class Serviceinterface {
     }
 
     /**
-     * instanceNameプロパティの値を設定します。
+     * Sets the value of the instanceName property.
      * 
      * @param value
      *     allowed object is
@@ -130,7 +130,7 @@ public class Serviceinterface {
     }
 
     /**
-     * idlFileプロパティの値を取得します。
+     * Gets the value of the idlFile property.
      * 
      * @return
      *     possible object is
@@ -142,7 +142,7 @@ public class Serviceinterface {
     }
 
     /**
-     * idlFileプロパティの値を設定します。
+     * Sets the value of the idlFile property.
      * 
      * @param value
      *     allowed object is
@@ -154,7 +154,7 @@ public class Serviceinterface {
     }
 
     /**
-     * typeプロパティの値を取得します。
+     * Gets the value of the type property.
      * 
      * @return
      *     possible object is
@@ -166,7 +166,7 @@ public class Serviceinterface {
     }
 
     /**
-     * typeプロパティの値を設定します。
+     * Sets the value of the type property.
      * 
      * @param value
      *     allowed object is
@@ -178,7 +178,7 @@ public class Serviceinterface {
     }
 
     /**
-     * pathプロパティの値を取得します。
+     * Gets the value of the path property.
      * 
      * @return
      *     possible object is
@@ -190,7 +190,7 @@ public class Serviceinterface {
     }
 
     /**
-     * pathプロパティの値を設定します。
+     * Sets the value of the path property.
      * 
      * @param value
      *     allowed object is

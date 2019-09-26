@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>doc_eventport complex typeのJavaクラス。
+ * <p>Java class for doc_eventport complex type.
  * 
- * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="doc_eventport">
@@ -47,7 +47,7 @@ public class DocEventport {
     protected String operation;
 
     /**
-     * descriptionプロパティの値を取得します。
+     * Gets the value of the description property.
      * 
      * @return
      *     possible object is
@@ -59,7 +59,7 @@ public class DocEventport {
     }
 
     /**
-     * descriptionプロパティの値を設定します。
+     * Sets the value of the description property.
      * 
      * @param value
      *     allowed object is
@@ -71,7 +71,7 @@ public class DocEventport {
     }
 
     /**
-     * typeプロパティの値を取得します。
+     * Gets the value of the type property.
      * 
      * @return
      *     possible object is
@@ -83,7 +83,7 @@ public class DocEventport {
     }
 
     /**
-     * typeプロパティの値を設定します。
+     * Sets the value of the type property.
      * 
      * @param value
      *     allowed object is
@@ -95,7 +95,7 @@ public class DocEventport {
     }
 
     /**
-     * numberプロパティの値を取得します。
+     * Gets the value of the number property.
      * 
      * @return
      *     possible object is
@@ -107,7 +107,7 @@ public class DocEventport {
     }
 
     /**
-     * numberプロパティの値を設定します。
+     * Sets the value of the number property.
      * 
      * @param value
      *     allowed object is
@@ -119,7 +119,7 @@ public class DocEventport {
     }
 
     /**
-     * semanticsプロパティの値を取得します。
+     * Gets the value of the semantics property.
      * 
      * @return
      *     possible object is
@@ -131,7 +131,7 @@ public class DocEventport {
     }
 
     /**
-     * semanticsプロパティの値を設定します。
+     * Sets the value of the semantics property.
      * 
      * @param value
      *     allowed object is
@@ -143,7 +143,7 @@ public class DocEventport {
     }
 
     /**
-     * unitプロパティの値を取得します。
+     * Gets the value of the unit property.
      * 
      * @return
      *     possible object is
@@ -155,7 +155,7 @@ public class DocEventport {
     }
 
     /**
-     * unitプロパティの値を設定します。
+     * Sets the value of the unit property.
      * 
      * @param value
      *     allowed object is
@@ -167,7 +167,7 @@ public class DocEventport {
     }
 
     /**
-     * operationプロパティの値を取得します。
+     * Gets the value of the operation property.
      * 
      * @return
      *     possible object is
@@ -179,7 +179,7 @@ public class DocEventport {
     }
 
     /**
-     * operationプロパティの値を設定します。
+     * Sets the value of the operation property.
      * 
      * @param value
      *     allowed object is

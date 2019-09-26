@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>transmission_method complex typeのJavaクラス。
+ * <p>Java class for transmission_method complex type.
  * 
- * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="transmission_method">
@@ -32,7 +32,7 @@ public class TransmissionMethod {
     protected String kind;
 
     /**
-     * kindプロパティの値を取得します。
+     * Gets the value of the kind property.
      * 
      * @return
      *     possible object is
@@ -44,7 +44,7 @@ public class TransmissionMethod {
     }
 
     /**
-     * kindプロパティの値を設定します。
+     * Sets the value of the kind property.
      * 
      * @param value
      *     allowed object is

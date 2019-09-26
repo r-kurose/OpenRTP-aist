@@ -3,6 +3,7 @@ package org.openrtp.namespaces.rtc.version03;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -10,9 +11,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>target_environment complex type��Java�N���X�B
+ * <p>Java class for target_environment complex type.
  * 
- * <p>���̃X�L�[�}�E�t���O�����g�́A���̃N���X���Ɋ܂܂��\�������R���e���c���w�肵�܂��B
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="target_environment">
@@ -142,7 +143,7 @@ public class TargetEnvironment {
     }
 
     /**
-     * langVersion�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the langVersion property.
      * 
      * @return
      *     possible object is
@@ -154,7 +155,7 @@ public class TargetEnvironment {
     }
 
     /**
-     * langVersion�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the langVersion property.
      * 
      * @param value
      *     allowed object is
@@ -166,7 +167,7 @@ public class TargetEnvironment {
     }
 
     /**
-     * os�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the os property.
      * 
      * @return
      *     possible object is
@@ -178,7 +179,7 @@ public class TargetEnvironment {
     }
 
     /**
-     * os�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the os property.
      * 
      * @param value
      *     allowed object is
@@ -190,7 +191,7 @@ public class TargetEnvironment {
     }
 
     /**
-     * other�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the other property.
      * 
      * @return
      *     possible object is
@@ -202,7 +203,7 @@ public class TargetEnvironment {
     }
 
     /**
-     * other�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the other property.
      * 
      * @param value
      *     allowed object is
@@ -214,7 +215,7 @@ public class TargetEnvironment {
     }
 
     /**
-     * cpuOther�v���p�e�B�̒l���擾���܂��B
+     * Gets the value of the cpuOther property.
      * 
      * @return
      *     possible object is
@@ -226,7 +227,7 @@ public class TargetEnvironment {
     }
 
     /**
-     * cpuOther�v���p�e�B�̒l��ݒ肵�܂��B
+     * Sets the value of the cpuOther property.
      * 
      * @param value
      *     allowed object is
@@ -236,11 +237,11 @@ public class TargetEnvironment {
     public void setCpuOther(String value) {
         this.cpuOther = value;
     }
+
     public void setLibraries(List<Library> list) {
     }
     public void setCpus(List<String> ist) {
     }
     public void setOsVersions(List<String> list) {
     }
-
 }
