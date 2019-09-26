@@ -22,7 +22,7 @@ set(PROJECT_MAINTAINER "unknown")
 #end
 set(PROJECT_TYPE "java/${rtcParam.category}")
 
-find_package(OpenRTM)
+find_package(OpenRTM REQUIRED)
 set(RTM_VER ${dol}{OPENRTM_VERSION})
 set(RTM_SHORT_VER ${dol}{OPENRTM_VERSION_MAJOR}${dol}{OPENRTM_VERSION_MINOR}${dol}{OPENRTM_VERSION_PATCH})
 
