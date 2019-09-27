@@ -29,6 +29,7 @@ import OpenRTM_aist
 #if( ${tmpltHelper.checkFSM(${rtcParam})} )
 import OpenRTM_aist.StaticFSM as StaticFSM
 import OpenRTM_aist.EventPort as EventPort
+import ${rtcParam.name}FSM
 #end
 
 #foreach($IdlFile in ${allIdlFileParam})#if(!${IdlFile.dataPort})import ${tmpltHelper.getFilenameNoExt(${IdlFile.IdlFile})}_idl
