@@ -26,6 +26,10 @@ import RTC
 import OpenRTM_aist
 #foreach($idlModule in ${defaultModule})import ${idlModule}
 #end
+#if( ${tmpltHelper.checkFSM(${rtcParam})} )
+import OpenRTM_aist.StaticFSM as StaticFSM
+import OpenRTM_aist.EventPort as EventPort
+#end
 
 #foreach($IdlFile in ${allIdlFileParam})#if(!${IdlFile.dataPort})import ${tmpltHelper.getFilenameNoExt(${IdlFile.IdlFile})}_idl
 #end
@@ -292,6 +296,17 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end#end#end
 #if(${tmpltHelper.checkDetailContent(0,${rtcParam})})        ${rtcParam.getDetailContent(0)}
 #end
+#if( ${tmpltHelper.checkFSM(${rtcParam})} )
+        self._fsm = StaticFSM.Machine(${rtcParam.name}Fsm.${tmpltHelper.getTopFSMName(${rtcParam})}, self)
+        ${sharp} self._fsm.init()
+        self._eventIn = EventPort.EventInPort("event", self._fsm)
+        self.addInPort("event", self._eventIn)
+#foreach($eachTrans in ${fsmParam.getAllTransList()})
+#if( ${eachTrans.event.length()} > 0 )
+        self._eventIn.bindEvent0("${eachTrans.event}", ${rtcParam.name}Fsm.${tmpltHelper.getTopFSMName(${rtcParam})}.${eachTrans.event})
+#end
+#end
+#end
 		
         return RTC.RTC_OK
 	
@@ -311,8 +326,11 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
     #if(${rtcParam.IsNotImplemented(1)})${sharp}#end${sharp} 
     #if(${rtcParam.IsNotImplemented(1)})${sharp}#end${def} onFinalize(self):
     #if(${rtcParam.IsNotImplemented(1)})${sharp}#end
+
 #if(${tmpltHelper.checkDetailContent(1,${rtcParam})})        ${rtcParam.getDetailContent(1)}
 #end
+#if( ${tmpltHelper.checkFSM(${rtcParam})} )
+    #if(${rtcParam.IsNotImplemented(1)})${sharp}#end    self._fsm.shutdown()#end
 
     #if(${rtcParam.IsNotImplemented(1)})${sharp}#end    return RTC.RTC_OK
 	

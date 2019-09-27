@@ -126,14 +126,16 @@ public class PythonGenerateManager extends GenerateManager {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		List<IdlFileParam> allIdlFileParams = (List<IdlFileParam>) contextMap
 				.get("allIdlFileParam");
-
-		result.add(generatePythonSource(contextMap));
-		
 		boolean isStaticFSM = rtcParam.isStaticFSM();
 		if(isStaticFSM) {
 			StateParam stateParam = rtcParam.getFsmParam();
 			stateParam.setEventParam(rtcParam);
 			contextMap.put("fsmParam", stateParam);
+		}
+
+		result.add(generatePythonSource(contextMap));
+		
+		if(isStaticFSM) {
 			result.add(generatePythonFSM(contextMap));
 		}
 		
