@@ -272,6 +272,10 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 		editBtn.setLayoutData(gd);
 		editBtn.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
+				if(scxmlEditor!=null) {
+					MessageDialog.openWarning(getSite().getShell(), "FSM Editor", Messages.getString("IMC.FSM_EDITOR_DUPL"));
+					return;
+				}
 				try {
 					IWorkspace workspace = ResourcesPlugin.getWorkspace();
 					IWorkspaceRoot root = workspace.getRoot();
