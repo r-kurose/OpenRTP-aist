@@ -272,48 +272,50 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 		editBtn.setLayoutData(gd);
 		editBtn.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if(scxmlEditor!=null) {
-					MessageDialog.openWarning(getSite().getShell(), "FSM Editor", Messages.getString("IMC.FSM_EDITOR_DUPL"));
-					return;
-				}
 				try {
-					IWorkspace workspace = ResourcesPlugin.getWorkspace();
-					IWorkspaceRoot root = workspace.getRoot();
-					IProject project = root.getProject(editor.getRtcParam().getOutputProject());
-					if(observer==null) {
-						observer = new SCXMLReceiver(editor.getRtcParam());
-					}
-					//
-					String dummyName = ".Dummy.scxml";
-					IFile dummyFile  = project.getFile(dummyName);
-					if(dummyFile.exists()==false) {
+					if(scxmlEditor==null) {
+						IWorkspace workspace = ResourcesPlugin.getWorkspace();
+						IWorkspaceRoot root = workspace.getRoot();
+						IProject project = root.getProject(editor.getRtcParam().getOutputProject());
+						if(observer==null) {
+							observer = new SCXMLReceiver(editor.getRtcParam());
+						}
+						//
+						String dummyName = ".Dummy.scxml";
+						IFile dummyFile  = project.getFile(dummyName);
+						if(dummyFile.exists()==false) {
+							try {
+								dummyFile.create(null, true, null);
+							} catch (CoreException ex) {
+								ex.printStackTrace();
+							}
+						}
+						String strPath = dummyFile.getLocation().toOSString();
+						String xmlSplit[] = editor.getRtcParam().getFsmContents().split(System.lineSeparator());
 						try {
-							dummyFile.create(null, true, null);
-						} catch (CoreException ex) {
-							ex.printStackTrace();
+							BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(strPath), "UTF-8"));
+							for (String s : xmlSplit) {
+								if(s.length()==0) continue;
+								writer.write(s);
+								writer.newLine();
+							}
+							writer.close();
+						} catch (IOException e1) {
+							e1.printStackTrace();
 						}
-					}
-					String strPath = dummyFile.getLocation().toOSString();
-					String xmlSplit[] = editor.getRtcParam().getFsmContents().split(System.lineSeparator());
-					try {
-						BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(strPath), "UTF-8"));
-						for (String s : xmlSplit) {
-							if(s.length()==0) continue;
-							writer.write(s);
-							writer.newLine();
+						try {
+							project.refreshLocal(IResource.DEPTH_INFINITE, null);
+						} catch (CoreException e1) {
+							throw new RuntimeException(IRTCBMessageConstants.ERROR_GENERATE_FAILED);
 						}
-						writer.close();
-					} catch (IOException e1) {
-						e1.printStackTrace();
+						
+						List<EventParam> eventList = editor.getRtcParam().getEventports().get(0).getEvents();
+						scxmlEditor = SCXMLGraphEditor.openEditor(dummyFile.getLocation().toOSString(), observer, defaultTypeList, eventList, false);
+					} else {
+						JFrame frame = (JFrame) SwingUtilities.windowForComponent(scxmlEditor);
+						frame.setAlwaysOnTop(true);
+						frame.setAlwaysOnTop(false);
 					}
-					try {
-						project.refreshLocal(IResource.DEPTH_INFINITE, null);
-					} catch (CoreException e1) {
-						throw new RuntimeException(IRTCBMessageConstants.ERROR_GENERATE_FAILED);
-					}
-					
-					List<EventParam> eventList = editor.getRtcParam().getEventports().get(0).getEvents();
-					scxmlEditor = SCXMLGraphEditor.openEditor(dummyFile.getLocation().toOSString(), observer, defaultTypeList, eventList, false);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
