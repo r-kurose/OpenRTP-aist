@@ -418,6 +418,7 @@ public class TemplateHelper {
 				builder.append("?port=${PROJECT_NAME}Test0.");
 				builder.append(param.getCommonPrefix()).append(param.getDataPortPrefix()).append(event.getName()).append("Out");
 				builder.append(param.getDataPortSuffix()).append(param.getCommonSuffix());
+				builder.append("&fsm_event_name=").append(event.getName());
 			}
 		}
 		

@@ -253,6 +253,8 @@ RTC::ReturnCode_t ${rtcParam.name}::onExecute(RTC::UniqueId ec_id)
 {
 #if(${tmpltHelper.checkDetailContent(9,${rtcParam})})${rtcParam.getDetailContent(9)}
 #end
+#if( ${tmpltHelper.checkFSM(${rtcParam})} )  m_fsm.run_event();
+#end
   return RTC::RTC_OK;
 }
 #if(${rtcParam.IsNotImplemented(9)})*/
