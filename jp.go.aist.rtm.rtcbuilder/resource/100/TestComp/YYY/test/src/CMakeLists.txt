@@ -1,4 +1,5 @@
-set(comp_srcs YYYTest.cpp MyServiceTestSVC_impl.cpp )
+set(comp_srcs
+   YYYTest.cpp   MyServiceTestSVC_impl.cpp )
 set(standalone_srcs YYYTestComp.cpp)
 
 if(${OPENRTM_VERSION_MAJOR} LESS 2)
@@ -52,4 +53,4 @@ add_dependencies(${PROJECT_NAME}Test ${PROJECT_NAME})
 target_link_libraries(${PROJECT_NAME}Test ${OPENRTM_LIBRARIES} ${PROJECT_NAME})
 set_property(TARGET ${PROJECT_NAME}Test PROPERTY CXX_STANDARD 11)
 
-add_test(NAME ${PROJECT_NAME}_test COMMAND $<TARGET_FILE:${PROJECT_NAME}Test> -o "manager.components.precreate:${PROJECT_NAME}" -o "manager.components.preconnect:${PROJECT_NAME}0.m_MyServicePort?port=${PROJECT_NAME}Test0.m_MyServicePort" -o "manager.components.preactivation:${PROJECT_NAME}0,${PROJECT_NAME}Test0" WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+add_test(NAME ${PROJECT_NAME}_test COMMAND $<TARGET_FILE:${PROJECT_NAME}Test> -o "manager.components.precreate:${PROJECT_NAME}" -o "manager.components.preconnect:${PROJECT_NAME}0.MyService?port=${PROJECT_NAME}Test0.MyService" -o "manager.components.preactivation:${PROJECT_NAME}0,${PROJECT_NAME}Test0" WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
