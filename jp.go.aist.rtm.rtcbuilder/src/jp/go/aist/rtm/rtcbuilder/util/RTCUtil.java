@@ -2,7 +2,6 @@ package jp.go.aist.rtm.rtcbuilder.util;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,8 +89,8 @@ public class RTCUtil {
 		}
 	}
 
-	public static List<IdlPathParam> getIDLPathes(RtcParam target) {
-		List<IdlPathParam> result = new ArrayList<IdlPathParam>();
+	public static void getIDLPathes(RtcParam target) {
+		target.getIdlSearchPathList().clear();
 		List<String> added = new ArrayList<String>();
 
 		String FS = System.getProperty("file.separator");
@@ -101,27 +100,16 @@ public class RTCUtil {
 			if(!defaultPath.endsWith(FS)) {
 				defaultPath += FS;
 			}
-			result.add(new IdlPathParam(defaultPath + "rtm" + FS + "idl", true));
+			target.getIdlSearchPathList().add(new IdlPathParam(defaultPath + "rtm" + FS + "idl", true));
 			added.add(defaultPath + "rtm" + FS + "idl");
 		}
 		//
 		if(RtcBuilderPlugin.getDefault()!=null) {
-			List<String> resultsetting = new ArrayList<String>();
-			RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(RTCBuilderPreferenceManager.IDLFILE_DIRECTORIES, "");
-			String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(RTCBuilderPreferenceManager.IDLFILE_DIRECTORIES);
-			resultsetting = Arrays.asList(resultTemp.split(File.pathSeparator));
-			for(String each : resultsetting) {
-				if(each.length()==0) continue;
-				if(added.contains(each)) continue;
-				result.add(new IdlPathParam(each, false));
-				added.add(each);
-			}
-			//
 			RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(RTCBuilderPreferenceManager.HOME_DIRECTORY, "");
 			String userHome = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(RTCBuilderPreferenceManager.HOME_DIRECTORY);
 			String userDir = userHome + FS + "idl";
 			if(added.contains(userDir)==false) {
-				result.add(new IdlPathParam(userDir, false));
+				target.getIdlSearchPathList().add(new IdlPathParam(userDir, false));
 				added.add(userDir);
 			}
 		}
@@ -133,14 +121,13 @@ public class RTCUtil {
 				IFolder path = project.getFolder("idl");
 				if(path!=null && path.exists()) {
 					if(added.contains(path.getLocation().toOSString())==false) {
-						result.add(new IdlPathParam(path.getLocation().toOSString(), false));
+						target.getIdlSearchPathList().add(new IdlPathParam(path.getLocation().toOSString(), false));
 						added.add(path.getLocation().toOSString());
 					}
 				}
 			} catch (Exception ex) {
 			}
 		}
-		return result;
 	}
 
 	public static boolean checkDefault(String target, List<DataTypeParam> typeList) {

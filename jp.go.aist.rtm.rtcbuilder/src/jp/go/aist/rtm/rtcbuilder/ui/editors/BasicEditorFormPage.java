@@ -65,7 +65,6 @@ import jp.go.aist.rtm.rtcbuilder.generator.ProfileHandler;
 import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.PropertyParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 import jp.go.aist.rtm.rtcbuilder.manager.GenerateManager;
 import jp.go.aist.rtm.rtcbuilder.nl.Messages;
 import jp.go.aist.rtm.rtcbuilder.ui.Perspective.LanguageProperty;
@@ -398,8 +397,8 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 				//TODO 複数コンポーネント対応版とする場合には複数設定
 				generatorParam.getRtcParam().getServiceClassParams().clear();
 				setPrefixSuffix(generatorParam.getRtcParam());
-				List<IdlPathParam> idlDirs = RTCUtil.getIDLPathes(editor.getRtcParam());
-				if (rtcBuilder.doGenerateWrite(generatorParam, idlDirs, !isDynamicFSM)) {
+				RTCUtil.getIDLPathes(editor.getRtcParam());
+				if (rtcBuilder.doGenerateWrite(generatorParam, editor.getRtcParam().getIdlSearchPathList(), !isDynamicFSM)) {
 					LanguageProperty langProp = LanguageProperty.checkPlugin(editor.getRtcParam());
 					if(langProp != null) {
 						try {
@@ -474,8 +473,8 @@ public class BasicEditorFormPage extends AbstractEditorFormPage {
 					setPrefixSuffix(targetFsm);
 					generatorParam.setRtcParam(targetFsm);
 					//
-					List<IdlPathParam> idlDirs = RTCUtil.getIDLPathes(editor.getRtcParam());
-					if (rtcBuilder.doGenerateWrite(generatorParam, idlDirs, false)) {
+					RTCUtil.getIDLPathes(editor.getRtcParam());
+					if (rtcBuilder.doGenerateWrite(generatorParam, editor.getRtcParam().getIdlSearchPathList(), false)) {
 						LanguageProperty langProp = LanguageProperty.checkPlugin(editor.getRtcParam());
 						if(langProp != null) {
 							try {

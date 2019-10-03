@@ -42,7 +42,7 @@ public class IDLModuleTest extends TestBase {
 		ServicePortParam service1 = new ServicePortParam("sv_name", 0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "if_name", "", "", 
-				rootPath + "/resource/100/CXX/idlmodule/serviceM/MyService.idl", "SimpleService::MyService", "", 0);
+				rootPath + "/resource/100/CXX/idlmodule/serviceM/MyService.idl", "SimpleService::MyService", 0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
@@ -76,7 +76,7 @@ public class IDLModuleTest extends TestBase {
 		ServicePortParam service1 = new ServicePortParam("sv_name", 0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "if_name", "", "", 
-				rootPath + "/resource/100/CXX/idlmodule/serviceCon/MyService.idl", "SimpleService::MyService", "", 1);
+				rootPath + "/resource/100/CXX/idlmodule/serviceCon/MyService.idl", "SimpleService::MyService", 1);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
@@ -109,7 +109,7 @@ public class IDLModuleTest extends TestBase {
 		ServicePortParam service1 = new ServicePortParam("sv_name", 0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "if_name", "", "", 
-				rootPath + "/resource/100/CXX/idlmodule/serviceArg/MyServiceModuleTypeDef.idl", "RTC::RTM::MyService", "", 0);
+				rootPath + "/resource/100/CXX/idlmodule/serviceArg/MyServiceModuleTypeDef.idl", "RTC::RTM::MyService", 0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();
@@ -143,7 +143,7 @@ public class IDLModuleTest extends TestBase {
 		ServicePortParam service1 = new ServicePortParam("sv_name", 0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>(); 
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "if_name", "", "", 
-				rootPath + "/resource/100/CXX/idlmodule/serviceArgStruct/MyServiceModuleTypeDef.idl", "MyService", "", 0);
+				rootPath + "/resource/100/CXX/idlmodule/serviceArgStruct/MyServiceModuleTypeDef.idl", "MyService", 0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
 		List<ServicePortParam> srvports = new ArrayList<ServicePortParam>();

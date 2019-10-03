@@ -13,7 +13,6 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.openrtp.namespaces.rtc.version02.ConstraintType;
 
-
 /**
  * <p>Java class for dataport complex type.
  * 
