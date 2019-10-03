@@ -1,9 +1,5 @@
 set(hdrs
-#if(${tmpltHelper.checkFSM(${rtcParam})})
-    ${rtcParam.name}FSMTest.h
-#else
     ${rtcParam.name}Test.h
-#end
 #if( ${rtcParam.checkWithoutDefaultPathes()} == true )
 #foreach($consumerIdlFile in ${rtcParam.consumerIdlPathesAdded})
     ${tmpltHelper.getFilenameNoExt(${consumerIdlFile.idlFile})}${tmpltHelper.serviceImplSuffix}.h
