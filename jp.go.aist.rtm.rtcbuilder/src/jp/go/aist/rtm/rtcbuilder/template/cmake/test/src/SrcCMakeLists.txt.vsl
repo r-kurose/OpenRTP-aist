@@ -1,4 +1,7 @@
-set(comp_srcs ${rtcParam.name}Test.cpp #foreach($consumerIdlFile in ${rtcParam.consumerIdlPathesAdded})${tmpltHelper.getFilenameNoExt(${consumerIdlFile.idlFile})}${tmpltHelper.serviceImplSuffix}.cpp #end#if( ${tmpltHelper.checkFSM(${rtcParam})})${rtcParam.name}FSMTest.cpp#end)
+set(comp_srcs
+   #if( ${tmpltHelper.checkFSM(${rtcParam})})${rtcParam.name}FSMTest.cpp
+   #else${rtcParam.name}Test.cpp#end
+   #foreach($consumerIdlFile in ${rtcParam.consumerIdlPathesAdded})${tmpltHelper.getFilenameNoExt(${consumerIdlFile.idlFile})}${tmpltHelper.serviceImplSuffix}.cpp #end)
 set(standalone_srcs ${rtcParam.name}TestComp.cpp)
 
 if(${dol}{OPENRTM_VERSION_MAJOR} LESS 2)

@@ -365,44 +365,20 @@ public class TemplateHelper {
 		for(DataPortParam port : param.getInports() ) {
 			if(port.getType().length()==0) continue;
 			if(0<builder.length()) builder.append(",");
-			
-			builder.append("${PROJECT_NAME}0.");
-			//${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
-			builder.append(param.getCommonPrefix()).append(param.getDataPortPrefix()).append(port.getTmplVarName()).append("In");
-			builder.append(param.getDataPortSuffix()).append(param.getCommonSuffix());
-			
-			builder.append("?port=${PROJECT_NAME}Test0.");
-			//${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}Out${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
-			builder.append(param.getCommonPrefix()).append(param.getDataPortPrefix()).append(port.getTmplVarName()).append("Out");
-			builder.append(param.getDataPortSuffix()).append(param.getCommonSuffix());
+            builder.append("${PROJECT_NAME}0.").append(port.getName());
+            builder.append("?port=${PROJECT_NAME}Test0.").append(port.getName());
 		}
 		for(DataPortParam port : param.getOutports() ) {
 			if(port.getType().length()==0) continue;
 			if(0<builder.length()) builder.append(",");
-			
-			builder.append("${PROJECT_NAME}0.");
-			//${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}Out${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
-			builder.append(param.getCommonPrefix()).append(param.getDataPortPrefix()).append(port.getTmplVarName()).append("Out");
-			builder.append(param.getDataPortSuffix()).append(param.getCommonSuffix());
-			
-			builder.append("?port=${PROJECT_NAME}Test0.");
-			//${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
-			builder.append(param.getCommonPrefix()).append(param.getDataPortPrefix()).append(port.getTmplVarName()).append("In");
-			builder.append(param.getDataPortSuffix()).append(param.getCommonSuffix());
+            builder.append("${PROJECT_NAME}0.").append(port.getName());
+            builder.append("?port=${PROJECT_NAME}Test0.").append(port.getName());
 		}
 		//
 		for(ServicePortParam port : param.getServicePorts() ) {
 			if(0<builder.length()) builder.append(",");
-			
-			builder.append("${PROJECT_NAME}0.");
-			//${rtcParam.commonPrefix}${rtcParam.servicePortPrefix}${servicePort.name}Port${rtcParam.servicePortSuffix}${rtcParam.commonSuffix};
-			builder.append(param.getCommonPrefix()).append(param.getServiceIFPrefix()).append(port.getName()).append("Port");
-			builder.append(param.getServicePortSuffix()).append(param.getCommonSuffix());
-			
-			//${rtcParam.commonPrefix}${rtcParam.servicePortPrefix}${servicePort.name}Port${rtcParam.servicePortSuffix}${rtcParam.commonSuffix};
-			builder.append("?port=${PROJECT_NAME}Test0.");
-			builder.append(param.getCommonPrefix()).append(param.getServiceIFPrefix()).append(port.getName()).append("Port");
-			builder.append(param.getServicePortSuffix()).append(param.getCommonSuffix());
+            builder.append("${PROJECT_NAME}0.").append(port.getName());
+            builder.append("?port=${PROJECT_NAME}Test0.").append(port.getName());
 		}
 		
 		EventPortParam evPort = param.getEventport();
@@ -410,14 +386,8 @@ public class TemplateHelper {
 			for(EventParam event : evPort.getEvents() ) {
 				if(0<builder.length()) builder.append(",");
 				
-				builder.append("${PROJECT_NAME}0.");
-				//${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${rtcParam.getEventport().tmplVarName}In${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};				
-				builder.append(param.getCommonPrefix()).append(param.getDataPortPrefix()).append(evPort.getTmplVarName()).append("In");
-				builder.append(param.getDataPortSuffix()).append(param.getCommonSuffix());
-				
-				builder.append("?port=${PROJECT_NAME}Test0.");
-				builder.append(param.getCommonPrefix()).append(param.getDataPortPrefix()).append(event.getName()).append("Out");
-				builder.append(param.getDataPortSuffix()).append(param.getCommonSuffix());
+				builder.append("${PROJECT_NAME}0.event");
+				builder.append("?port=${PROJECT_NAME}Test0.event");
 				builder.append("&fsm_event_name=").append(event.getName());
 			}
 		}
