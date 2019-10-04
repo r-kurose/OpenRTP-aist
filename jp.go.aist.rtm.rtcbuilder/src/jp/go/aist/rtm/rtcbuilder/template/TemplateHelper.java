@@ -387,7 +387,7 @@ public class TemplateHelper {
 				if(0<builder.length()) builder.append(",");
 				
 				builder.append("${PROJECT_NAME}0.event");
-				builder.append("?port=${PROJECT_NAME}Test0.event");
+				builder.append("?port=${PROJECT_NAME}Test0.").append(event.getName());
 				builder.append("&fsm_event_name=").append(event.getName());
 			}
 		}
