@@ -108,10 +108,10 @@
     </rtc:DataPorts>
     <rtc:DataPorts xsi:type="rtcExt:dataport_ext" rtcExt:position="RIGHT" rtcExt:variableName="Out2Var" rtc:subscriptionType="New,Periodic" rtc:dataflowType="Push,Pull" rtc:interfaceType="CorbaPort" rtc:type="RTC::TimedDouble" rtc:name="outport2" rtc:portType="DataOutPort"/>
     <rtc:ServicePorts xsi:type="rtcExt:serviceport_ext" rtcExt:position="LEFT" rtc:name="SrvPort1">
-        <rtc:ServiceInterface xsi:type="rtcExt:serviceinterface_ext" rtcExt:variableName="IF1VarName" rtc:path="IF1SearchPath" rtc:type="IF1Type" rtc:idlFile="IF1Idlfile.idl" rtc:instanceName="IF1Instance" rtc:direction="Provided" rtc:name="S1IF1">
+        <rtc:ServiceInterface xsi:type="rtcExt:serviceinterface_ext" rtcExt:variableName="IF1VarName" rtc:type="IF1Type" rtc:idlFile="IF1Idlfile.idl" rtc:instanceName="IF1Instance" rtc:direction="Provided" rtc:name="S1IF1">
             <rtcDoc:Doc rtcDoc:docPostCondition="if1 PostCond" rtcDoc:docPreCondition="if1 PreCond" rtcDoc:docException="if1 Exception" rtcDoc:docReturn="if1 Return" rtcDoc:docArgument="if1 Argument" rtcDoc:description="if1 description"/>
         </rtc:ServiceInterface>
-        <rtc:ServiceInterface xsi:type="rtcExt:serviceinterface_ext" rtc:path="IF2SearchPath" rtc:type="IF2Type" rtc:idlFile="IF2Idlfile.idl" rtc:instanceName="IF2Instance" rtc:direction="Required" rtc:name="S1IF2"/>
+        <rtc:ServiceInterface xsi:type="rtcExt:serviceinterface_ext" rtc:type="IF2Type" rtc:idlFile="IF2Idlfile.idl" rtc:instanceName="IF2Instance" rtc:direction="Required" rtc:name="S1IF2"/>
         <rtc:TransMethods rtc:kind="CORBA"/>
         <rtcDoc:Doc rtcDoc:ifdescription="ServicePort1 I/F description" rtcDoc:description="ServicePort1 description"/>
     </rtc:ServicePorts>

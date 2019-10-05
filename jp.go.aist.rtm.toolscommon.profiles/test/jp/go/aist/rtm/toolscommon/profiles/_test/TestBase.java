@@ -286,7 +286,6 @@ public class TestBase extends TestCase {
 		assertEquals("IF1VarName", serviceIF1.getVariableName());
 		assertEquals("IF1Idlfile.idl", serviceIF1.getIdlFile());
 		assertEquals("IF1Type", serviceIF1.getType());
-		assertEquals("IF1SearchPath", serviceIF1.getPath());
 		//
 		DocServiceinterface docIf1 = serviceIF1.getDoc();
 		assertEquals("if1 Description", docIf1.getDescription());
@@ -303,7 +302,6 @@ public class TestBase extends TestCase {
 		assertEquals("IF2VarName", serviceIF2.getVariableName());
 		assertEquals("IF2Idlfile.idl", serviceIF2.getIdlFile());
 		assertEquals("IF2Type", serviceIF2.getType());
-		assertEquals("IF2SearchPath", serviceIF2.getPath());
 		//
 		ServiceportExt service2 = (ServiceportExt)profile.getServicePorts().get(1);
 		assertEquals("SrvPort2", service2.getName());
@@ -532,7 +530,6 @@ public class TestBase extends TestCase {
 		assertEquals("Provided", serviceIF1.getDirection());
 		assertEquals("IF1Instance", serviceIF1.getInstanceName());
 		assertEquals("IF1Idlfile.idl", serviceIF1.getIdlFile());
-		assertEquals("IF1SearchPath", serviceIF1.getPath());
 		assertEquals("IF1VarName", serviceIF1.getVariableName());
 		//
 		DocServiceinterface docIf1 = serviceIF1.getDoc();
@@ -549,7 +546,6 @@ public class TestBase extends TestCase {
 		assertEquals("Required", serviceIF2.getDirection());
 		assertEquals("IF2Instance", serviceIF2.getInstanceName());
 		assertEquals("IF2Idlfile.idl", serviceIF2.getIdlFile());
-		assertEquals("IF2SearchPath", serviceIF2.getPath());
 		//
 		ServiceportExt service2 = (ServiceportExt)profile.getServicePorts().get(1);
 		assertEquals("SrvPort2", service2.getName());
