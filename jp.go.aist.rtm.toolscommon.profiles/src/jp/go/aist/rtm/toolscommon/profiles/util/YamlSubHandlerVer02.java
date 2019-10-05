@@ -710,7 +710,6 @@ public class YamlSubHandlerVer02 {
 				serviceIF.setInstanceName((String)interfaceY.get("instanceName"));
 				serviceIF.setIdlFile((String)interfaceY.get("idlFile"));
 				serviceIF.setType((String)interfaceY.get("type"));
-				serviceIF.setPath((String)interfaceY.get("path"));
 				//Doc
 				Map ifDocY = (Map)interfaceY.get("rtcDoc::doc");
 				if( ifDocY != null ) {

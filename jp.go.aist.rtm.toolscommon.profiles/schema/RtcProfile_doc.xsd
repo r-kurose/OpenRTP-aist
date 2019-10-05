@@ -98,7 +98,6 @@
 		<xsd:attribute name="number" type="xsd:string" use="optional"/>
 		<xsd:attribute name="semantics" type="xsd:string" use="optional"/>
 		<xsd:attribute name="unit" type="xsd:string" use="optional"/>
-		<xsd:attribute name="occerrence" type="xsd:string" use="optional"/>
 		<xsd:attribute name="operation" type="xsd:string" use="optional"/>
 	</xsd:complexType>
 
