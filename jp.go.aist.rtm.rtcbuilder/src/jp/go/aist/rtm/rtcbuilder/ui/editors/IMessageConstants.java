@@ -90,7 +90,11 @@ public interface IMessageConstants {
 			Messages.getString("IMC.DATAPORT_HINT_DATATYPE_DESC_P2"),
 			Messages.getString("IMC.DATAPORT_HINT_DATATYPE_DESC_P3"),
 			Messages.getString("IMC.DATAPORT_HINT_DATATYPE_DESC_P4"),
-			Messages.getString("IMC.DATAPORT_HINT_DATATYPE_DESC_P5")
+			Messages.getString("IMC.DATAPORT_HINT_DATATYPE_DESC_P5"),
+			Messages.getString("IMC.DATAPORT_HINT_DATATYPE_DESC_P6"),
+			Messages.getString("IMC.DATAPORT_HINT_DATATYPE_DESC_P7"),
+			Messages.getString("IMC.DATAPORT_HINT_DATATYPE_DESC_P8"),
+			Messages.getString("IMC.DATAPORT_HINT_DATATYPE_DESC_P9")
 	});
 	public static final String DATAPORT_HINT_VARNAME_DESC = StringUtil.connectMessageWithSepalator( new String[]{
 			Messages.getString("IMC.DATAPORT_HINT_VARNAME_DESC_P1"),
