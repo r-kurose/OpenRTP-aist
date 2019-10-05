@@ -161,7 +161,13 @@ public interface IMessageConstants {
 	public static final String SERVICEPORT_HINT_IFTYPE_DESC = StringUtil.connectMessageWithSepalator( new String[]{
 			Messages.getString("IMC.SERVIVEPORT_HINT_IFTYPE_DESC_P1"),
 			Messages.getString("IMC.SERVIVEPORT_HINT_IFTYPE_DESC_P2"),
-			Messages.getString("IMC.SERVIVEPORT_HINT_IFTYPE_DESC_P3")});
+			Messages.getString("IMC.SERVIVEPORT_HINT_IFTYPE_DESC_P3"),
+			Messages.getString("IMC.SERVIVEPORT_HINT_IFTYPE_DESC_P4"),
+			Messages.getString("IMC.SERVIVEPORT_HINT_IFTYPE_DESC_P5")});
+	
+	public static final String SERVICEPORT_HINT_IDLFILE_DESC = StringUtil.connectMessageWithSepalator( new String[]{
+			Messages.getString("IMC.SERVIVEPORT_HINT_IDLFILE_DESC_P1"),
+			Messages.getString("IMC.SERVIVEPORT_HINT_IDLFILE_DESC_P2")});
 	
 	public static final String SERVICEPORT_HINT_ARGUMENT_DESC = StringUtil.connectMessageWithSepalator( new String[]{
 			Messages.getString("IMC.SERVIVEPORT_HINT_ARGUMEN_DESC_P1"),
