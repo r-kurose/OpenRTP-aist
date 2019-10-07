@@ -213,8 +213,8 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFDIRECTION"), IMessageConstants.SERVICEPORT_HINT_IF_DIRECTION_DESC, toolkit, composite);
 		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFINSTNAME"), IMessageConstants.SERVICEPORT_HINT_IF_INSTANCE_DESC, toolkit, composite);
 		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFVARNAME"), IMessageConstants.SERVICEPORT_HINT_IF_VARNAME_DESC, toolkit, composite);
-		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IDLFILE"), Messages.getString("IMC.SERVIVEPORT_HINT_IDLFILE_DESC"), toolkit, composite);
 		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFTYPE"), IMessageConstants.SERVICEPORT_HINT_IFTYPE_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IDLFILE"), IMessageConstants.SERVICEPORT_HINT_IDLFILE_DESC, toolkit, composite);
 		createHintSpace(toolkit, composite);
 		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFDESCRIPTION"), Messages.getString("IMC.SERVIVEPORT_HINT_IFDESC_DESC"), toolkit, composite);
 		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_ARGUMENT"), IMessageConstants.SERVICEPORT_HINT_ARGUMENT_DESC, toolkit, composite);
