@@ -92,7 +92,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 	private Combo directionCombo;
 	private Text instanceNameText;
 	private Text varNameText;
-	private Label idlFileLabel;
+	private Text idlFileText;
 	private Combo interfaceTypeCombo;
 	//
 	private Text ifdetailText;
@@ -213,8 +213,8 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFDIRECTION"), IMessageConstants.SERVICEPORT_HINT_IF_DIRECTION_DESC, toolkit, composite);
 		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFINSTNAME"), IMessageConstants.SERVICEPORT_HINT_IF_INSTANCE_DESC, toolkit, composite);
 		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFVARNAME"), IMessageConstants.SERVICEPORT_HINT_IF_VARNAME_DESC, toolkit, composite);
-		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IDLFILE"), Messages.getString("IMC.SERVIVEPORT_HINT_IDLFILE_DESC"), toolkit, composite);
 		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFTYPE"), IMessageConstants.SERVICEPORT_HINT_IFTYPE_DESC, toolkit, composite);
+		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IDLFILE"), IMessageConstants.SERVICEPORT_HINT_IDLFILE_DESC, toolkit, composite);
 		createHintSpace(toolkit, composite);
 		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_IFDESCRIPTION"), Messages.getString("IMC.SERVIVEPORT_HINT_IFDESC_DESC"), toolkit, composite);
 		createHintLabel(Messages.getString("IMC.SERVICEPORT_LBL_ARGUMENT"), IMessageConstants.SERVICEPORT_HINT_ARGUMENT_DESC, toolkit, composite);
@@ -278,7 +278,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
                         ServiceClassParam selectedIF = currentIFList.get(selected);
                         ((ServicePortInterfaceParam)selection.getData()).setIdlFile(selectedIF.getIdlFile());
                     } else {
-                        ((ServicePortInterfaceParam)selection.getData()).setIdlFile(idlFileLabel.getText());
+                        ((ServicePortInterfaceParam)selection.getData()).setIdlFile(idlFileText.getText());
                     }
 					((ServicePortInterfaceParam)selection.getData()).setInterfaceType(interfaceTypeCombo.getText());
 					//
@@ -613,7 +613,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
   			  public void widgetSelected(SelectionEvent e){
   				int selected = interfaceTypeCombo.getSelectionIndex();
   				ServiceClassParam selectedCalsss = currentIFList.get(selected);
-  				idlFileLabel.setText(selectedCalsss.getIdlFile());
+  				idlFileText.setText(selectedCalsss.getIdlFile());
 			  }
   			});
     		Button reloadButton = toolkit.createButton(client, "ReLoad", SWT.PUSH);
@@ -622,7 +622,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
     			public void widgetSelected(SelectionEvent e) {
     				interfaceTypeCombo.removeAll();
     				currentIFList.clear();
-    				idlFileLabel.setText("");
+    				idlFileText.setText("");
     				
     		        extractServiceInterface();
     	            List<String> ifTypes = new ArrayList<String>();
@@ -635,11 +635,12 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
     			}
     		});
     		
-    		toolkit.createLabel(client, Messages.getString("IMC.SERVICEPORT_LBL_IDLFILE"));
-    		idlFileLabel = toolkit.createLabel(client, "", SWT.BORDER);
-    		gd = new GridData(GridData.FILL_HORIZONTAL);
-    		gd.horizontalSpan = 2;
-    		idlFileLabel.setLayoutData(gd);
+    		idlFileText = createLabelAndRefText(toolkit, client,
+    				Messages.getString("IMC.SERVICEPORT_LBL_IDLFILE"), SWT.BORDER, 2);
+    		if(0<defaultIFList.size()) {
+				ServiceClassParam selectedCalsss = defaultIFList.get(0);
+				idlFileText.setText(selectedCalsss.getIdlFile());
+    		}
 			
 			createSrvPortIfDocumentSection(form, client);
 			section.setClient(client);
@@ -720,8 +721,10 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			directionCombo.select(serviceInterface.getIndex());
 			instanceNameText.setText(serviceInterface.getInstanceName());
 			varNameText.setText(serviceInterface.getVarName());
-			idlFileLabel.setText(serviceInterface.getIdlFile());
-			interfaceTypeCombo.setText(serviceInterface.getInterfaceType());
+			if(0<serviceInterface.getInterfaceType().length()) {
+				idlFileText.setText(serviceInterface.getIdlFile());
+				interfaceTypeCombo.setText(serviceInterface.getInterfaceType());
+			}
 			//
 			ifdetailText.setText(StringUtil.getDisplayDocText(serviceInterface.getDocDescription()));
 			ifargumentText.setText(StringUtil.getDisplayDocText(serviceInterface.getDocArgument()));

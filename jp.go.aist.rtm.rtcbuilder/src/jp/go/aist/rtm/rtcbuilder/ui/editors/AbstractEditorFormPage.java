@@ -267,6 +267,22 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		return text;
 	}
 
+	protected Text createLabelAndRefText(FormToolkit toolkit, Composite composite,
+			String labelString, int style, int hspan) {
+		if( labelString!=null && labelString.length()>0 ) {
+			toolkit.createLabel(composite, labelString);
+		}
+
+		final Text text = toolkit.createText(composite, "", style);
+		text.setEditable(false);
+		text.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		
+		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.horizontalSpan = hspan;
+		text.setLayoutData(gridData);
+		return text;
+	}
+	
 	protected Combo createLabelAndCombo(FormToolkit toolkit, Composite composite,
 			String labelString, String[] items) {
 		return createLabelAndCombo(toolkit, composite, labelString, items, 0);
