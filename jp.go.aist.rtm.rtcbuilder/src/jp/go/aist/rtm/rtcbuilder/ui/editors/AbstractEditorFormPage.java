@@ -423,7 +423,6 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	protected String[] extractDataTypes() {
 		RTCUtil.getIDLPathes(editor.getRtcParam());
 		String FS = System.getProperty("file.separator");
-		int baseindex = -1;
 		List<DataTypeParam> sourceContents = new ArrayList<DataTypeParam>();
 		
         List<String> exclusionList = Arrays.asList(
@@ -431,8 +430,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
         		"openrtm.idl", "rtc.idl", "sdopackage.idl",
         		"sharedmemory.idl");
 		
-		for (int intidx = 0; intidx < editor.getRtcParam().getIdlSearchPathList().size(); intidx++) {
-			IdlPathParam source = editor.getRtcParam().getIdlSearchPathList().get(intidx);
+		for (IdlPathParam source : editor.getRtcParam().getIdlSearchPathList()) {
 			try {
 				File idlDir = new File(source.getPath());
 				String[] list = idlDir.list();
@@ -455,12 +453,10 @@ public abstract class AbstractEditorFormPage extends FormPage {
 					String idlContent = FileUtil.readFile(source.getPath() + FS + idlName);
 					DataTypeParam param = new DataTypeParam();
 					param.setContent(idlContent);
+					param.setDispPath(source.getDispPath() + FS + idlName);
 					param.setFullPath(source.getPath() + FS + idlName);
 					param.setDefault(source.isDefault());
 					sourceContents.add(param);
-					if( baseindex<intidx) {
-						param.setAddition(true);
-					}
 				}
 			} catch (IOException e) {
 				LOGGER.error("Fail to read idl file", e);

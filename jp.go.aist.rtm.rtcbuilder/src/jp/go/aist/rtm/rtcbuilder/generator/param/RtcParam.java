@@ -830,7 +830,6 @@ public class RtcParam extends AbstractRecordedParam implements Serializable {
 	private void checkAndAddIDLPath(String targetType, List<String> idlPathes,
 			List<String> consumerIdlStrings, List<IdlFileParam> consumerIdlParams) {
 		for(DataTypeParam dataTypes : this.parent.getDataTypeParams()) {
-			if( !dataTypes.isAddition() ) continue;
 			if( dataTypes.getDefinedTypes().contains(targetType) ) {
 				String targetIDL = dataTypes.getFullPath();
 				if( !idlPathes.contains(targetIDL.trim()) ) {

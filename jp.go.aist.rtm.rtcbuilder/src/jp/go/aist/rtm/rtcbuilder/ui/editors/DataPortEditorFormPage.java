@@ -181,7 +181,7 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		typeList.clear();
 		for(DataTypeParam each : dataTypes) {
 			for(String eachType : each.getDefinedTypes()) {
-				typeList.add(new DataParam(eachType, each.getFullPath()));
+				typeList.add(new DataParam(eachType, each.getDispPath()));
 			}
 		}
 		Collections.sort(typeList, new DataParamComparator());

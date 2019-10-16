@@ -100,7 +100,9 @@ public class RTCUtil {
 			if(!defaultPath.endsWith(FS)) {
 				defaultPath += FS;
 			}
-			target.getIdlSearchPathList().add(new IdlPathParam(defaultPath + "rtm" + FS + "idl", true));
+			String fullPath = defaultPath + "rtm" + FS + "idl";
+			String dispPath = "<RTM_ROOT>" + FS + "rtm" + FS + "idl";
+			target.getIdlSearchPathList().add(new IdlPathParam(fullPath, dispPath, true));
 			added.add(defaultPath + "rtm" + FS + "idl");
 		}
 		//
@@ -121,7 +123,7 @@ public class RTCUtil {
 				IFolder path = project.getFolder("idl");
 				if(path!=null && path.exists()) {
 					if(added.contains(path.getLocation().toOSString())==false) {
-						target.getIdlSearchPathList().add(new IdlPathParam(path.getLocation().toOSString(), false));
+						target.getIdlSearchPathList().add(new IdlPathParam(path.getLocation().toOSString(), "idl", false));
 						added.add(path.getLocation().toOSString());
 					}
 				}
