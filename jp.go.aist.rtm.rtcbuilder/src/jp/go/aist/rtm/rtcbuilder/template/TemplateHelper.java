@@ -34,6 +34,7 @@ import java.io.File;
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.fsm.EventParam;
 import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
+import jp.go.aist.rtm.rtcbuilder.fsm.TransitionParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.EventPortParam;
@@ -357,6 +358,26 @@ public class TemplateHelper {
 		StateParam state = param.getFsmParam();
 		if(state==null) return "";
 		return state.getName();
+	}
+	
+	public String getInitialState(RtcParam param) {
+		StringBuilder builder = new StringBuilder();
+		StateParam state = param.getFsmParam();
+		String initial = state.getInitialState();
+		String startNode = "";
+		for(TransitionParam each : state.getAllTransList()) {
+			if(each.getSource().equals(initial)) {
+				startNode = each.getTarget();
+				break;
+			}
+		}
+		if(0<startNode.length()) {
+			builder.append("setState");
+			builder.append("<").append(startNode).append(">");
+			builder.append("();");
+		}
+
+		return builder.toString();
 	}
 	
 	public String getConnectorString(RtcParam param) {
