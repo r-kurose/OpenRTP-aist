@@ -24,6 +24,7 @@ public class ServicePortInterfaceParam extends AbstractRecordedParam implements
 	private String instancename;
 	private String varname;
 	private String idlfile;
+	private String idlDispfile;
 	private String interfacetype;
 	//
 	private String doc_description;
@@ -41,6 +42,7 @@ public class ServicePortInterfaceParam extends AbstractRecordedParam implements
 		this.instancename = "";
 		this.varname = "";
 		this.idlfile = "";
+		this.idlDispfile = "";
 		this.interfacetype = "";
 		this.selection = 0;
 		this.direction = "";
@@ -63,6 +65,7 @@ public class ServicePortInterfaceParam extends AbstractRecordedParam implements
 		this.instancename = instancename;
 		this.varname = varname;
 		this.idlfile = idlfile;
+		this.idlDispfile = "";
 		this.interfacetype = interfacetype;
 		this.selection = selection;
 		this.direction = ServicePortInterfaceParam.COMBO_ITEM[selection];
@@ -94,6 +97,9 @@ public class ServicePortInterfaceParam extends AbstractRecordedParam implements
 	}
 	public String getIdlFile() {
 		return idlfile;
+	}
+	public String getIdlDispFile() {
+		return idlDispfile;
 	}
 	public String getInterfaceType() {
 		return interfacetype;
@@ -135,6 +141,9 @@ public class ServicePortInterfaceParam extends AbstractRecordedParam implements
 	public void setIdlFile(String idlfile) {
 		checkUpdated(this.idlfile, idlfile);
 		this.idlfile = idlfile;
+	}
+	public void setIdlDispFile(String idlfile) {
+		this.idlDispfile = idlfile;
 	}
 	public void setInterfaceType(String interfacetype) {
 		checkUpdated(this.interfacetype, interfacetype);
