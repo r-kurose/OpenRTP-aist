@@ -133,16 +133,16 @@ public class SCXMLChangeHandler {
 			this.stringGetter = stringReader;
 			this.docSetter = docSetter;
 
-			try {
-				this.oldString = (String) stringGetter.invoke(thing);
-				this.oldDoc = (Document) docReader.invoke(thing);
-				MyUndoManager um = (MyUndoManager) undoReader.invoke(thing);
-
-				this.oldUndoPos = (um != null) ? um.getNextUndoableEdit() : null;
-				this.undoExcludesTarget = (this.oldUndoPos != null);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+//			try {
+//				this.oldString = (String) stringGetter.invoke(thing);
+//				this.oldDoc = (Document) docReader.invoke(thing);
+//				MyUndoManager um = (MyUndoManager) undoReader.invoke(thing);
+//
+//				this.oldUndoPos = (um != null) ? um.getNextUndoableEdit() : null;
+//				this.undoExcludesTarget = (this.oldUndoPos != null);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
 		}
 
 		@Override

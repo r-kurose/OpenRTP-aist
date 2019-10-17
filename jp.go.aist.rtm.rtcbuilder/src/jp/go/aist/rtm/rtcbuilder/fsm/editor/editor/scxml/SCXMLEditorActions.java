@@ -99,6 +99,84 @@ public class SCXMLEditorActions {
 		}
 	}
 
+	public static class AddInitialAction extends AbstractAction {
+		private Point pos;
+		mxCell parent;
+
+		// p must be a swimlane
+		public AddInitialAction(Point pt, mxCell p) {
+			pos = pt;
+			parent = p;
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			SCXMLGraphEditor editor = getEditor(e);
+			mxGraph graph = editor.getGraphComponent().getGraph();
+			SCXMLGraphComponent c = (SCXMLGraphComponent) editor.getGraphComponent();
+			SCXMLNode value = (SCXMLNode) editor.getCurrentFileIO().buildNodeValue();
+
+			pos = c.mouseCoordToGraphCoord(pos);
+			// the state contains the absolute coordinate
+			mxGraphView view = graph.getView();
+			double scale = view.getScale();
+			mxCellState parentState = view.getState(parent);
+			double parentX = parentState.getX() / scale;
+			double parentY = parentState.getY() / scale;
+			mxCell p = (mxCell) graph.insertVertex(parent, value.getInternalID(), value, pos.x - parentX,
+					pos.y - parentY, 75, 75, value.getStyle());
+			////////
+			SCXMLNode n = (SCXMLNode) p.getValue();
+			mxIGraphModel model = editor.getGraphComponent().getGraph().getModel();
+			model.beginUpdate();
+			try {
+				SCXMLChangeHandler.addStateOfNodeInCurrentEdit(p, model);
+				n.setInitial(true);
+				graph.setCellStyle(n.getStyle(), p);
+			} finally {
+				model.endUpdate();
+			}
+		}
+	}
+	
+	public static class AddFinalAction extends AbstractAction {
+		private Point pos;
+		mxCell parent;
+
+		// p must be a swimlane
+		public AddFinalAction(Point pt, mxCell p) {
+			pos = pt;
+			parent = p;
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			SCXMLGraphEditor editor = getEditor(e);
+			mxGraph graph = editor.getGraphComponent().getGraph();
+			SCXMLGraphComponent c = (SCXMLGraphComponent) editor.getGraphComponent();
+			SCXMLNode value = (SCXMLNode) editor.getCurrentFileIO().buildNodeValue();
+
+			pos = c.mouseCoordToGraphCoord(pos);
+			// the state contains the absolute coordinate
+			mxGraphView view = graph.getView();
+			double scale = view.getScale();
+			mxCellState parentState = view.getState(parent);
+			double parentX = parentState.getX() / scale;
+			double parentY = parentState.getY() / scale;
+			mxCell p = (mxCell) graph.insertVertex(parent, value.getInternalID(), value, pos.x - parentX,
+					pos.y - parentY, 75, 75, value.getStyle());
+			////////
+			SCXMLNode n = (SCXMLNode) p.getValue();
+			mxIGraphModel model = editor.getGraphComponent().getGraph().getModel();
+			model.beginUpdate();
+			try {
+				SCXMLChangeHandler.addStateOfNodeInCurrentEdit(p, model);
+				n.setFinal(true);
+				graph.setCellStyle(n.getStyle(), p);
+			} finally {
+				model.endUpdate();
+			}
+		}
+	}
+	
 	public static class EditEdgeAction extends AbstractAction {
 		private Point pos;
 		private mxCell cell;
@@ -227,31 +305,6 @@ public class SCXMLEditorActions {
 		}
 	}
 
-	public static class SetNodeAsInitial extends AbstractAction {
-		private mxCell cell;
-
-		public SetNodeAsInitial(mxCell c) {
-			cell = c;
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			SCXMLGraphEditor editor = getEditor(e);
-			mxGraph graph = editor.getGraphComponent().getGraph();
-			assert (cell.isVertex());
-			SCXMLNode n = (SCXMLNode) cell.getValue();
-
-			mxIGraphModel model = editor.getGraphComponent().getGraph().getModel();
-			model.beginUpdate();
-			try {
-				SCXMLChangeHandler.addStateOfNodeInCurrentEdit(cell, model);
-				n.setInitial(!n.isInitial());
-				graph.setCellStyle(n.getStyle(), cell);
-			} finally {
-				model.endUpdate();
-			}
-		}
-	}
-
 	public static class ToggleWithTargetAction extends AbstractAction {
 		private mxCell cell;
 
@@ -292,31 +345,6 @@ public class SCXMLEditorActions {
 		}
 	}
 
-	public static class SetNodeAsFinal extends AbstractAction {
-		private mxCell cell;
-
-		public SetNodeAsFinal(mxCell c) {
-			cell = c;
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			SCXMLGraphEditor editor = getEditor(e);
-			mxGraph graph = editor.getGraphComponent().getGraph();
-			assert (cell.isVertex());
-			SCXMLNode n = (SCXMLNode) cell.getValue();
-
-			mxIGraphModel model = editor.getGraphComponent().getGraph().getModel();
-			model.beginUpdate();
-			try {
-				SCXMLChangeHandler.addStateOfNodeInCurrentEdit(cell, model);
-				n.setFinal(!n.isFinal());
-				graph.setCellStyle(n.getStyle(), cell);
-			} finally {
-				model.endUpdate();
-			}
-		}
-	}
-
 	public static class SetNodeAsCluster extends AbstractAction {
 		private mxCell cell;
 
@@ -335,31 +363,6 @@ public class SCXMLEditorActions {
 			try {
 				SCXMLChangeHandler.addStateOfNodeInCurrentEdit(cell, model);
 				n.setCluster(!n.isClusterNode());
-				graph.setCellStyle(n.getStyle(), cell);
-			} finally {
-				model.endUpdate();
-			}
-		}
-	}
-
-	public static class SetNodeAsParallel extends AbstractAction {
-		private mxCell cell;
-
-		public SetNodeAsParallel(mxCell c) {
-			cell = c;
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			SCXMLGraphEditor editor = getEditor(e);
-			mxGraph graph = editor.getGraphComponent().getGraph();
-			assert (cell.isVertex());
-			SCXMLNode n = (SCXMLNode) cell.getValue();
-
-			mxIGraphModel model = editor.getGraphComponent().getGraph().getModel();
-			model.beginUpdate();
-			try {
-				SCXMLChangeHandler.addStateOfNodeInCurrentEdit(cell, model);
-				n.setParallel(!n.isParallel());
 				graph.setCellStyle(n.getStyle(), cell);
 			} finally {
 				model.endUpdate();
