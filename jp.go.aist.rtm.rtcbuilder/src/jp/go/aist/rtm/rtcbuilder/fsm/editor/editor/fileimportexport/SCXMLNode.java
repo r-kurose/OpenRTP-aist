@@ -59,11 +59,12 @@ public class SCXMLNode implements Serializable {
 	public static final String PARALLELFILLCOLOR = "#c2d200";
 	public static final String PARALLELSTROKECOLOR = "#c2d200";
 	public static final String INITIALFILLCOLOR = "#ffab75";
-	public static final String FINALSTROKECOLOR = "#FF0000";
+	public static final String FINALFILLCOLOR = "#abfad3";
 	public static final String DEEPHISTORYFILLCOLOR = "#bb00a6";
 	public static final String SHALLOWHISTORYFILLCOLOR = "#dd6fd1";
 
 	public static final String INITIALSHAPE = "ellipse";
+	public static final String FINALSHAPE = "doubleEllipse";
 	public static final String CLUSTERSHAPE = "swimlane";
 
 	public static final String COMMENTS = "comments";
@@ -402,7 +403,7 @@ public class SCXMLNode implements Serializable {
 	}
 
 	public void setParallel(boolean b) {
-		setStrokeColor((isFinal()) ? FINALSTROKECOLOR : ((b) ? PARALLELSTROKECOLOR : DEFAULTSTROKECOLOR));
+		setStrokeColor(((b) ? PARALLELSTROKECOLOR : DEFAULTSTROKECOLOR));
 		node.put(TYPE, (b) ? PARALLEL : NORMAL);
 		if (b)
 			setCluster(true); // a parallel node must be a cluster
@@ -422,6 +423,8 @@ public class SCXMLNode implements Serializable {
 			setShape(CLUSTERSHAPE);
 		else if (isInitial())
 			setShape(INITIALSHAPE);
+		else if (isFinal())
+			setShape(FINALSHAPE);
 		else
 			setShape(DEFAULTSHAPE);
 	}
@@ -530,12 +533,15 @@ public class SCXMLNode implements Serializable {
 	}
 
 	public void setFinal(Boolean b) {
-		setStrokeColor((b) ? FINALSTROKECOLOR : ((isParallel()) ? PARALLELSTROKECOLOR : DEFAULTSTROKECOLOR));
 		node.put(FINAL, b);
+		setShapeFromState();
+		setFillColorFromState();
 	}
 
 	public Boolean isFinal() {
-		return (Boolean) node.get(FINAL);
+		Object val = node.get(FINAL);
+		if(val==null) return Boolean.FALSE;
+		return (Boolean)val;
 	}
 
 	@Override
@@ -563,6 +569,7 @@ public class SCXMLNode implements Serializable {
 		String gradientColor;
 		boolean isHistory = isHistoryNode();
 		boolean isInitial = isInitial();
+		boolean isFinal = isFinal();
 		boolean isParallel = isParallel();
 		assert (!(isHistory && isParallel));
 
@@ -579,7 +586,9 @@ public class SCXMLNode implements Serializable {
 
 		gradientColor = null;
 		if (isInitial)
-			gradientColor = INITIALFILLCOLOR;
+			fillColor = INITIALFILLCOLOR;
+		if (isFinal)
+			fillColor = FINALFILLCOLOR;
 
 		setFillColor(fillColor);
 		setGradientColor(gradientColor);

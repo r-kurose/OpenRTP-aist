@@ -46,6 +46,10 @@
 		<add as="shape" value="ellipse"/>
 		<add as="perimeter" value="ellipsePerimeter"/>
 	</add>
+	<add as="doubleEllipse" extend="defaultVertex">
+		<add as="shape" value="doubleEllipse"/>
+		<add as="perimeter" value="ellipsePerimeter"/>
+	</add>
 	<add as="rhombus" extend="defaultVertex">
 		<add as="shape" value="rhombus"/>
 		<add as="perimeter" value="rhombusPerimeter"/>
