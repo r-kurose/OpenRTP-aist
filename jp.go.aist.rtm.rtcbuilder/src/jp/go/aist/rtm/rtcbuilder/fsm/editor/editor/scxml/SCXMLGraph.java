@@ -55,7 +55,6 @@ public class SCXMLGraph extends mxGraph {
 	private HashSet<Object> uneditable = new HashSet<Object>();
 	private HashSet<mxCell> outsourced = new HashSet<mxCell>();
 	private HashMap<mxCell, HashSet<mxCell>> original2clones = new HashMap<mxCell, HashSet<mxCell>>();
-	private HashMap<String, SCXMLImportExport> ourced = new HashMap<String, SCXMLImportExport>();
 
 	private boolean isReadOnly = false;
 	public void setReadOnly(boolean value) {
@@ -249,6 +248,12 @@ public class SCXMLGraph extends mxGraph {
 					}
 				}
 
+				if (nodeValue.isInitial()) {
+					int edgesCount = node.getEdgeCount();
+					if(1<edgesCount) {
+						warnings += "Initial Pseudostate cannot have multiple transitions.";
+					}
+				}
 				// Restricted node should have at least one related event
 				if (nodeValue.isRestricted()) {
 					List<RestrictedState> restrictionsOnNode = nodeValue.getRestrictedStates();
@@ -787,8 +792,7 @@ public class SCXMLGraph extends mxGraph {
 						}
 						tipBody += "</pre><br>";
 					}
-					if (v.isInitial() || v.isFinal()) {
-					} else {
+					if (!v.isInitial() && !v.isFinal()) {
 						String onEntry = v.getOnEntry();
 						if ((onEntry != null) && (!(onEntry.isEmpty()))) {
 							tipBody += "onEntry : ON<br>";
@@ -816,91 +820,6 @@ public class SCXMLGraph extends mxGraph {
 		}
 		return tip;
 	}
-	// public String getToolTipForCell(Object cell)
-	// {
-	// String tip = "<html>";
-	// mxGeometry geo = getModel().getGeometry(cell);
-	// mxCellState state = getView().getState(cell);
-	//
-	// if (getModel().isEdge(cell))
-	// {
-	// tip += "points={";
-	//
-	// if (geo != null)
-	// {
-	// List<mxPoint> points = geo.getPoints();
-	//
-	// if (points != null)
-	// {
-	// Iterator<mxPoint> it = points.iterator();
-	//
-	// while (it.hasNext())
-	// {
-	// mxPoint point = it.next();
-	// tip += "[x=" + numberFormat.format(point.getX())
-	// + ",y=" + numberFormat.format(point.getY())
-	// + "],";
-	// }
-	//
-	// tip = tip.substring(0, tip.length() - 1);
-	// }
-	// }
-	//
-	// tip += "}<br>";
-	// tip += "absPoints={";
-	//
-	// if (state != null)
-	// {
-	//
-	// for (int i = 0; i < state.getAbsolutePointCount(); i++)
-	// {
-	// mxPoint point = state.getAbsolutePoint(i);
-	// tip += "[x=" + numberFormat.format(point.getX())
-	// + ",y=" + numberFormat.format(point.getY())
-	// + "],";
-	// }
-	//
-	// tip = tip.substring(0, tip.length() - 1);
-	// }
-	//
-	// tip += "}";
-	// }
-	// else
-	// {
-	// tip += "geo=[";
-	//
-	// if (geo != null)
-	// {
-	// tip += "x=" + numberFormat.format(geo.getX()) + ",y="
-	// + numberFormat.format(geo.getY()) + ",width="
-	// + numberFormat.format(geo.getWidth()) + ",height="
-	// + numberFormat.format(geo.getHeight());
-	// }
-	//
-	// tip += "]<br>";
-	// tip += "state=[";
-	//
-	// if (state != null)
-	// {
-	// tip += "x=" + numberFormat.format(state.getX()) + ",y="
-	// + numberFormat.format(state.getY()) + ",width="
-	// + numberFormat.format(state.getWidth())
-	// + ",height="
-	// + numberFormat.format(state.getHeight());
-	// }
-	//
-	// tip += "]";
-	// }
-	//
-	// mxPoint trans = getView().getTranslate();
-	//
-	// tip += "<br>scale=" + numberFormat.format(getView().getScale())
-	// + ", translate=[x=" + numberFormat.format(trans.getX())
-	// + ",y=" + numberFormat.format(trans.getY()) + "]";
-	// tip += "</html>";
-	//
-	// return tip;
-	// }
 
 	/**
 	 * Overrides the method to use the currently selected edge template for new
