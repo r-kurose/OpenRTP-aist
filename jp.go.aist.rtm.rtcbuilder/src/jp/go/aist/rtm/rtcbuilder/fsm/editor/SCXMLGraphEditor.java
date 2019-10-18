@@ -1352,6 +1352,17 @@ public class SCXMLGraphEditor extends JPanel {
 			case EDGE:
 				ee = new SCXMLTransitionEditor(frame, cell, this, pos);
 				SCXMLEdge edge = (SCXMLEdge)cell.getValue();
+				
+				SCXMLNode sourceState = (SCXMLNode)cell.getSource().getValue();
+				SCXMLNode targetState = (SCXMLNode)cell.getTarget().getValue();
+				if(sourceState.isInitial() || targetState.isInitial()) {
+					JOptionPane.showMessageDialog(getGraphComponent(),
+							"The transition from the start node cannot be edited.",
+							mxResources.get("error"),
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				
 				EventParam source = new EventParam();
 				source.setName(edge.getEvent());
 				source.setCondition(edge.getCondition());

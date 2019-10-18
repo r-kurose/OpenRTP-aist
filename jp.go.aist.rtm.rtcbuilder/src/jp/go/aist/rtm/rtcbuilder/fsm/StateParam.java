@@ -100,6 +100,18 @@ public class StateParam {
 		return allTransList;
 	}
 	
+	public StateParam getStateParam(String stateName) {
+		StateParam result = null;
+		for(StateParam each : allStateList) {
+			if(each.getName().equals(stateName)) {
+				result = each;
+				break;
+			}
+		}
+		return result;
+		
+	}
+	
 	public void setEventParam(RtcParam rtcParam) {
 		for(TransitionParam each : allTransList) {
 			each.searchEventParam(rtcParam);
