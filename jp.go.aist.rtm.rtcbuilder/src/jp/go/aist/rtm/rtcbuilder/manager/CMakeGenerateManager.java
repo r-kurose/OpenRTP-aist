@@ -74,39 +74,26 @@ public class CMakeGenerateManager extends GenerateManager {
 			Map<String, Object> contextMap) {
 		List<GeneratedResult> result = new ArrayList<GeneratedResult>();
 
-		GeneratedResult gr;
 		//Root
-		gr = generateCOPYING(contextMap);
-		result.add(gr);
-		gr = generateCOPYING_LESSER(contextMap);
-		result.add(gr);
-		gr = generateCMakeLists(contextMap);
-		result.add(gr);
+		result.add(generateCOPYING(contextMap));
+		result.add(generateCOPYING_LESSER(contextMap));
+		result.add(generateCMakeLists(contextMap));
 
 		//cmake
-		gr = generateCmakeCMakeLists(contextMap);
-		result.add(gr);
-		gr = generateCmakeCPackOption(contextMap);
-		result.add(gr);
-		gr = generateResourceLicenseRTF(contextMap);
-		result.add(gr);
-		gr = generateCmakeConfigVersion(contextMap);
-		result.add(gr);
-		gr = generateCmakeConfig(contextMap);
-		result.add(gr);
-		gr = generateCmakePcIn(contextMap);
-		result.add(gr);
-		gr = generateModulesUninstall(contextMap);
-		result.add(gr);
-		gr = generateUtilIn(contextMap);
-		result.add(gr);
+		result.add(generateCmakeCMakeLists(contextMap));
+		result.add(generateCmakeCPackOption(contextMap));
+		result.add(generateResourceLicenseRTF(contextMap));
+		result.add(generateCmakeConfigVersion(contextMap));
+		result.add(generateCmakeConfig(contextMap));
+		result.add(generateCmakePcIn(contextMap));
+		result.add(generateModulesUninstall(contextMap));
+		result.add(generateUtilIn(contextMap));
 		
 		//test cmake
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		boolean isStaticFSM = rtcParam.isStaticFSM();
-		if(rtcParam.isChoreonoid()==false && isStaticFSM==false) {
-			gr = generateTestCMakeLists(contextMap);
-			result.add(gr);
+		if(rtcParam.isChoreonoid()==false) {
+			result.add(generateTestCMakeLists(contextMap));
+			GeneratedResult gr;
 			gr = generateTestIncludeCMakeLists(contextMap);
 			if(gr!=null) result.add(gr);
 			gr = generateTestIncModuleCMakeLists(contextMap);
@@ -116,34 +103,25 @@ public class CMakeGenerateManager extends GenerateManager {
 		}
 
 		//doc
-		gr = generateDocCMakeLists(contextMap);
-		result.add(gr);
-		gr = generateDocConfPy(contextMap);
-		result.add(gr);
-		gr = generateDoxyfile(contextMap);
-		result.add(gr);
+		result.add(generateDocCMakeLists(contextMap));
+		result.add(generateDocConfPy(contextMap));
+		result.add(generateDoxyfile(contextMap));
 
 		//doc/content
-		gr = generateDocIndex(contextMap);
-		result.add(gr);
-		gr = generateDocIndexJ(contextMap);
-		result.add(gr);
+		result.add(generateDocIndex(contextMap));
+		result.add(generateDocIndexJ(contextMap));
 
 		//idl
-		gr = generateIdlCMakeLists(contextMap);
-		result.add(gr);
+		result.add(generateIdlCMakeLists(contextMap));
 
 		//include
-		gr = generateIncludeCMakeLists(contextMap);
-		result.add(gr);
+		result.add(generateIncludeCMakeLists(contextMap));
 
 		//include/Module
-		gr = generateIncModuleCMakeLists(contextMap);
-		result.add(gr);
+		result.add(generateIncModuleCMakeLists(contextMap));
 
 		//src
-		gr = generateSrcCMakeLists(contextMap);
-		result.add(gr);
+		result.add(generateSrcCMakeLists(contextMap));
 
 		return result;
 	}

@@ -11,6 +11,7 @@ namespace ${rtcParam.name}Fsm {
 
 // Top state
 RTC::ReturnCode_t ${fsmParam.name}::onInit() {
+  ${tmpltHelper.getInitialState(${rtcParam})}
   return RTC::RTC_OK;
 }
 

@@ -67,6 +67,11 @@ ${rtcParam.name}Test::${rtcParam.name}Test(RTC::Manager* manager)
 ,
     ${rtcParam.commonPrefix}${rtcParam.servicePortPrefix}${servicePort.name}Port${rtcParam.servicePortSuffix}${rtcParam.commonSuffix}("${servicePort.name}")#end#end#end
 
+#if( ${tmpltHelper.checkFSM(${rtcParam})})
+#foreach($eachTrans in ${fsmParam.getAllTransList()})
+#if( ${eachTrans.event.length()} > 0 )
+,
+    ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${eachTrans.event}Out${rtcParam.dataPortSuffix}${rtcParam.commonSuffix}("${eachTrans.event}", ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${eachTrans.event}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix})#end#end#end
 
     // </rtc-template>
 {
@@ -99,6 +104,12 @@ RTC::ReturnCode_t ${rtcParam.name}Test::onInitialize()
 #foreach($port in ${rtcParam.inports})
 #if(${port.type}!="")  addOutPort("${port.name}", ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}Out${rtcParam.dataPortSuffix}${rtcParam.commonSuffix});
 #end
+#end
+#if( ${tmpltHelper.checkFSM(${rtcParam})})
+#foreach($eachTrans in ${fsmParam.getAllTransList()})
+#if( ${eachTrans.event.length()} > 0 )
+  addOutPort("${eachTrans.event}", m_${eachTrans.event}Out);
+#end#end
 #end
   
   // Set service provider to Ports

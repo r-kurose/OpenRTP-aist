@@ -88,10 +88,6 @@ public class CXXGenerateManager extends GenerateManager {
 		if(isStaticFSM) {
 			result.add(generateFSMHeader(contextMap));
 			result.add(generateFSMSource(contextMap));
-			//
-			result.add(generateTestCompSource(contextMap));
-			result.add(generateFSMTestHeader(contextMap));
-			result.add(generateFSMTestSource(contextMap));
 		}
 
 		for (IdlFileParam idl : rtcParam.getProviderIdlPathes()) {
@@ -100,7 +96,7 @@ public class CXXGenerateManager extends GenerateManager {
 			result.add(generateSVCSource(contextMap));
 		}
 		//
-		if(rtcParam.isChoreonoid()==false && isStaticFSM==false) {
+		if(rtcParam.isChoreonoid()==false) {
 			result.add(generateTestCompSource(contextMap));
 			result.add(generateTestHeader(contextMap));
 			result.add(generateTestSource(contextMap));

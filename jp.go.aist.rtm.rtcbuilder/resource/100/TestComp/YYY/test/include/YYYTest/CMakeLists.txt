@@ -1,4 +1,5 @@
-set(hdrs YYYTest.h
+set(hdrs
+    YYYTest.h
     MyServiceTestSVC_impl.h
     PARENT_SCOPE
     )

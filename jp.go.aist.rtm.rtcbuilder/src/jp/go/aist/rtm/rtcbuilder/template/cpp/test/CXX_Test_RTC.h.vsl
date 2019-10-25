@@ -388,6 +388,15 @@ class ${rtcParam.name}Test
   RTC::OutPort<${port.type}> ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${port.tmplVarName}Out${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
 #end
 #end
+#if( ${tmpltHelper.checkFSM(${rtcParam})})
+#foreach($eachTrans in ${fsmParam.getAllTransList()})
+#if( ${eachTrans.event.length()} > 0 )
+    ${eachTrans.dataType} ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${eachTrans.event}${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
+    RTC::OutPort<${eachTrans.dataType}> ${rtcParam.commonPrefix}${rtcParam.dataPortPrefix}${eachTrans.event}Out${rtcParam.dataPortSuffix}${rtcParam.commonSuffix};
+    
+#end
+#end
+#end
   
   // </rtc-template>
 
