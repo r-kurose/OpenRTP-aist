@@ -1,13 +1,9 @@
 package jp.go.aist.rtm.rtcbuilder.ui.editors;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.GregorianCalendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -50,12 +46,11 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.nl.Messages;
-import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 import jp.go.aist.rtm.rtcbuilder.ui.preference.ComponentPreferenceManager;
-import jp.go.aist.rtm.rtcbuilder.ui.preference.RTCBuilderPreferenceManager;
-import jp.go.aist.rtm.rtcbuilder.util.FileUtil;
+import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 import jp.go.aist.rtm.rtcbuilder.util.ValidationUtil;
 
 /**
@@ -91,6 +86,9 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 	private String defaultPortType;
 	private String defaultPortVarName;
 	private String[] defaultTypeList;
+	
+	private List<DataParam> typeList = new ArrayList<DataParam>();
+	private List<DataParam> currentList = new ArrayList<DataParam>();
 
 	/**
 	 * コンストラクタ
@@ -164,10 +162,8 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		Composite composite = createSectionBaseWithLabel(toolkit, form,
 				"Detail", IMessageConstants.DATAPORT_DOCUMENT_EXPL, 2);
 		//
-		portNameText = createLabelAndText(toolkit, composite,
-				Messages.getString("IMC.DATAPORT_LBL_PORTNAME"), SWT.BORDER);
-		portNameText.setEditable(false);
-		portNameText.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		portNameText = createLabelAndRefText(toolkit, composite,
+				Messages.getString("IMC.DATAPORT_LBL_PORTNAME"), SWT.BORDER, 1);
 		//
 		Group detailGroup = new Group(composite, SWT.SHADOW_ETCHED_IN);
 		detailGroup.setLayout(new GridLayout(3, false));
@@ -178,28 +174,43 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		Label label = toolkit.createLabel(detailGroup, IMessageConstants.REQUIRED + Messages.getString("IMC.DATAPORT_TBLLBL_DATATYPE"));
 		label.setForeground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_RED));
 		typeCombo = new Combo(detailGroup, SWT.DROP_DOWN);
-		typeCombo.setItems(defaultTypeList);
-		typeCombo.select(0);
+		/////
+		List<DataTypeParam> dataTypes = editor.getGeneratorParam().getDataTypeParams();
+		typeList.clear();
+		for(DataTypeParam each : dataTypes) {
+			for(String eachType : each.getDefinedTypes()) {
+				typeList.add(new DataParam(eachType, each.getFullPath()));
+			}
+		}
+		Collections.sort(typeList, new DataParamComparator());
+		currentList.clear();
+		currentList.addAll(typeList);
+		for(DataParam item : currentList) {
+			typeCombo.add(item.typeName);
+		}
+		/////
+		typeCombo.setText("");
 		typeCombo.addKeyListener(new KeyListener() {
 			public void keyReleased(KeyEvent e) {
 				String target = typeCombo.getText();
 				String[] keyList = target.split(" ");
-				List<String> filtered = new ArrayList<String>();
-				for (String each : defaultTypeList) {
+				currentList.clear();
+				for (DataParam each : typeList) {
 					boolean isHit = true;
 					for(String itemKey: keyList) {
-					  if (each.contains(itemKey)==false) {
+					  if (each.typeName.contains(itemKey)==false) {
 						  isHit = false;
 						  break;
 					  }
 					}
 					if (isHit) {
-						filtered.add(each);
+						currentList.add(each);
 					}
 				}
-				String[] newItems = filtered.toArray(new String[filtered.size()]);
-				Arrays.sort(newItems);
-				typeCombo.setItems(newItems);
+				Collections.sort(currentList, new DataParamComparator());
+				for(DataParam item : currentList) {
+					typeCombo.add(item.typeName);
+				}
 				typeCombo.setText(target);
 				typeCombo.setSelection(new Point(typeCombo.getText().length(), typeCombo.getText().length()) );
 			}
@@ -207,29 +218,40 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 		});
 		typeCombo.addSelectionListener(new SelectionListener() {
 			  public void widgetDefaultSelected(SelectionEvent e){}
-			  public void widgetSelected(SelectionEvent e){ update();}
+			  public void widgetSelected(SelectionEvent e){
+				  idlFileText.setText(currentList.get(typeCombo.getSelectionIndex()).idlPath);
+				  update();
+			  }
 			});
 		GridData gdcombo = new GridData(GridData.FILL_HORIZONTAL);
 		typeCombo.setLayoutData(gdcombo);
-
-		String[] items = typeCombo.getItems();
-		Arrays.sort(items);
-		typeCombo.setItems(items);
 
 		Button reloadButton = toolkit.createButton(detailGroup, "ReLoad", SWT.PUSH);
 		reloadButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				defaultTypeList = extractDataTypes();
-				Arrays.sort(defaultTypeList);
+				/////
+				List<DataTypeParam> dataTypes = editor.getGeneratorParam().getDataTypeParams();
+				typeList.clear();
 				typeCombo.removeAll();
-				typeCombo.setItems(defaultTypeList);
+				idlFileText.setText("");
+				for(DataTypeParam each : dataTypes) {
+					for(String eachType : each.getDefinedTypes()) {
+						typeList.add(new DataParam(eachType, each.getFullPath()));
+					}
+				}
+				Collections.sort(typeList, new DataParamComparator());
+				currentList.clear();
+				currentList.addAll(typeList);
+				for(DataParam item : currentList) {
+					typeCombo.add(item.typeName);
+				}
 			}
 		});
 		//
-		idlFileText = createLabelAndFile(toolkit, detailGroup, "idl",
-				Messages.getString("IMC.SERVICEPORT_LBL_IDLFILE"), SWT.COLOR_BLACK, SWT.BORDER);
-
+		idlFileText = createLabelAndRefText(toolkit, detailGroup,
+				Messages.getString("IMC.SERVICEPORT_LBL_IDLFILE"), SWT.BORDER, 2);
 		//
 		varNameText = createLabelAndText(toolkit, detailGroup, Messages.getString("IMC.DATAPORT_TBLLBL_VARNAME"), SWT.BORDER);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -374,8 +396,6 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 	}
 
 	public void update() {
-		updateIDLFile();
-
 		if (selectParam != null) {
 			selectParam.setType(typeCombo.getText());
 			selectParam.setVarName(StringUtil.getDocText(varNameText.getText()));
@@ -387,51 +407,15 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 			selectParam.setDocUnit(StringUtil.getDocText(unitText.getText()));
 			selectParam.setDocOccurrence(StringUtil.getDocText(occurrenceText.getText()));
 			selectParam.setDocOperation(StringUtil.getDocText(operationText.getText()));
+			if(typeCombo.getText() != null && typeCombo.getText().length()==0) {
+				idlFileText.setText("");
+			}
 		}
 		//
 		editor.updateEMFDataPorts(
 				editor.getRtcParam().getInports(), editor.getRtcParam().getOutports(),
 				editor.getRtcParam().getEventports(), editor.getRtcParam().getServicePorts());
 		editor.updateDirty();
-	}
-
-	private void updateIDLFile() {
-		if(idlFileText !=null ) {
-			String localIDL = idlFileText.getText();
-			if(localIDL!=null && localIDL.isEmpty()==false) {
-				String FS = System.getProperty("file.separator");
-				RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(RTCBuilderPreferenceManager.HOME_DIRECTORY, "");
-				String userHome = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(RTCBuilderPreferenceManager.HOME_DIRECTORY);
-				String userDir = userHome + FS + "idl";
-
-				Path sourcePath = Paths.get(localIDL);
-				File targetFile = new File(userDir + FS + sourcePath.getFileName());
-                boolean isCopy = true;
-
-				if(targetFile.exists()) {
-                	if(FileUtil.fileCompare(localIDL, targetFile)) {
-                		isCopy = false;
-                	} else {
-						File renameFile = new File(targetFile.getAbsolutePath() + DATE_FORMAT.format(new GregorianCalendar().getTime()));
-						targetFile.renameTo(renameFile);
-						FileUtil.removeBackupFiles(targetFile.getParent(), targetFile.getName());
-                	}
-				}
-
-				if(isCopy) {
-			        Path destinationPath = Paths.get(userDir + FS + sourcePath.getFileName());
-			        try {
-			            Files.copy(sourcePath,destinationPath);
-						defaultTypeList = extractDataTypes();
-						Arrays.sort(defaultTypeList);
-						typeCombo.removeAll();
-						typeCombo.setItems(defaultTypeList);
-			        } catch (IOException e) {
-			            e.printStackTrace();
-			        }
-				}
-			}
-		}
 	}
 
 	public void updateForOutput() {
@@ -457,7 +441,8 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 
 	private void clearText() {
 		portNameText.setText("");
-		typeCombo.select(0);
+		typeCombo.setText("");
+		idlFileText.setText("");
 		varNameText.setText("");
 		positionCombo.select(0);
 		descriptionText.setText("");
@@ -617,4 +602,19 @@ public class DataPortEditorFormPage extends AbstractEditorFormPage {
 			}
 		}
 	}
-}
+	
+	private class DataParam {
+		private String typeName;
+		private String idlPath;
+		
+		public DataParam(String typeName, String idlPath) {
+			this.typeName = typeName;
+			this.idlPath = idlPath;
+		}
+	}
+	private class DataParamComparator implements Comparator<DataParam> {
+		@Override
+		public int compare(DataParam p1, DataParam p2) {
+			return p1.typeName.compareTo(p2.typeName);
+		}
+	}}

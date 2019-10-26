@@ -32,9 +32,12 @@ import static jp.go.aist.rtm.rtcbuilder.util.StringUtil.splitString;
 import java.io.File;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
+import jp.go.aist.rtm.rtcbuilder.fsm.EventParam;
 import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
+import jp.go.aist.rtm.rtcbuilder.fsm.TransitionParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ConfigSetParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataPortParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.EventPortParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.PropertyParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
@@ -357,27 +360,59 @@ public class TemplateHelper {
 		return state.getName();
 	}
 	
+	public String getInitialState(RtcParam param) {
+		StringBuilder builder = new StringBuilder();
+		StateParam state = param.getFsmParam();
+		String initial = state.getInitialState();
+		String startNode = "";
+		for(TransitionParam each : state.getAllTransList()) {
+			if(each.getSource().equals(initial)) {
+				startNode = each.getTarget();
+				break;
+			}
+		}
+		if(0<startNode.length()) {
+			builder.append("setState");
+			builder.append("<").append(startNode).append(">");
+			builder.append("();");
+		}
+
+		return builder.toString();
+	}
+	
 	public String getConnectorString(RtcParam param) {
 		StringBuilder builder = new StringBuilder();
 		
 		for(DataPortParam port : param.getInports() ) {
 			if(port.getType().length()==0) continue;
 			if(0<builder.length()) builder.append(",");
-			builder.append("${PROJECT_NAME}0.").append(port.getName());
-			builder.append("?port=${PROJECT_NAME}Test0.").append(port.getName());
+            builder.append("${PROJECT_NAME}0.").append(port.getName());
+            builder.append("?port=${PROJECT_NAME}Test0.").append(port.getName());
 		}
 		for(DataPortParam port : param.getOutports() ) {
 			if(port.getType().length()==0) continue;
 			if(0<builder.length()) builder.append(",");
-			builder.append("${PROJECT_NAME}0.").append(port.getName());
-			builder.append("?port=${PROJECT_NAME}Test0.").append(port.getName());
+            builder.append("${PROJECT_NAME}0.").append(port.getName());
+            builder.append("?port=${PROJECT_NAME}Test0.").append(port.getName());
 		}
 		//
 		for(ServicePortParam port : param.getServicePorts() ) {
 			if(0<builder.length()) builder.append(",");
-			builder.append("${PROJECT_NAME}0.").append(port.getName());
-			builder.append("?port=${PROJECT_NAME}Test0.").append(port.getName());
+            builder.append("${PROJECT_NAME}0.").append(port.getName());
+            builder.append("?port=${PROJECT_NAME}Test0.").append(port.getName());
 		}
+		
+		EventPortParam evPort = param.getEventport();
+		if(evPort!=null) {
+			for(EventParam event : evPort.getEvents() ) {
+				if(0<builder.length()) builder.append(",");
+				
+				builder.append("${PROJECT_NAME}0.event");
+				builder.append("?port=${PROJECT_NAME}Test0.").append(event.getName());
+				builder.append("&fsm_event_name=").append(event.getName());
+			}
+		}
+		
 		return builder.toString();
 	}
 }

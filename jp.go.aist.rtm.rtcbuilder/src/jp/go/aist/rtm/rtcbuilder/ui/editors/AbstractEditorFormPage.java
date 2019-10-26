@@ -267,6 +267,22 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		return text;
 	}
 
+	protected Text createLabelAndRefText(FormToolkit toolkit, Composite composite,
+			String labelString, int style, int hspan) {
+		if( labelString!=null && labelString.length()>0 ) {
+			toolkit.createLabel(composite, labelString);
+		}
+
+		final Text text = toolkit.createText(composite, "", style);
+		text.setEditable(false);
+		text.setBackground(getSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		
+		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.horizontalSpan = hspan;
+		text.setLayoutData(gridData);
+		return text;
+	}
+	
 	protected Combo createLabelAndCombo(FormToolkit toolkit, Composite composite,
 			String labelString, String[] items) {
 		return createLabelAndCombo(toolkit, composite, labelString, items, 0);
@@ -421,7 +437,7 @@ public abstract class AbstractEditorFormPage extends FormPage {
 	}
 
 	protected String[] extractDataTypes() {
-		List<IdlPathParam> sources = RTCUtil.getIDLPathes(editor.getRtcParam());
+		RTCUtil.getIDLPathes(editor.getRtcParam());
 		String FS = System.getProperty("file.separator");
 		int baseindex = -1;
 		List<DataTypeParam> sourceContents = new ArrayList<DataTypeParam>();
@@ -431,8 +447,8 @@ public abstract class AbstractEditorFormPage extends FormPage {
         		"openrtm.idl", "rtc.idl", "sdopackage.idl",
         		"sharedmemory.idl");
 		
-		for (int intidx = 0; intidx < sources.size(); intidx++) {
-			IdlPathParam source = sources.get(intidx);
+		for (int intidx = 0; intidx < editor.getRtcParam().getIdlSearchPathList().size(); intidx++) {
+			IdlPathParam source = editor.getRtcParam().getIdlSearchPathList().get(intidx);
 			try {
 				File idlDir = new File(source.getPath());
 				String[] list = idlDir.list();
@@ -477,7 +493,6 @@ public abstract class AbstractEditorFormPage extends FormPage {
 		editor.getGeneratorParam().getDataTypeParams().clear();
 		editor.getGeneratorParam().getDataTypeParams().addAll(sourceContents);
 		//
-
 		return defaultTypeList;
 	}
 

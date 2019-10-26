@@ -1,8 +1,6 @@
 package jp.go.aist.rtm.rtcbuilder.util;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,11 +11,9 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.swt.graphics.RGB;
 
-import jp.go.aist.rtm.rtcbuilder.RtcBuilderPlugin;
 import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
-import jp.go.aist.rtm.rtcbuilder.ui.preference.RTCBuilderPreferenceManager;
 
 public class RTCUtil {
 
@@ -62,36 +58,8 @@ public class RTCUtil {
 		return result;
 	}
 
-	public static void setDefaultUserDir() {
-		if(RtcBuilderPlugin.getDefault()!=null) {
-			String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(RTCBuilderPreferenceManager.HOME_DIRECTORY);
-			if(resultTemp==null || resultTemp.isEmpty()) {
-				boolean isWindows = false;
-				String targetOS = System.getProperty("os.name").toLowerCase();
-				if(targetOS.toLowerCase().startsWith("windows")) {
-					isWindows = true;
-				}
-				String dirName = "";
-				String FS = System.getProperty("file.separator");
-				if(isWindows) {
-					dirName = System.getenv("APPDATA");
-				} else {
-					dirName = System.getProperty("user.home");
-				}
-				String userHome = dirName + FS + ".openrtp";
-				dirName += FS + ".openrtp" + FS + "idl";
-				File newdir = new File(dirName);
-				try {
-					newdir.mkdirs();
-				} catch (Exception ex) {
-				}
-				RtcBuilderPlugin.getDefault().getPreferenceStore().setValue(RTCBuilderPreferenceManager.HOME_DIRECTORY, userHome);
-			}
-		}
-	}
-
-	public static List<IdlPathParam> getIDLPathes(RtcParam target) {
-		List<IdlPathParam> result = new ArrayList<IdlPathParam>();
+	public static void getIDLPathes(RtcParam target) {
+		target.getIdlSearchPathList().clear();
 		List<String> added = new ArrayList<String>();
 
 		String FS = System.getProperty("file.separator");
@@ -101,29 +69,8 @@ public class RTCUtil {
 			if(!defaultPath.endsWith(FS)) {
 				defaultPath += FS;
 			}
-			result.add(new IdlPathParam(defaultPath + "rtm" + FS + "idl", true));
+			target.getIdlSearchPathList().add(new IdlPathParam(defaultPath + "rtm" + FS + "idl", true));
 			added.add(defaultPath + "rtm" + FS + "idl");
-		}
-		//
-		if(RtcBuilderPlugin.getDefault()!=null) {
-			List<String> resultsetting = new ArrayList<String>();
-			RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(RTCBuilderPreferenceManager.IDLFILE_DIRECTORIES, "");
-			String resultTemp = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(RTCBuilderPreferenceManager.IDLFILE_DIRECTORIES);
-			resultsetting = Arrays.asList(resultTemp.split(File.pathSeparator));
-			for(String each : resultsetting) {
-				if(each.length()==0) continue;
-				if(added.contains(each)) continue;
-				result.add(new IdlPathParam(each, false));
-				added.add(each);
-			}
-			//
-			RtcBuilderPlugin.getDefault().getPreferenceStore().setDefault(RTCBuilderPreferenceManager.HOME_DIRECTORY, "");
-			String userHome = RtcBuilderPlugin.getDefault().getPreferenceStore().getString(RTCBuilderPreferenceManager.HOME_DIRECTORY);
-			String userDir = userHome + FS + "idl";
-			if(added.contains(userDir)==false) {
-				result.add(new IdlPathParam(userDir, false));
-				added.add(userDir);
-			}
 		}
 		//
 		if(target!=null && target.getOutputProject()!=null && 0<target.getOutputProject().length()) {
@@ -133,14 +80,13 @@ public class RTCUtil {
 				IFolder path = project.getFolder("idl");
 				if(path!=null && path.exists()) {
 					if(added.contains(path.getLocation().toOSString())==false) {
-						result.add(new IdlPathParam(path.getLocation().toOSString(), false));
+						target.getIdlSearchPathList().add(new IdlPathParam(path.getLocation().toOSString(), false));
 						added.add(path.getLocation().toOSString());
 					}
 				}
 			} catch (Exception ex) {
 			}
 		}
-		return result;
 	}
 
 	public static boolean checkDefault(String target, List<DataTypeParam> typeList) {

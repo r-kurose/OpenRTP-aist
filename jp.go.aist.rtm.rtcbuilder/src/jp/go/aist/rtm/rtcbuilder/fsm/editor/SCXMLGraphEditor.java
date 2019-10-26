@@ -104,6 +104,7 @@ import jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.scxml.eleditor.SCXMLTransitio
 import jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.utils.AbstractActionWrapper;
 import jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.utils.ListCellSelector;
 import jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.utils.Pair;
+import jp.go.aist.rtm.rtcbuilder.nl.Messages;
 
 public class SCXMLGraphEditor extends JPanel {
 	public Preferences preferences = Preferences.userRoot();
@@ -916,7 +917,7 @@ public class SCXMLGraphEditor extends JPanel {
 			int errNo = validationStatus.getListModel().size();
 			if(0<errNo) {
 				int confirm = JOptionPane.showConfirmDialog(this,
-								"定義した状態遷移にエラーが存在します．このまま保存してもよろしいですか？",
+								Messages.getString("IMC.FSM_SAVE_ERROR"),
 								"SCXML Editor",
 								JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 				if (confirm!=JOptionPane.YES_OPTION) return;

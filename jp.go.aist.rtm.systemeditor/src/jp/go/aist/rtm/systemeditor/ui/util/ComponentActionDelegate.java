@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import jp.go.aist.rtm.systemeditor.nl.Messages;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaComponent;
 import jp.go.aist.rtm.toolscommon.model.component.CorbaExecutionContext;
+import jp.go.aist.rtm.toolscommon.model.component.ExecutionContext;
 import jp.go.aist.rtm.toolscommon.model.manager.RTCManager;
 
 /**
@@ -159,7 +160,14 @@ public class ComponentActionDelegate {
 			Command cmd = Command.of( //
 					() -> {
 						return LOG_R(log, "start()", comp, () -> {
-							return comp.startR();
+							Integer returnCode = comp.startR();
+							if(returnCode==CorbaComponent.RETURNCODE_PRECONDITION_NOT_MET) {
+								int state = comp.getExecutionContextState();
+								if(state == ExecutionContext.STATE_RUNNING) {
+									returnCode = null;
+								}
+							}
+							return returnCode;
 						});
 					}, //
 					() -> {
@@ -190,7 +198,14 @@ public class ComponentActionDelegate {
 			Command cmd = Command.of( //
 					() -> {
 						return LOG_R(log, "stop()", comp, () -> {
-							return comp.stopR();
+							Integer returnCode = comp.stopR();
+							if(returnCode==CorbaComponent.RETURNCODE_PRECONDITION_NOT_MET) {
+								int state = comp.getExecutionContextState();
+								if(state == ExecutionContext.STATE_STOPPED) {
+									returnCode = null;
+								}
+							}
+							return returnCode;
 						});
 					}, //
 					() -> {
@@ -222,7 +237,14 @@ public class ComponentActionDelegate {
 			Command cmd = Command.of( //
 					() -> {
 						return LOG_R(log, "activate()", comp, () -> {
-							return comp.activateR();
+							Integer returnCode = comp.activateR();
+							if(returnCode==CorbaComponent.RETURNCODE_PRECONDITION_NOT_MET) {
+								int state = comp.getComponentState();
+								if(state == ExecutionContext.RTC_ACTIVE) {
+									returnCode = null;
+								}
+							}
+							return returnCode;
 						});
 					}, //
 					() -> {
@@ -254,7 +276,14 @@ public class ComponentActionDelegate {
 			Command cmd = Command.of( //
 					() -> {
 						return LOG_R(log, "deactivate()", comp, () -> {
-							return comp.deactivateR();
+							Integer returnCode = comp.deactivateR();
+							if(returnCode==CorbaComponent.RETURNCODE_PRECONDITION_NOT_MET) {
+								int state = comp.getComponentState();
+								if(state == ExecutionContext.RTC_INACTIVE) {
+									returnCode = null;
+								}
+							}
+							return returnCode;
 						});
 					}, //
 					() -> {

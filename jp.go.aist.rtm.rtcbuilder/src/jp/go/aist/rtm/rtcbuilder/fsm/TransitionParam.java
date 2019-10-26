@@ -52,6 +52,16 @@ public class TransitionParam {
 		return eventParam != null;
 	}
 	
+	public String getDataType() {
+		if(this.eventParam==null) {
+			return "RTC::TimedLong";
+		}
+		if(this.eventParam.getDataType()==null || this.eventParam.getDataType().length()==0) {
+			return "RTC::TimedLong";
+		}
+		return this.eventParam.getDataType();
+	}
+	
 	public void searchEventParam(RtcParam rtcParam) {
 		String transName = this.event;
 		if(transName == null) transName = "";

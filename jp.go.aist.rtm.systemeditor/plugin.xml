@@ -426,6 +426,15 @@
 				id="org.eclipse.ui.commands.toggleState">
 			</state>
 		</command>
+		<command
+			categoryId="jp.go.aist.rtm.systemeditor.command.category"
+			id="rtse.command.observer.status.Attach_GLOBAL"
+			name="%Observer_Status_Attach_GLOBAL">
+			<state
+				class="org.eclipse.ui.handlers.RegistryToggleState:false"
+				id="org.eclipse.ui.commands.toggleState">
+			</state>
+		</command>
 	</extension>
 
 	<extension
@@ -599,6 +608,16 @@
 				</and>
 			</activeWhen>
 		</handler>
+		<handler
+			class="jp.go.aist.rtm.systemeditor.ui.handler.AttachStatusObserverCommandHandler"
+			commandId="rtse.command.observer.status.Attach_GLOBAL">
+			<activeWhen>
+				<and>
+					<reference definitionId="rtse.definition.activeSystemDiagramEditor"/>
+					<reference definitionId="rtse.definition.checkCorbaStatusObserverGlobal"/>
+				</and>
+			</activeWhen>
+		</handler>
 	</extension>
 
 	<extension
@@ -669,6 +688,24 @@
 			</with>
 		</definition>
 		<definition
+			id="rtse.definition.checkCorbaStatusObserverGlobal">
+			<with variable="activeEditor">
+				<test property="jp.go.aist.rtm.systemeditor.checkCorbaStatusObserverGlobal"
+					args="rtse.command.observer.status.Attach_GLOBAL"/>
+			</with>
+			<!--
+			<with variable="activeEditorId">
+				<iterate ifEmpty="false" operator="or">
+					<and>
+						<equals value="jp.go.aist.rtm.systemeditor.ui.editor.SystemDiagramEditor"/>
+						<test property="jp.go.aist.rtm.systemeditor.checkCorbaStatusObserver"
+							args="rtse.command.observer.status.Attach_GLOBAL"/>
+					</and>
+				</iterate>
+			</with>
+-->
+		</definition>
+		<definition
 			id="rtse.definition.selectEC">
 			<with variable="selection">
 				<iterate ifEmpty="false" operator="or">
@@ -696,6 +733,13 @@
 
 	<extension
 		point="org.eclipse.core.expressions.propertyTesters">
+		<propertyTester
+			id="rtse.propertytester.SystemDiagramEditorPropertyTester"
+			type="jp.go.aist.rtm.systemeditor.ui.editor.AbstractSystemDiagramEditor"
+			namespace="jp.go.aist.rtm.systemeditor"
+			properties="checkCorbaStatusObserverGlobal"
+			class="jp.go.aist.rtm.systemeditor.ui.propertyTester.SystemDiagramEditorPropertyTester">
+		</propertyTester>
 		<propertyTester
 			id="rtse.propertytester.ComponentEditPartPropertyTester"
 			type="jp.go.aist.rtm.systemeditor.ui.editor.editpart.ComponentEditPart"
@@ -826,6 +870,13 @@
 					id="rtse.menus.toolbar.Observer_Status_Attach"
 					label="%Observer_Status_Attach"
 					icon="icons/observer_status_attach.png"
+					style="toggle">
+				</command>
+				<command
+					commandId="rtse.command.observer.status.Attach_GLOBAL"
+					id="rtse.menus.toolbar.Observer_Status_Attach_GLOBAL"
+					label="%Observer_Status_Attach_GLOBAL"
+					icon="icons/observer_status_attach_global.png"
 					style="toggle">
 				</command>
 				<separator

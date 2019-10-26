@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import jp.go.aist.rtm.toolscommon.manager.ToolsCommonPreferenceManager;
 import jp.go.aist.rtm.toolscommon.model.component.Component;
 import jp.go.aist.rtm.toolscommon.model.component.ComponentPackage;
 import jp.go.aist.rtm.toolscommon.model.component.IPropertyMap;
@@ -477,9 +478,13 @@ public class SystemDiagramImpl extends ModelElementImpl implements SystemDiagram
 
 	@Override
 	public synchronized void addComponent(int pos, Component component) {
-		CorbaObserverHandler.eINSTANCE.attachStatusObserver(component);
-		for (Component comp : component.getComponents()) {
-			CorbaObserverHandler.eINSTANCE.attachStatusObserver(comp);
+		if (!ToolsCommonPreferenceManager.getInstance().isSTATUS_OBSERVER_ATTACH_ENABLE()) {
+			LOGGER.debug("addComponent: global observer attachment is off.");
+		} else {
+			CorbaObserverHandler.eINSTANCE.attachStatusObserver(component);
+			for (Component comp : component.getComponents()) {
+				CorbaObserverHandler.eINSTANCE.attachStatusObserver(comp);
+			}
 		}
 		//
 		if (pos == -1) {

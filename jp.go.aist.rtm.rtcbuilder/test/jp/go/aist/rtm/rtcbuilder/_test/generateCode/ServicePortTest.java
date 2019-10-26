@@ -12,6 +12,7 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.GeneratorParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortInterfaceParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.ServicePortParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlPathParam;
 
 public class ServicePortTest extends TestBase {
 	RtcParam rtcParam;
@@ -66,12 +67,13 @@ public class ServicePortTest extends TestBase {
 	}
 
 	public void testServicePort() throws Exception {
+		rtcParam.getIdlSearchPathList().add(new IdlPathParam("C:\\Program Files\\OpenRTM-aist\\1.2.0\\rtm\\idl", false));
+		
 		ServicePortParam service1 = new ServicePortParam("sv_name",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>();
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "if_name", "", "",
 				rootPath + "resource/CalibrationService.idl",
 				"ImageCalibService::CalibrationService",
-				"C:\\Program Files\\OpenRTM-aist\\1.2.0\\rtm\\idl",
 				0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);
@@ -92,12 +94,13 @@ public class ServicePortTest extends TestBase {
 	}
 
 	public void testServicePortJARA() throws Exception {
+		rtcParam.getIdlSearchPathList().add(new IdlPathParam("C:\\Program Files\\OpenRTM-aist\\1.2.0\\rtm\\idl", false));
+		
 		ServicePortParam service1 = new ServicePortParam("sv_name",0);
 		List<ServicePortInterfaceParam> srvinterts = new ArrayList<ServicePortInterfaceParam>();
 		ServicePortInterfaceParam int1 = new ServicePortInterfaceParam(service1, "if_name", "", "",
 				"C:\\Program Files\\OpenRTM-aist\\1.2.0\\rtm\\idl\\ManipulatorCommonInterface_Common.idl",
 				"JARA_ARM::ManipulatorCommonInterface_Common",
-				"C:\\Program Files\\OpenRTM-aist\\1.2.0\\rtm\\idl",
 				0);
 		srvinterts.add(int1);
 		service1.getServicePortInterfaces().addAll(srvinterts);

@@ -1,4 +1,6 @@
-set(comp_srcs XXXTest.cpp )
+set(comp_srcs
+   XXXTest.cpp
+   )
 set(standalone_srcs XXXTestComp.cpp)
 
 if(${OPENRTM_VERSION_MAJOR} LESS 2)

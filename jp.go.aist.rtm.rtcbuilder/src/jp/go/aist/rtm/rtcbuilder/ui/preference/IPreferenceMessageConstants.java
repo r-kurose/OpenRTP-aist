@@ -4,11 +4,6 @@ import jp.go.aist.rtm.rtcbuilder.nl.Messages;
 import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 
 public interface IPreferenceMessageConstants {
-	public static final String LBL_IDL_SEARCH_DIRS = Messages.getString("IPreferenceMessageConstants.DATA_TYPE_LBL_DIRS"); //$NON-NLS-1$
-	public static final String LBL_HOME_DIR = Messages.getString("IPreferenceMessageConstants.HOME_DIR"); //$NON-NLS-1$
-	public static final String DATA_TYPE_BTN_ADD = Messages.getString("IPreferenceMessageConstants.DATA_TYPE_BTN_ADD"); //$NON-NLS-1$
-	public static final String DATA_TYPE_BTN_DELETE = Messages.getString("IPreferenceMessageConstants.DATA_TYPE_BTN_DELETE"); //$NON-NLS-1$
-
 	public static final String CODE_GEN_TITLE_BASIC = Messages.getString("IPreferenceMessageConstants.CODE_GEN_TITLE_BASIC"); //$NON-NLS-1$
 	public static final String CODE_GEN_TITLE_DOCUMENT = Messages.getString("IPreferenceMessageConstants.CODE_GEN_TITLE_DOCUMENT"); //$NON-NLS-1$
 	public static final String CODE_GEN_TITLE_CONFIG = Messages.getString("IPreferenceMessageConstants.CODE_GEN_TITLE_CONFIG"); //$NON-NLS-1$

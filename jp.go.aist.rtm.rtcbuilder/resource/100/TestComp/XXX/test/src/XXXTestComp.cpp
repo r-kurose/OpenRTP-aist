@@ -116,7 +116,12 @@ int main (int argc, char** argv)
 
   bool ret = RunTest();
 
+#if RTM_MAJOR_VERSION >= 2
+  manager->terminate();
+  manager->join();
+#else
   manager->shutdown();
+#endif
 
   
   if (ret)

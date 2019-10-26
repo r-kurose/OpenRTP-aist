@@ -1,4 +1,6 @@
-set(comp_srcs YYYTest.cpp MyServiceTestSVC_impl.cpp )
+set(comp_srcs
+   YYYTest.cpp
+   MyServiceTestSVC_impl.cpp )
 set(standalone_srcs YYYTestComp.cpp)
 
 if(${OPENRTM_VERSION_MAJOR} LESS 2)

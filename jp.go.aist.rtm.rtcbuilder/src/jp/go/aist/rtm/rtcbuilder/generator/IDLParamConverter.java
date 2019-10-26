@@ -256,11 +256,11 @@ public class IDLParamConverter {
 			List<String> types = parseForTypeDef(spec);
 			for( Iterator<String> iterRes = types.iterator(); iterRes.hasNext(); ) {
 				String resultType = iterRes.next();
+				targetParam.getDefinedTypes().add(resultType);
 				if( result.contains(resultType) ) {
 					continue;
 				}
 				result.add(resultType);
-				targetParam.getDefinedTypes().add(resultType);
 			}
 		}
 		return ret;
