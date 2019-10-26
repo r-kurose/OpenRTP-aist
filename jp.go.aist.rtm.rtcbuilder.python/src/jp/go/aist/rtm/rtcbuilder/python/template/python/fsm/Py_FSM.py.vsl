@@ -24,6 +24,7 @@ import OpenRTM_aist.StaticFSM as StaticFSM
 @StaticFSM.FSM_TOPSTATE
 class ${fsmParam.name}(StaticFSM.Link):
     def onInit(self):
+        self.set_state(StaticFSM.State(${tmpltHelper.getInitialState(${rtcParam})}))
         return RTC.RTC_OK
         
 #foreach($eachTrans in ${fsmParam.getAllTransList()})

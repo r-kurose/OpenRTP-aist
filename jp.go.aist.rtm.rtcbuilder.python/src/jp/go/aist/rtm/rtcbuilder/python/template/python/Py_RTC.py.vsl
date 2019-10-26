@@ -298,12 +298,12 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #if(${tmpltHelper.checkDetailContent(0,${rtcParam})})        ${rtcParam.getDetailContent(0)}
 #end
 #if( ${tmpltHelper.checkFSM(${rtcParam})} )
-        self._fsm = StaticFSM.Machine(${rtcParam.name}Fsm.${tmpltHelper.getTopFSMName(${rtcParam})}, self)
+        self._fsm = StaticFSM.Machine(${rtcParam.name}FSM.${tmpltHelper.getTopFSMName(${rtcParam})}, self)
         self._eventIn = EventPort.EventInPort("event", self._fsm)
         self.addInPort("event", self._eventIn)
 #foreach($eachTrans in ${fsmParam.getAllTransList()})
 #if( ${eachTrans.event.length()} > 0 )
-        self._eventIn.bindEvent0("${eachTrans.event}", ${rtcParam.name}Fsm.${tmpltHelper.getTopFSMName(${rtcParam})}.${eachTrans.event})
+        self._eventIn.bindEvent0("${eachTrans.event}", ${rtcParam.name}FSM.${tmpltHelper.getTopFSMName(${rtcParam})}.${eachTrans.event})
 #end
 #end
 #end
@@ -439,11 +439,10 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
     #if(${rtcParam.IsNotImplemented(9)})${sharp}#end${sharp}
     #if(${rtcParam.IsNotImplemented(9)})${sharp}#end${def} onExecute(self, ec_id):
     #if(${rtcParam.IsNotImplemented(9)})${sharp}#end
-#if(${tmpltHelper.checkDetailContent(9,${rtcParam})})        ${rtcParam.getDetailContent(9)}
-#if( ${tmpltHelper.checkFSM(${rtcParam})} )        self._fsm.run_event()
-#end
-#end
 
+#if(${tmpltHelper.checkDetailContent(9,${rtcParam})})        ${rtcParam.getDetailContent(9)}
+#end
+#if( ${tmpltHelper.checkFSM(${rtcParam})} )    self._fsm.run_event()#end
     #if(${rtcParam.IsNotImplemented(9)})${sharp}#end    return RTC.RTC_OK
 	
     #if(${rtcParam.IsNotImplemented(6)})${sharp}#end${sharp}${sharp}

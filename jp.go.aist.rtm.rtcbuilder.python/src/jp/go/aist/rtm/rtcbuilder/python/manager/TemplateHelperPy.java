@@ -5,11 +5,8 @@ import java.util.List;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
 import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.DataTypeParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
-import jp.go.aist.rtm.rtcbuilder.generator.param.idl.ServiceClassParam;
 import jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython;
-import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
 import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 
 /**

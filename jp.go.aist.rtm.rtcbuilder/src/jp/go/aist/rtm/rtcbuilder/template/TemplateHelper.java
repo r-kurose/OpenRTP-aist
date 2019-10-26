@@ -361,7 +361,6 @@ public class TemplateHelper {
 	}
 	
 	public String getInitialState(RtcParam param) {
-		StringBuilder builder = new StringBuilder();
 		StateParam state = param.getFsmParam();
 		String initial = state.getInitialState();
 		String startNode = "";
@@ -371,13 +370,8 @@ public class TemplateHelper {
 				break;
 			}
 		}
-		if(0<startNode.length()) {
-			builder.append("setState");
-			builder.append("<").append(startNode).append(">");
-			builder.append("();");
-		}
 
-		return builder.toString();
+		return startNode;
 	}
 	
 	public String getConnectorString(RtcParam param) {
