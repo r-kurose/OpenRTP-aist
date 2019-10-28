@@ -29,7 +29,6 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;attribute name="instanceName" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       &lt;attribute name="idlFile" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       &lt;attribute name="type" use="required" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       &lt;attribute name="path" type="{http://www.w3.org/2001/XMLSchema}string" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -54,8 +53,6 @@ public class Serviceinterface {
     protected String idlFile;
     @XmlAttribute(name = "type", namespace = "http://www.openrtp.org/namespaces/rtc", required = true)
     protected String type;
-    @XmlAttribute(name = "path", namespace = "http://www.openrtp.org/namespaces/rtc")
-    protected String path;
 
     /**
      * Gets the value of the name property.
@@ -175,30 +172,6 @@ public class Serviceinterface {
      */
     public void setType(String value) {
         this.type = value;
-    }
-
-    /**
-     * Gets the value of the path property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getPath() {
-        return path;
-    }
-
-    /**
-     * Sets the value of the path property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setPath(String value) {
-        this.path = value;
     }
 
 }

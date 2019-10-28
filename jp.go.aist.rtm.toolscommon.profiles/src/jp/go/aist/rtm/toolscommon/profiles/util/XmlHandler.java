@@ -961,7 +961,6 @@ public class XmlHandler {
 						serviceIF03.setInstanceName(serviceIF02.getInstanceName());
 						serviceIF03.setIdlFile(serviceIF02.getIdlFile());
 						serviceIF03.setType(serviceIF02.getType());
-						serviceIF03.setPath(serviceIF02.getPath());
 						//Doc Profile
 						if( serviceIF02 instanceof org.openrtp.namespaces.rtc.version02.ServiceinterfaceDoc) {
 							org.openrtp.namespaces.rtc.version02.DocServiceinterface docServiceIF02 = ((org.openrtp.namespaces.rtc.version02.ServiceinterfaceDoc)serviceIF02).getDoc();

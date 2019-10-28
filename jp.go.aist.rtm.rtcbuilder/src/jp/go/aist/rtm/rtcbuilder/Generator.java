@@ -300,7 +300,7 @@ public class Generator {
 		List<String> serviceInterfaceNames = new ArrayList<String>();
 		for( ServicePortParam servicePort : rtcParam.getServicePorts() ) {
 			for( ServicePortInterfaceParam serviceInterface : servicePort.getServicePortInterfaces() ) {
-				String result = ValidationUtil.validateServiceInterface(serviceInterface);
+				String result = ValidationUtil.validateServiceInterface(serviceInterface, rtcParam.getOutputProject());
 				if( result!=null ) 	throw new RuntimeException(result + " : " + rtcParam.getName());
 				if (serviceInterfaceNames.contains(serviceInterface.getTmplVarName()))
 					throw new RuntimeException(IRTCBMessageConstants.VALIDATE_ERROR_INTERFACESAMENAME + rtcParam.getName());

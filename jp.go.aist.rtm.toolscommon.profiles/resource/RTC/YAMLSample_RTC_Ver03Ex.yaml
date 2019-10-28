@@ -291,7 +291,6 @@ rtcProfile:
           idlFile: IF1Idlfile.idl
           instanceName: IF1Instance
           name: S1IF1
-          path: IF1SearchPath
           "rtcExt::properties": 
             -
               name: IF1PropKey1
@@ -306,7 +305,6 @@ rtcProfile:
           idlFile: IF2Idlfile.idl
           instanceName: IF2Instance
           name: S1IF2
-          path: IF2SearchPath
           type: IF2Type
           "rtcExt::variableName": IF2VarName
       transMethods: 

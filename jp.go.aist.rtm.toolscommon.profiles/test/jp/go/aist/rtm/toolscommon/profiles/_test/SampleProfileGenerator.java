@@ -317,7 +317,6 @@ public class SampleProfileGenerator {
 		serviceIF1.setVariableName("IF1VarName");
 		serviceIF1.setIdlFile("IF1Idlfile.idl");
 		serviceIF1.setType("IF1Type");
-		serviceIF1.setPath("IF1SearchPath");
 		//
 		DocServiceinterface docIf1 = factory.createDocServiceinterface();
 		docIf1.setDescription("if1 description");
@@ -330,7 +329,6 @@ public class SampleProfileGenerator {
 		service1.getServiceInterface().add(serviceIF1);
 		//
 		ServiceinterfaceExt serviceIF2 = factory.createServiceinterfaceExt();
-		serviceIF2.setPath("IF2SearchPath");
 		serviceIF2.setType("IF2Type");
 		serviceIF2.setIdlFile("IF2Idlfile.idl");
 		serviceIF2.setInstanceName("IF2Instance");
@@ -684,7 +682,6 @@ public class SampleProfileGenerator {
 		serviceIF1.setInstanceName("IF1Instance");
 		serviceIF1.setIdlFile("IF1Idlfile.idl");
 		serviceIF1.setType("IF1Type");
-		serviceIF1.setPath("IF1SearchPath");
 		////Doc
 		DocServiceinterface docIf1 = factory.createDocServiceinterface();
 		docIf1.setDescription("if1 Description");
@@ -715,7 +712,6 @@ public class SampleProfileGenerator {
 		serviceIF2.setVariableName("IF2VarName");
 		serviceIF2.setIdlFile("IF2Idlfile.idl");
 		serviceIF2.setType("IF2Type");
-		serviceIF2.setPath("IF2SearchPath");
 		service1.getServiceInterface().add(serviceIF2);
 		profile.getServicePorts().add(service1);
 		//

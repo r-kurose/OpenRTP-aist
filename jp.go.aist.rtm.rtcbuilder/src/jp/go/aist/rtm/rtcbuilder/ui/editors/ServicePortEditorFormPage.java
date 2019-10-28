@@ -276,9 +276,10 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
                     int selected = interfaceTypeCombo.getSelectionIndex();
                     if(0<=selected) {
                         ServiceClassParam selectedIF = currentIFList.get(selected);
+                        ((ServicePortInterfaceParam)selection.getData()).setIdlDispFile(selectedIF.getIdlDispFile());
                         ((ServicePortInterfaceParam)selection.getData()).setIdlFile(selectedIF.getIdlFile());
                     } else {
-                        ((ServicePortInterfaceParam)selection.getData()).setIdlFile(idlFileText.getText());
+                        ((ServicePortInterfaceParam)selection.getData()).setIdlDispFile(idlFileText.getText());
                     }
 					((ServicePortInterfaceParam)selection.getData()).setInterfaceType(interfaceTypeCombo.getText());
 					//
@@ -335,7 +336,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			}
 			checkSet.add(serviceport.getName());
 			for(ServicePortInterfaceParam ifparam : serviceport.getServicePortInterfaces()) {
-				result = ValidationUtil.validateServiceInterface(ifparam);
+				result = ValidationUtil.validateServiceInterface(ifparam, rtcParam.getOutputProject());
 				if( result!=null ) return result;
 				//
 				if( checkVarSet.contains(ifparam.getTmplVarName()) ) {
@@ -613,7 +614,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
   			  public void widgetSelected(SelectionEvent e){
   				int selected = interfaceTypeCombo.getSelectionIndex();
   				ServiceClassParam selectedCalsss = currentIFList.get(selected);
-  				idlFileText.setText(selectedCalsss.getIdlFile());
+  				idlFileText.setText(selectedCalsss.getIdlDispFile());
 			  }
   			});
     		Button reloadButton = toolkit.createButton(client, "ReLoad", SWT.PUSH);
@@ -639,7 +640,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
     				Messages.getString("IMC.SERVICEPORT_LBL_IDLFILE"), SWT.BORDER, 2);
     		if(0<defaultIFList.size()) {
 				ServiceClassParam selectedCalsss = defaultIFList.get(0);
-				idlFileText.setText(selectedCalsss.getIdlFile());
+				idlFileText.setText(selectedCalsss.getIdlDispFile());
     		}
 			
 			createSrvPortIfDocumentSection(form, client);
@@ -722,7 +723,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 			instanceNameText.setText(serviceInterface.getInstanceName());
 			varNameText.setText(serviceInterface.getVarName());
 			if(0<serviceInterface.getInterfaceType().length()) {
-				idlFileText.setText(serviceInterface.getIdlFile());
+				idlFileText.setText(serviceInterface.getIdlDispFile());
 				interfaceTypeCombo.setText(serviceInterface.getInterfaceType());
 			}
 			//
@@ -874,6 +875,7 @@ public class ServicePortEditorFormPage extends AbstractEditorFormPage {
 	                List<ServiceClassParam> serviceClassParams = IDLParamConverter.convert(parser.specification(), "");
 	                for(ServiceClassParam param : serviceClassParams) {
 	                    param.setIdlFile(targetFile);
+	                    param.setIdlDispFile(source.getDispPath() + FS + idlName);
 	                    defaultIFList.add(param);
 	                    currentIFList.add(param);
 	                }

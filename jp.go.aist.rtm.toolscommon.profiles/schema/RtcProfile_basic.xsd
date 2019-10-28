@@ -145,7 +145,6 @@
 		<xsd:attribute name="instanceName" type="xsd:string" use="optional"/>
 		<xsd:attribute name="idlFile" type="xsd:string" use="optional"/>
 		<xsd:attribute name="type" type="xsd:string" use="required"/>
-		<xsd:attribute name="path" type="xsd:string" use="optional"/>
 	</xsd:complexType>
 
 	<xsd:complexType name="transmission_method">
