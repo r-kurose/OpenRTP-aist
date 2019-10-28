@@ -5,5 +5,3 @@ if(UNIX)
 else()
   set_tests_properties(${dol}{PROJECT_NAME}_test PROPERTIES ENVIRONMENT "PYTHONPATH=${dol}{CMAKE_SOURCE_DIR}\;${dol}{PYTHONPATH}")
 endif()
-
-add_test(NAME ${dol}{PROJECT_NAME}_test COMMAND ${dol}<TARGET_FILE:${dol}{PROJECT_NAME}Test> -o "manager.components.precreate:${dol}{PROJECT_NAME}" -o "manager.components.preconnect:${tmpltHelper.getConnectorString(${rtcParam})}" -o "manager.components.preactivation:${dol}{PROJECT_NAME}0,${dol}{PROJECT_NAME}Test0" WORKING_DIRECTORY ${dol}{CMAKE_BINARY_DIR})
