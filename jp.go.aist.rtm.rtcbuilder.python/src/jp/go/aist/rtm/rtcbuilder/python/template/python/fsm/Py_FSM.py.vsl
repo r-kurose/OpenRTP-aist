@@ -69,7 +69,7 @@ class ${eachState.name}(StaticFSM.Link):
 #if( ${eachTrans.event.length()} > 0 )
 #if( ${eachTrans.existEventParam()} )
 #if( ${eachTrans.existEventParam()} )
-    def ${eachTrans.event}(self):
+    def ${eachTrans.event}(self, data):
         self.set_state(StaticFSM.State(${eachTrans.target}))
 #end
 #end
