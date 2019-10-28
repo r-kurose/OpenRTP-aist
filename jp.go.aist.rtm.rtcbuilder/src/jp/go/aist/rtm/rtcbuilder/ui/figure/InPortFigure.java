@@ -1,11 +1,11 @@
 package jp.go.aist.rtm.rtcbuilder.ui.figure;
 
-import jp.go.aist.rtm.rtcbuilder.model.component.DataInPort;
-import jp.go.aist.rtm.rtcbuilder.model.component.PortDirection;
-
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
+
+import jp.go.aist.rtm.rtcbuilder.model.component.DataInPort;
+import jp.go.aist.rtm.rtcbuilder.model.component.PortDirection;
 
 /**
  * InPortのFigure
