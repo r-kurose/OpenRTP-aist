@@ -655,6 +655,10 @@ public class FSMEditorFormPage extends AbstractEditorFormPage {
 				List<EventParam> newEventList = new ArrayList<EventParam>();
 				List<TransitionParam> transList = rootState.getAllTransList();
 				for(TransitionParam trans : transList) {
+					StateParam source = rootState.getStateParam(trans.getSource());
+					StateParam target = rootState.getStateParam(trans.getTarget());
+					if(source.isInitial() || target.isInitial()) continue;
+					
 					EventParam newParam = new EventParam();
 					newParam.setName(trans.getEvent());
 					newParam.setCondition(trans.getCondition());

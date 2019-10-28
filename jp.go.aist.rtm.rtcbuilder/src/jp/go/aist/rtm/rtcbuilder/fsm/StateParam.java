@@ -13,7 +13,8 @@ public class StateParam {
 	private String parentName;
 	private boolean hasEntry;
 	private boolean hasExit;
-	private boolean initial;	//対象ノードがinitialノードか？
+	private boolean isInitial;
+	private boolean isFinal;
 	
 	private List<StateParam> stateList = new ArrayList<StateParam>(); 
 	private List<TransitionParam> transList = new ArrayList<TransitionParam>(); 
@@ -71,10 +72,17 @@ public class StateParam {
 	}
 	
 	public boolean isInitial() {
-		return initial;
+		return isInitial;
 	}
 	public void setInitial(boolean initial) {
-		this.initial = initial;
+		this.isInitial = initial;
+	}
+	
+	public boolean isFinal() {
+		return isFinal;
+	}
+	public void setFinal(boolean isFinal) {
+		this.isFinal = isFinal;
 	}
 	
 	public List<StateParam> getStateList() {
@@ -91,13 +99,25 @@ public class StateParam {
 	public List<StateParam> getAllValidStateList() {
 		List<StateParam> result = new ArrayList<StateParam>();
 		for(StateParam each : allStateList) {
-			if(each.isInitial()) continue;
+			if(each.isInitial() || each.isFinal()) continue;
 			result.add(each);
 		}
 		return result;
 	}
 	public List<TransitionParam> getAllTransList() {
 		return allTransList;
+	}
+	
+	public StateParam getStateParam(String stateName) {
+		StateParam result = null;
+		for(StateParam each : allStateList) {
+			if(each.getName().equals(stateName)) {
+				result = each;
+				break;
+			}
+		}
+		return result;
+		
 	}
 	
 	public void setEventParam(RtcParam rtcParam) {

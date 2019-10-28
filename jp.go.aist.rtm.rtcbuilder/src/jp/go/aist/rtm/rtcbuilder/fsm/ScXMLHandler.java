@@ -141,6 +141,9 @@ public class ScXMLHandler {
 		if(strId!=null && strId.equals(parentParam.getInitialState())) {
 			child.setInitial(true);
 		}
+		if(state.isFinal()) {
+			child.setFinal(true);
+		}
 		
 		List<Transition> trans = state.getTransitionsList();
 		for(Transition tran : trans) {

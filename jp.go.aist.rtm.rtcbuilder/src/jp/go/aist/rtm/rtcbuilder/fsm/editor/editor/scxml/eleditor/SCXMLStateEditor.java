@@ -80,6 +80,11 @@ public class SCXMLStateEditor extends SCXMLEditorRoot {
         if(node.getOnExit().equals(STR_ON)) {
         	chkExit.setSelected(true);
         }
+        
+        if(node.isInitial() || node.isFinal()) {
+        	chkEntry.setEnabled(false);
+        	chkExit.setEnabled(false);
+        }
 		
 		pack();
 		setVisible(true);

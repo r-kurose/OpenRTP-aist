@@ -24,16 +24,15 @@ import jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.fileimportexport.SCXMLImportE
 import jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.fileimportexport.SCXMLNode;
 import jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.scxml.SCXMLEditorActions.AddAction;
 import jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.scxml.SCXMLEditorActions.AddCornerToEdgeAction;
+import jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.scxml.SCXMLEditorActions.AddInitialAction;
+import jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.scxml.SCXMLEditorActions.AddFinalAction;
 import jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.scxml.SCXMLEditorActions.DoLayoutAction;
 import jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.scxml.SCXMLEditorActions.EditEdgeAction;
 import jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.scxml.SCXMLEditorActions.EditNodeAction;
 import jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.scxml.SCXMLEditorActions.OpenAction;
 import jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.scxml.SCXMLEditorActions.RemoveCornerToEdgeAction;
 import jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.scxml.SCXMLEditorActions.SetNodeAsCluster;
-import jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.scxml.SCXMLEditorActions.SetNodeAsFinal;
 import jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.scxml.SCXMLEditorActions.SetNodeAsHistory;
-import jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.scxml.SCXMLEditorActions.SetNodeAsInitial;
-import jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.scxml.SCXMLEditorActions.SetNodeAsParallel;
 import jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.scxml.SCXMLEditorActions.SetNodeAsRestricted;
 import jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.scxml.SCXMLEditorActions.ToggleDisplayOutsourcedContentInNode;
 import jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.scxml.SCXMLEditorActions.ToggleWithTargetAction;
@@ -109,6 +108,8 @@ public class SCXMLEditorPopupMenu extends JPopupMenu {
 					// add node in case the cell under the pointer is a swimlane
 					boolean addNodeEnabled = graph.isSwimlane(c) && (editor.getCurrentFileIO() != null);
 					add(editor.bind(mxResources.get("addNode"), new AddAction(mousePt, c))).setEnabled(addNodeEnabled);
+					add(editor.bind(mxResources.get("addInitialNode"), new AddInitialAction(mousePt, c))).setEnabled(addNodeEnabled);
+					add(editor.bind(mxResources.get("addFinalNode"), new AddFinalAction(mousePt, c))).setEnabled(addNodeEnabled);
 					/*
 					 * Add new, restricted node
 					 */
@@ -136,26 +137,13 @@ public class SCXMLEditorPopupMenu extends JPopupMenu {
 						if (!nodeIsFake) {
 							if (!isHistoryNode)
 								addSeparator();
-							JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem(
-									editor.bind(mxResources.get("setAsInitialNode"), new SetNodeAsInitial(c)));
-							menuItem.setSelected(((SCXMLNode) (c.getValue())).isInitial());
-							add(menuItem);
+							JCheckBoxMenuItem menuItem;
 							if (!isHistoryNode) {
-								menuItem = new JCheckBoxMenuItem(
-										editor.bind(mxResources.get("setAsFinalNode"), new SetNodeAsFinal(c)));
-								menuItem.setSelected(((SCXMLNode) (c.getValue())).isFinal());
-								menuItem.setEnabled(!((SCXMLNode) (c.getValue())).isRestricted());
-								add(menuItem);
 								menuItem = new JCheckBoxMenuItem(
 										editor.bind(mxResources.get("setAsClusterNode"), new SetNodeAsCluster(c)));
 								menuItem.setSelected(((SCXMLNode) (c.getValue())).isClusterNode());
 								menuItem.setEnabled(!((SCXMLNode) (c.getValue())).isOutsourcedNode());
 								add(menuItem);
-//								menuItem = new JCheckBoxMenuItem(
-//										editor.bind(mxResources.get("setAsParallelNode"), new SetNodeAsParallel(c)));
-//								menuItem.setSelected(((SCXMLNode) (c.getValue())).isParallel());
-								add(menuItem);
-
 								/*
 								 * Toggle node as restricted
 								 */
