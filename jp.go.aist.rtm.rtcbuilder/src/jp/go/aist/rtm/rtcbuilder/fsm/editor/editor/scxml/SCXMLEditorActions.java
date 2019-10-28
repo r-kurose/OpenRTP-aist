@@ -1,3 +1,12 @@
+/*
+ * $Id: EditorActions.java,v 1.6 2009/12/08 19:52:50 gaudenz Exp $
+ * Copyright (c) 2001-2009, JGraph Ltd
+ * 
+ * All rights reserved.
+ * 
+ * See LICENSE file for license details. If you are unable to locate
+ * this file please contact info (at) jgraph (dot) com.
+ */
 package jp.go.aist.rtm.rtcbuilder.fsm.editor.editor.scxml;
 
 import java.awt.Component;
