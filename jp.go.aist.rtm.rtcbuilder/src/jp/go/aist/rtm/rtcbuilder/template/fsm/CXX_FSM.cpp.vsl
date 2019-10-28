@@ -44,7 +44,7 @@ RTC::ReturnCode_t ${eachState.name}::onExit() {
 #foreach($eachTrans in ${eachState.getTransList()})
 #if( ${eachTrans.event.length()} > 0 )
 #if( ${eachTrans.existEventParam()} )
-void ${eachState.name}::${eachTrans.event}(${eachTrans.eventParam.dataType}) {
+void ${eachState.name}::${eachTrans.event}(${eachTrans.eventParam.dataTypeStr}) {
   setState<${eachTrans.target}>();
 }
 
