@@ -442,7 +442,8 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 
 #if(${tmpltHelper.checkDetailContent(9,${rtcParam})})        ${rtcParam.getDetailContent(9)}
 #end
-#if( ${tmpltHelper.checkFSM(${rtcParam})} )    self._fsm.run_event()#end
+#if( ${tmpltHelper.checkFSM(${rtcParam})} )        self._fsm.run_event()
+#end
     #if(${rtcParam.IsNotImplemented(9)})${sharp}#end    return RTC.RTC_OK
 	
     #if(${rtcParam.IsNotImplemented(6)})${sharp}#end${sharp}${sharp}
