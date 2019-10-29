@@ -44,7 +44,11 @@ class ${fsmParam.name}(StaticFSM.Link):
 #if(${eachTrans.eventParam.doc_operation.length()}>0)     - Operation Cycle: ${tmpltHelperPy.convertCycleDocPy(${eachTrans.eventParam.doc_operation})}
 #end
     """
+#if( ${eachTrans.existDataType()} )
+    def ${eachTrans.event}(self, data):
+#else
     def ${eachTrans.event}(self):
+#end
         pass
 
 #end
@@ -68,7 +72,11 @@ class ${eachState.name}(StaticFSM.Link):
 #foreach($eachTrans in ${eachState.getTransList()})
 #if( ${eachTrans.event.length()} > 0 )
 #if( ${eachTrans.existEventParam()} )
+#if( ${eachTrans.existDataType()} )
     def ${eachTrans.event}(self, data):
+#else
+    def ${eachTrans.event}(self):
+#end
         self.set_state(StaticFSM.State(${eachTrans.target}))
 #end
 #end
