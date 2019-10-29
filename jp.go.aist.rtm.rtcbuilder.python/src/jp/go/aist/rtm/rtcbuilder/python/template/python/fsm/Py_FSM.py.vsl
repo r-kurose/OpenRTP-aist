@@ -68,10 +68,8 @@ class ${eachState.name}(StaticFSM.Link):
 #foreach($eachTrans in ${eachState.getTransList()})
 #if( ${eachTrans.event.length()} > 0 )
 #if( ${eachTrans.existEventParam()} )
-#if( ${eachTrans.existEventParam()} )
     def ${eachTrans.event}(self, data):
         self.set_state(StaticFSM.State(${eachTrans.target}))
-#end
 #end
 #end
 #end

@@ -303,7 +303,11 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
         self.addInPort("event", self._eventIn)
 #foreach($eachTrans in ${fsmParam.getAllTransList()})
 #if( ${eachTrans.event.length()} > 0 )
+#if( ${eachTrans.existDataType()})
+        self._eventIn.bindEvent1("${eachTrans.event}", ${rtcParam.name}FSM.${tmpltHelper.getTopFSMName(${rtcParam})}.${eachTrans.event}, OpenRTM_aist.instantiateDataType(${pyConv.convFullName(${eachTrans.dataType})}))
+#else
         self._eventIn.bindEvent0("${eachTrans.event}", ${rtcParam.name}FSM.${tmpltHelper.getTopFSMName(${rtcParam})}.${eachTrans.event})
+#end
 #end
 #end
 #end
