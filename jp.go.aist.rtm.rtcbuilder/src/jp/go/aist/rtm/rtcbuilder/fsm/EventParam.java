@@ -36,6 +36,10 @@ public class EventParam {
 	public void setDataType(String dataType) {
 		this.dataType = dataType;
 	}
+	public String getDataTypeStr() {
+		if(dataType==null || dataType.length()==0 ) return "";
+		return dataType + " data";
+	}
 	
 	
 	public String getCondition() {

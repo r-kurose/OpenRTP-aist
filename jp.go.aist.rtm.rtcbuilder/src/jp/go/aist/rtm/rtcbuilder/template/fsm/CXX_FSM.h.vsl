@@ -49,7 +49,7 @@ namespace ${rtcParam.name}Fsm {
 #if(${eachTrans.eventParam.doc_operation.length()}>0)     * - Operation Cycle: ${tmpltHelper.convertCycleDoc(${eachTrans.eventParam.doc_operation})}
 #end
      */
-    virtual void ${eachTrans.event}(${eachTrans.eventParam.dataType}) {}
+    virtual void ${eachTrans.event}(${eachTrans.eventParam.dataTypeStr}) {}
     
 #end
 #end
@@ -70,7 +70,7 @@ ${tmpltHelper.getHistory(${eachState})}
 #foreach($eachTrans in ${eachState.getTransList()})
 #if( ${eachTrans.event.length()} > 0 )
 #if( ${eachTrans.existEventParam()} )
-    void ${eachTrans.event}(${eachTrans.eventParam.dataType}) override;
+    void ${eachTrans.event}(${eachTrans.eventParam.dataTypeStr}) override;
 #end
 #end
 #end
