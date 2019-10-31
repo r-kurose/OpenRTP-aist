@@ -26,6 +26,11 @@ import RTC
 import OpenRTM_aist
 #foreach($idlModule in ${defaultModule})import ${idlModule}
 #end
+#if( ${tmpltHelper.checkFSM(${rtcParam})} )
+import OpenRTM_aist.StaticFSM as StaticFSM
+import OpenRTM_aist.EventPort as EventPort
+import ${rtcParam.name}FSM
+#end
 
 #foreach($IdlFile in ${allIdlFileParam})#if(!${IdlFile.dataPort})import ${tmpltHelper.getFilenameNoExt(${IdlFile.IdlFile})}_idl
 #end
@@ -292,6 +297,20 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end#end#end
 #if(${tmpltHelper.checkDetailContent(0,${rtcParam})})        ${rtcParam.getDetailContent(0)}
 #end
+#if( ${tmpltHelper.checkFSM(${rtcParam})} )
+        self._fsm = StaticFSM.Machine(${rtcParam.name}FSM.${tmpltHelper.getTopFSMName(${rtcParam})}, self)
+        self._eventIn = EventPort.EventInPort("event", self._fsm)
+        self.addInPort("event", self._eventIn)
+#foreach($eachTrans in ${fsmParam.getAllTransList()})
+#if( ${eachTrans.event.length()} > 0 )
+#if( ${eachTrans.existDataType()})
+        self._eventIn.bindEvent1("${eachTrans.event}", ${rtcParam.name}FSM.${tmpltHelper.getTopFSMName(${rtcParam})}.${eachTrans.event}, OpenRTM_aist.instantiateDataType(${pyConv.convFullName(${eachTrans.dataType})}))
+#else
+        self._eventIn.bindEvent0("${eachTrans.event}", ${rtcParam.name}FSM.${tmpltHelper.getTopFSMName(${rtcParam})}.${eachTrans.event})
+#end
+#end
+#end
+#end
 		
         return RTC.RTC_OK
 	
@@ -311,8 +330,11 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
     #if(${rtcParam.IsNotImplemented(1)})${sharp}#end${sharp} 
     #if(${rtcParam.IsNotImplemented(1)})${sharp}#end${def} onFinalize(self):
     #if(${rtcParam.IsNotImplemented(1)})${sharp}#end
+
 #if(${tmpltHelper.checkDetailContent(1,${rtcParam})})        ${rtcParam.getDetailContent(1)}
 #end
+#if( ${tmpltHelper.checkFSM(${rtcParam})} )
+    #if(${rtcParam.IsNotImplemented(1)})${sharp}#end    self._fsm.shutdown()#end
 
     #if(${rtcParam.IsNotImplemented(1)})${sharp}#end    return RTC.RTC_OK
 	
@@ -421,9 +443,11 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
     #if(${rtcParam.IsNotImplemented(9)})${sharp}#end${sharp}
     #if(${rtcParam.IsNotImplemented(9)})${sharp}#end${def} onExecute(self, ec_id):
     #if(${rtcParam.IsNotImplemented(9)})${sharp}#end
+
 #if(${tmpltHelper.checkDetailContent(9,${rtcParam})})        ${rtcParam.getDetailContent(9)}
 #end
-
+#if( ${tmpltHelper.checkFSM(${rtcParam})} )        self._fsm.run_event()
+#end
     #if(${rtcParam.IsNotImplemented(9)})${sharp}#end    return RTC.RTC_OK
 	
     #if(${rtcParam.IsNotImplemented(6)})${sharp}#end${sharp}${sharp}

@@ -62,6 +62,12 @@ public class TransitionParam {
 		return this.eventParam.getDataType();
 	}
 	
+	public boolean existDataType() {
+		if(this.eventParam==null) return false;
+		if(this.eventParam.getDataType()==null || this.eventParam.getDataType().length()==0) return false;
+		return true;
+	}
+	
 	public void searchEventParam(RtcParam rtcParam) {
 		String transName = this.event;
 		if(transName == null) transName = "";

@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jp.go.aist.rtm.rtcbuilder.fsm.StateParam;
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
@@ -125,8 +126,18 @@ public class PythonGenerateManager extends GenerateManager {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		List<IdlFileParam> allIdlFileParams = (List<IdlFileParam>) contextMap
 				.get("allIdlFileParam");
+		boolean isStaticFSM = rtcParam.isStaticFSM();
+		if(isStaticFSM) {
+			StateParam stateParam = rtcParam.getFsmParam();
+			stateParam.setEventParam(rtcParam);
+			contextMap.put("fsmParam", stateParam);
+		}
 
 		result.add(generatePythonSource(contextMap));
+		
+		if(isStaticFSM) {
+			result.add(generatePythonFSM(contextMap));
+		}
 		
 		result.add(generateScript1604(contextMap));
 		result.add(generateScript1804(contextMap));
@@ -171,6 +182,14 @@ public class PythonGenerateManager extends GenerateManager {
 		return generate(infile, outfile, contextMap);
 	}
 
+	public GeneratedResult generatePythonFSM(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = null;
+		outfile = rtcParam.getName()  + "FSM.py";
+		String infile = "python/fsm/Py_FSM.py.vsl";
+		return generate(infile, outfile, contextMap);
+	}
+	
 	// 1.0系 (ビルド環境)
 
 	public GeneratedResult generateIDLCompileBat(Map<String, Object> contextMap) {
