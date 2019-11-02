@@ -1,13 +1,17 @@
 package jp.go.aist.rtm.rtcbuilder.python.manager;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import jp.go.aist.rtm.rtcbuilder.generator.GeneratedResult;
 import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
+import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 import jp.go.aist.rtm.rtcbuilder.manager.CMakeGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
+import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
+
 import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
 import static jp.go.aist.rtm.rtcbuilder.util.RTCUtil.form;
 import static jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython.LANG_PYTHON;
@@ -48,13 +52,33 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 			Map<String, Object> contextMap) {
 		List<GeneratedResult> result = super.generateTemplateCode10(contextMap);
 
+
 		GeneratedResult gr;
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		if(0<rtcParam.getServicePorts().size()) {
+
+		boolean isExist = false;
+		List<IdlFileParam> allIdlFileParams = new ArrayList<IdlFileParam>();
+		for(IdlFileParam target : rtcParam.getProviderIdlPathes()) {
+			if(RTCUtil.checkDefault(target.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
+			isExist = true;
+			break;
+		}
+		if(isExist == false) {
+			for(IdlFileParam target : rtcParam.getConsumerIdlPathes()) {
+				if(RTCUtil.checkDefault(target.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
+				isExist = true;
+				break;
+			}
+		}
+
+		if(isExist) {
 			gr = generatePostinstIin(contextMap);
 			result.add(gr);
 			gr = generatePrermIn(contextMap);
 			result.add(gr);
+		}
+
+		if(0<rtcParam.getServicePorts().size()) {
 			gr = generateCMakeWixPatchXmlIn(contextMap);
 			result.add(gr);
 		}
