@@ -1,7 +1,11 @@
 package jp.go.aist.rtm.rtcbuilder.python.manager;
 
+import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.RTM_VERSION_100;
+import static jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython.LANG_PYTHON;
+import static jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython.LANG_PYTHON_ARG;
+import static jp.go.aist.rtm.rtcbuilder.util.RTCUtil.form;
+
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,11 +15,6 @@ import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 import jp.go.aist.rtm.rtcbuilder.manager.CMakeGenerateManager;
 import jp.go.aist.rtm.rtcbuilder.template.TemplateUtil;
 import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
-
-import static jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants.*;
-import static jp.go.aist.rtm.rtcbuilder.util.RTCUtil.form;
-import static jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython.LANG_PYTHON;
-import static jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython.LANG_PYTHON_ARG;
 
 public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 
@@ -57,7 +56,6 @@ public class PythonCMakeGenerateManager extends CMakeGenerateManager {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 
 		boolean isExist = false;
-		List<IdlFileParam> allIdlFileParams = new ArrayList<IdlFileParam>();
 		for(IdlFileParam target : rtcParam.getProviderIdlPathes()) {
 			if(RTCUtil.checkDefault(target.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
 			isExist = true;
