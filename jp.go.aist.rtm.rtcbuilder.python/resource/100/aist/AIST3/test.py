@@ -23,29 +23,28 @@ import _GlobalIDL, _GlobalIDL__POA
 # </rtc-template>
 # This module's spesification
 # <rtc-template block="module_spec">
-test_spec = ["implementation_id", "test", 
-		 "type_name",         "test", 
-		 "description",       "test component", 
-		 "version",           "1.0.0", 
-		 "vendor",            "S.Kurihara", 
-		 "category",          "example", 
-		 "activity_type",     "STATIC", 
-		 "max_instance",      "1", 
-		 "language",          "Python", 
+test_spec = ["implementation_id", "test",
+		 "type_name",         "test",
+		 "description",       "test component",
+		 "version",           "1.0.0",
+		 "vendor",            "S.Kurihara",
+		 "category",          "example",
+		 "activity_type",     "STATIC",
+		 "max_instance",      "1",
+		 "language",          "Python",
 		 "lang_type",         "SCRIPT",
 		 ""]
 # </rtc-template>
 ##
 # @class test
 # @brief test component
-# 
-# 
+#
+#
 class test(OpenRTM_aist.DataFlowComponentBase):
-	
 	##
 	# @brief constructor
 	# @param manager Maneger Object
-	# 
+	#
 	def __init__(self, manager):
 		OpenRTM_aist.DataFlowComponentBase.__init__(self, manager)
 		self._d_in = OpenRTM_aist.instantiateDataType(RTC.TimedFloatSeq)
@@ -65,61 +64,50 @@ class test(OpenRTM_aist.DataFlowComponentBase):
 		"""
 		"""
 		self._myservice0 = MyService_i()
-		
 		"""
 		"""
 		self._myservice1 = OpenRTM_aist.CorbaConsumer(interfaceType=_GlobalIDL.MyService)
 		# initialize of configuration-data.
 		# <rtc-template block="init_conf_param">
-		
 		# </rtc-template>
-		 
 	##
 	#
 	# The initialize action (on CREATED->ALIVE transition)
-	# formaer rtc_init_entry() 
-	# 
+	# formaer rtc_init_entry()
+	#
 	# @return RTC::ReturnCode_t
-	# 
+	#
 	#
 	def onInitialize(self):
 		# Bind variables and configuration variable
-		
 		# Set InPort buffers
 		self.addInPort("in",self._inIn)
-		
 		# Set OutPort buffers
 		self.addOutPort("out",self._outOut)
-		
 		# Set service provider to Ports
 		self._MySVProPort.registerProvider("myservice0", "MyService", self._myservice0)
-		
 		# Set service consumers to Ports
 		self._MySVConPort.registerConsumer("myservice1", "MyService", self._myservice1)
-		
 		# Set CORBA Service Ports
 		self.addPort(self._MySVProPort)
 		self.addPort(self._MySVConPort)
-		
 		return RTC.RTC_OK
-	
 	###
-	## 
+	##
 	## The finalize action (on ALIVE->END transition)
 	## formaer rtc_exiting_entry()
-	## 
+	##
 	## @return RTC::ReturnCode_t
 	#
-	## 
+	##
 	#def onFinalize(self):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The startup action when ExecutionContext startup
 	## former rtc_starting_entry()
-	## 
+	##
 	## @param ec_id target ExecutionContext Id
 	##
 	## @return RTC::ReturnCode_t
@@ -128,7 +116,6 @@ class test(OpenRTM_aist.DataFlowComponentBase):
 	#def onStartup(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The shutdown action when ExecutionContext stop
@@ -142,21 +129,19 @@ class test(OpenRTM_aist.DataFlowComponentBase):
 	#def onShutdown(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The activated action (Active state entry action)
 	## former rtc_active_entry()
 	##
 	## @param ec_id target ExecutionContext Id
-	## 
+	##
 	## @return RTC::ReturnCode_t
 	##
 	##
 	#def onActivated(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The deactivated action (Active state exit action)
@@ -170,7 +155,6 @@ class test(OpenRTM_aist.DataFlowComponentBase):
 	#def onDeactivated(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The execution action that is invoked periodically
@@ -184,7 +168,6 @@ class test(OpenRTM_aist.DataFlowComponentBase):
 	#def onExecute(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The aborting action when main logic error occurred.
@@ -198,7 +181,6 @@ class test(OpenRTM_aist.DataFlowComponentBase):
 	#def onAborting(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The error action in ERROR state
@@ -212,7 +194,6 @@ class test(OpenRTM_aist.DataFlowComponentBase):
 	#def onError(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The reset action that is invoked resetting
@@ -226,7 +207,6 @@ class test(OpenRTM_aist.DataFlowComponentBase):
 	#def onReset(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The state update action that is invoked after onExecute() action
@@ -240,7 +220,6 @@ class test(OpenRTM_aist.DataFlowComponentBase):
 	#def onStateUpdate(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The action that is invoked when execution context's rate is changed
@@ -254,7 +233,6 @@ class test(OpenRTM_aist.DataFlowComponentBase):
 	#def onRateChanged(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 def testInit(manager):
     profile = OpenRTM_aist.Properties(defaults_str=test_spec)
     manager.registerFactory(profile,

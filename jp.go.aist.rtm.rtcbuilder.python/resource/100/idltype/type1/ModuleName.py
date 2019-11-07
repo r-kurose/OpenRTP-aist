@@ -22,29 +22,28 @@ from TestIDL_idl_example import *
 # </rtc-template>
 # This module's spesification
 # <rtc-template block="module_spec">
-modulename_spec = ["implementation_id", "ModuleName", 
-		 "type_name",         "ModuleName", 
-		 "description",       "ModuleDescription", 
-		 "version",           "1.0.0", 
-		 "vendor",            "VenderName", 
-		 "category",          "Category", 
-		 "activity_type",     "STATIC", 
-		 "max_instance",      "1", 
-		 "language",          "Python", 
+modulename_spec = ["implementation_id", "ModuleName",
+		 "type_name",         "ModuleName",
+		 "description",       "ModuleDescription",
+		 "version",           "1.0.0",
+		 "vendor",            "VenderName",
+		 "category",          "Category",
+		 "activity_type",     "STATIC",
+		 "max_instance",      "1",
+		 "language",          "Python",
 		 "lang_type",         "SCRIPT",
 		 ""]
 # </rtc-template>
 ##
 # @class ModuleName
 # @brief ModuleDescription
-# 
-# 
+#
+#
 class ModuleName(OpenRTM_aist.DataFlowComponentBase):
-	
 	##
 	# @brief constructor
 	# @param manager Maneger Object
-	# 
+	#
 	def __init__(self, manager):
 		OpenRTM_aist.DataFlowComponentBase.__init__(self, manager)
 		"""
@@ -53,54 +52,43 @@ class ModuleName(OpenRTM_aist.DataFlowComponentBase):
 		"""
 		"""
 		self._sIFv = ComFk_i()
-		
 		# initialize of configuration-data.
 		# <rtc-template block="init_conf_param">
-		
 		# </rtc-template>
-		 
 	##
 	#
 	# The initialize action (on CREATED->ALIVE transition)
-	# formaer rtc_init_entry() 
-	# 
+	# formaer rtc_init_entry()
+	#
 	# @return RTC::ReturnCode_t
-	# 
+	#
 	#
 	def onInitialize(self):
 		# Bind variables and configuration variable
-		
 		# Set InPort buffers
-		
 		# Set OutPort buffers
-		
 		# Set service provider to Ports
 		self._sV1Port.registerProvider("sIF1", "ComFk", self._sIFv)
-		
 		# Set service consumers to Ports
-		
 		# Set CORBA Service Ports
 		self.addPort(self._sV1Port)
-		
 		return RTC.RTC_OK
-	
 	###
-	## 
+	##
 	## The finalize action (on ALIVE->END transition)
 	## formaer rtc_exiting_entry()
-	## 
+	##
 	## @return RTC::ReturnCode_t
 	#
-	## 
+	##
 	#def onFinalize(self):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The startup action when ExecutionContext startup
 	## former rtc_starting_entry()
-	## 
+	##
 	## @param ec_id target ExecutionContext Id
 	##
 	## @return RTC::ReturnCode_t
@@ -109,7 +97,6 @@ class ModuleName(OpenRTM_aist.DataFlowComponentBase):
 	#def onStartup(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The shutdown action when ExecutionContext stop
@@ -123,21 +110,19 @@ class ModuleName(OpenRTM_aist.DataFlowComponentBase):
 	#def onShutdown(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The activated action (Active state entry action)
 	## former rtc_active_entry()
 	##
 	## @param ec_id target ExecutionContext Id
-	## 
+	##
 	## @return RTC::ReturnCode_t
 	##
 	##
 	#def onActivated(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The deactivated action (Active state exit action)
@@ -151,7 +136,6 @@ class ModuleName(OpenRTM_aist.DataFlowComponentBase):
 	#def onDeactivated(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The execution action that is invoked periodically
@@ -165,7 +149,6 @@ class ModuleName(OpenRTM_aist.DataFlowComponentBase):
 	#def onExecute(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The aborting action when main logic error occurred.
@@ -179,7 +162,6 @@ class ModuleName(OpenRTM_aist.DataFlowComponentBase):
 	#def onAborting(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The error action in ERROR state
@@ -193,7 +175,6 @@ class ModuleName(OpenRTM_aist.DataFlowComponentBase):
 	#def onError(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The reset action that is invoked resetting
@@ -207,7 +188,6 @@ class ModuleName(OpenRTM_aist.DataFlowComponentBase):
 	#def onReset(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The state update action that is invoked after onExecute() action
@@ -221,7 +201,6 @@ class ModuleName(OpenRTM_aist.DataFlowComponentBase):
 	#def onStateUpdate(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The action that is invoked when execution context's rate is changed
@@ -235,7 +214,6 @@ class ModuleName(OpenRTM_aist.DataFlowComponentBase):
 	#def onRateChanged(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 def ModuleNameInit(manager):
     profile = OpenRTM_aist.Properties(defaults_str=modulename_spec)
     manager.registerFactory(profile,

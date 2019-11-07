@@ -26,15 +26,15 @@ import _GlobalIDL, _GlobalIDL__POA
 # </rtc-template>
 # This module's spesification
 # <rtc-template block="module_spec">
-foo_spec = ["implementation_id", "foo", 
-		 "type_name",         "foo", 
-		 "description",       "MDesc", 
-		 "version",           "1.0.1", 
-		 "vendor",            "TA", 
-		 "category",          "Manip", 
-		 "activity_type",     "STATIC2", 
-		 "max_instance",      "5", 
-		 "language",          "Python", 
+foo_spec = ["implementation_id", "foo",
+		 "type_name",         "foo",
+		 "description",       "MDesc",
+		 "version",           "1.0.1",
+		 "vendor",            "TA",
+		 "category",          "Manip",
+		 "activity_type",     "STATIC2",
+		 "max_instance",      "5",
+		 "language",          "Python",
 		 "lang_type",         "SCRIPT",
 		 "conf.default.int_param0", "0",
 		 "conf.default.int_param1", "1",
@@ -51,22 +51,21 @@ foo_spec = ["implementation_id", "foo",
 ##
 # @class foo
 # @brief MDesc
-# 
+#
 # 本コンポーネントの概要説明
-# 
+#
 # 本コンポーネントの入出力
-# 
+#
 # 本コンポーネントのアルゴリズムなど
-# 
+#
 # 参考文献の情報
-# 
-# 
+#
+#
 class foo(OpenRTM_aist.DataFlowComponentBase):
-	
 	##
 	# @brief constructor
 	# @param manager Maneger Object
-	# 
+	#
 	def __init__(self, manager):
 		OpenRTM_aist.DataFlowComponentBase.__init__(self, manager)
 		self._d_InP1 = OpenRTM_aist.instantiateDataType(RTC.TimedShort)
@@ -132,7 +131,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 		 - PostCondition: ServiceIF1の事後条件
 		"""
 		self._acc = MyService_i()
-		
 		"""
 		ServiceIF2の概要説明
 		 - Argument:      ServiceIF2の引数
@@ -189,17 +187,15 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 		 - Constraint: Config5の制約条件
 		"""
 		self._str_param1 = ['dara']
-		
 		# </rtc-template>
-		 
 	##
 	# on_initialize概要説明
 	#
 	# The initialize action (on CREATED->ALIVE transition)
-	# formaer rtc_init_entry() 
-	# 
+	# formaer rtc_init_entry()
+	#
 	# @return RTC::ReturnCode_t
-	# 
+	#
 	# @pre on_initialize事前条件
 	# @post on_initialize事後条件
 	#
@@ -210,48 +206,40 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 		self.bindParameter("double_param0", self._double_param0, "0.11")
 		self.bindParameter("str_param0", self._str_param0, "hoge")
 		self.bindParameter("str_param1", self._str_param1, "dara")
-		
 		# Set InPort buffers
 		self.addInPort("InP1",self._InP1In)
 		self.addInPort("InP2",self._InP2In)
-		
 		# Set OutPort buffers
 		self.addOutPort("OutP1",self._OutP1Out)
 		self.addOutPort("OutP2",self._OutP2Out)
-		
 		# Set service provider to Ports
 		self._svPortPort.registerProvider("acc", "MyService", self._acc)
-		
 		# Set service consumers to Ports
 		self._cmPortPort.registerConsumer("rate", "DAQService", self._rate)
-		
 		# Set CORBA Service Ports
 		self.addPort(self._svPortPort)
 		self.addPort(self._cmPortPort)
-		
 		return RTC.RTC_OK
-	
 	###
 	## on_finalize概要説明
-	## 
+	##
 	## The finalize action (on ALIVE->END transition)
 	## formaer rtc_exiting_entry()
-	## 
+	##
 	## @return RTC::ReturnCode_t
 	#
 	## @pre on_finalize事前条件
 	## @post on_finalize事後条件
-	## 
+	##
 	#def onFinalize(self):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	## on_startup概要説明
 	##
 	## The startup action when ExecutionContext startup
 	## former rtc_starting_entry()
-	## 
+	##
 	## @param ec_id target ExecutionContext Id
 	##
 	## @return RTC::ReturnCode_t
@@ -262,7 +250,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	#def onStartup(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	## on_shutdown概要説明
 	##
@@ -279,7 +266,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	#def onShutdown(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	## on_activated概要説明
 	##
@@ -287,7 +273,7 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	## former rtc_active_entry()
 	##
 	## @param ec_id target ExecutionContext Id
-	## 
+	##
 	## @return RTC::ReturnCode_t
 	##
 	## @pre on_activated事前条件
@@ -296,7 +282,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	#def onActivated(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	## on_deactivated概要説明
 	##
@@ -313,7 +298,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	#def onDeactivated(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	## on_execute概要説明
 	##
@@ -330,7 +314,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	#def onExecute(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	## on_aborting概要説明
 	##
@@ -347,7 +330,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	#def onAborting(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	## on_error概要説明
 	##
@@ -364,7 +346,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	#def onError(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	## on_reset概要説明
 	##
@@ -381,7 +362,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	#def onReset(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	## on_state_update概要説明
 	##
@@ -398,7 +378,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	#def onStateUpdate(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	## on_rate_changed概要説明
 	##
@@ -415,7 +394,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	#def onRateChanged(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 def fooInit(manager):
     profile = OpenRTM_aist.Properties(defaults_str=foo_spec)
     manager.registerFactory(profile,
