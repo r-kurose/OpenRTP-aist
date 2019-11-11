@@ -24,6 +24,8 @@ sys.path.append(".")
 # Import RTM module
 import RTC
 import OpenRTM_aist
+#foreach($idlModule in ${defaultModule})import ${idlModule}
+#end
 
 #foreach($IdlFile in ${allIdlFileParam})#if(!${IdlFile.dataPort})import ${tmpltHelper.getFilenameNoExt(${IdlFile.IdlFile})}_idl
 #end
@@ -52,15 +54,15 @@ ${pyConv.convModuleNameAll(${allIdlFileParam})}
 
 # This module's spesification
 # <rtc-template block="module_spec">
-${pyConv.convToLower(${rtcParam.name})}_spec = ["implementation_id", "${rtcParam.name}", 
-		 "type_name",         "${rtcParam.name}", 
-		 "description",       "${rtcParam.description}", 
-		 "version",           "${rtcParam.version}", 
-		 "vendor",            "${rtcParam.vender}", 
-		 "category",          "${rtcParam.category}", 
-		 "activity_type",     "${rtcParam.componentType}", 
-		 "max_instance",      "${rtcParam.maxInstance}", 
-		 "language",          "Python", 
+${pyConv.convToLower(${rtcParam.name})}_spec = ["implementation_id", "${rtcParam.name}",
+		 "type_name",         "${rtcParam.name}",
+		 "description",       "${rtcParam.description}",
+		 "version",           "${rtcParam.version}",
+		 "vendor",            "${rtcParam.vender}",
+		 "category",          "${rtcParam.category}",
+		 "activity_type",     "${rtcParam.componentType}",
+		 "max_instance",      "${rtcParam.maxInstance}",
+		 "language",          "Python",
 		 "lang_type",         "SCRIPT",
 #foreach($configParam in ${rtcParam.configParams})
 		 "conf.default.${configParam.name}", "${configParam.defaultVal}",
@@ -84,7 +86,7 @@ ${pyConv.convToLower(${rtcParam.name})}_spec = ["implementation_id", "${rtcParam
 
 #end
 #if( ${rtcParam.configParameterParams.size()} > 0 )
-#foreach($parameterParam in ${rtcParam.configParameterParams})  
+#foreach($parameterParam in ${rtcParam.configParameterParams})
 #if( ${parameterParam.isNonPeriodic()} )
 		 "${parameterParam.configName}", "${parameterParam.defaultVal}",
 #end
@@ -97,29 +99,29 @@ ${sharp}${sharp}
 ${sharp} @class ${rtcParam.name}
 ${sharp} @brief ${rtcParam.description}
 #if( ${rtcParam.docDescription.length()} > 0 )
-${sharp} 
+${sharp}
 # ${tmpltHelperPy.convertModuleDocPy(${rtcParam.docDescription})}
 #end
 #if( ${rtcParam.docInOut.length()} > 0 )
-${sharp} 
+${sharp}
 ${sharp} ${tmpltHelperPy.convertModuleDocPy(${rtcParam.docInOut})}
 #end
 #if( ${rtcParam.docAlgorithm.length()} > 0 )
-${sharp} 
+${sharp}
 ${sharp} ${tmpltHelperPy.convertModuleDocPy(${rtcParam.docAlgorithm})}
 #end
 #if( ${rtcParam.docReference.length()} > 0 )
-${sharp} 
+${sharp}
 ${sharp} ${tmpltHelperPy.convertModuleDocPy(${rtcParam.docReference})}
 #end
-${sharp} 
-${sharp} 
+${sharp}
+${sharp}
 class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
-	
+
 	${sharp}${sharp}
 	${sharp} @brief constructor
 	${sharp} @param manager Maneger Object
-	${sharp} 
+	${sharp}
 	def __init__(self, manager):
 		OpenRTM_aist.DataFlowComponentBase.__init__(self, manager)
 
@@ -197,7 +199,7 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 		"""
 		self._${serviceInterface.tmplVarName} = ${tmpltHelper.getBasename(${serviceInterface.interfaceType})}_i()
 #end#end#end#end#end
-		
+
 
 #if(${rtcParam.servicePorts.size()}>0)
 #foreach($servicePort in ${rtcParam.servicePorts})
@@ -237,20 +239,20 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 		"""
 		self._${configParam.tmplVarName} = [${pyConv.convDefaultVal(${configParam})}]
 #end
-		
+
 		# </rtc-template>
 
 
-		 
+
 	${sharp}${sharp}
 #if(${rtcParam.getDocActionOverView(0).length()}>0)	${sharp} ${tmpltHelperPy.convertActivityDocPy(${rtcParam.getDocActionOverView(0)})}
 #end
 	${sharp}
 	${sharp} The initialize action (on CREATED->ALIVE transition)
-	${sharp} formaer rtc_init_entry() 
-	${sharp} 
+	${sharp} formaer rtc_init_entry()
+	${sharp}
 	${sharp} @return RTC::ReturnCode_t
-	${sharp} 
+	${sharp}
 #if(${rtcParam.getDocActionPreCondition(0).length()}>0)	${sharp} @pre ${tmpltHelperPy.convertPreDocPy(${rtcParam.getDocActionPreCondition(0)})}
 #end
 #if(${rtcParam.getDocActionPostCondition(0).length()}>0)	${sharp} @post ${tmpltHelperPy.convertPostDocPy(${rtcParam.getDocActionPostCondition(0)})}
@@ -261,17 +263,17 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #foreach($configParam in ${rtcParam.configParams})
 		self.bindParameter("${configParam.name}", self._${configParam.tmplVarName}, "${configParam.defaultVal}")
 #end
-		
+
 		# Set InPort buffers
 #foreach($port in ${rtcParam.inports})
 		self.addInPort("${port.name}",self._${port.name}In)
 #end
-		
+
 		# Set OutPort buffers
 #foreach($port in ${rtcParam.outports})
 		self.addOutPort("${port.name}",self._${port.name}Out)
 #end
-		
+
 		# Set service provider to Ports
 #if(${rtcParam.servicePorts.size()}>0)
 #foreach($servicePort in ${rtcParam.servicePorts})
@@ -280,7 +282,7 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #if(${serviceInterface.index}==0)
 		self._${servicePort.name}Port.registerProvider("${serviceInterface.name}", "${serviceInterface.interfaceType}", self._${serviceInterface.tmplVarName})
 #end#end#end#end#end
-		
+
 		# Set service consumers to Ports
 #if(${rtcParam.servicePorts.size()}>0)
 #foreach($servicePort in ${rtcParam.servicePorts})
@@ -289,7 +291,7 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #if(${serviceInterface.index}==1)
 		self._${servicePort.name}Port.registerConsumer("${serviceInterface.name}", "${serviceInterface.interfaceType}", self._${serviceInterface.tmplVarName})
 #end#end#end#end#end
-		
+
 		# Set CORBA Service Ports
 #if(${rtcParam.servicePorts.size()}>0)
 #foreach($servicePort in ${rtcParam.servicePorts})
@@ -298,16 +300,16 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end#end#end
 #if(${tmpltHelper.checkDetailContent(0,${rtcParam})})		${rtcParam.getDetailContent(0)}
 #end
-		
+
 		return RTC.RTC_OK
-	
+
 	#if(${rtcParam.IsNotImplemented(1)})${sharp}#end${sharp}${sharp}
 #if(${rtcParam.getDocActionOverView(1).length()}>0)	#if(${rtcParam.IsNotImplemented(1)})${sharp}#end${sharp} ${tmpltHelperPy.convertActivityDocPy(${rtcParam.getDocActionOverView(1)})}
 #end
-	#if(${rtcParam.IsNotImplemented(1)})${sharp}#end${sharp} 
+	#if(${rtcParam.IsNotImplemented(1)})${sharp}#end${sharp}
 	#if(${rtcParam.IsNotImplemented(1)})${sharp}#end${sharp} The finalize action (on ALIVE->END transition)
 	#if(${rtcParam.IsNotImplemented(1)})${sharp}#end${sharp} formaer rtc_exiting_entry()
-	#if(${rtcParam.IsNotImplemented(1)})${sharp}#end${sharp} 
+	#if(${rtcParam.IsNotImplemented(1)})${sharp}#end${sharp}
 	#if(${rtcParam.IsNotImplemented(1)})${sharp}#end${sharp} @return RTC::ReturnCode_t
 	#if(${rtcParam.IsNotImplemented(1)})${sharp}#end
 
@@ -315,21 +317,21 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
 #if(${rtcParam.getDocActionPostCondition(1).length()}>0)	#if(${rtcParam.IsNotImplemented(1)})${sharp}#end${sharp} @post ${tmpltHelperPy.convertPostShDocPy(${rtcParam.getDocActionPostCondition(1)})}
 #end
-	#if(${rtcParam.IsNotImplemented(1)})${sharp}#end${sharp} 
+	#if(${rtcParam.IsNotImplemented(1)})${sharp}#end${sharp}
 	#if(${rtcParam.IsNotImplemented(1)})${sharp}#end${def} onFinalize(self):
 	#if(${rtcParam.IsNotImplemented(1)})${sharp}#end
 #if(${tmpltHelper.checkDetailContent(1,${rtcParam})})		${rtcParam.getDetailContent(1)}
 #end
 
 	#if(${rtcParam.IsNotImplemented(1)})${sharp}#end	return RTC.RTC_OK
-	
+
 	#if(${rtcParam.IsNotImplemented(2)})${sharp}#end${sharp}${sharp}
 #if(${rtcParam.getDocActionOverView(2).length()}>0)	#if(${rtcParam.IsNotImplemented(2)})${sharp}#end${sharp} ${tmpltHelperPy.convertActivityDocPy(${rtcParam.getDocActionOverView(2)})}
 #end
 	#if(${rtcParam.IsNotImplemented(2)})${sharp}#end${sharp}
 	#if(${rtcParam.IsNotImplemented(2)})${sharp}#end${sharp} The startup action when ExecutionContext startup
 	#if(${rtcParam.IsNotImplemented(2)})${sharp}#end${sharp} former rtc_starting_entry()
-	#if(${rtcParam.IsNotImplemented(2)})${sharp}#end${sharp} 
+	#if(${rtcParam.IsNotImplemented(2)})${sharp}#end${sharp}
 	#if(${rtcParam.IsNotImplemented(2)})${sharp}#end${sharp} @param ec_id target ExecutionContext Id
 	#if(${rtcParam.IsNotImplemented(2)})${sharp}#end${sharp}
 	#if(${rtcParam.IsNotImplemented(2)})${sharp}#end${sharp} @return RTC::ReturnCode_t
@@ -345,7 +347,7 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
 
 	#if(${rtcParam.IsNotImplemented(2)})${sharp}#end	return RTC.RTC_OK
-	
+
 	#if(${rtcParam.IsNotImplemented(3)})${sharp}#end${sharp}${sharp}
 #if(${rtcParam.getDocActionOverView(3).length()}>0)	#if(${rtcParam.IsNotImplemented(3)})${sharp}#end${sharp} ${tmpltHelperPy.convertActivityDocPy(${rtcParam.getDocActionOverView(3)})}
 #end
@@ -368,7 +370,7 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
 
 	#if(${rtcParam.IsNotImplemented(3)})${sharp}#end	return RTC.RTC_OK
-	
+
 	#if(${rtcParam.IsNotImplemented(4)})${sharp}#end${sharp}${sharp}
 #if(${rtcParam.getDocActionOverView(4).length()}>0)	#if(${rtcParam.IsNotImplemented(4)})${sharp}#end${sharp} ${tmpltHelperPy.convertActivityDocPy(${rtcParam.getDocActionOverView(4)})}
 #end
@@ -377,7 +379,7 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 	#if(${rtcParam.IsNotImplemented(4)})${sharp}#end${sharp} former rtc_active_entry()
 	#if(${rtcParam.IsNotImplemented(4)})${sharp}#end${sharp}
 	#if(${rtcParam.IsNotImplemented(4)})${sharp}#end${sharp} @param ec_id target ExecutionContext Id
-	#if(${rtcParam.IsNotImplemented(4)})${sharp}#end${sharp} 
+	#if(${rtcParam.IsNotImplemented(4)})${sharp}#end${sharp}
 	#if(${rtcParam.IsNotImplemented(4)})${sharp}#end${sharp} @return RTC::ReturnCode_t
 	#if(${rtcParam.IsNotImplemented(4)})${sharp}#end${sharp}
 #if(${rtcParam.getDocActionPreCondition(4).length()}>0)	#if(${rtcParam.IsNotImplemented(4)})${sharp}#end${sharp} @pre ${tmpltHelperPy.convertPreShDocPy(${rtcParam.getDocActionPreCondition(4)})}
@@ -391,7 +393,7 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
 
 	#if(${rtcParam.IsNotImplemented(4)})${sharp}#end	return RTC.RTC_OK
-	
+
 	#if(${rtcParam.IsNotImplemented(5)})${sharp}#end${sharp}${sharp}
 #if(${rtcParam.getDocActionOverView(5).length()}>0)	#if(${rtcParam.IsNotImplemented(5)})${sharp}#end${sharp} ${tmpltHelperPy.convertActivityDocPy(${rtcParam.getDocActionOverView(5)})}
 #end
@@ -414,7 +416,7 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
 
 	#if(${rtcParam.IsNotImplemented(5)})${sharp}#end	return RTC.RTC_OK
-	
+
 	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end${sharp}${sharp}
 #if(${rtcParam.getDocActionOverView(9).length()}>0)	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end${sharp} ${tmpltHelperPy.convertActivityDocPy(${rtcParam.getDocActionOverView(9)})}
 #end
@@ -437,7 +439,7 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
 
 	#if(${rtcParam.IsNotImplemented(9)})${sharp}#end	return RTC.RTC_OK
-	
+
 	#if(${rtcParam.IsNotImplemented(6)})${sharp}#end${sharp}${sharp}
 #if(${rtcParam.getDocActionOverView(6).length()}>0)	#if(${rtcParam.IsNotImplemented(6)})${sharp}#end${sharp} ${tmpltHelperPy.convertActivityDocPy(${rtcParam.getDocActionOverView(6)})}
 #end
@@ -460,7 +462,7 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
 
 	#if(${rtcParam.IsNotImplemented(6)})${sharp}#end	return RTC.RTC_OK
-	
+
 	#if(${rtcParam.IsNotImplemented(7)})${sharp}#end${sharp}${sharp}
 #if(${rtcParam.getDocActionOverView(7).length()}>0)	#if(${rtcParam.IsNotImplemented(7)})${sharp}#end${sharp} ${tmpltHelperPy.convertActivityDocPy(${rtcParam.getDocActionOverView(7)})}
 #end
@@ -483,7 +485,7 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
 
 	#if(${rtcParam.IsNotImplemented(7)})${sharp}#end	return RTC.RTC_OK
-	
+
 	#if(${rtcParam.IsNotImplemented(8)})${sharp}#end${sharp}${sharp}
 #if(${rtcParam.getDocActionOverView(8).length()}>0)	#if(${rtcParam.IsNotImplemented(8)})${sharp}#end${sharp} ${tmpltHelperPy.convertActivityDocPy(${rtcParam.getDocActionOverView(8)})}
 #end
@@ -506,7 +508,7 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
 
 	#if(${rtcParam.IsNotImplemented(8)})${sharp}#end	return RTC.RTC_OK
-	
+
 	#if(${rtcParam.IsNotImplemented(10)})${sharp}#end${sharp}${sharp}
 #if(${rtcParam.getDocActionOverView(10).length()}>0)	#if(${rtcParam.IsNotImplemented(10)})${sharp}#end${sharp} ${tmpltHelperPy.convertActivityDocPy(${rtcParam.getDocActionOverView(10)})}
 #end
@@ -530,7 +532,7 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
 
 	#if(${rtcParam.IsNotImplemented(10)})${sharp}#end	return RTC.RTC_OK
-	
+
 	#if(${rtcParam.IsNotImplemented(11)})${sharp}#end${sharp}${sharp}
 #if(${rtcParam.getDocActionOverView(11).length()}>0)	#if(${rtcParam.IsNotImplemented(11)})${sharp}#end${sharp} ${tmpltHelperPy.convertActivityDocPy(${rtcParam.getDocActionOverView(11)})}
 #end
@@ -553,7 +555,7 @@ class ${rtcParam.name}(OpenRTM_aist.DataFlowComponentBase):
 #end
 
 	#if(${rtcParam.IsNotImplemented(11)})${sharp}#end	return RTC.RTC_OK
-	
+
 
 
 
