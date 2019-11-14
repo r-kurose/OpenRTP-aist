@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.go.aist.rtm.rtcbuilder.IRtcBuilderConstants;
+import jp.go.aist.rtm.rtcbuilder.generator.param.RtcParam;
 import jp.go.aist.rtm.rtcbuilder.generator.param.idl.IdlFileParam;
 import jp.go.aist.rtm.rtcbuilder.python.IRtcBuilderConstantsPython;
+import jp.go.aist.rtm.rtcbuilder.util.RTCUtil;
 import jp.go.aist.rtm.rtcbuilder.util.StringUtil;
 
 /**
@@ -123,6 +125,23 @@ public class TemplateHelperPy {
 						result.add(targetType);
 					}
 				}
+			}
+		}
+		return result;
+	}
+
+	public boolean checkUserDefined(RtcParam rtcParam) {
+		boolean result = false;
+		for(IdlFileParam target : rtcParam.getProviderIdlPathes()) {
+			if(RTCUtil.checkDefault(target.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
+			result = true;
+			break;
+		}
+		if(result == false) {
+			for(IdlFileParam target : rtcParam.getConsumerIdlPathes()) {
+				if(RTCUtil.checkDefault(target.getIdlPath(), rtcParam.getParent().getDataTypeParams())) continue;
+				result = true;
+				break;
 			}
 		}
 		return result;
