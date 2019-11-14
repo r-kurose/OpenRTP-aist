@@ -20,77 +20,65 @@ import OpenRTM_aist
 # </rtc-template>
 # This module's spesification
 # <rtc-template block="module_spec">
-foo_spec = ["implementation_id", "foo", 
-		 "type_name",         "foo", 
-		 "description",       "MDesc", 
-		 "version",           "1.0.1", 
-		 "vendor",            "TA", 
-		 "category",          "Manip", 
-		 "activity_type",     "STATIC2", 
-		 "max_instance",      "5", 
-		 "language",          "Python", 
+foo_spec = ["implementation_id", "foo",
+		 "type_name",         "foo",
+		 "description",       "MDesc",
+		 "version",           "1.0.1",
+		 "vendor",            "TA",
+		 "category",          "Manip",
+		 "activity_type",     "STATIC2",
+		 "max_instance",      "5",
+		 "language",          "Python",
 		 "lang_type",         "SCRIPT",
 		 ""]
 # </rtc-template>
 ##
 # @class foo
 # @brief MDesc
-# 
-# 
+#
+#
 class foo(OpenRTM_aist.DataFlowComponentBase):
-	
 	##
 	# @brief constructor
 	# @param manager Maneger Object
-	# 
+	#
 	def __init__(self, manager):
 		OpenRTM_aist.DataFlowComponentBase.__init__(self, manager)
-		
 		# initialize of configuration-data.
 		# <rtc-template block="init_conf_param">
-		
 		# </rtc-template>
-		 
 	##
 	#
 	# The initialize action (on CREATED->ALIVE transition)
-	# formaer rtc_init_entry() 
-	# 
+	# formaer rtc_init_entry()
+	#
 	# @return RTC::ReturnCode_t
-	# 
+	#
 	#
 	def onInitialize(self):
 		# Bind variables and configuration variable
-		
 		# Set InPort buffers
-		
 		# Set OutPort buffers
-		
 		# Set service provider to Ports
-		
 		# Set service consumers to Ports
-		
 		# Set CORBA Service Ports
-		
 		return RTC.RTC_OK
-	
 	###
-	## 
+	##
 	## The finalize action (on ALIVE->END transition)
 	## formaer rtc_exiting_entry()
-	## 
+	##
 	## @return RTC::ReturnCode_t
 	#
-	## 
+	##
 	#def onFinalize(self):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The startup action when ExecutionContext startup
 	## former rtc_starting_entry()
-	## 
+	##
 	## @param ec_id target ExecutionContext Id
 	##
 	## @return RTC::ReturnCode_t
@@ -99,7 +87,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	#def onStartup(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The shutdown action when ExecutionContext stop
@@ -113,21 +100,19 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	#def onShutdown(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The activated action (Active state entry action)
 	## former rtc_active_entry()
 	##
 	## @param ec_id target ExecutionContext Id
-	## 
+	##
 	## @return RTC::ReturnCode_t
 	##
 	##
 	#def onActivated(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The deactivated action (Active state exit action)
@@ -141,7 +126,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	#def onDeactivated(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The execution action that is invoked periodically
@@ -155,7 +139,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	#def onExecute(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The aborting action when main logic error occurred.
@@ -169,7 +152,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	#def onAborting(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The error action in ERROR state
@@ -183,7 +165,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	#def onError(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The reset action that is invoked resetting
@@ -197,7 +178,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	#def onReset(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The state update action that is invoked after onExecute() action
@@ -211,7 +191,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	#def onStateUpdate(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 	###
 	##
 	## The action that is invoked when execution context's rate is changed
@@ -225,7 +204,6 @@ class foo(OpenRTM_aist.DataFlowComponentBase):
 	#def onRateChanged(self, ec_id):
 	#
 	#	return RTC.RTC_OK
-	
 def fooInit(manager):
     profile = OpenRTM_aist.Properties(defaults_str=foo_spec)
     manager.registerFactory(profile,
