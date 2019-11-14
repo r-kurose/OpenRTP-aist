@@ -1,7 +1,7 @@
 <CPackWiXPatch>
   <CPackWiXFragment Id="${sharp}PRODUCT">
     <CustomAction Id="PostinstAction" Directory="CM_DP_component.@PROJECT_NAME@"
-      ExeCommand='cmd.exe /c omniidl.exe -bpython -I"%RTM_ROOT%\rtm\idl" #foreach($IdlFile in ${allIdlFileParamBuild})idl/${IdlFile.IdlFile} #end
+      ExeCommand='cmd.exe /c omniidl.exe -bpython -I"%RTM_ROOT%\rtm\idl" #foreach($IdlFile in ${allIdlFileParamBuild})idl/${IdlFile.IdlFile} #end'
 
       Execute="deferred" Impersonate="no"/>
     <CustomAction Id="PrermAction" Directory="CM_DP_component.@PROJECT_NAME@"
