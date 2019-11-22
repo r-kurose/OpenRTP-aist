@@ -1,25 +1,25 @@
-ARG arch=amd64
-
-FROM ${arch}/alpine:3.10 as omniorb
+FROM alpine:3.10 as omniorb
 
 RUN apk add --no-cache\
  g++\
  make\
- python3-dev\
-    && ln -s /usr/bin/python3 /usr/bin/python
+ python3-dev
 
-RUN wget -O - 'https://sourceforge.net/projects/omniorb/files/omniORB/omniORB-4.2.3/omniORB-4.2.3.tar.bz2' | tar jxf -
+RUN wget -O - 'https://sourceforge.net/projects/omniorb/files/omniORB/omniORB-4.2.3/omniORB-4.2.3.tar.bz2'\
+ | tar jxf -
 WORKDIR /omniORB-4.2.3
-RUN ./configure --prefix=/opt/omniorb
+RUN PYTHON=/usr/bin/python3 ./configure\
+ --prefix=/opt/omniorb
 RUN make -j$(nproc)
 RUN make install
 WORKDIR /
 # replace paths to install /usr/local
-RUN find /opt/omniorb -type f | xargs sed -i -e 's@/opt/omniorb@/usr/local@g'
+RUN find /opt/omniorb -type f\
+ | xargs sed -i -e 's@/opt/omniorb@/usr/local@g'
 RUN strip /opt/omniorb/lib/lib*so
 
-${sharp}${sharp}${sharp}${sharp}${sharp}${sharp}${sharp}${sharp}${sharp}${sharp}
-FROM ${arch}/alpine:3.10 as openrtm
+# --------------------------------------------------------------------------------
+FROM alpine:3.10 as openrtm
 
 # install omniORB
 COPY --from=omniorb /opt/omniorb /usr/local
@@ -30,18 +30,21 @@ RUN apk add --no-cache\
  cmake\
  util-linux-dev\
  python3-dev\
-    && ln -s /usr/bin/python3 /usr/bin/python
+ && ln -s /usr/bin/python3 /usr/bin/python
 # util-linux-dev for libuuid.so and uuid.h
 
-COPY OpenRTM-aist /OpenRTM-aist
-RUN cmake -G Ninja -S /OpenRTM-aist -B /tmp/build\
+
+RUN wget -O - 'https://github.com/OpenRTM/OpenRTM-aist/archive/master.zip'\
+ | unzip -
+
+RUN cmake -G Ninja -S /OpenRTM-aist-master -B /tmp/build\
  -DCMAKE_BUILD_TYPE=Release\
  -DCMAKE_INSTALL_LIBDIR=lib\
  -DCMAKE_INSTALL_PREFIX=/opt/openrtm
 RUN cmake --build /tmp/build -j --target install/strip
 
-${sharp}${sharp}${sharp}${sharp}${sharp}${sharp}${sharp}${sharp}${sharp}${sharp}
-FROM ${arch}/alpine:3.10 as rtc
+# --------------------------------------------------------------------------------
+FROM alpine:3.10 as rtc
 
 # install omniORB
 COPY --from=omniorb /opt/omniorb /usr/local
@@ -56,17 +59,19 @@ RUN apk add --no-cache\
  libuuid\
  pkgconf
 
-COPY ${rtcParam.name} /RTC
+COPY / /RTC
 RUN cmake -G Ninja -S /RTC -B /tmp/build\
  -DCMAKE_BUILD_TYPE=Release\
  -DCMAKE_INSTALL_PREFIX=/opt/rtc
 RUN cmake --build /tmp/build -j --target install/strip
 
 RUN mkdir -p /opt/rtc_lib
-RUN cp -p $(ldd /opt/rtc/components/bin/${rtcParam.name}Comp | grep -e libomni -e libRTC | sed -e 's/.*=> //' | sed -e 's/(0x[0-9a-f]*)$//') /opt/rtc_lib
+RUN cp -p $(ldd /opt/rtc/components/bin/${rtcParam.name}Comp\
+ | grep -e libomni -e libRTC | sed -e 's/.*=> //'\
+ | sed -e 's/(0x[0-9a-f]*)$//') /opt/rtc_lib
 
-${sharp}${sharp}${sharp}${sharp}${sharp}${sharp}${sharp}${sharp}${sharp}${sharp}
-FROM ${arch}/alpine:3.10
+# --------------------------------------------------------------------------------
+FROM alpine:3.10
 
 ARG username=noroot
 #if( ${rtcParam.docCreator.length()} > 0 )
