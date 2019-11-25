@@ -63,6 +63,9 @@ public class CommonGenerateManager extends GenerateManager {
 		gr = generateComponentConf(contextMap);
 		result.add(gr);
 
+		gr = generateDockerfile(contextMap);
+		result.add(gr);
+
 		return result;
 	}
 
@@ -92,6 +95,15 @@ public class CommonGenerateManager extends GenerateManager {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = rtcParam.getName() + ".conf";
 		String infile = "common/Component.conf.vsl";
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setNotBom(true);
+		return result;
+	}
+
+	public GeneratedResult generateDockerfile(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = "Dockerfile." + rtcParam.getName();
+		String infile = "dockerfile/Dockerfile.vsl";
 		GeneratedResult result = generate(infile, outfile, contextMap);
 		result.setNotBom(true);
 		return result;
