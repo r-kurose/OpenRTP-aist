@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-${rtcParam.name.toLowerCase()}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rtc-${rtcParam.name.toLowerCase()}
+  template:
+    metadata:
+      labels:
+        app: rtc-${rtcParam.name.toLowerCase()}
+    spec:	
+      containers:
+      - name: container-${rtcParam.name.toLowerCase()}
+        image: DOCKER-HUB-LOGIN-NAME/${rtcParam.name.toLowerCase()}:1.0 
+        command:
+          - /usr/local/components/bin/${rtcParam.name}Comp
+        args:
+          - "-o"
+          - "corba.nameservers:10.96.0.100"
+          - "-o"
+          - "manager.components.preactivation:${rtcParam.name}0"
+      nodeSelector:
+        ${rtcParam.name.toLowerCase()}: "true"
