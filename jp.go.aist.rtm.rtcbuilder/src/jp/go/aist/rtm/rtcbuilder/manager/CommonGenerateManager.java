@@ -66,6 +66,9 @@ public class CommonGenerateManager extends GenerateManager {
 		gr = generateDockerfile(contextMap);
 		result.add(gr);
 
+		gr = generateDeployManifest(contextMap);
+		result.add(gr);
+
 		return result;
 	}
 
@@ -104,6 +107,15 @@ public class CommonGenerateManager extends GenerateManager {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = "Dockerfile." + rtcParam.getName();
 		String infile = "dockerfile/Dockerfile.vsl";
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setNotBom(true);
+		return result;
+	}
+
+	public GeneratedResult generateDeployManifest(Map<String, Object> contextMap) {
+		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
+		String outfile = rtcParam.getName() + ".yaml";
+		String infile = "kubernetes/DeployManifest.vsl";
 		GeneratedResult result = generate(infile, outfile, contextMap);
 		result.setNotBom(true);
 		return result;
