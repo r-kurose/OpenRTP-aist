@@ -63,7 +63,10 @@ public class CommonGenerateManager extends GenerateManager {
 		gr = generateComponentConf(contextMap);
 		result.add(gr);
 
-		gr = generateDockerfile(contextMap);
+		gr = generateDockerfileAlpine(contextMap);
+		result.add(gr);
+
+		gr = generateDockerfileUbuntu(contextMap);
 		result.add(gr);
 
 		gr = generateDeployManifest(contextMap);
@@ -103,23 +106,30 @@ public class CommonGenerateManager extends GenerateManager {
 		return result;
 	}
 
-	public GeneratedResult generateDockerfile(Map<String, Object> contextMap) {
-		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
-		String outfile = "Dockerfile." + rtcParam.getName();
-		String infile = "dockerfile/Dockerfile.vsl";
+    public GeneratedResult generateDockerfileAlpine(Map<String, Object> contextMap) {
+		String outfile = "Dockerfile.alpine";
+		String infile = "dockerfile/Dockerfile.alpine.vsl";
 		GeneratedResult result = generate(infile, outfile, contextMap);
 		result.setNotBom(true);
 		return result;
-	}
+    }
 
-	public GeneratedResult generateDeployManifest(Map<String, Object> contextMap) {
+    public GeneratedResult generateDockerfileUbuntu(Map<String, Object> contextMap) {
+		String outfile = "Dockerfile.ubuntu";
+		String infile = "dockerfile/Dockerfile.ubuntu.vsl";
+		GeneratedResult result = generate(infile, outfile, contextMap);
+		result.setNotBom(true);
+		return result;
+    }
+
+    public GeneratedResult generateDeployManifest(Map<String, Object> contextMap) {
 		RtcParam rtcParam = (RtcParam) contextMap.get("rtcParam");
 		String outfile = rtcParam.getName() + ".yaml";
 		String infile = "kubernetes/DeployManifest.vsl";
 		GeneratedResult result = generate(infile, outfile, contextMap);
 		result.setNotBom(true);
 		return result;
-	}
+    }
 
 	public GeneratedResult generate(String infile, String outfile,
 			Map<String, Object> contextMap) {
