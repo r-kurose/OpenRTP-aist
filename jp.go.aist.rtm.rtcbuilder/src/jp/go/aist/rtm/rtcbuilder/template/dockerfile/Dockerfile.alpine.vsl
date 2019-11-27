@@ -1,0 +1,42 @@
+FROM kuroseaist/openrtm-alpine as rtc
+
+ENV LD_LIBRARY_PATH=/opt/openrtm/lib
+
+RUN apk add --no-cache\
+ g++\
+ ninja\
+ cmake\
+ libuuid\
+ pkgconf
+
+COPY / /RTC
+RUN cmake -G Ninja -S /RTC -B /RTC/build\
+ -DCMAKE_BUILD_TYPE=Release\
+ -DCMAKE_INSTALL_PREFIX=/opt/rtc
+RUN cmake --build /RTC/build -j --target install/strip
+
+RUN mkdir -p /opt/rtc_lib
+RUN cp -p $(ldd /opt/rtc/components/bin/${rtcParam.name}Comp\
+ | grep -e libomni -e libRTC | sed -e 's/.*=> //'\
+ | sed -e 's/(0x[0-9a-f]*)$//') /opt/rtc_lib
+
+# --------------------------------------------------------------------------------
+FROM alpine:3.10
+
+ARG username=noroot
+#if( ${rtcParam.docCreator.length()} > 0 )
+LABEL  maintainer="${tmpltHelper.convertAuthorDoc(${rtcParam.docCreator})}"
+#end
+
+RUN apk add --no-cache\
+ libstdc++\
+ libuuid\
+    && mkdir -m 777 /work\
+    && adduser -DH ${username}
+
+COPY --from=rtc /opt/rtc_lib /usr/local/lib
+COPY --from=rtc /opt/rtc/components/bin/${rtcParam.name}Comp /usr/local/components/bin/${rtcParam.name}Comp
+
+USER ${username}
+WORKDIR /work
+
