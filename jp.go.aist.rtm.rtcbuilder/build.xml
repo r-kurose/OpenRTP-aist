@@ -92,6 +92,8 @@
 				<include name="cmake/**/**.vsl" />
 				<include name="common/**.vsl" />
 				<include name="cpp/**/**.vsl" />
+				<include name="dockerfile/**.vsl" />
+				<include name="kubernetes/**.vsl" />
 			</fileset>
 		</copy>
 		<mkdir dir="${dist.dir}" />
