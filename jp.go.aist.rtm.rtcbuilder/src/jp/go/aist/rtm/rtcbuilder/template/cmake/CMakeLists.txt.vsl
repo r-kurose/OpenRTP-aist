@@ -25,7 +25,7 @@ function(get_dist ARG0)
    set(${dol}{ARG0} ${dol}{CMAKE_SYSTEM_NAME} PARENT_SCOPE)
    return()
  endif()
- foreach(dist Debian Ubuntu RedHat Fedora CentOS Raspbian)
+ foreach(dist Debian Ubuntu RedHat Fedora CentOS Raspbian Alpine)
    execute_process(
      COMMAND grep ${dol}{dist} -s /etc/issue /etc/os-release /etc/redhat-release /etc/system-release
      OUTPUT_VARIABLE dist_name
@@ -50,7 +50,11 @@ function(get_pkgmgr ARG0)
     ${dol}{DIST_NAME} MATCHES "CentOS")
     set(${dol}{ARG0} "RPM" PARENT_SCOPE)
     return()
- endif()
+  endif()
+  if(${dol}{DIST_NAME} MATCHES "Alpine")
+    set(${dol}{ARG0} "APK" PARENT_SCOPE)
+    return()
+  endif()
 endfunction(get_pkgmgr)
 
 get_dist(DIST_NAME)
@@ -67,6 +71,12 @@ if(PKGMGR AND NOT LINUX_PACKAGE_GENERATOR)
  endif()
  if(${dol}{PKGMGR} MATCHES "RPM")
    execute_process(COMMAND uname "-m"
+     OUTPUT_VARIABLE CPACK_RPM_PACKAGE_ARCHITECTURE
+     OUTPUT_STRIP_TRAILING_WHITESPACE)
+   message(STATUS "Package manager is ${dol}{PKGMGR}. Arch is ${dol}{CPACK_RPM_PACKAGE_ARCHITECTURE}.")
+ endif()
+ if(${dol}{PKGMGR} MATCHES "APK")
+   execute_process(COMMAND apk --print-arch
      OUTPUT_VARIABLE CPACK_RPM_PACKAGE_ARCHITECTURE
      OUTPUT_STRIP_TRAILING_WHITESPACE)
    message(STATUS "Package manager is ${dol}{PKGMGR}. Arch is ${dol}{CPACK_RPM_PACKAGE_ARCHITECTURE}.")
