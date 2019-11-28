@@ -16,7 +16,7 @@ RUN cmake -G Ninja -S /RTC -B /RTC/build\
 RUN cmake --build /RTC/build -j --target install/strip
 
 RUN mkdir -p /opt/rtc_lib
-RUN cp -p $(ldd /opt/rtc/share/openrtm-*/components/c++/Category/${rtcParam.name}/${rtcParam.name}Comp\
+RUN cp -p $(ldd /opt/rtc/share/openrtm-*/components/c++/${rtcParam.category}/${rtcParam.name}/${rtcParam.name}Comp\
  | grep -e libomni -e libRTC | sed -e 's/.*=> //'\
  | sed -e 's/(0x[0-9a-f]*)$//') /opt/rtc_lib
 
@@ -35,7 +35,7 @@ RUN apk add --no-cache\
     && adduser -DH ${username}
 
 COPY --from=rtc /opt/rtc_lib /usr/local/lib
-COPY --from=rtc /opt/rtc/share/openrtm-*/components/c++/Category/${rtcParam.name}/${rtcParam.name}Comp /work/${rtcParam.name}Comp
+COPY --from=rtc /opt/rtc/share/openrtm-*/components/c++/${rtcParam.category}/${rtcParam.name}/${rtcParam.name}Comp /work/${rtcParam.name}Comp
 
 USER ${username}
 WORKDIR /work
