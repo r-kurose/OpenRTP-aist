@@ -16,7 +16,7 @@ spec:
       - name: container-${rtcParam.name.toLowerCase()}
         image: DOCKER-HUB-LOGIN-NAME/${rtcParam.name.toLowerCase()}:1.0 
         command:
-          - /usr/local/components/bin/${rtcParam.name}Comp
+          - /work/${rtcParam.name}Comp
         args:
           - "-o"
           - "corba.nameservers:10.96.0.100"
